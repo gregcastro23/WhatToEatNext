@@ -1,4 +1,4 @@
-export const _SEASONAL_PROPERTIES = {;
+export const _SEASONAL_PROPERTIES = {
   spring: {
     elementalModifier: {
       Fire: 0.2,
@@ -61,7 +61,7 @@ export const _SEASONAL_PROPERTIES = {;
   }
 };
 
-export const _SEASONAL_TRANSITIONS = {;
+export const _SEASONAL_TRANSITIONS = {
   daysPerTransition: 21, // 3 weeks of transition between seasons
   transitionPoints: {
     springToSummer: { month: 5, day: 15 }, // June 15
@@ -75,7 +75,7 @@ export const VALID_SEASONS = ['Spring', 'Summer', 'Autumn', 'Winter'] as const;
 export type Season = (typeof VALID_SEASONS)[number];
 
 // Date ranges for each season
-export const _SEASON_DATE_RANGES = {;
+export const _SEASON_DATE_RANGES = {
   spring: { startMonth: 2, startDay: 15, endMonth: 5, endDay: 14 }, // Feb 15 - May 14
   summer: { startMonth: 5, startDay: 15, endMonth: 8, endDay: 14 }, // May 15 - Aug 14
   autumn: { startMonth: 8, startDay: 15, endMonth: 11, endDay: 14 }, // Aug 15 - Nov 14

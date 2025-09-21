@@ -40,7 +40,7 @@ export interface UseCampaignMonitoringOptions {
   autoRefresh?: boolean;
   refreshInterval?: number; // milliseconds
   onCampaignStart?: (campaignId: string) => void;
-  onCampaignComplete?: (campaignId: string) => void;
+  onCampaignComplete?: (campaignId: string) => void
   onCampaignFailed?: (campaignId: string, error: string) => void,
   onSystemHealthChange?: (health: SystemHealthStatus) => void
 }
@@ -54,11 +54,11 @@ export interface UseCampaignMonitoringReturn {
  * Custom hook for campaign monitoring and control
  */
 export const useCampaignMonitoring = (;
-  options: UseCampaignMonitoringOptions = {};
-): UseCampaignMonitoringReturn => {;
+  options: UseCampaignMonitoringOptions = {}
+): UseCampaignMonitoringReturn => {
   const {
-    autoRefresh = true,,;
-    refreshInterval = 30000, // 30 seconds,;
+    autoRefresh = true,,
+    refreshInterval = 30000, // 30 seconds,
     onCampaignStart,
     onCampaignComplete,
     onCampaignFailed,
@@ -88,12 +88,12 @@ export const useCampaignMonitoring = (;
       const controlPanel = await kiroCampaignIntegration.getCampaignControlPanel();
 
       setState(prev => ({;
-        ...prev;
+        ...prev
         controlPanel,
         activeCampaigns: controlPanel.activeCampaigns,
         systemHealth: controlPanel.systemHealth,
         loading: false,
-        lastUpdate: new Date()
+        lastUpdate: new Date();
       }));
 
       // Check for system health changes
@@ -106,7 +106,7 @@ export const useCampaignMonitoring = (;
       }
 
       // Check for campaign status changes
-      controlPanel.activeCampaigns.forEach(campaign => {;
+      controlPanel.activeCampaigns.forEach(campaign => {
         const prevStatus = campaignStatusRef.current.get(campaign.campaignId);
         const currentStatus = campaign.status;
 
@@ -119,7 +119,7 @@ export const useCampaignMonitoring = (;
                 .filter(e => e.severity === 'ERROR');
                 .map(e => e.description);
                 .join(', ') || 'Campaign failed',
-            onCampaignFailed?.(campaign.campaignId, errorMessage)
+            onCampaignFailed?.(campaign.campaignId, errorMessage);
           }
         }
 
@@ -128,8 +128,8 @@ export const useCampaignMonitoring = (;
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : 'Failed to refresh campaign data';
-      setState(prev => ({;
-        ...prev;
+      setState(prev => ({
+        ...prev,
         loading: false,
         error: errorMessage
       }));
@@ -137,7 +137,7 @@ export const useCampaignMonitoring = (;
   }, [onSystemHealthChange, onCampaignComplete, onCampaignFailed]);
 
   // Start a new campaign
-  const startCampaign = useCallback(;
+  const startCampaign = useCallback(
     async (request: CampaignExecutionRequest): Promise<string> => {
       try {
         const campaignId = await kiroCampaignIntegration.startCampaign(request);
@@ -148,7 +148,7 @@ export const useCampaignMonitoring = (;
         onCampaignStart?.(campaignId);
         return campaignId
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Failed to start campaign';
+        const errorMessage = error instanceof Error ? error.message : 'Failed to start campaign'
         setState(prev => ({ ...prev, error: errorMessage }));
         throw error;
       }
@@ -157,16 +157,16 @@ export const useCampaignMonitoring = (;
   );
 
   // Pause a campaign
-  const pauseCampaign = useCallback(;
+  const pauseCampaign = useCallback(
     async (campaignId: string): Promise<boolean> => {
       try {
         const success = await kiroCampaignIntegration.pauseCampaign(campaignId);
         if (success) {
-          await refreshData()
+          await refreshData();
         }
         return success;
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Failed to pause campaign';
+        const errorMessage = error instanceof Error ? error.message : 'Failed to pause campaign'
         setState(prev => ({ ...prev, error: errorMessage }));
         return false;
       }
@@ -175,16 +175,16 @@ export const useCampaignMonitoring = (;
   );
 
   // Resume a campaign
-  const resumeCampaign = useCallback(;
+  const resumeCampaign = useCallback(
     async (campaignId: string): Promise<boolean> => {
       try {
         const success = await kiroCampaignIntegration.resumeCampaign(campaignId);
         if (success) {
-          await refreshData()
+          await refreshData();
         }
         return success;
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Failed to resume campaign';
+        const errorMessage = error instanceof Error ? error.message : 'Failed to resume campaign'
         setState(prev => ({ ...prev, error: errorMessage }));
         return false;
       }
@@ -193,7 +193,7 @@ export const useCampaignMonitoring = (;
   );
 
   // Stop a campaign
-  const stopCampaign = useCallback(;
+  const stopCampaign = useCallback(
     async (campaignId: string): Promise<boolean> => {
       try {
         const success = await kiroCampaignIntegration.stopCampaign(campaignId);
@@ -203,7 +203,7 @@ export const useCampaignMonitoring = (;
         }
         return success;
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Failed to stop campaign';
+        const errorMessage = error instanceof Error ? error.message : 'Failed to stop campaign'
         setState(prev => ({ ...prev, error: errorMessage }));
         return false;
       }
@@ -212,13 +212,13 @@ export const useCampaignMonitoring = (;
   );
 
   // Get specific campaign status
-  const getCampaignStatus = useCallback(;
+  const getCampaignStatus = useCallback(
     async (campaignId: string): Promise<KiroCampaignStatus | null> => {
       try {
         return await kiroCampaignIntegration.getCampaignStatus(campaignId);
       } catch (error) {
         const errorMessage =
-          error instanceof Error ? error.message : 'Failed to get campaign status';
+          error instanceof Error ? error.message : 'Failed to get campaign status'
         setState(prev => ({ ...prev, error: errorMessage }));
         return null;
       }
@@ -227,12 +227,12 @@ export const useCampaignMonitoring = (;
   );
 
   // Schedule a campaign
-  const scheduleCampaign = useCallback(;
+  const scheduleCampaign = useCallback(
     async (schedule: Omit<CampaignSchedule, 'id'>): Promise<string> => {
       try {
         return await kiroCampaignIntegration.scheduleCampaign(schedule);
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Failed to schedule campaign';
+        const errorMessage = error instanceof Error ? error.message : 'Failed to schedule campaign'
         setState(prev => ({ ...prev, error: errorMessage }));
         throw error;
       }
@@ -252,7 +252,7 @@ export const useCampaignMonitoring = (;
 
     // Setup auto-refresh if enabled
     if (autoRefresh) {
-      refreshIntervalRef.current = setInterval(() => void refreshData(), refreshInterval),;
+      refreshIntervalRef.current = setInterval(() => void refreshData(), refreshInterval),
     }
 
     // Cleanup
@@ -273,7 +273,7 @@ export const useCampaignMonitoring = (;
   }, []);
 
   // Actions object
-  const actions: CampaignMonitoringActions = {;
+  const, actions: CampaignMonitoringActions = {
     refreshData,
     startCampaign,
     pauseCampaign,
@@ -290,7 +290,7 @@ export const useCampaignMonitoring = (;
 /**
  * Hook for monitoring a specific campaign
  */
-export const _useCampaignStatus = (campaignId: string) => {;
+export const _useCampaignStatus = (campaignId: string) => {
   const [status, setStatus] = useState<KiroCampaignStatus | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -312,7 +312,7 @@ export const _useCampaignStatus = (campaignId: string) => {;
     void refreshStatus();
 
     // Refresh every 10 seconds for active campaigns
-    const interval = setInterval(() => void refreshStatus(), 10000),;
+    const interval = setInterval(() => void refreshStatus(), 10000),
     return () => clearInterval(interval);
   }, [refreshStatus]);
 
@@ -344,7 +344,7 @@ export const _useSystemHealth = () => {;
     void refreshHealth();
 
     // Refresh every 30 seconds
-    const interval = setInterval(() => void refreshHealth(), 30000),;
+    const interval = setInterval(() => void refreshHealth(), 30000),
     return () => clearInterval(interval);
   }, [refreshHealth]);
 

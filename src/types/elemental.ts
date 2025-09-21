@@ -17,7 +17,7 @@ export interface ElementalProperties {
   Water: number,
   Earth: number,
   Air: number,
-  [key: string]: number; // Allow indexing with string
+  [key: string]: number // Allow indexing with string
 }
 
 // Interface for elemental properties with lowercase
@@ -26,7 +26,7 @@ export interface LowercaseElementalProperties {
   water: number,
   earth: number,
   air: number,
-  [key: string]: number; // Allow indexing with string
+  [key: string]: number // Allow indexing with string
 }
 
 // Interface for elemental state (used in some components)
@@ -61,7 +61,7 @@ export interface ElementalFilter {
   maxEarth?: number;
   minAir?: number;
   maxAir?: number;
-  dominantElement?: Element;
+  dominantElement?: Element
 }
 
 /**
@@ -73,11 +73,11 @@ export interface ElementalTransformation {
   whenDried?: Partial<ElementalProperties>;
   whenRoasted?: Partial<ElementalProperties>;
   whenPickled?: Partial<ElementalProperties>;
-  whenRaw?: Partial<ElementalProperties>;
+  whenRaw?: Partial<ElementalProperties>
 }
 
 // Default ElementalProperties
-export const _DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {;
+export const _DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
   Fire: 0.25,
   Water: 0.25,
   Earth: 0.25,
@@ -88,10 +88,10 @@ export const _DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {;
 export function isElementalProperties(obj: unknown): obj is ElementalProperties {
   return Boolean(
     obj &&
-      typeof obj === 'object' &&;
+      typeof obj === 'object' &&
       typeof (obj as ElementalProperties).Fire === 'number' &&;
       typeof (obj as ElementalProperties).Water === 'number' &&;
-      typeof (obj as ElementalProperties).Earth === 'number' &&;
-      typeof (obj as ElementalProperties).Air === 'number',;
+      typeof (obj as ElementalProperties).Earth === 'number' &&
+      typeof (obj as ElementalProperties).Air === 'number',
   );
 }

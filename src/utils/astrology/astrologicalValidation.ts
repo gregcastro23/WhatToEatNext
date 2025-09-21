@@ -50,12 +50,12 @@ export interface ValidationOptions {
  */
 export function validatePlanetaryPositions(
   positions: Record<string, unknown>,
-  options: ValidationOptions = {};
+  options: ValidationOptions = {}
 ): ValidationResult {
   const { _strictMode = false, _autoCorrect = false, _logWarnings = true} = options;
-  const errors: string[] = [];
-  const warnings: string[] = [];
-  const correctedData: Record<string, PlanetaryPosition> = {};
+  const, errors: string[] = [];
+  const, warnings: string[] = []
+  const, correctedData: Record<string, PlanetaryPosition> = {};
 
   try {
     if (!positions || typeof positions !== 'object') {
@@ -93,7 +93,7 @@ export function validatePlanetaryPositions(
     for (const planet of optionalPlanets) {
       if (planet in positions) {
         const position = positions[planet];
-        const validation = validateSinglePlanetaryPosition(planet, position, strictMode),;
+        const validation = validateSinglePlanetaryPosition(planet, position, strictMode),
 
         if (!validation.isValid) {
           if (strictMode) {
@@ -125,11 +125,11 @@ export function validatePlanetaryPositions(
 
     // Log warnings if requested
     if (logWarnings && warnings.length > 0) {
-      logger.warn('Planetary position validation warnings:', warnings)
+      logger.warn('Planetary position validation warnings:', warnings);
     }
 
     return {
-      isValid: errors.length === 0,,;
+      isValid: errors.length === 0,,
       errors,
       warnings,
       correctedData: Object.keys(correctedData).length > 0 ? correctedData : undefined
@@ -147,11 +147,11 @@ export function validatePlanetaryPositions(
 function validateSinglePlanetaryPosition(
   planet: string,
   position: unknown,
-  strictMode: boolean = false;
+  strictMode: boolean = false
 ): ValidationResult {
-  const errors: string[] = [];
-  const warnings: string[] = [];
-  let correctedData: PlanetaryPosition | undefined,
+  const, errors: string[] = [];
+  const, warnings: string[] = []
+  let, correctedData: PlanetaryPosition | undefined,
 
   try {
     if (!position || typeof position !== 'object') {
@@ -177,7 +177,7 @@ function validateSinglePlanetaryPosition(
     const sign = pos.sign;
     if (
       typeof sign !== 'string' ||
-      !TRANSIT_CONSTANTS.VALID_SIGNS.includes(sign.toLowerCase() )
+      !TRANSIT_CONSTANTS.VALID_SIGNS.includes(sign.toLowerCase() );
     ) {
       errors.push(`${planet} has invalid sign: ${sign}`);
     }
@@ -196,7 +196,7 @@ function validateSinglePlanetaryPosition(
             sign: String(sign),
             degree: Math.max(0, Math.min(TRANSIT_CONSTANTS.DEGREES_PER_SIGN - 0.01, degree)),
             exactLongitude: Number(pos.exactLongitude),
-            isRetrograde: Boolean(pos.isRetrograde)
+            isRetrograde: Boolean(pos.isRetrograde);
           };
         }
       }
@@ -224,7 +224,7 @@ function validateSinglePlanetaryPosition(
               sign: String(sign),
               degree: Number(degree),
               exactLongitude: correctedLongitude,
-              isRetrograde: Boolean(pos.isRetrograde)
+              isRetrograde: Boolean(pos.isRetrograde);
             };
           } else {
             correctedData.exactLongitude = correctedLongitude;
@@ -242,7 +242,7 @@ function validateSinglePlanetaryPosition(
           sign: String(sign),
           degree: Number(degree),
           exactLongitude: Number(longitude),
-          isRetrograde: Boolean(isRetrograde)
+          isRetrograde: Boolean(isRetrograde);
         };
       } else {
         correctedData.isRetrograde = Boolean(isRetrograde);
@@ -268,7 +268,7 @@ function validateSinglePlanetaryPosition(
     }
 
     return {
-      isValid: errors.length === 0,,;
+      isValid: errors.length === 0,,
       errors,
       warnings,
       correctedData
@@ -288,9 +288,9 @@ export function validateAstrologicalElementalProperties(
   properties: unknown,
   context?: string,
 ): ValidationResult {
-  const errors: string[] = [];
-  const warnings: string[] = [];
-  let correctedData: ElementalProperties | undefined,
+  const, errors: string[] = [];
+  const, warnings: string[] = []
+  let, correctedData: ElementalProperties | undefined,
 
   try {
     if (!validateElementalProperties(properties)) {
@@ -343,11 +343,11 @@ export function validateAstrologicalElementalProperties(
  * Validate mathematical constants used in calculations
  */
 export function validateMathematicalConstants(_constants: Record<string, _number>): ValidationResult {
-  const errors: string[] = [];
-  const warnings: string[] = [];
+  const, errors: string[] = [];
+  const, warnings: string[] = [];
 
   try {
-    const expectedConstants = {;
+    const expectedConstants = {
       DEGREES_PER_SIGN: 30,
       _SIGNS_PER_CIRCLE: 12,
       MAX_LONGITUDE: 360,
@@ -376,7 +376,7 @@ export function validateMathematicalConstants(_constants: Record<string, _number
     });
 
     return {
-      isValid: errors.length === 0,,;
+      isValid: errors.length === 0,,
       errors,
       warnings
     };
@@ -398,12 +398,12 @@ export async function validateAstrologicalCalculation(
     constants?: Record<string, number>,
     date?: Date
   },
-  options: ValidationOptions = {};
+  options: ValidationOptions = {}
 ): Promise<ValidationResult> {
   const { _validateTransits = false} = options;
-  const errors: string[] = [];
-  const warnings: string[] = [];
-  const correctedData: Record<string, unknown> = {};
+  const, errors: string[] = [];
+  const, warnings: string[] = []
+  const, correctedData: Record<string, unknown> = {};
 
   try {
     // Validate planetary positions
@@ -420,7 +420,7 @@ export async function validateAstrologicalCalculation(
       if (validateTransits && positionValidation.isValid && input.date) {
         for (const [planet, position] of Object.entries(input.planetaryPositions)) {
           try {
-            const isValid = await validatePlanetaryPosition(;
+            const isValid = await validatePlanetaryPosition(
               planet,
               position ,
               input.date
@@ -440,7 +440,7 @@ export async function validateAstrologicalCalculation(
     // Validate elemental properties
     if (input.elementalProperties) {
       const elementalValidation = validateAstrologicalElementalProperties(;
-        input.elementalProperties;
+        input.elementalProperties
         'calculation input',
       );
       errors.push(...elementalValidation.errors);
@@ -459,7 +459,7 @@ export async function validateAstrologicalCalculation(
     }
 
     return {
-      isValid: errors.length === 0,,;
+      isValid: errors.length === 0,,
       errors,
       warnings,
       correctedData: Object.keys(correctedData).length > 0 ? correctedData : undefined
@@ -482,7 +482,7 @@ export function quickValidate(
   try {
     switch (type) {
       case 'planetary':
-        return validatePlanetaryPositions(data as any).isValid;
+        return validatePlanetaryPositions(data as any).isValid
       case 'elemental':
         return validateElementalProperties(data),
       case 'constants':

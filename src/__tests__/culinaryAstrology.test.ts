@@ -49,11 +49,11 @@ describe('CulinaryAstrologer', () => {
   let astrologer: CulinaryAstrologer;
 
   beforeEach(() => {
-    astrologer = new CulinaryAstrologer();
+    astrologer = new CulinaryAstrologer()
   });
 
   it('should return recipe recommendations based on astrological state', () => {
-    const astroState: AstrologicalState = {;
+    const astroState: AstrologicalState = {
       currentZodiac: 'leo',
       moonPhase: 'full moon',
       currentPlanetaryAlignment: { Sun: { sign: 'leo', degree: 15 }, Moon: { sign: 'cancer', degree: 5 } },
@@ -69,10 +69,10 @@ describe('CulinaryAstrologer', () => {
 
     const recommendations: any = astrologer.getRecipeRecommendations(astroState);
 
-    expect(recommendations).toBeInstanceOf(Array);
-    recommendations.forEach(recipe => {;
-      expect(recipe).toHaveProperty('alignmentScore');
-      expect(recipe.planetaryActivators).toContain('Sun');
+    expect(recommendations).toBeInstanceOf(Array).
+    recommendationsforEach(recipe => {
+      expect(recipe).toHaveProperty('alignmentScore').
+      expect(recipeplanetaryActivators).toContain('Sun')
     });
   });
 });

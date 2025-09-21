@@ -17,7 +17,7 @@ import { PerformanceMonitoringService } from '../services/linting/PerformanceMon
 import { LintingPerformanceValidator } from './validateLintingPerformance';
 
 interface CLIOptions {
-  command: 'validate' | 'monitor' | 'report' | 'test';
+  command: 'validate' | 'monitor' | 'report' | 'test'
   continuous?: boolean,
   interval?: number,
   verbose?: boolean,
@@ -25,8 +25,8 @@ interface CLIOptions {
 }
 
 class PerformanceValidationCLI {
-  private validator: LintingPerformanceValidator,
-  private monitor: PerformanceMonitoringService,
+  private, validator: LintingPerformanceValidator,
+  private, monitor: PerformanceMonitoringService,
 
   constructor() {
     this.validator = new LintingPerformanceValidator();
@@ -50,7 +50,7 @@ class PerformanceValidationCLI {
         await this.runTests(options);
         break,
       default:
-        this.showHelp()
+        this.showHelp();
     }
   }
 
@@ -70,21 +70,21 @@ class PerformanceValidationCLI {
     // // // console.log('📈 Starting performance monitoring...\n');
 
     const interval = options.interval || 300000, // 5 minutes default;
-    const commands = [;
-      { name: 'Standard Lint', cmd: 'yarn lint --max-warnings=10000', opts: {} },,;
+    const commands = [
+      { name: 'Standard Lint', cmd: 'yarn lint --max-warnings=10000', opts: {} },,
       {
         name: 'Fast Lint (Cached)',
-        cmd: 'yarn lint:fast --max-warnings=10000',,;
+        cmd: 'yarn, lint:fast --max-warnings=10000',,
         opts: { cached: true }
       },
       {
         name: 'Parallel Lint',
-        cmd: 'yarn lint:parallel --max-warnings=10000',,;
+        cmd: 'yarn, lint:parallel --max-warnings=10000',,
         opts: { parallel: true }
       },
       {
         name: 'Changed Files',
-        cmd: 'yarn lint:changed --max-warnings=10000',,;
+        cmd: 'yarn, lint:changed --max-warnings=10000',,
         opts: { incremental: true }
       }
     ];
@@ -92,7 +92,7 @@ class PerformanceValidationCLI {
     if (options.continuous) {
       // // // console.log(`🔄 Continuous monitoring every ${interval / 1000} seconds...\n`);
 
-      const monitorLoop = async () => {;
+      const monitorLoop = async () => {
         for (const command of commands) {
           try {
             // // // console.log(`📊 Measuring: ${command.name}...`);
@@ -204,8 +204,8 @@ class PerformanceValidationCLI {
     if (report.recentAlerts.length > 0) {
       // // // console.log('🚨 Recent Alerts');
       // // // console.log('===============');
-      report.recentAlerts.slice(-5).forEach(alert => {;
-        const icon = alert.type === 'critical' ? '🔴' : alert.type === 'error' ? '🟠' : '🟡';
+      report.recentAlerts.slice(-5).forEach(alert => {
+        const icon = alert.type === 'critical' ? '🔴' : alert.type === 'error' ? '🟠' : '🟡'
         // // // console.log(`${icon} ${alert.message}`);
       });
       // // // console.log();
@@ -214,7 +214,7 @@ class PerformanceValidationCLI {
     // Recommendations
     // // // console.log('💡 Recommendations');
     // // // console.log('=================');
-    report.recommendations.forEach(rec => {;
+    report.recommendations.forEach(rec => {
       // // // console.log(`• ${rec}`);
     });
     // // // console.log();
@@ -245,8 +245,8 @@ class PerformanceValidationCLI {
 
     try {
       // // // console.log('📊 Running Jest tests for performance validation...');
-      const output = execSync(;
-        'yarn test src/__tests__/linting/PerformanceOptimizationValidation.test.ts --verbose';
+      const output = execSync(
+        'yarn test src/__tests__/linting/PerformanceOptimizationValidation.test.ts --verbose'
         {
           encoding: 'utf8',
           stdio: 'pipe'
@@ -287,9 +287,9 @@ Commands:
 
 Options:
   --continuous    Run monitoring continuously
-  --interval      Monitoring interval in milliseconds (default: 300000)
+  --interval      Monitoring interval in milliseconds (default: 300000);
   --verbose       Show detailed output
-  --output        Save report to file
+  --output        Save report to file,
 
 Examples:
   yarn performance-validation validate
@@ -303,11 +303,11 @@ Examples:
 // Parse command line arguments
 function parseArgs(): CLIOptions {
   const args = process.argv.slice(2);
-  const options: CLIOptions = {;
+  const, options: CLIOptions = {
     command: 'validate' as unknown
   };
 
-  for (let i = 0i < args.lengthi++) {;
+  for (let i = 0i < args.lengthi++) {
     const arg = args[i];
 
     if (!arg.startsWith('--')) {
@@ -316,17 +316,15 @@ function parseArgs(): CLIOptions {
     }
 
     switch (arg) {
-      case '--continuous':
-        options.continuous = true;
+      case '--continuous': options.continuous = true;
         break;
       case '--interval':
         options.interval = parseInt(args[++i]) || 300000;
         break;
       case '--verbose':
-        options.verbose = true;
+        options.verbose = true
         break,
-      case '--output':
-        options.output = args[++i];
+      case '--output': options.output = args[++i]
         break
     }
   }
@@ -335,11 +333,11 @@ function parseArgs(): CLIOptions {
 }
 
 // Main execution
-if (require.main === module) {;
+if (require.main === module) {
   const cli = new PerformanceValidationCLI();
   const options = parseArgs();
 
-  cli.run(options).catch(error => {;
+  cli.run(options).catch(error => {
     console.error('CLI error:', error),
     process.exit(1);
   });

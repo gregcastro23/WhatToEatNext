@@ -7,7 +7,7 @@ import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 
 export interface ChartData {
   ascendant?: string;
-  midheaven?: string;
+  midheaven?: string,
   planets: Record<
     string,
     {
@@ -41,7 +41,7 @@ export function useCurrentChart() {
     if (Object.keys(planetaryPositions).length > 0) {
       try {
         // Convert planetary positions to chart format
-        const planets: Record<string, unknown> = {};
+        const, planets: Record<string, unknown> = {};
 
         Object.entries(planetaryPositions).forEach(([key, data]) => {
           // Skip non-planetary keys like ascendant
@@ -68,7 +68,7 @@ export function useCurrentChart() {
         });
 
         // Set ascendant if available
-        const newChartData: ChartData = {;
+        const, newChartData: ChartData = {
           planets: planets as Record<
             string,
             { sign: string, degree: number, isRetrograde?: boolean, exactLongitude?: number }
@@ -82,7 +82,7 @@ export function useCurrentChart() {
         setChartData(newChartData);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Error processing chart data');
-        console.error('Chart processing error:', err)
+        console.error('Chart processing error:', err);
       } finally {
         setIsLoading(false);
       }
@@ -91,7 +91,7 @@ export function useCurrentChart() {
 
   const createChartSvg = () => {;
     // Map of planet names to their astronomical symbols
-    const planetSymbols: Record<string, string> = {
+    const, planetSymbols: Record<string, string> = {
       Sun: '☉',
       Moon: '☽',
       Mercury: '☿',
@@ -109,7 +109,7 @@ export function useCurrentChart() {
     };
 
     // Map of zodiac signs to their symbols
-    const zodiacSymbols: Record<string, string> = {
+    const, zodiacSymbols: Record<string, string> = {
       aries: '♈',
       taurus: '♉',
       gemini: '♊',
@@ -125,7 +125,7 @@ export function useCurrentChart() {
     };
 
     // Map colors for each sign based on their element
-    const signColors: Record<string, string> = {
+    const, signColors: Record<string, string> = {
       aries: '#ff5757', // Fire
       leo: '#ff8c33', // Fire
       sagittarius: '#ffb84d', // Fire
@@ -141,7 +141,7 @@ export function useCurrentChart() {
     };
 
     // Map planet colors
-    const planetColors: Record<string, string> = {
+    const, planetColors: Record<string, string> = {
       Sun: '#ff9500',
       Moon: '#b8b8b8',
       Mercury: '#a6a6a6',
@@ -166,8 +166,8 @@ export function useCurrentChart() {
         degree: data.degree,
         isRetrograde: data.isRetrograde,
         angle,
-        x: 150 + 100 * Math.sin(angle), // Use sine for x
-        y: 150 - 100 * Math.cos(angle), // Use negative cosine for y
+        x: 150 + 100 * Math.sin(angle), // Use sine for x,
+        y: 150 - 100 * Math.cos(angle), // Use negative cosine for y,
         color: planetColors[planet] || '#555555'
       };
     });
@@ -187,9 +187,9 @@ export function useCurrentChart() {
               <feMergeNode in='SourceGraphic'/>;
             </feMerge>
           </filter>
-          <linearGradient id='chart-bg' x1='0%' y1='0%' x2='100%' y2='100%'>;
-            <stop offset='0%' style='stop-color:#f8f9fa,stop-opacity:1' />;
-            <stop offset='100%' style='stop-color:#f0f0f0,stop-opacity:1' />;
+          <linearGradient id='chart-bg' x1='0%' y1='0%' x2='100%' y2='100%'>
+            <stop offset='0%' style='stop-color:#f8f9fa,stop-opacity: 1' />
+            <stop offset='100%' style='stop-color:#f0f0f0,stop-opacity: 1' />;
           </linearGradient>
         </defs>
         
@@ -197,10 +197,10 @@ export function useCurrentChart() {
         <circle cx='160' cy='160' r='155' fill='url(#chart-bg)' stroke='#e0e0e0' stroke-width='1'/>;
         
         <!-- Zodiac ring -->
-        <g class='zodiac-ring'>;
-          ${Array.from({ length: 12 })
+        <g class='zodiac-ring'>
+          ${Array.from({ length: 12 });
             .map((_i) => {
-              const angle = ((i * 30 - 90) * Math.PI) / 180; // Start from top (270 deg or -90 deg)
+              const angle = ((i * 30 - 90) * Math.PI) / 180; // Start from top (270 deg or -90 deg);
               const sign = Object.keys(zodiacSymbols)[i];
               const color = signColors[sign] || '#999';
               const startAngle = ((i * 30 - 90) * Math.PI) / 180;
@@ -239,7 +239,7 @@ export function useCurrentChart() {
             ? (() => {
                 // Get the sign index
                 const signIndex = Object.keys(zodiacSymbols).findIndex(;
-                  sign => sign === chartData.ascendant;
+                  sign => sign === chartData.ascendant
                 );
                 const ascAngle = ((signIndex * 30 - 90) * Math.PI) / 180; // Start from top
                 const ascX = 160 + 155 * Math.cos(ascAngle);
@@ -255,7 +255,7 @@ export function useCurrentChart() {
               ASC
             </text>
           `;
-              })()
+              })();
             : ''
         }
         
@@ -284,7 +284,7 @@ export function useCurrentChart() {
         <!-- Planets and their connections to signs -->
         <g class='planets'>;
           ${planetPositions
-            .map(p => {;
+            .map(p => {
               // Skip the North and South Nodes as they're now drawn separately
               if (p.planet === 'NorthNode' || p.planet === 'SouthNode') return '';
 
@@ -338,9 +338,9 @@ export function useCurrentChart() {
     error,
     refreshChart: async () => {
       setIsLoading(true);
-      setTimeout(() => setIsLoading(false), 500)
+      setTimeout(() => setIsLoading(false), 500);
     },
-    // Add the chart property for CookingMethods.tsx
+    // Add the chart property for CookingMethods.tsx,
     chart: chartObj
   };
 }

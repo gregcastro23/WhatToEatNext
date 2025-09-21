@@ -22,7 +22,7 @@ export async function GET(request: Request) {
     const currentMoment = await getCurrentMoment(forceRefresh);
     const performanceMetrics = currentMomentManager.getPerformanceMetrics();
 
-    const response = {;
+    const response = {
       success: true,
       timestamp: new Date().toISOString(),
       currentMoment,
@@ -77,9 +77,8 @@ export async function POST(request: Request) {
     let result;
 
     switch (action) {
-      case 'update':
-        const customDate = customDateTime ? new Date(customDateTime) : undefined;
-        const customLocation = latitude && longitude ? { latitude, longitude } : undefined;
+      case 'update': const customDate = customDateTime ? new Date(customDateTime) : undefined
+        const customLocation = latitude && longitude ? { latitude, longitude } : undefined
 
         result = await updateCurrentMoment(customDate, customLocation);
 
@@ -97,9 +96,7 @@ export async function POST(request: Request) {
           ]
         });
 
-      case 'status':
-        const currentMoment = await getCurrentMoment();
-
+      case 'status': const currentMoment = await getCurrentMoment();
         return NextResponse.json({
           success: true,
           action: 'status',
@@ -120,7 +117,7 @@ export async function POST(request: Request) {
             success: false,
             error: 'Invalid action',
             validActions: ['update', 'status'],
-            timestamp: new Date().toISOString()
+            timestamp: new Date().toISOString();
           },
           { status: 400 },
         );
@@ -133,7 +130,7 @@ export async function POST(request: Request) {
         success: false,
         error: 'Failed to process current moment request',
         details: error instanceof Error ? error.message : 'Unknown error',
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString();
       },
       { status: 500 },
     );
@@ -151,12 +148,12 @@ export async function PUT(request: Request) {
     logger.info(`Selective update requested for targets: ${targets.join(', ')}`);
 
     // Get current moment first
-    const customDate = customDateTime ? new Date(customDateTime) : undefined;
-    const customLocation = latitude && longitude ? { latitude, longitude } : undefined;
+    const customDate = customDateTime ? new Date(customDateTime) : undefined
+    const customLocation = latitude && longitude ? { latitude, longitude } : undefined
 
     const currentMoment = await updateCurrentMoment(customDate, customLocation);
 
-    const updateResults = {;
+    const updateResults = {
       notebook: false,
       systemDefaults: false,
       streamlinedPositions: false,
@@ -195,7 +192,7 @@ export async function PUT(request: Request) {
         success: false,
         error: 'Failed to process selective update',
         details: error instanceof Error ? error.message : 'Unknown error',
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString();
       },
       { status: 500 },
     );

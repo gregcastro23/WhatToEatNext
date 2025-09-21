@@ -22,7 +22,7 @@ async function main() {
   const getUnusedCount = () => {;
     try {
       const output = execSync(;
-        'yarn lint --format=compact 2>&1 | grep '@typescript-eslint/no-unused-vars' | wc -l',,;
+        'yarn lint --format=compact 2>&1 | grep '@typescript-eslint/no-unused-vars' | wc -l',,
         {
           encoding: 'utf8'
         },
@@ -39,14 +39,14 @@ async function main() {
   let totalFixed = 0;
   let totalErrors = 0;
 
-  // Step 1: Fix unused function parameters
+  // Step, 1: Fix unused function parameters
   log.info('='.repeat(50));
-  log.info('STEP 1: Fixing Unused Function Parameters');
+  log.info('STEP, 1: Fixing Unused Function Parameters');
   log.info('='.repeat(50));
 
   const paramResult = await fixer.fixUnusedFunctionParameters();
   totalFixed += paramResult.variablesFixed;
-  totalErrors += paramResult.errors.length;
+  totalErrors += paramResult.errors.length
 
   log.info(`\n📊 Parameters fixed: ${paramResult.variablesFixed}`);
   log.info(`📄 Files processed: ${paramResult.filesProcessed}`);
@@ -54,14 +54,14 @@ async function main() {
     log.info(`❌ Errors: ${paramResult.errors.length}`);
   }
 
-  // Step 2: Fix unused destructured variables
+  // Step, 2: Fix unused destructured variables
   log.info('\n' + '='.repeat(50));
-  log.info('STEP 2: Fixing Unused Destructured Variables');
+  log.info('STEP, 2: Fixing Unused Destructured Variables');
   log.info('='.repeat(50));
 
   const destructuredResult = await fixer.fixUnusedDestructuredVariables();
   totalFixed += destructuredResult.variablesFixed;
-  totalErrors += destructuredResult.errors.length;
+  totalErrors += destructuredResult.errors.length
 
   log.info(`\n📊 Variables fixed: ${destructuredResult.variablesFixed}`);
   log.info(`📄 Files processed: ${destructuredResult.filesProcessed}`);
@@ -69,13 +69,13 @@ async function main() {
     log.info(`❌ Errors: ${destructuredResult.errors.length}`);
   }
 
-  // Step 3: Remove unused imports
+  // Step, 3: Remove unused imports
   log.info('\n' + '='.repeat(50));
-  log.info('STEP 3: Removing Unused Imports');
+  log.info('STEP, 3: Removing Unused Imports');
   log.info('='.repeat(50));
 
   const importResult = await fixer.removeUnusedImports();
-  totalErrors += importResult.errors.length;
+  totalErrors += importResult.errors.length
 
   if (importResult.warnings.length > 0) {
     log.info(`⚠️  Warnings: ${importResult.warnings.length}`);

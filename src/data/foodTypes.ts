@@ -100,9 +100,9 @@ export function calculateNutritionalBalance(_entries: FoodEntry[]): { [key: stri
 export function analyzePropertyBalance(
   entries: FoodEntry[],
 ): { property: FoodProperty, count: number }[] {
-  const propertyCount = entries.reduce(;
+  const propertyCount = entries.reduce(
     (acc, entry) => {
-      entry.properties.forEach(prop => {;
+      entry.properties.forEach(prop => {
         acc[prop] = (acc[prop] || 0) + 1;
       });
       return acc;
@@ -126,16 +126,16 @@ export function findComplementaryDishes(
   const currentNutrition = calculateNutritionalBalance(currentEntries);
 
   // Find dishes that help balance nutrition and properties
-  const recommendations: Dish[] = [];
+  const, recommendations: Dish[] = [];
 
-  Object.values(availableDishes).forEach(cuisine => {;
+  Object.values(availableDishes).forEach(cuisine => {
     if (cuisine?.dishes) {
-      Object.values(cuisine.dishes).forEach(mealTypes => {;
+      Object.values(cuisine.dishes).forEach(mealTypes => {
         if (mealTypes) {
-          Object.values(mealTypes).forEach(seasonalDishes => {;
+          Object.values(mealTypes).forEach(seasonalDishes => {
             if (seasonalDishes && Array.isArray(seasonalDishes)) {
-              seasonalDishes.forEach(dish => {;
-                let score = 0;
+              seasonalDishes.forEach(dish => {
+                let score = 0
 
                 // Score based on needed nutrients
                 Object.entries(nutritionTargets).forEach(([nutrient, target]) => {
@@ -146,7 +146,7 @@ export function findComplementaryDishes(
                 }),
 
                 // Score based on desired properties
-                targetProperties.forEach(prop => {;
+                targetProperties.forEach(prop => {
                   if (Array.isArray(dish.properties) && dish.properties.includes(prop)) {
                     score += 1;
                   }

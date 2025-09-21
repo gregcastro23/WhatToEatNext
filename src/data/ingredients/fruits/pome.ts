@@ -1,7 +1,7 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawPome = {;
+const rawPome = {
   apple: {
     name: 'Apple',
     elementalProperties: {
@@ -738,6 +738,6 @@ const rawPome = {;
 
 // Fix the ingredient mappings to ensure they have all required properties
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
-export const pome: Record<string, IngredientMapping> = fixIngredientMappings(
+export const, pome: Record<string, IngredientMapping> = fixIngredientMappings(
   rawPome as Record<string, Partial<IngredientMapping>>,
 );

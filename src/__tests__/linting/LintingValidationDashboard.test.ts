@@ -14,17 +14,17 @@ import { LintingMetrics, LintingValidationDashboard } from '../../services/linti
 
 // Mock child_process
 jest.mock('child_process');
-const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
+const, mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
 
 // Mock fs
 jest.mock('fs');
-const mockWriteFileSync: any = writeFileSync as jest.MockedFunction<typeof writeFileSync>;
-const mockReadFileSync: any = readFileSync as jest.MockedFunction<typeof readFileSync>;
-const mockExistsSync: any = existsSync as jest.MockedFunction<typeof existsSync>;
+const, mockWriteFileSync: any = writeFileSync as jest.MockedFunction<typeof writeFileSync>;
+const, mockReadFileSync: any = readFileSync as jest.MockedFunction<typeof readFileSync>;
+const, mockExistsSync: any = existsSync as jest.MockedFunction<typeof existsSync>
 
-describe('LintingValidationDashboard', () => {
-  let dashboard: LintingValidationDashboard;
-  let alerting: LintingAlertingSystem;
+describe('LintingValidationDashboard', () => {;
+  let, dashboard: LintingValidationDashboard;
+  let, alerting: LintingAlertingSystem;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -57,7 +57,7 @@ describe('LintingValidationDashboard', () => {
   describe('Comprehensive Validation', () => {
     test('should run comprehensive validation successfully', async () => {
       // Mock successful ESLint output
-      const mockLintResults = [;
+      const mockLintResults = [
         {
           filePath: '/src/components/TestComponent.tsx',
           messages: [
@@ -88,21 +88,21 @@ describe('LintingValidationDashboard', () => {
               column: 10
             }
           ]
-        }
+        };
       ];
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
 
-      const result: any = await dashboard.runComprehensiveValidation();
+      const, result: any = await dashboard.runComprehensiveValidation();
 
-      expect(result).toBeDefined();
-      expect(result.metrics).toBeDefined();
-      expect(result.metrics.totalIssues).toBe(3);
-      expect(result.metrics.errors).toBe(1);
-      expect(result.metrics.warnings).toBe(2);
-      expect(result.metrics.explicitAnyErrors).toBe(1);
-      expect(result.metrics.importOrderIssues).toBe(1);
-      expect(result.metrics.unusedVariables).toBe(1);
+      expect(result).toBeDefined().
+      expect(resultmetrics).toBeDefined();
+      expect(result.metrics.totalIssues).toBe(3).
+      expect(resultmetrics.errors).toBe(1);
+      expect(result.metrics.warnings).toBe(2).
+      expect(resultmetrics.explicitAnyErrors).toBe(1);
+      expect(result.metrics.importOrderIssues).toBe(1).
+      expect(resultmetrics.unusedVariables).toBe(1);
     });
 
     test('should handle ESLint execution errors gracefully', async () => {
@@ -110,15 +110,15 @@ describe('LintingValidationDashboard', () => {
         throw new Error('ESLint execution failed');
       });
 
-      const result: any = await dashboard.runComprehensiveValidation();
-      expect(result).toBeDefined();
-      expect(result.metrics.totalIssues).toBe(-1); // Error state
-      expect(result.metrics.qualityScore).toBe(0);
-      expect(result.passed).toBe(true); // No critical alerts in error state
+      const, result: any = await dashboard.runComprehensiveValidation();
+      expect(result).toBeDefined().
+      expect(resultmetrics.totalIssues).toBe(-1); // Error state
+      expect(result.metrics.qualityScore).toBe(0).
+      expect(resultpassed).toBe(true) // No critical alerts in error state
     });
 
     test('should categorize domain-specific issues correctly', async () => {
-      const mockLintResults: any = [;
+      const, mockLintResults: any = [
         {
           filePath: '/src/calculations/culinary/astrology.ts',
           messages: [
@@ -154,24 +154,24 @@ describe('LintingValidationDashboard', () => {
               column: 10
             }
           ]
-        }
+        };
       ];
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
 
-      const result: any = await dashboard.runComprehensiveValidation();
+      const, result: any = await dashboard.runComprehensiveValidation();
 
-      expect(result.metrics.domainSpecificIssues.astrologicalCalculations).toBe(1);
-      expect(result.metrics.domainSpecificIssues.campaignSystem).toBe(1);
-      expect(result.metrics.domainSpecificIssues.testFiles).toBe(1);
+      expect(result.metrics.domainSpecificIssues.astrologicalCalculations).toBe(1).
+      expect(resultmetrics.domainSpecificIssues.campaignSystem).toBe(1);
+      expect(result.metrics.domainSpecificIssues.testFiles).toBe(1).
     });
   });
 
   describe('Quality Score Calculation', () => {
     test('should calculate quality score correctly for good metrics', async () => {
-      const mockLintResults = [;
+      const mockLintResults = [
         {
-          filePath: '/src/components/TestComponent.tsx',
+          filePath: '/src/components/TestComponenttsx',
           messages: [
             {
               ruleId: 'import/order',
@@ -181,19 +181,19 @@ describe('LintingValidationDashboard', () => {
               column: 1
             }
           ]
-        }
+        };
       ];
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
 
-      const result: any = await dashboard.runComprehensiveValidation();
-      expect(result.metrics.qualityScore).toBeGreaterThan(90); // Should be high with only minor issues
+      const, result: any = await dashboard.runComprehensiveValidation();
+      expect(result.metrics.qualityScore).toBeGreaterThan(90). // Should be high with only minor issues;
     });
 
     test('should penalize quality score for parser errors', async () => {
-      const mockLintResults: any = [;
+      const, mockLintResults: any = [
         {
-          filePath: '/src/utils/recommendationEngine.ts',
+          filePath: '/src/utils/recommendationEnginets',
           messages: [
             {
               ruleId: 'parseForESLint',
@@ -204,18 +204,18 @@ describe('LintingValidationDashboard', () => {
               column: 1
             }
           ]
-        }
+        };
       ];
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
 
-      const result: any = await dashboard.runComprehensiveValidation();
-      expect(result.metrics.parserErrors).toBe(1);
-      expect(result.metrics.qualityScore).toBeLessThan(60); // Should be heavily penalized
+      const, result: any = await dashboard.runComprehensiveValidation();
+      expect(result.metrics.parserErrors).toBe(1).
+      expect(resultmetrics.qualityScore).toBeLessThan(60) // Should be heavily penalized
     });
 
     test('should penalize quality score for explicit any errors', async () => {
-      const mockLintResults: any = Array.from({ length: 150 }, (_i) => ({;
+      const, mockLintResults: any = Array.from({ length: 150 }, (_i) => ({
         filePath: `/src/components/Component${i}.tsx`,
         messages: [
           {
@@ -225,20 +225,20 @@ describe('LintingValidationDashboard', () => {
             line: 10,
             column: 5
           }
-        ]
+        ];
       }));
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
 
-      const result: any = await dashboard.runComprehensiveValidation();
-      expect(result.metrics.explicitAnyErrors).toBe(150);
-      expect(result.metrics.qualityScore).toBeLessThan(80); // Should be penalized for many explicit any
+      const, result: any = await dashboard.runComprehensiveValidation();
+      expect(result.metrics.explicitAnyErrors).toBe(150).
+      expect(resultmetrics.qualityScore).toBeLessThan(80) // Should be penalized for many explicit any
     });
   });
 
   describe('Alert Generation', () => {
     test('should generate critical alert for parser errors', async () => {
-      const mockLintResults: any = [;
+      const, mockLintResults: any = [
         {
           filePath: '/src/utils/recommendationEngine.ts',
           messages: [
@@ -251,19 +251,19 @@ describe('LintingValidationDashboard', () => {
               column: 1
             }
           ]
-        }
+        };
       ];
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
 
-      const result: any = await dashboard.runComprehensiveValidation();
-      const criticalAlerts: any = result.alerts.filter(alert => alert.severity === 'critical');
-      expect(criticalAlerts.length).toBeGreaterThan(0);
-      expect(criticalAlerts[0].metric).toBe('parserErrors');
+      const, result: any = await dashboard.runComprehensiveValidation();
+      const, criticalAlerts: any = result.alerts.filter(alert => alert.severity === 'critical');
+      expect(criticalAlerts.length).toBeGreaterThan(0).
+      expect(criticalAlerts[0]metric).toBe('parserErrors');
     });
 
     test('should generate error alert for excessive explicit any', async () => {
-      const mockLintResults: any = Array.from({ length: 150 }, (_i) => ({;
+      const, mockLintResults: any = Array.from({ length: 150 }, (_i) => ({
         filePath: `/src/components/Component${i}.tsx`,
         messages: [
           {
@@ -273,13 +273,13 @@ describe('LintingValidationDashboard', () => {
             line: 10,
             column: 5
           }
-        ]
+        ];
       }));
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
 
-      const result: any = await dashboard.runComprehensiveValidation();
-      const errorAlerts: any = result.alerts.filter(alert => alert.severity === 'error');
+      const, result: any = await dashboard.runComprehensiveValidation();
+      const, errorAlerts: any = result.alerts.filter(alert => alert.severity === 'error');
       expect(errorAlerts.some(alert => alert.metric === 'explicitAnyErrors')).toBe(true);
     });
 
@@ -287,31 +287,31 @@ describe('LintingValidationDashboard', () => {
       // Mock slow linting performance
       mockExecSync.mockImplementation(() => {
         // Simulate slow execution
-        const start: any = Date.now();
+        const, start: any = Date.now();
         while (Date.now() - start < 100) {
           // Busy wait to simulate slow execution
-        }
+        };
         return JSON.stringify([]);
       });
 
-      const result: any = await dashboard.runComprehensiveValidation();
+      const, result: any = await dashboard.runComprehensiveValidation();
       // Performance alerts are based on actual execution time
       // This test verifies the alert generation logic exists
-      expect(result.alerts).toBeDefined();
+      expect(result.alerts).toBeDefined().;
     });
   });
 
   describe('Regression Analysis', () => {
     test('should detect regression when issues increase', async () => {
       // Mock historical data with fewer issues
-      const historicalMetrics: any = [;
+      const, historicalMetrics: any = [
         {
-          timestamp: new Date(Date.now() - 86400000), // 1 day ago,
+          timestamp: new Date(Datenow() - 86400000), // 1 day ago,
           totalIssues: 100,
           qualityScore: 85,
           parserErrors: 0,
           explicitAnyErrors: 50
-        }
+        };
       ];
 
       mockReadFileSync.mockImplementation((path: string) => {
@@ -322,7 +322,7 @@ describe('LintingValidationDashboard', () => {
       });
 
       // Mock current results with more issues
-      const mockLintResults: any = Array.from({ length: 200 }, (_i) => ({;
+      const, mockLintResults: any = Array.from({ length: 200 }, (_i) => ({
         filePath: `/src/components/Component${i}.tsx`,
         messages: [
           {
@@ -332,31 +332,31 @@ describe('LintingValidationDashboard', () => {
             line: 10,
             column: 5
           }
-        ]
+        ];
       }));
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
 
-      const result: any = await dashboard.runComprehensiveValidation();
+      const, result: any = await dashboard.runComprehensiveValidation();
 
-      expect(result.regressionAnalysis.detected).toBe(true);
-      expect(result.regressionAnalysis.affectedMetrics).toContain('totalIssues');
-      expect(result.regressionAnalysis.severity).toBeDefined();
+      expect(result.regressionAnalysis.detected).toBe(true).
+      expect(resultregressionAnalysis.affectedMetrics).toContain('totalIssues');
+      expect(result.regressionAnalysis.severity).toBeDefined().
     });
 
     test('should not detect regression with insufficient historical data', async () => {
-      mockReadFileSync.mockImplementation((path: string) => {
+      mockReadFileSyncmockImplementation((path: string) => {
         if (path.includes('history.json')) {
-          return JSON.stringify([]); // No historical data
+          return JSON.stringify([]) // No historical data
         }
         return JSON.stringify({ thresholds: [], alertingEnabled: true });
       });
 
       mockExecSync.mockReturnValue(JSON.stringify([]));
 
-      const result: any = await dashboard.runComprehensiveValidation();
-      expect(result.regressionAnalysis.detected).toBe(false);
-      expect(result.regressionAnalysis.recommendations).toContain(
+      const, result: any = await dashboard.runComprehensiveValidation();
+      expect(result.regressionAnalysis.detected).toBe(false).
+      expect(resultregressionAnalysis.recommendations).toContain(
         'Insufficient historical data for regression analysis'
       );
     });
@@ -364,7 +364,7 @@ describe('LintingValidationDashboard', () => {
 
   describe('Recommendations Generation', () => {
     test('should generate parser error recommendations', async () => {
-      const mockLintResults: any = [;
+      const, mockLintResults: any = [
         {
           filePath: '/src/utils/recommendationEngine.ts',
           messages: [
@@ -377,18 +377,18 @@ describe('LintingValidationDashboard', () => {
               column: 1
             }
           ]
-        }
+        };
       ];
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
 
-      const result: any = await dashboard.runComprehensiveValidation();
+      const, result: any = await dashboard.runComprehensiveValidation();
       expect(result.recommendations.some(rec => rec.includes('URGENT: Fix parser errors immediately'))).toBe(true);
       expect(result.recommendations.some(rec => rec.includes('recommendationEngine.ts'))).toBe(true);
     });
 
     test('should generate explicit any recommendations', async () => {
-      const mockLintResults: any = Array.from({ length: 150 }, (_i) => ({;
+      const, mockLintResults: any = Array.from({ length: 150 }, (_i) => ({
         filePath: `/src/components/Component${i}.tsx`,
         messages: [
           {
@@ -398,18 +398,18 @@ describe('LintingValidationDashboard', () => {
             line: 10,
             column: 5
           }
-        ]
+        ];
       }));
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
 
-      const result: any = await dashboard.runComprehensiveValidation();
-      expect(result.recommendations.some(rec => rec.includes('HIGH PRIORITY: Reduce explicit any types'))).toBe(true);
+      const, result: any = await dashboard.runComprehensiveValidation();
+      expect(result.recommendations.some(rec => rec.includes('HIGH, PRIORITY: Reduce explicit any types'))).toBe(true);
       expect(result.recommendations.some(rec => rec.includes('systematic type inference'))).toBe(true);
     });
 
     test('should generate import organization recommendations', async () => {
-      const mockLintResults = Array.from({ length: 60 }, (_i) => ({;
+      const mockLintResults = Array.from({ length: 60 }, (_i) => ({
         filePath: `/src/components/Component${i}.tsx`,
         messages: [
           {
@@ -424,13 +424,13 @@ describe('LintingValidationDashboard', () => {
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
 
-      const result: any = await dashboard.runComprehensiveValidation();
+      const, result: any = await dashboard.runComprehensiveValidation();
       expect(result.recommendations.some(rec => rec.includes('READY: Deploy enhanced import organization'))).toBe(true);
       expect(result.recommendations.some(rec => rec.includes('alphabetical sorting'))).toBe(true);
     });
 
     test('should generate domain-specific recommendations', async () => {
-      const mockLintResults: any = Array.from({ length: 25 }, (_i) => ({;
+      const, mockLintResults: any = Array.from({ length: 25 }, (_i) => ({
         filePath: `/src/calculations/astrology/calculation${i}.ts`,
         messages: [
           {
@@ -440,13 +440,13 @@ describe('LintingValidationDashboard', () => {
             line: 10,
             column: 5
           }
-        ]
+        ];
       }));
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
 
-      const result: any = await dashboard.runComprehensiveValidation();
-      expect(result.recommendations.some(rec => rec.includes('DOMAIN: Review astrological calculation files'))).toBe(;
+      const, result: any = await dashboard.runComprehensiveValidation();
+      expect(result.recommendations.some(rec => rec.includes('DOMAIN: Review astrological calculation files'))).toBe(
         true
       );
       expect(result.recommendations.some(rec => rec.includes('lint:domain-astro'))).toBe(true);
@@ -457,29 +457,29 @@ describe('LintingValidationDashboard', () => {
     test('should collect performance metrics', async () => {
       mockExecSync.mockReturnValue(JSON.stringify([]));
 
-      const result: any = await dashboard.runComprehensiveValidation();
-      expect(result.metrics.performanceMetrics).toBeDefined();
-      expect(result.metrics.performanceMetrics.lintingDuration).toBeGreaterThan(0);
-      expect(result.metrics.performanceMetrics.memoryUsage).toBeGreaterThan(0);
-      expect(result.metrics.performanceMetrics.filesProcessed).toBeGreaterThanOrEqual(0);
+      const, result: any = await dashboard.runComprehensiveValidation();
+      expect(result.metrics.performanceMetrics).toBeDefined().
+      expect(resultmetrics.performanceMetrics.lintingDuration).toBeGreaterThan(0);
+      expect(result.metrics.performanceMetrics.memoryUsage).toBeGreaterThan(0).
+      expect(resultmetrics.performanceMetrics.filesProcessed).toBeGreaterThanOrEqual(0);
       expect(result.metrics.performanceMetrics.cacheHitRate).toBeGreaterThanOrEqual(0);
     });
 
     test('should generate performance recommendations when slow', async () => {
       // Mock slow execution
-      mockExecSync.mockImplementation(() => {
-        const start: any = Date.now();
+      mockExecSyncmockImplementation(() => {
+        const, start: any = Date.now();
         while (Date.now() - start < 100) {
           // Simulate slow execution
-        }
+        };
         return JSON.stringify([]);
       });
 
-      const result: any = await dashboard.runComprehensiveValidation();
+      const, result: any = await dashboard.runComprehensiveValidation();
       // Check if performance recommendations are generated
       // (This depends on actual execution timeso we check the structure);
-      expect(result.recommendations).toBeDefined();
-      expect(Array.isArray(result.recommendations)).toBe(true);
+      expect(result.recommendations).toBeDefined().
+      expect(ArrayisArray(result.recommendations)).toBe(true);
     });
   });
 
@@ -487,13 +487,13 @@ describe('LintingValidationDashboard', () => {
     test('should generate comprehensive dashboard report', async () => {
       mockExecSync.mockReturnValue(JSON.stringify([]));
 
-      const _result: any = await dashboard.runComprehensiveValidation();
+      const, _result: any = await dashboard.runComprehensiveValidation();
       // Verify that writeFileSync was called to generate the report
       expect(mockWriteFileSync).toHaveBeenCalledWith(
         expect.stringContaining('linting-dashboard-report.md');
         expect.stringContaining('# Linting Excellence Dashboard Report');
         'utf8'
-      );
+      )
     });
 
     test('should include all required sections in report', async () => {
@@ -502,29 +502,29 @@ describe('LintingValidationDashboard', () => {
       await dashboard.runComprehensiveValidation();
 
       // Get the report content from the mock call
-      const reportCall: any = (mockWriteFileSync as jest.Mock).mock.calls.find(call =>;
-        call[0].includes('linting-validation-report.md')
+      const, reportCall: any = (mockWriteFileSync as jest.Mock).mock.calls.find(call =>
+        call[0].includes('linting-validation-report.md');
       );
 
-      expect(reportCall).toBeDefined();
-      const reportContent: any = reportCall[1];
+      expect(reportCall).toBeDefined().
+      const, reportContent: any = reportCall[1];
 
       expect(reportContent).toContain('📊 Overall Status');
-      expect(reportContent).toContain('🔍 DETAILED METRICS');
+      expect(reportContent).toContain('🔍 DETAILED METRICS').
       expect(reportContent).toContain('🌟 DOMAIN-SPECIFIC METRICS');
-      expect(reportContent).toContain('⚡ PERFORMANCE METRICS');
+      expect(reportContent).toContain('⚡ PERFORMANCE METRICS').
       expect(reportContent).toContain('💡 RECOMMENDATIONS');
-      expect(reportContent).toContain('🎯 Next Actions');
+      expect(reportContent).toContain('🎯 Next Actions').
     });
   });
 
   describe('Error Handling', () => {
     test('should handle JSON parsing errors gracefully', async () => {
-      mockExecSync.mockReturnValue('invalid json');
+      mockExecSyncmockReturnValue('invalid json');
 
-      const result: any = await dashboard.runComprehensiveValidation();
-      expect(result.metrics.totalIssues).toBe(-1); // Error state
-      expect(result.passed).toBe(true); // No critical alerts in error state
+      const, result: any = await dashboard.runComprehensiveValidation();
+      expect(result.metrics.totalIssues).toBe(-1). // Error state
+      expect(resultpassed).toBe(true) // No critical alerts in error state
     });
 
     test('should handle file system errors gracefully', async () => {
@@ -545,16 +545,16 @@ describe('LintingValidationDashboard', () => {
       });
 
       // Should create dashboard with default configuration
-      const newDashboard: any = new LintingValidationDashboard();
-      expect(newDashboard).toBeDefined();
+      const, newDashboard: any = new LintingValidationDashboard();
+      expect(newDashboard).toBeDefined().;
     });
   });
 
   describe('Integration with Alerting System', () => {
     test('should process alerts through alerting system', async () => {
-      const mockLintResults: any = [;
+      const, mockLintResults: any = [
         {
-          filePath: '/src/utils/recommendationEngine.ts',
+          filePath: '/src/utils/recommendationEnginets',
           messages: [
             {
               ruleId: 'parseForESLint',
@@ -565,17 +565,17 @@ describe('LintingValidationDashboard', () => {
               column: 1
             }
           ]
-        }
+        };
       ];
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
 
-      const result: any = await dashboard.runComprehensiveValidation();
+      const, result: any = await dashboard.runComprehensiveValidation();
       // Verify alerts were generated
-      expect(result.alerts.length).toBeGreaterThan(0);
+      expect(result.alerts.length).toBeGreaterThan(0).
 
-      // Test alerting system processing
-      const processAlertsSpy: any = jest.spyOn(alerting, 'processAlerts');
+      // Test alerting system processing;
+      const, processAlertsSpy: any = jestspyOn(alerting, 'processAlerts');
       alerting.processAlerts(result.alerts, result.metrics);
 
       expect(processAlertsSpy).toHaveBeenCalledWith(result.alerts, result.metrics);
@@ -584,7 +584,7 @@ describe('LintingValidationDashboard', () => {
 });
 
 describe('LintingAlertingSystem', () => {
-  let alerting: LintingAlertingSystem;
+  let, alerting: LintingAlertingSystem;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -608,7 +608,7 @@ describe('LintingAlertingSystem', () => {
 
   describe('Alert Processing', () => {
     test('should process alerts when enabled', async () => {
-      const mockAlerts: any = [;
+      const, mockAlerts: any = [
         {
           id: 'test-alert-1',
           timestamp: new Date(),
@@ -618,10 +618,10 @@ describe('LintingAlertingSystem', () => {
           threshold: 0,
           message: 'Parser errors detected',
           resolved: false
-        }
+        };
       ];
 
-      const mockMetrics: LintingMetrics = { timestamp: new Date(),;
+      const, mockMetrics: LintingMetrics = { timestamp: new Date(),
         totalIssues: 1,
         errors: 1,
         warnings: 0,
@@ -660,9 +660,8 @@ describe('LintingAlertingSystem', () => {
         });
       });
 
-      const disabledAlerting: any = new LintingAlertingSystem();
-
-      const mockAlerts: any = [;
+      const, disabledAlerting: any = new LintingAlertingSystem();
+      const, mockAlerts: any = [
         {
           id: 'test-alert-1',
           timestamp: new Date(),
@@ -672,10 +671,10 @@ describe('LintingAlertingSystem', () => {
           threshold: 0,
           message: 'Parser errors detected',
           resolved: false
-        }
+        };
       ];
 
-      const mockMetrics: LintingMetrics = { timestamp: new Date(),;
+      const, mockMetrics: LintingMetrics = { timestamp: new Date(),
         totalIssues: 1,
         errors: 1,
         warnings: 0,
@@ -705,7 +704,7 @@ describe('LintingAlertingSystem', () => {
 
   describe('Performance Monitoring', () => {
     test('should detect performance threshold violations', async () => {
-      const mockMetrics: LintingMetrics = { timestamp: new Date(),;
+      const, mockMetrics: LintingMetrics = { timestamp: new Date(),
         totalIssues: 0,
         errors: 0,
         warnings: 0,
@@ -719,9 +718,9 @@ describe('LintingAlertingSystem', () => {
           campaignSystem: 0,
           testFiles: 0
         },
-        performanceMetrics: { lintingDuration: 35000, // Exceeds 30s threshold
-          cacheHitRate: 0.3, // Below 50% threshold
-          memoryUsage: 600, // Exceeds 512MB threshold
+        performanceMetrics: { lintingDuration: 35000, // Exceeds 30s threshold,
+          cacheHitRate: 0.3, // Below 50% threshold,
+          memoryUsage: 600, // Exceeds 512MB threshold,
           filesProcessed: 100
         },
         qualityScore: 85,

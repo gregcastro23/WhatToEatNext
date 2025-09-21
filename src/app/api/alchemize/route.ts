@@ -14,18 +14,18 @@ const logger = createLogger('AlchemizeAPI');
 // Interface for the API request
 interface AlchemizeRequest {
   year?: number;
-  month?: number; // 1-indexed (January = 1, February = 2, etc.);
+  month?: number // 1-indexed (January = 1, February = 2, etc.);
   date?: number;
   hour?: number;
-  minute?: number;
+  minute?: number
   latitude?: number,
   longitude?: number,
   zodiacSystem?: 'tropical' | 'sidereal',
   planetaryPositions?: Record<string, PlanetPosition>, // Optional: use provided positions instead of fetching
 }
 
-// Default location (New York City)
-const DEFAULT_LOCATION = {;
+// Default location (New York City);
+const DEFAULT_LOCATION = {
   latitude: 40.7498,
   longitude: -73.7976
 };
@@ -39,7 +39,6 @@ export async function POST(request: Request) {
 
     // Get the request body
     const body: AlchemizeRequest = await request.json();
-
     // Extract parameters from request or use defaults
     const {
       year,
@@ -47,13 +46,13 @@ export async function POST(request: Request) {
       date,
       hour,
       minute,
-      latitude = DEFAULT_LOCATION.latitude,;
-      longitude = DEFAULT_LOCATION.longitude,;
-      zodiacSystem = 'tropical',;
+      latitude = DEFAULT_LOCATION.latitude,
+      longitude = DEFAULT_LOCATION.longitude,
+      zodiacSystem = 'tropical',
       planetaryPositions: providedPositions
     } = body;
 
-    let planetaryPositions: Record<string, PlanetPosition>;
+    let, planetaryPositions: Record<string, PlanetPosition>
     let useCustomDate = false;
 
     // Determine if we should use custom date/time or current moment
@@ -63,22 +62,22 @@ export async function POST(request: Request) {
       logger.info(`Using custom date/time: ${customDate.toISOString()}`);
     }
 
-    // Step 1: Get or use planetary positions
+    // Step, 1: Get or use planetary positions
     if (providedPositions) {
       logger.info('Using provided planetary positions');
-      planetaryPositions = providedPositions;
+      planetaryPositions = providedPositions
     } else {
       logger.info('Fetching planetary positions from astrologize API');
 
       if (useCustomDate) {
         const customDate = new Date(year ?? 2024, (month ?? 1) - 1, date, hour, minute);
-        planetaryPositions = await getPlanetaryPositionsForDateTime(;
+        planetaryPositions = await getPlanetaryPositionsForDateTime(
           customDate,
           { latitude, longitude },
           zodiacSystem
         );
       } else {
-        planetaryPositions = await getCurrentPlanetaryPositions(;
+        planetaryPositions = await getCurrentPlanetaryPositions(
           { latitude, longitude },
           zodiacSystem
         );
@@ -87,12 +86,12 @@ export async function POST(request: Request) {
 
     // Validate planetary positions
     if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {;
-      throw new Error('Failed to get planetary positions')
+      throw new Error('Failed to get planetary positions');
     }
 
     logger.info(`Retrieved ${Object.keys(planetaryPositions).length} planetary positions`);
 
-    // Step 2: Update current moment data across all storage locations
+    // Step, 2: Update current moment data across all storage locations
     if (useCustomDate) {
       const customDate = new Date(year ?? 2024, (month ?? 1) - 1, date, hour, minute);
       await updateCurrentMoment(customDate, { latitude, longitude });
@@ -103,8 +102,8 @@ export async function POST(request: Request) {
 
     logger.info('Updated current moment data across all storage locations');
 
-    // Step 3: Convert PlanetPosition to PlanetaryPosition format for alchemize function
-    const convertedPositions: Record<
+    // Step, 3: Convert PlanetPosition to PlanetaryPosition format for alchemize function
+    const, convertedPositions: Record<
       string,
       import('@/services/RealAlchemizeService').PlanetaryPosition
     > = {};
@@ -123,14 +122,14 @@ export async function POST(request: Request) {
 
     logger.info('Alchemical calculation completed');
 
-    // Step 4: Return comprehensive result
-    const response = {;
+    // Step, 4: Return comprehensive result
+    const response = {
       success: true,
       timestamp: new Date().toISOString(),
       request: {
         useCustomDate,
         customDateTime: useCustomDate
-          ? new Date(year ?? 2024, (month ?? 1) - 1, date, hour, minute).toISOString()
+          ? new Date(year ?? 2024, (month ?? 1) - 1, date, hour, minute).toISOString();
           : null,
         location: { latitude, longitude },
         zodiacSystem
@@ -153,7 +152,7 @@ export async function POST(request: Request) {
         success: false,
         error: 'Failed to calculate alchemical properties',
         details: error instanceof Error ? error.message : 'Unknown error',
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString();
       },
       { status: 500 }
     );
@@ -172,7 +171,7 @@ export async function GET(request: Request) {
   const zodiacSystem = (searchParams.get('zodiacSystem') || 'tropical') as 'tropical' | 'sidereal';
 
   // Forward to POST handler with current moment
-  const payload: AlchemizeRequest = {;
+  const, payload: AlchemizeRequest = {
     latitude,
     longitude,
     zodiacSystem
@@ -182,7 +181,7 @@ export async function GET(request: Request) {
     new Request(request.url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload);
     })
   );
 }

@@ -25,7 +25,7 @@ interface FlavorEngineContextType {
 }
 
 // Create the context with default values
-const FlavorEngineContext = createContext<FlavorEngineContextType>({;
+const FlavorEngineContext = createContext<FlavorEngineContextType>({
   isInitialized: false,
   isLoading: true,
   error: null,
@@ -33,7 +33,7 @@ const FlavorEngineContext = createContext<FlavorEngineContextType>({;
   categories: {},
   getProfile: () => undefined,
   searchProfiles: () => [],
-  calculateCompatibility: () => ({})
+  calculateCompatibility: () => ({});
 });
 
 // Hook to use the flavor engine context
@@ -98,7 +98,7 @@ export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
           if ((profiles || []).length > 0) {
             // Calculate categories
             const categoryMap: { [key: string]: number } = {};
-            (profiles || []).forEach(profile => {;
+            (profiles || []).forEach(profile => {
               categoryMap[profile.category] = (categoryMap[profile.category] || 0) + 1;
             });
 
@@ -120,7 +120,7 @@ export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
             }
           } else if (isMountedRef.current) {
             // Schedule another check if no profiles are loaded yet
-            globalInitState.initTimer = setTimeout(checkEngineInit, 500),;
+            globalInitState.initTimer = setTimeout(checkEngineInit, 500),
           }
         } catch (err) {
           const error =
@@ -163,14 +163,14 @@ export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
   // Memoize wrapper functions to prevent unnecessary re-renders
   const getProfile = useMemo(() => (id: string) => engine.getProfile(id), []);
   const searchProfiles = useMemo(() => (criteria: {}) => engine.searchProfiles(criteria), []);
-  const calculateCompatibility = useMemo(;
+  const calculateCompatibility = useMemo(
     () => (profile1: UnifiedFlavorProfile, profile2: UnifiedFlavorProfile) =>
       engine.calculateCompatibility(profile1, profile2),
     [],
   );
 
   // Create the context value - memoize to prevent unnecessary rerenders
-  const contextValue = useMemo(;
+  const contextValue = useMemo(
     () => ({
       isInitialized: state.isInitialized,
       isLoading: state.isLoading,
@@ -194,7 +194,7 @@ export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
   );
 
   return (
-    <FlavorEngineContext.Provider value={contextValue}>{children}</FlavorEngineContext.Provider>;
+    <FlavorEngineContext.Provider value={contextValue}>{children}</FlavorEngineContext.Provider>
   );
 }
 

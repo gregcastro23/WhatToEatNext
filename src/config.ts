@@ -2,7 +2,7 @@
 
 interface ApiConfig {
   celestialUpdateInterval: number; // milliseconds
-  timeout: number; // milliseconds
+  timeout: number // milliseconds
   retryCount: number,
   baseUrl: string
 }
@@ -22,7 +22,7 @@ interface AppConfig {
 // Get environment
 const isDev = process.env.NODE_ENV !== 'production';
 
-export const config: AppConfig = {;
+export const config: AppConfig = {
   debug: isDev,
 
   api: {

@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import type { ZodiacSign } from '@/types/celestial';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawWholeGrains = {;
+const rawWholeGrains = {
   brown_rice: {
     name: 'Brown Rice',
     elementalProperties: { Earth: 0.5, Water: 0.3, Air: 0.1, Fire: 0.1 },
@@ -270,7 +270,7 @@ const rawWholeGrains = {;
           kimchi: 'incorporate kimchi, sesame oil, gochujang',
           pineapple: 'with pineapple chunks, cashews, curry powder'
         },
-        notes: 'Pre-cook and cool rice for best texture; never use freshly cooked rice'
+        notes: 'Pre-cook and cool rice for best texture never use freshly cooked rice'
       },
       rice_pudding: {
         name: 'Brown Rice Pudding',
@@ -659,7 +659,7 @@ const rawWholeGrains = {;
 
 // Fix the ingredient mappings to ensure they have all required properties
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
-export const wholeGrains: Record<string, IngredientMapping> = fixIngredientMappings(rawWholeGrains);
+export const, wholeGrains: Record<string, IngredientMapping> = fixIngredientMappings(rawWholeGrains);
 
 // Create a collection of all whole grains
 export const _allWholeGrains = Object.values(wholeGrains);

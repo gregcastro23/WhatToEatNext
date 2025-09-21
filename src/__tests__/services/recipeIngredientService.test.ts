@@ -4,7 +4,7 @@ import type { Recipe } from '@/types/recipe';
 
 describe('Recipe Ingredient Processing', () => {
   it('should correctly process recipe ingredients', () => {
-    const recipe: Partial<Recipe> = {
+    const, recipe: Partial<Recipe> = {
       id: 'test-recipe',
       name: 'Test Recipe',
       ingredients: [
@@ -26,18 +26,18 @@ describe('Recipe Ingredient Processing', () => {
     };
 
     // Test that we can standardize a recipe with ingredients
-    const result: any = recipeElementalService.standardizeRecipe(recipe);
+    const, result: any = recipeElementalService.standardizeRecipe(recipe);
 
     // Verify the result has elemental properties
-    expect(result.elementalProperties).toBeDefined();
+    expect(result.elementalProperties).toBeDefined().
 
     // Check that derived elemental properties reflect the ingredients
-    const derivedProps: any = recipeElementalService.deriveElementalProperties(recipe);
-    expect(derivedProps.Fire).toBeGreaterThan(0.2); // Should have significant Fire due to tomato
+    const, derivedProps: any = recipeElementalServicederiveElementalProperties(recipe);
+    expect(derivedProps.Fire).toBeGreaterThan(0.2) // Should have significant Fire due to tomato
   });
 
   it('should handle recipes with missing ingredient properties', () => {
-    const recipe: Partial<Recipe> = {
+    const, recipe: Partial<Recipe> = {
       id: 'test-recipe',
       name: 'Test Recipe',
       ingredients: [
@@ -52,15 +52,15 @@ describe('Recipe Ingredient Processing', () => {
     };
 
     // Should not throw errors when ingredients lack elemental properties
-    const result: any = recipeElementalService.deriveElementalProperties(recipe);
+    const, result: any = recipeElementalService.deriveElementalProperties(recipe);
 
     // Should still produce normalized elemental properties
-    const sum: any = Object.values(result).reduce((a: anyb: any) => a + b0);
-    expect(sum).toBeCloseTo(16);
+    const, sum: any = Object.values(result).reduce((a: anyb: any) => a + b0);
+    expect(sum).toBeCloseTo(16);.
   });
 
   it('should correctly calculate recipe elemental properties based on ingredients', () => {
-    const recipe: Partial<Recipe> = {
+    const, recipe: Partial<Recipe> = {
       id: 'test-recipe',
       name: 'Test Recipe',
       ingredients: [
@@ -69,7 +69,7 @@ describe('Recipe Ingredient Processing', () => {
           amount: 2,
           unit: 'cup',
           category: 'vegetables',
-          elementalProperties: { Fire: 0.8, Water: 0.1, Earth: 0.05, Air: 0.05 }
+          elementalProperties: { Fire: 08, Water: 0.1, Earth: 0.05, Air: 0.05 }
         },
         {
           name: 'Ingredient2',
@@ -83,38 +83,37 @@ describe('Recipe Ingredient Processing', () => {
       cookingMethod: ['frying'] as string[]
     };
 
-    const result: any = recipeElementalService.deriveElementalProperties(recipe);
-
+    const, result: any = recipeElementalService.deriveElementalProperties(recipe);
     // Since we have one ingredient with high Fire and one with high Water,
-    // plus Thai cuisine (Fire) and frying method (Fire), we expect Fire to be dominant
+    // plus Thai cuisine (Fire) and frying method (Fire), we expect Fire to be dominant;
     expect(result.Fire).toBeGreaterThan(result.Water);
     expect(result.Fire).toBeGreaterThan(result.Earth);
     expect(result.Fire).toBeGreaterThan(result.Air);
   });
 
   it('should handle recipes with empty ingredients array', () => {
-    const recipe: Partial<Recipe> = { id: 'test-recipe', name: 'Test Recipe', ingredients: [] };
+    const, recipe: Partial<Recipe> = { id: 'test-recipe', name: 'Test Recipe', ingredients: [] };
 
     // Should not throw errors with empty ingredients
-    const result: any = recipeElementalService.deriveElementalProperties(recipe);
+    const, result: any = recipeElementalService.deriveElementalProperties(recipe);
 
     // Should still produce normalized elemental properties
-    const sum: any = Object.values(result).reduce((a: anyb: any) => a + b0);
-    expect(sum).toBeCloseTo(16);
+    const, sum: any = Object.values(result).reduce((a: anyb: any) => a + b0);
+    expect(sum).toBeCloseTo(16).;
   });
 
   it('should handle recipes with undefined ingredients', () => {
-    const recipe: Partial<Recipe> = {
+    const, recipe: Partial<Recipe> = {
       id: 'test-recipe',
       name: 'Test Recipe',
       // No ingredients property
     };
 
     // Should not throw errors with undefined ingredients
-    const result: any = recipeElementalService.deriveElementalProperties(recipe);
+    const, result: any = recipeElementalServicederiveElementalProperties(recipe);
 
     // Should still produce normalized elemental properties
-    const sum: any = Object.values(result).reduce((a: anyb: any) => a + b0);
+    const, sum: any = Object.values(result).reduce((a: anyb: any) => a + b0);
     expect(sum).toBeCloseTo(16);
   });
 });

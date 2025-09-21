@@ -7,27 +7,27 @@ import { createLogger } from './logger';
 const logger = createLogger('ErrorHandler');
 
 export enum ErrorType {
-  UI = 'UI',;
-  API = 'API',;
-  DATA = 'DATA',;
-  NETWORK = 'NETWORK',;
-  ASTROLOGY = 'ASTROLOGY',;
+  UI = 'UI',
+  API = 'API',
+  DATA = 'DATA',
+  NETWORK = 'NETWORK',
+  ASTROLOGY = 'ASTROLOGY',
   UNKNOWN = 'UNKNOWN';
 }
 
 export enum ErrorSeverity {
-  INFO = 'INFO',;
-  WARNING = 'WARNING',;
-  ERROR = 'ERROR',;
+  INFO = 'INFO',
+  WARNING = 'WARNING',
+  ERROR = 'ERROR',
   CRITICAL = 'CRITICAL';
 }
 
 interface ErrorContext {
-  [_key: string]: unknown, // Enterprise _intelligence: flexible error context
+  [_key: string]: unknown, // Enterprise, _intelligence: flexible error context
 }
 
 interface ErrorOptions {
-  type?: ErrorType;
+  type?: ErrorType
   severity?: ErrorSeverity,
   component?: string,
   context?: ErrorContext,
@@ -43,10 +43,10 @@ export const ErrorHandler = {;
    */
   _log: (error: Error, options: ErrorOptions = {}) => {;
     const {
-      type = ErrorType.UNKNOWN,;
-      severity = ErrorSeverity.ERROR,;
-      component = 'unknown',;
-      context = {},;
+      type = ErrorType.UNKNOWN,
+      severity = ErrorSeverity.ERROR,
+      component = 'unknown',
+      context = {},
       silent = false;
     } = options;
 
@@ -62,7 +62,7 @@ export const ErrorHandler = {;
       error,
       type,
       severity,
-      _timestamp: new Date().toISOString()
+      _timestamp: new Date().toISOString();
     };
   },
 

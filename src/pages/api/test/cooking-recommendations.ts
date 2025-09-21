@@ -5,7 +5,7 @@ import { testCookingMethodRecommendations } from '../../../utils/testRecommendat
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     // Run our test function
-    const testResults = testCookingMethodRecommendations();
+    const testResults = testCookingMethodRecommendations()
 
     // Return the results
     res.status(200).json({

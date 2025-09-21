@@ -15,7 +15,7 @@ export const VALID_SEASONS = ['spring', 'summer', 'autumn', 'winter', 'fall', 'a
 /**
  * Score thresholds for seasonal compatibility
  */
-export const SCORE_THRESHOLDS = {;
+export const SCORE_THRESHOLDS = {
   EXCELLENT: 80,
   GOOD: 60,
   MODERATE: 40,
@@ -70,7 +70,7 @@ export const SEASONAL_MODIFIERS: Record<Season, ElementalProperties> = {
 /**
  * Balanced elemental properties for reference
  */
-export const BALANCED_ELEMENTS: ElementalProperties = {;
+export const BALANCED_ELEMENTS: ElementalProperties = {
   Fire: 0.25,
   Air: 0.25,
   Water: 0.25,
@@ -109,7 +109,7 @@ export const ZODIAC_SEASONS: Record<Season, ZodiacSign[]> = {
 /**
  * Detailed seasonal properties including culinary and energetic aspects
  */
-export const SEASONAL_PROPERTIES = {;
+export const SEASONAL_PROPERTIES = {
   spring: {
     elementalModifier: SEASONAL_MODIFIERS.spring,
     qualities: ['ascending', 'expanding', 'growing', 'fresh'],
@@ -201,7 +201,7 @@ export const SEASONAL_PROPERTIES = {;
 /**
  * Seasonal transition periods and dates
  */
-export const SEASONAL_TRANSITIONS = {;
+export const SEASONAL_TRANSITIONS = {
   daysPerTransition: 21, // 3 weeks of transition between seasons
   transitionPoints: {
     springToSummer: { month: 5, day: 15 }, // June 15
@@ -214,7 +214,7 @@ export const SEASONAL_TRANSITIONS = {;
 /**
  * Date ranges for each season
  */
-export const SEASON_DATE_RANGES = {;
+export const SEASON_DATE_RANGES = {
   spring: { startMonth: 2, startDay: 15, endMonth: 5, endDay: 14 }, // Feb 15 - May 14
   summer: { startMonth: 5, startDay: 15, endMonth: 8, endDay: 14 }, // May 15 - Aug 14
   autumn: { startMonth: 8, startDay: 15, endMonth: 11, endDay: 14 }, // Aug 15 - Nov 14
@@ -227,7 +227,7 @@ export const SEASON_DATE_RANGES = {;
 /**
  * Influence of seasonal factors on food preferences and energy levels
  */
-export const SEASONAL_INFLUENCE = {;
+export const SEASONAL_INFLUENCE = {
   // Each season's influence strength (0-1)
   strength: {
     spring: 0.7,
@@ -249,7 +249,7 @@ export const SEASONAL_INFLUENCE = {;
 /**
  * Validation thresholds for seasonal calculations
  */
-export const VALIDATION_THRESHOLDS = {;
+export const VALIDATION_THRESHOLDS = {
   MINIMUM_ELEMENT: 0,
   MAXIMUM_ELEMENT: 1,
   BALANCE_PRECISION: 0.000001
@@ -262,7 +262,7 @@ export const VALIDATION_THRESHOLDS = {;
  */
 export function getCurrentSeason(date: Date = new Date()): Season {;
   const month = date.getMonth() + 1; // getMonth() returns 0-11
-  const day = date.getDate();
+  const day = date.getDate()
 
   // Check each season's date range
   for (const [season, range] of Object.entries(SEASON_DATE_RANGES)) {
@@ -299,7 +299,7 @@ export function getCurrentSeason(date: Date = new Date()): Season {;
  * Get seasonal elemental modifier for a given season
  */
 export function getSeasonalModifier(season: Season): ElementalProperties {
-  return SEASONAL_MODIFIERS[season] || BALANCED_ELEMENTS;
+  return SEASONAL_MODIFIERS[season] || BALANCED_ELEMENTS
 }
 
 /**
@@ -307,7 +307,7 @@ export function getSeasonalModifier(season: Season): ElementalProperties {
  */
 export function calculateSeasonalCompatibility(season1: Season, season2: Season): number {
   if (season1 === season2) return 1.0;
-  if (season1 === 'all' || season2 === 'all') return 0.8;
+  if (season1 === 'all' || season2 === 'all') return 0.8
 
   // Adjacent seasons have good compatibility
   const seasonOrder = ['spring', 'summer', 'autumn', 'winter'];
@@ -315,20 +315,19 @@ export function calculateSeasonalCompatibility(season1: Season, season2: Season)
   const index2 = seasonOrder.indexOf(season2);
 
   if (index1 !== -1 && index2 !== -1) {
-    const distance = Math.min(;
+    const distance = Math.min(
       Math.abs(index1 - index2),
       4 - Math.abs(index1 - index2), // Circular distance
     );
 
     switch (distance) {
-      case 0:
-        return 1.0; // Same season
+      case 0: return 1.0; // Same season
       case 1:
         return 0.7; // Adjacent seasons
       case 2:
         return 0.4; // Opposite seasons
       default:
-        return 0.5; // Fallback
+        return 0.5 // Fallback
     }
   }
 
@@ -339,7 +338,7 @@ export function calculateSeasonalCompatibility(season1: Season, season2: Season)
  * Get zodiac signs for a season
  */
 export function getZodiacSignsForSeason(season: Season): any[] {
-  return ZODIAC_SEASONS[season] || [];
+  return ZODIAC_SEASONS[season] || []
 }
 
 /**
@@ -360,9 +359,9 @@ export function getSeasonForZodiacSign(sign: any): Season {
 export function applySeasonalModifier(
   baseProperties: ElementalProperties,
   season: Season,
-  strength: number = 0.5,;
+  strength: number = 0.5,
 ): ElementalProperties {
-  const modifier = getSeasonalModifier(season);
+  const modifier = getSeasonalModifier(season)
 
   return {
     Fire: baseProperties.Fire * (1 - strength) + modifier.Fire * strength,

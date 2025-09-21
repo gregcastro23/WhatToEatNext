@@ -6,7 +6,7 @@ import type { ThermodynamicProperties } from '@/types/shared';
  *
  * Biological transformation of food through microbial activity
  */
-export const fermentation: CookingMethodData = {;
+export const fermentation: CookingMethodData = {
   name: 'fermentation',
   description:
     'Biological transformation of food through controlled microbial activity, creating complex flavors, preserving foods, and enhancing nutritional value',
@@ -334,13 +334,11 @@ export const fermentation: CookingMethodData = {;
 
   timingConsiderations: {
     vegetable_ferments:
-      'Sauerkraut: 1-4 weeks at 65-72°F (18-22°C); kimchi: 3-7 days at room temperature then refrigerate; pickles: 1-2 weeks. Monitor daily at first, less frequently after pH drops below 4.0. Warmer temperatures accelerate acid production but may develop less complex flavors. Full flavor development often takes months in cool storage.',
-    dairy_ferments:
-      'Yogurt: 4-12 hours; kefir: 12-48 hours depending on temperature; cheese: varies widely from 30 minutes (fresh cheese) to years (aged cheese). Temperature control critical: higher causes faster acidification but potential off-flavors, lower develops richer flavors but takes longer.',
+      'Sauerkraut: 1-4 weeks at 65-72°F (18-22°C); kimchi: 3-7 days at room temperature then refrigerate pickles: 1-2 weeks. Monitor daily at first, less frequently after pH drops below 4.0. Warmer temperatures accelerate acid production but may develop less complex flavors. Full flavor development often takes months in cool storage.',
+    dairy_ferments: 'Yogurt: 4-12 hours; kefir: 12-48 hours depending on temperature cheese: varies widely from 30 minutes (fresh cheese) to years (aged cheese). Temperature control critical: higher causes faster acidification but potential off-flavors, lower develops richer flavors but takes longer.',
     alcoholic_ferments:
       'Beer: primary 1-2 weeks, secondary 2-12 weeks; wine: primary 1-3 weeks, aging 3 months to years; mead: 2-4 weeks primary, months to years aging. Lager requires cool fermentation (45-55°F/7-13°C) for extended period; ales ferment warmer (60-72°F/15-22°C) more quickly.',
-    grain_ferments:
-      'Sourdough: starter maintenance every 12-24 hours at room temperature; dough proof 3-5 hours or 12-18 hours refrigerated; koji: 36-48 hours at 86°F (30°C); tempeh: 24-48 hours at 86-88°F (30-31°C).',
+    grain_ferments: 'Sourdough: starter maintenance every 12-24 hours at room temperature; dough proof 3-5 hours or 12-18 hours refrigerated koji: 36-48 hours at 86°F (30°C) tempeh: 24-48 hours at 86-88°F (30-31°C).',
     maturation_periods:
       'Miso: 3 months to 3+ years, soy sauce: 6 months to 3+ years, vinegar: 2-6 months, aged salami: 1-6 months. Long maturation at cool temperatures develops deeper, more complex flavors through slow enzymatic activity. Accelerated high-temperature fermentation often results in simpler flavor profiles.',
     seasonal_considerations:
@@ -350,8 +348,7 @@ export const fermentation: CookingMethodData = {;
   doneness_indicators: {
     taste_profile:
       'Balance of acid, sweetness, salt, and umami; absence of yeasty, putrid, or overly alcoholic notes; complexity rather than one-dimensional flavor. Development of desired aromatic compounds specific to the ferment type.',
-    texture_changes:
-      'Vegetables maintain crispness with translucent appearance; bread dough increases in elasticity and gas retention; dairy thickens appropriately; meat develops firm texture with appropriate moisture loss in dry curing.',
+    texture_changes: 'Vegetables maintain crispness with translucent appearance; bread dough increases in elasticity and gas retention; dairy thickens appropriately meat develops firm texture with appropriate moisture loss in dry curing.',
     visual_cues:
       'Active bubbling during initial fermentation, appropriate color development; clear liquid with settled sediment in many liquid ferments; surface changes specific to ferment type (bloom on cheese, pellicle on kombucha).',
     pH_levels:

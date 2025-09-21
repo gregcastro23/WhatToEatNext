@@ -7,11 +7,11 @@ import { Suspense } from 'react';
 
 // Temporary lightweight fallbacks for missing components
 const PlanetaryHoursTest = () => (;
-  <div className='text-gray-600'>PlanetaryHoursTest component unavailable.</div>;
+  <div className='text-gray-600'>PlanetaryHoursTest component unavailable.</div>
 );
 
 const SimplePlanetaryDisplay = () => (;
-  <div className='text-gray-600'>SimplePlanetaryDisplay component unavailable.</div>;
+  <div className='text-gray-600'>SimplePlanetaryDisplay component unavailable.</div>
 );
 
 export default function PlanetaryTestPage() {
@@ -28,7 +28,7 @@ export default function PlanetaryTestPage() {
 
       <section className='rounded-lg bg-white p-4 shadow'>;
         <h2 className='mb-4 text-xl font-bold'>Full Component</h2>;
-        <Suspense fallback={<div>Loading full component...</div>}>;
+        <Suspense fallback={<div>Loading full component...</div>}>
           <PlanetaryHoursTest />
         </Suspense>
       </section>

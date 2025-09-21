@@ -1,7 +1,7 @@
 // src/data/cuisines/korean.ts
 import type { Cuisine } from '@/types/cuisine';
 
-export const korean: Cuisine = {;
+export const, korean: Cuisine = {
   id: 'korean',
   name: 'Korean',
   description:
@@ -1314,9 +1314,9 @@ export const korean: Cuisine = {;
     }
   },
   elementalProperties: {
-    Fire: 0.3, // Represents spicy elements and grilling
-    Earth: 0.3, // Represents fermented foods and root vegetables
-    Water: 0.2, // Represents soups and stews
+    Fire: 0.3, // Represents spicy elements and grilling,
+    Earth: 0.3, // Represents fermented foods and root vegetables,
+    Water: 0.2, // Represents soups and stews,
     Air: 0.2, // Represents light broths and garnishes
   }
 };

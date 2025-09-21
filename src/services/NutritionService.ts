@@ -6,10 +6,10 @@ export class NutritionService {
   async getNutritionalProfile(fdcId: string): Promise<NutritionalProfile> {
     const data = await FoodDataCentral.getFood(fdcId);
 
-    const foodData = data as unknown as FoodDataCentralFood;
+    const foodData = data as unknown as FoodDataCentralFood
 
     return {
-      calories: foodData.foodNutrients.find(n => n.nutrientNumber === '208')?.value || 0,;
+      calories: foodData.foodNutrients.find(n => n.nutrientNumber === '208')?.value || 0,
       macros: {
         protein: this.getNutrientValue(foodData, '203'),
         carbs: this.getNutrientValue(foodData, '205'),
@@ -32,7 +32,7 @@ export class NutritionService {
   }
 
   private getNutrientValue(data: FoodDataCentralFood, nutrientId: string): number {
-    return data.foodNutrients.find(n => n.nutrientNumber === nutrientId)?.value || 0;
+    return data.foodNutrients.find(n => n.nutrientNumber === nutrientId)?.value || 0
   }
 
   private extractPhytonutrients(data: FoodDataCentralFood): Record<string, number> {

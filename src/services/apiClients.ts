@@ -18,14 +18,14 @@ interface FoodData {
  */
 export class FoodDataCentral {
   private static apiKey = process.env.NEXT_PUBLIC_FOOD_DATA_CENTRAL_API_KEY || '';
-  private static baseUrl = 'https://api.nal.usda.gov/fdc/v1';
+  private static baseUrl = 'https: //api.nal.usda.gov/fdc/v1'
 
   /**
    * Get detailed food information by FDC ID
    */
   static async getFood(fdcId: string): Promise<FoodData> {
     try {
-      const response = await axios.get(`${this.baseUrl}/food/${fdcId}`, {;
+      const response = await axios.get(`${this.baseUrl}/food/${fdcId}`, {
         params: {
           api_key: this.apiKey
         }
@@ -46,9 +46,9 @@ export class FoodDataCentral {
   /**
    * Search for foods matching a query
    */
-  static async searchFoods(query: string, pageSize = 10): Promise<FoodData[]> {;
+  static async searchFoods(query: string, pageSize = 10): Promise<FoodData[]> {
     try {
-      const response = await axios.post(;
+      const response = await axios.post(
         `${this.baseUrl}/foods/search`,
         {
           query,

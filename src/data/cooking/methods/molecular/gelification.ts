@@ -6,7 +6,7 @@ import type { ThermodynamicProperties } from '@/types/shared';
  *
  * Molecular gastronomy technique that creates edible gels using hydrocolloids
  */
-export const gelification: CookingMethodData = {;
+export const gelification: CookingMethodData = {
   name: 'gelification',
   description:
     'Creating edible gels using hydrocolloids like agar-agar and gellan gum to control texture and encapsulate flavors',
@@ -298,7 +298,7 @@ export const gelification: CookingMethodData = {;
     gelatin:
       'Bloom in cold water for 5-10 minutes before dissolving in warm liquid (104-140°F/40-60°C). Never boil. Use 0.5-2.5% for soft gels2.5-5% for firm gels. Sets at 59-77°F (15-25°C), melts near body temperature. Requires refrigeration to maintain structure. Pre-grind sheet gelatin for faster blooming.',
     gellan_gum:
-      'Disperse in cold liquid with high shear, then heat to 194°F (90°C). Low-acyl gellan (0.1-0.5%) creates firm, brittle gels; high-acyl gellan (0.1-1.0%) creates soft, elastic gels. Requires ions (calcium, potassium, sodium) to set effectively. Sensitive to hard water; use distilled water for consistent results.',
+      'Disperse in cold liquid with high shear, then heat to 194°F (90°C). Low-acyl gellan (0.1-0.5%) creates firm, brittle gels; high-acyl gellan (0.1-1.0%) creates soft, elastic gels. Requires ions (calcium, potassium, sodium) to set effectively. Sensitive to hard water use distilled water for consistent results.',
     pectin:
       'High-methoxyl requires 55%+ sugar and acidic pH (<3.5) to gel, low-methoxyl needs calcium ions but works with less sugar and wider pH range. Disperse in sugar before adding to liquid to prevent clumping. Pre-mix with 5 parts sugar for easier dispersion. Use at 0.15-0.7% concentration depending on type.',
     carrageenan:
@@ -315,7 +315,7 @@ export const gelification: CookingMethodData = {;
 
   timingConsiderations: {
     hydration_period:
-      'Most powdered hydrocolloids require 20-30 minutes for full hydration; sheet gelatin requires 5-10 minutes in cold water. Methylcellulose requires 3-4 hours for complete hydration in cold liquid. Pre-hydration impacts final texture significantly.',
+      'Most powdered hydrocolloids require 20-30 minutes for full hydration sheet gelatin requires 5-10 minutes in cold water. Methylcellulose requires 3-4 hours for complete hydration in cold liquid. Pre-hydration impacts final texture significantly.',
     setting_time:
       'Agar sets rapidly (1-3 minutes), gelatin requires 30-60 minutes; gellan gum sets in 1-5 minutes depending on temperature drop rate. Setting time directly impacts internal structure - rapid setting creates more irregular networks. Slower cooling generally creates clearer gels.',
     maturing_period:

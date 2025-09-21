@@ -10,10 +10,10 @@ import { MEMORY_LIMITS, TEST_TIMEOUTS, TestUtils } from './TestUtils';
 
 export interface RealTimeTestConfig {
   testName: string;
-  timeout?: number;
+  timeout?: number
   memoryLimit?: number,
   retries?: number,
-  cleanupFunction?: () => void;
+  cleanupFunction?: () => void
   expectedErrors?: string[]
 }
 
@@ -33,9 +33,9 @@ export interface RealTimeTestResult {
 }
 
 export class RealTimeTestRunner {
-  private static instance: RealTimeTestRunner;
-  private activeTests: Map<string, NodeJS.Timeout> = new Map();
-  private testResults: Map<string, RealTimeTestResult> = new Map(),
+  private static, instance: RealTimeTestRunner
+  private, activeTests: Map<string, NodeJS.Timeout> = new Map();
+  private, testResults: Map<string, RealTimeTestResult> = new Map(),
 
   static getInstance(): RealTimeTestRunner {
     if (!this.instance) {
@@ -53,14 +53,14 @@ export class RealTimeTestRunner {
   ): Promise<RealTimeTestResult> {
     const {
       testName,
-      timeout = TEST_TIMEOUTS.realtime,;
-      memoryLimit = MEMORY_LIMITS.integration,;
-      retries = 2,,;
+      timeout = TEST_TIMEOUTS.realtime,
+      memoryLimit = MEMORY_LIMITS.integration,
+      retries = 2,,
       cleanupFunction,
-      expectedErrors = [],,;
+      expectedErrors = [],,
     } = config;
 
-    const result: RealTimeTestResult = {;
+    const, result: RealTimeTestResult = {
       success: false,
       duration: 0,
       memoryUsage: 0,
@@ -106,7 +106,6 @@ export class RealTimeTestRunner {
 
           // Check if this is an expected error
           const isExpectedError = expectedErrors.some(expected => errorMessage.includes(expected));
-
           if (isExpectedError) {
             result.warnings.push(`Expected error occurred: ${errorMessage}`);
             result.success = true;
@@ -137,7 +136,7 @@ export class RealTimeTestRunner {
 
     if (result.metrics.memoryReadings.length > 0) {
       result.metrics.averageMemory =
-        result.metrics.memoryReadings.reduce((ab) => a + b0) /,;
+        result.metrics.memoryReadings.reduce((ab) => a + b0) /,
         result.metrics.memoryReadings.length;
     }
 
@@ -166,19 +165,19 @@ export class RealTimeTestRunner {
       config?: Partial<RealTimeTestConfig>
     }>
   ): Promise<Map<string, RealTimeTestResult>> {
-    const results = new Map<string, RealTimeTestResult>(),;
+    const results = new Map<string, RealTimeTestResult>(),
 
     for (const test of tests) {
-      const config: RealTimeTestConfig = {;
-        testName: test.name;
+      const, config: RealTimeTestConfig = {;
+        testName: test.name
         ...test.config
       };
 
       try {
         // Isolate each test
         const isolatedTest = TestUtils.isolateTest(test.testFunction, test.name);
-        const result = await this.runRealTimeTest(isolatedTest, config),;
-        results.set(test.name, result)
+        const result = await this.runRealTimeTest(isolatedTest, config),
+        results.set(test.name, result);
       } catch (error) {
         results.set(test.name, {
           success: false,
@@ -216,8 +215,8 @@ export class RealTimeTestRunner {
       requiredSuccessTests?: string[]
     }
   ): { isValid: boolean, issues: string[], summary: unknown } {
-    const issues: string[] = [];
-    const summary = {;
+    const, issues: string[] = [];
+    const summary = {
       totalTests: results.size,
       successfulTests: 0,
       failedTests: 0,
@@ -279,7 +278,7 @@ export class RealTimeTestRunner {
     }
 
     return {
-      isValid: issues.length === 0,,;
+      isValid: issues.length === 0,,
       issues,
       summary
     };
@@ -296,7 +295,7 @@ export class RealTimeTestRunner {
     return setInterval(() => {
       const currentMemory = process.memoryUsage().heapUsed;
       result.metrics.memoryReadings.push(currentMemory);
-      result.metrics.peakMemory = Math.max(result.metrics.peakMemory, currentMemory),;
+      result.metrics.peakMemory = Math.max(result.metrics.peakMemory, currentMemory),
 
       if (currentMemory > memoryLimit) {
         result.warnings.push(
@@ -356,7 +355,7 @@ export class RealTimeTestRunner {
    * Utility delay function
    */
   private delay(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms)),;
+    return new Promise(resolve => setTimeout(resolve, ms)),
   }
 }
 
@@ -368,7 +367,7 @@ export async function runRealTimeTest(
   config: RealTimeTestConfig
 ): Promise<RealTimeTestResult> {
   const runner = RealTimeTestRunner.getInstance();
-  return runner.runRealTimeTest(testFunction, config)
+  return runner.runRealTimeTest(testFunction, config);
 }
 
 /**

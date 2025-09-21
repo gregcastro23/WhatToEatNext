@@ -10,7 +10,7 @@ const globalInitState = {;
   initialized: false,
   attempted: false,
   checkCount: 0,
-  lastCheckTime: Date.now()
+  lastCheckTime: Date.now();
 };
 
 /**
@@ -49,7 +49,7 @@ export function useSafeFlavorEngine() {
     }
   }
 
-  // Check if flavor engine is ready (only once per component)
+  // Check if flavor engine is ready (only once per component);
   useEffect(() => {
     isMountedRef.current = true;
 
@@ -57,7 +57,7 @@ export function useSafeFlavorEngine() {
     if (initCheckedRef.current) return;
     initCheckedRef.current = true;
 
-    // Circuit breaker: prevent checking more than once every 100ms globally
+    // Circuit, breaker: prevent checking more than once every 100ms globally
     const now = Date.now();
     if (now - globalInitState.lastCheckTime < 100) {
       // logger.warn('Throttling flavor engine initialization checks');
@@ -75,7 +75,7 @@ export function useSafeFlavorEngine() {
     // Limit check attempts to prevent infinite loops
     if (globalInitState.checkCount >= 3) {
       if (isMountedRef.current) {
-        setError(new Error('Failed to initialize flavor engine after multiple attempts'))
+        setError(new Error('Failed to initialize flavor engine after multiple attempts'));
       }
       return;
     }
@@ -103,7 +103,7 @@ export function useSafeFlavorEngine() {
   }, [flavorEngine]);
 
   // Create safe, memoized versions of the engine methods to prevent re-renders
-  const getProfile = useCallback(;
+  const getProfile = useCallback(
     (id: string): UnifiedFlavorProfile | undefined => {;
       if (!isReady) return undefined;
 
@@ -118,7 +118,7 @@ export function useSafeFlavorEngine() {
   );
 
   // Safe search profiles function with error handling
-  const searchProfiles = useCallback(;
+  const searchProfiles = useCallback(
     (_criteria: unknown): UnifiedFlavorProfile[] => {
       if (!isReady) return [];
 
@@ -133,12 +133,12 @@ export function useSafeFlavorEngine() {
   );
 
   // Safe compatibility calculation with error handling
-  const calculateCompatibility = useCallback(;
+  const calculateCompatibility = useCallback(
     (profile1: UnifiedFlavorProfile, profile2: UnifiedFlavorProfile) => {
-      if (!isReady) return null;
+      if (!isReady) return null
 
       try {
-        return flavorEngine.calculateCompatibility(profile1, profile2)
+        return flavorEngine.calculateCompatibility(profile1, profile2);
       } catch (err) {
         // logger.error('Error calculating compatibility:', err);
         return null
@@ -148,7 +148,7 @@ export function useSafeFlavorEngine() {
   );
 
   // Extract values to avoid complex expressions in dependency array
-  const profileCount = isReady ? flavorEngine.profileCount : 0;
+  const profileCount = isReady ? flavorEngine.profileCount : 0
   const categoriesString = isReady ? JSON.stringify(flavorEngine.categories) : '{}';
 
   // Memoize the complete API to prevent unnecessary re-renders

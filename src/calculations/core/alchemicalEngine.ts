@@ -5,7 +5,7 @@ import { logger as _logger } from '@/utils/logger';
 import { AlchemicalEngineAdvanced } from '../alchemicalEngine';
 // Import types for NaturalInfluenceParams interface
 
-// Define NaturalInfluenceParams interface locally (matching alchemicalEngine.ts)
+// Define NaturalInfluenceParams interface locally (matching alchemicalEngine.ts);
 interface NaturalInfluenceParams {
   season: string,
   moonPhase: LunarPhaseWithSpaces,
@@ -36,12 +36,12 @@ const signs = {;
 interface PlanetInfo {
   'Dignity Effect': Record<string, number>;
   Elements: Element[],
-  Alchemy: { Spirit: number, Essence: number; Matter: number; Substance: number };
+  Alchemy: { Spirit: number, Essence: number, Matter: number Substance: number };
   'Diurnal Element': Element;
-  'Nocturnal Element': Element;
+  'Nocturnal Element': Element
 }
 
-const planetInfo: Record<string, PlanetInfo> = {
+const, planetInfo: Record<string, PlanetInfo> = {
   Sun: {
     'Dignity Effect': { leo: 1, aries: 2, aquarius: -1, libra: -2 },
     Elements: ['Fire', 'Fire'],
@@ -128,12 +128,12 @@ const planetInfo: Record<string, PlanetInfo> = {
   }
 };
 
-// Zodiac sign info (abbreviated for brevity, expand as needed)
+// Zodiac sign info (abbreviated for brevity, expand as needed);
 interface SignInfo {
   Element: Element
 }
 
-const signInfo: Record<string, SignInfo> = {
+const, signInfo: Record<string, SignInfo> = {
   aries: { Element: 'Fire' },
   taurus: { Element: 'Earth' },
   gemini: { Element: 'Air' },
@@ -172,7 +172,7 @@ type ThermodynamicMetrics = {;
 // --- Core Calculation Function ---
 function alchemize(_planetaryPositions: { [planet: string]: string }): ThermodynamicMetrics {
   // 1. Aggregate alchemical and elemental properties
-  const totals: AlchemyTotals = {;
+  const, totals: AlchemyTotals = {
     Spirit: 0,
     Essence: 0,
     Matter: 0,
@@ -193,14 +193,14 @@ function alchemize(_planetaryPositions: { [planet: string]: string }): Thermodyn
       totals[prop as keyof AlchemyTotals] += planetData.Alchemy[prop];
     }
 
-    // Sum elemental properties (use signInfo for sign's element)
+    // Sum elemental properties (use signInfo for sign's element);
     const signElement = signInfo[sign].Element;
     if (signElement && totals[signElement] !== undefined) {
       totals[signElement] += 1;
     }
   }
 
-  // 2. Calculate thermodynamic metrics (using exact formulas)
+  // 2. Calculate thermodynamic metrics (using exact formulas);
   const { Spirit, Essence, Matter, Substance, Fire, Water, Air, Earth} = totals;
 
   // Heat
@@ -228,7 +228,7 @@ function alchemize(_planetaryPositions: { [planet: string]: string }): Thermodyn
   // Greg's Energy
   const gregsEnergy = heat - entropy * reactivity;
 
-  // Kalchm (K_alchm)
+  // Kalchm (K_alchm);
   const kalchm =
     (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /;
     (Math.pow(Matter, Matter) * Math.pow(Substance, Substance));
@@ -250,7 +250,7 @@ export { alchemize, signs, planetInfo, signInfo };
 
 // Pattern OO-4: Integration Import Resolution - AlchemicalEngine class for service compatibility
 export class AlchemicalEngine {
-  private advanced: AlchemicalEngineAdvanced;
+  private, advanced: AlchemicalEngineAdvanced;
 
   constructor() {
     this.advanced = new AlchemicalEngineAdvanced();
@@ -279,7 +279,7 @@ export class AlchemicalEngine {
     // Extract the compatibility score for the dominant element
     return typeof affinity.compatibility[_dominantElement] === 'number'
       ? affinity.compatibility[_dominantElement]
-      : 0.5;
+      : 0.5
   }
 
   // Proxy legacy/advanced methods for compatibility

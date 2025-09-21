@@ -6,15 +6,14 @@
  * This CLI provides a command-line interface for the safe batch processing
  * framework with enhanced safety protocols for unused variable elimination.
  *
- * Commands:
- *   - plan: Create a processing plan from analysis results
+ * Commands: *   - plan: Create a processing plan from analysis results
  *   - execute: Execute batch processing campaign
  *   - review: Handle manual review workflows
  *   - status: Check campaign status and progress
  */
 
 import fs from 'fs';
-import path from 'path';
+import path from 'path'
 
 import { program } from 'commander';
 
@@ -58,7 +57,7 @@ class BatchProcessingCLI {
   private orchestrator: BatchProcessingOrchestrator,
 
   constructor() {
-    this.orchestrator = new BatchProcessingOrchestrator({;
+    this.orchestrator = new BatchProcessingOrchestrator({
       outputDirectory: 'reports/batch-processing',
       generateReports: true,
       interactiveMode: false
@@ -74,14 +73,14 @@ class BatchProcessingCLI {
     }
 
     const reportContent = fs.readFileSync(reportPath, 'utf8');
-    const report: AnalysisReport = JSON.parse(reportContent);
+    const report: AnalysisReport = JSON.parse(reportContent)
 
     // Group variables by file
     const fileMap = new Map<string, any[]>();
 
     report.detailedResults
       .filter(result => !result.preservation.shouldPreserve);
-      .forEach(result => {;
+      .forEach(result => {
         const existing = fileMap.get(result.filePath);
         if (existing) {
           existing.push(result);
@@ -91,7 +90,7 @@ class BatchProcessingCLI {
       });
 
     // Convert to FileProcessingInfo
-    const files: FileProcessingInfo[] = [];
+    const files: FileProcessingInfo[] = []
 
     for (const [filePath, variables] of fileMap.entries()) {
       const firstVar = variables[0];
@@ -99,8 +98,8 @@ class BatchProcessingCLI {
       files.push({
         filePath,
         relativePath: firstVar.relativePath,
-        isHighImpact: firstVar.riskLevel === 'high',,;
-        isCritical: firstVar.fileType === 'calculations' || firstVar.fileType === 'services',,;
+        isHighImpact: firstVar.riskLevel === 'high',,
+        isCritical: firstVar.fileType === 'calculations' || firstVar.fileType === 'services',,
         unusedVariableCount: variables.length,
         riskLevel: this.mapRiskLevel(firstVar.riskLevel),
         fileType: firstVar.fileType
@@ -116,7 +115,7 @@ class BatchProcessingCLI {
   private mapRiskLevel(riskLevel: string): 'low' | 'medium' | 'high' {
     switch (riskLevel.toLowerCase()) {
       case 'high':
-        return 'high';
+        return 'high'
       case 'medium':
         return 'medium',
       default:
@@ -135,7 +134,7 @@ class BatchProcessingCLI {
       const plan = await this.orchestrator.createProcessingPlan(files);
 
       if (options.output) {
-        const planPath = path.resolve(options.output);
+        const planPath = path.resolve(options.output)
         fs.writeFileSync(planPath, JSON.stringify(plan, null, 2)),
         // // // console.log(`📄 Processing plan saved to: ${planPath}`);
       }
@@ -152,7 +151,7 @@ class BatchProcessingCLI {
    */
   async executeCampaign(reportPath: string, options: any): Promise<void> {
     try {
-      // // // console.log('🚀 Starting batch processing campaign...');
+      // // // console.log('🚀 Starting batch processing campaign...')
 
       // Configure orchestrator based on options
       const config: Partial<OrchestratorConfig> = {
@@ -179,7 +178,7 @@ class BatchProcessingCLI {
       if (options.dryRun) {
         // // // console.log('🔍 Dry run mode - no changes will be made');
         const plan = await this.orchestrator.createProcessingPlan(files);
-        // // // console.log('\n📊 Dry Run Results:');
+        // // // console.log('\n📊 Dry Run Results: ')
         // // // console.log(`   Files to process: ${plan.automaticProcessing.length}`);
         // // // console.log(`   Manual reviews needed: ${plan.manualReviewRequired.length}`);
         // // // console.log(`   Estimated batches: ${plan.estimatedBatches}`);
@@ -189,7 +188,7 @@ class BatchProcessingCLI {
       const campaign = await this.orchestrator.executeCampaign(files);
 
       // // // console.log('\n✅ Campaign completed successfully');
-      // // // console.log(`📊 Final Stats:`);
+      // // // console.log(`📊 Final Stats: `)
       // // // console.log(`   Processed: ${campaign.finalStats.totalProcessed}`);
       // // // console.log(`   Eliminated: ${campaign.finalStats.totalEliminated}`);
       // // // console.log(`   Preserved: ${campaign.finalStats.totalPreserved}`);
@@ -208,11 +207,11 @@ class BatchProcessingCLI {
       const pendingReviews = this.orchestrator.getPendingManualReviews();
 
       if (pendingReviews.length === 0) {;
-        // // // console.log('✅ No pending manual reviews');
+        // // // console.log('✅ No pending manual reviews')
         return
       }
 
-      // // // console.log(`👥 ${pendingReviews.length} manual reviews pending:`);
+      // // // console.log(`👥 ${pendingReviews.length} manual reviews pending: `)
 
       pendingReviews.forEach((review, index) => {
         // // // console.log(`\n${index + 1}. ${path.relative(process.cwd(), review.filePath)}`);
@@ -223,7 +222,7 @@ class BatchProcessingCLI {
 
       if (options.approve) {
         const filePath = path.resolve(options.approve);
-        const success = this.orchestrator.approveManualReview(filePath, options.notes),;
+        const success = this.orchestrator.approveManualReview(filePath, options.notes),
         if (success) {
           // // // console.log(`✅ Manual review approved for ${options.approve}`);
         } else {
@@ -234,7 +233,7 @@ class BatchProcessingCLI {
       if (options.reject) {
         const filePath = path.resolve(options.reject);
         const reason = options.reason || 'No reason provided';
-        const success = this.orchestrator.rejectManualReview(filePath, reason),;
+        const success = this.orchestrator.rejectManualReview(filePath, reason),
         if (success) {
           // // // console.log(`❌ Manual review rejected for ${options.reject}`);
         } else {
@@ -255,7 +254,7 @@ class BatchProcessingCLI {
       const campaign = this.orchestrator.getCurrentCampaign();
 
       if (!campaign) {
-        // // // console.log('ℹ️  No active campaign');
+        // // // console.log('ℹ️  No active campaign')
         return
       }
 
@@ -325,7 +324,7 @@ program
   .option('--reject <file>', 'Reject manual review for file')
   .option('--reason <text>', 'Reason for rejection')
   .option('--notes <text>', 'Reviewer notes for approval')
-  .action(async options => {;
+  .action(async options => {
     await cli.handleReviews(options);
   });
 

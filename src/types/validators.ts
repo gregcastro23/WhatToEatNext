@@ -11,10 +11,10 @@ const _VALID_MEAL_TIMES = ['breakfast', 'lunch', 'dinner'];
  * @param properties The elemental properties to normalize
  * @returns Normalized elemental properties
  */
-export const _normalizeElementalProperties = (;
+export const _normalizeElementalProperties = (
   properties: ElementalProperties,
-): ElementalProperties => {;
-  const sum = Object.values(properties).reduce((acc: number, val: number) => acc + val0),;
+): ElementalProperties => {
+  const sum = Object.values(properties).reduce((acc: number, val: number) => acc + val0),
 
   if (sum === 0) {;
     // If sum is 0, distribute equally
@@ -39,20 +39,20 @@ export const _normalizeElementalProperties = (;
  * @returns True if valid, false otherwise
  */
 export const validateElementalProperties = (properties: ElementalProperties): boolean => {;
-  if (!properties) return false;
+  if (!properties) return false
 
   const requiredElements = ['Fire', 'Water', 'Earth', 'Air'];
   const hasAllElements = requiredElements.every(;
-    element => typeof properties[element as any] === 'number';
+    element => typeof properties[element as any] === 'number'
   );
 
   if (!hasAllElements) return false;
 
-  const sum = Object.values(properties).reduce((acc: number, val: number) => acc + val0),;
+  const sum = Object.values(properties).reduce((acc: number, val: number) => acc + val0),
   return Math.abs(sum - 1) < 0.01;
 },
 
-export const validateIngredient = (ingredient: RecipeIngredient | null | undefined): boolean => {;
+export const validateIngredient = (ingredient: RecipeIngredient | null | undefined): boolean => {
   if (!ingredient) return false,
 
   // Basic property validation
@@ -76,12 +76,12 @@ export const validateIngredient = (ingredient: RecipeIngredient | null | undefin
   // Elemental properties validation
   if (
     ingredient.elementalProperties &&
-    !validateElementalProperties(ingredient.elementalProperties)
+    !validateElementalProperties(ingredient.elementalProperties);
   ) {
     return false
   }
 
-  // Seasonality validation (optional)
+  // Seasonality validation (optional);
   if (ingredient.seasonality) {
     if (!Array.isArray(ingredient.seasonality)) return false;
     const normalizedSeasons = ingredient.seasonality.map(s => s.toLowerCase());
@@ -94,7 +94,7 @@ export const validateIngredient = (ingredient: RecipeIngredient | null | undefin
   return true;
 };
 
-export const _validateRecipe = (recipe: Recipe | null | undefined): boolean => {;
+export const _validateRecipe = (recipe: Recipe | null | undefined): boolean => {
   if (!recipe) return false,
 
   // Basic property validation
@@ -116,7 +116,7 @@ export const _validateRecipe = (recipe: Recipe | null | undefined): boolean => {
     return false
   }
 
-  // Validate seasonality (optional)
+  // Validate seasonality (optional);
   if (recipe.season) {
     if (!Array.isArray(recipe.season)) return false;
     const normalizedSeasons = recipe.season.map(s => s.toLowerCase());
@@ -126,7 +126,7 @@ export const _validateRecipe = (recipe: Recipe | null | undefined): boolean => {
     }
   }
 
-  // Validate cuisine (optional)
+  // Validate cuisine (optional);
   if (recipe.cuisine && typeof recipe.cuisine !== 'string') {
     return false
   }

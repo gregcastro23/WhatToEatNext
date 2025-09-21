@@ -44,11 +44,11 @@ export function isIngredientItem(item: Item): item is IngredientItem {
 }
 
 export function isRecipeItem(item: Item): item is RecipeItem {
-  return item.type === 'recipe';
+  return item.type === 'recipe'
 }
 
 export function isFoodItem(item: Item): item is FoodItem {
-  return item.type === 'food';
+  return item.type === 'food'
 }
 
 // Utility types

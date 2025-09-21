@@ -27,16 +27,16 @@ export type AlchemicalAction =
 /**
  * Reducer for the AlchemicalContext
  */
-export const _alchemicalReducer = (;
+export const _alchemicalReducer = (
   state: AlchemicalState,
   action: AlchemicalAction,
-): AlchemicalState => {;
+): AlchemicalState => {
   switch (action.type) {
     case 'SET_SEASONAL_STATE':
       return {
         ...state,
         currentSeason: action.payload.season,
-        lastUpdated: new Date()
+        lastUpdated: new Date();
       };
 
     case 'SET_ELEMENTAL_PREFERENCE':
@@ -50,14 +50,14 @@ export const _alchemicalReducer = (;
           ...state.elementalPreference,
           [action.payload.element]: action.payload.value
         },
-        lastUpdated: new Date()
+        lastUpdated: new Date();
       };
 
     case 'SET_ELEMENTAL_STATE':
       return {
         ...state,
         elementalState: action.payload,
-        lastUpdated: new Date()
+        lastUpdated: new Date();
       };
 
     case 'SET_ZODIAC_ENERGY':
@@ -69,7 +69,7 @@ export const _alchemicalReducer = (;
           lunarEnergy: state.currentEnergy?.lunarEnergy || '',
           planetaryEnergy: state.currentEnergy?.planetaryEnergy || []
         },
-        lastUpdated: new Date()
+        lastUpdated: new Date();
       };
 
     case 'SET_LUNAR_ENERGY':
@@ -81,7 +81,7 @@ export const _alchemicalReducer = (;
           lunarEnergy: action.payload,
           planetaryEnergy: state.currentEnergy?.planetaryEnergy || []
         },
-        lastUpdated: new Date()
+        lastUpdated: new Date();
       };
 
     case 'SET_PLANETARY_ENERGY':
@@ -93,7 +93,7 @@ export const _alchemicalReducer = (;
           lunarEnergy: state.currentEnergy?.lunarEnergy || '',
           planetaryEnergy: action.payload
         },
-        lastUpdated: new Date()
+        lastUpdated: new Date();
       };
 
     case 'SET_ASTROLOGICAL_STATE':
@@ -105,9 +105,9 @@ export const _alchemicalReducer = (;
           lunarPhase: 'new moon',
           moonPhase: 'new moon',
           activePlanets: ['sun', 'moon'],
-          ...(action.payload && typeof action.payload === 'object' ? action.payload : {}),;
+          ...(action.payload && typeof action.payload === 'object' ? action.payload : {}),
         } as AstrologicalState,
-        lastUpdated: new Date()
+        lastUpdated: new Date();
       };
 
     case 'SET_ERROR':
@@ -116,7 +116,7 @@ export const _alchemicalReducer = (;
         error: true,
         errorMessage: action.payload.message,
         errors: [...state.errors, action.payload.message],
-        lastUpdated: new Date()
+        lastUpdated: new Date();
       };
 
     case 'CLEAR_ERROR':
@@ -124,35 +124,35 @@ export const _alchemicalReducer = (;
         ...state,
         error: false,
         errorMessage: '',
-        lastUpdated: new Date()
+        lastUpdated: new Date();
       };
 
     case 'ADD_ERROR':
       return {
         ...state,
         errors: [...state.errors, action.payload],
-        lastUpdated: new Date()
+        lastUpdated: new Date();
       };
 
     case 'UPDATE_STATE':
       return {
         ...state,
         ...action.payload,
-        lastUpdated: new Date()
+        lastUpdated: new Date();
       };
 
     case 'SET_ALCHEMICAL_VALUES':
       return {
         ...state,
         alchemicalValues: action.payload,
-        lastUpdated: new Date()
+        lastUpdated: new Date();
       };
 
     case 'SET_LUNAR_PHASE':
       return {
         ...state,
         lunarPhase: action.payload,
-        lastUpdated: new Date()
+        lastUpdated: new Date();
       };
 
     default:

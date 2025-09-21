@@ -23,6 +23,6 @@ export const _getLunarMultiplier = (phase: LunarPhase | null | undefined): numbe
       return 1.1; // Slight influence
     case 'new moon':
     default:
-      return 1.0; // Baseline influence
+      return 1.0 // Baseline influence
   }
 };

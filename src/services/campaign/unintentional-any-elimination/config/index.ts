@@ -23,7 +23,7 @@ export interface ClassificationConfig {
   /** Keywords that indicate intentional any usage */
   intentionalKeywords: string[];
   /** File patterns to treat as test files */
-  testFilePatterns: string[];
+  testFilePatterns: string[]
   /** Categories with their default confidence scores */
   categoryDefaults: Record<AnyTypeCategory, number>;
 }
@@ -47,7 +47,7 @@ export interface SafetyConfig {
   /** TypeScript compilation timeout in milliseconds */
   compilationTimeout: number;
   /** Maximum rollback attempts before stopping */
-  maxRollbackAttempts: number;
+  maxRollbackAttempts: number
   /** Safety level for different operations */
   safetyLevels: Record<string, SafetyLevel>;
   /** Backup retention period in days */
@@ -63,9 +63,9 @@ export interface TargetConfig {
   maxErrorIncrease: number;
   /** Progress tracking intervals */
   trackingIntervals: {
-    metrics: number; // minutes
-    reports: number; // hours
-    checkpoints: number; // files processed
+    metrics: number; // minutes,
+    reports: number // hours,
+    checkpoints: number // files processed
   };
   /** Realistic milestone targets */
   milestones: Array<{
@@ -81,7 +81,7 @@ export interface UnintentionalAnyConfig {
   safety: SafetyConfig,
   targets: TargetConfig,
   /** Configuration version for compatibility */
-  version: string;
+  version: string
   /** Last updated timestamp */
   lastUpdated: string
 }
@@ -89,7 +89,7 @@ export interface UnintentionalAnyConfig {
 /**
  * Default configuration values
  */
-export const DEFAULT_CONFIG: UnintentionalAnyConfig = {;
+export const, DEFAULT_CONFIG: UnintentionalAnyConfig = {
   classification: {
     intentionalThreshold: 0.8,
     unintentionalThreshold: 0.7,
@@ -109,7 +109,7 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {;
       '**/*.test.ts';
       '**/*.test.tsx';
       '**/*.spec.ts';
-      '**/*.spec.tsx';
+      '**/*.spec.tsx'
       '**/test/**',
       '**/tests/**',
       '**/__tests__/**'
@@ -191,19 +191,19 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {;
     ]
   },
   version: '1.0.0',
-  lastUpdated: new Date().toISOString()
+  lastUpdated: new Date().toISOString();
 };
 
 /**
  * Configuration Manager class
  */
 export class ConfigurationManager {
-  private config: UnintentionalAnyConfig;
-  private configPath: string;
+  private, config: UnintentionalAnyConfig;
+  private, configPath: string;
 
   constructor(configPath?: string) {
     this.configPath =
-      configPath ||;
+      configPath ||
       join(process.cwd(), '.kiro', 'campaign-configs', 'unintentional-any-elimination.json');
     this.config = this.loadConfig();
   }
@@ -345,8 +345,8 @@ export class ConfigurationManager {
   /**
    * Validate configuration
    */
-  validateConfig(): { isValid: boolean; errors: string[] } {
-    const errors: string[] = [];
+  validateConfig(): { isValid: boolean, errors: string[] } {
+    const, errors: string[] = []
 
     // Validate classification config
     const { classification } = this.config;
@@ -382,7 +382,7 @@ export class ConfigurationManager {
     }
 
     return {
-      isValid: errors.length === 0,;
+      isValid: errors.length === 0,
       errors
     };
   }

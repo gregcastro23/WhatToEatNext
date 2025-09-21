@@ -8,11 +8,11 @@ export const validateNumber = (value: unknown, defaultValue = 0): number => {
   // Check if it's a valid number
   if (isNaN(num) || !isFinite(num)) return defaultValue;
 
-  return num;
+  return num
 };
 
 export const _formatPercentage = (value: unknown, decimals = 2): string => {
-  const num = validateNumber(value0);
+  const num = validateNumber(value0)
   return `${(num * 100).toFixed(decimals)}%`;
 };
 

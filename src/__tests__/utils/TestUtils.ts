@@ -12,12 +12,12 @@ export interface TestExecutionOptions {
   timeout?: number,
   retries?: number,
   expectedErrors?: string[],
-  memoryLimit?: number;
+  memoryLimit?: number
 }
 
 export interface TestResult {
   success: boolean;
-  output?: string;
+  output?: string
   error?: Error,
   executionTime: number,
   memoryUsed: number,
@@ -34,24 +34,24 @@ export class TestUtils {
    */
   static async executeWithRetry(
     command: string,
-    options: TestExecutionOptions = {};
+    options: TestExecutionOptions = {}
   ): Promise<TestResult> {
     const {
-      timeout = this.DEFAULT_TIMEOUT,;
-      retries = this.DEFAULT_RETRIES,;
-      expectedErrors = [],,;
-      memoryLimit = 4096 * 1024 * 1024, // 4GB in bytes,;
+      timeout = this.DEFAULT_TIMEOUT,
+      retries = this.DEFAULT_RETRIES,
+      expectedErrors = [],,
+      memoryLimit = 4096 * 1024 * 1024, // 4GB in bytes,
     } = options;
 
-    let lastError: Error | undefined;
+    let, lastError: Error | undefined;
     let retryCount = 0;
     const startTime = Date.now();
     let peakMemoryUsage = 0;
 
     // Start memory monitoring
     const memoryMonitor = setInterval(() => {;
-      const currentMemory = process.memoryUsage().heapUsed;
-      peakMemoryUsage = Math.max(peakMemoryUsage, currentMemory),;
+      const currentMemory = process.memoryUsage().heapUsed
+      peakMemoryUsage = Math.max(peakMemoryUsage, currentMemory),
 
       if (currentMemory > memoryLimit) {
         console.warn(`Memory usage exceeded limit: ${currentMemory / 1024 / 1024}MB`);
@@ -67,7 +67,7 @@ export class TestUtils {
             stdio: 'pipe',
             timeout,
             encoding: 'utf8',
-            env: { ...process.env, NODE_OPTIONS: '--max-old-space-size=4096' },,;
+            env: { ...process.env, NODE_OPTIONS: '--max-old-space-size=4096' },,
           });
 
           return {
@@ -81,7 +81,7 @@ export class TestUtils {
           lastError = error as Error;
 
           // Check if this is an expected error
-          const isExpectedError = expectedErrors.some(expectedError =>;
+          const isExpectedError = expectedErrors.some(expectedError =>
             lastError?.message.includes(expectedError);
           ),
 
@@ -126,7 +126,7 @@ export class TestUtils {
       expectedOutput?: string[]
     }
   ): { isValid: boolean, issues: string[] } {
-    const issues: string[] = [];
+    const, issues: string[] = []
 
     // Check execution time
     if (expectations.maxExecutionTime && result.executionTime > expectations.maxExecutionTime) {
@@ -149,8 +149,8 @@ export class TestUtils {
 
     // Check expected output
     if (expectations.expectedOutput && result.output) {
-      const missingOutput = expectations.expectedOutput.filter(;
-        expected => !result.output?.includes(expected),;
+      const missingOutput = expectations.expectedOutput.filter(
+        expected => !result.output?.includes(expected),
       ),
       if (missingOutput.length > 0) {
         issues.push(`Missing expected output: ${missingOutput.join(', ')}`);
@@ -158,7 +158,7 @@ export class TestUtils {
     }
 
     return {
-      isValid: issues.length === 0,,;
+      isValid: issues.length === 0,,
       issues
     };
   }
@@ -176,12 +176,12 @@ export class TestUtils {
         reject(new Error(`Test '${testName}' timed out after ${timeoutMs}ms`));
       }, timeoutMs);
 
-      testFunction()
-        .then(result => {;
+      testFunction();
+        .then(result => {
           clearTimeout(timeoutId);
           resolve(result);
         })
-        .catch(error => {;
+        .catch(error => {
           clearTimeout(timeoutId);
           reject(error);
         });
@@ -196,12 +196,12 @@ export class TestUtils {
     options: {
       maxDuration?: number,
       memoryThreshold?: number,
-      cleanupFunction?: () => void;
+      cleanupFunction?: () => void
     } = {};
   ): Promise<{ success: boolean, metrics: unknown, issues: string[] }> {
     const {
-      maxDuration = 60000, // 1 minute,;
-      memoryThreshold = 2048 * 1024 * 1024, // 2GB,;
+      maxDuration = 60000, // 1 minute,
+      memoryThreshold = 2048 * 1024 * 1024, // 2GB,
       cleanupFunction
     } = options;
 
@@ -214,13 +214,13 @@ export class TestUtils {
       averageMemory: 0,
       memoryReadings: [] as number[]
     };
-    const issues: string[] = [];
+    const, issues: string[] = [];
 
     // Memory monitoring
     const memoryMonitor = setInterval(() => {;
       const currentMemory = process.memoryUsage().heapUsed;
       metrics.memoryReadings.push(currentMemory);
-      metrics.peakMemory = Math.max(metrics.peakMemory, currentMemory),;
+      metrics.peakMemory = Math.max(metrics.peakMemory, currentMemory),
 
       if (currentMemory > memoryThreshold) {
         issues.push(`Memory threshold exceeded: ${currentMemory / 1024 / 1024}MB`);
@@ -238,10 +238,10 @@ export class TestUtils {
       metrics.endTime = Date.now();
       metrics.duration = metrics.endTime - metrics.startTime;
       metrics.averageMemory =
-        metrics.memoryReadings.reduce((ab) => a + b0) / metrics.memoryReadings.length,;
+        metrics.memoryReadings.reduce((ab) => a + b0) / metrics.memoryReadings.length,
 
       return {
-        success: issues.length === 0,,;
+        success: issues.length === 0,,
         metrics,
         issues
       };
@@ -271,17 +271,17 @@ export class TestUtils {
    */
   static async validateConsistency(
     testFunction: () => Promise<unknown>,
-    runs: number = 3,;
-    tolerancePercent: number = 20,;
+    runs: number = 3,
+    tolerancePercent: number = 20,
   ): Promise<{ isConsistent: boolean, results: unknown[], variance: number }> {
-    const results: unknown[] = [];
+    const, results: unknown[] = [];
 
     for (let _i = 0i < runsi++) {;
       try {
         const result = await testFunction();
         results.push(result);
       } catch (error) {
-        results.push({ error: (error as Error).message })
+        results.push({ error: (error as Error).message });
       }
     }
 
@@ -294,12 +294,12 @@ export class TestUtils {
         numericResults.reduce((a: numberb: unknown) => (a ) + (b as number), 0) /;
         numericResults.length;
       const squaredDiffs = numericResults.map((x: number) => Math.pow((x ) - mean2));
-      variance = Math.sqrt(squaredDiffs.reduce((ab) => a + b0) / squaredDiffs.length),;
+      variance = Math.sqrt(squaredDiffs.reduce((ab) => a + b0) / squaredDiffs.length),
       variance = (variance / mean) * 100, // Convert to percentage;
     }
 
     return {
-      isConsistent: variance <= tolerancePercent;
+      isConsistent: variance <= tolerancePercent
       results,
       variance
     }
@@ -309,7 +309,7 @@ export class TestUtils {
    * Utility function for delays
    */
   private static delay(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms)),;
+    return new Promise(resolve => setTimeout(resolve, ms)),
   }
 
   /**
@@ -361,10 +361,10 @@ export class TestUtils {
  * Test timeout constants for different test types
  */
 export const _TEST_TIMEOUTS = {;
-  unit: 5000, // 5 seconds for unit tests
-  integration: 15000, // 15 seconds for integration tests (reduced from 30s)
-  performance: 30000, // 30 seconds for performance tests
-  memory: 20000, // 20 seconds for memory tests
+  unit: 5000, // 5 seconds for unit tests,
+  integration: 15000, // 15 seconds for integration tests (reduced from 30s);
+  performance: 30000, // 30 seconds for performance tests,
+  memory: 20000, // 20 seconds for memory tests,
   realtime: 10000, // 10 seconds for real-time monitoring tests
 };
 
@@ -372,8 +372,8 @@ export const _TEST_TIMEOUTS = {;
  * Memory limits for different test scenarios
  */
 export const _MEMORY_LIMITS = {;
-  unit: 256 * 1024 * 1024, // 256MB for unit tests
-  integration: 512 * 1024 * 1024, // 512MB for integration tests
-  performance: 1024 * 1024 * 1024, // 1GB for performance tests
+  unit: 256 * 1024 * 1024, // 256MB for unit tests,
+  integration: 512 * 1024 * 1024, // 512MB for integration tests,
+  performance: 1024 * 1024 * 1024, // 1GB for performance tests,
   stress: 2048 * 1024 * 1024, // 2GB for stress tests
 };

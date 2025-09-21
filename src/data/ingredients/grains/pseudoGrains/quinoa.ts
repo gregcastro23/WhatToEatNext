@@ -1,7 +1,7 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawQuinoa = {;
+const rawQuinoa = {
   quinoa: {
     name: 'Quinoa',
     elementalProperties: { Earth: 0.3, Water: 0.2, Air: 0.3, Fire: 0.2 },

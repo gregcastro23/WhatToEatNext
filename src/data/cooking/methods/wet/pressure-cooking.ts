@@ -5,7 +5,7 @@ import type { CookingMethod } from '@/types/shared';
  * Pressure Cooking: A cooking method that uses steam under pressure to cook food
  * quickly while retaining moisture and developing flavors
  */
-export const _pressureCooking: CookingMethodData = {;
+export const _pressureCooking: CookingMethodData = {
   name: 'Pressure Cooking' as CookingMethod,
   description:
     'A cooking method that uses steam pressure in a sealed vessel to cook food quickly. The high pressure raises the boiling point of water, allowing food to cook at higher temperatures and much faster than conventional methods.',

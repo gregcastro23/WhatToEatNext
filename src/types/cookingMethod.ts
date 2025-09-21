@@ -12,7 +12,7 @@ export interface CookingMethodData {
   name: CookingMethod,
   description: string,
   elementalEffect: ElementalProperties,
-  elementalProperties?: ElementalProperties; // Some methods use this property name instead
+  elementalProperties?: ElementalProperties // Some methods use this property name instead
   duration: {
     min: number,
     max: number
@@ -23,17 +23,17 @@ export interface CookingMethodData {
   // Optional properties
   astrologicalInfluences?: {
     favorableZodiac?: any[];
-    unfavorableZodiac?: any[];
+    unfavorableZodiac?: any[]
     lunarPhaseEffect?: Record<string, number>;
-    dominantPlanets?: string[];
-    rulingPlanets?: string[];
+    dominantPlanets?: string[]
+    rulingPlanets?: string[]
   };
 
   thermodynamicProperties?: ThermodynamicProperties;
 
   toolsRequired?: string[];
   commonMistakes?: string[];
-  pairingSuggestions?: string[];
+  pairingSuggestions?: string[]
   chemicalChanges?: Record<string, boolean>;
   optimalTemperatures?: Record<string, number>;
   nutrientRetention?: Record<string, number>;
@@ -48,7 +48,7 @@ export interface CookingMethodData {
   relatedToMainMethod?: string;
 
   // Fields used for scoring and recommendations
-  score?: number;
+  score?: number
   scoreDetails?: Record<string, number>;
   planetaryAffinity?: number;
 
@@ -61,7 +61,7 @@ export interface CookingMethodData {
   healthConsiderations?: string[];
 
   // Detailed cooking technique information
-  expertTips?: string[];
+  expertTips?: string[]
   ingredientPreparation?: Record<string, string>;
   timingConsiderations?: Record<string, string>;
   doneness_indicators?: Record<string, string>;

@@ -39,21 +39,21 @@ export interface UnifiedDataAdapterInterface {
   getIngredient(name: string): EnhancedIngredient | undefined;
   getIngredientsByCategory(category: string): EnhancedIngredient[];
   searchIngredients(criteria: IngredientSearchCriteria): EnhancedIngredient[];
-  getSeasonalIngredients(season: string): EnhancedIngredient[];
+  getSeasonalIngredients(season: string): EnhancedIngredient[]
 
   // Flavor profile operations
   getFlavorProfile(
     id: string,
     type?: 'cuisine' | 'planetary' | 'ingredient' | 'elemental',
-  ): UnifiedFlavorProfile | undefined;
+  ): UnifiedFlavorProfile | undefined
   calculateFlavorCompatibility(
     profile1: UnifiedFlavorProfile,
     profile2: UnifiedFlavorProfile,
-  ): number;
+  ): number
 
   // Elemental operations
   calculateElementalCompatibility(props1: ElementalProperties, props2: ElementalProperties): number;
-  createElementalProperties(partialProps?: Partial<ElementalProperties>): ElementalProperties;
+  createElementalProperties(partialProps?: Partial<ElementalProperties>): ElementalProperties
 }
 
 /**
@@ -67,7 +67,7 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
    */
   getIngredient(name: string): EnhancedIngredient | undefined {
     try {
-      return getEnhancedIngredient(name);
+      return getEnhancedIngredient(name)
     } catch (error) {
       console.error(`Error getting ingredient ${name}:`, error);
       return undefined;
@@ -79,7 +79,7 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
    */
   getIngredientsByCategory(category: string): EnhancedIngredient[] {
     try {
-      return getIngredientsByCategory(category);
+      return getIngredientsByCategory(category)
     } catch (error) {
       console.error(`Error getting ingredients in category ${category}:`, error);
       return [];
@@ -91,7 +91,7 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
    */
   searchIngredients(criteria: IngredientSearchCriteria): EnhancedIngredient[] {
     try {
-      return searchIngredients(criteria as unknown);
+      return searchIngredients(criteria as unknown)
     } catch (error) {
       console.error('Error searching ingredients:', error);
       return [];
@@ -103,7 +103,7 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
    */
   getSeasonalIngredients(season: string): EnhancedIngredient[] {
     try {
-      return getIngredientsByCategory(season);
+      return getIngredientsByCategory(season)
     } catch (error) {
       console.error(`Error getting seasonal ingredients for ${season}:`, error);
       return [];
@@ -160,7 +160,7 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
    * Create elemental properties with default values
    */
   createElementalProperties(partialProps?: Partial<ElementalProperties>): ElementalProperties {
-    return createElementalProperties(partialProps);
+    return createElementalProperties(partialProps)
   }
 }
 

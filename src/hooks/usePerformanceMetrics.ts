@@ -23,7 +23,7 @@ export interface ComponentPerformanceData {
   memoryImpact: number
 }
 
-export const _usePerformanceMetrics = (componentName?: string) => {;
+export const _usePerformanceMetrics = (componentName?: string) => {
   const [metrics, setMetrics] = useState<PerformanceMetrics>({
     renderTime: 0,
     dataFetchTime: 0,
@@ -63,14 +63,14 @@ export const _usePerformanceMetrics = (componentName?: string) => {;
     setMetrics(prev => ({;
       ...prev;
       renderTime,
-      componentRenderCount: renderCountRef.current;
+      componentRenderCount: renderCountRef.current
       averageRenderTime,
-      lastUpdated: new Date()
+      lastUpdated: new Date();
     }));
   }, []);
 
   // Track data fetch performance
-  const trackDataFetch = useCallback(;
+  const trackDataFetch = useCallback(
     async <T>(fetchFunction: () => Promise<T>, operationName?: string): Promise<T> => {
       const startTime = performance.now();
 
@@ -78,10 +78,10 @@ export const _usePerformanceMetrics = (componentName?: string) => {;
         const result = await fetchFunction();
         const fetchTime = performance.now() - startTime;
 
-        setMetrics(prev => ({;
-          ...prev;
+        setMetrics(prev => ({
+          ...prev,
           dataFetchTime: fetchTime,
-          lastUpdated: new Date()
+          lastUpdated: new Date();
         }));
 
         return result;
@@ -90,11 +90,11 @@ export const _usePerformanceMetrics = (componentName?: string) => {;
         errorCountRef.current += 1;
 
         setMetrics(prev => ({;
-          ...prev;
+          ...prev,
           dataFetchTime: fetchTime,
           errorCount: errorCountRef.current,
           totalErrors: prev.totalErrors + 1,
-          lastUpdated: new Date()
+          lastUpdated: new Date();
         }));
 
         throw error;
@@ -114,24 +114,24 @@ export const _usePerformanceMetrics = (componentName?: string) => {;
       }
 
       setMetrics(prev => ({;
-        ...prev;
+        ...prev,
         memoryUsage: currentMemory,
         peakMemoryUsage: peakMemoryRef.current,
-        lastUpdated: new Date()
+        lastUpdated: new Date();
       }));
     }
   }, []);
 
   // Track errors
-  const trackError = useCallback(;
+  const trackError = useCallback(
     (error: Error | string) => {
       errorCountRef.current += 1;
 
-      setMetrics(prev => ({;
-        ...prev;
+      setMetrics(prev => ({
+        ...prev,
         errorCount: errorCountRef.current,
         totalErrors: prev.totalErrors + 1,
-        lastUpdated: new Date()
+        lastUpdated: new Date();
       }));
 
       // Log error for debugging
@@ -171,7 +171,7 @@ export const _usePerformanceMetrics = (componentName?: string) => {;
 
     return () => {
       window.removeEventListener('error', handleError),
-      window.removeEventListener('unhandledrejection', handleUnhandledRejection)
+      window.removeEventListener('unhandledrejection', handleUnhandledRejection);
     };
   }, [trackError]);
 
@@ -199,7 +199,7 @@ export const _usePerformanceMetrics = (componentName?: string) => {;
   const getPerformanceSummary = useCallback(() => {;
     return {
       componentName: componentName || 'Unknown',
-      isPerformant: metrics.averageRenderTime < 16, // 60fps threshold
+      isPerformant: metrics.averageRenderTime < 16, // 60fps threshold,
       hasMemoryLeaks: metrics.memoryUsage > ((metrics as any)?.peakMemoryUsage || 0) * 0.2,
       errorRate: metrics.totalErrors / Math.max(metrics.componentRenderCount, 1),
       recommendations: []

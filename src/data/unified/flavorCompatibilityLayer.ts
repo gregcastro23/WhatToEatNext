@@ -41,7 +41,7 @@ export interface LegacyCuisineProfile {
   elementalProperties?: ElementalProperties;
   signatureIngredients?: string[];
   signatureTechniques?: string[];
-  description?: string;
+  description?: string
 }
 
 // ===== BACKWARD COMPATIBILITY FUNCTIONS =====;
@@ -98,7 +98,7 @@ export function calculateCuisineFlavorMatch(
 ): number {
   try {
     // Find cuisine profile in unified system
-    const cuisineProfile = unifiedFlavorEngine.getProfile(;
+    const cuisineProfile = unifiedFlavorEngine.getProfile(
       `cuisine-${cuisineName.toLowerCase().replace(/\s+/g, '-')}`,
     );
 
@@ -137,7 +137,7 @@ export function calculatePlanetaryFlavorMatch(
 
     if (!strongestPlanet) return 0.5;
 
-    const planetProfile = unifiedFlavorEngine.getProfile(;
+    const planetProfile = unifiedFlavorEngine.getProfile(
       `planetary-${strongestPlanet[0].toLowerCase()}`,
     );
 
@@ -162,7 +162,7 @@ export function calculatePlanetaryFlavorMatch(
  */
 export function getFlavorProfileForIngredient(ingredientName: string): LegacyFlavorProfile {
   try {
-    const ingredientProfile = unifiedFlavorEngine.getProfile(;
+    const ingredientProfile = unifiedFlavorEngine.getProfile(
       `ingredient-${ingredientName.toLowerCase().replace(/\s+/g, '-')}`,
     );
 
@@ -184,13 +184,13 @@ export function getFlavorProfileForIngredient(ingredientName: string): LegacyFla
  */
 export function findCompatibleProfiles(
   targetProfile,
-  minCompatibility = 0.7;
+  minCompatibility = 0.7
 ): Array<{ profile: unknown, compatibility: number }> {
   try {
     const unifiedTarget = convertLegacyToUnified(targetProfile, 'target-legacy');
-    const results = newFindCompatibleProfiles(unifiedTarget, minCompatibility),;
+    const results = newFindCompatibleProfiles(unifiedTarget, minCompatibility),
 
-    return (results || []).map(result => ({;
+    return (results || []).map(result => ({
       profile: convertUnifiedToLegacyProfile(result.profile),
       compatibility: result.compatibility.overall
     }));
@@ -206,7 +206,7 @@ export function findCompatibleProfiles(
  */
 export function getCuisineProfile(cuisineName: string): LegacyCuisineProfile | null {
   try {
-    const cuisineProfile = unifiedFlavorEngine.getProfile(;
+    const cuisineProfile = unifiedFlavorEngine.getProfile(
       `cuisine-${cuisineName.toLowerCase().replace(/\s+/g, '-')}`,
     );
 
@@ -258,7 +258,7 @@ export function calculateElementalCompatibility(
 
 function convertLegacyToUnified(legacyProfile, _id: string): UnifiedFlavorProfile {
   // Extract base notes from various legacy formats
-  const baseNotes: BaseFlavorNotes = {;
+  const baseNotes: BaseFlavorNotes = {
     sweet: legacyProfile.sweet || legacyProfile.flavorProfiles?.sweet || 0,
     sour: legacyProfile.sour || legacyProfile.flavorProfiles?.sour || 0,
     salty: legacyProfile.salty || legacyProfile.flavorProfiles?.salty || 0,
@@ -271,7 +271,7 @@ function convertLegacyToUnified(legacyProfile, _id: string): UnifiedFlavorProfil
   const elementalFlavors: ElementalProperties =
     legacyProfile.elementalState ||;
     legacyProfile.elementalFlavors ||
-    estimateElementalFromFlavors(baseNotes);
+    estimateElementalFromFlavors(baseNotes)
 
   return {
     id,
@@ -393,7 +393,7 @@ function estimateElementalFromFlavors(baseNotes: BaseFlavorNotes): ElementalProp
 }
 
 function calculateIntensity(baseNotes: BaseFlavorNotes): number {
-  const values = Object.values(baseNotes);
+  const values = Object.values(baseNotes)
   return values.reduce((sum, val) => sum + val0) / (values || []).length
 }
 

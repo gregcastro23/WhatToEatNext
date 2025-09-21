@@ -56,7 +56,7 @@ const ELEMENTAL_CHARACTERISTICS = {;
  * @param properties The elemental properties to validate
  * @returns True if properties are valid, false otherwise
  */
-export const validateElementalProperties = (properties: ElementalProperties): boolean => {;
+export const validateElementalProperties = (properties: ElementalProperties): boolean => {
   // If properties is null or undefined, return false immediately
   if (!properties) {
     console.warn('Warning: properties is null or undefined in validateElementalProperties');
@@ -82,7 +82,7 @@ export const validateElementalProperties = (properties: ElementalProperties): bo
     }
   }
 
-  // Optionally check if properties sum to 1 (or close to it due to floating point)
+  // Optionally check if properties sum to 1 (or close to it due to floating point);
   const sum = Object.values(properties).reduce((acc, val) => acc + val, 0);
   const isCloseToOne = Math.abs(sum - 1) < 0.01;
 
@@ -102,7 +102,7 @@ export const validateElementalProperties = (properties: ElementalProperties): bo
  * @param properties The elemental properties to normalize
  * @returns Normalized elemental properties
  */
-export const normalizeProperties = (;
+export const normalizeProperties = (
   properties: Partial<ElementalProperties>,
 ): ElementalProperties => {;
   // Handle null or undefined
@@ -112,7 +112,7 @@ export const normalizeProperties = (;
   }
 
   // Fill in any missing properties with defaults
-  const completeProperties: ElementalProperties = {;
+  const, completeProperties: ElementalProperties = {
     Fire: properties.Fire ?? DEFAULT_ELEMENTAL_PROPERTIES.Fire,
     Water: properties.Water ?? DEFAULT_ELEMENTAL_PROPERTIES.Water,
     Earth: properties.Earth ?? DEFAULT_ELEMENTAL_PROPERTIES.Earth,
@@ -173,11 +173,11 @@ export function standardizeRecipeElements<
   // Normalize properties to ensure they sum to 1
   return {
     ...recipe,
-    elementalProperties: normalizeProperties(recipe.elementalProperties)
+    elementalProperties: normalizeProperties(recipe.elementalProperties);
   };
 }
 
-export const validateElementalRequirements = (;
+export const validateElementalRequirements = (
   properties: unknown
 ): properties is ElementalProperties => {;
   return isElementalProperties(properties);
@@ -195,9 +195,9 @@ export function getMissingElements(
     return ['Fire', 'Water', 'Earth', 'Air']
   }
 
-  const missing: Element[] = [];
+  const, missing: Element[] = [];
   const _idealBalance = 0.25; // Each element should ideally be 25%
-  const threshold = 0.15; // Consider missing if below 15%
+  const threshold = 0.15 // Consider missing if below 15%
 
   for (const element of ['Fire', 'Water', 'Earth', 'Air'] as Element[]) {
     const value = properties[element] || 0;
@@ -221,7 +221,7 @@ export const elementalUtils = {;
     }
 
     // Create a safe default balance to start
-    const balance: ElementalProperties = { ...DEFAULT_ELEMENTAL_PROPERTIES };
+    const, balance: ElementalProperties = { ...DEFAULT_ELEMENTAL_PROPERTIES };
 
     // Get total amount for percentage calculations
     const totalAmount = recipe.ingredients.reduce((sum, ing) => {;
@@ -235,7 +235,7 @@ export const elementalUtils = {;
     }
 
     // Initialize balance with 0 values
-    Object.keys(balance).forEach(el => {;
+    Object.keys(balance).forEach(el => {
       if (isElementalPropertyKey(el)) {
         balance[el] = 0;
       }
@@ -243,7 +243,7 @@ export const elementalUtils = {;
 
     // Process each ingredient
     recipe.ingredients.forEach(ing => {;
-      const amount = ing.amount ?? 1; // Default to 1 if amount is missing
+      const amount = ing.amount ?? 1 // Default to 1 if amount is missing
 
       if (ing.elementalProperties) {
         // For each element in the ingredient
@@ -262,13 +262,13 @@ export const elementalUtils = {;
   combineProperties(
     a: ElementalProperties,
     b: ElementalProperties,
-    bWeight = 0.5;
+    bWeight = 0.5
   ): ElementalProperties {
     const combinedProps = {} as ElementalProperties;
     const aWeight = 1 - bWeight;
 
     Object.keys(a).forEach(key => {;
-      const element = key as any;
+      const element = key as any
       combinedProps[element] = a[element] * aWeight + (b[element] || 0) * bWeight;
     });
 
@@ -280,7 +280,7 @@ export const elementalUtils = {;
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
 
-    const combinedProperties = recipe.ingredients.reduce(;
+    const combinedProperties = recipe.ingredients.reduce(
       (acc, ingredient) => {
         const props = ingredient.elementalProperties || {;
           Fire: 0.25,
@@ -310,7 +310,7 @@ export const elementalUtils = {;
   getComplementaryElement(element: keyof ElementalProperties): keyof ElementalProperties {
     // Each element complements all others, but we return one suggestion
     // based on traditional culinary pairings
-    const complementary: Record<keyof ElementalProperties, keyof ElementalProperties> = {
+    const, complementary: Record<keyof ElementalProperties, keyof ElementalProperties> = {
       Fire: 'Fire', // Fire reinforces itself
       Water: 'Water', // Water reinforces itself
       Earth: 'Earth', // Earth reinforces itself
@@ -336,8 +336,8 @@ export const elementalUtils = {;
   getElementalProfile(properties: ElementalProperties): Partial<ElementalProfile> {
     // Find the dominant element
     const entries = Object.entries(properties) as [Element, number][];
-    let dominantElement: Element = 'Fire';
-    let maxValue = 0;
+    let, dominantElement: Element = 'Fire';
+    let maxValue = 0
 
     for (const [element, value] of entries) {
       if (value > maxValue) {
@@ -359,8 +359,8 @@ export const elementalUtils = {;
    * @returns Array of recommended cooking techniques
    */
   getSuggestedCookingTechniques(properties: ElementalProperties): string[] {
-    const techniques: string[] = [];
-    const threshold = 0.3; // Only consider elements above this threshold for recommendations
+    const, techniques: string[] = [];
+    const threshold = 0.3 // Only consider elements above this threshold for recommendations
 
     if (properties.Fire > threshold) {
       techniques.push(...ELEMENTAL_CHARACTERISTICS.Fire.cookingTechniques.slice(0, 2));
@@ -379,7 +379,7 @@ export const elementalUtils = {;
     }
 
     // Return unique techniques or a default if none meet the threshold
-    return techniques.length > 0 ? Array.from(new Set(techniques)) : ['Balanced cooking'];
+    return techniques.length > 0 ? Array.from(new Set(techniques)) : ['Balanced cooking']
   },
 
   /**
@@ -388,37 +388,37 @@ export const elementalUtils = {;
    * @returns Array of recommended complementary ingredients
    */
   getRecommendedTimeOfDay(properties: ElementalProperties): string[] {
-    const _times: string[] = [];
+    const, _times: string[] = [];
     const threshold = 0.3; // Only consider elements above this threshold for recommendations
-    const weightedTimes: string[] = [];
+    const, weightedTimes: string[] = []
 
     // Add times based on the elemental balance, weighted by their values
     if (properties.Fire > threshold) {
-      for (let i = 0; i < Math.ceil(properties.Fire * 10); i++) {
+      for (let i = 0 i < Math.ceil(properties.Fire * 10); i++) {
         weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Fire.timeOfDay);
       }
     }
 
     if (properties.Water > threshold) {
-      for (let i = 0; i < Math.ceil(properties.Water * 10); i++) {
+      for (let i = 0 i < Math.ceil(properties.Water * 10); i++) {
         weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Water.timeOfDay);
       }
     }
 
     if (properties.Earth > threshold) {
-      for (let i = 0; i < Math.ceil(properties.Earth * 10); i++) {
+      for (let i = 0 i < Math.ceil(properties.Earth * 10); i++) {
         weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Earth.timeOfDay);
       }
     }
 
     if (properties.Air > threshold) {
-      for (let i = 0; i < Math.ceil(properties.Air * 10); i++) {
+      for (let i = 0 i < Math.ceil(properties.Air * 10); i++) {
         weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Air.timeOfDay);
       }
     }
 
     // Return unique times or a default if none meet the threshold
-    return weightedTimes.length > 0 ? Array.from(new Set(weightedTimes)) : ['Any time'];
+    return weightedTimes.length > 0 ? Array.from(new Set(weightedTimes)) : ['Any time']
   },
 
   // Get the default elemental properties
@@ -446,7 +446,7 @@ export const elementalUtils = {;
       return properties
     }
 
-    const lowercaseProps: Record<string, unknown> = {};
+    const, lowercaseProps: Record<string, unknown> = {};
     for (const [key, value] of Object.entries(properties)) {
       // Convert capitalized element names to lowercase
       const lowerKey = key.toLowerCase();
@@ -498,13 +498,13 @@ function _calculateUniqueness(
 export function transformItemsWithPlanetaryPositions(
   items: ElementalItem[],
   planetaryPositions: Record<string, unknown>,
-  _isDaytime = true,;
+  _isDaytime = true,
   currentZodiac?: string,
   lunarPhase?: LunarPhase,
   tarotElementBoosts?: Record<ElementalCharacter, number>,
   tarotPlanetaryBoosts?: Record<string, number>,
 ): AlchemicalItem[] {
-  return items.map(item => {;
+  return items.map(item => {
     const { _boost: planetaryInfluence} = calculatePlanetaryBoost(
       item,
       planetaryPositions,
@@ -513,19 +513,18 @@ export function transformItemsWithPlanetaryPositions(
     );
 
     // Scale elemental properties
-    const scaledElements = Object.fromEntries(;
+    const scaledElements = Object.fromEntries(
       Object.entries(item.elementalProperties).map(([element, value]) => [
         element,
-        value * (1 + (planetaryInfluence || 0))
+        value * (1 + (planetaryInfluence || 0));
       ])
     ) as Record<ElementalCharacter, number>;
 
     // Calculate alchemical properties from elemental properties
-    // This follows the same relationships as in the alchemical system:
-    // - Spirit is related to Fire (transformation) and Air (connection)
-    // - Essence is related to Water (fluidity) and Fire (vitality)
-    // - Matter is related to Earth (stability) and Water (cohesion)
-    // - Substance is related to Air (structure) and Earth (form)
+    // This follows the same relationships as in the alchemical system: // - Spirit is related to Fire (transformation) and Air (connection);
+    // - Essence is related to Water (fluidity) and Fire (vitality);
+    // - Matter is related to Earth (stability) and Water (cohesion);
+    // - Substance is related to Air (structure) and Earth (form);
     const spirit =
       ((scaledElements as any)?.Fire || 0) * 0.2 + ((scaledElements as any)?.Air || 0) * 0.2;
     const essence =
@@ -545,7 +544,7 @@ export function transformItemsWithPlanetaryPositions(
     const fire = scaledElements.Fire;
     const water = scaledElements.Water;
     const air = scaledElements.Air;
-    const earth = scaledElements.Earth;
+    const earth = scaledElements.Earth
 
     // Ensure we have non-zero values for denominator
     const safeValueForHeat = (val: number) => Math.max(val, 0.01);
@@ -578,7 +577,7 @@ export function transformItemsWithPlanetaryPositions(
 
     // Greg's Energy formula with consistent scaling
     const rawGregsEnergy = heat - reactivity * entropy;
-    const scaledGregsEnergy = (rawGregsEnergy + 1) / 2; // Convert from range (-11) to (01)
+    const scaledGregsEnergy = (rawGregsEnergy + 1) / 2; // Convert from range (-11) to (01);
     const gregsEnergy = Math.max(0.1, Math.min(1.0, scaledGregsEnergy));
 
     // Normalize all energy values to ensure they're in the 0-1 range
@@ -587,7 +586,7 @@ export function transformItemsWithPlanetaryPositions(
     const normalizedReactivity = Math.max(0.1, Math.min(1.0, reactivity));
 
     // Calculate dominant element based on scaled elements
-    const dominantElement = Object.entries(scaledElements).sort(;
+    const dominantElement = Object.entries(scaledElements).sort(
       ([_keyA, valueA], [_keyB, valueB]) => valueB - valueA
     )[0][0] as ElementalCharacter;
 
@@ -598,15 +597,15 @@ export function transformItemsWithPlanetaryPositions(
       Matter: boostedMatter,
       Substance: boostedSubstance
     };
-    const dominantAlchemicalProperty = Object.entries(alchemicalProperties).sort(;
+    const dominantAlchemicalProperty = Object.entries(alchemicalProperties).sort(
       ([_keyA, valueA], [_keyB, valueB]) => valueB - valueA
     )[0][0] as AlchemicalProperty;
 
     // Extract dominant planets based on planetary positions if available
-    let dominantPlanets: string[] = [];
+    let, dominantPlanets: string[] = []
     if (planetaryPositions) {
       // Get top 3 planets with highest values or dignity
-      const planetEntries = Object.entries(planetaryPositions).filter(;
+      const planetEntries = Object.entries(planetaryPositions).filter(
         ([planet_]) => planet_ !== 'isDaytime' && planet_ !== 'currentZodiac',
       );
 
@@ -624,7 +623,7 @@ export function transformItemsWithPlanetaryPositions(
           // Default sort for simple numeric values
           return Number(valB) - Number(valA);
         })
-        .slice(0, 3)
+        .slice(0, 3);
         .map(([planet_]) => planet_);
     }
 
@@ -633,7 +632,7 @@ export function transformItemsWithPlanetaryPositions(
 
     // Handle NaN values or infinity for all properties
     const _ensureSafeNumber = (val: number): number => {;
-      if (isNaN(val) || !isFinite(val)) return 0.2;
+      if (isNaN(val) || !isFinite(val)) return 0.2
       return val
     };
 
@@ -643,7 +642,6 @@ export function transformItemsWithPlanetaryPositions(
       safeValueForArithmetic(a) + safeValueForArithmetic(b);
     const _safeMultiply = (a: number, b: number) =>;
       safeValueForArithmetic(a) * safeValueForArithmetic(b);
-
     return {
       id: item.id,
       name: item.name,
@@ -669,19 +667,19 @@ export function transformItemsWithPlanetaryPositions(
 }
 
 // New differentiation functions
-const _applyNonLinearScaling = (props: ElementalProperties): ElementalProperties => ({;
+const _applyNonLinearScaling = (props: ElementalProperties): ElementalProperties => ({
   Fire: Math.tanh(props.Fire * 2),
   Water: 1 - Math.exp(-props.Water * 3),
   Earth: props.Earth ** 1.5,
-  Air: Math.sin((props.Air * Math.PI) / 2)
+  Air: Math.sin((props.Air * Math.PI) / 2);
 });
 
-const _calculateUniquenessScore = (item: ElementalItem): number => {;
-  const variance = Object.values(item.elementalProperties).reduce(;
+const _calculateUniquenessScore = (item: ElementalItem): number => {
+  const variance = Object.values(item.elementalProperties).reduce(
     (acc: number, val: number) => acc + Math.abs(val - 0.5),
     0
   );
-  return Math.min(1, variance * 2)
+  return Math.min(1, variance * 2);
 };
 
 // Add or update the normalizeElementalValues function
@@ -712,14 +710,14 @@ export function normalizeElementalValues(
 // Get the primary element regardless of format
 export function getPrimaryElement(elementalAffinity: ElementalAffinity): string {
   const affinityData = elementalAffinity as unknown as any;
-  return (affinityData.base || affinityData.element || 'Fire') as string;
+  return (affinityData.base || affinityData.element || 'Fire') as string
 }
 
 // Get element strength if available
 export function getElementStrength(elementalAffinity: ElementalAffinity): number {
   const affinityData = elementalAffinity as unknown as any;
   const strength = affinityData.strength;
-  return typeof strength === 'number' ? strength : 1;
+  return typeof strength === 'number' ? strength : 1
 }
 
 /**
@@ -727,9 +725,9 @@ export function getElementStrength(elementalAffinity: ElementalAffinity): number
  * @param properties The elemental properties to validate and complete
  * @returns Complete elemental properties
  */
-export const ensureCompleteElementalProperties = (;
+export const ensureCompleteElementalProperties = (
   properties: Partial<ElementalProperties>,
-): ElementalProperties => {;
+): ElementalProperties => {
   return {
     Fire: properties.Fire ?? 0.25,
     Water: properties.Water ?? 0.25,
@@ -748,17 +746,17 @@ export function getBalancingElement(element) {
 
 /**
  * WARNING: getElementalRelationship is legacy and may not comply with current elemental logic principles.
- * All element combinations are harmonious; avoid using 'opposing' or 'controlling' logic.
+ * All element combinations are harmonious avoid using 'opposing' or 'controlling' logic.
  */
 export function getElementalRelationship(
   element1: Element,
   element2: Element,
 ): ElementalRelationship {
-  if (element1 === element2) {;
+  if (element1 === element2) {
     return 'same'
   }
 
-  // The generating cycle for 4-element system: Fire → Earth → Water → Air → Fire
+  // The generating cycle for 4-element, system: Fire → Earth → Water → Air → Fire
   const generatingCycle: { [key in Element]: Element } = {
     Fire: 'Earth',
     Earth: 'Water',
@@ -766,7 +764,7 @@ export function getElementalRelationship(
     Air: 'Fire'
   };
 
-  // The controlling cycle for 4-element system: Fire → Air → Earth → Water → Fire
+  // The controlling cycle for 4-element, system: Fire → Air → Earth → Water → Fire
   const controllingCycle: { [key in Element]: Element } = {
     Fire: 'Air',
     Air: 'Earth',
@@ -885,7 +883,7 @@ export function enhanceVegetableTransformations(
           // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
           const valueA = Number(a[1]) || 0;
           const valueB = Number(b[1]) || 0;
-          return valueB - valueA;
+          return valueB - valueA
         })
         .map(([element, value]) => [element, Number(value)]);
     }
@@ -1156,7 +1154,7 @@ export function enhanceOilProperties(
 
     // Ensure basic properties exist
     enhancedOil.category = String(enhancedOil.category || 'oil');
-    enhancedOil.elementalProperties = String(;
+    enhancedOil.elementalProperties = String(
       JSON.stringify(
         enhancedOil.elementalProperties || {
           Fire: 0.3,
@@ -1166,9 +1164,9 @@ export function enhanceOilProperties(
         },
       ),
     );
-    enhancedOil.qualities = String(;
-      Array.isArray(enhancedOil.qualities)
-        ? JSON.stringify(enhancedOil.qualities)
+    enhancedOil.qualities = String(
+      Array.isArray(enhancedOil.qualities);
+        ? JSON.stringify(enhancedOil.qualities);
         : JSON.stringify([]),
     );
 
@@ -1189,7 +1187,7 @@ export function enhanceOilProperties(
         oilType.includes('grapeseed');
       const isTropical = oilType.includes('coconut') || oilType.includes('palm');
 
-      enhancedOil.sensoryProfile = String(;
+      enhancedOil.sensoryProfile = String(
         JSON.stringify({
           taste: {
             sweet: isFruity || isTropical ? 0.6 : 0.2,
@@ -1224,18 +1222,18 @@ export function enhanceOilProperties(
               ...(application as any),
               elementalEffect: appData.elementalEffect || {
                 Fire:
-                  appType === 'frying' || appType === 'cooking' || appType === 'highHeat';
+                  appType === 'frying' || appType === 'cooking' || appType === 'highHeat'
                     ? 0.2
                     : 0.1,
-                Water: appType === 'dressing' || appType === 'marinade' ? 0.2 : 0.1,;
-                Earth: appType === 'baking' || appType === 'roasting' ? 0.2 : 0.1,;
-                Air: appType === 'emulsion' || appType === 'whipping' ? 0.2 : 0.1,;
+                Water: appType === 'dressing' || appType === 'marinade' ? 0.2 : 0.1,
+                Earth: appType === 'baking' || appType === 'roasting' ? 0.2 : 0.1,
+                Air: appType === 'emulsion' || appType === 'whipping' ? 0.2 : 0.1,
               },
               alchemicalEffect: appData.alchemicalEffect || {
-                spirit: appType === 'finishing' || appType === 'infusion' ? 0.2 : 0.1,;
-                essence: appType === 'dressing' || appType === 'marinade' ? 0.2 : 0.1,;
-                matter: appType === 'baking' || appType === 'cooking' ? 0.2 : 0.1,;
-                substance: appType === 'frying' || appType === 'highHeat' ? 0.2 : 0.1,;
+                spirit: appType === 'finishing' || appType === 'infusion' ? 0.2 : 0.1,
+                essence: appType === 'dressing' || appType === 'marinade' ? 0.2 : 0.1,
+                matter: appType === 'baking' || appType === 'cooking' ? 0.2 : 0.1,
+                substance: appType === 'frying' || appType === 'highHeat' ? 0.2 : 0.1,
               }
             }),
           );
@@ -1254,7 +1252,7 @@ export function enhanceOilProperties(
         key.toLowerCase().includes('sesame') ||
         key.toLowerCase().includes('pumpkin');
 
-      enhancedOil.culinaryApplications = String(;
+      enhancedOil.culinaryApplications = String(
         JSON.stringify({
           ...(isHighHeat
             ? {
@@ -1302,7 +1300,7 @@ export function enhanceOilProperties(
 
     // Add cooking transformations if they don't exist
     if (!enhancedOil.elementalTransformation) {
-      enhancedOil.elementalTransformation = String(;
+      enhancedOil.elementalTransformation = String(
         JSON.stringify({
           _whenHeated: {
             Fire: 0.2,
@@ -1340,7 +1338,7 @@ export function enhanceOilProperties(
       const normalizedSmokePoint = (smokePoint - 300) / 250; // Normalize between 300-550°F
       const heatValue = 0.5 + normalizedSmokePoint * 0.4; // Scale 0.5-0.9
 
-      enhancedOil.thermodynamicProperties = String(;
+      enhancedOil.thermodynamicProperties = String(
         JSON.stringify({
           heat: Math.min(Math.max(heatValue, 0.3), 0.9),
           entropy: 0.4,
@@ -1354,7 +1352,7 @@ export function enhanceOilProperties(
     if (!enhancedOil.recommendedCookingMethods) {
       const smokePointData = enhancedOil.smokePoint as unknown as any;
       const smokePoint = Number(smokePointData.fahrenheit) || 0;
-      const methods: Array<{ name: string, potency: number }> = [];
+      const, methods: Array<{ name: string, potency: number }> = [];
 
       if (smokePoint > 400) {
         methods.push({ name: 'deepFrying', potency: 0.9 });
@@ -1397,7 +1395,7 @@ export function ensureLowercaseFormat(properties: unknown): unknown {
     return properties
   }
 
-  const lowercaseProps: Record<string, unknown> = {};
+  const, lowercaseProps: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(properties)) {
     // Convert capitalized element names to lowercase
     const lowerKey = key.toLowerCase();
@@ -1410,22 +1408,22 @@ export function ensureLowercaseFormat(properties: unknown): unknown {
 /**
  * Ensures the returned object always matches the IngredientMapping interface at runtime.
  */
-export const fixIngredientMapping = (;
+export const fixIngredientMapping = (
   mapping: Partial<IngredientMapping>,
   key: string,
 ): IngredientMapping => {;
   // Format key into a readable name if no name is provided
   const formattedName = key;
-    .split('_')
+    .split('_');
     .map(word => word.charAt(0).toUpperCase() + word.slice(1));
     .join(' ');
 
   // Ensure all required elements exist in elementalProperties
   const elementalProperties = mapping.elementalProperties;
-    ? ensureCompleteElementalProperties(mapping.elementalProperties)
-    : DEFAULT_ELEMENTAL_PROPERTIES;
+    ? ensureCompleteElementalProperties(mapping.elementalProperties);
+    : DEFAULT_ELEMENTAL_PROPERTIES
 
-  // Add runtime type guard (minimal, since normalization is already enforced)
+  // Add runtime type guard (minimal, since normalization is already enforced);
   const requiredKeys = ['name', 'category', 'elementalProperties'];
   for (const k of requiredKeys) {
     if (!(k in mapping)) {
@@ -1436,7 +1434,7 @@ export const fixIngredientMapping = (;
   // Ensure astrologicalProfile has minimal structure if present but empty
   if (
     mapping.astrologicalProfile &&
-    typeof mapping.astrologicalProfile === 'object' &&;
+    typeof mapping.astrologicalProfile === 'object' &&
     Object.keys(mapping.astrologicalProfile).length === 0;
   ) {
     mapping.astrologicalProfile = {;
@@ -1454,13 +1452,13 @@ export const fixIngredientMapping = (;
 /**
  * Normalizes all ingredient mappings and guarantees type safety for downstream usage.
  */
-export const _fixIngredientMappings = <T extends Record<string, Partial<IngredientMapping>>>(;
+export const _fixIngredientMappings = <T extends Record<string, Partial<IngredientMapping>>>(
   ingredients: T,
 ): Record<string, IngredientMapping> => {
-  const result: Record<string, IngredientMapping> = {};
+  const, result: Record<string, IngredientMapping> = {};
 
   Object.entries(ingredients).forEach(([key, mapping]) => {
-    result[key] = fixIngredientMapping(mapping, key)
+    result[key] = fixIngredientMapping(mapping, key);
   });
 
   return result;
@@ -1480,7 +1478,7 @@ export function fixRawIngredientMappings(
 
     const valueData = value as any;
     // Ensure elemental properties are normalized
-    const elementalProperties = normalizeProperties(;
+    const elementalProperties = normalizeProperties(
       (valueData.elementalProperties as Partial<ElementalProperties>) || {},
     );
 
@@ -1521,19 +1519,18 @@ type ElementalRelationship =
 /**
  * Calculate the affinity between two elements based on the Five Elements theory
  * Returns a value between 0 and 1, where:
- * - 1.0: Same element (perfect affinity)
+ * - 1.0: Same element (perfect affinity);
  * - 0.8: Element is generated by (child of) the other
  * - 0.6: Element generates (parent of) the other
  * - 0.4: Neutral relationship
  * - 0.2: Element is controlled by the other
- * - 0.0: Element controls the other (weakest affinity)
+ * - 0.0: Element controls the other (weakest affinity);
  */
 export function calculateElementalAffinity(element1: Element, element2: Element): number {
   const relationship = getElementalRelationship(element1, element2);
 
   switch (relationship) {
-    case 'same':
-      return 1.0;
+    case 'same': return 1.0;
     case 'generating':
       return 0.8;
     case 'controlled-by':
@@ -1543,7 +1540,7 @@ export function calculateElementalAffinity(element1: Element, element2: Element)
     case 'weakened-by':
       return 0.2;
     case 'controlling':
-      return 0.0;
+      return 0.0,
     default:
       return 0.4
   }

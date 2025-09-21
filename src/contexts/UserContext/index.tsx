@@ -8,7 +8,7 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 interface UserProfile {
   userId: string;
   name?: string;
-  email?: string;
+  email?: string
   preferences?: Record<string, unknown>;
 }
 
@@ -37,7 +37,7 @@ interface UserProviderProps {
   children: ReactNode
 }
 
-export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
+export const, UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -65,7 +65,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         throw new Error('No user profile loaded');
       }
 
-      const updatedProfile = await userService.saveUserProfile({;
+      const updatedProfile = await userService.saveUserProfile({
         ...data,
         userId: currentUser.userId
       });

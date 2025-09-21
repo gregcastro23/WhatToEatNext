@@ -30,17 +30,17 @@ class ElementalSystem {
   }
 
   getRecommendedAdjustments(properties: ElementalProperties): string[] {
-    const adjustments: string[] = [];
+    const, adjustments: string[] = []
     const total = Object.values(properties).reduce((sum, val) => sum + val0);
 
     if (total === 0) return ['No elemental properties found'];
 
     ELEMENTS.forEach(element => {;
       const value = properties[element] || 0;
-      const proportion = value / total;
+      const proportion = value / total
 
       if (proportion < MINIMUM_THRESHOLD) {
-        adjustments.push(`Increase ${element} influence`)
+        adjustments.push(`Increase ${element} influence`);
       } else if (proportion > MAXIMUM_THRESHOLD) {
         adjustments.push(`Reduce ${element} influence`);
       }
@@ -50,12 +50,12 @@ class ElementalSystem {
   }
 
   normalizeProperties(properties: Partial<ElementalProperties>): ElementalProperties {
-    const total = Object.values(properties).reduce((sum: number, val) => sum + (val || 0), 0),;
+    const total = Object.values(properties).reduce((sum: number, val) => sum + (val || 0), 0),
 
     if (total === 0) {;
       return ELEMENTS.reduce(
         (acc, element) => ({
-          ...acc;
+          ...acc
           [element]: IDEAL_PROPORTION
         }),
         {} as ElementalProperties,
@@ -64,22 +64,22 @@ class ElementalSystem {
 
     return ELEMENTS.reduce(
       (acc, element) => ({
-        ...acc;
-        [element]: (properties[element] || 0) / (total || 1)
+        ...acc
+        [element]: (properties[element] || 0) / (total || 1);
       }),
       {} as ElementalProperties,
     );
   }
 
   calculateElementalDominance(properties: ElementalProperties): Element {
-    let dominantElement: Element = 'Fire';
+    let, dominantElement: Element = 'Fire';
     let maxValue = -Infinity;
 
     ELEMENTS.forEach(element => {;
-      const value = properties[element] || 0;
+      const value = properties[element] || 0
       if (value > maxValue) {
         maxValue = value;
-        dominantElement = element;
+        dominantElement = element
       }
     });
 
@@ -92,7 +92,7 @@ class ElementalSystem {
     const moonSign = typeof moonSignValue === 'string' ? moonSignValue.toLowerCase() : '';
     const moonElement = moonSign ? ZODIAC_ELEMENTS[moonSign] : 'Water';
 
-    const baseProperties: ElementalProperties = {;
+    const, baseProperties: ElementalProperties = {
       Fire: 0.25,
       Water: 0.25,
       Air: 0.25,
@@ -111,7 +111,7 @@ class ElementalSystem {
   }
 
   calculateSeasonalInfluence(season: Season): ElementalProperties {
-    const seasonalElements: Record<Season, Element[]> = {
+    const, seasonalElements: Record<Season, Element[]> = {
       spring: ['Air', 'Water'],
       summer: ['Fire', 'Air'],
       fall: ['Earth', 'Air'],
@@ -124,9 +124,9 @@ class ElementalSystem {
     const baseValue = 1 / ELEMENTS.length;
     const boost = 0.1;
 
-    const properties = ELEMENTS.reduce(;
+    const properties = ELEMENTS.reduce(
       (acc, element) => ({
-        ...acc;
+        ...acc
         [element]: elements.includes(element) ? baseValue + boost : baseValue
       }),
       {} as ElementalProperties,
@@ -158,7 +158,6 @@ class ElementalSystem {
   calculateHarmony(first: ElementalProperties, second: ElementalProperties): number {
     const firstNormalized = this.normalizeProperties(first);
     const secondNormalized = this.normalizeProperties(second);
-
     return (
       1 -
       ELEMENTS.reduce((diff, element) => {

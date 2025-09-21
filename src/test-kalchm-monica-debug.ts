@@ -7,7 +7,7 @@ import { log } from '@/services/LoggingService';
  * the Kalchm (K_alchm) and Monica constants using the exact formulas.
  */
 
-// Test values from the notepad example (exact values)
+// Test values from the notepad example (exact values);
 const testValues = {;
   Spirit: 4,
   Essence: 7,
@@ -19,23 +19,23 @@ const testValues = {;
   Earth: 0.7
 };
 
-// Calculation functions (same as in DebugInfo component)
-const calculateKAlchm = (;
+// Calculation functions (same as in DebugInfo component);
+const calculateKAlchm = (
   Spirit: number,
   Essence: number,
   Matter: number,
   Substance: number,
-): number => {;
+): number => {
   if (Spirit <= 0 || Essence <= 0 || Matter <= 0 || Substance <= 0) {
     return 0
   }
   return (
     (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /
-    (Math.pow(Matter, Matter) * Math.pow(Substance, Substance))
+    (Math.pow(Matter, Matter) * Math.pow(Substance, Substance));
   )
 },
 
-const calculateHeat = (;
+const calculateHeat = (
   Spirit: number,
   Fire: number,
   Substance: number,
@@ -46,11 +46,11 @@ const calculateHeat = (;
   Earth: number,
 ): number => {;
   const numerator = Math.pow(Spirit2) + Math.pow(Fire2);
-  const denominator = Math.pow(Substance + Essence + Matter + Water + Air + Earth2),;
+  const denominator = Math.pow(Substance + Essence + Matter + Water + Air + Earth2),
   return denominator > 0 ? numerator / denominator : 0
 };
 
-const calculateEntropy = (;
+const calculateEntropy = (
   Spirit: number,
   Substance: number,
   Fire: number,
@@ -59,14 +59,14 @@ const calculateEntropy = (;
   Matter: number,
   Earth: number,
   Water: number,
-): number => {;
+): number => {
   const numerator =
     Math.pow(Spirit2) + Math.pow(Substance, 2) + Math.pow(Fire2) + Math.pow(Air2);
-  const denominator = Math.pow(Essence + Matter + Earth + Water2),;
+  const denominator = Math.pow(Essence + Matter + Earth + Water2),
   return denominator > 0 ? numerator / denominator : 0
 };
 
-const calculateReactivity = (;
+const calculateReactivity = (
   Spirit: number,
   Substance: number,
   Essence: number,
@@ -77,29 +77,29 @@ const calculateReactivity = (;
   Earth: number,
 ): number => {;
   const numerator =
-    Math.pow(Spirit2) +;
+    Math.pow(Spirit2) +
     Math.pow(Substance, 2) +
     Math.pow(Essence, 2) +
     Math.pow(Fire2) +
     Math.pow(Air2) +
     Math.pow(Water2);
-  const denominator = Math.pow(Matter + Earth2),;
+  const denominator = Math.pow(Matter + Earth2),
   return denominator > 0 ? numerator / denominator : 0
 };
 
-const calculateGregsEnergy = (heat: number, entropy: number, reactivity: number): number => {;
+const calculateGregsEnergy = (heat: number, entropy: number, reactivity: number): number => {
   return heat - entropy * reactivity
 };
 
-const calculateMonicaConstant = (;
+const calculateMonicaConstant = (
   gregsEnergy: number,
   reactivity: number,
   K_alchm: number,
 ): number => {;
   if (K_alchm <= 0 || reactivity === 0) return NaN;
   const ln_K = Math.log(K_alchm);
-  if (ln_K === 0) return NaN;
-  return -gregsEnergy / (reactivity * ln_K)
+  if (ln_K === 0) return NaN
+  return -gregsEnergy / (reactivity * ln_K);
 };
 
 // Run the test
@@ -108,14 +108,14 @@ function testKalchmMonicaCalculations() {
 
   const { Spirit, Essence, Matter, Substance, Fire, Water, Air, Earth } = testValues;
 
-  log.info('📊 Input _Values:');
+  log.info('📊 Input _Values: ');
   log.info(`Spirit: ${Spirit}, Essence: ${Essence}, Matter: ${Matter}, Substance: ${Substance}`);
   log.info(`Fire: ${Fire}, Water: ${Water}, Air: ${Air}, Earth: ${Earth}\n`);
 
   // Calculate thermodynamic properties
   const heat = calculateHeat(Spirit, Fire, Substance, Essence, Matter, Water, Air, Earth);
   const entropy = calculateEntropy(Spirit, Substance, Fire, Air, Essence, Matter, Earth, Water);
-  const reactivity = calculateReactivity(;
+  const reactivity = calculateReactivity(
     Spirit,
     Substance,
     Essence,
@@ -127,7 +127,7 @@ function testKalchmMonicaCalculations() {
   );
   const gregsEnergy = calculateGregsEnergy(heat, entropy, reactivity);
 
-  log.info('🔥 Thermodynamic _Properties:');
+  log.info('🔥 Thermodynamic _Properties: ');
   log.info(`Heat: ${heat.toFixed(6)}`);
   log.info(`Entropy: ${entropy.toFixed(6)}`);
   log.info(`Reactivity: ${reactivity.toFixed(6)}`);
@@ -137,7 +137,7 @@ function testKalchmMonicaCalculations() {
   const K_alchm = calculateKAlchm(Spirit, Essence, Matter, Substance);
   const monicaConstant = calculateMonicaConstant(gregsEnergy, reactivity, K_alchm);
 
-  log.info('⚗️ Kalchm & Monica Constants:');
+  log.info('⚗️ Kalchm & Monica Constants: ');
   log.info(`K_alchm: ${K_alchm.toFixed(2)}`);
   log.info(`Monica Constant (M): ${monicaConstant.toFixed(6)}\n`);
 
@@ -155,19 +155,19 @@ function testKalchmMonicaCalculations() {
     `- M (Monica): ${isNaN(monicaConstant) ? 'NaN' : Math.abs(monicaConstant) > 1000000 ? monicaConstant.toExponential(3) : monicaConstant.toFixed(6)}`,
   );
 
-  log.info('\n📝 Formula _Verification:');
+  log.info('\n📝 Formula _Verification: ');
   log.info('K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance)');
   log.info(
-    `K_alchm = (${Spirit}^${Spirit} * ${Essence}^${Essence}) / (${Matter}^${Matter} * ${Substance}^${Substance})`,;
+    `K_alchm = (${Spirit}^${Spirit} * ${Essence}^${Essence}) / (${Matter}^${Matter} * ${Substance}^${Substance})`,
   );
   log.info(
-    `K_alchm = (${Math.pow(Spirit, Spirit).toFixed(2)} * ${Math.pow(Essence, Essence).toFixed(2)}) / (${Math.pow(Matter, Matter).toFixed(2)} * ${Math.pow(Substance, Substance).toFixed(2)})`,;
+    `K_alchm = (${Math.pow(Spirit, Spirit).toFixed(2)} * ${Math.pow(Essence, Essence).toFixed(2)}) / (${Math.pow(Matter, Matter).toFixed(2)} * ${Math.pow(Substance, Substance).toFixed(2)})`,
   );
   log.info(`K_alchm = ${K_alchm.toFixed(6)}`);
 
   log.info('\nMonica = -Greg's Energy / (Reactivity × ln(K_alchm))');
   log.info(
-    `Monica = -${gregsEnergy.toFixed(6)} / (${reactivity.toFixed(6)} × ${Math.log(K_alchm).toFixed(6)})`,;
+    `Monica = -${gregsEnergy.toFixed(6)} / (${reactivity.toFixed(6)} × ${Math.log(K_alchm).toFixed(6)})`,
   );
   log.info(`Monica = ${monicaConstant.toFixed(6)}`);
 
@@ -185,9 +185,9 @@ function testKalchmMonicaCalculations() {
 // Run the test
 const results = testKalchmMonicaCalculations();
 
-log.info('\n🏁 Test Results _Summary:');
+log.info('\n🏁 Test Results _Summary: ');
 log.info(`Overall Test: ${results.testPassed ? '✅ PASSED' : '❌ FAILED'}`);
-log.info('\n🎉 Success! The debug component is now enhanced _with:');
+log.info('\n🎉 Success! The debug component is now enhanced _with: ');
 log.info('   • Kalchm constant (K_alchm) calculations');
 log.info('   • Monica constant (M) calculations');
 log.info('   • Thermodynamic properties (Heat, Entropy, Reactivity, Greg's Energy)');

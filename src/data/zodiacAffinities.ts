@@ -750,7 +750,7 @@ export const modalityCookingTechniques: Record<Modality, string[]> = {
  */
 export function getCookingTechniquesForSign(sign: any): string[] {
   const modality = ZODIAC_MODALITIES[sign];
-  return modalityCookingTechniques[modality];
+  return modalityCookingTechniques[modality]
 }
 
 /**
@@ -874,7 +874,7 @@ export function calculateRecipeZodiacCompatibility(
 ): number {
   // Get modalities
   const ingredientModality = ZODIAC_MODALITIES[mainIngredientSign];
-  const preparationModality = ZODIAC_MODALITIES[preparationMethodSign];
+  const preparationModality = ZODIAC_MODALITIES[preparationMethodSign]
 
   // Get elements (from zodiacUtils)
   const elementMap: Record<ZodiacSign, string> = {

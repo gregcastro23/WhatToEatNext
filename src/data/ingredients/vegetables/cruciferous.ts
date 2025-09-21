@@ -1,7 +1,7 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawCruciferous = {;
+const rawCruciferous = {
   cauliflower: {
     name: 'Cauliflower',
     elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
@@ -97,11 +97,11 @@ const rawCruciferous = {;
           aroma: ['Fresh', 'Clean', 'Subtle'],
           texture: ['Pleasant', 'Smooth', 'Appealing'],
           notes: 'Characteristic purple profile',
-          sensoryProfile: {
-            taste: ['Mild', 'Balanced', 'Natural'],
-            aroma: ['Fresh', 'Clean', 'Subtle'],
-            texture: ['Pleasant', 'Smooth', 'Appealing'],
-            notes: 'Characteristic purple profile'
+          // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
           },
           culinaryProfile: {
             flavorProfile: {
@@ -142,11 +142,11 @@ const rawCruciferous = {;
         cooking: 'sauté 5-7 minutes or use raw',
         substitution: 'use instead of rice, couscous, or other grains',
         flavor_pairings: ['herbs', 'olive oil', 'lemon zest'],
-        sensoryProfile: {
-          taste: ['Mild', 'Balanced', 'Natural'],
-          aroma: ['Fresh', 'Clean', 'Subtle'],
-          texture: ['Pleasant', 'Smooth', 'Appealing'],
-          notes: 'Characteristic cauliflower rice profile'
+        // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
         },
         culinaryProfile: {
           flavorProfile: {
@@ -165,11 +165,11 @@ const rawCruciferous = {;
         additions: ['roasted garlic', 'butter', 'nutritional yeast', 'herbs'],
         technique: 'drain well before mashing for best texture',
         pairings: 'serves similar role to mashed potatoes',
-        sensoryProfile: {
-          taste: ['Mild', 'Balanced', 'Natural'],
-          aroma: ['Fresh', 'Clean', 'Subtle'],
-          texture: ['Pleasant', 'Smooth', 'Appealing'],
-          notes: 'Characteristic cauliflower mash profile'
+        // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
         },
         culinaryProfile: {
           flavorProfile: {
@@ -188,11 +188,11 @@ const rawCruciferous = {;
         timing: '25-30 minutes, stirring halfway through',
         seasonings: ['curry powder', 'smoked paprika', 'za'atar', 'parmesan'],
         oil_requirements: 'generous coating for best browning',
-        sensoryProfile: {
-          taste: ['Mild', 'Balanced', 'Natural'],
-          aroma: ['Fresh', 'Clean', 'Subtle'],
-          texture: ['Pleasant', 'Smooth', 'Appealing'],
-          notes: 'Characteristic roasted cauliflower profile'
+        // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
         },
         culinaryProfile: {
           flavorProfile: {
@@ -276,11 +276,11 @@ const rawCruciferous = {;
         uses: 'all-purpose cooking',
         best_cooking_methods: ['steaming', 'stir-frying', 'roasting'],
         notes: 'most widely available variety',
-        sensoryProfile: {
-          taste: ['Mild', 'Balanced', 'Natural'],
-          aroma: ['Fresh', 'Clean', 'Subtle'],
-          texture: ['Pleasant', 'Smooth', 'Appealing'],
-          notes: 'Characteristic calabrese profile'
+        // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
         },
         culinaryProfile: {
           flavorProfile: {
@@ -299,11 +299,11 @@ const rawCruciferous = {;
         uses: 'elegant side dishes, minimal cooking',
         best_cooking_methods: ['blanching', 'quick sauté', 'grilling'],
         notes: 'cross between broccoli and Chinese broccoli',
-        sensoryProfile: {
-          taste: ['Mild', 'Balanced', 'Natural'],
-          aroma: ['Fresh', 'Clean', 'Subtle'],
-          texture: ['Pleasant', 'Smooth', 'Appealing'],
-          notes: 'Characteristic broccolini profile'
+        // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
         },
         culinaryProfile: {
           flavorProfile: {
@@ -841,6 +841,6 @@ const rawCruciferous = {;
 
 // Fix the ingredient mappings to ensure they have all required properties
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
-export const cruciferous: Record<string, IngredientMapping> = fixIngredientMappings(
+export const, cruciferous: Record<string, IngredientMapping> = fixIngredientMappings(
   rawCruciferous as Record<string, Partial<IngredientMapping>>,
 );

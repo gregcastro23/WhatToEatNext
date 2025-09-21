@@ -26,13 +26,13 @@ import { ElementalCharacter } from '../../constants/planetaryElements';
 import { PlanetaryHourCalculator } from '../../lib/PlanetaryHourCalculator';
 import { getCurrentSeason, getTimeOfDay } from '../dateUtils';
 
-// Robust debug logger: logs in development, silent in production
-const debugLog = (_message: string, ..._args: unknown[]): void => {;
+// Robust debug, logger: logs in development, silent in production
+const debugLog = (_message: string, ..._args: unknown[]): void => {
   // No-op for production
 };
 
-// Robust error logger: logs in development, silent in production
-const errorLog = (_message: string, ..._args: unknown[]): void => {;
+// Robust error, logger: logs in development, silent in production
+const errorLog = (_message: string, ..._args: unknown[]): void => {
   // No-op for production
 };
 
@@ -48,15 +48,15 @@ export function isPlanetaryPosition(obj: unknown): obj is PlanetaryPosition {
   )
 }
 
-// Utility to normalize planetary position keys (e.g., Sun/sun)
+// Utility to normalize planetary position keys (e.g., Sun/sun);
 export function normalizePlanetaryPositions(
   positions: Record<string, unknown>,
 ): Record<string, PlanetaryPosition> {
-  const normalized: Record<string, PlanetaryPosition> = {};
+  const, normalized: Record<string, PlanetaryPosition> = {};
   if (!positions || typeof positions !== 'object') return normalized;
   for (const key of Object.keys(positions)) {
     let planet = key;
-    // Capitalize first letter, lowercase rest (e.g., Sun, Moon, Mercury...)
+    // Capitalize first letter, lowercase rest (e.g., Sun, Moon, Mercury...);
     if (planet.length > 1) {
       planet = planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase();
     }
@@ -77,14 +77,14 @@ export type AspectType = ImportedAspectType;
 // Use the imported PlanetaryAspect but keep local for backwards compatibility
 export interface PlanetaryAspect extends ImportedPlanetaryAspect {
   // Adding additional properties needed for the astrologyUtils implementation
-  exactAngle?: number; // The exact angle in degrees between the two planets
+  exactAngle?: number // The exact angle in degrees between the two planets
   applyingSeparating?: 'applying' | 'separating', // Whether the aspect is applying or separating
-  significance?: number, // A calculated significance score for this aspect (0-1)
+  significance?: number, // A calculated significance score for this aspect (0-1);
   description?: string, // Human-readable description of the aspect
   elementalInfluence?: LowercaseElementalProperties, // How this aspect affects elemental properties
 }
 
-export type PlanetPositionData = {;
+export type PlanetPositionData = {
   sign: any,
   degree: number,
   minute?: number,
@@ -98,7 +98,7 @@ export interface PlanetaryDignity {
 }
 
 // Add type assertion for zodiac signs
-const _zodiacSigns: any[] = [
+const, _zodiacSigns: any[] = [
   'aries',
   'taurus',
   'gemini',
@@ -129,7 +129,7 @@ export async function calculateActivePlanets(
   }
 
   // List of planets we want to check
-  const planetKeys = [;
+  const planetKeys = [
     'sun',
     'moon',
     'mercury',
@@ -141,14 +141,14 @@ export async function calculateActivePlanets(
     'neptune',
     'pluto'
   ];
-  const activePlanets: string[] = [];
+  const, activePlanets: string[] = [];
 
   try {
     // Add ruling planet of current sun sign
     const sunSign = positions.sun?.sign?.toLowerCase() || positions.Sun?.sign?.toLowerCase();
     if (sunSign) {
       // Map signs to their ruling planets
-      const signRulers: Record<string, string> = {
+      const, signRulers: Record<string, string> = {
         aries: 'mars',
         taurus: 'venus',
         gemini: 'mercury',
@@ -165,7 +165,7 @@ export async function calculateActivePlanets(
 
       // Add the ruler of the current sun sign
       if (signRulers[sunSign] && !activePlanets.includes(signRulers[sunSign])) {
-        activePlanets.push(signRulers[sunSign])
+        activePlanets.push(signRulers[sunSign]);
       }
     }
 
@@ -178,7 +178,7 @@ export async function calculateActivePlanets(
       const signLower = (position as any)?.sign.toLowerCase();
 
       // Simple planet-sign dignity mapping
-      const dignities: Record<string, string[]> = {
+      const, dignities: Record<string, string[]> = {
         sun: ['leo', 'aries'],
         moon: ['cancer', 'taurus'],
         mercury: ['gemini', 'virgo'],
@@ -219,14 +219,14 @@ export async function calculateActivePlanets(
  * @returns Modifier value between 0 and 1
  */
 export function getLunarPhaseModifier(_phase: LunarPhase): number {
-  const modifiers: Record<LunarPhase, number> = {
+  const, modifiers: Record<LunarPhase, number> = {
     'new moon': 0.2;
     'waxing crescent': 0.5;
     'first quarter': 0.7;
     'waxing gibbous': 0.9;
     'full moon': 1.0;
     'waning gibbous': 0.8;
-    'last quarter': 0.6;
+    'last quarter': 0.6
     'waning crescent': 0.3
   };
 
@@ -236,10 +236,10 @@ export function getLunarPhaseModifier(_phase: LunarPhase): number {
 /**
  * Get the element associated with a zodiac sign
  * @param sign Zodiac sign
- * @returns Element ('Fire', 'Earth', 'Air', or 'Water')
+ * @returns Element ('Fire', 'Earth', 'Air', or 'Water');
  */
 export function getZodiacElement(_sign: any): ElementalCharacter {
-  const elements: Record<ZodiacSign, ElementalCharacter> = {
+  const, elements: Record<ZodiacSign, ElementalCharacter> = {
     aries: 'Fire',
     leo: 'Fire',
     sagittarius: 'Fire',
@@ -262,13 +262,13 @@ export function getZodiacElement(_sign: any): ElementalCharacter {
  * @param date Date to calculate phase for
  * @returns A value between 0 and 1 representing the lunar phase
  */
-export async function calculateLunarPhase(date: Date = new Date()): Promise<number> {;
+export async function calculateLunarPhase(date: Date = new Date()): Promise<number> {
   try {
     // Get and normalize positions
     const rawPositions = await getAccuratePlanetaryPositions(date);
     const positions = normalizePlanetaryPositions(rawPositions);
     if (!positions.Sun || !positions.Moon) {
-      throw new Error('Sun or Moon position missing')
+      throw new Error('Sun or Moon position missing');
     }
     // Calculate the angular distance between Sun and Moon
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
@@ -278,7 +278,7 @@ export async function calculateLunarPhase(date: Date = new Date()): Promise<numb
     let angularDistance = moonLong - sunLong;
     // Normalize to 0-360 range
     angularDistance = ((angularDistance % 360) + 360) % 360;
-    // Convert to phase percentage (0 to 1)
+    // Convert to phase percentage (0 to 1);
     return angularDistance / 360;
   } catch (error) {
     errorLog(
@@ -291,14 +291,14 @@ export async function calculateLunarPhase(date: Date = new Date()): Promise<numb
 
 /**
  * Get the name of the lunar phase based on phase value
- * @param phase Lunar phase (0-1)
+ * @param phase Lunar phase (0-1);
  * @returns The name of the lunar phase as a LunarPhase type
  */
 export function getLunarPhaseName(phase: number): LunarPhase {
   // First ensure phase is between 0 and 1
   const normalizedPhase = ((phase % 1) + 1) % 1;
 
-  // Convert phase to 0-8 range (8 Moon phases)
+  // Convert phase to 0-8 range (8 Moon phases);
   const phaseNormalized = normalizedPhase * 8;
 
   // Use proper type for return values
@@ -308,19 +308,18 @@ export function getLunarPhaseName(phase: number): LunarPhase {
   if (phaseNormalized < 3.5) return 'waxing gibbous';
   if (phaseNormalized < 4.5) return 'full moon';
   if (phaseNormalized < 5.5) return 'waning gibbous';
-  if (phaseNormalized < 6.5) return 'last quarter';
+  if (phaseNormalized < 6.5) return 'last quarter'
   return 'waning crescent'
 }
 
 /**
  * Get Moon illumination percentage
  * @param date Date to calculate for
- * @returns Illumination percentage (0-1)
+ * @returns Illumination percentage (0-1);
  */
-export async function getmoonIllumination(date: Date = new Date()): Promise<number> {;
+export async function getmoonIllumination(date: Date = new Date()): Promise<number> {
   try {
     const phase = await calculateLunarPhase(date);
-
     // Convert phase to illumination percentage
     // New Moon (0) = 0% illumination
     // Full Moon (0.5) = 100% illumination
@@ -347,10 +346,10 @@ export async function getmoonIllumination(date: Date = new Date()): Promise<numb
  * @param date Date to calculate for
  * @returns Zodiac sign
  */
-export function calculateSunSign(date: Date = new Date()): any | undefined {;
+export function calculateSunSign(date: Date = new Date()): any | undefined {
   const month = date.getMonth() + 1, // getMonth() returns 0-11;
   const day = date.getDate();
-  // Approximate Sun sign dates (tropical zodiac)
+  // Approximate Sun sign dates (tropical zodiac);
   if ((month === 3 && day >= 21) || (month === 4 && day <= 19)) return 'aries';
   if ((month === 4 && day >= 20) || (month === 5 && day <= 20)) return 'taurus';
   if ((month === 5 && day >= 21) || (month === 6 && day <= 20)) return 'gemini';
@@ -367,16 +366,16 @@ export function calculateSunSign(date: Date = new Date()): any | undefined {;
 }
 
 /**
- * Calculate Moon sign based on date (simplified)
+ * Calculate Moon sign based on date (simplified);
  * @param date Date to calculate for
  * @returns Zodiac sign
  */
-export async function calculatemoonSign(date: Date = new Date()): Promise<ZodiacSign> {;
+export async function calculatemoonSign(date: Date = new Date()): Promise<ZodiacSign> {
   try {
     const rawPositions = await getAccuratePlanetaryPositions(date);
     const positions = normalizePlanetaryPositions(rawPositions);
     if (positions.Moon && positions.Moon.sign) {
-      return positions.Moon.sign;
+      return positions.Moon.sign
     }
     throw new Error('Moon position not available');
   } catch (error) {
@@ -394,7 +393,7 @@ export async function calculatemoonSign(date: Date = new Date()): Promise<Zodiac
  * @returns Object with planetary positions
  */
 export async function calculatePlanetaryPositions(
-  date: Date = new Date(),;
+  date: Date = new Date(),
 ): Promise<Record<string, PlanetaryPosition>> {
   try {
     // Get and normalize planetary positions
@@ -418,7 +417,7 @@ export async function calculatePlanetaryPositions(
  * @returns Promise for astrological state
  */
 export async function getCurrentAstrologicalState(
-  date: Date = new Date(),;
+  date: Date = new Date(),
 ): Promise<AstrologicalState> {
   try {
     // Get and normalize planetary positions from data provider
@@ -429,7 +428,7 @@ export async function getCurrentAstrologicalState(
     const lunarPhaseValue = await calculateLunarPhase(date);
     const lunarPhase = getLunarPhaseName(lunarPhaseValue);
 
-    // Determine if it's daytime (between 6 AM and 6 PM)
+    // Determine if it's daytime (between 6 AM and 6 PM);
     const hours = date.getHours();
     const isDaytime = hours >= 6 && hours < 18;
 
@@ -443,13 +442,12 @@ export async function getCurrentAstrologicalState(
 
     // Get active planets
     const activePlanets = await calculateActivePlanets(positions);
-
     // Calculate aspects between planets
     const aspects = await calculatePlanetaryAspects(positions as Record<string, CelestialPosition>);
 
     // Determine dominant element
     const now = new Date();
-    const weekDays = [;
+    const weekDays = [
       'Sunday',
       'Monday',
       'Tuesday',
@@ -460,7 +458,7 @@ export async function getCurrentAstrologicalState(
     ] as const,
     const weekDay = weekDays[now.getDay()];
 
-    const _timeFactors: TimeFactors = {;
+    const, _timeFactors: TimeFactors = {
       currentDate: now,
       _season: (getCurrentSeason().charAt(0).toUpperCase() + getCurrentSeason().slice(1)) as Season,
       _timeOfDay: (getTimeOfDay().charAt(0).toUpperCase() + getTimeOfDay().slice(1)) as TimeOfDay,
@@ -470,18 +468,18 @@ export async function getCurrentAstrologicalState(
       lunarPhase
     } as TimeFactors;
 
-    const _elementalProfile = await calculateElementalProfile(;
+    const _elementalProfile = await calculateElementalProfile(
       { sunSign, moonSign, lunarPhase, isDaytime, planetaryHour } as AstrologicalState,
       _timeFactors,
     );
 
-    const dominantElement = await calculateDominantElement(;
+    const dominantElement = await calculateDominantElement(
       { sunSign, moonSign, lunarPhase, isDaytime, planetaryHour } as AstrologicalState,
       _timeFactors,
     );
 
     // Build the astrological state object
-    const astrologicalState: AstrologicalState = {;
+    const, astrologicalState: AstrologicalState = {
       currentZodiac: sunSign,
       sunSign,
       moonSign,
@@ -543,11 +541,11 @@ export function getZodiacElementalInfluence(sign: any): Element {
  * Calculate elemental compatibility between two elements
  * @param element1 First element
  * @param element2 Second element
- * @returns Compatibility score (0-1)
+ * @returns Compatibility score (0-1);
  */
 export function calculateElementalCompatibility(element1: Element, element2: Element): number {
-  // Following the elemental _principles: all elements work well together
-  if (element1 === element2) {;
+  // Following the elemental, _principles: all elements work well together
+  if (element1 === element2) {
     return 0.9, // Same element has highest compatibility
   }
 
@@ -565,7 +563,7 @@ export async function calculateDominantElement(
   astroState: AstrologicalState,
   _timeFactors: TimeFactors,
 ): Promise<Element> {
-  const elementCounts: Record<Element, number> = {
+  const, elementCounts: Record<Element, number> = {
     Fire: 0,
     Earth: 0,
     Air: 0,
@@ -580,15 +578,15 @@ export async function calculateDominantElement(
       // Weight by planet importance
       let weight = 1;
       if (planet === 'Sun' || planet === 'Moon') weight = 3;
-      else if (['Mercury', 'Venus', 'Mars'].includes(planet)) weight = 2,;
+      else if (['Mercury', 'Venus', 'Mars'].includes(planet)) weight = 2,
 
       elementCounts[element] += weight;
     });
   }
 
   // Find dominant element
-  let dominantElement: Element = 'Fire';
-  let maxCount = 0;
+  let, dominantElement: Element = 'Fire';
+  let maxCount = 0
 
   Object.entries(elementCounts || {}).forEach(([element, count]) => {
     if (count > maxCount) {
@@ -610,7 +608,7 @@ export async function calculateElementalProfile(
   astroState: AstrologicalState,
   _timeFactors: TimeFactors,
 ): Promise<Record<Element, number>> {
-  const elementCounts: Record<Element, number> = {
+  const, elementCounts: Record<Element, number> = {
     Fire: 0,
     Earth: 0,
     Air: 0,
@@ -625,7 +623,7 @@ export async function calculateElementalProfile(
       // Weight by planet importance
       let weight = 1;
       if (planet === 'Sun' || planet === 'Moon') weight = 3;
-      else if (['Mercury', 'Venus', 'Mars'].includes(planet)) weight = 2,;
+      else if (['Mercury', 'Venus', 'Mars'].includes(planet)) weight = 2,
 
       elementCounts[element] += weight;
     });
@@ -634,12 +632,12 @@ export async function calculateElementalProfile(
   // Normalize to percentages
   const total = Object.values(elementCounts).reduce((sum, count) => sum + count0);
 
-  if (total === 0) {;
+  if (total === 0) {
     // Return balanced profile if no data
     return { Fire: 0.25, Earth: 0.25, Air: 0.25, Water: 0.25 };
   }
 
-  const profile: Record<Element, number> = {} as Record<Element, number>;
+  const, profile: Record<Element, number> = {} as Record<Element, number>;
   Object.entries(elementCounts || {}).forEach(([element, count]) => {
     profile[element as Element] = count / total;
   });
@@ -650,15 +648,15 @@ export async function calculateElementalProfile(
 /**
  * Calculate planetary aspects between positions
  * @param positions Planetary positions
- * @param _risingDegree Rising degree (optional)
+ * @param _risingDegree Rising degree (optional);
  * @returns Aspects and elemental effects
  */
 export async function calculateAspects(
   positions: Record<string, { sign: string, degree: number }>,
   _risingDegree?: number,
 ): Promise<{ aspects: PlanetaryAspect[], elementalEffects: ElementalProperties }> {
-  const aspects: PlanetaryAspect[] = [];
-  const elementalEffects: ElementalProperties = { Fire: 0, Earth: 0, Air: 0, Water: 0 };
+  const, aspects: PlanetaryAspect[] = []
+  const, elementalEffects: ElementalProperties = { Fire: 0, Earth: 0, Air: 0, Water: 0 };
 
   // Define interface for aspect data
   interface AspectData {
@@ -684,13 +682,13 @@ export async function calculateAspects(
   };
 
   // Helper function to get longitude from sign and degree
-  const getLongitude = (position: { sign: string, degree: number }): number => {;
+  const getLongitude = (position: { sign: string, degree: number }): number => {
     if (!position || !position.sign) {
       debugLog('Invalid position object _encountered:', position);
       return 0
     }
 
-    const signs = [;
+    const signs = [
       'aries',
       'taurus',
       'gemini',
@@ -745,9 +743,9 @@ export async function calculateAspects(
           // Base multiplier from definition
           let multiplier = definition.significance;
 
-          // Special _case: Square aspect with Ascendant is positive
-          if (type === 'square' && (element1 === 'ascendant' || element2 === 'ascendant')) {;
-            multiplier = 1;
+          // Special, _case: Square aspect with Ascendant is positive
+          if (type === 'square' && (element1 === 'ascendant' || element2 === 'ascendant')) {
+            multiplier = 1
           }
 
           // Add to aspects array

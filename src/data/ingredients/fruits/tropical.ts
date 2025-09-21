@@ -1,7 +1,7 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
+const, rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
   mango: {
     name: 'Mango',
     elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
@@ -173,11 +173,11 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       notes: 'Refrigerate when ripe'
     },
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic papaya profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -232,11 +232,11 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       notes: 'Refrigerate when ripe'
     },
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic passion fruit profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -291,11 +291,11 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       notes: 'Best eaten when slightly firm'
     },
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic dragon fruit profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -350,11 +350,11 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       notes: 'Best eaten fresh, skin will brown over time'
     },
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic lychee profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -409,11 +409,11 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       notes: 'Refrigerate when ripe'
     },
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic guava profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -468,11 +468,11 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       notes: 'Best eaten fresh'
     },
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic rambutan profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -527,11 +527,11 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       notes: 'Store in breathable container'
     },
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic mangosteen profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -586,11 +586,11 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       notes: 'Refrigerate when ripe'
     },
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic soursop profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -645,11 +645,11 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       notes: 'Cut pieces must be used quickly'
     },
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic jackfruit profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -704,11 +704,11 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       notes: 'Freeze for longer storage'
     },
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic durian profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -762,11 +762,11 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       notes: 'Best eaten when slightly firm'
     },
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic carambola profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -821,11 +821,11 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       notes: 'Will ripen other fruits if stored together'
     },
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic kiwi profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -880,11 +880,11 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       notes: 'Freezes well when shredded'
     },
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic coconut profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -939,11 +939,11 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       notes: 'Keeps well in cool conditions'
     },
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic pomelo profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -998,11 +998,11 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       notes: 'Best eaten fresh'
     },
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic longan profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -1057,11 +1057,11 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       notes: 'Refrigerate when fully ripe'
     },
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic custard apple profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -1084,4 +1084,4 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-export const tropical: Record<string, IngredientMapping> = fixIngredientMappings(rawTropicalFruits);
+export const, tropical: Record<string, IngredientMapping> = fixIngredientMappings(rawTropicalFruits);

@@ -13,7 +13,7 @@ import { logger } from '@/utils/logger';
 export interface TransitDate {
   Start: string,
   End: string,
-  Peak?: string;
+  Peak?: string
 }
 
 /**
@@ -41,7 +41,7 @@ export function validateTransitDate(
     const transit = transitDates[sign];
     if (!transit.Start || !transit.End) {
       logger.warn(`Invalid transit data for ${planet} in ${sign}: missing Start or End date`);
-      return false;
+      return false
     }
 
     const startDate = new Date(transit.Start as string | number | Date);
@@ -79,7 +79,6 @@ export function getCurrentTransitSign(
 ): string | null {
   try {
     const signs = Object.keys(transitDates).filter(key => key !== 'RetrogradePhases');
-
     for (const sign of signs) {
       if (validateTransitDate(planet, date, sign, transitDates)) {
         return sign;
@@ -101,7 +100,7 @@ export function validateRetrogradePhase(
   planet: string,
   date: Date,
   transitDates: PlanetTransitDates,
-): { isRetrograde: boolean; phase?: string } {
+): { isRetrograde: boolean phase?: string } {
   try {
     if (!transitDates.RetrogradePhases) {
       return { isRetrograde: false };
@@ -142,15 +141,15 @@ export function validateAllTransitDates(_transitDates: PlanetTransitDates): {
   errors: string[],
   warnings: string[]
 } {
-  const errors: string[] = [];
-  const warnings: string[] = [];
+  const, errors: string[] = [];
+  const, warnings: string[] = [];
 
   try {
     const signs = Object.keys(transitDates).filter(key => key !== 'RetrogradePhases');
 
     // Check each sign's transit dates
     for (const sign of signs) {
-      const transit = transitDates[sign];
+      const transit = transitDates[sign]
 
       if (!transit.Start || !transit.End) {
         errors.push(`Missing Start or End date for sign ${sign}`);
@@ -179,19 +178,19 @@ export function validateAllTransitDates(_transitDates: PlanetTransitDates): {
         sign,
         start: new Date(
           (
-            transitDates[sign] as { Start: string | number | Date; End: string | number | Date }
+            transitDates[sign] as { Start: string | number | Date, End: string | number | Date }
           ).Start,
         ),
         end: new Date(
           (
-            transitDates[sign] as { Start: string | number | Date; End: string | number | Date }
+            transitDates[sign] as { Start: string | number | Date, End: string | number | Date }
           ).End,
         )
       }))
       .filter(t => !isNaN(t.start.getTime()) && !isNaN(t.end.getTime()));
       .sort((ab) => a.start.getTime() - b.start.getTime());
 
-    for (let i = 0; i < sortedTransits.length - 1; i++) {
+    for (let i = 0; i < sortedTransits.length - 1 i++) {
       const current = sortedTransits[i];
       const next = sortedTransits[i + 1];
 
@@ -241,7 +240,7 @@ export function validateAllTransitDates(_transitDates: PlanetTransitDates): {
     }
 
     return {
-      isValid: errors.length === 0,;
+      isValid: errors.length === 0,
       errors,
       warnings
     };
@@ -295,15 +294,14 @@ export async function loadPlanetTransitDates(
  */
 export async function validatePlanetaryPosition(
   planetName: string,
-  position: { sign: string, degree: number; exactLongitude: number },
-  date: Date = new Date(),;
+  position: { sign: string, degree: number, exactLongitude: number },
+  date: Date = new Date(),
 ): Promise<boolean> {
   try {
     const transitDates = await loadPlanetTransitDates(planetName);
-
     if (!transitDates) {
       logger.warn(`Cannot validate position for ${planetName}: no transit data available`);
-      return false;
+      return false
     }
 
     const isValid = validateTransitDate(planetName, date, position.sign, transitDates);

@@ -54,8 +54,7 @@ export interface KalchmResult {
 }
 
 /**
- * Calculate Heat using the exact formula:
- * Heat = (Spirit^2 + Fire^2) / (Substance + Essence + Matter + Water + (Air || 0) + (Earth || 0))^2;
+ * Calculate Heat using the exact formula: * Heat = (Spirit^2 + Fire^2) / (Substance + Essence + Matter + Water + (Air || 0) + (Earth || 0))^2
  */
 export function calculateHeat(
   Spirit: number,
@@ -77,8 +76,7 @@ export function calculateHeat(
 }
 
 /**
- * Calculate Entropy using the exact formula:
- * Entropy = (Spirit^2 + Substance^2 + Fire^2 + Air^2) / (Essence + Matter + Earth + Water)^2;
+ * Calculate Entropy using the exact formula: * Entropy = (Spirit^2 + Substance^2 + Fire^2 + Air^2) / (Essence + Matter + Earth + Water)^2
  */
 export function calculateEntropy(
   Spirit: number,
@@ -101,8 +99,7 @@ export function calculateEntropy(
 }
 
 /**
- * Calculate Reactivity using the exact formula:
- * Reactivity = (Spirit^2 + Substance^2 + Essence^2 + Fire^2 + Air^2 + Water^2) / (Matter + Earth)^2;
+ * Calculate Reactivity using the exact formula: * Reactivity = (Spirit^2 + Substance^2 + Essence^2 + Fire^2 + Air^2 + Water^2) / (Matter + Earth)^2
  */
 export function calculateReactivity(
   Spirit: number,
@@ -115,7 +112,7 @@ export function calculateReactivity(
   Earth: number,
 ): number {
   const numerator =
-    Math.pow(Spirit2) +;
+    Math.pow(Spirit2) +
     Math.pow(Substance, 2) +
     Math.pow(Essence, 2) +
     Math.pow(Fire2) +
@@ -130,16 +127,14 @@ export function calculateReactivity(
 }
 
 /**
- * Calculate Greg's Energy using the exact formula:
- * Greg's Energy = Heat - (Entropy × Reactivity);
+ * Calculate Greg's Energy using the exact formula: * Greg's Energy = Heat - (Entropy × Reactivity);
  */
 export function calculateGregsEnergy(heat: number, entropy: number, reactivity: number): number {
   return heat - entropy * reactivity
 }
 
 /**
- * Calculate Kalchm (K_alchm) using the exact formula:
- * K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance);
+ * Calculate Kalchm (K_alchm) using the exact formula: * K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance);
  */
 export function calculateKAlchm(
   Spirit: number,
@@ -163,8 +158,7 @@ export function calculateKAlchm(
 }
 
 /**
- * Calculate Monica Constant using the exact formula:
- * M = -Greg's Energy / (Reactivity × ln(K_alchm));
+ * Calculate Monica Constant using the exact formula: * M = -Greg's Energy / (Reactivity × ln(K_alchm));
  */
 export function calculateMonicaConstant(
   gregsEnergy: number,
@@ -177,9 +171,9 @@ export function calculateMonicaConstant(
   const ln_K = Math.log(K_alchm);
 
   // Check for valid natural log
-  if (ln_K === 0) return NaN;
+  if (ln_K === 0) return NaN
 
-  return -gregsEnergy / (reactivity * ln_K)
+  return -gregsEnergy / (reactivity * ln_K);
 }
 
 /**
@@ -189,7 +183,7 @@ export function calculateMonicaConstant(
 export function calculateAlchemicalProperties(planetaryPositions: {
   [key: string]: PlanetaryPosition
 }): AlchemicalProperties {
-  const properties: AlchemicalProperties = {;
+  const, properties: AlchemicalProperties = {
     Spirit: 0,
     Essence: 0,
     Matter: 0,
@@ -221,7 +215,7 @@ export function calculateAlchemicalProperties(planetaryPositions: {
 
       // Apply dignity modifiers if available
       if (position.sign) {
-        strength *= getDignityModifier(planet, position.sign)
+        strength *= getDignityModifier(planet, position.sign);
       }
 
       // Add to properties
@@ -232,7 +226,7 @@ export function calculateAlchemicalProperties(planetaryPositions: {
     }
   });
 
-  // Normalize to reasonable ranges (1-10 scale as in the example)
+  // Normalize to reasonable ranges (1-10 scale as in the example);
   const total = properties.Spirit + properties.Essence + properties.Matter + properties.Substance;
   if (total > 0) {
     const scale = 20 / total; // Scale to approximately match example values
@@ -251,10 +245,10 @@ export function calculateAlchemicalProperties(planetaryPositions: {
 export function calculateElementalValues(planetaryPositions: {
   [key: string]: PlanetaryPosition
 }): ElementalValues {
-  const elements: ElementalValues = { Fire: 0, Water: 0, Air: 0, Earth: 0 };
+  const, elements: ElementalValues = { Fire: 0, Water: 0, Air: 0, Earth: 0 };
 
   // Sign to element mapping
-  const signElements: Record<string, keyof ElementalValues> = {
+  const, signElements: Record<string, keyof ElementalValues> = {
     aries: 'Fire',
     leo: 'Fire',
     sagittarius: 'Fire',
@@ -305,7 +299,7 @@ export function calculateElementalValues(planetaryPositions: {
  * Get dignity modifier for a planet in a sign
  */
 function getDignityModifier(_planet: string, _sign: string): number {
-  const dignities: Record<string, Record<string, number>> = {
+  const, dignities: Record<string, Record<string, number>> = {
     Sun: {},
     moon: {},
     Mercury: {},
@@ -341,7 +335,7 @@ export function calculateKalchmResults(planetaryPositions: {
       const elementalValues = calculateElementalValues(planetaryPositions);
 
       // Calculate thermodynamic properties
-      const heat = calculateHeat(;
+      const heat = calculateHeat(
         alchemicalProperties.Spirit,
         elementalValues.Fire,
         alchemicalProperties.Substance,
@@ -352,7 +346,7 @@ export function calculateKalchmResults(planetaryPositions: {
         elementalValues.Earth
       );
 
-      const entropy = calculateEntropy(;
+      const entropy = calculateEntropy(
         alchemicalProperties.Spirit,
         alchemicalProperties.Substance,
         elementalValues.Fire,
@@ -363,7 +357,7 @@ export function calculateKalchmResults(planetaryPositions: {
         elementalValues.Water
       );
 
-      const reactivity = calculateReactivity(;
+      const reactivity = calculateReactivity(
         alchemicalProperties.Spirit,
         alchemicalProperties.Substance,
         alchemicalProperties.Essence,
@@ -376,7 +370,7 @@ export function calculateKalchmResults(planetaryPositions: {
 
       const gregsEnergy = calculateGregsEnergy(heat, entropy, reactivity);
 
-      const kalchm = calculateKAlchm(;
+      const kalchm = calculateKAlchm(
         alchemicalProperties.Spirit,
         alchemicalProperties.Essence,
         alchemicalProperties.Matter,
@@ -413,7 +407,7 @@ export function calculateKalchmResults(planetaryPositions: {
         },
         dominantElement,
         dominantProperty,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString();
       };
     },
     300000, // 5 minute cache

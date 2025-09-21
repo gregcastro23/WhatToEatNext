@@ -2,7 +2,7 @@
 import type { _, _ZodiacSign } from '@/types/alchemy';
 import type { Cuisine } from '@/types/cuisine';
 
-export const italian: Cuisine = {;
+export const, italian: Cuisine = {
   id: 'italian',
   name: 'Italian',
   description:
@@ -1377,9 +1377,9 @@ export const italian: Cuisine = {;
     }
   },
   elementalProperties: {
-    Earth: 0.3, // Represents hearty ingredients and grounding dishes
-    Water: 0.3, // Represents sauces and moisture
-    Fire: 0.2, // Represents cooking techniques
+    Earth: 0.3, // Represents hearty ingredients and grounding dishes,
+    Water: 0.3, // Represents sauces and moisture,
+    Fire: 0.2, // Represents cooking techniques,
     Air: 0.2, // Represents herbs and lightness
   },
   astrologicalInfluences: [

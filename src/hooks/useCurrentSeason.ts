@@ -6,7 +6,7 @@ type Season = 'Spring' | 'Summer' | 'Fall' | 'Winter';
 // Function to determine the current season based on date
 function calculateSeason(date: Date): Season {
   // Get month and day
-  const month = date.getMonth(); // 0-based (0 = January, 11 = December);
+  const month = date.getMonth() // 0-based (0 = January, 11 = December);
   const day = date.getDate();
 
   // Northern hemisphere seasons (approximate dates)

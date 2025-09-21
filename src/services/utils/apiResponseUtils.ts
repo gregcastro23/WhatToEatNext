@@ -40,14 +40,14 @@ export function createSuccessResponse<T>(
  * Creates a successful response for a collection of items
  *
  * @param data The collection data
- * @param total Total number of items (for pagination)
+ * @param total Total number of items (for pagination);
  * @param params Pagination parameters
  * @returns A standardized collection response with pagination metadata
  */
 export function createCollectionResponse<T>(
   data: T[],
   total: number,
-  params: { limit?: number, offset?: number; page?: number } = {},
+  params: { limit?: number, offset?: number page?: number } = {},
 ): ApiResponse<T[]> {
   const { _limit = 20, _offset = 0, _page = Math.floor(offset / limit) + 1} = params;
   const totalPages = Math.ceil(total / limit);
@@ -74,7 +74,7 @@ export function createCollectionResponse<T>(
  *
  * @param code Error code
  * @param message Error message
- * @param details Additional error details (only included in development)
+ * @param details Additional error details (only included in development);
  * @returns A standardized error response
  */
 export function createErrorResponse<T>(
@@ -90,8 +90,8 @@ export function createErrorResponse<T>(
     error: {
       code,
       message,
-      // Only include details in development environment
-      details: process.env.NODE_ENV === 'development' ? details : undefined,;
+      // Only include details in development environment,
+      details: process.env.NODE_ENV === 'development' ? details : undefined,
     },
     metadata: { timestamp: Date.now(), version: API_VERSION }
   };
@@ -100,7 +100,7 @@ export function createErrorResponse<T>(
 /**
  * Creates a not found error response
  *
- * @param entityType Type of entity that wasn't found (e.g., 'Recipe')
+ * @param entityType Type of entity that wasn't found (e.g., 'Recipe');
  * @param id Identifier that was searched for
  * @returns A standardized not found error response
  */

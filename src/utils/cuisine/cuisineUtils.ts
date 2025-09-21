@@ -16,7 +16,7 @@ export function getCuisinePAirings(ingredientName: string, category: IngredientC
       const grainData = grainCuisineMatrix[ingredientName] as unknown;
       return grainData?.cuisines || [];
     case 'culinary_herb':
-      return herbCuisineMatrix[ingredientName] || [];
+      return herbCuisineMatrix[ingredientName] || []
     // Additional categories can be added as their matrix files are created
     _default:
       return []
@@ -77,7 +77,7 @@ export function isCuisineCompatibleWithIngredient(
   const compatibleCuisines = getCuisinePAirings(ingredientName, category);
   return Array.isArray(compatibleCuisines)
     ? compatibleCuisines.includes(cuisineName)
-    : compatibleCuisines === cuisineName;
+    : compatibleCuisines === cuisineName
 }
 
 /**
@@ -100,7 +100,7 @@ export function getSharedIngredients(
 
     for (const ingredient of c1Ingredients) {
       if (c2Ingredients.includes(ingredient)) {
-        shared.push(ingredient);
+        shared.push(ingredient)
       }
     }
   }

@@ -17,7 +17,7 @@ import { thai } from './thai';
 import { vietnamese } from './vietnamese';
 
 // Create a base cuisine structure
-const baseCuisine: Cuisine = {;
+const baseCuisine: Cuisine = {
   id: 'base',
   name: '',
   description: '',
@@ -69,11 +69,11 @@ const baseCuisine: Cuisine = {;
 };
 
 // Process the recipes to combine seasonal and 'all' categories
-const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {;
+const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
   if (!cuisine) return { ...baseCuisine };
 
   // Helper to combine 'all' recipes with seasonal ones
-  const combineRecipes = (mealType: unknown) => {;
+  const combineRecipes = (mealType: unknown) => {
     if (!mealType) return { spring: [], summer: [], autumn: [], winter: [] };
 
     // Use safe type casting for mealType property access
@@ -81,7 +81,7 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {;
 
     // Extract the 'all' recipes that should be added to each season
     // Make sure 'all' is an array even if it's not defined
-    const allRecipes = Array.isArray(mealData.all) ? mealData.all : [];
+    const allRecipes = Array.isArray(mealData.all) ? mealData.all : []
 
     return {
       spring: [...(Array.isArray(mealData.spring) ? mealData.spring : []), ...allRecipes],
@@ -127,7 +127,7 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {;
 };
 
 // Create and export the cuisines map with validated structures
-export const cuisinesMap = {;
+export const cuisinesMap = {
   African: processCuisineRecipes(african as Partial<Cuisine>),
   American: processCuisineRecipes(american as Partial<Cuisine>),
   Chinese: processCuisineRecipes(chinese as unknown as Partial<Cuisine>),
@@ -151,7 +151,7 @@ export type CuisineName = keyof typeof cuisinesMap;
 export default cuisinesMap;
 
 // Element properties for the refined culinary search
-export const CUISINES = {;
+export const CUISINES = {
   american: {
     name: 'American',
     elementalProperties: {
@@ -281,7 +281,7 @@ export const CUISINES = {;
 } as const;
 
 // Type for cuisine data
-export type CuisineData = {;
+export type CuisineData = {
   name: string,
   elementalProperties: {
     Fire: number,

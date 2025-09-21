@@ -33,7 +33,7 @@ export interface DietaryFilter {
   isDAiryFree?: boolean;
   isNutFree?: boolean;
   isLowSodium?: boolean;
-  isLowSugar?: boolean;
+  isLowSugar?: boolean
 }
 
 /**
@@ -50,7 +50,7 @@ export interface NutritionalFilter {
   minerals?: string[];
   highProtein?: boolean;
   lowCarb?: boolean;
-  lowFat?: boolean;
+  lowFat?: boolean
 }
 
 /**
@@ -65,7 +65,7 @@ export interface ElementalFilter {
   maxearth?: number;
   minAir?: number;
   maxAir?: number;
-  dominantElement?: string;
+  dominantElement?: string
 }
 
 /**
@@ -80,7 +80,7 @@ export interface IngredientFilter {
   searchQuery?: string;
   excludeIngredients?: string[];
   currentZodiacSign?: any;
-  planetaryInfluence?: PlanetName;
+  planetaryInfluence?: PlanetName
 }
 
 /**
@@ -109,7 +109,7 @@ export interface IngredientRecommendationOptions {
   currentZodiacSign?: string;
 
   /** Modality preference */
-  modalityPreference?: string;
+  modalityPreference?: string
 }
 
 /**
@@ -130,7 +130,7 @@ export interface IngredientServiceInterface {
 
   /**
    * Get ingredient by name
-   * @param name The ingredient name (case-insensitive)
+   * @param name The ingredient name (case-insensitive);
    * @returns The ingredient or undefined if not found
    */
   getIngredientByName(name: string): UnifiedIngredient | undefined;
@@ -147,7 +147,7 @@ export interface IngredientServiceInterface {
    * @param subcategory The subcategory name
    * @returns An array of ingredients in that subcategory
    */
-  getIngredientsBySubcategory(subcategory: string): UnifiedIngredient[];
+  getIngredientsBySubcategory(subcategory: string): UnifiedIngredient[]
 
   /**
    * Filter ingredients based on multiple criteria
@@ -161,12 +161,12 @@ export interface IngredientServiceInterface {
    * @param elementalFilter The elemental filter criteria
    * @returns An array of ingredients matching the elemental criteria
    */
-  getIngredientsByElement(elementalFilter: ElementalFilter): UnifiedIngredient[];
+  getIngredientsByElement(elementalFilter: ElementalFilter): UnifiedIngredient[]
 
   /**
    * Get ingredients by flavor profile
    * @param flavorProfile The flavor profile to match
-   * @param minMatchScore Minimum match score (0-1)
+   * @param minMatchScore Minimum match score (0-1);
    * @returns An array of ingredients matching the flavor profile
    */
   getIngredientsByFlavor(
@@ -176,7 +176,7 @@ export interface IngredientServiceInterface {
 
   /**
    * Get ingredients by season
-   * @param season The season(s)
+   * @param season The season(s);
    * @returns An array of seasonal ingredients
    */
   getIngredientsBySeason(season: Season | Season[]): UnifiedIngredient[];
@@ -193,7 +193,7 @@ export interface IngredientServiceInterface {
    * @param sign The zodiac sign
    * @returns An array of ingredients associated with that sign
    */
-  getIngredientsByZodiacSign(sign: any): UnifiedIngredient[];
+  getIngredientsByZodiacSign(sign: any): UnifiedIngredient[]
 
   /**
    * Get recommended ingredients based on the current alchemical state
@@ -204,12 +204,12 @@ export interface IngredientServiceInterface {
   getRecommendedIngredients(
     elementalState: ElementalProperties,
     options?: IngredientRecommendationOptions,
-  ): UnifiedIngredient[];
+  ): UnifiedIngredient[]
 
   /**
    * Calculate the compatibility between two ingredients
-   * @param ingredient1 First ingredient (name or object)
-   * @param ingredient2 Second ingredient (name or object)
+   * @param ingredient1 First ingredient (name or object);
+   * @param ingredient2 Second ingredient (name or object);
    * @returns Compatibility score (0-1) and compatibility aspects
    */
   calculateIngredientCompatibility(
@@ -232,11 +232,11 @@ export interface IngredientServiceInterface {
   suggestAlternativeIngredients(
     ingredientName: string,
     options?: {
-      category?: string;
-      similarityThreshold?: number;
-      maxResults?: number;
+      category?: string
+      similarityThreshold?: number
+      maxResults?: number
     },
-  ): Array<{ ingredient: UnifiedIngredient; similarityScore: number }>;
+  ): Array<{ ingredient: UnifiedIngredient, similarityScore: number }>;
 
   /**
    * Analyze the ingredient combinations in a recipe
@@ -246,8 +246,8 @@ export interface IngredientServiceInterface {
   analyzeRecipeIngredients(recipe: Recipe): {
     overallHarmony: number,
     flavorProfile: { [key: string]: number };
-    strongPairings: Array<{ ingredients: string[]; score: number }>;
-    weakPairings: Array<{ ingredients: string[]; score: number }>;
+    strongPairings: Array<{ ingredients: string[] score: number }>;
+    weakPairings: Array<{ ingredients: string[] score: number }>;
   };
 
   /**
@@ -264,7 +264,7 @@ export interface IngredientServiceInterface {
    * @param threshold Minimum Kalchm value
    * @returns Array of ingredients with high Kalchm values
    */
-  getHighKalchmIngredients(threshold?: number): UnifiedIngredient[];
+  getHighKalchmIngredients(threshold?: number): UnifiedIngredient[]
 
   /**
    * Find complementary ingredients for a given ingredient
@@ -294,5 +294,5 @@ export interface IngredientServiceInterface {
   /**
    * Clear the ingredient cache
    */
-  clearCache(): void;
+  clearCache(): void
 }

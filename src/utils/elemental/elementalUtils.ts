@@ -24,7 +24,7 @@ export function isElementalProperties(obj: unknown): obj is ElementalProperties 
     typeof (obj as ElementalProperties).Water === 'number' &&;
     typeof (obj as ElementalProperties).Earth === 'number' &&;
     typeof (obj as ElementalProperties).Air === 'number';
-  );
+  )
 }
 
 /**
@@ -35,7 +35,7 @@ export function getElementalProperty(
   element: keyof ElementalProperties,
 ): number {
   if (!props) return 0;
-  return props[element] ?? 0;
+  return props[element] ?? 0
 }
 
 /**
@@ -93,7 +93,7 @@ export function calculateElementalCompatibility(
   const targetProps = createElementalProperties(target);
 
   // Define element compatibility scores (same elements have highest compatibility)
-  const compatibilityScores = {;
+  const compatibilityScores = {
     Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
     Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },
     Earth: { Earth: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },
@@ -141,7 +141,7 @@ export function calculateElementalCompatibility(
   // Calculate final score - ensure minimum of 0.7 following our principles
   const finalScore = totalWeight > 0 ? Math.max(0.7, weightedSum / totalWeight) : 0.7;
 
-  return finalScore;
+  return finalScore
 }
 
 /**

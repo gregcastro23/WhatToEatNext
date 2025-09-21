@@ -30,11 +30,11 @@ export interface Ingredient {
   elementalProperties: ElementalProperties,
   astrologicalProfile: {
     elementalAffinity: {
-      base: string;
-      secondary?: string;
+      base: string
+      secondary?: string
     };
     rulingPlanets: string[];
-    zodiacAffinity?: string[];
+    zodiacAffinity?: string[]
   };
   flavorProfile?: {
     spicy: number,
@@ -90,7 +90,7 @@ export interface NutritionPreferences {
 }
 
 export type TimeData = {;
-  [season in Season]?: Dish[];
+  [season in Season]?: Dish[]
 };
 
 export type CuisineData = {;
@@ -105,7 +105,7 @@ export type CuisineData = {;
   alchemicalBalance?: number;
   elementalProperties?: ElementalProperties;
   dishes?: {
-    [mealTime in MealTime]?: TimeData;
+    [mealTime in MealTime]?: TimeData
   };
 
   // Additional properties for enhanced compatibility
@@ -114,7 +114,7 @@ export type CuisineData = {;
   culturalContext?: string;
   traditionalTechniques?: string[];
   seasonalFocus?: Season[];
-  astrologicalAffinities?: string[];
+  astrologicalAffinities?: string[]
 };
 
 export type Cuisines = {;
@@ -164,12 +164,12 @@ export * from './nutrition';
 export * from './seasonal';
 export * from './cuisine';
 export * from './chakra';
-export * from './astrology';
+export * from './astrology'
 // Explicitly re-export PlanetaryPositions from astrological to resolve ambiguity
 export type { PlanetaryPositions as AstrologicalPlanetaryPositions } from './astrological';
 // Note: Removing wildcard export from './astrological' to avoid PlanetaryPositions conflict
 export * from './ingredient-compatibility';
-export * from './utils';
+export * from './utils'
 
 // Define core app state types
 export interface AppState {

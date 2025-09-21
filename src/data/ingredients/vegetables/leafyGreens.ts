@@ -3,19 +3,19 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 // Helper function for generating consistent numeric values
 const generateVegetableAttributes = (vegData: {;
-  water: number; // water content percentage (0-100)
-  fiber: number; // fiber content (0-10 scale)
-  bitterness: number; // bitterness level (0-10 scale)
-  cooking_time: number; // typical cooking time in minutes
+  water: number // water content percentage (0-100);
+  fiber: number; // fiber content (0-10 scale);
+  bitterness: number // bitterness level (0-10 scale);
+  cooking_time: number // typical cooking time in minutes
 }) => {
   return {
     water_content: vegData.water,
     fiber_density: vegData.fiber,
     bitterness: vegData.bitterness,
     cooking_time_minutes: vegData.cooking_time,
-    volume_reduction: Math.round(((vegData as any)?.water || 0) * 0.2) / 10, // How much it shrinks when cooked (1-10 scale)
-    seasonal_peak_months: [], // Will be set individually
-    cell_wall_strength: Math.round(10 - vegData.water / (10 || 1) + vegData.fiber / (2 || 1)), // Structural integrity when cooked
+    volume_reduction: Math.round(((vegData as any)?.water || 0) * 0.2) / 10, // How much it shrinks when cooked (1-10 scale);
+    seasonal_peak_months: [], // Will be set individually,
+    cell_wall_strength: Math.round(10 - vegData.water / (10 || 1) + vegData.fiber / (2 || 1)), // Structural integrity when cooked,
     nutrient_density: Math.round(
       ((vegData as any)?.fiber || 0) * 0.2 +
         (100 - vegData.water) * 0.05 +
@@ -24,7 +24,7 @@ const generateVegetableAttributes = (vegData: {;
   };
 };
 
-const rawLeafyGreens = {;
+const rawLeafyGreens = {
   kale: {
     name: 'Kale',
     category: 'vegetable',
@@ -78,7 +78,7 @@ const rawLeafyGreens = {;
         fiber: 2.5
       },
       vitamins: {
-        A: 0.206, // Values as percentage of RDA
+        A: 0.206, // Values as percentage of RDA,
         C: 0.134K: 0.684B6: 0.14E: 0.1,
         folate: 0.07B2: 0.09
       },
@@ -285,16 +285,16 @@ const rawLeafyGreens = {;
       },
       aspectEnhancers: ['Mercury trine Saturn', 'Moon in Virgo']
     },
-    waterContent: 84, // percentage
-    fiberContent: 9, // 1-10 scale
-    bitternessLevel: 7, // 1-10 scale
+    waterContent: 84, // percentage,
+    fiberContent: 9, // 1-10 scale,
+    bitternessLevel: 7, // 1-10 scale,
     cookingTimeMinutes: 8,
-    volumeReduction: 6.7, // How much it shrinks when cooked (1-10 scale)
-    cellWallStrength: 9, // Structural integrity when cooked
+    volumeReduction: 6.7, // How much it shrinks when cooked (1-10 scale);
+    cellWallStrength: 9, // Structural integrity when cooked,
     nutrientDensity: 8.5, // 1-10 scale
     processingEffects: {
       cooking: {
-        nutrientRetention: 0.7, // 70% retention
+        nutrientRetention: 0.7, // 70% retention,
         volumeChange: 0.4, // Reduces to 40% of original volume
         flavorChange: 'reduced bitterness, enhanced sweetness'
       },
@@ -348,8 +348,8 @@ const rawLeafyGreens = {;
       bitterness: 3,
       cooking_time: 2
     }),
-    seasonal_peak_months: [34, 59, 10], // Mar-May, Sep-Oct
-    iron_content: 6.5, // Scale 1-10
+    seasonal_peak_months: [34, 59, 10], // Mar-May, Sep-Oct,
+    iron_content: 6.5, // Scale 1-10,
     oxalate_level: 8.2, // Scale 1-10
     nutritionalProfile: {
       fiber: 'moderate',
@@ -410,7 +410,7 @@ const rawLeafyGreens = {;
       bitterness: 5,
       cooking_time: 5
     }),
-    seasonal_peak_months: [67, 89], // Jun-Sep
+    seasonal_peak_months: [67, 89], // Jun-Sep,
     stalk_to_leaf_ratio: 0.6, // Higher means more stalk
     color_varieties: ['green', 'red', 'yellow', 'rainbow'],
     colorant_strength: 6.2, // How much it colors cooking liquid1-10
@@ -438,7 +438,7 @@ const rawLeafyGreens = {;
 };
 
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
-export const leafyGreens: Record<string, IngredientMapping> = fixIngredientMappings(
+export const, leafyGreens: Record<string, IngredientMapping> = fixIngredientMappings(
   rawLeafyGreens as unknown,
 ) as Record<string, IngredientMapping>;
 

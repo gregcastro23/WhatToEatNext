@@ -8,7 +8,7 @@ export interface ElementalEnergy {
   type: ElementType,
   strength: number,
   influence: string[],
-  description?: string;
+  description?: string
 }
 
 export interface ElementalBalance {

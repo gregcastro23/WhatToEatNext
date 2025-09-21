@@ -46,7 +46,7 @@ export interface LintingCampaignPhase {
     warningReduction: number,
     performanceThreshold: number
   };
-  estimatedDuration: number; // minutes
+  estimatedDuration: number // minutes
 }
 
 /**
@@ -72,7 +72,7 @@ export interface CampaignExecutionResult {
  * Linting Campaign Integration Service
  */
 export class LintingCampaignIntegration {
-  private progressTracker: LintingProgressTracker;
+  private, progressTracker: LintingProgressTracker;
   private campaignConfigFile = '.kiro/campaigns/linting-campaigns.json';
   private activeConfigFile = '.kiro/campaigns/active-linting-campaign.json';
 
@@ -117,7 +117,6 @@ export class LintingCampaignIntegration {
     phase: LintingCampaignPhase,
   ): Promise<CampaignExecutionResult> {
     const startTime = Date.now();
-
     try {
       logger.info(`Executing campaign phase: ${phase.name}`);
 
@@ -133,7 +132,7 @@ export class LintingCampaignIntegration {
       // Evaluate success criteria
       const success = this.evaluatePhaseSuccess(phase, prePhaseReport, postPhaseReport);
 
-      const result: CampaignExecutionResult = {;
+      const, result: CampaignExecutionResult = {
         campaignId: config.campaignId,
         phase: phase.id,
         success,
@@ -174,9 +173,9 @@ export class LintingCampaignIntegration {
    */
   private async executePhaseTools(
     tools: string[],
-  ): Promise<{ issues: string[]; recommendations: string[] }> {
-    const issues: string[] = [];
-    const recommendations: string[] = [];
+  ): Promise<{ issues: string[] recommendations: string[] }> {
+    const, issues: string[] = [];
+    const, recommendations: string[] = [];
 
     for (const tool of tools) {
       try {
@@ -198,9 +197,9 @@ export class LintingCampaignIntegration {
    */
   private async executeTool(
     tool: string,
-  ): Promise<{ issues: string[]; recommendations: string[] }> {
-    const issues: string[] = [];
-    const recommendations: string[] = [];
+  ): Promise<{ issues: string[] recommendations: string[] }> {
+    const, issues: string[] = [];
+    const, recommendations: string[] = [];
 
     try {
       switch (tool) {
@@ -227,7 +226,7 @@ export class LintingCampaignIntegration {
         case 'console-cleanup':
           await this.executeConsoleCleanup();
           recommendations.push('Cleaned up console statements');
-          break;
+          break,
 
         default:
           issues.push(`Unknown tool: ${tool}`);
@@ -246,7 +245,7 @@ export class LintingCampaignIntegration {
    */
   private async executeESLintFix(): Promise<void> {
     try {
-      execSync('yarn lint:fix', { stdio: 'pipe' });
+      execSync('yarn, lint:fix', { stdio: 'pipe' });
     } catch (error) {
       // ESLint fix may return non-zero exit code but still apply fixes
       logger.debug('ESLint fix completed with warnings');
@@ -308,7 +307,7 @@ export class LintingCampaignIntegration {
       errorReduction >= phase.successCriteria.errorReduction &&
       warningReduction >= phase.successCriteria.warningReduction &&
       performanceAcceptable
-    );
+    )
   }
 
   /**
@@ -336,7 +335,7 @@ export class LintingCampaignIntegration {
           errorReduction: (activeCampaign as any)?.baselineMetrics.errors - currentReport.currentMetrics.errors,
           warningReduction:
             (activeCampaign as any)?.baselineMetrics.warnings -
-            currentReport.currentMetrics.warnings;
+            currentReport.currentMetrics.warnings,
           percentageImprovement: currentReport.improvement.percentageImprovement
         },
         phasesExecuted: (activeCampaign as any)?.phasesExecuted || [],
@@ -445,7 +444,7 @@ export class LintingCampaignIntegration {
   private saveCampaignConfig(config: LintingCampaignConfig): void {
     try {
       const configs = this.getAllCampaignConfigs();
-      configs[config.campaignId] = config;
+      configs[config.campaignId] = config
       writeFileSync(this.campaignConfigFile, JSON.stringify(configs, null, 2));
     } catch (error) {
       logger.error('Error saving campaign config:', error);
@@ -455,7 +454,7 @@ export class LintingCampaignIntegration {
   private getCampaignConfig(campaignId: string): LintingCampaignConfig | undefined {
     try {
       const configs = this.getAllCampaignConfigs();
-      return configs[campaignId];
+      return configs[campaignId]
     } catch (error) {
       logger.error('Error reading campaign config:', error);
       return undefined;
@@ -476,7 +475,7 @@ export class LintingCampaignIntegration {
 
   private setActiveCampaign(campaignId: string, baselineReport: LintingProgressReport): void {
     try {
-      const activeCampaign = {;
+      const activeCampaign = {
         campaignId,
         startTime: new Date(),
         baselineMetrics: baselineReport.currentMetrics,
@@ -508,11 +507,11 @@ export class LintingCampaignIntegration {
     try {
       const activeCampaign = this.getActiveCampaign();
       if (activeCampaign && (activeCampaign as any)?.campaignId === campaignId) {;
-        (activeCampaign as any)?.phasesExecuted = (activeCampaign as any)?.phasesExecuted || [];
+        (activeCampaign as any)?.phasesExecuted = (activeCampaign as any)?.phasesExecuted || []
         (activeCampaign as any)?.phasesExecuted.push({
           phaseId,
           result,
-          timestamp: new Date()
+          timestamp: new Date();
         });
         writeFileSync(this.activeConfigFile, JSON.stringify(activeCampaign, null, 2));
       }
@@ -535,7 +534,7 @@ export class LintingCampaignIntegration {
 
   private saveCampaignReport(report: Record<string, unknown>): void {
     try {
-      const id = typeof report.campaignId === 'string' ? (report.campaignId) : 'unknown';
+      const id = typeof report.campaignId === 'string' ? (report.campaignId) : 'unknown'
       const reportFile = `.kiro/campaigns/report-${id}-${Date.now()}.json`;
       writeFileSync(reportFile, JSON.stringify(report, null, 2));
     } catch (error) {

@@ -30,7 +30,7 @@ interface CacheEntry {
 const CACHE_DURATION = 15 * 60 * 1000;
 
 // In-memory cache
-let positionsCache: CacheEntry | null = null;
+let positionsCache: CacheEntry | null = null
 
 /**
  * Get planetary positions from live API
@@ -41,7 +41,7 @@ async function getPositionsFromAPI(): Promise<Record<string, CelestialPosition> 
     logger.debug('Fetching planetary positions from API...');
 
     // Try to fetch from API endpoint
-    const response = await fetch('/api/planetary-positions', {;
+    const response = await fetch('/api/planetary-positions', {
       _method: 'GET',
       _headers: {
         'Content-Type': 'application/json'
@@ -67,7 +67,7 @@ async function getPositionsFromAPI(): Promise<Record<string, CelestialPosition> 
     Object.entries(data || {}).forEach(([planet, position]) => {
       if (typeof position === 'object' && position !== null && 'sign' in position) {;
         positions[planet.toLowerCase()] = {
-          sign: (typeof (position as any).sign === 'string';
+          sign: (typeof (position as any).sign === 'string'
             ? ((position as any).sign).toLowerCase()
             : 'aries'),
           degree: Number((position as any).degree) || 0,
@@ -160,8 +160,8 @@ export async function getDominantElement(): Promise<string> {
   if (
     getDominantElementMethod &&
     countElementsMethod &&
-    typeof getDominantElementMethod === 'function' &&;
-    typeof countElementsMethod === 'function';
+    typeof getDominantElementMethod === 'function' &&
+    typeof countElementsMethod === 'function'
   ) {
     return getDominantElementMethod(countElementsMethod(positions))
   }

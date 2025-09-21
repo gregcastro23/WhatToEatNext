@@ -10,21 +10,21 @@ import fs from 'fs';
 import { ElementalProperties } from '@/types/celestial';
 
 // Types
-export type PlanetaryPosition = {;
+export type PlanetaryPosition = {
   sign: any,
   degree: number,
   minute: number,
   isRetrograde: boolean
 };
 
-export type ThermodynamicProperties = {;
+export type ThermodynamicProperties = {
   heat: number,
   entropy: number,
   reactivity: number,
   gregsEnergy: number
 };
 
-export type StandardizedAlchemicalResult = {;
+export type StandardizedAlchemicalResult = {
   elementalProperties: ElementalProperties,
   thermodynamicProperties: ThermodynamicProperties,
   kalchm: number,
@@ -43,7 +43,7 @@ export type StandardizedAlchemicalResult = {;
 
 // Utility functions
 function normalizeSign(sign: string): any {
-  const normalized = sign.toLowerCase();
+  const normalized = sign.toLowerCase()
   const validSigns: any[] = [
     'aries',
     'taurus',
@@ -166,7 +166,7 @@ export function alchemize(
   planetaryPositions: Record<string, PlanetaryPosition>,
 ): StandardizedAlchemicalResult {
   // Initialize totals
-  const totals = {;
+  const totals = {
     Spirit: 0,
     Essence: 0,
     Matter: 0,
@@ -266,7 +266,7 @@ export function alchemize(
   const dominantElement = Object.entries(elements).sort((a, b) => b[1] - a[1])[0][0];
 
   // Calculate score based on total energy
-  const score = Math.min(;
+  const score = Math.min(
     1.0,
     Math.max(0.0, (Spirit + Essence + Matter + Substance + Fire + Water + Air + Earth) / 20)
   );
@@ -358,7 +358,7 @@ function getFallbackPlanetaryPositions(): Record<string, PlanetaryPosition> {
  * Get current alchemical state based on real planetary positions
  */
 export function getCurrentAlchemicalState(): StandardizedAlchemicalResult {
-  const planetaryPositions = loadPlanetaryPositions();
+  const planetaryPositions = loadPlanetaryPositions()
   return alchemize(planetaryPositions)
 }
 

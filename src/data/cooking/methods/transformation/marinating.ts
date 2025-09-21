@@ -5,7 +5,7 @@ import type { CookingMethod } from '@/types/shared';
  * Marinating: A technique that soaks food in a flavorful liquid to enhance taste,
  * tenderize, and sometimes partially preserve it
  */
-export const _marinating: CookingMethodData = {;
+export const _marinating: CookingMethodData = {
   name: 'Marinating' as CookingMethod,
   description:
     'A technique that immerses food in a seasoned liquid mixture to enhance flavor, tenderize textures, and sometimes begin the preservation or cooking process.',

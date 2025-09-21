@@ -76,7 +76,7 @@ export interface CelestialPosition {
   minutes?: number;
   speed?: number;
   element?: Element;
-  dignity?: DignityType;
+  dignity?: DignityType
 }
 
 // Planetary position interface for compatibility
@@ -89,7 +89,7 @@ export interface PlanetaryPosition {
   dignity?: string;
   isRetrograde?: boolean;
   exactLongitude?: number; // Used extensively in astronomy calculations
-  speed?: number; // Optional planetary speed
+  speed?: number // Optional planetary speed
 }
 
 // Aspect between two celestial bodies
@@ -101,7 +101,7 @@ export interface PlanetaryAspect {
   orb: number;
   influence?: number; // Optional for compatibility
   strength?: number; // Alternative name used in alchemy.ts
-  planets?: string[]; // Used for multi-planet aspects
+  planets?: string[] // Used for multi-planet aspects
   additionalInfo?: Record<string, unknown>; // For extended data
 }
 
@@ -124,7 +124,7 @@ export interface PlanetaryAlignment {
   Pluto?: CelestialPosition;
   northNode?: CelestialPosition;
   southNode?: CelestialPosition;
-  Ascendant?: CelestialPosition;
+  Ascendant?: CelestialPosition
 }
 
 // Elemental properties
@@ -193,7 +193,7 @@ export interface AstrologicalState {
   zodiacSign?: any; // Used extensively in alchemical calculations
   ascendantSign?: any; // Used in birth chart calculations
   planetaryAlignment?: PlanetaryAlignment; // Alternative name for currentPlanetaryAlignment
-  dominantPlanets?: string[]; // Used in recommendation engine
+  dominantPlanets?: string[] // Used in recommendation engine
 
   // Planetary positions for test compatibility
   planetaryPositions?: Record<string, CelestialPosition>;
@@ -201,12 +201,12 @@ export interface AstrologicalState {
   // Additional properties for compatibility
   sunSign?: any;
   moonSign?: any;
-  alchemicalValues?: AlchemicalProperties;
+  alchemicalValues?: AlchemicalProperties
   tarotElementBoosts?: Record<string, number>;
   tarotPlanetaryBoosts?: Record<string, number>;
 
   // Optional tracking fields
   loading?: boolean;
   isReady?: boolean;
-  renderCount?: number;
+  renderCount?: number
 }

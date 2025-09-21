@@ -1,7 +1,7 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawLegumes = {;
+const rawLegumes = {
   black_beans: {
     name: 'Black Beans',
     description:
@@ -180,7 +180,7 @@ const rawLegumes = {;
           'Brown and green add texture to clear soups'
         ],
         techniques: 'Sauté aromatics first, add lentils, then liquid',
-        cooking_ratio: '1:3 lentils to liquid for soup1:4 for thinner consistency'
+        cooking_ratio: '1:3 lentils to liquid for, soup1:4 for thinner consistency'
       },
       salads: {
         notes: [
@@ -324,7 +324,7 @@ const rawLegumes = {;
   }
 };
 
-export const legumes: Record<string, IngredientMapping> = fixIngredientMappings(
+export const, legumes: Record<string, IngredientMapping> = fixIngredientMappings(
   rawLegumes as unknown,
 );
 

@@ -1,7 +1,7 @@
 import { AlchemicalProvider } from '@/contexts/AlchemicalContext';
 
 const KalchmRecommender = ({ maxRecommendations }: { maxRecommendations?: number }) => (;
-  <div className='p-6 text-gray-600'>KalchmRecommender unavailable.</div>;
+  <div className='p-6 text-gray-600'>KalchmRecommender unavailable.</div>
 );
 
 export default function WhatToEatNextPage() {
@@ -26,7 +26,7 @@ export default function WhatToEatNextPage() {
           Our recommendations are powered by the Kalchm Engine, which uses alchemical principles to
           suggest ingredients that are in harmony with the current celestial energies.
         </p>
-        <div className='mt-6 grid grid-cols-1 gap-6 md:grid-cols-2'>;
+        <div className='mt-6 grid grid-cols-1 gap-6 md: grid-cols-2'>;
           <div>
             <h3 className='mb-2 text-lg font-medium'>Understanding Alchemical Metrics</h3>;
             <ul className='list-disc space-y-2 pl-5'>;
@@ -47,7 +47,7 @@ export default function WhatToEatNextPage() {
           </div>
           <div>
             <h3 className='mb-2 text-lg font-medium'>Elemental Harmony</h3>;
-            <p className='mb-2'>;
+            <p className='mb-2'>
               Each ingredient has a unique elemental composition that may be more or less in harmony
               with the current celestial energies.
             </p>
@@ -59,5 +59,5 @@ export default function WhatToEatNextPage() {
         </div>
       </div>
     </div>
-  );
+  )
 }

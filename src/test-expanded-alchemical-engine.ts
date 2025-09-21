@@ -65,21 +65,21 @@ const testPlanetaryPositions: { [key: string]: CelestialPosition } = {
   _Pluto: { sign: 'aquarius', degree: 3.0 }
 };
 
-const testAstrologicalState: AstrologicalState = {;
+const, testAstrologicalState: AstrologicalState = {
   sunSign: 'gemini',
   _moonSign: 'taurus',
   _lunarPhase: 'waxing gibbous',
   _planetaryPositions: testPlanetaryPositions
 };
 
-const testRecipeElements: ElementalProperties = {;
+const, testRecipeElements: ElementalProperties = {
   Fire: 0.35,
   Water: 0.25,
   Air: 0.25,
   Earth: 0.15
 };
 
-const testUserElements: ElementalProperties = {;
+const, testUserElements: ElementalProperties = {
   Fire: 0.3,
   Water: 0.3,
   Air: 0.25,
@@ -129,9 +129,9 @@ async function runComprehensiveTests() {
   log.info('🧪 Starting Comprehensive Alchemical Engine Tests\n');
 
   try {
-    // Test 1: Basic Astro-Cuisine Match
-    log.info('📊 Test 1: Basic Astro-Cuisine Match');
-    const basicMatch = await alchemicalEngine.calculateAstroCuisineMatch(;
+    // Test, 1: Basic Astro-Cuisine Match
+    log.info('📊 Test, 1: Basic Astro-Cuisine Match');
+    const basicMatch = await alchemicalEngine.calculateAstroCuisineMatch(
       testRecipeElements,
       testAstrologicalState,
       'spring',
@@ -148,9 +148,9 @@ async function runComprehensiveTests() {
     });
     log.info('✅ Basic match test completed\n');
 
-    // Test 2: Advanced Recipe Harmony Analysis
-    log.info('🔬 Test 2: Advanced Recipe Harmony Analysis');
-    const advancedHarmony = await alchemicalEngine.calculateAdvancedRecipeHarmony(;
+    // Test, 2: Advanced Recipe Harmony Analysis
+    log.info('🔬 Test, 2: Advanced Recipe Harmony Analysis');
+    const advancedHarmony = await alchemicalEngine.calculateAdvancedRecipeHarmony(
       'Pasta Primavera',
       testUserElements,
       testAstrologicalState,
@@ -165,17 +165,17 @@ async function runComprehensiveTests() {
     });
     log.info('✅ Advanced harmony test completed\n');
 
-    // Test 3: Enhanced Astrological Power
-    log.info('⭐ Test 3: Enhanced Astrological Power');
-    const astrologicalPower = await alchemicalEngine.calculateAstrologicalPower(;
+    // Test, 3: Enhanced Astrological Power
+    log.info('⭐ Test, 3: Enhanced Astrological Power');
+    const astrologicalPower = await alchemicalEngine.calculateAstrologicalPower(
       'gemini',
       testAstrologicalState,
     );
     log.info('Astrological Power:', astrologicalPower.toFixed(4));
     log.info('✅ Astrological power test completed\n');
 
-    // Test 4: Elemental Affinity Analysis
-    log.info('🔥 Test 4: Elemental Affinity Analysis');
+    // Test, 4: Elemental Affinity Analysis
+    log.info('🔥 Test, 4: Elemental Affinity Analysis');
     const firewaterAffinity = alchemicalEngine.getElementalAffinity('Fire', 'Water');
     const firefireAffinity = alchemicalEngine.getElementalAffinity('Fire', 'Fire');
     const AirearthAffinity = alchemicalEngine.getElementalAffinity('Air', 'Earth');
@@ -199,9 +199,9 @@ async function runComprehensiveTests() {
     });
     log.info('✅ Elemental affinity test completed\n');
 
-    // Test 5: Natural Influences with Enhanced Precision
-    log.info('🌿 Test 5: Natural Influences with Enhanced Precision');
-    const naturalInfluences = await alchemicalEngine.calculateNaturalInfluences({;
+    // Test, 5: Natural Influences with Enhanced Precision
+    log.info('🌿 Test, 5: Natural Influences with Enhanced Precision');
+    const naturalInfluences = await alchemicalEngine.calculateNaturalInfluences({
       _season: 'spring',
       _moonPhase: 'waxing gibbous',
       _timeOfDay: 'day',
@@ -213,14 +213,14 @@ async function runComprehensiveTests() {
     log.info('Natural Influences:', naturalInfluences);
     log.info('✅ Natural influences test completed\n');
 
-    // Test 6: Element Ranking Analysis
-    log.info('📈 Test 6: Element Ranking Analysis');
+    // Test, 6: Element Ranking Analysis
+    log.info('📈 Test, 6: Element Ranking Analysis');
     const elementRanking = alchemicalEngine.getElementRanking(testRecipeElements);
     log.info('Element Ranking:', elementRanking);
     log.info('✅ Element ranking test completed\n');
 
-    // Test 7: Enhanced Legacy Alchemize Function
-    log.info('🔮 Test 7: Enhanced Legacy Alchemize Function');
+    // Test, 7: Enhanced Legacy Alchemize Function
+    log.info('🔮 Test, 7: Enhanced Legacy Alchemize Function');
     const legacyResult = await alchemize(testBirthInfo, testHoroscopeData);
     const legacyResultData = legacyResult as any;
     log.info('Legacy Alchemize Results:', {
@@ -239,18 +239,18 @@ async function runComprehensiveTests() {
         gregsEnergy: (legacyResult ).gregsEnergy?.toFixed(6),
         heat: (legacyResult ).heat?.toFixed(6),
         entropy: (legacyResult ).entropy?.toFixed(6),
-        reactivity: (legacyResult ).reactivity?.toFixed(6)
+        reactivity: (legacyResult ).reactivity?.toFixed(6);
       });
     }
     const elementalState = legacyResultData?.elementalState;
     if (elementalState) {
-      log.info('Elemental _Balance:', elementalState)
+      log.info('Elemental _Balance:', elementalState);
     }
     log.info('✅ Legacy alchemize test completed\n');
 
-    // Test 8: Combined Element Objects with Weights
-    log.info('⚖️ Test 8: Combined Element Objects with Weights');
-    const combinedElements = alchemicalEngine.combineElementObjects(;
+    // Test, 8: Combined Element Objects with Weights
+    log.info('⚖️ Test, 8: Combined Element Objects with Weights');
+    const combinedElements = alchemicalEngine.combineElementObjects(
       testRecipeElements,
       testUserElements,
       0.7, // Recipe weight
@@ -259,16 +259,16 @@ async function runComprehensiveTests() {
     log.info('Combined Elements (70% recipe30% user):', combinedElements);
     log.info('✅ Combined elements test completed\n');
 
-    // Test 9: Multiple Cuisine Compatibility
-    log.info('🍽️ Test 9: Multiple Cuisine Compatibility');
+    // Test, 9: Multiple Cuisine Compatibility
+    log.info('🍽️ Test, 9: Multiple Cuisine Compatibility');
     const cuisines = ['italian', 'indian', 'japanese', 'mexican', 'french', 'chinese'];
-    const cuisineResults: Array<{
+    const, cuisineResults: Array<{
       cuisine: string,
       score: string,
       confidence: number
     }> = [];
     for (const cuisine of cuisines) {
-      const result = await alchemicalEngine.calculateAstroCuisineMatch(;
+      const result = await alchemicalEngine.calculateAstroCuisineMatch(
         testRecipeElements,
         testAstrologicalState,
         'spring',
@@ -282,7 +282,7 @@ async function runComprehensiveTests() {
     }
     // Sort by score
     cuisineResults.sort((ab) => parseFloat(b.score) - parseFloat(a.score));
-    log.info('Cuisine Compatibility _Rankings:');
+    log.info('Cuisine Compatibility _Rankings: ');
     (cuisineResults || []).forEach((result, index) => {
       log.info(
         `${index + 1}. ${result.cuisine}: ${result.score} (confidence: ${result.confidence})`,
@@ -290,8 +290,8 @@ async function runComprehensiveTests() {
     });
     log.info('✅ Cuisine compatibility test completed\n');
 
-    // Test 10: Performance and Caching
-    log.info('⚡ Test 10: Performance and Caching');
+    // Test, 10: Performance and Caching
+    log.info('⚡ Test, 10: Performance and Caching');
     const startTime = Date.now();
     // Run the same calculation twice to test caching
     await alchemicalEngine.calculateAdvancedRecipeHarmony(
@@ -315,7 +315,7 @@ async function runComprehensiveTests() {
     log.info('✅ Performance test completed\n');
 
     log.info('🎉 All Comprehensive Tests Completed Successfully!');
-    log.info('\n📋 _Summary:');
+    log.info('\n📋 _Summary: ');
     log.info('✅ Basic astro-cuisine matching');
     log.info('✅ Advanced recipe harmony analysis with Kalchm/Monica constants');
     log.info('✅ Enhanced astrological power calculations');
@@ -336,12 +336,12 @@ async function runComprehensiveTests() {
 }
 
 // Run the tests
-runComprehensiveTests()
+runComprehensiveTests();
   .then(() => {
     log.info('\n🔬 Test execution completed');
   })
-  .catch(error => {;
-    console.error('💥 Test execution failed:', error)
+  .catch(error => {
+    console.error('💥 Test execution failed:', error);
   });
 
 export default runComprehensiveTests;

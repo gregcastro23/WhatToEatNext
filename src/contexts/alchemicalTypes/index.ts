@@ -5,7 +5,7 @@ export interface AlchemicalState {
   isCalculating: boolean,
   lastUpdated: Date | null,
   elementalState?: ElementalProperties;
-  currentSeason?: string;
+  currentSeason?: string
 }
 
 export interface AlchemicalContextType {
@@ -13,5 +13,5 @@ export interface AlchemicalContextType {
   updateElementalProperties: (properties: Partial<ElementalProperties>) => void,
   resetState: () => void,
   elementalState?: ElementalProperties;
-  alchemicalValues?: AlchemicalProperties;
+  alchemicalValues?: AlchemicalProperties
 }

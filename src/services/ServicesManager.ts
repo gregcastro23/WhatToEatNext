@@ -13,10 +13,10 @@ const logger = createLogger('ServicesManager');
 
 // Define initialization states
 export enum InitializationStatus {
-  NOT_STARTED = 'not_started',;
-  IN_PROGRESS = 'in_progress',;
-  COMPLETED = 'completed',,;
-  FAILED = 'failed',,;
+  NOT_STARTED = 'not_started',
+  IN_PROGRESS = 'in_progress',
+  COMPLETED = 'completed',,
+  FAILED = 'failed',,
 }
 
 // Define service initialization result
@@ -36,11 +36,11 @@ export interface ServiceInitializationResult {
  * are properly initialized before use.
  */
 export class ServicesManager {
-  private static instance: ServicesManager;
-  private _isInitialized: boolean = false;
-  private _initializationError: Error | null = null;
-  private _initializationStatus: InitializationStatus = InitializationStatus.NOT_STARTED;
-  private _serviceResults: ServiceInitializationResult[] = [];
+  private static, instance: ServicesManager;
+  private, _isInitialized: boolean = false;
+  private, _initializationError: Error | null = null;
+  private, _initializationStatus: InitializationStatus = InitializationStatus.NOT_STARTED;
+  private, _serviceResults: ServiceInitializationResult[] = []
 
   private constructor() {}
 
@@ -58,21 +58,21 @@ export class ServicesManager {
    * Check if services are initialized
    */
   get isInitialized(): boolean {
-    return this._isInitialized;
+    return this._isInitialized
   }
 
   /**
    * Get initialization errorif any
    */
   get initializationError(): Error | null {
-    return this._initializationError;
+    return this._initializationError
   }
 
   /**
    * Get current initialization status
    */
   get initializationStatus(): InitializationStatus {
-    return this._initializationStatus;
+    return this._initializationStatus
   }
 
   /**
@@ -118,7 +118,7 @@ export class ServicesManager {
       logger.info('All services initialized successfully');
     } catch (error) {
       this._initializationError = error instanceof Error ? error : new Error(String(error));
-      this._initializationStatus = InitializationStatus.FAILED;
+      this._initializationStatus = InitializationStatus.FAILED
       logger.error('Error initializing services:', this._initializationError),
       throw this._initializationError;
     }
@@ -133,7 +133,7 @@ export class ServicesManager {
 
       // The engine is already initialized through its singleton instance
       // Just perform a simple operation to verify it's working
-      const dummyPositions = {;
+      const dummyPositions = {
         Sun: 'aries',
         moon: 'taurus',
         Mercury: 'gemini',
@@ -154,7 +154,7 @@ export class ServicesManager {
         success: true,
         serviceName: 'AlchemicalEngine',
         message: 'Engine initialized successfully',
-        timestamp: Date.now()
+        timestamp: Date.now();
       });
 
       logger.info('AlchemicalEngine initialized successfully');
@@ -167,7 +167,7 @@ export class ServicesManager {
         serviceName: 'AlchemicalEngine',
         message: 'Failed to initialize engine',
         error: error instanceof Error ? error : new Error(String(error)),
-        timestamp: Date.now()
+        timestamp: Date.now();
       });
 
       throw error;
@@ -192,7 +192,7 @@ export class ServicesManager {
         success: true,
         serviceName: 'AstrologyService',
         message: 'Service initialized successfully',
-        timestamp: Date.now()
+        timestamp: Date.now();
       });
 
       logger.info('AstrologyService initialized successfully');
@@ -205,7 +205,7 @@ export class ServicesManager {
         serviceName: 'AstrologyService',
         message: 'Failed to initialize service',
         error: error instanceof Error ? error : new Error(String(error)),
-        timestamp: Date.now()
+        timestamp: Date.now();
       });
 
       throw error;
@@ -228,7 +228,7 @@ export class ServicesManager {
         success: true,
         serviceName: 'IngredientService',
         message: `Loaded (${(ingredients || []).length}) ingredients`,
-        timestamp: Date.now()
+        timestamp: Date.now();
       });
 
       logger.info('IngredientService initialized successfully');
@@ -241,7 +241,7 @@ export class ServicesManager {
         serviceName: 'IngredientService',
         message: 'Failed to initialize service',
         error: error instanceof Error ? error : new Error(String(error)),
-        timestamp: Date.now()
+        timestamp: Date.now();
       });
 
       throw error;
@@ -264,7 +264,7 @@ export class ServicesManager {
         success: true,
         serviceName: 'RecipeService',
         message: `Loaded (${(recipes || []).length}) recipes`,
-        timestamp: Date.now()
+        timestamp: Date.now();
       });
 
       logger.info('RecipeService initialized successfully');
@@ -277,7 +277,7 @@ export class ServicesManager {
         serviceName: 'RecipeService',
         message: 'Failed to initialize service',
         error: error instanceof Error ? error : new Error(String(error)),
-        timestamp: Date.now()
+        timestamp: Date.now();
       });
 
       throw error;
@@ -290,13 +290,12 @@ export class ServicesManager {
   private async initializeRecommendationService(): Promise<void> {
     try {
       logger.info('Initializing RecommendationService...');
-
       // The unifiedRecommendationService is already initialized through its singleton instance
       // Just verify that it's ready by performing a simple operation
       const elementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
 
       // Just calculate compatibility as a simple test
-      const compatibility = unifiedRecommendationService.calculateElementalCompatibility(;
+      const compatibility = unifiedRecommendationService.calculateElementalCompatibility(
         elementalProperties,
         elementalProperties,
       );
@@ -307,7 +306,7 @@ export class ServicesManager {
         success: true,
         serviceName: 'RecommendationService',
         message: 'Service initialized successfully',
-        timestamp: Date.now()
+        timestamp: Date.now();
       });
 
       logger.info('RecommendationService initialized successfully');
@@ -320,7 +319,7 @@ export class ServicesManager {
         serviceName: 'RecommendationService',
         message: 'Failed to initialize service',
         error: error instanceof Error ? error : new Error(String(error)),
-        timestamp: Date.now()
+        timestamp: Date.now();
       });
 
       throw error;
@@ -333,7 +332,6 @@ export class ServicesManager {
   private async initializeAlchemicalRecommendationService(): Promise<void> {
     try {
       logger.info('Initializing AlchemicalRecommendationService...');
-
       // Ensure the service is initialized
       // ✅ Pattern MM-1: Type assertion for Record<Planet, ZodiacSign> compatibility
       const dummyPositions = {;
@@ -352,7 +350,7 @@ export class ServicesManager {
       } as any;
 
       // ✅ Pattern MM-1: Provide complete Recipe object with type assertion
-      const testRecipe = {;
+      const testRecipe = {
         id: 'test',
         name: 'Test Recipe',
         ingredients: [],
@@ -360,7 +358,7 @@ export class ServicesManager {
         elementalState: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
       } as any;
-      const _recipeRecommendations = alchemicalRecommendationService.getRecipeRecommendations(;
+      const _recipeRecommendations = alchemicalRecommendationService.getRecipeRecommendations(
         testRecipe,
         dummyPositions,
       );
@@ -371,7 +369,7 @@ export class ServicesManager {
         success: true,
         serviceName: 'AlchemicalRecommendationService',
         message: 'Service initialized successfully',
-        timestamp: Date.now()
+        timestamp: Date.now();
       });
 
       logger.info('AlchemicalRecommendationService initialized successfully');
@@ -384,7 +382,7 @@ export class ServicesManager {
         serviceName: 'AlchemicalRecommendationService',
         message: 'Failed to initialize service',
         error: error instanceof Error ? error : new Error(String(error)),
-        timestamp: Date.now()
+        timestamp: Date.now();
       });
 
       throw error;
@@ -410,7 +408,7 @@ export class ServicesManager {
   }
 
   /**
-   * Reset initialization state (primarily for testing)
+   * Reset initialization state (primarily for testing);
    */
   reset(): void {
     this._isInitialized = false;

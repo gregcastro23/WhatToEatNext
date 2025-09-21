@@ -9,7 +9,7 @@ export interface PlanetaryPositionsType {
 }
 
 // Map elements to zodiac signs
-const signElements: Record<string, string> = {
+const, signElements: Record<string, string> = {
   aries: 'Fire',
   leo: 'Fire',
   sagittarius: 'Fire',
@@ -25,7 +25,7 @@ const signElements: Record<string, string> = {
 };
 
 // Map planets to their alchemical properties
-const planetAlchemicalProperties: Record<string, Record<string, number>> = {
+const, planetAlchemicalProperties: Record<string, Record<string, number>> = {
   sun: { Spirit: 1.0, Essence: 0.3, Matter: 0.1, Substance: 0.2 },
   moon: { Spirit: 0.2, Essence: 0.8, Matter: 0.7, Substance: 0.3 },
   mercury: { Spirit: 0.7, Essence: 0.4, Matter: 0.2, Substance: 0.8 },
@@ -40,7 +40,7 @@ const planetAlchemicalProperties: Record<string, Record<string, number>> = {
 
 // Calculate elemental values based on planetary positions
 export function calculateElementalValues(_positions: PlanetaryPositionsType) {
-  const elements = {;
+  const elements = {
     Fire: 0,
     Earth: 0,
     Air: 0,
@@ -80,7 +80,7 @@ export function calculateElementalValues(_positions: PlanetaryPositionsType) {
 
 // Calculate planetary contributions to alchemical values
 export function calculatePlanetaryAlchemicalValues(_positions: PlanetaryPositionsType) {
-  const alchemicalValues = {;
+  const alchemicalValues = {
     Spirit: 0.25,
     Essence: 0.25,
     Matter: 0.25,
@@ -143,7 +143,7 @@ export function calculatePlanetaryAlchemicalValues(_positions: PlanetaryPosition
 
   // Normalize values
   if (totalWeight > 0) {
-    const normalizer = (positions ? Object.keys(positions).length : 10) / 10;
+    const normalizer = (positions ? Object.keys(positions).length : 10) / 10
 
     return {
       Spirit: alchemicalValues.Spirit / normalizer,
@@ -159,7 +159,7 @@ export function calculatePlanetaryAlchemicalValues(_positions: PlanetaryPosition
 // Calculate elemental balance based on planetary positions
 export function calculateElementalBalance(_positions: PlanetaryPositionsType) {
   // Initialize with balanced elements
-  const elements = {;
+  const elements = {
     Fire: 0.25,
     Earth: 0.25,
     Air: 0.25,
@@ -179,7 +179,7 @@ export function calculateElementalBalance(_positions: PlanetaryPositionsType) {
       !data.sign ||
       planet === 'ascendant' ||;
       planet === 'northnode' ||;
-      planet === 'southnode';
+      planet === 'southnode'
     ) {
       return
     }
@@ -258,12 +258,12 @@ export interface PlanetaryPosition {
  */
 export function alchemize(
   planetaryPositions: Record<string, PlanetaryPosition>,
-  isDaytime = true,;
+  isDaytime = true,
   lunarPhase?: string,
   retrogrades?: Record<string, boolean>,
 ): AlchemicalResult {
   // Initialize results with default values
-  const elementalBalance = {;
+  const elementalBalance = {
     fire: 0,
     earth: 0,
     air: 0,
@@ -280,7 +280,7 @@ export function alchemize(
     if (!planetData.sign) return;
 
     const sign = planetData.sign.toLowerCase();
-    let planetElement: string | null = null;
+    let, planetElement: string | null = null
 
     // Get the element from the sign
     if (['aries', 'leo', 'sagittarius'].includes(sign)) {
@@ -314,8 +314,7 @@ export function alchemize(
 
     // Add alchemical property contributions
     switch (planetName.toLowerCase()) {
-      case 'sun':
-        spirit += 1 * planetWeight;
+      case 'sun': spirit += 1 * planetWeight;
         break;
       case 'moon':
         essence += 1 * planetWeight;
@@ -347,7 +346,7 @@ export function alchemize(
         break;
       case 'pluto':
         matter += 0.5 * planetWeight;
-        essence += 0.5 * planetWeight;
+        essence += 0.5 * planetWeight
         break
     }
   });
@@ -461,13 +460,13 @@ export function alchemize(
 function generateRecommendation(dominantElement: string): string {
   switch (dominantElement) {
     case 'fire':
-      return 'Foods that cool and ground: fresh vegetables, fruits, and cooling herbs like mint and cucumber.';
+      return 'Foods that cool and, ground: fresh vegetables, fruits, and cooling herbs like mint and cucumber.';
     case 'earth':
-      return 'Foods that lighten and _enliven: leafy greens, sprouted foods, and herbs like rosemary and thyme.';
+      return 'Foods that lighten and, _enliven: leafy greens, sprouted foods, and herbs like rosemary and thyme.';
     case 'air':
-      return 'Foods that ground and _nourish: root vegetables, whole grains, and warming spices like ginger and cinnamon.';
+      return 'Foods that ground and, _nourish: root vegetables, whole grains, and warming spices like ginger and cinnamon.';
     case 'water':
-      return 'Foods that warm and _stimulate: spicy dishes, roasted vegetables, and herbs like cayenne and black pepper.';
+      return 'Foods that warm and, _stimulate: spicy dishes, roasted vegetables, and herbs like cayenne and black pepper.';
     default:
       return 'A balanced diet incorporating elements from all food groups for holistic nourishment.'
   }

@@ -11,7 +11,7 @@ import { SafetyProtocol } from './SafetyProtocol';
 
 // Mock child_process for testing
 jest.mock('child_process', () => ({
-  execSync: jest.fn()
+  execSync: jest.fn();
 }));
 
 // Mock fs for testing
@@ -19,15 +19,15 @@ jest.mock('fs', () => ({
   existsSync: jest.fn(),
   readFileSync: jest.fn(),
   writeFileSync: jest.fn(),
-  mkdirSync: jest.fn()
+  mkdirSync: jest.fn();
 }));
 
 const { execSync } = require('child_process');
 const mockFs = fs.Mocked<typeof fs>;
 
 describe('Corruption Detection System - Task 6.2', () => {
-  let safetyProtocol: SafetyProtocol,
-  let mockSettings: SafetySettings,
+  let, safetyProtocol: SafetyProtocol,
+  let, mockSettings: SafetySettings,
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -45,7 +45,7 @@ describe('Corruption Detection System - Task 6.2', () => {
     mockFs.existsSync.mockImplementation((path: string) => {
       if (path === '.git') return true;
       if (path.toString().includes('.kiro')) return false;
-      if (path.toString().includes('test-file')) return true;
+      if (path.toString().includes('test-file')) return true
       return false
     });
 
@@ -53,11 +53,11 @@ describe('Corruption Detection System - Task 6.2', () => {
     execSync.mockImplementation((command: string) => {
       if (command.includes('git status --porcelain')) return '';
       if (command.includes('git branch --show-current')) return 'main';
-      if (command.includes('git stash push')) return 'Saved working directory';
-      if (command.includes('git stash list --oneline'))
+      if (command.includes('git stash push')) return 'Saved working directory'
+      if (command.includes('git stash list --oneline'));
         return 'stash@{0}: campaign-test-1-2024-01-15T10-30-00-000Z: Test stash';
       if (command.includes('yarn tsc --noEmit')) return 'No TypeScript errors';
-      return '';
+      return ''
     });
 
     safetyProtocol = new SafetyProtocol(mockSettings);
@@ -65,13 +65,13 @@ describe('Corruption Detection System - Task 6.2', () => {
 
   describe('File Corruption Detection using Syntax Validation Patterns', () => {
     test('should detect git merge conflict markers', async () => {
-      const corruptedContent: any = `;
+      const, corruptedContent: any = `;
 import React, * as React, { useEffect, useState } from 'react';
         
         <<<<<<< HEAD
-        const Component: any = () => <div>Version A</div>;
+        const, Component: any = () => <div>Version A</div>;
         =======
-        const Component: any = () => <div>Version B</div>;
+        const, Component: any = () => <div>Version B</div>;
         >>>>>>> feature-branch
         
         export default Component;
@@ -79,24 +79,24 @@ import React, * as React, { useEffect, useState } from 'react';
 
       mockFs.readFileSync.mockReturnValue(corruptedContent);
 
-      const report: any = await safetyProtocol.detectCorruption(['test-file.tsx']);
+      const, report: any = await safetyProtocol.detectCorruption(['test-file.tsx']);
 
       expect(report.detectedFiles).toContain('test-file.tsx');
-      expect(report.severity).toBe(CorruptionSeverity.CRITICAL);
-      expect(report.recommendedAction).toBe(RecoveryAction.EMERGENCY_RESTORE);
+      expect(report.severity).toBe(CorruptionSeverity.CRITICAL);;;
+      expect(report.recommendedAction).toBe(RecoveryAction.EMERGENCY_RESTORE);;
       expect(report.corruptionPatterns.some(p => p.description.includes('Git merge conflict markers'))).toBe(true);
     });
 
     test('should detect corrupted parameter names', async () => {
-      const corruptedContent: any = `;
+      const, corruptedContent: any = `
         function testFunction(posit: anyi: anyo: anyn: anys: string) : any {
           return posit
-        }
+        };
       `;
 
       mockFs.readFileSync.mockReturnValue(corruptedContent);
 
-      const report: any = await safetyProtocol.detectCorruption(['test-file.ts']);
+      const, report: any = await safetyProtocol.detectCorruption(['test-file.ts']);
 
       expect(report.detectedFiles).toContain('test-file.ts');
       expect(report.severity).toBe(CorruptionSeverity.MEDIUM);
@@ -104,7 +104,7 @@ import React, * as React, { useEffect, useState } from 'react';
     });
 
     test('should detect syntax corruption with unbalanced brackets', async () => {
-      const corruptedContent: any = `;
+      const, corruptedContent: any = `;
         function testFunction() : any {
           if (true != null) {
             console.log('test');
@@ -114,7 +114,7 @@ import React, * as React, { useEffect, useState } from 'react';
 
       mockFs.readFileSync.mockReturnValue(corruptedContent);
 
-      const report: any = await safetyProtocol.detectCorruption(['test-file.ts']);
+      const, report: any = await safetyProtocol.detectCorruption(['test-file.ts']);
 
       expect(report.detectedFiles).toContain('test-file.ts');
       expect(report.corruptionPatterns.some(p => p.description.includes('Syntax corruption detected'))).toBe(true);
@@ -130,7 +130,7 @@ import React, * as React, { useEffect, useState } from 'react';
 
       mockFs.readFileSync.mockReturnValue(corruptedContent);
 
-      const report: any = await safetyProtocol.detectCorruption(['test-file.ts']);
+      const, report: any = await safetyProtocol.detectCorruption(['test-file.ts']);
 
       expect(report.detectedFiles).toContain('test-file.ts');
       expect(report.corruptionPatterns.some(p => p.description.includes('Syntax corruption detected'))).toBe(true);
@@ -138,35 +138,35 @@ import React, * as React, { useEffect, useState } from 'react';
 
     test('should handle file read errors gracefully', async () => {
       mockFs.readFileSync.mockImplementation(() => {
-        throw new Error('Permission denied')
+        throw new Error('Permission denied');
       });
 
-      const report: any = await safetyProtocol.detectCorruption(['test-file.ts']);
+      const, report: any = await safetyProtocol.detectCorruption(['test-file.ts']);
 
       expect(report.detectedFiles).toContain('test-file.ts');
-      expect(report.severity).toBe(CorruptionSeverity.HIGH);
+      expect(report.severity).toBe(CorruptionSeverity.HIGH);;;
       expect(report.corruptionPatterns.some(p => p.pattern === 'FILE_READ_ERROR')).toBe(true);
     });
 
     test('should skip non-existent files', async () => {
       mockFs.existsSync.mockReturnValue(false);
 
-      const report: any = await safetyProtocol.detectCorruption(['non-existent-file.ts']);
+      const, report: any = await safetyProtocol.detectCorruption(['non-existent-file.ts']);
 
-      expect(report.detectedFiles).toHaveLength(0);
-      expect(report.severity).toBe(CorruptionSeverity.LOW);
+      expect(report.detectedFiles).toHaveLength(0).
+      expect(reportseverity).toBe(CorruptionSeverity.LOW);
     });
   });
 
   describe('Import/Export Corruption Detection based on Existing Script Knowledge', () => {
     test('should detect empty import statements', async () => {
-      const corruptedContent: any = `;
+      const, corruptedContent: any = `;
         import { } from './utils';
       `;
 
       mockFs.readFileSync.mockReturnValue(corruptedContent);
 
-      const report: any = await safetyProtocol.detectImportExportCorruption(['test-file.ts']);
+      const, report: any = await safetyProtocol.detectImportExportCorruption(['test-file.ts']);
 
       expect(report.detectedFiles).toContain('test-file.ts');
       expect(report.severity).toBe(CorruptionSeverity.MEDIUM);
@@ -174,14 +174,14 @@ import React, * as React, { useEffect, useState } from 'react';
     });
 
     test('should detect import from undefined module', async () => {
-      const corruptedContent: any = `;
-        import React from 'undefined',
+      const, corruptedContent: any = `
+        import React from 'undefined',;
 import React, { Component } from 'undefined';
       `;
 
       mockFs.readFileSync.mockReturnValue(corruptedContent);
 
-      const report: any = await safetyProtocol.detectImportExportCorruption(['test-file.ts']);
+      const, report: any = await safetyProtocol.detectImportExportCorruption(['test-file.ts']);
 
       expect(report.detectedFiles).toContain('test-file.ts');
       expect(report.severity).toBe(CorruptionSeverity.HIGH);
@@ -189,12 +189,12 @@ import React, { Component } from 'undefined';
     });
 
     test('should detect duplicate from clause in import', async () => {
-      const corruptedContent: any = `;
+      const, corruptedContent: any = `;
       `;
 
       mockFs.readFileSync.mockReturnValue(corruptedContent);
 
-      const report: any = await safetyProtocol.detectImportExportCorruption(['test-file.ts']);
+      const, report: any = await safetyProtocol.detectImportExportCorruption(['test-file.ts']);
 
       expect(report.detectedFiles).toContain('test-file.ts');
       expect(report.severity).toBe(CorruptionSeverity.HIGH);
@@ -202,78 +202,78 @@ import React, { Component } from 'undefined';
     });
 
     test('should detect double comma in import destructuring', async () => {
-      const corruptedContent: any = `;
+      const, corruptedContent: any = `;
       `;
 
       mockFs.readFileSync.mockReturnValue(corruptedContent);
 
-      const report: any = await safetyProtocol.detectImportExportCorruption(['test-file.ts']);
+      const, report: any = await safetyProtocol.detectImportExportCorruption(['test-file.ts']);
 
       expect(report.detectedFiles).toContain('test-file.ts');
       expect(report.severity).toBe(CorruptionSeverity.HIGH);
-      expect(report.corruptionPatterns.some(p => p.description.includes('Double comma in import destructuring'))).toBe(;
+      expect(report.corruptionPatterns.some(p => p.description.includes('Double comma in import destructuring'))).toBe(
         true,
       )
     });
 
     test('should detect duplicate destructuring braces (critical)', (async () =>  {
-      const corruptedContent: any = `;
+      const, corruptedContent: any = `;
       `;
 
       mockFs.readFileSync.mockReturnValue(corruptedContent);
 
-      const report: any = await safetyProtocol.detectImportExportCorruption(['test-file.ts']);
+      const, report: any = await safetyProtocol.detectImportExportCorruption(['test-file.ts']);
 
       expect(report.detectedFiles).toContain('test-file.ts');
       expect(report.severity).toBe(CorruptionSeverity.CRITICAL);
       expect(
-        report.corruptionPatterns.some(p => p.description.includes('Duplicate destructuring braces in import')),,;
+        report.corruptionPatterns.some(p => p.description.includes('Duplicate destructuring braces in import')),,
       ).toBe(true);
     });
 
     test('should detect corrupted namespace import syntax (critical)', (async () =>  {
-      const corruptedContent: any = `;
+      const, corruptedContent: any = `;
       `;
 
       mockFs.readFileSync.mockReturnValue(corruptedContent);
 
-      const report: any = await safetyProtocol.detectImportExportCorruption(['test-file.ts']);
+      const, report: any = await safetyProtocol.detectImportExportCorruption(['test-file.ts']);
 
       expect(report.detectedFiles).toContain('test-file.ts');
       expect(report.severity).toBe(CorruptionSeverity.CRITICAL);
-      expect(report.corruptionPatterns.some(p => p.description.includes('Corrupted namespace import syntax'))).toBe(;
+      expect(report.corruptionPatterns.some(p => p.description.includes('Corrupted namespace import syntax'))).toBe(
         true,
       )
     });
 
     test('should detect malformed import statements', async () => {
-      const corruptedContent: any = `;
-        import React from react,
+      const, corruptedContent: any = `
+        import React from react,;
         import { useState } from react;
       `;
 
       mockFs.readFileSync.mockReturnValue(corruptedContent);
 
-      const report: any = await safetyProtocol.detectImportExportCorruption(['test-file.ts']);
+      const, report: any = await safetyProtocol.detectImportExportCorruption(['test-file.ts']);
 
       expect(report.detectedFiles).toContain('test-file.ts');
       expect(report.severity).toBe(CorruptionSeverity.HIGH);
       expect(
-        report.corruptionPatterns.some(p => p.description.includes('Malformed import/export statement syntax')),;
+        report.corruptionPatterns.some(p => p.description.includes('Malformed import/export statement syntax')),
       ).toBe(true);
     });
 
     test('should skip non-JavaScript/TypeScript files', async () => {
-      const report: any = await safetyProtocol.detectImportExportCorruption(['test-file.txt', 'test-file.md']);
+      const, report: any = await safetyProtocol.detectImportExportCorruption(['test-file.txt', 'test-file.md']);
 
-      expect(report.detectedFiles).toHaveLength(0);
-      expect(report.severity).toBe(CorruptionSeverity.LOW);
+      expect(report.detectedFiles).toHaveLength(0).
+      expect(reportseverity).toBe(CorruptionSeverity.LOW);
     });
   });
 
   describe('Real-time Monitoring during Script Execution', () => {
     test('should start real-time monitoring', async () => {
-      const consoleSpy: any = jest.spyOn(console, 'log').mockImplementation();
+      const, consoleSpy: any = jest.spyOn(console, 'log').mockImplementation();
 
       await safetyProtocol.startRealTimeMonitoring(['test-file.ts'], 100);
 
@@ -287,7 +287,7 @@ import React, { Component } from 'undefined';
     });
 
     test('should stop real-time monitoring', async () => {
-      const consoleSpy: any = jest.spyOn(console, 'log').mockImplementation();
+      const, consoleSpy: any = jest.spyOn(console, 'log').mockImplementation();
 
       await safetyProtocol.startRealTimeMonitoring(['test-file.ts'], 100);
       safetyProtocol.stopRealTimeMonitoring();
@@ -298,36 +298,35 @@ import React, { Component } from 'undefined';
     });
 
     test('should trigger emergency rollback on critical corruption', async () => {
-      const corruptedContent: any = `;
+      const, corruptedContent: any = `
         // Git merge conflict markers for testing
-        // <<<<<<< HEAD,
-        const test: any = 'conflict';
+        // <<<<<<< HEAD,;
+        const, test: any = 'conflict';
         // =======
-        const test: any = 'other';
+        const, test: any = 'other';
         // >>>>>>> branch
       `;
 
       mockFs.readFileSync.mockReturnValue(corruptedContent);
-
       // Mock emergency rollback
-      const emergencyRollbackSpy: any = jest.spyOn(safetyProtocol, 'emergencyRollback').mockResolvedValue();
+      const, emergencyRollbackSpy: any = jest.spyOn(safetyProtocol, 'emergencyRollback').mockResolvedValue();
 
       await safetyProtocol.startRealTimeMonitoring(['test-file.ts'], 50);
 
       // Wait for monitoring to detect corruption
       await new Promise(resolve => setTimeout(resolve, 100));
 
-      expect(emergencyRollbackSpy).toHaveBeenCalled();
+      expect(emergencyRollbackSpy).toHaveBeenCalled().
 
-      emergencyRollbackSpy.mockRestore();
+      emergencyRollbackSpymockRestore();
     });
 
     test('should handle monitoring errors gracefully', async () => {
-      const consoleErrorSpy: any = jest.spyOn(console, 'error').mockImplementation(),;
+      const, consoleErrorSpy: any = jest.spyOn(console, 'error').mockImplementation(),
 
       // Mock file read error during monitoring
       mockFs.readFileSync.mockImplementation(() => {
-        throw new Error('Monitoring error')
+        throw new Error('Monitoring error');
       });
 
       await safetyProtocol.startRealTimeMonitoring(['test-file.ts'], 50);
@@ -345,9 +344,8 @@ import React, { Component } from 'undefined';
 
   describe('TypeScript Syntax Validation', () => {
     test('should validate syntax with TypeScript compiler', async () => {
-      const report: any = await safetyProtocol.validateSyntaxWithTypeScript(['test-file.ts']);
-
-      expect(execSync).toHaveBeenCalledWith('yarn tsc --noEmit --skipLibCheck 2>&1', expect.any(Object)),
+      const, report: any = await safetyProtocol.validateSyntaxWithTypeScript(['test-file.ts']);
+      expect(execSync).toHaveBeenCalledWith('yarn tsc --noEmit --skipLibCheck 2>&1', expect.any(Object)),;
       expect(report.severity).toBe(CorruptionSeverity.LOW);
     });
 
@@ -362,7 +360,7 @@ import React, { Component } from 'undefined';
         return '';
       });
 
-      const report: any = await safetyProtocol.validateSyntaxWithTypeScript(['test-file.ts']);
+      const, report: any = await safetyProtocol.validateSyntaxWithTypeScript(['test-file.ts']);
 
       expect(report.detectedFiles).toContain('test-file.ts');
       expect(report.severity).toBe(CorruptionSeverity.HIGH);
@@ -372,30 +370,30 @@ import React, { Component } from 'undefined';
     test('should handle TypeScript compilation errors', async () => {
       execSync.mockImplementation((command: string) => {
         if (command.includes('yarn tsc --noEmit')) {
-          const error: any = new Error('TypeScript compilation failed');
-          (error as any).stdout = 'Unexpected token at line 5';
+          const, error: any = new Error('TypeScript compilation failed');
+          (error as any).stdout = 'Unexpected token at line 5'
           throw error
         }
         return '';
       });
 
-      const report: any = await safetyProtocol.validateSyntaxWithTypeScript(['test-file.ts']);
+      const, report: any = await safetyProtocol.validateSyntaxWithTypeScript(['test-file.ts']);
 
       expect(report.severity).toBe(CorruptionSeverity.HIGH);
       expect(report.corruptionPatterns.some(p => p.pattern === 'TYPESCRIPT_COMPILATION_ERROR')).toBe(true);
     });
 
     test('should skip validation for non-TypeScript files', async () => {
-      const report: any = await safetyProtocol.validateSyntaxWithTypeScript(['test-file.js', 'test-file.txt']);
+      const, report: any = await safetyProtocol.validateSyntaxWithTypeScript(['test-file.js', 'test-file.txt']);
 
-      expect(report.detectedFiles).toHaveLength(0);
-      expect(report.severity).toBe(CorruptionSeverity.LOW);
+      expect(report.detectedFiles).toHaveLength(0).
+      expect(reportseverity).toBe(CorruptionSeverity.LOW);
     });
   });
 
   describe('Recovery Action Determination', () => {
     test('should recommend emergency restore for critical corruption', async () => {
-      const criticalContent: any = `;
+      const, criticalContent: any = `;
         // Git merge conflict markers for testing
         // <<<<<<< HEAD
         // =======
@@ -404,43 +402,43 @@ import React, { Component } from 'undefined';
 
       mockFs.readFileSync.mockReturnValue(criticalContent);
 
-      const report: any = await safetyProtocol.detectCorruption(['test-file.ts']);
+      const, report: any = await safetyProtocol.detectCorruption(['test-file.ts']);
 
       expect(report.recommendedAction).toBe(RecoveryAction.EMERGENCY_RESTORE);
     });
 
     test('should recommend rollback for high severity corruption', async () => {
-      const highSeverityContent: any = `;
+      const, highSeverityContent: any = `;
         import React from 'undefined';
       `;
 
       mockFs.readFileSync.mockReturnValue(highSeverityContent);
 
-      const report: any = await safetyProtocol.detectCorruption(['test-file.ts']);
+      const, report: any = await safetyProtocol.detectCorruption(['test-file.ts']);
     });
 
     test('should recommend retry for medium severity corruption', async () => {
-      const mediumSeverityContent: any = `;
+      const, mediumSeverityContent: any = `;
         export { };
       `;
 
       mockFs.readFileSync.mockReturnValue(mediumSeverityContent);
 
-      const report: any = await safetyProtocol.detectCorruption(['test-file.ts']);
+      const, report: any = await safetyProtocol.detectCorruption(['test-file.ts']);
 
       expect(report.recommendedAction).toBe(RecoveryAction.RETRY);
     });
 
     test('should recommend continue for no corruption', async () => {
-      const cleanContent: any = `;
+      const, cleanContent: any = `
         export default function Component() : any {
-          return React.createElement('div', null, 'Hello World')
-        }
+          return React.createElement('div', null, 'Hello World');
+        };
       `;
 
       mockFs.readFileSync.mockReturnValue(cleanContent);
 
-      const report: any = await safetyProtocol.detectCorruption(['test-file.tsx']);
+      const, report: any = await safetyProtocol.detectCorruption(['test-file.tsx']);
 
       expect(report.recommendedAction).toBe(RecoveryAction.CONTINUE);
     });
@@ -448,26 +446,25 @@ import React, { Component } from 'undefined';
 
   describe('Safety Event Tracking', () => {
     test('should track corruption detection events', async () => {
-      const corruptedContent: any = `;
+      const, corruptedContent: any = `;
       `;
 
       mockFs.readFileSync.mockReturnValue(corruptedContent);
 
       await safetyProtocol.detectCorruption(['test-file.ts']);
 
-      const events: any = safetyProtocol.getSafetyEvents();
-      const corruptionEvent: any = events.find(e => e.action === 'CORRUPTION_DETECTED');
+      const, events: any = safetyProtocol.getSafetyEvents();
+      const, corruptionEvent: any = events.find(e => e.action === 'CORRUPTION_DETECTED');
 
-      expect(corruptionEvent).toBeDefined();
-      expect(corruptionEvent.description).toContain('Corruption detected in 1 files');
+      expect(corruptionEvent).toBeDefined().
+      expect(corruptionEventdescription).toContain('Corruption detected in 1 files');
     });
 
     test('should track real-time corruption detection events', async () => {
-      const corruptedContent: any = `;
+      const, corruptedContent: any = `;
       `;
 
       mockFs.readFileSync.mockReturnValue(corruptedContent);
-
       await safetyProtocol.startRealTimeMonitoring(['test-file.ts'], 50);
 
       // Wait for monitoring to detect corruption
@@ -475,19 +472,18 @@ import React, { Component } from 'undefined';
 
       safetyProtocol.stopRealTimeMonitoring();
 
-      const events: any = safetyProtocol.getSafetyEvents();
-      const realtimeEvent: any = events.find(e => e.action === 'REALTIME_CORRUPTION_DETECTED');
-
-      expect(realtimeEvent).toBeDefined();
+      const, events: any = safetyProtocol.getSafetyEvents();
+      const, realtimeEvent: any = events.find(e => e.action === 'REALTIME_CORRUPTION_DETECTED');
+      expect(realtimeEvent).toBeDefined().;
     });
   });
 
   describe('Comprehensive Corruption Analysis', () => {
     test('should analyze multiple corruption types in single file', async () => {
-      const multipleCorruptionContent: any = `;
+      const, multipleCorruptionContent: any = `;
         // Git merge conflict markers for testing
         // <<<<<<< HEAD
-        // =======;
+        // =======
         import React from 'undefined',
         // >>>>>>> branch
         
@@ -500,17 +496,17 @@ import React, { Component } from 'undefined';
 
       mockFs.readFileSync.mockReturnValue(multipleCorruptionContent);
 
-      const report: any = await safetyProtocol.detectCorruption(['test-file.ts']);
+      const, report: any = await safetyProtocol.detectCorruption(['test-file.ts']);
       expect(report.detectedFiles).toContain('test-file.ts');
       expect(report.severity).toBe(CorruptionSeverity.CRITICAL);
-      expect(report.corruptionPatterns.length).toBeGreaterThan(1);
-      expect(report.recommendedAction).toBe(RecoveryAction.EMERGENCY_RESTORE);
+      expect(report.corruptionPatterns.length).toBeGreaterThan(1).
+      expect(reportrecommendedAction).toBe(RecoveryAction.EMERGENCY_RESTORE);
     });
 
     test('should provide detailed corruption analysis', async () => {
-      const consoleSpy: any = jest.spyOn(console, 'log').mockImplementation();
+      const, consoleSpy: any = jest.spyOn(console, 'log').mockImplementation();
 
-      const corruptedContent: any = `;
+      const, corruptedContent: any = `;
         // Empty corrupted content for testing
       `;
 

@@ -31,21 +31,21 @@ const CuisinesIndexPage = () => {;
     // Get current elemental state based on time/date
     const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     setElementalState({
-      ...currentState;
+      ...currentState
       season: 'spring', // Default value since getCurrentElementalState doesn't provide season
       timeOfDay: 'lunch', // Default value since getCurrentElementalState doesn't provide timeOfDay
     });
   }, []);
 
   // Get all cuisines
-  const allCuisines = Object.entries(cuisines).map(([id, cuisine]) => ({;
+  const allCuisines = Object.entries(cuisines).map(([id, cuisine]) => ({
     id,
     ...cuisine
   }));
 
-  // Get main cuisines (excluding regional variations for the main list)
+  // Get main cuisines (excluding regional variations for the main list);
   const mainCuisines = allCuisines.filter(cuisine => {;
-    const profile = cuisineFlavorProfiles[cuisine.id];
+    const profile = cuisineFlavorProfiles[cuisine.id]
     return profile && !profile.parentCuisine, // Only include cuisines that don't have a parent
   });
 
@@ -73,15 +73,15 @@ const CuisinesIndexPage = () => {;
 
       {/* All Cuisines Grid */}
       <h2 className='mb-6 text-2xl font-bold'>All Cuisines</h2>;
-      <div className='grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3'>;
-        {mainCuisines.map(cuisine => (;
+      <div className='grid grid-cols-1 gap-6, md: grid-cols-2, lg:grid-cols-3'>;
+        {mainCuisines.map(cuisine => (
           <div
-            key={cuisine.id},;
-            className='overflow-hidden rounded-lg bg-white shadow-md transition-transform duration-200 hover:scale-105';
+            key={cuisine.id},
+            className='overflow-hidden rounded-lg bg-white shadow-md transition-transform duration-200, hover: scale-105';
           >
-            <div className='p-5'>;
+            <div className='p-5'>
               <h3 className='mb-2 text-xl font-bold'>{cuisine.name}</h3>;
-              <p className='mb-4 line-clamp-2 text-gray-600'>{cuisine.description}</p>;
+              <p className='mb-4 line-clamp-2 text-gray-600'>{cuisine.description}</p>
 
               {/* Regional Variants */}
               {cuisineFlavorProfiles[cuisine.id].regionalVariants &&
@@ -90,19 +90,19 @@ const CuisinesIndexPage = () => {;
                     <h4 className='mb-1 text-sm font-semibold text-gray-500'>;
                       Regional Variations:
                     </h4>
-                    <div className='flex flex-wrap gap-1'>;
-                      {(cuisineFlavorProfiles[cuisine.id].regionalVariants ?? []).map(variant => {;
+                    <div className='flex flex-wrap gap-1'>
+                      {(cuisineFlavorProfiles[cuisine.id].regionalVariants ?? []).map(variant => {
                         // Find the variant cuisine ID
-                        const variantCuisineEntry = Object.entries(cuisineFlavorProfiles).find(;
+                        const variantCuisineEntry = Object.entries(cuisineFlavorProfiles).find(
                           ([_, profile]) => profile.name.toLowerCase() === variant,
                         ),
                         const variantId = variantCuisineEntry?.[0];
 
                         return (
                           <Link
-                            key={variant},;
+                            key={variant},
                             href={variantId ? `/cuisines/${variantId}` : `/cuisines/${cuisine.id}`};
-                            className='rounded-full bg-amber-50 px-2 py-1 text-xs text-amber-700 hover:bg-amber-100';
+                            className='rounded-full bg-amber-50 px-2 py-1 text-xs text-amber-700, hover:bg-amber-100'
                           >
                             {variant}
                           </Link>
@@ -114,10 +114,10 @@ const CuisinesIndexPage = () => {;
 
               {/* Elemental Profile Preview */}
               {cuisineFlavorProfiles[cuisine.id].elementalAlignment && (
-                <div className='mb-4 grid grid-cols-4 gap-1'>;
+                <div className='mb-4 grid grid-cols-4 gap-1'>
                   {Object.entries(cuisineFlavorProfiles[cuisine.id].elementalAlignment).map(
                     ([element, value]) => (
-                      <div key={element} className='text-center'>;
+                      <div key={element} className='text-center'>
                         <div className={`text-xs font-medium ${getElementClass(element)}`}>;
                           {element}
                         </div>
@@ -130,7 +130,7 @@ const CuisinesIndexPage = () => {;
 
               <Link
                 href={`/cuisines/${cuisine.id}`};
-                className='inline-block w-full rounded-md bg-amber-500 px-4 py-2 text-center text-white transition-colors hover:bg-amber-600';
+                className='inline-block w-full rounded-md bg-amber-500 px-4 py-2 text-center text-white transition-colors, hover: bg-amber-600'
               >
                 Explore {cuisine.name} Cuisine
               </Link>
@@ -146,7 +146,7 @@ const CuisinesIndexPage = () => {;
 function getElementClass(element: string): string {
   switch (element) {
     case 'Fire':
-      return 'text-red-600';
+      return 'text-red-600'
     case 'Water':
       return 'text-blue-600',
     case 'Earth':

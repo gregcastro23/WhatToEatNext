@@ -27,7 +27,7 @@ const configManager = new ConfigurationManager();
 /**
  * Display configuration in a readable format
  */
-function displayConfig(_config: unknown, title: string = 'Configuration'): void {;
+function displayConfig(_config: unknown, title: string = 'Configuration'): void {
   // // // console.log(`\n=== ${title} ===`);
   // // // console.log(JSON.stringify(config, null, 2));
 }
@@ -38,17 +38,17 @@ function displayConfig(_config: unknown, title: string = 'Configuration'): void 
 function displayValidation(validation: {
   isValid: boolean,
   errors: string[],
-  warnings?: string[];
+  warnings?: string[]
 }): void {
   if (validation.isValid) {
-    // // // console.log('✅ Configuration is valid');
+    // // // console.log('✅ Configuration is valid')
   } else {
-    // // // console.log('❌ Configuration has errors:');
+    // // // console.log('❌ Configuration has errors: ')
     validation.errors.forEach(error => // // // console.log(`  - ${error}`));
   }
 
   if (validation.warnings && validation.warnings.length > 0) {
-    // // // console.log('⚠️  Warnings:');
+    // // // console.log('⚠️  Warnings: ')
     validation.warnings.forEach(warning => // // // console.log(`  - ${warning}`));
   }
 }
@@ -65,7 +65,7 @@ program
   .description('Display current configuration')
   .option('-e, --environment <env>', 'Show environment-specific config', getCurrentEnvironment())
   .option('-s, --section <section>', 'Show specific section (classification|domain|safety|targets)')
-  .action(options => {;
+  .action(options => {
     try {
       if (options.environment !== getCurrentEnvironment()) {
         const envConfig = getEnvironmentConfig(options.environment as Environment);
@@ -96,16 +96,16 @@ program
   .command('validate')
   .description('Validate configuration')
   .option('-e, --environment <env>', 'Validate environment-specific config')
-  .action(options => {;
+  .action(options => {
     try {
       if (options.environment) {
         const validation = validateEnvironmentConfig(options.environment as Environment);
-        // // // console.log(`\nValidating ${options.environment} configuration:`);
-        displayValidation(validation);
+        // // // console.log(`\nValidating ${options.environment} configuration: `);
+        displayValidation(validation)
       } else {
         const validation = configManager.validateConfig();
-        // // // console.log('\nValidating current configuration:');
-        displayValidation(validation);
+        // // // console.log('\nValidating current configuration: ');
+        displayValidation(validation)
       }
     } catch (error) {
       console.error('Error validating configuration:', error);
@@ -125,7 +125,7 @@ program
       const pathParts = path.split('.');
       if (pathParts.length !== 2) {
         console.error('Path must be in format: section.property');
-        process.exit(1);
+        process.exit(1)
       }
 
       const [section, property] = pathParts;
@@ -137,15 +137,14 @@ program
           parsedValue = parseFloat(value);
           if (isNaN(parsedValue)) {
             console.error('Invalid number value');
-            process.exit(1);
+            process.exit(1)
           }
           break;
-        case 'boolean':
-          parsedValue = value.toLowerCase() === 'true';
+        case 'boolean': parsedValue = value.toLowerCase() === 'true';
           break;
         case 'json':
           try {
-            parsedValue = JSON.parse(value);
+            parsedValue = JSON.parse(value)
           } catch {
             console.error('Invalid JSON value');
             process.exit(1);
@@ -175,8 +174,8 @@ program
       // Validate after update
       const validation = configManager.validateConfig();
       if (!validation.isValid) {
-        // // // console.log('\n⚠️  Configuration validation failed after update:');
-        displayValidation(validation);
+        // // // console.log('\n⚠️  Configuration validation failed after update: ');
+        displayValidation(validation)
       }
     } catch (error) {
       console.error('Error updating configuration:', error);
@@ -189,7 +188,7 @@ program
   .command('reset')
   .description('Reset configuration to defaults')
   .option('-c, --confirm', 'Skip confirmation prompt')
-  .action(options => {;
+  .action(options => {
     try {
       if (!options.confirm) {
         // // // console.log('This will reset all configuration to defaults.');
@@ -222,10 +221,10 @@ envCommand
   .command('list')
   .description('List available environments')
   .action(() => {
-    // // // console.log('Available environments:');
+    // // // console.log('Available environments: ');
     // // // console.log('  - development (default)');
     // // // console.log('  - production');
-    // // // console.log('  - testing');
+    // // // console.log('  - testing')
     // // // console.log(`\nCurrent environment: ${getCurrentEnvironment()}`);
   });
 
@@ -285,9 +284,9 @@ program
         const validation = tempManager.validateConfig();
 
         if (!validation.isValid) {
-          console.error('❌ Imported configuration is invalid:');
+          console.error('❌ Imported configuration is invalid: ');
           displayValidation(validation);
-          process.exit(1);
+          process.exit(1)
         }
 
         configManager.updateConfig(importedConfig);

@@ -36,9 +36,9 @@ export interface ValidationResult {
 }
 
 export class TestResultValidator {
-  private static instance: TestResultValidator;
-  private validationRules: Map<string, TestValidationRule[]> = new Map();
-  private consistencyChecks: Map<string, TestConsistencyCheck> = new Map(),
+  private static, instance: TestResultValidator
+  private, validationRules: Map<string, TestValidationRule[]> = new Map();
+  private, consistencyChecks: Map<string, TestConsistencyCheck> = new Map(),
 
   static getInstance(): TestResultValidator {
     if (!this.instance) {
@@ -56,8 +56,8 @@ export class TestResultValidator {
     this.addValidationRules('performance', [
       {
         name: 'execution_time',
-        validator: result =>,;
-          typeof result === 'object' &&;
+        validator: result =>,
+          typeof result === 'object' &&
           result !== null &&
           typeof (result as any).executionTime === 'number' &&;
           ((result as any).executionTime) > 0;
@@ -66,7 +66,7 @@ export class TestResultValidator {
       },
       {
         name: 'memory_usage',
-        validator: result =>,;
+        validator: result =>,
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).memoryUsage === 'number' &&;
@@ -76,7 +76,7 @@ export class TestResultValidator {
       },
       {
         name: 'reasonable_execution_time',
-        validator: result =>,;
+        validator: result =>,
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).executionTime === 'number' &&;
@@ -86,7 +86,7 @@ export class TestResultValidator {
       },
       {
         name: 'memory_efficiency',
-        validator: result =>,;
+        validator: result =>,
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).memoryUsage === 'number' &&;
@@ -100,8 +100,8 @@ export class TestResultValidator {
     this.addValidationRules('realtime', [
       {
         name: 'response_time',
-        validator: result =>,;
-          typeof result === 'object' &&;
+        validator: result =>,
+          typeof result === 'object' &&
           result !== null &&
           typeof (result as any).responseTime === 'number' &&;
           ((result as any).responseTime) < 5000, // 5 seconds
@@ -110,7 +110,7 @@ export class TestResultValidator {
       },
       {
         name: 'monitoring_accuracy',
-        validator: result =>,;
+        validator: result =>,
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).accuracy === 'number' &&;
@@ -120,11 +120,11 @@ export class TestResultValidator {
       },
       {
         name: 'resource_cleanup',
-        validator: result =>,;
+        validator: result =>,
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).resourcesCleanedUp === 'boolean' &&;
-          (result as any).resourcesCleanedUp === true,,;
+          (result as any).resourcesCleanedUp === true,,
         errorMessage: 'Resources were not properly cleaned up',
         severity: 'warning'
       }
@@ -134,17 +134,17 @@ export class TestResultValidator {
     this.addValidationRules('build', [
       {
         name: 'build_success',
-        validator: result =>,;
-          typeof result === 'object' &&;
+        validator: result =>,
+          typeof result === 'object' &&
           result !== null &&
           typeof (result as any).success === 'boolean' &&;
-          (result as any).success === true,,;
+          (result as any).success === true,,
         errorMessage: 'Build did not complete successfully',
         severity: 'error'
       },
       {
         name: 'error_count',
-        validator: result =>,;
+        validator: result =>,
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).errorCount === 'number' &&;
@@ -154,7 +154,7 @@ export class TestResultValidator {
       },
       {
         name: 'build_time',
-        validator: result =>,;
+        validator: result =>,
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).buildTime === 'number' &&;
@@ -168,8 +168,8 @@ export class TestResultValidator {
     this.addValidationRules('memory', [
       {
         name: 'memory_leak_check',
-        validator: result =>,;
-          typeof result === 'object' &&;
+        validator: result =>,
+          typeof result === 'object' &&
           result !== null &&
           typeof (result as any).memoryLeakDetected === 'boolean' &&;
           (result as any).memoryLeakDetected !== true;
@@ -178,7 +178,7 @@ export class TestResultValidator {
       },
       {
         name: 'peak_memory',
-        validator: result =>,;
+        validator: result =>,
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).peakMemory === 'number' &&;
@@ -188,7 +188,7 @@ export class TestResultValidator {
       },
       {
         name: 'memory_stability',
-        validator: result =>,;
+        validator: result =>,
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).memoryVariance === 'number' &&;
@@ -203,21 +203,21 @@ export class TestResultValidator {
    * Add validation rules for a specific test category
    */
   addValidationRules(category: string, rules: TestValidationRule[]): void {
-    this.validationRules.set(category, rules)
+    this.validationRules.set(category, rules);
   }
 
   /**
    * Add consistency check for a test
    */
   addConsistencyCheck(testName: string, check: TestConsistencyCheck): void {
-    this.consistencyChecks.set(testName, check)
+    this.consistencyChecks.set(testName, check);
   }
 
   /**
    * Validate a single test result
    */
   validateResult(result: unknown, category: string): ValidationResult {
-    const validationResult: ValidationResult = {;
+    const, validationResult: ValidationResult = {
       isValid: true,
       errors: [],
       warnings: [],
@@ -269,7 +269,7 @@ export class TestResultValidator {
    * Validate multiple test results for consistency
    */
   validateConsistency(testName: string, results: unknown[]): ValidationResult {
-    const validationResult: ValidationResult = {;
+    const, validationResult: ValidationResult = {
       isValid: true,
       errors: [],
       warnings: [],
@@ -304,7 +304,7 @@ export class TestResultValidator {
       if (check.requiredFields) {
         for (const field of check.requiredFields) {
           const fieldCheck = results.every(;
-            result => typeof result === 'object' && result !== null && field in result;
+            result => typeof result === 'object' && result !== null && field in result
           ),
           if (!fieldCheck) {
             validationResult.errors.push(`Required field missing: ${field}`);
@@ -319,7 +319,7 @@ export class TestResultValidator {
         const numericResults = results.filter(r => typeof r === 'number') as number[];
         if (numericResults.length > 1) {
           const mean = numericResults.reduce((ab) => a + b0) / numericResults.length;
-          const variance = this.calculateVariance(numericResults, mean),;
+          const variance = this.calculateVariance(numericResults, mean),
           const variancePercent = (variance / mean) * 100;
 
           if (variancePercent > check.tolerancePercent) {
@@ -348,7 +348,7 @@ export class TestResultValidator {
       // If no specific checks failed, mark as passed
       if (
         validationResult.summary.failedChecks === 0 &&;
-        validationResult.summary.passedChecks === 0;
+        validationResult.summary.passedChecks === 0
       ) {
         validationResult.summary.passedChecks = 1;
       }
@@ -372,8 +372,8 @@ export class TestResultValidator {
 
     for (const [testName, result] of suiteResults) {
       const category = categoryMapping.get(testName) || 'default';
-      const validation = this.validateResult(result, category),;
-      validationResults.set(testName, validation)
+      const validation = this.validateResult(result, category),
+      validationResults.set(testName, validation);
     }
 
     return validationResults;
@@ -440,8 +440,8 @@ export class TestResultValidator {
    * Calculate variance for numeric array
    */
   private calculateVariance(numbers: number[], mean: number): number {
-    const squaredDiffs = numbers.map(x => Math.pow(x - mean2)),;
-    return Math.sqrt(squaredDiffs.reduce((ab) => a + b0) / squaredDiffs.length)
+    const squaredDiffs = numbers.map(x => Math.pow(x - mean2)),
+    return Math.sqrt(squaredDiffs.reduce((ab) => a + b0) / squaredDiffs.length);
   }
 
   /**
@@ -472,7 +472,7 @@ export class TestResultValidator {
  */
 export function validateTestResult(result: unknown, category: string): ValidationResult {
   const validator = TestResultValidator.getInstance();
-  return validator.validateResult(result, category)
+  return validator.validateResult(result, category);
 }
 
 /**
@@ -480,7 +480,7 @@ export function validateTestResult(result: unknown, category: string): Validatio
  */
 export function validateTestConsistency(testName: string, results: unknown[]): ValidationResult {
   const validator = TestResultValidator.getInstance();
-  return validator.validateConsistency(testName, results)
+  return validator.validateConsistency(testName, results);
 }
 
 /**
@@ -503,7 +503,7 @@ export function createConsistencyCheck(
   expectedType: string,
   options: {
     tolerancePercent?: number,
-    requiredFields?: string[];
+    requiredFields?: string[]
     customValidator?: (results: unknown[]) => boolean
   } = {};
 ): TestConsistencyCheck {

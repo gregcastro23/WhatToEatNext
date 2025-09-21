@@ -22,7 +22,7 @@ export const isServer = typeof window === 'undefined';
  */
 export const _clientOnly = (callback: () => void) => {
   if (isClient) {
-    callback();
+    callback()
   }
 };
 
@@ -32,6 +32,6 @@ export const _clientOnly = (callback: () => void) => {
  */
 export const _serverOnly = (callback: () => void) => {
   if (isServer) {
-    callback();
+    callback()
   }
 };

@@ -1,9 +1,9 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-// Pattern AA: Ingredient Interface Restructuring
+// Pattern, AA: Ingredient Interface Restructuring
 // Proper type annotation for raw ingredients to ensure IngredientMapping compatibility
-const rawSeafood: Record<string, Partial<IngredientMapping>> = {
+const, rawSeafood: Record<string, Partial<IngredientMapping>> = {
   atlantic_salmon: {
     name: 'Salmon',
     category: 'protein',
@@ -12,7 +12,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     qualities: ['omega-rich', 'flaky', 'buttery', 'mild', 'versatile', 'nutrient-dense'],
     origin: ['Norway', 'Scotland', 'Chile', 'Canada', 'United States'],
 
-    // Nutritional information (standardized)
+    // Nutritional information (standardized);
     nutritionalProfile: {
       serving_size: '3 oz (85g)',
       calories: 206,
@@ -23,7 +23,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         fiber: 0
       },
       vitamins: {
-        B12: 1.17, // Values as percentage of RDA
+        B12: 1.17, // Values as percentage of RDA,
         D: 0.66,
         niacin: 0.5B6: 0.38,
         pantothenic_acid: 0.3,
@@ -38,7 +38,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       source: 'USDA FoodData Central'
     },
 
-    // Sensory profile (standardized)
+    // Sensory profile (standardized);
     sensoryProfile: {
       taste: {
         sweet: 0.3,
@@ -66,7 +66,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       }
     },
 
-    // Storage information (standardized)
+    // Storage information (standardized);
     storage: {
       temperature: {
         fahrenheit: 32,
@@ -81,14 +81,14 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       ]
     },
 
-    // Preparation (standardized)
+    // Preparation (standardized);
     preparation: {
       methods: ['grill', 'bake', 'pan-sear', 'poach', 'steam', 'smoke', 'raw (sushi-grade)'],
       washing: false,
       notes: 'Leave skin on during cooking for easier handling and extra nutrients'
     },
 
-    // Health benefits (standardized)
+    // Health benefits (standardized);
     healthBenefits: [
       'Heart health (reduces blood pressure and inflammation)',
       'Brain function (enhances memory and cognitive performance)',
@@ -99,7 +99,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       'Mental well-being (omega-3s may help reduce depression symptoms)'
     ],
 
-    // Culinary applications (standardized)
+    // Culinary applications (standardized);
     culinaryApplications: {
       commonUses: ['entrees', 'salads', 'sushi', 'appetizers', 'sandwiches', 'breakfast dishes'],
       pairingRecommendations: {
@@ -134,7 +134,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       }
     },
 
-    // Varieties (standardized)
+    // Varieties (standardized);
     varieties: {
       'Farm Raised': {
         name: 'Farm Raised',
@@ -145,7 +145,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       }
     },
 
-    // Category-specific extension: proteins
+    // Category-specific, extension: proteins
     cuts: {
       fillet: {
         description: 'boneless side',
@@ -192,10 +192,10 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       alternatives: ['Arctic char', 'Rainbow trout', 'MSC-certified wild salmon']
     },
 
-    // Protein-specific properties
+    // Protein-specific properties,
     proteinContent: 22, // grams per 3oz serving
     fatProfile: {
-      saturated: 3, // grams per 3oz serving
+      saturated: 3, // grams per 3oz serving,
       monounsaturated: 4,
       polyunsaturated: 5,
       omega3: 1.8,
@@ -212,7 +212,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         internalTemp: { celsius: 60, fahrenheit: 140 },
         moistureRetention: 0.7, // 70% moisture retention
         flavorDevelopment: {
-          maillard: 0.8, // 0-1 scale
+          maillard: 0.8, // 0-1 scale,
           caramelization: 0.5,
           smoky: 0.7,
           notes: 'Develops crispy exterior with moist interior'
@@ -252,7 +252,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       }
     ],
 
-    // Astrology / (elemental || 1) connections (standardized)
+    // Astrology / (elemental || 1) connections (standardized);
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Neptune'],
       favorableZodiac: ['cancer', 'pisces'],
@@ -554,11 +554,11 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       }
     },
 
-    sensoryProfile: {
-      taste: ['Mild', 'Balanced', 'Natural'],
-      aroma: ['Fresh', 'Clean', 'Subtle'],
-      texture: ['Pleasant', 'Smooth', 'Appealing'],
-      notes: 'Characteristic lobster maine profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -611,11 +611,11 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     category: 'protein',
     subCategory: 'shellfish',
     elementalProperties: { Water: 0.6, Earth: 0.3, Fire: 0.05, Air: 0.05 },
-    sensoryProfile: {
-      taste: ['Briny', 'Sweet', 'Ocean-fresh'],
-      aroma: ['Sea-like', 'Fresh', 'Mineral'],
-      texture: ['Tender', 'Plump', 'Juicy'],
-      notes: 'Clean ocean flavor with tender, succulent texture'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
     season: ['fall', 'winter', 'spring'],
     preparation: {
@@ -713,11 +713,11 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     category: 'protein',
     subCategory: 'shellfish',
     elementalProperties: { Water: 0.65, Earth: 0.25, Fire: 0.05, Air: 0.05 },
-    sensoryProfile: {
-      taste: ['Briny', 'Creamy', 'Mineral', 'Sweet'],
-      aroma: ['Ocean-fresh', 'Clean', 'Metallic'],
-      texture: ['Creamy', 'Firm', 'Succulent'],
-      notes: 'Complex mineral flavor with creamy texture and clean finish'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
     season: ['fall', 'winter', 'spring'],
     preparation: {
@@ -1346,11 +1346,11 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       }
     },
 
-    sensoryProfile: {
-      taste: ['Mild', 'Balanced', 'Natural'],
-      aroma: ['Fresh', 'Clean', 'Subtle'],
-      texture: ['Pleasant', 'Smooth', 'Appealing'],
-      notes: 'Characteristic cod atlantic profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -2124,7 +2124,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-export const seafood: Record<string, IngredientMapping> = fixIngredientMappings(rawSeafood);
+export const, seafood: Record<string, IngredientMapping> = fixIngredientMappings(rawSeafood);
 
 // Create a collection of all herbs for export
 export const _allSeafood = Object.values(seafood);

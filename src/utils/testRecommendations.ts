@@ -12,7 +12,7 @@ import { getRecommendedCookingMethodsForIngredient } from './alchemicalTransform
  */
 export async function testCookingMethodRecommendations() {
   // Create a mock ingredient
-  const mockIngredient: AlchemicalItem = {;
+  const mockIngredient: AlchemicalItem = {
     id: 'tomato',
     name: 'Tomato',
     _elementalProperties: {
@@ -45,7 +45,7 @@ export async function testCookingMethodRecommendations() {
   };
 
   // Create mock cooking methods
-  const mockCookingMethods = [;
+  const mockCookingMethods = [
     { name: 'baking', element: 'Fire' },
     { name: 'boiling', element: 'Water' },
     { name: 'grilling', element: 'Fire' },
@@ -67,9 +67,9 @@ export async function testCookingMethodRecommendations() {
 
   // Test holistic recommendations directly
   try {
-    console.warn('\nTESTING HOLISTIC RECOMMENDATIONS _DIRECTLY:');
-    const methods = mockCookingMethods.map(m => m.name);
-    const holisticRecs = await getHolisticCookingRecommendations(;
+    console.warn('\nTESTING HOLISTIC RECOMMENDATIONS _DIRECTLY: ');
+    const methods = mockCookingMethods.map(m => m.name)
+    const holisticRecs = await getHolisticCookingRecommendations(
       mockIngredient,
       undefined,
       undefined,
@@ -91,8 +91,8 @@ export async function testCookingMethodRecommendations() {
 
   // Test the ingredient-specific function - Pattern ZZZ: Array Object Interface Expansion
   try {
-    console.warn('\nTESTING INGREDIENT-SPECIFIC RECOMMENDATIONS:');
-    const recommendations = await getRecommendedCookingMethodsForIngredient(;
+    console.warn('\nTESTING INGREDIENT-SPECIFIC RECOMMENDATIONS:')
+    const recommendations = await getRecommendedCookingMethodsForIngredient(
       mockIngredient,
       mockCookingMethods as any
     );
@@ -108,15 +108,15 @@ export async function testCookingMethodRecommendations() {
     }
   }
 
-  const holisticRecs = await getHolisticCookingRecommendations(;
+  const holisticRecs = await getHolisticCookingRecommendations(
     mockIngredient,
     undefined,
     undefined,
     true,
-    mockCookingMethods.map(m => m.name),;
+    mockCookingMethods.map(m => m.name),
     5
   );
-  const standardRecs = await getRecommendedCookingMethodsForIngredient(;
+  const standardRecs = await getRecommendedCookingMethodsForIngredient(
     mockIngredient,
     mockCookingMethods as any
   ); // Pattern ZZZ: Array Object Interface Expansion

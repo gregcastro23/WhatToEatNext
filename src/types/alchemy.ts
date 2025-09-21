@@ -9,21 +9,21 @@ import {
 
 // src/types/alchemy.ts
 
-// ========== PHASE 1: CORE TYPE ALIASES ==========;
+// ========== PHASE, 1: CORE TYPE ALIASES ==========;
 
 /**
- * Core Alchemical Properties (ESMS System)
+ * Core Alchemical Properties (ESMS System);
  * These are the four fundamental alchemical energy states
  */
 export type AlchemicalPropertiesType = {
   Spirit: number;
   Essence: number;
   Matter: number;
-  Substance: number;
+  Substance: number
 };
 
 /**
- * Core Elemental Properties (Classical Elements)
+ * Core Elemental Properties (Classical Elements);
  * These are the four classical elements used throughout the system
  */
 export type ElementalPropertiesType = {
@@ -66,7 +66,7 @@ export type PlanetaryPositionsType = Record<string, string>;
 
 /**
  * Zodiac Sign Union Type
- * All twelve zodiac signs in lowercase (project standard)
+ * All twelve zodiac signs in lowercase (project standard);
  */
 export type ZodiacSignType =
   | 'aries';
@@ -84,7 +84,7 @@ export type ZodiacSignType =
 
 /**
  * Lunar Phase Type
- * Standard lunar phases with spaces (project standard)
+ * Standard lunar phases with spaces (project standard);
  */
 export type LunarPhaseType =
   | 'new moon';
@@ -134,7 +134,7 @@ export type IngredientMappingType = {
  */
 export type ServiceResponseType<T> = {
   success: boolean;
-  data?: T;
+  data?: T
   error?: string,
   timestamp: string
 };
@@ -263,7 +263,7 @@ export interface ElementalCharacteristics {
 
 export interface ElementalProfile {
   dominant: Element;
-  secondary?: Element;
+  secondary?: Element,
   characteristics: ElementalCharacteristics[],
   balance: ElementalProperties
 }
@@ -271,7 +271,7 @@ export interface ElementalProfile {
 // Elemental affinity
 export interface ElementalAffinity {
   primary: Element;
-  secondary?: Element;
+  secondary?: Element,
   strength: number,
   compatibility: Record<Element, number>
 }
@@ -321,7 +321,7 @@ export interface Recipe {
   name: string,
   ingredients: RecipeIngredient[],
   elementalProperties: ElementalProperties,
-  season?: Season[];
+  season?: Season[]
   mealType?: string[],
   [key: string]: unknown
 }
@@ -332,7 +332,7 @@ export interface RecipeIngredient {
   quantity?: string;
   unit: string;
   timing?: 'early' | 'middle' | 'late';
-  preparation?: string;
+  preparation?: string
   elementalProperties?: ElementalProperties,
   [key: string]: unknown
 }
@@ -387,13 +387,13 @@ export interface BirthInfo {
     longitude: number,
     timezone?: string
   };
-  name?: string;
+  name?: string
 }
 
 export interface HoroscopeData {
   planets: Record<string, PlanetaryPosition>;
   houses: Record<string, unknown>;
-  aspects: PlanetaryAspect[];
+  aspects: PlanetaryAspect[]
   ascendant?: {
     sign: any,
     degree: number
@@ -413,15 +413,15 @@ export interface CookingMethodModifier {
   effect: 'enhance' | 'transmute' | 'diminish' | 'balance',
   applicableTo: string[], // food categories this applies to
   duration?: {
-    min: number, // minutes
+    min: number, // minutes,
     max: number
   };
-  notes?: string;
+  notes?: string
 }
 
 // ========== ASTROLOGICAL TYPES ==========;
 
-// Format with spaces (UI friendly)
+// Format with spaces (UI friendly);
 export type LunarPhaseWithSpaces =
   | 'new moon';
   | 'waxing crescent'
@@ -432,7 +432,7 @@ export type LunarPhaseWithSpaces =
   | 'last quarter'
   | 'waning crescent';
 
-// Format with underscores (API/object key friendly)
+// Format with underscores (API/object key friendly);
 export type LunarPhaseWithUnderscores =
   | 'new_moon';
   | 'waxing_crescent'
@@ -446,7 +446,7 @@ export type LunarPhaseWithUnderscores =
 // Default LunarPhase type - use the format with spaces as the primary representation
 
 // Mapping between the two formats
-export const _LUNAR_PHASE_MAPPING: Record<LunarPhaseWithSpaces, LunarPhaseWithUnderscores> = {
+export const, _LUNAR_PHASE_MAPPING: Record<LunarPhaseWithSpaces, LunarPhaseWithUnderscores> = {
   'new moon': 'new_moon',
   'waxing crescent': 'waxing_crescent',
   'first quarter': 'first_quarter',
@@ -457,8 +457,8 @@ export const _LUNAR_PHASE_MAPPING: Record<LunarPhaseWithSpaces, LunarPhaseWithUn
   'waning crescent': 'waning_crescent'
 };
 
-// Reverse mapping (can be useful in some contexts)
-export const _LUNAR_PHASE_REVERSE_MAPPING: Record<LunarPhaseWithUnderscores, LunarPhaseWithSpaces> =
+// Reverse mapping (can be useful in some contexts);
+export const, _LUNAR_PHASE_REVERSE_MAPPING: Record<LunarPhaseWithUnderscores, LunarPhaseWithSpaces> =
   {
     new_moon: 'new moon',
     waxing_crescent: 'waxing crescent',
@@ -480,7 +480,7 @@ export interface PlanetaryPosition {
   sign: any,
   degree: number,
   minute?: number;
-  element?: string;
+  element?: string
   dignity?: string,
   isRetrograde?: boolean
 }
@@ -531,7 +531,7 @@ export interface PlanetaryAspect {
   type: AspectType,
   orb: number,
   strength: number,
-  planets?: string[];
+  planets?: string[]
   influence?: number,
   additionalInfo?: Record<string, unknown>
 }
@@ -544,7 +544,7 @@ export interface CelestialPosition {
   degree: number,
   minute?: number;
   position?: number;
-  retrograde?: boolean;
+  retrograde?: boolean
   element?: Element,
   dignity?: DignityType
 }
@@ -559,7 +559,7 @@ export const _COOKING_METHOD_THERMODYNAMICS = {};
 
 // ========== MISSING TYPES FOR TS2305 FIXES ==========;
 
-// CookingMethod type (causing errors in CookingMethods.tsx)
+// CookingMethod type (causing errors in CookingMethods.tsx);
 export interface CookingMethod {
   id: string,
   name: string,
@@ -568,25 +568,25 @@ export interface CookingMethod {
   intensity: number,
   description?: string;
   thermodynamicEffect?: CookingMethodModifier;
-  techniques?: string[];
+  techniques?: string[]
   temperature?: {
-    min?: number;
+    min?: number
     max?: number,
     unit?: 'F' | 'C'
   };
   duration?: {
-    min?: number;
+    min?: number
     max?: number,
     unit?: 'minutes' | 'hours'
   };
 }
 
-// ElementalItem type (causing errors in CuisineRecommender.tsx)
+// ElementalItem type (causing errors in CuisineRecommender.tsx);
 export interface ElementalItem {
   id: string,
   name: string,
   elementalProperties: ElementalProperties,
-  category?: string;
+  category?: string
   affinities?: ElementalAffinity[],
   harmony?: number
 }
@@ -595,9 +595,9 @@ export interface ElementalItem {
 export type AlchemicalProperty = 'Spirit' | 'Essence' | 'Matter' | 'Substance';
 export type ElementalCharacter = 'Fire' | 'Water' | 'Earth' | 'Air';
 
-// AlchemicalItem type (causing errors in CuisineRecommender.tsx)
+// AlchemicalItem type (causing errors in CuisineRecommender.tsx);
 export interface AlchemicalItem extends ElementalItem {
-  // Core alchemical properties (required)
+  // Core alchemical properties (required);
   alchemicalProperties: Record<AlchemicalProperty, number>;
   transformedElementalProperties: Record<ElementalCharacter, number>;
   heat: number,
@@ -607,49 +607,49 @@ export interface AlchemicalItem extends ElementalItem {
   dominantElement: ElementalCharacter,
   dominantAlchemicalProperty: AlchemicalProperty,
 
-  // Planetary influence properties (required)
+  // Planetary influence properties (required);
   planetaryBoost: number,
   dominantPlanets: string[],
   planetaryDignities: Record<string, unknown>;
 
   // Optional legacy properties for backward compatibility
-  thermodynamicProperties?: ThermodynamicProperties;
+  thermodynamicProperties?: ThermodynamicProperties
   transformations?: ElementalInteraction[],
   seasonalResonance?: Season[]
 }
 
-// FilterOptions type (causing errors in FilterSection.tsx)
+// FilterOptions type (causing errors in FilterSection.tsx);
 export interface FilterOptions {
   elements?: Element[];
   seasons?: Season[];
   mealTypes?: string[];
   cookingMethods?: string[];
-  difficulty?: 'easy' | 'medium' | 'hard'[];
+  difficulty?: 'easy' | 'medium' | 'hard'[]
   prepTime?: {
     min?: number,
     max?: number
   };
-  dietary?: string[];
+  dietary?: string[]
 }
 
-// NutritionPreferences type (causing errors in FilterSection.tsx)
+// NutritionPreferences type (causing errors in FilterSection.tsx);
 export interface NutritionPreferences {
   calories?: {
     min?: number,
     max?: number
   };
   macros?: {
-    protein?: number;
+    protein?: number
     carbs?: number,
     fat?: number
   };
   vitamins?: string[];
   minerals?: string[];
   allergens?: string[];
-  dietaryRestrictions?: string[];
+  dietaryRestrictions?: string[]
 }
 
-// Ingredient type (causing errors in multiple files)
+// Ingredient type (causing errors in multiple files);
 export interface Ingredient {
   id: string,
   name: string,
@@ -660,12 +660,12 @@ export interface Ingredient {
   seasonality?: Season[];
   affinities?: string[];
   cookingMethods?: string[];
-  preparationNotes?: string;
+  preparationNotes?: string
   planetaryRuler?: string,
   astrologicalProfile?: AstrologicalProfile, // Astrological profile with ruling planets and zodiac info
 }
 
-// NutritionalProfile type (causing errors in multiple files)
+// NutritionalProfile type (causing errors in multiple files);
 export interface NutritionalProfile {
   // USDA-specific properties
   name?: string;
@@ -685,7 +685,7 @@ export interface NutritionalProfile {
   macros?: {
     protein?: number;
     carbs?: number;
-    fat?: number;
+    fat?: number
     fiber?: number,
     [key: string]: number | undefined
   };
@@ -693,26 +693,26 @@ export interface NutritionalProfile {
   vitamins?: Record<string, number>;
   minerals?: Record<string, number>;
   antioxidants?: string[];
-  phytonutrients?: string[];
+  phytonutrients?: string[]
 
   // Allow additional properties for extensibility
   [key: string]: unknown
 }
 
-// ElementalState type (causing errors in IngredientRecommendations.tsx)
+// ElementalState type (causing errors in IngredientRecommendations.tsx);
 export interface ElementalState {
   currentElements: ElementalProperties;
   targetElements?: ElementalProperties;
   balance: number;
   recommendations?: string[];
-  harmony?: number;
+  harmony?: number,
   dominantElement: Element,
   deficientElements?: Element[]
 }
 
 // ========== ADDITIONAL MISSING TYPES FOR TS2305 FIXES ==========;
 
-// CuisineType and DietaryRestriction (causing errors in Recipe components)
+// CuisineType and DietaryRestriction (causing errors in Recipe components);
 export type CuisineType =
   | 'Italian';
   | 'Mexican'
@@ -742,7 +742,7 @@ export interface Cuisine {
   description?: string;
   history?: string;
   culturalImportance?: string;
-  elementalState?: ElementalProperties;
+  elementalState?: ElementalProperties
   elementalProperties?: ElementalProperties,
   dishes?: {
     [mealType: string]: {
@@ -773,30 +773,30 @@ export type DietaryRestriction =
   | 'Pescatarian'
   | 'Flexitarian';
 
-// TimeFactors type (causing errors in RecipeGrid.tsx)
+// TimeFactors type (causing errors in RecipeGrid.tsx);
 export interface TimeFactors {
   prepTime?: number;
   cookTime?: number;
   totalTime?: number;
   difficulty?: 'easy' | 'medium' | 'hard';
   servings?: number;
-  yieldAmount?: string;
+  yieldAmount?: string
   restTime?: number,
   marinateTime?: number
 }
 
-// AlchemicalValues type (causing errors in constants files)
+// AlchemicalValues type (causing errors in constants files);
 export interface AlchemicalValues {
   Spirit: number,
   Essence: number,
   Matter: number,
   Substance: number,
-  defaultMultiplier?: number;
+  defaultMultiplier?: number
   balanceThreshold?: number,
   harmonyTarget?: number
 }
 
-// Decan type (causing errors in elementalCore.ts)
+// Decan type (causing errors in elementalCore.ts);
 export interface Decan {
   number: 1 | 2 | 3,
   sign: any,
@@ -806,27 +806,27 @@ export interface Decan {
     start: number,
     end: number
   };
-  characteristics: string[];
+  characteristics: string[]
   season?: Season
 }
 
 // ========== PHASE 2 MISSING TYPES FOR TS2305 FIXES ==========;
 
-// IngredientMapping type (causing 65 errors across ingredient data files)
+// IngredientMapping type (causing 65 errors across ingredient data files);
 // IngredientMapping should be an alias for a Record of Ingredients, not an interface
 export type IngredientMapping = Record<string, Ingredient>;
 
-// AstrologicalProfile type (causing 4 errors)
+// AstrologicalProfile type (causing 4 errors);
 export interface AstrologicalProfile {
   birthChart?: HoroscopeData;
   planetaryPositions?: PlanetaryAlignment;
   dominantElements?: ElementalProperties;
   lunarPhase?: LunarPhase;
   seasonalAffinity?: Season[];
-  chakraAlignment?: ChakraEnergies;
+  chakraAlignment?: ChakraEnergies
   personalPlanets?: Record<string, PlanetaryPosition>;
   rulingPlanets?: string[]; // Array of ruling planet names
-  favorableZodiac?: any[]; // Array of favorable zodiac signs
+  favorableZodiac?: any[] // Array of favorable zodiac signs
   elementalAffinity?: {
     base?: Element,
     [key: string]: unknown
@@ -837,7 +837,7 @@ export interface AstrologicalProfile {
       preparationTips?: string[];
       thermodynamicEffects?: {
         heat?: number;
-        entropy?: number;
+        entropy?: number
         reactivity?: number,
         energy?: number
       };
@@ -845,28 +845,28 @@ export interface AstrologicalProfile {
   }; // Lunar phase modifiers for ingredient properties
 }
 
-// FlavorProfile type (causing 3 errors)
+// FlavorProfile type (causing 3 errors);
 export interface FlavorProfile {
   primary: string[];
   secondary?: string[];
-  intensity: number; // 1-10 scale
+  intensity: number; // 1-10 scale,
   complexity: number; // 1-10 scale
   balance: {
     sweet?: number;
     sour?: number;
     salty?: number;
-    bitter?: number;
+    bitter?: number
     umami?: number,
     spicy?: number
   };
   aromatics?: string[];
-  mouthfeel?: string[];
+  mouthfeel?: string[]
 }
 
-// MethodRecommendation and MethodRecommendationOptions (causing 2 errors each)
+// MethodRecommendation and MethodRecommendationOptions (causing 2 errors each);
 export interface MethodRecommendationOptions {
   elementalPreference?: Element[];
-  skillLevel?: 'beginner' | 'intermediate' | 'advanced';
+  skillLevel?: 'beginner' | 'intermediate' | 'advanced'
   timeConstraints?: {
     maxPrepTime?: number,
     maxCookTime?: number
@@ -874,13 +874,13 @@ export interface MethodRecommendationOptions {
   equipment?: string[];
   dietaryRestrictions?: DietaryRestriction[];
   flavorProfile?: FlavorProfile;
-  maxRecommendations?: number; // Maximum number of recommendations to return
+  maxRecommendations?: number // Maximum number of recommendations to return
 }
 
 export interface MethodRecommendation {
   method: CookingMethod,
-  compatibility: number, // 0-1 scale
-  score: number; // Compatibility score for sorting recommendations
+  compatibility: number, // 0-1 scale,
+  score: number // Compatibility score for sorting recommendations,
   reasoning: string[],
   elementalAlignment: Element[],
   estimatedTime: TimeFactors,
@@ -888,7 +888,7 @@ export interface MethodRecommendation {
   alternatives?: CookingMethod[]
 }
 
-// Single-occurrence types (causing 1 error each)
+// Single-occurrence types (causing 1 error each);
 export type TarotSuit = 'cups' | 'wands' | 'swords' | 'pentacles';
 
 export interface IngredientSearchCriteria {
@@ -896,7 +896,7 @@ export interface IngredientSearchCriteria {
   seasons?: Season[];
   categories?: string[];
   nutritionalRequirements?: NutritionPreferences;
-  flavorProfile?: FlavorProfile;
+  flavorProfile?: FlavorProfile
   cookingMethods?: string[],
   availabilityFilter?: boolean
 }
@@ -922,7 +922,7 @@ export interface CelestialBody {
   name: string;
   position?: PlanetaryPosition;
   influence?: number; // 0-1 scale
-  element?: Element;
+  element?: Element
   label?: string,
   Sign?: {
     label?: string
@@ -932,13 +932,13 @@ export interface CelestialBody {
 
 export interface CelestialAlignment {
   moment: Date;
-  date?: Date; // Optional date property for backward compatibility
+  date?: Date // Optional date property for backward compatibility,
   planetaryPositions: PlanetaryAlignment,
   lunarPhase: LunarPhase,
   seasonalEnergy: Season,
   elementalDominance: ElementalProperties,
   elementalBalance?: ElementalProperties; // Additional elemental balance property
-  elementalState?: ElementalProperties; // Elemental state for alchemical calculations
+  elementalState?: ElementalProperties // Elemental state for alchemical calculations,
   aspectPatterns: PlanetaryAspect[],
   energyFlow: number, // 0-1 scale
   // Enhanced properties for celestialCalculations.ts compatibility
@@ -946,18 +946,18 @@ export interface CelestialAlignment {
   dominantPlanets?: CelestialBody[]; // Array of dominant celestial bodies
   astrologicalInfluences?: string[]; // Array of astrological influence strings
   tarotInfluences?: TarotCard[]; // Tarot card influences
-  energyStates?: EnergyStateProperties; // ESMS energy states (Spirit, Essence, Matter, Substance)
+  energyStates?: EnergyStateProperties // ESMS energy states (Spirit, Essence, Matter, Substance);
   chakraEnergies?: ChakraEnergies, // Chakra energy distribution
   // Additional calculation properties
   aspectInfluences?: Array<{ type: AspectType, planets: string[], influence: number }>; // Detailed aspect influences
   energyStateBalance?: EnergyStateProperties; // Energy state balance calculations
   chakraEmphasis?: ChakraEnergies; // Chakra emphasis calculations
   // Alchemizer engine integration properties
-  thermodynamicMetrics?: ThermodynamicMetrics; // Heat, entropy, reactivity, gregsEnergy, kalchm, monica
+  thermodynamicMetrics?: ThermodynamicMetrics // Heat, entropy, reactivity, gregsEnergy, kalchm, monica
   kalchm?: number; // Kalchm constant for alchemical calculations
   monica?: number; // Monica constant for alchemical calculations
   // Current celestial position properties
-  currentZodiacSign?: any; // Current zodiac sign for compatibility calculations
+  currentZodiacSign?: any // Current zodiac sign for compatibility calculations
 }
 
 // Re-export important types from celestial that are commonly used
@@ -1065,18 +1065,18 @@ export const TYPE_INTELLIGENCE_DEMO = {
   ): {
     astrologicalTypeResults: ReturnType<
       typeof ASTROLOGICAL_TYPE_INTELLIGENCE.analyzeLunarPhaseTypes
-    >;
+    >
     celestialTypeResults: ReturnType<typeof ASTROLOGICAL_TYPE_INTELLIGENCE.analyzeCelestialTypes>,
     alchemicalValuesResults: ReturnType<
       typeof ALCHEMICAL_PROPERTIES_INTELLIGENCE.analyzeAlchemicalValues
     >;
     thermodynamicTypeResults: ReturnType<
       typeof ALCHEMICAL_PROPERTIES_INTELLIGENCE.analyzeThermodynamicTypes
-    >;
+    >
     filterOptionsResults: ReturnType<typeof TYPE_VALIDATION_INTELLIGENCE.analyzeFilterOptions>,
     ingredientSearchResults: ReturnType<
       typeof TYPE_VALIDATION_INTELLIGENCE.analyzeIngredientSearchCriteria
-    >;
+    >
     celestialBodyResults: ReturnType<typeof CELESTIAL_ALIGNMENT_INTELLIGENCE.analyzeCelestialBody>,
     chakraPositionResults: ReturnType<
       typeof CELESTIAL_ALIGNMENT_INTELLIGENCE.analyzeChakraPosition
@@ -1109,9 +1109,8 @@ export const TYPE_INTELLIGENCE_DEMO = {
       astrologicalIntegration: ((astrologicalTypeResults.temporalInfluences as any)?.newMoonIntensity || 0) * 0.2,
       celestialIntegration:
         ((celestialTypeResults.celestialHarmonyAnalysis as any)?.overallHarmony || 0) * 0.2,
-      alchemicalIntegration:
-        ((alchemicalValuesResults.alchemicalHarmonyMetrics as any)?.overallAlchemicalHarmony || 0) *
-        0.2;
+      alchemicalIntegration: ((alchemicalValuesResults.alchemicalHarmonyMetrics as any)?.overallAlchemicalHarmony || 0) *
+        0.2
       thermodynamicIntegration: ((thermodynamicTypeResults.energyTypeAnalysis as any)?.totalEnergyType || 0) * 0.2,
       filterIntegration:
         ((filterOptionsResults.filterEfficiencyMetrics as any)?.filteringEfficiency || 0) * 0.2,
@@ -1137,15 +1136,15 @@ export const TYPE_INTELLIGENCE_DEMO = {
           integrationMetrics.celestialIntegration +
           integrationMetrics.alchemicalIntegration +
           integrationMetrics.thermodynamicIntegration) /
-          41.0;
+          41.0
       ),
       validationSystemIntegration: Math.min(
         (integrationMetrics.filterIntegration + integrationMetrics.searchIntegration) / 2;
-        1.0;
+        1.0
       ),
       celestialAlignmentIntegration: Math.min(
         (integrationMetrics.celestialBodyIntegration + integrationMetrics.chakraIntegration) / 2;
-        1.0;
+        1.0
       ),
       thermodynamicMethodIntegration: integrationMetrics.cookingMethodIntegration
     };
@@ -1169,8 +1168,8 @@ export const TYPE_INTELLIGENCE_DEMO = {
 // Create sample data and execute demonstration to ensure all systems are actively used
 const executeDemonstration = () => {;
   // Sample data for demonstration
-  const sampleLunarPhase: LunarPhase = 'full moon';
-  const sampleAlignment: CelestialAlignment = {
+  const, sampleLunarPhase: LunarPhase = 'full moon'
+  const, sampleAlignment: CelestialAlignment = {
     moment: new Date(),
     planetaryPositions: {} as PlanetaryAlignment,
     lunarPhase: 'new moon',
@@ -1179,8 +1178,8 @@ const executeDemonstration = () => {;
     aspectPatterns: [],
     energyFlow: 0.85
   };
-  const sampleValues: AlchemicalValues = { Spirit: 0.8, Essence: 0.7, Matter: 0.6, Substance: 0.9 };
-  const sampleMetrics: ThermodynamicMetrics = {
+  const, sampleValues: AlchemicalValues = { Spirit: 0.8, Essence: 0.7, Matter: 0.6, Substance: 0.9 };
+  const, sampleMetrics: ThermodynamicMetrics = {
     heat: 0.7,
     entropy: 0.5,
     reactivity: 0.8,
@@ -1188,19 +1187,19 @@ const executeDemonstration = () => {;
     kalchm: 0.6,
     monica: 0.8
   };
-  const sampleFilters: FilterOptions = {
+  const, sampleFilters: FilterOptions = {
     elements: ['Fire', 'Water'],
     seasons: ['spring'],
     mealTypes: ['breakfast']
   };
-  const sampleCriteria: IngredientSearchCriteria = {
+  const, sampleCriteria: IngredientSearchCriteria = {
     elements: ['Fire'],
     seasons: ['summer'],
     categories: ['herbs']
   };
-  const sampleCelestialBody: CelestialBody = { name: 'sun', influence: 0.9, element: 'Fire' };
-  const sampleChakraPosition: ChakraPosition = 'heart';
-  const sampleMethods: CookingMethod[] = [
+  const, sampleCelestialBody: CelestialBody = { name: 'sun', influence: 0.9, element: 'Fire' };
+  const, sampleChakraPosition: ChakraPosition = 'heart'
+  const, sampleMethods: CookingMethod[] = [
     { id: '1', name: 'grilling', category: 'heat', element: 'Fire', intensity: 8 },
     { id: '2', name: 'steaming', category: 'moist', element: 'Water', intensity: 4 }
   ];
@@ -1238,7 +1237,7 @@ const _PHASE_29_DEMONSTRATION_RESULTS = executeDemonstration();
 
 // ---------------------------------------------------------------------------
 
-// ========== PHASE 45: ALCHEMY TYPE INTELLIGENCE SYSTEM ==========;
+// ========== PHASE, 45: ALCHEMY TYPE INTELLIGENCE SYSTEM ==========
 
 /**
  * Comprehensive intelligence system for alchemy type definitions
@@ -1267,17 +1266,17 @@ export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {
     );
 
     // Analyze property patterns
-    const propertyAnalysis = properties.map(prop => ({;
+    const propertyAnalysis = properties.map(prop => ({
       totalStrength: Object.values(prop).reduce((sum, val) => sum + val0),
       dominantElement: Object.entries(prop).reduce(
         (max, [key, value]) => (value > max.value ? { key, value } : max),
         { key: 'Fire', value: 0 },
       ),
-      balance: Math.max(...Object.values(prop)) - Math.min(...Object.values(prop))
+      balance: Math.max(...Object.values(prop)) - Math.min(...Object.values(prop));
     }));
 
     // Analyze interaction patterns
-    const interactionAnalysis = interactions.map(interaction => ({;
+    const interactionAnalysis = interactions.map(interaction => ({
       type: interaction.effect,
       potency: interaction.potency,
       elementPair: `${interaction.primary}-${interaction.secondary}`,
@@ -1307,7 +1306,7 @@ export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {
     const { properties, metrics, calculations } = thermoData;
 
     // Analyze energy distribution patterns
-    const energyAnalysis = properties.map(prop => ({;
+    const energyAnalysis = properties.map(prop => ({
       totalEnergy: prop.heat + prop.entropy + prop.reactivity + prop.gregsEnergy,
       energyRatio: prop.gregsEnergy / (prop.heat + prop.entropy + prop.reactivity),
       stability: prop.entropy / (prop.heat + prop.reactivity),
@@ -1315,18 +1314,18 @@ export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {
     }));
 
     // Analyze metric patterns
-    const metricAnalysis = metrics.map(metric => ({;
+    const metricAnalysis = metrics.map(metric => ({
       kalchmRatio: metric.kalchm / (metric.heat + metric.entropy + metric.reactivity),
       monicaRatio: metric.monica / metric.kalchm,
       energyComplexity: (metric.heat + metric.entropy + metric.reactivity) / metric.gregsEnergy
     }));
 
     // Analyze calculation patterns
-    const calculationAnalysis = calculations.map(calc => ({;
+    const calculationAnalysis = calculations.map(calc => ({
       scoreRange: calc.score,
       confidence: (calc as unknown as AlchemicalCalculationResult).confidence || 0,
       factorCount: (calc as unknown as AlchemicalCalculationResult).factors.length || 0,
-      elementalBalance: Object.values(calc.elementalProperties).reduce((sum, val) => sum + val0)
+      elementalBalance: Object.values(calc.elementalProperties).reduce((sum, val) => sum + val0);
     }));
 
     return {
@@ -1353,7 +1352,7 @@ export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {
     const { recipes, ingredients, cookingMethods } = recipeData;
 
     // Analyze recipe patterns
-    const recipeAnalysis = recipes.map(recipe => ({;
+    const recipeAnalysis = recipes.map(recipe => ({
       ingredientCount: recipe.ingredients.length,
       elementalComplexity: Object.values(recipe.elementalProperties).reduce(
         (sum, val) => sum + val0,
@@ -1363,7 +1362,7 @@ export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {
     }));
 
     // Analyze ingredient patterns
-    const ingredientAnalysis = ingredients.map(ingredient => ({;
+    const ingredientAnalysis = ingredients.map(ingredient => ({
       category: ingredient.category,
       elementalStrength: Object.values(ingredient.elementalProperties).reduce(
         (sum, val) => sum + val0,
@@ -1374,7 +1373,7 @@ export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {
     }));
 
     // Analyze cooking method patterns
-    const methodAnalysis = cookingMethods.map(method => ({;
+    const methodAnalysis = cookingMethods.map(method => ({
       category: method.category,
       intensity: method.intensity,
       element: method.element,
@@ -1406,7 +1405,7 @@ export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {
     const { profiles, alignments, positions } = astroData;
 
     // Analyze profile patterns
-    const profileAnalysis = profiles.map(profile => ({;
+    const profileAnalysis = profiles.map(profile => ({
       hasBirthChart: !!profile.birthChart,
       hasPlanetaryPositions: !!profile.planetaryPositions,
       hasDominantElements: !!profile.dominantElements,
@@ -1416,7 +1415,7 @@ export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {
     }));
 
     // Analyze alignment patterns
-    const alignmentAnalysis = alignments.map(alignment => ({;
+    const alignmentAnalysis = alignments.map(alignment => ({
       hasPlanetaryPositions: !!alignment.planetaryPositions,
       hasLunarPhase: !!alignment.lunarPhase,
       hasElementalDominance: !!alignment.elementalDominance,
@@ -1426,7 +1425,7 @@ export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {
     }));
 
     // Analyze position patterns
-    const positionAnalysis = positions.map(position => ({;
+    const positionAnalysis = positions.map(position => ({
       sign: position.sign,
       degree: position.degree,
       hasExactLongitude: !!(position as unknown as any).exactLongitude,
@@ -1459,27 +1458,27 @@ export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {
     const { chakraEnergies, energyStates, values } = energyData;
 
     // Analyze chakra patterns
-    const chakraAnalysis = chakraEnergies.map(chakra => ({;
+    const chakraAnalysis = chakraEnergies.map(chakra => ({
       totalEnergy: Object.values(chakra).reduce((sum, val) => sum + val0),
       dominantChakra: Object.entries(chakra).reduce(
         (max, [key, value]) => (value > max.value ? { key, value } : max),
         { key: 'root', value: 0 },
       ),
-      balance: Math.max(...Object.values(chakra)) - Math.min(...Object.values(chakra))
+      balance: Math.max(...Object.values(chakra)) - Math.min(...Object.values(chakra));
     }));
 
     // Analyze energy state patterns
-    const energyStateAnalysis = energyStates.map(state => ({;
+    const energyStateAnalysis = energyStates.map(state => ({
       totalEnergy: state.Spirit + state.Essence + state.Matter + state.Substance,
       spiritRatio: state.Spirit / (state.Spirit + state.Essence + state.Matter + state.Substance),
       essenceRatio: state.Essence / (state.Spirit + state.Essence + state.Matter + state.Substance),
       matterRatio: state.Matter / (state.Spirit + state.Essence + state.Matter + state.Substance),
       substanceRatio:
-        state.Substance / (state.Spirit + state.Essence + state.Matter + state.Substance)
+        state.Substance / (state.Spirit + state.Essence + state.Matter + state.Substance);
     }));
 
     // Analyze alchemical value patterns
-    const valueAnalysis = values.map(value => ({;
+    const valueAnalysis = values.map(value => ({
       totalValue: value.Spirit + value.Essence + value.Matter + value.Substance,
       balanceThreshold: value.balanceThreshold || 0.5,
       harmonyTarget: value.harmonyTarget || 0.8,

@@ -41,8 +41,8 @@ import type { RecipeServiceInterface } from './interfaces/RecipeServiceInterface
  * Implements the RecipeServiceInterface and adds additional error handling
  */
 export class RecipeFinder implements RecipeServiceInterface {
-  private static instance: RecipeFinder;
-  private recipeService: ConsolidatedRecipeService,
+  private static, instance: RecipeFinder
+  private, recipeService: ConsolidatedRecipeService,
 
   /**
    * Private constructor to enforce singleton pattern
@@ -96,7 +96,7 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   async searchRecipes(params: SearchRecipesParams): Promise<ApiResponse<Recipe[]>> {
     try {
-      const recipes = await this.recipeService.searchRecipes(params.criteria, params.options),;
+      const recipes = await this.recipeService.searchRecipes(params.criteria, params.options),
       return {
         success: true,
         data: recipes,
@@ -288,8 +288,8 @@ export class RecipeFinder implements RecipeServiceInterface {
     params: GetRecipesForPlanetaryAlignmentParams,
   ): Promise<ApiResponse<Recipe[]>> {
     try {
-      const recipes = await this.recipeService.getRecipesForPlanetaryAlignment(;
-        params.planetaryInfluences;
+      const recipes = await this.recipeService.getRecipesForPlanetaryAlignment(
+        params.planetaryInfluences
         params.minMatchScore
       ),
       return {
@@ -330,8 +330,8 @@ export class RecipeFinder implements RecipeServiceInterface {
     params: GetRecipesForFlavorProfileParams,
   ): Promise<ApiResponse<Recipe[]>> {
     try {
-      const recipes = await this.recipeService.getRecipesForFlavorProfile(;
-        params.flavorProfile;
+      const recipes = await this.recipeService.getRecipesForFlavorProfile(
+        params.flavorProfile
         params.minMatchScore
       ),
       return {
@@ -369,10 +369,10 @@ export class RecipeFinder implements RecipeServiceInterface {
     params: GetBestRecipeMatchesParams,
   ): Promise<ApiResponse<ScoredRecipe[]>> {
     try {
-      const recipes = await this.recipeService.getBestRecipeMatches(params.criteria, 10),;
+      const recipes = await this.recipeService.getBestRecipeMatches(params.criteria, 10),
       // Convert recipes to scored recipes if they don't already have scores
-      const scoredRecipes: ScoredRecipe[] = recipes.map((recipe, index) => ({
-        ...recipe;
+      const, scoredRecipes: ScoredRecipe[] = recipes.map((recipe, index) => ({
+        ...recipe,
         score: recipe.score ?? 1 - index * 0.1, // Assign decreasing scores if not present
       }));
 
@@ -489,8 +489,8 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   async generateFusionRecipe(params: GenerateFusionRecipeParams): Promise<ApiResponse<Recipe>> {
     try {
-      const recipe = await this.recipeService.generateFusionRecipe(;
-        params.cuisines;
+      const recipe = await this.recipeService.generateFusionRecipe(
+        params.cuisines
         params.criteria
       ),
       return {
@@ -533,7 +533,7 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   async adaptRecipeForSeason(params: AdaptRecipeForSeasonParams): Promise<ApiResponse<Recipe>> {
     try {
-      const recipe = await this.recipeService.adaptRecipeForSeason(;
+      const recipe = await this.recipeService.adaptRecipeForSeason(
         { id: params.recipeId } as Recipe,
         params.season
       );
@@ -607,7 +607,7 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   calculateSimilarity(recipe1: Recipe, recipe2: Recipe): number {
     try {
-      return this.recipeService.calculateSimilarity(recipe1, recipe2)
+      return this.recipeService.calculateSimilarity(recipe1, recipe2);
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: {

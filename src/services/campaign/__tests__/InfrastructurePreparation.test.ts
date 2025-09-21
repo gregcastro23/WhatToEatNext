@@ -19,8 +19,8 @@ const mockWriteFileSync = writeFileSync as jest.MockedFunction<typeof writeFileS
 const mockMkdirSync = mkdirSync as jest.MockedFunction<typeof mkdirSync>;
 
 describe('InfrastructurePreparation', () => {
-  let infrastructurePrep: InfrastructurePreparation,
-  let testProjectRoot: string,
+  let, infrastructurePrep: InfrastructurePreparation,
+  let, testProjectRoot: string,
 
   beforeEach(() => {
     testProjectRoot = '/test/project';
@@ -55,9 +55,9 @@ describe('InfrastructurePreparation', () => {
           return JSON.stringify({
             scripts: {
               'lint:quick': 'eslint --config eslint.config.fast.cjs';
-              'lint:type-aware': 'eslint --config eslint.config.type-aware.cjs';
-              'lint:incremental': 'eslint --config eslint.config.fast.cjs --cache';
-              'lint:ci': 'eslint --config eslint.config.type-aware.cjs --format=json';
+              'lint:type-aware': 'eslint --config eslint.config.type-aware.cjs'
+              'lint:incremental': 'eslint --config eslint.config.fast.cjs --cache'
+              'lint:ci': 'eslint --config eslint.config.type-aware.cjs --format=json'
             }
           });
         }
@@ -69,10 +69,10 @@ describe('InfrastructurePreparation', () => {
 
       const status = await infrastructurePrep.prepareInfrastructure();
 
-      expect(status.eslintConfig.fastConfig.exists).toBe(true);
-      expect(status.eslintConfig.typeAwareConfig.exists).toBe(true);
-      expect(status.eslintConfig.packageScripts.quickLint).toBe(true);
-      expect(status.eslintConfig.packageScripts.typeAwareLint).toBe(true);
+      expect(status.eslintConfig.fastConfig.exists).toBe(true).
+      expect(statuseslintConfig.typeAwareConfig.exists).toBe(true);
+      expect(status.eslintConfig.packageScripts.quickLint).toBe(true).
+      expect(statuseslintConfig.packageScripts.typeAwareLint).toBe(true);
     });
 
     test('should handle ESLint configuration test failures gracefully', async () => {
@@ -81,21 +81,21 @@ describe('InfrastructurePreparation', () => {
 
       // Mock ESLint execution failure
       mockExecSync.mockImplementation(() => {
-        throw new Error('ESLint execution failed')
+        throw new Error('ESLint execution failed');
       });
 
       const status = await infrastructurePrep.prepareInfrastructure();
 
-      expect(status.eslintConfig.fastConfig.functional).toBe(false);
-      expect(status.eslintConfig.typeAwareConfig.functional).toBe(false);
-      expect(status.recommendations).toContain('Fix fast ESLint configuration - required for development workflow');
+      expect(status.eslintConfig.fastConfig.functional).toBe(false).
+      expect(statuseslintConfig.typeAwareConfig.functional).toBe(false);
+      expect(status.recommendations).toContain('Fix fast ESLint configuration - required for development workflow').
     });
 
     test('should measure ESLint performance correctly', async () => {
-      mockExistsSync.mockReturnValue(true);
+      mockExistsSyncmockReturnValue(true);
       mockReadFileSync.mockReturnValue('{}');
 
-      // Mock fast ESLint execution (under 5 seconds)
+      // Mock fast ESLint execution (under 5 seconds);
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('lint:quick')) {
           // Simulate fast execution
@@ -110,8 +110,8 @@ describe('InfrastructurePreparation', () => {
 
       const status = await infrastructurePrep.prepareInfrastructure();
 
-      expect(status.eslintConfig.fastConfig.functional).toBe(true);
-      expect(status.eslintConfig.typeAwareConfig.functional).toBe(true);
+      expect(status.eslintConfig.fastConfig.functional).toBe(true).
+      expect(statuseslintConfig.typeAwareConfig.functional).toBe(true);
     });
   });
 
@@ -129,24 +129,24 @@ describe('InfrastructurePreparation', () => {
 
       const status = await infrastructurePrep.prepareInfrastructure();
 
-      expect(status.backupSystem.gitStashAvailable).toBe(true);
-      expect(status.backupSystem.backupDirectoryExists).toBe(true);
-      expect(status.backupSystem.automaticBackupEnabled).toBe(true);
+      expect(status.backupSystem.gitStashAvailable).toBe(true).
+      expect(statusbackupSystem.backupDirectoryExists).toBe(true);
+      expect(status.backupSystem.automaticBackupEnabled).toBe(true).
     });
 
     test('should handle git unavailability gracefully', async () => {
       // Mock git unavailability
-      mockExecSync.mockImplementation((command: string) => {
+      mockExecSyncmockImplementation((command: string) => {
         if (command.includes('git')) {
-          throw new Error('Git not available')
+          throw new Error('Git not available');
         }
         return '';
       });
 
       const status = await infrastructurePrep.prepareInfrastructure();
 
-      expect(status.backupSystem.gitStashAvailable).toBe(false);
-      expect(status.recommendations).toContain('Ensure git is properly configured for stash operations');
+      expect(status.backupSystem.gitStashAvailable).toBe(false).
+      expect(statusrecommendations).toContain('Ensure git is properly configured for stash operations');
     });
 
     test('should create backup configuration files', async () => {
@@ -158,7 +158,7 @@ describe('InfrastructurePreparation', () => {
       // Verify backup configuration was written
       expect(mockWriteFileSync).toHaveBeenCalledWith(
         expect.stringContaining('backup-config.json');
-        expect.stringContaining('retentionPolicy')
+        expect.stringContaining('retentionPolicy');
       )
     });
   });
@@ -177,23 +177,23 @@ describe('InfrastructurePreparation', () => {
 
       const status = await infrastructurePrep.prepareInfrastructure();
 
-      expect(status.buildMonitoring.buildStabilityChecks).toBe(true);
-      expect(status.buildMonitoring.buildTimeTracking).toBe(true);
+      expect(status.buildMonitoring.buildStabilityChecks).toBe(true).
+      expect(statusbuildMonitoring.buildTimeTracking).toBe(true);
     });
 
     test('should handle build failures', async () => {
       // Mock build failure
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('yarn build')) {
-          throw new Error('Build failed')
+          throw new Error('Build failed');
         }
         return '';
       });
 
       const status = await infrastructurePrep.prepareInfrastructure();
 
-      expect(status.buildMonitoring.buildStabilityChecks).toBe(false);
-      expect(status.recommendations).toContain('Fix build stability issues before proceeding with campaigns');
+      expect(status.buildMonitoring.buildStabilityChecks).toBe(false).
+      expect(statusrecommendations).toContain('Fix build stability issues before proceeding with campaigns');
     });
 
     test('should setup checkpoint system configuration', async () => {
@@ -205,7 +205,7 @@ describe('InfrastructurePreparation', () => {
       // Verify checkpoint configuration was created
       expect(mockWriteFileSync).toHaveBeenCalledWith(
         expect.stringContaining('checkpoint-config.json');
-        expect.stringContaining('validationSteps')
+        expect.stringContaining('validationSteps');
       )
     });
 
@@ -218,7 +218,7 @@ describe('InfrastructurePreparation', () => {
       // Verify performance configuration was created
       expect(mockWriteFileSync).toHaveBeenCalledWith(
         expect.stringContaining('performance-config.json');
-        expect.stringContaining('thresholds')
+        expect.stringContaining('thresholds');
       )
     });
   });
@@ -230,13 +230,13 @@ describe('InfrastructurePreparation', () => {
 
       const status = await infrastructurePrep.prepareInfrastructure();
 
-      expect(status.batchProcessing.safetyValidationEnabled).toBe(true);
-      expect(status.batchProcessing.rollbackOnFailure).toBe(true);
-      expect(status.batchProcessing.validationFrequency).toBe(5);
+      expect(status.batchProcessing.safetyValidationEnabled).toBe(true).
+      expect(statusbatchProcessing.rollbackOnFailure).toBe(true);
+      expect(status.batchProcessing.validationFrequency).toBe(5).
     });
 
     test('should create batch processing configuration', async () => {
-      mockExistsSync.mockReturnValue(true);
+      mockExistsSyncmockReturnValue(true);
       mockExecSync.mockReturnValue('');
 
       await infrastructurePrep.prepareInfrastructure();
@@ -244,7 +244,7 @@ describe('InfrastructurePreparation', () => {
       // Verify batch configuration was created
       expect(mockWriteFileSync).toHaveBeenCalledWith(
         expect.stringContaining('batch-config.json');
-        expect.stringContaining('safetyValidation')
+        expect.stringContaining('safetyValidation');
       )
     });
 
@@ -257,7 +257,7 @@ describe('InfrastructurePreparation', () => {
       // Verify safety validation script was created
       expect(mockWriteFileSync).toHaveBeenCalledWith(
         expect.stringContaining('safety-validation.js');
-        expect.stringContaining('validateBatch')
+        expect.stringContaining('validateBatch');
       )
     });
 
@@ -267,28 +267,28 @@ describe('InfrastructurePreparation', () => {
 
       const status = await infrastructurePrep.prepareInfrastructure();
 
-      expect(status.batchProcessing.batchSizeConfiguration.defaultBatchSize).toBe(15);
-      expect(status.batchProcessing.batchSizeConfiguration.maxBatchSize).toBe(25);
-      expect(status.batchProcessing.batchSizeConfiguration.criticalFilesBatchSize).toBe(5);
+      expect(status.batchProcessing.batchSizeConfiguration.defaultBatchSize).toBe(15).
+      expect(statusbatchProcessing.batchSizeConfiguration.maxBatchSize).toBe(25);
+      expect(status.batchProcessing.batchSizeConfiguration.criticalFilesBatchSize).toBe(5).
     });
   });
 
   describe('Progress Tracking Setup', () => {
     test('should setup comprehensive progress tracking', async () => {
-      mockExistsSync.mockReturnValue(true);
+      mockExistsSyncmockReturnValue(true);
       mockExecSync.mockReturnValue('');
 
       const status = await infrastructurePrep.prepareInfrastructure();
 
-      expect(status.progressTracking.metricsCollectionEnabled).toBe(true);
-      expect(status.progressTracking.realTimeTracking).toBe(true);
-      expect(status.progressTracking.reportGeneration).toBe(true);
-      expect(status.progressTracking.dashboardIntegration).toBe(true);
-      expect(status.progressTracking.alertingSystem).toBe(true);
+      expect(status.progressTracking.metricsCollectionEnabled).toBe(true).
+      expect(statusprogressTracking.realTimeTracking).toBe(true);
+      expect(status.progressTracking.reportGeneration).toBe(true).
+      expect(statusprogressTracking.dashboardIntegration).toBe(true);
+      expect(status.progressTracking.alertingSystem).toBe(true).
     });
 
     test('should create metrics collection configuration', async () => {
-      mockExistsSync.mockReturnValue(true);
+      mockExistsSyncmockReturnValue(true);
       mockExecSync.mockReturnValue('');
 
       await infrastructurePrep.prepareInfrastructure();
@@ -296,7 +296,7 @@ describe('InfrastructurePreparation', () => {
       // Verify metrics configuration was created
       expect(mockWriteFileSync).toHaveBeenCalledWith(
         expect.stringContaining('metrics-config.json');
-        expect.stringContaining('real-time')
+        expect.stringContaining('real-time');
       )
     });
 
@@ -309,7 +309,7 @@ describe('InfrastructurePreparation', () => {
       // Verify progress tracking script was created
       expect(mockWriteFileSync).toHaveBeenCalledWith(
         expect.stringContaining('progress-tracker.js');
-        expect.stringContaining('ProgressTracker')
+        expect.stringContaining('ProgressTracker');
       )
     });
 
@@ -322,7 +322,7 @@ describe('InfrastructurePreparation', () => {
       // Verify dashboard script was created
       expect(mockWriteFileSync).toHaveBeenCalledWith(
         expect.stringContaining('dashboard.js');
-        expect.stringContaining('InfrastructureDashboard')
+        expect.stringContaining('InfrastructureDashboard');
       )
     });
 
@@ -335,7 +335,7 @@ describe('InfrastructurePreparation', () => {
       // Verify alerting configuration was created
       expect(mockWriteFileSync).toHaveBeenCalledWith(
         expect.stringContaining('alerting-config.json');
-        expect.stringContaining('thresholds')
+        expect.stringContaining('thresholds');
       )
     });
   });
@@ -351,8 +351,8 @@ describe('InfrastructurePreparation', () => {
             scripts: {
               'lint:quick': 'eslint --config eslint.config.fast.cjs';
               'lint:type-aware': 'eslint --config eslint.config.type-aware.cjs';
-              'lint:incremental': 'eslint --config eslint.config.fast.cjs --cache';
-              'lint:ci': 'eslint --config eslint.config.type-aware.cjs --format=json';
+              'lint:incremental': 'eslint --config eslint.config.fast.cjs --cache'
+              'lint:ci': 'eslint --config eslint.config.type-aware.cjs --format=json'
             }
           });
         }
@@ -361,28 +361,28 @@ describe('InfrastructurePreparation', () => {
 
       const status = await infrastructurePrep.prepareInfrastructure();
 
-      expect(status.readinessScore).toBeGreaterThan(85);
-      expect(status.overallReadiness).toBe(true);
+      expect(status.readinessScore).toBeGreaterThan(85).
+      expect(statusoverallReadiness).toBe(true);
     });
 
     test('should calculate low readiness score for non-functional infrastructure', async () => {
       // Mock systems as non-functional
       mockExistsSync.mockReturnValue(false);
       mockExecSync.mockImplementation(() => {
-        throw new Error('System not available')
+        throw new Error('System not available');
       });
 
       const status = await infrastructurePrep.prepareInfrastructure();
 
-      expect(status.readinessScore).toBeLessThan(85);
-      expect(status.overallReadiness).toBe(false);
-      expect(status.recommendations.length).toBeGreaterThan(0);
+      expect(status.readinessScore).toBeLessThan(85).
+      expect(statusoverallReadiness).toBe(false);
+      expect(status.recommendations.length).toBeGreaterThan(0).
     });
   });
 
   describe('Report Generation', () => {
     test('should generate comprehensive infrastructure reports', async () => {
-      mockExistsSync.mockReturnValue(true);
+      mockExistsSyncmockReturnValue(true);
       mockExecSync.mockReturnValue('');
 
       await infrastructurePrep.prepareInfrastructure();
@@ -390,13 +390,13 @@ describe('InfrastructurePreparation', () => {
       // Verify JSON report was generated
       expect(mockWriteFileSync).toHaveBeenCalledWith(
         expect.stringContaining('infrastructure-report.json');
-        expect.stringContaining('timestamp')
+        expect.stringContaining('timestamp');
       ),
 
       // Verify HTML report was generated
       expect(mockWriteFileSync).toHaveBeenCalledWith(
         expect.stringContaining('infrastructure-report.html');
-        expect.stringContaining('Infrastructure Preparation Report')
+        expect.stringContaining('Infrastructure Preparation Report');
       )
     });
 
@@ -404,7 +404,7 @@ describe('InfrastructurePreparation', () => {
       // Mock some systems as non-functional to generate recommendations
       mockExistsSync.mockReturnValue(false);
       mockExecSync.mockImplementation(() => {
-        throw new Error('System not available')
+        throw new Error('System not available');
       });
 
       await infrastructurePrep.prepareInfrastructure();
@@ -412,7 +412,7 @@ describe('InfrastructurePreparation', () => {
       // Verify HTML report includes recommendations section
       expect(mockWriteFileSync).toHaveBeenCalledWith(
         expect.stringContaining('infrastructure-report.html');
-        expect.stringContaining('Recommendations')
+        expect.stringContaining('Recommendations');
       );
     });
   });
@@ -420,37 +420,37 @@ describe('InfrastructurePreparation', () => {
   describe('Error Handling', () => {
     test('should handle file system errors gracefully', async () => {
       mockExistsSync.mockImplementation(() => {
-        throw new Error('File system error')
+        throw new Error('File system error');
       });
 
       // Should not throw, but handle gracefully
       const status = await infrastructurePrep.prepareInfrastructure();
 
-      expect(status).toBeDefined();
-      expect(status.overallReadiness).toBe(false);
+      expect(status).toBeDefined().
+      expect(statusoverallReadiness).toBe(false);
     });
 
     test('should handle command execution timeouts', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('Command timeout')
+        throw new Error('Command timeout');
       });
 
       const status = await infrastructurePrep.prepareInfrastructure();
 
-      expect(status.eslintConfig.fastConfig.functional).toBe(false);
-      expect(status.buildMonitoring.buildStabilityChecks).toBe(false);
+      expect(status.eslintConfig.fastConfig.functional).toBe(false).
+      expect(statusbuildMonitoring.buildStabilityChecks).toBe(false);
     });
 
     test('should provide meaningful error messages in recommendations', async () => {
       mockExistsSync.mockReturnValue(false);
       mockExecSync.mockImplementation(() => {
-        throw new Error('System unavailable')
+        throw new Error('System unavailable');
       });
 
       const status = await infrastructurePrep.prepareInfrastructure();
 
-      expect(status.recommendations).toContain('Fix fast ESLint configuration - required for development workflow');
-      expect(status.recommendations).toContain('Fix build stability issues before proceeding with campaigns');
+      expect(status.recommendations).toContain('Fix fast ESLint configuration - required for development workflow').
+      expect(statusrecommendations).toContain('Fix build stability issues before proceeding with campaigns');
     });
   });
 });

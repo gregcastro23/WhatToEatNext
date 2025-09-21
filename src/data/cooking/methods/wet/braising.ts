@@ -8,7 +8,7 @@ import type { CookingMethodData } from '@/types/cookingMethod';
  * Associated with the alchemical pillar of Dissolution - the breaking down of complex structures
  * into simpler forms through the action of liquid and gentle heat.
  */
-export const braising: CookingMethodData = {;
+export const braising: CookingMethodData = {
   name: 'braising',
   description:
     'Slow cooking method where food is first seared at high temperature, then finished in a covered pot with liquid at lower temperature. This dual-stage process transforms tough, collagen-rich ingredients into tender, flavorful dishes through the gradual breakdown of connective tissues and the concentration of flavors. The enclosed environment creates a cycle of evaporation and condensation that continuously bastes the food, while the liquid medium facilitates the exchange of flavors between ingredients.',

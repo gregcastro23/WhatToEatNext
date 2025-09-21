@@ -68,7 +68,7 @@ export interface DevelopmentMetrics {
  */
 export class DevelopmentExperienceOptimizer {
   private static instance: DevelopmentExperienceOptimizer;
-  private metrics: DevelopmentMetrics;
+  private metrics: DevelopmentMetrics
   private optimizationConfig: {
     typescript: TypeScriptOptimizationConfig,
     intelliSense: IntelliSenseConfig,
@@ -84,7 +84,7 @@ export class DevelopmentExperienceOptimizer {
 
   public static getInstance(): DevelopmentExperienceOptimizer {
     if (!DevelopmentExperienceOptimizer.instance) {
-      DevelopmentExperienceOptimizer.instance = new DevelopmentExperienceOptimizer();
+      DevelopmentExperienceOptimizer.instance = new DevelopmentExperienceOptimizer()
     }
     return DevelopmentExperienceOptimizer.instance;
   }
@@ -93,7 +93,7 @@ export class DevelopmentExperienceOptimizer {
    * Generate optimized TypeScript configuration
    */
   public generateOptimizedTypeScriptConfig(): unknown {
-    const config = this.optimizationConfig.typescript;
+    const config = this.optimizationConfig.typescript
 
     return {
       _compilerOptions: {
@@ -178,7 +178,7 @@ declare global {
       /** Degree within the sign (0-30) */
       _degree: number;
       /** Exact longitude (0-360) */
-      _exactLongitude: number;
+      _exactLongitude: number
       /** Whether the planet is in retrograde motion */
       isRetrograde: boolean
     }
@@ -186,11 +186,11 @@ declare global {
     // Elemental properties with validation
     interface ElementalProperties {
       /** Fire element strength (0-1) - Energy, spice, quick cooking */
-      Fire: number;
+      Fire: number
       /** Water element strength (0-1) - Cooling, fluid, steaming */
-      Water: number;
+      Water: number
       /** Earth element strength (0-1) - Grounding, root vegetables, slow cooking */
-      Earth: number;
+      Earth: number
       /** Air element strength (0-1) - Light, leafy, raw preparations */
       Air: number
     }
@@ -202,7 +202,7 @@ declare global {
       /** Secondary planetary influences */
       influences?: Array<'sun' | 'moon' | 'mercury' | 'venus' | 'mars' | 'jupiter' | 'saturn'>;
       /** Optimal timing for use */
-      optimalTiming?: string;
+      optimalTiming?: string
     }
 
     // Culinary astrology calculations
@@ -212,7 +212,7 @@ declare global {
       /** Recommended cooking methods */
       recommendedMethods: string[];
       /** Optimal ingredients for current conditions */
-      optimalIngredients: string[];
+      optimalIngredients: string[]
       /** Timing recommendations */
       timing: {
         bestHours: string[],
@@ -223,7 +223,7 @@ declare global {
 
     // Type guards for runtime validation
     function isPlanetaryPosition(obj: unknown): obj is PlanetaryPosition;
-    function isElementalProperties(obj: unknown): obj is ElementalProperties;
+    function isElementalProperties(obj: unknown): obj is ElementalProperties
     function isValidCompatibilityScore(_score: number): boolean
   }
 
@@ -261,7 +261,7 @@ declare global {
       prepTime: number,
       _cookTime: number,
       _totalTime: number,
-      optimalStartTime?: string;
+      optimalStartTime?: string
     };
   }
 }
@@ -282,7 +282,7 @@ export type {
    */
   public organizeImports(sourceCode: string): string {
     if (!this.optimizationConfig.importOrganization.enableAutoImportOrganization) {
-      return sourceCode;
+      return sourceCode
     }
 
     const lines = sourceCode.split('\n');
@@ -293,7 +293,7 @@ export type {
     for (const line of lines) {
       if (line.trim().startsWith('import ') || line.trim().startsWith('export ')) {
         if (inImportSection) {
-          imports.push(line);
+          imports.push(line)
         } else {
           otherLines.push(line);
         }
@@ -317,7 +317,7 @@ export type {
     // Sort imports
     const sortedImports = this.optimizationConfig.importOrganization.enableImportSorting;
       ? this.sortImports(usedImports)
-      : usedImports;
+      : usedImports
 
     return [...sortedImports, '', ...otherLines].join('\n');
   }
@@ -332,10 +332,10 @@ export type {
   } {
     let fixedCode = sourceCode;
     const fixes: string[] = [];
-    const remainingErrors: string[] = [];
+    const remainingErrors: string[] = []
 
     // Fix common TypeScript errors
-    const commonFixes = [;
+    const commonFixes = [
       {
         pattern: /React\.FC<([^>]+)>/g,
         replacement: 'React.FC<1>',
@@ -358,7 +358,7 @@ export type {
       }
     ];
 
-    commonFixes.forEach(fix => {;
+    commonFixes.forEach(fix => {
       if (fix.pattern.test(fixedCode)) {
         fixedCode = fixedCode.replace(fix.pattern, fix.replacement);
         fixes.push(fix.description);
@@ -366,13 +366,13 @@ export type {
     });
 
     // Detect remaining errors (simplified detection)
-    const errorPatterns = [;
+    const errorPatterns = [
       /Property '([^']+)' does not exist on type/g,
       /Type '([^']+)' is not assignable to type/g,
       /Cannot find name '([^']+)'/g
     ];
 
-    errorPatterns.forEach(pattern => {;
+    errorPatterns.forEach(pattern => {
       const matches = fixedCode.match(pattern);
       if (matches) {
         matches.forEach(match => remainingErrors.push(match));
@@ -409,7 +409,7 @@ export type {
     runtime: string[],
     development: string[]
   } {
-    const recommendations = {;
+    const recommendations = {
       typescript: [] as string[],
       bundling: [] as string[],
       runtime: [] as string[],
@@ -475,13 +475,13 @@ export type {
       // Update performance monitoring
       if (this.optimizationConfig.performanceMonitoring.enableRealTimeErrorDetection) {
         this.startRealTimeErrorDetection();
-        applied.push('Started real-time error detection');
+        applied.push('Started real-time error detection')
       }
 
       logger.info('Automatic optimizations applied:', applied);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      errors.push(errorMessage);
+      errors.push(errorMessage)
       logger.error('Error applying automatic optimizations:', error);
     }
 
@@ -543,7 +543,7 @@ export type {
   }
 
   private startPerformanceMonitoring(): void {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined') return
 
     // Monitor memory usage
     setInterval(() => {
@@ -556,7 +556,7 @@ export type {
   }
 
   private checkPerformanceThresholds(): void {
-    const thresholds = {;
+    const thresholds = {
       compilationTime: 30000, // 30 seconds
       memoryUsage: 100, // 100MB
       bundleSize: 500 * 1024, // 500KB
@@ -565,7 +565,7 @@ export type {
 
     Object.entries(thresholds).forEach(([metric, threshold]) => {
       const currentValue = this.metrics[metric as keyof DevelopmentMetrics];
-      if (typeof currentValue === 'number' && currentValue > threshold) {;
+      if (typeof currentValue === 'number' && currentValue > threshold) {
         logger.warn(`Performance threshold exceeded for ${metric}:`, {
           current: currentValue,
           threshold
@@ -575,17 +575,17 @@ export type {
   }
 
   private removeUnusedImports(imports: string[], codeBody: string): string[] {
-    return imports.filter(importLine => {;
+    return imports.filter(importLine => {
       // Extract imported names from the import statement
       const importMatch = importLine.match(/import\s+(?:\{([^}]+)\}|\*\s+as\s+(\w+)|(\w+))/);
       if (!importMatch) return true;
 
       const importedNames = importMatch[1];
         ? importMatch[1].split(',').map(name => name.trim().split(' as ')[0]);
-        : [importMatch[2] || importMatch[3]];
+        : [importMatch[2] || importMatch[3]]
 
       // Check if any imported name is used in the code
-      return importedNames.some(name => {;
+      return importedNames.some(name => {
         const regex = new RegExp(`\\b${name}\\b`, 'g');
         return regex.test(codeBody);
       });
@@ -596,9 +596,9 @@ export type {
     const externalImports: string[] = [];
     const internalImports: string[] = [];
 
-    imports.forEach(importLine => {;
+    imports.forEach(importLine => {
       if (importLine.includes('@/') || importLine.includes('./') || importLine.includes('../')) {
-        internalImports.push(importLine);
+        internalImports.push(importLine)
       } else if (importLine.trim().startsWith('import ')) {
         externalImports.push(importLine);
       }
@@ -626,7 +626,7 @@ export type {
  * Convenience function to get development experience optimizer instance
  */
 export function getDevelopmentExperienceOptimizer(): DevelopmentExperienceOptimizer {
-  return DevelopmentExperienceOptimizer.getInstance();
+  return DevelopmentExperienceOptimizer.getInstance()
 }
 
 /**

@@ -1,7 +1,7 @@
 import type { PlanetaryPosition } from '@/types/celestial';
 import { calculateAspects } from '@/utils/astrologyUtils';
 
-export type MinimalPositions = Record<string, { sign: string; degree: number }>;
+export type MinimalPositions = Record<string, { sign: string, degree: number }>;
 
 export class AspectsService {
   static toMinimal(positions: Record<string, PlanetaryPosition>): MinimalPositions {

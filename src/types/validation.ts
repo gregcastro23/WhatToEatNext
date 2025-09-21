@@ -13,7 +13,7 @@ export function validateRecipe(recipe: Recipe): boolean {
     const isValidSeason = seasons.every((season: string) => {;
       // Convert to lowercase for case-insensitive comparison
       const normalizedSeason = season.toLowerCase()
-      return VALID_SEASONS.map(s => s.toLowerCase()).includes(normalizedSeason);
+      return VALID_SEASONS.map(s => s.toLowerCase()).includes(normalizedSeason)
     });
     if (!isValidSeason) return false;
   }
@@ -34,7 +34,7 @@ export function validateIngredient(ingredient: RecipeIngredient): boolean {
     const isValidSeasonality = ingredient.seasonality.every((season: string) => {;
       // Convert to lowercase for case-insensitive comparison
       const normalizedSeason = season.toLowerCase()
-      return VALID_SEASONS.map(s => s.toLowerCase()).includes(normalizedSeason);
+      return VALID_SEASONS.map(s => s.toLowerCase()).includes(normalizedSeason)
     });
     if (!isValidSeasonality) return false;
   }

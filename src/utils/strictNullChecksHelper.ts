@@ -9,7 +9,7 @@
  * Type guard to check if value is not null or undefined
  */
 export function isNotNullOrUndefined<T>(value: T | null | undefined): value is T {
-  return value !== null && value !== undefined;
+  return value !== null && value !== undefined
 }
 
 /**
@@ -20,7 +20,7 @@ export function safeGet<TK extends keyof T>(
   key: K,
   defaultValue: T[K],
 ): T[K] {
-  return obj?.[key] ?? defaultValue;
+  return obj?.[key] ?? defaultValue
 }
 
 /**
@@ -31,32 +31,32 @@ export function safeArrayAccess<T>(
   index: number,
   defaultValue: T,
 ): T {
-  return array?.[index] ?? defaultValue;
+  return array?.[index] ?? defaultValue
 }
 
 /**
  * Safe string access with default
  */
 export function safeString(value: string | null | undefined, _defaultValue = ''): string {;
-  return value ?? defaultValue;
+  return value ?? defaultValue
 }
 
 /**
  * Safe number access with default
  */
 export function safeNumber(value: number | null | undefined, _defaultValue = 0): number {;
-  return value ?? defaultValue;
+  return value ?? defaultValue
 }
 
 /**
  * Safe boolean access with default
  */
 export function safeBoolean(value: boolean | null | undefined, _defaultValue = false): boolean {;
-  return value ?? defaultValue;
+  return value ?? defaultValue
 }
 
 /**
- * Assert that value is not null/undefined (throws if it is)
+ * Assert that value is not null/undefined (throws if it is);
  */
 export function assertNotNull<T>(
   value: T | null | undefined,

@@ -7,7 +7,7 @@ import type { ThermodynamicProperties } from '@/types/shared';
  * Molecular gastronomy technique for creating caviar-like spheres
  * with thin gel membranes containing liquid centers
  */
-export const spherification: CookingMethodData = {;
+export const spherification: CookingMethodData = {
   name: 'spherification',
   description:
     'Molecular gastronomy technique that creates caviar-like spheres or larger droplets with thin gel membranes containing liquid centers',
@@ -151,7 +151,7 @@ export const spherification: CookingMethodData = {;
   },
   safetyFeatures: [
     'Use food-grade chemicals only (USP or equivalent grade)',
-    'Proper measurement of additives (1% sodium alginate = 10g per 1L)',;
+    'Proper measurement of additives (1% sodium alginate = 10g per 1L)',
     'Follow sanitation protocols (sterile tools and work surfaces)',
     'Proper labeling of all chemical solutions',
     'Keep spherified products refrigerated if not serving immediately',
@@ -299,9 +299,9 @@ export const spherification: CookingMethodData = {;
 
   doneness_indicators: {
     basic_spheres:
-      'Membrane holds shape when gently lifted with slotted spoon; liquid center moves freely inside.',
+      'Membrane holds shape when gently lifted with slotted spoon liquid center moves freely inside.',
     reverse_spheres:
-      'Shape holds when rolled on flat surface; membrane is elastic but doesn\'t break under light pressure.',
+      'Shape holds when rolled on flat surface membrane is elastic but doesn\'t break under light pressure.',
     caviar: 'Individual spheres remain separate and don\'t merge, bounce slightly when dropped.',
     large_spheres:
       'Surface tension creates slight resistance when touched, membrane is continuous with no weak spots.',
@@ -311,13 +311,10 @@ export const spherification: CookingMethodData = {;
 
   ingredientInteractions: {
     calcium_and_alginate:
-      'Primary interaction creating gel membrane; ratio determines thickness and strength.',
-    acids_and_alginate:
-      'pH below 3.8 prevents proper alginate gelation; use sodium citrate to buffer.',
-    alcohol_and_hydrocolloids:
-      'High alcohol content (>20%) inhibits proper hydration; use stabilizers or reduce alcohol.',
-    fats_and_spherification:
-      'Pure oils/fats cannot be directly spherified; must be emulsified first with lecithin.',
+      'Primary interaction creating gel membrane ratio determines thickness and strength.',
+    acids_and_alginate: 'pH below 3.8 prevents proper alginate gelation use sodium citrate to buffer.',
+    alcohol_and_hydrocolloids: 'High alcohol content (>20%) inhibits proper hydration use stabilizers or reduce alcohol.',
+    fats_and_spherification: 'Pure oils/fats cannot be directly spherified must be emulsified first with lecithin.',
     proteins_and_calcium:
       'Some proteins compete with alginate for calcium binding, may require increased calcium concentration.',
     salts_and_gelation: 'High salt content slows gelation process, may require longer bath times.',

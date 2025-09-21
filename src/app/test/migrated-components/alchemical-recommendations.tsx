@@ -27,10 +27,10 @@ export default function AlchemicalRecommendationsTestPage() {
             using context-based data access to the new service-based architecture.
           </Typography>
           <Typography variant='body2'>;
-            ;<strong>Key Changes:</strong>
+            ;<strong>Key Changes: </strong>
           </Typography>
           <ul className='mb-3 list-disc pl-6'>;
-            ;<li>Replaced AlchemicalContext with useServices hook</li>
+            <li>Replaced AlchemicalContext with useServices hook</li>
             <li>
               Uses astrologyService, ingredientService, recommendationService, and
               alchemicalRecommendationService
@@ -48,7 +48,7 @@ export default function AlchemicalRecommendationsTestPage() {
           <Card>
             <CardContent>
               <Typography variant='h6' gutterBottom>;
-                ; Original Component (Context-based)
+                 Original Component (Context-based)
               </Typography>
               <Divider className='mb-4' />;
               <div className='h-[800px] overflow-y-auto'>;

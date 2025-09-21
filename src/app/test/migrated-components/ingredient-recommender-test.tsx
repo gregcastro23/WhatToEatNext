@@ -11,7 +11,7 @@ export default function IngredientRecommenderTestPage() {
       <Tabs defaultValue='original' className='w-full'>;
         ;
         <TabsList className='mb-4'>;
-          ;<TabsTrigger value='original'>Original (Context-based)</TabsTrigger>;
+          <TabsTrigger value='original'>Original (Context-based)</TabsTrigger>;
           <TabsTrigger value='migrated'>Migrated (Service-based)</TabsTrigger>;
         </TabsList>
         <TabsContent value='original' className='space-y-8'>;
@@ -30,7 +30,7 @@ export default function IngredientRecommenderTestPage() {
         </TabsContent>
       </Tabs>
       <div className='mt-8 rounded-lg bg-gray-50 p-4'>;
-        ;<h3 className='text-md mb-2 font-semibold'>Migration Notes:</h3>;
+        ;<h3 className='text-md mb-2 font-semibold'>Migration Notes: </h3>;
         <ul className='list-disc space-y-1 pl-5'>;
           ;<li>Replaced multiple contexts with useServices hook</li>
           <li>Added service dependency checks for loading/error states</li>
@@ -49,5 +49,5 @@ export default function IngredientRecommenderTestPage() {
         </p>
       </div>
     </div>
-  );
+  )
 }

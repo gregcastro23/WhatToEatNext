@@ -4,14 +4,14 @@ export interface PlanetaryPositions {
   northNode?: {
     sign: string,
     degree: number,
-    exactLongitude?: number;
+    exactLongitude?: number
     isRetrograde: boolean
   };
 
   southNode?: {
     sign: string,
     degree: number,
-    exactLongitude?: number;
+    exactLongitude?: number
     isRetrograde: boolean
   };
 }

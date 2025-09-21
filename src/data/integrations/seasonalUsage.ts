@@ -209,22 +209,22 @@ export const seasonalUsage = {;
 
 // Helper functions if needed
 export function getSeasonalUsageData(ingredient: string, season: Season) {
-  const seasonData = seasonalUsage[season];
+  const seasonData = seasonalUsage[season]
   return {
     inGrowing: seasonData.growing.includes(ingredient),
     inHerbs: seasonData.herbs.includes(ingredient),
-    inVegetables: seasonData.vegetables.includes(ingredient)
+    inVegetables: seasonData.vegetables.includes(ingredient);
   };
 }
 
 export function getTarotRecommendationsForSeason(season: Season) {
-  return seasonalUsage[season]?.tarotAssociations?.cookingRecommendations || [];
+  return seasonalUsage[season]?.tarotAssociations?.cookingRecommendations || []
 }
 
 export function getMinorArcanaForSeason(season: Season) {
-  return seasonalUsage[season]?.tarotAssociations?.minorArcana || [];
+  return seasonalUsage[season]?.tarotAssociations?.minorArcana || []
 }
 
 export function getMajorArcanaForSeason(season: Season) {
-  return seasonalUsage[season]?.tarotAssociations?.majorArcana || [];
+  return seasonalUsage[season]?.tarotAssociations?.majorArcana || []
 }

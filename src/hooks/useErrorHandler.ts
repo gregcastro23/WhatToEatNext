@@ -12,7 +12,7 @@ interface UseErrorHandlerProps {
 
 // Return type
 interface UseErrorHandlerReturn {
-  captureError: (error: Error | string, context?: unknown) => void;
+  captureError: (error: Error | string, context?: unknown) => void
   foodError: Error | null,
   foodLoading: boolean,
   foodRecommendations: unknown[] | null,
@@ -43,13 +43,13 @@ export default function useErrorHandler({
   }, []);
 
   // Capture and handle errors
-  const captureError = useCallback(;
+  const captureError = useCallback(
      
      
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Error handling context requires flexibility
     (error: Error | string, context: any = {}) => {;
       // Create error object if string was passed
-      const errorObj = typeof error === 'string' ? new Error(error) : error;
+      const errorObj = typeof error === 'string' ? new Error(error) : error
 
       // Log the error
       logger.error(`Error in ${componentName}:`, {

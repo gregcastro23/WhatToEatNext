@@ -95,7 +95,7 @@ export function getUserFoodCompatibility(
   const userElementalProfile = getZodiacElementalInfluence(userSign);
 
   // Calculate elemental compatibility
-  const elementalCompatibility = calculateAlchemicalCompatibility(;
+  const elementalCompatibility = calculateAlchemicalCompatibility(
     userElementalProfile,
     foodElementalProps,
   );
@@ -135,7 +135,7 @@ export function generatePersonalizedMealPlan(
 
   /* Original implementation commented out
   // Get basic recommendation
-  const baseRecommendation = generateEnhancedRecommendation(;
+  const baseRecommendation = generateEnhancedRecommendation(
     alchemicalResult,
     userPreferences,
     season
@@ -203,14 +203,14 @@ export function generatePersonalizedMealPlan(
 
   // Calculate overall harmony
   const userElementalProfile = getZodiacElementalInfluence(userSign);
-  const mealElements: ElementalProperties = {;
-    Fire: dominantElement === 'Fire' ? 0.6 : balancingElement === 'Fire' ? 0.3 : 0.1,;
-    Water: dominantElement === 'Water' ? 0.6 : balancingElement === 'Water' ? 0.3 : 0.1,;
-    Earth: dominantElement === 'Earth' ? 0.6 : balancingElement === 'Earth' ? 0.3 : 0.1,;
-    Air: dominantElement === 'Air' ? 0.6 : balancingElement === 'Air' ? 0.3 : 0.1;
+  const mealElements: ElementalProperties = {
+    Fire: dominantElement === 'Fire' ? 0.6 : balancingElement === 'Fire' ? 0.3 : 0.1,
+    Water: dominantElement === 'Water' ? 0.6 : balancingElement === 'Water' ? 0.3 : 0.1,
+    Earth: dominantElement === 'Earth' ? 0.6 : balancingElement === 'Earth' ? 0.3 : 0.1,
+    Air: dominantElement === 'Air' ? 0.6 : balancingElement === 'Air' ? 0.3 : 0.1
   };
 
-  mealPlan.overallHarmony = calculateAlchemicalCompatibility(;
+  mealPlan.overallHarmony = calculateAlchemicalCompatibility(
     userElementalProfile,
     mealElements,
     userSign
@@ -260,7 +260,7 @@ export function enhanceAlchemicalCalculations(
   userPreferences?: string[],
 ) {
   // Simple recommendation if only alchemical result is available
-  const basicRecommendation = getEnhancedFoodRecommendation(;
+  const basicRecommendation = getEnhancedFoodRecommendation(
     alchemicalResult,
     userPreferences,
     season,

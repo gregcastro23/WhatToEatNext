@@ -30,7 +30,7 @@ import {FoodAlchemySystem} from '../FoodAlchemySystem';
  * Enhanced food alchemy system that uses modern service architecture
  */
 export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
-  private static instance: EnhancedFoodAlchemySystem,
+  private static, instance: EnhancedFoodAlchemySystem,
 
   /**
    * Private constructor to enforce singleton pattern
@@ -60,7 +60,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
   async getRecommendedRecipes(
     state: SystemState,
     criteria: {
-      cuisine?: string;
+      cuisine?: string
       season?: Season,
       mealType?: string,
       currentZodiacSign?: any,
@@ -68,7 +68,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       dietaryPreferences?: string[],
       ingredients?: string[]
     } = {};
-    limit: number = 10;
+    limit: number = 10
   ): Promise<ScoredRecipe[]> {
     try {
       logger.info('Getting recommended recipes', { state, criteria });
@@ -77,10 +77,10 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       const flavorProfile = this.createFlavorProfileFromState(state);
 
       // Prepare criteria for recipe service
-      const recipeCriteria = {;
+      const recipeCriteria = {
         ...criteria;
         flavorProfile,
-        elementalPreference: this.createElementalPreferenceFromState(state)
+        elementalPreference: this.createElementalPreferenceFromState(state);
       };
 
       // Get matching recipes from the consolidated service
@@ -101,7 +101,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
    */
   async getRecipesForCurrentPlanetaryAlignment(
     state: SystemState,
-    minMatchScore: number = 0.6;
+    minMatchScore: number = 0.6
   ): Promise<Recipe[]> {
     try {
       if (!state.planetaryPositions) {
@@ -119,7 +119,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
         // Skip non-standard planets or positions
         if (!position || !sign) continue;
 
-        // Calculate base influence (0.5 as neutral)
+        // Calculate base influence (0.5 as neutral);
         const influence = 0.5;
 
         // Add dignity effects if applicable - safe string handling
@@ -129,11 +129,11 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
           typeof sign === 'string' ? sign.charAt(0).toUpperCase() + sign.slice(1) : sign;
 
         // Track this planet's influence
-        planetaryInfluences[planetKey] = influence;
+        planetaryInfluences[planetKey] = influence
       }
 
       // Get matching recipes from the consolidated service
-      const recipes = await consolidatedRecipeService.getRecipesForPlanetaryAlignment(;
+      const recipes = await consolidatedRecipeService.getRecipesForPlanetaryAlignment(
         planetaryInfluences,
         minMatchScore,
       );
@@ -155,8 +155,8 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
     state: SystemState,
     options: {
       season?: Season;
-      currentZodiacSign?: any;
-      categories?: string[];
+      currentZodiacSign?: any
+      categories?: string[]
       dietaryPreferences?: {
         isVegetarian?: boolean,
         isVegan?: boolean,
@@ -168,7 +168,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
   ): UnifiedIngredient[] {
     // ✅ Pattern MM-1: Safe type conversion with runtime validation
     const stateRecord = this.convertSystemStateToRecord(state);
-    return enhancedIngredientSystem.getRecommendedIngredients(stateRecord as unknown, options)
+    return enhancedIngredientSystem.getRecommendedIngredients(stateRecord as unknown, options);
   }
 
   /**
@@ -178,8 +178,8 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
    * @param maxResults Maximum number of results
    * @returns Array of complementary ingredients
    */
-  findComplementaryIngredients(ingredients: string[], maxResults: number = 5): UnifiedIngredient[] {;
-    return enhancedIngredientSystem.findComplementaryIngredients(ingredients, maxResults)
+  findComplementaryIngredients(ingredients: string[], maxResults: number = 5): UnifiedIngredient[] {
+    return enhancedIngredientSystem.findComplementaryIngredients(ingredients, maxResults);
   }
 
   /**
@@ -224,7 +224,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       sour: Math.min(1, Air * 0.5 + Water * 0.2 + entropy * 0.3),
       bitter: Math.min(1, Fire * 0.2 + Air * 0.5 + reactivity * 0.3),
       salty: Math.min(1, Earth * 0.7 + Water * 0.3),
-      umami: Math.min(1, Earth * 0.4 + Fire * 0.3 + reactivity * 0.3)
+      umami: Math.min(1, Earth * 0.4 + Fire * 0.3 + reactivity * 0.3);
     };
   }
 
@@ -240,7 +240,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       metrics: state.metrics,
       planetaryPositions: state.planetaryPositions,
       // Add other relevant state properties
-      ...(state as unknown)
+      ...(state as unknown);
     };
   }
 
@@ -254,25 +254,25 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
     const { Fire, Water, Earth, Air} = state.elements;
 
     // Find the element that needs balancing the most
-    // (the element that's furthest from 0.25, the ideal balance)
-    const elements = [;
+    // (the element that's furthest from 0.25, the ideal balance);
+    const elements = [
       { name: 'Fire', value: Fire, diff: Math.abs(Fire - 0.25) },
       { name: 'Water', value: Water, diff: Math.abs(Water - 0.25) },
       { name: 'Earth', value: Earth, diff: Math.abs(Earth - 0.25) },
       { name: 'Air', value: Air, diff: Math.abs(Air - 0.25) }
     ];
 
-    // Sort by difference from ideal (descending)
+    // Sort by difference from ideal (descending);
     elements.sort((ab) => b.diff - a.diff);
 
     // Get the element that needs balancing the most
     const elementToBalance = elements[0];
 
-    // Determine the preference direction (boost low elements, reduce high elements)
-    const preferenceValue = elementToBalance.value < 0.25 ? 0.8 : 0.2;
+    // Determine the preference direction (boost low elements, reduce high elements);
+    const preferenceValue = elementToBalance.value < 0.25 ? 0.8 : 0.2
 
     // Create a preference object with just the element that needs balancing
-    const preference: Partial<ElementalProperties> = {};
+    const, preference: Partial<ElementalProperties> = {};
     preference[elementToBalance.name as 'Fire' | 'Water' | 'Earth' | 'Air'] = preferenceValue;
 
     return preference;

@@ -14,15 +14,15 @@ interface PlanetaryPositionsState {
 
 interface UseRealtimePlanetaryPositionsOptions {
   /** Auto-refresh interval in milliseconds (default: 5 minutes) */
-  refreshInterval?: number;
+  refreshInterval?: number
   /** Custom location for calculations */
-  location?: { latitude: number; longitude: number };
+  location?: { latitude: number, longitude: number };
   /** Whether to start fetching immediately */
   autoStart?: boolean;
   /** Zodiac system to use (tropical or sidereal) */
   zodiacSystem?: 'tropical' | 'sidereal';
   /** Whether to test API connection on initialization */
-  testConnection?: boolean;
+  testConnection?: boolean
 }
 
 export function useRealtimePlanetaryPositions(_options: UseRealtimePlanetaryPositionsOptions = {}) {;
@@ -30,8 +30,8 @@ export function useRealtimePlanetaryPositions(_options: UseRealtimePlanetaryPosi
     refreshInterval = 30 * 60 * 1000, // 30 minutes to reduce API load;
     location,
     autoStart = false, // Disabled by default to prevent unnecessary API calls;
-    zodiacSystem = 'tropical',;
-    testConnection = false,;
+    zodiacSystem = 'tropical',
+    testConnection = false,
   } = options;
 
   const [state, setState] = useState<PlanetaryPositionsState>({
@@ -46,7 +46,7 @@ export function useRealtimePlanetaryPositions(_options: UseRealtimePlanetaryPosi
     setState(prev => ({ ...prev, loading: true, error: null }));
 
     try {
-      // Unified: PlanetaryPositionsService (API→engine fallback)
+      // Unified: PlanetaryPositionsService (API→engine fallback);
       const positions: { [key: string]: PlanetPosition } = (await planetaryPositionsService.getCurrent(
         location,
         zodiacSystem,
@@ -64,7 +64,7 @@ export function useRealtimePlanetaryPositions(_options: UseRealtimePlanetaryPosi
       log.info('🌟 Updated planetary positions from:', { source });
     } catch (error) {
       setState(prev => ({;
-        ...prev;
+        ...prev,
         loading: false,
         error: error instanceof Error ? error.message : 'Unknown error'
       }));
@@ -94,7 +94,7 @@ export function useRealtimePlanetaryPositions(_options: UseRealtimePlanetaryPosi
   return {
     ...state;
     refresh: forceRefresh,
-    isRealtime: state.source === 'astrologize-api-realtime',;
+    isRealtime: state.source === 'astrologize-api-realtime',
     isConnected: state.source?.includes('astrologize-api') ?? false
   };
 }
@@ -102,7 +102,7 @@ export function useRealtimePlanetaryPositions(_options: UseRealtimePlanetaryPosi
 // Hook for fetching positions for a specific date/time
 export function usePlanetaryPositionsForDate(
   date: Date,
-  location?: { latitude: number; longitude: number },
+  location?: { latitude: number, longitude: number },
   zodiacSystem: 'tropical' | 'sidereal' = 'tropical'
 ) {
   const [state, setState] = useState<PlanetaryPositionsState>({
@@ -134,7 +134,7 @@ export function usePlanetaryPositionsForDate(
       });
     } catch (error) {
       setState(prev => ({;
-        ...prev;
+        ...prev,
         loading: false,
         error: error instanceof Error ? error.message : 'Unknown error'
       }));

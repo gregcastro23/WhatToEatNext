@@ -7,7 +7,7 @@ export function validateIngredientData(_recipes: { ingredients: RecipeIngredient
   recipes.forEach(recipe => {
     recipe.ingredients.forEach(ingredient => {
       if (!ingredient.elementalProperties) {
-        missingElementals.push(ingredient);
+        missingElementals.push(ingredient)
         // Set default values to prevent runtime errors
         ingredient.elementalProperties = { Fire: 0, Water: 0, Air: 0, Earth: 0 };
       } else {
@@ -42,12 +42,12 @@ export function validateIngredients(ingredients: RecipeIngredient[]): string[] {
 
   // Check that ingredients is an array
   if (!Array.isArray(ingredients)) {
-    return ['Ingredients must be an array'];
+    return ['Ingredients must be an array']
   }
 
   // Validate each ingredient
   ingredients.forEach((ingredient, index) => {
-    const errors: string[] = [];
+    const errors: string[] = []
 
     if (!ingredient) {
       errors.push(`Ingredient at position ${index} is undefined`);

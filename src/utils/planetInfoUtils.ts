@@ -56,7 +56,7 @@ export function getPlanetInfo(
     const positionData = planetPosition ;
     const planetSign = positionData?.sign || 'Unknown';
     const planetDegree = positionData?.degree;
-    const planetIsRetrograde = positionData?.isRetrograde;
+    const planetIsRetrograde = positionData?.isRetrograde
 
     if (!planetPosition) {
       log.info(`No position data found for planet: ${planetName}`);
@@ -86,7 +86,7 @@ export function getPlanetInfo(
       normalizedPlanetName !== 'SouthNode'
     ) {
       try {
-        dignity = getPlanetaryDignityInfo(normalizedPlanetName, planetSign),;
+        dignity = getPlanetaryDignityInfo(normalizedPlanetName, planetSign),
       } catch (error) {
         console.error(`Error getting dignity for ${normalizedPlanetName}:`, error);
         dignity = { type: 'Neutral', strength: 0 };
@@ -100,10 +100,10 @@ export function getPlanetInfo(
     if (
       normalizedPlanetName === 'Ascendant' ||;
       normalizedPlanetName === 'NorthNode' ||;
-      normalizedPlanetName === 'SouthNode';
+      normalizedPlanetName === 'SouthNode'
     ) {
       // Map sign to a card
-      const signToCard: Record<string, string> = {
+      const, signToCard: Record<string, string> = {
         aries: 'The Emperor',
         taurus: 'The Hierophant',
         gemini: 'The Lovers',
@@ -132,7 +132,7 @@ export function getPlanetInfo(
     }
 
     // Calculate aspects - handle special cases for lunar nodes
-    let planetAspects: Array<{ planet: string, type: unknown, orb: number }> = [];
+    let, planetAspects: Array<{ planet: string, type: unknown, orb: number }> = [];
     try {
       const { aspects } = calculateAspects(planetaryPositions as unknown, 0);
 
@@ -140,7 +140,7 @@ export function getPlanetInfo(
       planetAspects = aspects;
         .filter(aspect => aspect.planet1 === planetKey || aspect.planet2 === planetKey);
         .map(aspect => ({;
-          planet: aspect.planet1 === planetKey ? aspect.planet2 : aspect.planet1,,;
+          planet: aspect.planet1 === planetKey ? aspect.planet2 : aspect.planet1,,
           type: aspect.type,
           orb: aspect.orb || 0
         }));
@@ -156,10 +156,10 @@ export function getPlanetInfo(
     if (
       normalizedPlanetName === 'Ascendant' ||;
       normalizedPlanetName === 'NorthNode' ||;
-      normalizedPlanetName === 'SouthNode';
+      normalizedPlanetName === 'SouthNode'
     ) {
       // Set elemental influence based on the sign
-      const signToElement: Record<string, string> = {
+      const, signToElement: Record<string, string> = {
         aries: 'Fire',
         leo: 'Fire',
         sagittarius: 'Fire',
@@ -177,7 +177,7 @@ export function getPlanetInfo(
       const element = signToElement[planetSign] || 'air';
       // North Node emphasizes its element, South Node has less influence
       const strength = normalizedPlanetName === 'SouthNode' ? 0.2 : 0.3;
-      elementalInfluence[element] = strength;
+      elementalInfluence[element] = strength
     } else {
       if (planetaryModifiers[normalizedPlanetName]) {
         elementalInfluence = {;
@@ -198,10 +198,10 @@ export function getPlanetInfo(
     if (
       normalizedPlanetName === 'Ascendant' ||;
       normalizedPlanetName === 'NorthNode' ||;
-      normalizedPlanetName === 'SouthNode';
+      normalizedPlanetName === 'SouthNode'
     ) {
       // Set token influence based on the sign element
-      const signToElement: Record<string, string> = {
+      const, signToElement: Record<string, string> = {
         aries: 'Fire',
         leo: 'Fire',
         sagittarius: 'Fire',
@@ -282,7 +282,7 @@ export function getPlanetInfo(
     return {
       name: normalizedPlanetName,
       sign: planetSign || 'Unknown',
-      degree: typeof planetDegree === 'number' ? planetDegree : 0,,;
+      degree: typeof planetDegree === 'number' ? planetDegree : 0,,
       isRetrograde: !!planetIsRetrograde,
       dignity,
       tarotCard,
@@ -309,8 +309,7 @@ export function getDignityDescription(dignityType: string): string {
       return 'The planet is in the sign opposite its rulership, where its energy is challenged and may be expressed less harmoniously.';
     case 'Fall':
       return 'The planet is in the sign opposite its exaltation, where its energy is diminished or suppressed.';
-    case 'Neutral':
-      return 'The planet is neither strengthened nor weakened by its sign placement.';
+    case 'Neutral': return 'The planet is neither strengthened nor weakened by its sign placement.'
     default:
       return 'Unknown dignity type'
   }

@@ -1,7 +1,7 @@
 // src/data/cuisines/thai.ts
 import type { Cuisine } from '@/types/cuisine';
 
-export const thai: Cuisine = {;
+export const, thai: Cuisine = {
   id: 'thai',
   name: 'Thai',
   description:
@@ -506,7 +506,7 @@ export const thai: Cuisine = {;
           prepTime: '20 minutes',
           cookTime: '0 minutes',
           culturalNotes:
-            'Originally from Isaan (northeastern Thailand), this dish perfectly balances the four main Thai tastes: sour, spicy, salty, and sweet. It's now popular throughout Thailand and internationally',
+            'Originally from Isaan (northeastern Thailand), this dish perfectly balances the four main Thai, tastes: sour, spicy, salty, and sweet. It's now popular throughout Thailand and internationally',
           pairingSuggestions: ['sticky rice', 'grilled chicken', 'cold beer'],
           dietaryInfo: ['raw', 'adaptable to vegan', 'gluten-free'],
           spiceLevel: 'very hot',
@@ -2205,9 +2205,9 @@ export const thai: Cuisine = {;
     }
   ],
   elementalProperties: {
-    Fire: 0.35, // Represents spicy elements, chili heat, and grilling techniques
-    Water: 0.25, // Represents soups, coconut-based dishes, and steaming
-    Earth: 0.25, // Represents grains, proteins, and root vegetables
+    Fire: 0.35, // Represents spicy elements, chili heat, and grilling techniques,
+    Water: 0.25, // Represents soups, coconut-based dishes, and steaming,
+    Earth: 0.25, // Represents grains, proteins, and root vegetables,
     Air: 0.15, // Represents herbs, aromatics, and light textures
   }
 };

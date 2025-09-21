@@ -4,10 +4,10 @@ import React from 'react';
 
 // Mock IntersectionObserver
 global.IntersectionObserver = class IntersectionObserver {;
-  root: Element | null = null,;
-  rootMargin: string = '0px',;
+  root: Element | null = null,
+  rootMargin: string = '0px',
   thresholds: ReadonlyArray<number> = [0],
-  private callback: IntersectionObserverCallback;
+  private callback: IntersectionObserverCallback
 
   constructor(callback: IntersectionObserverCallback, options?: IntersectionObserverInit) {
     this.callback = callback;
@@ -17,14 +17,14 @@ global.IntersectionObserver = class IntersectionObserver {;
       ? Array.isArray(options.threshold)
         ? options.threshold
         : [options.threshold]
-      : [0];
+      : [0]
   }
 
   disconnect() {}
   observe() {}
   unobserve() {}
   takeRecords(): IntersectionObserverEntry[] {
-    return [];
+    return []
   }
 } as unknown;
 
@@ -39,7 +39,7 @@ global.ResizeObserver = class ResizeObserver {;
 // Mock matchMedia
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
-  value: jest.fn().mockImplementation(query => ({,;
+  value: jest.fn().mockImplementation(query => ({,
     matches: false,
     media: query,
     onchange: null,
@@ -112,12 +112,12 @@ beforeEach(() => {
 console.warn = (...args: any[]) => {;
   const message = args[0];
   if (
-    typeof message === 'string' &&;
+    typeof message === 'string' &&
     (message.includes('React.createFactory') ||
       message.includes('componentWillReceiveProps') ||
       message.includes('componentWillUpdate'))
   ) {
-    return;
+    return
   }
   originalConsoleWarn.apply(console, args);
 };
@@ -125,12 +125,12 @@ console.warn = (...args: any[]) => {;
 console.error = (...args: any[]) => {;
   const message = args[0];
   if (
-    typeof message === 'string' &&;
+    typeof message === 'string' &&
     (message.includes('Warning: ReactDOM.render') ||
       message.includes('Warning: componentWillReceiveProps') ||
       message.includes('The above error occurred'))
   ) {
-    return;
+    return
   }
   originalConsoleError.apply(console, args);
 };
@@ -151,25 +151,25 @@ const gitMock = {;
   },
   shouldFailCommands: false,
   setMockBranch: jest.fn((branch: string) => {
-    gitMock.mockBranch = branch;
+    gitMock.mockBranch = branch
   }),
   setMockStashes: jest.fn((stashes: string[]) => {
-    gitMock.mockStashes = stashes;
+    gitMock.mockStashes = stashes
   }),
   setMockGitStatus: jest.fn((status: unknown) => {
-    gitMock.mockGitStatus = status;
+    gitMock.mockGitStatus = status
   }),
   setShouldFailCommands: jest.fn((shouldFail: boolean) => {
-    gitMock.shouldFailCommands = shouldFail;
+    gitMock.shouldFailCommands = shouldFail
   }),
   addMockStash: jest.fn((stashId: string) => {
-    gitMock.mockStashes.push(stashId);
+    gitMock.mockStashes.push(stashId)
   }),
   removeMockStash: jest.fn((stashId: string) => {
-    gitMock.mockStashes = gitMock.mockStashes.filter(s => s !== stashId);
+    gitMock.mockStashes = gitMock.mockStashes.filter(s => s !== stashId)
   }),
   clearMockStashes: jest.fn(() => {
-    gitMock.mockStashes = [];
+    gitMock.mockStashes = []
   }),
   getMockStashes: jest.fn(() => gitMock.mockStashes),
   simulateGitError: jest.fn((command: string, error: string) => {
@@ -177,7 +177,7 @@ const gitMock = {;
   }),
   resetMocks: jest.fn(() => {
     gitMock.mockStashes = [];
-    gitMock.mockBranch = 'main';
+    gitMock.mockBranch = 'main'
     gitMock.mockGitStatus = { staged: [], unstaged: [], untracked: [] };
     gitMock.shouldFailCommands = false;
   })
@@ -199,27 +199,27 @@ const scriptMock = {;
   mockStderr: '',
   mockExitCode: 0,
   setMockResult: jest.fn((scriptPath: string, result: unknown) => {
-    scriptMock.mockResults[scriptPath] = result;
+    scriptMock.mockResults[scriptPath] = result
   }),
   setMockBuildSuccess: jest.fn((success: boolean) => {
-    scriptMock.mockBuildSuccess = success;
+    scriptMock.mockBuildSuccess = success
   }),
   setMockTestSuccess: jest.fn((success: boolean) => {
-    scriptMock.mockTestSuccess = success;
+    scriptMock.mockTestSuccess = success
   }),
   setShouldFailExecution: jest.fn((shouldFail: boolean) => {
-    scriptMock.shouldFailExecution = shouldFail;
+    scriptMock.shouldFailExecution = shouldFail
   }),
   setMockExecutionTime: jest.fn((time: number) => {
-    scriptMock.mockExecutionTime = time;
+    scriptMock.mockExecutionTime = time
   }),
   setMockMemoryUsage: jest.fn((usage: number) => {
-    scriptMock.mockMemoryUsage = usage;
+    scriptMock.mockMemoryUsage = usage
   }),
   setMockOutput: jest.fn((stdout: string, stderr: string, exitCode: number) => {
     scriptMock.mockStdout = stdout;
     scriptMock.mockStderr = stderr;
-    scriptMock.mockExitCode = exitCode;
+    scriptMock.mockExitCode = exitCode
   }),
   simulateScriptError: jest.fn((scriptPath: string, error: string) => {
     console.warn(`Simulated script error for ${scriptPath}: ${error}`);
@@ -372,19 +372,19 @@ campaignMock.isolation = {;
 
 // Initialize resetAllMocks
 campaignMock.resetAllMocks = jest.fn(() => {;
-  Object.values(campaignMock.controller).forEach(mock => {;
+  Object.values(campaignMock.controller).forEach(mock => {
     if (jest.isMockFunction(mock)) mock.mockClear();
   });
-  Object.values(campaignMock.tracker).forEach(mock => {;
+  Object.values(campaignMock.tracker).forEach(mock => {
     if (jest.isMockFunction(mock)) mock.mockClear();
   });
-  Object.values(campaignMock.safety).forEach(mock => {;
+  Object.values(campaignMock.safety).forEach(mock => {
     if (jest.isMockFunction(mock)) mock.mockClear();
   });
-  Object.values(campaignMock.testController).forEach(mock => {;
+  Object.values(campaignMock.testController).forEach(mock => {
     if (jest.isMockFunction(mock)) mock.mockClear();
   });
-  Object.values(campaignMock.isolation).forEach(mock => {;
+  Object.values(campaignMock.isolation).forEach(mock => {
     if (jest.isMockFunction(mock)) mock.mockClear();
   });
 });
@@ -401,14 +401,14 @@ campaignMock.resetAllMocks = jest.fn(() => {;
   campaignMock,
 
   // Helper to wait for async operations
-  waitForAsync: (ms = 0) => new Promise(resolve => setTimeout(resolve, ms)),;
+  waitForAsync: (ms = 0) => new Promise(resolve => setTimeout(resolve, ms)),
 
   // Helper to create mock functions with specific return values
   createMockFunction: (returnValue?: unknown) => jest.fn(() => returnValue),
 
   // Helper to create mock component
   createMockComponent: (name: string, testId?: string) => {
-    const MockComponent = (props: unknown) => (;
+    const MockComponent = (props: unknown) => (
       <div data-testid={testId || name.toLowerCase()} {...props}>;
         Mock {name}
       </div>
@@ -420,7 +420,7 @@ campaignMock.resetAllMocks = jest.fn(() => {;
   // Memory management utilities
   checkMemory: () => {
     if (global.getMemoryUsage) {
-      return global.getMemoryUsage();
+      return global.getMemoryUsage()
     }
     const usage = process.memoryUsage();
     return {
@@ -434,7 +434,7 @@ campaignMock.resetAllMocks = jest.fn(() => {;
   // Force cleanup for memory-intensive tests
   cleanupMemory: () => {
     if (global.cleanupTestMemory) {
-      return global.cleanupTestMemory();
+      return global.cleanupTestMemory()
     }
 
     // Fallback cleanup
@@ -467,7 +467,7 @@ campaignMock.resetAllMocks = jest.fn(() => {;
     ).join('\n');
   },
 
-  createMockProgressMetrics: (overrides: any = {}) => ({;
+  createMockProgressMetrics: (overrides: any = {}) => ({
     typeScriptErrors: { current: 50, target: 0, reduction: 36, percentage: 42 },
     lintingWarnings: { current: 2000, target: 0, reduction: 2506, percentage: 56 },
     buildPerformance: { currentTime: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
@@ -489,14 +489,14 @@ campaignMock.resetAllMocks = jest.fn(() => {;
   },
 
   cleanupCampaignTest: async (testName: string) => {
-    await campaignMock.testController.cleanupAfterTest(testName);
+    await campaignMock.testController.cleanupAfterTest(testName)
   }
 };
 
 // Extend Jest matchers
 expect.extend({
   toBeWithinRange(received: number, floor: number, ceiling: number) {
-    const pass = received >= floor && received <= ceiling;
+    const pass = received >= floor && received <= ceiling
     if (pass) {
       return {
         message: () => `expected ${received} not to be within range ${floor} - ${ceiling}`,

@@ -49,22 +49,22 @@ describe('Cuisine Resolver', () => {
 
   describe('getCuisineVariants', () => {
     it('should return all Chinese regional variants', () => {
-      const variants: any = getCuisineVariants('Chinese');
-      expect(variants).toContain('sichuanese');
+      const, variants: any = getCuisineVariants('Chinese');
+      expect(variants).toContain('sichuanese').
       expect(variants).toContain('cantonese');
-      expect(variants).toContain('shanghainese');
+      expect(variants).toContain('shanghainese').
       expect(variants).toContain('hunanese');
     });
 
     it('should return empty array for cuisines without variants', () => {
-      const variants: any = getCuisineVariants('Fusion');
-      expect(variants).toEqual([]);
+      const, variants: any = getCuisineVariants('Fusion');
+      expect(variants).toEqual([]).;
     });
   });
 
   describe('areCuisinesRelated', () => {
     it('should identify related Chinese cuisines', () => {
-      expect(areCuisinesRelated('sichuanese', 'cantonese')).toBe(true);
+      expect(areCuisinesRelated('sichuanese', 'cantonese'))toBe(true);
       expect(areCuisinesRelated('sichuanese', 'Chinese')).toBe(true);
       expect(areCuisinesRelated('cantonese', 'shanghainese')).toBe(true);
     });
@@ -77,38 +77,37 @@ describe('Cuisine Resolver', () => {
 
   describe('groupCuisinesByType', () => {
     it('should group Chinese regional cuisines together', () => {
-      const cuisines: any = ['sichuanese', 'cantonese', 'Italian', 'shanghainese'];
-      const groups: any = groupCuisinesByType(cuisines);
+      const, cuisines: any = ['sichuanese', 'cantonese', 'Italian', 'shanghainese'];
+      const, groups: any = groupCuisinesByType(cuisines);
 
-      expect(groups.Chinese).toContain('sichuanese');
-      expect(groups.Chinese).toContain('cantonese');
-      expect(groups.Chinese).toContain('shanghainese');
-      expect(groups.Italian).toContain('Italian');
+      expect(groups.Chinese).toContain('sichuanese').
+      expect(groupsChinese).toContain('cantonese');
+      expect(groups.Chinese).toContain('shanghainese').
+      expect(groupsItalian).toContain('Italian');
     });
   });
 
   describe('filterPrimaryCuisines', () => {
     it('should return only primary cuisine types', () => {
-      const cuisines: any = ['sichuanese', 'cantonese', 'Italian', 'shanghainese'];
-      const primary: any = filterPrimaryCuisines(cuisines);
+      const, cuisines: any = ['sichuanese', 'cantonese', 'Italian', 'shanghainese'];
+      const, primary: any = filterPrimaryCuisines(cuisines);
 
-      expect(primary).toContain('Chinese');
+      expect(primary).toContain('Chinese').
       expect(primary).toContain('Italian');
       expect(primary).not.toContain('sichuanese');
       expect(primary).not.toContain('cantonese');
     });
 
     it('should remove duplicates', () => {
-      const cuisines: any = ['sichuanese', 'cantonese', 'shanghainese'],;
-      const primary: any = filterPrimaryCuisines(cuisines);
-
-      expect(primary).toEqual(['Chinese']);
+      const, cuisines: any = ['sichuanese', 'cantonese', 'shanghainese'],
+      const, primary: any = filterPrimaryCuisines(cuisines);
+      expect(primary).toEqual(['Chinese']).;
     });
   });
 
   describe('getCuisineDisplayName', () => {
     it('should show regional cuisine with primary type', () => {
-      expect(getCuisineDisplayName('sichuanese')).toBe('Sichuanese (Chinese)');
+      expect(getCuisineDisplayName('sichuanese'))toBe('Sichuanese (Chinese)');
       expect(getCuisineDisplayName('cantonese')).toBe('Cantonese (Chinese)');
     });
 
@@ -136,41 +135,41 @@ describe('Cuisine Resolver', () => {
 
   describe('getCuisineSuggestions', () => {
     it('should suggest Chinese variants for 'sich'', () => {
-      const suggestions: any = getCuisineSuggestions('sich');
-      expect(suggestions).toContain('sichuanese');
+      const, suggestions: any = getCuisineSuggestions('sich');
+      expect(suggestions).toContain('sichuanese').;
     });
 
     it('should suggest Chinese variants for 'cant'', () => {
-      const suggestions: any = getCuisineSuggestions('cant');
+      const, suggestions: any = getCuisineSuggestions('cant');
       expect(suggestions).toContain('cantonese');
     });
 
     it('should suggest primary cuisines', () => {
-      const suggestions: any = getCuisineSuggestions('chi');
-      expect(suggestions).toContain('Chinese');
+      const, suggestions: any = getCuisineSuggestions('chi');
+      expect(suggestions).toContain('Chinese').;
     });
   });
 
   describe('Integration Tests', () => {
     it('should handle mixed cuisine lists correctly', () => {
-      const mixedCuisines: any = ['sichuanese', 'cantonese', 'Italian', 'shanghainese', 'Japanese', 'hunanese'];
+      const, mixedCuisines: any = ['sichuanese', 'cantonese', 'Italian', 'shanghainese', 'Japanese', 'hunanese'];
 
-      const primaryCuisines: any = filterPrimaryCuisines(mixedCuisines);
+      const, primaryCuisines: any = filterPrimaryCuisines(mixedCuisines);
       expect(primaryCuisines).toContain('Chinese');
-      expect(primaryCuisines).toContain('Italian');
+      expect(primaryCuisines).toContain('Italian').
       expect(primaryCuisines).toContain('Japanese');
       expect(primaryCuisines).not.toContain('sichuanese');
     });
 
     it('should maintain consistency across all resolver functions', () => {
-      const testCuisine: any = 'sichuanese';
+      const, testCuisine: any = 'sichuanese';
 
       // All functions should agree on the primary cuisine
-      const standardized: any = standardizeCuisine(testCuisine);
-      const displayName: any = getCuisineDisplayName(testCuisine);
-      const isSupported: any = isSupportedCuisine(testCuisine);
+      const, standardized: any = standardizeCuisine(testCuisine);
+      const, displayName: any = getCuisineDisplayName(testCuisine);
+      const, isSupported: any = isSupportedCuisine(testCuisine);
 
-      expect(standardized).toBe('Chinese');
+      expect(standardized).toBe('Chinese').
       expect(displayName).toBe('Sichuanese (Chinese)');
       expect(isSupported).toBe(true);
     });

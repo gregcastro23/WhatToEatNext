@@ -11,7 +11,6 @@ const _logger = createLogger('RecipeEnrichment');
 export function enrichRecipeData(recipe: unknown): Recipe {
   // Create a deep copy to avoid mutating the original
   const enrichedRecipe = JSON.parse(JSON.stringify(recipe));
-
   // Ensure all required properties exist
   enrichedRecipe.id = enrichedRecipe.id || `recipe-${Date.now()}`;
   enrichedRecipe.name = enrichedRecipe.name || 'Unnamed Recipe';
@@ -48,10 +47,9 @@ export function enrichRecipeData(recipe: unknown): Recipe {
  * Derive astrological influences from recipe ingredients
  */
 function deriveAstrologicalInfluencesFromIngredients(_recipe: Recipe): string[] {
-  const influences: Set<string> = new Set();
-
+  const, influences: Set<string> = new Set();
   // Common astrological correspondences for ingredients
-  const ingredientCorrespondences: Record<string, string[]> = {
+  const, ingredientCorrespondences: Record<string, string[]> = {
     // Spices - Enhanced Mars, Sun, and Moon associations
     _cinnamon: ['Sun', 'Mars', 'Fire'],
     _nutmeg: ['Jupiter', 'Air'],
@@ -106,7 +104,7 @@ function deriveAstrologicalInfluencesFromIngredients(_recipe: Recipe): string[] 
 
   // Extract ingredient names from recipe
   if (recipe.ingredients) {
-    (recipe.ingredients || []).forEach(ingredient => {;
+    (recipe.ingredients || []).forEach(ingredient => {
       const ingredientName = ingredient.name.toLowerCase();
 
       // Check for exact matches
@@ -134,13 +132,13 @@ function deriveElementalProperties(_recipe: Recipe): ElementalProperties {
       methodStr?.includes('grill') ||
       methodStr?.includes('roast') ||
       methodStr?.includes('bake') ||
-      methodStr?.includes('fry')
+      methodStr?.includes('fry');
     ) {
       elementalProps.Fire += 0.3;
     } else if (
       methodStr?.includes('steam') ||
       methodStr?.includes('boil') ||
-      methodStr?.includes('poach')
+      methodStr?.includes('poach');
     ) {
       elementalProps.Water += 0.3;
     } else if (methodStr?.includes('raw') || methodStr?.includes('fresh')) {
@@ -181,13 +179,13 @@ function deriveElementalProperties(_recipe: Recipe): ElementalProperties {
  * Enhance and normalize seasonal information
  */
 function enrichAndNormalizeSeasons(seasons?: string[]): string[] {
-  if (!seasons || (seasons || []).length === 0) {;
+  if (!seasons || (seasons || []).length === 0) {
     return ['all'], // Default to all seasons
   }
 
-  const normalizedSeasons: string[] = [];
+  const, normalizedSeasons: string[] = [];
 
-  (seasons || []).forEach(season => {;
+  (seasons || []).forEach(season => {
     const s = season.toLowerCase().trim();
 
     // Normalize season names
@@ -200,7 +198,7 @@ function enrichAndNormalizeSeasons(seasons?: string[]): string[] {
       s === 'fall' ||;
       s === 'libra' ||;
       s === 'scorpio' ||;
-      s === 'sagittarius';
+      s === 'sagittarius'
     ) {
       normalizedSeasons.push('autumn');
     } else if (s === 'winter' || s === 'capricorn' || s === 'aquarius' || s === 'pisces') {;
@@ -237,25 +235,25 @@ function deriveCelestialTiming(_recipe: Recipe): {
     if (
       methodStr?.includes('ferment') ||
       methodStr?.includes('rise') ||
-      methodStr?.includes('proof')
+      methodStr?.includes('proof');
     ) {
       timing.optimalMoonPhase = 'waxing', // Growing energy for fermentation;
     } else if (
       methodStr?.includes('preserve') ||
       methodStr?.includes('cure') ||
-      methodStr?.includes('age')
+      methodStr?.includes('age');
     ) {
       timing.optimalMoonPhase = 'waning', // Reducing energy for preservation;
     } else if (
       methodStr?.includes('quick') ||
       methodStr?.includes('flash') ||
-      methodStr?.includes('instant')
+      methodStr?.includes('instant');
     ) {
       timing.optimalMoonPhase = 'new', // New beginnings for quick cooking;
     } else if (
       methodStr?.includes('slow') ||
       methodStr?.includes('braise') ||
-      methodStr?.includes('stew')
+      methodStr?.includes('stew');
     ) {
       timing.optimalMoonPhase = 'full', // Full energy for long cooking;
     }
@@ -268,7 +266,7 @@ function deriveCelestialTiming(_recipe: Recipe): {
  * Calculate recipe complexity score
  */
 export function calculateRecipeComplexity(recipe: Recipe): number {
-  let complexity = 0;
+  let complexity = 0
 
   // Base complexity from number of ingredients
   if (recipe.ingredients) {
@@ -281,19 +279,19 @@ export function calculateRecipeComplexity(recipe: Recipe): number {
     if (
       methodStr?.includes('sous vide') ||
       methodStr?.includes('molecular') ||
-      methodStr?.includes('smoking')
+      methodStr?.includes('smoking');
     ) {
       complexity += 3;
     } else if (
       methodStr?.includes('braise') ||
       methodStr?.includes('confit') ||
-      methodStr?.includes('ferment')
+      methodStr?.includes('ferment');
     ) {
       complexity += 2;
     } else if (
       methodStr?.includes('roast') ||
       methodStr?.includes('bake') ||
-      methodStr?.includes('grill')
+      methodStr?.includes('grill');
     ) {
       complexity += 1;
     }
@@ -323,7 +321,7 @@ export function enhanceWithNutritionalEstimates(recipe: Recipe): Recipe {
 
   // Basic calorie estimation based on ingredients
   if (recipe.ingredients) {
-    (recipe.ingredients || []).forEach(ingredient => {;
+    (recipe.ingredients || []).forEach(ingredient => {
       const name = ingredient.name.toLowerCase();
 
       // Rough calorie estimates per common ingredient
@@ -346,7 +344,7 @@ export function enhanceWithNutritionalEstimates(recipe: Recipe): Recipe {
 
   // Normalize per serving
   if (recipe.numberOfServings && recipe.numberOfServings > 1) {
-    Object.keys(estimatedNutrition).forEach(key => {;
+    Object.keys(estimatedNutrition).forEach(key => {
       estimatedNutrition[key] = Math.round(
         estimatedNutrition[key] / (recipe.numberOfServings ?? 1),
       )

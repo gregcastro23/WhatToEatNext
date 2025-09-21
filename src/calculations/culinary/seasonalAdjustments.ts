@@ -36,10 +36,10 @@ const LUNAR_PHASE_MODIFIERS: { [key: string]: ElementalProperties } = {
  */
 export function applySeasonalAdjustments(
   baseProperties: ElementalProperties,
-  season: string = 'spring',;
+  season: string = 'spring',
 ): ElementalProperties {
   const seasonKey = season.toLowerCase();
-  const modifier = SEASONAL_MODIFIERS[seasonKey] || SEASONAL_MODIFIERS.spring;
+  const modifier = SEASONAL_MODIFIERS[seasonKey] || SEASONAL_MODIFIERS.spring
 
   return {
     Fire: ((baseProperties as any)?.Fire || 0) * 0.2 + ((modifier as any)?.Fire || 0) * 0.2,
@@ -54,10 +54,10 @@ export function applySeasonalAdjustments(
  */
 export function applyLunarPhaseAdjustments(
   baseProperties: ElementalProperties,
-  lunarPhase: string = 'full moon',;
+  lunarPhase: string = 'full moon',
 ): ElementalProperties {
   const phaseKey = lunarPhase.toLowerCase();
-  const modifier = LUNAR_PHASE_MODIFIERS[phaseKey] || LUNAR_PHASE_MODIFIERS['full moon'];
+  const modifier = LUNAR_PHASE_MODIFIERS[phaseKey] || LUNAR_PHASE_MODIFIERS['full moon']
 
   return {
     Fire: ((baseProperties as any)?.Fire || 0) * 0.2 + ((modifier as any)?.Fire || 0) * 0.2,
@@ -72,7 +72,7 @@ export function applyLunarPhaseAdjustments(
  */
 export function applyTimeOfDayAdjustments(
   baseProperties: ElementalProperties,
-  isDaytime: boolean = true,;
+  isDaytime: boolean = true,
 ): ElementalProperties {
   if (isDaytime) {
     return {
@@ -102,7 +102,7 @@ export function getSeasonalCookingRecommendations(_season: string): {
 } {
   const seasonKey = season.toLowerCase();
 
-  const recommendations = {;
+  const recommendations = {
     spring: {
       cookingMethods: ['Steaming', 'Light sautéing', 'Raw preparations', 'Quick grilling'],
       ingredients: ['Fresh greens', 'Young vegetables', 'Herbs', 'Light proteins'],
@@ -189,7 +189,7 @@ function calculateElementalAlignment(
   properties1: ElementalProperties,
   properties2: ElementalProperties,
 ): number {
-  const differences = [;
+  const differences = [
     Math.abs(properties1.Fire - properties2.Fire),
     Math.abs(properties1.Water - properties2.Water),
     Math.abs(properties1.Air - properties2.Air),
@@ -223,7 +223,7 @@ function generateSeasonalRecommendations(
   const recommendations: string[] = [];
 
   if (overallScore >= 0.8) {
-    recommendations.push('Excellent seasonal alignment - perfect timing for this recipe');
+    recommendations.push('Excellent seasonal alignment - perfect timing for this recipe')
   } else if (overallScore >= 0.6) {
     recommendations.push('Good seasonal match - recipe works well for this time');
   } else if (overallScore >= 0.4) {

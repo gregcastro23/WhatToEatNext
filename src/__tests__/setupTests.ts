@@ -15,7 +15,7 @@ if (process.env.CI) {
     debug: jest.fn(),
     info: jest.fn(),
     warn: jest.fn(),
-    error: jest.fn()
+    error: jest.fn();
   };
 }
 
@@ -27,7 +27,7 @@ global.fetch = jest.fn(() =>;
     ok: true,
     status: 200,
     statusText: 'OK',
-    headers: new Headers()
+    headers: new Headers();
   } as Response)
 );
 
@@ -40,10 +40,10 @@ jest.mock('@/services/ElementalCalculator', () => ({
       Earth: 0.25,
       Air: 0.25
     }),
-    initialize: jest.fn(_initialState => {;
+    initialize: jest.fn(_initialState => {
       // console.log('Mock initialize called', initialState);
     }),
-    updateElementalState: jest.fn(_newState => {;
+    updateElementalState: jest.fn(_newState => {
       // console.log('Mock updateElementalState called', newState);
     }),
     getInstance: jest.fn().mockReturnValue({

@@ -1,5 +1,5 @@
 declare module 'ephemeris' {
-  export function loadEphemeris(): Promise<void>;
+  export function loadEphemeris(): Promise<void>
 
   export declare class Ephemeris {
     static getPlanetPosition(

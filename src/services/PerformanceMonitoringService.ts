@@ -22,7 +22,7 @@ export interface SystemMetrics {
 
 export interface PerformanceAlert {
   type: 'warning' | 'error' | 'info';
-  component?: string;
+  component?: string,
   message: string,
   timestamp: Date,
   metric?: string,
@@ -31,16 +31,16 @@ export interface PerformanceAlert {
 }
 
 class PerformanceMonitoringService {
-  private componentMetrics: Map<string, ComponentMetrics> = new Map();
-  private systemMetrics: SystemMetrics;
-  private alerts: PerformanceAlert[] = [];
-  private startTime: number = Date.now();
-  private subscribers: Set<(data: unknown) => void> = new Set();
+  private, componentMetrics: Map<string, ComponentMetrics> = new Map();
+  private, systemMetrics: SystemMetrics;
+  private, alerts: PerformanceAlert[] = [];
+  private, startTime: number = Date.now();
+  private, subscribers: Set<(data: unknown) => void> = new Set();
 
   // Performance thresholds
   private readonly RENDER_TIME_WARNING = 16; // 60fps threshold
   private readonly RENDER_TIME_ERROR = 33; // 30fps threshold
-  private readonly MEMORY_WARNING = 50; // MB
+  private readonly MEMORY_WARNING = 50 // MB
   private readonly MEMORY_ERROR = 100, // MB;
   private readonly ERROR_RATE_WARNING = 0.1, // 10% error rate;
 
@@ -51,7 +51,7 @@ class PerformanceMonitoringService {
       totalErrors: 0,
       activeComponents: 0,
       systemUptime: 0,
-      lastUpdated: new Date()
+      lastUpdated: new Date();
     };
 
     this.startMonitoring();
@@ -83,7 +83,7 @@ class PerformanceMonitoringService {
       peakMemoryUsage: Math.max(this.systemMetrics.peakMemoryUsage, totalMemory),
       activeComponents: this.componentMetrics.size,
       systemUptime: now - this.startTime,
-      lastUpdated: new Date()
+      lastUpdated: new Date();
     };
   }
 
@@ -160,9 +160,9 @@ class PerformanceMonitoringService {
 
     // Log critical alerts
     if (alert.type === 'error') {;
-      console.error('[Performance Monitor]', alert.message, alert)
+      console.error('[Performance Monitor]', alert.message, alert);
     } else if (alert.type === 'warning') {;
-      console.warn('[Performance Monitor]', alert.message, alert)
+      console.warn('[Performance Monitor]', alert.message, alert);
     }
   }
 
@@ -170,15 +170,15 @@ class PerformanceMonitoringService {
     const data = {;
       componentMetrics: Array.from(this.componentMetrics.entries()),
       systemMetrics: this.systemMetrics,
-      alerts: this.alerts.slice(-10), // Last 10 alerts
-      summary: this.getPerformanceSummary()
+      alerts: this.alerts.slice(-10), // Last 10 alerts,
+      summary: this.getPerformanceSummary();
     };
 
-    this.subscribers.forEach(callback => {;
+    this.subscribers.forEach(callback => {
       try {
         callback(data);
       } catch (error) {
-        console.error('[Performance Monitor] Subscriber error:', error)
+        console.error('[Performance Monitor] Subscriber error:', error);
       }
     });
   }
@@ -189,15 +189,15 @@ class PerformanceMonitoringService {
 
     if (existing) {
       const newRenderCount = existing.renderCount + 1;
-      const newTotalTime = existing.totalRenderTime + renderTime;
+      const newTotalTime = existing.totalRenderTime + renderTime
 
       this.componentMetrics.set(componentName, {
-        ...existing;
+        ...existing,
         renderCount: newRenderCount,
         totalRenderTime: newTotalTime,
         averageRenderTime: newTotalTime / newRenderCount,
         lastRenderTime: renderTime,
-        lastUpdated: new Date()
+        lastUpdated: new Date();
       });
     } else {
       this.componentMetrics.set(componentName, {
@@ -208,19 +208,18 @@ class PerformanceMonitoringService {
         lastRenderTime: renderTime,
         errorCount: 0,
         memoryUsage: 0,
-        lastUpdated: new Date()
+        lastUpdated: new Date();
       });
     }
   }
 
   public trackComponentError(componentName: string, error: Error | string) {
     const existing = this.componentMetrics.get(componentName);
-
     if (existing) {
       this.componentMetrics.set(componentName, {
-        ...existing;
+        ...existing,
         errorCount: existing.errorCount + 1,
-        lastUpdated: new Date()
+        lastUpdated: new Date();
       });
     } else {
       this.componentMetrics.set(componentName, {
@@ -231,7 +230,7 @@ class PerformanceMonitoringService {
         lastRenderTime: 0,
         errorCount: 1,
         memoryUsage: 0,
-        lastUpdated: new Date()
+        lastUpdated: new Date();
       });
     }
 
@@ -272,8 +271,8 @@ class PerformanceMonitoringService {
   public getPerformanceSummary() {
     const components = Array.from(this.componentMetrics.values());
     const slowComponents = components.filter(c => c.averageRenderTime > this.RENDER_TIME_WARNING);
-    const errorProneComponents = components.filter(;
-      c => c.errorCount / Math.max(c.renderCount, 1) > this.ERROR_RATE_WARNING,,;
+    const errorProneComponents = components.filter(
+      c => c.errorCount / Math.max(c.renderCount, 1) > this.ERROR_RATE_WARNING,,
     ),
 
     return {
@@ -286,7 +285,7 @@ class PerformanceMonitoringService {
       totalErrors: this.systemMetrics.totalErrors,
       memoryUsage: this.systemMetrics.totalMemoryUsage,
       uptime: this.systemMetrics.systemUptime,
-      healthScore: this.calculateHealthScore()
+      healthScore: this.calculateHealthScore();
     };
   }
 
@@ -296,7 +295,7 @@ class PerformanceMonitoringService {
     // Deduct for slow components
     const components = Array.from(this.componentMetrics.values());
     const slowComponents = components.filter(c => c.averageRenderTime > this.RENDER_TIME_WARNING);
-    score -= (slowComponents.length / Math.max(components.length1)) * 30;
+    score -= (slowComponents.length / Math.max(components.length1)) * 30
 
     // Deduct for errors
     const totalRenders = components.reduce((sumc) => sum + c.renderCount, 0);
@@ -320,7 +319,7 @@ class PerformanceMonitoringService {
       totalErrors: 0,
       activeComponents: 0,
       systemUptime: 0,
-      lastUpdated: new Date()
+      lastUpdated: new Date();
     };
     this.startTime = Date.now();
   }

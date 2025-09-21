@@ -9,7 +9,7 @@ interface TemperatureRange {
   cautions: string[]
 }
 
-export const temperatureEffects: Record<string, TemperatureRange> = {
+export const, temperatureEffects: Record<string, TemperatureRange> = {
   freezing: {
     min: -20,
     max: 0,
@@ -116,22 +116,22 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
   }
 };
 
-export const getTemperatureRange = (temp: number): string => {;
+export const getTemperatureRange = (temp: number): string => {
   return (
     Object.keys(temperatureEffects).find(
-      range => temp >= temperatureEffects[range].min && temp <= temperatureEffects[range].max,;
+      range => temp >= temperatureEffects[range].min && temp <= temperatureEffects[range].max,
     ) || 'room'
   );
 };
 
 export const _getElementalEffect = (temp: number): ElementalProperties => {;
   const range = getTemperatureRange(temp);
-  return temperatureEffects[range].elementalEffect;
+  return temperatureEffects[range].elementalEffect
 };
 
 export function getTemperatureEffect(ingredient: string, _temperature?: number) {
   // Map of ingredient temperature effects
-  const effectMap: Record<string, string> = {
+  const, effectMap: Record<string, string> = {
     ginger: 'warming',
     chili: 'hot',
     mint: 'cooling',

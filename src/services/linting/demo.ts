@@ -13,7 +13,7 @@ import { CategorizedErrors, LintingErrorAnalyzer, LintingIssue } from './Linting
 import { ResolutionStrategyGenerator } from './ResolutionStrategyGenerator';
 
 // Mock ESLint output for demonstration
-const _mockESLintOutput = [;
+const _mockESLintOutput = [
   {
     filePath: '/project/src/App.tsx',
     messages: [
@@ -91,7 +91,7 @@ function demonstrateErrorClassification() {
   const classifier = new ErrorClassificationSystem();
 
   // Classify different types of errors
-  const testCases = [;
+  const testCases = [
     {
       rule: 'import/order',
       message: 'Import order incorrect',
@@ -118,11 +118,11 @@ function demonstrateErrorClassification() {
     }
   ];
 
-  testCases.forEach(testCase => {;
+  testCases.forEach(testCase => {
     const classification = classifier.classifyError(;
       testCase.rule;
       testCase.message;
-      testCase.file;
+      testCase.file
       testCase.hasAutoFix
     ),
 
@@ -152,7 +152,7 @@ async function demonstrateDomainContextDetection() {
 
   const detector = new DomainContextDetector('/project');
 
-  const testFiles = [;
+  const testFiles = [
     'src/App.tsx';
     'src/calculations/astrology.ts';
     'src/services/campaign/CampaignController.ts';
@@ -164,17 +164,17 @@ async function demonstrateDomainContextDetection() {
   for (const file of testFiles) {
     try {
       // Mock file analysis since we don't have actual files
-      const mockAnalysis = {;
+      const mockAnalysis = {
         filePath: file,
         domainContext: {
           type:
-            file.includes('calculation') || file.includes('planets')
+            file.includes('calculation') || file.includes('planets');
               ? 'astrological'
-              : file.includes('campaign')
+              : file.includes('campaign');
                 ? 'campaign'
-                : file.includes('test')
+                : file.includes('test');
                   ? 'test'
-                  : file.includes('script')
+                  : file.includes('script');
                     ? 'script'
                     : 'component',
           confidence: 0.8,
@@ -191,7 +191,7 @@ async function demonstrateDomainContextDetection() {
       log.info(`   Confidence: ${Math.round(mockAnalysis.domainContext.confidence * 100)}%`);
 
       // Get domain-specific recommendations
-      const recommendations = detector.getDomainLintingRecommendations(;
+      const recommendations = detector.getDomainLintingRecommendations(
         mockAnalysis.domainContext as unknown as {
           type: string,
           confidence: number,
@@ -223,7 +223,7 @@ function demonstrateResolutionStrategies() {
   const classifier = new ErrorClassificationSystem();
 
   // Create mock contexts for strategy generation
-  const testContexts: Array<{
+  const, testContexts: Array<{
     errorClassification: ReturnType<ErrorClassificationSystem['classifyError']>,
     domainContext: { type: string, confidence: number };
     fileAnalysis: { filePath: string, riskFactors: unknown[], preservationRequirements: unknown[] };
@@ -233,7 +233,7 @@ function demonstrateResolutionStrategies() {
       errorClassification: classifier.classifyError(
         'import/order',
         'Import order incorrect',
-        'src/App.tsx';
+        'src/App.tsx'
         true,
       ),
       domainContext: { type: 'component', confidence: 0.9 },
@@ -244,7 +244,7 @@ function demonstrateResolutionStrategies() {
       errorClassification: classifier.classifyError(
         '@typescript-eslint/no-explicit-any',
         'Unexpected any',
-        'src/calculations/astrology.ts';
+        'src/calculations/astrology.ts'
         false,
       ),
       domainContext: { type: 'astrological', confidence: 0.95 },
@@ -284,7 +284,7 @@ function demonstrateCompleteWorkflow() {
   log.info('============================================');
 
   // Simulate categorized errors from the mock data
-  const mockCategorizedErrors: CategorizedErrors = {;
+  const, mockCategorizedErrors: CategorizedErrors = {
     total: 7,
     errors: 1,
     warnings: 6,
@@ -363,7 +363,7 @@ function demonstrateCompleteWorkflow() {
   const allIssues = Object.values(mockCategorizedErrors.byCategory).flat();
   mockCategorizedErrors.autoFixable = allIssues.filter(i => i.autoFixable);
   mockCategorizedErrors.requiresManualReview = allIssues.filter(;
-    i => i.resolutionStrategy.type === 'manual-review';
+    i => i.resolutionStrategy.type === 'manual-review'
   );
 
   // Group by priority and file
@@ -384,14 +384,14 @@ function demonstrateCompleteWorkflow() {
   const analyzer = new LintingErrorAnalyzer('/project');
   const plan = analyzer.generateResolutionPlan(mockCategorizedErrors);
 
-  log.info(`\n📊 Analysis Summary:`);
+  log.info(`\n📊 Analysis Summary: `);
   log.info(`   Total Issues: ${mockCategorizedErrors.total}`);
   log.info(`   Errors: ${mockCategorizedErrors.errors}`);
   log.info(`   Warnings: ${mockCategorizedErrors.warnings}`);
   log.info(`   Auto-fixable: ${mockCategorizedErrors.autoFixable.length}`);
   log.info(`   Manual Review: ${mockCategorizedErrors.requiresManualReview.length}`);
 
-  log.info(`\n📋 Resolution Plan:`);
+  log.info(`\n📋 Resolution Plan: `);
   log.info(`   Phases: ${plan.phases.length}`);
   log.info(`   Total Time: ${plan.totalEstimatedTime} minutes`);
   log.info(`   Success Probability: ${Math.round(plan.successProbability * 100)}%`);
@@ -408,7 +408,7 @@ function demonstrateCompleteWorkflow() {
   });
 
   if (plan.riskAssessment.mitigations.length > 0) {
-    log.info(`\n🛡️ Risk Mitigations:`);
+    log.info(`\n🛡️ Risk Mitigations: `);
     plan.riskAssessment.mitigations.forEach((mitigation, index) => {
       log.info(`   ${index + 1}. ${mitigation}`);
     });
@@ -434,7 +434,7 @@ async function runDemonstration() {
     log.info('\n✅ DEMONSTRATION COMPLETE');
     log.info('=========================');
     log.info('The linting error analysis system is ready for use!');
-    log.info('\nKey Features Demonstrated:');
+    log.info('\nKey Features Demonstrated: ');
     log.info('• ✅ Error classification with severity assessment');
     log.info('• ✅ Domain context detection for specialized handling');
     log.info('• ✅ Auto-fix capability analysis');
@@ -442,13 +442,13 @@ async function runDemonstration() {
     log.info('• ✅ Risk assessment and mitigation planning');
     log.info('• ✅ Comprehensive workflow integration');
   } catch (error) {
-    console.error('❌ Demonstration failed:', error)
+    console.error('❌ Demonstration failed:', error);
   }
 }
 
 // Run the demonstration if this file is executed directly
-if (require.main === module) {;
-  void runDemonstration()
+if (require.main === module) {
+  void runDemonstration();
 }
 
 export { runDemonstration };

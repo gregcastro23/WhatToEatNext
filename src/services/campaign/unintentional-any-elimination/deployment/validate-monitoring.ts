@@ -14,7 +14,7 @@ interface ValidationResult {
   component: string,
   status: 'pass' | 'fail' | 'warning',
   message: string,
-  details?: string;
+  details?: string
 }
 
 /**
@@ -41,7 +41,7 @@ async function validateMonitoring(): Promise<ValidationResult[]> {
   // Check health check endpoints
   results.push(...(await validateHealthChecks()));
 
-  return results;
+  return results
 }
 
 /**
@@ -72,7 +72,7 @@ function validateDirectories(): ValidationResult {
  * Validate configuration files
  */
 function validateConfiguration(): ValidationResult {
-  const configPath = '.kiro/monitoring/monitoring-config.json';
+  const configPath = '.kiro/monitoring/monitoring-config.json'
 
   if (!existsSync(configPath)) {
     return {
@@ -136,7 +136,7 @@ function validateConfiguration(): ValidationResult {
  * Validate monitoring service
  */
 function validateMonitoringService(): ValidationResult {
-  const servicePath = '.kiro/monitoring/UnintentionalAnyMonitoringService.ts';
+  const servicePath = '.kiro/monitoring/UnintentionalAnyMonitoringService.ts'
 
   if (!existsSync(servicePath)) {
     return {
@@ -170,7 +170,7 @@ function validateMonitoringService(): ValidationResult {
  * Validate dashboard
  */
 function validateDashboard(): ValidationResult {
-  const dashboardPath = '.kiro/monitoring/dashboard.ts';
+  const dashboardPath = '.kiro/monitoring/dashboard.ts'
 
   if (!existsSync(dashboardPath)) {
     return {
@@ -204,7 +204,7 @@ function validateDashboard(): ValidationResult {
  * Validate startup scripts
  */
 function validateStartupScripts(): ValidationResult {
-  const startupScript = '.kiro/monitoring/start-monitoring.sh';
+  const startupScript = '.kiro/monitoring/start-monitoring.sh'
 
   if (!existsSync(startupScript)) {
     return {
@@ -242,7 +242,7 @@ async function validateHealthChecks(): Promise<ValidationResult[]> {
   const results: ValidationResult[] = [];
 
   // Load configuration to get health check endpoints
-  const configPath = '.kiro/monitoring/monitoring-config.json';
+  const configPath = '.kiro/monitoring/monitoring-config.json'
   if (!existsSync(configPath)) {
     return [
       {
@@ -315,7 +315,7 @@ function displayResults(results: ValidationResult[]): void {
   let warningCount = 0;
 
   for (const result of results) {
-    const icon = result.status === 'pass' ? '✅' : result.status === 'fail' ? '❌' : '⚠️';
+    const icon = result.status === 'pass' ? '✅' : result.status === 'fail' ? '❌' : '⚠️'
 
     // // // console.log(`\n${icon} ${result.component}: ${result.message}`);
 
@@ -324,15 +324,14 @@ function displayResults(results: ValidationResult[]): void {
     }
 
     switch (result.status) {
-      case 'pass':
-        passCount++;
+      case 'pass': passCount++;
         break;
       case 'fail':
         failCount++;
         break;
       case 'warning':
         warningCount++;
-        break;
+        break
     }
   }
 
@@ -360,7 +359,7 @@ async function main(): Promise<void> {
 
   try {
     const results = await validateMonitoring();
-    displayResults(results);
+    displayResults(results)
   } catch (error) {
     console.error('❌ Validation failed with error:', error);
     process.exit(1);

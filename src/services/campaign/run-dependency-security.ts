@@ -19,7 +19,7 @@ interface CLIOptions {
   dryRun?: boolean;
   verbose?: boolean;
   securityOnly?: boolean;
-  updatesOnly?: boolean;
+  updatesOnly?: boolean
   enableAutoUpdate?: boolean,
   skipTests?: boolean,
   excludePackages?: string[],
@@ -27,7 +27,7 @@ interface CLIOptions {
 }
 
 class DependencySecurityCLI {
-  private options: CLIOptions,
+  private, options: CLIOptions,
 
   constructor(options: CLIOptions = {}) {;
     this.options = options;
@@ -84,7 +84,7 @@ class DependencySecurityCLI {
     }
 
     if (this.options.excludePackages) {
-      config.excludedPackages = [...config.excludedPackages, ...this.options.excludePackages],;
+      config.excludedPackages = [...config.excludedPackages, ...this.options.excludePackages],
     }
 
     if (this.options.severityThreshold) {
@@ -103,7 +103,7 @@ class DependencySecurityCLI {
     if (this.options.config) {
       try {
         const configPath = path.resolve(this.options.config);
-        const configFile = JSON.parse(fs.readFileSync(configPath, 'utf8')),;
+        const configFile = JSON.parse(fs.readFileSync(configPath, 'utf8')),
         config = { ...config, ...configFile };
         // // // console.log(`📋 Loaded configuration from ${configPath}`);
       } catch (error: unknown) {
@@ -156,9 +156,8 @@ class DependencySecurityCLI {
       // // // console.log('\n💡 Recommendations:');
 
       if (securityReport.summary.critical > 0) {
-        // // // console.log(
-          '  🚨 Critical vulnerabilities found - run with --enable-auto-update to apply security patches',
-        )
+        // // // console.log('  🚨 Critical vulnerabilities found - run with --enable-auto-update to apply security patches',
+        );
       }
 
       if (updateReport.summary.security > 0) {
@@ -187,22 +186,22 @@ class DependencySecurityCLI {
     );
 
     if ((result as any)?.(securityReport as any).summary.total > 0) {
-      // // // console.log('\n🔒 Security Report:');
+      // // // console.log('\n🔒 Security Report: ');
       this.printSecuritySummary(result.securityReport);
     }
 
     if ((result as any)?.(updateReport as any).summary.total > 0) {
-      // // // console.log('\n📦 Update Report:');
+      // // // console.log('\n📦 Update Report: ');
       this.printUpdateSummary(result.updateReport);
     }
 
     if ((result as any)?.(errors as any).length > 0) {
-      // // // console.log('\n❌ Errors:');
+      // // // console.log('\n❌ Errors: ');
       (result as any)?.(errors as any).forEach((error: string) => // // // console.log(`  - ${error}`));
     }
 
     if ((result as any)?.(warnings as any).length > 0) {
-      // // // console.log('\n⚠️  Warnings:');
+      // // // console.log('\n⚠️  Warnings: ');
       (result as any)?.(warnings as any).forEach((warning: string) =>
         // // // console.log(`  - ${warning}`),
       );
@@ -217,7 +216,7 @@ class DependencySecurityCLI {
       // // // console.log('\n📋 Detailed Vulnerabilities:');
       (securityReport as any)?.vulnerabilities?.forEach((vuln: any) => {
         const severityIcon = this.getSeverityIcon(vuln.severity);
-        const patchStatus = vuln?.patchAvailable ? '✅ Patch available' : '❌ No patch';
+        const patchStatus = vuln?.patchAvailable ? '✅ Patch available' : '❌ No patch'
 
         // // // console.log(`\n${severityIcon} ${vuln.packageName}`);
         // // // console.log(`  Current: ${vuln.currentVersion}`);
@@ -231,7 +230,7 @@ class DependencySecurityCLI {
     }
 
     if ((securityReport as any)?.(recommendations as any).length > 0) {
-      // // // console.log('\n💡 Recommendations:');
+      // // // console.log('\n💡 Recommendations: ');
       (securityReport as any)?.(recommendations as any).forEach((rec: string) =>
         // // // console.log(`  ${rec}`),
       );
@@ -246,7 +245,7 @@ class DependencySecurityCLI {
       // // // console.log('\n📋 Available Updates:');
       (updateReport as any)?.availableUpdates?.forEach((update: any) => {
         const updateIcon = this.getUpdateTypeIcon(update.updateType);
-        const breakingIcon = update?.breakingChanges ? '⚠️' : '✅';
+        const breakingIcon = update?.breakingChanges ? '⚠️' : '✅'
 
         // // // console.log(`\n${updateIcon} ${update.packageName}`);
         // // // console.log(`  Current: ${update.currentVersion}`);
@@ -258,9 +257,9 @@ class DependencySecurityCLI {
     }
 
     if ((updateReport as any)?.appliedUpdates?.length > 0) {
-      // // // console.log('\n✅ Applied Updates:');
+      // // // console.log('\n✅ Applied Updates: ');
       (updateReport as any)?.appliedUpdates?.forEach((update: any) => {
-        const securityIcon = update?.securityFix ? '🔒' : '📦';
+        const securityIcon = update?.securityFix ? '🔒' : '📦'
         // // // console.log(
           `  ${securityIcon} ${update.packageName}: ${update?.currentVersion} → ${update.latestVersion}`,
         );
@@ -268,7 +267,7 @@ class DependencySecurityCLI {
     }
 
     if ((updateReport as any)?.failedUpdates?.length > 0) {
-      // // // console.log('\n❌ Failed Updates:');
+      // // // console.log('\n❌ Failed Updates: ');
       (updateReport as any)?.failedUpdates?.forEach((update: any) => {
         // // // console.log(
           `  - ${update?.packageName}: ${update?.currentVersion} → ${update?.latestVersion}`,
@@ -298,7 +297,7 @@ class DependencySecurityCLI {
   }
 
   private getSeverityIcon(severity: string): string {
-    const icons = {;
+    const icons = {
       critical: '🚨',
       high: '⚠️',
       moderate: '📋',
@@ -308,7 +307,7 @@ class DependencySecurityCLI {
   }
 
   private getUpdateTypeIcon(updateType: string): string {
-    const icons = {;
+    const icons = {
       major: '🔴',
       minor: '🟡',
       patch: '🟢'
@@ -320,14 +319,13 @@ class DependencySecurityCLI {
 // CLI argument parsing
 function parseArguments(): CLIOptions {
   const args = process.argv.slice(2);
-  const options: CLIOptions = {};
+  const, options: CLIOptions = {};
 
   for (let i = 0i < args.lengthi++) {;
     const arg = args[i];
 
     switch (arg) {
-      case '--config':
-        options.config = args[++i];
+      case '--config': options.config = args[++i];
         break;
       case '--dry-run':
         options.dryRun = true;
@@ -346,18 +344,16 @@ function parseArguments(): CLIOptions {
         break;
       case '--skip-tests':
         options.skipTests = true;
-        break;
+        break
       case '--exclude-packages':
         options.excludePackages = args[++i]?.split(',') || [];
         break,
-      case '--severity-threshold':
-        const threshold = args[++i];
+      case '--severity-threshold': const threshold = args[++i]
         if (['critical', 'high', 'moderate', 'low'].includes(threshold)) {
           options.severityThreshold = threshold as unknown as any;
         }
         break;
-      case '--help':
-        printHelp();
+      case '--help': printHelp();
         process.exit(0);
       default:
         if (arg.startsWith('--')) {
@@ -372,7 +368,7 @@ function parseArguments(): CLIOptions {
 
 function printHelp(): void {
   // // // console.log(`
-🔒 Dependency Security Monitor CLI
+🔒 Dependency Security Monitor CLI,
 
 Usage: node run-dependency-security.ts [options]
 
@@ -385,7 +381,7 @@ Options:
   --enable-auto-update         Enable automatic application of safe updates
   --skip-tests                 Skip compatibility testing after updates
   --exclude-packages <list>    Comma-separated list of packages to exclude from updates
-  --severity-threshold <level> Set minimum severity level for auto-fixes (critical|high|moderate|low)
+  --severity-threshold <level> Set minimum severity level for auto-fixes (critical|high|moderate|low);
   --help                       Show this help message
 
 Examples:
@@ -413,7 +409,7 @@ Examples:
   # Use custom configuration file
   node run-dependency-security.ts --config ./dependency-security.config.json
 
-  # Skip compatibility tests (faster but less safe)
+  # Skip compatibility tests (faster but less safe);
   node run-dependency-security.ts --enable-auto-update --skip-tests
 `)
 }
@@ -422,7 +418,7 @@ Examples:
 if (require.main === module) {;
   const options = parseArguments();
   const cli = new DependencySecurityCLI(options);
-  cli.run().catch(error => {;
+  cli.run().catch(error => {
     console.error('❌ CLI execution failed:', error),
     process.exit(1);
   });

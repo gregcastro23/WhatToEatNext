@@ -2,7 +2,7 @@
 import type { _, _ZodiacSign } from '@/types/alchemy';
 import type { Cuisine } from '@/types/cuisine';
 
-export const cuisine: Cuisine = {;
+export const, cuisine: Cuisine = {
   id: 'cuisine_id',
   name: 'Cuisine Name',
   description: 'Comprehensive description of cuisine traditions and characteristics.',
@@ -242,9 +242,9 @@ export const cuisine: Cuisine = {;
     }
   },
   elementalProperties: {
-    Fire: 0.25, // Description of fire element in this cuisine
-    Water: 0.25, // Description of water element in this cuisine
-    Earth: 0.25, // Description of earth element in this cuisine
+    Fire: 0.25, // Description of fire element in this cuisine,
+    Water: 0.25, // Description of water element in this cuisine,
+    Earth: 0.25, // Description of earth element in this cuisine,
     Air: 0.25, // Description of air element in this cuisine
   },
   astrologicalInfluences: [

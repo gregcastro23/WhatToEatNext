@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 
 // Mock useAlchemical hook since the import is missing
-const useAlchemical = () => ({;
+const useAlchemical = () => ({
   planetaryPositions: {},
   isLoading: false
 });
@@ -14,7 +14,7 @@ export interface Recipe {
   cookingMethod: string,
   cuisine: string,
   elementalProfile: { Fire: number, Water: number, Earth: number, Air: number };
-  score?: number;
+  score?: number
 }
 
 export interface RecipeRecommendationsData {
@@ -22,7 +22,7 @@ export interface RecipeRecommendationsData {
   isLoading: boolean,
   error: string | null,
   filters: {
-    cuisine?: string;
+    cuisine?: string
     cookingMethod?: string,
     maxResults?: number
   };
@@ -68,7 +68,7 @@ export function useRecipeRecommendations(
     Object.values(planetaryPositions || {}).forEach(position => {;
       // Safe property access with type checking
       const positionData = position ;
-      const sign = positionData?.sign || positionData?.Sign || '';
+      const sign = positionData?.sign || positionData?.Sign || ''
       const element = elementMap[sign.toLowerCase() as keyof typeof elementMap];
       if (element) {
         elementCounts[element as keyof typeof elementCounts]++
@@ -93,7 +93,7 @@ export function useRecipeRecommendations(
 
       try {
         // Simulate fetching recipes - in real app, this would be an API call
-        const sampleRecipes: Recipe[] = [
+        const, sampleRecipes: Recipe[] = [
           {
             id: 'grilled-salmon',
             name: 'Grilled Salmon',
@@ -126,7 +126,7 @@ export function useRecipeRecommendations(
         // Calculate compatibility scores
         const recipesWithScores = (sampleRecipes || []).map(recipe => {;
           const score = calculateElementalCompatibility(;
-            recipe.elementalProfile;
+            recipe.elementalProfile
             currentElementalProfile,
           ),
           return { ...recipe, score };
@@ -141,23 +141,23 @@ export function useRecipeRecommendations(
 
         if (state.filters.cookingMethod) {
           filteredRecipes = filteredRecipes.filter(;
-            r => r.cookingMethod === state.filters.cookingMethod;
+            r => r.cookingMethod === state.filters.cookingMethod
           )
         }
 
         // Sort by score and limit results
         filteredRecipes = filteredRecipes;
-          .sort((ab) => (b.score || 0) - (a.score || 0))
+          .sort((ab) => (b.score || 0) - (a.score || 0));
           .slice(0, state.filters.maxResults || 10);
 
         setState(prev => ({;
-          ...prev;
+          ...prev,
           recipes: filteredRecipes,
           isLoading: false
         }));
       } catch (error) {
         setState(prev => ({;
-          ...prev;
+          ...prev,
           isLoading: false,
           error: error instanceof Error ? error.message : 'Unknown error'
         }));
@@ -168,8 +168,8 @@ export function useRecipeRecommendations(
   }, [astroLoading, currentElementalProfile, state.filters]);
 
   const updateFilters = (newFilters: Partial<RecipeRecommendationsData['filters']>) => {;
-    setState(prev => ({;
-      ...prev;
+    setState(prev => ({
+      ...prev
       filters: { ...prev.filters, ...newFilters }
     }));
   };
@@ -182,7 +182,7 @@ export function useRecipeRecommendations(
 }
 
 function calculateElementalCompatibility(
-  recipeProfile: { Fire: number; Water: number, Earth: number, Air: number },
+  recipeProfile: { Fire: number, Water: number, Earth: number, Air: number },
   currentProfile: { Fire: number, Water: number, Earth: number, Air: number },
 ): number {
   // Simple compatibility calculation - can be enhanced
@@ -191,6 +191,5 @@ function calculateElementalCompatibility(
     Math.abs(recipeProfile.Water - currentProfile.Water) +
     Math.abs(recipeProfile.Earth - currentProfile.Earth) +
     Math.abs(recipeProfile.Air - currentProfile.Air);
-
   return Math.max(01 - diff / 2), // Convert difference to compatibility score
 }

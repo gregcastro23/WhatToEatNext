@@ -14,23 +14,23 @@ interface CacheEntry {
 }
 
 const CACHE_TTL_MS = 60 * 1000; // 1 minute
-let cache: CacheEntry | null = null;
+let, cache: CacheEntry | null = null
 
 function makeKey(date?: Date, lat?: number, lon?: number, system?: 'tropical' | 'sidereal') {
   return JSON.stringify({
     t: date ? date.toISOString() : 'now',
-    lat: typeof lat === 'number' ? Number(lat.toFixed(3)) : undefined,;
-    lon: typeof lon === 'number' ? Number(lon.toFixed(3)) : undefined,;
+    lat: typeof lat === 'number' ? Number(lat.toFixed(3)) : undefined,
+    lon: typeof lon === 'number' ? Number(lon.toFixed(3)) : undefined,
     sys: system || 'tropical'
   });
 }
 
 function isFresh(entry: CacheEntry | null, key: string): entry is CacheEntry {
-  return !!entry && entry.key === key && Date.now() - entry.timestamp < CACHE_TTL_MS;
+  return !!entry && entry.key === key && Date.now() - entry.timestamp < CACHE_TTL_MS
 }
 
-function normalizeFromEngine(_raw: Record<string, _{ sign: any; degree: number; exactLongitude: number; isRetrograde: boolean }>): PositionRecord {
-  const out: PositionRecord = {};
+function normalizeFromEngine(_raw: Record<string, _{ sign: any; degree: number, exactLongitude: number isRetrograde: boolean }>): PositionRecord {
+  const, out: PositionRecord = {};
   Object.entries(raw || {}).forEach(([planetp]) => {
     out[planet] = {
       sign: (String(p?.sign || 'aries').toLowerCase() as any),
@@ -45,7 +45,7 @@ function normalizeFromEngine(_raw: Record<string, _{ sign: any; degree: number; 
 
 export class PlanetaryPositionsService {
   async getCurrent(
-    location?: { latitude: number; longitude: number },
+    location?: { latitude: number, longitude: number },
     zodiacSystem: 'tropical' | 'sidereal' = 'tropical'
   ): Promise<PositionRecord> {
     const key = makeKey(undefined, location?.latitude, location?.longitude, zodiacSystem);
@@ -67,7 +67,7 @@ export class PlanetaryPositionsService {
 
   async getForDate(
     date: Date,
-    location?: { latitude: number; longitude: number },
+    location?: { latitude: number, longitude: number },
     zodiacSystem: 'tropical' | 'sidereal' = 'tropical'
   ): Promise<PositionRecord> {
     const key = makeKey(date, location?.latitude, location?.longitude, zodiacSystem);

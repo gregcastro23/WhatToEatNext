@@ -23,5 +23,5 @@ export const LUNAR_PHASES: Record<LunarPhase, string> = {
 export const _LUNAR_CYCLE_DAYS = 29.53;
 
 export function getLunarPhaseDisplay(phase: LunarPhase): string {
-  return LUNAR_PHASES[phase] || 'Unknown';
+  return LUNAR_PHASES[phase] || 'Unknown'
 }

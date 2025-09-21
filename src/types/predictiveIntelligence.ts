@@ -11,14 +11,14 @@ export interface PredictiveContext {
   planetaryPositions?: Record<string, PlanetaryPosition>;
   _elementalProperties: ElementalProperties;
   timeOfDay?: string;
-  userPreferences?: UserPreferences;
+  userPreferences?: UserPreferences
 }
 
 export interface PlanetaryPosition {
   sign: string,
   _degree: number,
   isRetrograde?: boolean;
-  aspect?: string;
+  aspect?: string
 }
 
 export interface UserPreferences {
@@ -80,7 +80,7 @@ export interface PredictiveMetrics {
   _cacheHitRate: number,
   _errorRate: number,
   _executionTimes: number[],
-  accuracyRate?: number;
+  accuracyRate?: number
   _predictionTypes: Record<string, number>;
 }
 
@@ -110,7 +110,7 @@ export interface TrendAnalysis {
 
 export interface PredictionInput {
   recipe?: Recipe;
-  ingredients?: Ingredient[];
+  ingredients?: Ingredient[]
   cuisine?: {
     name: string,
     _type: string,
@@ -118,7 +118,7 @@ export interface PredictionInput {
   };
   context: PredictiveContext;
   historicalData?: TimeSeriesData[];
-  modelWeights?: PredictiveModelWeights;
+  modelWeights?: PredictiveModelWeights
 }
 
 export interface SeasonalPrediction {

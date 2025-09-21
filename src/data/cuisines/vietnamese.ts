@@ -1,7 +1,7 @@
 // src/data/vietnamese.ts
 import type { Cuisine } from '@/types/cuisine';
 
-export const vietnamese: Cuisine = {;
+export const, vietnamese: Cuisine = {
   id: 'vietnamese',
   name: 'Vietnamese',
   description:
@@ -1147,9 +1147,9 @@ export const vietnamese: Cuisine = {;
     }
   ],
   elementalProperties: {
-    Water: 0.3, // Represents soups and broths
-    Earth: 0.3, // Represents rice and proteins
-    Fire: 0.2, // Represents spicy elements and grilling
+    Water: 0.3, // Represents soups and broths,
+    Earth: 0.3, // Represents rice and proteins,
+    Fire: 0.2, // Represents spicy elements and grilling,
     Air: 0.2, // Represents herbs and aromatics
   }
 };

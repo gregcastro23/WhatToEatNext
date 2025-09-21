@@ -21,10 +21,10 @@ import {
 } from '../../types/campaign';
 
 export class SafetyProtocol {
-  private settings: SafetySettings;
-  private stashes: Map<string, GitStash> = new Map();
-  private safetyEvents: SafetyEvent[] = [];
-  private stashCounter: number = 0;
+  private, settings: SafetySettings
+  private, stashes: Map<string, GitStash> = new Map();
+  private, safetyEvents: SafetyEvent[] = [];
+  private, stashCounter: number = 0;
 
   constructor(settings: SafetySettings) {
     this.settings = settings;
@@ -36,9 +36,9 @@ export class SafetyProtocol {
    */
   async createStash(description: string, phase?: string): Promise<string> {
     try {
-      this.stashCounter++;
-      const timestamp = new Date().toISOString().replace(/[:.]/g, '-'),;
-      const phasePrefix = phase ? `${phase}-` : '';
+      this.stashCounter++
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-'),
+      const phasePrefix = phase ? `${phase}-` : ''
       const stashName = `campaign-${phasePrefix}${this.stashCounter}-${timestamp}`;
       const fullDescription = `${stashName}: ${description}`;
 
@@ -59,7 +59,7 @@ export class SafetyProtocol {
       const stashRef = stashList.split('\n')[0]?.split(':')[0] || 'stash@{0}';
 
       // Store stash information
-      const stash: GitStash = {;
+      const, stash: GitStash = {
         id: stashName,
         description: fullDescription,
         timestamp: new Date(),
@@ -80,7 +80,7 @@ export class SafetyProtocol {
 
       // // // console.log(`📦 Created git stash: ${stashName}`);
       // // // console.log(`   Reference: ${stashRef}`);
-      // // // console.log(`   Rollback with: git stash apply ${stashRef}`);
+      // // // console.log(`   Rollback, with: git stash apply ${stashRef}`);
 
       return stashName;
     } catch (error) {
@@ -107,7 +107,7 @@ export class SafetyProtocol {
   /**
    * Apply a specific git stash with automatic rollback scenarios
    */
-  async applyStash(stashId: string, validateAfter: boolean = true): Promise<void> {;
+  async applyStash(stashId: string, validateAfter: boolean = true): Promise<void> {
     try {
       const stash = this.stashes.get(stashId);
       if (!stash) {
@@ -165,12 +165,12 @@ export class SafetyProtocol {
    * Automatically apply the most recent stash for rollback scenarios
    */
   async autoApplyLatestStash(): Promise<string> {
-    const stashes = Array.from(this.stashes.values()).sort(;
+    const stashes = Array.from(this.stashes.values()).sort(
       (ab) => b.timestamp.getTime() - a.timestamp.getTime(),
     ),
 
-    if (stashes.length === 0) {;
-      throw new Error('No stashes available for automatic rollback')
+    if (stashes.length === 0) {
+      throw new Error('No stashes available for automatic rollback');
     }
 
     const latestStash = stashes[0];
@@ -186,7 +186,7 @@ export class SafetyProtocol {
       .filter(stash => stash.id.includes(`-${phase}-`));
       .sort((ab) => b.timestamp.getTime() - a.timestamp.getTime());
 
-    if (phaseStashes.length === 0) {;
+    if (phaseStashes.length === 0) {
       throw new Error(`No stashes found for phase: ${phase}`);
     }
 
@@ -206,9 +206,9 @@ export class SafetyProtocol {
    * Detect file corruption using comprehensive syntax validation patterns
    */
   async detectCorruption(files: string[]): Promise<CorruptionReport> {
-    const detectedFiles: string[] = [];
-    const corruptionPatterns: CorruptionPattern[] = [];
-    let maxSeverity = CorruptionSeverity.LOW;
+    const, detectedFiles: string[] = [];
+    const, corruptionPatterns: CorruptionPattern[] = [];
+    let maxSeverity = CorruptionSeverity.LOW
 
     // // // console.log(`🔍 Analyzing ${files.length} files for corruption patterns...`);
 
@@ -231,16 +231,16 @@ export class SafetyProtocol {
           );
 
           // Update max severity
-          if (fileCorruption.severity === CorruptionSeverity.CRITICAL) {;
+          if (fileCorruption.severity === CorruptionSeverity.CRITICAL) {
             maxSeverity = CorruptionSeverity.CRITICAL;
           } else if (
-            fileCorruption.severity === CorruptionSeverity.HIGH &&;
+            fileCorruption.severity === CorruptionSeverity.HIGH &&
             maxSeverity !== CorruptionSeverity.CRITICAL
           ) {
             maxSeverity = CorruptionSeverity.HIGH;
           } else if (
             fileCorruption.severity === CorruptionSeverity.MEDIUM &&;
-            maxSeverity === CorruptionSeverity.LOW;
+            maxSeverity === CorruptionSeverity.LOW
           ) {
             maxSeverity = CorruptionSeverity.MEDIUM;
           }
@@ -262,7 +262,7 @@ export class SafetyProtocol {
 
     const recommendedAction = this.determineRecoveryAction(maxSeverity, detectedFiles.length);
 
-    const report: CorruptionReport = {;
+    const, report: CorruptionReport = {
       detectedFiles,
       corruptionPatterns,
       severity: maxSeverity,
@@ -292,9 +292,9 @@ export class SafetyProtocol {
    * Detect import/export corruption based on existing script knowledge
    */
   async detectImportExportCorruption(files: string[]): Promise<CorruptionReport> {
-    const detectedFiles: string[] = [];
-    const corruptionPatterns: CorruptionPattern[] = [];
-    let maxSeverity = CorruptionSeverity.LOW;
+    const, detectedFiles: string[] = [];
+    const, corruptionPatterns: CorruptionPattern[] = [];
+    let maxSeverity = CorruptionSeverity.LOW
 
     // // // console.log(`🔍 Analyzing import/export corruption in ${files.length} files...`);
 
@@ -311,16 +311,16 @@ export class SafetyProtocol {
           detectedFiles.push(filePath);
           corruptionPatterns.push(...importExportCorruption.patterns);
 
-          if (importExportCorruption.severity === CorruptionSeverity.CRITICAL) {;
+          if (importExportCorruption.severity === CorruptionSeverity.CRITICAL) {
             maxSeverity = CorruptionSeverity.CRITICAL;
           } else if (
-            importExportCorruption.severity === CorruptionSeverity.HIGH &&;
+            importExportCorruption.severity === CorruptionSeverity.HIGH &&
             maxSeverity !== CorruptionSeverity.CRITICAL
           ) {
             maxSeverity = CorruptionSeverity.HIGH;
           } else if (
             importExportCorruption.severity === CorruptionSeverity.MEDIUM &&;
-            maxSeverity === CorruptionSeverity.LOW;
+            maxSeverity === CorruptionSeverity.LOW
           ) {
             maxSeverity = CorruptionSeverity.MEDIUM;
           }
@@ -345,10 +345,10 @@ export class SafetyProtocol {
   /**
    * Real-time monitoring during script execution
    */
-  async startRealTimeMonitoring(files: string[], intervalMs: number = 5000): Promise<void> {;
+  async startRealTimeMonitoring(files: string[], intervalMs: number = 5000): Promise<void> {
     // // // console.log(`🔄 Starting real-time corruption monitoring for ${files.length} files...`);
 
-    const monitoringInterval = setInterval(() => {;
+    const monitoringInterval = setInterval(() => {
       void (async () => {
         try {
           const report = await this.detectCorruption(files);
@@ -368,7 +368,7 @@ export class SafetyProtocol {
 
             // If critical corruption is detected, trigger emergency rollback
             if (
-              report.severity === CorruptionSeverity.CRITICAL &&;
+              report.severity === CorruptionSeverity.CRITICAL &&
               this.settings.automaticRollbackEnabled
             ) {
               console.error(`🚨 Critical corruption detected! Triggering emergency rollback...`);
@@ -404,16 +404,16 @@ export class SafetyProtocol {
    * Validate syntax using TypeScript compiler
    */
   async validateSyntaxWithTypeScript(files: string[]): Promise<CorruptionReport> {
-    const detectedFiles: string[] = [];
-    const corruptionPatterns: CorruptionPattern[] = [];
-    let maxSeverity = CorruptionSeverity.LOW;
+    const, detectedFiles: string[] = [];
+    const, corruptionPatterns: CorruptionPattern[] = [];
+    let maxSeverity = CorruptionSeverity.LOW
 
     // // // console.log(`🔍 Validating syntax with TypeScript compiler for ${files.length} files...`);
 
     try {
       // Run TypeScript compiler to check for syntax errors
       const tsFiles = files.filter(f => f.match(/\.(ts|tsx)$/));
-      if (tsFiles.length === 0) {;
+      if (tsFiles.length === 0) {
         return {
           detectedFiles,
           corruptionPatterns,
@@ -422,7 +422,7 @@ export class SafetyProtocol {
         };
       }
 
-      const tscOutput = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {;
+      const tscOutput = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
         encoding: 'utf8',
         stdio: 'pipe'
       });
@@ -432,7 +432,7 @@ export class SafetyProtocol {
       for (const line of lines) {
         if (
           line.includes('error TS') &&
-          (line.includes('Unexpected token') || line.includes('Expression expected'))
+          (line.includes('Unexpected token') || line.includes('Expression expected'));
         ) {
           const fileMatch = line.match(/^([^(]+)\(/);
           if (fileMatch) {
@@ -457,7 +457,7 @@ export class SafetyProtocol {
         corruptionPatterns.push({
           pattern: 'TYPESCRIPT_COMPILATION_ERROR',
           description: `TypeScript compilation failed: ${errorOutput}`,
-          files: files.filter(f => f.match(/\.(ts|tsx)$/)),;
+          files: files.filter(f => f.match(/\.(ts|tsx)$/)),
         });
       }
     }
@@ -478,12 +478,12 @@ export class SafetyProtocol {
   async emergencyRollback(): Promise<void> {
     try {
       // Get the most recent stash
-      const stashes = Array.from(this.stashes.values()).sort(;
+      const stashes = Array.from(this.stashes.values()).sort(
         (ab) => b.timestamp.getTime() - a.timestamp.getTime(),
       ),
 
-      if (stashes.length === 0) {;
-        throw new Error('No stashes available for emergency rollback')
+      if (stashes.length === 0) {
+        throw new Error('No stashes available for emergency rollback');
       }
 
       const latestStash = stashes[0];
@@ -529,7 +529,7 @@ export class SafetyProtocol {
       const status = execSync('git status --porcelain', { encoding: 'utf8' });
       const hasUncommittedChanges = status.trim().length > 0;
 
-      const warnings: string[] = [];
+      const, warnings: string[] = [];
       if (hasUncommittedChanges && !this.settings.automaticRollbackEnabled) {
         warnings.push('Uncommitted changes detected - consider creating a stash');
       }
@@ -555,8 +555,8 @@ export class SafetyProtocol {
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - this.settings.stashRetentionDays);
 
-    const stashesToRemove: string[] = [];
-    let cleanedCount = 0;
+    const, stashesToRemove: string[] = [];
+    let cleanedCount = 0
 
     for (const [stashId, stash] of this.stashes.entries()) {
       if (stash.timestamp < cutoffDate) {
@@ -586,7 +586,7 @@ export class SafetyProtocol {
         this.stashes.delete(stashId);
         cleanedCount++;
 
-        // // // console.log(`🧹 Cleaned up old stash: ${stashId}`)
+        // // // console.log(`🧹 Cleaned up old stash: ${stashId}`);
       } catch (error) {
         console.warn(
           `⚠️ Failed to cleanup stash ${stashId}: ${(error as any).message || 'Unknown error'}`,
@@ -610,7 +610,7 @@ export class SafetyProtocol {
    * Get stashes by phase for targeted operations
    */
   async getStashesByPhase(phase: string): Promise<GitStash[]> {
-    return Array.from(this.stashes.values())
+    return Array.from(this.stashes.values());
       .filter(stash => stash.id.includes(`-${phase}-`));
       .sort((ab) => b.timestamp.getTime() - a.timestamp.getTime());
   }
@@ -625,7 +625,7 @@ export class SafetyProtocol {
     newestStash?: Date
   } {
     const stashes = Array.from(this.stashes.values());
-    const byPhase: Record<string, number> = {};
+    const, byPhase: Record<string, number> = {};
 
     // Count stashes by phase
     for (const stash of stashes) {
@@ -643,7 +643,7 @@ export class SafetyProtocol {
       timestamps.length > 0 ? new Date(Math.max(...timestamps.map(t => t.getTime()))) : undefined;
 
     return {
-      total: stashes.length;
+      total: stashes.length
       byPhase,
       oldestStash,
       newestStash
@@ -666,11 +666,11 @@ export class SafetyProtocol {
     patterns: CorruptionPattern[],
     severity: CorruptionSeverity
   } {
-    const patterns: CorruptionPattern[] = [];
-    let severity = CorruptionSeverity.LOW;
+    const, patterns: CorruptionPattern[] = [];
+    let severity = CorruptionSeverity.LOW
 
-    // Check for import corruption patterns (based on existing scripts)
-    const importCorruptionPatterns = [;
+    // Check for import corruption patterns (based on existing scripts);
+    const importCorruptionPatterns = [
       {
         regex: /import @\/types\s+from '[^']*'\s*,/g,
         description: 'Corrupted type import statement',
@@ -708,16 +708,16 @@ export class SafetyProtocol {
         });
 
         // Update severity to the highest found
-        if (corruptionPattern.severity === CorruptionSeverity.CRITICAL) {;
+        if (corruptionPattern.severity === CorruptionSeverity.CRITICAL) {
           severity = CorruptionSeverity.CRITICAL;
         } else if (
-          corruptionPattern.severity === CorruptionSeverity.HIGH &&;
+          corruptionPattern.severity === CorruptionSeverity.HIGH &&
           severity !== CorruptionSeverity.CRITICAL
         ) {
           severity = CorruptionSeverity.HIGH;
         } else if (
           corruptionPattern.severity === CorruptionSeverity.MEDIUM &&;
-          severity === CorruptionSeverity.LOW;
+          severity === CorruptionSeverity.LOW
         ) {
           severity = CorruptionSeverity.MEDIUM;
         }
@@ -738,8 +738,8 @@ export class SafetyProtocol {
   }
 
   private hasSyntaxCorruption(content: string): boolean {
-    // Check for unbalanced brackets (more lenient threshold)
-    const openBrackets = (content.match(/\{/g) || []).length;
+    // Check for unbalanced brackets (more lenient threshold);
+    const openBrackets = (content.match(/\{/g) || []).length
     const closeBrackets = (content.match(/\}/g) || []).length;
     const openParens = (content.match(/\(/g) || []).length;
     const closeParens = (content.match(/\)/g) || []).length;
@@ -749,7 +749,7 @@ export class SafetyProtocol {
     }
 
     // Check for incomplete statements
-    const incompletePatterns = [;
+    const incompletePatterns = [
       /export\s*$/m,
       /import\s*$/m,
       /function\s*$/m,
@@ -771,11 +771,11 @@ export class SafetyProtocol {
     patterns: CorruptionPattern[],
     severity: CorruptionSeverity
   } {
-    const patterns: CorruptionPattern[] = [];
-    let severity = CorruptionSeverity.LOW;
+    const, patterns: CorruptionPattern[] = [];
+    let severity = CorruptionSeverity.LOW
 
     // Import/Export corruption patterns based on existing script knowledge
-    const importExportCorruptionPatterns = [;
+    const importExportCorruptionPatterns = [
       {
         regex: /import\s+\{\s*\}\s+from\s+[''][^'']*[''];?/g,
         description: 'Empty import statement',
@@ -858,16 +858,16 @@ export class SafetyProtocol {
         });
 
         // Update severity to the highest found
-        if (corruptionPattern.severity === CorruptionSeverity.CRITICAL) {;
+        if (corruptionPattern.severity === CorruptionSeverity.CRITICAL) {
           severity = CorruptionSeverity.CRITICAL;
         } else if (
-          corruptionPattern.severity === CorruptionSeverity.HIGH &&;
+          corruptionPattern.severity === CorruptionSeverity.HIGH &&
           severity !== CorruptionSeverity.CRITICAL
         ) {
           severity = CorruptionSeverity.HIGH;
         } else if (
           corruptionPattern.severity === CorruptionSeverity.MEDIUM &&;
-          severity === CorruptionSeverity.LOW;
+          severity === CorruptionSeverity.LOW
         ) {
           severity = CorruptionSeverity.MEDIUM;
         }
@@ -875,7 +875,7 @@ export class SafetyProtocol {
     }
 
     // Check for malformed import/export statements
-    const malformedPatterns = [;
+    const malformedPatterns = [
       /import\s+[^{]*\s+from(?!\s+[''])/g, // import without proper from clause
       /export\s+[^{]*\s+from(?!\s+[''])/g, // export without proper from clause
       /import\s*\{[^}]*\s+from\s+[^'']/g, // import with missing quotes
@@ -898,15 +898,15 @@ export class SafetyProtocol {
   }
 
   private determineRecoveryAction(severity: CorruptionSeverity, fileCount: number): RecoveryAction {
-    if (severity === CorruptionSeverity.CRITICAL) {;
-      return RecoveryAction.EMERGENCY_RESTORE;
+    if (severity === CorruptionSeverity.CRITICAL) {
+      return RecoveryAction.EMERGENCY_RESTORE
     }
 
-    if (severity === CorruptionSeverity.HIGH || fileCount > 10) {;
+    if (severity === CorruptionSeverity.HIGH || fileCount > 10) {
       return RecoveryAction.ROLLBACK;
     }
 
-    if (severity === CorruptionSeverity.MEDIUM || fileCount > 5) {;
+    if (severity === CorruptionSeverity.MEDIUM || fileCount > 5) {
       return RecoveryAction.RETRY;
     }
 
@@ -920,7 +920,7 @@ export class SafetyProtocol {
       case CorruptionSeverity.HIGH:
         return SafetyEventSeverity.ERROR;
       case CorruptionSeverity.MEDIUM:
-        return SafetyEventSeverity.WARNING;
+        return SafetyEventSeverity.WARNING
       case CorruptionSeverity.LOW:
       default:
         return SafetyEventSeverity.INFO
@@ -951,12 +951,12 @@ export class SafetyProtocol {
     try {
       const stashTrackingPath = path.join('.kiro', 'campaign-stashes.json');
       if (fs.existsSync(stashTrackingPath)) {
-        const data = fs.readFileSync(stashTrackingPath, 'utf8'),;
+        const data = fs.readFileSync(stashTrackingPath, 'utf8'),
         const parsed = JSON.parse(data);
 
         // Restore stashes with proper Date objects
         for (const [id, stashData] of Object.entries(parsed.stashes || {})) {
-          const stash = stashData as {;
+          const stash = stashData as {
             id: string,
             description: string,
             timestamp: string,
@@ -964,8 +964,8 @@ export class SafetyProtocol {
             ref?: string
           };
           this.stashes.set(id, {
-            ...stash;
-            timestamp: new Date(stash.timestamp)
+            ...stash,
+            timestamp: new Date(stash.timestamp);
           });
         }
 
@@ -984,7 +984,7 @@ export class SafetyProtocol {
    */
   private saveStashTracking(): void {
     try {
-      const stashTrackingPath = path.join('.kiro', 'campaign-stashes.json'),;
+      const stashTrackingPath = path.join('.kiro', 'campaign-stashes.json'),
 
       // Ensure .kiro directory exists
       const kiroDir = path.dirname(stashTrackingPath);
@@ -992,10 +992,10 @@ export class SafetyProtocol {
         fs.mkdirSync(kiroDir, { recursive: true });
       }
 
-      const data = {;
+      const data = {
         counter: this.stashCounter,
         stashes: Object.fromEntries(this.stashes.entries()),
-        lastUpdated: new Date().toISOString()
+        lastUpdated: new Date().toISOString();
       };
 
       fs.writeFileSync(stashTrackingPath, JSON.stringify(data, null, 2));

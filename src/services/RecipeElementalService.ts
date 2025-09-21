@@ -9,7 +9,7 @@ import { ElementalCalculator } from './ElementalCalculator';
  * Service responsible for handling elemental properties of recipes
  */
 export class RecipeElementalService {
-  private static instance: RecipeElementalService;
+  private static, instance: RecipeElementalService
 
   private constructor() {
     // Private constructor to enforce singleton pattern
@@ -61,11 +61,11 @@ export class RecipeElementalService {
    * @param recipe The recipe to analyze
    * @returns The dominant element and its value
    */
-  public getDominantElement(recipe: Recipe): { element: keyof ElementalProperties; value: number } {
+  public getDominantElement(recipe: Recipe): { element: keyof ElementalProperties, value: number } {
     const standardized = this.standardizeRecipe(recipe);
 
-    let dominantElement: keyof ElementalProperties = 'Earth';
-    let highestValue = 0;
+    let, dominantElement: keyof ElementalProperties = 'Earth';
+    let highestValue = 0
 
     Object.entries(standardized.elementalProperties).forEach(([element, value]) => {
       if (value > highestValue) {
@@ -81,7 +81,7 @@ export class RecipeElementalService {
    * Calculates similarity between two elemental property sets
    * @param a First elemental property set
    * @param b Second elemental property set
-   * @returns Similarity score (0-1)
+   * @returns Similarity score (0-1);
    */
   public calculateSimilarity(a: ElementalProperties, b: ElementalProperties): number {
     const elements = ['Fire', 'Water', 'Earth', 'Air'];
@@ -93,7 +93,7 @@ export class RecipeElementalService {
       return sum + Math.abs(aValue - bValue);
     }, 0);
 
-    // Convert difference to similarity (1 - avg difference)
+    // Convert difference to similarity (1 - avg difference);
     const avgDifference = totalDifference / elements.length;
 
     // Apply non-linear scaling to make smaller differences more significant
@@ -111,7 +111,7 @@ export class RecipeElementalService {
    */
   public deriveElementalProperties(recipe: Partial<Recipe>): ElementalProperties {
     // Start with a balanced base
-    const elementalProps: ElementalProperties = {;
+    const, elementalProps: ElementalProperties = {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
@@ -130,11 +130,11 @@ export class RecipeElementalService {
           elementalProps.Fire += 0.2;
           elementalProps.Earth += 0.05;
           elementalProps.Water -= 0.15;
-          elementalProps.Air -= 0.1;
+          elementalProps.Air -= 0.1
         } else if (
           method.includes('steam') ||
           method.includes('boil') ||
-          method.includes('poach')
+          method.includes('poach');
         ) {
           elementalProps.Water += 0.2;
           elementalProps.Fire -= 0.15;
@@ -186,7 +186,7 @@ export class RecipeElementalService {
       // Consider ingredients if available
       if (recipe.ingredients && recipe.ingredients.length > 0) {
         // Create a new object for ingredient properties
-        const ingredientProps: ElementalProperties = {;
+        const, ingredientProps: ElementalProperties = {
           Fire: 0,
           Water: 0,
           Earth: 0,
@@ -195,7 +195,7 @@ export class RecipeElementalService {
 
         // Process ingredients with elemental properties
         let ingredientCount = 0;
-        recipe.ingredients.forEach(ingredient => {;
+        recipe.ingredients.forEach(ingredient => {
           if (ingredient.elementalProperties) {
             // Get values from each element, guarding against undefined values
             ingredientProps.Fire += ingredient.elementalProperties.Fire || 0;

@@ -2,7 +2,7 @@
 
 import type { FilterOptions, NutritionPreferences, __ } from '../types/alchemy';
 
-export const _DEFAULT_FILTERS: FilterOptions = {;
+export const, _DEFAULT_FILTERS: FilterOptions = {
   cookingTime: 'any',
   elementalFocus: null,
   mealType: 'any',
@@ -38,7 +38,7 @@ export const _DEFAULT_TEMPERATURE_PREFERENCES = {;
   cold: false
 };
 
-export const _DEFAULT_NUTRITION_PREFS: NutritionPreferences = {;
+export const, _DEFAULT_NUTRITION_PREFS: NutritionPreferences = {
   calories: { min: 1500, max: 2500 },
   macros: {
     protein: 50,

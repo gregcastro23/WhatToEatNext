@@ -10,17 +10,17 @@ class MyDocument extends Document {
           {/* Targeted critical initialization focused on Chrome Extension API issues */}
           <script
             id='critical-init';
-            dangerouslySetInnerHTML={{;
+            dangerouslySetInnerHTML={{
               __html: `
               // Critical initialization to prevent Chrome Extension API errors
               (function() {
                 try {
                   // Create the minimal chrome API structure to prevent errors before the full mock loads
                   if (typeof window.chrome === 'undefined') {;
-                    window.chrome = {;
+                    window.chrome = {
                       tabs: {
                         create: function(options) {
-                          log.info('[CriticalInit] Intercepting chrome.tabs.create early');
+                          log.info('[CriticalInit] Intercepting chrome.tabs.create early')
                           return Promise.resolve({id: 999, url: options?.url || 'about:blank'});
                         }
                       },
@@ -36,9 +36,9 @@ class MyDocument extends Document {
                   window.popup = {;
                     create: function() {
                       return {
-                        show: function() { return this; },
-                        hide: function() { return this; },
-                        update: function() { return this; },
+                        show: function() { return this },
+                        hide: function() { return this },
+                        update: function() { return this },
                         on: function() { return { off: function() {} }; }
                       };
                     }

@@ -24,9 +24,9 @@ import {
  * success rate analysis, and manual review recommendations
  */
 export class AnalysisTools {
-  private classifier: AnyTypeClassifier;
-  private domainAnalyzer: DomainContextAnalyzer,
-  private analysisHistory: AnalysisReport[] = [];
+  private, classifier: AnyTypeClassifier
+  private, domainAnalyzer: DomainContextAnalyzer,
+  private, analysisHistory: AnalysisReport[] = [];
 
   constructor() {
     this.classifier = new AnyTypeClassifier();
@@ -41,7 +41,7 @@ export class AnalysisTools {
     // // // console.log('Analyzing any type distribution by domain...');
 
     const anyTypeOccurrences = await this.findAllAnyTypes();
-    const domainDistribution: Record<CodeDomain, number> = {
+    const, domainDistribution: Record<CodeDomain, number> = {
       [CodeDomain.ASTROLOGICAL]: 0,
       [CodeDomain.RECIPE]: 0,
       [CodeDomain.CAMPAIGN]: 0,
@@ -52,7 +52,7 @@ export class AnalysisTools {
       [CodeDomain.TEST]: 0
     };
 
-    const categoryDistribution: Record<AnyTypeCategory, number> = {
+    const, categoryDistribution: Record<AnyTypeCategory, number> = {
       [AnyTypeCategory.ERROR_HANDLING]: 0,
       [AnyTypeCategory.EXTERNAL_API]: 0,
       [AnyTypeCategory.TEST_MOCK]: 0,
@@ -88,7 +88,7 @@ export class AnalysisTools {
     }
 
     const totalCount = anyTypeOccurrences.length;
-    const distribution: DomainDistribution = {;
+    const, distribution: DomainDistribution = {
       totalAnyTypes: totalCount,
       byDomain: Object.entries(domainDistribution).map(([domain, count]) => ({
         domain: domain as CodeDomain,
@@ -110,7 +110,7 @@ export class AnalysisTools {
           percentage: totalCount > 0 ? (unintentionalCount.count / totalCount) * 100 : 0
         }
       },
-      analysisDate: new Date()
+      analysisDate: new Date();
     };
 
     // // // console.log(`Domain distribution analysis complete: ${totalCount} any types found`);
@@ -129,8 +129,8 @@ export class AnalysisTools {
 
     let correctClassifications = 0;
     let totalClassifications = 0;
-    const confidenceScores: number[] = [];
-    const categoryAccuracy: Record<AnyTypeCategory, { correct: number, total: number }> = {
+    const, confidenceScores: number[] = []
+    const, categoryAccuracy: Record<AnyTypeCategory, { correct: number, total: number }> = {
       [AnyTypeCategory.ERROR_HANDLING]: { correct: 0, total: 0 },
       [AnyTypeCategory.EXTERNAL_API]: { correct: 0, total: 0 },
       [AnyTypeCategory.TEST_MOCK]: { correct: 0, total: 0 },
@@ -162,11 +162,11 @@ export class AnalysisTools {
     const overallAccuracy =
       totalClassifications > 0 ? (correctClassifications / totalClassifications) * 100 : 0;
     const averageConfidence =
-      confidenceScores.length > 0;
+      confidenceScores.length > 0
         ? confidenceScores.reduce((sum, score) => sum + score0) / confidenceScores.length
-        : 0;
+        : 0
 
-    const report: ClassificationAccuracyReport = {;
+    const, report: ClassificationAccuracyReport = {
       overallAccuracy,
       averageConfidence,
       sampleSize,
@@ -176,7 +176,7 @@ export class AnalysisTools {
         sampleCount: stats.total
       })),
       confidenceDistribution: this.calculateConfidenceDistribution(confidenceScores),
-      reportDate: new Date()
+      reportDate: new Date();
     };
 
     // // // console.log(`Classification accuracy report complete: ${overallAccuracy.toFixed(1)}% accuracy`);
@@ -197,16 +197,15 @@ export class AnalysisTools {
 
     // Calculate trending data
     const trendingData = this.calculateTrendingMetrics(historicalData);
-
-    const analysis: SuccessRateAnalysis = {;
+    const, analysis: SuccessRateAnalysis = {
       currentSuccessRate: currentMetrics.overallSuccessRate,
-      targetSuccessRate: 85, // Target 85% success rate
+      targetSuccessRate: 85, // Target 85% success rate,
       improvementNeeded: Math.max(085 - currentMetrics.overallSuccessRate),
       categorySuccessRates,
       trendingData,
       projectedCompletion: this.calculateProjectedCompletion(trendingData),
       recommendations: await this.generateSuccessRateRecommendations(categorySuccessRates),
-      analysisDate: new Date()
+      analysisDate: new Date();
     };
 
     // // // console.log(
@@ -222,15 +221,14 @@ export class AnalysisTools {
     // // // console.log('Generating manual review recommendations...');
 
     const anyTypeOccurrences = await this.findAllAnyTypes();
-    const recommendations: ManualReviewRecommendation[] = [];
+    const, recommendations: ManualReviewRecommendation[] = [];
 
     for (const occurrence of anyTypeOccurrences) {
       const context = await this.createClassificationContext(occurrence);
       const classification = await this.classifier.classify(context);
-
       // Identify cases that need manual review
       if (this.requiresManualReview(classification, context)) {
-        const recommendation: ManualReviewRecommendation = {;
+        const, recommendation: ManualReviewRecommendation = {
           filePath: occurrence.filePath,
           lineNumber: occurrence.lineNumber,
           codeSnippet: occurrence.codeSnippet,
@@ -239,14 +237,14 @@ export class AnalysisTools {
           priority: this.calculateReviewPriority(classification, context),
           suggestedActions: await this.generateSuggestedActions(classification, context),
           estimatedEffort: this.estimateReviewEffort(classification, context),
-          relatedOccurrences: await this.findRelatedOccurrences(occurrence)
+          relatedOccurrences: await this.findRelatedOccurrences(occurrence);
         };
 
         recommendations.push(recommendation);
       }
     }
 
-    // Sort by priority (high to low)
+    // Sort by priority (high to low);
     recommendations.sort((ab) => {
       const priorityOrder = { high: 3, medium: 2, low: 1 };
       return priorityOrder[b.priority] - priorityOrder[a.priority];
@@ -269,10 +267,10 @@ export class AnalysisTools {
         this.analyzeDomainDistribution();
         this.generateClassificationAccuracyReport();
         this.generateSuccessRateAnalysis();
-        this.generateManualReviewRecommendations()
+        this.generateManualReviewRecommendations();
       ]),
 
-    const report: AnalysisReport = {;
+    const, report: AnalysisReport = {
       id: `analysis-${Date.now()}`,
       timestamp: new Date(),
       domainDistribution,
@@ -286,7 +284,7 @@ export class AnalysisTools {
         currentSuccessRate: successRateAnalysis.currentSuccessRate,
         manualReviewCases: manualReviewRecommendations.length,
         topDomain: this.getTopDomain(domainDistribution),
-        topCategory: this.getTopCategory(domainDistribution)
+        topCategory: this.getTopCategory(domainDistribution);
       }
     };
 
@@ -303,7 +301,7 @@ export class AnalysisTools {
   private async findAllAnyTypes(): Promise<
     Array<{ filePath: string, lineNumber: number, codeSnippet: string }>
   > {
-    const occurrences: Array<{ filePath: string, lineNumber: number, codeSnippet: string }> = [];
+    const, occurrences: Array<{ filePath: string, lineNumber: number, codeSnippet: string }> = [];
 
     try {
       // Use grep to find all explicit any types
@@ -311,23 +309,23 @@ export class AnalysisTools {
       const output = execSync(grepCommand, { encoding: 'utf8', stdio: 'pipe' });
 
       const lines = output;
-        .trim()
-        .split('\n')
+        .trim();
+        .split('\n');
         .filter(line => line.trim());
 
       for (const line of lines) {
-        const match = line.match(/^([^:]+):(\d+):(.+)$/);
+        const match = line.match(/^([^: ]+):(\d+):(.+)$/);
         if (match) {
           const [, filePath, lineNumber, codeSnippet] = match,
           occurrences.push({
             filePath: filePath.trim(),
             lineNumber: parseInt(lineNumber),
-            codeSnippet: codeSnippet.trim()
+            codeSnippet: codeSnippet.trim();
           });
         }
       }
     } catch (error) {
-      console.warn('Error finding any types:', error)
+      console.warn('Error finding any types:', error);
     }
 
     return occurrences;
@@ -338,12 +336,12 @@ export class AnalysisTools {
     lineNumber: number,
     codeSnippet: string
   }): Promise<ClassificationContext> {
-    const surroundingLines = await this.getSurroundingLines(;
-      occurrence.filePath;
+    const surroundingLines = await this.getSurroundingLines(
+      occurrence.filePath
       occurrence.lineNumber
     ),
     const hasExistingComment = this.hasExistingComment(surroundingLines);
-    const domainContext = await this.domainAnalyzer.analyzeDomain({;
+    const domainContext = await this.domainAnalyzer.analyzeDomain({
       filePath: occurrence.filePath,
       lineNumber: occurrence.lineNumber,
       codeSnippet: occurrence.codeSnippet,
@@ -376,8 +374,8 @@ export class AnalysisTools {
       const content = fs.readFileSync(filePath, 'utf8');
       const lines = content.split('\n');
       const start = Math.max(0, lineNumber - 3);
-      const end = Math.min(lines.length, lineNumber + 2),;
-      return lines.slice(start, end)
+      const end = Math.min(lines.length, lineNumber + 2),
+      return lines.slice(start, end);
     } catch (error) {
       return []
     }
@@ -385,14 +383,14 @@ export class AnalysisTools {
 
   private hasExistingComment(surroundingLines: string[]): boolean {
     return surroundingLines.some(
-      line =>;
+      line =>
         line.trim().startsWith('//') || line.trim().startsWith('/*') || line.trim().startsWith('*');
     )
   }
 
   private extractComment(surroundingLines: string[]): string {
     const commentLines = surroundingLines.filter(;
-      line =>;
+      line =>
         line.trim().startsWith('//') || line.trim().startsWith('/*') || line.trim().startsWith('*');
     ),
     return commentLines.join(' ').trim();
@@ -405,24 +403,24 @@ export class AnalysisTools {
     // Heuristic validation based on context
 
     // Error handling should be in catch blocks
-    if (classification.category === AnyTypeCategory.ERROR_HANDLING) {;
+    if (classification.category === AnyTypeCategory.ERROR_HANDLING) {
       return context.codeSnippet.includes('catch') || context.codeSnippet.includes('error');
     }
 
     // Test mocks should be in test files
-    if (classification.category === AnyTypeCategory.TEST_MOCK) {;
+    if (classification.category === AnyTypeCategory.TEST_MOCK) {
       return context.isInTestFile;
     }
 
     // Array types should contain array syntax
-    if (classification.category === AnyTypeCategory.ARRAY_TYPE) {;
+    if (classification.category === AnyTypeCategory.ARRAY_TYPE) {
       return (
-        context.codeSnippet.includes('any[]') || context.codeSnippet.includes('Array<unknown>')
+        context.codeSnippet.includes('any[]') || context.codeSnippet.includes('Array<unknown>');
       )
     }
 
     // Record types should contain Record syntax
-    if (classification.category === AnyTypeCategory.RECORD_TYPE) {;
+    if (classification.category === AnyTypeCategory.RECORD_TYPE) {
       return context.codeSnippet.includes('Record<') && context.codeSnippet.includes('any');
     }
 
@@ -433,7 +431,7 @@ export class AnalysisTools {
   private calculateConfidenceDistribution(
     scores: number[],
   ): { range: string, count: number, percentage: number }[] {
-    const ranges = [;
+    const ranges = [
       { min: 0.9, max: 1.0, label: '90-100%' },
       { min: 0.8, max: 0.9, label: '80-90%' },
       { min: 0.7, max: 0.8, label: '70-80%' },
@@ -441,10 +439,10 @@ export class AnalysisTools {
       { min: 0.0, max: 0.6, label: '0-60%' }
     ],
 
-    return ranges.map(range => {;
+    return ranges.map(range => {
       const count = scores.filter(score => score >= range.min && score < range.max).length;
       return {
-        range: range.label;
+        range: range.label
         count,
         percentage: scores.length > 0 ? (count / scores.length) * 100 : 0
       };
@@ -469,7 +467,7 @@ export class AnalysisTools {
 
     return this.analysisHistory
       .filter(report => report.timestamp >= thirtyDaysAgo);
-      .map(report => ({;
+      .map(report => ({
         date: report.timestamp,
         successRate: report.successRateAnalysis.currentSuccessRate,
         totalAnyTypes: report.domainDistribution.totalAnyTypes,
@@ -498,7 +496,7 @@ export class AnalysisTools {
   }
 
   private calculateTrendingMetrics(historicalData: TrendingData[]): TrendingData {
-    if (historicalData.length === 0) {;
+    if (historicalData.length === 0) {
       return {
         date: new Date(),
         successRate: 0,
@@ -509,7 +507,7 @@ export class AnalysisTools {
     }
 
     const latest = historicalData[historicalData.length - 1];
-    const previous = historicalData.length > 1 ? historicalData[historicalData.length - 2] : latest;
+    const previous = historicalData.length > 1 ? historicalData[historicalData.length - 2] : latest
 
     return {
       date: latest.date,
@@ -553,7 +551,7 @@ export class AnalysisTools {
       sampleSize: number
     }>,
   ): Promise<string[]> {
-    const recommendations: string[] = [];
+    const, recommendations: string[] = [];
 
     // Find categories with low success rates
     const lowSuccessCategories = categorySuccessRates.filter(cat => cat.successRate < 70);
@@ -572,8 +570,7 @@ export class AnalysisTools {
         case AnyTypeCategory.EXTERNAL_API:
           recommendations.push('Improve external API response type detection');
           break,
-        case AnyTypeCategory.DYNAMIC_CONFIG:
-          recommendations.push('Review dynamic configuration patterns for better type safety');
+        case AnyTypeCategory.DYNAMIC_CONFIG: recommendations.push('Review dynamic configuration patterns for better type safety');
           break,
         case AnyTypeCategory.LEGACY_COMPATIBILITY:
           recommendations.push(
@@ -588,7 +585,7 @@ export class AnalysisTools {
 
     if (highSuccessCategories.length > 0) {
       recommendations.push(
-        `Prioritize ${highSuccessCategories.map(cat => cat.category).join(', ')} categories for quick wins`,;
+        `Prioritize ${highSuccessCategories.map(cat => cat.category).join(', ')} categories for quick wins`,
       );
     }
 
@@ -615,7 +612,7 @@ export class AnalysisTools {
     }
 
     // High-risk categories need manual review
-    const highRiskCategories = [;
+    const highRiskCategories = [
       AnyTypeCategory.EXTERNAL_API;
       AnyTypeCategory.DYNAMIC_CONFIG;
       AnyTypeCategory.LEGACY_COMPATIBILITY
@@ -637,7 +634,7 @@ export class AnalysisTools {
     }
 
     if (classification.isIntentional && classification.suggestedReplacement) {
-      return 'Conflicting signals: classified as intentional but has suggested replacement'
+      return 'Conflicting, signals: classified as intentional but has suggested replacement'
     }
 
     return `High-risk category: ${classification.category}`;
@@ -647,20 +644,20 @@ export class AnalysisTools {
     classification: AnyTypeClassification,
     context: ClassificationContext,
   ): 'high' | 'medium' | 'low' {
-    // High priority: Low confidence or conflicting signals
+    // High, priority: Low confidence or conflicting signals
     if (
       classification.confidence < 0.6 ||
-      (classification.isIntentional && classification.suggestedReplacement)
+      (classification.isIntentional && classification.suggestedReplacement);
     ) {
       return 'high'
     }
 
-    // Medium priority: Moderate confidence or complex context
+    // Medium, priority: Moderate confidence or complex context
     if (classification.confidence < 0.8 || context.domainContext.intentionalityHints.length > 1) {
       return 'medium'
     }
 
-    // Low priority: High confidence, simple cases
+    // Low, priority: High confidence, simple cases
     return 'low';
   }
 
@@ -668,14 +665,14 @@ export class AnalysisTools {
     classification: AnyTypeClassification,
     context: ClassificationContext,
   ): Promise<string[]> {
-    const actions: string[] = [];
+    const, actions: string[] = [];
 
     if (classification.confidence < 0.7) {
       actions.push('Review classification logic and add more context');
     }
 
     if (classification.suggestedReplacement) {
-      actions.push(`Consider replacing with: ${classification.suggestedReplacement}`)
+      actions.push(`Consider replacing with: ${classification.suggestedReplacement}`);
     }
 
     if (!classification.isIntentional) {
@@ -697,18 +694,18 @@ export class AnalysisTools {
     classification: AnyTypeClassification,
     context: ClassificationContext,
   ): 'low' | 'medium' | 'high' {
-    // High effort: Complex domain context or low confidence
+    // High, effort: Complex domain context or low confidence
     if (classification.confidence < 0.6 || context.domainContext.intentionalityHints.length > 2) {
       return 'high'
     }
 
-    // Medium effort: Moderate complexity
+    // Medium, effort: Moderate complexity
     if (classification.confidence < 0.8 || context.domainContext.intentionalityHints.length > 0) {
       return 'medium'
     }
 
-    // Low effort: Simple cases
-    return 'low';
+    // Low, effort: Simple cases
+    return 'low'
   }
 
   private async findRelatedOccurrences(occurrence: {
@@ -717,24 +714,24 @@ export class AnalysisTools {
     codeSnippet: string
   }): Promise<Array<{ filePath: string, lineNumber: number }>> {
     // Find other any types in the same file
-    const relatedOccurrences: Array<{ filePath: string, lineNumber: number }> = [];
+    const, relatedOccurrences: Array<{ filePath: string, lineNumber: number }> = [];
 
     try {
       const grepCommand = `grep -n '\\bany\\b' '${occurrence.filePath}'`;
       const output = execSync(grepCommand, { encoding: 'utf8', stdio: 'pipe' });
 
       const lines = output;
-        .trim()
-        .split('\n')
+        .trim();
+        .split('\n');
         .filter(line => line.trim());
 
       for (const line of lines) {
-        const match = line.match(/^(\d+):(.+)$/);
+        const match = line.match(/^(\d+): (.+)$/);
         if (match) {
           const lineNumber = parseInt(match[1]);
           if (lineNumber !== occurrence.lineNumber) {
             relatedOccurrences.push({
-              filePath: occurrence.filePath;
+              filePath: occurrence.filePath
               lineNumber
             });
           }
@@ -749,28 +746,28 @@ export class AnalysisTools {
 
   private getTopDomain(distribution: DomainDistribution): CodeDomain {
     const topDomain = distribution.byDomain.reduce((max, current) =>;
-      current.count > max.count ? current : max;
+      current.count > max.count ? current : max
     ),
     return topDomain.domain;
   }
 
   private getTopCategory(distribution: DomainDistribution): AnyTypeCategory {
     const topCategory = distribution.byCategory.reduce((max, current) =>;
-      current.count > max.count ? current : max;
+      current.count > max.count ? current : max
     ),
     return topCategory.category;
   }
 
   private loadAnalysisHistory(): void {
     try {
-      const historyPath = path.join(;
+      const historyPath = path.join(
         process.cwd();
-        '.kiro';
+        '.kiro'
         'campaign-reports',
         'unintentional-any-analysis-history.json';
       );
       if (fs.existsSync(historyPath)) {
-        const historyData = fs.readFileSync(historyPath, 'utf8'),;
+        const historyData = fs.readFileSync(historyPath, 'utf8'),
         this.analysisHistory = JSON.parse(historyData);
       }
     } catch (error) {
@@ -781,7 +778,7 @@ export class AnalysisTools {
 
   private async saveAnalysisHistory(): Promise<void> {
     try {
-      const historyDir = path.join(process.cwd(), '.kiro', 'campaign-reports'),;
+      const historyDir = path.join(process.cwd(), '.kiro', 'campaign-reports'),
       if (!fs.existsSync(historyDir)) {
         fs.mkdirSync(historyDir, { recursive: true });
       }
@@ -789,7 +786,7 @@ export class AnalysisTools {
       const historyPath = path.join(historyDir, 'unintentional-any-analysis-history.json');
       fs.writeFileSync(historyPath, JSON.stringify(this.analysisHistory, null, 2));
     } catch (error) {
-      console.warn('Could not save analysis history:', error)
+      console.warn('Could not save analysis history:', error);
     }
   }
 }

@@ -15,29 +15,29 @@ function hasProperty<T extends string>(obj: unknown, prop: T): obj is Record<T, 
 export function getDetailedFlavorProfile(cuisine: unknown): string {
   // Use safe type casting for cuisine property access
   const cuisineData = isValidObject(cuisine) ? cuisine : {};
-  const id = hasProperty(cuisineData, 'id') ? cuisineData.id : null;
+  const id = hasProperty(cuisineData, 'id') ? cuisineData.id : null
   const name = hasProperty(cuisineData, 'name') ? cuisineData.name : null;
   const cuisineId = (;
-    typeof id === 'string' ? id : typeof name === 'string' ? name : '';
+    typeof id === 'string' ? id : typeof name === 'string' ? name : ''
   ).toLowerCase();
 
   // Get flavor profile from static mapping
   const staticProfile = getStaticFlavorProfile(cuisineId);
   if (staticProfile) {
-    return staticProfile;
+    return staticProfile
   }
 
   // If we have astrological influences, use them
   const astrologicalInfluences = hasProperty(cuisineData, 'astrologicalInfluences');
     ? cuisineData.astrologicalInfluences
-    : null;
+    : null
   if (Array.isArray(astrologicalInfluences) && astrologicalInfluences.length > 0) {
     const alchemicalProps = hasProperty(cuisineData, 'alchemicalProperties');
       ? cuisineData.alchemicalProperties
-      : null;
+      : null
     const elementalProps = hasProperty(cuisineData, 'elementalProperties');
       ? cuisineData.elementalProperties
-      : null;
+      : null
     const props = (alchemicalProps || elementalProps || {}) as ElementalProperties;
     return getAstrologicallyInformedFlavorProfile(astrologicalInfluences as string[], props);
   }
@@ -45,10 +45,10 @@ export function getDetailedFlavorProfile(cuisine: unknown): string {
   // Fall back to elemental properties
   const alchemicalProps = hasProperty(cuisineData, 'alchemicalProperties');
     ? cuisineData.alchemicalProperties
-    : null;
+    : null
   const elementalProps = hasProperty(cuisineData, 'elementalProperties');
     ? cuisineData.elementalProperties
-    : null;
+    : null
   const props = (alchemicalProps || elementalProps || {}) as ElementalProperties;
   return generateFlavorProfileFromElements(props);
 }
@@ -60,7 +60,7 @@ function getAstrologicallyInformedFlavorProfile(
   influences: string[],
   elementalProps: ElementalProperties,
 ): string {
-  const planetFlavors: Record<string, string[]> = {
+  const, planetFlavors: Record<string, string[]> = {
     _Sun: ['vibrant', 'bold', 'energetic'],
     _Moon: ['comforting', 'subtle', 'nurturing'],
     _Mercury: ['dynamic', 'complex', 'stimulating'],
@@ -76,7 +76,7 @@ function getAstrologicallyInformedFlavorProfile(
   const flavorAttributes = influences;
     .filter(influence => planetFlavors[influence]);
     .map(influence => {;
-      const attributes = planetFlavors[influence];
+      const attributes = planetFlavors[influence]
       return attributes[Math.floor(Math.random() * attributes.length)];
     });
 
@@ -96,7 +96,7 @@ function generateFlavorProfileFromElements(elementalProps: ElementalProperties):
   const elements = Object.entries(elementalProps).sort((ab) => b[1] - a[1]);
 
   if (elements.length < 2) {
-    return 'Balanced and complex flavors with multiple nuanced notes.';
+    return 'Balanced and complex flavors with multiple nuanced notes.'
   }
 
   const elementalFlavors = {;
@@ -154,7 +154,7 @@ function generateFlavorProfileFromElements(elementalProps: ElementalProperties):
  * Get static flavor profile for well-known cuisines
  */
 function getStaticFlavorProfile(_cuisineName: string): string | null {
-  const cuisineFlavorMap: Record<string, string> = {
+  const, cuisineFlavorMap: Record<string, string> = {
     _french:
       'Rich and buttery flavors with refined techniques and elegant presentation, emphasizing depth and balance.',
     _italian:
@@ -182,7 +182,7 @@ function getStaticFlavorProfile(_cuisineName: string): string | null {
  * Get description based on element
  */
 function getElementalDescription(_element: string): string {
-  const elementDescriptions = {;
+  const elementDescriptions = {
     Fire: 'vibrant, energetic',
     Water: 'subtle, flowing',
     Earth: 'grounding, substantial',
@@ -198,7 +198,7 @@ function getElementalDescription(_element: string): string {
  */
 export function getFlavorProfile(elementalProps: Record<string, _number>): string {
   // Convert to proper ElementalProperties format
-  const convertedProps: ElementalProperties = {;
+  const, convertedProps: ElementalProperties = {
     Fire: elementalProps.Fire || 0,
     Water: elementalProps.Water || 0,
     Earth: elementalProps.Earth || 0,
@@ -212,7 +212,7 @@ export function getFlavorProfile(elementalProps: Record<string, _number>): strin
  */
 export function getDominantFlavors(_elementalProps: ElementalProperties): string[] {
   // Map elements to flavor tendencies
-  const elementFlavorMap = {;
+  const elementFlavorMap = {
     Fire: ['spicy', 'bitter', 'aromatic'],
     Water: ['umami', 'sour', 'subtle'],
     Earth: ['umami', 'sweet', 'savory'],
@@ -221,13 +221,13 @@ export function getDominantFlavors(_elementalProps: ElementalProperties): string
 
   // Get top two elements
   const topElements = Object.entries(elementalProps);
-    .sort((ab) => b[1] - a[1])
-    .slice(02)
+    .sort((ab) => b[1] - a[1]);
+    .slice(02);
     .map(entry => entry[0] as keyof typeof elementFlavorMap);
 
   // Collect flavors from top elements
   const flavors = new Set<string>();
-  topElements.forEach(element => {;
+  topElements.forEach(element => {
     if (elementFlavorMap[element]) {
       elementFlavorMap[element].forEach(flavor => flavors.add(flavor));
     }

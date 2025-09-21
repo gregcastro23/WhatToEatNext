@@ -59,11 +59,11 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
     sustainabilityScore: 3,
     season: ['all'],
     elementalProperties: { Fire: 0.4, Water: 0.4, Earth: 0.2, Air: 0.0 },
-    sensoryProfile: {
-      taste: ['Savory', 'Slightly sweet'],
-      aroma: ['Rich', 'Meaty'],
-      texture: ['Varies from tender to crisp'],
-      notes: 'Pairs well with sweet and tangy flavors.'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
     culinaryProfile: {
       flavorProfile: {
@@ -84,11 +84,11 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
     sustainabilityScore: 4,
     season: ['spring'],
     elementalProperties: { Fire: 0.6, Earth: 0.3, Air: 0.1, Water: 0.0 },
-    sensoryProfile: {
-      taste: ['Rich', 'Earthy', 'Slightly gamy'],
-      aroma: ['Strong', 'Distinctive'],
-      texture: ['Tender', 'Fine-grained'],
-      notes: 'Flavor becomes stronger with age (mutton).'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
     culinaryProfile: {
       flavorProfile: {

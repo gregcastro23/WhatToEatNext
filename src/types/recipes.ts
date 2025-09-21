@@ -17,8 +17,8 @@ export interface RecipeElementalMapping {
     base: string[];
     earth?: string[];
     fire?: string[];
-    water?: string[];
-    air?: string[];
+    water?: string[]
+    air?: string[]
   };
   astrologicalInfluences?: string[];
 
@@ -29,5 +29,5 @@ export interface RecipeElementalMapping {
   complementaryHerbs?: string[];
   idealTimeOfDay?: string[];
   seasonalRecommendation?: string[];
-  moodEffects?: string[];
+  moodEffects?: string[]
 }

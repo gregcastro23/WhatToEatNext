@@ -10,10 +10,10 @@ import { NextConfigOptimizer } from './nextConfigOptimizer';
  */
 export class BuildSystemRepair {
   private readonly buildValidator: BuildValidator;
-  private readonly configOptimizer: NextConfigOptimizer;
+  private readonly configOptimizer: NextConfigOptimizer
   private readonly logger: (message: string, ..._args: unknown[]) => void;
 
-  constructor(logger = console.log) {;
+  constructor(logger = console.log) {
     this.buildValidator = new BuildValidator('.next', logger);
     this.configOptimizer = new NextConfigOptimizer('next.config.js', logger);
     this.logger = logger;
@@ -24,7 +24,7 @@ export class BuildSystemRepair {
    * Addresses all requirements: 3.13.23.33.43.5
    */
   async performComprehensiveRepair(): Promise<BuildRepairResult> {
-    const result: BuildRepairResult = {;
+    const result: BuildRepairResult = {
       success: false,
       steps: [],
       errors: [],
@@ -39,14 +39,14 @@ export class BuildSystemRepair {
       try {
         this.configOptimizer.optimizeConfig();
         this.configOptimizer.fixCommonIssues();
-        result.steps.push('✓ Next.js configuration optimized');
+        result.steps.push('✓ Next.js configuration optimized')
       } catch (error) {
         result.errors.push(`Configuration optimization failed: ${error}`);
       }
 
       // Step 2: Validate current build (Requirement 3.2)
       result.steps.push('Validating current build artifacts');
-      const validation = await this.buildValidator.validateBuild();
+      const validation = await this.buildValidator.validateBuild()
 
       if (!validation.isValid) {
         result.steps.push(
@@ -56,7 +56,7 @@ export class BuildSystemRepair {
         // Step 3: Repair missing manifests (Requirement 3.3)
         result.steps.push('Repairing missing manifest files');
         await this.buildValidator.repairBuild();
-        result.steps.push('✓ Manifest files repaired');
+        result.steps.push('✓ Manifest files repaired')
       } else {
         result.steps.push('✓ Build artifacts are valid');
       }
@@ -67,7 +67,7 @@ export class BuildSystemRepair {
 
       if (rebuildSuccess) {
         result.steps.push('✓ Rebuild successful');
-        result.success = true;
+        result.success = true
       } else {
         result.errors.push('Rebuild failed after multiple attempts');
         result.recommendations.push('Manual intervention may be required');
@@ -78,7 +78,7 @@ export class BuildSystemRepair {
       const healthReport = await this.buildValidator.monitorBuildHealth();
 
       if (healthReport.manifestsValid && healthReport.buildExists) {
-        result.steps.push('✓ Build system is healthy');
+        result.steps.push('✓ Build system is healthy')
       } else {
         result.errors.push('Build system health check failed');
         result.errors.push(...healthReport.issues);
@@ -114,7 +114,7 @@ export class BuildSystemRepair {
       this.configOptimizer.fixCommonIssues();
 
       // Validate repair
-      const validation = await this.buildValidator.validateBuild();
+      const validation = await this.buildValidator.validateBuild()
 
       this.logger(`Quick repair completed. Success: ${validation.isValid}`);
       return validation.isValid;
@@ -127,7 +127,7 @@ export class BuildSystemRepair {
   /**
    * Monitors build system health continuously
    */
-  async startHealthMonitoring(intervalMinutes = 30): Promise<void> {;
+  async startHealthMonitoring(intervalMinutes = 30): Promise<void> {
     this.logger(`Starting build health monitoring (every ${intervalMinutes} minutes)`);
 
     const monitor = async () => {;
@@ -156,7 +156,7 @@ export class BuildSystemRepair {
    * Generates a detailed build system report
    */
   async generateBuildReport(): Promise<BuildSystemReport> {
-    const report: BuildSystemReport = {;
+    const report: BuildSystemReport = {
       timestamp: new Date(),
       validation: await this.buildValidator.validateBuild(),
       health: await this.buildValidator.monitorBuildHealth(),
@@ -203,7 +203,7 @@ export class BuildSystemRepair {
 
       // Step 3: Clear node modules and reinstall (if needed)
       if (!fs.existsSync('node_modules')) {
-        this.logger('Reinstalling dependencies...');
+        this.logger('Reinstalling dependencies...')
         execSync('yarn install', { _stdio: 'inherit' });
       }
 
@@ -212,7 +212,7 @@ export class BuildSystemRepair {
 
       if (success) {
         this.logger('Emergency recovery successful');
-        return true;
+        return true
       } else {
         this.logger('Emergency recovery failed');
         return false;

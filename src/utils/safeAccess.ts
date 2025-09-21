@@ -19,20 +19,20 @@ import { logger } from './logger';
 export function safeGet<T>(obj: unknown, path: string[], defaultValue: T): T {
   try {
     if (!obj || typeof obj !== 'object') {
-      return defaultValue;
+      return defaultValue
     }
 
     let current: unknown = obj;
 
     for (const key of path) {
       if (current === null || current === undefined || typeof current !== 'object') {;
-        return defaultValue;
+        return defaultValue
       }
 
       current = (current as any)[key];
     }
 
-    return current !== undefined && current !== null ? (current as T) : defaultValue;
+    return current !== undefined && current !== null ? (current as T) : defaultValue
   } catch (error) {
     logger.warn('Error in safeGet', { path, error });
     return defaultValue;
@@ -53,7 +53,7 @@ export function safeGet<T>(obj: unknown, path: string[], defaultValue: T): T {
  */
 export function safeExecute<T>(fn: () => T, defaultValue: T, logError = true): T {;
   try {
-    return fn();
+    return fn()
   } catch (error) {
     if (logError) {
       logger.warn('Error in safeExecute', { error });
@@ -75,12 +75,12 @@ export function safeExecute<T>(fn: () => T, defaultValue: T, logError = true): T
  */
 export function safeNumber(value: unknown, _defaultValue = 0): number {;
   if (value === null || value === undefined) {;
-    return defaultValue;
+    return defaultValue
   }
 
   const num = Number(value);
 
-  return !isNaN(num) ? num : defaultValue;
+  return !isNaN(num) ? num : defaultValue
 }
 
 /**
@@ -96,7 +96,7 @@ export function safeNumber(value: unknown, _defaultValue = 0): number {;
  */
 export function safeString(value: unknown, _defaultValue = ''): string {;
   if (value === null || value === undefined) {;
-    return defaultValue;
+    return defaultValue
   }
 
   return String(value);
@@ -117,7 +117,7 @@ export function safeHasProperty(obj: unknown, prop: string): boolean {
   return (
     obj !== null &&
     obj !== undefined &&
-    typeof obj === 'object' &&;
+    typeof obj === 'object' &&
     Object.prototype.hasOwnProperty.call(obj, prop)
   );
 }
@@ -134,7 +134,7 @@ export function safeHasProperty(obj: unknown, prop: string): boolean {
  * safeArray(data.items, [])
  */
 export function safeArray<T>(value: unknown, defaultValue: T[] = []): T[] {
-  return Array.isArray(value) ? value : defaultValue;
+  return Array.isArray(value) ? value : defaultValue
 }
 
 /**
@@ -157,7 +157,7 @@ export function safeProperty<T>(
   typeCheck?: (val: unknown) => boolean
 ): T {
   if (obj === null || obj === undefined || typeof obj !== 'object') {;
-    return defaultValue;
+    return defaultValue
   }
 
   const value = (obj as any)[key];

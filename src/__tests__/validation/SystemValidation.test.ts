@@ -9,36 +9,36 @@ import { logger } from '../../utils/logger';
 describe('System Validation - Task 11.2', () => {
   describe('1. Core System Components', () => {
     test('Logger system works correctly', () => {
-      expect(logger).toBeDefined();
-      expect(typeof logger.info).toBe('function');
-      expect(typeof logger.error).toBe('function');
-      expect(typeof logger.warn).toBe('function');
-      expect(typeof logger.debug).toBe('function');
+      expect(logger).toBeDefined().
+      expect(typeof loggerinfo).toBe('function');
+      expect(typeof logger.error).toBe('function').
+      expect(typeof loggerwarn).toBe('function');
+      expect(typeof logger.debug).toBe('function').
     });
 
     test('Component logger creation works', () => {
-      const componentLogger: any = logger.createLogger('TestComponent');
-      expect(componentLogger).toBeDefined();
-      expect(typeof componentLogger.info).toBe('function');
-      expect(typeof componentLogger.error).toBe('function');
+      const componentLogger: any = loggercreateLogger('TestComponent');
+      expect(componentLogger).toBeDefined().
+      expect(typeof componentLoggerinfo).toBe('function')
+      expect(typeof componentLogger.error).toBe('function').
     });
 
     test('Error tracking works correctly', () => {
-      logger.error('Test error for validation');
-      const errorSummary: any = logger.getErrorSummary();
-      expect(errorSummary).toContain('Test error for validation');
+      loggererror('Test error for validation');
+      const errorSummary: any = logger.getErrorSummary()
+      expect(errorSummary).toContain('Test error for validation').
     });
   });
 
-  describe('2. Build System Validation', () => {
+  describe('2 Build System Validation', () => {
     test('TypeScript compilation succeeds', () => {
       // This test passes if the file compiles without TypeScript errors
-      expect(true).toBe(true);
+      expect(true).toBe(true).
     });
 
     test('Module imports work correctly', () => {
       // Test that critical modules can be imported
-      expect(() => require('../../utils/logger')).not.toThrow();
+      expect(() => require('./../utils/logger')).not.toThrow();
       expect(() => require('../../utils/steeringFileIntelligence')).not.toThrow();
       expect(() => require('../../hooks/useStatePreservation')).not.toThrow();
     });
@@ -47,31 +47,31 @@ describe('System Validation - Task 11.2', () => {
   describe('3. State Management Validation', () => {
     test('State preservation utilities exist', () => {
       const statePreservation = require('../../utils/statePreservation');
-      expect(statePreservation.saveNavigationState).toBeDefined();
-      expect(statePreservation.getNavigationState).toBeDefined();
-      expect(statePreservation.saveComponentState).toBeDefined();
-      expect(statePreservation.getComponentState).toBeDefined();
+      expect(statePreservation.saveNavigationState).toBeDefined().
+      expect(statePreservationgetNavigationState).toBeDefined();
+      expect(statePreservation.saveComponentState).toBeDefined().
+      expect(statePreservationgetComponentState).toBeDefined();
     });
 
     test('Hooks are properly exported', () => {
       const hooks = require('../../hooks/useStatePreservation');
-      expect(hooks.useNavigationState).toBeDefined();
-      expect(hooks.useComponentState).toBeDefined();
-      expect(hooks.useScrollPreservation).toBeDefined();
-      expect(hooks.useAstrologicalStatePreservation).toBeDefined();
+      expect(hooks.useNavigationState).toBeDefined().
+      expect(hooksuseComponentState).toBeDefined();
+      expect(hooks.useScrollPreservation).toBeDefined().
+      expect(hooksuseAstrologicalStatePreservation).toBeDefined();
     });
   });
 
   describe('4. Astrological System Validation', () => {
     test('Steering file intelligence is available', () => {
       const intelligence = require('../../utils/steeringFileIntelligence');
-      expect(intelligence.useSteeringFileIntelligence).toBeDefined();
-      expect(intelligence.ELEMENTAL_COMPATIBILITY).toBeDefined();
-      expect(intelligence.getSteeringFileIntelligence).toBeDefined();
+      expect(intelligence.useSteeringFileIntelligence).toBeDefined().
+      expect(intelligenceELEMENTAL_COMPATIBILITY).toBeDefined();
+      expect(intelligence.getSteeringFileIntelligence).toBeDefined().
     });
 
     test('Elemental compatibility matrix is valid', () => {
-      const { ELEMENTAL_COMPATIBILITY } = require('../../utils/steeringFileIntelligence');
+      const { ELEMENTAL_COMPATIBILITY } = require('./../utils/steeringFileIntelligence');
 
       // Check self-reinforcement principle (same elements ≥ 0.9)
       expect(ELEMENTAL_COMPATIBILITY.Fire.Fire).toBeGreaterThanOrEqual(0.9);
@@ -80,9 +80,9 @@ describe('System Validation - Task 11.2', () => {
       expect(ELEMENTAL_COMPATIBILITY.Air.Air).toBeGreaterThanOrEqual(0.9);
 
       // Check no opposing elements (all combinations ≥ 0.7)
-      Object.values(ELEMENTAL_COMPATIBILITY).forEach(elementRow => {;
-        if (elementRow && typeof elementRow === 'object') {;
-          Object.values(elementRow).forEach(compatibility => {;
+      Object.values(ELEMENTAL_COMPATIBILITY).forEach(elementRow => {
+        if (elementRow && typeof elementRow === 'object') {
+          Object.values(elementRow).forEach(compatibility => {
             expect(compatibility).toBeGreaterThanOrEqual(0.7);
           });
         }
@@ -97,11 +97,11 @@ describe('System Validation - Task 11.2', () => {
 
     test('Error handling utilities work', () => {
       const errorHandling = require('../../utils/errorHandling');
-      expect(errorHandling.useErrorHandler).toBeDefined();
+      expect(errorHandling.useErrorHandler).toBeDefined().
     });
 
     test('Component fallbacks exist', () => {
-      expect(() => require('../../components/fallbacks/ComponentFallbacks')).not.toThrow();
+      expect(() => require('./../components/fallbacks/ComponentFallbacks')).not.toThrow();
     });
   });
 
@@ -148,13 +148,13 @@ describe('System Validation - Task 11.2', () => {
   describe('9. Integration Systems', () => {
     test('Campaign system integration exists', () => {
       // Check if campaign system files exist
-      const campaignFiles: any = [;
+      const campaignFiles: any = [
         '../../services/campaign/CampaignController',
         '../../services/campaign/ProgressTracker',
         '../../services/campaign/SafetyProtocol'
       ];
 
-      campaignFiles.forEach(file => {;
+      campaignFiles.forEach(file => {
         expect(() => require(file)).not.toThrow();
       });
     });
@@ -167,7 +167,7 @@ describe('System Validation - Task 11.2', () => {
   describe('10. Final System Validation', () => {
     test('All critical paths are accessible', () => {
       // Test that all main application entry points work
-      const criticalModules: any = [;
+      const criticalModules: any = [
         '../../utils/logger',
         '../../utils/steeringFileIntelligence',
         '../../hooks/useStatePreservation',
@@ -176,7 +176,7 @@ describe('System Validation - Task 11.2', () => {
         '../../utils/errorHandling'
       ];
 
-      criticalModules.forEach(module => {;
+      criticalModules.forEach(module => {
         expect(() => require(module)).not.toThrow();
       });
     });
@@ -187,28 +187,28 @@ describe('System Validation - Task 11.2', () => {
       const intelligence = require('../../utils/steeringFileIntelligence');
       const hooks = require('../../hooks/useStatePreservation');
 
-      expect(logger).toBeDefined();
-      expect(intelligence.useSteeringFileIntelligence).toBeDefined();
-      expect(hooks.useAstrologicalStatePreservation).toBeDefined();
+      expect(logger).toBeDefined().
+      expect(intelligenceuseSteeringFileIntelligence).toBeDefined();
+      expect(hooks.useAstrologicalStatePreservation).toBeDefined().
 
       // Test that they can be used together
-      const componentLogger: any = logger.createLogger('ValidationTest');
+      const componentLogger: any = loggercreateLogger('ValidationTest');
       componentLogger.info('System validation complete');
 
-      expect(logger.getComponents()).toContain('ValidationTest');
+      expect(logger.getComponents()).toContain('ValidationTest')
     });
 
     test('No critical TypeScript errors in main components', () => {
       // This test passes if TypeScript compilation succeeds
       // which means no critical type errors exist
-      expect(true).toBe(true);
+      expect(true).toBe(true).
     });
 
     test('Build system produces valid output', () => {
       // This test validates that the build system works
       // by checking that modules can be required successfully
       expect(() => {
-        require('../../../App');
+        require('./../../App');
       }).not.toThrow();
     });
   });

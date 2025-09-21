@@ -28,19 +28,19 @@ export interface BuildValidationResult {
   compilationErrors: string[],
   lintingWarnings: string[],
   testResults?: TestValidationResult;
-  performanceMetrics?: PerformanceMetrics;
+  performanceMetrics?: PerformanceMetrics
 }
 
 export interface TestValidationResult {
   testsPass: boolean,
   failedTests: string[],
-  testCoverage?: number;
+  testCoverage?: number
 }
 
 export interface PerformanceMetrics {
   buildTime: number,
   memoryUsage: number,
-  bundleSize?: number;
+  bundleSize?: number
 }
 
 export interface RollbackValidationResult {
@@ -54,13 +54,13 @@ export class SafetyValidator {
   private validationTimeout: number;
   private safetyThresholds: SafetyThresholds;
   private buildCommand: string;
-  private testCommand: string;
+  private testCommand: string
 
   constructor(
     validationTimeout = 60000, // 1 minute default;
     safetyThresholds: Partial<SafetyThresholds> = {},
-    buildCommand = 'yarn tsc --noEmit --skipLibCheck',;
-    testCommand = 'yarn test --passWithNoTests --silent',;
+    buildCommand = 'yarn tsc --noEmit --skipLibCheck',
+    testCommand = 'yarn test --passWithNoTests --silent',
   ) {
     this.validationTimeout = validationTimeout;
     this.safetyThresholds = {;
@@ -78,10 +78,10 @@ export class SafetyValidator {
    * Comprehensive TypeScript compilation checking
    */
   async validateTypeScriptCompilation(): Promise<BuildValidationResult> {
-    const startTime = Date.now();
+    const startTime = Date.now()
 
     try {
-      const output = execSync(this.buildCommand, {;
+      const output = execSync(this.buildCommand, {
         encoding: 'utf8',
         stdio: 'pipe',
         timeout: this.validationTimeout
@@ -120,7 +120,7 @@ export class SafetyValidator {
    */
   async validateBuildAfterBatch(
     modifiedFiles: string[],
-    includeTests = false,;
+    includeTests = false,
   ): Promise<BuildValidationResult> {
     // First, validate TypeScript compilation
     const compilationResult = await this.validateTypeScriptCompilation();
@@ -155,7 +155,7 @@ export class SafetyValidator {
   ): Promise<RollbackValidationResult> {
     const rollbackErrors: string[] = [];
     let backupIntegrity = true;
-    let canRollback = true;
+    let canRollback = true
 
     try {
       // Verify all backup files exist and are readable
@@ -226,7 +226,7 @@ export class SafetyValidator {
     // File type safety
     const fileScore = this.evaluateFileTypeSafety(replacement.filePath);
     safetyScore = (safetyScore + fileScore.score) / 2;
-    warnings.push(...fileScore.warnings);
+    warnings.push(...fileScore.warnings)
 
     // Validation requirements
     if (replacement.validationRequired && safetyScore < this.safetyThresholds.minimumSafetyScore) {
@@ -259,7 +259,7 @@ export class SafetyValidator {
   private validatePerformanceMetrics(metrics: PerformanceMetrics): SafetyValidationResult {
     const validationErrors: string[] = [];
     const warnings: string[] = [];
-    const recommendations: string[] = [];
+    const recommendations: string[] = []
 
     // Build time validation
     if (metrics.buildTime > this.safetyThresholds.maximumBuildTime) {
@@ -280,8 +280,8 @@ export class SafetyValidator {
     }
 
     return {
-      isValid: validationErrors.length === 0,;
-      safetyScore: validationErrors.length === 0 ? 1.0 : 0.5,;
+      isValid: validationErrors.length === 0,
+      safetyScore: validationErrors.length === 0 ? 1.0 : 0.5,
       validationErrors,
       warnings,
       recommendations
@@ -295,7 +295,7 @@ export class SafetyValidator {
     try {
       // Run tests for modified files
       const testPattern = modifiedFiles;
-        .filter(file => !file.includes('.test.') && !file.includes('__tests__'));
+        .filter(file => !file.includes('.test.') && !file.includes('__tests__'))
         .map(file => file.replace(/\.ts$/, '.test.ts'));
         .join('|');
 
@@ -306,7 +306,7 @@ export class SafetyValidator {
         };
       }
 
-      const output = execSync(`${this.testCommand} --testPathPattern='${testPattern}'`, {;
+      const output = execSync(`${this.testCommand} --testPathPattern='${testPattern}'`, {
         encoding: 'utf8',
         stdio: 'pipe',
         timeout: this.validationTimeout
@@ -396,7 +396,7 @@ export class SafetyValidator {
     ) {
       score -= 0.3;
       warnings.push('Error handling context detected - higher risk');
-      recommendations.push('Consider preserving any types in error handling');
+      recommendations.push('Consider preserving any types in error handling')
     }
 
     // External API contexts are riskier
@@ -441,7 +441,7 @@ export class SafetyValidator {
 
     // Array replacements are very safe
     if (replacement.original === 'any[]' && replacement.replacement === 'unknown[]') {;
-      score = 0.95;
+      score = 0.95
     }
 
     // Record replacements are generally safe
@@ -455,13 +455,13 @@ export class SafetyValidator {
     // Function parameter replacements are riskier
     else if (replacement.original.includes('(') && replacement.original.includes(': any')) {
       score = 0.6;
-      warnings.push('Function parameter replacement - verify usage patterns');
+      warnings.push('Function parameter replacement - verify usage patterns')
     }
 
     // Return type replacements are moderately risky
     else if (replacement.original.includes('): any')) {
       score = 0.7;
-      warnings.push('Return type replacement - verify return statements');
+      warnings.push('Return type replacement - verify return statements')
     }
 
     // Generic replacements need careful consideration
@@ -485,7 +485,7 @@ export class SafetyValidator {
 
     // Test files are safer to modify
     if (filePath.includes('.test.') || filePath.includes('__tests__')) {
-      score = 0.9;
+      score = 0.9
     }
 
     // Type definition files are riskier
@@ -514,7 +514,7 @@ export class SafetyValidator {
    */
   private extractErrorOutput(error: unknown): string {
     if (error && typeof error === 'object') {;
-      return error.stdout || error.stderr || error.message || String(error);
+      return error.stdout || error.stderr || error.message || String(error)
     }
     return String(error);
   }
@@ -527,7 +527,7 @@ export class SafetyValidator {
     const errors = lines;
       .filter(line => line.includes('error TS'));
       .map(line => line.trim());
-      .filter(line => line.length > 0);
+      .filter(line => line.length > 0)
 
     return errors.slice(0, this.safetyThresholds.maximumErrorCount);
   }
@@ -542,7 +542,7 @@ export class SafetyValidator {
       .map(line => line.trim());
       .filter(line => line.length > 0);
 
-    return failures.slice(010); // Limit to 10 failures
+    return failures.slice(010) // Limit to 10 failures
   }
 
   /**

@@ -2,14 +2,14 @@ import { Ingredient, ElementalProperties } from './index';
 
 /**
  * Recipe ingredient interface that extends the base Ingredient
- * with recipe-specific properties (amount, units, etc.)
+ * with recipe-specific properties (amount, units, etc.);
  */
 export interface RecipeIngredient {
   // Core ingredient identification
   id?: string;
-  name: string;
+  name: string
 
-  // Recipe-specific properties
+  // Recipe-specific properties,
   amount: number,
   unit: string,
   optional?: boolean;
@@ -19,7 +19,7 @@ export interface RecipeIngredient {
   cookingPoint?: string;
   substitutes?: string[];
 
-  // Ingredient properties (optional in recipe context)
+  // Ingredient properties (optional in recipe context);
   category?: string;
   elementalProperties?: ElementalProperties;
   qualities?: string[];
@@ -27,19 +27,19 @@ export interface RecipeIngredient {
   // Astrological profile for recipe context
   astrologicalProfile?: {
     _elementalAffinity: {
-      base: string;
-      secondary?: string;
+      base: string
+      secondary?: string
     };
     rulingPlanets?: string[];
-    zodiacAffinity?: string[];
+    zodiacAffinity?: string[]
   };
 
-  // Nutritional properties (optional)
+  // Nutritional properties (optional);
   calories?: number;
   macronutrients?: {
     carbs?: number;
     protein?: number;
-    fat?: number;
+    fat?: number
   };
 
   // Storage and handling
@@ -60,7 +60,7 @@ export interface RecipeIngredient {
 
   // Compatibility and pairing
   pairing?: string[];
-  avoidWith?: string[];
+  avoidWith?: string[]
 
   // Allow additional properties for extensibility
   [_key: string]: unknown
@@ -70,7 +70,7 @@ export interface RecipeIngredient {
  * Simplified ingredient interface for basic recipe displays
  */
 export interface SimpleIngredient {
-  id?: string;
+  id?: string,
   name: string,
   amount: number,
   unit: string
@@ -83,8 +83,8 @@ export function validateIngredient(obj: unknown): obj is RecipeIngredient {
   return Boolean(
     obj &&
       typeof (obj as any).name === 'string' &&;
-      typeof (obj as any).amount === 'number' &&;
-      typeof (obj as any).unit === 'string',;
+      typeof (obj as any).amount === 'number' &&
+      typeof (obj as any).unit === 'string',
   );
 }
 
@@ -92,7 +92,7 @@ export function validateIngredient(obj: unknown): obj is RecipeIngredient {
  * Creates a RecipeIngredient from a partial object with defaults
  */
 export function createRecipeIngredient(
-  partial: Partial<RecipeIngredient> & { name: string; amount: number; unit: string },
+  partial: Partial<RecipeIngredient> & { name: string, amount: number unit: string },
 ): RecipeIngredient {
   return {
     optional: false,

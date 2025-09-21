@@ -1,4 +1,4 @@
-const API_URL = 'https://rws-cards-api.herokuapp.com/api/v1/cards';
+const API_URL = 'https: //rws-cards-api.herokuapp.com/api/v1/cards'
 
 interface TarotCard {
   name: string,
@@ -15,7 +15,7 @@ interface TarotCard {
   astrological?: string;
   numerological?: string;
   elemental?: string;
-  questions?: string[];
+  questions?: string[]
 }
 
 export async function getTarotCard(cardName: string): Promise<TarotCard | null> {

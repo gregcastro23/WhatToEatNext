@@ -8,7 +8,7 @@ import { getRecommendedIngredients, EnhancedIngredient } from '@/utils/foodRecom
  * Hook to get ingredient recommendations based on current astrological state
  * This replaces the deprecated useIngredientRecommendations hook
  */
-export const _useFoodRecommendations = (options?: {;
+export const _useFoodRecommendations = (options?: {
   limit?: number,
   filter?: (ingredient: EnhancedIngredient) => boolean
 }) => {
@@ -60,8 +60,8 @@ export const _useFoodRecommendations = (options?: {;
         const filteredResults = options?.filter ? results.filter(options.filter) : results;
 
         // Apply limit if specified
-        const limitedResults = options?.limit;
-          ? filteredResults.slice(0, options.limit)
+        const limitedResults = options?.limit
+          ? filteredResults.slice(0, options.limit);
           : filteredResults,
 
         setRecommendations(limitedResults);
@@ -100,8 +100,8 @@ export const _useFoodRecommendations = (options?: {;
       // Apply filtering and limits
       const filteredResults = options?.filter ? results.filter(options.filter) : results;
 
-      const limitedResults = options?.limit;
-        ? filteredResults.slice(0, options.limit)
+      const limitedResults = options?.limit
+        ? filteredResults.slice(0, options.limit);
         : filteredResults,
 
       setRecommendations(limitedResults);

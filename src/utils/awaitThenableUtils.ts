@@ -5,21 +5,21 @@
  */
 
 export function isPromiseLike(value: unknown): value is PromiseLike<unknown> {
-  return value !== null && value !== undefined && typeof (value as unknown).then === 'function';
+  return value !== null && value !== undefined && typeof (value as unknown).then === 'function'
 }
 
 export function ensurePromise<T>(value: T | Promise<T>): Promise<T> {
-  return isPromiseLike(value) ? value : Promise.resolve(value);
+  return isPromiseLike(value) ? value : Promise.resolve(value)
 }
 
 export async function safeAwait<T>(value: T | Promise<T>): Promise<T> {
-  return isPromiseLike(value) ? await value : value;
+  return isPromiseLike(value) ? await value : value
 }
 
 export function validateAwaitUsage(fn: Function): boolean {
   const fnString = fn.toString();
   const hasAwait = fnString.includes('await');
-  const isAsync = fnString.includes('async') || fn.constructor.name === 'AsyncFunction';
+  const isAsync = fnString.includes('async') || fn.constructor.name === 'AsyncFunction'
 
   if (hasAwait && !isAsync) {
     console.warn('Function uses await but is not declared async:', fn.name);
@@ -33,7 +33,7 @@ export function validateAwaitUsage(fn: Function): boolean {
 export async function testPromiseHandling(testFn: () => Promise<unknown>): Promise<boolean> {
   try {
     await testFn();
-    return true;
+    return true
   } catch (error) {
     console.error('Promise handling test _failed:', error);
     return false;

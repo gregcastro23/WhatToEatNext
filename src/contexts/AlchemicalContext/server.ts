@@ -9,7 +9,7 @@ export const _getCurrentSeason = (): string => {;
   if (month >= 2 && month <= 4) return 'spring';
   if (month >= 5 && month <= 7) return 'summer';
   if (month >= 8 && month <= 10) return 'autumn';
-  return 'winter';
+  return 'winter'
 };
 
 export const _getTimeOfDay = (): string => {;
@@ -17,11 +17,11 @@ export const _getTimeOfDay = (): string => {;
   if (hour >= 5 && hour < 12) return 'morning';
   if (hour >= 12 && hour < 17) return 'afternoon';
   if (hour >= 17 && hour < 21) return 'evening';
-  return 'night';
+  return 'night'
 };
 
 export const _getDayOfYear = (): number => {;
-  const now = new Date();
+  const now = new Date()
   const start = new Date(now.getFullYear(), 00);
   const diff = now.getTime() - start.getTime();
   return Math.floor(diff / (1000 * 60 * 60 * 24));

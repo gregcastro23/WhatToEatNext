@@ -26,7 +26,7 @@ export class ThemeManager {
   getTheme(): ThemeData {
     try {
       const savedTheme = localStorage.getItem('theme') || 'light';
-      const savedAccent = localStorage.getItem('accent-color') || 'blue';
+      const savedAccent = localStorage.getItem('accent-color') || 'blue'
 
       return {
         mode: savedTheme as 'light' | 'dark' | 'system',

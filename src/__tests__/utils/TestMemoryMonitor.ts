@@ -32,8 +32,8 @@ interface MemorySummary {
 }
 
 export class TestMemoryMonitor {
-  private snapshots: MemorySnapshot[] = [];
-  private startTime: number;
+  private, snapshots: MemorySnapshot[] = [];
+  private, startTime: number
   private memoryLimits: {
     heapUsed: number,
     heapTotal: number,
@@ -43,10 +43,10 @@ export class TestMemoryMonitor {
 
   constructor(limits?: Partial<TestMemoryMonitor['memoryLimits']>) {
     this.startTime = Date.now();
-    this.memoryLimits = {;
-      heapUsed: 200 * 1024 * 1024, // 200MB
-      heapTotal: 300 * 1024 * 1024, // 300MB
-      external: 50 * 1024 * 1024, // 50MB
+    this.memoryLimits = {
+      heapUsed: 200 * 1024 * 1024, // 200MB,
+      heapTotal: 300 * 1024 * 1024, // 300MB,
+      external: 50 * 1024 * 1024, // 50MB,
       rss: 400 * 1024 * 1024, // 400MB
       ...limits
     };
@@ -60,13 +60,13 @@ export class TestMemoryMonitor {
   }
 
   /**
-   * Create a memory monitor with CI-appropriate settings (more restrictive)
+   * Create a memory monitor with CI-appropriate settings (more restrictive);
    */
   static createForCI(): TestMemoryMonitor {
     return new TestMemoryMonitor({
-      heapUsed: 150 * 1024 * 1024, // 150MB
-      heapTotal: 200 * 1024 * 1024, // 200MB
-      external: 30 * 1024 * 1024, // 30MB
+      heapUsed: 150 * 1024 * 1024, // 150MB,
+      heapTotal: 200 * 1024 * 1024, // 200MB,
+      external: 30 * 1024 * 1024, // 30MB,
       rss: 250 * 1024 * 1024, // 250MB
     });
   }
@@ -76,7 +76,7 @@ export class TestMemoryMonitor {
    */
   takeSnapshot(testName: string): MemorySnapshot {
     const usage = process.memoryUsage();
-    const snapshot: MemorySnapshot = {;
+    const, snapshot: MemorySnapshot = {
       timestamp: new Date(),
       testName,
       heapUsed: usage.heapUsed,
@@ -102,8 +102,8 @@ export class TestMemoryMonitor {
    */
   checkMemoryUsage(_testName: string): MemoryCheck {
     const currentUsage = this.getCurrentMemoryUsage();
-    const warnings: string[] = [];
-    const errors: string[] = [];
+    const, warnings: string[] = [];
+    const, errors: string[] = []
 
     // Check against limits
     if (currentUsage.heapUsed > ((this.memoryLimits as any)?.heapUsed || 0) * 0.2) {
@@ -137,7 +137,7 @@ export class TestMemoryMonitor {
     }
 
     return {
-      isWithinLimits: errors.length === 0,;
+      isWithinLimits: errors.length === 0,
       currentUsage,
       warnings,
       errors
@@ -189,9 +189,9 @@ export class TestMemoryMonitor {
     }
 
     const recentSnapshots = this.snapshots.slice(-5); // Last 5 snapshots
-    const increases: number[] = [];
+    const, increases: number[] = [];
 
-    for (let i = 1; i < recentSnapshots.length; i++) {
+    for (let i = 1; i < recentSnapshots.length i++) {
       const increase = recentSnapshots[i].heapUsed - recentSnapshots[i - 1].heapUsed;
       increases.push(increase);
     }
@@ -216,7 +216,7 @@ export class TestMemoryMonitor {
     actions: string[]
   } {
     const beforeCleanup = this.getCurrentMemoryUsage();
-    const actions: string[] = [];
+    const, actions: string[] = [];
 
     try {
       // Clear any test-specific caches
@@ -282,7 +282,7 @@ export class TestMemoryMonitor {
   } {
     const summary = this.getMemorySummary();
     const trend = this.getMemoryTrend();
-    const recommendations: string[] = [];
+    const, recommendations: string[] = [];
 
     // Generate recommendations based on analysis
     if (summary.totalIncrease > 50) {
@@ -338,7 +338,7 @@ export class TestMemoryMonitor {
         snapshotCount: this.snapshots.length
       },
       snapshots: this.snapshots,
-      summary: this.getMemorySummary()
+      summary: this.getMemorySummary();
     };
   }
 }

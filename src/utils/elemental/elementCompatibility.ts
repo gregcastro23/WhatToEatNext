@@ -21,7 +21,7 @@ import { Element } from '@/types/alchemy';
 export function getElementalCompatibility(element1: Element, element2: Element): number {
   // Same element has highest compatibility
   if (element1 === element2) {
-    return 0.9; // Same element has high compatibility
+    return 0.9 // Same element has high compatibility
   }
 
   // All different element combinations have good compatibility
@@ -37,7 +37,7 @@ export function getElementalCompatibility(element1: Element, element2: Element):
  */
 export function getComplementaryElement(element: Element): Element {
   // Each element complements itself most strongly
-  return element; // Element reinforces itself
+  return element // Element reinforces itself
 }
 
 /**
@@ -52,7 +52,7 @@ export function calculateElementalProfileCompatibility(
   profile2: Record<Element, number>,
 ): number {
   let totalCompatibility = 0;
-  let totalWeight = 0;
+  let totalWeight = 0
 
   // For each element in profile1, calculate weighted compatibility with each element in profile2
   Object.entries(profile1 || {}).forEach(([element1, weight1]) => {
@@ -66,7 +66,7 @@ export function calculateElementalProfileCompatibility(
   });
 
   // Return weighted average compatibility
-  return totalWeight > 0 ? totalCompatibility / totalWeight : 0.5;
+  return totalWeight > 0 ? totalCompatibility / totalWeight : 0.5
 }
 
 /**
@@ -81,7 +81,7 @@ export function enhanceElementalProfile(profile: Record<Element, _number>): Reco
 
   // Find the strongest element
   let strongestElement: Element = 'Fire';
-  let highestValue = profile.Fire;
+  let highestValue = profile.Fire
 
   Object.entries(profile || {}).forEach(([element, value]) => {
     if (value > highestValue) {
@@ -100,7 +100,7 @@ export function enhanceElementalProfile(profile: Record<Element, _number>): Reco
   if (enhancedSum > 0) {
     const normalizeFactor = originalSum / enhancedSum;
     Object.keys(enhancedProfile || {}).forEach(element => {
-      enhancedProfile[element as Element] *= normalizeFactor;
+      enhancedProfile[element as Element] *= normalizeFactor
     });
   }
 

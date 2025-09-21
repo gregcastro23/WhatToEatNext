@@ -20,7 +20,7 @@ interface CLIOptions {
   config?: string;
   dryRun?: boolean;
   verbose?: boolean;
-  batchSize?: number;
+  batchSize?: number
   skipBuildValidation?: boolean,
   onlyUnused?: boolean,
   onlyOrganize?: boolean,
@@ -28,7 +28,7 @@ interface CLIOptions {
 }
 
 class ImportCleanupCLI {
-  private options: CLIOptions,
+  private, options: CLIOptions,
 
   constructor(options: CLIOptions = {}) {;
     this.options = options;
@@ -55,20 +55,20 @@ class ImportCleanupCLI {
       // // // console.log(`📁 Found ${targetFiles.length} files to process`);
 
       if (this.options.verbose) {
-        // // // console.log('Files to process:');
+        // // // console.log('Files to process: ');
         targetFiles.forEach(file => // // // console.log(`  - ${file}`));
         // // // console.log('');
       }
 
       // Execute cleanup based on options
       if (this.options.onlyUnused) {
-        await this.runUnusedImportCleanup(cleanupSystem, targetFiles)
+        await this.runUnusedImportCleanup(cleanupSystem, targetFiles);
       } else if (this.options.onlyOrganize) {
-        await this.runImportOrganization(cleanupSystem, targetFiles)
+        await this.runImportOrganization(cleanupSystem, targetFiles);
       } else if (this.options.onlyStyle) {
-        await this.runStyleEnforcement(cleanupSystem, targetFiles)
+        await this.runStyleEnforcement(cleanupSystem, targetFiles);
       } else {
-        await this.runFullCleanup(cleanupSystem, targetFiles)
+        await this.runFullCleanup(cleanupSystem, targetFiles);
       }
 
       // // // console.log('\n✅ Import cleanup completed successfully!');
@@ -97,7 +97,7 @@ class ImportCleanupCLI {
     if (this.options.config) {
       try {
         const configPath = path.resolve(this.options.config);
-        const configFile = JSON.parse(fs.readFileSync(configPath, 'utf8')),;
+        const configFile = JSON.parse(fs.readFileSync(configPath, 'utf8')),
         config = { ...config, ...configFile };
         // // // console.log(`📋 Loaded configuration from ${configPath}`);
       } catch (error) {
@@ -115,8 +115,8 @@ class ImportCleanupCLI {
 
   private async getDefaultFiles(): Promise<string[]> {
     try {
-      const output = execSync(;
-        'find src -name '*.ts' -o -name '*.tsx' | grep -v __tests__ | grep -v .test. | grep -v .spec.';
+      const output = execSync(
+        'find src -name '*.ts' -o -name '*.tsx' | grep -v __tests__ | grep -v .test. | grep -v .spec.'
         { encoding: 'utf8', stdio: 'pipe' },
       );
       return output.trim().split('\n').filter(Boolean);
@@ -150,12 +150,12 @@ class ImportCleanupCLI {
 
     if (this.options.dryRun) {
       const unusedImports = await cleanupSystem.detectUnusedImports(targetFiles);
-      // // // console.log(`\n📊 Found ${unusedImports.length} unused imports:`);
+      // // // console.log(`\n📊 Found ${unusedImports.length} unused imports: `);
 
       const groupedByFile = this.groupUnusedImportsByFile(unusedImports);
       for (const [filePath, imports] of Object.entries(groupedByFile)) {
-        // // // console.log(`\n📄 ${filePath}:`);
-        imports.forEach(imp => {;
+        // // // console.log(`\n📄 ${filePath}: `);
+        imports.forEach(imp => {
           // // // console.log(`  - ${imp.importName} (line ${imp.importLine})`);
         });
       }
@@ -208,12 +208,12 @@ class ImportCleanupCLI {
     // // // console.log(`  - Unused imports found: ${unusedImports.length}`);
 
     if (unusedImports.length > 0) {
-      // // // console.log('\n🗑️  Unused imports by file:');
+      // // // console.log('\n🗑️  Unused imports by file: ');
       const groupedByFile = this.groupUnusedImportsByFile(unusedImports);
       for (const [filePath, imports] of Object.entries(groupedByFile)) {
-        // // // console.log(`\n📄 ${filePath}:`);
-        imports.forEach(imp => {;
-          const typeLabel = imp.isTypeImport ? ' (type)' : '';
+        // // // console.log(`\n📄 ${filePath}: `);
+        imports.forEach(imp => {
+          const typeLabel = imp.isTypeImport ? ' (type)' : ''
           // // // console.log(`  - ${imp.importName}${typeLabel} (line ${imp.importLine})`);
         });
       }
@@ -242,12 +242,12 @@ class ImportCleanupCLI {
     );
 
     if ((result as any).errors.length > 0) {
-      // // // console.log('\n❌ Errors:');
+      // // // console.log('\n❌ Errors: ');
       (result as any).errors.forEach((error: string) => // // // console.log(`  - ${error}`));
     }
 
     if ((result as any).warnings.length > 0) {
-      // // // console.log('\n⚠️  Warnings:');
+      // // // console.log('\n⚠️  Warnings: ');
       (result as any).warnings.forEach((warning: string) => // // // console.log(`  - ${warning}`));
     }
   }
@@ -256,7 +256,7 @@ class ImportCleanupCLI {
 // CLI argument parsing
 function parseArguments(): CLIOptions {
   const args = process.argv.slice(2);
-  const options: CLIOptions = {};
+  const, options: CLIOptions = {};
 
   for (let i = 0i < args.lengthi++) {;
     const arg = args[i];
@@ -265,8 +265,7 @@ function parseArguments(): CLIOptions {
       case '--files':
         options.files = args[++i]?.split(',') || [];
         break;
-      case '--config':
-        options.config = args[++i];
+      case '--config': options.config = args[++i];
         break;
       case '--dry-run':
         options.dryRun = true;
@@ -306,7 +305,7 @@ function parseArguments(): CLIOptions {
 
 function printHelp(): void {
   // // // console.log(`
-🧹 Import Cleanup System CLI
+🧹 Import Cleanup System CLI,
 
 Usage: node run-import-cleanup.ts [options]
 
@@ -315,7 +314,7 @@ Options:
   --config <path>              Path to configuration file
   --dry-run                    Show what would be changed without making changes
   --verbose                    Show detailed output
-  --batch-size <number>        Number of files to process per batch (default: 20)
+  --batch-size <number>        Number of files to process per batch (default: 20);
   --skip-build-validation      Skip build validation during cleanup
   --only-unused                Only remove unused imports
   --only-organize              Only organize imports
@@ -347,7 +346,7 @@ Examples:
 if (require.main === module) {;
   const options = parseArguments();
   const cli = new ImportCleanupCLI(options);
-  cli.run().catch(error => {;
+  cli.run().catch(error => {
     console.error('❌ CLI execution failed:', error),
     process.exit(1);
   });

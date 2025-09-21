@@ -8,8 +8,7 @@
 // Campaign and workflow service types
 export interface CampaignConfig {
   campaignId: string,
-  _campaignType:
-    | 'typescript-fixes'
+  _campaignType: | 'typescript-fixes'
     | 'linting-improvements'
     | 'explicit-any-reduction'
     | 'build-optimization';
@@ -20,12 +19,12 @@ export interface CampaignConfig {
   safetyLevel: 'conservative' | 'standard' | 'aggressive';
   timeoutMs?: number;
   enableBackup?: boolean;
-  validationRequired?: boolean;
+  validationRequired?: boolean
 }
 
 export interface CampaignMetrics {
   startTime: Date;
-  endTime?: Date;
+  endTime?: Date
   filesProcessed: number,
   _filesModified: number,
   _errorsFixed: number,
@@ -61,7 +60,7 @@ export interface CampaignError {
   file?: string;
   line?: number;
   column?: number;
-  context?: string;
+  context?: string
   timestamp: Date
 }
 
@@ -75,8 +74,8 @@ export interface QualityGateConfig {
     errorCount?: number;
     warningCount?: number;
     coveragePercentage?: number;
-    performanceScore?: number;
-    buildTime?: number;
+    performanceScore?: number
+    buildTime?: number
   };
   blocksDeployment: boolean,
   _notificationChannels: string[]
@@ -104,7 +103,7 @@ export interface QualityViolation {
   message: string,
   file?: string;
   rule?: string;
-  suggestion?: string;
+  suggestion?: string
 }
 
 // Alerting and notification service types
@@ -115,7 +114,7 @@ export interface AlertConfig {
   enabled: boolean,
   _channels: ('email' | 'slack' | 'webhook' | 'console')[],
   _conditions: AlertCondition[],
-  throttleMs?: number;
+  throttleMs?: number
   priority: 'low' | 'medium' | 'high' | 'critical'
 }
 
@@ -123,7 +122,7 @@ export interface AlertCondition {
   metric: string,
   operator: '>' | '<' | '=' | '!=' | '>=' | '<=',
   threshold: number,
-  window?: number; // Time window in seconds
+  window?: number // Time window in seconds
 }
 
 export interface Alert {
@@ -136,10 +135,10 @@ export interface Alert {
     _actualValue: number,
     _thresholdValue: number,
     file?: string;
-    context?: string;
+    context?: string
   };
   _resolved: boolean;
-  resolvedAt?: Date;
+  resolvedAt?: Date
 }
 
 // Recipe and data service types
@@ -163,17 +162,17 @@ export interface RecipeQueryParams {
   astrologicalContext?: {
     zodiacSign?: string;
     lunarPhase?: string;
-    elementalPreferences?: string[];
+    elementalPreferences?: string[]
   };
 }
 
 export interface RecipeServiceResult<T = unknown> {;
   success: boolean;
-  data?: T;
+  data?: T
   error?: {
     type: 'validation' | 'network' | 'parsing' | 'system',
     message: string,
-    code?: string;
+    code?: string
   };
   metadata: {
     source: string,
@@ -199,7 +198,7 @@ export interface EnterpriseServiceConfig {
 export interface EnterpriseAnalysisContext {
   requestId: string;
   userId?: string;
-  sessionId?: string;
+  sessionId?: string
   timestamp: Date,
   _parameters: {
     analysisType: string,
@@ -217,7 +216,7 @@ export interface EnterpriseFilter {
 
 export interface EnterpriseServiceResult<T = unknown> {;
   success: boolean;
-  data?: T;
+  data?: T
   confidence: number,
   _processingTime: number,
   _cacheHit: boolean,
@@ -225,7 +224,7 @@ export interface EnterpriseServiceResult<T = unknown> {;
   recommendations: string[],
   metadata: {
     version: string;
-    model?: string;
+    model?: string
     timestamp: Date
   };
 }
@@ -238,7 +237,7 @@ export interface LintingConfig {
   _maxWarnings: number,
   _enableAutoFix: boolean,
   _reportFormat: 'json' | 'table' | 'compact' | 'stylish',
-  outputPath?: string;
+  outputPath?: string
 }
 
 export interface LintingRule {
@@ -246,7 +245,7 @@ export interface LintingRule {
   severity: 'off' | 'warn' | 'error',
   options?: unknown[];
   files?: string[];
-  excludeFiles?: string[];
+  excludeFiles?: string[]
 }
 
 export interface LintingResult {
@@ -258,7 +257,7 @@ export interface LintingResult {
   _fixableWarningCount: number,
   _messages: LintingMessage[],
   source?: string;
-  output?: string;
+  output?: string
 }
 
 export interface LintingMessage {
@@ -268,17 +267,17 @@ export interface LintingMessage {
   line: number,
   column: number,
   endLine?: number;
-  endColumn?: number;
+  endColumn?: number
   fix?: {
     range: [number, number];
     text: string
   };
-  suggestions?: LintingSuggestion[];
+  suggestions?: LintingSuggestion[]
 }
 
 export interface LintingSuggestion {
   desc: string;
-  messageId?: string;
+  messageId?: string
   fix: {
     range: [number, number];
     text: string
@@ -292,7 +291,7 @@ export interface ServiceResponse<T = unknown> {;
   error?: ServiceError;
   timestamp: Date;
   requestId?: string;
-  executionTime?: number;
+  executionTime?: number
 }
 
 export interface ServiceError {
@@ -318,7 +317,7 @@ export interface ServiceFeature {
   name: string,
   enabled: boolean,
   _configuration: Record<string, unknown>;
-  dependencies?: string[];
+  dependencies?: string[]
 }
 
 export interface ServiceDependency {
@@ -326,7 +325,7 @@ export interface ServiceDependency {
   type: 'internal' | 'external',
   _required: boolean,
   healthCheckUrl?: string;
-  timeout?: number;
+  timeout?: number
 }
 
 export interface MonitoringConfig {
@@ -341,7 +340,7 @@ export interface SecurityConfig {
   _authenticationRequired: boolean,
   _rateLimiting: {
     enabled: boolean;
-    requestsPerMinute?: number;
+    requestsPerMinute?: number
   };
   validation: {
     inputSanitization: boolean,
@@ -349,6 +348,6 @@ export interface SecurityConfig {
   };
   encryption: {
     enabled: boolean;
-    algorithm?: string;
+    algorithm?: string
   };
 }

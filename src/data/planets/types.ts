@@ -12,8 +12,8 @@ export interface PlanetData {
   AstronomicalData?: {
     DistanceFromSun?: string;
     DistanceFromEarth?: {
-      Minimum?: string;
-      Maximum?: string;
+      Minimum?: string
+      Maximum?: string
     };
     Diameter?: string;
     SurfaceTemperature?: string;
@@ -28,7 +28,7 @@ export interface PlanetData {
       Surface?: string;
       MagneticField?: string;
       Composition?: string;
-      NotableFeatures?: string;
+      NotableFeatures?: string
     };
   };
   AstrologicalProperties?: {
@@ -36,16 +36,16 @@ export interface PlanetData {
     BeneficType?: string;
     DualDomicile?: {
       Spring?: string;
-      Autumn?: string;
+      Autumn?: string
     };
     HouseJoy?: number;
     CyclePeriod?: {
       Return?: string;
-      Retrograde?: string;
+      Retrograde?: string
     };
     MorningEveningStar?: {
       MorningStar?: string;
-      EveningStar?: string;
+      EveningStar?: string
     };
     CoRules?: string[];
     Exaltation?: string;
@@ -57,20 +57,20 @@ export interface PlanetData {
     Metal?: string;
     BodyParts?: string[];
     Animals?: string[];
-    Stones?: string[];
+    Stones?: string[]
   };
   ElementalConnections?: {
     DayEmission?: string;
     NightEmission?: string;
-    ElementalBridges?: string[];
+    ElementalBridges?: string[]
     SharedElements?: Record<string, string[]>;
-    AssociatedQualities?: string[];
+    AssociatedQualities?: string[]
   };
   HerbalAssociations?: {
     Herbs?: string[];
     Flowers?: string[];
     Woods?: string[];
-    Scents?: string[];
+    Scents?: string[]
   };
   RetrogradeEffect?: {
     Spirit: number,
@@ -78,7 +78,7 @@ export interface PlanetData {
     Matter: number,
     Substance: number
   };
-  FoodAssociations?: string[];
+  FoodAssociations?: string[]
   FlavorProfiles?: {
     Sweet: number,
     Sour: number,
@@ -87,7 +87,7 @@ export interface PlanetData {
     Umami: number,
     Spicy: number
   };
-  CulinaryInfluences?: string[];
+  CulinaryInfluences?: string[]
   AspectsEffect?: Record<
     string,
     {

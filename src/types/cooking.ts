@@ -4,7 +4,7 @@ export interface CookingMethod {
   id: string,
   name: string,
   description: string,
-  elementalEffect?: ElementalProperties;
+  elementalEffect?: ElementalProperties
   duration?: {
     min: number,
     max: number
@@ -24,7 +24,7 @@ export interface CookingMethod {
   safetyFeatures?: string;
   equipmentComplexity?: string;
   regionalVariations?: string;
-  modernVariations?: string;
+  modernVariations?: string
   time_range?:
     | string
     | {
@@ -36,7 +36,7 @@ export interface CookingMethod {
     | {
         min: number,
         max: number,
-        unit?: string;
+        unit?: string
       };
   alchemical_properties?: Record<string, unknown>;
   tools?: string[] | string;
@@ -45,14 +45,14 @@ export interface CookingMethod {
   health_considerations?: string[] | string;
   astrologicalInfluence?: string;
   zodiacResonance?: string[];
-  planetaryInfluences?: string[];
+  planetaryInfluences?: string[]
 }
 
 export interface CookingMethodData extends CookingMethod {
   astrologicalInfluences?: {
     favorableZodiac?: any[];
-    unfavorableZodiac?: any[];
-    dominantPlanets?: string[];
+    unfavorableZodiac?: any[]
+    dominantPlanets?: string[]
   };
 }
 
@@ -80,11 +80,11 @@ export interface EnhancedCookingMethod extends CookingMethod {
   // Elemental transformation tracking
   inputElementalProfile?: ElementalProperties;
   outputElementalProfile?: ElementalProperties;
-  transformationMatrix?: number[][];
+  transformationMatrix?: number[][]
 
   // Advanced astrological integration
   planetaryAlignment?: Record<string, number>;
-  lunarPhaseOptimal?: string[];
+  lunarPhaseOptimal?: string[]
   seasonalResonance?: Record<string, number>;
   zodiacCompatibility?: Record<string, number>;
 }

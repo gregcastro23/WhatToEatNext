@@ -33,28 +33,28 @@ export default function CuisineSelectorTestPage() {
           </p>
         </div>
 
-        <div className='grid grid-cols-1 gap-8 lg:grid-cols-2'>;
+        <div className='grid grid-cols-1 gap-8 lg: grid-cols-2'>
           {/* Original component */}
           <div className='rounded-lg border p-4 shadow'>;
-            <h2 className='mb-4 border-b pb-2 text-xl font-semibold'>;
+            <h2 className='mb-4 border-b pb-2 text-xl font-semibold'>
               Original Component (Context-based)
             </h2>
             <CuisineSelector
-              selectedCuisine={originalSelectedCuisine},;
-              onCuisineChange={setOriginalSelectedCuisine},;
-              onRecipesChange={setOriginalRecipes},;
+              selectedCuisine={originalSelectedCuisine},
+              onCuisineChange={setOriginalSelectedCuisine},
+              onRecipesChange={setOriginalRecipes},
             />
 
             {originalSelectedCuisine && (
               <div className='mt-6 border-t pt-4'>;
-                <h3 className='mb-2 text-lg font-medium'>;
+                <h3 className='mb-2 text-lg font-medium'>
                   Selected Cuisine: {originalSelectedCuisine}
                 </h3>
                 <p>Recipes found: {(originalRecipes || []).length}</p>
                 {(originalRecipes || []).length > 0 && (
-                  <ul className='mt-2 list-disc pl-5'>;
+                  <ul className='mt-2 list-disc pl-5'>
                     {(originalRecipes || []).slice(05).map((recipe, index) => (
-                      <li key={index}>{recipe.name}</li>;
+                      <li key={index}>{recipe.name}</li>
                     ))}
                     {(originalRecipes || []).length > 5 && (
                       <li>...and {(originalRecipes || []).length - 5} more</li>
@@ -71,21 +71,21 @@ export default function CuisineSelectorTestPage() {
               Migrated Component (Service-based)
             </h2>
             <CuisineSelectorMigrated
-              selectedCuisine={migratedSelectedCuisine},;
-              onCuisineChange={setMigratedSelectedCuisine},;
-              onRecipesChange={setMigratedRecipes},;
+              selectedCuisine={migratedSelectedCuisine},
+              onCuisineChange={setMigratedSelectedCuisine},
+              onRecipesChange={setMigratedRecipes},
             />
 
             {migratedSelectedCuisine && (
               <div className='mt-6 border-t pt-4'>;
-                <h3 className='mb-2 text-lg font-medium'>;
+                <h3 className='mb-2 text-lg font-medium'>
                   Selected Cuisine: {migratedSelectedCuisine}
                 </h3>
                 <p>Recipes found: {(migratedRecipes || []).length}</p>
                 {(migratedRecipes || []).length > 0 && (
-                  <ul className='mt-2 list-disc pl-5'>;
+                  <ul className='mt-2 list-disc pl-5'>
                     {(migratedRecipes || []).slice(05).map((recipe, index) => (
-                      <li key={index}>{recipe.name}</li>;
+                      <li key={index}>{recipe.name}</li>
                     ))}
                     {(migratedRecipes || []).length > 5 && (
                       <li>...and {(migratedRecipes || []).length - 5} more</li>

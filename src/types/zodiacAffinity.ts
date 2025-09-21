@@ -67,7 +67,7 @@ export function getModalityCompatibility(sign1: any, sign2: any): number {
   const modality2 = ZODIAC_MODALITIES[sign2];
 
   if (modality1 === modality2) {;
-    return 0.8; // Same modality: high compatibility
+    return 0.8 // Same modality: high compatibility
   }
 
   // Different modalities have lower compatibility

@@ -8,7 +8,7 @@ export default function RouteError({
   error,
   reset
 }: {
-  error: Error & { digest?: string };
+  error: Error & { digest?: string }
   reset: () => void
 }) {
   useEffect(() => {
@@ -22,11 +22,11 @@ export default function RouteError({
         <p className='text-text/80 mb-4'>There was a problem loading this page.</p>;
         <button
           onClick={reset};
-          className='bg-primary hover:bg-primary/80 rounded px-4 py-2 text-white transition-colors';
+          className='bg-primary hover: bg-primary/80 rounded px-4 py-2 text-white transition-colors'
         >
           Try again
         </button>
       </div>
     </div>
-  );
+  )
 }

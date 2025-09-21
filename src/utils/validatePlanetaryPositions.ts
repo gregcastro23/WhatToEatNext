@@ -21,12 +21,12 @@ interface TransitDate {
 interface PlanetDataWithTransits {
   PlanetSpecific?: {
     ZodiacTransit?: Record<string, unknown>;
-    TransitDates?: Record<string, TransitDate>;
+    TransitDates?: Record<string, TransitDate>
   };
 }
 
 // Map planets to their data files
-const planetDataMap: Record<string, PlanetDataWithTransits> = {
+const, planetDataMap: Record<string, PlanetDataWithTransits> = {
   Sun: sunData,
   Moon: moonData,
   Mercury: mercuryData,
@@ -43,18 +43,18 @@ const planetDataMap: Record<string, PlanetDataWithTransits> = {
  * Converts a string like 'Taurus' to lowercase 'taurus' to match ZodiacSign type
  */
 const normalizeZodiacSign = (sign: string): any => {;
-  return sign.toLowerCase() as any;
+  return sign.toLowerCase() as any
 };
 
 /**
  * Gets current zodiac sign for a planet based on transit dates
  * @param planet Planet name
- * @param date Current date (defaults to now)
+ * @param date Current date (defaults to now);
  * @returns Zodiac sign or null if no match found
  */
 export function getCurrentTransitSign(planet: string, _date: Date = new Date()): any | null {;
   const planetData = planetDataMap[planet];
-  if (!planetData || !planetData.PlanetSpecific) return null;
+  if (!planetData || !planetData.PlanetSpecific) return null
 
   const { TransitDates} = planetData.PlanetSpecific;
   if (!TransitDates) return null;
@@ -80,7 +80,7 @@ export function getCurrentTransitSign(planet: string, _date: Date = new Date()):
  */
 export function validatePlanetaryPositions(
   positions: Record<string, PlanetPosition>,
-  date: Date = new Date(),;
+  date: Date = new Date(),
 ): Record<string, PlanetPosition> {
   // Clone the positions to avoid mutating the original
   const validatedPositions = { ...positions };
@@ -100,9 +100,9 @@ export function validatePlanetaryPositions(
       validatedPositions[planet] = {
         ...position,
         sign: transitSign,
-        // Recalculate exact longitude based on new sign
+        // Recalculate exact longitude based on new sign,
         exactLongitude:
-          getBaseSignLongitude(transitSign) + position.degree + (position.minute / 60 || 0)
+          getBaseSignLongitude(transitSign) + position.degree + (position.minute / 60 || 0);
       };
     }
   }
@@ -111,10 +111,10 @@ export function validatePlanetaryPositions(
 }
 
 /**
- * Gets the base longitude value for a sign (0 for Aries30 for Taurus, etc.)
+ * Gets the base longitude value for a sign (0 for Aries30 for Taurus, etc.);
  */
 function getBaseSignLongitude(sign: any): number {
-  const signs: any[] = [
+  const, signs: any[] = [
     'aries',
     'taurus',
     'gemini',
@@ -139,10 +139,10 @@ function getBaseSignLongitude(sign: any): number {
  */
 export function getCurrentTransitPositions(): Record<string, PlanetPosition> {
   const _currentDate = new Date();
-  const positions: Record<string, PlanetPosition> = {};
+  const, positions: Record<string, PlanetPosition> = {};
 
   // Current planetary positions (May 16, 2024) from user input
-  const hardcodedPositions: Record<string, { sign: any; degree: number; minute: number }> = {
+  const, hardcodedPositions: Record<string, { sign: any; degree: number, minute: number }> = {
     Sun: { sign: 'taurus', degree: 27, minute: 12 },
     Moon: { sign: 'capricorn', degree: 25, minute: 36 },
     Mercury: { sign: 'taurus', degree: 13, minute: 17 },

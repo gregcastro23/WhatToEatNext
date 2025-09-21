@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-// ========== PHASE 3: UPDATED IMPORTS TO USE TYPE ALIASES ==========;
+// ========== PHASE, 3: UPDATED IMPORTS TO USE TYPE ALIASES ==========
 import {
   DefaultAstrologicalState,
   DefaultPlanetaryPositions,
@@ -35,9 +35,9 @@ const logger = createLogger('AstrologicalService');
 
 // Set up path for ephemeris data
 const EPHE_PATH =
-  typeof window === 'undefined' ? path.join(process.cwd(), 'public', 'ephe') : '/ephe';
+  typeof window === 'undefined' ? path.join(process.cwd(), 'public', 'ephe') : '/ephe'
 
-const _isEphemerisFileAvailable = (fileName: string): boolean => {;
+const _isEphemerisFileAvailable = (fileName: string): boolean => {
   if (typeof window !== 'undefined') {
     // In browser, we can't synchronously check files, assume true if running client side
     return true
@@ -52,13 +52,13 @@ const _isEphemerisFileAvailable = (fileName: string): boolean => {;
   }
 };
 
-// ========== PHASE 3: STANDARDIZED RESPONSE TYPES ==========;
+// ========== PHASE, 3: STANDARDIZED RESPONSE TYPES ==========
 
 /**
  * Astrological Calculation Response
  * Standardized response for astrological calculations
  */
-export type AstrologicalCalculationResponse = ServiceResponseType<{;
+export type AstrologicalCalculationResponse = ServiceResponseType<{
   planetaryPositions: PlanetaryPositions,
   zodiacSign: StandardZodiacSign,
   lunarPhase: StandardLunarPhase,
@@ -71,13 +71,13 @@ export type AstrologicalCalculationResponse = ServiceResponseType<{;
  * Astrological Analysis Response
  * Comprehensive astrological analysis response
  */
-export type AstrologicalAnalysisResponse = ServiceResponseType<{;
+export type AstrologicalAnalysisResponse = ServiceResponseType<{
   astrologicalState: CompleteAstrologicalState,
   compatibility: number,
   recommendations: string[],
   warnings: string[],
   detailedAnalysis: {
-    planetaryInfluences: Record<string, number>;
+    planetaryInfluences: Record<string, number>
     aspectPatterns: PlanetaryAspectDetails[],
     elementalBalance: ElementalPropertiesType
   };
@@ -96,12 +96,12 @@ export type PlanetName = Planet;
 
 // Export main class and types
 export class AstrologicalService {
-  private static instance: AstrologicalService,
-  private currentState: CompleteAstrologicalState,
+  private static, instance: AstrologicalService,
+  private, currentState: CompleteAstrologicalState,
 
   private constructor() {
     // Initialize with default state
-    this.currentState = {;
+    this.currentState = {
       ...DefaultAstrologicalState;
       elementalInfluence: DefaultAstrologicalState.elementalInfluence
     };
@@ -125,8 +125,7 @@ export class AstrologicalService {
   ): Promise<AstrologicalCalculationResponse> {
     try {
       logger.info('Testing astrological calculations...');
-
-      const mockCalculationResult = {;
+      const mockCalculationResult = {
         planetaryPositions: DefaultPlanetaryPositions,
         zodiacSign: 'aries' as StandardZodiacSign,
         lunarPhase: 'new moon' as StandardLunarPhase,
@@ -137,7 +136,7 @@ export class AstrologicalService {
           Air: 0.25
         } as ElementalPropertiesType,
         accuracy: 0.95,
-        calculationTimestamp: new Date().toISOString()
+        calculationTimestamp: new Date().toISOString();
       };
 
       return createSuccessResponse(mockCalculationResult);
@@ -156,13 +155,12 @@ export class AstrologicalService {
   ): Promise<ServiceResponseType<boolean>> {
     try {
       logger.info('Verifying planetary positions...');
-
-      if (!positions || Object.keys(positions).length === 0) {;
-        return createErrorResponse('No planetary positions provided for verification')
+      if (!positions || Object.keys(positions).length === 0) {
+        return createErrorResponse('No planetary positions provided for verification');
       }
 
       // Validate that all positions are valid zodiac signs
-      const validZodiacSigns: StandardZodiacSign[] = [
+      const, validZodiacSigns: StandardZodiacSign[] = [
         'aries',
         'taurus',
         'gemini',
@@ -177,7 +175,7 @@ export class AstrologicalService {
         'pisces'
       ];
 
-      const isValid = Object.values(positions).every(sign =>;
+      const isValid = Object.values(positions).every(sign =>
         validZodiacSigns.includes(sign.toLowerCase() as StandardZodiacSign);
       );
 
@@ -198,13 +196,13 @@ export class AstrologicalService {
     try {
       logger.info('Testing astrological APIs...');
 
-      const endpoints = apiEndpoints || [;
+      const endpoints = apiEndpoints || [
         '/api/planetary-positions',
         '/api/astrologize',
         '/api/astrology'
       ],
 
-      const results: Record<string, boolean> = {};
+      const, results: Record<string, boolean> = {};
 
       // Mock API testing - in reality, would make actual HTTP requests
       for (const endpoint of endpoints) {
@@ -212,7 +210,7 @@ export class AstrologicalService {
         results[endpoint] = Math.random() > 0.1, // 90% success rate for testing
       }
 
-      const responseData = {;
+      const responseData = {
         testedEndpoints: endpoints,
         results
       };
@@ -229,7 +227,7 @@ export class AstrologicalService {
    * Get current astrological state
    */
   public getCurrentState(): CompleteAstrologicalState {
-    return this.currentState;
+    return this.currentState
   }
 
   /**
@@ -256,7 +254,7 @@ export class AstrologicalService {
   ): Promise<PlanetaryInfluenceResponse> {
     try {
       // Mock planetary influence calculation
-      const influences = {;
+      const influences = {
         planetaryPositions,
         elementalBoost: {
           Fire: 0.25,
@@ -311,7 +309,7 @@ export async function getLatestAstrologicalState(): Promise<AstrologicalCalculat
   try {
     // TODO: Integrate with actual astrologize/alchemize API result cache or state management
     // For now, return a minimal valid state as a placeholder
-    const astrologicalData = {;
+    const astrologicalData = {
       planetaryPositions: DefaultPlanetaryPositions,
       zodiacSign: 'aries' as StandardZodiacSign,
       lunarPhase: 'new moon' as StandardLunarPhase,
@@ -322,7 +320,7 @@ export async function getLatestAstrologicalState(): Promise<AstrologicalCalculat
         Air: 0.25
       } as ElementalPropertiesType,
       accuracy: 1.0,
-      calculationTimestamp: new Date().toISOString()
+      calculationTimestamp: new Date().toISOString();
     };
 
     return createSuccessResponse(astrologicalData);

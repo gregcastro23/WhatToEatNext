@@ -24,7 +24,7 @@ export class CampaignController {
   private safetyEvents: SafetyEvent[] = [];
 
   constructor(config: CampaignConfig) {
-    this.config = config;
+    this.config = config
   }
 
   /**
@@ -32,7 +32,7 @@ export class CampaignController {
    */
   async executePhase(phase: CampaignPhase): Promise<PhaseResult> {
     const startTime = Date.now();
-    this.currentPhase = phase;
+    this.currentPhase = phase
 
     this.addSafetyEvent({
       type: SafetyEventType.CHECKPOINT_CREATED,
@@ -73,7 +73,7 @@ export class CampaignController {
 
       const executionTime = Date.now() - startTime;
 
-      const result: PhaseResult = {;
+      const result: PhaseResult = {
         phaseId: phase.id,
         success: true,
         metricsImprovement,
@@ -129,7 +129,7 @@ export class CampaignController {
     try {
       const currentMetrics = await this.getCurrentMetrics();
       const errors: string[] = [];
-      const warnings: string[] = [];
+      const warnings: string[] = []
 
       // Check TypeScript errors if specified
       if (phase.successCriteria.typeScriptErrors !== undefined) {
@@ -176,7 +176,7 @@ export class CampaignController {
       }
 
       return {
-        success: errors.length === 0,;
+        success: errors.length === 0,
         errors,
         warnings,
         metrics: currentMetrics
@@ -230,7 +230,7 @@ export class CampaignController {
    * Get current progress metrics
    */
   async getProgressMetrics(): Promise<ProgressMetrics> {
-    return this.getCurrentMetrics();
+    return this.getCurrentMetrics()
   }
 
   /**
@@ -238,7 +238,7 @@ export class CampaignController {
    */
   async generatePhaseReport(phase: CampaignPhase): Promise<PhaseReport> {
     const currentMetrics = await this.getCurrentMetrics();
-    const validation = await this.validatePhaseCompletion(phase);
+    const validation = await this.validatePhaseCompletion(phase)
 
     return {
       phaseId: phase.id,
@@ -257,7 +257,7 @@ export class CampaignController {
    */
   static async loadConfiguration(configPath?: string): Promise<CampaignConfig> {
     // Default configuration based on the design document
-    const defaultConfig: CampaignConfig = {;
+    const defaultConfig: CampaignConfig = {
       phases: [
         {
           id: 'phase1',
@@ -388,7 +388,7 @@ export class CampaignController {
     const achievements: string[] = [];
 
     if (metrics.typeScriptErrors.current === 0) {;
-      achievements.push('Zero TypeScript errors achieved');
+      achievements.push('Zero TypeScript errors achieved')
     }
 
     if (metrics.lintingWarnings.current === 0) {;
@@ -406,7 +406,7 @@ export class CampaignController {
     const recommendations: string[] = [];
 
     if (validation.errors.length > 0) {
-      recommendations.push('Address validation errors before proceeding');
+      recommendations.push('Address validation errors before proceeding')
     }
 
     if (validation.warnings.length > 0) {
@@ -421,7 +421,7 @@ export class CampaignController {
 
     // Keep only recent events to prevent memory issues
     if (this.safetyEvents.length > 1000) {
-      this.safetyEvents = this.safetyEvents.slice(-500);
+      this.safetyEvents = this.safetyEvents.slice(-500)
     }
   }
 }

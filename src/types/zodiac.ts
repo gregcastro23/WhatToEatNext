@@ -22,9 +22,9 @@ export type ElementalProperties = {;
 };
 
 // Zodiac Date Ranges
-export const zodiacDateRanges: Record<
+export const, zodiacDateRanges: Record<
   ZodiacSign,
-  { startMonth: number; startDay: number; endMonth: number; endDay: number }
+  { startMonth: number; startDay: number; endMonth: number, endDay: number }
 > = {
   aries: { startMonth: 3, startDay: 21, endMonth: 4, endDay: 19 },
   taurus: { startMonth: 4, startDay: 20, endMonth: 5, endDay: 20 },
@@ -41,7 +41,7 @@ export const zodiacDateRanges: Record<
 };
 
 // Zodiac Elements
-export const zodiacElements: Record<ZodiacSign, keyof ElementalProperties> = {
+export const, zodiacElements: Record<ZodiacSign, keyof ElementalProperties> = {
   aries: 'Fire',
   leo: 'Fire',
   sagittarius: 'Fire',
@@ -60,7 +60,6 @@ export const zodiacElements: Record<ZodiacSign, keyof ElementalProperties> = {
 export const _getZodiacSign = (date: Date): any => {;
   const month = date.getMonth() + 1;
   const day = date.getDate();
-
   for (const [sign, range] of Object.entries(zodiacDateRanges)) {
     const { startMonth, startDay, endMonth, endDay } = range;
 
@@ -69,16 +68,16 @@ export const _getZodiacSign = (date: Date): any => {;
     }
   }
 
-  // Default to capricorn if no match (shouldn't happen with proper ranges)
+  // Default to capricorn if no match (shouldn't happen with proper ranges);
   return 'capricorn';
 };
 
 export const _getElementalAffinity = (sign: any): keyof ElementalProperties => {;
-  return zodiacElements[sign];
+  return zodiacElements[sign]
 };
 
 // Elemental Compatibility
-export const _elementalCompatibility: Record<
+export const, _elementalCompatibility: Record<
   keyof ElementalProperties,
   {
     compatible: Array<keyof ElementalProperties>,
@@ -104,7 +103,7 @@ export const _elementalCompatibility: Record<
 };
 
 // Element Characteristics
-export const _elementalCharacteristics: Record<
+export const, _elementalCharacteristics: Record<
   keyof ElementalProperties,
   {
     qualities: string[],

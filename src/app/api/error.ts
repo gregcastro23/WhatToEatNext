@@ -14,7 +14,7 @@ export function handleApiError(error: unknown): NextResponse {
   // Default to 500 Internal Server Error
   let statusCode = 500;
   let message = 'Internal server error';
-  let details: unknown = undefined;
+  let details: unknown = undefined
 
   // If this is one of our custom API errors, use its status code
   if ((error as ApiError).statusCode) {
@@ -60,7 +60,7 @@ export function validationError(message: string, details?: unknown): NextRespons
  * @returns NextResponse with 404 status
  */
 export function notFoundError(message: string): NextResponse {
-  return handleApiError(new NotFoundError(message));
+  return handleApiError(new NotFoundError(message))
 }
 
 export function handleServerError(error: unknown) {

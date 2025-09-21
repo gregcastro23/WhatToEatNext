@@ -7,10 +7,10 @@
  */
 
 export enum LogLevel {
-  DEBUG = 0,;
-  INFO = 1,;
-  WARN = 2,;
-  ERROR = 3,;
+  DEBUG = 0,
+  INFO = 1,
+  WARN = 2,
+  ERROR = 3,
   SILENT = 4;
 }
 
@@ -20,9 +20,9 @@ export interface LogContext {
   function?: string;
   userId?: string;
   sessionId?: string;
-  requestId?: string;
+  requestId?: string
    
-  // Intentionally any: Logging context needs flexibility for various metadata
+  // Intentionally, any: Logging context needs flexibility for various metadata
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
   [key: string]: any
 }
@@ -34,16 +34,16 @@ export interface LogEntry {
   context?: LogContext;
   error?: Error;
    
-  // Intentionally any: Log data can be of any type for debugging purposes
+  // Intentionally, any: Log data can be of any type for debugging purposes
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-  data?: any;
+  data?: any
 }
 
 class LoggingService {
-  private static instance: LoggingService;
-  private logLevel: LogLevel = LogLevel.INFO;
-  private isDevelopment: boolean;
-  private logBuffer: LogEntry[] = [];
+  private static, instance: LoggingService;
+  private, logLevel: LogLevel = LogLevel.INFO;
+  private, isDevelopment: boolean;
+  private, logBuffer: LogEntry[] = [];
   private maxBufferSize = 1000;
 
   private constructor() {
@@ -51,7 +51,7 @@ class LoggingService {
 
     // Set log level based on environment
     if (this.isDevelopment) {
-      this.logLevel = LogLevel.DEBUG;
+      this.logLevel = LogLevel.DEBUG
     } else if (process.env.NODE_ENV === 'test') {;
       this.logLevel = LogLevel.WARN;
     } else {
@@ -67,7 +67,7 @@ class LoggingService {
   }
 
   public setLogLevel(level: LogLevel): void {
-    this.logLevel = level;
+    this.logLevel = level
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -99,10 +99,10 @@ class LoggingService {
     data?: unknown,
   ): void {
     if (level < this.logLevel) {
-      return;
+      return
     }
 
-    const logEntry: LogEntry = {;
+    const, logEntry: LogEntry = {
       timestamp: new Date(),
       level,
       message,
@@ -130,7 +130,7 @@ class LoggingService {
   private outputToConsole(entry: LogEntry): void {
     const timestamp = entry.timestamp.toISOString();
     const contextStr = entry.context ? this.formatContext(entry.context) : '';
-    const levelStr = LogLevel[entry.level];
+    const levelStr = LogLevel[entry.level]
 
     const baseMessage = `[${timestamp}] ${levelStr}: ${entry.message}${contextStr}`;
 
@@ -156,7 +156,7 @@ class LoggingService {
   }
 
   private formatContext(context: LogContext): string {
-    const parts: string[] = [];
+    const, parts: string[] = []
 
     if (context.component) parts.push(`component=${context.component}`);
     if (context.service) parts.push(`service=${context.service}`);
@@ -166,31 +166,31 @@ class LoggingService {
     if (context.requestId) parts.push(`request=${context.requestId}`);
 
     // Add other context properties
-    Object.keys(context).forEach(key => {;
+    Object.keys(context).forEach(key => {
       if (!['component', 'service', 'function', 'userId', 'sessionId', 'requestId'].includes(key)) {
         parts.push(`${key}=${context[key]}`);
       }
     });
 
-    return parts.length > 0 ? ` [${parts.join(', ')}]` : '';
+    return parts.length > 0 ? ` [${parts.join(', ')}]` : ''
   }
 
   public getLogBuffer(): LogEntry[] {
-    return [...this.logBuffer];
+    return [...this.logBuffer]
   }
 
   public clearLogBuffer(): void {
-    this.logBuffer = [];
+    this.logBuffer = []
   }
 
   public exportLogs(): string {
     return this.logBuffer
-      .map(entry => {;
+      .map(entry => {
         const timestamp = entry.timestamp.toISOString();
         const level = LogLevel[entry.level];
-        const context = entry.context ? this.formatContext(entry.context) : '';
-        const errorStr = entry.error ? ` ERROR: ${entry.error.message}` : '';
-        const dataStr = entry.data ? ` DATA: ${JSON.stringify(entry.data)}` : '';
+        const context = entry.context ? this.formatContext(entry.context) : ''
+        const errorStr = entry.error ? ` ERROR: ${entry.error.message}` : ''
+        const dataStr = entry.data ? ` DATA: ${JSON.stringify(entry.data)}` : ''
 
         return `[${timestamp}] ${level}: ${entry.message}${context}${errorStr}${dataStr}`;
       })
@@ -213,7 +213,7 @@ export const log = {;
   warn: (message: string, context?: LogContext, data?: any) => logger.warn(message, context, data),
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error: (message: string, context?: LogContext, error?: Error, data?: any) =>
-    logger.error(message, context, error, data)
+    logger.error(message, context, error, data);
 };
 
 // Export service for advanced usage

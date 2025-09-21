@@ -28,4 +28,4 @@ export const _THRESHOLD: {
 export const _DEFAULT_MATCH_THRESHOLD: number = 0.6;
 export const _DEFAULT_COMPATIBILITY_THRESHOLD: number = 0.7;
 export const _DEFAULT_LIMIT: number = 10;
-export const _DEFAULT_PRECISION: number = 2;
+export const _DEFAULT_PRECISION: number = 2

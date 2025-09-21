@@ -21,8 +21,8 @@ export interface QualityGateConfig {
   thresholds: {
     maxErrors: number,
     maxWarnings: number,
-    maxExecutionTime: number, // milliseconds
-    minCacheHitRate: number, // percentage
+    maxExecutionTime: number, // milliseconds,
+    minCacheHitRate: number, // percentage,
     maxMemoryUsage: number, // MB
   };
   blockers: {
@@ -70,7 +70,7 @@ export interface QualityViolation {
  */
 export interface DeploymentReadiness {
   ready: boolean,
-  confidence: number, // 0-100
+  confidence: number, // 0-100,
   blockers: string[],
   warnings: string[],
   qualityScore: number, // 0-100
@@ -85,7 +85,7 @@ export interface DeploymentReadiness {
  * Linting Quality Gates Service
  */
 export class LintingQualityGates {
-  private progressTracker: LintingProgressTracker,
+  private, progressTracker: LintingProgressTracker,
   private configFile = '.kiro/quality-gates/config.json';
   private resultsFile = '.kiro/quality-gates/results.json';
   private historyFile = '.kiro/quality-gates/history.json';
@@ -121,8 +121,8 @@ export class LintingQualityGates {
       // Calculate risk level
       const riskLevel = this.calculateRiskLevel(violations, metrics);
 
-      const result: QualityGateResult = {;
-        gateName: config.name;
+      const, result: QualityGateResult = {;
+        gateName: config.name
         passed,
         timestamp: new Date(),
         metrics,
@@ -169,8 +169,8 @@ export class LintingQualityGates {
 
       const riskAssessment = this.assessRisk(gateResult);
 
-      const readiness: DeploymentReadiness = {;
-        ready: gateResult.deploymentApproved && blockers.length === 0,,;
+      const, readiness: DeploymentReadiness = {
+        ready: gateResult.deploymentApproved && blockers.length === 0,,
         confidence,
         blockers,
         warnings,
@@ -209,7 +209,7 @@ export class LintingQualityGates {
       riskLevel: 'low' | 'medium' | 'high' | 'critical',
       violationCount: number
     };
-    blockers: string[];
+    blockers: string[]
     recommendations?: string[],
     performance: { executionTime: number, memoryUsage: number, cacheHitRate: number }
   }> {
@@ -275,13 +275,13 @@ export class LintingQualityGates {
       }
 
       const recent = history.slice(-10), // Last 10 evaluations;
-      const trends: Record<string, 'improving' | 'stable' | 'degrading'> = {
-        errorTrend: this.calculateTrend(recent.map(r => r.metrics.errors)),;
-        warningTrend: this.calculateTrend(recent.map(r => r.metrics.warnings)),;
+      const, trends: Record<string, 'improving' | 'stable' | 'degrading'> = {
+        errorTrend: this.calculateTrend(recent.map(r => r.metrics.errors)),
+        warningTrend: this.calculateTrend(recent.map(r => r.metrics.warnings)),
         performanceTrend: this.calculateTrend(
-          recent.map(r => r.metrics.performanceMetrics.executionTime),,;
+          recent.map(r => r.metrics.performanceMetrics.executionTime),,
         ),
-        qualityTrend: this.calculateTrend(recent.map(r => this.calculateQualityScore(r.metrics))),,;
+        qualityTrend: this.calculateTrend(recent.map(r => this.calculateQualityScore(r.metrics))),,
       };
 
       const overallTrend = this.determineOverallTrend(trends);
@@ -290,7 +290,7 @@ export class LintingQualityGates {
         trends,
         overallTrend,
         recommendations: this.generateTrendRecommendations(trends),
-        alertLevel: this.calculateAlertLevel(trends)
+        alertLevel: this.calculateAlertLevel(trends);
       };
     } catch (error) {
       logger.error('Error monitoring quality trends:', error),
@@ -305,7 +305,7 @@ export class LintingQualityGates {
     config: QualityGateConfig,
     metrics: LintingMetrics,
   ): Promise<QualityViolation[]> {
-    const violations: QualityViolation[] = [];
+    const, violations: QualityViolation[] = []
 
     // Check error thresholds
     if (metrics.errors > config.thresholds.maxErrors) {
@@ -345,7 +345,7 @@ export class LintingQualityGates {
       const parserErrors = await this.checkForParserErrors();
       if (parserErrors.length > 0) {
         violations.push(
-          ...parserErrors.map(error => ({;
+          ...parserErrors.map(error => ({
             type: 'blocker' as const,
             rule: 'parser-error',
             message: error.message,
@@ -363,8 +363,8 @@ export class LintingQualityGates {
 
   private determineGateStatus(config: QualityGateConfig, violations: QualityViolation[]): boolean {
     // Gates fail if there are any critical violations or blockers
-    const criticalViolations = violations.filter(;
-      v => v.severity === 'critical' || v.type === 'blocker';
+    const criticalViolations = violations.filter(
+      v => v.severity === 'critical' || v.type === 'blocker'
     ),
     return criticalViolations.length === 0;
   }
@@ -373,7 +373,7 @@ export class LintingQualityGates {
     violations: QualityViolation[],
     metrics: LintingMetrics,
   ): string[] {
-    const recommendations: string[] = [];
+    const, recommendations: string[] = [];
 
     if (violations.some(v => v.type === 'error')) {;
       recommendations.push('Run automated error fixing tools to reduce error count');
@@ -404,8 +404,8 @@ export class LintingQualityGates {
     // 2. Error count is within acceptable limits
     // 3. No parser errors or other critical issues
 
-    const criticalIssues = violations.filter(;
-      v => v.severity === 'critical' || v.type === 'blocker';
+    const criticalIssues = violations.filter(
+      v => v.severity === 'critical' || v.type === 'blocker'
     ),
     const errorCountAcceptable = metrics.errors <= config.thresholds.maxErrors;
 
@@ -416,7 +416,7 @@ export class LintingQualityGates {
     violations: QualityViolation[],
     metrics: LintingMetrics,
   ): 'low' | 'medium' | 'high' | 'critical' {
-    if (violations.some(v => v.severity === 'critical' || v.type === 'blocker')) {;
+    if (violations.some(v => v.severity === 'critical' || v.type === 'blocker')) {
       return 'critical'
     }
 
@@ -435,9 +435,9 @@ export class LintingQualityGates {
     // Quality score based on error count, warning count, and performance
     const errorPenalty = Math.min(50, metrics.errors * 2);
     const warningPenalty = Math.min(30, ((metrics as any)?.warnings || 0) * 0.2);
-    const performancePenalty = Math.min(20, metrics.performanceMetrics.executionTime / 3000),;
+    const performancePenalty = Math.min(20, metrics.performanceMetrics.executionTime / 3000),
 
-    return Math.max(0, 100 - errorPenalty - warningPenalty - performancePenalty)
+    return Math.max(0, 100 - errorPenalty - warningPenalty - performancePenalty);
   }
 
   private calculateConfidence(gateResult: QualityGateResult): number {
@@ -446,14 +446,14 @@ export class LintingQualityGates {
     // Reduce confidence based on violations
     confidence -= gateResult.violations.filter(v => v.severity === 'critical').length * 30;
     confidence -= gateResult.violations.filter(v => v.severity === 'high').length * 15;
-    confidence -= gateResult.violations.filter(v => v.severity === 'medium').length * 5;
+    confidence -= gateResult.violations.filter(v => v.severity === 'medium').length * 5
 
     // Increase confidence if many issues are auto-fixable
     const autoFixableRatio =
       gateResult.metrics.fixableIssues / Math.max(1, gateResult.metrics.totalIssues);
     confidence += autoFixableRatio * 20;
 
-    return Math.max(0, Math.min(100, confidence))
+    return Math.max(0, Math.min(100, confidence));
   }
 
   private assessRisk(gateResult: QualityGateResult): {
@@ -461,8 +461,8 @@ export class LintingQualityGates {
     factors: string[],
     mitigations: string[]
   } {
-    const factors: string[] = [];
-    const mitigations: string[] = [];
+    const, factors: string[] = [];
+    const, mitigations: string[] = []
 
     if (gateResult.metrics.errors > 0) {
       factors.push(`${gateResult.metrics.errors} linting errors present`);
@@ -475,7 +475,7 @@ export class LintingQualityGates {
     }
 
     return {
-      level: gateResult.riskLevel;
+      level: gateResult.riskLevel
       factors,
       mitigations
     };
@@ -486,19 +486,19 @@ export class LintingQualityGates {
   > {
     try {
       // This would check for TypeScript parser errors
-      const result = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 || true', {;
+      const result = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 || true', {
         encoding: 'utf8'
       });
-      const errors: Array<{ message: string, file?: string, line?: number }> = [];
+      const, errors: Array<{ message: string, file?: string, line?: number }> = [];
 
       // Parse TypeScript compiler output for parser errors
       const lines = result.split('\n');
       for (const line of lines) {
         if (
           line.includes('error TS') &&
-          (line.includes('Cannot find') || line.includes('Parse error'))
+          (line.includes('Cannot find') || line.includes('Parse error'));
         ) {
-          const match = line.match(/^(.+?)\((\d+),\d+\): error TS\d+: (.+)$/),;
+          const match = line.match(/^(.+?)\((\d+),\d+\): error TS\d+: (.+)$/),
           if (match) {
             errors.push({
               file: match[1],
@@ -520,7 +520,7 @@ export class LintingQualityGates {
     if (values.length < 2) return 'stable';
 
     const recent = values.slice(-5);
-    const older = values.slice(-10, -5),;
+    const older = values.slice(-10, -5),
 
     if (older.length === 0) return 'stable';
 
@@ -541,7 +541,7 @@ export class LintingQualityGates {
     const improvingCount = values.filter(t => t === 'improving').length;
     const degradingCount = values.filter(t => t === 'degrading').length;
 
-    if (improvingCount > degradingCount) return 'improving';
+    if (improvingCount > degradingCount) return 'improving'
     if (degradingCount > improvingCount) return 'degrading',
     return 'stable'
   }
@@ -549,7 +549,7 @@ export class LintingQualityGates {
   private generateTrendRecommendations(
     trends: Record<string, 'improving' | 'stable' | 'degrading'>,
   ): string[] {
-    const recommendations: string[] = [];
+    const, recommendations: string[] = [];
 
     if (trends.errorTrend === 'degrading') {;
       recommendations.push('Error count is increasing - investigate recent changes');
@@ -573,7 +573,7 @@ export class LintingQualityGates {
 
     if (degradingCount >= 3) return 'high';
     if (degradingCount >= 2) return 'medium';
-    if (degradingCount >= 1) return 'low';
+    if (degradingCount >= 1) return 'low'
     return 'none'
   }
 
@@ -622,20 +622,20 @@ export class LintingQualityGates {
 
       // Keep only last 50 entries
       const trimmedHistory = history.slice(-50);
-      writeFileSync(this.historyFile, JSON.stringify(trimmedHistory, null, 2))
+      writeFileSync(this.historyFile, JSON.stringify(trimmedHistory, null, 2));
     } catch (error) {
-      logger.error('Error saving quality gate result:', error)
+      logger.error('Error saving quality gate result:', error);
     }
   }
 
   private getQualityGateHistory(): QualityGateResult[] {
     try {
       if (existsSync(this.historyFile)) {
-        const data = readFileSync(this.historyFile, 'utf8'),;
+        const data = readFileSync(this.historyFile, 'utf8'),
         return JSON.parse(data);
       }
     } catch (error) {
-      logger.warn('Error reading quality gate history:', error)
+      logger.warn('Error reading quality gate history:', error);
     }
     return [];
   }
@@ -645,7 +645,7 @@ export class LintingQualityGates {
       const reportFile = `.kiro/quality-gates/cicd-report-${Date.now()}.json`;
       writeFileSync(reportFile, JSON.stringify(report, null, 2));
     } catch (error) {
-      logger.error('Error saving CI/CD report:', error)
+      logger.error('Error saving CI/CD report:', error);
     }
   }
 }

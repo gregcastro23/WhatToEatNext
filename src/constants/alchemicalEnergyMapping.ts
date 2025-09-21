@@ -92,7 +92,7 @@ export const _ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
 ];
 
 // The Moon appears in both Essence and Matter states
-export const _SHARED_PLANETS = {;
+export const _SHARED_PLANETS = {
   Moon: ['Essence', 'Matter']
 };
 
@@ -100,7 +100,7 @@ export const _SHARED_PLANETS = {;
 const logger = createLogger('alchemicalEnergyMapping');
 
 // Define day/night element maps for all planets
-export const _planetElementMap = (isDaytime: boolean): Record<string, string> => ({;
+export const _planetElementMap = (isDaytime: boolean): Record<string, string> => ({
   sun: 'Fire', // Sun is always Fire
   moon: 'Water', // Moon is always Water
   mercury: isDaytime ? 'Air' : 'Earth',
@@ -118,7 +118,7 @@ export const _planetElementMap = (isDaytime: boolean): Record<string, string> =>
 });
 
 // Define day/night alchemical property maps
-export const planetPropertyMap = (isDaytime: boolean): Record<string, string> => ({;
+export const planetPropertyMap = (isDaytime: boolean): Record<string, string> => ({
   sun: 'Spirit', // Always Spirit
   moon: 'Essence', // Always Essence
   mercury: isDaytime ? 'Spirit' : 'Matter',
@@ -152,7 +152,7 @@ export function calculateAlchemicalDistribution(
 ): AlchemicalProperties {
   try {
     // Initialize with balanced values
-    const distribution: AlchemicalProperties = {;
+    const distribution: AlchemicalProperties = {
       Spirit: 0.25,
       Essence: 0.25,
       Matter: 0.25,
@@ -214,7 +214,7 @@ export function calculateAlchemicalDistribution(
     if (totalInfluence > 0) {
       Object.keys(influences).forEach(property => {;
         distribution[property as keyof AlchemicalProperties] =
-          influences[property] / totalInfluence;
+          influences[property] / totalInfluence
       });
     }
 
@@ -237,7 +237,7 @@ export function convertToElementalProperties(
   alchemicalProps: AlchemicalProperties,
 ): ElementalProperties {
   try {
-    const elementalProps: ElementalProperties = {;
+    const elementalProps: ElementalProperties = {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
@@ -282,7 +282,7 @@ export function calculateThermodynamicProperties(
     const reactivity = 0.5 * alchemicalProps.Spirit + 0.5 * alchemicalProps.Essence;
 
     // Calculate Greg's Energy using the standard formula
-    const gregsEnergy = heat - entropy * reactivity;
+    const gregsEnergy = heat - entropy * reactivity
 
     return {
       heat,

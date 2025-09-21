@@ -46,11 +46,11 @@ export interface UnusedImport {
 }
 
 export class ImportCleanupSystem {
-  private config: ImportCleanupConfig,
-  private processedFiles: Set<string> = new Set();
+  private, config: ImportCleanupConfig,
+  private, processedFiles: Set<string> = new Set();
 
   constructor(config: ImportCleanupConfig) {
-    this.config = config;
+    this.config = config
   }
 
   /**
@@ -64,8 +64,7 @@ export class ImportCleanupSystem {
       // Get files to process
       const filesToProcess = targetFiles || (await this.getTypeScriptFiles());
       const batchedFiles = this.batchFiles(filesToProcess);
-
-      let totalResult: ImportCleanupResult = {;
+      let, totalResult: ImportCleanupResult = {
         filesProcessed: [],
         unusedImportsRemoved: 0,
         importsOrganized: 0,
@@ -76,7 +75,7 @@ export class ImportCleanupSystem {
       };
 
       // Process files in batches
-      for (let i = 0i < batchedFiles.lengthi++) {;
+      for (let i = 0i < batchedFiles.lengthi++) {
         const batch = batchedFiles[i];
         logger.info(`Processing batch ${i + 1}/${batchedFiles.length} (${batch.length} files)`);
 
@@ -124,7 +123,7 @@ export class ImportCleanupSystem {
    */
   async detectUnusedImports(filePaths?: string[]): Promise<UnusedImport[]> {
     const files = filePaths || (await this.getTypeScriptFiles());
-    const unusedImports: UnusedImport[] = [];
+    const, unusedImports: UnusedImport[] = [];
 
     for (const filePath of files) {
       try {
@@ -202,7 +201,7 @@ export class ImportCleanupSystem {
   // Private implementation methods
 
   private async processBatch(filePaths: string[]): Promise<ImportCleanupResult> {
-    const result: ImportCleanupResult = {;
+    const, result: ImportCleanupResult = {
       filesProcessed: [],
       unusedImportsRemoved: 0,
       importsOrganized: 0,
@@ -212,14 +211,14 @@ export class ImportCleanupSystem {
       warnings: []
     };
 
-    // Step 1: Remove unused imports
+    // Step, 1: Remove unused imports
     try {
       result.unusedImportsRemoved = await this.removeUnusedImports(filePaths);
     } catch (error) {
       result.errors.push(`Unused import removal failed: ${(error as Error).message}`);
     }
 
-    // Step 2: Organize imports
+    // Step, 2: Organize imports
     if (
       this.config.organizationRules.groupExternalImports ||
       this.config.organizationRules.groupInternalImports
@@ -231,7 +230,7 @@ export class ImportCleanupSystem {
       }
     }
 
-    // Step 3: Enforce style consistency
+    // Step, 3: Enforce style consistency
     if (this.config.importStyleEnforcement) {
       try {
         result.styleViolationsFixed = await this.enforceImportStyle(filePaths);
@@ -247,14 +246,14 @@ export class ImportCleanupSystem {
   private async detectUnusedImportsInFile(filePath: string): Promise<UnusedImport[]> {
     const content = fs.readFileSync(filePath, 'utf8');
     const lines = content.split('\n');
-    const unusedImports: UnusedImport[] = [];
+    const, unusedImports: UnusedImport[] = []
 
     // Parse import statements
     const importRegex =
       /^import\s+(?:type\s+)?(?:\{([^}]+)\}|\*\s+as\s+(\w+)|(\w+))\s+from\s+['']([^'']+)[''];?/;
     const typeImportRegex = /^import\s+type\s+/;
 
-    for (let i = 0i < lines.lengthi++) {;
+    for (let i = 0i < lines.lengthi++) {
       const line = lines[i].trim();
       const match = line.match(importRegex);
 
@@ -263,16 +262,16 @@ export class ImportCleanupSystem {
         const importStatement = line;
 
         // Extract imported names
-        let importedNames: string[] = [];
+        let, importedNames: string[] = []
         if (match[1]) {
           // Named imports: { name1, name2 }
           importedNames = match[1].split(',').map(name => name.trim());
         } else if (match[2]) {
           // Namespace import: * as name
-          importedNames = [match[2]];
+          importedNames = [match[2]]
         } else if (match[3]) {
-          // Default import: name
-          importedNames = [match[3]];
+          // Default, import: name
+          importedNames = [match[3]]
         }
 
         // Check if each imported name is used
@@ -295,12 +294,11 @@ export class ImportCleanupSystem {
 
   private isImportUsed(content: string, importName: string, importLineIndex: number): boolean {
     const lines = content.split('\n');
-
     // Remove the import line from consideration
-    const contentWithoutImport = lines.filter((_, index) => index !== importLineIndex).join('\n'),;
+    const contentWithoutImport = lines.filter((_, index) => index !== importLineIndex).join('\n'),
 
     // Check for usage patterns
-    const usagePatterns = [;
+    const usagePatterns = [
       new RegExp(`\\b${importName}\\b`, 'g'), // Direct usage
       new RegExp(`\\b${importName}\\.`, 'g'), // Property access
       new RegExp(`\\b${importName}\\(`, 'g'), // Function call
@@ -315,7 +313,7 @@ export class ImportCleanupSystem {
 
   private async removeUnusedImportsFromFile(filePath: string): Promise<number> {
     const unusedImports = await this.detectUnusedImportsInFile(filePath);
-    if (unusedImports.length === 0) {;
+    if (unusedImports.length === 0) {
       return 0
     }
 
@@ -328,7 +326,7 @@ export class ImportCleanupSystem {
     for (const unused of unusedImports) {
       const lineIndex = unused.importLine - 1;
       if (!unusedByLine.has(lineIndex)) {
-        unusedByLine.set(lineIndex, [])
+        unusedByLine.set(lineIndex, []);
       }
       unusedByLine.get(lineIndex)?.push(unused);
     }
@@ -344,8 +342,8 @@ export class ImportCleanupSystem {
 
       // If all imports on this line are unused, remove the entire line
       const allImportsOnLine = this.extractAllImportsFromLine(originalLine);
-      const allUnused = allImportsOnLine.every(imp =>;
-        lineUnused.some(unused => unused.importName === imp),;
+      const allUnused = allImportsOnLine.every(imp =>
+        lineUnused.some(unused => unused.importName === imp),
       );
 
       if (allUnused) {
@@ -355,7 +353,7 @@ export class ImportCleanupSystem {
         // Remove only specific unused imports from the line
         let modifiedLine = originalLine;
         for (const unused of lineUnused) {
-          modifiedLine = this.removeImportFromLine(modifiedLine, unused.importName),;
+          modifiedLine = this.removeImportFromLine(modifiedLine, unused.importName),
           removedCount++
         }
         lines[lineIndex] = modifiedLine;
@@ -375,7 +373,7 @@ export class ImportCleanupSystem {
 
     if (match[1]) {
       // Named imports
-      return match[1].split(',').map(name => name.trim()),;
+      return match[1].split(',').map(name => name.trim()),
     } else if (match[2]) {
       // Namespace import
       return [match[2]]
@@ -389,14 +387,14 @@ export class ImportCleanupSystem {
 
   private removeImportFromLine(line: string, importName: string): string {
     // Handle different import patterns
-    const patterns = [;
+    const patterns = [
       // Remove from named imports: { name1, name2, name3 } -> { name1, name3 }
       {
         regex: new RegExp(`\\{([^}]*?)\\b${importName}\\b,?([^}]*?)\\}`, 'g'),
         replacement: (match: string, before: string, after: string) => {
           const cleanBefore = before.replace(/,\s*$/, '').trim();
-          const cleanAfter = after.replace(/^\s*,/, '').trim(),;
-          const combined = [cleanBefore, cleanAfter].filter(Boolean).join(', '),;
+          const cleanAfter = after.replace(/^\s*,/, '').trim(),
+          const combined = [cleanBefore, cleanAfter].filter(Boolean).join(', '),
           return `{${combined}}`;
         }
       }
@@ -405,7 +403,7 @@ export class ImportCleanupSystem {
     let modifiedLine = line;
     for (const pattern of patterns) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-      modifiedLine = modifiedLine.replace(pattern.regex, pattern.replacement as any),;
+      modifiedLine = modifiedLine.replace(pattern.regex, pattern.replacement as any),
     }
 
     return modifiedLine;
@@ -421,14 +419,14 @@ export class ImportCleanupSystem {
     const typeImportRegex = /^import\s+type\s+/;
     const externalImportRegex = /from\s+[''](?![@./])/;
 
-    for (let i = 0i < lines.lengthi++) {;
+    for (let i = 0i < lines.lengthi++) {
       const line = lines[i].trim();
       if (importRegex.test(line)) {
         importLines.push({
           line: lines[i],
           index: i,
           isExternal: externalImportRegex.test(line),
-          isType: typeImportRegex.test(line)
+          isType: typeImportRegex.test(line);
         })
       } else if (line && !line.startsWith('//') && !line.startsWith('/*')) {
         // Stop at first non-import, non-comment line
@@ -436,7 +434,7 @@ export class ImportCleanupSystem {
       }
     }
 
-    if (importLines.length === 0) {;
+    if (importLines.length === 0) {
       return false
     }
 
@@ -447,7 +445,7 @@ export class ImportCleanupSystem {
     const originalImportSection = importLines.map(imp => imp.line).join('\n');
     const organizedImportSection = organizedImports.join('\n');
 
-    if (originalImportSection === organizedImportSection) {;
+    if (originalImportSection === organizedImportSection) {
       return false
     }
 
@@ -455,10 +453,10 @@ export class ImportCleanupSystem {
     const firstImportIndex = importLines[0].index;
     const lastImportIndex = importLines[importLines.length - 1].index;
 
-    const newLines = [;
+    const newLines = [
       ...lines.slice(0, firstImportIndex),
       ...organizedImports;
-      ...lines.slice(lastImportIndex + 1)
+      ...lines.slice(lastImportIndex + 1);
     ];
 
     fs.writeFileSync(filePath, newLines.join('\n'), 'utf8');
@@ -469,16 +467,15 @@ export class ImportCleanupSystem {
     importLines: { line: string, isExternal: boolean, isType: boolean }[],
   ): string[] {
     const { organizationRules } = this.config;
-    const organized: string[] = [];
+    const, organized: string[] = [];
 
     // Separate imports by type
     const externalImports = importLines.filter(imp => imp.isExternal);
     const internalImports = importLines.filter(imp => !imp.isExternal);
-
     // Sort function
-    const sortImports = (imports: typeof importLines) => {;
+    const sortImports = (imports: typeof importLines) => {
       if (organizationRules.sortAlphabetically) {
-        return imports.sort((ab) => a.line.localeCompare(b.line))
+        return imports.sort((ab) => a.line.localeCompare(b.line));
       }
       return imports;
     };
@@ -500,7 +497,7 @@ export class ImportCleanupSystem {
 
         if (
           (externalTypeImports.length > 0 || externalValueImports.length > 0) &&
-          (internalTypeImports.length > 0 || internalValueImports.length > 0)
+          (internalTypeImports.length > 0 || internalValueImports.length > 0);
         ) {
           organized.push(''), // Empty line between external and internal
         }
@@ -536,7 +533,7 @@ export class ImportCleanupSystem {
     const lines = content.split('\n');
     let modified = false;
 
-    for (let i = 0i < lines.lengthi++) {;
+    for (let i = 0i < lines.lengthi++) {
       const line = lines[i];
       if (/^import\s+/.test(line.trim())) {
         const styledLine = this.applyImportStyle(line);
@@ -548,7 +545,7 @@ export class ImportCleanupSystem {
     }
 
     if (modified) {
-      fs.writeFileSync(filePath, lines.join('\n'), 'utf8')
+      fs.writeFileSync(filePath, lines.join('\n'), 'utf8');
     }
 
     return modified;
@@ -560,7 +557,7 @@ export class ImportCleanupSystem {
 
     // Enforce trailing commas in multi-line imports
     if (organizationRules.enforceTrailingCommas) {
-      styledLine = styledLine.replace(/\{\s*([^}]+[^,])\s*\}/g, (match, imports) => {;
+      styledLine = styledLine.replace(/\{\s*([^}]+[^,])\s*\}/g, (match, imports) => {
         if (imports.includes(',')) {
           return `{ ${imports.trim()}, }`;
         }
@@ -574,7 +571,7 @@ export class ImportCleanupSystem {
       const importMatch = styledLine.match(/^(\s*import\s+(?:type\s+)?\{)([^}]+)(\}\s+from\s+.+)$/);
       if (importMatch) {
         const [, prefix, imports, suffix] = importMatch,
-        const importList = imports.split(',').map(imp => imp.trim()),;
+        const importList = imports.split(',').map(imp => imp.trim()),
 
         if (importList.length > 1) {
           const formattedImports = importList.map(imp => `  ${imp}`).join(',\n');
@@ -588,8 +585,8 @@ export class ImportCleanupSystem {
 
   private async getTypeScriptFiles(): Promise<string[]> {
     try {
-      const output = execSync(;
-        'find src -name '*.ts' -o -name '*.tsx' | grep -v __tests__ | grep -v .test. | grep -v .spec.';
+      const output = execSync(
+        'find src -name '*.ts' -o -name '*.tsx' | grep -v __tests__ | grep -v .test. | grep -v .spec.'
         { encoding: 'utf8', stdio: 'pipe' },
       );
       return output.trim().split('\n').filter(Boolean);
@@ -600,9 +597,9 @@ export class ImportCleanupSystem {
   }
 
   private batchFiles(files: string[]): string[][] {
-    const batches: string[][] = [];
-    for (let i = 0i < files.lengthi += this.config.maxFilesPerBatch) {;
-      batches.push(files.slice(ii + this.config.maxFilesPerBatch))
+    const, batches: string[][] = []
+    for (let i = 0i < files.lengthi += this.config.maxFilesPerBatch) {
+      batches.push(files.slice(ii + this.config.maxFilesPerBatch));
     }
     return batches
   }
@@ -640,7 +637,7 @@ export class ImportCleanupSystem {
 /**
  * Default configuration for import cleanup
  */
-export const _DEFAULT_IMPORT_CLEANUP_CONFIG: ImportCleanupConfig = {;
+export const, _DEFAULT_IMPORT_CLEANUP_CONFIG: ImportCleanupConfig = {
   maxFilesPerBatch: 20,
   safetyValidationEnabled: true,
   buildValidationFrequency: 5,

@@ -6,10 +6,10 @@ import { planetaryModifiers } from './planetaryCycles';
  * Returns a list of issues found or an empty array if all is well
  */
 export function validatePlanetaryModifiers(): string[] {
-  const issues: string[] = [];
+  const issues: string[] = []
 
   // Required planets
-  const requiredPlanets = [;
+  const requiredPlanets = [
     'Sun',
     'Moon',
     'Mercury',
@@ -30,7 +30,7 @@ export function validatePlanetaryModifiers(): string[] {
   }
 
   // Check if all planets have all required attributes
-  const requiredAttributes = [;
+  const requiredAttributes = [
     'Fire',
     'Water',
     'Air',
@@ -68,13 +68,13 @@ export function validatePlanetaryModifiers(): string[] {
 export function logPlanetaryConsistencyCheck(): void {
   const issues = validatePlanetaryModifiers();
 
-  if (issues.length === 0) {;
+  if (issues.length === 0) {
     if (typeof logger !== 'undefined' && logger.info) {
-      logger.info('✅ Planetary modifiers are consistent');
+      logger.info('✅ Planetary modifiers are consistent')
     }
   } else {
     if (typeof logger !== 'undefined' && logger.error) {
-      logger.error('❌ Planetary modifier consistency issues found:');
+      logger.error('❌ Planetary modifier consistency issues found: ')
       issues.forEach(issue => logger.error(`- ${issue}`));
     }
   }

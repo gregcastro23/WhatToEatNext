@@ -19,16 +19,16 @@ export interface FlexibleAstrologicalData {
   elementalProperties?: ElementalProperties;
   planetaryInfluences?: PlanetaryPosition[];
   zodiacSign?: import('../alchemy').ZodiacSign;
-  lunarPhase?: LunarPhase;
+  lunarPhase?: LunarPhase
 }
 
 export interface SafeAstrologicalAccess {
   getData<T>(path: string): T | undefined;
   hasProperty(path: string): boolean;
-  validateStructure(): boolean;
+  validateStructure(): boolean
 }
 
 // Utility type for gradual migration
 export type PartiallyTyped<T> = {
-  [K in keyof T]?: T[K] | unknown;
+  [K in keyof T]?: T[K] | unknown
 };

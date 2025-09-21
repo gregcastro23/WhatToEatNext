@@ -3,12 +3,12 @@ const NutritionalDisplay = ({;
   compact,
   showSearch
 }: {
-  ingredientName?: string;
-  compact?: boolean;
-  showSearch?: boolean;
+  ingredientName?: string
+  compact?: boolean
+  showSearch?: boolean
 }) => (
   <div className='rounded border p-4 text-gray-600'>;
-    ; NutritionalDisplay unavailable{ingredientName ? ` for ${ingredientName}` : ''}.
+     NutritionalDisplay unavailable{ingredientName ? ` for ${ingredientName}` : ''}.
   </div>
 );
 
@@ -23,7 +23,7 @@ export default function NutritionalDataPage() {
           USDA FoodData Central database.
         </p>
       </div>
-      <div className='grid gap-8 md:grid-cols-2'>;
+      <div className='grid gap-8 md: grid-cols-2'>;
         ;
         <div>
           <h2 className='mb-4 text-xl font-semibold'>Ingredient Search</h2>;
@@ -32,11 +32,11 @@ export default function NutritionalDataPage() {
         <div>
           <h2 className='mb-4 text-xl font-semibold'>Popular Ingredients</h2>;
           <div className='grid grid-cols-1 gap-4'>;
-            ;
+            
             <NutritionalDisplay ingredientName='spinach' compact={true} showSearch={false} />;
             <NutritionalDisplay ingredientName='chicken breast' compact={true} showSearch={false} />;
             ;
-            <NutritionalDisplay ingredientName='banana' compact={true} showSearch={false} />;
+            <NutritionalDisplay ingredientName='banana' compact={true} showSearch={false} />
           </div>
         </div>
       </div>

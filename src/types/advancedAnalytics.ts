@@ -12,13 +12,13 @@ export interface AstrologicalContext {
   date?: Date;
   sunSign?: string;
   mercuryRetrograde?: boolean;
-  favorableAspects?: string[];
+  favorableAspects?: string[]
 }
 
 export interface PlanetaryPosition {
   sign: string,
   degree: number,
-  isRetrograde?: boolean;
+  isRetrograde?: boolean
 }
 
 export interface LunarPhase {
@@ -29,17 +29,17 @@ export interface LunarPhase {
 export interface CuisineData {
   name: string;
   type?: string;
-  elementalProperties?: ElementalProperties;
+  elementalProperties?: ElementalProperties
   seasonalVariations?: Record<string, unknown>;
   culturalOrigin?: string;
   spiceLevel?: string;
-  commonIngredients?: string[];
+  commonIngredients?: string[]
 }
 
 export interface CulinaryContext {
   recipe?: Recipe;
   ingredients?: Ingredient[];
-  cuisine?: CuisineData;
+  cuisine?: CuisineData
 }
 
 export interface ComplexityAnalysis {

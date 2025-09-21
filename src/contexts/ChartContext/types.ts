@@ -11,14 +11,14 @@ interface PlanetaryAspect {
 export interface ChartData {
   planetaryPositions: Record<string, unknown>;
   ascendant?: string;
-  midheaven?: string;
+  midheaven?: string
   planets: Record<
     string,
     {
       sign: string,
       degree: number,
       isRetrograde?: boolean;
-      exactLongitude?: number;
+      exactLongitude?: number
     }
   >;
   houses?: Record<

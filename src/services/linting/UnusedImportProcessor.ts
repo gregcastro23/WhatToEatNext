@@ -21,7 +21,7 @@ interface ImportCleanupResult {
 }
 
 export class UnusedImportProcessor {
-  private preserveFiles = [;
+  private preserveFiles = [
     'src/calculations/',
     'src/data/planets/',
     'src/utils/reliableAstronomy',
@@ -37,8 +37,7 @@ export class UnusedImportProcessor {
    */
   public async processImportCleanup(): Promise<ImportCleanupResult> {
     log.info('🧹 Processing import cleanup...\n');
-
-    const result: ImportCleanupResult = {;
+    const, result: ImportCleanupResult = {
       filesProcessed: 0,
       importsRemoved: 0,
       importsOrganized: 0,
@@ -47,13 +46,13 @@ export class UnusedImportProcessor {
     };
 
     try {
-      // Step 1: Organize imports using ESLint
+      // Step, 1: Organize imports using ESLint
       await this.organizeImports(result);
 
-      // Step 2: Remove unused imports using ESLint auto-fix
+      // Step, 2: Remove unused imports using ESLint auto-fix
       await this.removeUnusedImports(result);
 
-      // Step 3: Final import organization
+      // Step, 3: Final import organization
       await this.organizeImports(result);
     } catch (error) {
       result.errors.push(`Import cleanup failed: ${error}`);
@@ -67,9 +66,8 @@ export class UnusedImportProcessor {
    */
   private async organizeImports(result: ImportCleanupResult): Promise<void> {
     log.info('📋 Organizing imports...');
-
     try {
-      const output = execSync('yarn lint --fix --rule 'import/order: error' 2>&1', {;
+      const output = execSync('yarn lint --fix --rule 'import/order: error' 2>&1', {
         encoding: 'utf8',
         maxBuffer: 10 * 1024 * 1024
       });
@@ -83,7 +81,7 @@ export class UnusedImportProcessor {
       // ESLint returns non-zero exit code even for successful fixes
       if (error.stdout) {
         const processedFiles = (error.stdout.match(/✓/g) || []).length;
-        result.importsOrganized += processedFiles;
+        result.importsOrganized += processedFiles
         log.info(`✅ Import organization completed (${processedFiles} files processed)`);
       } else {
         result.warnings.push('Import organization completed with warnings');
@@ -103,7 +101,7 @@ export class UnusedImportProcessor {
       const tempConfig = this.createImportCleanupConfig();
       fs.writeFileSync('.eslintrc.import-cleanup.json', JSON.stringify(tempConfig, null, 2)),
 
-      const output = execSync('yarn lint --config .eslintrc.import-cleanup.json --fix 2>&1', {;
+      const output = execSync('yarn lint --config .eslintrc.import-cleanup.json --fix 2>&1', {
         encoding: 'utf8',
         maxBuffer: 10 * 1024 * 1024
       });
@@ -117,7 +115,7 @@ export class UnusedImportProcessor {
       // ESLint returns non-zero exit code even for successful fixes
       if (error.stdout) {
         const processedFiles = (error.stdout.match(/✓/g) || []).length;
-        result.filesProcessed += processedFiles;
+        result.filesProcessed += processedFiles
         log.info(`✅ Unused import removal completed (${processedFiles} files processed)`);
       } else {
         result.warnings.push('Unused import removal completed with warnings');
@@ -169,8 +167,8 @@ export class UnusedImportProcessor {
       },
       overrides: [
         {
-          // Preserve critical astrological and campaign files
-          files: this.preserveFiles.map(pattern => `${pattern}**/*`),,;
+          // Preserve critical astrological and campaign files,
+          files: this.preserveFiles.map(pattern => `${pattern}**/*`),,
           rules: {
             '@typescript-eslint/no-unused-vars': [
               'warn',
@@ -192,7 +190,6 @@ export class UnusedImportProcessor {
    */
   public async validateChanges(): Promise<boolean> {
     log.info('\n🔍 Validating import changes...');
-
     try {
       // Check TypeScript compilation
       execSync('yarn tsc --noEmit --skipLibCheck', {
@@ -214,16 +211,16 @@ export class UnusedImportProcessor {
     try {
       // Count TypeScript/JavaScript files
       const totalFilesOutput = execSync(;
-        'find src -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' | wc -l';
+        'find src -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' | wc -l'
         {
           encoding: 'utf8'
         },
       );
       const totalFiles = parseInt(totalFilesOutput.trim()) || 0;
 
-      // Count unused import warnings (approximate)
+      // Count unused import warnings (approximate);
       const unusedImportsOutput = execSync(;
-        'yarn lint --format=compact 2>&1 | grep -E 'is defined but never used.*import' | wc -l',,;
+        'yarn lint --format=compact 2>&1 | grep -E 'is defined but never used.*import' | wc -l',,
         {
           encoding: 'utf8'
         },

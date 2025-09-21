@@ -58,7 +58,7 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
       const planetaryPositions = {};
 
       // Handle the actual astrologicalData structure from debug output
-      // The data structure shows planets as direct keys: Sun, moon, Mercury, etc.
+      // The data structure shows planets as direct, keys: Sun, moon, Mercury, etc.
       const planetMap = {;
         Sun: 'Sun',
         moon: 'Moon',
@@ -105,7 +105,7 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
         }
       });
 
-      const recData = await recommendationService.generateRecommendations(;
+      const recData = await recommendationService.generateRecommendations(
         positionsForRecs,
         ingredientsArray as unknown as UnifiedIngredient[],
         cookingMethodsArray as unknown as CookingMethod[],
@@ -123,7 +123,7 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   useEffect(() => {
-    void refreshData()
+    void refreshData();
   }, [refreshData]);
 
   const value = {;
@@ -143,7 +143,7 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
 export const useUnifiedState = () => {;
   const context = useContext(UnifiedContext);
   if (context === undefined) {;
-    throw new Error('useUnifiedState must be used within a UnifiedStateProvider')
+    throw new Error('useUnifiedState must be used within a UnifiedStateProvider');
   }
   return context;
 };

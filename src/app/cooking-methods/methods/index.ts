@@ -28,7 +28,7 @@ export interface CookingMethodInfo {
   safetyFeatures?: string;
   equipmentComplexity?: string;
   regionalVariations?: string;
-  modernVariations?: string;
+  modernVariations?: string
   time_range?:
     | string
     | {
@@ -40,7 +40,7 @@ export interface CookingMethodInfo {
     | {
         min: number,
         max: number,
-        unit?: string;
+        unit?: string
       };
   alchemical_properties?: Record<string, unknown>;
   tools?: string[] | string;
@@ -49,7 +49,7 @@ export interface CookingMethodInfo {
   health_considerations?: string[] | string;
   astrologicalInfluence?: string;
   zodiacResonance?: string[];
-  planetaryInfluences?: string[];
+  planetaryInfluences?: string[]
 }
 
 // Export a default empty object for now

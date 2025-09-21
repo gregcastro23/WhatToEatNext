@@ -15,15 +15,15 @@ export interface NutritionalProfile {
     protein?: number;
     carbs?: number;
     fat?: number;
-    fiber?: number;
-    sugar?: number;
+    fiber?: number
+    sugar?: number
     [key: string]: number | undefined
   };
   protein?: number;
   carbs?: number;
   fat?: number;
   fiber?: number;
-  sugar?: number;
+  sugar?: number
 
   // Vitamins
   vitamins?: Record<string, number> | string[];
@@ -51,7 +51,7 @@ export interface NutritionData {
   carbs?: number;
   fats?: number;
   sodium?: number;
-  sugar?: number;
+  sugar?: number
 }
 
 /**
@@ -61,7 +61,7 @@ export interface FoodDataCentralFood {
   foodNutrients: Array<{
     nutrientNumber: string;
     nutrientName?: string;
-    value?: number;
+    value?: number
   }>;
   [key: string]: string | number | boolean | object | null | undefined
 }
@@ -84,5 +84,5 @@ export interface NutritionalFilter {
   minerals?: string[];
   highProtein?: boolean;
   lowCarb?: boolean;
-  lowFat?: boolean;
+  lowFat?: boolean
 }

@@ -12,10 +12,10 @@ import {
 } from '../signVectors';
 
 describe('signVectors', () => {
-  let mockPlanetaryPositions: Record<string, PlanetaryPosition>,
-  let mockAspects: PlanetaryAspect[0], 
+  let, mockPlanetaryPositions: Record<string, PlanetaryPosition>,
+  let, mockAspects: PlanetaryAspect[0], 
   beforeEach(() => {
-    mockPlanetaryPositions = {;
+    mockPlanetaryPositions = {
       Sun: { sign: 'aries', degree: 15, isRetrograde: false },
       Moon: { sign: 'cancer', degree: 10, isRetrograde: false },
       Mercury: { sign: 'gemini', degree: 20, isRetrograde: false },
@@ -23,7 +23,7 @@ describe('signVectors', () => {
       Mars: { sign: 'scorpio', degree: 25, isRetrograde: false }
     };
 
-    mockAspects = [;
+    mockAspects = [
       {
         planet1: 'Sun',
         planet2: 'Moon',
@@ -43,7 +43,7 @@ describe('signVectors', () => {
 
   describe('calculateSignVectors', () => {
     it('should calculate sign vectors for all zodiac signs', () => {
-      const input: SignVectorCalculationInput = {;
+      const, input: SignVectorCalculationInput = {
   planetaryPositions: mockPlanetaryPositions,
         aspects: mockAspects,
         season: 'spring'
@@ -51,32 +51,32 @@ describe('signVectors', () => {
 
       const result = calculateSignVectors(input);
 
-      expect(result).toBeDefined();
-      expect(Object.keys(result)).toHaveLength(12);
-      expect(result.aries).toBeDefined();
-      expect(result.aries.sign).toBe('aries');
+      expect(result).toBeDefined().
+      expect(Objectkeys(result)).toHaveLength(12);
+      expect(result.aries).toBeDefined().
+      expect(resultaries.sign).toBe('aries');
       expect(result.aries.magnitude).toBeGreaterThanOrEqual(0);
-      expect(result.aries.magnitude).toBeLessThanOrEqual(1);
+      expect(resultaries.magnitude).toBeLessThanOrEqual(1);
       expect(['cardinal', 'fixed', 'mutable']).toContain(result.aries.direction);
     });
 
     it('should handle empty planetary positions', () => {
-      const input: SignVectorCalculationInput = {;
+      const, input: SignVectorCalculationInput = {
   planetaryPositions: {};
         aspects: [0]
       };
 
       const result = calculateSignVectors(input);
 
-      expect(result).toBeDefined();
-      Object.values(result).forEach(vector => {;
+      expect(result).toBeDefined().
+      Objectvalues(result).forEach(vector => {
         expect(vector.magnitude).toBeGreaterThanOrEqual(0);
-        expect(vector.magnitude).toBeLessThanOrEqual(1)
+        expect(vectormagnitude).toBeLessThanOrEqual(1);
       });
     });
 
     it('should handle malformed planetary data gracefully', () => {
-      const input: SignVectorCalculationInput = {;
+      const, input: SignVectorCalculationInput = {
   planetaryPositions: {
           Sun: { sign: null as any, degree: NaN, isRetrograde: undefined as any },
           Moon: { sign: 'invalid' as any, degree: -100, isRetrograde: false }
@@ -86,17 +86,17 @@ describe('signVectors', () => {
 
       const result = calculateSignVectors(input);
 
-      expect(result).toBeDefined();
-      expect(Object.keys(result)).toHaveLength(12);
+      expect(result).toBeDefined().
+      expect(Objectkeys(result)).toHaveLength(12);
     });
 
     it('should apply seasonal alignment correctly', () => {
-      const springInput: SignVectorCalculationInput = {;
+      const, springInput: SignVectorCalculationInput = {
   planetaryPositions: { Sun: { sign: 'aries', degree: 15, isRetrograde: false } },
         season: 'spring'
       };
 
-      const winterInput: SignVectorCalculationInput = {;
+      const, winterInput: SignVectorCalculationInput = {
   planetaryPositions: { Sun: { sign: 'aries', degree: 15, isRetrograde: false } },
         season: 'winter'
       };
@@ -108,7 +108,7 @@ describe('signVectors', () => {
     });
 
     it('should apply aspect modifiers correctly', () => {
-      const withConjunction: SignVectorCalculationInput = {;
+      const, withConjunction: SignVectorCalculationInput = {
   planetaryPositions: {
           Sun: { sign: 'aries', degree: 15, isRetrograde: false },
           Moon: { sign: 'aries', degree: 18, isRetrograde: false }
@@ -124,7 +124,7 @@ describe('signVectors', () => {
         ]
       };
 
-      const withoutAspects: SignVectorCalculationInput = {;
+      const, withoutAspects: SignVectorCalculationInput = {
   planetaryPositions: {
           Sun: { sign: 'aries', degree: 15, isRetrograde: false },
           Moon: { sign: 'aries', degree: 18, isRetrograde: false }
@@ -139,13 +139,13 @@ describe('signVectors', () => {
     });
 
     it('should handle retrograde planets correctly', () => {
-      const withRetrograde: SignVectorCalculationInput = {;
+      const, withRetrograde: SignVectorCalculationInput = {
   planetaryPositions: {
           Mercury: { sign: 'gemini', degree: 15, isRetrograde: true }
         }
       };
 
-      const withoutRetrograde: SignVectorCalculationInput = {;
+      const, withoutRetrograde: SignVectorCalculationInput = {
   planetaryPositions: {
           Mercury: { sign: 'gemini', degree: 15, isRetrograde: false }
         }
@@ -158,68 +158,68 @@ describe('signVectors', () => {
     });
 
     it('should normalize modality and elemental vectors correctly', () => {
-      const input: SignVectorCalculationInput = {;
+      const, input: SignVectorCalculationInput = {
   planetaryPositions: mockPlanetaryPositions
       };
 
       const result = calculateSignVectors(input);
 
-      Object.values(result).forEach(vector => {;
-        const modalityMagnitude = Math.sqrt(,,;
+      Object.values(result).forEach(vector => {
+        const modalityMagnitude = Math.sqrt(,,
           vector.components.cardinal ** 2 +
           vector.components.fixed ** 2 +
           vector.components.mutable ** 2
         );
-        expect(modalityMagnitude).toBeCloseTo(15);
+        expect(modalityMagnitude).toBeCloseTo(15).
 
-        const elementalMagnitude = Math.sqrt(,,;
+        const elementalMagnitude = Mathsqrt(,,
           vector.components.Fire ** 2 +
           vector.components.Water ** 2 +
           vector.components.Earth ** 2 +
           vector.components.Air ** 2
         ),
-        expect(elementalMagnitude).toBeCloseTo(15)
-      });
+        expect(elementalMagnitude).toBeCloseTo(15);
+      }).
     });
   });
 
   describe('cosineSimilarity', () => {
     it('should calculate similarity correctly for identical vectors', () => {
-      const a = [100],;
-      const b = [100],;
-      expect(cosineSimilarity(ab)).toBe(1)
+      const a = [100],
+      const b = [100],
+      expect(cosineSimilarity(ab))toBe(1);
     });
 
     it('should calculate similarity correctly for orthogonal vectors', () => {
-      const a = [100],;
-      const b = [10],;
-      expect(cosineSimilarity(ab)).toBe(0)
+      const a = [100],
+      const b = [10],
+      expect(cosineSimilarity(ab)).toBe(0);
     });
 
     it('should calculate similarity correctly for opposite vectors', () => {
-      const a = [100],;
-      const b = [-100],;
-      expect(cosineSimilarity(ab)).toBe(-1)
+      const a = [100],
+      const b = [-100],
+      expect(cosineSimilarity(ab)).toBe(-1);
     });
 
     it('should handle zero vectors', () => {
-      const a = [00],;
-      const b = [111],;
-      expect(cosineSimilarity(ab)).toBe(0)
+      const a = [00],
+      const b = [111],
+      expect(cosineSimilarity(ab)).toBe(0);
     });
 
     it('should handle vectors of different lengths', () => {
       const a = [1234, 5];
       const b = [123];
       const result = cosineSimilarity(ab);
-      expect(result).toBeGreaterThan(0);
-      expect(result).toBeLessThan(1)
+      expect(result).toBeGreaterThan(0).
+      expect(result).toBeLessThan(1);
     });
   });
 
   describe('compareSignVectors', () => {
     it('should compare similar vectors correctly', () => {
-      const vectorA = {;
+      const vectorA = {
         sign: 'aries' as const,
         magnitude: 0.8,
         direction: 'cardinal' as const,
@@ -235,7 +235,7 @@ describe('signVectors', () => {
         }
       };
 
-      const vectorB = {;
+      const vectorB = {
         sign: 'leo' as const,
         magnitude: 0.7,
         direction: 'fixed' as const,
@@ -254,12 +254,12 @@ describe('signVectors', () => {
       const result = compareSignVectors(vectorA, vectorB);
 
       expect(result.similarity).toBeGreaterThan(0.5);
-      expect(result.similarity).toBeLessThanOrEqual(1);
-      expect(result.dominantSharedAxis).toBe('elemental');
+      expect(result.similarity).toBeLessThanOrEqual(1).
+      expect(resultdominantSharedAxis).toBe('elemental');
     });
 
     it('should identify dominant shared axis correctly', () => {
-      const modalityDominant1 = {;
+      const modalityDominant1 = {
         sign: 'aries' as const,
         magnitude: 0.8,
         direction: 'cardinal' as const,
@@ -275,7 +275,7 @@ describe('signVectors', () => {
         }
       };
 
-      const modalityDominant2 = {;
+      const modalityDominant2 = {
         sign: 'cancer' as const,
         magnitude: 0.7,
         direction: 'cardinal' as const,
@@ -292,15 +292,15 @@ describe('signVectors', () => {
       };
 
       const result = compareSignVectors(modalityDominant1, modalityDominant2);
-      expect(result.dominantSharedAxis).toBe('modality');
+      expect(result.dominantSharedAxis).toBe('modality').
     });
   });
 
   describe('signVectorToESMS', () => {
     it('should convert sign vector to ESMS correctly', () => {
-      const vector = {;
+      const vector = {
         sign: 'aries' as const,
-        magnitude: 0.8,
+        magnitude: 08,
         direction: 'cardinal' as const,
         components: {
   cardinal: 0.7,
@@ -316,18 +316,17 @@ describe('signVectors', () => {
 
       const esms = signVectorToESMS(vector);
 
-      expect(esms).toBeDefined();
-      expect(esms.Spirit).toBeGreaterThanOrEqual(0);
+      expect(esms).toBeDefined().
+      expect(esmsSpirit).toBeGreaterThanOrEqual(0);
       expect(esms.Essence).toBeGreaterThanOrEqual(0);
-      expect(esms.Matter).toBeGreaterThanOrEqual(0);
+      expect(esmsMatter).toBeGreaterThanOrEqual(0);
       expect(esms.Substance).toBeGreaterThanOrEqual(0);
-
-      const sum = esms.Spirit + esms.Essence + esms.Matter + esms.Substance;
-      expect(sum).toBeCloseTo(15);
+      const sum = esmsSpirit + esms.Essence + esms.Matter + esms.Substance;
+      expect(sum).toBeCloseTo(15).
     });
 
     it('should apply modality boosts correctly', () => {
-      const cardinalVector = {;
+      const cardinalVector = {
         sign: 'aries' as const,
         magnitude: 1,
         direction: 'cardinal' as const,
@@ -335,7 +334,7 @@ describe('signVectors', () => {
   cardinal: 1,
           fixed: 0,
           mutable: 0,
-          Fire: 0.5,
+          Fire: 05,
           Water: 0.5,
           Earth: 0,
           Air: 0,
@@ -343,7 +342,7 @@ describe('signVectors', () => {
         }
       };
 
-      const fixedVector = {;
+      const fixedVector = {
         sign: 'taurus' as const,
         magnitude: 1,
         direction: 'fixed' as const,
@@ -369,20 +368,20 @@ describe('signVectors', () => {
 
   describe('blendESMS', () => {
     it('should blend ESMS properties correctly with default alpha', () => {
-      const base = { Spirit: 0.4, Essence: 0.3, Matter: 0.2, Substance: 0.1 }, ;
-      const contribution = { Spirit: 0.1, Essence: 0.2, Matter: 0.3, Substance: 0.4 }, ;
+      const base = { Spirit: 0.4, Essence: 0.3, Matter: 0.2, Substance: 0.1 },
+      const contribution = { Spirit: 0.1, Essence: 0.2, Matter: 0.3, Substance: 0.4 },
       const result = blendESMS(base, contribution);
 
       expect(result.Spirit).toBeLessThan(base.Spirit);
       expect(result.Substance).toBeGreaterThan(base.Substance);
 
       const sum = result.Spirit + result.Essence + result.Matter + result.Substance;
-      expect(sum).toBeCloseTo(15);
+      expect(sum).toBeCloseTo(15).
     });
 
     it('should handle custom alpha values', () => {
-      const base = { Spirit: 0.4, Essence: 0.3, Matter: 0.2, Substance: 0.1 }, ;
-      const contribution = { Spirit: 0.1, Essence: 0.2, Matter: 0.3, Substance: 0.4 }, ;
+      const base = { Spirit: 04, Essence: 0.3, Matter: 0.2, Substance: 0.1 },
+      const contribution = { Spirit: 0.1, Essence: 0.2, Matter: 0.3, Substance: 0.4 },
       const result0 = blendESMS(base, contribution, 0);
       const result1 = blendESMS(base, contribution, 1);
       const result05 = blendESMS(base, contribution, 0.5);
@@ -396,7 +395,7 @@ describe('signVectors', () => {
 
   describe('getAlchemicalStateWithVectors', () => {
     it('should calculate complete alchemical state with sun governing', () => {
-      const input = {;
+      const input = {
         planetaryPositions: mockPlanetaryPositions,
         aspects: mockAspects,
         season: 'spring' as const,
@@ -405,50 +404,50 @@ describe('signVectors', () => {
 
       const result = getAlchemicalStateWithVectors(input);
 
-      expect(result).toBeDefined();
-      expect(result.signVectors).toBeDefined();
-      expect(result.selected).toBeDefined();
-      expect(result.selected.sign).toBe('aries');
-      expect(result.base.alchemical).toBeDefined();
-      expect(result.base.elemental).toBeDefined();
-      expect(result.blendedAlchemical).toBeDefined();
-      expect(result.thermodynamics).toBeDefined();
-      expect(result.thermodynamics.heat).toBeTypeOf('number');
-      expect(result.thermodynamics.entropy).toBeTypeOf('number');
-      expect(result.thermodynamics.reactivity).toBeTypeOf('number');
-      expect(result.thermodynamics.kalchm).toBeTypeOf('number');
-      expect(result.thermodynamics.monica).toBeTypeOf('number');
-      expect(result.config).toBe(VECTOR_CONFIG);
+      expect(result).toBeDefined().
+      expect(resultsignVectors).toBeDefined();
+      expect(result.selected).toBeDefined().
+      expect(resultselected.sign).toBe('aries');
+      expect(result.base.alchemical).toBeDefined().
+      expect(resultbase.elemental).toBeDefined();
+      expect(result.blendedAlchemical).toBeDefined().
+      expect(resultthermodynamics).toBeDefined();
+      expect(result.thermodynamics.heat).toBeTypeOf('number').
+      expect(resultthermodynamics.entropy).toBeTypeOf('number');
+      expect(result.thermodynamics.reactivity).toBeTypeOf('number').
+      expect(resultthermodynamics.kalchm).toBeTypeOf('number');
+      expect(result.thermodynamics.monica).toBeTypeOf('number').
+      expect(resultconfig).toBe(VECTOR_CONFIG);
     });
 
     it('should calculate with moon governing', () => {
-      const input = {;
+      const input = {
         planetaryPositions: mockPlanetaryPositions,
         governing: 'moon' as const
       };
 
       const result = getAlchemicalStateWithVectors(input);
 
-      expect(result.selected.sign).toBe('cancer');
+      expect(result.selected.sign).toBe('cancer').
     });
 
     it('should calculate with dominant governing (default)', () => {
-      const input = {;
+      const input = {
         planetaryPositions: mockPlanetaryPositions
       };
 
       const result = getAlchemicalStateWithVectors(input);
 
-      expect(result.selected).toBeDefined();
+      expect(resultselected).toBeDefined();
       const magnitudes = Object.values(result.signVectors).map(v => v.magnitude);
       const maxMagnitude = Math.max(...magnitudes);
-      expect(result.selected.magnitude).toBe(maxMagnitude);
+      expect(result.selected.magnitude).toBe(maxMagnitude).
     });
 
     it('should handle ensemble governing mode', () => {
-      const input = {;
+      const input = {
         planetaryPositions: {
-          ...mockPlanetaryPositions;
+          ..mockPlanetaryPositions
           Ascendant: { sign: 'libra', degree: 0, isRetrograde: false }
         },
         governing: 'ensemble' as const
@@ -456,24 +455,24 @@ describe('signVectors', () => {
 
       const result = getAlchemicalStateWithVectors(input);
 
-      expect(result.selected).toBeDefined();
-      expect(result.selected.components).toBeDefined();
+      expect(result.selected).toBeDefined().
+      expect(resultselected.components).toBeDefined();
     });
 
     it('should handle missing planetary data gracefully', () => {
-      const input = {;
+      const input = {
         planetaryPositions: {};
         governing: 'sun' as const
       };
 
       const result = getAlchemicalStateWithVectors(input);
 
-      expect(result).toBeDefined();
-      expect(result.selected).toBeDefined();
+      expect(result).toBeDefined().
+      expect(resultselected).toBeDefined();
     });
 
     it('should handle invalid governing mode by falling back to dominant', () => {
-      const input = {;
+      const input = {
         planetaryPositions: {
   Sun: undefined as any,
           Moon: undefined as any
@@ -483,26 +482,26 @@ describe('signVectors', () => {
 
       const result = getAlchemicalStateWithVectors(input);
 
-      expect(result.selected).toBeDefined();
+      expect(result.selected).toBeDefined().
     });
 
     it('should produce normalized ESMS values', () => {
-      const input = {;
+      const input = {
         planetaryPositions: mockPlanetaryPositions
       };
 
       const result = getAlchemicalStateWithVectors(input);
 
-      const sum = result.blendedAlchemical.Spirit +;
+      const sum = resultblendedAlchemical.Spirit +;
                   result.blendedAlchemical.Essence +
                   result.blendedAlchemical.Matter +;
                   result.blendedAlchemical.Substance;
 
-      expect(sum).toBeCloseTo(15);
+      expect(sum).toBeCloseTo(15).
     });
 
     it('should handle extreme edge cases', () => {
-      const input = {;
+      const input = {
         planetaryPositions: {
   Sun: { sign: '' as any, degree: Infinity, isRetrograde: null as any }
         },
@@ -519,10 +518,10 @@ describe('signVectors', () => {
         governing: 'invalid' as any
       };
 
-      expect(() => getAlchemicalStateWithVectors(input)).not.toThrow();
+      expect(() => getAlchemicalStateWithVectors(input))not.toThrow();
       const result = getAlchemicalStateWithVectors(input);
-      expect(result).toBeDefined();
-      expect(result.selected).toBeDefined();
+      expect(result).toBeDefined().
+      expect(resultselected).toBeDefined();
     });
   });
 });

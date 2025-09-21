@@ -20,7 +20,7 @@ interface StateCache<T> {
 }
 
 // Ensure ZodiacSign type is properly capitalized
-const ZODIAC_SIGNS: any[] = [
+const, ZODIAC_SIGNS: any[] = [
   'aries',
   'taurus',
   'gemini',
@@ -35,8 +35,8 @@ const ZODIAC_SIGNS: any[] = [
   'pisces'
 ];
 
-let astrologyCache: StateCache<AstrologicalState> | null = null;
-const CACHE_DURATION = 15 * 60 * 1000; // 15 minutes
+let, astrologyCache: StateCache<AstrologicalState> | null = null;
+const CACHE_DURATION = 15 * 60 * 1000 // 15 minutes
 
 /**
  * Get the current reliable planetary positions
@@ -44,7 +44,7 @@ const CACHE_DURATION = 15 * 60 * 1000; // 15 minutes
  * @returns Record of planetary positions with sign, degree, and other data
  */
 export function getReliablePlanetaryPositions(): Record<string, CelestialPosition> {
-  const positions: Record<string, CelestialPosition> = {
+  const, positions: Record<string, CelestialPosition> = {
     Sun: { sign: 'aries', degree: 8.63, exactLongitude: 8.63, isRetrograde: false },
     Moon: { sign: 'aries', degree: 3.48, exactLongitude: 3.48, isRetrograde: false },
     _Mercury: { sign: 'aries', degree: 0.75, exactLongitude: 0.75, isRetrograde: true },
@@ -65,10 +65,10 @@ export function getReliablePlanetaryPositions(): Record<string, CelestialPositio
 
 /**
  * Get the current moon phase as a number from 0-29.5
- * @returns Lunar age in days (0-29.5)
+ * @returns Lunar age in days (0-29.5);
  */
 export function calculateLunarPhase(): number {
-  // Calculate approximate lunar age (0-29.5)
+  // Calculate approximate lunar age (0-29.5);
   // Based on the fact that March 28, 2025 has a new moon at 1° aries
   const daysSinceMarch28 = getDaysSinceDate(new Date('2025-03-28'));
   const lunarAge = ((daysSinceMarch28 % 29.5) + 29.5) % 29.5;
@@ -77,7 +77,7 @@ export function calculateLunarPhase(): number {
 
 /**
  * Get the name of the lunar phase
- * @param phase Lunar age in days (0-29.5)
+ * @param phase Lunar age in days (0-29.5);
  * @returns Name of lunar phase
  */
 export function getLunarPhaseName(phase: number): string {
@@ -87,33 +87,33 @@ export function getLunarPhaseName(phase: number): string {
   if (phase < 14.8) return 'waxing gibbous';
   if (phase < 15.8) return 'full moon';
   if (phase < 22.1) return 'waning gibbous';
-  if (phase < 23.1) return 'last quarter';
+  if (phase < 23.1) return 'last quarter'
   return 'waning crescent'
 }
 
 /**
  * Get the moon illumination percentage
- * @returns Illumination as a decimal (0-1)
+ * @returns Illumination as a decimal (0-1);
  */
 export function getMoonIllumination(): number {
   const phase = calculateLunarPhase();
 
   // Calculate illumination based on lunar age
   if (phase <= 14.8) {
-    // Waxing from new to full (0% to 100%)
-    return phase / 14.8;
+    // Waxing from new to full (0% to 100%);
+    return phase / 14.8
   } else {
-    // Waning from full to new (100% to 0%)
+    // Waning from full to new (100% to 0%);
     return (29.5 - phase) / 14.8;
   }
 }
 
 /**
  * Calculate sun sign for a given date
- * @param date Date to calculate sun sign for (defaults to current date)
+ * @param date Date to calculate sun sign for (defaults to current date);
  * @returns Zodiac sign as a string
  */
-export function calculateSunSign(date: Date = new Date()): any {;
+export function calculateSunSign(date: Date = new Date()): any {
   // For simplicity, hardcode the sun sign based on the month
   const month = date.getMonth();
   const day = date.getDate();
@@ -134,14 +134,14 @@ export function calculateSunSign(date: Date = new Date()): any {;
 }
 
 /**
- * Get zodiac sign position in degrees (0-359)
+ * Get zodiac sign position in degrees (0-359);
  * @param sign Zodiac sign
- * @param degree Degree within the sign (0-29.99)
- * @returns Absolute position in degrees (0-359)
+ * @param degree Degree within the sign (0-29.99);
+ * @returns Absolute position in degrees (0-359);
  */
 export function getZodiacPositionInDegrees(sign: any, _degree: number): number {
   const signIndex = ZODIAC_SIGNS.indexOf(sign);
-  if (signIndex === -1) {;
+  if (signIndex === -1) {
     logger.warn(`Unknown sign: ${sign}, falling back to Aries`);
     return degree; // Aries starts at 0 degrees
   }
@@ -156,12 +156,12 @@ export function getZodiacPositionInDegrees(sign: any, _degree: number): number {
 export function calculatePlanetaryAspects(
   positions: Record<string, CelestialPosition>,
 ): PlanetaryAspect[] {
-  const aspects: PlanetaryAspect[] = [];
+  const, aspects: PlanetaryAspect[] = [];
   const planets = Object.keys(positions);
 
   // Calculate aspects between all planet pairs
-  for (const i = 0; i < planets.length; i++) {
-    for (const j = i + 1; j < planets.length; j++) {
+  for (const i = 0; i < planets.length i++) {
+    for (const j = i + 1; j < planets.length j++) {
       const planet1 = planets[i];
       const planet2 = planets[j];
 
@@ -169,7 +169,7 @@ export function calculatePlanetaryAspects(
 
       // Convert lowercase sign strings to proper ZodiacSign type values
       const pos1Sign = positions[planet1].sign;
-      const pos2Sign = positions[planet2].sign;
+      const pos2Sign = positions[planet2].sign
 
       // Calculate the angular difference between planets
       const pos1 = getZodiacPositionInDegrees(pos1Sign as any, positions[planet1].degree || 0);
@@ -204,7 +204,7 @@ export function calculatePlanetaryAspects(
  * @returns Aspect type and orb if aspect exists, null otherwise
  */
 export function identifyAspect(_angleDiff: number): { type: AspectType, orb: number } | null {
-  const aspects = [;
+  const aspects = [
     { type: 'conjunction' as AspectType, angle: 0, maxOrb: 10 },
     { type: 'opposition' as AspectType, angle: 180, maxOrb: 10 },
     { type: 'trine' as AspectType, angle: 120, maxOrb: 8 },
@@ -229,11 +229,11 @@ export function identifyAspect(_angleDiff: number): { type: AspectType, orb: num
 /**
  * Calculate aspect strength based on type and orb
  * @param type Aspect type
- * @param orb Orb (angle deviation from exact aspect)
- * @returns Strength value (0-10)
+ * @param orb Orb (angle deviation from exact aspect);
+ * @returns Strength value (0-10);
  */
 export function calculateAspectStrength(_type: AspectType, _orb: number): number {
-  const baseStrengths = {;
+  const baseStrengths = {
     conjunction: 10,
     opposition: 10,
     trine: 8,
@@ -269,7 +269,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
   // Use cache if available and recent
   if (astrologyCache && Date.now() - astrologyCache.timestamp < CACHE_DURATION) {
     logger.debug('Using cached astrological state');
-    return astrologyCache.data;
+    return astrologyCache.data
   }
 
   logger.debug('Calculating fresh astrological state');
@@ -286,13 +286,13 @@ export function getCurrentAstrologicalState(): AstrologicalState {
   // Calculate aspects
   const aspects = calculatePlanetaryAspects(positions);
 
-  // Determine if it's daytime (between 6 AM and 6 PM)
+  // Determine if it's daytime (between 6 AM and 6 PM);
   const hours = now.getHours();
   const _isDaytime = hours >= 6 && hours < 18;
 
-  // Calculate active planets (sun, moon + any in major aspect)
+  // Calculate active planets (sun, moon + any in major aspect);
   const activePlanets = ['Sun', 'Moon'];
-  aspects.forEach(aspect => {;
+  aspects.forEach(aspect => {
     // Check influence rather than strength
     if (aspect.influence && aspect.influence > 5) {
       const planet1 = aspect.planet1.charAt(0).toUpperCase() + aspect.planet1.slice(1);
@@ -307,7 +307,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
   const dominantElementCapitalized = (dominantElement.charAt(0).toUpperCase() +;
     dominantElement.slice(1)) as 'Fire' | 'Water' | 'Earth' | 'Air';
 
-  const state: AstrologicalState = {;
+  const, state: AstrologicalState = {
     sunSign: toZodiacSign(String(positions.sun.sign)),
     _moonSign: toZodiacSign(String(positions.moon.sign)),
     lunarPhase: phaseName as LunarPhase,
@@ -317,9 +317,9 @@ export function getCurrentAstrologicalState(): AstrologicalState {
   };
 
   // Update cache
-  astrologyCache = {;
+  astrologyCache = {
     data: state,
-    timestamp: Date.now()
+    timestamp: Date.now();
   };
 
   return state;
@@ -331,7 +331,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
  * @returns Count of each element
  */
 function countElements(_positions: Record<string, _CelestialPosition>): Record<string, number> {
-  const elements: Record<string, number> = {
+  const, elements: Record<string, number> = {
     _fire: 0,
     _earth: 0,
     _air: 0,
@@ -339,7 +339,7 @@ function countElements(_positions: Record<string, _CelestialPosition>): Record<s
   };
 
   // Element mapping for signs
-  const signElements: Record<ZodiacSign, keyof typeof elements> = {
+  const, signElements: Record<ZodiacSign, keyof typeof elements> = {
     aries: 'Fire',
     leo: 'Fire',
     sagittarius: 'Fire',
@@ -355,7 +355,7 @@ function countElements(_positions: Record<string, _CelestialPosition>): Record<s
   };
 
   // Extra weight for certain planets
-  const planetWeight: Record<string, number> = {
+  const, planetWeight: Record<string, number> = {
     sun: 3,
     moon: 2,
     _ascendant: 2,
@@ -388,7 +388,7 @@ function countElements(_positions: Record<string, _CelestialPosition>): Record<s
  */
 function getDominantElement(elements: Record<string, _number>): string {
   let maxElement = 'balanced';
-  let maxCount = 0;
+  let maxCount = 0
 
   Object.entries(elements).forEach(([element, count]) => {
     if (count > maxCount) {
@@ -408,14 +408,13 @@ function getDominantElement(elements: Record<string, _number>): string {
 function getDaysSinceDate(date: Date): number {
   const now = new Date();
   const timeDiff = now.getTime() - date.getTime();
-  return timeDiff / (1000 * 60 * 60 * 24)
+  return timeDiff / (1000 * 60 * 60 * 24);
 }
 
 // Helper function to convert any string to a valid ZodiacSign
 function toZodiacSign(sign: string): any {
   // Convert first letter to uppercase and rest to lowercase
   const formattedSign = sign.charAt(0).toUpperCase() + sign.slice(1).toLowerCase();
-
   // Check if it's a valid ZodiacSign
   if (ZODIAC_SIGNS.includes(formattedSign as any)) {
     return formattedSign as any

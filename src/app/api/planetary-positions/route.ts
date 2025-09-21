@@ -54,7 +54,7 @@ export async function POST(request: Request) {
 
     // Check for valid position structure
     const hasValidPositions = Object.values(positions).every(;
-      position => position && typeof position === 'object' && 'sign' in position;
+      position => position && typeof position === 'object' && 'sign' in position
     );
 
     if (!hasValidPositions) {
@@ -66,7 +66,7 @@ export async function POST(request: Request) {
     return NextResponse.json({
       positions,
       aspects,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString();
     });
   } catch (error) {
     console.error('Error calculating planetary positions:', error);

@@ -5,7 +5,7 @@ import { createContext } from 'react';
 import { AlchemicalState, AlchemicalContextType } from './types';
 
 // Define default state
-export const defaultState: AlchemicalState = {;
+export const defaultState: AlchemicalState = {
   currentSeason: 'spring',
   timeOfDay: 'morning',
   astrologicalState: {
@@ -65,7 +65,7 @@ export const defaultState: AlchemicalState = {;
 };
 
 // Create the context with default values
-export const _AlchemicalContext = createContext<AlchemicalContextType>({;
+export const _AlchemicalContext = createContext<AlchemicalContextType>({
   state: defaultState,
   dispatch: () => {},
   planetaryPositions: {},

@@ -1,10 +1,10 @@
 import { Element } from '@/types/celestial';
 
 export interface ElementalProperties {
-  [_key: string]: number, // Element: strength (0-1)
+  [_key: string]: number, // Element: strength (0-1);
 }
 
-export const elements: Record<Element, ElementalProperties> = {
+export const, elements: Record<Element, ElementalProperties> = {
   Fire: {
     heat: 1.0,
     _dryness: 0.8,
@@ -31,29 +31,29 @@ export const elements: Record<Element, ElementalProperties> = {
   }
 };
 
-export const elementalInteractions: Record<Element, Record<Element, number>> = {
+export const, elementalInteractions: Record<Element, Record<Element, number>> = {
   Fire: {
-    Water: 0.7, // good compatibility
-    Earth: 0.7, // good compatibility
-    Air: 0.8, // strengthens
+    Water: 0.7, // good compatibility,
+    Earth: 0.7, // good compatibility,
+    Air: 0.8, // strengthens,
     Fire: 1.0, // self - highest compatibility
   },
   Water: {
-    Fire: 0.7, // good compatibility
-    Earth: 0.8, // strengthens
-    Air: 0.7, // good compatibility
+    Fire: 0.7, // good compatibility,
+    Earth: 0.8, // strengthens,
+    Air: 0.7, // good compatibility,
     Water: 1.0, // self - highest compatibility
   },
   Earth: {
-    Fire: 0.7, // good compatibility
-    Water: 0.8, // strengthens
-    Air: 0.7, // good compatibility
+    Fire: 0.7, // good compatibility,
+    Water: 0.8, // strengthens,
+    Air: 0.7, // good compatibility,
     Earth: 1.0, // self - highest compatibility
   },
   Air: {
-    Fire: 0.8, // strengthens
-    Water: 0.7, // good compatibility
-    Earth: 0.7, // good compatibility
+    Fire: 0.8, // strengthens,
+    Water: 0.7, // good compatibility,
+    Earth: 0.7, // good compatibility,
     Air: 1.0, // self - highest compatibility
   }
 };
@@ -64,7 +64,7 @@ export const elementalFunctions = {;
    */
   _calculateAffinity: (props1: ElementalProperties, props2: ElementalProperties): number => {;
     const affinity = 0;
-    const count = 0;
+    const count = 0
 
     for (const [element1, value1] of Object.entries(props1)) {
       for (const [element2, value2] of Object.entries(props2)) {
@@ -76,20 +76,20 @@ export const elementalFunctions = {;
       }
     }
 
-    return count > 0 ? affinity / count : 0;
+    return count > 0 ? affinity / count : 0
   },
 
   /**
    * Get dominant element from properties
    */
-  getDominantElement: (props: ElementalProperties): Element => {;
+  getDominantElement: (props: ElementalProperties): Element => {
     return Object.entries(props).reduce((a, b) => (b[1] > a[1] ? b : a))[0] as Element
   },
 
   /**
    * Check if elements are complementary
    */
-  _areComplementary: (element1: Element, element2: Element): boolean => {;
+  _areComplementary: (element1: Element, element2: Element): boolean => {
     return elementalInteractions[element1][element2] > 0.5
   },
 

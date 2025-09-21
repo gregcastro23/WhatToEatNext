@@ -2,7 +2,7 @@ import type { Element, _ZodiacSign, _, ElementalProperties } from '@/types/alche
 
 /**
  * Core elemental constants - consolidated from multiple files
- * This file replaces: elementalConstants.ts, elements.ts, and elemental parts of defaults.ts
+ * This file, replaces: elementalConstants.ts, elements.ts, and elemental parts of defaults.ts
  */
 
 // ===== CORE ELEMENT DEFINITIONS =====;
@@ -13,9 +13,9 @@ import type { Element, _ZodiacSign, _, ElementalProperties } from '@/types/alche
 export const ELEMENTS = ['Fire', 'Water', 'Earth', 'Air'] as const;
 
 /**
- * Default balanced elemental properties (25% each)
+ * Default balanced elemental properties (25% each);
  */
-export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {;
+export const, DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
   Fire: 0.25,
   Water: 0.25,
   Earth: 0.25,
@@ -28,7 +28,7 @@ export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {;
  * Element affinities based on traditional correspondences
  * Each element reinforces itself most strongly
  */
-export const ELEMENT_AFFINITIES = {;
+export const ELEMENT_AFFINITIES = {
   Fire: ['Fire', 'Air'],
   Water: ['Water', 'Earth'],
   Air: ['Air', 'Fire'],
@@ -38,7 +38,7 @@ export const ELEMENT_AFFINITIES = {;
 /**
  * Element combinations for compatibility calculations
  */
-export const ELEMENT_COMBINATIONS = {;
+export const ELEMENT_COMBINATIONS = {
   harmonious: [
     ['Fire', 'Fire'], // Same element has highest compatibility
     ['Water', 'Water'],
@@ -58,7 +58,7 @@ export const ELEMENT_COMBINATIONS = {;
 /**
  * Zodiac sign to element mapping
  */
-export const ZODIAC_ELEMENTS = {;
+export const ZODIAC_ELEMENTS = {
   aries: 'Fire',
   leo: 'Fire',
   sagittarius: 'Fire',
@@ -76,7 +76,7 @@ export const ZODIAC_ELEMENTS = {;
 /**
  * Decan rulers for each zodiac sign
  */
-export const DECANS = {;
+export const DECANS = {
   aries: [
     { ruler: 'Mars', element: 'Fire', degree: 0 },
     { ruler: 'Sun', element: 'Fire', degree: 10 },
@@ -144,7 +144,7 @@ export const DECANS = {;
 /**
  * Validation thresholds for elemental properties
  */
-export const VALIDATION_THRESHOLDS = {;
+export const VALIDATION_THRESHOLDS = {
   MINIMUM_ELEMENT: 0,
   MAXIMUM_ELEMENT: 1,
   BALANCE_PRECISION: 0.01
@@ -153,7 +153,7 @@ export const VALIDATION_THRESHOLDS = {;
 /**
  * Elemental significance thresholds
  */
-export const ELEMENTAL_THRESHOLDS = {;
+export const ELEMENTAL_THRESHOLDS = {
   dominant: 0.4,
   significant: 0.25,
   present: 0.1,
@@ -170,7 +170,7 @@ export const ELEMENTAL_WEIGHTS = { Fire: 1, Water: 1, Earth: 1, Air: 1 };
 /**
  * Enhanced elemental characteristics with comprehensive properties
  */
-export const ELEMENTAL_CHARACTERISTICS = {;
+export const ELEMENTAL_CHARACTERISTICS = {
   Fire: {
     // Basic properties
     qualities: ['hot', 'dry', 'active', 'energetic', 'expansive'],
@@ -303,7 +303,7 @@ export function getDominantElement(properties: ElementalProperties): Element {
  * Normalize elemental properties to sum to 1
  */
 export function normalizeElementalProperties(properties: ElementalProperties): ElementalProperties {
-  const total = Object.values(properties).reduce((sum, val) => sum + (val || 0), 0),;
+  const total = Object.values(properties).reduce((sum, val) => sum + (val || 0), 0),
 
   if (total === 0) {;
     return { ...DEFAULT_ELEMENTAL_PROPERTIES };
@@ -330,20 +330,20 @@ export function calculateElementalCompatibility(
 
   for (const element of ELEMENTS) {
     const value1 = properties1[element] || 0;
-    const value2 = properties2[element] || 0;
+    const value2 = properties2[element] || 0
 
-    // Same element compatibility (highest)
+    // Same element compatibility (highest);
     const sameElementScore = Math.min(value1, value2);
     compatibility += sameElementScore * 0.9;
     totalWeight += sameElementScore;
 
-    // Different element compatibility (good but lower)
+    // Different element compatibility (good but lower);
     const differentElementScore = Math.abs(value1 - value2);
     compatibility += (1 - differentElementScore) * 0.7;
     totalWeight += 1;
   }
 
-  return totalWeight > 0 ? compatibility / totalWeight : 0.7;
+  return totalWeight > 0 ? compatibility / totalWeight : 0.7
 }
 
 /**
@@ -352,7 +352,7 @@ export function calculateElementalCompatibility(
 export function validateElementalProperties(properties: ElementalProperties): boolean {
   const total = Object.values(properties).reduce((sum, val) => sum + val0);
   const isValidRange = Object.values(properties).every(;
-    val =>;
+    val =>
       val >= VALIDATION_THRESHOLDS.MINIMUM_ELEMENT && val <= VALIDATION_THRESHOLDS.MAXIMUM_ELEMENT
   );
   const isValidSum = Math.abs(total - 1) <= VALIDATION_THRESHOLDS.BALANCE_PRECISION;

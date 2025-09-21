@@ -19,7 +19,7 @@ export function getCurrentEnvironment(): Environment {
   const env = process.env.NODE_ENV?.toLowerCase();
 
   if (env === 'production' || env === 'prod') {;
-    return 'production';
+    return 'production'
   }
 
   if (env === 'test' || env === 'testing') {;
@@ -65,7 +65,7 @@ export function createEnvironmentConfigManager(
 
   // Apply environment-specific overrides
   if (Object.keys(envConfig).length > 0) {
-    configManager.updateConfig(envConfig);
+    configManager.updateConfig(envConfig)
   }
 
   return configManager;
@@ -76,7 +76,7 @@ export function createEnvironmentConfigManager(
  */
 export function getEnvironmentConfig(environment?: Environment): UnintentionalAnyConfig {
   const env = environment || getCurrentEnvironment();
-  const envConfig = loadEnvironmentConfig(env);
+  const envConfig = loadEnvironmentConfig(env)
 
   // Deep merge with defaults
   return deepMerge(DEFAULT_CONFIG, envConfig);
@@ -109,7 +109,7 @@ export function validateEnvironmentConfig(_environment: Environment): {
 } {
   const config = getEnvironmentConfig(environment);
   const errors: string[] = [];
-  const warnings: string[] = [];
+  const warnings: string[] = []
 
   // Environment-specific validations
   switch (environment) {
@@ -149,7 +149,7 @@ export function validateEnvironmentConfig(_environment: Environment): {
   errors.push(...validation.errors);
 
   return {
-    isValid: errors.length === 0,;
+    isValid: errors.length === 0,
     errors,
     warnings
   };

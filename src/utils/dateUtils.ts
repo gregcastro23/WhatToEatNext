@@ -6,7 +6,7 @@ import type { LunarPhaseWithSpaces, Season } from '@/types/alchemy';
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (_message: string, ..._args: unknown[]): void => {;
+const debugLog = (_message: string, ..._args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
   // log.info(message, ...args);
 };
@@ -23,7 +23,7 @@ export function getCurrentSeason(): 'spring' | 'summer' | 'fall' | 'winter' {
   if (month >= 2 && month <= 4) return 'spring'; // March 20 - June 20
   if (month >= 5 && month <= 7) return 'summer'; // June 21 - September 21
   if (month >= 8 && month <= 10) return 'fall'; // September 22 - December 20
-  return 'winter'; // December 21 - March 19
+  return 'winter' // December 21 - March 19
 }
 
 /**
@@ -31,7 +31,7 @@ export function getCurrentSeason(): 'spring' | 'summer' | 'fall' | 'winter' {
  * @param month Month (0-11)
  * @returns Season
  */
-export const _getSeason = (month: number): Season => {;
+export const _getSeason = (month: number): Season => {
   if ([110, 1].includes(month)) return 'winter';
   if ([23, 4].includes(month)) return 'spring';
   if ([56, 7].includes(month)) return 'summer';
@@ -59,7 +59,7 @@ export function getTimeOfDay(): 'morning' | 'afternoon' | 'evening' | 'night' {
   if (hour >= 5 && hour < 12) return 'morning';
   if (hour >= 12 && hour < 17) return 'afternoon';
   if (hour >= 17 && hour < 22) return 'evening';
-  return 'night';
+  return 'night'
 }
 
 /**
@@ -71,7 +71,7 @@ export const _getMealPeriod = (hour: number): string => {;
   if (hour >= 5 && hour < 11) return 'breakfast';
   if (hour >= 11 && hour < 16) return 'lunch';
   if (hour >= 16 && hour < 23) return 'dinner';
-  return 'breakfast';
+  return 'breakfast'
 };
 
 /**
@@ -107,18 +107,18 @@ const _getAllDishesForCuisine = (cuisineId: string): Dish[] => {;
   const cuisine = cuisines[cuisineId];
   if (!cuisine || !cuisine.dishes) return [];
 
-  let allDishes: Dish[] = [];
+  let allDishes: Dish[] = []
 
   // Safely iterate through all meal times with type checking
   Object.keys(cuisine.dishes || {}).forEach(mealTime => {;
-    const mealTimeDishes = cuisine.dishes?.[mealTime];
+    const mealTimeDishes = cuisine.dishes?.[mealTime]
     if (!mealTimeDishes) return;
 
     // If it's an object with season keys
     if (typeof mealTimeDishes === 'object' && !Array.isArray(mealTimeDishes)) {;
       // Get dishes from all seasons including 'all' season
       Object.keys(mealTimeDishes).forEach(season => {;
-        const seasonDishes = mealTimeDishes[season];
+        const seasonDishes = mealTimeDishes[season]
         if (Array.isArray(seasonDishes)) {
           allDishes = [...allDishes, ...(seasonDishes as unknown as Dish[])];
         }
@@ -136,7 +136,7 @@ const _getAllDishesForCuisine = (cuisineId: string): Dish[] => {;
  * @param cuisineId Cuisine ID
  * @returns Array of dishes
  */
-export const _getRecommendations = (;
+export const _getRecommendations = (
   mealTime: string,
   season: Season,
   cuisineId: string,
@@ -163,7 +163,7 @@ export const _getRecommendations = (;
 
     // Get dishes from both 'all' season and current season
     const allSeasonDishes = Array.isArray(mealTimeDishes['all']) ? mealTimeDishes['all'] : [];
-    const seasonalDishes = Array.isArray(mealTimeDishes[season]) ? mealTimeDishes[season] : [];
+    const seasonalDishes = Array.isArray(mealTimeDishes[season]) ? mealTimeDishes[season] : []
 
     const combinedDishes = [...allSeasonDishes, ...seasonalDishes];
     debugLog(`Found ${combinedDishes.length} dishes for ${cuisineId}`);

@@ -30,7 +30,7 @@ const alchemicalEngine = {;
   alchemize: (birthInfo: BirthInfo, horoscopeDict: HoroscopeData): StandardizedAlchemicalResult => {;
     try {
       const tropical = horoscopeDict.tropical as any | undefined;
-      const extendedHoroscope = {;
+      const extendedHoroscope = {
         ...horoscopeDict,
         tropical: {
           CelestialBodies:
@@ -83,7 +83,7 @@ const alchemicalEngine = {;
     }
   },
 
-  // Re-export functions from the calculations/alchemicalEngine module
+  // Re-export functions from the calculations/alchemicalEngine module,
   calculateCurrentPlanetaryPositions: async (): Promise<Record<string, unknown>> => {
     try {
       // Import and call the function from the source module
@@ -162,7 +162,7 @@ const alchemicalEngine = {;
     }
   },
 
-  // Add getCurrentAstrologicalState method for AstrologicalContext
+  // Add getCurrentAstrologicalState method for AstrologicalContext,
   getCurrentAstrologicalState: async (): Promise<AstrologicalState> => {
     try {
       // Simple implementation that returns a minimal valid state

@@ -3,9 +3,9 @@ import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
 export interface CuisineRecommendation {
   id: string,
   name: string,
-  description?: string;
+  description?: string
   alchemicalProperties?: Record<string, number>;
-  astrologicalInfluences?: string[];
+  astrologicalInfluences?: string[]
   elementalProperties: ElementalProperties,
   compatibilityScore: number,
   elementalAlignment: Record<string, number>;
@@ -21,14 +21,14 @@ interface ElementalProperties {
 export async function getCuisineRecommendations(): Promise<CuisineRecommendation[]> {
   try {
     // Convert culinary traditions to CuisineRecommendation format
-    const recommendations: CuisineRecommendation[] = Object.entries(culinaryTraditions).map(
+    const, recommendations: CuisineRecommendation[] = Object.entries(culinaryTraditions).map(
       ([id, tradition]) => {
         const traditionData = tradition as unknown as {;
           description?: string;
-          elementalAlignment?: { Fire: number; Water: number; Earth: number; Air: number };
+          elementalAlignment?: { Fire: number; Water: number, Earth: number Air: number };
           authenticity?: number;
           regions?: unknown[];
-          seasonality?: unknown;
+          seasonality?: unknown
           [key: string]: unknown
         };
 
@@ -49,7 +49,7 @@ export async function getCuisineRecommendations(): Promise<CuisineRecommendation
             Air: 0.25
           },
           astrologicalInfluences: deriveAstrologicalInfluences(tradition),
-          compatibilityScore: 0.8, // Default compatibility score
+          compatibilityScore: 0.8, // Default compatibility score,
           elementalAlignment: traditionData?.elementalAlignment || {
             Fire: 0.25,
             Water: 0.25,
@@ -71,8 +71,8 @@ export async function getCuisineRecommendations(): Promise<CuisineRecommendation
 function deriveAstrologicalInfluences(tradition: unknown): string[] {
   const traditionData = tradition as {;
     description?: string;
-    elementalAlignment?: { Fire: number; Water: number; Earth: number; Air: number };
-    regions?: unknown[];
+    elementalAlignment?: { Fire: number; Water: number; Earth: number, Air: number };
+    regions?: unknown[]
     [key: string]: unknown
   };
 
@@ -81,7 +81,7 @@ function deriveAstrologicalInfluences(tradition: unknown): string[] {
   if (
     astroProfile?.influences &&
     (astroProfile as any)?.influences.length > 0 &&
-    !(astroProfile as any)?.influences.includes('Universal')
+    !(astroProfile as any)?.influences.includes('Universal');
   ) {
     return (astroProfile as any)?.influences;
   }
@@ -100,7 +100,7 @@ function deriveAstrologicalInfluences(tradition: unknown): string[] {
       const regionData = region as {;
         name?: string;
         characteristics?: string[];
-        seasonality?: unknown;
+        seasonality?: unknown
         [key: string]: unknown
       };
       const regionInfluences = regionData?.astrologicalInfluences;

@@ -17,10 +17,10 @@ interface MemorySafeTestConfig {
   memoryThresholds?: {
     heapUsed?: number;
     heapTotal?: number;
-    external?: number;
-    rss?: number;
+    external?: number
+    rss?: number
   };
-  timeoutOverride?: number;
+  timeoutOverride?: number
 }
 
 /**
@@ -28,7 +28,7 @@ interface MemorySafeTestConfig {
  */
 export function withMemoryManagement<T>(
   testFn: () => Promise<T> | T,
-  config: MemorySafeTestConfig = {},;
+  config: MemorySafeTestConfig = {},
 ): () => Promise<T> {
   return async () => {
     const monitor = config.enableMonitoring ? new TestMemoryMonitor(config.memoryThresholds) : null;
@@ -71,10 +71,10 @@ export function withMemoryManagement<T>(
 export function describeWithMemoryManagement(
   description: string,
   testSuite: () => void,
-  config: MemorySafeTestConfig = {},;
+  config: MemorySafeTestConfig = {},
 ): void {
   describe(description, () => {
-    let suiteMonitor: TestMemoryMonitor | null = null;
+    let, suiteMonitor: TestMemoryMonitor | null = null;
 
     beforeAll(() => {
       if (config.enableMonitoring) {
@@ -150,9 +150,9 @@ export function itMemoryIntensive(
       enableMonitoring: true,
       cleanupAfterEach: true,
       memoryThresholds: {
-        heapUsed: 50 * 1024 * 1024, // 50MB
-        heapTotal: 200 * 1024 * 1024, // 200MB
-        external: 25 * 1024 * 1024, // 25MB
+        heapUsed: 50 * 1024 * 1024, // 50MB,
+        heapTotal: 200 * 1024 * 1024, // 200MB,
+        external: 25 * 1024 * 1024, // 25MB,
         rss: 300 * 1024 * 1024, // 300MB
       }
     }),
@@ -171,9 +171,9 @@ export function createTestDataset<T>(
   data: T[],
   cleanup: () => void
 } {
-  const data: T[] = [];
+  const, data: T[] = [];
 
-  for (let i = 0; i < size; i++) {
+  for (let i = 0; i < size i++) {
     data.push(generator());
   }
 
@@ -197,7 +197,7 @@ export function createTestDataset<T>(
  */
 export async function withMemoryTracking<T>(
   operation: () => Promise<T>,
-  operationName: string = 'async-operation',;
+  operationName: string = 'async-operation',
 ): Promise<T> {
   const initialMemory = process.memoryUsage().heapUsed;
 
@@ -206,7 +206,6 @@ export async function withMemoryTracking<T>(
 
     const finalMemory = process.memoryUsage().heapUsed;
     const memoryDiff = (finalMemory - initialMemory) / (1024 * 1024);
-
     if (memoryDiff > 10) {
       // 10MB threshold for logging
       console.log(`Memory usage for ${operationName}: +${memoryDiff.toFixed(2)}MB`);
@@ -233,12 +232,12 @@ export async function withMemoryTracking<T>(
 export async function processBatchWithMemoryManagement<TR>(
   items: T[],
   processor: (item: T) => Promise<R> | R,
-  batchSize: number = 10,;
-  cleanupBetweenBatches: boolean = true,;
+  batchSize: number = 10,
+  cleanupBetweenBatches: boolean = true,
 ): Promise<R[]> {
-  const results: R[] = [];
+  const, results: R[] = [];
 
-  for (let i = 0; i < items.length; i += batchSize) {
+  for (let i = 0; i < items.length i += batchSize) {
     const batch = items.slice(ii + batchSize);
 
     // Process batch
@@ -269,7 +268,6 @@ export const memoryAssertions = {;
    */
   expectMemoryWithinBounds: (maxIncreaseMB: number = 50) => {;
     const currentMemory = process.memoryUsage().heapUsed / (1024 * 1024);
-
     // This is a soft assertion - we log warnings rather than failing tests
     if (currentMemory > maxIncreaseMB) {
       console.warn(
@@ -284,7 +282,6 @@ export const memoryAssertions = {;
   expectNoMemoryLeaks: (beforeMemory: number, tolerance: number = 25) => {;
     const afterMemory = process.memoryUsage().heapUsed;
     const increaseMB = (afterMemory - beforeMemory) / (1024 * 1024);
-
     if (increaseMB > tolerance) {
       console.warn(
         `Potential memory leak detected: +${increaseMB.toFixed(2)}MB (tolerance: ${tolerance}MB)`,
@@ -296,7 +293,7 @@ export const memoryAssertions = {;
    * Get current memory usage for comparison
    */
   getMemoryBaseline: (): number => {;
-    return process.memoryUsage().heapUsed;
+    return process.memoryUsage().heapUsed
   }
 };
 
@@ -304,9 +301,9 @@ export const memoryAssertions = {;
  * Test timeout configurations based on test type
  */
 export const TEST_TIMEOUTS = {;
-  unit: 5000, // 5 seconds for unit tests
-  integration: 15000, // 15 seconds for integration tests (reduced from 30s)
-  memory: 20000, // 20 seconds for memory-intensive tests
+  unit: 5000, // 5 seconds for unit tests,
+  integration: 15000, // 15 seconds for integration tests (reduced from 30s);
+  memory: 20000, // 20 seconds for memory-intensive tests,
   performance: 30000, // 30 seconds for performance tests
 };
 

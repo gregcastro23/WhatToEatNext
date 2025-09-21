@@ -12,17 +12,17 @@ export interface MemoryUsage {
   heapTotal: string,
   external: string,
   arrayBuffers: string,
-  rss?: string;
+  rss?: string
 }
 
 export interface MemoryThresholds {
   warning?: number;
   error?: number;
-  leak?: number;
+  leak?: number
 }
 
 export interface MemoryUsageFn {
-  (): MemoryUsage;
+  (): MemoryUsage
 }
 
 // Jest mock-compatible memory usage function type for tests
@@ -132,20 +132,20 @@ export interface MockPlanetaryPositions {
 
 // React component props types for testing
 export interface MockComponentProps {
-  children?: React.ReactNode;
+  children?: React.ReactNode
   [key: string]: unknown
 }
 
 // App component props interface
 export interface AppProps {
-  children?: React.ReactNode;
+  children?: React.ReactNode
 }
 
 // MainPageLayout props interface
 export interface MainPageLayoutProps {
   children?: React.ReactNode;
   debugMode?: boolean;
-  loading?: boolean;
+  loading?: boolean
   onSectionNavigate?: (sectionId: string) => void
 }
 
@@ -159,10 +159,10 @@ declare global {
   let _testUtils: ExtendedTestUtils;
   let _forceGC: (() => boolean) | undefined;
   let _getMemoryUsage: (() => MemoryUsage) | undefined;
-  let _cleanupTestMemory: (() => unknown) | undefined;
+  let _cleanupTestMemory: (() => unknown) | undefined
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
   let __TEST_CACHE__: Map<string, any> | { clear: () => void } | undefined;
-  let __TEST_REFS__: unknown[] | undefined;
+  let __TEST_REFS__: unknown[] | undefined
 
   // Allow process.memoryUsage to be mocked in tests
   namespace NodeJS {

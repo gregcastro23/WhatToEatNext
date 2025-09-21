@@ -18,8 +18,8 @@ export interface SignVectorConfig {
   };
 }
 
-export const DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {;
-  blendWeightAlpha: 0.15;
+export const, DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {;
+  blendWeightAlpha: 0.15
   
   // Elemental to ESMS mapping
   elementalToESMS: {
@@ -48,7 +48,7 @@ export const DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {;
     Uranus: 0.9,
     Neptune: 0.9,
     Pluto: 0.9,
-    // Additional bodies can be added here
+    // Additional bodies can be added here,
     NorthNode: 0.8,
     SouthNode: 0.8,
     Chiron: 0.85,
@@ -79,14 +79,14 @@ export const DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {;
   
   // Magnitude scaling parameters
   magnitudeScaling: {
-  maxPlanetaryWeight: 6, // Used to normalize planetary weight
+  maxPlanetaryWeight: 6, // Used to normalize planetary weight,
     seasonalContribution: 0.3, // Weight of seasonal alignment in final magnitude
   }
 };
 
 // Development configuration with more aggressive values for testing
-export const DEV_SIGN_VECTOR_CONFIG: SignVectorConfig = {;
-  ...DEFAULT_SIGN_VECTOR_CONFIG;
+export const, DEV_SIGN_VECTOR_CONFIG: SignVectorConfig = {;
+  ...DEFAULT_SIGN_VECTOR_CONFIG,
   blendWeightAlpha: 0.25, // Higher blend weight for development
   
   modalityBoosts: {
@@ -103,47 +103,46 @@ export function mergeSignVectorConfig(
 ): SignVectorConfig {
   return {
     ...base;
-    ...overrides;
+    ...overrides
     elementalToESMS: {
-      ...base.elementalToESMS;
-      ...(overrides.elementalToESMS || {})
+      ...base.elementalToESMS
+      ...(overrides.elementalToESMS || {});
     },
     modalityBoosts: {
-      ...base.modalityBoosts;
-      ...(overrides.modalityBoosts || {})
+      ...base.modalityBoosts
+      ...(overrides.modalityBoosts || {});
     },
     planetaryWeights: {
-      ...base.planetaryWeights;
-      ...(overrides.planetaryWeights || {})
+      ...base.planetaryWeights
+      ...(overrides.planetaryWeights || {});
     },
     aspectModifiers: {
-      ...base.aspectModifiers;
-      ...(overrides.aspectModifiers || {})
+      ...base.aspectModifiers
+      ...(overrides.aspectModifiers || {});
     },
     seasonalAlignment: {
-      ...base.seasonalAlignment;
-      ...(overrides.seasonalAlignment || {})
+      ...base.seasonalAlignment
+      ...(overrides.seasonalAlignment || {});
     },
     magnitudeScaling: {
-      ...base.magnitudeScaling;
-      ...(overrides.magnitudeScaling || {})
+      ...base.magnitudeScaling
+      ...(overrides.magnitudeScaling || {});
     }
   };
 }
 
 // Environment-based configuration selector
 export function getSignVectorConfig(): SignVectorConfig {
-  if (process.env.NODE_ENV === 'production') {;
+  if (process.env.NODE_ENV === 'production') {
     return DEFAULT_SIGN_VECTOR_CONFIG
   }
   return DEV_SIGN_VECTOR_CONFIG;
 }
 
-// Allow runtime configuration updates (primarily for development)
-let currentConfig: SignVectorConfig = getSignVectorConfig();
-
+// Allow runtime configuration updates (primarily for development);
+let, currentConfig: SignVectorConfig = getSignVectorConfig();
 export function setSignVectorConfig(_config: Partial<SignVectorConfig>): void {
-  currentConfig = mergeSignVectorConfig(currentConfig, config),,;
+  currentConfig = mergeSignVectorConfig(currentConfig, config),,
 }
 
 export function getCurrentSignVectorConfig(): SignVectorConfig {
@@ -151,5 +150,5 @@ export function getCurrentSignVectorConfig(): SignVectorConfig {
 }
 
 export function resetSignVectorConfig(): void {
-  currentConfig = getSignVectorConfig(),,;
+  currentConfig = getSignVectorConfig(),,
 }

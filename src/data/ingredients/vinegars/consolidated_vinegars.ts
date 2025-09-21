@@ -3,7 +3,7 @@ import type { _, ZodiacSign } from '@/types/alchemy';
 import type { Season } from '@/types/seasons';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawVinegars = {;
+const rawVinegars = {
   rice_vinegar: {
     name: 'Rice Vinegar',
     category: 'vinegar',

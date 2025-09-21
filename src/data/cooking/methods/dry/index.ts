@@ -10,7 +10,7 @@ import { stirFrying } from './stir-frying';
 /**
  * Collection of dry cooking methods
  *
- * Dry cooking methods use hot air, radiation, or hot oil (not water-based liquids)
+ * Dry cooking methods use hot air, radiation, or hot oil (not water-based liquids);
  * to transfer heat to food
  */
 export const _dryCookingMethods = {;

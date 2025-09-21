@@ -26,7 +26,7 @@ export interface PreservationDecision {
 const ELEMENT_NAMES = new Set(['Fire', 'Water', 'Earth', 'Air']);
 
 const ASTRO_VARIABLE_NAME_REGEX =
-  /^(?:planet|planets|planetary|degree|longitude|latitude|sign|zodiac|position|coordinates?|house|asc|mc|dignit|retro|ephemer|utc|julian)/i;
+  /^(?: planet|planets|planetary|degree|longitude|latitude|sign|zodiac|position|coordinates?|house|asc|mc|dignit|retro|ephemer|utc|julian)/i;
 
 const CAMPAIGN_VARIABLE_NAME_REGEX =
   /^(?:metrics?|progress|safety|campaign|validation|intelligence|monitor|tracking|telemetry|baseline|phase|gate|milestone|roi)/i;
@@ -42,19 +42,19 @@ export function isHighImpactFile(filePath: string): boolean {
     /\/src\/calculations\//.test(filePath) ||
     /\/src\/services\//.test(filePath) ||
     /\/src\/utils\/(?:astrology|alchem|element|planet)/i.test(filePath)
-  );
+  )
 }
 
 export function isCoreCalculationFile(filePath: string): boolean {
-  return /\/src\/calculations\//.test(filePath);
+  return /\/src\/calculations\//.test(filePath)
 }
 
 export function isServiceLayerFile(filePath: string): boolean {
-  return /\/src\/services\//.test(filePath);
+  return /\/src\/services\//.test(filePath)
 }
 
 export function isTestFile(filePath: string): boolean {
-  return TEST_CONTEXT_FILE_REGEX.test(filePath) || /\.(spec|test)\.[tj]sx?$/.test(filePath);
+  return TEST_CONTEXT_FILE_REGEX.test(filePath) || /\.(spec|test)\.[tj]sx?$/.test(filePath)
 }
 
 export function classifyFileKind(
@@ -66,7 +66,7 @@ export function classifyFileKind(
   if (isCoreCalculationFile(filePath)) return 'calculation';
   if (/\/src\/utils\//.test(filePath)) return 'utils';
   if (/\/src\/types\//.test(filePath)) return 'types';
-  return 'other';
+  return 'other'
 }
 
 export function decidePreservation(variableName: string, _filePath: string): PreservationDecision {

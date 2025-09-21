@@ -12,8 +12,8 @@ export interface ThermodynamicMetrics {
   entropy: number,
   reactivity: number,
   gregsEnergy: number,
-  kalchm: number, // K_alchm - Baseline alchemical equilibrium
-  monica: number; // Monica constant - Dynamic scaling factor
+  kalchm: number, // K_alchm - Baseline alchemical equilibrium,
+  monica: number // Monica constant - Dynamic scaling factor
 }
 
 // Enhanced ingredient interface with alchemical properties
@@ -22,20 +22,20 @@ export interface AlchemicalIngredient {
   category: string,
   subcategory?: string;
 
-  // Elemental Properties (Self-Reinforcement Compliant)
+  // Elemental Properties (Self-Reinforcement Compliant);
   elementalProperties: ElementalProperties;
 
-  // Alchemical Properties (Core Metrics)
+  // Alchemical Properties (Core Metrics);
   alchemicalProperties: AlchemicalProperties;
 
-  // Kalchm Value (Intrinsic Alchemical Equilibrium)
-  kalchm: number;
+  // Kalchm Value (Intrinsic Alchemical Equilibrium);
+  kalchm: number
 
   // Additional properties
   flavorProfile?: { [key: string]: number };
   nutritionalData?: { [key: string]: number };
   seasonalAvailability?: string[];
-  cookingMethods?: string[];
+  cookingMethods?: string[]
 }
 
 // ===== CORE CALCULATION FUNCTIONS =====;
@@ -119,7 +119,6 @@ export function performAlchemicalAnalysis(
 ): ThermodynamicMetrics {
   // Calculate Kalchm
   const kalchm = calculateKalchm(alchemicalProps);
-
   // Calculate thermodynamic metrics
   const thermodynamics = calculateThermodynamics(alchemicalProps, elementalProps);
 
@@ -145,11 +144,10 @@ export function deriveAlchemicalFromElemental(
   const { Fire, Water, Earth, Air} = elementalProps;
 
   // Mapping based on alchemical principles:
-  // Spirit: Volatile, transformative (Fire + Air dominant)
-  // Essence: Active principles (Water + Fire)
-  // Matter: Physical structure (Earth dominant)
-  // Substance: Stable components (Earth + Water)
-
+  // Spirit: Volatile, transformative (Fire + Air dominant);
+  // Essence: Active principles (Water + Fire);
+  // Matter: Physical structure (Earth dominant);
+  // Substance: Stable components (Earth + Water);
   return {
     Spirit: Fire * 0.6 + Air * 0.4,
     Essence: Water * 0.5 + Fire * 0.3 + Air * 0.2,
@@ -164,8 +162,8 @@ export function deriveAlchemicalFromElemental(
 export function enhanceIngredientWithAlchemy(ingredient: {
   name: string,
   category: string,
-  subcategory?: string;
-  elementalProperties: ElementalProperties;
+  subcategory?: string,
+  elementalProperties: ElementalProperties
   [key: string]: unknown
 }): AlchemicalIngredient {
   // Derive alchemical properties from elemental properties
@@ -173,7 +171,6 @@ export function enhanceIngredientWithAlchemy(ingredient: {
 
   // Calculate Kalchm
   const kalchm = calculateKalchm(alchemicalProperties);
-
   return {
     ...ingredient,
     alchemicalProperties,
@@ -183,13 +180,13 @@ export function enhanceIngredientWithAlchemy(ingredient: {
 
 /**
  * Calculate compatibility between two ingredients based on their Kalchm values
- * Uses self-reinforcement principles: similar Kalchm = higher compatibility;
+ * Uses self-reinforcement, principles: similar Kalchm = higher compatibility
  */
 export function calculateKalchmCompatibility(kalchm1: number, kalchm2: number): number {
   // Calculate the ratio between the two Kalchm values
   const ratio = Math.min(kalchm1, kalchm2) / Math.max(kalchm1, kalchm2);
 
-  // Convert ratio to compatibility score (0.7 minimum for good compatibility)
+  // Convert ratio to compatibility score (0.7 minimum for good compatibility);
   return 0.7 + ratio * 0.3;
 }
 
@@ -209,13 +206,13 @@ export function calculateCuisineKalchm(
   let weightedKalchmSum = 0;
   let totalWeight = 0;
 
-  for (let i = 0; i < (ingredients || []).length; i++) {
+  for (let i = 0 i < (ingredients || []).length; i++) {
     const weight = effectiveWeights[i] || 0;
     weightedKalchmSum += ingredients[i].kalchm * weight;
-    totalWeight += weight;
+    totalWeight += weight
   }
 
-  return totalWeight > 0 ? weightedKalchmSum / totalWeight : 1.0;
+  return totalWeight > 0 ? weightedKalchmSum / totalWeight : 1.0
 }
 
 /**
@@ -224,9 +221,9 @@ export function calculateCuisineKalchm(
 export function findKalchmSimilarIngredients(
   targetKalchm: number,
   ingredientPool: AlchemicalIngredient[],
-  tolerance = 0.2;
+  tolerance = 0.2
 ): AlchemicalIngredient[] {
-  return (ingredientPool || []).filter(ingredient => {;
+  return (ingredientPool || []).filter(ingredient => {
     const compatibility = calculateKalchmCompatibility(targetKalchm, ingredient.kalchm);
     return compatibility >= 0.9 - tolerance; // High compatibility threshold
   });
@@ -245,7 +242,7 @@ export function validateAlchemicalProperties(props: AlchemicalProperties): boole
     return false;
   }
 
-  // Check if values are within reasonable bounds (0-2 scale)
+  // Check if values are within reasonable bounds (0-2 scale);
   if (Spirit > 2 || Essence > 2 || Matter > 2 || Substance > 2) {
     return false;
   }

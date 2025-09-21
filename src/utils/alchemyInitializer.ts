@@ -1,7 +1,7 @@
 // Define the global window interface to include our alchemize function
 declare global {
   interface Window {
-    alchemize?: unknown;
+    alchemize?: unknown
   }
 }
 

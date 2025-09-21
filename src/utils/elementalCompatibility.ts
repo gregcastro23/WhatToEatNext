@@ -5,14 +5,14 @@ import type { ElementalProperties } from '@/types/alchemy';
  * Interface for elemental compatibility results
  */
 export interface ElementalCompatibility {
-  compatibility: number; // 0-1 score
+  compatibility: number // 0-1 score
   dominantPair: {
     recipe: keyof ElementalProperties,
     user: keyof ElementalProperties
   };
-  complementaryScore: number; // 0-1 score for how well elements complement each other
-  balanceScore: number; // 0-1 score for overall balance
-  recommendation: string; // Text recommendation
+  complementaryScore: number; // 0-1 score for how well elements complement each other,
+  balanceScore: number; // 0-1 score for overall balance,
+  recommendation: string // Text recommendation
 }
 
 /**
@@ -20,7 +20,7 @@ export interface ElementalCompatibility {
  */
 export async function calculateElementalCompatibility(
   recipeElemental: ElementalProperties,
-  userElemental: ElementalProperties = { Fire: 0.25, _Water: 0.25, _Earth: 0.25, _Air: 0.25 },;
+  userElemental: ElementalProperties = { Fire: 0.25, _Water: 0.25, _Earth: 0.25, _Air: 0.25 },
 ): Promise<ElementalCompatibility> {
   // Ensure properties are standardized
   const recipe = recipeElementalService.standardizeRecipe({ elementalProperties: recipeElemental });
@@ -28,7 +28,7 @@ export async function calculateElementalCompatibility(
 
   // Calculate simple similarity score
   const similarity = recipeElementalService.calculateSimilarity(;
-    recipe.elementalProperties;
+    recipe.elementalProperties
     user.elementalProperties
   );
 
@@ -42,7 +42,7 @@ export async function calculateElementalCompatibility(
   // Calculate balance score - how well the recipe balances user's elemental profile
   const balanceScore = calculateBalanceScore(recipe.elementalProperties, user.elementalProperties);
 
-  // Calculate overall compatibility (weighted average)
+  // Calculate overall compatibility (weighted average);
   const compatibility = similarity * 0.4 + complementaryScore * 0.3 + balanceScore * 0.3;
 
   return {
@@ -53,7 +53,7 @@ export async function calculateElementalCompatibility(
     },
     complementaryScore,
     balanceScore,
-    recommendation: generateRecommendation(compatibility, recipeDominant, userDominant)
+    recommendation: generateRecommendation(compatibility, recipeDominant, userDominant);
   };
 }
 
@@ -73,8 +73,8 @@ function calculateComplementaryScore(
   element2: keyof ElementalProperties,
 ): number {
   // All elements work together in various ways
-  if (element1 === element2) {;
-    return 0.9, // Same element - highest compatibility (like reinforces like)
+  if (element1 === element2) {
+    return 0.9, // Same element - highest compatibility (like reinforces like);
   } else {
     // All combinations of different elements are complementary
     // Providing different yet harmonious qualities
@@ -90,12 +90,12 @@ function calculateBalanceScore(
   userProps: ElementalProperties,
 ): number {
   // Find user's weakest element
-  const userWeakest = Object.entries(userProps).sort(;
+  const userWeakest = Object.entries(userProps).sort(
     ([, a], [, b]) => a - b,
   )[0][0] as keyof ElementalProperties;
 
   // Find user's strongest element
-  const userStrongest = Object.entries(userProps).sort(;
+  const userStrongest = Object.entries(userProps).sort(
     ([, a], [, b]) => b - a,
   )[0][0] as keyof ElementalProperties;
 

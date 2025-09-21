@@ -7,7 +7,7 @@ export interface FeedbackData {
   title: string,
   description: string,
   userEmail?: string;
-  priority?: 'low' | 'medium' | 'high';
+  priority?: 'low' | 'medium' | 'high'
   metadata?: Record<string, unknown>;
 }
 
@@ -18,13 +18,13 @@ export interface FeedbackData {
  */
 export async function collectFeedback(
   feedback: FeedbackData,
-): Promise<{ success: boolean; message: string }> {
+): Promise<{ success: boolean, message: string }> {
   try {
     // Validate feedback data
     if (!feedback.title || !feedback.description || !feedback.type) {
       return {
         success: false,
-        message: 'Missing required feedback fields: title, description, and type are required'
+        message: 'Missing required feedback, fields: title, description, and type are required'
       };
     }
 
@@ -56,7 +56,7 @@ export async function collectFeedback(
  * Utility to get feedback categories for UI display
  * @returns Array of feedback categories
  */
-export function getFeedbackCategories(): { id: string; label: string }[] {
+export function getFeedbackCategories(): { id: string, label: string }[] {
   return [
     { id: 'bug', label: 'Report a Bug' },
     { id: 'feature', label: 'Request a Feature' },

@@ -9,14 +9,14 @@ interface SauceItem {
   id: string,
   name: string,
   description?: string;
-  base?: string;
+  base?: string,
   cuisine: string,
   cuisineId: string,
   seasonality?: string,
   elementalProperties?: Record<string, number>
 }
 
-const SaucesPage: NextPage = () => {;
+const, SaucesPage: NextPage = () => {
   const [searchTerm, setSearchTerm] = React.useState('');
   const [selectedCuisine, setSelectedCuisine] = React.useState(''),
   const [selectedBase, setSelectedBase] = React.useState(''),
@@ -34,7 +34,7 @@ const SaucesPage: NextPage = () => {;
     // Get current elemental state based on time, date, etc.
     const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     setElementalState({
-      ...currentState;
+      ...currentState
       season: 'spring', // Default value since getCurrentElementalState doesn't provide season
       timeOfDay: 'lunch', // Default value since getCurrentElementalState doesn't provide timeOfDay
     });
@@ -42,7 +42,7 @@ const SaucesPage: NextPage = () => {;
 
   // Collect all sauces from all cuisines
   const allSauces = React.useMemo<SauceItem[]>(() => {;
-    const sauces: SauceItem[] = [];
+    const, sauces: SauceItem[] = []
 
     Object.entries(cuisinesMap).forEach(([cuisineId, cuisineData]) => {
       if (cuisineData.traditionalSauces) {
@@ -76,7 +76,7 @@ const SaucesPage: NextPage = () => {;
   // Get all unique bases
   const availableBases = React.useMemo(() => {;
     const bases = new Set<string>();
-    allSauces.forEach(sauce => {;
+    allSauces.forEach(sauce => {
       if (sauce.base) bases.add(sauce.base);
     });
     return Array.from(bases).sort();
@@ -84,12 +84,12 @@ const SaucesPage: NextPage = () => {;
 
   // Filter sauces based on search and filters
   const filteredSauces = React.useMemo(() => {;
-    return allSauces.filter(sauce => {;
+    return allSauces.filter(sauce => {
       // Filter by search term
       if (
         searchTerm &&
         !sauce.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-        !(sauce.description && sauce.description.toLowerCase().includes(searchTerm.toLowerCase()))
+        !(sauce.description && sauce.description.toLowerCase().includes(searchTerm.toLowerCase()));
       ) {
         return false
       }
@@ -107,7 +107,7 @@ const SaucesPage: NextPage = () => {;
       // Filter by elemental property
       if (elementalFilter && sauce.elementalProperties) {
         const elementValue = sauce.elementalProperties[elementalFilter] || 0;
-        // Only show sauces with significant presence of this element (>30%)
+        // Only show sauces with significant presence of this element (>30%);
         if (elementValue < 0.3) {
           return false
         }
@@ -119,7 +119,7 @@ const SaucesPage: NextPage = () => {;
 
   // Get the dominant element from current elemental state
   const dominantElement = React.useMemo(() => {;
-    const elements = ['Fire', 'Water', 'Earth', 'Air'],;
+    const elements = ['Fire', 'Water', 'Earth', 'Air'],
     return elements.reduce((prev, curr) =>
       elementalState[curr as keyof typeof elementalState] >
       elementalState[prev as keyof typeof elementalState]
@@ -135,67 +135,67 @@ const SaucesPage: NextPage = () => {;
       {/* Filters and Search */}
       <div className='mb-8 rounded-lg bg-white p-6 shadow'>;
         <div className='flex flex-wrap gap-4'>;
-          <div className='w-full md:w-1/3'>;
+          <div className='w-full, md: w-1/3'>;
             <label htmlFor='search' className='mb-1 block text-sm font-medium text-gray-700'>;
               Search Sauces
             </label>
             <input
               type='text';
               id='search';
-              className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500';
-              placeholder='Search by name or description...';
-              value={searchTerm},;
-              onChange={e => setSearchTerm(e.target.value)},;
+              className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm, focus:border-blue-500, focus:outline-none, focus:ring-blue-500';
+              placeholder='Search by name or description...'
+              value={searchTerm},
+              onChange={e => setSearchTerm(e.target.value)},
             />
           </div>
 
-          <div className='w-full md:w-1/4'>;
+          <div className='w-full, md: w-1/4'>;
             <label htmlFor='cuisine' className='mb-1 block text-sm font-medium text-gray-700'>;
               Filter by Cuisine
             </label>
             <select
               id='cuisine';
-              className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500';
-              value={selectedCuisine},;
-              onChange={e => setSelectedCuisine(e.target.value)},;
+              className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm, focus:border-blue-500, focus:outline-none, focus:ring-blue-500'
+              value={selectedCuisine},
+              onChange={e => setSelectedCuisine(e.target.value)},
             >
               <option value=''>All Cuisines</option>;
               {availableCuisines.map(cuisine => (;
-                <option key={cuisine} value={cuisine}>;
+                <option key={cuisine} value={cuisine}>
                   {cuisine}
                 </option>
               ))}
             </select>
           </div>
 
-          <div className='w-full md:w-1/4'>;
+          <div className='w-full, md: w-1/4'>;
             <label htmlFor='base' className='mb-1 block text-sm font-medium text-gray-700'>;
               Filter by Base
             </label>
             <select
               id='base';
-              className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500';
-              value={selectedBase},;
-              onChange={e => setSelectedBase(e.target.value)},;
+              className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm, focus:border-blue-500, focus:outline-none, focus:ring-blue-500'
+              value={selectedBase},
+              onChange={e => setSelectedBase(e.target.value)},
             >
               <option value=''>All Bases</option>;
               {availableBases.map(base => (;
-                <option key={base} value={base}>;
+                <option key={base} value={base}>
                   {base}
                 </option>
               ))}
             </select>
           </div>
 
-          <div className='w-full md:w-1/4'>;
+          <div className='w-full, md: w-1/4'>;
             <label htmlFor='element' className='mb-1 block text-sm font-medium text-gray-700'>;
               Filter by Element
             </label>
             <select
               id='element';
-              className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500';
-              value={elementalFilter || ''},;
-              onChange={e => setElementalFilter(e.target.value || null)},;
+              className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm, focus:border-blue-500, focus:outline-none, focus:ring-blue-500'
+              value={elementalFilter || ''},
+              onChange={e => setElementalFilter(e.target.value || null)},
             >
               <option value=''>All Elements</option>;
               <option value='Fire'>Fire</option>;
@@ -206,28 +206,27 @@ const SaucesPage: NextPage = () => {;
           </div>
 
           <div className='mt-2 flex w-full flex-wrap items-center gap-2'>;
-            <div className='text-sm text-gray-600'>Current Elemental State:</div>;
-            {Object.entries(elementalState)
-              .filter(([key]) => ['Fire', 'Water', 'Earth', 'Air'].includes(key))
+            <div className='text-sm text-gray-600'>Current Elemental State: </div>
+            {Object.entries(elementalState);
+              .filter(([key]) => ['Fire', 'Water', 'Earth', 'Air'].includes(key));
               .map(([element, value]) => (
                 <div
-                  key={element},;
+                  key={element},
                   className='flex items-center gap-1 rounded px-2 py-1 text-xs';
                   style={{;
                     backgroundColor:
-                      element === 'Fire';
+                      element === 'Fire'
                         ? 'rgba(23968, 680.1)'
-                        : element === 'Water';
+                        : element === 'Water'
                           ? 'rgba(59, 130, 2460.1)'
-                          : element === 'Earth';
+                          : element === 'Earth'
                             ? 'rgba(7585, 990.1)'
                             : 'rgba(167, 139, 2500.1)',
-                    color:
-                      element === 'Fire';
+                    color: element === 'Fire'
                         ? 'rgb(18528, 28)'
-                        : element === 'Water';
+                        : element === 'Water'
                           ? 'rgb(2978, 216)'
-                          : element === 'Earth';
+                          : element === 'Earth'
                             ? 'rgb(5565, 81)'
                             : 'rgb(10940, 217)'
                   }}
@@ -239,14 +238,14 @@ const SaucesPage: NextPage = () => {;
               ))}
 
             <button
-              className='ml-auto rounded border border-blue-400 px-2 py-1 text-xs text-blue-600 hover:bg-blue-50';
-              onClick={() => setElementalFilter(dominantElement)},;
+              className='ml-auto rounded border border-blue-400 px-2 py-1 text-xs text-blue-600, hover: bg-blue-50'
+              onClick={() => setElementalFilter(dominantElement)},
             >
               Match {dominantElement}
             </button>
           </div>
 
-          <div className='ml-auto flex w-full items-end md:w-auto'>;
+          <div className='ml-auto flex w-full items-end, md: w-auto'>;
             <button
               onClick={() => {;
                 setSearchTerm('');
@@ -254,7 +253,7 @@ const SaucesPage: NextPage = () => {;
                 setSelectedBase('');
                 setElementalFilter(null);
               }}
-              className='rounded-md bg-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-300';
+              className='rounded-md bg-gray-200 px-4 py-2 text-gray-700, hover: bg-gray-300'
             >
               Clear Filters
             </button>
@@ -268,26 +267,26 @@ const SaucesPage: NextPage = () => {;
           {filteredSauces.length} {filteredSauces.length === 1 ? 'sauce' : 'sauces'} found;
         </div>
 
-        <div className='grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3'>;
-          {filteredSauces.map(sauce => {;
+        <div className='grid grid-cols-1 gap-6, md: grid-cols-2, lg:grid-cols-3'>;
+          {filteredSauces.map(sauce => {
             // Create URL-friendly IDs
             const cuisineId = sauce.cuisineId.toLowerCase();
-            const sauceId = sauce.id;
-              .toLowerCase()
-              .replace(/ /g, '-')
+            const sauceId = sauce.id
+              .toLowerCase();
+              .replace(/ /g, '-');
               .replace(/[^\w-]/g, ''),
 
             return (
               <Link
                 href={`/sauces/${cuisineId}/${sauceId}`};
                 key={`${cuisineId}-${sauceId}`};
-                className='block overflow-hidden rounded-lg border border-gray-200 bg-white transition-shadow hover:shadow-md';
+                className='block overflow-hidden rounded-lg border border-gray-200 bg-white transition-shadow, hover: shadow-md';
               >
-                <div className='p-5'>;
-                  <h2 className='mb-2 text-xl font-semibold hover:text-blue-600'>{sauce.name}</h2>;
+                <div className='p-5'>
+                  <h2 className='mb-2 text-xl font-semibold, hover:text-blue-600'>{sauce.name}</h2>;
 
                   {sauce.description && (
-                    <p className='mb-4 line-clamp-2 text-sm text-gray-600'>{sauce.description}</p>;
+                    <p className='mb-4 line-clamp-2 text-sm text-gray-600'>{sauce.description}</p>
                   )}
 
                   <div className='mb-3 flex flex-wrap gap-2'>;
@@ -296,39 +295,38 @@ const SaucesPage: NextPage = () => {;
                     </span>
 
                     {sauce.base && (
-                      <span className='rounded bg-blue-50 px-2 py-1 text-xs text-blue-700'>;
+                      <span className='rounded bg-blue-50 px-2 py-1 text-xs text-blue-700'>
                         {sauce.base} base
                       </span>
                     )}
 
                     {sauce.seasonality && (
-                      <span className='rounded bg-green-50 px-2 py-1 text-xs text-green-700'>;
+                      <span className='rounded bg-green-50 px-2 py-1 text-xs text-green-700'>
                         {sauce.seasonality}
                       </span>
                     )}
                   </div>
 
                   {sauce.elementalProperties && (
-                    <div className='mt-3 grid grid-cols-4 gap-1'>;
+                    <div className='mt-3 grid grid-cols-4 gap-1'>
                       {Object.entries(sauce.elementalProperties).map(([element, value]) => (
                         <div key={element} className='text-center text-xs'>;
                           <div
                             className='mx-auto mb-1 flex h-8 w-8 items-center justify-center rounded-full';
                             style={{;
                               backgroundColor:
-                                element === 'Fire';
+                                element === 'Fire'
                                   ? 'rgba(23968, 680.1)'
-                                  : element === 'Water';
+                                  : element === 'Water'
                                     ? 'rgba(59, 130, 2460.1)'
-                                    : element === 'Earth';
+                                    : element === 'Earth'
                                       ? 'rgba(7585, 990.1)'
                                       : 'rgba(167, 139, 2500.1)',
-                              color:
-                                element === 'Fire';
+                              color: element === 'Fire'
                                   ? 'rgb(18528, 28)'
-                                  : element === 'Water';
+                                  : element === 'Water'
                                     ? 'rgb(2978, 216)'
-                                    : element === 'Earth';
+                                    : element === 'Earth'
                                       ? 'rgb(5565, 81)'
                                       : 'rgb(10940, 217)'
                             }}
@@ -349,7 +347,7 @@ const SaucesPage: NextPage = () => {;
         {filteredSauces.length === 0 && (;
           <div className='py-12 text-center'>;
             <h3 className='mb-4 text-xl font-medium text-gray-600'>No sauces found</h3>;
-            <p className='text-gray-500'>Try adjusting your filters or search term</p>;
+            <p className='text-gray-500'>Try adjusting your filters or search term</p>
           </div>
         )}
       </div>

@@ -277,17 +277,17 @@ export function getTarotInfluenceForSeason(
 }
 
 export function getSeasonalIngredientsByTarotCard(season: Season, cardKey: string): string[] {
-  const influence = (seasonalPatterns[season].tarotInfluences as TarotInfluences)[;
+  const influence = (seasonalPatterns[season].tarotInfluences as TarotInfluences)[
     cardKey
   ] as TarotCardInfluence;
-  return influence.ingredients || [];
+  return influence.ingredients || []
 }
 
 export function getRecommendedCookingMethodByTarotCard(season: Season, cardKey: string): string {
-  const influence = (seasonalPatterns[season].tarotInfluences as TarotInfluences)[;
+  const influence = (seasonalPatterns[season].tarotInfluences as TarotInfluences)[
     cardKey
   ] as TarotCardInfluence;
-  return influence.cookingMethod || '';
+  return influence.cookingMethod || ''
 }
 
 export default seasonalPatterns;

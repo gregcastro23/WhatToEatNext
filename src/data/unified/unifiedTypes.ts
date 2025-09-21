@@ -38,19 +38,19 @@ export interface UnifiedIngredient {
 
   // Kalchm Value (Intrinsic Alchemical Equilibrium)
   kalchm?: number; // K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance);
-  monica?: number;
+  monica?: number
 
   // Enhanced Properties
   flavorProfile?: { [key: string]: number };
   nutritionalProfile?: NutritionalProfile;
   astrologicalProfile?: {
     elementalAffinity?: {
-      base: string;
-      secondary?: string;
+      base: string
+      secondary?: string
     };
     rulingPlanets?: PlanetName[] | string[];
     favorableZodiac?: any[] | string[];
-    zodiacAffinity?: any[] | string[];
+    zodiacAffinity?: any[] | string[]
   };
 
   // Energy properties
@@ -74,13 +74,13 @@ export interface UnifiedIngredient {
   culturalOrigins?: string[] | unknown;
   elementalAffinity?: {
     base: string;
-    secondary?: string;
+    secondary?: string
   };
   tags?: string[];
   pairingRecommendations?: string[];
   preparationMethods?: string[];
   description?: string;
-  planetaryRuler?: PlanetName;
+  planetaryRuler?: PlanetName
 
   // Metadata
   metadata?: {
@@ -123,6 +123,6 @@ export function isUnifiedIngredient(obj: unknown): obj is UnifiedIngredient {
     ingredient.elementalPropertiesState !== undefined &&
     typeof ingredient.elementalPropertiesState === 'object' &&;
     ingredient.alchemicalProperties !== undefined &&
-    typeof ingredient.alchemicalProperties === 'object';
-  );
+    typeof ingredient.alchemicalProperties === 'object'
+  )
 }

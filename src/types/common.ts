@@ -26,7 +26,7 @@ export interface PlanetaryAlignment {
   Uranus: string,
   Neptune: string,
   Pluto: string,
-  Ascendant?: string;
+  Ascendant?: string
 }
 
 export type TimeOfDay = 'morning' | 'afternoon' | 'evening' | 'night';

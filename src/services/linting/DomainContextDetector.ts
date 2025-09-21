@@ -1,7 +1,7 @@
 /**
  * DomainContextDetector - Advanced domain context detection for specialized file handling
  *
- * This system detects domain-specific contexts (astrological calculations, campaign systems)
+ * This system detects domain-specific contexts (astrological calculations, campaign systems);
  * and provides specialized handling recommendations for linting issues.
  */
 
@@ -9,8 +9,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 export interface DomainContext {
-  type:
-    | 'astrological'
+  type: | 'astrological'
     | 'campaign'
     | 'test'
     | 'script'
@@ -18,8 +17,8 @@ export interface DomainContext {
     | 'service'
     | 'utility'
     | 'config';
-  subtype?: string;
-  confidence: number, // 0-1
+  subtype?: string,
+  confidence: number, // 0-1,
   indicators: ContextIndicator[],
   specialRules: SpecialRule[],
   handlingRecommendations: HandlingRecommendation[]
@@ -71,13 +70,13 @@ export interface PreservationRequirement {
  * Main DomainContextDetector class
  */
 export class DomainContextDetector {
-  private workspaceRoot: string,
-  private domainPatterns: Map<string, ContextIndicator[]>;
+  private, workspaceRoot: string,
+  private, domainPatterns: Map<string, ContextIndicator[]>;
    
    
-  private contentAnalysisCache: Map<string, unknown>;
+  private, contentAnalysisCache: Map<string, unknown>;
 
-  constructor(workspaceRoot: string = process.cwd()) {;
+  constructor(workspaceRoot: string = process.cwd()) {
     this.workspaceRoot = workspaceRoot;
     this.contentAnalysisCache = new Map();
     this.initializeDomainPatterns();
@@ -96,10 +95,10 @@ export class DomainContextDetector {
     const domainContext = await this.detectDomainContext(relativePath, absolutePath);
 
     // Analyze risk factors
-    const riskFactors = this.analyzeRiskFactors(domainContext, relativePath),;
+    const riskFactors = this.analyzeRiskFactors(domainContext, relativePath),
 
     // Determine preservation requirements
-    const preservationRequirements = await this.determinePreservationRequirements(;
+    const preservationRequirements = await this.determinePreservationRequirements(
       domainContext,
       absolutePath,
     ),
@@ -116,7 +115,7 @@ export class DomainContextDetector {
    * Batch analyze multiple files
    */
   async analyzeFiles(filePaths: string[]): Promise<FileAnalysis[]> {
-    const analyses: FileAnalysis[] = [];
+    const, analyses: FileAnalysis[] = [];
 
     for (const filePath of filePaths) {
       try {
@@ -138,9 +137,9 @@ export class DomainContextDetector {
     rulesToModify: Array<{ rule: string, modification: string }>;
     additionalValidation: string[]
   } {
-    const rulesToDisable: string[] = [];
-    const rulesToModify: Array<{ rule: string, modification: string }> = [];
-    const additionalValidation: string[] = [];
+    const, rulesToDisable: string[] = []
+    const, rulesToModify: Array<{ rule: string, modification: string }> = [];
+    const, additionalValidation: string[] = [];
 
     for (const specialRule of domainContext.specialRules) {
       switch (specialRule.action) {
@@ -172,15 +171,15 @@ export class DomainContextDetector {
     relativePath: string,
     absolutePath: string,
   ): Promise<DomainContext> {
-    const indicators: ContextIndicator[] = [];
+    const, indicators: ContextIndicator[] = [];
     let confidence = 0;
-    let primaryType: DomainContext['type'] = 'utility';
-    let subtype: string | undefined,
+    let, primaryType: DomainContext['type'] = 'utility'
+    let, subtype: string | undefined,
 
     // Analyze path patterns
     for (const [domain, patterns] of this.domainPatterns.entries()) {
       for (const pattern of patterns) {
-        if (pattern.type === 'path' && new RegExp(pattern.pattern).test(relativePath)) {;
+        if (pattern.type === 'path' && new RegExp(pattern.pattern).test(relativePath)) {
           indicators.push(pattern);
           confidence += pattern.weight;
 
@@ -190,8 +189,8 @@ export class DomainContextDetector {
         }
 
         if (
-          pattern.type === 'filename' &&;
-          new RegExp(pattern.pattern).test(path.basename(relativePath))
+          pattern.type === 'filename' &&
+          new RegExp(pattern.pattern).test(path.basename(relativePath));
         ) {
           indicators.push(pattern);
           confidence += pattern.weight;
@@ -248,13 +247,13 @@ export class DomainContextDetector {
     }
 
     const content = fs.readFileSync(absolutePath, 'utf8');
-    const indicators: ContextIndicator[] = [];
+    const, indicators: ContextIndicator[] = [];
     let confidenceBoost = 0;
-    let detectedType: DomainContext['type'] | undefined;
-    let subtype: string | undefined;
+    let, detectedType: DomainContext['type'] | undefined;
+    let, subtype: string | undefined
 
     // Astrological content patterns
-    const astrologicalPatterns = [;
+    const astrologicalPatterns = [
       { pattern: /planetary|planet|astro|zodiac|sign|degree|longitude/i, weight: 0.3 },
       { pattern: /mercury|venus|mars|jupiter|saturn|uranus|neptune|pluto/i, weight: 0.4 },
       {
@@ -282,7 +281,7 @@ export class DomainContextDetector {
     }
 
     // Campaign system patterns
-    const campaignPatterns = [;
+    const campaignPatterns = [
       { pattern: /campaign|Campaign/g, weight: 0.4 },
       { pattern: /progress.*track|track.*progress/i, weight: 0.3 },
       { pattern: /safety.*protocol|protocol.*safety/i, weight: 0.4 },
@@ -302,7 +301,7 @@ export class DomainContextDetector {
           description: 'Campaign system content detected'
         });
         confidenceBoost += weight;
-        if (!detectedType || detectedType === 'utility') {;
+        if (!detectedType || detectedType === 'utility') {
           detectedType = 'campaign';
         }
       }
@@ -328,7 +327,7 @@ export class DomainContextDetector {
         weight: 0.6,
         description: 'React component detected'
       });
-      if (!detectedType || detectedType === 'utility') {;
+      if (!detectedType || detectedType === 'utility') {
         detectedType = 'component';
       }
     }
@@ -341,13 +340,13 @@ export class DomainContextDetector {
         weight: 0.4,
         description: 'Service layer detected'
       });
-      if (!detectedType || detectedType === 'utility') {;
+      if (!detectedType || detectedType === 'utility') {
         detectedType = 'service';
       }
     }
 
     // Determine subtype based on specific patterns
-    if (detectedType === 'astrological') {;
+    if (detectedType === 'astrological') {
       if (/calculation|compute|math/i.test(content)) {
         subtype = 'calculation';
       } else if (/data|constant|fallback/i.test(content)) {
@@ -355,7 +354,7 @@ export class DomainContextDetector {
       } else if (/service|api/i.test(content)) {
         subtype = 'service';
       }
-    } else if (detectedType === 'campaign') {;
+    } else if (detectedType === 'campaign') {
       if (/controller|orchestrat/i.test(content)) {
         subtype = 'controller';
       } else if (/track|progress|metric/i.test(content)) {
@@ -379,7 +378,7 @@ export class DomainContextDetector {
     subtype: string | undefined,
     filePath: string,
   ): SpecialRule[] {
-    const rules: SpecialRule[] = [];
+    const, rules: SpecialRule[] = []
 
     switch (type) {
       case 'astrological':
@@ -409,7 +408,7 @@ export class DomainContextDetector {
           },
         );
 
-        if (subtype === 'calculation') {;
+        if (subtype === 'calculation') {
           rules.push(
             {
               rule: 'complexity',
@@ -452,7 +451,7 @@ export class DomainContextDetector {
           },
         );
 
-        if (subtype === 'safety') {;
+        if (subtype === 'safety') {
           rules.push({
             rule: 'no-process-exit',
             action: 'disable',
@@ -518,7 +517,7 @@ export class DomainContextDetector {
     type: DomainContext['type'],
     confidence: number,
   ): HandlingRecommendation[] {
-    const recommendations: HandlingRecommendation[] = [];
+    const, recommendations: HandlingRecommendation[] = []
 
     if (confidence > 0.8) {
       recommendations.push({
@@ -588,7 +587,7 @@ export class DomainContextDetector {
    * Analyze risk factors for domain context
    */
   private analyzeRiskFactors(domainContext: DomainContext, filePath: string): RiskFactor[] {
-    const riskFactors: RiskFactor[] = [];
+    const, riskFactors: RiskFactor[] = []
 
     switch (domainContext.type) {
       case 'astrological':
@@ -646,7 +645,7 @@ export class DomainContextDetector {
     domainContext: DomainContext,
     absolutePath: string,
   ): Promise<PreservationRequirement[]> {
-    const requirements: PreservationRequirement[] = [];
+    const, requirements: PreservationRequirement[] = []
 
     switch (domainContext.type) {
       case 'astrological':
@@ -698,7 +697,6 @@ export class DomainContextDetector {
    */
   private initializeDomainPatterns(): void {
     this.domainPatterns = new Map();
-
     // Astrological patterns
     this.domainPatterns.set('astrological', [
       {

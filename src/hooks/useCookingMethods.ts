@@ -11,7 +11,7 @@ interface CookingMethod {
   description: string,
   score?: number;
   culturalOrigin?: string;
-  variations?: CookingMethod[];
+  variations?: CookingMethod[]
   elementalEffect?: {
     Fire: number,
     Water: number,
@@ -23,7 +23,7 @@ interface CookingMethod {
     max: number
   };
   suitable_for?: string[];
-  benefits?: string[];
+  benefits?: string[]
   alchemicalProperties?: {
     Spirit: number,
     Essence: number,
@@ -40,7 +40,7 @@ export function useCookingMethods() {
   useEffect(() => {
     try {
       // Convert the cooking methods data to the format expected by CookingMethodsSection
-      const convertedMethods: CookingMethod[] = Object.entries(allCookingMethods).map(
+      const, convertedMethods: CookingMethod[] = Object.entries(allCookingMethods).map(
         ([key, methodData]) => {
           const data = methodData as unknown;
 
@@ -72,7 +72,7 @@ export function useCookingMethods() {
       );
 
       // Also add methods from the cookingMethods object
-      const additionalMethods: CookingMethod[] = Object.entries(cookingMethods).map(
+      const, additionalMethods: CookingMethod[] = Object.entries(cookingMethods).map(
         ([key, methodData]) => {
           const data = methodData as unknown;
 
@@ -105,8 +105,8 @@ export function useCookingMethods() {
 
       // Combine and deduplicate methods
       const allMethods = [...convertedMethods, ...additionalMethods];
-      const uniqueMethods = allMethods.filter(;
-        (method, index, self) => index === self.findIndex(m => m.id === method.id),;
+      const uniqueMethods = allMethods.filter(
+        (method, index, self) => index === self.findIndex(m => m.id === method.id),
       );
 
       setMethods(uniqueMethods);
@@ -117,7 +117,7 @@ export function useCookingMethods() {
     }
   }, []);
 
-  const selectMethod = (methodId: string) => {;
+  const selectMethod = (methodId: string) => {
     // This could be used to track selected methods or trigger other actions
     log.info('Selected cooking method:', { methodId });
   };

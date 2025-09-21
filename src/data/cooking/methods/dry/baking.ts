@@ -6,7 +6,7 @@ import type { ThermodynamicProperties } from '@/types/shared';
  *
  * Cooking by surrounding food with dry heat in an enclosed oven or similar environment
  */
-export const baking: CookingMethodData = {;
+export const baking: CookingMethodData = {
   name: 'baking',
   description:
     'Cooking food by exposing it to dry heat in an enclosed space, typically in an oven, producing even heat distribution and caramelization',
@@ -205,18 +205,16 @@ export const baking: CookingMethodData = {;
 
   ingredientPreparation: {
     flour:
-      'Sift to aerate and remove lumps; proper measuring by weight is critical (1 cup ≈ 120-130g). For bread, high protein content (12%+). For pastry, low protein content (8-10%). For enriched doughs, bread flour.',
+      'Sift to aerate and remove lumps proper measuring by weight is critical (1 cup ≈ 120-130g). For bread, high protein content (12%+). For pastry, low protein content (8-10%). For enriched doughs, bread flour.',
     butter:
       'For pastry, keep cold (35-40°F) for flakiness; for creaming, soften to 65-68°F. European butter (higher butterfat content) preferred for laminated doughs. Use unsalted for precision control of salt content.',
     eggs: 'Bring to room temperature (65-70°F) for better volume and incorporation. Size matters - recipes typically assume large eggs (about 50g). Separate while cold, whip whites at room temperature for greater volume.',
-    meat: 'Pat dry thoroughly before roasting; season 1-24 hours in advance for better penetration. Bring to room temperature before baking. Truss or tie roasts for even cooking. Consider dry brining 24-48 hours for improved moisture retention.',
-    vegetables:
-      'Cut to uniform sizes; toss with oil to promote even browning. Consider parcooking dense vegetables. Higher water content vegetables benefit from salting to remove excess moisture. Roast on preheated sheet pans for better browning.',
+    meat: 'Pat dry thoroughly before roasting season 1-24 hours in advance for better penetration. Bring to room temperature before baking. Truss or tie roasts for even cooking. Consider dry brining 24-48 hours for improved moisture retention.',
+    vegetables: 'Cut to uniform sizes toss with oil to promote even browning. Consider parcooking dense vegetables. Higher water content vegetables benefit from salting to remove excess moisture. Roast on preheated sheet pans for better browning.',
     fruits:
       'For pies, macerate with sugar and drain excess juice to prevent soggy bottoms. Toss with acid (lemon juice) to prevent oxidation. For roasting, choose firmer varieties that hold shape. Spices intensify sweetness without added sugar.',
-    'leavening agents':
-      'Test baking powder for activity in warm water; replace every 6 months. Baking soda requires acid to activate. Yeast proofing shows viability - bubbles should form within 10 minutes in warm water with sugar. Store yeast in freezer for extended life.',
-    salt: 'Diamond Crystal kosher salt is half as dense as table salt; adjust measurements accordingly. Salt inhibits yeast activity in direct contact; add after initial fermentation begins for better rise. Fine sea salt distributes evenly in doughs.',
+    'leavening agents': 'Test baking powder for activity in warm water replace every 6 months. Baking soda requires acid to activate. Yeast proofing shows viability - bubbles should form within 10 minutes in warm water with sugar. Store yeast in freezer for extended life.',
+    salt: 'Diamond Crystal kosher salt is half as dense as table salt adjust measurements accordingly. Salt inhibits yeast activity in direct contact add after initial fermentation begins for better rise. Fine sea salt distributes evenly in doughs.',
     sugar:
       'Granulated for creaming, superfine for meringues, brown for moisture and molasses flavor. Hygroscopic properties affect texture and moisture retention. Invert sugar (honey, corn syrup) improves browning and extends shelf life.'
   },
@@ -230,17 +228,15 @@ export const baking: CookingMethodData = {;
       'Cool cakes in pan for 10 minutes, then on rack; breads until internal temp reaches 90-95°F. Cookies firm up on sheet pan for 2-3 minutes before transferring to rack. Quick breads benefit from aging overnight for flavor development.',
     carryover_cooking:
       'Large roasts temperature will rise 5-15°F after removal from oven. For medium-rare beef, remove at 125-130°F to achieve 135-140°F final temperature. Poultry may rise 5-10°F. Custards continue setting as they cool.',
-    resting_dough:
-      'Refrigerate cookie dough 24-36 hours for deeper flavor; pizza dough 2-5 days. Sourdough bread benefits from 12-24 hour cold fermentation. Enriched doughs require 8-12 hours refrigeration for flavor development. Pâte feuilletée (puff pastry) requires 30-minute rests between folds.'
+    resting_dough: 'Refrigerate cookie dough 24-36 hours for deeper flavor pizza dough 2-5 days. Sourdough bread benefits from 12-24 hour cold fermentation. Enriched doughs require 8-12 hours refrigeration for flavor development. Pâte feuilletée (puff pastry) requires 30-minute rests between folds.'
   },
 
   doneness_indicators: {
     bread:
-      'Internal temperature of 190-210°F; hollow sound when tapped on bottom. For enriched breads, 185-190°F. For crusty artisan loaves, 205-210°F. Golden brown crust, with visible spring and open crumb structure.',
+      'Internal temperature of 190-210°F hollow sound when tapped on bottom. For enriched breads, 185-190°F. For crusty artisan loaves, 205-210°F. Golden brown crust, with visible spring and open crumb structure.',
     cakes:
       'Toothpick inserted in center comes out clean or with a few moist crumbs. Sides begin to pull away from pan. Springs back when lightly pressed. Internal temperature 200-205°F for butter cakes, 190-195°F for oil-based cakes.',
-    cookies:
-      'Edges set but centers slightly soft; will firm upon cooling. Color indicates doneness - golden for shortbread, medium brown for chocolate chip. For chewy cookies, they should look slightly underdone in center when removed.',
+    cookies: 'Edges set but centers slightly soft will firm upon cooling. Color indicates doneness - golden for shortbread, medium brown for chocolate chip. For chewy cookies, they should look slightly underdone in center when removed.',
     meats:
       'Use digital thermometer: beef medium-rare 130-135°F, chicken 165°F, pork 145°F. Visual cues include color change, juice clarity, and firmness to touch. Beef rare: 120-125°F, medium: 135-145°F, well-done: 150°F+.',
     vegetables:
@@ -253,15 +249,12 @@ export const baking: CookingMethodData = {;
 
   ingredientInteractions: {
     acids_and_bases:
-      'Acids inhibit browning; baking soda neutralizes acid and promotes browning. Buttermilk, yogurt, and sour cream provide both moisture and acidity, requiring baking soda for leavening. Citric acid prevents oxidation in fruit fillings.',
-    sugars:
-      'Increase tenderness and browning; liquid sugar (honey, maple) increases moisture. Competes with flour for liquid, affecting structure. Hygroscopic properties extend shelf life by retaining moisture. Invert sugars (honey, corn syrup) inhibit crystallization.',
-    fats: 'Create flakiness in pastry; enhance mouthfeel; delay gluten formation. Solid fats create distinct layers in laminated doughs. Liquid oils produce more tender crumb but less structure. Fat coats flour particles, limiting gluten development for tenderness.',
-    proteins:
-      'Set structure when heated; create browning reactions with sugars. Egg proteins coagulate at different temperatures: yolks 149-158°F, whites 140-149°F. Gluten development provides structure and chew, particularly in bread. Milk proteins contribute to browning.',
-    starches:
-      'Absorb moisture; provide structure; gelatinize when heated with moisture. Different starches gelatinize at different temperatures: wheat 140-158°F, cornstarch 155-158°F. Pre-gelatinized starches (modified) thicken without heat. Starch retrogradation causes staling.',
-    salt: 'Strengthens gluten; enhances flavor; controls yeast activity; affects browning. Salt tightens gluten structure for better gas retention in bread. Inhibits yeast activity when in direct contact. Contributes to flavor perception of sweetness without adding sugars.'
+      'Acids inhibit browning baking soda neutralizes acid and promotes browning. Buttermilk, yogurt, and sour cream provide both moisture and acidity, requiring baking soda for leavening. Citric acid prevents oxidation in fruit fillings.',
+    sugars: 'Increase tenderness and browning liquid sugar (honey, maple) increases moisture. Competes with flour for liquid, affecting structure. Hygroscopic properties extend shelf life by retaining moisture. Invert sugars (honey, corn syrup) inhibit crystallization.',
+    fats: 'Create flakiness in pastry; enhance mouthfeel delay gluten formation. Solid fats create distinct layers in laminated doughs. Liquid oils produce more tender crumb but less structure. Fat coats flour particles, limiting gluten development for tenderness.',
+    proteins: 'Set structure when heated create browning reactions with sugars. Egg proteins coagulate at different temperatures: yolks 149-158°F, whites 140-149°F. Gluten development provides structure and chew, particularly in bread. Milk proteins contribute to browning.',
+    starches: 'Absorb moisture; provide structure gelatinize when heated with moisture. Different starches gelatinize at different temperatures: wheat 140-158°F, cornstarch 155-158°F. Pre-gelatinized starches (modified) thicken without heat. Starch retrogradation causes staling.',
+    salt: 'Strengthens gluten; enhances flavor; controls yeast activity affects browning. Salt tightens gluten structure for better gas retention in bread. Inhibits yeast activity when in direct contact. Contributes to flavor perception of sweetness without adding sugars.'
   },
 
   technicalNotes: {

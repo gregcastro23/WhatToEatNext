@@ -19,7 +19,7 @@ export function toStandardElementalAffinity(engineAffinity: unknown): ElementalA
 // Convert standardized format to alchemicalEngine format
 export function toEngineElementalAffinity(standardAffinity: ElementalAffinity): unknown {
   // Apply safe type casting for ElementalAffinity property access
-  const affinityData = standardAffinity as unknown;
+  const affinityData = standardAffinity as unknown
 
   return {
     ...standardAffinity,

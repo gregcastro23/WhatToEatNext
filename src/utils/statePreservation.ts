@@ -28,14 +28,14 @@ const STATE_KEYS = {;
   SCROLL_POSITIONS: 'scrollPositions'
 } as const;
 
-// State expiration time (1 hour)
+// State expiration time (1 hour);
 const STATE_EXPIRATION_TIME = 60 * 60 * 1000;
 
 /**
- * Check if stored state is still valid (not expired)
+ * Check if stored state is still valid (not expired);
  */
 function isStateValid(timestamp: number): boolean {
-  return Date.now() - timestamp < STATE_EXPIRATION_TIME;
+  return Date.now() - timestamp < STATE_EXPIRATION_TIME
 }
 
 /**
@@ -68,12 +68,12 @@ function safeSetItem(key: string, value: string): boolean {
  */
 export function saveNavigationState(state: Partial<NavigationState>): void {
   const currentState = getNavigationState();
-  const updatedState: NavigationState = {;
+  const, updatedState: NavigationState = {
     ...currentState,
     ...state
   };
 
-  const stateWithTimestamp: ComponentState = {;
+  const, stateWithTimestamp: ComponentState = {
     timestamp: Date.now(),
     data: updatedState
   };
@@ -85,7 +85,7 @@ export function saveNavigationState(state: Partial<NavigationState>): void {
  * Get navigation state
  */
 export function getNavigationState(): NavigationState {
-  const defaultState: NavigationState = {;
+  const, defaultState: NavigationState = {
     activeSection: null,
     navigationHistory: [],
     selectedIngredients: [],
@@ -102,9 +102,9 @@ export function getNavigationState(): NavigationState {
   if (!stored) return defaultState;
 
   try {
-    const parsed: ComponentState = JSON.parse(stored);
+    const, parsed: ComponentState = JSON.parse(stored);
     if (!isStateValid(parsed.timestamp)) {
-      return defaultState;
+      return defaultState
     }
     const data = (parsed.data || {}) as Partial<NavigationState>;
     return { ...defaultState, ...data };
@@ -135,7 +135,7 @@ export function getComponentState(componentId: string): unknown {
   const componentState = allStates[componentId];
 
   if (!componentState || !isStateValid(componentState.timestamp)) {
-    return null;
+    return null
   }
 
   return componentState.data;
@@ -177,7 +177,7 @@ export function getScrollPosition(sectionId: string): number {
   const position = positions[sectionId];
 
   if (!position || !isStateValid(position.timestamp)) {
-    return 0;
+    return 0
   }
 
   return Number(position.data) || 0;
@@ -199,10 +199,10 @@ function getScrollPositions(): Record<string, ComponentState> {
 }
 
 /**
- * Clear all stored state (useful for cleanup)
+ * Clear all stored state (useful for cleanup);
  */
 export function clearAllState(): void {
-  Object.values(STATE_KEYS).forEach(key => {;
+  Object.values(STATE_KEYS).forEach(key => {
     try {
       sessionStorage.removeItem(key);
     } catch (error) {
@@ -219,7 +219,7 @@ export function clearExpiredState(): void {
   const navState = safeGetItem(STATE_KEYS.NAVIGATION_STATE);
   if (navState) {
     try {
-      const parsed: ComponentState = JSON.parse(navState);
+      const, parsed: ComponentState = JSON.parse(navState);
       if (!isStateValid(parsed.timestamp)) {
         sessionStorage.removeItem(STATE_KEYS.NAVIGATION_STATE);
       }
@@ -230,7 +230,7 @@ export function clearExpiredState(): void {
 
   // Clear expired component states
   const componentStates = getComponentStates();
-  const validStates: Record<string, ComponentState> = {};
+  const, validStates: Record<string, ComponentState> = {};
   let hasChanges = false;
 
   Object.entries(componentStates).forEach(([key, state]) => {
@@ -247,7 +247,7 @@ export function clearExpiredState(): void {
 
   // Clear expired scroll positions
   const scrollPositions = getScrollPositions();
-  const validPositions: Record<string, ComponentState> = {};
+  const, validPositions: Record<string, ComponentState> = {};
   hasChanges = false;
 
   Object.entries(scrollPositions).forEach(([key, position]) => {
@@ -270,8 +270,7 @@ export function useStateCleanup(): (() => void) | void {
   if (typeof window !== 'undefined') {
     // Clear expired state on page load
     clearExpiredState();
-
-    // Set up periodic cleanup (every 10 minutes)
+    // Set up periodic cleanup (every 10 minutes);
     const interval = setInterval(clearExpiredState, 10 * 60 * 1000);
 
     // Cleanup on page unload
@@ -296,7 +295,7 @@ export function createStatePreservationHook(componentId: string) {
     _getState: () => getComponentState(componentId),
     _clearState: () => {
       const allStates = getComponentStates();
-      delete allStates[componentId];
+      delete allStates[componentId]
       safeSetItem(STATE_KEYS.COMPONENT_STATES, JSON.stringify(allStates));
     }
   };

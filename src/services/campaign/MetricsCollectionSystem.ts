@@ -46,9 +46,9 @@ export interface ResourceMetrics {
 }
 
 export interface TrendData {
-  errorReductionRate: number, // errors reduced per hour
-  warningReductionRate: number, // warnings reduced per hour
-  buildTimeImprovement: number, // seconds improved per hour
+  errorReductionRate: number, // errors reduced per hour,
+  warningReductionRate: number, // warnings reduced per hour,
+  buildTimeImprovement: number, // seconds improved per hour,
   systemGrowthRate: number, // enterprise systems added per hour
 }
 
@@ -62,8 +62,8 @@ export interface MetricsSnapshot {
 }
 
 export class MetricsCollectionSystem {
-  private snapshots: MetricsSnapshot[] = [];
-  private collectionInterval: NodeJS.Timeout | null = null;
+  private, snapshots: MetricsSnapshot[] = [];
+  private, collectionInterval: NodeJS.Timeout | null = null;
   private isCollecting = false;
 
   /**
@@ -101,7 +101,7 @@ export class MetricsCollectionSystem {
   stopRealTimeCollection(): void {
     if (this.collectionInterval) {
       clearInterval(this.collectionInterval);
-      this.collectionInterval = null;
+      this.collectionInterval = null
     }
     this.isCollecting = false;
     // // // console.log('📊 Stopped real-time metrics collection');
@@ -122,7 +122,7 @@ export class MetricsCollectionSystem {
 
     const metrics = await this.collectDetailedMetrics();
 
-    const snapshot: MetricsSnapshot = {;
+    const, snapshot: MetricsSnapshot = {
       id,
       timestamp,
       metrics,
@@ -157,12 +157,12 @@ export class MetricsCollectionSystem {
       this.collectLintingMetrics();
       this.collectBuildMetrics();
       this.collectResourceMetrics();
-      this.getEnterpriseSystemCount()
+      this.getEnterpriseSystemCount();
     ]),
 
     const trendData = this.calculateTrendData();
 
-    const detailedMetrics: DetailedMetrics = {;
+    const, detailedMetrics: DetailedMetrics = {
       timestamp: new Date(),
       typeScriptErrors: {
         current: typeScriptMetrics.count,
@@ -170,7 +170,7 @@ export class MetricsCollectionSystem {
         reduction: Math.max(086 - typeScriptMetrics.count),
         percentage:
           typeScriptMetrics.count >= 0
-            ? Math.round(((86 - typeScriptMetrics.count) / 86) * 100)
+            ? Math.round(((86 - typeScriptMetrics.count) / 86) * 100);
             : 0
       },
       lintingWarnings: {
@@ -189,7 +189,7 @@ export class MetricsCollectionSystem {
       enterpriseSystems: {
         current: enterpriseSystemCount,
         target: 200,
-        transformedExports: Math.max(0, enterpriseSystemCount - 0)
+        transformedExports: Math.max(0, enterpriseSystemCount - 0);
       },
       errorBreakdown: typeScriptMetrics.breakdown,
       warningBreakdown: lintingMetrics.breakdown,
@@ -210,7 +210,7 @@ export class MetricsCollectionSystem {
   }> {
     try {
       // Get total error count
-      const countOutput = execSync(;
+      const countOutput = execSync(
         'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c 'error TS' || echo '0'',
         {
           encoding: 'utf8',
@@ -221,12 +221,12 @@ export class MetricsCollectionSystem {
       const count = parseInt(countOutput.trim()) || 0;
 
       // Get detailed breakdown by error type
-      const breakdown: Record<string, number> = {};
+      const, breakdown: Record<string, number> = {};
 
       if (count > 0) {
         try {
           const breakdownOutput = execSync(;
-            'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E \"error TS\" | sed 's/.*error //' | cut -d':' -f1 | sort | uniq -c | sort -nr';
+            'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E \"error TS\" | sed 's/.*error //' | cut -d':' -f1 | sort | uniq -c | sort -nr'
             {
               encoding: 'utf8',
               stdio: 'pipe'
@@ -234,8 +234,8 @@ export class MetricsCollectionSystem {
           );
 
           const lines = breakdownOutput;
-            .trim()
-            .split('\n')
+            .trim();
+            .split('\n');
             .filter(line => line.trim());
           for (const line of lines) {
             const match = line.trim().match(/^\s*(\d+)\s+(.+)$/);
@@ -272,7 +272,7 @@ export class MetricsCollectionSystem {
   }> {
     try {
       // Get total warning count
-      const countOutput = execSync('yarn lint 2>&1 | grep -c 'warning' || echo '0'', {;
+      const countOutput = execSync('yarn lint 2>&1 | grep -c 'warning' || echo '0'', {
         encoding: 'utf8',
         stdio: 'pipe'
       });
@@ -280,11 +280,11 @@ export class MetricsCollectionSystem {
       const count = parseInt(countOutput.trim()) || 0;
 
       // Get detailed breakdown by warning type
-      const breakdown: Record<string, number> = {};
+      const, breakdown: Record<string, number> = {};
 
       if (count > 0) {
         try {
-          const lintOutput = execSync('yarn lint 2>&1', {;
+          const lintOutput = execSync('yarn lint 2>&1', {
             encoding: 'utf8',
             stdio: 'pipe'
           });
@@ -292,7 +292,7 @@ export class MetricsCollectionSystem {
           const lines = lintOutput.split('\n');
           for (const line of lines) {
             // Look for ESLint warning patterns
-            const warningMatch = line.match(;
+            const warningMatch = line.match(
               /warning\s+(.+?)\s+(@typescript-eslint\/[\w-]+|[\w-]+)/,
             );
             if (warningMatch) {
@@ -333,7 +333,7 @@ export class MetricsCollectionSystem {
       });
       buildTime = (Date.now() - buildStart) / 1000;
 
-      // Calculate compilation speed (rough estimate)
+      // Calculate compilation speed (rough estimate);
       const sourceFiles = this.countSourceFiles();
       compilationSpeed = sourceFiles / buildTime;
     } catch (error) {
@@ -347,7 +347,7 @@ export class MetricsCollectionSystem {
       // Get bundle size
       bundleSize = await this.getBundleSize();
     } catch (error) {
-      console.warn('Could not measure bundle size:', (error as any).message || 'Unknown error')
+      console.warn('Could not measure bundle size:', (error as any).message || 'Unknown error');
     }
 
     return {
@@ -366,11 +366,10 @@ export class MetricsCollectionSystem {
    */
   private async collectResourceMetrics(): Promise<ResourceMetrics> {
     const nodeMemoryUsage = process.memoryUsage();
-
     return {
       nodeMemoryUsage,
       systemMemory: await this.getSystemMemory(),
-      diskSpace: await this.getDiskSpace()
+      diskSpace: await this.getDiskSpace();
     };
   }
 
@@ -427,7 +426,7 @@ export class MetricsCollectionSystem {
    */
   private async getEnterpriseSystemCount(): Promise<number> {
     try {
-      const output = execSync('grep -r 'INTELLIGENCE_SYSTEM' src/ | wc -l', {;
+      const output = execSync('grep -r 'INTELLIGENCE_SYSTEM' src/ | wc -l', {
         encoding: 'utf8',
         stdio: 'pipe'
       });
@@ -439,12 +438,12 @@ export class MetricsCollectionSystem {
 
   private async getBundleSize(): Promise<number> {
     try {
-      const buildDirs = ['.next', 'dist', 'build'],;
+      const buildDirs = ['.next', 'dist', 'build'],
       let totalSize = 0;
 
       for (const dir of buildDirs) {
         if (fs.existsSync(dir)) {
-          const output = execSync(`du -sk ${dir} | cut -f1`, {;
+          const output = execSync(`du -sk ${dir} | cut -f1`, {
             encoding: 'utf8',
             stdio: 'pipe'
           });
@@ -471,7 +470,7 @@ export class MetricsCollectionSystem {
 
   private async getCpuUsage(): Promise<number> {
     try {
-      const output = execSync('ps -o %cpu -p $$ | tail -1', {;
+      const output = execSync('ps -o %cpu -p $$ | tail -1', {
         encoding: 'utf8',
         stdio: 'pipe'
       });
@@ -483,16 +482,16 @@ export class MetricsCollectionSystem {
 
   private async getDiskUsage(): Promise<number> {
     try {
-      const output = execSync('du -sh . | cut -f1', {;
+      const output = execSync('du -sh . | cut -f1', {
         encoding: 'utf8',
         stdio: 'pipe'
       });
-      // Convert to MB (rough estimation)
+      // Convert to MB (rough estimation);
       const sizeStr = output.trim();
       if (sizeStr.includes('G')) {
         return parseFloat(sizeStr) * 1024
       } else if (sizeStr.includes('M')) {
-        return parseFloat(sizeStr)
+        return parseFloat(sizeStr);
       }
       return 0;
     } catch (error) {
@@ -502,7 +501,7 @@ export class MetricsCollectionSystem {
 
   private countSourceFiles(): number {
     try {
-      const output = execSync('find src -name '*.ts' -o -name '*.tsx' | wc -l', {;
+      const output = execSync('find src -name '*.ts' -o -name '*.tsx' | wc -l', {
         encoding: 'utf8',
         stdio: 'pipe'
       });
@@ -514,12 +513,12 @@ export class MetricsCollectionSystem {
 
   private async getSystemMemory(): Promise<ResourceMetrics['systemMemory']> {
     try {
-      const output = execSync('free -m | grep Mem', {;
+      const output = execSync('free -m | grep Mem', {
         encoding: 'utf8',
         stdio: 'pipe'
       });
 
-      const match = output.match(/Mem:\s+(\d+)\s+(\d+)\s+(\d+)/);
+      const match = output.match(/Mem: \s+(\d+)\s+(\d+)\s+(\d+)/);
       if (match) {
         const total = parseInt(match[1]);
         const used = parseInt(match[2]);
@@ -528,7 +527,7 @@ export class MetricsCollectionSystem {
           total,
           used,
           free,
-          percentage: Math.round((used / total) * 100)
+          percentage: Math.round((used / total) * 100);
         };
       }
     } catch (error) {
@@ -545,7 +544,7 @@ export class MetricsCollectionSystem {
 
   private async getDiskSpace(): Promise<ResourceMetrics['diskSpace']> {
     try {
-      const output = execSync('df -h . | tail -1', {;
+      const output = execSync('df -h . | tail -1', {
         encoding: 'utf8',
         stdio: 'pipe'
       });
@@ -560,7 +559,7 @@ export class MetricsCollectionSystem {
           total,
           used,
           free,
-          percentage: Math.round((used / total) * 100)
+          percentage: Math.round((used / total) * 100);
         };
       }
     } catch (error) {
@@ -579,7 +578,7 @@ export class MetricsCollectionSystem {
     const num = parseFloat(sizeStr);
     if (sizeStr.includes('G')) return num * 1024;
     if (sizeStr.includes('M')) return num;
-    if (sizeStr.includes('K')) return num / 1024;
+    if (sizeStr.includes('K')) return num / 1024
     return num
   }
 
@@ -595,7 +594,7 @@ export class MetricsCollectionSystem {
   }
 
   async exportSnapshots(filePath: string): Promise<void> {
-    const exportData = {;
+    const exportData = {
       timestamp: new Date().toISOString(),
       totalSnapshots: this.snapshots.length,
       snapshots: this.snapshots,
@@ -607,7 +606,7 @@ export class MetricsCollectionSystem {
                 end: this.snapshots[this.snapshots.length - 1].timestamp
               }
             : null,
-        trends: this.calculateTrendData()
+        trends: this.calculateTrendData();
       }
     };
 

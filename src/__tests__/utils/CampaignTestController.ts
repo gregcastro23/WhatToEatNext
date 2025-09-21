@@ -46,20 +46,20 @@ interface TestIsolationConfig {
  * to ensure proper isolation and prevent interference between tests.
  */
 export class CampaignTestController {
-  private static instance: CampaignTestController | null = null;
-  private testState: CampaignTestState;
-  private isolationConfig: TestIsolationConfig;
-  private testSafeTracker: TestSafeProgressTracker | null = null;
+  private static, instance: CampaignTestController | null = null;
+  private, testState: CampaignTestState;
+  private, isolationConfig: TestIsolationConfig;
+  private, testSafeTracker: TestSafeProgressTracker | null = null
   private mockInstances: {
     controller: MockCampaignController | null,
     tracker: MockProgressTracker | null,
     safety: MockSafetyProtocol | null
   };
-  private originalEnvVars: Record<string, string | undefined> = {};
-  private activeTestName: string | null = null;
+  private, originalEnvVars: Record<string, string | undefined> = {};
+  private, activeTestName: string | null = null;
 
   private constructor() {
-    this.testState = {;
+    this.testState = {
       isPaused: false,
       isIsolated: false,
       pausedAt: null,
@@ -73,7 +73,7 @@ export class CampaignTestController {
       preventBuildExecution: true,
       preventGitOperations: true,
       enableMemoryMonitoring: true,
-      isolateFileSystem: false, // Can be enabled for specific tests
+      isolateFileSystem: false, // Can be enabled for specific tests,
       mockExternalAPIs: true
     };
 
@@ -97,7 +97,7 @@ export class CampaignTestController {
    * Initialize campaign test environment for a specific test
    */
   async initializeForTest(testName: string, config?: Partial<TestIsolationConfig>): Promise<void> {
-    this.activeTestName = testName;
+    this.activeTestName = testName
     this.isolationConfig = { ...this.isolationConfig, ...config };
 
     // Store original state
@@ -109,8 +109,8 @@ export class CampaignTestController {
 
     // Initialize test-safe progress tracker
     if (this.isolationConfig.pauseProgressTracking) {
-      this.testSafeTracker = new TestSafeProgressTracker({;
-        maxHistorySize: 10, // Smaller for tests
+      this.testSafeTracker = new TestSafeProgressTracker({
+        maxHistorySize: 10, // Smaller for tests,
         memoryCheckFrequency: 3,
         enableMemoryMonitoring: this.isolationConfig.enableMemoryMonitoring,
         simulateRealProgress: false
@@ -191,7 +191,7 @@ export class CampaignTestController {
    * Get test-safe progress tracker instance
    */
   getTestSafeTracker(): TestSafeProgressTracker | null {
-    return this.testSafeTracker;
+    return this.testSafeTracker
   }
 
   /**
@@ -209,14 +209,14 @@ export class CampaignTestController {
    * Check if campaign is currently paused
    */
   isPaused(): boolean {
-    return this.testState.isPaused;
+    return this.testState.isPaused
   }
 
   /**
    * Check if test isolation is active
    */
   isIsolated(): boolean {
-    return this.testState.isIsolated;
+    return this.testState.isIsolated
   }
 
   /**
@@ -231,11 +231,11 @@ export class CampaignTestController {
    */
   async simulateProgress(
     targetMetrics: Partial<ProgressMetrics>,
-    durationMs: number = 1000,,;
+    durationMs: number = 1000,,
     testName?: string
   ): Promise<void> {
     if (!this.testSafeTracker) {
-      throw new Error('Test-safe tracker not initialized')
+      throw new Error('Test-safe tracker not initialized');
     }
 
     await this.testSafeTracker.simulateProgress(
@@ -251,7 +251,7 @@ export class CampaignTestController {
   updateMockMetrics(updates: Partial<ProgressMetrics>, testName?: string): void {
     // Update test-safe tracker
     if (this.testSafeTracker) {
-      this.testSafeTracker.updateMetrics(updates, testName)
+      this.testSafeTracker.updateMetrics(updates, testName);
     }
 
     // Update mock tracker
@@ -271,7 +271,7 @@ export class CampaignTestController {
   createMockSafetyEvent(
     type: SafetyEventType,
     description: string,
-    severity: SafetyEventSeverity = SafetyEventSeverity.INFO;
+    severity: SafetyEventSeverity = SafetyEventSeverity.INFO
   ): SafetyEvent {
     return {
       type,
@@ -290,8 +290,8 @@ export class CampaignTestController {
     issues: string[],
     warnings: string[]
   } {
-    const issues: string[] = [];
-    const warnings: string[] = [];
+    const, issues: string[] = [];
+    const, warnings: string[] = [];
 
     // Check environment variables
     if (process.env.NODE_ENV !== 'test') {
@@ -328,7 +328,7 @@ export class CampaignTestController {
     }
 
     return {
-      isValid: issues.length === 0,,;
+      isValid: issues.length === 0,,
       issues,
       warnings
     };
@@ -401,7 +401,7 @@ export class CampaignTestController {
 
   private setupTestEnvironment(): void {
     // Store original environment variables
-    this.originalEnvVars = {;
+    this.originalEnvVars = {
       NODE_ENV: process.env.NODE_ENV,
       CAMPAIGN_TEST_MODE: process.env.CAMPAIGN_TEST_MODE,
       DISABLE_ACTUAL_BUILDS: process.env.DISABLE_ACTUAL_BUILDS,
@@ -433,7 +433,7 @@ export class CampaignTestController {
 
   private setTestEnvironmentVars(): void {
     if (this.isolationConfig.preventBuildExecution) {
-      process.env.DISABLE_ACTUAL_BUILDS = 'true';
+      process.env.DISABLE_ACTUAL_BUILDS = 'true'
     }
 
     if (this.isolationConfig.preventGitOperations) {
@@ -457,7 +457,7 @@ export class CampaignTestController {
 
   private mockExternalAPIs(): void {
     // Mock child_process.execSync to prevent actual command execution
-    const _UNUSED_originalExecSync = require('child_process').execSync;
+    const _UNUSED_originalExecSync = require('child_process').execSync
 
     jest.spyOn(require('child_process'), 'execSync').mockImplementation((command: string) => {
       // Return mock outputs for common commands
@@ -485,14 +485,13 @@ export class CampaignTestController {
 
   private mockFileSystemOperations(): void {
     const fs = require('fs');
-
     // Mock file existence checks
     jest.spyOn(fs, 'existsSync').mockImplementation((path: string) => {
       // Return true for common paths to prevent errors
       if (
         path.includes('.git') ||
         path.includes('package.json') ||
-        path.includes('tsconfig.json')
+        path.includes('tsconfig.json');
       ) {
         return true
       }
@@ -520,7 +519,7 @@ export class CampaignTestController {
   private restoreOriginalState(originalState: unknown): void {
     // Restore environment variables
     if ((originalState as any).envVars) {
-      Object.keys(process.env).forEach(key => {;
+      Object.keys(process.env).forEach(key => {
         if (!(key in (originalState as any).envVars)) {
           delete process.env[key]
         }

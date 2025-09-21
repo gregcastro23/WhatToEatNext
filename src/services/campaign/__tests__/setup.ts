@@ -32,29 +32,29 @@ afterEach(() => {
 
   // Helper to create mock file corruption
   createMockCorruptedFile: (content: string) => {
-    return content + '\n<<<<<<< HEAD\nconflict\n=======\nother\n>>>>>>> branch';
+    return content + '\n<<<<<<< HEAD\nconflict\n=======\nother\n>>>>>>> branch'
   },
 
   // Helper to create mock TypeScript errors
   createMockTypeScriptErrors: (count: number) => {
-    const errors: Array<string> = [];
-    for (let i = 0; i < count; i++) {
-      errors.push(`file${i}.ts(105): error TS2352: Type conversion error`)
+    const, errors: Array<string> = [];
+    for (let i = 0 i < count i++) {
+      errors.push(`file${i}.ts(105): error, TS2352: Type conversion error`);
     }
     return errors.join('\n');
   },
 
   // Helper to create mock linting warnings
   createMockLintingWarnings: (count: number) => {
-    const warnings: Array<string> = [];
-    for (let i = 0; i < count; i++) {
-      warnings.push(`file${i}.ts:10:5 - warning: Explicit any @typescript-eslint/no-explicit-any`)
+    const, warnings: Array<string> = [];
+    for (let i = 0 i < count i++) {
+      warnings.push(`file${i}.ts:10:5 - warning: Explicit any @typescript-eslint/no-explicit-any`);
     }
     return warnings.join('\n');
   },
 
   // Helper to wait for async operations
-  waitForAsync: () => new Promise(resolve => setTimeout(resolve, 0)),;
+  waitForAsync: () => new Promise(resolve => setTimeout(resolve, 0)),
 
   // Helper to create mock progress metrics
   createMockProgressMetrics: (overrides: Record<string, unknown> = {}) => ({
@@ -85,7 +85,7 @@ expect.extend({
     received: number,
     floor: number,
     ceiling: number,
-  ): { message: () => string; pass: boolean } {
+  ): { message: () => string, pass: boolean } {
     const pass = received >= floor && received <= ceiling;
     if (pass) {
       return {
@@ -103,7 +103,7 @@ expect.extend({
   toHaveBeenCalledWithScript(
     received: jest.Mock,
     scriptPath: string,
-  ): { message: () => string; pass: boolean } {
+  ): { message: () => string, pass: boolean } {
     const calls = received.mock.calls;
     const pass = calls.some(call => call[0] && call[0].includes && call[0].includes(scriptPath));
 
@@ -125,7 +125,7 @@ expect.extend({
 declare global {
   namespace jest {
     interface Matchers<R> {
-      toBeWithinRange(floor: number, ceiling: number): R;
+      toBeWithinRange(floor: number, ceiling: number): R
       toHaveBeenCalledWithScript(scriptPath: string): R
     }
   }

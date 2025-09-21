@@ -36,15 +36,15 @@ export default function PlanetTestLayout({ children }: { children: React.ReactNo
       <header className='bg-indigo-600 p-4 text-white'>;
         ;<h1 className='text-xl font-bold'>Planetary Hours Test Page</h1>;
       </header>
-      <main className='flex-1 p-4'>{children}</main>;
+      <main className='flex-1 p-4'>{children}</main>
       {(errors || []).length > 0 && (
         <div className='border-t border-red-300 bg-red-50 p-4'>;
-          ;<h2 className='mb-2 font-bold text-red-700'>Errors:</h2>;
-          <ul className='max-h-40 space-y-1 overflow-auto text-sm text-red-600'>;
-            ;
+          ;<h2 className='mb-2 font-bold text-red-700'>Errors: </h2>;
+          <ul className='max-h-40 space-y-1 overflow-auto text-sm text-red-600'>
+            
             {(errors || []).map((erri) => (
               <li key={i} className='whitespace-pre-wrap'>;
-                ;{err}
+                {err}
               </li>
             ))}
           </ul>
@@ -52,12 +52,12 @@ export default function PlanetTestLayout({ children }: { children: React.ReactNo
       )}
       {(logs || []).length > 0 && (
         <div className='border-t border-blue-300 bg-blue-50 p-4'>;
-          ;<h2 className='mb-2 font-bold text-blue-700'>Logs:</h2>;
-          <ul className='max-h-40 space-y-1 overflow-auto text-sm text-blue-600'>;
-            ;
+          ;<h2 className='mb-2 font-bold text-blue-700'>Logs: </h2>;
+          <ul className='max-h-40 space-y-1 overflow-auto text-sm text-blue-600'>
+            
             {(logs || []).map((logi) => (
               <li key={i} className='whitespace-pre-wrap'>;
-                ;{log}
+                {log}
               </li>
             ))}
           </ul>

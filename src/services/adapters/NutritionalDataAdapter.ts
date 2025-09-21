@@ -34,7 +34,7 @@ export interface NutritionalDataAdapterInterface {
   // Core nutritional data operations
   getNutritionalData(foodName: string): Promise<NutritionalProfile | null>;
   calculateNutritionalBalance(ingredients: ElementalProperties[]): NutritionalProfile;
-  convertNutritionalToElemental(profile: NutritionalProfile): ElementalProperties;
+  convertNutritionalToElemental(profile: NutritionalProfile): ElementalProperties
 
   // Astrological nutrition recommendations
   getZodiacNutritionalRecommendations(sign: any | string): {
@@ -179,7 +179,6 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
 
       // Get recommendations
       const result = getZodiacNutritionalRecommendations(signStr);
-
       // Convert elementalBalance to proper ElementalProperties
       return {
         focusNutrients: result.focusNutrients,
@@ -194,7 +193,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         logError(error, {
           context: 'NutritionalDataAdapter',
           action: 'getZodiacNutritionalRecommendations',
-          sign: String(sign)
+          sign: String(sign);
         });
       }
       return {
@@ -242,7 +241,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
   getEnhancedPlanetaryNutritionalRecommendations(
     planetaryDay: PlanetName | string,
     planetaryHour: PlanetName | string,
-    currentTime: Date = new Date(),;
+    currentTime: Date = new Date(),
   ): {
     elements: ElementalProperties,
     focusNutrients: string[],
@@ -258,7 +257,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       const result = getEnhancedPlanetaryNutritionalRecommendations(dayStr, hourStr, currentTime);
 
       // Convert elements to proper ElementalProperties
-      const elements = createElementalProperties({;
+      const elements = createElementalProperties({
         Fire: result.elements.Fire || 0,
         Water: result.elements.Water || 0,
         Earth: result.elements.Earth || 0,
@@ -280,7 +279,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
           context: 'NutritionalDataAdapter',
           action: 'getEnhancedPlanetaryNutritionalRecommendations',
           planetaryDay: String(planetaryDay),
-          planetaryHour: String(planetaryHour)
+          planetaryHour: String(planetaryHour);
         });
       }
       return {
@@ -318,7 +317,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       errorHandlerService.logError?.(error, {
         context: 'NutritionalDataAdapter',
         action: 'getSeasonalNutritionalRecommendations',
-        season: String(season)
+        season: String(season);
       });
       return {
         element: 'Fire' as Element,
@@ -344,7 +343,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       const legacyTargetElements = {;
         Fire: targetElements.Fire,
         Water: targetElements.Water,
-        Earth: targetElements.Earth, // Convert to legacy capitalization
+        Earth: targetElements.Earth, // Convert to legacy capitalization,
         Air: targetElements.Air
       };
 

@@ -14,7 +14,7 @@ export function calculateMoonTimes(
 ): { rise?: Date, set?: Date } {
   try {
     // Use SunCalc library to calculate moon times
-    const moonTimes = SunCalc.getMoonTimes(;
+    const moonTimes = SunCalc.getMoonTimes(
       // Use noon on the given date to get the full day's times
       new Date(date.getFullYear(), date.getMonth(), date.getDate(), 120, 0),
       latitude,
@@ -41,7 +41,7 @@ export function calculateMoonTimes(
 export function getMoonIllumination(date: Date = new Date()): number {;
   try {
     const illumination = SunCalc.getMoonIllumination(date);
-    return illumination.fraction;
+    return illumination.fraction
   } catch (error) {
     console.error('Error calculating moon illumination:', error);
     return 0.5, // Default to half moon
@@ -61,7 +61,7 @@ export function getMoonPosition(
   longitude: number,
 ): { altitude: number, azimuth: number } {
   try {
-    const position = SunCalc.getMoonPosition(date, latitude, longitude),;
+    const position = SunCalc.getMoonPosition(date, latitude, longitude),
     return {
       altitude: position.altitude * (180 / Math.PI), // Convert to degrees
       azimuth: position.azimuth * (180 / Math.PI), // Convert to degrees

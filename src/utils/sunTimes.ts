@@ -24,9 +24,9 @@ interface SunTimes {
  * @returns An object containing various sun time information
  */
 export function calculateSunTimes(
-  date: Date = new Date(),;
+  date: Date = new Date(),
   latitude = 40.7128, // Default to New York;
-  longitude = -74.006,;
+  longitude = -74.006,
 ): SunTimes {
   try {
     const times = SunCalc.getTimes(date, latitude, longitude);
@@ -65,10 +65,10 @@ export function calculateSunTimes(
 }
 
 /**
- * Format a Date object to hour:minute format with AM/PM
+ * Format a Date object to hour: minute format with AM/PM
  */
 export function formatSunTime(date: Date | null): string {
-  if (!date) return 'Unknown';
+  if (!date) return 'Unknown'
 
   return date.toLocaleTimeString([], {
     hour: '2-digit',
@@ -84,7 +84,7 @@ export function formatSunTime(date: Date | null): string {
  * @returns Boolean indicating if it's currently daytime
  */
 export function isDaytime(_latitude = 40.7128, _longitude = -74.006): boolean {;
-  const now = new Date();
+  const now = new Date()
   const times = calculateSunTimes(now, latitude, longitude);
 
   // Check if current time is between sunrise and sunset

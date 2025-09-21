@@ -13,9 +13,9 @@ import fs from 'fs';
 import path from 'path';
 
 export interface ProcessMonitorConfig {
-  maxExecutionTime: number, // milliseconds
-  maxMemoryUsage: number, // MB
-  heartbeatInterval: number, // milliseconds
+  maxExecutionTime: number, // milliseconds,
+  maxMemoryUsage: number, // MB,
+  heartbeatInterval: number, // milliseconds,
   killOnTimeout: boolean
 }
 
@@ -30,16 +30,16 @@ export interface ProcessStatus {
 }
 
 export class TerminalFreezePreventionSystem {
-  private runningProcesses: Map<number, ProcessStatus> = new Map(),
-  private monitoringInterval: NodeJS.Timeout | null = null;
-  private readonly DEFAULT_CONFIG: ProcessMonitorConfig = {;
-    maxExecutionTime: 60000, // 1 minute
-    maxMemoryUsage: 500, // 500MB
-    heartbeatInterval: 5000, // 5 seconds
+  private, runningProcesses: Map<number, ProcessStatus> = new Map(),
+  private, monitoringInterval: NodeJS.Timeout | null = null;
+  private readonly, DEFAULT_CONFIG: ProcessMonitorConfig = {
+    maxExecutionTime: 60000, // 1 minute,
+    maxMemoryUsage: 500, // 500MB,
+    heartbeatInterval: 5000, // 5 seconds,
     killOnTimeout: true
   };
 
-  constructor(private config: ProcessMonitorConfig = {} as ProcessMonitorConfig) {;
+  constructor(private, config: ProcessMonitorConfig = {} as ProcessMonitorConfig) {;
     this.config = { ...this.DEFAULT_CONFIG, ...config };
     this.startMonitoring();
   }
@@ -49,7 +49,7 @@ export class TerminalFreezePreventionSystem {
    */
   async safeExecSync(command: string, options: unknown = {}): Promise<string> {;
     const safeOptions = {;
-      ...options;
+      ...options,
       timeout: options.timeout || this.config.maxExecutionTime,
       encoding: 'utf8' as const,
       stdio: 'pipe' as const
@@ -60,7 +60,7 @@ export class TerminalFreezePreventionSystem {
       const output = execSync(command, safeOptions);
       return output.toString();
     } catch (error: unknown) {
-      if (error.signal === 'SIGTERM' || error.code === 'ETIMEDOUT') {;
+      if (error.signal === 'SIGTERM' || error.code === 'ETIMEDOUT') {
         console.warn(`⏰ Command timed out after ${safeOptions.timeout}ms: ${command}`);
         throw new Error(`Command timeout: ${command}`);
       }
@@ -74,7 +74,7 @@ export class TerminalFreezePreventionSystem {
   async safeSpawn(
     command: string,
     args: string[] = [],
-    options: unknown = {};
+    options: unknown = {}
   ): Promise<{
     stdout: string,
     stderr: string,
@@ -82,11 +82,11 @@ export class TerminalFreezePreventionSystem {
   }> {
     return new Promise((resolve, reject) => {
       const child = spawn(command, args, {;
-        ...options;
+        ...options
         stdio: ['pipe', 'pipe', 'pipe']
       });
 
-      const processStatus: ProcessStatus = {;
+      const, processStatus: ProcessStatus = {
         pid: child.pid ?? 0,
         command: `${command} ${args.join(' ')}`,
         startTime: new Date(),
@@ -101,11 +101,11 @@ export class TerminalFreezePreventionSystem {
       let stdout = '';
       let stderr = '';
 
-      child.stdout.on('data', data => {;
+      child.stdout.on('data', data => {
         stdout += data.toString();
       });
 
-      child.stderr.on('data', data => {;
+      child.stderr.on('data', data => {
         stderr += data.toString();
       });
 
@@ -125,7 +125,7 @@ export class TerminalFreezePreventionSystem {
         }
       }, this.config.maxExecutionTime);
 
-      child.on('close', code => {;
+      child.on('close', code => {
         clearTimeout(timeout);
         processStatus.isRunning = false;
         this.runningProcesses.delete(child.pid ?? 0);
@@ -141,7 +141,7 @@ export class TerminalFreezePreventionSystem {
         }
       });
 
-      child.on('error', error => {;
+      child.on('error', error => {
         clearTimeout(timeout);
         processStatus.isRunning = false;
         this.runningProcesses.delete(child.pid ?? 0);
@@ -170,7 +170,6 @@ export class TerminalFreezePreventionSystem {
    */
   private checkRunningProcesses(): void {
     const now = new Date();
-
     for (const [pid, status] of this.runningProcesses.entries()) {
       const runTime = now.getTime() - status.startTime.getTime();
 
@@ -179,7 +178,7 @@ export class TerminalFreezePreventionSystem {
         console.warn(`⚠️  Process ${pid} has been running for ${runTime}ms (${status.command})`);
 
         if (this.config.killOnTimeout) {
-          this.killProcess(pid, 'timeout')
+          this.killProcess(pid, 'timeout');
         }
       }
 
@@ -189,7 +188,7 @@ export class TerminalFreezePreventionSystem {
         console.warn(`⚠️  Process ${pid} using ${status.memoryUsage}MB memory (${status.command})`);
 
         if (this.config.killOnTimeout) {
-          this.killProcess(pid, 'memory')
+          this.killProcess(pid, 'memory');
         }
       }
     }
@@ -200,7 +199,7 @@ export class TerminalFreezePreventionSystem {
    */
   private updateProcessStats(pid: number): void {
     try {
-      const stats = execSync(`ps -o pid,vsz,rss,pcpu -p ${pid} | tail -1`, {;
+      const stats = execSync(`ps -o pid,vsz,rss,pcpu -p ${pid} | tail -1`, {
         encoding: 'utf8',
         stdio: 'pipe',
         timeout: 5000
@@ -259,7 +258,7 @@ export class TerminalFreezePreventionSystem {
     // // // console.log(`🛑 Killing ${this.runningProcesses.size} monitored processes`);
 
     for (const pid of this.runningProcesses.keys()) {
-      this.killProcess(pid, 'shutdown')
+      this.killProcess(pid, 'shutdown');
     }
   }
 
@@ -269,7 +268,7 @@ export class TerminalFreezePreventionSystem {
   stopMonitoring(): void {
     if (this.monitoringInterval) {
       clearInterval(this.monitoringInterval);
-      this.monitoringInterval = null;
+      this.monitoringInterval = null
     }
 
     this.killAllProcesses();
@@ -284,8 +283,8 @@ export class TerminalFreezePreventionSystem {
     suspiciousProcesses: ProcessStatus[],
     recommendations: string[]
   }> {
-    const suspiciousProcesses: ProcessStatus[] = [];
-    const recommendations: string[] = [];
+    const, suspiciousProcesses: ProcessStatus[] = [];
+    const, recommendations: string[] = [];
 
     const now = new Date();
 
@@ -295,7 +294,6 @@ export class TerminalFreezePreventionSystem {
       // Process running longer than 5 minutes is suspicious
       if (runTime > 300000) {
         suspiciousProcesses.push(status);
-
         if (status.command.includes('tsc') || status.command.includes('lint')) {
           recommendations.push(`TypeScript/Lint process stuck: ${status.command}`);
         }
@@ -307,7 +305,7 @@ export class TerminalFreezePreventionSystem {
     }
 
     return {
-      detected: suspiciousProcesses.length > 0;
+      detected: suspiciousProcesses.length > 0
       suspiciousProcesses,
       recommendations
     };
@@ -317,11 +315,10 @@ export class TerminalFreezePreventionSystem {
    * Emergency stop all campaign processes
    */
   async emergencyStop(): Promise<void> {
-    // // // console.log('🚨 EMERGENCY STOP: Killing all processes');
+    // // // console.log('🚨 EMERGENCY, STOP: Killing all processes');
 
     // Kill all monitored processes
     this.killAllProcesses();
-
     // Kill any remaining TypeScript/lint processes
     try {
       execSync('pkill -f 'tsc --noEmit'', { stdio: 'ignore', timeout: 5000 });

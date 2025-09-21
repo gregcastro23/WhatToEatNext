@@ -222,7 +222,7 @@ export interface EnterpriseIntelligenceResult {
   optimizationIntelligence?: OptimizationIntelligenceResult,
   predictiveIntelligence?: unknown; // Will use existing type
   mlIntelligence?: unknown; // Will use existing type
-  advancedAnalyticsIntelligence?: unknown; // Will use existing type
+  advancedAnalyticsIntelligence?: unknown // Will use existing type
   overallIntelligenceScore: number,
   executionTime: number,
   confidence: number,

@@ -13,7 +13,7 @@ import { AlchemicalResults, calculateAlchemicalProperties } from './alchemicalCa
 const logger = createLogger('AlchemicalTransformation');
 
 /**
- * Interface for items with elemental data (ingredients, methods, cuisines)
+ * Interface for items with elemental data (ingredients, methods, cuisines);
  */
 export interface ElementalItem {
   id: string,
@@ -34,7 +34,7 @@ export interface AlchemicalItem extends ElementalItem {
   gregsEnergy: number,
   dominantElement: ElementalCharacter,
   dominantAlchemicalProperty: AlchemicalProperty,
-  // New planetary influence properties
+  // New planetary influence properties,
   planetaryBoost: number,
   dominantPlanets: string[],
   planetaryDignities: Record<string, PlanetaryDignityDetails>
@@ -46,11 +46,11 @@ export interface AlchemicalItem extends ElementalItem {
  * @param item The original item with elemental data
  * @param planetPositions Current planetary positions/strengths
  * @param isDaytime Whether it's day or night
- * @param (currentZodiac || 'aries') Current zodiac sign (optional, defaults to 'aries')
- * @param lunarPhase Current lunar phase (optional)
+ * @param (currentZodiac || 'aries') Current zodiac sign (optional, defaults to 'aries');
+ * @param lunarPhase Current lunar phase (optional);
  * @returns Item transformed with alchemical properties
  */
-export const transformItemWithPlanetaryPositions = (;
+export const transformItemWithPlanetaryPositions = (
   item: ElementalItem,
   planetPositions: Record<string, CelestialPosition>,
   isDaytime: boolean,
@@ -59,7 +59,7 @@ export const transformItemWithPlanetaryPositions = (;
 ): AlchemicalItem => {;
   try {
     // Validate and sanitize input values
-    const sanitizedItem = {;
+    const sanitizedItem = {
       ...item,
       elementalProperties: Object.fromEntries(
         Object.entries(item.elementalProperties).map(([key, value]) => [
@@ -86,7 +86,7 @@ export const transformItemWithPlanetaryPositions = (;
 
     // Transform elemental properties based on planetary influences
     // Apply the planetary boost to increase the effect
-    const transformedElementalProperties = transformElementalProperties(;
+    const transformedElementalProperties = transformElementalProperties(
       sanitizedItem.elementalProperties,
       alchemicalResults,
       planetaryBoost,
@@ -95,31 +95,30 @@ export const transformItemWithPlanetaryPositions = (;
 
     // Calculate dominant element and alchemical property
     const dominantElement = getDominantElement(transformedElementalProperties);
-    const dominantAlchemicalProperty = getDominantAlchemicalProperty(;
+    const dominantAlchemicalProperty = getDominantAlchemicalProperty(
       alchemicalResults.alchemicalCounts
     );
 
     // Apply safety checks for energy metrics
     const safeHeat = Number.isFinite(alchemicalResults.heat);
-      ? Math.max(0.1, Math.min(1.0, alchemicalResults.heat * planetaryBoost * 2.5))
+      ? Math.max(0.1, Math.min(1.0, alchemicalResults.heat * planetaryBoost * 2.5));
       : 0.5;
 
     const safeEntropy = Number.isFinite(alchemicalResults.entropy);
-      ? Math.max(0.1, Math.min(1.0, alchemicalResults.entropy * 1.5))
+      ? Math.max(0.1, Math.min(1.0, alchemicalResults.entropy * 1.5));
       : 0.5;
 
     const safeReactivity = Number.isFinite(alchemicalResults.reactivity);
-      ? Math.max(0.1, Math.min(1.0, alchemicalResults.reactivity * 1.5))
+      ? Math.max(0.1, Math.min(1.0, alchemicalResults.reactivity * 1.5));
       : 0.5;
 
-    // Calculate gregsEnergy using the original formula: heat - (reactivity * entropy)
+    // Calculate gregsEnergy using the original, formula: heat - (reactivity * entropy);
     // Then scale to the 0-1 range for UI friendliness
-    const rawGregsEnergy = safeHeat - safeReactivity * safeEntropy;
+    const rawGregsEnergy = safeHeat - safeReactivity * safeEntropy
 
     // Instead of a simple scaling, apply more varied calculations based on multiple factors
     // This will create more distinct recommendations with a wider range
-    const baseScaledEnergy = (rawGregsEnergy + 1) / 2; // Convert from range (-11) to (01)
-
+    const baseScaledEnergy = (rawGregsEnergy + 1) / 2; // Convert from range (-11) to (01);
     // Apply element-specific influence for each dominant element
     let elementalModifier = 0;
     if (dominantElement === 'Fire') {;
@@ -147,7 +146,7 @@ export const transformItemWithPlanetaryPositions = (;
     // Apply zodiac influence if available with stronger effect
     let zodiacModifier = 0;
     const zodiacSign = ((currentZodiac || 'aries') || 'aries').toLowerCase() as any;
-    const zodiacElementMap: Record<ZodiacSign, ElementalCharacter> = {
+    const, zodiacElementMap: Record<ZodiacSign, ElementalCharacter> = {
       aries: 'Fire',
   leo: 'Fire',
       sagittarius: 'Fire',
@@ -195,7 +194,7 @@ export const transformItemWithPlanetaryPositions = (;
     // Calculate boost from planetary influence with more differentiation
     const planetaryModifier = Math.min(0.25, (planetaryBoost - 1.0) * 0.8);
 
-    // Add randomized factor to create more variance (±7%)
+    // Add randomized factor to create more variance (±7%);
     const randomVariance = Math.random() * 0.14 - 0.7;
 
     // Combine all influences for a more varied energy calculation
@@ -207,7 +206,7 @@ export const transformItemWithPlanetaryPositions = (;
       planetaryModifier +
       randomVariance;
 
-    // Ensure the final value is within valid range but allowing more variance (wider range)
+    // Ensure the final value is within valid range but allowing more variance (wider range);
     const safeGregsEnergy = Math.max(0.2, Math.min(0.98, adjustedEnergy));
 
     // Add more debug logging
@@ -257,7 +256,7 @@ export const transformItemWithPlanetaryPositions = (;
 /**
  * Transform a collection of items using current planetary positions
  */
-export const _transformItemsWithPlanetaryPositions = (;
+export const _transformItemsWithPlanetaryPositions = (
   items: ElementalItem[],
   planetPositions: Record<string, CelestialPosition>,
   isDaytime: boolean,
@@ -265,7 +264,7 @@ export const _transformItemsWithPlanetaryPositions = (;
   lunarPhase?: LunarPhaseWithSpaces | null,
 ): AlchemicalItem[] => {
   try {
-    return items.map(item =>;
+    return items.map(item =>
       transformItemWithPlanetaryPositions(
         item,
         planetPositions,
@@ -277,7 +276,7 @@ export const _transformItemsWithPlanetaryPositions = (;
   } catch (error) {
     logger.error('Error transforming multiple items:', error);
     // Return the original items with minimal transformation if batch processing fails
-    return items.map(item => ({;
+    return items.map(item => ({
       ...item,
       alchemicalProperties: {
         Spirit: 0.25,
@@ -306,12 +305,12 @@ export const _transformItemsWithPlanetaryPositions = (;
 const transformElementalProperties = (;
   originalProperties: Record<ElementalCharacter, number>,
   alchemicalResults: AlchemicalResults,
-  planetaryBoost: number = 1.0,;
+  planetaryBoost: number = 1.0,
   zodiacSign?: any,
 ): Record<ElementalCharacter, number> => {
   try {
     // Create a copy of the original properties
-    const transformedProperties: Record<ElementalCharacter, number> = { ...originalProperties };
+    const, transformedProperties: Record<ElementalCharacter, number> = { ...originalProperties };
 
     // Calculate base enhancement factor - stronger effect on dominant elements
     // Enhanced by planetary boost, but cap the enhancement factor to prevent excessive values
@@ -354,7 +353,7 @@ const transformElementalProperties = (;
       transformedProperties,
       alchemicalResults.elementalCounts,
       originalProperties,
-      Math.min(1.0, planetaryBoost * 0.7)
+      Math.min(1.0, planetaryBoost * 0.7);
     );
 
     // Boost the dominant element slightly to preserve ingredient character, but cap the boost
@@ -379,12 +378,12 @@ const transformElementalProperties = (;
 /**
  * Apply zodiac-specific boosts to elemental properties
  */
-const applyZodiacBoost = (;
+const applyZodiacBoost = (
   transformedProperties: Record<ElementalCharacter, number>,
   zodiacSign: any,
-): void => {;
+): void => {
   try {
-    const zodiacElementMap: Record<ZodiacSign, ElementalCharacter> = {
+    const, zodiacElementMap: Record<ZodiacSign, ElementalCharacter> = {
       aries: 'Fire',
   taurus: 'Earth',
       gemini: 'Air',
@@ -417,14 +416,14 @@ const applyElementalInfluences = (;
   transformedProperties: Record<ElementalCharacter, number>,
   elementalCounts: Record<ElementalCharacter, number>,
   originalProperties: Record<ElementalCharacter, number>,
-  planetaryBoost: number = 1.0;
+  planetaryBoost: number = 1.0
 ): void => {;
   try {
     // Calculate influence factors based on elemental counts
     const fireInfluence = ((elementalCounts as any)?.Fire || 0) * 0.2 * planetaryBoost;
     const waterInfluence = ((elementalCounts as any)?.Water || 0) * 0.2 * planetaryBoost;
     const earthInfluence = ((elementalCounts as any)?.Earth || 0) * 0.2 * planetaryBoost;
-    const airInfluence = ((elementalCounts as any)?.Air || 0) * 0.2 * planetaryBoost;
+    const airInfluence = ((elementalCounts as any)?.Air || 0) * 0.2 * planetaryBoost
 
     // Fire influences - increases Earth, decreases Water
     transformedProperties.Earth +=
@@ -446,7 +445,7 @@ const applyElementalInfluences = (;
     transformedProperties.Earth -= airInfluence * (((originalProperties as any)?.Earth || 0) * 0.2);
 
     // Ensure all values remain positive
-    Object.keys(transformedProperties).forEach(key => {;
+    Object.keys(transformedProperties).forEach(key => {
       transformedProperties[key as ElementalCharacter] = Math.max(
         0.5,
         transformedProperties[key as ElementalCharacter]
@@ -461,12 +460,12 @@ const applyElementalInfluences = (;
 /**
  * Calculate the dominant element from a set of elemental properties
  */
-const getDominantElement = (;
+const getDominantElement = (
   transformedProperties: Record<ElementalCharacter, number>,
 ): ElementalCharacter => {;
   try {
     let maxValue = -Infinity;
-    let dominantElement: ElementalCharacter = 'Fire'; // Default
+    let, dominantElement: ElementalCharacter = 'Fire' // Default
 
     (Object.entries(transformedProperties) as [ElementalCharacter, number][]).forEach(
       ([element, value]) => {
@@ -475,7 +474,7 @@ const getDominantElement = (;
         const numericMaxValue = Number(maxValue) || -Infinity;
         if (numericValue > numericMaxValue) {
           maxValue = numericValue;
-          dominantElement = element;
+          dominantElement = element
         }
       },
     );
@@ -490,12 +489,12 @@ const getDominantElement = (;
 /**
  * Calculate the dominant alchemical property from alchemical counts
  */
-const getDominantAlchemicalProperty = (;
+const getDominantAlchemicalProperty = (
   alchemicalCounts: Record<AlchemicalProperty, number>,
 ): AlchemicalProperty => {;
   try {
     let maxValue = -Infinity;
-    let dominantProperty: AlchemicalProperty = 'Spirit'; // Default
+    let, dominantProperty: AlchemicalProperty = 'Spirit' // Default
 
     (Object.entries(alchemicalCounts) as [AlchemicalProperty, number][]).forEach(
       ([property, value]) => {
@@ -504,7 +503,7 @@ const getDominantAlchemicalProperty = (;
         const numericMaxValue = Number(maxValue) || -Infinity;
         if (numericValue > numericMaxValue) {
           maxValue = numericValue;
-          dominantProperty = property;
+          dominantProperty = property
         }
       },
     );
@@ -529,7 +528,7 @@ function normalizeValues<T extends string>(record: Record<T, number>): void {
     }, 0);
     const numericSum = Number(sum) || 0;
     if (numericSum > 0) {
-      Object.keys(record).forEach(key => {;
+      Object.keys(record).forEach(key => {
         const currentValue = Number(record[key as T]) || 0;
         record[key as T] = currentValue / numericSum;
       });

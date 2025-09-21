@@ -16,12 +16,12 @@ function createIngredientMapping(
       Fire: 0.25,
       Air: 0.25
     },
-    category: properties.category || '';
+    category: properties.category || ''
     ...properties
   };
 }
 
-const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
+const, rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   tempeh: createIngredientMapping('tempeh', {
     elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
     astrologicalProfile: {
@@ -1593,14 +1593,14 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-const mappedPlantBased: Record<string, IngredientMapping> = fixIngredientMappings(rawPlantBased);
-export const plantBased: Record<string, IngredientMapping> = mappedPlantBased;
+const, mappedPlantBased: Record<string, IngredientMapping> = fixIngredientMappings(rawPlantBased);
+export const, plantBased: Record<string, IngredientMapping> = mappedPlantBased;
 
 // Add validation for elemental sums
 Object.entries(plantBased).forEach(([_id, ingredient]) => {
   if (!ingredient.elementalProperties) return;
 
-  const sum = Object.values(ingredient.elementalProperties).reduce(;
+  const sum = Object.values(ingredient.elementalProperties).reduce(
     (ab) => Number(a) + Number(b),
     0,
   ),

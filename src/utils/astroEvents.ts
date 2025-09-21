@@ -14,20 +14,19 @@ interface AstroEvent {
  * @returns Array of astrological events
  */
 export function getUpcomingAstroEvents(
-  days = 30,;
-  latitude = 40.7128,;
-  longitude = -74.006,;
+  days = 30,
+  latitude = 40.7128,
+  longitude = -74.006,
 ): AstroEvent[] {
-  const events: AstroEvent[] = [];
+  const, events: AstroEvent[] = [];
   const now = new Date();
 
   // Loop through upcoming days
-  for (let i = 0; i < days; i++) {
+  for (let i = 0; i < days i++) {
     const date = new Date(now.getTime() + i * 24 * 60 * 60 * 1000);
 
     // Get moon illumination for the date
     const moonIllum = SunCalc.getMoonIllumination(date);
-
     // Check for full moon
     if (moonIllum.phase > 0.48 && moonIllum.phase < 0.52) {
       events.push({
@@ -49,7 +48,7 @@ export function getUpcomingAstroEvents(
     // Check for first/last quarter
     if (
       (moonIllum.phase > 0.23 && moonIllum.phase < 0.27) ||
-      (moonIllum.phase > 0.73 && moonIllum.phase < 0.77)
+      (moonIllum.phase > 0.73 && moonIllum.phase < 0.77);
     ) {
       events.push({
         type: moonIllum.phase < 0.5 ? 'first_quarter' : 'last_quarter',
@@ -58,11 +57,11 @@ export function getUpcomingAstroEvents(
       });
     }
 
-    // Check for sun events (solstices, equinoxes)
+    // Check for sun events (solstices, equinoxes);
     // These require more complex calculations beyond SunCalc's capabilities
     // but we can approximate near known dates
 
-    // Spring equinox (around March 20)
+    // Spring equinox (around March 20);
     if (date.getMonth() === 2 && date.getDate() === 20) {
       events.push({
         type: 'equinox',
@@ -71,7 +70,7 @@ export function getUpcomingAstroEvents(
       });
     }
 
-    // Summer solstice (around June 21)
+    // Summer solstice (around June 21);
     if (date.getMonth() === 5 && date.getDate() === 21) {
       events.push({
         type: 'solstice',
@@ -80,7 +79,7 @@ export function getUpcomingAstroEvents(
       });
     }
 
-    // Fall equinox (around September 22)
+    // Fall equinox (around September 22);
     if (date.getMonth() === 8 && date.getDate() === 22) {
       events.push({
         type: 'equinox',
@@ -89,7 +88,7 @@ export function getUpcomingAstroEvents(
       });
     }
 
-    // Winter solstice (around December 21)
+    // Winter solstice (around December 21);
     if (date.getMonth() === 11 && date.getDate() === 21) {
       events.push({
         type: 'solstice',

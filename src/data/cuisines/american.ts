@@ -1,7 +1,7 @@
 import type { _, _ZodiacSign } from '@/types/alchemy';
 import type { Cuisine } from '@/types/cuisine';
 
-export const american: Cuisine = {;
+export const, american: Cuisine = {
   id: 'american',
   name: 'American',
   description:
@@ -2192,9 +2192,9 @@ export const american: Cuisine = {;
   },
   // Enhanced elemental properties with more balanced distribution
   elementalProperties: {
-    Fire: 0.3, // Grilling, BBQ, spicy elements
-    Water: 0.2, // Stews, soups, steaming
-    Earth: 0.3, // Root vegetables, grains, hearty foods
+    Fire: 0.3, // Grilling, BBQ, spicy elements,
+    Water: 0.2, // Stews, soups, steaming,
+    Earth: 0.3, // Root vegetables, grains, hearty foods,
     Air: 0.2, // Light preparations, whipped dishes
   },
   // Added astrological influences

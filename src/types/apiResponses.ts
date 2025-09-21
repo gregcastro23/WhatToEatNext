@@ -14,7 +14,7 @@ import {
 } from './alchemy';
 import { IngredientRecommendationResponse, IngredientAnalysisResponse } from './ingredients';
 
-// ========== PHASE 1: API RESPONSE TYPE ALIASES ==========
+// ========== PHASE, 1: API RESPONSE TYPE ALIASES ==========
 
 /**
  * Generic Service Response
@@ -132,7 +132,7 @@ export interface AstronomyApiResponse {
           /**
            * Unique identifier
            */
-          id?: string;
+          id?: string
 
           /**
            * Planet name
@@ -140,7 +140,7 @@ export interface AstronomyApiResponse {
           name?: string,
 
           /**
-           * Equatorial coordinates (right ascension and declination)
+           * Equatorial coordinates (right ascension and declination);
            */
           equatorialCoordinates?: {
             rightAscension?: {
@@ -156,7 +156,7 @@ export interface AstronomyApiResponse {
           };
 
           /**
-           * Ecliptic coordinates (longitude and latitude)
+           * Ecliptic coordinates (longitude and latitude);
            */
           eclipticCoordinates?: {
             longitude?: {
@@ -202,7 +202,7 @@ export interface SwissEphemerisApiResponse {
      */
     position?: {
       /**
-       * Longitude in degrees (0-360)
+       * Longitude in degrees (0-360);
        */
       longitude?: number,
 
@@ -234,17 +234,17 @@ export interface SwissEphemerisApiResponse {
  */
 export interface StandardizedPlanetaryPosition {
   /**
-   * Zodiac sign (e.g., 'aries', 'taurus')
+   * Zodiac sign (e.g., 'aries', 'taurus');
    */
   sign: anyType;
 
   /**
-   * Degree within the sign (0-29)
+   * Degree within the sign (0-29);
    */
-  degree: number;
+  degree: number
 
   /**
-   * Exact longitude in degrees (0-360)
+   * Exact longitude in degrees (0-360);
    */
   exactLongitude?: number,
 
@@ -254,12 +254,12 @@ export interface StandardizedPlanetaryPosition {
   isRetrograde?: boolean,
 
   /**
-   * Minutes within the degree (0-59)
+   * Minutes within the degree (0-59);
    */
   minute?: number,
 
   /**
-   * Speed of the planet (positive for direct, negative for retrograde)
+   * Speed of the planet (positive for direct, negative for retrograde);
    */
   speed?: number
 }
@@ -269,7 +269,7 @@ export interface StandardizedPlanetaryPosition {
  */
 export function isValidNasaHorizonsResponse(data: unknown): data is NasaHorizonsResponse {
   return (
-    typeof data === 'object' &&;
+    typeof data === 'object' &&
     data !== null &&
     (('result' in data && typeof (data as NasaHorizonsResponse).result === 'string') ||;
       ('error' in data && typeof (data as NasaHorizonsResponse).error === 'string'));
@@ -280,7 +280,7 @@ export function isValidNasaHorizonsResponse(data: unknown): data is NasaHorizons
  * Type guard to validate Astronomy API response
  */
 export function isValidAstronomyApiResponse(data: unknown): data is AstronomyApiResponse {
-  return typeof data === 'object' && data !== null && 'data' in data;
+  return typeof data === 'object' && data !== null && 'data' in data
 }
 
 /**

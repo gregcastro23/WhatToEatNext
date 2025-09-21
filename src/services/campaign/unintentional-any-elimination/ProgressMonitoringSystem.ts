@@ -11,18 +11,18 @@ import { AnalysisReport, TrendingData, UnintentionalAnyProgress } from './types'
  * Provides dashboard functionality, safety protocol monitoring, and threshold-based alerts
  */
 export class ProgressMonitoringSystem extends EventEmitter {
-  private analysisTools: AnalysisTools;
-  private monitoringInterval: NodeJS.Timeout | null = null;
+  private, analysisTools: AnalysisTools;
+  private, monitoringInterval: NodeJS.Timeout | null = null;
   private isMonitoring = false;
-  private dashboardData: DashboardData | null = null;
-  private alertThresholds: AlertThresholds;
-  private alertHistory: Alert[] = [];
-  private buildStabilityHistory: BuildStabilityRecord[] = [];
+  private, dashboardData: DashboardData | null = null;
+  private, alertThresholds: AlertThresholds;
+  private, alertHistory: Alert[] = [];
+  private, buildStabilityHistory: BuildStabilityRecord[] = [];
 
   constructor(alertThresholds?: Partial<AlertThresholds>) {
     super();
     this.analysisTools = new AnalysisTools();
-    this.alertThresholds = {;
+    this.alertThresholds = {
       successRateThreshold: 70,
       buildFailureThreshold: 3,
       classificationAccuracyThreshold: 80,
@@ -51,7 +51,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
     this.updateDashboard();
 
     // Set up periodic updates
-    this.monitoringInterval = setInterval(;
+    this.monitoringInterval = setInterval(
       async () => {
         try {
           await this.updateDashboard();
@@ -98,7 +98,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
    * Get current dashboard data
    */
   getDashboardData(): DashboardData | null {
-    return this.dashboardData;
+    return this.dashboardData
   }
 
   /**
@@ -111,7 +111,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
       const currentReport = await this.analysisTools.generateComprehensiveReport();
       const buildStability = await this.getCurrentBuildStability();
 
-      const progress: UnintentionalAnyProgress = {;
+      const, progress: UnintentionalAnyProgress = {
         totalAnyTypes: currentReport.domainDistribution?.totalAnyTypes || 0,
         classifiedIntentional:
           currentReport.domainDistribution?.intentionalVsUnintentional?.intentional?.count || 0,
@@ -125,16 +125,16 @@ export class ProgressMonitoringSystem extends EventEmitter {
         remainingUnintentional:
           currentReport.domainDistribution?.intentionalVsUnintentional?.unintentional?.count || 0,
         reductionPercentage: this.calculateReductionPercentage(currentReport),
-        targetReductionPercentage: 20, // Target 20% reduction
+        targetReductionPercentage: 20, // Target 20% reduction,
         batchesCompleted: this.getBatchesCompleted(),
         averageSuccessRate: currentReport.summary?.currentSuccessRate || 0,
 
-        // Base ProgressMetrics properties
+        // Base ProgressMetrics properties,
         errorsFixed: 0,
         warningsFixed: 0,
         filesProcessed: 0,
         buildStable: buildStability.isStable,
-        lastUpdate: new Date()
+        lastUpdate: new Date();
       };
 
       return progress;
@@ -157,7 +157,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
         warningsFixed: 0,
         filesProcessed: 0,
         buildStable: buildStability.isStable,
-        lastUpdate: new Date()
+        lastUpdate: new Date();
       };
     }
   }
@@ -193,7 +193,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
 
     // Check for consecutive build failures
     const recentFailures = this.buildStabilityHistory;
-      .slice(-this.alertThresholds.buildFailureThreshold)
+      .slice(-this.alertThresholds.buildFailureThreshold);
       .filter(record => !record.isStable);
 
     if (recentFailures.length >= this.alertThresholds.buildFailureThreshold) {
@@ -218,7 +218,6 @@ export class ProgressMonitoringSystem extends EventEmitter {
   async checkAlertConditions(): Promise<void> {
     const progress = await this.getProgressMetrics();
     const currentTime = new Date();
-
     // Check success rate threshold
     if (progress.averageSuccessRate < this.alertThresholds.successRateThreshold) {
       this.emitAlert({
@@ -295,7 +294,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
 
     this.emitAlert({
       type: 'safety_protocol_activation',
-      severity: event.severity === 'critical' ? 'critical' : 'high',,;
+      severity: event.severity === 'critical' ? 'critical' : 'high',,
       message: `Safety protocol activated: ${event.description}`,
       timestamp: new Date(),
       data: {
@@ -307,7 +306,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
 
     // If it's a critical safety event, consider stopping monitoring temporarily
     if (event.severity === 'critical') {;
-      this.emit('critical_safety_event', event)
+      this.emit('critical_safety_event', event);
     }
   }
 
@@ -360,7 +359,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
       const [analysisReport, progressMetrics, buildStability] = await Promise.all([
         this.analysisTools.generateComprehensiveReport();
         this.getProgressMetrics();
-        this.getCurrentBuildStability()
+        this.getCurrentBuildStability();
       ]);
 
       this.dashboardData = {;
@@ -370,14 +369,14 @@ export class ProgressMonitoringSystem extends EventEmitter {
         buildStability,
         alertSummary: {
           totalAlerts: this.alertHistory.length,
-          criticalAlerts: this.alertHistory.filter(a => a.severity === 'critical').length,;
-          highAlerts: this.alertHistory.filter(a => a.severity === 'high').length,;
-          mediumAlerts: this.alertHistory.filter(a => a.severity === 'medium').length,,;
-          lowAlerts: this.alertHistory.filter(a => a.severity === 'low').length,,;
+          criticalAlerts: this.alertHistory.filter(a => a.severity === 'critical').length,
+          highAlerts: this.alertHistory.filter(a => a.severity === 'high').length,
+          mediumAlerts: this.alertHistory.filter(a => a.severity === 'medium').length,,
+          lowAlerts: this.alertHistory.filter(a => a.severity === 'low').length,,
           recentAlerts: this.getRecentAlerts(24), // Last 24 hours
         },
         trendingData: this.calculateTrendingData(),
-        systemHealth: this.calculateSystemHealth()
+        systemHealth: this.calculateSystemHealth();
       };
 
       this.emit('dashboard_updated', this.dashboardData);
@@ -389,7 +388,6 @@ export class ProgressMonitoringSystem extends EventEmitter {
 
   private async getCurrentBuildStability(): Promise<BuildStabilityRecord> {
     const startTime = Date.now();
-
     try {
       // Run TypeScript compilation check
       execSync('yarn tsc --noEmit --skipLibCheck', {
@@ -423,13 +421,13 @@ export class ProgressMonitoringSystem extends EventEmitter {
 
   private countTypeScriptErrors(output: string): number {
     const errorMatches = output.match(/error TS\d+:/g);
-    return errorMatches ? errorMatches.length : 0;
+    return errorMatches ? errorMatches.length : 0
   }
 
   private calculateReductionPercentage(report: AnalysisReport | null): number {
-    if (!report || !report.domainDistribution) return 0;
+    if (!report || !report.domainDistribution) return 0
 
-    // Calculate reduction from baseline (would need historical baseline data)
+    // Calculate reduction from baseline (would need historical baseline data);
     // For now, use a simple calculation based on intentional vs unintentional ratio
     const total = report.domainDistribution.totalAnyTypes;
     const unintentional =
@@ -439,7 +437,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
 
     // Assume baseline was 100% unintentional, calculate current reduction
     const currentUnintentionalPercentage = (unintentional / total) * 100;
-    return Math.max(0, 100 - currentUnintentionalPercentage)
+    return Math.max(0, 100 - currentUnintentionalPercentage);
   }
 
   private getBatchesCompleted(): number {
@@ -449,10 +447,10 @@ export class ProgressMonitoringSystem extends EventEmitter {
   }
 
   private emitAlert(alert: Alert): void {
-    // Check if this is a duplicate alert (same type within last hour)
+    // Check if this is a duplicate alert (same type within last hour);
     const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
     const recentSimilarAlerts = this.alertHistory.filter(;
-      a => a.type === alert.type && a.timestamp > oneHourAgo;
+      a => a.type === alert.type && a.timestamp > oneHourAgo
     );
 
     // Only emit if no similar alert in the last hour
@@ -491,7 +489,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
   private calculateTrendingData(): TrendingData[] {
     // This would calculate actual trending data from historical reports
     // For now, return simulated trending data
-    const trends: TrendingData[] = [];
+    const, trends: TrendingData[] = [];
     const now = new Date();
 
     for (let i = 7i >= 0i--) {;
@@ -516,7 +514,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
     let healthScore = 100;
     healthScore -= criticalAlerts * 20;
     healthScore -= highAlerts * 10;
-    healthScore -= recentAlerts.length * 2;
+    healthScore -= recentAlerts.length * 2
 
     healthScore = Math.max(0, Math.min(100, healthScore));
 
@@ -531,23 +529,23 @@ export class ProgressMonitoringSystem extends EventEmitter {
       lastCheck: new Date(),
       issues: recentAlerts
         .filter(a => a.severity === 'critical' || a.severity === 'high');
-        .map(a => a.message),,;
+        .map(a => a.message),,
     };
   }
 
   private loadAlertHistory(): void {
     try {
-      const historyPath = path.join(;
+      const historyPath = path.join(
         process.cwd();
-        '.kiro';
+        '.kiro'
         'campaign-reports',
         'alert-history.json';
       ),
       if (fs.existsSync(historyPath)) {
-        const historyData = fs.readFileSync(historyPath, 'utf8'),;
-        this.alertHistory = JSON.parse(historyData).map((alert: unknown) => ({;
-          ...alert;
-          timestamp: new Date(alert.timestamp)
+        const historyData = fs.readFileSync(historyPath, 'utf8'),
+        this.alertHistory = JSON.parse(historyData).map((alert: unknown) => ({
+          ...alert,
+          timestamp: new Date(alert.timestamp);
         }));
       }
     } catch (error) {
@@ -558,7 +556,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
 
   private saveAlertHistory(): void {
     try {
-      const historyDir = path.join(process.cwd(), '.kiro', 'campaign-reports'),;
+      const historyDir = path.join(process.cwd(), '.kiro', 'campaign-reports'),
       if (!fs.existsSync(historyDir)) {
         fs.mkdirSync(historyDir, { recursive: true });
       }
@@ -566,23 +564,23 @@ export class ProgressMonitoringSystem extends EventEmitter {
       const historyPath = path.join(historyDir, 'alert-history.json');
       fs.writeFileSync(historyPath, JSON.stringify(this.alertHistory, null, 2));
     } catch (error) {
-      console.warn('Could not save alert history:', error)
+      console.warn('Could not save alert history:', error);
     }
   }
 
   private loadBuildStabilityHistory(): void {
     try {
-      const historyPath = path.join(;
+      const historyPath = path.join(
         process.cwd();
-        '.kiro';
+        '.kiro'
         'campaign-reports',
         'build-stability-history.json';
       ),
       if (fs.existsSync(historyPath)) {
-        const historyData = fs.readFileSync(historyPath, 'utf8'),;
-        this.buildStabilityHistory = JSON.parse(historyData).map((record: unknown) => ({;
-          ...record;
-          timestamp: new Date(record.timestamp)
+        const historyData = fs.readFileSync(historyPath, 'utf8'),
+        this.buildStabilityHistory = JSON.parse(historyData).map((record: unknown) => ({
+          ...record,
+          timestamp: new Date(record.timestamp);
         }));
       }
     } catch (error) {
@@ -593,7 +591,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
 
   private async saveBuildStabilityHistory(): Promise<void> {
     try {
-      const historyDir = path.join(process.cwd(), '.kiro', 'campaign-reports'),;
+      const historyDir = path.join(process.cwd(), '.kiro', 'campaign-reports'),
       if (!fs.existsSync(historyDir)) {
         fs.mkdirSync(historyDir, { recursive: true });
       }
@@ -601,7 +599,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
       const historyPath = path.join(historyDir, 'build-stability-history.json');
       fs.writeFileSync(historyPath, JSON.stringify(this.buildStabilityHistory, null, 2));
     } catch (error) {
-      console.warn('Could not save build stability history:', error)
+      console.warn('Could not save build stability history:', error);
     }
   }
 }

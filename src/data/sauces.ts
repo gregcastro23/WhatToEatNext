@@ -6,7 +6,7 @@ export interface Sauce {
   base: string,
   keyIngredients: string[],
   culinaryUses: string[],
-  variants?: string[];
+  variants?: string[]
   elementalProperties: ElementalProperties,
   astrologicalInfluences: string[],
   seasonality: string,
@@ -16,7 +16,7 @@ export interface Sauce {
   // Enhanced properties
   ingredients?: string[];
   preparationSteps?: string[];
-  storageInstructions?: string;
+  storageInstructions?: string
   prepTime?: string,
   cookTime?: string,
   difficulty?: string,
@@ -33,7 +33,7 @@ export interface SauceRecommendation {
 }
 
 // Italian sauces
-export const italianSauces: Record<string, Sauce> = {
+export const, italianSauces: Record<string, Sauce> = {
   marinara: {
     name: 'Marinara',
     description:
@@ -65,7 +65,7 @@ export const italianSauces: Record<string, Sauce> = {
       '1 pinch red pepper flakes (optional)'
     ],
     preparationSteps: [
-      'Heat olive oil in a large saucepan over medium heat.';
+      'Heat olive oil in a large saucepan over medium heat.'
       'Add minced garlic (and onion if using) and sauté until fragrant but not browned, about 1-2 minutes.',
       'If using red pepper flakes, add them with the garlic.',
       'Pour in the tomatoes with their juices, crushing them with your hands or a potato masher as you add them.',
@@ -119,7 +119,7 @@ export const italianSauces: Record<string, Sauce> = {
     ],
     preparationSteps: [
       'If using a mortar and pestle (traditional method): Add garlic and salt, pound until creamy. Add pine nuts and work into a paste. Add basil leaves in small batches, grinding until smooth. Mix in cheeses, then slowly drizzle in olive oil while mixing.',
-      'If using a food processor: Pulse pine nuts and garlic until coarsely chopped. Add basil and pulse again. Add cheeses and pulse to combine. With processor running, slowly drizzle in olive oil until desired consistency is reached.',
+      'If using a food, processor: Pulse pine nuts and garlic until coarsely chopped. Add basil and pulse again. Add cheeses and pulse to combine. With processor running, slowly drizzle in olive oil until desired consistency is reached.',
       'Season with salt and pepper to taste.';
       'If not using immediately, cover the surface directly with plastic wrap or a thin layer of olive oil to prevent oxidation.'
     ],
@@ -319,7 +319,7 @@ export const italianSauces: Record<string, Sauce> = {
     ],
     preparationSteps: [
       'Heat olive oil in a large saucepan over medium heat.';
-      'Add sliced garlic and chili peppers (or red pepper flakes). Sauté for 1-2 minutes until fragrant but not browned.';
+      'Add sliced garlic and chili peppers (or red pepper flakes). Sauté for 1-2 minutes until fragrant but not browned.'
       'If using tomato paste, add it now and cook for 30 seconds, stirring constantly.',
       'Add the tomatoes, crushing them with your hands or a potato masher as you add them to the pan.',
       'Add salt and dried oregano if using.';
@@ -337,7 +337,7 @@ export const italianSauces: Record<string, Sauce> = {
 };
 
 // Mexican sauces
-export const mexicanSauces: Record<string, Sauce> = {
+export const, mexicanSauces: Record<string, Sauce> = {
   mole: {
     name: 'Mole Poblano',
     description:
@@ -368,8 +368,8 @@ export const mexicanSauces: Record<string, Sauce> = {
       '1/4 cup (30g) almonds',
       '1/4 cup (30g) raisins',
       '1 corn tortilla, torn into pieces',
-      '1/4 tsp each: ground cinnamon, ground cloves, ground coriander',
-      '1/2 tsp each: ground cumin, dried oregano',
+      '1/4 tsp, each: ground cinnamon, ground cloves, ground coriander',
+      '1/2 tsp, each: ground cumin, dried oregano',
       '2 cups (475ml) chicken broth',
       '2 oz (60g) dark chocolate (70% cocoa), chopped',
       '1 tbsp brown sugar',
@@ -451,7 +451,7 @@ export const mexicanSauces: Record<string, Sauce> = {
 };
 
 // Asian sauces
-export const asianSauces: Record<string, Sauce> = {
+export const, asianSauces: Record<string, Sauce> = {
   thaiGreenCurry: {
     name: 'Thai Green Curry Paste',
     description:
@@ -488,8 +488,8 @@ export const asianSauces: Record<string, Sauce> = {
     preparationSteps: [
       'If using whole spices, toast coriander seeds, cumin seeds, and white peppercorns in a dry skillet over medium heat until fragrant, about 1-2 minutes. Let cool, then grind in a spice grinder or mortar and pestle.',
       'Traditional method (mortar and pestle): Start with the hardest ingredients - lemongrass, galangal, and kaffir lime. Pound until broken down. Add garlic, shallots, and coriander roots, and continue pounding. Add chilies and pound until a rough paste forms. Add ground spices, shrimp paste, and salt, and continue pounding until homogeneous.',
-      'Food processor method: Combine all ingredients except oil in a food processor. Pulse several times, then process continuously, scraping down the sides occasionally. Add oil slowly while machine is running to help form a smooth paste. Add water 1 teaspoon at a time if needed to help blending.',
-      'To use: For a basic curry, fry 2-3 tablespoons of paste in coconut milk until fragrant before adding proteins and vegetables.'
+      'Food processor, method: Combine all ingredients except oil in a food processor. Pulse several times, then process continuously, scraping down the sides occasionally. Add oil slowly while machine is running to help form a smooth paste. Add water 1 teaspoon at a time if needed to help blending.',
+      'To, use: For a basic curry, fry 2-3 tablespoons of paste in coconut milk until fragrant before adding proteins and vegetables.'
     ],
     storageInstructions: 'Store in an airtight container in the refrigerator for up to 2 weeks or freeze in ice cube trays for up to 3 months. Freeze small portions for easy use. Add a thin layer of oil on top of refrigerated paste to preserve freshness.',
     prepTime: '30 minutes',
@@ -500,7 +500,7 @@ export const asianSauces: Record<string, Sauce> = {
 };
 
 // Consolidate all sauces
-export const allSauces: Record<string, Sauce> = {
+export const, allSauces: Record<string, Sauce> = {
   ...italianSauces;
   ...mexicanSauces;
   ...asianSauces;
@@ -508,7 +508,7 @@ export const allSauces: Record<string, Sauce> = {
 };
 
 // Sauce recommendations
-export const sauceRecommendations: SauceRecommendation = {;
+export const, sauceRecommendations: SauceRecommendation = {
   forProtein: {
     beef: [
       'ragù alla Bolognese',
@@ -564,15 +564,15 @@ export const sauceRecommendations: SauceRecommendation = {;
 
 // Helper functions
 export function getSaucesByAstrologicalInfluence(influence: string): Sauce[] {
-  return Object.values(allSauces).filter(sauce =>;
-    sauce.astrologicalInfluences.some(infl => infl.toLowerCase() === influence.toLowerCase()),,;
+  return Object.values(allSauces).filter(sauce =>
+    sauce.astrologicalInfluences.some(infl => infl.toLowerCase() === influence.toLowerCase()),,
   )
 }
 
 export function getSaucesByElement(element: keyof ElementalProperties): Sauce[] {
-  return Object.values(allSauces).filter(sauce => {;
+  return Object.values(allSauces).filter(sauce => {
     // Find the dominant element
-    const dominantElement = Object.entries(sauce.elementalProperties).sort(;
+    const dominantElement = Object.entries(sauce.elementalProperties).sort(
       ([, a], [, b]) => b - a,
     )[0][0],
     return dominantElement === element;
@@ -580,7 +580,7 @@ export function getSaucesByElement(element: keyof ElementalProperties): Sauce[] 
 }
 
 export function getMarsInfluencedSauces(): Sauce[] {
-  return getSaucesByAstrologicalInfluence('Mars')
+  return getSaucesByAstrologicalInfluence('Mars');
 }
 
 const saucesExport = {;

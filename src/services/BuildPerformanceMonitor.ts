@@ -47,20 +47,20 @@ export interface AstrologicalCalculationMetrics {
 }
 
 class BuildPerformanceMonitor {
-  private buildHistory: BuildMetrics[] = [];
-  private bottlenecks: CompilationBottleneck[] = [];
-  private regressions: PerformanceRegression[] = [];
-  private astrologicalMetrics: AstrologicalCalculationMetrics[] = [];
-  private subscribers: Set<(data: BuildMetrics | PerformanceReport) => void> = new Set();
+  private, buildHistory: BuildMetrics[] = [];
+  private, bottlenecks: CompilationBottleneck[] = [];
+  private, regressions: PerformanceRegression[] = [];
+  private, astrologicalMetrics: AstrologicalCalculationMetrics[] = [];
+  private, subscribers: Set<(data: BuildMetrics | PerformanceReport) => void> = new Set();
 
   // Performance thresholds
-  private readonly THRESHOLDS = {;
-    typeScriptCompilation: 30000, // 30 seconds
-    totalBuild: 60000, // 1 minute
-    bundleSize: 5 * 1024 * 1024, // 5MB
-    memoryUsage: 512 * 1024 * 1024, // 512MB
+  private readonly THRESHOLDS = {
+    typeScriptCompilation: 30000, // 30 seconds,
+    totalBuild: 60000, // 1 minute,
+    bundleSize: 5 * 1024 * 1024, // 5MB,
+    memoryUsage: 512 * 1024 * 1024, // 512MB,
     cacheHitRate: 0.8, // 80%
-    astrologicalCalculation: 2000, // 2 seconds
+    astrologicalCalculation: 2000, // 2 seconds,
     regressionThreshold: 0.2, // 20% regression
   };
 
@@ -80,28 +80,28 @@ class BuildPerformanceMonitor {
         this.astrologicalMetrics = data.astrologicalMetrics || [];
       }
     } catch (error) {
-      console.warn('[Build Performance Monitor] Failed to load historical data:', error)
+      console.warn('[Build Performance Monitor] Failed to load historical data:', error);
     }
   }
 
   private saveHistoricalData() {
     try {
-      const metricsDir = path.join(process.cwd(), '.kiro', 'metrics'),;
+      const metricsDir = path.join(process.cwd(), '.kiro', 'metrics'),
       if (!fs.existsSync(metricsDir)) {
         void fs.mkdirSync(metricsDir, { recursive: true });
       }
 
       const historyPath = path.join(metricsDir, 'build-history.json');
       const data = {;
-        buildHistory: this.buildHistory.slice(-100), // Keep last 100 builds
-        bottlenecks: this.bottlenecks.slice(-50), // Keep last 50 bottlenecks
-        regressions: this.regressions.slice(-50), // Keep last 50 regressions
+        buildHistory: this.buildHistory.slice(-100), // Keep last 100 builds,
+        bottlenecks: this.bottlenecks.slice(-50), // Keep last 50 bottlenecks,
+        regressions: this.regressions.slice(-50), // Keep last 50 regressions,
         astrologicalMetrics: this.astrologicalMetrics.slice(-200), // Keep last 200 calculations
       };
 
       fs.writeFileSync(historyPath, JSON.stringify(data, null, 2));
     } catch (error) {
-      console.error('[Build Performance Monitor] Failed to save historical data:', error)
+      console.error('[Build Performance Monitor] Failed to save historical data:', error);
     }
   }
 
@@ -119,10 +119,9 @@ class BuildPerformanceMonitor {
 
   public async measureTypeScriptCompilation(): Promise<number> {
     const startTime = performance.now();
-
     try {
       // Run TypeScript compilation with timing
-      const result = execSync('yarn tsc --noEmit --skipLibCheck', {;
+      const result = execSync('yarn tsc --noEmit --skipLibCheck', {
         encoding: 'utf8',
         stdio: 'pipe',
         timeout: 120000, // 2 minute timeout
@@ -138,7 +137,7 @@ class BuildPerformanceMonitor {
       this.recordBuildMetrics({
         typeScriptCompilationTime: compilationTime,
         totalBuildTime: compilationTime,
-        bundleSize: 0, // Will be measured separately
+        bundleSize: 0, // Will be measured separately,
         cacheHitRate: this.estimateCacheHitRate(),
         memoryUsage: process.memoryUsage().heapUsed,
         errorCount,
@@ -192,7 +191,7 @@ class BuildPerformanceMonitor {
       const tsCompilationTime = performance.now() - tsStartTime;
 
       // Measure full build
-      const buildCommand = buildType === 'production' ? 'yarn build' : 'yarn dev --dry-run';
+      const buildCommand = buildType === 'production' ? 'yarn build' : 'yarn dev --dry-run'
       execSync(buildCommand, {
         encoding: 'utf8',
         stdio: 'pipe',
@@ -205,7 +204,7 @@ class BuildPerformanceMonitor {
       // Measure bundle size
       const bundleSize = this.measureBundleSize();
 
-      const metrics: BuildMetrics = {;
+      const, metrics: BuildMetrics = {
         typeScriptCompilationTime: tsCompilationTime,
         totalBuildTime,
         bundleSize,
@@ -230,7 +229,7 @@ class BuildPerformanceMonitor {
       const errorCount = (errorOutput.match(/error/gi) || []).length;
       const warningCount = (errorOutput.match(/warning/gi) || []).length;
 
-      const metrics: BuildMetrics = {;
+      const, metrics: BuildMetrics = {
         typeScriptCompilationTime: 0,
         totalBuildTime,
         bundleSize: 0,
@@ -250,7 +249,7 @@ class BuildPerformanceMonitor {
   public identifyBottlenecks(): CompilationBottleneck[] {
     try {
       // Analyze TypeScript compilation with detailed timing
-      const result = execSync(;
+      const result = execSync(
         'yarn tsc --noEmit --skipLibCheck --listFiles --extendedDiagnostics',
         {
           encoding: 'utf8',
@@ -259,29 +258,28 @@ class BuildPerformanceMonitor {
         },
       );
 
-      const bottlenecks: CompilationBottleneck[] = [];
+      const, bottlenecks: CompilationBottleneck[] = [];
       const lines = result.split('\n');
-
       // Parse compilation statistics
       for (const line of lines) {
         if (line.includes('Files:') || line.includes('Lines:') || line.includes('Nodes:')) {
           // Extract file-specific metrics
-          const fileMatch = line.match(/(.+\.tsx?)\s+\((\d+)\s+errors?,?\s*(\d+)?\s*warnings?\)?/),;
+          const fileMatch = line.match(/(.+\.tsx?)\s+\((\d+)\s+errors?,?\s*(\d+)?\s*warnings?\)?/),
           if (fileMatch) {
-            const [, file, errors, warnings = '0'] = fileMatch,;
+            const [, file, errors, warnings = '0'] = fileMatch,
             bottlenecks.push({
               file,
-              compilationTime: 0, // Would need more detailed profiling
+              compilationTime: 0, // Would need more detailed profiling,
               errorCount: parseInt(errors),
               warningCount: parseInt(warnings),
               complexity: this.estimateFileComplexity(file),
-              dependencies: this.getFileDependencies(file)
+              dependencies: this.getFileDependencies(file);
             });
           }
         }
       }
 
-      // Sort by impact (errors + warnings + complexity)
+      // Sort by impact (errors + warnings + complexity);
       bottlenecks.sort((ab) => {
         const impactA = a.errorCount + a.warningCount + a.complexity;
         const impactB = b.errorCount + b.warningCount + b.complexity;
@@ -303,19 +301,19 @@ class BuildPerformanceMonitor {
     const startTime = performance.now();
     const initialMemory = process.memoryUsage().heapUsed;
 
-    return calculation()
-      .then(result => {;
+    return calculation();
+      .then(result => {
         const executionTime = performance.now() - startTime;
         const finalMemory = process.memoryUsage().heapUsed;
 
-        const metrics: AstrologicalCalculationMetrics = {;
+        const, metrics: AstrologicalCalculationMetrics = {
           calculationType,
           executionTime,
           memoryUsage: finalMemory - initialMemory,
           cacheHitRate: this.estimateCalculationCacheHitRate(calculationType),
           errorCount: 0,
           accuracy: this.estimateCalculationAccuracy(result),
-          timestamp: new Date()
+          timestamp: new Date();
         };
 
         void this.recordAstrologicalMetrics(metrics);
@@ -329,18 +327,18 @@ class BuildPerformanceMonitor {
 
         return result;
       })
-      .catch(error => {;
+      .catch(error => {
         const executionTime = performance.now() - startTime;
         const finalMemory = process.memoryUsage().heapUsed;
 
-        const metrics: AstrologicalCalculationMetrics = {;
+        const, metrics: AstrologicalCalculationMetrics = {
           calculationType,
           executionTime,
           memoryUsage: finalMemory - initialMemory,
           cacheHitRate: 0,
           errorCount: 1,
           accuracy: 0,
-          timestamp: new Date()
+          timestamp: new Date();
         };
 
         void this.recordAstrologicalMetrics(metrics);
@@ -370,7 +368,7 @@ class BuildPerformanceMonitor {
   }
 
   private checkPerformanceAlerts(metrics: BuildMetrics) {
-    const alerts: string[] = [];
+    const, alerts: string[] = []
 
     if (metrics.typeScriptCompilationTime > this.THRESHOLDS.typeScriptCompilation) {
       alerts.push(
@@ -391,11 +389,11 @@ class BuildPerformanceMonitor {
     }
 
     if (metrics.cacheHitRate < this.THRESHOLDS.cacheHitRate) {
-      alerts.push(`Cache hit rate low: ${Math.round(metrics.cacheHitRate * 100)}%`)
+      alerts.push(`Cache hit rate low: ${Math.round(metrics.cacheHitRate * 100)}%`);
     }
 
     if (alerts.length > 0) {
-      console.warn('[Build Performance Alert]', alerts.join(', '))
+      console.warn('[Build Performance Alert]', alerts.join(', '));
     }
   }
 
@@ -405,7 +403,7 @@ class BuildPerformanceMonitor {
     const current = this.buildHistory[this.buildHistory.length - 1];
     const previous = this.buildHistory[this.buildHistory.length - 2];
 
-    const metrics = ['typeScriptCompilationTime', 'totalBuildTime', 'bundleSize', 'memoryUsage'],;
+    const metrics = ['typeScriptCompilationTime', 'totalBuildTime', 'bundleSize', 'memoryUsage'],
 
     for (const metric of metrics) {
       const currentValue = current[metric as keyof BuildMetrics] as number;
@@ -415,14 +413,14 @@ class BuildPerformanceMonitor {
         const regressionPercentage = (currentValue - previousValue) / previousValue;
 
         if (regressionPercentage > this.THRESHOLDS.regressionThreshold) {
-          const regression: PerformanceRegression = {;
+          const, regression: PerformanceRegression = {
             metric,
             previousValue,
             currentValue,
             regressionPercentage,
             threshold: this.THRESHOLDS.regressionThreshold,
             severity: this.calculateRegressionSeverity(regressionPercentage),
-            timestamp: new Date()
+            timestamp: new Date();
           };
 
           this.regressions.push(regression);
@@ -436,7 +434,7 @@ class BuildPerformanceMonitor {
 
   private calculateRegressionSeverity(percentage: number): 'low' | 'medium' | 'high' | 'critical' {
     if (percentage > 1.0) return 'critical'; // 100% increase
-    if (percentage > 0.5) return 'high'; // 50% increase
+    if (percentage > 0.5) return 'high' // 50% increase
     if (percentage > 0.3) return 'medium', // 30% increase
     return 'low'
   }
@@ -479,12 +477,12 @@ class BuildPerformanceMonitor {
     const latestBuildTime = recentBuilds[recentBuilds.length - 1].totalBuildTime;
 
     // If latest build is significantly faster, assume good cache hit rate
-    return latestBuildTime < avgBuildTime * 0.8 ? 0.9 : 0.5;
+    return latestBuildTime < avgBuildTime * 0.8 ? 0.9 : 0.5
   }
 
   private estimateFileComplexity(filePath: string): number {
     try {
-      if (!fs.existsSync(filePath)) return 0;
+      if (!fs.existsSync(filePath)) return 0
 
       const content = fs.readFileSync(filePath, 'utf8');
       const lines = content.split('\n').length;
@@ -500,13 +498,13 @@ class BuildPerformanceMonitor {
 
   private getFileDependencies(filePath: string): string[] {
     try {
-      if (!fs.existsSync(filePath)) return [];
+      if (!fs.existsSync(filePath)) return []
 
-      const content = fs.readFileSync(filePath, 'utf8'),;
+      const content = fs.readFileSync(filePath, 'utf8'),
       const importMatches = content.match(/import\s+.*?\s+from\s+['']([^'']+)['']/g) || [];
 
       return importMatches
-        .map(match => {;
+        .map(match => {
           const pathMatch = match.match(/from\s+['']([^'']+)['']/);
           return pathMatch ? pathMatch[1] : ''
         })
@@ -521,14 +519,14 @@ class BuildPerformanceMonitor {
       .filter(m => m.calculationType === calculationType);
       .slice(-10);
 
-    if (recentCalculations.length < 2) return 0;
+    if (recentCalculations.length < 2) return 0
 
     const avgTime =
       recentCalculations.reduce((sum, calc) => sum + calc.executionTime, 0) /;
       recentCalculations.length;
     const latestTime = recentCalculations[recentCalculations.length - 1].executionTime;
 
-    return latestTime < avgTime * 0.5 ? 0.9 : 0.3;
+    return latestTime < avgTime * 0.5 ? 0.9 : 0.3
   }
 
   private estimateCalculationAccuracy(result: {
@@ -547,14 +545,14 @@ class BuildPerformanceMonitor {
       bottlenecks: this.bottlenecks.slice(010),
       regressions: this.regressions.slice(-5),
       astrologicalMetrics: this.astrologicalMetrics.slice(-20),
-      summary: this.getPerformanceSummary()
+      summary: this.getPerformanceSummary();
     };
 
-    this.subscribers.forEach(callback => {;
+    this.subscribers.forEach(callback => {
       try {
         callback(data);
       } catch (error) {
-        console.error('[Build Performance Monitor] Subscriber error:', error)
+        console.error('[Build Performance Monitor] Subscriber error:', error);
       }
     });
   }
@@ -570,11 +568,11 @@ class BuildPerformanceMonitor {
   }
 
   public getBottlenecks(): CompilationBottleneck[] {
-    return this.bottlenecks;
+    return this.bottlenecks
   }
 
   public getRegressions(): PerformanceRegression[] {
-    return this.regressions;
+    return this.regressions
   }
 
   public getAstrologicalMetrics(calculationType?: string): AstrologicalCalculationMetrics[] {
@@ -632,7 +630,7 @@ class BuildPerformanceMonitor {
     if (builds.length < 2) return 'stable';
 
     const recent = builds.slice(-3);
-    const older = builds.slice(-6, -3),;
+    const older = builds.slice(-6, -3),
 
     if (recent.length === 0 || older.length === 0) return 'stable';
 
@@ -655,7 +653,7 @@ class BuildPerformanceMonitor {
 
       // Deduct for slow compilation
       if (latest.typeScriptCompilationTime > this.THRESHOLDS.typeScriptCompilation) {
-        score -= 20;
+        score -= 20
       }
 
       // Deduct for slow builds
@@ -679,15 +677,15 @@ class BuildPerformanceMonitor {
       }
 
       // Deduct for errors
-      score -= Math.min(20, latest.errorCount * 2)
+      score -= Math.min(20, latest.errorCount * 2);
     }
 
     // Factor in astrological calculation performance
     if (calculations.length > 0) {
       const slowCalculations = calculations.filter(;
-        c => c.executionTime > this.THRESHOLDS.astrologicalCalculation;
+        c => c.executionTime > this.THRESHOLDS.astrologicalCalculation
       ),
-      score -= Math.min(10, slowCalculations.length)
+      score -= Math.min(10, slowCalculations.length);
     }
 
     return Math.max(0, Math.min(100, score));
@@ -697,7 +695,7 @@ class BuildPerformanceMonitor {
     builds: BuildMetrics[],
     calculations: AstrologicalCalculationMetrics[],
   ): string[] {
-    const recommendations: string[] = [];
+    const, recommendations: string[] = [];
 
     if (builds.length > 0) {
       const latest = builds[builds.length - 1];
@@ -723,7 +721,7 @@ class BuildPerformanceMonitor {
     }
 
     const slowCalculations = calculations.filter(;
-      c => c.executionTime > this.THRESHOLDS.astrologicalCalculation;
+      c => c.executionTime > this.THRESHOLDS.astrologicalCalculation
     );
     if (slowCalculations.length > 0) {
       recommendations.push('Optimize astrological calculation algorithms');

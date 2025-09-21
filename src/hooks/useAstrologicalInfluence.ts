@@ -25,14 +25,14 @@ export function useAstrologicalInfluence() {
         const state = await getCurrentAstrologicalState();
         setAstrologicalState(state);
       } catch (error) {
-        console.error('Failed to get astrological state:', error)
+        console.error('Failed to get astrological state:', error);
       }
     }
 
     void fetchAstrologicalState();
   }, []);
 
-  const influence = useMemo((): AstrologicalInfluence => {;
+  const influence = useMemo((): AstrologicalInfluence => {
     if (!astrologicalState || !planetaryPositions) {
       return {
         planetaryDay: 'Sun',
@@ -61,7 +61,7 @@ export function useAstrologicalInfluence() {
       pisces: 'Water'
     };
 
-    Object.values(planetaryPositions || {}).forEach(position => {;
+    Object.values(planetaryPositions || {}).forEach(position => {
       const element = elementMap[(position as unknown)?.sign as keyof typeof elementMap];
       if (element) {
         elementCounts[element as keyof typeof elementCounts]++
@@ -75,9 +75,9 @@ export function useAstrologicalInfluence() {
         : b,
     )[0];
 
-    // Calculate aspect strength (simplified)
+    // Calculate aspect strength (simplified);
     const aspectStrength = astrologicalState.aspects;
-      ? Math.min(1, astrologicalState.aspects || [].length / 10)
+      ? Math.min(1, astrologicalState.aspects || [].length / 10);
       : 0.5;
 
     // Calculate overall influence
@@ -88,7 +88,7 @@ export function useAstrologicalInfluence() {
           ? 0.3
           : 0.6;
 
-    const overallInfluence = aspectStrength * 0.4 + lunarPhaseStrength * 0.6;
+    const overallInfluence = aspectStrength * 0.4 + lunarPhaseStrength * 0.6
 
     return {
       planetaryDay: astrologicalState.planetaryDay || 'Sun',

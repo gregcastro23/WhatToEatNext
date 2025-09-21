@@ -58,13 +58,13 @@ export function useAlchemicalBridge() {
     isLoading,
     error,
 
-    // Merged and individual data sources
+    // Merged and individual data sources,
     planetaryPositions: mergedPositions,
     contextPositions,
     servicePositions,
 
     // State information
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility,
     isDaytime: daytime !== undefined ? daytime : (contextState as any)?.isDaytime,
 
     // Service references for direct access
@@ -142,7 +142,7 @@ export function usePlanetaryHoursBridge() {
           const hourInfo = await astrologyService.getCurrentPlanetaryHour();
           // ✅ Pattern MM-1: Ensure object type for setCurrentHour state setter
           setCurrentHour(
-            typeof hourInfo === 'object' && hourInfo !== null ? hourInfo : { value: hourInfo },;
+            typeof hourInfo === 'object' && hourInfo !== null ? hourInfo : { value: hourInfo },
           );
 
           const dayPlanet = await astrologyService.getCurrentPlanetaryDay();

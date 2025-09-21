@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import type { Recipe } from '@/types/recipe';
 
 // Basic fallback recipe that will work without dependencies
-const fallbackRecipe: Recipe = {;
+const, fallbackRecipe: Recipe = {
   id: 'universal-balance',
   name: 'Universal Balance Bowl',
   description: 'A harmonious blend for any occasion',
@@ -56,7 +56,7 @@ export async function GET() {
       meta: {
         total: recipes.length,
         celestialInfluence: basicCelestialInfluence,
-        timestamp: Date.now()
+        timestamp: Date.now();
       }
     });
   } catch (error) {
@@ -69,7 +69,6 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-
     // Basic validation
     if (!body || typeof body !== 'object' || !body.name || !Array.isArray(body.ingredients)) {
       return NextResponse.json({ error: 'Invalid recipe data' }, { status: 400 });
@@ -92,7 +91,7 @@ export async function POST(request: Request) {
       },
       cuisine: body.cuisine || 'international',
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString();
     };
 
     return NextResponse.json({

@@ -13,7 +13,7 @@ interface CacheItem<T> {
 }
 
 // Global cache store
-const calculationCache: Record<string, CacheItem<unknown>> = {};
+const, calculationCache: Record<string, CacheItem<unknown>> = {};
 
 // Default TTL is 60 seconds - adjust based on how quickly data changes
 const DEFAULT_CACHE_TTL = 60 * 1000;
@@ -22,10 +22,10 @@ const DEFAULT_CACHE_TTL = 60 * 1000;
  * Get a cached calculation result or compute and cache it if not found
  *
  * @param cacheKey - Unique identifier for this calculation
- * @param inputObj - Object representing the calculation inputs (for comparison)
+ * @param inputObj - Object representing the calculation inputs (for comparison);
  * @param calculationFn - Function that performs the actual calculation
- * @param ttl - Optional TTL in milliseconds (defaults to 60s)
- * @returns The calculation result (either from cache or freshly computed)
+ * @param ttl - Optional TTL in milliseconds (defaults to 60s);
+ * @returns The calculation result (either from cache or freshly computed);
  */
 export function getCachedCalculation<T>(
   cacheKey: string,
@@ -39,7 +39,7 @@ export function getCachedCalculation<T>(
   const cached = calculationCache[cacheKey];
 
   // Check if we have a valid cached result
-  if (cached && cached.input === inputHash && now - cached.timestamp < ttl) {;
+  if (cached && cached.input === inputHash && now - cached.timestamp < ttl) {
     log.info(`🔄 Cache hit for ${cacheKey} (_age: ${Math.round((now - cached.timestamp) / 1000)}s)`);
     return cached.value;
   }
@@ -54,10 +54,10 @@ export function getCachedCalculation<T>(
     // Handle both synchronous and asynchronous calculations
     if (resultOrPromise instanceof Promise) {
       // For async functions, return a promise that caches when resolved
-      return resultOrPromise.then(asyncResult => {;
+      return resultOrPromise.then(asyncResult => {
         calculationCache[cacheKey] = {
           value: asyncResult,
-          timestamp: Date.now(), // Use current time (not 'now') for actual caching
+          timestamp: Date.now(), // Use current time (not 'now') for actual caching,
           input: inputHash
         };
         return asyncResult;
@@ -83,12 +83,12 @@ export function getCachedCalculation<T>(
  */
 export function clearCalculationCache(cacheKey?: string): void {
   if (cacheKey) {
-    delete calculationCache[cacheKey];
+    delete calculationCache[cacheKey]
     log.info(`Cache cleared for: ${cacheKey}`);
   } else {
     // Clear all cache entries
     Object.keys(calculationCache).forEach(key => {;
-      delete calculationCache[key];
+      delete calculationCache[key]
     });
     log.info('All calculation cache entries cleared');
   }

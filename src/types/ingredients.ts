@@ -25,7 +25,7 @@ export type NutritionalContent = NutritionalContentType;
  * Standardized Ingredient Mapping
  * Complete ingredient data structure used throughout the system
  */
-export type IngredientMapping = IngredientMappingType;
+export type IngredientMapping = IngredientMappingType
 
 /**
  * Ingredient Collection Type
@@ -105,7 +105,7 @@ export type IngredientSubstitution = {
   originalIngredient: string,
   substitute: string,
   substitutionRatio: number, // e.g., 1.5 means use 1.5x the amount
-  confidenceScore: number; // 0-1 scale
+  confidenceScore: number // 0-1 scale
   nutritionalDifference: Partial<NutritionalContent>,
   flavorNotes: string[],
   cookingAdjustments?: string[]

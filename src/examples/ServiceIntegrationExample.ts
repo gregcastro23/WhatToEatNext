@@ -19,7 +19,7 @@ export async function runServiceIntegrationExample() {
     await servicesManager.initialize();
 
     // Step 2: Get service references from the manager
-    log.info('\n2. Getting service references...');
+    log.info('\n2. Getting service references...')
     const {
       alchemicalEngine,
       astrologyService,
@@ -30,7 +30,7 @@ export async function runServiceIntegrationExample() {
 
     // Step 3: Get current planetary positions
     log.info('\n3. Getting current planetary positions...');
-    const planetaryPositions = await astrologyService.getCurrentPlanetaryPositions();
+    const planetaryPositions = await astrologyService.getCurrentPlanetaryPositions()
     log.info('Current planetary positions:', planetaryPositions);
 
     // Step 4: Calculate elemental properties from planetary positions
@@ -40,7 +40,7 @@ export async function runServiceIntegrationExample() {
     const calculateElementalProperties = astrologyServiceData?.calculateElementalProperties;
     const elementalProperties = calculateElementalProperties;
       ? calculateElementalProperties()
-      : null;
+      : null
     log.info('Current elemental properties:', elementalProperties);
 
     // Step 5: Calculate thermodynamic metrics
@@ -50,58 +50,58 @@ export async function runServiceIntegrationExample() {
     const calculateThermodynamicMetrics = alchemicalEngineData?.calculateThermodynamicMetrics;
     const thermodynamicMetrics = calculateThermodynamicMetrics;
       ? calculateThermodynamicMetrics(elementalProperties)
-      : null;
+      : null
     log.info('Thermodynamic metrics:', thermodynamicMetrics);
 
     // Step 6: Get ingredient recommendations based on elemental properties
-    log.info('\n6. Getting ingredient recommendations...');
-    const ingredientRecommendations = await recommendationService.getRecommendedIngredients({;
+    log.info('\n6. Getting ingredient recommendations...')
+    const ingredientRecommendations = await recommendationService.getRecommendedIngredients({
       elementalProperties,
       limit: 5
     });
     log.info('Recommended ingredients:', {
        
        
-      items: (ingredientRecommendations.items || ([] as unknown[])).map(ing => ing.name),,;
+      items: (ingredientRecommendations.items || ([] as unknown[])).map(ing => ing.name),,
       scores: ingredientRecommendations.scores
     });
 
     // Step 7: Get recipe recommendations based on elemental properties
-    log.info('\n7. Getting recipe recommendations...');
-    const recipeRecommendations = await recommendationService.getRecommendedRecipes({;
+    log.info('\n7. Getting recipe recommendations...')
+    const recipeRecommendations = await recommendationService.getRecommendedRecipes({
       elementalProperties,
       limit: 3
     });
     log.info('Recommended recipes:', {
        
        
-      items: (recipeRecommendations.items || ([] as unknown[])).map(recipe => recipe.name),,;
+      items: (recipeRecommendations.items || ([] as unknown[])).map(recipe => recipe.name),,
       scores: recipeRecommendations.scores
     });
 
     // Step 8: Get cooking method recommendations based on elemental properties
-    log.info('\n8. Getting cooking method recommendations...');
-    const cookingMethodRecommendations = await recommendationService.getRecommendedCookingMethods({;
+    log.info('\n8. Getting cooking method recommendations...')
+    const cookingMethodRecommendations = await recommendationService.getRecommendedCookingMethods({
       elementalProperties,
       limit: 3
     });
     log.info('Recommended cooking methods:', {
        
        
-      items: (cookingMethodRecommendations.items || ([] as unknown[])).map(method => method.name),,;
+      items: (cookingMethodRecommendations.items || ([] as unknown[])).map(method => method.name),,
       scores: cookingMethodRecommendations.scores
     });
 
     // Step 9: Calculate elemental compatibility between two recipes
-    log.info('\n9. Calculating elemental compatibility between recipes...');
+    log.info('\n9. Calculating elemental compatibility between recipes...')
     // For this example, we'll create mock recipes
-    const recipe1ElementalProps: ElementalProperties = {;
+    const recipe1ElementalProps: ElementalProperties = {
       Fire: 0.7,
       Water: 0.1,
       Earth: 0.1,
       Air: 0.1
     };
-    const recipe2ElementalProps: ElementalProperties = {;
+    const recipe2ElementalProps: ElementalProperties = {
       Fire: 0.1,
       Water: 0.1,
       Earth: 0.7,
@@ -114,7 +114,7 @@ export async function runServiceIntegrationExample() {
       alchemicalEngineCompatibility?.calculateElementalCompatibility;
     const compatibility = calculateElementalCompatibility;
       ? calculateElementalCompatibility(recipe1ElementalProps, recipe2ElementalProps)
-      : null;
+      : null
 
     log.info('Elemental compatibility:', compatibility);
 
@@ -123,9 +123,9 @@ export async function runServiceIntegrationExample() {
     // Apply surgical type casting with variable extraction
     const recipeServiceData = recipeService as unknown;
     const generateFusionRecipe = recipeServiceData?.generateFusionRecipe;
-    const fusionRecipe = generateFusionRecipe;
+    const fusionRecipe = generateFusionRecipe
       ? await generateFusionRecipe(['Italian', 'Japanese'], { query: 'pasta with umami' })
-      : null;
+      : null
 
     log.info('Fusion recipe:', fusionRecipe?.name, fusionRecipe?.description);
 

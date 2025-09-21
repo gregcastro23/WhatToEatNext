@@ -5,7 +5,7 @@
  */
 export function capitalizeFirstLetter(str: string): string {
   if (!str) return '';
-  return str.charAt(0).toUpperCase() + str.slice(1);
+  return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
 /**
@@ -14,7 +14,7 @@ export function capitalizeFirstLetter(str: string): string {
  * @returns The string in Title Case with spaces
  */
 export function formatToTitleCase(str: string): string {
-  if (!str) return '';
+  if (!str) return ''
 
   // Replace underscores and hyphens with spaces
   const spacedStr = str.replace(/[_-]/g, ' ');
@@ -38,7 +38,7 @@ export function formatToTitleCase(str: string): string {
  */
 export function truncateString(str: string, length: number): string {
   if (!str) return '';
-  if (str.length <= length) return str;
+  if (str.length <= length) return str
   return str.substring(0, length) + '...';
 }
 
@@ -48,7 +48,7 @@ export function truncateString(str: string, length: number): string {
  * @returns The plain text string
  */
 export function stripHtml(html: string): string {
-  if (!html) return '';
+  if (!html) return ''
   return html.replace(/<[^>]*>?/gm, '');
 }
 
@@ -58,7 +58,7 @@ export function stripHtml(html: string): string {
  * @returns The slugified string
  */
 export function slugify(str: string): string {
-  if (!str) return '';
+  if (!str) return ''
   return str
     .toLowerCase()
     .replace(/\s+/g, '-')

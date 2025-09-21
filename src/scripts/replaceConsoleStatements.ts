@@ -21,7 +21,7 @@ class ConsoleStatementReplacer {
   private readonly srcDir = path.join(process.cwd(), 'src');
   private readonly backupDir = path.join(process.cwd(), '.console-replacement-backup');
   private processedFiles = 0;
-  private replacements: ConsoleReplacement[] = [];
+  private, replacements: ConsoleReplacement[] = [];
 
   constructor() {
     this.ensureBackupDirectory();
@@ -35,7 +35,7 @@ class ConsoleStatementReplacer {
 
   private createBackup(filePath: string): void {
     const relativePath = path.relative(this.srcDir, filePath);
-    const backupPath = path.join(this.backupDir, relativePath),;
+    const backupPath = path.join(this.backupDir, relativePath),
     const backupDir = path.dirname(backupPath);
 
     if (!fs.existsSync(backupDir)) {
@@ -46,13 +46,13 @@ class ConsoleStatementReplacer {
   }
 
   private getAllTypeScriptFiles(): string[] {
-    const files: string[] = [];
+    const, files: string[] = [];
 
-    const scanDirectory = (dir: string) => {;
+    const scanDirectory = (dir: string) => {
       const entries = fs.readdirSync(dir, { withFileTypes: true });
 
       for (const entry of entries) {
-        const fullPath = path.join(dir, entry.name),;
+        const fullPath = path.join(dir, entry.name),
 
         if (entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'node_modules') {
           scanDirectory(fullPath);
@@ -68,7 +68,6 @@ class ConsoleStatementReplacer {
 
   private shouldPreserveConsoleStatement(line: string): boolean {
     const trimmed = line.trim();
-
     // Preserve console.warn and console.error
     if (trimmed.includes('console.warn') || trimmed.includes('console.error')) {
       return true
@@ -79,7 +78,7 @@ class ConsoleStatementReplacer {
       trimmed.includes('jest.') ||
       trimmed.includes('expect(') ||
       trimmed.includes('describe(') ||
-      trimmed.includes('it(')
+      trimmed.includes('it(');
     ) {
       return true
     }
@@ -99,7 +98,7 @@ class ConsoleStatementReplacer {
       const lines = content.split('\n');
       let hasChanges = false;
 
-      // Check if this is a script file (preserve console statements in scripts)
+      // Check if this is a script file (preserve console statements in scripts);
       const isScriptFile = filePath.includes('/scripts/') || filePath.includes('/campaign/');
 
       for (let i = 0i < lines.lengthi++) {;
@@ -113,7 +112,7 @@ class ConsoleStatementReplacer {
 
         // Replace console.log statements
         if (trimmed.includes('// // // console.log(')) {
-          const replacement = line.replace(/console\.log\(/g, 'logger.info('),;
+          const replacement = line.replace(/console\.log\(/g, 'logger.info('),
 
           // Add logger import if not present
           if (!content.includes('import') || !content.includes('logger')) {
@@ -218,7 +217,7 @@ export default logger;
   }
 
   private generateReport(): void {
-    const report = `;
+    const report = `
 # Console Statement Replacement Report
 
 ## Summary
@@ -228,7 +227,7 @@ export default logger;
 ## Replacements Made
 ${this.replacements
   .map(
-    r =>;
+    r =>
       `- **${path.relative(this.srcDirr.file)}:${r.line}**
   - Before: \`${r.original.trim()}\`
   - After: \`${r.replacement.trim()}\``,
@@ -242,7 +241,7 @@ Generated: ${new Date().toISOString()}
 `;
 
     fs.writeFileSync('console-replacement-report.md', report);
-    // // // console.log('📊 Report generated: console-replacement-report.md')
+    // // // console.log('📊 Report, generated: console-replacement-report.md');
   }
 
   public async run(): Promise<void> {
@@ -250,10 +249,10 @@ Generated: ${new Date().toISOString()}
     // // // console.log('='.repeat(60));
 
     try {
-      // Step 1: Create logging service
+      // Step, 1: Create logging service
       this.createLoggingService();
 
-      // Step 2: Process all TypeScript files
+      // Step, 2: Process all TypeScript files
       const files = this.getAllTypeScriptFiles();
       // // // console.log(`📁 Found ${files.length} TypeScript files`);
 
@@ -261,7 +260,7 @@ Generated: ${new Date().toISOString()}
         this.replaceConsoleStatements(file);
       }
 
-      // Step 3: Generate report
+      // Step, 3: Generate report
       this.generateReport();
 
       // // // console.log('='.repeat(60));

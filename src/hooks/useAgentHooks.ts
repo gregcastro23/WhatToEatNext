@@ -38,7 +38,7 @@ export interface AgentHookState {
  * Main agent hook for automated quality assurance integration
  */
 export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
-  const defaultConfig: AgentHookConfig = {;
+  const, defaultConfig: AgentHookConfig = {
     enablePlanetaryValidation: true,
     enableIngredientValidation: true,
     enableCampaignTriggers: true,
@@ -54,7 +54,7 @@ export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
     lastValidation: 0,
     validationResults: {},
     campaignTriggers: [],
-    qualityMetrics: qa.getQualityMetrics()
+    qualityMetrics: qa.getQualityMetrics();
   });
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -66,11 +66,11 @@ export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
     setHookState(prev => ({ ...prev, isActive: true }));
 
     // Set up validation interval
-    intervalRef.current = setInterval(;
+    intervalRef.current = setInterval(
       () => {
         void (async () => {
           try {
-            const results: Record<string, ValidationResult> = {};
+            const, results: Record<string, ValidationResult> = {};
 
             // Planetary data validation
             if (finalConfig.enablePlanetaryValidation) {
@@ -78,7 +78,7 @@ export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
               results.planetary = planetaryResult;
 
               if (!planetaryResult.isValid) {
-                logger.warn('Planetary data validation failed:', planetaryResult.issues)
+                logger.warn('Planetary data validation failed:', planetaryResult.issues);
               }
             }
 
@@ -86,22 +86,22 @@ export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
             if (finalConfig.enableCampaignTriggers) {
               const trigger = await qa.checkTypeScriptErrorThreshold();
               if (trigger?.triggered) {
-                logger.warn('TypeScript campaign trigger activated:', trigger)
+                logger.warn('TypeScript campaign trigger activated:', trigger);
               }
             }
 
             // Update state
             setHookState(prev => ({;
-              ...prev;
+              ...prev,
               lastValidation: Date.now(),
               validationResults: { ...prev.validationResults, ...results },
               campaignTriggers: qa.getActiveCampaignTriggers(),
-              qualityMetrics: qa.getQualityMetrics()
+              qualityMetrics: qa.getQualityMetrics();
             }));
 
             logger.debug('Agent hooks validation cycle completed');
           } catch (error) {
-            logger.error('Error in agent hooks validation cycle:', error)
+            logger.error('Error in agent hooks validation cycle:', error);
           }
         })();
       },
@@ -123,10 +123,10 @@ export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
   }, []);
 
   // Manual validation trigger
-  const triggerValidation = useCallback(;
+  const triggerValidation = useCallback(
     async (type?: 'planetary' | 'ingredient' | 'typescript' | 'all') => {
       try {
-        const results: Record<string, ValidationResult> = {};
+        const, results: Record<string, ValidationResult> = {};
 
         if (!type || type === 'all' || type === 'planetary') {;
           results.planetary = await qa.validatePlanetaryData();
@@ -136,17 +136,17 @@ export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
           const trigger = await qa.checkTypeScriptErrorThreshold();
           if (trigger) {
             setHookState(prev => ({;
-              ...prev;
+              ...prev
               campaignTriggers: [...prev.campaignTriggers, trigger]
             }));
           }
         }
 
         setHookState(prev => ({;
-          ...prev;
+          ...prev,
           lastValidation: Date.now(),
           validationResults: { ...prev.validationResults, ...results },
-          qualityMetrics: qa.getQualityMetrics()
+          qualityMetrics: qa.getQualityMetrics();
         }));
 
         logger.debug('Manual validation triggered:', { type, results });
@@ -183,13 +183,12 @@ export function usePlanetaryDataValidationHook(_autoStart: boolean = true) {;
   const [validationResult, setValidationResult] = useState<ValidationResult | null>(null);
   const [isValidating, setIsValidating] = useState(false);
 
-  const validatePlanetaryData = useCallback(;
+  const validatePlanetaryData = useCallback(
     async (date?: Date) => {
       setIsValidating(true);
       try {
         const result = await qa.validatePlanetaryData(date);
         setValidationResult(result);
-
         if (!result.isValid) {
           logger.warn('Planetary data validation hook detected issues:', result.issues),
 
@@ -237,7 +236,7 @@ export function useIngredientConsistencyHook() {
   const [validationResult, setValidationResult] = useState<ValidationResult | null>(null);
   const [isValidating, setIsValidating] = useState(false);
 
-  const validateIngredients = useCallback(;
+  const validateIngredients = useCallback(
     async (
       ingredients: Array<{
         name: string,
@@ -328,7 +327,7 @@ export function useTypeScriptCampaignHook(_autoCheck: boolean = true) {;
       checkErrorThreshold();
 
       // Check every 10 minutes
-      const interval = setInterval(() => void checkErrorThreshold(), 10 * 60 * 1000),;
+      const interval = setInterval(() => void checkErrorThreshold(), 10 * 60 * 1000),
       return () => clearInterval(interval);
     }
   }, [autoCheck, checkErrorThreshold]);
@@ -349,7 +348,7 @@ export function useBuildQualityMonitoringHook() {
   const [qualityResult, setQualityResult] = useState<ValidationResult | null>(null);
   const [isMonitoring, setIsMonitoring] = useState(false);
 
-  const monitorBuildQuality = useCallback(;
+  const monitorBuildQuality = useCallback(
     async (buildMetrics: {
       buildTime?: number,
       bundleSize?: number,
@@ -410,7 +409,7 @@ export function useQualityMetricsHook(_updateInterval: number = 30000) {;
 
   // Update metrics periodically
   useEffect(() => {
-    const interval = setInterval(() => void updateMetrics(), updateInterval),;
+    const interval = setInterval(() => void updateMetrics(), updateInterval),
     return () => clearInterval(interval);
   }, [updateMetrics, updateInterval]);
 
@@ -427,10 +426,10 @@ export function useQualityMetricsHook(_updateInterval: number = 30000) {;
 export function useAgentHookConfiguration() {
   const qa = getAutomatedQualityAssurance();
 
-  const updateConfiguration = useCallback(;
+  const updateConfiguration = useCallback(
     (config: Partial<QualityAssuranceConfig>) => {
       qa.updateConfig(config);
-      logger.info('Agent hook configuration updated:', config)
+      logger.info('Agent hook configuration updated:', config);
     },
     [qa],
   );

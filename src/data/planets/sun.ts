@@ -1,7 +1,7 @@
 import { PlanetData, SunSpecificData } from './types';
 export type { SunSpecificData };
 
-const sunData: PlanetData = {;
+const sunData: PlanetData = {
   'Dignity Effect': {
     leo: 1,
     aries: 2,

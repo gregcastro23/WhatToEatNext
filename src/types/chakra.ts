@@ -38,8 +38,7 @@ export interface ChakraProperty {
 // Define chakra properties by position
 export type ChakraProperties = Record<ChakraPosition, ChakraProperty>;
 
-// Define a type for chakra energies (defined as interface below)
-
+// Define a type for chakra energies (defined as interface below);
 // Define chakra mapping for tarot/major arcana
 export interface KeyCardChakraMapping {
   cardName: string,
@@ -72,7 +71,7 @@ export type ZodiacChakraMappings = Record<string, ChakraPosition[]>;
 export type ChakraBalancingFoods = Record<ChakraPosition, string[]>;
 
 // Constants for reference
-export const _CHAKRAS: ChakraProperties = {;
+export const, _CHAKRAS: ChakraProperties = {
   root: {
     name: 'Root Chakra',
     sanskritName: 'Muladhara',
@@ -171,7 +170,7 @@ export interface MajorArcanaChakra {
   description: string
 }
 
-export const _MAJOR_ARCANA_CHAKRAS: MajorArcanaChakra[] = [
+export const, _MAJOR_ARCANA_CHAKRAS: MajorArcanaChakra[] = [
   {
     cardName: 'The Emperor',
     chakraPosition: 'root',
@@ -260,7 +259,7 @@ export interface SuitChakraMapping {
   description: string
 }
 
-export const _SUIT_CHAKRA_MAPPINGS: SuitChakraMapping[] = [
+export const, _SUIT_CHAKRA_MAPPINGS: SuitChakraMapping[] = [
   {
     suit: 'wands',
     primaryChakra: 'solarPlexus',
@@ -299,8 +298,8 @@ export const _SUIT_CHAKRA_MAPPINGS: SuitChakraMapping[] = [
   }
 ];
 
-// Key card to chakra mappings (tarot cards and their planetary/chakra associations)
-export const _KEY_CARD_CHAKRA_MAPPINGS: KeyCardChakraMapping[] = [
+// Key card to chakra mappings (tarot cards and their planetary/chakra associations);
+export const, _KEY_CARD_CHAKRA_MAPPINGS: KeyCardChakraMapping[] = [
   {
     cardName: 'The Fool',
     chakraPosition: 'crown',
@@ -465,7 +464,7 @@ export interface ChakraMappingSummary {
   secondarySuit?: TarotSuit
 }
 
-export const _CHAKRA_MAPPING_SUMMARY: ChakraMappingSummary[] = [
+export const, _CHAKRA_MAPPING_SUMMARY: ChakraMappingSummary[] = [
   {
     chakra: 'root',
     majorArcana: ['The Emperor'],

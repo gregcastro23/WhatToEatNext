@@ -17,20 +17,20 @@ export interface ValidationResult {
 }
 
 // Base validation functions
-export const validateString = (value: unknown, fieldName: string): ValidationResult => {;
-  const result: ValidationResult = { isValid: true, errors: [], warnings: [] };
+export const validateString = (value: unknown, fieldName: string): ValidationResult => {
+  const, result: ValidationResult = { isValid: true, errors: [], warnings: [] };
 
   if (typeof value !== 'string') {
     result.isValid = false;
     result.errors.push(`${fieldName} must be a string, got ${typeof value}`);
-  } else if (value.trim().length === 0) {;
+  } else if (value.trim().length === 0) {
     result.warnings.push(`${fieldName} is empty`);
   }
 
   return result;
 };
 
-export const validateNumber = (;
+export const validateNumber = (
   value: unknown,
   fieldName: string,
   options?: {
@@ -38,8 +38,8 @@ export const validateNumber = (;
     max?: number,
     integer?: boolean
   },
-): ValidationResult => {;
-  const result: ValidationResult = { isValid: true, errors: [], warnings: [] };
+): ValidationResult => {
+  const, result: ValidationResult = { isValid: true, errors: [], warnings: [] };
 
   if (typeof value !== 'number' || isNaN(value)) {
     result.isValid = false;
@@ -49,7 +49,7 @@ export const validateNumber = (;
 
   if (options?.min !== undefined && value < options.min) {
     result.isValid = false;
-    result.errors.push(`${fieldName} must be at least ${options.min}, got ${value}`)
+    result.errors.push(`${fieldName} must be at least ${options.min}, got ${value}`);
   }
 
   if (options?.max !== undefined && value > options.max) {
@@ -65,8 +65,8 @@ export const validateNumber = (;
   return result;
 };
 
-export const validateBoolean = (value: unknown, fieldName: string): ValidationResult => {;
-  const result: ValidationResult = { isValid: true, errors: [], warnings: [] };
+export const validateBoolean = (value: unknown, fieldName: string): ValidationResult => {
+  const, result: ValidationResult = { isValid: true, errors: [], warnings: [] };
 
   if (typeof value !== 'boolean') {
     result.isValid = false;
@@ -76,12 +76,12 @@ export const validateBoolean = (value: unknown, fieldName: string): ValidationRe
   return result;
 };
 
-export const validateArray = (;
+export const validateArray = (
   value: unknown,
   fieldName: string,
   itemValidator?: (item: unknown, _index: number) => ValidationResult,
-): ValidationResult => {;
-  const result: ValidationResult = { isValid: true, errors: [], warnings: [] };
+): ValidationResult => {
+  const, result: ValidationResult = { isValid: true, errors: [], warnings: [] };
 
   if (!Array.isArray(value)) {
     result.isValid = false;
@@ -91,7 +91,7 @@ export const validateArray = (;
 
   if (itemValidator) {
     value.forEach((item, _index) => {
-      const itemResult = itemValidator(item, _index),;
+      const itemResult = itemValidator(item, _index),
       if (!itemResult.isValid) {
         result.isValid = false;
         result.errors.push(...itemResult.errors.map(err => `${fieldName}[${_index}]: ${err}`));
@@ -103,14 +103,14 @@ export const validateArray = (;
   return result;
 };
 
-export const validateObject = (;
+export const validateObject = (
   value: unknown,
   fieldName: string,
   requiredFields?: string[],
-): ValidationResult => {;
-  const result: ValidationResult = { isValid: true, errors: [], warnings: [] };
+): ValidationResult => {
+  const, result: ValidationResult = { isValid: true, errors: [], warnings: [] };
 
-  if (typeof value !== 'object' || value === null || Array.isArray(value)) {;
+  if (typeof value !== 'object' || value === null || Array.isArray(value)) {
     result.isValid = false;
     result.errors.push(`${fieldName} must be an object, got ${typeof value}`);
     return result;
@@ -130,10 +130,10 @@ export const validateObject = (;
 };
 
 // Domain-specific validation functions
-export const validateElementalProperties = (value: unknown): ValidationResult => {;
-  const result: ValidationResult = { isValid: true, errors: [], warnings: [] };
+export const validateElementalProperties = (value: unknown): ValidationResult => {
+  const, result: ValidationResult = { isValid: true, errors: [], warnings: [] };
 
-  const objectResult = validateObject(value, 'ElementalProperties', [;
+  const objectResult = validateObject(value, 'ElementalProperties', [
     'Fire',
     'Water',
     'Earth',
@@ -155,8 +155,8 @@ export const validateElementalProperties = (value: unknown): ValidationResult =>
     result.warnings.push(...numberResult.warnings);
   }
 
-  // Check if total is reasonable (should be around 1.0 for normalized properties)
-  const total = elements.reduce((sum, element) => {;
+  // Check if total is reasonable (should be around 1.0 for normalized properties);
+  const total = elements.reduce((sum, element) => {
     const val = obj[element];
     return sum + (typeof val === 'number' ? val : 0);
   }, 0);
@@ -168,10 +168,10 @@ export const validateElementalProperties = (value: unknown): ValidationResult =>
   return result;
 };
 
-export const validatePlanetPosition = (value: unknown): ValidationResult => {;
-  const result: ValidationResult = { isValid: true, errors: [], warnings: [] };
+export const validatePlanetPosition = (value: unknown): ValidationResult => {
+  const, result: ValidationResult = { isValid: true, errors: [], warnings: [] };
 
-  const objectResult = validateObject(value, 'PlanetPosition', [;
+  const objectResult = validateObject(value, 'PlanetPosition', [
     'sign',
     'degree',
     'exactLongitude'
@@ -189,15 +189,15 @@ export const validatePlanetPosition = (value: unknown): ValidationResult => {;
     result.errors.push(...signResult.errors);
   }
 
-  // Validate degree (0-30 for zodiac signs)
+  // Validate degree (0-30 for zodiac signs);
   const degreeResult = validateNumber(obj.degree, 'degree', { min: 0, max: 30 });
   if (!degreeResult.isValid) {
     result.isValid = false;
     result.errors.push(...degreeResult.errors);
   }
 
-  // Validate exactLongitude (0-360)
-  const longitudeResult = validateNumber(obj.exactLongitude, 'exactLongitude', {;
+  // Validate exactLongitude (0-360);
+  const longitudeResult = validateNumber(obj.exactLongitude, 'exactLongitude', {
     min: 0,
     max: 360
   });
@@ -218,8 +218,8 @@ export const validatePlanetPosition = (value: unknown): ValidationResult => {;
   return result;
 };
 
-export const validateCookingMethod = (value: unknown): ValidationResult => {;
-  const result: ValidationResult = { isValid: true, errors: [], warnings: [] };
+export const validateCookingMethod = (value: unknown): ValidationResult => {
+  const, result: ValidationResult = { isValid: true, errors: [], warnings: [] };
 
   const objectResult = validateObject(value, 'CookingMethod', ['id', 'name']);
   if (!objectResult.isValid) {
@@ -244,15 +244,15 @@ export const validateCookingMethod = (value: unknown): ValidationResult => {;
 
   // Validate optional description
   if ('description' in obj?.description !== undefined) {
-    const descResult = validateString(obj.description, 'description'),;
+    const descResult = validateString(obj.description, 'description'),
     result.warnings.push(...descResult.warnings);
   }
 
   return result;
 };
 
-export const validateIngredient = (value: unknown): ValidationResult => {;
-  const result: ValidationResult = { isValid: true, errors: [], warnings: [] };
+export const validateIngredient = (value: unknown): ValidationResult => {
+  const, result: ValidationResult = { isValid: true, errors: [], warnings: [] };
 
   const objectResult = validateObject(value, 'Ingredient', ['id', 'name', 'elementalProperties']);
   if (!objectResult.isValid) {
@@ -287,22 +287,21 @@ export const validateIngredient = (value: unknown): ValidationResult => {;
 };
 
 // Validation utility functions
-export const combineValidationResults = (results: ValidationResult[]): ValidationResult => {;
+export const combineValidationResults = (results: ValidationResult[]): ValidationResult => {
   return {
-    isValid: results.every(r => r.isValid),;
-    errors: results.flatMap(r => r.errors),;
-    warnings: results.flatMap(r => r.warnings),;
+    isValid: results.every(r => r.isValid),
+    errors: results.flatMap(r => r.errors),
+    warnings: results.flatMap(r => r.warnings),
   };
 };
 
-export const validateWithFallback = <T>(;
+export const validateWithFallback = <T>(
   value: unknown,
   validator: (val: unknown) => ValidationResult,
   fallback: T,
   context?: string,
-): T => {;
+): T => {
   const result = validator(value);
-
   if (result.isValid) {
     return value as T
   }
@@ -320,8 +319,8 @@ export const validateWithFallback = <T>(;
 // Safe type conversion with validation
 export const safeConvertToElementalProperties = (;
   value: unknown,
-  fallback: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },;
-): ElementalProperties => {;
+  fallback: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+): ElementalProperties => {
   return validateWithFallback(
     value,
     validateElementalProperties,
@@ -330,21 +329,21 @@ export const safeConvertToElementalProperties = (;
   );
 };
 
-export const safeConvertToPlanetPosition = (;
+export const safeConvertToPlanetPosition = (
   value: unknown,
-  fallback: PlanetPosition = {;
+  fallback: PlanetPosition = {
     sign: 'aries' as any,
     degree: 0,
     exactLongitude: 0,
     isRetrograde: false
   },
-): PlanetPosition => {;
+): PlanetPosition => {
   return validateWithFallback(value, validatePlanetPosition, fallback, 'PlanetPosition conversion');
 };
 
-export const safeConvertToCookingMethod = (;
+export const safeConvertToCookingMethod = (
   value: unknown,
-  fallback: CookingMethod = {;
+  fallback: CookingMethod = {
     id: 'unknown',
     name: 'Unknown Method',
     _category: 'unknown',
@@ -352,13 +351,13 @@ export const safeConvertToCookingMethod = (;
     _intensity: 1,
     description: 'Unknown cooking method'
   },
-): CookingMethod => {;
+): CookingMethod => {
   return validateWithFallback(value, validateCookingMethod, fallback, 'CookingMethod conversion');
 };
 
 // Batch validation functions
-export const validatePlanetaryPositions = (positions: unknown): ValidationResult => {;
-  const result: ValidationResult = { isValid: true, errors: [], warnings: [] };
+export const validatePlanetaryPositions = (positions: unknown): ValidationResult => {
+  const, result: ValidationResult = { isValid: true, errors: [], warnings: [] };
 
   const objectResult = validateObject(positions, 'PlanetaryPositions');
   if (!objectResult.isValid) {
@@ -384,12 +383,12 @@ export const validatePlanetaryPositions = (positions: unknown): ValidationResult
   return result;
 };
 
-export const validateIngredientList = (ingredients: unknown): ValidationResult => {;
-  return validateArray(ingredients, 'ingredients', (item, _index) => validateIngredient(item))
+export const validateIngredientList = (ingredients: unknown): ValidationResult => {
+  return validateArray(ingredients, 'ingredients', (item, _index) => validateIngredient(item));
 };
 
-export const validateCookingMethodList = (methods: unknown): ValidationResult => {;
-  return validateArray(methods, 'cookingMethods', (item, _index) => validateCookingMethod(item))
+export const validateCookingMethodList = (methods: unknown): ValidationResult => {
+  return validateArray(methods, 'cookingMethods', (item, _index) => validateCookingMethod(item));
 };
 
 // Export all validation functions

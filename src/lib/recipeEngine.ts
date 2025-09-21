@@ -2,7 +2,7 @@ import { ElementalCalculator } from '@/services/ElementalCalculator';
 import type { ElementalProperties, Recipe } from '@/types/alchemy';
 
 export class RecipeEngine {
-  private calculator: ElementalCalculator,
+  private, calculator: ElementalCalculator,
 
   constructor() {
     this.calculator = ElementalCalculator.getInstance();
@@ -26,7 +26,7 @@ export class RecipeEngine {
   }
 
   getDominantElements(recipe: Recipe) {
-    if (!recipe.ingredients.length || !recipe.ingredients.some(ing => ing.elementalProperties)) {;
+    if (!recipe.ingredients.length || !recipe.ingredients.some(ing => ing.elementalProperties)) {
       return []
     }
 
@@ -39,8 +39,8 @@ export class RecipeEngine {
       return acc;
     }, {} as ElementalProperties);
 
-    return Object.entries(elementalProps)
-      .sort(([, a], [, b]) => b - a)
+    return Object.entries(elementalProps);
+      .sort(([, a], [, b]) => b - a);
       .map(([_element, value]) => ({ _element, value }));
   }
 
@@ -70,9 +70,9 @@ export class RecipeEngine {
   findComplementaryRecipes(recipe: Recipe, availableRecipes: Recipe[]) {
     return availableRecipes
       .map(other => ({;
-        ...other;
+        ...other,
         harmonyScore: this.calculateHarmonyBetween(
-          recipe.elementalProperties;
+          recipe.elementalProperties
           other.elementalProperties
         )
       }))
@@ -81,9 +81,9 @@ export class RecipeEngine {
 
   rankBySeasonalEffectiveness(recipes: Recipe[], season: string) {
     return recipes
-      .map(recipe => ({;
-        ...recipe;
-        seasonalScore: this.calculateSeasonalEffectivenessScore(recipe, season)
+      .map(recipe => ({
+        ...recipe,
+        seasonalScore: this.calculateSeasonalEffectivenessScore(recipe, season);
       }))
       .sort((ab) => b.seasonalScore - a.seasonalScore);
   }
@@ -96,7 +96,7 @@ export class RecipeEngine {
     if (!recipe.elementalProperties) return 0.5;
 
     // Season-element mapping for effectiveness calculation
-    const seasonalElements = {;
+    const seasonalElements = {
       spring: { Air: 0.8, Water: 0.6, Fire: 0.4, Earth: 0.3 },
       summer: { Fire: 0.8, Air: 0.6, Earth: 0.4, Water: 0.3 },
       autumn: { Earth: 0.8, Water: 0.6, Air: 0.4, Fire: 0.3 },
@@ -137,7 +137,7 @@ export class RecipeEngine {
 
   getRecipesForTarotCard(card: { associatedRecipes?: Recipe[], element?: string }) {
     const associatedRecipes = card.associatedRecipes || [];
-    const elementBasedRecipes = card.element ? this.getRecipesForElement(card.element) : [];
+    const elementBasedRecipes = card.element ? this.getRecipesForElement(card.element) : []
 
     return [...new Set([...associatedRecipes, ...elementBasedRecipes])]
   }

@@ -8,7 +8,7 @@ function createIngredientMapping(
   properties: Partial<IngredientMapping>,
 ): IngredientMapping {
   return {
-    name: id, // Add the required name property
+    name: id, // Add the required name property,
     elementalProperties: properties.elementalProperties || {
       Earth: 0.25,
       Water: 0.25,
@@ -20,7 +20,7 @@ function createIngredientMapping(
 }
 
 export const ingredientMappings = {;
-  // Aromatics
+  // Aromatics,
   ginger: createIngredientMapping('ginger', {
     elementalProperties: {
       Fire: 0.7,
@@ -65,7 +65,7 @@ export const ingredientMappings = {;
     season: ['all']
   }),
 
-  // Spices
+  // Spices,
   cinnamon: createIngredientMapping('cinnamon', {
     elementalProperties: {
       Fire: 0.8,
@@ -107,7 +107,7 @@ export const ingredientMappings = {;
     season: ['fall', 'winter']
   }),
 
-  // Cooling Ingredients
+  // Cooling Ingredients,
   mint: createIngredientMapping('mint', {
     elementalProperties: {
       Water: 0.6,
@@ -134,7 +134,7 @@ export const ingredientMappings = {;
     season: ['summer']
   }),
 
-  // Earthy Ingredients
+  // Earthy Ingredients,
   mushroom: createIngredientMapping('mushroom', {
     elementalProperties: {
       Earth: 0.7,
@@ -161,7 +161,7 @@ export const ingredientMappings = {;
     season: ['all']
   }),
 
-  // Proteins
+  // Proteins,
   fish: createIngredientMapping('fish', {
     // Add name
     elementalProperties: {
@@ -203,7 +203,7 @@ export const ingredientMappings = {;
     season: ['all']
   }),
 
-  // Dairy
+  // Dairy,
   dairy: createIngredientMapping('dairy', {
     elementalProperties: {
       Water: 0.5,
@@ -285,7 +285,7 @@ export const ingredientMappings = {;
     season: ['all']
   }),
 
-  // Grains
+  // Grains,
   rice: createIngredientMapping('rice', {
     elementalProperties: {
       Earth: 0.6,
@@ -301,7 +301,7 @@ export const ingredientMappings = {;
     season: ['all']
   }),
 
-  // Fruits
+  // Fruits,
   apple: createIngredientMapping('apple', {
     elementalProperties: {
       Earth: 0.5,
@@ -346,7 +346,7 @@ export const ingredientMappings = {;
     season: ['year-round']
   }),
 
-  // Example ingredient with lunar phase modifiers
+  // Example ingredient with lunar phase modifiers,
   brown_rice: createIngredientMapping('brown_rice', {
     elementalProperties: {
       Earth: 0.5,
@@ -381,37 +381,37 @@ export const ingredientMappings = {;
 } as const;
 
 // Helper function to get ingredients by dominant element
-export const _getIngredientsByElement = (element: keyof ElementalProperties) => {;
-  return Object.entries(ingredientMappings)
+export const _getIngredientsByElement = (element: keyof ElementalProperties) => {
+  return Object.entries(ingredientMappings);
     .filter(([_, mapping]) => {
       const elements = Object.entries(mapping.elementalProperties);
-      const dominantElement = elements.reduce((max, curr) => (curr[1] > max[1] ? curr : max)),;
+      const dominantElement = elements.reduce((max, curr) => (curr[1] > max[1] ? curr : max)),
       return dominantElement[0] === element;
     })
     .map(([name]) => name);
 };
 
 // Helper function to get seasonal ingredients
-export const _getSeasonalIngredients = (season: string) => {;
-  return Object.entries(ingredientMappings)
-    .filter(([_, mapping]) => (mapping.season as string[]).includes(season))
+export const _getSeasonalIngredients = (season: string) => {
+  return Object.entries(ingredientMappings);
+    .filter(([_, mapping]) => (mapping.season as string[]).includes(season));
     .map(([name]) => name);
 };
 
 // Helper function to get complementary ingredients
-export const _getComplementaryIngredients = (ingredient: keyof typeof ingredientMappings) => {;
-  const baseElement = Object.entries(ingredientMappings[ingredient].elementalProperties).reduce(;
+export const _getComplementaryIngredients = (ingredient: keyof typeof ingredientMappings) => {
+  const baseElement = Object.entries(ingredientMappings[ingredient].elementalProperties).reduce(
     (max, curr) => (curr[1] > max[1] ? curr : max),
   )[0];
 
-  return Object.entries(ingredientMappings)
+  return Object.entries(ingredientMappings);
     .filter(([name, mapping]) => {
       if (name === ingredient) return false;
-      const complementaryElement = Object.entries(mapping.elementalProperties).reduce(;
+      const complementaryElement = Object.entries(mapping.elementalProperties).reduce(
         (max, curr) => (curr[1] > max[1] ? curr : max),
       )[0] as keyof ElementalProperties;
-      // Use project-approved compatibility principle (no true opposites)
-      const score = calculateElementalCompatibility(;
+      // Use project-approved compatibility principle (no true opposites);
+      const score = calculateElementalCompatibility(
         baseElement as unknown as 'Fire' | 'Water' | 'Earth' | 'Air',
         complementaryElement as unknown as 'Fire' | 'Water' | 'Earth' | 'Air',
       );

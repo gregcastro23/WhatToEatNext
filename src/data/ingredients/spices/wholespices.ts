@@ -1,7 +1,7 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawWholeSpices = {;
+const rawWholeSpices = {
   star_anise: {
     name: 'Star Anise',
     elementalProperties: { Fire: 0.4, Air: 0.2, Water: 0.1, Earth: 0.1 },
@@ -27,238 +27,238 @@ const rawWholeSpices = {;
               taste: ['Mild', 'Balanced', 'Natural'],
               aroma: ['Fresh', 'Clean', 'Subtle'],
               texture: ['Pleasant', 'Smooth', 'Appealing'],
-              notes: 'Characteristic flavorprofile profile',
-              sensoryProfile: {
-                taste: ['Mild', 'Balanced', 'Natural'],
-                aroma: ['Fresh', 'Clean', 'Subtle'],
-                texture: ['Pleasant', 'Smooth', 'Appealing'],
-                notes: 'Characteristic flavorprofile profile',
-                sensoryProfile: {
-                  taste: ['Mild', 'Balanced', 'Natural'],
-                  aroma: ['Fresh', 'Clean', 'Subtle'],
-                  texture: ['Pleasant', 'Smooth', 'Appealing'],
-                  notes: 'Characteristic flavorprofile profile',
-                  sensoryProfile: {
-                    taste: ['Mild', 'Balanced', 'Natural'],
-                    aroma: ['Fresh', 'Clean', 'Subtle'],
-                    texture: ['Pleasant', 'Smooth', 'Appealing'],
-                    notes: 'Characteristic flavorprofile profile',
-                    sensoryProfile: {
-                      taste: ['Mild', 'Balanced', 'Natural'],
-                      aroma: ['Fresh', 'Clean', 'Subtle'],
-                      texture: ['Pleasant', 'Smooth', 'Appealing'],
-                      notes: 'Characteristic flavorprofile profile',
-                      culinaryProfile: {
-                        flavorProfile: {
-                          primary: ['balanced'],
-                          secondary: ['versatile'],
-                          notes: 'Versatile flavorprofile for various uses',
-                          culinaryProfile: {
-                            flavorProfile: {
-                              primary: ['balanced'],
-                              secondary: ['versatile'],
-                              notes: 'Versatile flavorprofile for various uses',
-                              culinaryProfile: {
-                                flavorProfile: {
-                                  primary: ['balanced'],
-                                  secondary: ['versatile'],
-                                  notes: 'Versatile flavorprofile for various uses',
-                                  culinaryProfile: {
-                                    flavorProfile: {
-                                      primary: ['balanced'],
-                                      secondary: ['versatile'],
-                                      notes: 'Versatile flavorprofile for various uses',
-                                      culinaryProfile: {
-                                        flavorProfile: {
-                                          primary: ['balanced'],
-                                          secondary: ['versatile'],
-                                          notes: 'Versatile flavorprofile for various uses',
-                                          culinaryProfile: {
-                                            flavorProfile: {
-                                              primary: ['balanced'],
-                                              secondary: ['versatile'],
-                                              notes: 'Versatile flavorprofile for various uses',
-                                              culinaryProfile: {
-                                                flavorProfile: {
-                                                  primary: ['balanced'],
-                                                  secondary: ['versatile'],
-                                                  notes: 'Versatile flavorprofile for various uses',
-                                                  culinaryProfile: {
-                                                    flavorProfile: {
-                                                      primary: ['balanced'],
-                                                      secondary: ['versatile'],
-                                                      notes:
-                                                        'Versatile flavorprofile for various uses',
-                                                      season: ['year-round'],
-                                                      preparation: {
-                                                        methods: ['standard preparation'],
-                                                        timing: 'as needed',
-                                                        notes:
-                                                          'Standard preparation for flavorprofile',
-                                                        season: ['year-round'],
-                                                        preparation: {
-                                                          methods: ['standard preparation'],
-                                                          timing: 'as needed',
-                                                          notes:
-                                                            'Standard preparation for flavorprofile'
-                                                        },
-                                                        storage: {
-                                                          temperature: 'cool, dry place',
-                                                          duration: '6-12 months',
-                                                          container: 'airtight container',
-                                                          notes: 'Store in optimal conditions'
-                                                        }
-                                                      },
-                                                      storage: {
-                                                        temperature: 'cool, dry place',
-                                                        duration: '6-12 months',
-                                                        container: 'airtight container',
-                                                        notes: 'Store in optimal conditions'
-                                                      }
-                                                    },
-                                                    cookingMethods: [
-                                                      'sautéing',
-                                                      'steaming',
-                                                      'roasting'
-                                                    ],
-                                                    cuisineAffinity: ['Global', 'International'],
-                                                    preparationTips: [
-                                                      'Use as needed',
-                                                      'Season to taste'
-                                                    ]
-                                                  },
-                                                  season: ['year-round'],
-                                                  preparation: {
-                                                    methods: ['standard preparation'],
-                                                    timing: 'as needed',
-                                                    notes: 'Standard preparation for flavorprofile'
-                                                  }
-                                                },
-                                                cookingMethods: [
-                                                  'sautéing',
-                                                  'steaming',
-                                                  'roasting'
-                                                ],
-                                                cuisineAffinity: ['Global', 'International'],
-                                                preparationTips: [
-                                                  'Use as needed',
-                                                  'Season to taste'
-                                                ]
-                                              },
-                                              season: ['year-round'],
-                                              preparation: {
-                                                methods: ['standard preparation'],
-                                                timing: 'as needed',
-                                                notes: 'Standard preparation for flavorprofile'
-                                              }
-                                            },
-                                            cookingMethods: ['sautéing', 'steaming', 'roasting'],
-                                            cuisineAffinity: ['Global', 'International'],
-                                            preparationTips: ['Use as needed', 'Season to taste']
-                                          },
-                                          season: ['year-round'],
-                                          preparation: {
-                                            methods: ['standard preparation'],
-                                            timing: 'as needed',
-                                            notes: 'Standard preparation for flavorprofile'
-                                          }
-                                        },
-                                        cookingMethods: ['sautéing', 'steaming', 'roasting'],
-                                        cuisineAffinity: ['Global', 'International'],
-                                        preparationTips: ['Use as needed', 'Season to taste']
-                                      },
-                                      season: ['year-round'],
-                                      preparation: {
-                                        methods: ['standard preparation'],
-                                        timing: 'as needed',
-                                        notes: 'Standard preparation for flavorprofile'
-                                      }
-                                    },
-                                    cookingMethods: ['sautéing', 'steaming', 'roasting'],
-                                    cuisineAffinity: ['Global', 'International'],
-                                    preparationTips: ['Use as needed', 'Season to taste']
-                                  },
-                                  season: ['year-round'],
-                                  preparation: {
-                                    methods: ['standard preparation'],
-                                    timing: 'as needed',
-                                    notes: 'Standard preparation for flavorprofile'
-                                  }
-                                },
-                                cookingMethods: ['sautéing', 'steaming', 'roasting'],
-                                cuisineAffinity: ['Global', 'International'],
-                                preparationTips: ['Use as needed', 'Season to taste']
-                              },
-                              season: ['year-round'],
-                              preparation: {
-                                methods: ['standard preparation'],
-                                timing: 'as needed',
-                                notes: 'Standard preparation for flavorprofile'
-                              }
-                            },
-                            cookingMethods: ['sautéing', 'steaming', 'roasting'],
-                            cuisineAffinity: ['Global', 'International'],
-                            preparationTips: ['Use as needed', 'Season to taste']
-                          },
-                          season: ['year-round'],
-                          preparation: {
-                            methods: ['standard preparation'],
-                            timing: 'as needed',
-                            notes: 'Standard preparation for flavorprofile'
-                          }
-                        },
-                        cookingMethods: ['sautéing', 'steaming', 'roasting'],
-                        cuisineAffinity: ['Global', 'International'],
-                        preparationTips: ['Use as needed', 'Season to taste']
-                      },
-                      season: ['year-round'],
-                      preparation: {
-                        methods: ['standard preparation'],
-                        timing: 'as needed',
-                        notes: 'Standard preparation for flavorprofile'
-                      }
-                    },
-                    culinaryProfile: {
-                      flavorProfile: {
-                        primary: ['balanced'],
-                        secondary: ['versatile'],
-                        notes: 'Versatile flavorprofile for various uses'
-                      },
-                      cookingMethods: ['sautéing', 'steaming', 'roasting'],
-                      cuisineAffinity: ['Global', 'International'],
-                      preparationTips: ['Use as needed', 'Season to taste']
-                    },
-                    season: ['year-round']
-                  },
-                  culinaryProfile: {
-                    flavorProfile: {
-                      primary: ['balanced'],
-                      secondary: ['versatile'],
-                      notes: 'Versatile flavorprofile for various uses'
-                    },
-                    cookingMethods: ['sautéing', 'steaming', 'roasting'],
-                    cuisineAffinity: ['Global', 'International'],
-                    preparationTips: ['Use as needed', 'Season to taste']
-                  },
-                  season: ['year-round']
-                },
-                culinaryProfile: {
-                  flavorProfile: {
-                    primary: ['balanced'],
-                    secondary: ['versatile'],
-                    notes: 'Versatile flavorprofile for various uses'
-                  },
-                  cookingMethods: ['sautéing', 'steaming', 'roasting'],
-                  cuisineAffinity: ['Global', 'International'],
-                  preparationTips: ['Use as needed', 'Season to taste']
-                },
-                season: ['year-round']
+              notes: 'Characteristic flavorProfile profile',
+              // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
               },
               culinaryProfile: {
                 flavorProfile: {
                   primary: ['balanced'],
                   secondary: ['versatile'],
-                  notes: 'Versatile flavorprofile for various uses'
+                  notes: 'Versatile flavorProfile for various uses'
                 },
                 cookingMethods: ['sautéing', 'steaming', 'roasting'],
                 cuisineAffinity: ['Global', 'International'],
@@ -270,7 +270,7 @@ const rawWholeSpices = {;
               flavorProfile: {
                 primary: ['balanced'],
                 secondary: ['versatile'],
-                notes: 'Versatile flavorprofile for various uses'
+                notes: 'Versatile flavorProfile for various uses'
               },
               cookingMethods: ['sautéing', 'steaming', 'roasting'],
               cuisineAffinity: ['Global', 'International'],
@@ -321,39 +321,39 @@ const rawWholeSpices = {;
         timing: 'early in cooking',
         pairings: ['cinnamon', 'ginger', 'onions'],
         ratios: '1-2 pods per 2 cups liquid',
-        sensoryProfile: {
-          taste: ['Mild', 'Balanced', 'Natural'],
-          aroma: ['Fresh', 'Clean', 'Subtle'],
-          texture: ['Pleasant', 'Smooth', 'Appealing'],
-          notes: 'Characteristic broths profile',
-          culinaryProfile: {
-            flavorProfile: {
-              primary: ['balanced'],
-              secondary: ['versatile'],
-              notes: 'Versatile broths for various uses',
-              season: ['year-round'],
-              preparation: {
-                methods: ['standard preparation'],
-                timing: 'as needed',
-                notes: 'Standard preparation for broths'
-              },
-              storage: {
-                temperature: 'cool, dry place',
-                duration: '6-12 months',
-                container: 'airtight container',
-                notes: 'Store in optimal conditions'
-              }
-            },
-            cookingMethods: ['sautéing', 'steaming', 'roasting'],
-            cuisineAffinity: ['Global', 'International'],
-            preparationTips: ['Use as needed', 'Season to taste']
-          },
-          season: ['year-round'],
-          preparation: {
-            methods: ['standard preparation'],
-            timing: 'as needed',
-            notes: 'Standard preparation for broths'
-          }
+        // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
         },
         culinaryProfile: {
           flavorProfile: {
@@ -373,44 +373,44 @@ const rawWholeSpices = {;
         method: 'combine with other spices',
         pairings: ['black tea', 'cinnamon', 'orange'],
         ratios: '1 pod per 2 cups water',
-        sensoryProfile: {
-          taste: ['Mild', 'Balanced', 'Natural'],
-          aroma: ['Fresh', 'Clean', 'Subtle'],
-          texture: ['Pleasant', 'Smooth', 'Appealing'],
-          notes: 'Characteristic tea blends profile',
-          sensoryProfile: {
-            taste: ['Mild', 'Balanced', 'Natural'],
-            aroma: ['Fresh', 'Clean', 'Subtle'],
-            texture: ['Pleasant', 'Smooth', 'Appealing'],
-            notes: 'Characteristic tea blends profile',
-            culinaryProfile: {
-              flavorProfile: {
-                primary: ['balanced'],
-                secondary: ['versatile'],
-                notes: 'Versatile tea blends for various uses'
-              },
-              cookingMethods: ['sautéing', 'steaming', 'roasting'],
-              cuisineAffinity: ['Global', 'International'],
-              preparationTips: ['Use as needed', 'Season to taste']
-            },
-            season: ['year-round'],
-            preparation: {
-              methods: ['standard preparation'],
-              timing: 'as needed',
-              notes: 'Standard preparation for tea blends'
-            }
-          },
-          culinaryProfile: {
-            flavorProfile: {
-              primary: ['balanced'],
-              secondary: ['versatile'],
-              notes: 'Versatile tea blends for various uses'
-            },
-            cookingMethods: ['sautéing', 'steaming', 'roasting'],
-            cuisineAffinity: ['Global', 'International'],
-            preparationTips: ['Use as needed', 'Season to taste']
-          },
-          season: ['year-round']
+        // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
         },
         culinaryProfile: {
           flavorProfile: {
@@ -475,27 +475,27 @@ const rawWholeSpices = {;
         timing: 'with rice and water',
         pairings: ['basmati rice', 'saffron', 'cinnamon'],
         ratios: '4-5 pods per cup of rice',
-        sensoryProfile: {
-          taste: ['Mild', 'Balanced', 'Natural'],
-          aroma: ['Fresh', 'Clean', 'Subtle'],
-          texture: ['Pleasant', 'Smooth', 'Appealing'],
-          notes: 'Characteristic rice dishes profile',
-          culinaryProfile: {
-            flavorProfile: {
-              primary: ['balanced'],
-              secondary: ['versatile'],
-              notes: 'Versatile rice dishes for various uses'
-            },
-            cookingMethods: ['sautéing', 'steaming', 'roasting'],
-            cuisineAffinity: ['Global', 'International'],
-            preparationTips: ['Use as needed', 'Season to taste']
-          },
-          season: ['year-round'],
-          preparation: {
-            methods: ['standard preparation'],
-            timing: 'as needed',
-            notes: 'Standard preparation for rice dishes'
-          }
+        // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
         },
         culinaryProfile: {
           flavorProfile: {
@@ -515,11 +515,11 @@ const rawWholeSpices = {;
         timing: 'with meat and vegetables',
         pairings: ['chicken', 'lamb', 'onions'],
         ratios: '2-3 pods per pound of meat',
-        sensoryProfile: {
-          taste: ['Mild', 'Balanced', 'Natural'],
-          aroma: ['Fresh', 'Clean', 'Subtle'],
-          texture: ['Pleasant', 'Smooth', 'Appealing'],
-          notes: 'Characteristic curries profile'
+        // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
         },
         culinaryProfile: {
           flavorProfile: {
@@ -561,28 +561,28 @@ const rawWholeSpices = {;
         appearance: 'smaller, dark brown',
         flavor: 'more pungent',
         uses: 'Indian cuisine, oil blooming',
-        sensoryProfile: {
-          taste: ['Mild', 'Balanced', 'Natural'],
-          aroma: ['Fresh', 'Clean', 'Subtle'],
-          texture: ['Pleasant', 'Smooth', 'Appealing'],
-          notes: 'Characteristic mustard seeds profile',
-          sensoryProfile: {
-            taste: ['Mild', 'Balanced', 'Natural'],
-            aroma: ['Fresh', 'Clean', 'Subtle'],
-            texture: ['Pleasant', 'Smooth', 'Appealing'],
-            notes: 'Characteristic brown profile'
-          },
-          culinaryProfile: {
-            flavorProfile: {
-              primary: ['balanced'],
-              secondary: ['versatile'],
-              notes: 'Versatile brown for various uses'
-            },
-            cookingMethods: ['sautéing', 'steaming', 'roasting'],
-            cuisineAffinity: ['Global', 'International'],
-            preparationTips: ['Use as needed', 'Season to taste']
-          },
-          season: ['year-round']
+        // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
         },
         culinaryProfile: {
           flavorProfile: {
@@ -608,11 +608,11 @@ const rawWholeSpices = {;
           tadka: 'bloom in hot oil and pour over dish',
           base: 'start dish with bloomed seeds',
           layering: 'add at multiple cooking stages',
-          sensoryProfile: {
-            taste: ['Mild', 'Balanced', 'Natural'],
-            aroma: ['Fresh', 'Clean', 'Subtle'],
-            texture: ['Pleasant', 'Smooth', 'Appealing'],
-            notes: 'Characteristic tempering profile'
+          // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
           },
           culinaryProfile: {
             flavorProfile: {
@@ -882,6 +882,6 @@ const rawWholeSpices = {;
 
 // Fix the ingredient mappings to ensure they have all required properties
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
-export const _wholeSpices: Record<string, IngredientMapping> = fixIngredientMappings(
+export const, _wholeSpices: Record<string, IngredientMapping> = fixIngredientMappings(
   rawWholeSpices as Record<string, Partial<IngredientMapping>>,
 );

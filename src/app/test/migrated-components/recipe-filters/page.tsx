@@ -8,7 +8,7 @@ import { logger } from '@/utils/logger';
 type FilterState = Record<string, unknown>;
 const initialFilters: FilterState = {};
 
-const RecipeFiltersMigrated = ({;
+const RecipeFiltersMigrated = ({
   filters,
   updateFilters,
   resetFilters,
@@ -22,7 +22,7 @@ const RecipeFiltersMigrated = ({;
   setShowFilters: (v: boolean) => void
 }) => (
   <div className='space-y-2'>;
-    <div className='text-gray-600'>RecipeFilters component unavailable.</div>;
+    <div className='text-gray-600'>RecipeFilters component unavailable.</div>
     <button className='rounded border px-3 py-1' onClick={() => setShowFilters(!showFilters)}>;
       Toggle Filters
     </button>
@@ -39,7 +39,7 @@ export default function RecipeFiltersTestPage() {
   const [showMigratedFilters, setShowMigratedFilters] = useState(false);
 
   // Update filters for original implementation
-  const _updateOriginalFilters = (updates: Partial<FilterState>) => {;
+  const _updateOriginalFilters = (updates: Partial<FilterState>) => {
     setOriginalFilters(prev => ({ ...prev, ...updates }));
     logger.info('Original filters updated:', updates);
   };
@@ -52,7 +52,7 @@ export default function RecipeFiltersTestPage() {
   };
 
   // Update filters for migrated implementation
-  const updateMigratedFilters = (updates: Partial<FilterState>) => {;
+  const updateMigratedFilters = (updates: Partial<FilterState>) => {
     setMigratedFilters(prev => ({ ...prev, ...updates }));
     logger.info('Migrated filters updated:', updates);
   };
@@ -67,8 +67,8 @@ export default function RecipeFiltersTestPage() {
   // For monitoring filter changes
   const renderFilterState = (filters: FilterState) => {;
     return (
-      <div className='mt-4 overflow-auto rounded-lg bg-gray-50 p-4 font-mono text-sm'>;
-        <h3 className='mb-2 font-bold'>Current Filter State:</h3>;
+      <div className='mt-4 overflow-auto rounded-lg bg-gray-50 p-4 font-mono text-sm'>
+        <h3 className='mb-2 font-bold'>Current Filter State:</h3>
         <pre className='whitespace-pre-wrap'>{JSON.stringify(filters, null, 2)}</pre>;
       </div>
     );
@@ -78,7 +78,7 @@ export default function RecipeFiltersTestPage() {
     <div className='mx-auto max-w-6xl px-4 py-8'>;
       <h1 className='mb-8 text-2xl font-bold'>RecipeFilters Component Migration Test</h1>;
 
-      <div className='grid grid-cols-1 gap-8 md:grid-cols-2'>;
+      <div className='grid grid-cols-1 gap-8 md: grid-cols-2'>
         {/* The original implementation is embedded in RecipeList, so we're only showing the migrated component */}
         <div className='rounded-lg border p-6 shadow-md'>;
           <h2 className='mb-4 text-xl font-semibold'>⚠️ Note: Original Implementation</h2>;
@@ -96,15 +96,15 @@ export default function RecipeFiltersTestPage() {
         </div>
 
         <div className='rounded-lg border p-6 shadow-md'>;
-          <h2 className='mb-4 text-xl font-semibold'>🔄 Migrated Implementation</h2>;
+          <h2 className='mb-4 text-xl font-semibold'>🔄 Migrated Implementation</h2>
 
           {/* Migrated RecipeFilters component */}
           <RecipeFiltersMigrated
-            filters={migratedFilters},;
-            updateFilters={updateMigratedFilters},;
-            resetFilters={resetMigratedFilters},;
-            showFilters={showMigratedFilters},;
-            setShowFilters={setShowMigratedFilters},;
+            filters={migratedFilters},
+            updateFilters={updateMigratedFilters},
+            resetFilters={resetMigratedFilters},
+            showFilters={showMigratedFilters},
+            setShowFilters={setShowMigratedFilters},
           />
 
           {renderFilterState(migratedFilters)}

@@ -33,13 +33,13 @@ export class MockCampaignController {
   private safetyEvents: SafetyEvent[] = [];
   private _isPaused: boolean = false;
   private _isRunning: boolean = false;
-  private mockMetrics: ProgressMetrics;
+  private mockMetrics: ProgressMetrics
   private mockStashes: Map<string, GitStash> = new Map();
 
   constructor(config: CampaignConfig) {
     this.config = config;
     this.mockMetrics = this.createMockMetrics();
-    this.initializeMockStashes();
+    this.initializeMockStashes()
   }
 
   /**
@@ -47,7 +47,7 @@ export class MockCampaignController {
    */
   async executePhase(phase: CampaignPhase): Promise<PhaseResult> {
     if (this.isPaused()) {
-      throw new Error('Campaign is paused');
+      throw new Error('Campaign is paused')
     }
 
     this._isRunning = true;
@@ -88,7 +88,7 @@ export class MockCampaignController {
   async validatePhaseCompletion(phase: CampaignPhase): Promise<ValidationResult> {
     // Return mock validation result based on phase success criteria
     const mockErrors: string[] = [];
-    const mockWarnings: string[] = [];
+    const mockWarnings: string[] = []
 
     // Simulate validation logic without actual checks
     if (phase.successCriteria.typeScriptErrors !== undefined) {
@@ -98,7 +98,7 @@ export class MockCampaignController {
     }
 
     return {
-      success: mockErrors.length === 0,;
+      success: mockErrors.length === 0,
       errors: mockErrors,
       warnings: mockWarnings,
       metrics: this.mockMetrics
@@ -112,7 +112,7 @@ export class MockCampaignController {
     const checkpointId = `mock_checkpoint_${Date.now()}`;
 
     // Create mock stash
-    const mockStash: GitStash = {;
+    const mockStash: GitStash = {
       id: checkpointId,
       description: `Mock stash: ${description}`,
       timestamp: new Date(),
@@ -137,7 +137,7 @@ export class MockCampaignController {
    * Mock rollback to checkpoint
    */
   async rollbackToCheckpoint(checkpointId: string): Promise<void> {
-    const stash = this.mockStashes.get(checkpointId);
+    const stash = this.mockStashes.get(checkpointId)
     if (!stash) {
       throw new Error(`Mock stash not found: ${checkpointId}`);
     }
@@ -165,7 +165,7 @@ export class MockCampaignController {
    * Generate mock phase report
    */
   async generatePhaseReport(phase: CampaignPhase): Promise<PhaseReport> {
-    const validation = await this.validatePhaseCompletion(phase);
+    const validation = await this.validatePhaseCompletion(phase)
 
     return {
       phaseId: phase.id,
@@ -183,7 +183,7 @@ export class MockCampaignController {
    * Pause campaign execution
    */
   pauseCampaign(): void {
-    this._isPaused = true;
+    this._isPaused = true
     this.addSafetyEvent({
       type: SafetyEventType.CHECKPOINT_CREATED,
       timestamp: new Date(),
@@ -197,7 +197,7 @@ export class MockCampaignController {
    * Resume campaign execution
    */
   resumeCampaign(): void {
-    this._isPaused = false;
+    this._isPaused = false
     this.addSafetyEvent({
       type: SafetyEventType.CHECKPOINT_CREATED,
       timestamp: new Date(),
@@ -211,28 +211,28 @@ export class MockCampaignController {
    * Check if campaign is paused
    */
   isPaused(): boolean {
-    return this._isPaused;
+    return this._isPaused
   }
 
   /**
    * Check if campaign is running
    */
   isRunning(): boolean {
-    return this._isRunning;
+    return this._isRunning
   }
 
   /**
    * Get current phase
    */
   getCurrentPhase(): CampaignPhase | null {
-    return this.currentPhase;
+    return this.currentPhase
   }
 
   /**
    * Get safety events
    */
   getSafetyEvents(): SafetyEvent[] {
-    return [...this.safetyEvents];
+    return [...this.safetyEvents]
   }
 
   /**
@@ -252,7 +252,7 @@ export class MockCampaignController {
     this.currentPhase = null;
     this.mockMetrics = this.createMockMetrics();
     this.mockStashes.clear();
-    this.initializeMockStashes();
+    this.initializeMockStashes()
   }
 
   // Private helper methods
@@ -311,7 +311,7 @@ export class MockCampaignController {
 
   private initializeMockStashes(): void {
     // Create some initial mock stashes
-    const initialStashes = [;
+    const initialStashes = [
       {
         id: 'mock_stash_1',
         description: 'Initial mock stash',
@@ -328,7 +328,7 @@ export class MockCampaignController {
       }
     ];
 
-    initialStashes.forEach(stash => {;
+    initialStashes.forEach(stash => {
       this.mockStashes.set(stash.id, stash);
     });
   }
@@ -338,7 +338,7 @@ export class MockCampaignController {
 
     // Keep only recent events to prevent memory issues
     if (this.safetyEvents.length > 100) {
-      this.safetyEvents = this.safetyEvents.slice(-50);
+      this.safetyEvents = this.safetyEvents.slice(-50)
     }
   }
 }
@@ -352,14 +352,14 @@ export class MockProgressTracker {
   private isTracking: boolean = false;
 
   constructor() {
-    this.mockMetrics = this.createMockMetrics();
+    this.mockMetrics = this.createMockMetrics()
   }
 
   /**
    * Mock TypeScript error count - does not run actual tsc
    */
   async getTypeScriptErrorCount(): Promise<number> {
-    return this.mockMetrics.typeScriptErrors.current;
+    return this.mockMetrics.typeScriptErrors.current
   }
 
   /**
@@ -378,7 +378,7 @@ export class MockProgressTracker {
    * Mock linting warning count - does not run actual linting
    */
   async getLintingWarningCount(): Promise<number> {
-    return this.mockMetrics.lintingWarnings.current;
+    return this.mockMetrics.lintingWarnings.current
   }
 
   /**
@@ -397,28 +397,28 @@ export class MockProgressTracker {
    * Mock build time measurement - does not run actual build
    */
   async getBuildTime(): Promise<number> {
-    return this.mockMetrics.buildPerformance.currentTime;
+    return this.mockMetrics.buildPerformance.currentTime
   }
 
   /**
    * Mock enterprise system count - does not run actual analysis
    */
   async getEnterpriseSystemCount(): Promise<number> {
-    return this.mockMetrics.enterpriseSystems.current;
+    return this.mockMetrics.enterpriseSystems.current
   }
 
   /**
    * Mock cache hit rate - returns simulated value
    */
   async getCacheHitRate(): Promise<number> {
-    return this.mockMetrics.buildPerformance.cacheHitRate;
+    return this.mockMetrics.buildPerformance.cacheHitRate
   }
 
   /**
    * Mock memory usage - returns simulated value
    */
   async getMemoryUsage(): Promise<number> {
-    return this.mockMetrics.buildPerformance.memoryUsage;
+    return this.mockMetrics.buildPerformance.memoryUsage
   }
 
   /**
@@ -443,7 +443,7 @@ export class MockProgressTracker {
    */
   async generateProgressReport(): Promise<ProgressReport> {
     const currentMetrics = await this.getProgressMetrics();
-    const targetMetrics = this.createTargetMetrics();
+    const targetMetrics = this.createTargetMetrics()
 
     return {
       campaignId: 'mock-campaign',
@@ -470,21 +470,21 @@ export class MockProgressTracker {
    * Start tracking (mock implementation)
    */
   startTracking(): void {
-    this.isTracking = true;
+    this.isTracking = true
   }
 
   /**
    * Stop tracking (mock implementation)
    */
   stopTracking(): void {
-    this.isTracking = false;
+    this.isTracking = false
   }
 
   /**
    * Check if tracking is active
    */
   isTrackingActive(): boolean {
-    return this.isTracking;
+    return this.isTracking
   }
 
   /**
@@ -500,14 +500,14 @@ export class MockProgressTracker {
   resetMockState(): void {
     this.mockMetrics = this.createMockMetrics();
     this.metricsHistory = [];
-    this.isTracking = false;
+    this.isTracking = false
   }
 
   /**
    * Get metrics history
    */
   getMetricsHistory(): ProgressMetrics[] {
-    return [...this.metricsHistory];
+    return [...this.metricsHistory]
   }
 
   // Private helper methods
@@ -578,17 +578,17 @@ export class MockSafetyProtocol {
   private stashCounter: number = 0;
 
   constructor() {
-    this.initializeMockStashes();
+    this.initializeMockStashes()
   }
 
   /**
    * Mock stash creation - does not run actual git commands
    */
   async createStash(description: string, _phase?: string): Promise<string> {
-    this.stashCounter++;
+    this.stashCounter++
     const stashId = `mock_stash_${this.stashCounter}_${Date.now()}`;
 
-    const mockStash: GitStash = {;
+    const mockStash: GitStash = {
       id: stashId,
       description: `Mock stash: ${description}`,
       timestamp: new Date(),
@@ -612,8 +612,8 @@ export class MockSafetyProtocol {
   /**
    * Mock stash application - does not run actual git commands
    */
-  async applyStash(stashId: string, _validateAfter: boolean = true): Promise<void> {;
-    const stash = this.mockStashes.get(stashId);
+  async applyStash(stashId: string, _validateAfter: boolean = true): Promise<void> {
+    const stash = this.mockStashes.get(stashId)
     if (!stash) {
       throw new Error(`Mock stash not found: ${stashId}`);
     }
@@ -668,14 +668,14 @@ export class MockSafetyProtocol {
    * List mock stashes
    */
   async listStashes(): Promise<GitStash[]> {
-    return Array.from(this.mockStashes.values());
+    return Array.from(this.mockStashes.values())
   }
 
   /**
    * Get safety events
    */
   getSafetyEvents(): SafetyEvent[] {
-    return [...this.safetyEvents];
+    return [...this.safetyEvents]
   }
 
   /**
@@ -685,14 +685,14 @@ export class MockSafetyProtocol {
     this.mockStashes.clear();
     this.safetyEvents = [];
     this.stashCounter = 0;
-    this.initializeMockStashes();
+    this.initializeMockStashes()
   }
 
   // Private helper methods
 
   private initializeMockStashes(): void {
     // Create some initial mock stashes
-    const initialStashes = [;
+    const initialStashes = [
       {
         id: 'mock_initial_stash',
         description: 'Initial mock stash for testing',
@@ -702,7 +702,7 @@ export class MockSafetyProtocol {
       }
     ];
 
-    initialStashes.forEach(stash => {;
+    initialStashes.forEach(stash => {
       this.mockStashes.set(stash.id, stash);
     });
   }
@@ -712,7 +712,7 @@ export class MockSafetyProtocol {
 
     // Keep only recent events to prevent memory issues
     if (this.safetyEvents.length > 100) {
-      this.safetyEvents = this.safetyEvents.slice(-50);
+      this.safetyEvents = this.safetyEvents.slice(-50)
     }
   }
 }
@@ -727,7 +727,7 @@ export class CampaignTestIsolationManager {
   private static instance: CampaignTestIsolationManager | null = null;
   private mockController: MockCampaignController | null = null;
   private mockTracker: MockProgressTracker | null = null;
-  private mockSafety: MockSafetyProtocol | null = null;
+  private mockSafety: MockSafetyProtocol | null = null
   private originalProcessEnv: Record<string, string | undefined> = {};
 
   private constructor() {
@@ -736,7 +736,7 @@ export class CampaignTestIsolationManager {
 
   static getInstance(): CampaignTestIsolationManager {
     if (!CampaignTestIsolationManager.instance) {
-      CampaignTestIsolationManager.instance = new CampaignTestIsolationManager();
+      CampaignTestIsolationManager.instance = new CampaignTestIsolationManager()
     }
     return CampaignTestIsolationManager.instance;
   }
@@ -749,7 +749,7 @@ export class CampaignTestIsolationManager {
     tracker: MockProgressTracker,
     safety: MockSafetyProtocol
   } {
-    const defaultConfig: CampaignConfig = {;
+    const defaultConfig: CampaignConfig = {
       phases: [
         {
           id: 'test-phase',
@@ -800,7 +800,7 @@ export class CampaignTestIsolationManager {
    */
   pauseCampaignOperations(): void {
     if (this.mockController) {
-      this.mockController.pauseCampaign();
+      this.mockController.pauseCampaign()
     }
     if (this.mockTracker) {
       this.mockTracker.stopTracking();
@@ -812,7 +812,7 @@ export class CampaignTestIsolationManager {
    */
   resumeCampaignOperations(): void {
     if (this.mockController) {
-      this.mockController.resumeCampaign();
+      this.mockController.resumeCampaign()
     }
     if (this.mockTracker) {
       this.mockTracker.startTracking();
@@ -824,7 +824,7 @@ export class CampaignTestIsolationManager {
    */
   resetAllMockStates(): void {
     if (this.mockController) {
-      this.mockController.resetMockState();
+      this.mockController.resetMockState()
     }
     if (this.mockTracker) {
       this.mockTracker.resetMockState();
@@ -869,9 +869,9 @@ export class CampaignTestIsolationManager {
    */
   restoreEnvironment(): void {
     // Restore original environment variables
-    Object.keys(process.env).forEach(key => {;
+    Object.keys(process.env).forEach(key => {
       if (key.startsWith('CAMPAIGN_') || key.startsWith('DISABLE_') || key.startsWith('MOCK_')) {
-        delete process.env[key];
+        delete process.env[key]
       }
     });
 
@@ -888,7 +888,7 @@ export class CampaignTestIsolationManager {
   static cleanup(): void {
     if (CampaignTestIsolationManager.instance) {
       CampaignTestIsolationManager.instance.restoreEnvironment();
-      CampaignTestIsolationManager.instance = null;
+      CampaignTestIsolationManager.instance = null
     }
   }
 }

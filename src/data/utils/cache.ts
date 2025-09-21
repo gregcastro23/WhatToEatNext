@@ -24,14 +24,14 @@ export class SimpleCache<T> {
     const now = Date.now();
     if (now - entry.timestamp > entry.ttl) {
       this.cache.delete(key);
-      return null;
+      return null
     }
 
     return entry.data;
   }
 
   clear(): void {
-    this.cache.clear();
+    this.cache.clear()
   }
 
   has(key: string): boolean {
@@ -41,7 +41,7 @@ export class SimpleCache<T> {
     const now = Date.now();
     if (now - entry.timestamp > entry.ttl) {
       this.cache.delete(key);
-      return false;
+      return false
     }
 
     return true;
@@ -62,7 +62,7 @@ export function getCachedData<T>(
 ): T | Promise<T> {
   const cached = cache.get(key);
   if (cached !== null) {
-    return cached;
+    return cached
   }
 
   const result = generator();

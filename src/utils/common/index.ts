@@ -29,7 +29,7 @@ export class ThemeManager {
   getTheme(): ThemeData {
     try {
       const savedTheme = localStorage.getItem('theme') || 'light';
-      const savedAccent = localStorage.getItem('accent-color') || 'blue';
+      const savedAccent = localStorage.getItem('accent-color') || 'blue'
 
       return {
         mode: savedTheme as 'light' | 'dark' | 'system',
@@ -46,7 +46,7 @@ export const themeManager = new ThemeManager();
 
 // ===== ENVIRONMENT VALIDATION =====;
 
-const envSchema = z.object({;
+const envSchema = z.object({
   _NODE_ENV: z.enum(['development', 'production', 'test']),
   _NEXT_PUBLIC_API_URL: z.string().url().optional(),
   // Add other environment variables here
@@ -79,7 +79,7 @@ export interface FeedbackData {
   title: string,
   description: string,
   userEmail?: string;
-  priority?: 'low' | 'medium' | 'high';
+  priority?: 'low' | 'medium' | 'high'
   metadata?: { [key: string]: unknown };
 }
 
@@ -90,13 +90,13 @@ export interface FeedbackData {
  */
 export async function collectFeedback(
   feedback: FeedbackData,
-): Promise<{ success: boolean; message: string }> {
+): Promise<{ success: boolean, message: string }> {
   try {
     // Validate feedback data
     if (!feedback.title || !feedback.description || !feedback.type) {
       return {
         success: false,
-        message: 'Missing required feedback fields: title, description, and type are required'
+        message: 'Missing required feedback, fields: title, description, and type are required'
       };
     }
 
@@ -128,7 +128,7 @@ export async function collectFeedback(
  * Utility to get feedback categories for UI display
  * @returns Array of feedback categories
  */
-export function getFeedbackCategories(): { id: string; label: string }[] {
+export function getFeedbackCategories(): { id: string, label: string }[] {
   return [
     { id: 'bug', label: 'Report a Bug' },
     { id: 'feature', label: 'Request a Feature' },

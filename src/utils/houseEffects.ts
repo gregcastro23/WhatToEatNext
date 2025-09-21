@@ -23,14 +23,14 @@ export interface HouseData {
   element: ElementalCharacter,
   modality: 'Cardinal' | 'Fixed' | 'Mutable',
   nature: 'Angular' | 'Succedent' | 'Cadent',
-  significance: number, // 1-10 rating of overall significance
+  significance: number, // 1-10 rating of overall significance,
   ruling_planet: string
 }
 
 /**
  * Map of house numbers to their data including characteristics and significance
  */
-export const HOUSE_DATA: Record<number, HouseData> = {
+export const, HOUSE_DATA: Record<number, HouseData> = {
   1: {
     number: 1,
     name: 'House of Self',
@@ -144,9 +144,9 @@ export const HOUSE_DATA: Record<number, HouseData> = {
 /**
  * House strength multipliers based on house nature
  */
-export const HOUSE_STRENGTH: Record<'Angular' | 'Succedent' | 'Cadent', number> = {
-  Angular: 1.0, // Strongest influence
-  Succedent: 0.7, // Medium influence
+export const, HOUSE_STRENGTH: Record<'Angular' | 'Succedent' | 'Cadent', number> = {
+  Angular: 1.0, // Strongest influence,
+  Succedent: 0.7, // Medium influence,
   Cadent: 0.4, // Weakest influence
 };
 
@@ -154,7 +154,7 @@ export const HOUSE_STRENGTH: Record<'Angular' | 'Succedent' | 'Cadent', number> 
  * Calculate elemental effects from a planet being in a specific house
  *
  * @param planet Planet name
- * @param house House number (1-12)
+ * @param house House number (1-12);
  * @param sign Zodiac sign the planet is in
  * @returns Record of elemental effects for each element
  */
@@ -163,7 +163,7 @@ export function calculateHouseEffect(
   house: number,
   sign: any,
 ): Record<ElementalCharacter, number> {
-  const effects: Record<ElementalCharacter, number> = {
+  const, effects: Record<ElementalCharacter, number> = {
     Fire: 0,
     Earth: 0,
     Air: 0,
@@ -223,10 +223,10 @@ export function calculateHouseEffect(
  * @returns Combined elemental effects from all house placements
  */
 export function calculateAllHouseEffects(
-  planetPositions: Record<string, { sign: any; house?: number }>,
+  planetPositions: Record<string, { sign: any house?: number }>,
   _houses: Record<number, ZodiacSign>,
 ): Record<ElementalCharacter, number> {
-  const totalEffects: Record<ElementalCharacter, number> = {
+  const, totalEffects: Record<ElementalCharacter, number> = {
     Fire: 0,
     Earth: 0,
     Air: 0,

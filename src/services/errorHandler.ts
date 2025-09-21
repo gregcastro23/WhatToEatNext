@@ -4,34 +4,34 @@
  */
 
 // Simple logger functionality
-const logError = (_message: string, _data?: unknown) => {;
+const logError = (_message: string, _data?: unknown) => {
   // No-op for production
 };
 
-const logWarning = (_message: string, _data?: unknown) => {;
+const logWarning = (_message: string, _data?: unknown) => {
   // No-op for production
 };
 
-const logInfo = (_message: string, _data?: unknown) => {;
+const logInfo = (_message: string, _data?: unknown) => {
   // No-op for production
 };
 
 // Error types
 export enum ErrorType {
-  UI = 'UI',;
-  API = 'API',;
-  DATA = 'DATA',;
-  NETWORK = 'NETWORK',;
-  ASTROLOGY = 'ASTROLOGY',;
+  UI = 'UI',
+  API = 'API',
+  DATA = 'DATA',
+  NETWORK = 'NETWORK',
+  ASTROLOGY = 'ASTROLOGY',
   UNKNOWN = 'UNKNOWN';
 }
 
 // Error severity levels
 export enum ErrorSeverity {
-  INFO = 'INFO',;
-  WARNING = 'WARNING',;
-  ERROR = 'ERROR',;
-  CRITICAL = 'CRITICAL',;
+  INFO = 'INFO',
+  WARNING = 'WARNING',
+  ERROR = 'ERROR',
+  CRITICAL = 'CRITICAL',
   FATAL = 'FATAL';
 }
 
@@ -39,7 +39,7 @@ export enum ErrorSeverity {
 export interface ErrorOptions {
   type?: ErrorType;
   severity?: ErrorSeverity;
-  component?: string;
+  component?: string
   context?: string,
   data?: unknown,
   isFatal?: boolean,
@@ -49,7 +49,7 @@ export interface ErrorOptions {
 interface ErrorDetails {
   message: string;
   stack?: string;
-  componentStack?: string;
+  componentStack?: string
   context?: string,
   data?: unknown,
   timestamp: string,
@@ -62,13 +62,13 @@ class ErrorHandlerService {
    */
   log(error: unknown, options: ErrorOptions = {}) {;
     const {
-      type = ErrorType.UNKNOWN,;
-      severity = ErrorSeverity.ERROR,;
-      component = 'unknown',;
-      context = {},;
-      data = {},;
-      isFatal = false,;
-      silent = false,;
+      type = ErrorType.UNKNOWN,
+      severity = ErrorSeverity.ERROR,
+      component = 'unknown',
+      context = {},
+      data = {},
+      isFatal = false,
+      silent = false,
     } = options;
 
     const errorDetails = this.prepareErrorDetails(error, options);
@@ -110,7 +110,7 @@ class ErrorHandlerService {
    * Create a custom application error
    */
   createError(message: string, options: ErrorOptions = {}): Error {;
-    const error = new Error(message);
+    const error = new Error(message)
     // Add custom properties to the error
     Object.assign(error, {
       type: options.type || ErrorType.UNKNOWN,
@@ -123,7 +123,7 @@ class ErrorHandlerService {
   /**
    * Safely execute an async function and return a default value if it fails
    */
-  async safeAsync<T>(fn: () => Promise<T>, defaultValue: T, context = 'unknown'): Promise<T> {;
+  async safeAsync<T>(fn: () => Promise<T>, defaultValue: T, context = 'unknown'): Promise<T> {
     try {
       return await fn()
     } catch (error) {
@@ -135,7 +135,7 @@ class ErrorHandlerService {
   /**
    * Safely execute a function and return a default value if it fails
    */
-  safeExecute<T>(fn: () => T, defaultValue: T, context = 'unknown'): T {;
+  safeExecute<T>(fn: () => T, defaultValue: T, context = 'unknown'): T {
     try {
       return fn()
     } catch (error) {
@@ -170,7 +170,7 @@ class ErrorHandlerService {
       stack = error.stack;
       errorType = error.name;
       // @ts-expect-error: componentStack is not standard on Error
-      componentStack = error.componentStack;
+      componentStack = error.componentStack
     } else if (typeof error === 'string') {;
       message = error;
       errorType = 'string';
@@ -178,7 +178,7 @@ class ErrorHandlerService {
       message = String(error);
       errorType = 'object';
       // @ts-expect-error: componentStack may exist
-      componentStack = error.componentStack;
+      componentStack = error.componentStack
     }
 
     return {
@@ -213,7 +213,7 @@ export function safeValue<T>(
   context: string,
   variableName: string,
 ): T {
-  if (value === null || value === undefined) {;
+  if (value === null || value === undefined) {
     // Use standalone warnNullValue function since it's not a method on ErrorHandler
     warnNullValue(variableName, context, value);
     return fallback
@@ -234,7 +234,7 @@ export function safePropertyAccess<T>(
   defaultValue: T,
   context: string,
 ): T {
-  if (obj === null || obj === undefined) {;
+  if (obj === null || obj === undefined) {
     warnNullValue(properties.join('.'), context);
     return defaultValue;
   }
@@ -242,7 +242,7 @@ export function safePropertyAccess<T>(
   try {
     let current: unknown = obj;
     for (const prop of properties) {
-      if (current === null || current === undefined || typeof current !== 'object') {;
+      if (current === null || current === undefined || typeof current !== 'object') {
         warnNullValue(`${properties.join('.')}.${prop}`, context);
         return defaultValue;
       }
@@ -295,7 +295,7 @@ export function validateType(
   const actualType = value === null ? 'null' : typeof value;
 
   // Handle array type special case
-  if (expectedType === 'array' && Array.isArray(value)) {;
+  if (expectedType === 'array' && Array.isArray(value)) {
     return true
   }
 
@@ -325,7 +325,7 @@ export function handlePropertyAccessError(
   propertyPath: string,
   context: string,
 ): void {
-  let message = 'Property access error';
+  let message = 'Property access error'
   if (
     error instanceof TypeError &&
     (error.message.includes('Cannot read properties of undefined') ||

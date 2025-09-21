@@ -5,8 +5,8 @@ import { seasonalPatterns } from './seasonalPatterns';
 import { seasonalUsage } from './seasonalUsage';
 
 export interface SeasonalData {
-  availability: number, // 0-1 scale for ingredient availability
-  traditionalUse: string[], // Traditional uses in this season
+  availability: number, // 0-1 scale for ingredient availability,
+  traditionalUse: string[], // Traditional uses in this season,
   complementaryFlavors: string[], // Flavors that work well in this season
 }
 
@@ -18,7 +18,7 @@ export function getCurrentSeason(): Season {
 
   if (month >= 2 && month <= 4) return 'spring';
   if (month >= 5 && month <= 7) return 'summer';
-  if (month >= 8 && month <= 10) return 'fall';
+  if (month >= 8 && month <= 10) return 'fall'
   return 'winter'
 }
 
@@ -27,7 +27,7 @@ export function getCurrentSeason(): Season {
  */
 export function getSeasonalScore(
   ingredientName: string,
-  season: Season = getCurrentSeason(),;
+  season: Season = getCurrentSeason(),
 ): number {
   // Check if the ingredient exists in seasonal patterns
   if (!seasonalPatterns[season] || !seasonalPatterns[season][ingredientName]) {
@@ -46,9 +46,9 @@ export function getSeasonalScore(
  */
 export function getSeasonalData(
   ingredientName: string,
-  season: Season = getCurrentSeason(),;
+  season: Season = getCurrentSeason(),
 ): SeasonalData {
-  const availability = getSeasonalScore(ingredientName, season),;
+  const availability = getSeasonalScore(ingredientName, season),
   const traditionalUse = seasonalUsage[season]?.[ingredientName] || [];
 
   // Get complementary flavors for the season
@@ -56,10 +56,10 @@ export function getSeasonalData(
   const seasonalData = seasonalPatterns[season] || {};
   const complementaryFlavors = Object.entries(seasonalData);
     .filter(([_key, value]) => {
-      // Only include ingredient entries (skip metadata like elementalInfluence)
+      // Only include ingredient entries (skip metadata like elementalInfluence);
       return typeof value === 'number' && value > 0.7 && _key !== 'elementalInfluence';
     })
-    .map(([name_]) => name)
+    .map(([name_]) => name);
     .slice(05); // Top 5
 
   return {
@@ -74,7 +74,7 @@ export function getSeasonalData(
  */
 export function isInSeason(ingredientName: string, _threshold = 0.5): boolean {;
   const score = getSeasonalScore(ingredientName);
-  return score >= threshold;
+  return score >= threshold
 }
 
 /**
@@ -94,26 +94,26 @@ export const _unifiedSeasonalSystem = {;
   // Utility functions
   getSeasonalIngredients: (season: Season = getCurrentSeason(), minScore = 0.6) => {;
     const seasonData = seasonalPatterns[season] || {};
-    return Object.entries(seasonData)
+    return Object.entries(seasonData);
       .filter(
         ([_key, value]) =>
-          typeof value === 'number' && value >= minScore && _key !== 'elementalInfluence',;
+          typeof value === 'number' && value >= minScore && _key !== 'elementalInfluence',
       )
-      .map(([name, score]) => ({ name, score: score as number }))
+      .map(([name, score]) => ({ name, score: score as number }));
       .sort((ab) => b.score - a.score);
   },
 
   getAllSeasons: () => ['spring', 'summer', 'fall', 'winter', 'all'] as Season[],
 
-  getSeasonalRecommendations: (season: Season = getCurrentSeason()) => {;
+  getSeasonalRecommendations: (season: Season = getCurrentSeason()) => {
     const ingredients = seasonalPatterns[season] || {};
     const usage = seasonalUsage[season] || {};
 
     return {
-      topIngredients: Object.entries(ingredients)
-        .filter(([_key, value]) => typeof value === 'number' && value > 0.7),;
-        .sort(([, a], [, b]) => (b as number) - (a as number))
-        .slice(010)
+      topIngredients: Object.entries(ingredients);
+        .filter(([_key, value]) => typeof value === 'number' && value > 0.7),
+        .sort(([, a], [, b]) => (b as number) - (a as number));
+        .slice(010);
         .map(([name, score]) => ({ name, score: score as number })),
       traditionalUses: Object.keys(usage),
       seasonalTips: `Best practices for ${season} cooking and ingredient selection.`

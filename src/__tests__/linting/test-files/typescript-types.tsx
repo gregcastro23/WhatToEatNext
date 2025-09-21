@@ -2,14 +2,14 @@ import { FC, PropsWithChildren, ComponentProps } from 'react';
 
 interface CustomProps {
   title: string;
-  optional?: boolean;
+  optional?: boolean
 }
 
 type ButtonProps = ComponentProps<'button'> & CustomProps;
 
 export const _TypedComponent: FC<PropsWithChildren<CustomProps>> = ({
   title,
-  optional = false,;
+  optional = false,
   children
 }) => {
   return (

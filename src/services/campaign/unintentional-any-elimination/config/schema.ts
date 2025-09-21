@@ -21,7 +21,7 @@ export const ClassificationConfigSchema = z;
     minCommentLength: z.number().min(0),
     intentionalKeywords: z.array(z.string()),
     testFilePatterns: z.array(z.string()),
-    categoryDefaults: z.record(AnyTypeCategorySchema, z.number().min(0).max(1))
+    categoryDefaults: z.record(AnyTypeCategorySchema, z.number().min(0).max(1));
   })
   .strict();
 
@@ -31,7 +31,7 @@ export const DomainConfigSchema = z;
     typeSuggestions: z.record(z.string(), z.array(z.string())),
     pathPatterns: z.record(z.string(), z.array(z.string())),
     contentPatterns: z.record(z.string(), z.array(z.string())),
-    elementalAssociations: z.record(z.string(), z.array(z.string()))
+    elementalAssociations: z.record(z.string(), z.array(z.string()));
   })
   .strict();
 
@@ -43,7 +43,7 @@ export const SafetyConfigSchema = z;
     compilationTimeout: z.number().min(1000),
     maxRollbackAttempts: z.number().min(1).max(10),
     safetyLevels: z.record(z.string(), SafetyLevelSchema),
-    backupRetentionDays: z.number().min(1).max(365)
+    backupRetentionDays: z.number().min(1).max(365);
   })
   .strict();
 
@@ -57,7 +57,7 @@ export const TargetConfigSchema = z;
       .object({
         metrics: z.number().min(1),
         reports: z.number().min(0.1),
-        checkpoints: z.number().min(1)
+        checkpoints: z.number().min(1);
       })
       .strict(),
     milestones: z.array(
@@ -65,7 +65,7 @@ export const TargetConfigSchema = z;
         .object({
           name: z.string().min(1),
           targetReduction: z.number().min(0).max(100),
-          timeframe: z.string().min(1)
+          timeframe: z.string().min(1);
         })
         .strict(),
     )
@@ -80,7 +80,7 @@ export const UnintentionalAnyConfigSchema = z;
     safety: SafetyConfigSchema,
     targets: TargetConfigSchema,
     version: z.string().min(1),
-    lastUpdated: z.string().datetime()
+    lastUpdated: z.string().datetime();
   })
   .strict();
 
@@ -96,8 +96,8 @@ export const _PartialUnintentionalAnyConfigSchema = UnintentionalAnyConfigSchema
  */
 export function validateClassificationConfig(_config: unknown): {
   isValid: boolean;
-  data?: z.infer<typeof ClassificationConfigSchema>;
-  errors?: z.ZodError;
+  data?: z.infer<typeof ClassificationConfigSchema>
+  errors?: z.ZodError
 } {
   try {
     const data = ClassificationConfigSchema.parse(config);
@@ -110,7 +110,7 @@ export function validateClassificationConfig(_config: unknown): {
 export function validateDomainConfig(_config: unknown): {
   isValid: boolean;
   data?: z.infer<typeof DomainConfigSchema>;
-  errors?: z.ZodError;
+  errors?: z.ZodError
 } {
   try {
     const data = DomainConfigSchema.parse(config);
@@ -123,7 +123,7 @@ export function validateDomainConfig(_config: unknown): {
 export function validateSafetyConfig(_config: unknown): {
   isValid: boolean;
   data?: z.infer<typeof SafetyConfigSchema>;
-  errors?: z.ZodError;
+  errors?: z.ZodError
 } {
   try {
     const data = SafetyConfigSchema.parse(config);
@@ -136,7 +136,7 @@ export function validateSafetyConfig(_config: unknown): {
 export function validateTargetConfig(_config: unknown): {
   isValid: boolean;
   data?: z.infer<typeof TargetConfigSchema>;
-  errors?: z.ZodError;
+  errors?: z.ZodError
 } {
   try {
     const data = TargetConfigSchema.parse(config);
@@ -149,7 +149,7 @@ export function validateTargetConfig(_config: unknown): {
 export function validateUnintentionalAnyConfig(_config: unknown): {
   isValid: boolean;
   data?: z.infer<typeof UnintentionalAnyConfigSchema>;
-  errors?: z.ZodError;
+  errors?: z.ZodError
 } {
   try {
     const data = UnintentionalAnyConfigSchema.parse(config);
@@ -167,8 +167,8 @@ export function validateBusinessRules(_config: z.infer<typeof UnintentionalAnyCo
   errors: string[],
   warnings: string[]
 } {
-  const errors: string[] = [];
-  const warnings: string[] = [];
+  const, errors: string[] = [];
+  const, warnings: string[] = [];
 
   // Classification business rules
   if (config.classification.intentionalThreshold <= config.classification.unintentionalThreshold) {
@@ -208,7 +208,7 @@ export function validateBusinessRules(_config: z.infer<typeof UnintentionalAnyCo
 
   // Milestone validation
   const milestones = config.targets.milestones;
-  for (let i = 1; i < milestones.length; i++) {
+  for (let i = 1; i < milestones.length i++) {
     if (milestones[i].targetReduction <= milestones[i - 1].targetReduction) {
       errors.push(
         `Milestone '${milestones[i].name}' has lower or equal target than previous milestone`,
@@ -224,7 +224,7 @@ export function validateBusinessRules(_config: z.infer<typeof UnintentionalAnyCo
   }
 
   return {
-    isValid: errors.length === 0,;
+    isValid: errors.length === 0,
     errors,
     warnings
   };
@@ -238,7 +238,7 @@ export function validateCompleteConfig(_config: unknown): {
   data?: z.infer<typeof UnintentionalAnyConfigSchema>;
   schemaErrors?: z.ZodError;
   businessErrors?: string[];
-  warnings?: string[];
+  warnings?: string[]
 } {
   // First validate schema
   const schemaValidation = validateUnintentionalAnyConfig(config);

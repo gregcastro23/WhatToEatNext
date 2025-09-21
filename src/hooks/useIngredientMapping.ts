@@ -36,8 +36,8 @@ export function useIngredientMapping() {
   const findMatchingRecipes = useCallback(;
     (
       options: {
-        elementalTarget?: ElementalProperties;
-        requiredIngredients?: string[];
+        elementalTarget?: ElementalProperties
+        requiredIngredients?: string[]
         excludedIngredients?: string[],
         dietaryRestrictions?: string[],
         emphasizedIngredients?: string[],
@@ -69,7 +69,7 @@ export function useIngredientMapping() {
     try {
       setIsLoading(true);
       setError(null);
-      const result = ingredientMappingService.suggestAlternativeIngredients(;
+      const result = ingredientMappingService.suggestAlternativeIngredients(
         ingredientName,
         options,
       ),
@@ -94,7 +94,7 @@ export function useIngredientMapping() {
     try {
       setIsLoading(true);
       setError(null);
-      const result = ingredientMappingService.calculateCompatibility(ingredient1, ingredient2),;
+      const result = ingredientMappingService.calculateCompatibility(ingredient1, ingredient2),
       return result
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';

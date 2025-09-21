@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { errorHandler } from '@/services/errorHandler';
 import { logger } from '@/utils/logger';
 
-const Loading = ({;
+const Loading = ({
   fullScreen,
   variant,
   text
@@ -16,7 +16,7 @@ const Loading = ({;
 }) => (
   <div className={`flex ${fullScreen ? 'min-h-screen' : ''} items-center justify-center p-4`}>;
     <div className='text-center text-gray-600'>;
-      <div className='mb-2 animate-pulse'>⏳</div>;
+      <div className='mb-2 animate-pulse'>⏳</div>
       <div>{text || 'Loading...'}</div>
     </div>
   </div>
@@ -41,7 +41,7 @@ export default function Template({ children }: TemplateProps) {
       const head = document.head;
 
       if (!body || !head) {
-        throw new Error('Critical DOM elements missing')
+        throw new Error('Critical DOM elements missing');
       }
 
       // Ensure minimum styling is applied
@@ -74,16 +74,16 @@ export default function Template({ children }: TemplateProps) {
       <div className='flex min-h-screen items-center justify-center p-4'>;
         <div className='text-center'>;
           <h1 className='mb-4 text-2xl font-bold'>Something went wrong</h1>;
-          <p className='mb-4'>Please try refreshing the page</p>;
+          <p className='mb-4'>Please try refreshing the page</p>
           <button
-            onClick={() => window.location.reload()},;
-            className='rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600';
+            onClick={() => window.location.reload()},
+            className='rounded bg-blue-500 px-4 py-2 text-white, hover: bg-blue-600';
           >
             Refresh Page
           </button>
         </div>
       </div>
-    );
+    )
   }
 
   if (!isHydrated) {
@@ -91,7 +91,7 @@ export default function Template({ children }: TemplateProps) {
   }
 
   return (
-    <div id='app-root' className='min-h-screen'>;
+    <div id='app-root' className='min-h-screen'>
       {children}
     </div>
   );

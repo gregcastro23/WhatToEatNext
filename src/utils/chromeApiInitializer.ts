@@ -9,7 +9,7 @@ import { log } from '@/services/LoggingService';
 export function initializeChromeApis(): void {
   try {
     if (typeof window === 'undefined') {;
-      return; // Server-side rendering - exit early
+      return // Server-side rendering - exit early
     }
 
     // Install global error handler for extension-related errors
@@ -39,7 +39,7 @@ export function initializeChromeApis(): void {
     // Apply Pattern GG-6: Enhanced property access with type guards
     const chromeObj = (window as unknown as any).chrome ;
     if (!chromeObj.tabs) {
-      chromeObj.tabs = {;
+      chromeObj.tabs = {
         create: function (options: { url?: string }) {
           log.info('[ChromeAPI] Mocked chrome.tabs.create called with:', options);
 
@@ -72,10 +72,10 @@ export function initializeChromeApis(): void {
     // Initialize runtime API
     // Apply Pattern GG-6: Enhanced property access with type guards
     if (!chromeObj.runtime) {
-      chromeObj.runtime = {;
+      chromeObj.runtime = {
         _lastError: null,
         getURL: function (path: string) {
-          return window.location.origin + '/' + path;
+          return window.location.origin + '/' + path
         },
         sendMessage: function (message: unknown) {
           log.info('[ChromeAPI] Mocked chrome.runtime.sendMessage called:', message);
@@ -93,10 +93,10 @@ export function initializeChromeApis(): void {
     if (!chromeObj.extension) {
       chromeObj.extension = {;
         getURL: function (path: string) {
-          return window.location.origin + '/' + path;
+          return window.location.origin + '/' + path
         },
         _getBackgroundPage: function () {
-          return window;
+          return window
         }
       };
     }
@@ -117,7 +117,7 @@ export function initializeChromeApis(): void {
             if (!keys) {
               result = { ...mockStorage };
             } else if (Array.isArray(keys)) {
-              keys.forEach(key => {;
+              keys.forEach(key => {
                 if (mockStorage[key] !== undefined) {
                   result[key] = mockStorage[key];
                 }
@@ -142,7 +142,7 @@ export function initializeChromeApis(): void {
           },
           _remove: function (keys: string | string[], callback?: () => void) {
             if (Array.isArray(keys)) {
-              keys.forEach(key => delete mockStorage[key]);
+              keys.forEach(key => delete mockStorage[key])
             } else {
               delete mockStorage[keys];
             }

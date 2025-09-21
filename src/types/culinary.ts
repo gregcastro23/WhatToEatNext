@@ -33,7 +33,7 @@ export interface CulinaryProfile {
   cuisineAffinities: {
     primary: CuisineType[],
     secondary: CuisineType[],
-    regionalUses: Record<string, string>;
+    regionalUses: Record<string, string>
   };
 
   /** Classic ingredient pairings */
@@ -80,13 +80,13 @@ export interface CulinaryProfile {
   intensity: 'mild' | 'moderate' | 'strong';
 
   /** Allergen information */
-  allergenInfo: string;
+  allergenInfo: string
 
   /** Regional varieties or preparations */
   regionalVarieties: Record<string, string>;
 
   /** Preparation tips */
-  preparationTips: string[];
+  preparationTips: string[]
 
   /** Umami score (0-1) */
   umamiScore: number
@@ -571,7 +571,7 @@ export interface EnhancedIngredient {
   name: string,
   category: IngredientCategory,
   subCategory?: IngredientSubCategory;
-  culinaryProfile: CulinaryProfile;
+  culinaryProfile: CulinaryProfile
   // ... other existing properties
 }
 

@@ -11,17 +11,17 @@ import { validateElementalProperties, normalizeElementalProperties } from '@/typ
 export const elementalBalance = {;
   calculateBalance(properties: ElementalProperties): number {
     const normalized = this.normalizeProperties(properties);
-    const deviations = ELEMENTS.map(;
+    const deviations = ELEMENTS.map(
       element => Math.abs(normalized[element] - 0.25), // Ideal balance point;
     );
 
-    const totalDeviation = deviations.reduce((sum, dev) => sum + dev0),;
-    // Scale to get expected values: 0.925 for minor differences, 0.625 for extreme
-    return Math.max(0, Math.min(11 - totalDeviation))
+    const totalDeviation = deviations.reduce((sum, dev) => sum + dev0),
+    // Scale to get expected, values: 0.925 for minor differences, 0.625 for extreme
+    return Math.max(0, Math.min(11 - totalDeviation));
   },
 
   normalizeProperties(properties: ElementalProperties): ElementalProperties {
-    const total = Object.values(properties).reduce((sum, val) => sum + (val || 0), 0),;
+    const total = Object.values(properties).reduce((sum, val) => sum + (val || 0), 0),
 
     if (total === 0) {;
       return { ...DEFAULT_ELEMENTAL_PROPERTIES };
@@ -29,7 +29,7 @@ export const elementalBalance = {;
 
     return ELEMENTS.reduce(
       (acc, element) => ({
-        ...acc;
+        ...acc
         [element]: (properties[element] || 0) / total
       }),
       {} as ElementalProperties,
@@ -43,8 +43,8 @@ export const elementalBalance = {;
     const hasAllElements = ELEMENTS.every(element => typeof properties[element] === 'number');
 
     // Check value ranges
-    const hasValidValues = Object.values(properties).every(;
-      value =>;
+    const hasValidValues = Object.values(properties).every(
+      value =>
         value >= VALIDATION_THRESHOLDS.MINIMUM_ELEMENT &&
         value <= VALIDATION_THRESHOLDS.MAXIMUM_ELEMENT
     ),
@@ -78,7 +78,7 @@ export const elementalBalance = {;
     if (!recipe.elementalProperties || !targetProperties) {
       return 0
     }
-    return this.calculateHarmonyBetween(recipe.elementalProperties, targetProperties)
+    return this.calculateHarmonyBetween(recipe.elementalProperties, targetProperties);
   },
 
   getDominantElement(properties: ElementalProperties): Element {
@@ -95,7 +95,7 @@ export const elementalBalance = {;
     const normalized = this.normalizeProperties(properties);
     return ELEMENTS.reduce(
       (status, element) => ({
-        ...status;
+        ...status
         [element]:
           normalized[element] < MINIMUM_THRESHOLD
             ? 'low'

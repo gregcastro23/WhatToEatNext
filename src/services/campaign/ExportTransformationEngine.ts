@@ -69,7 +69,7 @@ export interface TransformationSummary {
 export interface TransformationError {
   type: TransformationErrorType,
   message: string,
-  filePath?: string;
+  filePath?: string
   exportName?: string,
   severity: ErrorSeverity,
   recoverable: boolean,
@@ -86,35 +86,35 @@ export interface ValidationResult {
 }
 
 export enum BatchPriority {
-  HIGH = 'HIGH',;
-  MEDIUM = 'MEDIUM',,;
-  LOW = 'LOW',,;
+  HIGH = 'HIGH',
+  MEDIUM = 'MEDIUM',,
+  LOW = 'LOW',,
 }
 
 export enum TransformationErrorType {
-  ANALYSIS_FAILED = 'ANALYSIS_FAILED',;
-  GENERATION_FAILED = 'GENERATION_FAILED',;
-  BUILD_FAILED = 'BUILD_FAILED',;
-  TEST_FAILED = 'TEST_FAILED',;
-  FILE_WRITE_FAILED = 'FILE_WRITE_FAILED',;
-  ROLLBACK_FAILED = 'ROLLBACK_FAILED',,;
-  VALIDATION_FAILED = 'VALIDATION_FAILED',,;
+  ANALYSIS_FAILED = 'ANALYSIS_FAILED',
+  GENERATION_FAILED = 'GENERATION_FAILED',
+  BUILD_FAILED = 'BUILD_FAILED',
+  TEST_FAILED = 'TEST_FAILED',
+  FILE_WRITE_FAILED = 'FILE_WRITE_FAILED',
+  ROLLBACK_FAILED = 'ROLLBACK_FAILED',,
+  VALIDATION_FAILED = 'VALIDATION_FAILED',,
 }
 
 export enum ErrorSeverity {
-  LOW = 'LOW',;
-  MEDIUM = 'MEDIUM',;
-  HIGH = 'HIGH',,;
-  CRITICAL = 'CRITICAL',,;
+  LOW = 'LOW',
+  MEDIUM = 'MEDIUM',
+  HIGH = 'HIGH',,
+  CRITICAL = 'CRITICAL',,
 }
 
 export class ExportTransformationEngine {
-  private readonly config: TransformationConfig;
-  private readonly analyzer: UnusedExportAnalyzer;
-  private readonly generator: EnterpriseIntelligenceGenerator,
-  private readonly safetyProtocol: SafetyProtocol,
-  private readonly progressTracker: ProgressTracker,
-  private readonly transformationLog: TransformationError[],
+  private readonly, config: TransformationConfig;
+  private readonly, analyzer: UnusedExportAnalyzer
+  private readonly, generator: EnterpriseIntelligenceGenerator,
+  private readonly, safetyProtocol: SafetyProtocol,
+  private readonly, progressTracker: ProgressTracker,
+  private readonly, transformationLog: TransformationError[],
 
   constructor(config: Partial<TransformationConfig> = {}) {
     this.config = {;
@@ -133,7 +133,7 @@ export class ExportTransformationEngine {
     this.analyzer = new UnusedExportAnalyzer();
     // ✅ Pattern MM-1: Safe constructor call with proper arguments
     this.generator = new EnterpriseIntelligenceGenerator(this.config.outputDirectory);
-    this.safetyProtocol = new SafetyProtocol({;
+    this.safetyProtocol = new SafetyProtocol({
       maxFilesPerBatch: 10,
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
@@ -154,28 +154,28 @@ export class ExportTransformationEngine {
     const startTime = Date.now();
 
     try {
-      // Phase 1: Analysis
-      // // // console.log('📊 Phase 1: Analyzing unused exports...');
+      // Phase, 1: Analysis
+      // // // console.log('📊 Phase, 1: Analyzing unused exports...');
       const analysisResult = await this.performAnalysis();
 
-      // Phase 2: Batch Planning
-      // // // console.log('📋 Phase 2: Planning transformation batches...');
+      // Phase, 2: Batch Planning
+      // // // console.log('📋 Phase, 2: Planning transformation batches...');
       const batches = await this.planTransformationBatches(analysisResult);
 
-      // Phase 3: Safety Preparation
-      // // // console.log('🛡️  Phase 3: Preparing safety protocols...');
+      // Phase, 3: Safety Preparation
+      // // // console.log('🛡️  Phase, 3: Preparing safety protocols...');
       await this.prepareSafetyProtocols();
 
-      // Phase 4: Batch Execution
-      // // // console.log('⚡ Phase 4: Executing transformation batches...');
+      // Phase, 4: Batch Execution
+      // // // console.log('⚡ Phase, 4: Executing transformation batches...');
       const results = await this.executeBatches(batches);
 
-      // Phase 5: Final Validation
-      // // // console.log('✅ Phase 5: Final validation and cleanup...');
+      // Phase, 5: Final Validation
+      // // // console.log('✅ Phase, 5: Final validation and cleanup...');
       await this.performFinalValidation();
 
       const endTime = Date.now();
-      const totalDuration = (endTime - startTime) / 1000;
+      const totalDuration = (endTime - startTime) / 1000
 
       const summary = this.generateTransformationSummary(results, totalDuration);
 
@@ -212,7 +212,7 @@ export class ExportTransformationEngine {
         message: `Analysis failed: ${String((error as Error).message || 'Unknown error')}`,
         severity: ErrorSeverity.CRITICAL,
         recoverable: false,
-        timestamp: new Date()
+        timestamp: new Date();
       });
       throw error;
     }
@@ -224,12 +224,12 @@ export class ExportTransformationEngine {
   private async planTransformationBatches(
     analysisResult: AnalysisResult,
   ): Promise<TransformationBatch[]> {
-    const batches: TransformationBatch[] = [];
+    const, batches: TransformationBatch[] = [];
 
     // Create batches for high priority files
     const highPriorityBatches = this.createBatchesFromFiles(;
-      analysisResult.highPriorityFiles;
-      BatchPriority.HIGH;
+      analysisResult.highPriorityFiles
+      BatchPriority.HIGH
       'high',
     );
     batches.push(...highPriorityBatches);
@@ -237,7 +237,7 @@ export class ExportTransformationEngine {
     // Create batches for medium priority files
     const mediumPriorityBatches = this.createBatchesFromFiles(;
       analysisResult.mediumPriorityFiles;
-      BatchPriority.MEDIUM;
+      BatchPriority.MEDIUM
       'medium',
     );
     batches.push(...mediumPriorityBatches);
@@ -245,12 +245,12 @@ export class ExportTransformationEngine {
     // Create batches for low priority files
     const lowPriorityBatches = this.createBatchesFromFiles(;
       analysisResult.lowPriorityFiles;
-      BatchPriority.LOW;
+      BatchPriority.LOW
       'low',
     ),
     batches.push(...lowPriorityBatches);
 
-    // // // console.log(`✅ Planned ${batches.length} transformation batches:`);
+    // // // console.log(`✅ Planned ${batches.length} transformation batches: `);
     // // // console.log(`   - High priority: ${highPriorityBatches.length} batches`);
     // // // console.log(`   - Medium priority: ${mediumPriorityBatches.length} batches`);
     // // // console.log(`   - Low priority: ${lowPriorityBatches.length} batches`);
@@ -266,14 +266,14 @@ export class ExportTransformationEngine {
     priority: BatchPriority,
     priorityLabel: string,
   ): TransformationBatch[] {
-    const batches: TransformationBatch[] = [];
+    const, batches: TransformationBatch[] = [];
     const batchSize = this.config.batchSize;
 
-    for (let i = 0i < files.lengthi += batchSize) {;
-      const batchFiles = files.slice(ii + batchSize),;
+    for (let i = 0i < files.lengthi += batchSize) {
+      const batchFiles = files.slice(ii + batchSize),
       const batchNumber = Math.floor(i / batchSize) + 1;
 
-      const batch: TransformationBatch = {;
+      const, batch: TransformationBatch = {
         id: `${priorityLabel}-batch-${batchNumber}`,
         files: batchFiles,
         priority,
@@ -297,7 +297,7 @@ export class ExportTransformationEngine {
     // Base time per file + complexity factor
     const baseTimePerFile = 2, // seconds;
     // ✅ Pattern KK-9: Safe arithmetic operations for complexity calculation
-    const complexityFactor = files.reduce((sumf) => {;
+    const complexityFactor = files.reduce((sumf) => {
       return (
         Number(sum || 0) +
         f.transformationCandidates.reduce((candidateSum, c) => {
@@ -322,7 +322,7 @@ export class ExportTransformationEngine {
    * Calculate batch safety score
    */
   private calculateBatchSafetyScore(files: FileAnalysis[]): number {
-    if (files.length === 0) return 100;
+    if (files.length === 0) return 100
 
     // ✅ Pattern KK-9: Safe arithmetic operations for safety score calculation
     const averageSafetyScore =
@@ -331,7 +331,7 @@ export class ExportTransformationEngine {
     const complexityPenalty = files.reduce((penalty, f) => {;
       const highComplexityCandidates = f.transformationCandidates.filter(;
         c =>;
-          c.transformationComplexity === 'COMPLEX' || c.transformationComplexity === 'VERY_COMPLEX';
+          c.transformationComplexity === 'COMPLEX' || c.transformationComplexity === 'VERY_COMPLEX'
       ).length;
       return Number(penalty || 0) + Number(highComplexityCandidates || 0) * 2
     }, 0);
@@ -349,9 +349,8 @@ export class ExportTransformationEngine {
     try {
       // Create backup directory
       await this.ensureDirectory(this.config.backupDirectory);
-
       // ✅ Pattern MM-1: Safe method call for safety protocol
-      const checkpointId = await (this.safetyProtocol as unknown).createSafetyCheckpoint(;
+      const checkpointId = await (this.safetyProtocol as unknown).createSafetyCheckpoint(
         'transformation-start',
       ),
       // // // console.log(`✅ Safety checkpoint created: ${checkpointId}`);
@@ -360,7 +359,7 @@ export class ExportTransformationEngine {
       if (this.config.buildValidationEnabled) {
         const buildValid = await this.validateBuild();
         if (!buildValid.buildSuccess) {
-          throw new Error('Build validation failed before transformation')
+          throw new Error('Build validation failed before transformation');
         }
         // // // console.log('✅ Pre-transformation build validation passed');
       }
@@ -370,7 +369,7 @@ export class ExportTransformationEngine {
         message: `Safety preparation failed: ${String((error as Error).message || 'Unknown error')}`,
         severity: ErrorSeverity.CRITICAL,
         recoverable: false,
-        timestamp: new Date()
+        timestamp: new Date();
       });
       throw error;
     }
@@ -380,10 +379,10 @@ export class ExportTransformationEngine {
    * Execute transformation batches
    */
   private async executeBatches(batches: TransformationBatch[]): Promise<TransformationResult[]> {
-    const results: TransformationResult[] = [];
+    const, results: TransformationResult[] = [];
 
     for (let i = 0i < batches.lengthi++) {;
-      const batch = batches[i];
+      const batch = batches[i]
       // // // console.log(`\n🔄 Processing batch ${i + 1}/${batches.length}: ${batch.id}`);
       // // // console.log(`   Priority: ${batch.priority}`);
       // // // console.log(`   Files: ${batch.files.length}`);
@@ -401,8 +400,8 @@ export class ExportTransformationEngine {
 
       // Progress update
       // ✅ Pattern KK-9: Safe arithmetic operations for progress calculation
-      const progress = ((Number(i || 0) + 1) / Number(batches.length || 1)) * 100;
-      // // // console.log(`📊 Campaign progress: ${Number(progress || 0).toFixed(1)}%`)
+      const progress = ((Number(i || 0) + 1) / Number(batches.length || 1)) * 100
+      // // // console.log(`📊 Campaign progress: ${Number(progress || 0).toFixed(1)}%`);
     }
 
     return results
@@ -413,7 +412,7 @@ export class ExportTransformationEngine {
    */
   private async executeBatch(batch: TransformationBatch): Promise<TransformationResult> {
     const startTime = Date.now();
-    const result: TransformationResult = {;
+    const, result: TransformationResult = {
       batchId: batch.id,
       success: false,
       filesProcessed: 0,
@@ -425,11 +424,11 @@ export class ExportTransformationEngine {
       generationResults: []
     };
 
-    let checkpointId: string | null = null;
+    let, checkpointId: string | null = null
 
     try {
       // ✅ Pattern MM-1: Safe method call for safety protocol
-      checkpointId = await (this.safetyProtocol as unknown).createSafetyCheckpoint(;
+      checkpointId = await (this.safetyProtocol as unknown).createSafetyCheckpoint(
         `batch-${batch.id}`,
       );
 
@@ -446,9 +445,9 @@ export class ExportTransformationEngine {
 
       // Generate intelligence systems
       if (this.config.dryRun) {
-        // // // console.log('🔍 DRY RUN: Simulating intelligence system generation...');
+        // // // console.log('🔍 DRY, RUN: Simulating intelligence system generation...');
         result.systemsGenerated = batch.transformationCandidates;
-        result.filesProcessed = batch.files.length;
+        result.filesProcessed = batch.files.length
       } else {
         // // // console.log('⚡ Generating intelligence systems...');
         const generationResults = await this.generator.generateIntelligenceSystems(batch.files);
@@ -462,7 +461,7 @@ export class ExportTransformationEngine {
         // // // console.log('🔍 Validating build after generation...');
         const validation = await this.validateBuild();
         if (!validation.buildSuccess) {
-          throw new Error('Build validation failed after generation')
+          throw new Error('Build validation failed after generation');
         }
       }
 
@@ -477,12 +476,12 @@ export class ExportTransformationEngine {
         String((error as Error).message || 'Unknown error');
       );
 
-      const transformationError: TransformationError = {;
+      const, transformationError: TransformationError = {
         type: TransformationErrorType.GENERATION_FAILED,
         message: String((error as Error).message || 'Unknown error'),
         severity: ErrorSeverity.HIGH,
         recoverable: true,
-        timestamp: new Date()
+        timestamp: new Date();
       };
 
       result.errors.push(transformationError);
@@ -507,7 +506,7 @@ export class ExportTransformationEngine {
             message: String((rollbackError as Error).message || 'Unknown rollback error'),
             severity: ErrorSeverity.CRITICAL,
             recoverable: false,
-            timestamp: new Date()
+            timestamp: new Date();
           });
         }
       }
@@ -525,7 +524,7 @@ export class ExportTransformationEngine {
   private async performFinalValidation(): Promise<void> {
     try {
       if (this.config.dryRun) {
-        // // // console.log('🔍 DRY RUN: Skipping final validation');
+        // // // console.log('🔍 DRY, RUN: Skipping final validation');
         return
       }
 
@@ -533,7 +532,7 @@ export class ExportTransformationEngine {
       const buildValidation = await this.validateBuild();
 
       if (!buildValidation.buildSuccess) {
-        throw new Error('Final build validation failed')
+        throw new Error('Final build validation failed');
       }
 
       if (this.config.testValidationEnabled) {
@@ -541,7 +540,7 @@ export class ExportTransformationEngine {
         const testValidation = await this.validateTests();
 
         if (!testValidation.testSuccess) {
-          console.warn('⚠️  Some tests failed, but transformation completed')
+          console.warn('⚠️  Some tests failed, but transformation completed');
         }
       }
 
@@ -552,7 +551,7 @@ export class ExportTransformationEngine {
         message: `Final validation failed: ${String((error as Error).message || 'Unknown error')}`,
         severity: ErrorSeverity.HIGH,
         recoverable: true,
-        timestamp: new Date()
+        timestamp: new Date();
       });
       throw error;
     }
@@ -563,9 +562,8 @@ export class ExportTransformationEngine {
    */
   private async validateBuild(): Promise<ValidationResult> {
     const startTime = Date.now();
-
     try {
-      const output = execSync('yarn build', {;
+      const output = execSync('yarn build', {
         encoding: 'utf-8',
         timeout: 60000,
         stdio: 'pipe'
@@ -600,9 +598,8 @@ export class ExportTransformationEngine {
    */
   private async validateTests(): Promise<ValidationResult> {
     const startTime = Date.now();
-
     try {
-      const output = execSync('yarn test --passWithNoTests', {;
+      const output = execSync('yarn test --passWithNoTests', {
         encoding: 'utf-8',
         timeout: 120000,
         stdio: 'pipe'
@@ -657,7 +654,7 @@ export class ExportTransformationEngine {
       JSON.stringify(
         {
           timestamp: new Date().toISOString();
-          // ✅ Pattern MM-1: Safe type assertion for error logging
+          // ✅ Pattern MM-1: Safe type assertion for error logging,
           error: String((error as Error).message || 'Unknown critical failure'),
           stack: String((error as Error).stack || ''),
           transformationLog: this.transformationLog
@@ -677,28 +674,28 @@ export class ExportTransformationEngine {
     totalDuration: number,
   ): TransformationSummary {
     const successfulBatches = results.filter(r => r.success).length;
-    const failedBatches = results.length - successfulBatches;
+    const failedBatches = results.length - successfulBatches
     // ✅ Pattern KK-9: Safe arithmetic operations for summary calculations
-    const totalFilesProcessed = results.reduce(;
+    const totalFilesProcessed = results.reduce(
       (sumr) => Number(sum || 0) + Number(r.filesProcessed || 0),
       0,
     );
-    const totalSystemsGenerated = results.reduce(;
+    const totalSystemsGenerated = results.reduce(
       (sumr) => Number(sum || 0) + Number(r.systemsGenerated || 0),
       0,
     );
-    const totalErrors = results.reduce(;
+    const totalErrors = results.reduce(
       (sumr) => Number(sum || 0) + Number(r.errors.length || 0),
       0,
     );
-    const totalWarnings = results.reduce(;
+    const totalWarnings = results.reduce(
       (sumr) => Number(sum || 0) + Number(r.warnings.length || 0),
       0,
     );
     const averageBatchDuration =
       Number(results.length || 0) > 0;
         ? results.reduce((sumr) => Number(sum || 0) + Number(r.duration || 0), 0) /
-          Number(results.length || 1)
+          Number(results.length || 1);
         : 0,
     const successRate =
       Number(results.length || 0) > 0;
@@ -709,7 +706,7 @@ export class ExportTransformationEngine {
     const allGenerationResults = results.flatMap(r => r.generationResults);
     const generationSummary =
       allGenerationResults.length > 0;
-        ? this.generator.generateSummary(allGenerationResults)
+        ? this.generator.generateSummary(allGenerationResults);
         : {
             totalSystemsGenerated: 0,
             totalCapabilitiesAdded: 0,
@@ -720,7 +717,7 @@ export class ExportTransformationEngine {
           };
 
     return {
-      totalBatches: results.length;
+      totalBatches: results.length
       successfulBatches,
       failedBatches,
       totalFilesProcessed,
@@ -759,7 +756,7 @@ export class ExportTransformationEngine {
     // // // console.log(`Estimated total value: ${summary.generationSummary.estimatedTotalValue}`);
 
     if (Object.keys(summary.generationSummary.generationsByCategory).length > 0) {
-      // // // console.log('\nGeneration by category:');
+      // // // console.log('\nGeneration by category: ');
       Object.entries(summary.generationSummary.generationsByCategory).forEach(
         ([category, count]) => {
           // // // console.log(`  ${category}: ${count}`);
@@ -774,7 +771,7 @@ export class ExportTransformationEngine {
   private logError(error: TransformationError): void {
     this.transformationLog.push(error);
 
-    const severityEmoji = {;
+    const severityEmoji = {
       [ErrorSeverity.LOW]: '🟡',
       [ErrorSeverity.MEDIUM]: '🟠',
       [ErrorSeverity.HIGH]: '🔴',
@@ -813,6 +810,6 @@ export class ExportTransformationEngine {
    * Clear transformation log
    */
   clearTransformationLog(): void {
-    this.transformationLog.length = 0;
+    this.transformationLog.length = 0
   }
 }

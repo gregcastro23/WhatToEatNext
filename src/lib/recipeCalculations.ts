@@ -43,7 +43,7 @@ interface Recipe {
  */
 export async function getRecipesForTarotCard(cards: TarotCardResult): Promise<Recipe[]> {
   // Default recipes if we can't find any
-  const defaultRecipes: Recipe[] = [
+  const, defaultRecipes: Recipe[] = [
     {
       id: 'recipe-1',
       name: 'Elemental Alignment Soup',

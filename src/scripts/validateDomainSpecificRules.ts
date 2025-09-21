@@ -18,7 +18,7 @@ interface ValidationResult {
 }
 
 class DomainSpecificRuleValidator {
-  private projectRoot: string,
+  private, projectRoot: string,
 
   constructor() {
     this.projectRoot = process.cwd();
@@ -47,9 +47,9 @@ class DomainSpecificRuleValidator {
   private async validateAstrologicalFiles(): Promise<void> {
     // // // console.log('🌟 Validating Astrological Calculation Files...');
 
-    const astroFiles = [;
+    const astroFiles = [
       'src/calculations/culinary/culinaryAstrology.ts';
-      'src/utils/reliableAstronomy.ts';
+      'src/utils/reliableAstronomy.ts'
       'src/data/planets/mars.ts'
     ],
 
@@ -63,8 +63,8 @@ class DomainSpecificRuleValidator {
   private async validateCampaignSystemFiles(): Promise<void> {
     // // // console.log('🚀 Validating Campaign System Files...');
 
-    const campaignFiles = [;
-      'src/services/campaign/CampaignController.ts';
+    const campaignFiles = [
+      'src/services/campaign/CampaignController.ts'
       'src/services/campaign/ProgressTracker.ts'
     ],
 
@@ -79,7 +79,7 @@ class DomainSpecificRuleValidator {
     // // // console.log('🧪 Validating Test Files...');
 
     try {
-      const testCount = execSync('find src -name '*.test.ts' -o -name '*.test.tsx' | wc -l', {;
+      const testCount = execSync('find src -name '*.test.ts' -o -name '*.test.tsx' | wc -l', {
         encoding: 'utf8',
         cwd: this.projectRoot
       }).trim();
@@ -103,7 +103,7 @@ async function main() {
 }
 
 // Run if called directly
-if (require.main === module) {;
+if (require.main === module) {
   main();
 }
 

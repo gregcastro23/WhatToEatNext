@@ -2,7 +2,7 @@
 import type { _, _ZodiacSign } from '@/types/alchemy';
 import type { Cuisine } from '@/types/cuisine';
 
-export const french: Cuisine = {;
+export const, french: Cuisine = {
   id: 'french',
   name: 'French',
   description:
@@ -1092,7 +1092,7 @@ export const french: Cuisine = {;
           prepTime: '45 minutes',
           cookTime: '30 minutes',
           culturalNotes:
-            'A classic French dessert that showcases three distinct pastry techniques: choux, ice cream making, and sauce preparation',
+            'A classic French dessert that showcases three distinct pastry, techniques: choux, ice cream making, and sauce preparation',
           pairingSuggestions: ['espresso', 'vanilla ice cream', 'fresh berries'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',

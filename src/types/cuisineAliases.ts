@@ -267,7 +267,7 @@ export function normalizeCuisineName(cuisineName: string): string {
  * @returns True if the value is a primary cuisine type
  */
 export function isPrimaryCuisineType(value: string): value is PrimaryCuisineType {
-  return isValidPrimaryCuisine(value);
+  return isValidPrimaryCuisine(value)
 }
 
 // ========== EXPORT TYPES ==========;

@@ -85,20 +85,20 @@ export interface ValidationResult {
  * Deployment Manager class
  */
 export class DeploymentManager {
-  private config: UnintentionalAnyConfig;
-  private deploymentLog: string[],
+  private, config: UnintentionalAnyConfig
+  private, deploymentLog: string[],
   private currentPhase?: string,
 
   constructor(config?: UnintentionalAnyConfig) {
     this.config = config || environmentConfigManager.getConfig();
-    this.deploymentLog = [];
+    this.deploymentLog = []
   }
 
   /**
    * Execute complete deployment with all phases
    */
   async executeDeployment(phases: DeploymentPhase[]): Promise<DeploymentResult[]> {
-    const results: DeploymentResult[] = [];
+    const, results: DeploymentResult[] = [];
 
     this.log('Starting deployment automation');
     this.log(`Deploying ${phases.length} phases`);
@@ -144,7 +144,7 @@ export class DeploymentManager {
    */
   async executePhase(phase: DeploymentPhase): Promise<DeploymentResult> {
     const startTime = new Date();
-    const result: DeploymentResult = {;
+    const, result: DeploymentResult = {
       success: false,
       phase: phase.id,
       startTime,
@@ -190,7 +190,7 @@ export class DeploymentManager {
 
       // Check success criteria
       const criteriaResult = await this.checkSuccessCriteria(;
-        phase.successCriteria;
+        phase.successCriteria
         result.validationResults
       );
       result.success = criteriaResult.success;
@@ -228,7 +228,7 @@ export class DeploymentManager {
    */
   private async executeTask(task: DeploymentTask): Promise<void> {
     return new Promise((resolve, reject) => {
-      const process = spawn(task.command, task.args, {;
+      const process = spawn(task.command, task.args, {
         env: { ...process.env, ...task.environment },
         stdio: 'pipe'
       });
@@ -236,11 +236,11 @@ export class DeploymentManager {
       let output = '';
       let errorOutput = '';
 
-      process.stdout?.on('data', data => {;
+      process.stdout?.on('data', data => {
         output += data.toString();
       });
 
-      process.stderr?.on('data', data => {;
+      process.stderr?.on('data', data => {
         errorOutput += data.toString();
       });
 
@@ -249,7 +249,7 @@ export class DeploymentManager {
         reject(new Error(`Task ${task.name} timed out after ${task.timeout}ms`));
       }, task.timeout);
 
-      process.on('close', code => {;
+      process.on('close', code => {
         clearTimeout(timeout);
 
         if (code === 0) {;
@@ -259,7 +259,7 @@ export class DeploymentManager {
         }
       });
 
-      process.on('error', error => {;
+      process.on('error', error => {
         clearTimeout(timeout);
         reject(error);
       });
@@ -270,11 +270,11 @@ export class DeploymentManager {
    * Run validation checks
    */
   private async runValidationChecks(checks: ValidationCheck[]): Promise<ValidationResult[]> {
-    const results: ValidationResult[] = [];
+    const, results: ValidationResult[] = [];
 
     for (const check of checks) {
       const startTime = Date.now();
-      const result: ValidationResult = {;
+      const, result: ValidationResult = {
         checkId: check.id,
         checkName: check.name,
         success: false,
@@ -285,7 +285,7 @@ export class DeploymentManager {
       try {
         const output = await this.executeValidationCheck(check);
         result.output = output;
-        result.success = check.outputValidation ? check.outputValidation(output) : true;
+        result.success = check.outputValidation ? check.outputValidation(output) : true
       } catch (error) {
         result.error = String(error);
         result.success = false;
@@ -303,18 +303,18 @@ export class DeploymentManager {
    */
   private async executeValidationCheck(check: ValidationCheck): Promise<string> {
     return new Promise((resolve, reject) => {
-      const process = spawn(check.command, check.args, {;
+      const process = spawn(check.command, check.args, {
         stdio: 'pipe'
       });
 
       let output = '';
       let errorOutput = '';
 
-      process.stdout?.on('data', data => {;
+      process.stdout?.on('data', data => {
         output += data.toString();
       });
 
-      process.stderr?.on('data', data => {;
+      process.stderr?.on('data', data => {
         errorOutput += data.toString();
       });
 
@@ -323,7 +323,7 @@ export class DeploymentManager {
         reject(new Error(`Validation check ${check.name} timed out`));
       }, check.timeout);
 
-      process.on('close', code => {;
+      process.on('close', code => {
         clearTimeout(timeout);
 
         if (code === check.expectedExitCode) {;
@@ -335,7 +335,7 @@ export class DeploymentManager {
         }
       });
 
-      process.on('error', error => {;
+      process.on('error', error => {
         clearTimeout(timeout);
         reject(error);
       });
@@ -349,7 +349,7 @@ export class DeploymentManager {
     criteria: SuccessCriteria,
     validationResults: ValidationResult[],
   ): Promise<{ success: boolean, errors: string[] }> {
-    const errors: string[] = [];
+    const, errors: string[] = [];
 
     // Check build success
     if (criteria.buildSuccess) {
@@ -397,7 +397,7 @@ export class DeploymentManager {
     }
 
     return {
-      success: errors.length === 0,,;
+      success: errors.length === 0,,
       errors
     };
   }
@@ -576,7 +576,7 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
           {
             name: 'Configuration File Exists',
             validator: async () =>
-              existsSync('.kiro/campaign-configs/unintentional-any-elimination.json')
+              existsSync('.kiro/campaign-configs/unintentional-any-elimination.json');
           }
         ]
       }
@@ -591,7 +591,7 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
           id: 'run-integration-tests',
           name: 'Run Integration Tests',
           command: 'npm',
-          args: ['test', '--', '--testPathPattern=integration'],,;
+          args: ['test', '--', '--testPathPattern=integration'],,
           timeout: 300000,
           retries: 1,
           critical: true
@@ -616,7 +616,7 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
           name: 'Integration Test Validation',
           type: 'test',
           command: 'npm',
-          args: ['test', '--', '--testPathPattern=integration', '--passWithNoTests'],,;
+          args: ['test', '--', '--testPathPattern=integration', '--passWithNoTests'],,
           timeout: 300000,
           expectedExitCode: 0
         }
@@ -731,7 +731,7 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
                 const configManager = new ConfigurationManager();
                 const config = configManager.getConfig();
                 const validation = configManager.validateConfig();
-                return validation.isValid;
+                return validation.isValid
               } catch {
                 return false
               }

@@ -25,11 +25,11 @@ export interface RecipeRecommendationCriteria {
   /** Specific ingredients to include */
   includeIngredients?: string[];
   /** Specific ingredients to exclude */
-  excludeIngredients?: string[];
+  excludeIngredients?: string[]
   /** Planetary positions to consider for recommendation */
-  planetaryPositions?: Record<string, { sign: string; degree: number }>;
+  planetaryPositions?: Record<string, { sign: string, degree: number }>;
   /** Limit the number of recommendations */
-  limit?: number;
+  limit?: number
 }
 
 /**
@@ -49,7 +49,7 @@ export interface IngredientRecommendationCriteria {
   /** Season to consider for recommendation */
   season?: string;
   /** Limit the number of recommendations */
-  limit?: number;
+  limit?: number
 }
 
 /**
@@ -59,13 +59,13 @@ export interface CuisineRecommendationCriteria {
   /** Elemental properties to consider for recommendation */
   elementalProperties?: ElementalProperties;
   /** Minimum compatibility score for recommendations */
-  minCompatibility?: number;
+  minCompatibility?: number
   /** Planetary positions to consider for recommendation */
-  planetaryPositions?: Record<string, { sign: string; degree: number }>;
+  planetaryPositions?: Record<string, { sign: string, degree: number }>;
   /** Specific cuisines to exclude */
   excludeCuisines?: string[];
   /** Limit the number of recommendations */
-  limit?: number;
+  limit?: number
 }
 
 /**
@@ -75,13 +75,13 @@ export interface CookingMethodRecommendationCriteria {
   /** Elemental properties to consider for recommendation */
   elementalProperties?: ElementalProperties;
   /** Minimum compatibility score for recommendations */
-  minCompatibility?: number;
+  minCompatibility?: number
   /** Planetary positions to consider for recommendation */
-  planetaryPositions?: Record<string, { sign: string; degree: number }>;
+  planetaryPositions?: Record<string, { sign: string, degree: number }>;
   /** Specific cooking methods to exclude */
   excludeMethods?: string[];
   /** Limit the number of recommendations */
-  limit?: number;
+  limit?: number
 }
 
 /**
@@ -89,7 +89,7 @@ export interface CookingMethodRecommendationCriteria {
  */
 export interface RecommendationResult<T> {
   /** Recommended items */
-  items: T[];
+  items: T[]
   /** Compatibility scores for each recommended item */
   scores: { [key: string]: number };
   /** Additional context or explanation for recommendations */
@@ -105,33 +105,33 @@ export interface RecommendationServiceInterface {
    */
   getRecommendedRecipes(
     criteria: RecipeRecommendationCriteria,
-  ): Promise<RecommendationResult<Recipe>>;
+  ): Promise<RecommendationResult<Recipe>>
 
   /**
    * Get recommended ingredients based on criteria
    */
   getRecommendedIngredients(
     criteria: IngredientRecommendationCriteria,
-  ): Promise<RecommendationResult<Ingredient>>;
+  ): Promise<RecommendationResult<Ingredient>>
 
   /**
    * Get recommended cuisines based on criteria
    */
   getRecommendedCuisines(
     criteria: CuisineRecommendationCriteria,
-  ): Promise<RecommendationResult<string>>;
+  ): Promise<RecommendationResult<string>>
 
   /**
    * Get recommended cooking methods based on criteria
    */
   getRecommendedCookingMethods(
     criteria: CookingMethodRecommendationCriteria,
-  ): Promise<RecommendationResult<CookingMethod>>;
+  ): Promise<RecommendationResult<CookingMethod>>
 
   /**
    * Calculate compatibility score between elemental properties
    */
-  calculateElementalCompatibility(source: ElementalProperties, target: ElementalProperties): number;
+  calculateElementalCompatibility(source: ElementalProperties, target: ElementalProperties): number
 
   /**
    * Get recommendations based on elemental properties
@@ -140,16 +140,16 @@ export interface RecommendationServiceInterface {
     elementalProperties: ElementalProperties,
     type: 'recipe' | 'ingredient' | 'cuisine' | 'cookingMethod',
     limit?: number,
-  ): Promise<RecommendationResult<unknown>>;
+  ): Promise<RecommendationResult<unknown>>
 
   /**
    * Get recommendations based on planetary alignment
    */
   getRecommendationsForPlanetaryAlignment(
-    planetaryPositions: Record<string, { sign: string; degree: number }>,
+    planetaryPositions: Record<string, { sign: string, degree: number }>,
     type: 'recipe' | 'ingredient' | 'cuisine' | 'cookingMethod',
     limit?: number,
-  ): Promise<RecommendationResult<unknown>>;
+  ): Promise<RecommendationResult<unknown>>
 
   /**
    * Calculate thermodynamic metrics based on elemental properties

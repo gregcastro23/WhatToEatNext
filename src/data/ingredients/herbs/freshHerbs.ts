@@ -1,7 +1,7 @@
 import type { IngredientMapping } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawFreshHerbs = {;
+const rawFreshHerbs = {
   basil: {
     name: 'Basil',
     category: 'culinary_herb',
@@ -91,8 +91,7 @@ const rawFreshHerbs = {;
         chopping: 'tear by hand or cut with sharp knife just before using',
         preserving: 'freeze in oil, infuse in vinegar or oil, dry'
       },
-      notes:
-        'Turns black when cut with dull knife or exposed to acid for too long; add at end of cooking to preserve flavor'
+      notes: 'Turns black when cut with dull knife or exposed to acid for too long add at end of cooking to preserve flavor'
     },
 
     // Culinary applications (standardized)
@@ -281,7 +280,7 @@ const rawFreshHerbs = {;
 };
 
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
-export const freshHerbs = fixIngredientMappings(,;
+export const freshHerbs = fixIngredientMappings(,
   rawFreshHerbs as unknown as Record<string, Partial<IngredientMapping>>,
 );
 

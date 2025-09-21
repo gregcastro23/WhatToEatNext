@@ -16,7 +16,7 @@ export const TelemetryDev = {;
     deltas: MetricDelta,
     thermodynamics: Record<string, number>,
   ): void {
-    if (process.env.NODE_ENV === 'production') return;
+    if (process.env.NODE_ENV === 'production') return
     logger.debug('Telemetry: vector blend', { sign, alpha, deltas, thermodynamics });
   }
 };

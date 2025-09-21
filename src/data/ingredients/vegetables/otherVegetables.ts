@@ -1,7 +1,7 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawOtherVegetables = {;
+const rawOtherVegetables = {
   asparagus: {
     name: 'asparagus',
 
@@ -160,11 +160,11 @@ const rawOtherVegetables = {;
 
     qualities: ['nutritious'],
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic cucumber profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -225,11 +225,11 @@ const rawOtherVegetables = {;
 
     qualities: ['nutritious'],
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic okra profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -294,11 +294,11 @@ const rawOtherVegetables = {;
 
     qualities: ['nutritious'],
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic zucchini profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -359,11 +359,11 @@ const rawOtherVegetables = {;
 
     qualities: ['nutritious'],
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic peas profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -424,11 +424,11 @@ const rawOtherVegetables = {;
 
     qualities: ['nutritious'],
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic green_beans profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -489,11 +489,11 @@ const rawOtherVegetables = {;
 
     qualities: ['nutritious'],
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic celery profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -554,11 +554,11 @@ const rawOtherVegetables = {;
 
     qualities: ['nutritious'],
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic fennel profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -619,11 +619,11 @@ const rawOtherVegetables = {;
 
     qualities: ['nutritious'],
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic kohlrabi profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -684,11 +684,11 @@ const rawOtherVegetables = {;
 
     qualities: ['nutritious'],
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic bok_choy profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -749,11 +749,11 @@ const rawOtherVegetables = {;
 
     qualities: ['nutritious'],
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic endive profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -789,5 +789,5 @@ const rawOtherVegetables = {;
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-export const _otherVegetables: Record<string, IngredientMapping> =
+export const, _otherVegetables: Record<string, IngredientMapping> =
   fixIngredientMappings(rawOtherVegetables);

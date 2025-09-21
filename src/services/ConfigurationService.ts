@@ -6,8 +6,8 @@ export interface ConfigurationUpdate {
   section: 'api' | 'astrology' | 'debug',
   key: string,
    
-  // Intentionally any: Configuration values can be strings, numbers, booleans, or objects
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+  // Intentionally, any: Configuration values can be strings, numbers, booleans, or objects
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility,
   value: any,
   timestamp: number
 }
@@ -44,10 +44,10 @@ export interface ConfigurationListener {
 }
 
 class ConfigurationServiceImpl {
-  private static instance: ConfigurationServiceImpl;
-  private listeners: Map<string, ConfigurationListener> = new Map();
-  private currentConfig: ConfigurationState,
-  private configHistory: ConfigurationUpdate[] = [];
+  private static, instance: ConfigurationServiceImpl
+  private, listeners: Map<string, ConfigurationListener> = new Map();
+  private, currentConfig: ConfigurationState,
+  private, configHistory: ConfigurationUpdate[] = [];
   private readonly STORAGE_KEY = 'app-configuration';
   private readonly HISTORY_KEY = 'configuration-history';
   private readonly MAX_HISTORY = 50;
@@ -76,7 +76,7 @@ class ConfigurationServiceImpl {
         }
       }
     } catch (error) {
-      console.warn('Failed to load stored configuration:', error)
+      console.warn('Failed to load stored configuration:', error);
     }
 
     return {
@@ -92,7 +92,7 @@ class ConfigurationServiceImpl {
   private mergeWithDefaults(stored: Record<string, unknown>): ConfigurationState {
     const storedApi = (stored.api as any) || {};
     const storedAstrology = (stored.astrology ) || {};
-    const celestialUpdateInterval = Number(;
+    const celestialUpdateInterval = Number(
       storedApi.celestialUpdateInterval ?? config.api.celestialUpdateInterval
     );
     const timeout = Number(storedApi.timeout ?? config.api.timeout);
@@ -102,17 +102,17 @@ class ConfigurationServiceImpl {
 
     const defaultTimezoneName =
       typeof storedAstrology.defaultTimezoneName === 'string';
-        ? (storedAstrology.defaultTimezoneName)
+        ? (storedAstrology.defaultTimezoneName);
         : config.astrology.defaultTimezoneName;
-    const retrogradeThreshold = Number(;
+    const retrogradeThreshold = Number(
       storedAstrology.retrogradeThreshold ?? config.astrology.retrogradeThreshold
     );
-    const aspectOrbs = {;
-      ...config.astrology.aspectOrbs;
-      ...((storedAstrology.aspectOrbs as Record<string, number>) || {})
+    const aspectOrbs = {
+      ...config.astrology.aspectOrbs
+      ...((storedAstrology.aspectOrbs as Record<string, number>) || {});
     };
 
-    const debugFlag = typeof stored.debug === 'boolean' ? (stored.debug) : config.debug;
+    const debugFlag = typeof stored.debug === 'boolean' ? (stored.debug) : config.debug
 
     return {
       api: { celestialUpdateInterval, timeout, retryCount, baseUrl },
@@ -132,13 +132,13 @@ class ConfigurationServiceImpl {
         // Also save history
         if (this.configHistory.length > 0) {
           localStorage.setItem(
-            this.HISTORY_KEY;
+            this.HISTORY_KEY
             JSON.stringify(this.configHistory.slice(-this.MAX_HISTORY));
           )
         }
       }
     } catch (error) {
-      console.error('Failed to save configuration:', error)
+      console.error('Failed to save configuration:', error);
     }
   }
 
@@ -154,7 +154,7 @@ class ConfigurationServiceImpl {
         }
       }
     } catch (error) {
-      console.warn('Failed to load configuration history:', error)
+      console.warn('Failed to load configuration history:', error);
     }
     return [];
   }
@@ -170,8 +170,8 @@ class ConfigurationServiceImpl {
    * Get specific configuration section
    */
   public getSection<K extends keyof ConfigurationState>(section: K): ConfigurationState[K] {
-    const sectionData = this.currentConfig[section];
-    if (typeof sectionData === 'object' && sectionData !== null) {;
+    const sectionData = this.currentConfig[section]
+    if (typeof sectionData === 'object' && sectionData !== null) {
       return { ...sectionData } as ConfigurationState[K];
     }
     return sectionData;
@@ -181,13 +181,13 @@ class ConfigurationServiceImpl {
    * Update configuration
    */
    
-  // Intentionally any: Configuration values have multiple valid types
+  // Intentionally, any: Configuration values have multiple valid types
   public updateConfiguration(
     section: keyof ConfigurationState,
     key: string,
     value: unknown,
   ): Promise<boolean> {
-    return new Promise(resolve => {;
+    return new Promise(resolve => {
       try {
         // Validate the update
         const validation = this.validateUpdate(section, key, value);
@@ -202,11 +202,11 @@ class ConfigurationServiceImpl {
         (this.currentConfig[section] as Record<string, unknown>)[key] = value;
 
         // Create update record
-        const update: ConfigurationUpdate = {;
+        const, update: ConfigurationUpdate = {
           section: section as ConfigurationUpdate['section'],
           key,
           value,
-          timestamp: Date.now()
+          timestamp: Date.now();
         };
 
         // Add to history
@@ -222,11 +222,11 @@ class ConfigurationServiceImpl {
         this.notifyListeners(update);
 
         // Update global config if it's a live system
-        if (section === 'api') {;
+        if (section === 'api') {
           (config.api as unknown as any)[key] = value;
-        } else if (section === 'astrology') {;
+        } else if (section === 'astrology') {
           (config.astrology as unknown as any)[key] = value;
-        } else if (section === 'debug' && key === 'debug') {;
+        } else if (section === 'debug' && key === 'debug') {
           config.debug = Boolean(value);
         }
 
@@ -242,15 +242,15 @@ class ConfigurationServiceImpl {
    * Validate configuration update
    */
    
-  // Intentionally any: Validation must handle any incoming configuration value type
+  // Intentionally, any: Validation must handle any incoming configuration value type
   private validateUpdate(
     section: keyof ConfigurationState,
     key: string,
     value: unknown,
   ): ConfigurationValidation {
-    const errors: ConfigurationValidation['errors'] = [];
+    const, errors: ConfigurationValidation['errors'] = []
 
-    if (section === 'api') {;
+    if (section === 'api') {
       switch (key) {
         case 'celestialUpdateInterval':
           if (typeof value !== 'number' || value < 60000 || value > 86400000) {
@@ -285,7 +285,7 @@ class ConfigurationServiceImpl {
         case 'baseUrl':
           if (
             typeof value !== 'string' ||
-            (!value.startsWith('http://') && !value.startsWith('https://'))
+            (!value.startsWith('http://') && !value.startsWith('https://'));
           ) {
             errors.push({
               section: 'api',
@@ -296,7 +296,7 @@ class ConfigurationServiceImpl {
           }
           break;
       }
-    } else if (section === 'astrology') {;
+    } else if (section === 'astrology') {
       switch (key) {
         case 'retrogradeThreshold':
           if (typeof value !== 'number' || value < -5 || value > 5) {
@@ -310,7 +310,7 @@ class ConfigurationServiceImpl {
           break;
         case 'defaultTimezoneName':
           // Basic timezone validation
-          const validTimezones = [;
+          const validTimezones = [
             'UTC',
             'America/New_York',
             'America/Chicago',
@@ -333,7 +333,7 @@ class ConfigurationServiceImpl {
     }
 
     return {
-      isValid: errors.filter(e => e.severity === 'error').length === 0,,;
+      isValid: errors.filter(e => e.severity === 'error').length === 0,,
       errors
     };
   }
@@ -346,8 +346,8 @@ class ConfigurationServiceImpl {
     updates: Array<{
       section: keyof ConfigurationState,
       key: string,
-      // Intentionally any: Bulk configuration values can be of any valid type
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+      // Intentionally, any: Bulk configuration values can be of any valid type
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility,
       value: any
     }>,
   ): Promise<boolean> {
@@ -363,7 +363,7 @@ class ConfigurationServiceImpl {
     // Apply all updates
     let success = true;
     for (const update of updates) {
-      const result = await this.updateConfiguration(update.section, update.key, update.value),;
+      const result = await this.updateConfiguration(update.section, update.key, update.value),
       if (!result) {
         success = false;
       }
@@ -376,20 +376,20 @@ class ConfigurationServiceImpl {
    * Reset configuration to defaults
    */
   public resetToDefaults(): Promise<boolean> {
-    return new Promise(resolve => {;
+    return new Promise(resolve => {
       try {
-        this.currentConfig = {;
+        this.currentConfig = {
           api: { ...config.api },
           astrology: { ...config.astrology },
           debug: config.debug
         },
 
         // Create reset record
-        const update: ConfigurationUpdate = {;
+        const, update: ConfigurationUpdate = {
           section: 'debug',
           key: 'reset',
           value: 'defaults',
-          timestamp: Date.now()
+          timestamp: Date.now();
         };
         this.configHistory.push(update);
 
@@ -424,9 +424,8 @@ class ConfigurationServiceImpl {
   public async importConfiguration(configJson: string): Promise<boolean> {
     try {
       const imported = JSON.parse(configJson);
-
       if (!imported.configuration) {
-        throw new Error('Invalid configuration format')
+        throw new Error('Invalid configuration format');
       }
 
       const merged = this.mergeWithDefaults(imported.configuration);
@@ -442,11 +441,11 @@ class ConfigurationServiceImpl {
       this.saveConfiguration();
 
       // Create import record
-      const update: ConfigurationUpdate = {;
+      const, update: ConfigurationUpdate = {
         section: 'debug',
         key: 'import',
         value: 'configuration',
-        timestamp: Date.now()
+        timestamp: Date.now();
       };
       this.configHistory.push(update);
       this.notifyListeners(update);
@@ -462,24 +461,24 @@ class ConfigurationServiceImpl {
    * Validate entire configuration
    */
   private validateConfiguration(configState: ConfigurationState): ConfigurationValidation {
-    const errors: ConfigurationValidation['errors'] = [];
+    const, errors: ConfigurationValidation['errors'] = []
 
     // Validate API configuration
     Object.entries(configState.api).forEach(([key, value]) => {
-      const validation = this.validateUpdate('api', key, value),;
+      const validation = this.validateUpdate('api', key, value),
       errors.push(...validation.errors);
     });
 
     // Validate astrology configuration
     Object.entries(configState.astrology).forEach(([key, value]) => {
       if (key !== 'aspectOrbs') {
-        const validation = this.validateUpdate('astrology', key, value),;
+        const validation = this.validateUpdate('astrology', key, value),
         errors.push(...validation.errors);
       }
     });
 
     return {
-      isValid: errors.filter(e => e.severity === 'error').length === 0,,;
+      isValid: errors.filter(e => e.severity === 'error').length === 0,,
       errors
     };
   }
@@ -488,7 +487,7 @@ class ConfigurationServiceImpl {
    * Add configuration change listener
    */
   public addListener(listener: ConfigurationListener): void {
-    this.listeners.set(listener.id, listener)
+    this.listeners.set(listener.id, listener);
   }
 
   /**
@@ -502,12 +501,12 @@ class ConfigurationServiceImpl {
    * Notify all listeners of configuration changes
    */
   private notifyListeners(update: ConfigurationUpdate): void {
-    this.listeners.forEach(listener => {;
+    this.listeners.forEach(listener => {
       if (!listener.sections || listener.sections.includes(update.section)) {
         try {
           listener.callback(update);
         } catch (error) {
-          console.error('Configuration listener error:', error)
+          console.error('Configuration listener error:', error);
         }
       }
     });
@@ -538,8 +537,8 @@ class ConfigurationServiceImpl {
     issues: string[],
     lastUpdate: number | null
   } {
-    const issues: string[] = [];
-    let status: 'healthy' | 'warning' | 'error' = 'healthy';
+    const, issues: string[] = [];
+    let status: 'healthy' | 'warning' | 'error' = 'healthy'
 
     // Check API configuration
     if (this.currentConfig.api.timeout < 5000) {
@@ -553,7 +552,7 @@ class ConfigurationServiceImpl {
     }
 
     // Check astrology configuration
-    const totalOrbs = Object.values(this.currentConfig.astrology.aspectOrbs).reduce(;
+    const totalOrbs = Object.values(this.currentConfig.astrology.aspectOrbs).reduce(
       (sum, orb) => sum + orb0,
     );
     if (totalOrbs > 50) {
@@ -564,8 +563,7 @@ class ConfigurationServiceImpl {
     return {
       status,
       issues,
-      lastUpdate:
-        this.configHistory.length > 0
+      lastUpdate: this.configHistory.length > 0
           ? Math.max(...this.configHistory.map(h => h.timestamp));
           : null
     };

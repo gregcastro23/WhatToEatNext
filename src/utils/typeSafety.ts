@@ -11,7 +11,7 @@ export const isObject = (value: unknown): value is Record<string, unknown> => {;
 };
 
 export const isString = (value: unknown): value is string => {;
-  return typeof value === 'string';
+  return typeof value === 'string'
 };
 
 export const isNumber = (value: unknown): value is number => {;
@@ -23,58 +23,58 @@ export const isArray = (value: unknown): value is unknown[] => {;
 };
 
 export const isBoolean = (value: unknown): value is boolean => {;
-  return typeof value === 'boolean';
+  return typeof value === 'boolean'
 };
 
 // Safe property access utilities
-export const safeGet = <T = unknown>(;
+export const safeGet = <T = unknown>(
   obj: unknown,
   key: string,
   defaultValue?: T,
-): T | undefined => {;
+): T | undefined => {
   if (isObject(obj) && key in obj) {
     return obj[key] as T
   }
   return defaultValue;
 };
 
-export const safeGetString = (obj: unknown, key: string, defaultValue: string = ''): string => {;
-  const value = safeGet(obj, key),;
+export const safeGetString = (obj: unknown, key: string, defaultValue: string = ''): string => {
+  const value = safeGet(obj, key),
   return isString(value) ? value : defaultValue
 };
 
-export const safeGetNumber = (obj: unknown, key: string, defaultValue: number = 0): number => {;
-  const value = safeGet(obj, key),;
+export const safeGetNumber = (obj: unknown, key: string, defaultValue: number = 0): number => {
+  const value = safeGet(obj, key),
   return isNumber(value) ? value : defaultValue
 };
 
 export const safeGetBoolean = (;
   obj: unknown,
   key: string,
-  defaultValue: boolean = false;
-): boolean => {;
-  const value = safeGet(obj, key),;
+  defaultValue: boolean = false
+): boolean => {
+  const value = safeGet(obj, key),
   return isBoolean(value) ? value : defaultValue
 };
 
-export const safeGetArray = <T = unknown>(;
+export const safeGetArray = <T = unknown>(
   obj: unknown,
   key: string,
   defaultValue: T[] = []
 ): T[] => {
-  const value = safeGet(obj, key),;
+  const value = safeGet(obj, key),
   return isArray(value) ? (value as T[]) : defaultValue
 };
 
 // Safe type conversion utilities
 export const toSafeString = (value: unknown): string => {;
-  if (value === null || value === undefined) {;
+  if (value === null || value === undefined) {
     return ''
   }
   return String(value);
 };
 
-export const toSafeNumber = (value: unknown): number => {;
+export const toSafeNumber = (value: unknown): number => {
   if (isNumber(value)) {
     return value
   }
@@ -85,7 +85,7 @@ export const toSafeNumber = (value: unknown): number => {;
   return 0;
 };
 
-export const toSafeBoolean = (value: unknown): boolean => {;
+export const toSafeBoolean = (value: unknown): boolean => {
   if (isBoolean(value)) {
     return value
   }
@@ -99,7 +99,7 @@ export const toSafeBoolean = (value: unknown): boolean => {;
 };
 
 // Safe array operations
-export const safeMap = <TR>(,;
+export const safeMap = <TR>(,
   array: unknown,
   mapper: (item: T, index: number) => R,
   defaultValue: R[] = [],
@@ -108,14 +108,14 @@ export const safeMap = <TR>(,;
     return defaultValue
   }
   try {
-    return array.map((item, index) => mapper(item as T, index))
+    return array.map((item, index) => mapper(item as T, index));
   } catch (error) {
     console.warn('Safe map operation failed:', error),
     return defaultValue
   }
 };
 
-export const safeFilter = <T>(;
+export const safeFilter = <T>(
   array: unknown,
   predicate: (item: T, index: number) => boolean,
   defaultValue: T[] = [],
@@ -137,7 +137,7 @@ export const safeCall = <TR>(fn: unknown, args: T[] = [], defaultValue?: R): R |
     try {
       return fn(...args);
     } catch (error) {
-      console.warn('Safe function call failed:', error)
+      console.warn('Safe function call failed:', error);
     }
   }
   return defaultValue;
@@ -145,17 +145,17 @@ export const safeCall = <TR>(fn: unknown, args: T[] = [], defaultValue?: R): R |
 
 // Validation utilities
 export const validateRequired = <T>(value: T | null | undefined, fieldName: string): T => {;
-  if (value === null || value === undefined) {;
+  if (value === null || value === undefined) {
     throw new Error(`Required field '${fieldName}' is missing`);
   }
   return value;
 };
 
-export const validateType = <T>(;
+export const validateType = <T>(
   value: unknown,
   validator: (val: unknown) => val is T,
   fieldName: string,
-): T => {;
+): T => {
   if (!validator(value)) {
     throw new Error(`Field '${fieldName}' has invalid type`);
   }
@@ -166,12 +166,12 @@ export const validateType = <T>(;
 export const isElementalProperties = (value: unknown): value is Record<string, number> => {;
   if (!isObject(value)) return false;
 
-  const requiredElements = ['Fire', 'Water', 'Earth', 'Air'],;
+  const requiredElements = ['Fire', 'Water', 'Earth', 'Air'],
   return requiredElements.every(element => element in value && isNumber(value[element]));
 };
 
 // Planet position type guards
-export const isPlanetPosition = (;
+export const isPlanetPosition = (
   value: unknown,
 ): value is {
   sign: string,
@@ -187,12 +187,12 @@ export const isPlanetPosition = (;
     'degree' in value &&
     isNumber(value.degree) &&
     'exactLongitude' in value &&
-    isNumber(value.exactLongitude)
+    isNumber(value.exactLongitude);
   )
 };
 
 // Cooking method type guards
-export const isCookingMethod = (;
+export const isCookingMethod = (
   value: unknown,
 ): value is {
   id: string,
@@ -205,20 +205,20 @@ export const isCookingMethod = (;
 };
 
 // Safe casting utilities with validation
-export const safeCast = <T>(;
+export const safeCast = <T>(
   value: unknown,
   validator: (val: unknown) => val is T,
   defaultValue: T,
-): T => {;
+): T => {
   return validator(value) ? value : defaultValue
 };
 
-export const safeCastWithWarning = <T>(;
+export const safeCastWithWarning = <T>(
   value: unknown,
   validator: (val: unknown) => val is T,
   defaultValue: T,
   context: string,
-): T => {;
+): T => {
   if (validator(value)) {
     return value
   }
@@ -227,13 +227,13 @@ export const safeCastWithWarning = <T>(;
 };
 
 // Error boundary utilities
-export const withErrorBoundary = <TR>(,;
+export const withErrorBoundary = <TR>(,
   operation: () => T,
   fallback: R,
   context?: string,
-): T | R => {;
+): T | R => {
   try {
-    return operation()
+    return operation();
   } catch (error) {
     if (context) {
       console.warn(`Operation failed in ${context}:`, error);
@@ -243,13 +243,13 @@ export const withErrorBoundary = <TR>(,;
 };
 
 // Async error boundary utilities
-export const withAsyncErrorBoundary = async <TR>(,;
+export const withAsyncErrorBoundary = async <TR>(,
   operation: () => Promise<T>,
   fallback: R,
   context?: string,
 ): Promise<T | R> => {
   try {
-    return await operation()
+    return await operation();
   } catch (error) {
     if (context) {
       console.warn(`Async operation failed in ${context}:`, error);

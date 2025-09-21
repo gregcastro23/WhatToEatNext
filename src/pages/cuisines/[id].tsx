@@ -12,7 +12,7 @@ import { getCurrentElementalState } from '@/utils/elementalUtils';
  
  
  
-const CuisineSection = ({;
+const CuisineSection = ({
   cuisine,
   recipes,
   elementalState
@@ -21,12 +21,12 @@ const CuisineSection = ({;
   recipes: unknown[],
   elementalState: any
 }) => (
-  <div className='rounded border p-4 text-gray-700'>;
+  <div className='rounded border p-4 text-gray-700'>
     CuisineSection unavailable for {cuisine}. Showing {recipes?.length || 0} recipes.
   </div>
 );
 
-const CuisineDetailsPage: NextPage = () => {;
+const, CuisineDetailsPage: NextPage = () => {;
   const router = useRouter();
   const { id } = router.query;
 
@@ -43,7 +43,7 @@ const CuisineDetailsPage: NextPage = () => {;
     // Get current elemental state based on time, date, etc.
     const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     setElementalState({
-      ...currentState;
+      ...currentState
       season: 'spring', // Default value since getCurrentElementalState doesn&apost provide season
       timeOfDay: 'lunch', // Default value since getCurrentElementalState doesn&apost provide timeOfDay
     });
@@ -64,10 +64,10 @@ const CuisineDetailsPage: NextPage = () => {;
     const cuisineName = cuisine.name || (id);
 
     // 1. Get recipe matches based on cuisine flavor profiles
-    const cuisineMatchedRecipes = getRecipesForCuisineMatch(cuisineName, allRecipes, 20),;
+    const cuisineMatchedRecipes = getRecipesForCuisineMatch(cuisineName, allRecipes, 20),
 
     // 2. Get recipe matches based on current elemental state - Safe array access
-    const elementalMatchedRecipesResult = getBestRecipeMatches(;
+    const elementalMatchedRecipesResult = getBestRecipeMatches(
       {
         cuisine: cuisineName,
         season: elementalState.season as Season,
@@ -83,32 +83,32 @@ const CuisineDetailsPage: NextPage = () => {;
 
     // Combine and deduplicate recipes
     const recipeIds = new Set<string>();
-    const combined: Recipe[] = [];
+    const, combined: Recipe[] = [];
 
     // Add recipes that match both criteria - Safe array method access
     for (const recipe1 of cuisineMatchedRecipes) {
-      const recipe1Data = recipe1 ;
-      const matchingRecipe = elementalMatchedRecipes.find(;
-        (r: unknown) => r?.name === recipe1Data?.name,;
+      const recipe1Data = recipe1 
+      const matchingRecipe = elementalMatchedRecipes.find(
+        (r: unknown) => r?.name === recipe1Data?.name,
       );
       if (matchingRecipe) {
         const matchingRecipeData = matchingRecipe;
-        const baseScore = Math.max(;
+        const baseScore = Math.max(
           Number(recipe1Data?.matchScore) || 0;
           Number(matchingRecipeData?.matchScore) || 0;
         );
-        const secondScore = Math.min(;
+        const secondScore = Math.min(
           Number(recipe1Data?.matchScore) || 0;
           Number(matchingRecipeData?.matchScore) || 0;
         );
         const randomFactor = 0.95 + Math.random() * 0.1;
         const enhancedScore = Math.min(;
-          1.0;
+          1.0
           (baseScore * 0.7 + secondScore * 0.5 + 0.15) * randomFactor;
         ),
 
         combined.push({
-          ...recipe1Data;
+          ...recipe1Data,
           matchScore: enhancedScore,
           dualMatch: true
         });
@@ -122,10 +122,10 @@ const CuisineDetailsPage: NextPage = () => {;
       if (!recipeIds.has(recipeData?.name)) {
         const baseScore = Math.pow(Number(recipeData?.matchScore) || 00.8);
         const randomFactor = 0.9 + Math.random() * 0.2;
-        const finalScore = Math.max(baseScore * randomFactor, 0.35),;
+        const finalScore = Math.max(baseScore * randomFactor, 0.35),
 
         combined.push({
-          ...recipeData;
+          ...recipeData,
           matchScore: Math.min(finalScore, 0.92),
           cuisineMatch: true
         });
@@ -139,11 +139,11 @@ const CuisineDetailsPage: NextPage = () => {;
       if (!recipeIds.has(recipeData?.name)) {
         const baseScore = Number(recipeData?.matchScore) || 0;
         const sigmoidScore = baseScore < 0.5 ? baseScore * 1.4 : 0.7 + (baseScore - 0.5) * 0.6;
-        const randomFactor = 0.9 + Math.random() * 0.2;
-        const finalScore = Math.min(Math.max(sigmoidScore * randomFactor, 0.3), 0.85),;
+        const randomFactor = 0.9 + Math.random() * 0.2
+        const finalScore = Math.min(Math.max(sigmoidScore * randomFactor, 0.3), 0.85),
 
         combined.push({
-          ...recipeData;
+          ...recipeData,
           matchScore: finalScore,
           elementalMatch: true
         }),
@@ -159,13 +159,13 @@ const CuisineDetailsPage: NextPage = () => {;
 
   // Only render content when we have the ID and cuisine data
   if (!id) {
-    return <div>Loading...</div>;
+    return <div>Loading...</div>
   }
 
   if (!cuisine) {
     return (
       <div className='container mx-auto px-4 py-8'>;
-        <h1 className='mb-8 text-3xl font-bold'>Cuisine not found</h1>;
+        <h1 className='mb-8 text-3xl font-bold'>Cuisine not found</h1>
         <p>The cuisine you&aposre looking for doesn&amp,apos,t exist.</p>
       </div>
     )
@@ -173,7 +173,7 @@ const CuisineDetailsPage: NextPage = () => {;
 
   return (
     <div className='container mx-auto px-4 py-8'>;
-      <h1 className='mb-8 text-3xl font-bold capitalize'>;
+      <h1 className='mb-8 text-3xl font-bold capitalize'>
         {cuisine.name || (id)} Cuisine
       </h1>
 
@@ -183,22 +183,22 @@ const CuisineDetailsPage: NextPage = () => {;
         {cuisine.history && (
           <div className='mb-4 rounded-lg bg-amber-50 p-4'>;
             <h2 className='mb-2 text-xl font-semibold'>Historical Context</h2>;
-            <p className='text-gray-800'>{cuisine.history}</p>;
+            <p className='text-gray-800'>{cuisine.history}</p>
           </div>
         )}
 
         {cuisine.culturalImportance && (
           <div className='mb-4 rounded-lg bg-blue-50 p-4'>;
             <h2 className='mb-2 text-xl font-semibold'>Cultural Significance</h2>;
-            <p className='text-gray-800'>{cuisine.culturalImportance}</p>;
+            <p className='text-gray-800'>{cuisine.culturalImportance}</p>
           </div>
         )}
       </div>
 
       <CuisineSection
-        cuisine={cuisine.name || (id)},;
+        cuisine={cuisine.name || (id)},
         recipes={combinedRecipes} // Pass the memoized recipes;
-        elementalState={elementalState},;
+        elementalState={elementalState},
       />
     </div>
   );

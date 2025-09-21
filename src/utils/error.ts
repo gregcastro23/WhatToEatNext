@@ -10,12 +10,12 @@ export class AppError extends Error {
 }
 
 export function isAppError(error: unknown): error is AppError {
-  return error instanceof AppError;
+  return error instanceof AppError
 }
 
 export function handleError(error: unknown): AppError {
   if (isAppError(error)) {
-    return error;
+    return error
   }
 
   if (error instanceof Error) {

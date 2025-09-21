@@ -13,30 +13,30 @@ import { recipeData } from './recipeData';
 export interface CelestialData {
   sun?: {
     sign?: string;
-    degree?: number;
-    exactLongitude?: number;
+    degree?: number
+    exactLongitude?: number
   };
   moon?: {
     sign?: string;
     degree?: number;
-    exactLongitude?: number;
+    exactLongitude?: number
   };
   // Include elemental values
   Fire?: number;
   Water?: number;
   Earth?: number;
   Air?: number;
-  [key: string]: unknown; // Allow other properties
+  [key: string]: unknown // Allow other properties
 }
 
 interface InitializationResult {
-  success: boolean;
+  success: boolean
   data?: {
     recipes: ScoredRecipe[],
     favorites: string[],
     celestialData: CelestialData
   };
-  error?: string;
+  error?: string
 }
 
 class InitializationService {
@@ -48,7 +48,7 @@ class InitializationService {
 
   async initialize(): Promise<InitializationResult> {
     if (this.isInitializing) {
-      return this.initPromise ?? Promise.reject(new Error('Initialization promise not found'));
+      return this.initPromise ?? Promise.reject(new Error('Initialization promise not found'))
     }
 
     this.isInitializing = true;
@@ -95,7 +95,7 @@ class InitializationService {
       }
 
       // Validate final state - only using properties that exist in AlchemicalState
-      const isValid = stateValidator.validateState({;
+      const isValid = stateValidator.validateState({
         celestialPositions: this.formatCelestialData(celestialData),
         elementalPreference,
         currentSeason: this.getCurrentSeason(),
@@ -164,7 +164,7 @@ class InitializationService {
     try {
       const recipes = await recipeData.getAllRecipes();
       if (!recipes.every(recipe => stateValidator.validateRecipe(recipe))) {;
-        throw new Error('Invalid recipe data received');
+        throw new Error('Invalid recipe data received')
       }
       return recipes;
     } catch (error) {
@@ -189,7 +189,7 @@ class InitializationService {
       const alignment = celestialCalculator.calculateCurrentInfluences();
 
       // Convert CelestialAlignment to CelestialData format with safe property access
-      const alignmentData = alignment as any;
+      const alignmentData = alignment as any
       return {
         sun: alignmentData?.sun || { sign: '', degree: 0, exactLongitude: 0 },
         moon: alignmentData?.moon || { sign: '', degree: 0, exactLongitude: 0 },
@@ -205,7 +205,7 @@ class InitializationService {
   }
 
   private processRecipes(recipes: Recipe[], celestialData: CelestialData): ScoredRecipe[] {
-    return recipes.map(recipe => ({;
+    return recipes.map(recipe => ({
       ...recipe,
       score: this.calculateRecipeScore(recipe, celestialData)
     }));
@@ -231,7 +231,7 @@ class InitializationService {
     if (month >= 2 && month <= 4) return 'spring';
     if (month >= 5 && month <= 7) return 'summer';
     if (month >= 8 && month <= 10) return 'autumn';
-    return 'winter';
+    return 'winter'
   }
 
   private formatCelestialData(celestialData: CelestialData) {
@@ -254,7 +254,7 @@ class InitializationService {
     if (hour >= 5 && hour < 12) return 'morning';
     if (hour >= 12 && hour < 17) return 'afternoon';
     if (hour >= 17 && hour < 21) return 'evening';
-    return 'night';
+    return 'night'
   }
 
   reset() {

@@ -22,31 +22,31 @@ export interface Ingredient {
     | string
     | {
         container?: string;
-        duration: string;
+        duration: string
         temperature?:
           | string
           | {
               fahrenheit: number,
               celsius: number
             };
-        notes?: string;
+        notes?: string
       };
 
   // Astrological profile
   energyProfile?: {
     zodiac?: any[];
-    lunar?: LunarPhase[];
-    planetary?: PlanetaryAlignment[];
+    lunar?: LunarPhase[]
+    planetary?: PlanetaryAlignment[]
   };
 
   // Alternative astrological profile format (for compatibility)
   astrologicalProfile?: {
     elementalAffinity?: {
       base: string;
-      secondary?: string;
+      secondary?: string
     };
     rulingPlanets?: string[];
-    zodiacAffinity?: string[];
+    zodiacAffinity?: string[]
   };
 
   // Core properties
@@ -55,7 +55,7 @@ export interface Ingredient {
   sensoryProfile?: SensoryProfile;
   alchemicalProperties?: AlchemicalProperties;
   thermodynamicProperties?: ThermodynamicProperties;
-  recommendedCookingMethods?: CookingMethod[];
+  recommendedCookingMethods?: CookingMethod[]
 
   // Pairing recommendations
   pairingRecommendations?: {
@@ -70,7 +70,7 @@ export interface Ingredient {
     protein: number,
     carbs: number,
     fat: number,
-    fiber?: number;
+    fiber?: number
     vitamins?: { [key: string]: number };
     minerals?: { [key: string]: number };
   };
@@ -78,7 +78,7 @@ export interface Ingredient {
   // Additional properties for compatibility
   origin?: string[];
   subCategory?: string;
-  seasonality?: string[];
+  seasonality?: string[]
   varieties?: Record<string, unknown>;
 
   // Allow additional properties for extensibility

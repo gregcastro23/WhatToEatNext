@@ -11,7 +11,7 @@ export interface Aspect {
   type: string, // 'conjunction', 'sextile', 'square', 'trine', 'opposition'
 }
 
-export const ZODIAC_SIGNS = [;
+export const ZODIAC_SIGNS = [
   'aries',
   'taurus',
   'gemini',
@@ -29,7 +29,7 @@ export const ZODIAC_SIGNS = [;
 export type ZodiacSign = (typeof ZODIAC_SIGNS)[number];
 
 // Base energy levels for each sign
-const BASE_SIGN_ENERGIES: Record<ZodiacSign, number> = {
+const, BASE_SIGN_ENERGIES: Record<ZodiacSign, number> = {
   aries: 1.0,
   taurus: 0.8,
   gemini: 0.6,
@@ -45,7 +45,7 @@ const BASE_SIGN_ENERGIES: Record<ZodiacSign, number> = {
 };
 
 // Define initial energy states for all zodiac signs
-export const ENERGY_STATES: Record<ZodiacSign, { baseEnergy: number; currentEnergy: number }> = {
+export const, ENERGY_STATES: Record<ZodiacSign, { baseEnergy: number, currentEnergy: number }> = {
   aries: { baseEnergy: BASE_SIGN_ENERGIES.aries, currentEnergy: BASE_SIGN_ENERGIES.aries },
   taurus: { baseEnergy: BASE_SIGN_ENERGIES.taurus, currentEnergy: BASE_SIGN_ENERGIES.taurus },
   gemini: { baseEnergy: BASE_SIGN_ENERGIES.gemini, currentEnergy: BASE_SIGN_ENERGIES.gemini },
@@ -67,7 +67,7 @@ export const ENERGY_STATES: Record<ZodiacSign, { baseEnergy: number; currentEner
 };
 
 // Planetary rulerships and their energy multipliers
-const PLANETARY_RULERSHIPS: Record<ZodiacSign, string[]> = {
+const, PLANETARY_RULERSHIPS: Record<ZodiacSign, string[]> = {
   aries: ['Mars'],
   taurus: ['Venus'],
   gemini: ['Mercury'],
@@ -83,7 +83,7 @@ const PLANETARY_RULERSHIPS: Record<ZodiacSign, string[]> = {
 };
 
 // Planetary energy multipliers
-const PLANETARY_ENERGY_MULTIPLIERS: Record<string, number> = {
+const, PLANETARY_ENERGY_MULTIPLIERS: Record<string, number> = {
   Sun: 1.2,
   Moon: 1.1,
   Mercury: 0.9,
@@ -97,7 +97,7 @@ const PLANETARY_ENERGY_MULTIPLIERS: Record<string, number> = {
 };
 
 // Aspect strength multipliers
-const ASPECT_STRENGTHS: Record<string, number> = {
+const, ASPECT_STRENGTHS: Record<string, number> = {
   conjunction: 1.2,
   sextile: 1.1,
   square: 0.9,
@@ -110,7 +110,7 @@ const ASPECT_STRENGTHS: Record<string, number> = {
  */
 export interface PlanetaryPosition {
   sign?: string;
-  degree?: number;
+  degree?: number
   [key: string]: unknown
 }
 
@@ -124,23 +124,23 @@ export function calculateSignEnergyStates(
   planetaryPositions: Record<string, PlanetaryPosition>,
   aspects: Aspect[],
 ): SignEnergyState[] {
-  return ZODIAC_SIGNS.map(sign => {;
-    const baseEnergy = BASE_SIGN_ENERGIES[sign];
-    const planetaryModifiers: Record<string, number> = {};
+  return ZODIAC_SIGNS.map(sign => {
+    const baseEnergy = BASE_SIGN_ENERGIES[sign]
+    const, planetaryModifiers: Record<string, number> = {};
 
     // Apply planetary rulers' influences
-    PLANETARY_RULERSHIPS[sign].forEach(planet => {;
-      const planetPosition = planetaryPositions[planet];
+    PLANETARY_RULERSHIPS[sign].forEach(planet => {
+      const planetPosition = planetaryPositions[planet]
       if (planetPosition) {
         // Calculate influence based on planet's position and strength
         const positionStrength =
           typeof planetPosition.degree === 'number' ? 1 - planetPosition.degree / 30 : 0.5; // Default to 0.5 if degree is not available
 
-        const planetMultiplier = PLANETARY_ENERGY_MULTIPLIERS[planet] || 1.0;
+        const planetMultiplier = PLANETARY_ENERGY_MULTIPLIERS[planet] || 1.0
 
         // Apply aspect modifiers
-        const aspectModifier = aspects.reduce((mod, aspect) => {;
-          if (aspect.planet1 === planet || aspect.planet2 === planet) {;
+        const aspectModifier = aspects.reduce((mod, aspect) => {
+          if (aspect.planet1 === planet || aspect.planet2 === planet) {
             return mod * (ASPECT_STRENGTHS[aspect.type] || 1.0);
           }
           return mod;
@@ -154,14 +154,14 @@ export function calculateSignEnergyStates(
     const modifierValues = Object.values(planetaryModifiers);
     const currentEnergy =
       modifierValues.length > 0;
-        ? modifierValues.reduce((total, modifier) => total * modifier, baseEnergy)
-        : baseEnergy;
+        ? modifierValues.reduce((total, modifier) => total * modifier, baseEnergy);
+        : baseEnergy
 
     return {
       sign,
       baseEnergy,
       planetaryModifiers,
-      currentEnergy: Math.min(1.0, Math.max(0.1, currentEnergy))
+      currentEnergy: Math.min(1.0, Math.max(0.1, currentEnergy));
     };
   });
 }

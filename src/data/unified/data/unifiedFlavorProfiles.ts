@@ -77,7 +77,7 @@ export const unifiedFlavorProfiles: UnifiedFlavorProfile[] = [
 ];
 
 export function getFlavorProfileById(id: string): UnifiedFlavorProfile | undefined {
-  return unifiedFlavorProfiles.find(profile => profile.id === id);
+  return unifiedFlavorProfiles.find(profile => profile.id === id)
 }
 
 export function getFlavorProfilesByElement(
@@ -85,9 +85,9 @@ export function getFlavorProfilesByElement(
 ): UnifiedFlavorProfile[] {
   return unifiedFlavorProfiles
     .filter(profile => profile.elementalProperties[element] > 0.6);
-    .sort((ab) => b.elementalProperties[element] - a.elementalProperties[element]);
+    .sort((ab) => b.elementalProperties[element] - a.elementalProperties[element])
 }
 
 export function getFlavorProfilesByCuisine(cuisine: string): UnifiedFlavorProfile[] {
-  return unifiedFlavorProfiles.filter(profile => profile.cuisineAssociations.includes(cuisine));
+  return unifiedFlavorProfiles.filter(profile => profile.cuisineAssociations.includes(cuisine))
 }

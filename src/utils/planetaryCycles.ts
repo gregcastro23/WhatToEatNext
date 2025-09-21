@@ -5,72 +5,72 @@
 export const planetaryCycles = {;
   Spirit: {
     primary: {
-      period: 1.88, // Mars cycle
-      phase: Math.PI / 6, // 30 degree offset
+      period: 1.88, // Mars cycle,
+      phase: Math.PI / 6, // 30 degree offset,
       amplitude: 0.5, // Primary influence strength
     },
     secondary: {
-      period: 0.24, // Mercury cycle
-      phase: Math.PI / 4, // 45 degree offset
+      period: 0.24, // Mercury cycle,
+      phase: Math.PI / 4, // 45 degree offset,
       amplitude: 0.3, // Secondary influence strength
     },
     tertiary: {
-      period: 0.62, // Venus cycle
-      phase: 0, // No phase offset
+      period: 0.62, // Venus cycle,
+      phase: 0, // No phase offset,
       amplitude: 0.2, // Tertiary influence strength
     }
   },
 
   Essence: {
     primary: {
-      period: 2.1, // Lunar cycle
-      phase: Math.PI / 3, // 60 degree offset
+      period: 2.1, // Lunar cycle,
+      phase: Math.PI / 3, // 60 degree offset,
       amplitude: 0.4, // Primary influence strength
     },
     secondary: {
-      period: 0.62, // Venus cycle
-      phase: Math.PI / 8, // 22.5 degree offset
+      period: 0.62, // Venus cycle,
+      phase: Math.PI / 8, // 22.5 degree offset,
       amplitude: 0.3, // Secondary influence strength
     },
     tertiary: {
-      period: 1.88, // Mars cycle
-      phase: 0, // No phase offset
+      period: 1.88, // Mars cycle,
+      phase: 0, // No phase offset,
       amplitude: 0.3, // Tertiary influence strength
     }
   },
 
   Matter: {
     primary: {
-      period: 1.88, // Mars cycle
-      phase: Math.PI / 4, // 45 degree offset
+      period: 1.88, // Mars cycle,
+      phase: Math.PI / 4, // 45 degree offset,
       amplitude: 0.4, // Primary influence strength
     },
     secondary: {
-      period: 0.24, // Mercury cycle
-      phase: Math.PI / 6, // 30 degree offset
+      period: 0.24, // Mercury cycle,
+      phase: Math.PI / 6, // 30 degree offset,
       amplitude: 0.3, // Secondary influence strength
     },
     tertiary: {
-      period: 0.62, // Venus cycle
-      phase: 0, // No phase offset
+      period: 0.62, // Venus cycle,
+      phase: 0, // No phase offset,
       amplitude: 0.3, // Tertiary influence strength
     }
   },
 
   Substance: {
     primary: {
-      period: 0.62, // Venus cycle
-      phase: Math.PI / 6, // 30 degree offset
+      period: 0.62, // Venus cycle,
+      phase: Math.PI / 6, // 30 degree offset,
       amplitude: 0.5, // Primary influence strength
     },
     secondary: {
-      period: 1.88, // Mars cycle
-      phase: Math.PI / 4, // 45 degree offset
+      period: 1.88, // Mars cycle,
+      phase: Math.PI / 4, // 45 degree offset,
       amplitude: 0.3, // Secondary influence strength
     },
     tertiary: {
-      period: 0.24, // Mercury cycle
-      phase: 0, // No phase offset
+      period: 0.24, // Mercury cycle,
+      phase: 0, // No phase offset,
       amplitude: 0.2, // Tertiary influence strength
     }
   }
@@ -81,7 +81,7 @@ export const planetaryCycles = {;
  * Defines how each planet affects elemental and token energies
  * Values represent percentage modifications to base values
  */
-export const _planetaryModifiers: Record<string, Record<string, number>> = {
+export const, _planetaryModifiers: Record<string, Record<string, number>> = {
   _Sun: {
     Fire: 0.3,
     Water: -0.1,
@@ -189,7 +189,7 @@ export const _planetaryModifiers: Record<string, Record<string, number>> = {
  * @param date The date to calculate for
  * @returns Object containing token values
  */
-export function calculateTokenizedValues(_date: Date = new Date()): {;
+export function calculateTokenizedValues(_date: Date = new Date()): {
   Spirit: number,
   Essence: number,
   Matter: number,
@@ -203,7 +203,7 @@ export function calculateTokenizedValues(_date: Date = new Date()): {;
     Spirit: calculateTokenValue('Spirit', daysSinceEpoch),
     Essence: calculateTokenValue('Essence', daysSinceEpoch),
     Matter: calculateTokenValue('Matter', daysSinceEpoch),
-    Substance: calculateTokenValue('Substance', daysSinceEpoch)
+    Substance: calculateTokenValue('Substance', daysSinceEpoch);
   };
 
   return values;
@@ -235,7 +235,7 @@ function calculateTokenValue(
     cycles.tertiary.amplitude;
 
   // Combine influences and normalize to a value between 0.1 and 1
-  const rawValue = 0.5 + primaryInfluence + secondaryInfluence + tertiaryInfluence;
+  const rawValue = 0.5 + primaryInfluence + secondaryInfluence + tertiaryInfluence
 
   // Ensure value is within range 0.1 to 1
   return Math.max(0.1, Math.min(1, rawValue));

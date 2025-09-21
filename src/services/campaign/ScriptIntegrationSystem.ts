@@ -21,7 +21,7 @@ export interface ScriptExecutionOptions {
   showMetrics?: boolean;
   json?: boolean;
   silent?: boolean;
-  resetMetrics?: boolean;
+  resetMetrics?: boolean
 }
 
 export interface ScriptExecutionResult {
@@ -34,7 +34,7 @@ export interface ScriptExecutionResult {
   warningsFixed: number,
   executionTime: number,
   safetyEvents: SafetyEvent[],
-  metrics?: ScriptMetrics;
+  metrics?: ScriptMetrics
 }
 
 export interface SafetyEvent {
@@ -42,7 +42,7 @@ export interface SafetyEvent {
   timestamp: Date,
   description: string,
   severity: 'low' | 'medium' | 'high' | 'critical',
-  recoveryAction?: string;
+  recoveryAction?: string
 }
 
 export interface ScriptMetrics {
@@ -68,8 +68,8 @@ export interface ScriptConfig {
  * Script Integration System for Campaign Execution Framework
  */
 export class ScriptIntegrationSystem {
-  private readonly scriptsBasePath: string;
-  private readonly scriptConfigs: Map<string, ScriptConfig>;
+  private readonly, scriptsBasePath: string
+  private readonly, scriptConfigs: Map<string, ScriptConfig>;
 
   constructor(scriptsBasePath: string = 'scripts') {;
     this.scriptsBasePath = scriptsBasePath;
@@ -148,7 +148,7 @@ export class ScriptIntegrationSystem {
    */
   async executeScript(
     scriptId: string,
-    options: ScriptExecutionOptions = {},;
+    options: ScriptExecutionOptions = {},
   ): Promise<ScriptExecutionResult> {
     const config = this.scriptConfigs.get(scriptId);
     if (!config) {
@@ -177,12 +177,12 @@ export class ScriptIntegrationSystem {
     // // // console.log(`📝 Command: ${command}`);
 
     const startTime = Date.now();
-    let result: ScriptExecutionResult;
+    let, result: ScriptExecutionResult
 
     try {
-      const output = execSync(command, {;
+      const output = execSync(command, {
         encoding: 'utf8',
-        timeout: 300000, // 5 minute timeout
+        timeout: 300000, // 5 minute timeout,
         maxBuffer: 10 * 1024 * 1024, // 10MB buffer
       });
 
@@ -191,7 +191,7 @@ export class ScriptIntegrationSystem {
     } catch (error: unknown) {
       const executionTime = Date.now() - startTime;
       const stdout = error.stdout || '';
-      const stderr = error.stderr || error.message || '';
+      const stderr = error.stderr || error.message || ''
 
       result = this.parseExecutionOutput(stdout + stderr, executionTime, false, error.status || 1);
     }
@@ -208,11 +208,11 @@ export class ScriptIntegrationSystem {
   async getScriptMetrics(scriptId: string): Promise<ScriptMetrics | null> {
     const config = this.scriptConfigs.get(scriptId);
     if (!config) {
-      return null;
+      return null
     }
 
     try {
-      const result = await this.executeScript(scriptId, {;
+      const result = await this.executeScript(scriptId, {
         showMetrics: true,
         json: true,
         silent: true
@@ -258,7 +258,7 @@ export class ScriptIntegrationSystem {
     }
 
     try {
-      const result = await this.executeScript(scriptId, {;
+      const result = await this.executeScript(scriptId, {
         validateSafety: true,
         json: true,
         silent: true
@@ -277,7 +277,7 @@ export class ScriptIntegrationSystem {
       // Fallback: basic safety check
       const metrics = await this.getScriptMetrics(scriptId);
       if (metrics) {
-        const issues: string[] = [];
+        const, issues: string[] = [];
         if (metrics.safetyScore < 0.5) {
           issues.push('Low safety score detected');
         }
@@ -286,7 +286,7 @@ export class ScriptIntegrationSystem {
         }
 
         return {
-          safe: issues.length === 0,;
+          safe: issues.length === 0,
           issues,
           recommendedBatchSize: metrics.recommendedBatchSize
         };
@@ -321,7 +321,7 @@ export class ScriptIntegrationSystem {
   /**
    * Get available script configurations
    */
-  getAvailableScripts(): Array<{ id: string; config: ScriptConfig }> {
+  getAvailableScripts(): Array<{ id: string, config: ScriptConfig }> {
     return Array.from(this.scriptConfigs.entries()).map(([id, config]) => ({
       id,
       config
@@ -332,7 +332,7 @@ export class ScriptIntegrationSystem {
    * Build command line arguments from options
    */
   private buildCommandArguments(options: ScriptExecutionOptions): string[] {
-    const args: string[] = [];
+    const, args: string[] = []
 
     if (options.maxFiles !== undefined) {
       args.push(`--max-files=${options.maxFiles}`);
@@ -377,7 +377,7 @@ export class ScriptIntegrationSystem {
     success: boolean,
     exitCode: number,
   ): ScriptExecutionResult {
-    const result: ScriptExecutionResult = {;
+    const, result: ScriptExecutionResult = {
       success,
       exitCode,
       stdout: output,
@@ -477,7 +477,7 @@ export class ScriptIntegrationSystem {
       }
     } catch (error: unknown) {
       if (error.message.includes('uncommitted changes')) {
-        throw error;
+        throw error
       }
       // Git not available or other error - warn but continue
       console.warn('⚠️ Could not check git status:', error.message);
@@ -488,7 +488,7 @@ export class ScriptIntegrationSystem {
    * Get metrics file path for a script
    */
   private getMetricsFilePath(scriptId: string): string {
-    const metricsFiles: Record<string, string> = {
+    const, metricsFiles: Record<string, string> = {
       'typescript-enhanced-v3': '.typescript-errors-metrics.json',
       'explicit-any-systematic': '.explicit-any-metrics.json',
       'unused-variables-enhanced': '.unused-variables-metrics.json'
@@ -510,7 +510,7 @@ export class ScriptIntegrationSystem {
 
     if (result.safetyEvents.length > 0) {
       // // // console.log(`🚨 Safety Events: ${result.safetyEvents.length}`);
-      result.safetyEvents.forEach(event => {;
+      result.safetyEvents.forEach(event => {
         // // // console.log(`   ${event.type}: ${event.description}`);
       });
     }

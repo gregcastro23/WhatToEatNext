@@ -6,7 +6,7 @@ import type { CookingMethodData } from '@/types/cookingMethod';
  *
  * Cooking food by surrounding it with hot water vapor, allowing gentle, moisture-rich heat transfer
  */
-export const steaming: CookingMethodData = {;
+export const steaming: CookingMethodData = {
   name: 'steaming',
   description:
     'Cooking food by suspending it above simmering water where rising vapor gently cooks the food, preserving nutrients and moisture',
@@ -193,7 +193,7 @@ export const steaming: CookingMethodData = {;
     heat: 0.6, // Moderate heat transfer rate
     entropy: 0.45, // Gentle structural transformations
     reactivity: 0.3, // Low chemical reactivity (minimal browning)
-    gregsEnergy: -8.35, // Calculated using heat - (entropy * reactivity), // gregsEnergy = heat - (entropy * reactivity),;
+    gregsEnergy: -8.35, // Calculated using heat - (entropy * reactivity), // gregsEnergy = heat - (entropy * reactivity),
   } as ThermodynamicProperties,
 
   // Additional metadata
@@ -261,18 +261,15 @@ export const steaming: CookingMethodData = {;
 
   ingredientPreparation: {
     vegetables:
-      'Clean thoroughly; cut into uniform sizes (smaller for dense vegetables, larger for tender ones); arrange with space between pieces for steam circulation',
-    fish_fillets:
-      'Pat dry; season lightly; place on heat-proof plate that fits in steamer; add aromatics; score thicker portions for even cooking',
+      'Clean thoroughly cut into uniform sizes (smaller for dense vegetables, larger for tender ones); arrange with space between pieces for steam circulation',
+    fish_fillets: 'Pat dry; season lightly; place on heat-proof plate that fits in steamer; add aromatics score thicker portions for even cooking',
     whole_fish:
       'Scale, clean and gut; score sides at 1-inch intervals to ensure even cooking; stuff cavity with aromatics; place on heat-proof plate',
-    dumplings:
-      'Arrange with 1/2 inch space between; line steamer with parchment, cabbage leaves or cloth to prevent sticking; avoid overcrowding',
-    rice: 'Rinse until water runs clear to remove excess starch; soak glutinous rice for 1-4 hours before steaming; use 1:1 ratio of rice to water',
+    dumplings: 'Arrange with 1/2 inch space between line steamer with parchment, cabbage leaves or cloth to prevent sticking; avoid overcrowding',
+    rice: 'Rinse until water runs clear to remove excess starch; soak glutinous rice for 1-4 hours before steaming use 1:1 ratio of rice to water',
     custards:
       'Strain mixture to remove lumps, cover with foil to prevent condensation dripping; place in water bath for gentle heating',
-    chicken:
-      'Cut joints and score thick portions for even cooking; marinate prior to steaming for flavor penetration; arrange in single layer',
+    chicken: 'Cut joints and score thick portions for even cooking; marinate prior to steaming for flavor penetration arrange in single layer',
     eggs: 'For whole eggs, prick wider end with pin to prevent cracking; for custards, filter mixture through fine mesh',
     layered_dishes:
       'Place longer-cooking ingredients at bottom, delicate ingredients at top; consider flavor migration between layers',
@@ -287,34 +284,27 @@ export const steaming: CookingMethodData = {;
       'Always preheat the steamer with lid on until vigorous steam appears before adding food (usually 5-8 minutes)',
     leafy_greens:
       'Steam for 1-3 minutes until bright green and just wilted, immediately remove to prevent overcooking',
-    root_vegetables:
-      'Small pieces (1-inch): 10-15 minutes; medium pieces (2-inch): 15-20 minutes; test with knife for tenderness',
-    fish_fillets:
-      'Thin fillets (1/2 inch): 5-7 minutes; medium (1 inch): 8-10 minutes; thick (1 1/2+ inches): 12-15 minutes',
-    whole_fish:
-      '10 minutes per inch of thickness measured at thickest point; check for flaky texture',
-    chicken_breast:
-      'Boneless: 12-15 minutes; bone-in: 20-25 minutes; verify 165°F internal temperature',
-    dumplings:
-      'Small (1 inch): 6-8 minutes; medium (1.5-2 inch): 8-10 minutes; large (2.5+ inch): 12-15 minutes',
-    shellfish:
-      'Shrimp: 3-5 minutes; clams/mussels: 5-7 minutes (until shells open); crab: 12-15 minutes (per pound)',
-    eggs: 'Soft-cooked: 6-7 minutes, medium: 8-9 minutes; hard-cooked: 10-12 minutes; custards: 30-35 minutes',
+    root_vegetables: 'Small pieces (1-inch): 10-15 minutes; medium pieces (2-inch): 15-20 minutes test with knife for tenderness',
+    fish_fillets: 'Thin fillets (1/2 inch): 5-7 minutes; medium (1 inch): 8-10 minutes thick (1 1/2+ inches): 12-15 minutes',
+    whole_fish: '10 minutes per inch of thickness measured at thickest point check for flaky texture',
+    chicken_breast: 'Boneless: 12-15 minutes; bone-in: 20-25 minutes verify 165°F internal temperature',
+    dumplings: 'Small (1 inch): 6-8 minutes; medium (1.5-2 inch): 8-10 minutes large (2.5+ inch): 12-15 minutes',
+    shellfish: 'Shrimp: 3-5 minutes; clams/mussels: 5-7 minutes (until shells open) crab: 12-15 minutes (per pound)',
+    eggs: 'Soft-cooked: 6-7 minutes, medium: 8-9 minutes; hard-cooked: 10-12 minutes custards: 30-35 minutes',
     rice: 'White rice: 30-35 minutes, glutinous/sticky rice: 25-30 minutes, brown rice: 45-50 minutes',
     rest_after:
       'Fish: 2-3 minutes, chicken: 5-10 minutes, vegetables: serve immediately, rice: 5-10 minutes'
   },
 
   doneness_indicators: {
-    fish: 'Flesh turns from translucent to opaque; flakes easily with fork; internal temperature 145°F',
-    chicken: 'No pink remains; juices run clear; internal temperature 165°F at thickest part',
-    eggs_soft: 'Whites set firm but yolks remain runny; whites not translucent',
-    eggs_hard: 'Yolks fully set but still moist; avoid green ring around yolk',
-    custards: 'Edges set but center retains slight jiggle; knife inserted comes out clean',
-    green_vegetables: 'Bright vibrant color; crisp-tender texture; slight resistance when bitten',
-    root_vegetables:
-      'Knife or skewer penetrates with slight resistance; maintains shape but not crunchy',
-    rice: 'All water absorbed; grains separate easily; tender without hardness in center',
+    fish: 'Flesh turns from translucent to opaque; flakes easily with fork internal temperature 145°F',
+    chicken: 'No pink remains; juices run clear internal temperature 165°F at thickest part',
+    eggs_soft: 'Whites set firm but yolks remain runny whites not translucent',
+    eggs_hard: 'Yolks fully set but still moist avoid green ring around yolk',
+    custards: 'Edges set but center retains slight jiggle knife inserted comes out clean',
+    green_vegetables: 'Bright vibrant color; crisp-tender texture slight resistance when bitten',
+    root_vegetables: 'Knife or skewer penetrates with slight resistance maintains shape but not crunchy',
+    rice: 'All water absorbed; grains separate easily tender without hardness in center',
     dumplings:
       'Wrappers become translucent, filling reaches appropriate temperature (meat 165°F), dough not sticky',
     bao_buns:
@@ -323,17 +313,14 @@ export const steaming: CookingMethodData = {;
 
   ingredientInteractions: {
     stacking_effects:
-      'Flavors from upper layers can drip onto lower items; arrange complementary flavors together or use barriers',
+      'Flavors from upper layers can drip onto lower items arrange complementary flavors together or use barriers',
     aromatics_infusion:
       'Fresh herbs, spices, and citrus in steaming water infuse subtle flavors; stronger in closed systems',
     color_transfers:
       'Strongly colored ingredients (beets, turmeric) can tint adjacent foods; separate for visual appeal',
-    moisture_management:
-      'Drier ingredients placed below moister ones benefit from natural basting; leafy greens below can wilt from dripping',
-    condensation_control:
-      'Covering custards prevents water spots; some items benefit from direct condensation (bao buns)',
-    salt_timing:
-      'Salt draws moisture from vegetables; better added after steaming for crisp texture; fish benefits from light pre-salting',
+    moisture_management: 'Drier ingredients placed below moister ones benefit from natural basting leafy greens below can wilt from dripping',
+    condensation_control: 'Covering custards prevents water spots some items benefit from direct condensation (bao buns)',
+    salt_timing: 'Salt draws moisture from vegetables; better added after steaming for crisp texture fish benefits from light pre-salting',
     acid_effects:
       'Acidic marinades partially cook proteins before steaming, reduce steaming time accordingly',
     sugar_interactions:

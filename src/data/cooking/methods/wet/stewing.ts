@@ -6,7 +6,7 @@ import type { CookingMethodData } from '@/types/cookingMethod';
  *
  * Slow cooking ingredients in liquid at low temperature for extended periods
  */
-export const stewing: CookingMethodData = {;
+export const, stewing: CookingMethodData = {
   name: 'stewing',
   description:
     'A slow cooking method where ingredients are submerged in liquid and cooked at a low temperature for extended periods, allowing flavors to meld while gently tenderizing foods. Similar to braising but typically uses smaller, uniform ingredient cuts and more liquid.',
@@ -17,7 +17,7 @@ export const stewing: CookingMethodData = {;
     Air: 0.0
   },
   duration: {
-    min: 45, // 45 minutes
+    min: 45, // 45 minutes,
     max: 480, // 8 hours
   },
   suitable_for: [
@@ -50,9 +50,9 @@ export const stewing: CookingMethodData = {;
     unfavorableZodiac: ['aries', 'leo', 'gemini'] as any[],
     dominantPlanets: ['Moon', 'Saturn', 'Neptune'],
     lunarPhaseEffect: {
-      full_moon: 1.15, // Enhanced flavor development
-      new_moon: 0.9, // Subdued flavor profile
-      waxing_crescent: 1.05, // Good for initiating stews
+      full_moon: 1.15, // Enhanced flavor development,
+      new_moon: 0.9, // Subdued flavor profile,
+      waxing_crescent: 1.05, // Good for initiating stews,
       waning_gibbous: 0.95, // Less optimal
     }
   },
@@ -101,23 +101,23 @@ export const stewing: CookingMethodData = {;
   ],
 
   nutrientRetention: {
-    water_soluble_vitamins: 0.8, // Good - retained in cooking liquid
-    fat_soluble_vitamins: 0.9, // Very good
-    minerals: 0.95, // Excellent - remain in cooking liquid
-    proteins: 0.95, // Excellent transformation
-    fiber: 0.9, // Very good
-    phytonutrients: 0.85, // Good
+    water_soluble_vitamins: 0.8, // Good - retained in cooking liquid,
+    fat_soluble_vitamins: 0.9, // Very good,
+    minerals: 0.95, // Excellent - remain in cooking liquid,
+    proteins: 0.95, // Excellent transformation,
+    fiber: 0.9, // Very good,
+    phytonutrients: 0.85, // Good,
     antioxidants: 0.85, // Good - many remain in cooking liquid
   },
 
   optimalTemperatures: {
-    meat_stews: 180, // Low simmer
-    vegetable_stews: 185, // Slightly higher
-    fruit_compotes: 175, // Lower temperature
-    legume_stews: 190, // Higher temperature needed
-    seafood_stews: 170, // Lower to prevent toughening
-    poultry_stews: 185, // Medium temperature
-    browning_stage: 350, // Initial browning temperature
+    meat_stews: 180, // Low simmer,
+    vegetable_stews: 185, // Slightly higher,
+    fruit_compotes: 175, // Lower temperature,
+    legume_stews: 190, // Higher temperature needed,
+    seafood_stews: 170, // Lower to prevent toughening,
+    poultry_stews: 185, // Medium temperature,
+    browning_stage: 350, // Initial browning temperature,
     reduction_phase: 200, // For reducing and concentrating
   },
 
@@ -162,10 +162,10 @@ export const stewing: CookingMethodData = {;
   ],
 
   thermodynamicProperties: {
-    heat: 0.35, // Low to moderate heat
-    entropy: 0.6, // Significant transformation over time
+    heat: 0.35, // Low to moderate heat,
+    entropy: 0.6, // Significant transformation over time,
     reactivity: 0.45, // Moderate chemical reactions
-    gregsEnergy: -0.55, // Calculated using heat - (entropy * reactivity), // Calculated gregsEnergy: heat - (entropy * reactivity)
+    gregsEnergy: -0.55, // Calculated using heat - (entropy * reactivity), // Calculated, gregsEnergy: heat - (entropy * reactivity);
   } as unknown as ThermodynamicProperties,
 
   // Additional metadata
@@ -201,7 +201,7 @@ export const stewing: CookingMethodData = {;
     'Stewing with recirculating liquid for enhanced extraction'
   ],
 
-  sustainabilityRating: 0.9, // Very high - efficient, utilizes tough cuts, one-pot cooking
+  sustainabilityRating: 0.9, // Very high - efficient, utilizes tough cuts, one-pot cooking,
 
   equipmentComplexity: 0.25, // Low - basic equipment with some specialized items optional
 
@@ -242,28 +242,28 @@ export const stewing: CookingMethodData = {;
     tough_meats:
       'Cut into uniform 1-2 inch cubes against the grain. Season with salt and pepper, then dredge lightly in flour if desired. Brown in small batches over medium-high heat, ensuring space between pieces to avoid steaming. Use bones if available for enhanced flavor and body. For large cuts (3-4 lb), leave whole and extend cooking time by 1-2 hours. Game meats benefit from overnight marination in wine or buttermilk before stewing. Rest browned meat for 10 minutes before adding cooking liquid. For oily meats like lamb, consider par-boiling briefly and discarding first water before proper stewing.',
     root_vegetables:
-      'Peel if skins are tough or dirty. Cut into uniform 1-inch pieces for even cooking. For mixed vegetable stews, consider size differences for adding time: dense roots (carrots, parsnips, turnips) early, medium-density vegetables (potatoes) midway, and quick-cooking vegetables (peas, corn) in final 15-30 minutes. Toast root vegetables briefly in oil before adding liquid for enhanced caramelization. Some vegetables (potatoes, Jerusalem artichokes) release starch that naturally thickens the stew. Avoid cutting roots too small as they may disintegrate during long cooking.',
+      'Peel if skins are tough or dirty. Cut into uniform 1-inch pieces for even cooking. For mixed vegetable stews, consider size differences for adding, time: dense roots (carrots, parsnips, turnips) early, medium-density vegetables (potatoes) midway, and quick-cooking vegetables (peas, corn) in final 15-30 minutes. Toast root vegetables briefly in oil before adding liquid for enhanced caramelization. Some vegetables (potatoes, Jerusalem artichokes) release starch that naturally thickens the stew. Avoid cutting roots too small as they may disintegrate during long cooking.',
     aromatics:
-      'For mirepoix (onion, carrot, celery), dice finely for full flavor integration or larger for distinct pieces. Sauté aromatics after browning meatin the same pot to capture fond. Garlic should be added after other aromatics to prevent burning. Create two aromatic stages: foundational (mirepoix, garlic, bay leaves) at beginning, and fresh (parsley, thyme, chives) at end. For Indian stews, bloom whole spices in hot oil before adding liquid. For Mediterranean stews, consider sofrito base (slowly cooked aromatics) for deeper flavor development.',
+      'For mirepoix (onion, carrot, celery), dice finely for full flavor integration or larger for distinct pieces. Sauté aromatics after browning meatin the same pot to capture fond. Garlic should be added after other aromatics to prevent burning. Create two aromatic, stages: foundational (mirepoix, garlic, bay leaves) at beginning, and fresh (parsley, thyme, chives) at end. For Indian stews, bloom whole spices in hot oil before adding liquid. For Mediterranean stews, consider sofrito base (slowly cooked aromatics) for deeper flavor development.',
     liquids:
-      'Use stock rather than water when possible for enhanced flavor depth. Combine different liquids for complexity: stock + wine, beer + stock, cider + stock. Add enough liquid to just cover ingredients—excessive liquid dilutes flavor. For wine, use same quality you would drink, and reduce by half before adding other liquids for alcohol evaporation and concentration. For tomato-based stews, add paste and brown briefly before adding liquid. For dairy-based stews, add towards end of cooking and maintain temperature below simmering to prevent curdling.',
+      'Use stock rather than water when possible for enhanced flavor depth. Combine different liquids for, complexity: stock + wine, beer + stock, cider + stock. Add enough liquid to just cover ingredients—excessive liquid dilutes flavor. For wine, use same quality you would drink, and reduce by half before adding other liquids for alcohol evaporation and concentration. For tomato-based stews, add paste and brown briefly before adding liquid. For dairy-based stews, add towards end of cooking and maintain temperature below simmering to prevent curdling.',
     legumes:
-      'Most dried legumes should be soaked 8-12 hours before stewing. Discard soaking water to reduce indigestible compounds. Add salt only after legumes have softened. Avoid acidic ingredients until legumes are partially softened as acid toughens skins and extends cooking time. Cook times vary significantly: lentils (25-45 minutes), beans (1-3 hours), chickpeas (2-4 hours). For mixed bean stews, either cook varieties separately before combining or select varieties with similar cooking times. Consider adding 1/4 teaspoon baking soda to soaking water to soften very hard water.',
+      'Most dried legumes should be soaked 8-12 hours before stewing. Discard soaking water to reduce indigestible compounds. Add salt only after legumes have softened. Avoid acidic ingredients until legumes are partially softened as acid toughens skins and extends cooking time. Cook times vary, significantly: lentils (25-45 minutes), beans (1-3 hours), chickpeas (2-4 hours). For mixed bean stews, either cook varieties separately before combining or select varieties with similar cooking times. Consider adding 1/4 teaspoon baking soda to soaking water to soften very hard water.',
     thickening_agents:
       'For flour thickening, either dredge meat before browning or make beurre manié (equal parts butter and flour kneaded together) added 30 minutes before completion. For cornstarch, create slurry with cold water and add during final 10 minutes, then maintain gentle simmer. For reduction thickening, remove lid during final 30-45 minutes. For vegetable thickening, purée a portion of the cooked vegetables and return to pot. For traditional thickening, use bread crumbs, crushed crackers, or grated potato. For gluten-free options, consider arrowroot (add at end) or reduction methods.'
   },
 
   timingConsiderations: {
     meat_cooking:
-      'Beef chuck: 2.5-3 hours at 180°F; Oxtail: 3-4 hours; Lamb shoulder: 2-3 hours; Pork shoulder: 2.5-3 hours, Chicken thighs (bone-in): 1-1.5 hours, Game meats: 2-4 hours depending on type and age. Maximum collagen conversion occurs between 160-180°F maintained for extended periods. Meat is done when fork-tender but still maintaining structure. Extended cooking past optimal point can result in dry, stringy texture as moisture is expelled from protein structures. Large cuts require longer cooking times but often yield more succulent results than small cubes.',
+      'Beef, chuck: 2.5-3 hours at 180°F; Oxtail: 3-4 hours Lamb, shoulder: 2-3 hours Pork, shoulder: 2.5-3 hours, Chicken thighs (bone-in): 1-1.5 hours, Game, meats: 2-4 hours depending on type and age. Maximum collagen conversion occurs between 160-180°F maintained for extended periods. Meat is done when fork-tender but still maintaining structure. Extended cooking past optimal point can result in dry, stringy texture as moisture is expelled from protein structures. Large cuts require longer cooking times but often yield more succulent results than small cubes.',
     vegetable_integration:
-      'Add vegetables according to density and cooking time requirements. Standard sequence: 1) Aromatics and foundational vegetables in beginning, 2) Dense root vegetables after meat has cooked 1 hour3) Medium-density vegetables (potatoes) with 45-60 minutes remaining, 4) Quick-cooking vegetables (peas, leafy greens) in final 10-15 minutes. Pre-roasting some vegetables separately and adding during final 30 minutes provides textural contrast. Extended cooking causes some vegetables to dissolve (enhancing body) while others maintain integrity—strategic selection creates multilayered texture.',
+      'Add vegetables according to density and cooking time requirements. Standard, sequence: 1) Aromatics and foundational vegetables in beginning, 2) Dense root vegetables after meat has cooked 1 hour3) Medium-density vegetables (potatoes) with 45-60 minutes remaining, 4) Quick-cooking vegetables (peas, leafy greens) in final 10-15 minutes. Pre-roasting some vegetables separately and adding during final 30 minutes provides textural contrast. Extended cooking causes some vegetables to dissolve (enhancing body) while others maintain integrity—strategic selection creates multilayered texture.',
     flavoring_timeline:
       'Foundational herbs (bay leaf, thyme stems, rosemary) add during initial cooking. Whole spices add at beginning. Ground spices bloom in oil or add mid-cooking. Delicate herbs add in final 15 minutes. Acidic components (vinegar, citrus juice) add in final 30 minutes to brighten without extended cooking. Adjust salt gradually throughout cooking process with final adjustment after concentration. Compounds from whole spices require minimum 45 minutes of simmering for full extraction. Some flavor compounds become volatile and dissipate with extended cooking—balance between extraction and preservation affects final profile.',
     stew_maturation:
       'Optimal flavor development continues after cooking completes. Allowing stew to cool completely and refrigerating overnight permits flavor compounds to distribute more evenly. Stews generally reach peak flavor 24-72 hours after cooking. During resting period, fat solidifies for easy removal if desired. Stews with high collagen content (oxtail, short rib) develop superior texture and mouthfeel after cooling and reheating as gelatin sets and remelts. Reheating should be gentle (180°F) to prevent protein toughening and maintain developed textures.',
     seasonal_adjustments:
-      'Summer stews require less cooking time due to younger, fresher ingredients. Winter stews benefit from longer cooking and higher aromatic content. Humidity affects evaporation rate—in dry environments, check liquid levels more frequently. Altitude affects cooking times and temperatures—above 3,000 feet, increase cooking time by approximately 10% per 1,000 feet and maintain slightly higher temperature to compensate for lower boiling point. Seasonal ingredients dramatically affect stew character: spring (young vegetables, lighter profiles), summer (abundant herbs), autumn (mushrooms, root vegetables), winter (preserved ingredients, deeper flavors).',
+      'Summer stews require less cooking time due to younger, fresher ingredients. Winter stews benefit from longer cooking and higher aromatic content. Humidity affects evaporation rate—in dry environments, check liquid levels more frequently. Altitude affects cooking times and temperatures—above 3,000 feet, increase cooking time by approximately 10% per 1,000 feet and maintain slightly higher temperature to compensate for lower boiling point. Seasonal ingredients dramatically affect stew, character: spring (young vegetables, lighter profiles), summer (abundant herbs), autumn (mushrooms, root vegetables), winter (preserved ingredients, deeper flavors).',
     equipment_factors:
       'Dutch ovens retain heat excellently with minimal temperature fluctuation. Stainless steel pots may require more frequent monitoring for consistent temperature. Slow cookers typically operate between 170-280°F depending on setting, high setting approximates simmering. Electric pressure cookers reduce cooking time by 60-70% while maintaining tenderization properties. Clay pot cooking creates more gradual temperature changes beneficial for delicate stews. Induction cooking provides most precise temperature control for stewing. Flat, wide pots increase evaporation and concentration, tall, narrow pots minimize evaporation for more liquid stews.'
   },

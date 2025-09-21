@@ -21,11 +21,11 @@ import {Recipe} from '@/types/recipe';
  */
 export interface ApiResponse<T> {
   success: boolean;
-  data?: T;
+  data?: T
   error?: {
     code: string,
     message: string,
-    details?: unknown;
+    details?: unknown
   };
   metadata?: {
     timestamp: number,
@@ -36,7 +36,7 @@ export interface ApiResponse<T> {
     totalPages?: number;
     cache?: {
       hit: boolean;
-      age?: number;
+      age?: number
     };
   };
 }
@@ -45,11 +45,11 @@ export interface ApiResponse<T> {
  * Recipe-specific error codes
  */
 export enum RecipeErrorCode {
-  NOT_FOUND = 'RECIPE_NOT_FOUND',;
-  INVALID_PARAMETERS = 'INVALID_PARAMETERS',;
-  PROCESSING_ERROR = 'PROCESSING_ERROR',;
-  DATA_SOURCE_ERROR = 'DATA_SOURCE_ERROR',;
-  VALIDATION_ERROR = 'VALIDATION_ERROR',;
+  NOT_FOUND = 'RECIPE_NOT_FOUND',
+  INVALID_PARAMETERS = 'INVALID_PARAMETERS',
+  PROCESSING_ERROR = 'PROCESSING_ERROR',
+  DATA_SOURCE_ERROR = 'DATA_SOURCE_ERROR',
+  VALIDATION_ERROR = 'VALIDATION_ERROR',
 }
 
 /**
@@ -58,7 +58,7 @@ export enum RecipeErrorCode {
 export interface PaginationParams {
   limit?: number;
   offset?: number;
-  page?: number;
+  page?: number
 }
 
 /**
@@ -108,7 +108,7 @@ export interface GetRecipesByMealTypeParams {
  */
 export interface GetRecipesForPlanetaryAlignmentParams {
   planetaryInfluences: { [key: string]: number };
-  minMatchScore?: number;
+  minMatchScore?: number
 }
 
 /**
@@ -116,7 +116,7 @@ export interface GetRecipesForPlanetaryAlignmentParams {
  */
 export interface GetRecipesForFlavorProfileParams {
   flavorProfile: { [key: string]: number };
-  minMatchScore?: number;
+  minMatchScore?: number
 }
 
 /**
@@ -124,12 +124,12 @@ export interface GetRecipesForFlavorProfileParams {
  */
 export interface GetBestRecipeMatchesParams {
   criteria: {
-    cuisine?: string;
+    cuisine?: string
     flavorProfile?: { [key: string]: number };
     season?: Season;
     mealType?: string | string[];
     ingredients?: string[];
-    dietaryPreferences?: string[];
+    dietaryPreferences?: string[]
   };
 }
 
@@ -154,13 +154,13 @@ export interface SearchRecipesParams {
     maxPrepTime?: number;
     maxCookTime?: number;
     servings?: number;
-    ingredients?: string[];
+    ingredients?: string[]
   };
   options?: {
     includeAlternatives?: boolean;
     optimizeForSeason?: boolean;
     maxResults?: number;
-    includeFusionSuggestions?: boolean;
+    includeFusionSuggestions?: boolean
   };
 }
 
@@ -178,13 +178,13 @@ export interface GenerateRecipeParams {
       isVegan?: boolean;
       isGlutenFree?: boolean;
       isDAiryFree?: boolean;
-      allergens?: string[];
+      allergens?: string[]
     };
     elementalPreference?: Partial<ElementalProperties>;
     astrological?: {
       planetaryHour?: PlanetName;
       lunarPhase?: LunarPhase;
-      currentZodiacSign?: any;
+      currentZodiacSign?: any
     };
   };
 }
@@ -202,5 +202,5 @@ export interface GenerateFusionRecipeParams {
  */
 export interface AdaptRecipeForSeasonParams {
   recipeId: string;
-  season?: Season;
+  season?: Season
 }

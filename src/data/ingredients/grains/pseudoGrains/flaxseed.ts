@@ -1,7 +1,7 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawFlaxseed = {;
+const rawFlaxseed = {
   flaxseed: {
     name: 'Flaxseed',
     elementalProperties: { Water: 0.3, Earth: 0.3, Air: 0.3, Fire: 0.1 },

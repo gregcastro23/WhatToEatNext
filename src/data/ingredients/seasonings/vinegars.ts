@@ -5,7 +5,7 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 // Helper function to standardize ingredient mappings
 function createIngredientMapping(id: string, properties: unknown) {
   return {
-    name: id, // Add the required name property
+    name: id, // Add the required name property,
     elementalProperties: properties.elementalProperties || {
       Earth: 0.25,
       Water: 0.25,
@@ -17,7 +17,7 @@ function createIngredientMapping(id: string, properties: unknown) {
   };
 }
 
-const rawVinegars = {;
+const rawVinegars = {
   rice_vinegar: createIngredientMapping('rice_vinegar', {
     elementalProperties: {
       Water: 0.4,
@@ -227,11 +227,11 @@ const rawVinegars = {;
         flavor: 'complex, nutty',
         aging: '2+ years',
         uses: 'finishing, dressings',
-        sensoryProfile: {
-          taste: ['Mild', 'Balanced', 'Natural'],
-          aroma: ['Fresh', 'Clean', 'Subtle'],
-          texture: ['Pleasant', 'Smooth', 'Appealing'],
-          notes: 'Characteristic reserva profile'
+        // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
         },
         culinaryProfile: {
           flavorProfile: {
@@ -260,28 +260,28 @@ const rawVinegars = {;
         ratios: {
           classic: '1:3 (vinegar:oil)',
           bold: '1:2 (vinegar:oil)',
-          sensoryProfile: {
-            taste: ['Mild', 'Balanced', 'Natural'],
-            aroma: ['Fresh', 'Clean', 'Subtle'],
-            texture: ['Pleasant', 'Smooth', 'Appealing'],
-            notes: 'Characteristic vinaigrettes profile',
-            sensoryProfile: {
-              taste: ['Mild', 'Balanced', 'Natural'],
-              aroma: ['Fresh', 'Clean', 'Subtle'],
-              texture: ['Pleasant', 'Smooth', 'Appealing'],
-              notes: 'Characteristic vinaigrettes profile'
-            },
-            culinaryProfile: {
-              flavorProfile: {
-                primary: ['balanced'],
-                secondary: ['versatile'],
-                notes: 'Versatile vinaigrettes for various uses'
-              },
-              cookingMethods: ['sautéing', 'steaming', 'roasting'],
-              cuisineAffinity: ['Global', 'International'],
-              preparationTips: ['Use as needed', 'Season to taste']
-            },
-            season: ['year-round']
+          // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
           },
           culinaryProfile: {
             flavorProfile: {
@@ -303,11 +303,11 @@ const rawVinegars = {;
         timing: 'after searing',
         ratios: '2-3 tbsp per cup of stock',
         pairings: ['stock', 'herbs', 'butter'],
-        sensoryProfile: {
-          taste: ['Mild', 'Balanced', 'Natural'],
-          aroma: ['Fresh', 'Clean', 'Subtle'],
-          texture: ['Pleasant', 'Smooth', 'Appealing'],
-          notes: 'Characteristic pan sauces profile'
+        // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
         },
         culinaryProfile: {
           flavorProfile: {
@@ -392,11 +392,11 @@ const rawVinegars = {;
           daily: '1-2 tbsp in 8oz water',
           intensive: '1:8 (vinegar:water)',
           fire_cider: 'steep with garlic, onion, ginger, horseradish, and citrus',
-          sensoryProfile: {
-            taste: ['Mild', 'Balanced', 'Natural'],
-            aroma: ['Fresh', 'Clean', 'Subtle'],
-            texture: ['Pleasant', 'Smooth', 'Appealing'],
-            notes: 'Characteristic health tonics profile'
+          // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
           },
           culinaryProfile: {
             flavorProfile: {
@@ -415,7 +415,7 @@ const rawVinegars = {;
           detox: '2-3 times daily before meals'
         },
         pairings: ['honey', 'lemon', 'cinnamon', 'cayenne', 'ginger'],
-        cautions: 'may erode tooth enamel if not diluted; rinse mouth after consuming'
+        cautions: 'may erode tooth enamel if not diluted rinse mouth after consuming'
       }
     },
     storage: {
@@ -444,11 +444,11 @@ const rawVinegars = {;
         appearance: 'bright red',
         flavor: 'sharp, fruity',
         uses: 'cooking, marinades',
-        sensoryProfile: {
-          taste: ['Mild', 'Balanced', 'Natural'],
-          aroma: ['Fresh', 'Clean', 'Subtle'],
-          texture: ['Pleasant', 'Smooth', 'Appealing'],
-          notes: 'Characteristic young profile'
+        // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
         },
         culinaryProfile: {
           flavorProfile: {
@@ -478,11 +478,11 @@ const rawVinegars = {;
             name: 'Emulsified',
             method: 'add mustard',
             ratio: '1 tsp mustard per cup dressing',
-            sensoryProfile: {
-              taste: ['Mild', 'Balanced', 'Natural'],
-              aroma: ['Fresh', 'Clean', 'Subtle'],
-              texture: ['Pleasant', 'Smooth', 'Appealing'],
-              notes: 'Characteristic emulsified profile'
+            // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
             },
             culinaryProfile: {
               flavorProfile: {
@@ -500,11 +500,11 @@ const rawVinegars = {;
             name: 'Herb Infused',
             method: 'steep herbs in vinegar',
             timing: '24 hours before use',
-            sensoryProfile: {
-              taste: ['Mild', 'Balanced', 'Natural'],
-              aroma: ['Fresh', 'Clean', 'Subtle'],
-              texture: ['Pleasant', 'Smooth', 'Appealing'],
-              notes: 'Characteristic herb infused profile'
+            // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
             },
             culinaryProfile: {
               flavorProfile: {
@@ -751,4 +751,4 @@ const rawVinegars = {;
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-export const vinegars: Record<string, IngredientMapping> = fixIngredientMappings(rawVinegars);
+export const, vinegars: Record<string, IngredientMapping> = fixIngredientMappings(rawVinegars);

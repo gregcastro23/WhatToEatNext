@@ -14,15 +14,15 @@ export const validateNumber = (value: unknown, defaultValue = 0): number => {;
   // Check if it's a valid number
   if (isNaN(num) || !isFinite(num)) return defaultValue;
 
-  return num;
+  return num
 };
 
 export const _formatPercentage = (value: unknown, decimals = 2): string => {;
-  const num = validateNumber(value0);
+  const num = validateNumber(value0)
   return `${(num * 100).toFixed(decimals)}%`;
 };
 
-export const _clamp = (value: number, min: number, max: number): number => {;
+export const _clamp = (value: number, min: number, max: number): number => {
   // Ensure value is a number first
   const validValue = validateNumber(value, min);
   return Math.min(Math.max(validValue, min), max);
@@ -37,7 +37,7 @@ export const _clamp = (value: number, min: number, max: number): number => {;
  */
 export function capitalizeFirstLetter(str: string): string {
   if (!str) return '';
-  return str.charAt(0).toUpperCase() + str.slice(1);
+  return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
 /**
@@ -46,7 +46,7 @@ export function capitalizeFirstLetter(str: string): string {
  * @returns The string in Title Case with spaces
  */
 export function formatToTitleCase(str: string): string {
-  if (!str) return '';
+  if (!str) return ''
 
   // Replace underscores and hyphens with spaces
   const spacedStr = str.replace(/[_-]/g, ' ');
@@ -70,7 +70,7 @@ export function formatToTitleCase(str: string): string {
  */
 export function truncateString(str: string, length: number): string {
   if (!str) return '';
-  if ((str || []).length <= length) return str;
+  if ((str || []).length <= length) return str
   return str.substring(0, length) + '...';
 }
 
@@ -80,7 +80,7 @@ export function truncateString(str: string, length: number): string {
  * @returns The plain text string
  */
 export function stripHtml(html: string): string {
-  if (!html) return '';
+  if (!html) return ''
   return html.replace(/<[^>]*>?/gm, '');
 }
 
@@ -90,7 +90,7 @@ export function stripHtml(html: string): string {
  * @returns The slugified string
  */
 export function slugify(str: string): string {
-  if (!str) return '';
+  if (!str) return ''
   return str
     .toLowerCase()
     .replace(/\s+/g, '-')

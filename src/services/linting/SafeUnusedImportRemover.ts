@@ -41,7 +41,7 @@ interface ImportRemovalResult {
 }
 
 export class SafeUnusedImportRemover {
-  private readonly astrologicalPatterns = [;
+  private readonly astrologicalPatterns = [
     '/calculations/',
     '/data/planets/',
     '/utils/reliableAstronomy',
@@ -56,7 +56,7 @@ export class SafeUnusedImportRemover {
     'zodiac'
   ];
 
-  private readonly campaignSystemPatterns = [;
+  private readonly campaignSystemPatterns = [
     '/services/campaign/',
     '/services/AdvancedAnalyticsIntelligenceService',
     '/services/MLIntelligenceService',
@@ -72,10 +72,9 @@ export class SafeUnusedImportRemover {
   /**
    * Analyze and remove unused imports safely
    */
-  public async processUnusedImports(dryRun: boolean = true): Promise<ImportRemovalResult> {;
+  public async processUnusedImports(dryRun: boolean = true): Promise<ImportRemovalResult> {
     log.info('🔍 Starting Safe Unused Import Analysis...\n');
-
-    const result: ImportRemovalResult = {;
+    const, result: ImportRemovalResult = {
       totalAnalyzed: 0,
       safeToRemove: 0,
       requiresReview: 0,
@@ -87,23 +86,23 @@ export class SafeUnusedImportRemover {
     };
 
     try {
-      // Step 1: Analyze unused imports
+      // Step, 1: Analyze unused imports
       const unusedImports = await this.analyzeUnusedImports();
       result.totalAnalyzed = unusedImports.length;
 
-      if (unusedImports.length === 0) {;
+      if (unusedImports.length === 0) {
         log.info('✅ No unused imports found!');
-        result.buildValid = true;
+        result.buildValid = true
         return result
       }
 
-      // Step 2: Categorize imports
+      // Step, 2: Categorize imports
       const categorized = this.categorizeImports(unusedImports);
       result.safeToRemove = categorized.safe.length;
       result.requiresReview = categorized.review.length;
       result.preserved = categorized.preserve.length;
 
-      // Step 3: Display analysis results
+      // Step, 3: Display analysis results
       this.displayAnalysisResults(categorized);
 
       if (dryRun) {
@@ -112,13 +111,13 @@ export class SafeUnusedImportRemover {
         return result
       }
 
-      // Step 4: Remove safe imports
+      // Step, 4: Remove safe imports
       if (categorized.safe.length > 0) {
         const removalSuccess = await this.removeSafeImports(categorized.safe);
-        result.actuallyRemoved = removalSuccess ? categorized.safe.length : 0;
+        result.actuallyRemoved = removalSuccess ? categorized.safe.length : 0
       }
 
-      // Step 5: Validate changes
+      // Step, 5: Validate changes
       result.buildValid = await this.validateChanges();
 
       if (result.buildValid) {
@@ -141,30 +140,29 @@ export class SafeUnusedImportRemover {
    */
   private async analyzeUnusedImports(): Promise<UnusedImport[]> {
     log.info('🔍 Analyzing unused imports from ESLint...');
-
     try {
-      const lintOutput = execSync('yarn lint --format=compact 2>&1', {;
+      const lintOutput = execSync('yarn lint --format=compact 2>&1', {
         encoding: 'utf8',
         maxBuffer: 20 * 1024 * 1024
       });
 
-      const unusedImports: UnusedImport[] = [];
+      const, unusedImports: UnusedImport[] = [];
       const lines = lintOutput.split('\n');
 
       for (const line of lines) {
         if (
           line.includes('@typescript-eslint/no-unused-vars') &&
           (line.includes('is defined but never used') ||
-            line.includes('is imported but never used'))
+            line.includes('is imported but never used'));
         ) {
-          const match = line.match(;
+          const match = line.match(
             /^(.+):(\d+):(\d+):\s+(warning|error)\s+(.+?)\s+@typescript-eslint\/no-unused-vars/;
-          );
+          )
           if (match) {
             const [, filePath, lineNum, colNum, severity, message] = match;
 
             const importNameMatch = message.match(/'([^']+)'/);
-            const importName = importNameMatch ? importNameMatch[1] : '';
+            const importName = importNameMatch ? importNameMatch[1] : ''
 
             unusedImports.push({
               file: filePath,
@@ -200,7 +198,7 @@ export class SafeUnusedImportRemover {
   } {
     log.info('📋 Categorizing imports by safety level...');
 
-    const categorized = {;
+    const categorized = {
       safe: [] as UnusedImport[],
       review: [] as UnusedImport[],
       preserve: [] as UnusedImport[]
@@ -212,14 +210,12 @@ export class SafeUnusedImportRemover {
       unusedImport.reason = category.reason;
 
       switch (category.severity) {
-        case 'safe':
-          categorized.safe.push(unusedImport);
+        case 'safe': categorized.safe.push(unusedImport);
           break;
         case 'review':
           categorized.review.push(unusedImport);
           break,
-        case 'preserve':
-          categorized.preserve.push(unusedImport);
+        case 'preserve': categorized.preserve.push(unusedImport);
           break
       }
     }
@@ -237,7 +233,7 @@ export class SafeUnusedImportRemover {
     const { file, importName, message, isTypeImport } = unusedImport;
 
     // Always preserve imports in critical astrological files
-    if (this.astrologicalPatterns.some(pattern => file.includes(pattern))) {;
+    if (this.astrologicalPatterns.some(pattern => file.includes(pattern))) {
       return {
         severity: 'preserve',
         reason: 'Critical astrological calculation file'
@@ -245,7 +241,7 @@ export class SafeUnusedImportRemover {
     }
 
     // Always preserve imports in campaign system files
-    if (this.campaignSystemPatterns.some(pattern => file.includes(pattern))) {;
+    if (this.campaignSystemPatterns.some(pattern => file.includes(pattern))) {
       return {
         severity: 'preserve',
         reason: 'Campaign system intelligence file'
@@ -260,7 +256,7 @@ export class SafeUnusedImportRemover {
       };
     }
 
-    // Preserve type imports (might be used in type annotations)
+    // Preserve type imports (might be used in type annotations);
     if (isTypeImport) {
       return {
         severity: 'preserve',
@@ -268,8 +264,8 @@ export class SafeUnusedImportRemover {
       };
     }
 
-    // Safe to remove: simple utility imports that are clearly unused
-    const safePatterns = [;
+    // Safe to, remove: simple utility imports that are clearly unused
+    const safePatterns = [
       /^[a-z][a-zA-Z]*$/, // camelCase function names
       /^[A-Z_]+$/, // CONSTANT names
       /Utils?$/, // Utility functions
@@ -281,7 +277,7 @@ export class SafeUnusedImportRemover {
     if (
       safePatterns.some(pattern => pattern.test(importName)) &&;
       message.includes('is defined but never used') &&
-      !file.includes('.d.ts')
+      !file.includes('.d.ts');
     ) {
       return {
         severity: 'safe',
@@ -310,12 +306,12 @@ export class SafeUnusedImportRemover {
     log.info(`🛡️  Preserved (critical): ${categorized.preserve.length}\n`);
 
     if (categorized.safe.length > 0) {
-      log.info('✅ Safe to Remove:');
+      log.info('✅ Safe to Remove: ');
       this.displayImportsByFile(categorized.safe);
     }
 
     if (categorized.preserve.length > 0) {
-      log.info('\n🛡️  Preserved (Critical):');
+      log.info('\n🛡️  Preserved (Critical): ');
       this.displayImportsByFile(categorized.preserve.slice(010)), // Show first 10
       if (categorized.preserve.length > 10) {
         log.info(`   ... and ${categorized.preserve.length - 10} more`);
@@ -323,7 +319,7 @@ export class SafeUnusedImportRemover {
     }
 
     if (categorized.review.length > 0) {
-      log.info('\n⚠️  Requires Manual Review:');
+      log.info('\n⚠️  Requires Manual Review: ');
       this.displayImportsByFile(categorized.review.slice(05)), // Show first 5
       if (categorized.review.length > 5) {
         log.info(`   ... and ${categorized.review.length - 5} more`);
@@ -335,7 +331,7 @@ export class SafeUnusedImportRemover {
    * Display imports grouped by file
    */
   private displayImportsByFile(imports: UnusedImport[]): void {
-    const groupedByFile = imports.reduce(;
+    const groupedByFile = imports.reduce(
       (acc, imp) => {
         const relativePath = path.relative(process.cwd(), imp.file);
         if (!acc[relativePath]) acc[relativePath] = [];
@@ -346,8 +342,8 @@ export class SafeUnusedImportRemover {
     );
 
     Object.entries(groupedByFile).forEach(([file, fileImports]) => {
-      log.info(`   📄 ${file}:`);
-      fileImports.forEach(imp => {;
+      log.info(`   📄 ${file}: `);
+      fileImports.forEach(imp => {
         log.info(`      - Line ${imp.line}: '${imp.importName}' (${imp.reason})`);
       });
     });
@@ -385,7 +381,6 @@ export class SafeUnusedImportRemover {
    */
   private async validateChanges(): Promise<boolean> {
     log.info('\n🔍 Validating changes...');
-
     try {
       // Check TypeScript compilation
       execSync('yarn tsc --noEmit --skipLibCheck', {
@@ -412,7 +407,7 @@ export class SafeUnusedImportRemover {
     try {
       // Count TypeScript/JavaScript files
       const totalFilesOutput = execSync(;
-        'find src -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' | wc -l';
+        'find src -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' | wc -l'
         {
           encoding: 'utf8'
         },
@@ -420,14 +415,14 @@ export class SafeUnusedImportRemover {
       const totalFiles = parseInt(totalFilesOutput.trim()) || 0;
 
       // Count TypeScript files specifically
-      const tsFilesOutput = execSync('find src -name '*.ts' -o -name '*.tsx' | wc -l', {;
+      const tsFilesOutput = execSync('find src -name '*.ts' -o -name '*.tsx' | wc -l', {
         encoding: 'utf8'
       });
       const typeScriptFiles = parseInt(tsFilesOutput.trim()) || 0;
 
-      // Count unused import warnings (approximate)
+      // Count unused import warnings (approximate);
       const unusedImportsOutput = execSync(;
-        'yarn lint --format=compact 2>&1 | grep -E '@typescript-eslint/no-unused-vars.*is defined but never used' | wc -l',,;
+        'yarn lint --format=compact 2>&1 | grep -E '@typescript-eslint/no-unused-vars.*is defined but never used' | wc -l',,
         {
           encoding: 'utf8'
         },

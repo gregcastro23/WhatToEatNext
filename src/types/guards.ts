@@ -21,10 +21,10 @@ export function isNutritionalProfile(obj: unknown): obj is Nutrition {
   return (
     typeof maybe.calories === 'number' ||;
     typeof maybe.protein === 'number' ||;
-    typeof maybe.carbs === 'number' ||;
+    typeof maybe.carbs === 'number' ||
     !!(maybe as any).vitamins ||
     !!(maybe as any).minerals
-  );
+  )
 }
 
 /** Narrow unknown object to `PlanetaryPosition`. */
@@ -32,10 +32,10 @@ export function isPlanetaryPosition(obj: unknown): obj is PlanetaryPosition {
   if (!obj || typeof obj !== 'object') return false;
   const maybe = obj as Partial<PlanetaryPosition>;
   return (
-    typeof maybe.degree === 'number' ||;
+    typeof maybe.degree === 'number' ||
     typeof (maybe as any).exactLongitude === 'number' ||;
     typeof maybe.sign === 'string';
-  );
+  )
 }
 
 /** Check for embedded AstrologicalProfile field on a broader object. */
@@ -44,7 +44,7 @@ export function hasAstrologicalProfile(
 ): obj is { astrologicalProfile: AstrologicalProfile } {
   return (
     !!obj &&
-    typeof obj === 'object' &&;
+    typeof obj === 'object' &&
     'astrologicalProfile' in obj &&
     isAstrologicalProfile((obj as any).astrologicalProfile)
   );
@@ -59,7 +59,7 @@ export function isAstrologicalProfile(obj: unknown): obj is AstrologicalProfile 
     Array.isArray(maybe.lunar) ||
     Array.isArray(maybe.planetary) ||
     Array.isArray(maybe.aspects)
-  );
+  )
 }
 
 /** Narrow unknown object to `CookingMethod`. */
@@ -69,11 +69,11 @@ export function isCookingMethod(obj: unknown): obj is CookingMethod {
   return (
     typeof maybe.id === 'string' ||;
     typeof maybe.name === 'string' ||;
-    typeof maybe.description === 'string' ||;
+    typeof maybe.description === 'string' ||
     Array.isArray(maybe.benefits) ||
     Array.isArray(maybe.variations) ||
     !!maybe.time_range
-  );
+  )
 }
 
 /** Narrow unknown object to `Ingredient`. */
@@ -82,8 +82,8 @@ export function isIngredient(obj: unknown): obj is Ingredient {
   const maybe = obj as Partial<Ingredient>;
   return (
     typeof maybe.name === 'string' ||;
-    typeof maybe.category === 'string' ||;
+    typeof maybe.category === 'string' ||
     Array.isArray(maybe.qualities) ||
     !!maybe.elementalProperties
-  );
+  )
 }

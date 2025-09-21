@@ -32,17 +32,15 @@ export function determineModalityFromElements(_elementalProperties: ElementalPro
         return 'Fixed';
       }
       break;
-    case 'Fire':
-      // Fire has balanced affinities but leans Cardinal
+    case 'Fire': // Fire has balanced affinities but leans Cardinal
       if (Fire > 0.5) {
-        return 'Cardinal';
+        return 'Cardinal'
       }
       break;
-    case 'Water':
-      // Water is balanced between Fixed and Mutable
+    case 'Water': // Water is balanced between Fixed and Mutable
       if (Water > 0.5) {
         // Slightly favor Mutable for Wateras per our hierarchy
-        return Water > 0.7 ? 'Mutable' : 'Fixed';
+        return Water > 0.7 ? 'Mutable' : 'Fixed'
       }
       break;
   }

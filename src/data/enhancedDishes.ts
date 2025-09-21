@@ -48,7 +48,7 @@ export const dishProperties: Record<string, FoodProperty[]> = {
 
 // Helper function to get properties for a dish
 export function getDishProperties(dishName: string): FoodProperty[] {
-  return dishProperties[dishName] || [];
+  return dishProperties[dishName] || []
 }
 
 // Helper function to enhance a dish with properties

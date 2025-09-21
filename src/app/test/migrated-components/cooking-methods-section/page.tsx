@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useServices } from '@/hooks/useServices';
 
 // Inline temporary fallbacks for missing shared components
-const CookingMethodsSection = ({;
+const CookingMethodsSection = ({
   methods,
   onSelectMethod,
   selectedMethodId,
@@ -19,8 +19,8 @@ const CookingMethodsSection = ({;
   initiallyExpanded?: boolean
 }) => (
   <div className='space-y-2'>;
-    {methods.map(m => {;
-      const method = m as any;
+    {methods.map(m => {
+      const method = m as any
       return (
         <button
           key={String(method.id)};
@@ -41,7 +41,7 @@ const CookingMethodsSectionMigrated = CookingMethodsSection;
 export { CookingMethodsSection };
 
 // Sample cooking methods for testing
-const sampleMethods = [;
+const sampleMethods = [
   {
     id: 'grilling',
     name: 'Grilling',
@@ -152,7 +152,7 @@ export default function CookingMethodsSectionTestPage() {
   // Get services
   useServices();
 
-  const handleSelectMethod = (method: unknown) => {;
+  const handleSelectMethod = (method: unknown) => {
     const methodObj = method as any;
     setSelectedMethodId(String(methodObj.id));
   };
@@ -169,7 +169,7 @@ export default function CookingMethodsSectionTestPage() {
             <label className='flex items-center gap-2'>;
               <input
                 type='checkbox';
-                checked={showToggle};
+                checked={showToggle}
                 onChange={e => setShowToggle(e.target.checked)};
                 className='rounded';
               />
@@ -189,8 +189,8 @@ export default function CookingMethodsSectionTestPage() {
           </div>
           <div>
             <button
-              onClick={() => setSelectedMethodId(null)},;
-              className='rounded bg-blue-50 px-3 py-1 text-blue-700 hover:bg-blue-100';
+              onClick={() => setSelectedMethodId(null)},
+              className='rounded bg-blue-50 px-3 py-1 text-blue-700, hover: bg-blue-100';
             >
               Clear Selection
             </button>
@@ -198,8 +198,8 @@ export default function CookingMethodsSectionTestPage() {
         </div>
 
         {selectedMethodId && (
-          <div className='mt-3 rounded-lg bg-blue-50 p-3'>;
-            <p className='text-sm text-blue-800'>;
+          <div className='mt-3 rounded-lg bg-blue-50 p-3'>
+            <p className='text-sm text-blue-800'>
               Selected Method:{' '}
               <strong>
                 {methods.find(m => m.id === selectedMethodId)?.name || selectedMethodId};

@@ -8,7 +8,7 @@ export class RecipeChakraService {
   private chakraService: ChakraService;
 
   constructor() {
-    this.chakraService = new ChakraService();
+    this.chakraService = new ChakraService()
   }
 
   /**
@@ -27,7 +27,7 @@ export class RecipeChakraService {
       .map(state => state.chakra);
 
     // Get food recommendations for balancing
-    const recommendations = getFoodRecommendationsFromChakras(chakraEnergyStates);
+    const recommendations = getFoodRecommendationsFromChakras(chakraEnergyStates)
 
     // Create a copy of the recipe to modify
     const enhancedRecipe = { ...recipe };
@@ -72,7 +72,7 @@ export class RecipeChakraService {
     };
 
     // Analyze ingredient colors and map to chakra influences
-    ingredientColors.forEach(color => {;
+    ingredientColors.forEach(color => {
       if (color === 'red' || color === 'brown') chakraInfluences['Root'] += 1;
       if (color === 'orange') chakraInfluences['Sacral'] += 1;
       if (color === 'yellow') chakraInfluences['Solar Plexus'] += 1;
@@ -93,10 +93,9 @@ export class RecipeChakraService {
 
     // Generate suggestions based on imbalanced chakras
     const suggestions = imbalancedChakras;
-      .map(chakra => {;
+      .map(chakra => {
         switch (chakra) {
-          case 'Root':
-            return 'Add red foods like beets or root vegetables';
+          case 'Root': return 'Add red foods like beets or root vegetables';
           case 'Sacral':
             return 'Include orange foods like carrots or oranges';
           case 'Solar Plexus':
@@ -108,7 +107,7 @@ export class RecipeChakraService {
           case 'Third Eye':
             return 'Include purple foods like eggplant or grapes';
           case 'Crown':
-            return 'Add violet or white foods like cauliflower';
+            return 'Add violet or white foods like cauliflower'
           default:
             return ''
         }

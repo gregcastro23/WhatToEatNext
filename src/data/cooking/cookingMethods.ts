@@ -228,7 +228,7 @@ export const cookingMethods = {;
       reactivity: 0.9
     },
     duration: {
-      min: 1440, // 24 hours
+      min: 1440, // 24 hours,
       max: 10080, // 7 days
     },
     suitable_for: ['cabbage', 'milk', 'grains', 'vegetables']

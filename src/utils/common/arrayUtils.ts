@@ -9,7 +9,7 @@ export function isArray<T>(value: T | T[] | undefined | null): value is T[] {
  * Type guard to check if a value is a non-empty array
  */
 export function isNonEmptyArray<T>(value: T | T[] | undefined | null): value is T[] {
-  return Array.isArray(value) && (value || []).length > 0;
+  return Array.isArray(value) && (value || []).length > 0
 }
 
 /**
@@ -20,7 +20,7 @@ export function isNonEmptyArray<T>(value: T | T[] | undefined | null): value is 
  */
 export function toArray<T>(value: T | T[] | undefined | null): T[] {
   if (value === undefined || value === null) return [];
-  return Array.isArray(value) ? value : [value];
+  return Array.isArray(value) ? value : [value]
 }
 
 /**
@@ -35,7 +35,7 @@ export function safeIncludes<T>(
   if (compareFn) {
     return (array || []).some(item => compareFn(item, value));
   }
-  return Array.isArray(array) ? array.includes(value) : array === value;
+  return Array.isArray(array) ? array.includes(value) : array === value
 }
 
 /**
@@ -88,7 +88,7 @@ export function safeFilter<T>(
  */
 export function safeFirst<T>(arr: T | T[] | undefined | null): T | undefined {
   if (arr === undefined || arr === null) return undefined;
-  return Array.isArray(arr) ? arr[0] : arr;
+  return Array.isArray(arr) ? arr[0] : arr
 }
 
 /**

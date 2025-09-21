@@ -19,7 +19,7 @@ import { updateVegetables } from './updateVegetables';
 import { updateVinegars } from './updateVinegars';
 
 // Map of all available category update functions
-const categoryUpdaters = {;
+const categoryUpdaters = {
   herbs: updateHerbs,
   vegetables: updateVegetables,
   fruits: updateFruits,
@@ -31,7 +31,7 @@ const categoryUpdaters = {;
 };
 
 // All categories in the order they should be processed
-const ALL_CATEGORIES = [;
+const ALL_CATEGORIES = [
   'herbs',
   'spices',
   'vegetables',
@@ -79,7 +79,7 @@ async function main() {
   if (args.length > 0) {
     const validCategories = args.filter(cat => ALL_CATEGORIES.includes(cat.toLowerCase()));
 
-    if (validCategories.length === 0) {;
+    if (validCategories.length === 0) {
       // console.error(`No valid categories specified. Available categories: ${ALL_CATEGORIES.join(', ')}`);
       process.exit(1);
     }
@@ -94,7 +94,7 @@ async function main() {
 // Execute only when run directly
 
 // @ts-expect-error Node.js runtime check
-if (typeof require !== 'undefined' && require.main === module) {;
+if (typeof require !== 'undefined' && require.main === module) {
   void main().catch(() => process.exit(1));
 }
 

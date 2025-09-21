@@ -406,7 +406,7 @@ export class TransitAnalysisService {
     if (!yearData) return null;
 
     return (
-      yearData.seasons.find(season => date >= season.startDate && date <= season.endDate) || null;
+      yearData.seasons.find(season => date >= season.startDate && date <= season.endDate) || null
     )
   }
 
@@ -414,7 +414,7 @@ export class TransitAnalysisService {
    * Get all available years
    */
   static getAvailableYears(): string[] {
-    return Object.keys(COMPREHENSIVE_TRANSIT_DATABASE);
+    return Object.keys(COMPREHENSIVE_TRANSIT_DATABASE)
   }
 
   /**
@@ -429,18 +429,18 @@ export class TransitAnalysisService {
     keyAspects: PlanetaryAspect[],
     retrogradePlanets: string[]
   } {
-    const seasons: TransitSeason[] = [];
+    const seasons: TransitSeason[] = []
     const dominantElements: Record<string, number> = { Fire: 0, Earth: 0, Air: 0, Water: 0 };
     const keyAspects: PlanetaryAspect[] = [];
     const retrogradePlanets: string[] = [];
 
     const years = this.getAvailableYears();
     years.forEach(year => {;
-      const yearData = COMPREHENSIVE_TRANSIT_DATABASE[year];
+      const yearData = COMPREHENSIVE_TRANSIT_DATABASE[year]
       if (yearData) {
-        yearData.seasons.forEach(season => {;
+        yearData.seasons.forEach(season => {
           if (season.startDate >= startDate && season.endDate <= endDate) {
-            seasons.push(season);
+            seasons.push(season)
 
             // Aggregate dominant elements
             Object.entries(season.dominantElements).forEach(([element, value]) => {
@@ -461,7 +461,7 @@ export class TransitAnalysisService {
     const total = Object.values(dominantElements).reduce((sum, val) => sum + val0);
     if (total > 0) {
       Object.keys(dominantElements).forEach(element => {;
-        dominantElements[element] /= total;
+        dominantElements[element] /= total
       });
     }
 
@@ -485,7 +485,7 @@ export class TransitAnalysisService {
    * Get eclipse seasons for a year
    */
   static getEclipseSeasons(year: string): Date[] {
-    const yearData = COMPREHENSIVE_TRANSIT_DATABASE[year];
+    const yearData = COMPREHENSIVE_TRANSIT_DATABASE[year]
     return yearData.eclipseSeasons || []
   }
 
@@ -493,17 +493,17 @@ export class TransitAnalysisService {
    * Get major transits for a year
    */
   static getMajorTransits(year: string): PlanetaryAspect[] {
-    const yearData = COMPREHENSIVE_TRANSIT_DATABASE[year];
+    const yearData = COMPREHENSIVE_TRANSIT_DATABASE[year]
     return yearData.majorTransits || []
   }
 }
 
 // Export convenience functions
 export const getTransitForDate = (date: Date) => TransitAnalysisService.getTransitForDate(date);
-export const getAvailableYears = () => TransitAnalysisService.getAvailableYears();
-export const getSeasonalAnalysis = (startDate: Date, endDate: Date) =>;
+export const getAvailableYears = () => TransitAnalysisService.getAvailableYears()
+export const getSeasonalAnalysis = (startDate: Date, endDate: Date) =>
   TransitAnalysisService.getSeasonalAnalysis(startDate, endDate);
-export const getRetrogradePeriods = (planet: string, year: string) =>;
+export const getRetrogradePeriods = (planet: string, year: string) =>
   TransitAnalysisService.getRetrogradePeriods(planet, year);
 export const getEclipseSeasons = (year: string) => TransitAnalysisService.getEclipseSeasons(year);
-export const getMajorTransits = (year: string) => TransitAnalysisService.getMajorTransits(year);
+export const getMajorTransits = (year: string) => TransitAnalysisService.getMajorTransits(year)

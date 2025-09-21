@@ -61,7 +61,7 @@ export interface RecipeSearchCriteria {
   maxPrepTime?: number;
   maxCookTime?: number;
   servings?: number;
-  ingredients?: string[];
+  ingredients?: string[]
 }
 
 /**
@@ -71,7 +71,7 @@ export interface RecipeRecommendationOptions {
   includeAlternatives?: boolean;
   optimizeForSeason?: boolean;
   maxResults?: number;
-  includeFusionSuggestions?: boolean;
+  includeFusionSuggestions?: boolean
 }
 
 /**
@@ -124,7 +124,7 @@ export interface RecipeServiceInterface {
    * @param params Parameters including meal type and pagination options
    * @returns Promise resolving to an ApiResponse containing an array of recipes for that meal type
    */
-  getRecipesByMealType(params: GetRecipesByMealTypeParams): Promise<ApiResponse<Recipe[]>>;
+  getRecipesByMealType(params: GetRecipesByMealTypeParams): Promise<ApiResponse<Recipe[]>>
 
   /**
    * Get recipes that match current planetary alignments
@@ -133,7 +133,7 @@ export interface RecipeServiceInterface {
    */
   getRecipesForPlanetaryAlignment(
     params: GetRecipesForPlanetaryAlignmentParams,
-  ): Promise<ApiResponse<Recipe[]>>;
+  ): Promise<ApiResponse<Recipe[]>>
 
   /**
    * Get recipes that match a given flavor profile
@@ -184,25 +184,25 @@ export interface RecipeServiceInterface {
    * @param recipe The recipe to analyze
    * @returns The elemental properties of the recipe
    */
-  calculateElementalProperties(recipe: Partial<Recipe>): ElementalProperties;
+  calculateElementalProperties(recipe: Partial<Recipe>): ElementalProperties
 
   /**
    * Get the dominant element of a recipe
    * @param recipe The recipe to analyze
    * @returns The dominant element and its value
    */
-  getDominantElement(recipe: Recipe): { element: keyof ElementalProperties; value: number };
+  getDominantElement(recipe: Recipe): { element: keyof ElementalProperties, value: number };
 
   /**
    * Calculate the similarity between two recipes based on their elemental properties
    * @param recipe1 First recipe
    * @param recipe2 Second recipe
-   * @returns Similarity score (0-1)
+   * @returns Similarity score (0-1);
    */
   calculateSimilarity(recipe1: Recipe, recipe2: Recipe): number;
 
   /**
    * Clear the recipe cache
    */
-  clearCache(): void;
+  clearCache(): void
 }

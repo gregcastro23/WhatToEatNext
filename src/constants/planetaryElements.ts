@@ -156,7 +156,7 @@ export const planetaryAlchemicalMap: Record<RulingPlanet, AlchemicalProperty> = 
  * @returns The associated elemental character
  */
 export const _getPlanetaryElement = (planet: RulingPlanet): ElementalCharacter => {
-  return planetaryElementMap[planet];
+  return planetaryElementMap[planet]
 };
 
 /**
@@ -165,7 +165,7 @@ export const _getPlanetaryElement = (planet: RulingPlanet): ElementalCharacter =
  * @returns The associated alchemical property
  */
 export const _getPlanetaryAlchemicalProperty = (planet: RulingPlanet): AlchemicalProperty => {
-  return planetaryAlchemicalMap[planet];
+  return planetaryAlchemicalMap[planet]
 };
 
 /**
@@ -196,7 +196,7 @@ export const _getTarotCardElement = (cardName: string): ElementalCharacter | nul
  * @returns The quantum value or 0 if not found
  */
 export const _getTarotCardQuantum = (cardName: string): number => {
-  return tarotCardQuantumValues[cardName] || 0;
+  return tarotCardQuantumValues[cardName] || 0
 };
 
 /**
@@ -205,5 +205,5 @@ export const _getTarotCardQuantum = (cardName: string): number => {
  * @returns The ruling planet or null if not found
  */
 export const _getTarotCardPlanet = (cardName: string): RulingPlanet | null => {
-  return majorArcanaPlanetMap[cardName] || null;
+  return majorArcanaPlanetMap[cardName] || null
 };

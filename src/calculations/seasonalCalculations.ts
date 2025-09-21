@@ -21,7 +21,7 @@ export function calculateSeasonalEffectiveness(
   season: string,
 ): SeasonalEffectiveness {
   let totalScore = 0;
-  const breakdown = {;
+  const breakdown = {
     elementalAlignment: 0,
     ingredientSuitability: 0,
     seasonalBonus: 0
@@ -31,7 +31,7 @@ export function calculateSeasonalEffectiveness(
   const seasonLower = season.toLowerCase();
 
   // 1. Calculate Elemental Alignment (50% of total)
-  const elementalScore = Object.entries(recipe.elementalProperties || {}).reduce(;
+  const elementalScore = Object.entries(recipe.elementalProperties || {}).reduce(
     (score, [element, value]) => {
       // Get modifier from SEASONAL_MODIFIERS using lowercase season
       // Using proper type access with fallback
@@ -50,7 +50,7 @@ export function calculateSeasonalEffectiveness(
     let seasonalCount = 0;
     for (const ingredient of recipe.ingredients) {
       if (Array.isArray(ingredient.seasonality)) {
-        const lowerSeasons = ingredient.seasonality.map((s: string) => s.toLowerCase());
+        const lowerSeasons = ingredient.seasonality.map((s: string) => s.toLowerCase())
         if (lowerSeasons.includes(seasonLower) || lowerSeasons.includes('all')) {
           seasonalCount++
         }
@@ -69,7 +69,7 @@ export function calculateSeasonalEffectiveness(
 
     if (recipeSeasonLower.includes(seasonLower)) {
       breakdown.seasonalBonus = 20;
-      totalScore += 20;
+      totalScore += 20
     }
   }
 
@@ -94,7 +94,7 @@ export function calculateSeasonalElements(
   baseElements: ElementalProperties,
   season: string,
 ): ElementalProperties {
-  const normalizedSeason = season.toLowerCase();
+  const normalizedSeason = season.toLowerCase()
   const modifier = SEASONAL_MODIFIERS[normalizedSeason] || {};
 
   return Object.fromEntries(
@@ -122,7 +122,7 @@ export function calculateSeasonalScores(
   const isAlignedWithSeason = currentZodiac === zodiacSign?.toLowerCase();
 
   const seasonalScore = isAlignedWithSeason ? 80 : 50;
-  const astrologicalInfluence = isAlignedWithSeason ? 1.2 : 1.0;
+  const astrologicalInfluence = isAlignedWithSeason ? 1.2 : 1.0
 
   return {
     seasonalScore,
@@ -137,7 +137,7 @@ function getCurrentZodiacSeason(): any {
 
 // For backward compatibility
 function _getCurrentSeason(): Season {
-  const zodiacSign = getCurrentZodiacSeason();
+  const zodiacSign = getCurrentZodiacSeason()
   // Map zodiac sign to a season
   if (['aries', 'taurus', 'gemini'].includes(zodiacSign)) {
     return 'spring'

@@ -27,10 +27,10 @@ export default function FoodRecommenderTestPage() {
             context-based data access to the new service-based architecture.
           </Typography>
           <Typography variant='body2'>;
-            ;<strong>Key Changes:</strong>
+            ;<strong>Key Changes: </strong>
           </Typography>
           <ul className='mb-3 list-disc pl-6'>;
-            ;<li>Replaced useAstrologicalState hook with useServices hook</li>
+            <li>Replaced useAstrologicalState hook with useServices hook</li>
             <li>Uses astrologyService, elementalCalculator, and recommendationService</li>
             <li>Added proper loading and error states with service initialization checks</li>
             <li>Migrated IngredientDisplay subcomponent to services architecture</li>
@@ -46,7 +46,7 @@ export default function FoodRecommenderTestPage() {
           <Card>
             <CardContent>
               <Typography variant='h6' gutterBottom>;
-                ; Original Component (Context-based)
+                 Original Component (Context-based)
               </Typography>
               <Divider className='mb-4' />;
               <div className='h-[600px] overflow-y-auto'>;

@@ -3,15 +3,14 @@
   - Reads findings JSON from analyzeUnusedVariables
   - Splits into batches respecting safety protocols
   - Eliminates low-risk variables; prefixes high-value variables instead
-  - Runs type-check after each batch; auto-rollback on failure
+  - Runs type-check after each batch; auto-rollback on failure,
 
-  Usage:
-    yarn ts-node src/scripts/unused-vars/batchEliminateUnused.ts --in reports/unused-vars.json --dry-run
+  Usage: yarn ts-node src/scripts/unused-vars/batchEliminateUnused.ts --in reports/unused-vars.json --dry-run
 */
 
 import childProcess from 'node:child_process';
 import fs from 'node:fs';
-import path from 'node:path';
+import path from 'node:path'
 
 import { classifyFileKind, isHighImpactFile } from './domainPreservation';
 
@@ -44,17 +43,17 @@ function parseArgs(argv: string[]): CliOptions {
     maxBatch: maxBatchIdx !== -1 && argv[maxBatchIdx + 1] ? Number(argv[maxBatchIdx + 1]) : 15,
     maxBatchCritical:
       maxBatchCriticalIdx !== -1 && argv[maxBatchCriticalIdx + 1]
-        ? Number(argv[maxBatchCriticalIdx + 1])
+        ? Number(argv[maxBatchCriticalIdx + 1]);
         : 8
   };
 }
 
-function execCmd(_cmd: string): { code: number; stdout: string; stderr: string } {
+function execCmd(_cmd: string): { code: number, stdout: string stderr: string } {
   try {
     const stdout = childProcess.execSync(cmd, { stdio: ['ignore', 'pipe', 'pipe'] }).toString();
     return { code: 0, stdout, stderr: '' };
   } catch (err) {
-    const e = err as { status?: number; stdout?: Buffer; stderr?: Buffer };
+    const e = err as { status?: number; stdout?: Buffer stderr?: Buffer };
     return {
       code: e.status ?? 1,
       stdout: e.stdout ? e.stdout.toString() : '',
@@ -105,7 +104,7 @@ function writeBackup(_filePath: string, _content: string): string {
   return backupPath;
 }
 
-function restoreFromBackups(_backups: Array<{ file: string; backup: string }>): void {
+function restoreFromBackups(_backups: Array<{ file: string, backup: string }>): void {
   for (const b of backups) {
     if (fs.existsSync(b.backup)) {
       const content = fs.readFileSync(b.backup, 'utf8');
@@ -127,7 +126,7 @@ function applyEditsToFile(
 
   for (const f of eliminations) {
     // Conservative: blank only the identifier token on that line when safe
-    const idx = f.line - 1;
+    const idx = f.line - 1
     if (idx >= 0 && idx < lines.length) {
       const re = new RegExp(`\\b${f.variableName}\\b`);
       lines[idx] = lines[idx].replace(re, '_');
@@ -158,7 +157,7 @@ function processBatch(
   fileFindings: Map<string, Finding[]>,
   dryRun: boolean,
 ): boolean {
-  const backups: Array<{ file: string; backup: string }> = [];
+  const, backups: Array<{ file: string, backup: string }> = [];
   for (const file of files) {
     const findings = (fileFindings.get(file) || []).filter(f => !f.preserve);
     if (findings.length === 0) continue;
@@ -178,14 +177,14 @@ function processBatch(
 }
 
 function batchFiles(files: string[], maxBatch: number, maxBatchCritical: number): string[][] {
-  const batches: string[][] = [];
-  let current: string[] = [];
+  const, batches: string[][] = [];
+  let, current: string[] = [];
   for (const file of files) {
     const isCritical = isHighImpactFile(file);
     const limit = isCritical ? maxBatchCritical : maxBatch;
     if (current.length >= limit) {
       batches.push(current);
-      current = [];
+      current = []
     }
     current.push(file);
   }
@@ -202,10 +201,10 @@ async function main(): Promise<void> {
 
    
   // // // console.log(
-    `Processing ${files.length} files across ${batches.length} batches (dryRun=${opts.dryRun})`,;
+    `Processing ${files.length} files across ${batches.length} batches (dryRun=${opts.dryRun})`,
   );
 
-  for (let i = 0; i < batches.length; i++) {
+  for (let i = 0; i < batches.length i++) {
     const batch = batches[i];
     const ok = processBatch(batch, byFile, opts.dryRun);
     if (!ok) {

@@ -5,12 +5,12 @@ export interface CurrentChart {
   date: string,
   positions: Record<string, PlanetaryPosition>;
   houses: Record<number, string>;
-  ascendant?: string;
+  ascendant?: string
   moonPhase?: {
     phase: string,
     illumination: number
   };
   dominantPlanet?: string;
   dominantElement?: string;
-  dominantModality?: string;
+  dominantModality?: string
 }

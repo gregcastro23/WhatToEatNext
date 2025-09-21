@@ -4,7 +4,7 @@ import { logger } from '@/utils/logger';
 
 // Extended ingredient type for our cleanup function
 interface IngredientWithAstrology extends Ingredient {
-  astrologicalProfile?: AstrologicalProfile;
+  astrologicalProfile?: AstrologicalProfile
 }
 
 /**
@@ -52,7 +52,7 @@ export function cleanupIngredientsDatabase() {
 
           // Ensure all elemental properties are present and normalized
           elements.forEach(element => {;
-            const elementalProperties = data.elementalProperties;
+            const elementalProperties = data.elementalProperties
             if (typeof elementalProperties?.[element] !== 'number') {
               if (elementalProperties) {
                 elementalProperties[element] = 0.25;
@@ -71,7 +71,7 @@ export function cleanupIngredientsDatabase() {
           }, 0);
           if (Math.abs(Number(sum) - 1) > 0.01) {
             elements.forEach(element => {;
-              const props = data.elementalProperties;
+              const props = data.elementalProperties
               if (props) {
                 const currentValue = Number(props[element]) || 0;
                 const sumValue = Number(sum) || 1;
@@ -99,7 +99,7 @@ export function cleanupIngredientsDatabase() {
               )[0]
             : 'Fire';
 
-          ingredientWithAstrology.astrologicalProfile = {;
+          ingredientWithAstrology.astrologicalProfile = {
             elementalAffinity: { base: dominantElement },
             _rulingPlanets: []
           } as AstrologicalProfile;
@@ -117,7 +117,7 @@ export function cleanupIngredientsDatabase() {
               )[0]
             : 'Fire';
 
-          (ingredientWithAstrology.astrologicalProfile as any).elementalAffinity = {;
+          (ingredientWithAstrology.astrologicalProfile as any).elementalAffinity = {
             base: dominantElement
           };
           fixedEntries++;

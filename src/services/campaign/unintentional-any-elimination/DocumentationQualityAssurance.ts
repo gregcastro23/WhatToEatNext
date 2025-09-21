@@ -49,11 +49,11 @@ export interface QualityMetrics {
 }
 
 export class DocumentationQualityAssurance {
-  private config: QualityAssuranceConfig,
-  private qualityCache: Map<string, DocumentationValidation> = new Map(),
+  private, config: QualityAssuranceConfig,
+  private, qualityCache: Map<string, DocumentationValidation> = new Map(),
 
   constructor(config?: Partial<QualityAssuranceConfig>) {
-    this.config = {;
+    this.config = {
       sourceDirectories: ['src'],
       excludePatterns: [
         'node_modules/**',
@@ -80,8 +80,8 @@ export class DocumentationQualityAssurance {
    */
   async performQualityAssurance(): Promise<DocumentationReport> {
     const files = await this.findTypeScriptFiles();
-    const undocumentedTypes: UndocumentedAnyType[] = [];
-    const qualityBreakdown: Record<string, number> = {
+    const, undocumentedTypes: UndocumentedAnyType[] = []
+    const, qualityBreakdown: Record<string, number> = {
       poor: 0,
       fair: 0,
       good: 0,
@@ -111,7 +111,7 @@ export class DocumentationQualityAssurance {
               codeSnippet: anyType.codeSnippet,
               category: this.categorizeAnyType(anyType.codeSnippet),
               domain: this.determineDomain(anyType.filePath),
-              severity: this.assessSeverity(anyType)
+              severity: this.assessSeverity(anyType);
             });
           }
         }
@@ -121,15 +121,15 @@ export class DocumentationQualityAssurance {
     }
 
     const averageQualityScore = totalAnyTypes > 0 ? totalQualityScore / documentedTypes : 0;
-    const documentationCoverage = totalAnyTypes > 0 ? (documentedTypes / totalAnyTypes) * 100 : 100;
+    const documentationCoverage = totalAnyTypes > 0 ? (documentedTypes / totalAnyTypes) * 100 : 100
 
     return {
       totalIntentionalAnyTypes: totalAnyTypes,
       documentedTypes,
-      undocumentedTypes: undocumentedTypes.length;
+      undocumentedTypes: undocumentedTypes.length
       documentationCoverage,
       qualityBreakdown,
-      undocumentedFiles: [...new Set(undocumentedTypes.map(t => t.filePath))],,;
+      undocumentedFiles: [...new Set(undocumentedTypes.map(t => t.filePath))],,
       recommendations: this.generateRecommendations(
         documentationCoverage,
         qualityBreakdown,
@@ -170,7 +170,7 @@ export class DocumentationQualityAssurance {
       hasComment && commentQuality !== 'poor' && hasEslintDisable && eslintDisableHasExplanation;
 
     // Generate suggestions
-    const suggestions = this.generateQualityImprovementSuggestions(;
+    const suggestions = this.generateQualityImprovementSuggestions(
       comment,
       hasComment,
       commentQuality,
@@ -179,7 +179,7 @@ export class DocumentationQualityAssurance {
       context,
     );
 
-    const validation: DocumentationValidation = {;
+    const, validation: DocumentationValidation = {
       hasComment,
       commentQuality,
       hasEslintDisable,
@@ -200,8 +200,8 @@ export class DocumentationQualityAssurance {
     let totalFiles = 0;
     let filesWithAnyTypes = 0;
     let totalAnyTypes = 0;
-    let documentedAnyTypes = 0;
-    const qualityDistribution: Record<string, number> = {
+    let documentedAnyTypes = 0
+    const, qualityDistribution: Record<string, number> = {
       poor: 0,
       fair: 0,
       good: 0,
@@ -236,7 +236,7 @@ export class DocumentationQualityAssurance {
 
     const averageQualityScore = documentedAnyTypes > 0 ? totalQualityScore / documentedAnyTypes : 0;
     const compliancePercentage =
-      totalAnyTypes > 0 ? (documentedAnyTypes / totalAnyTypes) * 100 : 100;
+      totalAnyTypes > 0 ? (documentedAnyTypes / totalAnyTypes) * 100 : 100
 
     return {
       totalFiles,
@@ -254,17 +254,17 @@ export class DocumentationQualityAssurance {
    * Find all TypeScript files in source directories
    */
   private async findTypeScriptFiles(): Promise<string[]> {
-    const files: string[] = [];
+    const, files: string[] = []
 
     for (const dir of this.config.sourceDirectories) {
-      const dirFiles = await this.findFilesRecursively(dir, ['.ts', '.tsx']),;
+      const dirFiles = await this.findFilesRecursively(dir, ['.ts', '.tsx']),
       files.push(...dirFiles);
     }
 
     // Filter out excluded patterns
-    return files.filter(file => {;
-      return !this.config.excludePatterns.some(pattern => {;
-        const regex = new RegExp(pattern.replace(/\*\*/g, '.*').replace(/\*/g, '[^/]*')),;
+    return files.filter(file => {
+      return !this.config.excludePatterns.some(pattern => {
+        const regex = new RegExp(pattern.replace(/\*\*/g, '.*').replace(/\*/g, '[^/]*')),
         return regex.test(file);
       });
     });
@@ -274,7 +274,7 @@ export class DocumentationQualityAssurance {
    * Recursively find files with specific extensions
    */
   private async findFilesRecursively(dir: string, extensions: string[]): Promise<string[]> {
-    const files: string[] = [];
+    const, files: string[] = []
 
     try {
       const entries = await fs.readdir(dir, { withFileTypes: true });
@@ -283,7 +283,7 @@ export class DocumentationQualityAssurance {
         const fullPath = path.join(dir, entry.name);
 
         if (entry.isDirectory()) {
-          const subFiles = await this.findFilesRecursively(fullPath, extensions),;
+          const subFiles = await this.findFilesRecursively(fullPath, extensions),
           files.push(...subFiles);
         } else if (entry.isFile()) {
           const ext = path.extname(entry.name);
@@ -306,10 +306,10 @@ export class DocumentationQualityAssurance {
   private async findAnyTypesInFile(filePath: string): Promise<ClassificationContext[]> {
     const content = await fs.readFile(filePath, 'utf-8');
     const lines = content.split('\n');
-    const anyTypes: ClassificationContext[] = [];
+    const, anyTypes: ClassificationContext[] = []
 
     // Patterns to match any types
-    const anyPatterns = [;
+    const anyPatterns = [
       /:\s*any\b/g, // : any
       /:\s*any\[\]/g, // : unknown[]
       /:\s*Record<[^,]+,\s*any>/g, // : Record<string, unknown>
@@ -319,11 +319,11 @@ export class DocumentationQualityAssurance {
     ],
 
     lines.forEach((line, index) => {
-      anyPatterns.forEach(pattern => {;
+      anyPatterns.forEach(pattern => {
         const matches = line.matchAll(pattern);
         for (const match of matches) {
           if (match.index !== undefined) {
-            const context: ClassificationContext = {;
+            const, context: ClassificationContext = {
               filePath,
               lineNumber: index + 1,
               codeSnippet: line.trim(),
@@ -402,8 +402,8 @@ export class DocumentationQualityAssurance {
    */
   private getSurroundingLines(lines: string[], lineIndex: number): string[] {
     const start = Math.max(0, lineIndex - 2);
-    const end = Math.min(lines.length, lineIndex + 3),;
-    return lines.slice(start, end)
+    const end = Math.min(lines.length, lineIndex + 3),
+    return lines.slice(start, end);
   }
 
   /**
@@ -446,7 +446,7 @@ export class DocumentationQualityAssurance {
     let score = 0;
 
     // Check for required keywords
-    const hasRequiredKeyword = this.config.requiredKeywords.some(keyword =>;
+    const hasRequiredKeyword = this.config.requiredKeywords.some(keyword =>
       lowerComment.includes(keyword.toLowerCase());
     );
     if (hasRequiredKeyword) score += 30;
@@ -456,7 +456,7 @@ export class DocumentationQualityAssurance {
       lowerComment.includes('because') ||
       lowerComment.includes('for') ||
       lowerComment.includes('due to') ||
-      lowerComment.includes('requires')
+      lowerComment.includes('requires');
     ) {
       score += 25;
     }
@@ -468,7 +468,7 @@ export class DocumentationQualityAssurance {
       lowerComment.includes('dynamic') ||
       lowerComment.includes('flexible') ||
       lowerComment.includes('legacy') ||
-      lowerComment.includes('compatibility')
+      lowerComment.includes('compatibility');
     ) {
       score += 20;
     }
@@ -498,7 +498,7 @@ export class DocumentationQualityAssurance {
     const lower = codeSnippet.toLowerCase();
 
     if (lower.includes('catch') || lower.includes('error')) {
-      return AnyTypeCategory.ERROR_HANDLING;
+      return AnyTypeCategory.ERROR_HANDLING
     }
     if (lower.includes('api') || lower.includes('response') || lower.includes('fetch')) {
       return AnyTypeCategory.EXTERNAL_API;
@@ -518,8 +518,8 @@ export class DocumentationQualityAssurance {
     if (lower.includes('function') || lower.includes('=>') || lower.includes('param')) {
       return AnyTypeCategory.FUNCTION_PARAM;
     }
-    if (lower.includes('return') || lower.includes(':')) {
-      return AnyTypeCategory.RETURN_TYPE;
+    if (lower.includes('return') || lower.includes(': ')) {
+      return AnyTypeCategory.RETURN_TYPE
     }
 
     return AnyTypeCategory.LEGACY_COMPATIBILITY;
@@ -531,9 +531,9 @@ export class DocumentationQualityAssurance {
   private determineDomain(filePath: string): CodeDomain {
     const lower = filePath.toLowerCase();
 
-    // Check for test files first (they often contain other keywords)
+    // Check for test files first (they often contain other keywords);
     if (lower.includes('test') || lower.includes('spec')) {
-      return CodeDomain.TEST;
+      return CodeDomain.TEST
     }
     if (lower.includes('astro') || lower.includes('planet') || lower.includes('lunar')) {
       return CodeDomain.ASTROLOGICAL;
@@ -602,7 +602,7 @@ export class DocumentationQualityAssurance {
     eslintDisableHasExplanation: boolean,
     context: ClassificationContext,
   ): string[] {
-    const suggestions: string[] = [];
+    const, suggestions: string[] = [];
 
     if (!hasComment) {
       suggestions.push('Add explanatory comment indicating intentional use of any type');
@@ -611,23 +611,20 @@ export class DocumentationQualityAssurance {
       );
     } else {
       switch (commentQuality) {
-        case 'poor':
-          suggestions.push('Improve comment quality with more detailed explanation');
+        case 'poor': suggestions.push('Improve comment quality with more detailed explanation');
           suggestions.push('Include keywords like 'intentionally', 'deliberately', or 'required''),
           suggestions.push(
             `Minimum comment length should be ${this.config.minimumCommentLength} characters`,
           );
           break;
-        case 'fair':
-          suggestions.push('Consider adding more context about why any type is necessary');
+        case 'fair': suggestions.push('Consider adding more context about why any type is necessary');
           suggestions.push('Explain the specific use case or external dependency');
-          break;
+          break
         case 'good':
           suggestions.push('Comment quality is good, consider adding domain-specific context');
           break;
-        case 'excellent':
-          // No suggestions needed
-          break;
+        case 'excellent': // No suggestions needed
+          break
       }
     }
 
@@ -639,7 +636,7 @@ export class DocumentationQualityAssurance {
       suggestions.push('Add explanation to ESLint disable comment');
     }
 
-    if (suggestions.length === 0) {;
+    if (suggestions.length === 0) {
       suggestions.push('Documentation is complete and meets quality standards');
     }
 
@@ -653,10 +650,9 @@ export class DocumentationQualityAssurance {
     const { domainContext, codeSnippet } = context;
 
     switch (domainContext.domain) {
-      case CodeDomain.ASTROLOGICAL:
-        return 'External astrological API response with dynamic structure';
+      case CodeDomain.ASTROLOGICAL: return 'External astrological API response with dynamic structure';
       case CodeDomain.RECIPE:
-        return 'External recipe API with flexible ingredient data';
+        return 'External recipe API with flexible ingredient data'
       case CodeDomain.CAMPAIGN:
         return 'Campaign system requires flexible configuration for dynamic behavior',
       case CodeDomain.SERVICE:
@@ -679,7 +675,7 @@ export class DocumentationQualityAssurance {
     qualityBreakdown: Record<string, number>,
     undocumentedTypes: UndocumentedAnyType[],
   ): string[] {
-    const recommendations: string[] = [];
+    const, recommendations: string[] = []
 
     if (coverage < 50) {
       recommendations.push(

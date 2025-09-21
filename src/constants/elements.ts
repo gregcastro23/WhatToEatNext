@@ -1,4 +1,4 @@
-export const _ELEMENTAL_PROPERTIES = {;
+export const _ELEMENTAL_PROPERTIES = {
   Fire: {
     qualities: ['hot', 'dry'],
     season: 'summer',
@@ -33,7 +33,7 @@ export const _ELEMENTAL_PROPERTIES = {;
   }
 };
 
-export const _ELEMENT_COMBINATIONS = {;
+export const _ELEMENT_COMBINATIONS = {
   harmonious: [
     ['Fire', 'Air'],
     ['Water', 'Earth'],
@@ -46,7 +46,7 @@ export const _ELEMENT_COMBINATIONS = {;
   ]
 };
 
-export const _ELEMENTAL_THRESHOLDS = {;
+export const _ELEMENTAL_THRESHOLDS = {
   dominant: 0.4,
   significant: 0.25,
   present: 0.1,

@@ -21,7 +21,7 @@ export interface AstrologicalState {
   sunSign?: string;
   moonPhase?: string;
   lunarPhase?: string;
-  activePlanets?: string[];
+  activePlanets?: string[]
   [key: string]: unknown
 }
 
@@ -38,7 +38,7 @@ export interface ElementalProperties {
 export interface RecipeIngredient {
   name: string;
   amount?: number | string;
-  unit?: string;
+  unit?: string
   [key: string]: unknown
 }
 
@@ -57,7 +57,7 @@ export interface ScoredRecipe extends Recipe {
 
 // Define a simplified Ingredient type
 export interface Ingredient {
-  name: string;
+  name: string
   [key: string]: unknown
 }
 
@@ -80,7 +80,7 @@ export type {
 export function toCookingMethod(value: string): CookingMethod {
   // We're casting here since we know these values are valid
   // This function should only be used in tests or data migration
-  return value as CookingMethod;
+  return value as CookingMethod
 }
 
 /**
@@ -88,7 +88,7 @@ export function toCookingMethod(value: string): CookingMethod {
  */
 export function toSeason(value: string | string[]): Season | Season[] {
   if (Array.isArray(value)) {
-    return value.map(v => v as Season);
+    return value.map(v => v as Season)
   }
   return value as Season;
 }

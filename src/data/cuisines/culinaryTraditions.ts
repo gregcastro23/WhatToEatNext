@@ -1,7 +1,7 @@
 // Define the CuisineProfile interface to match the type needed for culinary traditions
 export interface CuisineProfile {
   elementalAlignment: Record<string, number>;
-  description?: string; // Add optional description field
+  description?: string // Add optional description field
   astrologicalProfile: {
     rulingPlanets: string[],
     favorableZodiac: string[],
@@ -10,7 +10,7 @@ export interface CuisineProfile {
     seasonalPreference?: string[]
   };
   signatureModifications: Record<string, string>;
-  seasonalPreferences?: string[];
+  seasonalPreferences?: string[]
 }
 
 // The simplified culinary traditions profiles

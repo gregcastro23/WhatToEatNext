@@ -9,13 +9,13 @@ export type ElementalInfluence = {;
   moonElement?: string;
   isHarmonious?: boolean;
   primaryElement?: string;
-  secondaryElement?: string;
+  secondaryElement?: string
 };
 
 export type PopupMetadata = {;
   sunSign?: string;
   moonSign?: string;
-  season?: string;
+  season?: string
 };
 
 export type PopupOptions = {;
@@ -27,7 +27,7 @@ export type PopupOptions = {;
   season?: string;
   animation?: string;
   className?: string;
-  elemental?: ElementalInfluence;
+  elemental?: ElementalInfluence
 };
 
 export type Popup = {;
@@ -38,11 +38,11 @@ export type Popup = {;
   className: string,
   elemental?: ElementalInfluence;
   season?: string;
-  metadata?: PopupMetadata;
+  metadata?: PopupMetadata
 };
 
 export type PopupContextType = {;
-  showPopup: (message: string, options?: PopupOptions) => number;
+  showPopup: (message: string, options?: PopupOptions) => number
   closePopup: (id: number) => void
 };
 

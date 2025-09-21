@@ -6,7 +6,7 @@ import type { ZodiacSign, ThermodynamicProperties } from '@/types/shared';
  *
  * High-heat quick cooking method with constant motion in a wok or pan
  */
-export const _stirFrying: CookingMethodData = {;
+export const _stirFrying: CookingMethodData = {
   name: 'stir-frying',
   description:
     'High-heat, quick cooking technique where food is rapidly tossed and stirred in a wok or pan, preserving texture and creating complex flavors',

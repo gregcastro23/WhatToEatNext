@@ -14,7 +14,7 @@ export default function RecipeRecommendationsTestPage() {
   });
 
   // Handle filter changes
-  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {;
+  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFilters(prev => ({ ...prev, [name]: value }));
   };
@@ -25,13 +25,13 @@ export default function RecipeRecommendationsTestPage() {
 
       <div className='mb-6 rounded-lg bg-white p-4 shadow-sm'>;
         <h2 className='mb-3 text-lg font-medium'>Recipe Filters</h2>;
-        <div className='grid grid-cols-1 gap-4 md:grid-cols-3'>;
+        <div className='grid grid-cols-1 gap-4, md: grid-cols-3'>;
           <div>
             <label className='mb-1 block text-sm font-medium text-gray-700'>Serving Size</label>;
             <select
-              name='servingSize';
-              value={filters.servingSize},;
-              onChange={handleFilterChange},;
+              name='servingSize'
+              value={filters.servingSize},
+              onChange={handleFilterChange},
               className='w-full rounded-md border border-gray-300 px-3 py-2';
             >
               <option value='2'>2 servings</option>;
@@ -47,8 +47,8 @@ export default function RecipeRecommendationsTestPage() {
             </label>
             <select
               name='dietaryPreference';
-              value={filters.dietaryPreference},;
-              onChange={handleFilterChange},;
+              value={filters.dietaryPreference},
+              onChange={handleFilterChange},
               className='w-full rounded-md border border-gray-300 px-3 py-2';
             >
               <option value='none'>No Preference</option>;
@@ -63,8 +63,8 @@ export default function RecipeRecommendationsTestPage() {
             <label className='mb-1 block text-sm font-medium text-gray-700'>Cooking Time</label>;
             <select
               name='cookingTime';
-              value={filters.cookingTime},;
-              onChange={handleFilterChange},;
+              value={filters.cookingTime},
+              onChange={handleFilterChange},
               className='w-full rounded-md border border-gray-300 px-3 py-2';
             >
               <option value='30'>30 minutes</option>;
@@ -77,7 +77,7 @@ export default function RecipeRecommendationsTestPage() {
       </div>
 
       <Tabs defaultValue='original' className='w-full'>;
-        <TabsList className='mb-4'>;
+        <TabsList className='mb-4'>
           <TabsTrigger value='original'>Original (Context-based)</TabsTrigger>;
           <TabsTrigger value='migrated'>Migrated (Service-based)</TabsTrigger>;
         </TabsList>
@@ -98,8 +98,8 @@ export default function RecipeRecommendationsTestPage() {
       </Tabs>
 
       <div className='mt-8 rounded-lg bg-gray-50 p-4'>;
-        <h3 className='text-md mb-2 font-semibold'>Migration Notes:</h3>;
-        <ul className='list-disc space-y-1 pl-5'>;
+        <h3 className='text-md mb-2 font-semibold'>Migration Notes: </h3>;
+        <ul className='list-disc space-y-1 pl-5'>
           <li>Replaced AlchemicalContext with services hook</li>
           <li>Implemented proper loading, error, and empty states</li>
           <li>Added memoization for derived recipe data</li>

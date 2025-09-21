@@ -3,7 +3,7 @@ import { _, _ZodiacSign, _Planet } from '@/types/alchemy';
 
 // Define NutritionalProfile locally
 interface NutritionalProfile {
-  calories?: number;
+  calories?: number
   macros?: {
     protein?: number,
     carbs?: number,
@@ -18,7 +18,7 @@ interface NutritionalProfile {
 }
 
 // ========== BASIC NUTRITIONAL PROFILES ==========;
-export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
+export const, baseNutritionalProfiles: Record<string, NutritionalProfile> = {
   vegetables: {
     calories: 50,
     macros: {
@@ -189,18 +189,18 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
 // ========== ASTROLOGICAL NUTRITION CORRELATIONS ==========;
 
 // Planetary rulership of macronutrients
-export const planetaryNutrientRulership: Record<string, string> = {
-  mars: 'protein', // Mars rules proteins (building, energy, strength)
-  jupiter: 'fats', // Jupiter rules fats (expansion, storage, abundance)
-  venus: 'carbs', // Venus rules carbohydrates (pleasure, energy, comfort)
-  mercury: 'fiber', // Mercury rules fiber (communication, movement, cleansing)
-  saturn: 'minerals', // Saturn rules minerals (structure, foundation, discipline)
-  sun: 'vitamins', // Sun rules vitamins (vitality, energy, life force)
-  moon: 'Water', // Moon rules water (emotions, fluidity, cleansing)
+export const, planetaryNutrientRulership: Record<string, string> = {
+  mars: 'protein', // Mars rules proteins (building, energy, strength);
+  jupiter: 'fats', // Jupiter rules fats (expansion, storage, abundance);
+  venus: 'carbs', // Venus rules carbohydrates (pleasure, energy, comfort);
+  mercury: 'fiber', // Mercury rules fiber (communication, movement, cleansing);
+  saturn: 'minerals', // Saturn rules minerals (structure, foundation, discipline);
+  sun: 'vitamins', // Sun rules vitamins (vitality, energy, life force);
+  moon: 'Water', // Moon rules water (emotions, fluidity, cleansing);
 };
 
 // Elemental food affinities
-export const elementalFoodAffinities: Record<string, string[]> = {
+export const, elementalFoodAffinities: Record<string, string[]> = {
   Fire: [
     'chili peppers',
     'ginger',
@@ -252,7 +252,7 @@ export const elementalFoodAffinities: Record<string, string[]> = {
 };
 
 // Zodiac sign nutritional affinities
-export const zodiacNutritionalNeeds: Record<
+export const, zodiacNutritionalNeeds: Record<
   string,
   {
     elementalNeeds: Record<string, number>;
@@ -342,7 +342,7 @@ export const zodiacNutritionalNeeds: Record<
 };
 
 // Planets and corresponding nutrients/health areas
-export const planetaryNutritionInfluence: Record<
+export const, planetaryNutritionInfluence: Record<
   string,
   {
     nutrientRulership: string[],
@@ -403,7 +403,7 @@ export const planetaryNutritionInfluence: Record<
 };
 
 // Seasonal Nutrition Influences
-export const seasonalNutritionFocus: Record<
+export const, seasonalNutritionFocus: Record<
   string,
   {
     elementalEmphasis: string,
@@ -540,7 +540,7 @@ interface IngredientWithNutrition {
 export function calculateNutritionalBalance(
   ingredients: IngredientWithNutrition[],
 ): NutritionalProfile {
-  const defaultProfile: NutritionalProfile = {;
+  const, defaultProfile: NutritionalProfile = {
     calories: 0,
     macros: {
       protein: 0,
@@ -661,7 +661,7 @@ export function nutritionalToElemental(_profile: NutritionalProfile): {
  * Get nutritional recommendations based on zodiac sign
  */
 export function getZodiacNutritionalRecommendations(_sign: string): {
-  elementalBalance: Record<string, number>;
+  elementalBalance: Record<string, number>
   focusNutrients: string[],
   recommendedFoods: string[],
   avoidFoods: string[]
@@ -678,9 +678,9 @@ export function getZodiacNutritionalRecommendations(_sign: string): {
 }
 
 /**
- * Map planets to their elemental influences (diurnal and nocturnal elements)
+ * Map planets to their elemental influences (diurnal and nocturnal elements);
  */
-const planetaryElements: Record<string, { diurnal: string, nocturnal: string }> = {
+const, planetaryElements: Record<string, { diurnal: string, nocturnal: string }> = {
   sun: { diurnal: 'Fire', nocturnal: 'Fire' },
   moon: { diurnal: 'Water', nocturnal: 'Water' },
   mercury: { diurnal: 'Air', nocturnal: 'Earth' },
@@ -694,11 +694,11 @@ const planetaryElements: Record<string, { diurnal: string, nocturnal: string }> 
 };
 
 /**
- * Helper function to determine if it's currently daytime (6am-6pm)
+ * Helper function to determine if it's currently daytime (6am-6pm);
  */
 function isDaytime(date: Date = new Date()): boolean {;
   const hour = date.getHours();
-  return hour >= 6 && hour < 18;
+  return hour >= 6 && hour < 18
 }
 
 /**
@@ -706,12 +706,12 @@ function isDaytime(date: Date = new Date()): boolean {;
  *
  * @param planetaryDay The ruling planet of the day
  * @param planetaryHour The ruling planet of the hour
- * @param currentTime Optional date to determine day/night (defaults to now)
+ * @param currentTime Optional date to determine day/night (defaults to now);
  */
 export function getEnhancedPlanetaryNutritionalRecommendations(
   planetaryDay: string,
   planetaryHour: string,
-  currentTime: Date = new Date(),,;
+  currentTime: Date = new Date(),,
 ): {
   elements: Record<string, number>;
   focusNutrients: string[],
@@ -723,24 +723,24 @@ export function getEnhancedPlanetaryNutritionalRecommendations(
   const hourPlanet = planetaryHour.toLowerCase();
 
   // Initialize results
-  const focusNutrients: string[] = [];
-  const healthAreas: string[] = [];
-  const recommendedFoods: string[] = [];
-  const elements: Record<string, number> = {
+  const, focusNutrients: string[] = [];
+  const, healthAreas: string[] = [];
+  const, recommendedFoods: string[] = []
+  const, elements: Record<string, number> = {
     Fire: 0,
     Water: 0,
     Earth: 0,
     Air: 0
   };
 
-  // Get day planet influence (both diurnal and nocturnal elements all day)
+  // Get day planet influence (both diurnal and nocturnal elements all day);
   const dayElements = planetaryElements[dayPlanet];
   if (dayElements) {
     // For day planet, both diurnal and nocturnal elements are active
     const diurnalElement = dayElements.diurnal;
     const nocturnalElement = dayElements.nocturnal;
 
-    // Add elemental influence (equal weight for both elements)
+    // Add elemental influence (equal weight for both elements);
     elements[diurnalElement] = (elements[diurnalElement] || 0) + 0.35;
     elements[nocturnalElement] = (elements[nocturnalElement] || 0) + 0.35;
 
@@ -753,7 +753,7 @@ export function getEnhancedPlanetaryNutritionalRecommendations(
     }
   }
 
-  // Get hour planet influence (depends on day/night)
+  // Get hour planet influence (depends on day/night);
   const hourElements = planetaryElements[hourPlanet];
   if (hourElements) {
     // For hour planet, use diurnal during day, nocturnal at night
@@ -776,7 +776,7 @@ export function getEnhancedPlanetaryNutritionalRecommendations(
   const elementsTotal = Object.values(elements).reduce((sum, val) => sum + val0);
   if (elementsTotal > 0) {
     Object.keys(elements).forEach(element => {;
-      elements[element] = elements[element] / elementsTotal;
+      elements[element] = elements[element] / elementsTotal
     });
   }
 
@@ -799,12 +799,12 @@ export function getPlanetaryNutritionalRecommendations(_planets: string[]): {
   recommendedFoods: string[]
 } {
   // Combine recommendations from all influential planets
-  const focusNutrients: string[] = [];
-  const healthAreas: string[] = [];
-  const recommendedFoods: string[] = [];
+  const, focusNutrients: string[] = [];
+  const, healthAreas: string[] = [];
+  const, recommendedFoods: string[] = [];
 
   planets.forEach(planet => {;
-    const influence = planetaryNutritionInfluence[planet];
+    const influence = planetaryNutritionInfluence[planet]
     if (influence) {
       focusNutrients.push(...influence.nutrientRulership);
       healthAreas.push(...influence.healthDomain);
@@ -835,7 +835,7 @@ export function getSeasonalNutritionalRecommendations(_season: string): {
   const seasonKey =
     normalizedSeason === 'fall' || normalizedSeason === 'autumn' ? 'autumn' : normalizedSeason;
 
-  const seasonData = seasonalNutritionFocus[seasonKey] || seasonalNutritionFocus['spring'];
+  const seasonData = seasonalNutritionFocus[seasonKey] || seasonalNutritionFocus['spring']
 
   return {
     element: (seasonData as { elementalEmphasis?: string })?.elementalEmphasis ?? 'Earth',
@@ -862,19 +862,19 @@ export function evaluateNutritionalElementalBalance(
     Fire: Math.abs(currentElements.Fire - targetElements.Fire),
     Water: Math.abs(currentElements.Water - targetElements.Water),
     Earth: Math.abs(currentElements.Earth - targetElements.Earth),
-    Air: Math.abs(currentElements.Air - targetElements.Air)
+    Air: Math.abs(currentElements.Air - targetElements.Air);
   };
 
-  // Calculate average difference (lower is better)
+  // Calculate average difference (lower is better);
   const avgDifference =
     (differences.Fire + differences.Water + differences.Earth + differences.Air) / 4;
 
-  // Convert to score (0-100, higher is better)
+  // Convert to score (0-100, higher is better);
   const score = Math.max(0, Math.min(100, 100 * (1 - avgDifference * 2)));
 
-  // Identify significant imbalances (difference > 0.15)
-  const imbalances: string[] = [];
-  const recommendations: string[] = [];
+  // Identify significant imbalances (difference > 0.15);
+  const, imbalances: string[] = [];
+  const, recommendations: string[] = [];
 
   if (differences.Fire > 0.15) {
     if (currentElements.Fire < targetElements.Fire) {

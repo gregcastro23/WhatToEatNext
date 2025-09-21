@@ -14,7 +14,7 @@ export type WithStringIndex<T> = T & StringIndexed;
  * A utility type to convert nested records to accept string indexes
  */
 export type DeepStringIndexed<T> = {
-  [K in keyof T]: T[K] extends object ? DeepStringIndexed<T[K]> & StringIndexed : T[K];
+  [K in keyof T]: T[K] extends object ? DeepStringIndexed<T[K]> & StringIndexed : T[K]
 } & StringIndexed;
 
 /**
@@ -37,7 +37,7 @@ export type SeasonalRecord<T> = {
   _summer: T,
   _autumn: T,
   _winter: T,
-  [key: string]: T; // For case-insensitive lookup
+  [key: string]: T // For case-insensitive lookup
 };
 
 /**
@@ -54,7 +54,7 @@ export type PlanetaryRecord<T> = {
   _uranus: T,
   _neptune: T,
   _pluto: T,
-  [key: string]: T; // For case-insensitive or additional planets
+  [key: string]: T // For case-insensitive or additional planets
 };
 
 /**
@@ -65,5 +65,5 @@ export type TimeOfDayRecord<T> = {
   _noon: T,
   _evening: T,
   _night: T,
-  [key: string]: T; // For additional time periods
+  [key: string]: T // For additional time periods
 };

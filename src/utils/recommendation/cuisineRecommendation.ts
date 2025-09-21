@@ -4,7 +4,7 @@
 import { ElementalProperties } from '@/types/alchemy';
 
 export interface CuisineRecommendation {
-  cuisine: string; // Using string instead of missing string
+  cuisine: string // Using string instead of missing string
   score: number,
   reasoning: string,
   elementalMatch: number
@@ -13,7 +13,7 @@ export interface CuisineRecommendation {
 export interface CuisineRecommendationParams {
   elementalProperties: ElementalProperties;
   preferences?: string[];
-  dietaryRestrictions?: string[];
+  dietaryRestrictions?: string[]
 }
 
 export function generateCuisineRecommendation(
@@ -22,7 +22,7 @@ export function generateCuisineRecommendation(
   const { elementalProperties } = params;
 
   // Basic cuisine recommendations based on elemental properties
-  const recommendations: CuisineRecommendation[] = [];
+  const recommendations: CuisineRecommendation[] = []
 
   // Fire-based cuisines
   if (elementalProperties.Fire > 0.6) {
@@ -84,11 +84,11 @@ export function getMatchScoreClass(score: number): string {
   if (score >= 0.8) return 'match-excellent';
   if (score >= 0.6) return 'match-good';
   if (score >= 0.4) return 'match-fair';
-  return 'match-poor';
+  return 'match-poor'
 }
 
 export function renderScoreBadge(score: number): string {
-  const percentage = Math.round(score * 100);
+  const percentage = Math.round(score * 100)
   if (percentage >= 80) return `🌟 ${percentage}%`;
   if (percentage >= 60) return `⭐ ${percentage}%`;
   if (percentage >= 40) return `⚡ ${percentage}%`;
@@ -146,7 +146,7 @@ export function calculateElementalContributionsFromPlanets(
       contributions.Fire += planetElements.Fire * strength;
       contributions.Water += planetElements.Water * strength;
       contributions.Earth += planetElements.Earth * strength;
-      contributions.Air += planetElements.Air * strength;
+      contributions.Air += planetElements.Air * strength
     }
   });
 

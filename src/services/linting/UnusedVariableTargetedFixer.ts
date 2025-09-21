@@ -21,7 +21,7 @@ interface FixResult {
 }
 
 export class UnusedVariableTargetedFixer {
-  private preservePatterns = [;
+  private preservePatterns = [
     // Astrological calculation files
     /src\/calculations\//,
     /src\/data\/planets\//,
@@ -45,8 +45,7 @@ export class UnusedVariableTargetedFixer {
    */
   public async fixUnusedFunctionParameters(): Promise<FixResult> {
     log.info('🔧 Fixing unused function parameters...\n');
-
-    const result: FixResult = {;
+    const, result: FixResult = {
       filesProcessed: 0,
       variablesFixed: 0,
       errors: [],
@@ -55,7 +54,7 @@ export class UnusedVariableTargetedFixer {
 
     try {
       // Get files with unused function parameters
-      const lintOutput = execSync('yarn lint --format=compact 2>&1', {;
+      const lintOutput = execSync('yarn lint --format=compact 2>&1', {
         encoding: 'utf8',
         maxBuffer: 10 * 1024 * 1024
       });
@@ -93,8 +92,7 @@ export class UnusedVariableTargetedFixer {
    */
   public async fixUnusedDestructuredVariables(): Promise<FixResult> {
     log.info('🔧 Fixing unused destructured variables...\n');
-
-    const result: FixResult = {;
+    const, result: FixResult = {
       filesProcessed: 0,
       variablesFixed: 0,
       errors: [],
@@ -102,7 +100,7 @@ export class UnusedVariableTargetedFixer {
     };
 
     try {
-      const lintOutput = execSync('yarn lint --format=compact 2>&1', {;
+      const lintOutput = execSync('yarn lint --format=compact 2>&1', {
         encoding: 'utf8',
         maxBuffer: 10 * 1024 * 1024
       });
@@ -140,8 +138,7 @@ export class UnusedVariableTargetedFixer {
    */
   public async removeUnusedImports(): Promise<FixResult> {
     log.info('🔧 Removing unused imports...\n');
-
-    const result: FixResult = {;
+    const, result: FixResult = {
       filesProcessed: 0,
       variablesFixed: 0,
       errors: [],
@@ -177,21 +174,21 @@ export class UnusedVariableTargetedFixer {
   private extractUnusedParameters(
     lintOutput: string,
   ): Array<{ file: string, line: number, param: string }> {
-    const params: Array<{ file: string, line: number, param: string }> = [];
+    const, params: Array<{ file: string, line: number, param: string }> = [];
     const lines = lintOutput.split('\n');
 
     for (const line of lines) {
       if (
         line.includes('@typescript-eslint/no-unused-vars') &&
-        line.includes('Allowed unused args must match')
+        line.includes('Allowed unused args must match');
       ) {
-        const match = line.match(;
-          /^(.+):(\d+):\d+:\s+warning\s+(.+?)\s+@typescript-eslint\/no-unused-vars/;
-        );
+        const match = line.match(
+          /^(.+): (\d+):\d+:\s+warning\s+(.+?)\s+@typescript-eslint\/no-unused-vars/;
+        )
         if (match) {
           const [, filePath, lineNum, message] = match;
           const paramMatch = message.match(/'([^']+)'/);
-          const param = paramMatch ? paramMatch[1] : '';
+          const param = paramMatch ? paramMatch[1] : ''
 
           if (param) {
             params.push({
@@ -213,21 +210,21 @@ export class UnusedVariableTargetedFixer {
   private extractUnusedDestructuredVariables(
     lintOutput: string,
   ): Array<{ file: string, line: number, variable: string }> {
-    const vars: Array<{ file: string, line: number, variable: string }> = [];
+    const, vars: Array<{ file: string, line: number, variable: string }> = [];
     const lines = lintOutput.split('\n');
 
     for (const line of lines) {
       if (
         line.includes('@typescript-eslint/no-unused-vars') &&
-        line.includes('array destructuring patterns must match')
+        line.includes('array destructuring patterns must match');
       ) {
-        const match = line.match(;
-          /^(.+):(\d+):\d+:\s+warning\s+(.+?)\s+@typescript-eslint\/no-unused-vars/;
-        );
+        const match = line.match(
+          /^(.+): (\d+):\d+:\s+warning\s+(.+?)\s+@typescript-eslint\/no-unused-vars/;
+        )
         if (match) {
           const [, filePath, lineNum, message] = match;
           const varMatch = message.match(/'([^']+)'/);
-          const variable = varMatch ? varMatch[1] : '';
+          const variable = varMatch ? varMatch[1] : ''
 
           if (variable) {
             vars.push({
@@ -284,7 +281,7 @@ export class UnusedVariableTargetedFixer {
         const line = lines[lineIndex];
 
         // Replace parameter name with underscore prefix
-        const updatedLine = line.replace(;
+        const updatedLine = line.replace(
           new RegExp(`\\b${param.param}\\b`, 'g'),
           `_${param.param}`,
         ),
@@ -297,7 +294,7 @@ export class UnusedVariableTargetedFixer {
     }
 
     if (fixedCount > 0) {
-      fs.writeFileSync(filePath, lines.join('\n'))
+      fs.writeFileSync(filePath, lines.join('\n'));
     }
 
     return fixedCount;
@@ -323,7 +320,7 @@ export class UnusedVariableTargetedFixer {
         const line = lines[lineIndex];
 
         // Replace variable name with underscore prefix in destructuring
-        const updatedLine = line.replace(;
+        const updatedLine = line.replace(
           new RegExp(`\\b${variable.variable}\\b`, 'g'),
           `_${variable.variable}`,
         ),
@@ -336,7 +333,7 @@ export class UnusedVariableTargetedFixer {
     }
 
     if (fixedCount > 0) {
-      fs.writeFileSync(filePath, lines.join('\n'))
+      fs.writeFileSync(filePath, lines.join('\n'));
     }
 
     return fixedCount;
@@ -347,7 +344,6 @@ export class UnusedVariableTargetedFixer {
    */
   public async validateChanges(): Promise<boolean> {
     log.info('\n🔍 Validating changes...');
-
     try {
       execSync('yarn build', {
         stdio: 'pipe',

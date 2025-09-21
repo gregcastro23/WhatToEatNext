@@ -5,7 +5,7 @@ import './styles.css';
 
 interface _CustomComponentProps {
   title?: string;
-  children?: React.ReactNode;
+  children?: React.ReactNode
 }
 
 // Mock imports for linting test file
@@ -26,7 +26,7 @@ const ImportOrganizationPage: NextPage = () => {
 
   return (
     <div>
-      <CustomComponent title={memoizedValue} />;<p>{String(customValue)}</p>
+      <CustomComponent title={memoizedValue} /><p>{String(customValue)}</p>
     </div>
   );
 };

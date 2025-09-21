@@ -5,7 +5,7 @@ import type { CookingMethod } from '@/types/shared';
  * Distilling: A process that separates and concentrates flavors, aromas, and other
  * compounds through evaporation and condensation
  */
-export const _distilling: CookingMethodData = {;
+export const _distilling: CookingMethodData = {
   name: 'Distilling' as CookingMethod,
   description:
     'A process that separates and concentrates volatile compounds by vaporizing them and then recondensing the vapor, used to extract essential flavors, aromas, and alcohols.',

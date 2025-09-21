@@ -3,10 +3,10 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 interface AstrologicalChart {
-  planets: Record<string, { sign: string; degree: number; minute: number }>;
-  houses: Record<string, { sign: string; degree: number }>;
-  aspects: Array<{ planet1: string; planet2: string; type: string; degree: number }>;
-  timestamp: Date;
+  planets: Record<string, { sign: string; degree: number, minute: number }>;
+  houses: Record<string, { sign: string, degree: number }>;
+  aspects: Array<{ planet1: string; planet2: string; type: string, degree: number }>;
+  timestamp: Date
   [key: string]: unknown
 }
 
@@ -17,7 +17,7 @@ interface ChartContextType {
   updateChart: (data: AstrologicalChart | null) => void
 }
 
-const defaultContextValue: ChartContextType = {;
+const, defaultContextValue: ChartContextType = {
   currentChart: null,
   isLoading: false,
   error: null,
@@ -53,7 +53,7 @@ export function ChartProvider(_{ children }: { children: ReactNode }) {
           planets: {},
           houses: {},
           aspects: [],
-          timestamp: new Date()
+          timestamp: new Date();
         });
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Unknown error loading chart');
@@ -67,7 +67,7 @@ export function ChartProvider(_{ children }: { children: ReactNode }) {
 
   return (
     <ChartContext.Provider value={{ currentChart, isLoading, error, updateChart }}>;
-      ;{children}
+      {children}
     </ChartContext.Provider>
   );
 }

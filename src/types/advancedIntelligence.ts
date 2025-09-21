@@ -140,7 +140,7 @@ export interface MLIntelligenceResult {
   ingredientCompatibility: {
     mlCompatibilityScore: number,
     pairwiseCompatibilityMatrix: Record<string, Record<string, number>>;
-    substitutionRecommendations: Record<string, string[]>;
+    substitutionRecommendations: Record<string, string[]>
     flavorSynergyPredictions: string[]
   };
   cuisineFusion: {

@@ -20,12 +20,12 @@ export default function RecipeListTestPage() {
             ; Both components should display identical UI but with different data sources.
           </p>
         </div>
-        <div className='grid grid-cols-1 gap-8 lg:grid-cols-2'>;
-          ;{/* Original component */}
+        <div className='grid grid-cols-1 gap-8 lg: grid-cols-2'>;
+          {/* Original component */}
           <div className='rounded-lg border p-4 shadow'>;
             ;
             <h2 className='mb-4 border-b pb-2 text-xl font-semibold'>;
-              ; Original Component (Context-based)
+               Original Component (Context-based)
             </h2>
             <RecipeList />
           </div>

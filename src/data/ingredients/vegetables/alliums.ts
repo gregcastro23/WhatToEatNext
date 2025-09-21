@@ -1,7 +1,7 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawAlliums = {;
+const rawAlliums = {
   garlic: {
     name: 'Garlic',
     elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
@@ -81,52 +81,52 @@ const rawAlliums = {;
                 taste: ['Mild', 'Balanced', 'Natural'],
                 aroma: ['Fresh', 'Clean', 'Subtle'],
                 texture: ['Pleasant', 'Smooth', 'Appealing'],
-                notes: 'Characteristic flavorprofile profile',
-                sensoryProfile: {
-                  taste: ['Mild', 'Balanced', 'Natural'],
-                  aroma: ['Fresh', 'Clean', 'Subtle'],
-                  texture: ['Pleasant', 'Smooth', 'Appealing'],
-                  notes: 'Characteristic flavorprofile profile',
-                  sensoryProfile: {
-                    taste: ['Mild', 'Balanced', 'Natural'],
-                    aroma: ['Fresh', 'Clean', 'Subtle'],
-                    texture: ['Pleasant', 'Smooth', 'Appealing'],
-                    notes: 'Characteristic flavorprofile profile',
-                    sensoryProfile: {
-                      taste: ['Mild', 'Balanced', 'Natural'],
-                      aroma: ['Fresh', 'Clean', 'Subtle'],
-                      texture: ['Pleasant', 'Smooth', 'Appealing'],
-                      notes: 'Characteristic flavorprofile profile'
-                    },
-                    culinaryProfile: {
-                      flavorProfile: {
-                        primary: ['balanced'],
-                        secondary: ['versatile'],
-                        notes: 'Versatile flavorprofile for various uses'
-                      },
-                      cookingMethods: ['sautéing', 'steaming', 'roasting'],
-                      cuisineAffinity: ['Global', 'International'],
-                      preparationTips: ['Use as needed', 'Season to taste']
-                    },
-                    season: ['year-round']
-                  },
-                  culinaryProfile: {
-                    flavorProfile: {
-                      primary: ['balanced'],
-                      secondary: ['versatile'],
-                      notes: 'Versatile flavorprofile for various uses'
-                    },
-                    cookingMethods: ['sautéing', 'steaming', 'roasting'],
-                    cuisineAffinity: ['Global', 'International'],
-                    preparationTips: ['Use as needed', 'Season to taste']
-                  },
-                  season: ['year-round']
+                notes: 'Characteristic flavorProfile profile',
+                // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
                 },
                 culinaryProfile: {
                   flavorProfile: {
                     primary: ['balanced'],
                     secondary: ['versatile'],
-                    notes: 'Versatile flavorprofile for various uses'
+                    notes: 'Versatile flavorProfile for various uses'
                   },
                   cookingMethods: ['sautéing', 'steaming', 'roasting'],
                   cuisineAffinity: ['Global', 'International'],
@@ -138,7 +138,7 @@ const rawAlliums = {;
                 flavorProfile: {
                   primary: ['balanced'],
                   secondary: ['versatile'],
-                  notes: 'Versatile flavorprofile for various uses'
+                  notes: 'Versatile flavorProfile for various uses'
                 },
                 cookingMethods: ['sautéing', 'steaming', 'roasting'],
                 cuisineAffinity: ['Global', 'International'],
@@ -174,27 +174,27 @@ const rawAlliums = {;
         flavor: 'milder, better for everyday cooking',
         storage: 'longer shelf life6-9 months',
         popular_types: ['Artichoke', 'Silverskin', 'California Early', 'California Late'],
-        sensoryProfile: {
-          taste: ['Mild', 'Balanced', 'Natural'],
-          aroma: ['Fresh', 'Clean', 'Subtle'],
-          texture: ['Pleasant', 'Smooth', 'Appealing'],
-          notes: 'Characteristic softneck profile',
-          culinaryProfile: {
-            flavorProfile: {
-              primary: ['balanced'],
-              secondary: ['versatile'],
-              notes: 'Versatile softneck for various uses'
-            },
-            cookingMethods: ['sautéing', 'steaming', 'roasting'],
-            cuisineAffinity: ['Global', 'International'],
-            preparationTips: ['Use as needed', 'Season to taste']
-          },
-          season: ['year-round'],
-          preparation: {
-            methods: ['standard preparation'],
-            timing: 'as needed',
-            notes: 'Standard preparation for softneck'
-          }
+        // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
         },
         culinaryProfile: {
           flavorProfile: {
@@ -213,27 +213,27 @@ const rawAlliums = {;
         flavor: 'sweet, umami, balsamic-like with mild garlic flavor',
         origin: 'Asian cuisines, particularly Korean',
         uses: 'specialty applications, high-end cuisine',
-        sensoryProfile: {
-          taste: ['Mild', 'Balanced', 'Natural'],
-          aroma: ['Fresh', 'Clean', 'Subtle'],
-          texture: ['Pleasant', 'Smooth', 'Appealing'],
-          notes: 'Characteristic black profile',
-          culinaryProfile: {
-            flavorProfile: {
-              primary: ['balanced'],
-              secondary: ['versatile'],
-              notes: 'Versatile black for various uses'
-            },
-            cookingMethods: ['sautéing', 'steaming', 'roasting'],
-            cuisineAffinity: ['Global', 'International'],
-            preparationTips: ['Use as needed', 'Season to taste']
-          },
-          season: ['year-round'],
-          preparation: {
-            methods: ['standard preparation'],
-            timing: 'as needed',
-            notes: 'Standard preparation for black'
-          }
+        // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
         },
         culinaryProfile: {
           flavorProfile: {
@@ -252,27 +252,27 @@ const rawAlliums = {;
         flavor: 'mild, less pungent than regular garlic',
         cooking: 'good for roasting or where mild flavor is wanted',
         notes: 'technically different species (Allium ampeloprasum)',
-        sensoryProfile: {
-          taste: ['Mild', 'Balanced', 'Natural'],
-          aroma: ['Fresh', 'Clean', 'Subtle'],
-          texture: ['Pleasant', 'Smooth', 'Appealing'],
-          notes: 'Characteristic elephant profile',
-          culinaryProfile: {
-            flavorProfile: {
-              primary: ['balanced'],
-              secondary: ['versatile'],
-              notes: 'Versatile elephant for various uses'
-            },
-            cookingMethods: ['sautéing', 'steaming', 'roasting'],
-            cuisineAffinity: ['Global', 'International'],
-            preparationTips: ['Use as needed', 'Season to taste']
-          },
-          season: ['year-round'],
-          preparation: {
-            methods: ['standard preparation'],
-            timing: 'as needed',
-            notes: 'Standard preparation for elephant'
-          }
+        // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
         },
         culinaryProfile: {
           flavorProfile: {
@@ -294,27 +294,27 @@ const rawAlliums = {;
         timing: '40-60 minutes until soft and caramelized',
         uses: ['spreads', 'mashed potatoes', 'soups', 'sauces'],
         notes: 'transforms harsh flavor to sweet and nutty',
-        sensoryProfile: {
-          taste: ['Mild', 'Balanced', 'Natural'],
-          aroma: ['Fresh', 'Clean', 'Subtle'],
-          texture: ['Pleasant', 'Smooth', 'Appealing'],
-          notes: 'Characteristic roasted profile',
-          culinaryProfile: {
-            flavorProfile: {
-              primary: ['balanced'],
-              secondary: ['versatile'],
-              notes: 'Versatile roasted for various uses'
-            },
-            cookingMethods: ['sautéing', 'steaming', 'roasting'],
-            cuisineAffinity: ['Global', 'International'],
-            preparationTips: ['Use as needed', 'Season to taste']
-          },
-          season: ['year-round'],
-          preparation: {
-            methods: ['standard preparation'],
-            timing: 'as needed',
-            notes: 'Standard preparation for roasted'
-          }
+        // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
         },
         culinaryProfile: {
           flavorProfile: {
@@ -334,11 +334,11 @@ const rawAlliums = {;
         timing: '2-3 hours until soft and golden',
         uses: ['oil for cooking', 'spread on bread', 'flavor base'],
         notes: 'both garlic and oil become flavored',
-        sensoryProfile: {
-          taste: ['Mild', 'Balanced', 'Natural'],
-          aroma: ['Fresh', 'Clean', 'Subtle'],
-          texture: ['Pleasant', 'Smooth', 'Appealing'],
-          notes: 'Characteristic confit profile'
+        // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
         },
         culinaryProfile: {
           flavorProfile: {
@@ -357,11 +357,11 @@ const rawAlliums = {;
         timing: '2-4 weeks',
         uses: ['heightened probiotic content', 'digestive aid', 'immune support'],
         notes: 'mellows flavor while boosting nutritional properties',
-        sensoryProfile: {
-          taste: ['Mild', 'Balanced', 'Natural'],
-          aroma: ['Fresh', 'Clean', 'Subtle'],
-          texture: ['Pleasant', 'Smooth', 'Appealing'],
-          notes: 'Characteristic fermented profile'
+        // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
         },
         culinaryProfile: {
           flavorProfile: {
@@ -382,11 +382,11 @@ const rawAlliums = {;
         humidity: '70-80%',
         uses: ['high-end cuisine', 'sauces', 'vinaigrettes'],
         notes: 'transformed through Maillard reaction, not fermentation',
-        sensoryProfile: {
-          taste: ['Mild', 'Balanced', 'Natural'],
-          aroma: ['Fresh', 'Clean', 'Subtle'],
-          texture: ['Pleasant', 'Smooth', 'Appealing'],
-          notes: 'Characteristic black garlic profile'
+        // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
         },
         culinaryProfile: {
           flavorProfile: {
@@ -1158,6 +1158,6 @@ const rawAlliums = {;
 
 // Fix the ingredient mappings to ensure they have all required properties
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
-export const _alliums: Record<string, IngredientMapping> = fixIngredientMappings(
+export const, _alliums: Record<string, IngredientMapping> = fixIngredientMappings(
   rawAlliums as Record<string, Partial<IngredientMapping>>,
 );

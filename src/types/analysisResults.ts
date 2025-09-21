@@ -27,7 +27,7 @@ export interface IngredientCategorizationAnalysis {
   confidence: number,
   properties: {
     nutritional: Record<string, number>;
-    elemental: Record<string, number>;
+    elemental: Record<string, number>
   };
 }
 
@@ -86,7 +86,7 @@ export interface AnalysisResultWrapper<T = unknown> {;
     version: string,
     source: string
   };
-  errors?: string[];
+  errors?: string[]
 }
 
 // Enterprise intelligence specific types
@@ -117,6 +117,6 @@ export interface AstrologicalAnalysisContext {
     Air: number
   };
   planetaryInfluences?: Record<string, number>;
-  zodiacAlignment?: string;
+  zodiacAlignment?: string
   [key: string]: unknown
 }

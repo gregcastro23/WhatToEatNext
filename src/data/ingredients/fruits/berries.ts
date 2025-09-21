@@ -1,9 +1,9 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-// Pattern AA: Ingredient Interface Restructuring
+// Pattern, AA: Ingredient Interface Restructuring
 // Proper type annotation for raw ingredients to ensure IngredientMapping compatibility
-const rawBerries: Record<string, Partial<IngredientMapping>> = {
+const, rawBerries: Record<string, Partial<IngredientMapping>> = {
   blueberry: {
     name: 'Blueberry',
     elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
@@ -675,4 +675,4 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-export const berries: Record<string, IngredientMapping> = fixIngredientMappings(rawBerries);
+export const, berries: Record<string, IngredientMapping> = fixIngredientMappings(rawBerries);

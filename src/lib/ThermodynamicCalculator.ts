@@ -3,7 +3,7 @@ export class ThermodynamicCalculator {
 
   calculateHeatValue(ingredients: unknown[]): number {
     if (!ingredients || ingredients.length === 0) {;
-      return 0.5; // Default neutral value
+      return 0.5 // Default neutral value
     }
 
     // Calculate heat based on ingredient properties
@@ -18,16 +18,16 @@ export class ThermodynamicCalculator {
       // Extract ingredient data with safe property access
       const ingredientData = ingredient as {;
         spiciness?: number;
-        elementalProperties?: { Fire?: number; Water?: number; Earth?: number; Air?: number };
+        elementalProperties?: { Fire?: number; Water?: number Earth?: number Air?: number };
         cookingTemperature?: number;
         proteinContent?: number;
         moistureContent?: number;
-        name?: string;
+        name?: string
         [key: string]: unknown
       };
       const spiciness = ingredientData?.spiciness;
       const elementalProperties = ingredientData?.elementalProperties;
-      const cookingTemperature = ingredientData?.cookingTemperature;
+      const cookingTemperature = ingredientData?.cookingTemperature
 
       // Adjust heat value based on ingredient properties
       if (spiciness) {
@@ -41,7 +41,7 @@ export class ThermodynamicCalculator {
       }
 
       if (cookingTemperature) {
-        // Normalize cooking temperature (assuming max around 500°F)
+        // Normalize cooking temperature (assuming max around 500°F);
         const normalizedTemp = Math.min(cookingTemperature / 5001);
         heatValue += normalizedTemp * 0.2;
         weight += 1;
@@ -57,7 +57,7 @@ export class ThermodynamicCalculator {
 
   calculateEntropyValue(ingredients: unknown[]): number {
     if (!ingredients || ingredients.length === 0) {;
-      return 0.5; // Default neutral value
+      return 0.5 // Default neutral value
     }
 
     // Calculate entropy based on complexity, variety, and fermentation
@@ -75,15 +75,15 @@ export class ThermodynamicCalculator {
       // Extract ingredient data with safe property access
       const ingredientData = ingredient as {;
         spiciness?: number;
-        elementalProperties?: { Fire?: number; Water?: number; Earth?: number; Air?: number };
+        elementalProperties?: { Fire?: number; Water?: number; Earth?: number Air?: number };
         moistureContent?: number;
-        proteinContent?: number;
+        proteinContent?: number
         [key: string]: unknown
       };
       const category = ingredientData?.category;
       const fermented = ingredientData?.fermented;
       const complexity = ingredientData?.complexity;
-      const elementalProperties = ingredientData?.elementalProperties;
+      const elementalProperties = ingredientData?.elementalProperties
 
       if (category) {
         categories.add(category);
@@ -101,7 +101,7 @@ export class ThermodynamicCalculator {
         totalWeight += 1;
       }
 
-      // Air element contributes to entropy (representing change and variability)
+      // Air element contributes to entropy (representing change and variability);
       if (elementalProperties?.Air) {
         totalEntropy += ((elementalProperties as any)?.Air || 0) * 0.2;
         totalWeight += 1;
@@ -119,7 +119,7 @@ export class ThermodynamicCalculator {
 
   calculateReactivityValue(ingredients: unknown[]): number {
     if (!ingredients || ingredients.length === 0) {;
-      return 0.5; // Default neutral value
+      return 0.5 // Default neutral value
     }
 
     // Calculate reactivity based on acidity, alkalinity, and chemical properties
@@ -133,15 +133,15 @@ export class ThermodynamicCalculator {
       // Extract ingredient data with safe property access
       const ingredientData = ingredient as {;
         spiciness?: number;
-        elementalProperties?: { Fire?: number; Water?: number; Earth?: number; Air?: number };
+        elementalProperties?: { Fire?: number; Water?: number; Earth?: number Air?: number };
         moistureContent?: number;
-        proteinContent?: number;
+        proteinContent?: number
         [key: string]: unknown
       };
       const pH = ingredientData?.pH;
       const alcoholContent = ingredientData?.alcoholContent;
       const enzymeActivity = ingredientData?.enzymeActivity;
-      const elementalProperties = ingredientData?.elementalProperties;
+      const elementalProperties = ingredientData?.elementalProperties
 
       // pH value affects reactivity (further from neutral = more reactive);
       if (pH) {

@@ -5,25 +5,25 @@ import { logger } from '@/utils/logger';
 
 // Error types for better categorization
 export enum ErrorType {
-  NETWORK = 'NETWORK',;
-  VALIDATION = 'VALIDATION',;
-  AUTHENTICATION = 'AUTHENTICATION',;
-  AUTHORIZATION = 'AUTHORIZATION',;
-  NOT_FOUND = 'NOT_FOUND',;
-  SERVER_ERROR = 'SERVER_ERROR',;
-  CLIENT_ERROR = 'CLIENT_ERROR',;
-  ASTROLOGICAL_CALCULATION = 'ASTROLOGICAL_CALCULATION',;
-  DATA_PROCESSING = 'DATA_PROCESSING',;
-  COMPONENT_ERROR = 'COMPONENT_ERROR',,;
-  UNKNOWN = 'UNKNOWN',,;
+  NETWORK = 'NETWORK',
+  VALIDATION = 'VALIDATION',
+  AUTHENTICATION = 'AUTHENTICATION',
+  AUTHORIZATION = 'AUTHORIZATION',
+  NOT_FOUND = 'NOT_FOUND',
+  SERVER_ERROR = 'SERVER_ERROR',
+  CLIENT_ERROR = 'CLIENT_ERROR',
+  ASTROLOGICAL_CALCULATION = 'ASTROLOGICAL_CALCULATION',
+  DATA_PROCESSING = 'DATA_PROCESSING',
+  COMPONENT_ERROR = 'COMPONENT_ERROR',,
+  UNKNOWN = 'UNKNOWN',,
 }
 
 // Error severity levels
 export enum ErrorSeverity {
-  LOW = 'LOW',;
-  MEDIUM = 'MEDIUM',;
-  HIGH = 'HIGH',,;
-  CRITICAL = 'CRITICAL',,;
+  LOW = 'LOW',
+  MEDIUM = 'MEDIUM',
+  HIGH = 'HIGH',,
+  CRITICAL = 'CRITICAL',,
 }
 
 // Enhanced error interface
@@ -31,7 +31,7 @@ export interface EnhancedError extends Error {
   type: ErrorType,
   severity: ErrorSeverity,
   context?: Record<string, unknown>;
-  userMessage?: string;
+  userMessage?: string
   recoverable?: boolean,
   retryable?: boolean,
   timestamp: Date,
@@ -42,21 +42,19 @@ export interface EnhancedError extends Error {
 export interface ErrorRecoveryStrategy {
   canRecover: (error: EnhancedError) => boolean,
   recover: (error: EnhancedError) => Promise<unknown> | unknown,
-  fallback?: () => unknown;
+  fallback?: () => unknown
 }
 
 // User-friendly error messages
-const USER_FRIENDLY_MESSAGES: Record<ErrorType, string> = {
-  [ErrorType.NETWORK]:
-    'Unable to connect to the server. Please check your internet connection and try again.';
+const, USER_FRIENDLY_MESSAGES: Record<ErrorType, string> = {
+  [ErrorType.NETWORK]: 'Unable to connect to the server. Please check your internet connection and try again.'
   [ErrorType.VALIDATION]: 'Please check your input and try again.',
   [ErrorType.AUTHENTICATION]: 'Please log in to continue.',
   [ErrorType.AUTHORIZATION]: 'You don't have permission to access this resource.',
   [ErrorType.NOT_FOUND]: 'The requested information could not be found.',
   [ErrorType.SERVER_ERROR]: 'A server error occurred. Please try again later.',
   [ErrorType.CLIENT_ERROR]: 'An error occurred while processing your request.',
-  [ErrorType.ASTROLOGICAL_CALCULATION]:
-    'Unable to calculate astrological data. Using cached information.';
+  [ErrorType.ASTROLOGICAL_CALCULATION]: 'Unable to calculate astrological data. Using cached information.'
   [ErrorType.DATA_PROCESSING]: 'Error processing data. Please try again.',
   [ErrorType.COMPONENT_ERROR]: 'A component failed to load. Please refresh the page.',
   [ErrorType.UNKNOWN]: 'An unexpected error occurred. Please try again.'
@@ -65,8 +63,8 @@ const USER_FRIENDLY_MESSAGES: Record<ErrorType, string> = {
 // Create enhanced error
 export function createEnhancedError(
   message: string,
-  type: ErrorType = ErrorType.UNKNOWN,,;
-  severity: ErrorSeverity = ErrorSeverity.MEDIUM,,;
+  type: ErrorType = ErrorType.UNKNOWN,,
+  severity: ErrorSeverity = ErrorSeverity.MEDIUM,,
   context?: Record<string, unknown>,
   originalError?: Error,
 ): EnhancedError {
@@ -118,9 +116,9 @@ export function classifyError(error: Error | string): ErrorType {
   if (
     lowerMessage.includes('network') ||
     lowerMessage.includes('fetch') ||
-    lowerMessage.includes('connection')
+    lowerMessage.includes('connection');
   ) {
-    return ErrorType.NETWORK;
+    return ErrorType.NETWORK
   }
 
   if (lowerMessage.includes('validation') || lowerMessage.includes('invalid')) {
@@ -142,7 +140,7 @@ export function classifyError(error: Error | string): ErrorType {
   if (
     lowerMessage.includes('server') ||
     lowerMessage.includes('500') ||
-    lowerMessage.includes('503')
+    lowerMessage.includes('503');
   ) {
     return ErrorType.SERVER_ERROR;
   }
@@ -150,7 +148,7 @@ export function classifyError(error: Error | string): ErrorType {
   if (
     lowerMessage.includes('planetary') ||
     lowerMessage.includes('astrological') ||
-    lowerMessage.includes('zodiac')
+    lowerMessage.includes('zodiac');
   ) {
     return ErrorType.ASTROLOGICAL_CALCULATION;
   }
@@ -164,8 +162,8 @@ export function classifyError(error: Error | string): ErrorType {
 
 // Error handler class
 export class ErrorHandler {
-  private recoveryStrategies: ErrorRecoveryStrategy[] = [];
-  private errorQueue: EnhancedError[] = [];
+  private, recoveryStrategies: ErrorRecoveryStrategy[] = [];
+  private, errorQueue: EnhancedError[] = [];
   private maxQueueSize = 50;
 
   // Add recovery strategy
@@ -178,14 +176,14 @@ export class ErrorHandler {
     error: Error | EnhancedError,
     context?: Record<string, unknown>,
   ): Promise<unknown> {
-    let enhancedError: EnhancedError,
+    let, enhancedError: EnhancedError,
 
     if ('type' in error && 'severity' in error) {
       enhancedError = error;
     } else {
       const type = classifyError(error);
       const severity = this.determineSeverity(type);
-      enhancedError = createEnhancedError(error.message, type, severity, context, error),;
+      enhancedError = createEnhancedError(error.message, type, severity, context, error),
     }
 
     // Log the error
@@ -246,7 +244,7 @@ export class ErrorHandler {
 
       case ErrorType.NETWORK:
       case ErrorType.ASTROLOGICAL_CALCULATION:
-        return ErrorSeverity.MEDIUM;
+        return ErrorSeverity.MEDIUM
 
       case ErrorType.VALIDATION:
       case ErrorType.NOT_FOUND:
@@ -259,7 +257,7 @@ export class ErrorHandler {
 
   // Log error with appropriate level
   private logError(error: EnhancedError) {
-    const logData = {;
+    const logData = {
       errorId: error.errorId,
       type: error.type,
       severity: error.severity,
@@ -299,20 +297,20 @@ export class ErrorHandler {
   // Get error statistics
   getErrorStats(): {
     total: number,
-    byType: Record<ErrorType, number>;
+    byType: Record<ErrorType, number>
     bySeverity: Record<ErrorSeverity, number>,
     recent: EnhancedError[]
   } {
     const byType = {} as Record<ErrorType, number>;
     const bySeverity = {} as Record<ErrorSeverity, number>;
 
-    this.errorQueue.forEach(error => {;
+    this.errorQueue.forEach(error => {
       byType[error.type] = (byType[error.type] || 0) + 1;
       bySeverity[error.severity] = (bySeverity[error.severity] || 0) + 1;
     });
 
     return {
-      total: this.errorQueue.length;
+      total: this.errorQueue.length
       byType,
       bySeverity,
       recent: this.errorQueue.slice(-10), // Last 10 errors
@@ -330,8 +328,8 @@ export const globalErrorHandler = new ErrorHandler();
 
 // Default recovery strategies
 globalErrorHandler.addRecoveryStrategy({
-  canRecover: error => error.type === ErrorType.ASTROLOGICAL_CALCULATION,,;
-  recover: async error => {;
+  canRecover: error => error.type === ErrorType.ASTROLOGICAL_CALCULATION,,
+  recover: async error => {
     logger.info(`Attempting to recover from astrological calculation error: ${error.errorId}`);
     // Return cached astrological data
     const cachedData = localStorage.getItem('cachedAstrologicalData');
@@ -351,8 +349,8 @@ globalErrorHandler.addRecoveryStrategy({
 });
 
 globalErrorHandler.addRecoveryStrategy({
-  canRecover: error => error.type === ErrorType.NETWORK,,;
-  recover: async error => {;
+  canRecover: error => error.type === ErrorType.NETWORK,,
+  recover: async error => {
     logger.info(`Attempting to recover from network error: ${error.errorId}`);
     // Try to use cached data
     const cacheKey = error.context?.cacheKey;
@@ -371,16 +369,16 @@ export function handleAsyncError<T>(
   promise: Promise<T>,
   context?: Record<string, unknown>,
 ): Promise<T> {
-  return promise.catch(error => {;
-    return globalErrorHandler.handleError(error, context)
+  return promise.catch(error => {
+    return globalErrorHandler.handleError(error, context);
   });
 }
 
 export function handleSyncError<T>(fn: () => T, context?: Record<string, unknown>): T {
   try {
-    return fn()
+    return fn();
   } catch (error) {
-    throw globalErrorHandler.handleError(error as Error, context)
+    throw globalErrorHandler.handleError(error as Error, context);
   }
 }
 
@@ -388,7 +386,7 @@ export function handleSyncError<T>(fn: () => T, context?: Record<string, unknown
 export function useErrorHandler() {
   const handleError = React.useCallback(async (error: Error, context?: Record<string, unknown>) => {;
     try {
-      return await globalErrorHandler.handleError(error, context)
+      return await globalErrorHandler.handleError(error, context);
     } catch (enhancedError) {
       // Re-throw enhanced error for component error boundaries to catch
       throw enhancedError
@@ -410,9 +408,9 @@ export function createErrorBoundaryForType(_errorType: ErrorType) {
       {
         fallback: (error: Error, errorInfo: React.ErrorInfo) => {
           const enhancedError = createEnhancedError(;
-            error.message;
+            error.message
             errorType,
-            ErrorSeverity.MEDIUM;
+            ErrorSeverity.MEDIUM
             { componentStack: errorInfo.componentStack },
           );
 
@@ -444,7 +442,7 @@ export function createErrorBoundaryForType(_errorType: ErrorType) {
                   key: 'button',
                   _onClick: () => window.location.reload(),
                   className:
-                    'bg-yellow-600 text-white px-3 py-1 rounded text-sm hover:bg-yellow-700 transition-colors'
+                    'bg-yellow-600 text-white px-3 py-1 rounded text-sm, hover:bg-yellow-700 transition-colors'
                 },
                 'Reload Page',
               )

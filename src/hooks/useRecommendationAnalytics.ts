@@ -19,7 +19,7 @@ import { logger } from '@/utils/logger';
 
 export interface UseRecommendationAnalyticsOptions {
   enablePerformanceTracking?: boolean;
-  enableCaching?: boolean;
+  enableCaching?: boolean
   enableInteractionTracking?: boolean,
   metricsUpdateInterval?: number
 }
@@ -45,7 +45,7 @@ export interface RecommendationAnalyticsActions {
   recordApiResponse: (duration: number) => void,
   recordLoadTime: (duration: number) => void,
   getCachedRecommendation: <T>(key: string) => T | null,
-  cacheRecommendation: <T>(key: string, data: T, confidenceScore?: number) => void;
+  cacheRecommendation: <T>(key: string, data: T, confidenceScore?: number) => void
   calculateConfidence: (factors: unknown) => RecommendationConfidence,
   trackInteraction: (type: string, target: string, metadata?: Record<string, unknown>) => void;
   getAnalyticsSnapshot: () => AnalyticsSnapshot,
@@ -55,13 +55,13 @@ export interface RecommendationAnalyticsActions {
 // ========== HOOK IMPLEMENTATION ==========;
 
 export function useRecommendationAnalytics(
-  options: UseRecommendationAnalyticsOptions = {};
+  options: UseRecommendationAnalyticsOptions = {}
 ): [RecommendationAnalyticsState, RecommendationAnalyticsActions] {
   const {
-    enablePerformanceTracking = true,;
-    enableCaching = true,;
-    enableInteractionTracking = true,;
-    metricsUpdateInterval = 5000, // 5 seconds,;
+    enablePerformanceTracking = true,
+    enableCaching = true,
+    enableInteractionTracking = true,
+    metricsUpdateInterval = 5000, // 5 seconds,
   } = options;
 
   // ========== STATE ==========;
@@ -92,7 +92,7 @@ export function useRecommendationAnalytics(
       // Start periodic metrics collection
       metricsIntervalRef.current = setInterval(() => {;
         if (mountedRef.current) {
-          void updateMetrics()
+          void updateMetrics();
         }
       }, metricsUpdateInterval);
 
@@ -120,7 +120,7 @@ export function useRecommendationAnalytics(
 
       if (mountedRef.current) {
         setState(prev => ({;
-          ...prev;
+          ...prev
           metrics,
           cacheStats: {
             hitRate: cacheStats.recommendation.hitRate,
@@ -139,7 +139,7 @@ export function useRecommendationAnalytics(
       logger.error('Failed to update recommendation analytics metrics:', error),
       if (mountedRef.current) {
         setState(prev => ({;
-          ...prev;
+          ...prev,
           error: error instanceof Error ? error.message : 'Unknown error',
           isLoading: false
         }));
@@ -149,10 +149,10 @@ export function useRecommendationAnalytics(
 
   // ========== ACTIONS ==========;
 
-  const startTiming = useCallback(;
+  const startTiming = useCallback(
     (operation: string) => {
       if (!enablePerformanceTracking) {
-        return () => 0;
+        return () => 0
       }
 
       return recommendationAnalytics.startTiming(operation);
@@ -160,7 +160,7 @@ export function useRecommendationAnalytics(
     [enablePerformanceTracking],
   );
 
-  const recordApiResponse = useCallback(;
+  const recordApiResponse = useCallback(
     (duration: number) => {
       if (enablePerformanceTracking) {
         recommendationAnalytics.recordApiResponseTime(duration);
@@ -169,7 +169,7 @@ export function useRecommendationAnalytics(
     [enablePerformanceTracking],
   );
 
-  const recordLoadTime = useCallback(;
+  const recordLoadTime = useCallback(
     (duration: number) => {
       if (enablePerformanceTracking) {
         recommendationAnalytics.recordLoadTime(duration);
@@ -178,8 +178,8 @@ export function useRecommendationAnalytics(
     [enablePerformanceTracking],
   );
 
-  const getCachedRecommendation = useCallback(;
-    <T>(key: string): T | null => {;
+  const getCachedRecommendation = useCallback(
+    <T>(key: string): T | null => {
       if (!enableCaching) {
         return null
       }
@@ -189,10 +189,10 @@ export function useRecommendationAnalytics(
     [enableCaching],
   );
 
-  const cacheRecommendation = useCallback(;
+  const cacheRecommendation = useCallback(
     <T>(key: string, data: T, confidenceScore?: number) => {
       if (enableCaching) {
-        recommendationAnalytics.cacheRecommendation(key, data, confidenceScore)
+        recommendationAnalytics.cacheRecommendation(key, data, confidenceScore);
       }
     },
     [enableCaching],
@@ -202,7 +202,7 @@ export function useRecommendationAnalytics(
     return recommendationAnalytics.calculateConfidenceScore(factors);
   }, []);
 
-  const trackInteraction = useCallback(;
+  const trackInteraction = useCallback(
     (type: string, target: string, metadata?: Record<string, unknown>) => {
       if (enableInteractionTracking) {
         recommendationAnalytics.trackInteraction({
@@ -221,12 +221,12 @@ export function useRecommendationAnalytics(
 
   const clearAnalytics = useCallback(() => {;
     recommendationAnalytics.clearAnalytics();
-    void updateMetrics()
+    void updateMetrics();
   }, [updateMetrics]);
 
   // ========== RETURN ==========;
 
-  const actions: RecommendationAnalyticsActions = {;
+  const, actions: RecommendationAnalyticsActions = {
     startTiming,
     recordApiResponse,
     recordLoadTime,
@@ -257,7 +257,7 @@ export function usePerformanceTracking(_componentName: string) {
     return startTiming(`${componentName}_render`);
   }, [componentName, startTiming]);
 
-  const trackOperation = useCallback(;
+  const trackOperation = useCallback(
     (operationName: string) => {
       return startTiming(`${componentName}_${operationName}`);
     },
@@ -281,14 +281,14 @@ export function useRecommendationCache<T>() {
     enableInteractionTracking: false
   });
 
-  const getCached = useCallback(;
-    (key: string): T | null => {;
-      return getCachedRecommendation<T>(key)
+  const getCached = useCallback(
+    (key: string): T | null => {
+      return getCachedRecommendation<T>(key);
     },
     [getCachedRecommendation],
   );
 
-  const setCached = useCallback(;
+  const setCached = useCallback(
     (key: string, data: T, confidenceScore?: number) => {
       cacheRecommendation(key, data, confidenceScore);
     },
@@ -311,35 +311,35 @@ export function useInteractionTracking() {
     enableInteractionTracking: true
   });
 
-  const trackClick = useCallback(;
+  const trackClick = useCallback(
     (target: string, metadata?: Record<string, unknown>) => {
       trackInteraction('select', target, metadata);
     },
     [trackInteraction],
   );
 
-  const trackView = useCallback(;
+  const trackView = useCallback(
     (target: string, metadata?: Record<string, unknown>) => {
       trackInteraction('view', target, metadata);
     },
     [trackInteraction],
   );
 
-  const trackExpand = useCallback(;
+  const trackExpand = useCallback(
     (target: string, metadata?: Record<string, unknown>) => {
       trackInteraction('expand', target, metadata);
     },
     [trackInteraction],
   );
 
-  const trackSearch = useCallback(;
+  const trackSearch = useCallback(
     (query: string, metadata?: Record<string, unknown>) => {
       trackInteraction('search', query, metadata);
     },
     [trackInteraction],
   );
 
-  const trackFilter = useCallback(;
+  const trackFilter = useCallback(
     (filterType: string, metadata?: Record<string, unknown>) => {
       trackInteraction('filter', filterType, metadata);
     },

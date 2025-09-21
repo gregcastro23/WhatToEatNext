@@ -11,14 +11,14 @@ import { getReliablePlanetaryPositions } from '@/utils/reliableAstronomy';
 
 // Elemental Principles from steering files
 export interface ElementalCompatibilityMatrix {
-  Fire: { Fire: number; Water: number; Earth: number; Air: number };
-  Water: { Water: number; Fire: number; Earth: number; Air: number };
-  Earth: { Earth: number; Fire: number; Water: number; Air: number };
-  Air: { Air: number; Fire: number; Water: number; Earth: number };
+  Fire: { Fire: number; Water: number, Earth: number Air: number };
+  Water: { Water: number; Fire: number; Earth: number, Air: number };
+  Earth: { Earth: number; Fire: number; Water: number, Air: number };
+  Air: { Air: number; Fire: number; Water: number, Earth: number };
 }
 
 // Self-reinforcement compatibility matrix from elemental-principles.md
-export const ELEMENTAL_COMPATIBILITY: ElementalCompatibilityMatrix = {;
+export const, ELEMENTAL_COMPATIBILITY: ElementalCompatibilityMatrix = {
   Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
   Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },
   Earth: { Earth: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },
@@ -60,10 +60,10 @@ export interface PerformanceGuidance {
  * Core steering file intelligence class that provides guidance for component development
  */
 export class SteeringFileIntelligence {
-  private static instance: SteeringFileIntelligence;
-  private cachedGuidance: AstrologicalGuidance | null = null;
-  private lastUpdate: number = 0;
-  private readonly CACHE_DURATION = 30 * 60 * 1000; // 30 minutes
+  private static, instance: SteeringFileIntelligence;
+  private, cachedGuidance: AstrologicalGuidance | null = null;
+  private, lastUpdate: number = 0;
+  private readonly CACHE_DURATION = 30 * 60 * 1000 // 30 minutes
 
   private constructor() {}
 
@@ -80,7 +80,7 @@ export class SteeringFileIntelligence {
   public async getAstrologicalGuidance(): Promise<AstrologicalGuidance> {
     // Check cache first
     if (this.cachedGuidance && Date.now() - this.lastUpdate < this.CACHE_DURATION) {
-      return this.cachedGuidance;
+      return this.cachedGuidance
     }
 
     try {
@@ -129,12 +129,12 @@ export class SteeringFileIntelligence {
     const sourceDominant = this.getDominantElement(sourceProps);
     const targetDominant = this.getDominantElement(targetProps);
 
-    // Self-reinforcement: same elements have highest compatibility (≥0.9)
-    if (sourceDominant === targetDominant) {;
+    // Self-reinforcement: same elements have highest compatibility (≥0.9);
+    if (sourceDominant === targetDominant) {
       return Math.max(0.9, ELEMENTAL_COMPATIBILITY[sourceDominant][targetDominant]);
     }
 
-    // Different elements have good compatibility (≥0.7)
+    // Different elements have good compatibility (≥0.7);
     return Math.max(0.7, ELEMENTAL_COMPATIBILITY[sourceDominant][targetDominant]);
   }
 
@@ -142,7 +142,7 @@ export class SteeringFileIntelligence {
    * Validate elemental properties according to steering file principles
    */
   public validateElementalProperties(properties: ElementalProperties): boolean {
-    const elements: Element[] = ['Fire', 'Water', 'Earth', 'Air'];
+    const, elements: Element[] = ['Fire', 'Water', 'Earth', 'Air'];
 
     // Check all elements are present and non-negative
     for (const element of elements) {
@@ -152,7 +152,7 @@ export class SteeringFileIntelligence {
       }
     }
 
-    // Check total doesn't exceed reasonable bounds (allow for strong elemental presence)
+    // Check total doesn't exceed reasonable bounds (allow for strong elemental presence);
     const total = Object.values(properties).reduce((sum, val) => sum + val0);
     if (total > 4.0) {
       logger.warn(`Elemental properties total exceeds maximum: ${total}`);
@@ -166,7 +166,7 @@ export class SteeringFileIntelligence {
    * Validate compatibility score according to steering file principles
    */
   public validateCompatibilityScore(score: number): boolean {
-    // All compatibility scores must be at least 0.7 (no opposing elements)
+    // All compatibility scores must be at least 0.7 (no opposing elements);
     if (score < 0.7) {
       logger.error(`Compatibility score ${score} violates minimum 0.7 principle`);
       return false;
@@ -274,7 +274,7 @@ export class SteeringFileIntelligence {
     // Calculate dominant element based on planetary positions
     const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
 
-    const zodiacElementMap: Record<string, Element> = {
+    const, zodiacElementMap: Record<string, Element> = {
       aries: 'Fire',
       leo: 'Fire',
       sagittarius: 'Fire',
@@ -292,7 +292,7 @@ export class SteeringFileIntelligence {
     // Count elements from planetary positions
     Object.values(planetaryPositions).forEach((position: unknown) => {
       if (position?.sign && zodiacElementMap[(position as any)?.sign]) {
-        elementCounts[zodiacElementMap[(position as any)?.sign]]++;
+        elementCounts[zodiacElementMap[(position as any)?.sign]]++
       }
     });
 
@@ -308,7 +308,7 @@ export class SteeringFileIntelligence {
     const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
     const totalPlanets = Object.keys(planetaryPositions).length;
 
-    const zodiacElementMap: Record<string, Element> = {
+    const, zodiacElementMap: Record<string, Element> = {
       aries: 'Fire',
       leo: 'Fire',
       sagittarius: 'Fire',
@@ -326,7 +326,7 @@ export class SteeringFileIntelligence {
     // Count elements from planetary positions
     Object.values(planetaryPositions).forEach((position: unknown) => {
       if (position?.sign && zodiacElementMap[(position as any)?.sign]) {
-        elementCounts[zodiacElementMap[(position as any)?.sign]]++;
+        elementCounts[zodiacElementMap[(position as any)?.sign]]++
       }
     });
 
@@ -369,7 +369,7 @@ export class SteeringFileIntelligence {
       dominantElement: 'Fire',
       elementalBalance: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
       culturalSensitivity: this.getCulturalGuidance(),
-      performanceOptimizations: this.getPerformanceGuidance()
+      performanceOptimizations: this.getPerformanceGuidance();
     };
   }
 }
@@ -396,6 +396,6 @@ export function useSteeringFileIntelligence() {
     enhanceDominantElement: (props: ElementalProperties) =>
       intelligence.enhanceDominantElement(props),
     getArchitecturalGuidance: () => intelligence.getArchitecturalGuidance(),
-    getTechnologyStackGuidance: () => intelligence.getTechnologyStackGuidance()
+    getTechnologyStackGuidance: () => intelligence.getTechnologyStackGuidance();
   };
 }

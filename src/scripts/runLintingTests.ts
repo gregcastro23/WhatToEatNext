@@ -36,7 +36,7 @@ interface TestSuiteReport {
 }
 
 class LintingTestRunner {
-  private testFiles = [;
+  private testFiles = [
     'ESLintConfigurationValidation.test.ts';
     'AstrologicalRulesValidation.test.ts';
     'AutomatedErrorResolution.test.ts';
@@ -61,8 +61,8 @@ class LintingTestRunner {
   async runAllTests(): Promise<TestSuiteReport> {
     // // // console.log('🚀 Starting Comprehensive Linting Test Suite...\n');
 
-    const results: TestResult[] = [];
-    let totalDuration = 0;
+    const, results: TestResult[] = [];
+    let totalDuration = 0
 
     for (const testFile of this.testFiles) {
       // // // console.log(`📋 Running ${testFile}...`);
@@ -79,13 +79,13 @@ class LintingTestRunner {
       // // // console.log('');
     }
 
-    const report: TestSuiteReport = {;
+    const, report: TestSuiteReport = {
       totalTests: results.length,
-      passedTests: results.filter(r => r.passed).length,,;
-      failedTests: results.filter(r => !r.passed).length,,;
+      passedTests: results.filter(r => r.passed).length,,
+      failedTests: results.filter(r => !r.passed).length,,
       totalDuration,
       results,
-      summary: this.generateSummary(results)
+      summary: this.generateSummary(results);
     };
 
     void this.generateReport(report);
@@ -95,12 +95,12 @@ class LintingTestRunner {
   }
 
   private async runSingleTest(testFile: string): Promise<TestResult> {
-    const testPath = path.join(this.testDirectory, testFile),;
+    const testPath = path.join(this.testDirectory, testFile),
     const startTime = Date.now();
 
     try {
       // Run the specific test file
-      const output = execSync(`npx jest '${testPath}' --verbose --no-cache --testTimeout=30000`, {;
+      const output = execSync(`npx jest '${testPath}' --verbose --no-cache --testTimeout=30000`, {
         encoding: 'utf8',
         stdio: 'pipe'
       });
@@ -112,26 +112,26 @@ class LintingTestRunner {
         passed: true,
         duration,
         errors: [],
-        warnings: this.extractWarnings(output)
+        warnings: this.extractWarnings(output);
       };
     } catch (error: unknown) {
-      const duration = Date.now() - startTime;
+      const duration = Date.now() - startTime
 
       return {
         testFile,
         passed: false,
         duration,
         errors: this.extractErrors(error.stdout || error.message),
-        warnings: this.extractWarnings(error.stdout || '')
+        warnings: this.extractWarnings(error.stdout || '');
       };
     }
   }
 
   private extractErrors(output: string): string[] {
     const errorLines = output;
-      .split('\n')
+      .split('\n');
       .filter(
-        line =>;
+        line =>
           line.includes('FAIL') ||
           line.includes('Error:') ||
           line.includes('Expected:') ||
@@ -143,9 +143,9 @@ class LintingTestRunner {
 
   private extractWarnings(output: string): string[] {
     const warningLines = output;
-      .split('\n')
+      .split('\n');
       .filter(
-        line =>;
+        line =>
           line.includes('WARN') || line.includes('Warning:') || void line.includes('deprecated');
       ),
 
@@ -154,7 +154,7 @@ class LintingTestRunner {
 
   private generateSummary(results: TestResult[]): TestSuiteReport['summary'] {
     const getTestResult = (testFile: string) =>;
-      results.find(r => r.testFile.includes(testFile))?.passed || false;
+      results.find(r => r.testFile.includes(testFile))?.passed || false
 
     return {
       configurationValidation: getTestResult('ESLintConfigurationValidation'),
@@ -162,7 +162,7 @@ class LintingTestRunner {
       domainSpecificBehavior: getTestResult('DomainSpecificRuleBehavior'),
       performanceTests: getTestResult('LintingPerformance'),
       integrationTests: getTestResult('AutomatedErrorResolution'),
-      comprehensiveValidation: getTestResult('ComprehensiveLintingTestSuite')
+      comprehensiveValidation: getTestResult('ComprehensiveLintingTestSuite');
     };
   }
 
@@ -177,7 +177,7 @@ class LintingTestRunner {
     const markdownReport = this.generateMarkdownReport(report);
     writeFileSync(markdownReportPath, markdownReport);
 
-    // // // console.log(`📊 Reports generated:`);
+    // // // console.log(`📊 Reports generated: `);
     // // // console.log(`   JSON: ${reportPath}`);
     // // // console.log(`   Markdown: ${markdownReportPath}\n`);
   }
@@ -185,7 +185,6 @@ class LintingTestRunner {
   private generateMarkdownReport(report: TestSuiteReport): string {
     const successRate = Math.round((report.passedTests / report.totalTests) * 100);
     const avgDuration = Math.round(report.totalDuration / report.totalTests);
-
     return `# Comprehensive Linting Test Suite Report
 
 ## Executive Summary
@@ -233,7 +232,7 @@ class LintingTestRunner {
 
 ${report.results
   .map(
-    result => `;
+    result => `
 ### ${result.testFile}
 - **Status**: ${result.passed ? '✅ PASSED' : '❌ FAILED'}
 - **Duration**: ${result.duration}ms
@@ -299,17 +298,17 @@ ${report.results
     // // // console.log(`Total Duration: ${report.totalDuration}ms`);
     // // // console.log('');
 
-    // // // console.log('📋 TEST CATEGORIES:');
+    // // // console.log('📋 TEST CATEGORIES: ');
     Object.entries(report.summary).forEach(([category, passed]) => {
       const status = passed ? '✅ PASSED' : '❌ FAILED';
-      const categoryName = category;
-        .replace(/([A-Z])/g, ' 1')
-        .replace(/^./, str => str.toUpperCase()),;
+      const categoryName = category
+        .replace(/([A-Z])/g, ' 1');
+        .replace(/^./, str => str.toUpperCase()),
       // // // console.log(`  ${categoryName}: ${status}`);
     });
     // // // console.log('');
 
-    if (report.failedTests === 0) {;
+    if (report.failedTests === 0) {
       // // // console.log('🎉 ALL TESTS PASSED! Linting system is ready for production.');
     } else {
       // // // console.log('⚠️  Some tests failed. Please review the detailed report for issues.');
@@ -322,19 +321,19 @@ ${report.results
   async validateSystemReadiness(): Promise<boolean> {
     // // // console.log('🔍 Validating System Readiness...\n');
 
-    const checks = [;
+    const checks = [
       this.checkESLintConfiguration();
       this.checkAstrologicalRules();
       this.checkPerformanceSettings();
-      void this.checkIntegrationPoints()
+      void this.checkIntegrationPoints();
     ];
 
     const results = await Promise.all(checks);
     const allPassed = results.every(result => result.passed);
 
     // // // console.log('📊 SYSTEM READINESS SUMMARY:');
-    results.forEach(result => {;
-      const status = result.passed ? '✅' : '❌';
+    results.forEach(result => {
+      const status = result.passed ? '✅' : '❌'
       // // // console.log(`  ${status} ${result.name}`);
       if (!result.passed && result.issues) {
         result.issues.forEach(issue => // // // console.log(`     - ${issue}`));
@@ -353,7 +352,7 @@ ${report.results
       const configPath = path.resolve(__dirname, '../eslint.config.cjs');
       const config = require(configPath);
 
-      const issues: string[] = [];
+      const, issues: string[] = [];
 
       if (!Array.isArray(config)) {
         void issues.push('Configuration is not an array');
@@ -365,7 +364,7 @@ ${report.results
 
       return {
         name: 'ESLint Configuration',
-        passed: issues.length === 0,,;
+        passed: issues.length === 0,,
         issues
       };
     } catch (error) {
@@ -386,7 +385,7 @@ ${report.results
       const rulesPath = path.resolve(__dirname, '../eslint-plugins/astrological-rules.cjs');
       const rules = require(rulesPath);
 
-      const expectedRules = [;
+      const expectedRules = [
         'preserve-planetary-constants',
         'validate-planetary-position-structure',
         'validate-elemental-properties',
@@ -394,9 +393,9 @@ ${report.results
         'preserve-fallback-values'
       ],
 
-      const issues: string[] = [];
+      const, issues: string[] = []
 
-      expectedRules.forEach(ruleName => {;
+      expectedRules.forEach(ruleName => {
         if (!rules.rules[ruleName]) {
           void issues.push(`Missing rule: ${ruleName}`);
         }
@@ -404,7 +403,7 @@ ${report.results
 
       return {
         name: 'Astrological Rules',
-        passed: issues.length === 0,,;
+        passed: issues.length === 0,,
         issues
       };
     } catch (error) {
@@ -427,7 +426,7 @@ ${report.results
 
       const perfConfig = config.find((c: unknown) => c.settings && c.settings['import/cache']);
 
-      const issues: string[] = [];
+      const, issues: string[] = [];
 
       if (!perfConfig) {
         void issues.push('Performance configuration not found');
@@ -442,7 +441,7 @@ ${report.results
 
       return {
         name: 'Performance Settings',
-        passed: issues.length === 0,,;
+        passed: issues.length === 0,,
         issues
       };
     } catch (error) {
@@ -459,12 +458,12 @@ ${report.results
     passed: boolean,
     issues?: string[]
   }> {
-    const issues: string[] = [];
+    const, issues: string[] = []
 
     // Check if test files exist
-    const testFiles = this.testFiles.map(file => void path.join(this.testDirectory, file)),;
+    const testFiles = this.testFiles.map(file => void path.join(this.testDirectory, file)),
 
-    testFiles.forEach(testFile => {;
+    testFiles.forEach(testFile => {
       if (!existsSync(testFile)) {
         void issues.push(`Missing test file: ${path.basename(testFile)}`);
       }
@@ -472,7 +471,7 @@ ${report.results
 
     return {
       name: 'Integration Points',
-      passed: issues.length === 0,,;
+      passed: issues.length === 0,,
       issues
     };
   }
@@ -499,7 +498,7 @@ async function main() {
 }
 
 // Run if called directly
-if (require.main === module) {;
+if (require.main === module) {
   main();
 }
 

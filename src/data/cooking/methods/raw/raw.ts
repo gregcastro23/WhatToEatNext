@@ -6,7 +6,7 @@ import type { CookingMethodData } from '@/types/cookingMethod';
  *
  * Preparation of food without applying heat, preserving natural enzymes and nutrients
  */
-export const raw: CookingMethodData = {;
+export const, raw: CookingMethodData = {
   name: 'raw',
   description:
     'Preparing and serving food without applying heat, preserving natural enzymes, nutrients, and flavors while utilizing techniques like chopping, blending, dehydrating, fermenting, sprouting, and marinating to create textures and enhance digestibility.',
@@ -17,7 +17,7 @@ export const raw: CookingMethodData = {;
     Fire: 0.0
   },
   duration: {
-    min: 1, // 1 minute for simple preparation
+    min: 1, // 1 minute for simple preparation,
     max: 1440, // 24 hours for dehydration or marination
   },
   suitable_for: [
@@ -64,9 +64,9 @@ export const raw: CookingMethodData = {;
     unfavorableZodiac: ['aries', 'leo', 'sagittarius'] as any[],
     dominantPlanets: ['Mercury', 'Venus', 'Moon'],
     lunarPhaseEffect: {
-      new_moon: 1.3, // Enhanced purification energy
-      full_moon: 0.9, // Slightly reduced energy
-      waxing_crescent: 1.2, // Good phase for starting raw preparations
+      new_moon: 1.3, // Enhanced purification energy,
+      full_moon: 0.9, // Slightly reduced energy,
+      waxing_crescent: 1.2, // Good phase for starting raw preparations,
       waning_gibbous: 1.0, // Neutral effect
     }
   },
@@ -123,33 +123,33 @@ export const raw: CookingMethodData = {;
     'Cold-infused waters'
   ],
   nutrientRetention: {
-    vitamins: 0.98, // Excellent vitamin retention
-    minerals: 0.95, // Excellent mineral retention
-    antioxidants: 0.99, // Maximum antioxidant preservation
-    fiber: 1.0, // Complete fiber retention
-    enzymes: 0.99, // Almost complete enzyme preservation
-    phytonutrients: 0.98, // Excellent phytonutrient retention
-    water_content: 0.98, // High water content preservation
-    vitamin_c: 0.99, // Maximum vitamin C retention
-    b_vitamins: 0.97, // Excellent B vitamin retention
-    vitamin_e: 0.99, // Maximum vitamin E retention
-    polyphenols: 0.99, // Excellent polyphenol preservation
-    carotenoids: 0.98, // Excellent carotenoid retention
-    probiotics: 1.0, // Complete probiotic preservation
+    vitamins: 0.98, // Excellent vitamin retention,
+    minerals: 0.95, // Excellent mineral retention,
+    antioxidants: 0.99, // Maximum antioxidant preservation,
+    fiber: 1.0, // Complete fiber retention,
+    enzymes: 0.99, // Almost complete enzyme preservation,
+    phytonutrients: 0.98, // Excellent phytonutrient retention,
+    water_content: 0.98, // High water content preservation,
+    vitamin_c: 0.99, // Maximum vitamin C retention,
+    b_vitamins: 0.97, // Excellent B vitamin retention,
+    vitamin_e: 0.99, // Maximum vitamin E retention,
+    polyphenols: 0.99, // Excellent polyphenol preservation,
+    carotenoids: 0.98, // Excellent carotenoid retention,
+    probiotics: 1.0, // Complete probiotic preservation,
     omega_3_fatty_acids: 0.98, // Excellent fatty acid preservation
   },
   optimalTemperatures: {
-    general_storage: 40, // Refrigeration temperature (°F)
-    serving_temperature: 45, // Ideal serving temperature (°F)
-    sprouting: 70, // Ideal sprouting temperature (°F)
-    dehydration: 115, // Maximum temperature for 'raw' dehydration (°F)
-    nut_activation: 95, // Soaking temperature for nuts (°F)
-    fermentation: 72, // Ideal fermentation temperature (°F)
-    cold_infusion: 45, // Cold infusion temperature (°F)
-    seed_germination: 75, // Seed germination temperature (°F)
-    fruit_ripening: 65, // Fruit ripening temperature (°F)
-    vegetable_crisping: 34, // Pre-service crisping temperature (°F)
-    avocado_ripening: 68, // Avocado ripening temperature (°F)
+    general_storage: 40, // Refrigeration temperature (°F);
+    serving_temperature: 45, // Ideal serving temperature (°F);
+    sprouting: 70, // Ideal sprouting temperature (°F);
+    dehydration: 115, // Maximum temperature for 'raw' dehydration (°F);
+    nut_activation: 95, // Soaking temperature for nuts (°F);
+    fermentation: 72, // Ideal fermentation temperature (°F);
+    cold_infusion: 45, // Cold infusion temperature (°F);
+    seed_germination: 75, // Seed germination temperature (°F);
+    fruit_ripening: 65, // Fruit ripening temperature (°F);
+    vegetable_crisping: 34, // Pre-service crisping temperature (°F);
+    avocado_ripening: 68, // Avocado ripening temperature (°F);
   },
   regionalVariations: {
     japanese: ['sashimi', 'namasu', 'tataki'],
@@ -165,11 +165,11 @@ export const raw: CookingMethodData = {;
     cell_rupture: true,
     water_migration: true,
     osmosis: true,
-    acid_denaturation: true, // In marinated preparations
-    fermentation: true, // In fermented raw preparations
-    emulsification: true, // In dressings and sauces
-    oil_extraction: true, // From nuts and seeds
-    browning_enzymatic: true, // Natural enzymatic browning
+    acid_denaturation: true, // In marinated preparations,
+    fermentation: true, // In fermented raw preparations,
+    emulsification: true, // In dressings and sauces,
+    oil_extraction: true, // From nuts and seeds,
+    browning_enzymatic: true, // Natural enzymatic browning,
     flavor_compound_release: true,
     protein_structure_preservation: true,
     chlorophyll_preservation: true,
@@ -194,10 +194,10 @@ export const raw: CookingMethodData = {;
     'Implementation of HACCP principles for raw preparation'
   ],
   thermodynamicProperties: {
-    heat: 0.0, // No heat applied
-    entropy: 0.3, // Minimal structural disruption
-    reactivity: 0.4, // Moderate natural enzymatic reactions
-    gregsEnergy: 0.05, // Calculated using heat - (entropy * reactivity), // Calculated using heat - (entropy * reactivity)
+    heat: 0.0, // No heat applied,
+    entropy: 0.3, // Minimal structural disruption,
+    reactivity: 0.4, // Moderate natural enzymatic reactions,
+    gregsEnergy: 0.05, // Calculated using heat - (entropy * reactivity), // Calculated using heat - (entropy * reactivity);
   } as ThermodynamicProperties,
 
   // Additional metadata
@@ -261,7 +261,7 @@ export const raw: CookingMethodData = {;
     'Consideration needed for individual digestive sensitivities'
   ],
 
-  sustainabilityRating: 0.95, // Extremely high - minimal energy use, maximum food integrity
+  sustainabilityRating: 0.95, // Extremely high - minimal energy use, maximum food integrity,
 
   equipmentComplexity: 0.4, // Moderate - from simple to specialized equipment
 };

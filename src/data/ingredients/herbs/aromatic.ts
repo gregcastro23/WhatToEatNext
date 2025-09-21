@@ -1,7 +1,7 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawAromaticHerbs = {;
+const rawAromaticHerbs = {
   thyme: {
     name: 'Thyme',
     category: 'herb',
@@ -281,10 +281,10 @@ const rawAromaticHerbs = {;
     subCategory: 'culinary',
     affinities: ['beans', 'lentils', 'meat', 'poultry', 'eggs'],
     cookingMethods: ['dried', 'fresh', 'infused'],
-    sensoryProfile: {
-      taste: { savory: 0.8, peppery: 0.5, bitter: 0.2 },
-      aroma: { spicy: 0.7, piny: 0.4, earthy: 0.3 },
-      texture: { leafy: 0.6 }
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
     culinaryUses: ['bean dishes', 'meat stews', 'sausages', 'herb blends', 'vinegars'],
     flavor: 'Peppery, thyme-like flavor with hints of oregano and marjoram',
@@ -345,10 +345,10 @@ const rawAromaticHerbs = {;
     subCategory: 'aromatic',
     affinities: ['lentils', 'coconut', 'fish', 'vegetables', 'rice'],
     cookingMethods: ['fried', 'fresh', 'dried'],
-    sensoryProfile: {
-      taste: { savory: 0.8, nutty: 0.5, bitter: 0.3 },
-      aroma: { citrus: 0.6, earthy: 0.5, nutty: 0.4 },
-      texture: { leafy: 0.7, firm: 0.4 }
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
     culinaryUses: ['dal', 'curries', 'rice dishes', 'chutneys', 'vegetable dishes'],
     flavor: 'Complex citrus and nutty flavor that is the foundation of many Indian dishes',
@@ -404,10 +404,10 @@ const rawAromaticHerbs = {;
     subCategory: 'culinary',
     affinities: ['eggs', 'fish', 'chicken', 'potatoes', 'carrots'],
     cookingMethods: ['fresh', 'garnish', 'light cooking'],
-    sensoryProfile: {
-      taste: { anise: 0.5, parsley: 0.7, sweet: 0.2 },
-      aroma: { anise: 0.6, fresh: 0.7 },
-      texture: { delicate: 0.9, feathery: 0.8 }
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
     culinaryUses: ['fine sauces', 'egg dishes', 'salads', 'soups', 'fish dishes'],
     flavor: 'Delicate flavor similar to parsley with subtle anise notes',
@@ -491,6 +491,6 @@ const rawAromaticHerbs = {;
 
 // Fix the ingredient mappings to ensure they have all required properties
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
-export const _aromaticHerbs: Record<string, IngredientMapping> = fixIngredientMappings(
+export const, _aromaticHerbs: Record<string, IngredientMapping> = fixIngredientMappings(
   rawAromaticHerbs as Record<string, Partial<IngredientMapping>>,
 );

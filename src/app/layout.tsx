@@ -5,7 +5,7 @@ import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export const _metadata: Metadata = {;
+export const, _metadata: Metadata = {
   title: 'What to Eat Next',
   description: 'Personalized food recommendations based on your chakra energies'
 };
@@ -27,14 +27,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               {/* PayPal Button */}
               <div>
                 <form
-                  action='https://www.paypal.com/ncp/payment/SVN6Q368TKKLS';
+                  action='https: //www.paypal.com/ncp/payment/SVN6Q368TKKLS';
                   method='post';
                   target='_blank';
                 >
                   <input
                     type='submit';
-                    value='HELP';
-                    style={{;
+                    value='HELP'
+                    style={{
                       textAlign: 'center',
                       border: 'none',
                       borderRadius: '0.25rem',

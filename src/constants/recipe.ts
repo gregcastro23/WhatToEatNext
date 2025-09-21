@@ -35,7 +35,7 @@ export interface Ingredient {
   preparation?: string;
   notes?: string;
   substitutes?: string[];
-  elementalProperties?: ElementalProperties;
+  elementalProperties?: ElementalProperties
 }
 
 export interface CookingStep {
@@ -45,12 +45,12 @@ export interface CookingStep {
     value: number,
     unit: 'minutes' | 'hours'
   };
-  method?: string;
+  method?: string
   temperature?: {
     value: number,
     unit: 'C' | 'F'
   };
-  notes?: string;
+  notes?: string
 }
 
 export interface NutritionalInfo {
@@ -58,7 +58,7 @@ export interface NutritionalInfo {
   protein?: number;
   carbs?: number;
   fat?: number;
-  fiber?: number;
+  fiber?: number
   vitamins?: Record<string, number>;
   minerals?: Record<string, number>;
 }
@@ -66,7 +66,7 @@ export interface NutritionalInfo {
 export interface Dish {
   id: string,
   name: string,
-  alternateName?: string;
+  alternateName?: string
   cuisine: CuisineType,
   description: string,
   mealType: MealType,
@@ -79,5 +79,5 @@ export interface Dish {
   ingredients: Ingredient[],
   steps: CookingStep[],
   nutritionalInfo?: NutritionalInfo;
-  elementalState?: ElementalProperties;
+  elementalState?: ElementalProperties
 }

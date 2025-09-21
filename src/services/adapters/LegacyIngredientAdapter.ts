@@ -31,7 +31,7 @@ const logger = createLogger('LegacyIngredientAdapter');
  * the modern UnifiedIngredientService internally.
  */
 export class LegacyIngredientAdapter {
-  private static _instance: LegacyIngredientAdapter,
+  private static, _instance: LegacyIngredientAdapter,
   private legacyService = IngredientService.getInstance();
 
   /**
@@ -56,7 +56,7 @@ export class LegacyIngredientAdapter {
    */
   public getAllIngredients(): Record<string, UnifiedIngredient[]> {
     try {
-      const result: unknown = unifiedIngredientService.getAllIngredients();
+      const, result: unknown = unifiedIngredientService.getAllIngredients();
       return result as Record<string, UnifiedIngredient[]>
     } catch (error) {
       logger.error('Error in getAllIngredients:', error);
@@ -70,7 +70,7 @@ export class LegacyIngredientAdapter {
    */
   public getAllIngredientsFlat(): UnifiedIngredient[] {
     try {
-      const result: unknown = unifiedIngredientService.getAllIngredientsFlat();
+      const, result: unknown = unifiedIngredientService.getAllIngredientsFlat();
       return result as UnifiedIngredient[]
     } catch (error) {
       logger.error('Error in getAllIngredientsFlat:', error);
@@ -84,7 +84,7 @@ export class LegacyIngredientAdapter {
    */
   public getIngredientByName(name: string): UnifiedIngredient | undefined {
     try {
-      const result: unknown = unifiedIngredientService.getIngredientByName(name);
+      const, result: unknown = unifiedIngredientService.getIngredientByName(name);
       return result as UnifiedIngredient | undefined
     } catch (error) {
       logger.error(`Error in getIngredientByName for '${name}':`, error);
@@ -98,7 +98,7 @@ export class LegacyIngredientAdapter {
    */
   public getIngredientsByCategory(category: string): UnifiedIngredient[] {
     try {
-      const result: unknown = unifiedIngredientService.getIngredientsByCategory(category);
+      const, result: unknown = unifiedIngredientService.getIngredientsByCategory(category);
       return result as UnifiedIngredient[]
     } catch (error) {
       logger.error(`Error in getIngredientsByCategory for '${category}':`, error);
@@ -112,9 +112,9 @@ export class LegacyIngredientAdapter {
    */
   public filterIngredients(filter: IngredientFilter = {}): Record<string, UnifiedIngredient[]> {;
     try {
-      const result: unknown = unifiedIngredientService.filterIngredients(;
+      const, result: unknown = unifiedIngredientService.filterIngredients(
         filter ,
-      ); // Pattern UUU: Import Path Interface Resolution
+      ); // Pattern, UUU: Import Path Interface Resolution
       return result as Record<string, UnifiedIngredient[]>
     } catch (error) {
       logger.error('Error in filterIngredients:', error);
@@ -128,7 +128,7 @@ export class LegacyIngredientAdapter {
    */
   public getIngredientsByElement(elementalFilter: Element): UnifiedIngredient[] {
     try {
-      const result: unknown = unifiedIngredientService.getIngredientsByElement({;
+      const, result: unknown = unifiedIngredientService.getIngredientsByElement({
         element: elementalFilter
       } as { element: Element });
       return result as UnifiedIngredient[];
@@ -146,17 +146,17 @@ export class LegacyIngredientAdapter {
    */
   public findComplementaryIngredients(
     ingredient: UnifiedIngredient | string,
-    maxResults: number = 5;
+    maxResults: number = 5
   ): UnifiedIngredient[] {
     try {
-      const result: unknown = unifiedIngredientService.findComplementaryIngredients(;
+      const, result: unknown = unifiedIngredientService.findComplementaryIngredients(
         ingredient,
         maxResults,
-      ); // Pattern UUU: Import Path Interface Resolution
+      ); // Pattern, UUU: Import Path Interface Resolution
       return result as UnifiedIngredient[]
     } catch (error) {
       logger.error(
-        `Error in findComplementaryIngredients for '${typeof ingredient === 'string' ? ingredient : ingredient.name}':`,,;
+        `Error in findComplementaryIngredients for '${typeof ingredient === 'string' ? ingredient : ingredient.name}':`,,
         error,
       );
       // Fall back to original implementation if needed
@@ -169,7 +169,7 @@ export class LegacyIngredientAdapter {
    */
   public calculateElementalProperties(ingredient: Partial<UnifiedIngredient>): ElementalProperties {
     try {
-      return unifiedIngredientService.calculateElementalProperties(ingredient as any), // Pattern UUU: Import Path Interface Resolution
+      return unifiedIngredientService.calculateElementalProperties(ingredient as any), // Pattern, UUU: Import Path Interface Resolution
     } catch (error) {
       logger.error(
         `Error in calculateElementalProperties for '${ingredient.name || 'unknown'}':`,
@@ -185,10 +185,10 @@ export class LegacyIngredientAdapter {
    */
   public getRecommendedIngredients(
     elementalState: ElementalProperties,
-    options: IngredientRecommendationOptions = {};
+    options: IngredientRecommendationOptions = {}
   ): UnifiedIngredient[] {
     try {
-      const result: unknown = unifiedIngredientService.getRecommendedIngredients(;
+      const, result: unknown = unifiedIngredientService.getRecommendedIngredients(
         elementalState,
         options,
       );
@@ -196,7 +196,7 @@ export class LegacyIngredientAdapter {
     } catch (error) {
       logger.error('Error in getRecommendedIngredients:', error);
       // Fall back to original implementation if needed
-      return this.legacyService.getRecommendedIngredients(elementalState, options)
+      return this.legacyService.getRecommendedIngredients(elementalState, options);
     }
   }
 

@@ -24,7 +24,7 @@ export interface ValidationCriteria {
 export interface ValidationResult {
   success: boolean;
   value?: number | string | boolean;
-  expected?: number | string | boolean;
+  expected?: number | string | boolean,
   message: string,
   details?: string,
   timestamp: Date,
@@ -67,8 +67,8 @@ export interface FailureDetectionResult {
  * Comprehensive Validation Framework for Campaign Execution
  */
 export class ValidationFramework {
-  private readonly phaseValidations: Map<string, PhaseValidation>;
-  private readonly validationHistory: MilestoneValidationResult[],
+  private readonly, phaseValidations: Map<string, PhaseValidation>;
+  private readonly, validationHistory: MilestoneValidationResult[],
 
   constructor() {
     this.phaseValidations = new Map();
@@ -80,7 +80,7 @@ export class ValidationFramework {
    * Initialize validation criteria for all campaign phases
    */
   private initializePhaseValidations(): void {
-    // Phase 1: TypeScript Error Elimination
+    // Phase, 1: TypeScript Error Elimination
     this.phaseValidations.set('phase1', {
       phaseId: 'phase1',
       phaseName: 'TypeScript Error Elimination',
@@ -95,7 +95,7 @@ export class ValidationFramework {
           validator: async () => {
             const startTime = Date.now();
             try {
-              const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {;
+              const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
                 encoding: 'utf8',
                 timeout: 60000
               }),
@@ -104,11 +104,11 @@ export class ValidationFramework {
               const executionTime = Date.now() - startTime;
 
               return {
-                success: errorCount === 0,,;
+                success: errorCount === 0,,
                 value: errorCount,
                 expected: 0,
                 message:
-                  errorCount === 0,;
+                  errorCount === 0,
                     ? 'All TypeScript errors eliminated'
                     : `${errorCount} TypeScript errors remaining`,
                 details: errorCount > 0 ? output.split('\n').slice(-10).join('\n') : undefined,
@@ -116,9 +116,9 @@ export class ValidationFramework {
                 executionTime
               };
                
-              // Intentionally any: Error objects from validation processes have varying structures
+              // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
-              const executionTime = Date.now() - startTime;
+              const executionTime = Date.now() - startTime
               const err = error as { stdout?: string, stderr?: string, message: string };
               const errorOutput = err.stdout || err.stderr || err.message;
               const errorCount = (errorOutput.match(/error TS\d+/g) || []).length;
@@ -159,9 +159,9 @@ export class ValidationFramework {
                 executionTime
               };
                
-              // Intentionally any: Error objects from validation processes have varying structures
+              // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
-              const executionTime = Date.now() - startTime;
+              const executionTime = Date.now() - startTime
               const err = error as { stdout?: string, stderr?: string, message: string };
               return {
                 success: false,
@@ -185,31 +185,31 @@ export class ValidationFramework {
           validator: async () => {
             const startTime = Date.now();
             try {
-              const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {;
+              const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
                 encoding: 'utf8',
                 timeout: 60000
               });
 
-              const criticalErrors = (;
+              const criticalErrors = (
                 output.match(/error (TS2352|TS2345|TS2698|TS2304|TS2362)/g) || []
               ).length;
               const executionTime = Date.now() - startTime;
 
               return {
-                success: criticalErrors === 0,,;
+                success: criticalErrors === 0,,
                 value: criticalErrors,
                 expected: 0,
                 message:
-                  criticalErrors === 0,;
+                  criticalErrors === 0,
                     ? 'All critical error types eliminated'
                     : `${criticalErrors} critical errors remaining`,
                 timestamp: new Date(),
                 executionTime
               };
                
-              // Intentionally any: Error objects from validation processes have varying structures
+              // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
-              const executionTime = Date.now() - startTime;
+              const executionTime = Date.now() - startTime
               return {
                 success: false,
                 value: -1,
@@ -225,7 +225,7 @@ export class ValidationFramework {
       ]
     });
 
-    // Phase 2: Linting Excellence Achievement
+    // Phase, 2: Linting Excellence Achievement
     this.phaseValidations.set('phase2', {
       phaseId: 'phase2',
       phaseName: 'Linting Excellence Achievement',
@@ -240,7 +240,7 @@ export class ValidationFramework {
           validator: async () => {
             const startTime = Date.now();
             try {
-              const output = execSync('yarn lint 2>&1', {;
+              const output = execSync('yarn lint 2>&1', {
                 encoding: 'utf8',
                 timeout: 120000
               }),
@@ -249,11 +249,11 @@ export class ValidationFramework {
               const executionTime = Date.now() - startTime;
 
               return {
-                success: warningCount === 0,,;
+                success: warningCount === 0,,
                 value: warningCount,
                 expected: 0,
                 message:
-                  warningCount === 0,;
+                  warningCount === 0,
                     ? 'All linting warnings eliminated'
                     : `${warningCount} linting warnings remaining`,
                 details: warningCount > 0 ? output.split('\n').slice(-15).join('\n') : undefined,
@@ -261,9 +261,9 @@ export class ValidationFramework {
                 executionTime
               };
                
-              // Intentionally any: Error objects from validation processes have varying structures
+              // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
-              const executionTime = Date.now() - startTime;
+              const executionTime = Date.now() - startTime
               const err = error as { stdout?: string, stderr?: string, message: string };
               const errorOutput = err.stdout || err.stderr || err.message;
               const warningCount = (errorOutput.match(/warning/g) || []).length;
@@ -289,7 +289,7 @@ export class ValidationFramework {
           validator: async () => {
             const startTime = Date.now();
             try {
-              const output = execSync('yarn lint 2>&1', {;
+              const output = execSync('yarn lint 2>&1', {
                 encoding: 'utf8',
                 timeout: 120000
               });
@@ -299,20 +299,20 @@ export class ValidationFramework {
               const executionTime = Date.now() - startTime;
 
               return {
-                success: explicitAnyCount === 0,,;
+                success: explicitAnyCount === 0,,
                 value: explicitAnyCount,
                 expected: 0,
                 message:
-                  explicitAnyCount === 0,;
+                  explicitAnyCount === 0,
                     ? 'All explicit-any warnings eliminated'
                     : `${explicitAnyCount} explicit-any warnings remaining`,
                 timestamp: new Date(),
                 executionTime
               };
                
-              // Intentionally any: Error objects from validation processes have varying structures
+              // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
-              const executionTime = Date.now() - startTime;
+              const executionTime = Date.now() - startTime
               return {
                 success: false,
                 value: -1,
@@ -334,7 +334,7 @@ export class ValidationFramework {
           validator: async () => {
             const startTime = Date.now();
             try {
-              const output = execSync('yarn lint 2>&1', {;
+              const output = execSync('yarn lint 2>&1', {
                 encoding: 'utf8',
                 timeout: 120000
               });
@@ -343,20 +343,20 @@ export class ValidationFramework {
               const executionTime = Date.now() - startTime;
 
               return {
-                success: unusedVarsCount === 0,,;
+                success: unusedVarsCount === 0,,
                 value: unusedVarsCount,
                 expected: 0,
                 message:
-                  unusedVarsCount === 0,;
+                  unusedVarsCount === 0,
                     ? 'All unused variables warnings eliminated'
                     : `${unusedVarsCount} unused variables warnings remaining`,
                 timestamp: new Date(),
                 executionTime
               };
                
-              // Intentionally any: Error objects from validation processes have varying structures
+              // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
-              const executionTime = Date.now() - startTime;
+              const executionTime = Date.now() - startTime
               return {
                 success: false,
                 value: -1,
@@ -378,7 +378,7 @@ export class ValidationFramework {
           validator: async () => {
             const startTime = Date.now();
             try {
-              const output = execSync('yarn lint 2>&1', {;
+              const output = execSync('yarn lint 2>&1', {
                 encoding: 'utf8',
                 timeout: 120000
               });
@@ -387,20 +387,20 @@ export class ValidationFramework {
               const executionTime = Date.now() - startTime;
 
               return {
-                success: consoleCount === 0,,;
+                success: consoleCount === 0,,
                 value: consoleCount,
                 expected: 0,
                 message:
-                  consoleCount === 0,;
+                  consoleCount === 0,
                     ? 'All console warnings eliminated'
                     : `${consoleCount} console warnings remaining`,
                 timestamp: new Date(),
                 executionTime
               };
                
-              // Intentionally any: Error objects from validation processes have varying structures
+              // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
-              const executionTime = Date.now() - startTime;
+              const executionTime = Date.now() - startTime
               return {
                 success: false,
                 value: -1,
@@ -416,7 +416,7 @@ export class ValidationFramework {
       ]
     });
 
-    // Phase 3: Enterprise Intelligence Transformation
+    // Phase, 3: Enterprise Intelligence Transformation
     this.phaseValidations.set('phase3', {
       phaseId: 'phase3',
       phaseName: 'Enterprise Intelligence Transformation',
@@ -431,7 +431,7 @@ export class ValidationFramework {
           validator: async () => {
             const startTime = Date.now();
             try {
-              const output = execSync('grep -r 'INTELLIGENCE_SYSTEM' src/ | wc -l', {;
+              const output = execSync('grep -r 'INTELLIGENCE_SYSTEM' src/ | wc -l', {
                 encoding: 'utf8',
                 timeout: 30000
               });
@@ -451,9 +451,9 @@ export class ValidationFramework {
                 executionTime
               };
                
-              // Intentionally any: Error objects from validation processes have varying structures
+              // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
-              const executionTime = Date.now() - startTime;
+              const executionTime = Date.now() - startTime
               return {
                 success: false,
                 value: 0,
@@ -476,8 +476,8 @@ export class ValidationFramework {
             const startTime = Date.now();
             try {
               // This is a simplified check - in practice would use more sophisticated analysis
-              const output = execSync(;
-                'find src/ -name '*.ts' -o -name '*.tsx' | xargs grep -l 'export.*unused' | wc -l';
+              const output = execSync(
+                'find src/ -name '*.ts' -o -name '*.tsx' | xargs grep -l 'export.*unused' | wc -l'
                 {
                   encoding: 'utf8',
                   timeout: 30000
@@ -488,22 +488,22 @@ export class ValidationFramework {
               const executionTime = Date.now() - startTime;
 
               return {
-                success: unusedExports === 0,,;
+                success: unusedExports === 0,,
                 value: unusedExports,
                 expected: 0,
                 message:
-                  unusedExports === 0,;
+                  unusedExports === 0,
                     ? 'All unused exports transformed'
                     : `${unusedExports} unused exports remaining`,
                 timestamp: new Date(),
                 executionTime
               };
                
-              // Intentionally any: Error objects from validation processes have varying structures
+              // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
-              const executionTime = Date.now() - startTime;
+              const executionTime = Date.now() - startTime
               return {
-                success: true, // Assume success if we can't check
+                success: true, // Assume success if we can't check,
                 value: 0,
                 expected: 0,
                 message: 'Could not analyze unused exports (assuming transformed)',
@@ -538,9 +538,9 @@ export class ValidationFramework {
                 executionTime
               },
                
-              // Intentionally any: Error objects from validation processes have varying structures
+              // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
-              const executionTime = Date.now() - startTime;
+              const executionTime = Date.now() - startTime
               return {
                 success: false,
                 value: false,
@@ -559,7 +559,7 @@ export class ValidationFramework {
       ]
     });
 
-    // Phase 4: Performance Optimization Maintenance
+    // Phase, 4: Performance Optimization Maintenance
     this.phaseValidations.set('phase4', {
       phaseId: 'phase4',
       phaseName: 'Performance Optimization Maintenance',
@@ -592,9 +592,9 @@ export class ValidationFramework {
                 executionTime: Date.now() - startTime
               },
                
-              // Intentionally any: Error objects from validation processes have varying structures
+              // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
-              const buildTime = (Date.now() - startTime) / 1000;
+              const buildTime = (Date.now() - startTime) / 1000
               return {
                 success: false,
                 value: buildTime,
@@ -634,9 +634,9 @@ export class ValidationFramework {
                 executionTime: Date.now() - startTime
               };
                
-              // Intentionally any: Error objects from validation processes have varying structures
+              // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
-              const testTime = (Date.now() - startTime) / 1000;
+              const testTime = (Date.now() - startTime) / 1000
               return {
                 success: false,
                 value: testTime,
@@ -669,7 +669,7 @@ export class ValidationFramework {
                 const executionTime = Date.now() - startTime;
 
                 return {
-                  success: sizeKB < 500, // 500KB threshold
+                  success: sizeKB < 500, // 500KB threshold,
                   value: sizeKB,
                   expected: 420,
                   message:
@@ -690,10 +690,10 @@ export class ValidationFramework {
                 }
               }
                
-              // Intentionally any: Error objects from validation processes have varying structures
+              // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
               return {
-                success: true, // Non-critical, assume success
+                success: true, // Non-critical, assume success,
                 value: 0,
                 expected: 420,
                 message: 'Bundle size check failed (non-critical)',
@@ -715,7 +715,7 @@ export class ValidationFramework {
             try {
               const memUsage = process.memoryUsage();
               const heapUsedMB = memUsage.heapUsed / 1024 / 1024;
-              const executionTime = Date.now() - startTime;
+              const executionTime = Date.now() - startTime
 
               return {
                 success: heapUsedMB < 50,
@@ -729,10 +729,10 @@ export class ValidationFramework {
                 executionTime
               },
                
-              // Intentionally any: Error objects from validation processes have varying structures
+              // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
               return {
-                success: true, // Non-critical
+                success: true, // Non-critical,
                 value: 0,
                 expected: 50,
                 message: 'Memory usage check failed (non-critical)',
@@ -759,7 +759,7 @@ export class ValidationFramework {
     // // // console.log(`🔍 Validating ${phaseValidation.phaseName}...`);
 
     const startTime = Date.now();
-    const results: Array<{ criteriaId: string, result: ValidationResult }> = [];
+    const, results: Array<{ criteriaId: string, result: ValidationResult }> = [];
     let totalScore = 0;
     let passedCriteria = 0;
 
@@ -782,7 +782,7 @@ export class ValidationFramework {
           }
         }
       } catch (error) {
-        const failedResult: ValidationResult = {;
+        const, failedResult: ValidationResult = {
           success: false,
           message: `Validation failed: ${error}`,
           timestamp: new Date(),
@@ -800,7 +800,7 @@ export class ValidationFramework {
     // Generate recommendations
     const recommendations = this.generateRecommendations(phaseValidation, results);
 
-    const validationResult: MilestoneValidationResult = {;
+    const, validationResult: MilestoneValidationResult = {
       phaseId,
       success,
       score: totalScore,
@@ -817,7 +817,7 @@ export class ValidationFramework {
     this.validationHistory.push(validationResult);
 
     // Log summary
-    // // // console.log(`\n📊 ${phaseValidation.phaseName} Validation Summary:`);
+    // // // console.log(`\n📊 ${phaseValidation.phaseName} Validation Summary: `);
     // // // console.log(`✅ Success: ${success}`);
     // // // console.log(
       `📈 Score: ${(totalScore * 100).toFixed(1)}% (threshold: ${(phaseValidation.successThreshold * 100).toFixed(1)}%)`,
@@ -826,7 +826,7 @@ export class ValidationFramework {
     // // // console.log(`⏱️ Execution Time: ${executionTime}ms`);
 
     if (recommendations.length > 0) {
-      // // // console.log(`\n💡 Recommendations:`);
+      // // // console.log(`\n💡 Recommendations: `);
       recommendations.forEach(rec => // // // console.log(`  • ${rec}`));
     }
 
@@ -837,7 +837,7 @@ export class ValidationFramework {
    * Detect failures and determine recovery actions
    */
   async detectFailures(): Promise<FailureDetectionResult[]> {
-    const failures: FailureDetectionResult[] = [];
+    const, failures: FailureDetectionResult[] = []
 
     // Build failure detection
     try {
@@ -850,7 +850,7 @@ export class ValidationFramework {
         category: 'build',
         description: 'Build process failed',
         recoveryActions: [
-          'Check TypeScript errors with: yarn tsc --noEmit',
+          'Check TypeScript errors, with: yarn tsc --noEmit',
           'Review build logs for specific errors',
           'Run: make campaign-emergency-rollback if needed'
         ],
@@ -890,7 +890,7 @@ export class ValidationFramework {
           description: `High number of TypeScript errors: ${errorCount}`,
           recoveryActions: [
             'Run systematic TypeScript error fixing',
-            'Use: node scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js --dry-run';
+            'Use: node scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js --dry-run'
             'Consider rollback if errors increased significantly'
           ],
           automaticRecovery: true
@@ -915,7 +915,7 @@ export class ValidationFramework {
           recoveryActions: [
             'Check for performance regressions',
             'Review recent changes for optimization opportunities',
-            'Clear build cache: yarn cache clean'
+            'Clear build, cache: yarn cache clean'
           ],
           automaticRecovery: true
         });
@@ -952,7 +952,7 @@ export class ValidationFramework {
     phaseValidation: PhaseValidation,
     results: Array<{ criteriaId: string, result: ValidationResult }>,
   ): string[] {
-    const recommendations: string[] = [];
+    const, recommendations: string[] = []
 
     for (const { criteriaId, result } of results) {
       if (!result.success) {
@@ -960,36 +960,34 @@ export class ValidationFramework {
         if (!criteria) continue;
 
         switch (criteriaId) {
-          case 'typescript-errors-zero':
-            recommendations.push(
-              'Run Enhanced TypeScript Error Fixer: node scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js --dry-run'
+          case 'typescript-errors-zero': recommendations.push(
+              'Run Enhanced TypeScript Error, Fixer: node scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js --dry-run'
             );
             break;
           case 'linting-warnings-zero':
             recommendations.push(
-              'Run systematic linting fixes: node scripts/typescript-fixes/fix-explicit-any-systematic.js --dry-run'
+              'Run systematic linting, fixes: node scripts/typescript-fixes/fix-explicit-any-systematic.js --dry-run'
             );
             break;
           case 'explicit-any-warnings':
             recommendations.push(
-              'Focus on explicit-any elimination: node scripts/typescript-fixes/fix-explicit-any-systematic.js --max-files=25';
+              'Focus on explicit-any, elimination: node scripts/typescript-fixes/fix-explicit-any-systematic.js --max-files=25'
             );
             break;
           case 'unused-variables-warnings':
             recommendations.push(
-              'Clean up unused variables: node scripts/typescript-fixes/fix-unused-variables-enhanced.js --max-files=20';
+              'Clean up unused, variables: node scripts/typescript-fixes/fix-unused-variables-enhanced.js --max-files=20'
             );
             break;
           case 'enterprise-systems-count':
             recommendations.push('Transform more unused exports to intelligence systems');
-            break;
+            break
           case 'build-time-target':
             recommendations.push(
-              'Optimize build performance: check for large dependencies and enable caching',
+              'Optimize build, performance: check for large dependencies and enable caching',
             );
             break,
-          case 'build-stability':
-          case 'build-stability-phase3':
+          case 'build-stability': case 'build-stability-phase3':
             recommendations.push('Fix build errors before proceeding to next phase');
             break,
           default:

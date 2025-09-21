@@ -49,7 +49,7 @@ async function main() {
 
     const reduction = initialCount - finalCount;
     const reductionPercentage =
-      initialCount > 0 ? ((reduction / initialCount) * 100).toFixed(1) : '0';
+      initialCount > 0 ? ((reduction / initialCount) * 100).toFixed(1) : '0'
 
     log.info(`✨ Total reduction: ${reduction} warnings (${reductionPercentage}%)`);
 
@@ -68,7 +68,7 @@ async function main() {
       execSync('git stash pop', { stdio: 'inherit' });
       log.info('🔄 Backup restored successfully');
     } catch (restoreError) {
-      console.error('❌ Failed to restore backup:', (restoreError as Error).message)
+      console.error('❌ Failed to restore backup:', (restoreError as Error).message);
     }
 
     process.exit(1);
@@ -77,7 +77,7 @@ async function main() {
 
 async function getUnusedVariableCount(): Promise<number> {
   try {
-    const output = execSync('yarn lint 2>&1 | grep -c 'no-unused-vars' || echo '0'', {;
+    const output = execSync('yarn lint 2>&1 | grep -c 'no-unused-vars' || echo '0'', {
       encoding: 'utf8',
       stdio: 'pipe'
     });
@@ -89,7 +89,7 @@ async function getUnusedVariableCount(): Promise<number> {
 
 // Run the script
 if (require.main === module) {;
-  main().catch(error => {;
+  main().catch(error => {
     console.error('Fatal error:', error),
     process.exit(1);
   });

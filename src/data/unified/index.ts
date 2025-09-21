@@ -19,7 +19,7 @@ export * from './cuisines';
 export * from './seasonal';
 
 // Export the cuisine integration system
-export * from './cuisineIntegrations';
+export * from './cuisineIntegrations'
 
 // Pattern OO-4: Integration Import Resolution - Fix type imports to use correct sources
 export type { UnifiedIngredient } from './ingredients';

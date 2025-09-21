@@ -1,7 +1,7 @@
  
 import { useEffect, useCallback as _useCallback } from 'react';
 // Mock recoil for testing
-const useRecoilCallback = (callback: (utils: { set: Function }) => () => void, _deps: unknown[]) =>;
+const useRecoilCallback = (callback: (utils: { set: Function }) => () => void, _deps: unknown[]) =>
   callback({ set: () => {} });
 
 export function EnhancedHooksComponent() {
@@ -13,7 +13,7 @@ export function EnhancedHooksComponent() {
   }, []); // Missing dependency
 
   // Recoil callback hook
-  const _recoilCallback = useRecoilCallback(;
+  const _recoilCallback = useRecoilCallback(
     ({ set: _set }) =>
       () => {
         console.log(value);

@@ -252,7 +252,7 @@ export function getZodiacSignForDate(date: Date): any {
 
   // Check each zodiac sign's date range
   if ((month === 3 && day >= 21) || (month === 4 && day <= 19)) {
-    return 'aries';
+    return 'aries'
   } else if ((month === 4 && day >= 20) || (month === 5 && day <= 20)) {
     return 'taurus';
   } else if ((month === 5 && day >= 21) || (month === 6 && day <= 20)) {
@@ -283,7 +283,7 @@ export function getZodiacSignForDate(date: Date): any {
  * @returns The current zodiac sign
  */
 export function getCurrentZodiacSign(): any {
-  return getZodiacSignForDate(new Date());
+  return getZodiacSignForDate(new Date())
 }
 
 /**
@@ -292,7 +292,7 @@ export function getCurrentZodiacSign(): any {
  * @returns The element (Fire, Earth, Air, Water)
  */
 export function getElementForZodiacSign(sign: any): Element {
-  return zodiacSeasons[sign].element;
+  return zodiacSeasons[sign].element
 }
 
 /**
@@ -301,5 +301,5 @@ export function getElementForZodiacSign(sign: any): Element {
  * @returns The ruling planet
  */
 export function getRulingPlanetForZodiacSign(sign: any): string {
-  return zodiacSeasons[sign].ruling_planet;
+  return zodiacSeasons[sign].ruling_planet
 }

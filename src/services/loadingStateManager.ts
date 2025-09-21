@@ -4,12 +4,12 @@ type LoadingState = {;
   isLoading: boolean,
   message: string,
   progress?: number;
-  stage?: string;
+  stage?: string
 };
 
 class LoadingStateManager {
   private subscribers: Set<(state: LoadingState) => void> = new Set();
-  private currentState: LoadingState = {;
+  private currentState: LoadingState = {
     isLoading: true,
     message: 'Initializing...',
     progress: 0,
@@ -27,7 +27,7 @@ class LoadingStateManager {
   subscribe(callback: (state: LoadingState) => void) {
     this.subscribers.add(callback);
     callback(this.currentState);
-    return () => this.subscribers.delete(callback);
+    return () => this.subscribers.delete(callback)
   }
 
   private updateState(updates: Partial<LoadingState>) {
@@ -40,7 +40,7 @@ class LoadingStateManager {
   }
 
   startLoading(stage: keyof typeof this.STAGES) {
-    const stageData = this.STAGES[stage];
+    const stageData = this.STAGES[stage]
     logger.info(`Loading stage: ${stage}`, stageData);
     this.updateState({
       isLoading: true,

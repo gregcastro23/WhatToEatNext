@@ -70,9 +70,9 @@ export class LintingAlertingSystem {
   private readonly historyFile = '.kiro/metrics/alerting-history.json';
   private readonly suppressionFile = '.kiro/metrics/alert-suppressions.json';
 
-  private config: AlertingConfig;
-  private lastAlertTime: Map<string, Date> = new Map();
-  private suppressedAlerts: Set<string> = new Set();
+  private, config: AlertingConfig
+  private, lastAlertTime: Map<string, Date> = new Map();
+  private, suppressedAlerts: Set<string> = new Set();
 
   constructor() {
     this.config = this.loadConfiguration();
@@ -84,7 +84,7 @@ export class LintingAlertingSystem {
    */
   async processAlerts(alerts: Alert[], metrics: LintingMetrics): Promise<void> {
     if (!this.config.enabled) {
-      return;
+      return
     }
 
     // // // console.log(`🚨 Processing ${alerts.length} alerts...`);
@@ -121,17 +121,17 @@ export class LintingAlertingSystem {
    */
   private async monitorPerformance(metrics: LintingMetrics): Promise<PerformanceEvent[]> {
     if (!this.config.performanceMonitoring.enabled) {
-      return [];
+      return []
     }
 
-    const events: PerformanceEvent[] = [];
-    const thresholds = this.config.performanceMonitoring.thresholds;
+    const, events: PerformanceEvent[] = [];
+    const thresholds = this.config.performanceMonitoring.thresholds
 
     for (const threshold of thresholds) {
       const value = this.getPerformanceMetricValue(metrics, threshold.metric);
 
       if (this.isThresholdExceeded(value, threshold)) {
-        const event: PerformanceEvent = {;
+        const, event: PerformanceEvent = {
           id: `perf-${threshold.metric}-${Date.now()}`,
           timestamp: new Date(),
           type: 'threshold_exceeded',
@@ -171,7 +171,7 @@ export class LintingAlertingSystem {
       switch (channel.type) {
         case 'console':
           this.sendConsoleAlert(alert);
-          break;
+          break
         case 'file':
           await this.sendFileAlert(alert, channel.config);
           break;
@@ -193,7 +193,6 @@ export class LintingAlertingSystem {
   private sendConsoleAlert(alert: Alert): void {
     const icon = this.getSeverityIcon(alert.severity);
     const timestamp = alert.timestamp.toISOString();
-
     // // // console.log(`${icon} [${alert.severity.toUpperCase()}] ${timestamp}`);
     // // // console.log(`   Metric: ${alert.metric}`);
     // // // console.log(`   Value: ${alert.currentValue} (threshold: ${alert.threshold})`);
@@ -218,11 +217,11 @@ export class LintingAlertingSystem {
   }
 
   /**
-   * Send Kiro alert (integration with Kiro system)
+   * Send Kiro alert (integration with Kiro system);
    */
   private async sendKiroAlert(alert: Alert, config: Record<string, unknown>): Promise<void> {
     // Create Kiro notification file
-    const kiroAlert = {;
+    const kiroAlert = {
       id: alert.id,
       timestamp: alert.timestamp,
       type: 'linting_alert',
@@ -234,7 +233,7 @@ export class LintingAlertingSystem {
         currentValue: alert.currentValue,
         threshold: alert.threshold
       },
-      actions: this.generateKiroActions(alert)
+      actions: this.generateKiroActions(alert);
     };
 
     const kiroFile = '.kiro/notifications/linting-alerts.json';
@@ -247,7 +246,7 @@ export class LintingAlertingSystem {
   private async sendWebhookAlert(alert: Alert, config: Record<string, unknown>): Promise<void> {
     if (!config.url) {
       console.warn('Webhook URL not configured');
-      return;
+      return
     }
 
     const payload = {;
@@ -262,7 +261,7 @@ export class LintingAlertingSystem {
     };
 
     try {
-      // Use curl for webhook (Node.js fetch might not be available)
+      // Use curl for webhook (Node.js fetch might not be available);
       const curlCommand = `curl -X POST '${config.url}' \;
         -H 'Content-Type: application/json' \
         -d '${JSON.stringify(payload)}'`;
@@ -297,7 +296,7 @@ export class LintingAlertingSystem {
    * Trigger automatic responses based on alerts and performance events
    */
   private async triggerAutoResponses(alerts: Alert[], events: PerformanceEvent[]): Promise<void> {
-    const actions = this.config.autoResponse.actions;
+    const actions = this.config.autoResponse.actions
 
     for (const action of actions) {
       if (this.shouldTriggerAction(action, alerts, events)) {
@@ -314,8 +313,7 @@ export class LintingAlertingSystem {
 
     try {
       switch (action.action) {
-        case 'enableCache':
-          await this.enableLintingCache();
+        case 'enableCache': await this.enableLintingCache();
           break;
         case 'reduceBatchSize':
           await this.reduceBatchSize(action.parameters.newSize || 10);
@@ -325,7 +323,7 @@ export class LintingAlertingSystem {
           break;
         case 'emergencyStop':
           await this.emergencyStop();
-          break;
+          break
       }
     } catch (error) {
       console.error(`Failed to execute auto-response ${action.action}:`, error);
@@ -336,10 +334,10 @@ export class LintingAlertingSystem {
    * Filter alerts based on cooldown and suppression
    */
   private filterActiveAlerts(alerts: Alert[]): Alert[] {
-    return alerts.filter(alert => {;
+    return alerts.filter(alert => {
       // Check suppression
       if (this.suppressedAlerts.has(alert.metric)) {
-        return false;
+        return false
       }
 
       // Check cooldown
@@ -359,7 +357,7 @@ export class LintingAlertingSystem {
    * Generate Kiro-specific actions for alerts
    */
   private generateKiroActions(alert: Alert): Array<Record<string, unknown>> {
-    const actions: Array<Record<string, unknown>> = [];
+    const, actions: Array<Record<string, unknown>> = [];
 
     if (alert.metric === 'parserErrors' && alert.currentValue > 0) {;
       actions.push({
@@ -383,7 +381,7 @@ export class LintingAlertingSystem {
       actions.push({
         type: 'command',
         label: 'Fix Import Order',
-        command: 'yarn lint:fix',
+        command: 'yarn, lint:fix',
         description: 'Automatically organize imports with enhanced rules'
       });
     }
@@ -522,7 +520,6 @@ export class LintingAlertingSystem {
     try {
       const history = this.loadAlertHistory();
       history.performanceEvents.push(event);
-
       // Keep only last 500 performance events
       if (history.performanceEvents.length > 500) {
         history.performanceEvents.splice(0, history.performanceEvents.length - 500);
@@ -562,8 +559,8 @@ export class LintingAlertingSystem {
       case 'filesPerSecond':
         return (
           metrics.performanceMetrics.filesProcessed /
-          (metrics.performanceMetrics.lintingDuration / 1000)
-        );
+          (metrics.performanceMetrics.lintingDuration / 1000);
+        )
       default:
         return 0
     }
@@ -571,7 +568,7 @@ export class LintingAlertingSystem {
 
   private isThresholdExceeded(value: number, threshold: PerformanceThreshold): boolean {
     if (threshold.metric === 'cacheHitRate') {;
-      return value < threshold.threshold; // Cache hit rate should be above threshold
+      return value < threshold.threshold // Cache hit rate should be above threshold
     }
     return value > threshold.threshold; // Other metrics should be below threshold
   }
@@ -581,7 +578,7 @@ export class LintingAlertingSystem {
       case 'critical':
         return 'high';
       case 'error':
-        return 'medium';
+        return 'medium'
       default:
         return 'low'
     }
@@ -613,7 +610,7 @@ export class LintingAlertingSystem {
       case 'warning':
         return '⚠️';
       case 'info':
-        return 'ℹ️';
+        return 'ℹ️'
       default:
         return '📋'
     }

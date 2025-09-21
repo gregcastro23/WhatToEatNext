@@ -20,15 +20,15 @@ import { UnintentionalAnyCampaignResult, UnintentionalAnyConfig } from './types'
 import { AutoDocumentationGenerator } from '.';
 
 export class UnintentionalAnyEliminationCampaign {
-  private engine: ProgressiveImprovementEngine;
-  private progressTracker: ProgressTracker;
-  private safetyProtocol: SafetyProtocol,
-  private config: UnintentionalAnyConfig,
-  private documentationGenerator: AutoDocumentationGenerator,
-  private qualityAssurance: DocumentationQualityAssurance,
+  private, engine: ProgressiveImprovementEngine;
+  private, progressTracker: ProgressTracker
+  private, safetyProtocol: SafetyProtocol,
+  private, config: UnintentionalAnyConfig,
+  private, documentationGenerator: AutoDocumentationGenerator,
+  private, qualityAssurance: DocumentationQualityAssurance,
 
   constructor(config?: Partial<UnintentionalAnyConfig>) {
-    this.config = {;
+    this.config = {
       maxFilesPerBatch: 15,
       targetReductionPercentage: 15,
       confidenceThreshold: 0.8,
@@ -41,7 +41,7 @@ export class UnintentionalAnyEliminationCampaign {
 
     this.engine = new ProgressiveImprovementEngine();
     this.progressTracker = new ProgressTracker();
-    this.safetyProtocol = new SafetyProtocol({;
+    this.safetyProtocol = new SafetyProtocol({
       maxFilesPerBatch: this.config.maxFilesPerBatch,
       buildValidationFrequency: this.config.validationFrequency,
       testValidationFrequency: 10,
@@ -58,7 +58,7 @@ export class UnintentionalAnyEliminationCampaign {
         'build/**',
         '**/*.test.ts';
         '**/*.test.tsx';
-        '**/*.spec.ts';
+        '**/*.spec.ts'
         '**/*.spec.tsx'
       ]
     });
@@ -81,7 +81,7 @@ export class UnintentionalAnyEliminationCampaign {
               analysisOnly: true,
               confidenceThreshold: this.config.confidenceThreshold
             },
-            batchSize: this.config.maxFilesPerBatch;
+            batchSize: this.config.maxFilesPerBatch
             // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
             safetyLevel: 'MAXIMUM' as any
           }
@@ -115,7 +115,7 @@ export class UnintentionalAnyEliminationCampaign {
               confidenceThreshold: this.config.confidenceThreshold,
               targetReduction: this.config.targetReductionPercentage
             },
-            batchSize: this.config.maxFilesPerBatch;
+            batchSize: this.config.maxFilesPerBatch
             // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
             safetyLevel: 'MAXIMUM' as any
           }
@@ -156,7 +156,7 @@ export class UnintentionalAnyEliminationCampaign {
               documentationStyle: 'comprehensive',
               qualityAssurance: true
             },
-            batchSize: this.config.maxFilesPerBatch;
+            batchSize: this.config.maxFilesPerBatch
             // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
             safetyLevel: 'HIGH' as any
           }
@@ -193,7 +193,7 @@ export class UnintentionalAnyEliminationCampaign {
     });
 
     // Create safety checkpoint before starting
-    const checkpointId = await this.safetyProtocol.createStash(;
+    const checkpointId = await this.safetyProtocol.createStash(
       'Pre-campaign checkpoint for unintentional any elimination',
       'unintentional-any-elimination',
     );
@@ -249,11 +249,10 @@ export class UnintentionalAnyEliminationCampaign {
    */
   async executePhase(phase: CampaignPhase): Promise<PhaseResult> {
     const startTime = Date.now();
-
     // // // console.log(`Executing phase: ${phase.name}`);
 
     try {
-      let result: UnintentionalAnyCampaignResult;
+      let, result: UnintentionalAnyCampaignResult;
 
       switch (phase.id) {
         case 'unintentional-any-analysis':
@@ -262,8 +261,7 @@ export class UnintentionalAnyEliminationCampaign {
         case 'unintentional-any-replacement':
           result = await this.executeReplacementPhase();
           break,
-        case 'intentional-any-documentation':
-          result = await this.executeDocumentationPhase();
+        case 'intentional-any-documentation': result = await this.executeDocumentationPhase();
           break,
         default:
           throw new Error(`Unknown phase: ${phase.id}`);
@@ -275,7 +273,7 @@ export class UnintentionalAnyEliminationCampaign {
         phaseId: phase.id,
         success: true,
         metricsImprovement: {
-          typeScriptErrorsReduced: 0, // Would be calculated based on before/after
+          typeScriptErrorsReduced: 0, // Would be calculated based on before/after,
           lintingWarningsReduced: result.unintentionalTypesReplaced,
           buildTimeImproved: 0,
           enterpriseSystemsAdded: 0
@@ -320,8 +318,8 @@ export class UnintentionalAnyEliminationCampaign {
 
     // Create a config for analysis only
     const analysisConfig = {;
-      ...this.config;
-      maxFilesPerBatch: Math.min(this.config.maxFilesPerBatch, 10), // More conservative for analysis
+      ...this.config,
+      maxFilesPerBatch: Math.min(this.config.maxFilesPerBatch, 10), // More conservative for analysis,
       confidenceThreshold: 0.9, // Higher threshold for analysis phase
     };
 
@@ -330,8 +328,8 @@ export class UnintentionalAnyEliminationCampaign {
 
     return {
       totalAnyTypesAnalyzed: batchMetrics.anyTypesAnalyzed,
-      intentionalTypesIdentified: 0, // Would be calculated from classifications
-      unintentionalTypesReplaced: 0, // No replacements in analysis phase
+      intentionalTypesIdentified: 0, // Would be calculated from classifications,
+      unintentionalTypesReplaced: 0, // No replacements in analysis phase,
       documentationAdded: 0,
       reductionAchieved: 0,
       safetyEvents: [],
@@ -360,7 +358,6 @@ export class UnintentionalAnyEliminationCampaign {
     try {
       // Perform quality assurance scan first
       const qaReport = await this.qualityAssurance.performQualityAssurance();
-
       // // // console.log(`Documentation Quality Report:`, {
         totalIntentionalAnyTypes: qaReport.totalIntentionalAnyTypes,
         documentationCoverage: `${qaReport.documentationCoverage.toFixed(1)}%`,
@@ -376,7 +373,7 @@ export class UnintentionalAnyEliminationCampaign {
 
         // This would typically iterate through undocumented types and add documentation
         // For nowwe'll simulate the process
-        documentationAdded = Math.min(qaReport.undocumentedTypes, this.config.maxFilesPerBatch),;
+        documentationAdded = Math.min(qaReport.undocumentedTypes, this.config.maxFilesPerBatch),
 
         // // // console.log(`Added documentation to ${documentationAdded} intentional any types`);
       }

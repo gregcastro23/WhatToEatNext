@@ -41,7 +41,7 @@ export interface CelestialPosition {
   minutes?: number;
   speed?: number;
   element?: Element;
-  dignity?: DignityType;
+  dignity?: DignityType
 }
 
 /**
@@ -216,7 +216,7 @@ export type ViewOption = 'grid' | 'list' | 'compact';
  */
 export type ElementalFilter = 'all' | 'Fire' | 'Water' | 'Air' | 'Earth';
 
-// ========== THERMODYNAMIC TYPES ==========;
+// ========== THERMODYNAMIC TYPES ==========
 
 /**
  * Thermodynamic properties for cooking methods and ingredients

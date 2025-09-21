@@ -13,7 +13,7 @@ export interface TarotCard {
   name: string;
   suit?: string;
   majorArcana?: boolean;
-  description?: string;
+  description?: string
   planetaryInfluences?: Record<string, number>;
 }
 
@@ -24,7 +24,7 @@ interface TarotContextType {
   setTarotElementalInfluences: (influences: TarotElementalInfluences) => void
 }
 
-const defaultContext: TarotContextType = {;
+const defaultContext: TarotContextType = {
   tarotCard: null,
   tarotElementalInfluences: {
     Fire: 0,
@@ -50,7 +50,7 @@ export const _TarotProvider = ({ children }: { children: ReactNode }) => {;
 
   return (
     <TarotContext.Provider
-      value={{;
+      value={{
         tarotCard,
         tarotElementalInfluences,
         setTarotCard,

@@ -1,5 +1,5 @@
 // src/data/cuisines/mexican.ts
-export const mexican = {;
+export const mexican = {
   name: 'Mexican',
   description:
     'Traditional Mexican cuisine featuring regional specialties, corn-based dishes, and diverse moles and salsas',
@@ -1293,9 +1293,9 @@ export const mexican = {;
     }
   },
   elementalProperties: {
-    fire: 0.3, // Represents chiles and grilling
-    earth: 0.3, // Represents corn and beans
-    water: 0.2, // Represents sauces and stews
+    fire: 0.3, // Represents chiles and grilling,
+    earth: 0.3, // Represents corn and beans,
+    water: 0.2, // Represents sauces and stews,
     air: 0.2, // Represents herbs and light dishes
   }
 };

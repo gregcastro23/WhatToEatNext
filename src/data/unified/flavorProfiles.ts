@@ -73,44 +73,44 @@ export interface CuisineFlavorCompatibility {
  * Comprehensive unified flavor profile
  */
 export interface UnifiedFlavorProfile {
-  // Core identity
+  // Core identity,
   id: string,
   name: string,
   description: string,
   category: 'cuisine' | 'planetary' | 'ingredient' | 'elemental' | 'fusion',
 
-  // Base flavor components
+  // Base flavor components,
   baseNotes: BaseFlavorNotes,
 
-  // Elemental properties (self-reinforcement compliant)
+  // Elemental properties (self-reinforcement compliant);
   elementalFlavors: ElementalProperties,
 
-  // Planetary influences
+  // Planetary influences,
   planetaryResonance: Record<PlanetName, PlanetaryFlavorInfluence>,
 
   // Cuisine compatibility
   cuisineCompatibility: { [key: string]: CuisineFlavorCompatibility };
 
-  // Alchemical properties
+  // Alchemical properties,
   alchemicalProperties: AlchemicalValues;
 
-  // Kalchm value
-  kalchm: number;
+  // Kalchm value,
+  kalchm: number
 
-  // Enhanced metadata
+  // Enhanced metadata,
   intensity: number,
   complexity: number,
   seasonalPeak: Season[],
   culturalOrigins: string[],
   nutritionalSynergy: number,
 
-  // Integration properties
+  // Integration properties,
   cookingMethodAffinity: Record<string, number>;
   temperatureRange: { min: number, max: number };
   pairingRecommendations: string[],
   avoidCombinations: string[],
 
-  // Dynamic properties
+  // Dynamic properties,
   monicaOptimization: number,
   seasonalModifiers: Record<Season, number>;
 }
@@ -137,10 +137,10 @@ export interface FlavorCriteria {
   complexityRange?: { min: number, max: number };
   seasonalAlignment?: Season;
   cuisineStyle?: string;
-  planetaryInfluence?: PlanetName;
+  planetaryInfluence?: PlanetName
   kalchmRange?: { min: number, max: number };
   avoidElements?: Element[];
-  culturalPreference?: string[];
+  culturalPreference?: string[]
 }
 
 /**
@@ -178,10 +178,10 @@ export function isUnifiedFlavorProfile(obj: unknown): obj is UnifiedFlavorProfil
   return (
     typeof profile.id === 'string' &&;
     typeof profile.name === 'string' &&;
-    typeof profile.description === 'string' &&;
+    typeof profile.description === 'string' &&
     profile.baseNotes !== undefined &&
     profile.elementalFlavors !== undefined &&
-    typeof profile.kalchm === 'number';
+    typeof profile.kalchm === 'number'
   )
 }
 
@@ -203,13 +203,13 @@ export function createBaseFlavorNotes(props?: Partial<BaseFlavorNotes>): BaseFla
 
 export class UnifiedFlavorProfileSystem {
   private flavorProfiles: { [key: string]: UnifiedFlavorProfile } = {};
-  private seasonalSystem: typeof unifiedSeasonalSystem;
-  private cuisineSystem: typeof unifiedCuisineIntegrationSystem;
+  private, seasonalSystem: typeof unifiedSeasonalSystem;
+  private, cuisineSystem: typeof unifiedCuisineIntegrationSystem;
 
   constructor() {
     this.flavorProfiles = this.initializeFlavorProfiles();
     this.seasonalSystem = unifiedSeasonalSystem;
-    this.cuisineSystem = unifiedCuisineIntegrationSystem;
+    this.cuisineSystem = unifiedCuisineIntegrationSystem
   }
 
   /**
@@ -226,8 +226,8 @@ export class UnifiedFlavorProfileSystem {
 
     // Try case-insensitive lookup
     const normalizedId = identifier.toLowerCase();
-    const profile = Object.values(this.flavorProfiles).find(;
-      p => p.id.toLowerCase() === normalizedId || p.name.toLowerCase() === normalizedId,;
+    const profile = Object.values(this.flavorProfiles).find(
+      p => p.id.toLowerCase() === normalizedId || p.name.toLowerCase() === normalizedId,
     );
 
     // If type is specified, ensure the profile matches the type
@@ -245,7 +245,7 @@ export class UnifiedFlavorProfileSystem {
     category: 'cuisine' | 'planetary' | 'ingredient' | 'elemental' | 'fusion',
   ): UnifiedFlavorProfile[] {
     return Object.values(this.flavorProfiles || {}).filter(
-      profile => profile.category === category;
+      profile => profile.category === category
     );
   }
 
@@ -258,7 +258,7 @@ export class UnifiedFlavorProfileSystem {
   ): FlavorCompatibilityResult {
     // Calculate elemental harmony using our self-reinforcement principles
     const elementalHarmony = calculateElementalCompatibility(;
-      profile1.elementalFlavors;
+      profile1.elementalFlavors
       profile2.elementalFlavors
     );
 
@@ -271,10 +271,10 @@ export class UnifiedFlavorProfileSystem {
     const monicaOptimization = (profile1.monicaOptimization + profile2.monicaOptimization) / 2;
 
     // Calculate seasonal alignment
-    const seasonalOverlap = (profile1.seasonalPeak || []).filter(season =>;
-      Array.isArray(profile2.seasonalPeak)
-        ? profile2.seasonalPeak.includes(season)
-        : profile2.seasonalPeak === season,;
+    const seasonalOverlap = (profile1.seasonalPeak || []).filter(season =>
+      Array.isArray(profile2.seasonalPeak);
+        ? profile2.seasonalPeak.includes(season);
+        : profile2.seasonalPeak === season,
     ).length;
     const seasonalAlignment =
       Number(seasonalOverlap) > 0;
@@ -293,8 +293,8 @@ export class UnifiedFlavorProfileSystem {
       seasonalAlignment * 0.15;
 
     // Generate recommendations and warnings
-    const recommendations: string[] = [];
-    const warnings: string[] = [];
+    const, recommendations: string[] = [];
+    const, warnings: string[] = []
 
     if (elementalHarmony > 0.8) {
       recommendations.push(
@@ -341,7 +341,7 @@ export const unifiedFlavorProfileSystem = new UnifiedFlavorProfileSystem();
 /**
  * Get a flavor profile by its identifier
  */
-export const getFlavorProfile = (;
+export const getFlavorProfile = (
   id: string,
   type?: 'cuisine' | 'planetary' | 'ingredient' | 'elemental',
 ): UnifiedFlavorProfile | undefined => unifiedFlavorProfileSystem.getFlavorProfile(id, type);
@@ -349,17 +349,16 @@ export const getFlavorProfile = (;
 /**
  * Get all flavor profiles of a specific category
  */
-export const getFlavorProfilesByCategory = (;
+export const getFlavorProfilesByCategory = (
   category: 'cuisine' | 'planetary' | 'ingredient' | 'elemental' | 'fusion',
 ): UnifiedFlavorProfile[] => unifiedFlavorProfileSystem.getFlavorProfilesByCategory(category);
-
 /**
  * Calculate compatibility between two flavor profiles
  */
-export const calculateFlavorCompatibility = (;
+export const calculateFlavorCompatibility = (
   profile1: UnifiedFlavorProfile,
   profile2: UnifiedFlavorProfile,
-): FlavorCompatibilityResult =>;
+): FlavorCompatibilityResult =>
   unifiedFlavorProfileSystem.calculateFlavorCompatibility(profile1, profile2);
 
 export default unifiedFlavorProfileSystem;

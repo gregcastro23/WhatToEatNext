@@ -7,7 +7,7 @@
 
 import type { ProgressMetrics } from '../../types/campaign';
 
-type AnyMockFn = jest.MockedFunction<(...args: unknown[]) => unknown>;
+type AnyMockFn = jest.MockedFunction<(...args: unknown[]) => unknown>
 
 export interface GitMock {
   stash: AnyMockFn,
@@ -138,7 +138,7 @@ export interface ExtendedTestUtils {
   scriptMock: ScriptMock;
 
   // Campaign system mock
-  campaignMock: CampaignMock;
+  campaignMock: CampaignMock
 
   // Helper functions
   waitForAsync: (ms?: number) => Promise<void>,
@@ -157,7 +157,7 @@ export interface ExtendedTestUtils {
     external: string,
     arrayBuffers: string
   };
-  cleanupMemory: () => void;
+  cleanupMemory: () => void
 
   // Mock file creation utilities
   createMockCorruptedFile: (content: string) => string,

@@ -2,9 +2,9 @@ import { CUISINE_TYPES } from '@/constants/cuisineTypes';
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-// Pattern AA: Ingredient Interface Restructuring
+// Pattern, AA: Ingredient Interface Restructuring
 // Proper type annotation for raw ingredients to ensure IngredientMapping compatibility
-const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
+const, rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
   ground_cinnamon: {
     name: 'Ground Cinnamon',
     elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
@@ -34,7 +34,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     },
 
     conversionRatio: {
-      stick_to_ground: '1 stick = 1 / (2 || 1) tsp ground',,;
+      stick_to_ground: '1 stick = 1 / (2 || 1) tsp ground',,
       fresh_to_dried: 'not applicable'
     },
 
@@ -152,200 +152,200 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
             primary: ['balanced'],
             secondary: ['versatile'],
             notes: 'Versatile ground cumin for various uses',
-            sensoryProfile: {
-              taste: ['Mild', 'Balanced', 'Natural'],
-              aroma: ['Fresh', 'Clean', 'Subtle'],
-              texture: ['Pleasant', 'Smooth', 'Appealing'],
-              notes: 'Characteristic flavorprofile profile',
-              sensoryProfile: {
-                taste: ['Mild', 'Balanced', 'Natural'],
-                aroma: ['Fresh', 'Clean', 'Subtle'],
-                texture: ['Pleasant', 'Smooth', 'Appealing'],
-                notes: 'Characteristic flavorprofile profile',
-                sensoryProfile: {
-                  taste: ['Mild', 'Balanced', 'Natural'],
-                  aroma: ['Fresh', 'Clean', 'Subtle'],
-                  texture: ['Pleasant', 'Smooth', 'Appealing'],
-                  notes: 'Characteristic flavorprofile profile',
-                  sensoryProfile: {
-                    taste: ['Mild', 'Balanced', 'Natural'],
-                    aroma: ['Fresh', 'Clean', 'Subtle'],
-                    texture: ['Pleasant', 'Smooth', 'Appealing'],
-                    notes: 'Characteristic flavorprofile profile',
-                    culinaryProfile: {
-                      flavorProfile: {
-                        primary: ['balanced'],
-                        secondary: ['versatile'],
-                        notes: 'Versatile flavorprofile for various uses',
-                        culinaryProfile: {
-                          flavorProfile: {
-                            primary: ['balanced'],
-                            secondary: ['versatile'],
-                            notes: 'Versatile flavorprofile for various uses',
-                            culinaryProfile: {
-                              flavorProfile: {
-                                primary: ['balanced'],
-                                secondary: ['versatile'],
-                                notes: 'Versatile flavorprofile for various uses',
-                                culinaryProfile: {
-                                  flavorProfile: {
-                                    primary: ['balanced'],
-                                    secondary: ['versatile'],
-                                    notes: 'Versatile flavorprofile for various uses',
-                                    culinaryProfile: {
-                                      flavorProfile: {
-                                        primary: ['balanced'],
-                                        secondary: ['versatile'],
-                                        notes: 'Versatile flavorprofile for various uses',
-                                        culinaryProfile: {
-                                          flavorProfile: {
-                                            primary: ['balanced'],
-                                            secondary: ['versatile'],
-                                            notes: 'Versatile flavorprofile for various uses',
-                                            season: ['year-round'],
-                                            preparation: {
-                                              methods: ['standard preparation'],
-                                              timing: 'as needed',
-                                              notes: 'Standard preparation for flavorprofile',
-                                              season: ['year-round'],
-                                              preparation: {
-                                                methods: ['standard preparation'],
-                                                timing: 'as needed',
-                                                notes: 'Standard preparation for flavorprofile',
-                                                season: ['year-round'],
-                                                preparation: {
-                                                  methods: ['standard preparation'],
-                                                  timing: 'as needed',
-                                                  notes: 'Standard preparation for flavorprofile'
-                                                },
-                                                storage: {
-                                                  temperature: 'cool, dry place',
-                                                  duration: '6-12 months',
-                                                  container: 'airtight container',
-                                                  notes: 'Store in optimal conditions'
-                                                }
-                                              },
-                                              storage: {
-                                                temperature: 'cool, dry place',
-                                                duration: '6-12 months',
-                                                container: 'airtight container',
-                                                notes: 'Store in optimal conditions'
-                                              }
-                                            },
-                                            storage: {
-                                              temperature: 'cool, dry place',
-                                              duration: '6-12 months',
-                                              container: 'airtight container',
-                                              notes: 'Store in optimal conditions'
-                                            }
-                                          },
-                                          cookingMethods: ['sautéing', 'steaming', 'roasting'],
-                                          cuisineAffinity: ['Global', 'International'],
-                                          preparationTips: ['Use as needed', 'Season to taste']
-                                        },
-                                        season: ['year-round'],
-                                        preparation: {
-                                          methods: ['standard preparation'],
-                                          timing: 'as needed',
-                                          notes: 'Standard preparation for flavorprofile'
-                                        }
-                                      },
-                                      cookingMethods: ['sautéing', 'steaming', 'roasting'],
-                                      cuisineAffinity: ['Global', 'International'],
-                                      preparationTips: ['Use as needed', 'Season to taste']
-                                    },
-                                    season: ['year-round'],
-                                    preparation: {
-                                      methods: ['standard preparation'],
-                                      timing: 'as needed',
-                                      notes: 'Standard preparation for flavorprofile'
-                                    }
-                                  },
-                                  cookingMethods: ['sautéing', 'steaming', 'roasting'],
-                                  cuisineAffinity: ['Global', 'International'],
-                                  preparationTips: ['Use as needed', 'Season to taste']
-                                },
-                                season: ['year-round'],
-                                preparation: {
-                                  methods: ['standard preparation'],
-                                  timing: 'as needed',
-                                  notes: 'Standard preparation for flavorprofile'
-                                }
-                              },
-                              cookingMethods: ['sautéing', 'steaming', 'roasting'],
-                              cuisineAffinity: ['Global', 'International'],
-                              preparationTips: ['Use as needed', 'Season to taste']
-                            },
-                            season: ['year-round'],
-                            preparation: {
-                              methods: ['standard preparation'],
-                              timing: 'as needed',
-                              notes: 'Standard preparation for flavorprofile'
-                            }
-                          },
-                          cookingMethods: ['sautéing', 'steaming', 'roasting'],
-                          cuisineAffinity: ['Global', 'International'],
-                          preparationTips: ['Use as needed', 'Season to taste']
-                        },
-                        season: ['year-round'],
-                        preparation: {
-                          methods: ['standard preparation'],
-                          timing: 'as needed',
-                          notes: 'Standard preparation for flavorprofile'
-                        }
-                      },
-                      cookingMethods: ['sautéing', 'steaming', 'roasting'],
-                      cuisineAffinity: ['Global', 'International'],
-                      preparationTips: ['Use as needed', 'Season to taste']
-                    },
-                    season: ['year-round'],
-                    preparation: {
-                      methods: ['standard preparation'],
-                      timing: 'as needed',
-                      notes: 'Standard preparation for flavorprofile'
-                    }
-                  },
-                  culinaryProfile: {
-                    flavorProfile: {
-                      primary: ['balanced'],
-                      secondary: ['versatile'],
-                      notes: 'Versatile flavorprofile for various uses'
-                    },
-                    cookingMethods: ['sautéing', 'steaming', 'roasting'],
-                    cuisineAffinity: ['Global', 'International'],
-                    preparationTips: ['Use as needed', 'Season to taste']
-                  },
-                  season: ['year-round']
-                },
-                culinaryProfile: {
-                  flavorProfile: {
-                    primary: ['balanced'],
-                    secondary: ['versatile'],
-                    notes: 'Versatile flavorprofile for various uses'
-                  },
-                  cookingMethods: ['sautéing', 'steaming', 'roasting'],
-                  cuisineAffinity: ['Global', 'International'],
-                  preparationTips: ['Use as needed', 'Season to taste']
-                },
-                season: ['year-round']
-              },
-              culinaryProfile: {
-                flavorProfile: {
-                  primary: ['balanced'],
-                  secondary: ['versatile'],
-                  notes: 'Versatile flavorprofile for various uses'
-                },
-                cookingMethods: ['sautéing', 'steaming', 'roasting'],
-                cuisineAffinity: ['Global', 'International'],
-                preparationTips: ['Use as needed', 'Season to taste']
-              },
-              season: ['year-round']
+            // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
             },
             culinaryProfile: {
               flavorProfile: {
                 primary: ['balanced'],
                 secondary: ['versatile'],
-                notes: 'Versatile flavorprofile for various uses'
+                notes: 'Versatile flavorProfile for various uses'
               },
               cookingMethods: ['sautéing', 'steaming', 'roasting'],
               cuisineAffinity: ['Global', 'International'],
@@ -378,7 +378,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     },
 
     conversionRatio: {
-      whole_to_ground: '1 tbsp whole = 2.5 tsp ground',,;
+      whole_to_ground: '1 tbsp whole = 2.5 tsp ground',,
       fresh_to_dried: 'not applicable'
     },
 
@@ -437,11 +437,11 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       }
     },
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic ground_cumin profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -518,39 +518,39 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         color: 'deep orange-yellow',
         potency: 'very high',
         uses: 'medicinal preparations, curry powders',
-        sensoryProfile: {
-          taste: ['Mild', 'Balanced', 'Natural'],
-          aroma: ['Fresh', 'Clean', 'Subtle'],
-          texture: ['Pleasant', 'Smooth', 'Appealing'],
-          notes: 'Characteristic alleppey profile',
-          culinaryProfile: {
-            flavorProfile: {
-              primary: ['balanced'],
-              secondary: ['versatile'],
-              notes: 'Versatile alleppey for various uses',
-              season: ['year-round'],
-              preparation: {
-                methods: ['standard preparation'],
-                timing: 'as needed',
-                notes: 'Standard preparation for alleppey'
-              },
-              storage: {
-                temperature: 'cool, dry place',
-                duration: '6-12 months',
-                container: 'airtight container',
-                notes: 'Store in optimal conditions'
-              }
-            },
-            cookingMethods: ['sautéing', 'steaming', 'roasting'],
-            cuisineAffinity: ['Global', 'International'],
-            preparationTips: ['Use as needed', 'Season to taste']
-          },
-          season: ['year-round'],
-          preparation: {
-            methods: ['standard preparation'],
-            timing: 'as needed',
-            notes: 'Standard preparation for alleppey'
-          }
+        // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
         },
         culinaryProfile: {
           flavorProfile: {
@@ -571,27 +571,27 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         color: 'bright yellow',
         potency: 'medium',
         uses: 'all-purpose culinary',
-        sensoryProfile: {
-          taste: ['Mild', 'Balanced', 'Natural'],
-          aroma: ['Fresh', 'Clean', 'Subtle'],
-          texture: ['Pleasant', 'Smooth', 'Appealing'],
-          notes: 'Characteristic madras profile',
-          culinaryProfile: {
-            flavorProfile: {
-              primary: ['balanced'],
-              secondary: ['versatile'],
-              notes: 'Versatile madras for various uses'
-            },
-            cookingMethods: ['sautéing', 'steaming', 'roasting'],
-            cuisineAffinity: ['Global', 'International'],
-            preparationTips: ['Use as needed', 'Season to taste']
-          },
-          season: ['year-round'],
-          preparation: {
-            methods: ['standard preparation'],
-            timing: 'as needed',
-            notes: 'Standard preparation for madras'
-          }
+        // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
         },
         culinaryProfile: {
           flavorProfile: {
@@ -608,8 +608,8 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     },
 
     conversionRatio: {
-      fresh_to_dried: '1 inch fresh = 1 tsp ground',,;
-      powder_to_fresh: '1 tsp powder = 1 tbsp fresh grated',,;
+      fresh_to_dried: '1 inch fresh = 1 tsp ground',,
+      powder_to_fresh: '1 tsp powder = 1 tbsp fresh grated',
     },
 
     affinities: [
@@ -673,27 +673,27 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
           categorization: 'balances all three doshas (vata, pitta, kapha)',
           applications: ['blood purifier', 'digestive aid', 'anti-inflammatory'],
           preparations: ['golden milk', 'medicated ghee', 'poultices'],
-          sensoryProfile: {
-            taste: ['Mild', 'Balanced', 'Natural'],
-            aroma: ['Fresh', 'Clean', 'Subtle'],
-            texture: ['Pleasant', 'Smooth', 'Appealing'],
-            notes: 'Characteristic ayurveda profile',
-            culinaryProfile: {
-              flavorProfile: {
-                primary: ['balanced'],
-                secondary: ['versatile'],
-                notes: 'Versatile ayurveda for various uses'
-              },
-              cookingMethods: ['sautéing', 'steaming', 'roasting'],
-              cuisineAffinity: ['Global', 'International'],
-              preparationTips: ['Use as needed', 'Season to taste']
-            },
-            season: ['year-round'],
-            preparation: {
-              methods: ['standard preparation'],
-              timing: 'as needed',
-              notes: 'Standard preparation for ayurveda'
-            }
+          // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
           },
           culinaryProfile: {
             flavorProfile: {
@@ -712,11 +712,11 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
           categorization: 'invigorates blood, resolves stagnation',
           applications: ['menstrual issues', 'abdominal pain', 'trauma'],
           preparations: ['decoctions', 'poultices', 'medicinal wines'],
-          sensoryProfile: {
-            taste: ['Mild', 'Balanced', 'Natural'],
-            aroma: ['Fresh', 'Clean', 'Subtle'],
-            texture: ['Pleasant', 'Smooth', 'Appealing'],
-            notes: 'Characteristic tcm profile'
+          // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
           },
           culinaryProfile: {
             flavorProfile: {
@@ -734,11 +734,11 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
           name: 'Western Herbalism',
           applications: ['digestive support', 'liver health', 'inflammation'],
           preparations: ['tinctures', 'capsules', 'teas'],
-          sensoryProfile: {
-            taste: ['Mild', 'Balanced', 'Natural'],
-            aroma: ['Fresh', 'Clean', 'Subtle'],
-            texture: ['Pleasant', 'Smooth', 'Appealing'],
-            notes: 'Characteristic western herbalism profile'
+          // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
           },
           culinaryProfile: {
             flavorProfile: {
@@ -775,11 +775,11 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
           indian: 'foundation of most curry powders',
           thai: 'component in yellow curry paste',
           indonesian: 'key in rendang and yellow rice',
-          sensoryProfile: {
-            taste: ['Mild', 'Balanced', 'Natural'],
-            aroma: ['Fresh', 'Clean', 'Subtle'],
-            texture: ['Pleasant', 'Smooth', 'Appealing'],
-            notes: 'Characteristic curries profile'
+          // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
           },
           culinaryProfile: {
             flavorProfile: {
@@ -802,11 +802,11 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         ingredients: ['milk', 'turmeric', 'black pepper', 'honey', 'cinnamon', 'ginger'],
         timing: 'simmer 10-15 minutes',
         notes: 'Traditional Ayurvedic tonic, modern popularity for anti-inflammatory benefits',
-        sensoryProfile: {
-          taste: ['Mild', 'Balanced', 'Natural'],
-          aroma: ['Fresh', 'Clean', 'Subtle'],
-          texture: ['Pleasant', 'Smooth', 'Appealing'],
-          notes: 'Characteristic golden milk profile'
+        // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
         },
         culinaryProfile: {
           flavorProfile: {
@@ -919,11 +919,11 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       testing: 'Add to water - pure turmeric settles, many adulterants will create colored swirls'
     },
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic ground_turmeric profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -959,7 +959,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     },
 
     conversionRatio: {
-      pods_to_ground: '1 pod = 1 / (4 || 1) tsp ground',,;
+      pods_to_ground: '1 pod = 1 / (4 || 1) tsp ground',,
       fresh_to_dried: 'not applicable'
     },
 
@@ -1012,11 +1012,11 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       }
     },
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic ground_cardamom profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -1063,7 +1063,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     },
 
     conversionRatio: {
-      whole_to_ground: '1 tsp whole = 3 / (4 || 1) tsp ground',,;
+      whole_to_ground: '1 tsp whole = 3 / (4 || 1) tsp ground',,
       strength_ratio: 'use 1 / (4 || 1) amount of other sweet spices'
     },
 
@@ -1076,8 +1076,8 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         timing: 'during last hour of cooking',
         pairings: ['brown sugar', 'mustard', 'pineapple'],
         ratios: {
-          basic_glaze: '1:8:4 (cloves:brown sugar:mustard)',
-          fruit_glaze: '1:8:8 (cloves:brown sugar:juice)'
+          basic_glaze: '1:8:4 (cloves:brown, sugar:mustard)',
+          fruit_glaze: '1:8:8 (cloves:brown, sugar:juice)'
         },
         notes: 'Traditional with studded whole cloves'
       },
@@ -1119,11 +1119,11 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       }
     },
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic ground_cloves profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -1170,7 +1170,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     },
 
     conversionRatio: {
-      whole_to_ground: '1 tbsp whole = 2.5 tsp ground',,;
+      whole_to_ground: '1 tbsp whole = 2.5 tsp ground',,
       fresh_to_dried: 'not applicable'
     },
 
@@ -1232,11 +1232,11 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       }
     },
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic ground_paprika profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -1283,8 +1283,8 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     },
 
     conversionRatio: {
-      whole_to_ground: '1 tbsp whole = 2.5 tsp ground',,;
-      powder_to_prepared: '1 tsp powder = 1 tbsp prepared mustard',,;
+      whole_to_ground: '1 tbsp whole = 2.5 tsp ground',,
+      powder_to_prepared: '1 tsp powder = 1 tbsp prepared mustard',
     },
 
     affinities: ['pork', 'sausages', 'dressings', 'pickles', 'cheese dishes'],
@@ -1323,11 +1323,11 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       }
     },
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic ground_mustard profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -1374,7 +1374,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     },
 
     conversionRatio: {
-      whole_to_ground: '1 tbsp whole = 2.5 tsp ground',,;
+      whole_to_ground: '1 tbsp whole = 2.5 tsp ground',,
       fresh_to_dried: '3:1 ratio'
     },
 
@@ -1438,11 +1438,11 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       }
     },
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic ground_fennel profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -1515,11 +1515,11 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     category: 'Uncategorized',
     subCategory: 'Uncategorized',
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic ground_ginger profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -1595,11 +1595,11 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     category: 'Uncategorized',
     subCategory: 'Uncategorized',
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic ground_coriander profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -1669,11 +1669,11 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     category: 'Uncategorized',
     subCategory: 'Uncategorized',
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic ground_star_anise profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -1716,5 +1716,5 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-export const _groundSpices: Record<string, IngredientMapping> =
+export const, _groundSpices: Record<string, IngredientMapping> =
   fixIngredientMappings(rawGroundSpices);

@@ -16,18 +16,18 @@ declare global {
       toContainElement(_element: HTMLElement | null): R;
       toContainHTML(_htmlText: string): R;
       toHaveAccessibleDescription(description?: string | RegExp): R;
-      toHaveAccessibleName(name?: string | RegExp): R;
+      toHaveAccessibleName(name?: string | RegExp): R
       toHaveAttribute(_attr: string, value?: unknown): R;
       toHaveClass(..._classNames: string[]): R;
-      toHaveFocus(): R;
-      toHaveFormValues(_expectedValues: Record<string, unknown>): R;
-      toHaveStyle(_css: Record<string, unknown>): R;
+      toHaveFocus(): R
+      toHaveFormValues(_expectedValues: Record<string, unknown>): R
+      toHaveStyle(_css: Record<string, unknown>): R
       toHaveTextContent(_text: string | RegExp, options?: { _normalizeWhitespace: boolean }): R;
       toHaveValue(value?: string | string[] | number): R;
       toBeChecked(): R;
       toBePartiallyChecked(): R;
       toHaveDisplayValue(value: string | RegExp | (string | RegExp)[]): R;
-      toBeInTheDOM(): R;
+      toBeInTheDOM(): R
     }
   }
 }

@@ -13,17 +13,17 @@ export type MineralData = string[] | Record<string, number>;
 
 // Standardized nutritional profile that handles all formats
 export interface StandardizedNutritionalProfile {
-  // Basic macros (always numbers)
+  // Basic macros (always numbers);
   calories?: number;
   protein_g?: number;
   carbs_g?: number;
   fat_g?: number;
   fiber_g?: number;
   sugar_g?: number;
-  sodium_mg?: number;
+  sodium_mg?: number
 
   // Vitamins - flexible format, always safe to access
-  vitamins?: VitaminData;
+  vitamins?: VitaminData
 
   // Minerals - flexible format, always safe to access
   minerals?: MineralData;
@@ -43,8 +43,8 @@ export interface StandardizedNutritionalProfile {
     monounsaturated_fat_g?: number;
     polyunsaturated_fat_g?: number;
     omega_3_g?: number;
-    omega_6_g?: number;
-    cholesterol?: number;
+    omega_6_g?: number
+    cholesterol?: number
   };
 
   // Detailed vitamin/mineral data with amounts
@@ -53,7 +53,7 @@ export interface StandardizedNutritionalProfile {
     {
       amount: number,
       unit: string,
-      dailyValue?: number;
+      dailyValue?: number
     }
   >;
 
@@ -62,7 +62,7 @@ export interface StandardizedNutritionalProfile {
     {
       amount: number,
       unit: string,
-      dailyValue?: number;
+      dailyValue?: number
     }
   >;
 
@@ -75,7 +75,7 @@ export interface StandardizedNutritionalProfile {
   source?: string;
   fdcId?: number;
   verified?: boolean;
-  lastUpdated?: Date;
+  lastUpdated?: Date
 }
 
 // Standardized culinary applications structure
@@ -85,7 +85,7 @@ export interface StandardizedCulinaryApplications {
     notes: string[];
     techniques?: string[];
     dishes?: string[];
-    preparation?: string[];
+    preparation?: string[]
   };
 
   // Heat-based methods
@@ -93,37 +93,37 @@ export interface StandardizedCulinaryApplications {
     notes: string[];
     techniques?: string[];
     dishes?: string[];
-    temperature?: { min: number; max: number; unit: 'F' | 'C' };
-    duration?: { min: number; max: number; unit: 'minutes' | 'hours' };
+    temperature?: { min: number; max: number unit: 'F' | 'C' };
+    duration?: { min: number; max: number unit: 'minutes' | 'hours' };
   };
 
   sauteing?: {
     notes: string[];
     techniques?: string[];
     dishes?: string[];
-    heatLevel?: 'low' | 'medium' | 'high';
+    heatLevel?: 'low' | 'medium' | 'high'
   };
 
   roasting?: {
     notes: string[];
     techniques?: string[];
     dishes?: string[];
-    temperature?: { min: number; max: number; unit: 'F' | 'C' };
-    duration?: { min: number; max: number; unit: 'minutes' | 'hours' };
+    temperature?: { min: number; max: number unit: 'F' | 'C' };
+    duration?: { min: number; max: number unit: 'minutes' | 'hours' };
   };
 
   grilling?: {
     notes: string[];
     techniques?: string[];
     dishes?: string[];
-    heatLevel?: 'low' | 'medium' | 'high';
+    heatLevel?: 'low' | 'medium' | 'high'
   };
 
   steaming?: {
     notes: string[];
     techniques?: string[];
     dishes?: string[];
-    duration?: { min: number; max: number; unit: 'minutes' };
+    duration?: { min: number; max: number unit: 'minutes' };
   };
 
   // Liquid methods
@@ -131,14 +131,14 @@ export interface StandardizedCulinaryApplications {
     notes: string[];
     techniques?: string[];
     dishes?: string[];
-    duration?: { min: number; max: number; unit: 'minutes' };
+    duration?: { min: number; max: number unit: 'minutes' };
   };
 
   poaching?: {
     notes: string[];
     techniques?: string[];
     dishes?: string[];
-    temperature?: { min: number; max: number; unit: 'F' | 'C' };
+    temperature?: { min: number; max: number unit: 'F' | 'C' };
   };
 
   // Preservation methods
@@ -146,21 +146,21 @@ export interface StandardizedCulinaryApplications {
     notes: string[];
     techniques?: string[];
     dishes?: string[];
-    duration?: { min: number; max: number; unit: 'days' | 'weeks' };
+    duration?: { min: number; max: number unit: 'days' | 'weeks' };
   };
 
   pickling?: {
     notes: string[];
     techniques?: string[];
     dishes?: string[];
-    acidType?: string[];
+    acidType?: string[]
   };
 
   drying?: {
     notes: string[];
     techniques?: string[];
     dishes?: string[];
-    method?: string[];
+    method?: string[]
   };
 
   // Special applications
@@ -168,14 +168,14 @@ export interface StandardizedCulinaryApplications {
     notes: string[];
     techniques?: string[];
     dishes?: string[];
-    timing?: string[];
+    timing?: string[]
   };
 
   infusing?: {
     notes: string[];
     techniques?: string[];
     dishes?: string[];
-    duration?: { min: number; max: number; unit: 'minutes' | 'hours' | 'days' };
+    duration?: { min: number; max: number unit: 'minutes' | 'hours' | 'days' };
   };
 
   // Regional/cultural applications
@@ -187,7 +187,7 @@ export interface StandardizedCulinaryApplications {
       preparation: string,
       pairings?: string[];
       cultural_notes?: string;
-      medicinal_use?: string;
+      medicinal_use?: string
     }
   >;
 
@@ -197,7 +197,7 @@ export interface StandardizedCulinaryApplications {
     | {
         notes: string[];
         techniques?: string[];
-        dishes?: string[];
+        dishes?: string[]
         [key: string]: unknown
       }
     | undefined;
@@ -214,9 +214,9 @@ export interface StandardizedVariety {
   storage?: string;
   availability?: {
     _seasons: Season[];
-    regions?: string[];
+    regions?: string[]
   };
-  nutritionalDifferences?: Partial<StandardizedNutritionalProfile>;
+  nutritionalDifferences?: Partial<StandardizedNutritionalProfile>
 }
 
 // Standardized astrological profile
@@ -227,9 +227,9 @@ export interface StandardizedAstrologicalProfile {
     base: Element;
     secondary?: Element;
     decanModifiers?: {
-      first: { element: Element; planet: string };
-      second: { element: Element; planet: string };
-      third: { element: Element; planet: string };
+      first: { element: Element, planet: string };
+      second: { element: Element, planet: string };
+      third: { element: Element, planet: string };
     };
   };
   lunarPhaseModifiers?: {
@@ -240,7 +240,7 @@ export interface StandardizedAstrologicalProfile {
         heat?: number;
         entropy?: number;
         reactivity?: number;
-        energy?: number;
+        energy?: number
       };
     };
   };
@@ -253,29 +253,29 @@ export interface StandardizedStorage {
     humidity?: string;
     duration: string;
     notes?: string;
-    container?: string;
+    container?: string
   };
   frozen?: {
     preparation?: string;
     duration: string;
     uses?: string;
-    qualityNotes?: string;
+    qualityNotes?: string
   };
   dried?: {
     method?: string[];
     duration: string;
     storage?: string;
-    rehydration?: string;
+    rehydration?: string
   };
   pickled?: {
     method?: string;
     duration: string;
     storage?: string;
-    notes?: string;
+    notes?: string
   };
   container?: string;
   environment?: string;
-  preservation?: string[];
+  preservation?: string[]
 }
 
 // Standardized health properties
@@ -288,10 +288,10 @@ export interface StandardizedHealthProperties {
   dosage?: {
     culinary?: string;
     therapeutic?: string;
-    maximum?: string;
+    maximum?: string
   };
   activeCompounds?: string[];
-  researchStatus?: 'traditional' | 'preliminary' | 'established' | 'clinical';
+  researchStatus?: 'traditional' | 'preliminary' | 'established' | 'clinical'
 }
 
 // Category-specific extensions
@@ -301,7 +301,7 @@ export interface OilSpecificProperties {
     _fahrenheit: number
   };
   extractionMethod?: string;
-  refinementLevel?: 'crude' | 'refined' | 'extra-virgin' | 'cold-pressed';
+  refinementLevel?: 'crude' | 'refined' | 'extra-virgin' | 'cold-pressed'
   fatProfile?: {
     saturated: number,
     _monounsaturated: number,
@@ -324,11 +324,11 @@ export interface SpiceSpecificProperties {
   grindSize?: 'whole' | 'coarse' | 'medium' | 'fine' | 'powder';
   origin?: string | string[];
   harvestSeason?: Season[];
-  activeCompounds?: string[];
+  activeCompounds?: string[]
   traditional_uses?: {
     culinary: string[],
     _medicinal: string[],
-    ceremonial?: string[];
+    ceremonial?: string[]
   };
 }
 
@@ -343,24 +343,24 @@ export interface FruitSpecificProperties {
     _ethylene_producer: boolean,
     _ethylene_sensitive: boolean,
     optimal_temperature?: string;
-    duration?: string;
+    duration?: string
   };
   peak_season?: {
     _start: string,
     _end: string,
-    regions?: string[];
+    regions?: string[]
   };
 }
 
 // Main standardized ingredient interface
 export interface StandardizedIngredient {
-  // Core identification (always required)
+  // Core identification (always required);
   name: string;
   id?: string;
   category: string;
   subCategory?: string;
 
-  // Elemental properties (always required)
+  // Elemental properties (always required);
   elementalProperties: ElementalProperties;
 
   // Basic properties
@@ -368,11 +368,11 @@ export interface StandardizedIngredient {
   season?: Season | Season[];
   seasonality?: Season | Season[];
 
-  // Standardized nutritional profile (handles all formats)
+  // Standardized nutritional profile (handles all formats);
   nutritionalProfile?: StandardizedNutritionalProfile;
 
-  // Standardized culinary applications (flexible structure)
-  culinaryApplications?: StandardizedCulinaryApplications;
+  // Standardized culinary applications (flexible structure);
+  culinaryApplications?: StandardizedCulinaryApplications
 
   // Standardized variety information
   varieties?: Record<string, StandardizedVariety>;
@@ -386,7 +386,7 @@ export interface StandardizedIngredient {
   // Standardized health properties
   healthProperties?: StandardizedHealthProperties;
 
-  // Category-specific properties (type-safe extensions)
+  // Category-specific properties (type-safe extensions);
   oilProperties?: OilSpecificProperties;
   spiceProperties?: SpiceSpecificProperties;
   fruitProperties?: FruitSpecificProperties;
@@ -403,7 +403,7 @@ export interface StandardizedIngredient {
     cutting?: string;
     cooking?: string;
     notes?: string;
-    tips?: string[];
+    tips?: string[]
   };
 
   // Cultural and historical context
@@ -418,7 +418,7 @@ export interface StandardizedIngredient {
   sustainability?: {
     concerns?: string[];
     certifications?: string[];
-    recommendations?: string[];
+    recommendations?: string[]
   };
 
   // Flexible extension for future properties
@@ -447,7 +447,7 @@ export function safeGetVitamins(profile?: StandardizedNutritionalProfile): strin
   if (!profile?.vitamins) return [];
 
   if (isVitaminArray(profile.vitamins)) {
-    return profile.vitamins;
+    return profile.vitamins
   }
 
   if (isVitaminObject(profile.vitamins)) {
@@ -461,7 +461,7 @@ export function safeGetMinerals(profile?: StandardizedNutritionalProfile): strin
   if (!profile?.minerals) return [];
 
   if (isMineralArray(profile.minerals)) {
-    return profile.minerals;
+    return profile.minerals
   }
 
   if (isMineralObject(profile.minerals)) {
@@ -519,7 +519,7 @@ export function safeGetMineralValues(
 
 // Data completeness assessment
 export interface DataCompletenessScore {
-  overall: number; // 0-100
+  overall: number // 0-100,
   nutrition: number,
   culinary: number,
   astrology: number,
@@ -533,10 +533,10 @@ export interface DataCompletenessScore {
 export function assessDataCompleteness(ingredient: StandardizedIngredient): DataCompletenessScore {
   let score = 0;
   let maxScore = 0;
-  const missingFields: string[] = [];
-  const strengths: string[] = [];
+  const, missingFields: string[] = [];
+  const, strengths: string[] = [];
 
-  // Core properties (30 points)
+  // Core properties (30 points);
   maxScore += 30;
   if (ingredient.name) score += 5;
   if (ingredient.category) score += 5;
@@ -544,7 +544,7 @@ export function assessDataCompleteness(ingredient: StandardizedIngredient): Data
   if (ingredient.qualities?.length) score += 5;
   if (ingredient.season) score += 5;
 
-  // Nutritional data (25 points)
+  // Nutritional data (25 points);
   maxScore += 25;
   if (ingredient.nutritionalProfile) {
     score += 5;
@@ -559,7 +559,7 @@ export function assessDataCompleteness(ingredient: StandardizedIngredient): Data
     missingFields.push('nutritionalProfile');
   }
 
-  // Culinary applications (20 points)
+  // Culinary applications (20 points);
   maxScore += 20;
   if (ingredient.culinaryApplications) {
     const methodCount = Object.keys(ingredient.culinaryApplications).length;
@@ -569,7 +569,7 @@ export function assessDataCompleteness(ingredient: StandardizedIngredient): Data
     missingFields.push('culinaryApplications');
   }
 
-  // Astrological data (10 points)
+  // Astrological data (10 points);
   maxScore += 10;
   if (ingredient.astrologicalProfile) {
     score += 3;
@@ -581,7 +581,7 @@ export function assessDataCompleteness(ingredient: StandardizedIngredient): Data
     missingFields.push('astrologicalProfile');
   }
 
-  // Varieties and storage (10 points)
+  // Varieties and storage (10 points);
   maxScore += 10;
   if (ingredient.varieties && Object.keys(ingredient.varieties).length > 0) {
     score += 5;
@@ -592,7 +592,7 @@ export function assessDataCompleteness(ingredient: StandardizedIngredient): Data
     strengths.push('Storage guidance');
   }
 
-  // Health properties (5 points)
+  // Health properties (5 points);
   maxScore += 5;
   if (ingredient.healthProperties?.benefits?.length) {
     score += 5;
@@ -604,24 +604,24 @@ export function assessDataCompleteness(ingredient: StandardizedIngredient): Data
   return {
     overall: overallScore,
     nutrition: ingredient.nutritionalProfile
-      ? Math.round((Object.keys(ingredient.nutritionalProfile).length / 15) * 100)
+      ? Math.round((Object.keys(ingredient.nutritionalProfile).length / 15) * 100);
       : 0,
     culinary: ingredient.culinaryApplications
-      ? Math.round((Object.keys(ingredient.culinaryApplications).length / 10) * 100)
+      ? Math.round((Object.keys(ingredient.culinaryApplications).length / 10) * 100);
       : 0,
     astrology: ingredient.astrologicalProfile ? 85 : 0,
     varieties: ingredient.varieties
-      ? Math.min(100, Object.keys(ingredient.varieties).length * 25)
+      ? Math.min(100, Object.keys(ingredient.varieties).length * 25);
       : 0,
     storage: ingredient.storage ? 90 : 0,
     missingFields,
     strengths,
-    recommendations: generateRecommendations(missingFields, overallScore)
+    recommendations: generateRecommendations(missingFields, overallScore);
   };
 }
 
 function generateRecommendations(_missingFields: string[], score: number): string[] {
-  const recommendations: string[] = [];
+  const, recommendations: string[] = [];
 
   if (score < 50) {
     recommendations.push('Comprehensive data enhancement needed');

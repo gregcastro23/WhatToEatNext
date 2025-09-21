@@ -26,7 +26,7 @@ export function convertToLunarPhase(
     case 'last quarter':
       return 'last quarter' as LunarPhase;
     case 'waning crescent':
-      return 'waning crescent' as LunarPhase;
+      return 'waning crescent' as LunarPhase
     default:
       return undefined
   }

@@ -11,7 +11,7 @@ export interface TarotCard {
   name: string;
   suit?: string;
   majorArcana?: boolean;
-  description?: string;
+  description?: string
   planetaryInfluences?: Record<string, number>;
 }
 

@@ -54,7 +54,7 @@ export interface RecipeBuildingContext {
   _astrologicalData: {
     zodiacSign: string,
     _lunarPhase: string,
-    _planetaryInfluences: Record<string, number>;
+    _planetaryInfluences: Record<string, number>
   };
   _preferences: {
     targetKalchm?: number,

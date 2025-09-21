@@ -30,7 +30,7 @@ export class DomainContextAnalyzer {
    * Analyze the domain context for a given classification context
    */
   async analyzeDomain(context: ClassificationContext): Promise<DomainContext> {
-    const domain = this.detectDomain(context);
+    const domain = this.detectDomain(context)
     const subDomain = this.detectSubDomain(context, domain);
     const intentionalityHints = this.generateIntentionalityHints(context, domain);
     const suggestedTypes = this.getDomainSpecificSuggestions(domain, context);
@@ -49,7 +49,7 @@ export class DomainContextAnalyzer {
    * Get domain-specific type suggestions
    */
   getDomainSpecificSuggestions(domain: CodeDomain, context: ClassificationContext): string[] {
-    const baseSuggestions = this.typeMapping.get(domain) || ['unknown'];
+    const baseSuggestions = this.typeMapping.get(domain) || ['unknown']
     const contextualSuggestions = this.getContextualSuggestions(context, domain);
     const variableNameSuggestions = this.getVariableNameBasedSuggestions(context, domain);
     const patternBasedSuggestions = this.getPatternBasedSuggestions(context, domain);
@@ -77,7 +77,7 @@ export class DomainContextAnalyzer {
     const variableMatch = context.codeSnippet.match(/(?:const|let|var)\s+(\w+)\s*:/);
     const variableName = variableMatch ? variableMatch[1].toLowerCase() : '';
 
-    if (!variableName) return suggestions;
+    if (!variableName) return suggestions
 
     switch (domain) {
       case CodeDomain.ASTROLOGICAL:
@@ -96,8 +96,7 @@ export class DomainContextAnalyzer {
         if (variableName.includes('ephemeris')) suggestions.push('EphemerisData');
         break;
 
-      case CodeDomain.RECIPE:
-        if (variableName.includes('ingredient')) suggestions.push('Ingredient');
+      case CodeDomain.RECIPE: if (variableName.includes('ingredient')) suggestions.push('Ingredient');
         if (variableName.includes('recipe')) suggestions.push('Recipe');
         if (variableName.includes('spice')) suggestions.push('Spice');
         if (variableName.includes('herb')) suggestions.push('Herb');
@@ -107,7 +106,7 @@ export class DomainContextAnalyzer {
         if (variableName.includes('nutrition')) suggestions.push('NutritionalInfo');
         if (variableName.includes('flavor')) suggestions.push('FlavorProfile');
         if (variableName.includes('cuisine')) suggestions.push('CuisineType');
-        break;
+        break
 
       case CodeDomain.CAMPAIGN:
         if (variableName.includes('metrics')) suggestions.push('ProgressMetrics', 'MetricsData');
@@ -128,13 +127,12 @@ export class DomainContextAnalyzer {
         if (variableName.includes('data')) suggestions.push('ServiceData');
         break;
 
-      case CodeDomain.COMPONENT:
-        if (variableName.includes('props')) suggestions.push('ComponentProps');
+      case CodeDomain.COMPONENT: if (variableName.includes('props')) suggestions.push('ComponentProps');
         if (variableName.includes('state')) suggestions.push('ComponentState');
         if (variableName.includes('event')) suggestions.push('React.SyntheticEvent');
         if (variableName.includes('ref')) suggestions.push('React.RefObject<T>');
         if (variableName.includes('context')) suggestions.push('ContextValue');
-        break;
+        break
 
       case CodeDomain.TEST:
         if (variableName.includes('mock')) suggestions.push('jest.Mock', 'MockData');
@@ -152,7 +150,7 @@ export class DomainContextAnalyzer {
    */
   private getPatternBasedSuggestions(context: ClassificationContext, domain: CodeDomain): string[] {
     const suggestions: string[] = [];
-    const codeSnippet = context.codeSnippet;
+    const codeSnippet = context.codeSnippet
 
     // Array pattern analysis
     if (codeSnippet.includes('any[]')) {
@@ -193,7 +191,7 @@ export class DomainContextAnalyzer {
 
     // Function parameter analysis
     if (codeSnippet.includes('(') && codeSnippet.includes('any')) {
-      const paramMatch = codeSnippet.match(/\(\s*\w+\s*:\s*any/);
+      const paramMatch = codeSnippet.match(/\(\s*\w+\s*: \s*any/)
       if (paramMatch) {
         switch (domain) {
           case CodeDomain.ASTROLOGICAL:
@@ -286,7 +284,7 @@ export class DomainContextAnalyzer {
     const normalizedPath = filePath.toLowerCase().replace(/\\/g, '/');
 
     // Check in priority order (test files first, then components, etc.)
-    const orderedDomains = [;
+    const orderedDomains = [
       CodeDomain.TEST,
       CodeDomain.COMPONENT,
       CodeDomain.ASTROLOGICAL,
@@ -298,7 +296,7 @@ export class DomainContextAnalyzer {
 
     for (const domain of orderedDomains) {
       const patterns = this.pathPatterns.get(domain) || [];
-      if (patterns.some(pattern => pattern.test(normalizedPath))) {;
+      if (patterns.some(pattern => pattern.test(normalizedPath))) {
         return domain;
       }
     }
@@ -449,7 +447,7 @@ export class DomainContextAnalyzer {
     context: ClassificationContext,
     domain: CodeDomain,
   ): IntentionalityHint[] {
-    const hints: IntentionalityHint[] = [];
+    const hints: IntentionalityHint[] = []
 
     switch (domain) {
       case CodeDomain.ASTROLOGICAL:
@@ -534,7 +532,7 @@ export class DomainContextAnalyzer {
   private getContextualSuggestions(context: ClassificationContext, domain: CodeDomain): string[] {
     const suggestions: string[] = [];
     const codeContent = context.codeSnippet.toLowerCase();
-    const surroundingContent = context.surroundingLines.join('\n').toLowerCase();
+    const surroundingContent = context.surroundingLines.join('\n').toLowerCase()
     const allContent = `${codeContent} ${surroundingContent}`;
 
     switch (domain) {
@@ -597,7 +595,7 @@ export class DomainContextAnalyzer {
       if (content.includes('saturn')) suggestions.push('SaturnPosition');
       if (content.includes('uranus')) suggestions.push('UranusPosition');
       if (content.includes('neptune')) suggestions.push('NeptunePosition');
-      if (content.includes('pluto')) suggestions.push('PlutoPosition');
+      if (content.includes('pluto')) suggestions.push('PlutoPosition')
     }
 
     // Elemental analysis
@@ -674,7 +672,7 @@ export class DomainContextAnalyzer {
     if (content.includes('recipe')) {
       suggestions.push('Recipe');
       if (content.includes('step')) suggestions.push('RecipeStep');
-      if (content.includes('instruction')) suggestions.push('CookingInstruction');
+      if (content.includes('instruction')) suggestions.push('CookingInstruction')
     }
 
     // Ingredient analysis
@@ -759,7 +757,7 @@ export class DomainContextAnalyzer {
    * Get campaign system type suggestions based on content analysis
    */
   private getCampaignTypeSuggestions(content: string, context: ClassificationContext): string[] {
-    const suggestions: string[] = [];
+    const suggestions: string[] = []
 
     // Core campaign types
     if (content.includes('campaign')) {
@@ -828,7 +826,7 @@ export class DomainContextAnalyzer {
    * Get service type suggestions based on content analysis
    */
   private getServiceTypeSuggestions(content: string, context: ClassificationContext): string[] {
-    const suggestions: string[] = [];
+    const suggestions: string[] = []
 
     // API analysis
     if (content.includes('api') || content.includes('endpoint')) {
@@ -873,7 +871,7 @@ export class DomainContextAnalyzer {
    * Get React component type suggestions based on content analysis
    */
   private getComponentTypeSuggestions(content: string, context: ClassificationContext): string[] {
-    const suggestions: string[] = [];
+    const suggestions: string[] = []
 
     // Props analysis
     if (content.includes('props')) {
@@ -935,7 +933,7 @@ export class DomainContextAnalyzer {
     if (content.includes('boolean')) suggestions.push('boolean');
     if (content.includes('date')) suggestions.push('Date');
     if (content.includes('array')) suggestions.push('Array<unknown>');
-    if (content.includes('promise')) suggestions.push('Promise<unknown>');
+    if (content.includes('promise')) suggestions.push('Promise<unknown>')
 
     // Object analysis
     if (content.includes('object') || content.includes('record')) {
@@ -949,7 +947,7 @@ export class DomainContextAnalyzer {
    * Get test type suggestions based on content analysis
    */
   private getTestTypeSuggestions(content: string, context: ClassificationContext): string[] {
-    const suggestions: string[] = [];
+    const suggestions: string[] = []
 
     // Jest analysis
     if (content.includes('jest') || content.includes('mock')) {
@@ -987,21 +985,21 @@ export class DomainContextAnalyzer {
   }
 
   private getPreservationReasons(context: ClassificationContext, domain: CodeDomain): string[] {
-    const reasons: string[] = [];
+    const reasons: string[] = []
 
-    if (domain === CodeDomain.ASTROLOGICAL) {;
+    if (domain === CodeDomain.ASTROLOGICAL) {
       reasons.push(
         'Astrological calculations require compatibility with external astronomical libraries',
       );
       reasons.push('Planetary position data structures vary between different API sources');
     }
 
-    if (domain === CodeDomain.CAMPAIGN) {;
+    if (domain === CodeDomain.CAMPAIGN) {
       reasons.push('Campaign system needs flexibility for evolving metrics and configurations');
       reasons.push('Dynamic tool integration requires adaptable type structures');
     }
 
-    if (domain === CodeDomain.TEST) {;
+    if (domain === CodeDomain.TEST) {
       reasons.push('Test flexibility for mocking and test data generation');
       reasons.push('Jest and testing library compatibility requirements');
     }

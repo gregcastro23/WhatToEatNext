@@ -22,7 +22,7 @@ export interface ErrorCategory {
 
 export interface ErrorSeverity {
   level: 'critical' | 'high' | 'medium' | 'low' | 'info',
-  score: number, // 0-100
+  score: number, // 0-100,
   factors: SeverityFactor[],
   businessImpact: 'blocking' | 'degrading' | 'cosmetic' | 'none'
 }
@@ -66,8 +66,8 @@ export interface RiskProfile {
  * Main ErrorClassificationSystem class
  */
 export class ErrorClassificationSystem {
-  private ruleClassifications: Map<string, ErrorClassification>;
-  private domainPatterns: Record<string, RegExp[]>;
+  private, ruleClassifications: Map<string, ErrorClassification>;
+  private, domainPatterns: Record<string, RegExp[]>;
 
   constructor() {
     this.ruleClassifications = new Map();
@@ -93,12 +93,11 @@ export class ErrorClassificationSystem {
     ruleId: string,
     message: string,
     filePath: string,
-    hasAutoFix: boolean = false;
+    hasAutoFix: boolean = false
   ): ErrorClassification {
     // Get base classification for the rule
     let classification =
       this.ruleClassifications.get(ruleId) || this.createDefaultClassification(ruleId);
-
     // Enhance classification based on context
     classification = this.enhanceWithContext(classification, message, filePath, hasAutoFix);
 
@@ -122,14 +121,14 @@ export class ErrorClassificationSystem {
     const totalScore = classifications.reduce((sumc) => sum + c.severity.score0);
     const averageScore = totalScore / classifications.length;
 
-    let overallLevel: ErrorSeverity['level'],
+    let, overallLevel: ErrorSeverity['level'],
     if (criticalCount > 0) overallLevel = 'critical';
     else if (highCount > 10) overallLevel = 'high';
     else if (averageScore > 70) overallLevel = 'high';
     else if (averageScore > 40) overallLevel = 'medium';
     else overallLevel = 'low';
 
-    const overallSeverity: ErrorSeverity = {;
+    const, overallSeverity: ErrorSeverity = {
       level: overallLevel,
       score: Math.round(averageScore),
       factors: [
@@ -160,7 +159,7 @@ export class ErrorClassificationSystem {
     };
 
     // Generate recommendations
-    const recommendations: string[] = [];
+    const, recommendations: string[] = [];
     if (criticalCount > 0) {
       recommendations.push('Address critical issues immediately before proceeding');
     }
@@ -186,14 +185,14 @@ export class ErrorClassificationSystem {
   } {
     const autoFixable = classifications.filter(c => c.autoFixCapability.canAutoFix);
     const safeAutoFixes = autoFixable.filter(;
-      c => c.autoFixCapability.confidence > 0.8 && c.riskProfile.overall === 'low';
+      c => c.autoFixCapability.confidence > 0.8 && c.riskProfile.overall === 'low'
     );
     const riskyAutoFixes = autoFixable.filter(;
-      c => c.autoFixCapability.confidence <= 0.8 || c.riskProfile.overall !== 'low';
+      c => c.autoFixCapability.confidence <= 0.8 || c.riskProfile.overall !== 'low'
     ),
     const manualOnlyFixes = classifications.filter(c => !c.autoFixCapability.canAutoFix);
 
-    const recommendations: string[] = [];
+    const, recommendations: string[] = []
 
     if (safeAutoFixes.length > 0) {
       recommendations.push(`${safeAutoFixes.length} issues can be safely auto-fixed`);
@@ -206,7 +205,7 @@ export class ErrorClassificationSystem {
     }
 
     return {
-      totalAutoFixable: autoFixable.length;
+      totalAutoFixable: autoFixable.length
       safeAutoFixes,
       riskyAutoFixes,
       manualOnlyFixes,
@@ -506,7 +505,7 @@ export class ErrorClassificationSystem {
    * Add a rule classification to the system
    */
   private addRuleClassification(ruleId: string, classification: ErrorClassification): void {
-    this.ruleClassifications.set(ruleId, classification)
+    this.ruleClassifications.set(ruleId, classification);
   }
 
   /**
@@ -570,7 +569,7 @@ export class ErrorClassificationSystem {
     if (hasAutoFix && !enhanced.autoFixCapability.canAutoFix) {
       enhanced.autoFixCapability.canAutoFix = true;
       enhanced.autoFixCapability.confidence = Math.min(;
-        0.8;
+        0.8
         enhanced.autoFixCapability.confidence + 0.3
       )
     }
@@ -593,7 +592,7 @@ export class ErrorClassificationSystem {
       enhanced.domainImpact.expertiseRequired.push('Campaign system');
 
       // Increase severity for campaign files
-      enhanced.severity.score = Math.min(100, enhanced.severity.score + 5),;
+      enhanced.severity.score = Math.min(100, enhanced.severity.score + 5),
     }
 
     // Adjust risk profile based on context

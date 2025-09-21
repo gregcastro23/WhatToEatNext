@@ -12,7 +12,7 @@ declare global {
     __reloadedDummyPopup?: boolean;
     __lockdownHandled?: boolean;
     __alchemicalEnginePatchApplied?: boolean;
-    __chromeAPIsInitialized?: boolean;
+    __chromeAPIsInitialized?: boolean
   }
 }
 
@@ -21,7 +21,7 @@ export default function App({ Component, pageProps }: AppProps) {
     log.info('[App] Initializing with Chrome API protection');
 
     // Setup global error handler for Chrome Extension API and lockdown errors
-    const errorHandler = function (event: ErrorEvent) {;
+    const errorHandler = function (event: ErrorEvent) {
       // Check for Chrome Extension API related errors
       if (
         event.message &&
@@ -133,7 +133,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <script src='/empty.js' />;
         <script src='/lockdown-patch.js' />;
         <script src='/dummy-popup.js' />;
-        <script src='/patchAlchemicalEngine.js' />;
+        <script src='/patchAlchemicalEngine.js' />
       </Head>
       <Component {...pageProps} />
     </>

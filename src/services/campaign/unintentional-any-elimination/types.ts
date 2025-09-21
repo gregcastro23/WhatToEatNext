@@ -8,24 +8,24 @@ import { ProgressMetrics, SafetyEvent, ValidationResult } from '../../../types/c
 // Core Classification Types
 export interface AnyTypeClassification {
   isIntentional: boolean,
-  confidence: number, // 0-1 scale
+  confidence: number, // 0-1 scale,
   reasoning: string;
-  suggestedReplacement?: string;
+  suggestedReplacement?: string,
   requiresDocumentation: boolean,
   category: AnyTypeCategory
 }
 
 export enum AnyTypeCategory {
-  ERROR_HANDLING = 'error_handling',;
-  EXTERNAL_API = 'external_api',;
-  TEST_MOCK = 'test_mock',;
-  DYNAMIC_CONFIG = 'dynamic_config',;
-  LEGACY_COMPATIBILITY = 'legacy_compatibility',;
-  ARRAY_TYPE = 'array_type',;
-  RECORD_TYPE = 'record_type',;
-  FUNCTION_PARAM = 'function_param',;
-  RETURN_TYPE = 'return_type',;
-  TYPE_ASSERTION = 'type_assertion',;
+  ERROR_HANDLING = 'error_handling',
+  EXTERNAL_API = 'external_api',
+  TEST_MOCK = 'test_mock',
+  DYNAMIC_CONFIG = 'dynamic_config',
+  LEGACY_COMPATIBILITY = 'legacy_compatibility',
+  ARRAY_TYPE = 'array_type',
+  RECORD_TYPE = 'record_type',
+  FUNCTION_PARAM = 'function_param',
+  RETURN_TYPE = 'return_type',
+  TYPE_ASSERTION = 'type_assertion',
 }
 
 export interface ClassificationContext {
@@ -34,7 +34,7 @@ export interface ClassificationContext {
   codeSnippet: string,
   surroundingLines: string[],
   hasExistingComment: boolean,
-  existingComment?: string;
+  existingComment?: string,
   isInTestFile: boolean,
   domainContext: DomainContext
 }
@@ -55,7 +55,7 @@ export interface ReplacementResult {
   failedReplacements: TypeReplacement[],
   compilationErrors: string[],
   rollbackPerformed: boolean,
-  backupPath?: string;
+  backupPath?: string
 }
 
 export interface ReplacementStrategy {
@@ -68,21 +68,21 @@ export interface ReplacementStrategy {
 // Domain Context Types
 export interface DomainContext {
   domain: CodeDomain;
-  subDomain?: string;
+  subDomain?: string,
   intentionalityHints: IntentionalityHint[],
   suggestedTypes: string[],
   preservationReasons: string[]
 }
 
 export enum CodeDomain {
-  ASTROLOGICAL = 'astrological',;
-  RECIPE = 'recipe',;
-  CAMPAIGN = 'campaign',;
-  INTELLIGENCE = 'intelligence',;
-  SERVICE = 'service',;
-  COMPONENT = 'component',;
-  UTILITY = 'utility',;
-  TEST = 'test',;
+  ASTROLOGICAL = 'astrological',
+  RECIPE = 'recipe',
+  CAMPAIGN = 'campaign',
+  INTELLIGENCE = 'intelligence',
+  SERVICE = 'service',
+  COMPONENT = 'component',
+  UTILITY = 'utility',
+  TEST = 'test',
 }
 
 export interface IntentionalityHint {
@@ -110,7 +110,7 @@ export interface ReplacementAttempt {
   attemptedReplacement: string,
   success: boolean,
   errorMessage?: string;
-  rollbackReason?: string;
+  rollbackReason?: string
 }
 
 // Progress Tracking Types
@@ -201,7 +201,7 @@ export interface UnintentionalAnyProgressMetrics extends ProgressMetrics {
 export class ClassificationError extends Error {
   constructor(
     message: string,
-    public readonly context: ClassificationContext,
+    public readonly, context: ClassificationContext,
     public readonly cause?: Error,
   ) {
     super(message);
@@ -212,32 +212,32 @@ export class ClassificationError extends Error {
 export class SafetyProtocolError extends Error {
   constructor(
     message: string,
-    public readonly rollbackPath: string,
-    public readonly affectedFiles: string[],
+    public readonly, rollbackPath: string,
+    public readonly, affectedFiles: string[],
   ) {
     super(message);
     this.name = 'SafetyProtocolError';
   }
 }
 
-// Forward declarations for classes (to be implemented in separate files)
+// Forward declarations for classes (to be implemented in separate files);
 export interface AnyTypeClassifier {
-  classify(context: ClassificationContext): Promise<AnyTypeClassification>;
+  classify(context: ClassificationContext): Promise<AnyTypeClassification>
   classifyBatch(contexts: ClassificationContext[]): Promise<AnyTypeClassification[]>
 }
 
 export interface SafeTypeReplacer {
-  applyReplacement(replacement: TypeReplacement): Promise<ReplacementResult>;
+  applyReplacement(replacement: TypeReplacement): Promise<ReplacementResult>
   processBatch(replacements: TypeReplacement[]): Promise<ReplacementResult>
 }
 
 export interface DomainContextAnalyzer {
-  analyzeDomain(context: ClassificationContext): Promise<DomainContext>;
+  analyzeDomain(context: ClassificationContext): Promise<DomainContext>
   getDomainSpecificSuggestions(domain: CodeDomain, context: ClassificationContext): string[]
 }
 
 export interface ProgressiveImprovementEngine {
-  executeBatch(config: UnintentionalAnyConfig): Promise<BatchMetrics>;
+  executeBatch(config: UnintentionalAnyConfig): Promise<BatchMetrics>
   executeFullCampaign(config: UnintentionalAnyConfig): Promise<UnintentionalAnyCampaignResult>
 }
 
@@ -246,7 +246,7 @@ export interface DocumentationTemplate {
   category: AnyTypeCategory,
   domain: CodeDomain,
   template: string,
-  eslintDisableComment?: string;
+  eslintDisableComment?: string,
   explanation: string
 }
 
@@ -258,7 +258,7 @@ export interface DocumentationResult {
   commentAdded: string,
   eslintDisableAdded?: string;
   success: boolean;
-  error?: string;
+  error?: string
 }
 
 export interface DocumentationValidation {
@@ -274,7 +274,7 @@ export interface DocumentationReport {
   totalIntentionalAnyTypes: number,
   documentedTypes: number,
   undocumentedTypes: number,
-  documentationCoverage: number, // percentage
+  documentationCoverage: number, // percentage,
   qualityBreakdown: Record<string, number>;
   undocumentedFiles: string[],
   recommendations: string[]
@@ -288,7 +288,7 @@ export interface AutoDocumentationGenerator {
 
   validateDocumentation(context: ClassificationContext): Promise<DocumentationValidation>;
 
-  generateReport(): Promise<DocumentationReport>;
+  generateReport(): Promise<DocumentationReport>
 }
 
 // Analysis and Reporting Types
@@ -332,7 +332,7 @@ export interface ClassificationAccuracyReport {
     count: number,
     percentage: number
   }>;
-  reportDate: Date;
+  reportDate: Date
   pilotEnhancements?: {
     manualReviewSimulation: any,
     crossValidation: any,
@@ -396,7 +396,7 @@ export interface AnalysisReport {
     executionDate: Date,
     configuration: PilotAnalysisConfig,
     accuracyValidation: ClassificationAccuracyReport,
-    tuningResults?: ClassificationTuningResults;
+    tuningResults?: ClassificationTuningResults,
     domainDistribution: DomainDistribution[],
     baselineMetrics: BaselineMetrics,
     successPrediction: SuccessRatePrediction,
@@ -446,7 +446,7 @@ export interface Alert {
   severity: 'low' | 'medium' | 'high' | 'critical',
   message: string,
   timestamp: Date,
-  data?: unknown;
+  data?: unknown
 }
 
 export type AlertType =
@@ -465,7 +465,7 @@ export interface SafetyEvent {
   description: string,
   action: string,
   timestamp: Date,
-  affectedFiles?: string[];
+  affectedFiles?: string[]
 }
 
 export interface BuildStabilityRecord {
@@ -486,7 +486,7 @@ export interface AlertSummary {
 }
 
 export interface SystemHealth {
-  score: number; // 0-100
+  score: number // 0-100
   status: 'healthy' | 'warning' | 'critical',
   lastCheck: Date,
   issues: string[]
@@ -525,10 +525,10 @@ export interface PilotAnalysisResults {
   domainDistribution?: DomainDistribution[];
   baselineMetrics?: BaselineMetrics | SuccessRatePrediction;
   successPrediction?: SuccessRatePrediction;
-  pilotReport?: AnalysisReport;
+  pilotReport?: AnalysisReport,
   recommendations: string[],
   nextSteps: string[],
-  error?: string;
+  error?: string
 }
 
 export interface ClassificationTuningResults {
@@ -543,7 +543,7 @@ export interface SuccessRatePrediction {
   currentSuccessRate?: number;
   estimatedSuccessRate: number;
   projectedSuccessRate?: any;
-  confidenceInterval: { lower: number; upper: number };
+  confidenceInterval: { lower: number, upper: number };
   riskFactors: string[],
   estimatedTimeToComplete: number, // in minutes
   timeToTarget?: any;
@@ -551,7 +551,7 @@ export interface SuccessRatePrediction {
   recommendedBatchSize: number;
   estimatedTotalReductions?: any;
   predictionAccuracy?: any;
-  lastUpdated?: Date;
+  lastUpdated?: Date
 }
 
 export interface CampaignMetrics {
@@ -568,7 +568,7 @@ export interface CampaignMetrics {
 export interface CampaignPhase {
   phase: string,
   startTime: Date,
-  endTime?: Date;
+  endTime?: Date
   status: 'pending' | 'in_progress' | 'completed' | 'failed',
   metrics: CampaignMetrics,
   issues: string[]

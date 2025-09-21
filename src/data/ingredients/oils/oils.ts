@@ -2,9 +2,9 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import type { _ } from '@/types/seasons';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-// Pattern AA: Ingredient Interface Restructuring
+// Pattern, AA: Ingredient Interface Restructuring
 // Proper type annotation for raw ingredients to ensure IngredientMapping compatibility
-const rawOils: Record<string, Partial<IngredientMapping>> = {
+const, rawOils: Record<string, Partial<IngredientMapping>> = {
   olive_oil: {
     name: 'Olive Oil',
     category: 'oil',
@@ -151,7 +151,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
           'Adds a subtle coconut flavor to baked goods',
           'Good solid fat substitute for butter in vegan recipes'
         ],
-        techniques: ['Melt before using in recipes', 'Substitute 1:1 for butter'],
+        techniques: ['Melt before using in recipes', 'Substitute, 1:1 for butter'],
         dishes: ['Cookies', 'Cakes', 'Pie crusts', 'Vegan desserts']
       },
       cooking: {
@@ -454,7 +454,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       },
       baking: {
         notes: ['Excellent butter substitute in baking', 'Adds moisture to baked goods'],
-        techniques: ['Substitute 1:1 for butter or other oils in recipes'],
+        techniques: ['Substitute, 1:1 for butter or other oils in recipes'],
         dishes: ['Cakes', 'Brownies', 'Muffins', 'Quick breads']
       }
     },
@@ -1071,7 +1071,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-export const oils: Record<string, IngredientMapping> = fixIngredientMappings(rawOils);
+export const, oils: Record<string, IngredientMapping> = fixIngredientMappings(rawOils);
 
 // For backward compatibility
 export const _allOils = oils;

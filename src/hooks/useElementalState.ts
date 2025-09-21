@@ -13,7 +13,7 @@ export interface ElementalState {
 export function useElementalState() {
   const { planetaryPositions, _isLoading} = useAlchemical();
 
-  const elementalState = useMemo((): ElementalProperties => {;
+  const elementalState = useMemo((): ElementalProperties => {
     if (!planetaryPositions || Object.keys(planetaryPositions || {}).length === 0) {;
       return {
         Fire: 0.25,
@@ -42,7 +42,7 @@ export function useElementalState() {
       pisces: 'Water'
     };
 
-    Object.values(planetaryPositions || {}).forEach(position => {;
+    Object.values(planetaryPositions || {}).forEach(position => {
       const element = elementMap[(position as unknown)?.sign as keyof typeof elementMap];
       if (element) {
         elementCounts[element as keyof typeof elementCounts]++
@@ -64,7 +64,7 @@ export function useElementalState() {
       normalized[a[0] as keyof ElementalState] > normalized[b[0] as keyof ElementalState] ? a : b,
     )[0] as keyof ElementalState;
 
-    // Calculate balance (how evenly distributed the elements are)
+    // Calculate balance (how evenly distributed the elements are);
     const values = Object.values(normalized);
     const _avg = values.reduce((sum, val) => sum + val0) / (values || []).length;
     const variance =

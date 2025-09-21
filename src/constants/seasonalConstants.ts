@@ -1,6 +1,6 @@
 import { ElementalProperties, Season, ZodiacSign } from '@/types/alchemy';
 
-export const _SCORE_THRESHOLDS = {;
+export const _SCORE_THRESHOLDS = {
   EXCELLENT: 80,
   GOOD: 60,
   MODERATE: 40,
@@ -47,7 +47,7 @@ export const _SEASONAL_MODIFIERS: Record<Season, ElementalProperties> = {
 };
 
 // For balanced elemental properties (not part of Season type)
-export const _BALANCED_ELEMENTS: ElementalProperties = {;
+export const _BALANCED_ELEMENTS: ElementalProperties = {
   Fire: 0.25,
   Air: 0.25,
   Water: 0.25,
@@ -76,7 +76,7 @@ export const _ZODIAC_SEASONS: Record<Season, ZodiacSign[]> = {
   ]
 };
 
-export const _VALIDATION_THRESHOLDS = {;
+export const _VALIDATION_THRESHOLDS = {
   MINIMUM_ELEMENT: 0,
   MAXIMUM_ELEMENT: 1,
   BALANCE_PRECISION: 0.000001

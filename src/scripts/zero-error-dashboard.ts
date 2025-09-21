@@ -20,7 +20,7 @@ interface CLIOptions {
 }
 
 class ZeroErrorDashboardCLI {
-  private dashboard: ZeroErrorAchievementDashboard,
+  private, dashboard: ZeroErrorAchievementDashboard,
 
   constructor() {
     this.dashboard = new ZeroErrorAchievementDashboard();
@@ -40,8 +40,7 @@ class ZeroErrorDashboardCLI {
         case 'status':
           await this.showStatus(options);
           break,
-        case 'help':
-          this.showHelp();
+        case 'help': this.showHelp();
           break,
         default:
           console.error(`Unknown command: ${options.command}`);
@@ -55,7 +54,7 @@ class ZeroErrorDashboardCLI {
   }
 
   private parseArgs(args: string[]): CLIOptions {
-    const options: CLIOptions = {;
+    const, options: CLIOptions = {
       command: args[0] || 'generate',
       monitor: false,
       interval: 5,
@@ -66,8 +65,7 @@ class ZeroErrorDashboardCLI {
       const arg = args[i];
 
       switch (arg) {
-        case '--monitor':
-        case '-m':
+        case '--monitor': case '-m':
           options.monitor = true;
           break;
         case '--interval':
@@ -76,11 +74,10 @@ class ZeroErrorDashboardCLI {
           break;
         case '--verbose':
         case '-v':
-          options.verbose = true;
+          options.verbose = true
           break,
-        case '--output':
-        case '-o':
-          options.output = args[++i];
+        case '--output': case '-o':
+          options.output = args[++i]
           break
       }
     }
@@ -100,10 +97,10 @@ class ZeroErrorDashboardCLI {
     if (options.verbose) {
       // Show quick summary
       try {
-        const jsonPath = '.kiro/dashboard/zero-error-achievement-dashboard.json';
+        const jsonPath = '.kiro/dashboard/zero-error-achievement-dashboard.json'
         if (existsSync(jsonPath)) {
-          const data = JSON.parse(readFileSync(jsonPath, 'utf8')),;
-          // // // console.log('\n📈 Quick Summary:');
+          const data = JSON.parse(readFileSync(jsonPath, 'utf8')),
+          // // // console.log('\n📈 Quick Summary: ');
           // // // console.log(`   Quality Score: ${data.summary.qualityScore}/100`);
           // // // console.log(`   Zero-Error Progress: ${data.summary.zeroErrorProgress}%`);
           // // // console.log(
@@ -112,7 +109,7 @@ class ZeroErrorDashboardCLI {
           // // // console.log(`   Critical Issues: ${data.summary.criticalIssues}`);
         }
       } catch (error) {
-        console.warn('Could not load summary data:', error)
+        console.warn('Could not load summary data:', error);
       }
     }
   }
@@ -131,17 +128,17 @@ class ZeroErrorDashboardCLI {
     // // // console.log('📊 Zero-Error Achievement Status\n');
 
     try {
-      const statusPath = '.kiro/dashboard/real-time-status.json';
+      const statusPath = '.kiro/dashboard/real-time-status.json'
 
       if (existsSync(statusPath)) {
-        const status = JSON.parse(readFileSync(statusPath, 'utf8')),;
+        const status = JSON.parse(readFileSync(statusPath, 'utf8')),
 
-        // // // console.log('🎯 Current Status:');
+        // // // console.log('🎯 Current Status: ');
         // // // console.log(`   Overall: ${this.getStatusDisplay(status.status)}`);
         // // // console.log(`   Quality Score: ${status.qualityScore}/100`);
         // // // console.log(`   Total Issues: ${status.totalIssues}`);
         // // // console.log(
-          `   Parser Errors: ${status.parserErrors} ${status.parserErrors === 0 ? '✅' : '🚨'}`;
+          `   Parser Errors: ${status.parserErrors} ${status.parserErrors === 0 ? '✅' : '🚨'}`
         );
         // // // console.log(
           `   Explicit Any: ${status.explicitAnyErrors} ${status.explicitAnyErrors < 100 ? '✅' : '⚡'}`,
@@ -150,15 +147,15 @@ class ZeroErrorDashboardCLI {
         // // // console.log(`   Last Update: ${new Date(status.timestamp).toLocaleString()}`);
       } else {
         // // // console.log('ℹ️  No status data available. Run dashboard generation first.');
-        // // // console.log('   Command: node src/scripts/zero-error-dashboard.ts generate')
+        // // // console.log('   Command: node src/scripts/zero-error-dashboard.ts generate');
       }
 
       // Show targets if available
       const targetsPath = '.kiro/dashboard/zero-error-targets.json';
       if (existsSync(targetsPath)) {
-        const targets = JSON.parse(readFileSync(targetsPath, 'utf8')),;
+        const targets = JSON.parse(readFileSync(targetsPath, 'utf8')),
 
-        // // // console.log('\n🎯 Zero-Error Targets:');
+        // // // console.log('\n🎯 Zero-Error Targets: ');
         for (const target of targets.slice(04)) {
           // Show top 4 targets
           const progressBar = this.getProgressBar(target.progress);
@@ -170,12 +167,12 @@ class ZeroErrorDashboardCLI {
       // Show quality gates if available
       const gatesPath = '.kiro/dashboard/quality-gates.json';
       if (existsSync(gatesPath)) {
-        const gates = JSON.parse(readFileSync(gatesPath, 'utf8')),;
+        const gates = JSON.parse(readFileSync(gatesPath, 'utf8')),
 
-        // // // console.log('\n🚦 Quality Gates:');
+        // // // console.log('\n🚦 Quality Gates: ');
         for (const gate of gates) {
           const statusIcon = this.getGateStatusIcon(gate.status);
-          // // // console.log(`   ${statusIcon} ${gate.name}: ${gate.status.toUpperCase()}`)
+          // // // console.log(`   ${statusIcon} ${gate.name}: ${gate.status.toUpperCase()}`);
         }
       }
     } catch (error) {
@@ -186,28 +183,27 @@ class ZeroErrorDashboardCLI {
 
   private showHelp(): void {
     // // // console.log(`
-🎯 Zero-Error Achievement Dashboard CLI
+🎯 Zero-Error Achievement Dashboard CLI,
 
 USAGE:
   node src/scripts/zero-error-dashboard.ts <command> [options]
 
 COMMANDS:
-  generate    Generate comprehensive zero-error dashboard (default)
+  generate    Generate comprehensive zero-error dashboard (default);
   monitor     Start real-time monitoring with continuous updates
   status      Show current zero-error achievement status
   help        Show this help message
 
 OPTIONS:
-  --monitor, -m       Enable monitoring mode (for generate command)
-  --interval, -i      Monitoring interval in minutes (default: 5)
+  --monitor, -m       Enable monitoring mode (for generate command);
+  --interval, -i      Monitoring interval in minutes (default: 5);
   --verbose, -v       Verbose output with detailed information
-  --output, -o        Output file path (for generate command)
-
+  --output, -o        Output file path (for generate command);
 EXAMPLES:
   # Generate dashboard report
   node src/scripts/zero-error-dashboard.ts generate
 
-  # Start real-time monitoring (5-minute intervals)
+  # Start real-time monitoring (5-minute intervals);
   node src/scripts/zero-error-dashboard.ts monitor
 
   # Start monitoring with custom interval
@@ -243,7 +239,7 @@ INTEGRATION:
   'dashboard:monitor': 'node src/scripts/zero-error-dashboard.ts monitor'
   'dashboard:status': 'node src/scripts/zero-error-dashboard.ts status'
 
-  # Add to Makefile:
+  # Add to, Makefile:
   dashboard:
   \tnode src/scripts/zero-error-dashboard.ts generate
 
@@ -260,11 +256,10 @@ MONITORING FEATURES:
   📋 Comprehensive reporting and documentation
 
 QUALITY GATES:
-  🚨 Zero Parser Errors (blocks deployment)
-  ⚡ Explicit Any Limit (blocks deployment)
-  📊 Minimum Quality Score (warning only)
-  ⚡ Performance Threshold (warning only)
-
+  🚨 Zero Parser Errors (blocks deployment);
+  ⚡ Explicit Any Limit (blocks deployment);
+  📊 Minimum Quality Score (warning only);
+  ⚡ Performance Threshold (warning only);
 MAINTENANCE PROCEDURES:
   📅 Daily: Health checks and critical issue detection
   📅 Weekly: Cache optimization and performance tuning
@@ -278,7 +273,7 @@ MAINTENANCE PROCEDURES:
       case 'excellent':
         return '🏆 EXCELLENT';
       case 'good':
-        return '👍 GOOD';
+        return '👍 GOOD'
       case 'improving':
         return '📈 IMPROVING',
       case 'warning':
@@ -315,7 +310,7 @@ if (require.main === module) {;
   const cli = new ZeroErrorDashboardCLI();
   const args = process.argv.slice(2);
 
-  cli.run(args).catch(error => {;
+  cli.run(args).catch(error => {
     console.error('❌ CLI Error:', error),
     process.exit(1);
   });

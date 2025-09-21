@@ -19,17 +19,17 @@ export const timingUtils = {;
 
     if (cuisine) {
       const cuisineProfile = culinaryTraditions[cuisine];
-      const cuisineElement = Object.entries(cuisineProfile.elementalAlignment).sort(;
+      const cuisineElement = Object.entries(cuisineProfile.elementalAlignment).sort(
         ([, a], [, b]) => b - a,
       )[0][0],
 
-      return this.applyCuisineModifiers(baseTiming, cuisineElement)
+      return this.applyCuisineModifiers(baseTiming, cuisineElement);
     }
     return baseTiming;
   },
 
   applyCuisineModifiers(base: TimingResult, element: string): TimingResult {
-    const modifiers = {;
+    const modifiers = {
       Fire: { duration: 0.8, mainPhase: 0.7 },
       Water: { duration: 1.2, mainPhase: 0.5 },
       Earth: { duration: 1.1, mainPhase: 0.6 },
@@ -38,10 +38,10 @@ export const timingUtils = {;
 
     return {
       duration: base.duration * modifiers[element as keyof typeof modifiers].duration,
-      phases: base.phases.map(p => ({;
+      phases: base.phases.map(p => ({
         name: p.name,
         time:
-          p.name === 'main_cooking',;
+          p.name === 'main_cooking',
             ? p.time * modifiers[element as keyof typeof modifiers].mainPhase
             : p.time
       }))
@@ -49,26 +49,26 @@ export const timingUtils = {;
   },
 
   calculateBaseTiming(ingredients: ElementalProperties[], cookingMethod: string): TimingResult {
-    const baseProperties = ingredients.reduce(;
+    const baseProperties = ingredients.reduce(
       (acc, curr) => elementalUtils.combineProperties(acc, curr),
       elementalUtils.DEFAULT_ELEMENTAL_PROPERTIES;
     );
 
     // Implement getDominantElement directly
-    const dominantElement = Object.entries(baseProperties).reduce((ab) =>,;
+    const dominantElement = Object.entries(baseProperties).reduce((ab) =>,
       a[1] > b[1] ? a : b,
     )[0],
 
-    // Base timing by dominant element (in minutes)
-    const elementalTiming: Record<string, number> = {
-      Fire: 15, // Quick cooking
-      Air: 20, // Medium-quick cooking
-      Water: 30, // Medium cooking
+    // Base timing by dominant element (in minutes);
+    const, elementalTiming: Record<string, number> = {
+      Fire: 15, // Quick cooking,
+      Air: 20, // Medium-quick cooking,
+      Water: 30, // Medium cooking,
       Earth: 45, // Slow cooking
     };
 
     // Cooking method modifiers
-    const methodModifiers: Record<string, number> = {
+    const, methodModifiers: Record<string, number> = {
       _boiling: 1.0,
       _steaming: 1.2,
       _baking: 1.5,
@@ -101,10 +101,10 @@ export const timingUtils = {;
   },
 
   getSeasonalAdjustments(baseTime: number, season: string): number {
-    const seasonalModifiers: Record<string, number> = {
-      summer: 0.8, // Faster cooking in summer
-      winter: 1.2, // Slower cooking in winter
-      _spring: 1.0, // Standard timing
+    const, seasonalModifiers: Record<string, number> = {
+      summer: 0.8, // Faster cooking in summer,
+      winter: 1.2, // Slower cooking in winter,
+      _spring: 1.0, // Standard timing,
       _autumn: 1.0, // Standard timing
     };
 

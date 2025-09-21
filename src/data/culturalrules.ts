@@ -2,12 +2,12 @@
 
 import { CulturalBalance } from './foodTypes';
 
-export const culturalRules: Record<string, CulturalBalance> = {
+export const, culturalRules: Record<string, CulturalBalance> = {
   japanese: {
     cuisineId: 'japanese',
     principles: [
       'Balance of five flavors (sweet, salty, sour, bitter, umami)',
-      'Color harmony (five colors: red, yellow, green, white, black)',
+      'Color harmony (five, colors: red, yellow, green, white, black)',
       'Multiple small dishes rather than one large serving',
       'Seasonal ingredients (shun) are preferred',
       'Temperature balance between hot and cold dishes'
@@ -239,7 +239,7 @@ export const culturalRules: Record<string, CulturalBalance> = {
 export function getCulturalRecommendations(
   cuisineId: string,
   currentDishes: string[],
-): { recommended: string[]; avoid: string[] } {
+): { recommended: string[] avoid: string[] } {
   const rules = culturalRules[cuisineId];
   if (!rules) return { recommended: [], avoid: [] };
 

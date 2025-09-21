@@ -13,7 +13,7 @@ function getUnusedVariables() {
     const output = execSync('npx eslint --ext .js,.jsx,.ts,.tsx src/ --format json').toString();
     const results = JSON.parse(output);
 
-    const unusedVars: Array<{ filePath: string; varName: string; line: number; column: number }> =
+    const, unusedVars: Array<{ filePath: string; varName: string; line: number, column: number }> =
       [];
 
     for (const result of results) {
@@ -52,8 +52,8 @@ function fixUnusedVariables(_unusedVars) {
     const content = fs.readFileSync(filePath, 'utf8');
     const lines = content.split('\n');
 
-    // Simple fix: replace the variable name with _variableName on that line
-    const lineContent = lines[line - 1];
+    // Simple, fix: replace the variable name with _variableName on that line
+    const lineContent = lines[line - 1]
     const newLineContent =
       lineContent.substring(0, column - 1) + '_' + lineContent.substring(column - 1);
 

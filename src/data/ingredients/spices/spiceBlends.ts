@@ -1,9 +1,9 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-// Pattern AA: Ingredient Interface Restructuring
+// Pattern, AA: Ingredient Interface Restructuring
 // Proper type annotation for raw ingredients to ensure IngredientMapping compatibility
-const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
+const, rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
   garam_masala: {
     name: 'Garam Masala',
     elementalProperties: { Fire: 0.5, Air: 0.2, Earth: 0.2, Water: 0.1 },
@@ -263,11 +263,11 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       tastes: ['pungent', 'sweet', 'bitter']
     },
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic herbes_de_provence profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -341,11 +341,11 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
 
     affinities: ['pork', 'duck', 'chicken', 'seafood', 'vegetables'],
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic chinese_five_spice profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -409,7 +409,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         name: 'Lebanese',
         'dried thyme': 2,
         'sesame seeds': 2,
-        sumac: 2, // more sumac
+        sumac: 2, // more sumac,
         oregano: 1,
         marjoram: 1,
         salt: 0.5
@@ -417,7 +417,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       Palestinian: {
         name: 'Palestinian',
         'dried thyme': 2,
-        'sesame seeds': 3, // more sesame
+        'sesame seeds': 3, // more sesame,
         sumac: 1,
         oregano: 1,
         marjoram: 1,
@@ -425,11 +425,11 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       }
     },
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic za_atar profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -501,16 +501,16 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         'black pepper': 1,
         cinnamon: 0.5,
         cardamom: 0.5,
-        cayenne: 2, // extra hot
+        cayenne: 2, // extra hot,
         fenugreek: 0.5
       }
     },
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic curry_powder profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -577,16 +577,16 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     regionalVariations: {
       Traditional: {
         name: 'Traditional',
-        // includes additional fermentation process
+        // includes additional fermentation process,
         rue: 0.5, // additional ingredient
       }
     },
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic berbere profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -650,7 +650,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         name: 'Alexandria',
         hazelnuts: 2,
         'pine nuts': 1,
-        'sesame seeds': 3, // more sesame
+        'sesame seeds': 3, // more sesame,
         coriander: 1,
         cumin: 1,
         'black pepper': 0.5,
@@ -658,11 +658,11 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       }
     },
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic dukkah profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -735,11 +735,11 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       }
     },
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic shichimi_togarashi profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -811,11 +811,11 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       }
     },
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic baharat profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -890,11 +890,11 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       }
     },
 
-    sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic jerk_seasoning profile'
+    // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
     },
 
     culinaryProfile: {
@@ -936,5 +936,5 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-export const _spiceBlends: Record<string, IngredientMapping> =
+export const, _spiceBlends: Record<string, IngredientMapping> =
   fixIngredientMappings(rawSpiceBlends);

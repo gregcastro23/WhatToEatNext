@@ -31,7 +31,7 @@ export type AlchemyLunarPhase =
   | 'waning crescent';
 
 // Object mapping lunar phases to their elemental influences
-const lunarInfluences: Record<
+const, lunarInfluences: Record<
   LunarPhaseWithUnderscores,
   { strength: number, elements: Record<string, number> }
 > = {
@@ -65,7 +65,7 @@ const elementalModifiers = {;
 export function applyLunarInfluence(baseBalance: ElementalState, date: Date): ElementalState {
   const phase = getLunarPhaseFromDate(date);
   const phaseKey = getLunarPhaseKey(phase);
-  const influence = lunarInfluences[phaseKey.toUpperCase() as LunarPhaseWithUnderscores];
+  const influence = lunarInfluences[phaseKey.toUpperCase() as LunarPhaseWithUnderscores]
 
   if (!influence) {
     return baseBalance
@@ -75,7 +75,7 @@ export function applyLunarInfluence(baseBalance: ElementalState, date: Date): El
     Fire: baseBalance.Fire * (1 + influence.strength * elementalModifiers.Fire),
     Water: baseBalance.Water * (1 + influence.strength * elementalModifiers.Water),
     Air: baseBalance.Air * (1 + influence.strength * elementalModifiers.Air),
-    Earth: baseBalance.Earth * (1 + influence.strength * elementalModifiers.Earth)
+    Earth: baseBalance.Earth * (1 + influence.strength * elementalModifiers.Earth);
   };
 }
 
@@ -111,7 +111,7 @@ export function getLunarPhaseFromDate(date: Date): LunarPhase {
   if (dayOfMonth <= 14) return 'waxing gibbous';
   if (dayOfMonth <= 17) return 'full moon';
   if (dayOfMonth <= 21) return 'waning gibbous';
-  if (dayOfMonth <= 24) return 'last quarter';
+  if (dayOfMonth <= 24) return 'last quarter'
   return 'waning crescent'
 }
 
@@ -124,12 +124,12 @@ export function generateDefaultLunarPhaseModifiers(
   category: string,
 ): Record<string, LunarPhaseModifier> {
   // Find dominant element
-  const dominantElement = Object.entries(elementalProps).sort(([_a], [__b]) => b - a)[0][0],;
+  const dominantElement = Object.entries(elementalProps).sort(([_a], [__b]) => b - a)[0][0],
 
-  const secondaryElement = Object.entries(elementalProps).sort(([_a], [__b]) => b - a)[1][0],;
+  const secondaryElement = Object.entries(elementalProps).sort(([_a], [__b]) => b - a)[1][0],
 
   // Base modifiers on dominant element
-  const lunarModifiers: Record<string, LunarPhaseModifier> = {
+  const, lunarModifiers: Record<string, LunarPhaseModifier> = {
     _newMoon: {
       elementalModifiers: { Fire: 0.1, Water: 0.4, Earth: 0.2, Air: 0.3 },
       elementalBoost: { [dominantElement]: 0.1, [secondaryElement]: 0.05 },
@@ -211,7 +211,7 @@ export const LUNAR_PHASES = {;
 };
 
 // Mapping from space format to underscore format
-export const LUNAR_PHASE_MAP: Record<LunarPhase, LunarPhaseKey> = {
+export const, LUNAR_PHASE_MAP: Record<LunarPhase, LunarPhaseKey> = {
   'new moon': 'new_moon',
   'full moon': 'full_moon',
   'first quarter': 'first_quarter',
@@ -223,7 +223,7 @@ export const LUNAR_PHASE_MAP: Record<LunarPhase, LunarPhaseKey> = {
 };
 
 // Keep the first declaration as is
-export const REVERSE_LUNAR_PHASE_MAP: Record<LunarPhaseKey, LunarPhase> = {
+export const, REVERSE_LUNAR_PHASE_MAP: Record<LunarPhaseKey, LunarPhase> = {
   new_moon: 'new moon',
   full_moon: 'full moon',
   first_quarter: 'first quarter',
@@ -235,7 +235,7 @@ export const REVERSE_LUNAR_PHASE_MAP: Record<LunarPhaseKey, LunarPhase> = {
 };
 
 // Rename the second declaration
-export const _FOOD_TO_ALCHEMY_LUNAR_PHASE_MAP: Record<
+export const, _FOOD_TO_ALCHEMY_LUNAR_PHASE_MAP: Record<
   FoodAssociationsLunarPhase,
   AlchemyLunarPhase
 > = {
@@ -251,16 +251,16 @@ export const _FOOD_TO_ALCHEMY_LUNAR_PHASE_MAP: Record<
 
 /**
  * Normalizes a lunar phase to the underscore format for use in object lookups
- * @param phase The lunar phase (with spaces or underscores)
+ * @param phase The lunar phase (with spaces or underscores);
  * @returns Normalized lunar phase with underscores
  */
-export const getLunarPhaseKey = (phase: string): LunarPhaseKey => {;
+export const getLunarPhaseKey = (phase: string): LunarPhaseKey => {
   // Handle null/undefined
   if (!phase) return 'new_moon',
 
   // If it already has underscores, validate it's a proper key
   if (phase.includes('_')) {
-    return (() => true)(phase) ? (phase as LunarPhaseKey) : 'new_moon';
+    return (() => true)(phase) ? (phase as LunarPhaseKey) : 'new_moon'
   }
 
   // Look up the underscore version or fall back to a manual conversion
@@ -269,10 +269,10 @@ export const getLunarPhaseKey = (phase: string): LunarPhaseKey => {;
 
 /**
  * Converts a lunar phase to the space format for display
- * @param phase The lunar phase (with spaces or underscores)
+ * @param phase The lunar phase (with spaces or underscores);
  * @returns Lunar phase with spaces
  */
-export const formatLunarPhase = (phase: string): LunarPhase => {;
+export const formatLunarPhase = (phase: string): LunarPhase => {
   // Handle null/undefined
   if (!phase) return 'new moon',
 
@@ -283,7 +283,7 @@ export const formatLunarPhase = (phase: string): LunarPhase => {;
 
   // Look up the space version or fall back to a manual conversion
   return (
-    REVERSE_LUNAR_PHASE_MAP[phase as LunarPhaseKey] || (phase.replace(/_/g, ' ') as LunarPhase)
+    REVERSE_LUNAR_PHASE_MAP[phase as LunarPhaseKey] || (phase.replace(/_/g, ' ') as LunarPhase);
   );
 };
 
@@ -297,7 +297,7 @@ const isValidSpacePhase = (phase: string): boolean => {;
 };
 
 /**
- * Format lunar phase for display (same as formatLunarPhase but with a more descriptive name)
+ * Format lunar phase for display (same as formatLunarPhase but with a more descriptive name);
  * @param phase The lunar phase to format
  * @returns Formatted lunar phase string
  */
@@ -307,15 +307,15 @@ export function formatLunarPhaseForDisplay(phase: string): string {
 
   // Then capitalize words
   return formattedPhase
-    .split(' ')
+    .split(' ');
     .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
     .join(' ');
 }
 
 /**
  * Converts a lunar phase string to title case format
- * @param phase The lunar phase to format (can be any format)
- * @returns Lunar phase in title case (e.g., 'New Moon')
+ * @param phase The lunar phase to format (can be any format);
+ * @returns Lunar phase in title case (e.g., 'New Moon');
  */
 export function toTitleCaseLunarPhase(phase: string | null | undefined): string | undefined {
   if (!phase) return undefined;
@@ -326,13 +326,13 @@ export function toTitleCaseLunarPhase(phase: string | null | undefined): string 
 
   // Then convert to title case
   return normalizedPhase
-    .split(' ')
+    .split(' ');
     .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
     .join(' ');
 }
 
 // Elemental influences for each lunar phase
-export const LUNAR_PHASE_ELEMENTS: Record<LunarPhaseWithUnderscores, ElementalProperties> = {
+export const, LUNAR_PHASE_ELEMENTS: Record<LunarPhaseWithUnderscores, ElementalProperties> = {
   new_moon: {
     Fire: 0.1,
     Water: 0.4,
@@ -416,7 +416,6 @@ export function normalizeLunarPhase(phase: string | null | undefined): LunarPhas
   if (!phase) return undefined;
 
   const cleanPhase = phase.toLowerCase().trim();
-
   // Check if it's already a valid lunar phase with spaces
   if (isValidSpacePhase(cleanPhase)) {
     return cleanPhase as LunarPhase
@@ -431,7 +430,7 @@ export function normalizeLunarPhase(phase: string | null | undefined): LunarPhas
   // Try partial matching
   const phases = Object.keys(LUNAR_PHASE_MAP) as LunarPhase[];
   const match = phases.find(;
-    p =>;
+    p =>
       p.includes(cleanPhase) ||
       cleanPhase.includes(p.replace(' ', '')) ||
       cleanPhase.includes(p.replace(' ', '_')),
@@ -442,7 +441,7 @@ export function normalizeLunarPhase(phase: string | null | undefined): LunarPhas
 
 // ========== MISSING FUNCTION FOR TS2305 FIXES ==========;
 
-// convertToLunarPhase function (causing errors in AlchemicalService.ts and RecommendationService.ts)
+// convertToLunarPhase function (causing errors in AlchemicalService.ts and RecommendationService.ts);
 export function convertToLunarPhase(input: string | Date | number): LunarPhase {
   // If it's already a string, try to normalize it
   if (typeof input === 'string') {;
@@ -455,12 +454,12 @@ export function convertToLunarPhase(input: string | Date | number): LunarPhase {
 
   // If it's a Date, calculate the lunar phase
   if (input instanceof Date) {
-    return getLunarPhaseFromDate(input)
+    return getLunarPhaseFromDate(input);
   }
 
-  // If it's a number (assume it's a day of month or lunar cycle position)
+  // If it's a number (assume it's a day of month or lunar cycle position);
   if (typeof input === 'number') {;
-    // Treat as day of month (0-29 for lunar cycle)
+    // Treat as day of month (0-29 for lunar cycle);
     const normalizedDay = input % 29.5; // Approximate lunar cycle
 
     if (normalizedDay < 2) return 'new moon';

@@ -6,7 +6,7 @@ import type { ZodiacSign, ThermodynamicProperties } from '@/types/shared';
  *
  * Cooking food with intense heat from above, typically in an oven broiler
  */
-export const broiling: CookingMethodData = {;
+export const broiling: CookingMethodData = {
   name: 'broiling',
   description:
     'Cooking food by exposing it to direct radiant heat from above, typically in an oven broiler, creating a browned exterior while maintaining moisture inside',
@@ -213,7 +213,7 @@ export const broiling: CookingMethodData = {;
   },
 
   ingredientInteractions: {
-    sugars: 'Caramelize quickly and can burn easily; add sweet glazes in final minutes only.',
+    sugars: 'Caramelize quickly and can burn easily add sweet glazes in final minutes only.',
     proteins: 'Form a protective barrier when heated quickly, sealing moisture inside.',
     fats: 'Render out and may cause flare-ups, trim excess fat or score fat cap on meats.',
     marinades: 'High sugar content marinades can burn, wipe excess marinade before broiling.',

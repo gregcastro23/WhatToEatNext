@@ -22,7 +22,7 @@ interface CLIOptions {
   verbose?: boolean;
   batchSize?: number;
   skipBuildValidation?: boolean;
-  onlyLinting?: boolean;
+  onlyLinting?: boolean
   onlyFormatting?: boolean,
   onlyPatterns?: boolean,
   disableAutoFix?: boolean,
@@ -30,7 +30,7 @@ interface CLIOptions {
 }
 
 class LintingFormattingCLI {
-  private options: CLIOptions,
+  private, options: CLIOptions,
 
   constructor(options: CLIOptions = {}) {;
     this.options = options;
@@ -57,20 +57,20 @@ class LintingFormattingCLI {
       // // // console.log(`📁 Found ${targetFiles.length} files to process`);
 
       if (this.options.verbose) {
-        // // // console.log('Files to process:');
+        // // // console.log('Files to process: ');
         targetFiles.forEach(file => // // // console.log(`  - ${file}`));
         // // // console.log('');
       }
 
       // Execute based on options
       if (this.options.onlyLinting) {
-        await this.runLintingOnly(lintingSystem, targetFiles)
+        await this.runLintingOnly(lintingSystem, targetFiles);
       } else if (this.options.onlyFormatting) {
-        await this.runFormattingOnly(lintingSystem, targetFiles)
+        await this.runFormattingOnly(lintingSystem, targetFiles);
       } else if (this.options.onlyPatterns) {
-        await this.runPatternFixesOnly(lintingSystem, targetFiles)
+        await this.runPatternFixesOnly(lintingSystem, targetFiles);
       } else {
-        await this.runFullLintingAndFormatting(lintingSystem, targetFiles)
+        await this.runFullLintingAndFormatting(lintingSystem, targetFiles);
       }
 
       // // // console.log('\n✅ Linting and formatting completed successfully!');
@@ -111,7 +111,7 @@ class LintingFormattingCLI {
     if (this.options.config) {
       try {
         const configPath = path.resolve(this.options.config);
-        const configFile = JSON.parse(fs.readFileSync(configPath, 'utf8')),;
+        const configFile = JSON.parse(fs.readFileSync(configPath, 'utf8')),
         config = { ...config, ...configFile };
         // // // console.log(`📋 Loaded configuration from ${configPath}`);
       } catch (error) {
@@ -129,8 +129,8 @@ class LintingFormattingCLI {
 
   private async getDefaultFiles(): Promise<string[]> {
     try {
-      const output = execSync(;
-        'find src -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' | grep -v __tests__ | grep -v .test. | grep -v .spec.';
+      const output = execSync(
+        'find src -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' | grep -v __tests__ | grep -v .test. | grep -v .spec.'
         { encoding: 'utf8', stdio: 'pipe' },
       );
       return output.trim().split('\n').filter(Boolean);
@@ -164,10 +164,10 @@ class LintingFormattingCLI {
 
     if (this.options.dryRun) {
       const violations = await lintingSystem.detectLintingViolations(targetFiles);
-      // // // console.log(`\n📊 Found ${violations.length} linting violations:`);
+      // // // console.log(`\n📊 Found ${violations.length} linting violations: `);
 
       this.printViolationSummary(violations);
-      return;
+      return
     }
 
     const fixedCount = await lintingSystem.fixLintingViolations(targetFiles);
@@ -216,7 +216,7 @@ class LintingFormattingCLI {
     // // // console.log(`  - Linting violations found: ${violations.length}`);
 
     if (violations.length > 0) {
-      // // // console.log('\n🔍 Linting violations by category:');
+      // // // console.log('\n🔍 Linting violations by category: ');
       this.printViolationSummary(violations);
 
       if (this.options.verbose) {
@@ -229,16 +229,16 @@ class LintingFormattingCLI {
   private printViolationSummary(violations: unknown[]): void {
     const summary = {;
       typeScript: violations.filter(v => (v as any).ruleId?.startsWith('@typescript-eslint/'));
-        .length;
-      react: violations.filter(v => (v as any).ruleId?.startsWith('react')).length,;
-      import: violations.filter(v => (v as any).ruleId?.startsWith('import/')).length,,;
+        .length,
+      react: violations.filter(v => (v as any).ruleId?.startsWith('react')).length,
+      import: violations.filter(v => (v as any).ruleId?.startsWith('import/')).length,,
       other: violations.filter(
-        v =>;
+        v =>
           !(v as any).ruleId?.startsWith('@typescript-eslint/') &&
           !(v as any).ruleId?.startsWith('react') &&
           !(v as any).ruleId?.startsWith('import/');
-      ).length;
-      fixable: violations.filter(v => (v as any).fixable).length,,;
+      ).length,
+      fixable: violations.filter(v => (v as any).fixable).length,,
     };
 
     // // // console.log(`  - TypeScript violations: ${summary.typeScript}`);
@@ -251,19 +251,19 @@ class LintingFormattingCLI {
   private printDetailedViolations(violations: unknown[]): void {
     const groupedByFile = violations.reduce((acc: Record<string, unknown[]>, violation: any) => {;
       if (!acc[violation.filePath]) {
-        acc[violation.filePath] = [];
+        acc[violation.filePath] = []
       }
       acc[violation.filePath].push(violation);
       return acc;
     }, {});
 
     for (const [filePath, fileViolations] of Object.entries(groupedByFile)) {
-      // // // console.log(`\n📄 ${filePath}:`);
+      // // // console.log(`\n📄 ${filePath}: `);
        
       // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
       (fileViolations as any[]).forEach((violation: any) => {
         const fixableLabel = violation.fixable ? ' (fixable)' : '';
-        const severityIcon = violation?.severity === 'error' ? '❌' : '⚠️';
+        const severityIcon = violation?.severity === 'error' ? '❌' : '⚠️'
         // // // console.log(
           `  ${severityIcon} Line ${violation.line}: ${violation?.message} [${violation.ruleId}]${fixableLabel}`,
         );
@@ -282,7 +282,7 @@ class LintingFormattingCLI {
     );
 
     if ((result as any).violationBreakdown) {
-      // // // console.log('\n📋 Violation Breakdown:');
+      // // // console.log('\n📋 Violation Breakdown: ');
       // // // console.log(
         `  - TypeScript errors: ${(result as any)?.violationBreakdown?.typeScriptErrors}`,
       );
@@ -299,12 +299,12 @@ class LintingFormattingCLI {
     }
 
     if ((result as any)?.errors?.length > 0) {
-      // // // console.log('\n❌ Errors:');
+      // // // console.log('\n❌ Errors: ');
       (result as any)?.errors?.forEach((error: string) => // // // console.log(`  - ${error}`));
     }
 
     if ((result as any)?.(warnings as any).length > 0) {
-      // // // console.log('\n⚠️  Warnings:');
+      // // // console.log('\n⚠️  Warnings: ');
       (result as any)?.(warnings as any).forEach((warning: string) =>
         (console as any).log(`  - ${warning}`),
       );
@@ -315,7 +315,7 @@ class LintingFormattingCLI {
 // CLI argument parsing
 function parseArguments(): CLIOptions {
   const args = process.argv.slice(2);
-  const options: CLIOptions = {};
+  const, options: CLIOptions = {};
 
   for (let i = 0i < args.lengthi++) {;
     const arg = args[i];
@@ -324,8 +324,7 @@ function parseArguments(): CLIOptions {
       case '--files':
         options.files = args[++i]?.split(',') || [];
         break;
-      case '--config':
-        options.config = args[++i];
+      case '--config': options.config = args[++i];
         break;
       case '--dry-run':
         options.dryRun = true;
@@ -371,7 +370,7 @@ function parseArguments(): CLIOptions {
 
 function printHelp(): void {
   // // // console.log(`
-🔧 Linting and Formatting System CLI
+🔧 Linting and Formatting System CLI,
 
 Usage: node run-linting-formatting.ts [options]
 
@@ -380,7 +379,7 @@ Options:
   --config <path>              Path to configuration file
   --dry-run                    Show what would be changed without making changes
   --verbose                    Show detailed output
-  --batch-size <number>        Number of files to process per batch (default: 25)
+  --batch-size <number>        Number of files to process per batch (default: 25);
   --skip-build-validation      Skip build validation during processing
   --only-linting               Only run linting fixes
   --only-formatting            Only run code formatting
@@ -420,7 +419,7 @@ Examples:
 if (require.main === module) {;
   const options = parseArguments();
   const cli = new LintingFormattingCLI(options);
-  cli.run().catch(error => {;
+  cli.run().catch(error => {
     console.error('❌ CLI execution failed:', error),
     process.exit(1);
   });

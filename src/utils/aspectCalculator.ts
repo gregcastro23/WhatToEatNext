@@ -11,7 +11,7 @@ export interface PlanetaryPositionData {
   sign: string,
   degree: number,
   exactLongitude?: number;
-  isRetrograde?: boolean;
+  isRetrograde?: boolean
 }
 
 // Interface for aspect data
@@ -21,7 +21,7 @@ export interface AspectData {
   type: AspectType,
   orb: number,
   strength: number,
-  influence?: number;
+  influence?: number
 }
 
 /**
@@ -35,10 +35,10 @@ export interface AspectData {
 export function calculateComprehensiveAspects(
   positions: Record<string, PlanetaryPositionData>,
 ): AspectData[] {
-  const aspects: AspectData[] = [];
+  const, aspects: AspectData[] = []
 
   // Define all aspects and their orbs based on astrocharts.com
-  const aspectDefinitions: Record<string, { angle: number; maxOrb: number }> = {
+  const, aspectDefinitions: Record<string, { angle: number, maxOrb: number }> = {
     conjunction: { angle: 0, maxOrb: 8 },
     opposition: { angle: 180, maxOrb: 8 },
     trine: { angle: 120, maxOrb: 8 },
@@ -54,10 +54,10 @@ export function calculateComprehensiveAspects(
   };
 
   // Helper function to get longitude from sign and degree
-  const getLongitude = (position: PlanetaryPositionData): number => {;
+  const getLongitude = (position: PlanetaryPositionData): number => {
     // Use exactLongitude if available
     if (position.exactLongitude !== undefined) {
-      return position.exactLongitude;
+      return position.exactLongitude
     }
 
     // Otherwise, calculate from sign and degree
@@ -66,7 +66,7 @@ export function calculateComprehensiveAspects(
       return 0; // Return default value
     }
 
-    const signs = [;
+    const signs = [
       'aries',
       'taurus',
       'gemini',
@@ -87,8 +87,8 @@ export function calculateComprehensiveAspects(
   // Calculate aspects between each planet pair
   const planets = Object.keys(positions);
 
-  for (let i = 0; i < planets.length; i++) {
-    for (let j = i + 1; j < planets.length; j++) {
+  for (let i = 0; i < planets.length i++) {
+    for (let j = i + 1; j < planets.length j++) {
       const planet1 = planets[i];
       const planet2 = planets[j];
 
@@ -105,26 +105,26 @@ export function calculateComprehensiveAspects(
       let diff = Math.abs(long1 - long2);
       if (diff > 180) diff = 360 - diff;
 
-      // Adjust orbs based on planetary importance (Sun/Moon have larger orbs)
+      // Adjust orbs based on planetary importance (Sun/Moon have larger orbs);
       let orbMultiplier = 1.0;
-      if (planet1 === 'sun' || planet1 === 'moon' || planet2 === 'sun' || planet2 === 'moon') {;
+      if (planet1 === 'sun' || planet1 === 'moon' || planet2 === 'sun' || planet2 === 'moon') {
         orbMultiplier = 1.2; // 20% larger orbs for aspects involving Sun or Moon
       }
 
       // Check each aspect type
-      let bestAspect: { type: string; orb: number; strength: number } | null = null;
+      let bestAspect: { type: string, orb: number strength: number } | null = null;
 
       for (const [type, definition] of Object.entries(aspectDefinitions)) {
         const adjustedMaxOrb = definition.maxOrb * orbMultiplier;
         const orb = Math.abs(diff - definition.angle);
 
         if (orb <= adjustedMaxOrb) {
-          // Calculate aspect strength based on orb (closer aspects are stronger)
+          // Calculate aspect strength based on orb (closer aspects are stronger);
           const strength = 1 - orb / adjustedMaxOrb;
 
           // Check if this is the best aspect so far
           if (!bestAspect || strength > bestAspect.strength) {
-            bestAspect = {;
+            bestAspect = {
               type,
               orb,
               strength
@@ -135,12 +135,12 @@ export function calculateComprehensiveAspects(
 
       // Add the best aspectif found
       if (bestAspect) {
-        // Determine influence: positive for harmonious aspects, negative for challenging ones
+        // Determine, influence: positive for harmonious aspects, negative for challenging ones
         let influence = 0;
         const type = bestAspect.type;
-        if (type === 'conjunction' || type === 'trine' || type === 'sextile') {;
+        if (type === 'conjunction' || type === 'trine' || type === 'sextile') {
           influence = bestAspect.strength;
-        } else if (type === 'opposition' || type === 'square') {;
+        } else if (type === 'opposition' || type === 'square') {
           influence = -bestAspect.strength;
         }
 
@@ -156,17 +156,17 @@ export function calculateComprehensiveAspects(
     }
   }
 
-  // Sort aspects by strength (descending)
+  // Sort aspects by strength (descending);
   return aspects.sort((ab) => b.strength - a.strength);
 }
 
 /**
  * Get zodiac sign and degree from longitude
- * @param longitude Longitude in degrees (0-360)
+ * @param longitude Longitude in degrees (0-360);
  * @returns Object with sign and degree
  */
-export function getSignAndDegreeFromLongitude(_longitude: number): { sign: string; degree: number } {
-  const signs = [;
+export function getSignAndDegreeFromLongitude(_longitude: number): { sign: string, degree: number } {
+  const signs = [
     'aries',
     'taurus',
     'gemini',
@@ -184,14 +184,14 @@ export function getSignAndDegreeFromLongitude(_longitude: number): { sign: strin
   // Normalize longitude to 0-360 range
   const normalizedLong = ((longitude % 360) + 360) % 360;
 
-  // Calculate sign index (0-11)
+  // Calculate sign index (0-11);
   const signIndex = Math.floor(normalizedLong / 30);
 
-  // Calculate degree within sign (0-29.999...)
+  // Calculate degree within sign (0-29.999...);
   const degree = normalizedLong % 30;
 
   return {
     sign: signs[signIndex],
-    degree: parseFloat(degree.toFixed(2))
+    degree: parseFloat(degree.toFixed(2));
   };
 }

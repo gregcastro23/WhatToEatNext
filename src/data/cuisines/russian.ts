@@ -1,7 +1,7 @@
 // src/data/cuisines/russian.ts
 import { Cuisine } from '@/types/cuisine';
 
-export const russian: Cuisine = {;
+export const, russian: Cuisine = {
   id: 'russian',
   name: 'Russian',
   description:
@@ -1294,7 +1294,7 @@ export const russian: Cuisine = {;
       seasonality: 'summer preparation, year-round use',
       preparationNotes:
         'Traditionally ground with stone mortar and pestle, then fermented in clay pots',
-      technicalTips: 'Can be used raw or cooked; intensity mellows with cooking'
+      technicalTips: 'Can be used raw or cooked intensity mellows with cooking'
     },
     khrenovina: {
       name: 'Khrenovina',
@@ -1343,8 +1343,7 @@ export const russian: Cuisine = {;
       },
       astrologicalInfluences: ['Saturn', 'Neptune', 'Virgo'],
       seasonality: 'autumn mushroom harvest, preserved for year-round use',
-      preparationNotes:
-        'Traditionally made with foraged wild mushrooms; dried mushrooms are reconstituted in winter',
+      preparationNotes: 'Traditionally made with foraged wild mushrooms dried mushrooms are reconstituted in winter',
       technicalTips:
         'Brown mushrooms thoroughly to develop full umami flavor before adding liquids'
     },

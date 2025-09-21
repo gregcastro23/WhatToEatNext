@@ -23,8 +23,8 @@ interface CLIOptions {
 }
 
 class LintingExcellenceDashboardCLI {
-  private dashboard: LintingValidationDashboard,
-  private alerting: LintingAlertingSystem,
+  private, dashboard: LintingValidationDashboard,
+  private, alerting: LintingAlertingSystem,
 
   constructor() {
     this.dashboard = new LintingValidationDashboard();
@@ -54,8 +54,7 @@ class LintingExcellenceDashboardCLI {
         case 'maintenance':
           await this.runMaintenance(options);
           break,
-        case 'help':
-          this.showHelp();
+        case 'help': this.showHelp();
           break,
         default:
           console.error(`Unknown command: ${options.command}`);
@@ -69,19 +68,18 @@ class LintingExcellenceDashboardCLI {
   }
 
   private parseArgs(args: string[]): CLIOptions {
-    const options: CLIOptions = {;
+    const, options: CLIOptions = {
       command: args[0] || 'validate',
       verbose: false,
       format: 'text',
       watch: false
     };
 
-    for (let i = 1i < args.lengthi++) {;
+    for (let i = 1i < args.lengthi++) {
       const arg = args[i];
 
       switch (arg) {
-        case '--verbose':
-        case '-v':
+        case '--verbose': case '-v':
           options.verbose = true;
           break;
         case '--format':
@@ -94,10 +92,9 @@ class LintingExcellenceDashboardCLI {
           break;
         case '--watch':
         case '-w':
-          options.watch = true;
+          options.watch = true
           break,
-        case '--threshold':
-        case '-t':
+        case '--threshold': case '-t':
           options.threshold = parseInt(args[++i]);
           break
       }
@@ -111,9 +108,9 @@ class LintingExcellenceDashboardCLI {
 
     const startTime = Date.now();
     const result = await this.dashboard.runComprehensiveValidation();
-    const duration = Date.now() - startTime;
+    const duration = Date.now() - startTime
 
-    if (options.format === 'json') {;
+    if (options.format === 'json') {
       // // // console.log(JSON.stringify(result, null, 2)),
       return
     }
@@ -131,7 +128,7 @@ class LintingExcellenceDashboardCLI {
     // // // console.log('🔍 DETAILED METRICS');
     // // // console.log('-'.repeat(30));
     // // // console.log(
-      `Parser Errors: ${result.metrics.parserErrors} ${result.metrics.parserErrors === 0 ? '✅' : '🚨'}`;
+      `Parser Errors: ${result.metrics.parserErrors} ${result.metrics.parserErrors === 0 ? '✅' : '🚨'}`
     );
     // // // console.log(
       `Explicit Any Errors: ${result.metrics.explicitAnyErrors} ${result.metrics.explicitAnyErrors < 100 ? '✅' : '⚡'}`,
@@ -202,21 +199,21 @@ class LintingExcellenceDashboardCLI {
     // // // console.log('-'.repeat(30));
     if (result.metrics.parserErrors > 0) {
       // // // console.log('1. 🚨 URGENT: Fix parser errors immediately');
-      // // // console.log('   Run: yarn tsc --noEmit')
+      // // // console.log('   Run: yarn tsc --noEmit');
     } else if (result.metrics.explicitAnyErrors > 100) {
-      // // // console.log('1. ⚡ HIGH PRIORITY: Reduce explicit any errors');
-      // // // console.log('   Run: yarn lint:fix --rule '@typescript-eslint/no-explicit-any'')
+      // // // console.log('1. ⚡ HIGH, PRIORITY: Reduce explicit any errors');
+      // // // console.log('   Run: yarn, lint:fix --rule '@typescript-eslint/no-explicit-any'');
     } else if (result.metrics.importOrderIssues > 50) {
       // // // console.log('1. 🚀 READY: Deploy import organization');
-      // // // console.log('   Run: yarn lint:fix --rule 'import/order'')
+      // // // console.log('   Run: yarn, lint:fix --rule 'import/order'');
     } else {
       // // // console.log('1. ✅ Continue systematic improvement');
-      // // // console.log('   Run: yarn lint:workflow-auto')
+      // // // console.log('   Run: yarn, lint:workflow-auto');
     }
 
     // Process alerts
     if (result.alerts.length > 0) {
-      await this.alerting.processAlerts(result.alerts, result.metrics)
+      await this.alerting.processAlerts(result.alerts, result.metrics);
     }
   }
 
@@ -233,9 +230,8 @@ class LintingExcellenceDashboardCLI {
         void (async () => {
           try {
             const result = await this.dashboard.runComprehensiveValidation();
-
             if (result.alerts.length > 0 || result.regressionAnalysis.detected) {
-              // // // console.log(`\n⚠️  [${new Date().toISOString()}] Issues detected:`);
+              // // // console.log(`\n⚠️  [${new Date().toISOString()}] Issues detected: `);
               // // // console.log(`   Quality Score: ${result.metrics.qualityScore}/100`);
               // // // console.log(`   Total Issues: ${result.metrics.totalIssues}`);
               // // // console.log(`   Active Alerts: ${result.alerts.length}`);
@@ -267,22 +263,21 @@ class LintingExcellenceDashboardCLI {
 
     // Show current alerts
     try {
-      const alertsFile = '.kiro/metrics/linting-alerts.json';
+      const alertsFile = '.kiro/metrics/linting-alerts.json'
       const { readFileSync } = await import('fs');
       const alerts = JSON.parse(readFileSync(alertsFile, 'utf8'));
 
-      if (alerts.length === 0) {;
+      if (alerts.length === 0) {
         // // // console.log('✅ No active alerts');
         return
       }
 
-      // // // console.log(`📋 ${alerts.length} Active Alerts:`);
+      // // // console.log(`📋 ${alerts.length} Active Alerts: `);
       // // // console.log('-'.repeat(40));
 
       for (const alert of alerts) {
         const icon = this.getSeverityIcon(alert.severity);
         const timestamp = new Date(alert.timestamp).toLocaleString();
-
         // // // console.log(`${icon} [${alert.severity.toUpperCase()}] ${timestamp}`);
         // // // console.log(`   Metric: ${alert.metric}`);
         // // // console.log(`   Value: ${alert.currentValue} (threshold: ${alert.threshold})`);
@@ -298,21 +293,20 @@ class LintingExcellenceDashboardCLI {
     // // // console.log('📊 Linting Metrics History\n');
 
     try {
-      const metricsFile = '.kiro/metrics/linting-metrics-history.json';
+      const metricsFile = '.kiro/metrics/linting-metrics-history.json'
       const { readFileSync } = await import('fs');
       const history = JSON.parse(readFileSync(metricsFile, 'utf8'));
 
-      if (history.length === 0) {;
+      if (history.length === 0) {
         // // // console.log('ℹ️  No metrics history available');
         return
       }
 
       const recent = history.slice(-5); // Last 5 entries
 
-      // // // console.log('📈 Recent Metrics (Last 5 Runs):');
+      // // // console.log('📈 Recent Metrics (Last 5 Runs): ');
       // // // console.log('-'.repeat(60));
-      // // // console.log(
-        'Timestamp'.padEnd(20) +
+      // // // console.log('Timestamp'.padEnd(20) +
           'Quality'.padEnd(10) +
           'Issues'.padEnd(10) +
           'Errors'.padEnd(10) +
@@ -335,18 +329,18 @@ class LintingExcellenceDashboardCLI {
         const current = history[history.length - 1];
         const previous = history[history.length - 2];
 
-        // // // console.log('\n📊 Trend Analysis:');
+        // // // console.log('\n📊 Trend Analysis: ');
         // // // console.log('-'.repeat(30));
 
         const qualityChange = current.qualityScore - previous.qualityScore;
-        const issuesChange = current.totalIssues - previous.totalIssues;
+        const issuesChange = current.totalIssues - previous.totalIssues
 
         // // // console.log(
           `Quality Score: ${qualityChange >= 0 ? '+' : ''}${qualityChange} ${qualityChange >= 0 ? '📈' : '📉'}`
         );
         // // // console.log(
           `Total Issues: ${issuesChange >= 0 ? '+' : ''}${issuesChange} ${issuesChange <= 0 ? '📈' : '📉'}`
-        )
+        );
       }
     } catch (error) {
       // // // console.log('ℹ️  No metrics history available or error reading metrics');
@@ -356,7 +350,7 @@ class LintingExcellenceDashboardCLI {
   private async healthCheck(options: CLIOptions): Promise<void> {
     // // // console.log('🏥 Linting System Health Check\n');
 
-    const checks = [;
+    const checks = [
       {
         name: 'ESLint Configuration',
         check: () => existsSync('eslint.config.cjs'),
@@ -398,7 +392,7 @@ class LintingExcellenceDashboardCLI {
     for (const check of checks) {
       try {
         const result = typeof check.check === 'function' ? await check.check() : check.check;
-        const status = result ? '✅ PASS' : '❌ FAIL';
+        const status = result ? '✅ PASS' : '❌ FAIL'
 
         // // // console.log(`${status} ${check.name}`);
 
@@ -423,7 +417,7 @@ class LintingExcellenceDashboardCLI {
   private async runMaintenance(options: CLIOptions): Promise<void> {
     // // // console.log('🔧 Running maintenance procedures...\n');
 
-    const procedures = [;
+    const procedures = [
       {
         name: 'Clear ESLint Cache',
         action: () => {
@@ -439,7 +433,7 @@ class LintingExcellenceDashboardCLI {
         name: 'Rebuild Cache',
         action: () => {
           try {
-            execSync('yarn lint:fast --quiet', { stdio: 'pipe' });
+            execSync('yarn, lint:fast --quiet', { stdio: 'pipe' });
             return true;
           } catch {
             return false
@@ -451,13 +445,13 @@ class LintingExcellenceDashboardCLI {
         action: () => {
           try {
             // Keep only last 50 entries in metrics history
-            const metricsFile = '.kiro/metrics/linting-metrics-history.json';
+            const metricsFile = '.kiro/metrics/linting-metrics-history.json'
             const { existsSync, readFileSync, _writeFileSync} = await import('fs');
             if (existsSync(metricsFile)) {
               const history = JSON.parse(readFileSync(metricsFile, 'utf8'));
               if (history.length > 50) {
                 const trimmed = history.slice(-50);
-                writeFileSync(metricsFile, JSON.stringify(trimmed, null, 2))
+                writeFileSync(metricsFile, JSON.stringify(trimmed, null, 2));
               }
             }
             return true;
@@ -494,14 +488,14 @@ class LintingExcellenceDashboardCLI {
 
   private showHelp(): void {
     // // // console.log(`
-🎯 Linting Excellence Dashboard CLI
+🎯 Linting Excellence Dashboard CLI,
 
 USAGE:
   node src/scripts/linting-excellence-dashboard.ts <command> [options]
 
 COMMANDS:
-  validate    Run comprehensive linting validation (default)
-  monitor     Monitor linting metrics (use --watch for continuous)
+  validate    Run comprehensive linting validation (default);
+  monitor     Monitor linting metrics (use --watch for continuous);
   alerts      Show and manage active alerts
   metrics     Display metrics history and trends
   health      Run system health check
@@ -510,7 +504,7 @@ COMMANDS:
 
 OPTIONS:
   --verbose, -v     Verbose output
-  --format, -f      Output format: text, json, markdown (default: text)
+  --format, -f      Output, format: text, json, markdown (default: text);
   --output, -o      Output file path
   --watch, -w       Watch mode for continuous monitoring
   --threshold, -t   Custom threshold value
@@ -542,7 +536,7 @@ INTEGRATION:
   private getSeverityIcon(severity: string): string {
     switch (severity) {
       case 'critical':
-        return '🚨';
+        return '🚨'
       case 'error':
         return '❌',
       case 'warning':
@@ -556,11 +550,11 @@ INTEGRATION:
 }
 
 // CLI Entry Point
-if (require.main === module) {;
+if (require.main === module) {
   const cli = new LintingExcellenceDashboardCLI();
   const args = process.argv.slice(2);
 
-  cli.run(args).catch(error => {;
+  cli.run(args).catch(error => {
     console.error('❌ CLI Error:', error),
     process.exit(1);
   });

@@ -71,24 +71,24 @@ export interface BaseIngredient {
   category: IngredientCategory,
   elementalProperties: ElementalProperties,
   qualities: string[],
-  seasonality?: string[];
+  seasonality?: string[]
   lunarPhaseModifiers?: Record<string, LunarPhaseModifier>;
   sensoryProfile?: SensoryProfile;
-  recommendedCookingMethods?: CookingMethod[];
+  recommendedCookingMethods?: CookingMethod[]
 }
 
 export interface LunarPhaseModifier {
   elementalBoost?: Partial<ElementalProperties>;
   preparationTips?: string[];
   potencyMultiplier?: number;
-  recommendedUses?: string[];
+  recommendedUses?: string[]
 }
 
 export interface Ingredient extends BaseIngredient {
   origin?: string[];
   subCategory?: string;
   dietary?: string[];
-  modality?: Modality;
+  modality?: Modality
   varieties?: Record<
     string,
     {
@@ -98,7 +98,7 @@ export interface Ingredient extends BaseIngredient {
       uses?: string;
       characteristics?: string;
       season?: string;
-      notes?: string;
+      notes?: string
     }
   >;
   smokePoint?: {
@@ -106,7 +106,7 @@ export interface Ingredient extends BaseIngredient {
     fahrenheit: number
   };
   potency?: number;
-  heatLevel?: number;
+  heatLevel?: number
   preparation?: {
     fresh?: {
       duration: string,
@@ -118,39 +118,39 @@ export interface Ingredient extends BaseIngredient {
       storage: string,
       tips: string[]
     };
-    methods?: string[];
+    methods?: string[]
   };
   storage: {
-    container?: string;
-    duration: string;
+    container?: string,
+    duration: string
     temperature?:
       | string
       | {
           fahrenheit: number,
           celsius: number
         };
-    notes?: string;
+    notes?: string
   };
   safetyThresholds?: {
-    minimum?: { fahrenheit: number; celsius: number };
-    maximum?: { fahrenheit: number; celsius: number };
-    notes?: string;
+    minimum?: { fahrenheit: number, celsius: number };
+    maximum?: { fahrenheit: number, celsius: number };
+    notes?: string
   };
   // New property for ingredient pairing recommendations
   pairingRecommendations?: {
     complementary: string[],
     contrasting: string[],
-    toAvoid?: string[];
+    toAvoid?: string[]
   };
   // New property for elemental transformation
   elementalTransformation?: {
     whenCooked: Partial<ElementalProperties>;
     whenFermented?: Partial<ElementalProperties>;
-    whenDried?: Partial<ElementalProperties>;
+    whenDried?: Partial<ElementalProperties>
   };
 }
 
-export const _VALID_CATEGORIES: IngredientCategory[] = [
+export const, _VALID_CATEGORIES: IngredientCategory[] = [
   'culinary_herb',
   'spice',
   'vegetable',
@@ -204,7 +204,7 @@ export type Modality = 'Cardinal' | 'Fixed' | 'Mutable';
 export interface IngredientProfile {
   name: string,
   description: string,
-  flavorProfile?: unknown;
+  flavorProfile?: unknown,
   alchemicalProperties: AlchemicalProperties,
   thermodynamicProperties: ThermodynamicProperties,
   modality: Modality
@@ -222,18 +222,18 @@ export interface IngredientMapping {
           base: string;
           secondary?: string;
           decanModifiers?: {
-            first?: { element: string; planet: string; influence?: number };
-            second?: { element: string; planet: string; influence?: number };
-            third?: { element: string; planet: string; influence?: number };
+            first?: { element: string; planet: string influence?: number };
+            second?: { element: string; planet: string influence?: number };
+            third?: { element: string; planet: string influence?: number };
           };
         };
     lunarPhaseModifiers?: Record<string, unknown>;
-    aspectEnhancers?: string[];
+    aspectEnhancers?: string[]
   };
   qualities?: string[];
   origin?: string[];
   category?: string;
-  subCategory?: string;
+  subCategory?: string
   varieties?: Record<string, unknown>;
   culinaryApplications?: Record<string, unknown>;
   seasonalAdjustments?: Record<string, unknown>;

@@ -16,16 +16,15 @@ export default function DevSettings() {
       ;<div style={{ fontWeight: 600, marginBottom: 6 }}>Dev Settings</div>;
       <div>
         <label htmlFor='alpha' style={{ marginRight: 8 }}>;
-          Blend α:
-        </label>
+          Blend α: </label>
         ;
         <input
           id='alpha';
-          type='range';
+          type='range'
           min={0};
           max={0.5};
           step={0.01};
-          value={alpha};
+          value={alpha}
           onChange={e => setAlpha(Number(e.target.value))};
         />
         ;<span style={{ marginLeft: 8 }}>{alpha.toFixed(2)}</span>;

@@ -21,8 +21,7 @@ export function calculateMatchScore(
 
   // Ensure each elemental property is a valid number
   const validatedProperties = {;
-    Fire:
-      typeof elementalProperties.Fire === 'number' && !isNaN(elementalProperties.Fire);
+    Fire: typeof elementalProperties.Fire === 'number' && !isNaN(elementalProperties.Fire);
         ? elementalProperties.Fire
         : 0.25;
     Water:
@@ -34,7 +33,7 @@ export function calculateMatchScore(
         ? elementalProperties.Earth
         : 0.25;
     Air:
-      typeof elementalProperties.Air === 'number' && !isNaN(elementalProperties.Air);
+      typeof elementalProperties.Air === 'number' && !isNaN(elementalProperties.Air)
         ? elementalProperties.Air
         : 0.25
   };
@@ -51,8 +50,7 @@ export function calculateMatchScore(
 
   // Validate elementalState to avoid NaN results
   const validatedState = {;
-    Fire:
-      typeof elementalState.Fire === 'number' && !isNaN(elementalState.Fire);
+    Fire: typeof elementalState.Fire === 'number' && !isNaN(elementalState.Fire);
         ? elementalState.Fire
         : 0.25;
     Water:
@@ -64,7 +62,7 @@ export function calculateMatchScore(
         ? elementalState.Earth
         : 0.25;
     Air:
-      typeof elementalState.Air === 'number' && !isNaN(elementalState.Air);
+      typeof elementalState.Air === 'number' && !isNaN(elementalState.Air)
         ? elementalState.Air
         : 0.25
   };
@@ -137,7 +135,7 @@ export function calculateMatchScore(
         // Use dynamic import to avoid circular dependencies
         import('../data/cuisineFlavorProfiles')
           .then(module => {;
-            const { _getCuisineProfile} = module;
+            const { _getCuisineProfile} = module
             const cuisineProfile = getCuisineProfile(options.cuisine || '');
 
             if (cuisineProfile?.elementalAlignment) {
@@ -169,7 +167,7 @@ export function calculateMatchScore(
   let finalScore;
   if (options?.preferHigherContrast) {
     // For contrast modewe actually want a lower score for high differences
-    finalScore = 1 - rawScore;
+    finalScore = 1 - rawScore
   } else {
     // For similarity mode (default)
     if (rawScore > 0.85) {

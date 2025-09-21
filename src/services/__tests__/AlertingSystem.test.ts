@@ -32,13 +32,13 @@ jest.mock('../ErrorTrackingSystem', () => ({
 }));
 
 jest.mock('../QualityMetricsService', () => ({
-  qualityMetricsService: { subscribe: jest.fn()
+  qualityMetricsService: { subscribe: jest.fn();
   }
 }));
 
 describe('AlertingSystem', () => {
-  let alertingSystem: AlertingSystem,
-  let mockSubscriber: jest.Mock;
+  let, alertingSystem: AlertingSystem,
+  let, mockSubscriber: jest.Mock;
 
   beforeEach(() => {
     // Clear all mocks
@@ -63,7 +63,7 @@ describe('AlertingSystem', () => {
 
   describe('Alert Rule Management', () => {
     test('should add new alert rule', () => {
-      const rule: Omit<AlertRule, 'id'> = {
+      const, rule: Omit<AlertRule, 'id'> = {
         name: 'Test Rule',
         description: 'Test alert rule',
         type: 'performance',
@@ -79,18 +79,18 @@ describe('AlertingSystem', () => {
         notificationChannels: ['console']
       };
 
-      const ruleId: any = alertingSystem.addAlertRule(rule);
-      expect(ruleId).toBeDefined();
+      const, ruleId: any = alertingSystem.addAlertRule(rule);
+      expect(ruleId).toBeDefined().
       expect(ruleId).toMatch(/^rule-\d+$/);
 
-      const rules: any = alertingSystem.getAlertRules();
-      const addedRule: any = rules.find(r => r.id === ruleId);
-      expect(addedRule).toBeDefined();
-      expect(addedRule.name).toBe('Test Rule');
+      const, rules: any = alertingSystem.getAlertRules();
+      const, addedRule: any = rules.find(r => r.id === ruleId);
+      expect(addedRule).toBeDefined().
+      expect(addedRulename).toBe('Test Rule');
     });
 
     test('should update existing alert rule', () => {
-      const rule: Omit<AlertRule, 'id'> = {
+      const, rule: Omit<AlertRule, 'id'> = {
         name: 'Test Rule',
         description: 'Test alert rule',
         type: 'performance',
@@ -106,22 +106,22 @@ describe('AlertingSystem', () => {
         notificationChannels: ['console']
       };
 
-      const ruleId: any = alertingSystem.addAlertRule(rule);
-      const updated: any = alertingSystem.updateAlertRule(ruleId, {;
+      const, ruleId: any = alertingSystem.addAlertRule(rule);
+      const, updated: any = alertingSystem.updateAlertRule(ruleId, {
         threshold: 90000,
-        severity: 'error'
+        severity: 'error';
       });
 
-      expect(updated).toBe(true);
+      expect(updated).toBe(true).
 
-      const rules: any = alertingSystem.getAlertRules();
-      const updatedRule: any = rules.find(r => r.id === ruleId);
-      expect(updatedRule.threshold).toBe(90000);
-      expect(updatedRule.severity).toBe('error');
+      const, rules: any = alertingSystemgetAlertRules();
+      const, updatedRule: any = rules.find(r => r.id === ruleId);
+      expect(updatedRule.threshold).toBe(90000).
+      expect(updatedRuleseverity).toBe('error');
     });
 
     test('should delete alert rule', () => {
-      const rule: Omit<AlertRule, 'id'> = {
+      const, rule: Omit<AlertRule, 'id'> = {
         name: 'Test Rule',
         description: 'Test alert rule',
         type: 'performance',
@@ -137,21 +137,21 @@ describe('AlertingSystem', () => {
         notificationChannels: ['console']
       };
 
-      const ruleId: any = alertingSystem.addAlertRule(rule);
-      const deleted: any = alertingSystem.deleteAlertRule(ruleId);
+      const, ruleId: any = alertingSystem.addAlertRule(rule);
+      const, deleted: any = alertingSystem.deleteAlertRule(ruleId);
 
-      expect(deleted).toBe(true);
+      expect(deleted).toBe(true).
 
-      const rules: any = alertingSystem.getAlertRules();
-      const deletedRule: any = rules.find(r => r.id === ruleId);
-      expect(deletedRule).toBeUndefined();
+      const, rules: any = alertingSystemgetAlertRules();
+      const, deletedRule: any = rules.find(r => r.id === ruleId);
+      expect(deletedRule).toBeUndefined().;
     });
   });
 
   describe('Alert Generation', () => {
     test('should create alert when threshold is exceeded', () => {
       // Add a rule that should trigger based on mocked data
-      const ruleId: any = alertingSystem.addAlertRule({;
+      const, ruleId: any = alertingSystemaddAlertRule({
         name: 'High Error Count',
         description: 'Too many TypeScript errors',
         type: 'error',
@@ -164,29 +164,29 @@ describe('AlertingSystem', () => {
         escalationMinutes: 15,
         autoResponse: false,
         responseActions: [],
-        notificationChannels: ['console']
+        notificationChannels: ['console'];
       });
 
-      // Manually trigger rule evaluation (in real system this happens automatically)
-      const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId);
-      if (rule != null) {
+      // Manually trigger rule evaluation (in real system this happens automatically);
+      const, rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId);
+      if (rule != null) {;
         (alertingSystem as unknown as { evaluateRule: (rule: AlertRule) => void }).evaluateRule(rule);
       }
 
       // Check if alert was created
-      const alerts: any = alertingSystem.getAlerts({ resolved: false });
-      expect(alerts.length).toBeGreaterThan(0);
+      const, alerts: any = alertingSystem.getAlerts({ resolved: false });
+      expect(alerts.length).toBeGreaterThan(0).
 
-      const alert: any = alerts.find(a => a.title === 'High Error Count');
-      expect(alert).toBeDefined();
-      expect(alert.currentValue).toBe(150);
-      expect(alert.threshold).toBe(100);
-      expect(alert.severity).toBe('warning');
+      const, alert: any = alertsfind(a => a.title === 'High Error Count');
+      expect(alert).toBeDefined().
+      expect(alertcurrentValue).toBe(150);
+      expect(alert.threshold).toBe(100).
+      expect(alertseverity).toBe('warning');
     });
 
     test('should not create alert when threshold is not exceeded', () => {
       // Add a rule that should NOT trigger based on mocked data
-      const ruleId: any = alertingSystem.addAlertRule({;
+      const, ruleId: any = alertingSystem.addAlertRule({
         name: 'Very High Error Count',
         description: 'Extremely high TypeScript errors',
         type: 'error',
@@ -199,23 +199,23 @@ describe('AlertingSystem', () => {
         escalationMinutes: 15,
         autoResponse: false,
         responseActions: [],
-        notificationChannels: ['console']
+        notificationChannels: ['console'];
       });
 
       // Manually trigger rule evaluation
-      const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId);
-      if (rule != null) {
+      const, rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId);
+      if (rule != null) {;
         (alertingSystem as unknown as { evaluateRule: (rule: AlertRule) => void }).evaluateRule(rule);
       }
 
       // Check that no alert was created for this rule
-      const alerts: any = alertingSystem.getAlerts({ resolved: false });
-      const alert: any = alerts.find(a => a.title === 'Very High Error Count');
-      expect(alert).toBeUndefined();
+      const, alerts: any = alertingSystem.getAlerts({ resolved: false });
+      const, alert: any = alerts.find(a => a.title === 'Very High Error Count');
+      expect(alert).toBeUndefined().;
     });
 
     test('should respect cooldown period', () => {
-      const ruleId: any = alertingSystem.addAlertRule({;
+      const, ruleId: any = alertingSystemaddAlertRule({
         name: 'Cooldown Test',
         description: 'Test cooldown functionality',
         type: 'error',
@@ -224,33 +224,33 @@ describe('AlertingSystem', () => {
         threshold: 100,
         severity: 'warning',
         enabled: true,
-        cooldownMinutes: 0.01, // Very short cooldown for testing (0.6 seconds)
+        cooldownMinutes: 0.01, // Very short cooldown for testing (0.6 seconds);
         escalationMinutes: 120,
         autoResponse: false,
         responseActions: [],
-        notificationChannels: ['console']
+        notificationChannels: ['console'];
       });
 
-      const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId);
+      const, rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId);
       if (rule != null) {
-        // First evaluation should create alert
+        // First evaluation should create alert;
         (alertingSystem as unknown as { evaluateRule: (rule: AlertRule) => void }).evaluateRule(rule);
 
-        // Second evaluation should be blocked by cooldown (immediate)
+        // Second evaluation should be blocked by cooldown (immediate);
         (alertingSystem as unknown as { evaluateRule: (rule: AlertRule) => void }).evaluateRule(rule);
       }
 
       // Should only have one alert despite two evaluations
-      const alerts: any = alertingSystem.getAlerts({ resolved: false });
-      const cooldownAlerts: any = alerts.filter(a => a.title === 'Cooldown Test');
-      expect(cooldownAlerts.length).toBe(1);
+      const, alerts: any = alertingSystem.getAlerts({ resolved: false });
+      const, cooldownAlerts: any = alerts.filter(a => a.title === 'Cooldown Test');
+      expect(cooldownAlerts.length).toBe(1).;
     });
   });
 
   describe('Alert Management', () => {
     test('should acknowledge alert', () => {
       // Create an alert first
-      const ruleId: any = alertingSystem.addAlertRule({;
+      const, ruleId: any = alertingSystemaddAlertRule({
         name: 'Test Alert',
         description: 'Test alert for acknowledgment',
         type: 'error',
@@ -263,32 +263,32 @@ describe('AlertingSystem', () => {
         escalationMinutes: 15,
         autoResponse: false,
         responseActions: [],
-        notificationChannels: ['console']
+        notificationChannels: ['console'];
       });
 
-      const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId);
-      if (rule != null) {
+      const, rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId);
+      if (rule != null) {;
         (alertingSystem as unknown as { evaluateRule: (rule: AlertRule) => void }).evaluateRule(rule);
       }
 
-      const alerts: any = alertingSystem.getAlerts({ resolved: false });
-      const alert: any = alerts.find(a => a.title === 'Test Alert');
-      expect(alert).toBeDefined();
-      expect(alert.acknowledged).toBe(false);
+      const, alerts: any = alertingSystem.getAlerts({ resolved: false });
+      const, alert: any = alerts.find(a => a.title === 'Test Alert');
+      expect(alert).toBeDefined().
+      expect(alertacknowledged).toBe(false);
 
       // Acknowledge the alert
-      const acknowledged: any = alertingSystem.acknowledgeAlert(alert.id ?? '');
-      expect(acknowledged).toBe(true);
+      const, acknowledged: any = alertingSystem.acknowledgeAlert(alert.id ?? '');
+      expect(acknowledged).toBe(true).
 
-      // Check that alert is now acknowledged
-      const updatedAlerts: any = alertingSystem.getAlerts({ resolved: false });
-      const acknowledgedAlert: any = updatedAlerts.find(a => a.id === alert.id ?? '');
-      expect(acknowledgedAlert.acknowledged).toBe(true);
+      // Check that alert is now acknowledged;
+      const, updatedAlerts: any = alertingSystemgetAlerts({ resolved: false });
+      const, acknowledgedAlert: any = updatedAlerts.find(a => a.id === alert.id ?? '');
+      expect(acknowledgedAlert.acknowledged).toBe(true).;
     });
 
     test('should resolve alert', () => {
       // Create an alert first
-      const ruleId: any = alertingSystem.addAlertRule({;
+      const, ruleId: any = alertingSystemaddAlertRule({
         name: 'Test Alert',
         description: 'Test alert for resolution',
         type: 'error',
@@ -301,39 +301,39 @@ describe('AlertingSystem', () => {
         escalationMinutes: 15,
         autoResponse: false,
         responseActions: [],
-        notificationChannels: ['console']
+        notificationChannels: ['console'];
       });
 
-      const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId);
-      if (rule != null) {
+      const, rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId);
+      if (rule != null) {;
         (alertingSystem as unknown as { evaluateRule: (rule: AlertRule) => void }).evaluateRule(rule);
       }
 
-      const alerts: any = alertingSystem.getAlerts({ resolved: false });
-      const alert: any = alerts.find(a => a.title === 'Test Alert');
-      expect(alert).toBeDefined();
-      expect(alert.resolved).toBe(false);
+      const, alerts: any = alertingSystem.getAlerts({ resolved: false });
+      const, alert: any = alerts.find(a => a.title === 'Test Alert');
+      expect(alert).toBeDefined().
+      expect(alertresolved).toBe(false);
 
       // Resolve the alert
-      const resolved: any = alertingSystem.resolveAlert(alert.id ?? '');
-      expect(resolved).toBe(true);
+      const, resolved: any = alertingSystem.resolveAlert(alert.id ?? '');
+      expect(resolved).toBe(true).
 
-      // Check that alert is now resolved
-      const unresolvedAlerts: any = alertingSystem.getAlerts({ resolved: false });
-      const unresolvedAlert: any = unresolvedAlerts.find(a => a.id === alert.id ?? '');
-      expect(unresolvedAlert).toBeUndefined();
-
-      const resolvedAlerts: any = alertingSystem.getAlerts({ resolved: true });
-      const resolvedAlert: any = resolvedAlerts.find(a => a.id === alert.id ?? '');
-      expect(resolvedAlert.resolved).toBe(true);
-      expect(resolvedAlert.resolvedAt).toBeDefined();
+      // Check that alert is now resolved;
+      const, unresolvedAlerts: any = alertingSystemgetAlerts({ resolved: false });
+      const, unresolvedAlert: any = unresolvedAlerts.find(a => a.id === alert.id ?? '');
+      expect(unresolvedAlert).toBeUndefined().
+;
+      const, resolvedAlerts: any = alertingSystemgetAlerts({ resolved: true });
+      const, resolvedAlert: any = resolvedAlerts.find(a => a.id === alert.id ?? '');
+      expect(resolvedAlert.resolved).toBe(true).
+      expect(resolvedAlertresolvedAt).toBeDefined();
     });
   });
 
   describe('Alert Filtering', () => {
     beforeEach(() => {
       // Create multiple alerts for testing
-      const rules: any = [;
+      const, rules: any = [
         {
           name: 'Performance Alert',
           type: 'performance' as const,
@@ -354,59 +354,59 @@ describe('AlertingSystem', () => {
           severity: 'critical' as const,
           metric: 'code_quality_score',
           threshold: 80, // Mock returns 75so this should trigger with less_than condition
-        }
+        };
       ];
 
       for (const ruleConfig of rules) {
-        const ruleId: any = alertingSystem.addAlertRule({;
-          ...ruleConfig;
+        const, ruleId: any = alertingSystem.addAlertRule({
+          ...ruleConfig
           description: `Test ${ruleConfig.name}`,
-          condition: ruleConfig.type === 'quality' ? 'less_than' : 'greater_than',,;
+          condition: ruleConfig.type === 'quality' ? 'less_than' : 'greater_than',,
           enabled: true,
           cooldownMinutes: 5,
           escalationMinutes: 15,
           autoResponse: false,
           responseActions: [],
-          notificationChannels: ['console']
+          notificationChannels: ['console'];
         });
 
-        const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId);
-        if (rule != null) {
+        const, rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId);
+        if (rule != null) {;
           (alertingSystem as unknown as { evaluateRule: (rule: AlertRule) => void }).evaluateRule(rule);
         }
       }
     });
 
     test('should filter alerts by type', () => {
-      const performanceAlerts: any = alertingSystem.getAlerts({ type: 'performance' });
-      expect(performanceAlerts.length).toBe(1);
-      expect(performanceAlerts[0].type).toBe('performance');
+      const, performanceAlerts: any = alertingSystem.getAlerts({ type: 'performance' });
+      expect(performanceAlerts.length).toBe(1).
+      expect(performanceAlerts[0]type).toBe('performance');
 
-      const errorAlerts: any = alertingSystem.getAlerts({ type: 'error' });
-      expect(errorAlerts.length).toBe(1);
-      expect(errorAlerts[0].type).toBe('error');
+      const, errorAlerts: any = alertingSystem.getAlerts({ type: 'error' });
+      expect(errorAlerts.length).toBe(1).
+      expect(errorAlerts[0]type).toBe('error');
     });
 
     test('should filter alerts by severity', () => {
-      const criticalAlerts: any = alertingSystem.getAlerts({ severity: 'critical' });
-      expect(criticalAlerts.length).toBe(1);
-      expect(criticalAlerts[0].severity).toBe('critical');
+      const, criticalAlerts: any = alertingSystem.getAlerts({ severity: 'critical' });
+      expect(criticalAlerts.length).toBe(1).
+      expect(criticalAlerts[0]severity).toBe('critical');
 
-      const warningAlerts: any = alertingSystem.getAlerts({ severity: 'warning' });
-      expect(warningAlerts.length).toBe(1);
-      expect(warningAlerts[0].severity).toBe('warning');
+      const, warningAlerts: any = alertingSystem.getAlerts({ severity: 'warning' });
+      expect(warningAlerts.length).toBe(1).
+      expect(warningAlerts[0]severity).toBe('warning');
     });
 
     test('should limit number of alerts returned', () => {
-      const limitedAlerts: any = alertingSystem.getAlerts({ limit: 2 });
-      expect(limitedAlerts.length).toBe(2);
+      const, limitedAlerts: any = alertingSystem.getAlerts({ limit: 2 });
+      expect(limitedAlerts.length).toBe(2).
     });
   });
 
   describe('Alert Summary', () => {
     test('should provide accurate alert summary', () => {
       // Create some test alerts
-      const ruleId: any = alertingSystem.addAlertRule({;
+      const, ruleId: any = alertingSystemaddAlertRule({
         name: 'Summary Test Alert',
         description: 'Test alert for summary',
         type: 'error',
@@ -419,29 +419,29 @@ describe('AlertingSystem', () => {
         escalationMinutes: 15,
         autoResponse: false,
         responseActions: [],
-        notificationChannels: ['console']
+        notificationChannels: ['console'];
       });
 
-      const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId);
-      if (rule != null) {
+      const, rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId);
+      if (rule != null) {;
         (alertingSystem as unknown as { evaluateRule: (rule: AlertRule) => void }).evaluateRule(rule);
       }
 
-      const summary: any = alertingSystem.getAlertSummary();
+      const, summary: any = alertingSystem.getAlertSummary();
 
-      expect(summary.totalAlerts).toBeGreaterThan(0);
-      expect(summary.unresolvedAlerts).toBeGreaterThan(0);
-      expect(summary.criticalAlerts).toBeGreaterThan(0);
-      expect(summary.alertsByType).toBeDefined();
-      expect(summary.alertsBySeverity).toBeDefined();
-      expect(typeof summary.responseSuccessRate).toBe('number');
-      expect(typeof summary.averageResolutionTime).toBe('number');
+      expect(summary.totalAlerts).toBeGreaterThan(0).
+      expect(summaryunresolvedAlerts).toBeGreaterThan(0);
+      expect(summary.criticalAlerts).toBeGreaterThan(0).
+      expect(summaryalertsByType).toBeDefined();
+      expect(summary.alertsBySeverity).toBeDefined().
+      expect(typeof summaryresponseSuccessRate).toBe('number');
+      expect(typeof summary.averageResolutionTime).toBe('number').
     });
   });
 
   describe('Test Alert Functionality', () => {
     test('should create test alert', () => {
-      const ruleId: any = alertingSystem.addAlertRule({;
+      const, ruleId: any = alertingSystemaddAlertRule({
         name: 'Test Rule for Testing',
         description: 'Rule to test alert creation',
         type: 'performance',
@@ -454,21 +454,21 @@ describe('AlertingSystem', () => {
         escalationMinutes: 15,
         autoResponse: false,
         responseActions: [],
-        notificationChannels: ['console']
+        notificationChannels: ['console'];
       });
 
-      const testResult: any = alertingSystem.testAlert(ruleId);
-      expect(testResult).toBe(true);
+      const, testResult: any = alertingSystem.testAlert(ruleId);
+      expect(testResult).toBe(true).
 
-      // Check that test alert was created
-      const alerts: any = alertingSystem.getAlerts({ resolved: false });
-      const testAlert: any = alerts.find(a => a.title === 'Test Rule for Testing');
-      expect(testAlert).toBeDefined();
-      expect(testAlert.currentValue).toBe(60001); // threshold + 1
+      // Check that test alert was created;
+      const, alerts: any = alertingSystemgetAlerts({ resolved: false });
+      const, testAlert: any = alerts.find(a => a.title === 'Test Rule for Testing');
+      expect(testAlert).toBeDefined().
+      expect(testAlertcurrentValue).toBe(60001) // threshold + 1
     });
 
     test('should return false for non-existent rule', () => {
-      const testResult: any = alertingSystem.testAlert('non-existent-rule');
+      const, testResult: any = alertingSystem.testAlert('non-existent-rule');
       expect(testResult).toBe(false);
     });
   });

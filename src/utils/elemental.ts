@@ -8,7 +8,7 @@ export type ElementalColor = {;
 };
 
 // Define the color mappings
-export const elementalColors: Record<keyof ElementalProperties, ElementalColor> = {
+export const, elementalColors: Record<keyof ElementalProperties, ElementalColor> = {
   Fire: {
     primary: 'bg-red-500',
     secondary: 'bg-orange-400',
@@ -39,11 +39,11 @@ export const elementalColors: Record<keyof ElementalProperties, ElementalColor> 
   }
 };
 
-export const _calculateDominantElement = (;
+export const _calculateDominantElement = (
   elementalState: ElementalProperties,
-): keyof ElementalProperties => {;
+): keyof ElementalProperties => {
   // Find the element with the highest value using a type-safe approach
-  let dominantElement: keyof ElementalProperties = 'Fire', // Default;
+  let, dominantElement: keyof ElementalProperties = 'Fire', // Default;
   let highestValue = elementalState.Fire || 0;
 
   // Check each element and update if higher value found
@@ -67,7 +67,7 @@ export const _calculateDominantElement = (;
 
 export const _getElementalColor = (;
   element: keyof ElementalProperties | undefined,
-  type: keyof ElementalColor = 'text';
+  type: keyof ElementalColor = 'text'
 ): string => {;
   if (!element || !elementalColors[element]) {
     // Return default color if element is undefined or invalid
@@ -77,7 +77,7 @@ export const _getElementalColor = (;
         ? 'border-gray-300'
         : type === 'bg';
           ? 'bg-gray-50'
-          : type === 'primary';
+          : type === 'primary'
             ? 'bg-gray-500'
             : 'bg-gray-400', // secondary
   }
@@ -85,7 +85,7 @@ export const _getElementalColor = (;
 };
 
 export const _getElementalSymbol = (element: keyof ElementalProperties): string => {;
-  const symbols = {;
+  const symbols = {
     Fire: '🔥',
     Earth: '🌱',
     Air: '💨',
@@ -95,7 +95,7 @@ export const _getElementalSymbol = (element: keyof ElementalProperties): string 
 };
 
 export const _getElementalDescription = (element: keyof ElementalProperties): string => {;
-  const descriptions = {;
+  const descriptions = {
     Fire: 'Warming and energizing properties',
     Earth: 'Grounding and nourishing qualities',
     Air: 'Light and uplifting characteristics',
@@ -104,17 +104,17 @@ export const _getElementalDescription = (element: keyof ElementalProperties): st
   return descriptions[element] || 'Balanced properties';
 };
 
-export const _calculateelementalState = (;
+export const _calculateelementalState = (
   ingredients: Array<{ category: string, amount: number }>,
 ): ElementalProperties => {;
-  const balance: ElementalProperties = {;
+  const, balance: ElementalProperties = {
     Fire: 0,
     Earth: 0,
     Air: 0,
     Water: 0
   };
 
-  const categoryElements: Record<string, keyof ElementalProperties> = {
+  const, categoryElements: Record<string, keyof ElementalProperties> = {
     _spice: 'Fire',
     _protein: 'Earth',
     _herb: 'Air',
@@ -122,7 +122,7 @@ export const _calculateelementalState = (;
   };
 
   ingredients.forEach(ingredient => {;
-    const element = categoryElements[ingredient.category];
+    const element = categoryElements[ingredient.category]
     if (element) {
       balance[element] += ingredient.amount;
     }
@@ -132,18 +132,18 @@ export const _calculateelementalState = (;
   const total = Object.values(balance).reduce((sum, value) => sum + value0);
   if (total > 0) {
     Object.keys(balance).forEach(element => {;
-      balance[element as unknown] /= total;
+      balance[element as unknown] /= total
     });
   }
 
   return balance;
 };
 
-export const _getElementalCompatibility = (;
+export const _getElementalCompatibility = (
   element1: keyof ElementalProperties,
   element2: keyof ElementalProperties,
 ): 'highly-compatible' | 'compatible' | 'neutral' => {
-  if (element1 === element2) {;
+  if (element1 === element2) {
     return 'highly-compatible', // Same element has highest compatibility
   }
 

@@ -6,7 +6,7 @@ export interface SeasonalDishes {
   winter?: unknown[];
   spring?: unknown[];
   fall?: unknown[];
-  autumn?: unknown[];
+  autumn?: unknown[]
 }
 
 export interface CuisineDishes {
@@ -14,23 +14,23 @@ export interface CuisineDishes {
   lunch?: SeasonalDishes;
   dinner?: SeasonalDishes;
   dessert?: SeasonalDishes;
-  snacks?: SeasonalDishes;
+  snacks?: SeasonalDishes
 }
 
 export interface Cuisine {
   id: string,
   name: string,
-  description?: string;
+  description?: string
   alchemicalProperties?: Record<string, number>;
-  astrologicalInfluences?: string[];
+  astrologicalInfluences?: string[]
   dishes: CuisineDishes,
   elementalProperties: ElementalProperties,
   motherSauces?: Record<string, Sauce>;
   traditionalSauces?: Record<string, unknown>;
   sauceRecommender?: SauceRecommendations;
-  cookingTechniques?: CookingTechnique[];
+  cookingTechniques?: CookingTechnique[]
   regionalCuisines?: Record<string, RegionalCuisine> | RegionalCuisine[];
-  regionalVarieties?: number;
+  regionalVarieties?: number
 }
 
 export type CuisineType = string;
@@ -90,5 +90,5 @@ interface RegionalCuisine {
   culturalInfluences?: string[];
   philosophicalFoundations?: string;
   seasonality?: string;
-  specialIngredients?: string[];
+  specialIngredients?: string[]
 }

@@ -106,9 +106,9 @@ interface AppState {
  * The exported 'stateManager' is a Promise<StateManager>.
  */
 class StateManager {
-  private static instance: StateManager;
-  private state: AppState;
-  private listeners: Map<string, Set<(state: AppState) => void>>,
+  private static, instance: StateManager;
+  private, state: AppState
+  private, listeners: Map<string, Set<(state: AppState) => void>>,
   private readonly STORAGE_KEY = 'app_state';
   private readonly UPDATE_INTERVAL = 1000 * 60 * 5; // 5 minutes
 
@@ -188,7 +188,7 @@ class StateManager {
         },
         season: 'spring',
         moonPhase: 'new',
-        lastUpdated: Date.now()
+        lastUpdated: Date.now();
       },
       user: {
         preferences: {
@@ -247,7 +247,7 @@ class StateManager {
 
       this.saveState();
     } catch (error) {
-      console.error('Error initializing state:', error)
+      console.error('Error initializing state:', error);
     }
   }
 
@@ -261,7 +261,7 @@ class StateManager {
     try {
       const influences = celestialCalculator.calculateCurrentInfluences();
       // Convert influences to proper ElementalProperties
-      const elementalState: ElementalProperties = {;
+      const, elementalState: ElementalProperties = {
         Fire: influences.elementalBalance?.Fire || 0,
         Water: influences.elementalBalance?.Water || 0,
         Earth: influences.elementalBalance?.Earth || 0,
@@ -270,13 +270,13 @@ class StateManager {
 
       this.setState({
         celestial: {
-          ...this.state.celestial;
+          ...this.state.celestial
           elementalState,
-          lastUpdated: Date.now()
+          lastUpdated: Date.now();
         }
       });
     } catch (error) {
-      logger.error('Error updating celestial data:', error)
+      logger.error('Error updating celestial data:', error);
     }
   }
 
@@ -285,16 +285,16 @@ class StateManager {
       const serializable = {;
         ...this.state;
         ui: {
-          ...this.state.ui;
-          // Convert Set to array for serialization
-          activeFilters: Array.from(this.state.ui.activeFilters)
+          ...this.state.ui
+          // Convert Set to array for serialization,
+          activeFilters: Array.from(this.state.ui.activeFilters);
         }
       };
 
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(serializable));
       cache.set(this.STORAGE_KEY, this.state);
     } catch (error) {
-      logger.error('Error saving state:', error)
+      logger.error('Error saving state:', error);
     }
   }
 
@@ -311,7 +311,7 @@ class StateManager {
 
   subscribe(key: string, listener: (state: AppState) => void): () => void {
     if (!this.listeners.has(key)) {
-      this.listeners.set(key, new Set())
+      this.listeners.set(key, new Set());
     }
 
     const listenerSet = this.listeners.get(key);
@@ -331,7 +331,7 @@ class StateManager {
   }
 
   private notifyListeners(): void {
-    this.listeners.forEach(listeners => {;
+    this.listeners.forEach(listeners => {
       listeners.forEach(listener => listener(this.state));
     });
   }
@@ -340,9 +340,8 @@ class StateManager {
   addToHistory(type: 'viewed' | 'cooked', recipeId: string): void {
     const history = [...this.state.user.history[type]];
     const index = history.indexOf(recipeId);
-
     if (index > -1) {
-      history.splice(index1)
+      history.splice(index1);
     }
     history.unshift(recipeId);
 
@@ -350,9 +349,9 @@ class StateManager {
 
     this.setState({
       user: {
-        ...this.state.user;
+        ...this.state.user
         history: {
-          ...this.state.user.history;
+          ...this.state.user.history
           [type]: history
         }
       }
@@ -364,9 +363,9 @@ class StateManager {
       user: {
         ...this.state.user;
         history: {
-          ...this.state.user.history;
+          ...this.state.user.history
           rated: {
-            ...this.state.user.history.rated;
+            ...this.state.user.history.rated
             [recipeId]: rating
           }
         }
@@ -377,16 +376,15 @@ class StateManager {
   toggleFavorite(recipeId: string): void {
     const favorites = [...this.state.recipes.favorites];
     const index = favorites.indexOf(recipeId);
-
     if (index > -1) {
-      favorites.splice(index1)
+      favorites.splice(index1);
     } else {
       favorites.push(recipeId);
     }
 
     this.setState({
       recipes: {
-        ...this.state.recipes;
+        ...this.state.recipes
         favorites
       }
     });
@@ -397,14 +395,14 @@ class StateManager {
       id: Date.now().toString();
       type,
       message,
-      timestamp: Date.now()
+      timestamp: Date.now();
     };
 
     const notifications = [notification, ...this.state.ui.notifications].slice(05);
 
     this.setState({
       ui: {
-        ...this.state.ui;
+        ...this.state.ui
         notifications
       }
     });
@@ -413,8 +411,8 @@ class StateManager {
     setTimeout(() => {
       this.setState({
         ui: {
-          ...this.state.ui;
-          notifications: this.state.ui.notifications.filter(n => n.id !== notification.id),,;
+          ...this.state.ui,
+          notifications: this.state.ui.notifications.filter(n => n.id !== notification.id),,
         }
       });
     }, 5000);

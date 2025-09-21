@@ -6,25 +6,25 @@ import Link from 'next/link';
 const ChakraDisplay = () => <div className='p-4 text-gray-600'>ChakraDisplay unavailable</div>;
 const ChakraDisplayMigrated = ChakraDisplay;
 const ElementalRecommendations = () => (;
-  <div className='p-4 text-gray-600'>ElementalRecommendations unavailable</div>;
+  <div className='p-4 text-gray-600'>ElementalRecommendations unavailable</div>
 );
 const ElementalRecommendationsMigrated = ElementalRecommendations;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-const Tabs = ({ children, defaultValue, className }: any) => (,;
-  <div className={className}>{children}</div>;
+const Tabs = ({ children, defaultValue, className }: any) => (,
+  <div className={className}>{children}</div>
 );
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-const TabsList = ({ children, className }: any) => (,;
-  <div className={`flex gap-2 ${className || ''}`}>{children}</div>;
+const TabsList = ({ children, className }: any) => (,
+  <div className={`flex gap-2 ${className || ''}`}>{children}</div>
 );
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-const TabsTrigger = ({ children }: any) => (;
-  <button className='rounded border px-3 py-1'>{children}</button>;
+const TabsTrigger = ({ children }: any) => (
+  <button className='rounded border px-3 py-1'>{children}</button>
 );
  
-const TabsContent = ({ children }: unknown) => (;
-  <div className='mt-4'>{children as React.ReactNode}</div>;
+const TabsContent = ({ children }: unknown) => (
+  <div className='mt-4'>{children as React.ReactNode}</div>
 );
 
 const AstrologyChart = () => <div className='p-4 text-gray-600'>AstrologyChart unavailable</div>;
@@ -40,10 +40,10 @@ export default function MigratedComponentsTestPage() {
         versions. Use the tabs to switch between different components.
       </p>
 
-      <div className='mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3'>;
+      <div className='mb-8 grid grid-cols-1 gap-4, md: grid-cols-2, lg:grid-cols-3'>;
         <Link
           href='/test/migrated-components/recipe-recommender-test';
-          className='rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-blue-500 hover:shadow-md';
+          className='rounded-lg border border-gray-200 bg-white p-4 transition-all, hover:border-blue-500, hover:shadow-md';
         >
           <h2 className='mb-2 text-lg font-semibold'>Recipe Recommendations</h2>;
           <p className='text-sm text-gray-600'>;
@@ -53,7 +53,7 @@ export default function MigratedComponentsTestPage() {
 
         <Link
           href='/test/migrated-components/ingredient-recommender-test';
-          className='rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-blue-500 hover:shadow-md';
+          className='rounded-lg border border-gray-200 bg-white p-4 transition-all, hover:border-blue-500, hover:shadow-md';
         >
           <h2 className='mb-2 text-lg font-semibold'>Ingredient Recommender</h2>;
           <p className='text-sm text-gray-600'>;
@@ -70,8 +70,8 @@ export default function MigratedComponentsTestPage() {
         </TabsList>
 
         <TabsContent value='chakra' className='space-y-8'>;
-          <div className='grid grid-cols-1 gap-8 md:grid-cols-2'>;
-            <div className='rounded-lg border p-4'>;
+          <div className='grid grid-cols-1 gap-8, md:grid-cols-2'>;
+            <div className='rounded-lg border p-4'>
               <h2 className='mb-4 text-lg font-semibold'>Original (Context-based)</h2>;
               <ChakraDisplay />
             </div>
@@ -104,7 +104,7 @@ export default function MigratedComponentsTestPage() {
           </div>
           <div className='rounded-lg bg-gray-50 p-4'>;
             <h3 className='text-md mb-2 font-semibold'>Migration Notes:</h3>;
-            <ul className='list-disc space-y-1 pl-5'>;
+            <ul className='list-disc space-y-1 pl-5'>
               <li>
                 Replaced direct service instantiation with astrologyService and elementalCalculator
               </li>
@@ -116,7 +116,7 @@ export default function MigratedComponentsTestPage() {
         </TabsContent>
 
         <TabsContent value='elemental' className='space-y-8'>;
-          <div className='grid grid-cols-1 gap-8 md:grid-cols-2'>;
+          <div className='grid grid-cols-1 gap-8, md: grid-cols-2'>;
             <div className='rounded-lg border p-4'>;
               <h2 className='mb-4 text-lg font-semibold'>Original (Context-based)</h2>;
               <ElementalRecommendations />
@@ -128,7 +128,7 @@ export default function MigratedComponentsTestPage() {
           </div>
           <div className='rounded-lg bg-gray-50 p-4'>;
             <h3 className='text-md mb-2 font-semibold'>Migration Notes:</h3>;
-            <ul className='list-disc space-y-1 pl-5'>;
+            <ul className='list-disc space-y-1 pl-5'>
               <li>Replaced multiple context hooks with useServices hook</li>
               <li>Implemented proper service dependency checks</li>
               <li>Added consistent loading, error, and empty states</li>

@@ -1,7 +1,7 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawSalts = {;
+const rawSalts = {
   fleur_de_sel: {
     name: 'Fleur De Sel',
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
@@ -37,220 +37,220 @@ const rawSalts = {;
                 taste: ['Mild', 'Balanced', 'Natural'],
                 aroma: ['Fresh', 'Clean', 'Subtle'],
                 texture: ['Pleasant', 'Smooth', 'Appealing'],
-                notes: 'Characteristic flavorprofile profile',
-                sensoryProfile: {
-                  taste: ['Mild', 'Balanced', 'Natural'],
-                  aroma: ['Fresh', 'Clean', 'Subtle'],
-                  texture: ['Pleasant', 'Smooth', 'Appealing'],
-                  notes: 'Characteristic flavorprofile profile',
-                  sensoryProfile: {
-                    taste: ['Mild', 'Balanced', 'Natural'],
-                    aroma: ['Fresh', 'Clean', 'Subtle'],
-                    texture: ['Pleasant', 'Smooth', 'Appealing'],
-                    notes: 'Characteristic flavorprofile profile',
-                    sensoryProfile: {
-                      taste: ['Mild', 'Balanced', 'Natural'],
-                      aroma: ['Fresh', 'Clean', 'Subtle'],
-                      texture: ['Pleasant', 'Smooth', 'Appealing'],
-                      notes: 'Characteristic flavorprofile profile',
-                      sensoryProfile: {
-                        taste: ['Mild', 'Balanced', 'Natural'],
-                        aroma: ['Fresh', 'Clean', 'Subtle'],
-                        texture: ['Pleasant', 'Smooth', 'Appealing'],
-                        notes: 'Characteristic flavorprofile profile',
-                        season: ['year-round'],
-                        preparation: {
-                          methods: ['standard preparation'],
-                          timing: 'as needed',
-                          notes: 'Standard preparation for camargue',
-                          culinaryProfile: {
-                            flavorProfile: {
-                              primary: ['balanced'],
-                              secondary: ['versatile'],
-                              notes: 'Versatile flavorprofile for various uses',
-                              culinaryProfile: {
-                                flavorProfile: {
-                                  primary: ['balanced'],
-                                  secondary: ['versatile'],
-                                  notes: 'Versatile flavorprofile for various uses',
-                                  culinaryProfile: {
-                                    flavorProfile: {
-                                      primary: ['balanced'],
-                                      secondary: ['versatile'],
-                                      notes: 'Versatile flavorprofile for various uses',
-                                      culinaryProfile: {
-                                        flavorProfile: {
-                                          primary: ['balanced'],
-                                          secondary: ['versatile'],
-                                          notes: 'Versatile flavorprofile for various uses',
-                                          culinaryProfile: {
-                                            flavorProfile: {
-                                              primary: ['balanced'],
-                                              secondary: ['versatile'],
-                                              notes: 'Versatile flavorprofile for various uses',
-                                              culinaryProfile: {
-                                                flavorProfile: {
-                                                  primary: ['balanced'],
-                                                  secondary: ['versatile'],
-                                                  notes: 'Versatile flavorprofile for various uses',
-                                                  culinaryProfile: {
-                                                    flavorProfile: {
-                                                      primary: ['balanced'],
-                                                      secondary: ['versatile'],
-                                                      notes:
-                                                        'Versatile flavorprofile for various uses',
-                                                      storage: {
-                                                        temperature: 'cool, dry place',
-                                                        duration: '6-12 months',
-                                                        container: 'airtight container',
-                                                        notes: 'Store in optimal conditions',
-                                                        storage: {
-                                                          temperature: 'cool, dry place',
-                                                          duration: '6-12 months',
-                                                          container: 'airtight container',
-                                                          notes: 'Store in optimal conditions'
-                                                        }
-                                                      }
-                                                    },
-                                                    cookingMethods: [
-                                                      'sautéing',
-                                                      'steaming',
-                                                      'roasting'
-                                                    ],
-                                                    cuisineAffinity: ['Global', 'International'],
-                                                    preparationTips: [
-                                                      'Use as needed',
-                                                      'Season to taste'
-                                                    ]
-                                                  },
-                                                  season: ['year-round'],
-                                                  preparation: {
-                                                    methods: ['standard preparation'],
-                                                    timing: 'as needed',
-                                                    notes: 'Standard preparation for flavorprofile'
-                                                  }
-                                                },
-                                                cookingMethods: [
-                                                  'sautéing',
-                                                  'steaming',
-                                                  'roasting'
-                                                ],
-                                                cuisineAffinity: ['Global', 'International'],
-                                                preparationTips: [
-                                                  'Use as needed',
-                                                  'Season to taste'
-                                                ]
-                                              },
-                                              season: ['year-round'],
-                                              preparation: {
-                                                methods: ['standard preparation'],
-                                                timing: 'as needed',
-                                                notes: 'Standard preparation for flavorprofile'
-                                              }
-                                            },
-                                            cookingMethods: ['sautéing', 'steaming', 'roasting'],
-                                            cuisineAffinity: ['Global', 'International'],
-                                            preparationTips: ['Use as needed', 'Season to taste']
-                                          },
-                                          season: ['year-round'],
-                                          preparation: {
-                                            methods: ['standard preparation'],
-                                            timing: 'as needed',
-                                            notes: 'Standard preparation for flavorprofile'
-                                          }
-                                        },
-                                        cookingMethods: ['sautéing', 'steaming', 'roasting'],
-                                        cuisineAffinity: ['Global', 'International'],
-                                        preparationTips: ['Use as needed', 'Season to taste']
-                                      },
-                                      season: ['year-round'],
-                                      preparation: {
-                                        methods: ['standard preparation'],
-                                        timing: 'as needed',
-                                        notes: 'Standard preparation for flavorprofile'
-                                      }
-                                    },
-                                    cookingMethods: ['sautéing', 'steaming', 'roasting'],
-                                    cuisineAffinity: ['Global', 'International'],
-                                    preparationTips: ['Use as needed', 'Season to taste']
-                                  },
-                                  season: ['year-round'],
-                                  preparation: {
-                                    methods: ['standard preparation'],
-                                    timing: 'as needed',
-                                    notes: 'Standard preparation for flavorprofile'
-                                  }
-                                },
-                                cookingMethods: ['sautéing', 'steaming', 'roasting'],
-                                cuisineAffinity: ['Global', 'International'],
-                                preparationTips: ['Use as needed', 'Season to taste']
-                              },
-                              season: ['year-round'],
-                              preparation: {
-                                methods: ['standard preparation'],
-                                timing: 'as needed',
-                                notes: 'Standard preparation for flavorprofile'
-                              }
-                            },
-                            cookingMethods: ['sautéing', 'steaming', 'roasting'],
-                            cuisineAffinity: ['Global', 'International'],
-                            preparationTips: ['Use as needed', 'Season to taste']
-                          },
-                          season: ['year-round'],
-                          preparation: {
-                            methods: ['standard preparation'],
-                            timing: 'as needed',
-                            notes: 'Standard preparation for flavorprofile'
-                          }
-                        },
-                        storage: {
-                          temperature: 'cool, dry place',
-                          duration: '6-12 months',
-                          container: 'airtight container',
-                          notes: 'Store in optimal conditions'
-                        }
-                      },
-                      culinaryProfile: {
-                        flavorProfile: {
-                          primary: ['balanced'],
-                          secondary: ['versatile'],
-                          notes: 'Versatile flavorprofile for various uses'
-                        },
-                        cookingMethods: ['sautéing', 'steaming', 'roasting'],
-                        cuisineAffinity: ['Global', 'International'],
-                        preparationTips: ['Use as needed', 'Season to taste']
-                      },
-                      season: ['year-round']
-                    },
-                    culinaryProfile: {
-                      flavorProfile: {
-                        primary: ['balanced'],
-                        secondary: ['versatile'],
-                        notes: 'Versatile flavorprofile for various uses'
-                      },
-                      cookingMethods: ['sautéing', 'steaming', 'roasting'],
-                      cuisineAffinity: ['Global', 'International'],
-                      preparationTips: ['Use as needed', 'Season to taste']
-                    },
-                    season: ['year-round']
-                  },
-                  culinaryProfile: {
-                    flavorProfile: {
-                      primary: ['balanced'],
-                      secondary: ['versatile'],
-                      notes: 'Versatile flavorprofile for various uses'
-                    },
-                    cookingMethods: ['sautéing', 'steaming', 'roasting'],
-                    cuisineAffinity: ['Global', 'International'],
-                    preparationTips: ['Use as needed', 'Season to taste']
-                  },
-                  season: ['year-round']
+                notes: 'Characteristic flavorProfile profile',
+                // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
                 },
                 culinaryProfile: {
                   flavorProfile: {
                     primary: ['balanced'],
                     secondary: ['versatile'],
-                    notes: 'Versatile flavorprofile for various uses'
+                    notes: 'Versatile flavorProfile for various uses'
                   },
                   cookingMethods: ['sautéing', 'steaming', 'roasting'],
                   cuisineAffinity: ['Global', 'International'],
@@ -262,7 +262,7 @@ const rawSalts = {;
                 flavorProfile: {
                   primary: ['balanced'],
                   secondary: ['versatile'],
-                  notes: 'Versatile flavorprofile for various uses'
+                  notes: 'Versatile flavorProfile for various uses'
                 },
                 cookingMethods: ['sautéing', 'steaming', 'roasting'],
                 cuisineAffinity: ['Global', 'International'],
@@ -299,39 +299,39 @@ const rawSalts = {;
         texture: 'crunchy, moist',
         minerality: 'medium',
         uses: 'all-purpose finishing',
-        sensoryProfile: {
-          taste: ['Mild', 'Balanced', 'Natural'],
-          aroma: ['Fresh', 'Clean', 'Subtle'],
-          texture: ['Pleasant', 'Smooth', 'Appealing'],
-          notes: 'Characteristic portuguese profile',
-          culinaryProfile: {
-            flavorProfile: {
-              primary: ['balanced'],
-              secondary: ['versatile'],
-              notes: 'Versatile portuguese for various uses',
-              season: ['year-round'],
-              preparation: {
-                methods: ['standard preparation'],
-                timing: 'as needed',
-                notes: 'Standard preparation for portuguese'
-              },
-              storage: {
-                temperature: 'cool, dry place',
-                duration: '6-12 months',
-                container: 'airtight container',
-                notes: 'Store in optimal conditions'
-              }
-            },
-            cookingMethods: ['sautéing', 'steaming', 'roasting'],
-            cuisineAffinity: ['Global', 'International'],
-            preparationTips: ['Use as needed', 'Season to taste']
-          },
-          season: ['year-round'],
-          preparation: {
-            methods: ['standard preparation'],
-            timing: 'as needed',
-            notes: 'Standard preparation for portuguese'
-          }
+        // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
         },
         culinaryProfile: {
           flavorProfile: {
@@ -362,44 +362,44 @@ const rawSalts = {;
           meats: 'just before serving',
           caramels: 'while still warm',
           chocolate: 'before setting',
-          sensoryProfile: {
-            taste: ['Mild', 'Balanced', 'Natural'],
-            aroma: ['Fresh', 'Clean', 'Subtle'],
-            texture: ['Pleasant', 'Smooth', 'Appealing'],
-            notes: 'Characteristic finishing profile',
-            sensoryProfile: {
-              taste: ['Mild', 'Balanced', 'Natural'],
-              aroma: ['Fresh', 'Clean', 'Subtle'],
-              texture: ['Pleasant', 'Smooth', 'Appealing'],
-              notes: 'Characteristic finishing profile',
-              culinaryProfile: {
-                flavorProfile: {
-                  primary: ['balanced'],
-                  secondary: ['versatile'],
-                  notes: 'Versatile finishing for various uses'
-                },
-                cookingMethods: ['sautéing', 'steaming', 'roasting'],
-                cuisineAffinity: ['Global', 'International'],
-                preparationTips: ['Use as needed', 'Season to taste']
-              },
-              season: ['year-round'],
-              preparation: {
-                methods: ['standard preparation'],
-                timing: 'as needed',
-                notes: 'Standard preparation for finishing'
-              }
-            },
-            culinaryProfile: {
-              flavorProfile: {
-                primary: ['balanced'],
-                secondary: ['versatile'],
-                notes: 'Versatile finishing for various uses'
-              },
-              cookingMethods: ['sautéing', 'steaming', 'roasting'],
-              cuisineAffinity: ['Global', 'International'],
-              preparationTips: ['Use as needed', 'Season to taste']
-            },
-            season: ['year-round']
+          // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
           },
           culinaryProfile: {
             flavorProfile: {
@@ -422,27 +422,27 @@ const rawSalts = {;
           salads: 'final touch',
           bread: 'just before baking',
           eggs: 'immediately before eating',
-          sensoryProfile: {
-            taste: ['Mild', 'Balanced', 'Natural'],
-            aroma: ['Fresh', 'Clean', 'Subtle'],
-            texture: ['Pleasant', 'Smooth', 'Appealing'],
-            notes: 'Characteristic garnishing profile',
-            culinaryProfile: {
-              flavorProfile: {
-                primary: ['balanced'],
-                secondary: ['versatile'],
-                notes: 'Versatile garnishing for various uses'
-              },
-              cookingMethods: ['sautéing', 'steaming', 'roasting'],
-              cuisineAffinity: ['Global', 'International'],
-              preparationTips: ['Use as needed', 'Season to taste']
-            },
-            season: ['year-round'],
-            preparation: {
-              methods: ['standard preparation'],
-              timing: 'as needed',
-              notes: 'Standard preparation for garnishing'
-            }
+          // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
           },
           culinaryProfile: {
             flavorProfile: {
@@ -479,28 +479,28 @@ const rawSalts = {;
         appearance: 'golden-brown flakes',
         texture: 'crunchy with smoke flavor',
         uses: 'meats, hearty dishes',
-        sensoryProfile: {
-          taste: ['Mild', 'Balanced', 'Natural'],
-          aroma: ['Fresh', 'Clean', 'Subtle'],
-          texture: ['Pleasant', 'Smooth', 'Appealing'],
-          notes: 'Characteristic maldon salt profile',
-          sensoryProfile: {
-            taste: ['Mild', 'Balanced', 'Natural'],
-            aroma: ['Fresh', 'Clean', 'Subtle'],
-            texture: ['Pleasant', 'Smooth', 'Appealing'],
-            notes: 'Characteristic smoked profile'
-          },
-          culinaryProfile: {
-            flavorProfile: {
-              primary: ['balanced'],
-              secondary: ['versatile'],
-              notes: 'Versatile smoked for various uses'
-            },
-            cookingMethods: ['sautéing', 'steaming', 'roasting'],
-            cuisineAffinity: ['Global', 'International'],
-            preparationTips: ['Use as needed', 'Season to taste']
-          },
-          season: ['year-round']
+        // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
         },
         culinaryProfile: {
           flavorProfile: {
@@ -534,11 +534,11 @@ const rawSalts = {;
           salads: 'final seasoning',
           caramels: 'top garnish',
           bread_crust: 'pre-bake sprinkle',
-          sensoryProfile: {
-            taste: ['Mild', 'Balanced', 'Natural'],
-            aroma: ['Fresh', 'Clean', 'Subtle'],
-            texture: ['Pleasant', 'Smooth', 'Appealing'],
-            notes: 'Characteristic texture enhancement profile'
+          // Removed excessive sensoryProfile nesting
+// Removed nested content
+// Removed nested content
+// Removed nested content
+// Removed nested content
           },
           culinaryProfile: {
             flavorProfile: {
@@ -756,7 +756,7 @@ const rawSalts = {;
       brining: {
         name: 'Brining Solutions',
         methods: ['Wet brines for poultry and pork', 'Vegetable pickling', 'Cheese making'],
-        ratio: 'Standard brine: 1 cup salt to 1 gallon water',
+        ratio: 'Standard, brine: 1 cup salt to 1 gallon water',
         enhancement_ingredients: ['Sugar', 'Herbs', 'Spices', 'Aromatics'],
         notes: 'Creates more complex mineral profile than table salt brines'
       },
@@ -887,8 +887,8 @@ const rawSalts = {;
           baking: 'dough and batters'
         },
         conversion_ratios: {
-          table_salt: '1 tsp table = 1.25 tsp Morton = 2 tsp Diamond',,;
-          weight_based: '1 gram = 1 gram (any brand)',,;
+          table_salt: '1 tsp table = 1.25 tsp Morton = 2 tsp Diamond',,
+          weight_based: '1 gram = 1 gram (any brand)'
         }
       },
       koshering: {
@@ -924,8 +924,8 @@ const rawSalts = {;
           baking: 'dough and batters'
         },
         conversion_ratios: {
-          table_salt: '1 tsp table = 1.25 tsp Morton = 2 tsp Diamond',,;
-          weight_based: '1 gram = 1 gram (any brand)',,;
+          table_salt: '1 tsp table = 1.25 tsp Morton = 2 tsp Diamond',,
+          weight_based: '1 gram = 1 gram (any brand)'
         }
       },
       koshering: {
@@ -946,6 +946,6 @@ const rawSalts = {;
 
 // Fix the ingredient mappings to ensure they have all required properties
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
-export const salts: Record<string, IngredientMapping> = fixIngredientMappings(
+export const, salts: Record<string, IngredientMapping> = fixIngredientMappings(
   rawSalts as Record<string, Partial<IngredientMapping>>,
 );

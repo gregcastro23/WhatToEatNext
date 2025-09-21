@@ -9,7 +9,7 @@ import { NutritionalProfile } from '@/types/alchemy';
  * @returns Normalized name for data lookup
  */
 export function normalizeIngredientName(name: string): string {
-  if (!name) return '';
+  if (!name) return ''
 
   // Convert to lowercase, trim whitespace
   return (
@@ -40,11 +40,10 @@ export async function getNutritionalData(
 
   // Convert profile to match alchemy types
   const alchemyProfile: unknown = {;
-    ...profile;
+    ...profile
     // Convert phytonutrients from Record<string, number> to string[]
-    phytonutrients:
-      profile.phytonutrients &&
-      typeof profile.phytonutrients === 'object' &&;
+    phytonutrients: profile.phytonutrients &&
+      typeof profile.phytonutrients === 'object' &&
       !Array.isArray(profile.phytonutrients)
         ? Object.keys(profile.phytonutrients)
         : profile.phytonutrients
@@ -59,7 +58,7 @@ export async function getNutritionalData(
  * @returns Array of ingredient category names
  */
 export function getAvailableNutritionalIngredients(): string[] {
-  return Object.keys(baseNutritionalProfiles);
+  return Object.keys(baseNutritionalProfiles)
 }
 
 /**

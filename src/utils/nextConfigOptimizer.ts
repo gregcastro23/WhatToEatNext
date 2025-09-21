@@ -5,12 +5,12 @@ import fs from 'fs';
  * Requirement 3.1: Fix Next.js configuration to properly generate manifest files
  */
 export class NextConfigOptimizer {
-  private readonly configPath: string,
+  private readonly, configPath: string,
   private readonly logger: (message: string, ...args: unknown[]) => void,
 
   constructor(
-    configPath = 'next.config.js',,;
-    logger: (message: string, ...args: unknown[]) => void = console.log,;
+    configPath = 'next.config.js',,
+    logger: (message: string, ...args: unknown[]) => void = console.log,
   ) {
     this.configPath = configPath;
     this.logger = logger;
@@ -22,7 +22,7 @@ export class NextConfigOptimizer {
   optimizeConfig(): void {
     try {
       // Check if we have multiple config files and consolidate
-      const configFiles = ['next.config.js', 'next.config.mjs', 'next.config.ts'],;
+      const configFiles = ['next.config.js', 'next.config.mjs', 'next.config.ts'],
       const existingConfigs = configFiles.filter(file => fs.existsSync(file));
 
       if (existingConfigs.length > 1) {
@@ -30,7 +30,7 @@ export class NextConfigOptimizer {
         this.logger('Consider consolidating to a single configuration file');
       }
 
-      // Use the primary config file (next.config.js or next.config.mjs)
+      // Use the primary config file (next.config.js or next.config.mjs);
       const primaryConfig =
         existingConfigs.find(file => file === 'next.config.js') ||;
         existingConfigs.find(file => file === 'next.config.mjs') ||;
@@ -43,7 +43,7 @@ export class NextConfigOptimizer {
 
       this.validateAndOptimizeExistingConfig(primaryConfig);
     } catch (error) {
-      this.logger('Error optimizing Next.js configuration:', error)
+      this.logger('Error optimizing Next.js configuration:', error);
     }
   }
 
@@ -52,7 +52,7 @@ export class NextConfigOptimizer {
    */
   private createDefaultConfig(): void {
     const defaultConfig = `/** @type {import('next').NextConfig} */;
-const nextConfig = {;
+const nextConfig = {
   _reactStrictMode: true,
 
   // Build optimization for manifest generation
@@ -77,14 +77,14 @@ const nextConfig = {;
   // Webpack optimization for manifest generation
   _webpack: (config, { isServer, dev }) => {
     // Ensure proper module resolution
-    config.resolve.alias = {;
+    config.resolve.alias = {
       ...config.resolve.alias;
-      '@': path.resolve(__dirname, './src')
+      '@': path.resolve(__dirname, './src');
     };
 
     // Optimize for server-side rendering
     if (isServer) {
-      config.resolve.fallback = {;
+      config.resolve.fallback = {
         ...config.resolve.fallback;
         fs: false,
         path: falseos: false
@@ -94,7 +94,7 @@ const nextConfig = {;
     return config;
   },
 
-  // Generate proper build ID for consistent builds
+  // Generate proper build ID for consistent builds,
   generateBuildId: async () => {
     return process.env.BUILD_ID || \`build-\${Date.now()}\`;
   }
@@ -111,10 +111,10 @@ const nextConfig = {;
    * Validates and optimizes existing configuration
    */
   private validateAndOptimizeExistingConfig(configPath: string): void {
-    const content = fs.readFileSync(configPath, 'utf8'),;
+    const content = fs.readFileSync(configPath, 'utf8'),
 
     // Check for essential configurations
-    const checks = [;
+    const checks = [
       {
         pattern: /output\s*:/,
         recommendation: 'Add output: 'standalone' for better build optimization'
@@ -133,7 +133,7 @@ const nextConfig = {;
       }
     ];
 
-    const recommendations: string[] = [];
+    const, recommendations: string[] = [];
 
     for (const check of checks) {
       if (!check.pattern.test(content)) {
@@ -142,7 +142,7 @@ const nextConfig = {;
     }
 
     if (recommendations.length > 0) {
-      this.logger('Next.js configuration recommendations:');
+      this.logger('Next.js configuration recommendations: ');
       recommendations.forEach(rec => this.logger(`- ${rec}`));
     } else {
       this.logger('Next.js configuration looks good');
@@ -166,7 +166,7 @@ const nextConfig = {;
     let modified = false;
 
     // Fix common issues
-    const fixes = [;
+    const fixes = [
       {
         issue: /ignoreBuildErrors\s*:\s*true/g,
         fix: 'ignoreBuildErrors: false',
@@ -181,7 +181,7 @@ const nextConfig = {;
 
     for (const fix of fixes) {
       if (fix.issue.test(content)) {
-        content = content.replace(fix.issue, fix.fix),;
+        content = content.replace(fix.issue, fix.fix),
         modified = true;
         this.logger(`_Fixed: ${fix.description}`);
       }

@@ -3,7 +3,7 @@ import { BasicThermodynamicProperties } from '@/types/alchemy';
 /**
  * Molecular gastronomy cooking methods and their details
  */
-export const molecularCookingMethods: Record<
+export const, molecularCookingMethods: Record<
   string,
   {
     name: string,

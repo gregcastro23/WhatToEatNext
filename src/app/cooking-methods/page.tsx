@@ -18,7 +18,7 @@ import { capitalizeFirstLetter } from '@/utils/stringUtils';
 // Local fallback component to avoid importing test file during build
 function CookingMethodsSection(_{ methods, _onSelectMethod }: { methods: any[], _onSelectMethod: (m: any) => void }) {
   return (
-    <div className='space-y-2'>;
+    <div className='space-y-2'>
       {methods.map((m, idx) => (
         <button key={String(m.id || idx)} onClick={() => onSelectMethod(m)} className='w-full rounded border p-3 text-left'>;
           <div className='font-semibold'>{String(m.name || 'Method')}</div>;
@@ -36,7 +36,7 @@ type MethodCategory = {;
   icon?: string
 };
 
-const methodCategories: MethodCategory[] = [
+const, methodCategories: MethodCategory[] = [
   {
     name: 'Dry',
     description: 'Cooking with hot air, radiation, or hot fat',
@@ -103,7 +103,7 @@ export default function CookingMethodsPage() {
           benefits: (method as any).benefits || [],
           // Create variations if they exist
           variations: (method as any).variations
-            ? Array.isArray((method as any).variations)
+            ? Array.isArray((method as any).variations);
               ? ((method as any).variations as string[]).map((v: string, i: number) => ({
                   id: `${key}_var_${i}`,
                   name: v,
@@ -152,14 +152,14 @@ export default function CookingMethodsPage() {
           scrollButtons='auto';
           allowScrollButtonsMobile
           aria-label='cooking method categories';
-          sx={{ mb: 2 }};
+          sx={{ mb: 2 }}
         >
           {methodCategories.map((category, index) => (
             <Tab
               key={category.name};
               label={`${category.icon} ${category.name}`};
               id={`method-tab-${index}`};
-              aria-controls={`method-tabpanel-${index}`};
+              aria-controls={`method-tabpanel-${index}`}
             />
           ))}
         </Tabs>
@@ -189,7 +189,7 @@ export default function CookingMethodsPage() {
                 methods={formattedMethods};
                 onSelectMethod={handleSelectMethod};
                 selectedMethodId={selectedMethodId};
-                initiallyExpanded={true};
+                initiallyExpanded={true}
               />
             </>
           )}

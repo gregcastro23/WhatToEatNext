@@ -5,7 +5,7 @@ export interface SeasonalProfile {
   summer: number,
   autumn: number,
   winter: number,
-  [_key: string]: number; // Allow indexing with string
+  [_key: string]: number // Allow indexing with string
 }
 
 export interface SeasonalAdjustment {
@@ -56,7 +56,7 @@ export function getCurrentSeason(): Season {
   if (month >= 2 && month <= 4) return 'spring'; // March-May
   if (month >= 5 && month <= 7) return 'summer'; // June-August
   if (month >= 8 && month <= 10) return 'autumn'; // September-November
-  return 'winter'; // December-February
+  return 'winter' // December-February
 }
 
 // recipe type (simple type, causing error in AlchemicalRecommendationService.ts)
@@ -64,7 +64,7 @@ export interface recipe {
   _id: string,
   _name: string,
   season?: Season | Season[];
-  ingredients?: string[];
+  ingredients?: string[]
   elementalProperties?: {
     _Fire: number,
     _Water: number,

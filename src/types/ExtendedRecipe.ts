@@ -1,7 +1,7 @@
 import {_Element, ElementalProperties, _ZodiacSign, _LunarPhase} from '@/types/alchemy';
 
 /**
- * 🚀 Phase 10: ExtendedRecipe Interface - Complete Property Access Support
+ * 🚀 Phase, 10: ExtendedRecipe Interface - Complete Property Access Support
  *
  * This interface extends the base Recipe with all properties that are accessed
  * across the codebase, preventing TS2339 property access errors.
@@ -19,7 +19,7 @@ import {
 export interface ExtendedRecipeIngredient extends RecipeIngredient {
   id?: string;
   preparation?: string;
-  optional?: boolean;
+  optional?: boolean
   notes?: string,
   function?: string,
   cookingPoint?: string,
@@ -30,7 +30,7 @@ export interface ExtendedRecipeIngredient extends RecipeIngredient {
  * Extended Recipe Interface with all accessed properties
  */
 export interface ExtendedRecipe extends Recipe {
-  // Ensure core properties exist
+  // Ensure core properties exist,
   id: string;
   tags?: string[];
   notes?: string;
@@ -43,13 +43,13 @@ export interface ExtendedRecipe extends Recipe {
   prep_time?: string;
   idealTimeOfDay?: string;
 
-  // Enhanced ingredient support
+  // Enhanced ingredient support,
   ingredients: ExtendedRecipeIngredient[];
 
-  // Additional instruction variations
-  instructions: string[];
+  // Additional instruction variations,
+  instructions: string[]
 
-  // Elemental properties with proper casing (Fire, Water, Earth, Air)
+  // Elemental properties with proper casing (Fire, Water, Earth, Air);
   elementalProperties: ElementalProperties;
 
   // Enhanced properties commonly accessed
@@ -63,8 +63,8 @@ export interface ExtendedRecipe extends Recipe {
   // Flavor and texture
   flavorProfile?: {
     primary?: string[];
-    accent?: string[];
-    base?: string[];
+    accent?: string[]
+    base?: string[]
     tasteBalance?: {
       sweet: number,
       salty: number,
@@ -80,7 +80,7 @@ export interface ExtendedRecipe extends Recipe {
   origin?: string;
   history?: string;
   traditionalOccasion?: string[];
-  regionalVariations?: string[];
+  regionalVariations?: string[]
 
   pairingRecommendations?: {
     wines?: string[],
@@ -91,7 +91,7 @@ export interface ExtendedRecipe extends Recipe {
 
   nutrition?: {
     calories?: number;
-    servingSize?: string;
+    servingSize?: string
     macronutrients?: {
       protein: number,
       carbs: number,
@@ -106,7 +106,7 @@ export interface ExtendedRecipe extends Recipe {
   tips?: string[];
   variations?: string[];
 
-  presentationTips?: string[];
+  presentationTips?: string[]
   sensoryIndicators?: {
     visual: string[],
     aroma: string[],
@@ -114,7 +114,7 @@ export interface ExtendedRecipe extends Recipe {
     sound: string[]
   };
 
-  keywords?: string[];
+  keywords?: string[]
 
   // Allow additional dynamic properties - this ensures compatibility
   [key: string]: unknown
@@ -124,7 +124,7 @@ export interface ExtendedRecipe extends Recipe {
  * Extended Scored Recipe
  */
 export interface ExtendedScoredRecipe extends ExtendedRecipe {
-  score: number;
+  score: number
   alchemicalScores?: {
     elementalScore: number,
     zodiacalScore: number,
@@ -139,10 +139,10 @@ export interface ExtendedScoredRecipe extends ExtendedRecipe {
  */
 export function isExtendedRecipe(recipe: unknown): recipe is ExtendedRecipe {
   return (
-    typeof recipe === 'object' &&;
+    typeof recipe === 'object' &&
     recipe !== null &&
     typeof (recipe as ExtendedRecipe).id === 'string' &&;
-    typeof (recipe as ExtendedRecipe).name === 'string';
+    typeof (recipe as ExtendedRecipe).name === 'string'
   )
 }
 
@@ -151,7 +151,7 @@ export function isExtendedRecipe(recipe: unknown): recipe is ExtendedRecipe {
  */
 export function toExtendedRecipe(recipe: Recipe): ExtendedRecipe {
   return {
-    ...recipe;
+    ...recipe,
     id: recipe.id || 'recipe-' + Date.now(),
     tags: recipe.tags || [],
     notes: recipe.notes || '',
@@ -162,14 +162,14 @@ export function toExtendedRecipe(recipe: Recipe): ExtendedRecipe {
       return {
         ...ingredient;
         id:
-          typeof extendedIngredient.id === 'string';
+          typeof extendedIngredient.id === 'string'
             ? extendedIngredient.id
             : 'ingredient-' + Date.now();
         preparation:
-          typeof extendedIngredient.preparation === 'string' ? extendedIngredient.preparation : '',;
+          typeof extendedIngredient.preparation === 'string' ? extendedIngredient.preparation : '',
         optional:
-          typeof extendedIngredient.optional === 'boolean' ? extendedIngredient.optional : false,,;
-        notes: typeof extendedIngredient.notes === 'string' ? extendedIngredient.notes : '',,;
+          typeof extendedIngredient.optional === 'boolean' ? extendedIngredient.optional : false,,
+        notes: typeof extendedIngredient.notes === 'string' ? extendedIngredient.notes : '',,
       };
     })
   } as ExtendedRecipe;
