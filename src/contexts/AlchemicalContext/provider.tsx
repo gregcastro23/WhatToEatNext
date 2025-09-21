@@ -221,7 +221,7 @@ export const AlchemicalProvider: React.FC<{ children: React.ReactNode }>  = ({ c
         combinedAlchemicalValues.Matter +
         combinedAlchemicalValues.Substance;
 
-      const normalizedAlchemicalValues = {;
+      const normalizedAlchemicalValues = {
         Spirit: combinedAlchemicalValues.Spirit / total,
         Essence: combinedAlchemicalValues.Essence / total,
         Matter: combinedAlchemicalValues.Matter / total,

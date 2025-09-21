@@ -133,21 +133,21 @@ function safeGetElementValue(
  * astrological and elemental influences.
  */
 export class AlchemicalEngineAdvanced {
-  private readonly, elementalAffinities: Record<string, string[]> = {
+  private readonly elementalAffinities: Record<string, string[]> = {
     Fire: ['Air'],
     Air: ['Water'],
     Water: ['Earth'],
     Earth: ['Fire']
   };
 
-  private readonly, elementalStrengths: Record<string, number> = {
+  private readonly elementalStrengths: Record<string, number> = {
     Fire: 1,
     Air: 1,
     Water: 1,
     Earth: 1
   };
 
-  private readonly, zodiacElements: Record<ZodiacSign, keyof ElementalProperties> = {
+  private readonly zodiacElements: Record<ZodiacSign, keyof ElementalProperties> = {
     aries: 'Fire',
     leo: 'Fire',
     sagittarius: 'Fire',
@@ -162,7 +162,7 @@ export class AlchemicalEngineAdvanced {
     pisces: 'Water'
   };
 
-  private readonly, lunarPhaseModifiers: Record<LunarPhase, ElementalProperties> = {
+  private readonly lunarPhaseModifiers: Record<LunarPhase, ElementalProperties> = {
     'new moon': { Fire: 0.1, Water: 0.4, Air: 0.3, Earth: 0.2 },
     'waxing crescent': { Fire: 0.2, Water: 0.3, Air: 0.3, Earth: 0.2 },
     'first quarter': { Fire: 0.3, Water: 0.2, Air: 0.3, Earth: 0.2 },
@@ -173,7 +173,7 @@ export class AlchemicalEngineAdvanced {
     'waning crescent': { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 }
   };
 
-  private readonly, seasonalModifiers: Record<string, ElementalProperties> = {
+  private readonly seasonalModifiers: Record<string, ElementalProperties> = {
     spring: { Fire: 0.3, Water: 0.3, Air: 0.3, Earth: 0.1 },
     summer: { Fire: 0.4, Water: 0.2, Air: 0.3, Earth: 0.1 },
     autumn: { Fire: 0.2, Water: 0.2, Air: 0.3, Earth: 0.3 },
@@ -181,7 +181,7 @@ export class AlchemicalEngineAdvanced {
     winter: { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 }
   };
 
-  private readonly, decans: Record<ZodiacSign, Decan[]> = {
+  private readonly decans: Record<ZodiacSign, Decan[]> = {
     aries: [
       { ruler: 'Mars', element: 'Fire', degree: 0 },
       { ruler: 'Sun', element: 'Fire', degree: 10 },

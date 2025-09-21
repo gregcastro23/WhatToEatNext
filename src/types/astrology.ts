@@ -79,7 +79,7 @@ export type PlanetaryPositionDetails = {
  * Standard astrological aspects between planets
  */
 export type AspectType =
-  | 'conjunction';
+  | 'conjunction'
   | 'sextile'
   | 'square'
   | 'trine'
@@ -91,7 +91,7 @@ export type AspectType =
  * Planetary Aspect Details
  * Complete information about planetary aspects
  */
-export type PlanetaryAspectDetails = {;
+export type PlanetaryAspectDetails = {
   planetA: string,
   planetB: string,
   aspect: AspectType,
@@ -104,7 +104,7 @@ export type PlanetaryAspectDetails = {;
  * Birth Chart Data
  * Standardized birth chart information
  */
-export type BirthChartData = {;
+export type BirthChartData = {
   elementalState: Record<ElementalCharacter, number>;
   planetaryPositions: Record<string, number>;
   ascendant: string,
@@ -116,7 +116,7 @@ export type BirthChartData = {;
  * Astrological Profile Type
  * Complete astrological profile for ingredients or individuals
  */
-export type AstrologicalProfileType = {;
+export type AstrologicalProfileType = {
   zodiac?: StandardZodiacSign[];
   lunar?: StandardLunarPhase[];
   planetary?: PlanetaryPositionDetails[];
@@ -192,7 +192,7 @@ const _compatibility = foodSystem.calculateFoodCompatibility(
 
 // Export the LunarPhase type if not already defined in alchemy.ts
 export type AstrologyLunarPhase =
-  | 'new_moon';
+  | 'new_moon'
   | 'waxing_crescent'
   | 'first_quarter'
   | 'waxing_gibbous'

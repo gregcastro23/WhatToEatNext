@@ -185,7 +185,7 @@ class Logger {
       return true // Default to allowing all logs if level is undefined
     }
 
-    const, levels: LogLevel[] = ['debug', 'info', 'warn', 'error'];
+    const levels: LogLevel[] = ['debug', 'info', 'warn', 'error'];
     const currentLevelIndex = levels.indexOf(this.logLevel);
     const targetLevelIndex = levels.indexOf(level);
 

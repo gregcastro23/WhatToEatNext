@@ -100,7 +100,7 @@ export class EnhancedRecommendationService {
     ];
 
     const scoredCuisines = cuisines.map(cuisine => {
-      let baseScore = Math.random() * 0.6 + 0.2; // 0.2-0.8 base
+      const baseScore = Math.random() * 0.6 + 0.2; // 0.2-0.8 base
       let runeInfluence = 0;
       let agentResonance = 0;
       let tokenAlignment = 0;

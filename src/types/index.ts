@@ -89,11 +89,11 @@ export interface NutritionPreferences {
   lowCarb: boolean
 }
 
-export type TimeData = {;
+export type TimeData = {
   [season in Season]?: Dish[]
 };
 
-export type CuisineData = {;
+export type CuisineData = {
   name: string,
   recipes: Recipe[],
   score?: number;
@@ -117,12 +117,12 @@ export type CuisineData = {;
   astrologicalAffinities?: string[]
 };
 
-export type Cuisines = {;
+export type Cuisines = {
   [id: string]: CuisineData
 };
 
 // Helper type for time-based context
-export type TimeOfDay = {;
+export type TimeOfDay = {
   hour: number,
   minute: number,
   period: MealTime,
@@ -141,7 +141,7 @@ export type CuisineType = string;
 
 // Add DietaryRestriction type if missing from any type files
 export type DietaryRestriction =
-  | 'vegan';
+  | 'vegan'
   | 'vegetarian'
   | 'pescatarian'
   | 'dairy-free'
