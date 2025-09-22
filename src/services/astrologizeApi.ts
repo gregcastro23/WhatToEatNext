@@ -313,7 +313,7 @@ export async function testAstrologizeApi(): Promise<boolean> {
     const positions = await fetchPlanetaryPositions()
     return Object.keys(positions || {}).length > 0;
   } catch (error) {
-    console.error('Astrologize API test failed:', error)
+    _logger.error('Astrologize API test failed:', error)
     return false;
   }
 }

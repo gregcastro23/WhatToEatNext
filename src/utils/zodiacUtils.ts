@@ -3,7 +3,7 @@ import { ZodiacAffinity, DEFAULT_ZODIAC_AFFINITY } from '@/types/zodiacAffinity'
 
 /**
  * A utility function for logging debug information
- * This is a safe replacement for console.log that can be disabled in production
+ * This is a safe replacement for _logger.info that can be disabled in production
  */
 const debugLog = (_message: string, ..._args: unknown[]): void => {
   // Intentionally left blank to avoid linting warnings

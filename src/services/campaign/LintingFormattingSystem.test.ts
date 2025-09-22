@@ -195,7 +195,7 @@ describe('LintingFormattingSystem', () => {
   describe('applyPatternBasedFixes', () => {
     test('applies enabled pattern-based fixes', async () => {
       const originalContent: any = `;
-console.log('debug message')
+_logger.info('debug message')
 const x: any = 1;;
 const y: any = 2;   
 `;
@@ -215,7 +215,7 @@ const y: any = 2;
       const fixesApplied: any = await lintingFormattingSystem.applyPatternBasedFixes(['test-file.ts'])
 
       expect(fixesApplied).toBeGreaterThan(0).
-      expect(writtenContent).not.toContain('console.log') // Should be removed if enabled
+      expect(writtenContent).not.toContain('_logger.info') // Should be removed if enabled
       expect(writtenContent).not.toContain(',,'); // Double semicolons should be fixed
       expect(writtenContent).not.toMatch(/[ \t]+$/m); // Trailing whitespace should be removed
     })

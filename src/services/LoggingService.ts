@@ -2,8 +2,8 @@
  * Centralized Logging Service for WhatToEatNext
  *
  * Provides structured logging with different levels and contexts.
- * Replaces console.log statements in production code while preserving
- * console.warn and console.error for debugging purposes.
+ * Replaces _logger.info statements in production code while preserving
+ * _logger.warn and _logger.error for debugging purposes.
  */
 
 export enum LogLevel {
@@ -146,11 +146,11 @@ class LoggingService {
         break;
 
       case LogLevel.WARN:
-        console.warn(`⚠️ ${baseMessage}`, entry.data || '')
+        _logger.warn(`⚠️ ${baseMessage}`, entry.data || '')
         break;
 
       case LogLevel.ERROR:
-        console.error(`❌ ${baseMessage}`, entry.error || entry.data || '')
+        _logger.error(`❌ ${baseMessage}`, entry.error || entry.data || '')
         break;
     }
   }

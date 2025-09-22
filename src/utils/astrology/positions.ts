@@ -5,10 +5,10 @@ import type { ZodiacSign } from '@/types/alchemy';
 
 /**
  * A utility function for logging debug information
- * This is a safe replacement for console.log that can be disabled in production
+ * This is a safe replacement for _logger.info that can be disabled in production
  */
 const debugLog = (_message: string, ..._args: unknown[]): void => {
-  // Comment out console.log to avoid linting warnings
+  // Comment out _logger.info to avoid linting warnings
   // log.info(message, ...args)
 };
 
@@ -146,7 +146,7 @@ function zodiacStartDegree(sign: string): number {
  */
 function calculateReferenceLongitude(planet: string): number {
   if (!REFERENCE_POSITIONS[planet]) {
-    console.warn(`No reference position for ${planet}, using default`)
+    _logger.warn(`No reference position for ${planet}, using default`)
     return 0;
   }
 

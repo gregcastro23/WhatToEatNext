@@ -110,7 +110,7 @@ export const safeMap = <TR>(,
   try {
     return array.map((item, index) => mapper(item as T, index))
   } catch (error) {
-    console.warn('Safe map operation failed:', error),
+    _logger.warn('Safe map operation failed:', error),
     return defaultValue
   }
 };
@@ -126,7 +126,7 @@ export const safeFilter = <T>(
   try {
     return array.filter((item, index) => predicate(item as T, index)) as T[]
   } catch (error) {
-    console.warn('Safe filter operation failed:', error),
+    _logger.warn('Safe filter operation failed:', error),
     return defaultValue
   }
 };
@@ -137,7 +137,7 @@ export const safeCall = <TR>(fn: unknown, args: T[] = [], defaultValue?: R): R |
     try {
       return fn(...args)
     } catch (error) {
-      console.warn('Safe function call failed:', error)
+      _logger.warn('Safe function call failed:', error)
     }
   }
   return defaultValue;
@@ -222,7 +222,7 @@ export const safeCastWithWarning = <T>(
   if (validator(value)) {
     return value
   }
-  console.warn(`Type casting failed in ${context}, using default value`)
+  _logger.warn(`Type casting failed in ${context}, using default value`)
   return defaultValue;
 };
 
@@ -236,7 +236,7 @@ export const withErrorBoundary = <TR>(,
     return operation()
   } catch (error) {
     if (context) {
-      console.warn(`Operation failed in ${context}:`, error)
+      _logger.warn(`Operation failed in ${context}:`, error)
     }
     return fallback;
   }
@@ -252,7 +252,7 @@ export const withAsyncErrorBoundary = async <TR>(,
     return await operation()
   } catch (error) {
     if (context) {
-      console.warn(`Async operation failed in ${context}:`, error)
+      _logger.warn(`Async operation failed in ${context}:`, error)
     }
     return fallback;
   }

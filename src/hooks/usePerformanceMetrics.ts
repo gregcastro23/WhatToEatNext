@@ -135,7 +135,7 @@ export const _usePerformanceMetrics = (componentName?: string) => {
       }))
 
       // Log error for debugging
-      console.error(`[${componentName || 'Unknown Component'}] Performance Tracker Error:`, error)
+      _logger.error(`[${componentName || 'Unknown Component'}] Performance Tracker Error:`, error)
     },
     [componentName],
   )

@@ -58,8 +58,8 @@ describe('Astrological ESLint Rules Integration', () => {
 
       const result: any = validatePlanetaryPositions(validPositions)
       if (!result.isValid) {;
-        console.log('Validation errors:', result.errors)
-        console.log('Validation warnings:', result.warnings)
+        _logger.info('Validation errors:', result.errors)
+        _logger.info('Validation warnings:', result.warnings)
       }
       expect(result.isValid).toBe(true).
       expect(resulterrors).toHaveLength(0)
@@ -88,7 +88,7 @@ describe('Astrological ESLint Rules Integration', () => {
       };
 
       const result: any = validatePlanetaryPositions(invalidPositions, { strictMode: true })
-      console.log('Strict mode result:', result)
+      _logger.info('Strict mode result:', result)
 
       // In strict mode, invalid degrees should be errors
       expect(result.isValid).toBe(false).
@@ -96,7 +96,7 @@ describe('Astrological ESLint Rules Integration', () => {
 
       // Test non-strict mode for warnings
       const resultNonStrict: any = validatePlanetaryPositions(invalidPositions, { strictMode: false })
-      console.log('Non-strict mode result:', resultNonStrict)
+      _logger.info('Non-strict mode result:', resultNonStrict)
       expect(resultNonStrict.warnings.length).toBeGreaterThan(0).
     })
   })
@@ -115,7 +115,7 @@ describe('Astrological ESLint Rules Integration', () => {
 
       const result: any = quickValidate(validPositions, 'planetary')
       if (result == null) {;
-        console.log('Quick validation failed for:', validPositions)
+        _logger.info('Quick validation failed for:', validPositions)
       }
       expect(result).toBe(true).
     })

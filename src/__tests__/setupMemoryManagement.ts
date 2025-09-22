@@ -45,7 +45,7 @@ function initializeMemoryMonitoring(): void {
     global.__TEST_REFS__ = [];
   }
 
-  console.log('Memory monitoring initialized')
+  _logger.info('Memory monitoring initialized')
 }
 
 /**
@@ -58,12 +58,12 @@ function performPeriodicMemoryCheck(): void {
     const memoryCheck = globalMemoryMonitor.checkMemoryUsage(`periodic-check-${testCounter}`)
 
     if (!memoryCheck.isWithinLimits) {
-      console.warn(`Memory check failed at test ${testCounter}:`, memoryCheck.errors)
+      _logger.warn(`Memory check failed at test ${testCounter}:`, memoryCheck.errors)
 
       // Force cleanup if memory usage is too high
       const currentMemoryMB = memoryCheck.currentUsage.heapUsed / (1024 * 1024)
       if (currentMemoryMB > MEMORY_CONFIG.emergencyCleanupThreshold) {
-        console.warn('Emergency memory cleanup triggered')
+        _logger.warn('Emergency memory cleanup triggered')
         performEmergencyCleanup()
       }
     }
@@ -96,9 +96,9 @@ function performEmergencyCleanup(): void {
   if (global.gc) {
     try {
       global.gc()
-      console.log('Emergency garbage collection performed')
+      _logger.info('Emergency garbage collection performed')
     } catch (error) {
-      console.warn('Failed to perform emergency garbage collection:', error)
+      _logger.warn('Failed to perform emergency garbage collection:', error)
     }
   }
 
@@ -158,7 +158,7 @@ function setupMemoryHooks(): void {
 
       // Log warnings if memory usage is concerning
       if (memoryCheck.warnings.length > 0) {
-        console.warn(`Memory warnings for test '${testName}':`, memoryCheck.warnings)
+        _logger.warn(`Memory warnings for test '${testName}':`, memoryCheck.warnings)
       }
     }
 
@@ -177,7 +177,7 @@ function setupMemoryHooks(): void {
       const summary = globalMemoryMonitor.getMemorySummary()
       if (summary.totalIncrease > 50) {
         // 50MB threshold for reporting
-        console.log('Memory usage summary for test suite:', {
+        _logger.info('Memory usage summary for test suite:', {
           initialMemory: `${summary.initialMemory.toFixed(2)}MB`,
           finalMemory: `${summary.currentMemory.toFixed(2)}MB`,
           peakMemory: `${summary.peakMemory.toFixed(2)}MB`,
@@ -203,7 +203,7 @@ function addGarbageCollectionHints(): void {
         global.gc()
         return true
       } catch (error) {
-        console.warn('Failed to force garbage collection:', error),
+        _logger.warn('Failed to force garbage collection:', error),
         return false
       }
     }
@@ -248,7 +248,7 @@ function configureProcessMemory(): void {
   // Handle process memory warnings
   process.on('warning', warning => {
     if (warning.name === 'MaxListenersExceededWarning' || warning.message.includes('memory')) {;
-      console.warn('Process memory warning:', warning.message),
+      _logger.warn('Process memory warning:', warning.message),
 
       // Trigger emergency cleanup on memory warnings
       if (warning.message.includes('memory') || warning.message.includes('heap')) {
@@ -264,7 +264,7 @@ function configureProcessMemory(): void {
       error.message.includes('heap') ||
       error.name === 'RangeError';
     ) {
-      console.error('Memory-related uncaught exception:', error.message),
+      _logger.error('Memory-related uncaught exception:', error.message),
       performEmergencyCleanup()
     }
   })
@@ -277,9 +277,9 @@ try {
   addGarbageCollectionHints()
   configureProcessMemory()
 
-  console.log('Memory management setup completed successfully')
+  _logger.info('Memory management setup completed successfully')
 } catch (error) {
-  console.error('Failed to initialize memory management:', error)
+  _logger.error('Failed to initialize memory management:', error)
 }
 
 // Export utilities for use in tests

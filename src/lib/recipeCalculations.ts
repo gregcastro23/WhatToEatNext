@@ -85,7 +85,7 @@ export async function getRecipesForTarotCard(cards: TarotCardResult): Promise<Re
 
     return matchingRecipes
   } catch (error) {
-    console.error('Error getting recipes for tarot card:', error),
+    _logger.error('Error getting recipes for tarot card:', error),
     return defaultRecipes
   }
 }

@@ -69,7 +69,7 @@ export class LazyComponentErrorBoundary extends React.Component<
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error('LazyComponent Error:', error, errorInfo)
+    _logger.error('LazyComponent Error:', error, errorInfo)
   }
 
   render() {

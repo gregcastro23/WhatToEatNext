@@ -28,8 +28,8 @@ const configManager = new ConfigurationManager()
  * Display configuration in a readable format
  */
 function displayConfig(_config: unknown, title: string = 'Configuration'): void {
-  // // // console.log(`\n=== ${title} ===`)
-  // // // console.log(JSON.stringify(config, null, 2))
+  // // // _logger.info(`\n=== ${title} ===`)
+  // // // _logger.info(JSON.stringify(config, null, 2))
 }
 
 /**
@@ -41,15 +41,15 @@ function displayValidation(validation: {
   warnings?: string[]
 }): void {
   if (validation.isValid) {
-    // // // console.log('✅ Configuration is valid')
+    // // // _logger.info('✅ Configuration is valid')
   } else {
-    // // // console.log('❌ Configuration has errors: ')
-    validation.errors.forEach(error => // // // console.log(`  - ${error}`))
+    // // // _logger.info('❌ Configuration has errors: ')
+    validation.errors.forEach(error => // // // _logger.info(`  - ${error}`))
   }
 
   if (validation.warnings && validation.warnings.length > 0) {
-    // // // console.log('⚠️  Warnings: ')
-    validation.warnings.forEach(warning => // // // console.log(`  - ${warning}`))
+    // // // _logger.info('⚠️  Warnings: ')
+    validation.warnings.forEach(warning => // // // _logger.info(`  - ${warning}`))
   }
 }
 
@@ -78,7 +78,7 @@ program
           if (section) {
             displayConfig(section, `${options.section} Configuration`)
           } else {
-            console.error(`Unknown section: ${options.section}`)
+            _logger.error(`Unknown section: ${options.section}`)
             process.exit(1)
           }
         } else {
@@ -86,7 +86,7 @@ program
         }
       }
     } catch (error) {
-      console.error('Error displaying configuration:', error)
+      _logger.error('Error displaying configuration:', error)
       process.exit(1)
     }
   })
@@ -100,15 +100,15 @@ program
     try {
       if (options.environment) {
         const validation = validateEnvironmentConfig(options.environment as Environment)
-        // // // console.log(`\nValidating ${options.environment} configuration: `)
+        // // // _logger.info(`\nValidating ${options.environment} configuration: `)
         displayValidation(validation)
       } else {
         const validation = configManager.validateConfig()
-        // // // console.log('\nValidating current configuration: ')
+        // // // _logger.info('\nValidating current configuration: ')
         displayValidation(validation)
       }
     } catch (error) {
-      console.error('Error validating configuration:', error)
+      _logger.error('Error validating configuration:', error)
       process.exit(1)
     }
   })
@@ -124,7 +124,7 @@ program
     try {
       const pathParts = path.split('.')
       if (pathParts.length !== 2) {
-        console.error('Path must be in format: section.property')
+        _logger.error('Path must be in format: section.property')
         process.exit(1)
       }
 
@@ -136,7 +136,7 @@ program
         case 'number':
           parsedValue = parseFloat(value)
           if (isNaN(parsedValue)) {
-            console.error('Invalid number value')
+            _logger.error('Invalid number value')
             process.exit(1)
           }
           break;
@@ -146,7 +146,7 @@ program
           try {
             parsedValue = JSON.parse(value)
           } catch {
-            console.error('Invalid JSON value')
+            _logger.error('Invalid JSON value')
             process.exit(1)
           }
           break;
@@ -155,30 +155,30 @@ program
       // Update configuration
       const config = configManager.getConfig()
       if (!config[section as keyof typeof config]) {
-        console.error(`Unknown section: ${section}`)
+        _logger.error(`Unknown section: ${section}`)
         process.exit(1)
       }
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
       const sectionConfig = config[section as keyof typeof config] as any;
       if (!(property in sectionConfig)) {
-        console.error(`Unknown property: ${property} in section ${section}`)
+        _logger.error(`Unknown property: ${property} in section ${section}`)
         process.exit(1)
       }
 
       sectionConfig[property] = parsedValue;
       configManager.updateConfig({ [section]: sectionConfig })
 
-      // // // console.log(`✅ Updated ${path} = ${JSON.stringify(parsedValue)}`)
+      // // // _logger.info(`✅ Updated ${path} = ${JSON.stringify(parsedValue)}`)
 
       // Validate after update
       const validation = configManager.validateConfig()
       if (!validation.isValid) {
-        // // // console.log('\n⚠️  Configuration validation failed after update: ')
+        // // // _logger.info('\n⚠️  Configuration validation failed after update: ')
         displayValidation(validation)
       }
     } catch (error) {
-      console.error('Error updating configuration:', error)
+      _logger.error('Error updating configuration:', error)
       process.exit(1)
     }
   })
@@ -191,15 +191,15 @@ program
   .action(options => {
     try {
       if (!options.confirm) {
-        // // // console.log('This will reset all configuration to defaults.')
-        // // // console.log('Use --confirm to proceed without this prompt.')
+        // // // _logger.info('This will reset all configuration to defaults.')
+        // // // _logger.info('Use --confirm to proceed without this prompt.')
         return;
       }
 
       configManager.resetToDefaults()
-      // // // console.log('✅ Configuration reset to defaults')
+      // // // _logger.info('✅ Configuration reset to defaults')
     } catch (error) {
-      console.error('Error resetting configuration:', error)
+      _logger.error('Error resetting configuration:', error)
       process.exit(1)
     }
   })
@@ -221,18 +221,18 @@ envCommand
   .command('list')
   .description('List available environments')
   .action(() => {
-    // // // console.log('Available environments: ')
-    // // // console.log('  - development (default)')
-    // // // console.log('  - production')
-    // // // console.log('  - testing')
-    // // // console.log(`\nCurrent environment: ${getCurrentEnvironment()}`)
+    // // // _logger.info('Available environments: ')
+    // // // _logger.info('  - development (default)')
+    // // // _logger.info('  - production')
+    // // // _logger.info('  - testing')
+    // // // _logger.info(`\nCurrent environment: ${getCurrentEnvironment()}`)
   })
 
 envCommand
   .command('current')
   .description('Show current environment')
   .action(() => {
-    // // // console.log(`Current environment: ${getCurrentEnvironment()}`)
+    // // // _logger.info(`Current environment: ${getCurrentEnvironment()}`)
   })
 
 // Export configuration
@@ -252,9 +252,9 @@ program
       }
 
       writeFileSync(file, JSON.stringify(config, null, 2))
-      // // // console.log(`✅ Configuration exported to ${file}`)
+      // // // _logger.info(`✅ Configuration exported to ${file}`)
     } catch (error) {
-      console.error('Error exporting configuration:', error)
+      _logger.error('Error exporting configuration:', error)
       process.exit(1)
     }
   })
@@ -268,7 +268,7 @@ program
   .action((file, options) => {
     try {
       if (!existsSync(file)) {
-        console.error(`File not found: ${file}`)
+        _logger.error(`File not found: ${file}`)
         process.exit(1)
       }
 
@@ -276,7 +276,7 @@ program
 
       if (options.merge) {
         configManager.updateConfig(importedConfig)
-        // // // console.log('✅ Configuration merged from file')
+        // // // _logger.info('✅ Configuration merged from file')
       } else {
         // Validate before replacing
         const tempManager = new ConfigurationManager()
@@ -284,16 +284,16 @@ program
         const validation = tempManager.validateConfig()
 
         if (!validation.isValid) {
-          console.error('❌ Imported configuration is invalid: ')
+          _logger.error('❌ Imported configuration is invalid: ')
           displayValidation(validation)
           process.exit(1)
         }
 
         configManager.updateConfig(importedConfig)
-        // // // console.log('✅ Configuration imported from file')
+        // // // _logger.info('✅ Configuration imported from file')
       }
     } catch (error) {
-      console.error('Error importing configuration:', error)
+      _logger.error('Error importing configuration:', error)
       process.exit(1)
     }
   })

@@ -40,7 +40,7 @@ async function main() {
   try {
     await commands[command as keyof typeof commands](args.slice(1))
   } catch (error) {
-    console.error('Error executing command:', error),
+    _logger.error('Error executing command:', error),
     process.exit(1)
   }
 }
@@ -49,35 +49,35 @@ async function main() {
  * Collect current linting metrics
  */
 async function collectMetrics(args: string[]) {
-  // // // console.log('🔍 Collecting linting metrics...')
+  // // // _logger.info('🔍 Collecting linting metrics...')
 
   const tracker = new LintingProgressTracker()
   const metrics = await tracker.collectMetrics()
 
-  // // // console.log('\n📊 Linting Metrics:')
-  // // // console.log(`Total Issues: ${metrics.totalIssues}`)
-  // // // console.log(`Errors: ${metrics.errors}`)
-  // // // console.log(`Warnings: ${metrics.warnings}`)
-  // // // console.log(`Files Covered: ${metrics.filesCovered}`)
-  // // // console.log(`Fixable Issues: ${metrics.fixableIssues}`)
-  // // // console.log(`Execution Time: ${metrics.performanceMetrics.executionTime}ms`)
-  // // // console.log(`Memory Usage: ${metrics.performanceMetrics.memoryUsage.toFixed(2)}MB`)
-  // // // console.log(`Cache Hit Rate: ${(metrics.performanceMetrics.cacheHitRate * 100).toFixed(1)}%`)
+  // // // _logger.info('\n📊 Linting Metrics:')
+  // // // _logger.info(`Total Issues: ${metrics.totalIssues}`)
+  // // // _logger.info(`Errors: ${metrics.errors}`)
+  // // // _logger.info(`Warnings: ${metrics.warnings}`)
+  // // // _logger.info(`Files Covered: ${metrics.filesCovered}`)
+  // // // _logger.info(`Fixable Issues: ${metrics.fixableIssues}`)
+  // // // _logger.info(`Execution Time: ${metrics.performanceMetrics.executionTime}ms`)
+  // // // _logger.info(`Memory Usage: ${metrics.performanceMetrics.memoryUsage.toFixed(2)}MB`)
+  // // // _logger.info(`Cache Hit Rate: ${(metrics.performanceMetrics.cacheHitRate * 100).toFixed(1)}%`)
 
   if (args.includes('--json')) {
-    // // // console.log('\n📄 JSON Output: ')
-    // // // console.log(JSON.stringify(metrics, null, 2))
+    // // // _logger.info('\n📄 JSON Output: ')
+    // // // _logger.info(JSON.stringify(metrics, null, 2))
   }
 
   if (args.includes('--categories')) {
-    // // // console.log('\n🏷️  Error Categories: ')
+    // // // _logger.info('\n🏷️  Error Categories: ')
     Object.entries(metrics.errorsByCategory).forEach(([rule, count]) => {
-      // // // console.log(`  ${rule}: ${count}`)
+      // // // _logger.info(`  ${rule}: ${count}`)
     })
 
-    // // // console.log('\n⚠️  Warning Categories: ')
+    // // // _logger.info('\n⚠️  Warning Categories: ')
     Object.entries(metrics.warningsByCategory).forEach(([rule, count]) => {
-      // // // console.log(`  ${rule}: ${count}`)
+      // // // _logger.info(`  ${rule}: ${count}`)
     })
   }
 }
@@ -86,43 +86,43 @@ async function collectMetrics(args: string[]) {
  * Generate progress report
  */
 async function generateReport(args: string[]) {
-  // // // console.log('📈 Generating progress report...')
+  // // // _logger.info('📈 Generating progress report...')
 
   const tracker = new LintingProgressTracker()
   const report = await tracker.generateProgressReport()
 
-  // // // console.log('\n📊 Progress Report:')
-  // // // console.log(`Current Issues: ${report.currentMetrics.totalIssues}`)
-  // // // console.log(`Current Errors: ${report.currentMetrics.errors}`)
-  // // // console.log(`Current Warnings: ${report.currentMetrics.warnings}`)
+  // // // _logger.info('\n📊 Progress Report:')
+  // // // _logger.info(`Current Issues: ${report.currentMetrics.totalIssues}`)
+  // // // _logger.info(`Current Errors: ${report.currentMetrics.errors}`)
+  // // // _logger.info(`Current Warnings: ${report.currentMetrics.warnings}`)
 
   if (report.previousMetrics) {
-    // // // console.log(`\n📉 Improvement: `)
-    // // // console.log(`Issues Reduced: ${report.improvement.totalIssuesReduced}`)
-    // // // console.log(`Errors Reduced: ${report.improvement.errorsReduced}`)
-    // // // console.log(`Warnings Reduced: ${report.improvement.warningsReduced}`)
-    // // // console.log(`Improvement: ${report.improvement.percentageImprovement.toFixed(2)}%`)
+    // // // _logger.info(`\n📉 Improvement: `)
+    // // // _logger.info(`Issues Reduced: ${report.improvement.totalIssuesReduced}`)
+    // // // _logger.info(`Errors Reduced: ${report.improvement.errorsReduced}`)
+    // // // _logger.info(`Warnings Reduced: ${report.improvement.warningsReduced}`)
+    // // // _logger.info(`Improvement: ${report.improvement.percentageImprovement.toFixed(2)}%`)
   }
 
-  // // // console.log('\n🎯 Quality Gates: ')
-  // // // console.log(`Zero Errors: ${report.qualityGates.zeroErrors ? '✅' : '❌'}`)
-  // // // console.log(
+  // // // _logger.info('\n🎯 Quality Gates: ')
+  // // // _logger.info(`Zero Errors: ${report.qualityGates.zeroErrors ? '✅' : '❌'}`)
+  // // // _logger.info(
     `Warnings Under Threshold: ${report.qualityGates.warningsUnderThreshold ? '✅' : '❌'}`,
   )
-  // // // console.log(`Performance Acceptable: ${report.qualityGates.performanceAcceptable ? '✅' : '❌'}`)
+  // // // _logger.info(`Performance Acceptable: ${report.qualityGates.performanceAcceptable ? '✅' : '❌'}`)
 
-  // // // console.log('\n📈 Trends: ')
-  // // // console.log(
+  // // // _logger.info('\n📈 Trends: ')
+  // // // _logger.info(
     `Last 24 Hours: ${report.trends.last24Hours > 0 ? '+' : ''}${report.trends.last24Hours}`,
   )
-  // // // console.log(`Last 7 Days: ${report.trends.last7Days > 0 ? '+' : ''}${report.trends.last7Days}`)
-  // // // console.log(
+  // // // _logger.info(`Last 7 Days: ${report.trends.last7Days > 0 ? '+' : ''}${report.trends.last7Days}`)
+  // // // _logger.info(
     `Last 30 Days: ${report.trends.last30Days > 0 ? '+' : ''}${report.trends.last30Days}`,
   )
 
   if (args.includes('--json')) {
-    // // // console.log('\n📄 JSON Output: ')
-    // // // console.log(JSON.stringify(report, null, 2))
+    // // // _logger.info('\n📄 JSON Output: ')
+    // // // _logger.info(JSON.stringify(report, null, 2))
   }
 }
 
@@ -132,63 +132,63 @@ async function generateReport(args: string[]) {
 async function startCampaign(args: string[]) {
   const campaignType = args[0] || 'standard'
 
-  // // // console.log(`🚀 Starting linting campaign: ${campaignType}`)
+  // // // _logger.info(`🚀 Starting linting campaign: ${campaignType}`)
 
   const integration = new LintingCampaignIntegration()
   const standardCampaigns = integration.createStandardCampaigns()
 
   const campaign = standardCampaigns.find(c => c.campaignId.includes(campaignType))
   if (!campaign) {
-    console.error(`Campaign type '${campaignType}' not found`)
-    // // // console.log('Available campaigns: ')
+    _logger.error(`Campaign type '${campaignType}' not found`)
+    // // // _logger.info('Available campaigns: ')
     standardCampaigns.forEach(c => {
-      // // // console.log(`  - ${c.campaignId}: ${c.name}`)
+      // // // _logger.info(`  - ${c.campaignId}: ${c.name}`)
     })
     return;
   }
 
-  // // // console.log(`Campaign: ${campaign.name}`)
-  // // // console.log(`Description: ${campaign.description}`)
-  // // // console.log(`Phases: ${campaign.phases.length}`)
-  // // // console.log(`Target: ${campaign.targets.targetReduction}% reduction`)
+  // // // _logger.info(`Campaign: ${campaign.name}`)
+  // // // _logger.info(`Description: ${campaign.description}`)
+  // // // _logger.info(`Phases: ${campaign.phases.length}`)
+  // // // _logger.info(`Target: ${campaign.targets.targetReduction}% reduction`)
 
   if (args.includes('--dry-run')) {
-    // // // console.log('\n🔍 Dry run - campaign would execute the following phases: ')
+    // // // _logger.info('\n🔍 Dry run - campaign would execute the following phases: ')
     campaign.phases.forEach((phase, index) => {
-      // // // console.log(`  ${index + 1}. ${phase.name}: ${phase.description}`)
-      // // // console.log(`     Tools: ${phase.tools.join(', ')}`)
-      // // // console.log(`     Estimated Duration: ${phase.estimatedDuration} minutes`)
+      // // // _logger.info(`  ${index + 1}. ${phase.name}: ${phase.description}`)
+      // // // _logger.info(`     Tools: ${phase.tools.join(', ')}`)
+      // // // _logger.info(`     Estimated Duration: ${phase.estimatedDuration} minutes`)
     })
     return;
   }
 
   if (!args.includes('--confirm')) {
-    // // // console.log('\n⚠️  Add --confirm to actually start the campaign')
-    // // // console.log('   Add --dry-run to see what would be executed')
+    // // // _logger.info('\n⚠️  Add --confirm to actually start the campaign')
+    // // // _logger.info('   Add --dry-run to see what would be executed')
     return
   }
 
   await integration.startCampaign(campaign)
-  // // // console.log('✅ Campaign completed successfully!')
+  // // // _logger.info('✅ Campaign completed successfully!')
 }
 
 /**
  * Evaluate quality gates
  */
 async function evaluateQualityGates(args: string[]) {
-  // // // console.log('🚪 Evaluating quality gates...')
+  // // // _logger.info('🚪 Evaluating quality gates...')
 
   const gates = new LintingQualityGates()
   const result = await gates.evaluateQualityGates()
 
-  // // // console.log('\n🎯 Quality Gate Results:')
-  // // // console.log(`Gate: ${result.gateName}`)
-  // // // console.log(`Status: ${result.passed ? '✅ PASSED' : '❌ FAILED'}`)
-  // // // console.log(`Risk Level: ${result.riskLevel.toUpperCase()}`)
-  // // // console.log(`Deployment Approved: ${result.deploymentApproved ? '✅ YES' : '❌ NO'}`)
+  // // // _logger.info('\n🎯 Quality Gate Results:')
+  // // // _logger.info(`Gate: ${result.gateName}`)
+  // // // _logger.info(`Status: ${result.passed ? '✅ PASSED' : '❌ FAILED'}`)
+  // // // _logger.info(`Risk Level: ${result.riskLevel.toUpperCase()}`)
+  // // // _logger.info(`Deployment Approved: ${result.deploymentApproved ? '✅ YES' : '❌ NO'}`)
 
   if (result.violations.length > 0) {
-    // // // console.log('\n⚠️  Violations: ')
+    // // // _logger.info('\n⚠️  Violations: ')
     result.violations.forEach((violation, index) => {
       const icon =
         violation.severity === 'critical';
@@ -198,31 +198,31 @@ async function evaluateQualityGates(args: string[]) {
             : violation.severity === 'medium'
               ? '⚡'
               : 'ℹ️',
-      // // // console.log(`  ${index + 1}. ${icon} ${violation.message}`)
+      // // // _logger.info(`  ${index + 1}. ${icon} ${violation.message}`)
       if (violation.file) {
-        // // // console.log(`     File: ${violation.file}${violation.line ? `:${violation.line}` : ''}`)
+        // // // _logger.info(`     File: ${violation.file}${violation.line ? `:${violation.line}` : ''}`)
       }
-      // // // console.log(`     Rule: ${violation.rule} (${violation.type})`)
-      // // // console.log(`     Auto-fixable: ${violation.autoFixable ? 'Yes' : 'No'}`)
+      // // // _logger.info(`     Rule: ${violation.rule} (${violation.type})`)
+      // // // _logger.info(`     Auto-fixable: ${violation.autoFixable ? 'Yes' : 'No'}`)
     })
   }
 
   if (result.recommendations.length > 0) {
-    // // // console.log('\n💡 Recommendations: ')
+    // // // _logger.info('\n💡 Recommendations: ')
     result.recommendations.forEach((rec, index) => {
-      // // // console.log(`  ${index + 1}. ${rec}`)
+      // // // _logger.info(`  ${index + 1}. ${rec}`)
     })
   }
 
-  // // // console.log('\n📊 Current Metrics: ')
-  // // // console.log(`Total Issues: ${result.metrics.totalIssues}`)
-  // // // console.log(`Errors: ${result.metrics.errors}`)
-  // // // console.log(`Warnings: ${result.metrics.warnings}`)
-  // // // console.log(`Fixable: ${result.metrics.fixableIssues}`)
+  // // // _logger.info('\n📊 Current Metrics: ')
+  // // // _logger.info(`Total Issues: ${result.metrics.totalIssues}`)
+  // // // _logger.info(`Errors: ${result.metrics.errors}`)
+  // // // _logger.info(`Warnings: ${result.metrics.warnings}`)
+  // // // _logger.info(`Fixable: ${result.metrics.fixableIssues}`)
 
   if (args.includes('--json')) {
-    // // // console.log('\n📄 JSON Output: ')
-    // // // console.log(JSON.stringify(result, null, 2))
+    // // // _logger.info('\n📄 JSON Output: ')
+    // // // _logger.info(JSON.stringify(result, null, 2))
   }
 }
 
@@ -230,42 +230,42 @@ async function evaluateQualityGates(args: string[]) {
  * Check deployment readiness
  */
 async function checkDeploymentReadiness(args: string[]) {
-  // // // console.log('🚢 Checking deployment readiness...')
+  // // // _logger.info('🚢 Checking deployment readiness...')
 
   const gates = new LintingQualityGates()
   const readiness = await gates.assessDeploymentReadiness()
 
-  // // // console.log('\n🚢 Deployment Readiness Assessment:')
-  // // // console.log(`Ready: ${readiness.ready ? '✅ YES' : '❌ NO'}`)
-  // // // console.log(`Confidence: ${readiness.confidence.toFixed(1)}%`)
-  // // // console.log(`Quality Score: ${readiness.qualityScore.toFixed(1)}/100`)
-  // // // console.log(`Risk Level: ${readiness.riskAssessment.level.toUpperCase()}`)
+  // // // _logger.info('\n🚢 Deployment Readiness Assessment:')
+  // // // _logger.info(`Ready: ${readiness.ready ? '✅ YES' : '❌ NO'}`)
+  // // // _logger.info(`Confidence: ${readiness.confidence.toFixed(1)}%`)
+  // // // _logger.info(`Quality Score: ${readiness.qualityScore.toFixed(1)}/100`)
+  // // // _logger.info(`Risk Level: ${readiness.riskAssessment.level.toUpperCase()}`)
 
   if (readiness.blockers.length > 0) {
-    // // // console.log('\n🚨 Blockers: ')
+    // // // _logger.info('\n🚨 Blockers: ')
     readiness.blockers.forEach((blocker, index) => {
-      // // // console.log(`  ${index + 1}. ${blocker}`)
+      // // // _logger.info(`  ${index + 1}. ${blocker}`)
     })
   }
 
   if (readiness.warnings.length > 0) {
-    // // // console.log('\n⚠️  Warnings: ')
+    // // // _logger.info('\n⚠️  Warnings: ')
     readiness.warnings.forEach((warning, index) => {
-      // // // console.log(`  ${index + 1}. ${warning}`)
+      // // // _logger.info(`  ${index + 1}. ${warning}`)
     })
   }
 
   if (readiness.riskAssessment.factors.length > 0) {
-    // // // console.log('\n🎯 Risk Factors: ')
+    // // // _logger.info('\n🎯 Risk Factors: ')
     readiness.riskAssessment.factors.forEach((factor, index) => {
-      // // // console.log(`  ${index + 1}. ${factor}`)
+      // // // _logger.info(`  ${index + 1}. ${factor}`)
     })
   }
 
   if (readiness.riskAssessment.mitigation.length > 0) {
-    // // // console.log('\n🛡️  Risk Mitigation: ')
+    // // // _logger.info('\n🛡️  Risk Mitigation: ')
     readiness.riskAssessment.mitigation.forEach((mitigation, index) => {
-      // // // console.log(`  ${index + 1}. ${mitigation}`)
+      // // // _logger.info(`  ${index + 1}. ${mitigation}`)
     })
   }
 
@@ -275,8 +275,8 @@ async function checkDeploymentReadiness(args: string[]) {
   }
 
   if (args.includes('--json')) {
-    // // // console.log('\n📄 JSON Output: ')
-    // // // console.log(JSON.stringify(readiness, null, 2))
+    // // // _logger.info('\n📄 JSON Output: ')
+    // // // _logger.info(JSON.stringify(readiness, null, 2))
   }
 }
 
@@ -284,34 +284,34 @@ async function checkDeploymentReadiness(args: string[]) {
  * Monitor quality trends
  */
 async function monitorTrends(args: string[]) {
-  // // // console.log('📈 Monitoring quality trends...')
+  // // // _logger.info('📈 Monitoring quality trends...')
 
   const gates = new LintingQualityGates()
   const trends = await gates.monitorQualityTrends()
 
-  // // // console.log('\n📈 Quality Trends:')
-  // // // console.log(`Overall Trend: ${trends.trend.toUpperCase()}`)
+  // // // _logger.info('\n📈 Quality Trends:')
+  // // // _logger.info(`Overall Trend: ${trends.trend.toUpperCase()}`)
 
   if (trends.trends) {
-    // // // console.log('\n📊 Individual Trends: ')
-    // // // console.log(`Error Trend: ${trends.trends.errorTrend}`)
-    // // // console.log(`Warning Trend: ${trends.trends.warningTrend}`)
-    // // // console.log(`Performance Trend: ${trends.trends.performanceTrend}`)
-    // // // console.log(`Quality Trend: ${trends.trends.qualityTrend}`)
+    // // // _logger.info('\n📊 Individual Trends: ')
+    // // // _logger.info(`Error Trend: ${trends.trends.errorTrend}`)
+    // // // _logger.info(`Warning Trend: ${trends.trends.warningTrend}`)
+    // // // _logger.info(`Performance Trend: ${trends.trends.performanceTrend}`)
+    // // // _logger.info(`Quality Trend: ${trends.trends.qualityTrend}`)
   }
 
   if (trends.recommendations && trends.recommendations.length > 0) {
-    // // // console.log('\n💡 Recommendations: ')
+    // // // _logger.info('\n💡 Recommendations: ')
     trends.recommendations.forEach((rec: string, index: number) => {
-      // // // console.log(`  ${index + 1}. ${rec}`)
+      // // // _logger.info(`  ${index + 1}. ${rec}`)
     })
   }
 
-  // // // console.log(`\n🚨 Alert Level: ${trends.alertLevel.toUpperCase()}`)
+  // // // _logger.info(`\n🚨 Alert Level: ${trends.alertLevel.toUpperCase()}`)
 
   if (args.includes('--json')) {
-    // // // console.log('\n📄 JSON Output: ')
-    // // // console.log(JSON.stringify(trends, null, 2))
+    // // // _logger.info('\n📄 JSON Output: ')
+    // // // _logger.info(JSON.stringify(trends, null, 2))
   }
 }
 
@@ -319,50 +319,50 @@ async function monitorTrends(args: string[]) {
  * Create CI/CD report
  */
 async function createCICDReport(args: string[]) {
-  // // // console.log('🔄 Creating CI/CD report...')
+  // // // _logger.info('🔄 Creating CI/CD report...')
 
   const gates = new LintingQualityGates()
   const report = await gates.createCICDReport()
 
-  // // // console.log('\n🔄 CI/CD Integration Report:')
-  // // // console.log(`Timestamp: ${report.timestamp}`)
-  // // // console.log(`Deployment Approved: ${report.deployment.approved ? '✅' : '❌'}`)
-  // // // console.log(`Confidence: ${report.deployment.confidence.toFixed(1)}%`)
-  // // // console.log(`Quality Score: ${report.deployment.qualityScore.toFixed(1)}/100`)
+  // // // _logger.info('\n🔄 CI/CD Integration Report:')
+  // // // _logger.info(`Timestamp: ${report.timestamp}`)
+  // // // _logger.info(`Deployment Approved: ${report.deployment.approved ? '✅' : '❌'}`)
+  // // // _logger.info(`Confidence: ${report.deployment.confidence.toFixed(1)}%`)
+  // // // _logger.info(`Quality Score: ${report.deployment.qualityScore.toFixed(1)}/100`)
 
-  // // // console.log('\n📊 Metrics Summary: ')
-  // // // console.log(`Total Issues: ${report.metrics.totalIssues}`)
-  // // // console.log(`Errors: ${report.metrics.errors}`)
-  // // // console.log(`Warnings: ${report.metrics.warnings}`)
-  // // // console.log(`Fixable: ${report.metrics.fixableIssues}`)
+  // // // _logger.info('\n📊 Metrics Summary: ')
+  // // // _logger.info(`Total Issues: ${report.metrics.totalIssues}`)
+  // // // _logger.info(`Errors: ${report.metrics.errors}`)
+  // // // _logger.info(`Warnings: ${report.metrics.warnings}`)
+  // // // _logger.info(`Fixable: ${report.metrics.fixableIssues}`)
 
-  // // // console.log('\n🎯 Quality Gates: ')
-  // // // console.log(`Passed: ${report.qualityGates.passed ? '✅' : '❌'}`)
-  // // // console.log(`Risk Level: ${report.qualityGates.riskLevel.toUpperCase()}`)
-  // // // console.log(`Violations: ${report.qualityGates.violationCount}`)
+  // // // _logger.info('\n🎯 Quality Gates: ')
+  // // // _logger.info(`Passed: ${report.qualityGates.passed ? '✅' : '❌'}`)
+  // // // _logger.info(`Risk Level: ${report.qualityGates.riskLevel.toUpperCase()}`)
+  // // // _logger.info(`Violations: ${report.qualityGates.violationCount}`)
 
-  // // // console.log('\n⚡ Performance: ')
-  // // // console.log(`Execution Time: ${report.performance.executionTime}ms`)
-  // // // console.log(`Memory Usage: ${report.performance.memoryUsage.toFixed(2)}MB`)
-  // // // console.log(`Cache Hit Rate: ${(report.performance.cacheHitRate * 100).toFixed(1)}%`)
+  // // // _logger.info('\n⚡ Performance: ')
+  // // // _logger.info(`Execution Time: ${report.performance.executionTime}ms`)
+  // // // _logger.info(`Memory Usage: ${report.performance.memoryUsage.toFixed(2)}MB`)
+  // // // _logger.info(`Cache Hit Rate: ${(report.performance.cacheHitRate * 100).toFixed(1)}%`)
 
   if (report.blockers.length > 0) {
-    // // // console.log('\n🚨 Blockers: ')
+    // // // _logger.info('\n🚨 Blockers: ')
     report.blockers.forEach((blocker: string, index: number) => {
-      // // // console.log(`  ${index + 1}. ${blocker}`)
+      // // // _logger.info(`  ${index + 1}. ${blocker}`)
     })
   }
 
   if (report?.recommendations.length > 0) {
-    // // // console.log('\n💡 Recommendations: ')
+    // // // _logger.info('\n💡 Recommendations: ')
     report?.recommendations.forEach((rec: string, index: number) => {
-      // // // console.log(`  ${index + 1}. ${rec}`)
+      // // // _logger.info(`  ${index + 1}. ${rec}`)
     })
   }
 
   if (args.includes('--json')) {
-    // // // console.log('\n📄 JSON Output: ')
-    // // // console.log(JSON.stringify(report, null, 2))
+    // // // _logger.info('\n📄 JSON Output: ')
+    // // // _logger.info(JSON.stringify(report, null, 2))
   }
 
   // Save report to file if requested
@@ -370,7 +370,7 @@ async function createCICDReport(args: string[]) {
     const { _writeFileSync} = await import('fs')
     const filename = `cicd-report-${Date.now()}.json`;
     writeFileSync(filename, JSON.stringify(report, null, 2))
-    // // // console.log(`\n💾 Report saved to: ${filename}`)
+    // // // _logger.info(`\n💾 Report saved to: ${filename}`)
   }
 }
 
@@ -378,7 +378,7 @@ async function createCICDReport(args: string[]) {
  * Show help information
  */
 function showHelp() {
-  // // // console.log(`
+  // // // _logger.info(`
 🔧 Linting Campaign CLI Tool,
 
 Usage: node linting-campaign-cli.ts <command> [options]
@@ -425,7 +425,7 @@ For more information, see the documentation in the linting services directory.
 // Run the CLI if this file is executed directly
 if (require.main === module) {;
   main().catch(error => {
-    console.error('Fatal error:', error),
+    _logger.error('Fatal error:', error),
     process.exit(1)
   })
 }

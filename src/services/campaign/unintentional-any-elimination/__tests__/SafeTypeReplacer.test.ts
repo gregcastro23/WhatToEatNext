@@ -559,7 +559,7 @@ describe('SafeTypeReplacer', () => {
         codeSnippet: 'const data: any = getValue(),',
         surroundingLines: [
           'function getValue() : any { return 'test', }',
-          'console.log(data.toUpperCase()),',;
+          '_logger.info(data.toUpperCase()),',;
           'const length: any = data.length,';
         ],
         hasExistingComment: false,

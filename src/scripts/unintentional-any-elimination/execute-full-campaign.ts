@@ -92,7 +92,7 @@ class FullCampaignExecutor {
       success: '✅'
     }[level];
 
-    // // // console.log(`[${timestamp}] ${prefix} ${message}`)
+    // // // _logger.info(`[${timestamp}] ${prefix} ${message}`)
   }
 
   private getCurrentExplicitAnyCount(): number {
@@ -323,29 +323,29 @@ function processAdvancedReplacements() {
           // Validate
           try {
             execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe' })
-            // // // console.log(\`✅ Applied \${fileFixes} advanced fixes to \${filePath}\`)
+            // // // _logger.info(\`✅ Applied \${fileFixes} advanced fixes to \${filePath}\`)
             totalFixes += fileFixes;
             fs.unlinkSync(backupPath); // Remove backup on success
           } catch (error) {
             // Rollback on failure
             fs.writeFileSync(filePath, originalContent),
             fs.unlinkSync(backupPath)
-            // // // console.log(\`❌ Rolled back \${filePath} due to compilation error\`)
+            // // // _logger.info(\`❌ Rolled back \${filePath} due to compilation error\`)
           }
         }
       } catch (error) {
-        // // // console.log(\`Error processing \${filePath}: \${error.message}\`)
+        // // // _logger.info(\`Error processing \${filePath}: \${error.message}\`)
       }
     }
 
     return totalFixes;
   } catch (error) {
-    // // // console.log(\`Advanced replacement error: \${error.message}\`)
+    // // // _logger.info(\`Advanced replacement error: \${error.message}\`)
     return 0;
   }
 }
 
-// // // console.log(processAdvancedReplacements())
+// // // _logger.info(processAdvancedReplacements())
 `;
 
         fs.writeFileSync('temp-advanced-replacements.js', advancedScript)
@@ -449,22 +449,22 @@ function documentIntentionalAny() {
 
         if (addedComments > 0) {
           fs.writeFileSync(filePath, lines.join('\\n')),
-          // // // console.log(\`📝 Added \${addedComments} documentation comments to \${filePath}\`)
+          // // // _logger.info(\`📝 Added \${addedComments} documentation comments to \${filePath}\`)
           totalDocumented += addedComments;
         }
       } catch (error) {
-        // // // console.log(\`Error documenting \${filePath}: \${error.message}\`)
+        // // // _logger.info(\`Error documenting \${filePath}: \${error.message}\`)
       }
     }
 
     return totalDocumented;
   } catch (error) {
-    // // // console.log(\`Documentation error: \${error.message}\`)
+    // // // _logger.info(\`Documentation error: \${error.message}\`)
     return 0;
   }
 }
 
-// // // console.log(documentIntentionalAny())
+// // // _logger.info(documentIntentionalAny())
 `;
 
         fs.writeFileSync('temp-documentation.js', documentationScript)
@@ -740,11 +740,11 @@ if (require.main === module) {
   executor
     .executeFullCampaign()
     .then(() => {
-      // // // console.log('\n🎉 Full Unintentional Any Elimination Campaign completed successfully!')
+      // // // _logger.info('\n🎉 Full Unintentional Any Elimination Campaign completed successfully!')
       process.exit(0)
     })
     .catch(error => {
-      console.error('\n❌ Campaign execution failed:', error.message),
+      _logger.error('\n❌ Campaign execution failed:', error.message),
       process.exit(1)
     })
 }

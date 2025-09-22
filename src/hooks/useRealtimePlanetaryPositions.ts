@@ -68,7 +68,7 @@ export function useRealtimePlanetaryPositions(_options: UseRealtimePlanetaryPosi
         loading: false,
         error: error instanceof Error ? error.message : 'Unknown error'
       }))
-      console.error('Failed to fetch planetary positions:', error)
+      _logger.error('Failed to fetch planetary positions:', error)
     }
   }, [location, zodiacSystem])
 

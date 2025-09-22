@@ -32,7 +32,7 @@ export class MemoryOptimizationScript {
    * Run comprehensive memory optimization
    */
   async runOptimization(): Promise<OptimizationResult> {
-    console.log('🚀 Starting comprehensive memory optimization...\n')
+    _logger.info('🚀 Starting comprehensive memory optimization...\n')
 
     const initialMemory = process.memoryUsage().heapUsed;
     const optimizationsApplied: string[] = [];
@@ -41,10 +41,10 @@ export class MemoryOptimizationScript {
 
     try {
       // Step, 1: Detect memory leaks
-      console.log('🔍 Step, 1: Detecting memory leaks...')
+      _logger.info('🔍 Step, 1: Detecting memory leaks...')
       const leakReport = this.detector.scanForLeaks()
       if (leakReport.leaksDetected.length > 0) {
-        console.log(`Found ${leakReport.leaksDetected.length} potential memory leaks`)
+        _logger.info(`Found ${leakReport.leaksDetected.length} potential memory leaks`)
 
         // Apply automatic fixes
         const fixes = this.detector.applyAutomaticFixes()
@@ -53,26 +53,26 @@ export class MemoryOptimizationScript {
           warnings.push(...fixes.failed)
         }
       } else {
-        console.log('✅ No memory leaks detected')
+        _logger.info('✅ No memory leaks detected')
       }
 
       // Step, 2: Optimize Jest configuration
-      console.log('\n🔧 Step, 2: Optimizing Jest configuration...')
+      _logger.info('\n🔧 Step, 2: Optimizing Jest configuration...')
       await this.optimizeJestConfiguration()
       optimizationsApplied.push('Optimized Jest configuration')
 
       // Step, 3: Clean up global references
-      console.log('\n🧹 Step, 3: Cleaning up global references...')
+      _logger.info('\n🧹 Step, 3: Cleaning up global references...')
       this.cleanupGlobalReferences()
       optimizationsApplied.push('Cleaned up global references')
 
       // Step, 4: Optimize Node.js settings
-      console.log('\n⚙️ Step, 4: Optimizing Node.js settings...')
+      _logger.info('\n⚙️ Step, 4: Optimizing Node.js settings...')
       this.optimizeNodeSettings()
       optimizationsApplied.push('Optimized Node.js settings')
 
       // Step, 5: Force garbage collection
-      console.log('\n🗑️ Step, 5: Forcing garbage collection...')
+      _logger.info('\n🗑️ Step, 5: Forcing garbage collection...')
       const gcResult = this.forceGarbageCollection()
       if (gcResult) {
         optimizationsApplied.push('Forced garbage collection')
@@ -81,7 +81,7 @@ export class MemoryOptimizationScript {
       }
 
       // Step, 6: Generate optimization report
-      console.log('\n📊 Step, 6: Generating optimization report...')
+      _logger.info('\n📊 Step, 6: Generating optimization report...')
       const finalMemory = process.memoryUsage().heapUsed;
       const memoryFreed = initialMemory - finalMemory
 
@@ -116,7 +116,7 @@ export class MemoryOptimizationScript {
     const jestConfigPath = path.join(process.cwd(), 'jest.config.js')
 
     if (!fs.existsSync(jestConfigPath)) {
-      console.log('⚠️ Jest config not found, skipping Jest optimization'),
+      _logger.info('⚠️ Jest config not found, skipping Jest optimization'),
       return
     }
 
@@ -144,9 +144,9 @@ export class MemoryOptimizationScript {
 
     if (modified) {
       fs.writeFileSync(jestConfigPath, configContent),
-      console.log('✅ Jest configuration optimized')
+      _logger.info('✅ Jest configuration optimized')
     } else {
-      console.log('✅ Jest configuration already optimized')
+      _logger.info('✅ Jest configuration already optimized')
     }
   }
 
@@ -196,7 +196,7 @@ export class MemoryOptimizationScript {
       cleaned++
     }
 
-    console.log(`✅ Cleaned up ${cleaned} global references`)
+    _logger.info(`✅ Cleaned up ${cleaned} global references`)
   }
 
   /**
@@ -224,9 +224,9 @@ export class MemoryOptimizationScript {
     }
 
     if (optimizations.length > 0) {
-      console.log(`✅ Applied ${optimizations.length} Node.js optimizations`)
+      _logger.info(`✅ Applied ${optimizations.length} Node.js optimizations`)
     } else {
-      console.log('✅ Node.js settings already optimized')
+      _logger.info('✅ Node.js settings already optimized')
     }
   }
 
@@ -239,7 +239,7 @@ export class MemoryOptimizationScript {
         global.gc()
         return true
       } catch (error) {
-        console.warn('Failed to force garbage collection:', error),
+        _logger.warn('Failed to force garbage collection:', error),
         return false
       }
     }
@@ -250,36 +250,36 @@ export class MemoryOptimizationScript {
    * Log optimization results
    */
   private logOptimizationResult(result: OptimizationResult): void {
-    console.log('\n📊 Memory Optimization Results:')
-    console.log('================================')
-    console.log(`Success: ${result.success ? '✅' : '❌'}`)
-    console.log(`Memory freed: ${result.memoryFreed.toFixed(2)}MB`)
-    console.log(`Optimizations applied: ${result.optimizationsApplied.length}`)
+    _logger.info('\n📊 Memory Optimization Results:')
+    _logger.info('================================')
+    _logger.info(`Success: ${result.success ? '✅' : '❌'}`)
+    _logger.info(`Memory freed: ${result.memoryFreed.toFixed(2)}MB`)
+    _logger.info(`Optimizations applied: ${result.optimizationsApplied.length}`)
 
     if (result.optimizationsApplied.length > 0) {
-      console.log('\nOptimizations applied: ')
+      _logger.info('\nOptimizations applied: ')
       result.optimizationsApplied.forEach((opt, index) => {
-        console.log(`  ${index + 1}. ${opt}`)
+        _logger.info(`  ${index + 1}. ${opt}`)
       })
     }
 
     if (result.warnings.length > 0) {
-      console.log('\n⚠️ Warnings: ')
+      _logger.info('\n⚠️ Warnings: ')
       result.warnings.forEach((warning, index) => {
-        console.log(`  ${index + 1}. ${warning}`)
+        _logger.info(`  ${index + 1}. ${warning}`)
       })
     }
 
     if (result.errors.length > 0) {
-      console.log('\n❌ Errors: ')
+      _logger.info('\n❌ Errors: ')
       result.errors.forEach((error, index) => {
-        console.log(`  ${index + 1}. ${error}`)
+        _logger.info(`  ${index + 1}. ${error}`)
       })
     }
 
     // Generate detailed memory report
     const memoryReport = this.detector.generateDetailedReport()
-    console.log('\n' + memoryReport)
+    _logger.info('\n' + memoryReport)
   }
 
   /**
@@ -294,21 +294,21 @@ export class MemoryOptimizationScript {
    * Static method for emergency memory cleanup
    */
   static emergencyCleanup(): void {
-    console.log('🚨 Running emergency memory cleanup...')
+    _logger.info('🚨 Running emergency memory cleanup...')
 
     // Apply all available cleanup measures
     const fixes = MemoryLeakDetector.emergencyCleanup()
 
-    console.log(`Emergency cleanup completed:`)
-    console.log(`- Fixed: ${fixes.fixed.length} issues`)
-    console.log(`- Failed: ${fixes.failed.length} issues`)
+    _logger.info(`Emergency cleanup completed:`)
+    _logger.info(`- Fixed: ${fixes.fixed.length} issues`)
+    _logger.info(`- Failed: ${fixes.failed.length} issues`)
 
     if (fixes.fixed.length > 0) {
-      console.log('Fixed issues:', fixes.fixed)
+      _logger.info('Fixed issues:', fixes.fixed)
     }
 
     if (fixes.failed.length > 0) {
-      console.log('Failed issues:', fixes.failed)
+      _logger.info('Failed issues:', fixes.failed)
     }
   }
 }
@@ -325,7 +325,7 @@ if (require.main === module) {
         process.exit(result.success ? 0 : 1)
       })
       .catch(error => {
-        console.error('Optimization failed:', error),
+        _logger.error('Optimization failed:', error),
         process.exit(1)
       })
   }

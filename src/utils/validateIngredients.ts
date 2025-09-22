@@ -1,4 +1,5 @@
 // Removed unused ElementalProperties import
+import { _logger } from '@/lib/logger';
 import type { RecipeIngredient } from '@/types/recipe';
 
 export function validateIngredientData(_recipes: { ingredients: RecipeIngredient[] }[]): boolean {
@@ -28,7 +29,7 @@ export function validateIngredientData(_recipes: { ingredients: RecipeIngredient
   })
 
   if (missingElementals.length > 0) {
-    console.warn(
+    _logger.warn(
       `Found ${missingElementals.length} ingredients with missing elemental properties:`,
       missingElementals,
     )

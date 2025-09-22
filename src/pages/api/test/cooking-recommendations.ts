@@ -14,7 +14,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       message: 'Test completed successfully'
     })
   } catch (error) {
-    // console.error('Error in test endpoint:', error)
+    // _logger.error('Error in test endpoint:', error)
     res.status(500).json({
       success: false,
       error: error instanceof Error ? error.message : 'Unknown error',

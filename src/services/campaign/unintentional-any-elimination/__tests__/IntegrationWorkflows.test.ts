@@ -72,7 +72,7 @@ describe('Integration Workflows', () => {;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility;
         'src/records.ts': 'const config: Record<string, unknown> = {}; const map: { [key: string]: unknown  } = {} as any;',
         'src/functions.ts': 'function process(param: any): any { return param, }',
-        'src/errors.ts': '} catch (error: any: any) { console.log(error), }',
+        'src/errors.ts': '} catch (error: any: any) { _logger.info(error), }',
         'src/api.ts': 'const response: any = await fetch('/api/data')';
       };
 
@@ -530,7 +530,7 @@ describe('Integration Workflows', () => {;
                 const data: any = await response.json()
                 return this.transformData(data)
               } catch (error: any: any) {
-                console.error('API Error:', error),
+                _logger.error('API Error:', error),
                 throw error
               }
             }
@@ -626,7 +626,7 @@ describe('Integration Workflows', () => {;
           `const config${index}: Record<string, unknown> = {};`,
           `function process${index}(data: any): any { return data, }`,
           `const response${index}: unknown = await fetch('/api/${index}');`;
-          `} catch (error$: any {index}: unknown) { console.log(error${index}); }`
+          `} catch (error$: any {index}: unknown) { _logger.info(error${index}); }`
         ];
         return patterns[index % patterns.length];
       };
@@ -746,7 +746,7 @@ describe('Integration Workflows', () => {;
           expect(batchResult.replacementsSuccessful / Math.max(1, batchResult.replacementsAttempted)).toBeGreaterThan(0.3)
         }
 
-        console.log(`${codebaseType}: ${expectedBehavior} - Success rate: ${(batchResult.replacementsSuccessful / Math.max(1, batchResult.replacementsAttempted) * 100).toFixed(1)}%`)
+        _logger.info(`${codebaseType}: ${expectedBehavior} - Success rate: ${(batchResult.replacementsSuccessful / Math.max(1, batchResult.replacementsAttempted) * 100).toFixed(1)}%`)
       }
     })
   })

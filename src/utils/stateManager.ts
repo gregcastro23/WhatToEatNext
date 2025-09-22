@@ -247,7 +247,7 @@ class StateManager {
 
       this.saveState()
     } catch (error) {
-      console.error('Error initializing state:', error)
+      _logger.error('Error initializing state:', error)
     }
   }
 

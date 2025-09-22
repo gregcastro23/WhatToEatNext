@@ -69,15 +69,15 @@ export class ConservativeReplacementPilot {
    * Main entry point for Task 12.2
    */
   async executePilot(): Promise<ConservativePilotResult> {
-    // // // console.log('🚀 Starting Conservative Replacement Pilot...')
-    // // // console.log(
+    // // // _logger.info('🚀 Starting Conservative Replacement Pilot...')
+    // // // _logger.info(
       `Configuration: ${this.config.maxFilesPerBatch} files per batch, ${this.config.maxBatches} max batches`,
     )
 
     try {
       // Phase, 1: Identify high-confidence cases
       const highConfidenceCases = await this.identifyHighConfidenceCases()
-      // // // console.log(`📊 Found ${highConfidenceCases.length} high-confidence cases`)
+      // // // _logger.info(`📊 Found ${highConfidenceCases.length} high-confidence cases`)
 
       if (highConfidenceCases.length === 0) {;
         return this.createPilotResult(false, 'No high-confidence cases found for replacement')
@@ -103,7 +103,7 @@ export class ConservativeReplacementPilot {
       return pilotResult
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error)
-      console.error('❌ Conservative Replacement Pilot failed:', errorMessage),
+      _logger.error('❌ Conservative Replacement Pilot failed:', errorMessage),
 
       return this.createPilotResult(false, `Pilot execution failed: ${errorMessage}`)
     }
@@ -114,14 +114,14 @@ export class ConservativeReplacementPilot {
    * Focus on array types and simple Record types
    */
   private async identifyHighConfidenceCases(): Promise<TypeReplacement[]> {
-    // // // console.log('🔍 Identifying high-confidence replacement cases...')
+    // // // _logger.info('🔍 Identifying high-confidence replacement cases...')
 
     const highConfidenceCases: TypeReplacement[] = [];
 
     try {
       // Get TypeScript files from the codebase
       const tsFiles = await this.getTypeScriptFiles()
-      // // // console.log(`📁 Analyzing ${tsFiles.length} TypeScript files`)
+      // // // _logger.info(`📁 Analyzing ${tsFiles.length} TypeScript files`)
 
       let filesAnalyzed = 0;
       const maxFilesToAnalyze = 100; // Limit for pilot
@@ -145,12 +145,12 @@ export class ConservativeReplacementPilot {
 
           filesAnalyzed++;
           if (filesAnalyzed % 10 === 0) {;
-            // // // console.log(
+            // // // _logger.info(
               `📊 Analyzed ${filesAnalyzed} files, found ${highConfidenceCases.length} high-confidence cases`,
             )
           }
         } catch (error) {
-          console.warn(`⚠️ Failed to analyze file ${filePath}:`, error)
+          _logger.warn(`⚠️ Failed to analyze file ${filePath}:`, error)
           continue;
         }
       }
@@ -158,12 +158,12 @@ export class ConservativeReplacementPilot {
       // Sort by confidence score (highest first)
       highConfidenceCases.sort((ab) => b.confidence - a.confidence)
 
-      // // // console.log(
+      // // // _logger.info(
         `✅ Identified ${highConfidenceCases.length} high-confidence cases from ${filesAnalyzed} files`,
       )
       return highConfidenceCases;
     } catch (error) {
-      console.error('❌ Failed to identify high-confidence cases:', error),
+      _logger.error('❌ Failed to identify high-confidence cases:', error),
       return []
     }
   }
@@ -172,7 +172,7 @@ export class ConservativeReplacementPilot {
    * Execute batch processing with real-time validation
    */
   private async executeBatchProcessing(cases: TypeReplacement[]): Promise<BatchProcessingResult> {
-    // // // console.log(`🔄 Starting batch processing of ${cases.length} cases...`)
+    // // // _logger.info(`🔄 Starting batch processing of ${cases.length} cases...`)
 
     let totalProcessed = 0;
     let totalSuccessful = 0;
@@ -186,18 +186,18 @@ export class ConservativeReplacementPilot {
 
       while (totalProcessed < cases.length && batchNumber < this.config.maxBatches) {
         batchNumber++,
-        // // // console.log(`\n📦 Processing Batch ${batchNumber}...`),
+        // // // _logger.info(`\n📦 Processing Batch ${batchNumber}...`),
 
         // Select files for this batch
         const batchFiles = this.selectBatchFiles(fileGroups, totalProcessed),
         const batchCases = batchFiles.flatMap(([_, fileCases]) => fileCases)
 
         if (batchCases.length === 0) {;
-          // // // console.log('ℹ️ No more cases to process')
+          // // // _logger.info('ℹ️ No more cases to process')
           break
         }
 
-        // // // console.log(
+        // // // _logger.info(
           `📊 Batch ${batchNumber}: Processing ${batchCases.length} cases across ${batchFiles.length} files`,
         )
 
@@ -213,7 +213,7 @@ export class ConservativeReplacementPilot {
         // Real-time validation and safety checks
         const validationResult = await this.performRealTimeValidation(batchResult)
         if (!validationResult.buildStable) {
-          console.error('❌ Build stability compromised, stopping pilot'),
+          _logger.error('❌ Build stability compromised, stopping pilot'),
           return {
             success: false,
             error: 'Build stability compromised during batch processing',
@@ -226,10 +226,10 @@ export class ConservativeReplacementPilot {
 
         // Check success rate
         const currentSuccessRate = totalSuccessful / totalProcessed;
-        // // // console.log(`📈 Current success rate: ${(currentSuccessRate * 100).toFixed(1)}%`)
+        // // // _logger.info(`📈 Current success rate: ${(currentSuccessRate * 100).toFixed(1)}%`)
 
         if (currentSuccessRate < this.config.targetSuccessRate && batchNumber > 2) {
-          console.warn(
+          _logger.warn(
             `⚠️ Success rate ${(currentSuccessRate * 100).toFixed(1)}% below target ${(this.config.targetSuccessRate * 100).toFixed(1)}%`,
           )
           // Continue but with increased caution
@@ -243,12 +243,12 @@ export class ConservativeReplacementPilot {
       const success =
         finalSuccessRate >= this.config.targetSuccessRate && this.safetyMetrics.buildFailures === 0;
 
-      // // // console.log(`\n✅ Batch processing completed: `)
-      // // // console.log(`   Total processed: ${totalProcessed}`)
-      // // // console.log(`   Successful: ${totalSuccessful}`)
-      // // // console.log(`   Failed: ${totalFailed}`)
-      // // // console.log(`   Success rate: ${(finalSuccessRate * 100).toFixed(1)}%`)
-      // // // console.log(`   Build failures: ${this.safetyMetrics.buildFailures}`)
+      // // // _logger.info(`\n✅ Batch processing completed: `)
+      // // // _logger.info(`   Total processed: ${totalProcessed}`)
+      // // // _logger.info(`   Successful: ${totalSuccessful}`)
+      // // // _logger.info(`   Failed: ${totalFailed}`)
+      // // // _logger.info(`   Success rate: ${(finalSuccessRate * 100).toFixed(1)}%`)
+      // // // _logger.info(`   Build failures: ${this.safetyMetrics.buildFailures}`)
 
       return {
         success,
@@ -259,7 +259,7 @@ export class ConservativeReplacementPilot {
         finalSuccessRate
       };
     } catch (error) {
-      console.error('❌ Batch processing failed:', error),
+      _logger.error('❌ Batch processing failed:', error),
       return {
         success: false,
         error: error instanceof Error ? error.message : String(error),
@@ -279,13 +279,13 @@ export class ConservativeReplacementPilot {
     batchNumber: number,
   ): Promise<BatchProcessingResult> {
     const batchStartTime = new Date()
-    // // // console.log(`⚡ Executing batch ${batchNumber} with ${cases.length} cases...`)
+    // // // _logger.info(`⚡ Executing batch ${batchNumber} with ${cases.length} cases...`)
 
     try {
       // Pre-batch validation
       const preBatchValidation = await this.validateBuildStability()
       if (!preBatchValidation.buildSuccessful) {
-        console.error('❌ Pre-batch build validation failed')
+        _logger.error('❌ Pre-batch build validation failed')
         this.safetyMetrics.buildFailures++;
         return {
           batchNumber,
@@ -308,7 +308,7 @@ export class ConservativeReplacementPilot {
       const buildStable = postBatchValidation.buildSuccessful;
 
       if (!buildStable && this.config.rollbackOnFailure) {
-        console.warn('⚠️ Post-batch build validation failed, performing rollback...')
+        _logger.warn('⚠️ Post-batch build validation failed, performing rollback...')
         // The SafeTypeReplacer should have already performed rollback
         this.safetyMetrics.rollbacksPerformed++;
         this.safetyMetrics.buildFailures++;
@@ -329,13 +329,13 @@ export class ConservativeReplacementPilot {
         compilationErrors: replacementResult.compilationErrors
       };
 
-      // // // console.log(
+      // // // _logger.info(
         `✅ Batch ${batchNumber} completed: ${batchResult.successfulReplacements}/${batchResult.casesProcessed} successful`,
       )
 
       return batchResult;
     } catch (error) {
-      console.error(`❌ Batch ${batchNumber} execution failed:`, error)
+      _logger.error(`❌ Batch ${batchNumber} execution failed:`, error)
       this.safetyMetrics.batchFailures++;
 
       return {
@@ -358,7 +358,7 @@ export class ConservativeReplacementPilot {
   private async performRealTimeValidation(
     batchResult: BatchProcessingResult,
   ): Promise<RealTimeValidationResult> {
-    // // // console.log('🔍 Performing real-time validation...')
+    // // // _logger.info('🔍 Performing real-time validation...')
 
     try {
       // Build stability check
@@ -396,13 +396,13 @@ export class ConservativeReplacementPilot {
         )
       }
 
-      // // // console.log(
+      // // // _logger.info(
         `📊 Validation, result: Build stable: ${validationResult.buildStable}, Safety score: ${safetyScore.toFixed(2)}`,
       )
 
       return validationResult;
     } catch (error) {
-      console.error('❌ Real-time validation failed:', error),
+      _logger.error('❌ Real-time validation failed:', error),
       return {
         buildStable: false,
         typeScriptErrorCount: -1,
@@ -419,7 +419,7 @@ export class ConservativeReplacementPilot {
    * Validate integration with existing campaign infrastructure
    */
   private async validateCampaignIntegration(): Promise<{ success: boolean, error?: string }> {
-    // // // console.log('🔗 Validating campaign infrastructure integration...')
+    // // // _logger.info('🔗 Validating campaign infrastructure integration...')
 
     try {
       // Mock campaign integration validation
@@ -443,13 +443,13 @@ export class ConservativeReplacementPilot {
         }
       } catch (error) {
         // Progressive engine validation is optional for pilot
-        console.warn('Progressive engine validation skipped:', error)
+        _logger.warn('Progressive engine validation skipped:', error)
       }
 
-      // // // console.log('✅ Campaign infrastructure integration validated successfully')
+      // // // _logger.info('✅ Campaign infrastructure integration validated successfully')
       return { success: true };
     } catch (error) {
-      console.error('❌ Campaign integration validation failed:', error),
+      _logger.error('❌ Campaign integration validation failed:', error),
       return {
         success: false,
         error: error instanceof Error ? error.message : String(error)
@@ -461,7 +461,7 @@ export class ConservativeReplacementPilot {
    * Generate comprehensive pilot report
    */
   private async generatePilotReport(result: ConservativePilotResult): Promise<void> {
-    // // // console.log('📄 Generating pilot report...')
+    // // // _logger.info('📄 Generating pilot report...')
 
     const reportPath = '.kiro/campaign-reports/conservative-pilot'
     if (!fs.existsSync(reportPath)) {
@@ -489,7 +489,7 @@ export class ConservativeReplacementPilot {
     const markdownContent = this.generateMarkdownReport(report)
     fs.writeFileSync(markdownReportPath, markdownContent)
 
-    // // // console.log(`📊 Pilot report saved to ${reportPath}`)
+    // // // _logger.info(`📊 Pilot report saved to ${reportPath}`)
   }
 
   // Helper Methods
@@ -508,7 +508,7 @@ export class ConservativeReplacementPilot {
         .split('\n')
         .filter(file => file.trim())
     } catch (error) {
-      console.warn('Failed to get TypeScript files, using fallback method'),
+      _logger.warn('Failed to get TypeScript files, using fallback method'),
       return this.getFallbackTypeScriptFiles()
     }
   }

@@ -173,8 +173,8 @@ export class ScriptIntegrationSystem {
     const args = this.buildCommandArguments(mergedOptions)
     const command = `node ${scriptPath} ${args.join(' ')}`;
 
-    // // // console.log(`🚀 Executing script: ${scriptId}`)
-    // // // console.log(`📝 Command: ${command}`)
+    // // // _logger.info(`🚀 Executing script: ${scriptId}`)
+    // // // _logger.info(`📝 Command: ${command}`)
 
     const startTime = Date.now()
     let result: ScriptExecutionResult
@@ -239,7 +239,7 @@ export class ScriptIntegrationSystem {
 
       return null;
     } catch (error) {
-      console.warn(`⚠️ Could not retrieve metrics for ${scriptId}:`, error)
+      _logger.warn(`⚠️ Could not retrieve metrics for ${scriptId}:`, error)
       return null;
     }
   }
@@ -313,7 +313,7 @@ export class ScriptIntegrationSystem {
       })
       return true;
     } catch (error) {
-      console.warn(`⚠️ Could not reset metrics for ${scriptId}:`, error)
+      _logger.warn(`⚠️ Could not reset metrics for ${scriptId}:`, error)
       return false;
     }
   }
@@ -480,7 +480,7 @@ export class ScriptIntegrationSystem {
         throw error
       }
       // Git not available or other error - warn but continue
-      console.warn('⚠️ Could not check git status:', error.message)
+      _logger.warn('⚠️ Could not check git status:', error.message)
     }
   }
 
@@ -501,23 +501,23 @@ export class ScriptIntegrationSystem {
    * Log execution summary
    */
   private logExecutionSummary(scriptId: string, result: ScriptExecutionResult): void {
-    // // // console.log(`\n📊 Script Execution Summary: ${scriptId}`)
-    // // // console.log(`✅ Success: ${result.success}`)
-    // // // console.log(`⏱️ Execution Time: ${result.executionTime}ms`)
-    // // // console.log(`📁 Files Processed: ${result.filesProcessed}`)
-    // // // console.log(`🔧 Errors Fixed: ${result.errorsFixed}`)
-    // // // console.log(`⚠️ Warnings Fixed: ${result.warningsFixed}`)
+    // // // _logger.info(`\n📊 Script Execution Summary: ${scriptId}`)
+    // // // _logger.info(`✅ Success: ${result.success}`)
+    // // // _logger.info(`⏱️ Execution Time: ${result.executionTime}ms`)
+    // // // _logger.info(`📁 Files Processed: ${result.filesProcessed}`)
+    // // // _logger.info(`🔧 Errors Fixed: ${result.errorsFixed}`)
+    // // // _logger.info(`⚠️ Warnings Fixed: ${result.warningsFixed}`)
 
     if (result.safetyEvents.length > 0) {
-      // // // console.log(`🚨 Safety Events: ${result.safetyEvents.length}`)
+      // // // _logger.info(`🚨 Safety Events: ${result.safetyEvents.length}`)
       result.safetyEvents.forEach(event => {
-        // // // console.log(`   ${event.type}: ${event.description}`)
+        // // // _logger.info(`   ${event.type}: ${event.description}`)
       })
     }
 
     if (result.metrics) {
-      // // // console.log(`📈 Safety Score: ${(result.metrics.safetyScore * 100).toFixed(1)}%`)
-      // // // console.log(`🎯 Recommended Batch Size: ${result.metrics.recommendedBatchSize}`)
+      // // // _logger.info(`📈 Safety Score: ${(result.metrics.safetyScore * 100).toFixed(1)}%`)
+      // // // _logger.info(`🎯 Recommended Batch Size: ${result.metrics.recommendedBatchSize}`)
     }
   }
 }

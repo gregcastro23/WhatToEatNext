@@ -120,7 +120,7 @@ export class CampaignTestController {
     // Apply test isolation
     await this.applyTestIsolation(testName)
 
-    console.log(`Campaign test environment initialized for: ${testName}`)
+    _logger.info(`Campaign test environment initialized for: ${testName}`)
   }
 
   /**
@@ -128,7 +128,7 @@ export class CampaignTestController {
    */
   async pauseCampaignForTest(testName: string): Promise<void> {
     if (this.testState.isPaused) {
-      console.warn(`Campaign already paused for test: ${this.testState.testName}`)
+      _logger.warn(`Campaign already paused for test: ${this.testState.testName}`)
       return;
     }
 
@@ -152,7 +152,7 @@ export class CampaignTestController {
     // Set environment variables to prevent actual operations
     this.setTestEnvironmentVars()
 
-    console.log(`Campaign operations paused for test: ${testName}`)
+    _logger.info(`Campaign operations paused for test: ${testName}`)
   }
 
   /**
@@ -160,12 +160,12 @@ export class CampaignTestController {
    */
   async resumeCampaignAfterTest(testName: string): Promise<void> {
     if (!this.testState.isPaused) {
-      console.warn('Campaign is not paused, nothing to resume'),
+      _logger.warn('Campaign is not paused, nothing to resume'),
       return
     }
 
     if (this.testState.testName !== testName) {
-      console.warn(
+      _logger.warn(
         `Resume test name (${testName}) doesn't match pause test name (${this.testState.testName})`
       )
     }
@@ -184,7 +184,7 @@ export class CampaignTestController {
     // Restore environment variables
     this.restoreEnvironmentVars()
 
-    console.log(`Campaign operations resumed after test: ${testName}`)
+    _logger.info(`Campaign operations resumed after test: ${testName}`)
   }
 
   /**
@@ -374,7 +374,7 @@ export class CampaignTestController {
 
     this.activeTestName = null;
 
-    console.log(`Campaign test environment cleaned up for: ${testName}`)
+    _logger.info(`Campaign test environment cleaned up for: ${testName}`)
   }
 
   /**

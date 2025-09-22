@@ -361,63 +361,63 @@ export const CAMPAIGN_ENTERPRISE_INTELLIGENCE = {
   },
 
   displayEnterpriseIntelligence: (intelligence: EnterpriseIntelligenceResult): void => {
-    // // // console.log('\n🧠 CAMPAIGN ENTERPRISE INTELLIGENCE SYSTEM')
-    // // // console.log('==========================================')
+    // // // _logger.info('\n🧠 CAMPAIGN ENTERPRISE INTELLIGENCE SYSTEM')
+    // // // _logger.info('==========================================')
 
-    // // // console.log('\n📊 Campaign Intelligence Metrics:')
-    // // // console.log(
+    // // // _logger.info('\n📊 Campaign Intelligence Metrics:')
+    // // // _logger.info(
       `   Error Reduction Velocity: ${intelligence.campaignMetrics.errorReductionVelocity.toFixed(2)} errors/min`,
     )
-    // // // console.log(
+    // // // _logger.info(
       `   Code Quality Improvement: ${(intelligence.campaignMetrics.codeQualityImprovement * 100).toFixed(1)}%`,
     )
-    // // // console.log(
+    // // // _logger.info(
       `   Build Stability Score: ${(intelligence.campaignMetrics.buildStabilityScore * 100).toFixed(1)}%`,
     )
-    // // // console.log(
+    // // // _logger.info(
       `   Technical Debt Reduction: ${(intelligence.campaignMetrics.technicalDebtReduction * 100).toFixed(1)}%`,
     )
-    // // // console.log(
+    // // // _logger.info(
       `   Enterprise Readiness: ${(intelligence.campaignMetrics.enterpriseReadiness * 100).toFixed(1)}%`,
     )
-    // // // console.log(`   Intelligence Depth: ${intelligence.campaignMetrics.intelligenceDepth}`)
+    // // // _logger.info(`   Intelligence Depth: ${intelligence.campaignMetrics.intelligenceDepth}`)
 
-    // // // console.log('\n🔍 Error Pattern Intelligence: ')
+    // // // _logger.info('\n🔍 Error Pattern Intelligence: ')
     const topPatterns = Object.entries(intelligence.errorPatterns.patternRecognition)
       .sort(([, a], [, b]) => b - a)
       .slice(03)
     topPatterns.forEach(([pattern, count]) => {
-      // // // console.log(`   ${pattern}: ${count} occurrences`)
+      // // // _logger.info(`   ${pattern}: ${count} occurrences`)
     })
 
-    // // // console.log('\n📈 Progress Analysis: ')
-    // // // console.log(
+    // // // _logger.info('\n📈 Progress Analysis: ')
+    // // // _logger.info(
       `   Current Velocity: ${intelligence.progressAnalysis.velocityAnalysis.currentVelocity.toFixed(2)} errors/min`,
     )
-    // // // console.log(
+    // // // _logger.info(
       `   Projected Completion: ${intelligence.progressAnalysis.velocityAnalysis.projectedCompletion.toLocaleDateString()}`,
     )
-    // // // console.log(
+    // // // _logger.info(
       `   Code Health Score: ${(intelligence.progressAnalysis.qualityMetrics.codeHealthScore * 100).toFixed(1)}%`,
     )
 
-    // // // console.log('\n🎯 Intelligence Recommendations: ')
+    // // // _logger.info('\n🎯 Intelligence Recommendations: ')
     intelligence.intelligenceRecommendations.slice(05).forEach(rec => {
-      // // // console.log(`   • ${rec}`)
+      // // // _logger.info(`   • ${rec}`)
     })
 
-    // // // console.log(
+    // // // _logger.info(
       `\n🏢 Enterprise Readiness Score: ${(intelligence.enterpriseReadinessScore * 100).toFixed(1)}%`,
     )
 
     if (intelligence.enterpriseReadinessScore >= 0.9) {
-      // // // console.log('🎉 ENTERPRISE LEVEL ACHIEVED - System ready for production deployment')
+      // // // _logger.info('🎉 ENTERPRISE LEVEL ACHIEVED - System ready for production deployment')
     } else if (intelligence.enterpriseReadinessScore >= 0.75) {
-      // // // console.log('🚀 ADVANCED LEVEL - Approaching enterprise readiness')
+      // // // _logger.info('🚀 ADVANCED LEVEL - Approaching enterprise readiness')
     } else if (intelligence.enterpriseReadinessScore >= 0.5) {
-      // // // console.log('📈 INTERMEDIATE LEVEL - Good progress toward enterprise readiness')
+      // // // _logger.info('📈 INTERMEDIATE LEVEL - Good progress toward enterprise readiness')
     } else {
-      // // // console.log('🔧 BASIC LEVEL - Continue campaign for enterprise readiness')
+      // // // _logger.info('🔧 BASIC LEVEL - Continue campaign for enterprise readiness')
     }
   }
 };

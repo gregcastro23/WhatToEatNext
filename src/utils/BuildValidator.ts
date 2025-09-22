@@ -12,7 +12,7 @@ export class BuildValidator {
   private readonly requiredManifests: string[]
   private readonly logger: (message: string, ..._args: unknown[]) => void
 
-  constructor(buildDir = '.next', logger = console.log) {
+  constructor(buildDir = '.next', logger = _logger.info) {
     this.buildDir = buildDir;
     this.serverDir = path.join(buildDir, 'server')
     this.logger = logger;

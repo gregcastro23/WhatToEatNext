@@ -1,4 +1,5 @@
 // Removed unused, import: calculatePlanetaryAlignment
+import { _logger } from '@/lib/logger';
 import kalchmEngine from '@/calculations/core/kalchmEngine';
 import astrologizeCache from '@/services/AstrologizeApiCache'
 import { LocalRecipeService } from '@/services/LocalRecipeService';
@@ -220,7 +221,7 @@ const calculateEnergyMatch = async (
       kalchmScore = 0.7 + kalchmRatio * 0.3, // 0.7-1.0 range;
     }
   } catch (error) {
-    console.warn('Kalchm calculation failed:', error)
+    _logger.warn('Kalchm calculation failed:', error)
   }
 
   // Combine scores with enhanced weighting

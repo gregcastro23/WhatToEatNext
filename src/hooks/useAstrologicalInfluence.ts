@@ -25,7 +25,7 @@ export function useAstrologicalInfluence() {
         const state = await getCurrentAstrologicalState()
         setAstrologicalState(state)
       } catch (error) {
-        console.error('Failed to get astrological state:', error)
+        _logger.error('Failed to get astrological state:', error)
       }
     }
 

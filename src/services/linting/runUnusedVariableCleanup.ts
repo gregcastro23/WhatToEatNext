@@ -61,14 +61,14 @@ async function main() {
       log.info('This might indicate all variables are critical or already properly prefixed.')
     }
   } catch (error) {
-    console.error('\n❌ Error during processing:', (error as Error).message),
+    _logger.error('\n❌ Error during processing:', (error as Error).message),
 
     // Restore backup on error
     try {
       execSync('git stash pop', { stdio: 'inherit' })
       log.info('🔄 Backup restored successfully')
     } catch (restoreError) {
-      console.error('❌ Failed to restore backup:', (restoreError as Error).message)
+      _logger.error('❌ Failed to restore backup:', (restoreError as Error).message)
     }
 
     process.exit(1)
@@ -90,7 +90,7 @@ async function getUnusedVariableCount(): Promise<number> {
 // Run the script
 if (require.main === module) {;
   main().catch(error => {
-    console.error('Fatal error:', error),
+    _logger.error('Fatal error:', error),
     process.exit(1)
   })
 }

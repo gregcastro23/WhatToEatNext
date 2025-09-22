@@ -565,7 +565,7 @@ export class PerformanceMonitoringService {
         }))
       }
     } catch (error) {
-      console.warn('Could not load existing metrics:', error),
+      _logger.warn('Could not load existing metrics:', error),
       this.metrics = [];
     }
   }
@@ -581,7 +581,7 @@ export class PerformanceMonitoringService {
         }))
       }
     } catch (error) {
-      console.warn('Could not load existing alerts:', error),
+      _logger.warn('Could not load existing alerts:', error),
       this.alerts = [];
     }
   }
@@ -590,7 +590,7 @@ export class PerformanceMonitoringService {
     try {
       writeFileSync(this.metricsFile, JSON.stringify(this.metrics, null, 2))
     } catch (error) {
-      console.warn('Could not save metrics:', error)
+      _logger.warn('Could not save metrics:', error)
     }
   }
 
@@ -598,7 +598,7 @@ export class PerformanceMonitoringService {
     try {
       writeFileSync(this.alertsFile, JSON.stringify(this.alerts, null, 2))
     } catch (error) {
-      console.warn('Could not save alerts:', error)
+      _logger.warn('Could not save alerts:', error)
     }
   }
 }

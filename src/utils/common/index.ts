@@ -56,7 +56,7 @@ export function validateEnv() {
   try {
     return envSchema.parse(process.env)
   } catch (error) {
-    console.error('Invalid environment variables:', error)
+    _logger.error('Invalid environment variables:', error)
     process.exit(1)
   }
 }
@@ -68,7 +68,7 @@ export function validateAstrologyConfig() {
   const missing = (required || []).filter(key => !process.env[key])
 
   if ((missing || []).length > 0) {
-    console.warn('Missing required environment variables:', missing)
+    _logger.warn('Missing required environment variables:', missing)
   }
 }
 

@@ -94,7 +94,7 @@ export class ZeroErrorAchievementDashboard {
    * Generate comprehensive zero-error achievement dashboard
    */
   async generateDashboard(): Promise<void> {
-    // // // console.log('🎯 Generating Zero-Error Achievement Dashboard...\n')
+    // // // _logger.info('🎯 Generating Zero-Error Achievement Dashboard...\n')
 
     const startTime = Date.now()
 
@@ -127,14 +127,14 @@ export class ZeroErrorAchievementDashboard {
       await this.alertingSystem.processAlerts(validationResult.alerts, validationResult.metrics)
     }
 
-    // // // console.log(`✅ Dashboard generated in ${Date.now() - startTime}ms`)
+    // // // _logger.info(`✅ Dashboard generated in ${Date.now() - startTime}ms`)
   }
 
   /**
    * Real-time monitoring with continuous updates
    */
   async startRealTimeMonitoring(intervalMinutes: number = 5): Promise<void> {
-    // // // console.log(`👀 Starting real-time monitoring (${intervalMinutes} minute intervals)...\n`)
+    // // // _logger.info(`👀 Starting real-time monitoring (${intervalMinutes} minute intervals)...\n`)
 
     let lastMetrics: LintingMetrics | null = null;
 
@@ -148,9 +148,9 @@ export class ZeroErrorAchievementDashboard {
           const significantChanges = this.detectSignificantChanges(lastMetrics, currentMetrics),
 
           if (significantChanges.length > 0) {
-            // // // console.log(`\n⚠️  [${new Date().toISOString()}] Significant changes detected: `)
+            // // // _logger.info(`\n⚠️  [${new Date().toISOString()}] Significant changes detected: `)
             for (const change of significantChanges) {
-              // // // console.log(`   ${change}`)
+              // // // _logger.info(`   ${change}`)
             }
 
             // Trigger immediate dashboard update
@@ -161,9 +161,9 @@ export class ZeroErrorAchievementDashboard {
         // Check for critical issues
         const criticalIssues = this.identifyCriticalIssues(currentMetrics)
         if (criticalIssues.length > 0) {
-          // // // console.log(`\n🚨 [${new Date().toISOString()}] CRITICAL ISSUES: `)
+          // // // _logger.info(`\n🚨 [${new Date().toISOString()}] CRITICAL ISSUES: `)
           for (const issue of criticalIssues) {
-            // // // console.log(`   ${issue}`)
+            // // // _logger.info(`   ${issue}`)
           }
         }
 
@@ -172,7 +172,7 @@ export class ZeroErrorAchievementDashboard {
 
         lastMetrics = currentMetrics;
       } catch (error) {
-        console.error(`❌ [${new Date().toISOString()}] Monitoring error:`, error)
+        _logger.error(`❌ [${new Date().toISOString()}] Monitoring error:`, error)
       }
     };
 
@@ -182,7 +182,7 @@ export class ZeroErrorAchievementDashboard {
     // Schedule periodic runs
     setInterval(monitoringLoop, intervalMinutes * 60 * 1000)
 
-    // // // console.log('✅ Real-time monitoring started')
+    // // // _logger.info('✅ Real-time monitoring started')
   }
 
   /**
@@ -380,7 +380,7 @@ export class ZeroErrorAchievementDashboard {
 
     for (const [id, procedure] of this.maintenanceProcedures) {
       if (procedure.automated && now >= procedure.nextRun) {
-        // // // console.log(`🔧 Running maintenance: ${procedure.name}...`)
+        // // // _logger.info(`🔧 Running maintenance: ${procedure.name}...`)
 
         try {
           const result = await procedure.procedure()
@@ -390,11 +390,11 @@ export class ZeroErrorAchievementDashboard {
           procedure.lastRun = now;
           procedure.nextRun = this.calculateNextRun(now, procedure.frequency),
 
-          // // // console.log(
+          // // // _logger.info(
             `   ${result.success ? '✅' : '❌'} ${procedure.name} (${result.duration}ms)`,
           )
         } catch (error) {
-          console.error(`   ❌ ${procedure.name} failed:`, error)
+          _logger.error(`   ❌ ${procedure.name} failed:`, error)
           results.set(id, {
             success: false,
             duration: 0,
@@ -614,7 +614,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
       JSON.stringify(jsonReport, null, 2),
     )
 
-    // // // console.log(`📊 Dashboard report generated: ${reportPath}`)
+    // // // _logger.info(`📊 Dashboard report generated: ${reportPath}`)
   }
 
   /**
@@ -830,7 +830,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
         return JSON.parse(readFileSync(this.targetsFile, 'utf8'))
       }
     } catch (error) {
-      console.warn('Error loading targets:', error)
+      _logger.warn('Error loading targets:', error)
     }
     return [];
   }
@@ -842,7 +842,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
         return JSON.parse(readFileSync(historyFile, 'utf8'))
       }
     } catch (error) {
-      console.warn('Error loading metrics history:', error)
+      _logger.warn('Error loading metrics history:', error)
     }
     return [];
   }

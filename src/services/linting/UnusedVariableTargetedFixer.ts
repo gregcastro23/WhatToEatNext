@@ -77,7 +77,7 @@ export class UnusedVariableTargetedFixer {
           log.info(`✅ ${filePath.replace(process.cwd(), '')}: ${fixed} parameters fixed`)
         } catch (error) {
           result.errors.push(`Error fixing ${filePath}: ${error}`)
-          console.error(`❌ Error fixing ${filePath}:`, error)
+          _logger.error(`❌ Error fixing ${filePath}:`, error)
         }
       }
     } catch (error) {
@@ -123,7 +123,7 @@ export class UnusedVariableTargetedFixer {
           log.info(`✅ ${filePath.replace(process.cwd(), '')}: ${fixed} variables fixed`)
         } catch (error) {
           result.errors.push(`Error fixing ${filePath}: ${error}`)
-          console.error(`❌ Error fixing ${filePath}:`, error)
+          _logger.error(`❌ Error fixing ${filePath}:`, error)
         }
       }
     } catch (error) {
@@ -352,7 +352,7 @@ export class UnusedVariableTargetedFixer {
       log.info('✅ Build validation passed')
       return true;
     } catch (error) {
-      console.error('❌ Build validation failed')
+      _logger.error('❌ Build validation failed')
       return false
     }
   }

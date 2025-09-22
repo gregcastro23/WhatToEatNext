@@ -76,10 +76,10 @@ export class FinalValidationSystem {
    * Execute comprehensive final validation
    */
   async executeComprehensiveValidation(): Promise<CampaignCompletionReport> {
-    // // // console.log('🎯 FINAL VALIDATION SYSTEM - COMPREHENSIVE VALIDATION')
-    // // // console.log('====================================================')
-    // // // console.log(`Timestamp: ${new Date().toISOString()}`)
-    // // // console.log()
+    // // // _logger.info('🎯 FINAL VALIDATION SYSTEM - COMPREHENSIVE VALIDATION')
+    // // // _logger.info('====================================================')
+    // // // _logger.info(`Timestamp: ${new Date().toISOString()}`)
+    // // // _logger.info()
 
     const validationResults: ValidationResult[] = [];
 
@@ -146,7 +146,7 @@ export class FinalValidationSystem {
    * Validate TypeScript errors (Requirement 1.1)
    */
   private async validateTypeScriptErrors(): Promise<ValidationResult> {
-    // // // console.log('🔧 Validating TypeScript Errors...')
+    // // // _logger.info('🔧 Validating TypeScript Errors...')
 
     try {
       const output = execSync('yarn tsc --noEmit --skipLibCheck', {
@@ -216,7 +216,7 @@ export class FinalValidationSystem {
    * Validate linting warnings (Requirement 2.1)
    */
   private async validateLintingWarnings(): Promise<ValidationResult> {
-    // // // console.log('✨ Validating Linting Warnings...')
+    // // // _logger.info('✨ Validating Linting Warnings...')
 
     try {
       const output = execSync('yarn lint', {
@@ -291,7 +291,7 @@ export class FinalValidationSystem {
    * Validate enterprise intelligence systems (Requirement 3.6)
    */
   private async validateEnterpriseIntelligence(): Promise<ValidationResult> {
-    // // // console.log('🧠 Validating Enterprise Intelligence Systems...')
+    // // // _logger.info('🧠 Validating Enterprise Intelligence Systems...')
 
     try {
       const output = execSync('grep -r 'INTELLIGENCE_SYSTEM' src/', {
@@ -358,7 +358,7 @@ export class FinalValidationSystem {
    * Validate performance targets (Requirement 4.8)
    */
   private async validatePerformanceTargets(): Promise<ValidationResult> {
-    // // // console.log('⚡ Validating Performance Targets...')
+    // // // _logger.info('⚡ Validating Performance Targets...')
 
     try {
       // Measure build time
@@ -448,7 +448,7 @@ export class FinalValidationSystem {
    * Validate build and test stability
    */
   private async validateBuildAndTests(): Promise<ValidationResult> {
-    // // // console.log('🏗️  Validating Build and Test Stability...')
+    // // // _logger.info('🏗️  Validating Build and Test Stability...')
 
     let buildSuccess = false;
     let testSuccess = false;
@@ -632,72 +632,72 @@ export class FinalValidationSystem {
    * Display comprehensive validation results
    */
   private displayValidationResults(report: CampaignCompletionReport): void {
-    // // // console.log('\n🎯 FINAL VALIDATION RESULTS')
-    // // // console.log('===========================')
+    // // // _logger.info('\n🎯 FINAL VALIDATION RESULTS')
+    // // // _logger.info('===========================')
 
     report.validationResults.forEach(result => {
       const status = result.passed ? '✅ PASS' : '❌ FAIL'
-      // // // console.log(`\n${result.category}: ${status}`)
-      // // // console.log(`  Current: ${result.current} | Target: ${result.target}`)
+      // // // _logger.info(`\n${result.category}: ${status}`)
+      // // // _logger.info(`  Current: ${result.current} | Target: ${result.target}`)
 
       result.details.forEach(detail => {
-        // // // console.log(`  ${detail}`)
+        // // // _logger.info(`  ${detail}`)
       })
 
       if (result.criticalIssues.length > 0) {
-        // // // console.log('  Critical Issues: ')
+        // // // _logger.info('  Critical Issues: ')
         result.criticalIssues.forEach(issue => {
-          // // // console.log(`    ⚠️  ${issue}`)
+          // // // _logger.info(`    ⚠️  ${issue}`)
         })
       }
     })
 
-    // // // console.log('\n📊 PERFORMANCE METRICS')
-    // // // console.log('======================')
-    // // // console.log(`Build Time: ${report.performanceMetrics.buildTime.toFixed(1)}s`)
-    // // // console.log(`Memory Usage: ${report.performanceMetrics.memoryUsage.toFixed(1)}MB`)
-    // // // console.log(`Bundle Size: ${report.performanceMetrics.bundleSize}`)
-    // // // console.log(`Cache Hit Rate: ${report.performanceMetrics.cacheHitRate}%`)
-    // // // console.log(`Test Coverage: ${report.performanceMetrics.testCoverage}%`)
+    // // // _logger.info('\n📊 PERFORMANCE METRICS')
+    // // // _logger.info('======================')
+    // // // _logger.info(`Build Time: ${report.performanceMetrics.buildTime.toFixed(1)}s`)
+    // // // _logger.info(`Memory Usage: ${report.performanceMetrics.memoryUsage.toFixed(1)}MB`)
+    // // // _logger.info(`Bundle Size: ${report.performanceMetrics.bundleSize}`)
+    // // // _logger.info(`Cache Hit Rate: ${report.performanceMetrics.cacheHitRate}%`)
+    // // // _logger.info(`Test Coverage: ${report.performanceMetrics.testCoverage}%`)
 
-    // // // console.log('\n📈 CAMPAIGN SUMMARY')
-    // // // console.log('==================')
-    // // // console.log(
+    // // // _logger.info('\n📈 CAMPAIGN SUMMARY')
+    // // // _logger.info('==================')
+    // // // _logger.info(
       `TypeScript Errors: ${report.campaignSummary.initialState.errors} → ${report.campaignSummary.finalState.errors} (${report.campaignSummary.improvements.errorReduction} eliminated)`,
     )
-    // // // console.log(
+    // // // _logger.info(
       `Linting Warnings: ${report.campaignSummary.initialState.warnings} → ${report.campaignSummary.finalState.warnings} (${report.campaignSummary.improvements.warningReduction} eliminated)`,
     )
-    // // // console.log(
+    // // // _logger.info(
       `Intelligence Systems: ${report.campaignSummary.initialState.intelligence} → ${report.campaignSummary.finalState.intelligence} (+${report.campaignSummary.improvements.intelligenceIncrease} created)`,
     )
 
-    // // // console.log('\n🏆 CERTIFICATION STATUS')
-    // // // console.log('=======================')
-    // // // console.log(
+    // // // _logger.info('\n🏆 CERTIFICATION STATUS')
+    // // // _logger.info('=======================')
+    // // // _logger.info(
       `Perfect Codebase: ${report.certificationStatus.perfectCodebaseAchieved ? '✅ ACHIEVED' : '❌ NOT ACHIEVED'}`,
     )
-    // // // console.log(
+    // // // _logger.info(
       `Enterprise Ready: ${report.certificationStatus.enterpriseReady ? '✅ YES' : '❌ NO'}`,
     )
-    // // // console.log(
+    // // // _logger.info(
       `Production Ready: ${report.certificationStatus.productionDeploymentReady ? '✅ YES' : '❌ NO'}`,
     )
-    // // // console.log(`Certification Level: ${report.certificationStatus.certificationLevel}`)
+    // // // _logger.info(`Certification Level: ${report.certificationStatus.certificationLevel}`)
 
     if (report.certificationStatus.certificationDate) {
-      // // // console.log(`Certification Date: ${report.certificationStatus.certificationDate}`)
+      // // // _logger.info(`Certification Date: ${report.certificationStatus.certificationDate}`)
     }
 
-    // // // console.log('\n🎉 OVERALL RESULT')
-    // // // console.log('=================')
+    // // // _logger.info('\n🎉 OVERALL RESULT')
+    // // // _logger.info('=================')
     if (report.overallSuccess) {
-      // // // console.log('✅ PERFECT CODEBASE, CAMPAIGN: SUCCESS!')
-      // // // console.log('🏆 PERFECT CODEBASE ACHIEVED!')
-      // // // console.log('🚀 READY FOR PRODUCTION DEPLOYMENT!')
+      // // // _logger.info('✅ PERFECT CODEBASE, CAMPAIGN: SUCCESS!')
+      // // // _logger.info('🏆 PERFECT CODEBASE ACHIEVED!')
+      // // // _logger.info('🚀 READY FOR PRODUCTION DEPLOYMENT!')
     } else {
-      // // // console.log('⚠️  PERFECT CODEBASE, CAMPAIGN: INCOMPLETE')
-      // // // console.log('📋 Review validation results above for required actions')
+      // // // _logger.info('⚠️  PERFECT CODEBASE, CAMPAIGN: INCOMPLETE')
+      // // // _logger.info('📋 Review validation results above for required actions')
     }
   }
 
@@ -713,7 +713,7 @@ export class FinalValidationSystem {
     const reportPath = path.join(reportDir, `final-validation-report-${Date.now()}.json`)
     fs.writeFileSync(reportPath, JSON.stringify(report, null, 2))
 
-    // // // console.log(`\n📄 Validation report saved: ${reportPath}`)
+    // // // _logger.info(`\n📄 Validation report saved: ${reportPath}`)
   }
 
   /**
@@ -775,7 +775,7 @@ ${report.validationResults
     const certificationPath = 'PERFECT_CODEBASE_CERTIFICATION.md';
     fs.writeFileSync(certificationPath, certificationContent)
 
-    // // // console.log(`\n🏆 Certification created: ${certificationPath}`)
+    // // // _logger.info(`\n🏆 Certification created: ${certificationPath}`)
   }
 }
 
@@ -794,16 +794,16 @@ if (require.main === module) {
           process.exit(report.overallSuccess ? 0 : 1)
         })
         .catch(error => {
-          console.error('❌ Final validation failed:', error),
+          _logger.error('❌ Final validation failed:', error),
           process.exit(1)
         })
       break;
 
-    default: // // // console.log('Perfect Codebase Campaign - Final Validation System')
-      // // // console.log('Usage: node FinalValidationSystem.ts [validate]')
-      // // // console.log('')
-      // // // console.log('Commands:')
-      // // // console.log('  validate    Execute comprehensive final validation (default)')
+    default: // // // _logger.info('Perfect Codebase Campaign - Final Validation System')
+      // // // _logger.info('Usage: node FinalValidationSystem.ts [validate]')
+      // // // _logger.info('')
+      // // // _logger.info('Commands:')
+      // // // _logger.info('  validate    Execute comprehensive final validation (default)')
       break
   }
 }

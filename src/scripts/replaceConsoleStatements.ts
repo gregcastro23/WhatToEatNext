@@ -3,8 +3,8 @@
 /**
  * Replace Console Statements Script
  *
- * This script replaces console.log statements with proper logging
- * while preserving console.warn and console.error statements.
+ * This script replaces _logger.info statements with proper logging
+ * while preserving _logger.warn and _logger.error statements.
  */
 
 import * as fs from 'fs';
@@ -68,8 +68,8 @@ class ConsoleStatementReplacer {
 
   private shouldPreserveConsoleStatement(line: string): boolean {
     const trimmed = line.trim()
-    // Preserve console.warn and console.error
-    if (trimmed.includes('console.warn') || trimmed.includes('console.error')) {
+    // Preserve _logger.warn and _logger.error
+    if (trimmed.includes('_logger.warn') || trimmed.includes('_logger.error')) {
       return true
     }
 
@@ -110,8 +110,8 @@ class ConsoleStatementReplacer {
           continue
         }
 
-        // Replace console.log statements
-        if (trimmed.includes('// // // console.log(')) {
+        // Replace _logger.info statements
+        if (trimmed.includes('// // // _logger.info(')) {
           const replacement = line.replace(/console\.log\(/g, 'logger.info('),
 
           // Add logger import if not present
@@ -132,7 +132,7 @@ class ConsoleStatementReplacer {
       }
 
       if (hasChanges) {
-        // Add logger import at the top if console.log was replaced
+        // Add logger import at the top if _logger.info was replaced
         const hasLoggerImport =
           content.includes('from '@/services/LoggingService'') ||
           content.includes('from '@/services/LoggingService'')
@@ -160,7 +160,7 @@ class ConsoleStatementReplacer {
 
       return false;
     } catch (error) {
-      console.warn(`⚠️ Failed to process ${filePath}:`, (error as Error).message)
+      _logger.warn(`⚠️ Failed to process ${filePath}:`, (error as Error).message)
       return false;
     }
   }
@@ -172,8 +172,8 @@ class ConsoleStatementReplacer {
       const loggingServiceContent = `/**;
  * Centralized Logging Service
  * 
- * Provides structured logging capabilities to replace console.log statements
- * while maintaining console.warn and console.error for debugging.
+ * Provides structured logging capabilities to replace _logger.info statements
+ * while maintaining _logger.warn and _logger.error for debugging.
  */
 
 export interface Logger {
@@ -188,21 +188,21 @@ class LoggingService implements Logger {
 
   info(message: string, ...args: unknown[]): void {
     if (this.isDevelopment) {
-      // // // console.log(\`[INFO] \${message}\`, ...args)
+      // // // _logger.info(\`[INFO] \${message}\`, ...args)
     }
   }
 
   warn(message: string, ...args: unknown[]): void {
-    console.warn(\`[WARN] \${message}\`, ...args)
+    _logger.warn(\`[WARN] \${message}\`, ...args)
   }
 
   error(message: string, ...args: unknown[]): void {
-    console.error(\`[ERROR] \${message}\`, ...args)
+    _logger.error(\`[ERROR] \${message}\`, ...args)
   }
 
   debug(message: string, ...args: unknown[]): void {
     if (this.isDevelopment) {
-      // // // console.log(\`[DEBUG] \${message}\`, ...args)
+      // // // _logger.info(\`[DEBUG] \${message}\`, ...args)
     }
   }
 }
@@ -212,7 +212,7 @@ export default logger;
 `;
 
       fs.writeFileSync(loggingServicePath, loggingServiceContent)
-      // // // console.log('✅ Created LoggingService.ts')
+      // // // _logger.info('✅ Created LoggingService.ts')
     }
   }
 
@@ -241,12 +241,12 @@ Generated: ${new Date().toISOString()}
 `;
 
     fs.writeFileSync('console-replacement-report.md', report)
-    // // // console.log('📊 Report, generated: console-replacement-report.md')
+    // // // _logger.info('📊 Report, generated: console-replacement-report.md')
   }
 
   public async run(): Promise<void> {
-    // // // console.log('🚀 Starting Console Statement Replacement')
-    // // // console.log('='.repeat(60))
+    // // // _logger.info('🚀 Starting Console Statement Replacement')
+    // // // _logger.info('='.repeat(60))
 
     try {
       // Step, 1: Create logging service
@@ -254,7 +254,7 @@ Generated: ${new Date().toISOString()}
 
       // Step, 2: Process all TypeScript files
       const files = this.getAllTypeScriptFiles()
-      // // // console.log(`📁 Found ${files.length} TypeScript files`)
+      // // // _logger.info(`📁 Found ${files.length} TypeScript files`)
 
       for (const file of files) {
         this.replaceConsoleStatements(file)
@@ -263,13 +263,13 @@ Generated: ${new Date().toISOString()}
       // Step, 3: Generate report
       this.generateReport()
 
-      // // // console.log('='.repeat(60))
-      // // // console.log(`✅ Console statement replacement completed!`)
-      // // // console.log(`   Files processed: ${this.processedFiles}`)
-      // // // console.log(`   Statements replaced: ${this.replacements.length}`)
-      // // // console.log(`   Backup location: ${this.backupDir}`)
+      // // // _logger.info('='.repeat(60))
+      // // // _logger.info(`✅ Console statement replacement completed!`)
+      // // // _logger.info(`   Files processed: ${this.processedFiles}`)
+      // // // _logger.info(`   Statements replaced: ${this.replacements.length}`)
+      // // // _logger.info(`   Backup location: ${this.backupDir}`)
     } catch (error) {
-      console.error('❌ Console statement replacement failed:', error),
+      _logger.error('❌ Console statement replacement failed:', error),
       process.exit(1)
     }
   }
@@ -278,7 +278,7 @@ Generated: ${new Date().toISOString()}
 // Run the script
 if (require.main === module) {;
   const replacer = new ConsoleStatementReplacer()
-  replacer.run().catch(console.error)
+  replacer.run().catch(_logger.error)
 }
 
 export default ConsoleStatementReplacer;

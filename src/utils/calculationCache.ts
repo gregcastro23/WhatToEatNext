@@ -72,7 +72,7 @@ export function getCachedCalculation<T>(
       return resultOrPromise;
     }
   } catch (error) {
-    console.error(`Error in cached calculation ${cacheKey}:`, error)
+    _logger.error(`Error in cached calculation ${cacheKey}:`, error)
     throw error; // Re-throw to let caller handle errors
   }
 }

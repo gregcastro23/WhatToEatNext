@@ -96,7 +96,7 @@ export async function findBestMatches(
       recipes = (await LocalRecipeService.getAllRecipes()) as unknown as Recipe[];
       // log.info(`Fetched ${recipes.length} recipes from LocalRecipeService`)
     } catch (error) {
-      // console.error('Error fetching recipes from LocalRecipeService:', error),
+      // _logger.error('Error fetching recipes from LocalRecipeService:', error),
       return [], // Return empty array if we can't fetch recipes
     }
   }
@@ -938,7 +938,7 @@ export const connectIngredientsToMappings = (
         return parsedCache.matches;
       }
     } catch (e) {
-      // console.error('Error parsing ingredient mapping cache:', e)
+      // _logger.error('Error parsing ingredient mapping cache:', e)
     }
   }
 
@@ -1041,7 +1041,7 @@ export const connectIngredientsToMappings = (
         }),
       )
     } catch (e) {
-      // console.error('Error caching ingredient mappings:', e)
+      // _logger.error('Error caching ingredient mappings:', e)
     }
   }
 

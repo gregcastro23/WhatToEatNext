@@ -47,11 +47,11 @@ export function withMemoryManagement<T>(
         const memoryCheck = monitor.checkMemoryUsage('test-end')
 
         if (!memoryCheck.isWithinLimits) {
-          console.warn('Memory limits exceeded during test:', memoryCheck.errors)
+          _logger.warn('Memory limits exceeded during test:', memoryCheck.errors)
         }
 
         if (memoryCheck.warnings.length > 0) {
-          console.warn('Memory warnings during test:', memoryCheck.warnings)
+          _logger.warn('Memory warnings during test:', memoryCheck.warnings)
         }
       }
 
@@ -90,7 +90,7 @@ export function describeWithMemoryManagement(
         const summary = suiteMonitor.getMemorySummary()
         if (summary.totalIncrease > 25) {
           // 25MB threshold for suite reporting
-          console.log(`Memory summary for '${description}':`, {
+          _logger.info(`Memory summary for '${description}':`, {
             totalIncrease: `${summary.totalIncrease.toFixed(2)}MB`,
             peakMemory: `${summary.peakMemory.toFixed(2)}MB`,
             duration: `${(summary.testDuration / 1000).toFixed(2)}s`
@@ -208,7 +208,7 @@ export async function withMemoryTracking<T>(
     const memoryDiff = (finalMemory - initialMemory) / (1024 * 1024)
     if (memoryDiff > 10) {
       // 10MB threshold for logging
-      console.log(`Memory usage for ${operationName}: +${memoryDiff.toFixed(2)}MB`)
+      _logger.info(`Memory usage for ${operationName}: +${memoryDiff.toFixed(2)}MB`)
     }
 
     return result;
@@ -219,7 +219,7 @@ export async function withMemoryTracking<T>(
 
     if (memoryDiff > 5) {
       // Lower threshold for error cases
-      console.warn(`Memory usage for failed ${operationName}: +${memoryDiff.toFixed(2)}MB`)
+      _logger.warn(`Memory usage for failed ${operationName}: +${memoryDiff.toFixed(2)}MB`)
     }
 
     throw error;
@@ -270,7 +270,7 @@ export const memoryAssertions = {
     const currentMemory = process.memoryUsage().heapUsed / (1024 * 1024)
     // This is a soft assertion - we log warnings rather than failing tests
     if (currentMemory > maxIncreaseMB) {
-      console.warn(
+      _logger.warn(
         `Memory usage (${currentMemory.toFixed(2)}MB) exceeds expected bounds (${maxIncreaseMB}MB)`,
       )
     }
@@ -283,7 +283,7 @@ export const memoryAssertions = {
     const afterMemory = process.memoryUsage().heapUsed;
     const increaseMB = (afterMemory - beforeMemory) / (1024 * 1024)
     if (increaseMB > tolerance) {
-      console.warn(
+      _logger.warn(
         `Potential memory leak detected: +${increaseMB.toFixed(2)}MB (tolerance: ${tolerance}MB)`,
       )
     }

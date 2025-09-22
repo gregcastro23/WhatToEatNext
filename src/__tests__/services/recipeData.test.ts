@@ -105,7 +105,7 @@ describe('RecipeData Service', () => {
     } catch (error) {
       // In CIwe might encounter filesystem differences, so handle errors gracefully
       if (process.env.CI) {
-        // console.warn('Test failed in CI environment, but continuing:', error)
+        // _logger.warn('Test failed in CI environment, but continuing:', error)
       } else {
         throw error;
       }
@@ -281,7 +281,7 @@ describe('RecipeData Service', () => {
     } catch (error) {
       // In CIwe might encounter environment differences, so handle errors gracefully
       if (process.env.CI) {
-        // console.warn('Test failed in CI environment, but continuing:', error)
+        // _logger.warn('Test failed in CI environment, but continuing:', error)
       } else {
         throw error;
       }

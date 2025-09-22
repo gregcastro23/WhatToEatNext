@@ -327,8 +327,8 @@ async function runComprehensiveTests() {
     log.info('✅ Multiple cuisine compatibility')
     log.info('✅ Performance optimization and caching')
   } catch (error) {
-    console.error('❌ Test failed:', error),
-    console.error(
+    _logger.error('❌ Test failed:', error),
+    _logger.error(
       'Stack trace:',
       error instanceof Error ? error.stack : 'No stack trace available'
     )
@@ -341,7 +341,7 @@ runComprehensiveTests()
     log.info('\n🔬 Test execution completed')
   })
   .catch(error => {
-    console.error('💥 Test execution failed:', error)
+    _logger.error('💥 Test execution failed:', error)
   })
 
 export default runComprehensiveTests;

@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { _logger } from '@/lib/logger';
 
 import type { Recipe } from '@/types/recipe';
 
@@ -63,7 +64,7 @@ export function isElementalPropertyKey(
 
 // Logs unexpected values for debugging purposes
 export function logUnexpectedValue(context: string, _details: unknown): void {
-  console.warn(`Unexpected value in ${context}:`, details)
+  _logger.warn(`Unexpected value in ${context}:`, details)
 }
 
 /**

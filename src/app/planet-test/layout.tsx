@@ -1,4 +1,5 @@
 'use client';
+import { _logger } from '@/lib/logger';
 
 // Add static generation marker
 export const _dynamic = 'force-static';
@@ -11,22 +12,22 @@ export default function PlanetTestLayout({ children }: { children: React.ReactNo
 
   // Capture errors and logs
   useEffect(() => {
-    const originalError = console.error;
-    const originalLog = console.log;
+    const originalError = _logger.error;
+    const originalLog = _logger.info;
 
-    console.error = (...args) => {
+    _logger.error = (...args) => {
       setErrors(prev => [...prev, args.join(' ')])
       originalError(...args)
     };
 
-    console.log = (...args) => {
+    _logger.info = (...args) => {
       setLogs(prev => [...prev, args.join(' ')])
       originalLog(...args)
     };
 
     return () => {
-      console.error = originalError;
-      console.log = originalLog;
+      _logger.error = originalError;
+      _logger.info = originalLog;
     };
   }, [])
 

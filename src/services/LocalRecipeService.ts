@@ -242,7 +242,7 @@ export class LocalRecipeService {
 
           return await this.getRecipesFromCuisine(directCuisine)
         } else {
-          console.warn(
+          _logger.warn(
             `Could not find ${normalizedName} in cuisinesMap keys:`,
             Object.keys(cuisinesMap)
           )
@@ -372,7 +372,7 @@ export class LocalRecipeService {
         logger.debug(`No dishes found for cuisine: ${cuisine.name}`)
 
         if (isSpecialCase) {
-          console.warn(`Special case (${cuisine.name}) has no dishes property:`, cuisine)
+          _logger.warn(`Special case (${cuisine.name}) has no dishes property:`, cuisine)
         }
 
         return [];
@@ -394,7 +394,7 @@ export class LocalRecipeService {
           )
         } else if (isSpecialCase) {
           // Debug problematic cuisine
-          console.warn(`No '${mealType}.all' array found for ${cuisine.name}`)
+          _logger.warn(`No '${mealType}.all' array found for ${cuisine.name}`)
           if (cuisine.dishes && cuisine.dishes[mealType]) {
             logger.debug(`Structure of ${mealType}:`, Object.keys(cuisine.dishes[mealType]))
           }
@@ -437,7 +437,7 @@ export class LocalRecipeService {
               }
             })
           } else if (isSpecialCase) {
-            console.warn(`No recipes found for ${season} in ${mealType} for ${cuisine.name}`)
+            _logger.warn(`No recipes found for ${season} in ${mealType} for ${cuisine.name}`)
           }
         })
       })
@@ -446,7 +446,7 @@ export class LocalRecipeService {
 
       // If no recipes were found, log cuisine structure to help debug
       if (recipes.length === 0) {;
-        console.warn(
+        _logger.warn(
           `No recipes extracted for ${cuisine.name}. Cuisine structure:`,
           JSON.stringify(
             {

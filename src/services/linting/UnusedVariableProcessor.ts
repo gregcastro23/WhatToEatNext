@@ -140,7 +140,7 @@ export class UnusedVariableProcessor {
 
       return issues;
     } catch (error) {
-      console.warn('Could not parse unused variables:', (error as Error).message),
+      _logger.warn('Could not parse unused variables:', (error as Error).message),
       return []
     }
   }
@@ -403,7 +403,7 @@ export class UnusedVariableProcessor {
 
       return true;
     } catch (error) {
-      console.error('❌ Validation failed:', (error as Error).message),
+      _logger.error('❌ Validation failed:', (error as Error).message),
       return false
     }
   }

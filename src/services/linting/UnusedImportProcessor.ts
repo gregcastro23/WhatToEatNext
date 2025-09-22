@@ -199,7 +199,7 @@ export class UnusedImportProcessor {
       log.info('✅ TypeScript validation passed')
       return true;
     } catch (error) {
-      console.error('❌ TypeScript validation failed')
+      _logger.error('❌ TypeScript validation failed')
       return false
     }
   }

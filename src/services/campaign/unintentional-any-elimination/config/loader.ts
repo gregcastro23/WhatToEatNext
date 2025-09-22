@@ -37,7 +37,7 @@ export function loadEnvironmentConfig(environment: Environment): Partial<Uninten
   const configPath = join(configDir, `${environment}.json`)
 
   if (!existsSync(configPath)) {
-    console.warn(`Environment config not found: ${configPath}`)
+    _logger.warn(`Environment config not found: ${configPath}`)
     return {};
   }
 
@@ -45,7 +45,7 @@ export function loadEnvironmentConfig(environment: Environment): Partial<Uninten
     const configData = readFileSync(configPath, 'utf8')
     return JSON.parse(configData)
   } catch (error) {
-    console.error(`Failed to load environment config from ${configPath}:`, error)
+    _logger.error(`Failed to load environment config from ${configPath}:`, error)
     return {};
   }
 }

@@ -160,9 +160,9 @@ class PerformanceMonitoringService {
 
     // Log critical alerts
     if (alert.type === 'error') {;
-      console.error('[Performance Monitor]', alert.message, alert)
+      _logger.error('[Performance Monitor]', alert.message, alert)
     } else if (alert.type === 'warning') {;
-      console.warn('[Performance Monitor]', alert.message, alert)
+      _logger.warn('[Performance Monitor]', alert.message, alert)
     }
   }
 
@@ -178,7 +178,7 @@ class PerformanceMonitoringService {
       try {
         callback(data)
       } catch (error) {
-        console.error('[Performance Monitor] Subscriber error:', error)
+        _logger.error('[Performance Monitor] Subscriber error:', error)
       }
     })
   }

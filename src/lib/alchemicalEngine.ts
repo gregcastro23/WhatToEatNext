@@ -530,7 +530,7 @@ export class AlchemicalEngineBase {
       const positions = await getAccuratePlanetaryPositions()
       return positions
     } catch (error) {
-      // console.error('Error calculating planetary positions:', error),
+      // _logger.error('Error calculating planetary positions:', error),
       // Return empty object as fallback
       return {};
     }

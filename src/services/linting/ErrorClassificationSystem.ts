@@ -479,7 +479,7 @@ export class ErrorClassificationSystem {
             type: 'logic-change',
             probability: 0.2,
             impact: 'low',
-            mitigation: 'Preserve console.warn and console.error for important logging'
+            mitigation: 'Preserve _logger.warn and _logger.error for important logging'
           }
         ]
       },

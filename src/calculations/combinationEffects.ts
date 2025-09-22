@@ -121,7 +121,7 @@ export function calculateCombinationEffects({
       return bValue - aValue;
     })
   } catch (error) {
-    console.error('Error calculating combination effects:', error),
+    _logger.error('Error calculating combination effects:', error),
     return []
   }
 }

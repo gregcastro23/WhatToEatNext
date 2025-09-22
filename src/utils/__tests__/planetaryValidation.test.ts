@@ -55,8 +55,8 @@ describe('Planetary Data Validation', () => {
 
       // Log the result for debugging
       if (!resultisValid) {
-        console.log('Validation failed with errors:', result.errors),
-        console.log('Warnings:', result.warnings)
+        _logger.info('Validation failed with errors:', result.errors),
+        _logger.info('Warnings:', result.warnings)
       }
 
       // Should be valid if no critical/high errors

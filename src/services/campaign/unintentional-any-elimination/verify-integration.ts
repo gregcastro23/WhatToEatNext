@@ -11,37 +11,37 @@ import {
 import { UnintentionalAnyConfig } from './types';
 
 async function verifyIntegration(): Promise<void> {
-  // // // console.log('🔍 Verifying Unintentional Any Elimination Campaign Integration...')
+  // // // _logger.info('🔍 Verifying Unintentional Any Elimination Campaign Integration...')
 
   try {
     // Test 1: Create campaign controller with factory function
-    // // // console.log('\n1. Testing factory function...')
+    // // // _logger.info('\n1. Testing factory function...')
     const controller = createUnintentionalAnyCampaignController()
     const config = controller.getUnintentionalAnyConfig()
 
-    // // // console.log('✅ Factory function works')
-    // // // console.log(
+    // // // _logger.info('✅ Factory function works')
+    // // // _logger.info(
       `   Default config: maxFiles=${config.maxFilesPerBatch}, target=${config.targetReductionPercentage}%`,
     )
 
     // Test 2: Create campaign configuration
-    // // // console.log('\n2. Testing campaign configuration creation...')
+    // // // _logger.info('\n2. Testing campaign configuration creation...')
     const campaignConfig =
       UnintentionalAnyCampaignController.createUnintentionalAnyEliminationConfig()
 
-    // // // console.log('✅ Campaign configuration created')
-    // // // console.log(`   Phases: ${campaignConfig.phases.length}`)
-    // // // console.log(`   Phase IDs: ${campaignConfig.phases.map(p => p.id).join(', ')}`)
+    // // // _logger.info('✅ Campaign configuration created')
+    // // // _logger.info(`   Phases: ${campaignConfig.phases.length}`)
+    // // // _logger.info(`   Phase IDs: ${campaignConfig.phases.map(p => p.id).join(', ')}`)
 
     // Test 3: Test automation script compatibility
-    // // // console.log('\n3. Testing automation script compatibility...')
+    // // // _logger.info('\n3. Testing automation script compatibility...')
     const compatibility = UnintentionalAnyIntegrationHelper.createAutomationScriptCompatibility()
 
-    // // // console.log('✅ Automation script compatibility created')
-    // // // console.log(`   Scripts: ${Object.keys(compatibility).join(', ')}`)
+    // // // _logger.info('✅ Automation script compatibility created')
+    // // // _logger.info(`   Scripts: ${Object.keys(compatibility).join(', ')}`)
 
     // Test 4: Test configuration update
-    // // // console.log('\n4. Testing configuration updates...')
+    // // // _logger.info('\n4. Testing configuration updates...')
     const customConfig: Partial<UnintentionalAnyConfig> = {
       maxFilesPerBatch: 20,
       targetReductionPercentage: 25,
@@ -51,45 +51,45 @@ async function verifyIntegration(): Promise<void> {
     controller.updateUnintentionalAnyConfig(customConfig)
     const updatedConfig = controller.getUnintentionalAnyConfig()
 
-    // // // console.log('✅ Configuration update works')
-    // // // console.log(
+    // // // _logger.info('✅ Configuration update works')
+    // // // _logger.info(
       `   Updated config: maxFiles=${updatedConfig.maxFilesPerBatch}, target=${updatedConfig.targetReductionPercentage}%`,
     )
 
     // Test 5: Test metrics retrieval (will use defaults due to test environment)
-    // // // console.log('\n5. Testing metrics retrieval...')
+    // // // _logger.info('\n5. Testing metrics retrieval...')
     try {
       const metrics = await controller.getUnintentionalAnyMetrics()
-      // // // console.log('✅ Metrics retrieval works')
-      // // // console.log(
+      // // // _logger.info('✅ Metrics retrieval works')
+      // // // _logger.info(
         `   Metrics: total=${metrics.totalAnyTypes}, intentional=${metrics.intentionalAnyTypes}, unintentional=${metrics.unintentionalAnyTypes}`,
       )
     } catch (error) {
-      // // // console.log('⚠️ Metrics retrieval failed (expected in test environment)')
-      // // // console.log(`   Error: ${error instanceof Error ? error.message : String(error)}`)
+      // // // _logger.info('⚠️ Metrics retrieval failed (expected in test environment)')
+      // // // _logger.info(`   Error: ${error instanceof Error ? error.message : String(error)}`)
     }
 
     // Test 6: Test phase creation
-    // // // console.log('\n6. Testing phase creation...')
+    // // // _logger.info('\n6. Testing phase creation...')
     const campaign = controller.getUnintentionalAnyCampaign()
     const phases = campaign.createCampaignPhases()
 
-    // // // console.log('✅ Phase creation works')
-    // // // console.log(`   Created ${phases.length} phases: `)
+    // // // _logger.info('✅ Phase creation works')
+    // // // _logger.info(`   Created ${phases.length} phases: `)
     phases.forEach((phase, index) => {
-      // // // console.log(`   ${index + 1}. ${phase.name} (${phase.id})`)
+      // // // _logger.info(`   ${index + 1}. ${phase.name} (${phase.id})`)
     })
 
-    // // // console.log('\n🎉 All integration tests passed!')
-    // // // console.log('\n📋 Integration Summary: ')
-    // // // console.log('   ✅ Campaign controller creation')
-    // // // console.log('   ✅ Configuration management')
-    // // // console.log('   ✅ Phase generation')
-    // // // console.log('   ✅ Automation script compatibility')
-    // // // console.log('   ✅ Metrics integration (basic)')
-    // // // console.log('   ✅ Campaign system integration')
+    // // // _logger.info('\n🎉 All integration tests passed!')
+    // // // _logger.info('\n📋 Integration Summary: ')
+    // // // _logger.info('   ✅ Campaign controller creation')
+    // // // _logger.info('   ✅ Configuration management')
+    // // // _logger.info('   ✅ Phase generation')
+    // // // _logger.info('   ✅ Automation script compatibility')
+    // // // _logger.info('   ✅ Metrics integration (basic)')
+    // // // _logger.info('   ✅ Campaign system integration')
   } catch (error) {
-    console.error('❌ Integration verification failed:', error)
+    _logger.error('❌ Integration verification failed:', error)
     process.exit(1)
   }
 }
@@ -97,7 +97,7 @@ async function verifyIntegration(): Promise<void> {
 // Run verification if this file is executed directly
 if (require.main === module) {;
   verifyIntegration().catch(error => {
-    console.error('❌ Verification failed:', error)
+    _logger.error('❌ Verification failed:', error)
     process.exit(1)
   })
 }

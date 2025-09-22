@@ -71,8 +71,8 @@ export class FullCampaignExecutor {
    * Execute the complete unintentional any elimination campaign
    */
   async executeFullCampaign(): Promise<FullCampaignResult> {
-    // // // console.log('🚀 Starting Full Unintentional Any Elimination Campaign')
-    // // // console.log(
+    // // // _logger.info('🚀 Starting Full Unintentional Any Elimination Campaign')
+    // // // _logger.info(
       `📊 Target: ${this.config.targetReductionPercentage}% reduction (${this.config.targetFixCount} fixes)`,
     )
 
@@ -114,13 +114,13 @@ export class FullCampaignExecutor {
         performanceImproved: await this.validatePerformanceImprovements()
       };
 
-      // // // console.log('✅ Full Campaign Completed Successfully')
-      // // // console.log(`📈 Achieved: ${campaignResult.reductionPercentage.toFixed(1)}% reduction`)
-      // // // console.log(`🎯 Target Met: ${campaignResult.targetAchieved ? 'YES' : 'NO'}`)
+      // // // _logger.info('✅ Full Campaign Completed Successfully')
+      // // // _logger.info(`📈 Achieved: ${campaignResult.reductionPercentage.toFixed(1)}% reduction`)
+      // // // _logger.info(`🎯 Target Met: ${campaignResult.targetAchieved ? 'YES' : 'NO'}`)
 
       return campaignResult;
     } catch (error) {
-      console.error('❌ Campaign execution failed:', error),
+      _logger.error('❌ Campaign execution failed:', error),
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error',
@@ -140,7 +140,7 @@ export class FullCampaignExecutor {
    * Phase, 1: Initial Analysis and Baseline Establishment
    */
   private async executePhase1_InitialAnalysis(): Promise<CampaignPhase> {
-    // // // console.log('\n📋 Phase, 1: Initial Analysis and Baseline')
+    // // // _logger.info('\n📋 Phase, 1: Initial Analysis and Baseline')
 
     const phaseStart = Date.now()
 
@@ -148,8 +148,8 @@ export class FullCampaignExecutor {
       // Get initial baseline metrics
       const initialErrorCount = await this.getCurrentErrorCount()
       const initialAnyCount = await this.getCurrentAnyCount()
-      // // // console.log(`📊 Baseline - TypeScript Errors: ${initialErrorCount}`)
-      // // // console.log(`📊 Baseline - Explicit Any Count: ${initialAnyCount}`)
+      // // // _logger.info(`📊 Baseline - TypeScript Errors: ${initialErrorCount}`)
+      // // // _logger.info(`📊 Baseline - Explicit Any Count: ${initialAnyCount}`)
 
       // Perform comprehensive analysis
       const analysisResult = await this.analysisTools.performComprehensiveAnalysis()
@@ -175,7 +175,7 @@ export class FullCampaignExecutor {
         }
       };
     } catch (error) {
-      console.error('❌ Phase 1 failed:', error),
+      _logger.error('❌ Phase 1 failed:', error),
       throw error
     }
   }
@@ -184,7 +184,7 @@ export class FullCampaignExecutor {
    * Phase, 2: High-Confidence Replacements (Array types, simple Records)
    */
   private async executePhase2_HighConfidenceReplacements(): Promise<CampaignPhase> {
-    // // // console.log('\n🎯 Phase, 2: High-Confidence Replacements')
+    // // // _logger.info('\n🎯 Phase, 2: High-Confidence Replacements')
 
     const phaseStart = Date.now()
     const errorsBefore = await this.getCurrentErrorCount()
@@ -198,13 +198,13 @@ export class FullCampaignExecutor {
         batchCount < maxBatches &&
         totalFixes < ((this.config as any)?.targetFixCount || 0) * 0.2
       ) {
-        // // // console.log(`\n🔄 High-Confidence Batch ${batchCount + 1}`)
+        // // // _logger.info(`\n🔄 High-Confidence Batch ${batchCount + 1}`)
 
         // Find high-confidence cases
         const highConfidenceCases = await this.findHighConfidenceCases()
 
         if (highConfidenceCases.length === 0) {
-          // // // console.log('✅ No more high-confidence cases found')
+          // // // _logger.info('✅ No more high-confidence cases found')
           break
         }
 
@@ -219,14 +219,14 @@ export class FullCampaignExecutor {
 
         // Validate build after each batch
         if (!(await this.validateBuildStability())) {
-          console.error('❌ Build instability detected, stopping phase'),
+          _logger.error('❌ Build instability detected, stopping phase'),
           break
         }
 
         batchCount++;
 
         // Progress update
-        // // // console.log(`📈 Phase 2 Progress: ${totalFixes} fixes applied`)
+        // // // _logger.info(`📈 Phase 2 Progress: ${totalFixes} fixes applied`)
       }
 
       const errorsAfter = await this.getCurrentErrorCount()
@@ -244,7 +244,7 @@ export class FullCampaignExecutor {
         }
       }
     } catch (error) {
-      console.error('❌ Phase 2 failed:', error),
+      _logger.error('❌ Phase 2 failed:', error),
       throw error
     }
   }
@@ -253,7 +253,7 @@ export class FullCampaignExecutor {
    * Phase, 3: Medium-Risk Category Processing
    */
   private async executePhase3_MediumRiskProcessing(): Promise<CampaignPhase> {
-    // // // console.log('\n⚖️ Phase, 3: Medium-Risk Category Processing')
+    // // // _logger.info('\n⚖️ Phase, 3: Medium-Risk Category Processing')
 
     const phaseStart = Date.now()
     const errorsBefore = await this.getCurrentErrorCount()
@@ -267,7 +267,7 @@ export class FullCampaignExecutor {
       ],
 
       for (const category of mediumRiskCategories) {
-        // // // console.log(`\n🔍 Processing ${category} category`)
+        // // // _logger.info(`\n🔍 Processing ${category} category`)
 
         const categoryFixes = await this.processCategoryWithEnhancedSafety(category)
         totalFixes += categoryFixes;
@@ -275,11 +275,11 @@ export class FullCampaignExecutor {
 
         // Validate after each category
         if (!(await this.validateBuildStability())) {
-          console.error(`❌ Build instability after ${category}, stopping`)
+          _logger.error(`❌ Build instability after ${category}, stopping`)
           break;
         }
 
-        // // // console.log(`✅ ${category}: ${categoryFixes} fixes applied`)
+        // // // _logger.info(`✅ ${category}: ${categoryFixes} fixes applied`)
       }
 
       const errorsAfter = await this.getCurrentErrorCount()
@@ -297,7 +297,7 @@ export class FullCampaignExecutor {
         }
       };
     } catch (error) {
-      console.error('❌ Phase 3 failed:', error),
+      _logger.error('❌ Phase 3 failed:', error),
       throw error
     }
   }
@@ -306,7 +306,7 @@ export class FullCampaignExecutor {
    * Phase, 4: Domain-Specific Processing
    */
   private async executePhase4_DomainSpecificProcessing(): Promise<CampaignPhase> {
-    // // // console.log('\n🏗️ Phase, 4: Domain-Specific Processing')
+    // // // _logger.info('\n🏗️ Phase, 4: Domain-Specific Processing')
 
     const phaseStart = Date.now()
     const errorsBefore = await this.getCurrentErrorCount()
@@ -316,7 +316,7 @@ export class FullCampaignExecutor {
       let totalFixes = 0
 
       for (const domain of domains) {
-        // // // console.log(`\n🎯 Processing ${domain} domain`)
+        // // // _logger.info(`\n🎯 Processing ${domain} domain`)
 
         const domainFixes = await this.processDomainSpecific(domain)
         totalFixes += domainFixes.fixesApplied;
@@ -326,11 +326,11 @@ export class FullCampaignExecutor {
 
         // Validate after each domain
         if (!(await this.validateBuildStability())) {
-          console.error(`❌ Build instability after ${domain} domain`)
+          _logger.error(`❌ Build instability after ${domain} domain`)
           break;
         }
 
-        // // // console.log(`✅ ${domain} domain: ${domainFixes.fixesApplied} fixes applied`)
+        // // // _logger.info(`✅ ${domain} domain: ${domainFixes.fixesApplied} fixes applied`)
       }
 
       const errorsAfter = await this.getCurrentErrorCount()
@@ -348,7 +348,7 @@ export class FullCampaignExecutor {
         }
       };
     } catch (error) {
-      console.error('❌ Phase 4 failed:', error),
+      _logger.error('❌ Phase 4 failed:', error),
       throw error
     }
   }
@@ -357,7 +357,7 @@ export class FullCampaignExecutor {
    * Phase, 5: Documentation and Validation
    */
   private async executePhase5_DocumentationAndValidation(): Promise<CampaignPhase> {
-    // // // console.log('\n📝 Phase, 5: Documentation and Validation')
+    // // // _logger.info('\n📝 Phase, 5: Documentation and Validation')
 
     const phaseStart = Date.now()
     const errorsBefore = await this.getCurrentErrorCount()
@@ -372,9 +372,9 @@ export class FullCampaignExecutor {
 
       // Validate documentation completeness
       const validationResult = await this.validateDocumentationCompleteness()
-      // // // console.log(`📝 Documented ${documentationResult.documented} intentional any types`)
-      // // // console.log(`🔧 Added ${eslintResult.added} ESLint disable comments`)
-      // // // console.log(
+      // // // _logger.info(`📝 Documented ${documentationResult.documented} intentional any types`)
+      // // // _logger.info(`🔧 Added ${eslintResult.added} ESLint disable comments`)
+      // // // _logger.info(
         `✅ Documentation validation: ${validationResult.complete ? 'COMPLETE' : 'INCOMPLETE'}`,
       )
 
@@ -394,7 +394,7 @@ export class FullCampaignExecutor {
         }
       };
     } catch (error) {
-      console.error('❌ Phase 5 failed:', error),
+      _logger.error('❌ Phase 5 failed:', error),
       throw error
     }
   }
@@ -403,7 +403,7 @@ export class FullCampaignExecutor {
    * Phase, 6: Final Validation and Reporting
    */
   private async executePhase6_FinalValidationAndReporting(): Promise<CampaignPhase> {
-    // // // console.log('\n📊 Phase, 6: Final Validation and Reporting')
+    // // // _logger.info('\n📊 Phase, 6: Final Validation and Reporting')
 
     const phaseStart = Date.now()
     const errorsBefore = await this.getCurrentErrorCount()
@@ -424,13 +424,13 @@ export class FullCampaignExecutor {
       this.metrics.finalAnyCount = finalAnyCount;
       this.metrics.campaignCompleted = true;
 
-      // // // console.log(`📊 Final Metrics:`)
-      // // // console.log(`   TypeScript Errors: ${this.metrics.initialErrorCount} → ${finalErrorCount}`)
-      // // // console.log(`   Explicit Any Count: ${this.metrics.initialAnyCount} → ${finalAnyCount}`)
-      // // // console.log(`   Total Fixes Applied: ${this.metrics.totalFixesApplied}`)
-      // // // console.log(`   Reduction Percentage: ${this.calculateReductionPercentage().toFixed(1)}%`)
-      // // // console.log(`   Target Achieved: ${this.isTargetAchieved() ? 'YES' : 'NO'}`)
-      // // // console.log(`   Build Performance: ${performanceResult ? 'IMPROVED' : 'STABLE'}`)
+      // // // _logger.info(`📊 Final Metrics:`)
+      // // // _logger.info(`   TypeScript Errors: ${this.metrics.initialErrorCount} → ${finalErrorCount}`)
+      // // // _logger.info(`   Explicit Any Count: ${this.metrics.initialAnyCount} → ${finalAnyCount}`)
+      // // // _logger.info(`   Total Fixes Applied: ${this.metrics.totalFixesApplied}`)
+      // // // _logger.info(`   Reduction Percentage: ${this.calculateReductionPercentage().toFixed(1)}%`)
+      // // // _logger.info(`   Target Achieved: ${this.isTargetAchieved() ? 'YES' : 'NO'}`)
+      // // // _logger.info(`   Build Performance: ${performanceResult ? 'IMPROVED' : 'STABLE'}`)
 
       return {
         name: 'Final Validation and Reporting',
@@ -446,7 +446,7 @@ export class FullCampaignExecutor {
         }
       };
     } catch (error) {
-      console.error('❌ Phase 6 failed:', error),
+      _logger.error('❌ Phase 6 failed:', error),
       throw error
     }
   }
@@ -475,7 +475,7 @@ export class FullCampaignExecutor {
 
         highConfidenceCases.push(...highConfidence)
       } catch (error) {
-        console.warn(`Warning: Could not process ${file}:`, error)
+        _logger.warn(`Warning: Could not process ${file}:`, error)
       }
     }
 
@@ -489,7 +489,7 @@ export class FullCampaignExecutor {
     cases: AnyTypeClassification[],
     batchType: string,
   ): Promise<ReplacementResult> {
-    // // // console.log(`🔧 Processing ${cases.length} ${batchType} cases`)
+    // // // _logger.info(`🔧 Processing ${cases.length} ${batchType} cases`)
 
     // Create backup before processing
     const backupPath = await this.createBackup()
@@ -499,7 +499,7 @@ export class FullCampaignExecutor {
 
       // Validate build after replacement
       if (!(await this.validateBuildStability())) {
-        console.warn('⚠️ Build instability detected, rolling back'),
+        _logger.warn('⚠️ Build instability detected, rolling back'),
         await this.restoreBackup(backupPath)
         return {
           success: false,
@@ -520,12 +520,12 @@ export class FullCampaignExecutor {
         };
       }
 
-      // // // console.log(
+      // // // _logger.info(
         `✅ Batch completed: ${result.successfulReplacements}/${cases.length} successful`,
       )
       return result;
     } catch (error) {
-      console.error('❌ Batch processing failed:', error)
+      _logger.error('❌ Batch processing failed:', error)
       await this.restoreBackup(backupPath)
       throw error
     }
@@ -558,7 +558,7 @@ export class FullCampaignExecutor {
       // More frequent validation for medium-risk
       if (batchCount % 3 === 0) {
         if (!(await this.validateBuildStability())) {
-          console.warn(`⚠️ Stopping ${category} processing due to build instability`)
+          _logger.warn(`⚠️ Stopping ${category} processing due to build instability`)
           break
         }
       }
@@ -594,7 +594,7 @@ export class FullCampaignExecutor {
           processedFiles.push(file)
         }
       } catch (error) {
-        console.warn(`Warning: Could not process domain file ${file}:`, error)
+        _logger.warn(`Warning: Could not process domain file ${file}:`, error)
       }
     }
 
@@ -632,7 +632,7 @@ export class FullCampaignExecutor {
           }
         }
       } catch (error) {
-        console.warn(`Warning: Could not add ESLint comments to ${file}:`, error)
+        _logger.warn(`Warning: Could not add ESLint comments to ${file}:`, error)
       }
     }
 
@@ -714,7 +714,7 @@ export class FullCampaignExecutor {
           }
         }
       } catch (error) {
-        console.warn(`Warning: Could not validate documentation in ${file}:`, error)
+        _logger.warn(`Warning: Could not validate documentation in ${file}:`, error)
       }
     }
 
@@ -923,7 +923,7 @@ export class FullCampaignExecutor {
 
         cases.push(...categoryCases)
       } catch (error) {
-        console.warn(`Warning: Could not process ${file}:`, error)
+        _logger.warn(`Warning: Could not process ${file}:`, error)
       }
     }
 
@@ -944,23 +944,23 @@ export class FullCampaignExecutor {
       execSync(`cp -r src ${backupPath}/`)
       return backupPath;
     } catch (error) {
-      console.warn('Warning: Could not create backup:', error),
+      _logger.warn('Warning: Could not create backup:', error),
       return ''
     }
   }
 
   private async restoreBackup(backupPath: string): Promise<void> {
     if (!backupPath || !fs.existsSync(backupPath)) {
-      console.warn('Warning: Backup path not found, cannot restore'),
+      _logger.warn('Warning: Backup path not found, cannot restore'),
       return
     }
 
     try {
       execSync(`rm -rf src`)
       execSync(`cp -r ${backupPath}/src .`)
-      // // // console.log('✅ Backup restored successfully')
+      // // // _logger.info('✅ Backup restored successfully')
     } catch (error) {
-      console.error('❌ Failed to restore backup:', error)
+      _logger.error('❌ Failed to restore backup:', error)
     }
   }
 

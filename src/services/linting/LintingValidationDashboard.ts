@@ -121,7 +121,7 @@ export class LintingValidationDashboard {
    * Run comprehensive linting validation across entire codebase
    */
   async runComprehensiveValidation(): Promise<ValidationResult> {
-    // // // console.log('🔍 Starting comprehensive linting validation...')
+    // // // _logger.info('🔍 Starting comprehensive linting validation...')
 
     const startTime = Date.now()
     const metrics = await this.collectMetrics()
@@ -144,7 +144,7 @@ export class LintingValidationDashboard {
     // Generate dashboard report
     await this.generateDashboardReport(result)
 
-    // // // console.log(`✅ Validation completed in ${Date.now() - startTime}ms`)
+    // // // _logger.info(`✅ Validation completed in ${Date.now() - startTime}ms`)
     return result;
   }
 
@@ -177,7 +177,7 @@ export class LintingValidationDashboard {
 
       return metrics;
     } catch (error) {
-      console.error('Error collecting linting metrics:', error),
+      _logger.error('Error collecting linting metrics:', error),
 
       // Return fallback metrics
       return {
@@ -575,7 +575,7 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')};
 `;
 
     writeFileSync(reportPath, report, 'utf8')
-    // // // console.log(`📊 Dashboard report generated: ${reportPath}`)
+    // // // _logger.info(`📊 Dashboard report generated: ${reportPath}`)
   }
 
   // Helper methods
@@ -616,7 +616,7 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')};
         return JSON.parse(readFileSync(this.metricsHistoryFile, 'utf8'))
       }
     } catch (error) {
-      console.warn('Error loading metrics history:', error)
+      _logger.warn('Error loading metrics history:', error)
     }
     return []
   }

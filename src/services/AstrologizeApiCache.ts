@@ -369,7 +369,7 @@ class AstrologizeApiCache {
       const data = Array.from(this.cache.entries())
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data))
     } catch (error) {
-      console.warn('Failed to save astrologize cache to localStorage:', error)
+      _logger.warn('Failed to save astrologize cache to localStorage:', error)
     }
   }
 
@@ -381,7 +381,7 @@ class AstrologizeApiCache {
         this.cache = new Map(data)
       }
     } catch (error) {
-      console.warn('Failed to load astrologize cache from localStorage:', error)
+      _logger.warn('Failed to load astrologize cache from localStorage:', error)
     }
   }
 

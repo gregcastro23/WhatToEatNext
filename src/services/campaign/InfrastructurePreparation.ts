@@ -97,7 +97,7 @@ export class InfrastructurePreparation {
    * Validates and prepares all infrastructure components
    */
   async prepareInfrastructure(): Promise<InfrastructureStatus> {
-    // // // console.log('🚀 Starting Infrastructure Preparation and Safety Protocols...\n')
+    // // // _logger.info('🚀 Starting Infrastructure Preparation and Safety Protocols...\n')
 
     const status: InfrastructureStatus = {
       eslintConfig: await this.validateESLintConfiguration(),
@@ -120,14 +120,14 @@ export class InfrastructurePreparation {
     // Create infrastructure report
     await this.generateInfrastructureReport(status)
 
-    // // // console.log(`\n✅ Infrastructure Preparation Complete!`)
-    // // // console.log(`📊 Readiness Score: ${status.readinessScore}%`)
-    // // // console.log(`🎯 Overall Readiness: ${status.overallReadiness ? 'READY' : 'NEEDS ATTENTION'}`)
+    // // // _logger.info(`\n✅ Infrastructure Preparation Complete!`)
+    // // // _logger.info(`📊 Readiness Score: ${status.readinessScore}%`)
+    // // // _logger.info(`🎯 Overall Readiness: ${status.overallReadiness ? 'READY' : 'NEEDS ATTENTION'}`)
 
     if (status.recommendations.length > 0) {
-      // // // console.log('\n📋 Recommendations: ')
+      // // // _logger.info('\n📋 Recommendations: ')
       status.recommendations.forEach((reci) => {
-        // // // console.log(`   ${i + 1}. ${rec}`)
+        // // // _logger.info(`   ${i + 1}. ${rec}`)
       })
     }
 
@@ -138,7 +138,7 @@ export class InfrastructurePreparation {
    * Validate dual ESLint configuration strategy
    */
   private async validateESLintConfiguration(): Promise<ESLintConfigValidation> {
-    // // // console.log('🔧 Validating Dual ESLint Configuration Strategy...')
+    // // // _logger.info('🔧 Validating Dual ESLint Configuration Strategy...')
 
     const fastConfigPath = join(this.projectRoot, 'eslint.config.fast.cjs')
     const typeAwareConfigPath = join(this.projectRoot, 'eslint.config.type-aware.cjs')
@@ -177,9 +177,9 @@ export class InfrastructurePreparation {
         validation.fastConfig.estimatedTime = Date.now() - startTime;
         validation.fastConfig.functional = true;
         validation.fastConfig.performanceOptimized = validation.fastConfig.estimatedTime < 5000;
-        // // // console.log(`   ✅ Fast config functional (${validation.fastConfig.estimatedTime}ms)`)
+        // // // _logger.info(`   ✅ Fast config functional (${validation.fastConfig.estimatedTime}ms)`)
       } catch (error) {
-        // // // console.log(`   ❌ Fast config test failed: ${error}`)
+        // // // _logger.info(`   ❌ Fast config test failed: ${error}`)
       }
     }
 
@@ -198,9 +198,9 @@ export class InfrastructurePreparation {
         // Check if type checking is enabled by looking for type-aware rules
         const configContent = readFileSync(typeAwareConfigPath, 'utf8')
         validation.typeAwareConfig.typeCheckingEnabled = configContent.includes('project: ')
-        // // // console.log(`   ✅ Type-aware config functional (${validation.typeAwareConfig.estimatedTime}ms)`)
+        // // // _logger.info(`   ✅ Type-aware config functional (${validation.typeAwareConfig.estimatedTime}ms)`)
       } catch (error) {
-        // // // console.log(`   ❌ Type-aware config test failed: ${error}`)
+        // // // _logger.info(`   ❌ Type-aware config test failed: ${error}`)
       }
     }
 
@@ -214,7 +214,7 @@ export class InfrastructurePreparation {
       validation.packageScripts.incrementalLint = !!scripts['lint:incremental'];
       validation.packageScripts.ciLint = !!scripts['lint:ci'];
 
-      // // // console.log(`   ✅ Package scripts validated`)
+      // // // _logger.info(`   ✅ Package scripts validated`)
     }
 
     return validation;
@@ -224,7 +224,7 @@ export class InfrastructurePreparation {
    * Setup automated backup and rollback mechanisms
    */
   private async setupBackupSystem(): Promise<BackupSystem> {
-    // // // console.log('💾 Setting up Automated Backup and Rollback Mechanisms...')
+    // // // _logger.info('💾 Setting up Automated Backup and Rollback Mechanisms...')
 
     const backupSystem: BackupSystem = {
       gitStashAvailable: false,
@@ -242,9 +242,9 @@ export class InfrastructurePreparation {
       execSync('git status', { cwd: this.projectRoot, stdio: 'pipe' })
       execSync('git stash list', { cwd: this.projectRoot, stdio: 'pipe' })
       backupSystem.gitStashAvailable = true;
-      // // // console.log('   ✅ Git stash available')
+      // // // _logger.info('   ✅ Git stash available')
     } catch (error) {
-      // // // console.log('   ❌ Git stash not available')
+      // // // _logger.info('   ❌ Git stash not available')
     }
 
     // Create backup directory
@@ -252,7 +252,7 @@ export class InfrastructurePreparation {
       mkdirSync(this.backupDir, { recursive: true })
     }
     backupSystem.backupDirectoryExists = existsSync(this.backupDir)
-    // // // console.log(`   ✅ Backup directory: ${this.backupDir}`)
+    // // // _logger.info(`   ✅ Backup directory: ${this.backupDir}`)
 
     // Test rollback mechanism
     try {
@@ -261,10 +261,10 @@ export class InfrastructurePreparation {
 
       if (existsSync(testFile)) {
         backupSystem.rollbackMechanismTested = true;
-        // // // console.log('   ✅ Rollback mechanism tested')
+        // // // _logger.info('   ✅ Rollback mechanism tested')
       }
     } catch (error) {
-      // // // console.log('   ❌ Rollback mechanism test failed')
+      // // // _logger.info('   ❌ Rollback mechanism test failed')
     }
 
     // Setup automatic backup configuration
@@ -279,7 +279,7 @@ export class InfrastructurePreparation {
 
     writeFileSync(backupConfigPath, JSON.stringify(backupConfig, null, 2))
     backupSystem.automaticBackupEnabled = true;
-    // // // console.log('   ✅ Automatic backup configuration created')
+    // // // _logger.info('   ✅ Automatic backup configuration created')
 
     return backupSystem;
   }
@@ -288,7 +288,7 @@ export class InfrastructurePreparation {
    * Setup build stability monitoring and checkpoint systems
    */
   private async setupBuildMonitoring(): Promise<BuildMonitoring> {
-    // // // console.log('🏗️ Setting up Build Stability Monitoring and Checkpoint Systems...')
+    // // // _logger.info('🏗️ Setting up Build Stability Monitoring and Checkpoint Systems...')
 
     const buildMonitoring: BuildMonitoring = {
       buildStabilityChecks: false,
@@ -309,9 +309,9 @@ export class InfrastructurePreparation {
       const buildTime = Date.now() - startTime;
       buildMonitoring.buildStabilityChecks = true;
       buildMonitoring.buildTimeTracking = true;
-      // // // console.log(`   ✅ Build stability verified (${buildTime}ms)`)
+      // // // _logger.info(`   ✅ Build stability verified (${buildTime}ms)`)
     } catch (error) {
-      // // // console.log('   ❌ Build stability check failed')
+      // // // _logger.info('   ❌ Build stability check failed')
     }
 
     // Setup checkpoint system
@@ -333,7 +333,7 @@ export class InfrastructurePreparation {
       JSON.stringify(checkpointConfig, null, 2),
     )
     buildMonitoring.checkpointSystemReady = true;
-    // // // console.log('   ✅ Checkpoint system configured')
+    // // // _logger.info('   ✅ Checkpoint system configured')
 
     // Setup performance monitoring
     const performanceConfig = {
@@ -359,7 +359,7 @@ export class InfrastructurePreparation {
       JSON.stringify(performanceConfig, null, 2),
     )
     buildMonitoring.performanceMonitoring = true;
-    // // // console.log('   ✅ Performance monitoring configured')
+    // // // _logger.info('   ✅ Performance monitoring configured')
 
     // Setup error threshold monitoring
     const errorThresholdConfig = {
@@ -388,7 +388,7 @@ export class InfrastructurePreparation {
       JSON.stringify(errorThresholdConfig, null, 2),
     )
     buildMonitoring.errorThresholdMonitoring = true;
-    // // // console.log('   ✅ Error threshold monitoring configured')
+    // // // _logger.info('   ✅ Error threshold monitoring configured')
 
     return buildMonitoring;
   }
@@ -397,7 +397,7 @@ export class InfrastructurePreparation {
    * Setup batch processing infrastructure with safety validation
    */
   private async setupBatchProcessing(): Promise<BatchProcessingInfrastructure> {
-    // // // console.log('⚙️ Setting up Batch Processing Infrastructure with Safety Validation...')
+    // // // _logger.info('⚙️ Setting up Batch Processing Infrastructure with Safety Validation...')
 
     const batchProcessing: BatchProcessingInfrastructure = {
       safetyValidationEnabled: false,
@@ -444,7 +444,7 @@ export class InfrastructurePreparation {
 
     writeFileSync(join(batchConfigDir, 'batch-config.json'), JSON.stringify(batchConfig, null, 2))
     batchProcessing.safetyValidationEnabled = true;
-    // // // console.log('   ✅ Batch processing configuration created')
+    // // // _logger.info('   ✅ Batch processing configuration created')
 
     // Create safety validation script
     const safetyValidationScript = `#!/usr/bin/env node;
@@ -456,29 +456,29 @@ const { execSync } = require('child_process')
 const { existsSync } = require('fs')
 
 async function validateBatch(files) {
-  // // // console.log(\`🔍 Validating batch of \${files.length} files...\`)
+  // // // _logger.info(\`🔍 Validating batch of \${files.length} files...\`)
 
   try {
     // Syntax check
-    // // // console.log('   📝 Checking syntax...')
+    // // // _logger.info('   📝 Checking syntax...')
     execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe' })
 
     // Type check
-    // // // console.log('   🔍 Type checking...')
+    // // // _logger.info('   🔍 Type checking...')
     execSync('yarn tsc --noEmit', { stdio: 'pipe' })
 
     // Build test
-    // // // console.log('   🏗️ Testing build...')
+    // // // _logger.info('   🏗️ Testing build...')
     execSync('yarn build', { stdio: 'pipe' })
 
     // Lint check
-    // // // console.log('   ✨ Linting...')
+    // // // _logger.info('   ✨ Linting...')
     execSync('yarn, lint:quick', { stdio: 'pipe' })
 
-    // // // console.log('   ✅ Batch validation passed')
+    // // // _logger.info('   ✅ Batch validation passed')
     return true;
   } catch (error) {
-    // // // console.log(\`   ❌ Batch validation failed: \${error.message}\`)
+    // // // _logger.info(\`   ❌ Batch validation failed: \${error.message}\`)
     return false;
   }
 }
@@ -487,7 +487,7 @@ module.exports = { validateBatch };
 `;
 
     writeFileSync(join(batchConfigDir, 'safety-validation.js'), safetyValidationScript)
-    // // // console.log('   ✅ Safety validation script created')
+    // // // _logger.info('   ✅ Safety validation script created')
 
     return batchProcessing;
   }
@@ -496,7 +496,7 @@ module.exports = { validateBatch };
    * Setup progress tracking and metrics collection systems
    */
   private async setupProgressTracking(): Promise<ProgressTracking> {
-    // // // console.log('📊 Setting up Progress Tracking and Metrics Collection Systems...')
+    // // // _logger.info('📊 Setting up Progress Tracking and Metrics Collection Systems...')
 
     const progressTracking: ProgressTracking = {
       metricsCollectionEnabled: false,
@@ -551,7 +551,7 @@ module.exports = { validateBatch };
       JSON.stringify(metricsConfig, null, 2),
     )
     progressTracking.metricsCollectionEnabled = true;
-    // // // console.log('   ✅ Metrics collection configured')
+    // // // _logger.info('   ✅ Metrics collection configured')
 
     // Create progress tracking script
     const progressTrackingScript = `#!/usr/bin/env node;
@@ -651,7 +651,7 @@ module.exports = { ProgressTracker };
     writeFileSync(join(this.metricsDir, 'progress-tracker.js'), progressTrackingScript)
     progressTracking.realTimeTracking = true;
     progressTracking.reportGeneration = true;
-    // // // console.log('   ✅ Progress tracking system created')
+    // // // _logger.info('   ✅ Progress tracking system created')
 
     // Create dashboard integration
     const dashboardScript = `#!/usr/bin/env node;
@@ -705,7 +705,7 @@ class InfrastructureDashboard {
 
 if (require.main === module) {;
   const dashboard = new InfrastructureDashboard()
-  // // // console.log(dashboard.generateReport())
+  // // // _logger.info(dashboard.generateReport())
 }
 
 module.exports = { InfrastructureDashboard };
@@ -713,7 +713,7 @@ module.exports = { InfrastructureDashboard };
 
     writeFileSync(join(this.metricsDir, 'dashboard.js'), dashboardScript)
     progressTracking.dashboardIntegration = true;
-    // // // console.log('   ✅ Dashboard integration created')
+    // // // _logger.info('   ✅ Dashboard integration created')
 
     // Setup alerting system
     const alertingConfig = {
@@ -736,7 +736,7 @@ module.exports = { InfrastructureDashboard };
       JSON.stringify(alertingConfig, null, 2),
     )
     progressTracking.alertingSystem = true;
-    // // // console.log('   ✅ Alerting system configured')
+    // // // _logger.info('   ✅ Alerting system configured')
 
     return progressTracking;
   }
@@ -936,9 +936,9 @@ module.exports = { InfrastructureDashboard };
 
     writeFileSync(htmlReportPath, htmlReport)
 
-    // // // console.log(`\n📄 Reports generated: `)
-    // // // console.log(`   📊 JSON: ${reportPath}`)
-    // // // console.log(`   🌐 HTML: ${htmlReportPath}`)
+    // // // _logger.info(`\n📄 Reports generated: `)
+    // // // _logger.info(`   📊 JSON: ${reportPath}`)
+    // // // _logger.info(`   🌐 HTML: ${htmlReportPath}`)
   }
 }
 

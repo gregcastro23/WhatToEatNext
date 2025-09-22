@@ -244,7 +244,7 @@ export class UnifiedScoringExample {
       log.info('Notes:', japaneseScore.notes)
       log.info('\n')
     } catch (error) {
-      console.error('Error in comprehensive example:', error)
+      _logger.error('Error in comprehensive example:', error)
     }
   }
 

@@ -97,7 +97,7 @@ export class AlgorithmPerformanceValidator {
    * Run comprehensive performance benchmarks
    */
   async runPerformanceBenchmarks(): Promise<PerformanceBenchmark[]> {
-    // // // // console.log('🚀 Running performance benchmarks...')
+    // // // // _logger.info('🚀 Running performance benchmarks...')
 
     const benchmarks: PerformanceBenchmark[] = [];
 
@@ -125,10 +125,10 @@ export class AlgorithmPerformanceValidator {
         this.benchmarkHistory = this.benchmarkHistory.slice(-500)
       }
 
-      // // // console.log(`🚀 Completed ${benchmarks.length} performance benchmarks`)
+      // // // _logger.info(`🚀 Completed ${benchmarks.length} performance benchmarks`)
       return benchmarks;
     } catch (error) {
-      console.warn(`⚠️  Performance benchmarking failed: ${(error as Error).message}`)
+      _logger.warn(`⚠️  Performance benchmarking failed: ${(error as Error).message}`)
       return [];
     }
   }
@@ -137,7 +137,7 @@ export class AlgorithmPerformanceValidator {
    * Validate 3-tier caching system performance
    */
   async validateCachePerformance(): Promise<CachePerformanceMetrics> {
-    // // // // console.log('💾 Validating 3-tier caching system...')
+    // // // // _logger.info('💾 Validating 3-tier caching system...')
 
     try {
       // Tier, 1: Memory cache validation
@@ -176,12 +176,12 @@ export class AlgorithmPerformanceValidator {
       // Check for cache performance alerts
       await this.checkCachePerformanceAlerts(cacheMetrics)
 
-      // // // console.log(
+      // // // _logger.info(
         `💾 Cache validation complete: ${(overallHitRate * 100).toFixed(1)}% hit rate, ${efficiency.toFixed(1)}% efficiency`,
       )
       return cacheMetrics;
     } catch (error) {
-      console.warn(`⚠️  Cache validation failed: ${(error as Error).message}`)
+      _logger.warn(`⚠️  Cache validation failed: ${(error as Error).message}`)
 
       // Return fallback metrics
       return {
@@ -203,7 +203,7 @@ export class AlgorithmPerformanceValidator {
    * Detect performance regressions
    */
   async detectPerformanceRegressions(): Promise<RegressionTestResult[]> {
-    // // // // console.log('🔍 Detecting performance regressions...')
+    // // // // _logger.info('🔍 Detecting performance regressions...')
 
     const regressionTests: RegressionTestResult[] = [];
 
@@ -262,12 +262,12 @@ export class AlgorithmPerformanceValidator {
         }
       }
 
-      // // // console.log(
+      // // // _logger.info(
         `🔍 Regression analysis complete: ${regressionTests.filter(t => t.regressionDetected).length}/${regressionTests.length} regressions detected`,
       )
       return regressionTests;
     } catch (error) {
-      console.warn(`⚠️  Regression detection failed: ${(error as Error).message}`)
+      _logger.warn(`⚠️  Regression detection failed: ${(error as Error).message}`)
       return [];
     }
   }
@@ -276,11 +276,11 @@ export class AlgorithmPerformanceValidator {
    * Validate 50% improvement maintenance
    */
   async validateImprovementMaintenance(): Promise<boolean> {
-    // // // // console.log('📈 Validating 50% improvement maintenance...')
+    // // // // _logger.info('📈 Validating 50% improvement maintenance...')
 
     try {
       if (this.benchmarkHistory.length === 0) {
-        // // // // console.log('📈 No benchmark history available for improvement validation')
+        // // // // _logger.info('📈 No benchmark history available for improvement validation')
         return false
       }
 
@@ -301,13 +301,13 @@ export class AlgorithmPerformanceValidator {
         totalImprovements += avgImprovement;
         validCategories++,
 
-        // // // // console.log(`📈 ${category} category: ${(avgImprovement * 100).toFixed(1)}% average improvement`)
+        // // // // _logger.info(`📈 ${category} category: ${(avgImprovement * 100).toFixed(1)}% average improvement`)
       }
 
       const overallImprovement = validCategories > 0 ? totalImprovements / validCategories : 0;
       const improvementMaintained = overallImprovement >= this.IMPROVEMENT_TARGET
 
-      // // // // console.log(`📈 Overall improvement: ${(overallImprovement * 100).toFixed(1)}% (target: ${(this.IMPROVEMENT_TARGET * 100)}%)`)
+      // // // // _logger.info(`📈 Overall improvement: ${(overallImprovement * 100).toFixed(1)}% (target: ${(this.IMPROVEMENT_TARGET * 100)}%)`)
 
       if (!improvementMaintained) {
         this.addAlert({
@@ -329,7 +329,7 @@ export class AlgorithmPerformanceValidator {
 
       return improvementMaintained;
     } catch (error) {
-      console.warn(`⚠️  Improvement validation failed: ${(error as Error).message}`),
+      _logger.warn(`⚠️  Improvement validation failed: ${(error as Error).message}`),
       return false
     }
   }
@@ -735,7 +735,7 @@ export class AlgorithmPerformanceValidator {
 
     // Log alert
     const severityIcon = alert.severity === 'critical' ? '🚨' : '⚠️'
-    // // // console.log(`${severityIcon} Performance Alert: ${alert.message}`)
+    // // // _logger.info(`${severityIcon} Performance Alert: ${alert.message}`)
   }
 
   /**
@@ -750,7 +750,7 @@ export class AlgorithmPerformanceValidator {
    */
   clearAlerts(): void {
     this.alerts = [];
-    // // // console.log('🚀 Performance alerts cleared')
+    // // // _logger.info('🚀 Performance alerts cleared')
   }
 
   /**
@@ -767,7 +767,7 @@ export class AlgorithmPerformanceValidator {
       };
 
       fs.writeFileSync(filePath, JSON.stringify(exportData, null, 2))
-      // // // // console.log(`🚀 Performance data exported to: ${filePath}`)
+      // // // // _logger.info(`🚀 Performance data exported to: ${filePath}`)
     } catch (error) {
       throw new Error(`Failed to export performance data: ${(error as Error).message}`)
     }

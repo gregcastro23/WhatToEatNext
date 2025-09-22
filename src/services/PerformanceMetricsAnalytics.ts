@@ -223,7 +223,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
           try {
             await this.capturePerformanceSnapshot()
           } catch (error) {
-            console.error('❌ Error capturing performance snapshot:', error)
+            _logger.error('❌ Error capturing performance snapshot:', error)
           }
         })()
       },
@@ -343,7 +343,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         timestamp: new Date()
       };
     } catch (error) {
-      console.warn('⚠️  Failed to collect system metrics:', error),
+      _logger.warn('⚠️  Failed to collect system metrics:', error),
       return this.getDefaultSystemMetrics()
     }
   }
@@ -1499,7 +1499,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       // Save alerts
       await fs.promises.writeFile(this.ALERTS_FILE, JSON.stringify(this.alerts, null, 2))
     } catch (error) {
-      console.error('❌ Failed to persist performance data:', error)
+      _logger.error('❌ Failed to persist performance data:', error)
     }
   }
 
@@ -1523,7 +1523,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         }))
       }
     } catch (error) {
-      console.error('⚠️  Failed to load persisted data:', error)
+      _logger.error('⚠️  Failed to load persisted data:', error)
     }
   }
 

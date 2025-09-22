@@ -222,7 +222,7 @@ export class AnyTypeClassifier {
         results.push(classification)
       } catch (error) {
         // Log error but continue with other classifications
-        console.warn(`Classification failed for ${context.filePath}:${context.lineNumber}`, error)
+        _logger.warn(`Classification failed for ${context.filePath}:${context.lineNumber}`, error)
 
         // Provide safe fallback classification
         results.push({

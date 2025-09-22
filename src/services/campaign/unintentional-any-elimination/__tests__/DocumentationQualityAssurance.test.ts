@@ -46,12 +46,12 @@ describe('DocumentationQualityAssurance', () => {
         '  // Intentionally, any: External API response with dynamic structure',
         '  // eslint-disable-next-line @typescript-eslint/no-explicit-any',
         '  processData(data: any): void {',
-        '    console.log(data),',
+        '    _logger.info(data),',
         '  }',
         '',
         '  // Poor comment',
         '  handleError(error: any): void {',
-        '    console.error(error),',
+        '    _logger.error(error),',
         '  }',
         '',
         '  transform(input: any): any {',
@@ -77,7 +77,7 @@ describe('DocumentationQualityAssurance', () => {
       const cleanFileContent: any = [
         'export class CleanService {',
         '  processData(data: string): void {',
-        '    console.log(data),',
+        '    _logger.info(data),',
         '  }',
         '}';
       ].join('\n')
@@ -109,7 +109,7 @@ describe('DocumentationQualityAssurance', () => {
         '  // Intentionally, any: External API response requires flexible typing because structure varies',
         '  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API compatibility',
         '  processData(data: any): void {',
-        '    console.log(data),',
+        '    _logger.info(data),',
         '  }',
         '}'
       ].join('\n')
@@ -145,7 +145,7 @@ describe('DocumentationQualityAssurance', () => {
         'export class Service {',
         '  // any',
         '  processData(data: any): void {',
-        '    console.log(data),',
+        '    _logger.info(data),',
         '  }',
         '}';
       ].join('\n')
@@ -179,7 +179,7 @@ describe('DocumentationQualityAssurance', () => {
       const fileContent: any = [
         'export class Service {',
         '  processData(data: any): void {',
-        '    console.log(data),',
+        '    _logger.info(data),',
         '  }',
         '}';
       ].join('\n')
@@ -244,11 +244,11 @@ describe('DocumentationQualityAssurance', () => {
         'export class Service {',
         '  // Intentionally, any: External API response',
         '  processData(data: any): void {',
-        '    console.log(data),',
+        '    _logger.info(data),',
         '  }',
         '',
         '  handleError(error: any): void {',
-        '    console.error(error),',
+        '    _logger.error(error),',
         '  }',
         '}';
       ].join('\n')

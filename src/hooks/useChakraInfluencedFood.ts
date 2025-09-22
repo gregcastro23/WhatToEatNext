@@ -96,7 +96,7 @@ export const useChakraInfluencedFood = (options?: {
         }
       }
     } catch (error) {
-      console.error('Error getting planetary hour:', error)
+      _logger.error('Error getting planetary hour:', error)
     }
   }, [planetaryHourCalculator])
 
@@ -332,7 +332,7 @@ export const useChakraInfluencedFood = (options?: {
 
         setRecommendations(chakraModifiedResults)
       } catch (err) {
-        console.error('Error fetching chakra-influenced food recommendations:', err),
+        _logger.error('Error fetching chakra-influenced food recommendations:', err),
         setError(err instanceof Error ? err.message : 'Unknown error occurred')
         setRecommendations([])
       } finally {
@@ -461,7 +461,7 @@ export const useChakraInfluencedFood = (options?: {
       setRecommendations(chakraModifiedResults)
       setError(null)
     } catch (err) {
-      console.error('Error refreshing chakra-influenced food recommendations:', err),
+      _logger.error('Error refreshing chakra-influenced food recommendations:', err),
       setError(err instanceof Error ? err.message : 'Unknown error occurred')
     } finally {
       setLoading(false)

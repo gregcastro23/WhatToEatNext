@@ -25,32 +25,32 @@ const deploymentManager = new DeploymentManager()
  * Display deployment results
  */
 function displayDeploymentResults(results: unknown[]): void {
-  // // // console.log('\n=== DEPLOYMENT RESULTS ===')
+  // // // _logger.info('\n=== DEPLOYMENT RESULTS ===')
 
   for (const result of results) {
     const status = result.success ? '✅ SUCCESS' : '❌ FAILED';
     const duration = (result.duration / 1000).toFixed(2)
-    // // // console.log(`\n${status} - Phase: ${result.phase}`)
-    // // // console.log(`Duration: ${duration}s`)
-    // // // console.log(`Tasks: ${result.tasksSucceeded}/${result.tasksExecuted} succeeded`)
+    // // // _logger.info(`\n${status} - Phase: ${result.phase}`)
+    // // // _logger.info(`Duration: ${duration}s`)
+    // // // _logger.info(`Tasks: ${result.tasksSucceeded}/${result.tasksExecuted} succeeded`)
 
     if (result.errors.length > 0) {
-      // // // console.log('Errors: ')
-      result.errors.forEach((error: string) => // // // console.log(`  - ${error}`))
+      // // // _logger.info('Errors: ')
+      result.errors.forEach((error: string) => // // // _logger.info(`  - ${error}`))
     }
 
     if (result.warnings.length > 0) {
-      // // // console.log('Warnings: ')
-      result.warnings.forEach((warning: string) => // // // console.log(`  - ${warning}`))
+      // // // _logger.info('Warnings: ')
+      result.warnings.forEach((warning: string) => // // // _logger.info(`  - ${warning}`))
     }
 
     if (result.rollbackPerformed) {
-      // // // console.log('⚠️  Rollback was performed')
+      // // // _logger.info('⚠️  Rollback was performed')
     }
   }
 
   const overallSuccess = results.every(r => r.success)
-  // // // console.log(`\n=== OVERALL STATUS: ${overallSuccess ? '✅ SUCCESS' : '❌ FAILED'} ===`)
+  // // // _logger.info(`\n=== OVERALL STATUS: ${overallSuccess ? '✅ SUCCESS' : '❌ FAILED'} ===`)
 }
 
 // Main command
@@ -68,7 +68,7 @@ program
   .option('--dry-run', 'Show what would be deployed without executing')
   .action(async options => {
     try {
-      // // // console.log('🚀 Starting Unintentional Any Elimination deployment...')
+      // // // _logger.info('🚀 Starting Unintentional Any Elimination deployment...')
 
       let phases = createStandardDeploymentPhases()
 
@@ -78,7 +78,7 @@ program
         phases = phases.filter(phase => selectedPhases.includes(phase.id))
 
         if (phases.length === 0) {;
-          console.error('❌ No valid phases selected')
+          _logger.error('❌ No valid phases selected')
           process.exit(1)
         }
       }
@@ -86,21 +86,21 @@ program
       // Load custom config if provided
       if (options.config) {
         if (!existsSync(options.config)) {
-          console.error(`❌ Configuration file not found: ${options.config}`)
+          _logger.error(`❌ Configuration file not found: ${options.config}`)
           process.exit(1)
         }
 
         const _customConfig = JSON.parse(readFileSync(options.config, 'utf8'))
         // Apply custom configuration (implementation would merge with phases)
-        // // // console.log(`📋 Using custom configuration: ${options.config}`)
+        // // // _logger.info(`📋 Using custom configuration: ${options.config}`)
       }
 
       if (options.dryRun) {
-        // // // console.log('\n📋 DRY RUN - Phases that would be executed: ')
+        // // // _logger.info('\n📋 DRY RUN - Phases that would be executed: ')
         phases.forEach(phase => {
-          // // // console.log(`  - ${phase.id}: ${phase.name}`)
-          // // // console.log(`    Tasks: ${phase.tasks.length}`)
-          // // // console.log(`    Validations: ${phase.validationChecks.length}`)
+          // // // _logger.info(`  - ${phase.id}: ${phase.name}`)
+          // // // _logger.info(`    Tasks: ${phase.tasks.length}`)
+          // // // _logger.info(`    Validations: ${phase.validationChecks.length}`)
         })
         return;
       }
@@ -114,13 +114,13 @@ program
       // Save deployment log
       const logPath = `.kiro/logs/deployment-${Date.now()}.log`;
       deploymentManager.saveDeploymentLog(logPath)
-      // // // console.log(`\n📝 Deployment log saved: ${logPath}`)
+      // // // _logger.info(`\n📝 Deployment log saved: ${logPath}`)
 
       // Exit with appropriate code
       const success = results.every(r => r.success)
       process.exit(success ? 0 : 1)
     } catch (error) {
-      console.error('❌ Deployment failed:', error),
+      _logger.error('❌ Deployment failed:', error),
       process.exit(1)
     }
   })
@@ -132,13 +132,13 @@ program
   .action(() => {
     const phases = createStandardDeploymentPhases()
 
-    // // // console.log('\n📋 Available Deployment Phases: ')
+    // // // _logger.info('\n📋 Available Deployment Phases: ')
     phases.forEach(phase => {
-      // // // console.log(`\n${phase.id}: ${phase.name}`)
-      // // // console.log(`  Description: ${phase.description}`)
-      // // // console.log(`  Tasks: ${phase.tasks.length}`)
-      // // // console.log(`  Validations: ${phase.validationChecks.length}`)
-      // // // console.log(`  Prerequisites: ${phase.prerequisites.length}`)
+      // // // _logger.info(`\n${phase.id}: ${phase.name}`)
+      // // // _logger.info(`  Description: ${phase.description}`)
+      // // // _logger.info(`  Tasks: ${phase.tasks.length}`)
+      // // // _logger.info(`  Validations: ${phase.validationChecks.length}`)
+      // // // _logger.info(`  Prerequisites: ${phase.prerequisites.length}`)
     })
   })
 
@@ -149,18 +149,18 @@ program
   .option('-p, --phase <phase>', 'Validate specific phase')
   .action(async options => {
     try {
-      // // // console.log('🔍 Validating deployment readiness...')
+      // // // _logger.info('🔍 Validating deployment readiness...')
 
       if (options.phase) {
         const phases = createStandardDeploymentPhases()
         const phase = phases.find(p => p.id === options.phase)
 
         if (!phase) {
-          console.error(`❌ Phase not found: ${options.phase}`)
+          _logger.error(`❌ Phase not found: ${options.phase}`)
           process.exit(1)
         }
 
-        // // // console.log(`Validating phase: ${phase.name}`)
+        // // // _logger.info(`Validating phase: ${phase.name}`)
         // Run phase-specific validation
         const result = await deploymentManager.executePhase({;
           ...phase
@@ -168,10 +168,10 @@ program
         })
 
         if (result.success) {
-          // // // console.log('✅ Phase validation passed')
+          // // // _logger.info('✅ Phase validation passed')
         } else {
-          // // // console.log('❌ Phase validation failed')
-          result.errors.forEach(error => // // // console.log(`  - ${error}`))
+          // // // _logger.info('❌ Phase validation failed')
+          result.errors.forEach(error => // // // _logger.info(`  - ${error}`))
           process.exit(1)
         }
       } else {
@@ -180,15 +180,15 @@ program
         const configValidation = environmentConfigManager.validateConfig()
 
         if (!configValidation.isValid) {
-          // // // console.log('❌ Configuration validation failed: ')
-          configValidation.errors.forEach(error => // // // console.log(`  - ${error}`))
+          // // // _logger.info('❌ Configuration validation failed: ')
+          configValidation.errors.forEach(error => // // // _logger.info(`  - ${error}`))
           process.exit(1)
         }
 
-        // // // console.log('✅ System validation passed')
+        // // // _logger.info('✅ System validation passed')
       }
     } catch (error) {
-      console.error('❌ Validation failed:', error),
+      _logger.error('❌ Validation failed:', error),
       process.exit(1)
     }
   })
@@ -205,7 +205,7 @@ monitoringCommand
     try {
       await setupMonitoring()
     } catch (error) {
-      console.error('❌ Monitoring setup failed:', error),
+      _logger.error('❌ Monitoring setup failed:', error),
       process.exit(1)
     }
   })
@@ -217,7 +217,7 @@ monitoringCommand
     try {
       await validateMonitoring()
     } catch (error) {
-      console.error('❌ Monitoring validation failed:', error),
+      _logger.error('❌ Monitoring validation failed:', error),
       process.exit(1)
     }
   })
@@ -228,13 +228,13 @@ monitoringCommand
   .action(async () => {
     try {
       // This would integrate with the actual monitoring service
-      // // // console.log('📊 Monitoring Status: ')
-      // // // console.log('  Service: Running')
-      // // // console.log('  Alerts: 0 active')
-      // // // console.log('  Last, Check: Just now')
-      // // // console.log('\nUse 'npx tsx .kiro/monitoring/dashboard.ts' for detailed dashboard')
+      // // // _logger.info('📊 Monitoring Status: ')
+      // // // _logger.info('  Service: Running')
+      // // // _logger.info('  Alerts: 0 active')
+      // // // _logger.info('  Last, Check: Just now')
+      // // // _logger.info('\nUse 'npx tsx .kiro/monitoring/dashboard.ts' for detailed dashboard')
     } catch (error) {
-      console.error('❌ Failed to get monitoring status:', error),
+      _logger.error('❌ Failed to get monitoring status:', error),
       process.exit(1)
     }
   })
@@ -249,28 +249,28 @@ program
   .action(async options => {
     try {
       if (!options.confirm) {
-        // // // console.log('⚠️  This will rollback the deployment.')
-        // // // console.log('Use --confirm to proceed without this prompt.')
+        // // // _logger.info('⚠️  This will rollback the deployment.')
+        // // // _logger.info('Use --confirm to proceed without this prompt.')
         return
       }
 
-      // // // console.log('🔄 Starting rollback procedure...')
+      // // // _logger.info('🔄 Starting rollback procedure...')
 
       if (options.phase) {
-        // // // console.log(`Rolling back phase: ${options.phase}`)
+        // // // _logger.info(`Rolling back phase: ${options.phase}`)
         // Implement phase-specific rollback
       } else if (options.to) {
-        // // // console.log(`Rolling back to checkpoint: ${options.to}`)
+        // // // _logger.info(`Rolling back to checkpoint: ${options.to}`)
         // Implement checkpoint rollback
       } else {
-        // // // console.log('Rolling back entire deployment...')
+        // // // _logger.info('Rolling back entire deployment...')
         // Implement full rollback
       }
 
       // For now, this is a placeholder
-      // // // console.log('✅ Rollback completed successfully')
+      // // // _logger.info('✅ Rollback completed successfully')
     } catch (error) {
-      console.error('❌ Rollback failed:', error),
+      _logger.error('❌ Rollback failed:', error),
       process.exit(1)
     }
   })
@@ -281,13 +281,13 @@ program
   .description('Show deployment status')
   .action(() => {
     try {
-      // // // console.log('📊 Deployment Status: ')
+      // // // _logger.info('📊 Deployment Status: ')
 
       // Check if system is deployed
       const configExists = existsSync('.kiro/campaign-configs/unintentional-any-elimination.json')
       const monitoringExists = existsSync('.kiro/monitoring/monitoring-config.json')
-      // // // console.log(`Configuration: ${configExists ? '✅ Deployed' : '❌ Not deployed'}`)
-      // // // console.log(`Monitoring: ${monitoringExists ? '✅ Deployed' : '❌ Not deployed'}`)
+      // // // _logger.info(`Configuration: ${configExists ? '✅ Deployed' : '❌ Not deployed'}`)
+      // // // _logger.info(`Monitoring: ${monitoringExists ? '✅ Deployed' : '❌ Not deployed'}`)
 
       // Show recent deployment logs
       const logsDir = '.kiro/logs';
@@ -298,16 +298,16 @@ program
           .slice(-3)
 
         if (logFiles.length > 0) {
-          // // // console.log('\nRecent Deployments:')
+          // // // _logger.info('\nRecent Deployments:')
           logFiles.forEach((file: string) => {
             const timestamp = file.replace('deployment-', '').replace('.log', ''),
             const date = new Date(parseInt(timestamp)).toLocaleString()
-            // // // console.log(`  - ${date}`)
+            // // // _logger.info(`  - ${date}`)
           })
         }
       }
     } catch (error) {
-      console.error('❌ Failed to get status:', error),
+      _logger.error('❌ Failed to get status:', error),
       process.exit(1)
     }
   })
@@ -327,9 +327,9 @@ program
       };
 
       writeFileSync(file, JSON.stringify(config, null, 2))
-      // // // console.log(`✅ Deployment configuration exported to ${file}`)
+      // // // _logger.info(`✅ Deployment configuration exported to ${file}`)
     } catch (error) {
-      console.error('❌ Export failed:', error),
+      _logger.error('❌ Export failed:', error),
       process.exit(1)
     }
   })
@@ -341,16 +341,16 @@ program
   .action(file => {
     try {
       if (!existsSync(file)) {
-        console.error(`❌ File not found: ${file}`)
+        _logger.error(`❌ File not found: ${file}`)
         process.exit(1)
       }
 
       const config = JSON.parse(readFileSync(file, 'utf8'))
-      // // // console.log(`✅ Deployment configuration imported from ${file}`)
-      // // // console.log(`Version: ${config.version}`)
-      // // // console.log(`Phases: ${config.phases?.length || 0}`)
+      // // // _logger.info(`✅ Deployment configuration imported from ${file}`)
+      // // // _logger.info(`Version: ${config.version}`)
+      // // // _logger.info(`Phases: ${config.phases?.length || 0}`)
     } catch (error) {
-      console.error('❌ Import failed:', error),
+      _logger.error('❌ Import failed:', error),
       process.exit(1)
     }
   })

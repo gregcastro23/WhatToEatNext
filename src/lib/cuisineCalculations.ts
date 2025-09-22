@@ -62,7 +62,7 @@ export async function getCuisineRecommendations(): Promise<CuisineRecommendation
 
     return recommendations;
   } catch (error) {
-    console.error('Error getting cuisine recommendations:', error)
+    _logger.error('Error getting cuisine recommendations:', error)
     return [];
   }
 }

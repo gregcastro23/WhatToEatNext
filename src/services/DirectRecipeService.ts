@@ -161,7 +161,7 @@ export class DirectRecipeService {
       this.lastAlignmentUpdate = now;
       return this.currentCelestialAlignment;
     } catch (error) {
-      console.error('Error fetching celestial alignment:', error)
+      _logger.error('Error fetching celestial alignment:', error)
 
       // Fall back to celestial calculator if API fails
       if (!this.currentCelestialAlignment) {

@@ -129,7 +129,7 @@ export class SafeUnusedImportRemover {
       }
     } catch (error) {
       result.errors.push(`Import removal failed: ${error}`)
-      console.error('❌ Import removal failed:', error)
+      _logger.error('❌ Import removal failed:', error)
     }
 
     return result;
@@ -183,7 +183,7 @@ export class SafeUnusedImportRemover {
       log.info(`📊 Found ${unusedImports.length} unused imports`)
       return unusedImports;
     } catch (error) {
-      console.error('❌ Failed to analyze unused imports:', error),
+      _logger.error('❌ Failed to analyze unused imports:', error),
       return []
     }
   }
@@ -370,7 +370,7 @@ export class SafeUnusedImportRemover {
         log.info('✅ Safe import removal completed')
         return true
       } else {
-        console.error('❌ Safe import removal failed:', error.message),
+        _logger.error('❌ Safe import removal failed:', error.message),
         return false
       }
     }
@@ -391,7 +391,7 @@ export class SafeUnusedImportRemover {
 
       return true;
     } catch (error) {
-      console.error('❌ Validation failed')
+      _logger.error('❌ Validation failed')
       return false
     }
   }

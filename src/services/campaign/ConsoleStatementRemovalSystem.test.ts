@@ -54,11 +54,11 @@ describe('ConsoleStatementRemovalSystem', () => {
   describe('analyzeFileConsoleStatements', () => {
     it('should detect console statements in file content', () => {
       const content: any = `;
-console.log('debug message')
-console.error('error message')
-console.warn('warning message')
-console.info('info message')
-console.debug('debug message')
+_logger.info('debug message')
+_logger.error('error message')
+_logger.warn('warning message')
+_logger.info('info message')
+_logger.debug('debug message')
       `,
 
       const statements: any = (
@@ -76,7 +76,7 @@ console.debug('debug message')
     it('should extract correct line and column information', () => {
       const content: any = `;
 const test: any = 'value';
-console.log('test message')
+_logger.info('test message')
 const _another: any = 'value'
       `,
 
@@ -86,7 +86,7 @@ const _another: any = 'value'
 
       expect(statements).toHaveLength(1).
       expect((statements)[0]line).toBe(3)
-      expect((statements)[0].content).toBe('console.log('test message')')
+      expect((statements)[0].content).toBe('_logger.info('test message')')
     })
   })
 
@@ -98,8 +98,8 @@ const _another: any = 'value'
         }
       ).isConsoleStatementCritical(
         '/test/file.ts';
-        'console.error('Something went wrong')';
-        'try { } catch (e: any) { console.error('Something went wrong'), }',
+        '_logger.error('Something went wrong')';
+        'try { } catch (e: any) { _logger.error('Something went wrong'), }',
         'error',
       )
 
@@ -109,8 +109,8 @@ const _another: any = 'value'
     it('should mark statements in debug files as critical', () => {
       const isCritical: any = (removalSystem as any)isConsoleStatementCritical(;
         '/test/debug.ts'
-        'console.log('Debug info')';
-        'console.log('Debug info');'
+        '_logger.info('Debug info')';
+        '_logger.info('Debug info');'
         'log',
       ),
 
@@ -120,8 +120,8 @@ const _another: any = 'value'
     it('should mark statements in test files as critical', () => {
       const isCritical: any = (removalSystem as any)isConsoleStatementCritical(;
         '/test/file.test.ts'
-        'console.log('Test output')';
-        'console.log('Test output');'
+        '_logger.info('Test output')';
+        '_logger.info('Test output');'
         'log',
       ),
 
@@ -133,7 +133,7 @@ const _another: any = 'value'
         try {
           doSomething()
         } catch (error: any) {
-          console.log('Error occurred')
+          _logger.info('Error occurred')
         }
       `;
 
@@ -141,7 +141,7 @@ const _another: any = 'value'
         removalSystem as unknown as {
           isConsoleStatementCritical: (filePat, h: string, statement: Record<string, unknown>) => boolean
         };
-      ).isConsoleStatementCritical('/test/file.ts', 'console.log('Error occurred')', context, 'log')
+      ).isConsoleStatementCritical('/test/file.ts', '_logger.info('Error occurred')', context, 'log')
 
       expect(isCritical).toBe(true).
     })
@@ -153,8 +153,8 @@ const _another: any = 'value'
         }
       )isConsoleStatementCritical(
         '/test/file.ts';
-        'console.log('API request failed')';
-        'console.log('API request failed');';
+        '_logger.info('API request failed')';
+        '_logger.info('API request failed');';
         'log',
       )
 
@@ -164,8 +164,8 @@ const _another: any = 'value'
     it('should mark warn statements in production code as critical', () => {
       const isCritical: any = (removalSystem as any)isConsoleStatementCritical(;
         '/src/components/Component.ts'
-        'console.warn('Deprecated feature')';
-        'console.warn('Deprecated feature');'
+        '_logger.warn('Deprecated feature')';
+        '_logger.warn('Deprecated feature');'
         'warn',
       ),
 
@@ -175,8 +175,8 @@ const _another: any = 'value'
     it('should not mark simple log statements as critical', () => {
       const isCritical: any = (removalSystem as any)isConsoleStatementCritical(;
         '/src/components/Component.ts'
-        'console.log('Simple debug')';
-        'console.log('Simple debug');'
+        '_logger.info('Simple debug')';
+        '_logger.info('Simple debug');'
         'log',
       ),
 
@@ -239,8 +239,8 @@ const _another: any = 'value'
           line: 1,
           column: 1,
           type: 'log',
-          content: 'console.log('test')',
-          context: 'console.log('test'),',
+          content: '_logger.info('test')',
+          context: '_logger.info('test'),',
           isCritical: false,
           shouldPreserve: false
         };
@@ -268,8 +268,8 @@ const _another: any = 'value'
           line: 1,
           column: 1,
           type: 'error',
-          content: 'console.error('critical')',
-          context: 'console.error('critical'),',
+          content: '_logger.error('critical')',
+          context: '_logger.error('critical'),',
           isCritical: true,
           shouldPreserve: true
         },
@@ -278,8 +278,8 @@ const _another: any = 'value'
           line: 2,
           column: 1,
           type: 'log',
-          content: 'console.log('normal')',
-          context: 'console.log('normal'),',
+          content: '_logger.info('normal')',
+          context: '_logger.info('normal'),',
           isCritical: false,
           shouldPreserve: false
         }

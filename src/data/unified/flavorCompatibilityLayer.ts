@@ -65,7 +65,7 @@ export function calculateFlavorCompatibility(
     // Convert back to legacy format
     return convertUnifiedToLegacy(result)
   } catch (error) {
-    console.warn('Legacy compatibility layer error:', error),
+    _logger.warn('Legacy compatibility layer error:', error),
     // Fallback to simple calculation
     return {
       compatibility: 0.7,
@@ -103,7 +103,7 @@ export function calculateCuisineFlavorMatch(
     )
 
     if (!cuisineProfile) {
-      console.warn(`Cuisine profile not found: ${cuisineName}`)
+      _logger.warn(`Cuisine profile not found: ${cuisineName}`)
       return 0.5; // Neutral compatibility
     }
 
@@ -115,7 +115,7 @@ export function calculateCuisineFlavorMatch(
 
     return compatibility.overall;
   } catch (error) {
-    console.warn('Legacy cuisine flavor match error:', error)
+    _logger.warn('Legacy cuisine flavor match error:', error)
     return 0.5;
   }
 }
@@ -142,7 +142,7 @@ export function calculatePlanetaryFlavorMatch(
     )
 
     if (!planetProfile) {
-      console.warn(`Planetary profile not found: ${strongestPlanet[0]}`)
+      _logger.warn(`Planetary profile not found: ${strongestPlanet[0]}`)
       return 0.5;
     }
 
@@ -151,7 +151,7 @@ export function calculatePlanetaryFlavorMatch(
 
     return compatibility.overall;
   } catch (error) {
-    console.warn('Legacy planetary flavor match error:', error)
+    _logger.warn('Legacy planetary flavor match error:', error)
     return 0.5;
   }
 }
@@ -173,7 +173,7 @@ export function getFlavorProfileForIngredient(ingredientName: string): LegacyFla
     // Fallback to default profile
     return { spicy: 0.0, sweet: 0.2, sour: 0.0, bitter: 0.0, salty: 0.1, umami: 0.1 };
   } catch (error) {
-    console.warn('Legacy ingredient profile error:', error),
+    _logger.warn('Legacy ingredient profile error:', error),
     return { spicy: 0.0, sweet: 0.2, sour: 0.0, bitter: 0.0, salty: 0.1, umami: 0.1 };
   }
 }
@@ -195,7 +195,7 @@ export function findCompatibleProfiles(
       compatibility: result.compatibility.overall
     }))
   } catch (error) {
-    console.warn('Legacy compatible profiles error:', error)
+    _logger.warn('Legacy compatible profiles error:', error)
     return []
   }
 }
@@ -227,7 +227,7 @@ export function getCuisineProfile(cuisineName: string): LegacyCuisineProfile | n
       description: cuisineProfile.description
     };
   } catch (error) {
-    console.warn('Legacy cuisine profile error:', error)
+    _logger.warn('Legacy cuisine profile error:', error)
     return null
   }
 }
@@ -249,7 +249,7 @@ export function calculateElementalCompatibility(
 
     return compatibility.elemental;
   } catch (error) {
-    console.warn('Legacy elemental compatibility error:', error)
+    _logger.warn('Legacy elemental compatibility error:', error)
     return 0.7, // Default good compatibility
   }
 }

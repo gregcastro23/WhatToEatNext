@@ -32,7 +32,7 @@ describe('AutomatedLintingFixer', () => {
 
     // Setup default mocks
     mockExecSync.mockReturnValue('')
-    mockFs.readFileSync.mockReturnValue('const unusedVar: any = 'test',\nconsole.log('hello'),'),;
+    mockFs.readFileSync.mockReturnValue('const unusedVar: any = 'test',\n_logger.info('hello'),'),;
     mockFs.writeFileSync.mockImplementation(() => {})
     mockFs.existsSync.mockReturnValue(true)
 

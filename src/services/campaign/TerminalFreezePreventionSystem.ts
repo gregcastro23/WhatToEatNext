@@ -56,12 +56,12 @@ export class TerminalFreezePreventionSystem {
     };
 
     try {
-      // // // console.log(`🔧 Executing with timeout (${safeOptions.timeout}ms): ${command}`)
+      // // // _logger.info(`🔧 Executing with timeout (${safeOptions.timeout}ms): ${command}`)
       const output = execSync(command, safeOptions)
       return output.toString()
     } catch (error: unknown) {
       if (error.signal === 'SIGTERM' || error.code === 'ETIMEDOUT') {
-        console.warn(`⏰ Command timed out after ${safeOptions.timeout}ms: ${command}`)
+        _logger.warn(`⏰ Command timed out after ${safeOptions.timeout}ms: ${command}`)
         throw new Error(`Command timeout: ${command}`)
       }
       throw error;
@@ -112,7 +112,7 @@ export class TerminalFreezePreventionSystem {
       // Set timeout
       const timeout = setTimeout(() => {;
         if (child.pid && this.runningProcesses.has(child.pid)) {
-          console.warn(`⏰ Process timed out, killing PID ${child.pid}`)
+          _logger.warn(`⏰ Process timed out, killing PID ${child.pid}`)
           processStatus.hasTimedOut = true;
           child.kill('SIGTERM')
 
@@ -162,7 +162,7 @@ export class TerminalFreezePreventionSystem {
       this.checkRunningProcesses()
     }, this.config.heartbeatInterval)
 
-    // // // console.log(`🔍 Started process monitoring (interval: ${this.config.heartbeatInterval}ms)`)
+    // // // _logger.info(`🔍 Started process monitoring (interval: ${this.config.heartbeatInterval}ms)`)
   }
 
   /**
@@ -175,7 +175,7 @@ export class TerminalFreezePreventionSystem {
 
       // Check for timeout
       if (runTime > this.config.maxExecutionTime && !status.hasTimedOut) {
-        console.warn(`⚠️  Process ${pid} has been running for ${runTime}ms (${status.command})`)
+        _logger.warn(`⚠️  Process ${pid} has been running for ${runTime}ms (${status.command})`)
 
         if (this.config.killOnTimeout) {
           this.killProcess(pid, 'timeout')
@@ -185,7 +185,7 @@ export class TerminalFreezePreventionSystem {
       // Check memory usage
       this.updateProcessStats(pid)
       if (status.memoryUsage > this.config.maxMemoryUsage) {
-        console.warn(`⚠️  Process ${pid} using ${status.memoryUsage}MB memory (${status.command})`)
+        _logger.warn(`⚠️  Process ${pid} using ${status.memoryUsage}MB memory (${status.command})`)
 
         if (this.config.killOnTimeout) {
           this.killProcess(pid, 'memory')
@@ -222,7 +222,7 @@ export class TerminalFreezePreventionSystem {
    */
   private killProcess(pid: number, reason: string): void {
     try {
-      console.warn(`🛑 Killing process ${pid} (reason: ${reason})`)
+      _logger.warn(`🛑 Killing process ${pid} (reason: ${reason})`)
       process.kill(pid, 'SIGTERM')
 
       const status = this.runningProcesses.get(pid)
@@ -240,7 +240,7 @@ export class TerminalFreezePreventionSystem {
         }
       }, 5000)
     } catch (error) {
-      console.warn(`Failed to kill process ${pid}:`, (error as Error).message)
+      _logger.warn(`Failed to kill process ${pid}:`, (error as Error).message)
     }
   }
 
@@ -255,7 +255,7 @@ export class TerminalFreezePreventionSystem {
    * Kill all monitored processes
    */
   killAllProcesses(): void {
-    // // // console.log(`🛑 Killing ${this.runningProcesses.size} monitored processes`)
+    // // // _logger.info(`🛑 Killing ${this.runningProcesses.size} monitored processes`)
 
     for (const pid of this.runningProcesses.keys()) {
       this.killProcess(pid, 'shutdown')
@@ -272,7 +272,7 @@ export class TerminalFreezePreventionSystem {
     }
 
     this.killAllProcesses()
-    // // // console.log('🔍 Stopped process monitoring')
+    // // // _logger.info('🔍 Stopped process monitoring')
   }
 
   /**
@@ -315,7 +315,7 @@ export class TerminalFreezePreventionSystem {
    * Emergency stop all campaign processes
    */
   async emergencyStop(): Promise<void> {
-    // // // console.log('🚨 EMERGENCY, STOP: Killing all processes')
+    // // // _logger.info('🚨 EMERGENCY, STOP: Killing all processes')
 
     // Kill all monitored processes
     this.killAllProcesses()
@@ -328,7 +328,7 @@ export class TerminalFreezePreventionSystem {
       // Ignore errors, processes might not exist
     }
 
-    // // // console.log('🚨 Emergency stop completed')
+    // // // _logger.info('🚨 Emergency stop completed')
   }
 }
 

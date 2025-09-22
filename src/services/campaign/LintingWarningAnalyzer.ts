@@ -77,7 +77,7 @@ export class LintingWarningAnalyzer {
    * Analyze current linting warnings using yarn lint output
    */
   async analyzeLintingWarnings(): Promise<LintingAnalysisResult> {
-    // // // console.log('🔍 Analyzing linting warnings...')
+    // // // _logger.info('🔍 Analyzing linting warnings...')
 
     try {
       // Try to get linting output using a simpler approach
@@ -96,7 +96,7 @@ export class LintingWarningAnalyzer {
       await this.saveAnalysisResults(result)
       return result;
     } catch (error) {
-      console.error('❌ Error analyzing linting warnings:', error),
+      _logger.error('❌ Error analyzing linting warnings:', error),
       throw error
     }
   }
@@ -118,7 +118,7 @@ export class LintingWarningAnalyzer {
         const fileWarnings = this.analyzeFileContent(file, content),
         warnings.push(...fileWarnings)
       } catch (error) {
-        console.warn(`⚠️ Could not analyze file ${file}:`, error)
+        _logger.warn(`⚠️ Could not analyze file ${file}:`, error)
       }
     }
 
@@ -402,9 +402,9 @@ export class LintingWarningAnalyzer {
 
     try {
       fs.writeFileSync(this.metricsFile, JSON.stringify(metrics, null, 2)),
-      // // // console.log(`📊 Analysis results saved to ${this.metricsFile}`)
+      // // // _logger.info(`📊 Analysis results saved to ${this.metricsFile}`)
     } catch (error) {
-      console.warn('⚠️ Could not save analysis results:', error)
+      _logger.warn('⚠️ Could not save analysis results:', error)
     }
   }
 
@@ -419,7 +419,7 @@ export class LintingWarningAnalyzer {
         return metrics.analysis;
       }
     } catch (error) {
-      console.warn('⚠️ Could not load previous analysis:', error)
+      _logger.warn('⚠️ Could not load previous analysis:', error)
     }
     return null;
   }

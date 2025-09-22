@@ -116,7 +116,7 @@ export class DocumentationQualityAssurance {
           }
         }
       } catch (error) {
-        console.warn(`Error processing file ${filePath}:`, error)
+        _logger.warn(`Error processing file ${filePath}:`, error)
       }
     }
 
@@ -230,7 +230,7 @@ export class DocumentationQualityAssurance {
           }
         }
       } catch (error) {
-        console.warn(`Error processing file ${filePath}:`, error)
+        _logger.warn(`Error processing file ${filePath}:`, error)
       }
     }
 
@@ -294,7 +294,7 @@ export class DocumentationQualityAssurance {
       }
     } catch (error) {
       // Directory might not exist or be accessible
-      console.warn(`Could not read directory ${dir}:`, error)
+      _logger.warn(`Could not read directory ${dir}:`, error)
     }
 
     return files;

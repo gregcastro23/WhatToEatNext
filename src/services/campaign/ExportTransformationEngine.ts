@@ -149,29 +149,29 @@ export class ExportTransformationEngine {
    * Execute complete transformation campaign
    */
   async executeTransformation(): Promise<TransformationSummary> {
-    // // // console.log('🚀 Starting Export Transformation Campaign...\n')
+    // // // _logger.info('🚀 Starting Export Transformation Campaign...\n')
 
     const startTime = Date.now()
 
     try {
       // Phase, 1: Analysis
-      // // // console.log('📊 Phase, 1: Analyzing unused exports...')
+      // // // _logger.info('📊 Phase, 1: Analyzing unused exports...')
       const analysisResult = await this.performAnalysis()
 
       // Phase, 2: Batch Planning
-      // // // console.log('📋 Phase, 2: Planning transformation batches...')
+      // // // _logger.info('📋 Phase, 2: Planning transformation batches...')
       const batches = await this.planTransformationBatches(analysisResult)
 
       // Phase, 3: Safety Preparation
-      // // // console.log('🛡️  Phase, 3: Preparing safety protocols...')
+      // // // _logger.info('🛡️  Phase, 3: Preparing safety protocols...')
       await this.prepareSafetyProtocols()
 
       // Phase, 4: Batch Execution
-      // // // console.log('⚡ Phase, 4: Executing transformation batches...')
+      // // // _logger.info('⚡ Phase, 4: Executing transformation batches...')
       const results = await this.executeBatches(batches)
 
       // Phase, 5: Final Validation
-      // // // console.log('✅ Phase, 5: Final validation and cleanup...')
+      // // // _logger.info('✅ Phase, 5: Final validation and cleanup...')
       await this.performFinalValidation()
 
       const endTime = Date.now()
@@ -179,12 +179,12 @@ export class ExportTransformationEngine {
 
       const summary = this.generateTransformationSummary(results, totalDuration)
 
-      // // // console.log('\n🎉 Export Transformation Campaign completed!')
+      // // // _logger.info('\n🎉 Export Transformation Campaign completed!')
       this.displaySummary(summary)
 
       return summary
     } catch (error) {
-      console.error('❌ Transformation campaign failed:', error)
+      _logger.error('❌ Transformation campaign failed:', error)
       await this.handleCriticalFailure(error)
       throw error
     }
@@ -197,12 +197,12 @@ export class ExportTransformationEngine {
     try {
       const result = await this.analyzer.analyzeUnusedExports()
 
-      // // // console.log(`✅ Analysis completed:`)
-      // // // console.log(`   - Files analyzed: ${result.totalFiles}`)
-      // // // console.log(`   - Unused exports found: ${result.totalUnusedExports}`)
-      // // // console.log(`   - High priority files: ${result.highPriorityFiles.length}`)
-      // // // console.log(`   - Medium priority files: ${result.mediumPriorityFiles.length}`)
-      // // // console.log(`   - Low priority files: ${result.lowPriorityFiles.length}`)
+      // // // _logger.info(`✅ Analysis completed:`)
+      // // // _logger.info(`   - Files analyzed: ${result.totalFiles}`)
+      // // // _logger.info(`   - Unused exports found: ${result.totalUnusedExports}`)
+      // // // _logger.info(`   - High priority files: ${result.highPriorityFiles.length}`)
+      // // // _logger.info(`   - Medium priority files: ${result.mediumPriorityFiles.length}`)
+      // // // _logger.info(`   - Low priority files: ${result.lowPriorityFiles.length}`)
 
       return result;
     } catch (error) {
@@ -250,10 +250,10 @@ export class ExportTransformationEngine {
     ),
     batches.push(...lowPriorityBatches)
 
-    // // // console.log(`✅ Planned ${batches.length} transformation batches: `)
-    // // // console.log(`   - High priority: ${highPriorityBatches.length} batches`)
-    // // // console.log(`   - Medium priority: ${mediumPriorityBatches.length} batches`)
-    // // // console.log(`   - Low priority: ${lowPriorityBatches.length} batches`)
+    // // // _logger.info(`✅ Planned ${batches.length} transformation batches: `)
+    // // // _logger.info(`   - High priority: ${highPriorityBatches.length} batches`)
+    // // // _logger.info(`   - Medium priority: ${mediumPriorityBatches.length} batches`)
+    // // // _logger.info(`   - Low priority: ${lowPriorityBatches.length} batches`)
 
     return batches;
   }
@@ -353,7 +353,7 @@ export class ExportTransformationEngine {
       const checkpointId = await (this.safetyProtocol as unknown).createSafetyCheckpoint(
         'transformation-start',
       ),
-      // // // console.log(`✅ Safety checkpoint created: ${checkpointId}`)
+      // // // _logger.info(`✅ Safety checkpoint created: ${checkpointId}`)
 
       // Validate build before starting
       if (this.config.buildValidationEnabled) {
@@ -361,7 +361,7 @@ export class ExportTransformationEngine {
         if (!buildValid.buildSuccess) {
           throw new Error('Build validation failed before transformation')
         }
-        // // // console.log('✅ Pre-transformation build validation passed')
+        // // // _logger.info('✅ Pre-transformation build validation passed')
       }
     } catch (error) {
       this.logError({
@@ -383,25 +383,25 @@ export class ExportTransformationEngine {
 
     for (let i = 0i < batches.lengthi++) {;
       const batch = batches[i]
-      // // // console.log(`\n🔄 Processing batch ${i + 1}/${batches.length}: ${batch.id}`)
-      // // // console.log(`   Priority: ${batch.priority}`)
-      // // // console.log(`   Files: ${batch.files.length}`)
-      // // // console.log(`   Candidates: ${batch.transformationCandidates}`)
-      // // // console.log(`   Safety Score: ${batch.safetyScore}`)
-      // // // console.log(`   Estimated Duration: ${batch.estimatedDuration}s`)
+      // // // _logger.info(`\n🔄 Processing batch ${i + 1}/${batches.length}: ${batch.id}`)
+      // // // _logger.info(`   Priority: ${batch.priority}`)
+      // // // _logger.info(`   Files: ${batch.files.length}`)
+      // // // _logger.info(`   Candidates: ${batch.transformationCandidates}`)
+      // // // _logger.info(`   Safety Score: ${batch.safetyScore}`)
+      // // // _logger.info(`   Estimated Duration: ${batch.estimatedDuration}s`)
 
       const result = await this.executeBatch(batch)
       results.push(result)
 
       if (!result.success && this.config.rollbackOnFailure) {
-        // // // console.log('⚠️  Batch failed, stopping transformation campaign'),
+        // // // _logger.info('⚠️  Batch failed, stopping transformation campaign'),
         break
       }
 
       // Progress update
       // ✅ Pattern KK-9: Safe arithmetic operations for progress calculation
       const progress = ((Number(i || 0) + 1) / Number(batches.length || 1)) * 100
-      // // // console.log(`📊 Campaign progress: ${Number(progress || 0).toFixed(1)}%`)
+      // // // _logger.info(`📊 Campaign progress: ${Number(progress || 0).toFixed(1)}%`)
     }
 
     return results
@@ -445,11 +445,11 @@ export class ExportTransformationEngine {
 
       // Generate intelligence systems
       if (this.config.dryRun) {
-        // // // console.log('🔍 DRY, RUN: Simulating intelligence system generation...')
+        // // // _logger.info('🔍 DRY, RUN: Simulating intelligence system generation...')
         result.systemsGenerated = batch.transformationCandidates;
         result.filesProcessed = batch.files.length
       } else {
-        // // // console.log('⚡ Generating intelligence systems...')
+        // // // _logger.info('⚡ Generating intelligence systems...')
         const generationResults = await this.generator.generateIntelligenceSystems(batch.files)
         result.generationResults = generationResults;
         result.systemsGenerated = generationResults.length;
@@ -458,7 +458,7 @@ export class ExportTransformationEngine {
 
       // Validate after generation
       if (this.config.buildValidationEnabled && !this.config.dryRun) {
-        // // // console.log('🔍 Validating build after generation...')
+        // // // _logger.info('🔍 Validating build after generation...')
         const validation = await this.validateBuild()
         if (!validation.buildSuccess) {
           throw new Error('Build validation failed after generation')
@@ -466,12 +466,12 @@ export class ExportTransformationEngine {
       }
 
       result.success = true;
-      // // // console.log(`✅ Batch ${batch.id} completed successfully`)
-      // // // console.log(`   Systems generated: ${result.systemsGenerated}`)
-      // // // console.log(`   Files processed: ${result.filesProcessed}`)
+      // // // _logger.info(`✅ Batch ${batch.id} completed successfully`)
+      // // // _logger.info(`   Systems generated: ${result.systemsGenerated}`)
+      // // // _logger.info(`   Files processed: ${result.filesProcessed}`)
     } catch (error) {
       // ✅ Pattern MM-1: Safe type assertion for batch error handling
-      console.error(
+      _logger.error(
         `❌ Batch ${batch.id} failed:`,
         String((error as Error).message || 'Unknown error')
       )
@@ -490,14 +490,14 @@ export class ExportTransformationEngine {
       // Attempt rollback
       if (this.config.rollbackOnFailure && checkpointId && !this.config.dryRun) {
         try {
-          // // // console.log('🔄 Attempting rollback...')
+          // // // _logger.info('🔄 Attempting rollback...')
           // ✅ Pattern MM-1: Safe method call for rollback
           await (this.safetyProtocol as unknown).rollbackToCheckpoint(checkpointId)
           result.rollbackPerformed = true;
-          // // // console.log('✅ Rollback completed successfully')
+          // // // _logger.info('✅ Rollback completed successfully')
         } catch (rollbackError) {
           // ✅ Pattern MM-1: Safe type assertion for rollback error
-          console.error(
+          _logger.error(
             '❌ Rollback failed:',
             String((rollbackError as Error).message || 'Unknown rollback error')
           ),
@@ -524,11 +524,11 @@ export class ExportTransformationEngine {
   private async performFinalValidation(): Promise<void> {
     try {
       if (this.config.dryRun) {
-        // // // console.log('🔍 DRY, RUN: Skipping final validation')
+        // // // _logger.info('🔍 DRY, RUN: Skipping final validation')
         return
       }
 
-      // // // console.log('🔍 Performing final build validation...')
+      // // // _logger.info('🔍 Performing final build validation...')
       const buildValidation = await this.validateBuild()
 
       if (!buildValidation.buildSuccess) {
@@ -536,15 +536,15 @@ export class ExportTransformationEngine {
       }
 
       if (this.config.testValidationEnabled) {
-        // // // console.log('🧪 Performing final test validation...')
+        // // // _logger.info('🧪 Performing final test validation...')
         const testValidation = await this.validateTests()
 
         if (!testValidation.testSuccess) {
-          console.warn('⚠️  Some tests failed, but transformation completed')
+          _logger.warn('⚠️  Some tests failed, but transformation completed')
         }
       }
 
-      // // // console.log('✅ Final validation completed')
+      // // // _logger.info('✅ Final validation completed')
     } catch (error) {
       this.logError({
         type: TransformationErrorType.VALIDATION_FAILED,
@@ -633,15 +633,15 @@ export class ExportTransformationEngine {
    * Handle critical failure
    */
   private async handleCriticalFailure(error: unknown): Promise<void> {
-    console.error('💥 Critical failure detected, initiating emergency procedures...')
+    _logger.error('💥 Critical failure detected, initiating emergency procedures...')
 
     try {
       if (!this.config.dryRun) {
         await this.safetyProtocol.emergencyRollback()
-        // // // console.log('✅ Emergency rollback completed')
+        // // // _logger.info('✅ Emergency rollback completed')
       }
     } catch (rollbackError) {
-      console.error(
+      _logger.error(
         '❌ Emergency rollback failed:',
         String((rollbackError as Error).message || 'Unknown rollback error')
       )
@@ -663,7 +663,7 @@ export class ExportTransformationEngine {
       ),
     )
 
-    // // // console.log(`📝 Error log saved to: ${errorLogPath}`)
+    // // // _logger.info(`📝 Error log saved to: ${errorLogPath}`)
   }
 
   /**
@@ -735,31 +735,31 @@ export class ExportTransformationEngine {
    * Display transformation summary
    */
   private displaySummary(summary: TransformationSummary): void {
-    // // // console.log('\n📊 TRANSFORMATION CAMPAIGN SUMMARY')
-    // // // console.log('==================================')
-    // // // console.log(`Total batches: ${summary.totalBatches}`)
-    // // // console.log(`Successful batches: ${summary.successfulBatches}`)
-    // // // console.log(`Failed batches: ${summary.failedBatches}`)
-    // // // console.log(`Success rate: ${summary.successRate.toFixed(1)}%`)
-    // // // console.log(`Total files processed: ${summary.totalFilesProcessed}`)
-    // // // console.log(`Total systems generated: ${summary.totalSystemsGenerated}`)
-    // // // console.log(`Total errors: ${summary.totalErrors}`)
-    // // // console.log(`Total warnings: ${summary.totalWarnings}`)
-    // // // console.log(`Total duration: ${summary.totalDuration.toFixed(2)}s`)
-    // // // console.log(`Average batch duration: ${summary.averageBatchDuration.toFixed(2)}s`)
+    // // // _logger.info('\n📊 TRANSFORMATION CAMPAIGN SUMMARY')
+    // // // _logger.info('==================================')
+    // // // _logger.info(`Total batches: ${summary.totalBatches}`)
+    // // // _logger.info(`Successful batches: ${summary.successfulBatches}`)
+    // // // _logger.info(`Failed batches: ${summary.failedBatches}`)
+    // // // _logger.info(`Success rate: ${summary.successRate.toFixed(1)}%`)
+    // // // _logger.info(`Total files processed: ${summary.totalFilesProcessed}`)
+    // // // _logger.info(`Total systems generated: ${summary.totalSystemsGenerated}`)
+    // // // _logger.info(`Total errors: ${summary.totalErrors}`)
+    // // // _logger.info(`Total warnings: ${summary.totalWarnings}`)
+    // // // _logger.info(`Total duration: ${summary.totalDuration.toFixed(2)}s`)
+    // // // _logger.info(`Average batch duration: ${summary.averageBatchDuration.toFixed(2)}s`)
 
-    // // // console.log('\n🧠 INTELLIGENCE GENERATION SUMMARY')
-    // // // console.log('==================================')
-    // // // console.log(`Total capabilities added: ${summary.generationSummary.totalCapabilitiesAdded}`)
-    // // // console.log(`Total integration points: ${summary.generationSummary.totalIntegrationPoints}`)
-    // // // console.log(`Average complexity: ${summary.generationSummary.averageComplexity.toFixed(1)}`)
-    // // // console.log(`Estimated total value: ${summary.generationSummary.estimatedTotalValue}`)
+    // // // _logger.info('\n🧠 INTELLIGENCE GENERATION SUMMARY')
+    // // // _logger.info('==================================')
+    // // // _logger.info(`Total capabilities added: ${summary.generationSummary.totalCapabilitiesAdded}`)
+    // // // _logger.info(`Total integration points: ${summary.generationSummary.totalIntegrationPoints}`)
+    // // // _logger.info(`Average complexity: ${summary.generationSummary.averageComplexity.toFixed(1)}`)
+    // // // _logger.info(`Estimated total value: ${summary.generationSummary.estimatedTotalValue}`)
 
     if (Object.keys(summary.generationSummary.generationsByCategory).length > 0) {
-      // // // console.log('\nGeneration by category: ')
+      // // // _logger.info('\nGeneration by category: ')
       Object.entries(summary.generationSummary.generationsByCategory).forEach(
         ([category, count]) => {
-          // // // console.log(`  ${category}: ${count}`)
+          // // // _logger.info(`  ${category}: ${count}`)
         },
       )
     }
@@ -778,7 +778,7 @@ export class ExportTransformationEngine {
       [ErrorSeverity.CRITICAL]: '💥'
     }[error.severity];
 
-    console.error(`${severityEmoji} [${error.type}] ${error.message}`)
+    _logger.error(`${severityEmoji} [${error.type}] ${error.message}`)
   }
 
   /**

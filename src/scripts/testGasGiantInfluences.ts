@@ -10,11 +10,11 @@ interface PlanetaryPosition {
 
 // Create a test function to verify gas giant calculations
 async function testGasGiantInfluences() {
-  console.log('🪐 Testing Gas Giant Influence Calculations 🪐')
-  console.log('============================================')
+  _logger.info('🪐 Testing Gas Giant Influence Calculations 🪐')
+  _logger.info('============================================')
 
   // Test Jupiter and Saturn dignity states
-  console.log('Testing Gas Giant dignities and aspects\n')
+  _logger.info('Testing Gas Giant dignities and aspects\n')
 
   // Access calculated influences
   const influences = celestialCalculator.calculateCurrentInfluences()
@@ -23,15 +23,15 @@ async function testGasGiantInfluences() {
   const _jupiter = influences.dominantPlanets?.find(p => p.name === 'Jupiter')
   const _saturn = influences.dominantPlanets?.find(p => p.name === 'Saturn')
 
-  console.log('Current Influences: ')
-  console.log(`Zodiac Sign: ${influences.zodiacSign || 'unknown'}`)
-  console.log(`Lunar Phase: ${influences.lunarPhase || 'unknown'}`)
+  _logger.info('Current Influences: ')
+  _logger.info(`Zodiac Sign: ${influences.zodiacSign || 'unknown'}`)
+  _logger.info(`Lunar Phase: ${influences.lunarPhase || 'unknown'}`)
 
-  console.log('\nDominant Planets: ')
+  _logger.info('\nDominant Planets: ')
   if (influences.dominantPlanets) {
     for (const planet of influences.dominantPlanets) {
       if (planet.name === 'Jupiter' || planet.name === 'Saturn') {
-        console.log(
+        _logger.info(
           `${planet.name}: influence = ${planet.influence}, effect = ${planet.effect || 'balanced'}`,
         )
       }
@@ -39,14 +39,14 @@ async function testGasGiantInfluences() {
   }
 
   // Check planetary aspects
-  console.log('\nPlanetary Aspects: ')
+  _logger.info('\nPlanetary Aspects: ')
   const aspects = influences.aspectInfluences || [];
   for (const aspect of aspects) {
     if (
       (aspect.planet1 === 'Jupiter' || aspect.planet1 === 'Saturn') &&
       (aspect.planet2 === 'Jupiter' || aspect.planet2 === 'Saturn')
     ) {
-      console.log(
+      _logger.info(
         `${aspect.planet1} ${aspect.type} ${aspect.planet2}, strength: ${aspect.strength || aspect.orb}`,
       )
     }
@@ -54,14 +54,14 @@ async function testGasGiantInfluences() {
 
   // Print energy state balance
   if (influences.energyStateBalance) {
-    console.log('\nEnergy State Balance: ')
+    _logger.info('\nEnergy State Balance: ')
     Object.entries(influences.energyStateBalance).forEach(([state, value]) => {
-      console.log(`  ${state}: ${value}`)
+      _logger.info(`  ${state}: ${value}`)
     })
   }
 }
 
 // Execute the test
 testGasGiantInfluences()
-  .then(() => console.log('\nTest completed successfully!'))
-  .catch(error => console.error('Test failed:', error))
+  .then(() => _logger.info('\nTest completed successfully!'))
+  .catch(error => _logger.error('Test failed:', error))

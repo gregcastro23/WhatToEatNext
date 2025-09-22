@@ -36,14 +36,14 @@ describe('Planetary Position Validation', () => {
   // Set a fixed date for tests
   const testDate: any = new Date('2024-05-15T12:00:00Z')
 
-  // Mock console.log to prevent output during tests
-  const originalConsoleLog: any = console.log;
+  // Mock _logger.info to prevent output during tests
+  const originalConsoleLog: any = _logger.info;
   beforeEach(() => {
-    console.log = jest.fn() as any
+    _logger.info = jest.fn() as any
   })
 
   afterEach(() => {
-    console.log = originalConsoleLog;
+    _logger.info = originalConsoleLog;
   })
 
   test('getCurrentTransitSign returns correct sign for Mars on 2024-05-15', () => {

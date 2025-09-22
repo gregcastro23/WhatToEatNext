@@ -158,10 +158,10 @@ Object.entries(fruits).forEach(([_id, _fruit]) => {
 Object.entries(fruits).forEach(([_id, fruit]) => {
   // Properly implement validation
   if (!fruit.elementalProperties) {
-    // Use type-safe logging instead of console.log
+    // Use type-safe logging instead of _logger.info
     // If a logger is available, we would use it, like: logger.warn(`Missing properties for ${id}`)
     // For nowwe'll just comment this out to avoid linting errors
-    // console.warn(`Missing properties for ${id}`)
+    // _logger.warn(`Missing properties for ${id}`)
   }
 })
 

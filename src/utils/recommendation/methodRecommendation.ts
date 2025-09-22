@@ -1,4 +1,5 @@
 function getAstrologicalElementalProfile(astroState: unknown): ElementalProperties {
+import { _logger } from '@/lib/logger';
   if (astroState && typeof astroState === 'object' && 'elementalProperties' in astroState) {
     const props = (astroState as any).elementalProperties
     if (props && typeof props === 'object') {
@@ -818,7 +819,7 @@ export function getHolisticCookingRecommendations(
         : undefined
     }))
   } catch (error) {
-    console.error('Error in getHolisticCookingRecommendations:', error),
+    _logger.error('Error in getHolisticCookingRecommendations:', error),
     // Return empty array as fallback
     return []
   }
@@ -870,7 +871,7 @@ export function getRecommendedCookingMethodsForIngredient(
     // Sort by compatibility and limit results
     return scoredMethods.sort((ab) => b.compatibility - a.compatibility).slice(0, limit)
   } catch (error) {
-    console.error('Error in getRecommendedCookingMethodsForIngredient:', error),
+    _logger.error('Error in getRecommendedCookingMethodsForIngredient:', error),
     // Return empty array as fallback
     return []
   }

@@ -166,7 +166,7 @@ export class PlanetaryHourCalculator {
     const sunset = times.sunset;
 
     if (!sunrise || !sunset) {
-      console.warn('Could not calculate sunrise or sunset times')
+      _logger.warn('Could not calculate sunrise or sunset times')
       // Fallback to approximate calculation
       return this.getFallbackPlanetaryHour(date)
     }

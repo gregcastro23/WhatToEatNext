@@ -522,7 +522,7 @@ export async function calculateComprehensiveAlchemicalResult(
 
     return result;
   } catch (error) {
-    console.error('Error in comprehensive alchemical calculation:', error),
+    _logger.error('Error in comprehensive alchemical calculation:', error),
 
     // Return fallback result
     return await getFallbackResult(input, cacheKey)
@@ -580,7 +580,7 @@ export function calculateRecipeCompatibility(
       recommendations
     };
   } catch (error) {
-    console.error('Error calculating recipe compatibility:', error),
+    _logger.error('Error calculating recipe compatibility:', error),
     return {
       compatibilityScore: 0.7,
       kalchmAlignment: 0.7,
@@ -724,7 +724,7 @@ async function getFallbackResult(
     // Try calculation again with real data
     return await calculateComprehensiveAlchemicalResult(enhancedInput)
   } catch (astrologizeError) {
-    console.warn(
+    _logger.warn(
       'Astrologize API also failed in fallback, using static fallback:',
       astrologizeError,
     ),

@@ -64,7 +64,7 @@ export function useIngredientSearch() {
 
         setAllIngredients(uniqueIngredients)
       } catch (error) {
-        console.warn('Error loading ingredients:', error),
+        _logger.warn('Error loading ingredients:', error),
         setAllIngredients([])
       } finally {
         setIsLoading(false)

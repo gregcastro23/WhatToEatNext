@@ -692,7 +692,7 @@ export class SafeTypeReplacer {
       }
     } catch (error) {
       // Log error but don't throw - cleanup is not critical
-      console.warn('Failed to cleanup old backups:', error)
+      _logger.warn('Failed to cleanup old backups:', error)
     }
   }
 

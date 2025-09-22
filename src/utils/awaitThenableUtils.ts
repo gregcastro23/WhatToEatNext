@@ -22,7 +22,7 @@ export function validateAwaitUsage(fn: Function): boolean {
   const isAsync = fnString.includes('async') || fn.constructor.name === 'AsyncFunction'
 
   if (hasAwait && !isAsync) {
-    console.warn('Function uses await but is not declared async:', fn.name)
+    _logger.warn('Function uses await but is not declared async:', fn.name)
     return false;
   }
 
@@ -35,7 +35,7 @@ export async function testPromiseHandling(testFn: () => Promise<unknown>): Promi
     await testFn()
     return true
   } catch (error) {
-    console.error('Promise handling test _failed:', error)
+    _logger.error('Promise handling test _failed:', error)
     return false;
   }
 }

@@ -34,7 +34,7 @@ export default function App({ Component, pageProps }: AppProps) {
           event.message.includes('viewer.js') ||
           event.message.includes('Assignment to constant variable'))
       ) {
-        console.warn('[App] Intercepted API/lockdown error:', event.message)
+        _logger.warn('[App] Intercepted API/lockdown error:', event.message)
 
         // Load scripts for handling these specific errors if not loaded yet
         loadErrorHandlingScripts()
@@ -88,7 +88,7 @@ export default function App({ Component, pageProps }: AppProps) {
             initializeChromeApis()
             window.__chromeAPIsInitialized = true;
           } catch (e) {
-            console.warn('[App] Error initializing Chrome APIs:', e)
+            _logger.warn('[App] Error initializing Chrome APIs:', e)
           }
         }
       }
@@ -102,7 +102,7 @@ export default function App({ Component, pageProps }: AppProps) {
       // Pre-emptively load error handling scripts
       loadErrorHandlingScripts()
     } catch (e) {
-      console.warn('[App] Error during initial Chrome API initialization:', e)
+      _logger.warn('[App] Error during initial Chrome API initialization:', e)
     }
 
     window.addEventListener('error', errorHandler, true)

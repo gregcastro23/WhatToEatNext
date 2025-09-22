@@ -99,7 +99,7 @@ class AlertingSystem {
         this.alertResponses = config.alertResponses || [];
       }
     } catch (error) {
-      console.warn('[Alerting System] Failed to load configuration:', error)
+      _logger.warn('[Alerting System] Failed to load configuration:', error)
     }
   }
 
@@ -120,7 +120,7 @@ class AlertingSystem {
 
       fs.writeFileSync(configPath, JSON.stringify(config, null, 2))
     } catch (error) {
-      console.error('[Alerting System] Failed to save configuration:', error)
+      _logger.error('[Alerting System] Failed to save configuration:', error)
     }
   }
 
@@ -562,7 +562,7 @@ class AlertingSystem {
         response.endTime = new Date()
         response.error = (error as Error).message;
 
-        console.error(
+        _logger.error(
           `[Alert Response] Failed to execute ${action.name} for alert ${alert.id}:`,
           error,
         )
@@ -719,7 +719,7 @@ class AlertingSystem {
 
       fs.appendFileSync(alertFile, alertLine)
     } catch (error) {
-      console.error('[Alerting System] Failed to write alert to file:', error)
+      _logger.error('[Alerting System] Failed to write alert to file:', error)
     }
   }
 
@@ -799,7 +799,7 @@ class AlertingSystem {
       try {
         callback(alert)
       } catch (error) {
-        console.error('[Alerting System] Subscriber error:', error)
+        _logger.error('[Alerting System] Subscriber error:', error)
       }
     })
   }

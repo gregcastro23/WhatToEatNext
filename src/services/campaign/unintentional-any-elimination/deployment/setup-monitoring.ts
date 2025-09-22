@@ -194,7 +194,7 @@ function setupMonitoringDirectories(): void {
   for (const dir of directories) {
     if (!existsSync(dir)) {
       mkdirSync(dir, { recursive: true })
-      // // // console.log(`Created monitoring directory: ${dir}`)
+      // // // _logger.info(`Created monitoring directory: ${dir}`)
     }
   }
 }
@@ -383,9 +383,9 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
 
       switch (channel.type) {
         case 'console':
-          console.error(\`[ALERT] \${condition.severity.toUpperCase()}: \${condition.name}\`)
-          console.error(\`Description: \${condition.description}\`)
-          console.error(\`Metrics: \${JSON.stringify(metrics, null, 2)}\`)
+          _logger.error(\`[ALERT] \${condition.severity.toUpperCase()}: \${condition.name}\`)
+          _logger.error(\`Description: \${condition.description}\`)
+          _logger.error(\`Metrics: \${JSON.stringify(metrics, null, 2)}\`)
           break;
 
         case 'file': const logPath = channel.config.path || '.kiro/logs/alerts.log'
@@ -420,7 +420,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
     try {
       appendFileSync(metricsPath, JSON.stringify(metricsData) + '\\n')
     } catch (error) {
-      console.error('Failed to persist metrics:', error)
+      _logger.error('Failed to persist metrics:', error)
     }
   }
 
@@ -517,7 +517,7 @@ export const monitoringService = new UnintentionalAnyMonitoringService()
 
   const servicePath = '.kiro/monitoring/UnintentionalAnyMonitoringService.ts';
   writeFileSync(servicePath, serviceCode)
-  // // // console.log(`Created monitoring service: ${servicePath}`)
+  // // // _logger.info(`Created monitoring service: ${servicePath}`)
 }
 
 /**
@@ -536,36 +536,36 @@ import {monitoringService} from './UnintentionalAnyMonitoringService';
 
 async function displayDashboard() {
   console.clear()
-  // // // console.log('='.repeat(80))
-  // // // console.log('  UNINTENTIONAL ANY ELIMINATION - MONITORING DASHBOARD')
-  // // // console.log('='.repeat(80))
+  // // // _logger.info('='.repeat(80))
+  // // // _logger.info('  UNINTENTIONAL ANY ELIMINATION - MONITORING DASHBOARD')
+  // // // _logger.info('='.repeat(80))
 
   try {
     const status = await monitoringService.getCurrentStatus()
 
-    // // // console.log(\`\\nSystem Status: \${status.healthy ? '🟢 HEALTHY' : '🔴 UNHEALTHY'}\`)
-    // // // console.log(\`Timestamp: \${status.metrics.timestamp.toISOString()}\`)
+    // // // _logger.info(\`\\nSystem Status: \${status.healthy ? '🟢 HEALTHY' : '🔴 UNHEALTHY'}\`)
+    // // // _logger.info(\`Timestamp: \${status.metrics.timestamp.toISOString()}\`)
 
-    // // // console.log('\\n--- METRICS ---')
-    // // // console.log(\`TypeScript Errors: \${status.metrics.typescriptErrors}\`)
-    // // // console.log(\`Success Rate: \${(status.metrics.successRate * 100).toFixed(1)}%\`)
-    // // // console.log(\`Build Status: \${status.metrics.buildStatus.toUpperCase()}\`)
-    // // // console.log(\`Config Valid: \${status.metrics.configValid ? 'YES' : 'NO'}\`)
-    // // // console.log(\`Campaign Active: \${status.metrics.campaignActive ? 'YES' : 'NO'}\`)
+    // // // _logger.info('\\n--- METRICS ---')
+    // // // _logger.info(\`TypeScript Errors: \${status.metrics.typescriptErrors}\`)
+    // // // _logger.info(\`Success Rate: \${(status.metrics.successRate * 100).toFixed(1)}%\`)
+    // // // _logger.info(\`Build Status: \${status.metrics.buildStatus.toUpperCase()}\`)
+    // // // _logger.info(\`Config Valid: \${status.metrics.configValid ? 'YES' : 'NO'}\`)
+    // // // _logger.info(\`Campaign Active: \${status.metrics.campaignActive ? 'YES' : 'NO'}\`)
 
-    // // // console.log('\\n--- RECENT HISTORY ---')
+    // // // _logger.info('\\n--- RECENT HISTORY ---')
     const history = monitoringService.getMetricsHistory().slice(-5)
     history.forEach((metric, index) => {
       const time = metric.timestamp.toLocaleTimeString()
-      // // // console.log(\`\${time}: Errors=\${metric.typescriptErrors}, Success=\${(metric.successRate * 100).toFixed(1)}%, Build=\${metric.buildStatus}\`)
+      // // // _logger.info(\`\${time}: Errors=\${metric.typescriptErrors}, Success=\${(metric.successRate * 100).toFixed(1)}%, Build=\${metric.buildStatus}\`)
     })
 
-    // // // console.log('\\n--- CONTROLS ---')
-    // // // console.log('Press Ctrl+C to exit')
-    // // // console.log('Dashboard refreshes every 30 seconds')
+    // // // _logger.info('\\n--- CONTROLS ---')
+    // // // _logger.info('Press Ctrl+C to exit')
+    // // // _logger.info('Dashboard refreshes every 30 seconds')
 
   } catch (error) {
-    console.error('Error displaying dashboard:', error)
+    _logger.error('Error displaying dashboard:', error)
   }
 }
 
@@ -575,7 +575,7 @@ setInterval(displayDashboard, 30000)
 
 // Handle graceful shutdown
 process.on('SIGINT', () => {
-  // // // console.log('\\nShutting down monitoring dashboard...')
+  // // // _logger.info('\\nShutting down monitoring dashboard...')
   monitoringService.stop()
   process.exit(0)
 })
@@ -583,14 +583,14 @@ process.on('SIGINT', () => {
 
   const dashboardPath = '.kiro/monitoring/dashboard.ts';
   writeFileSync(dashboardPath, dashboardCode)
-  // // // console.log(`Created monitoring dashboard: ${dashboardPath}`)
+  // // // _logger.info(`Created monitoring dashboard: ${dashboardPath}`)
 }
 
 /**
  * Main setup function
  */
 async function setupMonitoring(): Promise<void> {
-  // // // console.log('Setting up monitoring and alerting for Unintentional Any Elimination...')
+  // // // _logger.info('Setting up monitoring and alerting for Unintentional Any Elimination...')
 
   try {
     // Setup directories
@@ -600,7 +600,7 @@ async function setupMonitoring(): Promise<void> {
     const config = createMonitoringConfig()
     const configPath = '.kiro/monitoring/monitoring-config.json'
     writeFileSync(configPath, JSON.stringify(config, null, 2)),
-    // // // console.log(`Created monitoring configuration: ${configPath}`)
+    // // // _logger.info(`Created monitoring configuration: ${configPath}`)
 
     // Create monitoring service
     createMonitoringService(config)
@@ -629,15 +629,15 @@ echo 'Monitoring setup complete!'
 `
 
     writeFileSync('.kiro/monitoring/start-monitoring.sh', startupScript)
-    // // // console.log('Created monitoring startup script: .kiro/monitoring/start-monitoring.sh')
+    // // // _logger.info('Created monitoring startup script: .kiro/monitoring/start-monitoring.sh')
 
-    // // // console.log('\\n✅ Monitoring and alerting setup completed successfully!')
-    // // // console.log('\\nTo start monitoring:')
-    // // // console.log('  bash .kiro/monitoring/start-monitoring.sh')
-    // // // console.log('\\nTo view dashboard:')
-    // // // console.log('  npx tsx .kiro/monitoring/dashboard.ts')
+    // // // _logger.info('\\n✅ Monitoring and alerting setup completed successfully!')
+    // // // _logger.info('\\nTo start monitoring:')
+    // // // _logger.info('  bash .kiro/monitoring/start-monitoring.sh')
+    // // // _logger.info('\\nTo view dashboard:')
+    // // // _logger.info('  npx tsx .kiro/monitoring/dashboard.ts')
   } catch (error) {
-    console.error('❌ Failed to setup monitoring:', error),
+    _logger.error('❌ Failed to setup monitoring:', error),
     process.exit(1)
   }
 }

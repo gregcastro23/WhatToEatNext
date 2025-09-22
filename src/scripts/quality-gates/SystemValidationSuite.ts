@@ -34,12 +34,12 @@ class SystemValidationSuite {
   private startTime: Date = new Date()
 
   constructor() {
-    // // // console.log('🔍 Initializing Comprehensive System Validation Suite')
-    // // // console.log('='.repeat(70))
+    // // // _logger.info('🔍 Initializing Comprehensive System Validation Suite')
+    // // // _logger.info('='.repeat(70))
   }
 
   async runFullValidation(): Promise<SystemHealth> {
-    // // // console.log('🚀 Starting comprehensive system validation...\n')
+    // // // _logger.info('🚀 Starting comprehensive system validation...\n')
 
     // Core System Components
     await this.validateClassificationEngine()
@@ -70,7 +70,7 @@ class SystemValidationSuite {
   }
 
   private async validateClassificationEngine(): Promise<void> {
-    // // // console.log('🧠 Validating Classification Engine...')
+    // // // _logger.info('🧠 Validating Classification Engine...')
 
     try {
       // Test classification accuracy
@@ -107,7 +107,7 @@ class SystemValidationSuite {
             : undefined
       })
 
-      // // // console.log(`  ${passed ? '✅' : '❌'} Classification accuracy: ${accuracy.toFixed(1)}%`)
+      // // // _logger.info(`  ${passed ? '✅' : '❌'} Classification accuracy: ${accuracy.toFixed(1)}%`)
     } catch (error) {
       this.results.push({
         component: 'Classification Engine',
@@ -116,12 +116,12 @@ class SystemValidationSuite {
         message: `Classification engine validation failed: ${error}`,
         criticalIssues: ['Classification engine is not functional']
       }),
-      // // // console.log(`  ❌ Classification engine validation failed`)
+      // // // _logger.info(`  ❌ Classification engine validation failed`)
     }
   }
 
   private async validateReplacementEngine(): Promise<void> {
-    // // // console.log('🔧 Validating Replacement Engine...')
+    // // // _logger.info('🔧 Validating Replacement Engine...')
 
     try {
       // Test replacement patterns
@@ -157,7 +157,7 @@ class SystemValidationSuite {
             : undefined
       })
 
-      // // // console.log(
+      // // // _logger.info(
         `  ${passed ? '✅' : '❌'} Replacement success rate: ${averageSuccessRate.toFixed(1)}%`,
       )
     } catch (error) {
@@ -168,12 +168,12 @@ class SystemValidationSuite {
         message: `Replacement engine validation failed: ${error}`,
         criticalIssues: ['Replacement engine is not functional']
       }),
-      // // // console.log(`  ❌ Replacement engine validation failed`)
+      // // // _logger.info(`  ❌ Replacement engine validation failed`)
     }
   }
 
   private async validateSafetyProtocols(): Promise<void> {
-    // // // console.log('🛡️ Validating Safety Protocols...')
+    // // // _logger.info('🛡️ Validating Safety Protocols...')
 
     try {
       const safetyTests = [
@@ -223,7 +223,7 @@ class SystemValidationSuite {
             : undefined
       })
 
-      // // // console.log(
+      // // // _logger.info(
         `  ${passed ? '✅' : '❌'} Safety protocols: ${passedTests}/${safetyTests.length} passed`,
       )
     } catch (error) {
@@ -234,12 +234,12 @@ class SystemValidationSuite {
         message: `Safety protocol validation failed: ${error}`,
         criticalIssues: ['Safety protocols are not functional']
       }),
-      // // // console.log(`  ❌ Safety protocol validation failed`)
+      // // // _logger.info(`  ❌ Safety protocol validation failed`)
     }
   }
 
   private async validateQualityGates(): Promise<void> {
-    // // // console.log('🚪 Validating Quality Gates...')
+    // // // _logger.info('🚪 Validating Quality Gates...')
 
     try {
       // Test quality gate functionality
@@ -289,7 +289,7 @@ class SystemValidationSuite {
             : undefined
       })
 
-      // // // console.log(
+      // // // _logger.info(
         `  ${passed ? '✅' : '❌'} Quality gates: ${functionalGates}/${gateTests.length} functional`,
       )
     } catch (error) {
@@ -300,12 +300,12 @@ class SystemValidationSuite {
         message: `Quality gates validation failed: ${error}`,
         criticalIssues: ['Quality gates system is not functional']
       }),
-      // // // console.log(`  ❌ Quality gates validation failed`)
+      // // // _logger.info(`  ❌ Quality gates validation failed`)
     }
   }
 
   private async validateMonitoringSystem(): Promise<void> {
-    // // // console.log('📊 Validating Monitoring System...')
+    // // // _logger.info('📊 Validating Monitoring System...')
 
     try {
       // Test monitoring capabilities
@@ -355,7 +355,7 @@ class SystemValidationSuite {
             : undefined
       })
 
-      // // // console.log(
+      // // // _logger.info(
         `  ${passed ? '✅' : '❌'} Monitoring: ${functionalComponents}/${monitoringTests.length} functional`,
       )
     } catch (error) {
@@ -366,12 +366,12 @@ class SystemValidationSuite {
         message: `Monitoring system validation failed: ${error}`,
         criticalIssues: ['Monitoring system is not functional']
       }),
-      // // // console.log(`  ❌ Monitoring system validation failed`)
+      // // // _logger.info(`  ❌ Monitoring system validation failed`)
     }
   }
 
   private async validateCampaignIntegration(): Promise<void> {
-    // // // console.log('🔗 Validating Campaign Integration...')
+    // // // _logger.info('🔗 Validating Campaign Integration...')
 
     try {
       // Test campaign system integration
@@ -393,7 +393,7 @@ class SystemValidationSuite {
             : undefined
       })
 
-      // // // console.log(
+      // // // _logger.info(
         `  ${passed ? '✅' : '❌'} Campaign integration: ${integrationScore.toFixed(1)}%`,
       )
     } catch (error) {
@@ -404,12 +404,12 @@ class SystemValidationSuite {
         message: `Campaign integration validation failed: ${error}`,
         criticalIssues: ['Campaign integration is broken']
       }),
-      // // // console.log(`  ❌ Campaign integration validation failed`)
+      // // // _logger.info(`  ❌ Campaign integration validation failed`)
     }
   }
 
   private async validateCICDIntegration(): Promise<void> {
-    // // // console.log('🔄 Validating CI/CD Integration...')
+    // // // _logger.info('🔄 Validating CI/CD Integration...')
 
     try {
       // Check CI/CD configuration
@@ -431,7 +431,7 @@ class SystemValidationSuite {
             : undefined
       })
 
-      // // // console.log(`  ${passed ? '✅' : '❌'} CI/CD integration: ${cicdScore.toFixed(1)}%`)
+      // // // _logger.info(`  ${passed ? '✅' : '❌'} CI/CD integration: ${cicdScore.toFixed(1)}%`)
     } catch (error) {
       this.results.push({
         component: 'CI/CD Integration',
@@ -440,12 +440,12 @@ class SystemValidationSuite {
         message: `CI/CD integration validation failed: ${error}`,
         recommendations: ['Set up CI/CD integration', 'Configure automation pipelines']
       }),
-      // // // console.log(`  ⚠️ CI/CD integration not configured`)
+      // // // _logger.info(`  ⚠️ CI/CD integration not configured`)
     }
   }
 
   private async validateDeveloperWorkflow(): Promise<void> {
-    // // // console.log('👨‍💻 Validating Developer Workflow...')
+    // // // _logger.info('👨‍💻 Validating Developer Workflow...')
 
     try {
       // Test developer workflow integration
@@ -494,7 +494,7 @@ class SystemValidationSuite {
             : undefined
       })
 
-      // // // console.log(
+      // // // _logger.info(
         `  ${passed ? '✅' : '❌'} Developer workflow: ${functionalComponents}/${workflowTests.length} functional`,
       )
     } catch (error) {
@@ -505,12 +505,12 @@ class SystemValidationSuite {
         message: `Developer workflow validation failed: ${error}`,
         criticalIssues: ['Developer workflow integration is broken']
       }),
-      // // // console.log(`  ❌ Developer workflow validation failed`)
+      // // // _logger.info(`  ❌ Developer workflow validation failed`)
     }
   }
 
   private async validateDataIntegrity(): Promise<void> {
-    // // // console.log('🗄️ Validating Data Integrity...')
+    // // // _logger.info('🗄️ Validating Data Integrity...')
 
     try {
       // Test data integrity
@@ -561,7 +561,7 @@ class SystemValidationSuite {
             : undefined
       })
 
-      // // // console.log(
+      // // // _logger.info(
         `  ${passed ? '✅' : '❌'} Data integrity: ${validComponents}/${integrityTests.length} valid`,
       )
     } catch (error) {
@@ -572,12 +572,12 @@ class SystemValidationSuite {
         message: `Data integrity validation failed: ${error}`,
         criticalIssues: ['Data integrity validation system is broken']
       }),
-      // // // console.log(`  ❌ Data integrity validation failed`)
+      // // // _logger.info(`  ❌ Data integrity validation failed`)
     }
   }
 
   private async validateBackupSystems(): Promise<void> {
-    // // // console.log('💾 Validating Backup Systems...')
+    // // // _logger.info('💾 Validating Backup Systems...')
 
     try {
       // Test backup functionality
@@ -596,7 +596,7 @@ class SystemValidationSuite {
             : undefined
       })
 
-      // // // console.log(`  ${passed ? '✅' : '❌'} Backup systems: ${backupScore.toFixed(1)}%`)
+      // // // _logger.info(`  ${passed ? '✅' : '❌'} Backup systems: ${backupScore.toFixed(1)}%`)
     } catch (error) {
       this.results.push({
         component: 'Backup Systems',
@@ -605,12 +605,12 @@ class SystemValidationSuite {
         message: `Backup systems validation failed: ${error}`,
         criticalIssues: ['Backup systems are not functional']
       }),
-      // // // console.log(`  ❌ Backup systems validation failed`)
+      // // // _logger.info(`  ❌ Backup systems validation failed`)
     }
   }
 
   private async validateDocumentation(): Promise<void> {
-    // // // console.log('📚 Validating Documentation...')
+    // // // _logger.info('📚 Validating Documentation...')
 
     try {
       // Test documentation completeness and accuracy
@@ -660,7 +660,7 @@ class SystemValidationSuite {
             : undefined
       })
 
-      // // // console.log(
+      // // // _logger.info(
         `  ${passed ? '✅' : '❌'} Documentation: ${completeComponents}/${docTests.length} complete`,
       )
     } catch (error) {
@@ -671,12 +671,12 @@ class SystemValidationSuite {
         message: `Documentation validation failed: ${error}`,
         recommendations: ['Create comprehensive documentation', 'Set up documentation system']
       }),
-      // // // console.log(`  ❌ Documentation validation failed`)
+      // // // _logger.info(`  ❌ Documentation validation failed`)
     }
   }
 
   private async validatePerformance(): Promise<void> {
-    // // // console.log('⚡ Validating Performance...')
+    // // // _logger.info('⚡ Validating Performance...')
 
     try {
       // Test system performance
@@ -696,7 +696,7 @@ class SystemValidationSuite {
             : undefined
       })
 
-      // // // console.log(`  ${passed ? '✅' : '❌'} Performance: ${performanceScore.toFixed(1)}%`)
+      // // // _logger.info(`  ${passed ? '✅' : '❌'} Performance: ${performanceScore.toFixed(1)}%`)
     } catch (error) {
       this.results.push({
         component: 'Performance',
@@ -705,12 +705,12 @@ class SystemValidationSuite {
         message: `Performance validation failed: ${error}`,
         recommendations: ['Investigate performance issues', 'Optimize system performance']
       }),
-      // // // console.log(`  ❌ Performance validation failed`)
+      // // // _logger.info(`  ❌ Performance validation failed`)
     }
   }
 
   private async validateReliability(): Promise<void> {
-    // // // console.log('🔒 Validating Reliability...')
+    // // // _logger.info('🔒 Validating Reliability...')
 
     try {
       // Test system reliability
@@ -730,7 +730,7 @@ class SystemValidationSuite {
             : undefined
       })
 
-      // // // console.log(`  ${passed ? '✅' : '❌'} Reliability: ${reliabilityScore.toFixed(1)}%`)
+      // // // _logger.info(`  ${passed ? '✅' : '❌'} Reliability: ${reliabilityScore.toFixed(1)}%`)
     } catch (error) {
       this.results.push({
         component: 'Reliability',
@@ -739,12 +739,12 @@ class SystemValidationSuite {
         message: `Reliability validation failed: ${error}`,
         criticalIssues: ['Reliability validation system is broken']
       }),
-      // // // console.log(`  ❌ Reliability validation failed`)
+      // // // _logger.info(`  ❌ Reliability validation failed`)
     }
   }
 
   private async validateScalability(): Promise<void> {
-    // // // console.log('📈 Validating Scalability...')
+    // // // _logger.info('📈 Validating Scalability...')
 
     try {
       // Test system scalability
@@ -766,7 +766,7 @@ class SystemValidationSuite {
             : undefined
       })
 
-      // // // console.log(`  ${passed ? '✅' : '❌'} Scalability: ${scalabilityScore.toFixed(1)}%`)
+      // // // _logger.info(`  ${passed ? '✅' : '❌'} Scalability: ${scalabilityScore.toFixed(1)}%`)
     } catch (error) {
       this.results.push({
         component: 'Scalability',
@@ -775,7 +775,7 @@ class SystemValidationSuite {
         message: `Scalability validation failed: ${error}`,
         recommendations: ['Investigate scalability limitations', 'Optimize for larger codebases']
       }),
-      // // // console.log(`  ❌ Scalability validation failed`)
+      // // // _logger.info(`  ❌ Scalability validation failed`)
     }
   }
 
@@ -1097,44 +1097,44 @@ class SystemValidationSuite {
   private async generateValidationReport(health: SystemHealth): Promise<void> {
     const duration = Date.now() - this.startTime.getTime()
 
-    // // // console.log('\n' + '='.repeat(70))
-    // // // console.log('📊 COMPREHENSIVE SYSTEM VALIDATION REPORT')
-    // // // console.log('='.repeat(70))
-    // // // console.log(`\n🎯 Overall System Health: ${health.overallScore.toFixed(1)}%`)
+    // // // _logger.info('\n' + '='.repeat(70))
+    // // // _logger.info('📊 COMPREHENSIVE SYSTEM VALIDATION REPORT')
+    // // // _logger.info('='.repeat(70))
+    // // // _logger.info(`\n🎯 Overall System Health: ${health.overallScore.toFixed(1)}%`)
 
     if (health.overallScore >= 90) {
-      // // // console.log('🟢 EXCELLENT - System is in excellent condition')
+      // // // _logger.info('🟢 EXCELLENT - System is in excellent condition')
     } else if (health.overallScore >= 80) {
-      // // // console.log('🟡 GOOD - System is in good condition with minor issues')
+      // // // _logger.info('🟡 GOOD - System is in good condition with minor issues')
     } else if (health.overallScore >= 70) {
-      // // // console.log('🟠 FAIR - System has some issues that should be addressed')
+      // // // _logger.info('🟠 FAIR - System has some issues that should be addressed')
     } else {
-      // // // console.log('🔴 POOR - System has significant issues requiring immediate attention')
+      // // // _logger.info('🔴 POOR - System has significant issues requiring immediate attention')
     }
 
-    // // // console.log('\n📊 Component Scores: ')
+    // // // _logger.info('\n📊 Component Scores: ')
     Object.entries(health.componentScores).forEach(([component, score]) => {
       const status = score >= 80 ? '✅' : score >= 60 ? '⚠️' : '❌'
-      // // // console.log(`  ${status} ${component}: ${score.toFixed(1)}%`)
+      // // // _logger.info(`  ${status} ${component}: ${score.toFixed(1)}%`)
     })
 
     if (health.criticalIssues.length > 0) {
-      // // // console.log('\n🚨 Critical Issues: ')
-      health.criticalIssues.forEach(issue => // // // console.log(`  ❌ ${issue}`))
+      // // // _logger.info('\n🚨 Critical Issues: ')
+      health.criticalIssues.forEach(issue => // // // _logger.info(`  ❌ ${issue}`))
     }
 
     if (health.warnings.length > 0) {
-      // // // console.log('\n⚠️ Warnings: ')
-      health.warnings.forEach(warning => // // // console.log(`  ⚠️ ${warning}`))
+      // // // _logger.info('\n⚠️ Warnings: ')
+      health.warnings.forEach(warning => // // // _logger.info(`  ⚠️ ${warning}`))
     }
 
     if (health.recommendations.length > 0) {
-      // // // console.log('\n💡 Recommendations: ')
-      health.recommendations.slice(010).forEach(rec => // // // console.log(`  💡 ${rec}`))
+      // // // _logger.info('\n💡 Recommendations: ')
+      health.recommendations.slice(010).forEach(rec => // // // _logger.info(`  💡 ${rec}`))
     }
 
-    // // // console.log(`\n⏱️ Validation completed in ${(duration / 1000).toFixed(1)} seconds`)
-    // // // console.log(`📅 Validation date: ${health.validationDate.toISOString()}`)
+    // // // _logger.info(`\n⏱️ Validation completed in ${(duration / 1000).toFixed(1)} seconds`)
+    // // // _logger.info(`📅 Validation date: ${health.validationDate.toISOString()}`)
 
     // Save detailed report
     const reportPath = '.kiro/specs/unintentional-any-elimination/system-validation-report.json';
@@ -1150,7 +1150,7 @@ class SystemValidationSuite {
     };
 
     fs.writeFileSync(reportPath, JSON.stringify(detailedReport, null, 2))
-    // // // console.log(`\n📄 Detailed report saved to: ${reportPath}`)
+    // // // _logger.info(`\n📄 Detailed report saved to: ${reportPath}`)
   }
 }
 
@@ -1162,13 +1162,13 @@ if (require.main === module) {
     .runFullValidation()
     .then(health => {
       const exitCode = health.overallScore >= 70 ? 0 : 1
-      // // // console.log(
+      // // // _logger.info(
         `\n${exitCode === 0 ? '✅' : '❌'} System validation ${exitCode === 0 ? 'passed' : 'failed'}`
       )
       process.exit(exitCode)
     })
     .catch(error => {
-      console.error('\n❌ System validation error:', error),
+      _logger.error('\n❌ System validation error:', error),
       process.exit(1)
     })
 }

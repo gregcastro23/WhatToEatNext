@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { _logger } from '@/lib/logger';
 
 import { getLatestAstrologicalState } from '@/services/AstrologicalService';
 import { calculateAspects, calculatePlanetaryPositions } from '@/utils/astrologyUtils';
@@ -27,7 +28,7 @@ export async function GET() {
       source: 'default-positions'
     })
   } catch (error) {
-    console.error('API Error:', error)
+    _logger.error('API Error:', error)
     return NextResponse.json(
       { error: 'Failed to calculate positions', fallback: true },
       { status: 500 }
@@ -58,7 +59,7 @@ export async function POST(request: Request) {
     )
 
     if (!hasValidPositions) {
-      console.warn('Some planetary positions are invalid or incomplete')
+      _logger.warn('Some planetary positions are invalid or incomplete')
     }
 
     const aspects = calculateAspects(positions)
@@ -69,7 +70,7 @@ export async function POST(request: Request) {
       timestamp: new Date().toISOString()
     })
   } catch (error) {
-    console.error('Error calculating planetary positions:', error)
+    _logger.error('Error calculating planetary positions:', error)
     return NextResponse.json(
       {
         message: 'Error calculating planetary positions',

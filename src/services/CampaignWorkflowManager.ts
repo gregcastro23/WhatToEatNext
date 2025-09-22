@@ -512,7 +512,7 @@ export class CampaignWorkflowManager {
 
       return true;
     } catch (error) {
-      console.error('Rollback failed:', error)
+      _logger.error('Rollback failed:', error)
       return false;
     }
   }

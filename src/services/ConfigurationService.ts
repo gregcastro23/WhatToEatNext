@@ -76,7 +76,7 @@ class ConfigurationServiceImpl {
         }
       }
     } catch (error) {
-      console.warn('Failed to load stored configuration:', error)
+      _logger.warn('Failed to load stored configuration:', error)
     }
 
     return {
@@ -138,7 +138,7 @@ class ConfigurationServiceImpl {
         }
       }
     } catch (error) {
-      console.error('Failed to save configuration:', error)
+      _logger.error('Failed to save configuration:', error)
     }
   }
 
@@ -154,7 +154,7 @@ class ConfigurationServiceImpl {
         }
       }
     } catch (error) {
-      console.warn('Failed to load configuration history:', error)
+      _logger.warn('Failed to load configuration history:', error)
     }
     return [];
   }
@@ -192,7 +192,7 @@ class ConfigurationServiceImpl {
         // Validate the update
         const validation = this.validateUpdate(section, key, value)
         if (!validation.isValid) {
-          console.error('Configuration validation failed:', validation.errors)
+          _logger.error('Configuration validation failed:', validation.errors)
           resolve(false)
           return
         }
@@ -232,7 +232,7 @@ class ConfigurationServiceImpl {
 
         resolve(true)
       } catch (error) {
-        console.error('Failed to update configuration:', error),
+        _logger.error('Failed to update configuration:', error),
         resolve(false)
       }
     })
@@ -355,7 +355,7 @@ class ConfigurationServiceImpl {
     for (const update of updates) {
       const validation = this.validateUpdate(update.section, update.key, update.value)
       if (!validation.isValid) {
-        console.error('Bulk update validation failed:', validation.errors),
+        _logger.error('Bulk update validation failed:', validation.errors),
         return false
       }
     }
@@ -398,7 +398,7 @@ class ConfigurationServiceImpl {
 
         resolve(true)
       } catch (error) {
-        console.error('Failed to reset configuration:', error),
+        _logger.error('Failed to reset configuration:', error),
         resolve(false)
       }
     })
@@ -433,7 +433,7 @@ class ConfigurationServiceImpl {
       // Validate the entire configuration
       const validation = this.validateConfiguration(merged)
       if (!validation.isValid) {
-        console.error('Import validation failed:', validation.errors),
+        _logger.error('Import validation failed:', validation.errors),
         return false
       }
 
@@ -452,7 +452,7 @@ class ConfigurationServiceImpl {
 
       return true;
     } catch (error) {
-      console.error('Failed to import configuration:', error),
+      _logger.error('Failed to import configuration:', error),
       return false
     }
   }
@@ -506,7 +506,7 @@ class ConfigurationServiceImpl {
         try {
           listener.callback(update)
         } catch (error) {
-          console.error('Configuration listener error:', error)
+          _logger.error('Configuration listener error:', error)
         }
       }
     })

@@ -200,7 +200,7 @@ async function main(): Promise<void> {
   const batches = batchFiles(files, opts.maxBatch, opts.maxBatchCritical)
 
    
-  // // // console.log(
+  // // // _logger.info(
     `Processing ${files.length} files across ${batches.length} batches (dryRun=${opts.dryRun})`,
   )
 
@@ -209,7 +209,7 @@ async function main(): Promise<void> {
     const ok = processBatch(batch, byFile, opts.dryRun)
     if (!ok) {
        
-      console.error(`Type check failed for batch ${i + 1}. Rolled back changes for the batch.`)
+      _logger.error(`Type check failed for batch ${i + 1}. Rolled back changes for the batch.`)
       break;
     }
     // If successful and not dry-run, keep changes staged for review

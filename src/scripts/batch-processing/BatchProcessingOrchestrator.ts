@@ -97,7 +97,7 @@ export class BatchProcessingOrchestrator {
    * Create a comprehensive processing plan
    */
   async createProcessingPlan(files: FileProcessingInfo[]): Promise<ProcessingPlan> {
-    // // // console.log('📋 Creating comprehensive processing plan...')
+    // // // _logger.info('📋 Creating comprehensive processing plan...')
 
     const assessments = files.map(file =>
       this.safetyProtocols.assessFileRisk(file.filePath, file.unusedVariableCount),
@@ -130,13 +130,13 @@ export class BatchProcessingOrchestrator {
       riskSummary
     };
 
-    // // // console.log(`📊 Processing Plan Summary: `)
-    // // // console.log(`   Total Files: ${plan.totalFiles}`)
-    // // // console.log(`   Automatic Processing: ${plan.automaticProcessing.length}`)
-    // // // console.log(`   Manual Review Required: ${plan.manualReviewRequired.length}`)
-    // // // console.log(`   Estimated Batches: ${plan.estimatedBatches}`)
-    // // // console.log(`   Estimated Duration: ${plan.estimatedDuration}`)
-    // // // console.log(
+    // // // _logger.info(`📊 Processing Plan Summary: `)
+    // // // _logger.info(`   Total Files: ${plan.totalFiles}`)
+    // // // _logger.info(`   Automatic Processing: ${plan.automaticProcessing.length}`)
+    // // // _logger.info(`   Manual Review Required: ${plan.manualReviewRequired.length}`)
+    // // // _logger.info(`   Estimated Batches: ${plan.estimatedBatches}`)
+    // // // _logger.info(`   Estimated Duration: ${plan.estimatedDuration}`)
+    // // // _logger.info(
       `   Risk, Distribution: Low(${riskSummary.low}) Medium(${riskSummary.medium}) High(${riskSummary.high}) Critical(${riskSummary.critical})`,
     )
 
@@ -148,7 +148,7 @@ export class BatchProcessingOrchestrator {
    */
   async executeCampaign(files: FileProcessingInfo[]): Promise<CampaignReport> {
     const campaignId = `unused-vars-campaign-${Date.now()}`;
-    // // // console.log(`🚀 Starting batch processing campaign: ${campaignId}`)
+    // // // _logger.info(`🚀 Starting batch processing campaign: ${campaignId}`)
 
     // Create processing plan
     const processingPlan = await this.createProcessingPlan(files)
@@ -182,7 +182,7 @@ export class BatchProcessingOrchestrator {
       const automaticFiles = this.convertAssessmentsToFileInfo(processingPlan.automaticProcessing)
 
       if (automaticFiles.length > 0) {
-        // // // console.log(`\n🔄 Processing ${automaticFiles.length} files automatically...`)
+        // // // _logger.info(`\n🔄 Processing ${automaticFiles.length} files automatically...`)
         const batchResults = await this.batchProcessor.processBatches(automaticFiles)
         this.currentCampaign.batchResults = batchResults;
       }
@@ -196,9 +196,9 @@ export class BatchProcessingOrchestrator {
       this.currentCampaign.status = 'completed';
       this.currentCampaign.endTime = new Date()
 
-      // // // console.log(`\n✅ Campaign completed successfully: ${campaignId}`)
+      // // // _logger.info(`\n✅ Campaign completed successfully: ${campaignId}`)
     } catch (error) {
-      console.error(`❌ Campaign failed: ${error}`)
+      _logger.error(`❌ Campaign failed: ${error}`)
       this.currentCampaign.status = 'failed';
       this.currentCampaign.endTime = new Date()
       throw error;
@@ -216,7 +216,7 @@ export class BatchProcessingOrchestrator {
    * Handle manual review workflow
    */
   private async handleManualReviews(assessments: FileRiskAssessment[]): Promise<void> {
-    // // // console.log(`\n👥 Manual Review Required for ${assessments.length} files: `)
+    // // // _logger.info(`\n👥 Manual Review Required for ${assessments.length} files: `)
 
     for (const assessment of assessments) {
       const reviewRequest = this.safetyProtocols.createManualReviewRequest(assessment)
@@ -224,13 +224,13 @@ export class BatchProcessingOrchestrator {
         this.currentCampaign.manualReviews.push(reviewRequest)
       }
 
-      // // // console.log(`\n📋 Manual Review: ${assessment.relativePath}`)
-      // // // console.log(`   Risk Level: ${assessment.riskLevel.toUpperCase()}`)
-      // // // console.log(`   Unused Variables: ${assessment.unusedVariableCount}`)
-      // // // console.log(`   Risk Factors: `)
-      assessment.riskFactors.forEach(factor => // // // console.log(`     - ${factor}`))
-      // // // console.log(`   Review Instructions: `)
-      reviewRequest.reviewInstructions.forEach(instruction => // // // console.log(`     - ${instruction}`))
+      // // // _logger.info(`\n📋 Manual Review: ${assessment.relativePath}`)
+      // // // _logger.info(`   Risk Level: ${assessment.riskLevel.toUpperCase()}`)
+      // // // _logger.info(`   Unused Variables: ${assessment.unusedVariableCount}`)
+      // // // _logger.info(`   Risk Factors: `)
+      assessment.riskFactors.forEach(factor => // // // _logger.info(`     - ${factor}`))
+      // // // _logger.info(`   Review Instructions: `)
+      reviewRequest.reviewInstructions.forEach(instruction => // // // _logger.info(`     - ${instruction}`))
 
       if (this.config.interactiveMode) {
         // In a real implementation, this would prompt for user input
@@ -238,7 +238,7 @@ export class BatchProcessingOrchestrator {
         if (assessment.riskLevel !== 'critical') {
           this.safetyProtocols.approveManualReview(assessment.filePath, 'Auto-approved for demo')
         } else {
-          // // // console.log(`   ⚠️  CRITICAL FILE - Manual approval required before processing`)
+          // // // _logger.info(`   ⚠️  CRITICAL FILE - Manual approval required before processing`)
         }
       }
     }
@@ -388,8 +388,8 @@ export class BatchProcessingOrchestrator {
     const summary = this.generateMarkdownSummary()
     fs.writeFileSync(summaryPath, summary)
 
-    // // // console.log(`📄 Campaign report saved to: ${reportPath}`)
-    // // // console.log(`📄 Campaign summary saved to: ${summaryPath}`)
+    // // // _logger.info(`📄 Campaign report saved to: ${reportPath}`)
+    // // // _logger.info(`📄 Campaign summary saved to: ${summaryPath}`)
   }
 
   /**

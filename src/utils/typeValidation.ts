@@ -307,9 +307,9 @@ export const validateWithFallback = <T>(
   }
 
   if (context) {
-    console.warn(`Validation failed in ${context}:`, result.errors)
+    _logger.warn(`Validation failed in ${context}:`, result.errors)
     if (result.warnings.length > 0) {
-      console.warn(`Validation warnings in ${context}:`, result.warnings)
+      _logger.warn(`Validation warnings in ${context}:`, result.warnings)
     }
   }
 

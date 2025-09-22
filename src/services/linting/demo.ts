@@ -442,7 +442,7 @@ async function runDemonstration() {
     log.info('• ✅ Risk assessment and mitigation planning')
     log.info('• ✅ Comprehensive workflow integration')
   } catch (error) {
-    console.error('❌ Demonstration failed:', error)
+    _logger.error('❌ Demonstration failed:', error)
   }
 }
 

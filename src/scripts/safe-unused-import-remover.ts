@@ -71,7 +71,7 @@ class SafeUnusedImportRemover {
    * Analyze unused imports from ESLint output
    */
   public analyzeUnusedImports(): ImportAnalysis {
-    // // // console.log('🔍 Analyzing unused imports...\n')
+    // // // _logger.info('🔍 Analyzing unused imports...\n')
 
     // Get ESLint output for unused imports
     const lintOutput = this.getLintOutput()
@@ -103,30 +103,30 @@ class SafeUnusedImportRemover {
   public removeSafeUnusedImports(dryRun: boolean = true): void {
     const analysis = this.analyzeUnusedImports()
 
-    // // // console.log(`📊 Import Analysis Results:`)
-    // // // console.log(`Total unused imports: ${analysis.totalUnusedImports}`)
-    // // // console.log(`Safe to remove: ${analysis.safeToRemove.length}`)
-    // // // console.log(`Requires manual review: ${analysis.requiresManualReview.length}`)
-    // // // console.log(`Preserved (critical): ${analysis.preserved.length}\n`)
+    // // // _logger.info(`📊 Import Analysis Results:`)
+    // // // _logger.info(`Total unused imports: ${analysis.totalUnusedImports}`)
+    // // // _logger.info(`Safe to remove: ${analysis.safeToRemove.length}`)
+    // // // _logger.info(`Requires manual review: ${analysis.requiresManualReview.length}`)
+    // // // _logger.info(`Preserved (critical): ${analysis.preserved.length}\n`)
 
     if (analysis.safeToRemove.length === 0) {
-      // // // console.log('✅ No safe unused imports to remove.')
+      // // // _logger.info('✅ No safe unused imports to remove.')
       return
     }
 
     if (dryRun) {
-      // // // console.log('🔍 DRY RUN - Would remove the following imports: \n')
+      // // // _logger.info('🔍 DRY RUN - Would remove the following imports: \n')
       this.displayImportsToRemove(analysis.safeToRemove)
       return
     }
 
-    // // // console.log('🚀 Removing safe unused imports...\n')
+    // // // _logger.info('🚀 Removing safe unused imports...\n')
     this.performImportRemoval(analysis.safeToRemove)
 
     // Organize imports after removal
     this.organizeImports()
 
-    // // // console.log('✅ Safe unused import removal completed!')
+    // // // _logger.info('✅ Safe unused import removal completed!')
   }
 
   /**
@@ -295,11 +295,11 @@ class SafeUnusedImportRemover {
     )
 
     Object.entries(groupedByFile).forEach(([file, fileImports]) => {
-      // // // console.log(`📄 ${file.replace(process.cwd(), '')}: `)
+      // // // _logger.info(`📄 ${file.replace(process.cwd(), '')}: `)
       fileImports.forEach(imp => {
-        // // // console.log(`  - Line ${imp.line}: ${imp.importName}`)
+        // // // _logger.info(`  - Line ${imp.line}: ${imp.importName}`)
       })
-      // // // console.log('')
+      // // // _logger.info('')
     })
   }
 
@@ -350,15 +350,15 @@ class SafeUnusedImportRemover {
 
         // Write the updated content back
         fs.writeFileSync(filePath, lines.join('\n'))
-        // // // console.log(
+        // // // _logger.info(
           `✅ Updated ${filePath.replace(process.cwd(), '')}: ${fileImports.length} imports removed`,
         )
       } catch (error) {
-        console.error(`❌ Error processing ${filePath}:`, error)
+        _logger.error(`❌ Error processing ${filePath}:`, error)
       }
     })
 
-    // // // console.log(`\n🎉 Total imports removed: ${totalRemoved}`)
+    // // // _logger.info(`\n🎉 Total imports removed: ${totalRemoved}`)
   }
 
   /**
@@ -398,16 +398,16 @@ class SafeUnusedImportRemover {
    * Organize imports after removal
    */
   private organizeImports(): void {
-    // // // console.log('\n📋 Organizing imports...')
+    // // // _logger.info('\n📋 Organizing imports...')
 
     try {
       execSync('yarn lint --fix --rule 'import/order: error"', {
         stdio: 'pipe',
         encoding: 'utf8'
       })
-      // // // console.log('✅ Import organization completed')
+      // // // _logger.info('✅ Import organization completed')
     } catch (error) {
-      // // // console.log('⚠️  Import organization had some issues (this is normal)')
+      // // // _logger.info('⚠️  Import organization had some issues (this is normal)')
     }
   }
 
@@ -415,17 +415,17 @@ class SafeUnusedImportRemover {
    * Validate changes by running build
    */
   public validateChanges(): boolean {
-    // // // console.log('\n🔍 Validating changes...')
+    // // // _logger.info('\n🔍 Validating changes...')
 
     try {
       execSync('yarn build', {
         stdio: 'pipe',
         encoding: 'utf8'
       })
-      // // // console.log('✅ Build validation passed')
+      // // // _logger.info('✅ Build validation passed')
       return true;
     } catch (error) {
-      console.error('❌ Build validation failed')
+      _logger.error('❌ Build validation failed')
       return false
     }
   }
@@ -439,7 +439,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const dryRun = !args.includes('--execute')
 
   if (dryRun) {
-    // // // console.log('🔍 Running in DRY RUN mode. Use --execute to actually remove imports.\n')
+    // // // _logger.info('🔍 Running in DRY RUN mode. Use --execute to actually remove imports.\n')
   }
 
   remover.removeSafeUnusedImports(dryRun)
@@ -447,7 +447,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   if (!dryRun) {
     const isValid = remover.validateChanges()
     if (!isValid) {
-      // // // console.log('\n⚠️  Build validation failed. Please review changes manually.')
+      // // // _logger.info('\n⚠️  Build validation failed. Please review changes manually.')
       process.exit(1)
     }
   }

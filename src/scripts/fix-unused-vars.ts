@@ -37,7 +37,7 @@ function getUnusedVariables() {
 
     return unusedVars;
   } catch (error) {
-    // console.error('Error running ESLint:', error)
+    // _logger.error('Error running ESLint:', error)
     return [];
   }
 }
@@ -63,20 +63,20 @@ function fixUnusedVariables(_unusedVars) {
     fs.writeFileSync(filePath, lines.join('\n'))
     processedFiles.add(filePath)
 
-    // // // // console.log(`Fixed unused variable '${varName}' in ${filePath}`)
+    // // // // _logger.info(`Fixed unused variable '${varName}' in ${filePath}`)
   }
 
-  // // // // console.log(`\nProcessed ${processedFiles.size} files`)
+  // // // // _logger.info(`\nProcessed ${processedFiles.size} files`)
 }
 
 // Main function
 function main() {
-  // // // // console.log('Identifying unused variables...')
+  // // // // _logger.info('Identifying unused variables...')
   const unusedVars = getUnusedVariables()
-  // // // // console.log(`Found ${unusedVars.length} unused variables`)
+  // // // // _logger.info(`Found ${unusedVars.length} unused variables`)
 
   if (unusedVars.length > 0) {
-    // // // // console.log('Fixing unused variables...')
+    // // // // _logger.info('Fixing unused variables...')
     fixUnusedVariables(unusedVars)
   }
 }

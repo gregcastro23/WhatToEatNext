@@ -38,7 +38,7 @@ export const BackendStatus: React.FC = () => {
       const healthData = await alchemicalApi.checkHealth()
       setServices(healthData)
     } catch (error) {
-      console.log('Backend services offline - using fallback mode')
+      _logger.info('Backend services offline - using fallback mode')
       setServices(services.map(s => ({ ...s, status: 'offline' as const })))
     }
   };
@@ -71,7 +71,7 @@ export const BackendStatus: React.FC = () => {
         recommendations: { ...recommendations, responseTime: recTime }
       })
     } catch (error) {
-      console.log('Demo using fallback calculations')
+      _logger.info('Demo using fallback calculations')
       setDemoResults({
         elements: { Fire: 0.3, Water: 0.25, Earth: 0.25, Air: 0.2, responseTime: 5, fallback: true },
         planetary: { dominant_planet: 'Sun', influence_strength: 0.7, responseTime: 3, fallback: true },

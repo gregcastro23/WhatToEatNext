@@ -262,7 +262,7 @@ export class TestMemoryMonitor {
         actions
       };
     } catch (error) {
-      console.error('Memory cleanup failed:', error)
+      _logger.error('Memory cleanup failed:', error)
       return {
         success: false,
         freedMemory: '0MB',

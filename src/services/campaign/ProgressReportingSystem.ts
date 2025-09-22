@@ -184,7 +184,7 @@ export class ProgressReportingSystem {
    * Generate comprehensive campaign summary report
    */
   async generateCampaignSummaryReport(): Promise<CampaignSummaryReport> {
-    // // // console.log('📊 Generating comprehensive campaign summary report...')
+    // // // _logger.info('📊 Generating comprehensive campaign summary report...')
 
     const [currentMetrics, phaseValidations] = await Promise.all([
       this.metricsCollector.collectDetailedMetrics()
@@ -221,7 +221,7 @@ export class ProgressReportingSystem {
     };
 
     this.reportHistory.push(report)
-    // // // console.log(`✅ Campaign summary report generated: ${overallProgress}% complete`)
+    // // // _logger.info(`✅ Campaign summary report generated: ${overallProgress}% complete`)
 
     return report;
   }
@@ -230,7 +230,7 @@ export class ProgressReportingSystem {
    * Generate detailed phase completion report
    */
   async generatePhaseCompletionReport(phaseId: string): Promise<PhaseReport> {
-    // // // console.log(`📊 Generating phase completion report for ${phaseId}...`)
+    // // // _logger.info(`📊 Generating phase completion report for ${phaseId}...`)
 
     const currentMetrics = await this.metricsCollector.collectDetailedMetrics()
     let phaseValidation: PhaseValidationResult;
@@ -267,7 +267,7 @@ export class ProgressReportingSystem {
       recommendations
     };
 
-    // // // console.log(
+    // // // _logger.info(
       `✅ Phase ${phaseId} report generated: ${phaseValidation.overallSuccess ? 'COMPLETED' : 'IN PROGRESS'}`,
     )
     return report;
@@ -277,7 +277,7 @@ export class ProgressReportingSystem {
    * Generate visualization data for charts and graphs
    */
   async generateVisualizationData(): Promise<VisualizationData> {
-    // // // console.log('📊 Generating visualization data...')
+    // // // _logger.info('📊 Generating visualization data...')
 
     const snapshots = this.metricsCollector.getSnapshots()
     const phaseValidations = await this.validationSystem.validateAllPhases()
@@ -337,7 +337,7 @@ export class ProgressReportingSystem {
 
       fs.writeFileSync(filePath, content)
       exportedFiles.push(filePath)
-      // // // console.log(`📄 Report exported to: ${filePath}`)
+      // // // _logger.info(`📄 Report exported to: ${filePath}`)
     }
 
     return exportedFiles;
@@ -881,7 +881,7 @@ ${issue.description}
    */
   clearReportHistory(): void {
     this.reportHistory = [];
-    // // // console.log('📊 Report history cleared')
+    // // // _logger.info('📊 Report history cleared')
   }
 }
 

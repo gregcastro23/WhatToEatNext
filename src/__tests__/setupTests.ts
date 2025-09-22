@@ -41,10 +41,10 @@ jest.mock('@/services/ElementalCalculator', () => ({
       Air: 0.25
     }),
     initialize: jest.fn(_initialState => {
-      // console.log('Mock initialize called', initialState)
+      // _logger.info('Mock initialize called', initialState)
     }),
     updateElementalState: jest.fn(_newState => {
-      // console.log('Mock updateElementalState called', newState)
+      // _logger.info('Mock updateElementalState called', newState)
     }),
     getInstance: jest.fn().mockReturnValue({
       initialized: true,

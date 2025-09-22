@@ -1,4 +1,5 @@
 'use client';
+import { _logger } from '@/lib/logger';
 
 import React, { useEffect, useState } from 'react';
 
@@ -64,7 +65,7 @@ function DebugContent() {
       log.info('Test complete, results:', results)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
-      console.error('Test failed:', err)
+      _logger.error('Test failed:', err)
     } finally {
       setLoading(false)
     }

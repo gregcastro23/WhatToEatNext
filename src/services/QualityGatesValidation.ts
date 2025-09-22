@@ -622,7 +622,7 @@ export class QualityGatesValidation extends EventEmitter {
 
       return report;
     } catch (error) {
-      console.error('❌ Quality gates execution failed:', error),
+      _logger.error('❌ Quality gates execution failed:', error),
       throw error
     } finally {
       this.isExecuting = false;
@@ -704,7 +704,7 @@ export class QualityGatesValidation extends EventEmitter {
       result.errors.push(error instanceof Error ? error.message : 'Unknown error')
       result.executionTime = Date.now() - startTime
 
-      console.error(`❌ Quality gate ${gate.name} failed:`, error)
+      _logger.error(`❌ Quality gate ${gate.name} failed:`, error)
       this.emit('gate-failed', gate, error)
 
       return result;
@@ -1800,7 +1800,7 @@ export class QualityGatesValidation extends EventEmitter {
         this.executionHistory = data.executionHistory || [];
       }
     } catch (error) {
-      console.error('⚠️  Failed to load configuration:', error)
+      _logger.error('⚠️  Failed to load configuration:', error)
     }
   }
 
@@ -1820,7 +1820,7 @@ export class QualityGatesValidation extends EventEmitter {
       };
       fs.writeFileSync(this.HOOKS_FILE, JSON.stringify(hooksData, null, 2))
     } catch (error) {
-      console.error('❌ Failed to persist configuration:', error)
+      _logger.error('❌ Failed to persist configuration:', error)
     }
   }
 
@@ -1832,7 +1832,7 @@ export class QualityGatesValidation extends EventEmitter {
       };
       fs.writeFileSync(this.RESULTS_FILE, JSON.stringify(resultsData, null, 2))
     } catch (error) {
-      console.error('❌ Failed to persist results:', error)
+      _logger.error('❌ Failed to persist results:', error)
     }
   }
 }

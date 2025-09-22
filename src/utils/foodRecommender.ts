@@ -108,7 +108,7 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
   categories.forEach(category => {
     // All categories guaranteed to have data by design
     if (Object.keys(category.data).length === 0) {
-      console.warn(`Empty data for category: ${category.name}`)
+      _logger.warn(`Empty data for category: ${category.name}`)
       return;
     }
 
@@ -403,7 +403,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
   const ingredients = getAllIngredients()
 
   if (!astroState) {
-    console.warn('Astrological state not provided for recommendations')
+    _logger.warn('Astrological state not provided for recommendations')
     return []
   }
 

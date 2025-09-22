@@ -43,7 +43,7 @@ describe('Domain Validation Tests - Task 12', () => {
           expect(selfCompatibility).toBeLessThanOrEqual(1.0)
         })
 
-        console.log('Self-reinforcement validation passed for all elements')
+        _logger.info('Self-reinforcement validation passed for all elements')
       })
 
       test('No opposing elements exist (all combinations ≥0.7)', (() =>  {
@@ -62,7 +62,7 @@ describe('Domain Validation Tests - Task 12', () => {
           })
         })
 
-        console.log('No opposing elements validation passed')
+        _logger.info('No opposing elements validation passed')
       })
 
       test('Fire-Air and Water-Earth have slightly higher compatibility', () => {
@@ -81,7 +81,7 @@ describe('Domain Validation Tests - Task 12', () => {
         expect(elementalCompatibility.Water.Earth).toBe(0.8)
         expect(elementalCompatibility.Earth.Water).toBe(0.8)
 
-        console.log('Elemental affinity patterns validated')
+        _logger.info('Elemental affinity patterns validated')
       })
     })
 
@@ -145,7 +145,7 @@ describe('Domain Validation Tests - Task 12', () => {
           expect(result.toString()).toContain(`${constant.name} preserved`)
         })
 
-        console.log('All mathematical constants validated')
+        _logger.info('All mathematical constants validated')
       })
     })
   })
@@ -171,7 +171,7 @@ describe('Domain Validation Tests - Task 12', () => {
           expect(result.toString()).toContain(transit.valid ? 'VALID' : 'INVALID')
         })
 
-        console.log('Transit date validation completed')
+        _logger.info('Transit date validation completed')
       })
 
       test('Fallback mechanisms work for astronomical data', () => {
@@ -189,7 +189,7 @@ describe('Domain Validation Tests - Task 12', () => {
           expect(result.toString()).toContain(`${scenario.fallback} activated`)
         })
 
-        console.log('Fallback mechanisms validated')
+        _logger.info('Fallback mechanisms validated')
       })
 
       test('Retrograde status is handled correctly', () => {
@@ -210,7 +210,7 @@ describe('Domain Validation Tests - Task 12', () => {
           expect(result.toString()).toContain(`modifier=${test.modifier}`)
         })
 
-        console.log('Retrograde status handling validated')
+        _logger.info('Retrograde status handling validated')
       })
     })
 
@@ -236,7 +236,7 @@ describe('Domain Validation Tests - Task 12', () => {
           expect(difference).toBeLessThanOrEqual(test.tolerance)
         })
 
-        console.log('Planetary position accuracy validated')
+        _logger.info('Planetary position accuracy validated')
       })
 
       test('Calculations complete within 2-second timeout', () => {
@@ -259,7 +259,7 @@ describe('Domain Validation Tests - Task 12', () => {
           expect(actualTime).toBeLessThan(test.maxTime)
         })
 
-        console.log('Calculation performance validated')
+        _logger.info('Calculation performance validated')
       })
 
       test('Error handling preserves calculation integrity', () => {
@@ -279,7 +279,7 @@ describe('Domain Validation Tests - Task 12', () => {
           expect(result.toString()).toContain('calculation integrity preserved')
         })
 
-        console.log('Error handling validation completed')
+        _logger.info('Error handling validation completed')
       })
     })
   })
@@ -322,7 +322,7 @@ describe('Domain Validation Tests - Task 12', () => {
           expect(result.toString()).toContain('domain rules')
         })
 
-        console.log('Enterprise intelligence domain compliance validated')
+        _logger.info('Enterprise intelligence domain compliance validated')
       })
 
       test('Safety protocols maintain calculation accuracy', () => {
@@ -340,7 +340,7 @@ describe('Domain Validation Tests - Task 12', () => {
           expect(result.toString()).toContain(test.impact)
         })
 
-        console.log('Safety protocol validation completed')
+        _logger.info('Safety protocol validation completed')
       })
     })
 
@@ -365,7 +365,7 @@ describe('Domain Validation Tests - Task 12', () => {
           expect(result.toString()).toContain(pattern.preserved ? 'PRESERVED' : 'MODIFIED')
         })
 
-        console.log('Astrological variable patterns validated')
+        _logger.info('Astrological variable patterns validated')
       })
 
       test('Campaign system variable patterns are preserved', () => {
@@ -388,7 +388,7 @@ describe('Domain Validation Tests - Task 12', () => {
           expect(result.toString()).toContain(pattern.preserved ? 'PRESERVED' : 'MODIFIED')
         })
 
-        console.log('Campaign variable patterns validated')
+        _logger.info('Campaign variable patterns validated')
       })
     })
   })
@@ -411,7 +411,7 @@ describe('Domain Validation Tests - Task 12', () => {
           expect(result.toString()).toContain(req.status)
         })
 
-        console.log('Domain requirement enforcement validated')
+        _logger.info('Domain requirement enforcement validated')
       })
 
       test('Custom ESLint rules work correctly for domain files', () => {
@@ -431,7 +431,7 @@ describe('Domain Validation Tests - Task 12', () => {
           expect(result.toString()).toContain(rule.working ? 'WORKING' : 'FAILED')
         })
 
-        console.log('Custom ESLint rules validated')
+        _logger.info('Custom ESLint rules validated')
       })
     })
 
@@ -455,7 +455,7 @@ describe('Domain Validation Tests - Task 12', () => {
           expect(result.toString()).toContain(exception.granted ? 'GRANTED' : 'DENIED')
         })
 
-        console.log('Rule exceptions validated')
+        _logger.info('Rule exceptions validated')
       })
     })
   })
@@ -480,7 +480,7 @@ describe('Domain Validation Tests - Task 12', () => {
         expect(status).toBe('PASSED').;
       })
 
-      console.log('Domain validation summary:', result)
+      _logger.info('Domain validation summary:', result)
     })
 
     test('Domain integrity is maintained across all systems', () => {

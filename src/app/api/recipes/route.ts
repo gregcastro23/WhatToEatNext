@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { _logger } from '@/lib/logger';
 
 import type { Recipe } from '@/types/recipe';
 
@@ -60,7 +61,7 @@ export async function GET() {
       }
     })
   } catch (error) {
-    console.error('Recipe API Error:', error)
+    _logger.error('Recipe API Error:', error)
     return NextResponse.json({ error: 'Failed to fetch recipes' }, { status: 400 })
   }
 }
@@ -99,7 +100,7 @@ export async function POST(request: Request) {
       message: 'Recipe added successfully'
     })
   } catch (error) {
-    console.error('Recipe submission error:', error)
+    _logger.error('Recipe submission error:', error)
     return NextResponse.json({ error: 'Failed to process recipe' }, { status: 500 })
   }
 }

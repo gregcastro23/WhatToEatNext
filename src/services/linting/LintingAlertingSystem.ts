@@ -87,7 +87,7 @@ export class LintingAlertingSystem {
       return
     }
 
-    // // // console.log(`🚨 Processing ${alerts.length} alerts...`)
+    // // // _logger.info(`🚨 Processing ${alerts.length} alerts...`)
 
     // Filter alerts based on cooldown and suppression
     const activeAlerts = this.filterActiveAlerts(alerts)
@@ -111,7 +111,7 @@ export class LintingAlertingSystem {
       await this.triggerAutoResponses(activeAlerts, performanceEvents)
     }
 
-    // // // console.log(
+    // // // _logger.info(
       `✅ Processed ${activeAlerts.length} active alerts and ${performanceEvents.length} performance events`,
     )
   }
@@ -143,7 +143,7 @@ export class LintingAlertingSystem {
         };
 
         events.push(event)
-        // // // console.log(
+        // // // _logger.info(
           `⚠️ Performance threshold exceeded: ${threshold.metric} = ${value} > ${threshold.threshold}`
         )
       }
@@ -183,7 +183,7 @@ export class LintingAlertingSystem {
           break;
       }
     } catch (error) {
-      console.error(`Failed to send alert to ${channel.type}:`, error)
+      _logger.error(`Failed to send alert to ${channel.type}:`, error)
     }
   }
 
@@ -193,11 +193,11 @@ export class LintingAlertingSystem {
   private sendConsoleAlert(alert: Alert): void {
     const icon = this.getSeverityIcon(alert.severity)
     const timestamp = alert.timestamp.toISOString()
-    // // // console.log(`${icon} [${alert.severity.toUpperCase()}] ${timestamp}`)
-    // // // console.log(`   Metric: ${alert.metric}`)
-    // // // console.log(`   Value: ${alert.currentValue} (threshold: ${alert.threshold})`)
-    // // // console.log(`   Message: ${alert.message}`)
-    // // // console.log('')
+    // // // _logger.info(`${icon} [${alert.severity.toUpperCase()}] ${timestamp}`)
+    // // // _logger.info(`   Metric: ${alert.metric}`)
+    // // // _logger.info(`   Value: ${alert.currentValue} (threshold: ${alert.threshold})`)
+    // // // _logger.info(`   Message: ${alert.message}`)
+    // // // _logger.info('')
   }
 
   /**
@@ -212,7 +212,7 @@ export class LintingAlertingSystem {
       // Append to file
       execSync(`echo '${logEntry}' >> '${alertFile}'`)
     } catch (error) {
-      console.error('Failed to write alert to file:', error)
+      _logger.error('Failed to write alert to file:', error)
     }
   }
 
@@ -245,7 +245,7 @@ export class LintingAlertingSystem {
    */
   private async sendWebhookAlert(alert: Alert, config: Record<string, unknown>): Promise<void> {
     if (!config.url) {
-      console.warn('Webhook URL not configured')
+      _logger.warn('Webhook URL not configured')
       return
     }
 
@@ -268,7 +268,7 @@ export class LintingAlertingSystem {
 
       execSync(curlCommand, { stdio: 'pipe' })
     } catch (error) {
-      console.error('Failed to send webhook alert:', error)
+      _logger.error('Failed to send webhook alert:', error)
     }
   }
 
@@ -276,7 +276,7 @@ export class LintingAlertingSystem {
    * Process performance event and trigger responses
    */
   private async processPerformanceEvent(event: PerformanceEvent): Promise<void> {
-    // // // console.log(`📊 Performance event: ${event.type} for ${event.metric}`)
+    // // // _logger.info(`📊 Performance event: ${event.type} for ${event.metric}`)
 
     // Log performance event
     const performanceLog = `.kiro/metrics/performance-events.log`;
@@ -285,7 +285,7 @@ export class LintingAlertingSystem {
     try {
       execSync(`echo '${logEntry}' >> '${performanceLog}'`)
     } catch (error) {
-      console.error('Failed to log performance event:', error)
+      _logger.error('Failed to log performance event:', error)
     }
 
     // Update performance history
@@ -309,7 +309,7 @@ export class LintingAlertingSystem {
    * Execute automatic response action
    */
   private async executeAutoResponse(action: AutoResponseAction): Promise<void> {
-    // // // console.log(`🤖 Executing auto-response: ${action.action}`)
+    // // // _logger.info(`🤖 Executing auto-response: ${action.action}`)
 
     try {
       switch (action.action) {
@@ -326,7 +326,7 @@ export class LintingAlertingSystem {
           break
       }
     } catch (error) {
-      console.error(`Failed to execute auto-response ${action.action}:`, error)
+      _logger.error(`Failed to execute auto-response ${action.action}:`, error)
     }
   }
 
@@ -391,22 +391,22 @@ export class LintingAlertingSystem {
 
   // Auto-response implementations
   private async enableLintingCache(): Promise<void> {
-    // // // console.log('🚀 Enabling ESLint caching for improved performance')
+    // // // _logger.info('🚀 Enabling ESLint caching for improved performance')
     // Cache is already enabled in eslint.config.cjs, this is a no-op
   }
 
   private async reduceBatchSize(newSize: number): Promise<void> {
-    // // // console.log(`📉 Reducing batch size to ${newSize} for better performance`)
+    // // // _logger.info(`📉 Reducing batch size to ${newSize} for better performance`)
     // This would integrate with campaign system batch processing
   }
 
   private async skipNonCriticalRules(): Promise<void> {
-    // // // console.log('⚡ Temporarily skipping non-critical rules for performance')
+    // // // _logger.info('⚡ Temporarily skipping non-critical rules for performance')
     // This would create a temporary ESLint config with reduced rules
   }
 
   private async emergencyStop(): Promise<void> {
-    // // // console.log('🛑 Emergency stop triggered - halting linting operations')
+    // // // _logger.info('🛑 Emergency stop triggered - halting linting operations')
     // This would stop any running linting campaigns
   }
 
@@ -417,7 +417,7 @@ export class LintingAlertingSystem {
         return JSON.parse(readFileSync(this.configFile, 'utf8'))
       }
     } catch (error) {
-      console.warn('Error loading alerting configuration:', error)
+      _logger.warn('Error loading alerting configuration:', error)
     }
 
     // Return default configuration
@@ -493,7 +493,7 @@ export class LintingAlertingSystem {
         this.suppressedAlerts = new Set(suppressions)
       }
     } catch (error) {
-      console.warn('Error loading alert suppressions:', error)
+      _logger.warn('Error loading alert suppressions:', error)
     }
   }
 
@@ -512,7 +512,7 @@ export class LintingAlertingSystem {
 
       writeFileSync(this.historyFile, JSON.stringify(history, null, 2))
     } catch (error) {
-      console.error('Error updating alert history:', error)
+      _logger.error('Error updating alert history:', error)
     }
   }
 
@@ -527,7 +527,7 @@ export class LintingAlertingSystem {
 
       writeFileSync(this.historyFile, JSON.stringify(history, null, 2))
     } catch (error) {
-      console.error('Error updating performance history:', error)
+      _logger.error('Error updating performance history:', error)
     }
   }
 
@@ -537,7 +537,7 @@ export class LintingAlertingSystem {
         return JSON.parse(readFileSync(this.historyFile, 'utf8'))
       }
     } catch (error) {
-      console.warn('Error loading alert history:', error)
+      _logger.warn('Error loading alert history:', error)
     }
 
     return {

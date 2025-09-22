@@ -688,7 +688,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
       queue.status = 'completed';
       log.info(`✅ Batch queue ${queueId} completed successfully`)
     } catch (error) {
-      console.error(`❌ Error processing batch queue ${queueId}:`, error)
+      _logger.error(`❌ Error processing batch queue ${queueId}:`, error)
       queue.status = 'idle';
     } finally {
       this.isProcessing = false;
@@ -901,7 +901,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
    * Handle job failure
    */
   private async handleJobFailure(job: BatchJob, queue: BatchQueue, error: Error): Promise<void> {
-    console.error(`❌ Job ${job.jobId} failed:`, error.message)
+    _logger.error(`❌ Job ${job.jobId} failed:`, error.message)
 
     job.retryCount++;
 
@@ -914,7 +914,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
       job.priority = Math.max(1, job.priority - 5)
       queue.jobs.unshift(job)
     } else {
-      console.error(`💥 Job ${job.jobId} failed permanently after ${job.maxRetries} retries`)
+      _logger.error(`💥 Job ${job.jobId} failed permanently after ${job.maxRetries} retries`)
       job.status = 'failed';
       job.completedAt = new Date()
       job.actualTime = job.completedAt.getTime() - (job.startedAt?.getTime() ?? 0)
@@ -953,7 +953,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
       this.rollbackData.set(rollbackId, rollbackData)
       return rollbackData;
     } catch (error) {
-      console.warn('⚠️  Failed to create git stash rollback point:', error),
+      _logger.warn('⚠️  Failed to create git stash rollback point:', error),
 
       // Fallback to file-based rollback
       const rollbackData: RollbackData = {
@@ -974,7 +974,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
   private async rollbackJob(job: BatchJob): Promise<void> {
     const rollbackData = Array.from(this.rollbackData.values()).find(rd => rd.jobId === job.jobId)
     if (!rollbackData) {
-      console.warn(`⚠️  No rollback data found for job ${job.jobId}`)
+      _logger.warn(`⚠️  No rollback data found for job ${job.jobId}`)
       return;
     }
 
@@ -994,7 +994,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
         log.info(`🔄 Rolled back job ${job.jobId} using file restore`)
       }
     } catch (error) {
-      console.error(`❌ Failed to rollback job ${job.jobId}:`, error)
+      _logger.error(`❌ Failed to rollback job ${job.jobId}:`, error)
     }
   }
 
@@ -1306,7 +1306,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
     })
 
     this.on('job-failed', (job: BatchJob, error: Error) => {
-      console.error(`❌ Job ${job.jobId} failed: ${error.message}`)
+      _logger.error(`❌ Job ${job.jobId} failed: ${error.message}`)
     })
   }
 
@@ -1326,7 +1326,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
         JSON.stringify(data, null, 2),
       )
     } catch (error) {
-      console.error('❌ Failed to persist batch processor data:', error)
+      _logger.error('❌ Failed to persist batch processor data:', error)
     }
   }
 
@@ -1341,7 +1341,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
         this.rollbackData = new Map(data.rollbackData || [])
       }
     } catch (error) {
-      console.error('⚠️  Failed to load persisted data:', error)
+      _logger.error('⚠️  Failed to load persisted data:', error)
     }
   }
 

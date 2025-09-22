@@ -516,7 +516,7 @@ export class CampaignConflictResolver {
           const result = await this.resolveConflict(conflict.id)
           void results.push(result)
         } catch (error) {
-          console.error(`Failed to auto-resolve conflict ${conflict.id}:`, error)
+          _logger.error(`Failed to auto-resolve conflict ${conflict.id}:`, error)
         }
       }
     }
@@ -676,7 +676,7 @@ export class CampaignConflictResolver {
 
       return true
     } catch (error) {
-      console.error('Manual override failed:', error),
+      _logger.error('Manual override failed:', error),
       return false
     }
   }

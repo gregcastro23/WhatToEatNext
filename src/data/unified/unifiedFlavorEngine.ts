@@ -192,7 +192,7 @@ export class UnifiedFlavorEngine {
         // Setup cache cleanup interval
         setInterval(() => this.cleanupCaches(), 300000), // Every 5 minutes
       } catch (error) {
-        console.error('Error during synchronous initialization:', error)
+        _logger.error('Error during synchronous initialization:', error)
       }
     }
   }
@@ -233,11 +233,11 @@ export class UnifiedFlavorEngine {
           setGlobalState(this, false, true)
         })
         .catch((error: Error) => {
-          console.error('Failed to initialize profiles:', error),
+          _logger.error('Failed to initialize profiles:', error),
           setGlobalState(this, false, false)
         })
     } catch (error) {
-      console.error('Error during synchronous initialization:', error),
+      _logger.error('Error during synchronous initialization:', error),
       setGlobalState(this, false, false)
     }
   }

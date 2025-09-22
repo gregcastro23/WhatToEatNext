@@ -119,7 +119,7 @@ export class UnusedExportAnalyzer {
    * Analyze unused exports across the codebase
    */
   async analyzeUnusedExports(): Promise<AnalysisResult> {
-    // // // console.log('🔍 Starting unused export analysis...')
+    // // // _logger.info('🔍 Starting unused export analysis...')
 
     const files = await this.getAllSourceFiles()
     const fileAnalyses: FileAnalysis[] = [];
@@ -131,7 +131,7 @@ export class UnusedExportAnalyzer {
           fileAnalyses.push(analysis)
         }
       } catch (error) {
-        console.warn(`⚠️  Failed to analyze ${filePath}:`, error)
+        _logger.warn(`⚠️  Failed to analyze ${filePath}:`, error)
       }
     }
 

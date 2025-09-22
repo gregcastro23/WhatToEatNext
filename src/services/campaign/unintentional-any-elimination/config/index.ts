@@ -220,7 +220,7 @@ export class ConfigurationManager {
         // Merge with defaults to ensure all properties exist
         return this.mergeWithDefaults(loadedConfig)
       } catch (error) {
-        console.warn(`Failed to load config from ${this.configPath}, using defaults:`, error)
+        _logger.warn(`Failed to load config from ${this.configPath}, using defaults:`, error)
         return DEFAULT_CONFIG;
       }
     }

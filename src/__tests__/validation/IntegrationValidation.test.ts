@@ -46,7 +46,7 @@ describe('Integration Validation Tests - Task 12', () => {
           expect(ArrayisArray(config)).toBe(true)
         }).not.toThrow()
 
-        console.log('ESLint configuration loaded successfully')
+        _logger.info('ESLint configuration loaded successfully')
       })
 
       test('TypeScript integration works correctly', () => {
@@ -107,7 +107,7 @@ describe('Integration Validation Tests - Task 12', () => {
           expect(result.toString()).toContain(`${rule}: ACTIVE`)
         })
 
-        console.log('Enhanced TypeScript rules validated')
+        _logger.info('Enhanced TypeScript rules validated')
       })
 
       test('Domain-specific rule overrides work correctly', () => {
@@ -126,7 +126,7 @@ describe('Integration Validation Tests - Task 12', () => {
           expect(result.toString()).toContain(override.status)
         })
 
-        console.log('Domain-specific rule overrides validated')
+        _logger.info('Domain-specific rule overrides validated')
       })
 
       test('Performance optimizations are active', () => {
@@ -144,7 +144,7 @@ describe('Integration Validation Tests - Task 12', () => {
           expect(result.toString()).toContain(feature.status)
         })
 
-        console.log('Performance optimizations validated')
+        _logger.info('Performance optimizations validated')
       })
     })
   })
@@ -165,9 +165,9 @@ describe('Integration Validation Tests - Task 12', () => {
           expect(typeof (remover).processFile).toBe('function')
           expect(typeof (remover).processDirectory).toBe('function')
 
-          console.log('SafeUnusedImportRemover integration validated')
+          _logger.info('SafeUnusedImportRemover integration validated')
         } catch (error){
-          console.warn('SafeUnusedImportRemover not available, skipping integration test')
+          _logger.warn('SafeUnusedImportRemover not available, skipping integration test')
         }
       })
 
@@ -189,7 +189,7 @@ describe('Integration Validation Tests - Task 12', () => {
           expect(result.toString()).toContain(test.preserved ? 'PRESERVED' : 'REMOVED')
         })
 
-        console.log('Domain pattern preservation validated')
+        _logger.info('Domain pattern preservation validated')
       })
 
       test('Batch processing works with safety protocols', () => {
@@ -205,7 +205,7 @@ describe('Integration Validation Tests - Task 12', () => {
           expect(result.toString()).toContain('safety validation')
         })
 
-        console.log('Batch processing safety validated')
+        _logger.info('Batch processing safety validated')
       })
     })
 
@@ -222,9 +222,9 @@ describe('Integration Validation Tests - Task 12', () => {
           try {;
             const module = import(`../../services/campaign/${component}`)
             expect(module[component]).toBeDefined().
-            console.log(`${component} loaded successfully`)
+            _logger.info(`${component} loaded successfully`)
           } catch (error){
-            console.warn(`${component} not available, skipping integration test`)
+            _logger.warn(`${component} not available, skipping integration test`)
           }
         }
       })
@@ -247,7 +247,7 @@ describe('Integration Validation Tests - Task 12', () => {
           expect(result.toString()).toContain(step.duration)
         })
 
-        console.log('Campaign workflow integration validated')
+        _logger.info('Campaign workflow integration validated')
       })
 
       test('Progress tracking integration works', () => {
@@ -268,7 +268,7 @@ describe('Integration Validation Tests - Task 12', () => {
           expect(result.toString()).toContain(`${improvement}% improvement`)
         })
 
-        console.log('Progress tracking integration validated')
+        _logger.info('Progress tracking integration validated')
       })
     })
 
@@ -298,7 +298,7 @@ describe('Integration Validation Tests - Task 12', () => {
           expect(result.toString()).toContain(phase.action)
         })
 
-        console.log('End-to-end error resolution workflow validated')
+        _logger.info('End-to-end error resolution workflow validated')
       })
 
       test('Error recovery mechanisms work correctly', () => {
@@ -318,7 +318,7 @@ describe('Integration Validation Tests - Task 12', () => {
           expect(result.toString()).toContain(scenario.action)
         })
 
-        console.log('Error recovery mechanisms validated')
+        _logger.info('Error recovery mechanisms validated')
       })
     })
   })
@@ -360,7 +360,7 @@ describe('Integration Validation Tests - Task 12', () => {
           expect(result.toString()).toContain(step.status)
         })
 
-        console.log('Build process integration validated')
+        _logger.info('Build process integration validated')
       })
 
       test('Incremental builds work with linting cache', () => {
@@ -382,7 +382,7 @@ describe('Integration Validation Tests - Task 12', () => {
           expect(result.toString()).toContain(`cache=${scenario.cacheHit}`)
         })
 
-        console.log('Incremental build integration validated')
+        _logger.info('Incremental build integration validated')
       })
     })
 
@@ -402,7 +402,7 @@ describe('Integration Validation Tests - Task 12', () => {
           expect(result.toString()).toContain(event.action)
         })
 
-        console.log('Watch mode integration validated')
+        _logger.info('Watch mode integration validated')
       })
 
       test('Git hooks integration works', () => {
@@ -420,7 +420,7 @@ describe('Integration Validation Tests - Task 12', () => {
           expect(result.toString()).toContain(hook.result)
         })
 
-        console.log('Git hooks integration validated')
+        _logger.info('Git hooks integration validated')
       })
     })
   })
@@ -444,7 +444,7 @@ describe('Integration Validation Tests - Task 12', () => {
           expect(result.toString()).toContain('collected every')
         })
 
-        console.log('Metrics collection integration validated')
+        _logger.info('Metrics collection integration validated')
       })
 
       test('Quality gates integration works', () => {
@@ -464,7 +464,7 @@ describe('Integration Validation Tests - Task 12', () => {
           expect(result.toString()).toContain(gate.status)
         })
 
-        console.log('Quality gates integration validated')
+        _logger.info('Quality gates integration validated')
       })
     })
 
@@ -487,7 +487,7 @@ describe('Integration Validation Tests - Task 12', () => {
           expect(result.toString()).toContain(system.frequency)
         })
 
-        console.log('Reporting integration validated')
+        _logger.info('Reporting integration validated')
       })
     })
   })
@@ -512,7 +512,7 @@ describe('Integration Validation Tests - Task 12', () => {
         expect(status).toBe('INTEGRATED').;
       })
 
-      console.log('Integration validation summary:', result)
+      _logger.info('Integration validation summary:', result)
     })
 
     test('System is ready for production deployment', () => {

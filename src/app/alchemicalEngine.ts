@@ -1,4 +1,5 @@
 'use client';
+import { _logger } from '@/lib/logger';
 
 // This file serves as a facade/proxy to the real implementation
 // in src/calculations/alchemicalEngine.ts
@@ -41,17 +42,17 @@ const alchemicalEngine = {
       };
       return alchemize(birthInfo, extendedHoroscope)
     } catch (error) {
-      console.error('Error in alchemize:', error)
+      _logger.error('Error in alchemize:', error)
 
       // Special handling for 'Assignment to constant variable' error
       if (error instanceof TypeError && error.message.includes('Assignment to constant')) {
-        console.error('Assignment to constant variable detected!')
-        console.error('Error stack:', error.stack)
+        _logger.error('Assignment to constant variable detected!')
+        _logger.error('Error stack:', error.stack)
 
         // Try to extract the variable name from the error message
         const match = error.message.match(/Assignment to constant variable: (.+)/)
         if (match?.[1]) {
-          console.error(`Attempted to reassign constant variable: ${match[1]}`)
+          _logger.error(`Attempted to reassign constant variable: ${match[1]}`)
         }
       }
 
@@ -92,7 +93,7 @@ const alchemicalEngine = {
       )
       return calculateCurrentPlanetaryPositions()
     } catch (error) {
-      console.error('Error calculating planetary positions:', error)
+      _logger.error('Error calculating planetary positions:', error)
       // Return a safe fallback
       return {
         Sun: { Sign: { label: 'Aries' } },
@@ -106,7 +107,7 @@ const alchemicalEngine = {
       // Use ESM import binding
       return _calculateZodiacEnergies(positions)
     } catch (error) {
-      console.error('Error calculating zodiac energies:', error)
+      _logger.error('Error calculating zodiac energies:', error)
       // Return a safe fallback with equal distribution
       return {
         aries: 0.0833,
@@ -130,7 +131,7 @@ const alchemicalEngine = {
       // Use ESM import binding
       return _calculateChakraEnergies(zodiacEnergies)
     } catch (error) {
-      console.error('Error calculating chakra energies:', error)
+      _logger.error('Error calculating chakra energies:', error)
       // Return a safe fallback with equal distribution
       return {
         root: 0.125,
@@ -149,7 +150,7 @@ const alchemicalEngine = {
     try {
       return advanced ? new AlchemicalEngineAdvanced() : new AlchemicalEngineBase()
     } catch (error) {
-      console.error('Error creating engine instance:', error)
+      _logger.error('Error creating engine instance:', error)
       // Return a minimal mock implementation
       return {
         calculateNaturalInfluences: () => ({
@@ -184,7 +185,7 @@ const alchemicalEngine = {
         }
       } as AstrologicalState;
     } catch (error) {
-      console.error('Error getting current astrological state:', error)
+      _logger.error('Error getting current astrological state:', error)
       return {
         sunSign: 'aries',
         moonSign: 'cancer',

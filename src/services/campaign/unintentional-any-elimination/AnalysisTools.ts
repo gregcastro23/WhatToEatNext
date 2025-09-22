@@ -38,7 +38,7 @@ export class AnalysisTools {
    * Analyze current any type distribution by domain
    */
   async analyzeDomainDistribution(): Promise<DomainDistribution> {
-    // // // console.log('Analyzing any type distribution by domain...')
+    // // // _logger.info('Analyzing any type distribution by domain...')
 
     const anyTypeOccurrences = await this.findAllAnyTypes()
     const domainDistribution: Record<CodeDomain, number> = {
@@ -113,7 +113,7 @@ export class AnalysisTools {
       analysisDate: new Date()
     };
 
-    // // // console.log(`Domain distribution analysis complete: ${totalCount} any types found`)
+    // // // _logger.info(`Domain distribution analysis complete: ${totalCount} any types found`)
     return distribution;
   }
 
@@ -121,7 +121,7 @@ export class AnalysisTools {
    * Implement classification accuracy reporting
    */
   async generateClassificationAccuracyReport(): Promise<ClassificationAccuracyReport> {
-    // // // console.log('Generating classification accuracy report...')
+    // // // _logger.info('Generating classification accuracy report...')
 
     const anyTypeOccurrences = await this.findAllAnyTypes()
     const sampleSize = Math.min(100, anyTypeOccurrences.length); // Sample for accuracy testing
@@ -179,7 +179,7 @@ export class AnalysisTools {
       reportDate: new Date()
     };
 
-    // // // console.log(`Classification accuracy report complete: ${overallAccuracy.toFixed(1)}% accuracy`)
+    // // // _logger.info(`Classification accuracy report complete: ${overallAccuracy.toFixed(1)}% accuracy`)
     return report;
   }
 
@@ -187,7 +187,7 @@ export class AnalysisTools {
    * Add success rate analysis and trending
    */
   async generateSuccessRateAnalysis(): Promise<SuccessRateAnalysis> {
-    // // // console.log('Generating success rate analysis and trending...')
+    // // // _logger.info('Generating success rate analysis and trending...')
 
     const currentMetrics = await this.getCurrentMetrics()
     const historicalData = this.getHistoricalTrendingData()
@@ -208,7 +208,7 @@ export class AnalysisTools {
       analysisDate: new Date()
     };
 
-    // // // console.log(
+    // // // _logger.info(
       `Success rate analysis complete: ${currentMetrics.overallSuccessRate.toFixed(1)}% current success rate`,
     )
     return analysis;
@@ -218,7 +218,7 @@ export class AnalysisTools {
    * Create recommendations for manual review cases
    */
   async generateManualReviewRecommendations(): Promise<ManualReviewRecommendation[]> {
-    // // // console.log('Generating manual review recommendations...')
+    // // // _logger.info('Generating manual review recommendations...')
 
     const anyTypeOccurrences = await this.findAllAnyTypes()
     const recommendations: ManualReviewRecommendation[] = [];
@@ -250,7 +250,7 @@ export class AnalysisTools {
       return priorityOrder[b.priority] - priorityOrder[a.priority];
     })
 
-    // // // console.log(
+    // // // _logger.info(
       `Manual review recommendations complete: ${recommendations.length} cases identified`,
     )
     return recommendations;
@@ -260,7 +260,7 @@ export class AnalysisTools {
    * Generate comprehensive analysis report
    */
   async generateComprehensiveReport(): Promise<AnalysisReport> {
-    // // // console.log('Generating comprehensive analysis report...')
+    // // // _logger.info('Generating comprehensive analysis report...')
 
     const [domainDistribution, accuracyReport, successRateAnalysis, manualReviewRecommendations] =
       await Promise.all([
@@ -292,7 +292,7 @@ export class AnalysisTools {
     this.analysisHistory.push(report)
     await this.saveAnalysisHistory()
 
-    // // // console.log('Comprehensive analysis report generated successfully')
+    // // // _logger.info('Comprehensive analysis report generated successfully')
     return report;
   }
 
@@ -325,7 +325,7 @@ export class AnalysisTools {
         }
       }
     } catch (error) {
-      console.warn('Error finding any types:', error)
+      _logger.warn('Error finding any types:', error)
     }
 
     return occurrences;
@@ -771,7 +771,7 @@ export class AnalysisTools {
         this.analysisHistory = JSON.parse(historyData)
       }
     } catch (error) {
-      console.warn('Could not load analysis history:', error),
+      _logger.warn('Could not load analysis history:', error),
       this.analysisHistory = [];
     }
   }
@@ -786,7 +786,7 @@ export class AnalysisTools {
       const historyPath = path.join(historyDir, 'unintentional-any-analysis-history.json')
       fs.writeFileSync(historyPath, JSON.stringify(this.analysisHistory, null, 2))
     } catch (error) {
-      console.warn('Could not save analysis history:', error)
+      _logger.warn('Could not save analysis history:', error)
     }
   }
 }

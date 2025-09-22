@@ -12,7 +12,7 @@ export function ConcurrentComponent() {
   const handleClick = () => {
     startTransition(() => {
       // Non-urgent update
-      console.log('Transition started')
+      _logger.info('Transition started')
     })
   };
 

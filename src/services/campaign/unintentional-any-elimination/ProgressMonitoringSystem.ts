@@ -40,11 +40,11 @@ export class ProgressMonitoringSystem extends EventEmitter {
    */
   startMonitoring(intervalMinutes: number = 5): void {;
     if (this.isMonitoring) {
-      // // // console.log('Progress monitoring is already running')
+      // // // _logger.info('Progress monitoring is already running')
       return
     }
 
-    // // // console.log(`Starting progress monitoring with ${intervalMinutes}-minute intervals`)
+    // // // _logger.info(`Starting progress monitoring with ${intervalMinutes}-minute intervals`)
     this.isMonitoring = true;
 
     // Initial update
@@ -58,7 +58,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
           await this.checkAlertConditions()
           await this.monitorBuildStability()
         } catch (error) {
-          console.error('Error during monitoring update:', error),
+          _logger.error('Error during monitoring update:', error),
           this.emitAlert({
             type: 'system_error',
             severity: 'high',
@@ -79,11 +79,11 @@ export class ProgressMonitoringSystem extends EventEmitter {
    */
   stopMonitoring(): void {
     if (!this.isMonitoring) {
-      // // // console.log('Progress monitoring is not running')
+      // // // _logger.info('Progress monitoring is not running')
       return
     }
 
-    // // // console.log('Stopping progress monitoring')
+    // // // _logger.info('Stopping progress monitoring')
     this.isMonitoring = false;
 
     if (this.monitoringInterval) {
@@ -105,7 +105,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
    * Get real-time progress metrics
    */
   async getProgressMetrics(): Promise<UnintentionalAnyProgress> {
-    // // // console.log('Collecting real-time progress metrics...')
+    // // // _logger.info('Collecting real-time progress metrics...')
 
     try {
       const currentReport = await this.analysisTools.generateComprehensiveReport()
@@ -290,7 +290,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
    * Handle safety protocol activation
    */
   handleSafetyProtocolActivation(event: SafetyEvent): void {
-    // // // console.log(`Safety protocol activated: ${event.type}`)
+    // // // _logger.info(`Safety protocol activated: ${event.type}`)
 
     this.emitAlert({
       type: 'safety_protocol_activation',
@@ -354,7 +354,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
 
   private async updateDashboard(): Promise<void> {
     try {
-      // // // console.log('Updating dashboard data...')
+      // // // _logger.info('Updating dashboard data...')
 
       const [analysisReport, progressMetrics, buildStability] = await Promise.all([
         this.analysisTools.generateComprehensiveReport()
@@ -381,7 +381,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
 
       this.emit('dashboard_updated', this.dashboardData)
     } catch (error) {
-      console.error('Error updating dashboard:', error),
+      _logger.error('Error updating dashboard:', error),
       throw error
     }
   }
@@ -465,7 +465,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
       this.saveAlertHistory()
       this.emit('alert', alert)
 
-      // // // console.log(`Alert emitted: ${alert.type} (${alert.severity}) - ${alert.message}`)
+      // // // _logger.info(`Alert emitted: ${alert.type} (${alert.severity}) - ${alert.message}`)
     }
   }
 
@@ -549,7 +549,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
         }))
       }
     } catch (error) {
-      console.warn('Could not load alert history:', error),
+      _logger.warn('Could not load alert history:', error),
       this.alertHistory = [];
     }
   }
@@ -564,7 +564,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
       const historyPath = path.join(historyDir, 'alert-history.json')
       fs.writeFileSync(historyPath, JSON.stringify(this.alertHistory, null, 2))
     } catch (error) {
-      console.warn('Could not save alert history:', error)
+      _logger.warn('Could not save alert history:', error)
     }
   }
 
@@ -584,7 +584,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
         }))
       }
     } catch (error) {
-      console.warn('Could not load build stability history:', error),
+      _logger.warn('Could not load build stability history:', error),
       this.buildStabilityHistory = [];
     }
   }
@@ -599,7 +599,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
       const historyPath = path.join(historyDir, 'build-stability-history.json')
       fs.writeFileSync(historyPath, JSON.stringify(this.buildStabilityHistory, null, 2))
     } catch (error) {
-      console.warn('Could not save build stability history:', error)
+      _logger.warn('Could not save build stability history:', error)
     }
   }
 }

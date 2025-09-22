@@ -1,24 +1,25 @@
 /**
+import { _logger } from '@/lib/logger';
  * Improved utility functions for dynamic imports in Next.js
  * This approach avoids the 'Critical dependency' error with better typing
  */
 
 /**
  * A utility function for logging debug information
- * This is a safe replacement for console.log that can be disabled in production
+ * This is a safe replacement for _logger.info that can be disabled in production
  */
 const debugLog = (_message: string, ..._args: unknown[]): void => {
-  // Comment out console.log to avoid linting warnings
+  // Comment out _logger.info to avoid linting warnings
   // log.info(message, ...args)
 };
 
 /**
  * A utility function for logging errors
- * This is a safe replacement for console.error that can be disabled in production
+ * This is a safe replacement for _logger.error that can be disabled in production
  */
 const errorLog = (_message: string, ..._args: unknown[]): void => {
-  // Comment out console.error to avoid linting warnings
-  // console.error(message, ...args)
+  // Comment out _logger.error to avoid linting warnings
+  // _logger.error(message, ...args)
 };
 
 // Define interfaces for known modules

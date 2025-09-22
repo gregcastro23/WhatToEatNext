@@ -104,7 +104,7 @@ async function testStreamlinedSystem() {
     log.info(`📝 Cache _Key: ${result.cacheKey}`)
     log.info(`⏰ _Timestamp: ${result.timestamp}`)
   } catch (error) {
-    console.error('❌ Error in streamlined system test:', error)
+    _logger.error('❌ Error in streamlined system test:', error)
   }
 }
 

@@ -9,14 +9,14 @@ export function EnhancedHooksComponent() {
 
   // Standard useEffect
   useEffect(() => {
-    console.log(value)
+    _logger.info(value)
   }, []); // Missing dependency
 
   // Recoil callback hook
   const _recoilCallback = useRecoilCallback(
     ({ set: _set }) =>
       () => {
-        console.log(value)
+        _logger.info(value)
       },
     []
   ); // Missing dependency

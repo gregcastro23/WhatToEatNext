@@ -167,7 +167,7 @@ export class LintingAnalysisService {
 
       return result;
     } catch (error) {
-      console.error('❌ Analysis failed:', error),
+      _logger.error('❌ Analysis failed:', error),
       throw error
     }
   }

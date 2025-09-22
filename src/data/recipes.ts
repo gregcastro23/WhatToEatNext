@@ -322,7 +322,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
           })
         }
       } catch (error) {
-        console.error(`Error processing cuisine ${cuisineName}:`, error)
+        _logger.error(`Error processing cuisine ${cuisineName}:`, error)
       }
     },
   )
@@ -657,7 +657,7 @@ export const getBestRecipeMatches = async (
         }
       }
     } catch (error) {
-      console.error('Error using enhanced getRecipesForCuisineMatch:', error)
+      _logger.error('Error using enhanced getRecipesForCuisineMatch:', error)
     }
 
     // Fallback to LocalRecipeService if getRecipesForCuisineMatch failed
@@ -738,7 +738,7 @@ export const getBestRecipeMatches = async (
           return applyAdditionalFilters(candidateRecipes, criteria, limit)
         }
       } catch (error) {
-        console.error('Error using LocalRecipeService directly:', error)
+        _logger.error('Error using LocalRecipeService directly:', error)
       }
     }
   }
@@ -771,7 +771,7 @@ async function applyAdditionalFilters(
     try {
       cuisineModule = await import('./cuisineFlavorProfiles')
     } catch (error) {
-      console.error('Error importing cuisineFlavorProfiles:', error)
+      _logger.error('Error importing cuisineFlavorProfiles:', error)
     }
   }
 
@@ -865,7 +865,7 @@ async function applyAdditionalFilters(
             if (typeof value === 'number' && !isNaN(value)) {
               validFlavorProfile[flavor] = value;
             } else {
-              console.warn(`Invalid ${flavor} value in recipe ${recipe.name}: ${value}`)
+              _logger.warn(`Invalid ${flavor} value in recipe ${recipe.name}: ${value}`)
               validFlavorProfile[flavor] = 0; // Default to none
             }
           }
@@ -887,7 +887,7 @@ async function applyAdditionalFilters(
           }
         }
       } catch (error) {
-        console.error('Error calculating cuisine match score:', error)
+        _logger.error('Error calculating cuisine match score:', error)
       }
     }
 
@@ -1103,7 +1103,7 @@ export const getAllRecipes = async (): Promise<Recipe[]> => {
         }) as unknown as Recipe,
     )
   } catch (error) {
-    console.error('Error in getAllRecipes:', error),
+    _logger.error('Error in getAllRecipes:', error),
     return []
   }
 };

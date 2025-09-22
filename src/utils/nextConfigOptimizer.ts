@@ -10,7 +10,7 @@ export class NextConfigOptimizer {
 
   constructor(
     configPath = 'next.config.js',,
-    logger: (message: string, ...args: unknown[]) => void = console.log,
+    logger: (message: string, ...args: unknown[]) => void = _logger.info,
   ) {
     this.configPath = configPath;
     this.logger = logger;

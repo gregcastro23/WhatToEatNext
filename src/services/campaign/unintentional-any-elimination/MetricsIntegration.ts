@@ -85,7 +85,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
 
       return metrics;
     } catch (error) {
-      console.warn(
+      _logger.warn(
         `Warning: Could not get unintentional any metrics: ${error instanceof Error ? error.message : String(error)}`,
       )
 
@@ -119,7 +119,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
    */
   async setBaselineMetrics(): Promise<void> {
     this.baselineMetrics = await this.getUnintentionalAnyMetrics()
-    // // // console.log(`📊 Baseline metrics set:`, {
+    // // // _logger.info(`📊 Baseline metrics set:`, {
       totalAnyTypes: this.baselineMetrics.totalAnyTypes,
       intentionalAnyTypes: this.baselineMetrics.intentionalAnyTypes,
       unintentionalAnyTypes: this.baselineMetrics.unintentionalAnyTypes,
@@ -288,7 +288,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
       };
 
       fs.writeFileSync(filePath, JSON.stringify(exportData, null, 2))
-      // // // console.log(`📊 Unintentional Any metrics exported to: ${filePath}`)
+      // // // _logger.info(`📊 Unintentional Any metrics exported to: ${filePath}`)
     } catch (error) {
       throw new Error(
         `Failed to export unintentional any metrics: ${error instanceof Error ? error.message : String(error)}`,
@@ -347,7 +347,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
         return metrics.unintentionalAnyTypes === 0,
 
       default:
-        console.warn(`Unknown unintentional any milestone: ${milestone}`)
+        _logger.warn(`Unknown unintentional any milestone: ${milestone}`)
         return false;
     }
   }
@@ -519,7 +519,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
   resetUnintentionalAnyMetricsHistory(): void {
     this.metricsHistory = [];
     this.baselineMetrics = undefined;
-    // // // console.log('📊 Unintentional Any metrics history reset')
+    // // // _logger.info('📊 Unintentional Any metrics history reset')
   }
 }
 

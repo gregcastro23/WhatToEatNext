@@ -122,7 +122,7 @@ export class DomainContextDetector {
         const analysis = await this.analyzeFile(filePath)
         analyses.push(analysis)
       } catch (error) {
-        console.warn(`Failed to analyze ${filePath}:`, error)
+        _logger.warn(`Failed to analyze ${filePath}:`, error)
       }
     }
 
@@ -403,7 +403,7 @@ export class DomainContextDetector {
           {
             rule: 'no-console',
             action: 'modify',
-            reason: 'Allow console.info for astronomical debugging',
+            reason: 'Allow _logger.info for astronomical debugging',
             conditions: ['allow: ['warn', 'error', 'info']']
           },
         )

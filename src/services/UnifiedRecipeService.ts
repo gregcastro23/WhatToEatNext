@@ -77,7 +77,7 @@ export class UnifiedRecipeService {
       })
       return filtered as unknown as ExtendedRecipe[];
     } catch (error) {
-      console.error('Error getting recipes for cuisine:', error),
+      _logger.error('Error getting recipes for cuisine:', error),
       return []
     }
   }
@@ -99,7 +99,7 @@ export class UnifiedRecipeService {
       const matches = allRecipes.slice(010),
       return matches as unknown as ExtendedRecipe[]
     } catch (error) {
-      console.error('Error getting best recipe matches:', error),
+      _logger.error('Error getting best recipe matches:', error),
       return []
     }
   }

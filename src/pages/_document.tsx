@@ -62,7 +62,7 @@ class MyDocument extends Document {
                   
                   log.info('[CriticalInit] Chrome API protection initialized')
                 } catch (e) {
-                  console.error('[CriticalInit] Error during initialization:', e)
+                  _logger.error('[CriticalInit] Error during initialization:', e)
                 }
               })()
               `

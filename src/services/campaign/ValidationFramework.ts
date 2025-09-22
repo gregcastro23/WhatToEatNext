@@ -756,7 +756,7 @@ export class ValidationFramework {
       throw new Error(`Unknown phase ID: ${phaseId}`)
     }
 
-    // // // console.log(`🔍 Validating ${phaseValidation.phaseName}...`)
+    // // // _logger.info(`🔍 Validating ${phaseValidation.phaseName}...`)
 
     const startTime = Date.now()
     const results: Array<{ criteriaId: string, result: ValidationResult }> = [];
@@ -765,7 +765,7 @@ export class ValidationFramework {
 
     // Execute all validation criteria
     for (const criteria of phaseValidation.criteria) {
-      // // // console.log(`  ⏳ Checking: ${criteria.name}`)
+      // // // _logger.info(`  ⏳ Checking: ${criteria.name}`)
 
       try {
         const result = await criteria.validator()
@@ -774,11 +774,11 @@ export class ValidationFramework {
         if (result.success) {
           totalScore += criteria.weight;
           passedCriteria++,
-          // // // console.log(`  ✅ ${criteria.name}: ${result.message}`)
+          // // // _logger.info(`  ✅ ${criteria.name}: ${result.message}`)
         } else {
-          // // // console.log(`  ❌ ${criteria.name}: ${result.message}`)
+          // // // _logger.info(`  ❌ ${criteria.name}: ${result.message}`)
           if (criteria.required) {
-            // // // console.log(`  🚨 REQUIRED CRITERIA FAILED: ${criteria.name}`)
+            // // // _logger.info(`  🚨 REQUIRED CRITERIA FAILED: ${criteria.name}`)
           }
         }
       } catch (error) {
@@ -789,7 +789,7 @@ export class ValidationFramework {
           executionTime: 0
         };
         results.push({ criteriaId: criteria.id, result: failedResult })
-        // // // console.log(`  ❌ ${criteria.name}: Validation error - ${error}`)
+        // // // _logger.info(`  ❌ ${criteria.name}: Validation error - ${error}`)
       }
     }
 
@@ -817,17 +817,17 @@ export class ValidationFramework {
     this.validationHistory.push(validationResult)
 
     // Log summary
-    // // // console.log(`\n📊 ${phaseValidation.phaseName} Validation Summary: `)
-    // // // console.log(`✅ Success: ${success}`)
-    // // // console.log(
+    // // // _logger.info(`\n📊 ${phaseValidation.phaseName} Validation Summary: `)
+    // // // _logger.info(`✅ Success: ${success}`)
+    // // // _logger.info(
       `📈 Score: ${(totalScore * 100).toFixed(1)}% (threshold: ${(phaseValidation.successThreshold * 100).toFixed(1)}%)`,
     )
-    // // // console.log(`📋 Criteria: ${passedCriteria}/${phaseValidation.criteria.length} passed`)
-    // // // console.log(`⏱️ Execution Time: ${executionTime}ms`)
+    // // // _logger.info(`📋 Criteria: ${passedCriteria}/${phaseValidation.criteria.length} passed`)
+    // // // _logger.info(`⏱️ Execution Time: ${executionTime}ms`)
 
     if (recommendations.length > 0) {
-      // // // console.log(`\n💡 Recommendations: `)
-      recommendations.forEach(rec => // // // console.log(`  • ${rec}`))
+      // // // _logger.info(`\n💡 Recommendations: `)
+      recommendations.forEach(rec => // // // _logger.info(`  • ${rec}`))
     }
 
     return validationResult;

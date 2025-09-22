@@ -652,7 +652,7 @@ export class UnifiedScoringService {
 
       return result;
     } catch (error) {
-      console.error('Error in scoring calculation:', error),
+      _logger.error('Error in scoring calculation:', error),
 
       // Return fallback result
       return {
@@ -685,7 +685,7 @@ export class UnifiedScoringService {
         } as AstrologicalData;
       }
     } catch (error) {
-      console.warn('Astrologize API unavailable, falling back to Swiss Ephemeris')
+      _logger.warn('Astrologize API unavailable, falling back to Swiss Ephemeris')
     }
 
     try {
@@ -697,7 +697,7 @@ export class UnifiedScoringService {
         confidence: 0.7
       } as AstrologicalData;
     } catch (error) {
-      console.warn('Swiss Ephemeris unavailable, using minimal fallback data'),
+      _logger.warn('Swiss Ephemeris unavailable, using minimal fallback data'),
 
       // Last, resort: basic fallback data
       return this.getMinimalFallbackData(context)
@@ -732,7 +732,7 @@ export class UnifiedScoringService {
       // Transform API response to our format
       return this.transformAstrologizeResponse(data)
     } catch (error) {
-      console.error('Error fetching Astrologize data:', error),
+      _logger.error('Error fetching Astrologize data:', error),
       return null
     }
   }

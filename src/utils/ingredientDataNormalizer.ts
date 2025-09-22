@@ -377,7 +377,7 @@ export function safeGetNutritionalData(
     const profile = ingredient.nutritionalProfile as any
     return profile[field] || null
   } catch (error) {
-    // console.warn(`Error accessing nutritional field ${field}:`, error)
+    // _logger.warn(`Error accessing nutritional field ${field}:`, error)
     return null;
   }
 }

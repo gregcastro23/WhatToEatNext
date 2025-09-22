@@ -54,7 +54,7 @@ export class TestUtils {
       peakMemoryUsage = Math.max(peakMemoryUsage, currentMemory),
 
       if (currentMemory > memoryLimit) {
-        console.warn(`Memory usage exceeded limit: ${currentMemory / 1024 / 1024}MB`)
+        _logger.warn(`Memory usage exceeded limit: ${currentMemory / 1024 / 1024}MB`)
       }
     }, this.MEMORY_CHECK_INTERVAL)
 
@@ -350,7 +350,7 @@ export class TestUtils {
 
         if (memoryDiff > 100 * 1024 * 1024) {
           // 100MB threshold
-          console.warn(`Test '${testName}' used ${memoryDiff / 1024 / 1024}MB of memory`)
+          _logger.warn(`Test '${testName}' used ${memoryDiff / 1024 / 1024}MB of memory`)
         }
       }
     };

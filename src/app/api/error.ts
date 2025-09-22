@@ -1,4 +1,5 @@
 'use client';
+import { _logger } from '@/lib/logger';
 
 import { NextResponse } from 'next/server';
 
@@ -64,7 +65,7 @@ export function notFoundError(message: string): NextResponse {
 }
 
 export function handleServerError(error: unknown) {
-  console.error('Server error:', error)
+  _logger.error('Server error:', error)
   return new NextResponse(
     JSON.stringify({
       error: 'Internal Server Error',

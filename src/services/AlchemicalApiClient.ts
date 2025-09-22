@@ -67,7 +67,7 @@ export class AlchemicalApiClient {
 
       return await response.json()
     } catch (error) {
-      console.error('Elemental calculation error:', error)
+      _logger.error('Elemental calculation error:', error)
       // Fallback to simple balanced elements
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
@@ -91,7 +91,7 @@ export class AlchemicalApiClient {
 
       return await response.json()
     } catch (error) {
-      console.error('Thermodynamics calculation error:', error)
+      _logger.error('Thermodynamics calculation error:', error)
       // Fallback values
       return {
         heat: 0.5,
@@ -117,7 +117,7 @@ export class AlchemicalApiClient {
 
       return await response.json()
     } catch (error) {
-      console.error('Planetary data error:', error)
+      _logger.error('Planetary data error:', error)
       // Fallback planetary data
       return {
         current_time: new Date().toISOString(),
@@ -154,7 +154,7 @@ export class AlchemicalApiClient {
 
       return await response.json()
     } catch (error) {
-      console.error('Recipe recommendation error:', error)
+      _logger.error('Recipe recommendation error:', error)
       // Fallback empty recommendations
       return {
         recommendations: [],
@@ -181,7 +181,7 @@ export class AlchemicalApiClient {
 
       return await response.json()
     } catch (error) {
-      console.error('ESMS calculation error:', error)
+      _logger.error('ESMS calculation error:', error)
       return {
         Spirit: spirit,
         Essence: essence,
@@ -205,7 +205,7 @@ export class AlchemicalApiClient {
 
       return await response.json()
     } catch (error) {
-      console.error('Balance optimization error:', error)
+      _logger.error('Balance optimization error:', error)
       return { optimization: 'balanced', recommendations: [] };
     }
   }
@@ -219,7 +219,7 @@ export class AlchemicalApiClient {
       const ws = new WebSocket(this.baseUrls.websocket)
 
       ws.onopen = () => {
-        console.log('🔮 Connected to alchm.kitchen real-time service')
+        _logger.info('🔮 Connected to alchm.kitchen real-time service')
         // Subscribe to planetary hours
         ws.send(JSON.stringify({
           action: 'subscribe',
@@ -235,12 +235,12 @@ export class AlchemicalApiClient {
       };
 
       ws.onerror = (error) => {
-        console.error('WebSocket connection error:', error)
+        _logger.error('WebSocket connection error:', error)
       };
 
       return ws;
     } catch (error) {
-      console.error('Failed to create WebSocket connection:', error)
+      _logger.error('Failed to create WebSocket connection:', error)
       return null;
     }
   }

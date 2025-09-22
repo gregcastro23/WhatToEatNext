@@ -640,8 +640,8 @@ export const _DEFAULT_LINTING_FORMATTING_CONFIG: LintingFormattingConfig = {
   },
   patternBasedFixes: [
     {
-      name: 'Remove console.log statements',
-      description: 'Remove console.log statements from production code',
+      name: 'Remove _logger.info statements',
+      description: 'Remove _logger.info statements from production code',
       pattern: /console\.log\([^)]*\),?\s*\n?/g,
       replacement: '',
       fileExtensions: ['.ts', '.tsx', '.js', '.jsx'],

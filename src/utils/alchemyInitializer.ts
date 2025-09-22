@@ -23,7 +23,7 @@ export function initializeAlchemicalEngine() {
     window.alchemize = alchemicalEngine.alchemize;
     log.info('Alchemical engine initialized successfully')
   } catch (error) {
-    console.error('Failed to initialize alchemize function:', error)
+    _logger.error('Failed to initialize alchemize function:', error)
   }
 }
 

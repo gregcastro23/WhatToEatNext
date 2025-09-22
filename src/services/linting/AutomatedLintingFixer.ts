@@ -219,7 +219,7 @@ export class AutomatedLintingFixer {
             result.validationResults.push(...batchValidation)
 
             if (batchValidation.some(v => !v.success && v.type === 'build')) {
-              console.warn('⚠️ Batch validation failed - performing rollback')
+              _logger.warn('⚠️ Batch validation failed - performing rollback')
               await this.performRollback()
               result.metrics.rollbacksPerformed++;
               failureCount++,
@@ -230,7 +230,7 @@ export class AutomatedLintingFixer {
             }
           }
         } catch (error) {
-          console.error(`❌ Batch ${i + 1} failed:`, error)
+          _logger.error(`❌ Batch ${i + 1} failed:`, error)
           result.errors.push({
             file: 'batch-processing',
             rule: 'batch-error',
@@ -276,7 +276,7 @@ export class AutomatedLintingFixer {
 
       return result;
     } catch (error) {
-      console.error('❌ Automated fixing failed:', error)
+      _logger.error('❌ Automated fixing failed:', error)
 
       // Attempt rollback on critical failure
       if (this.currentRollbackInfo && this.safetyProtocols.enableRollback) {
@@ -590,7 +590,7 @@ export class AutomatedLintingFixer {
    */
   async performRollback(): Promise<boolean> {
     if (!this.currentRollbackInfo || !this.safetyProtocols.enableRollback) {
-      console.warn('⚠️ No rollback information available')
+      _logger.warn('⚠️ No rollback information available')
       return false
     }
 
@@ -604,7 +604,7 @@ export class AutomatedLintingFixer {
       log.info('✅ Rollback completed successfully')
       return true;
     } catch (error) {
-      console.error('❌ Rollback failed:', error),
+      _logger.error('❌ Rollback failed:', error),
       return false
     }
   }
@@ -855,7 +855,7 @@ export class AutomatedLintingFixer {
 
       return true;
     } catch (error) {
-      console.warn(`⚠️ Failed to fix issues in ${filePath}:`, error)
+      _logger.warn(`⚠️ Failed to fix issues in ${filePath}:`, error)
       return false;
     }
   }
@@ -894,7 +894,7 @@ export class AutomatedLintingFixer {
 
       return false;
     } catch (error) {
-      console.warn(`⚠️ Failed to fix unused variable in ${issue.file}:`, error),
+      _logger.warn(`⚠️ Failed to fix unused variable in ${issue.file}:`, error),
       return false
     }
   }
@@ -918,7 +918,7 @@ export class AutomatedLintingFixer {
 
       return false;
     } catch (error) {
-      console.warn(`⚠️ Failed to optimize imports in ${filePath}:`, error)
+      _logger.warn(`⚠️ Failed to optimize imports in ${filePath}:`, error)
       return false;
     }
   }
@@ -953,7 +953,7 @@ export class AutomatedLintingFixer {
           return true;
         }
       } catch (error) {
-        console.warn(`⚠️ Failed to improve type annotation in ${issue.file}:`, error)
+        _logger.warn(`⚠️ Failed to improve type annotation in ${issue.file}:`, error)
       }
     }
 

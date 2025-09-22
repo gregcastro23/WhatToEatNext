@@ -283,9 +283,9 @@ export class EnhancedSafetyProtocols {
     }
 
     this.manualReviewQueue.splice(index1)
-    // // // console.log(`✅ Manual review approved for ${path.relative(process.cwd(), filePath)}`)
+    // // // _logger.info(`✅ Manual review approved for ${path.relative(process.cwd(), filePath)}`)
     if (reviewerNotes) {
-      // // // console.log(`   Reviewer notes: ${reviewerNotes}`)
+      // // // _logger.info(`   Reviewer notes: ${reviewerNotes}`)
     }
     return true;
   }
@@ -300,8 +300,8 @@ export class EnhancedSafetyProtocols {
     }
 
     this.manualReviewQueue.splice(index1)
-    // // // console.log(`❌ Manual review rejected for ${path.relative(process.cwd(), filePath)}`)
-    // // // console.log(`   Reason: ${reason}`)
+    // // // _logger.info(`❌ Manual review rejected for ${path.relative(process.cwd(), filePath)}`)
+    // // // _logger.info(`   Reason: ${reason}`)
     return true;
   }
 

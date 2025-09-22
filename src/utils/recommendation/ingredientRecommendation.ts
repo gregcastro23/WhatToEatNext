@@ -1,4 +1,5 @@
 import { AstrologicalState, ElementalProperties } from '@/types/alchemy';
+import { _logger } from '@/lib/logger';
 import type { Element } from '@/types/unified';
 
 import type {
@@ -75,7 +76,7 @@ const loadVegetables = async (): Promise<Record<string, unknown>> => {
       const module = await import('../../data/ingredients/vegetables')
       vegetables = module.vegetables;
     } catch (error) {
-      console.error('Error loading vegetables:', error)
+      _logger.error('Error loading vegetables:', error)
     }
   }
   return vegetables;
@@ -87,7 +88,7 @@ const loadFruits = async (): Promise<Record<string, unknown>> => {
       const module = await import('../../data/ingredients/fruits')
       fruits = module.fruits;
     } catch (error) {
-      console.error('Error loading fruits:', error)
+      _logger.error('Error loading fruits:', error)
     }
   }
   return fruits;
@@ -99,7 +100,7 @@ const loadHerbs = async (): Promise<Record<string, unknown>> => {
       const module = await import('../../data/ingredients/herbs')
       herbs = module.herbs;
     } catch (error) {
-      console.error('Error loading herbs:', error)
+      _logger.error('Error loading herbs:', error)
     }
   }
   return herbs;
@@ -111,7 +112,7 @@ const loadSpices = async (): Promise<Record<string, unknown>> => {
       const module = await import('../../data/ingredients/spices')
       spices = module.spices;
     } catch (error) {
-      console.error('Error loading spices:', error)
+      _logger.error('Error loading spices:', error)
     }
   }
   return spices;
@@ -123,7 +124,7 @@ const loadProteins = async (): Promise<Record<string, unknown>> => {
       const module = await import('../../data/ingredients/proteins')
       proteins = module._proteins;
     } catch (error) {
-      console.error('Error loading proteins:', error)
+      _logger.error('Error loading proteins:', error)
     }
   }
   return proteins;
@@ -135,7 +136,7 @@ const loadGrains = async (): Promise<Record<string, unknown>> => {
       const module = await import('../../data/ingredients/grains')
       grains = module.grains;
     } catch (error) {
-      console.error('Error loading grains:', error)
+      _logger.error('Error loading grains:', error)
     }
   }
   return grains;
@@ -147,7 +148,7 @@ const loadSeasonings = async (): Promise<Record<string, unknown>> => {
       const module = await import('../../data/ingredients/seasonings')
       seasonings = module.seasonings;
     } catch (error) {
-      console.error('Error loading seasonings:', error)
+      _logger.error('Error loading seasonings:', error)
     }
   }
   return seasonings;
@@ -159,7 +160,7 @@ const loadOils = async (): Promise<Record<string, unknown>> => {
       const module = await import('../../data/ingredients/oils')
       oils = module.oils;
     } catch (error) {
-      console.error('Error loading oils:', error)
+      _logger.error('Error loading oils:', error)
     }
   }
   return oils;
@@ -171,7 +172,7 @@ const loadVinegars = async (): Promise<Record<string, unknown>> => {
       const module = await import('../../data/ingredients/vinegars')
       vinegars = module.vinegars;
     } catch (error) {
-      console.error('Error loading vinegars:', error)
+      _logger.error('Error loading vinegars:', error)
     }
   }
   return vinegars;
@@ -389,7 +390,7 @@ export const loadIngredientCategories = async (
       result.vinegars = (await loadVinegars()) as unknown as Ingredient;
     }
   } catch (error) {
-    console.error('Error loading ingredient categories:', error)
+    _logger.error('Error loading ingredient categories:', error)
   }
   return result;
 };
@@ -454,7 +455,7 @@ export const _getAllIngredientsData = async (): Promise<unknown[]> => {
 
     return allData;
   } catch (error) {
-    console.error('Error loading all ingredient data:', error),
+    _logger.error('Error loading all ingredient data:', error),
     return []
   }
 };
@@ -513,7 +514,7 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
   // Process each category
   categories.forEach(category => {
     if (!category.data) {
-      console.warn(`No data for category: ${category.name}`)
+      _logger.warn(`No data for category: ${category.name}`)
       return;
     }
 
@@ -744,7 +745,7 @@ export async function getIngredientRecommendations(
           totalScore
         } as IngredientRecommendation;
       } catch (error) {
-        console.error('Error calculating scores for ingredient:', ingredient.name, error),
+        _logger.error('Error calculating scores for ingredient:', ingredient.name, error),
         // Return ingredient with default scores in case of error
         return {
           ...ingredient;
@@ -920,7 +921,7 @@ function calculateUnifiedFlavorScore(
 
     return Math.min(1, score)
   } catch (error) {
-    console.warn('Error calculating unified flavor score:', error),
+    _logger.warn('Error calculating unified flavor score:', error),
     return 0.5;
   }
 }
@@ -940,7 +941,7 @@ function calculateKalchmResonance(
     const kalchm = numerator / denominator;
     return Math.max(0.1, Math.min(1, kalchm / 2))
   } catch (error) {
-    console.warn('Error calculating kalchm resonance:', error),
+    _logger.warn('Error calculating kalchm resonance:', error),
     return 0.5;
   }
 }
@@ -963,7 +964,7 @@ function calculateMonicaOptimization(
 
     return Math.max(0.1, Math.min(1, monica))
   } catch (error) {
-    console.warn('Error calculating monica optimization:', error),
+    _logger.warn('Error calculating monica optimization:', error),
     return 0.5;
   }
 }
@@ -984,7 +985,7 @@ function calculateCulturalContextScore(
     }
     return 0.6; // Default neutral score
   } catch (error) {
-    console.warn('Error calculating cultural context score:', error),
+    _logger.warn('Error calculating cultural context score:', error),
     return 0.5;
   }
 }

@@ -66,7 +66,7 @@ export const _useFoodRecommendations = (options?: {
 
         setRecommendations(limitedResults)
       } catch (err) {
-        console.error('Error fetching ingredient recommendations:', err),
+        _logger.error('Error fetching ingredient recommendations:', err),
         setError(err instanceof Error ? err.message : 'Unknown error occurred')
         setRecommendations([])
       } finally {
@@ -107,7 +107,7 @@ export const _useFoodRecommendations = (options?: {
       setRecommendations(limitedResults)
       setError(null)
     } catch (err) {
-      console.error('Error refreshing ingredient recommendations:', err),
+      _logger.error('Error refreshing ingredient recommendations:', err),
       setError(err instanceof Error ? err.message : 'Unknown error occurred')
     } finally {
       setLoading(false)

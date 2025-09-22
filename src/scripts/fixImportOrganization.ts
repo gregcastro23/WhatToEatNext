@@ -60,7 +60,7 @@ class ImportOrganizationFixer {
   }
 
   private async analyzeImportIssues(): Promise<ImportAnalysis> {
-    // // // console.log('🔍 Analyzing import issues...')
+    // // // _logger.info('🔍 Analyzing import issues...')
 
     try {
       // Run ESLint with JSON output to get detailed import issues
@@ -117,7 +117,7 @@ class ImportOrganizationFixer {
 
       return analysis;
     } catch (error) {
-      console.warn(
+      _logger.warn(
         '⚠️ ESLint analysis failed, using alternative approach:',
         (error as Error).message;
       ),
@@ -174,7 +174,7 @@ class ImportOrganizationFixer {
           }
         }
       } catch (error) {
-        console.warn(`⚠️ Failed to analyze ${file}:`, (error as Error).message)
+        _logger.warn(`⚠️ Failed to analyze ${file}:`, (error as Error).message)
       }
     }
 
@@ -204,7 +204,7 @@ class ImportOrganizationFixer {
   }
 
   private async fixDuplicateImports(files: string[]): Promise<number> {
-    // // // console.log('🔧 Fixing duplicate imports...')
+    // // // _logger.info('🔧 Fixing duplicate imports...')
     let fixedCount = 0;
 
     for (const file of files) {
@@ -314,7 +314,7 @@ class ImportOrganizationFixer {
           this.processedFiles++;
         }
       } catch (error) {
-        console.warn(`⚠️ Failed to fix duplicates in ${file}:`, (error as Error).message)
+        _logger.warn(`⚠️ Failed to fix duplicates in ${file}:`, (error as Error).message)
       }
     }
 
@@ -322,7 +322,7 @@ class ImportOrganizationFixer {
   }
 
   private async fixImportOrder(): Promise<number> {
-    // // // console.log('🔧 Fixing import order...')
+    // // // _logger.info('🔧 Fixing import order...')
 
     try {
       // Use ESLint's --fix to automatically fix import order
@@ -334,10 +334,10 @@ class ImportOrganizationFixer {
         },
       )
 
-      // // // console.log('✅ Import order fixed using ESLint --fix')
+      // // // _logger.info('✅ Import order fixed using ESLint --fix')
       return 1; // Indicate success
     } catch (error) {
-      console.warn('⚠️ ESLint --fix failed, using manual approach'),
+      _logger.warn('⚠️ ESLint --fix failed, using manual approach'),
       return this.manualImportOrderFix()
     }
   }
@@ -434,7 +434,7 @@ class ImportOrganizationFixer {
           this.processedFiles++;
         }
       } catch (error) {
-        console.warn(`⚠️ Failed to fix import order in ${file}:`, (error as Error).message)
+        _logger.warn(`⚠️ Failed to fix import order in ${file}:`, (error as Error).message)
       }
     }
 
@@ -442,7 +442,7 @@ class ImportOrganizationFixer {
   }
 
   private async detectCircularDependencies(): Promise<string[]> {
-    // // // console.log('🔍 Detecting circular dependencies...')
+    // // // _logger.info('🔍 Detecting circular dependencies...')
 
     const files = this.getAllTypeScriptFiles()
     const dependencyGraph = new Map<string, Set<string>>()
@@ -473,7 +473,7 @@ class ImportOrganizationFixer {
 
         dependencyGraph.set(file, dependencies)
       } catch (error) {
-        console.warn(`⚠️ Failed to analyze dependencies in ${file}:`, (error as Error).message)
+        _logger.warn(`⚠️ Failed to analyze dependencies in ${file}:`, (error as Error).message)
       }
     }
 
@@ -519,17 +519,17 @@ class ImportOrganizationFixer {
   }
 
   private async validateBuild(): Promise<boolean> {
-    // // // console.log('🔍 Validating build after import fixes...')
+    // // // _logger.info('🔍 Validating build after import fixes...')
 
     try {
       execSync('yarn tsc --noEmit --skipLibCheck', {
         stdio: 'pipe',
         timeout: 60000, // 1 minute timeout
       })
-      // // // console.log('✅ Build validation passed')
+      // // // _logger.info('✅ Build validation passed')
       return true;
     } catch (error) {
-      console.error('❌ Build validation failed:', (error as Error).message),
+      _logger.error('❌ Build validation failed:', (error as Error).message),
       return false
     }
   }
@@ -557,24 +557,24 @@ Generated: ${new Date().toISOString()}
 `;
 
     fs.writeFileSync('import-organization-report.md', report)
-    // // // console.log('📊 Report, generated: import-organization-report.md')
+    // // // _logger.info('📊 Report, generated: import-organization-report.md')
   }
 
   public async run(): Promise<void> {
-    // // // console.log('🚀 Starting Import Organization and Duplicate Removal')
-    // // // console.log('='.repeat(60))
+    // // // _logger.info('🚀 Starting Import Organization and Duplicate Removal')
+    // // // _logger.info('='.repeat(60))
 
     try {
       // Step, 1: Analyze current import issues
       const analysis = await this.analyzeImportIssues()
-      // // // console.log(`📊 Found ${analysis.totalIssues} import issues: `)
-      // // // console.log(`   - Duplicate imports: ${analysis.duplicateImports.length}`)
-      // // // console.log(`   - Import order issues: ${analysis.importOrderIssues.length}`)
-      // // // console.log(`   - Circular dependencies: ${analysis.circularDependencies.length}`)
-      // // // console.log(`   - Named import issues: ${analysis.namedImportIssues.length}`)
+      // // // _logger.info(`📊 Found ${analysis.totalIssues} import issues: `)
+      // // // _logger.info(`   - Duplicate imports: ${analysis.duplicateImports.length}`)
+      // // // _logger.info(`   - Import order issues: ${analysis.importOrderIssues.length}`)
+      // // // _logger.info(`   - Circular dependencies: ${analysis.circularDependencies.length}`)
+      // // // _logger.info(`   - Named import issues: ${analysis.namedImportIssues.length}`)
 
       if (analysis.totalIssues === 0) {
-        // // // console.log('✅ No import issues found ?? undefined')
+        // // // _logger.info('✅ No import issues found ?? undefined')
         return
       }
 
@@ -590,28 +590,28 @@ Generated: ${new Date().toISOString()}
       // Step, 4: Detect circular dependencies (informational)
       const cycles = await this.detectCircularDependencies()
       if (cycles.length > 0) {
-        // // // console.log('⚠️ Circular dependencies detected:')
-        cycles.forEach(cycle => // // // console.log(`   ${cycle}`))
+        // // // _logger.info('⚠️ Circular dependencies detected:')
+        cycles.forEach(cycle => // // // _logger.info(`   ${cycle}`))
       }
 
       // Step, 5: Validate build
       const buildValid = await this.validateBuild()
 
       if (!buildValid) {
-        console.error('❌ Build validation failed. Consider rolling back changes.')
+        _logger.error('❌ Build validation failed. Consider rolling back changes.')
         return
       }
 
       // Step, 6: Generate report
       this.generateReport(analysis, this.fixedIssues)
 
-      // // // console.log('='.repeat(60))
-      // // // console.log(`✅ Import organization completed successfully ?? undefined`)
-      // // // console.log(`   Files processed: ${this.processedFiles}`)
-      // // // console.log(`   Issues fixed: ${this.fixedIssues}`)
-      // // // console.log(`   Backup location: ${this.backupDir}`)
+      // // // _logger.info('='.repeat(60))
+      // // // _logger.info(`✅ Import organization completed successfully ?? undefined`)
+      // // // _logger.info(`   Files processed: ${this.processedFiles}`)
+      // // // _logger.info(`   Issues fixed: ${this.fixedIssues}`)
+      // // // _logger.info(`   Backup location: ${this.backupDir}`)
     } catch (error) {
-      console.error('❌ Import organization failed:', error),
+      _logger.error('❌ Import organization failed:', error),
       process.exit(1)
     }
   }
@@ -620,7 +620,7 @@ Generated: ${new Date().toISOString()}
 // Run the script
 if (require.main === module) {
   const fixer = new ImportOrganizationFixer()
-  fixer.run().catch(console.error)
+  fixer.run().catch(_logger.error)
 }
 
 export default ImportOrganizationFixer;

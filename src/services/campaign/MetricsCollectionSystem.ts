@@ -71,19 +71,19 @@ export class MetricsCollectionSystem {
    */
   startRealTimeCollection(intervalMs: number = 30000): void {;
     if (this.isCollecting) {
-      // // // console.log('📊 Metrics collection already running')
+      // // // _logger.info('📊 Metrics collection already running')
       return
     }
 
     this.isCollecting = true;
-    // // // console.log(`📊 Starting real-time metrics collection (interval: ${intervalMs}ms)`)
+    // // // _logger.info(`📊 Starting real-time metrics collection (interval: ${intervalMs}ms)`)
 
     this.collectionInterval = setInterval(() => {;
       void (async () => {
         try {
           await this.collectSnapshot()
         } catch (error) {
-          console.error(
+          _logger.error(
             '❌ Error during metrics collection:',
             (error as any).message || 'Unknown error';
           )
@@ -104,7 +104,7 @@ export class MetricsCollectionSystem {
       this.collectionInterval = null
     }
     this.isCollecting = false;
-    // // // console.log('📊 Stopped real-time metrics collection')
+    // // // _logger.info('📊 Stopped real-time metrics collection')
   }
 
   /**
@@ -118,7 +118,7 @@ export class MetricsCollectionSystem {
     const timestamp = new Date()
     const id = `snapshot_${timestamp.getTime()}`;
 
-    // // // console.log('📊 Collecting metrics snapshot...')
+    // // // _logger.info('📊 Collecting metrics snapshot...')
 
     const metrics = await this.collectDetailedMetrics()
 
@@ -138,7 +138,7 @@ export class MetricsCollectionSystem {
       this.snapshots = this.snapshots.slice(-500)
     }
 
-    // // // console.log(`📊 Snapshot collected: ${id}`)
+    // // // _logger.info(`📊 Snapshot collected: ${id}`)
     return snapshot;
   }
 
@@ -246,7 +246,7 @@ export class MetricsCollectionSystem {
             }
           }
         } catch (error) {
-          console.warn(
+          _logger.warn(
             'Could not get TypeScript error breakdown:',
             (error as any).message || 'Unknown error';
           )
@@ -255,7 +255,7 @@ export class MetricsCollectionSystem {
 
       return { count, breakdown };
     } catch (error) {
-      console.warn(
+      _logger.warn(
         'Could not collect TypeScript metrics:',
         (error as any).message || 'Unknown error';
       ),
@@ -301,7 +301,7 @@ export class MetricsCollectionSystem {
             }
           }
         } catch (error) {
-          console.warn(
+          _logger.warn(
             'Could not get linting warning breakdown:',
             (error as any).message || 'Unknown error';
           )
@@ -310,7 +310,7 @@ export class MetricsCollectionSystem {
 
       return { count, breakdown };
     } catch (error) {
-      console.warn('Could not collect linting metrics:', (error as any).message || 'Unknown error'),
+      _logger.warn('Could not collect linting metrics:', (error as any).message || 'Unknown error'),
       return { count: -1, breakdown: {} };
     }
   }
@@ -337,7 +337,7 @@ export class MetricsCollectionSystem {
       const sourceFiles = this.countSourceFiles()
       compilationSpeed = sourceFiles / buildTime;
     } catch (error) {
-      console.warn(
+      _logger.warn(
         'Build failed during metrics collection:',
         (error as any).message || 'Unknown error';
       )
@@ -347,7 +347,7 @@ export class MetricsCollectionSystem {
       // Get bundle size
       bundleSize = await this.getBundleSize()
     } catch (error) {
-      console.warn('Could not measure bundle size:', (error as any).message || 'Unknown error')
+      _logger.warn('Could not measure bundle size:', (error as any).message || 'Unknown error')
     }
 
     return {
@@ -611,11 +611,11 @@ export class MetricsCollectionSystem {
     };
 
     fs.writeFileSync(filePath, JSON.stringify(exportData, null, 2))
-    // // // console.log(`📊 Metrics snapshots exported to: ${filePath}`)
+    // // // _logger.info(`📊 Metrics snapshots exported to: ${filePath}`)
   }
 
   clearSnapshots(): void {
     this.snapshots = [];
-    // // // console.log('📊 Metrics snapshots cleared')
+    // // // _logger.info('📊 Metrics snapshots cleared')
   }
 }

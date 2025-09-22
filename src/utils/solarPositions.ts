@@ -1,4 +1,5 @@
 import SunCalc from 'suncalc';
+import { _logger } from '@/lib/logger';
 
 interface SolarPosition {
   azimuth: number, // Sun azimuth in radians (direction along the horizon)
@@ -41,7 +42,7 @@ export function getSunPosition(
       rightAscension
     };
   } catch (error) {
-    console.error('Error calculating sun position:', error),
+    _logger.error('Error calculating sun position:', error),
     return {
       azimuth: 0,
       altitude: 0,

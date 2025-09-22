@@ -184,8 +184,8 @@ export class UnintentionalAnyEliminationCampaign {
    * Execute the campaign using the existing campaign infrastructure
    */
   async executeCampaign(): Promise<UnintentionalAnyCampaignResult> {
-    // // // console.log('Starting Unintentional Any Elimination Campaign')
-    // // // console.log(`Configuration:`, {
+    // // // _logger.info('Starting Unintentional Any Elimination Campaign')
+    // // // _logger.info(`Configuration:`, {
       maxFilesPerBatch: this.config.maxFilesPerBatch,
       targetReduction: `${this.config.targetReductionPercentage}%`,
       confidenceThreshold: this.config.confidenceThreshold,
@@ -202,8 +202,8 @@ export class UnintentionalAnyEliminationCampaign {
       // Execute the campaign using the progressive improvement engine
       const result = await this.engine.executeFullCampaign(this.config)
 
-      // // // console.log('Campaign completed successfully')
-      // // // console.log(`Results:`, {
+      // // // _logger.info('Campaign completed successfully')
+      // // // _logger.info(`Results:`, {
         reductionAchieved: `${result.reductionAchieved.toFixed(1)}%`,
         typesReplaced: result.unintentionalTypesReplaced,
         intentionalTypesIdentified: result.intentionalTypesIdentified,
@@ -212,7 +212,7 @@ export class UnintentionalAnyEliminationCampaign {
 
       return result;
     } catch (error) {
-      console.error('Campaign failed, initiating rollback:', error),
+      _logger.error('Campaign failed, initiating rollback:', error),
 
       // Rollback to checkpoint
       await this.safetyProtocol.rollbackToStash(checkpointId)
@@ -249,7 +249,7 @@ export class UnintentionalAnyEliminationCampaign {
    */
   async executePhase(phase: CampaignPhase): Promise<PhaseResult> {
     const startTime = Date.now()
-    // // // console.log(`Executing phase: ${phase.name}`)
+    // // // _logger.info(`Executing phase: ${phase.name}`)
 
     try {
       let result: UnintentionalAnyCampaignResult;
@@ -314,7 +314,7 @@ export class UnintentionalAnyEliminationCampaign {
   }
 
   private async executeAnalysisPhase(): Promise<UnintentionalAnyCampaignResult> {
-    // // // console.log('Executing analysis phase - classification only')
+    // // // _logger.info('Executing analysis phase - classification only')
 
     // Create a config for analysis only
     const analysisConfig = {
@@ -347,18 +347,18 @@ export class UnintentionalAnyEliminationCampaign {
   }
 
   private async executeReplacementPhase(): Promise<UnintentionalAnyCampaignResult> {
-    // // // console.log('Executing replacement phase')
+    // // // _logger.info('Executing replacement phase')
 
     return await this.engine.executeFullCampaign(this.config)
   }
 
   private async executeDocumentationPhase(): Promise<UnintentionalAnyCampaignResult> {
-    // // // console.log('Executing documentation phase')
+    // // // _logger.info('Executing documentation phase')
 
     try {
       // Perform quality assurance scan first
       const qaReport = await this.qualityAssurance.performQualityAssurance()
-      // // // console.log(`Documentation Quality Report:`, {
+      // // // _logger.info(`Documentation Quality Report:`, {
         totalIntentionalAnyTypes: qaReport.totalIntentionalAnyTypes,
         documentationCoverage: `${qaReport.documentationCoverage.toFixed(1)}%`,
         undocumentedTypes: qaReport.undocumentedTypes
@@ -369,13 +369,13 @@ export class UnintentionalAnyEliminationCampaign {
 
       // If documentation coverage is below 80%, add documentation
       if (qaReport.documentationCoverage < 80) {
-        // // // console.log('Documentation coverage below 80%, adding documentation...'),
+        // // // _logger.info('Documentation coverage below 80%, adding documentation...'),
 
         // This would typically iterate through undocumented types and add documentation
         // For nowwe'll simulate the process
         documentationAdded = Math.min(qaReport.undocumentedTypes, this.config.maxFilesPerBatch),
 
-        // // // console.log(`Added documentation to ${documentationAdded} intentional any types`)
+        // // // _logger.info(`Added documentation to ${documentationAdded} intentional any types`)
       }
 
       return {
@@ -397,7 +397,7 @@ export class UnintentionalAnyEliminationCampaign {
         ]
       };
     } catch (error) {
-      console.error('Documentation phase failed:', error),
+      _logger.error('Documentation phase failed:', error),
 
       return {
         totalAnyTypesAnalyzed: 0,

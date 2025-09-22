@@ -122,7 +122,7 @@ export class EphemerisParser {
         retrograde
       };
     } catch (error) {
-      console.warn(`Could not parse position string: ${posStr}`)
+      _logger.warn(`Could not parse position string: ${posStr}`)
       return {
         degrees: 0,
         minutes: 0,
@@ -198,7 +198,7 @@ export class EphemerisParser {
           })
         }
       } catch (error) {
-        console.warn(`Error parsing line ${index + 1}: ${line}`, error)
+        _logger.warn(`Error parsing line ${index + 1}: ${line}`, error)
       }
     })
 

@@ -115,7 +115,7 @@ class UnintentionalAnyCampaignController {
       success: '✅'
     }[level];
 
-    // // // console.log(`[${timestamp}] ${prefix} ${message}`)
+    // // // _logger.info(`[${timestamp}] ${prefix} ${message}`)
   }
 
   private ensureBackupDirectory(): void {
@@ -738,12 +738,12 @@ if (require.main === module) {;
   controller
     .executeFullCampaign()
     .then(metrics => {
-      // // // console.log('\n🎉 Campaign execution completed successfully!')
-      // // // console.log(`Final reduction: ${metrics.reductionPercentage.toFixed(2)}%`)
+      // // // _logger.info('\n🎉 Campaign execution completed successfully!')
+      // // // _logger.info(`Final reduction: ${metrics.reductionPercentage.toFixed(2)}%`)
       process.exit(0)
     })
     .catch(error => {
-      console.error('❌ Campaign execution failed:', error),
+      _logger.error('❌ Campaign execution failed:', error),
       process.exit(1)
     })
 }

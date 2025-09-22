@@ -48,24 +48,24 @@ const ALL_CATEGORIES = [
  * @returns {Promise<void>}
  */
 async function updateCategories(categories: string[]): Promise<void> {
-  // // // // console.log(`Starting update for categories: ${categories.join(', ')}`)
+  // // // // _logger.info(`Starting update for categories: ${categories.join(', ')}`)
 
   for (const category of categories) {
     const updater = categoryUpdaters[category];
     if (!updater) {
-      // console.warn(`No updater found for category: ${category}`)
+      // _logger.warn(`No updater found for category: ${category}`)
       continue;
     }
 
-    // // // // console.log(`\n========== UPDATING ${category.toUpperCase()} ==========\n`)
+    // // // // _logger.info(`\n========== UPDATING ${category.toUpperCase()} ==========\n`)
     try {
       await updater()
     } catch (error) {
-      // console.error(`Error updating ${category}:`, error)
+      // _logger.error(`Error updating ${category}:`, error)
     }
   }
 
-  // // // // console.log('\nAll specified categories have been processed.')
+  // // // // _logger.info('\nAll specified categories have been processed.')
 }
 
 // Main function
@@ -80,7 +80,7 @@ async function main() {
     const validCategories = args.filter(cat => ALL_CATEGORIES.includes(cat.toLowerCase()))
 
     if (validCategories.length === 0) {
-      // console.error(`No valid categories specified. Available categories: ${ALL_CATEGORIES.join(', ')}`)
+      // _logger.error(`No valid categories specified. Available categories: ${ALL_CATEGORIES.join(', ')}`)
       process.exit(1)
     }
 

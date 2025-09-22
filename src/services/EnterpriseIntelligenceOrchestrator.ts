@@ -351,7 +351,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
       log.info('✅ Enterprise Intelligence Orchestrator initialized successfully')
       this.emit('initialized')
     } catch (error) {
-      console.error('❌ Failed to initialize Enterprise Intelligence Orchestrator:', error),
+      _logger.error('❌ Failed to initialize Enterprise Intelligence Orchestrator:', error),
       throw error
     }
   }
@@ -516,7 +516,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
         try {
           await this.performHealthChecks()
         } catch (error) {
-          console.error('❌ Error during health checks:', error)
+          _logger.error('❌ Error during health checks:', error)
         }
       })()
     }, 60000); // Check every minute
@@ -1252,7 +1252,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
     // Implement data flow validation logic
     const integrity = this.calculateDataFlowIntegrity()
     if (integrity < 0.8) {
-      console.warn('⚠️  Data flow integrity below threshold:', integrity),
+      _logger.warn('⚠️  Data flow integrity below threshold:', integrity),
       this.emit('data-flow-warning', { integrity })
     }
   }
@@ -1560,7 +1560,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
           await service.shutdown()
         }
       } catch (error) {
-        console.warn(`Warning: Failed to stop service ${name}:`, error)
+        _logger.warn(`Warning: Failed to stop service ${name}:`, error)
       }
     }
 
@@ -1691,7 +1691,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
         }
       }
     } catch (error) {
-      console.error('⚠️  Failed to load persisted state:', error)
+      _logger.error('⚠️  Failed to load persisted state:', error)
     }
   }
 
@@ -1707,7 +1707,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
 
       await fs.promises.writeFile(this.STATE_FILE, JSON.stringify(data, null, 2))
     } catch (error) {
-      console.error('❌ Failed to persist state:', error)
+      _logger.error('❌ Failed to persist state:', error)
     }
   }
 }

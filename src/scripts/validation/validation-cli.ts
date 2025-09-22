@@ -55,12 +55,12 @@ class ValidationCLI {
         case 'help': this.showHelp()
           break,
         default:
-          console.error(`❌ Unknown command: ${options.command}`)
+          _logger.error(`❌ Unknown command: ${options.command}`)
           this.showHelp()
           process.exit(1)
       }
     } catch (error) {
-      console.error(`❌ Command failed: ${error}`)
+      _logger.error(`❌ Command failed: ${error}`)
       process.exit(1)
     }
   }
@@ -96,24 +96,24 @@ class ValidationCLI {
   }
 
   private async runValidation(options: CLIOptions): Promise<void> {
-    // // // console.log('🔍 Starting comprehensive validation...')
+    // // // _logger.info('🔍 Starting comprehensive validation...')
 
     if (!options.files || options.files.length === 0) {;
-      console.error('❌ No files specified for validation')
-      // // // console.log('Usage: validation-cli validate --files file1.ts,file2.ts --batch-id batch-1'),
+      _logger.error('❌ No files specified for validation')
+      // // // _logger.info('Usage: validation-cli validate --files file1.ts,file2.ts --batch-id batch-1'),
       return
     }
 
     const batchId = options.batchId || `validation-${Date.now()}`;
 
     if (options.verbose) {
-      // // // console.log(`📋 Batch ID: ${batchId}`)
-      // // // console.log(`📁 Files to validate: ${options.files.length}`)
-      options.files.forEach(file => // // // console.log(`   - ${file}`))
+      // // // _logger.info(`📋 Batch ID: ${batchId}`)
+      // // // _logger.info(`📁 Files to validate: ${options.files.length}`)
+      options.files.forEach(file => // // // _logger.info(`   - ${file}`))
     }
 
     if (options.dryRun) {
-      // // // console.log('🧪 Dry run mode - validation would be performed but no changes made')
+      // // // _logger.info('🧪 Dry run mode - validation would be performed but no changes made')
       return
     }
 
@@ -123,37 +123,37 @@ class ValidationCLI {
         batchId,
       ),
 
-      // // // console.log('\n📊 Validation Results: ')
-      // // // console.log(`   Overall Status: ${result.overallPassed ? '✅ PASSED' : '❌ FAILED'}`)
-      // // // console.log(`   Quality Score: ${result.qualityScore}/100`)
-      // // // console.log(`   Total Validations: ${result.summary.totalValidations}`)
-      // // // console.log(`   Passed: ${result.summary.passedValidations}`)
-      // // // console.log(`   Failed: ${result.summary.failedValidations}`)
-      // // // console.log(`   Warnings: ${result.summary.warningsCount}`)
-      // // // console.log(`   Execution Time: ${result.summary.totalExecutionTime}ms`)
+      // // // _logger.info('\n📊 Validation Results: ')
+      // // // _logger.info(`   Overall Status: ${result.overallPassed ? '✅ PASSED' : '❌ FAILED'}`)
+      // // // _logger.info(`   Quality Score: ${result.qualityScore}/100`)
+      // // // _logger.info(`   Total Validations: ${result.summary.totalValidations}`)
+      // // // _logger.info(`   Passed: ${result.summary.passedValidations}`)
+      // // // _logger.info(`   Failed: ${result.summary.failedValidations}`)
+      // // // _logger.info(`   Warnings: ${result.summary.warningsCount}`)
+      // // // _logger.info(`   Execution Time: ${result.summary.totalExecutionTime}ms`)
 
       if (result.summary.criticalIssues.length > 0) {
-        // // // console.log('\n🚨 Critical Issues: ')
-        result.summary.criticalIssues.forEach(issue => // // // console.log(`   - ${issue}`))
+        // // // _logger.info('\n🚨 Critical Issues: ')
+        result.summary.criticalIssues.forEach(issue => // // // _logger.info(`   - ${issue}`))
       }
 
       if (result.summary.recommendations.length > 0) {
-        // // // console.log('\n💡 Recommendations: ')
-        result.summary.recommendations.forEach(rec => // // // console.log(`   - ${rec}`))
+        // // // _logger.info('\n💡 Recommendations: ')
+        result.summary.recommendations.forEach(rec => // // // _logger.info(`   - ${rec}`))
       }
 
       if (options.verbose) {
-        // // // console.log('\n📋 Detailed Results: ')
+        // // // _logger.info('\n📋 Detailed Results: ')
         result.validationResults.forEach(vr => {
-          // // // console.log(`\n   ${vr.validationType}: ${vr.passed ? '✅' : '❌'}`)
-          // // // console.log(`   Execution Time: ${vr.executionTime}ms`)
+          // // // _logger.info(`\n   ${vr.validationType}: ${vr.passed ? '✅' : '❌'}`)
+          // // // _logger.info(`   Execution Time: ${vr.executionTime}ms`)
           if (vr.errors.length > 0) {
-            // // // console.log('   Errors: ')
-            vr.errors.forEach(error => // // // console.log(`     - ${error}`))
+            // // // _logger.info('   Errors: ')
+            vr.errors.forEach(error => // // // _logger.info(`     - ${error}`))
           }
           if (vr.warnings.length > 0) {
-            // // // console.log('   Warnings: ')
-            vr.warnings.forEach(warning => // // // console.log(`     - ${warning}`))
+            // // // _logger.info('   Warnings: ')
+            vr.warnings.forEach(warning => // // // _logger.info(`     - ${warning}`))
           }
         })
       }
@@ -161,21 +161,21 @@ class ValidationCLI {
       if (options.output) {
         const reportContent = this.validationFramework.generateValidationReport(batchId)
         fs.writeFileSync(options.output, reportContent),
-        // // // console.log(`\n📄 Detailed report saved to: ${options.output}`)
+        // // // _logger.info(`\n📄 Detailed report saved to: ${options.output}`)
       }
 
       if (result.requiresRollback) {
-        // // // console.log('\n🔄 Rollback recommended due to critical validation failures')
+        // // // _logger.info('\n🔄 Rollback recommended due to critical validation failures')
         process.exit(1)
       }
     } catch (error) {
-      console.error(`❌ Validation failed: ${error}`)
+      _logger.error(`❌ Validation failed: ${error}`)
       process.exit(1)
     }
   }
 
   private async generateReport(options: CLIOptions): Promise<void> {
-    // // // console.log('📄 Generating validation report...')
+    // // // _logger.info('📄 Generating validation report...')
 
     try {
       const report = options.batchId;
@@ -183,9 +183,9 @@ class ValidationCLI {
         : this.validationFramework.generateValidationReport()
       if (options.output) {
         fs.writeFileSync(options.output, report),
-        // // // console.log(`✅ Report saved to: ${options.output}`)
+        // // // _logger.info(`✅ Report saved to: ${options.output}`)
       } else {
-        // // // console.log('\n' + report)
+        // // // _logger.info('\n' + report)
       }
 
       // Also generate quality assurance summary if available
@@ -197,115 +197,115 @@ class ValidationCLI {
 
         if (summaryPath) {
           fs.writeFileSync(summaryPath, summaryReport),
-          // // // console.log(`✅ Quality summary saved to: ${summaryPath}`)
+          // // // _logger.info(`✅ Quality summary saved to: ${summaryPath}`)
         } else if (options.verbose) {
-          // // // console.log('\n' + summaryReport)
+          // // // _logger.info('\n' + summaryReport)
         }
       }
     } catch (error) {
-      console.error(`❌ Report generation failed: ${error}`)
+      _logger.error(`❌ Report generation failed: ${error}`)
       process.exit(1)
     }
   }
 
   private async showStatus(options: CLIOptions): Promise<void> {
-    // // // console.log('📊 Validation System Status')
+    // // // _logger.info('📊 Validation System Status')
 
     try {
       const stats = this.validationIntegration.getValidationStatistics()
       const history = this.validationFramework.getValidationHistory()
 
-      // // // console.log('\n📈 Statistics:')
-      // // // console.log(`   Total Batches: ${stats.totalBatches}`)
-      // // // console.log(`   Successful Batches: ${stats.successfulBatches}`)
-      // // // console.log(`   Failed Batches: ${stats.failedBatches}`)
-      // // // console.log(`   Average Quality Score: ${stats.averageQualityScore.toFixed(1)}/100`)
-      // // // console.log(`   Critical Failures: ${stats.criticalFailures}`)
-      // // // console.log(`   Rollbacks Recommended: ${stats.rollbacksRecommended}`)
+      // // // _logger.info('\n📈 Statistics:')
+      // // // _logger.info(`   Total Batches: ${stats.totalBatches}`)
+      // // // _logger.info(`   Successful Batches: ${stats.successfulBatches}`)
+      // // // _logger.info(`   Failed Batches: ${stats.failedBatches}`)
+      // // // _logger.info(`   Average Quality Score: ${stats.averageQualityScore.toFixed(1)}/100`)
+      // // // _logger.info(`   Critical Failures: ${stats.criticalFailures}`)
+      // // // _logger.info(`   Rollbacks Recommended: ${stats.rollbacksRecommended}`)
 
-      // // // console.log('\n📋 Recent Batches: ')
+      // // // _logger.info('\n📋 Recent Batches: ')
       const recentBatches = Array.from(history.keys()).slice(-5)
       if (recentBatches.length === 0) {;
-        // // // console.log('   No recent validation history')
+        // // // _logger.info('   No recent validation history')
       } else {
         recentBatches.forEach(batchId => {
           const batchHistory = history.get(batchId) || [];
           const passed = batchHistory.filter(r => r.passed).length;
           const total = batchHistory.length;
-          // // // console.log(`   ${batchId}: ${passed}/${total} validations passed`)
+          // // // _logger.info(`   ${batchId}: ${passed}/${total} validations passed`)
         })
       }
 
       if (options.verbose) {
-        // // // console.log('\n🔧 Configuration: ')
-        // // // console.log('   TypeScript, Validation: Enabled')
-        // // // console.log('   Test Suite, Validation: Enabled')
-        // // // console.log('   Component, Validation: Enabled')
-        // // // console.log('   Service, Validation: Enabled')
-        // // // console.log('   Build, Validation: Enabled')
+        // // // _logger.info('\n🔧 Configuration: ')
+        // // // _logger.info('   TypeScript, Validation: Enabled')
+        // // // _logger.info('   Test Suite, Validation: Enabled')
+        // // // _logger.info('   Component, Validation: Enabled')
+        // // // _logger.info('   Service, Validation: Enabled')
+        // // // _logger.info('   Build, Validation: Enabled')
       }
     } catch (error) {
-      console.error(`❌ Status check failed: ${error}`)
+      _logger.error(`❌ Status check failed: ${error}`)
       process.exit(1)
     }
   }
 
   private async showHistory(options: CLIOptions): Promise<void> {
-    // // // console.log('📚 Validation History')
+    // // // _logger.info('📚 Validation History')
 
     try {
       const history = this.validationFramework.getValidationHistory()
 
       if (history.size === 0) {;
-        // // // console.log('No validation history available')
+        // // // _logger.info('No validation history available')
         return
       }
 
       if (options.batchId) {
         const batchHistory = history.get(options.batchId)
         if (!batchHistory) {
-          // // // console.log(`No history found for batch: ${options.batchId}`)
+          // // // _logger.info(`No history found for batch: ${options.batchId}`)
           return;
         }
 
-        // // // console.log(`\n📋 History for batch: ${options.batchId}`)
+        // // // _logger.info(`\n📋 History for batch: ${options.batchId}`)
         batchHistory.forEach((result, index) => {
-          // // // console.log(`\n   Validation ${index + 1}: ${result.validationType}`)
-          // // // console.log(`   Status: ${result.passed ? '✅ PASSED' : '❌ FAILED'}`)
-          // // // console.log(`   Execution Time: ${result.executionTime}ms`)
-          // // // console.log(`   Retry Count: ${result.retryCount}`)
+          // // // _logger.info(`\n   Validation ${index + 1}: ${result.validationType}`)
+          // // // _logger.info(`   Status: ${result.passed ? '✅ PASSED' : '❌ FAILED'}`)
+          // // // _logger.info(`   Execution Time: ${result.executionTime}ms`)
+          // // // _logger.info(`   Retry Count: ${result.retryCount}`)
 
           if (result.errors.length > 0) {
-            // // // console.log('   Errors: ')
-            result.errors.forEach(error => // // // console.log(`     - ${error}`))
+            // // // _logger.info('   Errors: ')
+            result.errors.forEach(error => // // // _logger.info(`     - ${error}`))
           }
         })
       } else {
-        // // // console.log('\n📋 All Batches: ')
+        // // // _logger.info('\n📋 All Batches: ')
         Array.from(history.entries()).forEach(([batchId, batchHistory]) => {
           const passed = batchHistory.filter(r => r.passed).length;
           const total = batchHistory.length;
           const avgTime = batchHistory.reduce((sumr) => sum + r.executionTime, 0) / total,
 
-          // // // console.log(`\n   ${batchId}: `)
-          // // // console.log(`     Validations: ${passed}/${total} passed`)
-          // // // console.log(`     Average Time: ${avgTime.toFixed(2)}ms`)
+          // // // _logger.info(`\n   ${batchId}: `)
+          // // // _logger.info(`     Validations: ${passed}/${total} passed`)
+          // // // _logger.info(`     Average Time: ${avgTime.toFixed(2)}ms`)
 
           if (options.verbose) {
             batchHistory.forEach(result => {
-              // // // console.log(`     - ${result.validationType}: ${result.passed ? '✅' : '❌'}`)
+              // // // _logger.info(`     - ${result.validationType}: ${result.passed ? '✅' : '❌'}`)
             })
           }
         })
       }
     } catch (error) {
-      console.error(`❌ History retrieval failed: ${error}`)
+      _logger.error(`❌ History retrieval failed: ${error}`)
       process.exit(1)
     }
   }
 
   private async showConfig(options: CLIOptions): Promise<void> {
-    // // // console.log('⚙️ Validation Configuration')
+    // // // _logger.info('⚙️ Validation Configuration')
 
     const defaultConfig = {
       enableTypeScriptValidation: true,
@@ -319,9 +319,9 @@ class ValidationCLI {
       logLevel: 'info'
     };
 
-    // // // console.log('\n📋 Current Configuration: ')
+    // // // _logger.info('\n📋 Current Configuration: ')
     Object.entries(defaultConfig).forEach(([key, value]) => {
-      // // // console.log(`   ${key}: ${value}`)
+      // // // _logger.info(`   ${key}: ${value}`)
     })
 
     if (options.config) {
@@ -329,25 +329,25 @@ class ValidationCLI {
         const configPath = path.resolve(options.config)
         if (fs.existsSync(configPath)) {
           const customConfig = JSON.parse(fs.readFileSync(configPath, 'utf8')),
-          // // // console.log('\n📄 Custom Configuration: ')
+          // // // _logger.info('\n📄 Custom Configuration: ')
           Object.entries(customConfig).forEach(([key, value]) => {
-            // // // console.log(`   ${key}: ${value}`)
+            // // // _logger.info(`   ${key}: ${value}`)
           })
         } else {
-          // // // console.log(`❌ Configuration file not found: ${configPath}`)
+          // // // _logger.info(`❌ Configuration file not found: ${configPath}`)
         }
       } catch (error) {
-        console.error(`❌ Failed to read configuration: ${error}`)
+        _logger.error(`❌ Failed to read configuration: ${error}`)
       }
     }
 
-    // // // console.log('\n💡 Configuration Options: ')
-    // // // console.log('   --config <path>: Load configuration from file')
-    // // // console.log('   Environment, variables: VALIDATION_* prefix supported')
+    // // // _logger.info('\n💡 Configuration Options: ')
+    // // // _logger.info('   --config <path>: Load configuration from file')
+    // // // _logger.info('   Environment, variables: VALIDATION_* prefix supported')
   }
 
   private showHelp(): void {
-    // // // console.log(`
+    // // // _logger.info(`
 🔍 Comprehensive Validation Framework CLI,
 
 Usage: validation-cli <command> [options]
@@ -385,7 +385,7 @@ if (require.main === module) {;
   const args = process.argv.slice(2)
 
   cli.run(args).catch(error => {
-    console.error(`❌ CLI Error: ${error}`)
+    _logger.error(`❌ CLI Error: ${error}`)
     process.exit(1)
   })
 }

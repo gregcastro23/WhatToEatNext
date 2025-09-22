@@ -76,7 +76,7 @@ function main(): void {
       break;
     }
     default: {
-      // // // console.log('Usage: yarn unused-vars <baseline|analyze|batch|progress> [options]')
+      // // // _logger.info('Usage: yarn unused-vars <baseline|analyze|batch|progress> [options]')
     }
   }
 }

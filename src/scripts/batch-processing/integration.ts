@@ -69,23 +69,23 @@ export class BatchProcessingIntegration {
    * Run complete analysis and batch processing workflow
    */
   async runCompleteWorkflow(): Promise<void> {
-    // // // console.log('🚀 Starting complete unused variable elimination workflow...\n')
+    // // // _logger.info('🚀 Starting complete unused variable elimination workflow...\n')
 
     try {
       // Step, 1: Run analysis if report doesn't exist
       if (!fs.existsSync(this.config.analysisReportPath!)) {
-        // // // console.log('📊 Running unused variable analysis...')
+        // // // _logger.info('📊 Running unused variable analysis...')
         await this.runAnalysis()
       } else {
-        // // // console.log('📄 Using existing analysis report...')
+        // // // _logger.info('📄 Using existing analysis report...')
       }
 
       // Step, 2: Load analysis results
       const files = this.loadAnalysisResults()
-      // // // console.log(`📋 Loaded ${files.length} files for processing`)
+      // // // _logger.info(`📋 Loaded ${files.length} files for processing`)
 
       // Step, 3: Create processing plan
-      // // // console.log('\n📋 Creating processing plan...')
+      // // // _logger.info('\n📋 Creating processing plan...')
       const plan = await this.orchestrator.createProcessingPlan(files)
 
       // Step, 4: Display plan summary
@@ -93,16 +93,16 @@ export class BatchProcessingIntegration {
 
       // Step, 5: Execute batch processing (if not dry run)
       if (!this.config.dryRun) {
-        // // // console.log('\n🔄 Executing batch processing campaign...')
+        // // // _logger.info('\n🔄 Executing batch processing campaign...')
         const campaign = await this.orchestrator.executeCampaign(files)
 
         // Step, 6: Display results
         this.displayCampaignResults(campaign)
       } else {
-        // // // console.log('\n🔍 Dry run completed - no changes made')
+        // // // _logger.info('\n🔍 Dry run completed - no changes made')
       }
     } catch (error) {
-      console.error(`❌ Workflow failed: ${error}`)
+      _logger.error(`❌ Workflow failed: ${error}`)
       throw error;
     }
   }
@@ -113,7 +113,7 @@ export class BatchProcessingIntegration {
   async runAnalysis(): Promise<void> {
     const analyzer = new UnusedVariableAnalyzer()
     await analyzer.analyze()
-    // // // console.log('✅ Analysis completed')
+    // // // _logger.info('✅ Analysis completed')
   }
 
   /**
@@ -201,28 +201,28 @@ export class BatchProcessingIntegration {
    * Display processing plan summary
    */
   private displayPlanSummary(plan: any): void {
-    // // // console.log('\n📊 Processing Plan Summary:')
-    // // // console.log(`   Total Files: ${plan.totalFiles}`)
-    // // // console.log(`   Automatic Processing: ${plan.automaticProcessing.length}`)
-    // // // console.log(`   Manual Review Required: ${plan.manualReviewRequired.length}`)
-    // // // console.log(`   Estimated Batches: ${plan.estimatedBatches}`)
-    // // // console.log(`   Estimated Duration: ${plan.estimatedDuration}`)
+    // // // _logger.info('\n📊 Processing Plan Summary:')
+    // // // _logger.info(`   Total Files: ${plan.totalFiles}`)
+    // // // _logger.info(`   Automatic Processing: ${plan.automaticProcessing.length}`)
+    // // // _logger.info(`   Manual Review Required: ${plan.manualReviewRequired.length}`)
+    // // // _logger.info(`   Estimated Batches: ${plan.estimatedBatches}`)
+    // // // _logger.info(`   Estimated Duration: ${plan.estimatedDuration}`)
 
-    // // // console.log('\n📈 Risk Distribution: ')
-    // // // console.log(`   Low Risk: ${plan.riskSummary.low} files`)
-    // // // console.log(`   Medium Risk: ${plan.riskSummary.medium} files`)
-    // // // console.log(`   High Risk: ${plan.riskSummary.high} files`)
-    // // // console.log(`   Critical Risk: ${plan.riskSummary.critical} files`)
+    // // // _logger.info('\n📈 Risk Distribution: ')
+    // // // _logger.info(`   Low Risk: ${plan.riskSummary.low} files`)
+    // // // _logger.info(`   Medium Risk: ${plan.riskSummary.medium} files`)
+    // // // _logger.info(`   High Risk: ${plan.riskSummary.high} files`)
+    // // // _logger.info(`   Critical Risk: ${plan.riskSummary.critical} files`)
 
     if (plan.manualReviewRequired.length > 0) {
-      // // // console.log('\n👥 Files Requiring Manual Review: ')
+      // // // _logger.info('\n👥 Files Requiring Manual Review: ')
       plan.manualReviewRequired.slice(05).forEach((file: any) => {
-        // // // console.log(
+        // // // _logger.info(
           `   - ${file.relativePath} (${file.unusedVariableCount} variables, ${file.riskLevel} risk)`,
         )
       })
       if (plan.manualReviewRequired.length > 5) {
-        // // // console.log(`   ... and ${plan.manualReviewRequired.length - 5} more files`)
+        // // // _logger.info(`   ... and ${plan.manualReviewRequired.length - 5} more files`)
       }
     }
   }
@@ -231,43 +231,43 @@ export class BatchProcessingIntegration {
    * Display campaign results
    */
   private displayCampaignResults(campaign: any): void {
-    // // // console.log('\n🎯 Campaign Results:')
-    // // // console.log(`   Campaign ID: ${campaign.campaignId}`)
-    // // // console.log(`   Status: ${campaign.status.toUpperCase()}`)
-    // // // console.log(`   Duration: ${Math.floor(campaign.finalStats.timeElapsed / 60000)} minutes`)
+    // // // _logger.info('\n🎯 Campaign Results:')
+    // // // _logger.info(`   Campaign ID: ${campaign.campaignId}`)
+    // // // _logger.info(`   Status: ${campaign.status.toUpperCase()}`)
+    // // // _logger.info(`   Duration: ${Math.floor(campaign.finalStats.timeElapsed / 60000)} minutes`)
 
-    // // // console.log('\n📊 Final Statistics: ')
-    // // // console.log(`   Total Processed: ${campaign.finalStats.totalProcessed}`)
-    // // // console.log(`   Total Eliminated: ${campaign.finalStats.totalEliminated}`)
-    // // // console.log(`   Total Preserved: ${campaign.finalStats.totalPreserved}`)
-    // // // console.log(`   Success Rate: ${campaign.finalStats.successRate.toFixed(1)}%`)
+    // // // _logger.info('\n📊 Final Statistics: ')
+    // // // _logger.info(`   Total Processed: ${campaign.finalStats.totalProcessed}`)
+    // // // _logger.info(`   Total Eliminated: ${campaign.finalStats.totalEliminated}`)
+    // // // _logger.info(`   Total Preserved: ${campaign.finalStats.totalPreserved}`)
+    // // // _logger.info(`   Success Rate: ${campaign.finalStats.successRate.toFixed(1)}%`)
 
     if (campaign.finalStats.totalProcessed > 0) {
       const eliminationRate =
         (campaign.finalStats.totalEliminated / campaign.finalStats.totalProcessed) * 100;
-      // // // console.log(`   Elimination Rate: ${eliminationRate.toFixed(1)}%`)
+      // // // _logger.info(`   Elimination Rate: ${eliminationRate.toFixed(1)}%`)
     }
 
-    // // // console.log('\n🔄 Batch Summary: ')
+    // // // _logger.info('\n🔄 Batch Summary: ')
     const successfulBatches = campaign.batchResults.filter(
       (r: unknown) => (r as any).success;
     ).length
-    // // // console.log(`   Total Batches: ${campaign.batchResults.length}`)
-    // // // console.log(`   Successful Batches: ${successfulBatches}`)
-    // // // console.log(`   Failed Batches: ${campaign.batchResults.length - successfulBatches}`)
+    // // // _logger.info(`   Total Batches: ${campaign.batchResults.length}`)
+    // // // _logger.info(`   Successful Batches: ${successfulBatches}`)
+    // // // _logger.info(`   Failed Batches: ${campaign.batchResults.length - successfulBatches}`)
 
     if (campaign.manualReviews.length > 0) {
-      // // // console.log(`\n👥 Manual Reviews: ${campaign.manualReviews.length} pending`)
+      // // // _logger.info(`\n👥 Manual Reviews: ${campaign.manualReviews.length} pending`)
     }
 
     if (campaign.recommendations.length > 0) {
-      // // // console.log('\n💡 Recommendations: ')
+      // // // _logger.info('\n💡 Recommendations: ')
       campaign.recommendations.forEach((rec: string) => {
-        // // // console.log(`   - ${rec}`)
+        // // // _logger.info(`   - ${rec}`)
       })
     }
 
-    // // // console.log(`\n📄 Detailed reports saved to: ${this.config.outputDirectory}`)
+    // // // _logger.info(`\n📄 Detailed reports saved to: ${this.config.outputDirectory}`)
   }
 
   /**

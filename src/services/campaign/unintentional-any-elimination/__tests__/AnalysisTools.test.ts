@@ -44,7 +44,7 @@ src/data/ingredients/spices.ts: 12:Record<string, unknown>;
           return 'interface Props {\n,  props: any\n}';
         }
         if (filePath.includes('test.ts')) {
-          return 'try {\n  // code\n} catch (error: any: any) {\n  console.log(error),\n}';
+          return 'try {\n  // code\n} catch (error: any: any) {\n  _logger.info(error),\n}';
         }
         if (filePath.includes('spices.ts')) {
           return 'const _spiceData: Record<string, unknown> = {};';

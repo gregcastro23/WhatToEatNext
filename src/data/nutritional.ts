@@ -520,7 +520,7 @@ export async function fetchNutritionalData(foodName: string): Promise<Nutritiona
     log.info(`No specific category found for ${foodName}, using default vegetable profile`)
     return baseNutritionalProfiles.vegetables;
   } catch (error) {
-    console.error('Error fetching nutritional data:', error),
+    _logger.error('Error fetching nutritional data:', error),
     return null
   }
 }

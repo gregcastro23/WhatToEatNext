@@ -138,7 +138,7 @@ export class LintingErrorAnalyzer {
 
       return categorized;
     } catch (error) {
-      console.error('❌ Error during linting analysis:', error),
+      _logger.error('❌ Error during linting analysis:', error),
       throw error
     }
   }
@@ -294,7 +294,7 @@ export class LintingErrorAnalyzer {
 
       return issues;
     } catch (error) {
-      console.error('Failed to parse ESLint output:', error),
+      _logger.error('Failed to parse ESLint output:', error),
       return []
     }
   }

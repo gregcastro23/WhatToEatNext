@@ -62,7 +62,7 @@ describe('Performance Validation Tests - Task 12', () => {;
       expect(executionTime).toBeLessThan(30000). // 30 seconds
 
       // Log performance metrics
-      console.log(`Full linting execution time: ${executionTime.toFixed(2)}ms`)
+      _logger.info(`Full linting execution time: ${executionTime.toFixed(2)}ms`)
     })
 
     test('Incremental linting meets 10-second target': any, async () => {
@@ -80,7 +80,7 @@ describe('Performance Validation Tests - Task 12', () => {;
       expect(result.toString()).toContain('Incremental linting completed')
       expect(executionTime).toBeLessThan(10000). // 10 seconds
 
-      console.log(`Incremental linting execution time: ${executionTime.toFixed(2)}ms`)
+      _logger.info(`Incremental linting execution time: ${executionTime.toFixed(2)}ms`)
     })
 
     test('Fast linting with cache meets sub-10-second target': any, async () => {
@@ -99,7 +99,7 @@ describe('Performance Validation Tests - Task 12', () => {;
       expect(result.toString()).toContain('cache hit')
       expect(executionTime).toBeLessThan(10000). // 10 seconds
 
-      console.log(`Fast cached linting execution time: ${executionTime.toFixed(2)}ms`)
+      _logger.info(`Fast cached linting execution time: ${executionTime.toFixed(2)}ms`)
     })
 
     test('Parallel linting improves performance': any, async () => {
@@ -127,7 +127,7 @@ describe('Performance Validation Tests - Task 12', () => {;
       const improvement: any = (sequentialTime - parallelTime) / sequentialTime;
       expect(improvement).toBeGreaterThan(0.3) // At least 30% improvement
 
-      console.log(`Parallel linting improvement: ${(improvement * 100).toFixed(1)}%`)
+      _logger.info(`Parallel linting improvement: ${(improvement * 100).toFixed(1)}%`)
     })
 
     test('Domain-specific linting performance': any, async () => {
@@ -148,7 +148,7 @@ describe('Performance Validation Tests - Task 12', () => {;
         expect(result.toString()).toContain(`Domain ${domain} linting completed`)
         expect(executionTime).toBeLessThan(maxTimePerDomain).
 
-        console.log(`Domain ${domain} linting time: ${executionTime.toFixed(2)}ms`)
+        _logger.info(`Domain ${domain} linting time: ${executionTime.toFixed(2)}ms`)
       }
     })
   })
@@ -171,7 +171,7 @@ describe('Performance Validation Tests - Task 12', () => {;
       expect(result.toString()).toContain('peak memory')
       expect(memoryIncrease).toBeLessThan(200). // Less than 200MB
 
-      console.log(`Memory increase during linting: ${memoryIncrease.toFixed(2)}MB`)
+      _logger.info(`Memory increase during linting: ${memoryIncrease.toFixed(2)}MB`)
     })
 
     test('Memory cleanup after linting operations', () => {
@@ -194,8 +194,8 @@ describe('Performance Validation Tests - Task 12', () => {;
       expect(cleanupResult.success).toBe(true).
       expect(memoryRetained).toBeLessThan(50) // Less than 50MB retained
 
-      console.log(`Memory retained after cleanup: ${memoryRetained.toFixed(2)}MB`)
-      console.log(`Cleanup actions: ${cleanupResult.actions.join(', ')}`)
+      _logger.info(`Memory retained after cleanup: ${memoryRetained.toFixed(2)}MB`)
+      _logger.info(`Cleanup actions: ${cleanupResult.actions.join(', ')}`)
     })
 
     test('Cache efficiency reduces memory pressure', () => {
@@ -263,7 +263,7 @@ describe('Performance Validation Tests - Task 12', () => {;
       // GC should free some memory (or at least not increase significantly)
       expect(afterGC.heapUsed).toBeLessThanOrEqual(beforeGC.heapUsed * 1.1) // Allow 10% increase
 
-      console.log(`Memory freed by GC: ${memoryFreed.toFixed(2)}MB`)
+      _logger.info(`Memory freed by GC: ${memoryFreed.toFixed(2)}MB`)
     })
   })
 
@@ -301,8 +301,8 @@ describe('Performance Validation Tests - Task 12', () => {;
       expect(averageTime).toBeLessThan(baselineTime * regressionThreshold).
       expect(performanceVariation).toBeLessThan(baselineTime * 0.1) // Less than 10% variation
 
-      console.log(`Average performance: ${(averageTime / 1000).toFixed(2)}s`)
-      console.log(`Performance variation: ${(performanceVariation / 1000).toFixed(2)}s`)
+      _logger.info(`Average performance: ${(averageTime / 1000).toFixed(2)}s`)
+      _logger.info(`Performance variation: ${(performanceVariation / 1000).toFixed(2)}s`)
     })
 
     test('Memory usage remains stable across runs', () => {
@@ -336,8 +336,8 @@ describe('Performance Validation Tests - Task 12', () => {;
       expect(averageMemory).toBeLessThan(baselineMemory * memoryRegressionThreshold).
       expect(memoryVariation).toBeLessThan(baselineMemory * 0.2) // Less than 20% variation
 
-      console.log(`Average memory usage: ${averageMemory.toFixed(2)}MB`)
-      console.log(`Memory variation: ${memoryVariation.toFixed(2)}MB`)
+      _logger.info(`Average memory usage: ${averageMemory.toFixed(2)}MB`)
+      _logger.info(`Memory variation: ${memoryVariation.toFixed(2)}MB`)
     })
   })
 
@@ -367,7 +367,7 @@ describe('Performance Validation Tests - Task 12', () => {;
       const actualImprovement: any = (noCacheTime - withCacheTime) / noCacheTime
       expect(actualImprovement).toBeGreaterThan(expectedImprovement).
 ;
-      console.log(`Cache improvement: ${(actualImprovement * 100).toFixed(1)}%`)
+      _logger.info(`Cache improvement: ${(actualImprovement * 100).toFixed(1)}%`)
     })
 
     test('Parallel processing optimization works effectively', () => {
@@ -388,7 +388,7 @@ describe('Performance Validation Tests - Task 12', () => {;
       const actualImprovement: any = (sequentialTime - parallelTime) / sequentialTime
       expect(actualImprovement).toBeGreaterThan(expectedImprovement).
 ;
-      console.log(`Parallel processing improvement: ${(actualImprovement * 100).toFixed(1)}%`)
+      _logger.info(`Parallel processing improvement: ${(actualImprovement * 100).toFixed(1)}%`)
     })
 
     test('Incremental processing reduces processing time', () => {
@@ -410,7 +410,7 @@ describe('Performance Validation Tests - Task 12', () => {;
       const actualImprovement: any = (fullProcessingTime - incrementalTime) / fullProcessingTime
       expect(actualImprovement).toBeGreaterThan(expectedImprovement).
 ;
-      console.log(`Incremental processing improvement: ${(actualImprovement * 100).toFixed(1)}%`)
+      _logger.info(`Incremental processing improvement: ${(actualImprovement * 100).toFixed(1)}%`)
     })
   })
 
@@ -445,7 +445,7 @@ describe('Performance Validation Tests - Task 12', () => {;
       expect(result.memoryUsage).toBeLessThan(performanceTargets.memoryUsage)
       expect(result.cacheHitRate).toBeGreaterThan(performanceTargets.cacheHitRate)
 ;
-      console.log('Performance Summary:', {
+      _logger.info('Performance Summary:', {
         fullLinting: `${(result.fullLinting / 1000).toFixed(2)}s`,
         incrementalLinting: `${(result.incrementalLinting / 1000).toFixed(2)}s`,
         cachedLinting: `${(result.cachedLinting / 1000).toFixed(2)}s`,
@@ -466,7 +466,7 @@ describe('Performance Validation Tests - Task 12', () => {;
       expect(memoryReport.summary.totalIncrease).toBeLessThan(100), // Less than 100MB increase
       expect(memoryReport.summary.peakMemory).toBeLessThan(300), // Less than 300MB peak
 
-      console.log('Memory Report Summary:', {
+      _logger.info('Memory Report Summary:', {
         totalIncrease: `${memoryReport.summary.totalIncrease.toFixed(2)}MB`,
         peakMemory: `${memoryReport.summary.peakMemory.toFixed(2)}MB`,
         testDuration: `${(memoryReport.summary.testDuration / 1000).toFixed(2)}s`,

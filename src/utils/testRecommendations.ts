@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any */
+import { _logger } from '@/lib/logger';
 // Test utility for cooking method recommendations
 
 import { AlchemicalItem } from '../calculations/alchemicalTransformation';
@@ -59,15 +60,15 @@ export async function testCookingMethodRecommendations() {
   ];
 
   // Run the test
-  console.warn('TESTING COOKING METHOD RECOMMENDATIONS')
-  console.warn('=====================================')
-  console.warn('_Ingredient:', mockIngredient.name)
-  console.warn('_Element:', mockIngredient.element)
-  console.warn('Elemental _Character:', mockIngredient.elementalCharacter)
+  _logger.warn('TESTING COOKING METHOD RECOMMENDATIONS')
+  _logger.warn('=====================================')
+  _logger.warn('_Ingredient:', mockIngredient.name)
+  _logger.warn('_Element:', mockIngredient.element)
+  _logger.warn('Elemental _Character:', mockIngredient.elementalCharacter)
 
   // Test holistic recommendations directly
   try {
-    console.warn('\nTESTING HOLISTIC RECOMMENDATIONS _DIRECTLY: ')
+    _logger.warn('\nTESTING HOLISTIC RECOMMENDATIONS _DIRECTLY: ')
     const methods = mockCookingMethods.map(m => m.name)
     const holisticRecs = await getHolisticCookingRecommendations(
       mockIngredient,
@@ -78,33 +79,33 @@ export async function testCookingMethodRecommendations() {
       5,
     )
     holisticRecs.forEach((rec, index) => {
-      console.warn(
+      _logger.warn(
         `${index + 1}. ${rec.method} - Compatibility: ${Math.round(rec.compatibility)}% - ${rec.reason}`,
       )
     })
   } catch (error) {
-    console.error('ERROR GETTING HOLISTIC RECOMMENDATIONS:', error)
+    _logger.error('ERROR GETTING HOLISTIC RECOMMENDATIONS:', error)
     if (error instanceof Error && error.stack) {
-      console.error(error.stack)
+      _logger.error(error.stack)
     }
   }
 
   // Test the ingredient-specific function - Pattern ZZZ: Array Object Interface Expansion
   try {
-    console.warn('\nTESTING INGREDIENT-SPECIFIC RECOMMENDATIONS:')
+    _logger.warn('\nTESTING INGREDIENT-SPECIFIC RECOMMENDATIONS:')
     const recommendations = await getRecommendedCookingMethodsForIngredient(
       mockIngredient,
       mockCookingMethods as any
     )
     recommendations.forEach((rec, index) => {
-      console.warn(
+      _logger.warn(
         `${index + 1}. ${rec.method} - Compatibility: ${Math.round(rec.compatibility)}%`,
       )
     })
   } catch (error) {
-    console.error('ERROR GETTING RECOMMENDATIONS:', error)
+    _logger.error('ERROR GETTING RECOMMENDATIONS:', error)
     if (error instanceof Error && error.stack) {
-      console.error(error.stack)
+      _logger.error(error.stack)
     }
   }
 

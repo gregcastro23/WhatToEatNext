@@ -968,7 +968,7 @@ export class ServiceIntegrationValidator {
     if (messageLevel >= configLevel) {
       const timestamp = new Date().toISOString()
       const prefix = level.toUpperCase().padEnd(5)
-      // // // console.log(`[${timestamp}] ${prefix} ${message}`)
+      // // // _logger.info(`[${timestamp}] ${prefix} ${message}`)
     }
   }
 }

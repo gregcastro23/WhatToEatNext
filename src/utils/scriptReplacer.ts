@@ -18,7 +18,7 @@ if (typeof window !== 'undefined') {
           _event.filename.includes('lockdown') ||
           _event.filename.includes('viewer.js'))
       ) {
-        console.warn('[ScriptReplacer] Blocked error from:', _event.filename)
+        _logger.warn('[ScriptReplacer] Blocked error from:', _event.filename)
         _event.preventDefault()
         return true;
       }

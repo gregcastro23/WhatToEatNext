@@ -26,9 +26,9 @@ describe('Astrologize API Integration', () => {
       expect(typeof result).toBe('boolean')
 
       if (result != null) {
-        console.log('✅ Astrologize API connection successful')
+        _logger.info('✅ Astrologize API connection successful')
       } else {
-        console.log('❌ Astrologize API connection failed - this is expected in test environment')
+        _logger.info('❌ Astrologize API connection failed - this is expected in test environment')
       }
     }, 30000); // 30 second timeout for API calls
   })
@@ -77,20 +77,20 @@ describe('Astrologize API Integration', () => {
           }
         }
 
-        console.log('\n📊 CURRENT PLANETARY POSITIONS: ')
-        console.log('================================')
-        console.log('Timestamp:', new Date().toISOString())
-        console.log('--------------------------------')
+        _logger.info('\n📊 CURRENT PLANETARY POSITIONS: ')
+        _logger.info('================================')
+        _logger.info('Timestamp:', new Date().toISOString())
+        _logger.info('--------------------------------')
 
         Object.entries(positions || []).forEach(([_planet, position]: [string, any]) => {
-          console.log(
+          _logger.info(
             `${_planet.padEnd(10)}: ${(position as { sign?: string }).sign.toUpperCase()?.padEnd(12)} ${(position as { degree: number }).degree.toFixed(2).padStart(5)}° (${(position as { exactLongitude?: number }).exactLongitude.toFixed(2)?.padStart(6)}°)`,
           )
         })
 
-        console.log('================================\n')
+        _logger.info('================================\n')
       } catch (error) {
-        console.log('❌ Failed to get current positions (expected in test environment):',
+        _logger.info('❌ Failed to get current positions (expected in test environment):',
           (error as { message: string }).message,
         )
         // In test environment, API calls may fail - this is expected
@@ -102,9 +102,9 @@ describe('Astrologize API Integration', () => {
         const _customLocation: any = { latitude: 51.5074, longitude: -0.1278 }; // London
         const positions: any = await getCurrentPlanetaryPositions()
         expect(typeof positions).toBe('object')
-        console.log('✅ Successfully got positions for custom location (London)')
+        _logger.info('✅ Successfully got positions for custom location (London)')
       } catch (error) {
-        console.log('❌ Failed to get positions for custom location (expected in test environment)')
+        _logger.info('❌ Failed to get positions for custom location (expected in test environment)')
       }
     }, 30000)
   })
@@ -116,21 +116,21 @@ describe('Astrologize API Integration', () => {
         const positions: any = await getPlanetaryPositionsForDateTime(testDate)
         expect(typeof positions).toBe('object')
 
-        console.log('\n🌞 SUMMER SOLSTICE 2024 POSITIONS:')
-        console.log('===================================')
-        console.log('Date:', testDate.toISOString())
-        console.log('-----------------------------------')
+        _logger.info('\n🌞 SUMMER SOLSTICE 2024 POSITIONS:')
+        _logger.info('===================================')
+        _logger.info('Date:', testDate.toISOString())
+        _logger.info('-----------------------------------')
 
         if (positions.Sun) {
-          console.log(`Sun should be at beginning of cancer (around 0° cancer)`)
-          console.log(
+          _logger.info(`Sun should be at beginning of cancer (around 0° cancer)`)
+          _logger.info(
             `Actual: ${positions.Sun.sign.toUpperCase()} ${(positions.Sun as { degree: number }).degree.toFixed(2)}°`,
           )
         }
 
-        console.log('===================================\n')
+        _logger.info('===================================\n')
       } catch (error) {
-        console.log('❌ Failed to get positions for specific date (expected in test environment)')
+        _logger.info('❌ Failed to get positions for specific date (expected in test environment)')
       }
     }, 30000)
 
@@ -142,22 +142,22 @@ describe('Astrologize API Integration', () => {
         const positions: any = await getPlanetaryPositionsForDateTime(birthDate)
         expect(typeof positions).toBe('object')
 
-        console.log('\n🎂 EXAMPLE BIRTH CHART POSITIONS:')
-        console.log('==================================')
-        console.log('Date:', birthDate.toISOString())
-        console.log('Location: NYC (40.7498, -73.7976)')
-        console.log('----------------------------------')
+        _logger.info('\n🎂 EXAMPLE BIRTH CHART POSITIONS:')
+        _logger.info('==================================')
+        _logger.info('Date:', birthDate.toISOString())
+        _logger.info('Location: NYC (40.7498, -73.7976)')
+        _logger.info('----------------------------------')
 
         Object.entries(positions || []).forEach(([_planet, position]) => {
           const retrograde: any = (position as { isRetrograde?: boolean }).isRetrograde ? ' (R)' : ''
-          console.log(
+          _logger.info(
             `${_planet.padEnd(10)}: ${(position as { sign?: string }).sign.toUpperCase()?.padEnd(12)} ${(position as { degree: number }).degree.toFixed(2).padStart(5)}°${retrograde}`,
           )
         })
 
-        console.log('==================================\n')
+        _logger.info('==================================\n')
       } catch (error) {
-        console.log('❌ Failed to get birth chart positions (expected in test environment)')
+        _logger.info('❌ Failed to get birth chart positions (expected in test environment)')
       }
     }, 30000)
   })
@@ -177,7 +177,7 @@ describe('Astrologize API Integration', () => {
         })
       } catch (error) {
         expect(error).toBeInstanceOf(Error)
-        console.log('✅ API error handling working correctly')
+        _logger.info('✅ API error handling working correctly')
       }
     })
 
@@ -197,9 +197,9 @@ describe('Astrologize API Integration', () => {
           expect(typeof (position as { isRetrograde?: boolean }).isRetrograde).toBe('boolean')
         })
 
-        console.log('✅ Planetary data structure validation passed')
+        _logger.info('✅ Planetary data structure validation passed')
       } catch (error) {
-        console.log('❌ Planetary data validation failed (expected in test environment)')
+        _logger.info('❌ Planetary data validation failed (expected in test environment)')
       }
     })
   })
@@ -215,9 +215,9 @@ describe('Astrologize API Integration', () => {
       try {
         const positions: any = getCurrentPlanetaryPositions()
         expect(typeof positions).toBe('object')
-        console.log('✅ Integration with geolocation simulation working')
+        _logger.info('✅ Integration with geolocation simulation working')
       } catch (error) {
-        console.log('❌ Geolocation integration failed (expected in test environment)')
+        _logger.info('❌ Geolocation integration failed (expected in test environment)')
       }
     })
 
@@ -228,7 +228,7 @@ describe('Astrologize API Integration', () => {
       expect(typeof getPlanetaryPositionsForDateTime).toBe('function')
       expect(typeof testAstrologizeApi).toBe('function')
 
-      console.log('✅ Hook integration functions available')
+      _logger.info('✅ Hook integration functions available')
     })
   })
 })
@@ -236,24 +236,24 @@ describe('Astrologize API Integration', () => {
 // Additional utility test to show real-time output
 describe('Real-time Astrologize Output Demo', () => {
   test('should demonstrate current moment astrology data', async () => {
-    console.log('\n🌟 REAL-TIME ASTROLOGY DEMONSTRATION')
-    console.log('=====================================')
+    _logger.info('\n🌟 REAL-TIME ASTROLOGY DEMONSTRATION')
+    _logger.info('=====================================')
 
     try {
       // Test API connection first
       const isConnected: any = await testAstrologizeApi()
-      console.log(`API Connection Status: ${isConnected ? '✅ CONNECTED' : '❌ DISCONNECTED'}`)
+      _logger.info(`API Connection Status: ${isConnected ? '✅ CONNECTED' : '❌ DISCONNECTED'}`)
 
       if (isConnected !== null) {
-        console.log('\n📡 LIVE API DATA: ')
-        console.log('-----------------')
+        _logger.info('\n📡 LIVE API DATA: ')
+        _logger.info('-----------------')
 
         // Get current positions
         const currentPositions: any = await getCurrentPlanetaryPositions()
         // Display in a nice format
-        console.log('🌍 Current Location: Default (NYC area)')
-        console.log('⏰ Current Time:', new Date().toLocaleString())
-        console.log('\n🪐 PLANETARY POSITIONS: ')
+        _logger.info('🌍 Current Location: Default (NYC area)')
+        _logger.info('⏰ Current Time:', new Date().toLocaleString())
+        _logger.info('\n🪐 PLANETARY POSITIONS: ')
 
         const planetOrder: any = [
           'Sun',
@@ -272,23 +272,23 @@ describe('Real-time Astrologize Output Demo', () => {
           if (currentPositions[planet]) {
             const pos: any = currentPositions[planet];
             const retrograde: any = (pos as { isRetrograde?: boolean }).isRetrograde ? ' ℞' : '';
-            console.log(
+            _logger.info(
               `  ${planet.padEnd(8)}: ${pos.sign.charAt(0).toUpperCase() + pos.sign.slice(1).padEnd(11)} ${(pos as { degree: number }).degree.toFixed(2).padStart(5)}°${retrograde}`,
             )
           }
         })
 
         // Calculate some basic interpretations
-        console.log('\n📈 QUICK INSIGHTS: ')
+        _logger.info('\n📈 QUICK INSIGHTS: ')
         const sunPos: any = currentPositions.Sun;
         const moonPos: any = currentPositions.moon;
 
         if (sunPos !== null) {
-          console.log(`  🌞 Sun is in ${sunPos.sign.toUpperCase()} - Currently ${getSeason(sunPos.sign)} season`)
+          _logger.info(`  🌞 Sun is in ${sunPos.sign.toUpperCase()} - Currently ${getSeason(sunPos.sign)} season`)
         }
 
         if (moonPos !== null) {
-          console.log(
+          _logger.info(
             `  🌙 Moon is in ${moonPos.sign.toUpperCase()} - Emotional focus on ${getElementDescription(getSignElement(moonPos.sign))} themes`,
           )
         }
@@ -302,25 +302,25 @@ describe('Real-time Astrologize Output Demo', () => {
           }
         })
 
-        console.log('\n🔥 ELEMENTAL DISTRIBUTION: ')
+        _logger.info('\n🔥 ELEMENTAL DISTRIBUTION: ')
         Object.entries(elementCounts || []).forEach(([element, count]) => {
           const emoji: any = { Fire: '🔥', Earth: '🌍', Air: '💨', Water: '🌊' }[element as keyof typeof elementCounts];
-          console.log(`  ${emoji} ${element.charAt(0).toUpperCase() + element.slice(1)}: ${count} planets`)
+          _logger.info(`  ${emoji} ${element.charAt(0).toUpperCase() + element.slice(1)}: ${count} planets`)
         })
       } else {
-        console.log('\n📊 FALLBACK DATA (API unavailable): ')
-        console.log('------------------------------------')
-        console.log('Note: This would show real-time data when API is available')
-        console.log('Current test shows that integration is properly set up')
+        _logger.info('\n📊 FALLBACK DATA (API unavailable): ')
+        _logger.info('------------------------------------')
+        _logger.info('Note: This would show real-time data when API is available')
+        _logger.info('Current test shows that integration is properly set up')
       }
     } catch (error) {
-      console.log('\n❌ Demo failed (expected in test environment)')
-      console.log('This demonstrates error handling is working correctly')
+      _logger.info('\n❌ Demo failed (expected in test environment)')
+      _logger.info('This demonstrates error handling is working correctly')
     }
 
-    console.log('\n=====================================')
-    console.log('🎯 Integration Status: READY FOR PRODUCTION')
-    console.log('=====================================\n')
+    _logger.info('\n=====================================')
+    _logger.info('🎯 Integration Status: READY FOR PRODUCTION')
+    _logger.info('=====================================\n')
   }, 45000); // Longer timeout for comprehensive demo
 })
 

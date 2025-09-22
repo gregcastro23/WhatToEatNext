@@ -95,7 +95,7 @@ export class EnterpriseIntelligenceGenerator {
    * Generate intelligence systems from transformation candidates
    */
   async generateIntelligenceSystems(fileAnalyses: FileAnalysis[]): Promise<GenerationResult[]> {
-    // // // console.log('🧠 Starting enterprise intelligence generation...')
+    // // // _logger.info('🧠 Starting enterprise intelligence generation...')
 
     const results: GenerationResult[] = []
 
@@ -104,9 +104,9 @@ export class EnterpriseIntelligenceGenerator {
         try {
           const result = await this.generateIntelligenceSystem(candidate, fileAnalysis.filePath),
           results.push(result)
-          // // // console.log(`✅ Generated: ${result.systemName}`)
+          // // // _logger.info(`✅ Generated: ${result.systemName}`)
         } catch (error) {
-          console.warn(
+          _logger.warn(
             `⚠️  Failed to generate intelligence system for ${candidate.export.exportName}:`,
             error,
           )
@@ -114,7 +114,7 @@ export class EnterpriseIntelligenceGenerator {
       }
     }
 
-    // // // console.log(`🎉 Generated ${results.length} intelligence systems ?? undefined`)
+    // // // _logger.info(`🎉 Generated ${results.length} intelligence systems ?? undefined`)
     return results;
   }
 
@@ -599,7 +599,7 @@ ${capabilities
 
   private handleError(method: string, error: unknown): void {
     if (this.config.logLevel === 'debug' || this.config.logLevel === 'error') {
-      console.error(\`\${systemName}.\${method} error:\`, error)
+      _logger.error(\`\${systemName}.\${method} error:\`, error)
     }
     
     this.analytics.performanceMetrics.errorRate =

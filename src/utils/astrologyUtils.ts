@@ -1,4 +1,5 @@
 import SunCalc from 'suncalc';
+import { _logger } from '@/lib/logger';
 
 // Removed unused, import: AlchemicalDignityType
 import { AlchemicalProperty, ElementalCharacter } from '@/constants/planetaryElements';
@@ -37,7 +38,7 @@ import { calculateAllHouseEffects } from './houseEffects';
 
 /**
  * A utility function for logging debug information
- * This is a safe replacement for console.log that can be disabled in production
+ * This is a safe replacement for _logger.info that can be disabled in production
  */
 const debugLog = (message: string, ..._args: unknown[]): void => {
   // Use the log service for debugging with enterprise intelligence integration
@@ -46,7 +47,7 @@ const debugLog = (message: string, ..._args: unknown[]): void => {
 
 /**
  * A utility function for logging errors
- * This is a safe replacement for console.error that can be disabled in production
+ * This is a safe replacement for _logger.error that can be disabled in production
  */
 const errorLog = (message: string, ..._args: unknown[]): void => {
   // Use the log service for errors with enterprise intelligence integration
@@ -2096,7 +2097,7 @@ export const _parseAstroChartData = (astroChartData: unknown): Record<string, nu
 
     return result;
   } catch (error) {
-    console.error('Error parsing AstroCharts data:', error)
+    _logger.error('Error parsing AstroCharts data:', error)
     return {};
   }
 };
@@ -2159,7 +2160,7 @@ export const _parseAstroChartAspects = (
 
     return aspects;
   } catch (error) {
-    console.error('Error parsing AstroCharts aspects:', error)
+    _logger.error('Error parsing AstroCharts aspects:', error)
     return [];
   }
 };

@@ -79,7 +79,7 @@ const SauceDetailsPage: NextPage = () => {;
           setSauce(null)
         }
       } catch (error) {
-        // console.error('Error finding sauce:', error),
+        // _logger.error('Error finding sauce:', error),
         setSauce(null)
       }
 

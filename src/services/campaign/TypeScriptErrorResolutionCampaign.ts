@@ -84,7 +84,7 @@ export class TypeScriptErrorResolutionCampaign {
    * Initialize the TypeScript error resolution campaign
    */
   async initializeCampaign(): Promise<void> {
-    // // // console.log('🚀 Initializing TypeScript Error Resolution Campaign')
+    // // // _logger.info('🚀 Initializing TypeScript Error Resolution Campaign')
 
     // Get current error baseline
     await this.updateErrorMetrics()
@@ -111,7 +111,7 @@ export class TypeScriptErrorResolutionCampaign {
       emergencyStopConditions: ['build_failure', 'test_failure', 'memory_leak']
     })
 
-    // // // console.log(`📊 Campaign initialized with ${this.metrics.totalErrors} total errors`)
+    // // // _logger.info(`📊 Campaign initialized with ${this.metrics.totalErrors} total errors`)
   }
 
   /**
@@ -123,7 +123,7 @@ export class TypeScriptErrorResolutionCampaign {
       throw new Error(`Phase ${phaseId} not found`)
     }
 
-    // // // console.log(`🎯 Starting Phase: ${phase.name} (Priority: ${phase.priority})`)
+    // // // _logger.info(`🎯 Starting Phase: ${phase.name} (Priority: ${phase.priority})`)
 
     // Update phase status
     phase.status = 'in_progress';
@@ -151,14 +151,14 @@ export class TypeScriptErrorResolutionCampaign {
       phase.endTime = new Date()
       await this.updateErrorMetrics()
 
-      // // // console.log(`✅ Phase ${phase.name} completed successfully`)
-      // // // console.log(
+      // // // _logger.info(`✅ Phase ${phase.name} completed successfully`)
+      // // // _logger.info(
         `📈 Errors fixed: ${phase.errorsFixed}, Errors introduced: ${phase.errorsIntroduced}`,
       )
 
       return phase;
     } catch (error) {
-      console.error(`❌ Phase ${phase.name} failed:`, error)
+      _logger.error(`❌ Phase ${phase.name} failed:`, error)
 
       // Trigger rollback if necessary
       if (phase.errorsIntroduced > 10) {
@@ -178,7 +178,7 @@ export class TypeScriptErrorResolutionCampaign {
    * Analyze unused variables with enterprise intelligence
    */
   async analyzeUnusedVariables(): Promise<UnusedVariableIntelligence[]> {
-    // // // console.log('🔍 Analyzing unused variables with enterprise intelligence...')
+    // // // _logger.info('🔍 Analyzing unused variables with enterprise intelligence...')
 
     const unusedVariables: UnusedVariableIntelligence[] = [];
 
@@ -208,7 +208,7 @@ export class TypeScriptErrorResolutionCampaign {
       return aRelevance - bRelevance
     })
 
-    // // // console.log(`📋 Found ${unusedVariables.length} unused variables for analysis`)
+    // // // _logger.info(`📋 Found ${unusedVariables.length} unused variables for analysis`)
     return unusedVariables;
   }
 
@@ -221,7 +221,7 @@ export class TypeScriptErrorResolutionCampaign {
     investigated: number,
     errors: string[]
   }> {
-    // // // console.log('🧹 Starting enterprise-intelligent unused variable cleanup...')
+    // // // _logger.info('🧹 Starting enterprise-intelligent unused variable cleanup...')
 
     const unusedVariables = await this.analyzeUnusedVariables()
     const results = { removed: 0, kept: 0, investigated: 0, errors: [] };
@@ -234,12 +234,12 @@ export class TypeScriptErrorResolutionCampaign {
             break,
 
           case 'keep':
-            // // // console.log(`🔒 Keeping variable ${variable.variableName} due to enterprise context`)
+            // // // _logger.info(`🔒 Keeping variable ${variable.variableName} due to enterprise context`)
             results.kept++;
             break;
 
           case 'investigate':
-            // // // console.log(`🔍 Variable ${variable.variableName} requires manual investigation`)
+            // // // _logger.info(`🔍 Variable ${variable.variableName} requires manual investigation`)
             await this.flagForManualReview(variable)
             results.investigated++;
             break;
@@ -261,7 +261,7 @@ export class TypeScriptErrorResolutionCampaign {
       }
     }
 
-    // // // console.log(`✨ Unused variable cleanup completed:`, results)
+    // // // _logger.info(`✨ Unused variable cleanup completed:`, results)
     return results;
   }
 
@@ -362,7 +362,7 @@ export class TypeScriptErrorResolutionCampaign {
 
   private async removeUnusedVariable(variable: UnusedVariableIntelligence): Promise<void> {
     // Implementation for safely removing unused variables
-    // // // console.log(`Removing unused variable: ${variable.variableName}`)
+    // // // _logger.info(`Removing unused variable: ${variable.variableName}`)
   }
 
   private async validateFileAfterChange(
@@ -374,12 +374,12 @@ export class TypeScriptErrorResolutionCampaign {
 
   private async rollbackVariableChange(variable: UnusedVariableIntelligence): Promise<void> {
     // Rollback specific variable change
-    // // // console.log(`Rolling back change for: ${variable.variableName}`)
+    // // // _logger.info(`Rolling back change for: ${variable.variableName}`)
   }
 
   private async flagForManualReview(variable: UnusedVariableIntelligence): Promise<void> {
     // Flag variable for manual review
-    // // // console.log(`Flagged for manual review: ${variable.variableName}`)
+    // // // _logger.info(`Flagged for manual review: ${variable.variableName}`)
   }
 
   private getPhaseById(phaseId: string): ErrorResolutionPhase | null {
@@ -394,7 +394,7 @@ export class TypeScriptErrorResolutionCampaign {
 
   private async executePhaseLogic(phase: ErrorResolutionPhase): Promise<void> {
     // Execute the specific logic for each phase
-    // // // console.log(`Executing logic for phase: ${phase.name}`)
+    // // // _logger.info(`Executing logic for phase: ${phase.name}`)
   }
 
   private async validatePhaseResults(

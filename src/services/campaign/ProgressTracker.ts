@@ -44,7 +44,7 @@ export class ProgressTracker {
       // Apply Pattern GG-6: Safe property access for error message
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error'
-      console.warn(`Warning: Could not get TypeScript error count: ${errorMessage}`)
+      _logger.warn(`Warning: Could not get TypeScript error count: ${errorMessage}`)
       return -1; // Indicates measurement failure
     }
   }
@@ -83,7 +83,7 @@ export class ProgressTracker {
       const errorData = error as any;
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error'
-      console.warn(`Warning: Could not get TypeScript error breakdown: ${errorMessage}`)
+      _logger.warn(`Warning: Could not get TypeScript error breakdown: ${errorMessage}`)
       return {};
     }
   }
@@ -112,7 +112,7 @@ export class ProgressTracker {
       // Apply Pattern GG-6: Safe property access for error message
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error'
-      console.warn(`Warning: Could not get linting warning count: ${errorMessage}`)
+      _logger.warn(`Warning: Could not get linting warning count: ${errorMessage}`)
       return -1; // Indicates measurement failure
     }
   }
@@ -145,7 +145,7 @@ export class ProgressTracker {
       const errorData = error as any;
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error'
-      console.warn(`Warning: Could not get linting warning breakdown: ${errorMessage}`)
+      _logger.warn(`Warning: Could not get linting warning breakdown: ${errorMessage}`)
       return {};
     }
   }
@@ -171,7 +171,7 @@ export class ProgressTracker {
       const errorData = error as any;
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error'
-      console.warn(`Warning: Build failed during timing: ${errorMessage}`)
+      _logger.warn(`Warning: Build failed during timing: ${errorMessage}`)
       return -1; // Indicates build failure
     }
   }
@@ -194,7 +194,7 @@ export class ProgressTracker {
       const errorData = error as any;
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error'
-      console.warn(`Warning: Could not count enterprise systems: ${errorMessage}`)
+      _logger.warn(`Warning: Could not count enterprise systems: ${errorMessage}`)
       return 0;
     }
   }
@@ -212,7 +212,7 @@ export class ProgressTracker {
       const errorData = error as any;
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error'
-      console.warn(`Warning: Could not measure cache hit rate: ${errorMessage}`)
+      _logger.warn(`Warning: Could not measure cache hit rate: ${errorMessage}`)
       return 0;
     }
   }
@@ -232,7 +232,7 @@ export class ProgressTracker {
       const errorData = error as any;
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error'
-      console.warn(`Warning: Could not measure memory usage: ${errorMessage}`)
+      _logger.warn(`Warning: Could not measure memory usage: ${errorMessage}`)
       return 0;
     }
   }
@@ -264,7 +264,7 @@ export class ProgressTracker {
       const errorData = error as any;
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error'
-      console.warn(`Warning: Could not measure bundle size: ${errorMessage}`)
+      _logger.warn(`Warning: Could not measure bundle size: ${errorMessage}`)
       return 0;
     }
   }
@@ -356,7 +356,7 @@ export class ProgressTracker {
         ),
 
       default:
-        console.warn(`Unknown milestone: ${milestone}`),
+        _logger.warn(`Unknown milestone: ${milestone}`),
         return false
     }
   }
@@ -511,7 +511,7 @@ export class ProgressTracker {
       };
 
       fs.writeFileSync(filePath, JSON.stringify(exportData, null, 2))
-      // // // console.log(`📊 Metrics exported to: ${filePath}`)
+      // // // _logger.info(`📊 Metrics exported to: ${filePath}`)
     } catch (error) {
       throw new Error(`Failed to export metrics: ${(error as Error).message}`)
     }
@@ -523,6 +523,6 @@ export class ProgressTracker {
   resetMetricsHistory(): void {
     this.metricsHistory = [];
     this.lastMetricsUpdate = new Date()
-    // // // console.log('📊 Metrics history reset')
+    // // // _logger.info('📊 Metrics history reset')
   }
 }

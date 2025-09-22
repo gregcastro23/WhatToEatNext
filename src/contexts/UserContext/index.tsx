@@ -1,4 +1,5 @@
 'use client';
+import { _logger } from '@/lib/logger';
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 // Import { UserProfile } from '../../services/userService';
@@ -51,7 +52,7 @@ export const UserProvider: React.FC<UserProviderProps>  = ({ children }) => {
       setCurrentUser(user)
     } catch (err) {
       setError('Failed to load user profile')
-      console.error('Error loading profile:', err)
+      _logger.error('Error loading profile:', err)
     } finally {
       setIsLoading(false)
     }
@@ -74,7 +75,7 @@ export const UserProvider: React.FC<UserProviderProps>  = ({ children }) => {
       return updatedProfile;
     } catch (err) {
       setError('Failed to update profile')
-      console.error('Error updating profile:', err)
+      _logger.error('Error updating profile:', err)
       return null;
     } finally {
       setIsLoading(false)

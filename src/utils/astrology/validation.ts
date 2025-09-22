@@ -10,7 +10,7 @@ import type {
 import { CelestialPosition } from '@/types/celestial';
 /**
  * A utility function for logging debug information
- * This is a safe replacement for console.log that can be disabled in production
+ * This is a safe replacement for _logger.info that can be disabled in production
  */
 const _debugLog = (_message: string, ..._args: unknown[]): void => {
   // No-op for production
@@ -18,7 +18,7 @@ const _debugLog = (_message: string, ..._args: unknown[]): void => {
 
 /**
  * A utility function for logging errors
- * This is a safe replacement for console.error that can be disabled in production
+ * This is a safe replacement for _logger.error that can be disabled in production
  */
 const errorLog = (_message: string, ..._args: unknown[]): void => {
   // No-op for production

@@ -266,7 +266,7 @@ const processIngredientCollection = (
             (processedIngredient as unknown as any).planetaryInfluence || undefined
         } as unknown as Ingredient;
       } catch (error) {
-        console.warn(`Skipping invalid ingredient ${key}:`, error)
+        _logger.warn(`Skipping invalid ingredient ${key}:`, error)
       }
       return acc;
     },

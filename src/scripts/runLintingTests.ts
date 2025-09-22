@@ -59,24 +59,24 @@ class LintingTestRunner {
   }
 
   async runAllTests(): Promise<TestSuiteReport> {
-    // // // console.log('🚀 Starting Comprehensive Linting Test Suite...\n')
+    // // // _logger.info('🚀 Starting Comprehensive Linting Test Suite...\n')
 
     const results: TestResult[] = [];
     let totalDuration = 0
 
     for (const testFile of this.testFiles) {
-      // // // console.log(`📋 Running ${testFile}...`)
+      // // // _logger.info(`📋 Running ${testFile}...`)
       const result = await this.runSingleTest(testFile)
       void results.push(result)
       totalDuration += result.duration;
 
       if (result.passed) {
-        // // // console.log(`✅ ${testFile} - PASSED (${result.duration}ms)`)
+        // // // _logger.info(`✅ ${testFile} - PASSED (${result.duration}ms)`)
       } else {
-        // // // console.log(`❌ ${testFile} - FAILED (${result.duration}ms)`)
-        result.errors.forEach(error => // // // console.log(`   Error: ${error}`))
+        // // // _logger.info(`❌ ${testFile} - FAILED (${result.duration}ms)`)
+        result.errors.forEach(error => // // // _logger.info(`   Error: ${error}`))
       }
-      // // // console.log('')
+      // // // _logger.info('')
     }
 
     const report: TestSuiteReport = {
@@ -177,9 +177,9 @@ class LintingTestRunner {
     const markdownReport = this.generateMarkdownReport(report)
     writeFileSync(markdownReportPath, markdownReport)
 
-    // // // console.log(`📊 Reports generated: `)
-    // // // console.log(`   JSON: ${reportPath}`)
-    // // // console.log(`   Markdown: ${markdownReportPath}\n`)
+    // // // _logger.info(`📊 Reports generated: `)
+    // // // _logger.info(`   JSON: ${reportPath}`)
+    // // // _logger.info(`   Markdown: ${markdownReportPath}\n`)
   }
 
   private generateMarkdownReport(report: TestSuiteReport): string {
@@ -289,37 +289,37 @@ ${report.results
   private displaySummary(report: TestSuiteReport): void {
     const successRate = Math.round((report.passedTests / report.totalTests) * 100)
 
-    // // // console.log('📊 COMPREHENSIVE LINTING TEST SUITE SUMMARY')
-    // // // console.log('='.repeat(50))
-    // // // console.log(`Total Tests: ${report.totalTests}`)
-    // // // console.log(`Passed: ${report.passedTests}`)
-    // // // console.log(`Failed: ${report.failedTests}`)
-    // // // console.log(`Success Rate: ${successRate}%`)
-    // // // console.log(`Total Duration: ${report.totalDuration}ms`)
-    // // // console.log('')
+    // // // _logger.info('📊 COMPREHENSIVE LINTING TEST SUITE SUMMARY')
+    // // // _logger.info('='.repeat(50))
+    // // // _logger.info(`Total Tests: ${report.totalTests}`)
+    // // // _logger.info(`Passed: ${report.passedTests}`)
+    // // // _logger.info(`Failed: ${report.failedTests}`)
+    // // // _logger.info(`Success Rate: ${successRate}%`)
+    // // // _logger.info(`Total Duration: ${report.totalDuration}ms`)
+    // // // _logger.info('')
 
-    // // // console.log('📋 TEST CATEGORIES: ')
+    // // // _logger.info('📋 TEST CATEGORIES: ')
     Object.entries(report.summary).forEach(([category, passed]) => {
       const status = passed ? '✅ PASSED' : '❌ FAILED';
       const categoryName = category
         .replace(/([A-Z])/g, ' 1')
         .replace(/^./, str => str.toUpperCase()),
-      // // // console.log(`  ${categoryName}: ${status}`)
+      // // // _logger.info(`  ${categoryName}: ${status}`)
     })
-    // // // console.log('')
+    // // // _logger.info('')
 
     if (report.failedTests === 0) {
-      // // // console.log('🎉 ALL TESTS PASSED! Linting system is ready for production.')
+      // // // _logger.info('🎉 ALL TESTS PASSED! Linting system is ready for production.')
     } else {
-      // // // console.log('⚠️  Some tests failed. Please review the detailed report for issues.')
+      // // // _logger.info('⚠️  Some tests failed. Please review the detailed report for issues.')
     }
 
-    // // // console.log('')
-    // // // console.log('📁 Detailed reports available in .kiro/validation/linting/')
+    // // // _logger.info('')
+    // // // _logger.info('📁 Detailed reports available in .kiro/validation/linting/')
   }
 
   async validateSystemReadiness(): Promise<boolean> {
-    // // // console.log('🔍 Validating System Readiness...\n')
+    // // // _logger.info('🔍 Validating System Readiness...\n')
 
     const checks = [
       this.checkESLintConfiguration()
@@ -331,12 +331,12 @@ ${report.results
     const results = await Promise.all(checks)
     const allPassed = results.every(result => result.passed)
 
-    // // // console.log('📊 SYSTEM READINESS SUMMARY:')
+    // // // _logger.info('📊 SYSTEM READINESS SUMMARY:')
     results.forEach(result => {
       const status = result.passed ? '✅' : '❌'
-      // // // console.log(`  ${status} ${result.name}`)
+      // // // _logger.info(`  ${status} ${result.name}`)
       if (!result.passed && result.issues) {
-        result.issues.forEach(issue => // // // console.log(`     - ${issue}`))
+        result.issues.forEach(issue => // // // _logger.info(`     - ${issue}`))
       }
     })
 
@@ -492,7 +492,7 @@ async function main() {
     const exitCode = report.failedTests === 0 && isReady ? 0 : 1;
     void process.exit(exitCode)
   } catch (error) {
-    console.error('❌ Test suite execution failed:', error),
+    _logger.error('❌ Test suite execution failed:', error),
     void process.exit(1)
   }
 }

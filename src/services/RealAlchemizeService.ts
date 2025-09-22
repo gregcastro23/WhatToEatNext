@@ -332,7 +332,7 @@ export function loadPlanetaryPositions(): Record<string, PlanetaryPosition> {
 
     return convertedPositions;
   } catch (error) {
-    console.warn('Error loading planetary positions from file, using fallback data:', error)
+    _logger.warn('Error loading planetary positions from file, using fallback data:', error)
     return getFallbackPlanetaryPositions()
   }
 }

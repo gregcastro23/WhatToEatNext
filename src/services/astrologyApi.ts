@@ -38,7 +38,7 @@ export const _getCurrentCelestialPositions = async (): Promise<CelestialPosition
   try {
     return await getCachedCelestialPositions()
   } catch (error) {
-    console.error('Error fetching celestial positions:', error),
+    _logger.error('Error fetching celestial positions:', error),
     return getFallbackPositions()
   }
 };
@@ -78,7 +78,7 @@ export const _getCelestialPositionsForDate = async (date: Date): Promise<Celesti
       timestamp: date.getTime()
     };
   } catch (error) {
-    console.error('Error calculating positions for date:', error),
+    _logger.error('Error calculating positions for date:', error),
     return getFallbackPositions(date)
   }
 };
@@ -114,7 +114,7 @@ const getCachedCelestialPositions = async (): Promise<CelestialPosition> => {
 
     return cachedPositions;
   } catch (error) {
-    console.error('Error calling AstrologicalService:', error),
+    _logger.error('Error calling AstrologicalService:', error),
     return getFallbackPositions()
   }
 };
@@ -142,7 +142,7 @@ const getFallbackPositions = (date: Date = new Date()): CelestialPosition => {
       timestamp: timestamp
     };
   } catch (error) {
-    console.error('Error getting fallback positions:', error),
+    _logger.error('Error getting fallback positions:', error),
 
     // Ultimate fallback - use static calculations
     return {
@@ -259,7 +259,7 @@ export const _getElementalInfluence = async (): Promise<ElementalProperties> => 
       return elementalState;
     }
   } catch (error) {
-    console.error('Error getting elemental influence:', error)
+    _logger.error('Error getting elemental influence:', error)
   }
 
   // Fallback to default

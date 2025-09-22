@@ -140,7 +140,7 @@ export class MemoryLeakDetector {
       try {
         return pattern.detector()
       } catch (error) {
-        console.warn(`Error checking pattern ${pattern.name}:`, error)
+        _logger.warn(`Error checking pattern ${pattern.name}:`, error)
         return false;
       }
     })

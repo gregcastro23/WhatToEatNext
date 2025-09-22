@@ -45,7 +45,7 @@ function safeGetItem(key: string): string | null {
   try {
     return sessionStorage.getItem(key)
   } catch (error) {
-    console.warn(`Failed to get item from sessionStorage: ${key}`, error)
+    _logger.warn(`Failed to get item from sessionStorage: ${key}`, error)
     return null;
   }
 }
@@ -58,7 +58,7 @@ function safeSetItem(key: string, value: string): boolean {
     sessionStorage.setItem(key, value)
     return true;
   } catch (error) {
-    console.warn(`Failed to set item in sessionStorage: ${key}`, error)
+    _logger.warn(`Failed to set item in sessionStorage: ${key}`, error)
     return false;
   }
 }
@@ -109,7 +109,7 @@ export function getNavigationState(): NavigationState {
     const data = (parsed.data || {}) as Partial<NavigationState>;
     return { ...defaultState, ...data };
   } catch (error) {
-    console.warn('Failed to parse navigation state:', error)
+    _logger.warn('Failed to parse navigation state:', error)
     return defaultState;
   }
 }
@@ -151,7 +151,7 @@ function getComponentStates(): Record<string, ComponentState> {
   try {
     return JSON.parse(stored)
   } catch (error) {
-    console.warn('Failed to parse component states:', error)
+    _logger.warn('Failed to parse component states:', error)
     return {};
   }
 }
@@ -193,7 +193,7 @@ function getScrollPositions(): Record<string, ComponentState> {
   try {
     return JSON.parse(stored)
   } catch (error) {
-    console.warn('Failed to parse scroll positions:', error)
+    _logger.warn('Failed to parse scroll positions:', error)
     return {};
   }
 }
@@ -206,7 +206,7 @@ export function clearAllState(): void {
     try {
       sessionStorage.removeItem(key)
     } catch (error) {
-      console.warn(`Failed to remove item from sessionStorage: ${key}`, error)
+      _logger.warn(`Failed to remove item from sessionStorage: ${key}`, error)
     }
   })
 }

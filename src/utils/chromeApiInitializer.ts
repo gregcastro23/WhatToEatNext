@@ -1,4 +1,5 @@
 import { log } from '@/services/LoggingService';
+import { _logger } from '@/lib/logger';
 /**
  * Chrome API Initializer
  *
@@ -22,7 +23,7 @@ export function initializeChromeApis(): void {
             e.message.includes('extension') ||
             e.message.includes('Cannot read properties of undefined (reading'))
         ) {
-          console.warn('[ChromeAPI] Safely suppressed error:', e.message)
+          _logger.warn('[ChromeAPI] Safely suppressed error:', e.message)
           return true; // Prevent default error handling
         }
         return false; // Let other errors propagate normally
@@ -50,11 +51,11 @@ export function initializeChromeApis(): void {
               setTimeout(() => {
                 const newTab = window.open(options.url, '_blank')
                 if (!newTab) {
-                  console.warn('[ChromeAPI] Popup may have been blocked')
+                  _logger.warn('[ChromeAPI] Popup may have been blocked')
                 }
               }, 10)
             } catch (e) {
-              console.warn('[ChromeAPI] Error opening URL:', e)
+              _logger.warn('[ChromeAPI] Error opening URL:', e)
             }
           }
 
@@ -167,7 +168,7 @@ export function initializeChromeApis(): void {
 
     log.info('[ChromeAPI] Successfully initialized Chrome extension API mocks')
   } catch (error) {
-    console.warn('[ChromeAPI] Error initializing Chrome APIs:', error)
+    _logger.warn('[ChromeAPI] Error initializing Chrome APIs:', error)
   }
 }
 

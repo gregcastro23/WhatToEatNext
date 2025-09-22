@@ -34,11 +34,11 @@ async function downloadFile(filename: string, baseUrl = BASE_URL): Promise<void>
       .get(url, response => {
         // Handle redirects or failed downloads
         if (response.statusCode === 302 || response.statusCode === 404) {
-          // // // // console.log(`File ${filename} not found at primary source, trying backup...`)
+          // // // // _logger.info(`File ${filename} not found at primary source, trying backup...`)
           if (BACKUP_FILES.includes(filename)) {
             downloadFile(filename, BACKUP_URL).then(resolve).catch(reject)
           } else {
-            // console.warn(`Warning: File ${filename} not found, but not critical.`)
+            // _logger.warn(`Warning: File ${filename} not found, but not critical.`)
             resolve()
           }
           return;
@@ -48,15 +48,15 @@ async function downloadFile(filename: string, baseUrl = BASE_URL): Promise<void>
         response.pipe(fileStream)
         fileStream.on('finish', () => {
           fileStream.close()
-          // // // // console.log(`Successfully downloaded ${filename}`)
+          // // // // _logger.info(`Successfully downloaded ${filename}`)
           resolve()
         })
       })
       .on('error', error => {
-        // console.error(`Error downloading ${filename}:`, error.message)
+        // _logger.error(`Error downloading ${filename}:`, error.message)
         // Try backup for essential files
         if (BACKUP_FILES.includes(filename)) {
-          // // // // console.log(`Trying backup source for ${filename}...`)
+          // // // // _logger.info(`Trying backup source for ${filename}...`)
           downloadFile(filename, BACKUP_URL).then(resolve).catch(reject)
         } else {
           reject(error)
@@ -68,9 +68,9 @@ async function downloadFile(filename: string, baseUrl = BASE_URL): Promise<void>
 async function main() {
   try {
     await Promise.all(FILES.map(file => downloadFile(file)))
-    // // // // console.log('Ephemeris files downloaded successfully')
+    // // // // _logger.info('Ephemeris files downloaded successfully')
   } catch (error) {
-    // console.error('Failed to download ephemeris files:', error)
+    // _logger.error('Failed to download ephemeris files:', error)
     process.exit(1)
   }
 }

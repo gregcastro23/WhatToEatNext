@@ -86,7 +86,7 @@ export class EnhancedRecommendationService {
         ])
       } catch (error) {
         // Fall back to local recommendations
-        console.warn('Backend influence failed, using local recommendations:', error)
+        _logger.warn('Backend influence failed, using local recommendations:', error)
       }
     }
 
@@ -201,7 +201,7 @@ export class EnhancedRecommendationService {
           })
         ])
       } catch (error) {
-        console.warn('Backend influence failed for ingredients:', error)
+        _logger.warn('Backend influence failed for ingredients:', error)
       }
     }
 
@@ -286,7 +286,7 @@ export class EnhancedRecommendationService {
           })
         ])
       } catch (error) {
-        console.warn('Backend influence failed for recipes:', error)
+        _logger.warn('Backend influence failed for recipes:', error)
       }
     }
 

@@ -118,7 +118,7 @@ class ErrorTrackingSystem {
         this.qualityHistory = data.qualityHistory || [];
       }
     } catch (error) {
-      console.warn('[Error Tracking System] Failed to load historical data:', error)
+      _logger.warn('[Error Tracking System] Failed to load historical data:', error)
     }
   }
 
@@ -140,7 +140,7 @@ class ErrorTrackingSystem {
 
       fs.writeFileSync(dataPath, JSON.stringify(data, null, 2))
     } catch (error) {
-      console.error('[Error Tracking System] Failed to save historical data:', error)
+      _logger.error('[Error Tracking System] Failed to save historical data:', error)
     }
   }
 
@@ -253,7 +253,7 @@ class ErrorTrackingSystem {
         this.updateLintingViolations(violations)
         return violations
       } catch (parseError) {
-        console.error('[Error Tracking] Failed to parse linting results:', parseError),
+        _logger.error('[Error Tracking] Failed to parse linting results:', parseError),
         return []
       }
     }
@@ -343,7 +343,7 @@ class ErrorTrackingSystem {
     // Analyze root cause
     buildFailure.rootCause = this.analyzeRootCause(buildFailure)
 
-    console.error('[Build Failure]', buildFailure)
+    _logger.error('[Build Failure]', buildFailure)
   }
 
   private analyzeRootCause(failure: BuildFailure): string {
@@ -380,12 +380,12 @@ class ErrorTrackingSystem {
   private analyzeCurrentErrors() {
     // Analyze TypeScript errors
     this.analyzeTypeScriptErrors().catch(error => {
-      console.error('[Error Tracking] Failed to analyze TypeScript errors:', error)
+      _logger.error('[Error Tracking] Failed to analyze TypeScript errors:', error)
     })
 
     // Analyze linting violations
     this.analyzeLintingViolations().catch(error => {
-      console.error('[Error Tracking] Failed to analyze linting violations:', error)
+      _logger.error('[Error Tracking] Failed to analyze linting violations:', error)
     })
   }
 
@@ -637,7 +637,7 @@ class ErrorTrackingSystem {
       try {
         callback(data)
       } catch (error) {
-        console.error('[Error Tracking System] Subscriber error:', error)
+        _logger.error('[Error Tracking System] Subscriber error:', error)
       }
     })
   }

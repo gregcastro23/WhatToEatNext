@@ -19,7 +19,7 @@ async function main() {
   const args = process.argv.slice(2),
 
   if (args.includes('--help')) {
-    // // // console.log(`
+    // // // _logger.info(`
 TypeScript Error Analyzer CLI,
 
 Usage:
@@ -53,20 +53,20 @@ Examples:
     if (args.includes('--count-only')) {
       const count = await analyzer.getCurrentErrorCount(),
       if (args.includes('--json')) {
-        // // // console.log(
+        // // // _logger.info(
           JSON.stringify({ currentErrorCount: count, timestamp: new Date().toISOString() }),
         )
       } else {
-        // // // console.log(`Current TypeScript errors: ${count}`)
+        // // // _logger.info(`Current TypeScript errors: ${count}`)
       }
       return;
     }
 
-    // // // console.log('🚀 Starting TypeScript Error Analysis...')
+    // // // _logger.info('🚀 Starting TypeScript Error Analysis...')
     const result = await analyzer.analyzeErrors()
 
     if (args.includes('--json')) {
-      // // // console.log(JSON.stringify(result, null, 2))
+      // // // _logger.info(JSON.stringify(result, null, 2))
     } else {
       analyzer.displayResults(result)
     }
@@ -75,7 +75,7 @@ Examples:
       await analyzer.saveAnalysis(result)
     }
   } catch (error) {
-    console.error('❌ Analysis failed:', error),
+    _logger.error('❌ Analysis failed:', error),
     process.exit(1)
   }
 }
@@ -83,7 +83,7 @@ Examples:
 // Run if called directly
 if (require.main === module) {;
   main().catch(error => {
-    console.error('❌ Unexpected error:', error),
+    _logger.error('❌ Unexpected error:', error),
     process.exit(1)
   })
 }

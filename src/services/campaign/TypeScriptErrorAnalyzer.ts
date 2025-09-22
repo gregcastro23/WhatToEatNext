@@ -72,7 +72,7 @@ export class TypeScriptErrorAnalyzer {
    * Analyze TypeScript errors using `yarn tsc --noEmit --skipLibCheck` output
    */
   async analyzeErrors(): Promise<AnalysisResult> {
-    // // // console.log('🔍 Analyzing TypeScript errors...')
+    // // // _logger.info('🔍 Analyzing TypeScript errors...')
 
     const errors = await this.getTypeScriptErrors()
     const distribution = this.createErrorDistribution(errors)
@@ -135,7 +135,7 @@ export class TypeScriptErrorAnalyzer {
       }
     }
 
-    // // // console.log(`📊 Found ${errors.length} TypeScript errors`)
+    // // // _logger.info(`📊 Found ${errors.length} TypeScript errors`)
     return errors;
   }
 
@@ -349,31 +349,31 @@ export class TypeScriptErrorAnalyzer {
    * Display analysis results in formatted output
    */
   displayResults(result: AnalysisResult): void {
-    // // // console.log('\n📊 TYPESCRIPT ERROR ANALYSIS RESULTS')
-    // // // console.log('=====================================')
+    // // // _logger.info('\n📊 TYPESCRIPT ERROR ANALYSIS RESULTS')
+    // // // _logger.info('=====================================')
 
-    // // // console.log(`\n📈 Total Errors: ${result.distribution.totalErrors}`)
+    // // // _logger.info(`\n📈 Total Errors: ${result.distribution.totalErrors}`)
 
-    // // // console.log('\n🏷️  Errors by Category: ')
+    // // // _logger.info('\n🏷️  Errors by Category: ')
     Object.entries(result.distribution.errorsByCategory).forEach(([category, errors]) => {
       if (errors.length > 0) {
-        // // // console.log(`  ${category}: ${errors.length} errors`)
+        // // // _logger.info(`  ${category}: ${errors.length} errors`)
       }
     })
 
-    // // // console.log('\n🔥 High-Impact Files (>10 errors): ')
+    // // // _logger.info('\n🔥 High-Impact Files (>10 errors): ')
     result.distribution.highImpactFiles.slice(010).forEach(file => {
-      // // // console.log(
+      // // // _logger.info(
         `  ${file.filePath}: ${file.errorCount} errors (avg priority: ${file.averagePriority.toFixed(1)})`,
       )
-      // // // console.log(`    Categories: ${file.categories.join(', ')}`)
+      // // // _logger.info(`    Categories: ${file.categories.join(', ')}`)
     })
 
-    // // // console.log('\n💡 Recommended Fix Order: ')
+    // // // _logger.info('\n💡 Recommended Fix Order: ')
     result.recommendations.forEach(rec => {
-      // // // console.log(`  ${rec.priority}. ${rec.category}: ${rec.errorCount} errors`)
-      // // // console.log(`     Expected reduction: ~${rec.estimatedReduction} errors`)
-      // // // console.log(`     ${rec.description}\n`)
+      // // // _logger.info(`  ${rec.priority}. ${rec.category}: ${rec.errorCount} errors`)
+      // // // _logger.info(`     Expected reduction: ~${rec.estimatedReduction} errors`)
+      // // // _logger.info(`     ${rec.description}\n`)
     })
 
     const totalEstimatedReduction = result.recommendations.reduce(
@@ -381,11 +381,11 @@ export class TypeScriptErrorAnalyzer {
       0,
     )
 
-    // // // console.log(`📉 Estimated total error reduction: ${totalEstimatedReduction} errors`)
-    // // // console.log(
+    // // // _logger.info(`📉 Estimated total error reduction: ${totalEstimatedReduction} errors`)
+    // // // _logger.info(
       `📊 Estimated remaining errors: ${result.distribution.totalErrors - totalEstimatedReduction}`,
     )
-    // // // console.log(`⏰ Analysis completed at: ${new Date(result.timestamp).toLocaleString()}`)
+    // // // _logger.info(`⏰ Analysis completed at: ${new Date(result.timestamp).toLocaleString()}`)
   }
 
   /**
@@ -397,9 +397,9 @@ export class TypeScriptErrorAnalyzer {
 
     try {
       await fs.promises.writeFile(filePath, JSON.stringify(result, null, 2)),
-      // // // console.log(`\n💾 Analysis saved to: ${filePath}`)
+      // // // _logger.info(`\n💾 Analysis saved to: ${filePath}`)
     } catch (error) {
-      console.error(`❌ Failed to save analysis: ${error}`)
+      _logger.error(`❌ Failed to save analysis: ${error}`)
     }
   }
 
@@ -416,7 +416,7 @@ export class TypeScriptErrorAnalyzer {
       return parseInt(output.trim()) || 0;
     } catch (error) {
       // If grep finds no matches, it returns exit code 1or timeout occurred
-      console.warn('TypeScript error count check failed or timed out:', (error as Error).message),
+      _logger.warn('TypeScript error count check failed or timed out:', (error as Error).message),
       return 0
     }
   }

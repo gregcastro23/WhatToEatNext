@@ -41,35 +41,35 @@ class Logger {
           this.debug(message, { component, args })
         } catch (e) {
           // Silent failure - logging errors should not break application
-          console.warn(`[LOGGER-ERROR] Failed to log debug message for ${component}:`, e)
+          _logger.warn(`[LOGGER-ERROR] Failed to log debug message for ${component}:`, e)
         }
       },
       log: (message: string, ...args: unknown[]): void => {
         try {
           this.info(message, { component, args })
         } catch (e) {
-          console.warn(`[LOGGER-ERROR] Failed to log message for ${component}:`, e)
+          _logger.warn(`[LOGGER-ERROR] Failed to log message for ${component}:`, e)
         }
       },
       info: (message: string, ...args: unknown[]): void => {
         try {
           this.info(message, { component, args })
         } catch (e) {
-          console.warn(`[LOGGER-ERROR] Failed to log info message for ${component}:`, e)
+          _logger.warn(`[LOGGER-ERROR] Failed to log info message for ${component}:`, e)
         }
       },
       warn: (message: string, ...args: unknown[]): void => {
         try {
           this.warn(message, { component, args })
         } catch (e) {
-          console.warn(`[LOGGER-ERROR] Failed to log warning for ${component}:`, e)
+          _logger.warn(`[LOGGER-ERROR] Failed to log warning for ${component}:`, e)
         }
       },
       error: (message: string, ...args: unknown[]): void => {
         try {
           this.error(message, { component, args })
         } catch (e) {
-          console.error(`[LOGGER-ERROR] Failed to log error for ${component}:`, e)
+          _logger.error(`[LOGGER-ERROR] Failed to log error for ${component}:`, e)
         }
       }
     };
@@ -104,7 +104,7 @@ class Logger {
     if (this.shouldLog('warn')) {
       const options = this.extractOptions(args)
       const component = options.component ? `[${options.component}]` : ''
-      console.warn(`[WARN]${component} ${message}`, ...options.rest)
+      _logger.warn(`[WARN]${component} ${message}`, ...options.rest)
     }
   }
 
@@ -115,7 +115,7 @@ class Logger {
     if (this.shouldLog('error')) {
       const options = this.extractOptions(args)
       const component = options.component ? `[${options.component}]` : ''
-      console.error(`[ERROR]${component} ${message}`, ...options.rest)
+      _logger.error(`[ERROR]${component} ${message}`, ...options.rest)
 
       // Store error for summary
       this.storeError(message, options.component)

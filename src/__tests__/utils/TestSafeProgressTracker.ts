@@ -72,7 +72,7 @@ export class TestSafeProgressTracker {
    */
   startTracking(testName?: string): void {
     if (this.isTracking) {
-      console.warn('Progress tracking already active')
+      _logger.warn('Progress tracking already active')
       return
     }
 
@@ -91,7 +91,7 @@ export class TestSafeProgressTracker {
       this.startProgressSimulation()
     }
 
-    console.log(`Test-safe progress tracking started${testName ? ` for ${testName}` : ''}`)
+    _logger.info(`Test-safe progress tracking started${testName ? ` for ${testName}` : ''}`)
   }
 
   /**
@@ -116,7 +116,7 @@ export class TestSafeProgressTracker {
     // Perform memory cleanup
     this.performMemoryCleanup(testName)
 
-    console.log(`Test-safe progress tracking stopped${testName ? ` for ${testName}` : ''}`)
+    _logger.info(`Test-safe progress tracking stopped${testName ? ` for ${testName}` : ''}`)
   }
 
   /**
@@ -302,7 +302,7 @@ export class TestSafeProgressTracker {
       })
     }
 
-    console.log('Test-safe progress tracker reset')
+    _logger.info('Test-safe progress tracker reset')
   }
 
   /**
@@ -328,7 +328,7 @@ export class TestSafeProgressTracker {
       this.memoryMonitor.cleanup('tracker-cleanup')
     }
 
-    console.log('Test-safe progress tracker cleaned up')
+    _logger.info('Test-safe progress tracker cleaned up')
   }
 
   // Private helper methods
@@ -359,7 +359,7 @@ export class TestSafeProgressTracker {
       )
 
       if (!memoryCheck.isWithinLimits) {
-        console.warn('Memory check failed in progress tracker:', memoryCheck.errors),
+        _logger.warn('Memory check failed in progress tracker:', memoryCheck.errors),
         this.performMemoryCleanup('periodic-check')
       }
     }
@@ -382,7 +382,7 @@ export class TestSafeProgressTracker {
       try {
         global.gc()
       } catch (error) {
-        console.warn('Failed to force garbage collection:', error)
+        _logger.warn('Failed to force garbage collection:', error)
       }
     }
   }

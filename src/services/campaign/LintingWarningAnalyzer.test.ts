@@ -41,9 +41,9 @@ function test(param: any) : any {
 
     it('should detect console statement warnings', () => {
       const content: any = `;
-console.log('debug message')
-console.error('error message')
-console.warn('warning message')
+_logger.info('debug message')
+_logger.error('error message')
+_logger.warn('warning message')
       `
 
       const warnings: any = (analyzer as any).analyzeFileContent('/test/(file as any).ts', content)
@@ -59,7 +59,7 @@ console.warn('warning message')
       const content: any = `;
 const unusedVar: any = 'test';
 const usedVar: any = 'test';
-console.log(usedVar)
+_logger.info(usedVar)
       `
 
       const warnings: any = (analyzer as any).analyzeFileContent('/test/(file as any).ts', content)
@@ -204,7 +204,7 @@ console.log(usedVar)
     it('should correctly identify used variables', () => {
       const content: any = `;
 const usedVar: any = 'test';
-console.log(usedVar)
+_logger.info(usedVar)
       `
 
       const isUsed: any = (analyzer as any).isVariableUsed(content, 'usedVar', 0)

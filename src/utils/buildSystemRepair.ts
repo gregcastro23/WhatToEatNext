@@ -1,4 +1,5 @@
 import { execSync } from 'child_process';
+import { _logger } from '@/lib/logger';
 import fs from 'fs';
 
 import { BuildValidator, BuildValidationResult, BuildHealthReport } from './BuildValidator';
@@ -13,7 +14,7 @@ export class BuildSystemRepair {
   private readonly configOptimizer: NextConfigOptimizer
   private readonly logger: (message: string, ..._args: unknown[]) => void;
 
-  constructor(logger = console.log) {
+  constructor(logger = _logger.info) {
     this.buildValidator = new BuildValidator('.next', logger)
     this.configOptimizer = new NextConfigOptimizer('next.config.js', logger)
     this.logger = logger;

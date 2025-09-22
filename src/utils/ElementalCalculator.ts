@@ -10,7 +10,7 @@ export function calculateMatchScore(
 ) {
   // Validate input properties to avoid NaN results
   if (!elementalProperties || typeof elementalProperties !== 'object') {
-    // console.warn('Invalid elementalProperties provided to calculateMatchScore')
+    // _logger.warn('Invalid elementalProperties provided to calculateMatchScore')
     elementalProperties = {
       Fire: 0.25,
       Water: 0.25,

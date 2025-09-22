@@ -86,7 +86,7 @@ export class BundleSizeOptimizer {
    */
   async analyzeBundleSize(): Promise<BundleAnalysis> {
     try {
-      // // // console.log('📦 Analyzing bundle size...')
+      // // // _logger.info('📦 Analyzing bundle size...')
 
       // Get bundle information from build output
       const bundleInfo = await this.getBundleInformation()
@@ -122,12 +122,12 @@ export class BundleSizeOptimizer {
       // Check for alerts
       await this.checkBundleSizeAlerts(analysis)
 
-      // // // console.log(
+      // // // _logger.info(
         `📦 Bundle analysis complete: ${totalSize}kB total, ${compressedSize}kB compressed`,
       )
       return analysis;
     } catch (error) {
-      console.warn(`⚠️  Bundle analysis failed: ${(error as any).message || 'Unknown error'}`)
+      _logger.warn(`⚠️  Bundle analysis failed: ${(error as any).message || 'Unknown error'}`)
 
       // Return fallback analysis
       return {
@@ -244,10 +244,10 @@ export class BundleSizeOptimizer {
       const sourceBytes = parseInt(output.trim()) || 0;
       const estimatedKB = Math.round((sourceBytes / 1024) * 1.5); // Rough estimate with bundling overhead
 
-      // // // console.log(`📦 Estimated bundle size from source: ${estimatedKB}kB`)
+      // // // _logger.info(`📦 Estimated bundle size from source: ${estimatedKB}kB`)
       return { totalSize: estimatedKB };
     } catch (error) {
-      console.warn(
+      _logger.warn(
         `⚠️  Bundle size estimation failed: ${(error as any).message || 'Unknown error'}`,
       )
       return { totalSize: 400 }; // Conservative estimate
@@ -283,7 +283,7 @@ export class BundleSizeOptimizer {
 
       return chunks;
     } catch (error) {
-      console.warn(`⚠️  Chunk analysis failed: ${(error as any).message || 'Unknown error'}`)
+      _logger.warn(`⚠️  Chunk analysis failed: ${(error as any).message || 'Unknown error'}`)
       return [];
     }
   }
@@ -326,7 +326,7 @@ export class BundleSizeOptimizer {
 
       return assets.sort((ab) => b.size - a.size); // Sort by size descending
     } catch (error) {
-      console.warn(`⚠️  Asset analysis failed: ${(error as any).message || 'Unknown error'}`)
+      _logger.warn(`⚠️  Asset analysis failed: ${(error as any).message || 'Unknown error'}`)
       return [];
     }
   }
@@ -377,7 +377,7 @@ export class BundleSizeOptimizer {
 
       return dependencies.sort((ab) => b.size - a.size)
     } catch (error) {
-      console.warn(`⚠️  Dependency analysis failed: ${(error as any).message || 'Unknown error'}`)
+      _logger.warn(`⚠️  Dependency analysis failed: ${(error as any).message || 'Unknown error'}`)
       return [];
     }
   }
@@ -387,7 +387,7 @@ export class BundleSizeOptimizer {
    */
   async validateLazyLoading(): Promise<LazyLoadingValidation> {
     try {
-      // // // console.log('🔄 Validating lazy loading implementation...')
+      // // // _logger.info('🔄 Validating lazy loading implementation...')
 
       const componentsAnalyzed = await this.countComponents()
       const lazyLoadedComponents = await this.countLazyLoadedComponents()
@@ -395,7 +395,7 @@ export class BundleSizeOptimizer {
       const dataFetchingOptimizations = await this.identifyDataFetchingOptimizations()
       const score = Math.round((lazyLoadedComponents / Math.max(componentsAnalyzed, 1)) * 100),
 
-      // // // console.log(
+      // // // _logger.info(
         `🔄 Lazy loading validation complete: ${lazyLoadedComponents}/${componentsAnalyzed} components lazy loaded (${score}%)`,
       )
 
@@ -407,7 +407,7 @@ export class BundleSizeOptimizer {
         score
       };
     } catch (error) {
-      console.warn(
+      _logger.warn(
         `⚠️  Lazy loading validation failed: ${(error as any).message || 'Unknown error'}`,
       )
 
@@ -744,7 +744,7 @@ export class BundleSizeOptimizer {
 
     // Log alert
     const severityIcon = alert.severity === 'critical' ? '🚨' : '⚠️'
-    // // // console.log(`${severityIcon} Bundle Alert: ${alert.message}`)
+    // // // _logger.info(`${severityIcon} Bundle Alert: ${alert.message}`)
   }
 
   /**
@@ -759,7 +759,7 @@ export class BundleSizeOptimizer {
    */
   clearAlerts(): void {
     this.alerts = [];
-    // // // console.log('📦 Bundle optimization alerts cleared')
+    // // // _logger.info('📦 Bundle optimization alerts cleared')
   }
 
   /**
@@ -776,7 +776,7 @@ export class BundleSizeOptimizer {
       };
 
       fs.writeFileSync(filePath, JSON.stringify(exportData, null, 2))
-      // // // console.log(`📦 Bundle analysis data exported to: ${filePath}`)
+      // // // _logger.info(`📦 Bundle analysis data exported to: ${filePath}`)
     } catch (error) {
       throw new Error(`Failed to export bundle data: ${(error as any).message || 'Unknown error'}`)
     }

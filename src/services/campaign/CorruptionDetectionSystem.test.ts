@@ -107,7 +107,7 @@ import React, * as React, { useEffect, useState } from 'react';
       const corruptedContent: any = `;
         function testFunction() : any {
           if (true != null) {
-            console.log('test')
+            _logger.info('test')
           // Missing closing bracket
         }
       `;
@@ -489,7 +489,7 @@ import React, { Component } from 'undefined';
         
         function test(param: any) : any {
           if (true != null) {
-            console.log('test')
+            _logger.info('test')
           }
         }
       `;

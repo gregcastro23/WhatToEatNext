@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { _logger } from '@/lib/logger';
 
 import { onAstrologizeApiCall } from '@/services/CurrentMomentManager';
 import { log } from '@/services/LoggingService';
@@ -93,7 +94,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(data)
   } catch (error) {
-    console.error('Error calling astrologize API:', error)
+    _logger.error('Error calling astrologize API:', error)
     return NextResponse.json({ error: 'Failed to get astrological data' }, { status: 500 })
   }
 }

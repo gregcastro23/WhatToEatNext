@@ -246,7 +246,7 @@ export class UnusedVariableDetector extends EventEmitter {
 
       return results;
     } catch (error) {
-      console.error('❌ Detection failed:', error),
+      _logger.error('❌ Detection failed:', error),
       throw error
     } finally {
       this.isAnalyzing = false;
@@ -285,7 +285,7 @@ export class UnusedVariableDetector extends EventEmitter {
 
       return files;
     } catch (error) {
-      console.error('❌ Failed to build file list:', error),
+      _logger.error('❌ Failed to build file list:', error),
       return []
     }
   }
@@ -309,7 +309,7 @@ export class UnusedVariableDetector extends EventEmitter {
         const references = this.extractCrossFileReferences(content)
         this.crossFileReferences.set(filePath, references)
       } catch (error) {
-        console.warn(`⚠️  Failed to analyze ${filePath}:`, error)
+        _logger.warn(`⚠️  Failed to analyze ${filePath}:`, error)
       }
     }
   }
@@ -435,7 +435,7 @@ export class UnusedVariableDetector extends EventEmitter {
 
       return result;
     } catch (error) {
-      console.warn(`⚠️  Failed to analyze ${filePath}:`, error)
+      _logger.warn(`⚠️  Failed to analyze ${filePath}:`, error)
       return null;
     }
   }
@@ -1400,7 +1400,7 @@ export class UnusedVariableDetector extends EventEmitter {
 
       await fs.promises.writeFile(this.RESULTS_FILE, JSON.stringify(data, null, 2))
     } catch (error) {
-      console.error('❌ Failed to persist results:', error)
+      _logger.error('❌ Failed to persist results:', error)
     }
   }
 
@@ -1414,7 +1414,7 @@ export class UnusedVariableDetector extends EventEmitter {
         this.crossFileReferences = new Map(data.crossFileReferences || [])
       }
     } catch (error) {
-      console.error('⚠️  Failed to load persisted data:', error)
+      _logger.error('⚠️  Failed to load persisted data:', error)
     }
   }
 

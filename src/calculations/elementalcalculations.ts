@@ -243,7 +243,7 @@ export function calculateElementalEnergies(
   isDaytime = true,
 ): ElementalEnergy[] {
   if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {;
-    // console.warn('No planetary positions provided for elemental calculation')
+    // _logger.warn('No planetary positions provided for elemental calculation')
     return getDefaultElementalEnergies()
   }
 

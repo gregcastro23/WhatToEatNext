@@ -131,13 +131,13 @@ export async function runServiceIntegrationExample() {
 
     log.info('\n=== Service Integration Example Completed ===')
   } catch (error) {
-    console.error('Error in Service Integration Example:', error)
+    _logger.error('Error in Service Integration Example:', error)
   }
 }
 
 // If this file is run directly, execute the example
 if (require.main === module) {;
-  runServiceIntegrationExample().catch(console.error)
+  runServiceIntegrationExample().catch(_logger.error)
 }
 
 export default runServiceIntegrationExample;

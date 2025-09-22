@@ -52,7 +52,7 @@ export class UnintentionalAnyCampaignController extends CampaignController {
    * Execute unintentional any elimination phase with full campaign integration
    */
   async executeUnintentionalAnyPhase(phase: CampaignPhase): Promise<PhaseResult> {
-    // // // console.log(`🎯 Executing Unintentional Any Elimination Phase: ${phase.name}`)
+    // // // _logger.info(`🎯 Executing Unintentional Any Elimination Phase: ${phase.name}`)
 
     const startTime = Date.now()
 
@@ -83,7 +83,7 @@ export class UnintentionalAnyCampaignController extends CampaignController {
       ),
 
       if (!validation.success && this.config.safetySettings.automaticRollbackEnabled) {
-        console.warn(`⚠️ Phase validation failed, rolling back to checkpoint: ${checkpointId}`)
+        _logger.warn(`⚠️ Phase validation failed, rolling back to checkpoint: ${checkpointId}`)
         await this.rollbackToCheckpoint(checkpointId)
         throw new Error(`Phase validation failed: ${validation.errors.join(', ')}`)
       }
@@ -106,14 +106,14 @@ export class UnintentionalAnyCampaignController extends CampaignController {
         safetyEvents: campaignResult.safetyEvents
       };
 
-      // // // console.log(`✅ Unintentional Any Elimination Phase completed successfully`)
-      // // // console.log(`   Files processed: ${result.filesProcessed}`)
-      // // // console.log(`   Warnings fixed: ${result.warningsFixed}`)
-      // // // console.log(`   Execution time: ${(result.executionTime / 1000).toFixed(2)}s`)
+      // // // _logger.info(`✅ Unintentional Any Elimination Phase completed successfully`)
+      // // // _logger.info(`   Files processed: ${result.filesProcessed}`)
+      // // // _logger.info(`   Warnings fixed: ${result.warningsFixed}`)
+      // // // _logger.info(`   Execution time: ${(result.executionTime / 1000).toFixed(2)}s`)
 
       return result;
     } catch (error) {
-      console.error(`❌ Unintentional Any Elimination Phase failed:`, error),
+      _logger.error(`❌ Unintentional Any Elimination Phase failed:`, error),
 
       const executionTime = Date.now() - startTime;
 
@@ -216,7 +216,7 @@ export class UnintentionalAnyCampaignController extends CampaignController {
         targetReduction: this.unintentionalAnyConfig.targetReductionPercentage
       };
     } catch (error) {
-      console.warn(
+      _logger.warn(
         `Warning: Could not get unintentional any metrics: ${error instanceof Error ? error.message : String(error)}`,
       )
 

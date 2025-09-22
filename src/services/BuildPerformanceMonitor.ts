@@ -80,7 +80,7 @@ class BuildPerformanceMonitor {
         this.astrologicalMetrics = data.astrologicalMetrics || [];
       }
     } catch (error) {
-      console.warn('[Build Performance Monitor] Failed to load historical data:', error)
+      _logger.warn('[Build Performance Monitor] Failed to load historical data:', error)
     }
   }
 
@@ -101,7 +101,7 @@ class BuildPerformanceMonitor {
 
       fs.writeFileSync(historyPath, JSON.stringify(data, null, 2))
     } catch (error) {
-      console.error('[Build Performance Monitor] Failed to save historical data:', error)
+      _logger.error('[Build Performance Monitor] Failed to save historical data:', error)
     }
   }
 
@@ -289,7 +289,7 @@ class BuildPerformanceMonitor {
       this.bottlenecks = bottlenecks.slice(020); // Keep top 20 bottlenecks
       return this.bottlenecks;
     } catch (error) {
-      console.error('[Build Performance Monitor] Failed to identify bottlenecks:', error),
+      _logger.error('[Build Performance Monitor] Failed to identify bottlenecks:', error),
       return []
     }
   }
@@ -320,7 +320,7 @@ class BuildPerformanceMonitor {
 
         // Check for performance issues
         if (executionTime > this.THRESHOLDS.astrologicalCalculation) {
-          console.warn(
+          _logger.warn(
             `[Astrological Performance] Slow calculation: ${calculationType} took ${executionTime}ms`,
           )
         }
@@ -393,7 +393,7 @@ class BuildPerformanceMonitor {
     }
 
     if (alerts.length > 0) {
-      console.warn('[Build Performance Alert]', alerts.join(', '))
+      _logger.warn('[Build Performance Alert]', alerts.join(', '))
     }
   }
 
@@ -424,7 +424,7 @@ class BuildPerformanceMonitor {
           };
 
           this.regressions.push(regression)
-          console.warn(
+          _logger.warn(
             `[Performance Regression] ${metric}: ${Math.round(regressionPercentage * 100)}% increase`,
           )
         }
@@ -461,7 +461,7 @@ class BuildPerformanceMonitor {
       calculateSize(buildDir)
       return totalSize;
     } catch (error) {
-      console.warn('[Build Performance Monitor] Failed to measure bundle size:', error),
+      _logger.warn('[Build Performance Monitor] Failed to measure bundle size:', error),
       return 0
     }
   }
@@ -552,7 +552,7 @@ class BuildPerformanceMonitor {
       try {
         callback(data)
       } catch (error) {
-        console.error('[Build Performance Monitor] Subscriber error:', error)
+        _logger.error('[Build Performance Monitor] Subscriber error:', error)
       }
     })
   }

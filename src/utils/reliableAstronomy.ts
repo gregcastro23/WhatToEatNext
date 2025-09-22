@@ -1,4 +1,5 @@
 /**
+import { _logger } from '@/lib/logger';
  * Reliable Astronomy Data Provider
  *
  * This module fetches accurate planetary positions from NASA JPL's Horizons API
@@ -463,7 +464,7 @@ async function fetchPublicApiData(date: Date): Promise<Record<string, unknown>> 
 
       // If too many planets are missing, the data might be unreliable
       if (missingCount > 3) {
-        console.warn(`Too many planets missing (${missingCount}), using fallback data`)
+        _logger.warn(`Too many planets missing (${missingCount}), using fallback data`)
         return getMarch2025Positions(date)
       }
 
@@ -493,7 +494,7 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
     const apiSecret = process.env.TIMEANDDATE_API_SECRET;
 
     if (!apiKey || !apiSecret) {
-      console.warn('TimeAndDate API credentials not found')
+      _logger.warn('TimeAndDate API credentials not found')
       return getMarch2025Positions(date)
     }
 
@@ -585,7 +586,7 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
 
       // If too many planets are missing, the data might be unreliable
       if (missingCount > 3) {
-        console.warn(`Too many planets missing (${missingCount}), using fallback data`)
+        _logger.warn(`Too many planets missing (${missingCount}), using fallback data`)
         return getMarch2025Positions(date)
       }
 
@@ -594,7 +595,7 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
         positions.northNode = calculateLunarNode(date, 'northNode')
         positions.southNode = calculateLunarNode(date, 'southNode'),
       } catch (nodeError) {
-        console.warn('Error calculating lunar nodes:', nodeError)
+        _logger.warn('Error calculating lunar nodes:', nodeError)
         // Use fallback data for nodes
         const fallback = getMarch2025Positions()
         positions.northNode = fallback.northNode;

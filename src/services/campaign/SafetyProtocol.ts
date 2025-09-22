@@ -78,9 +78,9 @@ export class SafetyProtocol {
         action: 'STASH_CREATE'
       })
 
-      // // // console.log(`📦 Created git stash: ${stashName}`)
-      // // // console.log(`   Reference: ${stashRef}`)
-      // // // console.log(`   Rollback, with: git stash apply ${stashRef}`)
+      // // // _logger.info(`📦 Created git stash: ${stashName}`)
+      // // // _logger.info(`   Reference: ${stashRef}`)
+      // // // _logger.info(`   Rollback, with: git stash apply ${stashRef}`)
 
       return stashName;
     } catch (error) {
@@ -130,7 +130,7 @@ export class SafetyProtocol {
       if (validateAfter) {
         const validation = await this.validateGitState()
         if (!validation.success) {
-          console.warn(
+          _logger.warn(
             `⚠️ Git state validation warnings after stash apply: ${validation.warnings.join(', ')}`,
           )
         }
@@ -144,8 +144,8 @@ export class SafetyProtocol {
         action: 'STASH_APPLY'
       })
 
-      // // // console.log(`🔄 Applied git stash: ${stashId}`)
-      // // // console.log(`   Reference: ${stashRef}`)
+      // // // _logger.info(`🔄 Applied git stash: ${stashId}`)
+      // // // _logger.info(`   Reference: ${stashRef}`)
     } catch (error) {
       this.addSafetyEvent({
         type: SafetyEventType.EMERGENCY_RECOVERY,
@@ -210,11 +210,11 @@ export class SafetyProtocol {
     const corruptionPatterns: CorruptionPattern[] = [];
     let maxSeverity = CorruptionSeverity.LOW
 
-    // // // console.log(`🔍 Analyzing ${files.length} files for corruption patterns...`)
+    // // // _logger.info(`🔍 Analyzing ${files.length} files for corruption patterns...`)
 
     for (const filePath of files) {
       if (!fs.existsSync(filePath)) {
-        console.warn(`⚠️ File not found: ${filePath}`)
+        _logger.warn(`⚠️ File not found: ${filePath}`)
         continue;
       }
 
@@ -226,7 +226,7 @@ export class SafetyProtocol {
           detectedFiles.push(filePath)
           corruptionPatterns.push(...fileCorruption.patterns)
 
-          // // // console.log(
+          // // // _logger.info(
             `🚨 Corruption detected in ${filePath}: ${fileCorruption.patterns.length} patterns`,
           )
 
@@ -254,7 +254,7 @@ export class SafetyProtocol {
           files: [filePath]
         })
         maxSeverity = CorruptionSeverity.HIGH;
-        console.error(
+        _logger.error(
           `❌ File read error in ${filePath}: ${(error as any).message || 'Unknown error'}`,
         )
       }
@@ -278,11 +278,11 @@ export class SafetyProtocol {
         action: 'CORRUPTION_DETECTED'
       })
 
-      // // // console.log(
+      // // // _logger.info(
         `📊 Corruption analysis complete: ${detectedFiles.length} files affected, severity: ${maxSeverity}`,
       )
     } else {
-      // // // console.log(`✅ No corruption detected in ${files.length} files`)
+      // // // _logger.info(`✅ No corruption detected in ${files.length} files`)
     }
 
     return report;
@@ -296,7 +296,7 @@ export class SafetyProtocol {
     const corruptionPatterns: CorruptionPattern[] = [];
     let maxSeverity = CorruptionSeverity.LOW
 
-    // // // console.log(`🔍 Analyzing import/export corruption in ${files.length} files...`)
+    // // // _logger.info(`🔍 Analyzing import/export corruption in ${files.length} files...`)
 
     for (const filePath of files) {
       if (!fs.existsSync(filePath) || !filePath.match(/\.(ts|tsx|js|jsx)$/)) {
@@ -326,7 +326,7 @@ export class SafetyProtocol {
           }
         }
       } catch (error) {
-        console.error(
+        _logger.error(
           `❌ Error analyzing import/export corruption in ${filePath}: ${(error as any).message || 'Unknown error'}`,
         )
       }
@@ -346,7 +346,7 @@ export class SafetyProtocol {
    * Real-time monitoring during script execution
    */
   async startRealTimeMonitoring(files: string[], intervalMs: number = 5000): Promise<void> {
-    // // // console.log(`🔄 Starting real-time corruption monitoring for ${files.length} files...`)
+    // // // _logger.info(`🔄 Starting real-time corruption monitoring for ${files.length} files...`)
 
     const monitoringInterval = setInterval(() => {
       void (async () => {
@@ -354,7 +354,7 @@ export class SafetyProtocol {
           const report = await this.detectCorruption(files)
 
           if (report.detectedFiles.length > 0) {
-            console.warn(
+            _logger.warn(
               `⚠️ Real-time monitoring detected corruption in ${report.detectedFiles.length} files`,
             )
 
@@ -371,14 +371,14 @@ export class SafetyProtocol {
               report.severity === CorruptionSeverity.CRITICAL &&
               this.settings.automaticRollbackEnabled
             ) {
-              console.error(`🚨 Critical corruption detected! Triggering emergency rollback...`)
+              _logger.error(`🚨 Critical corruption detected! Triggering emergency rollback...`)
               clearInterval(monitoringInterval)
               await this.emergencyRollback()
               return
             }
           }
         } catch (error) {
-          console.error(
+          _logger.error(
             `❌ Error during real-time monitoring: ${(error as any).message || 'Unknown error'}`,
           )
         }
@@ -396,7 +396,7 @@ export class SafetyProtocol {
     if ((this as unknown).monitoringInterval) {
       clearInterval((this as unknown).monitoringInterval)
       (this as unknown).monitoringInterval = null;
-      // // // console.log(`⏹️ Real-time corruption monitoring stopped`)
+      // // // _logger.info(`⏹️ Real-time corruption monitoring stopped`)
     }
   }
 
@@ -408,7 +408,7 @@ export class SafetyProtocol {
     const corruptionPatterns: CorruptionPattern[] = [];
     let maxSeverity = CorruptionSeverity.LOW
 
-    // // // console.log(`🔍 Validating syntax with TypeScript compiler for ${files.length} files...`)
+    // // // _logger.info(`🔍 Validating syntax with TypeScript compiler for ${files.length} files...`)
 
     try {
       // Run TypeScript compiler to check for syntax errors
@@ -497,7 +497,7 @@ export class SafetyProtocol {
         action: 'EMERGENCY_ROLLBACK'
       })
 
-      // // // console.log(`🚨 Emergency rollback completed using stash: ${latestStash.id}`)
+      // // // _logger.info(`🚨 Emergency rollback completed using stash: ${latestStash.id}`)
     } catch (error) {
       this.addSafetyEvent({
         type: SafetyEventType.EMERGENCY_RECOVERY,
@@ -576,7 +576,7 @@ export class SafetyProtocol {
             })
           } catch (gitError) {
             // Stash might already be gone, just log warning
-            console.warn(
+            _logger.warn(
               `⚠️ Could not drop git stash ${stash.ref}: ${(gitError as any).message || 'Unknown error'}`,
             )
           }
@@ -586,9 +586,9 @@ export class SafetyProtocol {
         this.stashes.delete(stashId)
         cleanedCount++;
 
-        // // // console.log(`🧹 Cleaned up old stash: ${stashId}`)
+        // // // _logger.info(`🧹 Cleaned up old stash: ${stashId}`)
       } catch (error) {
-        console.warn(
+        _logger.warn(
           `⚠️ Failed to cleanup stash ${stashId}: ${(error as any).message || 'Unknown error'}`,
         )
       }
@@ -972,7 +972,7 @@ export class SafetyProtocol {
         this.stashCounter = parsed.counter || 0;
       }
     } catch (error) {
-      console.warn(
+      _logger.warn(
         `⚠️ Could not load stash tracking: ${(error as any).message || 'Unknown error'}`,
       )
       this.stashCounter = 0;
@@ -1000,7 +1000,7 @@ export class SafetyProtocol {
 
       fs.writeFileSync(stashTrackingPath, JSON.stringify(data, null, 2))
     } catch (error) {
-      console.warn(
+      _logger.warn(
         `⚠️ Could not save stash tracking: ${(error as any).message || 'Unknown error'}`,
       )
     }

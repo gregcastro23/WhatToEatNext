@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any */
+import { _logger } from '@/lib/logger';
 import { AspectType } from '@/types/alchemy';
 
 /**
@@ -62,7 +63,7 @@ export function calculateComprehensiveAspects(
 
     // Otherwise, calculate from sign and degree
     if (!position || !position.sign) {
-      console.warn('Invalid position object _encountered:', position)
+      _logger.warn('Invalid position object _encountered:', position)
       return 0; // Return default value
     }
 

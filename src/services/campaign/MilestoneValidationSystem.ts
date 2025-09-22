@@ -54,7 +54,7 @@ export class MilestoneValidationSystem {
    * Requirements: 6.5 - Zero TypeScript errors achieved
    */
   async validatePhase1(): Promise<PhaseValidationResult> {
-    // // // console.log('🔍 Validating Phase, 1: TypeScript Error Elimination')
+    // // // _logger.info('🔍 Validating Phase, 1: TypeScript Error Elimination')
 
     const metrics = await this.metricsCollector.collectDetailedMetrics()
     const milestones: MilestoneValidation[] = [];
@@ -91,7 +91,7 @@ export class MilestoneValidationSystem {
       nextSteps
     };
 
-    // // // console.log(
+    // // // _logger.info(
       `✅ Phase 1 Validation Complete: ${overallSuccess ? 'PASSED' : 'FAILED'} (${completionPercentage}%)`,
     )
     return result;
@@ -102,7 +102,7 @@ export class MilestoneValidationSystem {
    * Requirements: 6.6 - Zero linting warnings achieved
    */
   async validatePhase2(): Promise<PhaseValidationResult> {
-    // // // console.log('🔍 Validating Phase, 2: Linting Excellence Achievement')
+    // // // _logger.info('🔍 Validating Phase, 2: Linting Excellence Achievement')
 
     const metrics = await this.metricsCollector.collectDetailedMetrics()
     const milestones: MilestoneValidation[] = [];
@@ -138,7 +138,7 @@ export class MilestoneValidationSystem {
       nextSteps
     };
 
-    // // // console.log(
+    // // // _logger.info(
       `✅ Phase 2 Validation Complete: ${overallSuccess ? 'PASSED' : 'FAILED'} (${completionPercentage}%)`,
     )
     return result;
@@ -149,7 +149,7 @@ export class MilestoneValidationSystem {
    * Requirements: 6.7 - All exports transformed to enterprise systems
    */
   async validatePhase3(): Promise<PhaseValidationResult> {
-    // // // console.log('🔍 Validating Phase, 3: Enterprise Intelligence Transformation')
+    // // // _logger.info('🔍 Validating Phase, 3: Enterprise Intelligence Transformation')
 
     const metrics = await this.metricsCollector.collectDetailedMetrics()
     const milestones: MilestoneValidation[] = [];
@@ -185,7 +185,7 @@ export class MilestoneValidationSystem {
       nextSteps
     };
 
-    // // // console.log(
+    // // // _logger.info(
       `✅ Phase 3 Validation Complete: ${overallSuccess ? 'PASSED' : 'FAILED'} (${completionPercentage}%)`,
     )
     return result;
@@ -196,7 +196,7 @@ export class MilestoneValidationSystem {
    * Requirements: 6.8 - Perfect performance and test coverage achieved
    */
   async validatePhase4(): Promise<PhaseValidationResult> {
-    // // // console.log('🔍 Validating Phase, 4: Performance Optimization Maintenance')
+    // // // _logger.info('🔍 Validating Phase, 4: Performance Optimization Maintenance')
 
     const metrics = await this.metricsCollector.collectDetailedMetrics()
     const milestones: MilestoneValidation[] = [];
@@ -236,7 +236,7 @@ export class MilestoneValidationSystem {
       nextSteps
     };
 
-    // // // console.log(
+    // // // _logger.info(
       `✅ Phase 4 Validation Complete: ${overallSuccess ? 'PASSED' : 'FAILED'} (${completionPercentage}%)`,
     )
     return result;
@@ -817,7 +817,7 @@ export class MilestoneValidationSystem {
    * Validate all phases in sequence
    */
   async validateAllPhases(): Promise<PhaseValidationResult[]> {
-    // // // console.log('🔍 Running comprehensive campaign validation...')
+    // // // _logger.info('🔍 Running comprehensive campaign validation...')
 
     const results = await Promise.all([
       this.validatePhase1()
@@ -831,7 +831,7 @@ export class MilestoneValidationSystem {
       results.reduce((sumr) => sum + r.completionPercentage, 0) / results.length,
     ),
 
-    // // // console.log(
+    // // // _logger.info(
       `🎯 Campaign Validation Complete: ${overallSuccess ? 'SUCCESS' : 'IN PROGRESS'} (${overallCompletion}%)`,
     )
 
@@ -869,6 +869,6 @@ export class MilestoneValidationSystem {
     };
 
     fs.writeFileSync(filePath, JSON.stringify(exportData, null, 2))
-    // // // console.log(`📊 Validation results exported to: ${filePath}`)
+    // // // _logger.info(`📊 Validation results exported to: ${filePath}`)
   }
 }

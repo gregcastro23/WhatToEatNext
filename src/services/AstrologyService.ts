@@ -68,7 +68,7 @@ export class AstrologyService {
 
       return celestialPositions;
     } catch (error) {
-      console.warn('Astrologize API failed, using cached data:', error)
+      _logger.warn('Astrologize API failed, using cached data:', error)
       if (forceRefresh || !this.currentState.isReady) {
         await this.refreshAstrologicalState()
       }
@@ -202,7 +202,7 @@ export class AstrologyService {
 
         log.info('🌟 Using real astrologize API data for astrological state')
       } catch (apiError) {
-        console.warn('Astrologize API failed, using fallback calculations:', apiError)
+        _logger.warn('Astrologize API failed, using fallback calculations:', apiError)
         planetaryAlignment = this.calculatePlanetaryPositions(currentDate)
       }
 
@@ -219,7 +219,7 @@ export class AstrologyService {
 
       this.currentState = state;
     } catch (error) {
-      console.error('Failed to refresh astrological state', error)
+      _logger.error('Failed to refresh astrological state', error)
     } finally {
       this.currentState.loading = false;
       this.currentState.isReady = true;

@@ -127,7 +127,7 @@ export const performanceMonitoring = {
     const loadTime = performance.now() - startTime;
 
     // In production, this would send to analytics
-    console.log(`Module ${moduleName} loaded in ${loadTime.toFixed(2)}ms`)
+    _logger.info(`Module ${moduleName} loaded in ${loadTime.toFixed(2)}ms`)
 
     // Store performance data for optimization
     if (typeof window !== 'undefined') {

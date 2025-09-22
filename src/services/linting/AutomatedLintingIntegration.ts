@@ -153,7 +153,7 @@ export class AutomatedLintingIntegration {
 
       return result;
     } catch (error) {
-      console.error('❌ Automated linting workflow failed:', error),
+      _logger.error('❌ Automated linting workflow failed:', error),
       throw error
     }
   }
@@ -214,7 +214,7 @@ export class AutomatedLintingIntegration {
       log.info(`⚡ Quick fixes complete: ${result.fixedIssues} issues fixed`)
       return result;
     } catch (error) {
-      console.error('❌ Quick fixes failed:', error),
+      _logger.error('❌ Quick fixes failed:', error),
       throw error
     }
   }
@@ -290,7 +290,7 @@ export class AutomatedLintingIntegration {
       log.info(`🧹 Unused variable cleanup complete: ${result.fixedIssues} variables handled`)
       return result;
     } catch (error) {
-      console.error('❌ Unused variable cleanup failed:', error),
+      _logger.error('❌ Unused variable cleanup failed:', error),
       throw error
     }
   }
@@ -344,7 +344,7 @@ export class AutomatedLintingIntegration {
       log.info(`📦 Import optimization complete: ${result.fixedIssues} imports optimized`)
       return result;
     } catch (error) {
-      console.error('❌ Import optimization failed:', error),
+      _logger.error('❌ Import optimization failed:', error),
       throw error
     }
   }

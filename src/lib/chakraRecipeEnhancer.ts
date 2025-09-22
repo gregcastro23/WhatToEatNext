@@ -135,7 +135,7 @@ export class ChakraRecipeEnhancer {
         }
       }
     } catch (error) {
-      console.error('Error getting planetary hour:', error)
+      _logger.error('Error getting planetary hour:', error)
     }
 
     // Calculate current chakra energies

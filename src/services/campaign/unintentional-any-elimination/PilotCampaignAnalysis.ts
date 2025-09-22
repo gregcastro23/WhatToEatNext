@@ -53,30 +53,30 @@ export class PilotCampaignAnalysis {
    * Execute comprehensive analysis-only pilot phase
    */
   async executePilotAnalysis(): Promise<PilotAnalysisResults> {
-    // // // console.log('🚀 Starting Pilot Campaign Analysis Phase')
-    // // // console.log(`Configuration: ${JSON.stringify(this.config, null, 2)}`)
+    // // // _logger.info('🚀 Starting Pilot Campaign Analysis Phase')
+    // // // _logger.info(`Configuration: ${JSON.stringify(this.config, null, 2)}`)
 
     const startTime = Date.now()
 
     try {
       // Step, 1: Execute comprehensive analysis of current codebase
-      // // // console.log('\n📊 Step, 1: Executing comprehensive codebase analysis...')
+      // // // _logger.info('\n📊 Step, 1: Executing comprehensive codebase analysis...')
       const codebaseAnalysis = await this.executeCodebaseAnalysis()
 
       // Step, 2: Validate classification accuracy through manual review
-      // // // console.log('\n🔍 Step, 2: Validating classification accuracy...')
+      // // // _logger.info('\n🔍 Step, 2: Validating classification accuracy...')
       const accuracyValidation = await this.validateClassificationAccuracy()
 
       // Step, 3: Generate baseline metrics and success rate predictions
-      // // // console.log('\n📈 Step, 3: Generating baseline metrics and predictions...')
+      // // // _logger.info('\n📈 Step, 3: Generating baseline metrics and predictions...')
       const baselineMetrics = await this.generateBaselineMetrics()
 
       // Step, 4: Tune classification algorithms based on pilot results
-      // // // console.log('\n⚙️ Step, 4: Tuning classification algorithms...')
+      // // // _logger.info('\n⚙️ Step, 4: Tuning classification algorithms...')
       const tuningResults = await this.tuneClassificationAlgorithms(accuracyValidation)
 
       // Step, 5: Generate comprehensive pilot report
-      // // // console.log('\n📋 Step, 5: Generating comprehensive pilot report...')
+      // // // _logger.info('\n📋 Step, 5: Generating comprehensive pilot report...')
       const pilotReport = await this.generatePilotReport({
         codebaseAnalysis,
         accuracyValidation,
@@ -101,18 +101,18 @@ export class PilotCampaignAnalysis {
       // Save results
       await this.savePilotResults(results)
 
-      // // // console.log(
+      // // // _logger.info(
         `\n✅ Pilot Campaign Analysis completed successfully in ${(executionTime / 1000).toFixed(2)}s`,
       )
-      // // // console.log(
+      // // // _logger.info(
         `📊 Total any types analyzed: ${codebaseAnalysis.domainDistribution.totalAnyTypes}`,
       )
-      // // // console.log(`🎯 Classification accuracy: ${accuracyValidation.overallAccuracy.toFixed(1)}%`)
-      // // // console.log(`📈 Predicted success rate: ${baselineMetrics.projectedSuccessRate.toFixed(1)}%`)
+      // // // _logger.info(`🎯 Classification accuracy: ${accuracyValidation.overallAccuracy.toFixed(1)}%`)
+      // // // _logger.info(`📈 Predicted success rate: ${baselineMetrics.projectedSuccessRate.toFixed(1)}%`)
 
       return results;
     } catch (error) {
-      console.error('❌ Pilot Campaign Analysis failed:', error),
+      _logger.error('❌ Pilot Campaign Analysis failed:', error),
 
       const executionTime = Date.now() - startTime;
       return {
@@ -133,11 +133,11 @@ export class PilotCampaignAnalysis {
    * Execute comprehensive analysis of current codebase
    */
   private async executeCodebaseAnalysis(): Promise<AnalysisReport> {
-    // // // console.log('Analyzing current codebase for any type distribution...')
+    // // // _logger.info('Analyzing current codebase for any type distribution...')
 
     // Get current TypeScript error count for baseline
     const currentErrors = await this.getCurrentTypeScriptErrorCount()
-    // // // console.log(`Current TypeScript errors: ${currentErrors}`)
+    // // // _logger.info(`Current TypeScript errors: ${currentErrors}`)
 
     // Generate comprehensive analysis report
     const analysisReport = await this.analysisTools.generateComprehensiveReport()
@@ -159,7 +159,7 @@ export class PilotCampaignAnalysis {
       }
     };
 
-    // // // console.log(
+    // // // _logger.info(
       `✅ Codebase analysis complete: ${analysisReport.summary.totalAnyTypes} any types found`,
     )
     return enhancedReport;
@@ -169,7 +169,7 @@ export class PilotCampaignAnalysis {
    * Validate classification accuracy through manual review simulation
    */
   private async validateClassificationAccuracy(): Promise<ClassificationAccuracyReport> {
-    // // // console.log('Validating classification accuracy with enhanced testing...')
+    // // // _logger.info('Validating classification accuracy with enhanced testing...')
 
     // Generate base accuracy report
     const baseAccuracyReport = await this.analysisTools.generateClassificationAccuracyReport()
@@ -187,7 +187,7 @@ export class PilotCampaignAnalysis {
       }
     };
 
-    // // // console.log(
+    // // // _logger.info(
       `✅ Classification accuracy validation complete: ${enhancedReport.overallAccuracy.toFixed(1)}% accuracy`,
     )
     return enhancedReport;
@@ -197,7 +197,7 @@ export class PilotCampaignAnalysis {
    * Generate baseline metrics and success rate predictions
    */
   private async generateBaselineMetrics(): Promise<SuccessRatePrediction> {
-    // // // console.log('Generating baseline metrics and success rate predictions...')
+    // // // _logger.info('Generating baseline metrics and success rate predictions...')
 
     const successRateAnalysis = await this.analysisTools.generateSuccessRateAnalysis()
 
@@ -216,7 +216,7 @@ export class PilotCampaignAnalysis {
       lastUpdated: new Date()
     };
 
-    // // // console.log(
+    // // // _logger.info(
       `✅ Baseline metrics generated: ${baselineMetrics.projectedSuccessRate.toFixed(1)}% projected success rate`,
     )
     return baselineMetrics;
@@ -229,14 +229,14 @@ export class PilotCampaignAnalysis {
     accuracyReport: ClassificationAccuracyReport,
   ): Promise<ClassificationTuningResults> {
     if (!this.config.enableTuning) {
-      // // // console.log('⏭️ Classification tuning disabled, skipping...'),
+      // // // _logger.info('⏭️ Classification tuning disabled, skipping...'),
       return {
         tuningPerformed: false,
         reason: 'Tuning disabled in configuration'
       };
     }
 
-    // // // console.log('Tuning classification algorithms based on pilot results...')
+    // // // _logger.info('Tuning classification algorithms based on pilot results...')
 
     const tuningResults: ClassificationTuningResults = {
       tuningPerformed: true,
@@ -257,7 +257,7 @@ export class PilotCampaignAnalysis {
         .filter(cat => cat.accuracy < 80)
         .sort((ab) => a.accuracy - b.accuracy),
 
-      // // // console.log(`Found ${lowAccuracyCategories.length} categories needing tuning`)
+      // // // _logger.info(`Found ${lowAccuracyCategories.length} categories needing tuning`)
 
       // Apply tuning adjustments
       for (const category of lowAccuracyCategories) {
@@ -269,7 +269,7 @@ export class PilotCampaignAnalysis {
 
       // Re-validate accuracy after tuning
       if (tuningResults.adjustmentsMade.length > 0) {
-        // // // console.log('Re-validating accuracy after tuning...')
+        // // // _logger.info('Re-validating accuracy after tuning...')
         const postTuningAccuracy = await this.validateClassificationAccuracy()
         tuningResults.tunedAccuracy = postTuningAccuracy.overallAccuracy;
         tuningResults.improvementPercentage =
@@ -286,11 +286,11 @@ export class PilotCampaignAnalysis {
         tuningResults.reason = 'No tuning adjustments were necessary';
       }
 
-      // // // console.log(
+      // // // _logger.info(
         `✅ Classification tuning complete: ${tuningResults.improvementPercentage.toFixed(1)}% improvement`,
       )
     } catch (error) {
-      console.warn('⚠️ Classification tuning encountered issues:', error),
+      _logger.warn('⚠️ Classification tuning encountered issues:', error),
       tuningResults.tuningPerformed = false;
       tuningResults.reason = `Tuning failed: ${error instanceof Error ? error.message : String(error)}`;
     }
@@ -307,7 +307,7 @@ export class PilotCampaignAnalysis {
     baselineMetrics: SuccessRatePrediction,
     tuningResults: ClassificationTuningResults
   }): Promise<AnalysisReport> {
-    // // // console.log('Generating comprehensive pilot report...')
+    // // // _logger.info('Generating comprehensive pilot report...')
 
     const pilotReport: AnalysisReport = {
       ...data.codebaseAnalysis
@@ -323,7 +323,7 @@ export class PilotCampaignAnalysis {
       }
     };
 
-    // // // console.log('✅ Comprehensive pilot report generated')
+    // // // _logger.info('✅ Comprehensive pilot report generated')
     return pilotReport;
   }
 
@@ -340,7 +340,7 @@ export class PilotCampaignAnalysis {
       )
       return parseInt(output.trim()) || 0;
     } catch (error) {
-      console.warn('Could not get TypeScript error count:', error),
+      _logger.warn('Could not get TypeScript error count:', error),
       return -1
     }
   }
@@ -804,9 +804,9 @@ export class PilotCampaignAnalysis {
       const summary = this.generateMarkdownSummary(results)
       fs.writeFileSync(summaryPath, summary)
 
-      // // // console.log(`📁 Pilot results saved to: ${outputDir}`)
+      // // // _logger.info(`📁 Pilot results saved to: ${outputDir}`)
     } catch (error) {
-      console.warn('⚠️ Could not save pilot results:', error)
+      _logger.warn('⚠️ Could not save pilot results:', error)
     }
   }
 

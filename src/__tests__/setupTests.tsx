@@ -96,8 +96,8 @@ Object.defineProperty(window, 'performance', {
 })
 
 // Suppress console warnings for tests
-const originalConsoleWarn = console.warn;
-const originalConsoleError = console.error;
+const originalConsoleWarn = _logger.warn;
+const originalConsoleError = _logger.error;
 
 beforeEach(() => {
   // Reset mocks before each test
@@ -109,7 +109,7 @@ beforeEach(() => {
 })
 
 // Suppress specific warnings that are expected in tests
-console.warn = (...args: any[]) => {;
+_logger.warn = (...args: any[]) => {;
   const message = args[0];
   if (
     typeof message === 'string' &&
@@ -122,7 +122,7 @@ console.warn = (...args: any[]) => {;
   originalConsoleWarn.apply(console, args)
 };
 
-console.error = (...args: any[]) => {;
+_logger.error = (...args: any[]) => {;
   const message = args[0];
   if (
     typeof message === 'string' &&
@@ -173,7 +173,7 @@ const gitMock = {
   }),
   getMockStashes: jest.fn(() => gitMock.mockStashes),
   simulateGitError: jest.fn((command: string, error: string) => {
-    console.warn(`Simulated git error for ${command}: ${error}`)
+    _logger.warn(`Simulated git error for ${command}: ${error}`)
   }),
   resetMocks: jest.fn(() => {
     gitMock.mockStashes = [];
@@ -222,10 +222,10 @@ const scriptMock = {
     scriptMock.mockExitCode = exitCode
   }),
   simulateScriptError: jest.fn((scriptPath: string, error: string) => {
-    console.warn(`Simulated script error for ${scriptPath}: ${error}`)
+    _logger.warn(`Simulated script error for ${scriptPath}: ${error}`)
   }),
   simulateTimeout: jest.fn((scriptPath: string, timeout: number) => {
-    console.warn(`Simulated timeout for ${scriptPath}: ${timeout}ms`)
+    _logger.warn(`Simulated timeout for ${scriptPath}: ${timeout}ms`)
   }),
   resetMocks: jest.fn(() => {
     scriptMock.mockResults = {};

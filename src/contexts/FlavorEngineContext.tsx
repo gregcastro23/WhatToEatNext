@@ -11,6 +11,7 @@ import React, {
 } from 'react';
 
 import { unifiedFlavorEngine, UnifiedFlavorProfile } from '../data/unified/unifiedFlavorEngine';
+import { _logger } from '@/lib/logger';
 
 // Define the context type
 interface FlavorEngineContextType {
@@ -125,7 +126,7 @@ export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
         } catch (err) {
           const error =
             err instanceof Error ? err : new Error('Unknown error initializing flavor engine')
-          console.error('Failed to initialize flavor engine:', err)
+          _logger.error('Failed to initialize flavor engine:', err)
 
           // Update global state
           globalInitState.error = error;

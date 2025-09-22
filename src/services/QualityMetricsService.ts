@@ -109,7 +109,7 @@ class QualityMetricsService {
         this.reports = data.reports || [];
       }
     } catch (error) {
-      console.warn('[Quality Metrics Service] Failed to load historical data:', error)
+      _logger.warn('[Quality Metrics Service] Failed to load historical data:', error)
     }
   }
 
@@ -131,7 +131,7 @@ class QualityMetricsService {
 
       fs.writeFileSync(dataPath, JSON.stringify(data, null, 2))
     } catch (error) {
-      console.error('[Quality Metrics Service] Failed to save historical data:', error)
+      _logger.error('[Quality Metrics Service] Failed to save historical data:', error)
     }
   }
 
@@ -864,7 +864,7 @@ class QualityMetricsService {
       try {
         callback(data)
       } catch (error) {
-        console.error('[Quality Metrics Service] Subscriber error:', error)
+        _logger.error('[Quality Metrics Service] Subscriber error:', error)
       }
     })
   }

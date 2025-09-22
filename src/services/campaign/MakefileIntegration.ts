@@ -326,10 +326,10 @@ export class MakefileIntegration {
   ): Promise<MakeExecutionResult> {
     const { _silent = false, _dryRun = false, _timeout = 300000} = options;
 
-    // // // console.log(`🔨 Executing make target: ${target}`)
+    // // // _logger.info(`🔨 Executing make target: ${target}`)
 
     if (dryRun) {
-      // // // console.log(`🔍 DRY, RUN: Would execute 'make ${target}'`)
+      // // // _logger.info(`🔍 DRY, RUN: Would execute 'make ${target}'`)
       return {
         success: true,
         exitCode: 0,
@@ -427,7 +427,7 @@ export class MakefileIntegration {
         lastUpdate: new Date()
       }
     } catch (error) {
-      console.warn('⚠️ Could not get campaign progress:', error),
+      _logger.warn('⚠️ Could not get campaign progress:', error),
       return {
         currentPhase: 1,
         totalPhases: 4,
@@ -446,7 +446,7 @@ export class MakefileIntegration {
   async addCampaignTargetsToMakefile(): Promise<boolean> {
     try {
       if (!fs.existsSync(this.makefilePath)) {
-        console.warn(`⚠️ Makefile not found at ${this.makefilePath}`)
+        _logger.warn(`⚠️ Makefile not found at ${this.makefilePath}`)
         return false;
       }
 
@@ -454,7 +454,7 @@ export class MakefileIntegration {
 
       // Check if campaign targets already exist
       if (makefileContent.includes('# Campaign Execution Framework')) {
-        // // // console.log('✅ Campaign targets already exist in Makefile')
+        // // // _logger.info('✅ Campaign targets already exist in Makefile')
         return true
       }
 
@@ -464,11 +464,11 @@ export class MakefileIntegration {
 
       // Write updated Makefile
       fs.writeFileSync(this.makefilePath, makefileContent, 'utf8')
-      // // // console.log('✅ Campaign targets added to Makefile')
+      // // // _logger.info('✅ Campaign targets added to Makefile')
 
       return true;
     } catch (error) {
-      console.error('❌ Failed to add campaign targets to Makefile:', error),
+      _logger.error('❌ Failed to add campaign targets to Makefile:', error),
       return false
     }
   }

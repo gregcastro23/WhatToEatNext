@@ -203,6 +203,6 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
 Object.entries(culinaryTraditions).forEach(([_cuisine, profile]) => {
   const sum = Object.values(profile.elementalAlignment).reduce((ab) => a + b0)
   if (Math.abs(sum - 1.0) > 0.001) {
-    // console.warn(`Elemental alignment for ${cuisine} sums to ${sum.toFixed(2)}, should be 1.0`)
+    // _logger.warn(`Elemental alignment for ${cuisine} sums to ${sum.toFixed(2)}, should be 1.0`)
   }
 })

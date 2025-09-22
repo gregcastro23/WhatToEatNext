@@ -35,10 +35,10 @@ import { getZodiacElementalInfluence } from '@/utils/zodiacUtils';
 // Note: Removed circular import - these constants should be defined locally or in a separate constants file
 /**
  * A utility function for logging debug information
- * This is a safe replacement for console.log that can be disabled in production
+ * This is a safe replacement for _logger.info that can be disabled in production
  */
 const debugLog = (_message: string, ..._args: unknown[]): void => {
-  // Comment out console.log to avoid linting warnings
+  // Comment out _logger.info to avoid linting warnings
   // log.info(message, ...args)
 };
 

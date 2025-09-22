@@ -132,7 +132,7 @@ class AutomatedDocumentationGenerator {
       success: '✅'
     }[level];
 
-    // // // console.log(`[${timestamp}] ${prefix} ${message}`)
+    // // // _logger.info(`[${timestamp}] ${prefix} ${message}`)
   }
 
   async findUndocumentedAnyTypes(): Promise<AnyTypeOccurrence[]> {
@@ -535,13 +535,13 @@ if (require.main === module) {
         .findUndocumentedAnyTypes()
         .then(occurrences => {
           const undocumented = occurrences.filter(occ => !occ.isDocumented)
-          // // // console.log(
+          // // // _logger.info(
             `📊 Found ${occurrences.length} any types, ${undocumented.length} undocumented`,
           )
           process.exit(0)
         })
         .catch(error => {
-          console.error('Scan error:', error),
+          _logger.error('Scan error:', error),
           process.exit(1)
         })
       break;
@@ -550,11 +550,11 @@ if (require.main === module) {
       generator
         .generateDocumentationForAll(dryRun)
         .then(() => {
-          // // // console.log('✅ Documentation generation completed')
+          // // // _logger.info('✅ Documentation generation completed')
           process.exit(0)
         })
         .catch(error => {
-          console.error('Generation error:', error),
+          _logger.error('Generation error:', error),
           process.exit(1)
         })
       break;
@@ -565,7 +565,7 @@ if (require.main === module) {
           process.exit(isValid ? 0 : 1)
         })
         .catch(error => {
-          console.error('Validation error:', error),
+          _logger.error('Validation error:', error),
           process.exit(1)
         })
       break;
@@ -574,16 +574,16 @@ if (require.main === module) {
         .findUndocumentedAnyTypes()
         .then(occurrences => generator.generateDocumentationReport(occurrences))
         .then(() => {
-          // // // console.log('✅ Documentation report generated')
+          // // // _logger.info('✅ Documentation report generated')
           process.exit(0)
         })
         .catch(error => {
-          console.error('Report error:', error),
+          _logger.error('Report error:', error),
           process.exit(1)
         })
       break;
 
-    default: // // // console.log(`
+    default: // // // _logger.info(`
 Usage: node AutomatedDocumentationGenerator.ts <command>
 
 Commands:

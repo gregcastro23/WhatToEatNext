@@ -1,4 +1,5 @@
 import { PLANET_TO_MAJOR_ARCANA, MAJOR_ARCANA } from '@/constants/tarotCards';
+import { _logger } from '@/lib/logger';
 import { log } from '@/services/LoggingService';
 import { getPlanetaryDignityInfo, calculateAspects } from '@/utils/astrologyUtils';
 import { planetaryModifiers } from '@/utils/planetaryCycles';
@@ -88,7 +89,7 @@ export function getPlanetInfo(
       try {
         dignity = getPlanetaryDignityInfo(normalizedPlanetName, planetSign),
       } catch (error) {
-        console.error(`Error getting dignity for ${normalizedPlanetName}:`, error)
+        _logger.error(`Error getting dignity for ${normalizedPlanetName}:`, error)
         dignity = { type: 'Neutral', strength: 0 };
       }
     }
@@ -145,7 +146,7 @@ export function getPlanetInfo(
           orb: aspect.orb || 0
         }))
     } catch (error) {
-      console.error(`Error calculating aspects for ${planetName}:`, error)
+      _logger.error(`Error calculating aspects for ${planetName}:`, error)
       planetAspects = [];
     }
 
@@ -187,7 +188,7 @@ export function getPlanetInfo(
           earth: planetaryModifiers[normalizedPlanetName].Earth || 0
         };
       } else {
-        console.warn(`No planetary modifier found for ${normalizedPlanetName}`)
+        _logger.warn(`No planetary modifier found for ${normalizedPlanetName}`)
       }
     }
 
@@ -274,7 +275,7 @@ export function getPlanetInfo(
           substance: planetary.Substance || 0
         };
       } else {
-        console.warn(`No planetary token influence for ${normalizedPlanetName}`)
+        _logger.warn(`No planetary token influence for ${normalizedPlanetName}`)
       }
     }
 
@@ -291,7 +292,7 @@ export function getPlanetInfo(
       tokenInfluence
     };
   } catch (error) {
-    console.error('Error in getPlanetInfo:', error)
+    _logger.error('Error in getPlanetInfo:', error)
     return null
   }
 }

@@ -75,15 +75,15 @@ export function withRenderTracking<P extends object>(
           // Get detailed prop information for debugging
           const propDetails = Object.entries(props).map(([key, value]) => getPropInfo(key, value))
 
-          console.warn(`🔍 ${componentName} rendered ${newCount} times`)
-          console.warn('_Props:', propDetails)
+          _logger.warn(`🔍 ${componentName} rendered ${newCount} times`)
+          _logger.warn('_Props:', propDetails)
 
           if (firstRender) {
             setFirstRender(false)
           }
         } else {
           // Simple log for most renders
-          console.warn(`📊 ${componentName} render #${newCount}`)
+          _logger.warn(`📊 ${componentName} render #${newCount}`)
         }
 
         return newCount;

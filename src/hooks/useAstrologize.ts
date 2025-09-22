@@ -62,7 +62,7 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
             })
           }
         } catch (locationError) {
-          console.warn('Failed to get location, using default:', locationError)
+          _logger.warn('Failed to get location, using default:', locationError)
           // Use default location (coordinates will be provided by the API)
           setLocation(null)
         }
@@ -136,7 +136,7 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
       })
       setData(result)
     } catch (fetchError) {
-      console.error('Error fetching from Astrologize API:', fetchError)
+      _logger.error('Error fetching from Astrologize API:', fetchError)
       setError(fetchError instanceof Error ? fetchError : new Error('Unknown error'))
     } finally {
       setLoading(false)

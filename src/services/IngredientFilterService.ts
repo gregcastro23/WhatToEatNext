@@ -558,7 +558,7 @@ export class IngredientFilterService {
 
       return null;
     } catch (error) {
-      console.error('Error fetching local nutrition data:', error),
+      _logger.error('Error fetching local nutrition data:', error),
       return null
     }
   }
@@ -609,7 +609,7 @@ export class IngredientFilterService {
 
       return recommendations;
     } catch (error) {
-      console.error('Error generating recipe recommendations:', error),
+      _logger.error('Error generating recipe recommendations:', error),
       return []
     }
   }

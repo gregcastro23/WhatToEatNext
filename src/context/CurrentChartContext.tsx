@@ -1,4 +1,5 @@
 'use client';
+import { _logger } from '@/lib/logger';
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
@@ -187,7 +188,7 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
           positions = response.data?.planetaryPositions || {};
           log.info('Successfully calculated planetary positions')
         } catch (posError) {
-          console.error('Error calculating planetary positions:', posError)
+          _logger.error('Error calculating planetary positions:', posError)
           // Use alchemicalPositions from context as fallback, or empty object if not available
           positions = alchemicalPositions || {};
         }
@@ -215,7 +216,7 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
       })
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to update chart')
-      console.error('Error updating chart:', err)
+      _logger.error('Error updating chart:', err)
     } finally {
       setLoading(false)
     }

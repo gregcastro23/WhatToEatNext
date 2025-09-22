@@ -115,7 +115,7 @@ export class ErrorTrackingEnterpriseSystem {
           try {
             await this.performAutomatedAnalysis()
           } catch (error) {
-            console.error('❌ Error during automated analysis:', error)
+            _logger.error('❌ Error during automated analysis:', error)
           }
         })()
       },
@@ -692,7 +692,7 @@ export class ErrorTrackingEnterpriseSystem {
       const patternsData = Array.from(this.patterns.entries())
       await fs.promises.writeFile(this.PATTERNS_FILE, JSON.stringify(patternsData, null, 2))
     } catch (error) {
-      console.error('❌ Failed to persist data:', error)
+      _logger.error('❌ Failed to persist data:', error)
     }
   }
 
@@ -724,7 +724,7 @@ export class ErrorTrackingEnterpriseSystem {
         )
       }
     } catch (error) {
-      console.error('⚠️  Failed to load persisted data:', error)
+      _logger.error('⚠️  Failed to load persisted data:', error)
     }
   }
 
@@ -825,7 +825,7 @@ export class ErrorTrackingEnterpriseSystem {
         fs.unlinkSync(this.PATTERNS_FILE)
       }
     } catch (error) {
-      console.error('⚠️  Failed to delete persisted files:', error)
+      _logger.error('⚠️  Failed to delete persisted files:', error)
     }
 
     log.info('🔄 All tracking data reset')

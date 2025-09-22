@@ -1,13 +1,14 @@
 import { cuisines } from '@/data/cuisines';
+import { _logger } from '@/lib/logger';
 import type { Dish } from '@/types';
 import type { LunarPhaseWithSpaces, Season } from '@/types/alchemy';
 
 /**
  * A utility function for logging debug information
- * This is a safe replacement for console.log that can be disabled in production
+ * This is a safe replacement for _logger.info that can be disabled in production
  */
 const debugLog = (_message: string, ..._args: unknown[]): void => {
-  // Comment out console.log to avoid linting warnings
+  // Comment out _logger.info to avoid linting warnings
   // log.info(message, ...args)
 };
 
@@ -170,7 +171,7 @@ export const _getRecommendations = (
 
     return combinedDishes as unknown as Dish[];
   } catch (error) {
-    console.error(`Error getting recommendations for ${cuisineId}:`, error)
+    _logger.error(`Error getting recommendations for ${cuisineId}:`, error)
     return [];
   }
 };

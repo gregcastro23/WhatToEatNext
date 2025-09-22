@@ -63,7 +63,7 @@ describe('AutoDocumentationGenerator', () => {;
         '    const data: any = response,',
         '    return data.result,',
         '  } catch (error: any) {',
-        '    console.error(error),',
+        '    _logger.error(error),',
         '  }',
         '}';
       ].join('\n')

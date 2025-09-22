@@ -51,7 +51,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {;
     const summary: any = memoryMonitor.getMemorySummary()
     if (summary.totalIncrease > 100) {
       // 100MB threshold
-      console.warn('High memory usage detected in comprehensive validation:', {
+      _logger.warn('High memory usage detected in comprehensive validation:', {
         totalIncrease: `${summary.totalIncrease.toFixed(2)}MB`,
         peakMemory: `${summary.peakMemory.toFixed(2)}MB`,
         duration: `${(summary.testDuration / 1000).toFixed(2)}s`;
@@ -73,7 +73,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {;
     // Check memory usage after each test
     const memoryCheck: any = memoryMonitor.checkMemoryUsage(testName)
     if (!memoryCheck.isWithinLimits) {;
-      console.warn(`Memory limits exceeded in test '${testName}':`, memoryCheck.errors)
+      _logger.warn(`Memory limits exceeded in test '${testName}':`, memoryCheck.errors)
     }
   })
 
@@ -134,7 +134,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {;
           expect(ProgressTracker).toBeDefined()
         } catch (error){
           // If campaign system files don't exist, that's acceptable for this test
-          console.warn('Campaign system files not found, skipping integration test')
+          _logger.warn('Campaign system files not found, skipping integration test')
         }
       })
 
@@ -531,7 +531,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {;
       expect(finalMemoryCheck.isWithinLimits).toBe(true).
 
       if (finalMemoryCheckwarnings.length > 0) {
-        console.warn('Memory warnings detected:', finalMemoryCheck.warnings)
+        _logger.warn('Memory warnings detected:', finalMemoryCheck.warnings)
       }
 
       // Ensure no critical memory issues;

@@ -98,7 +98,7 @@ class EnhancedPreCommitHook {
       success: '✅'
     }[level];
 
-    // // // console.log(`[${timestamp}] ${prefix} ${message}`)
+    // // // _logger.info(`[${timestamp}] ${prefix} ${message}`)
   }
 
   private getStagedFiles(): string[] {
@@ -577,15 +577,15 @@ if (require.main === module) {;
         .runPreCommitChecks()
         .then(passed => {
           if (passed) {
-            // // // console.log('\n✅ Pre-commit checks passed!')
+            // // // _logger.info('\n✅ Pre-commit checks passed!')
             process.exit(0)
           } else {
-            // // // console.log('\n❌ Pre-commit checks failed!')
+            // // // _logger.info('\n❌ Pre-commit checks failed!')
             process.exit(1)
           }
         })
         .catch(error => {
-          console.error('\n❌ Pre-commit check error:', error),
+          _logger.error('\n❌ Pre-commit check error:', error),
           process.exit(1)
         })
       break;
@@ -593,16 +593,16 @@ if (require.main === module) {;
     case 'report': hook
         .generatePreCommitReport()
         .then(() => {
-          // // // console.log('✅ Pre-commit report generated')
+          // // // _logger.info('✅ Pre-commit report generated')
           process.exit(0)
         })
         .catch(error => {
-          console.error('Report generation error:', error),
+          _logger.error('Report generation error:', error),
           process.exit(1)
         })
       break;
 
-    default: // // // console.log(`
+    default: // // // _logger.info(`
 Usage: node EnhancedPreCommitHook.ts <command>
 
 Commands:

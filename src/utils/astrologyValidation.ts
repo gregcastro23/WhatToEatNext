@@ -1,4 +1,5 @@
 import { getLatestAstrologicalState } from '@/services/AstrologicalService';
+import { _logger } from '@/lib/logger';
 
 // Removed unused PlanetPosition import
 
@@ -140,7 +141,7 @@ export async function validatePlanetaryPositions(
       differences: diff
     };
   } catch (error) {
-    console.error('Error validating planetary positions:', error)
+    _logger.error('Error validating planetary positions:', error)
     return {
       accurate: false,
       differences: { error: String(error) }
@@ -209,7 +210,7 @@ export async function fetchLatestPositions(): Promise<Record<string, unknown>> {
     const responseData = data ;
     return (responseData.calculatedPositions || {}) as Record<string, unknown>;
   } catch (error) {
-    console.error('Error fetching latest positions:', error)
+    _logger.error('Error fetching latest positions:', error)
     return {};
   }
 }

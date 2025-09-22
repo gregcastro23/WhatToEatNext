@@ -486,13 +486,13 @@ export const calculateCuisineFlavorMatch = (
 ): number => {
   // Validate inputs
   if (!recipeFlavorProfile || typeof recipeFlavorProfile !== 'object') {
-    // console.error(`Invalid recipe flavor profile provided for cuisine match calculation`)
+    // _logger.error(`Invalid recipe flavor profile provided for cuisine match calculation`)
     return 0.5
   }
 
   const cuisineProfile = getCuisineProfile(cuisineName)
   if (!cuisineProfile) {
-    // console.error(`Cuisine profile not found for: ${cuisineName}`)
+    // _logger.error(`Cuisine profile not found for: ${cuisineName}`)
     return 0.5;
   }
 
@@ -502,7 +502,7 @@ export const calculateCuisineFlavorMatch = (
     if (typeof value === 'number' && !isNaN(value)) {
       validatedRecipeProfile[flavor] = value;
     } else {
-      // console.error(`Invalid ${flavor} value in recipe flavor profile: ${value}`)
+      // _logger.error(`Invalid ${flavor} value in recipe flavor profile: ${value}`)
       validatedRecipeProfile[flavor] = 0;
     }
   }
@@ -879,7 +879,7 @@ export function getRecipesForCuisineMatch(
           }
         }
       } catch (error) {
-        console.error(`Error in special handling for ${cuisineName}:`, error)
+        _logger.error(`Error in special handling for ${cuisineName}:`, error)
       }
     }
 
@@ -910,7 +910,7 @@ export function getRecipesForCuisineMatch(
           return [];
         }
       } catch (error) {
-        console.error(`Error fetching recipes from LocalRecipeService for ${cuisineName}:`, error)
+        _logger.error(`Error fetching recipes from LocalRecipeService for ${cuisineName}:`, error)
         return [];
       }
     }
@@ -918,7 +918,7 @@ export function getRecipesForCuisineMatch(
     // Get the cuisine profile
     const cuisineProfile = getCuisineProfile(cuisineName)
     if (!cuisineProfile) {
-      console.warn(`No cuisine profile found for ${cuisineName}, using direct matches only`)
+      _logger.warn(`No cuisine profile found for ${cuisineName}, using direct matches only`)
       // Even without a profile, we can still try direct matches
     }
 
@@ -1046,7 +1046,7 @@ export function getRecipesForCuisineMatch(
               matchPercentage: Math.round(finalScore * 100)
             };
           } catch (scoreError) {
-            console.error(`Error scoring recipe match for ${cuisineName}:`, scoreError)
+            _logger.error(`Error scoring recipe match for ${cuisineName}:`, scoreError)
             return {
               ...(recipe )
               matchScore: 0.5,
@@ -1095,7 +1095,7 @@ export function getRecipesForCuisineMatch(
 
     return sortedMatches.slice(0, limit)
   } catch (error) {
-    console.error(`Error in getRecipesForCuisineMatch for ${cuisineName}:`, error)
+    _logger.error(`Error in getRecipesForCuisineMatch for ${cuisineName}:`, error)
     return [];
   }
 }
@@ -1125,7 +1125,7 @@ function calculateFlavorProfileMatch(recipeProfile: unknown, cuisineProfile: unk
 
     return totalMatch / flavorKeys.length;
   } catch (error) {
-    console.error('Error calculating flavor profile match:', error),
+    _logger.error('Error calculating flavor profile match:', error),
     return 0
   }
 }
@@ -1157,7 +1157,7 @@ export const _getCuisineElementalMatch = (
 
     return totalMatch / elements.length;
   } catch (error) {
-    console.error('Error calculating cuisine elemental match:', error),
+    _logger.error('Error calculating cuisine elemental match:', error),
     return 0
   }
 };

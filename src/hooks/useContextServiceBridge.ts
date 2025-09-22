@@ -39,7 +39,7 @@ export function useAlchemicalBridge() {
           const isDaytime = await astrologyService.isDaytime()
           setDaytime(isDaytime)
         } catch (err) {
-          console.error('Error in useAlchemicalBridge:', err)
+          _logger.error('Error in useAlchemicalBridge:', err)
         }
       };
 
@@ -105,7 +105,7 @@ export function useChakraBridge() {
           const active = await chakraService.getActiveChakra()
           setActiveChakra(active)
         } catch (err) {
-          console.error('Error in useChakraBridge:', err)
+          _logger.error('Error in useChakraBridge:', err)
         }
       };
 
@@ -163,7 +163,7 @@ export function usePlanetaryHoursBridge() {
             setDailyHours(new Map())
           }
         } catch (err) {
-          console.error('Error in usePlanetaryHoursBridge:', err)
+          _logger.error('Error in usePlanetaryHoursBridge:', err)
         }
       };
 
@@ -211,7 +211,7 @@ export function createServiceBridge<TS>(
             const result = await fetchFunction(service)
             setData(result)
           } catch (err) {
-            console.error(`Error in custom bridge for ${serviceName}:`, err)
+            _logger.error(`Error in custom bridge for ${serviceName}:`, err)
             setFetchError(err instanceof Error ? err : new Error(String(err)))
           }
         };

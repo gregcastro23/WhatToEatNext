@@ -429,7 +429,7 @@ export class DeploymentManager {
     const timestamp = new Date().toISOString()
     const logMessage = `[${timestamp}] ${message}`;
     this.deploymentLog.push(logMessage)
-    // // // console.log(logMessage)
+    // // // _logger.info(logMessage)
   }
 
   /**

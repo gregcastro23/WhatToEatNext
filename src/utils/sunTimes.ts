@@ -46,7 +46,7 @@ export function calculateSunTimes(
       nadir: times.nadir || null
     };
   } catch (error) {
-    console.error('Error calculating sun times:', error)
+    _logger.error('Error calculating sun times:', error)
     return {
       sunrise: null,
       sunset: null,

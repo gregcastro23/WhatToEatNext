@@ -82,7 +82,7 @@ export function useCurrentChart() {
         setChartData(newChartData)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Error processing chart data')
-        console.error('Chart processing error:', err)
+        _logger.error('Chart processing error:', err)
       } finally {
         setIsLoading(false)
       }

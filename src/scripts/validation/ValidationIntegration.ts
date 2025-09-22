@@ -78,11 +78,11 @@ export class ValidationIntegration {
     const integratedResult: IntegratedBatchResult = { ...batchResult };
 
     if (!this.config.enableAutomaticValidation) {
-      // // // console.log('🔍 Automatic validation disabled, skipping validation'),
+      // // // _logger.info('🔍 Automatic validation disabled, skipping validation'),
       return integratedResult
     }
 
-    // // // console.log(`🔍 Starting integrated validation for batch ${batchResult.batchId}`)
+    // // // _logger.info(`🔍 Starting integrated validation for batch ${batchResult.batchId}`)
 
     try {
       // Perform comprehensive validation
@@ -106,7 +106,7 @@ export class ValidationIntegration {
       // Check if rollback is needed based on validation
       if (validationResult.requiresRollback && this.config.enableAutomaticRollback) {
         integratedResult.rollbackPerformed = true;
-        // // // console.log('🔄 Validation requires rollback - coordinating with batch processor')
+        // // // _logger.info('🔄 Validation requires rollback - coordinating with batch processor')
       }
 
       // Generate quality assurance report
@@ -119,11 +119,11 @@ export class ValidationIntegration {
         this.qualityReports.set(batchResult.batchId, qualityReport)
       }
 
-      // // // console.log(`✅ Integrated validation completed for batch ${batchResult.batchId}`)
-      // // // console.log(`📊 Quality Score: ${validationResult.qualityScore}/100`)
-      // // // console.log(`🎯 Validation Status: ${validationResult.overallPassed ? 'PASSED' : 'FAILED'}`)
+      // // // _logger.info(`✅ Integrated validation completed for batch ${batchResult.batchId}`)
+      // // // _logger.info(`📊 Quality Score: ${validationResult.qualityScore}/100`)
+      // // // _logger.info(`🎯 Validation Status: ${validationResult.overallPassed ? 'PASSED' : 'FAILED'}`)
     } catch (error) {
-      console.error(`❌ Integrated validation failed for batch ${batchResult.batchId}: ${error}`)
+      _logger.error(`❌ Integrated validation failed for batch ${batchResult.batchId}: ${error}`)
 
       integratedResult.success = false;
       integratedResult.errors.push(`Validation integration failed: ${error}`)
@@ -144,7 +144,7 @@ export class ValidationIntegration {
     const integratedResults: IntegratedBatchResult[] = [];
     const cumulativeFiles: string[] = []
 
-    // // // console.log(`🔍 Starting validation sequence for ${batchResults.length} batches`)
+    // // // _logger.info(`🔍 Starting validation sequence for ${batchResults.length} batches`)
 
     for (let i = 0i < batchResults.lengthi++) {
       const batchResult = batchResults[i];
@@ -153,7 +153,7 @@ export class ValidationIntegration {
       // Add current batch files to cumulative list
       cumulativeFiles.push(...batchFiles)
 
-      // // // console.log(`\n🔍 Validating batch ${i + 1}/${batchResults.length}: ${batchResult.batchId}`)
+      // // // _logger.info(`\n🔍 Validating batch ${i + 1}/${batchResults.length}: ${batchResult.batchId}`)
 
       // Validate current batch with cumulative context
       const integratedResult = await this.validateBatchResult(batchResult, cumulativeFiles)
@@ -164,7 +164,7 @@ export class ValidationIntegration {
         !integratedResult.validationPassed &&
         this.isCriticalFailure(integratedResult.validationResult)
       ) {
-        // // // console.log(
+        // // // _logger.info(
           `❌ Critical validation failure in batch ${batchResult.batchId}, stopping sequence`,
         )
         break;
@@ -175,13 +175,13 @@ export class ValidationIntegration {
         integratedResult.qualityScore &&
         integratedResult.qualityScore < this.config.qualityThreshold
       ) {
-        // // // console.log(
+        // // // _logger.info(
           `⚠️ Quality score ${integratedResult.qualityScore} below threshold ${this.config.qualityThreshold}`,
         )
       }
     }
 
-    // // // console.log(`✅ Validation sequence completed for ${integratedResults.length} batches`)
+    // // // _logger.info(`✅ Validation sequence completed for ${integratedResults.length} batches`)
     return integratedResults;
   }
 
@@ -361,7 +361,7 @@ export class ValidationIntegration {
    */
   async exportQualityReports(): Promise<void> {
     if (!this.config.reportingEnabled || !this.config.reportingPath) {
-      // // // console.log('📊 Quality reporting disabled, skipping export'),
+      // // // _logger.info('📊 Quality reporting disabled, skipping export'),
       return
     }
 
@@ -388,9 +388,9 @@ export class ValidationIntegration {
       const summaryContent = this.generateSummaryReport()
       fs.writeFileSync(summaryPath, summaryContent)
 
-      // // // console.log(`📊 Quality reports exported to ${this.config.reportingPath}`)
+      // // // _logger.info(`📊 Quality reports exported to ${this.config.reportingPath}`)
     } catch (error) {
-      console.error(`❌ Failed to export quality reports: ${error}`)
+      _logger.error(`❌ Failed to export quality reports: ${error}`)
     }
   }
 
@@ -421,7 +421,7 @@ export class ValidationIntegration {
    */
   clearQualityReports(): void {
     this.qualityReports.clear()
-    // // // console.log('🧹 Quality reports cleared')
+    // // // _logger.info('🧹 Quality reports cleared')
   }
 
   /**

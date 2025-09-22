@@ -261,8 +261,8 @@ export function useAstrologicalStatePreservation(_componentId: string) {
       try {
         // Simple state saving for now
         const enhancedState = {
-          ...state;
-          timestamp: Date.now()
+          ...state,
+          timestamp: Date.now(),
           componentId
         };
 
@@ -288,7 +288,7 @@ export function useAstrologicalStatePreservation(_componentId: string) {
   const validateElementalCompatibility = useCallback(
     (sourceProps: ElementalProperties, targetProps: ElementalProperties) => {
       // Simple validation for now
-      const compatibility = 0.8, // Default good compatibility;
+      const compatibility = 0.8; // Default good compatibility
 
       return {
         compatibility,

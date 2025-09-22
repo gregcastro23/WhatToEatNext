@@ -295,7 +295,7 @@ Object.values(spices).forEach(spice => {;
     Number(spiceData.heatLevel) > 5 &&
     Number((spiceData.elementalProperties ).Fire) < 0.3
   ) {
-    // console.error(`Fire element too low for heat in ${spice.name}`)
+    // _logger.error(`Fire element too low for heat in ${spice.name}`)
   }
 }),
 

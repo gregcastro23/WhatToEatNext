@@ -105,7 +105,7 @@ class QualityGatesSystem {
       success: '✅'
     }[level];
 
-    // // // console.log(`[${timestamp}] ${prefix} ${message}`)
+    // // // _logger.info(`[${timestamp}] ${prefix} ${message}`)
   }
 
   async collectCurrentMetrics(): Promise<QualityMetrics> {
@@ -790,7 +790,7 @@ if (require.main === module) {;
           process.exit(passed ? 0 : 1)
         })
         .catch(error => {
-          console.error('Quality gates error:', error),
+          _logger.error('Quality gates error:', error),
           process.exit(1)
         })
       break;
@@ -802,7 +802,7 @@ if (require.main === module) {;
           process.exit(criticalFailures.length > 0 ? 1 : 0)
         })
         .catch(error => {
-          console.error('CI/CD quality gates error:', error),
+          _logger.error('CI/CD quality gates error:', error),
           process.exit(1)
         })
       break;
@@ -811,11 +811,11 @@ if (require.main === module) {;
         .runQualityGates('audit')
         .then(() => system.generateDeveloperEducationReport())
         .then(() => {
-          // // // console.log('✅ Quality audit completed successfully')
+          // // // _logger.info('✅ Quality audit completed successfully')
           process.exit(0)
         })
         .catch(error => {
-          console.error('Audit error:', error),
+          _logger.error('Audit error:', error),
           process.exit(1)
         })
       break;
@@ -823,11 +823,11 @@ if (require.main === module) {;
     case 'education': system
         .generateDeveloperEducationReport()
         .then(() => {
-          // // // console.log('✅ Developer education report generated')
+          // // // _logger.info('✅ Developer education report generated')
           process.exit(0)
         })
         .catch(error => {
-          console.error('Education report error:', error),
+          _logger.error('Education report error:', error),
           process.exit(1)
         })
       break;
@@ -835,11 +835,11 @@ if (require.main === module) {;
     case 'setup':
       Promise.all([system.setupCICDIntegration(), system.setupPeriodicAudits()])
         .then(() => {
-          // // // console.log('✅ Quality gates system setup completed')
+          // // // _logger.info('✅ Quality gates system setup completed')
           process.exit(0)
         })
         .catch(error => {
-          console.error('Setup error:', error),
+          _logger.error('Setup error:', error),
           process.exit(1)
         })
       break;
@@ -847,17 +847,17 @@ if (require.main === module) {;
     case 'metrics': system
         .collectCurrentMetrics()
         .then(metrics => {
-          // // // console.log('📊 Current Quality Metrics:')
-          // // // console.log(JSON.stringify(metrics, null, 2)),
+          // // // _logger.info('📊 Current Quality Metrics:')
+          // // // _logger.info(JSON.stringify(metrics, null, 2)),
           process.exit(0)
         })
         .catch(error => {
-          console.error('Metrics collection error:', error),
+          _logger.error('Metrics collection error:', error),
           process.exit(1)
         })
       break;
 
-    default: // // // console.log(`
+    default: // // // _logger.info(`
 Usage: node QualityGatesSystem.ts <command>
 
 Commands:

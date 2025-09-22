@@ -45,7 +45,7 @@ async function collectUnusedVariables(maxFiles?: number): Promise<Finding[]> {
     childProcess.execSync(cmd, { stdio: 'inherit' })
   } catch (error) {
     // ESLint exits 1 if issues found, but file is written
-    console.warn('ESLint exited with code 1 (expected if issues found)')
+    _logger.warn('ESLint exited with code 1 (expected if issues found)')
   }
   if (!fs.existsSync(outputFile)) {
     throw new Error('Lint output file not created')
@@ -126,7 +126,7 @@ async function main(): Promise<void> {
 
   // Console summary
 
-  // // // console.log(humanReport)
+  // // // _logger.info(humanReport)
 }
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises

@@ -63,7 +63,7 @@ export class ProgressiveImprovementEngine {
     const averageSafetyScore =
       recentBatches.reduce((sum, batch) => sum + batch.safetyScore, 0) / recentBatches.length,
 
-    // // // console.log(
+    // // // _logger.info(
       `Adapting strategy - Success rate: ${(averageSuccessRate * 100).toFixed(1)}%, Safety score: ${averageSafetyScore.toFixed(2)}`,
     )
 
@@ -78,7 +78,7 @@ export class ProgressiveImprovementEngine {
         0.95
         this.adaptiveConfig.confidenceThreshold + 0.1
       ),
-      // // // console.log(
+      // // // _logger.info(
         `Reduced batch size to ${this.adaptiveConfig.maxFilesPerBatch} and increased confidence threshold to ${this.adaptiveConfig.confidenceThreshold}`,
       )
     } else if (averageSafetyScore > 0.9 && averageSuccessRate > 0.8) {
@@ -91,7 +91,7 @@ export class ProgressiveImprovementEngine {
         0.7
         this.adaptiveConfig.confidenceThreshold - 0.05
       ),
-      // // // console.log(
+      // // // _logger.info(
         `Increased batch size to ${this.adaptiveConfig.maxFilesPerBatch} and decreased confidence threshold to ${this.adaptiveConfig.confidenceThreshold}`,
       )
     }
@@ -102,7 +102,7 @@ export class ProgressiveImprovementEngine {
         0.95
         this.adaptiveConfig.confidenceThreshold + 0.1
       ),
-      // // // console.log(
+      // // // _logger.info(
         `Low success rate, increased confidence threshold to ${this.adaptiveConfig.confidenceThreshold}`,
       )
     }
@@ -113,7 +113,7 @@ export class ProgressiveImprovementEngine {
         3,
         this.adaptiveConfig.validationFrequency - 1
       ),
-      // // // console.log(
+      // // // _logger.info(
         `Increased validation frequency to every ${this.adaptiveConfig.validationFrequency} files`,
       )
     }
@@ -125,7 +125,7 @@ export class ProgressiveImprovementEngine {
   private async createSafetyCheckpoint(): Promise<void> {
     const progress = await this.getCurrentProgress()
     this.safetyCheckpoints.set(this.batchCounter, progress),
-    // // // console.log(`Safety checkpoint created at batch ${this.batchCounter}`)
+    // // // _logger.info(`Safety checkpoint created at batch ${this.batchCounter}`)
   }
 
   /**
@@ -488,13 +488,13 @@ export class ProgressiveImprovementEngine {
         .slice(0, effectiveConfig.maxFilesPerBatch)
 
       if (filesToProcess.length === 0) {
-        // // // console.log('No more files to process in this batch')
+        // // // _logger.info('No more files to process in this batch')
         batchMetrics.executionTime = Date.now() - startTime;
         this.batchHistory.push(batchMetrics)
         return batchMetrics
       }
 
-      // // // console.log(
+      // // // _logger.info(
         `Processing batch ${this.batchCounter}: ${filesToProcess.length} files (adaptive batch size: ${effectiveConfig.maxFilesPerBatch})`,
       )
 
@@ -516,7 +516,7 @@ export class ProgressiveImprovementEngine {
 
           // Validate build every few files based on adaptive config
           if (batchMetrics.filesProcessed % effectiveConfig.validationFrequency === 0) {
-            // // // console.log(
+            // // // _logger.info(
               `Safety, checkpoint: validating build after ${batchMetrics.filesProcessed} files`,
             )
             const currentErrorCount = await this.getTypeScriptErrorCount()
@@ -524,7 +524,7 @@ export class ProgressiveImprovementEngine {
             // Safety, check: ensure we're not increasing errors significantly
             if (currentErrorCount > initialErrorCount + 5) {
               // Allow small increase for temporary states
-              console.warn(
+              _logger.warn(
                 `Error count increased from ${initialErrorCount} to ${currentErrorCount}, pausing batch`,
               )
               batchMetrics.compilationErrors = currentErrorCount - initialErrorCount;
@@ -533,7 +533,7 @@ export class ProgressiveImprovementEngine {
             }
           }
         } catch (error) {
-          console.error(`Failed to process file ${filePath}:`, error)
+          _logger.error(`Failed to process file ${filePath}:`, error)
           batchMetrics.rollbacksPerformed++;
         }
       }
@@ -556,7 +556,7 @@ export class ProgressiveImprovementEngine {
           ? batchMetrics.replacementsSuccessful / batchMetrics.replacementsAttempted
           : 0
 
-      // // // console.log(`Batch ${this.batchCounter} completed:`, {
+      // // // _logger.info(`Batch ${this.batchCounter} completed:`, {
         filesProcessed: batchMetrics.filesProcessed,
         replacementsSuccessful: batchMetrics.replacementsSuccessful,
         successRate: `${(successRate * 100).toFixed(1)}%`,
@@ -569,7 +569,7 @@ export class ProgressiveImprovementEngine {
 
       return batchMetrics;
     } catch (error) {
-      console.error(`Batch ${this.batchCounter} failed:`, error)
+      _logger.error(`Batch ${this.batchCounter} failed:`, error)
       batchMetrics.executionTime = Date.now() - startTime;
       batchMetrics.safetyScore = 0;
       this.batchHistory.push(batchMetrics)
@@ -589,10 +589,10 @@ export class ProgressiveImprovementEngine {
 
     const initialProgress = await this.getCurrentProgress()
 
-    // // // console.log('Starting Unintentional Any Elimination Campaign')
-    // // // console.log(`Initial state: ${initialProgress.totalAnyTypes} any types found`)
-    // // // console.log(`Target: ${effectiveConfig.targetReductionPercentage}% reduction`)
-    // // // console.log(
+    // // // _logger.info('Starting Unintentional Any Elimination Campaign')
+    // // // _logger.info(`Initial state: ${initialProgress.totalAnyTypes} any types found`)
+    // // // _logger.info(`Target: ${effectiveConfig.targetReductionPercentage}% reduction`)
+    // // // _logger.info(
       `Initial batch size: ${effectiveConfig.maxFilesPerBatch}, confidence threshold: ${effectiveConfig.confidenceThreshold}`,
     )
 
@@ -613,7 +613,7 @@ export class ProgressiveImprovementEngine {
 
     while (batchCount < maxBatches && consecutiveFailures < maxConsecutiveFailures) {
       try {
-        // // // console.log(`\n--- Starting batch ${batchCount + 1} ---`)
+        // // // _logger.info(`\n--- Starting batch ${batchCount + 1} ---`)
         const batchMetrics = await this.executeBatch()
         batchCount++;
 
@@ -622,13 +622,13 @@ export class ProgressiveImprovementEngine {
 
         // Check if we should continue
         if (batchMetrics.filesProcessed === 0) {
-          // // // console.log('No more files to process, campaign complete'),
+          // // // _logger.info('No more files to process, campaign complete'),
           break
         }
 
         // Safety check with adaptive response
         if (batchMetrics.safetyScore < 0.7) {
-          console.warn(
+          _logger.warn(
             `Low safety score (${batchMetrics.safetyScore.toFixed(2)}), adapting strategy`,
           )
           consecutiveFailures++;
@@ -654,26 +654,26 @@ export class ProgressiveImprovementEngine {
               100
             : 0;
 
-        // // // console.log(`\nProgress Report:`)
-        // // // console.log(
+        // // // _logger.info(`\nProgress Report:`)
+        // // // _logger.info(
           `  Reduction achieved: ${reductionAchieved.toFixed(1)}% (target: ${effectiveConfig.targetReductionPercentage}%)`,
         )
-        // // // console.log(`  Types replaced: ${result.unintentionalTypesReplaced}`)
-        // // // console.log(`  Batches completed: ${batchCount}`)
-        // // // console.log(`  Current batch size: ${this.adaptiveConfig.maxFilesPerBatch}`)
-        // // // console.log(
+        // // // _logger.info(`  Types replaced: ${result.unintentionalTypesReplaced}`)
+        // // // _logger.info(`  Batches completed: ${batchCount}`)
+        // // // _logger.info(`  Current batch size: ${this.adaptiveConfig.maxFilesPerBatch}`)
+        // // // _logger.info(
           `  Current confidence threshold: ${this.adaptiveConfig.confidenceThreshold.toFixed(2)}`,
         )
 
         if (reductionAchieved >= effectiveConfig.targetReductionPercentage) {
-          // // // console.log('\n🎉 Target reduction achieved!')
+          // // // _logger.info('\n🎉 Target reduction achieved!')
           break
         }
 
         // Brief pause between batches for system stability
         await new Promise(resolve => setTimeout(resolve, 2000))
       } catch (error) {
-        console.error(`Campaign batch ${batchCount + 1} failed:`, error)
+        _logger.error(`Campaign batch ${batchCount + 1} failed:`, error)
         consecutiveFailures++;
 
         result.safetyEvents.push({
@@ -710,16 +710,16 @@ export class ProgressiveImprovementEngine {
 
     const campaignTime = Date.now() - campaignStart;
 
-    // // // console.log(`\n=== Campaign Summary ===`)
-    // // // console.log(`Duration: ${(campaignTime / 1000).toFixed(1)}s`)
-    // // // console.log(`Batches processed: ${batchCount}`)
-    // // // console.log(`Files processed: ${this.processedFiles.size}`)
-    // // // console.log(`Reduction achieved: ${result.reductionAchieved.toFixed(1)}%`)
-    // // // console.log(`Types replaced: ${result.unintentionalTypesReplaced}`)
-    // // // console.log(`Overall success rate: ${overallSuccessRate.toFixed(1)}%`)
-    // // // console.log(`Safety events: ${result.safetyEvents.length}`)
-    // // // console.log(`Final batch size: ${this.adaptiveConfig.maxFilesPerBatch}`)
-    // // // console.log(
+    // // // _logger.info(`\n=== Campaign Summary ===`)
+    // // // _logger.info(`Duration: ${(campaignTime / 1000).toFixed(1)}s`)
+    // // // _logger.info(`Batches processed: ${batchCount}`)
+    // // // _logger.info(`Files processed: ${this.processedFiles.size}`)
+    // // // _logger.info(`Reduction achieved: ${result.reductionAchieved.toFixed(1)}%`)
+    // // // _logger.info(`Types replaced: ${result.unintentionalTypesReplaced}`)
+    // // // _logger.info(`Overall success rate: ${overallSuccessRate.toFixed(1)}%`)
+    // // // _logger.info(`Safety events: ${result.safetyEvents.length}`)
+    // // // _logger.info(`Final batch size: ${this.adaptiveConfig.maxFilesPerBatch}`)
+    // // // _logger.info(
       `Final confidence threshold: ${this.adaptiveConfig.confidenceThreshold.toFixed(2)}`,
     )
 
@@ -838,7 +838,7 @@ export class ProgressiveImprovementEngine {
         .split('\n')
         .filter(line => line.trim().length > 0)
     } catch (error) {
-      console.warn('Failed to find files with any types, using fallback method'),
+      _logger.warn('Failed to find files with any types, using fallback method'),
       return this.findFilesWithAnyTypesFallback()
     }
   }
@@ -938,7 +938,7 @@ export class ProgressiveImprovementEngine {
       if (errorData.status === 1) {
         return 0
       }
-      console.warn('Could not get TypeScript error count:', error)
+      _logger.warn('Could not get TypeScript error count:', error)
       return -1; // Indicates measurement failure
     }
   }
