@@ -9,7 +9,7 @@ export interface PlanetaryPositionsType {
 }
 
 // Map elements to zodiac signs
-const, signElements: Record<string, string> = {
+const signElements: Record<string, string> = {
   aries: 'Fire',
   leo: 'Fire',
   sagittarius: 'Fire',

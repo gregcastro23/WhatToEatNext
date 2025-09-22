@@ -260,15 +260,15 @@ export class AlchemicalEngineAdvanced {
     )[0][0];
 
     // Safely access the seasonalPatterns by ensuring the season is a valid key
-    const, defaultSeason: Season = 'winter';
+    const defaultSeason: Season = 'winter';
     const normalizedSeason = season?.toLowerCase();
     const validSeason =
-      normalizedSeason === 'spring' ||;
-      normalizedSeason === 'summer' ||;
-      normalizedSeason === 'autumn' ||;
-      normalizedSeason === 'winter' ||;
-      normalizedSeason === 'fall';
-        ? ((normalizedSeason === 'fall' ? 'autumn' : normalizedSeason) as Season);
+      normalizedSeason === 'spring' ||
+      normalizedSeason === 'summer' ||
+      normalizedSeason === 'autumn' ||
+      normalizedSeason === 'winter' ||
+      normalizedSeason === 'fall'
+        ? ((normalizedSeason === 'fall' ? 'autumn' : normalizedSeason) as Season)
         : defaultSeason;
 
     const _seasonalData = seasonalPatterns[validSeason];
@@ -279,8 +279,8 @@ export class AlchemicalEngineAdvanced {
     };
 
     // Simple matching score based on astrological state only
-    const astronomicalScore = astrologicalState?.activePlanets;
-      ? astrologicalState.activePlanets.filter(p => isRulingPlanet(p) && PLANETARY_MODIFIERS[p] > 0);
+    const astronomicalScore = astrologicalState?.activePlanets
+      ? astrologicalState.activePlanets.filter(p => isRulingPlanet(p) && PLANETARY_MODIFIERS[p] > 0)
           .length * 10
       : 0;
 
@@ -289,7 +289,7 @@ export class AlchemicalEngineAdvanced {
 
     // Cuisine compatibility
     const cuisineScore = cuisine
-      ? this.getCuisineCompatibility(cuisine, astrologicalState, season);
+      ? this.getCuisineCompatibility(cuisine, astrologicalState, season)
       : 0;
 
     // Calculate total score without elemental balance

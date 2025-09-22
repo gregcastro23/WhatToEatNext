@@ -17,10 +17,10 @@ interface ElementalSummary {
 const logger = createLogger('ElementalCalculator');
 
 export class ElementalCalculator {
-  private static, instance: ElementalCalculator;
-  private, currentBalance: ElementalProperties = DEFAULT_ELEMENTAL_PROPERTIES;
+  private static instance: ElementalCalculator;
+  private currentBalance: ElementalProperties = DEFAULT_ELEMENTAL_PROPERTIES;
   private initialized = false;
-  private, debugMode: boolean;
+  private debugMode: boolean;
 
   public constructor(debugMode = false) {
     this.debugMode = debugMode
@@ -104,7 +104,7 @@ export class ElementalCalculator {
 
   static getSeasonalModifiers(season: Season): ElementalProperties {
     // Start with a balanced base
-    const, baseModifiers: ElementalProperties = {
+    const baseModifiers: ElementalProperties = {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
@@ -169,7 +169,7 @@ export class ElementalCalculator {
     }
 
     // Initialize elemental values
-    const, elementalValues: ElementalProperties = {
+    const elementalValues: ElementalProperties = {
       Fire: 0,
       Water: 0,
       Earth: 0,

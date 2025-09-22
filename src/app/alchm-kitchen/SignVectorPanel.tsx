@@ -57,14 +57,14 @@ export default function SignVectorPanel({
     };
   }, [propPositions]);
 
-  const state = React.useMemo(() => {;
+  const state = React.useMemo(() => {
     if (!positions) return null;
     // Compute aspects from current positions if not provided
     let realAspects = aspects as any;
     try {
       if (!realAspects) {
         const minimal = Object.fromEntries(
-          Object.entries(positions).map(([kv]) => [
+          Object.entries(positions).map(([k, v]) => [
             k,
             { sign: (v as any).sign, degree: (v as any).degree }
           ]),
@@ -108,7 +108,7 @@ export default function SignVectorPanel({
   if (loading || !state) {
     return (
       <div style={{ border: '1px solid #444', borderRadius: 8, padding: 12, marginTop: 12 }}>
-        ;<div style={{ fontWeight: 600, marginBottom: 8 }}>Current Sign Expression</div>,
+        <div style={{ fontWeight: 600, marginBottom: 8 }}>Current Sign Expression</div>
         <div>Loading planetary positions…</div>
       </div>
     );
