@@ -65,5 +65,3 @@ export class AlchmWebSocket {
 }
 
 export const alchmWs = new AlchmWebSocket();
-
-

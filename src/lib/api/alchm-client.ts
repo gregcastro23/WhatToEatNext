@@ -75,5 +75,3 @@ export class AlchmAPIClient {
 }
 
 export const alchmAPI = new AlchmAPIClient();
-
-
