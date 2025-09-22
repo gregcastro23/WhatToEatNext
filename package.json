@@ -20,7 +20,7 @@
     "@typescript-eslint/typescript-estree": "5.61.0"
   },
   "scripts": {
-    "types:api": "node scripts/generate-types-from-backend.js",
+    "types:api": "node scripts/generate-types-from-backend.cjs",
     "predev": "node scripts/check-node-version.cjs",
     "prebuild": "node scripts/check-node-version.cjs",
     "check-pm": "bash scripts/check-package-manager.sh",
