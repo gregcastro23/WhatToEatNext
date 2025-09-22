@@ -9,7 +9,7 @@
 import { TestMemoryMonitor } from './utils/TestMemoryMonitor';
 
 // Global memory monitor instance
-let, globalMemoryMonitor: TestMemoryMonitor | null = null;
+let globalMemoryMonitor: TestMemoryMonitor | null = null;
 
 // Memory management configuration
 const MEMORY_CONFIG = {
@@ -295,8 +295,8 @@ declare global {
     arrayBuffers: string
   };
   let cleanupTestMemory: () => any
-  let, __TEST_CACHE__: Map<string, any> | { clear: () => void } | undefined;
-  let, __TEST_REFS__: any[] | undefined
+  let __TEST_CACHE__: Map<string, any> | { clear: () => void } | undefined;
+  let __TEST_REFS__: any[] | undefined
 }
 
 export default {};

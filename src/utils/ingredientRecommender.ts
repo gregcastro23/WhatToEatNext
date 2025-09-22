@@ -249,7 +249,7 @@ function getAllIngredients(): Ingredient[] {
   }
 
   // Otherwise, use our fallback implementation
-  const, allIngredients: Ingredient[] = []
+  const allIngredients: Ingredient[] = []
 
   // Process each category in ingredientCategories
   Object.entries(ingredientCategories).forEach(([category, ingredientsMap]) => {
@@ -431,7 +431,7 @@ export async function getIngredientRecommendations(
   const sunSign = elementalProps.zodiacSign.toLowerCase() as any;
 
   // Map of signs to their ruling planets
-  const, signRulers: Record<string, string> = {
+  const signRulers: Record<string, string> = {
     aries: 'Mars',
     taurus: 'Venus',
     gemini: 'Mercury',
@@ -449,7 +449,7 @@ export async function getIngredientRecommendations(
   const rulingPlanet = signRulers[sunSign] || 'Sun';
 
   // Get decan information for each planet position
-  const, planetDecans: Record<string, { decanNum: number, decanRuler: string, tarotCard: string }> =
+  const planetDecans: Record<string, { decanNum: number, decanRuler: string, tarotCard: string }> =
     {};
 
   Object.entries(elementalProps.planetaryAlignment || {}).forEach(([planet, position]) => {
@@ -464,7 +464,7 @@ export async function getIngredientRecommendations(
     else if (degree >= 20) decanNum = 3;
 
     // Reference data for decan rulers and tarot cards based on sign and decan
-    const, decanRulerMap: Record<string, Record<number, string>> = {
+    const decanRulerMap: Record<string, Record<number, string>> = {
       aries: { 1: 'Mars', 2: 'Sun', 3: 'Venus' },
       taurus: { 1: 'Mercury', 2: 'Moon', 3: 'Saturn' },
       gemini: { 1: 'Jupiter', 2: 'Mars', 3: 'Sun' },
@@ -479,7 +479,7 @@ export async function getIngredientRecommendations(
       pisces: { 1: 'Saturn', 2: 'Jupiter', 3: 'Mars' }
     };
 
-    const, tarotCardMap: Record<string, Record<number, string>> = {
+    const tarotCardMap: Record<string, Record<number, string>> = {
       aries: { 1: '2 of Wands', 2: '3 of Wands', 3: '4 of Wands' },
       taurus: { 1: '5 of Pentacles', 2: '6 of Pentacles', 3: '7 of Pentacles' },
       gemini: { 1: '8 of Swords', 2: '9 of Swords', 3: '10 of Swords' },
@@ -615,11 +615,11 @@ export async function getIngredientRecommendations(
   );
 
   // Group ingredients by category
-  const, groupedRecommendations: GroupedIngredientRecommendations = {};
+  const groupedRecommendations: GroupedIngredientRecommendations = {};
 
   // Apply limit per category before grouping to ensure diversity
   const limit = options.limit || 24;
-  const, categoryCounts: Record<string, number> = {};
+  const categoryCounts: Record<string, number> = {};
   const categoryMaxItems = Math.ceil(limit / 8); // Max items per category
 
   scoredIngredients.forEach(ingredient => {
@@ -638,7 +638,7 @@ export async function getIngredientRecommendations(
       const ingredientIntelligence = enterpriseAnalysis.ingredientIntelligence;
       const validationIntelligence = enterpriseAnalysis.validationIntelligence
 
-      const, ingredientRecommendation: IngredientRecommendation = {
+      const ingredientRecommendation: IngredientRecommendation = {
         name: ingredient.name || '',
         type:
           safeGetString(ingredientData.type) ||
@@ -790,7 +790,7 @@ function calculateSeasonalScore(ingredient: Ingredient, date: Date): number {
 
   // Get current month and convert to season
   const month = date.getMonth(), // 0-11;
-  let, currentSeason: string,
+  let currentSeason: string,
 
   // Northern hemisphere seasons
   if (month >= 2 && month <= 4) {
@@ -883,7 +883,7 @@ export function calculateElementalInfluences(
   planetaryAlignment: Record<string, { sign: string, degree: number }>,
 ): ElementalProperties {
   // Define elemental affinities for each zodiac sign
-  const, zodiacElements: Record<string, keyof ElementalProperties> = {
+  const zodiacElements: Record<string, keyof ElementalProperties> = {
     aries: 'Fire',
     taurus: 'Earth',
     gemini: 'Air',
@@ -899,7 +899,7 @@ export function calculateElementalInfluences(
   };
 
   // Define planet weights
-  const, planetWeights: Record<string, number> = {
+  const planetWeights: Record<string, number> = {
     sun: 5,
     moon: 4,
     mercury: 3,
@@ -913,7 +913,7 @@ export function calculateElementalInfluences(
   };
 
   // Initialize elemental influences
-  const, elementalInfluences: ElementalProperties = {
+  const elementalInfluences: ElementalProperties = {
     Fire: 0,
     Earth: 0,
     Air: 0,
@@ -962,7 +962,7 @@ export function getChakraBasedRecommendations(
   const significantChakras = sortedChakras.filter(([, energy]) => energy > 0),
 
   // Prepare the result object
-  const, result: GroupedIngredientRecommendations = {};
+  const result: GroupedIngredientRecommendations = {};
 
   // For each significant chakra, add corresponding recommended ingredients
   significantChakras.forEach(([chakra, energy]) => {
@@ -1003,7 +1003,7 @@ export function getChakraBasedRecommendations(
 
       // Create recommendation with chakra-based score
       const ingredientName = safeGetString(ingredientData.name) || 'Unknown Ingredient';
-      const, recommendation: IngredientRecommendation = {
+      const recommendation: IngredientRecommendation = {
         name: ingredientName,
         type: ingredientType,
         category: safeGetString(ingredientData.category),
@@ -2388,7 +2388,7 @@ function determineIngredientModality(
  */
 function getDominantElement(elementalProperties: ElementalProperties): keyof ElementalProperties {
   const elements = ['Fire', 'Water', 'Earth', 'Air'] as const;
-  let, dominantElement: keyof ElementalProperties = 'Earth', // Default;
+  let dominantElement: keyof ElementalProperties = 'Earth', // Default;
   let highestValue = 0;
 
   // Find the element with the highest value
@@ -2406,7 +2406,7 @@ function getDominantElement(elementalProperties: ElementalProperties): keyof Ele
 /**
  * Maps planets to their elemental influences (diurnal and nocturnal elements);
  */
-const, planetaryElements: Record<
+const planetaryElements: Record<
   string,
   {
     diurnal: keyof ElementalProperties,
@@ -2467,7 +2467,7 @@ const, planetaryElements: Record<
 };
 
 // Define sign info with decan effects and degree effects
-const, signInfo: Record<
+const signInfo: Record<
   string,
   {
     element: keyof ElementalProperties,
@@ -2954,9 +2954,9 @@ export async function recommendIngredients(
   const isDaytimeNow = planetaryCalculator.isDaytime(date);
 
   // Create elemental properties object for the current system state
-  const, systemElementalProps: ElementalProperties = { Fire, Water, Air, Earth };
+  const systemElementalProps: ElementalProperties = { Fire, Water, Air, Earth };
 
-  const, recommendations: IngredientRecommendation[] = [];
+  const recommendations: IngredientRecommendation[] = [];
 
   // Calculate scores for each ingredient
   for (const ingredient of filteredIngredients) {
@@ -2991,7 +2991,7 @@ export async function recommendIngredients(
     const planetaryHourWeight = Number(planetaryHourScore) || 0;
 
     // Apply enterprise intelligence enhancement (moved up to avoid declaration issues);
-    let, enterpriseEnhancement: Record<string, unknown> | null = null;
+    let enterpriseEnhancement: Record<string, unknown> | null = null;
     try {
       // Safe method access with fallback
       const enhanceMethod = (
@@ -3041,7 +3041,7 @@ export async function recommendIngredients(
     // Add to recommendations list
     // Apply Pattern, L: Interface property mapping for IngredientRecommendation compatibility
     const recommendationData = ingredient as unknown as any
-    const, ingredientRecommendation: IngredientRecommendation = {
+    const ingredientRecommendation: IngredientRecommendation = {
       name: String(recommendationData.name || ''),
       type: String(recommendationData.type || ''),
       category: recommendationData.category,
@@ -3080,7 +3080,7 @@ function generateRecommendationsForIngredient(
   planetaryPositions?: Record<string, { sign: string, degree: number }>,
   aspects?: Array<{ aspectType: string, planet1: string, planet2: string }>,
 ): string[] {
-  const, recs: string[] = [];
+  const recs: string[] = [];
 
   // Basic recommendation based on planetary day
   if (planetaryElements[planetaryDay]) {

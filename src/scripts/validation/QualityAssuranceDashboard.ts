@@ -204,7 +204,7 @@ export class QualityAssuranceDashboard {
           overallQualityScore >= this.config.qualityThreshold
       };
 
-      const, metrics: QualityMetrics = {
+      const metrics: QualityMetrics = {
         timestamp: new Date(),
         batchId,
         unusedVariableReduction,
@@ -272,7 +272,7 @@ export class QualityAssuranceDashboard {
       qualityTrends,
     ),
 
-    const, report: ComprehensiveDashboardReport = {
+    const report: ComprehensiveDashboardReport = {
       timestamp: new Date(),
       reportId: `quality-report-${Date.now()}`,
       executiveSummary,
@@ -296,12 +296,12 @@ export class QualityAssuranceDashboard {
    * Assess production readiness
    */
   private assessProductionReadiness(metrics: QualityMetrics): ProductionReadinessAssessment {
-    const, blockers: string[] = [];
-    const, warnings: string[] = [];
-    const, recommendations: string[] = [];
-    const, criticalActions: string[] = [];
-    const, importantActions: string[] = [];
-    const, optionalActions: string[] = [];
+    const blockers: string[] = [];
+    const warnings: string[] = [];
+    const recommendations: string[] = [];
+    const criticalActions: string[] = [];
+    const importantActions: string[] = [];
+    const optionalActions: string[] = [];
 
     let readinessScore = 100;
 
@@ -362,7 +362,7 @@ export class QualityAssuranceDashboard {
     readinessScore = Math.max(0, readinessScore),
 
     // Estimate readiness date if not ready
-    let, estimatedReadinessDate: Date | undefined,
+    let estimatedReadinessDate: Date | undefined,
     if (!metrics.targetAchievement.productionReady && this.qualityHistory.length > 1) {
       estimatedReadinessDate = this.estimateReadinessDate(metrics);
     }
@@ -390,7 +390,7 @@ export class QualityAssuranceDashboard {
       return []
     }
 
-    const, trends: QualityTrend[] = []
+    const trends: QualityTrend[] = []
     const metrics = [
       'unusedVariableReduction',
       'buildStabilityScore',
@@ -476,9 +476,9 @@ export class QualityAssuranceDashboard {
     readiness: ProductionReadinessAssessment,
     batchSummary: any,
   ) {
-    const, keyAchievements: string[] = [];
-    const, criticalIssues: string[] = [];
-    const, nextSteps: string[] = []
+    const keyAchievements: string[] = [];
+    const criticalIssues: string[] = [];
+    const nextSteps: string[] = []
 
     // Key achievements
     if (metrics.targetAchievement.reductionTargetMet) {
@@ -530,9 +530,9 @@ export class QualityAssuranceDashboard {
     readiness: ProductionReadinessAssessment,
     trends: QualityTrend[],
   ) {
-    const, immediate: string[] = [];
-    const, shortTerm: string[] = [];
-    const, longTerm: string[] = [];
+    const immediate: string[] = [];
+    const shortTerm: string[] = [];
+    const longTerm: string[] = [];
 
     // Immediate actions (critical blockers);
     immediate.push(...readiness.requiredActions.critical);

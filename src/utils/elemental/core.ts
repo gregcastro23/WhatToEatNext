@@ -10,7 +10,7 @@ import { Recipe } from '@/types/recipe';
 
 // --- Core Types ---
 
-export type ElementalColor = {;
+export type ElementalColor = {
   primary: string,
   secondary: string,
   text: string,
@@ -53,7 +53,7 @@ export interface ElementalProfile {
 
 // --- Constants ---
 
-export const, ELEMENTAL_COLORS: Record<keyof ElementalProperties, ElementalColor> = {
+export const ELEMENTAL_COLORS: Record<keyof ElementalProperties, ElementalColor> = {
   Fire: {
     primary: '#FF6B35',
     secondary: '#FF8E53',
@@ -84,14 +84,14 @@ export const, ELEMENTAL_COLORS: Record<keyof ElementalProperties, ElementalColor
   }
 };
 
-export const, ELEMENTAL_SYMBOLS: Record<keyof ElementalProperties, string> = {
+export const ELEMENTAL_SYMBOLS: Record<keyof ElementalProperties, string> = {
   Fire: '🔥',
   Water: '💧',
   Earth: '🌍',
   Air: '💨'
 };
 
-export const, ELEMENTAL_DESCRIPTIONS: Record<keyof ElementalProperties, string> = {
+export const ELEMENTAL_DESCRIPTIONS: Record<keyof ElementalProperties, string> = {
   Fire: 'Energizing, warming, transformative',
   Water: 'Cooling, flowing, adaptive',
   Earth: 'Grounding, nourishing, stable',
@@ -131,7 +131,7 @@ export function validateElementalProperties(properties: ElementalProperties): bo
  * @returns Normalized elemental properties
  */
 export function normalizeProperties(properties: Partial<ElementalProperties>): ElementalProperties {
-  const, normalized: ElementalProperties = {
+  const normalized: ElementalProperties = {
     Fire: properties.Fire || 0,
     Water: properties.Water || 0,
     Earth: properties.Earth || 0,
@@ -160,7 +160,7 @@ export function normalizeProperties(properties: Partial<ElementalProperties>): E
 export function calculateDominantElement(
   elementalState: ElementalProperties,
 ): keyof ElementalProperties {
-  let, dominantElement: keyof ElementalProperties = 'Fire';
+  let dominantElement: keyof ElementalProperties = 'Fire';
   let maxValue = 0
 
   Object.entries(elementalState || {}).forEach(([element, value]) => {
@@ -415,7 +415,7 @@ function calculateElementalStateFromIngredients(
  * @returns Elemental characteristics
  */
 export function getElementalCharacteristics(_element: Element): ElementalCharacteristics {
-  const, characteristics: Record<Element, ElementalCharacteristics> = {
+  const characteristics: Record<Element, ElementalCharacteristics> = {
     Fire: {
       name: 'Fire',
       description: 'Energizing, warming, transformative energy that brings vitality and passion',

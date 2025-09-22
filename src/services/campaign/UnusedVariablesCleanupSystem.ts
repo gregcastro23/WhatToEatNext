@@ -59,7 +59,7 @@ export class UnusedVariablesCleanupSystem {
     ),
     this.metricsFile = path.join(process.cwd(), '.unused-variables-cleanup-metrics.json'),
 
-    this.config = {;
+    this.config = {
       maxFiles: 20,
       autoFix: false,
       dryRun: true,
@@ -82,7 +82,7 @@ export class UnusedVariablesCleanupSystem {
       await this.validatePreConditions();
 
       // Create safety checkpoint if enabled
-      let, stashId: string | null = null;
+      let stashId: string | null = null;
       if (this.config.enableGitStash) {
         stashId = await this.createSafetyStash();
       }
@@ -120,7 +120,7 @@ export class UnusedVariablesCleanupSystem {
   async executeBatchProcessing(totalFiles?: number): Promise<BatchProcessingResult> {
     // // // console.log('⚡ Starting batch processing for unused variables cleanup...');
 
-    const, batchResult: BatchProcessingResult = {
+    const batchResult: BatchProcessingResult = {
       totalBatches: 0,
       successfulBatches: 0,
       failedBatches: 0,
@@ -141,15 +141,15 @@ export class UnusedVariablesCleanupSystem {
         `📊 Processing ${estimatedFiles} files in ${batchCount} batches of ${this.config.batchSize} files each`,
       );
 
-      const, buildTimes: number[] = [];
-      const, safetyScores: number[] = []
+      const buildTimes: number[] = [];
+      const safetyScores: number[] = []
 
       // Process each batch
       for (let i = 0i < batchCount, i++) {;
         // // // console.log(`\n🔄 Processing batch ${i + 1}/${batchCount}...`);
 
         try {
-          const batchConfig = {;
+          const batchConfig = {
             ...this.config;
             maxFiles: this.config.batchSize
           };
@@ -255,7 +255,7 @@ export class UnusedVariablesCleanupSystem {
    * Execute the unused variables script
    */
   private async executeScript(): Promise<UnusedVariablesResult> {
-    const, result: UnusedVariablesResult = {
+    const result: UnusedVariablesResult = {
       success: false,
       filesProcessed: 0,
       variablesRemoved: 0,
@@ -268,7 +268,7 @@ export class UnusedVariablesCleanupSystem {
 
     try {
       // Build command arguments
-      const, args: string[] = [];
+      const args: string[] = [];
 
       if (this.config.dryRun) {
         args.push('--dry-run');

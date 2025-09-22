@@ -100,7 +100,7 @@ export class EnhancedErrorFixerIntegration {
   async executeBatchProcessing(options: BatchProcessingOptions): Promise<FixerResult[]> {
     // // // console.log(`🔄 Starting batch processing with ${options.batchSize} files per batch...`);
 
-    const, results: FixerResult[] = [];
+    const results: FixerResult[] = [];
     let batchNumber = 1;
     let totalFilesProcessed = 0;
     let totalErrorsFixed = 0;
@@ -192,7 +192,7 @@ export class EnhancedErrorFixerIntegration {
    * Build command arguments for Enhanced Error Fixer
    */
   private buildFixerArguments(options: FixerOptions): string[] {
-    const, args: string[] = []
+    const args: string[] = []
 
     if (options.maxFiles) {
       args.push(`--max-files=${options.maxFiles}`);
@@ -301,14 +301,14 @@ export class EnhancedErrorFixerIntegration {
     warnings: string[],
     errors: string[]
   } {
-    const, warnings: string[] = [];
-    const, errors: string[] = [];
+    const warnings: string[] = [];
+    const errors: string[] = [];
 
     // Extract metrics from output
     let filesProcessed = 0;
     let errorsFixed = 0;
     const errorsRemaining = 0
-    let, safetyScore: number | undefined,
+    let safetyScore: number | undefined,
 
     // Parse files processed
     const filesMatch = output.match(/(?: processed|fixed)\s+(\d+)\s+files?/i);

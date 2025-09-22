@@ -19,8 +19,8 @@ const mockWriteFileSync = writeFileSync as jest.MockedFunction<typeof writeFileS
 const mockMkdirSync = mkdirSync as jest.MockedFunction<typeof mkdirSync>;
 
 describe('InfrastructurePreparation', () => {
-  let, infrastructurePrep: InfrastructurePreparation,
-  let, testProjectRoot: string,
+  let infrastructurePrep: InfrastructurePreparation,
+  let testProjectRoot: string,
 
   beforeEach(() => {
     testProjectRoot = '/test/project';

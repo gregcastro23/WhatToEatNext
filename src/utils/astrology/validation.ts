@@ -32,7 +32,7 @@ interface StateCache<T> {
 }
 
 // Cache for reliable positions
-let, reliablePositionsCache: StateCache<Record<string, CelestialPosition>> | null = null;
+let reliablePositionsCache: StateCache<Record<string, CelestialPosition>> | null = null;
 const _CACHE_DURATION = 15 * 60 * 1000; // 15 minutes
 
 // Interface for transit date
@@ -127,7 +127,7 @@ export function getReliablePlanetaryPositions(): { [key: string]: CelestialPosit
   };
 
   // Cache the results
-  reliablePositionsCache = {;
+  reliablePositionsCache = {
     data: positions,
     timestamp: Date.now();
   };
@@ -230,7 +230,7 @@ export function calculateSunSign(date: Date = new Date()): any {;
  * @returns Total degrees (0-360);
  */
 export function getZodiacPositionInDegrees(sign: any, degree: number): number {
-  const, signs: any[] = [
+  const signs: any[] = [
     'aries',
     'taurus',
     'gemini',
@@ -257,7 +257,7 @@ export function getZodiacPositionInDegrees(sign: any, degree: number): number {
 export function calculatePlanetaryAspects(positions: {
   [key: string]: CelestialPosition
 }): PlanetaryAspect[] {
-  const, aspects: PlanetaryAspect[] = [];
+  const aspects: PlanetaryAspect[] = [];
   const planets = Object.keys(positions);
 
   // Calculate aspects between all planet pAirs
@@ -318,7 +318,7 @@ export function calculatePlanetaryAspects(positions: {
  */
 export function identifyAspect(_angleDiff: number): { type: AspectType, orb: number } | null {
   // Define aspect angles and allowed orbs
-  const, aspectDefinitions: Record<AspectType, { angle: number, maxOrb: number }> = {
+  const aspectDefinitions: Record<AspectType, { angle: number, maxOrb: number }> = {
     conjunction: { angle: 0, maxOrb: 8 },
     opposition: { angle: 180, maxOrb: 8 },
     trine: { angle: 120, maxOrb: 7 },
@@ -351,7 +351,7 @@ export function identifyAspect(_angleDiff: number): { type: AspectType, orb: num
  */
 export function calculateAspectStrength(type: AspectType, _orb: number): number {
   // Define base strength for each aspect type
-  const, baseStrength: Record<AspectType, number> = {
+  const baseStrength: Record<AspectType, number> = {
     conjunction: 1.0,
     opposition: 0.9,
     trine: 0.8,
@@ -366,7 +366,7 @@ export function calculateAspectStrength(type: AspectType, _orb: number): number 
   };
 
   // Get max orb for this aspect type
-  const, aspectDefinitions: Record<AspectType, { angle: number, maxOrb: number }> = {
+  const aspectDefinitions: Record<AspectType, { angle: number, maxOrb: number }> = {
     conjunction: { angle: 0, maxOrb: 8 },
     opposition: { angle: 180, maxOrb: 8 },
     trine: { angle: 120, maxOrb: 7 },
@@ -455,7 +455,7 @@ export const normalizeZodiacSign = (sign: string): any => {;
   // Convert to lowercase and trim
   const normalizedSign = sign.toLowerCase().trim();
   // Check if it's a valid sign
-  const, validSigns: any[] = [
+  const validSigns: any[] = [
     'aries',
     'taurus',
     'gemini',
@@ -560,7 +560,7 @@ export function validatePlanetaryPositions(
   for (const [planet, data] of Object.entries(positions)) {
     if (typeof data === 'object' && data !== null) {;
       const src = data as unknown;
-      const, position: CelestialPosition = {
+      const position: CelestialPosition = {
         sign: String(src.sign || ''),
         degree: Number(src.degree || 0),
         exactLongitude: Number(src.exactLongitude || 0),
@@ -585,7 +585,7 @@ export function validatePlanetaryPositions(
  * @returns Base longitude in degrees
  */
 export function getBaseSignLongitude(sign: any): number {
-  const, signs: any[] = [
+  const signs: any[] = [
     'aries',
     'taurus',
     'gemini',
@@ -670,7 +670,7 @@ function calculateApproximatemoonSign(dayOfYear: number): any {
   // Moon moves about 13 degrees per day, spending about 2.5 days in each sign
   // This is a very rough approximation
   const moonCycle = Math.floor((dayOfYear % 29.5) / 2.5);
-  const, signs: any[] = [
+  const signs: any[] = [
     'aries',
     'taurus',
     'gemini',

@@ -67,7 +67,7 @@ export default function CookingMethodPage() {
       const methodId = Array.isArray(params.method) ? params.method[0] : params.method;
 
       // Find the method in allCookingMethods
-      let, foundMethod: CookingMethodInfo | null = null;
+      let foundMethod: CookingMethodInfo | null = null;
       let foundKey = ''
 
       Object.entries(allCookingMethods).forEach(([key, data]) => {

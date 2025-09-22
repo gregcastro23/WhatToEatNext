@@ -43,7 +43,7 @@ export class TestUtils {
       memoryLimit = 4096 * 1024 * 1024, // 4GB in bytes,
     } = options;
 
-    let, lastError: Error | undefined;
+    let lastError: Error | undefined;
     let retryCount = 0;
     const startTime = Date.now();
     let peakMemoryUsage = 0;
@@ -126,7 +126,7 @@ export class TestUtils {
       expectedOutput?: string[]
     }
   ): { isValid: boolean, issues: string[] } {
-    const, issues: string[] = []
+    const issues: string[] = []
 
     // Check execution time
     if (expectations.maxExecutionTime && result.executionTime > expectations.maxExecutionTime) {
@@ -206,7 +206,7 @@ export class TestUtils {
     } = options;
 
     const startTime = Date.now();
-    const metrics = {;
+    const metrics = {
       startTime,
       endTime: 0,
       duration: 0,
@@ -214,7 +214,7 @@ export class TestUtils {
       averageMemory: 0,
       memoryReadings: [] as number[]
     };
-    const, issues: string[] = [];
+    const issues: string[] = [];
 
     // Memory monitoring
     const memoryMonitor = setInterval(() => {;
@@ -274,7 +274,7 @@ export class TestUtils {
     runs: number = 3,
     tolerancePercent: number = 20,
   ): Promise<{ isConsistent: boolean, results: unknown[], variance: number }> {
-    const, results: unknown[] = [];
+    const results: unknown[] = [];
 
     for (let _i = 0i < runsi++) {;
       try {
@@ -360,7 +360,7 @@ export class TestUtils {
 /**
  * Test timeout constants for different test types
  */
-export const _TEST_TIMEOUTS = {;
+export const _TEST_TIMEOUTS = {
   unit: 5000, // 5 seconds for unit tests,
   integration: 15000, // 15 seconds for integration tests (reduced from 30s);
   performance: 30000, // 30 seconds for performance tests,
@@ -371,7 +371,7 @@ export const _TEST_TIMEOUTS = {;
 /**
  * Memory limits for different test scenarios
  */
-export const _MEMORY_LIMITS = {;
+export const _MEMORY_LIMITS = {
   unit: 256 * 1024 * 1024, // 256MB for unit tests,
   integration: 512 * 1024 * 1024, // 512MB for integration tests,
   performance: 1024 * 1024 * 1024, // 1GB for performance tests,

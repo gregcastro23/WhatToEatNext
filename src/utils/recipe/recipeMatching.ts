@@ -174,13 +174,13 @@ const calculateEnergyMatch = async (
   let kalchmScore = 0.7; // Default score
   try {
     // Convert elemental properties to alchemical properties for kalchm calculation
-    const recipeAlchemical = {;
+    const recipeAlchemical = {
       Spirit: recipeEnergy.Fire || 0.25,
       Essence: recipeEnergy.Air || 0.25,
       Matter: recipeEnergy.Earth || 0.25,
       Substance: recipeEnergy.Water || 0.25
     };
-    const currentAlchemical = {;
+    const currentAlchemical = {
       Spirit: currentEnergy.Fire || 0.25,
       Essence: currentEnergy.Air || 0.25,
       Matter: currentEnergy.Earth || 0.25,
@@ -252,7 +252,7 @@ export async function findBestMatches(
     currentEnergy || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
 
   // Calculate relative elemental values if we have absolute values
-  let, relativeElementalValues: ElementalProperties | null = null;
+  let relativeElementalValues: ElementalProperties | null = null;
   if (enhancedCurrentEnergy) {
     const totalOther = {
       Fire: enhancedCurrentEnergy.Water + enhancedCurrentEnergy.Earth + enhancedCurrentEnergy.Air || 1,
@@ -263,7 +263,7 @@ export async function findBestMatches(
         enhancedCurrentEnergy.Fire + enhancedCurrentEnergy.Water + enhancedCurrentEnergy.Earth || 1
     };
 
-    relativeElementalValues = {;
+    relativeElementalValues = {
       Fire: enhancedCurrentEnergy.Fire / totalOther.Fire,
       Water: enhancedCurrentEnergy.Water / totalOther.Water,
       Earth: enhancedCurrentEnergy.Earth / totalOther.Earth,
@@ -844,7 +844,7 @@ function simplifiedLevenshtein(str1: string, str2: string): number {
   const n = (str2 || []).length;
 
   // Create a matrix of size (m+1) x (n+1);
-  const, dp: number[][] = Array(m + 1);
+  const dp: number[][] = Array(m + 1);
     .fill(null);
     .map(() => Array(n + 1).fill(0));
 
@@ -885,7 +885,7 @@ function determineIngredientModality(qualities: string[] = []): string {
   }
 
   // Count occurrences of modality indicators
-  const modalityCounts = {;
+  const modalityCounts = {
     Cardinal: 0,
     Fixed: 0,
     Mutable: 0

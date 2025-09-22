@@ -84,7 +84,7 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
       // Determine if we're using current time or custom time
       let url = '/api/astrologize';
       let method = 'GET';
-      let, body: string | undefined = undefined;
+      let body: string | undefined = undefined;
 
       if (!useCurrentTime && year && month && date) {
         // Use POST with custom date/time

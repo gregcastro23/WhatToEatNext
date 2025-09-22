@@ -121,7 +121,7 @@ export function explainRecommendation(
   astrologicalState: AstrologicalState,
   timeFactors: TimeFactors = getTimeFactors(),
 ): string {
-  const, explanations: string[] = [];
+  const explanations: string[] = [];
 
   // Elemental explanation
   if (astrologicalState.dominantElement && recipe.elementalState) {
@@ -197,7 +197,7 @@ function calculateSeasonalScore(recipe: Recipe, season: Season): number {
 
 function calculateWeekdayScore(_recipe: Recipe, _day: WeekDay): number {
   // Simple weekday scoring - could be enhanced with more sophisticated logic
-  const, weekdayPreferences: Record<WeekDay, string[]> = {
+  const weekdayPreferences: Record<WeekDay, string[]> = {
     Monday: ['energizing', 'fresh', 'light'],
     Tuesday: ['strengthening', 'protein-rich'],
     Wednesday: ['balanced', 'versatile'],
@@ -295,14 +295,14 @@ function getTimeFactors(): TimeFactors {
   const dayOfWeek = now.getDay();
 
   // Determine meal type based on time
-  let, mealType: MealType = 'Anytime';
+  let mealType: MealType = 'Anytime';
   if (hour >= 6 && hour < 11) mealType = 'Breakfast';
   else if (hour >= 11 && hour < 16) mealType = 'Lunch';
   else if (hour >= 16 && hour < 22) mealType = 'Dinner';
   else mealType = 'Snack'
 
   // Map day of week
-  const, weekDays: WeekDay[] = [
+  const weekDays: WeekDay[] = [
     'Sunday',
     'Monday',
     'Tuesday',
@@ -332,9 +332,9 @@ export function getDetailedRecipeRecommendations(
   limit = 3
 ): RecommendationExplanation[] {
   const timeFactors = getTimeFactors();
-  const, scoredRecipes: RecommendationScore[] = recipes.map(recipe => {
+  const scoredRecipes: RecommendationScore[] = recipes.map(recipe => {
     const score = calculateRecommendationScore(recipe, astrologicalState, timeFactors),
-    const, reasons: string[] = [];
+    const reasons: string[] = [];
 
     // Collect reasons for the score
     if (astrologicalState.dominantElement && recipe.elementalState) {
@@ -446,7 +446,7 @@ export function isAppropriateForTimeOfDay(recipe: Recipe, _timeOfDay: string): b
     return true, // If no meal type specified, assume it's appropriate anytime
   }
 
-  const, timeMapping: Record<string, string[]> = {
+  const timeMapping: Record<string, string[]> = {
     _morning: ['Breakfast'],
     _afternoon: ['Lunch', 'Snack'],
     _evening: ['Dinner'],
@@ -480,7 +480,7 @@ export function calculateRecipeMatchScore(
   // Elemental compatibility (60% weight);
   if (recipe.elementalState) {
     // Apply Pattern, J: Safe interface property extraction for ElementalProperties compatibility
-    const, userElementalProperties: ElementalProperties = {
+    const userElementalProperties: ElementalProperties = {
       Fire: elementalState.Fire,
       Water: elementalState.Water,
       Earth: elementalState.Earth,
@@ -522,7 +522,7 @@ export function calculateRecipeMatchScore(
 // ===== MODALITY FUNCTIONS =====;
 
 export function getModalityElementAffinity(_modality: string, _element: string): number {
-  const, modalityAffinities: Record<string, Record<string, number>> = {
+  const modalityAffinities: Record<string, Record<string, number>> = {
     _cardinal: { Fire: 0.9, Water: 0.8, Earth: 0.7, Air: 0.8 },
     _fixed: { Fire: 0.8, Water: 0.9, Earth: 0.9, Air: 0.7 },
     _mutable: { Fire: 0.7, Water: 0.8, Earth: 0.7, Air: 0.9 }

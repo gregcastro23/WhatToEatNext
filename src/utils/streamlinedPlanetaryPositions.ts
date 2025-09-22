@@ -20,7 +20,7 @@ interface PositionsCache {
   timestamp: number
 }
 
-let, positionsCache: PositionsCache | null = null;
+let positionsCache: PositionsCache | null = null;
 const CACHE_DURATION = 15 * 60 * 1000 // 15 minutes
 
 /**
@@ -227,7 +227,7 @@ export function getCurrentPlanetaryPositions(): { [key: string]: CelestialPositi
   const validatedPositions = validatePositionsWithTransitDates(basePositions);
 
   // Cache the positions
-  positionsCache = {;
+  positionsCache = {
     positions: validatedPositions,
     timestamp: Date.now();
   };
@@ -343,7 +343,7 @@ export function getPlanetaryPositionsForDate(_date: Date): { [key: string]: Cele
  * Convert longitude to zodiac sign and degree
  */
 function longitudeToSignAndDegree(_longitude: number): { sign: any, degree: number } {
-  const, signs: any[] = [
+  const signs: any[] = [
     'aries',
     'taurus',
     'gemini',

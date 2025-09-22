@@ -1,6 +1,6 @@
 import { PlanetData } from './types';
 
-const, venusData: PlanetData = {
+const venusData: PlanetData = {
   'Dignity Effect': {
     libra: 1,
     taurus: 1,
@@ -100,7 +100,7 @@ const, venusData: PlanetData = {
     Herbs: [
       'Angelica',
       'Red Clover',
-      'Ladies' Mantle',
+      "Ladies' Mantle",
       'Lemon Balm',
       'Lemon Verbena',
       'Yarrow',

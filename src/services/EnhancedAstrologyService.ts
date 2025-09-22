@@ -162,8 +162,8 @@ export class EnhancedAstrologyService {
    * Calculate enhanced positions using multiple data sources
    */
   private async calculateEnhancedPositions(date: Date): Promise<EnhancedAstrologicalData> {
-    let, primaryPositions: Record<string, CelestialPosition> | null = null;
-    let, dataSource: EnhancedAstrologicalData['dataSource'] = 'fallback';
+    let primaryPositions: Record<string, CelestialPosition> | null = null;
+    let dataSource: EnhancedAstrologicalData['dataSource'] = 'fallback';
     let confidence = 0.5
 
     // Unified positions service
@@ -229,7 +229,7 @@ export class EnhancedAstrologyService {
       const astrologizePositions = await getCurrentPlanetaryPositions();
 
       // Convert to CelestialPosition format
-      const, celestialPositions: Record<string, CelestialPosition> = {};
+      const celestialPositions: Record<string, CelestialPosition> = {};
 
       Object.entries(astrologizePositions).forEach(([planet, position]) => {
         celestialPositions[planet] = {
@@ -254,9 +254,9 @@ export class EnhancedAstrologyService {
   private (() => ({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }))(
     positions: Record<string, CelestialPosition>,
   ): Record<string, number> {
-    const, elementCounts: Record<string, number> = { Fire: 0, Earth: 0, Air: 0, Water: 0 };
+    const elementCounts: Record<string, number> = { Fire: 0, Earth: 0, Air: 0, Water: 0 };
 
-    const, signElements: Record<ZodiacSign, string> = {
+    const signElements: Record<ZodiacSign, string> = {
       aries: 'Fire',
       leo: 'Fire',
       sagittarius: 'Fire',
@@ -293,7 +293,7 @@ export class EnhancedAstrologyService {
    * Get recommended cuisines based on dominant elements
    */
   private getRecommendedCuisines(dominantElements: Record<string, number>): string[] {
-    const, recommendations: string[] = []
+    const recommendations: string[] = []
 
     if (dominantElements.Fire > 0.3) {
       recommendations.push('Mexican', 'Thai', 'Indian', 'Korean');
@@ -317,7 +317,7 @@ export class EnhancedAstrologyService {
    * Get recommended cooking methods based on dominant elements
    */
   private getRecommendedCookingMethods(dominantElements: Record<string, number>): string[] {
-    const, recommendations: string[] = []
+    const recommendations: string[] = []
 
     if (dominantElements.Fire > 0.3) {
       recommendations.push('Grilling', 'Stir-frying', 'High-heat roasting', 'Spicy seasoning');
@@ -346,7 +346,7 @@ export class EnhancedAstrologyService {
     cookingMethods: string[],
     alchemicalProperties: Record<string, number>
   } {
-    const seasonalData = {;
+    const seasonalData = {
       0: {
         // January
         themes: ['New beginnings', 'Comfort', 'Warmth'],
@@ -385,7 +385,7 @@ export class EnhancedAstrologyService {
    */
   private cleanCache(): void {
     const now = Date.now();
-    const, keysToDelete: string[] = []
+    const keysToDelete: string[] = []
 
     this.cache.forEach((value, key) => {
       if (now - value.lastUpdated.getTime() > this.cacheExpiration) {

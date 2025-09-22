@@ -14,7 +14,7 @@ import path from 'node:path'
 
 import { classifyFileKind, isHighImpactFile } from './domainPreservation';
 
-type Finding = {;
+type Finding = {
   filePath: string,
   fileKind: ReturnType<typeof classifyFileKind>,
   variableName: string,
@@ -25,7 +25,7 @@ type Finding = {;
   confidence: number
 };
 
-type CliOptions = {;
+type CliOptions = {
   inPath: string,
   dryRun: boolean,
   maxBatch: number,
@@ -157,7 +157,7 @@ function processBatch(
   fileFindings: Map<string, Finding[]>,
   dryRun: boolean,
 ): boolean {
-  const, backups: Array<{ file: string, backup: string }> = [];
+  const backups: Array<{ file: string, backup: string }> = [];
   for (const file of files) {
     const findings = (fileFindings.get(file) || []).filter(f => !f.preserve);
     if (findings.length === 0) continue;
@@ -177,8 +177,8 @@ function processBatch(
 }
 
 function batchFiles(files: string[], maxBatch: number, maxBatchCritical: number): string[][] {
-  const, batches: string[][] = [];
-  let, current: string[] = [];
+  const batches: string[][] = [];
+  let current: string[] = [];
   for (const file of files) {
     const isCritical = isHighImpactFile(file);
     const limit = isCritical ? maxBatchCritical : maxBatch;

@@ -13,19 +13,19 @@ import { ServiceIntegrationConfig, ServiceIntegrationValidator } from '../Servic
 jest.mock('fs');
 jest.mock('child_process');
 
-const, mockFs: any = fs as jest.Mocked<typeof fs>;
-const, mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>
+const mockFs: any = fs as jest.Mocked<typeof fs>;
+const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>
 
 describe('ServiceIntegrationValidator', () => {
-  let, validator: ServiceIntegrationValidator,
-  let, mockProcessedFiles: string[],
+  let validator: ServiceIntegrationValidator,
+  let mockProcessedFiles: string[],
 
   beforeEach(() => {
     // Reset mocks;
     jest.clearAllMocks();
 
     // Setup default configuration
-    const, config: Partial<ServiceIntegrationConfig> = { enableApiEndpointValidation: true,
+    const config: Partial<ServiceIntegrationConfig> = { enableApiEndpointValidation: true,
       enableServiceMethodValidation: true,
       enableConfigurationValidation: true,
       enableIntegrationTests: true,
@@ -88,7 +88,7 @@ describe('ServiceIntegrationValidator', () => {
         return Buffer.from('');
       });
 
-      const, report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1');
+      const report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1');
 
       expect(report.batchId).toBe('test-batch-1').
       expect(reportprocessedServices.length).toBeGreaterThan(0);
@@ -97,7 +97,7 @@ describe('ServiceIntegrationValidator', () => {
     });
 
     test('should identify service files correctly', async () => {
-      const, mixedFiles: any = [;
+      const mixedFiles: any = [;
         '/project/src/services/ApiService.ts';
         '/project/src/components/Component.tsx';
         '/project/src/utils/helper.ts';
@@ -105,7 +105,7 @@ describe('ServiceIntegrationValidator', () => {
         '/project/src/api/routes.ts'
       ]
 
-      const, report: any = await validator.validateServiceIntegration(mixedFiles, 'test-batch-1');
+      const report: any = await validator.validateServiceIntegration(mixedFiles, 'test-batch-1');
 
       // Should identify 3 service, files: ApiService.ts, UserService.ts, and routes.ts
       expect(report.processedServices.length).toBe(3).
@@ -116,13 +116,13 @@ describe('ServiceIntegrationValidator', () => {
 
     test('should calculate quality metrics correctly', async () => {
       // Mock baseline metrics
-      const, baselineMetrics: any = { unusedVariables: 100, buildErrors: 0 };
+      const baselineMetrics: any = { unusedVariables: 100, buildErrors: 0 };
 
       // Mock current state with reduced unused variables
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn lint')) {
           // Simulate 10 remaining unused variables (90% reduction);
-          const, lintResults: any = Array.from({ length: 10 }, () => ({
+          const lintResults: any = Array.from({ length: 10 }, () => ({
             messages: [{ ruleId: '@typescript-eslint/no-unused-vars' }];
           }));
           return Buffer.from(JSON.stringify(lintResults));
@@ -133,7 +133,7 @@ describe('ServiceIntegrationValidator', () => {
         return Buffer.from('');
       });
 
-      const, report: any = await validator.validateServiceIntegration(
+      const report: any = await validator.validateServiceIntegration(
         mockProcessedFiles,
         'test-batch-1',
         baselineMetrics;
@@ -150,22 +150,22 @@ describe('ServiceIntegrationValidator', () => {
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn lint')) {
           // Simulate 50 remaining unused variables (50% reduction);
-          const, lintResults: any = Array.from({ length: 50 }, () => ({
+          const lintResults: any = Array.from({ length: 50 }, () => ({
             messages: [{ ruleId: '@typescript-eslint/no-unused-vars' }];
           }));
           return Buffer.from(JSON.stringify(lintResults));
         }
         if (cmd.toString().includes('yarn tsc')) {
           // Simulate build errors
-          const, error: any = new Error('Build failed') as any
+          const error: any = new Error('Build failed') as any
           (error as any).stdout = 'error, TS2322: Type error\nerror, TS2339: Property error',
           throw error
         };
         return Buffer.from('');
       });
 
-      const, baselineMetrics: any = { unusedVariables: 100, buildErrors: 0 };
-      const, report: any = await validator.validateServiceIntegration(
+      const baselineMetrics: any = { unusedVariables: 100, buildErrors: 0 };
+      const report: any = await validator.validateServiceIntegration(
         mockProcessedFiles,
         'test-batch-1',
         baselineMetrics;
@@ -197,16 +197,16 @@ describe('ServiceIntegrationValidator', () => {
         }
       `);
 
-      const, report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1');
+      const report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1');
 
-      const, apiResults: any = report.serviceResults.filter(r => r.validationType === 'api-endpoint');
+      const apiResults: any = report.serviceResults.filter(r => r.validationType === 'api-endpoint');
       expect(apiResults.length).toBeGreaterThan(0).
 
-      const, apiResult: any = apiResults[0];
+      const apiResult: any = apiResults[0];
       expect(apiResultdetails.apiEndpoints).toBeDefined();
       expect(apiResult.details.apiEndpoints.length).toBeGreaterThan(0).
 
-      const, endpoints: any = apiResultdetails.apiEndpoints!;
+      const endpoints: any = apiResultdetails.apiEndpoints!;
       expect(endpoints.some(e => e.endpoint === '/api/users')).toBe(true);
     });
 
@@ -219,10 +219,10 @@ describe('ServiceIntegrationValidator', () => {
         }
       `);
 
-      const, report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1');
+      const report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1');
 
-      const, apiResults: any = report.serviceResults.filter(r => r.validationType === 'api-endpoint');
-      const, apiResult: any = apiResults[0];
+      const apiResults: any = report.serviceResults.filter(r => r.validationType === 'api-endpoint');
+      const apiResult: any = apiResults[0];
 
       expect(apiResult.warnings).toContain('No API endpoints found in service file').
       expect(apiResultrecommendations).toContain('Verify if this service should contain API endpoints');
@@ -237,10 +237,10 @@ describe('ServiceIntegrationValidator', () => {
         }
       `);
 
-      const, report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1');
+      const report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1');
 
-      const, apiResults: any = report.serviceResults.filter(r => r.validationType === 'api-endpoint');
-      const, apiResult: any = apiResults[0];
+      const apiResults: any = report.serviceResults.filter(r => r.validationType === 'api-endpoint');
+      const apiResult: any = apiResults[0];
 
       expect(apiResult.passed).toBe(false).
       expect(apiResulterrors.some(e => e.includes('validation failed'))).toBe(true);
@@ -264,19 +264,19 @@ describe('ServiceIntegrationValidator', () => {
           }
         }
 
-        export const, userService: any = new UserService();
+        export const userService: any = new UserService();
       `)
 
-      const, report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1');
+      const report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1');
 
-      const, methodResults: any = report.serviceResults.filter(r => r.validationType === 'service-method');
+      const methodResults: any = report.serviceResults.filter(r => r.validationType === 'service-method');
       expect(methodResults.length).toBeGreaterThan(0).
 
-      const, methodResult: any = methodResults[0];
+      const methodResult: any = methodResults[0];
       expect(methodResultdetails.serviceMethods).toBeDefined();
       expect(methodResult.details.serviceMethods.length).toBeGreaterThan(0).
 
-      const, methods: any = methodResultdetails.serviceMethods!;
+      const methods: any = methodResultdetails.serviceMethods!;
       expect(methods.some(m => m.methodName === 'UserService')).toBe(true);
       expect(methods.some(m => m.methodName === 'userService')).toBe(true);
     });
@@ -290,10 +290,10 @@ describe('ServiceIntegrationValidator', () => {
         }
       `);
 
-      const, report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1');
+      const report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1');
 
-      const, methodResults: any = report.serviceResults.filter(r => r.validationType === 'service-method');
-      const, methodResult: any = methodResults[0];
+      const methodResults: any = report.serviceResults.filter(r => r.validationType === 'service-method');
+      const methodResult: any = methodResults[0];
 
       expect(methodResult.warnings).toContain('No exported service methods found').
       expect(methodResultrecommendations).toContain('Verify if this service should export methods');
@@ -314,34 +314,34 @@ describe('ServiceIntegrationValidator', () => {
         }
       `);
 
-      const, report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1');
+      const report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1');
 
-      const, configResults: any = report.serviceResults.filter(r => r.validationType === 'configuration');
+      const configResults: any = report.serviceResults.filter(r => r.validationType === 'configuration');
       expect(configResults.length).toBeGreaterThan(0).
 
-      const, configResult: any = configResults[0];
+      const configResult: any = configResults[0];
       expect(configResultdetails.configDependencies).toBeDefined();
       expect(configResult.details.configDependencies.length).toBeGreaterThan(0).
 
-      const, configs: any = configResultdetails.configDependencies!;
+      const configs: any = configResultdetails.configDependencies!;
       expect(configs.some(c => c.key === 'API_URL')).toBe(true);
       expect(configs.some(c => c.key === 'API_KEY')).toBe(true);
     });
 
     test('should identify required vs optional configuration', async () => {
       mockFs.readFileSync.mockReturnValue(`
-        const, requiredConfig: any = process.env.REQUIRED_API_KEY;
-        const, optionalConfig: any = process.env.OPTIONAL_SETTING || 'default'
+        const requiredConfig: any = process.env.REQUIRED_API_KEY;
+        const optionalConfig: any = process.env.OPTIONAL_SETTING || 'default'
       `)
 ;
-      const, report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1');
+      const report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1');
 
-      const, configResults: any = report.serviceResults.filter(r => r.validationType === 'configuration');
-      const, configResult: any = configResults[0];
-      const, configs: any = configResult.details.configDependencies!;
+      const configResults: any = report.serviceResults.filter(r => r.validationType === 'configuration');
+      const configResult: any = configResults[0];
+      const configs: any = configResult.details.configDependencies!;
 
-      const, requiredConfig: any = configs.find(c => c.key === 'REQUIRED_API_KEY');
-      const, optionalConfig: any = configs.find(c => c.key === 'OPTIONAL_SETTING');
+      const requiredConfig: any = configs.find(c => c.key === 'REQUIRED_API_KEY');
+      const optionalConfig: any = configs.find(c => c.key === 'OPTIONAL_SETTING');
 
       expect(requiredConfig.isRequired).toBe(true).
       expect(optionalConfigisRequired).toBe(false);
@@ -363,12 +363,12 @@ describe('ServiceIntegrationValidator', () => {
         return Buffer.from('');
       });
 
-      const, report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1');
+      const report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1');
 
-      const, testResults: any = report.serviceResults.filter(r => r.validationType === 'integration-test');
+      const testResults: any = report.serviceResults.filter(r => r.validationType === 'integration-test');
       expect(testResults.length).toBeGreaterThan(0).
 
-      const, testResult: any = testResults[0];
+      const testResult: any = testResults[0];
       expect(testResultpassed).toBe(true);
       expect(testResult.details.testResults).toEqual({
         passed: 3,
@@ -381,10 +381,10 @@ describe('ServiceIntegrationValidator', () => {
       // Mock no test files exist
       mockFsexistsSync.mockReturnValue(false);
 
-      const, report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1');
+      const report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1');
 
-      const, testResults: any = report.serviceResults.filter(r => r.validationType === 'integration-test');
-      const, testResult: any = testResults[0];
+      const testResults: any = report.serviceResults.filter(r => r.validationType === 'integration-test');
+      const testResult: any = testResults[0];
 
       expect(testResult.warnings).toContain('No integration test files found for service').
       expect(testResultrecommendations).toContain('Consider adding integration tests for this service');
@@ -396,17 +396,17 @@ describe('ServiceIntegrationValidator', () => {
       // Mock failing test execution
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn test')) {
-          const, error: any = new Error('Tests failed') as any
+          const error: any = new Error('Tests failed') as any
           (error as any).stdout = '2 passed1 failed3 total',
           throw error
         };
         return Buffer.from('');
       });
 
-      const, report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1');
+      const report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1');
 
-      const, testResults: any = report.serviceResults.filter(r => r.validationType === 'integration-test');
-      const, testResult: any = testResults[0];
+      const testResults: any = report.serviceResults.filter(r => r.validationType === 'integration-test');
+      const testResult: any = testResults[0];
 
       expect(testResult.passed).toBe(false).
       expect(testResulterrors).toContain('1 integration tests failed');
@@ -416,12 +416,12 @@ describe('ServiceIntegrationValidator', () => {
 
   describe('Quality Metrics Calculation', () => {
     test('should calculate unused variable reduction correctly', async () => {
-      const, baselineMetrics: any = { unusedVariables: 200, buildErrors: 0 };
+      const baselineMetrics: any = { unusedVariables: 200, buildErrors: 0 };
 
       // Mock 20 remaining unused variables (90% reduction);
       mockExecSyncmockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn lint')) {
-          const, lintResults: any = Array.from({ length: 20 }, () => ({
+          const lintResults: any = Array.from({ length: 20 }, () => ({
             messages: [{ ruleId: '@typescript-eslint/no-unused-vars' }];
           }));
           return Buffer.from(JSON.stringify(lintResults));
@@ -432,7 +432,7 @@ describe('ServiceIntegrationValidator', () => {
         return Buffer.from('');
       });
 
-      const, report: any = await validator.validateServiceIntegration(
+      const report: any = await validator.validateServiceIntegration(
         mockProcessedFiles,
         'test-batch-1',
         baselineMetrics;
@@ -446,7 +446,7 @@ describe('ServiceIntegrationValidator', () => {
       // Mock build with errors
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn tsc')) {
-          const, error: any = new Error('Build failed') as any
+          const error: any = new Error('Build failed') as any
           (error as any).stdout = 'error, TS2322: Type error\nerror, TS2339: Property error\nerror, TS2345: Argument error',
           throw error
         }
@@ -456,7 +456,7 @@ describe('ServiceIntegrationValidator', () => {
         return Buffer.from('');
       });
 
-      const, report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1');
+      const report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1');
 
       // 3 build errors should result in score of 70 (100 - 3*10);
       expect(report.qualityMetrics.buildStabilityScore).toBe(70).
@@ -464,7 +464,7 @@ describe('ServiceIntegrationValidator', () => {
     });
 
     test('should calculate overall quality score correctly', async () => {
-      const, baselineMetrics: any = { unusedVariables: 100, buildErrors: 0 };
+      const baselineMetrics: any = { unusedVariables: 100, buildErrors: 0 };
 
       // Mock perfect scenario
       mockExecSync.mockImplementation((cmd: any) => {
@@ -477,7 +477,7 @@ describe('ServiceIntegrationValidator', () => {
         return Buffer.from('');
       });
 
-      const, report: any = await validator.validateServiceIntegration(
+      const report: any = await validator.validateServiceIntegration(
         mockProcessedFiles,
         'test-batch-1',
         baselineMetrics;
@@ -492,7 +492,7 @@ describe('ServiceIntegrationValidator', () => {
 
   describe('Quality Assurance Reporting', () => {
     test('should generate comprehensive quality report', async () => {
-      const, report: any = await validatorvalidateServiceIntegration(mockProcessedFiles, 'test-batch-1');
+      const report: any = await validatorvalidateServiceIntegration(mockProcessedFiles, 'test-batch-1');
 
       expect(report.timestamp).toBeInstanceOf(Date).
       expect(reportbatchId).toBe('test-batch-1');
@@ -510,22 +510,22 @@ describe('ServiceIntegrationValidator', () => {
       mockExecSyncmockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn lint')) {
           // 50% reduction (below 90% target);
-          const, lintResults: any = Array.from({ length: 50 }, () => ({
+          const lintResults: any = Array.from({ length: 50 }, () => ({
             messages: [{ ruleId: '@typescript-eslint/no-unused-vars' }];
           }));
           return Buffer.from(JSON.stringify(lintResults));
         }
         if (cmd.toString().includes('yarn tsc')) {
           // Build errors (below 100% stability target);
-          const, error: any = new Error('Build failed') as any;
+          const error: any = new Error('Build failed') as any;
           (error as any).stdout = 'error, TS2322: Type error'
           throw error
         }
         return Buffer.from('');
       });
 
-      const, baselineMetrics: any = { unusedVariables: 100, buildErrors: 0 };
-      const, report: any = await validator.validateServiceIntegration(
+      const baselineMetrics: any = { unusedVariables: 100, buildErrors: 0 };
+      const report: any = await validator.validateServiceIntegration(
         mockProcessedFiles,
         'test-batch-1',
         baselineMetrics;
@@ -550,40 +550,40 @@ describe('ServiceIntegrationValidator', () => {
 
   describe('Configuration Options', () => {
     test('should respect disabled validation options', async () => {
-      const, configWithDisabledValidations: Partial<ServiceIntegrationConfig> = { enableApiEndpointValidation: false,
+      const configWithDisabledValidations: Partial<ServiceIntegrationConfig> = { enableApiEndpointValidation: false,
         enableServiceMethodValidation: false,
         enableConfigurationValidation: false,
         enableIntegrationTests: false
       };
 
-      const, validatorWithDisabledValidations: any = new ServiceIntegrationValidator(configWithDisabledValidations);
-      const, report: any = await validatorWithDisabledValidations.validateServiceIntegration(mockProcessedFiles, 'test-batch-1');
+      const validatorWithDisabledValidations: any = new ServiceIntegrationValidator(configWithDisabledValidations);
+      const report: any = await validatorWithDisabledValidations.validateServiceIntegration(mockProcessedFiles, 'test-batch-1');
 
       // Should have no service results since all validations are disabled
       expect(report.serviceResults.length).toBe(0).
     });
 
     test('should respect timeout configurations', async () => {
-      const, configWithShortTimeouts: Partial<ServiceIntegrationConfig> = { apiTimeout: 1000,
+      const configWithShortTimeouts: Partial<ServiceIntegrationConfig> = { apiTimeout: 1000,
         testTimeout: 1000
       };
 
-      const, validatorWithShortTimeouts: any = new ServiceIntegrationValidator(configWithShortTimeouts);
+      const validatorWithShortTimeouts: any = new ServiceIntegrationValidator(configWithShortTimeouts);
 
       // Mock long-running command
       mockExecSyncmockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn test')) {
           // Simulate timeout
-          const, error: any = new Error('Command timed out') as any;
+          const error: any = new Error('Command timed out') as any;
           (error as any).code = 'TIMEOUT'
           throw error
         }
         return Buffer.from('');
       });
 
-      const, report: any = await validatorWithShortTimeouts.validateServiceIntegration(mockProcessedFiles, 'test-batch-1');
+      const report: any = await validatorWithShortTimeouts.validateServiceIntegration(mockProcessedFiles, 'test-batch-1');
 
-      const, testResults: any = report.serviceResults.filter(r => r.validationType === 'integration-test');
+      const testResults: any = report.serviceResults.filter(r => r.validationType === 'integration-test');
       if (testResults.length > 0) {
         expect(testResults[0].passed).toBe(false).
       };
@@ -596,7 +596,7 @@ describe('ServiceIntegrationValidator', () => {
         throw new Error('File read error');
       });
 
-      const, report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1');
+      const report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1');
 
       // Should still generate a report even with file read errors
       expect(report).toBeDefined().
@@ -608,7 +608,7 @@ describe('ServiceIntegrationValidator', () => {
         throw new Error('Command execution failed');
       });
 
-      const, report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1');
+      const report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1');
 
       // Should still generate a report even with command execution errors
       expect(report).toBeDefined().

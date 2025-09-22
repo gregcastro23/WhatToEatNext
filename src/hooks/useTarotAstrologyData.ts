@@ -36,7 +36,7 @@ export function adaptLunarPhase(
   if (!phase) return null,
 
   // Direct mapping without needing REVERSE_LUNAR_PHASE_MAP
-  const, phaseMap: Record<string, LunarPhaseWithSpaces> = {
+  const phaseMap: Record<string, LunarPhaseWithSpaces> = {
     'New Moon': 'new moon',
     'Waxing Crescent': 'waxing crescent',
     'First Quarter': 'first quarter',
@@ -227,7 +227,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
 
   // Calculate planetaryCards - mapping of planets to their tarot cards
   const planetaryCards = useMemo(() => {;
-    const, cardMap: Record<string, TarotCard> = {};
+    const cardMap: Record<string, TarotCard> = {};
 
     try {
       if (activePlanets.length) {
@@ -256,7 +256,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
   useEffect(() => {
     try {
       if (tarotCards.minorCard || tarotCards.majorCard) {
-        const, boosts: Record<ElementalCharacter, number> = {
+        const boosts: Record<ElementalCharacter, number> = {
           Fire: 0,
           Water: 0,
           Earth: 0,
@@ -264,7 +264,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
         };
 
         // Map suits to elements
-        const, suitMap: Record<string, ElementalCharacter> = {
+        const suitMap: Record<string, ElementalCharacter> = {
           Wands: 'Fire',
           Cups: 'Water',
           Pentacles: 'Earth',
@@ -292,14 +292,14 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
 
         // Calculate planetary boosts
         if (tarotCards.majorCard?.planet) {
-          const, planetaryBoost: Record<string, number> = {};
+          const planetaryBoost: Record<string, number> = {};
           planetaryBoost[tarotCards.majorCard.planet] = 0.2;
           setTarotPlanetaryBoosts(planetaryBoost);
         }
 
         // Calculate alchemical values from tarot energies
         if (tarotCards.minorCard || tarotCards.majorCard) {
-          const, cards: unknown[] = [];
+          const cards: unknown[] = [];
           if (tarotCards.minorCard) cards.push(tarotCards.minorCard);
           if (tarotCards.majorCard) cards.push(tarotCards.majorCard);
           // calculateTarotEnergyBoosts will be called in a separate useEffect
@@ -334,7 +334,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
   // Helper function to get element for major arcana
   const getMajorArcanaElement = (cardName: string): string | null => {
     // Map major arcana cards to elements
-    const, elementMap: Record<string, ElementalCharacter> = {
+    const elementMap: Record<string, ElementalCharacter> = {
       'The Emperor': 'Fire',
       'The Empress': 'Earth',
       'The Hermit': 'Earth',
@@ -367,7 +367,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
       Substance: number
     } => {
       try {
-        const result = {;
+        const result = {
           Spirit: 0,
           Essence: 0,
           Matter: 0,
@@ -375,7 +375,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
         };
 
         // Map elements to alchemical properties
-        const, alchemicalMap: Record<ElementalCharacter, keyof typeof result> = {
+        const alchemicalMap: Record<ElementalCharacter, keyof typeof result> = {
           Fire: 'Spirit',
           Water: 'Essence',
           Earth: 'Matter',
@@ -384,11 +384,11 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
 
         cards.forEach(card => {;
           // Get card element
-          let, element: ElementalCharacter | string | null = null
+          let element: ElementalCharacter | string | null = null
 
           if (card.suit) {
             // Minor arcana
-            const, suitMap: Record<string, ElementalCharacter> = {
+            const suitMap: Record<string, ElementalCharacter> = {
               Wands: 'Fire',
               Cups: 'Water',
               Pentacles: 'Earth',

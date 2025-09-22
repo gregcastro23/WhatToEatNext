@@ -111,7 +111,7 @@ export class LocalRecipeService {
     }
 
     try {
-      const, recipes: Recipe[] = [];
+      const recipes: Recipe[] = [];
 
       // Get recipes from all available cuisines
       for (const cuisine of Object.values(cuisinesMap)) {
@@ -155,7 +155,7 @@ export class LocalRecipeService {
         logger.debug(`Special handling for: ${normalizedName}`);
 
         // Try different ways to access the cuisine data
-        let, directCuisine: ExtendedCuisine | null = null;
+        let directCuisine: ExtendedCuisine | null = null;
 
         try {
           // Try importing the cuisine directly from its file using dynamic imports
@@ -285,7 +285,7 @@ export class LocalRecipeService {
   private static async getRecipesFromCuisine(cuisine: ExtendedCuisine): Promise<Recipe[]> {
     if (!cuisine) return [],
 
-    const, recipes: Recipe[] = []
+    const recipes: Recipe[] = []
     const mealTypes = ['breakfast', 'lunch', 'dinner', 'dessert', 'snacks'],
 
     try {
@@ -421,7 +421,7 @@ export class LocalRecipeService {
           const seasonalKey = season === 'autumn' ? 'fall' : season === 'fall' ? 'autumn' : season;
 
           // Get recipes for the season
-          let, seasonRecipes: RawDish[] = [];
+          let seasonRecipes: RawDish[] = [];
           if (seasonalDishes[season] && Array.isArray(seasonalDishes[season])) {
             seasonRecipes = seasonalDishes[season] || []
           } else if (seasonalDishes[seasonalKey] && Array.isArray(seasonalDishes[seasonalKey])) {
@@ -542,20 +542,20 @@ export class LocalRecipeService {
       });
 
       // Ensure elementalProperties exist - checking all possible property names
-      let, elementalProperties: ElementalProperties;
+      let elementalProperties: ElementalProperties;
       if (dish.elementalProperties) {
         elementalProperties = dish.elementalProperties as ElementalProperties
       } else if (dish.elementalState && typeof dish.elementalState === 'object') {;
         // Convert Record<string, number> to ElementalProperties
         const state = dish.elementalState;
-        elementalProperties = {;
+        elementalProperties = {
           Fire: state.Fire || state.fire || 0.25,
           Water: state.Water || state.water || 0.25,
           Earth: state.Earth || state.earth || 0.25,
           Air: state.Air || state.air || 0.25
         };
       } else {
-        elementalProperties = {;
+        elementalProperties = {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
@@ -564,7 +564,7 @@ export class LocalRecipeService {
       }
 
       // Make sure all elemental properties are numbers
-      elementalProperties = {;
+      elementalProperties = {
         Fire: typeof elementalProperties.Fire === 'number' ? elementalProperties.Fire : 0.25,
         Water: typeof elementalProperties.Water === 'number' ? elementalProperties.Water : 0.25,
         Earth: typeof elementalProperties.Earth === 'number' ? elementalProperties.Earth : 0.25,,
@@ -587,7 +587,7 @@ export class LocalRecipeService {
       }
 
       // Get instructions from preparationSteps or instructions field
-      let, instructions: string[] = [];
+      let instructions: string[] = [];
       if (Array.isArray(dish.preparationSteps) && dish.preparationSteps.length > 0) {
         instructions = dish.preparationSteps
       } else if (Array.isArray(dish.instructions) && dish.instructions.length > 0) {

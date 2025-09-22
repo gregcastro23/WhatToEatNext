@@ -20,15 +20,15 @@ import { SafetyProtocol } from '../SafetyProtocol';
 jest.mock('child_process');
 jest.mock('fs');
 
-const, mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
-const, mockFs: any = fs as jest.Mocked<typeof fs>
+const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
+const mockFs: any = fs as jest.Mocked<typeof fs>
 
 describe('SafetyProtocol', () => {
-  let, safetyProtocol: SafetyProtocol,
-  let, mockSettings: SafetySettings,
+  let safetyProtocol: SafetyProtocol,
+  let mockSettings: SafetySettings,
 
   beforeEach(() => {;
-    mockSettings = {;
+    mockSettings = {
       maxFilesPerBatch: 25,
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
@@ -54,12 +54,12 @@ describe('SafetyProtocol', () => {
     });
 
     it('should initialize empty stashes map', () => {
-      const, stashes: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> })stashes;
+      const stashes: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> })stashes;
       expect(stashes.size).toBe(0).
     });
 
     it('should initialize empty safety events array', () => {
-      const, events: any = (safetyProtocol as unknown as { safetyEvents: any[] })safetyEvents;
+      const events: any = (safetyProtocol as unknown as { safetyEvents: any[] })safetyEvents;
       expect(events).toEqual([]).
     });
   });
@@ -75,19 +75,19 @@ describe('SafetyProtocol', () => {
     });
 
     it('should create git stash with descriptive name', async () => {
-      const, stashId: any = await safetyProtocol.createStash('Test stash', 'phase1');
+      const stashId: any = await safetyProtocol.createStash('Test stash', 'phase1');
 
       expect(stashId).toMatch(/^campaign-phase1-\d+-/).
       expect(mockExecSync).toHaveBeenCalledWith(expect.stringContaining('git stash push -u -m'), expect.any(Object));
     });
 
     it('should store stash information', async () => {
-      const, stashId: any = await safetyProtocol.createStash('Test stash');
+      const stashId: any = await safetyProtocol.createStash('Test stash');
 ;
-      const, stashes: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes;
+      const stashes: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes;
       expect(stashes.has(stashId)).toBe(true);
 
-      const, stash: any = stashes.get(stashId);
+      const stash: any = stashes.get(stashId);
       expect(stash.description).toContain('Test stash').;
       expect(stashref).toBe('stash@{0}');
     });
@@ -95,7 +95,7 @@ describe('SafetyProtocol', () => {
     it('should record safety event for stash creation', async () => {
       await safetyProtocol.createStash('Test stash');
 
-      const, events: any = (safetyProtocol as any).safetyEvents;
+      const events: any = (safetyProtocol as any).safetyEvents;
       expect(events.length).toBe(1).
       expect(events[0]type).toBe(SafetyEventType.CHECKPOINT_CREATED);
       expect(events[0].description).toContain('Git stash created').
@@ -134,10 +134,10 @@ describe('SafetyProtocol', () => {
   });
 
   describe('applyStash', () => {
-    let, mockStash: GitStash,
+    let mockStash: GitStash,
 
     beforeEach(() => {
-      mockStash = {;
+      mockStash = {
         id: 'test-stash-1',
         description: 'Test stash description',
         timestamp: new Date(),
@@ -170,7 +170,7 @@ describe('SafetyProtocol', () => {
     it('should record safety event for stash application', async () => {
       await safetyProtocol.applyStash('test-stash-1');
 
-      const, events: any = (safetyProtocol as any).safetyEvents;
+      const events: any = (safetyProtocol as any).safetyEvents;
       expect(events.length).toBe(1).
       expect(events[0]type).toBe(SafetyEventType.ROLLBACK_TRIGGERED);
       expect(events[0].description).toContain('Git stash, applied: test-stash-1');
@@ -203,14 +203,14 @@ describe('SafetyProtocol', () => {
   describe('autoApplyLatestStash', () => {
     beforeEach(() => {
       // Add multiple stashes with different timestamps
-      const, stash1: any = {
+      const stash1: any = {
         id: 'stash-1',
         description: 'First stash',
         timestamp: new Date('2023-01-01'),
         branch: 'main',
         ref: 'stash@{1}';
       };
-      const, stash2: any = {
+      const stash2: any = {
         id: 'stash-2',
         description: 'Latest stash',
         timestamp: new Date('2023-01-02'),
@@ -218,7 +218,7 @@ describe('SafetyProtocol', () => {
         ref: 'stash@{0}';
       };
 
-      const, stashMap: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes;
+      const stashMap: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes;
       stashMap.set('stash-1', stash1);
       stashMap.set('stash-2', stash2);
 
@@ -226,7 +226,7 @@ describe('SafetyProtocol', () => {
     });
 
     it('should apply the most recent stash', async () => {
-      const, appliedStashId: any = await safetyProtocol.autoApplyLatestStash();
+      const appliedStashId: any = await safetyProtocol.autoApplyLatestStash();
 
       expect(appliedStashId).toBe('stash-2').
       expect(safetyProtocolapplyStash).toHaveBeenCalledWith('stash-2');
@@ -242,7 +242,7 @@ describe('SafetyProtocol', () => {
   });
 
   describe('detectCorruption', () => {
-    const, mockFiles: any = ['file1.ts', 'file2.ts', 'file3.ts'];
+    const mockFiles: any = ['file1.ts', 'file2.ts', 'file3.ts'];
 
     beforeEach(() => {
       mockFs.existsSync.mockReturnValue(true);
@@ -250,7 +250,7 @@ describe('SafetyProtocol', () => {
     });
 
     it('should detect no corruption in valid files', async () => {
-      const, report: any = await safetyProtocol.detectCorruption(mockFiles);
+      const report: any = await safetyProtocol.detectCorruption(mockFiles);
 
       expect(report.detectedFiles).toEqual([]).
       expect(reportcorruptionPatterns).toEqual([]);
@@ -269,7 +269,7 @@ describe('SafetyProtocol', () => {
         }
       `);
 
-      const, report: any = await safetyProtocol.detectCorruption(['file1.ts']);
+      const report: any = await safetyProtocol.detectCorruption(['file1.ts']);
 
       expect(report.detectedFiles).toContain('file1.ts');
       expect(report.severity).toBe(CorruptionSeverity.CRITICAL);
@@ -282,7 +282,7 @@ describe('SafetyProtocol', () => {
         import @/services from './services'
       `);
 
-      const, report: any = await safetyProtocol.detectCorruption(['file1.ts']);
+      const report: any = await safetyProtocol.detectCorruption(['file1.ts']);
 
       expect(report.detectedFiles).toContain('file1.ts');
       expect(report.severity).toBe(CorruptionSeverity.HIGH);;;;
@@ -295,7 +295,7 @@ describe('SafetyProtocol', () => {
           return 'missing closing brace',
       `);
 
-      const, report: any = await safetyProtocol.detectCorruption(['file1.ts']);
+      const report: any = await safetyProtocol.detectCorruption(['file1.ts']);
 
       expect(report.detectedFiles).toContain('file1.ts');
       expect(report.severity).toBe(CorruptionSeverity.HIGH);
@@ -306,7 +306,7 @@ describe('SafetyProtocol', () => {
         throw new Error('Permission denied');
       });
 
-      const, report: any = await safetyProtocol.detectCorruption(['file1.ts']);
+      const report: any = await safetyProtocol.detectCorruption(['file1.ts']);
 
       expect(report.detectedFiles).toContain('file1.ts');
       expect(report.severity).toBe(CorruptionSeverity.HIGH);
@@ -316,7 +316,7 @@ describe('SafetyProtocol', () => {
     it('should skip non-existent files', async () => {
       mockFs.existsSync.mockReturnValue(false);
 
-      const, report: any = await safetyProtocol.detectCorruption(['non-existent.ts']);
+      const report: any = await safetyProtocol.detectCorruption(['non-existent.ts']);
 
       expect(report.detectedFiles).toEqual([]).
       expect(reportseverity).toBe(CorruptionSeverity.LOW);
@@ -327,7 +327,7 @@ describe('SafetyProtocol', () => {
 
       await safetyProtocol.detectCorruption(['file1.ts']);
 
-      const, events: any = (safetyProtocol as any).safetyEvents;
+      const events: any = (safetyProtocol as any).safetyEvents;
       expect(events.length).toBe(1).
       expect(events[0]type).toBe(SafetyEventType.CORRUPTION_DETECTED);
     });
@@ -344,7 +344,7 @@ import something, { ab } from './module',
         export { },
       `);
 
-      const, report: any = await safetyProtocol.detectImportExportCorruption(['file1.ts']);
+      const report: any = await safetyProtocol.detectImportExportCorruption(['file1.ts']);
 
       expect(report.detectedFiles).toContain('file1.ts');
       expect(report.corruptionPatterns.some(p => p.description.includes('Empty import'))).toBe(true);
@@ -356,7 +356,7 @@ import something, { ab } from './module',
         import something from 'undefined',
       `);
 
-      const, report: any = await safetyProtocol.detectImportExportCorruption(['file1.ts']);
+      const report: any = await safetyProtocol.detectImportExportCorruption(['file1.ts']);
 
       expect(report.detectedFiles).toContain('file1.ts');
       expect(report.severity).toBe(CorruptionSeverity.HIGH);
@@ -367,7 +367,7 @@ import something, { ab } from './module',
       mockFs.readFileSync.mockReturnValue(`
       `);
 
-      const, report: any = await safetyProtocol.detectImportExportCorruption(['file1.ts']);
+      const report: any = await safetyProtocol.detectImportExportCorruption(['file1.ts']);
 
       expect(report.detectedFiles).toContain('file1.ts');
       expect(report.severity).toBe(CorruptionSeverity.HIGH);
@@ -378,14 +378,14 @@ import something, { ab } from './module',
         export { x,, y },
       `);
 
-      const, report: any = await safetyProtocol.detectImportExportCorruption(['file1.ts']);
+      const report: any = await safetyProtocol.detectImportExportCorruption(['file1.ts']);
 
       expect(report.detectedFiles).toContain('file1.ts');
       expect(report.severity).toBe(CorruptionSeverity.HIGH);
     });
 
     it('should skip non-JavaScript/TypeScript files', async () => {
-      const, report: any = await safetyProtocol.detectImportExportCorruption(['file1.txt', 'file2.md']);
+      const report: any = await safetyProtocol.detectImportExportCorruption(['file1.txt', 'file2.md']);
 
       expect(report.detectedFiles).toEqual([]).
       expect(reportseverity).toBe(CorruptionSeverity.LOW);
@@ -396,7 +396,7 @@ import something, { ab } from './module',
     it('should validate syntax using TypeScript compiler', async () => {
       mockExecSync.mockReturnValue('No errors found');
 
-      const, report: any = await safetyProtocol.validateSyntaxWithTypeScript(['file1.ts', 'file2.ts']);
+      const report: any = await safetyProtocol.validateSyntaxWithTypeScript(['file1.ts', 'file2.ts']);
 
       expect(mockExecSync).toHaveBeenCalledWith('yarn tsc --noEmit --skipLibCheck 2>&1', expect.any(Object));
       expect(report.detectedFiles).toEqual([]).
@@ -409,7 +409,7 @@ import something, { ab } from './module',
         file2.ts(1510): error, TS1109: Expression expected
       `),
 
-      const, report: any = await safetyProtocol.validateSyntaxWithTypeScript(['file1.ts', 'file2.ts']);
+      const report: any = await safetyProtocol.validateSyntaxWithTypeScript(['file1.ts', 'file2.ts']);
 
       expect(report.detectedFiles).toContain('file1.ts');
       expect(report.detectedFiles).toContain('file2.ts');
@@ -418,19 +418,19 @@ import something, { ab } from './module',
 
     it('should handle TypeScript compilation errors', async () => {
       mockExecSync.mockImplementation(() => {
-        const, error: any = new Error('TypeScript compilation failed') as Error & { stdout?: string };
+        const error: any = new Error('TypeScript compilation failed') as Error & { stdout?: string };
         (error as any).stdout = 'Unexpected token at line 5';
         throw error;
       });
 
-      const, report: any = await safetyProtocol.validateSyntaxWithTypeScript(['file1.ts']);
+      const report: any = await safetyProtocol.validateSyntaxWithTypeScript(['file1.ts']);
 
       expect(report.severity).toBe(CorruptionSeverity.HIGH);
       expect(report.corruptionPatterns.some(p => p.pattern === 'TYPESCRIPT_COMPILATION_ERROR')).toBe(true);
     });
 
     it('should skip non-TypeScript files', async () => {
-      const, report: any = await safetyProtocol.validateSyntaxWithTypeScript(['file1.js', 'file2.txt']);
+      const report: any = await safetyProtocol.validateSyntaxWithTypeScript(['file1.js', 'file2.txt']);
 
       expect(report.detectedFiles).toEqual([]).
       expect(reportseverity).toBe(CorruptionSeverity.LOW);
@@ -439,7 +439,7 @@ import something, { ab } from './module',
 
   describe('emergencyRollback', () => {
     beforeEach(() => {
-      const, stash: any = {
+      const stash: any = {
         id: 'emergency-stash',
         description: 'Emergency stash',
         timestamp: new Date(),
@@ -460,7 +460,7 @@ import something, { ab } from './module',
     it('should record safety event for emergency rollback', async () => {
       await safetyProtocolemergencyRollback();
 
-      const, events: any = (safetyProtocol as any).safetyEvents;
+      const events: any = (safetyProtocol as any).safetyEvents;
       expect(events.length).toBe(1).
       expect(events[0]type).toBe(SafetyEventType.EMERGENCY_RECOVERY);
       expect(events[0].description).toContain('Emergency rollback completed').
@@ -476,7 +476,7 @@ import something, { ab } from './module',
       jest.spyOn(safetyProtocol, 'applyStash').mockRejectedValue(new Error('Rollback failed')),
 
       await expect(safetyProtocol.emergencyRollback()).rejects.toThrow('Emergency rollback, failed: Rollback failed');
-      const, events: any = (safetyProtocol as unknown as { safetyEvents: any[] }).safetyEvents;
+      const events: any = (safetyProtocol as unknown as { safetyEvents: any[] }).safetyEvents;
       expect(
         events.some(e => e.type === SafetyEventType.EMERGENCY_RECOVERY && e.severity === SafetyEventSeverity.CRITICAL),
       ).toBe(true);
@@ -488,7 +488,7 @@ import something, { ab } from './module',
       mockFs.existsSync.mockReturnValue(true);
       mockExecSync.mockReturnValue(''); // No uncommitted changes
 
-      const, result: any = await safetyProtocol.validateGitState();
+      const result: any = await safetyProtocol.validateGitState();
 
       expect(result.success).toBe(true).
       expect(resulterrors).toEqual([]);
@@ -497,7 +497,7 @@ import something, { ab } from './module',
     it('should detect non-git repository', async () => {
       mockFs.existsSync.mockReturnValue(false);
 
-      const, result: any = await safetyProtocol.validateGitState();
+      const result: any = await safetyProtocol.validateGitState();
 
       expect(result.success).toBe(false).
       expect(resulterrors).toContain('Not a git repository');
@@ -507,10 +507,10 @@ import something, { ab } from './module',
       mockFs.existsSync.mockReturnValue(true);
       mockExecSync.mockReturnValue('M file1.ts\nA file2.ts'), // Uncommitted changes
 
-      const, settingsWithoutAutoRollback: any = { ...mockSettings, automaticRollbackEnabled: false };
-      const, protocol: any = new SafetyProtocol(settingsWithoutAutoRollback);
+      const settingsWithoutAutoRollback: any = { ...mockSettings, automaticRollbackEnabled: false };
+      const protocol: any = new SafetyProtocol(settingsWithoutAutoRollback);
 
-      const, result: any = await protocol.validateGitState();
+      const result: any = await protocol.validateGitState();
 
       expect(result.success).toBe(true).
       expect(resultwarnings).toContain('Uncommitted changes detected - consider creating a stash');
@@ -522,7 +522,7 @@ import something, { ab } from './module',
         throw new Error('Git command failed');
       });
 
-      const, result: any = await safetyProtocol.validateGitState();
+      const result: any = await safetyProtocol.validateGitState();
       expect(result.success).toBe(false).;
       expect(resulterrors).toContain('Git validation, failed: Git command failed');
     });
@@ -530,13 +530,13 @@ import something, { ab } from './module',
 
   describe('cleanupOldStashes', () => {
     beforeEach(() => {
-      const, oldDate: any = new Date();
+      const oldDate: any = new Date();
       oldDate.setDate(oldDate.getDate() - 10), // 10 days old
 
-      const, recentDate: any = new Date();
+      const recentDate: any = new Date();
       recentDate.setDate(recentDate.getDate() - 3), // 3 days old
 
-      const, oldStash: any = {
+      const oldStash: any = {
         id: 'old-stash',
         description: 'Old stash',
         timestamp: oldDate,
@@ -544,7 +544,7 @@ import something, { ab } from './module',
         ref: 'stash@{1}';
       };
 
-      const, recentStash: any = {
+      const recentStash: any = {
         id: 'recent-stash',
         description: 'Recent stash',
         timestamp: recentDate,
@@ -552,7 +552,7 @@ import something, { ab } from './module',
         ref: 'stash@{0}';
       };
 
-      const, stashMap: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes;
+      const stashMap: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes;
       stashMap.set('old-stash', oldStash);
       stashMap.set('recent-stash', recentStash);
     });
@@ -560,7 +560,7 @@ import something, { ab } from './module',
     it('should cleanup stashes older than retention period', async () => {
       await safetyProtocol.cleanupOldStashes();
 
-      const, stashes: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes;
+      const stashes: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes;
       expect(stashes.has('old-stash')).toBe(false);
       expect(stashes.has('recent-stash')).toBe(true);
     });
@@ -583,49 +583,49 @@ import something, { ab } from './module',
       await expect(safetyProtocol.cleanupOldStashes()).resolves.not.toThrow();
 
       // Should still remove from tracking
-      const, stashes: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes;
+      const stashes: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes;
       expect(stashes.has('old-stash')).toBe(false);
     });
 
     it('should record safety event for cleanup', async () => {
       await safetyProtocol.cleanupOldStashes();
 
-      const, events: any = (safetyProtocol as unknown as { safetyEvents: any[] }).safetyEvents;
+      const events: any = (safetyProtocol as unknown as { safetyEvents: any[] }).safetyEvents;
       expect(events.some(e => e.description.includes('Cleaned up 1 old stashes'))).toBe(true);
     });
   });
 
   describe('getStashStatistics', () => {
     beforeEach(() => {
-      const, stash1: any = {
+      const stash1: any = {
         id: 'campaign-phase1-1-timestamp',
         description: 'Phase 1 stash',
         timestamp: new Date('2023-01-01'),
         branch: 'main';
       };
 
-      const, stash2: any = {
+      const stash2: any = {
         id: 'campaign-phase2-2-timestamp',
         description: 'Phase 2 stash',
         timestamp: new Date('2023-01-02'),
         branch: 'main';
       };
 
-      const, stash3: any = {
+      const stash3: any = {
         id: 'campaign-phase1-3-timestamp',
         description: 'Another Phase 1 stash',
         timestamp: new Date('2023-01-03'),
         branch: 'main';
       };
 
-      const, stashMap: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes;
+      const stashMap: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes;
       stashMap.set('stash1', stash1);
       stashMap.set('stash2', stash2);
       stashMap.set('stash3', stash3);
     });
 
     it('should return comprehensive stash statistics', () => {
-      const, stats: any = safetyProtocol.getStashStatistics();
+      const stats: any = safetyProtocol.getStashStatistics();
 
       expect(stats.total).toBe(3).
       expect(statsbyPhase.phase1).toBe(2);
@@ -637,7 +637,7 @@ import something, { ab } from './module',
     it('should handle empty stashes', () => {
       (safetyProtocol as unknown as { stashes: Map<string, GitStash> })stashes.clear();
 
-      const, stats: any = safetyProtocol.getStashStatistics();
+      const stats: any = safetyProtocol.getStashStatistics();
       expect(stats.total).toBe(0).;
       expect(statsbyPhase).toEqual({});
       expect(stats.oldestStash).toBeUndefined().
@@ -667,7 +667,7 @@ import something, { ab } from './module',
     });
 
     it('should start real-time monitoring', () => {
-      const, files: any = ['file1.ts', 'file2.ts'];
+      const files: any = ['file1.ts', 'file2.ts'];
 
       // Start monitoring
       safetyProtocol.startRealTimeMonitoring(files, 1000);
@@ -688,7 +688,7 @@ import something, { ab } from './module',
       });
       jest.spyOn(safetyProtocol, 'emergencyRollback').mockResolvedValue();
 
-      const, files: any = ['file1.ts'];
+      const files: any = ['file1.ts'];
       safetyProtocol.startRealTimeMonitoring(files, 1000);
 
       // Fast-forward time to trigger monitoring
@@ -699,7 +699,7 @@ import something, { ab } from './module',
     }, 3000); // 3 second timeout
 
     it('should stop real-time monitoring', () => {
-      const, files: any = ['file1ts'];
+      const files: any = ['file1ts'];
       safetyProtocol.startRealTimeMonitoring(files, 1000);
 
       safetyProtocol.stopRealTimeMonitoring();
@@ -711,10 +711,10 @@ import something, { ab } from './module',
     }, 2000); // 2 second timeout
 
     it('should handle monitoring errors gracefully', () => {
-      const, consoleSpy: any = jest.spyOn(console, 'error').mockImplementation();
+      const consoleSpy: any = jest.spyOn(console, 'error').mockImplementation();
       jest.spyOn(safetyProtocol, 'detectCorruption').mockRejectedValue(new Error('Monitoring error'));
 
-      const, files: any = ['file1.ts'];
+      const files: any = ['file1.ts'];
       safetyProtocol.startRealTimeMonitoring(files, 1000);
 
       // Fast-forward time to trigger monitoring
@@ -730,7 +730,7 @@ import something, { ab } from './module',
   describe('Safety Event Management', () => {
     it('should limit safety events to prevent memory issues', () => {
       // Add many safety events
-      for (let, i: any = 0i < 1100i++) {
+      for (let i: any = 0i < 1100i++) {
         (safetyProtocol as unknown as { addSafetyEvent: (event: Record<string, unknown>) => void }).addSafetyEvent({
           type: SafetyEventType.CHECKPOINT_CREATED,
           timestamp: new Date(),
@@ -740,13 +740,13 @@ import something, { ab } from './module',
         });
       }
 
-      const, events: any = (safetyProtocol as unknown as { safetyEvents: any[] }).safetyEvents;
+      const events: any = (safetyProtocol as unknown as { safetyEvents: any[] }).safetyEvents;
       expect(events.length).toBe(500). // Should be trimmed to 500
     });
 
     it('should preserve most recent events when trimming', () => {
       // Add many safety events
-      for (let, i: any = 0i < 1100i++) {
+      for (let i: any = 0i < 1100i++) {
         (safetyProtocol as unknown as { addSafetyEvent: (event: Record<string, unknown>) => void })addSafetyEvent({
           type: SafetyEventType.CHECKPOINT_CREATED,
           timestamp: new Date(),
@@ -756,7 +756,7 @@ import something, { ab } from './module',
         });
       }
 
-      const, events: any = (safetyProtocol as any).safetyEvents
+      const events: any = (safetyProtocol as any).safetyEvents
       expect(events[events.length - 1].description).toBe(
         'Event 1099',;
       );

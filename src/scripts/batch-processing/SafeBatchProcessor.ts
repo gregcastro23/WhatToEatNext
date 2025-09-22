@@ -66,7 +66,7 @@ export class SafeBatchProcessor {
   private totalPreserved = 0
 
   constructor(config: Partial<BatchProcessingConfig> = {}) {
-    this.config = {;
+    this.config = {
       maxBatchSize: 15,
       maxBatchSizeCritical: 5,
       validateAfterEachBatch: true,
@@ -87,7 +87,7 @@ export class SafeBatchProcessor {
       `📋 Configuration: maxBatch=${this.config.maxBatchSize}, maxCritical=${this.config.maxBatchSizeCritical}`,
     );
 
-    const, results: BatchResult[] = [];
+    const results: BatchResult[] = [];
 
     // Create initial safety checkpoint
     await this.createSafetyCheckpoint('initial');
@@ -138,9 +138,9 @@ export class SafeBatchProcessor {
    */
   private async processBatch(batchId: string, files: FileProcessingInfo[]): Promise<BatchResult> {
     const startTime = Date.now();
-    let, stashId: string | undefined,
+    let stashId: string | undefined,
 
-    const, result: BatchResult = {
+    const result: BatchResult = {
       batchId,
       files: files.map(f => f.filePath),,
       success: false,
@@ -278,8 +278,8 @@ export class SafeBatchProcessor {
    * Create batches respecting safety limits
    */
   private createBatches(files: FileProcessingInfo[]): FileProcessingInfo[][] {
-    const, batches: FileProcessingInfo[][] = [];
-    let, currentBatch: FileProcessingInfo[] = [];
+    const batches: FileProcessingInfo[][] = [];
+    let currentBatch: FileProcessingInfo[] = [];
 
     for (const file of files) {
       const batchLimit = this.getBatchLimit(file);
@@ -394,7 +394,7 @@ export class SafeBatchProcessor {
     errorCount: number = 0,,
     stashId?: string,
   ): Promise<void> {
-    const, checkpoint: SafetyCheckpoint = {
+    const checkpoint: SafetyCheckpoint = {
       id,
       timestamp: new Date(),
       batchId: id,

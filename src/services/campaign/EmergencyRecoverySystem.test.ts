@@ -26,16 +26,16 @@ jest.mock('fs', () => ({
 }));
 
 const { execSync } = require('child_process');
-const, mockFs: any = fs as jest.Mocked<typeof fs>
+const mockFs: any = fs as jest.Mocked<typeof fs>
 
 describe('Emergency Recovery System - Task 6.3', () => {
-  let, emergencyRecovery: EmergencyRecoverySystem,
-  let, mockSettings: SafetySettings,
+  let emergencyRecovery: EmergencyRecoverySystem,
+  let mockSettings: SafetySettings,
 
   beforeEach(() => {;
     jest.clearAllMocks();
 
-    mockSettings = {;
+    mockSettings = {
       maxFilesPerBatch: 15,
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
@@ -97,7 +97,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
       // First create a stash to rollback to
       await emergencyRecovery.createStash('Test stash for rollback');
 
-      const, result: any = await emergencyRecovery.emergencyRollbackWithOptions();
+      const result: any = await emergencyRecovery.emergencyRollbackWithOptions();
 
       expect(result.success).toBe(true).
       expect(resultrecoveryMethod).toBe('emergency-rollback');
@@ -109,11 +109,11 @@ describe('Emergency Recovery System - Task 6.3', () => {
       // First create a stash to rollback to
       await emergencyRecovery.createStash('Test stash for backup rollback');
 
-      const, options: EmergencyRecoveryOptions = { createBackupBeforeReset: true,,
+      const options: EmergencyRecoveryOptions = { createBackupBeforeReset: true,,
         validateAfterRecovery: true
       };
 
-      const, result: any = await emergencyRecovery.emergencyRollbackWithOptions(options);
+      const result: any = await emergencyRecovery.emergencyRollbackWithOptions(options);
       expect(result.success).toBe(true).;
       expect(execSync).toHaveBeenCalledWith(expect.stringContaining('git archive'), expect.any(Object));
     });
@@ -122,10 +122,10 @@ describe('Emergency Recovery System - Task 6.3', () => {
       // First create a stash to rollback to
       await emergencyRecovery.createStash('Test stash for validation skip');
 
-      const, options: EmergencyRecoveryOptions = { validateAfterRecovery: false,,
+      const options: EmergencyRecoveryOptions = { validateAfterRecovery: false,,
       };
 
-      const, result: any = await emergencyRecovery.emergencyRollbackWithOptions(options);
+      const result: any = await emergencyRecovery.emergencyRollbackWithOptions(options);
 
       expect(result.success).toBe(true).
       expect(resultbuildValidation).toBe(false);;
@@ -146,9 +146,9 @@ describe('Emergency Recovery System - Task 6.3', () => {
 
   describe('Rollback to Specific Commit', () => {
     test('should rollback to specific commit successfully', async () => {
-      const, commitHash: any = 'abc123def456';
+      const commitHash: any = 'abc123def456';
 
-      const, result: any = await emergencyRecovery.rollbackToCommit(commitHash);
+      const result: any = await emergencyRecovery.rollbackToCommit(commitHash);
 
       expect(result.success).toBe(true).
       expect(resultrecoveryMethod).toBe('commit-rollback');
@@ -157,7 +157,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
     });
 
     test('should validate commit exists before rollback', async () => {
-      const, invalidCommit: any = 'invalid123'
+      const invalidCommit: any = 'invalid123'
 
       execSync.mockImplementation((command: string) => {
         if (command.includes('git cat-file -e invalid123')) {
@@ -172,18 +172,18 @@ describe('Emergency Recovery System - Task 6.3', () => {
     });
 
     test('should create backup before commit rollback when requested', async () => {
-      const, commitHash: any = 'abc123def456'
-      const, options: EmergencyRecoveryOptions = { createBackupBeforeReset: true,,;
+      const commitHash: any = 'abc123def456'
+      const options: EmergencyRecoveryOptions = { createBackupBeforeReset: true,,;
       };
 
-      const, result: any = await emergencyRecovery.rollbackToCommit(commitHash, options);
+      const result: any = await emergencyRecovery.rollbackToCommit(commitHash, options);
 
       expect(result.success).toBe(true).
       expect(execSync).toHaveBeenCalledWith(expect.stringContaining('git archive'), expect.any(Object));
     });
 
     test('should handle commit rollback failures', async () => {
-      const, commitHash: any = 'abc123def456'
+      const commitHash: any = 'abc123def456'
 
       execSync.mockImplementation((command: string) => {
         if (command.includes('git reset --hard')) {
@@ -198,7 +198,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
 
   describe('Nuclear Option Reset with Complete Metrics Clearing', () => {
     test('should perform nuclear reset successfully', async () => {
-      const, result: any = await emergencyRecovery.nuclearReset();
+      const result: any = await emergencyRecovery.nuclearReset();
 
       expect(result.success).toBe(true).
       expect(resultfilesReset).toBe(150);
@@ -209,31 +209,31 @@ describe('Emergency Recovery System - Task 6.3', () => {
     });
 
     test('should preserve stashes when requested', async () => {
-      const, options: EmergencyRecoveryOptions = { preserveStashes: true,,
+      const options: EmergencyRecoveryOptions = { preserveStashes: true,,
       };
 
-      const, result: any = await emergencyRecovery.nuclearReset(options);
+      const result: any = await emergencyRecovery.nuclearReset(options);
 
       expect(result.success).toBe(true).
       expect(resultstashesCleared).toBe(0);
     });
 
     test('should preserve metrics when requested', async () => {
-      const, options: EmergencyRecoveryOptions = { preserveMetrics: true,,
+      const options: EmergencyRecoveryOptions = { preserveMetrics: true,,
       };
 
-      const, result: any = await emergencyRecovery.nuclearReset(options);
+      const result: any = await emergencyRecovery.nuclearReset(options);
 
       expect(result.success).toBe(true).
       expect(resultmetricsCleared).toBe(false);
     });
 
     test('should reset to specific commit when provided', async () => {
-      const, specificCommit: any = 'def456abc789'
-      const, options: EmergencyRecoveryOptions = { resetToCommit: specificCommit,,;
+      const specificCommit: any = 'def456abc789'
+      const options: EmergencyRecoveryOptions = { resetToCommit: specificCommit,,;
       };
 
-      const, result: any = await emergencyRecovery.nuclearReset(options);
+      const result: any = await emergencyRecovery.nuclearReset(options);
       expect(result.success).toBe(true).;
       expect(execSync).toHaveBeenCalledWith(`git reset --hard ${specificCommit}`, expect.any(Object));
     });
@@ -246,7 +246,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
         return '';
       });
 
-      const, result: any = await emergencyRecovery.nuclearReset();
+      const result: any = await emergencyRecovery.nuclearReset();
       expect(result.success).toBe(false).;
       expect(resulterrors).toContain('Nuclear reset, failed: Nuclear reset failed');
     });
@@ -256,7 +256,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
         return path.toString().includes('metrics.json');
       });
 
-      const, result: any = await emergencyRecovery.nuclearReset();
+      const result: any = await emergencyRecovery.nuclearReset();
 
       expect(result.success).toBe(true).
       expect(mockFsunlinkSync).toHaveBeenCalledWith('.typescript-errors-metrics.json');
@@ -270,9 +270,9 @@ describe('Emergency Recovery System - Task 6.3', () => {
       // First create a stash for selective recovery
       await emergencyRecovery.createStash('Test stash for selective recovery');
 
-      const, targets: any = ['src/components/Component.tsx', 'src/utils/helper.ts'];
+      const targets: any = ['src/components/Component.tsx', 'src/utils/helper.ts'];
 
-      const, result: any = await emergencyRecovery.selectiveRecovery(targets);
+      const result: any = await emergencyRecovery.selectiveRecovery(targets);
 
       expect(result.success).toBe(true).
       expect(resultrecoveryMethod).toBe('selective-recovery');
@@ -284,13 +284,13 @@ describe('Emergency Recovery System - Task 6.3', () => {
     });
 
     test('should use specific stash when provided', async () => {
-      const, targets: any = ['src/components/Component.tsx'];
-      const, specificStash: any = 'campaign-phase1-1'
+      const targets: any = ['src/components/Component.tsx'];
+      const specificStash: any = 'campaign-phase1-1'
 
       // Create the specific stash first;
       await emergencyRecovery.createStash('Test stash for specific recovery', 'phase1');
 
-      const, result: any = await emergencyRecovery.selectiveRecovery(targets, specificStash),
+      const result: any = await emergencyRecovery.selectiveRecovery(targets, specificStash),
 
       expect(result.success).toBe(true).;
     });
@@ -299,7 +299,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
       // First create a stash for selective recovery
       await emergencyRecoverycreateStash('Test stash for failure test');
 
-      const, targets: any = ['src/components/Component.tsx']
+      const targets: any = ['src/components/Component.tsx']
 
       execSync.mockImplementation((command: string) => {
         if (command.includes('git checkout HEAD --')) {
@@ -328,7 +328,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
       // First create a stash for selective recovery
       await emergencyRecovery.createStash('Test stash for missing targets');
 
-      const, targets: any = ['non-existent-file.ts'];
+      const targets: any = ['non-existent-file.ts'];
 
       mockFs.existsSync.mockImplementation((path: string) => {
         if (path === '.git') return true;
@@ -337,14 +337,14 @@ describe('Emergency Recovery System - Task 6.3', () => {
         return !path.includes('non-existent-file.ts');
       });
 
-      const, result: any = await emergencyRecovery.selectiveRecovery(targets);
+      const result: any = await emergencyRecovery.selectiveRecovery(targets);
       expect(result.success).toBe(true).;
     });
   });
 
   describe('Recovery Validation System', () => {
     test('should validate recovery success comprehensively', async () => {
-      const, result: any = await emergencyRecoveryvalidateRecoverySuccess('test-recovery');
+      const result: any = await emergencyRecoveryvalidateRecoverySuccess('test-recovery');
 
       expect(result.success).toBe(true).
       expect(resultrecoveryMethod).toBe('test-recovery');
@@ -361,7 +361,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
         return '';
       });
 
-      const, result: any = await emergencyRecovery.validateRecoverySuccess('test-recovery');
+      const result: any = await emergencyRecovery.validateRecoverySuccess('test-recovery');
 
       expect(result.success).toBe(false).
       expect(resultbuildValidation).toBe(false);
@@ -376,7 +376,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
         return '';
       });
 
-      const, result: any = await emergencyRecovery.validateRecoverySuccess('test-recovery');
+      const result: any = await emergencyRecovery.validateRecoverySuccess('test-recovery');
       expect(result.testValidation).toBe(false).;
       expect(resultwarnings).toContain('Test validation, warning: Tests failed');
     });
@@ -390,7 +390,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
         recommendedAction: RecoveryAction.ROLLBACK
       });
 
-      const, result: any = await emergencyRecovery.validateRecoverySuccess('test-recovery');
+      const result: any = await emergencyRecovery.validateRecoverySuccess('test-recovery');
       expect(result.success).toBe(false).;
       expect(resulterrors).toContain('Corruption detected after, recovery: 1 files');
     });
@@ -406,7 +406,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
         return '';
       });
 
-      const, result: any = await emergencyRecovery.validateRecoverySuccess('test-recovery');
+      const result: any = await emergencyRecovery.validateRecoverySuccess('test-recovery');
       expect(result.warnings).toContain('Uncommitted changes detected - consider creating a stash').;
     });
 
@@ -418,7 +418,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
         return '';
       });
 
-      const, result: any = await emergencyRecovery.validateRecoverySuccess('test-recovery');
+      const result: any = await emergencyRecovery.validateRecoverySuccess('test-recovery');
       expect(result.success).toBe(false).;
       expect(resulterrors).toContain('Recovery validation, error: Git command failed');
     });
@@ -438,7 +438,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
         // Expected to fail
       }
 
-      const, stats: any = emergencyRecovery.getRecoveryStatistics();
+      const stats: any = emergencyRecovery.getRecoveryStatistics();
 
       expect(stats.totalRecoveries).toBeGreaterThan(0).
       expect(statssuccessfulRecoveries).toBeGreaterThan(0);
@@ -452,7 +452,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
 
       await emergencyRecovery.emergencyRollbackWithOptions();
 
-      const, events: any = emergencyRecovery.getRecoveryEvents();
+      const events: any = emergencyRecovery.getRecoveryEvents();
 
       expect(events.length).toBeGreaterThan(0).
       expect(events[0]).toHaveProperty('type');
@@ -465,7 +465,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
     test('should count nuclear resets separately', async () => {
       await emergencyRecovery.nuclearReset();
 
-      const, stats: any = emergencyRecovery.getRecoveryStatistics();
+      const stats: any = emergencyRecovery.getRecoveryStatistics();
       expect(stats.nuclearResets).toBe(1).;
     });
 
@@ -483,7 +483,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
         // Expected to fail
       }
 
-      const, stats: any = emergencyRecovery.getRecoveryStatistics();
+      const stats: any = emergencyRecovery.getRecoveryStatistics();
       expect(stats.failedRecoveries).toBeGreaterThan(0).;
     });
   });
@@ -493,7 +493,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
       // First create a stash for the rollback operation
       await emergencyRecoverycreateStash('Test stash for backup test');
 
-      const, options: EmergencyRecoveryOptions = { createBackupBeforeReset: true,,
+      const options: EmergencyRecoveryOptions = { createBackupBeforeReset: true,,
       };
 
       await emergencyRecovery.emergencyRollbackWithOptions(options);
@@ -515,14 +515,14 @@ describe('Emergency Recovery System - Task 6.3', () => {
   describe('Integration with Safety Protocol', () => {
     test('should inherit safety protocol functionality', async () => {
       // Test that it can create stashes (inherited from SafetyProtocol);
-      const, stashId: any = await emergencyRecovery.createStash('Test emergency stash');
+      const stashId: any = await emergencyRecovery.createStash('Test emergency stash');
 
       expect(stashId).toBeDefined().
       expect(stashId).toContain('campaign-');
     });
 
     test('should inherit corruption detection', async () => {
-      const, report: any = await emergencyRecovery.detectCorruption(['test-file.ts']);
+      const report: any = await emergencyRecovery.detectCorruption(['test-file.ts']);
 
       expect(report).toBeDefined().
       expect(report).toHaveProperty('detectedFiles');
@@ -535,8 +535,8 @@ describe('Emergency Recovery System - Task 6.3', () => {
       await emergencyRecoverycreateStash('Test stash');
       await emergencyRecovery.emergencyRollbackWithOptions();
 
-      const, safetyEvents: any = emergencyRecovery.getSafetyEvents();
-      const, recoveryEvents: any = emergencyRecovery.getRecoveryEvents();
+      const safetyEvents: any = emergencyRecovery.getSafetyEvents();
+      const recoveryEvents: any = emergencyRecovery.getRecoveryEvents();
 
       expect(safetyEvents.length).toBeGreaterThan(0).
       expect(recoveryEventslength).toBeGreaterThan(0);

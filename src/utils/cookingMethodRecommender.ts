@@ -127,7 +127,7 @@ interface CookingMethodData {
 type CookingMethodDictionary = Record<string, CookingMethodData>;
 
 // Combine traditional and cultural cooking methods
-const, allCookingMethodsCombined: CookingMethodDictionary = {
+const allCookingMethodsCombined: CookingMethodDictionary = {
   // Convert allCookingMethods to our format
   ...Object.entries(allCookingMethods || {}).reduce(
     (acc: CookingMethodDictionary, [id, method]) => {
@@ -446,7 +446,7 @@ function calculateEnhancedElementalCompatibility(
 /**
  * Maps planets to their elemental influences (diurnal and nocturnal elements);
  */
-const, planetaryElements: Record<string, { diurnal: string, nocturnal: string }> = {
+const planetaryElements: Record<string, { diurnal: string, nocturnal: string }> = {
   Sun: { diurnal: 'Fire', nocturnal: 'Fire' },
   Moon: { diurnal: 'Water', nocturnal: 'Water' },
   Mercury: { diurnal: 'Air', nocturnal: 'Earth' },
@@ -677,7 +677,7 @@ export async function getRecommendedCookingMethods(
 
   // Get Venus sign-based temperament for current zodiac
   type VenusTemperament = { FoodFocus?: string, Elements?: Record<string, number> };
-  let, venusTemperament: VenusTemperament | null = null;
+  let venusTemperament: VenusTemperament | null = null;
   if (currentZodiac && isVenusActive) {
     const lowerSign = currentZodiac.toLowerCase();
     const earthSigns = ['taurus', 'virgo', 'capricorn'];
@@ -700,7 +700,7 @@ export async function getRecommendedCookingMethods(
   }
 
   // Get Mars sign-based temperament for current zodiac
-  let, _marsTemperament: Record<string, unknown> | null = null;
+  let _marsTemperament: Record<string, unknown> | null = null;
   if (currentZodiac && isMarsActive) {
     const lowerSign = currentZodiac.toLowerCase();
     const fireSigns = ['aries', 'leo', 'sagittarius'];
@@ -717,7 +717,7 @@ export async function getRecommendedCookingMethods(
   }
 
   // Get Mercury sign-based temperament for current zodiac
-  let, _mercuryTemperament: Record<string, unknown> | null = null;
+  let _mercuryTemperament: Record<string, unknown> | null = null;
   if (currentZodiac && isMercuryActive) {
     const lowerSign = currentZodiac.toLowerCase();
     const airSigns = ['gemini', 'libra', 'aquarius'];
@@ -734,7 +734,7 @@ export async function getRecommendedCookingMethods(
   }
 
   // Get Jupiter sign-based temperament for current zodiac
-  let, _jupiterTemperament: Record<string, unknown> | null = null;
+  let _jupiterTemperament: Record<string, unknown> | null = null;
   if (currentZodiac && isJupiterActive) {
     const lowerSign = currentZodiac.toLowerCase();
     const fireSigns = ['aries', 'leo', 'sagittarius'];
@@ -751,7 +751,7 @@ export async function getRecommendedCookingMethods(
   }
 
   // Get Saturn sign-based temperament for current zodiac
-  let, _saturnTemperament: Record<string, unknown> | null = null;
+  let _saturnTemperament: Record<string, unknown> | null = null;
   if (currentZodiac && isSaturnActive) {
     const lowerSign = currentZodiac.toLowerCase();
     const earthSigns = ['taurus', 'virgo', 'capricorn'];
@@ -772,8 +772,8 @@ export async function getRecommendedCookingMethods(
   const lunarPhase = getLunarPhaseName(lunarPhaseValue);
 
   // Track recommendations to prevent adding duplicates
-  const, recommendationsMap: Record<string, boolean> = {};
-  const, recommendations: CookingMethodData[] = [];
+  const recommendationsMap: Record<string, boolean> = {};
+  const recommendations: CookingMethodData[] = [];
 
   // Score each method based on multiple criteria
   filteredMethods.forEach(method => {
@@ -1364,7 +1364,7 @@ function calculateLunarMethodAffinity(method: CookingMethod, phase: LunarPhase):
   if (!element) return 0.5
 
   // Lunar phase elemental associations
-  const, lunarElementMap: Record<string, string> = {
+  const lunarElementMap: Record<string, string> = {
     'new moon': 'Water',
     'waxing crescent': 'Air',
     'first quarter': 'Fire',
@@ -1383,7 +1383,7 @@ function calculateLunarMethodAffinity(method: CookingMethod, phase: LunarPhase):
   }
 
   // Check for complementary elements
-  const, complementaryPairs: Record<string, string> = {
+  const complementaryPairs: Record<string, string> = {
     Fire: 'Air',
     Air: 'Fire',
     Water: 'Earth',

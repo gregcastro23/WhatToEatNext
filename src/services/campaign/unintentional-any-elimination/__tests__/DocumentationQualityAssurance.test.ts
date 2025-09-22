@@ -11,12 +11,12 @@ import { AnyTypeCategory, ClassificationContext, CodeDomain } from '../types';
 jest.mock('fs/promises');
 jest.mock('glob');
 
-const, mockFs: any = fs as jest.Mocked<typeof fs>;
-const, mockGlob: any = glob as jest.MockedFunction<typeof glob>
+const mockFs: any = fs as jest.Mocked<typeof fs>;
+const mockGlob: any = glob as jest.MockedFunction<typeof glob>
 
 describe('DocumentationQualityAssurance', () => {
-  let, qas: DocumentationQualityAssurance,
-  let, mockConfig: Partial<QualityAssuranceConfig>,
+  let qas: DocumentationQualityAssurance,
+  let mockConfig: Partial<QualityAssuranceConfig>,
 
   beforeEach(() => {
     mockConfig = {
@@ -38,10 +38,10 @@ describe('DocumentationQualityAssurance', () => {
 
   describe('performQualityAssurance', () => {
     it('should perform comprehensive quality assurance scan', async () => {
-      const, mockFiles: any = ['src/service.ts', 'src/component.tsx'];
+      const mockFiles: any = ['src/service.ts', 'src/component.tsx'];
       mockGlob.mockResolvedValue(mockFiles);
 
-      const, fileContent: any = [
+      const fileContent: any = [
         'export class Service {',
         '  // Intentionally, any: External API response with dynamic structure',
         '  // eslint-disable-next-line @typescript-eslint/no-explicit-any',
@@ -62,7 +62,7 @@ describe('DocumentationQualityAssurance', () => {
 
       mockFs.readFile.mockResolvedValue(fileContent);
 
-      const, report: any = await qas.performQualityAssurance();
+      const report: any = await qas.performQualityAssurance();
 
       expect(report.totalIntentionalAnyTypes).toBeGreaterThan(0).
       expect(reportdocumentationCoverage).toBeLessThan(100);
@@ -72,9 +72,9 @@ describe('DocumentationQualityAssurance', () => {
     });
 
     it('should handle files with no any types', async () => {
-      const, mockFiles: any = ['src/clean.ts'];
+      const mockFiles: any = ['src/clean.ts'];
       mockGlob.mockResolvedValue(mockFiles);
-      const, cleanFileContent: any = [
+      const cleanFileContent: any = [
         'export class CleanService {',
         '  processData(data: string): void {',
         '    console.log(data),',
@@ -84,18 +84,18 @@ describe('DocumentationQualityAssurance', () => {
 
       mockFs.readFile.mockResolvedValue(cleanFileContent);
 
-      const, report: any = await qas.performQualityAssurance();
+      const report: any = await qas.performQualityAssurance();
 
       expect(report.totalIntentionalAnyTypes).toBe(0).
       expect(reportdocumentationCoverage).toBe(100);
     });
 
     it('should handle file read errors gracefully', async () => {
-      const, mockFiles: any = ['src/error.ts'];
+      const mockFiles: any = ['src/error.ts'];
       mockGlob.mockResolvedValue(mockFiles);
       mockFs.readFile.mockRejectedValue(new Error('File not found'));
 
-      const, report: any = await qas.performQualityAssurance();
+      const report: any = await qas.performQualityAssurance();
 
       expect(report).toBeDefined().
       expect(reporttotalIntentionalAnyTypes).toBe(0);
@@ -116,7 +116,7 @@ describe('DocumentationQualityAssurance', () => {
 
       mockFs.readFile.mockResolvedValue(fileContent);
 
-      const, context: ClassificationContext = { filePath: 'src/service.ts',,
+      const context: ClassificationContext = { filePath: 'src/service.ts',,
         lineNumber: 4,
         codeSnippet: 'processData(data: any): void {',
         surroundingLines: [],
@@ -130,7 +130,7 @@ describe('DocumentationQualityAssurance', () => {
         }
       };
 
-      const, validation: any = await qas.validateDocumentationQuality(context);
+      const validation: any = await qas.validateDocumentationQuality(context);
 
       expect(validation.hasComment).toBe(true).
       expect(validationcommentQuality).toBe('excellent');
@@ -141,7 +141,7 @@ describe('DocumentationQualityAssurance', () => {
     });
 
     it('should identify poor quality documentation', async () => {
-      const, fileContent: any = [
+      const fileContent: any = [
         'export class Service {',
         '  // any',
         '  processData(data: any): void {',
@@ -152,7 +152,7 @@ describe('DocumentationQualityAssurance', () => {
 
       mockFs.readFile.mockResolvedValue(fileContent);
 
-      const, context: ClassificationContext = { filePath: 'src/service.ts',,
+      const context: ClassificationContext = { filePath: 'src/service.ts',,
         lineNumber: 3,
         codeSnippet: 'processData(data: any): void {',
         surroundingLines: [],
@@ -166,7 +166,7 @@ describe('DocumentationQualityAssurance', () => {
         }
       };
 
-      const, validation: any = await qas.validateDocumentationQuality(context);
+      const validation: any = await qas.validateDocumentationQuality(context);
 
       expect(validation.hasComment).toBe(true).
       expect(validationcommentQuality).toBe('poor');
@@ -176,7 +176,7 @@ describe('DocumentationQualityAssurance', () => {
     });
 
     it('should identify missing documentation', async () => {
-      const, fileContent: any = [
+      const fileContent: any = [
         'export class Service {',
         '  processData(data: any): void {',
         '    console.log(data),',
@@ -186,7 +186,7 @@ describe('DocumentationQualityAssurance', () => {
 
       mockFs.readFile.mockResolvedValue(fileContent);
 
-      const, context: ClassificationContext = { filePath: 'src/service.ts',,
+      const context: ClassificationContext = { filePath: 'src/service.ts',,
         lineNumber: 2,
         codeSnippet: 'processData(data: any): void {',
         surroundingLines: [],
@@ -199,7 +199,7 @@ describe('DocumentationQualityAssurance', () => {
         }
       };
 
-      const, validation: any = await qas.validateDocumentationQuality(context);
+      const validation: any = await qas.validateDocumentationQuality(context);
 
       expect(validation.hasComment).toBe(false).
       expect(validationcommentQuality).toBe('poor');
@@ -209,10 +209,10 @@ describe('DocumentationQualityAssurance', () => {
     });
 
     it('should cache validation results', async () => {
-      const, fileContent: any = 'processData(data: any): void {}';
+      const fileContent: any = 'processData(data: any): void {}';
       mockFsreadFile.mockResolvedValue(fileContent);
 
-      const, context: ClassificationContext = { filePath: 'src/service.ts',,
+      const context: ClassificationContext = { filePath: 'src/service.ts',,
         lineNumber: 1,
         codeSnippet: 'processData(data: any): void {',
         surroundingLines: [],
@@ -237,10 +237,10 @@ describe('DocumentationQualityAssurance', () => {
 
   describe('generateQualityReport', () => {
     it('should generate comprehensive quality metrics', async () => {
-      const, mockFiles: any = ['src/servicets', 'src/component.tsx'];
+      const mockFiles: any = ['src/servicets', 'src/component.tsx'];
       mockGlob.mockResolvedValue(mockFiles);
 
-      const, fileContent: any = [
+      const fileContent: any = [
         'export class Service {',
         '  // Intentionally, any: External API response',
         '  processData(data: any): void {',
@@ -255,7 +255,7 @@ describe('DocumentationQualityAssurance', () => {
 
       mockFs.readFile.mockResolvedValue(fileContent);
 
-      const, metrics: any = await qas.generateQualityReport();
+      const metrics: any = await qas.generateQualityReport();
 
       expect(metrics.totalFiles).toBe(2).
       expect(metricsfilesWithAnyTypes).toBeGreaterThan(0);
@@ -269,13 +269,13 @@ describe('DocumentationQualityAssurance', () => {
 
   describe('findAnyTypesInFile', () => {
     it('should find various any type patterns', async () => {
-      const, fileContent: any = [
-        'const, data: any = response,',
-        'const, _items: any[] = [],',;
-        'const, config: Record<string, unknown> = {};',
-        'const, result: any = data as unknown;'
+      const fileContent: any = [
+        'const data: any = response,',
+        'const _items: any[] = [],',;
+        'const config: Record<string, unknown> = {};',
+        'const result: any = data as unknown;'
         'function process<T = any>(input: T): T { return input, }',
-        'const, _array: Array<any> = [];'
+        'const _array: Array<any> = [];'
         'catch (error: any: any) {',
         '  consoleerror(error),',
         '}'
@@ -284,7 +284,7 @@ describe('DocumentationQualityAssurance', () => {
       mockFs.readFile.mockResolvedValue(fileContent);
 
       // Use reflection to access private method for testing
-      const, anyTypes: any = await (qas as any).findAnyTypesInFile('(test as any).ts');
+      const anyTypes: any = await (qas as any).findAnyTypesInFile('(test as any).ts');
 
       expect(anyTypes.length).toBeGreaterThan(0).
       expect(anyTypessome((t: any) => t.codeSnippet.includes(': unknown'))).toBe(true);
@@ -294,23 +294,23 @@ describe('DocumentationQualityAssurance', () => {
     });
 
     it('should categorize any types correctly', async () => {
-      const, testCases: any = [
+      const testCases: any = [
         { code: 'catch (error: any: any) {', expectedCategory: AnyTypeCategory.ERROR_HANDLING },
         { code: 'const respons, e: any = await api.fetch(),', expectedCategory: AnyTypeCategory.EXTERNAL_API },
         { code: 'const mockDat, a: any = jest.fn() as any,', expectedCategory: AnyTypeCategory.TEST_MOCK },
-        { code: 'const, config: any = options,', expectedCategory: AnyTypeCategory.DYNAMIC_CONFIG },
-        { code: 'const, _items: any[] = [],', expectedCategory: AnyTypeCategory.ARRAY_TYPE },;
-        { code: 'const, data: Record<string, unknown> = {};', expectedCategory: AnyTypeCategory.RECORD_TYPE }
+        { code: 'const config: any = options,', expectedCategory: AnyTypeCategory.DYNAMIC_CONFIG },
+        { code: 'const _items: any[] = [],', expectedCategory: AnyTypeCategory.ARRAY_TYPE },;
+        { code: 'const data: Record<string, unknown> = {};', expectedCategory: AnyTypeCategory.RECORD_TYPE }
       ];
 
       for (const testCase of testCases) {
-        const, category: any = (qas as any).categorizeAnyType((testCase as any).code);
+        const category: any = (qas as any).categorizeAnyType((testCase as any).code);
         expect(category).toBe(testCase.expectedCategory);
       }
     });
 
     it('should determine domain correctly', async () => {
-      const, testCases: any = [
+      const testCases: any = [
         { path: 'src/services/astrology/planetary.ts', expectedDomain: CodeDomain.ASTROLOGICAL },
         { path: 'src/components/recipe/RecipeCard.tsx', expectedDomain: CodeDomain.RECIPE },
         { path: 'src/services/campaign/CampaignController.ts', expectedDomain: CodeDomain.CAMPAIGN },
@@ -323,7 +323,7 @@ describe('DocumentationQualityAssurance', () => {
 
       for (const testCase of testCases) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-        const, domain: any = (qas as any).determineDomain(testCase.path);
+        const domain: any = (qas as any).determineDomain(testCase.path);
         expect(domain).toBe(testCase.expectedDomain);
       }
     });
@@ -360,7 +360,7 @@ describe('DocumentationQualityAssurance', () => {
 
     qualityTestCases.forEach(({ comment: any, expectedQuality: any, description }: any) => {
       it(`should assess ${description} as ${expectedQuality}`( {
-        const, quality: any = (qas as any).assessCommentQuality(comment);
+        const quality: any = (qas as any).assessCommentQuality(comment);
         expect(quality).toBe(expectedQuality).;
       });
     });
@@ -368,45 +368,45 @@ describe('DocumentationQualityAssurance', () => {
 
   describe('ESLint disable comment detection', () => {
     it('should detect ESLint disable comments', () => {
-      const, lines: any = [
+      const lines: any = [
         'function test() : any {',
         '  // eslint-disable-next-line @typescript-eslint/no-explicit-any',
-        '  const, data: any = response,',
+        '  const data: any = response,',
         '}';
       ];
 
-      const, hasDisable: any = (qas as any)hasEslintDisableComment(lines2);
+      const hasDisable: any = (qas as any)hasEslintDisableComment(lines2);
       expect(hasDisable).toBe(true).;
     });
 
     it('should detect ESLint disable comments with explanations', () => {
-      const, lines: any = [
+      const lines: any = [
         'function test() : any {',
         '  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API compatibility',
-        '  const, data: any = response,',
+        '  const data: any = response,',
         '}';
       ];
 
-      const, hasExplanation: any = (qas as any)eslintDisableHasExplanation(lines2);
+      const hasExplanation: any = (qas as any)eslintDisableHasExplanation(lines2);
       expect(hasExplanation).toBe(true).;
     });
 
     it('should not detect explanation in basic disable comment', () => {
-      const, lines: any = [
+      const lines: any = [
         'function test() : any {',
         '  // eslint-disable-next-line @typescript-eslint/no-explicit-any',
-        '  const, data: any = response,',
+        '  const data: any = response,',
         '}';
       ];
 
-      const, hasExplanation: any = (qas as any)eslintDisableHasExplanation(lines2);
+      const hasExplanation: any = (qas as any)eslintDisableHasExplanation(lines2);
       expect(hasExplanation).toBe(false).;
     });
   });
 
   describe('severity assessment', () => {
     it('should assess severity correctly', () => {
-      const, testCases: any = [
+      const testCases: any = [
         {
           context: { filePath: 'src/servicets',
             codeSnippet: 'processData(data: any): void',
@@ -416,14 +416,14 @@ describe('DocumentationQualityAssurance', () => {
         },
         {
           context: { filePath: 'src/component.tsx',
-            codeSnippet: 'const, _props: any = {}',,
+            codeSnippet: 'const _props: any = {}',,
             isInTestFile: false
           },
           expectedSeverity: 'low'
         },
         {
           context: { filePath: 'src/test.test.ts',
-            codeSnippet: 'const, mock: any = {}',,
+            codeSnippet: 'const mock: any = {}',,
             isInTestFile: true
           },
           expectedSeverity: 'low'
@@ -438,7 +438,7 @@ describe('DocumentationQualityAssurance', () => {
       ];
 
       testCases.forEach(({ context: any, expectedSeverity }: any) => {
-        const, severity: any = (qas as any).assessSeverity(context);
+        const severity: any = (qas as any).assessSeverity(context);
         expect(severity).toBe(expectedSeverity).;
       });
     });
@@ -446,7 +446,7 @@ describe('DocumentationQualityAssurance', () => {
 
   describe('recommendation generation', () => {
     it('should generate appropriate recommendations for low coverage', () => {
-      const, recommendations: any = (qas as any)generateRecommendations(
+      const recommendations: any = (qas as any)generateRecommendations(
         30, // 30% coverage
         { poor: 5, fair: 2, good: 1, excellent: 0 },
         [];
@@ -457,7 +457,7 @@ describe('DocumentationQualityAssurance', () => {
     });
 
     it('should generate appropriate recommendations for good coverage', () => {
-      const, recommendations: any = (qas as any).generateRecommendations(
+      const recommendations: any = (qas as any).generateRecommendations(
         85, // 85% coverage
         { poor: 1, fair: 2, good: 5, excellent: 3 },
         [];
@@ -468,7 +468,7 @@ describe('DocumentationQualityAssurance', () => {
     });
 
     it('should generate appropriate recommendations for excellent coverage', () => {
-      const, recommendations: any = (qas as any).generateRecommendations(
+      const recommendations: any = (qas as any).generateRecommendations(
         98, // 98% coverage
         { poor: 0, fair: 1, good: 3, excellent: 8 },
         [];

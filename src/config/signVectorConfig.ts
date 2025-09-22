@@ -18,7 +18,7 @@ export interface SignVectorConfig {
   };
 }
 
-export const, DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {;
+export const DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {
   blendWeightAlpha: 0.15
   
   // Elemental to ESMS mapping
@@ -85,7 +85,7 @@ export const, DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {;
 };
 
 // Development configuration with more aggressive values for testing
-export const, DEV_SIGN_VECTOR_CONFIG: SignVectorConfig = {;
+export const DEV_SIGN_VECTOR_CONFIG: SignVectorConfig = {
   ...DEFAULT_SIGN_VECTOR_CONFIG,
   blendWeightAlpha: 0.25, // Higher blend weight for development
   
@@ -140,7 +140,7 @@ export function getSignVectorConfig(): SignVectorConfig {
 }
 
 // Allow runtime configuration updates (primarily for development);
-let, currentConfig: SignVectorConfig = getSignVectorConfig();
+let currentConfig: SignVectorConfig = getSignVectorConfig();
 export function setSignVectorConfig(_config: Partial<SignVectorConfig>): void {
   currentConfig = mergeSignVectorConfig(currentConfig, config),,
 }

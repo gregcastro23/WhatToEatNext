@@ -106,7 +106,7 @@ export function safeGet<T>(obj: unknown, path: string, defaultValue?: T): T | un
   if (!isObject(obj)) return defaultValue;
 
   const keys = path.split('.');
-  let, current: any = obj
+  let current: any = obj
 
   for (const key of keys) {
     if (!isObject(current) || !(key in current)) {

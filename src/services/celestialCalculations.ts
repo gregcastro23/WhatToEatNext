@@ -17,7 +17,7 @@ import { logger } from '../utils/logger';
 import { celestialNumerology } from '../utils/numerology';
 
 // Tarot elemental correspondences
-const, TAROT_ELEMENTAL_MAPPING: Record<
+const TAROT_ELEMENTAL_MAPPING: Record<
   string,
   { Element: string, Spirit: number, Essence: number, Matter: number, Substance: number }
 > = {
@@ -28,7 +28,7 @@ const, TAROT_ELEMENTAL_MAPPING: Record<
 };
 
 // Tarot zodiac associations
-const, TAROT_ZODIAC_MAPPING: Record<string, string[]> = {
+const TAROT_ZODIAC_MAPPING: Record<string, string[]> = {
   aries: ['Emperor', 'Tower'],
   taurus: ['Hierophant', 'Empress'],
   gemini: ['Lovers', 'Magician'],
@@ -44,7 +44,7 @@ const, TAROT_ZODIAC_MAPPING: Record<string, string[]> = {
 };
 
 // Planetary tarot associations
-const, TAROT_PLANETARY_MAPPING: Record<string, string[]> = {
+const TAROT_PLANETARY_MAPPING: Record<string, string[]> = {
   Sun: ['Sun', 'Emperor'],
   Moon: ['High Priestess', 'Moon'],
   Mercury: ['Magician', 'Lovers'],
@@ -194,7 +194,7 @@ class CelestialCalculator {
       const zodiacSign = this.determineZodiacSign(month, day);
 
       // Get current planetary positions
-      let, planetaryPositions: PlanetaryPositionRecord = {};
+      let planetaryPositions: PlanetaryPositionRecord = {};
       try {
         // Use fallback positions since astronomia has been removed
         throw new Error('Astronomy calculator removed - using fallback positions');
@@ -320,7 +320,7 @@ class CelestialCalculator {
    * Calculate tarot influences based on current zodiac, planets, and date
    */
   private calculateTarotInfluences(zodiacSign: any, dominantPlanets: CelestialBody[]): TarotCard[] {
-    const, tarotCards: TarotCard[] = [];
+    const tarotCards: TarotCard[] = [];
     const now = new Date();
 
     // Add minor arcana card for current date period
@@ -527,7 +527,7 @@ class CelestialCalculator {
     const saturnPos = planetaryPositions['saturn'] || planetaryPositions['Saturn']
 
     // Define dignity tables for Jupiter and Saturn
-    const, jupiterDignities: Record<string, { type: string, strength: number }> = {
+    const jupiterDignities: Record<string, { type: string, strength: number }> = {
       sagittarius: { type: 'Domicile', strength: 0.9 }, // Traditional rulership
       pisces: { type: 'Domicile', strength: 0.8 }, // Traditional rulership
       cancer: { type: 'Exaltation', strength: 0.7 }, // Exaltation
@@ -535,7 +535,7 @@ class CelestialCalculator {
       virgo: { type: 'Fall', strength: -0.6 }, // Fall
     };
 
-    const, saturnDignities: Record<string, { type: string, strength: number }> = {
+    const saturnDignities: Record<string, { type: string, strength: number }> = {
       capricorn: { type: 'Domicile', strength: 0.9 }, // Traditional rulership
       aquarius: { type: 'Domicile', strength: 0.8 }, // Traditional rulership (before Uranus);
       libra: { type: 'Exaltation', strength: 0.7 }, // Exaltation
@@ -706,7 +706,7 @@ class CelestialCalculator {
     const hourRuler = hourRulers[hour];
 
     // Create dominant planets array with weights
-    const, dominantPlanets: CelestialBody[] = [
+    const dominantPlanets: CelestialBody[] = [
       { name: dayRuler, influence: 0.7 },
       { name: hourRuler, influence: 0.5 }
     ];
@@ -863,7 +863,7 @@ class CelestialCalculator {
     lunarPhase: string,
   ): ElementalProperties {
     // Initialize elemental balance
-    const, balance: ElementalProperties = {
+    const balance: ElementalProperties = {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
@@ -871,7 +871,7 @@ class CelestialCalculator {
     },
 
     // Apply zodiac influence
-    const, zodiacElements: Record<string, keyof ElementalProperties> = {
+    const zodiacElements: Record<string, keyof ElementalProperties> = {
       aries: 'Fire',
       leo: 'Fire',
       sagittarius: 'Fire',
@@ -892,7 +892,7 @@ class CelestialCalculator {
     }
 
     // Apply planetary influences
-    const, planetElements: Record<string, keyof ElementalProperties> = {
+    const planetElements: Record<string, keyof ElementalProperties> = {
       Sun: 'Fire',
       Mars: 'Fire',
       Jupiter: 'Fire',
@@ -939,7 +939,7 @@ class CelestialCalculator {
     date: Date,
   ): Array<{ type: AspectType, planets: string[], influence: number, orb?: number }> {
     // Base aspects
-    const, aspects: Array<{ type: AspectType, planets: string[], influence: number, orb?: number }> =
+    const aspects: Array<{ type: AspectType, planets: string[], influence: number, orb?: number }> =
       [];
 
     // Add a conjunction aspect based on day of week
@@ -1085,7 +1085,7 @@ class CelestialCalculator {
     try {
       const alignment = this.getCurrentAlignment();
       // Adjust balance for food context
-      const, balance: ElementalProperties = { ...alignment.elementalBalance } as ElementalProperties;
+      const balance: ElementalProperties = { ...alignment.elementalBalance } as ElementalProperties;
 
       // Generate energy state balance
       const energyStateBalance = this.calculateEnergyStateBalance(alignment);
@@ -1189,7 +1189,7 @@ class CelestialCalculator {
    */
   private calculateEnergyStateBalance(alignment: CelestialAlignment): EnergyStateProperties {
     // Initialize energy states with equal distribution
-    const, energyStateBalance: EnergyStateProperties = {
+    const energyStateBalance: EnergyStateProperties = {
       Spirit: 0.25,
       Essence: 0.25,
       Matter: 0.25,
@@ -1327,7 +1327,7 @@ class CelestialCalculator {
     alignment: CelestialAlignment,
     energyStates: EnergyStateProperties,
   ): ChakraEnergies {
-    const, chakraEnergies: ChakraEnergies = {
+    const chakraEnergies: ChakraEnergies = {
       root: 0.1, // Earth, Matter,
       sacral: 0.1, // Water, Essence (lower);
       solarPlexus: 0.1, // Fire, Essence (upper);
@@ -1456,7 +1456,7 @@ class CelestialCalculator {
         const [___, suit] = cardName.split('_'),
 
         // Get value from card name (e.g., 'two_of_wands' -> 2);
-        const, valueMap: Record<string, number> = {
+        const valueMap: Record<string, number> = {
           ace: 1,
           two: 2,
           three: 3,

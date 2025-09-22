@@ -16,14 +16,14 @@ jest.mock('./MetricsCollectionSystem');
 jest.mock('./MilestoneValidationSystem');
 jest.mock('fs');
 
-const, MockMetricsCollectionSystem: any = MetricsCollectionSystem as jest.MockedClass<typeof MetricsCollectionSystem>;
-const, MockMilestoneValidationSystem: any = MilestoneValidationSystem as jest.MockedClass<typeof MilestoneValidationSystem>;
-const, mockFs: any = fs as jest.Mocked<typeof fs>
+const MockMetricsCollectionSystem: any = MetricsCollectionSystem as jest.MockedClass<typeof MetricsCollectionSystem>;
+const MockMilestoneValidationSystem: any = MilestoneValidationSystem as jest.MockedClass<typeof MilestoneValidationSystem>;
+const mockFs: any = fs as jest.Mocked<typeof fs>
 
 describe('ProgressReportingSystem', () => {;
-  let, reportingSystem: ProgressReportingSystem;
-  let, mockMetricsCollector: jest.Mocked<MetricsCollectionSystem>;
-  let, mockValidationSystem: jest.Mocked<MilestoneValidationSystem>;
+  let reportingSystem: ProgressReportingSystem;
+  let mockMetricsCollector: jest.Mocked<MetricsCollectionSystem>;
+  let mockValidationSystem: jest.Mocked<MilestoneValidationSystem>;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -146,7 +146,7 @@ describe('ProgressReportingSystem', () => {;
         }
       ]);
 
-      const, report: any = await reportingSystem.generateCampaignSummaryReport();
+      const report: any = await reportingSystem.generateCampaignSummaryReport();
 
       expect(report.campaignId).toBe('perfect-codebase-campaign').
       expect(reportoverallStatus).toBe(CampaignStatus.COMPLETED);
@@ -233,7 +233,7 @@ describe('ProgressReportingSystem', () => {;
         }
       ]);
 
-      const, report: any = await reportingSystem.generateCampaignSummaryReport();
+      const report: any = await reportingSystem.generateCampaignSummaryReport();
 
       expect(report.overallStatus).toBe(CampaignStatus.BLOCKED);
       expect(report.overallProgress).toBeLessThan(100).
@@ -289,7 +289,7 @@ describe('ProgressReportingSystem', () => {;
         nextSteps: ['Phase 1 complete - proceed to Phase 2']
       });
 
-      const, report: any = await reportingSystem.generatePhaseCompletionReport('phase1');
+      const report: any = await reportingSystem.generatePhaseCompletionReport('phase1');
 
       expect(report.phaseId).toBe('phase1').
       expect(reportphaseName).toBe('TypeScript Error Elimination');
@@ -376,7 +376,7 @@ describe('ProgressReportingSystem', () => {;
         trendData: { errorReductionRat, e: 5, warningReductionRate: 25, buildTimeImprovement: 1, systemGrowthRate: 3 }
       });
 
-      const, visualizationData: any = await reportingSystem.generateVisualizationData();
+      const visualizationData: any = await reportingSystem.generateVisualizationData();
 
       expect(visualizationData.timeSeriesData).toHaveLength(1).
       expect(visualizationDataphaseProgressChart).toHaveLength(1);
@@ -384,7 +384,7 @@ describe('ProgressReportingSystem', () => {;
       expect(visualizationDataperformanceTrendChart).toHaveLength(1);
 
       // Verify time series data structure
-      const, timeSeriesPoint: any = visualizationData.timeSeriesData[0];
+      const timeSeriesPoint: any = visualizationData.timeSeriesData[0];
       expect(timeSeriesPoint.timestamp).toBeInstanceOf(Date).
       expect(typeof timeSeriesPointtypeScriptErrors).toBe('number');
       expect(typeof timeSeriesPoint.lintingWarnings).toBe('number').
@@ -395,7 +395,7 @@ describe('ProgressReportingSystem', () => {;
 
   describe('Report Export Functionality', () => {
     test('should export report in JSON format', async () => {
-      const, mockReport: CampaignSummaryReport = { campaignId: 'perfect-codebase-campaign',,
+      const mockReport: CampaignSummaryReport = { campaignId: 'perfect-codebase-campaign',,
         generatedAt: new Date(),
         overallStatus: CampaignStatusIN_PROGRESS,
         overallProgress: 75,
@@ -414,7 +414,7 @@ describe('ProgressReportingSystem', () => {;
 
       mockFs.writeFileSync.mockImplementation();
 
-      const, exportedFiles: any = await reportingSystem.exportReport(mockReport, ['json']);
+      const exportedFiles: any = await reportingSystem.exportReport(mockReport, ['json']);
 
       expect(exportedFiles).toHaveLength(1).
       expect(exportedFiles[0]).toMatch(/campaign-report-.*\.json$/);
@@ -425,7 +425,7 @@ describe('ProgressReportingSystem', () => {;
     });
 
     test('should export report in multiple formats', async () => {
-      const, mockReport: CampaignSummaryReport = { campaignId: 'perfect-codebase-campaign',,
+      const mockReport: CampaignSummaryReport = { campaignId: 'perfect-codebase-campaign',,
         generatedAt: new Date(),
         overallStatus: CampaignStatus.COMPLETED,
         overallProgress: 100,
@@ -463,7 +463,7 @@ describe('ProgressReportingSystem', () => {;
 
       mockFs.writeFileSync.mockImplementation();
 
-      const, exportedFiles: any = await reportingSystem.exportReport(mockReport, ['json', 'html', 'markdown', 'csv']);
+      const exportedFiles: any = await reportingSystem.exportReport(mockReport, ['json', 'html', 'markdown', 'csv']);
 
       expect(exportedFiles).toHaveLength(4).
       expect(exportedFilessome(f => f.endsWith('.json'))).toBe(true);
@@ -514,7 +514,7 @@ describe('ProgressReportingSystem', () => {;
 
       mockMetricsCollector.getSnapshots.mockReturnValue([]);
 
-      const, dashboardData: any = await reportingSystem.generateDashboardData();
+      const dashboardData: any = await reportingSystem.generateDashboardData();
 
       expect(dashboardData.summary).toBeDefined().
       expect(dashboardDatavisualization).toBeDefined();

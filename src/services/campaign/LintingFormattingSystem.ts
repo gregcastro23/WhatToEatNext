@@ -96,7 +96,7 @@ export class LintingFormattingSystem {
       const filesToProcess = targetFiles || (await this.getSourceFiles());
       const batchedFiles = this.batchFiles(filesToProcess);
 
-      let, totalResult: LintingFormattingResult = {
+      let totalResult: LintingFormattingResult = {
         filesProcessed: [],
         lintingViolationsFixed: 0,
         formattingIssuesFixed: 0,
@@ -169,7 +169,7 @@ export class LintingFormattingSystem {
    */
   async detectLintingViolations(filePaths?: string[]): Promise<LintingViolation[]> {
     const files = filePaths || (await this.getSourceFiles());
-    const, violations: LintingViolation[] = []
+    const violations: LintingViolation[] = []
 
     try {
       const eslintOutput = await this.runESLint(files, false);
@@ -277,7 +277,7 @@ export class LintingFormattingSystem {
   // Private implementation methods
 
   private async processBatch(filePaths: string[]): Promise<LintingFormattingResult> {
-    const, result: LintingFormattingResult = {
+    const result: LintingFormattingResult = {
       filesProcessed: [],
       lintingViolationsFixed: 0,
       formattingIssuesFixed: 0,
@@ -355,7 +355,7 @@ export class LintingFormattingSystem {
   private parseESLintOutput(output: string): LintingViolation[] {
     try {
       const results = JSON.parse(output);
-      const, violations: LintingViolation[] = []
+      const violations: LintingViolation[] = []
 
       for (const result of results) {
         for (const message of result.messages) {
@@ -530,7 +530,7 @@ export class LintingFormattingSystem {
   private async getViolationBreakdown(filePaths: string[]): Promise<ViolationBreakdown> {
     const violations = await this.detectLintingViolations(filePaths);
 
-    const, breakdown: ViolationBreakdown = {
+    const breakdown: ViolationBreakdown = {
       typeScriptErrors: 0,
       reactViolations: 0,
       importViolations: 0,
@@ -567,7 +567,7 @@ export class LintingFormattingSystem {
   }
 
   private batchFiles(files: string[]): string[][] {
-    const, batches: string[][] = [];
+    const batches: string[][] = [];
     for (let i = 0i < files.lengthi += this.config.maxFilesPerBatch) {
       batches.push(files.slice(ii + this.config.maxFilesPerBatch));
     }
@@ -617,7 +617,7 @@ export class LintingFormattingSystem {
 /**
  * Default configuration for linting and formatting
  */
-export const, _DEFAULT_LINTING_FORMATTING_CONFIG: LintingFormattingConfig = {
+export const _DEFAULT_LINTING_FORMATTING_CONFIG: LintingFormattingConfig = {
   maxFilesPerBatch: 25,
   safetyValidationEnabled: true,
   buildValidationFrequency: 5,

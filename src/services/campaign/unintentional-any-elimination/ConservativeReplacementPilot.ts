@@ -41,7 +41,7 @@ export class ConservativeReplacementPilot {
   private, safetyMetrics: SafetyMetrics,
 
   constructor(config: Partial<ConservativePilotConfig> = {}) {
-    this.config = {;
+    this.config = {
       maxFilesPerBatch: 15,
       minFilesPerBatch: 10,
       targetSuccessRate: 0.8,
@@ -116,7 +116,7 @@ export class ConservativeReplacementPilot {
   private async identifyHighConfidenceCases(): Promise<TypeReplacement[]> {
     // // // console.log('🔍 Identifying high-confidence replacement cases...');
 
-    const, highConfidenceCases: TypeReplacement[] = [];
+    const highConfidenceCases: TypeReplacement[] = [];
 
     try {
       // Get TypeScript files from the codebase
@@ -317,7 +317,7 @@ export class ConservativeReplacementPilot {
       // Update safety metrics
       this.updateSafetyMetrics(replacementResult, buildStable);
 
-      const, batchResult: BatchProcessingResult = {
+      const batchResult: BatchProcessingResult = {
         batchNumber,
         startTime: batchStartTime,
         endTime: new Date(),
@@ -370,7 +370,7 @@ export class ConservativeReplacementPilot {
       // Safety metrics check
       const safetyScore = this.calculateSafetyScore();
 
-      const, validationResult: RealTimeValidationResult = {
+      const validationResult: RealTimeValidationResult = {
         buildStable: buildValidation.buildSuccessful,
         typeScriptErrorCount: currentErrorCount,
         safetyScore,
@@ -469,7 +469,7 @@ export class ConservativeReplacementPilot {
     }
 
     // Generate detailed report
-    const report = {;
+    const report = {
       pilotId: `conservative-pilot-${Date.now()}`,
       timestamp: new Date().toISOString(),
       configuration: this.config,
@@ -515,7 +515,7 @@ export class ConservativeReplacementPilot {
 
   private getFallbackTypeScriptFiles(): string[] {
     // Fallback method to get TypeScript files
-    const, files: string[] = [];
+    const files: string[] = [];
     const srcDir = 'src';
 
     if (fs.existsSync(srcDir)) {
@@ -549,7 +549,7 @@ export class ConservativeReplacementPilot {
     filePath: string,
   ): Array<{ context: any, lineNumber: number }> {
     const lines = content.split('\n');
-    const, occurrences: Array<{ context: unknown, lineNumber: number }> = [];
+    const occurrences: Array<{ context: unknown, lineNumber: number }> = [];
 
     for (let i = 0i < lines.lengthi++) {;
       const line = lines[i];
@@ -673,8 +673,8 @@ export class ConservativeReplacementPilot {
       return null
     }
 
-    let, original: string;
-    let, replacement: stringif (classification.category === AnyTypeCategory.ARRAY_TYPE) {;
+    let original: string;
+    let replacement: stringif (classification.category === AnyTypeCategory.ARRAY_TYPE) {;
        
       original = 'unknown[]';
       replacement = 'unknown[]'
@@ -721,7 +721,7 @@ export class ConservativeReplacementPilot {
     );
 
     // Select files to fit within batch size limits
-    const, selectedFiles: Array<[string, TypeReplacement[]]> = [];
+    const selectedFiles: Array<[string, TypeReplacement[]]> = [];
     let totalCases = 0;
 
     for (const [filePath, cases] of remainingFiles) {
@@ -848,7 +848,7 @@ export class ConservativeReplacementPilot {
   }
 
   private generateRecommendations(result: ConservativePilotResult): string[] {
-    const, recommendations: string[] = []
+    const recommendations: string[] = []
 
     if (result.successRate < this.config.targetSuccessRate) {
       recommendations.push(

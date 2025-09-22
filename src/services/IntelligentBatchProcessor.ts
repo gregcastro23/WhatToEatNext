@@ -287,7 +287,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
       throw new Error(`Unknown optimization strategy: ${optimizationStrategy}`);
     }
 
-    const, batches: BatchJob[] = [];
+    const batches: BatchJob[] = [];
     const processedErrors = new Set<string>();
     // Group errors by optimization strategy
     const errorGroups = this.groupErrors(errors, patterns, optimization);
@@ -529,7 +529,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
    */
   private getPatternScore(error: TypeScriptError): number {
     // Simple pattern scoring based on error code
-    const, patternScores: Record<string, number> = {
+    const patternScores: Record<string, number> = {
       TS2352: 0.9,
       TS2304: 0.85,
       TS2345: 0.8,
@@ -804,12 +804,12 @@ export class IntelligentBatchProcessor extends EventEmitter {
     const lines = output.split('\n');
     let errorsFixed = 0;
     let errorsRemaining = 0;
-    let, filesModified: string[] = [];
+    let filesModified: string[] = [];
     let buildValidationPassed = true;
     const testValidationPassed = true;
     let safetyScore = 0.8;
-    const, warnings: string[] = [];
-    const, errors: string[] = [];
+    const warnings: string[] = [];
+    const errors: string[] = [];
 
     for (const line of lines) {
       if (line.includes('errors fixed:')) {
@@ -942,7 +942,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
         timeout: 30000
       }).trim();
 
-      const, rollbackData: RollbackData = {
+      const rollbackData: RollbackData = {
         rollbackId,
         jobId: job.jobId,
         modifiedFiles: [],
@@ -956,7 +956,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
       console.warn('⚠️  Failed to create git stash rollback point:', error),
 
       // Fallback to file-based rollback
-      const, rollbackData: RollbackData = {
+      const rollbackData: RollbackData = {
         rollbackId,
         jobId: job.jobId,
         modifiedFiles: [],
@@ -1160,7 +1160,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
     jobs: BatchJob[],
     maxConcurrency: number = this.MAX_CONCURRENT_JOBS
   ): BatchQueue {
-    const, queue: BatchQueue = {
+    const queue: BatchQueue = {
       queueId,
       jobs: [...jobs],
       concurrency: 0,
@@ -1224,7 +1224,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
   // ========== UTILITY METHODS ==========
 
   private chunkArray<T>(array: T[], chunkSize: number): T[][] {
-    const, chunks: T[][] = []
+    const chunks: T[][] = []
     for (let i = 0i < array.lengthi += chunkSize) {
       chunks.push(array.slice(ii + chunkSize));
     }

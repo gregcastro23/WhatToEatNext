@@ -138,13 +138,13 @@ export class AstrologyService {
    */
   async getDailyPlanetaryHours(date: Date): Promise<Planet[]> {
     // Calculate all 24 planetary hours for the given date
-    const, hours: Planet[] = [];
+    const hours: Planet[] = [];
     const dayOfWeek = date.getDay();
     // Planetary day rulers
-    const, dayRulers: Planet[] = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
+    const dayRulers: Planet[] = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
 
     // Planet order for hours
-    const, hourRulers: Planet[] = ['Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars'];
+    const hourRulers: Planet[] = ['Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars'];
 
     const planetOfDay = dayRulers[dayOfWeek];
     const startIndex = hourRulers.indexOf(planetOfDay);
@@ -165,7 +165,7 @@ export class AstrologyService {
     const currentDate = new Date();
     const dayOfWeek = currentDate.getDay();
     // Planetary day rulers
-    const, dayRulers: Planet[] = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
+    const dayRulers: Planet[] = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
 
     return dayRulers[dayOfWeek];
   }
@@ -187,7 +187,7 @@ export class AstrologyService {
       const currentDate = new Date();
 
       // Try to get real planetary positions from astrologize API
-      let, planetaryAlignment: PlanetaryAlignment;
+      let planetaryAlignment: PlanetaryAlignment;
       try {
         const rawPositions = await getCurrentPlanetaryPositions();
         const positions = normalizePlanetaryPositions(rawPositions);
@@ -206,7 +206,7 @@ export class AstrologyService {
         planetaryAlignment = this.calculatePlanetaryPositions(currentDate);
       }
 
-      const, state: AstrologicalState = {
+      const state: AstrologicalState = {
         currentZodiac: this.calculateZodiacSign(currentDate),
         moonPhase: this.calculateLunarPhase(currentDate),
         currentPlanetaryAlignment: planetaryAlignment,
@@ -277,10 +277,10 @@ export class AstrologyService {
     const hour = date.getHours() % 12
 
     // Planetary day rulers
-    const, dayRulers: Planet[] = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
+    const dayRulers: Planet[] = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
 
     // Planet order for hours
-    const, hourRulers: Planet[] = ['Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars'];
+    const hourRulers: Planet[] = ['Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars'];
 
     // Simplified calculation
     const planetOfDay = dayRulers[dayOfWeek];

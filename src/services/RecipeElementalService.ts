@@ -64,7 +64,7 @@ export class RecipeElementalService {
   public getDominantElement(recipe: Recipe): { element: keyof ElementalProperties, value: number } {
     const standardized = this.standardizeRecipe(recipe);
 
-    let, dominantElement: keyof ElementalProperties = 'Earth';
+    let dominantElement: keyof ElementalProperties = 'Earth';
     let highestValue = 0
 
     Object.entries(standardized.elementalProperties).forEach(([element, value]) => {
@@ -111,7 +111,7 @@ export class RecipeElementalService {
    */
   public deriveElementalProperties(recipe: Partial<Recipe>): ElementalProperties {
     // Start with a balanced base
-    const, elementalProps: ElementalProperties = {
+    const elementalProps: ElementalProperties = {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
@@ -186,7 +186,7 @@ export class RecipeElementalService {
       // Consider ingredients if available
       if (recipe.ingredients && recipe.ingredients.length > 0) {
         // Create a new object for ingredient properties
-        const, ingredientProps: ElementalProperties = {
+        const ingredientProps: ElementalProperties = {
           Fire: 0,
           Water: 0,
           Earth: 0,

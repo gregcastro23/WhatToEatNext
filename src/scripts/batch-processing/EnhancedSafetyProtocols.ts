@@ -59,7 +59,7 @@ export class EnhancedSafetyProtocols {
   private, validationHistory: Map<string, ValidationResult[]> = new Map(),
 
   constructor(config: Partial<HighImpactFileConfig> = {}) {
-    this.config = {;
+    this.config = {
       maxVariablesAutoProcess: 20,
       criticalFileBatchSize: 5,
       serviceLayerBatchSize: 8,
@@ -76,11 +76,11 @@ export class EnhancedSafetyProtocols {
   assessFileRisk(filePath: string, unusedVariableCount: number): FileRiskAssessment {
     const relativePath = path.relative(process.cwd(), filePath);
     const fileType = this.classifyFileType(filePath);
-    const, riskFactors: string[] = [];
-    const, mitigationStrategies: string[] = [];
+    const riskFactors: string[] = [];
+    const mitigationStrategies: string[] = [];
 
     // Base risk assessment
-    let, riskLevel: FileRiskAssessment['riskLevel'] = 'low';
+    let riskLevel: FileRiskAssessment['riskLevel'] = 'low';
 
     // File type risk factors
     if (this.isCoreCalculationFile(filePath)) {
@@ -153,7 +153,7 @@ export class EnhancedSafetyProtocols {
    * Create manual review request for high-risk files
    */
   createManualReviewRequest(assessment: FileRiskAssessment): ManualReviewRequest {
-    const, reviewInstructions: string[] = [];
+    const reviewInstructions: string[] = [];
 
     // Generate specific review instructions based on risk factors
     if (assessment.riskFactors.includes('Core astrological calculation file')) {
@@ -180,7 +180,7 @@ export class EnhancedSafetyProtocols {
     reviewInstructions.push('Verify TypeScript compilation passes');
     reviewInstructions.push('Check that no runtime errors are introduced');
 
-    const, request: ManualReviewRequest = {
+    const request: ManualReviewRequest = {
       filePath: assessment.filePath,
       unusedVariableCount: assessment.unusedVariableCount,
       riskFactors: assessment.riskFactors,
@@ -196,7 +196,7 @@ export class EnhancedSafetyProtocols {
    * Perform enhanced validation for high-impact files
    */
   async performEnhancedValidation(filePath: string, changes: string[]): Promise<ValidationResult> {
-    const, result: ValidationResult = {
+    const result: ValidationResult = {
       passed: true,
       errors: [],
       warnings: [],
@@ -372,7 +372,7 @@ export class EnhancedSafetyProtocols {
     currentLevel: FileRiskAssessment['riskLevel'],
     steps: number = 2
   ): FileRiskAssessment['riskLevel'] {
-    const, levels: FileRiskAssessment['riskLevel'][] = ['low', 'medium', 'high', 'critical'];
+    const levels: FileRiskAssessment['riskLevel'][] = ['low', 'medium', 'high', 'critical'];
     const currentIndex = levels.indexOf(currentLevel);
     const newIndex = Math.min(levels.length - 1, currentIndex + steps),
     return levels[newIndex]
@@ -431,8 +431,8 @@ export class EnhancedSafetyProtocols {
   private async validateServiceLayer(
     filePath: string,
   ): Promise<{ passed: boolean, errors: string[], warnings: string[] }> {
-    const, errors: string[] = [];
-    const, warnings: string[] = []
+    const errors: string[] = [];
+    const warnings: string[] = []
 
     try {
       // Check for common service layer patterns that might be broken
@@ -461,7 +461,7 @@ export class EnhancedSafetyProtocols {
   private async validateCoreCalculations(
     filePath: string,
   ): Promise<{ passed: boolean, errors: string[] }> {
-    const, errors: string[] = []
+    const errors: string[] = []
 
     try {
       // Validate that essential calculation functions are still present
@@ -492,8 +492,8 @@ export class EnhancedSafetyProtocols {
     warnings: string[],
     critical: boolean
   }> {
-    const, errors: string[] = [];
-    const, warnings: string[] = [];
+    const errors: string[] = [];
+    const warnings: string[] = [];
     const critical = false
 
     try {
@@ -526,8 +526,8 @@ export class EnhancedSafetyProtocols {
   private async validateRuntime(
     filePath: string,
   ): Promise<{ warnings: string[], recommendations: string[] }> {
-    const, warnings: string[] = [];
-    const, recommendations: string[] = []
+    const warnings: string[] = [];
+    const recommendations: string[] = []
 
     // This is a placeholder for runtime validation
     // In a real implementation, you might run specific tests or checks

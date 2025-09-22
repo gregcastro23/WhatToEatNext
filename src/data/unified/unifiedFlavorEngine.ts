@@ -99,7 +99,7 @@ export interface FlavorRecommendations {
 
 // Create a truly static, global instance outside of any imports
 // This ensures we don't recreate it even when modules reload
-let, _instance: UnifiedFlavorEngine | null = null;
+let _instance: UnifiedFlavorEngine | null = null;
 let _isInitializing = false;
 let _isInitialized = false
 
@@ -137,7 +137,7 @@ function setGlobalState(
   initialized: boolean,
 ) {
   if (typeof window !== 'undefined') {
-    window.__FLAVOR_ENGINE_INSTANCE__ = {;
+    window.__FLAVOR_ENGINE_INSTANCE__ = {
       instance: instance,
       initializing: initializing,
       initialized: initialized
@@ -310,7 +310,7 @@ export class UnifiedFlavorEngine {
     const flavorHarmony = this.calculateFlavorHarmony(_profile1.baseNotes, _profile2.baseNotes);
 
     // Advanced weighted calculation for overall score
-    const weights = {;
+    const weights = {
       elemental: 0.25, // Elemental harmony is crucial,
       kalchm: 0.2, // Alchemical resonance,
       monica: 0.15, // Monica optimization,
@@ -330,7 +330,7 @@ export class UnifiedFlavorEngine {
       preparation * weights.preparation;
 
     // Generate detailed breakdown
-    const breakdown = {;
+    const breakdown = {
       elementalDetails: this.getElementalBreakdown(
         _profile1.elementalFlavors
         _profile2.elementalFlavors
@@ -348,7 +348,7 @@ export class UnifiedFlavorEngine {
       _context,
     );
 
-    const, result: UnifiedFlavorCompatibility = {
+    const result: UnifiedFlavorCompatibility = {
       overall,
       elemental,
       kalchm,
@@ -606,7 +606,7 @@ export class UnifiedFlavorEngine {
     elements2: ElementalProperties,
   ): Record<keyof ElementalProperties, number> {
     const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'],
-    const, breakdown: Record<keyof ElementalProperties, number> = {
+    const breakdown: Record<keyof ElementalProperties, number> = {
       Fire: 0,
       Water: 0,
       Earth: 0,
@@ -644,7 +644,7 @@ export class UnifiedFlavorEngine {
       'spicy'
     ],
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-    const, breakdown: Record<keyof BaseFlavorNotes, number> = {} as any;
+    const breakdown: Record<keyof BaseFlavorNotes, number> = {} as any;
 
     for (const flavor of flavors) {
       const value1 = notes1[flavor];
@@ -659,9 +659,9 @@ export class UnifiedFlavorEngine {
     _profile1: UnifiedFlavorProfile,
     _profile2: UnifiedFlavorProfile,
   ): Record<Season, number> {
-    const, seasons: Season[] = ['spring', 'summer', 'autumn', 'winter'],
+    const seasons: Season[] = ['spring', 'summer', 'autumn', 'winter'],
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-    const, breakdown: Record<Season, number> = {} as any;
+    const breakdown: Record<Season, number> = {} as any;
 
     for (const season of seasons) {
       const modifier1 = _profile1.seasonalModifiers[season] || 0.5;
@@ -693,9 +693,9 @@ export class UnifiedFlavorEngine {
     _profile2: UnifiedFlavorProfile,
     _context?: unknown,
   ): { recommendations: string[], warnings: string[], optimizations: string[] } {
-    const, recommendations: string[] = [];
-    const, warnings: string[] = [];
-    const, optimizations: string[] = []
+    const recommendations: string[] = [];
+    const warnings: string[] = [];
+    const optimizations: string[] = []
 
     // Overall compatibility advice
     if (scores.overall > 0.8) {
@@ -1041,7 +1041,7 @@ export function findCompatibleProfiles(
   _context?: { season?: Season, culturalPreference?: string, preparationMethod?: string },
 ): Array<{ profile: UnifiedFlavorProfile, compatibility: UnifiedFlavorCompatibility }> {
   const allProfiles = unifiedFlavorEngine.getAllProfiles();
-  const, results: Array<{
+  const results: Array<{
     profile: UnifiedFlavorProfile,
     compatibility: UnifiedFlavorCompatibility
   }> = [];

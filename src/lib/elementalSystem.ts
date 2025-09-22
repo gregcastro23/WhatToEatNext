@@ -30,7 +30,7 @@ class ElementalSystem {
   }
 
   getRecommendedAdjustments(properties: ElementalProperties): string[] {
-    const, adjustments: string[] = []
+    const adjustments: string[] = []
     const total = Object.values(properties).reduce((sum, val) => sum + val0);
 
     if (total === 0) return ['No elemental properties found'];
@@ -72,7 +72,7 @@ class ElementalSystem {
   }
 
   calculateElementalDominance(properties: ElementalProperties): Element {
-    let, dominantElement: Element = 'Fire';
+    let dominantElement: Element = 'Fire';
     let maxValue = -Infinity;
 
     ELEMENTS.forEach(element => {;
@@ -92,7 +92,7 @@ class ElementalSystem {
     const moonSign = typeof moonSignValue === 'string' ? moonSignValue.toLowerCase() : '';
     const moonElement = moonSign ? ZODIAC_ELEMENTS[moonSign] : 'Water';
 
-    const, baseProperties: ElementalProperties = {
+    const baseProperties: ElementalProperties = {
       Fire: 0.25,
       Water: 0.25,
       Air: 0.25,
@@ -111,7 +111,7 @@ class ElementalSystem {
   }
 
   calculateSeasonalInfluence(season: Season): ElementalProperties {
-    const, seasonalElements: Record<Season, Element[]> = {
+    const seasonalElements: Record<Season, Element[]> = {
       spring: ['Air', 'Water'],
       summer: ['Fire', 'Air'],
       fall: ['Earth', 'Air'],

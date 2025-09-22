@@ -102,7 +102,7 @@ function compareDecanRulers(
 
   // Extract all planetary rulers from both signs' decans
   const extractRulers = (decans: Record<string, unknown>): string[] => {;
-    const, rulers: string[] = [];
+    const rulers: string[] = [];
     Object.values(decans).forEach(decan => {
       if (Array.isArray(decan)) {
         rulers.push(...decan);
@@ -217,8 +217,8 @@ function compareTarotArcana(_tarotA: string, _tarotB: string): number {
   };
 
   // Determine which groups the cards belong to
-  let, groupA: string | null = null;
-  let, groupB: string | null = null
+  let groupA: string | null = null;
+  let groupB: string | null = null
 
   for (const [element, cards] of Object.entries(elementGroups)) {
     if (cards.includes(tarotA)) {
@@ -572,7 +572,7 @@ export function generateEnhancedRecommendation(
   const naturalAffinity = getElementModalityAffinity(dominantElement, dominantModality),
 
   // Base recommendations on dominant element with modality influence
-  const elementRecommendations = {;
+  const elementRecommendations = {
     Fire: {
       ingredients: ['chicken', 'lamb', 'peppers', 'chili'],
       flavors: ['spicy', 'sour', 'aromatic'],
@@ -612,7 +612,7 @@ export function generateEnhancedRecommendation(
   };
 
   // Modality influences cooking preparation style with element consideration
-  const modalityInfluence = {;
+  const modalityInfluence = {
     Cardinal: {
       style: `${
         dominantElement === 'Fire' || dominantElement === 'Air'
@@ -729,7 +729,7 @@ function getSeasonalAdjustments(
   const normalizedSeason = season.toLowerCase();
 
   // Base seasonal recommendations
-  const seasonalFoods = {;
+  const seasonalFoods = {
     spring: {
       boost: ['asparagus', 'peas', 'strawberries', 'leafy greens', 'sprouts'],
       avoid: ['heavy stews', 'root vegetables', 'preserved foods']
@@ -822,7 +822,7 @@ export function validateAlgorithms(): {
   success: boolean,
   results: Array<{ test: string, passed: boolean, info?: string }>;
 } {
-  const, testResults: Array<{ test: string, passed: boolean, info?: string }> = [];
+  const testResults: Array<{ test: string, passed: boolean, info?: string }> = [];
 
   // Test, 1: Verify decanic compatibility calculation
   const decanTest = {
@@ -927,7 +927,7 @@ export function validateAlgorithms(): {
   };
 
   try {
-    const, mockResult: AlchemicalResult = {
+    const mockResult: AlchemicalResult = {
       elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 },
       thermodynamicProperties: { heat: 0.6, entropy: 0.4, reactivity: 0.5, gregsEnergy: 0.5 },
       kalchm: 1.2,

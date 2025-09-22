@@ -64,7 +64,7 @@ export class ImportCleanupSystem {
       // Get files to process
       const filesToProcess = targetFiles || (await this.getTypeScriptFiles());
       const batchedFiles = this.batchFiles(filesToProcess);
-      let, totalResult: ImportCleanupResult = {
+      let totalResult: ImportCleanupResult = {
         filesProcessed: [],
         unusedImportsRemoved: 0,
         importsOrganized: 0,
@@ -123,7 +123,7 @@ export class ImportCleanupSystem {
    */
   async detectUnusedImports(filePaths?: string[]): Promise<UnusedImport[]> {
     const files = filePaths || (await this.getTypeScriptFiles());
-    const, unusedImports: UnusedImport[] = [];
+    const unusedImports: UnusedImport[] = [];
 
     for (const filePath of files) {
       try {
@@ -201,7 +201,7 @@ export class ImportCleanupSystem {
   // Private implementation methods
 
   private async processBatch(filePaths: string[]): Promise<ImportCleanupResult> {
-    const, result: ImportCleanupResult = {
+    const result: ImportCleanupResult = {
       filesProcessed: [],
       unusedImportsRemoved: 0,
       importsOrganized: 0,
@@ -246,7 +246,7 @@ export class ImportCleanupSystem {
   private async detectUnusedImportsInFile(filePath: string): Promise<UnusedImport[]> {
     const content = fs.readFileSync(filePath, 'utf8');
     const lines = content.split('\n');
-    const, unusedImports: UnusedImport[] = []
+    const unusedImports: UnusedImport[] = []
 
     // Parse import statements
     const importRegex =
@@ -262,7 +262,7 @@ export class ImportCleanupSystem {
         const importStatement = line;
 
         // Extract imported names
-        let, importedNames: string[] = []
+        let importedNames: string[] = []
         if (match[1]) {
           // Named imports: { name1, name2 }
           importedNames = match[1].split(',').map(name => name.trim());
@@ -467,7 +467,7 @@ export class ImportCleanupSystem {
     importLines: { line: string, isExternal: boolean, isType: boolean }[],
   ): string[] {
     const { organizationRules } = this.config;
-    const, organized: string[] = [];
+    const organized: string[] = [];
 
     // Separate imports by type
     const externalImports = importLines.filter(imp => imp.isExternal);
@@ -597,7 +597,7 @@ export class ImportCleanupSystem {
   }
 
   private batchFiles(files: string[]): string[][] {
-    const, batches: string[][] = []
+    const batches: string[][] = []
     for (let i = 0i < files.lengthi += this.config.maxFilesPerBatch) {
       batches.push(files.slice(ii + this.config.maxFilesPerBatch));
     }
@@ -637,7 +637,7 @@ export class ImportCleanupSystem {
 /**
  * Default configuration for import cleanup
  */
-export const, _DEFAULT_IMPORT_CLEANUP_CONFIG: ImportCleanupConfig = {
+export const _DEFAULT_IMPORT_CLEANUP_CONFIG: ImportCleanupConfig = {
   maxFilesPerBatch: 20,
   safetyValidationEnabled: true,
   buildValidationFrequency: 5,

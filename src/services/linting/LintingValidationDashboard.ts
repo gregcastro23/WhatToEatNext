@@ -129,7 +129,7 @@ export class LintingValidationDashboard {
     const regressionAnalysis = await this.analyzeRegression(metrics);
     const recommendations = this.generateRecommendations(metrics, alerts),
 
-    const, result: ValidationResult = {
+    const result: ValidationResult = {
       passed: alerts.filter(a => a.severity === 'error' || a.severity === 'critical').length === 0,,
       metrics,
       alerts,
@@ -322,7 +322,7 @@ export class LintingValidationDashboard {
    * Evaluate alerts based on current metrics
    */
   private evaluateAlerts(metrics: LintingMetrics): Alert[] {
-    const, alerts: Alert[] = [];
+    const alerts: Alert[] = [];
     const thresholds = this.loadThresholds();
     for (const threshold of thresholds) {
       const currentValue = this.getMetricValue(metrics, threshold.metric),
@@ -365,7 +365,7 @@ export class LintingValidationDashboard {
     }
 
     const previousMetrics = history[history.length - 2];
-    const, affectedMetrics: string[] = []
+    const affectedMetrics: string[] = []
 
     // Check for regressions in key metrics
     const keyMetrics = [
@@ -420,7 +420,7 @@ export class LintingValidationDashboard {
    * Generate recommendations based on metrics and alerts
    */
   private generateRecommendations(metrics: LintingMetrics, alerts: Alert[]): string[] {
-    const, recommendations: string[] = []
+    const recommendations: string[] = []
 
     // Parser error recommendations
     if (metrics.parserErrors > 0) {
@@ -638,7 +638,7 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')};
 
   private getMetricValue(metrics: LintingMetrics, metricPath: string): number {
     const parts = metricPath.split('.');
-    let, value: unknown = metrics;
+    let value: unknown = metrics;
 
     for (const part of parts) {
       value = value?.[part]
@@ -678,7 +678,7 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')};
   }
 
   private generateRegressionRecommendations(affectedMetrics: string[]): string[] {
-    const, recommendations: string[] = [];
+    const recommendations: string[] = [];
 
     if (affectedMetrics.includes('parserErrors')) {
       recommendations.push('Immediately investigate and fix new parser errors');

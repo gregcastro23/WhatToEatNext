@@ -53,9 +53,9 @@ interface _ {
 }
 
 // Singleton management
-let, _migrationInstance: FlavorProfileMigration | null = null
-let, _cachedProfiles: Map<string, UnifiedFlavorProfile> = new Map();
-let, _cachedMigrationStats: MigrationStats | null = null;
+let _migrationInstance: FlavorProfileMigration | null = null
+let _cachedProfiles: Map<string, UnifiedFlavorProfile> = new Map();
+let _cachedMigrationStats: MigrationStats | null = null;
 let _isMigrationRunning = false;
 let _isMigrationCompleted = false
 
@@ -506,7 +506,7 @@ export class FlavorProfileMigration {
 
     // Try to extract from various formats
     const flavorProfiles = profileData.flavorProfiles 
-    const, baseNotes: BaseFlavorNotes = {
+    const baseNotes: BaseFlavorNotes = {
       sweet: Number(profileData.sweet) || Number(flavorProfiles.sweet) || 0,
       sour: Number(profileData.sour) || Number(flavorProfiles.sour) || 0,
       salty: Number(profileData.salty) || Number(flavorProfiles.salty) || 0,
@@ -663,7 +663,7 @@ export class FlavorProfileMigration {
   ): BaseFlavorNotes {
     const baseNotes = this.getDefaultBaseNotes();
     // Map flavor name to base note
-    const, flavorMap: Record<string, keyof BaseFlavorNotes> = {
+    const flavorMap: Record<string, keyof BaseFlavorNotes> = {
       sweet: 'sweet',
       sour: 'sour',
       salty: 'salty',
@@ -716,8 +716,8 @@ export class FlavorProfileMigration {
   }
 
   private getDefaultPlanetaryResonance(): Record<PlanetName, PlanetaryFlavorInfluence> {
-    const, planets: PlanetName[] = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn'],
-    const, resonance: Record<PlanetName, PlanetaryFlavorInfluence> = {} as Record<
+    const planets: PlanetName[] = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn'],
+    const resonance: Record<PlanetName, PlanetaryFlavorInfluence> = {} as Record<
       PlanetName,
       PlanetaryFlavorInfluence
     >;
@@ -765,7 +765,7 @@ export class FlavorProfileMigration {
   }
 
   private getDefaultCookingMethodAffinity(): Record<CookingMethod, number> {
-    const, methods: CookingMethod[] = [
+    const methods: CookingMethod[] = [
       'baking',
       'grilling',
       'sautéing',
@@ -777,7 +777,7 @@ export class FlavorProfileMigration {
       'stewing',
       'raw'
     ],
-    const, affinity: Record<CookingMethod, number> = {} as Record<CookingMethod, number>;
+    const affinity: Record<CookingMethod, number> = {} as Record<CookingMethod, number>;
 
     methods.forEach(method => {
       affinity[method] = 0.5, // Default neutral affinity
@@ -802,7 +802,7 @@ export class FlavorProfileMigration {
   // ===== UTILITY METHODS =====
 
   private mapCategory(category: string): UnifiedFlavorProfile['category'] {
-    const, categoryMap: Record<string, UnifiedFlavorProfile['category']> = {
+    const categoryMap: Record<string, UnifiedFlavorProfile['category']> = {
       cuisine: 'cuisine',
       planetary: 'planetary',
       elemental: 'elemental',

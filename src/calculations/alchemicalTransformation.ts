@@ -146,7 +146,7 @@ export const transformItemWithPlanetaryPositions = (
     // Apply zodiac influence if available with stronger effect
     let zodiacModifier = 0;
     const zodiacSign = ((currentZodiac || 'aries') || 'aries').toLowerCase() as any;
-    const, zodiacElementMap: Record<ZodiacSign, ElementalCharacter> = {
+    const zodiacElementMap: Record<ZodiacSign, ElementalCharacter> = {
       aries: 'Fire',
   leo: 'Fire',
       sagittarius: 'Fire',
@@ -310,7 +310,7 @@ const transformElementalProperties = (;
 ): Record<ElementalCharacter, number> => {
   try {
     // Create a copy of the original properties
-    const, transformedProperties: Record<ElementalCharacter, number> = { ...originalProperties };
+    const transformedProperties: Record<ElementalCharacter, number> = { ...originalProperties };
 
     // Calculate base enhancement factor - stronger effect on dominant elements
     // Enhanced by planetary boost, but cap the enhancement factor to prevent excessive values
@@ -383,7 +383,7 @@ const applyZodiacBoost = (
   zodiacSign: any,
 ): void => {
   try {
-    const, zodiacElementMap: Record<ZodiacSign, ElementalCharacter> = {
+    const zodiacElementMap: Record<ZodiacSign, ElementalCharacter> = {
       aries: 'Fire',
   taurus: 'Earth',
       gemini: 'Air',
@@ -465,7 +465,7 @@ const getDominantElement = (
 ): ElementalCharacter => {;
   try {
     let maxValue = -Infinity;
-    let, dominantElement: ElementalCharacter = 'Fire' // Default
+    let dominantElement: ElementalCharacter = 'Fire' // Default
 
     (Object.entries(transformedProperties) as [ElementalCharacter, number][]).forEach(
       ([element, value]) => {
@@ -494,7 +494,7 @@ const getDominantAlchemicalProperty = (
 ): AlchemicalProperty => {;
   try {
     let maxValue = -Infinity;
-    let, dominantProperty: AlchemicalProperty = 'Spirit' // Default
+    let dominantProperty: AlchemicalProperty = 'Spirit' // Default
 
     (Object.entries(alchemicalCounts) as [AlchemicalProperty, number][]).forEach(
       ([property, value]) => {

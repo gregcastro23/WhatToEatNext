@@ -73,7 +73,7 @@ export class ErrorClassificationSystem {
     this.ruleClassifications = new Map();
     this.initializeRuleClassifications();
 
-    this.domainPatterns = {;
+    this.domainPatterns = {
       astrological: [
         /\/calculations\//,
         /\/data\/planets\//,
@@ -121,14 +121,14 @@ export class ErrorClassificationSystem {
     const totalScore = classifications.reduce((sumc) => sum + c.severity.score0);
     const averageScore = totalScore / classifications.length;
 
-    let, overallLevel: ErrorSeverity['level'],
+    let overallLevel: ErrorSeverity['level'],
     if (criticalCount > 0) overallLevel = 'critical';
     else if (highCount > 10) overallLevel = 'high';
     else if (averageScore > 70) overallLevel = 'high';
     else if (averageScore > 40) overallLevel = 'medium';
     else overallLevel = 'low';
 
-    const, overallSeverity: ErrorSeverity = {
+    const overallSeverity: ErrorSeverity = {
       level: overallLevel,
       score: Math.round(averageScore),
       factors: [
@@ -159,7 +159,7 @@ export class ErrorClassificationSystem {
     };
 
     // Generate recommendations
-    const, recommendations: string[] = [];
+    const recommendations: string[] = [];
     if (criticalCount > 0) {
       recommendations.push('Address critical issues immediately before proceeding');
     }
@@ -192,7 +192,7 @@ export class ErrorClassificationSystem {
     ),
     const manualOnlyFixes = classifications.filter(c => !c.autoFixCapability.canAutoFix);
 
-    const, recommendations: string[] = []
+    const recommendations: string[] = []
 
     if (safeAutoFixes.length > 0) {
       recommendations.push(`${safeAutoFixes.length} issues can be safely auto-fixed`);

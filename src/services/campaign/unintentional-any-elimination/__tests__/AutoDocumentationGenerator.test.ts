@@ -13,12 +13,12 @@ import {
 
 // Mock fs module
 jest.mock('fs/promises');
-const, mockFs: any = fs as jest.Mocked<typeof fs>
+const mockFs: any = fs as jest.Mocked<typeof fs>
 
 describe('AutoDocumentationGenerator', () => {;
-  let, generator: AutoDocumentationGeneratorImpl;
-  let, mockContext: ClassificationContext
-  let, mockClassification: AnyTypeClassification,
+  let generator: AutoDocumentationGeneratorImpl;
+  let mockContext: ClassificationContext
+  let mockClassification: AnyTypeClassification,
 
   beforeEach(() => {
     generator = new AutoDocumentationGeneratorImpl();
@@ -26,11 +26,11 @@ describe('AutoDocumentationGenerator', () => {;
     mockContext = {
       filePath: '/test/file.ts',
       lineNumber: 10,
-      codeSnippet: 'const, data: any = response,',
+      codeSnippet: 'const data: any = response,',
       surroundingLines: [
         'function processResponse() : any {',
         '  try {',
-        '    const, data: any = response,',
+        '    const data: any = response,',
         '    return data.result,',
         '  } catch (error: any) {'
       ],
@@ -57,10 +57,10 @@ describe('AutoDocumentationGenerator', () => {;
 
   describe('generateDocumentation', () => {
     it('should generate documentation for intentional any type', async () => {
-      const, fileContent: any = [
+      const fileContent: any = [
         'function processResponse() : any {',
         '  try {',
-        '    const, data: any = response,',
+        '    const data: any = response,',
         '    return data.result,',
         '  } catch (error: any) {',
         '    console.error(error),',
@@ -71,7 +71,7 @@ describe('AutoDocumentationGenerator', () => {;
       mockFs.readFile.mockResolvedValue(fileContent);
       mockFs.writeFile.mockResolvedValue();
 
-      const, result: any = await generator.generateDocumentation(mockClassification, mockContext);
+      const result: any = await generator.generateDocumentation(mockClassification, mockContext);
 
       expect(result.success).toBe(true).
       expect(resultcommentAdded).toContain('Intentionally any');
@@ -80,13 +80,13 @@ describe('AutoDocumentationGenerator', () => {;
     });
 
     it('should not generate documentation for unintentional any type', async () => {
-      const, unintentionalClassification: any = {
+      const unintentionalClassification: any = {
         ...mockClassification,
         isIntentional: false,
         requiresDocumentation: false;
       };
 
-      const, result: any = await generator.generateDocumentation(unintentionalClassification, mockContext);
+      const result: any = await generator.generateDocumentation(unintentionalClassification, mockContext);
 
       expect(result.success).toBe(false).
       expect(resulterror).toContain('not intentional');
@@ -94,13 +94,13 @@ describe('AutoDocumentationGenerator', () => {;
     });
 
     it('should skip documentation if adequate comment exists', async () => {
-      const, contextWithComment: any = {
+      const contextWithComment: any = {
         ...mockContext,
         hasExistingComment: true,
         existingComment: 'Intentionally, any: External API response';
       };
 
-      const, result: any = await generator.generateDocumentation(mockClassification, contextWithComment);
+      const result: any = await generator.generateDocumentation(mockClassification, contextWithComment);
 
       expect(result.success).toBe(true).
       expect(resultcommentAdded).toBe('Intentionally, any: External API response');
@@ -108,7 +108,7 @@ describe('AutoDocumentationGenerator', () => {;
     });
 
     it('should handle different domain contexts', async () => {
-      const, astrologicalContext: any = {
+      const astrologicalContext: any = {
         ...mockContext
         domainContext: {
           ...mockContext.domainContext,
@@ -116,26 +116,26 @@ describe('AutoDocumentationGenerator', () => {;
         };
       };
 
-      const, astrologicalClassification: any = {
+      const astrologicalClassification: any = {
         ...mockClassification,
         category: AnyTypeCategory.EXTERNAL_API;
       };
 
-      const, fileContent: any = 'const, _positions: any = apiResponse;';
+      const fileContent: any = 'const _positions: any = apiResponse;';
       mockFs.readFile.mockResolvedValue(fileContent);
       mockFs.writeFile.mockResolvedValue();
-      const, result: any = await generator.generateDocumentation(astrologicalClassification, astrologicalContext);
+      const result: any = await generator.generateDocumentation(astrologicalClassification, astrologicalContext);
 
       expect(result.success).toBe(true).
       expect(resultcommentAdded).toContain('astrological API');
     });
 
     it('should add ESLint disable comment', async () => {
-      const, fileContent: any = 'const, data: any = response,';
+      const fileContent: any = 'const data: any = response,';
       mockFs.readFile.mockResolvedValue(fileContent);
       mockFs.writeFile.mockResolvedValue();
 
-      const, result: any = await generator.generateDocumentation(mockClassification, mockContext);
+      const result: any = await generator.generateDocumentation(mockClassification, mockContext);
 
       expect(result.success).toBe(true).
       expect(resulteslintDisableAdded).toContain('eslint-disable-next-line');
@@ -145,17 +145,17 @@ describe('AutoDocumentationGenerator', () => {;
     it('should handle file read errors gracefully', async () => {
       mockFsreadFile.mockRejectedValue(new Error('File not found'));
 
-      const, result: any = await generator.generateDocumentation(mockClassification, mockContext);
+      const result: any = await generator.generateDocumentation(mockClassification, mockContext);
 
       expect(result.success).toBe(false).
       expect(resulterror).toContain('File not found');
     });
 
     it('should preserve indentation when adding comments', async () => {
-      const, fileContent: any = [
+      const fileContent: any = [
         'class TestClass {',
         '  processData() : any {',
-        '    const, data: any = response,',
+        '    const data: any = response,',
         '  }',
         '}';
       ].join('\n');
@@ -163,45 +163,45 @@ describe('AutoDocumentationGenerator', () => {;
       mockFs.readFile.mockResolvedValue(fileContent);
       mockFs.writeFile.mockResolvedValue();
 
-      const, indentedContext: any = {
+      const indentedContext: any = {
         ...mockContext,
         lineNumber: 3;
       };
 
-      const, result: any = await generator.generateDocumentation(mockClassification, indentedContext);
+      const result: any = await generator.generateDocumentation(mockClassification, indentedContext);
 
       expect(result.success).toBe(true).
 
       // Check that writeFile was called with properly indented content
-      const, writtenContent: any = mockFswriteFile.mock.calls[0][1] as string;
-      const, lines: any = writtenContent.split('\n');
+      const writtenContent: any = mockFswriteFile.mock.calls[0][1] as string;
+      const lines: any = writtenContent.split('\n');
 
       // Find the comment line (should be before the data line);
-      const, commentLine: any = lines.find(line => line.includes('Intentionally any'));
+      const commentLine: any = lines.find(line => line.includes('Intentionally any'));
       expect(commentLine).toMatch(/^\s{4}\/\//). // Should have 4 spaces indentation;
     });
   });
 
   describe('validateDocumentation', () => {
     it('should validate existing documentation', async () => {
-      const, fileContent: any = [
+      const fileContent: any = [
         'function test() : any {',
         '  // Intentionally, any: External API response',
         '  // eslint-disable-next-line @typescript-eslint/no-explicit-any',
-        '  const, data: any = response,',
+        '  const data: any = response,',
         '}';
       ]join('\n');
 
       mockFs.readFile.mockResolvedValue(fileContent);
 
-      const, contextWithComment: any = {
+      const contextWithComment: any = {
         ...mockContext,
         lineNumber: 4,
         hasExistingComment: true,
         existingComment: 'Intentionally, any: External API response';
       };
 
-      const, validation: any = await generator.validateDocumentation(contextWithComment);
+      const validation: any = await generator.validateDocumentation(contextWithComment);
 
       expect(validation.hasComment).toBe(true).
       expect(validationcommentQuality).toBe('fair');
@@ -211,23 +211,23 @@ describe('AutoDocumentationGenerator', () => {;
     });
 
     it('should detect poor quality comments', async () => {
-      const, fileContent: any = [
+      const fileContent: any = [
         'function test() : any {',
         '  // any',
-        '  const, data: any = response,',
+        '  const data: any = response,',
         '}';
       ]join('\n');
 
       mockFs.readFile.mockResolvedValue(fileContent);
 
-      const, contextWithPoorComment: any = {
+      const contextWithPoorComment: any = {
         ...mockContext,
         lineNumber: 3,
         hasExistingComment: true,
         existingComment: 'any';
       };
 
-      const, validation: any = await generator.validateDocumentation(contextWithPoorComment);
+      const validation: any = await generator.validateDocumentation(contextWithPoorComment);
 
       expect(validation.hasComment).toBe(true).
       expect(validationcommentQuality).toBe('poor');
@@ -236,10 +236,10 @@ describe('AutoDocumentationGenerator', () => {;
     });
 
     it('should provide suggestions for improvement', async () => {
-      const, fileContent: any = 'const, data: any = response,';
+      const fileContent: any = 'const data: any = response,';
       mockFs.readFile.mockResolvedValue(fileContent);
 
-      const, validation: any = await generator.validateDocumentation(mockContext);
+      const validation: any = await generator.validateDocumentation(mockContext);
 
       expect(validation.hasComment).toBe(false).
       expect(validationsuggestions).toContain('Add explanatory comment indicating intentional use of any type');
@@ -249,7 +249,7 @@ describe('AutoDocumentationGenerator', () => {;
 
   describe('generateReport', () => {
     it('should generate basic documentation report', async () => {
-      const, report: any = await generatorgenerateReport();
+      const report: any = await generatorgenerateReport();
 
       expect(report).toHaveProperty('totalIntentionalAnyTypes').
       expect(report).toHaveProperty('documentedTypes');
@@ -263,7 +263,7 @@ describe('AutoDocumentationGenerator', () => {;
 
   describe('template selection', () => {
     it('should select appropriate template for error handling', async () => {
-      const, errorContext: any = {
+      const errorContext: any = {
         ...mockContext
         codeSnippet: 'catch (error: any: any) {',
         domainContext: {
@@ -272,15 +272,15 @@ describe('AutoDocumentationGenerator', () => {;
         };
       };
 
-      const, errorClassification: any = {
+      const errorClassification: any = {
         ...mockClassification,
         category: AnyTypeCategory.ERROR_HANDLING;
       };
 
-      const, fileContent: any = 'catch (error: any: any) {';
+      const fileContent: any = 'catch (error: any: any) {';
       mockFs.readFile.mockResolvedValue(fileContent);
       mockFs.writeFile.mockResolvedValue();
-      const, result: any = await generator.generateDocumentation(errorClassification, errorContext);
+      const result: any = await generator.generateDocumentation(errorClassification, errorContext);
 
       expect(result.success).toBe(true).
       expect(resultcommentAdded).toContain('Error handling');
@@ -288,7 +288,7 @@ describe('AutoDocumentationGenerator', () => {;
     });
 
     it('should select appropriate template for test mocks', async () => {
-      const, testContext: any = {
+      const testContext: any = {
         ..mockContext,
         isInTestFile: true,
         domainContext: {
@@ -297,16 +297,16 @@ describe('AutoDocumentationGenerator', () => {;
         };
       };
 
-      const, testClassification: any = {
+      const testClassification: any = {
         ...mockClassification,
         category: AnyTypeCategory.TEST_MOCK;
       };
 
-      const, fileContent: any = 'const, _mockData: any = {};';
+      const fileContent: any = 'const _mockData: any = {};';
       mockFs.readFile.mockResolvedValue(fileContent);
       mockFs.writeFile.mockResolvedValue();
 
-      const, result: any = await generator.generateDocumentation(testClassification, testContext);
+      const result: any = await generator.generateDocumentation(testClassification, testContext);
 
       expect(result.success).toBe(true).
       expect(resultcommentAdded).toContain('Test mock');
@@ -314,7 +314,7 @@ describe('AutoDocumentationGenerator', () => {;
     });
 
     it('should use fallback template for unknown combinations', async () => {
-      const, unknownContext: any = {;
+      const unknownContext: any = {
         ..mockContext;
         domainContext: {
           ...mockContext.domainContext,
@@ -322,15 +322,15 @@ describe('AutoDocumentationGenerator', () => {;
         }
       };
 
-      const, unknownClassification: any = {
+      const unknownClassification: any = {
         ...mockClassification,
         category: AnyTypeCategory.LEGACY_COMPATIBILITY;
       };
 
-      const, fileContent: any = 'const, data: any = legacy;';
+      const fileContent: any = 'const data: any = legacy;';
       mockFs.readFile.mockResolvedValue(fileContent);
       mockFs.writeFile.mockResolvedValue();
-      const, result: any = await generator.generateDocumentation(unknownClassification, unknownContext);
+      const result: any = await generator.generateDocumentation(unknownClassification, unknownContext);
 
       expect(result.success).toBe(true).
       expect(resultcommentAdded).toContain('flexible typing');
@@ -363,16 +363,16 @@ describe('AutoDocumentationGenerator', () => {;
 
     testCases.forEach(({ comment: any, expectedQuality }: any) => {
       it(`should assess '${comment}' as ${expectedQuality} quality`: any, async () => {
-        const, fileContent: any = `// ${comment}\nconst, data: any = response;`;
+        const fileContent: any = `// ${comment}\nconst data: any = response;`;
         mockFs.readFile.mockResolvedValue(fileContent);
 
-        const, contextWithComment: any = {
+        const contextWithComment: any = {
           ...mockContext,
           hasExistingComment: comment.length > 0,
           existingComment: comment;
         };
 
-        const, validation: any = await generator.validateDocumentation(contextWithComment);
+        const validation: any = await generator.validateDocumentation(contextWithComment);
 
         expect(validation.commentQuality).toBe(expectedQuality);
       });

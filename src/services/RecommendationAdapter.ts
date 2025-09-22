@@ -80,7 +80,7 @@ export class RecommendationAdapter {
     this.isDaytime = true;
     this.currentZodiac = null;
     this.lunarPhase = null;
-    this.alchemicalResult = {;
+    this.alchemicalResult = {
       spirit: 0,
       essence: 0,
       matter: 0,
@@ -233,7 +233,7 @@ export class RecommendationAdapter {
       const resultData = result as unknown as any;
 
       // Prepare alchemical properties
-      const alchemicalProperties = {;
+      const alchemicalProperties = {
         Spirit: this.safeGetNumber(resultData.spirit),
         Essence: this.safeGetNumber(resultData.essence),
         Matter: this.safeGetNumber(resultData.matter),
@@ -242,7 +242,7 @@ export class RecommendationAdapter {
 
       // Prepare elemental properties, converting to uppercase keys - safe property access
       const elementalBalance = this.safeExtractElementalBalance(resultData.elementalBalance);
-      const elementalProperties = {;
+      const elementalProperties = {
         Fire: elementalBalance.Fire || 0,
         Earth: elementalBalance.Earth || 0,
         Air: elementalBalance.Air || 0,
@@ -690,7 +690,7 @@ export class RecommendationAdapter {
       Substance: this.alchemicalResult.substance || 0
     };
 
-    let, dominant: AlchemicalProperty = 'Spirit';
+    let dominant: AlchemicalProperty = 'Spirit';
     let maxValue = properties.Spirit
 
     Object.entries(properties).forEach(([property, value]) => {
@@ -840,7 +840,7 @@ export class RecommendationAdapter {
    * Get a planetary element for a given planet
    */
   getPlanetaryElement(planet: string): ElementalCharacter | undefined {
-    const, planetMap: Record<string, ElementalCharacter> = {
+    const planetMap: Record<string, ElementalCharacter> = {
       Sun: 'Fire',
       Moon: 'Water',
       Mercury: 'Air',

@@ -15,7 +15,7 @@ interface PositionsCache {
   date: string
 }
 
-let, positionsCache: PositionsCache | null = null;
+let positionsCache: PositionsCache | null = null;
 const CACHE_DURATION = 6 * 60 * 60 * 1000 // 6 hours
 
 /**
@@ -139,7 +139,7 @@ async function fetchHorizonsData(date: Date): Promise<Record<string, unknown>> {
   const horizonsDate = `${date.getFullYear()}-${months[date.getMonth()]}-${date.getDate().toString().padStart(2, '0')}`;
 
   // Initialize positions object
-  const, positions: Record<string, unknown> = {};
+  const positions: Record<string, unknown> = {};
 
   // List of major planets with their Horizons object IDs
   const planets = [
@@ -337,7 +337,7 @@ function getMarch2025Positions(date: Date | unknown = new Date()): Record<string
   // Ensure date is a valid Date object
   const _validDate = date instanceof Date && !isNaN(date.getTime()) ? date : new Date();
   // Current accurate positions as of March 28, 2025
-  const, positions: Record<string, unknown> = {
+  const positions: Record<string, unknown> = {
     sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
     moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false },
     mercury: { sign: 'aries', degree: 0.85, exactLongitude: 0.85, isRetrograde: true },
@@ -392,10 +392,10 @@ async function fetchPublicApiData(date: Date): Promise<Record<string, unknown>> 
       const data = await response.json();
 
       // Process the response
-      const, positions: Record<string, unknown> = {};
+      const positions: Record<string, unknown> = {};
 
       // Map of planet names to standardize
-      const, planetNameMap: Record<string, string> = {
+      const planetNameMap: Record<string, string> = {
         sun: 'Sun',
         moon: 'Moon',
         mercury: 'Mercury',
@@ -534,7 +534,7 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
       const data = await response.json();
 
       // Process the response
-      const, positions: Record<string, unknown> = {};
+      const positions: Record<string, unknown> = {};
 
       if (data?.objects && Array.isArray(data.objects)) {
         data.objects.forEach((obj: unknown) => {

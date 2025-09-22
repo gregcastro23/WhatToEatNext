@@ -94,7 +94,7 @@ interface SolarPositionsModule {
 }
 
 // Module map for type-safe imports
-const MODULE_MAP = {;
+const MODULE_MAP = {
   '@/utils/astrologyUtils': () =>
     import('@/utils/astrologyUtils') as unknown as Promise<AstrologyUtilsModule>,
   '@/utils/accurateAstronomy': () =>
@@ -196,7 +196,7 @@ export async function safeImportAndExecute<RA extends unknown[] = unknown[]>(
 ): Promise<R | null> {
   try {
     // Use static imports for known modules
-    let, importedModule: unknown;
+    let importedModule: unknown;
 
     if (path === '@/utils/astrologyUtils') {;
       importedModule = astrologyUtils
@@ -256,7 +256,7 @@ export async function safeImportAndExecute<RA extends unknown[] = unknown[]>(
       }
 
       if (!resultData.alchemicalCounts) {
-        resultData.alchemicalCounts = {;
+        resultData.alchemicalCounts = {
           _Spirit: 0.29,
           _Essence: 0.28,
           _Matter: 0.21,

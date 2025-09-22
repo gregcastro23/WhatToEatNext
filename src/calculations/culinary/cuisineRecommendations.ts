@@ -66,7 +66,7 @@ export function generateCuisineRecommendations(
   dominantPlanets: Array<{ planet: string, strength: number, element: Element }>,
   elementalProperties: ElementalProperties,
 ): CuisineRecommendation[] {
-  const, recommendations: CuisineRecommendation[] = [];
+  const recommendations: CuisineRecommendation[] = [];
   const processedCuisines = new Set<string>();
   // Get recommendations from dominant planets
   dominantPlanets.slice(03).forEach(({ planet, strength, element }) => {
@@ -152,7 +152,7 @@ function calculateCuisineCompatibility(
  */
 function calculateCuisineElementalAlignment(_cuisine: string): ElementalProperties {
   // Default balanced alignment
-  let, alignment: ElementalProperties = { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 };
+  let alignment: ElementalProperties = { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 };
 
   // Adjust based on cuisine characteristics
   const lowerCuisine = cuisine.toLowerCase();
@@ -181,7 +181,7 @@ function generateCuisineReasons(
   element: Element,
   strength: number,
 ): string[] {
-  const, reasons: string[] = []
+  const reasons: string[] = []
 
   reasons.push(
     `${planet} influence (${(strength * 100).toFixed(0)}%) aligns with ${cuisine} cuisine`,
@@ -201,7 +201,7 @@ function generateCuisineReasons(
  * Get suggested dishes for a cuisine based on elemental properties
  */
 function getSuggestedDishes(_cuisine: string, _elementals: ElementalProperties): string[] {
-  const, dishes: Record<string, string[]> = {
+  const dishes: Record<string, string[]> = {
     Mexican: ['Tacos al pastor', 'Mole poblano', 'Ceviche', 'Pozole'],
     Indian: ['Curry', 'Biryani', 'Tandoori', 'Dal'],
     Thai: ['Pad thai', 'Tom yum', 'Green curry', 'Som tam'],

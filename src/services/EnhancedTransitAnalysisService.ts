@@ -204,7 +204,7 @@ export class EnhancedTransitAnalysisService {
       );
 
       // Calculate dignity-modified influence
-      let, dignityModifiedInfluence: number = aspect.influence || 0;
+      let dignityModifiedInfluence: number = aspect.influence || 0;
 
       if (planet1Data && planet2Data) {
         // Modify influence based on planetary dignities
@@ -244,7 +244,7 @@ export class EnhancedTransitAnalysisService {
     locationInfluence: LocationPlanetaryInfluence | undefined,
     planetData: Planet,
   ): string[] {
-    const, recommendations: string[] = []
+    const recommendations: string[] = []
 
     // Base recommendations from planet data
     if ((planetData as unknown as any).FoodAssociations) {
@@ -281,7 +281,7 @@ export class EnhancedTransitAnalysisService {
     planet2Data: EnhancedPlanetaryPosition | undefined,
     location: GeographicCoordinates,
   ): string[] {
-    const, effects: string[] = [];
+    const effects: string[] = [];
 
     // Base aspect effect
     if (
@@ -340,10 +340,10 @@ export class EnhancedTransitAnalysisService {
     const planetaryHours = AstronomicalCalculations.getPlanetaryHours(location, date);
 
     // Combine all influences for comprehensive recommendations
-    const, ingredients: string[] = [];
-    const, cookingMethods: string[] = [];
-    const, flavorProfiles: string[] = [];
-    const, timing: string[] = []
+    const ingredients: string[] = [];
+    const cookingMethods: string[] = [];
+    const flavorProfiles: string[] = [];
+    const timing: string[] = []
 
     // Add seasonal ingredients
     ingredients.push(...season.culinaryInfluences.slice(03)),

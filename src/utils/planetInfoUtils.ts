@@ -103,7 +103,7 @@ export function getPlanetInfo(
       normalizedPlanetName === 'SouthNode'
     ) {
       // Map sign to a card
-      const, signToCard: Record<string, string> = {
+      const signToCard: Record<string, string> = {
         aries: 'The Emperor',
         taurus: 'The Hierophant',
         gemini: 'The Lovers',
@@ -119,20 +119,20 @@ export function getPlanetInfo(
       };
 
       const cardName = signToCard[planetSign] || 'The Fool';
-      tarotCard = {;
+      tarotCard = {
         name: cardName,
         element: MAJOR_ARCANA[cardName]?.element || 'Unknown'
       };
     } else if (PLANET_TO_MAJOR_ARCANA[normalizedPlanetName]) {
       const cardName = PLANET_TO_MAJOR_ARCANA[normalizedPlanetName];
-      tarotCard = {;
+      tarotCard = {
         name: cardName,
         element: MAJOR_ARCANA[cardName]?.element || 'Unknown'
       };
     }
 
     // Calculate aspects - handle special cases for lunar nodes
-    let, planetAspects: Array<{ planet: string, type: unknown, orb: number }> = [];
+    let planetAspects: Array<{ planet: string, type: unknown, orb: number }> = [];
     try {
       const { aspects } = calculateAspects(planetaryPositions as unknown, 0);
 
@@ -159,7 +159,7 @@ export function getPlanetInfo(
       normalizedPlanetName === 'SouthNode'
     ) {
       // Set elemental influence based on the sign
-      const, signToElement: Record<string, string> = {
+      const signToElement: Record<string, string> = {
         aries: 'Fire',
         leo: 'Fire',
         sagittarius: 'Fire',
@@ -180,7 +180,7 @@ export function getPlanetInfo(
       elementalInfluence[element] = strength
     } else {
       if (planetaryModifiers[normalizedPlanetName]) {
-        elementalInfluence = {;
+        elementalInfluence = {
           fire: planetaryModifiers[normalizedPlanetName].Fire || 0,
           water: planetaryModifiers[normalizedPlanetName].Water || 0,
           air: planetaryModifiers[normalizedPlanetName].Air || 0,
@@ -201,7 +201,7 @@ export function getPlanetInfo(
       normalizedPlanetName === 'SouthNode'
     ) {
       // Set token influence based on the sign element
-      const, signToElement: Record<string, string> = {
+      const signToElement: Record<string, string> = {
         aries: 'Fire',
         leo: 'Fire',
         sagittarius: 'Fire',
@@ -267,7 +267,7 @@ export function getPlanetInfo(
       // Use the planetary modifiers for token influence
       const planetary = planetaryModifiers[normalizedPlanetName];
       if (planetary) {
-        tokenInfluence = {;
+        tokenInfluence = {
           spirit: planetary.Spirit || 0,
           essence: planetary.Essence || 0,
           matter: planetary.Matter || 0,

@@ -96,7 +96,7 @@ export class ConsoleStatementRemovalSystem {
       const consoleAnalysis = await this.analyzeConsoleStatements();
 
       // Create safety checkpoint if enabled
-      let, stashId: string | null = null;
+      let stashId: string | null = null;
       if (this.config.enableGitStash) {
         stashId = await this.createSafetyStash();
       }
@@ -134,7 +134,7 @@ export class ConsoleStatementRemovalSystem {
   async executeBatchRemoval(totalFiles?: number): Promise<BatchRemovalResult> {
     // // // console.log('⚡ Starting batch processing for console statement removal...');
 
-    const, batchResult: BatchRemovalResult = {
+    const batchResult: BatchRemovalResult = {
       totalBatches: 0,
       successfulBatches: 0,
       failedBatches: 0,
@@ -155,7 +155,7 @@ export class ConsoleStatementRemovalSystem {
         `📊 Processing ${estimatedFiles} files in ${batchCount} batches of ${this.config.batchSize} files each`,
       );
 
-      const, buildTimes: number[] = []
+      const buildTimes: number[] = []
 
       // Process each batch
       for (let i = 0i < batchCount, i++) {
@@ -215,7 +215,7 @@ export class ConsoleStatementRemovalSystem {
   async analyzeConsoleStatements(): Promise<ConsoleStatement[]> {
     // // // console.log('🔍 Analyzing console statements for critical preservation...');
 
-    const, statements: ConsoleStatement[] = []
+    const statements: ConsoleStatement[] = []
     const srcDir = path.join(process.cwd(), 'src');
     const files = this.getAllSourceFiles(srcDir);
 
@@ -241,7 +241,7 @@ export class ConsoleStatementRemovalSystem {
    * Analyze console statements in a single file
    */
   private analyzeFileConsoleStatements(filePath: string, content: string): ConsoleStatement[] {
-    const, statements: ConsoleStatement[] = [];
+    const statements: ConsoleStatement[] = [];
     const lines = content.split('\n');
 
     for (let i = 0i < lines.lengthi++) {
@@ -343,7 +343,7 @@ export class ConsoleStatementRemovalSystem {
    * Get all source files recursively
    */
   private getAllSourceFiles(dir: string): string[] {
-    const, files: string[] = []
+    const files: string[] = []
 
     if (!fs.existsSync(dir)) {
       return files
@@ -410,7 +410,7 @@ export class ConsoleStatementRemovalSystem {
    * Execute the console removal script
    */
   private async executeScript(consoleAnalysis: ConsoleStatement[]): Promise<ConsoleRemovalResult> {
-    const, result: ConsoleRemovalResult = {
+    const result: ConsoleRemovalResult = {
       success: false,
       filesProcessed: 0,
       consoleStatementsRemoved: 0,
@@ -423,7 +423,7 @@ export class ConsoleStatementRemovalSystem {
 
     try {
       // Build command arguments
-      const, args: string[] = [];
+      const args: string[] = [];
 
       if (this.config.dryRun) {
         args.push('--dry-run');

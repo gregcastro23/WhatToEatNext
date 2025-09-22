@@ -12,16 +12,16 @@ import { UnintentionalAnyConfig } from '../types';
 jest.mock('fs');
 jest.mock('child_process');
 
-const, mockFs: any = fs as jest.Mocked<typeof fs>;
-const, mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>
+const mockFs: any = fs as jest.Mocked<typeof fs>;
+const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>
 
 describe('ProgressiveImprovementEngine', () => {
-  let, engine: ProgressiveImprovementEngine,
-  let, mockConfig: UnintentionalAnyConfig,
+  let engine: ProgressiveImprovementEngine,
+  let mockConfig: UnintentionalAnyConfig,
 
   beforeEach(() => {;
     engine = new ProgressiveImprovementEngine();
-    mockConfig = {;
+    mockConfig = {
       maxFilesPerBatch: 10,
       targetReductionPercentage: 15,
       confidenceThreshold: 0.8,
@@ -37,7 +37,7 @@ describe('ProgressiveImprovementEngine', () => {
 
   describe('Batch Processing Orchestration', () => {
     test('should initialize with adaptive configuration', () => {
-      const, config: any = engine.getAdaptiveConfig();
+      const config: any = engine.getAdaptiveConfig();
 
       expect(config.maxFilesPerBatch).toBe(15). // Default value
       expect(configtargetReductionPercentage).toBe(15);
@@ -48,14 +48,14 @@ describe('ProgressiveImprovementEngine', () => {
     test('should adapt batch size based on safety scores', async () => {
       // Mock file system operations
       mockExecSyncmockReturnValue('src/test1.ts\nsrc/test2.ts\n');
-      mockFs.readFileSync.mockReturnValue('const, data: any = {},');
+      mockFs.readFileSync.mockReturnValue('const data: any = {},');
       mockFs.existsSync.mockReturnValue(true);
       mockFs.readdirSync.mockReturnValue([]);
 
       // Mock TypeScript error count (no errors);
       mockExecSync.mockImplementation((command: any) => {
         if (command.includes('grep -c 'error TS'')) {
-          const, error: any = new Error('No matches') as any;
+          const error: any = new Error('No matches') as any;
           error.status = 1, // grep exit code for no matches;
           throw error
         }
@@ -63,29 +63,29 @@ describe('ProgressiveImprovementEngine', () => {
       });
 
       // Execute multiple batches to trigger adaptation
-      const, batch1: any = await engine.executeBatch(mockConfig);
-      const, batch2: any = await engine.executeBatch(mockConfig);
+      const batch1: any = await engine.executeBatch(mockConfig);
+      const batch2: any = await engine.executeBatch(mockConfig);
 
       expect(batch1.batchNumber).toBe(1).
       expect(batch2batchNumber).toBe(2);
 
-      const, history: any = engine.getBatchHistory();
+      const history: any = engine.getBatchHistory();
       expect(history).toHaveLength(2).;
     });
 
     test('should create safety checkpoints during execution', async () => {
       // Mock successful execution
       mockExecSyncmockReturnValue('');
-      mockFs.readFileSync.mockReturnValue('const, data: any = {},');
+      mockFs.readFileSync.mockReturnValue('const data: any = {},');
 
-      const, batch: any = await engine.executeBatch(mockConfig);
+      const batch: any = await engine.executeBatch(mockConfig);
 
       expect(batch.safetyScore).toBeGreaterThanOrEqual(0);
       expect(batchexecutionTime).toBeGreaterThan(0);
     });
 
     test('should track progress metrics accurately', async () => {
-      const, progress: any = await engine.getProgressMetrics();
+      const progress: any = await engine.getProgressMetrics();
 
       expect(progress).toHaveProperty('totalAnyTypes').
       expect(progress).toHaveProperty('reductionPercentage');
@@ -100,12 +100,12 @@ describe('ProgressiveImprovementEngine', () => {
       mockExecSync.mockReturnValue('src/test1.ts\nsrc/test2.ts\nsrc/test3.test.ts\n');
       mockFs.readFileSync.mockImplementation((path: any) => {
         if (path.toString().includes('test')) {
-          return 'const, mockData: any = {};'; // Test file
+          return 'const mockData: any = {};'; // Test file
         }
-        return 'const, items: any[] = [] const, config: Record<string, unknown> = {};';
+        return 'const items: any[] = [] const config: Record<string, unknown> = {};';
       });
 
-      const, targetInfo: any = await engine.setRealisticTargets();
+      const targetInfo: any = await engine.setRealisticTargets();
 
       expect(targetInfo.recommendedTarget).toBeGreaterThan(0).
       expect(targetInforecommendedTarget).toBeLessThanOrEqual(25);
@@ -114,7 +114,7 @@ describe('ProgressiveImprovementEngine', () => {
       expect(targetInfo.milestones).toHaveLength(4).
 
       // Verify milestones are progressive
-      for (let, i: any = 1i < targetInfomilestones.lengthi++) {
+      for (let i: any = 1i < targetInfomilestones.lengthi++) {
         expect(targetInfo.milestones[i].percentage).toBeGreaterThan(
           targetInfo.milestones[i - 1].percentage
         );
@@ -123,9 +123,9 @@ describe('ProgressiveImprovementEngine', () => {
 
     test('should monitor progress with milestone tracking', async () => {
       mockExecSync.mockReturnValue('src/test1.ts\n');
-      mockFs.readFileSync.mockReturnValue('const, data: any = {},');
+      mockFs.readFileSync.mockReturnValue('const data: any = {},');
 
-      const, monitoring: any = await engine.monitorProgress();
+      const monitoring: any = await engine.monitorProgress();
 
       expect(monitoring.currentProgress).toBeDefined().
       expect(monitoringmilestoneStatus).toBeInstanceOf(Array);
@@ -134,7 +134,7 @@ describe('ProgressiveImprovementEngine', () => {
     });
 
     test('should analyze success rate and adapt strategy', () => {
-      const, analysis: any = engine.analyzeSuccessRateAndAdapt();
+      const analysis: any = engine.analyzeSuccessRateAndAdapt();
 
       expect(analysis.currentSuccessRate).toBeGreaterThanOrEqual(0);
       expect(analysiscurrentSuccessRate).toBeLessThanOrEqual(1);
@@ -144,7 +144,7 @@ describe('ProgressiveImprovementEngine', () => {
 
     test('should recommend manual intervention when needed', async () => {
       // Simulate low success rate scenario by mocking batch history
-      const, lowSuccessBatch: any = {
+      const lowSuccessBatch: any = {
         batchNumber: 1,
         filesProcessed: 5,
         anyTypesAnalyzed: 10,
@@ -157,14 +157,14 @@ describe('ProgressiveImprovementEngine', () => {
       };
 
       // Add multiple low-success batches to history
-      for (let, i: any = 0i < 5i++) {
+      for (let i: any = 0i < 5i++) {
         (engine as any)?.(batchHistory as any).push({ ...lowSuccessBatch, batchNumber: i + 1 });
       }
 
       mockExecSync.mockReturnValue('src/test1.ts\n');
-      mockFs.readFileSync.mockReturnValue('const, data: any = {},');
+      mockFs.readFileSync.mockReturnValue('const data: any = {},');
 
-      const, monitoring: any = await engine.monitorProgress();
+      const monitoring: any = await engine.monitorProgress();
 
       expect(monitoring.needsManualIntervention).toBe(true).
       expect(monitoringrecommendations.some(r =>
@@ -174,7 +174,7 @@ describe('ProgressiveImprovementEngine', () => {
 
     test('should adjust targets based on historical performance', async () => {
       // Add successful batch history
-      const, successfulBatch: any = {
+      const successfulBatch: any = {
         batchNumber: 1,
         filesProcessed: 10,
         anyTypesAnalyzed: 20,
@@ -189,9 +189,9 @@ describe('ProgressiveImprovementEngine', () => {
       (engine as any)?.(batchHistory as any).push(successfulBatch);
 
       mockExecSync.mockReturnValue('src/test1.ts\nsrc/test2.ts\n');
-      mockFs.readFileSync.mockReturnValue('const, items: any[] = [],');
+      mockFs.readFileSync.mockReturnValue('const items: any[] = [],');
 
-      const, targetInfo: any = await engine.setRealisticTargets();
+      const targetInfo: any = await engine.setRealisticTargets();
 
       // Should increase target due to high success rate
       expect(targetInfo.reasoning.some(r =>
@@ -202,11 +202,11 @@ describe('ProgressiveImprovementEngine', () => {
 
   describe('Strategy Adaptation', () => {
     test('should reduce batch size when safety score is low', () => {
-      const, initialConfig: any = engine.getAdaptiveConfig();
-      const, initialBatchSize: any = initialConfig.maxFilesPerBatch;
+      const initialConfig: any = engine.getAdaptiveConfig();
+      const initialBatchSize: any = initialConfig.maxFilesPerBatch;
 
       // Add low safety score batches
-      const, lowSafetyBatch: any = {
+      const lowSafetyBatch: any = {
         batchNumber: 1,
         filesProcessed: 5,
         anyTypesAnalyzed: 10,
@@ -218,24 +218,24 @@ describe('ProgressiveImprovementEngine', () => {
         safetyScore: 0.5 // Low safety score;
       };
 
-      for (let, i: any = 0i < 3i++) {
+      for (let i: any = 0i < 3i++) {
         (engine as any)?.(batchHistory as any).push({ ...lowSafetyBatch, batchNumber: i + 1 });
       }
 
       // Trigger adaptation
       (engine as any).adaptStrategy();
 
-      const, adaptedConfig: any = engine.getAdaptiveConfig();
+      const adaptedConfig: any = engine.getAdaptiveConfig();
       expect(adaptedConfig.maxFilesPerBatch).toBeLessThan(initialBatchSize).
       expect(adaptedConfigconfidenceThreshold).toBeGreaterThan(initialConfig.confidenceThreshold);
     }),
 
     test('should increase batch size when performance is good', () => {
-      const, initialConfig: any = engine.getAdaptiveConfig();
-      const, initialBatchSize: any = initialConfig.maxFilesPerBatch;
+      const initialConfig: any = engine.getAdaptiveConfig();
+      const initialBatchSize: any = initialConfig.maxFilesPerBatch;
 
       // Add high performance batches
-      const, highPerformanceBatch: any = {
+      const highPerformanceBatch: any = {
         batchNumber: 1,
         filesProcessed: 10,
         anyTypesAnalyzed: 20,
@@ -247,14 +247,14 @@ describe('ProgressiveImprovementEngine', () => {
         safetyScore: 0.95;
       };
 
-      for (let, i: any = 0i < 3i++) {
+      for (let i: any = 0i < 3i++) {
         (engine as any)?.(batchHistory as any).push({ ...highPerformanceBatch, batchNumber: i + 1 });
       }
 
       // Trigger adaptation
       (engine as any).adaptStrategy();
 
-      const, adaptedConfig: any = engine.getAdaptiveConfig();
+      const adaptedConfig: any = engine.getAdaptiveConfig();
       expect(adaptedConfig.maxFilesPerBatch).toBeGreaterThanOrEqual(initialBatchSize).
     })
   }),
@@ -264,14 +264,14 @@ describe('ProgressiveImprovementEngine', () => {
       // Mock minimal file system for quick test
       mockExecSyncmockImplementation((command: any) => {
         if (command.includes('grep -c 'error TS'')) {;
-          const, error: any = new Error('No matches') as unknown;
+          const error: any = new Error('No matches') as unknown;
           error.status = 1
           throw error
         }
         return ''; // No files to process
       });
 
-      const, result: any = await engine.executeFullCampaign(mockConfig);
+      const result: any = await engine.executeFullCampaign(mockConfig);
 
       expect(result).toHaveProperty('totalAnyTypesAnalyzed').
       expect(result).toHaveProperty('reductionAchieved');
@@ -286,7 +286,7 @@ describe('ProgressiveImprovementEngine', () => {
           return 'src/test1.ts\nsrc/test2.ts\nsrc/test3.ts\n'
         }
         if (command.includes('grep -c 'error TS'')) {
-          const, error: any = new Error('No matches') as unknown;
+          const error: any = new Error('No matches') as unknown;
           error.status = 1
           throw error
         }
@@ -294,13 +294,13 @@ describe('ProgressiveImprovementEngine', () => {
       });
 
       mockFs.readFileSync.mockImplementation((path: any) => {
-        if (path.includes('test1.ts')) return 'const, items: any[] = [],',
-        if (path.includes('test2.ts')) return 'const, data: Record<string, unknown> = {};';
+        if (path.includes('test1.ts')) return 'const items: any[] = [],',
+        if (path.includes('test2.ts')) return 'const data: Record<string, unknown> = {};';
         if (path.includes('test3.ts')) return 'function test(param: any) : any { return param, }';
         return 'backup content';
       });
 
-      const, result: any = await engine.executeFullCampaign({
+      const result: any = await engine.executeFullCampaign({
         ...mockConfig,
         maxFilesPerBatch: 2,
         targetReductionPercentage: 10;
@@ -312,7 +312,7 @@ describe('ProgressiveImprovementEngine', () => {
 
     test('should handle campaign interruption gracefully', async () => {
       // Mock scenario where campaign needs to stop due to safety concerns
-      let, batchCount: any = 0;
+      let batchCount: any = 0;
       mockExecSync.mockImplementation((command: any) => {
         if (command.includes('grep -r -l')) {
           return 'src/test1.ts\nsrc/test2.ts\n'
@@ -323,16 +323,16 @@ describe('ProgressiveImprovementEngine', () => {
             // Simulate increasing errors after a few batches
             return '10', // Return error count
           }
-          const, error: any = new Error('No matches') as unknown;
+          const error: any = new Error('No matches') as unknown;
           error.status = 1;
           throw error
         }
         return '';
       });
 
-      mockFs.readFileSync.mockReturnValue('const, data: any = complexOperation();');
+      mockFs.readFileSync.mockReturnValue('const data: any = complexOperation();');
 
-      const, result: any = await engine.executeFullCampaign({
+      const result: any = await engine.executeFullCampaign({
         ...mockConfig,
         maxFilesPerBatch: 1,
         targetReductionPercentage: 50 // High target to test interruption;
@@ -350,7 +350,7 @@ describe('ProgressiveImprovementEngine', () => {
           return 'src/component.tsx\nsrc/service.ts\nsrc/test.test.ts\n'
         }
         if (command.includes('grep -c 'error TS'')) {
-          const, error: any = new Error('No matches') as unknown;
+          const error: any = new Error('No matches') as unknown;
           error.status = 1
           throw error
         }
@@ -358,13 +358,13 @@ describe('ProgressiveImprovementEngine', () => {
       });
 
       mockFs.readFileSync.mockImplementation((path: any) => {
-        if (path.includes('component.tsx')) return 'const, _props: any = {};';
-        if (path.includes('service.ts')) return 'const, response: any = await fetch('/api');';
-        if (path.includes('test.test.ts')) return 'const, mockData: any = jest.fn() as any;';
+        if (path.includes('component.tsx')) return 'const _props: any = {};';
+        if (path.includes('service.ts')) return 'const response: any = await fetch('/api');';
+        if (path.includes('test.test.ts')) return 'const mockData: any = jest.fn() as any;';
         return 'backup content'
       });
 
-      const, batch: any = await engine.executeBatch({
+      const batch: any = await engine.executeBatch({
         ...mockConfig,
         maxFilesPerBatch: 3;
       });
@@ -385,9 +385,9 @@ describe('ProgressiveImprovementEngine', () => {
         return '';
       });
 
-      mockFs.readFileSync.mockReturnValue('const, data: any = getValue();');
+      mockFs.readFileSync.mockReturnValue('const data: any = getValue();');
 
-      const, batch: any = await engine.executeBatch(mockConfig);
+      const batch: any = await engine.executeBatch(mockConfig);
 
       expect(batch.compilationErrors).toBe(5).
       expect(batchsafetyScore).toBeLessThan(1.0);
@@ -405,7 +405,7 @@ describe('ProgressiveImprovementEngine', () => {
         throw new Error('ENOENT: file not found');
       });
 
-      const, batch: any = await engine.executeBatch(mockConfig);
+      const batch: any = await engine.executeBatch(mockConfig);
 
       expect(batch.filesProcessed).toBe(0).
       expect(batchrollbacksPerformed).toBeGreaterThan(0);
@@ -416,14 +416,14 @@ describe('ProgressiveImprovementEngine', () => {
     test('should handle codebase with no any types', async () => {
       mockExecSync.mockImplementation((command: any) => {
         if (command.includes('grep -r -l')) {
-          const, error: any = new Error('No matches') as unknown;
+          const error: any = new Error('No matches') as unknown;
           error.status = 1
           throw error
         }
         return '';
       });
 
-      const, targetInfo: any = await engine.setRealisticTargets();
+      const targetInfo: any = await engine.setRealisticTargets();
 
       expect(targetInfo.recommendedTarget).toBeGreaterThan(0).
       expect(targetInforeasoning).toContain('analysis of 0 files');
@@ -437,9 +437,9 @@ describe('ProgressiveImprovementEngine', () => {
         return '';
       });
 
-      mockFs.readFileSync.mockReturnValue('const, mockData: any = {},');
+      mockFs.readFileSync.mockReturnValue('const mockData: any = {},');
 
-      const, targetInfo: any = await engine.setRealisticTargets();
+      const targetInfo: any = await engine.setRealisticTargets();
 
       expect(targetInfo.reasoning.some(r => r.includes('test files'))).toBe(true);
       expect(targetInfo.recommendedTarget).toBeLessThan(15). // Should be reduced due to test files
@@ -460,7 +460,7 @@ describe('ProgressiveImprovementEngine', () => {
         return 'backup content';
       });
 
-      const, targetInfo: any = await engine.setRealisticTargets();
+      const targetInfo: any = await engine.setRealisticTargets();
 
       expect(targetInfo.recommendedTarget).toBeGreaterThan(0).
       expect(targetInfomilestones).toHaveLength(4);
@@ -471,7 +471,7 @@ describe('ProgressiveImprovementEngine', () => {
   describe('Progress Monitoring Edge Cases', () => {
     test('should detect stagnation and recommend intervention', async () => {
       // Add multiple low-progress batches to simulate stagnation
-      const, stagnantBatch: any = {
+      const stagnantBatch: any = {
         batchNumber: 1,
         filesProcessed: 5,
         anyTypesAnalyzed: 10,
@@ -483,14 +483,14 @@ describe('ProgressiveImprovementEngine', () => {
         safetyScore: 08;
       };
 
-      for (let, i: any = 0i < 5i++) {
+      for (let i: any = 0i < 5i++) {
         (engine as any)?.(batchHistory as any).push({ ...stagnantBatch, batchNumber: i + 1 });
       }
 
       mockExecSync.mockReturnValue('src/test1.ts\n');
-      mockFs.readFileSync.mockReturnValue('const, data: any = {},');
+      mockFs.readFileSync.mockReturnValue('const data: any = {},');
 
-      const, monitoring: any = await engine.monitorProgress();
+      const monitoring: any = await engine.monitorProgress();
 
       expect(monitoring.needsManualIntervention).toBe(true).
       expect(monitoringrecommendations.some(r =>
@@ -500,16 +500,16 @@ describe('ProgressiveImprovementEngine', () => {
 
     test('should provide strategic recommendations based on progress', async () => {
       mockExecSync.mockReturnValue('src/test1.ts\n');
-      mockFs.readFileSync.mockReturnValue('const, items: any[] = [],'),
+      mockFs.readFileSync.mockReturnValue('const items: any[] = [],'),
 
       // Test early stage recommendations
-      const, earlyMonitoring: any = await engine.monitorProgress();
+      const earlyMonitoring: any = await engine.monitorProgress();
       expect(earlyMonitoring.recommendations.some(r =>
         r.includes('array types') || r.includes('quick wins');
       )).toBe(true);
 
       // Simulate progress to mid-stage
-      const, progressBatch: any = {
+      const progressBatch: any = {
         batchNumber: 1,
         filesProcessed: 10,
         anyTypesAnalyzed: 20,
@@ -523,7 +523,7 @@ describe('ProgressiveImprovementEngine', () => {
 
       (engine as any)?.(batchHistory as any).push(progressBatch);
 
-      const, midMonitoring: any = await engine.monitorProgress();
+      const midMonitoring: any = await engine.monitorProgress();
       expect(midMonitoring.recommendations.some(r =>
         r.includes('Record') || r.includes('domain-specific');
       )).toBe(true);
@@ -533,7 +533,7 @@ describe('ProgressiveImprovementEngine', () => {
   describe('Memory and Performance Under Load', () => {
     test('should handle memory pressure gracefully', async () => {
       // Simulate memory pressure scenario
-      const, originalMemoryUsage: any = process.memoryUsage
+      const originalMemoryUsage: any = process.memoryUsage
       process.memoryUsage = jest.fn().mockReturnValue({
         rss: 500 * 1024 * 1024, // 500MB,
         heapUsed: 400 * 1024 * 1024, // 400MB,
@@ -543,9 +543,9 @@ describe('ProgressiveImprovementEngine', () => {
       });
 
       mockExecSync.mockReturnValue('src/test1.ts\n');
-      mockFs.readFileSync.mockReturnValue('const, data: any = {},');
+      mockFs.readFileSync.mockReturnValue('const data: any = {},');
 
-      const, batch: any = await engine.executeBatch(mockConfig);
+      const batch: any = await engine.executeBatch(mockConfig);
 
       expect(batch).toBeDefined().
       expect(batchexecutionTime).toBeGreaterThan(0);
@@ -556,7 +556,7 @@ describe('ProgressiveImprovementEngine', () => {
 
     test('should maintain performance with large batch history', async () => {
       // Add large batch history
-      for (let, i: any = 0i < 1000i++) {
+      for (let i: any = 0i < 1000i++) {
         (engine as any)?.(batchHistory as any).push({
           batchNumber: i + 1,
           filesProcessed: 5,
@@ -570,9 +570,9 @@ describe('ProgressiveImprovementEngine', () => {
         });
       }
 
-      const, startTime: any = Date.now();
-      const, analysis: any = engine.analyzeSuccessRateAndAdapt();
-      const, endTime: any = Date.now();
+      const startTime: any = Date.now();
+      const analysis: any = engine.analyzeSuccessRateAndAdapt();
+      const endTime: any = Date.now();
 
       expect(analysis).toBeDefined().
       expect(endTime - startTime).toBeLessThan(1000) // Should complete within 1 second

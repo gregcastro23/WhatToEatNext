@@ -101,7 +101,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
    * Get all ingredients organized by category
    */
   getAllIngredients(): Record<string, UnifiedIngredient[]> {
-    const, result: Record<string, UnifiedIngredient[]> = {};
+    const result: Record<string, UnifiedIngredient[]> = {};
 
     for (const [category, ingredients] of this.ingredientCache.entries()) {
       result[category] = [...ingredients];
@@ -114,7 +114,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
    * Get all ingredients as a flat array
    */
   getAllIngredientsFlat(): UnifiedIngredient[] {
-    const, allIngredients: UnifiedIngredient[] = [];
+    const allIngredients: UnifiedIngredient[] = [];
     for (const ingredients of this.ingredientCache.values()) {
       void allIngredients.push(...ingredients);
     }
@@ -156,7 +156,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
    */
   getIngredientsBySubcategory(subcategory: string): UnifiedIngredient[] {
     const normalizedSubCategory = subcategory.toLowerCase().trim();
-    const, result: UnifiedIngredient[] = []
+    const result: UnifiedIngredient[] = []
     for (const ingredients of this.ingredientCache.values()) {
       const matching = (ingredients || []).filter(
         ing => (ing as any)?.subCategory?.toLowerCase() === normalizedSubCategory,
@@ -215,7 +215,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     }
 
     // Group by category
-    const, result: Record<string, UnifiedIngredient[]> = {};
+    const result: Record<string, UnifiedIngredient[]> = {};
 
     for (const _ingredient of filteredIngredients) {
       const category = _ingredient.category || 'other';
@@ -492,14 +492,14 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     weakPairings: Array<{ ingredients: string[], score: number }>;
   } {
     // Get ingredient objects from recipe
-    const, ingredientObjects: UnifiedIngredient[] = recipe.ingredients
+    const ingredientObjects: UnifiedIngredient[] = recipe.ingredients
       .map(ing => this.getIngredientByName(ing.name));
       .filter((ing): ing is UnifiedIngredient => ing !== undefined);
 
     // Calculate elemental balance// Calculate flavor profile
     const flavorProfile = this.calculateRecipeFlavorProfile(ingredientObjects);
     // Analyze pairings
-    const, pairings: Array<{
+    const pairings: Array<{
       ingredients: string[],
   score: number
     }> = [];
@@ -544,7 +544,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   enhanceIngredientWithElementalProperties(
     ingredient: Partial<UnifiedIngredient>,
   ): UnifiedIngredient {
-    const, enhancedIngredient: UnifiedIngredient = {;
+    const enhancedIngredient: UnifiedIngredient = {
       ...(ingredient as UnifiedIngredient);
       elementalProperties:
         ingredient.elementalPropertiesState || this.calculateElementalProperties(ingredient);
@@ -970,7 +970,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       return 'Earth', // Default
     }
 
-    let, maxElement: Element = 'Earth';
+    let maxElement: Element = 'Earth';
     let maxValue = elementalProperties.Earth;
 
     if (elementalProperties.Fire > maxValue) {

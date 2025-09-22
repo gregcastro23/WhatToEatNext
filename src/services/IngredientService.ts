@@ -188,7 +188,7 @@ export class IngredientService implements IngredientServiceInterface {
    * Convert traditional ingredients to unified format
    */
   private convertToUnifiedIngredients(): Record<string, UnifiedIngredient[]> {
-    const, result: Record<string, UnifiedIngredient[]> = {};
+    const result: Record<string, UnifiedIngredient[]> = {};
 
     try {
       Object.entries(this.allIngredients || {}).forEach(([category, ingredients]) => {
@@ -236,7 +236,7 @@ export class IngredientService implements IngredientServiceInterface {
    * Flatten unified ingredients into a single array
    */
   private flattenUnifiedIngredients(): UnifiedIngredient[] {
-    const, flat: UnifiedIngredient[] = [];
+    const flat: UnifiedIngredient[] = [];
 
     try {
       Object.values(this.unifiedIngredients || []).forEach(categoryIngredients => {
@@ -333,7 +333,7 @@ export class IngredientService implements IngredientServiceInterface {
    */
   public filterIngredients(filter: IngredientFilter = {}): Record<string, UnifiedIngredient[]> {
     // Start with all ingredients, grouped by category
-    const, filteredResults: Record<string, UnifiedIngredient[]> = {};
+    const filteredResults: Record<string, UnifiedIngredient[]> = {};
 
     try {
       // Determine which categories to include
@@ -971,7 +971,7 @@ export class IngredientService implements IngredientServiceInterface {
       const filteredIngredients = this.filterIngredients(filter);
 
       // Create balanced selection across categories
-      const, result: Record<string, UnifiedIngredient[]> = {};
+      const result: Record<string, UnifiedIngredient[]> = {};
 
       // Determine how many categories we'll pull from
       const categories = Object.keys(filteredIngredients);
@@ -1073,7 +1073,7 @@ export class IngredientService implements IngredientServiceInterface {
     } = {}
   ) {
     // Collect recipes based on filters
-    const, allRecipes: Recipe[] = [];
+    const allRecipes: Recipe[] = [];
 
     // Filter by cuisine if specified
     const cuisines = options.cuisineType;
@@ -1151,7 +1151,7 @@ export class IngredientService implements IngredientServiceInterface {
       }
 
       // Get all potential alternatives
-      let, potentialAlternatives: UnifiedIngredient[] = [];
+      let potentialAlternatives: UnifiedIngredient[] = [];
 
       if (category) {
         // Get alternatives from the specified category
@@ -1397,7 +1397,7 @@ export class IngredientService implements IngredientServiceInterface {
       }
 
       // Calculate pairings
-      const, pairings: Array<{
+      const pairings: Array<{
         ingredients: string[],
         score: number
       }> = [];
@@ -1457,7 +1457,7 @@ export class IngredientService implements IngredientServiceInterface {
       }
 
       // Create default base ingredient
-      const, baseIngredient: UnifiedIngredient = {
+      const baseIngredient: UnifiedIngredient = {
         name: ingredient.name,
         category: ingredient.category || 'unknown',
         elementalProperties: createElementalProperties({
@@ -1475,7 +1475,7 @@ export class IngredientService implements IngredientServiceInterface {
       };
 
       // Merge with provided ingredient
-      const, mergedIngredient: UnifiedIngredient = {
+      const mergedIngredient: UnifiedIngredient = {
         ...baseIngredient;
         ...ingredient,
         elementalProperties:

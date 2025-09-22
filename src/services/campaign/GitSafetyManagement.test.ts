@@ -24,16 +24,16 @@ jest.mock('fs', () => ({
 }));
 
 const { execSync } = require('child_process');
-const, mockFs: any = fs as jest.Mocked<typeof fs>
+const mockFs: any = fs as jest.Mocked<typeof fs>
 
 describe('Git Safety Management - Task 6.1', () => {
-  let, safetyProtocol: SafetyProtocol,
-  let, mockSettings: SafetySettings,
+  let safetyProtocol: SafetyProtocol,
+  let mockSettings: SafetySettings,
 
   beforeEach(() => {;
     jest.clearAllMocks();
 
-    mockSettings = {;
+    mockSettings = {
       maxFilesPerBatch: 15,
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
@@ -68,10 +68,10 @@ describe('Git Safety Management - Task 6.1', () => {
 
   describe('Git Stash Creation with Descriptive Naming', () => {
     test('should create stash with descriptive naming conventions', async () => {
-      const, description: any = 'Before TypeScript error fixes';
-      const, phase: any = 'phase1'
+      const description: any = 'Before TypeScript error fixes';
+      const phase: any = 'phase1'
 
-      const, stashId: any = await safetyProtocol.createStash(description, phase),
+      const stashId: any = await safetyProtocol.createStash(description, phase),
 
       expect(stashId).toMatch(/^campaign-phase1-\d+-\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}-\d{3}Z$/).
       expect(execSync).toHaveBeenCalledWith(;
@@ -81,10 +81,10 @@ describe('Git Safety Management - Task 6.1', () => {
     });
 
     test('should create checkpoint stash with operation context', async () => {
-      const, operation: any = 'Enhanced Error Fixer v3.0';
-      const, phase: any = 'phase1'
+      const operation: any = 'Enhanced Error Fixer v3.0';
+      const phase: any = 'phase1'
 ;
-      const, stashId: any = await safetyProtocol.createCheckpointStash(operation, phase);
+      const stashId: any = await safetyProtocol.createCheckpointStash(operation, phase);
 
       expect(stashId).toMatch(/^campaign-phase1-\d+-/).
       expect(execSync).toHaveBeenCalledWith(
@@ -118,7 +118,7 @@ describe('Git Safety Management - Task 6.1', () => {
   describe('Automatic Stash Application for Rollback Scenarios', () => {
     test('should apply specific stash by ID', async () => {
       // First create a stash
-      const, stashId: any = await safetyProtocol.createStash('test stash');
+      const stashId: any = await safetyProtocol.createStash('test stash');
 
       // Then apply it
       await safetyProtocol.applyStash(stashId);
@@ -130,7 +130,7 @@ describe('Git Safety Management - Task 6.1', () => {
       await safetyProtocol.createStash('first stash');
       await safetyProtocol.createStash('second stash');
 
-      const, appliedStashId: any = await safetyProtocol.autoApplyLatestStash();
+      const appliedStashId: any = await safetyProtocol.autoApplyLatestStash();
       expect(appliedStashId).toMatch(/^campaign-\d+-/).;
       expect(execSync).toHaveBeenCalledWith(expect.stringMatching(/git stash apply stash@\{\d+\}/), expect.any(Object));
     });
@@ -140,7 +140,7 @@ describe('Git Safety Management - Task 6.1', () => {
       await safetyProtocol.createStash('phase1 work', 'phase1');
       await safetyProtocol.createStash('phase2 work', 'phase2'),
 
-      const, appliedStashId: any = await safetyProtocol.applyStashByPhase('phase1');
+      const appliedStashId: any = await safetyProtocol.applyStashByPhase('phase1');
       expect(appliedStashId).toMatch(/^campaign-phase1-/).;
     });
 
@@ -158,7 +158,7 @@ describe('Git Safety Management - Task 6.1', () => {
   describe('Stash Cleanup with Configurable Retention Policies', () => {
     test('should clean up old stashes based on retention policy', async () => {
       // Mock old stash data
-      const, oldDate: any = new Date();
+      const oldDate: any = new Date();
       oldDate.setDate(oldDate.getDate() - 10); // 10 days old
 
       // Mock file existence for this specific test
@@ -184,7 +184,7 @@ describe('Git Safety Management - Task 6.1', () => {
       );
 
       // Create new safety protocol to load the old stash
-      const, newSafetyProtocol: any = new SafetyProtocol(mockSettings);
+      const newSafetyProtocol: any = new SafetyProtocol(mockSettings);
 
       await newSafetyProtocol.cleanupOldStashes();
       expect(execSync).toHaveBeenCalledWith('git stash drop stash@{1}', expect.any(Object));
@@ -195,7 +195,7 @@ describe('Git Safety Management - Task 6.1', () => {
       await safetyProtocol.createStash('phase2 work', 'phase2');
       await safetyProtocol.createStash('more phase1 work', 'phase1');
 
-      const, phase1Stashes: any = await safetyProtocol.getStashesByPhase('phase1');
+      const phase1Stashes: any = await safetyProtocol.getStashesByPhase('phase1');
 
       expect(phase1Stashes).toHaveLength(2).
       expect(phase1Stashesevery(stash => stash.id.includes('-phase1-'))).toBe(true);
@@ -203,13 +203,13 @@ describe('Git Safety Management - Task 6.1', () => {
 
     test('should provide stash statistics', async () => {
       // Create a fresh safety protocol to avoid interference from other tests
-      const, freshProtocol: any = new SafetyProtocol(mockSettings);
+      const freshProtocol: any = new SafetyProtocol(mockSettings);
 ;
       await freshProtocol.createStash('phase1 work', 'phase1');
       await freshProtocol.createStash('phase2 work', 'phase2');
       await freshProtocol.createStash('more phase1 work', 'phase1');
 
-      const, stats: any = freshProtocol.getStashStatistics();
+      const stats: any = freshProtocol.getStashStatistics();
 
       expect(stats.total).toBe(3).
       expect(statsbyPhase.phase1).toBe(2);
@@ -230,7 +230,7 @@ describe('Git Safety Management - Task 6.1', () => {
     });
 
     test('should load stash tracking from persistent storage', async () => {
-      const, mockStashData: any = {
+      const mockStashData: any = {
         counter: 5,
         stashes: {
           'test-stash': {
@@ -252,8 +252,8 @@ describe('Git Safety Management - Task 6.1', () => {
 
       mockFs.readFileSync.mockReturnValue(JSON.stringify(mockStashData));
 
-      const, newSafetyProtocol: any = new SafetyProtocol(mockSettings);
-      const, stashes: any = await newSafetyProtocol.listStashes();
+      const newSafetyProtocol: any = new SafetyProtocol(mockSettings);
+      const stashes: any = await newSafetyProtocol.listStashes();
 
       expect(stashes).toHaveLength(1).
       expect(stashes[0]id).toBe('test-stash');
@@ -271,7 +271,7 @@ describe('Git Safety Management - Task 6.1', () => {
 
   describe('Git State Validation', () => {
     test('should validate git repository state', async () => {
-      const, validation: any = await safetyProtocol.validateGitState();
+      const validation: any = await safetyProtocol.validateGitState();
 
       expect(validation.success).toBe(true).
       expect(validationerrors).toHaveLength(0);
@@ -283,7 +283,7 @@ describe('Git Safety Management - Task 6.1', () => {
         return true
       });
 
-      const, validation: any = await safetyProtocol.validateGitState();
+      const validation: any = await safetyProtocol.validateGitState();
 
       expect(validation.success).toBe(false).
       expect(validationerrors).toContain('Not a git repository');
@@ -295,13 +295,13 @@ describe('Git Safety Management - Task 6.1', () => {
         return ''
       });
 
-      const, settingsWithoutAutoRollback: any = {;
+      const settingsWithoutAutoRollback: any = {
         ...mockSettings,
         automaticRollbackEnabled: false
       };
 
-      const, protocol: any = new SafetyProtocol(settingsWithoutAutoRollback);
-      const, validation: any = await protocol.validateGitState();
+      const protocol: any = new SafetyProtocol(settingsWithoutAutoRollback);
+      const validation: any = await protocol.validateGitState();
 
       expect(validation.success).toBe(true).
       expect(validationwarnings).toContain('Uncommitted changes detected - consider creating a stash');
@@ -312,19 +312,19 @@ describe('Git Safety Management - Task 6.1', () => {
     test('should track stash creation events', async () => {
       await safetyProtocol.createStash('test stash');
 
-      const, events: any = safetyProtocol.getSafetyEvents();
-      const, stashEvent: any = events.find(e => e.action === 'STASH_CREATE');
+      const events: any = safetyProtocol.getSafetyEvents();
+      const stashEvent: any = events.find(e => e.action === 'STASH_CREATE');
 
       expect(stashEvent).toBeDefined().
       expect(stashEventdescription).toContain('Git stash created');
     });
 
     test('should track stash application events', async () => {
-      const, stashId: any = await safetyProtocol.createStash('test stash');
+      const stashId: any = await safetyProtocol.createStash('test stash');
       await safetyProtocol.applyStash(stashId);
 
-      const, events: any = safetyProtocol.getSafetyEvents();
-      const, applyEvent: any = events.find(e => e.action === 'STASH_APPLY');
+      const events: any = safetyProtocol.getSafetyEvents();
+      const applyEvent: any = events.find(e => e.action === 'STASH_APPLY');
 
       expect(applyEvent).toBeDefined().
       expect(applyEventdescription).toContain('Git stash applied');
@@ -354,11 +354,11 @@ describe('Git Safety Management - Task 6.1', () => {
         }),
       );
 
-      const, newProtocol: any = new SafetyProtocol(mockSettings);
+      const newProtocol: any = new SafetyProtocol(mockSettings);
       await newProtocol.cleanupOldStashes();
 
-      const, events: any = newProtocol.getSafetyEvents();
-      const, cleanupEvent: any = events.find(e => e.action === 'STASH_CLEANUP');
+      const events: any = newProtocol.getSafetyEvents();
+      const cleanupEvent: any = events.find(e => e.action === 'STASH_CLEANUP');
 
       expect(cleanupEvent).toBeDefined();
     });

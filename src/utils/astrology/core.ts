@@ -52,7 +52,7 @@ export function isPlanetaryPosition(obj: unknown): obj is PlanetaryPosition {
 export function normalizePlanetaryPositions(
   positions: Record<string, unknown>,
 ): Record<string, PlanetaryPosition> {
-  const, normalized: Record<string, PlanetaryPosition> = {};
+  const normalized: Record<string, PlanetaryPosition> = {};
   if (!positions || typeof positions !== 'object') return normalized;
   for (const key of Object.keys(positions)) {
     let planet = key;
@@ -98,7 +98,7 @@ export interface PlanetaryDignity {
 }
 
 // Add type assertion for zodiac signs
-const, _zodiacSigns: any[] = [
+const _zodiacSigns: any[] = [
   'aries',
   'taurus',
   'gemini',
@@ -141,14 +141,14 @@ export async function calculateActivePlanets(
     'neptune',
     'pluto'
   ];
-  const, activePlanets: string[] = [];
+  const activePlanets: string[] = [];
 
   try {
     // Add ruling planet of current sun sign
     const sunSign = positions.sun?.sign?.toLowerCase() || positions.Sun?.sign?.toLowerCase();
     if (sunSign) {
       // Map signs to their ruling planets
-      const, signRulers: Record<string, string> = {
+      const signRulers: Record<string, string> = {
         aries: 'mars',
         taurus: 'venus',
         gemini: 'mercury',
@@ -178,7 +178,7 @@ export async function calculateActivePlanets(
       const signLower = (position as any)?.sign.toLowerCase();
 
       // Simple planet-sign dignity mapping
-      const, dignities: Record<string, string[]> = {
+      const dignities: Record<string, string[]> = {
         sun: ['leo', 'aries'],
         moon: ['cancer', 'taurus'],
         mercury: ['gemini', 'virgo'],
@@ -219,7 +219,7 @@ export async function calculateActivePlanets(
  * @returns Modifier value between 0 and 1
  */
 export function getLunarPhaseModifier(_phase: LunarPhase): number {
-  const, modifiers: Record<LunarPhase, number> = {
+  const modifiers: Record<LunarPhase, number> = {
     'new moon': 0.2;
     'waxing crescent': 0.5;
     'first quarter': 0.7;
@@ -239,7 +239,7 @@ export function getLunarPhaseModifier(_phase: LunarPhase): number {
  * @returns Element ('Fire', 'Earth', 'Air', or 'Water');
  */
 export function getZodiacElement(_sign: any): ElementalCharacter {
-  const, elements: Record<ZodiacSign, ElementalCharacter> = {
+  const elements: Record<ZodiacSign, ElementalCharacter> = {
     aries: 'Fire',
     leo: 'Fire',
     sagittarius: 'Fire',
@@ -458,7 +458,7 @@ export async function getCurrentAstrologicalState(
     ] as const,
     const weekDay = weekDays[now.getDay()];
 
-    const, _timeFactors: TimeFactors = {
+    const _timeFactors: TimeFactors = {
       currentDate: now,
       _season: (getCurrentSeason().charAt(0).toUpperCase() + getCurrentSeason().slice(1)) as Season,
       _timeOfDay: (getTimeOfDay().charAt(0).toUpperCase() + getTimeOfDay().slice(1)) as TimeOfDay,
@@ -479,7 +479,7 @@ export async function getCurrentAstrologicalState(
     );
 
     // Build the astrological state object
-    const, astrologicalState: AstrologicalState = {
+    const astrologicalState: AstrologicalState = {
       currentZodiac: sunSign,
       sunSign,
       moonSign,
@@ -563,7 +563,7 @@ export async function calculateDominantElement(
   astroState: AstrologicalState,
   _timeFactors: TimeFactors,
 ): Promise<Element> {
-  const, elementCounts: Record<Element, number> = {
+  const elementCounts: Record<Element, number> = {
     Fire: 0,
     Earth: 0,
     Air: 0,
@@ -585,7 +585,7 @@ export async function calculateDominantElement(
   }
 
   // Find dominant element
-  let, dominantElement: Element = 'Fire';
+  let dominantElement: Element = 'Fire';
   let maxCount = 0
 
   Object.entries(elementCounts || {}).forEach(([element, count]) => {
@@ -608,7 +608,7 @@ export async function calculateElementalProfile(
   astroState: AstrologicalState,
   _timeFactors: TimeFactors,
 ): Promise<Record<Element, number>> {
-  const, elementCounts: Record<Element, number> = {
+  const elementCounts: Record<Element, number> = {
     Fire: 0,
     Earth: 0,
     Air: 0,
@@ -637,7 +637,7 @@ export async function calculateElementalProfile(
     return { Fire: 0.25, Earth: 0.25, Air: 0.25, Water: 0.25 };
   }
 
-  const, profile: Record<Element, number> = {} as Record<Element, number>;
+  const profile: Record<Element, number> = {} as Record<Element, number>;
   Object.entries(elementCounts || {}).forEach(([element, count]) => {
     profile[element as Element] = count / total;
   });
@@ -655,8 +655,8 @@ export async function calculateAspects(
   positions: Record<string, { sign: string, degree: number }>,
   _risingDegree?: number,
 ): Promise<{ aspects: PlanetaryAspect[], elementalEffects: ElementalProperties }> {
-  const, aspects: PlanetaryAspect[] = []
-  const, elementalEffects: ElementalProperties = { Fire: 0, Earth: 0, Air: 0, Water: 0 };
+  const aspects: PlanetaryAspect[] = []
+  const elementalEffects: ElementalProperties = { Fire: 0, Earth: 0, Air: 0, Water: 0 };
 
   // Define interface for aspect data
   interface AspectData {

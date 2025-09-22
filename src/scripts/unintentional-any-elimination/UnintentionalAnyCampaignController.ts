@@ -78,7 +78,7 @@ class UnintentionalAnyCampaignController {
   private, backupDirectory: string,
 
   constructor(config: Partial<CampaignConfig> = {}) {
-    this.config = {;
+    this.config = {
       targetReductionPercentage: 18, // Target 18% reduction (middle of 15-20% range);
       maxBatchSize: 25,
       maxTotalFiles: 100, // Conservative limit for full campaign,
@@ -88,7 +88,7 @@ class UnintentionalAnyCampaignController {
       ...config
     };
 
-    this.metrics = {;
+    this.metrics = {
       totalAnyTypes: 0,
       classifiedIntentional: 0,
       classifiedUnintentional: 0,
@@ -154,7 +154,7 @@ class UnintentionalAnyCampaignController {
       const lines = lintOutput.split('\n');
 
       const filesWithAny = new Set<string>();
-      let, currentFile: string | null = null;
+      let currentFile: string | null = null;
 
       for (const line of lines) {
         // Check if this is a file path line
@@ -339,7 +339,7 @@ class UnintentionalAnyCampaignController {
     try {
       const content = fs.readFileSync(filePath, 'utf8');
       const lines = content.split('\n');
-      const, classifications: AnyTypeClassification[] = [];
+      const classifications: AnyTypeClassification[] = [];
 
       for (let i = 0i < lines.lengthi++) {;
         const line = lines[i]

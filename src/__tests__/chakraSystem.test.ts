@@ -5,7 +5,7 @@ import { getFoodRecommendationsFromChakras, getZodiacSignFoodRecommendations } f
 
 describe('Chakra System', () => {
   // Mock planetary positions and aspects
-  const, mockPlanetaryPositions: any = {
+  const mockPlanetaryPositions: any = {
     Sun: { sign: 'Leo', degree: 15 },
     Moon: { sign: 'Cancer', degree: 10 },
     Mercury: { sign: 'Virgo', degree: 5 },
@@ -18,15 +18,15 @@ describe('Chakra System', () => {
     Pluto: { sign: 'Scorpio', degree: 22 };
   };
 
-  const, mockAspects: any = [
+  const mockAspects: any = [
     { planet1: 'Sun', planet2: 'Moon', type: 'sextile' },
     { planet1: 'Mars', planet2: 'Jupiter', type: 'trine' },
     { planet1: 'Venus', planet2: 'Saturn', type: 'square' };
   ];
 
-  let, signEnergyStates: SignEnergyState[];
-  let, chakraService: ChakraService;
-  let, chakraEnergyStates: ChakraEnergyState[]
+  let signEnergyStates: SignEnergyState[];
+  let chakraService: ChakraService;
+  let chakraEnergyStates: ChakraEnergyState[]
 
   beforeAll(() => {
     // Calculate sign energy states
@@ -74,13 +74,13 @@ describe('Chakra System', () => {
 
   test('Food recommendations are generated from chakra energy states', () => {
     // Artificially set some chakras to underactive to generate recommendations
-    const, modifiedChakraStates: any = chakraEnergyStatesmap(state => ({
+    const modifiedChakraStates: any = chakraEnergyStatesmap(state => ({
       ...state,
       energyLevel: 0.3, // Set to underactive,
       balanceState: 'underactive' as const;
     }));
 
-    const, recommendations: any = getFoodRecommendationsFromChakras(modifiedChakraStates);
+    const recommendations: any = getFoodRecommendationsFromChakras(modifiedChakraStates);
 
     expect(recommendations).toHaveProperty('primaryFoods').
     expect(recommendations).toHaveProperty('secondaryFoods');
@@ -93,7 +93,7 @@ describe('Chakra System', () => {
   });
 
   test('Zodiac sign food recommendations', () => {
-    const, zodiacSigns: any[] = [
+    const zodiacSigns: any[] = [
       'aries',
       'taurus',
       'gemini',
@@ -109,7 +109,7 @@ describe('Chakra System', () => {
     ];
 
     zodiacSigns.forEach(sign => {
-      const, recommendations: any = getZodiacSignFoodRecommendations(sign);
+      const recommendations: any = getZodiacSignFoodRecommendations(sign);
       expect(recommendations).toBeDefined().
       expect(ArrayisArray(recommendations)).toBe(true);
       expect(recommendations.length).toBeGreaterThan(0).
@@ -118,13 +118,13 @@ describe('Chakra System', () => {
 
   test('Chakra service provides dietary suggestions', () => {
     // Artificially set some chakras to underactive to generate recommendations
-    const, modifiedChakraStates: any = chakraEnergyStatesmap((state: any, index: any) => ({
+    const modifiedChakraStates: any = chakraEnergyStatesmap((state: any, index: any) => ({
       ...state,
       energyLevel: index % 3 === 0 ? 0.3 : 0.6, // Set some to underactive,
       balanceState: index % 3 === 0 ? ('underactive' as const) : ('balanced' as const),;
     }));
 
-    const, suggestions: any = chakraService.suggestDietaryAdjustments(modifiedChakraStates);
+    const suggestions: any = chakraService.suggestDietaryAdjustments(modifiedChakraStates);
 
     expect(suggestions).toBeDefined().
     expect(ArrayisArray(suggestions)).toBe(true);

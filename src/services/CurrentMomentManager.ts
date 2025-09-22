@@ -108,7 +108,7 @@ class CurrentMomentManager {
       const location = customLocation || DEFAULT_LOCATION;
 
       // Step, 1: Get fresh planetary positions from API
-      let, planetaryPositions: Record<string, PlanetPosition>,
+      let planetaryPositions: Record<string, PlanetPosition>,
       let source: 'api' | 'calculated' | 'fallback' = 'fallback'
 
       try {
@@ -292,7 +292,7 @@ class CurrentMomentManager {
 
       // Replace the DEFAULT_PLANETARY_POSITIONS constant
       const updatedContent = content.replace(
-        /export const, DEFAULT_PLANETARY_POSITIONS: Record<string, CelestialPosition> = \{[\s\S]*?\},/,
+        /export const DEFAULT_PLANETARY_POSITIONS: Record<string, CelestialPosition> = \{[\s\S]*?\},/,
         newPositions,
       );
 
@@ -396,7 +396,7 @@ class CurrentMomentManager {
       '/**',
       ` * Default planetary positions for ${dateStr}`,
       ' */',
-      'export const, DEFAULT_PLANETARY_POSITIONS: Record<string, CelestialPosition> = {'
+      'export const DEFAULT_PLANETARY_POSITIONS: Record<string, CelestialPosition> = {'
     ],
 
     Object.entries(positions).forEach(([planet, position]) => {
@@ -460,7 +460,7 @@ class CurrentMomentManager {
    * Get element for zodiac sign
    */
   private getElementForSign(sign: any): string {
-    const, elementMap: Record<ZodiacSign, string> = {
+    const elementMap: Record<ZodiacSign, string> = {
       aries: 'Fire',
       leo: 'Fire',
       sagittarius: 'Fire',

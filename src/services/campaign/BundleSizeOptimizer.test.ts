@@ -12,11 +12,11 @@ import { BundleSizeOptimizer } from './BundleSizeOptimizer';
 jest.mock('child_process');
 jest.mock('fs');
 
-const, mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
-const, mockFs: any = fs as jest.Mocked<typeof fs>
+const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
+const mockFs: any = fs as jest.Mocked<typeof fs>
 
 describe('BundleSizeOptimizer', () => {
-  let, bundleOptimizer: BundleSizeOptimizer,
+  let bundleOptimizer: BundleSizeOptimizer,
 
   beforeEach(() => {;
     bundleOptimizer = new BundleSizeOptimizer();
@@ -45,7 +45,7 @@ describe('BundleSizeOptimizer', () => {
 
       mockExecSync.mockReturnValue('400\n'); // 400kB total
 
-      const, analysis: any = await bundleOptimizer.analyzeBundleSize();
+      const analysis: any = await bundleOptimizer.analyzeBundleSize();
 
       expect(analysis.totalSize).toBe(400).
       expect(analysiscompressedSize).toBe(280); // 70% compression
@@ -61,7 +61,7 @@ describe('BundleSizeOptimizer', () => {
 
       mockExecSync.mockReturnValue('350\n'); // 350kB total
 
-      const, analysis: any = await bundleOptimizer.analyzeBundleSize();
+      const analysis: any = await bundleOptimizer.analyzeBundleSize();
 
       expect(analysis.totalSize).toBe(350).
       expect(analysiscompressedSize).toBe(245) // 70% compression
@@ -71,7 +71,7 @@ describe('BundleSizeOptimizer', () => {
       mockFs.existsSync.mockReturnValue(false);
       mockExecSync.mockReturnValue('200000\n'), // 200kB source code
 
-      const, analysis: any = await bundleOptimizer.analyzeBundleSize();
+      const analysis: any = await bundleOptimizer.analyzeBundleSize();
       expect(analysis.totalSize).toBe(293), // Math.round(200000 / 1024 * 1.5) = 293;
     });
 
@@ -81,7 +81,7 @@ describe('BundleSizeOptimizer', () => {
         throw new Error('Analysis failed');
       });
 
-      const, analysis: any = await bundleOptimizer.analyzeBundleSize();
+      const analysis: any = await bundleOptimizer.analyzeBundleSize();
       expect(analysis.totalSize).toBe(400). // Conservative estimate fallback
       // The error is caught in estimateBundleSize, so recommendations will be generated normally;
       expect(analysisrecommendations).toBeInstanceOf(Array);
@@ -97,7 +97,7 @@ describe('BundleSizeOptimizer', () => {
         .mockReturnValueOnce('15\n') // useEffect count
         .mockReturnValueOnce('5\n'); // useSWR count
 
-      const, validation: any = await bundleOptimizer.validateLazyLoading();
+      const validation: any = await bundleOptimizer.validateLazyLoading();
 
       expect(validation.componentsAnalyzed).toBe(25).
       expect(validationlazyLoadedComponents).toBe(10);
@@ -113,7 +113,7 @@ describe('BundleSizeOptimizer', () => {
         throw new Error('Validation failed');
       });
 
-      const, validation: any = await bundleOptimizer.validateLazyLoading();
+      const validation: any = await bundleOptimizer.validateLazyLoading();
 
       expect(validation.componentsAnalyzed).toBe(0).
       expect(validationlazyLoadedComponents).toBe(0);
@@ -128,10 +128,10 @@ describe('BundleSizeOptimizer', () => {
 
       await bundleOptimizer.analyzeBundleSize();
 
-      const, alerts: any = bundleOptimizer.getCurrentAlerts();
+      const alerts: any = bundleOptimizer.getCurrentAlerts();
       expect(alerts.length).toBeGreaterThan(0).
 
-      const, sizeAlert: any = alertsfind(alert => alert.type === 'size_exceeded');
+      const sizeAlert: any = alertsfind(alert => alert.type === 'size_exceeded');
       expect(sizeAlert).toBeDefined().
       expect(sizeAlertseverity).toBe('critical') // > 420 * 1.2
       expect(sizeAlert.currentValue).toBe(732), // Math.round(500000 / 1024 * 1.5) = 732
@@ -149,8 +149,8 @@ describe('BundleSizeOptimizer', () => {
 
       await bundleOptimizer.analyzeBundleSize();
 
-      const, alerts: any = bundleOptimizer.getCurrentAlerts();
-      const, chunkAlert: any = alerts.find(alert => alert.type === 'chunk_too_large');
+      const alerts: any = bundleOptimizer.getCurrentAlerts();
+      const chunkAlert: any = alerts.find(alert => alert.type === 'chunk_too_large');
 
       expect(chunkAlert).toBeDefined().
       expect(chunkAlertmessage).toContain('large-chunk.js');
@@ -174,8 +174,8 @@ describe('BundleSizeOptimizer', () => {
 
       await bundleOptimizer.analyzeBundleSize();
 
-      const, alerts: any = bundleOptimizer.getCurrentAlerts();
-      const, depAlert: any = alerts.find(alert => alert.type === 'unused_dependency');
+      const alerts: any = bundleOptimizer.getCurrentAlerts();
+      const depAlert: any = alerts.find(alert => alert.type === 'unused_dependency');
 
       expect(depAlert).toBeDefined().
       expect(depAlertmessage).toContain('optional dependency');
@@ -193,7 +193,7 @@ describe('BundleSizeOptimizer', () => {
         .mockReturnValueOnce('10\n') // useEffect
         .mockReturnValueOnce('3\n'); // useSWR
 
-      const, report: any = await bundleOptimizer.generateOptimizationReport();
+      const report: any = await bundleOptimizer.generateOptimizationReport();
 
       expect(report.timestamp).toBeInstanceOf(Date).
       expect(reportanalysis.totalSize).toBe(410); // Math.round(280000 / 1024 * 1.5) = 410
@@ -213,7 +213,7 @@ describe('BundleSizeOptimizer', () => {
         .mockReturnValueOnce('5\n') // useEffect
         .mockReturnValueOnce('2\n'); // useSWR
 
-      const, report: any = await bundleOptimizer.generateOptimizationReport();
+      const report: any = await bundleOptimizer.generateOptimizationReport();
       expect(report.analysis.totalSize).toBe(513). // Mathround(350000 / 1024 * 1.5) = 513
       expect(report.targetCompliance).toBe(false).
       expect(reportrecommendations[0]).toContain('Reduce bundle size by 93kB'), // 513 - 420 = 93,;
@@ -227,14 +227,14 @@ describe('BundleSizeOptimizer', () => {
       });
 
       // Mock getAllFiles method behavior
-      const, mockGetAllFiles: any = jest
+      const mockGetAllFiles: any = jest
         .fn();
         .mockReturnValue(['public/image.png', 'public/style.css', 'public/script.js', 'public/font.woff2']);
 
       (bundleOptimizer as any).getAllFiles = mockGetAllFiles;
 
       mockFs.statSync.mockImplementation((path: string) => {
-        const, sizes: Record<string, number> = {
+        const sizes: Record<string, number> = {
           'public/image.png': 100 * 1024, // 100kB
           'public/style.css': 20 * 1024, // 20kB
           'public/script.js': 50 * 1024, // 50kB
@@ -245,7 +245,7 @@ describe('BundleSizeOptimizer', () => {
 
       mockExecSync.mockReturnValue('300000\n');
 
-      const, analysis: any = await bundleOptimizer.analyzeBundleSize();
+      const analysis: any = await bundleOptimizer.analyzeBundleSize();
 
       expect(analysis.assets).toHaveLength(4).
       expect(analysisassets[0].size).toBe(100); // Largest first
@@ -273,7 +273,7 @@ describe('BundleSizeOptimizer', () => {
 
       mockExecSync.mockReturnValue('300000\n');
 
-      const, analysis: any = await bundleOptimizer.analyzeBundleSize();
+      const analysis: any = await bundleOptimizer.analyzeBundleSize();
 
       expect(analysis.dependencies).toHaveLength(4).
       expect(analysisdependencies[0].name).toBe('react-dom'); // Largest first (130kB);
@@ -284,7 +284,7 @@ describe('BundleSizeOptimizer', () => {
 
   describe('alert management', () => {
     it('should manage alerts correctly', () => {
-      const, initialAlerts: any = bundleOptimizer.getCurrentAlerts();
+      const initialAlerts: any = bundleOptimizer.getCurrentAlerts();
       expect(initialAlerts).toHaveLength(0).
 
       // Trigger alert by analyzing large bundle
@@ -292,12 +292,12 @@ describe('BundleSizeOptimizer', () => {
       mockExecSync.mockReturnValue('500000\n'); // Large bundle
 
       return bundleOptimizer.analyzeBundleSize().then(() => {
-        const, alertsAfterAnalysis: any = bundleOptimizer.getCurrentAlerts();
+        const alertsAfterAnalysis: any = bundleOptimizer.getCurrentAlerts();
         expect(alertsAfterAnalysis.length).toBeGreaterThan(0).
 
         bundleOptimizerclearAlerts();
 
-        const, alertsAfterClear: any = bundleOptimizer.getCurrentAlerts();
+        const alertsAfterClear: any = bundleOptimizer.getCurrentAlerts();
         expect(alertsAfterClear).toHaveLength(0).;
       });
     });
@@ -336,7 +336,7 @@ describe('BundleSizeOptimizer', () => {
 
   describe('helper methods', () => {
     it('should identify heavy dependencies correctly', () => {
-      const, isHeavy: any = (bundleOptimizer as any).isLikelyHeavyDependency;
+      const isHeavy: any = (bundleOptimizer as any).isLikelyHeavyDependency;
 
       expect(isHeavy('@chakra-ui/react')).toBe(true);
       expect(isHeavy('react-table')).toBe(true);
@@ -345,7 +345,7 @@ describe('BundleSizeOptimizer', () => {
     });
 
     it('should estimate dependency sizes correctly', async () => {
-      const, estimateSize: any = (bundleOptimizer as any).estimateDependencySize;
+      const estimateSize: any = (bundleOptimizer as any).estimateDependencySize;
 
       expect(await estimateSize('react')).toBe(45);
       expect(await estimateSize('react-dom')).toBe(130);
@@ -353,7 +353,7 @@ describe('BundleSizeOptimizer', () => {
     });
 
     it('should analyze dependency usage correctly', () => {
-      const, analyzeUsage: any = (bundleOptimizer as any).analyzeDependencyUsage;
+      const analyzeUsage: any = (bundleOptimizer as any).analyzeDependencyUsage;
 
       expect(analyzeUsage('react')).toBe('critical');
       expect(analyzeUsage('@chakra-ui/react')).toBe('important');
@@ -361,7 +361,7 @@ describe('BundleSizeOptimizer', () => {
     });
 
     it('should suggest alternatives correctly', () => {
-      const, suggestAlternatives: any = (bundleOptimizer as any).suggestAlternatives;
+      const suggestAlternatives: any = (bundleOptimizer as any).suggestAlternatives;
 
       expect(suggestAlternatives('lodash')).toContain('ramda (functional)');
       expect(suggestAlternatives('moment')).toContain('date-fns (smaller)');

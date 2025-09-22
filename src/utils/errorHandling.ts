@@ -46,7 +46,7 @@ export interface ErrorRecoveryStrategy {
 }
 
 // User-friendly error messages
-const, USER_FRIENDLY_MESSAGES: Record<ErrorType, string> = {
+const USER_FRIENDLY_MESSAGES: Record<ErrorType, string> = {
   [ErrorType.NETWORK]: 'Unable to connect to the server. Please check your internet connection and try again.'
   [ErrorType.VALIDATION]: 'Please check your input and try again.',
   [ErrorType.AUTHENTICATION]: 'Please log in to continue.',
@@ -176,7 +176,7 @@ export class ErrorHandler {
     error: Error | EnhancedError,
     context?: Record<string, unknown>,
   ): Promise<unknown> {
-    let, enhancedError: EnhancedError,
+    let enhancedError: EnhancedError,
 
     if ('type' in error && 'severity' in error) {
       enhancedError = error;

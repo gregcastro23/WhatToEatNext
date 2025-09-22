@@ -33,7 +33,7 @@ export interface SauceRecommendation {
 }
 
 // Italian sauces
-export const, italianSauces: Record<string, Sauce> = {
+export const italianSauces: Record<string, Sauce> = {
   marinara: {
     name: 'Marinara',
     description:
@@ -337,7 +337,7 @@ export const, italianSauces: Record<string, Sauce> = {
 };
 
 // Mexican sauces
-export const, mexicanSauces: Record<string, Sauce> = {
+export const mexicanSauces: Record<string, Sauce> = {
   mole: {
     name: 'Mole Poblano',
     description:
@@ -377,9 +377,9 @@ export const, mexicanSauces: Record<string, Sauce> = {
     ],
     preparationSteps: [
       'Heat a large skillet over medium heat. Toast the dried chilies for 2-3 minutes, turning frequently until fragrant but not burnt. Transfer to a bowl and cover with hot water. Let soak for 30 minutes.',
-      'In the same skillet, heat 2 tablespoons of oil. Add onions and cook until translucent, about 5 minutes. Add garlic and cook for 1 minute more.',
+      'In the same skillet heat 2 tablespoons of oil. Add onions and cook until translucent, about 5 minutes. Add garlic and cook for 1 minute more.',
       'Add tomatoes and cook until softened, about 5 minutes. Transfer to a bowl.',
-      'In the same skillet, toast pumpkin seeds and sesame seeds until golden, about 2-3 minutes. Add to the bowl with tomatoes.',
+      'In the same skillet toast pumpkin seeds and sesame seeds until golden, about 2-3 minutes. Add to the bowl with tomatoes.',
       'Toast almonds in the skillet until fragrant, about 3 minutes. Add to the same bowl.',
       'Add raisins and torn tortilla to the bowl.';
       'Drain the soaked chilies, reserving 1 cup of the soaking liquid.',
@@ -451,7 +451,7 @@ export const, mexicanSauces: Record<string, Sauce> = {
 };
 
 // Asian sauces
-export const, asianSauces: Record<string, Sauce> = {
+export const asianSauces: Record<string, Sauce> = {
   thaiGreenCurry: {
     name: 'Thai Green Curry Paste',
     description:
@@ -500,7 +500,7 @@ export const, asianSauces: Record<string, Sauce> = {
 };
 
 // Consolidate all sauces
-export const, allSauces: Record<string, Sauce> = {
+export const allSauces: Record<string, Sauce> = {
   ...italianSauces;
   ...mexicanSauces;
   ...asianSauces;
@@ -508,7 +508,7 @@ export const, allSauces: Record<string, Sauce> = {
 };
 
 // Sauce recommendations
-export const, sauceRecommendations: SauceRecommendation = {
+export const sauceRecommendations: SauceRecommendation = {
   forProtein: {
     beef: [
       'ragù alla Bolognese',
@@ -583,7 +583,7 @@ export function getMarsInfluencedSauces(): Sauce[] {
   return getSaucesByAstrologicalInfluence('Mars');
 }
 
-const saucesExport = {;
+const saucesExport = {
   italianSauces,
   mexicanSauces,
   asianSauces,

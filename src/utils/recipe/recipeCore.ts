@@ -108,7 +108,7 @@ export function calculateRecipeMatchScore(
     let score = baseScore * 100;
 
     // Enhanced scoring factors
-    const bonusFactors = {;
+    const bonusFactors = {
       seasonMatch: 10, // Season matching bonus,
       timeMatch: 15, // Perfect time of day match,
       balancedNutrition: 8, // Well-balanced nutritional profile,
@@ -277,7 +277,7 @@ export function getRecommendedRecipes(
   // Get current time factors to enhance recipe scoring
   const timeFactors = getTimeFactors();
   // Score each recipe
-  const, scoredRecipes: RecommendationScore[] = (recipes || []).map(recipe => {
+  const scoredRecipes: RecommendationScore[] = (recipes || []).map(recipe => {
     const { score, reasons} = scoreRecipe(recipe, astrologicalState, timeFactors);
 
     return {
@@ -309,7 +309,7 @@ function scoreRecipe(
   timeFactors: TimeFactors,
 ): { score: number, reasons: string[] } {
   let score = 50; // Base score
-  const, reasons: string[] = [];
+  const reasons: string[] = [];
 
   // Time of day suitability
   const timeOfDay = timeFactors.timeOfDay;
@@ -598,7 +598,7 @@ function calculatePlanetaryDayInfluence(
   planetaryDay: string,
 ): { score: number, reason?: string } {
   // Planetary day associations with cooking styles and ingredients
-  const, planetaryAssociations: Record<
+  const planetaryAssociations: Record<
     string,
     {
       styles: string[],
@@ -702,7 +702,7 @@ function calculatePlanetaryDayInfluence(
   }
 
   // Generate reason based on score
-  let, reason: string | undefined
+  let reason: string | undefined
   if (score >= 0.9) {
     reason = `Perfect for ${planetaryDay}'s day with its ${associations.flavor} qualities`;
   } else if (score >= 0.7) {
@@ -722,7 +722,7 @@ function calculatePlanetaryHourInfluence(
   isDaytimeNow: boolean,
 ): { score: number, reason?: string } {
   // Planetary hour associations with cooking qualities
-  const, hourlyAssociations: Record<
+  const hourlyAssociations: Record<
     string,
     {
       daytime: string[],
@@ -792,7 +792,7 @@ function calculatePlanetaryHourInfluence(
   }
 
   // Generate reason based on score
-  let, reason: string | undefined
+  let reason: string | undefined
   if (score >= 0.8) {
     reason = `Excellent choice for the current ${planetaryHour} hour with its ${associations.flavor} qualities`;
   } else if (score >= 0.65) {
@@ -811,7 +811,7 @@ function getTimeFactors(): TimeFactors {
   const dayOfWeek = now.getDay();
 
   // Determine time of day
-  const, timeOfDay: TimeOfDay =
+  const timeOfDay: TimeOfDay =
     hour >= 5 && hour < 12
       ? 'Morning'
       : hour >= 12 && hour < 17
@@ -821,10 +821,10 @@ function getTimeFactors(): TimeFactors {
           : 'Night',
 
   // Determine season
-  const, season: Season = getCurrentSeason() as unknown as Season
+  const season: Season = getCurrentSeason() as unknown as Season
 
   // Determine weekday
-  const, weekDays: WeekDay[] = [
+  const weekDays: WeekDay[] = [
     'Sunday',
     'Monday',
     'Tuesday',
@@ -836,13 +836,13 @@ function getTimeFactors(): TimeFactors {
   const weekDay = weekDays[dayOfWeek];
 
   // Create planetary day object
-  const, planetaryDay: PlanetaryDay = {
+  const planetaryDay: PlanetaryDay = {
     day: weekDay,
     planet: getDayPlanet(dayOfWeek) as unknown as PlanetName
   };
 
   // Create planetary hour object
-  const, planetaryHour: PlanetaryHour = {
+  const planetaryHour: PlanetaryHour = {
     planet: getHourPlanet(hour) as unknown as PlanetName,
     _hourOfDay: hour
   };

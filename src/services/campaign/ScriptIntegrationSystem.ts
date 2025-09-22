@@ -177,7 +177,7 @@ export class ScriptIntegrationSystem {
     // // // console.log(`📝 Command: ${command}`);
 
     const startTime = Date.now();
-    let, result: ScriptExecutionResult
+    let result: ScriptExecutionResult
 
     try {
       const output = execSync(command, {
@@ -277,7 +277,7 @@ export class ScriptIntegrationSystem {
       // Fallback: basic safety check
       const metrics = await this.getScriptMetrics(scriptId);
       if (metrics) {
-        const, issues: string[] = [];
+        const issues: string[] = [];
         if (metrics.safetyScore < 0.5) {
           issues.push('Low safety score detected');
         }
@@ -332,7 +332,7 @@ export class ScriptIntegrationSystem {
    * Build command line arguments from options
    */
   private buildCommandArguments(options: ScriptExecutionOptions): string[] {
-    const, args: string[] = []
+    const args: string[] = []
 
     if (options.maxFiles !== undefined) {
       args.push(`--max-files=${options.maxFiles}`);
@@ -377,7 +377,7 @@ export class ScriptIntegrationSystem {
     success: boolean,
     exitCode: number,
   ): ScriptExecutionResult {
-    const, result: ScriptExecutionResult = {
+    const result: ScriptExecutionResult = {
       success,
       exitCode,
       stdout: output,
@@ -394,7 +394,7 @@ export class ScriptIntegrationSystem {
       if (output.trim().startsWith('{')) {
         const jsonData = JSON.parse(output);
         if (jsonData.safetyMetrics) {
-          result.metrics = {;
+          result.metrics = {
             totalRuns: jsonData.safetyMetrics.totalRuns || 0,
             successfulRuns: jsonData.safetyMetrics.successfulRuns || 0,
             filesProcessed: jsonData.safetyMetrics.filesProcessed || 0,
@@ -488,7 +488,7 @@ export class ScriptIntegrationSystem {
    * Get metrics file path for a script
    */
   private getMetricsFilePath(scriptId: string): string {
-    const, metricsFiles: Record<string, string> = {
+    const metricsFiles: Record<string, string> = {
       'typescript-enhanced-v3': '.typescript-errors-metrics.json',
       'explicit-any-systematic': '.explicit-any-metrics.json',
       'unused-variables-enhanced': '.unused-variables-metrics.json'

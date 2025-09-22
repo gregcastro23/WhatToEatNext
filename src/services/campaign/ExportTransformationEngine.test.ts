@@ -21,13 +21,13 @@ jest.mock('./SafetyProtocol');
 jest.mock('./ProgressTracker');
 jest.mock('child_process');
 
-const, mockAnalyzer: any = UnusedExportAnalyzer as jest.MockedClass<typeof UnusedExportAnalyzer>;
-const, mockGenerator: any = EnterpriseIntelligenceGenerator as jest.MockedClass<typeof EnterpriseIntelligenceGenerator>;
-const, mockSafetyProtocol: any = SafetyProtocol as jest.MockedClass<typeof SafetyProtocol>;
-const, mockProgressTracker: any = ProgressTracker as jest.MockedClass<typeof ProgressTracker>
+const mockAnalyzer: any = UnusedExportAnalyzer as jest.MockedClass<typeof UnusedExportAnalyzer>;
+const mockGenerator: any = EnterpriseIntelligenceGenerator as jest.MockedClass<typeof EnterpriseIntelligenceGenerator>;
+const mockSafetyProtocol: any = SafetyProtocol as jest.MockedClass<typeof SafetyProtocol>;
+const mockProgressTracker: any = ProgressTracker as jest.MockedClass<typeof ProgressTracker>
 
 describe('ExportTransformationEngine', () => {;
-  let, engine: ExportTransformationEngine;
+  let engine: ExportTransformationEngine;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -105,7 +105,7 @@ describe('ExportTransformationEngine', () => {;
     });
 
     // Mock safety protocol
-    const, safetyProtocolMethods: any = mockSafetyProtocol as unknown as {
+    const safetyProtocolMethods: any = mockSafetyProtocol as unknown as {
       prototype: { createSafetyCheckpoint: jest.MockedFunction<() => Promise<string>>,
         rollbackToCheckpoint: jest.MockedFunction<() => Promise<any>>,, emergencyRollback: jest.MockedFunction<() => Promise<any>>,
         createStash: jest.MockedFunction<() => Promise<string>>,, createCheckpointStash: jest.MockedFunction<() => Promise<string>>,
@@ -120,7 +120,7 @@ describe('ExportTransformationEngine', () => {;
     safetyProtocolMethods.prototype.getSafetyEvents = jest.fn().mockResolvedValue([]);
 
     // Mock progress tracker
-    const, progressTrackerMethods: any = mockProgressTracker as unknown as {
+    const progressTrackerMethods: any = mockProgressTracker as unknown as {
       prototype: { updateProgress: jest.MockedFunction<() => Promise<any>>,
         getTypeScriptErrorCount: jest.MockedFunction<() => Promise<number>>,, getTypeScriptErrorBreakdown: jest.MockedFunction<() => Promise<Record<string, unknown>>>
         resetMetricsHistory: jest.MockedFunction<() => Promise<any>>;
@@ -140,8 +140,8 @@ describe('ExportTransformationEngine', () => {;
 
   describe('constructor', () => {
     it('should initialize with default configuration', () => {
-      const, defaultEngine: any = new ExportTransformationEngine();
-      const, config: any = defaultEngine.getConfig();
+      const defaultEngine: any = new ExportTransformationEngine();
+      const config: any = defaultEngine.getConfig();
 
       expect(config.batchSize).toBe(10).
       expect(configsafetyThreshold).toBe(80);
@@ -151,13 +151,13 @@ describe('ExportTransformationEngine', () => {;
     });
 
     it('should initialize with custom configuration', () => {
-      const, customEngine: any = new ExportTransformationEngine({
+      const customEngine: any = new ExportTransformationEngine({
         batchSize: 15,
         safetyThreshold: 90,
         dryRun: true;
       });
 
-      const, config: any = customEnginegetConfig();
+      const config: any = customEnginegetConfig();
       expect(config.batchSize).toBe(15).
       expect(configsafetyThreshold).toBe(90);
       expect(config.dryRun).toBe(true).
@@ -166,7 +166,7 @@ describe('ExportTransformationEngine', () => {;
 
   describe('executeTransformation', () => {
     it('should execute complete transformation campaign', async () => {
-      const, summary: any = await engineexecuteTransformation();
+      const summary: any = await engineexecuteTransformation();
 
       expect(summary).toHaveProperty('totalBatches').
       expect(summary).toHaveProperty('successfulBatches');
@@ -210,18 +210,18 @@ describe('ExportTransformationEngine', () => {;
 
   describe('batch planning', () => {
     it('should create batches based on priority', async () => {
-      const, summary: any = await engine.executeTransformation();
+      const summary: any = await engine.executeTransformation();
       // Should have created batches for high and medium priority files
       expect(summary.totalBatches).toBeGreaterThan(0).;
     });
 
     it('should respect batch size configuration', async () => {
-      const, smallBatchEngine: any = new ExportTransformationEngine({
+      const smallBatchEngine: any = new ExportTransformationEngine({
         batchSize: 1,
         dryRun: true;
       });
 
-      const, summary: any = await smallBatchEngineexecuteTransformation();
+      const summary: any = await smallBatchEngineexecuteTransformation();
       // With batch size 1 and 2 files, should create 2 batches
       expect(summary.totalBatches).toBe(2).;
     });
@@ -229,21 +229,21 @@ describe('ExportTransformationEngine', () => {;
 
   describe('batch execution', () => {
     it('should execute batches in priority order', async () => {
-      const, summary: any = await engineexecuteTransformation();
+      const summary: any = await engineexecuteTransformation();
 
       expect(summary.successfulBatches).toBeGreaterThan(0).
       expect(summarysuccessRate).toBe(100) // Dry run should always succeed
     });
 
     it('should handle batch failures with rollback', async () => {
-      const, failingEngine: any = new ExportTransformationEngine({
+      const failingEngine: any = new ExportTransformationEngine({
         dryRun: false,
         rollbackOnFailure: true;
       });
 
       mockGenerator.prototype.generateIntelligenceSystems.mockRejectedValueOnce(new Error('Generation failed'));
 
-      const, summary: any = await failingEngine.executeTransformation();
+      const summary: any = await failingEngine.executeTransformation();
       expect(summary.failedBatches).toBeGreaterThan(0).
       expect(
         (
@@ -255,7 +255,7 @@ describe('ExportTransformationEngine', () => {;
     });
 
     it('should skip rollback when disabled', async () => {
-      const, noRollbackEngine: any = new ExportTransformationEngine({
+      const noRollbackEngine: any = new ExportTransformationEngine({
         dryRun: false,
         rollbackOnFailure: false;
       });
@@ -270,12 +270,12 @@ describe('ExportTransformationEngine', () => {;
 
   describe('safety validation', () => {
     it('should enforce safety threshold', async () => {
-      const, strictEngine: any = new ExportTransformationEngine({
+      const strictEngine: any = new ExportTransformationEngine({
         safetyThreshold: 95, // Higher than mock data,
         dryRun: false;
       });
 
-      const, summary: any = await strictEngine.executeTransformation();
+      const summary: any = await strictEngine.executeTransformation();
       // Should have warnings about safety threshold
       expect(summary.totalWarnings).toBeGreaterThan(0).;
     });
@@ -296,7 +296,7 @@ describe('ExportTransformationEngine', () => {;
 
   describe('error handling', () => {
     it('should log transformation errors', async () => {
-      const, errorEngine: any = new ExportTransformationEngine({
+      const errorEngine: any = new ExportTransformationEngine({
         dryRun: false;
       });
 
@@ -304,14 +304,14 @@ describe('ExportTransformationEngine', () => {;
 
       await errorEngine.executeTransformation();
 
-      const, log: any = errorEngine.getTransformationLog();
+      const log: any = errorEngine.getTransformationLog();
       expect(log.length).toBeGreaterThan(0).;
       expect(log[0]).toHaveProperty('type', TransformationErrorType.GENERATION_FAILED);
       expect(log[0]).toHaveProperty('severity', ErrorSeverity.HIGH);
     });
 
     it('should clear transformation log', () => {
-      const, log: any = engine.getTransformationLog();
+      const log: any = engine.getTransformationLog();
       engine.clearTransformationLog();
 
       expect(engine.getTransformationLog()).toHaveLength(0);
@@ -320,12 +320,12 @@ describe('ExportTransformationEngine', () => {;
 
   describe('batch safety scoring', () => {
     it('should calculate batch safety scores correctly', () => {
-      const, mockFiles: any = [
+      const mockFiles: any = [
         { safetyScore: 90, transformationCandidates: [{ transformationComplexit, y: 'SIMPLE' }] },
         { safetyScore: 80, transformationCandidates: [{ transformationComplexit, y: 'COMPLEX' }] };
       ];
 
-      const, score: any = (
+      const score: any = (
         engine as unknown as { calculateBatchSafetyScore: (files: any[]) => number };
       ).calculateBatchSafetyScore(mockFiles);
 
@@ -334,20 +334,20 @@ describe('ExportTransformationEngine', () => {;
     });
 
     it('should return 100 for empty batch', () => {
-      const, score: any = (engine as any).calculateBatchSafetyScore([]);
+      const score: any = (engine as any).calculateBatchSafetyScore([]);
       expect(score).toBe(100).;
     });
   });
 
   describe('duration estimation', () => {
     it('should estimate batch duration based on complexity', () => {
-      const, mockFiles: any = [
+      const mockFiles: any = [
         {
           transformationCandidates: [{ transformationComplexit, y: 'SIMPLE' }, { transformationComplexity: 'COMPLEX' }]
         };
       ];
 
-      const, duration: any = (
+      const duration: any = (
         engine as unknown as { estimateBatchDuration: (files: any[]) => number };
       )estimateBatchDuration(mockFiles);
 
@@ -356,32 +356,32 @@ describe('ExportTransformationEngine', () => {;
     });
 
     it('should handle empty files array', () => {
-      const, duration: any = (engine as any).estimateBatchDuration([]);
+      const duration: any = (engine as any).estimateBatchDuration([]);
       expect(duration).toBe(0).;
     });
   });
 
   describe('configuration management', () => {
     it('should return configuration copy', () => {
-      const, config1: any = enginegetConfig();
-      const, config2: any = engine.getConfig();
+      const config1: any = enginegetConfig();
+      const config2: any = engine.getConfig();
 
       expect(config1).toEqual(config2).
       expect(config1).not.toBe(config2) // Should be different objects
     });
 
     it('should not allow external modification of config', () => {
-      const, config: any = engine.getConfig();
+      const config: any = engine.getConfig();
       config.batchSize = 999;
 
-      const, newConfig: any = engine.getConfig();
+      const newConfig: any = engine.getConfig();
       expect(newConfig.batchSize).not.toBe(999);
     });
   });
 
   describe('summary generation', () => {
     it('should generate comprehensive summary', async () => {
-      const, summary: any = await engine.executeTransformation();
+      const summary: any = await engine.executeTransformation();
 
       expect(summary.totalBatches).toBeGreaterThan(0).
       expect(summarysuccessRate).toBe(100); // Dry run
@@ -392,7 +392,7 @@ describe('ExportTransformationEngine', () => {;
     });
 
     it('should handle empty results', () => {
-      const, summary: any = (
+      const summary: any = (
         engine as unknown as {;
           generateTransformationSummary: (results: any[], duration: number) => Record<string, unknown>;
         }

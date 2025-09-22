@@ -84,7 +84,7 @@ export class UnifiedNutritionalService {
         return this.cache.get(cacheKey);
       }
 
-      let, nutritionalProfile: NutritionalProfile | null = null;
+      let nutritionalProfile: NutritionalProfile | null = null;
 
       // Get base nutritional profile
       if (typeof ingredient === 'string') {
@@ -98,7 +98,7 @@ export class UnifiedNutritionalService {
           // Convert unified nutritionalProfile if needed
           const unifiedProfile = unifiedIngredient.nutritionalProfile;
           if (isValidObject(unifiedProfile)) {
-            nutritionalProfile = {;
+            nutritionalProfile = {
               ...unifiedProfile;
               // Convert phytonutrients from string[] to Record<string, number> if needed,
               phytonutrients:
@@ -126,7 +126,7 @@ export class UnifiedNutritionalService {
             const alchemyProfile = hasProperty(regularIngredientUnknown, 'nutritionalProfile'),
               ? regularIngredientUnknown.nutritionalProfile
               : nullif (isValidObject(alchemyProfile)) {
-              nutritionalProfile = {;
+              nutritionalProfile = {
                 ...alchemyProfile
                 // Convert phytonutrients from string[] to Record<string, number>
                 phytonutrients:
@@ -146,7 +146,7 @@ export class UnifiedNutritionalService {
 
           if (!nutritionalProfile) {
             // Legacy service removed - using default nutritional profile
-            nutritionalProfile = {;
+            nutritionalProfile = {
               calories: 50,
               macros: { protein: 2, carbs: 10, fat: 0.5, fiber: 3 },
               vitamins: ['C', 'K'],
@@ -183,7 +183,7 @@ export class UnifiedNutritionalService {
         : (nutritionalProfile as unknown as AlchemicalNutritionalProfile);
 
       // Convert to AlchemicalNutritionalProfile format to resolve import conflicts
-      const, alchemicalProfile: AlchemicalNutritionalProfile = {;
+      const alchemicalProfile: AlchemicalNutritionalProfile = {
         ...enhanced
         // Ensure all required AlchemicalNutritionalProfile properties,
         calories: enhanced.calories || 0,
@@ -239,7 +239,7 @@ export class UnifiedNutritionalService {
     },
   ): Promise<NutritionalCompatibilityAnalysis> {
     try {
-      const, profiles: AlchemicalNutritionalProfile[] = []
+      const profiles: AlchemicalNutritionalProfile[] = []
 
       for (const ingredient of ingredients) {
         const enhanced = await this.getEnhancedNutritionalProfile(ingredient, context),
@@ -547,7 +547,7 @@ export class UnifiedNutritionalService {
       }
 
       // Calculate elemental breakdown
-      const, elementalBreakdown: ElementalProperties = {
+      const elementalBreakdown: ElementalProperties = {
         Fire: enhanced.elementalNutrients.Fire.totalElementalValue || 0,
         Water: enhanced.elementalNutrients.Water.totalElementalValue || 0,
         Earth: enhanced.elementalNutrients.Earth.totalElementalValue || 0,
@@ -570,7 +570,7 @@ export class UnifiedNutritionalService {
       );
 
       // Generate warnings (placeholder for now);
-      const, warnings: string[] = []
+      const warnings: string[] = []
       if (enhanced.kalchm < 0.8) {
         warnings.push(
           'Lower alchemical equilibrium - consider combining with higher Kalchm ingredients',
@@ -640,7 +640,7 @@ export class UnifiedNutritionalService {
       cookingMethod?: CookingMethod
     },
   ): Promise<AlchemicalNutritionalProfile[]> {
-    const, results: AlchemicalNutritionalProfile[] = []
+    const results: AlchemicalNutritionalProfile[] = []
 
     for (const ingredient of ingredients) {
       try {
@@ -729,7 +729,7 @@ export class UnifiedNutritionalService {
       );
 
       // Aggregate nutritional values
-      const, aggregated: NutritionalProfile = {
+      const aggregated: NutritionalProfile = {
         calories: 0,
         macros: {} as { [key: string]: number | undefined },
         vitamins: {} as Record<string, number>,

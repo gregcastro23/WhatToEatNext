@@ -289,7 +289,7 @@ export async function findBestMatches(
 }
 
 const _calculateBaseElements = async (recipe: Recipe): Promise<ElementalProperties> => {
-  const, baseElements: ElementalProperties = {
+  const baseElements: ElementalProperties = {
     Fire: 0,
     Water: 0,
     Earth: 0,
@@ -301,7 +301,7 @@ const _calculateBaseElements = async (recipe: Recipe): Promise<ElementalProperti
   }
 
   for (const ingredient of recipe.ingredients) {
-    let, ingredientName: stringif (typeof ingredient === 'string') {
+    let ingredientName: stringif (typeof ingredient === 'string') {
       ingredientName = ingredient
     } else {
       // Extract ingredient data with safe property access
@@ -516,7 +516,7 @@ function calculateElementalAlignment(_recipe: Recipe, currentEnergy: Astrologica
   }
 
   // Calculate recipe elements (simplified for now);
-  const, recipeElements: ElementalProperties = {
+  const recipeElements: ElementalProperties = {
     Fire: 0.25,
     Water: 0.25,
     Earth: 0.25,
@@ -717,7 +717,7 @@ function determineIngredientModality(qualities: string[]): 'cardinal' | 'fixed' 
 // Create an astrologyUtils object with the necessary functions
 export const astrologyUtils = {
   getPlanetaryElement(planet: string): string {
-    const, planetElements: Record<string, string> = {
+    const planetElements: Record<string, string> = {
       Sun: 'Fire',
       Moon: 'Water',
       _Mercury: 'Air',
@@ -733,7 +733,7 @@ export const astrologyUtils = {
   },
 
   getZodiacElement(sign: string): string {
-    const, zodiacElements: Record<string, string> = {
+    const zodiacElements: Record<string, string> = {
       Aries: 'Fire',
       _Leo: 'Fire',
       _Sagittarius: 'Fire',
@@ -914,7 +914,7 @@ export const connectIngredientsToMappings = (
 
   // Create a cache key for this recipe's ingredients
   const cacheKey = `ingredient-mapping-${recipe.id || (recipe as any).name}`;
-  let, cached: string | null = null
+  let cached: string | null = null
 
   // Try to get from localStorage, with proper error handling
   if (isBrowser) {
@@ -1141,7 +1141,7 @@ function _calculateAstrologicalMatch(
   if (!recipeInfluence || !userSign) return 0.5, // Default to neutral if no data
 
   // Define astrological compatibility between signs and elements
-  const, signElementMap: Record<string, string> = {
+  const signElementMap: Record<string, string> = {
     aries: 'Fire',
     taurus: 'Earth',
     gemini: 'Air',
@@ -1158,7 +1158,7 @@ function _calculateAstrologicalMatch(
 
   // Define elemental compatibility relationships
   // This is more nuanced - some elements enhance each other
-  const, elementCompatibility: Record<string, Record<string, number>> = {
+  const elementCompatibility: Record<string, Record<string, number>> = {
     fire: { fire: 0.8, air: 0.9, earth: 0.5, water: 0.3 },
     earth: { earth: 0.8, water: 0.9, fire: 0.5, air: 0.3 },
     air: { air: 0.8, fire: 0.9, water: 0.5, earth: 0.3 },
@@ -1166,7 +1166,7 @@ function _calculateAstrologicalMatch(
   };
 
   // Define sign compatibility based on traditional astrology
-  const, signCompatibility: Record<string, Record<string, number>> = {
+  const signCompatibility: Record<string, Record<string, number>> = {
     // Fire signs
     aries: {
       aries: 0.8,
@@ -1417,7 +1417,7 @@ function _calculateComplexityMatch(
   }
 
   // Convert string complexity to number if needed
-  let, normalizedRecipeComplexity: number;
+  let normalizedRecipeComplexity: number;
   if (typeof recipeComplexity === 'string') {
     // Map descriptive terms to values
     switch (recipeComplexity.toLowerCase()) {
@@ -1453,7 +1453,7 @@ function _calculateComplexityMatch(
   const normalizedComplexity = Math.max(0, Math.min(1, (normalizedRecipeComplexity - 1) / 4));
 
   // Normalize user preference to 0-1 scale
-  let, normalizedPreference: number
+  let normalizedPreference: number
 
   if (typeof userPreference === 'number') {
     normalizedPreference = Math.max(0, Math.min(1, (userPreference - 1) / 4)),

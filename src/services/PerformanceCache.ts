@@ -88,7 +88,7 @@ export class PerformanceCache<T> {
       this.evictLRU();
     }
 
-    const, entry: CacheEntry<T> = {
+    const entry: CacheEntry<T> = {
       data,
       timestamp: now,
       ttl,
@@ -168,7 +168,7 @@ export class PerformanceCache<T> {
    * Evict least recently used item
    */
   private evictLRU(): void {
-    let, lruKey: string | null = null;
+    let lruKey: string | null = null;
     let lruTime = Date.now();
     for (const [key, entry] of this.cache.entries()) {
       if (entry.lastAccessed < lruTime) {
@@ -187,7 +187,7 @@ export class PerformanceCache<T> {
    */
   private cleanup(): void {
     const now = Date.now();
-    const, keysToDelete: string[] = []
+    const keysToDelete: string[] = []
 
     for (const [key, entry] of this.cache.entries()) {
       if (now - entry.timestamp > entry.ttl) {
@@ -273,7 +273,7 @@ export class PerformanceMonitor {
    * Snapshot current metrics
    */
   snapshot(): PerformanceMetrics {
-    const, snapshot: PerformanceMetrics = {
+    const snapshot: PerformanceMetrics = {
       calculationTime: this.currentMetrics.calculationTime || 0,
       cacheHitRate: this.currentMetrics.cacheHitRate || 0,
       memoryUsage: this.currentMetrics.memoryUsage || 0,
@@ -302,7 +302,7 @@ export class PerformanceMonitor {
     history: PerformanceMetrics[]
   } {
     if (this.metrics.length === 0) {;
-      const, empty: PerformanceMetrics = {
+      const empty: PerformanceMetrics = {
         calculationTime: 0,
         cacheHitRate: 0,
         memoryUsage: 0,
@@ -318,7 +318,7 @@ export class PerformanceMonitor {
     // Calculate averages
     // Pattern KK-1: Safe arithmetic with type validation
     const metricsLength = this.metrics.length || 1;
-    const, average: PerformanceMetrics = {;
+    const average: PerformanceMetrics = {
       calculationTime:
         (this.metrics.reduce((summ) => {
           const numericSum = typeof sum === 'number' ? sum : 0;
@@ -356,7 +356,7 @@ export class PerformanceMonitor {
 
     // Calculate peaks
     const metricsArray = this.metrics.length > 0 ? this.metrics : [];
-    const, peak: PerformanceMetrics = {
+    const peak: PerformanceMetrics = {
       calculationTime:
         metricsArray.length > 0 ? Math.max(...metricsArray.map(m => m.calculationTime)) : 0,
       cacheHitRate:

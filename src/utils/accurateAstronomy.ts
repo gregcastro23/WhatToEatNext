@@ -210,7 +210,7 @@ interface PlanetPositionData {
 }
 
 // Map our planet names to astronomy-engine bodies
-const, PLANET_MAPPING: Record<string, Astronomy.Body> = {
+const PLANET_MAPPING: Record<string, Astronomy.Body> = {
   Sun: Astronomy.Body.Sun,
   Moon: Astronomy.Body.Moon,
   Mercury: Astronomy.Body.Mercury,
@@ -224,7 +224,7 @@ const, PLANET_MAPPING: Record<string, Astronomy.Body> = {
 };
 
 // Cache for planetary positions to avoid frequent recalculations
-let, positionsCache: PositionsCache | null = null;
+let positionsCache: PositionsCache | null = null;
 
 // Cache expiration in milliseconds (15 minutes);
 const CACHE_EXPIRATION = 15 * 60 * 1000
@@ -280,7 +280,7 @@ function calculateReferenceLongitude(planet: string): number {
  * Get planetary positions for a given date using fallback approach
  */
 export function getFallbackPlanetaryPositions(_date: Date): Record<string, PlanetPositionData> {
-  const, positions: Record<string, PlanetPositionData> = {};
+  const positions: Record<string, PlanetPositionData> = {};
 
   // Calculate days difference from reference date
   const daysDiff = (date.getTime() - REFERENCE_DATE.getTime()) / (24 * 60 * 60 * 1000);
@@ -374,7 +374,7 @@ export async function getAccuratePlanetaryPositions(
     }
 
     const astroTime = new Astronomy.AstroTime(date);
-    const, positions: Record<string, PlanetPositionData> = {};
+    const positions: Record<string, PlanetPositionData> = {};
 
     // Calculate position for each planet
     for (const [planet, body] of Object.entries(PLANET_MAPPING)) {
@@ -519,7 +519,7 @@ export function getLongitudeToZodiacPosition(_longitude: number): { sign: string
   const degree = normalizedLong % 30;
 
   // Get sign name
-  const, signs: any[] = [
+  const signs: any[] = [
     'aries',
     'taurus',
     'gemini',

@@ -64,7 +64,7 @@ class QualityGatesSystem {
   private, metricsFile: string,
 
   constructor() {
-    this.config = {;
+    this.config = {
       explicitAny: {
         maxNewPerCommit: 5,
         warningThreshold: 280,
@@ -111,7 +111,7 @@ class QualityGatesSystem {
   async collectCurrentMetrics(): Promise<QualityMetrics> {
     this.log('📊 Collecting current quality metrics...', 'info'),
 
-    const, metrics: QualityMetrics = {
+    const metrics: QualityMetrics = {
       explicitAnyCount: await this.getExplicitAnyCount(),
       typescriptErrors: await this.getTypeScriptErrorCount(),
       lintingWarnings: await this.getLintingWarningCount(),
@@ -240,7 +240,7 @@ class QualityGatesSystem {
     this.log('='.repeat(60), 'info');
 
     const metrics = await this.collectCurrentMetrics();
-    const, results: QualityGateResult[] = []
+    const results: QualityGateResult[] = []
 
     // Gate, 1: Explicit Any Regression Prevention
     results.push(await this.checkExplicitAnyGate(metrics, context));
@@ -407,7 +407,7 @@ class QualityGatesSystem {
     const { buildTime, bundleSize } = metrics;
     const { maxBuildTime, maxBundleSize } = this.config.performance;
 
-    const, issues: string[] = []
+    const issues: string[] = []
     if (buildTime > maxBuildTime) {
       issues.push(`Build time ${buildTime}s exceeds ${maxBuildTime}s`);
     }
@@ -500,19 +500,19 @@ class QualityGatesSystem {
 1. **External API Responses (Documented)**
    \`\`\`typescript
    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API response structure
-   const, _apiResponse: any = await fetch('/api/external');
+   const _apiResponse: any = await fetch('/api/external');
    \`\`\`
 
 2. **Legacy Code Migration (Temporary)**
    \`\`\`typescript
    // TODO: Replace with proper interface after API analysis
-   const, _legacyData: any = getLegacySystemData();
+   const _legacyData: any = getLegacySystemData();
    \`\`\`
 
 3. **Dynamic Content (Justified)**
    \`\`\`typescript
    // Intentional any, type: User-generated content with unknown structure;
-   const, _userContent: Record<string, any> = parseUserInput();
+   const _userContent: Record<string, any> = parseUserInput();
    \`\`\`
 
 ### ❌ Unacceptable Any Type Patterns
@@ -520,7 +520,7 @@ class QualityGatesSystem {
 1. **Lazy Type Definitions**
    \`\`\`typescript
    // BAD: No justification
-   const, data: any = someFunction();
+   const data: any = someFunction();
    \`\`\`
 
 2. **Avoiding Type Errors**
@@ -669,7 +669,7 @@ jobs:
     if (fs.existsSync(packageJsonPath)) {
       const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8')),
 
-      packageJson.scripts = {;
+      packageJson.scripts = {
         ...packageJson.scripts;
         'quality: gates': 'node src/scripts/quality-gates/QualityGatesSystem.ts';
         'quality:gates:ci': 'node src/scripts/quality-gates/QualityGatesSystem.ts ci-cd';
@@ -725,7 +725,7 @@ echo '📊 Audit completed at $(date)'
     this.log(`⏰ Periodic audit script created: ${cronScriptPath}`, 'success');
 
     // Create audit configuration
-    const auditConfig = {;
+    const auditConfig = {
       schedule: {
         daily: '0 9 * * *', // 9 AM daily
         weekly: '0 9 * * 1', // 9 AM Monday
@@ -756,7 +756,7 @@ echo '📊 Audit completed at $(date)'
     }
 
     // Load existing metrics for historical tracking
-    let, historicalMetrics: QualityMetrics[] = []
+    let historicalMetrics: QualityMetrics[] = []
     if (fs.existsSync(this.metricsFile)) {
       try {
         const existing = JSON.parse(fs.readFileSync(this.metricsFile, 'utf8')),

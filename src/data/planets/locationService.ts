@@ -122,8 +122,8 @@ export class AstronomicalCalculations {
     const daysSinceNewMoon = (date.getTime() - knownNewMoon.getTime()) / (1000 * 60 * 60 * 24);
     const phase = ((daysSinceNewMoon % lunarCycle) + lunarCycle) % lunarCycle
 
-    let, phaseName: string,
-    let, culinaryEffect: stringif (phase < 0.125) {
+    let phaseName: string,
+    let culinaryEffect: stringif (phase < 0.125) {
       phaseName = 'new moon'
       culinaryEffect = 'New beginnings in cooking, seed sprouting, minimal preserving',
     } else if (phase < 0.25) {
@@ -172,7 +172,7 @@ export class AstronomicalCalculations {
     const hourLength = dayLength / 12;
 
     const planets = ['Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars'],
-    const, planetaryHours: Record<string, { start: Date, end: Date, influence: string }> = {};
+    const planetaryHours: Record<string, { start: Date, end: Date, influence: string }> = {};
 
     // Start with day of week offset
     const dayOfWeek = date.getDay(); // 0 = Sunday;
@@ -196,7 +196,7 @@ export class AstronomicalCalculations {
   }
 
   private static getPlanetaryHourInfluence(planet: string): string {
-    const, influences: Record<string, string> = {
+    const influences: Record<string, string> = {
       Sun: 'Bold cooking, high-heat methods, citrus and golden foods',
       Moon: 'Intuitive cooking, soups and broths, dairy and silver foods',
       Mercury: 'Quick preparations, varied ingredients, communication through food',
@@ -213,7 +213,7 @@ export class AstronomicalCalculations {
 /**
  * Regional culinary profiles for different geographic areas
  */
-export const, REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile> = {
+export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile> = {
   Mediterranean: {
     region: 'Mediterranean Basin',
     dominantElements: { Fire: 0.3, Earth: 0.4, Air: 0.2, Water: 0.1 },
@@ -435,7 +435,7 @@ export class PlanetaryLocationService {
     coordinates: GeographicCoordinates,
     date: Date,
   ): LocationPlanetaryInfluence[] {
-    const, influences: LocationPlanetaryInfluence[] = []
+    const influences: LocationPlanetaryInfluence[] = []
 
     Object.entries(planetInfo).forEach(([planetName, planetData]) => {
       const baseInfluence = 1.0; // Base planetary influence

@@ -41,7 +41,7 @@ export const _calculateBalance = (properties: Record<string, number>): number =>
  * @returns Array of recommended adjustmentss
  */
 export const _getRecommendedAdjustments = (properties: Record<string, number>): string[] => {
-  const, adjustments: string[] = [];
+  const adjustments: string[] = [];
 
   // Example logic for recommending adjustments
   if (properties.Fire > 0.5) {
@@ -79,7 +79,7 @@ export interface PlanetaryDignity {
 /**
  * Dignity strength modifiers based on traditional dignity types
  */
-export const, dignityStrengthModifiers: Record<DignityType, number> = {
+export const dignityStrengthModifiers: Record<DignityType, number> = {
   rulership: 1.5, // +50% strength,
   exaltation: 1.3, // +30% strength,
   triplicity: 1.2, // +20% strength,
@@ -190,14 +190,14 @@ export const _calculateAlchemicalProperties = (
   debugLog('Is daytime:', isDaytime);
 
   // Initialize counters
-  const, elementalCounts: Record<ElementalCharacter, number> = {
+  const elementalCounts: Record<ElementalCharacter, number> = {
     Fire: 0,
     Water: 0,
     Earth: 0,
     Air: 0
   };
 
-  const, alchemicalCounts: Record<keyof AlchemicalProperties, number> = {
+  const alchemicalCounts: Record<keyof AlchemicalProperties, number> = {
     Spirit: 0,
     Essence: 0,
     Matter: 0,
@@ -224,17 +224,17 @@ export const _calculateAlchemicalProperties = (
   }
 
   // Track planetary dignities
-  const, planetaryDignities: Record<string, PlanetaryDignity> = {};
+  const planetaryDignities: Record<string, PlanetaryDignity> = {};
 
   // Track aspect effects
-  const, aspectEffects: Record<string, number> = {};
+  const aspectEffects: Record<string, number> = {};
 
   // Create the element and property maps with day/night effects
   const elementMap = planetElementMap(isDaytime);
   const propertyMap = planetPropertyMap(isDaytime);
 
   // Track planets by sign for stellium detection
-  const, planetsBySign: Record<string, string[]> = {};
+  const planetsBySign: Record<string, string[]> = {};
 
   // Process each planet
   Object.entries(planetPositions).forEach(([planet, position]) => {
@@ -283,14 +283,14 @@ export const _calculateAlchemicalProperties = (
     }
 
     // Get sign element if available
-    let, signElement: ElementalCharacter | null = null;
+    let signElement: ElementalCharacter | null = null;
     if (position.sign) {
       signElement = getElementFromSign(position.sign);
       debugLog(`Planet ${planet} sign ${position.sign} has element ${signElement}`);
     }
 
     // Determine element to use - this fixes the 'element' undefined error
-    let, planetElement: ElementalCharacter;
+    let planetElement: ElementalCharacter;
 
     // Use the day/night specific element map
     if (planetLower in elementMap) {
@@ -331,7 +331,7 @@ export const _calculateAlchemicalProperties = (
     }
 
     // Use the day/night specific property map
-    let, property: keyof AlchemicalProperties;
+    let property: keyof AlchemicalProperties;
     if (planetLower in propertyMap) {
       property = propertyMap[planetLower]
     } else {
@@ -512,7 +512,7 @@ const getDecanString = (decan: number): string => {
 };
 
 // Complete decan rulers for all signs based on your original engine
-const, decanRulers: Record<string, Record<string, string[]>> = {
+const decanRulers: Record<string, Record<string, string[]>> = {
   aries: {
     '1st Decan': ['Mars'],
     '2nd Decan': ['Sun'],
@@ -576,7 +576,7 @@ const, decanRulers: Record<string, Record<string, string[]>> = {
 };
 
 // Complete degree effects for all signs
-const, degreeEffects: Record<string, Record<string, number[]>> = {
+const degreeEffects: Record<string, Record<string, number[]>> = {
   aries: {
     mercury: [1521],
     venus: [714],
@@ -1054,7 +1054,7 @@ export function alchemize(
   const recommendation = generateRecommendation(dominantElement, _elementalBalance);
 
   // Convert to upper case for ElementalProperties
-  const, totalEffectValue: ElementalProperties = {
+  const totalEffectValue: ElementalProperties = {
     Fire: _elementalBalance.fire,
     Earth: _elementalBalance.earth,
     Air: _elementalBalance.air,
@@ -1131,7 +1131,7 @@ function calculatePlanetaryDignity(planet: string, sign: string): PlanetaryDigni
   const planetLower = planet.toLowerCase();
   const signLower = sign.toLowerCase();
   // Define basic rulership relationships
-  const, rulerships: Record<string, string[]> = {
+  const rulerships: Record<string, string[]> = {
     aries: ['mars'],
     taurus: ['venus'],
     gemini: ['mercury'],
@@ -1147,7 +1147,7 @@ function calculatePlanetaryDignity(planet: string, sign: string): PlanetaryDigni
   };
 
   // Define exaltation relationships
-  const, exaltations: Record<string, string> = {
+  const exaltations: Record<string, string> = {
     aries: 'sun',
     taurus: 'moon',
     cancer: 'jupiter',
@@ -1159,7 +1159,7 @@ function calculatePlanetaryDignity(planet: string, sign: string): PlanetaryDigni
   };
 
   // Define detriments (opposite of rulership);
-  const, detriments: Record<string, string[]> = {
+  const detriments: Record<string, string[]> = {
     aries: ['venus'],
     taurus: ['mars'],
     gemini: ['jupiter'],
@@ -1175,7 +1175,7 @@ function calculatePlanetaryDignity(planet: string, sign: string): PlanetaryDigni
   };
 
   // Define falls (opposite of exaltation);
-  const, falls: Record<string, string> = {
+  const falls: Record<string, string> = {
     aries: 'saturn',
     taurus: 'mars',
     cancer: 'mercury',

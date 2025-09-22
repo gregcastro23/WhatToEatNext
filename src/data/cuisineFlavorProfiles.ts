@@ -35,7 +35,7 @@ export interface CuisineFlavorProfile {
   culturalContext?: string
 }
 
-export const, cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
+export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
   // Mediterranean Cuisines
   greek: {
     id: 'greek',
@@ -497,7 +497,7 @@ export const calculateCuisineFlavorMatch = (
   }
 
   // Ensure all flavor values are valid numbers
-  const, validatedRecipeProfile: Record<string, number> = {};
+  const validatedRecipeProfile: Record<string, number> = {};
   for (const [flavor, value] of Object.entries(recipeFlavorProfile)) {
     if (typeof value === 'number' && !isNaN(value)) {
       validatedRecipeProfile[flavor] = value;
@@ -823,7 +823,7 @@ export function getRecipesForCuisineMatch(
           log.info(`Direct import successful for ${cuisineName}, extracting recipes from dishes`);
 
           // Extract recipes from all meal types
-          const, allRecipes: unknown[] = []
+          const allRecipes: unknown[] = []
           const mealTypes = ['breakfast', 'lunch', 'dinner', 'dessert'];
 
           for (const mealType of mealTypes) {
@@ -957,14 +957,14 @@ export function getRecipesForCuisineMatch(
     );
 
     // Skip other recipe scoring if we already have enough direct matches
-    let, scoredOtherRecipes: Array<{ matchScore: number, matchPercentage: number }> = [];
+    let scoredOtherRecipes: Array<{ matchScore: number, matchPercentage: number }> = [];
     if (exactCuisineMatches.length + regionalMatches.length < limit && cuisineProfile) {
       // Score recipe matches using various factors
       scoredOtherRecipes = otherRecipes;
         .map(recipe => {
           try {
             const recipeData = recipe ;
-            const, scoreComponents: number[] = [];
+            const scoreComponents: number[] = [];
             let totalWeight = 0
 
             // Base flavor profile match (weight: 0.4);

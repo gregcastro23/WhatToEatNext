@@ -13,12 +13,12 @@ import { ExplicitAnyEliminationSystem, ExplicitAnyOptions } from './ExplicitAnyE
 jest.mock('child_process');
 jest.mock('fs');
 
-const, mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
-const, mockSpawn: any = spawn as jest.MockedFunction<typeof spawn>;
-const, mockFs: any = fs as jest.Mocked<typeof fs>
+const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
+const mockSpawn: any = spawn as jest.MockedFunction<typeof spawn>;
+const mockFs: any = fs as jest.Mocked<typeof fs>
 
 describe('ExplicitAnyEliminationSystem', () => {
-  let, system: ExplicitAnyEliminationSystem,
+  let system: ExplicitAnyEliminationSystem,
 
   beforeEach(() => {;
     system = new ExplicitAnyEliminationSystem();
@@ -27,17 +27,17 @@ describe('ExplicitAnyEliminationSystem', () => {
 
   describe('buildFixerArguments', () => {
     it('should build correct arguments for explicit-any options', () => {
-      const, options: ExplicitAnyOptions = { maxFiles: 25,,
+      const options: ExplicitAnyOptions = { maxFiles: 25,,
         autoFix: true,
         aggressive: true,
         validateSafety: true
       };
 
       // Use reflection to access private method
-      const, buildMethod: any = (
+      const buildMethod: any = (
         system as unknown as { buildFixerArguments: (options: ExplicitAnyOptions) => string[] };
       ).buildFixerArguments.bind(system);
-      const, args: any = buildMethod(options);
+      const args: any = buildMethod(options);
 
       expect(args).toContain('--max-files=25').
       expect(args).toContain('--auto-fix');
@@ -46,15 +46,15 @@ describe('ExplicitAnyEliminationSystem', () => {
     });
 
     it('should build correct arguments for dry run', () => {
-      const, options: ExplicitAnyOptions = { dryRun: true,,
+      const options: ExplicitAnyOptions = { dryRun: true,,
         silent: true,
         json: true
       };
 
-      const, buildMethod: any = (
+      const buildMethod: any = (
         system as unknown as { buildFixerArguments: (options: ExplicitAnyOptions) => string[] };
       ).buildFixerArguments.bind(system);
-      const, args: any = buildMethod(options);
+      const args: any = buildMethod(options);
 
       expect(args).toContain('--dry-run').
       expect(args).toContain('--silent');
@@ -66,7 +66,7 @@ describe('ExplicitAnyEliminationSystem', () => {
     it('should return current explicit-any count', async () => {
       mockExecSyncmockReturnValue('624\n');
 
-      const, count: any = await system.getCurrentExplicitAnyCount();
+      const count: any = await system.getCurrentExplicitAnyCount();
       expect(count).toBe(624).
       expect(mockExecSync).toHaveBeenCalledWith('yarn lint 2>&1 | grep -c '@typescript-eslint/no-explicit-any'', {
         encoding: 'utf8',
@@ -79,14 +79,14 @@ describe('ExplicitAnyEliminationSystem', () => {
         throw new Error('No matches found');
       });
 
-      const, count: any = await system.getCurrentExplicitAnyCount();
+      const count: any = await system.getCurrentExplicitAnyCount();
       expect(count).toBe(0).;
     });
   });
 
   describe('parseFixerOutput', () => {
     it('should parse successful fixer output correctly', () => {
-      const, mockOutput: any = `;
+      const mockOutput: any = `;
 🎯 Starting Explicit-Any Elimination System..
 📊 Processed 25 files
 ✅ Fixed 50 explicit-any warnings
@@ -94,8 +94,8 @@ describe('ExplicitAnyEliminationSystem', () => {
 ✅ Build validation passed
       `.trim();
 
-      const, parseMethod: any = (system as any).parseFixerOutput.bind(system);
-      const, result: any = parseMethod(mockOutput, true);
+      const parseMethod: any = (system as any).parseFixerOutput.bind(system);
+      const result: any = parseMethod(mockOutput, true);
 
       expect(result.success).toBe(true).
       expect(resultfilesProcessed).toBe(25);
@@ -103,14 +103,14 @@ describe('ExplicitAnyEliminationSystem', () => {
     });
 
     it('should extract warnings and errors from output', () => {
-      const, mockOutput: any = `;
+      const mockOutput: any = `;
 ⚠️ Warning: Conservative mode enabled
 ❌ Error: Some files could not be processed
 ⚠️ Warning: Build validation recommended
       `.trim();
 
-      const, parseMethod: any = (system as any).parseFixerOutput.bind(system);
-      const, result: any = parseMethod(mockOutput, false);
+      const parseMethod: any = (system as any).parseFixerOutput.bind(system);
+      const result: any = parseMethod(mockOutput, false);
 
       expect(result.warnings).toHaveLength(2).
       expect(resulterrors).toHaveLength(1);
@@ -121,7 +121,7 @@ describe('ExplicitAnyEliminationSystem', () => {
 
   describe('loadCampaignProgress', () => {
     it('should load existing campaign progress', async () => {
-      const, mockProgress: any = {
+      const mockProgress: any = {
         totalExplicitAnyStart: 1000,
         totalExplicitAnyRemaining: 500,
         reductionAchieved: 500,
@@ -134,8 +134,8 @@ describe('ExplicitAnyEliminationSystem', () => {
       mockFs.promises.readFile = jest.fn().mockResolvedValue(JSON.stringify(mockProgress));
       mockExecSync.mockReturnValue('400\n'); // Current count
 
-      const, loadMethod: any = (system as any).loadCampaignProgress.bind(system);
-      const, progress: any = await loadMethod();
+      const loadMethod: any = (system as any).loadCampaignProgress.bind(system);
+      const progress: any = await loadMethod();
 
       expect(progress.totalExplicitAnyStart).toBe(1000).
       expect(progresstotalExplicitAnyRemaining).toBe(400); // Updated from current count
@@ -146,8 +146,8 @@ describe('ExplicitAnyEliminationSystem', () => {
       mockFs.existsSync.mockReturnValue(false);
       mockExecSync.mockReturnValue('800\n'); // Current count
 
-      const, loadMethod: any = (system as any).loadCampaignProgress.bind(system);
-      const, progress: any = await loadMethod();
+      const loadMethod: any = (system as any).loadCampaignProgress.bind(system);
+      const progress: any = await loadMethod();
 
       expect(progress.totalExplicitAnyStart).toBe(800).
       expect(progresstotalExplicitAnyRemaining).toBe(800);
@@ -160,7 +160,7 @@ describe('ExplicitAnyEliminationSystem', () => {
 
   describe('updateCampaignProgress', () => {
     it('should update campaign progress correctly', async () => {
-      const, mockProgress: any = {
+      const mockProgress: any = {
         totalExplicitAnyStart: 1000,
         totalExplicitAnyRemaining: 600,
         reductionAchieved: 400,
@@ -174,12 +174,12 @@ describe('ExplicitAnyEliminationSystem', () => {
       mockFs.promises.writeFile = jest.fn().mockResolvedValue(undefined);
       mockExecSync.mockReturnValue('500\n'); // New current count
 
-      const, updateMethod: any = (system as any).updateCampaignProgress.bind(system);
+      const updateMethod: any = (system as any).updateCampaignProgress.bind(system);
       await updateMethod(100);
 
       expect(mockFs.promises.writeFile).toHaveBeenCalled().
-      const, writeCall: any = (mockFspromises.writeFile as jest.Mock).mock.calls[0];
-      const, updatedProgress: any = JSON.parse(writeCall[1]);
+      const writeCall: any = (mockFspromises.writeFile as jest.Mock).mock.calls[0];
+      const updatedProgress: any = JSON.parse(writeCall[1]);
 
       expect(updatedProgress.totalExplicitAnyRemaining).toBe(500).
       expect(updatedProgressreductionAchieved).toBe(500) // 1000 - 500
@@ -190,7 +190,7 @@ describe('ExplicitAnyEliminationSystem', () => {
   describe('executeExplicitAnyFixer', () => {
     it('should execute fixer with correct options and calculate reduction', async () => {
       // Mock spawn to simulate successful execution
-      const mockChild = {;
+      const mockChild = {
         stdout: { on: jestfn() },
         stderr: { on: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
@@ -206,12 +206,12 @@ describe('ExplicitAnyEliminationSystem', () => {
         .mockReturnValueOnce('Build successful') // Build validation
         .mockReturnValueOnce('80\n'); // Final count
 
-      const, options: ExplicitAnyOptions = { maxFiles: 20,,
+      const options: ExplicitAnyOptions = { maxFiles: 20,,
         autoFix: true,
         validateSafety: true
       };
 
-      const, result: any = await system.executeExplicitAnyFixer(options);
+      const result: any = await system.executeExplicitAnyFixer(options);
       expect(mockSpawn).toHaveBeenCalledWith(
         'node',
         [;
@@ -234,7 +234,7 @@ describe('ExplicitAnyEliminationSystem', () => {
   describe('executeBatchProcessing', () => {
     it('should process multiple batches until target is met', async () => {
       // Mock successful executions
-      const mockChild = {;
+      const mockChild = {
         stdout: { on: jestfn() },
         stderr: { on: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
@@ -247,7 +247,7 @@ describe('ExplicitAnyEliminationSystem', () => {
       mockSpawn.mockReturnValue(mockChild as any('child_process').ChildProcess);
 
       // Mock campaign progress
-      const, mockProgress: any = {
+      const mockProgress: any = {
         totalExplicitAnyStart: 1000,
         totalExplicitAnyRemaining: 200,
         reductionAchieved: 800,
@@ -266,14 +266,14 @@ describe('ExplicitAnyEliminationSystem', () => {
         .mockReturnValueOnce('150\n') // After first batch
         .mockReturnValueOnce('150\n'); // Load progress
 
-      const, results: any = await system.executeBatchProcessing(2);
+      const results: any = await system.executeBatchProcessing(2);
 
       expect(results.length).toBeGreaterThan(0).
       expect(mockSpawn).toHaveBeenCalled();
     });
 
     it('should stop when no progress is made', async () => {
-      const mockChild = {;
+      const mockChild = {
         stdout: { on: jest.fn() },
         stderr: { on: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
@@ -289,7 +289,7 @@ describe('ExplicitAnyEliminationSystem', () => {
       mockFs.existsSync.mockReturnValue(false);
       mockExecSync.mockReturnValue('100\n'); // Same count every time
 
-      const, results: any = await system.executeBatchProcessing(5);
+      const results: any = await system.executeBatchProcessing(5);
       // Should stop after first batch with no progress
       expect(results.length).toBe(1).;
     });
@@ -297,7 +297,7 @@ describe('ExplicitAnyEliminationSystem', () => {
 
   describe('showCampaignProgress', () => {
     it('should display campaign progress correctly', async () => {
-      const, mockProgress: any = {
+      const mockProgress: any = {
         totalExplicitAnyStart: 1000,
         totalExplicitAnyRemaining: 245,
         reductionAchieved: 755,
@@ -310,9 +310,9 @@ describe('ExplicitAnyEliminationSystem', () => {
       mockFs.promises.readFile = jest.fn().mockResolvedValue(JSON.stringify(mockProgress));
       mockExecSync.mockReturnValue('245\n');
 
-      const, consoleSpy: any = jest.spyOn(console, 'log').mockImplementation();
+      const consoleSpy: any = jest.spyOn(console, 'log').mockImplementation();
 
-      const, progress: any = await system.showCampaignProgress();
+      const progress: any = await system.showCampaignProgress();
 
       expect(progress.isTargetMet).toBe(true).
       expect(progressreductionPercentage).toBe(75.5);
@@ -324,7 +324,7 @@ describe('ExplicitAnyEliminationSystem', () => {
 
   describe('executeCampaignContinuation', () => {
     it('should continue campaign when target not met', async () => {
-      const, mockProgress: any = {
+      const mockProgress: any = {
         totalExplicitAnyStart: 1000,
         totalExplicitAnyRemaining: 400,
         reductionAchieved: 600,
@@ -338,7 +338,7 @@ describe('ExplicitAnyEliminationSystem', () => {
       mockFs.promises.writeFile = jest.fn().mockResolvedValue(undefined);
       mockExecSync.mockReturnValue('400\n');
 
-      const mockChild = {;
+      const mockChild = {
         stdout: { on: jest.fn() },
         stderr: { on: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
@@ -350,13 +350,13 @@ describe('ExplicitAnyEliminationSystem', () => {
 
       mockSpawn.mockReturnValue(mockChild as any('child_process').ChildProcess);
 
-      const, results: any = await system.executeCampaignContinuation();
+      const results: any = await system.executeCampaignContinuation();
       expect(results).toBeDefined().
       // Should attempt to continue the campaign;
     });
 
     it('should return empty array when target already met', async () => {
-      const, mockProgress: any = {
+      const mockProgress: any = {
         totalExplicitAnyStart: 1000,
         totalExplicitAnyRemaining: 200,
         reductionAchieved: 800,
@@ -369,7 +369,7 @@ describe('ExplicitAnyEliminationSystem', () => {
       mockFs.promises.readFile = jest.fn().mockResolvedValue(JSON.stringify(mockProgress));
       mockExecSync.mockReturnValue('200\n');
 
-      const, results: any = await system.executeCampaignContinuation();
+      const results: any = await system.executeCampaignContinuation();
       expect(results).toEqual([]).;
     });
   });

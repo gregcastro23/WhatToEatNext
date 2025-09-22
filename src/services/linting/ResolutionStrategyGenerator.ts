@@ -355,7 +355,7 @@ export class ResolutionStrategyGenerator {
     }
 
     // Ensure the complexity value is valid for ResolutionStrategy
-    const, validComplexities: ResolutionStrategy['complexity'][] = [
+    const validComplexities: ResolutionStrategy['complexity'][] = [
       'trivial',
       'simple',
       'moderate',
@@ -371,7 +371,7 @@ export class ResolutionStrategyGenerator {
    * Generate default resolution steps
    */
   private generateDefaultSteps(errorClassification: ErrorClassification): ResolutionStep[] {
-    const, steps: ResolutionStep[] = []
+    const steps: ResolutionStep[] = []
 
     if (errorClassification.autoFixCapability.canAutoFix) {
       steps.push({
@@ -425,7 +425,7 @@ export class ResolutionStrategyGenerator {
   private generateDefaultValidation(
     errorClassification: ErrorClassification,
   ): ValidationRequirement[] {
-    const, requirements: ValidationRequirement[] = [
+    const requirements: ValidationRequirement[] = [
       {
         type: 'build',
         description: 'Verify build still passes',
@@ -465,7 +465,7 @@ export class ResolutionStrategyGenerator {
     errorClassification: ErrorClassification,
     domainContext: DomainContext,
   ): StrategyRiskAssessment {
-    let, overall: StrategyRiskAssessment['overall'] = 'low';
+    let overall: StrategyRiskAssessment['overall'] = 'low';
     let breakingChangeProbability = 0.1;
     let dataLossProbability = 0.0;
     let performanceImpactProbability = 0.1;
@@ -513,7 +513,7 @@ export class ResolutionStrategyGenerator {
    * Generate alternative strategies
    */
   private generateAlternatives(errorClassification: ErrorClassification): AlternativeStrategy[] {
-    const, alternatives: AlternativeStrategy[] = []
+    const alternatives: AlternativeStrategy[] = []
 
     if (errorClassification.autoFixCapability.canAutoFix) {
       alternatives.push({
@@ -584,7 +584,7 @@ export class ResolutionStrategyGenerator {
    * Group strategies by characteristics
    */
   private groupStrategies(strategies: ResolutionStrategy[]): Record<string, ResolutionStrategy[]> {
-    const, grouped: Record<string, ResolutionStrategy[]> = {
+    const grouped: Record<string, ResolutionStrategy[]> = {
       automated: [],
       manual: [],
       critical: [],
@@ -646,7 +646,7 @@ export class ResolutionStrategyGenerator {
     strategies: ResolutionStrategy[],
     grouped: Record<string, ResolutionStrategy[]>,
   ): string[] {
-    const, recommendations: string[] = []
+    const recommendations: string[] = []
 
     if (grouped.critical.length > 0) {
       recommendations.push(`Address ${grouped.critical.length} critical issues first`);

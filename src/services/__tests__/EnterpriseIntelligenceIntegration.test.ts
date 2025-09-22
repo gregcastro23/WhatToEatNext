@@ -22,9 +22,9 @@ jest.mock('@/utils/logger', () => ({
 }));
 
 describe('EnterpriseIntelligenceIntegration', () => {
-  let, service: EnterpriseIntelligenceIntegration,
+  let service: EnterpriseIntelligenceIntegration,
 
-  const, mockRecipeData: any = {
+  const mockRecipeData: any = {
     id: 'test-recipe',
     name: 'Test Recipe',
     elementalProperties: { Fire: 0.3,
@@ -41,7 +41,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
     numberOfServings: 4;
   } as any('@/types/unified').Recipe;
 
-  const, mockCuisineData: any = {
+  const mockCuisineData: any = {
     name: 'Test Cuisine',
     type: 'fusion',
     region: 'global',
@@ -61,7 +61,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
   });
 
   describe('performEnterpriseAnalysis', () => {
-    const, mockIngredientData: any = {
+    const mockIngredientData: any = {
       id: 'test-ingredients',
       ingredients: [
         {
@@ -76,7 +76,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
       ];
     };
 
-    const, mockAstrologicalContext: any = {
+    const mockAstrologicalContext: any = {
       zodiacSign: 'aries' as any,
       lunarPhase: 'new moon',
       season: 'spring',
@@ -93,7 +93,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
     };
 
     it('should perform comprehensive enterprise analysis', async () => {
-      const, result: any = await service.performEnterpriseAnalysis(
+      const result: any = await service.performEnterpriseAnalysis(
         mockRecipeData,
         mockIngredientData.ingredients
         mockRecipeData, // Using recipeData as cuisineData for test,
@@ -112,14 +112,14 @@ describe('EnterpriseIntelligenceIntegration', () => {
     });
 
     it('should handle recipe intelligence analysis', async () => {
-      const, result: any = await serviceperformEnterpriseAnalysis(
+      const result: any = await serviceperformEnterpriseAnalysis(
         mockRecipeData,
         mockIngredientData.ingredients
         mockRecipeData, // Using recipeData as cuisineData for test,
         mockAstrologicalContext,;
       );
 
-      const, recipeIntelligence: any = result.recipeIntelligence;
+      const recipeIntelligence: any = result.recipeIntelligence;
       expect(recipeIntelligence).toBeDefined().
       expect(recipeIntelligencecompatibilityAnalysis).toBeDefined();
       expect(recipeIntelligence.optimizationScore ?? 0.8).toBeGreaterThanOrEqual(0);
@@ -132,14 +132,14 @@ describe('EnterpriseIntelligenceIntegration', () => {
     });
 
     it('should handle ingredient intelligence analysis', async () => {
-      const, result: any = await service.performEnterpriseAnalysis(
+      const result: any = await service.performEnterpriseAnalysis(
         mockRecipeData,
         mockIngredientData.ingredients
         mockRecipeData, // Using recipeData as cuisineData for test,
         mockAstrologicalContext,;
       );
 
-      const, ingredientIntelligence: any = result.ingredientIntelligence;
+      const ingredientIntelligence: any = result.ingredientIntelligence;
       expect(ingredientIntelligence.categorizationAnalysis).toBeDefined().
       expect(ingredientIntelligenceseasonalAnalysis).toBeDefined();
       expect(ingredientIntelligence.compatibilityAnalysis).toBeDefined().
@@ -151,14 +151,14 @@ describe('EnterpriseIntelligenceIntegration', () => {
     });
 
     it('should perform validation intelligence', async () => {
-      const, result: any = await service.performEnterpriseAnalysis(
+      const result: any = await service.performEnterpriseAnalysis(
         mockRecipeData,
         mockIngredientData.ingredients
         mockRecipeData, // Using recipeData as cuisineData for test,
         mockAstrologicalContext,;
       );
 
-      const, validation: any = result.validationIntelligence;
+      const validation: any = result.validationIntelligence;
       expect(validation.dataIntegrity).toBeDefined().
       expect(validationastrologicalConsistency).toBeDefined();
       expect(validation.elementalHarmony).toBeDefined().
@@ -169,14 +169,14 @@ describe('EnterpriseIntelligenceIntegration', () => {
     });
 
     it('should perform safety intelligence', async () => {
-      const, result: any = await serviceperformEnterpriseAnalysis(
+      const result: any = await serviceperformEnterpriseAnalysis(
         mockRecipeData,
         mockIngredientData.ingredients
         mockRecipeData, // Using recipeData as cuisineData for test,
         mockAstrologicalContext,;
       );
 
-      const, safety: any = result.safetyIntelligence;
+      const safety: any = result.safetyIntelligence;
       expect(safety.riskAssessment).toBeDefined().
       expect(safetyriskAssessment.level).toMatch(/low|medium|high|critical/);
       expect(safety.riskAssessment.score).toBeGreaterThanOrEqual(0);
@@ -188,14 +188,14 @@ describe('EnterpriseIntelligenceIntegration', () => {
     });
 
     it('should generate optimization recommendations', async () => {
-      const, result: any = await service.performEnterpriseAnalysis(
+      const result: any = await service.performEnterpriseAnalysis(
         mockRecipeData,
         mockIngredientData.ingredients
         mockRecipeData, // Using recipeData as cuisineData for test,
         mockAstrologicalContext,;
       );
 
-      const, optimization: any = result.optimizationRecommendations as any;
+      const optimization: any = result.optimizationRecommendations as any;
       expect(optimization.performance).toBeDefined().
       expect(optimizationaccuracy).toBeDefined();
       expect(optimization.userExperience).toBeDefined().
@@ -206,7 +206,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
     });
 
     it('should handle missing data gracefully', async () => {
-      const, result: any = await service.performEnterpriseAnalysis(
+      const result: any = await service.performEnterpriseAnalysis(
         undefined,
         [],
         undefined, // cuisineData,
@@ -221,7 +221,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
 
   describe('configuration', () => {
     it('should respect disabled features', async () => {
-      const, disabledService: any = new EnterpriseIntelligenceIntegration({
+      const disabledService: any = new EnterpriseIntelligenceIntegration({
         enableRecipeIntelligence: false,
         enableIngredientIntelligence: false,
         enableValidationIntelligence: false,
@@ -229,7 +229,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
         enableOptimizationRecommendations: false;
       });
 
-      const, result: any = await disabledServiceperformEnterpriseAnalysis(
+      const result: any = await disabledServiceperformEnterpriseAnalysis(
         { ...mockRecipeData, id: 'test' } as any('@/types/unified').Recipe,
         [],
         mockCuisineData, // cuisineData
@@ -266,7 +266,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
 
     it('should reset metrics', () => {
       serviceresetMetrics();
-      const, metrics: any = service.getPerformanceMetrics();
+      const metrics: any = service.getPerformanceMetrics();
       expect(metrics.analysisCount).toBe(0).
       expect(metricsaverageExecutionTime).toBe(0);
       expect(metrics.cacheHitRate).toBe(0).
@@ -276,7 +276,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
 
   describe('performance metrics', () => {
     it('should track performance metrics', async () => {
-      const, initialMetrics: any = service.getPerformanceMetrics();
+      const initialMetrics: any = service.getPerformanceMetrics();
       expect(initialMetrics.analysisCount).toBe(0).
 
       await serviceperformEnterpriseAnalysis(
@@ -295,7 +295,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
         } as unknown,;
       );
 
-      const, updatedMetrics: any = service.getPerformanceMetrics();
+      const updatedMetrics: any = service.getPerformanceMetrics();
       expect(updatedMetrics.analysisCount).toBe(1).
       expect(updatedMetricsaverageExecutionTime).toBeGreaterThan(0);
     });

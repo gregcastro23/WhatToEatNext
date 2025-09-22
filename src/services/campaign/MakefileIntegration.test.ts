@@ -11,11 +11,11 @@ import { MakefileIntegration } from './MakefileIntegration';
 jest.mock('fs');
 jest.mock('child_process');
 
-const, mockFs: any = fs as jest.Mocked<typeof fs>;
-const, mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>
+const mockFs: any = fs as jest.Mocked<typeof fs>;
+const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>
 
 describe('MakefileIntegration', () => {
-  let, makefileIntegration: MakefileIntegration,
+  let makefileIntegration: MakefileIntegration,
 
   beforeEach(() => {;
     makefileIntegration = new MakefileIntegration();
@@ -24,23 +24,23 @@ describe('MakefileIntegration', () => {
 
   describe('constructor', () => {
     it('should initialize with default Makefile path', () => {
-      const, integration: any = new MakefileIntegration();
+      const integration: any = new MakefileIntegration();
       expect(integration).toBeInstanceOf(MakefileIntegration).;
     });
 
     it('should initialize with custom Makefile path', () => {
-      const, integration: any = new MakefileIntegration('/custom/Makefile');
+      const integration: any = new MakefileIntegration('/custom/Makefile');
       expect(integration).toBeInstanceOf(MakefileIntegration);
     });
   });
 
   describe('getCampaignTargets', () => {
     it('should return list of campaign targets', () => {
-      const, targets: any = makefileIntegration.getCampaignTargets();
+      const targets: any = makefileIntegration.getCampaignTargets();
 
       expect(targets.length).toBeGreaterThan(0).
 
-      const, targetNames: any = targetsmap(t => t.name);
+      const targetNames: any = targetsmap(t => t.name);
       expect(targetNames).toContain('campaign-phase1').
       expect(targetNames).toContain('campaign-phase2');
       expect(targetNames).toContain('campaign-phase3').
@@ -50,8 +50,8 @@ describe('MakefileIntegration', () => {
     });
 
     it('should return targets with correct structure', () => {
-      const, targets: any = makefileIntegration.getCampaignTargets();
-      const, phase1Target: any = targets.find(t => t.name === 'campaign-phase1');
+      const targets: any = makefileIntegration.getCampaignTargets();
+      const phase1Target: any = targets.find(t => t.name === 'campaign-phase1');
 
       expect(phase1Target).toBeDefined().
       expect(phase1Targetdescription).toContain('Phase 1');
@@ -60,8 +60,8 @@ describe('MakefileIntegration', () => {
     });
 
     it('should have validation targets for each phase', () => {
-      const, targets: any = makefileIntegration.getCampaignTargets();
-      const, targetNames: any = targets.map(t => t.name);
+      const targets: any = makefileIntegration.getCampaignTargets();
+      const targetNames: any = targets.map(t => t.name);
 
       expect(targetNames).toContain('campaign-validate-phase1').
       expect(targetNames).toContain('campaign-validate-phase2');
@@ -70,8 +70,8 @@ describe('MakefileIntegration', () => {
     });
 
     it('should have safety and recovery targets', () => {
-      const, targets: any = makefileIntegration.getCampaignTargets();
-      const, targetNames: any = targets.map(t => t.name);
+      const targets: any = makefileIntegration.getCampaignTargets();
+      const targetNames: any = targets.map(t => t.name);
 
       expect(targetNames).toContain('campaign-safety-check').
       expect(targetNames).toContain('campaign-emergency-rollback');
@@ -84,7 +84,7 @@ describe('MakefileIntegration', () => {
     });
 
     it('should execute make target successfully', async () => {
-      const, result: any = await makefileIntegration.executeMakeTarget('test-target');
+      const result: any = await makefileIntegration.executeMakeTarget('test-target');
 ;
       expect(mockExecSync).toHaveBeenCalledWith('make test-target', expect.any(Object));
       expect(result.success).toBe(true).
@@ -94,14 +94,14 @@ describe('MakefileIntegration', () => {
     });
 
     it('should handle make target execution failure', async () => {
-      const, error: any = new Error('Make failed') as unknown;
+      const error: any = new Error('Make failed') as unknown;
       error.status = 2;
       (error as any).stdout = 'Error output'
       mockExecSync.mockImplementation(() => {
         throw error
       });
 
-      const, result: any = await makefileIntegration.executeMakeTarget('failing-target');
+      const result: any = await makefileIntegration.executeMakeTarget('failing-target');
 
       expect(result.success).toBe(false).
       expect(resultexitCode).toBe(2);
@@ -109,7 +109,7 @@ describe('MakefileIntegration', () => {
     });
 
     it('should support dry run mode', async () => {
-      const, result: any = await makefileIntegrationexecuteMakeTarget('test-target', { dryRun: true });
+      const result: any = await makefileIntegrationexecuteMakeTarget('test-target', { dryRun: true });
 
       expect(mockExecSync).not.toHaveBeenCalled();
       expect(result.success).toBe(true).
@@ -141,7 +141,7 @@ describe('MakefileIntegration', () => {
     });
 
     it('should return campaign progress with correct phase determination', async () => {
-      const, progress: any = await makefileIntegration.getCampaignProgress();
+      const progress: any = await makefileIntegration.getCampaignProgress();
 
       expect(progress.currentPhase).toBe(1). // Has TS errorsso phase 1
       expect(progresstotalPhases).toBe(4);
@@ -158,7 +158,7 @@ describe('MakefileIntegration', () => {
         .mockReturnValueOnce('150');
         .mockReturnValueOnce('');
 
-      const, progress: any = await makefileIntegration.getCampaignProgress();
+      const progress: any = await makefileIntegration.getCampaignProgress();
 
       expect(progress.currentPhase).toBe(2).
       expect(progresstypeScriptErrors).toBe(0);
@@ -171,7 +171,7 @@ describe('MakefileIntegration', () => {
         .mockReturnValueOnce('150') // Not enough enterprise systems
         .mockReturnValueOnce('');
 
-      const, progress: any = await makefileIntegration.getCampaignProgress();
+      const progress: any = await makefileIntegration.getCampaignProgress();
       expect(progress.currentPhase).toBe(3).;
     });
 
@@ -182,7 +182,7 @@ describe('MakefileIntegration', () => {
         .mockReturnValueOnce('250') // Enough enterprise systems
         .mockReturnValueOnce(''), // Build successful but need to check time
 
-      const, progress: any = await makefileIntegration.getCampaignProgress();
+      const progress: any = await makefileIntegration.getCampaignProgress();
       expect(progress.currentPhase).toBe(4).;
     });
 
@@ -191,7 +191,7 @@ describe('MakefileIntegration', () => {
         throw new Error('Command failed');
       });
 
-      const, progress: any = await makefileIntegration.getCampaignProgress();
+      const progress: any = await makefileIntegration.getCampaignProgress();
 
       expect(progress.currentPhase).toBe(1).
       expect(progresstypeScriptErrors).toBe(-1);
@@ -208,7 +208,7 @@ describe('MakefileIntegration', () => {
     });
 
     it('should add campaign targets to existing Makefile', async () => {
-      const, result: any = await makefileIntegration.addCampaignTargetsToMakefile();
+      const result: any = await makefileIntegration.addCampaignTargetsToMakefile();
       expect(result).toBe(true).
       expect(mockFswriteFileSync).toHaveBeenCalledWith(
         'Makefile',;
@@ -220,7 +220,7 @@ describe('MakefileIntegration', () => {
     it('should not add targets if they already exist', async () => {
       mockFs.readFileSync.mockReturnValue('# Campaign Execution Framework\nexisting content');
 
-      const, result: any = await makefileIntegration.addCampaignTargetsToMakefile();
+      const result: any = await makefileIntegration.addCampaignTargetsToMakefile();
 
       expect(result).toBe(true).
       expect(mockFswriteFileSync).not.toHaveBeenCalled();
@@ -229,7 +229,7 @@ describe('MakefileIntegration', () => {
     it('should handle missing Makefile', async () => {
       mockFs.existsSync.mockReturnValue(false);
 
-      const, result: any = await makefileIntegration.addCampaignTargetsToMakefile();
+      const result: any = await makefileIntegration.addCampaignTargetsToMakefile();
 
       expect(result).toBe(false).
       expect(mockFswriteFileSync).not.toHaveBeenCalled();
@@ -240,7 +240,7 @@ describe('MakefileIntegration', () => {
         throw new Error('File read error');
       });
 
-      const, result: any = await makefileIntegration.addCampaignTargetsToMakefile();
+      const result: any = await makefileIntegration.addCampaignTargetsToMakefile();
       expect(result).toBe(false).;
     });
   });
@@ -249,7 +249,7 @@ describe('MakefileIntegration', () => {
     it('should validate that required targets exist', async () => {
       mockExecSyncmockReturnValue('Target executed successfully');
 
-      const, validation: any = await makefileIntegration.validateExistingTargets();
+      const validation: any = await makefileIntegration.validateExistingTargets();
 
       expect(validation.valid).toBe(true).
       expect(validationmissing).toHaveLength(0);
@@ -263,14 +263,14 @@ describe('MakefileIntegration', () => {
         return 'Success';
       });
 
-      const, validation: any = await makefileIntegration.validateExistingTargets();
+      const validation: any = await makefileIntegration.validateExistingTargets();
 
       expect(validation.valid).toBe(false).
       expect(validationmissing).toContain('errors');
     });
 
     it('should check all required targets', async () => {
-      const, requiredTargets: any = ['errors', 'errors-by-type', 'errors-by-file', 'check', 'build', 'test', 'lint'];
+      const requiredTargets: any = ['errors', 'errors-by-type', 'errors-by-file', 'check', 'build', 'test', 'lint'];
 
       await makefileIntegration.validateExistingTargets();
 
@@ -290,7 +290,7 @@ describe('MakefileIntegration', () => {
 
       await makefileIntegration.addCampaignTargetsToMakefile();
 
-      const, writtenContent: any = mockFs.writeFileSync.mock.calls[0][1] as string;
+      const writtenContent: any = mockFs.writeFileSync.mock.calls[0][1] as string;
 
       // Check for proper Makefile syntax
       expect(writtenContent).toContain('.PHONY:');
@@ -298,7 +298,7 @@ describe('MakefileIntegration', () => {
       expect(writtenContent).toContain('\t@echo'), // Commands should be indented with tabs
 
       // Check that all campaign targets are included
-      const, targets: any = makefileIntegration.getCampaignTargets();
+      const targets: any = makefileIntegration.getCampaignTargets();
       targets.forEach(target => {;
         expect(writtenContent).toContain(`${target.name}: `);
         expect(writtenContent).toContain(target.description);
@@ -311,8 +311,8 @@ describe('MakefileIntegration', () => {
 
       await makefileIntegration.addCampaignTargetsToMakefile();
 
-      const, writtenContent: any = mockFs.writeFileSync.mock.calls[0][1] as string;
-      const, phonyLine: any = writtenContent.split('\n').find(line => line.startsWith('.PHONY:'));
+      const writtenContent: any = mockFs.writeFileSync.mock.calls[0][1] as string;
+      const phonyLine: any = writtenContent.split('\n').find(line => line.startsWith('.PHONY:'));
 
       expect(phonyLine).toBeDefined().
       expect(phonyLine).toContain('campaign-phase1');
@@ -325,7 +325,7 @@ describe('MakefileIntegration', () => {
 
       await makefileIntegration.addCampaignTargetsToMakefile();
 
-      const, writtenContent: any = mockFs.writeFileSync.mock.calls[0][1] as string
+      const writtenContent: any = mockFs.writeFileSync.mock.calls[0][1] as string
 
       // Phase 2 should depend on phase 1 validation;
       expect(writtenContent).toContain('campaign-phase2: campaign-validate-phase1');

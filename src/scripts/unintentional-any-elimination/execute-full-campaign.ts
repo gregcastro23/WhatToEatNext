@@ -135,7 +135,7 @@ class FullCampaignExecutor {
       let nonTestFiles = 0;
       let testFiles = 0;
       const filesWithAny = new Set<string>();
-      let, currentFile: string | null = null;
+      let currentFile: string | null = null;
 
       for (const line of lines) {
         if (line.match(/^\/.*\.(ts|tsx)$/)) {

@@ -57,14 +57,14 @@ export class SafeTypeReplacer {
     context?: ClassificationContext,
   ): Promise<ReplacementResult> {
     // Enhanced pre-validation using SafetyValidator
-    let, safetyValidation: SafetyValidationResult,
+    let safetyValidation: SafetyValidationResult,
 
     if (context) {
       safetyValidation = this.safetyValidator.calculateSafetyScore(replacement, context),
     } else {
       // Fallback to basic safety score calculation
       const basicSafetyScore = this.calculateSafetyScore(replacement);
-      safetyValidation = {;
+      safetyValidation = {
         isValid: basicSafetyScore >= this.safetyThreshold,
         safetyScore: basicSafetyScore,
         validationErrors:
@@ -153,10 +153,10 @@ export class SafeTypeReplacer {
    * Process multiple replacements in batch with atomic operations
    */
   async processBatch(replacements: TypeReplacement[]): Promise<ReplacementResult> {
-    const, backupPaths: Map<string, string> = new Map();
-    const, appliedReplacements: TypeReplacement[] = [];
-    const, failedReplacements: TypeReplacement[] = [];
-    const, compilationErrors: string[] = [];
+    const backupPaths: Map<string, string> = new Map();
+    const appliedReplacements: TypeReplacement[] = [];
+    const failedReplacements: TypeReplacement[] = [];
+    const compilationErrors: string[] = [];
 
     try {
       // Create backups for all files
@@ -441,9 +441,9 @@ export class SafeTypeReplacer {
     filePath: string,
     replacements: TypeReplacement[],
   ): Promise<{ applied: TypeReplacement[], failed: TypeReplacement[], errors: string[] }> {
-    const, applied: TypeReplacement[] = [];
-    const, failed: TypeReplacement[] = [];
-    const, errors: string[] = []
+    const applied: TypeReplacement[] = [];
+    const failed: TypeReplacement[] = [];
+    const errors: string[] = []
 
     try {
       const content = fs.readFileSync(filePath, 'utf8');

@@ -52,7 +52,7 @@ export async function POST(request: Request) {
       planetaryPositions: providedPositions
     } = body;
 
-    let, planetaryPositions: Record<string, PlanetPosition>
+    let planetaryPositions: Record<string, PlanetPosition>
     let useCustomDate = false;
 
     // Determine if we should use custom date/time or current moment
@@ -103,7 +103,7 @@ export async function POST(request: Request) {
     logger.info('Updated current moment data across all storage locations');
 
     // Step, 3: Convert PlanetPosition to PlanetaryPosition format for alchemize function
-    const, convertedPositions: Record<
+    const convertedPositions: Record<
       string,
       import('@/services/RealAlchemizeService').PlanetaryPosition
     > = {};
@@ -171,7 +171,7 @@ export async function GET(request: Request) {
   const zodiacSystem = (searchParams.get('zodiacSystem') || 'tropical') as 'tropical' | 'sidereal';
 
   // Forward to POST handler with current moment
-  const, payload: AlchemizeRequest = {
+  const payload: AlchemizeRequest = {
     latitude,
     longitude,
     zodiacSystem

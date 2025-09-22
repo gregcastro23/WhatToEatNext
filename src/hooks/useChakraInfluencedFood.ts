@@ -159,14 +159,14 @@ export const useChakraInfluencedFood = (options?: {
         const results = getRecommendedIngredients(astroState);
 
         // Create chakra-filtered recommendations
-        const, chakraFiltered: Record<string, EnhancedIngredient[]> = {};
+        const chakraFiltered: Record<string, EnhancedIngredient[]> = {};
 
         // Group ingredients by which chakra they support the most
         Object.keys(chakraEnergies).forEach(chakraKey => {
           const energy = chakraEnergies[chakraKey as keyof ChakraEnergies];
 
           // Get ingredients that match the chakra's elemental properties
-          let, matchingIngredients: EnhancedIngredient[] = []
+          let matchingIngredients: EnhancedIngredient[] = []
 
           // Match ingredients to chakras based on elemental affinities and alchemical energy states
           if (chakraKey === 'root') {
@@ -365,7 +365,7 @@ export const useChakraInfluencedFood = (options?: {
       const results = getRecommendedIngredients(astroState);
 
       // Create chakra-filtered recommendations - simplified for refresh function
-      const, chakraFiltered: Record<string, EnhancedIngredient[]> = {};
+      const chakraFiltered: Record<string, EnhancedIngredient[]> = {};
 
       // Apply filters and limits
       const filteredResults = options?.filter ? results.filter(options.filter) : results;

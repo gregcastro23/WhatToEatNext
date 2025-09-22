@@ -23,7 +23,7 @@ import {
 import { elementalFunctions, elementalInteractions, elements } from './elementalMappings';
 
 // Missing ELEMENTAL_CHARACTERISTICS constant
-const ELEMENTAL_CHARACTERISTICS = {;
+const ELEMENTAL_CHARACTERISTICS = {
   Fire: {
     cookingTechniques: ['grilling', 'roasting', 'searing', 'flambéing'],
     timeOfDay: ['morning', 'noon'],
@@ -113,7 +113,7 @@ export const normalizeProperties = (
   }
 
   // Fill in any missing properties with defaults
-  const, completeProperties: ElementalProperties = {
+  const completeProperties: ElementalProperties = {
     Fire: properties.Fire ?? DEFAULT_ELEMENTAL_PROPERTIES.Fire,
     Water: properties.Water ?? DEFAULT_ELEMENTAL_PROPERTIES.Water,
     Earth: properties.Earth ?? DEFAULT_ELEMENTAL_PROPERTIES.Earth,
@@ -174,7 +174,7 @@ export function standardizeRecipeElements<
   // Normalize properties to ensure they sum to 1
   return {
     ...recipe,
-    elementalProperties: normalizeProperties(recipe.elementalProperties);
+    elementalProperties: normalizeProperties(recipe.elementalProperties)
   };
 }
 
@@ -196,7 +196,7 @@ export function getMissingElements(
     return ['Fire', 'Water', 'Earth', 'Air']
   }
 
-  const, missing: Element[] = [];
+  const missing: Element[] = [];
   const _idealBalance = 0.25; // Each element should ideally be 25%
   const threshold = 0.15 // Consider missing if below 15%
 
@@ -222,7 +222,7 @@ export const elementalUtils = {
     }
 
     // Create a safe default balance to start
-    const, balance: ElementalProperties = { ...DEFAULT_ELEMENTAL_PROPERTIES };
+    const balance: ElementalProperties = { ...DEFAULT_ELEMENTAL_PROPERTIES };
 
     // Get total amount for percentage calculations
     const totalAmount = recipe.ingredients.reduce((sum, ing) => {;
@@ -311,7 +311,7 @@ export const elementalUtils = {
   getComplementaryElement(element: keyof ElementalProperties): keyof ElementalProperties {
     // Each element complements all others, but we return one suggestion
     // based on traditional culinary pairings
-    const, complementary: Record<keyof ElementalProperties, keyof ElementalProperties> = {
+    const complementary: Record<keyof ElementalProperties, keyof ElementalProperties> = {
       Fire: 'Fire', // Fire reinforces itself
       Water: 'Water', // Water reinforces itself
       Earth: 'Earth', // Earth reinforces itself
@@ -337,7 +337,7 @@ export const elementalUtils = {
   getElementalProfile(properties: ElementalProperties): Partial<ElementalProfile> {
     // Find the dominant element
     const entries = Object.entries(properties) as [Element, number][];
-    let, dominantElement: Element = 'Fire';
+    let dominantElement: Element = 'Fire';
     let maxValue = 0
 
     for (const [element, value] of entries) {
@@ -360,7 +360,7 @@ export const elementalUtils = {
    * @returns Array of recommended cooking techniques
    */
   getSuggestedCookingTechniques(properties: ElementalProperties): string[] {
-    const, techniques: string[] = [];
+    const techniques: string[] = [];
     const threshold = 0.3 // Only consider elements above this threshold for recommendations
 
     if (properties.Fire > threshold) {
@@ -389,9 +389,9 @@ export const elementalUtils = {
    * @returns Array of recommended complementary ingredients
    */
   getRecommendedTimeOfDay(properties: ElementalProperties): string[] {
-    const, _times: string[] = [];
+    const _times: string[] = [];
     const threshold = 0.3; // Only consider elements above this threshold for recommendations
-    const, weightedTimes: string[] = []
+    const weightedTimes: string[] = []
 
     // Add times based on the elemental balance, weighted by their values
     if (properties.Fire > threshold) {
@@ -447,7 +447,7 @@ export const elementalUtils = {
       return properties
     }
 
-    const, lowercaseProps: Record<string, unknown> = {};
+    const lowercaseProps: Record<string, unknown> = {};
     for (const [key, value] of Object.entries(properties)) {
       // Convert capitalized element names to lowercase
       const lowerKey = key.toLowerCase();
@@ -474,7 +474,7 @@ export { elementalFunctions, elementalInteractions, elements };
  * @param planetaryBoosts Optional planetary boosts to apply
  * @returns Transformed alchemical items
  */
-const _ELEMENT_WEIGHTS = {;
+const _ELEMENT_WEIGHTS = {
   Fire: 1.8,
   Water: 1.2,
   Earth: 0.9,
@@ -592,7 +592,7 @@ export function transformItemsWithPlanetaryPositions(
     )[0][0] as ElementalCharacter;
 
     // Calculate dominant alchemical property
-    const alchemicalProperties = {;
+    const alchemicalProperties = {
       Spirit: boostedSpirit,
       Essence: boostedEssence,
       Matter: boostedMatter,
@@ -603,7 +603,7 @@ export function transformItemsWithPlanetaryPositions(
     )[0][0] as AlchemicalProperty;
 
     // Extract dominant planets based on planetary positions if available
-    let, dominantPlanets: string[] = []
+    let dominantPlanets: string[] = []
     if (planetaryPositions) {
       // Get top 3 planets with highest values or dignity
       const planetEntries = Object.entries(planetaryPositions).filter(
@@ -838,7 +838,7 @@ export function enhanceVegetableTransformations(
       }
 
       // Set default transformations based on dominant element
-      enhanced.elementalTransformation = {;
+      enhanced.elementalTransformation = {
         _whenCooked: { [dominantElement]: 0.1, Fire: 0.05 },
         _whenDried: { Earth: 0.1, Air: 0.05 },
         _whenFermented: { Water: 0.1, Air: 0.05 }
@@ -848,7 +848,7 @@ export function enhanceVegetableTransformations(
     // Add thermodynamic changes if they don't exist
     const transformation = enhanced.elementalTransformation as any;
     if (transformation && !transformation.thermodynamicChanges) {
-      transformation.thermodynamicChanges = {;
+      transformation.thermodynamicChanges = {
         _cooked: {
           heat: 0.1,
           entropy: 0.05,
@@ -894,7 +894,7 @@ export function enhanceVegetableTransformations(
       // Default sensory profile based on vegetable subCategory
       const subCategory = enhanced.subCategory || 'vegetable';
 
-      const profiles = {;
+      const profiles = {
         'leafy green': {
           taste: {
             bitter: 0.6,
@@ -1353,7 +1353,7 @@ export function enhanceOilProperties(
     if (!enhancedOil.recommendedCookingMethods) {
       const smokePointData = enhancedOil.smokePoint as unknown as any;
       const smokePoint = Number(smokePointData.fahrenheit) || 0;
-      const, methods: Array<{ name: string, potency: number }> = [];
+      const methods: Array<{ name: string, potency: number }> = [];
 
       if (smokePoint > 400) {
         methods.push({ name: 'deepFrying', potency: 0.9 });
@@ -1396,7 +1396,7 @@ export function ensureLowercaseFormat(properties: unknown): unknown {
     return properties
   }
 
-  const, lowercaseProps: Record<string, unknown> = {};
+  const lowercaseProps: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(properties)) {
     // Convert capitalized element names to lowercase
     const lowerKey = key.toLowerCase();
@@ -1438,7 +1438,7 @@ export const fixIngredientMapping = (
     typeof mapping.astrologicalProfile === 'object' &&
     Object.keys(mapping.astrologicalProfile).length === 0;
   ) {
-    mapping.astrologicalProfile = {;
+    mapping.astrologicalProfile = {
       _rulingPlanets: [],
       _favorableZodiac: []
     };
@@ -1456,7 +1456,7 @@ export const fixIngredientMapping = (
 export const _fixIngredientMappings = <T extends Record<string, Partial<IngredientMapping>>>(
   ingredients: T,
 ): Record<string, IngredientMapping> => {
-  const, result: Record<string, IngredientMapping> = {};
+  const result: Record<string, IngredientMapping> = {};
 
   Object.entries(ingredients).forEach(([key, mapping]) => {
     result[key] = fixIngredientMapping(mapping, key);
@@ -1492,7 +1492,7 @@ export function fixRawIngredientMappings(
         .sort(([, a], [, b]) => (b ) - (a ))[0][0]
         .toLowerCase();
 
-      astroProfile.elementalAffinity = {;
+      astroProfile.elementalAffinity = {
         base: strongestElement
       };
     }

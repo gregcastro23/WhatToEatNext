@@ -72,7 +72,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
 
     try {
       // Create backup before recovery if requested
-      let, backupPath: string | undefined,
+      let backupPath: string | undefined,
       if (options.createBackupBeforeReset) {
         backupPath = await this.createEmergencyBackup('pre-rollback');
       }
@@ -185,7 +185,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
     // // // console.log('   - Reset git repository to clean state');
 
     try {
-      const, result: NuclearResetResult = {
+      const result: NuclearResetResult = {
         success: false,
         filesReset: 0,
         metricsCleared: false,
@@ -381,7 +381,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
   async validateRecoverySuccess(recoveryMethod: string): Promise<RecoveryValidationResult> {
     // // // console.log(`🔍 Validating recovery success for method: ${recoveryMethod}`);
 
-    const, result: RecoveryValidationResult = {
+    const result: RecoveryValidationResult = {
       success: true,
       errors: [],
       warnings: [],
@@ -508,7 +508,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
 
     const nuclearResets = recoveryEvents.filter(e => e.action.includes('NUCLEAR_RESET')).length;
 
-    const, recoveryMethods: Record<string, number> = {};
+    const recoveryMethods: Record<string, number> = {};
     for (const event of recoveryEvents) {
       const method = event.action.split('_')[0];
       recoveryMethods[method] = (recoveryMethods[method] || 0) + 1;

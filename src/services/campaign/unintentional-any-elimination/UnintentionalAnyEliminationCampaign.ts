@@ -252,7 +252,7 @@ export class UnintentionalAnyEliminationCampaign {
     // // // console.log(`Executing phase: ${phase.name}`);
 
     try {
-      let, result: UnintentionalAnyCampaignResult;
+      let result: UnintentionalAnyCampaignResult;
 
       switch (phase.id) {
         case 'unintentional-any-analysis':
@@ -317,7 +317,7 @@ export class UnintentionalAnyEliminationCampaign {
     // // // console.log('Executing analysis phase - classification only');
 
     // Create a config for analysis only
-    const analysisConfig = {;
+    const analysisConfig = {
       ...this.config,
       maxFilesPerBatch: Math.min(this.config.maxFilesPerBatch, 10), // More conservative for analysis,
       confidenceThreshold: 0.9, // Higher threshold for analysis phase

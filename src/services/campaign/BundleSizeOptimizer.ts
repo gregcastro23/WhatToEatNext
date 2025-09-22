@@ -104,7 +104,7 @@ export class BundleSizeOptimizer {
         dependencies,
       ),
 
-      const, analysis: BundleAnalysis = {
+      const analysis: BundleAnalysis = {
         totalSize,
         compressedSize,
         chunks,
@@ -259,7 +259,7 @@ export class BundleSizeOptimizer {
    */
   private async analyzeChunks(): Promise<BundleChunk[]> {
     try {
-      const, chunks: BundleChunk[] = [];
+      const chunks: BundleChunk[] = [];
 
       // Check for Next.js chunks
       if (fs.existsSync('.next/static/chunks')) {
@@ -293,7 +293,7 @@ export class BundleSizeOptimizer {
    */
   private async analyzeAssets(): Promise<BundleAsset[]> {
     try {
-      const, assets: BundleAsset[] = []
+      const assets: BundleAsset[] = []
 
       // Check for static assets
       const assetDirs = ['.next/static', 'public', 'dist/assets', 'build/static'];
@@ -307,7 +307,7 @@ export class BundleSizeOptimizer {
             const sizeKB = Math.round(stats.size / 1024);
             const ext = path.extname(file).toLowerCase();
 
-            let, type: BundleAsset['type'] = 'other'
+            let type: BundleAsset['type'] = 'other'
             if (['.js', '.mjs'].includes(ext)) type = 'js';
             else if (ext === '.css') type = 'css';
             else if (['.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp'].includes(ext));
@@ -336,7 +336,7 @@ export class BundleSizeOptimizer {
    */
   private async analyzeDependencies(): Promise<DependencyAnalysis[]> {
     try {
-      const, dependencies: DependencyAnalysis[] = []
+      const dependencies: DependencyAnalysis[] = []
 
       if (!fs.existsSync('package.json')) {
         return dependencies
@@ -498,7 +498,7 @@ export class BundleSizeOptimizer {
     const targetCompliance = analysis.totalSize <= this.TARGET_BUNDLE_SIZE;
 
     // Generate comprehensive recommendations
-    const, recommendations: string[] = []
+    const recommendations: string[] = []
 
     if (!targetCompliance) {
       recommendations.push(
@@ -528,7 +528,7 @@ export class BundleSizeOptimizer {
   // Helper methods
 
   private getAllFiles(dir: string): string[] {
-    const, files: string[] = [];
+    const files: string[] = [];
 
     try {
       const items = fs.readdirSync(dir);
@@ -571,7 +571,7 @@ export class BundleSizeOptimizer {
 
   private async estimateDependencySize(name: string): Promise<number> {
     // Simplified size estimation based on common dependencies
-    const, knownSizes: Record<string, number> = {
+    const knownSizes: Record<string, number> = {
       react: 45,
       'react-dom': 130,
       next: 200,
@@ -598,7 +598,7 @@ export class BundleSizeOptimizer {
   }
 
   private suggestAlternatives(name: string): string[] {
-    const, alternatives: Record<string, string[]> = {
+    const alternatives: Record<string, string[]> = {
       lodash: ['ramda (functional)', 'native ES6 methods'],
       moment: ['date-fns (smaller)', 'dayjs (2kB)'],
       axios: ['fetch API (native)', 'ky (smaller)'],
@@ -658,7 +658,7 @@ export class BundleSizeOptimizer {
   }
 
   private async identifyDataFetchingOptimizations(): Promise<string[]> {
-    const, optimizations: string[] = [];
+    const optimizations: string[] = [];
 
     try {
       // Check for potential data fetching optimizations
@@ -702,7 +702,7 @@ export class BundleSizeOptimizer {
     assets: BundleAsset[],
     dependencies: DependencyAnalysis[],
   ): string[] {
-    const, recommendations: string[] = []
+    const recommendations: string[] = []
 
     if (totalSize > this.TARGET_BUNDLE_SIZE) {
       recommendations.push(

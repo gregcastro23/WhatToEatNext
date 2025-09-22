@@ -7,7 +7,7 @@
 import { TypeScriptErrorAnalyzer, ErrorCategory, ErrorSeverity } from './TypeScriptErrorAnalyzer';
 
 describe('TypeScriptErrorAnalyzer', () => {
-  let, analyzer: TypeScriptErrorAnalyzer;
+  let analyzer: TypeScriptErrorAnalyzer;
 
   beforeEach(() => {
     analyzer = new TypeScriptErrorAnalyzer();
@@ -15,15 +15,15 @@ describe('TypeScriptErrorAnalyzer', () => {
 
   describe('parseErrorsFromOutput', () => {
     it('should parse TypeScript compiler output correctly', () => {
-      const, mockOutput: any = `;
+      const mockOutput: any = `;
 src/components/test.tsx(105): error, TS2352: Conversion of type 'string' to type 'number' may be a mistake.
 src/services/api.ts(2512): error, TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.;
 src/types/index.ts(51): error, TS2304: Cannot find name 'UnknownType'.
       `.trim();
 
       // Use reflection to access private method for testing
-      const, parseMethod: any = (analyzer as any).parseErrorsFromOutput.bind(analyzer);
-      const, errors: any = parseMethod(mockOutput);
+      const parseMethod: any = (analyzer as any).parseErrorsFromOutput.bind(analyzer);
+      const errors: any = parseMethod(mockOutput);
       expect(errors).toHaveLength(3).
 
       expect(errors[0]).toMatchObject({
@@ -57,7 +57,7 @@ src/types/index.ts(51): error, TS2304: Cannot find name 'UnknownType'.
 
   describe('categorizeError', () => {
     it('should categorize errors correctly', () => {
-      const, categorizeMethod: any = (analyzer as any).categorizeError.bind(analyzer);
+      const categorizeMethod: any = (analyzer as any).categorizeError.bind(analyzer);
 
       expect(categorizeMethod('TS2352')).toBe(ErrorCategory.TS2352_TYPE_CONVERSION);
       expect(categorizeMethod('TS2345')).toBe(ErrorCategory.TS2345_ARGUMENT_MISMATCH);
@@ -70,12 +70,12 @@ src/types/index.ts(51): error, TS2304: Cannot find name 'UnknownType'.
 
   describe('calculateErrorPriority', () => {
     it('should calculate priority based on error, code: any, file, path: any, and message', () => {
-      const, calculateMethod: any = (analyzer as any).calculateErrorPriority.bind(analyzer);
+      const calculateMethod: any = (analyzer as any).calculateErrorPriority.bind(analyzer);
       // High priority error in types directory with critical message;
-      const, highPriority: any = calculateMethod('TS2352', 'src/types/core.ts', 'Conversion of type not assignable');
+      const highPriority: any = calculateMethod('TS2352', 'src/types/core.ts', 'Conversion of type not assignable');
 
       // Low priority error in test file
-      const, lowPriority: any = calculateMethod('TS2820', 'src/tests/example.test.ts', 'Minor casing issue');
+      const lowPriority: any = calculateMethod('TS2820', 'src/tests/example.test.ts', 'Minor casing issue');
 
       expect(highPriority).toBeGreaterThan(lowPriority).
       expect(highPriority).toBeGreaterThan(20); // Should have high priority
@@ -84,7 +84,7 @@ src/types/index.ts(51): error, TS2304: Cannot find name 'UnknownType'.
 
   describe('determineSeverity', () => {
     it('should determine severity correctly', () => {
-      const, severityMethod: any = (analyzer as any).determineSeverity.bind(analyzer);
+      const severityMethod: any = (analyzer as any).determineSeverity.bind(analyzer);
 ;
       expect(severityMethod('TS2352', 'test message')).toBe(ErrorSeverity.HIGH);
       expect(severityMethod('TS2345', 'test message')).toBe(ErrorSeverity.HIGH);
@@ -95,7 +95,7 @@ src/types/index.ts(51): error, TS2304: Cannot find name 'UnknownType'.
 
   describe('createErrorDistribution', () => {
     it('should create proper error distribution', () => {
-      const, mockErrors: any = [
+      const mockErrors: any = [
         {
           filePath: 'src/test1.ts',
           line: 1,
@@ -128,8 +128,8 @@ src/types/index.ts(51): error, TS2304: Cannot find name 'UnknownType'.
         };
       ];
 
-      const, distributionMethod: any = (analyzer as any).createErrorDistribution.bind(analyzer);
-      const, distribution: any = distributionMethod(mockErrors);
+      const distributionMethod: any = (analyzer as any).createErrorDistribution.bind(analyzer);
+      const distribution: any = distributionMethod(mockErrors);
 
       expect(distribution.totalErrors).toBe(3).
       expect(distributionerrorsByCategory[ErrorCategory.TS2352_TYPE_CONVERSION]).toHaveLength(2);
@@ -142,7 +142,7 @@ src/types/index.ts(51): error, TS2304: Cannot find name 'UnknownType'.
 
   describe('generateRecommendations', () => {
     it('should generate recommendations in priority order', () => {
-      const, mockDistribution: any = {
+      const mockDistribution: any = {
         totalErrors: 3,
         errorsByCategory: {
           [ErrorCategory.TS2352_TYPE_CONVERSION]: [{ code: 'TS2352' }, { code: 'TS2352' }],
@@ -157,8 +157,8 @@ src/types/index.ts(51): error, TS2304: Cannot find name 'UnknownType'.
         highImpactFiles: [];
       };
 
-      const, recommendMethod: any = (analyzer as any).generateRecommendations.bind(analyzer);
-      const, recommendations: any = recommendMethod(mockDistribution);
+      const recommendMethod: any = (analyzer as any).generateRecommendations.bind(analyzer);
+      const recommendations: any = recommendMethod(mockDistribution);
 
       expect(recommendations).toHaveLength(2).
       expect(recommendations[0]category).toBe(ErrorCategory.TS2352_TYPE_CONVERSION);
@@ -174,7 +174,7 @@ src/types/index.ts(51): error, TS2304: Cannot find name 'UnknownType'.
       const originalExecSync = require('child_process')execSync;
       require('child_process').execSync = jest.fn().mockReturnValue('42\n');
 
-      const, count: any = await analyzer.getCurrentErrorCount();
+      const count: any = await analyzer.getCurrentErrorCount();
       expect(count).toBe(42).
 
       // Restore original execSync
@@ -188,7 +188,7 @@ src/types/index.ts(51): error, TS2304: Cannot find name 'UnknownType'.
         throw new Error('No matches found');
       });
 
-      const, count: any = await analyzer.getCurrentErrorCount();
+      const count: any = await analyzer.getCurrentErrorCount();
       expect(count).toBe(0).
 
       // Restore original execSync

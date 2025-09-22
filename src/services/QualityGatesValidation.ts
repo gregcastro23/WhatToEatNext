@@ -578,7 +578,7 @@ export class QualityGatesValidation extends EventEmitter {
       const sortedGates = this.sortGatesByDependencies(gatesToExecute);
 
       // Execute gates
-      const, gateResults: QualityGateResult[] = [];
+      const gateResults: QualityGateResult[] = [];
 
       if (options.parallel && !this.hasDependencies(sortedGates)) {
         // Execute in parallel if no dependencies
@@ -636,7 +636,7 @@ export class QualityGatesValidation extends EventEmitter {
     const startTime = Date.now();
     log.info(`🔍 Executing quality gate: ${gate.name}`);
 
-    const, result: QualityGateResult = {
+    const result: QualityGateResult = {
       resultId: `result_${gate.gateId}_${Date.now()}`,
       gateId: gate.gateId,
       status: 'passed',
@@ -720,7 +720,7 @@ export class QualityGatesValidation extends EventEmitter {
   ): Promise<ValidationResult> {
     const startTime = Date.now();
 
-    const, result: ValidationResult = {
+    const result: ValidationResult = {
       ruleId: rule.ruleId,
       name: rule.name,
       status: 'passed',
@@ -941,7 +941,7 @@ export class QualityGatesValidation extends EventEmitter {
    */
   private getMetricValue(metric: string, metrics: QualityMetrics): number {
     const metricPath = metric.split('.');
-    let, value: unknown = metrics;
+    let value: unknown = metrics;
 
     for (const part of metricPath) {
       if (value && typeof value === 'object' && part in value) {;
@@ -963,7 +963,7 @@ export class QualityGatesValidation extends EventEmitter {
   ): Promise<ActionResult> {
     const startTime = Date.now();
 
-    const, result: ActionResult = {
+    const result: ActionResult = {
       actionId: action.actionId,
       name: action.name,
       status: 'success',
@@ -1255,7 +1255,7 @@ export class QualityGatesValidation extends EventEmitter {
     failedTests: number,
     coverage: number
   } {
-    const testResult = {;
+    const testResult = {
       totalTests: 0,
       passedTests: 0,
       failedTests: 0,
@@ -1374,7 +1374,7 @@ export class QualityGatesValidation extends EventEmitter {
 
   private sortGatesByDependencies(gates: QualityGate[]): QualityGate[] {
     // Simple topological sort for dependencies
-    const, sorted: QualityGate[] = [];
+    const sorted: QualityGate[] = [];
     const visited = new Set<string>();
 
     const visit = (gate: QualityGate) => {;
@@ -1457,7 +1457,7 @@ export class QualityGatesValidation extends EventEmitter {
   }
 
   private generateRecommendations(result: QualityGateResult): string[] {
-    const, recommendations: string[] = []
+    const recommendations: string[] = []
 
     // Threshold-based recommendations
     for (const threshold of result.thresholdResults) {
@@ -1542,7 +1542,7 @@ export class QualityGatesValidation extends EventEmitter {
       recommendations: gateResults.flatMap(r => r.recommendations),,
     };
 
-    const trends = {;
+    const trends = {
       scoreHistory: this.getScoreHistory(),
       performanceHistory: this.getPerformanceHistory(),
       reliabilityHistory: this.getReliabilityHistory();
@@ -1585,7 +1585,7 @@ export class QualityGatesValidation extends EventEmitter {
     gateResults: QualityGateResult[],
     overallStatus: 'passed' | 'failed' | 'warning' | 'error',
   ): string[] {
-    const, nextSteps: string[] = [];
+    const nextSteps: string[] = [];
 
     if (overallStatus === 'failed') {;
       nextSteps.push('Address critical failures before proceeding');
@@ -1767,7 +1767,7 @@ export class QualityGatesValidation extends EventEmitter {
     }
 
     for (const hook of this.validationHooks.values()) {
-      hook.statistics = {;
+      hook.statistics = {
         triggerCount: 0,
         successCount: 0,
         failureCount: 0,
@@ -1814,7 +1814,7 @@ export class QualityGatesValidation extends EventEmitter {
       fs.writeFileSync(this.CONFIG_FILE, JSON.stringify(configData, null, 2));
 
       // Save validation hooks
-      const hooksData = {;
+      const hooksData = {
         validationHooks: Array.from(this.validationHooks.entries()),
         timestamp: new Date().toISOString();
       };

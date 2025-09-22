@@ -206,7 +206,7 @@ export class ProgressReportingSystem {
       criticalIssues,
     ),
 
-    const, report: CampaignSummaryReport = {
+    const report: CampaignSummaryReport = {
       campaignId: 'perfect-codebase-campaign',
       generatedAt: new Date(),
       overallStatus,
@@ -233,7 +233,7 @@ export class ProgressReportingSystem {
     // // // console.log(`📊 Generating phase completion report for ${phaseId}...`);
 
     const currentMetrics = await this.metricsCollector.collectDetailedMetrics();
-    let, phaseValidation: PhaseValidationResult;
+    let phaseValidation: PhaseValidationResult;
 
     switch (phaseId) {
       case 'phase1':
@@ -255,7 +255,7 @@ export class ProgressReportingSystem {
     const issues = this.generatePhaseIssues(phaseValidation);
     const recommendations = this.generatePhaseRecommendations(phaseValidation);
 
-    const, report: PhaseReport = {
+    const report: PhaseReport = {
       phaseId: phaseValidation.phaseId,
       phaseName: phaseValidation.phaseName,
       startTime: new Date(), // This should be tracked properly in a real implementation,
@@ -302,13 +302,13 @@ export class ProgressReportingSystem {
     report: CampaignSummaryReport,
     formats: ('json' | 'html' | 'markdown' | 'csv')[] = ['json'],
   ): Promise<string[]> {
-    const, exportedFiles: string[] = []
+    const exportedFiles: string[] = []
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-'),
     const baseFileName = `campaign-report-${timestamp}`;
 
     for (const format of formats) {
-      let, filePath: string,
-      let, content: string,
+      let filePath: string,
+      let content: string,
 
       switch (format) {
         case 'json':
@@ -417,7 +417,7 @@ export class ProgressReportingSystem {
     metrics: DetailedMetrics,
     phaseValidations: PhaseValidationResult[],
   ): Achievement[] {
-    const, achievements: Achievement[] = []
+    const achievements: Achievement[] = []
 
     // TypeScript error achievements
     if (metrics.typeScriptErrors.current === 0) {
@@ -484,7 +484,7 @@ export class ProgressReportingSystem {
   }
 
   private identifyCriticalIssues(phaseValidations: PhaseValidationResult[]): Issue[] {
-    const, issues: Issue[] = []
+    const issues: Issue[] = []
 
     phaseValidations.forEach(phase => {
       phase.criticalFailures.forEach(failure => {
@@ -535,7 +535,7 @@ export class ProgressReportingSystem {
     phaseValidations: PhaseValidationResult[],
     metrics: DetailedMetrics,
   ): Recommendation[] {
-    const, recommendations: Recommendation[] = []
+    const recommendations: Recommendation[] = []
 
     phaseValidations.forEach(phase => {
       if (!phase.overallSuccess) {

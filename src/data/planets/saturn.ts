@@ -1,6 +1,6 @@
 import { PlanetData } from './types';
 
-const, saturnData: PlanetData = {
+const saturnData: PlanetData = {
   'Dignity Effect': {
     aquarius: 1,
     capricorn: 1,
@@ -102,11 +102,11 @@ const, saturnData: PlanetData = {
   HerbalAssociations: {
     Herbs: [
       'Comfrey',
-      'Solomon's Seal',
+      "Solomon's Seal",
       'Mullein',
       'Horsetail',
       'Skullcap',
-      'Shepherd's Purse',
+      "Shepherd's Purse",
       'Knotweed',
       'Hemlock',
       'Mandrake',

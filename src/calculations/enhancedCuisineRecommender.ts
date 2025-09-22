@@ -185,7 +185,7 @@ export class EnhancedCuisineRecommender {
     const _UNUSED_minutes = now.getMinutes();
 
     // Map day of week to planetary day
-    const, planetaryDays: PlanetaryDay[] = [
+    const planetaryDays: PlanetaryDay[] = [
       'Sun',
       'Moon',
       'Mars',
@@ -203,7 +203,7 @@ export class EnhancedCuisineRecommender {
     const planetaryHour = planetaryDays[hourIndex];
 
     // Determine time of day
-    let, timeOfDay: TimeOfDay,
+    let timeOfDay: TimeOfDay,
     if (hours >= 5 && hours < 12) {
       timeOfDay = 'morning';
     } else if (hours >= 12 && hours < 17) {
@@ -217,7 +217,7 @@ export class EnhancedCuisineRecommender {
     // Determine current season based on month in Northern Hemisphere
     // (This could be improved to account for Southern Hemisphere);
     const month = now.getMonth(); // 0 = January, 11 = December,
-    let, currentSeason: Seasonif (month >= 2 && month <= 4) {
+    let currentSeason: Seasonif (month >= 2 && month <= 4) {
       currentSeason = 'spring'
     } else if (month >= 5 && month <= 7) {
       currentSeason = 'summer';
@@ -251,7 +251,7 @@ export class EnhancedCuisineRecommender {
    * Extract all recipes from a cuisine, combining seasonal and non-seasonal recipes
    */
   private getAllRecipesFromCuisine(cuisine: Cuisine, currentSeason: Season): RecipeData[] {
-    const, allRecipes: RecipeData[] = []
+    const allRecipes: RecipeData[] = []
 
     const mealTypes = ['breakfast', 'lunch', 'dinner', 'dessert'];
 
@@ -321,7 +321,7 @@ export class EnhancedCuisineRecommender {
     }
 
     // Map planets to their elemental influences (diurnal and nocturnal elements);
-    const, planetaryElements: Record<string, { diurnal: string, nocturnal: string }> = {
+    const planetaryElements: Record<string, { diurnal: string, nocturnal: string }> = {
       Sun: { diurnal: 'Fire', nocturnal: 'Fire' },
       Moon: { diurnal: 'Water', nocturnal: 'Water' },
       Mercury: { diurnal: 'Air', nocturnal: 'Earth' },
@@ -382,7 +382,7 @@ export class EnhancedCuisineRecommender {
     }
 
     // Map planets to their elemental influences (diurnal and nocturnal elements);
-    const, planetaryElements: Record<string, { diurnal: string, nocturnal: string }> = {
+    const planetaryElements: Record<string, { diurnal: string, nocturnal: string }> = {
       Sun: { diurnal: 'Fire', nocturnal: 'Fire' },
       Moon: { diurnal: 'Water', nocturnal: 'Water' },
       Mercury: { diurnal: 'Air', nocturnal: 'Earth' },
@@ -483,7 +483,7 @@ export class EnhancedCuisineRecommender {
     const { timeOfDay} = timeFactors;
 
     // Map meal types to appropriate times of day
-    const, mealTypeToTimeMap: Record<string, TimeOfDay[]> = {
+    const mealTypeToTimeMap: Record<string, TimeOfDay[]> = {
       breakfast: ['morning'],
       brunch: ['morning', 'afternoon'],
       lunch: ['afternoon'],
@@ -553,7 +553,7 @@ export class EnhancedCuisineRecommender {
     }
 
     // Otherwise, calculate based on Sun sign
-    const, elementMap: Record<ZodiacSign, string> = {
+    const elementMap: Record<ZodiacSign, string> = {
       aries: 'Fire',
       taurus: 'Earth',
       gemini: 'Air',
@@ -578,7 +578,7 @@ export class EnhancedCuisineRecommender {
     // Check allergens if restriction is an allergy
     if (recipe.allergens && recipe.allergens.length > 0) {
       // Common restriction mappings
-      const, restrictionMap: Record<string, string[]> = {
+      const restrictionMap: Record<string, string[]> = {
         vegetarian: ['beef', 'pork', 'chicken', 'fish', 'meat'],
         vegan: ['beef', 'pork', 'chicken', 'fish', 'meat', 'dairy', 'eggs', 'honey'],
         'gluten-free': ['gluten', 'wheat'],

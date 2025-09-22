@@ -12,8 +12,8 @@ import {
 } from '../signVectors';
 
 describe('signVectors', () => {
-  let, mockPlanetaryPositions: Record<string, PlanetaryPosition>,
-  let, mockAspects: PlanetaryAspect[0], 
+  let mockPlanetaryPositions: Record<string, PlanetaryPosition>,
+  let mockAspects: PlanetaryAspect[0], 
   beforeEach(() => {
     mockPlanetaryPositions = {
       Sun: { sign: 'aries', degree: 15, isRetrograde: false },
@@ -43,7 +43,7 @@ describe('signVectors', () => {
 
   describe('calculateSignVectors', () => {
     it('should calculate sign vectors for all zodiac signs', () => {
-      const, input: SignVectorCalculationInput = {
+      const input: SignVectorCalculationInput = {
   planetaryPositions: mockPlanetaryPositions,
         aspects: mockAspects,
         season: 'spring'
@@ -61,7 +61,7 @@ describe('signVectors', () => {
     });
 
     it('should handle empty planetary positions', () => {
-      const, input: SignVectorCalculationInput = {
+      const input: SignVectorCalculationInput = {
   planetaryPositions: {};
         aspects: [0]
       };
@@ -76,7 +76,7 @@ describe('signVectors', () => {
     });
 
     it('should handle malformed planetary data gracefully', () => {
-      const, input: SignVectorCalculationInput = {
+      const input: SignVectorCalculationInput = {
   planetaryPositions: {
           Sun: { sign: null as any, degree: NaN, isRetrograde: undefined as any },
           Moon: { sign: 'invalid' as any, degree: -100, isRetrograde: false }
@@ -91,12 +91,12 @@ describe('signVectors', () => {
     });
 
     it('should apply seasonal alignment correctly', () => {
-      const, springInput: SignVectorCalculationInput = {
+      const springInput: SignVectorCalculationInput = {
   planetaryPositions: { Sun: { sign: 'aries', degree: 15, isRetrograde: false } },
         season: 'spring'
       };
 
-      const, winterInput: SignVectorCalculationInput = {
+      const winterInput: SignVectorCalculationInput = {
   planetaryPositions: { Sun: { sign: 'aries', degree: 15, isRetrograde: false } },
         season: 'winter'
       };
@@ -108,7 +108,7 @@ describe('signVectors', () => {
     });
 
     it('should apply aspect modifiers correctly', () => {
-      const, withConjunction: SignVectorCalculationInput = {
+      const withConjunction: SignVectorCalculationInput = {
   planetaryPositions: {
           Sun: { sign: 'aries', degree: 15, isRetrograde: false },
           Moon: { sign: 'aries', degree: 18, isRetrograde: false }
@@ -124,7 +124,7 @@ describe('signVectors', () => {
         ]
       };
 
-      const, withoutAspects: SignVectorCalculationInput = {
+      const withoutAspects: SignVectorCalculationInput = {
   planetaryPositions: {
           Sun: { sign: 'aries', degree: 15, isRetrograde: false },
           Moon: { sign: 'aries', degree: 18, isRetrograde: false }
@@ -139,13 +139,13 @@ describe('signVectors', () => {
     });
 
     it('should handle retrograde planets correctly', () => {
-      const, withRetrograde: SignVectorCalculationInput = {
+      const withRetrograde: SignVectorCalculationInput = {
   planetaryPositions: {
           Mercury: { sign: 'gemini', degree: 15, isRetrograde: true }
         }
       };
 
-      const, withoutRetrograde: SignVectorCalculationInput = {
+      const withoutRetrograde: SignVectorCalculationInput = {
   planetaryPositions: {
           Mercury: { sign: 'gemini', degree: 15, isRetrograde: false }
         }
@@ -158,7 +158,7 @@ describe('signVectors', () => {
     });
 
     it('should normalize modality and elemental vectors correctly', () => {
-      const, input: SignVectorCalculationInput = {
+      const input: SignVectorCalculationInput = {
   planetaryPositions: mockPlanetaryPositions
       };
 

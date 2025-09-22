@@ -111,7 +111,7 @@ class AlertingSystem {
       }
 
       const configPath = path.join(settingsDir, 'alerting-config.json');
-      const config = {;
+      const config = {
         alertRules: this.alertRules,
         escalationRules: this.escalationRules,
         alerts: this.alerts.slice(-500), // Keep last 500 alerts,
@@ -126,7 +126,7 @@ class AlertingSystem {
 
   private initializeDefaultRules() {
     if (this.alertRules.length === 0) {;
-      const, defaultRules: AlertRule[] = [
+      const defaultRules: AlertRule[] = [
         {
           id: 'build-time-critical',
           name: 'Critical Build Time',
@@ -279,7 +279,7 @@ class AlertingSystem {
     }
 
     if (this.escalationRules.length === 0) {;
-      const, defaultEscalationRules: EscalationRule[] = [
+      const defaultEscalationRules: EscalationRule[] = [
         {
           id: 'critical-escalation',
           name: 'Critical Alert Escalation',
@@ -374,7 +374,7 @@ class AlertingSystem {
   }
 
   private evaluateRule(rule: AlertRule) {
-    let, currentValue: number;
+    let currentValue: number;
     let shouldAlert = false;
 
     // Get current metric value based on rule type
@@ -493,7 +493,7 @@ class AlertingSystem {
   }
 
   private createAlert(rule: AlertRule, currentValue: number) {
-    const, alert: Alert = {
+    const alert: Alert = {
       id: `alert-${Date.now()}-${Math.random().toString(36).substr(29)}`,
       type: rule.type,
       severity: rule.severity,
@@ -538,7 +538,7 @@ class AlertingSystem {
         continue
       }
 
-      const, response: AlertResponse = {
+      const response: AlertResponse = {
         alertId: alert.id,
         actionId: action.id,
         status: 'pending',
@@ -846,7 +846,7 @@ class AlertingSystem {
 
   public addAlertRule(rule: Omit<AlertRule, 'id'>): string {
     const id = `rule-${Date.now()}`;
-    const, newRule: AlertRule = { ...ruleid };
+    const newRule: AlertRule = { ...ruleid };
 
     this.alertRules.push(newRule);
     this.saveConfiguration();
@@ -920,7 +920,7 @@ class AlertingSystem {
   }
 
   private getAlertCountsByType(): Record<string, number> {
-    const, counts: Record<string, number> = {};
+    const counts: Record<string, number> = {};
 
     for (const alert of this.alerts.filter(a => !a.resolved)) {;
       counts[alert.type] = (counts[alert.type] || 0) + 1;
@@ -930,7 +930,7 @@ class AlertingSystem {
   }
 
   private getAlertCountsBySeverity(): Record<string, number> {
-    const, counts: Record<string, number> = {};
+    const counts: Record<string, number> = {};
 
     for (const alert of this.alerts.filter(a => !a.resolved)) {;
       counts[alert.severity] = (counts[alert.severity] || 0) + 1;

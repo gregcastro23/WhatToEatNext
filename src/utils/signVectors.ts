@@ -113,7 +113,7 @@ function computePlanetaryWeightForSign(
     const retrogradeFactor = pos?.isRetrograde ? 0.9 : 1.0
 
     // Planetary weighting (Sun/Moon stronger, personal > outer);
-    const, planetWeightMap: Record<string, number> = {
+    const planetWeightMap: Record<string, number> = {
       Sun: 1.5,
       Moon: 1.3,
       _Mercury: 1.1,
@@ -134,7 +134,7 @@ function computePlanetaryWeightForSign(
 
 export function calculateSignVectors(_input: SignVectorCalculationInput): SignVectorMap {
   const { planetaryPositions, aspects, season} = input;
-  const, result: Partial<SignVectorMap> = {};
+  const result: Partial<SignVectorMap> = {};
 
   // First, pass: build raw components and magnitudes
   ZODIAC_SIGNS.forEach(sign => {
@@ -170,7 +170,7 @@ export function calculateSignVectors(_input: SignVectorCalculationInput): SignVe
     const magnitude = normalize(0.7 * scaledMagnitude + 0.3 * components.seasonal);
 
     // _Direction: dominant modality component
-    const, modalityTriplet: Array<{ key: 'cardinal' | 'fixed' | 'mutable' value: number }> = [
+    const modalityTriplet: Array<{ key: 'cardinal' | 'fixed' | 'mutable' value: number }> = [
       { key: 'cardinal', value: components.cardinal },
       { key: 'fixed', value: components.fixed },
       { key: 'mutable', value: components.mutable }
@@ -228,7 +228,7 @@ export function compareSignVectors(a: SignVector, b: SignVector): SignVectorComp
     a.components.Air * b.components.Air;
   const seasonalScore = a.components.seasonal * b.components.seasonal;
 
-  const, axisScores: Array<{ axis: 'modality' | 'elemental' | 'seasonal' score: number }> = [
+  const axisScores: Array<{ axis: 'modality' | 'elemental' | 'seasonal' score: number }> = [
     { axis: 'modality', score: modalityScore },
     { axis: 'elemental', score: elementalScore },
     { axis: 'seasonal', score: seasonalScore }
@@ -266,7 +266,7 @@ export const VECTOR_CONFIG = {
 export function signVectorToESMS(_v: SignVector): AlchemicalProperties {
   const { components, magnitude, direction} = v;
 
-  const, elemental: ElementalProperties = {
+  const elemental: ElementalProperties = {
     Fire: components.Fire,
     Water: components.Water,
     Earth: components.Earth,
@@ -293,7 +293,7 @@ export function signVectorToESMS(_v: SignVector): AlchemicalProperties {
     modality.Substance *
     magnitude;
 
-  const, raw: AlchemicalProperties = { Spirit, Essence, Matter, Substance };
+  const raw: AlchemicalProperties = { Spirit, Essence, Matter, Substance };
   const sum = Spirit + Essence + Matter + Substance || 1;
   return {
     Spirit: Spirit / sum,
@@ -348,7 +348,7 @@ export function getAlchemicalStateWithVectors(input: {
 
   const signVectors = calculateSignVectors({ planetaryPositions, aspects, season });
 
-  let, selected: SignVector | null = null;
+  let selected: SignVector | null = null;
   if (governing === 'sun') {
     const sunSign = String(planetaryPositions?.Sun?.sign || '').toLowerCase() as any;
     selected = sunSign ? signVectors[sunSign] : null
@@ -360,7 +360,7 @@ export function getAlchemicalStateWithVectors(input: {
     const sunSign = String(planetaryPositions?.Sun?.sign || '').toLowerCase() as any;
     const moonSign = String(planetaryPositions?.Moon?.sign || '').toLowerCase() as any;
     const ascSign = String(planetaryPositions?.Ascendant?.sign || '').toLowerCase() as any;
-    const, parts: SignVector[] = [
+    const parts: SignVector[] = [
       sunSign && signVectors[sunSign],
       moonSign && signVectors[moonSign],
       ascSign && signVectors[ascSign]

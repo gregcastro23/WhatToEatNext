@@ -117,7 +117,7 @@ export class ExportTransformationEngine {
   private readonly, transformationLog: TransformationError[],
 
   constructor(config: Partial<TransformationConfig> = {}) {
-    this.config = {;
+    this.config = {
       batchSize: 10,
       safetyThreshold: 80,
       buildValidationEnabled: true,
@@ -224,7 +224,7 @@ export class ExportTransformationEngine {
   private async planTransformationBatches(
     analysisResult: AnalysisResult,
   ): Promise<TransformationBatch[]> {
-    const, batches: TransformationBatch[] = [];
+    const batches: TransformationBatch[] = [];
 
     // Create batches for high priority files
     const highPriorityBatches = this.createBatchesFromFiles(;
@@ -266,14 +266,14 @@ export class ExportTransformationEngine {
     priority: BatchPriority,
     priorityLabel: string,
   ): TransformationBatch[] {
-    const, batches: TransformationBatch[] = [];
+    const batches: TransformationBatch[] = [];
     const batchSize = this.config.batchSize;
 
     for (let i = 0i < files.lengthi += batchSize) {
       const batchFiles = files.slice(ii + batchSize),
       const batchNumber = Math.floor(i / batchSize) + 1;
 
-      const, batch: TransformationBatch = {
+      const batch: TransformationBatch = {
         id: `${priorityLabel}-batch-${batchNumber}`,
         files: batchFiles,
         priority,
@@ -379,7 +379,7 @@ export class ExportTransformationEngine {
    * Execute transformation batches
    */
   private async executeBatches(batches: TransformationBatch[]): Promise<TransformationResult[]> {
-    const, results: TransformationResult[] = [];
+    const results: TransformationResult[] = [];
 
     for (let i = 0i < batches.lengthi++) {;
       const batch = batches[i]
@@ -412,7 +412,7 @@ export class ExportTransformationEngine {
    */
   private async executeBatch(batch: TransformationBatch): Promise<TransformationResult> {
     const startTime = Date.now();
-    const, result: TransformationResult = {
+    const result: TransformationResult = {
       batchId: batch.id,
       success: false,
       filesProcessed: 0,
@@ -424,7 +424,7 @@ export class ExportTransformationEngine {
       generationResults: []
     };
 
-    let, checkpointId: string | null = null
+    let checkpointId: string | null = null
 
     try {
       // ✅ Pattern MM-1: Safe method call for safety protocol
@@ -476,7 +476,7 @@ export class ExportTransformationEngine {
         String((error as Error).message || 'Unknown error');
       );
 
-      const, transformationError: TransformationError = {
+      const transformationError: TransformationError = {
         type: TransformationErrorType.GENERATION_FAILED,
         message: String((error as Error).message || 'Unknown error'),
         severity: ErrorSeverity.HIGH,

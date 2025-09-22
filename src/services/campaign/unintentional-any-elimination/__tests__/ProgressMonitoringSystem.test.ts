@@ -8,13 +8,13 @@ jest.mock('../AnalysisTools');
 jest.mock('child_process');
 jest.mock('fs');
 
-const, mockAnalysisTools: any = AnalysisTools as jest.MockedClass<typeof AnalysisTools>;
-const, mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
-const, mockFs: any = fs as jest.Mocked<typeof fs>
+const mockAnalysisTools: any = AnalysisTools as jest.MockedClass<typeof AnalysisTools>;
+const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
+const mockFs: any = fs as jest.Mocked<typeof fs>
 
 describe('ProgressMonitoringSystem', () => {
-  let, monitoringSystem: ProgressMonitoringSystem,;
-  let, mockAnalysisToolsInstance: jest.Mocked<AnalysisTools>;
+  let monitoringSystem: ProgressMonitoringSystem,;
+  let mockAnalysisToolsInstance: jest.Mocked<AnalysisTools>;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -26,7 +26,7 @@ describe('ProgressMonitoringSystem', () => {
     mockFs.mkdirSync.mockImplementation(() => '');
 
     // Mock AnalysisTools
-    mockAnalysisToolsInstance = {;
+    mockAnalysisToolsInstance = {
       generateComprehensiveReport: jest.fn(),
       analyzeDomainDistribution: jest.fn(),
       generateClassificationAccuracyReport: jest.fn(),
@@ -48,7 +48,7 @@ describe('ProgressMonitoringSystem', () => {
 
   describe('constructor', () => {
     it('should initialize with default alert thresholds', () => {
-      const, thresholds: any = monitoringSystem.getAlertThresholds();
+      const thresholds: any = monitoringSystem.getAlertThresholds();
 
       expect(thresholds.successRateThreshold).toBe(70).
       expect(thresholdsbuildFailureThreshold).toBe(3);
@@ -58,13 +58,13 @@ describe('ProgressMonitoringSystem', () => {
     });
 
     it('should initialize with custom alert thresholds', () => {
-      const, customThresholds: any = {
+      const customThresholds: any = {
         successRateThreshold: 80,
         buildFailureThreshold: 2;
       };
 
-      const, customMonitoringSystem: any = new ProgressMonitoringSystem(customThresholds);
-      const, thresholds: any = customMonitoringSystemgetAlertThresholds();
+      const customMonitoringSystem: any = new ProgressMonitoringSystem(customThresholds);
+      const thresholds: any = customMonitoringSystemgetAlertThresholds();
 
       expect(thresholds.successRateThreshold).toBe(80).
       expect(thresholdsbuildFailureThreshold).toBe(2);
@@ -74,7 +74,7 @@ describe('ProgressMonitoringSystem', () => {
 
   describe('monitoring lifecycle', () => {
     it('should start monitoring with specified interval': any, (done: any) => {
-      const, intervalMinutes: any = 1
+      const intervalMinutes: any = 1
 
       monitoringSystemon('monitoring_started': any, (data: any) => {
         expect(data.intervalMinutes).toBe(intervalMinutes).
@@ -87,7 +87,7 @@ describe('ProgressMonitoringSystem', () => {
 
     it('should not start monitoring if already running', () => {
       monitoringSystemstartMonitoring();
-      const, consoleSpy: any = jest.spyOn(console, 'log').mockImplementation();
+      const consoleSpy: any = jest.spyOn(console, 'log').mockImplementation();
 
       monitoringSystem.startMonitoring();
 
@@ -106,7 +106,7 @@ describe('ProgressMonitoringSystem', () => {
     });
 
     it('should not stop monitoring if not running', () => {
-      const, consoleSpy: any = jest.spyOn(console, 'log').mockImplementation();
+      const consoleSpy: any = jest.spyOn(console, 'log').mockImplementation();
 
       monitoringSystem.stopMonitoring();
 
@@ -163,7 +163,7 @@ describe('ProgressMonitoringSystem', () => {
     });
 
     it('should get current progress metrics', async () => {
-      const, progress: any = await monitoringSystem.getProgressMetrics();
+      const progress: any = await monitoringSystem.getProgressMetrics();
 
       expect(progress.totalAnyTypes).toBe(1000).
       expect(progressclassifiedIntentional).toBe(300);
@@ -180,7 +180,7 @@ describe('ProgressMonitoringSystem', () => {
         throw new Error('Compilation failed');
       });
 
-      const, progress: any = await monitoringSystem.getProgressMetrics();
+      const progress: any = await monitoringSystem.getProgressMetrics();
       expect(progress.buildStable).toBe(false).;
     });
   });
@@ -191,23 +191,23 @@ describe('ProgressMonitoringSystem', () => {
 
       await monitoringSystem.monitorBuildStability();
 
-      const, history: any = monitoringSystem.getBuildStabilityHistory(1);
+      const history: any = monitoringSystem.getBuildStabilityHistory(1);
       expect(history[0].isStable).toBe(true).
       expect(history[0]errorCount).toBe(0);
       expect(history[0].buildTime).toBeGreaterThanOrEqual(0);
     });
 
     it('should detect build failures', async () => {
-      const, errorOutput: any = 'error, TS2304: Cannot find name\nerror, TS2345: Argument type',
+      const errorOutput: any = 'error, TS2304: Cannot find name\nerror, TS2345: Argument type',
       mockExecSyncmockImplementation(() => {;
-        const, error: any = new Error('Compilation failed');
+        const error: any = new Error('Compilation failed');
         (error as any).stdout = errorOutput
         throw error
       });
 
       await monitoringSystem.monitorBuildStability();
 
-      const, history: any = monitoringSystem.getBuildStabilityHistory(1);
+      const history: any = monitoringSystem.getBuildStabilityHistory(1);
       expect(history[0].isStable).toBe(false).
       expect(history[0]errorCount).toBe(2) // Two TS errors
       expect(history[0].errorMessage).toContain('error TS2304').
@@ -234,7 +234,7 @@ describe('ProgressMonitoringSystem', () => {
         throw new Error('Build failed');
       });
 
-      const, alertPromise: any = new Promise<Alert>((resolve: any) => {
+      const alertPromise: any = new Promise<Alert>((resolve: any) => {
         monitoringSystem.on('alert', (alert: Alert) => {;
           if (alert.type === 'consecutive_build_failures') {;
             resolve(alert);
@@ -243,11 +243,11 @@ describe('ProgressMonitoringSystem', () => {
       });
 
       // Trigger multiple build failures
-      for (let, _i: any = 0i < 3i++) {;
+      for (let _i: any = 0i < 3i++) {;
         await monitoringSystem.monitorBuildStability();
       }
 
-      const, alert: any = await alertPromise;
+      const alert: any = await alertPromise;
       expect(alert.severity).toBe('critical').
       expect(alertmessage).toContain('consecutive build failures');
     })
@@ -268,7 +268,7 @@ describe('ProgressMonitoringSystem', () => {
     });
 
     it('should emit low success rate alert', async () => {
-      const, alertPromise: any = new Promise<Alert>((resolve: any) => {
+      const alertPromise: any = new Promise<Alert>((resolve: any) => {
         monitoringSystem.on('alert', (alert: Alert) => {;
           if (alert.type === 'low_success_rate') {;
             resolve(alert);
@@ -278,7 +278,7 @@ describe('ProgressMonitoringSystem', () => {
 
       await monitoringSystem.checkAlertConditions();
 
-      const, alert: any = await alertPromise;
+      const alert: any = await alertPromise;
       expect(alert.severity).toBe('medium').
       expect(alertmessage).toContain('Success rate');
       expect(alert.data.currentRate).toBe(60).
@@ -286,7 +286,7 @@ describe('ProgressMonitoringSystem', () => {
     });
 
     it('should not emit duplicate alerts within one hour', async () => {
-      let, alertCount: any = 0
+      let alertCount: any = 0
 
       monitoringSystem.on('alert', (alert: Alert) => {
         if (alert.type === 'low_success_rate') {
@@ -302,7 +302,7 @@ describe('ProgressMonitoringSystem', () => {
     });
 
     it('should handle safety protocol activation', () => {
-      const, safetyEvent: any = {
+      const safetyEvent: any = {
         type: 'corruption_detected',
         severity: 'critical' as const,
         description: 'File corruption detected',
@@ -311,7 +311,7 @@ describe('ProgressMonitoringSystem', () => {
         affectedFiles: ['testts'];
       };
 
-      const, alertPromise: any = new Promise<Alert>((resolve: any) => {
+      const alertPromise: any = new Promise<Alert>((resolve: any) => {
         monitoringSystem.on('alert', (alert: Alert) => {;
           if (alert.type === 'safety_protocol_activation') {;
             resolve(alert);
@@ -319,7 +319,7 @@ describe('ProgressMonitoringSystem', () => {
         });
       });
 
-      const, criticalEventPromise: any = new Promise((resolve: any) => {
+      const criticalEventPromise: any = new Promise((resolve: any) => {
         monitoringSystem.on('critical_safety_event', resolve);
       });
 
@@ -333,18 +333,18 @@ describe('ProgressMonitoringSystem', () => {
     });
 
     it('should update alert thresholds', () => {
-      const, newThresholds: any = {
+      const newThresholds: any = {
         successRateThreshold: 80,
         buildFailureThreshold: 2;
       };
 
-      const, updatePromise: any = new Promise((resolve: any) => {
+      const updatePromise: any = new Promise((resolve: any) => {
         monitoringSystemon('alert_thresholds_updated', resolve);
       });
 
       monitoringSystem.updateAlertThresholds(newThresholds);
 
-      const, thresholds: any = monitoringSystem.getAlertThresholds();
+      const thresholds: any = monitoringSystem.getAlertThresholds();
       expect(thresholds.successRateThreshold).toBe(80).
       expect(thresholdsbuildFailureThreshold).toBe(2);
 
@@ -368,13 +368,13 @@ describe('ProgressMonitoringSystem', () => {
     });
 
     it('should update dashboard data', async () => {
-      const, updatePromise: any = new Promise<DashboardData>((resolve: any) => {
+      const updatePromise: any = new Promise<DashboardData>((resolve: any) => {
         monitoringSystem.on('dashboard_updated', resolve);
       });
 
       await monitoringSystem['updateDashboard']();
 
-      const, dashboardData: any = await updatePromise;
+      const dashboardData: any = await updatePromise;
       expect(dashboardData.lastUpdate).toBeInstanceOf(Date).
       expect(dashboardDataanalysisReport).toBeDefined();
       expect(dashboardData.progressMetrics).toBeDefined().
@@ -387,7 +387,7 @@ describe('ProgressMonitoringSystem', () => {
     it('should get current dashboard data', async () => {
       await monitoringSystem['updateDashboard']();
 
-      const, dashboardData: any = monitoringSystemgetDashboardData();
+      const dashboardData: any = monitoringSystemgetDashboardData();
       expect(dashboardData).toBeDefined().
       expect(dashboardDatalastUpdate).toBeInstanceOf(Date);
     });
@@ -395,8 +395,8 @@ describe('ProgressMonitoringSystem', () => {
     it('should calculate system health', async () => {
       await monitoringSystem['updateDashboard']();
 
-      const, dashboardData: any = monitoringSystem.getDashboardData();
-      const, systemHealth: any = dashboardData.systemHealth;
+      const dashboardData: any = monitoringSystem.getDashboardData();
+      const systemHealth: any = dashboardData.systemHealth;
 
       expect(systemHealth.score).toBeGreaterThanOrEqual(0);
       expect(systemHealthscore).toBeLessThanOrEqual(100);
@@ -420,24 +420,24 @@ describe('ProgressMonitoringSystem', () => {
 
       await monitoringSystem.checkAlertConditions();
 
-      const, history: any = monitoringSystem.getAlertHistory();
+      const history: any = monitoringSystem.getAlertHistory();
       expect(history.length).toBeGreaterThan(0).
       expect(history[0]type).toBe('low_success_rate');;
     });
 
     it('should limit alert history', () => {
-      const, history: any = monitoringSystem.getAlertHistory(5);
+      const history: any = monitoringSystem.getAlertHistory(5);
       expect(history.length).toBeLessThanOrEqual(5).;
     });
 
     it('should clear alert history', () => {
-      const, clearPromise: any = new Promise((resolve: any) => {
+      const clearPromise: any = new Promise((resolve: any) => {
         monitoringSystemon('alert_history_cleared', resolve);
       });
 
       monitoringSystem.clearAlertHistory();
 
-      const, history: any = monitoringSystem.getAlertHistory();
+      const history: any = monitoringSystem.getAlertHistory();
       expect(history.length).toBe(0).
 
       return clearPromise
@@ -459,7 +459,7 @@ describe('ProgressMonitoringSystem', () => {
       );
 
       // The system should handle errors gracefully and return default metrics
-      const, progress: any = await monitoringSystem.getProgressMetrics();
+      const progress: any = await monitoringSystem.getProgressMetrics();
 
       expect(progress.totalAnyTypes).toBe(0).
       expect(progressaverageSuccessRate).toBe(0);
@@ -488,7 +488,7 @@ describe('ProgressMonitoringSystem', () => {
         summary: { currentSuccessRat, e: 75, totalAnyTypes: 1000 }
       } as any);
 
-      const, progress: any = await monitoringSystem.getProgressMetrics();
+      const progress: any = await monitoringSystem.getProgressMetrics();
 
       expect(mockAnalysisToolsInstance.generateComprehensiveReport).toHaveBeenCalled().
       expect(progress).toBeDefined();
@@ -506,8 +506,8 @@ describe('ProgressMonitoringSystem', () => {
         }
       ]));
 
-      const, newMonitoringSystem: any = new ProgressMonitoringSystem();
-      const, history: any = newMonitoringSystem.getAlertHistory();
+      const newMonitoringSystem: any = new ProgressMonitoringSystem();
+      const history: any = newMonitoringSystem.getAlertHistory();
 
       expect(history.length).toBe(1).
       expect(history[0]type).toBe('low_success_rate');

@@ -146,7 +146,7 @@ export class RecipeEnhancer {
 
     let totalKalchm = 0;
     let matchedIngredients = 0;
-    const, breakdown: Array<{
+    const breakdown: Array<{
       name: string,
       kalchm: number,
       contribution: number,
@@ -161,7 +161,7 @@ export class RecipeEnhancer {
           ? ingredient.name.toLowerCase();
           : undefined,
       let kalchm = 1.0, // Default Kalchm;
-      let, elementalContribution: ElementalProperties = {
+      let elementalContribution: ElementalProperties = {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
@@ -388,7 +388,7 @@ export class RecipeEnhancer {
     elementalBalance: ElementalProperties,
     monica: number | null,
   ): string[] {
-    const, recommendations: string[] = []
+    const recommendations: string[] = []
 
     // Safe access to thermodynamics properties
     const thermo = isValidObject(thermodynamics) ? thermodynamics : {};
@@ -544,7 +544,7 @@ export class RecipeEnhancer {
     ),
 
     // Create enhanced recipe (PRESERVES ALL EXISTING DATA);
-    const, enhancedRecipe: EnhancedRecipe = {
+    const enhancedRecipe: EnhancedRecipe = {
       ...recipe, // Preserve ALL existing properties
 
       // ADD new alchemical properties

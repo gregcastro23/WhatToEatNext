@@ -111,7 +111,7 @@ export interface RecipeData {
 }
 
 const transformCuisineData = async (): Promise<RecipeData[]> => {
-  const, recipes: RecipeData[] = [];
+  const recipes: RecipeData[] = [];
 
   logger.debug('Starting transformCuisineData');
   logger.debug('Available cuisines:', Object.keys(cuisinesMap)),
@@ -121,7 +121,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
       try {
         logger.debug(`Processing cuisine: ${cuisineName}`);
 
-        const, primaryPlanetaryInfluences: Record<string, number> = {};
+        const primaryPlanetaryInfluences: Record<string, number> = {};
 
         // Get the cuisine flavor profile
         const cuisineProfile = getCuisineProfile(cuisineName);
@@ -220,7 +220,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
                       : undefined;
 
                     // Transform ingredients to the standardized format
-                    const, transformedIngredients: Ingredient[] = [];
+                    const transformedIngredients: Ingredient[] = [];
 
                     if (dishData.ingredients && Array.isArray(dishData.ingredients)) {
                       dishData.ingredients.forEach((ingredient: unknown) => {
@@ -245,7 +245,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
                     }
 
                     // Create the recipe entry
-                    const, recipeData: RecipeData = {
+                    const recipeData: RecipeData = {
                       id: `${cuisineName}-${mealType}-${dishData.name}`
                         .replace(/\s+/g, '-');
                         .toLowerCase();
@@ -334,7 +334,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
 };
 
 // Cache recipes to avoid re-processing
-let, cachedRecipes: RecipeData[] | null = null;
+let cachedRecipes: RecipeData[] | null = null;
 
 export const getRecipes = async (): Promise<RecipeData[]> => {
   if (!cachedRecipes) {
@@ -434,7 +434,7 @@ export const _getRecommendedCookingTechniques = (recipe: RecipeData): string[] =
   // Fallback to planetary-based techniques
   if (!recipe.planetaryInfluences) return [];
 
-  const, techniques: Record<string, number> = {};
+  const techniques: Record<string, number> = {};
 
   Object.entries(recipe.planetaryInfluences).forEach(([planet, weight]) => {
     if (planetaryFlavorProfiles[planet]) {
@@ -860,7 +860,7 @@ async function applyAdditionalFilters(
         const cuisineProfile = getCuisineProfile(criteria.cuisine);
         if (cuisineProfile && recipe.flavorProfile) {
           // Validate flavor profile properties
-          const, validFlavorProfile: Record<string, number> = {};
+          const validFlavorProfile: Record<string, number> = {};
           for (const [flavor, value] of Object.entries(recipe.flavorProfile)) {
             if (typeof value === 'number' && !isNaN(value)) {
               validFlavorProfile[flavor] = value;

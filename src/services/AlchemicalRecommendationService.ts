@@ -190,7 +190,7 @@ export class AlchemicalRecommendationService {
   thermodynamics: ThermodynamicProperties,
     dominantElement: keyof ElementalProperties,
   ): string[] {
-    const, recommendations: string[] = [];
+    const recommendations: string[] = [];
 
     // Add recommendations based on dominant element
     switch (dominantElement) {
@@ -243,7 +243,7 @@ export class AlchemicalRecommendationService {
    * Generate warnings based on thermodynamic properties
    */
   private generateWarnings(thermodynamics: ThermodynamicProperties): string[] {
-    const, warnings: string[] = []
+    const warnings: string[] = []
     if (thermodynamics.entropy > 0.9) {
       warnings.push(
         'High entropy may lead to unpredictable cooking results - measure ingredients precisely.'
@@ -270,7 +270,7 @@ export class AlchemicalRecommendationService {
    */
   private getDominantElement(properties: ElementalProperties): keyof ElementalProperties {
     // Initialize with Fire element
-    let, maxElement: keyof ElementalProperties = 'Fire'
+    let maxElement: keyof ElementalProperties = 'Fire'
 
     // Get the value for Fire - try lowercase first, then capitalized
     let maxValue =
@@ -371,8 +371,8 @@ export class AlchemicalRecommendationService {
     );
 
     // Generate suggestions based on compatibility
-    const, suggestions: string[] = [];
-    const, adjustments: string[] = [];
+    const suggestions: string[] = [];
+    const adjustments: string[] = [];
 
     if (compatibility > 0.8) {
       suggestions.push('This recipe is highly compatible with current planetary alignments.');

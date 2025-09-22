@@ -107,15 +107,15 @@ export class LintingAnalysisService {
       const classifications = await this.classifyErrors(categorizedErrors, options.focusAreas);
 
       // Step, 3: Analyze files for domain context (if requested);
-      let, fileAnalyses: FileAnalysis[] = [];
+      let fileAnalyses: FileAnalysis[] = [];
       if (options.includeFileAnalysis !== false) {
         log.info('🏗️ Analyzing domain contexts...');
         fileAnalyses = await this.analyzeFileContexts(categorizedErrors);
       }
 
       // Step, 4: Generate resolution strategies (if requested);
-      let, resolutionStrategies: ResolutionStrategy[] = [];
-      let, optimizedPlan: OptimizedResolutionPlan = this.createEmptyPlan();
+      let resolutionStrategies: ResolutionStrategy[] = [];
+      let optimizedPlan: OptimizedResolutionPlan = this.createEmptyPlan();
 
       if (options.generateStrategies !== false) {
         log.info('🎯 Generating resolution strategies...');
@@ -152,7 +152,7 @@ export class LintingAnalysisService {
         resolutionStrategies,
       );
 
-      const, result: ComprehensiveAnalysisResult = {
+      const result: ComprehensiveAnalysisResult = {
         summary,
         categorizedErrors,
         fileAnalyses,
@@ -232,7 +232,7 @@ export class LintingAnalysisService {
     focusAreas?: string[],
   ): Promise<ErrorClassification[]> {
     const allIssues = Object.values(categorizedErrors.byCategory).flat();
-    const, classifications: ErrorClassification[] = []
+    const classifications: ErrorClassification[] = []
 
     for (const issue of allIssues) {
       // Skip if not in focus areas
@@ -277,11 +277,11 @@ export class LintingAnalysisService {
     fileAnalyses: FileAnalysis[],
     projectContext: Partial<ProjectContext>,
   ): Promise<{ strategies: ResolutionStrategy[], optimizedPlan: OptimizedResolutionPlan }> {
-    const, contexts: StrategyGenerationContext[] = [];
+    const contexts: StrategyGenerationContext[] = [];
     const allIssues = Object.values(categorizedErrors.byCategory).flat();
 
     // Create default project context
-    const, fullProjectContext: ProjectContext = {
+    const fullProjectContext: ProjectContext = {
       hasTests: true,
       hasCICD: false,
       teamSize: 'small',
@@ -327,7 +327,7 @@ export class LintingAnalysisService {
       c => c.riskProfile.overall === 'critical'
     ).length;
 
-    let, overallRiskLevel: AnalysisSummary['overallRiskLevel'] = 'low';
+    let overallRiskLevel: AnalysisSummary['overallRiskLevel'] = 'low';
     if (criticalRiskCount > 0) overallRiskLevel = 'critical';
     else if (highRiskCount > 10) overallRiskLevel = 'high';
     else if (highRiskCount > 0 || categorizedErrors.errors > 50) overallRiskLevel = 'medium'
@@ -353,7 +353,7 @@ export class LintingAnalysisService {
     strategies: ResolutionStrategy[],
     options: LintingAnalysisOptions,
   ): AnalysisRecommendation[] {
-    const, recommendations: AnalysisRecommendation[] = [];
+    const recommendations: AnalysisRecommendation[] = [];
 
     // Immediate actions for critical issues
     const criticalIssues = classifications.filter(c => c.severity.level === 'critical');
@@ -490,21 +490,21 @@ export class LintingAnalysisService {
     ),
 
     // Calculate domain distribution
-    const, domainDistribution: Record<string, number> = {};
+    const domainDistribution: Record<string, number> = {};
     for (const analysis of fileAnalyses) {
       const domain = analysis.domainContext.type;
       domainDistribution[domain] = (domainDistribution[domain] || 0) + 1;
     }
 
     // Calculate severity distribution
-    const, severityDistribution: Record<string, number> = {};
+    const severityDistribution: Record<string, number> = {};
     for (const classification of classifications) {
       const severity = classification.severity.level;
       severityDistribution[severity] = (severityDistribution[severity] || 0) + 1;
     }
 
     // Calculate complexity distribution
-    const, complexityDistribution: Record<string, number> = {};
+    const complexityDistribution: Record<string, number> = {};
     for (const strategy of strategies) {
       const complexity = strategy.complexity;
       complexityDistribution[complexity] = (complexityDistribution[complexity] || 0) + 1;
@@ -517,7 +517,7 @@ export class LintingAnalysisService {
     const sorted = [...confidenceScores].sort((ab) => a - b);
     const median = sorted[Math.floor(sorted.length / 2)] || 0;
 
-    const, confidenceDistribution: Record<string, number> = {};
+    const confidenceDistribution: Record<string, number> = {};
     for (const score of confidenceScores) {
       const bucket = score < 0.3 ? 'low' : score < 0.7 ? 'medium' : 'high';
       confidenceDistribution[bucket] = (confidenceDistribution[bucket] || 0) + 1

@@ -31,7 +31,7 @@ type CelestialPosition = {
   timestamp: number
 };
 
-let, cachedPositions: CelestialPosition | null = null;
+let cachedPositions: CelestialPosition | null = null;
 const CACHE_DURATION = 3600000 // 1 hour in milliseconds
 
 export const _getCurrentCelestialPositions = async (): Promise<CelestialPosition> => {
@@ -51,7 +51,7 @@ export const _getCelestialPositionsForDate = async (date: Date): Promise<Celesti
     const sunSign = calculateSunSign(date);
     const lunarPhase = await calculateLunarPhase(date);
     // Map positions to planetary alignment structure
-    const, planetaryPositions: Record<string, unknown> = {};
+    const planetaryPositions: Record<string, unknown> = {};
     Object.entries(positions).forEach(([planet, position]) => {
       // Handle numeric positions
       const degreeValue =

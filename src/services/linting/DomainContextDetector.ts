@@ -115,7 +115,7 @@ export class DomainContextDetector {
    * Batch analyze multiple files
    */
   async analyzeFiles(filePaths: string[]): Promise<FileAnalysis[]> {
-    const, analyses: FileAnalysis[] = [];
+    const analyses: FileAnalysis[] = [];
 
     for (const filePath of filePaths) {
       try {
@@ -137,9 +137,9 @@ export class DomainContextDetector {
     rulesToModify: Array<{ rule: string, modification: string }>;
     additionalValidation: string[]
   } {
-    const, rulesToDisable: string[] = []
-    const, rulesToModify: Array<{ rule: string, modification: string }> = [];
-    const, additionalValidation: string[] = [];
+    const rulesToDisable: string[] = []
+    const rulesToModify: Array<{ rule: string, modification: string }> = [];
+    const additionalValidation: string[] = [];
 
     for (const specialRule of domainContext.specialRules) {
       switch (specialRule.action) {
@@ -171,10 +171,10 @@ export class DomainContextDetector {
     relativePath: string,
     absolutePath: string,
   ): Promise<DomainContext> {
-    const, indicators: ContextIndicator[] = [];
+    const indicators: ContextIndicator[] = [];
     let confidence = 0;
-    let, primaryType: DomainContext['type'] = 'utility'
-    let, subtype: string | undefined,
+    let primaryType: DomainContext['type'] = 'utility'
+    let subtype: string | undefined,
 
     // Analyze path patterns
     for (const [domain, patterns] of this.domainPatterns.entries()) {
@@ -247,10 +247,10 @@ export class DomainContextDetector {
     }
 
     const content = fs.readFileSync(absolutePath, 'utf8');
-    const, indicators: ContextIndicator[] = [];
+    const indicators: ContextIndicator[] = [];
     let confidenceBoost = 0;
-    let, detectedType: DomainContext['type'] | undefined;
-    let, subtype: string | undefined
+    let detectedType: DomainContext['type'] | undefined;
+    let subtype: string | undefined
 
     // Astrological content patterns
     const astrologicalPatterns = [
@@ -378,7 +378,7 @@ export class DomainContextDetector {
     subtype: string | undefined,
     filePath: string,
   ): SpecialRule[] {
-    const, rules: SpecialRule[] = []
+    const rules: SpecialRule[] = []
 
     switch (type) {
       case 'astrological':
@@ -517,7 +517,7 @@ export class DomainContextDetector {
     type: DomainContext['type'],
     confidence: number,
   ): HandlingRecommendation[] {
-    const, recommendations: HandlingRecommendation[] = []
+    const recommendations: HandlingRecommendation[] = []
 
     if (confidence > 0.8) {
       recommendations.push({
@@ -587,7 +587,7 @@ export class DomainContextDetector {
    * Analyze risk factors for domain context
    */
   private analyzeRiskFactors(domainContext: DomainContext, filePath: string): RiskFactor[] {
-    const, riskFactors: RiskFactor[] = []
+    const riskFactors: RiskFactor[] = []
 
     switch (domainContext.type) {
       case 'astrological':
@@ -645,7 +645,7 @@ export class DomainContextDetector {
     domainContext: DomainContext,
     absolutePath: string,
   ): Promise<PreservationRequirement[]> {
-    const, requirements: PreservationRequirement[] = []
+    const requirements: PreservationRequirement[] = []
 
     switch (domainContext.type) {
       case 'astrological':

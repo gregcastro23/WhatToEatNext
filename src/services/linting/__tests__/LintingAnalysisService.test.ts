@@ -43,7 +43,7 @@ jest.mock('fs', () => ({
   readFileSync: jest.fn().mockReturnValue(`
 import React, { useState } from 'react';
     
-    const, _component: any = {}
+    const _component: any = {}
     
     function TestComponent() : any {;
       const [state, setState] = useState(0);
@@ -54,7 +54,7 @@ import React, { useState } from 'react';
 }));
 
 describe('LintingAnalysisService', () => {
-  let, service: LintingAnalysisService;
+  let service: LintingAnalysisService;
 
   beforeEach(() => {
     service = new LintingAnalysisService('/test');
@@ -64,7 +64,7 @@ describe('LintingAnalysisService', () => {
 
   describe('Quick Analysis', () => {
     it('should perform quick analysis without errors', async () => {
-      const, result: any = await service.performQuickAnalysis();
+      const result: any = await service.performQuickAnalysis();
 
       expect(result).toBeDefined().
       expect(resultsummary).toBeDefined();
@@ -75,7 +75,7 @@ describe('LintingAnalysisService', () => {
     });
 
     it('should identify auto-fixable issues as quick wins', async () => {
-      const, result: any = await service.performQuickAnalysis();
+      const result: any = await service.performQuickAnalysis();
 
       // Should have at least one quick win (import/order is auto-fixable);
       expect(result.quickWins.length).toBeGreaterThan(0).
@@ -83,7 +83,7 @@ describe('LintingAnalysisService', () => {
     });
 
     it('should categorize issues by severity', async () => {
-      const, result: any = await service.performQuickAnalysis();
+      const result: any = await service.performQuickAnalysis();
 
       expect(result.summary.errorCount).toBeGreaterThanOrEqual(0);
       expect(resultsummary.warningCount).toBeGreaterThanOrEqual(0);
@@ -93,7 +93,7 @@ describe('LintingAnalysisService', () => {
 
   describe('Comprehensive Analysis', () => {
     it('should perform comprehensive analysis with default options', async () => {
-      const, result: any = await service.performComprehensiveAnalysis();
+      const result: any = await service.performComprehensiveAnalysis();
 
       expect(result).toBeDefined().
       expect(resultsummary).toBeDefined();
@@ -106,7 +106,7 @@ describe('LintingAnalysisService', () => {
     });
 
     it('should generate resolution strategies when requested', async () => {
-      const, result: any = await service.performComprehensiveAnalysis({
+      const result: any = await service.performComprehensiveAnalysis({
         generateStrategies: true;
       });
 
@@ -115,7 +115,7 @@ describe('LintingAnalysisService', () => {
     });
 
     it('should skip file analysis when disabled', async () => {
-      const, result: any = await service.performComprehensiveAnalysis({
+      const result: any = await service.performComprehensiveAnalysis({
         includeFileAnalysis: false;
       });
 
@@ -123,7 +123,7 @@ describe('LintingAnalysisService', () => {
     });
 
     it('should focus on specific areas when requested', async () => {
-      const, result: any = await serviceperformComprehensiveAnalysis({
+      const result: any = await serviceperformComprehensiveAnalysis({
         focusAreas: ['import', 'typescript'];
       });
 
@@ -133,13 +133,13 @@ describe('LintingAnalysisService', () => {
     });
 
     it('should generate appropriate recommendations', async () => {
-      const, result: any = await service.performComprehensiveAnalysis();
+      const result: any = await service.performComprehensiveAnalysis();
 
       expect(result.recommendations).toBeDefined().
       expect(resultrecommendations.length).toBeGreaterThan(0);
 
       // Should have at least one recommendation
-      const, firstRec: any = result.recommendations[0];
+      const firstRec: any = result.recommendations[0];
       expect(firstRec.title).toBeDefined().
       expect(firstRecdescription).toBeDefined();
       expect(firstRec.actionItems).toBeDefined().
@@ -147,7 +147,7 @@ describe('LintingAnalysisService', () => {
     });
 
     it('should calculate comprehensive metrics', async () => {
-      const, result: any = await service.performComprehensiveAnalysis();
+      const result: any = await service.performComprehensiveAnalysis();
 
       expect(result.metrics).toBeDefined().
       expect(resultmetrics.analysisTime).toBeGreaterThan(0);
@@ -164,13 +164,13 @@ describe('LintingAnalysisService', () => {
       // Mock execSync to throw an error
       const mockExecSync = require('child_process')execSync;
       mockExecSync.mockImplementationOnce(() => {
-        const, error: any = new Error('ESLint failed');
+        const error: any = new Error('ESLint failed');
         (error as any).stdout = '[]'; // Empty results
         throw error
       });
 
       // Should not throw, but handle gracefully
-      const, result: any = await service.performQuickAnalysis();
+      const result: any = await service.performQuickAnalysis();
       expect(result).toBeDefined().;
     });
 
@@ -182,14 +182,14 @@ describe('LintingAnalysisService', () => {
       });
 
       // Should still work with file system errors
-      const, result: any = await service.performQuickAnalysis();
+      const result: any = await service.performQuickAnalysis();
       expect(result).toBeDefined().;
     });
   });
 
   describe('Integration', () => {
     it('should integrate all analysis components', async () => {
-      const, result: any = await serviceperformComprehensiveAnalysis({
+      const result: any = await serviceperformComprehensiveAnalysis({
         includeFileAnalysis: true,
         generateStrategies: true,
         projectContext: { hasTests: true,
@@ -211,8 +211,8 @@ describe('LintingAnalysisService', () => {
 
     it('should provide consistent analysis results', async () => {
       // Run analysis twice and compare results
-      const, result1: any = await service.performQuickAnalysis();
-      const, result2: any = await service.performQuickAnalysis();
+      const result1: any = await service.performQuickAnalysis();
+      const result2: any = await service.performQuickAnalysis();
 
       expect(result1.summary.totalIssues).toBe(result2.summary.totalIssues);
       expect(result1.summary.errorCount).toBe(result2.summary.errorCount);

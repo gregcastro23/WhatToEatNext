@@ -33,7 +33,7 @@ interface AstrologyState {
   lastUpdated: number | null
 }
 
-const, initialAstrologyState: AstrologyState = {
+const initialAstrologyState: AstrologyState = {
   loading: false,
   error: null,
   data: {
@@ -129,7 +129,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {;
           // Call the API with exponential backoff retry
           const maxRetries = 2;
           let retryCount = 0;
-          let, response: Response | null = null
+          let response: Response | null = null
 
           while (retryCount <= maxRetries) {
             try {
@@ -358,7 +358,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {;
             }),
           );
 
-          const, profile: AstrologicalProfile = {
+          const profile: AstrologicalProfile = {
             zodiac: [data.data.currentSign],
             lunar: [data.data.lunarPhase],
             planetary: planetaryPositions
@@ -427,7 +427,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {;
 
     try {
       const positions = safeAstrology.getReliablePlanetaryPositions();
-      const elementalBalance = {;
+      const elementalBalance = {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
@@ -435,7 +435,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {;
       };
 
       // Simple calculation based on sign elements
-      const, signElements: Record<string, string> = {
+      const signElements: Record<string, string> = {
         aries: 'Fire',
         leo: 'Fire',
         sagittarius: 'Fire',
@@ -451,7 +451,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {;
       };
 
       // Planet weights
-      const, weights: Record<string, number> = {
+      const weights: Record<string, number> = {
         sun: 3,
         moon: 2,
         mercury: 1,

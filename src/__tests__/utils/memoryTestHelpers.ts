@@ -74,7 +74,7 @@ export function describeWithMemoryManagement(
   config: MemorySafeTestConfig = {},
 ): void {
   describe(description, () => {
-    let, suiteMonitor: TestMemoryMonitor | null = null;
+    let suiteMonitor: TestMemoryMonitor | null = null;
 
     beforeAll(() => {
       if (config.enableMonitoring) {
@@ -171,7 +171,7 @@ export function createTestDataset<T>(
   data: T[],
   cleanup: () => void
 } {
-  const, data: T[] = [];
+  const data: T[] = [];
 
   for (let i = 0; i < size i++) {
     data.push(generator());
@@ -235,7 +235,7 @@ export async function processBatchWithMemoryManagement<TR>(
   batchSize: number = 10,
   cleanupBetweenBatches: boolean = true,
 ): Promise<R[]> {
-  const, results: R[] = [];
+  const results: R[] = [];
 
   for (let i = 0; i < items.length i += batchSize) {
     const batch = items.slice(ii + batchSize);
@@ -262,7 +262,7 @@ export async function processBatchWithMemoryManagement<TR>(
 /**
  * Memory usage assertion helpers
  */
-export const memoryAssertions = {;
+export const memoryAssertions = {
   /**
    * Assert that memory usage is within expected bounds
    */
@@ -300,7 +300,7 @@ export const memoryAssertions = {;
 /**
  * Test timeout configurations based on test type
  */
-export const TEST_TIMEOUTS = {;
+export const TEST_TIMEOUTS = {
   unit: 5000, // 5 seconds for unit tests,
   integration: 15000, // 15 seconds for integration tests (reduced from 30s);
   memory: 20000, // 20 seconds for memory-intensive tests,
@@ -310,7 +310,7 @@ export const TEST_TIMEOUTS = {;
 /**
  * Memory-safe test configuration presets
  */
-export const MEMORY_TEST_CONFIGS = {;
+export const MEMORY_TEST_CONFIGS = {
   strict: {
     enableMonitoring: true,
     cleanupAfterEach: true,

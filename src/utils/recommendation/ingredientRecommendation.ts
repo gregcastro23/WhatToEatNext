@@ -359,7 +359,7 @@ export interface EnhancedIngredientRecommendation extends IngredientRecommendati
 export const loadIngredientCategories = async (
   categories: string[],
 ): Promise<Record<string, Ingredient>> => {
-  const, result: Record<string, Ingredient> = {};
+  const result: Record<string, Ingredient> = {};
   try {
     if (categories.includes('vegetables')) {
       result.vegetables = (await loadVegetables()) as unknown as Ingredient;
@@ -399,7 +399,7 @@ export const _getIngredientsFromCategories = async (
   limit?: number,
 ): Promise<EnhancedIngredient[]> => {
   const loadedData = await loadIngredientCategories(categories);
-  const, ingredients: EnhancedIngredient[] = []
+  const ingredients: EnhancedIngredient[] = []
 
   for (const [categoryName, categoryData] of Object.entries(loadedData)) {
     if (!categoryData) continue,
@@ -424,12 +424,12 @@ export const _getIngredientsFromCategories = async (
 };
 
 // Phase, 8: Cached ingredient data for performance
-const, _cachedAllIngredientsData: Ingredient[] | null = null;
-const, _cacheTimestamp: number = 0;
+const _cachedAllIngredientsData: Ingredient[] | null = null;
+const _cacheTimestamp: number = 0;
 const _CACHE_TTL = 300000; // 5 minutes
 
 export const _getAllIngredientsData = async (): Promise<unknown[]> => {
-  const, allData: Ingredient[] = [];
+  const allData: Ingredient[] = [];
   try {
     // Collect data from each category
     const vegData = await loadVegetables();
@@ -462,7 +462,7 @@ export const _getAllIngredientsData = async (): Promise<unknown[]> => {
 // ===== CORE INGREDIENT FUNCTIONS =====
 
 export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
-  const, allIngredients: EnhancedIngredient[] = []
+  const allIngredients: EnhancedIngredient[] = []
 
   // Load data on demand
   const [
@@ -572,7 +572,7 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
 };
 
 function standardizeIngredient(ingredient: EnhancedIngredient): EnhancedIngredient {
-  const, standardized: EnhancedIngredient = {
+  const standardized: EnhancedIngredient = {
     name: ingredient.name,
     amount: ingredient.amount || 0,
     unit: ingredient.unit || '',
@@ -667,7 +667,7 @@ export async function getIngredientRecommendations(
   _options: RecommendationOptions,
 ): Promise<GroupedIngredientRecommendations> {
   const allIngredients = await getAllIngredients();
-  const, recommendations: GroupedIngredientRecommendations = {};
+  const recommendations: GroupedIngredientRecommendations = {};
 
   // Filter by category if specified
   let filteredIngredients = allIngredients;
@@ -892,7 +892,7 @@ async function calculateModalityScore(
   const keywords = modalityKeywords[modalityPreference as 'cardinal' | 'fixed' | 'mutable'] || [];
 
   // Handle qualities properly as a string array
-  let, matches: string[] = []
+  let matches: string[] = []
   if (Array.isArray(qualities)) {
     matches = qualities.filter(quality =>
       keywords.some(keyword => quality.toLowerCase().includes(keyword)),,
@@ -1045,7 +1045,7 @@ export async function recommendIngredients(
   );
 
   // Flatten grouped recommendations into a single array
-  const, allRecommendations: IngredientRecommendation[] = [];
+  const allRecommendations: IngredientRecommendation[] = [];
   Object.values(grouped).forEach(categoryItems => {
     if (categoryItems) {
       allRecommendations.push(...categoryItems);
@@ -1083,7 +1083,7 @@ export function calculateElementalInfluences(
 }
 
 function getPlanetaryWeight(_planet: string): number {
-  const, weights: Record<string, number> = {
+  const weights: Record<string, number> = {
     Sun: 0.25,
     _moon: 0.2,
     Mercury: 0.15,

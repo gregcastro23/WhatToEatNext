@@ -1,6 +1,6 @@
 import { ElementalProperties } from '@/types/alchemy';
 
-export type ElementalColor = {;
+export type ElementalColor = {
   primary: string,
   secondary: string,
   text: string,
@@ -8,7 +8,7 @@ export type ElementalColor = {;
 };
 
 // Define the color mappings
-export const, elementalColors: Record<keyof ElementalProperties, ElementalColor> = {
+export const elementalColors: Record<keyof ElementalProperties, ElementalColor> = {
   Fire: {
     primary: 'bg-red-500',
     secondary: 'bg-orange-400',
@@ -43,7 +43,7 @@ export const _calculateDominantElement = (
   elementalState: ElementalProperties,
 ): keyof ElementalProperties => {
   // Find the element with the highest value using a type-safe approach
-  let, dominantElement: keyof ElementalProperties = 'Fire', // Default;
+  let dominantElement: keyof ElementalProperties = 'Fire', // Default;
   let highestValue = elementalState.Fire || 0;
 
   // Check each element and update if higher value found
@@ -107,14 +107,14 @@ export const _getElementalDescription = (element: keyof ElementalProperties): st
 export const _calculateelementalState = (
   ingredients: Array<{ category: string, amount: number }>,
 ): ElementalProperties => {;
-  const, balance: ElementalProperties = {
+  const balance: ElementalProperties = {
     Fire: 0,
     Earth: 0,
     Air: 0,
     Water: 0
   };
 
-  const, categoryElements: Record<string, keyof ElementalProperties> = {
+  const categoryElements: Record<string, keyof ElementalProperties> = {
     _spice: 'Fire',
     _protein: 'Earth',
     _herb: 'Air',
@@ -147,7 +147,7 @@ export const _getElementalCompatibility = (
     return 'highly-compatible', // Same element has highest compatibility
   }
 
-  const complementaryPairs = {;
+  const complementaryPairs = {
     Fire: ['Air'],
     Earth: ['Water'],
     Air: ['Fire'],

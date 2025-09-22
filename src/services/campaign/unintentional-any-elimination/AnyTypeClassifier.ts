@@ -129,7 +129,7 @@ export class AnyTypeClassifier {
       }
 
       // Find the highest scoring category
-      let, bestCategory: AnyTypeCategory | null = null;
+      let bestCategory: AnyTypeCategory | null = null;
       let bestScore = 0
 
       for (const [category, score] of categoryScores) {
@@ -214,7 +214,7 @@ export class AnyTypeClassifier {
    * Classify multiple any type usages in batch
    */
   async classifyBatch(contexts: ClassificationContext[]): Promise<AnyTypeClassification[]> {
-    const, results: AnyTypeClassification[] = [];
+    const results: AnyTypeClassification[] = [];
 
     for (const context of contexts) {
       try {
@@ -302,7 +302,7 @@ export class AnyTypeClassifier {
     const surroundingCode = this.getCombinedCode(context);
     const lowerCode = surroundingCode.toLowerCase();
 
-    const, contextualClues: string[] = []
+    const contextualClues: string[] = []
 
     // Error handling detection
     const hasErrorHandling = /try\s*\{|catch\s*\(|\.catch\s*\(|throw\s+|error|exception/i.test(
@@ -1368,7 +1368,7 @@ export class AnyTypeClassifier {
     fileTypeInfo: ReturnType<typeof this.analyzeFileType>
   ): string {
     const baseReasoning = this.getReasoningForCategory(category, {} as ClassificationContext);
-    const, contextualInfo: string[] = []
+    const contextualInfo: string[] = []
 
     // Add file type context
     if (fileTypeInfo.fileCategory !== 'unknown') {
@@ -1389,7 +1389,7 @@ export class AnyTypeClassifier {
     surroundingContext: ReturnType<typeof this.analyzeSurroundingCodeContext>,
     fileTypeInfo: ReturnType<typeof this.analyzeFileType>
   ): string {
-    const, enhancements: string[] = []
+    const enhancements: string[] = []
 
     if (fileTypeInfo.fileCategory !== 'unknown') {
       enhancements.push(`in ${fileTypeInfo.fileCategory} file`);
@@ -1471,7 +1471,7 @@ export class AnyTypeClassifier {
     surroundingContext: ReturnType<typeof this.analyzeSurroundingCodeContext>,
     fileTypeInfo: ReturnType<typeof this.analyzeFileType>
   ): string {
-    const, contextualInfo: string[] = []
+    const contextualInfo: string[] = []
 
     if (fileTypeInfo.fileCategory !== 'unknown') {
       contextualInfo.push(`in ${fileTypeInfo.fileCategory} file`);
@@ -1481,7 +1481,7 @@ export class AnyTypeClassifier {
       contextualInfo.push(surroundingContext.contextualClues.join(', '));
     }
 
-    let, baseReasoning: string;
+    let baseReasoning: string;
     if (confidence > 0.7) {
       baseReasoning = 'High contextual confidence - likely intentional but needs documentation'
     } else if (confidence > 0.6) {

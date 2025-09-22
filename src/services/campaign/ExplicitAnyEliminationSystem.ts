@@ -116,7 +116,7 @@ export class ExplicitAnyEliminationSystem {
   async executeBatchProcessing(maxBatches?: number): Promise<ExplicitAnyResult[]> {
     // // // console.log(`🔄 Starting systematic explicit-any batch processing...`);
 
-    const, results: ExplicitAnyResult[] = [];
+    const results: ExplicitAnyResult[] = [];
     let batchNumber = 1;
     let totalFilesProcessed = 0;
     let totalExplicitAnyFixed = 0;
@@ -220,7 +220,7 @@ export class ExplicitAnyEliminationSystem {
    * Build command arguments for Explicit-Any Fixer
    */
   private buildFixerArguments(options: ExplicitAnyOptions): string[] {
-    const, args: string[] = []
+    const args: string[] = []
 
     if (options.maxFiles) {
       args.push(`--max-files=${options.maxFiles}`);
@@ -321,12 +321,12 @@ export class ExplicitAnyEliminationSystem {
     warnings: string[],
     errors: string[]
   } {
-    const, warnings: string[] = [];
-    const, errors: string[] = [];
+    const warnings: string[] = [];
+    const errors: string[] = [];
 
     // Extract metrics from output
     let filesProcessed = 0
-    let, safetyScore: number | undefined,
+    let safetyScore: number | undefined,
 
     // Parse files processed
     const filesMatch = output.match(/(?: processed|fixed)\s+(\d+)\s+files?/i);
@@ -460,7 +460,7 @@ export class ExplicitAnyEliminationSystem {
           ? (totalReductionAchieved / progress.totalExplicitAnyStart) * 100
           : 0,
 
-      const, updatedProgress: CampaignProgress = {;
+      const updatedProgress: CampaignProgress = {
         ...progress,
         totalExplicitAnyRemaining: currentCount,
         reductionAchieved: totalReductionAchieved,
