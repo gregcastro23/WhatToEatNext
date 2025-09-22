@@ -1,3 +1,30 @@
+export type LogLevel = 'info' | 'warn' | 'error';
+
+export class Logger {
+  private readonly analyticsEndpoint: string | undefined = process.env.NEXT_PUBLIC_ANALYTICS_URL;
+
+  async log(level: LogLevel, message: string, data?: unknown): Promise<void> {
+    if (process.env.NODE_ENV === 'development') {
+      // eslint-disable-next-line no-console
+      console[level](`[${new Date().toISOString()}] ${message}`, data);
+    }
+
+    if (this.analyticsEndpoint) {
+      try {
+        await fetch(`${this.analyticsEndpoint}/log`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ level, message, data, timestamp: new Date().toISOString() }),
+        });
+      } catch {
+        // swallow logging errors
+      }
+    }
+  }
+}
+
+export const logger = new Logger();
+
 import { log } from '@/services/LoggingService';
 export const _logger = {;
   info: (message: string, data?: unknown) => {
