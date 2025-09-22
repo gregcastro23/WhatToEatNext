@@ -1,3 +1,5 @@
+import { alchmAPI, type Recipe as APIRecipe, type RecommendationRequest } from '@/lib/api/alchm-client';
+import { logger } from '@/lib/logger';
 import type { EnhancedRecommendationResult } from '@/services/EnhancedRecommendationService';
 import type { CuisineType } from '@/types/constants';
 import type { Ingredient } from '@/types/ingredient';
@@ -71,12 +73,44 @@ export class KitchenBackendClient {
     ctx: KitchenBackendContext,
   ): Promise<EnhancedRecommendationResult<Recipe> | null> {
     try {
+      // Try using centralized API client for recipe recommendations
+      if (this.useBackend && ctx.preferences) {
+        const request: RecommendationRequest = {
+          ingredients: [], // Could be populated from context
+          dietaryRestrictions: ctx.preferences.dietaryRestrictions,
+          cuisinePreferences: ctx.preferences.cuisineTypes
+        };
+
+        const apiRecipes = await alchmAPI.getRecommendations(request);
+        logger.debug('KitchenBackendClient', 'Got recipes from API', { count: apiRecipes.length });
+
+        // Transform API recipes to match our Recipe type
+        const recipes: Recipe[] = apiRecipes.map((r: APIRecipe) => ({
+          id: r.id,
+          name: r.name,
+          url: r.url || undefined,
+          // Add any other required Recipe fields with defaults
+        } as Recipe));
+
+        // Wrap in EnhancedRecommendationResult format
+        return {
+          recommendations: recipes,
+          context: {
+            datetime: ctx.datetime || new Date(),
+            location: ctx.location
+          },
+          score: 1.0
+        } as EnhancedRecommendationResult<Recipe>;
+      }
+
+      // Fallback to original implementation
       return await this.post('/api/kitchen/recommendations/recipes', {
         datetime: ctx.datetime?.toISOString() || new Date().toISOString(),
         location: ctx.location,
         preferences: ctx.preferences
       });
-    } catch (_err) {
+    } catch (err) {
+      logger.warn('KitchenBackendClient', 'Failed to get recipe recommendations', err);
       return null;
     }
   }

@@ -1,4 +1,6 @@
+import { alchmAPI } from '@/lib/api/alchm-client';
 import { ThermodynamicCalculator } from '@/lib/ThermodynamicCalculator';
+import { logger } from '@/lib/logger';
 import { calculateAlchemicalProperties, getCurrentAlchemicalState } from '@/services/RealAlchemizeService';
 import type { ElementalProperties } from '@/types/celestial';
 
@@ -70,31 +72,18 @@ export class ThermodynamicsClient {
   }
 
   async calculate(input: ThermodynamicsInput): Promise<ThermodynamicsResult> {
-    // 1) Backend-first
+    // 1) Backend-first using centralized API client
     if (this.useBackend && this.backendUrl) {
       try {
-        const url = new URL('/api/thermodynamics/calculate', this.backendUrl);
-        const res = await fetch(url.toString(), {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(input)
-        });
-        if (!res.ok) throw new Error(`Backend error ${res.status}`);
-        const data = (await res.json()) as Partial<ThermodynamicsResult>;
-        if (
-          typeof data.heat === 'number' &&
-          typeof data.entropy === 'number' &&
-          typeof data.reactivity === 'number' &&
-          typeof data.gregsEnergy === 'number'
-        ) {
-          return {
-            heat: data.heat,
-            entropy: data.entropy,
-            reactivity: data.reactivity,
-            gregsEnergy: data.gregsEnergy
-          };
+        // If ingredients are provided, use the API client
+        if (input.ingredients && input.ingredients.length > 0) {
+          const ingredients = input.ingredients.map(i => String(i));
+          const result = await alchmAPI.calculateThermodynamics(ingredients);
+          logger.debug('ThermodynamicsClient', 'Backend calculation successful', result);
+          return result;
         }
-      } catch (_error) {
+      } catch (error) {
+        logger.warn('ThermodynamicsClient', 'Backend calculation failed, falling back to local', error);
         // Fall through to local
       }
     }
