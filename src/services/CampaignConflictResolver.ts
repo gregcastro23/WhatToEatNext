@@ -448,7 +448,7 @@ export class CampaignConflictResolver {
       conflict.resolutionStrategy = strategy;
 
       // Execute resolution steps
-      const startTime = Date.now();
+      const startTime = Date.now()
       const affectedCampaigns: string[] = [];
       const sideEffects: string[] = []
 
@@ -509,7 +509,7 @@ export class CampaignConflictResolver {
     for (const conflict of unresolvedConflicts) {
       // Only auto-resolve low and medium severity conflicts
       if (
-        conflict.severity === ConflictSeverity.LOW ||;
+        conflict.severity === ConflictSeverity.LOW ||
         conflict.severity === ConflictSeverity.MEDIUM
       ) {
         try {

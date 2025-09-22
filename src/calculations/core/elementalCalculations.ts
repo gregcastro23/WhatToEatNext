@@ -491,19 +491,19 @@ export const SEASONAL_ELEMENTAL_INTELLIGENCE = {
     // User preference adjustments
     const preferenceAdjustments = {
       intensity:
-        hasProperty(preferences, 'intensity') && typeof preferences.intensity === 'number';
+        hasProperty(preferences, 'intensity') && typeof preferences.intensity === 'number'
           ? preferences.intensity
           : 1.0,
       flexibility:
-        hasProperty(preferences, 'flexibility') && typeof preferences.flexibility === 'number';
+        hasProperty(preferences, 'flexibility') && typeof preferences.flexibility === 'number'
           ? preferences.flexibility
           : 0.1,
       traditionalism:
-        hasProperty(preferences, 'traditionalism') && typeof preferences.traditionalism === 'number';
+        hasProperty(preferences, 'traditionalism') && typeof preferences.traditionalism === 'number'
           ? preferences.traditionalism
           : 0.8,
       innovation:
-        hasProperty(preferences, 'innovation') && typeof preferences.innovation === 'number';
+        hasProperty(preferences, 'innovation') && typeof preferences.innovation === 'number'
           ? preferences.innovation
           : 0.2
     };
@@ -700,7 +700,7 @@ export function applySeasonalAdjustments(
     Fire: baseProperties.Fire * (1 + ((seasonalMod as any)?.Fire || 0) * 0.2),
     Water: baseProperties.Water * (1 + ((seasonalMod as any)?.Water || 0) * 0.2),
     Air: baseProperties.Air * (1 + ((seasonalMod as any)?.Air || 0) * 0.2),
-    Earth: baseProperties.Earth * (1 + ((seasonalMod as any)?.Earth || 0) * 0.2);
+    Earth: baseProperties.Earth * (1 + ((seasonalMod as any)?.Earth || 0) * 0.2)
   };
 }
 
@@ -718,7 +718,7 @@ export function applyLunarPhaseAdjustments(
     Fire: baseProperties.Fire * (1 + ((lunarMod as any)?.Fire || 0) * 0.2),
     Water: baseProperties.Water * (1 + ((lunarMod as any)?.Water || 0) * 0.2),
     Air: baseProperties.Air * (1 + ((lunarMod as any)?.Air || 0) * 0.2),
-    Earth: baseProperties.Earth * (1 + ((lunarMod as any)?.Earth || 0) * 0.2);
+    Earth: baseProperties.Earth * (1 + ((lunarMod as any)?.Earth || 0) * 0.2)
   };
 }
 

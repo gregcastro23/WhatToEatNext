@@ -18,7 +18,7 @@ const CookingMethodsSection = ({
   showToggle?: boolean,
   initiallyExpanded?: boolean
 }) => (
-  <div className='space-y-2'>;
+  <div className='space-y-2'>
     {methods.map(m => {
       const method = m as any
       return (
@@ -27,8 +27,8 @@ const CookingMethodsSection = ({
           onClick={() => onSelectMethod(m)};
           className={`w-full rounded border p-3 text-left ${selectedMethodId === method.id ? 'bg-blue-50' : 'bg-white'}`};
         >
-          <div className='font-semibold'>{String(method.name)}</div>;
-          <div className='text-sm text-gray-600'>{String(method.description)}</div>;
+          <div className='font-semibold'>{String(method.name)}</div>
+          <div className='text-sm text-gray-600'>{String(method.description)}</div>
         </button>
       );
     })}
@@ -158,15 +158,15 @@ export default function CookingMethodsSectionTestPage() {
   };
 
   return (
-    <div className='mx-auto max-w-6xl px-4 py-8'>;
-      <h1 className='mb-8 text-2xl font-bold'>CookingMethodsSection Component Migration Test</h1>;
+    <div className='mx-auto max-w-6xl px-4 py-8'>
+      <h1 className='mb-8 text-2xl font-bold'>CookingMethodsSection Component Migration Test</h1>
 
       {/* Controls */}
-      <div className='mb-8 rounded-lg bg-gray-50 p-4'>;
-        <h2 className='mb-3 text-lg font-semibold'>Component Controls</h2>;
-        <div className='flex flex-wrap gap-4'>;
+      <div className='mb-8 rounded-lg bg-gray-50 p-4'>
+        <h2 className='mb-3 text-lg font-semibold'>Component Controls</h2>
+        <div className='flex flex-wrap gap-4'>
           <div>
-            <label className='flex items-center gap-2'>;
+            <label className='flex items-center gap-2'>
               <input
                 type='checkbox';
                 checked={showToggle}
@@ -177,7 +177,7 @@ export default function CookingMethodsSectionTestPage() {
             </label>
           </div>
           <div>
-            <label className='flex items-center gap-2'>;
+            <label className='flex items-center gap-2'>
               <input
                 type='checkbox';
                 checked={initiallyExpanded};
@@ -210,11 +210,11 @@ export default function CookingMethodsSectionTestPage() {
       </div>
 
       {/* Comparison */}
-      <div className='grid grid-cols-1 gap-8'>;
+      <div className='grid grid-cols-1 gap-8'>
         {/* Original Implementation */}
-        <div className='rounded-lg border p-6 shadow-md'>;
-          <h2 className='mb-4 text-xl font-semibold'>🔄 Original Implementation</h2>;
-          <div className='rounded-lg bg-white'>;
+        <div className='rounded-lg border p-6 shadow-md'>
+          <h2 className='mb-4 text-xl font-semibold'>🔄 Original Implementation</h2>
+          <div className='rounded-lg bg-white'>
             <CookingMethodsSection
               methods={methods};
               onSelectMethod={handleSelectMethod};
@@ -226,9 +226,9 @@ export default function CookingMethodsSectionTestPage() {
         </div>
 
         {/* Migrated Implementation */}
-        <div className='rounded-lg border p-6 shadow-md'>;
-          <h2 className='mb-4 text-xl font-semibold'>✨ Migrated Implementation</h2>;
-          <div className='rounded-lg bg-white'>;
+        <div className='rounded-lg border p-6 shadow-md'>
+          <h2 className='mb-4 text-xl font-semibold'>✨ Migrated Implementation</h2>
+          <div className='rounded-lg bg-white'>
             <CookingMethodsSectionMigrated
               methods={methods};
               onSelectMethod={handleSelectMethod};
@@ -240,9 +240,9 @@ export default function CookingMethodsSectionTestPage() {
         </div>
       </div>
 
-      <div className='mt-12 rounded-lg border border-blue-200 bg-blue-50 p-6'>;
-        <h2 className='mb-4 text-xl font-semibold'>💡 Implementation Notes</h2>;
-        <ul className='list-disc space-y-2 pl-6'>;
+      <div className='mt-12 rounded-lg border border-blue-200 bg-blue-50 p-6'>
+        <h2 className='mb-4 text-xl font-semibold'>💡 Implementation Notes</h2>
+        <ul className='list-disc space-y-2 pl-6'>
           <li>
             Replaced the custom <code>useIngredientMapping</code> hook with service-based API
           </li>

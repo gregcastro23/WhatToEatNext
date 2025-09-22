@@ -104,9 +104,9 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
 
       // Fallback to simple timing if time command fails
       try {
-        const startTime = Date.now();
+        const startTime = Date.now()
         execSync('yarn build', { encoding: 'utf8', stdio: 'pipe' });
-        const endTime = Date.now();
+        const endTime = Date.now()
         const fallbackTime = (endTime - startTime) / 1000;
 
         // // // console.log(`⏱️  Build completed in ${fallbackTime.toFixed(2)}s (fallback timing)`);

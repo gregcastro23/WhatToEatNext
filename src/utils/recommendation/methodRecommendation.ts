@@ -58,9 +58,9 @@ function _hasFlavorProperties(obj: unknown): obj is FlavorProperties {
 
   const objRecord = obj as any;
   return (
-    typeof objRecord.bitter === 'number' ||;
-    typeof objRecord.sweet === 'number' ||;
-    typeof objRecord.sour === 'number' ||;
+    typeof objRecord.bitter === 'number' ||
+    typeof objRecord.sweet === 'number' ||
+    typeof objRecord.sour === 'number' ||
     typeof objRecord.salty === 'number' ||
     typeof objRecord.umami === 'number'
   )
@@ -713,7 +713,7 @@ export function getCookingMethodRecommendations(
     const methodId = String(methodData.id || methodData.name || 'unknown');
     const methodName = String(methodData.name || 'Unknown Method');
     const elementalEffect =
-      (methodData.elementalEffect as ElementalProperties) ||;
+      (methodData.elementalEffect as ElementalProperties) ||
       createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
     const astrologicalInfluences = (methodData.astrologicalInfluences as unknown) || {};
     const description = String(methodData.description || 'Recommended cooking method');

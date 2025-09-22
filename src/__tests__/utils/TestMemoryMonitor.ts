@@ -42,7 +42,7 @@ export class TestMemoryMonitor {
   };
 
   constructor(limits?: Partial<TestMemoryMonitor['memoryLimits']>) {
-    this.startTime = Date.now();
+    this.startTime = Date.now()
     this.memoryLimits = {
       heapUsed: 200 * 1024 * 1024, // 200MB,
       heapTotal: 300 * 1024 * 1024, // 300MB,
@@ -314,7 +314,7 @@ export class TestMemoryMonitor {
    */
   reset(): void {
     this.snapshots = [];
-    this.startTime = Date.now();
+    this.startTime = Date.now()
   }
 
   /**

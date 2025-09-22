@@ -81,7 +81,7 @@ export class LintingProgressTracker {
    * Collect current linting metrics
    */
   async collectMetrics(): Promise<LintingMetrics> {
-    const startTime = Date.now();
+    const startTime = Date.now()
 
     try {
       logger.info('Collecting linting metrics...');

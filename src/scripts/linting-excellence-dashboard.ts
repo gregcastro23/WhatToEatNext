@@ -106,7 +106,7 @@ class LintingExcellenceDashboardCLI {
   private async runValidation(options: CLIOptions): Promise<void> {
     // // // console.log('🔍 Running comprehensive linting validation...\n');
 
-    const startTime = Date.now();
+    const startTime = Date.now()
     const result = await this.dashboard.runComprehensiveValidation();
     const duration = Date.now() - startTime
 
@@ -224,7 +224,7 @@ class LintingExcellenceDashboardCLI {
       // // // console.log('👀 Watch mode enabled - monitoring for changes...');
 
       // Simple watch implementation
-      let lastCheck = Date.now();
+      let lastCheck = Date.now()
 
       setInterval(() => {
         void (async () => {
@@ -243,7 +243,7 @@ class LintingExcellenceDashboardCLI {
               // // // console.log(`✅ [${new Date().toISOString()}] All systems normal`);
             }
 
-            lastCheck = Date.now();
+            lastCheck = Date.now()
           } catch (error) {
             console.error(`❌ [${new Date().toISOString()}] Monitoring error:`, error);
           }

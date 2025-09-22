@@ -275,13 +275,13 @@ export class AnyTypeClassifier {
 
     // Check for ESLint disable comments with explanations
     const hasEslintDisable =
-      lowerComment.includes('eslint-disable') &&;
+      lowerComment.includes('eslint-disable') &&
       (lowerComment.includes('no-explicit-any') ||
         lowerComment.includes('@typescript-eslint/no-explicit-any'));
 
     // Check for TODO/FIXME comments that indicate temporary usage
     const hasTodoFixme =
-      lowerComment.includes('todo') ||;
+      lowerComment.includes('todo') ||
       lowerComment.includes('fixme') ||
       lowerComment.includes('hack');
 
@@ -330,7 +330,7 @@ export class AnyTypeClassifier {
 
     // Complex logic detection (loops, conditions, multiple function calls);
     const hasComplexLogic =
-      (surroundingCode.match(/if\s*\(|for\s*\(|while\s*\(|switch\s*\(/g) || []).length > 2 ||;
+      (surroundingCode.match(/if\s*\(|for\s*\(|while\s*\(|switch\s*\(/g) || []).length > 2 ||
       (surroundingCode.match(/\.\w+\s*\(/g) || []).length > 3;
     if (hasComplexLogic) contextualClues.push('complex logic context');
 
@@ -361,7 +361,7 @@ export class AnyTypeClassifier {
 
     // Test file detection
     const isTestFile =
-      fileName.includes('.test.') ||;
+      fileName.includes('.test.') ||
       fileName.includes('.spec.') ||
       fileName.includes('__tests__') ||
       pathSegments.some(
@@ -370,33 +370,33 @@ export class AnyTypeClassifier {
 
     // Config file detection
     const isConfigFile =
-      fileName.includes('config') ||;
+      fileName.includes('config') ||
       fileName.includes('.config.') ||
       fileName.includes('settings') ||
       pathSegments.some(segment => segment === 'config' || segment === 'configs');
 
     // Type definition file detection
     const isTypeDefinitionFile =
-      fileName.endsWith('.d.ts') ||;
+      fileName.endsWith('.d.ts') ||
       fileName.includes('types.ts') ||
       fileName.includes('interfaces.ts') ||
       pathSegments.some(segment => segment === 'types' || segment === '@types');
 
     // Service file detection
     const isServiceFile =
-      fileName.includes('service') ||;
+      fileName.includes('service') ||
       fileName.includes('.service.') ||
       pathSegments.some(segment => segment === 'services' || segment === 'api');
 
     // Component file detection
     const isComponentFile =
-      fileName.includes('component') ||;
+      fileName.includes('component') ||
       fileName.endsWith('.tsx') ||
       pathSegments.some(segment => segment === 'components' || segment === 'ui');
 
     // Utility file detection
     const isUtilityFile =
-      fileName.includes('util') ||;
+      fileName.includes('util') ||
       fileName.includes('helper') ||
       pathSegments.some(
         segment => segment === 'utils' || segment === 'helpers' || segment === 'lib'

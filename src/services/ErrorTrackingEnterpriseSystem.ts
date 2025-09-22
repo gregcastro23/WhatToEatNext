@@ -148,7 +148,7 @@ export class ErrorTrackingEnterpriseSystem {
    * Perform comprehensive automated error analysis
    */
   async performAutomatedAnalysis(): Promise<ErrorTrackingSnapshot> {
-    const startTime = Date.now();
+    const startTime = Date.now()
     log.info('🔍 Performing automated error analysis...');
 
     // Get current error state

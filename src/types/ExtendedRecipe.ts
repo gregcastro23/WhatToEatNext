@@ -141,7 +141,7 @@ export function isExtendedRecipe(recipe: unknown): recipe is ExtendedRecipe {
   return (
     typeof recipe === 'object' &&
     recipe !== null &&
-    typeof (recipe as ExtendedRecipe).id === 'string' &&;
+    typeof (recipe as ExtendedRecipe).id === 'string' &&
     typeof (recipe as ExtendedRecipe).name === 'string'
   )
 }
@@ -164,7 +164,7 @@ export function toExtendedRecipe(recipe: Recipe): ExtendedRecipe {
         id:
           typeof extendedIngredient.id === 'string'
             ? extendedIngredient.id
-            : 'ingredient-' + Date.now();
+            : 'ingredient-' + Date.now()
         preparation:
           typeof extendedIngredient.preparation === 'string' ? extendedIngredient.preparation : '',
         optional:

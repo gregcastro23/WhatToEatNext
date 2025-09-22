@@ -152,7 +152,7 @@ class BuildPerformanceMonitor {
 
       // Handle compilation errors
       const errorOutput =
-        (error as { stdout?: string, stderr?: string }).stdout ||;
+        (error as { stdout?: string, stderr?: string }).stdout ||
         (error as { stderr?: string }).stderr ||
         '';
       const errorCount = (errorOutput.match(/error TS/g) || []).length;
@@ -223,7 +223,7 @@ class BuildPerformanceMonitor {
       const finalMemory = process.memoryUsage().heapUsed;
 
       const errorOutput =
-        (error as { stdout?: string, stderr?: string }).stdout ||;
+        (error as { stdout?: string, stderr?: string }).stdout ||
         (error as { stderr?: string }).stderr ||
         '';
       const errorCount = (errorOutput.match(/error/gi) || []).length;

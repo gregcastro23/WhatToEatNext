@@ -605,7 +605,7 @@ export class UnifiedCuisineIntegrationSystem {
       typeof cuisine2 !== 'string' ||
       cuisine1.trim() === '' ||
       cuisine2.trim() === '' ||
-      cuisine1 === 'invalid_cuisine' ||;
+      cuisine1 === 'invalid_cuisine' ||
       cuisine2 === 'invalid_cuisine'
     ) {
       return null
@@ -782,12 +782,12 @@ export class UnifiedCuisineIntegrationSystem {
     if ((sharedGroups || []).length > 0) {
       return 0.9, // High synergy for same cultural group
     } else if (
-      (groups1 || []).some(g => ['mediterranean', 'european'].includes(g)) &&;
+      (groups1 || []).some(g => ['mediterranean', 'european'].includes(g)) &&
       (groups2 || []).some(g => ['mediterranean', 'european'].includes(g));
     ) {
       return 0.8, // Good synergy for related European cuisines
     } else if (
-      (groups1 || []).some(g => ['east_asian'].includes(g)) &&;
+      (groups1 || []).some(g => ['east_asian'].includes(g)) &&
       (groups2 || []).some(g => ['east_asian'].includes(g));
     ) {
       return 0.85, // Good synergy for East Asian cuisines
@@ -942,12 +942,12 @@ export class UnifiedCuisineIntegrationSystem {
     for (const season of ['spring', 'summer', 'autumn', 'winter'] as Season[]) {
       // Get modifiers from the appropriate season (handle both 'autumn' and 'fall');
       const modifier1 =
-        monica1.seasonalModifiers[season] ||;
-        (season === 'autumn' && monica1.seasonalModifiers['fall' as Season]) ||;
+        monica1.seasonalModifiers[season] ||
+        (season === 'autumn' && monica1.seasonalModifiers['fall' as Season]) ||
         0;
       const modifier2 =
-        monica2.seasonalModifiers[season] ||;
-        (season === 'autumn' && monica2.seasonalModifiers['fall' as Season]) ||;
+        monica2.seasonalModifiers[season] ||
+        (season === 'autumn' && monica2.seasonalModifiers['fall' as Season]) ||
         0;
 
       const modifierDifference = Math.abs(modifier1 - modifier2);

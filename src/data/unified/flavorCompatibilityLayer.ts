@@ -269,7 +269,7 @@ function convertLegacyToUnified(legacyProfile, _id: string): UnifiedFlavorProfil
 
   // Extract or estimate elemental properties
   const elementalFlavors: ElementalProperties =
-    legacyProfile.elementalState ||;
+    legacyProfile.elementalState ||
     legacyProfile.elementalFlavors ||
     estimateElementalFromFlavors(baseNotes)
 

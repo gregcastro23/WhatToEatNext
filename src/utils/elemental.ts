@@ -65,7 +65,7 @@ export const _calculateDominantElement = (
   return dominantElement;
 };
 
-export const _getElementalColor = (;
+export const _getElementalColor = (
   element: keyof ElementalProperties | undefined,
   type: keyof ElementalColor = 'text'
 ): string => {;

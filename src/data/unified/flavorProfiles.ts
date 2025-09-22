@@ -176,8 +176,8 @@ export function isUnifiedFlavorProfile(obj: unknown): obj is UnifiedFlavorProfil
 
   const profile = obj as Partial<UnifiedFlavorProfile>;
   return (
-    typeof profile.id === 'string' &&;
-    typeof profile.name === 'string' &&;
+    typeof profile.id === 'string' &&
+    typeof profile.name === 'string' &&
     typeof profile.description === 'string' &&
     profile.baseNotes !== undefined &&
     profile.elementalFlavors !== undefined &&

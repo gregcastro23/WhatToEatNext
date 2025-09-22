@@ -170,7 +170,7 @@ class ErrorTrackingSystem {
       return [];
     } catch (error) {
       const output =
-        (error as { stdout?: string, stderr?: string }).stdout ||;
+        (error as { stdout?: string, stderr?: string }).stdout ||
         (error as { stderr?: string }).stderr ||
         '';
       const errors = this.parseTypeScriptErrors(output);

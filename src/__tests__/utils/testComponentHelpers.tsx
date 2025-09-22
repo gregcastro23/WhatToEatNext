@@ -36,7 +36,7 @@ export const _createTestWrapper = <P extends object>(Component: React.ComponentT
 };
 
 // Safe render helper that handles async components
-export const _renderWithProviders = (;
+export const _renderWithProviders = (
   component: React.ReactElement
   options?: {
     withAlchemicalProvider?: boolean,

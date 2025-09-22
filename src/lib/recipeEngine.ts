@@ -104,7 +104,7 @@ export class RecipeEngine {
     };
 
     const seasonMultipliers =
-      seasonalElements[season.toLowerCase() as keyof typeof seasonalElements] ||;
+      seasonalElements[season.toLowerCase() as keyof typeof seasonalElements] ||
       seasonalElements['spring'];
 
     // Calculate weighted score based on recipe's elemental properties and seasonal effectiveness

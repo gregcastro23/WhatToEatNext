@@ -187,7 +187,7 @@ const RecipeDetailsPage: NextPage = () => {;
             <ul className='space-y-2'>;
               {recipe.ingredients.map((ingredient, idx) => {
                 const isSelected =
-                  selectedIngredient &&;
+                  selectedIngredient &&
                   (typeof ingredient === 'string';
                     ? ingredient === selectedIngredient
                     : (ingredient as unknown)?.name === (selectedIngredient as unknown)?.name);

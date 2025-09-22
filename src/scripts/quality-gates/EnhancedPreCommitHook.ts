@@ -476,7 +476,7 @@ class EnhancedPreCommitHook {
     try {
       // This is a simplified performance check
       // In practice, you might want to run a subset of tests or check bundle size
-      const startTime = Date.now();
+      const startTime = Date.now()
 
       // Quick build check (if enabled);
       execSync('yarn build --dry-run || echo 'Build check skipped'', { stdio: 'pipe' });

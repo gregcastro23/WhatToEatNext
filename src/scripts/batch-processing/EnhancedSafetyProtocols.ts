@@ -396,8 +396,8 @@ export class EnhancedSafetyProtocols {
   ): boolean {
     if (!this.config.enhancedValidation) return false;
     return (
-      riskLevel === 'critical' ||;
-      riskLevel === 'high' ||;
+      riskLevel === 'critical' ||
+      riskLevel === 'high' ||
       fileType === 'service' ||
       fileType === 'calculation'
     )

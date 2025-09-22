@@ -57,7 +57,7 @@ export class ImportCleanupSystem {
    * Execute comprehensive import cleanup
    */
   async executeCleanup(targetFiles?: string[]): Promise<ImportCleanupResult> {
-    const startTime = Date.now();
+    const startTime = Date.now()
     logger.info('Starting import cleanup system execution');
 
     try {

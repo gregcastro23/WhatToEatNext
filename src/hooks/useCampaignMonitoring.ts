@@ -53,7 +53,7 @@ export interface UseCampaignMonitoringReturn {
 /**
  * Custom hook for campaign monitoring and control
  */
-export const useCampaignMonitoring = (;
+export const useCampaignMonitoring = (
   options: UseCampaignMonitoringOptions = {}
 ): UseCampaignMonitoringReturn => {
   const {

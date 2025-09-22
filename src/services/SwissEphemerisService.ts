@@ -691,7 +691,7 @@ export class SwissEphemerisService {
    * Clean expired cache entries
    */
   private cleanCache(): void {
-    const now = Date.now();
+    const now = Date.now()
     const keysToDelete: string[] = []
 
     this.cache.forEach((value, key) => {

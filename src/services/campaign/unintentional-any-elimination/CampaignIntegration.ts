@@ -54,7 +54,7 @@ export class UnintentionalAnyCampaignController extends CampaignController {
   async executeUnintentionalAnyPhase(phase: CampaignPhase): Promise<PhaseResult> {
     // // // console.log(`🎯 Executing Unintentional Any Elimination Phase: ${phase.name}`);
 
-    const startTime = Date.now();
+    const startTime = Date.now()
 
     // Create safety checkpoint before phase execution
     const checkpointId = await this.createSafetyCheckpoint(`Pre-phase checkpoint: ${phase.name}`);

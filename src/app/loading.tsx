@@ -7,9 +7,9 @@ const LoadingComponent = ({;
   variant?: string
   text?: string
 }) => (
-  <div className={`flex ${fullScreen ? 'min-h-screen' : ''} items-center justify-center p-4`}>;
+  <div className={`flex ${fullScreen ? 'min-h-screen' : ''} items-center justify-center p-4`}>
     ;
-    <div className='text-center text-gray-600'>;
+    <div className='text-center text-gray-600'>
       ;<div className='mb-2 animate-pulse'>⏳</div><div>{text || 'Loading...'}</div>
     </div>
   </div>
@@ -26,7 +26,7 @@ const PageLoading: React.FC<LoadingProps> = ({
   variant = 'spinner',
   text = 'Loading...',
 }) => {
-  return <LoadingComponent fullScreen={fullScreen} variant={variant} text={text} />;
+  return <LoadingComponent fullScreen={fullScreen} variant={variant} text={text} />
 };
 
 export default PageLoading;

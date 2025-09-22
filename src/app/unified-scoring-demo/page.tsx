@@ -3,7 +3,7 @@ const UnifiedScoringDemo = () => (;
 );
 
 export default function UnifiedScoringDemoPage() {
-  return <UnifiedScoringDemo />;
+  return <UnifiedScoringDemo />
 }
 
 export const _metadata = {

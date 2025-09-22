@@ -1,0 +1,321 @@
+# Artillery.js Stress Testing Configuration for alchm.kitchen
+# Comprehensive stress testing for backend services resilience
+
+config:
+  target: 'http://localhost:8000'
+  phases:
+    # Warm-up phase
+    - duration: 60
+      arrivalRate: 5
+      name: "Warm-up"
+
+    # Normal load baseline
+    - duration: 120
+      arrivalRate: 10
+      name: "Baseline load"
+
+    # Gradual load increase
+    - duration: 180
+      arrivalRate: 25
+      name: "Increased load"
+
+    # Stress testing - high load
+    - duration: 300
+      arrivalRate: 50
+      name: "High load stress test"
+
+    # Spike testing - sudden load
+    - duration: 60
+      arrivalRate: 100
+      name: "Spike test"
+
+    # Recovery testing
+    - duration: 120
+      arrivalRate: 10
+      name: "Recovery validation"
+
+  defaults:
+    headers:
+      Content-Type: 'application/json'
+      User-Agent: 'Artillery-Stress-Test/1.0'
+
+  # Performance thresholds
+  ensure:
+    p99: 2000  # 99th percentile under 2 seconds
+    p95: 1000  # 95th percentile under 1 second
+    p50: 500   # Median under 500ms
+    maxErrorRate: 5  # Maximum 5% error rate
+
+  # Plugin configurations
+  plugins:
+    metrics-by-endpoint:
+      useOnlyRequestNames: true
+    publish-metrics:
+      type: prometheus
+      pushgateway: 'http://localhost:9091'
+
+# Test scenarios with weighted distribution
+scenarios:
+  # 40% - Elemental calculations (core functionality)
+  - name: "Elemental Calculations"
+    weight: 40
+    flow:
+      - post:
+          url: '/api/alchemical/calculate/elemental'
+          name: 'elemental_calculation'
+          json:
+            ingredients: ["{{ $randomPick(['tomato', 'basil', 'mozzarella']) }}", "{{ $randomPick(['chicken', 'rice', 'soy_sauce']) }}"]
+            normalize: true
+          capture:
+            - json: '$.Fire'
+              as: 'fire_value'
+            - json: '$.Water'
+              as: 'water_value'
+          expect:
+            - statusCode: 200
+            - hasProperty: 'Fire'
+            - hasProperty: 'Water'
+            - hasProperty: 'Earth'
+            - hasProperty: 'Air'
+
+  # 30% - Recipe recommendations
+  - name: "Recipe Recommendations"
+    weight: 30
+    flow:
+      - post:
+          url: '/api/kitchen/recommend/recipes'
+          name: 'recipe_recommendations'
+          json:
+            current_elements:
+              Fire: 0.{{ $randomInt(10, 50) }}
+              Water: 0.{{ $randomInt(10, 50) }}
+              Earth: 0.{{ $randomInt(10, 50) }}
+              Air: 0.{{ $randomInt(10, 40) }}
+            cuisine_preferences: ["{{ $randomPick(['Italian', 'Chinese', 'French', 'Japanese']) }}"]
+            limit: "{{ $randomInt(5, 15) }}"
+          expect:
+            - statusCode: 200
+            - hasProperty: 'recommendations'
+
+  # 15% - Authentication flows
+  - name: "Authentication Flow"
+    weight: 15
+    flow:
+      # Login
+      - post:
+          url: '/api/auth/login'
+          name: 'user_login'
+          json:
+            email: 'test{{ $randomInt(1, 10) }}@alchm.kitchen'
+            password: 'test123'
+          capture:
+            - json: '$.accessToken'
+              as: 'access_token'
+          expect:
+            - statusCode: 200
+            - hasProperty: 'accessToken'
+
+      # Use authenticated endpoint
+      - post:
+          url: '/api/alchemical/calculate/thermodynamics'
+          name: 'authenticated_calculation'
+          headers:
+            Authorization: 'Bearer {{ access_token }}'
+          json:
+            Fire: 0.{{ $randomInt(10, 50) }}
+            Water: 0.{{ $randomInt(10, 50) }}
+            Earth: 0.{{ $randomInt(10, 50) }}
+            Air: 0.{{ $randomInt(10, 40) }}
+          expect:
+            - statusCode: 200
+
+  # 10% - Planetary data requests
+  - name: "Planetary Data"
+    weight: 10
+    flow:
+      - get:
+          url: '/api/alchemical/planetary/current-hour'
+          name: 'planetary_hour'
+          expect:
+            - statusCode: 200
+            - hasProperty: 'dominant_planet'
+            - hasProperty: 'influence_strength'
+
+  # 5% - Health checks and monitoring
+  - name: "Health Monitoring"
+    weight: 5
+    flow:
+      - get:
+          url: '/health'
+          name: 'health_check'
+          expect:
+            - statusCode: 200
+
+      - get:
+          url: 'http://localhost:8100/health'
+          name: 'kitchen_health_check'
+          expect:
+            - statusCode: 200
+
+# Stress test specific scenarios
+before:
+  flow:
+    - log: "Starting alchm.kitchen stress test suite"
+
+    # Pre-warm services
+    - get:
+        url: '/health'
+
+    - get:
+        url: 'http://localhost:8100/health'
+
+# Error handling scenarios
+scenarios:
+  # Rate limiting stress test
+  - name: "Rate Limiting Test"
+    weight: 100
+    flow:
+      - loop:
+          count: 50
+          over:
+            - get:
+                url: '/api/alchemical/planetary/current-hour'
+                name: 'rate_limit_test'
+
+      # Expect some rate limiting (429 responses)
+      - think: 1
+
+  # Invalid data stress test
+  - name: "Invalid Data Handling"
+    weight: 100
+    flow:
+      # Invalid JSON
+      - post:
+          url: '/api/alchemical/calculate/elemental'
+          name: 'invalid_json_test'
+          body: '{"invalid": json}'
+          headers:
+            Content-Type: 'application/json'
+          expect:
+            - statusCode: 400
+
+      # Missing required fields
+      - post:
+          url: '/api/alchemical/calculate/elemental'
+          name: 'missing_fields_test'
+          json:
+            invalid_field: 'test'
+          expect:
+            - statusCode: 400
+
+      # SQL injection attempt (should be blocked)
+      - post:
+          url: '/api/kitchen/recommend/recipes'
+          name: 'sql_injection_test'
+          json:
+            ingredients: ["'; DROP TABLE recipes; --"]
+          expect:
+            - statusCode: 400
+
+# Memory and connection stress
+scenarios:
+  - name: "Memory Stress Test"
+    weight: 100
+    flow:
+      # Large payload test
+      - post:
+          url: '/api/alchemical/calculate/elemental'
+          name: 'large_payload_test'
+          json:
+            ingredients: "{{ $repeat('large_ingredient_name_', 1000) }}"
+            weights: "{{ $repeat(1.0, 1000) }}"
+
+  # Connection pooling stress
+  - name: "Connection Pool Stress"
+    weight: 100
+    flow:
+      - loop:
+          count: 20
+          over:
+            - post:
+                url: '/api/kitchen/recommend/recipes'
+                name: 'db_connection_stress'
+                json:
+                  current_elements:
+                    Fire: 0.25
+                    Water: 0.25
+                    Earth: 0.25
+                    Air: 0.25
+                  limit: 50
+
+# WebSocket stress testing
+scenarios:
+  - name: "WebSocket Stress Test"
+    weight: 100
+    engine: ws
+    flow:
+      - connect:
+          url: 'ws://localhost:8001/ws'
+
+      - send:
+          payload: '{"action": "subscribe", "channel": "planetary_hours"}'
+
+      - think: 30  # Keep connection for 30 seconds
+
+      - send:
+          payload: '{"action": "unsubscribe", "channel": "planetary_hours"}'
+
+after:
+  flow:
+    - log: "Stress test completed - checking service health"
+
+    # Verify services are still healthy after stress test
+    - get:
+        url: '/health'
+        expect:
+          - statusCode: 200
+
+    - get:
+        url: 'http://localhost:8100/health'
+        expect:
+          - statusCode: 200
+
+# Custom metrics and reporting
+customMetrics:
+  - name: 'alchemical_calculation_latency'
+    type: 'histogram'
+    unit: 'ms'
+
+  - name: 'recipe_recommendation_latency'
+    type: 'histogram'
+    unit: 'ms'
+
+  - name: 'authentication_success_rate'
+    type: 'rate'
+    unit: 'percent'
+
+# Performance benchmarks
+benchmarks:
+  cpu_usage_threshold: 80     # Maximum 80% CPU usage
+  memory_usage_threshold: 85  # Maximum 85% memory usage
+  disk_io_threshold: 75       # Maximum 75% disk I/O
+  network_latency_max: 100    # Maximum 100ms network latency
+
+# Chaos engineering scenarios (optional)
+chaos:
+  # Simulate service failures
+  - name: "Service Failure Simulation"
+    probability: 0.1  # 10% chance
+    actions:
+      - kill_random_container
+      - introduce_network_delay
+      - simulate_disk_full
+
+# Recovery validation
+recovery_tests:
+  - name: "Service Recovery Validation"
+    steps:
+      - restart_services
+      - wait: 30
+      - run_health_checks
+      - validate_data_integrity

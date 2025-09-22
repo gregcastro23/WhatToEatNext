@@ -1001,7 +1001,7 @@ class SystemValidationSuite {
   }
 
   private async testPerformance(): Promise<any> {
-    const startTime = Date.now();
+    const startTime = Date.now()
     // Simulate performance tests
     try {
       execSync('yarn lint --format=compact 2>/dev/null | head -10', { stdio: 'pipe' });

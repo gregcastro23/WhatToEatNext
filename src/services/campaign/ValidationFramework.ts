@@ -93,7 +93,7 @@ export class ValidationFramework {
           required: true,
           weight: 0.6,
           validator: async () => {
-            const startTime = Date.now();
+            const startTime = Date.now()
             try {
               const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
                 encoding: 'utf8',
@@ -142,7 +142,7 @@ export class ValidationFramework {
           required: true,
           weight: 0.3,
           validator: async () => {
-            const startTime = Date.now();
+            const startTime = Date.now()
             try {
               execSync('yarn build', {
                 stdio: 'pipe',
@@ -183,7 +183,7 @@ export class ValidationFramework {
           required: false,
           weight: 0.1,
           validator: async () => {
-            const startTime = Date.now();
+            const startTime = Date.now()
             try {
               const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
                 encoding: 'utf8',
@@ -238,7 +238,7 @@ export class ValidationFramework {
           required: true,
           weight: 0.5,
           validator: async () => {
-            const startTime = Date.now();
+            const startTime = Date.now()
             try {
               const output = execSync('yarn lint 2>&1', {
                 encoding: 'utf8',
@@ -287,7 +287,7 @@ export class ValidationFramework {
           required: true,
           weight: 0.25,
           validator: async () => {
-            const startTime = Date.now();
+            const startTime = Date.now()
             try {
               const output = execSync('yarn lint 2>&1', {
                 encoding: 'utf8',
@@ -332,7 +332,7 @@ export class ValidationFramework {
           required: true,
           weight: 0.15,
           validator: async () => {
-            const startTime = Date.now();
+            const startTime = Date.now()
             try {
               const output = execSync('yarn lint 2>&1', {
                 encoding: 'utf8',
@@ -376,7 +376,7 @@ export class ValidationFramework {
           required: false,
           weight: 0.1,
           validator: async () => {
-            const startTime = Date.now();
+            const startTime = Date.now()
             try {
               const output = execSync('yarn lint 2>&1', {
                 encoding: 'utf8',
@@ -429,7 +429,7 @@ export class ValidationFramework {
           required: true,
           weight: 0.6,
           validator: async () => {
-            const startTime = Date.now();
+            const startTime = Date.now()
             try {
               const output = execSync('grep -r 'INTELLIGENCE_SYSTEM' src/ | wc -l', {
                 encoding: 'utf8',
@@ -473,7 +473,7 @@ export class ValidationFramework {
           required: true,
           weight: 0.3,
           validator: async () => {
-            const startTime = Date.now();
+            const startTime = Date.now()
             try {
               // This is a simplified check - in practice would use more sophisticated analysis
               const output = execSync(
@@ -521,7 +521,7 @@ export class ValidationFramework {
           required: true,
           weight: 0.1,
           validator: async () => {
-            const startTime = Date.now();
+            const startTime = Date.now()
             try {
               execSync('yarn build', {
                 stdio: 'pipe',
@@ -572,7 +572,7 @@ export class ValidationFramework {
           required: true,
           weight: 0.4,
           validator: async () => {
-            const startTime = Date.now();
+            const startTime = Date.now()
             try {
               execSync('yarn build', {
                 stdio: 'pipe',
@@ -617,7 +617,7 @@ export class ValidationFramework {
           required: true,
           weight: 0.3,
           validator: async () => {
-            const startTime = Date.now();
+            const startTime = Date.now()
             try {
               execSync('yarn test --run', {
                 stdio: 'pipe',
@@ -659,7 +659,7 @@ export class ValidationFramework {
           required: false,
           weight: 0.2,
           validator: async () => {
-            const startTime = Date.now();
+            const startTime = Date.now()
             try {
               // Check if build output exists and get size
               const buildPath = path.join(process.cwd(), '.next');
@@ -711,7 +711,7 @@ export class ValidationFramework {
           required: false,
           weight: 0.1,
           validator: async () => {
-            const startTime = Date.now();
+            const startTime = Date.now()
             try {
               const memUsage = process.memoryUsage();
               const heapUsedMB = memUsage.heapUsed / 1024 / 1024;
@@ -758,7 +758,7 @@ export class ValidationFramework {
 
     // // // console.log(`🔍 Validating ${phaseValidation.phaseName}...`);
 
-    const startTime = Date.now();
+    const startTime = Date.now()
     const results: Array<{ criteriaId: string, result: ValidationResult }> = [];
     let totalScore = 0;
     let passedCriteria = 0;
@@ -901,7 +901,7 @@ export class ValidationFramework {
     }
 
     // Performance degradation detection
-    const buildStart = Date.now();
+    const buildStart = Date.now()
     try {
       execSync('yarn build', { stdio: 'pipe', timeout: 120000 });
       const buildTime = (Date.now() - buildStart) / 1000;

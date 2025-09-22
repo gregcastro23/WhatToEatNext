@@ -238,7 +238,7 @@ describe('Ingredient Data Validation', () => {
 
   describe('Performance', () => {
     it('should complete validation within reasonable time', async () => {
-      const startTime: any = Date.now();
+      const startTime: any = Date.now()
       const result: any = validateIngredientData();
       const duration: any = Date.now() - startTime
 

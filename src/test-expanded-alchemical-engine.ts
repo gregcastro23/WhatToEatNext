@@ -292,7 +292,7 @@ async function runComprehensiveTests() {
 
     // Test, 10: Performance and Caching
     log.info('⚡ Test, 10: Performance and Caching');
-    const startTime = Date.now();
+    const startTime = Date.now()
     // Run the same calculation twice to test caching
     await alchemicalEngine.calculateAdvancedRecipeHarmony(
       'Pasta Primavera',
@@ -300,7 +300,7 @@ async function runComprehensiveTests() {
       testAstrologicalState,
     );
     const firstRunTime = Date.now() - startTime;
-    const cacheStartTime = Date.now();
+    const cacheStartTime = Date.now()
     await alchemicalEngine.calculateAdvancedRecipeHarmony(
       'Pasta Primavera',
       testUserElements,

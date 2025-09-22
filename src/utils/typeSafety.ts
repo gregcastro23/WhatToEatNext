@@ -48,7 +48,7 @@ export const safeGetNumber = (obj: unknown, key: string, defaultValue: number = 
   return isNumber(value) ? value : defaultValue
 };
 
-export const safeGetBoolean = (;
+export const safeGetBoolean = (
   obj: unknown,
   key: string,
   defaultValue: boolean = false

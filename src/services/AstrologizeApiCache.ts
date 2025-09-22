@@ -120,7 +120,7 @@ class AstrologizeApiCache {
     const resultData = alchemicalResult as unknown as any;
 
     const cachedData: CachedAstrologicalData = {
-      timestamp: Date.now();
+      timestamp: Date.now()
       date,
       coordinates: { lat, lng },
       astrologicalState,
@@ -225,7 +225,7 @@ class AstrologizeApiCache {
 
     // Calculate confidence based on how much data we have and how recent it is
     const confidence =
-      Math.min(1, nearbyData.length / 5) *;
+      Math.min(1, nearbyData.length / 5) *
       Math.max(
         0.3
         1 - Math.abs(targetDate.getTime() - baseData.date.getTime()) / (30 * 24 * 60 * 60 * 1000);
@@ -301,16 +301,16 @@ class AstrologizeApiCache {
     const resultData = result as WithAlchemical;
     // Assess based on completeness and reasonableness of data
     const hasAllElements =
-      resultData.elementalBalance &&;
+      resultData.elementalBalance &&
       Object.values(resultData.elementalBalance).every(v => typeof v === 'number' && v >= 0);
     const hasThermodynamics =
-      typeof resultData.heat === 'number' &&;
-      typeof resultData.entropy === 'number' &&;
+      typeof resultData.heat === 'number' &&
+      typeof resultData.entropy === 'number' &&
       typeof resultData.reactivity === 'number';
     const hasAlchemical =
-      typeof resultData.Spirit === 'number' &&;
-      typeof resultData.Essence === 'number' &&;
-      typeof resultData.Matter === 'number' &&;
+      typeof resultData.Spirit === 'number' &&
+      typeof resultData.Essence === 'number' &&
+      typeof resultData.Matter === 'number' &&
       typeof resultData.Substance === 'number';
     if (hasAllElements && hasThermodynamics && hasAlchemical) {
       return 'high';

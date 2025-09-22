@@ -32,8 +32,8 @@ export class NextConfigOptimizer {
 
       // Use the primary config file (next.config.js or next.config.mjs);
       const primaryConfig =
-        existingConfigs.find(file => file === 'next.config.js') ||;
-        existingConfigs.find(file => file === 'next.config.mjs') ||;
+        existingConfigs.find(file => file === 'next.config.js') ||
+        existingConfigs.find(file => file === 'next.config.mjs') ||
         existingConfigs[0];
 
       if (!primaryConfig) {

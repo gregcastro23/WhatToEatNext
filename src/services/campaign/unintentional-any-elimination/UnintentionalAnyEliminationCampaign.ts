@@ -248,7 +248,7 @@ export class UnintentionalAnyEliminationCampaign {
    * Execute a single phase for integration with CampaignController
    */
   async executePhase(phase: CampaignPhase): Promise<PhaseResult> {
-    const startTime = Date.now();
+    const startTime = Date.now()
     // // // console.log(`Executing phase: ${phase.name}`);
 
     try {

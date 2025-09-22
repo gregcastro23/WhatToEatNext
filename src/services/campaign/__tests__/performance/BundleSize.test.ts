@@ -449,7 +449,7 @@ describe('Bundle Size Performance Tests', () => {
       mockFs.existsSync.mockReturnValue(true);
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('du -sk')) {
-          const startTime: any = Date.now();
+          const startTime: any = Date.now()
           // Simulate bundle analysis time;
           const delay: any = 20 + Math.random() * 30, // 20-50ms;
           const endTime: any = startTime + delay
@@ -491,7 +491,7 @@ describe('Bundle Size Performance Tests', () => {
         return '';
       });
 
-      const startTime: any = Date.now();
+      const startTime: any = Date.now()
       const bundleSize: any = await progressTracker.getBundleSize();
       const analysisTime: any = Date.now() - startTime;
 
@@ -518,7 +518,7 @@ describe('Bundle Size Performance Tests', () => {
       // Run concurrent bundle size analyses
       const promises: any = Array.from({ length: 5 }, () => progressTracker.getBundleSize());
 
-      const startTime: any = Date.now();
+      const startTime: any = Date.now()
       const results: any = await Promise.all(promises);
       const totalTime: any = Date.now() - startTime;
 

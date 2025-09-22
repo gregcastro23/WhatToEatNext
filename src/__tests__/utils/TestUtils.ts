@@ -45,7 +45,7 @@ export class TestUtils {
 
     let lastError: Error | undefined;
     let retryCount = 0;
-    const startTime = Date.now();
+    const startTime = Date.now()
     let peakMemoryUsage = 0;
 
     // Start memory monitoring
@@ -205,7 +205,7 @@ export class TestUtils {
       cleanupFunction
     } = options;
 
-    const startTime = Date.now();
+    const startTime = Date.now()
     const metrics = {
       startTime,
       endTime: 0,
@@ -235,7 +235,7 @@ export class TestUtils {
     try {
       await testFunction();
 
-      metrics.endTime = Date.now();
+      metrics.endTime = Date.now()
       metrics.duration = metrics.endTime - metrics.startTime;
       metrics.averageMemory =
         metrics.memoryReadings.reduce((ab) => a + b0) / metrics.memoryReadings.length,

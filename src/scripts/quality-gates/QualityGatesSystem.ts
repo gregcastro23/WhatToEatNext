@@ -177,9 +177,9 @@ class QualityGatesSystem {
 
   private async measureBuildTime(): Promise<number> {
     try {
-      const startTime = Date.now();
+      const startTime = Date.now()
       execSync('yarn build', { stdio: 'pipe' });
-      const endTime = Date.now();
+      const endTime = Date.now()
       return (endTime - startTime) / 1000; // Convert to seconds
     } catch (error) {
       this.log(`Error measuring build time: ${error}`, 'error');

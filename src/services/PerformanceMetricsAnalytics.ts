@@ -260,7 +260,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
    * Capture comprehensive performance snapshot
    */
   async capturePerformanceSnapshot(): Promise<PerformanceSnapshot> {
-    const startTime = Date.now();
+    const startTime = Date.now()
     log.info('📊 Capturing performance snapshot...');
     const [systemMetrics, processMetrics, buildMetrics, typeScriptMetrics, testMetrics] =
       await Promise.all([
@@ -514,7 +514,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
    */
   private async collectBuildMetrics(): Promise<BuildMetrics> {
     try {
-      const buildStart = Date.now();
+      const buildStart = Date.now()
       // Run build command
       const buildOutput = execSync('yarn build', {
         encoding: 'utf8',
@@ -600,7 +600,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
    */
   private async collectTypeScriptMetrics(): Promise<TypeScriptMetrics> {
     try {
-      const tsStart = Date.now();
+      const tsStart = Date.now()
       // Run TypeScript compiler
       const tsOutput = execSync('yarn tsc --noEmit --skipLibCheck', {
         encoding: 'utf8',
@@ -741,7 +741,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
    */
   private async collectTestMetrics(): Promise<TestMetrics> {
     try {
-      const testStart = Date.now();
+      const testStart = Date.now()
       // Run test command
       const testOutput = execSync('yarn test --coverage --passWithNoTests', {
         encoding: 'utf8',

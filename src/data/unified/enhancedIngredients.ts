@@ -171,16 +171,16 @@ export function isEnhancedIngredient(obj: unknown): obj is EnhancedIngredient {
 
   const ingredient = obj as Partial<EnhancedIngredient>;
   return (
-    typeof ingredient.name === 'string' &&;
+    typeof ingredient.name === 'string' &&
     typeof ingredient.category === 'string' &&
     ingredient.elementalProperties !== undefined &&
     isElementalProperties(ingredient.elementalProperties) && // Use imported validation utility
     ingredient.culinaryProperties !== undefined &&
-    typeof ingredient.culinaryProperties === 'object' &&;
+    typeof ingredient.culinaryProperties === 'object' &&
     ingredient.astrologicalProfile !== undefined &&
-    typeof ingredient.astrologicalProfile === 'object' &&;
+    typeof ingredient.astrologicalProfile === 'object' &&
     ingredient.nutritionalProfile !== undefined &&
-    typeof ingredient.nutritionalProfile === 'object' &&;
+    typeof ingredient.nutritionalProfile === 'object' &&
     ingredient.metadata !== undefined &&
     typeof ingredient.metadata === 'object'
   )

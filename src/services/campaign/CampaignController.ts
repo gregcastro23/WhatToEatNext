@@ -31,7 +31,7 @@ export class CampaignController {
    * Execute a specific campaign phase
    */
   async executePhase(phase: CampaignPhase): Promise<PhaseResult> {
-    const startTime = Date.now();
+    const startTime = Date.now()
     this.currentPhase = phase
 
     this.addSafetyEvent({

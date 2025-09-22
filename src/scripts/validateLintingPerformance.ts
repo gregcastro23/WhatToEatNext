@@ -68,7 +68,7 @@ class LintingPerformanceValidator {
     // Clear all caches to get true baseline
     this.clearAllCaches();
 
-    const startTime = Date.now();
+    const startTime = Date.now()
     const startMemory = process.memoryUsage();
     try {
       // Run basic linting without optimizations
@@ -78,7 +78,7 @@ class LintingPerformanceValidator {
         timeout: 120000, // 2 minute timeout
       });
 
-      const endTime = Date.now();
+      const endTime = Date.now()
       const endMemory = process.memoryUsage();
 
       this.baselineMetrics = {
@@ -120,7 +120,7 @@ class LintingPerformanceValidator {
     }
 
     // Second run to measure cache performance
-    const startTime = Date.now();
+    const startTime = Date.now()
     const startMemory = process.memoryUsage();
 
     try {
@@ -130,7 +130,7 @@ class LintingPerformanceValidator {
         timeout: 60000
       });
 
-      const endTime = Date.now();
+      const endTime = Date.now()
       const endMemory = process.memoryUsage();
 
       const metrics: PerformanceMetrics = {
@@ -182,7 +182,7 @@ class LintingPerformanceValidator {
   private async validateParallelProcessing(): Promise<void> {
     // // // console.log('⚡ Validating parallel processing optimization...');
 
-    const startTime = Date.now();
+    const startTime = Date.now()
     const startMemory = process.memoryUsage();
     try {
       const output = execSync('yarn, lint:parallel --max-warnings=10000', {
@@ -191,7 +191,7 @@ class LintingPerformanceValidator {
         timeout: 120000
       });
 
-      const endTime = Date.now();
+      const endTime = Date.now()
       const endMemory = process.memoryUsage();
 
       const metrics: PerformanceMetrics = {
@@ -247,7 +247,7 @@ class LintingPerformanceValidator {
   private async validateMemoryOptimization(): Promise<void> {
     // // // console.log('💾 Validating memory optimization (4096MB limit)...');
 
-    const startTime = Date.now();
+    const startTime = Date.now()
     let peakMemoryUsage = 0;
 
     try {
@@ -265,7 +265,7 @@ class LintingPerformanceValidator {
       });
 
       clearInterval(memoryMonitor);
-      const endTime = Date.now();
+      const endTime = Date.now()
 
       const metrics: PerformanceMetrics = {
         executionTime: endTime - startTime,
@@ -330,7 +330,7 @@ export const _testVariable = 'test';
 
       writeFileSync(testFile, testContent);
 
-      const startTime = Date.now();
+      const startTime = Date.now()
 
       try {
         const output = execSync('yarn, lint:changed --max-warnings=10000', {
@@ -339,7 +339,7 @@ export const _testVariable = 'test';
           timeout: 15000, // 15 second timeout
         });
 
-        const endTime = Date.now();
+        const endTime = Date.now()
         const incrementalTime = endTime - startTime;
 
         const metrics: PerformanceMetrics = {

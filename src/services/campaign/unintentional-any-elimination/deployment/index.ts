@@ -273,7 +273,7 @@ export class DeploymentManager {
     const results: ValidationResult[] = [];
 
     for (const check of checks) {
-      const startTime = Date.now();
+      const startTime = Date.now()
       const result: ValidationResult = {
         checkId: check.id,
         checkName: check.name,

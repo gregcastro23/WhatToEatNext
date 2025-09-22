@@ -355,7 +355,7 @@ export class LintingErrorAnalyzer {
 
     // Determine if special handling is required
     context.requiresSpecialHandling =
-      context.isAstrologicalCalculation ||;
+      context.isAstrologicalCalculation ||
       context.isCampaignSystem ||
       context.isTestFile ||
       context.isScriptFile;

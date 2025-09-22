@@ -111,11 +111,11 @@ export function calculateCombinationEffects({
 
     return effects.sort((ab) => {
       const aValue =
-        (a as { modifier?: number, strength?: number })?.modifier ||;
+        (a as { modifier?: number, strength?: number })?.modifier ||
         (a as { strength?: number })?.strength ||
         0;
       const bValue =
-        (b as { modifier?: number, strength?: number })?.modifier ||;
+        (b as { modifier?: number, strength?: number })?.modifier ||
         (b as { strength?: number })?.strength ||
         0;
       return bValue - aValue;

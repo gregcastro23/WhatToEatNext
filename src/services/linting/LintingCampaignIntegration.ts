@@ -116,7 +116,7 @@ export class LintingCampaignIntegration {
     config: LintingCampaignConfig,
     phase: LintingCampaignPhase,
   ): Promise<CampaignExecutionResult> {
-    const startTime = Date.now();
+    const startTime = Date.now()
     try {
       logger.info(`Executing campaign phase: ${phase.name}`);
 

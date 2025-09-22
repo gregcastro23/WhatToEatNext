@@ -54,7 +54,7 @@ const VALIDATION_TOLERANCES = {
  * Main validation function for planetary data
  */
 export async function validatePlanetaryData(): Promise<ValidationResult> {
-  const startTime = Date.now();
+  const startTime = Date.now()
   const errors: ValidationError[] = [];
   const warnings: ValidationWarning[] = [];
 
@@ -461,7 +461,7 @@ async function runAstronomicalTests(): Promise<TestResult[]> {
  * Test planetary position calculation accuracy
  */
 async function testPlanetaryPositionAccuracy(): Promise<TestResult> {
-  const startTime = Date.now();
+  const startTime = Date.now()
 
   try {
     const positions = await getReliablePlanetaryPositions();
@@ -510,7 +510,7 @@ async function testPlanetaryPositionAccuracy(): Promise<TestResult> {
  * Test transit date validation
  */
 async function testTransitDateValidation(): Promise<TestResult> {
-  const startTime = Date.now();
+  const startTime = Date.now()
   try {
     const planets = ['mars', 'venus', 'mercury'];
     let validTransits = 0;
@@ -559,7 +559,7 @@ async function testTransitDateValidation(): Promise<TestResult> {
  * Test retrograde detection
  */
 async function testRetrogradeDetection(): Promise<TestResult> {
-  const startTime = Date.now();
+  const startTime = Date.now()
 
   try {
     const positions = await getReliablePlanetaryPositions();
@@ -613,7 +613,7 @@ async function testRetrogradeDetection(): Promise<TestResult> {
  * Test lunar node calculation
  */
 async function testLunarNodeCalculation(): Promise<TestResult> {
-  const startTime = Date.now();
+  const startTime = Date.now()
 
   try {
     const positions = await getReliablePlanetaryPositions();
@@ -677,7 +677,7 @@ async function testLunarNodeCalculation(): Promise<TestResult> {
  * Test API fallback mechanism
  */
 async function testApiFallbackMechanism(): Promise<TestResult> {
-  const startTime = Date.now();
+  const startTime = Date.now()
 
   try {
     // Test that we can get positions even if APIs fail

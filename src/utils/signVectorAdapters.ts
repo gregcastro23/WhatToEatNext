@@ -84,8 +84,8 @@ export function isPlanetaryPosition(_obj: unknown): obj is PlanetaryPosition {
 
   const pos = obj as any;
   return (
-    typeof pos.sign === 'string' &&;
-    typeof pos.degree === 'number' &&;
+    typeof pos.sign === 'string' &&
+    typeof pos.degree === 'number' &&
     typeof pos.isRetrograde === 'boolean'
   );
 }

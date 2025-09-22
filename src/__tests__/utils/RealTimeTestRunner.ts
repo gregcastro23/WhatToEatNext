@@ -75,7 +75,7 @@ export class RealTimeTestRunner {
       }
     };
 
-    const startTime = Date.now();
+    const startTime = Date.now()
     let attempt = 0;
 
     while (attempt <= retries) {

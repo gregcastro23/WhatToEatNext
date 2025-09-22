@@ -88,7 +88,7 @@ export class LintingFormattingSystem {
    * Execute comprehensive linting and formatting
    */
   async executeLintingAndFormatting(targetFiles?: string[]): Promise<LintingFormattingResult> {
-    const startTime = Date.now();
+    const startTime = Date.now()
     logger.info('Starting linting and formatting system execution');
 
     try {

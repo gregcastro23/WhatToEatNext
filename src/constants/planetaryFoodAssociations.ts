@@ -9,7 +9,7 @@ import { ElementalCharacter } from './planetaryElements';
  * Extended Planet type for planetary food associations
  */
 export type Planet =
-  | 'Sun';
+  | 'Sun'
   | 'Moon'
   | 'Mercury'
   | 'Venus'
@@ -26,7 +26,7 @@ export type Planet =
  * Planetary dignity types for calculation
  */
 export type PlanetaryDignity =
-  | 'Domicile';
+  | 'Domicile'
   | 'Exaltation'
   | 'Triplicity'
   | 'Term'
@@ -296,7 +296,7 @@ export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
   const zodiacElement = zodiacElements[normalizedSign] || 'Fire';
 
   // Check if item has elemental properties
-  const itemData = item  as {;
+  const itemData = item as {
     elementalProperties?: Record<string, number>,
     zodiacInfluences?: string[]
   };
@@ -401,7 +401,7 @@ export const getLunarPhaseBoost = (lunarPhase: LunarPhase): number => {
   };
 
   // Get lunar influence data or provide fallback
-  const influence = lunarInfluences[lunarPhase] || {;
+  const influence = lunarInfluences[lunarPhase] || {
     element: 'Water',
     alchemical: 'Essence',
     intensity: 0.5
@@ -438,10 +438,10 @@ export const _getNutritionalSynergy = (_planet: Planet, _ingredient: unknown): s
 /**
  * Format elemental balance for display
  */
-export const _formatelementalState = (elements: Partial<Record<string, number>>): string => {;
-  const validEntries = Object.entries(elements);
-    .filter(([_, val]) => Number.isFinite(val as number));
-    .map(([elem, val]) => `${elem} ${Math.round(((val as number) || 0) * 100)}%`);
+export const _formatelementalState = (elements: Partial<Record<string, number>>): string => {
+  const validEntries = Object.entries(elements)
+    .filter(([_, val]) => Number.isFinite(val as number))
+    .map(([elem, val]) => `${elem} ${Math.round(((val as number) || 0) * 100)}%`)
     .join(' · ');
 
   return validEntries;

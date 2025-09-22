@@ -84,7 +84,7 @@ export const _getCelestialPositionsForDate = async (date: Date): Promise<Celesti
 };
 
 const getCachedCelestialPositions = async (): Promise<CelestialPosition> => {
-  const now = Date.now();
+  const now = Date.now()
   // Return cached data if valid
   if (cachedPositions && now - cachedPositions.timestamp < CACHE_DURATION) {
     return cachedPositions

@@ -56,7 +56,7 @@ export class PilotCampaignAnalysis {
     // // // console.log('🚀 Starting Pilot Campaign Analysis Phase');
     // // // console.log(`Configuration: ${JSON.stringify(this.config, null, 2)}`);
 
-    const startTime = Date.now();
+    const startTime = Date.now()
 
     try {
       // Step, 1: Execute comprehensive analysis of current codebase

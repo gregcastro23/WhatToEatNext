@@ -579,7 +579,7 @@ export function applyFilters(items: unknown[], filters: SearchFilters): unknown[
     if (filters.cuisineTypes.length > 0) {
       const cuisine = hasProperty(item, 'cuisine') ? item.cuisine : null,
       const cuisineType = hasProperty(item, 'cuisineType') ? item.cuisineType : null,
-      const itemCuisine = (;
+      const itemCuisine = (
         typeof cuisine === 'string' ? cuisine : typeof cuisineType === 'string' ? cuisineType : ''
       ).toLowerCase();
       if (!filters.cuisineTypes.some(cuisine => itemCuisine.includes(cuisine))) return false
@@ -589,7 +589,7 @@ export function applyFilters(items: unknown[], filters: SearchFilters): unknown[
     if (filters.mealTypes.length > 0) {
       const mealType = hasProperty(item, 'mealType') ? item.mealType : null,
       const category = hasProperty(item, 'category') ? item.category : null,
-      const itemMealType = (;
+      const itemMealType = (
         typeof mealType === 'string' ? mealType : typeof category === 'string' ? category : ''
       ).toLowerCase();
       if (!filters.mealTypes.some(meal => itemMealType.includes(meal))) return false
@@ -599,7 +599,7 @@ export function applyFilters(items: unknown[], filters: SearchFilters): unknown[
     if (filters.spiciness.length > 0) {
       const spiciness = hasProperty(item, 'spiciness') ? item.spiciness : null
       const spiceLevel = hasProperty(item, 'spiceLevel') ? item.spiceLevel : null,
-      const itemSpiciness = (;
+      const itemSpiciness = (
         typeof spiciness === 'string';
           ? spiciness
           : typeof spiceLevel === 'string'

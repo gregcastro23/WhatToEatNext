@@ -245,7 +245,7 @@ class RecommendationAnalyticsService {
   trackInteraction(interaction: Omit<UserInteraction, 'timestamp'>): void {
     const fullInteraction: UserInteraction = {
       ...interaction,
-      timestamp: Date.now();
+      timestamp: Date.now()
     };
 
     this.userInteractions.push(fullInteraction);
@@ -268,7 +268,7 @@ class RecommendationAnalyticsService {
     mostInteractedTargets: Array<{ target: string, count: number }>;
     averageSessionDuration: number
   } {
-    const now = Date.now();
+    const now = Date.now()
     const windowStart = timeWindow ? now - timeWindow : 0;
 
     const relevantInteractions = this.userInteractions.filter(
@@ -324,7 +324,7 @@ class RecommendationAnalyticsService {
       recommendationCount: performanceStats.current.recommendationCount,
       averageConfidenceScore: 0.8, // This would be calculated from actual confidence scores,
       userInteractionRate: interactionAnalytics.interactionRate,
-      timestamp: Date.now();
+      timestamp: Date.now()
     };
 
     this.metricsHistory.push(metrics);
@@ -369,7 +369,7 @@ class RecommendationAnalyticsService {
     averageCacheHitRate: number,
     performanceScore: number
   } {
-    const now = Date.now();
+    const now = Date.now()
     const windowStart = timeWindow ? now - timeWindow : 0;
 
     const relevantMetrics = this.metricsHistory.filter(metric => metric.timestamp >= windowStart);

@@ -229,7 +229,7 @@ export function getCurrentPlanetaryPositions(): { [key: string]: CelestialPositi
   // Cache the positions
   positionsCache = {
     positions: validatedPositions,
-    timestamp: Date.now();
+    timestamp: Date.now()
   };
 
   logger.info('Updated planetary positions cache with transit validation', {

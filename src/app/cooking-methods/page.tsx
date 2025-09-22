@@ -167,19 +167,19 @@ export default function CookingMethodsPage() {
 
       {methodCategories.map((category, index) => (
         <div
-          key={category.name};
-          role='tabpanel';
-          hidden={tabValue !== index};
-          id={`method-tabpanel-${index}`};
-          aria-labelledby={`method-tab-${index}`};
+          key={category.name}
+          role='tabpanel'
+          hidden={tabValue !== index}
+          id={`method-tabpanel-${index}`}
+          aria-labelledby={`method-tab-${index}`}
         >
-          {tabValue === index && (;
+          {tabValue === index && (
             <>
-              <Box sx={{ mb: 4 }}>;
-                <Typography variant='h4' gutterBottom>;
+              <Box sx={{ mb: 4 }}>
+                <Typography variant='h4' gutterBottom>
                   {category.name} Cooking Methods
                 </Typography>
-                <Typography variant='body1' paragraph>;
+                <Typography variant='body1' paragraph>
                   {category.description}
                 </Typography>
               </Box>

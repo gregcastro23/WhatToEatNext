@@ -262,7 +262,7 @@ export function useAstrologicalStatePreservation(_componentId: string) {
         // Simple state saving for now
         const enhancedState = {
           ...state;
-          timestamp: Date.now();
+          timestamp: Date.now()
           componentId
         };
 

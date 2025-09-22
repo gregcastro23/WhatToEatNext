@@ -27,7 +27,7 @@ export const _specialtyVinegars: Record<string, IngredientMapping> = Object.entr
 )
   .filter(
     ([_, value]) =>
-      value.subCategory === 'specialty' ||;
+      value.subCategory === 'specialty' ||
       (value.subCategory !== 'wine' &&
         value.subCategory !== 'fruit' &&
         value.subCategory !== 'grain');

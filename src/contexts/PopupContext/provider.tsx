@@ -42,7 +42,7 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
       className = '',,
     } = options;
 
-    const id = Date.now();
+    const id = Date.now()
 
     // Calculate elemental influences
     const elemental = calculateElementalInfluence(sunSign, moonSign);

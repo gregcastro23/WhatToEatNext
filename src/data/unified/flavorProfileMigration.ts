@@ -105,7 +105,7 @@ export class FlavorProfileMigration {
     // Set flag to indicate migration is running
     _isMigrationRunning = true;
 
-    const startTime = Date.now();
+    const startTime = Date.now()
 
     log.info('🔄 Starting Phase 4 flavor profile migration...');
 

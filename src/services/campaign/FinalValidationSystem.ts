@@ -116,7 +116,7 @@ export class FinalValidationSystem {
 
     // Overall success determination
     const overallSuccess =
-      validationResults.every(result => result.passed) &&;
+      validationResults.every(result => result.passed) &&
       certificationStatus.perfectCodebaseAchieved;
 
     const report: CampaignCompletionReport = {
@@ -362,9 +362,9 @@ export class FinalValidationSystem {
 
     try {
       // Measure build time
-      const buildStart = Date.now();
+      const buildStart = Date.now()
       execSync('yarn build', { stdio: 'pipe' });
-      const buildEnd = Date.now();
+      const buildEnd = Date.now()
       const buildTime = (buildEnd - buildStart) / 1000;
 
       // Measure memory usage
@@ -492,13 +492,13 @@ export class FinalValidationSystem {
    */
   private async generatePerformanceMetrics(): Promise<PerformanceMetrics> {
     // Measure build time
-    const buildStart = Date.now();
+    const buildStart = Date.now()
     try {
       execSync('yarn build', { stdio: 'pipe' });
     } catch (_error) {
       // Continue even if build fails
     }
-    const buildEnd = Date.now();
+    const buildEnd = Date.now()
     const buildTime = (buildEnd - buildStart) / 1000;
 
     // Estimate other metrics

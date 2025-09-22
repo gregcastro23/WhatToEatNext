@@ -120,7 +120,7 @@ export class DirectRecipeService {
    * Get current celestial alignment from astrologize API or cache
    */
   private async getCurrentCelestialAlignment(forceRefresh = false): Promise<CelestialAlignment> {;
-    const now = Date.now();
+    const now = Date.now()
 
     // Return cached alignment if still valid
     if (

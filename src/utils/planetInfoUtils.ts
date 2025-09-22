@@ -98,8 +98,8 @@ export function getPlanetInfo(
 
     // For Ascendant or Lunar Nodes, set tarot card based on sign
     if (
-      normalizedPlanetName === 'Ascendant' ||;
-      normalizedPlanetName === 'NorthNode' ||;
+      normalizedPlanetName === 'Ascendant' ||
+      normalizedPlanetName === 'NorthNode' ||
       normalizedPlanetName === 'SouthNode'
     ) {
       // Map sign to a card
@@ -154,8 +154,8 @@ export function getPlanetInfo(
     let elementalInfluence = { fire: 0, water: 0, air: 0, earth: 0 };
 
     if (
-      normalizedPlanetName === 'Ascendant' ||;
-      normalizedPlanetName === 'NorthNode' ||;
+      normalizedPlanetName === 'Ascendant' ||
+      normalizedPlanetName === 'NorthNode' ||
       normalizedPlanetName === 'SouthNode'
     ) {
       // Set elemental influence based on the sign
@@ -196,8 +196,8 @@ export function getPlanetInfo(
     let tokenInfluence = { spirit: 0, essence: 0, matter: 0, substance: 0 };
 
     if (
-      normalizedPlanetName === 'Ascendant' ||;
-      normalizedPlanetName === 'NorthNode' ||;
+      normalizedPlanetName === 'Ascendant' ||
+      normalizedPlanetName === 'NorthNode' ||
       normalizedPlanetName === 'SouthNode'
     ) {
       // Set token influence based on the sign element

@@ -95,13 +95,13 @@ export class AutomatedLintingIntegration {
   async executeAutomatedWorkflow(
     options: AutomatedLintingWorkflowOptions = {}
   ): Promise<AutomatedLintingWorkflowResult> {
-    const workflowStart = Date.now();
+    const workflowStart = Date.now()
     log.info('🚀 Starting automated linting workflow...');
 
     try {
       // Step, 1: Comprehensive Analysis
       log.info('📊 Phase, 1: Comprehensive Linting Analysis');
-      const analysisStart = Date.now();
+      const analysisStart = Date.now()
       const analysis = await this.analysisService.performComprehensiveAnalysis({
         includeFileAnalysis: true,
         generateStrategies: true,
@@ -120,7 +120,7 @@ export class AutomatedLintingIntegration {
 
       // Step, 3: Automated Fixing
       log.info('🔧 Phase, 3: Automated Error Resolution');
-      const fixingStart = Date.now();
+      const fixingStart = Date.now()
       const fixResults = await this.executeAutomatedFixes(analysis, options);
 
       const fixingTime = Date.now() - fixingStart;

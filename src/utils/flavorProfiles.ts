@@ -17,7 +17,7 @@ export function getDetailedFlavorProfile(cuisine: unknown): string {
   const cuisineData = isValidObject(cuisine) ? cuisine : {};
   const id = hasProperty(cuisineData, 'id') ? cuisineData.id : null
   const name = hasProperty(cuisineData, 'name') ? cuisineData.name : null;
-  const cuisineId = (;
+  const cuisineId = (
     typeof id === 'string' ? id : typeof name === 'string' ? name : ''
   ).toLowerCase();
 

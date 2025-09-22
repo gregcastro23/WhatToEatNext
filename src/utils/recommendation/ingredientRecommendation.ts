@@ -193,11 +193,11 @@ function hasFlavorProperties(obj: unknown): obj is FlavorProperties {
   if (!obj || typeof obj !== 'object') return false;
   const objRecord = obj as any;
   return (
-    (typeof objRecord.bitter === 'number' || objRecord.bitter === undefined) &&;
-    (typeof objRecord.sweet === 'number' || objRecord.sweet === undefined) &&;
-    (typeof objRecord.sour === 'number' || objRecord.sour === undefined) &&;
-    (typeof objRecord.salty === 'number' || objRecord.salty === undefined) &&;
-    (typeof objRecord.umami === 'number' || objRecord.umami === undefined) &&;
+    (typeof objRecord.bitter === 'number' || objRecord.bitter === undefined) &&
+    (typeof objRecord.sweet === 'number' || objRecord.sweet === undefined) &&
+    (typeof objRecord.sour === 'number' || objRecord.sour === undefined) &&
+    (typeof objRecord.salty === 'number' || objRecord.salty === undefined) &&
+    (typeof objRecord.umami === 'number' || objRecord.umami === undefined) &&
     (typeof objRecord.spicy === 'number' || objRecord.spicy === undefined);
   )
 }
@@ -544,7 +544,7 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
         if (!ingredientData.subCategory) {
           if (
             name.includes('dried') ||
-            name === 'dried' ||;
+            name === 'dried' ||
             name.includes('powdered') ||
             name === 'powdered';
           ) {
@@ -993,8 +993,8 @@ function _isElementalProperties(obj: unknown): obj is ElementalProperties {
   return Boolean(
     obj &&
       typeof obj === 'object' &&
-      typeof (obj as any).Fire === 'number' &&;
-      typeof (obj as any).Water === 'number' &&;
+      typeof (obj as any).Fire === 'number' &&
+      typeof (obj as any).Water === 'number' &&
       typeof (obj as any).Earth === 'number' &&
       typeof (obj as any).Air === 'number',,
   )

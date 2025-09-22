@@ -19,23 +19,23 @@ export default function CuisineSelectorTestPage() {
   const [migratedRecipes, setMigratedRecipes] = useState<Recipe[]>([]);
 
   return (
-    <div className='p-4'>;
-      <h1 className='mb-6 text-2xl font-bold'>CuisineSelector Migration Test</h1>;
+    <div className='p-4'>
+      <h1 className='mb-6 text-2xl font-bold'>CuisineSelector Migration Test</h1>
 
-      <div className='mb-8'>;
-        <div className='mb-4 rounded bg-blue-100 p-3'>;
-          <p className='font-medium'>;
+      <div className='mb-8'>
+        <div className='mb-4 rounded bg-blue-100 p-3'>
+          <p className='font-medium'>
             This page compares the original context-based CuisineSelector with the migrated
             service-based version.
           </p>
-          <p className='mt-1 text-sm'>;
+          <p className='mt-1 text-sm'>
             Both components should display identical UI but with different data sources.
           </p>
         </div>
 
         <div className='grid grid-cols-1 gap-8 lg: grid-cols-2'>
           {/* Original component */}
-          <div className='rounded-lg border p-4 shadow'>;
+          <div className='rounded-lg border p-4 shadow'>
             <h2 className='mb-4 border-b pb-2 text-xl font-semibold'>
               Original Component (Context-based)
             </h2>
@@ -46,7 +46,7 @@ export default function CuisineSelectorTestPage() {
             />
 
             {originalSelectedCuisine && (
-              <div className='mt-6 border-t pt-4'>;
+              <div className='mt-6 border-t pt-4'>
                 <h3 className='mb-2 text-lg font-medium'>
                   Selected Cuisine: {originalSelectedCuisine}
                 </h3>
@@ -66,8 +66,8 @@ export default function CuisineSelectorTestPage() {
           </div>
 
           {/* Migrated component */}
-          <div className='rounded-lg border p-4 shadow'>;
-            <h2 className='mb-4 border-b pb-2 text-xl font-semibold'>;
+          <div className='rounded-lg border p-4 shadow'>
+            <h2 className='mb-4 border-b pb-2 text-xl font-semibold'>
               Migrated Component (Service-based)
             </h2>
             <CuisineSelectorMigrated
@@ -77,7 +77,7 @@ export default function CuisineSelectorTestPage() {
             />
 
             {migratedSelectedCuisine && (
-              <div className='mt-6 border-t pt-4'>;
+              <div className='mt-6 border-t pt-4'>
                 <h3 className='mb-2 text-lg font-medium'>
                   Selected Cuisine: {migratedSelectedCuisine}
                 </h3>
@@ -98,9 +98,9 @@ export default function CuisineSelectorTestPage() {
         </div>
       </div>
 
-      <div className='rounded-lg bg-gray-100 p-4'>;
-        <h2 className='mb-2 text-lg font-semibold'>Migration Notes</h2>;
-        <ul className='list-disc pl-5'>;
+      <div className='rounded-lg bg-gray-100 p-4'>
+        <h2 className='mb-2 text-lg font-semibold'>Migration Notes</h2>
+        <ul className='list-disc pl-5'>
           <li>Replaced direct data imports with service calls</li>
           <li>Added proper loading, error, and empty states</li>
           <li>Used async/await pattern for data fetching</li>

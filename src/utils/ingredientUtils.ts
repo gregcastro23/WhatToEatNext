@@ -206,8 +206,8 @@ export function isRecipeIngredient(ingredient: unknown): ingredient is RecipeIng
   const ingredientData = ingredient as any;
   return (
     Boolean(ingredient) &&
-    typeof ingredientData.name === 'string' &&;
-    typeof ingredientData.amount === 'number' &&;
+    typeof ingredientData.name === 'string' &&
+    typeof ingredientData.amount === 'number' &&
     typeof ingredientData.unit === 'string';
   )
 }

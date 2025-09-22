@@ -102,7 +102,7 @@ export class ComprehensiveValidationFramework {
     processedFiles: string[],
     batchId: string,
   ): Promise<ComprehensiveValidationResult> {
-    const startTime = Date.now();
+    const startTime = Date.now()
     this.log('info', `🔍 Starting comprehensive validation for batch ${batchId}`);
     this.log('info', `📋 Validating ${processedFiles.length} processed files`);
 
@@ -219,7 +219,7 @@ export class ComprehensiveValidationFramework {
    * Validate TypeScript compilation with zero error requirement
    */
   private async validateTypeScriptCompilation(batchId: string): Promise<ValidationResult> {
-    const startTime = Date.now();
+    const startTime = Date.now()
     const result: ValidationResult = {
       passed: false,
       validationType: 'typescript-compilation',
@@ -286,7 +286,7 @@ export class ComprehensiveValidationFramework {
     processedFiles: string[],
     batchId: string,
   ): Promise<ValidationResult> {
-    const startTime = Date.now();
+    const startTime = Date.now()
     const result: ValidationResult = {
       passed: false,
       validationType: 'test-suite',
@@ -375,7 +375,7 @@ export class ComprehensiveValidationFramework {
     componentPath: string,
     batchId: string,
   ): Promise<ValidationResult> {
-    const startTime = Date.now();
+    const startTime = Date.now()
     const result: ValidationResult = {
       passed: true,
       validationType: 'react-component',
@@ -474,7 +474,7 @@ export class ComprehensiveValidationFramework {
     servicePath: string,
     batchId: string,
   ): Promise<ValidationResult> {
-    const startTime = Date.now();
+    const startTime = Date.now()
     const result: ValidationResult = {
       passed: true,
       validationType: 'service-integration',
@@ -537,7 +537,7 @@ export class ComprehensiveValidationFramework {
    * Validate build system functionality
    */
   private async validateBuildSystem(batchId: string): Promise<ValidationResult> {
-    const startTime = Date.now();
+    const startTime = Date.now()
     const result: ValidationResult = {
       passed: false,
       validationType: 'build-system',

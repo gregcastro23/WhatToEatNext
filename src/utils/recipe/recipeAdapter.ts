@@ -268,7 +268,7 @@ export function isRecipeData(obj: unknown): obj is RecipeData {
 
   const recipeData = obj as Partial<RecipeData>;
   return (
-    typeof recipeData.id === 'string' &&;
+    typeof recipeData.id === 'string' &&
     typeof recipeData.name === 'string' &&
     Array.isArray(recipeData.ingredients);
   )

@@ -16,8 +16,8 @@ const CuisineSection = ({
   recipes: unknown[],
   elementalState: Record<string, unknown>
 }) => (
-  <div className='space-y-2'>;
-    <div className='font-semibold'>Cuisine: {cuisine}</div>;
+  <div className='space-y-2'>
+    <div className='font-semibold'>Cuisine: {cuisine}</div>
     <div className='text-sm text-gray-600'>Recipes: {recipes?.length || 0}</div>
   </div>
 );
@@ -101,12 +101,12 @@ export default function CuisineSectionTestPage() {
   };
 
   return (
-    <div className='mx-auto max-w-6xl px-4 py-8'>;
-      <h1 className='mb-8 text-2xl font-bold'>CuisineSection Component Migration Test</h1>;
+    <div className='mx-auto max-w-6xl px-4 py-8'>
+      <h1 className='mb-8 text-2xl font-bold'>CuisineSection Component Migration Test</h1>
 
       {/* Cuisine Selector */}
-      <div className='mb-8 rounded-lg bg-gray-50 p-4'>;
-        <h2 className='mb-3 text-lg font-semibold'>Select a Cuisine to Test</h2>;
+      <div className='mb-8 rounded-lg bg-gray-50 p-4'>
+        <h2 className='mb-3 text-lg font-semibold'>Select a Cuisine to Test</h2>
         <div className='flex flex-wrap gap-2'>
           {(availableCuisines || []).map(cuisine => (;
             <button
@@ -124,7 +124,7 @@ export default function CuisineSectionTestPage() {
         </div>
 
         {/* Show current elemental state */}
-        <div className='mt-4'>;
+        <div className='mt-4'>
           <h3 className='mb-2 text-sm font-medium'>Current Elemental State: </h3>
           {renderElementalState({
             Fire: state.elementalState.Fire ?? 0.25,
@@ -132,7 +132,7 @@ export default function CuisineSectionTestPage() {
             Earth: state.elementalState.Earth ?? 0.25,
             Air: state.elementalState.Air ?? 0.25
           })}
-          <div className='mt-2 text-sm text-gray-600'>;
+          <div className='mt-2 text-sm text-gray-600'>
             Season: {state.currentSeason || 'spring'}, Time of Day: {state.timeOfDay}
           </div>
         </div>
@@ -141,9 +141,9 @@ export default function CuisineSectionTestPage() {
       {/* Comparison */}
       <div className='grid grid-cols-1 gap-8, lg: grid-cols-2'>
         {/* Original Implementation */}
-        <div className='rounded-lg border p-6 shadow-md'>;
-          <h2 className='mb-4 text-xl font-semibold'>🔄 Original Implementation</h2>;
-          <div className='rounded-lg bg-white'>;
+        <div className='rounded-lg border p-6 shadow-md'>
+          <h2 className='mb-4 text-xl font-semibold'>🔄 Original Implementation</h2>
+          <div className='rounded-lg bg-white'>
             <CuisineSection
               cuisine={selectedCuisine},
               recipes={recipes},
@@ -160,9 +160,9 @@ export default function CuisineSectionTestPage() {
         </div>
 
         {/* Migrated Implementation */}
-        <div className='rounded-lg border p-6 shadow-md'>;
-          <h2 className='mb-4 text-xl font-semibold'>✨ Migrated Implementation</h2>;
-          <div className='rounded-lg bg-white'>;
+        <div className='rounded-lg border p-6 shadow-md'>
+          <h2 className='mb-4 text-xl font-semibold'>✨ Migrated Implementation</h2>
+          <div className='rounded-lg bg-white'>
             <CuisineSectionMigrated
               cuisine={selectedCuisine},
               recipes={recipes},
@@ -179,9 +179,9 @@ export default function CuisineSectionTestPage() {
         </div>
       </div>
 
-      <div className='mt-12 rounded-lg border border-blue-200 bg-blue-50 p-6'>;
-        <h2 className='mb-4 text-xl font-semibold'>💡 Implementation Notes</h2>;
-        <ul className='list-disc space-y-2 pl-6'>;
+      <div className='mt-12 rounded-lg border border-blue-200 bg-blue-50 p-6'>
+        <h2 className='mb-4 text-xl font-semibold'>💡 Implementation Notes</h2>
+        <ul className='list-disc space-y-2 pl-6'>
           <li>
             Replaced direct imports from <code>getRelatedCuisines</code>,{' '}
             <code>getRecipesForCuisineMatch</code>, and <code>getBestRecipeMatches</code> with

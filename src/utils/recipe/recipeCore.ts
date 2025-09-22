@@ -185,8 +185,8 @@ export function calculateRecipeMatchScore(
       // Caloric appropriateness
       const calories = recipe.nutrition.calories ?? 0;
       const isAppropriateCalories =
-        (timeOfDay === 'morning' && calories >= 300 && calories <= 500) ||;
-        (timeOfDay === 'afternoon' && calories >= 400 && calories <= 700) ||;
+        (timeOfDay === 'morning' && calories >= 300 && calories <= 500) ||
+        (timeOfDay === 'afternoon' && calories >= 400 && calories <= 700) ||
         (timeOfDay === 'evening' && calories >= 400 && calories <= 800);
 
       if (isAppropriateCalories) {
@@ -204,7 +204,7 @@ export function calculateRecipeMatchScore(
 
     // Traditional/Cultural appropriateness for time and season
     if (
-      recipe.traditional_time_of_day === elementalState.timeOfDay ||;
+      recipe.traditional_time_of_day === elementalState.timeOfDay ||
       recipe.traditional_season === elementalState.currentSeason
     ) {
       score += bonusFactors.traditionalMatch;

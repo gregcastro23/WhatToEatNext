@@ -35,7 +35,7 @@ export function getCachedCalculation<T>(
 ): T | Promise<T> {
   // Create a hash of the input for comparison
   const inputHash = JSON.stringify(inputObj);
-  const now = Date.now();
+  const now = Date.now()
   const cached = calculationCache[cacheKey];
 
   // Check if we have a valid cached result

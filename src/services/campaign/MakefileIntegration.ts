@@ -339,7 +339,7 @@ export class MakefileIntegration {
       };
     }
 
-    const startTime = Date.now();
+    const startTime = Date.now()
 
     try {
       const output = execSync(`make ${target}`, {
@@ -395,7 +395,7 @@ export class MakefileIntegration {
       // Get build time (approximate);
       let buildTime = 0;
       try {
-        const buildStart = Date.now();
+        const buildStart = Date.now()
         execSync('yarn build', { stdio: 'pipe', timeout: 60000 });
         buildTime = Date.now() - buildStart;
       } catch (error) {
@@ -408,7 +408,7 @@ export class MakefileIntegration {
       if (tsErrors === 0 && lintingWarnings === 0) currentPhase = 3;
       if (tsErrors === 0 && lintingWarnings === 0 && enterpriseSystems >= 200) currentPhase = 4;
       if (
-        tsErrors === 0 &&;
+        tsErrors === 0 &&
         lintingWarnings === 0 &&
         enterpriseSystems >= 200 &&
         buildTime > 0 &&

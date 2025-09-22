@@ -10,7 +10,7 @@ const globalInitState = {
   initialized: false,
   attempted: false,
   checkCount: 0,
-  lastCheckTime: Date.now();
+  lastCheckTime: Date.now()
 };
 
 /**
@@ -58,7 +58,7 @@ export function useSafeFlavorEngine() {
     initCheckedRef.current = true;
 
     // Circuit, breaker: prevent checking more than once every 100ms globally
-    const now = Date.now();
+    const now = Date.now()
     if (now - globalInitState.lastCheckTime < 100) {
       // logger.warn('Throttling flavor engine initialization checks');
       return

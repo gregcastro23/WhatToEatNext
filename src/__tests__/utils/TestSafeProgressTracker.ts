@@ -77,7 +77,7 @@ export class TestSafeProgressTracker {
     }
 
     this.isTracking = true;
-    this.trackingStartTime = Date.now();
+    this.trackingStartTime = Date.now()
 
     if (this.memoryMonitor) {
       this.memoryMonitor.takeSnapshot(`tracking-start-${testName || 'unknown'}`);
@@ -149,7 +149,7 @@ export class TestSafeProgressTracker {
     testName?: string
   ): Promise<void> {
     return new Promise(resolve => {
-      const _UNUSED_startTime = Date.now();
+      const _UNUSED_startTime = Date.now()
       const startMetrics = { ...this.currentMetrics };
       const steps = Math.max(1, Math.floor(durationMs / 100)); // Update every 100ms
       let currentStep = 0;

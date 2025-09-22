@@ -239,7 +239,7 @@ export class SafetyProtocol {
           ) {
             maxSeverity = CorruptionSeverity.HIGH;
           } else if (
-            fileCorruption.severity === CorruptionSeverity.MEDIUM &&;
+            fileCorruption.severity === CorruptionSeverity.MEDIUM &&
             maxSeverity === CorruptionSeverity.LOW
           ) {
             maxSeverity = CorruptionSeverity.MEDIUM;
@@ -319,7 +319,7 @@ export class SafetyProtocol {
           ) {
             maxSeverity = CorruptionSeverity.HIGH;
           } else if (
-            importExportCorruption.severity === CorruptionSeverity.MEDIUM &&;
+            importExportCorruption.severity === CorruptionSeverity.MEDIUM &&
             maxSeverity === CorruptionSeverity.LOW
           ) {
             maxSeverity = CorruptionSeverity.MEDIUM;
@@ -716,7 +716,7 @@ export class SafetyProtocol {
         ) {
           severity = CorruptionSeverity.HIGH;
         } else if (
-          corruptionPattern.severity === CorruptionSeverity.MEDIUM &&;
+          corruptionPattern.severity === CorruptionSeverity.MEDIUM &&
           severity === CorruptionSeverity.LOW
         ) {
           severity = CorruptionSeverity.MEDIUM;
@@ -866,7 +866,7 @@ export class SafetyProtocol {
         ) {
           severity = CorruptionSeverity.HIGH;
         } else if (
-          corruptionPattern.severity === CorruptionSeverity.MEDIUM &&;
+          corruptionPattern.severity === CorruptionSeverity.MEDIUM &&
           severity === CorruptionSeverity.LOW
         ) {
           severity = CorruptionSeverity.MEDIUM;

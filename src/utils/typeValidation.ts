@@ -317,7 +317,7 @@ export const validateWithFallback = <T>(
 };
 
 // Safe type conversion with validation
-export const safeConvertToElementalProperties = (;
+export const safeConvertToElementalProperties = (
   value: unknown,
   fallback: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
 ): ElementalProperties => {

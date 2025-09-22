@@ -137,7 +137,7 @@ export class SafeBatchProcessor {
    * Process a single batch with safety protocols
    */
   private async processBatch(batchId: string, files: FileProcessingInfo[]): Promise<BatchResult> {
-    const startTime = Date.now();
+    const startTime = Date.now()
     let stashId: string | undefined,
 
     const result: BatchResult = {

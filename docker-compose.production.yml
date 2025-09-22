@@ -1,0 +1,335 @@
+version: '3.8'
+
+services:
+  # NGINX Load Balancer & Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    container_name: alchm_nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+      - ./nginx/logs:/var/log/nginx
+    depends_on:
+      - alchemical-core-1
+      - alchemical-core-2
+      - kitchen-intelligence-1
+      - kitchen-intelligence-2
+    networks:
+      - frontend
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "nginx", "-t"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+
+  # Alchemical Core Service - Instance 1
+  alchemical-core-1:
+    build:
+      context: ./backend/alchemical_service
+      dockerfile: Dockerfile.production
+    container_name: alchm_core_1
+    environment:
+      - NODE_ENV=production
+      - SERVICE_NAME=alchemical-core
+      - INSTANCE_ID=1
+      - DATABASE_URL=postgresql://alchm_app:${DB_PASSWORD}@postgres:5432/alchm_kitchen?sslmode=require
+      - REDIS_URL=redis://redis-cluster:6379
+      - JWT_SECRET=${JWT_SECRET}
+      - PROMETHEUS_PORT=9090
+    networks:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+
+  # Alchemical Core Service - Instance 2
+  alchemical-core-2:
+    build:
+      context: ./backend/alchemical_service
+      dockerfile: Dockerfile.production
+    container_name: alchm_core_2
+    environment:
+      - NODE_ENV=production
+      - SERVICE_NAME=alchemical-core
+      - INSTANCE_ID=2
+      - DATABASE_URL=postgresql://alchm_app:${DB_PASSWORD}@postgres:5432/alchm_kitchen?sslmode=require
+      - REDIS_URL=redis://redis-cluster:6379
+      - JWT_SECRET=${JWT_SECRET}
+      - PROMETHEUS_PORT=9091
+    networks:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+
+  # Kitchen Intelligence Service - Instance 1
+  kitchen-intelligence-1:
+    build:
+      context: ./backend/kitchen_service
+      dockerfile: Dockerfile.production
+    container_name: alchm_kitchen_1
+    environment:
+      - NODE_ENV=production
+      - SERVICE_NAME=kitchen-intelligence
+      - INSTANCE_ID=1
+      - DATABASE_URL=postgresql://alchm_app:${DB_PASSWORD}@postgres:5432/alchm_kitchen?sslmode=require
+      - REDIS_URL=redis://redis-cluster:6379
+      - JWT_SECRET=${JWT_SECRET}
+      - PROMETHEUS_PORT=9092
+    networks:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8100/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+
+  # Kitchen Intelligence Service - Instance 2
+  kitchen-intelligence-2:
+    build:
+      context: ./backend/kitchen_service
+      dockerfile: Dockerfile.production
+    container_name: alchm_kitchen_2
+    environment:
+      - NODE_ENV=production
+      - SERVICE_NAME=kitchen-intelligence
+      - INSTANCE_ID=2
+      - DATABASE_URL=postgresql://alchm_app:${DB_PASSWORD}@postgres:5432/alchm_kitchen?sslmode=require
+      - REDIS_URL=redis://redis-cluster:6379
+      - JWT_SECRET=${JWT_SECRET}
+      - PROMETHEUS_PORT=9093
+    networks:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8100/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+
+  # WebSocket Service for Real-time Features
+  websocket-service:
+    build:
+      context: ./backend/websocket_service
+      dockerfile: Dockerfile.production
+    container_name: alchm_websocket
+    environment:
+      - NODE_ENV=production
+      - SERVICE_NAME=websocket-service
+      - REDIS_URL=redis://redis-cluster:6379
+      - JWT_SECRET=${JWT_SECRET}
+    ports:
+      - "8001:8001"
+    networks:
+      - backend
+      - frontend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+
+  # PostgreSQL Database with High Availability
+  postgres:
+    image: postgres:15-alpine
+    container_name: alchm_postgres
+    environment:
+      - POSTGRES_DB=alchm_kitchen
+      - POSTGRES_USER=alchm_app
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_INITDB_ARGS=--auth-host=scram-sha-256
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init:/docker-entrypoint-initdb.d:ro
+      - ./database/ssl:/etc/ssl/certs:ro
+    networks:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U alchm_app -d alchm_kitchen"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 1G
+        reservations:
+          cpus: '1.0'
+          memory: 512M
+    command: >
+      postgres
+      -c ssl=on
+      -c ssl_cert_file=/etc/ssl/certs/server.crt
+      -c ssl_key_file=/etc/ssl/certs/server.key
+      -c max_connections=100
+      -c shared_buffers=256MB
+      -c effective_cache_size=1GB
+      -c maintenance_work_mem=64MB
+      -c checkpoint_completion_target=0.9
+      -c wal_buffers=16MB
+      -c default_statistics_target=100
+
+  # Redis Cluster for Caching and Session Management
+  redis-cluster:
+    image: redis:7-alpine
+    container_name: alchm_redis
+    command: >
+      redis-server
+      --appendonly yes
+      --appendfsync everysec
+      --maxmemory 256mb
+      --maxmemory-policy allkeys-lru
+      --requirepass ${REDIS_PASSWORD}
+    volumes:
+      - redis_data:/data
+    networks:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+
+  # Prometheus Monitoring
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: alchm_prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./monitoring/alerts:/etc/prometheus/alerts:ro
+      - prometheus_data:/prometheus
+    networks:
+      - backend
+      - monitoring
+    restart: unless-stopped
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+
+  # Grafana Dashboard
+  grafana:
+    image: grafana/grafana:latest
+    container_name: alchm_grafana
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources:ro
+    networks:
+      - monitoring
+    restart: unless-stopped
+
+  # Alertmanager for Prometheus Alerts
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: alchm_alertmanager
+    ports:
+      - "9093:9093"
+    volumes:
+      - ./monitoring/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+      - alertmanager_data:/alertmanager
+    networks:
+      - monitoring
+    restart: unless-stopped
+
+networks:
+  frontend:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+  backend:
+    driver: bridge
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.21.0.0/16
+  monitoring:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.22.0.0/16
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+  alertmanager_data:
+    driver: local

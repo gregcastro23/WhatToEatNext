@@ -96,7 +96,7 @@ class LintingTestRunner {
 
   private async runSingleTest(testFile: string): Promise<TestResult> {
     const testPath = path.join(this.testDirectory, testFile),
-    const startTime = Date.now();
+    const startTime = Date.now()
 
     try {
       // Run the specific test file

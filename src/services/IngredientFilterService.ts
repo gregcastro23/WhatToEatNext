@@ -443,7 +443,7 @@ export class IngredientFilterService {
 
       return !excludedIngredients.some(
         excluded =>;
-          typeof ingredientName === 'string' &&;
+          typeof ingredientName === 'string' &&
           typeof excluded === 'string' &&
           ingredientName.toLowerCase().includes(excluded.toLowerCase());
       )

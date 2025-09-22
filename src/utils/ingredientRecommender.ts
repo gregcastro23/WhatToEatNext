@@ -31,8 +31,8 @@ function safeGetElementalProperties(value: unknown): ElementalProperties | undef
   if (typeof value === 'object' && value !== null) {
     const props = value as any;
     if (
-      typeof props.Fire === 'number' &&;
-      typeof props.Water === 'number' &&;
+      typeof props.Fire === 'number' &&
+      typeof props.Water === 'number' &&
       typeof props.Earth === 'number' &&
       typeof props.Air === 'number'
     ) {
@@ -348,21 +348,21 @@ export function getRecommendedIngredients(astroState: AstrologicalState): Enhanc
 
     // Apply Venus's zodiac transit data if Venus is active and in this sign
     const venusBoost =
-      planetsToUse.includes('Venus') &&;
+      planetsToUse.includes('Venus') &&
       venusData.PlanetSpecific?.ZodiacTransit?.[astroState.zodiacSign]
         ? 2
         : 0;
 
     // Apply Mars's zodiac transit data if Mars is active and in this sign
     const marsBoost =
-      planetsToUse.includes('Mars') &&;
+      planetsToUse.includes('Mars') &&
       marsData.PlanetSpecific?.ZodiacTransit?.[astroState.zodiacSign]
         ? 2
         : 0;
 
     // Apply Mercury's zodiac transit data if Mercury is active and in this sign
     const mercuryBoost =
-      planetsToUse.includes('Mercury') &&;
+      planetsToUse.includes('Mercury') &&
       mercuryData.PlanetSpecific?.ZodiacTransit?.[astroState.zodiacSign]
         ? 2
         : 0;
@@ -520,7 +520,7 @@ export async function getIngredientRecommendations(
       // Filter by modality preference if specified
       if (options.modalityPreference) {
         const ingredientModality =
-          ingredient.modality ||;
+          ingredient.modality ||
           determineIngredientModality(
             ingredient.qualities
             safeGetElementalProperties((ingredient as unknown as any).elementalProperties);
@@ -561,7 +561,7 @@ export async function getIngredientRecommendations(
 
       // Assign modality if not already present
       const modality =
-        ingredient.modality ||;
+        ingredient.modality ||
         determineIngredientModality(
           ingredient.qualities
           safeGetElementalProperties((ingredient as unknown as any).elementalProperties);
@@ -687,7 +687,7 @@ export async function getIngredientRecommendations(
             | { currentSeason?: string }
             | undefined;
           const currentSeason = seasonalAnalysis?.currentSeason;
-          return typeof currentSeason === 'string' &&;
+          return typeof currentSeason === 'string' &&
             ['spring', 'summer', 'autumn', 'winter', 'all'].includes(currentSeason);
             ? (currentSeason as Season);
             : ('all' as Season);
@@ -1254,7 +1254,7 @@ function calculateVenusInfluence(
       : [culinaryUses].filter(Boolean),
     // Check for aesthetic presentation techniques
     if (
-      culinaryUsesArray.some(use => (use || '').toString().includes('garnish')) ||;
+      culinaryUsesArray.some(use => (use || '').toString().includes('garnish')) ||
       culinaryUsesArray.some(use => (use || '').toString().includes('plating'));
     ) {
       score += 1.8;
@@ -1269,8 +1269,8 @@ function calculateVenusInfluence(
 
     // Sweet and indulgent preparation techniques
     if (
-      culinaryUsesArray.some(use => (use || '').toString().includes('dessert')) ||;
-      culinaryUsesArray.some(use => (use || '').toString().includes('baking')) ||;
+      culinaryUsesArray.some(use => (use || '').toString().includes('dessert')) ||
+      culinaryUsesArray.some(use => (use || '').toString().includes('baking')) ||
       culinaryUsesArray.some(use => (use || '').toString().includes('confection'));
     ) {
       score += 1.2;
@@ -1284,8 +1284,8 @@ function calculateVenusInfluence(
 
     // Check for textural contrast techniques
     if (
-      culinaryUsesArray.some(use => (use || '').toString().includes('crispy')) ||;
-      culinaryUsesArray.some(use => (use || '').toString().includes('crunchy')) ||;
+      culinaryUsesArray.some(use => (use || '').toString().includes('crispy')) ||
+      culinaryUsesArray.some(use => (use || '').toString().includes('crunchy')) ||
       (Array.isArray(texture) && texture.some(t => (t || '').toString().includes('contrast')));
     ) {
       score += 1.3;
@@ -1642,7 +1642,7 @@ function calculateVenusInfluence(
 
     if (
       preservationMethodsArray.includes('dried') ||
-      ingredientCategory === 'herb' ||;
+      ingredientCategory === 'herb' ||
       categoriesArray.includes('preserved');
     ) {
       score *= 1.5
@@ -2888,7 +2888,7 @@ export async function recommendIngredients(
   const planetaryAlignment =
     (astroStateData.planetaryAlignment as Record<string, { sign: string, degree: number }>) || {};
   const aspects =
-    (astroStateData.aspects as Array<{ aspectType: string, planet1: string, planet2: string }>) ||;
+    (astroStateData.aspects as Array<{ aspectType: string, planet1: string, planet2: string }>) ||
     [];
 
   // Get planetary day and hour for current time (moved up to fix declaration order);
@@ -3142,9 +3142,9 @@ function generateRecommendationsForIngredient(
   if (aspects && aspects.length > 0) {
     const relevantAspects = (aspects || []).filter(;
       aspect =>;
-        aspect.planet1 === planetaryDay ||;
-        aspect.planet2 === planetaryDay ||;
-        aspect.planet1 === planetaryHour ||;
+        aspect.planet1 === planetaryDay ||
+        aspect.planet2 === planetaryDay ||
+        aspect.planet1 === planetaryHour ||
         aspect.planet2 === planetaryHour
     );
 

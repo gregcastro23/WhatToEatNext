@@ -435,7 +435,7 @@ export class ResolutionStrategyGenerator {
     ];
 
     if (
-      errorClassification.severity.level === 'high' ||;
+      errorClassification.severity.level === 'high' ||
       errorClassification.severity.level === 'critical'
     ) {
       requirements.push({

@@ -113,7 +113,7 @@ export function clearMatchCache(all = false): void {;
     matchCache.clear();
   } else {
     // Clear expired entries
-    const now = Date.now();
+    const now = Date.now()
     const entries = matchCache.entries();
     for (const entry of entries) {
       const [key, cacheEntry] = entryif (now - cacheEntry.timestamp > CACHE_TTL) {
@@ -420,7 +420,7 @@ export async function findBestMatches(
   // Cache the results
   matchCache.set(cacheKey, {
     data: results,
-    timestamp: Date.now();
+    timestamp: Date.now()
   });
 
   return results;

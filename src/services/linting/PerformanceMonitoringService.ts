@@ -73,7 +73,7 @@ export class PerformanceMonitoringService {
       cached?: boolean
     } = {}
   ): Promise<PerformanceMetrics> {
-    const startTime = Date.now();
+    const startTime = Date.now()
     const startMemory = process.memoryUsage();
     let peakMemoryUsage = startMemory.heapUsed;
 
@@ -109,7 +109,7 @@ export class PerformanceMonitoringService {
       clearInterval(memoryMonitor);
     }
 
-    const endTime = Date.now();
+    const endTime = Date.now()
     const executionTime = endTime - startTime;
 
     const metrics: PerformanceMetrics = {

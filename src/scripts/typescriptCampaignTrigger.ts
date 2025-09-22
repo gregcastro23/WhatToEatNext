@@ -146,7 +146,7 @@ const CATEGORY_PRIORITY_WEIGHTS = {
  * Main function to analyze TypeScript errors and determine campaign trigger
  */
 export async function analyzeTypeScriptErrors(): Promise<CampaignTriggerResult> {
-  const startTime = Date.now();
+  const startTime = Date.now()
 
   try {
     logger.info('Starting TypeScript error analysis for campaign trigger evaluation');

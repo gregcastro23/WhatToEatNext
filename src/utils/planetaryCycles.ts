@@ -223,15 +223,15 @@ function calculateTokenValue(
 
   // Calculate influence from each cycle
   const primaryInfluence =
-    Math.sin((2 * Math.PI * daysSinceEpoch) / cycles.primary.period + cycles.primary.phase) *;
+    Math.sin((2 * Math.PI * daysSinceEpoch) / cycles.primary.period + cycles.primary.phase) *
     cycles.primary.amplitude;
 
   const secondaryInfluence =
-    Math.sin((2 * Math.PI * daysSinceEpoch) / cycles.secondary.period + cycles.secondary.phase) *;
+    Math.sin((2 * Math.PI * daysSinceEpoch) / cycles.secondary.period + cycles.secondary.phase) *
     cycles.secondary.amplitude;
 
   const tertiaryInfluence =
-    Math.sin((2 * Math.PI * daysSinceEpoch) / cycles.tertiary.period + cycles.tertiary.phase) *;
+    Math.sin((2 * Math.PI * daysSinceEpoch) / cycles.tertiary.period + cycles.tertiary.phase) *
     cycles.tertiary.amplitude;
 
   // Combine influences and normalize to a value between 0.1 and 1

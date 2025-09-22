@@ -75,7 +75,7 @@ export default function IngredientsPage() {
       selectedItems: selectedIngredient ? [selectedIngredient] : [],
       activeSection: 'ingredients',
       scrollPosition: window.scrollY,
-      timestamp: Date.now();
+      timestamp: Date.now()
     });
 
     // Navigate with smooth transition
@@ -100,17 +100,17 @@ export default function IngredientsPage() {
   }, [getIngredientRecommendations]);
 
   return (
-    <div className='min-h-screen bg-gradient-to-b from-indigo-50 via-blue-50 to-gray-100'>;
-      <div className='container mx-auto px-4 py-8'>;
+    <div className='min-h-screen bg-gradient-to-b from-indigo-50 via-blue-50 to-gray-100'>
+      <div className='container mx-auto px-4 py-8'>
         {/* Header with navigation */}
-        <header className='mb-8'>;
-          <div className='mb-4 flex items-center justify-between'>;
-            <div className='flex items-center gap-4'>;
+        <header className='mb-8'>
+          <div className='mb-4 flex items-center justify-between'>
+            <div className='flex items-center gap-4'>
               <button
                 onClick={handleBackToMain},
                 className='flex items-center gap-2 rounded-lg px-3 py-2 font-medium text-indigo-600 transition-colors, hover: bg-indigo-50, hover:text-indigo-800'
               >
-                <ArrowLeft size={20} />;
+                <ArrowLeft size={20} />
                 Back to Main
               </button>
 
@@ -118,13 +118,13 @@ export default function IngredientsPage() {
                 onClick={handleGoHome};
                 className='flex items-center gap-2 rounded-lg px-3 py-2 font-medium text-gray-600 transition-colors, hover: bg-gray-50, hover:text-gray-800'
               >
-                <Home size={20} />;
+                <Home size={20} />
                 Home
               </button>
             </div>
           </div>
 
-          <div className='text-center'>;
+          <div className='text-center'>
             <h1 className='mb-2 text-3xl font-bold text-indigo-900, md: text-4xl'>
               Ingredient Recommendations
             </h1>
@@ -134,15 +134,15 @@ export default function IngredientsPage() {
 
             {/* Context indicators */}
             {(selectedCategory || selectedIngredient) && (
-              <div className='inline-flex items-center gap-4 rounded-lg bg-white px-4 py-2 shadow-sm'>;
+              <div className='inline-flex items-center gap-4 rounded-lg bg-white px-4 py-2 shadow-sm'>
                 {selectedCategory && (
-                  <span className='text-sm text-gray-600'>;
+                  <span className='text-sm text-gray-600'>
                     Category:{' '}
                     <span className='font-medium text-indigo-600'>{selectedCategory}</span>
                   </span>
                 )}
                 {selectedIngredient && (
-                  <span className='text-sm text-gray-600'>;
+                  <span className='text-sm text-gray-600'>
                     Selected:{' '}
                     <span className='font-medium text-indigo-600'>{selectedIngredient}</span>
                   </span>
@@ -153,10 +153,10 @@ export default function IngredientsPage() {
         </header>
 
         {/* Main content */}
-        <main className='mx-auto max-w-6xl'>;
-          <div className='rounded-lg bg-white p-6 shadow-md'>;
+        <main className='mx-auto max-w-6xl'>
+          <div className='rounded-lg bg-white p-6 shadow-md'>
             {!recLoading && !recError && enhancedIngredients?.context?.rune && (
-              <div className='mb-4 flex items-center gap-3 rounded-md bg-indigo-50 p-3'>;
+              <div className='mb-4 flex items-center gap-3 rounded-md bg-indigo-50 p-3'>
                 <div className='text-2xl'>{enhancedIngredients.context.rune.symbol}</div>
                 <div>
                   <div className='text-sm font-semibold'>{enhancedIngredients.context.rune.name}</div>

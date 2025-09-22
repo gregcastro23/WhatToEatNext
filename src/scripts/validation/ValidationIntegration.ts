@@ -195,7 +195,7 @@ export class ValidationIntegration {
   ): QualityAssuranceReport {
     const overallQuality = this.calculateOverallQuality(validationResult.qualityScore);
     const actionRequired =
-      !validationResult.overallPassed ||;
+      !validationResult.overallPassed ||
       validationResult.qualityScore < this.config.qualityThreshold;
     const rollbackRecommended = validationResult.requiresRollback;
 

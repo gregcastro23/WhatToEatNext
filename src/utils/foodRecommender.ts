@@ -438,16 +438,16 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
             if (signPosition) {
               // This is a simplified dignity check - a more comprehensive one would use a proper dignity table
               const isInDignity =
-                (planetLower === 'sun' && signPosition === 'leo') ||;
-                (planetLower === 'moon' && signPosition === 'cancer') ||;
+                (planetLower === 'sun' && signPosition === 'leo') ||
+                (planetLower === 'moon' && signPosition === 'cancer') ||
                 (planetLower === 'mercury' &&
-                  (signPosition === 'gemini' || signPosition === 'virgo')) ||;
+                  (signPosition === 'gemini' || signPosition === 'virgo')) ||
                 (planetLower === 'venus' &&
-                  (signPosition === 'taurus' || signPosition === 'libra')) ||;
+                  (signPosition === 'taurus' || signPosition === 'libra')) ||
                 (planetLower === 'mars' &&
-                  (signPosition === 'aries' || signPosition === 'scorpio')) ||;
+                  (signPosition === 'aries' || signPosition === 'scorpio')) ||
                 (planetLower === 'jupiter' &&
-                  (signPosition === 'sagittarius' || signPosition === 'pisces')) ||;
+                  (signPosition === 'sagittarius' || signPosition === 'pisces')) ||
                 (planetLower === 'saturn' &&
                   (signPosition === 'capricorn' || signPosition === 'aquarius'));
 
@@ -777,16 +777,16 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
 
               // Beneficial conjunctions (examples);
               if (
-                (planet1 === 'venus' && planet2 === 'jupiter') ||;
-                (planet1 === 'jupiter' && planet2 === 'venus') ||;
-                (planet1 === 'sun' && planet2 === 'jupiter') ||;
+                (planet1 === 'venus' && planet2 === 'jupiter') ||
+                (planet1 === 'jupiter' && planet2 === 'venus') ||
+                (planet1 === 'sun' && planet2 === 'jupiter') ||
                 (planet1 === 'jupiter' && planet2 === 'sun');
               ) {
                 multiplier = 1.3;
               }
               // Challenging conjunctions (examples);
               else if (
-                (planet1 === 'mars' && planet2 === 'saturn') ||;
+                (planet1 === 'mars' && planet2 === 'saturn') ||
                 (planet1 === 'saturn' && planet2 === 'mars');
               ) {
                 multiplier = 0.8;
@@ -1262,7 +1262,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
 /**
  * Get top ingredient matches based on elemental properties and other factors
  */
-export const _getTopIngredientMatches = (;
+export const _getTopIngredientMatches = (
   astroState: AstrologicalState,
   limit = 5
 ): EnhancedIngredient[] => {

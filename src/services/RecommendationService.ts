@@ -272,7 +272,7 @@ export class RecommendationService {
 
     // Apply boosts to each ingredient
     this.transformedIngredients =
-      this.transformedIngredients ||;
+      this.transformedIngredients ||
       [].map(item => {
         const properties = ((item as any).elementalState as ElementalProperties) || {
           Fire: 0,

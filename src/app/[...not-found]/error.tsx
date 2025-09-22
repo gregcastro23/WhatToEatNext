@@ -16,9 +16,9 @@ export default function NotFoundError({
   }, [error]);
 
   return (
-    <div className='flex min-h-screen flex-col items-center justify-center p-4'>;
-      <div className='max-w-md text-center'>;
-        <h2 className='mb-4 text-2xl font-bold text-red-500'>Page Not Found</h2>;
+    <div className='flex min-h-screen flex-col items-center justify-center p-4'>
+      <div className='max-w-md text-center'>
+        <h2 className='mb-4 text-2xl font-bold text-red-500'>Page Not Found</h2>
         <p className='text-text/80 mb-4'>
           The page you&aposre looking for doesn&apost exist or has been moved.
         </p>

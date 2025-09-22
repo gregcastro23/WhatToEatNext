@@ -16,18 +16,18 @@ const SimplePlanetaryDisplay = () => (;
 
 export default function PlanetaryTestPage() {
   return (
-    <div className='container mx-auto space-y-8 p-4'>;
-      <h1 className='mb-6 text-2xl font-bold'>Planetary Hours Testing Page</h1>;
+    <div className='container mx-auto space-y-8 p-4'>
+      <h1 className='mb-6 text-2xl font-bold'>Planetary Hours Testing Page</h1>
 
-      <section className='rounded-lg bg-white p-4 shadow'>;
-        <h2 className='mb-4 text-xl font-bold'>Simple Version</h2>;
-        <Suspense fallback={<div>Loading simple display...</div>}>;
+      <section className='rounded-lg bg-white p-4 shadow'>
+        <h2 className='mb-4 text-xl font-bold'>Simple Version</h2>
+        <Suspense fallback={<div>Loading simple display...</div>}>
           <SimplePlanetaryDisplay />
         </Suspense>
       </section>
 
-      <section className='rounded-lg bg-white p-4 shadow'>;
-        <h2 className='mb-4 text-xl font-bold'>Full Component</h2>;
+      <section className='rounded-lg bg-white p-4 shadow'>
+        <h2 className='mb-4 text-xl font-bold'>Full Component</h2>
         <Suspense fallback={<div>Loading full component...</div>}>
           <PlanetaryHoursTest />
         </Suspense>

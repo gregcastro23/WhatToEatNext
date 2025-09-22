@@ -14,8 +14,8 @@ const Loading = ({
   variant?: string,
   text?: string
 }) => (
-  <div className={`flex ${fullScreen ? 'min-h-screen' : ''} items-center justify-center p-4`}>;
-    <div className='text-center text-gray-600'>;
+  <div className={`flex ${fullScreen ? 'min-h-screen' : ''} items-center justify-center p-4`}>
+    <div className='text-center text-gray-600'>
       <div className='mb-2 animate-pulse'>⏳</div>
       <div>{text || 'Loading...'}</div>
     </div>
@@ -71,9 +71,9 @@ export default function Template({ children }: TemplateProps) {
 
   if (hasError) {
     return (
-      <div className='flex min-h-screen items-center justify-center p-4'>;
-        <div className='text-center'>;
-          <h1 className='mb-4 text-2xl font-bold'>Something went wrong</h1>;
+      <div className='flex min-h-screen items-center justify-center p-4'>
+        <div className='text-center'>
+          <h1 className='mb-4 text-2xl font-bold'>Something went wrong</h1>
           <p className='mb-4'>Please try refreshing the page</p>
           <button
             onClick={() => window.location.reload()},
@@ -87,7 +87,7 @@ export default function Template({ children }: TemplateProps) {
   }
 
   if (!isHydrated) {
-    return <Loading fullScreen variant='spinner' text='Loading application...' />;
+    return <Loading fullScreen variant='spinner' text='Loading application...' />
   }
 
   return (

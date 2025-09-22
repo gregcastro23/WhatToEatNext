@@ -40,10 +40,10 @@ const errorLog = (_message: string, ..._args: unknown[]): void => {
 export function isPlanetaryPosition(obj: unknown): obj is PlanetaryPosition {
   return (
     Boolean(obj) &&
-    typeof obj === 'object' &&;
-    typeof (obj as any).sign === 'string' &&;
-    typeof (obj as any).degree === 'number' &&;
-    (typeof (obj as any).exactLongitude === 'number' ||;
+    typeof obj === 'object' &&
+    typeof (obj as any).sign === 'string' &&
+    typeof (obj as any).degree === 'number' &&
+    (typeof (obj as any).exactLongitude === 'number' ||
       typeof (obj as any).exactLongitude === 'undefined');
   )
 }

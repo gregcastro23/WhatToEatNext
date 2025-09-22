@@ -102,7 +102,7 @@ function enhanceIngredient(
   const kalchm = calculateKalchm(alchemicalProperties);
 
   // Get or create thermodynamic properties
-  const thermodynamics = ingredient.thermodynamicProperties ||;
+  const thermodynamics = ingredient.thermodynamicProperties ||
     ingredient.energyValues || {
       heat: 0.5,
       entropy: 0.5,

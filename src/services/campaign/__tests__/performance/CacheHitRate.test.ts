@@ -320,7 +320,7 @@ describe('Cache Hit Rate Performance Tests', () => {
       const lookupTimes: number[] = []
 
       jest.spyOn(progressTracker, 'getCacheHitRate').mockImplementation(async () => {
-        const startTime: any = Date.now();
+        const startTime: any = Date.now()
         // Simulate cache lookup time;
         const lookupDelay: any = 5 + Math.random() * 10, // 5-15ms lookup time;
         const endTime: any = startTime + lookupDelay
@@ -364,7 +364,7 @@ describe('Cache Hit Rate Performance Tests', () => {
           return test.hitRate;
         });
 
-        const startTime: any = Date.now();
+        const startTime: any = Date.now()
         const cacheHitRate: any = await progressTracker.getCacheHitRate();
         const lookupTime: any = Date.now() - startTime;
 
@@ -401,7 +401,7 @@ describe('Cache Hit Rate Performance Tests', () => {
       expect(beforeInvalidation).toBe(0.85);
 
       // Simulate cache invalidation
-      const invalidationStart: any = Date.now();
+      const invalidationStart: any = Date.now()
       cacheVersion = 2;
 
       // Measure recovery time

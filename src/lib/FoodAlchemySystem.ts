@@ -920,24 +920,24 @@ export class FoodAlchemySystem {
     // Check elemental compatibility
     // Methods that share or complement the food's element are preferred
     const elementalMatch =
-      method.element === food.element ||;
-      (food.element === 'Fire' && method.element === 'Air') ||;
-      (food.element === 'Air' && method.element === 'Fire') ||;
-      (food.element === 'Water' && method.element === 'Earth') ||;
+      method.element === food.element ||
+      (food.element === 'Fire' && method.element === 'Air') ||
+      (food.element === 'Air' && method.element === 'Fire') ||
+      (food.element === 'Water' && method.element === 'Earth') ||
       (food.element === 'Earth' && method.element === 'Water');
 
     // Check planetary compatibility
     const planetaryMatch =
-      method.timing.optimal.includes(planetaryHour) ||;
+      method.timing.optimal.includes(planetaryHour) ||
       (method.timing.acceptable.includes(planetaryHour) &&
         !method.timing.avoid.includes(planetaryHour));
 
     // Check if method is appropriate for time of day
     // Some methods are better for day (solar) and others for night (lunar);
     const timeAppropriate =
-      (isDaytimeNow && (method.element === 'Fire' || method.element === 'Air')) ||;
-      (!isDaytimeNow && (method.element === 'Water' || method.element === 'Earth')) ||;
-      (method.planetaryRuler === 'Sun' && isDaytimeNow) ||;
+      (isDaytimeNow && (method.element === 'Fire' || method.element === 'Air')) ||
+      (!isDaytimeNow && (method.element === 'Water' || method.element === 'Earth')) ||
+      (method.planetaryRuler === 'Sun' && isDaytimeNow) ||
       (method.planetaryRuler === 'Moon' && !isDaytimeNow);
 
     // Method is compatible if at least two of the three conditions are true

@@ -417,9 +417,9 @@ describe('ConservativeReplacementPilot', () => {
     });
 
     test('should complete within reasonable time', async () => {
-      const startTime: any = Date.now();
+      const startTime: any = Date.now()
       await pilot.executePilot();
-      const endTime: any = Date.now();
+      const endTime: any = Date.now()
 
       const executionTime: any = endTime - startTime
       expect(executionTime).toBeLessThan(60000), // Should complete within 60 seconds

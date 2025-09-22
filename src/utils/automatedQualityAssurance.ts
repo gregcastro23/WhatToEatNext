@@ -295,7 +295,7 @@ export class AutomatedQualityAssurance {
         currentValue: errorCount,
         action: this.determineAction('typescript', errorCount),
         triggered: errorCount > this.config.thresholds.typescript.criticalThreshold,
-        timestamp: Date.now();
+        timestamp: Date.now()
       };
 
       if (trigger.triggered) {
@@ -480,7 +480,7 @@ export class AutomatedQualityAssurance {
       score: Math.max(0, Math.min(1, score)),
       issues,
       recommendations,
-      timestamp: Date.now();
+      timestamp: Date.now()
     };
   }
 
@@ -514,7 +514,7 @@ export class AutomatedQualityAssurance {
       currentValue: value,
       action: this.determineAction(type, value),
       triggered: value < thresholds.critical,
-      timestamp: Date.now();
+      timestamp: Date.now()
     };
 
     if (trigger.triggered) {

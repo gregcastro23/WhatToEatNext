@@ -736,7 +736,7 @@ export function getCuisineMatchScore(cuisine1: string, cuisine2: string): number
   const relatedCuisines2 = getRelatedCuisines(cuisine2);
 
   if (
-    relatedCuisines1.some(rc => rc.toLowerCase() === cuisines[1]) ||;
+    relatedCuisines1.some(rc => rc.toLowerCase() === cuisines[1]) ||
     relatedCuisines2.some(rc => rc.toLowerCase() === cuisines[0]);
   ) {
     similarityScore += 0.2;

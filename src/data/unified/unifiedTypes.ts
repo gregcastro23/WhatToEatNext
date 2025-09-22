@@ -118,10 +118,10 @@ export function isUnifiedIngredient(obj: unknown): obj is UnifiedIngredient {
 
   const ingredient = obj as Partial<UnifiedIngredient>;
   return (
-    typeof ingredient.name === 'string' &&;
-    typeof ingredient.category === 'string' &&;
+    typeof ingredient.name === 'string' &&
+    typeof ingredient.category === 'string' &&
     ingredient.elementalPropertiesState !== undefined &&
-    typeof ingredient.elementalPropertiesState === 'object' &&;
+    typeof ingredient.elementalPropertiesState === 'object' &&
     ingredient.alchemicalProperties !== undefined &&
     typeof ingredient.alchemicalProperties === 'object'
   )

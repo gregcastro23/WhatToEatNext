@@ -163,8 +163,8 @@ export class ChakraService {
       if (state.sunSign === 'aries' || state.sunSign === 'leo' || state.sunSign === 'sagittarius') {;
         suggestions.push('Fire signs benefit from cooling foods to balance intensity');
       } else if (
-        state.sunSign === 'cancer' ||;
-        state.sunSign === 'scorpio' ||;
+        state.sunSign === 'cancer' ||
+        state.sunSign === 'scorpio' ||
         state.sunSign === 'pisces'
       ) {
         suggestions.push('Water signs benefit from warming spices to energize and ground');

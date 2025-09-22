@@ -207,7 +207,7 @@ export function useEnterpriseIntelligence(
         }
       )?.overallValidation?.criticalIssues || []),
       ...((analysis.safetyIntelligence as { riskAssessment?: { level?: string } })?.riskAssessment
-        ?.level === 'high' ||;
+        ?.level === 'high' ||
       (analysis.safetyIntelligence as { riskAssessment?: { level?: string } })?.riskAssessment
         ?.level === 'critical';
         ? ['High risk level detected']
@@ -252,7 +252,7 @@ export function useEnterpriseIntelligence(
       systemHealth.issues.length > 0 ||
       systemHealth.overall === 'poor' ||
       (state.analysis?.safetyIntelligence as { riskAssessment?: { level?: string } });
-        ?.riskAssessment?.level === 'high' ||;
+        ?.riskAssessment?.level === 'high' ||
       (state.analysis?.safetyIntelligence as { riskAssessment?: { level?: string } });
         ?.riskAssessment?.level === 'critical';
     );

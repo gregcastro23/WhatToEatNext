@@ -138,7 +138,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
             primaryPlanetaryInfluences[planet] = 0.8;
           } else {
             const partialMatch =
-              Array.isArray(culinaryAffinity) &&;
+              Array.isArray(culinaryAffinity) &&
               culinaryAffinity.some(
                 (affinity: string) =>
                   affinity.includes(cuisineName.toLowerCase()) ||
@@ -894,7 +894,7 @@ async function applyAdditionalFilters(
     // Season match - enhanced with better scoring
     if (criteria.season) {
       const seasonMatch =
-        (recipe.energyProfile.season && recipe.energyProfile.season.includes(criteria.season)) ||;
+        (recipe.energyProfile.season && recipe.energyProfile.season.includes(criteria.season)) ||
         (Array.isArray(recipe.season) && recipe.season.includes(criteria.season)) ||
         (typeof recipe.season === 'string' && recipe.season === criteria.season);
 
@@ -913,9 +913,9 @@ async function applyAdditionalFilters(
       const normalizedMealType = criteria.mealType.toLowerCase();
 
       const mealTypeMatch =
-        (recipe.tags && recipe.tags.some(tag => tag.toLowerCase() === normalizedMealType)) ||;
+        (recipe.tags && recipe.tags.some(tag => tag.toLowerCase() === normalizedMealType)) ||
         (Array.isArray(recipe.mealType) &&
-          recipe.mealType.some(mt => mt.toLowerCase() === normalizedMealType)) ||;
+          recipe.mealType.some(mt => mt.toLowerCase() === normalizedMealType)) ||
         (typeof recipe.mealType === 'string' &&
           recipe.mealType.toLowerCase() === normalizedMealType);
 

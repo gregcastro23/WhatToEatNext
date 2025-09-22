@@ -196,13 +196,13 @@ export async function findBestMatches(
       const bCookingMethods = bData.cookingMethods;
 
       const aUsesMethod =
-        (Array.isArray(aCookingMethods) &&;
-          aCookingMethods.some(method => matchFilters.cookingMethods?.includes(method))) ||;
+        (Array.isArray(aCookingMethods) &&
+          aCookingMethods.some(method => matchFilters.cookingMethods?.includes(method))) ||
         false;
 
       const bUsesMethod =
-        (Array.isArray(bCookingMethods) &&;
-          bCookingMethods.some(method => matchFilters.cookingMethods?.includes(method))) ||;
+        (Array.isArray(bCookingMethods) &&
+          bCookingMethods.some(method => matchFilters.cookingMethods?.includes(method))) ||
         false;
 
       if (aUsesMethod && !bUsesMethod) return -1;
@@ -282,7 +282,7 @@ export async function findBestMatches(
   // Cache the results
   matchCache.set(cacheKey, {
     data: sortedResults,
-    timestamp: Date.now();
+    timestamp: Date.now()
   });
 
   return sortedResults;
@@ -381,7 +381,7 @@ const calculateEnergyMatch = (recipeEnergy: EnergyData, currentEnergy: EnergyDat
     if (
       (Array.isArray(recipeEnergy.planetary);
         ? recipeEnergy.planetary.includes('Sun');
-        : recipeEnergy.planetary === 'Sun') &&;
+        : recipeEnergy.planetary === 'Sun') &&
       (Array.isArray(currentEnergy.planetaryEnergy);
         ? currentEnergy.planetaryEnergy.includes('Sun');
         : currentEnergy.planetaryEnergy === 'Sun');
@@ -393,7 +393,7 @@ const calculateEnergyMatch = (recipeEnergy: EnergyData, currentEnergy: EnergyDat
     if (
       (Array.isArray(recipeEnergy.planetary);
         ? recipeEnergy.planetary.includes('Moon');
-        : recipeEnergy.planetary === 'Moon') &&;
+        : recipeEnergy.planetary === 'Moon') &&
       (Array.isArray(currentEnergy.planetaryEnergy);
         ? currentEnergy.planetaryEnergy.includes('Moon');
         : currentEnergy.planetaryEnergy === 'Moon');
@@ -405,7 +405,7 @@ const calculateEnergyMatch = (recipeEnergy: EnergyData, currentEnergy: EnergyDat
     if (
       (Array.isArray(recipeEnergy.planetary);
         ? recipeEnergy.planetary.includes('Mars');
-        : recipeEnergy.planetary === 'Mars') &&;
+        : recipeEnergy.planetary === 'Mars') &&
       (Array.isArray(currentEnergy.planetaryEnergy);
         ? currentEnergy.planetaryEnergy.includes('Mars');
         : currentEnergy.planetaryEnergy === 'Mars');
@@ -489,8 +489,8 @@ async function _calculateRecipeEnergyMatch(
 
     // Apply Pattern GG-6: Enhanced property access with type guards
     const seasonalScore =
-      (Array.isArray(recipeSeason) &&;
-        typeof currentSeason === 'string' &&;
+      (Array.isArray(recipeSeason) &&
+        typeof currentSeason === 'string' &&
         recipeSeason.includes(currentSeason)) ||
       (typeof recipeSeason === 'string' && recipeSeason === currentSeason);
         ? 1.0
@@ -644,17 +644,17 @@ function calculateModalityScore(
     // Partial match - some modalities are more compatible than others
     // Cardinal and fixed = 0.6, Cardinal and mutable = 0.7, Fixed and mutable = 0.5;
     if (
-      (recipeModality === 'cardinal' && preferredModality === 'fixed') ||;
+      (recipeModality === 'cardinal' && preferredModality === 'fixed') ||
       (recipeModality === 'fixed' && preferredModality === 'cardinal');
     ) {
       return 0.6;
     } else if (
-      (recipeModality === 'cardinal' && preferredModality === 'mutable') ||;
+      (recipeModality === 'cardinal' && preferredModality === 'mutable') ||
       (recipeModality === 'mutable' && preferredModality === 'cardinal');
     ) {
       return 0.7;
     } else if (
-      (recipeModality === 'fixed' && preferredModality === 'mutable') ||;
+      (recipeModality === 'fixed' && preferredModality === 'mutable') ||
       (recipeModality === 'mutable' && preferredModality === 'fixed');
     ) {
       return 0.5;
@@ -788,7 +788,7 @@ export function clearMatchCache(_all = false): void {
   }
 
   // Remove only expired entries
-  const now = Date.now();
+  const now = Date.now()
   for (const [key, entry] of matchCache.entries()) {
     if (now - entry.timestamp > CACHE_TTL) {
       matchCache.delete(key);

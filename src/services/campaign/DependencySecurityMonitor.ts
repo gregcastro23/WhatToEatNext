@@ -126,7 +126,7 @@ export class DependencySecurityMonitor {
    * Execute comprehensive dependency and security monitoring
    */
   async executeDependencySecurityMonitoring(): Promise<DependencySecurityResult> {
-    const startTime = Date.now();
+    const startTime = Date.now()
     logger.info('Starting dependency and security monitoring');
     try {
       const result: DependencySecurityResult = {

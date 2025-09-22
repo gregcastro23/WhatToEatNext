@@ -59,7 +59,7 @@ export function useRecipeValidation() {
       hasGrains: ingredients.some(ing => ing.category === 'grain'),
       hasSeasonings: ingredients.some(
         ing =>;
-          ing.category === 'spice' ||;
+          ing.category === 'spice' ||
           ing.category === 'culinary_herb' ||
           ing.category === 'seasoning'
       ),

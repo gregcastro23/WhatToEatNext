@@ -753,7 +753,7 @@ export class CampaignDebugger {
     // Add corrective steps based on findings
     for (const finding of findings) {
       if (
-        finding.severity === FindingSeverity.HIGH ||;
+        finding.severity === FindingSeverity.HIGH ||
         finding.severity === FindingSeverity.CRITICAL
       ) {
         recoverySteps.push({

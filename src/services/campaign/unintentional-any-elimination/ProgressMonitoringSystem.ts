@@ -387,7 +387,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
   }
 
   private async getCurrentBuildStability(): Promise<BuildStabilityRecord> {
-    const startTime = Date.now();
+    const startTime = Date.now()
     try {
       // Run TypeScript compilation check
       execSync('yarn tsc --noEmit --skipLibCheck', {

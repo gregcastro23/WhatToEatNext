@@ -53,7 +53,7 @@ export class MockCampaignController {
     this._isRunning = true;
     this.currentPhase = phase;
 
-    const startTime = Date.now();
+    const startTime = Date.now()
 
     // Add mock safety event
     this.addSafetyEvent({

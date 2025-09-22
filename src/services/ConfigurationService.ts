@@ -206,7 +206,7 @@ class ConfigurationServiceImpl {
           section: section as ConfigurationUpdate['section'],
           key,
           value,
-          timestamp: Date.now();
+          timestamp: Date.now()
         };
 
         // Add to history
@@ -389,7 +389,7 @@ class ConfigurationServiceImpl {
           section: 'debug',
           key: 'reset',
           value: 'defaults',
-          timestamp: Date.now();
+          timestamp: Date.now()
         };
         this.configHistory.push(update);
 
@@ -445,7 +445,7 @@ class ConfigurationServiceImpl {
         section: 'debug',
         key: 'import',
         value: 'configuration',
-        timestamp: Date.now();
+        timestamp: Date.now()
       };
       this.configHistory.push(update);
       this.notifyListeners(update);

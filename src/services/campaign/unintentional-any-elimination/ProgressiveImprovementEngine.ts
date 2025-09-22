@@ -456,7 +456,7 @@ export class ProgressiveImprovementEngine {
    * Execute a single batch of improvements with adaptive sizing
    */
   async executeBatch(config?: UnintentionalAnyConfig): Promise<BatchMetrics> {
-    const startTime = Date.now();
+    const startTime = Date.now()
     this.batchCounter++
 
     // Use adaptive config if no config provided, or merge with provided config
@@ -583,7 +583,7 @@ export class ProgressiveImprovementEngine {
   async executeFullCampaign(
     config?: UnintentionalAnyConfig,
   ): Promise<UnintentionalAnyCampaignResult> {
-    const campaignStart = Date.now();
+    const campaignStart = Date.now()
     // Use adaptive config if no config provided, or merge with provided config
     const effectiveConfig = config ? { ...this.adaptiveConfig, ...config } : this.adaptiveConfig;
 

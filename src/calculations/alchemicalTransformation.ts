@@ -100,16 +100,16 @@ export const transformItemWithPlanetaryPositions = (
     );
 
     // Apply safety checks for energy metrics
-    const safeHeat = Number.isFinite(alchemicalResults.heat);
-      ? Math.max(0.1, Math.min(1.0, alchemicalResults.heat * planetaryBoost * 2.5));
+    const safeHeat = Number.isFinite(alchemicalResults.heat)
+      ? Math.max(0.1, Math.min(1.0, alchemicalResults.heat * planetaryBoost * 2.5))
       : 0.5;
 
-    const safeEntropy = Number.isFinite(alchemicalResults.entropy);
-      ? Math.max(0.1, Math.min(1.0, alchemicalResults.entropy * 1.5));
+    const safeEntropy = Number.isFinite(alchemicalResults.entropy)
+      ? Math.max(0.1, Math.min(1.0, alchemicalResults.entropy * 1.5))
       : 0.5;
 
-    const safeReactivity = Number.isFinite(alchemicalResults.reactivity);
-      ? Math.max(0.1, Math.min(1.0, alchemicalResults.reactivity * 1.5));
+    const safeReactivity = Number.isFinite(alchemicalResults.reactivity)
+      ? Math.max(0.1, Math.min(1.0, alchemicalResults.reactivity * 1.5))
       : 0.5;
 
     // Calculate gregsEnergy using the original, formula: heat - (reactivity * entropy);
@@ -162,28 +162,28 @@ export const transformItemWithPlanetaryPositions = (
     };
 
     const zodiacElement = zodiacElementMap[zodiacSign];
-    if (zodiacElement && zodiacElement === dominantElement) {;
+    if (zodiacElement && zodiacElement === dominantElement) {
       zodiacModifier = 0.25; // Increased bonus for matching zodiac element
     } else if (zodiacElement) {
       // Calculate compatibility based on elemental relationships with wider variance
       if (
-        (zodiacElement === 'Fire' && dominantElement === 'Air') ||;
-        (zodiacElement === 'Air' && dominantElement === 'Fire');
+        (zodiacElement === 'Fire' && dominantElement === 'Air') ||
+        (zodiacElement === 'Air' && dominantElement === 'Fire')
       ) {
         zodiacModifier = 0.18; // Fire and Air are complementary
       } else if (
-        (zodiacElement === 'Earth' && dominantElement === 'Water') ||;
-        (zodiacElement === 'Water' && dominantElement === 'Earth');
+        (zodiacElement === 'Earth' && dominantElement === 'Water') ||
+        (zodiacElement === 'Water' && dominantElement === 'Earth')
       ) {
         zodiacModifier = 0.18; // Earth and Water are complementary
       } else if (
-        (zodiacElement === 'Fire' && dominantElement === 'Earth') ||;
-        (zodiacElement === 'Earth' && dominantElement === 'Fire');
+        (zodiacElement === 'Fire' && dominantElement === 'Earth') ||
+        (zodiacElement === 'Earth' && dominantElement === 'Fire')
       ) {
         zodiacModifier = 0.12; // Fire and Earth have moderate compatibility
       } else if (
-        (zodiacElement === 'Water' && dominantElement === 'Air') ||;
-        (zodiacElement === 'Air' && dominantElement === 'Water');
+        (zodiacElement === 'Water' && dominantElement === 'Air') ||
+        (zodiacElement === 'Air' && dominantElement === 'Water')
       ) {
         zodiacModifier = 0.12; // Water and Air have moderate compatibility
       } else {
@@ -199,7 +199,7 @@ export const transformItemWithPlanetaryPositions = (
 
     // Combine all influences for a more varied energy calculation
     const adjustedEnergy =
-      baseScaledEnergy +;
+      baseScaledEnergy +
       elementalModifier +
       alchemicalModifier +
       zodiacModifier +
@@ -302,7 +302,7 @@ export const _transformItemsWithPlanetaryPositions = (
  * Transform elemental properties using alchemical results and planetary boost
  * This applies the alchemical influence to the base elemental properties
  */
-const transformElementalProperties = (;
+const transformElementalProperties = (
   originalProperties: Record<ElementalCharacter, number>,
   alchemicalResults: AlchemicalResults,
   planetaryBoost: number = 1.0,
@@ -353,7 +353,7 @@ const transformElementalProperties = (;
       transformedProperties,
       alchemicalResults.elementalCounts,
       originalProperties,
-      Math.min(1.0, planetaryBoost * 0.7);
+      Math.min(1.0, planetaryBoost * 0.7)
     );
 
     // Boost the dominant element slightly to preserve ingredient character, but cap the boost
@@ -412,7 +412,7 @@ const applyZodiacBoost = (
 /**
  * Apply cross-element influences based on elemental counts and boost
  */
-const applyElementalInfluences = (;
+const applyElementalInfluences = (
   transformedProperties: Record<ElementalCharacter, number>,
   elementalCounts: Record<ElementalCharacter, number>,
   originalProperties: Record<ElementalCharacter, number>,

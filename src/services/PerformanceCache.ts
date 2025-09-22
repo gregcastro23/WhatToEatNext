@@ -61,7 +61,7 @@ export class PerformanceCache<T> {
     }
 
     // Check TTL
-    const now = Date.now();
+    const now = Date.now()
     if (now - entry.timestamp > entry.ttl) {
       this.cache.delete(key);
       this.missCount++;
@@ -80,7 +80,7 @@ export class PerformanceCache<T> {
    * Set item in cache with optional custom TTL
    */
   set(key: string, data: T, customTTL?: number): void {
-    const now = Date.now();
+    const now = Date.now()
     const ttl = customTTL || this.defaultTTL;
 
     // Check if we need to evict items
@@ -106,7 +106,7 @@ export class PerformanceCache<T> {
     const entry = this.cache.get(key);
     if (!entry) return false;
 
-    const now = Date.now();
+    const now = Date.now()
     if (now - entry.timestamp > entry.ttl) {
       this.cache.delete(key);
       return false
@@ -135,7 +135,7 @@ export class PerformanceCache<T> {
    * Get cache statistics
    */
   getStats(): CacheStats {
-    const now = Date.now();
+    const now = Date.now()
     let memoryUsage = 0;
     let oldestEntry = now;
     let newestEntry = 0
@@ -169,7 +169,7 @@ export class PerformanceCache<T> {
    */
   private evictLRU(): void {
     let lruKey: string | null = null;
-    let lruTime = Date.now();
+    let lruTime = Date.now()
     for (const [key, entry] of this.cache.entries()) {
       if (entry.lastAccessed < lruTime) {
         lruTime = entry.lastAccessed;
@@ -186,7 +186,7 @@ export class PerformanceCache<T> {
    * Clean up expired entries
    */
   private cleanup(): void {
-    const now = Date.now();
+    const now = Date.now()
     const keysToDelete: string[] = []
 
     for (const [key, entry] of this.cache.entries()) {

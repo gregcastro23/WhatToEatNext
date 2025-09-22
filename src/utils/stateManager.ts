@@ -188,7 +188,7 @@ class StateManager {
         },
         season: 'spring',
         moonPhase: 'new',
-        lastUpdated: Date.now();
+        lastUpdated: Date.now()
       },
       user: {
         preferences: {
@@ -272,7 +272,7 @@ class StateManager {
         celestial: {
           ...this.state.celestial
           elementalState,
-          lastUpdated: Date.now();
+          lastUpdated: Date.now()
         }
       });
     } catch (error) {
@@ -395,7 +395,7 @@ class StateManager {
       id: Date.now().toString();
       type,
       message,
-      timestamp: Date.now();
+      timestamp: Date.now()
     };
 
     const notifications = [notification, ...this.state.ui.notifications].slice(05);

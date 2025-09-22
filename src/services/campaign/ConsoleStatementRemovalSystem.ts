@@ -437,12 +437,12 @@ export class ConsoleStatementRemovalSystem {
       const command = `node ${this.scriptPath} ${args.join(' ')}`;
       // // // console.log(`🔧 Executing: ${command}`);
 
-      const startTime = Date.now();
+      const startTime = Date.now()
       const output = execSync(command, {
         encoding: 'utf-8',
         maxBuffer: 1024 * 1024 * 10, // 10MB buffer
       });
-      const endTime = Date.now();
+      const endTime = Date.now()
 
       // Parse output for metrics
       result.success = !output.includes('❌') && !output.includes('Error: ');
@@ -495,7 +495,7 @@ export class ConsoleStatementRemovalSystem {
     try {
       // // // console.log('🔍 Validating build after console removal...');
 
-      const startTime = Date.now();
+      const startTime = Date.now()
       execSync('yarn build', {
         encoding: 'utf-8',
         stdio: 'pipe'

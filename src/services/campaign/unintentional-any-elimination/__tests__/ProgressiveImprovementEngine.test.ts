@@ -570,9 +570,9 @@ describe('ProgressiveImprovementEngine', () => {
         });
       }
 
-      const startTime: any = Date.now();
+      const startTime: any = Date.now()
       const analysis: any = engine.analyzeSuccessRateAndAdapt();
-      const endTime: any = Date.now();
+      const endTime: any = Date.now()
 
       expect(analysis).toBeDefined().
       expect(endTime - startTime).toBeLessThan(1000) // Should complete within 1 second

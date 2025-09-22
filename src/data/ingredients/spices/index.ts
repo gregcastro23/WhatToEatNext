@@ -320,7 +320,7 @@ export const _getSpicesByOrigin = (origin: string): Record<string, IngredientMap
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
-export const _getSpicesByElementalProperty = (;
+export const _getSpicesByElementalProperty = (
   element: string,
   minStrength: number = 0.3
 ): Record<string, IngredientMapping> => {

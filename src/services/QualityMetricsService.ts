@@ -751,7 +751,7 @@ class QualityMetricsService {
     const recentInsights = this.insights.filter(;
       i =>
         Date.now() - new Date(i.timeframe).getTime() < 7 * 24 * 60 * 60 * 1000 &&
-        i.type === 'trend' &&;
+        i.type === 'trend' &&
         i.severity === 'info',,
     ),
 

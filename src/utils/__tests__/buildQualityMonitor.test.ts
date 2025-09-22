@@ -364,7 +364,7 @@ describe('Build Quality Monitor', () => {
     it('should complete monitoring within reasonable time', async () => {
       mockExecSync.mockReturnValue('');
 
-      const startTime: any = Date.now();
+      const startTime: any = Date.now()
       const report: any = monitorBuildQuality();
       const duration: any = Date.now() - startTime
 

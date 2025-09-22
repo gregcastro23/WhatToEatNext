@@ -59,7 +59,7 @@ export class TestResultValidator {
         validator: result =>,
           typeof result === 'object' &&
           result !== null &&
-          typeof (result as any).executionTime === 'number' &&;
+          typeof (result as any).executionTime === 'number' &&
           ((result as any).executionTime) > 0;
         errorMessage: 'Execution time must be a positive number',
         severity: 'error'
@@ -67,9 +67,9 @@ export class TestResultValidator {
       {
         name: 'memory_usage',
         validator: result =>,
-          typeof result === 'object' &&;
+          typeof result === 'object' &&
           result !== null &&
-          typeof (result as any).memoryUsage === 'number' &&;
+          typeof (result as any).memoryUsage === 'number' &&
           ((result as any).memoryUsage) >= 0;
         errorMessage: 'Memory usage must be a non-negative number',
         severity: 'error'
@@ -77,9 +77,9 @@ export class TestResultValidator {
       {
         name: 'reasonable_execution_time',
         validator: result =>,
-          typeof result === 'object' &&;
+          typeof result === 'object' &&
           result !== null &&
-          typeof (result as any).executionTime === 'number' &&;
+          typeof (result as any).executionTime === 'number' &&
           ((result as any).executionTime) < 60000, // 1 minute
         errorMessage: 'Execution time exceeds reasonable limit (60 seconds)',
         severity: 'warning'
@@ -87,9 +87,9 @@ export class TestResultValidator {
       {
         name: 'memory_efficiency',
         validator: result =>,
-          typeof result === 'object' &&;
+          typeof result === 'object' &&
           result !== null &&
-          typeof (result as any).memoryUsage === 'number' &&;
+          typeof (result as any).memoryUsage === 'number' &&
           ((result as any).memoryUsage) < 1024 * 1024 * 1024, // 1GB
         errorMessage: 'Memory usage exceeds efficiency threshold (1GB)',
         severity: 'warning'
@@ -103,7 +103,7 @@ export class TestResultValidator {
         validator: result =>,
           typeof result === 'object' &&
           result !== null &&
-          typeof (result as any).responseTime === 'number' &&;
+          typeof (result as any).responseTime === 'number' &&
           ((result as any).responseTime) < 5000, // 5 seconds
         errorMessage: 'Real-time response time exceeds acceptable limit (5 seconds)',
         severity: 'error'
@@ -111,9 +111,9 @@ export class TestResultValidator {
       {
         name: 'monitoring_accuracy',
         validator: result =>,
-          typeof result === 'object' &&;
+          typeof result === 'object' &&
           result !== null &&
-          typeof (result as any).accuracy === 'number' &&;
+          typeof (result as any).accuracy === 'number' &&
           ((result as any).accuracy) >= 0.95, // 95% accuracy
         errorMessage: 'Monitoring accuracy below acceptable threshold (95%)',
         severity: 'error'
@@ -121,9 +121,9 @@ export class TestResultValidator {
       {
         name: 'resource_cleanup',
         validator: result =>,
-          typeof result === 'object' &&;
+          typeof result === 'object' &&
           result !== null &&
-          typeof (result as any).resourcesCleanedUp === 'boolean' &&;
+          typeof (result as any).resourcesCleanedUp === 'boolean' &&
           (result as any).resourcesCleanedUp === true,,
         errorMessage: 'Resources were not properly cleaned up',
         severity: 'warning'
@@ -137,7 +137,7 @@ export class TestResultValidator {
         validator: result =>,
           typeof result === 'object' &&
           result !== null &&
-          typeof (result as any).success === 'boolean' &&;
+          typeof (result as any).success === 'boolean' &&
           (result as any).success === true,,
         errorMessage: 'Build did not complete successfully',
         severity: 'error'
@@ -145,9 +145,9 @@ export class TestResultValidator {
       {
         name: 'error_count',
         validator: result =>,
-          typeof result === 'object' &&;
+          typeof result === 'object' &&
           result !== null &&
-          typeof (result as any).errorCount === 'number' &&;
+          typeof (result as any).errorCount === 'number' &&
           ((result as any).errorCount) >= 0;
         errorMessage: 'Error count must be a non-negative number',
         severity: 'error'
@@ -155,9 +155,9 @@ export class TestResultValidator {
       {
         name: 'build_time',
         validator: result =>,
-          typeof result === 'object' &&;
+          typeof result === 'object' &&
           result !== null &&
-          typeof (result as any).buildTime === 'number' &&;
+          typeof (result as any).buildTime === 'number' &&
           ((result as any).buildTime) < 120000, // 2 minutes
         errorMessage: 'Build time exceeds acceptable limit (2 minutes)',
         severity: 'warning'
@@ -171,7 +171,7 @@ export class TestResultValidator {
         validator: result =>,
           typeof result === 'object' &&
           result !== null &&
-          typeof (result as any).memoryLeakDetected === 'boolean' &&;
+          typeof (result as any).memoryLeakDetected === 'boolean' &&
           (result as any).memoryLeakDetected !== true;
         errorMessage: 'Memory leak detected during test execution',
         severity: 'error'
@@ -179,9 +179,9 @@ export class TestResultValidator {
       {
         name: 'peak_memory',
         validator: result =>,
-          typeof result === 'object' &&;
+          typeof result === 'object' &&
           result !== null &&
-          typeof (result as any).peakMemory === 'number' &&;
+          typeof (result as any).peakMemory === 'number' &&
           ((result as any).peakMemory) < 2048 * 1024 * 1024, // 2GB
         errorMessage: 'Peak memory usage exceeds limit (2GB)',
         severity: 'error'
@@ -189,9 +189,9 @@ export class TestResultValidator {
       {
         name: 'memory_stability',
         validator: result =>,
-          typeof result === 'object' &&;
+          typeof result === 'object' &&
           result !== null &&
-          typeof (result as any).memoryVariance === 'number' &&;
+          typeof (result as any).memoryVariance === 'number' &&
           ((result as any).memoryVariance) < 0.3, // 30% variance
         errorMessage: 'Memory usage variance exceeds stability threshold (30%)',
         severity: 'warning'
@@ -347,7 +347,7 @@ export class TestResultValidator {
 
       // If no specific checks failed, mark as passed
       if (
-        validationResult.summary.failedChecks === 0 &&;
+        validationResult.summary.failedChecks === 0 &&
         validationResult.summary.passedChecks === 0
       ) {
         validationResult.summary.passedChecks = 1;

@@ -1123,7 +1123,7 @@ export class SafeTypeReplacer {
       allContext.includes('config') ||
       allContext.includes('settings') ||
       allContext.includes('options') ||
-      context.domainContext.domain === CodeDomain.CAMPAIGN ||;
+      context.domainContext.domain === CodeDomain.CAMPAIGN ||
       context.domainContext.domain === CodeDomain.INTELLIGENCE;
     );
   }

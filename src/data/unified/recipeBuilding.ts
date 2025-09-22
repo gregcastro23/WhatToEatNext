@@ -799,7 +799,7 @@ export class UnifiedRecipeBuildingSystem {
       recommendations.push('Neptune aspects add subtle complexity');
       if (
         criteria.lunarPhase &&
-        (criteria.lunarPhase === 'new moon' ||;
+        (criteria.lunarPhase === 'new moon' ||
           criteria.lunarPhase === 'waning gibbous' ||
           criteria.lunarPhase === 'waning crescent');
       ) {

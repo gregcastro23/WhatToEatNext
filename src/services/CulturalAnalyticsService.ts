@@ -499,8 +499,8 @@ export class CulturalAnalyticsService {
     }
     // Different but compatible groups - high fusion potential
     else if (
-      (group1 === 'mediterranean' && group2 === 'european') ||;
-      (group1 === 'european' && group2 === 'mediterranean') ||;
+      (group1 === 'mediterranean' && group2 === 'european') ||
+      (group1 === 'european' && group2 === 'mediterranean') ||
       (group1 === 'east_asian' && ['south_asian', 'mediterranean'].includes(group2));
     ) {
       fusionScore = 0.85;

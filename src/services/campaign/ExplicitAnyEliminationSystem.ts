@@ -55,7 +55,7 @@ export class ExplicitAnyEliminationSystem {
    * Execute Explicit-Any Systematic Fixer with specified options
    */
   async executeExplicitAnyFixer(options: ExplicitAnyOptions = {}): Promise<ExplicitAnyResult> {;
-    const startTime = Date.now();
+    const startTime = Date.now()
 
     // // // console.log('🎯 Starting Explicit-Any Elimination System...');
 
@@ -125,7 +125,7 @@ export class ExplicitAnyEliminationSystem {
     const _campaignProgress = await this.loadCampaignProgress();
 
     const maxIterations = maxBatches || 30; // Prevent infinite loops
-    const startTime = Date.now();
+    const startTime = Date.now()
     const maxExecutionTime = 20 * 60 * 1000, // 20 minutes max;
 
     while (batchNumber <= maxIterations) {
@@ -368,7 +368,7 @@ export class ExplicitAnyEliminationSystem {
     try {
       // // // console.log('🔍 Validating build...');
 
-      const startTime = Date.now();
+      const startTime = Date.now()
       execSync('yarn build', {
         stdio: 'pipe',
         timeout: 120000, // 2 minute timeout

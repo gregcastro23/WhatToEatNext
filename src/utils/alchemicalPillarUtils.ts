@@ -174,7 +174,7 @@ export function applyPillarTransformation(
 
     if ('reactivity' in transformedItem) {
       transformedItem.reactivity =
-        Number(transformedItem.reactivity || 0) *;
+        Number(transformedItem.reactivity || 0) *
         (1 + 0.15 * Number(thermodynamicProps.reactivity || 0));
     }
   } else {
@@ -182,7 +182,7 @@ export function applyPillarTransformation(
     if ('heat' in transformedItem) {
       // Spirit and Fire increase heat
       transformedItem.heat =
-        Number(transformedItem.heat || 0) *;
+        Number(transformedItem.heat || 0) *
         (1 +
           0.15 *
             (Number(alchemicalEffects.Spirit || 0) + Number(alchemicalEffects.Essence || 0) * 0.5));
@@ -191,7 +191,7 @@ export function applyPillarTransformation(
     if ('entropy' in transformedItem) {
       // Matter decreases entropy, Spirit increases it
       transformedItem.entropy =
-        Number(transformedItem.entropy || 0) *;
+        Number(transformedItem.entropy || 0) *
         (1 +
           0.15 * (Number(alchemicalEffects.Spirit || 0) - Number(alchemicalEffects.Matter || 0)));
     }
@@ -199,7 +199,7 @@ export function applyPillarTransformation(
     if ('reactivity' in transformedItem) {
       // Essence increases reactivity, Substance decreases it
       transformedItem.reactivity =
-        Number(transformedItem.reactivity || 0) *;
+        Number(transformedItem.reactivity || 0) *
         (1 +
           0.15 *
             (Number(alchemicalEffects.Essence || 0) - Number(alchemicalEffects.Substance || 0)));
@@ -309,8 +309,8 @@ export function applyPlanetaryInfluence(
   // Pattern KK-2: Safe property arithmetic with type validation
   if ('spirit' in transformedItem) {
     const currentSpirit =
-      typeof (transformedItem as any).spirit === 'number';
-        ? Number((transformedItem as any).spirit);
+      typeof (transformedItem as any).spirit === 'number'
+        ? Number((transformedItem as any).spirit)
         : 0;
     const effectMultiplier =
       typeof planetaryEffects.Spirit === 'number' ? planetaryEffects.Spirit : 0;

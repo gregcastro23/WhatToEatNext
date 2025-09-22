@@ -237,7 +237,7 @@ describe('Planetary Data Validation', () => {
         moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false }
       });
 
-      const startTime: any = Date.now();
+      const startTime: any = Date.now()
       const result: any = validatePlanetaryData();
       const duration: any = Date.now() - startTime;
 

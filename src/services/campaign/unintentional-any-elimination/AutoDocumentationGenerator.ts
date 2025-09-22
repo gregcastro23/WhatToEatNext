@@ -443,7 +443,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
 
     // Check for explanation (required for good+);
     const hasExplanation =
-      lowerComment.includes('because') ||;
+      lowerComment.includes('because') ||
       lowerComment.includes('for') ||
       lowerComment.includes('due to') ||
       lowerComment.includes('requires');
@@ -453,7 +453,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
 
     // Check for domain-specific context
     const hasDomainContext =
-      lowerComment.includes('api') ||;
+      lowerComment.includes('api') ||
       lowerComment.includes('external') ||
       lowerComment.includes('dynamic') ||
       lowerComment.includes('flexible');

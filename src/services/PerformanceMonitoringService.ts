@@ -34,7 +34,7 @@ class PerformanceMonitoringService {
   private, componentMetrics: Map<string, ComponentMetrics> = new Map();
   private, systemMetrics: SystemMetrics;
   private, alerts: PerformanceAlert[] = [];
-  private, startTime: number = Date.now();
+  private, startTime: number = Date.now()
   private, subscribers: Set<(data: unknown) => void> = new Set();
 
   // Performance thresholds
@@ -67,7 +67,7 @@ class PerformanceMonitoringService {
   }
 
   private updateSystemMetrics() {
-    const now = Date.now();
+    const now = Date.now()
 
     // Calculate memory usage
     let totalMemory = 0;
@@ -321,7 +321,7 @@ class PerformanceMonitoringService {
       systemUptime: 0,
       lastUpdated: new Date();
     };
-    this.startTime = Date.now();
+    this.startTime = Date.now()
   }
 }
 

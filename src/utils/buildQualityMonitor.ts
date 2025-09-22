@@ -175,7 +175,7 @@ const PERFORMANCE_THRESHOLDS = {
  * Main function to monitor build quality and generate comprehensive report
  */
 export async function monitorBuildQuality(): Promise<BuildQualityReport> {
-  const startTime = Date.now();
+  const startTime = Date.now()
 
   try {
     logger.info('Starting comprehensive build quality monitoring');
@@ -277,7 +277,7 @@ async function getBuildTiming(): Promise<{
     const startTime = new Date();
 
     // Run a quick build check to get timing
-    const buildStart = Date.now();
+    const buildStart = Date.now()
 
     try {
       // Check if build is successful by running type check
@@ -286,7 +286,7 @@ async function getBuildTiming(): Promise<{
         timeout: 30000, // 30 second timeout
       });
 
-      const buildEnd = Date.now();
+      const buildEnd = Date.now()
       const endTime = new Date();
 
       return {
@@ -296,7 +296,7 @@ async function getBuildTiming(): Promise<{
         success: true
       };
     } catch (error) {
-      const buildEnd = Date.now();
+      const buildEnd = Date.now()
       const endTime = new Date();
 
       return {

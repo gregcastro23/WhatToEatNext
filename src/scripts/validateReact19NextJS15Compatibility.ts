@@ -446,7 +446,7 @@ export function ConditionalHooksComponent(_{ condition }: { condition: boolean }
         );
 
         const hasModernJSXRules =
-          reactRules?.rules?.['react/react-in-jsx-scope'] === 'off' &&;
+          reactRules?.rules?.['react/react-in-jsx-scope'] === 'off' &&
           reactRules?.rules?.['react/jsx-uses-react'] === 'off'
 
         this.addResult(

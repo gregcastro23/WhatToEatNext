@@ -501,7 +501,7 @@ class UnintentionalAnyCampaignController {
   }
 
   private processBatch(files: string[]): BatchResult {
-    const batchStartTime = Date.now();
+    const batchStartTime = Date.now()
     let filesProcessed = 0;
     let replacementsAttempted = 0;
     let replacementsSuccessful = 0;

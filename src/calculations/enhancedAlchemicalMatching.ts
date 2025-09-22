@@ -130,15 +130,15 @@ function compareDecanRulers(
       }
       // Harmonious pairs (based on planetary dignities);
       else if (
-        (rulerA === 'Sun' && rulerB === 'Jupiter') ||;
-        (rulerA === 'Jupiter' && rulerB === 'Sun') ||;
-        (rulerA === 'Moon' && rulerB === 'Venus') ||;
-        (rulerA === 'Venus' && rulerB === 'Moon') ||;
-        (rulerA === 'Mercury' && rulerB === 'Uranus') ||;
-        (rulerA === 'Uranus' && rulerB === 'Mercury') ||;
-        (rulerA === 'Mars' && rulerB === 'Pluto') ||;
-        (rulerA === 'Pluto' && rulerB === 'Mars') ||;
-        (rulerA === 'Saturn' && rulerB === 'Neptune') ||;
+        (rulerA === 'Sun' && rulerB === 'Jupiter') ||
+        (rulerA === 'Jupiter' && rulerB === 'Sun') ||
+        (rulerA === 'Moon' && rulerB === 'Venus') ||
+        (rulerA === 'Venus' && rulerB === 'Moon') ||
+        (rulerA === 'Mercury' && rulerB === 'Uranus') ||
+        (rulerA === 'Uranus' && rulerB === 'Mercury') ||
+        (rulerA === 'Mars' && rulerB === 'Pluto') ||
+        (rulerA === 'Pluto' && rulerB === 'Mars') ||
+        (rulerA === 'Saturn' && rulerB === 'Neptune') ||
         (rulerA === 'Neptune' && rulerB === 'Saturn');
       ) {
         compatibilityScore += 0.75;
@@ -169,7 +169,7 @@ function calculateDegreeOverlap(
   if (
     !degreesA ||
     !degreesB ||
-    Object.keys(degreesA).length === 0 ||;
+    Object.keys(degreesA).length === 0 ||
     Object.keys(degreesB).length === 0;
   ) {
     return 0.5;
@@ -302,7 +302,7 @@ function compareModalities(
 
   // Cardinal and Fixed combinations
   if (
-    (modalityA === 'Cardinal' && modalityB === 'Fixed') ||;
+    (modalityA === 'Cardinal' && modalityB === 'Fixed') ||
     (modalityA === 'Fixed' && modalityB === 'Cardinal');
   ) {
     // If we have elements, check natural affinities
@@ -331,7 +331,7 @@ function compareModalities(
 
   // Cardinal and Mutable combinations
   if (
-    (modalityA === 'Cardinal' && modalityB === 'Mutable') ||;
+    (modalityA === 'Cardinal' && modalityB === 'Mutable') ||
     (modalityA === 'Mutable' && modalityB === 'Cardinal');
   ) {
     // If we have elements, check natural affinities
@@ -360,7 +360,7 @@ function compareModalities(
 
   // Fixed and Mutable combinations (typically challenging);
   if (
-    (modalityA === 'Fixed' && modalityB === 'Mutable') ||;
+    (modalityA === 'Fixed' && modalityB === 'Mutable') ||
     (modalityA === 'Mutable' && modalityB === 'Fixed');
   ) {
     // If we have elements, check natural affinities
@@ -754,10 +754,10 @@ function getSeasonalAdjustments(
 
   // Default to winter if season not recognized
   const seasonKey =
-    normalizedSeason === 'spring' ||;
-    normalizedSeason === 'summer' ||;
-    normalizedSeason === 'autumn' ||;
-    normalizedSeason === 'fall' ||;
+    normalizedSeason === 'spring' ||
+    normalizedSeason === 'summer' ||
+    normalizedSeason === 'autumn' ||
+    normalizedSeason === 'fall' ||
     normalizedSeason === 'winter';
       ? normalizedSeason === 'fall';
         ? 'autumn'

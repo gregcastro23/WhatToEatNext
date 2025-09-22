@@ -151,7 +151,7 @@ export class ExportTransformationEngine {
   async executeTransformation(): Promise<TransformationSummary> {
     // // // console.log('🚀 Starting Export Transformation Campaign...\n');
 
-    const startTime = Date.now();
+    const startTime = Date.now()
 
     try {
       // Phase, 1: Analysis
@@ -174,7 +174,7 @@ export class ExportTransformationEngine {
       // // // console.log('✅ Phase, 5: Final validation and cleanup...');
       await this.performFinalValidation();
 
-      const endTime = Date.now();
+      const endTime = Date.now()
       const totalDuration = (endTime - startTime) / 1000
 
       const summary = this.generateTransformationSummary(results, totalDuration);
@@ -411,7 +411,7 @@ export class ExportTransformationEngine {
    * Execute a single transformation batch
    */
   private async executeBatch(batch: TransformationBatch): Promise<TransformationResult> {
-    const startTime = Date.now();
+    const startTime = Date.now()
     const result: TransformationResult = {
       batchId: batch.id,
       success: false,
@@ -512,7 +512,7 @@ export class ExportTransformationEngine {
       }
     }
 
-    const endTime = Date.now();
+    const endTime = Date.now()
     result.duration = (endTime - startTime) / 1000;
 
     return result
@@ -561,7 +561,7 @@ export class ExportTransformationEngine {
    * Validate build
    */
   private async validateBuild(): Promise<ValidationResult> {
-    const startTime = Date.now();
+    const startTime = Date.now()
     try {
       const output = execSync('yarn build', {
         encoding: 'utf-8',
@@ -569,7 +569,7 @@ export class ExportTransformationEngine {
         stdio: 'pipe'
       });
 
-      const endTime = Date.now();
+      const endTime = Date.now()
 
       return {
         buildSuccess: true,
@@ -580,7 +580,7 @@ export class ExportTransformationEngine {
         duration: (endTime - startTime) / 1000
       };
     } catch (error) {
-      const endTime = Date.now();
+      const endTime = Date.now()
 
       return {
         buildSuccess: false,
@@ -597,7 +597,7 @@ export class ExportTransformationEngine {
    * Validate tests
    */
   private async validateTests(): Promise<ValidationResult> {
-    const startTime = Date.now();
+    const startTime = Date.now()
     try {
       const output = execSync('yarn test --passWithNoTests', {
         encoding: 'utf-8',
@@ -605,7 +605,7 @@ export class ExportTransformationEngine {
         stdio: 'pipe'
       });
 
-      const endTime = Date.now();
+      const endTime = Date.now()
 
       return {
         buildSuccess: true,
@@ -616,7 +616,7 @@ export class ExportTransformationEngine {
         duration: (endTime - startTime) / 1000
       };
     } catch (error) {
-      const endTime = Date.now();
+      const endTime = Date.now()
 
       return {
         buildSuccess: false,

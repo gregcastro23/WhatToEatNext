@@ -305,7 +305,7 @@ class AutomatedDocumentationGenerator {
 
   private generateDocumentation(category: AnyTypeCategory, anyType: string): string {
     const template =
-      this.documentationTemplates.get(category) ||;
+      this.documentationTemplates.get(category) ||
       this.documentationTemplates.get(AnyTypeCategory.UNKNOWN)!;
 
     let documentation = template.eslintComment

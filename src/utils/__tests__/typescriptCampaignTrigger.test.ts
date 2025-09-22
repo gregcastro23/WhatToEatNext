@@ -332,7 +332,7 @@ describe('TypeScript Campaign Trigger', () => {
 
       mockExecSync.mockReturnValue(mockTscOutput);
 
-      const startTime: any = Date.now();
+      const startTime: any = Date.now()
       const result: any = analyzeTypeScriptErrors();
       const duration: any = Date.now() - startTime;
 

@@ -43,7 +43,7 @@ async function testGasGiantInfluences() {
   const aspects = influences.aspectInfluences || [];
   for (const aspect of aspects) {
     if (
-      (aspect.planet1 === 'Jupiter' || aspect.planet1 === 'Saturn') &&;
+      (aspect.planet1 === 'Jupiter' || aspect.planet1 === 'Saturn') &&
       (aspect.planet2 === 'Jupiter' || aspect.planet2 === 'Saturn')
     ) {
       console.log(

@@ -168,7 +168,7 @@ export class InfrastructurePreparation {
     // Test fast configuration
     if (validation.fastConfig.exists) {
       try {
-        const startTime = Date.now();
+        const startTime = Date.now()
         execSync('yarn, lint:quick --max-warnings=10000 src/components/Header/Header.tsx', {
           cwd: this.projectRoot,
           stdio: 'pipe',
@@ -186,7 +186,7 @@ export class InfrastructurePreparation {
     // Test type-aware configuration
     if (validation.typeAwareConfig.exists) {
       try {
-        const startTime = Date.now();
+        const startTime = Date.now()
         execSync('yarn, lint:type-aware --max-warnings=10000 src/components/Header/Header.tsx', {
           cwd: this.projectRoot,
           stdio: 'pipe',
@@ -300,7 +300,7 @@ export class InfrastructurePreparation {
 
     // Test build stability
     try {
-      const startTime = Date.now();
+      const startTime = Date.now()
       execSync('yarn build', {
         cwd: this.projectRoot,
         stdio: 'pipe',
@@ -566,7 +566,7 @@ const { join } = require('path');
 class ProgressTracker {
   constructor() {
     this.metricsFile = join(__dirname, 'progress-metrics.json');
-    this.startTime = Date.now();
+    this.startTime = Date.now()
   }
 
   async collectMetrics() {
@@ -610,7 +610,7 @@ class ProgressTracker {
 
   async getBuildTime() {
     try {
-      const startTime = Date.now();
+      const startTime = Date.now()
       execSync('yarn build', { stdio: 'pipe' });
       return Date.now() - startTime;
     } catch (error) {

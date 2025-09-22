@@ -382,7 +382,7 @@ describe('Linting Campaign System Integration', () => {
       mockExecSync.mockReturnValue(largeOutput);
       mockExistsSync.mockReturnValue(false);
 
-      const startTime: any = Date.now();
+      const startTime: any = Date.now()
       const metrics: any = await progressTracker.collectMetrics();
       const executionTime: any = Date.now() - startTime;
 

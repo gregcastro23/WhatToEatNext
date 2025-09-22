@@ -176,7 +176,7 @@ export class ScriptIntegrationSystem {
     // // // console.log(`🚀 Executing script: ${scriptId}`);
     // // // console.log(`📝 Command: ${command}`);
 
-    const startTime = Date.now();
+    const startTime = Date.now()
     let result: ScriptExecutionResult
 
     try {

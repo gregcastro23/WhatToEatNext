@@ -1,0 +1,331 @@
+# Alerting Rules for alchm.kitchen Production Monitoring
+# Comprehensive alert definitions for microservices health and performance
+
+groups:
+  - name: alchm.kitchen.security
+    interval: 30s
+    rules:
+      # High failed authentication rate
+      - alert: HighFailedAuthRate
+        expr: rate(auth_attempts_total{success="false"}[5m]) > 10
+        for: 2m
+        labels:
+          severity: warning
+          service: authentication
+          team: security
+        annotations:
+          summary: "High failed authentication rate detected"
+          description: "Failed authentication rate is {{ $value }} attempts per second over the last 5 minutes on {{ $labels.instance }}"
+          runbook_url: "https://docs.alchm.kitchen/runbooks/auth-failures"
+
+      # Unauthorized API access spike
+      - alert: UnauthorizedAPIAccess
+        expr: rate(http_requests_total{status_code="401"}[5m]) > 50
+        for: 1m
+        labels:
+          severity: critical
+          service: api
+          team: security
+        annotations:
+          summary: "Spike in unauthorized API access"
+          description: "Unauthorized API access rate is {{ $value }} requests per second on {{ $labels.instance }}"
+          runbook_url: "https://docs.alchm.kitchen/runbooks/unauthorized-access"
+
+      # Rate limiting triggers
+      - alert: RateLimitingActive
+        expr: rate(http_requests_total{status_code="429"}[5m]) > 20
+        for: 3m
+        labels:
+          severity: warning
+          service: api
+          team: platform
+        annotations:
+          summary: "High rate limiting activity"
+          description: "Rate limiting is blocking {{ $value }} requests per second on {{ $labels.instance }}"
+
+  - name: alchm.kitchen.performance
+    interval: 15s
+    rules:
+      # High response time
+      - alert: HighResponseTime
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 1.0
+        for: 2m
+        labels:
+          severity: warning
+          service: api
+          team: platform
+        annotations:
+          summary: "High API response time"
+          description: "95th percentile response time is {{ $value }}s on {{ $labels.instance }}"
+          runbook_url: "https://docs.alchm.kitchen/runbooks/slow-api"
+
+      # Critical response time
+      - alert: CriticalResponseTime
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 5.0
+        for: 1m
+        labels:
+          severity: critical
+          service: api
+          team: platform
+        annotations:
+          summary: "Critical API response time"
+          description: "95th percentile response time is {{ $value }}s on {{ $labels.instance }}"
+
+      # High error rate
+      - alert: HighErrorRate
+        expr: rate(http_requests_total{status_code=~"5.."}[5m]) / rate(http_requests_total[5m]) > 0.05
+        for: 2m
+        labels:
+          severity: warning
+          service: api
+          team: platform
+        annotations:
+          summary: "High API error rate"
+          description: "Error rate is {{ $value | humanizePercentage }} on {{ $labels.instance }}"
+
+      # Critical error rate
+      - alert: CriticalErrorRate
+        expr: rate(http_requests_total{status_code=~"5.."}[5m]) / rate(http_requests_total[5m]) > 0.20
+        for: 1m
+        labels:
+          severity: critical
+          service: api
+          team: platform
+        annotations:
+          summary: "Critical API error rate"
+          description: "Error rate is {{ $value | humanizePercentage }} on {{ $labels.instance }}"
+
+      # Alchemical calculation performance
+      - alert: SlowAlchemicalCalculations
+        expr: histogram_quantile(0.95, rate(alchemical_calculation_duration_seconds_bucket[5m])) > 2.0
+        for: 3m
+        labels:
+          severity: warning
+          service: alchemical-core
+          team: algorithms
+        annotations:
+          summary: "Slow alchemical calculations"
+          description: "95th percentile calculation time is {{ $value }}s for {{ $labels.calculation_type }}"
+
+      # Recipe recommendation performance
+      - alert: SlowRecipeRecommendations
+        expr: histogram_quantile(0.95, rate(recipe_recommendation_duration_seconds_bucket[5m])) > 3.0
+        for: 3m
+        labels:
+          severity: warning
+          service: kitchen-intelligence
+          team: algorithms
+        annotations:
+          summary: "Slow recipe recommendations"
+          description: "95th percentile recommendation time is {{ $value }}s on {{ $labels.instance }}"
+
+  - name: alchm.kitchen.availability
+    interval: 30s
+    rules:
+      # Service down
+      - alert: ServiceDown
+        expr: up == 0
+        for: 1m
+        labels:
+          severity: critical
+          team: platform
+        annotations:
+          summary: "Service is down"
+          description: "{{ $labels.job }} service is down on {{ $labels.instance }}"
+          runbook_url: "https://docs.alchm.kitchen/runbooks/service-down"
+
+      # Database connection issues
+      - alert: DatabaseConnectionIssues
+        expr: postgres_up == 0
+        for: 30s
+        labels:
+          severity: critical
+          service: database
+          team: platform
+        annotations:
+          summary: "Database connection failed"
+          description: "Cannot connect to PostgreSQL database"
+          runbook_url: "https://docs.alchm.kitchen/runbooks/database-down"
+
+      # Redis cache issues
+      - alert: RedisCacheIssues
+        expr: redis_up == 0
+        for: 1m
+        labels:
+          severity: warning
+          service: cache
+          team: platform
+        annotations:
+          summary: "Redis cache unavailable"
+          description: "Cannot connect to Redis cache"
+
+      # Load balancer health
+      - alert: LoadBalancerUnhealthy
+        expr: nginx_up == 0
+        for: 30s
+        labels:
+          severity: critical
+          service: load-balancer
+          team: platform
+        annotations:
+          summary: "Load balancer is unhealthy"
+          description: "NGINX load balancer is not responding"
+
+  - name: alchm.kitchen.resources
+    interval: 30s
+    rules:
+      # High CPU usage
+      - alert: HighCPUUsage
+        expr: (100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)) > 80
+        for: 5m
+        labels:
+          severity: warning
+          team: platform
+        annotations:
+          summary: "High CPU usage"
+          description: "CPU usage is {{ $value }}% on {{ $labels.instance }}"
+
+      # Critical CPU usage
+      - alert: CriticalCPUUsage
+        expr: (100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)) > 95
+        for: 2m
+        labels:
+          severity: critical
+          team: platform
+        annotations:
+          summary: "Critical CPU usage"
+          description: "CPU usage is {{ $value }}% on {{ $labels.instance }}"
+
+      # High memory usage
+      - alert: HighMemoryUsage
+        expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 80
+        for: 5m
+        labels:
+          severity: warning
+          team: platform
+        annotations:
+          summary: "High memory usage"
+          description: "Memory usage is {{ $value }}% on {{ $labels.instance }}"
+
+      # Critical memory usage
+      - alert: CriticalMemoryUsage
+        expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 95
+        for: 2m
+        labels:
+          severity: critical
+          team: platform
+        annotations:
+          summary: "Critical memory usage"
+          description: "Memory usage is {{ $value }}% on {{ $labels.instance }}"
+
+      # Disk space warning
+      - alert: DiskSpaceWarning
+        expr: (node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"}) * 100 < 20
+        for: 5m
+        labels:
+          severity: warning
+          team: platform
+        annotations:
+          summary: "Low disk space"
+          description: "Disk space is {{ $value }}% available on {{ $labels.instance }}"
+
+      # Critical disk space
+      - alert: CriticalDiskSpace
+        expr: (node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"}) * 100 < 10
+        for: 2m
+        labels:
+          severity: critical
+          team: platform
+        annotations:
+          summary: "Critical disk space"
+          description: "Disk space is {{ $value }}% available on {{ $labels.instance }}"
+
+  - name: alchm.kitchen.database
+    interval: 60s
+    rules:
+      # Too many database connections
+      - alert: TooManyDatabaseConnections
+        expr: postgres_stat_activity_count > 80
+        for: 3m
+        labels:
+          severity: warning
+          service: database
+          team: platform
+        annotations:
+          summary: "High database connection count"
+          description: "Database has {{ $value }} active connections"
+
+      # Slow database queries
+      - alert: SlowDatabaseQueries
+        expr: rate(postgres_stat_activity_max_tx_duration[5m]) > 30
+        for: 3m
+        labels:
+          severity: warning
+          service: database
+          team: platform
+        annotations:
+          summary: "Slow database queries detected"
+          description: "Maximum transaction duration is {{ $value }}s"
+
+      # Database locks
+      - alert: DatabaseLocks
+        expr: postgres_locks_count > 50
+        for: 2m
+        labels:
+          severity: warning
+          service: database
+          team: platform
+        annotations:
+          summary: "High database lock count"
+          description: "Database has {{ $value }} active locks"
+
+  - name: alchm.kitchen.business
+    interval: 60s
+    rules:
+      # Low calculation success rate
+      - alert: LowCalculationSuccessRate
+        expr: rate(alchemical_calculations_total{success="true"}[10m]) / rate(alchemical_calculations_total[10m]) < 0.95
+        for: 5m
+        labels:
+          severity: warning
+          service: alchemical-core
+          team: algorithms
+        annotations:
+          summary: "Low alchemical calculation success rate"
+          description: "Calculation success rate is {{ $value | humanizePercentage }}"
+
+      # Low recommendation diversity
+      - alert: LowRecommendationDiversity
+        expr: alchemical_recommendation_diversity_score < 0.5
+        for: 10m
+        labels:
+          severity: warning
+          service: kitchen-intelligence
+          team: algorithms
+        annotations:
+          summary: "Low recommendation diversity"
+          description: "Recommendation diversity score is {{ $value }}"
+
+      # User authentication rate decline
+      - alert: UserAuthenticationDecline
+        expr: rate(auth_attempts_total{success="true"}[1h]) < rate(auth_attempts_total{success="true"}[1h] offset 24h) * 0.7
+        for: 30m
+        labels:
+          severity: warning
+          service: authentication
+          team: product
+        annotations:
+          summary: "Decline in user authentication rate"
+          description: "Authentication rate is down {{ $value | humanizePercentage }} compared to 24h ago"
+
+      # WebSocket connection issues
+      - alert: WebSocketConnectionIssues
+        expr: rate(websocket_connections_failed_total[5m]) > 10
+        for: 3m
+        labels:
+          severity: warning
+          service: websocket
+          team: platform
+        annotations:
+          summary: "High WebSocket connection failure rate"
+          description: "WebSocket connection failures at {{ $value }} per second"

@@ -112,9 +112,9 @@ export async function validatePlanetaryPositions(
 
       // Consider accurate if sign matches and degree is within tolerance
       const accurate =
-        !signDiff &&;
+        !signDiff &&
         degreeDiff < 1 &&
-        (refPosition.minute === undefined || minuteDiff < 5) &&;
+        (refPosition.minute === undefined || minuteDiff < 5) &&
         (refPosition.isRetrograde === undefined || retrogradeMatch);
       // Store the differences
       diff[planet] = {
@@ -260,9 +260,9 @@ export async function validateAgainstAPI(): Promise<{
     const retrogradeMatch = formattedCalculated.isRetrograde === refPosition.isRetrograde;
 
     const planetAccurate =
-      !signDiff &&;
+      !signDiff &&
       degreeDiff < 1 &&
-      (refPosition.minute === undefined || minuteDiff < 5) &&;
+      (refPosition.minute === undefined || minuteDiff < 5) &&
       (refPosition.isRetrograde === undefined || retrogradeMatch);
     differences[planet] = {
       reference: refPosition,
@@ -306,10 +306,10 @@ export function validatePlanetaryPositionsStructure(positions: Record<string, _u
     const planetData = p as any;
     return (
       planetData &&
-      typeof planetData.longitude === 'number' &&;
+      typeof planetData.longitude === 'number' &&
       planetData.longitude >= 0 &&
       planetData.longitude < 360 &&
-      typeof planetData.latitude === 'number' &&;
+      typeof planetData.latitude === 'number' &&
       typeof planetData.distance === 'number'
     );
   });

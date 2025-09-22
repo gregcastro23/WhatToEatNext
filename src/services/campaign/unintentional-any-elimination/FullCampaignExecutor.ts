@@ -142,7 +142,7 @@ export class FullCampaignExecutor {
   private async executePhase1_InitialAnalysis(): Promise<CampaignPhase> {
     // // // console.log('\n📋 Phase, 1: Initial Analysis and Baseline');
 
-    const phaseStart = Date.now();
+    const phaseStart = Date.now()
 
     try {
       // Get initial baseline metrics
@@ -186,7 +186,7 @@ export class FullCampaignExecutor {
   private async executePhase2_HighConfidenceReplacements(): Promise<CampaignPhase> {
     // // // console.log('\n🎯 Phase, 2: High-Confidence Replacements');
 
-    const phaseStart = Date.now();
+    const phaseStart = Date.now()
     const errorsBefore = await this.getCurrentErrorCount();
 
     try {
@@ -255,7 +255,7 @@ export class FullCampaignExecutor {
   private async executePhase3_MediumRiskProcessing(): Promise<CampaignPhase> {
     // // // console.log('\n⚖️ Phase, 3: Medium-Risk Category Processing');
 
-    const phaseStart = Date.now();
+    const phaseStart = Date.now()
     const errorsBefore = await this.getCurrentErrorCount();
 
     try {
@@ -308,7 +308,7 @@ export class FullCampaignExecutor {
   private async executePhase4_DomainSpecificProcessing(): Promise<CampaignPhase> {
     // // // console.log('\n🏗️ Phase, 4: Domain-Specific Processing');
 
-    const phaseStart = Date.now();
+    const phaseStart = Date.now()
     const errorsBefore = await this.getCurrentErrorCount();
     try {
       const domains = ['astrological', 'recipe', 'campaign', 'service', 'component'],
@@ -359,7 +359,7 @@ export class FullCampaignExecutor {
   private async executePhase5_DocumentationAndValidation(): Promise<CampaignPhase> {
     // // // console.log('\n📝 Phase, 5: Documentation and Validation');
 
-    const phaseStart = Date.now();
+    const phaseStart = Date.now()
     const errorsBefore = await this.getCurrentErrorCount();
 
     try {
@@ -405,7 +405,7 @@ export class FullCampaignExecutor {
   private async executePhase6_FinalValidationAndReporting(): Promise<CampaignPhase> {
     // // // console.log('\n📊 Phase, 6: Final Validation and Reporting');
 
-    const phaseStart = Date.now();
+    const phaseStart = Date.now()
     const errorsBefore = await this.getCurrentErrorCount();
 
     try {

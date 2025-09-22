@@ -58,7 +58,7 @@ export const _getRecommendedAdjustments = (properties: Record<string, number>): 
  * Represents planetary dignity types
  */
 export type DignityType =
-  | 'rulership';
+  | 'rulership'
   | 'exaltation'
   | 'triplicity'
   | 'term'
@@ -208,7 +208,7 @@ export const _calculateAlchemicalProperties = (
   if (
     !planetPositions ||
     typeof planetPositions !== 'object' ||
-    Object.keys(planetPositions).length === 0;
+    Object.keys(planetPositions).length === 0
   ) {
     debugLog('Invalid planetary positions provided:', planetPositions);
     return {
@@ -325,7 +325,7 @@ export const _calculateAlchemicalProperties = (
     } else {
       // Last resort fallback
       planetElement = ['Fire', 'Water', 'Air', 'Earth'][
-        Math.floor(Math.random() * 4);
+        Math.floor(Math.random() * 4)
       ] as ElementalCharacter;
       elementalCounts[planetElement] += 1.5; // Extra weight
     }
@@ -391,7 +391,7 @@ export const _calculateAlchemicalProperties = (
 
     // If Sun/Moon are in a different element sign, add both elements
     if (
-      (planetLower === 'sun' || planetLower === 'moon') &&;
+      (planetLower === 'sun' || planetLower === 'moon') &&
       signElement &&
       signElement !== planetElement
     ) {
@@ -990,8 +990,8 @@ export function alchemize(
 
         if (
           northNodeElement &&
-          (northNodeElement === 'fire' ||;
-            northNodeElement === 'earth' ||;
+          (northNodeElement === 'fire' ||
+            northNodeElement === 'earth' ||
             northNodeElement === 'air' ||
             northNodeElement === 'water');
         ) {
@@ -1000,8 +1000,8 @@ export function alchemize(
 
         if (
           southNodeElement &&
-          (southNodeElement === 'fire' ||;
-            southNodeElement === 'earth' ||;
+          (southNodeElement === 'fire' ||
+            southNodeElement === 'earth' ||
             southNodeElement === 'air' ||
             southNodeElement === 'water');
         ) {

@@ -77,7 +77,7 @@ describe('Build Performance Tests', () => {
       let buildStartTime: number,
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('yarn build')) {
-          buildStartTime = Date.now();
+          buildStartTime = Date.now()
           // Simulate fast build (2 seconds);
           const delay: any = 2000;
           const endTime: any = buildStartTime + delay
@@ -378,7 +378,7 @@ describe('Build Performance Tests', () => {
 
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('yarn tsc')) {
-          const startTime: any = Date.now();
+          const startTime: any = Date.now()
           // Simulate TypeScript compilation time;
           const delay: any = 50 + Math.random() * 100, // 50-150ms;
           const endTime: any = startTime + delay
@@ -409,7 +409,7 @@ describe('Build Performance Tests', () => {
 
       mockExecSyncmockImplementation(command => {
         if (command.toString().includes('yarn lint')) {
-          const startTime: any = Date.now();
+          const startTime: any = Date.now()
           // Simulate linting time;
           const delay: any = 30 + Math.random() * 70, // 30-100ms;
           const endTime: any = startTime + delay
@@ -440,7 +440,7 @@ describe('Build Performance Tests', () => {
 
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('grep -r 'INTELLIGENCE_SYSTEM'')) {
-          const startTime: any = Date.now();
+          const startTime: any = Date.now()
           // Simulate grep operation time;
           const delay: any = 20 + Math.random() * 30, // 20-50ms;
           const endTime: any = startTime + delay
@@ -510,7 +510,7 @@ describe('Build Performance Tests', () => {
         progressTracker.getMemoryUsage();
       ];
 
-      const startTime: any = Date.now();
+      const startTime: any = Date.now()
       const results: any = await Promise.all(promises);
       const totalTime: any = Date.now() - startTime;
 

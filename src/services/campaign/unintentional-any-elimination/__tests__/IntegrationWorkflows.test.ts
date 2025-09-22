@@ -662,9 +662,9 @@ describe('Integration Workflows', () => {;
         validationFrequency: 5
       };
 
-      const startTime: any = Date.now();
+      const startTime: any = Date.now()
       const campaignResult: any = await (campaign as any)?.execute(config);
-      const endTime: any = Date.now();
+      const endTime: any = Date.now()
 
       expect(campaignResult.totalAnyTypesAnalyzed).toBeGreaterThan(0).
       expect(campaignResultreductionAchieved).toBeGreaterThanOrEqual(0);

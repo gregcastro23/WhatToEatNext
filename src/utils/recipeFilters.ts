@@ -120,7 +120,7 @@ export class RecipeFilter {
         if (options.searchQuery) {
           const query = options.searchQuery.toLowerCase();
           const matchesSearch =
-            recipe.name.toLowerCase().includes(query) ||;
+            recipe.name.toLowerCase().includes(query) ||
             recipe.description?.toLowerCase().includes(query) ||
             recipe.ingredients.some(i => i.name.toLowerCase().includes(query));
           if (!matchesSearch) return false

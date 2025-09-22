@@ -155,14 +155,14 @@ export class ProgressTracker {
    */
   async getBuildTime(): Promise<number> {
     try {
-      const startTime = Date.now();
+      const startTime = Date.now()
       // Run build command and measure time
       execSync('yarn build', {
         encoding: 'utf8',
         stdio: 'pipe'
       });
 
-      const endTime = Date.now();
+      const endTime = Date.now()
       const buildTimeSeconds = (endTime - startTime) / 1000;
 
       return buildTimeSeconds;

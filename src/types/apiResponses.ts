@@ -271,7 +271,7 @@ export function isValidNasaHorizonsResponse(data: unknown): data is NasaHorizons
   return (
     typeof data === 'object' &&
     data !== null &&
-    (('result' in data && typeof (data as NasaHorizonsResponse).result === 'string') ||;
+    (('result' in data && typeof (data as NasaHorizonsResponse).result === 'string') ||
       ('error' in data && typeof (data as NasaHorizonsResponse).error === 'string'));
   )
 }

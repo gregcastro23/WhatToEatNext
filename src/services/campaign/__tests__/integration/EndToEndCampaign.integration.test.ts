@@ -232,7 +232,7 @@ describe('End-to-End Campaign Integration Tests', () => {
         expect(
           allSafetyEvents.some(
             event =>
-              String(event.description || '').includes(phase.name) ||;
+              String(event.description || '').includes(phase.name) ||
               String(event.description || '').includes(phase.id);
           ),
         ).toBe(true);
@@ -438,7 +438,7 @@ describe('End-to-End Campaign Integration Tests', () => {
         success: true
       });
 
-      const startTime: any = Date.now();
+      const startTime: any = Date.now()
       const result: any = await campaignController.executePhase(phase1);
       const executionTime: any = Date.now() - startTime;
 
@@ -540,9 +540,9 @@ describe('End-to-End Campaign Integration Tests', () => {
       const executionMetrics: Array<any> = [];
 
       for (const phase of mockConfigphases) {
-        const startTime: any = Date.now();
+        const startTime: any = Date.now()
         const result: any = await campaignController.executePhase(phase);
-        const endTime: any = Date.now();
+        const endTime: any = Date.now()
         executionMetrics.push({
           phaseId: phase.id,
           phaseName: phase.name,

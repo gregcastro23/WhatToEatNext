@@ -154,7 +154,7 @@ export class ServicesManager {
         success: true,
         serviceName: 'AlchemicalEngine',
         message: 'Engine initialized successfully',
-        timestamp: Date.now();
+        timestamp: Date.now()
       });
 
       logger.info('AlchemicalEngine initialized successfully');
@@ -167,7 +167,7 @@ export class ServicesManager {
         serviceName: 'AlchemicalEngine',
         message: 'Failed to initialize engine',
         error: error instanceof Error ? error : new Error(String(error)),
-        timestamp: Date.now();
+        timestamp: Date.now()
       });
 
       throw error;
@@ -192,7 +192,7 @@ export class ServicesManager {
         success: true,
         serviceName: 'AstrologyService',
         message: 'Service initialized successfully',
-        timestamp: Date.now();
+        timestamp: Date.now()
       });
 
       logger.info('AstrologyService initialized successfully');
@@ -205,7 +205,7 @@ export class ServicesManager {
         serviceName: 'AstrologyService',
         message: 'Failed to initialize service',
         error: error instanceof Error ? error : new Error(String(error)),
-        timestamp: Date.now();
+        timestamp: Date.now()
       });
 
       throw error;
@@ -228,7 +228,7 @@ export class ServicesManager {
         success: true,
         serviceName: 'IngredientService',
         message: `Loaded (${(ingredients || []).length}) ingredients`,
-        timestamp: Date.now();
+        timestamp: Date.now()
       });
 
       logger.info('IngredientService initialized successfully');
@@ -241,7 +241,7 @@ export class ServicesManager {
         serviceName: 'IngredientService',
         message: 'Failed to initialize service',
         error: error instanceof Error ? error : new Error(String(error)),
-        timestamp: Date.now();
+        timestamp: Date.now()
       });
 
       throw error;
@@ -264,7 +264,7 @@ export class ServicesManager {
         success: true,
         serviceName: 'RecipeService',
         message: `Loaded (${(recipes || []).length}) recipes`,
-        timestamp: Date.now();
+        timestamp: Date.now()
       });
 
       logger.info('RecipeService initialized successfully');
@@ -277,7 +277,7 @@ export class ServicesManager {
         serviceName: 'RecipeService',
         message: 'Failed to initialize service',
         error: error instanceof Error ? error : new Error(String(error)),
-        timestamp: Date.now();
+        timestamp: Date.now()
       });
 
       throw error;
@@ -306,7 +306,7 @@ export class ServicesManager {
         success: true,
         serviceName: 'RecommendationService',
         message: 'Service initialized successfully',
-        timestamp: Date.now();
+        timestamp: Date.now()
       });
 
       logger.info('RecommendationService initialized successfully');
@@ -319,7 +319,7 @@ export class ServicesManager {
         serviceName: 'RecommendationService',
         message: 'Failed to initialize service',
         error: error instanceof Error ? error : new Error(String(error)),
-        timestamp: Date.now();
+        timestamp: Date.now()
       });
 
       throw error;
@@ -369,7 +369,7 @@ export class ServicesManager {
         success: true,
         serviceName: 'AlchemicalRecommendationService',
         message: 'Service initialized successfully',
-        timestamp: Date.now();
+        timestamp: Date.now()
       });
 
       logger.info('AlchemicalRecommendationService initialized successfully');
@@ -382,7 +382,7 @@ export class ServicesManager {
         serviceName: 'AlchemicalRecommendationService',
         message: 'Failed to initialize service',
         error: error instanceof Error ? error : new Error(String(error)),
-        timestamp: Date.now();
+        timestamp: Date.now()
       });
 
       throw error;

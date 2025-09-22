@@ -237,7 +237,7 @@ export async function safeImportAndExecute<RA extends unknown[] = unknown[]>(
 
     // Return default values for known functions
     if (
-      path === '@/calculations/alchemicalCalculations' &&;
+      path === '@/calculations/alchemicalCalculations' &&
       functionName === 'calculateAlchemicalProperties'
     ) {
       const calculatedResults = {} as R;

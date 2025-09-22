@@ -21,7 +21,7 @@ export class SimpleCache<T> {
     const entry = this.cache.get(key);
     if (!entry) return null;
 
-    const now = Date.now();
+    const now = Date.now()
     if (now - entry.timestamp > entry.ttl) {
       this.cache.delete(key);
       return null
@@ -38,7 +38,7 @@ export class SimpleCache<T> {
     const entry = this.cache.get(key);
     if (!entry) return false;
 
-    const now = Date.now();
+    const now = Date.now()
     if (now - entry.timestamp > entry.ttl) {
       this.cache.delete(key);
       return false

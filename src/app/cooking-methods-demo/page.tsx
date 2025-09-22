@@ -94,7 +94,7 @@ export default function CookingMethodsDemoPage() {
                   Fire: Math.random(),
                   Water: Math.random(),
                   Earth: Math.random(),
-                  Air: Math.random();
+                  Air: Math.random()
                 },
                 score: score - 0.1 + Math.random() * 0.2, // Slightly vary from parent score
               }))
@@ -109,27 +109,27 @@ export default function CookingMethodsDemoPage() {
   };
 
   return (
-    <Container maxWidth='lg' sx={{ py: 6 }}>;
-      <Typography variant='h2' component='h1' gutterBottom align='center' sx={{ mb: 4 }}>;
+    <Container maxWidth='lg' sx={{ py: 6 }}>
+      <Typography variant='h2' component='h1' gutterBottom align='center' sx={{ mb: 4 }}>
         Cooking Methods Component Demo
       </Typography>
 
-      <Typography variant='body1' paragraph align='center' sx={{ mb: 5 }}>;
+      <Typography variant='body1' paragraph align='center' sx={{ mb: 5 }}>
         This page demonstrates the CookingMethodsSection component with updated styling to match the
         ingredient recommender.
       </Typography>
 
       {methods.length > 0 ? (
-        <Box sx={{ mb: 6 }}>;
+        <Box sx={{ mb: 6 }}>
           <CookingMethodsSection
-            methods={methods};
-            onSelectMethod={handleSelectMethod};
+            methods={methods}
+            onSelectMethod={handleSelectMethod}
             selectedMethodId={
               selectedMethod && typeof selectedMethod === 'object' && 'id' in selectedMethod
                 ? (selectedMethod as { id: string }).id
                 : null
             }
-            initiallyExpanded={true};
+            initiallyExpanded={true}
           />
         </Box>
       ) : (
@@ -137,20 +137,20 @@ export default function CookingMethodsDemoPage() {
       )}
 
       {selectedMethod && (
-        <Box sx={{ mt: 4, p: 3, bgcolor: 'background.paper', borderRadius: 2, boxShadow: 2 }}>;
-          <Typography variant='h5' gutterBottom>;
+        <Box sx={{ mt: 4, p: 3, bgcolor: 'background.paper', borderRadius: 2, boxShadow: 2 }}>
+          <Typography variant='h5' gutterBottom>
             Selected Method:{' '}
             {selectedMethod && typeof selectedMethod === 'object' && 'name' in selectedMethod
-              ? String(selectedMethod.name);
+              ? String(selectedMethod.name)
               : 'Unknown'}
           </Typography>
-          <Typography variant='body1' paragraph>;
-            {selectedMethod && typeof selectedMethod === 'object' && 'description' in selectedMethod;
-              ? String(selectedMethod.description);
+          <Typography variant='body1' paragraph>
+            {selectedMethod && typeof selectedMethod === 'object' && 'description' in selectedMethod
+              ? String(selectedMethod.description)
               : 'No description available'}
           </Typography>
           <Box
-            component='pre';
+            component='pre'
             sx={{
               p: 2,
               bgcolor: 'rgba(0, 0, 0, 0.05)',

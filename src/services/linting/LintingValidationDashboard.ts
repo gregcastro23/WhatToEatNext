@@ -123,7 +123,7 @@ export class LintingValidationDashboard {
   async runComprehensiveValidation(): Promise<ValidationResult> {
     // // // console.log('🔍 Starting comprehensive linting validation...');
 
-    const startTime = Date.now();
+    const startTime = Date.now()
     const metrics = await this.collectMetrics();
     const alerts = this.evaluateAlerts(metrics);
     const regressionAnalysis = await this.analyzeRegression(metrics);
@@ -152,7 +152,7 @@ export class LintingValidationDashboard {
    * Collect comprehensive linting metrics
    */
   private async collectMetrics(): Promise<LintingMetrics> {
-    const startTime = Date.now();
+    const startTime = Date.now()
     try {
       // Run ESLint with enhanced configuration
       const lintOutput = execSync('yarn lint --format json --max-warnings 10000', {

@@ -399,7 +399,7 @@ export function hasRichNutritionalData(ingredient: Record<string, _unknown>): bo
 
   const antioxidants = profile.antioxidants as unknown | unknown[];
   const hasAntioxidants =
-    antioxidants &&;
+    antioxidants &&
     (Array.isArray(antioxidants) ? antioxidants.length > 0 : Object.keys(antioxidants).length > 0);
   return hasVitamins || hasMinerals || hasAntioxidants
 }

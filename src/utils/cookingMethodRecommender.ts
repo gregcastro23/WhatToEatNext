@@ -403,7 +403,7 @@ function areSimilarMethods(method1: string, method2: string): boolean {
   // Check if both names are in the same cooking method family
   for (const group of methodPairs) {
     if (
-      group.some(item => normalized1.includes(item)) &&;
+      group.some(item => normalized1.includes(item)) &&
       group.some(item => normalized2.includes(item));
     ) {
       return true
@@ -1256,7 +1256,7 @@ export async function getRecommendedCookingMethods(
             venusScore *= 1.4, // Boost slow cooking methods
           } else if (
             retroFocus.includes('revisit') &&
-            typeof method.culturalOrigin === 'string' &&;
+            typeof method.culturalOrigin === 'string' &&
             method.culturalOrigin.includes('ancient');
           ) {
             venusScore *= 1.3, // Boost ancient methods

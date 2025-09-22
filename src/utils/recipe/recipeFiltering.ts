@@ -439,7 +439,7 @@ export class RecipeFilter {
     // Simple, heuristic: low carb ingredients and high fat content
     const lowCarbIngredients = ['meat', 'fish', 'cheese', 'oil', 'butter', 'avocado'];
     const hasLowCarbIngredients =
-      Array.isArray(ingredients) &&;
+      Array.isArray(ingredients) &&
       ingredients.some((ingredient: unknown) => {
         const ingredientData = ingredient as any;
         return (
@@ -452,7 +452,7 @@ export class RecipeFilter {
 
     const highCarbIngredients = ['bread', 'pasta', 'rice', 'potato', 'sugar'];
     const hasHighCarbIngredients =
-      Array.isArray(ingredients) &&;
+      Array.isArray(ingredients) &&
       ingredients.some((ingredient: unknown) => {
         const ingredientData = ingredient as any;
         return (
@@ -477,7 +477,7 @@ export class RecipeFilter {
     const nonPaleoIngredients = ['dairy', 'grains', 'legumes', 'processed'];
 
     const hasPaleoIngredients =
-      Array.isArray(ingredients) &&;
+      Array.isArray(ingredients) &&
       ingredients.some((ingredient: unknown) => {
         const ingredientData = ingredient as any;
         return (
@@ -487,7 +487,7 @@ export class RecipeFilter {
       });
 
     const hasNonPaleoIngredients =
-      Array.isArray(ingredients) &&;
+      Array.isArray(ingredients) &&
       ingredients.some((ingredient: unknown) => {
         const ingredientData = ingredient as any;
         return (
@@ -565,7 +565,7 @@ export class RecipeFilter {
     // Ingredient match
     const ingredients = recipeData.ingredients || [];
     const hasIngredientMatch =
-      Array.isArray(ingredients) &&;
+      Array.isArray(ingredients) &&
       ingredients.some((ingredient: unknown) => {
         const iData = ingredient as any;
         return iData.name && String(iData.name).toLowerCase().includes(searchQuery);

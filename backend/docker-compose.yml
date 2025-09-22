@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+  alchemical-core:
+    build:
+      context: ./alchemical_service
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://user:pass@postgres:5432/alchm_kitchen
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - postgres
+      - redis
+
+  kitchen-intelligence:
+    build:
+      context: ./kitchen_service
+    ports:
+      - "8100:8100"
+    environment:
+      - DATABASE_URL=postgresql://user:pass@postgres:5432/alchm_kitchen
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - postgres
+      - redis
+
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: alchm_kitchen
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    volumes:
+      - redis_data:/data
+
+volumes:
+  postgres_data:
+  redis_data:

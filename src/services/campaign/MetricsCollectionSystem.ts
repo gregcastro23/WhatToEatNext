@@ -319,14 +319,14 @@ export class MetricsCollectionSystem {
    * Collect comprehensive build performance metrics
    */
   private async collectBuildMetrics(): Promise<BuildMetrics> {
-    const _startTime = Date.now();
+    const _startTime = Date.now()
     let buildTime = -1;
     let bundleSize = 0;
     let compilationSpeed = 0;
 
     try {
       // Measure build time
-      const buildStart = Date.now();
+      const buildStart = Date.now()
       execSync('yarn build', {
         encoding: 'utf8',
         stdio: 'pipe'

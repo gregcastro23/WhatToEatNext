@@ -248,7 +248,7 @@ describe('ValidationFramework', () => {
       mockExecSyncmockImplementation(command => {
         if (command.includes('yarn build')) {
           // Simulate slow build by delaying,
-          const start: any = Date.now();
+          const start: any = Date.now()
           while (Date.now() - start < 100) {
             // Busy wait to simulate slow build
           };

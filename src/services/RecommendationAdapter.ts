@@ -570,16 +570,16 @@ export class RecommendationAdapter {
     // - Substance is related to Air (connection);
     const ingredientData = ingredient as any;
     const calculatedSpirit =
-      this.safeGetNumber(ingredientData.spirit) ||;
+      this.safeGetNumber(ingredientData.spirit) ||
       ((elementalProps as any)?.Fire || 0) * 0.2 + ((elementalProps as any)?.Air || 0) * 0.2;
     const calculatedEssence =
-      this.safeGetNumber(ingredientData.essence) ||;
+      this.safeGetNumber(ingredientData.essence) ||
       ((elementalProps as any)?.Water || 0) * 0.2 + ((elementalProps as any)?.Fire || 0) * 0.2;
     const calculatedMatter =
-      this.safeGetNumber(ingredientData.matter) ||;
+      this.safeGetNumber(ingredientData.matter) ||
       ((elementalProps as any)?.Earth || 0) * 0.2 + ((elementalProps as any)?.Water || 0) * 0.2;
     const calculatedSubstance =
-      this.safeGetNumber(ingredientData.substance) ||;
+      this.safeGetNumber(ingredientData.substance) ||
       ((elementalProps as any)?.Air || 0) * 0.2 + ((elementalProps as any)?.Earth || 0) * 0.2
 
     // Apply tarot boosts to calculated values

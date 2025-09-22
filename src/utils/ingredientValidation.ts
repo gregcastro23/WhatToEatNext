@@ -65,7 +65,7 @@ const VALIDATION_TOLERANCES = {
  * Main validation function for ingredient data
  */
 export async function validateIngredientData(): Promise<IngredientValidationResult> {
-  const startTime = Date.now();
+  const startTime = Date.now()
   const errors: IngredientValidationError[] = [];
   const warnings: IngredientValidationWarning[] = [];
 
@@ -635,7 +635,7 @@ async function runIngredientTests(): Promise<IngredientTestResult[]> {
  * Test ingredient data loading
  */
 async function testIngredientDataLoading(): Promise<IngredientTestResult> {
-  const startTime = Date.now();
+  const startTime = Date.now()
 
   try {
     const ingredients = allIngredients;
@@ -667,7 +667,7 @@ async function testIngredientDataLoading(): Promise<IngredientTestResult> {
  * Test elemental properties validation
  */
 async function testElementalPropertiesValidation(): Promise<IngredientTestResult> {
-  const startTime = Date.now();
+  const startTime = Date.now()
 
   try {
     const ingredients = allIngredients;
@@ -716,7 +716,7 @@ async function testElementalPropertiesValidation(): Promise<IngredientTestResult
  * Test compatibility calculations
  */
 async function testCompatibilityCalculations(): Promise<IngredientTestResult> {
-  const startTime = Date.now();
+  const startTime = Date.now()
 
   try {
     const ingredients = Object.values(allIngredients).slice(010); // Test with first 10 ingredients
@@ -769,7 +769,7 @@ async function testCompatibilityCalculations(): Promise<IngredientTestResult> {
  * Test alchemical mappings
  */
 async function testAlchemicalMappings(): Promise<IngredientTestResult> {
-  const startTime = Date.now();
+  const startTime = Date.now()
 
   try {
     const ingredients = allIngredients;
@@ -820,7 +820,7 @@ async function testAlchemicalMappings(): Promise<IngredientTestResult> {
  * Test category consistency
  */
 async function testCategoryConsistency(): Promise<IngredientTestResult> {
-  const startTime = Date.now();
+  const startTime = Date.now()
 
   try {
     const ingredients = allIngredients

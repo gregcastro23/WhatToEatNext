@@ -607,7 +607,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
    */
   private async testServiceInitialization(): Promise<IntegrationTestResult> {
     const testId = `test_initialization_${Date.now()}`;
-    const startTime = Date.now();
+    const startTime = Date.now()
 
     try {
       const expectedServices = Object.entries(this.config.services);
@@ -676,7 +676,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
    */
   private async testCrossServiceCommunication(): Promise<IntegrationTestResult> {
     const testId = `test_communication_${Date.now()}`;
-    const startTime = Date.now();
+    const startTime = Date.now()
 
     try {
       const services = Array.from(this.services.keys());
@@ -767,7 +767,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
    */
   private async testDataFlowIntegrity(): Promise<IntegrationTestResult> {
     const testId = `test_data_flow_${Date.now()}`;
-    const startTime = Date.now();
+    const startTime = Date.now()
 
     try {
       const integrityScore = this.calculateDataFlowIntegrity();
@@ -826,12 +826,12 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
    */
   private async testPerformanceUnderLoad(): Promise<IntegrationTestResult> {
     const testId = `test_performance_load_${Date.now()}`;
-    const startTime = Date.now();
+    const startTime = Date.now()
 
     try {
       // Simulate load on all services
       const loadTestPromises = Array.from(this.services.entries()).map(async ([name, service]) => {;
-        const startServiceTime = Date.now();
+        const startServiceTime = Date.now()
 
         try {
           // Simulate service load based on type
@@ -911,7 +911,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
    */
   private async testErrorHandlingAndRecovery(): Promise<IntegrationTestResult> {
     const testId = `test_error_recovery_${Date.now()}`;
-    const startTime = Date.now();
+    const startTime = Date.now()
 
     try {
       let recoveryTests = 0;
@@ -992,7 +992,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
    */
   private async testAutomationWorkflows(): Promise<IntegrationTestResult> {
     const testId = `test_automation_${Date.now()}`;
-    const startTime = Date.now();
+    const startTime = Date.now()
 
     try {
       let automationTests = 0;

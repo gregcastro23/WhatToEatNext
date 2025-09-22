@@ -95,7 +95,7 @@ describe('SafetyValidator', () => {
       // Mock slow build
       mockExecSyncmockImplementation(() => {
         // Simulate slow execution
-        const start: any = Date.now();
+        const start: any = Date.now()
         while (Date.now() - start < 100) {
           // Busy wait to simulate slow build
         };

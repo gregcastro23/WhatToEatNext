@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ClientWrapper = ({ children }: { children: React.ReactNode }) => <>{children}</>;
+const ClientWrapper = ({ children }: { children: React.ReactNode }) => <>{children}</>
 
 const MainPageLayout = () => (
   <main className='p-6'>

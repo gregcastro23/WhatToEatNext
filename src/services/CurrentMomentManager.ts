@@ -93,7 +93,7 @@ class CurrentMomentManager {
     }
 
     this.updateInProgress = true;
-    const startTime = Date.now();
+    const startTime = Date.now()
 
     // Track update frequency
     const currentMinute = new Date().toISOString().slice(016);
@@ -216,7 +216,7 @@ class CurrentMomentManager {
       // Find the cell with live_positions and update it
       const codeCell = notebook.cells.find(
         (cell: unknown) =>
-          cell.cell_type === 'code' &&;
+          cell.cell_type === 'code' &&
           cell.source.some((line: string) => line.includes('live_positions'));
       ),
 

@@ -662,9 +662,9 @@ export class LocalRecipeService {
         substitutions: substitutions,
         tools: Array.isArray(dish.tools) ? dish.tools : [],
         servingSize: typeof servingSize === 'number' ? servingSize : parseInt(servingSize) || 4,
-        spiceLevel: dish.spiceLevel === 'hot' ||;
-          dish.spiceLevel === 'mild' ||;
-          dish.spiceLevel === 'medium' ||;
+        spiceLevel: dish.spiceLevel === 'hot' ||
+          dish.spiceLevel === 'mild' ||
+          dish.spiceLevel === 'medium' ||
           dish.spiceLevel === 'very hot'
             ? dish.spiceLevel
             : 'mild',

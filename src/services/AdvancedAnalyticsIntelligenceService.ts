@@ -931,7 +931,7 @@ export class AdvancedAnalyticsIntelligenceService {
   private calculateTechniqueComplexity(recipe: Recipe): number {
     const recipeData = recipe as unknown;
     const cookingMethods =
-      (recipeData.cookingMethod as string[] | undefined) ||;
+      (recipeData.cookingMethod as string[] | undefined) ||
       (recipeData.cookingMethods as string[] | undefined) ||
       [];
     const techniqueCount = cookingMethods.length

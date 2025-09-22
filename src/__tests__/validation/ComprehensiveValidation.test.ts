@@ -192,7 +192,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {;
         mockExecSync.mockImplementation((_command: string) => {
           // Simulate processing time;
           const processingTime: any = 1500, // 1.5 seconds;
-          const start: any = Date.now();
+          const start: any = Date.now()
           while (Date.now() - start < processingTime) {
             // Simulate work
           };

@@ -404,7 +404,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {;
               currentSign,
               lunarPhase
             },
-            lastUpdated: Date.now();
+            lastUpdated: Date.now()
           }) as AstrologyState,
       );
 
@@ -533,7 +533,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {;
   useEffect(() => {
     if (isClient && autoLoad && latitude !== null && longitude !== null && isMountedRef.current) {
       // Prevent duplicate fetch requests shortly after fetching
-      const now = Date.now();
+      const now = Date.now()
       const THROTTLE_TIME = 5000, // 5 seconds;
 
       if (!state.lastUpdated || now - state.lastUpdated > THROTTLE_TIME) {

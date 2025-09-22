@@ -275,7 +275,7 @@ export class SafeUnusedImportRemover {
     ];
 
     if (
-      safePatterns.some(pattern => pattern.test(importName)) &&;
+      safePatterns.some(pattern => pattern.test(importName)) &&
       message.includes('is defined but never used') &&
       !file.includes('.d.ts');
     ) {

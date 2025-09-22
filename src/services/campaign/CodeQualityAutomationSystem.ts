@@ -101,7 +101,7 @@ export class CodeQualityAutomationSystem {
    * Execute the complete code quality automation workflow
    */
   async executeAutomation(targetFiles?: string[]): Promise<CodeQualityAutomationResult> {
-    const startTime = Date.now();
+    const startTime = Date.now()
     logger.info('Starting code quality automation system');
 
     const result: CodeQualityAutomationResult = {
@@ -211,7 +211,7 @@ export class CodeQualityAutomationSystem {
     phase: AutomationPhase,
     targetFiles?: string[],
   ): Promise<PhaseExecutionResult> {
-    const startTime = Date.now();
+    const startTime = Date.now()
 
     const phaseResult: PhaseExecutionResult = {
       phaseName: phase.name,
@@ -227,7 +227,7 @@ export class CodeQualityAutomationSystem {
       switch (phase.system) {
         case 'importCleanup': phaseResult.result = await this.importCleanupSystem.executeCleanup(targetFiles);
           phaseResult.success =
-            (phaseResult.result as any).buildValidationPassed &&;
+            (phaseResult.result as any).buildValidationPassed &&
             (phaseResult.result as any).errors.length === 0;
           phaseResult.errors = (phaseResult.result as any).errors;
           phaseResult.warnings = (phaseResult.result as any).warnings;
@@ -237,7 +237,7 @@ export class CodeQualityAutomationSystem {
           phaseResult.result =
             await this.lintingFormattingSystem.executeLintingAndFormatting(targetFiles);
           phaseResult.success =
-            (phaseResult.result as any).buildValidationPassed &&;
+            (phaseResult.result as any).buildValidationPassed &&
             (phaseResult.result as any).errors.length === 0;
           phaseResult.errors = (phaseResult.result as any).errors;
           phaseResult.warnings = (phaseResult.result as any).warnings;
@@ -247,7 +247,7 @@ export class CodeQualityAutomationSystem {
           phaseResult.result =
             await this.dependencySecurityMonitor.executeDependencySecurityMonitoring();
           phaseResult.success =
-            (phaseResult.result as any).compatibilityTestsPassed &&;
+            (phaseResult.result as any).compatibilityTestsPassed &&
             (phaseResult.result as any).errors.length === 0;
           phaseResult.errors = (phaseResult.result as any).errors;
           phaseResult.warnings = (phaseResult.result as any).warnings

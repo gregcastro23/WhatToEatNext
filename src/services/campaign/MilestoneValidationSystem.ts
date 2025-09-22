@@ -329,7 +329,7 @@ export class MilestoneValidationSystem {
     let buildTime = -1;
 
     try {
-      const startTime = Date.now();
+      const startTime = Date.now()
       execSync('yarn build', { stdio: 'pipe' });
       buildTime = (Date.now() - startTime) / 1000;
       buildSuccess = true;

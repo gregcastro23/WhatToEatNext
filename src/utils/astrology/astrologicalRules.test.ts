@@ -411,9 +411,9 @@ describe('Astrological Validation Utilities', () => {
         };
       }
 
-      const startTime: any = Date.now();
+      const startTime: any = Date.now()
       const result: any = validatePlanetaryPositions(largePlanetaryData);
-      const endTime: any = Date.now();
+      const endTime: any = Date.now()
 
       expect(endTime - startTime).toBeLessThan(1000). // Should complete within 1 second
       expect(result).toBeDefined();

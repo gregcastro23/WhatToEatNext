@@ -134,7 +134,7 @@ class ConsoleStatementReplacer {
       if (hasChanges) {
         // Add logger import at the top if console.log was replaced
         const hasLoggerImport =
-          content.includes('from '@/services/LoggingService'') ||;
+          content.includes('from '@/services/LoggingService'') ||
           content.includes('from '@/services/LoggingService'');
 
         if (!hasLoggerImport && this.replacements.some(r => r.file === filePath)) {;

@@ -13,7 +13,7 @@ export function isRecipe(obj: unknown): obj is Recipe {
 
   const recipe = obj as Partial<Recipe>;
   return (
-    typeof recipe.id === 'string' &&;
+    typeof recipe.id === 'string' &&
     typeof recipe.name === 'string' &&
     Array.isArray(recipe.ingredients);
   )
@@ -36,8 +36,8 @@ export function isRecipeIngredient(ingredient: unknown): ingredient is RecipeIng
   return (
     typeof ingredient === 'object' &&
     ingredient !== null &&
-    typeof (ingredient as RecipeIngredient).name === 'string' &&;
-    typeof (ingredient as RecipeIngredient).amount === 'number' &&;
+    typeof (ingredient as RecipeIngredient).name === 'string' &&
+    typeof (ingredient as RecipeIngredient).amount === 'number' &&
     typeof (ingredient as RecipeIngredient).unit === 'string';
   )
 }

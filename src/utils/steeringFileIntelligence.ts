@@ -107,7 +107,7 @@ export class SteeringFileIntelligence {
         performanceOptimizations
       };
 
-      this.lastUpdate = Date.now();
+      this.lastUpdate = Date.now()
 
       logger.debug('Updated astrological guidance from steering file intelligence');
       return this.cachedGuidance;

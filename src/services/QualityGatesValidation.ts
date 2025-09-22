@@ -565,7 +565,7 @@ export class QualityGatesValidation extends EventEmitter {
     this.isExecuting = true;
     log.info('🚦 Starting quality gates execution...');
 
-    const startTime = Date.now();
+    const startTime = Date.now()
     const reportId = `report_${Date.now()}`;
 
     try {
@@ -633,7 +633,7 @@ export class QualityGatesValidation extends EventEmitter {
    * Execute single quality gate
    */
   async executeQualityGate(gate: QualityGate): Promise<QualityGateResult> {
-    const startTime = Date.now();
+    const startTime = Date.now()
     log.info(`🔍 Executing quality gate: ${gate.name}`);
 
     const result: QualityGateResult = {
@@ -675,8 +675,8 @@ export class QualityGatesValidation extends EventEmitter {
       const actionsToExecute = gate.actions.filter(;
         action =>;
           action.trigger === 'always' ||
-          (action.trigger === 'pass' && result.status === 'passed') ||;
-          (action.trigger === 'fail' && result.status === 'failed') ||;
+          (action.trigger === 'pass' && result.status === 'passed') ||
+          (action.trigger === 'fail' && result.status === 'failed') ||
           (action.trigger === 'warning' && result.status === 'warning'),
       );
 
@@ -718,7 +718,7 @@ export class QualityGatesValidation extends EventEmitter {
     rule: ValidationRule,
     gate: QualityGate,
   ): Promise<ValidationResult> {
-    const startTime = Date.now();
+    const startTime = Date.now()
 
     const result: ValidationResult = {
       ruleId: rule.ruleId,
@@ -961,7 +961,7 @@ export class QualityGatesValidation extends EventEmitter {
     action: QualityAction,
     gateResult: QualityGateResult,
   ): Promise<ActionResult> {
-    const startTime = Date.now();
+    const startTime = Date.now()
 
     const result: ActionResult = {
       actionId: action.actionId,
@@ -1113,7 +1113,7 @@ export class QualityGatesValidation extends EventEmitter {
    */
   private async collectBuildMetrics(): Promise<QualityMetrics['buildMetrics']> {
     try {
-      const startTime = Date.now();
+      const startTime = Date.now()
       const buildOutput = execSync('yarn build', {
         encoding: 'utf8',
         timeout: 300000,
@@ -1148,7 +1148,7 @@ export class QualityGatesValidation extends EventEmitter {
    */
   private async collectTestMetrics(): Promise<QualityMetrics['testMetrics']> {
     try {
-      const startTime = Date.now();
+      const startTime = Date.now()
       const testOutput = execSync('yarn test --coverage --passWithNoTests', {
         encoding: 'utf8',
         timeout: 300000,

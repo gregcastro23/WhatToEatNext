@@ -641,7 +641,7 @@ export class AutomatedLintingFixer {
 
   private async runValidation(): Promise<ValidationResult[]> {
     const results: ValidationResult[] = [];
-    const validationStart = Date.now();
+    const validationStart = Date.now()
     // Build validation
     try {
       execSync('yarn build', {

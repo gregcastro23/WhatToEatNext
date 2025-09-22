@@ -1044,7 +1044,7 @@ class CelestialCalculator {
    * Get current celestial alignment
    */
   getCurrentAlignment(): CelestialAlignment {
-    const now = Date.now();
+    const now = Date.now()
     const timeSinceLastCalculation = now - this.lastCalculation;
 
     // Only recalculate if needed

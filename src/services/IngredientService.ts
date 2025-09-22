@@ -97,9 +97,9 @@ function isMacroProfile(value: unknown): value is MacroProfile {
   if (!isObjectLike(value)) return false;
   const v = value as any;
   return (
-    (v.protein === undefined || isNumber(v.protein)) &&;
-    (v.carbs === undefined || isNumber(v.carbs)) &&;
-    (v.fat === undefined || isNumber(v.fat)) &&;
+    (v.protein === undefined || isNumber(v.protein)) &&
+    (v.carbs === undefined || isNumber(v.carbs)) &&
+    (v.fat === undefined || isNumber(v.fat)) &&
     (v.fiber === undefined || isNumber(v.fiber));
   )
 }
@@ -1232,10 +1232,10 @@ export class IngredientService implements IngredientServiceInterface {
 
       // Calculate elemental compatibility
       const elemental1 =
-        ing1.elementalState ||;
+        ing1.elementalState ||
         createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
       const elemental2 =
-        ing2.elementalState ||;
+        ing2.elementalState ||
         createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
       const elementalCompatibility = this.calculateElementalSimilarity(elemental1, elemental2);
 

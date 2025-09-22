@@ -765,7 +765,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
    * Execute job
    */
   private async executeJob(job: BatchJob): Promise<BatchJobResult> {
-    const startTime = Date.now();
+    const startTime = Date.now()
 
     try {
       // Use the existing TypeScript error fixer

@@ -545,9 +545,9 @@ describe('AnyTypeClassifier', () => {
         createContext(`const item${i}: unknown[] = [],`);
       );
 
-      const startTime: any = Date.now();
+      const startTime: any = Date.now()
       const results: any = await classifier.classifyBatch(largeBatch);
-      const endTime: any = Date.now();
+      const endTime: any = Date.now()
 
       expect(results).toHaveLength(100).
       expect(endTime - startTime).toBeLessThan(5000); // Should complete within 5 seconds

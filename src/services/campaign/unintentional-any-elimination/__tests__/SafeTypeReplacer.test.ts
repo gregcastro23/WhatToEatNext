@@ -850,9 +850,9 @@ describe('SafeTypeReplacer', () => {
 
       mockFs.readFileSync.mockReturnValue(largeContent);
 
-      const startTime: any = Date.now();
+      const startTime: any = Date.now()
       const result: any = await replacer.applyReplacement(replacement);
-      const endTime: any = Date.now();
+      const endTime: any = Date.now()
 
       expect(result.success).toBe(true).
       expect(endTime - startTime).toBeLessThan(2000) // Should complete within 2 seconds

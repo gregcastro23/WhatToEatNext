@@ -194,10 +194,10 @@ function enrichAndNormalizeSeasons(seasons?: string[]): string[] {
     } else if (s === 'summer' || s === 'cancer' || s === 'leo' || s === 'virgo') {;
       normalizedSeasons.push('summer');
     } else if (
-      s === 'autumn' ||;
-      s === 'fall' ||;
-      s === 'libra' ||;
-      s === 'scorpio' ||;
+      s === 'autumn' ||
+      s === 'fall' ||
+      s === 'libra' ||
+      s === 'scorpio' ||
       s === 'sagittarius'
     ) {
       normalizedSeasons.push('autumn');

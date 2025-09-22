@@ -129,7 +129,7 @@ export function getReliablePlanetaryPositions(): { [key: string]: CelestialPosit
   // Cache the results
   reliablePositionsCache = {
     data: positions,
-    timestamp: Date.now();
+    timestamp: Date.now()
   };
 
   return positions;

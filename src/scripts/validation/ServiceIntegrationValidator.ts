@@ -131,7 +131,7 @@ export class ServiceIntegrationValidator {
     batchId: string,
     baselineMetrics?: { unusedVariables: number, buildErrors: number },
   ): Promise<ComprehensiveQualityReport> {
-    const startTime = Date.now();
+    const startTime = Date.now()
     this.log('info', `🔍 Starting service integration validation for batch ${batchId}`);
 
     // Filter for service files
@@ -238,7 +238,7 @@ export class ServiceIntegrationValidator {
     servicePath: string,
     batchId: string,
   ): Promise<ServiceIntegrationResult> {
-    const startTime = Date.now();
+    const startTime = Date.now()
     const result: ServiceIntegrationResult = {
       passed: true,
       servicePath,
@@ -300,7 +300,7 @@ export class ServiceIntegrationValidator {
     servicePath: string,
     batchId: string,
   ): Promise<ServiceIntegrationResult> {
-    const startTime = Date.now();
+    const startTime = Date.now()
     const result: ServiceIntegrationResult = {
       passed: true,
       servicePath,
@@ -365,7 +365,7 @@ export class ServiceIntegrationValidator {
     servicePath: string,
     batchId: string,
   ): Promise<ServiceIntegrationResult> {
-    const startTime = Date.now();
+    const startTime = Date.now()
     const result: ServiceIntegrationResult = {
       passed: true,
       servicePath,
@@ -427,7 +427,7 @@ export class ServiceIntegrationValidator {
     servicePath: string,
     batchId: string,
   ): Promise<ServiceIntegrationResult> {
-    const startTime = Date.now();
+    const startTime = Date.now()
     const result: ServiceIntegrationResult = {
       passed: true,
       servicePath,

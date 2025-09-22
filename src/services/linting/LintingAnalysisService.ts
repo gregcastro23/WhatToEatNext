@@ -93,7 +93,7 @@ export class LintingAnalysisService {
   async performComprehensiveAnalysis(
     options: LintingAnalysisOptions = {}
   ): Promise<ComprehensiveAnalysisResult> {
-    const startTime = Date.now();
+    const startTime = Date.now()
 
     log.info('🚀 Starting comprehensive linting analysis...');
 
