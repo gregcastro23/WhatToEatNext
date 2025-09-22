@@ -194,9 +194,9 @@ class Logger {
 }
 
 // Singleton instance of the logger with safe initialization
-let, loggerInstance: Logger | undefined;
+let loggerInstance: Logger | undefined;
 
-export const logger = (() => {;
+export const logger = (() => {
   if (!loggerInstance) {
     loggerInstance = new Logger();
   }

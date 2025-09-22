@@ -1,3 +1,5 @@
+import { alchmAPI, type RuneAgentRequest, type RuneResult as APIRuneResult } from '@/lib/api/alchm-client';
+import { logger } from '@/lib/logger';
 import { getCurrentAlchemicalState } from '@/services/RealAlchemizeService';
 import type { ElementalProperties } from '@/types/celestial';
 
@@ -134,29 +136,21 @@ export class RuneAgentClient {
   }
 
   async generateRuneOfMoment(input: RuneAgentInput = {}): Promise<RuneResult> {
-    // 1) Backend-first for rune generation
+    // 1) Backend-first using centralized API client
     if (this.useBackend && this.backendUrl) {
       try {
-        const url = new URL('/api/alchemy/imaginize', this.backendUrl);
-        const payload = {
-          datetime: input.datetime?.toISOString() || new Date().toISOString(),
+        const request: RuneAgentRequest = {
+          datetime: input.datetime?.toISOString(),
           location: input.location,
-          type: 'rune',
-          context: input.context || 'general'
+          context: input.context,
+          preferences: input.preferences
         };
 
-        const res = await fetch(url.toString(), {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-        if (!res.ok) throw new Error(`Backend error ${res.status}`);
-
-        const data = (await res.json()) as Partial<RuneResult>;
-        if (data.symbol && data.name && data.meaning) {
-          return data as RuneResult;
-        }
-      } catch (_error) {
+        const result = await alchmAPI.getRuneGuidance(request);
+        logger.debug('RuneAgentClient', 'Backend rune generation successful', result);
+        return result;
+      } catch (error) {
+        logger.warn('RuneAgentClient', 'Backend rune generation failed, falling back to local', error);
         // Fall through to local
       }
     }

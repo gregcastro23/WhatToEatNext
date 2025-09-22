@@ -31,6 +31,57 @@ export interface Recipe {
   url?: string;
 }
 
+export interface TokenRatesRequest {
+  datetime?: string;
+  location?: { latitude: number; longitude: number };
+  elemental?: ElementalProperties;
+  esms?: { Spirit: number; Essence: number; Matter: number; Substance: number };
+}
+
+export interface TokenRatesResult {
+  Spirit: number;
+  Essence: number;
+  Matter: number;
+  Substance: number;
+  kalchm: number;
+  monica: number;
+}
+
+export interface RuneAgentRequest {
+  datetime?: string;
+  location?: { latitude: number; longitude: number };
+  context?: 'cuisine' | 'recipe' | 'ingredient' | 'cooking_method';
+  preferences?: {
+    dietaryRestrictions?: string[];
+    cuisineTypes?: string[];
+    intensity?: 'mild' | 'moderate' | 'intense';
+  };
+}
+
+export interface RuneResult {
+  symbol: string;
+  name: string;
+  meaning: string;
+  influence: {
+    elemental: ElementalProperties;
+    energy: { Spirit: number; Essence: number; Matter: number; Substance: number };
+    guidance: string;
+  };
+}
+
+export interface PlanetaryHourRequest {
+  datetime?: string;
+  location?: { latitude: number; longitude: number };
+}
+
+export interface PlanetaryHourResult {
+  planet: string;
+  hourNumber?: number;
+  isDaytime: boolean;
+  start?: string;
+  end?: string;
+}
+
 export class AlchmAPIClient {
   private readonly endpoints = {
     alchemical: process.env.NEXT_PUBLIC_BACKEND_URL ?? '',
@@ -70,6 +121,39 @@ export class AlchmAPIClient {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(request),
+    });
+  }
+
+  async calculateTokenRates(request: TokenRatesRequest): Promise<TokenRatesResult> {
+    const url = `${this.endpoints.alchemical}/api/tokens/calculate`;
+    return this.request<TokenRatesResult>(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(request),
+    });
+  }
+
+  async getRuneGuidance(request: RuneAgentRequest): Promise<RuneResult> {
+    const url = `${this.endpoints.alchemical}/api/runes/guidance`;
+    return this.request<RuneResult>(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(request),
+    });
+  }
+
+  async getCurrentPlanetaryHour(request: PlanetaryHourRequest): Promise<PlanetaryHourResult> {
+    const url = `${this.endpoints.alchemical}/api/planetary/current`;
+    const params = new URLSearchParams();
+    if (request.datetime) params.set('timestamp', request.datetime);
+    if (request.location) {
+      params.set('lat', String(request.location.latitude));
+      params.set('lon', String(request.location.longitude));
+    }
+
+    return this.request<PlanetaryHourResult>(`${url}?${params.toString()}`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
     });
   }
 }
