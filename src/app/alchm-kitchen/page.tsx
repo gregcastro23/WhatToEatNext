@@ -6,7 +6,7 @@ import { AstrologicalProvider } from '@/context/AstrologicalContext';
 import { AlchemicalProvider } from '@/contexts/AlchemicalContext/provider';
 import { createLogger } from '@/utils/logger';
 
-import AlchmKitchenTab from '../../../Alchm Kitchen/AlchmKitchenTab';
+import AlchmKitchenTab from '../../../docs/Alchm Kitchen/AlchmKitchenTab';
 
 import DevSettings from './DevSettings';
 import SignVectorPanel from './SignVectorPanel';
@@ -24,7 +24,7 @@ function ClientOnly({ children }: { children: React.ReactNode }) {
   if (!hasMounted) {
     return (
       <div className='flex min-h-screen flex-col items-center justify-center space-y-4'>
-        ;<p>Loading Alchm Kitchen...</p>
+        <p>Loading Alchm Kitchen...</p>
         <div className='text-xs text-gray-500'>
           <p>Debug Info</p>
           <p>Mounted: false</p>
