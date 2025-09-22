@@ -783,7 +783,7 @@ export class AlchemicalEngineAdvanced {
       return result;
     } catch (error) {
       // Provide a safe fallback if any error occurs
-      console.error('Error in getElementRanking:', error);
+      log.error('Error in getElementRanking', { error });
       return {
         1: 'Fire',
         2: 'Water',
@@ -862,7 +862,7 @@ function getElementRanking(elementObject: Record<string, _number>): Record<numbe
     return rankingObject
   } catch (error) {
     // Provide a safe fallback if any error occurs
-    console.error('Error in getElementRanking:', error);
+    log.error('Error in getElementRanking', { error });
     return {
       1: 'Fire',
       2: 'Water',
@@ -885,7 +885,7 @@ function getAbsoluteElementValue(elementObject: Record<string, _number>): number
     }
     return Object.values(elementObject).reduce((sum, value) => sum + value0);
   } catch (error) {
-    console.error('Error in getAbsoluteElementValue:', error);
+    log.error('Error in getAbsoluteElementValue:', error);
     return 0;
   }
 }
@@ -913,7 +913,7 @@ function combineElementObjects(
       Earth: (obj1.Earth || 0) + (obj2.Earth || 0);
     };
   } catch (error) {
-    console.error('Error in combineElementObjects:', error);
+    log.error('Error in combineElementObjects:', error);
     return createElementObject();
   }
 }
@@ -1060,7 +1060,7 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
           signInfo[String(_risingSign)]?.['Major Tarot Card'] || '';
       }
     } catch (error) {
-      console.error('Error processing Ascendant:', error);
+      log.error('Error processing Ascendant:', error);
       // Use defaults if error occurs
     }
 
@@ -1086,7 +1086,7 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
             planet = (entryData.label) || '';
           }
         } catch (error) {
-          console.error(`Error getting planet at index ${celestialBodiesIndex}:`, error);
+          log.error(`Error getting planet at index ${celestialBodiesIndex}:`, error);
           celestialBodiesIndex++;
           continue; // Skip this iteration if error
         }
@@ -1097,7 +1097,7 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
             alchmInfo['Planets'][planet]['Total Effect'] = createElementObject();
           }
         } catch (error) {
-          console.error(`Error initializing Total Effect for ${planet}:`, error);
+          log.error(`Error initializing Total Effect for ${planet}:`, error);
         }
 
         // Skip if planet name is not available
@@ -1138,7 +1138,7 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
             }
           }
         } catch (error) {
-          console.error(`Error processing sign for ${planet}:`, error);
+          log.error(`Error processing sign for ${planet}:`, error);
           sign = 'Aries'; // Default fallback
         }
 
@@ -1158,7 +1158,7 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
             }
           }
         } catch (error) {
-          console.error(`Error processing modality for ${planet} in ${sign}:`, error);
+          log.error(`Error processing modality for ${planet} in ${sign}:`, error);
         }
 
         // Safely process diurnal and nocturnal elements
@@ -1171,7 +1171,7 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
               `${signInfo[sign]?.element || 'Air'} in ${alchmInfo['Planets'][planet]?.['Nocturnal Element'] || 'Air'}`;
           }
         } catch (error) {
-          console.error(`Error processing elements for ${planet}:`, error);
+          log.error(`Error processing elements for ${planet}:`, error);
         }
 
         // Process remaining data for all planets except Ascendant
@@ -1187,7 +1187,7 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
                 alchmInfo['Planets'][planet]['House'] = house;
               }
             } catch (error) {
-              console.error(`Error processing house for ${planet}:`, error);
+              log.error(`Error processing house for ${planet}:`, error);
               house = '1'; // Default fallback
             }
 
@@ -1218,7 +1218,7 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
                 alchmInfo['Planets'][planet]['Decan'] = decanString;
               }
             } catch (error) {
-              console.error(`Error processing degree for ${planet}:`, error);
+              log.error(`Error processing degree for ${planet}:`, error);
             }
 
             // Process dignity effect
@@ -1293,14 +1293,14 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
                 dignity_effect,
               );
             } catch (error) {
-              console.error(`Error processing dignity effect for ${planet}:`, error);
+              log.error(`Error processing dignity effect for ${planet}:`, error);
             }
 
             // Continue with the rest of the calculations...
             // (I'm not showing all the calculations for brevity, but each one should be
             // wrapped in a try-catch block following the same pattern)
           } catch (error) {
-            console.error(`Error processing data for ${planet}:`, error);
+            log.error(`Error processing data for ${planet}:`, error);
           }
         }
 
@@ -1308,7 +1308,7 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
         celestialBodiesIndex++;
       }
     } catch (error) {
-      console.error('Error in planet processing:', error);
+      log.error('Error in planet processing:', error);
     }
 
     // Safely calculate final results
@@ -1404,13 +1404,13 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
 
       alchmInfo['Energy'] = alchmInfo['Heat'] - alchmInfo['Reactivity'] * alchmInfo['Entropy'];
     } catch (error) {
-      console.error('Error calculating final results:', error);
+      log.error('Error calculating final results:', error);
     }
 
     // Return the results
     return alchmInfo as unknown as AlchemicalResult;
   } catch (error) {
-    console.error('Error in alchemize function:', error);
+    log.error('Error in alchemize function:', error);
 
     // Provide a properly structured fallback result that matches StandardizedAlchemicalResult
     const heat = 0.5;
@@ -1642,11 +1642,11 @@ async function calculateCurrentPlanetaryPositions(): Promise<Record<string, unkn
           const fallbackPositions = _calculateFallbackPositions(now);
 
           if (fallbackPositions && Object.keys(fallbackPositions).length > 0) {
-            console.warn('Using fallback planetary positions');
+            log.warn('Using fallback planetary positions');
             return fallbackPositions
           }
         } catch (fallbackError) {
-          console.error('Error in fallback calculation:', fallbackError);
+          log.error('Error in fallback calculation:', fallbackError);
         }
       }
 
@@ -2157,14 +2157,14 @@ export default {
           (error.message.includes('Assignment to constant variable') ||
             error.message.includes('invalid assignment'));
         ) {
-          console.warn('Caught assignment error, using safe version:', error.message);
+          log.warn('Caught assignment error, using safe version:', error.message);
           return safeAlchemize(birthInfo, horoscopeDict);
         }
         // Other errors should be re-thrown
         throw error;
       }
     } catch (error) {
-      console.error('Critical error in alchemize, returning fallback:', error);
+      log.error('Critical error in alchemize, returning fallback:', error);
 
       // Return a minimal fallback result that won't break the application
       return {
@@ -2204,7 +2204,7 @@ function safeAlchemize(_birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): Al
     // Call the original alchemize with safety wrapper
     return alchemizeWithSafety(birthInfo, horoscopeDict, _safetyWrapper);
   } catch (error) {
-    console.error('Error in safeAlchemize:', error);
+    log.error('Error in safeAlchemize:', error);
 
     // Return fallback result
     const heat = 0.5;
@@ -2298,7 +2298,7 @@ function alchemizeWithSafety(
       }
     } as StandardizedAlchemicalResult;
   } catch (error) {
-    console.error('Error in alchemizeWithSafety:', error);
+    log.error('Error in alchemizeWithSafety:', error);
 
     // Return fallback result
     const heat = 0.5;
