@@ -477,7 +477,7 @@ export class ElementalCalculator {
     if (
       lowerSign.includes('aries') ||
       lowerSign.includes('leo') ||
-      lowerSign.includes('sagittarius');
+      lowerSign.includes('sagittarius')
     ) {
       return 'Fire'
     }

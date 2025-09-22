@@ -74,37 +74,21 @@ export class TokensClient {
   }
 
   async calculateRates(input: TokenRatesInput = {}): Promise<TokenRatesResult> {
-    // 1) Backend-first
+    // 1) Backend-first using centralized API client
     if (this.useBackend && this.backendUrl) {
       try {
-        const url = new URL('/api/tokens/calculate', this.backendUrl);
-        const payload = {
-          datetime: input.datetime?.toISOString() || new Date().toISOString(),
+        const request: TokenRatesRequest = {
+          datetime: input.datetime?.toISOString(),
           location: input.location,
           elemental: input.elemental,
-          esms: input.esms,
-          planetaryPositions: input.planetaryPositions
+          esms: input.esms
         };
 
-        const res = await fetch(url.toString(), {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-        if (!res.ok) throw new Error(`Backend error ${res.status}`);
-
-        const data = (await res.json()) as Partial<TokenRatesResult>;
-        if (
-          typeof data.Spirit === 'number' &&
-          typeof data.Essence === 'number' &&
-          typeof data.Matter === 'number' &&
-          typeof data.Substance === 'number' &&
-          typeof data.kalchm === 'number' &&
-          typeof data.monica === 'number'
-        ) {
-          return data as TokenRatesResult;
-        }
-      } catch (_error) {
+        const result = await alchmAPI.calculateTokenRates(request);
+        logger.debug('TokensClient', 'Backend calculation successful', result);
+        return result;
+      } catch (error) {
+        logger.warn('TokensClient', 'Backend calculation failed, falling back to local', error);
         // Fall through to local
       }
     }

@@ -345,7 +345,7 @@ export class AlchemicalEngineAdvanced {
 
       // Season compatibility - safe property access
       const seasonalVariations =
-        cuisineData && typeof cuisineData === 'object' && 'seasonalVariations' in cuisineData;
+        cuisineData && typeof cuisineData === 'object' && 'seasonalVariations' in cuisineData
           ? (cuisineData as any).seasonalVariations
           : null;
       if (season && seasonalVariations) {

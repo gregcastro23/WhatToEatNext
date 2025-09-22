@@ -1,4 +1,6 @@
+import { alchmAPI, type PlanetaryHourRequest, type PlanetaryHourResult as APIPlanetaryHourResult } from '@/lib/api/alchm-client';
 import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
+import { logger } from '@/lib/logger';
 import type { Planet } from '@/types/celestial';
 
 type Coordinates = { latitude: number, longitude: number };
@@ -59,26 +61,26 @@ export class PlanetaryHoursClient {
 
     if (this.useBackend && this.backendUrl) {
       try {
-        const url = new URL('/api/planetary/current', this.backendUrl);
-        if (location) {
-          url.searchParams.set('lat', String(location.latitude));
-          url.searchParams.set('lon', String(location.longitude));
-        }
-        url.searchParams.set('timestamp', targetDate.toISOString());
+        const request: PlanetaryHourRequest = {
+          datetime: targetDate.toISOString(),
+          location
+        };
 
-        const res = await fetch(url.toString(), {
-          method: 'GET',
-          headers: { 'Content-Type': 'application/json' }
-        });
-        if (!res.ok) throw new Error(`Backend error ${res.status}`);
+        const result = await alchmAPI.getCurrentPlanetaryHour(request);
+        logger.debug('PlanetaryHoursClient', 'Backend calculation successful', result);
 
-        const data = (await res.json()) as BackendPlanetaryHourPayload | Record<string, unknown>;
-        const parsed = parseBackendResult(data);
-        if (parsed) return parsed;
+        // Transform API result to our format
+        return {
+          planet: result.planet as Planet,
+          hourNumber: result.hourNumber,
+          isDaytime: result.isDaytime,
+          start: result.start ? new Date(result.start) : undefined,
+          end: result.end ? new Date(result.end) : undefined
+        };
       } catch (error) {
+        logger.warn('PlanetaryHoursClient', 'Backend calculation failed, falling back to local', error);
         // Fall through to local calculation
-        // eslint-disable-next-line no-console
-        console.warn('PlanetaryHoursClient backend failed, using local calculator:', error);
+        // Already logged above
       }
     }
 
