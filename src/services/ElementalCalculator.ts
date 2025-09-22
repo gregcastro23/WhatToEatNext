@@ -236,7 +236,7 @@ export class ElementalCalculator {
 
       return elementalValues;
     } catch (error) {
-      console.error('[ElementalCalculator] Error calculating elemental state:', error);
+      logger.error('Error calculating elemental state', error);
       return { ...DEFAULT_ELEMENTAL_PROPERTIES };
     }
   }
@@ -431,7 +431,7 @@ export class ElementalCalculator {
         }
       }
     } catch (error) {
-      console.error('[ElementalCalculator] Error processing planet data:', error);
+      logger.error('Error processing planet data', error);
     }
   }
 
@@ -464,7 +464,7 @@ export class ElementalCalculator {
         }
       }
     } catch (error) {
-      console.error('[ElementalCalculator] Error processing ascendant data:', error);
+      logger.error('Error processing ascendant data', error);
     }
   }
 
@@ -509,7 +509,7 @@ export class ElementalCalculator {
       return 'Air'
     }
 
-    console.warn(`[ElementalCalculator] Unknown sign: ${sign}`);
+    logger.warn(`Unknown sign: ${sign}`);
     return null;
   }
 
