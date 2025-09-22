@@ -2766,10 +2766,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:20.3.2":
+"@types/node@npm:*":
   version: 20.3.2
   resolution: "@types/node@npm:20.3.2"
   checksum: d857cbe388d11fefd6c598144db42a32e1c15c09624b9e0669ec65e9d72e080093db3ec6b536037e6575574e33413479d4b3762140c2544ff30eb0c2111b5596
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:20.19.17":
+  version: 20.19.17
+  resolution: "@types/node@npm:20.19.17"
+  dependencies:
+    undici-types: "npm:~6.21.0"
+  checksum: ab4c5dd8bdeacb1c04c2724c75023eec0ac9469583b39032f5daaf56768a31ee6fa3a0bfcc597e4a3e74eb49744deeb9d5eb760f30e984e25088f6d895e0811d
   languageName: node
   linkType: hard
 
@@ -9757,6 +9766,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"undici-types@npm:~6.21.0":
+  version: 6.21.0
+  resolution: "undici-types@npm:6.21.0"
+  checksum: c01ed51829b10aa72fc3ce64b747f8e74ae9b60eafa19a7b46ef624403508a54c526ffab06a14a26b3120d055e1104d7abe7c9017e83ced038ea5cf52f8d5e04
+  languageName: node
+  linkType: hard
+
 "unique-filename@npm:^4.0.0":
   version: 4.0.0
   resolution: "unique-filename@npm:4.0.0"
@@ -9965,7 +9981,7 @@ __metadata:
     "@testing-library/user-event": "npm:^14.5.1"
     "@types/jest": "npm:^29.5.12"
     "@types/lodash": "npm:^4.14.202"
-    "@types/node": "npm:20.3.2"
+    "@types/node": "npm:20.19.17"
     "@types/react": "npm:^19.0.5"
     "@types/react-dom": "npm:^19.0.2"
     "@types/testing-library__jest-dom": "npm:6.0.0"
