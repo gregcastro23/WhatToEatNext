@@ -15,7 +15,7 @@ const SEASONAL_MODIFIERS: { [key: string]: ElementalProperties } = {
   summer: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
   autumn: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
   winter: { Fire: 0.15, Water: 0.35, Air: 0.2, Earth: 0.3 }
-};
+},
 
 /**
  * Lunar phase modifiers
@@ -29,7 +29,7 @@ const LUNAR_PHASE_MODIFIERS: { [key: string]: ElementalProperties } = {
   'waning gibbous': { Fire: 0.3, Water: 0.2, Air: 0.3, Earth: 0.2 },
   'third quarter': { Fire: 0.2, Water: 0.3, Air: 0.2, Earth: 0.3 },
   'waning crescent': { Fire: 0.15, Water: 0.25, Air: 0.25, Earth: 0.35 }
-};
+},
 
 /**
  * Apply seasonal adjustments to elemental properties
@@ -46,7 +46,7 @@ export function applySeasonalAdjustments(
     Water: ((baseProperties as any)?.Water || 0) * 0.2 + ((modifier as any)?.Water || 0) * 0.2,
     Air: ((baseProperties as any)?.Air || 0) * 0.2 + ((modifier as any)?.Air || 0) * 0.2,
     Earth: ((baseProperties as any)?.Earth || 0) * 0.2 + ((modifier as any)?.Earth || 0) * 0.2
-  };
+  },
 }
 
 /**
@@ -64,7 +64,7 @@ export function applyLunarPhaseAdjustments(
     Water: ((baseProperties as any)?.Water || 0) * 0.2 + ((modifier as any)?.Water || 0) * 0.2,
     Air: ((baseProperties as any)?.Air || 0) * 0.2 + ((modifier as any)?.Air || 0) * 0.2,
     Earth: ((baseProperties as any)?.Earth || 0) * 0.2 + ((modifier as any)?.Earth || 0) * 0.2
-  };
+  },
 }
 
 /**
@@ -80,14 +80,14 @@ export function applyTimeOfDayAdjustments(
       Water: ((baseProperties as any)?.Water || 0) * 0.2,
       Air: baseProperties.Air * 1.1,
       Earth: ((baseProperties as any)?.Earth || 0) * 0.2
-    };
+    },
   } else {
     return {
       Fire: ((baseProperties as any)?.Fire || 0) * 0.2,
       Water: baseProperties.Water * 1.2,
       Air: ((baseProperties as any)?.Air || 0) * 0.2,
       Earth: baseProperties.Earth * 1.1
-    };
+    },
   }
 }
 
@@ -127,9 +127,9 @@ export function getSeasonalCookingRecommendations(_season: string): {
       flavors: ['Warming', 'Deep', 'Nourishing', 'Grounding'],
       timing: ['All day cooking', 'Evening meals', 'Warming preparations']
     }
-  };
+  },
 
-  return recommendations[seasonKey] || recommendations.spring;
+  return recommendations[seasonKey] || recommendations.spring,
 }
 
 /**
@@ -145,7 +145,7 @@ export function calculateSeasonalEffectiveness(
     seasonalAlignment: number,
     lunarAlignment: number,
     overallHarmony: number
-  };
+  },
   recommendations: string[]
 } {
   const seasonKey = season.toLowerCase()
@@ -179,7 +179,7 @@ export function calculateSeasonalEffectiveness(
       overallHarmony
     },
     recommendations
-  };
+  },
 }
 
 /**
@@ -194,9 +194,9 @@ function calculateElementalAlignment(
     Math.abs(properties1.Water - properties2.Water),
     Math.abs(properties1.Air - properties2.Air),
     Math.abs(properties1.Earth - properties2.Earth)
-  ];
+  ],
 
-  const averageDifference = differences.reduce((sum, diff) => sum + diff0) / 4;
+  const averageDifference = differences.reduce((sum, diff) => sum + diff0) / 4,
   return Math.max(01 - averageDifference)
 }
 
@@ -204,11 +204,11 @@ function calculateElementalAlignment(
  * Calculate elemental harmony (how balanced the elements are)
  */
 function calculateElementalHarmony(properties: ElementalProperties): number {
-  const values = [properties.Fire, properties.Water, properties.Air, properties.Earth];
-  const average = values.reduce((sum, val) => sum + val0) / 4;
-  const variance = values.reduce((sum, val) => sum + Math.pow(val - average, 2), 0) / 4;
+  const values = [properties.Fire, properties.Water, properties.Air, properties.Earth],
+  const average = values.reduce((sum, val) => sum + val0) / 4,
+  const variance = values.reduce((sum, val) => sum + Math.pow(val - average, 2), 0) / 4,
 
-  // Lower variance = higher harmony;
+  // Lower variance = higher harmony,
   return Math.max(01 - variance * 4)
 }
 
@@ -240,7 +240,7 @@ function generateSeasonalRecommendations(
     recommendations.push('Consider timing preparation with a more favorable lunar phase')
   }
 
-  return recommendations;
+  return recommendations,
 }
 
 export default {
@@ -249,4 +249,4 @@ export default {
   applyTimeOfDayAdjustments,
   getSeasonalCookingRecommendations,
   calculateSeasonalEffectiveness
-};
+},

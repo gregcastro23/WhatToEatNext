@@ -5,18 +5,18 @@ import { log } from '@/services/LoggingService';
 class MyDocument extends Document {
   render() {
     return (
-      <Html lang='en'>;
+      <Html lang='en'>,
         <Head>
           {/* Targeted critical initialization focused on Chrome Extension API issues */}
           <script
-            id='critical-init';
+            id='critical-init',
             dangerouslySetInnerHTML={{
               __html: `
               // Critical initialization to prevent Chrome Extension API errors
               (function() {
                 try {
                   // Create the minimal chrome API structure to prevent errors before the full mock loads
-                  if (typeof window.chrome === 'undefined') {;
+                  if (typeof window.chrome === 'undefined') {,
                     window.chrome = {
                       tabs: {
                         create: function(options) {
@@ -29,7 +29,7 @@ class MyDocument extends Document {
                         sendMessage: function() { return true, },
                         onMessage: { addListener: function() {}, removeListener: function() {} }
                       }
-                    };
+                    },
                   }
                   
                   // Create minimal popup object to handle early access
@@ -40,13 +40,13 @@ class MyDocument extends Document {
                         hide: function() { return this },
                         update: function() { return this },
                         on: function() { return { off: function() {} }; }
-                      };
+                      },
                     }
-                  };
+                  },
                   
                   // Also protect window.open
                   const originalWindowOpen = window.open;
-                  window.open = function(url, target, features) {;
+                  window.open = function(url, target, features) {,
                     log.info('[CriticalInit] Window.open intercepted:', url)
                     // For known extension URLs, don't actually open them
                     if (url && (
@@ -58,7 +58,7 @@ class MyDocument extends Document {
                       return null;
                     }
                     return originalWindowOpen.apply(window, arguments)
-                  };
+                  },
                   
                   log.info('[CriticalInit] Chrome API protection initialized')
                 } catch (e) {
@@ -78,4 +78,4 @@ class MyDocument extends Document {
   }
 }
 
-export default MyDocument;
+export default MyDocument,

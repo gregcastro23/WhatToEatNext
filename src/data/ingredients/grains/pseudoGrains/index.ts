@@ -13,7 +13,7 @@ export const _pseudoGrains: Record<string, IngredientMapping> = {
   ...buckwheat,
   ...chia,
   ...flaxseed
-};
+},
 
 // Export individual pseudo grains for direct access
-export { quinoa, amaranth, buckwheat, chia, flaxseed };
+export { quinoa, amaranth, buckwheat, chia, flaxseed },

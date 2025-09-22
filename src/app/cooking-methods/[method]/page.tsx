@@ -8,7 +8,7 @@ import {
     ThermostatAuto,
     Warning,
     Whatshot
-} from '@mui/icons-material';
+} from '@mui/icons-material',
 import {
     Box,
     Card,
@@ -23,7 +23,7 @@ import {
     Paper,
     Typography,
     useTheme
-} from '@mui/material';
+} from '@mui/material',
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -67,13 +67,13 @@ export default function CookingMethodPage() {
       const methodId = Array.isArray(params.method) ? params.method[0] : params.method;
 
       // Find the method in allCookingMethods
-      let foundMethod: CookingMethodInfo | null = null;
+      let foundMethod: CookingMethodInfo | null = null,
       let foundKey = ''
 
       Object.entries(allCookingMethods).forEach(([key, data]) => {
         if (key.toLowerCase() === methodId.toLowerCase()) {
-          foundMethod = data  as CookingMethodInfo;
-          foundKey = key;
+          foundMethod = data  as CookingMethodInfo,
+          foundKey = key,
         }
       })
 

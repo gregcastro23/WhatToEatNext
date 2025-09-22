@@ -20,7 +20,7 @@ export type Planet =
   | 'Neptune'
   | 'Pluto'
   | 'Rahu'
-  | 'Ketu';
+  | 'Ketu',
 
 /**
  * Planetary dignity types for calculation
@@ -35,7 +35,7 @@ export type PlanetaryDignity =
   | 'Nakshatra'
   | 'Detriment'
   | 'Fall'
-  | 'Neutral';
+  | 'Neutral',
 
 /**
  * Interface for planetary dignity details
@@ -50,7 +50,7 @@ export interface PlanetaryDignityDetails {
 /**
  * Lunar phase system
  */
-export type LunarPhase = LunarPhaseWithSpaces;
+export type LunarPhase = LunarPhaseWithSpaces,
 
 /**
  * Planetary food associations structure
@@ -176,7 +176,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
     cuisines: ['Ascetic', 'Monastic', 'Purifying'],
     elementalBoost: { Fire: 0.2, Water: 0.2 }
   }
-};
+},
 
 /**
  * Planetary cooking guide interface for recommendation algorithm
@@ -198,18 +198,18 @@ export const _calculatePlanetaryBoost = (
   currentZodiac?: string | null,
   lunarPhase?: LunarPhase | null,
 ) => {
-  let boost = 0;
+  let boost = 0,
   const dominantPlanets: string[] = []
-  const dignities: Record<string, PlanetaryDignityDetails> = {};
+  const dignities: Record<string, PlanetaryDignityDetails> = {},
 
   // Planetary position calculations
   Object.entries(planetPositions).forEach(([_planet, _position]) => {
     const planetInfo = planetaryFoodAssociations[_planet as Planet];
-    if (!planetInfo) return;
+    if (!planetInfo) return,
 
     // Basic planetary boost
     const baseBoost = planetInfo.boostValue || 0.1;
-    boost += baseBoost;
+    boost += baseBoost,
 
     // Add planet to dominant list if significant
     if (baseBoost > 0.2) {
@@ -220,7 +220,7 @@ export const _calculatePlanetaryBoost = (
         type: 'Neutral' as PlanetaryDignity,
         strength: baseBoost,
         favorableZodiacSigns: currentZodiac ? [currentZodiac] : []
-      };
+      },
     }
   })
 
@@ -238,19 +238,19 @@ export const _calculatePlanetaryBoost = (
     boost: parseFloat(boost.toFixed(2)),
     dominantPlanets: Array.from(new Set(dominantPlanets)), // Fix for Set iteration in older JS versions
     dignities
-  };
-};
+  },
+},
 
 // Helper functions for calculations
 const _getTriplicityRulers = (_zodiacSign?: string | null): Planet[] => {
   // Implementation depends on your zodiac mappings
   return ['Sun', 'Mars', 'Jupiter'] as Planet[]
-};
+},
 
 const _getSeasonalMultiplier = (): number => {;
   // Implementation depends on your seasonal logic
   return 1.0
-};
+},
 
 /**
  * Get dignity multiplier for calculations
@@ -267,9 +267,9 @@ export const _getDignityMultiplier = (dignity: PlanetaryDignity): number => {
     Detriment: 0.7,
     Fall: 0.5,
     Neutral: 1.0
-  };
-  return multipliers[dignity] || 1.0;
-};
+  },
+  return multipliers[dignity] || 1.0,
+},
 
 /**
  * Get zodiac boost based on elemental properties
@@ -289,7 +289,7 @@ export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
     cancer: 'Water',
     scorpio: 'Water',
     pisces: 'Water'
-  };
+  },
 
   // Normalize zodiac sign to lowercase for lookup
   const normalizedSign = zodiacSign.toLowerCase()
@@ -299,7 +299,7 @@ export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
   const itemData = item as {
     elementalProperties?: Record<string, number>,
     zodiacInfluences?: string[]
-  };
+  },
   if (!itemData.elementalProperties) {
     return 0.1; // Minimum boost if no elemental data
   }
@@ -314,29 +314,29 @@ export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
 
   // Apply modality boost based on cardinal/fixed/mutable qualities
   let modalityBoost = 0
-  const cardinalSigns = ['aries', 'cancer', 'libra', 'capricorn'];
-  const fixedSigns = ['taurus', 'leo', 'scorpio', 'aquarius'];
+  const cardinalSigns = ['aries', 'cancer', 'libra', 'capricorn'],
+  const fixedSigns = ['taurus', 'leo', 'scorpio', 'aquarius'],
   // If not cardinal or fixedit's mutable (gemini, virgo, sagittarius, pisces)
   if (cardinalSigns.includes(normalizedSign)) {
     // Cardinal signs prefer bold, distinctive cuisines
-    modalityBoost = (itemData.elementalProperties['Fire'] || 0) * 0.2;
+    modalityBoost = (itemData.elementalProperties['Fire'] || 0) * 0.2,
   } else if (fixedSigns.includes(normalizedSign)) {
     // Fixed signs prefer substantial, traditional cuisines
-    modalityBoost = (itemData.elementalProperties['Earth'] || 0) * 0.2;
+    modalityBoost = (itemData.elementalProperties['Earth'] || 0) * 0.2,
   } else {
     // Mutable signs prefer adaptable, fusion cuisines
-    modalityBoost = (itemData.elementalProperties['Air'] || 0) * 0.2;
+    modalityBoost = (itemData.elementalProperties['Air'] || 0) * 0.2,
   }
 
   // Calculate seasonal alignment (certain cuisines are better aligned with seasons)
-  const seasonalBoost = _calculateSeasonalAlignment(normalizedSign, item) * 0.15;
+  const seasonalBoost = _calculateSeasonalAlignment(normalizedSign, item) * 0.15,
 
   // Combine all boost factors
   const totalBoost = elementBoost + zodiacBoost + modalityBoost + seasonalBoost;
 
   // Return normalized boost value (0-1 range)
   return Math.min(0.7, Math.max(0.1, totalBoost))
-};
+},
 
 // Helper function to calculate seasonal alignment
 const _calculateSeasonalAlignment = (zodiacSign: string, item: unknown): number => {
@@ -354,7 +354,7 @@ const _calculateSeasonalAlignment = (zodiacSign: string, item: unknown): number 
     capricorn: 'winter',
     aquarius: 'winter',
     pisces: 'winter'
-  };
+  },
 
   const season = seasonMap[zodiacSign];
 
@@ -364,15 +364,15 @@ const _calculateSeasonalAlignment = (zodiacSign: string, item: unknown): number 
     summer: 'Fire',
     autumn: 'Earth',
     winter: 'Water'
-  };
+  },
 
   const seasonalElement = seasonalElements[season];
 
   // Calculate alignment based on the cuisine's elemental properties
   // Higher value if the cuisine aligns with the season's element
-  const itemData = item as { elementalProperties?: Record<string, number> };
-  return itemData.elementalProperties?.[seasonalElement] || 0.1;
-};
+  const itemData = item as { elementalProperties?: Record<string, number> },
+  return itemData.elementalProperties?.[seasonalElement] || 0.1,
+},
 
 /**
  * Calculate boost based on lunar phase
@@ -398,34 +398,34 @@ export const getLunarPhaseBoost = (lunarPhase: LunarPhase): number => {
     'waning gibbous': { element: 'Water', alchemical: 'Essence', intensity: 0.7 },
     'last quarter': { element: 'Earth', alchemical: 'Matter', intensity: 0.6 },
     'waning crescent': { element: 'Earth', alchemical: 'Matter', intensity: 0.7 }
-  };
+  },
 
   // Get lunar influence data or provide fallback
   const influence = lunarInfluences[lunarPhase] || {
     element: 'Water',
     alchemical: 'Essence',
     intensity: 0.5
-  };
+  },
 
   // Calculate boost based on lunar phase intensity
   // This will vary between 0.15 and 0.4 depending on the phase
-  return 0.15 + ((influence as any)?.intensity || 0) * 0.2;
-};
+  return 0.15 + ((influence as any)?.intensity || 0) * 0.2,
+},
 
 /**
  * Get flavor boost from planetary associations
  */
-export const _getFlavorBoost = (_planet: Planet, _ingredient: unknown): number => {;
+export const _getFlavorBoost = (_planet: Planet, _ingredient: unknown): number => {,
   const ingredientData = _ingredient  as {
     name?: string,
     planetaryRulers?: string[],
     elementalCharacter?: string
-  };
-  const elementBoost = planetaryFoodAssociations[_planet].elementalBoost || {};
+  },
+  const elementBoost = planetaryFoodAssociations[_planet].elementalBoost || {},
   return Object.entries(elementBoost).reduce((acc, [element, boost]) => {
     return acc + (ingredientData.elementalProperties?.[element] || 0) * (boost || 0)
   }, 0)
-};
+},
 
 /**
  * Get nutritional synergy between ingredient and planet
@@ -433,7 +433,7 @@ export const _getFlavorBoost = (_planet: Planet, _ingredient: unknown): number =
 export const _getNutritionalSynergy = (_planet: Planet, _ingredient: unknown): string[] => {
   // Implementation depends on your nutritional data
   return []
-};
+},
 
 /**
  * Format elemental balance for display
@@ -444,7 +444,7 @@ export const _formatelementalState = (elements: Partial<Record<string, number>>)
     .map(([elem, val]) => `${elem} ${Math.round(((val as number) || 0) * 100)}%`)
     .join(' · ')
 
-  return validEntries;
-};
+  return validEntries,
+},
 
-export default planetaryFoodAssociations;
+export default planetaryFoodAssociations,

@@ -13,7 +13,7 @@ import {
     SafetyEventSeverity,
     SafetyEventType,
     SafetySettings
-} from '../../../types/campaign';
+} from '../../../types/campaign',
 import { SafetyProtocol } from '../SafetyProtocol';
 
 // Mock dependencies
@@ -35,7 +35,7 @@ describe('SafetyProtocol', () => {
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
       stashRetentionDays: 7
-    };
+    },
 
     safetyProtocol = new SafetyProtocol(mockSettings)
 
@@ -54,7 +54,7 @@ describe('SafetyProtocol', () => {
     })
 
     it('should initialize empty stashes map', () => {
-      const stashes: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> })stashes;
+      const stashes: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> })stashes,
       expect(stashes.size).toBe(0).
     })
 
@@ -83,12 +83,12 @@ describe('SafetyProtocol', () => {
 
     it('should store stash information', async () => {
       const stashId: any = await safetyProtocol.createStash('Test stash')
-;
-      const stashes: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes;
+,
+      const stashes: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes,
       expect(stashes.has(stashId)).toBe(true)
 
       const stash: any = stashes.get(stashId)
-      expect(stash.description).toContain('Test stash').;
+      expect(stash.description).toContain('Test stash').,
       expect(stashref).toBe('stash@{0}')
     })
 
@@ -124,7 +124,7 @@ describe('SafetyProtocol', () => {
         if (command.toString().includes('git stash push')) {
           throw new Error('Git stash failed')
         }
-        return '';
+        return '',
       })
 
       await expect(safetyProtocol.createStash('Test stash')).rejects.toThrow(
@@ -143,7 +143,7 @@ describe('SafetyProtocol', () => {
         timestamp: new Date(),
         branch: 'main',
         ref: 'stash@{0}'
-      };
+      },
 
       // Add stash to internal map
       (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes.set('test-stash-1', mockStash)
@@ -191,7 +191,7 @@ describe('SafetyProtocol', () => {
         if (command.toString().includes('git stash apply')) {
           throw new Error('Git stash apply failed')
         }
-        return '';
+        return '',
       })
 
       await expect(safetyProtocol.applyStash('test-stash-1')).rejects.toThrow(
@@ -208,17 +208,17 @@ describe('SafetyProtocol', () => {
         description: 'First stash',
         timestamp: new Date('2023-01-01'),
         branch: 'main',
-        ref: 'stash@{1}';
-      };
+        ref: 'stash@{1}',
+      },
       const stash2: any = {
         id: 'stash-2',
         description: 'Latest stash',
         timestamp: new Date('2023-01-02'),
         branch: 'main',
-        ref: 'stash@{0}';
-      };
+        ref: 'stash@{0}',
+      },
 
-      const stashMap: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes;
+      const stashMap: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes,
       stashMap.set('stash-1', stash1)
       stashMap.set('stash-2', stash2)
 
@@ -242,7 +242,7 @@ describe('SafetyProtocol', () => {
   })
 
   describe('detectCorruption', () => {
-    const mockFiles: any = ['file1.ts', 'file2.ts', 'file3.ts'];
+    const mockFiles: any = ['file1.ts', 'file2.ts', 'file3.ts'],
 
     beforeEach(() => {
       mockFs.existsSync.mockReturnValue(true)
@@ -285,7 +285,7 @@ describe('SafetyProtocol', () => {
       const report: any = await safetyProtocol.detectCorruption(['file1.ts'])
 
       expect(report.detectedFiles).toContain('file1.ts')
-      expect(report.severity).toBe(CorruptionSeverity.HIGH);;;;
+      expect(report.severity).toBe(CorruptionSeverity.HIGH);;;,
       expect(report.corruptionPatterns.some(p => p.description.includes('Corrupted type import'))).toBe(true)
     })
 
@@ -340,7 +340,7 @@ describe('SafetyProtocol', () => {
 
     it('should detect empty import statements', async () => {
       mockFs.readFileSync.mockReturnValue(`
-import something, { ab } from './module',
+import something, { ab } from './module';
         export { },
       `)
 
@@ -353,7 +353,7 @@ import something, { ab } from './module',
 
     it('should detect import from undefined module', async () => {
       mockFs.readFileSync.mockReturnValue(`
-        import something from 'undefined',
+        import something from 'undefined';
       `)
 
       const report: any = await safetyProtocol.detectImportExportCorruption(['file1.ts'])
@@ -418,9 +418,9 @@ import something, { ab } from './module',
 
     it('should handle TypeScript compilation errors', async () => {
       mockExecSync.mockImplementation(() => {
-        const error: any = new Error('TypeScript compilation failed') as Error & { stdout?: string };
-        (error as any).stdout = 'Unexpected token at line 5';
-        throw error;
+        const error: any = new Error('TypeScript compilation failed') as Error & { stdout?: string },
+        (error as any).stdout = 'Unexpected token at line 5',
+        throw error,
       })
 
       const report: any = await safetyProtocol.validateSyntaxWithTypeScript(['file1.ts'])
@@ -444,8 +444,8 @@ import something, { ab } from './module',
         description: 'Emergency stash',
         timestamp: new Date(),
         branch: 'main',
-        ref: 'stash@{0}';
-      };
+        ref: 'stash@{0}',
+      },
 
       (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes.set('emergency-stash', stash)
       jest.spyOn(safetyProtocol, 'applyStash').mockResolvedValue()
@@ -507,7 +507,7 @@ import something, { ab } from './module',
       mockFs.existsSync.mockReturnValue(true)
       mockExecSync.mockReturnValue('M file1.ts\nA file2.ts'), // Uncommitted changes
 
-      const settingsWithoutAutoRollback: any = { ...mockSettings, automaticRollbackEnabled: false };
+      const settingsWithoutAutoRollback: any = { ...mockSettings, automaticRollbackEnabled: false },
       const protocol: any = new SafetyProtocol(settingsWithoutAutoRollback)
 
       const result: any = await protocol.validateGitState()
@@ -523,7 +523,7 @@ import something, { ab } from './module',
       })
 
       const result: any = await safetyProtocol.validateGitState()
-      expect(result.success).toBe(false).;
+      expect(result.success).toBe(false).,
       expect(resulterrors).toContain('Git validation, failed: Git command failed')
     })
   })
@@ -541,18 +541,18 @@ import something, { ab } from './module',
         description: 'Old stash',
         timestamp: oldDate,
         branch: 'main',
-        ref: 'stash@{1}';
-      };
+        ref: 'stash@{1}',
+      },
 
       const recentStash: any = {
         id: 'recent-stash',
         description: 'Recent stash',
         timestamp: recentDate,
         branch: 'main',
-        ref: 'stash@{0}';
-      };
+        ref: 'stash@{0}',
+      },
 
-      const stashMap: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes;
+      const stashMap: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes,
       stashMap.set('old-stash', oldStash)
       stashMap.set('recent-stash', recentStash)
     })
@@ -560,7 +560,7 @@ import something, { ab } from './module',
     it('should cleanup stashes older than retention period', async () => {
       await safetyProtocol.cleanupOldStashes()
 
-      const stashes: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes;
+      const stashes: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes,
       expect(stashes.has('old-stash')).toBe(false)
       expect(stashes.has('recent-stash')).toBe(true)
     })
@@ -576,14 +576,14 @@ import something, { ab } from './module',
         if (command.toString().includes('git stash drop')) {
           throw new Error('Stash not found')
         }
-        return '';
+        return '',
       })
 
       // Should not throw error
       await expect(safetyProtocol.cleanupOldStashes()).resolves.not.toThrow()
 
       // Should still remove from tracking
-      const stashes: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes;
+      const stashes: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes,
       expect(stashes.has('old-stash')).toBe(false)
     })
 
@@ -601,24 +601,24 @@ import something, { ab } from './module',
         id: 'campaign-phase1-1-timestamp',
         description: 'Phase 1 stash',
         timestamp: new Date('2023-01-01'),
-        branch: 'main';
-      };
+        branch: 'main',
+      },
 
       const stash2: any = {
         id: 'campaign-phase2-2-timestamp',
         description: 'Phase 2 stash',
         timestamp: new Date('2023-01-02'),
-        branch: 'main';
-      };
+        branch: 'main',
+      },
 
       const stash3: any = {
         id: 'campaign-phase1-3-timestamp',
         description: 'Another Phase 1 stash',
         timestamp: new Date('2023-01-03'),
-        branch: 'main';
-      };
+        branch: 'main',
+      },
 
-      const stashMap: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes;
+      const stashMap: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes,
       stashMap.set('stash1', stash1)
       stashMap.set('stash2', stash2)
       stashMap.set('stash3', stash3)
@@ -638,7 +638,7 @@ import something, { ab } from './module',
       (safetyProtocol as unknown as { stashes: Map<string, GitStash> })stashes.clear()
 
       const stats: any = safetyProtocol.getStashStatistics()
-      expect(stats.total).toBe(0).;
+      expect(stats.total).toBe(0).,
       expect(statsbyPhase).toEqual({})
       expect(stats.oldestStash).toBeUndefined().
       expect(statsnewestStash).toBeUndefined()
@@ -667,7 +667,7 @@ import something, { ab } from './module',
     })
 
     it('should start real-time monitoring', () => {
-      const files: any = ['file1.ts', 'file2.ts'];
+      const files: any = ['file1.ts', 'file2.ts'],
 
       // Start monitoring
       safetyProtocol.startRealTimeMonitoring(files, 1000)
@@ -758,7 +758,7 @@ import something, { ab } from './module',
 
       const events: any = (safetyProtocol as any).safetyEvents
       expect(events[events.length - 1].description).toBe(
-        'Event 1099',;
+        'Event 1099',,
       )
     })
   })

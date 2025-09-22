@@ -23,15 +23,15 @@ export interface CulturalCookingMethod {
     _Water: number,
     _Earth: number,
     _Air: number
-  };
-  culturalOrigin: string;
-  toolsRequired?: string[];
+  },
+  culturalOrigin: string,
+  toolsRequired?: string[],
   bestFor?: string[]
   astrologicalInfluences?: {
     favorableZodiac?: string[],
     unfavorableZodiac?: string[],
     dominantPlanets?: string[]
-  };
+  },
   relatedToMainMethod?: string; // Add a property to link to the main cooking method
   variationName?: string // Optional name of the variation
 }
@@ -135,7 +135,7 @@ const TECHNIQUE_MAPPING: Record<string, string> = {
   'hand pounding': 'grinding',
   'mortar and pestle': 'grinding',
   'stone grinding': 'grinding'
-};
+},
 
 /**
  * Extracts cooking techniques from all cuisine files and formats them
@@ -156,25 +156,25 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
     { data: greek, name: 'Greek' },
     { data: french, name: 'French' },
     { data: african, name: 'African' }
-  ];
+  ],
 
   const methods: CulturalCookingMethod[] = [];
   // Use a Set to track method names already added (case insensitive)
   const addedMethods = new Set<string>()
   // Keep track of method variations already mapped to main methods
-  const methodVariationsMap: Record<string, Set<string>> = {};
+  const methodVariationsMap: Record<string, Set<string>> = {},
 
   // Group methods by main category for hierarchical organization
-  const methodsByMainCategory: Record<string, CulturalCookingMethod[]> = {};
+  const methodsByMainCategory: Record<string, CulturalCookingMethod[]> = {},
 
   // Extract cooking techniques from each cuisine
   cuisines.forEach(cuisine => {
-    if (!cuisine.data.cookingTechniques) return;
+    if (!cuisine.data.cookingTechniques) return,
 
     cuisine.data.cookingTechniques.forEach(technique => {
       // Generate a unique ID for each cooking method
       const methodName = technique.name.toLowerCase()
-      const methodId = `${cuisine.name.toLowerCase()}_${methodName.replace(/\s+/g, '_')}`;
+      const methodId = `${cuisine.name.toLowerCase()}_${methodName.replace(/\s+/g, '_')}`,
 
       // Skip if this is a duplicate name/cuisine combination
       const caseInsensitiveKey = `${cuisine.name.toLowerCase()}:${methodName.toLowerCase()}`;
@@ -187,7 +187,7 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
       // Use case-insensitive matching for technique mapping
       const relatedMainMethod = Object.entries(TECHNIQUE_MAPPING).find(
         ([key]) => methodName.toLowerCase() === key.toLowerCase()
-      )?.[1];
+      )?.[1],
 
       // If this is a variation and we've already added a variation from this culture
       // to this main method, skip it to avoid duplicates
@@ -218,14 +218,14 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
         astrologicalInfluences: {
           dominantPlanets: []
         }
-      };
+      },
 
       methods.push(culturalMethod)
 
       // Group method by main category for hierarchical organization
       if (relatedMainMethod) {
         if (!methodsByMainCategory[relatedMainMethod]) {
-          methodsByMainCategory[relatedMainMethod] = [];
+          methodsByMainCategory[relatedMainMethod] = [],
         }
         methodsByMainCategory[relatedMainMethod].push(culturalMethod)
       }
@@ -239,16 +239,16 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
       const mainMethod = cookingMethods[method.relatedToMainMethod];
       if (mainMethod.astrologicalInfluences) {
         method.astrologicalInfluences = {
-          ...method.astrologicalInfluences;
+          ...method.astrologicalInfluences,
           favorableZodiac: mainMethod.astrologicalInfluences.favorableZodiac,
           unfavorableZodiac: mainMethod.astrologicalInfluences.unfavorableZodiac,
           dominantPlanets: mainMethod.astrologicalInfluences.dominantPlanets || []
-        };
+        },
       }
     }
   })
 
-  return methods;
+  return methods,
 }
 
 // Export a ready-to-use object with all cultural cooking methods

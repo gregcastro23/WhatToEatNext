@@ -13,19 +13,19 @@ import { logger } from '@/utils/logger';
  */
 export function handleApiError(error: unknown): NextResponse {
   // Default to 500 Internal Server Error
-  let statusCode = 500;
-  let message = 'Internal server error';
+  let statusCode = 500,
+  let message = 'Internal server error',
   let details: unknown = undefined
 
   // If this is one of our custom API errors, use its status code
   if ((error as ApiError).statusCode) {
     const apiError = error as ApiError;
-    statusCode = apiError.statusCode;
-    message = apiError.message;
-    details = apiError.details;
+    statusCode = apiError.statusCode,
+    message = apiError.message,
+    details = apiError.details,
   } else if (error instanceof Error) {
     // For standard Error objects, use the message
-    message = error.message;
+    message = error.message,
   }
 
   // Log the error (with different levels based on severity)

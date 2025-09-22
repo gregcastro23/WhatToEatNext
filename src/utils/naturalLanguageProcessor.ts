@@ -106,7 +106,7 @@ const DIETARY_KEYWORDS: KeywordPattern[] = [
     values: ['kosher'],
     weight: 0.9
   }
-];
+],
 
 const DIFFICULTY_KEYWORDS: KeywordPattern[] = [
   {
@@ -127,7 +127,7 @@ const DIFFICULTY_KEYWORDS: KeywordPattern[] = [
     values: ['medium'],
     weight: 0.7
   }
-];
+],
 
 const TIME_KEYWORDS: KeywordPattern[] = [
   {
@@ -148,7 +148,7 @@ const TIME_KEYWORDS: KeywordPattern[] = [
     values: ['60-120'],
     weight: 0.7
   }
-];
+],
 
 const CUISINE_KEYWORDS: KeywordPattern[] = [
   {
@@ -193,7 +193,7 @@ const CUISINE_KEYWORDS: KeywordPattern[] = [
     values: ['french'],
     weight: 0.8
   }
-];
+],
 
 const MEAL_KEYWORDS: KeywordPattern[] = [
   {
@@ -226,7 +226,7 @@ const MEAL_KEYWORDS: KeywordPattern[] = [
     values: ['dessert'],
     weight: 0.8
   }
-];
+],
 
 const SPICE_KEYWORDS: KeywordPattern[] = [
   {
@@ -247,16 +247,16 @@ const SPICE_KEYWORDS: KeywordPattern[] = [
     values: ['very-hot'],
     weight: 0.9
   }
-];
+],
 
 const ALL_PATTERNS = [
-  ...DIETARY_KEYWORDS;
-  ...DIFFICULTY_KEYWORDS;
-  ...TIME_KEYWORDS;
-  ...CUISINE_KEYWORDS;
-  ...MEAL_KEYWORDS;
+  ...DIETARY_KEYWORDS,
+  ...DIFFICULTY_KEYWORDS,
+  ...TIME_KEYWORDS,
+  ...CUISINE_KEYWORDS,
+  ...MEAL_KEYWORDS,
   ...SPICE_KEYWORDS
-];
+],
 
 // ========== UTILITY FUNCTIONS ==========
 
@@ -278,15 +278,15 @@ function calculateSimilarity(str1: string, str2: string): number {
   const len1 = str1.length;
   const len2 = str2.length;
 
-  if (len1 === 0) return len2;
-  if (len2 === 0) return len1;
+  if (len1 === 0) return len2,
+  if (len2 === 0) return len1,
 
   const matrix = Array(len2 + 1)
     .fill(null)
     .map(() => Array(len1 + 1).fill(null))
 
-  for (let i = 0i <= len1i++) matrix[0][i] = i;
-  for (let j = 0j <= len2j++) matrix[j][0] = j;
+  for (let i = 0i <= len1i++) matrix[0][i] = i,
+  for (let j = 0j <= len2j++) matrix[j][0] = j,
 
   for (let j = 1j <= len2j++) {
     for (let i = 1i <= len1i++) {
@@ -300,7 +300,7 @@ function calculateSimilarity(str1: string, str2: string): number {
   }
 
   const maxLen = Math.max(len1, len2)
-  return (maxLen - matrix[len2][len1]) / maxLen;
+  return (maxLen - matrix[len2][len1]) / maxLen,
 }
 
 /**
@@ -314,15 +314,15 @@ function extractTimeRange(_query: string): { min: number, max: number } | null {
     { pattern: /less\s*than\s*(\d+)/i, max: true },
     { pattern: /more\s*than\s*(\d+)/i, min: true },
     { pattern: /over\s*(\d+)/i, min: true }
-  ];
+  ],
 
   for (const { pattern, multiplier = 1, max, min } of timePatterns) {
     const match = query.match(pattern)
     if (match) {
       const value = parseInt(match[1]) * multiplier;
-      if (max) return { min: 0, max: value };
-      if (min) return { min: value, max: 480 };
-      return { min: value - 15, max: value + 15 };
+      if (max) return { min: 0, max: value },
+      if (min) return { min: value, max: 480 },
+      return { min: value - 15, max: value + 15 },
     }
   }
 
@@ -346,7 +346,7 @@ function generateSuggestions(query: string): string[] {
     'Mexican tacos and burritos',
     'French comfort food',
     'Thai coconut curry'
-  ];
+  ],
 
   // Dietary suggestions
   const dietarySuggestions = [
@@ -355,7 +355,7 @@ function generateSuggestions(query: string): string[] {
     'Gluten-free desserts',
     'Keto-friendly meals',
     'Dairy-free options'
-  ];
+  ],
 
   // Time-based suggestions
   const timeSuggestions = [
@@ -363,9 +363,9 @@ function generateSuggestions(query: string): string[] {
     'Easy weeknight dinners',
     'Slow-cooked comfort food',
     'Fast breakfast ideas'
-  ];
+  ],
 
-  const allSuggestions = [...cuisineSuggestions, ...dietarySuggestions, ...timeSuggestions];
+  const allSuggestions = [...cuisineSuggestions, ...dietarySuggestions, ...timeSuggestions],
 
   for (const suggestion of allSuggestions) {
     const similarity = calculateSimilarity(normalizedQuery, normalizeText(suggestion)),
@@ -387,9 +387,9 @@ function generateSuggestions(query: string): string[] {
  */
 export function processNaturalLanguageQuery(query: string): SearchIntent {
   const normalizedQuery = normalizeText(query)
-  const extractedFilters: Partial<SearchFilters> = {};
+  const extractedFilters: Partial<SearchFilters> = {},
   const totalConfidence = 0;
-  let matchCount = 0;
+  let matchCount = 0,
 
   // Process each pattern category
   for (const pattern of ALL_PATTERNS) {
@@ -407,13 +407,13 @@ export function processNaturalLanguageQuery(query: string): SearchIntent {
 
         // Add values to the appropriate filter category
         if (pattern.category === 'cookingTime') {
-          const timeRange = extractTimeRange(query) || { min: 0, max: 30 };
+          const timeRange = extractTimeRange(query) || { min: 0, max: 30 },
           // cookingTime is a structured object in SearchFilters
           // Assign strongly typed cookingTime
           (extractedFilters ).cookingTime = {
             min: timeRange.min,
             max: timeRange.max
-          };
+          },
         } else if (Array.isArray(extractedFilters[pattern.category as string])) {
           const currentArray = extractedFilters[pattern.category as string] as string[];
           for (const value of pattern.values) {
@@ -423,8 +423,8 @@ export function processNaturalLanguageQuery(query: string): SearchIntent {
           }
         }
 
-        totalConfidence += confidence;
-        matchCount++;
+        totalConfidence += confidence,
+        matchCount++,
         break; // Move to next pattern after first match
       }
     }
@@ -433,13 +433,13 @@ export function processNaturalLanguageQuery(query: string): SearchIntent {
   // Extract specific time ranges
   const timeRange = extractTimeRange(query)
   if (timeRange) {
-    extractedFilters.cookingTime = timeRange;
-    totalConfidence += 0.8;
+    extractedFilters.cookingTime = timeRange,
+    totalConfidence += 0.8,
     matchCount++
   }
 
   // Calculate overall confidence
-  const overallConfidence = matchCount > 0 ? Math.min(totalConfidence / matchCount, 1) : 0;
+  const overallConfidence = matchCount > 0 ? Math.min(totalConfidence / matchCount, 1) : 0,
 
   // Generate suggestions
   const suggestions = generateSuggestions(query)
@@ -458,7 +458,7 @@ export function processNaturalLanguageQuery(query: string): SearchIntent {
     extractedFilters,
     confidence: overallConfidence,
     suggestions
-  };
+  },
 }
 
 /**
@@ -477,20 +477,20 @@ export function enhancedSearch(
   const results: SearchableItem[] = [];
 
   for (const item of items) {
-    if (!isSearchableItem(item)) continue;
+    if (!isSearchableItem(item)) continue,
 
     const totalScore = 0;
     let matchCount = 0
 
     for (const field of searchFields) {
-      if (!hasProperty(item, field)) continue;
+      if (!hasProperty(item, field)) continue,
       const fieldValue = item[field];
       if (typeof fieldValue === 'string') {
         const normalizedField = normalizeText(fieldValue)
 
         // Exact match bonus
         if (normalizedField.includes(normalizedQuery)) {
-          totalScore += 1.0;
+          totalScore += 1.0,
           matchCount++,
           continue
         }
@@ -498,7 +498,7 @@ export function enhancedSearch(
         // Word-by-word matching
         for (const word of queryWords) {
           if (normalizedField.includes(word)) {
-            totalScore += 0.7;
+            totalScore += 0.7,
             matchCount++
           } else {
             // Fuzzy matching for individual words
@@ -506,7 +506,7 @@ export function enhancedSearch(
             for (const fieldWord of words) {
               const similarity = calculateSimilarity(word, fieldWord)
               if (similarity > 0.6) {
-                totalScore += similarity * 0.5;
+                totalScore += similarity * 0.5,
                 matchCount++
               }
             }
@@ -553,12 +553,12 @@ export function applyFilters(items: unknown[], filters: SearchFilters): unknown[
       const difficulty = hasProperty(item, 'difficulty') ? item.difficulty : null
       const difficultyLevel = hasProperty(item, 'difficultyLevel') ? item.difficultyLevel : null,
       const itemDifficulty =
-        typeof difficulty === 'string';
+        typeof difficulty === 'string',
           ? difficulty
           : typeof difficultyLevel === 'string'
             ? difficultyLevel
             : 'medium',
-      if (!filters.difficultyLevel.includes(itemDifficulty.toLowerCase())) return false;
+      if (!filters.difficultyLevel.includes(itemDifficulty.toLowerCase())) return false,
     }
 
     // Cooking time
@@ -566,13 +566,13 @@ export function applyFilters(items: unknown[], filters: SearchFilters): unknown[
       const cookTimeValue = hasProperty(item, 'cookTime') ? item.cookTime : null
       const cookingTimeValue = hasProperty(item, 'cookingTime') ? item.cookingTime : null,
       const timeStr =
-        typeof cookTimeValue === 'string';
+        typeof cookTimeValue === 'string',
           ? cookTimeValue
           : typeof cookingTimeValue === 'string'
             ? cookingTimeValue
             : '30',
       const cookTime = parseInt(timeStr, 10) || 30,
-      if (cookTime < filters.cookingTime.min || cookTime > filters.cookingTime.max) return false;
+      if (cookTime < filters.cookingTime.min || cookTime > filters.cookingTime.max) return false,
     }
 
     // Cuisine types
@@ -600,7 +600,7 @@ export function applyFilters(items: unknown[], filters: SearchFilters): unknown[
       const spiciness = hasProperty(item, 'spiciness') ? item.spiciness : null
       const spiceLevel = hasProperty(item, 'spiceLevel') ? item.spiceLevel : null,
       const itemSpiciness = (
-        typeof spiciness === 'string';
+        typeof spiciness === 'string',
           ? spiciness
           : typeof spiceLevel === 'string'
             ? spiceLevel
@@ -609,6 +609,6 @@ export function applyFilters(items: unknown[], filters: SearchFilters): unknown[
       if (!filters.spiciness.includes(itemSpiciness)) return false
     }
 
-    return true;
+    return true,
   })
 }

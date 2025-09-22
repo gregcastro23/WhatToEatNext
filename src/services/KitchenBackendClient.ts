@@ -21,12 +21,12 @@ export interface KitchenBackendContext {
  * - NEXT_PUBLIC_KITCHEN_BACKEND: 'true' to enable kitchen backend usage
  */
 export class KitchenBackendClient {
-  private readonly backendUrl: string | undefined;
-  private readonly useBackend: boolean;
+  private readonly backendUrl: string | undefined,
+  private readonly useBackend: boolean,
 
   constructor() {
-    this.backendUrl = process.env.NEXT_PUBLIC_KITCHEN_BACKEND_URL || process.env.NEXT_PUBLIC_BACKEND_URL;
-    this.useBackend = String(process.env.NEXT_PUBLIC_KITCHEN_BACKEND).toLowerCase() === 'true';
+    this.backendUrl = process.env.NEXT_PUBLIC_KITCHEN_BACKEND_URL || process.env.NEXT_PUBLIC_BACKEND_URL,
+    this.useBackend = String(process.env.NEXT_PUBLIC_KITCHEN_BACKEND).toLowerCase() === 'true',
   }
 
   private async post<T>(path: string, body: unknown): Promise<T | null> {
@@ -38,7 +38,7 @@ export class KitchenBackendClient {
       body: JSON.stringify(body)
     })
     if (!res.ok) throw new Error(`Kitchen backend error ${res.status}`)
-    return (await res.json()) as T;
+    return (await res.json()) as T,
   }
 
   async getCuisineRecommendations(
@@ -79,7 +79,7 @@ export class KitchenBackendClient {
           ingredients: [], // Could be populated from context
           dietaryRestrictions: ctx.preferences.dietaryRestrictions,
           cuisinePreferences: ctx.preferences.cuisineTypes
-        };
+        },
 
         const apiRecipes = await alchmAPI.getRecommendations(request)
         logger.debug('KitchenBackendClient', 'Got recipes from API', { count: apiRecipes.length })
@@ -100,7 +100,7 @@ export class KitchenBackendClient {
             location: ctx.location
           },
           score: 1.0
-        } as EnhancedRecommendationResult<Recipe>;
+        } as EnhancedRecommendationResult<Recipe>,
       }
 
       // Fallback to original implementation

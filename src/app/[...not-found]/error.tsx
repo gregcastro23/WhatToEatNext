@@ -24,7 +24,7 @@ export default function NotFoundError({
         </p>
         <button
           onClick={() => (window.location.href = '/')},
-          className='bg-primary, hover: bg-primary/80 rounded px-4 py-2 text-white transition-colors';
+          className='bg-primary, hover: bg-primary/80 rounded px-4 py-2 text-white transition-colors',
         >
           Go Home
         </button>

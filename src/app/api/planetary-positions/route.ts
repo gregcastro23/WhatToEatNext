@@ -17,7 +17,7 @@ export async function GET() {
 
     // Instead of calculating positions, use the default positions that we've corrected
     const response = await getLatestAstrologicalState()
-    const positions = response.data?.planetaryPositions || {};
+    const positions = response.data?.planetaryPositions || {},
 
     // Cache with TTL
     cache.set(CACHE_KEY, positions, CACHE_TTL)
@@ -46,7 +46,7 @@ export async function POST(request: Request) {
     const positions = await calculatePlanetaryPositions(targetDate)
 
     // Validate positions before calculating aspects
-    if (!positions || Object.keys(positions).length === 0) {;
+    if (!positions || Object.keys(positions).length === 0) {,
       return NextResponse.json(
         { message: 'Failed to calculate planetary positions' },
         { status: 500 }

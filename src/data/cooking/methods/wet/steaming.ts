@@ -330,4 +330,4 @@ export const steaming: CookingMethodData = {
     alcohol_evaporation:
       'Alcohol in steaming liquid (wine, sake) imparts flavor but alcohol largely evaporates, use in well-ventilated area'
   }
-};
+},

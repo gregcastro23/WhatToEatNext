@@ -31,29 +31,29 @@ export interface ProcessStatus {
 
 export class TerminalFreezePreventionSystem {
   private runningProcesses: Map<number, ProcessStatus> = new Map(),
-  private monitoringInterval: NodeJS.Timeout | null = null;
+  private monitoringInterval: NodeJS.Timeout | null = null,
   private readonly, DEFAULT_CONFIG: ProcessMonitorConfig = {
     maxExecutionTime: 60000, // 1 minute,
     maxMemoryUsage: 500, // 500MB,
     heartbeatInterval: 5000, // 5 seconds,
     killOnTimeout: true
-  };
+  },
 
-  constructor(private config: ProcessMonitorConfig = {} as ProcessMonitorConfig) {;
-    this.config = { ...this.DEFAULT_CONFIG, ...config };
+  constructor(private config: ProcessMonitorConfig = {} as ProcessMonitorConfig) {,
+    this.config = { ...this.DEFAULT_CONFIG, ...config },
     this.startMonitoring()
   }
 
   /**
    * Execute command with timeout and monitoring
    */
-  async safeExecSync(command: string, options: unknown = {}): Promise<string> {;
+  async safeExecSync(command: string, options: unknown = {}): Promise<string> {,
     const safeOptions = {
       ...options,
       timeout: options.timeout || this.config.maxExecutionTime,
       encoding: 'utf8' as const,
       stdio: 'pipe' as const
-    };
+    },
 
     try {
       // // // _logger.info(`🔧 Executing with timeout (${safeOptions.timeout}ms): ${command}`)
@@ -64,7 +64,7 @@ export class TerminalFreezePreventionSystem {
         _logger.warn(`⏰ Command timed out after ${safeOptions.timeout}ms: ${command}`)
         throw new Error(`Command timeout: ${command}`)
       }
-      throw error;
+      throw error,
     }
   }
 
@@ -81,7 +81,7 @@ export class TerminalFreezePreventionSystem {
     exitCode: number
   }> {
     return new Promise((resolve, reject) => {
-      const child = spawn(command, args, {;
+      const child = spawn(command, args, {,
         ...options
         stdio: ['pipe', 'pipe', 'pipe']
       })
@@ -94,12 +94,12 @@ export class TerminalFreezePreventionSystem {
         memoryUsage: 0,
         cpuUsage: 0,
         hasTimedOut: false
-      };
+      },
 
       this.runningProcesses.set(child.pid ?? 0, processStatus)
 
-      let stdout = '';
-      let stderr = '';
+      let stdout = '',
+      let stderr = '',
 
       child.stdout.on('data', data => {
         stdout += data.toString()
@@ -113,7 +113,7 @@ export class TerminalFreezePreventionSystem {
       const timeout = setTimeout(() => {;
         if (child.pid && this.runningProcesses.has(child.pid)) {
           _logger.warn(`⏰ Process timed out, killing PID ${child.pid}`)
-          processStatus.hasTimedOut = true;
+          processStatus.hasTimedOut = true,
           child.kill('SIGTERM')
 
           // Force kill after 5 seconds if still running
@@ -209,7 +209,7 @@ export class TerminalFreezePreventionSystem {
       const status = this.runningProcesses.get(pid)
 
       if (status) {
-        status.memoryUsage = parseInt(rss) / 1024, // Convert KB to MB;
+        status.memoryUsage = parseInt(rss) / 1024, // Convert KB to MB,
         status.cpuUsage = parseFloat(pcpu)
       }
     } catch (error) {
@@ -227,7 +227,7 @@ export class TerminalFreezePreventionSystem {
 
       const status = this.runningProcesses.get(pid)
       if (status) {
-        status.hasTimedOut = true;
+        status.hasTimedOut = true,
       }
 
       // Force kill after 5 seconds
@@ -308,7 +308,7 @@ export class TerminalFreezePreventionSystem {
       detected: suspiciousProcesses.length > 0
       suspiciousProcesses,
       recommendations
-    };
+    },
   }
 
   /**

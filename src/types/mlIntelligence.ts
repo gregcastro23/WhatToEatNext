@@ -10,15 +10,15 @@ export interface MLContext {
   elementalProperties?: ElementalProperties,
   season?: string,
   mealType?: string,
-  planetaryPositions?: Record<string, unknown>;
-  astrologicalInsights?: Record<string, unknown>;
-  lunarInfluence?: Record<string, unknown>;
-  planetaryHarmonics?: Record<string, unknown>;
+  planetaryPositions?: Record<string, unknown>,
+  astrologicalInsights?: Record<string, unknown>,
+  lunarInfluence?: Record<string, unknown>,
+  planetaryHarmonics?: Record<string, unknown>,
   planetaryHour?: string,
   moonPhase?: string,
   sunSign?: string,
   moonSign?: string,
-  marsAspects?: Array<Record<string, unknown>>;
+  marsAspects?: Array<Record<string, unknown>>,
   userPreferences?: UserPreferences,
   historicalData?: HistoricalData,
 }
@@ -34,9 +34,9 @@ export interface UserPreferences {
 
 export interface HistoricalData {
   successfulRecipes: Recipe[],
-  ingredientCompatibilityScores: Record<string, Record<string, number>>;
-  cuisineFusionResults: Record<string, number>;
-  astrologicalCorrelations: Record<string, number>;
+  ingredientCompatibilityScores: Record<string, Record<string, number>>,
+  cuisineFusionResults: Record<string, number>,
+  astrologicalCorrelations: Record<string, number>,
 }
 
 export interface MLOptimizationResult {
@@ -77,15 +77,15 @@ export interface AstrologicalPrediction {
     favorableIngredients: string[],
     cookingMethodRecommendations: string[],
     seasonalAlignment: number
-  };
+  },
   confidence: number
 }
 
 export interface MLLearningData {
-  recipeOptimizations: Map<string, number>;
-  ingredientCompatibility: Map<string, number>;
-  cuisineFusions: Map<string, number>;
-  astrologicalPredictions: Map<string, number>;
+  recipeOptimizations: Map<string, number>,
+  ingredientCompatibility: Map<string, number>,
+  cuisineFusions: Map<string, number>,
+  astrologicalPredictions: Map<string, number>,
 }
 
 export interface MLMetrics {
@@ -101,7 +101,7 @@ export interface MLMetrics {
 export interface IngredientCompatibilityResult {
   mlCompatibilityScore: number,
   pairwiseCompatibilityMatrix: Record<string, Record<string, number>>
-  substitutionRecommendations: Record<string, string[]>;
+  substitutionRecommendations: Record<string, string[]>,
   flavorSynergyPredictions: string[]
 }
 
@@ -112,7 +112,7 @@ export interface MLIntelligenceResult {
     cookingMethodOptimization: string[],
     flavorEnhancementSuggestions: string[],
     nutritionalOptimization: string[]
-  };
+  },
   ingredientPairing: IngredientCompatibilityResult,
   cuisineFusion: {
     mlFusionScore: number,
@@ -120,13 +120,13 @@ export interface MLIntelligenceResult {
     culturalHarmonyPrediction: number,
     innovationPotential: number,
     recommendedFusionTechniques: string[]
-  };
+  },
   astrologicalPrediction: {
     mlAlignmentScore: number,
     optimalTimingPrediction: string,
     planetaryInfluenceOptimization: number,
     cosmicHarmonyEnhancement: string[]
-  };
+  },
   confidence: number,
   timestamp: string
 }

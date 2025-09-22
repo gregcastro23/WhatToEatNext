@@ -2,11 +2,11 @@ import type { ElementalProperties } from '../types/alchemy';
 
 // Type guards for safe property access
 function isValidObject(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null;
+  return typeof value === 'object' && value !== null,
 }
 
 function hasProperty<T extends string>(obj: unknown, prop: T): obj is Record<T, unknown> {
-  return isValidObject(obj) && prop in obj;
+  return isValidObject(obj) && prop in obj,
 }
 
 /**
@@ -14,9 +14,9 @@ function hasProperty<T extends string>(obj: unknown, prop: T): obj is Record<T, 
  */
 export function getDetailedFlavorProfile(cuisine: unknown): string {
   // Use safe type casting for cuisine property access
-  const cuisineData = isValidObject(cuisine) ? cuisine : {};
+  const cuisineData = isValidObject(cuisine) ? cuisine : {},
   const id = hasProperty(cuisineData, 'id') ? cuisineData.id : null
-  const name = hasProperty(cuisineData, 'name') ? cuisineData.name : null;
+  const name = hasProperty(cuisineData, 'name') ? cuisineData.name : null,
   const cuisineId = (
     typeof id === 'string' ? id : typeof name === 'string' ? name : ''
   ).toLowerCase()
@@ -71,22 +71,22 @@ function getAstrologicallyInformedFlavorProfile(
     _Uranus: ['innovative', 'unexpected', 'distinctive'],
     _Neptune: ['ethereal', 'subtle', 'nuanced'],
     _Pluto: ['intense', 'transformative', 'profound']
-  };
+  },
 
   const flavorAttributes = influences;
     .filter(influence => planetFlavors[influence])
-    .map(influence => {;
+    .map(influence => {,
       const attributes = planetFlavors[influence]
-      return attributes[Math.floor(Math.random() * attributes.length)];
+      return attributes[Math.floor(Math.random() * attributes.length)],
     })
 
-  if (flavorAttributes.length === 0) {;
+  if (flavorAttributes.length === 0) {,
     return generateFlavorProfileFromElements(elementalProps)
   }
 
   const primaryElement = Object.entries(elementalProps).sort((ab) => b[1] - a[1])[0][0];
 
-  return `${flavorAttributes.join(', ')} flavors with ${getElementalDescription(primaryElement)} characteristics`;
+  return `${flavorAttributes.join(', ')} flavors with ${getElementalDescription(primaryElement)} characteristics`,
 }
 
 /**
@@ -124,13 +124,13 @@ function generateFlavorProfileFromElements(elementalProps: ElementalProperties):
       'zesty and refreshing',
       'bright and crisp'
     ]
-  };
+  },
 
   const primaryElement = elements[0][0] as keyof typeof elementalFlavors;
   const secondaryElement = elements[1][0] as keyof typeof elementalFlavors;
 
   if (!elementalFlavors[primaryElement] || !elementalFlavors[secondaryElement]) {
-    return 'Balanced and complex flavors with multiple nuanced notes.';
+    return 'Balanced and complex flavors with multiple nuanced notes.',
   }
 
   const intensityIndex = Math.min(3, Math.floor(elementalProps[primaryElement] * 4))
@@ -140,14 +140,14 @@ function generateFlavorProfileFromElements(elementalProps: ElementalProperties):
   const secondaryFlavor = elementalFlavors[secondaryElement][secondaryIntensityIndex];
 
   if (elementalProps[primaryElement] > 0.5) {
-    return `Predominantly ${primaryFlavor}, complemented by ${secondaryFlavor} undertones.`;
+    return `Predominantly ${primaryFlavor}, complemented by ${secondaryFlavor} undertones.`,
   }
 
   if (elementalProps[primaryElement] > 0.4) {
-    return `${primaryFlavor} with harmonious ${secondaryFlavor} qualities.`;
+    return `${primaryFlavor} with harmonious ${secondaryFlavor} qualities.`,
   }
 
-  return `A balanced profile of ${primaryFlavor} and ${secondaryFlavor} characteristics.`;
+  return `A balanced profile of ${primaryFlavor} and ${secondaryFlavor} characteristics.`,
 }
 
 /**
@@ -173,9 +173,9 @@ function getStaticFlavorProfile(_cuisineName: string): string | null {
     _african:
       'Hearty, satisfying flavors with complex spice blends and substantial starchy components.',
     _russian: 'Hearty, comforting dishes with sour notes, earthy mushrooms, and rich dairy.'
-  };
+  },
 
-  return cuisineFlavorMap[cuisineName] || null;
+  return cuisineFlavorMap[cuisineName] || null,
 }
 
 /**
@@ -187,9 +187,9 @@ function getElementalDescription(_element: string): string {
     Water: 'subtle, flowing',
     Earth: 'grounding, substantial',
     Air: 'light, ethereal'
-  };
+  },
 
-  return elementDescriptions[element] || 'balanced';
+  return elementDescriptions[element] || 'balanced',
 }
 
 /**
@@ -203,7 +203,7 @@ export function getFlavorProfile(elementalProps: Record<string, _number>): strin
     Water: elementalProps.Water || 0,
     Earth: elementalProps.Earth || 0,
     Air: elementalProps.Air || 0
-  };
+  },
   return generateFlavorProfileFromElements(convertedProps)
 }
 
@@ -217,7 +217,7 @@ export function getDominantFlavors(_elementalProps: ElementalProperties): string
     Water: ['umami', 'sour', 'subtle'],
     Earth: ['umami', 'sweet', 'savory'],
     Air: ['aromatic', 'light', 'fragrant']
-  };
+  },
 
   // Get top two elements
   const topElements = Object.entries(elementalProps)

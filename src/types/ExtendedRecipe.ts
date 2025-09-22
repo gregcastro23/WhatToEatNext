@@ -11,14 +11,14 @@ import {
   Recipe,
   RecipeIngredient,
   ElementalProperties as RecipeElementalProperties
-} from './recipe';
+} from './recipe',
 
 /**
  * Extended Recipe Ingredient with all accessed properties
  */
 export interface ExtendedRecipeIngredient extends RecipeIngredient {
-  id?: string;
-  preparation?: string;
+  id?: string,
+  preparation?: string,
   optional?: boolean
   notes?: string,
   function?: string,
@@ -31,38 +31,38 @@ export interface ExtendedRecipeIngredient extends RecipeIngredient {
  */
 export interface ExtendedRecipe extends Recipe {
   // Ensure core properties exist,
-  id: string;
-  tags?: string[];
-  notes?: string;
-  preparation?: string;
-  preparationNotes?: string;
-  preparationSteps?: string[];
-  procedure?: string | string[];
-  prepTime?: string;
-  preparation_time?: string;
-  prep_time?: string;
-  idealTimeOfDay?: string;
+  id: string,
+  tags?: string[],
+  notes?: string,
+  preparation?: string,
+  preparationNotes?: string,
+  preparationSteps?: string[],
+  procedure?: string | string[],
+  prepTime?: string,
+  preparation_time?: string,
+  prep_time?: string,
+  idealTimeOfDay?: string,
 
   // Enhanced ingredient support,
-  ingredients: ExtendedRecipeIngredient[];
+  ingredients: ExtendedRecipeIngredient[],
 
   // Additional instruction variations,
   instructions: string[]
 
   // Elemental properties with proper casing (Fire, Water, Earth, Air)
-  elementalProperties: ElementalProperties;
+  elementalProperties: ElementalProperties,
 
   // Enhanced properties commonly accessed
-  course?: string[];
-  dishType?: string[];
-  cookingMethod?: string[];
-  cookingTechniques?: string[];
-  equipmentNeeded?: string[];
-  skillsRequired?: string[];
+  course?: string[],
+  dishType?: string[],
+  cookingMethod?: string[],
+  cookingTechniques?: string[],
+  equipmentNeeded?: string[],
+  skillsRequired?: string[],
 
   // Flavor and texture
   flavorProfile?: {
-    primary?: string[];
+    primary?: string[],
     accent?: string[]
     base?: string[]
     tasteBalance?: {
@@ -71,15 +71,15 @@ export interface ExtendedRecipe extends Recipe {
       sour: number,
       bitter: number,
       umami: number
-    };
-  };
+    },
+  },
 
-  texturalElements?: string[];
-  aromatics?: string[];
-  colorProfile?: string[];
-  origin?: string;
-  history?: string;
-  traditionalOccasion?: string[];
+  texturalElements?: string[],
+  aromatics?: string[],
+  colorProfile?: string[],
+  origin?: string,
+  history?: string,
+  traditionalOccasion?: string[],
   regionalVariations?: string[]
 
   pairingRecommendations?: {
@@ -87,24 +87,24 @@ export interface ExtendedRecipe extends Recipe {
     beverages?: string[],
     sides?: string[],
     condiments?: string[]
-  };
+  },
 
   nutrition?: {
-    calories?: number;
+    calories?: number,
     servingSize?: string
     macronutrients?: {
       protein: number,
       carbs: number,
       fat: number,
       fiber: number
-    };
-  };
+    },
+  },
 
-  seasonalIngredients?: string[];
-  chefNotes?: string[];
-  commonMistakes?: string[];
-  tips?: string[];
-  variations?: string[];
+  seasonalIngredients?: string[],
+  chefNotes?: string[],
+  commonMistakes?: string[],
+  tips?: string[],
+  variations?: string[],
 
   presentationTips?: string[]
   sensoryIndicators?: {
@@ -112,7 +112,7 @@ export interface ExtendedRecipe extends Recipe {
     aroma: string[],
     texture: string[],
     sound: string[]
-  };
+  },
 
   keywords?: string[]
 
@@ -131,7 +131,7 @@ export interface ExtendedScoredRecipe extends ExtendedRecipe {
     lunarScore: number,
     planetaryScore: number,
     seasonalScore: number
-  };
+  },
 }
 
 /**
@@ -157,10 +157,10 @@ export function toExtendedRecipe(recipe: Recipe): ExtendedRecipe {
     notes: recipe.notes || '',
     preparation: recipe.preparation || '',
     preparationNotes: recipe.preparationNotes || '',
-    ingredients: (recipe.ingredients || []).map(ingredient => {;
+    ingredients: (recipe.ingredients || []).map(ingredient => {,
       const extendedIngredient = ingredient as unknown as any;
       return {
-        ...ingredient;
+        ...ingredient,
         id:
           typeof extendedIngredient.id === 'string'
             ? extendedIngredient.id
@@ -170,9 +170,9 @@ export function toExtendedRecipe(recipe: Recipe): ExtendedRecipe {
         optional:
           typeof extendedIngredient.optional === 'boolean' ? extendedIngredient.optional : false,,
         notes: typeof extendedIngredient.notes === 'string' ? extendedIngredient.notes : '',,
-      };
+      },
     })
-  } as ExtendedRecipe;
+  } as ExtendedRecipe,
 }
 
-export default ExtendedRecipe;
+export default ExtendedRecipe,

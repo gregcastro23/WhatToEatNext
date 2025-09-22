@@ -9,30 +9,30 @@
  */
 export interface NutritionalProfile {
   // Macronutrients
-  calories?: number;
+  calories?: number,
   macros?: {
-    calories?: number;
-    protein?: number;
-    carbs?: number;
-    fat?: number;
+    calories?: number,
+    protein?: number,
+    carbs?: number,
+    fat?: number,
     fiber?: number
     sugar?: number
     [key: string]: number | undefined
-  };
-  protein?: number;
-  carbs?: number;
-  fat?: number;
-  fiber?: number;
+  },
+  protein?: number,
+  carbs?: number,
+  fat?: number,
+  fiber?: number,
   sugar?: number
 
   // Vitamins
-  vitamins?: Record<string, number> | string[];
+  vitamins?: Record<string, number> | string[],
 
   // Minerals
-  minerals?: Record<string, number> | string[];
+  minerals?: Record<string, number> | string[],
 
   // Phytonutrients and other nutritional components
-  phytonutrients?: Record<string, number>;
+  phytonutrients?: Record<string, number>,
 
   // Allow for additional nutrition categories
   [key: string]: unknown
@@ -42,15 +42,15 @@ export interface NutritionalProfile {
  * Simplified nutrition data structure used by filter services
  */
 export interface NutritionData {
-  protein_g?: number;
-  fiber_g?: number;
-  vitamins?: string[];
-  minerals?: string[];
-  vitamin_density?: number;
-  calories?: number;
-  carbs?: number;
-  fats?: number;
-  sodium?: number;
+  protein_g?: number,
+  fiber_g?: number,
+  vitamins?: string[],
+  minerals?: string[],
+  vitamin_density?: number,
+  calories?: number,
+  carbs?: number,
+  fats?: number,
+  sodium?: number,
   sugar?: number
 }
 
@@ -59,10 +59,10 @@ export interface NutritionData {
  */
 export interface FoodDataCentralFood {
   foodNutrients: Array<{
-    nutrientNumber: string;
-    nutrientName?: string;
+    nutrientNumber: string,
+    nutrientName?: string,
     value?: number
-  }>;
+  }>,
   [key: string]: string | number | boolean | object | null | undefined
 }
 
@@ -70,19 +70,19 @@ export interface FoodDataCentralFood {
  * Nutritional filter parameters for ingredient filtering
  */
 export interface NutritionalFilter {
-  minProtein?: number;
-  maxProtein?: number;
-  minFiber?: number;
-  maxFiber?: number;
-  minCalories?: number;
-  maxCalories?: number;
-  minCarbs?: number;
-  maxCarbs?: number;
-  minFat?: number;
-  maxFat?: number;
-  vitamins?: string[];
-  minerals?: string[];
-  highProtein?: boolean;
-  lowCarb?: boolean;
+  minProtein?: number,
+  maxProtein?: number,
+  minFiber?: number,
+  maxFiber?: number,
+  minCalories?: number,
+  maxCalories?: number,
+  minCarbs?: number,
+  maxCarbs?: number,
+  minFat?: number,
+  maxFat?: number,
+  vitamins?: string[],
+  minerals?: string[],
+  highProtein?: boolean,
+  lowCarb?: boolean,
   lowFat?: boolean
 }

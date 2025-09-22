@@ -13,46 +13,46 @@ import dynamic from 'next/dynamic';
  */
 export const lazyCalculations = {
   // Alchemical calculations - loaded on demand
-  alchemical: () => import('@/calculations/alchemical'),
+  alchemical: () => import('@/calculations/alchemical');
 
   // Astrological calculations - loaded on demand
-  astrological: () => import('@/calculations/astrological'),
+  astrological: () => import('@/calculations/astrological');
 
   // Elemental calculations - loaded on demand
-  elemental: () => import('@/calculations/elemental'),
+  elemental: () => import('@/calculations/elemental');
 
   // Thermodynamics calculations - loaded on demand
-  thermodynamics: () => import('@/calculations/thermodynamics'),
+  thermodynamics: () => import('@/calculations/thermodynamics');
 
   // Complex recommendation algorithms - loaded on demand
-  recommendations: () => import('@/calculations/recommendations'),
-};
+  recommendations: () => import('@/calculations/recommendations');
+},
 
 /**
  * Lazy load unified data modules with optimized loading
  */
 export const lazyUnifiedData = {
   // Enhanced ingredients system - loaded on demand
-  enhancedIngredients: () => import('@/data/unified/enhancedIngredients'),
+  enhancedIngredients: () => import('@/data/unified/enhancedIngredients');
 
   // Cuisine integrations - loaded on demand
-  cuisineIntegrations: () => import('@/data/unified/cuisineIntegrations'),
+  cuisineIntegrations: () => import('@/data/unified/cuisineIntegrations');
 
   // Flavor engine - loaded on demand
-  flavorEngine: () => import('@/data/unified/unifiedFlavorEngine'),
+  flavorEngine: () => import('@/data/unified/unifiedFlavorEngine');
 
   // Recipe building system - loaded on demand
-  recipeBuilding: () => import('@/data/unified/recipeBuilding'),
+  recipeBuilding: () => import('@/data/unified/recipeBuilding');
 
   // Alchemical calculations data - loaded on demand
-  alchemicalCalculations: () => import('@/data/unified/alchemicalCalculations'),
-};
+  alchemicalCalculations: () => import('@/data/unified/alchemicalCalculations');
+},
 
 /**
  * Create a lazy-loaded component with loading fallback
  */
 export function createLazyComponent<T extends ComponentType<any>>(
-  importFunc: () => Promise<{ default: T }>,
+  importFunc: () => Promise<{ default: T }>;
   loadingComponent?: ComponentType
 ) {
   return dynamic(importFunc, {
@@ -87,7 +87,7 @@ export const preloadCalculations = {
     lazyCalculations.astrological()
     lazyCalculations.thermodynamics()
   },
-};
+},
 
 /**
  * Bundle size optimization utilities
@@ -99,9 +99,9 @@ export const bundleOptimization = {
       high: 50000,    // 50KB - load immediately for high priority
       medium: 20000,  // 20KB - load immediately for medium priority
       low: 10000,     // 10KB - load immediately for low priority
-    };
+    },
 
-    return moduleSize > thresholds[priority];
+    return moduleSize > thresholds[priority],
   },
 
   // Get estimated module size (mock implementation - in production use webpack-bundle-analyzer)
@@ -111,12 +111,12 @@ export const bundleOptimization = {
       '/calculations/': 150000, // 150KB average for calculation modules
       '/data/unified/': 100000,  // 100KB average for unified data modules
       '/components/': 30000,     // 30KB average for components
-    };
+    },
 
     const category = Object.keys(sizeEstimates).find(key => modulePath.includes(key))
     return category ? sizeEstimates[category] : 50000; // Default 50KB
   },
-};
+},
 
 /**
  * Performance monitoring for lazy loaded modules
@@ -135,14 +135,14 @@ export const performanceMonitoring = {
       perfData[moduleName] = {
         loadTime,
         timestamp: Date.now(),
-      };
+      },
       localStorage.setItem('modulePerformance', JSON.stringify(perfData))
     }
   },
 
   // Get performance recommendations
   getPerformanceRecommendations: () => {
-    if (typeof window === 'undefined') return [];
+    if (typeof window === 'undefined') return [],
 
     const perfData = JSON.parse(localStorage.getItem('modulePerformance') || '{}')
     const recommendations: string[] = [];
@@ -153,6 +153,6 @@ export const performanceMonitoring = {
       }
     })
 
-    return recommendations;
+    return recommendations,
   },
-};
+},

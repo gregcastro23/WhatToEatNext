@@ -55,4 +55,4 @@ export const _dehydrating: CookingMethodData = {
     'Proper storage needed to prevent moisture reabsorption',
     'Insufficient drying can lead to mold growth'
   ]
-};
+},

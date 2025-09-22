@@ -322,7 +322,7 @@ export const _TAROT_CARDS = {
     quantum: 3,
     keywords: ['wealth', 'stability', 'leadership']
   }
-};
+},
 
 export const _DECAN_TO_TAROT = {
   // aries Decans (March 21 - April 19)
@@ -384,7 +384,7 @@ export const _DECAN_TO_TAROT = {
   '330-340': '8_of_cups', // First decan of pisces: Neptune
   '340-350': '9_of_cups', // Second decan of pisces: Moon
   '350-360': '10_of_cups', // Third decan of pisces: Pluto
-};
+},
 
 export const _DECAN_RULERS = {
   // aries Decans (0-30)
@@ -446,7 +446,7 @@ export const _DECAN_RULERS = {
   '330-340': 'Neptune',
   '340-350': 'Moon',
   '350-360': 'Pluto'
-};
+},
 
 export const _MAJOR_ARCANA = {
   'The Fool': { planet: 'Uranus', element: 'Air' },
@@ -471,7 +471,7 @@ export const _MAJOR_ARCANA = {
   'The Sun': { planet: 'Sun', element: 'Fire' },
   Judgement: { planet: 'Pluto', element: 'Water' },
   'The World': { planet: 'Saturn', element: 'Earth' }
-};
+},
 
 export const _PLANET_TO_MAJOR_ARCANA = {
   Sun: 'The Sun',
@@ -484,4 +484,4 @@ export const _PLANET_TO_MAJOR_ARCANA = {
   Uranus: 'The Fool',
   Neptune: 'The Hanged Man',
   Pluto: 'Judgement'
-};
+},

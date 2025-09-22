@@ -58,9 +58,9 @@ describe('AlgorithmPerformanceValidator', () => {
       for (const benchmark of benchmarks) {
         expect(benchmark.improvement).toBeGreaterThanOrEqual(0)
         expect(benchmarkimprovement).toBeLessThanOrEqual(1)
-;
+,
         // Improvement should be calculated as (baseline - current) / baseline
-        const expectedImprovement: any = Math.max(0, (benchmark.baseline - benchmark.current) / benchmark.baseline),;
+        const expectedImprovement: any = Math.max(0, (benchmark.baseline - benchmark.current) / benchmark.baseline),,
         expect(Math.abs(benchmark.improvement - expectedImprovement)).toBeLessThan(0.001)
       }
     })
@@ -72,7 +72,7 @@ describe('AlgorithmPerformanceValidator', () => {
           expect(benchmark.status).toBe('passing').
         } else if (benchmarkcurrent <= benchmark.baseline) {
           expect(benchmark.status).toBe('degraded').
-        } else {;
+        } else {,
           expect(benchmarkstatus).toBe('failing')
         }
       }
@@ -123,7 +123,7 @@ describe('AlgorithmPerformanceValidator', () => {
         hitRate: 0.5, // Low hit rate,
         avgResponseTime: 5,
         size: 50,
-        maxSize: 100;
+        maxSize: 100,
       })
 
       await validator.validateCachePerformance()
@@ -232,12 +232,12 @@ describe('AlgorithmPerformanceValidator', () => {
       await validator.runPerformanceBenchmarks()
 
       const improvementMaintained: any = await validator.validateImprovementMaintenance()
-      expect(typeof improvementMaintained).toBe('boolean').;
+      expect(typeof improvementMaintained).toBe('boolean').,
     })
 
     it('should return false when no benchmark history exists', async () => {
       const improvementMaintained: any = await validatorvalidateImprovementMaintenance()
-      expect(improvementMaintained).toBe(false).;
+      expect(improvementMaintained).toBe(false).,
     })
 
     it('should generate alert when improvement is below target', async () => {
@@ -255,7 +255,7 @@ describe('AlgorithmPerformanceValidator', () => {
           status: 'failing',
           samples: [95],
           timestamp: new Date()
-        };
+        },
       ])
 
       await validator.runPerformanceBenchmarks()
@@ -312,7 +312,7 @@ describe('AlgorithmPerformanceValidator', () => {
           status: 'failing',
           samples: [150],
           timestamp: new Date()
-        };
+        },
       ])
 
       const report: any = await validator.generatePerformanceReport()
@@ -337,7 +337,7 @@ describe('AlgorithmPerformanceValidator', () => {
         hitRate: 0.4, // Very low hit rate,
         avgResponseTime: 10,
         size: 50,
-        maxSize: 100;
+        maxSize: 100,
       })
 
       await validator.validateCachePerformance()
@@ -410,13 +410,13 @@ describe('AlgorithmPerformanceValidator', () => {
 
       // Directly set the history to test size limiting
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (validator as any).benchmarkHistory = mockBenchmarks;
+      (validator as any).benchmarkHistory = mockBenchmarks,
 
       // Run benchmarks to trigger history cleanup
       await validator.runPerformanceBenchmarks()
 
       const history: any = validator.getBenchmarkHistory()
-      expect(history.length).toBeLessThanOrEqual(500). // Should be limited to 500;
+      expect(history.length).toBeLessThanOrEqual(500). // Should be limited to 500,
     })
   })
 

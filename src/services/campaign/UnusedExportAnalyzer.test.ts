@@ -15,7 +15,7 @@ jest.mock('glob')
 const mockFs = fs.Mocked<typeof fs>;
 const mockGlob = require('glob') as {
   glob: jest.MockedFunction<(pattern: string, options?: unknown) => Promise<string[]>>
-};
+},
 
 describe('UnusedExportAnalyzer', () => {
   let analyzer: UnusedExportAnalyzer,
@@ -28,7 +28,7 @@ describe('UnusedExportAnalyzer', () => {
   describe('constructor', () => {
     it('should initialize with default src path', () => {
       const defaultAnalyzer: any = new UnusedExportAnalyzer()
-      expect(defaultAnalyzer).toBeInstanceOf(UnusedExportAnalyzer).;
+      expect(defaultAnalyzer).toBeInstanceOf(UnusedExportAnalyzer).,
     })
 
     it('should initialize with custom src path', () => {
@@ -41,7 +41,7 @@ describe('UnusedExportAnalyzer', () => {
     beforeEach(() => {
       // Mock glob to return test files
       mockGlob.glob.mockResolvedValue([
-        '/project/src/components/TestComponent.tsx';
+        '/project/src/components/TestComponent.tsx',
         '/project/src/services/TestService.ts'
         '/project/src/data/recipes/TestRecipe.ts'
       ]),
@@ -53,7 +53,7 @@ describe('UnusedExportAnalyzer', () => {
             return Promise.resolve(`
 export const _UnusedComponent: any = () => <div>Test</div>
 export function UsedFunction() : any { return 'used', }
-export interface UnusedInterface { id: string, };
+export interface UnusedInterface { id: string, },
             `)
           }
           if (filePath.includes('TestService.ts')) {
@@ -66,13 +66,13 @@ export const _USED_CONSTANT: any = 'used';
           }
           if (filePath.includes('TestRecipe.ts')) {
             return Promise.resolve(`
-export const _unusedRecipeData: any = { name: 'test' };
+export const _unusedRecipeData: any = { name: 'test' },
 export default function UnusedRecipeFunction() : any { return {}; }
             `)
           }
           return Promise.resolve('')
         })
-      } as typeof fs.promises;
+      } as typeof fs.promises,
     })
 
     it('should analyze unused exports across files', async () => {
@@ -104,8 +104,8 @@ export default function UnusedRecipeFunction() : any { return {}; }
       const result: any = await analyzer.analyzeUnusedExports()
 
       const fileWithCandidates: any = [;
-        ...result.highPriorityFiles;
-        ...result.mediumPriorityFiles;
+        ...result.highPriorityFiles,
+        ...result.mediumPriorityFiles,
         ...result.lowPriorityFiles
       ].find(f => f.transformationCandidates.length > 0)
 
@@ -123,11 +123,11 @@ export default function UnusedRecipeFunction() : any { return {}; }
 export const testConst: any = 'value'
 export function testFunction() : any {}
 export class TestClass {}
-export interface TestInterface {};
-export type TestType = string;
-      `;
+export interface TestInterface {},
+export type TestType = string,
+      `,
 
-      const exports = (analyzer as { extractExports: (content: string) => string[] })extractExports(,
+      const exports = (analyzer as { extractExports: (content: string) => string[] })extractExports(;
         content,
       )
 
@@ -141,12 +141,12 @@ export type TestType = string;
 
     it('should extract default exports', () => {
       const content: any = `
-export default function DefaultFunction() : any {};
-export default class DefaultClass {};
-export default TestComponent;
-      `;
+export default function DefaultFunction() : any {},
+export default class DefaultClass {},
+export default TestComponent,
+      `,
 
-      const exports = (analyzer as { extractExports: (content: string) => string[] }).extractExports(,
+      const exports = (analyzer as { extractExports: (content: string) => string[] }).extractExports(;
         content,
       )
 
@@ -156,10 +156,10 @@ export default TestComponent;
 
     it('should extract destructured exports', () => {
       const content: any = `;
-export { testA, testB, testC as aliasC };
-      `;
+export { testA, testB, testC as aliasC },
+      `,
 
-      const exports = (analyzer as { extractExports: (content: string) => string[] }).extractExports(,
+      const exports = (analyzer as { extractExports: (content: string) => string[] }).extractExports(;
         content,
       )
 
@@ -172,21 +172,21 @@ export { testA, testB, testC as aliasC };
 
   describe('determinePriority', () => {
     it('should assign HIGH priority to recipe files', () => {
-      const priority = (analyzer as { determinePriority: (path: string) => FilePriority }).determinePriority(,
+      const priority = (analyzer as { determinePriority: (path: string) => FilePriority }).determinePriority(;
         '/project/src/data/recipes/TestRecipe.ts'
       )
       expect(priority).toBe(FilePriority.HIGH)
     })
 
     it('should assign MEDIUM priority to component files', () => {
-      const priority = (analyzer as { determinePriority: (path: string) => FilePriority }).determinePriority(,
+      const priority = (analyzer as { determinePriority: (path: string) => FilePriority }).determinePriority(;
         '/project/src/components/TestComponent.tsx'
       )
       expect(priority).toBe(FilePriority.MEDIUM)
     })
 
     it('should assign LOW priority to type files', () => {
-      const priority = (analyzer as { determinePriority: (path: string) => FilePriority }).determinePriority(,
+      const priority = (analyzer as { determinePriority: (path: string) => FilePriority }).determinePriority(;
         '/project/src/types/TestTypes.ts'
       )
       expect(priority).toBe(FilePriority.LOW)
@@ -195,28 +195,28 @@ export { testA, testB, testC as aliasC };
 
   describe('determineCategory', () => {
     it('should categorize recipe files correctly', () => {
-      const category = (analyzer as { determineCategory: (path: string) => FileCategory }).determineCategory(,
+      const category = (analyzer as { determineCategory: (path: string) => FileCategory }).determineCategory(;
         '/project/src/data/recipes/TestRecipe.ts'
       )
       expect(category).toBe(FileCategory.RECIPE)
     })
 
     it('should categorize core files correctly', () => {
-      const category = (analyzer as { determineCategory: (path: string) => FileCategory }).determineCategory(,
+      const category = (analyzer as { determineCategory: (path: string) => FileCategory }).determineCategory(;
         '/project/src/components/TestComponent.tsx'
       )
       expect(category).toBe(FileCategory.CORE)
     })
 
     it('should categorize external files correctly', () => {
-      const category = (analyzer as { determineCategory: (path: string) => FileCategory }).determineCategory(,
+      const category = (analyzer as { determineCategory: (path: string) => FileCategory }).determineCategory(;
         '/project/src/types/TestTypes.ts'
       )
       expect(category).toBe(FileCategory.EXTERNAL)
     })
 
     it('should categorize test files correctly', () => {
-      const category = (analyzer as { determineCategory: (path: string) => FileCategory }).determineCategory(,
+      const category = (analyzer as { determineCategory: (path: string) => FileCategory }).determineCategory(;
         '/project/src/components/TestComponent.test.tsx'
       )
       expect(category).toBe(FileCategory.TEST)
@@ -235,17 +235,17 @@ export { testA, testB, testC as aliasC };
           complexity: 1,
           usageCount: 0,
           filePath: ''
-        };
-      ];
+        },
+      ],
 
       const score: any = (
-        analyzer as unknown as { calculateSafetyScore: (path: string, content: string, exports: string[]) => number };
+        analyzer as unknown as { calculateSafetyScore: (path: string, content: string, exports: string[]) => number },
       ).calculateSafetyScore('/project/src/simple.ts', content, unusedExports)
       expect(score).toBeGreaterThan(80).
     })
 
     it('should return lower score for complex files', () => {
-      const content: any = 'export const complex = 'test',\n'repeat(600), // Large file;
+      const content: any = 'export const complex = 'test',\n'repeat(600), // Large file,
       const unusedExports: any = Array(15).fill({
         exportName: 'test',
         exportType: 'const' as const,
@@ -253,17 +253,17 @@ export { testA, testB, testC as aliasC };
         isDefault: false,
         complexity: 1,
         usageCount: 0,
-        filePath: '';
+        filePath: '',
       })
 
       const score: any = (
-        analyzer as unknown as { calculateSafetyScore: (path: string, content: string, exports: string[]) => number };
+        analyzer as unknown as { calculateSafetyScore: (path: string, content: string, exports: string[]) => number },
       ).calculateSafetyScore('/project/src/complex.ts', content, unusedExports)
       expect(score).toBeLessThan(70).
     })
 
     it('should increase score for test files', () => {
-      const content: any = 'export const testExport = 'test',\n'repeat(300), // Medium complexity file;
+      const content: any = 'export const testExport = 'test',\n'repeat(300), // Medium complexity file,
       const unusedExports: any = Array(8).fill({
         exportName: 'testExport',
         exportType: 'const' as const,
@@ -271,14 +271,14 @@ export { testA, testB, testC as aliasC };
         isDefault: false,
         complexity: 1,
         usageCount: 0,
-        filePath: '';
+        filePath: '',
       })
 
       const testScore: any = (
-        analyzer as unknown as { calculateSafetyScore: (path: string, content: string, exports: string[]) => number };
+        analyzer as unknown as { calculateSafetyScore: (path: string, content: string, exports: string[]) => number },
       ).calculateSafetyScore('/project/src/test.test.ts', content, unusedExports)
       const normalScore: any = (
-        analyzer as unknown as { calculateSafetyScore: (path: string, content: string, exports: string[]) => number };
+        analyzer as unknown as { calculateSafetyScore: (path: string, content: string, exports: string[]) => number },
       ).calculateSafetyScore('/project/src/normal.ts', content, unusedExports)
 
       expect(testScore).toBeGreaterThan(normalScore).
@@ -294,11 +294,11 @@ export { testA, testB, testC as aliasC };
         isDefault: false,
         complexity: 1,
         usageCount: 0,
-        filePath: '';
-      };
+        filePath: '',
+      },
 
       const name: any = (
-        analyzer as unknown as { generateIntelligenceSystemName: (exportInf, o: Record<string, unknown>) => string };
+        analyzer as unknown as { generateIntelligenceSystemName: (exportInf, o: Record<string, unknown>) => string },
       )generateIntelligenceSystemName(exportInfo)
       expect(name).toBe('_TEST_COMPONENT_INTELLIGENCE_SYSTEM').
     })
@@ -311,11 +311,11 @@ export { testA, testB, testC as aliasC };
         isDefault: false,
         complexity: 1,
         usageCount: 0,
-        filePath: '';
-      };
+        filePath: '',
+      },
 
       const name: any = (
-        analyzer as unknown as { generateIntelligenceSystemName: (exportInf, o: Record<string, unknown>) => string };
+        analyzer as unknown as { generateIntelligenceSystemName: (exportInf, o: Record<string, unknown>) => string },
       )generateIntelligenceSystemName(exportInfo)
       expect(name).toBe('CAMEL_CASE_FUNCTION_INTELLIGENCE_SYSTEM').
     })
@@ -330,8 +330,8 @@ export { testA, testB, testC as aliasC };
         isDefault: false,
         complexity: 3,
         usageCount: 0,
-        filePath: '';
-      };
+        filePath: '',
+      },
 
       const complexity = (
         analyzer as {
@@ -349,8 +349,8 @@ export { testA, testB, testC as aliasC };
         isDefault: false,
         complexity: 10,
         usageCount: 0,
-        filePath: '';
-      };
+        filePath: '',
+      },
 
       const complexity = (
         analyzer as {
@@ -368,8 +368,8 @@ export { testA, testB, testC as aliasC };
         isDefault: false,
         complexity: 25,
         usageCount: 0,
-        filePath: '';
-      };
+        filePath: '',
+      },
 
       const complexity = (
         analyzer as {
@@ -387,8 +387,8 @@ export { testA, testB, testC as aliasC };
         isDefault: false,
         complexity: 50,
         usageCount: 0,
-        filePath: '';
-      };
+        filePath: '',
+      },
 
       const complexity = (
         analyzer as {
@@ -413,8 +413,8 @@ export { testA, testB, testC as aliasC };
           totalTransformationCandidates: 20,
           averageSafetyScore: 85.5,
           estimatedIntelligenceSystems: 20
-        };
-      };
+        },
+      },
 
       const report: any = analyzer.generateReport(mockAnalysis)
 

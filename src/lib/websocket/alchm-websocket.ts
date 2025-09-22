@@ -1,33 +1,33 @@
 export type PlanetaryHourUpdate = {
-  planet: 'Sun' | 'Moon' | 'Mercury' | 'Venus' | 'Mars' | 'Jupiter' | 'Saturn';
-  start: string;
-  end: string;
-};
+  planet: 'Sun' | 'Moon' | 'Mercury' | 'Venus' | 'Mars' | 'Jupiter' | 'Saturn',
+  start: string,
+  end: string,
+},
 
 export type EnergyUpdate = {
-  Fire: number;
-  Water: number;
-  Air: number;
-  Earth: number;
-};
+  Fire: number,
+  Water: number,
+  Air: number,
+  Earth: number,
+},
 
 export type CelestialEvent = {
-  type: string;
-  timestamp: string;
-  detail?: string;
-};
+  type: string,
+  timestamp: string,
+  detail?: string,
+},
 
 export type WSMessage =
   | { channel: 'planetary_hours'; data: PlanetaryHourUpdate }
   | { channel: 'energy_updates'; data: EnergyUpdate }
-  | { channel: 'celestial_events'; data: CelestialEvent };
+  | { channel: 'celestial_events'; data: CelestialEvent },
 
 export class AlchmWebSocket {
-  private ws: WebSocket | null = null;
-  private readonly url: string | undefined = process.env.NEXT_PUBLIC_WEBSOCKET_URL;
+  private ws: WebSocket | null = null,
+  private readonly url: string | undefined = process.env.NEXT_PUBLIC_WEBSOCKET_URL,
 
   connect(): void {
-    if (!this.url) return;
+    if (!this.url) return,
     this.ws = new WebSocket(this.url)
     this.ws.onmessage = (event) => {
       try {
@@ -36,22 +36,22 @@ export class AlchmWebSocket {
       } catch {
         // ignore malformed messages
       }
-    };
+    },
   }
 
   private handleMessage(message: WSMessage): void {
     switch (message.channel) {
       case 'planetary_hours':
         this.updatePlanetaryHour(message.data)
-        break;
+        break,
       case 'energy_updates':
         this.updateEnergy(message.data)
-        break;
+        break,
       case 'celestial_events':
         this.updateCelestial(message.data)
-        break;
+        break,
       default:
-        break;
+        break,
     }
   }
 

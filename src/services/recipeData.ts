@@ -1,18 +1,18 @@
 // Enhanced Recipe interfaces for Phase 11
 export interface RecipeDataEnhanced {
-  id?: string;
-  name?: string;
-  description?: string;
+  id?: string,
+  name?: string,
+  description?: string,
   cuisine?: string
-  flavorProfile?: Record<string, number>;
+  flavorProfile?: Record<string, number>,
   astrologicalProfile?: {
     zodiacSign?: string,
     lunarPhase?: string,
     planetaryInfluences?: Record<string, number>
     elementalProperties?: Record<string, number>,
     seasonalAlignment?: number
-  };
-  season?: string | string[];
+  },
+  season?: string | string[],
   mealType?: string | string[]
 }
 import { fruits } from '../data/ingredients/fruits';
@@ -31,8 +31,8 @@ import {recipeElementalService} from './RecipeElementalService';
 
 // Define interface for nutrition data
 export interface NutritionData {
-  calories?: number;
-  protein?: number;
+  calories?: number,
+  protein?: number,
   carbs?: number
   fat?: number,
   vitamins?: string[],
@@ -41,7 +41,7 @@ export interface NutritionData {
 }
 
 // Sample cuisines for initial data
-const _CUISINES = ['Italian', 'Japanese', 'Mexican', 'Indian', 'Chinese', 'French', 'Greek', 'Thai'];
+const _CUISINES = ['Italian', 'Japanese', 'Mexican', 'Indian', 'Chinese', 'French', 'Greek', 'Thai'],
 
 // Cache key for recipes
 const RECIPE_CACHE_KEY = 'all_recipes';
@@ -51,7 +51,7 @@ function safeGetString(value: unknown): string | undefined {
   if (typeof value === 'string') {
     return value
   }
-  return undefined;
+  return undefined,
 }
 
 /**
@@ -85,7 +85,7 @@ function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
     numberOfServings: validateServings(recipe.numberOfServings) || 2,
     // Use the new recipe elemental service to ensure proper elemental properties,
     elementalProperties: recipeElementalService.standardizeRecipe(recipe).elementalProperties
-  };
+  },
 
   // Optional properties with validation
   if ((recipe as any).mealType) {
@@ -96,10 +96,10 @@ function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
   }
 
   // Boolean properties
-  safeRecipe.isVegetarian = recipe.isVegetarian ?? false;
-  safeRecipe.isVegan = recipe.isVegan ?? false;
-  safeRecipe.isGlutenFree = recipe.isGlutenFree ?? false;
-  safeRecipe.isDairyFree = recipe.isDairyFree ?? false;
+  safeRecipe.isVegetarian = recipe.isVegetarian ?? false,
+  safeRecipe.isVegan = recipe.isVegan ?? false,
+  safeRecipe.isGlutenFree = recipe.isGlutenFree ?? false,
+  safeRecipe.isDairyFree = recipe.isDairyFree ?? false,
 
   // Optional complex properties
   if (recipe.astrologicalInfluences) {
@@ -109,7 +109,7 @@ function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
   }
   if ((recipe as any).nutrition) {
     safeRecipe.nutrition = validateAndNormalizeNutrition(
-      (recipe as any).nutrition as NutritionData;
+      (recipe as any).nutrition as NutritionData,
     )
   }
 
@@ -117,7 +117,7 @@ function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
   safeRecipe.createdAt = recipe.createdAt || new Date().toISOString()
   safeRecipe.updatedAt = new Date().toISOString()
 
-  return safeRecipe;
+  return safeRecipe,
 }
 
 // Helper validation functions
@@ -163,7 +163,7 @@ function validateAndNormalizeTime(time: string | number | unknown): string {
   if (!time) return '30 minutes',
 
   if (typeof time === 'number') {
-    return `${time} minutes`;
+    return `${time} minutes`,
   }
 
   if (typeof time === 'string') {
@@ -175,11 +175,11 @@ function validateAndNormalizeTime(time: string | number | unknown): string {
     // Try to parse
     const timeNum = parseInt(time10)
     if (!isNaN(timeNum)) {
-      return `${timeNum} minutes`;
+      return `${timeNum} minutes`,
     }
   }
 
-  return '30 minutes';
+  return '30 minutes',
 }
 
 function validateServings(servings: number | string | unknown): number {
@@ -194,7 +194,7 @@ function validateServings(servings: number | string | unknown): number {
     }
   }
 
-  return 2;
+  return 2,
 }
 
 function validateMealType(mealType: string | string[] | unknown): string[] {
@@ -213,7 +213,7 @@ function validateMealType(mealType: string | string[] | unknown): string[] {
     if (validMealTypes.includes(mealType.toLowerCase())) {
       return [mealType.toLowerCase()]
     }
-    return ['dinner'];
+    return ['dinner'],
   }
 
   if (Array.isArray(mealType)) {
@@ -225,7 +225,7 @@ function validateMealType(mealType: string | string[] | unknown): string[] {
     return validEntries.length > 0 ? validEntries : ['dinner']
   }
 
-  return ['dinner'];
+  return ['dinner'],
 }
 
 function validateSeason(season: string | string[] | unknown): string[] {
@@ -235,7 +235,7 @@ function validateSeason(season: string | string[] | unknown): string[] {
     if (validSeasons.includes(season.toLowerCase())) {
       return [season.toLowerCase()]
     }
-    return ['all'];
+    return ['all'],
   }
 
   if (Array.isArray(season)) {
@@ -247,7 +247,7 @@ function validateSeason(season: string | string[] | unknown): string[] {
     return validEntries.length > 0 ? validEntries : ['all']
   }
 
-  return ['all'];
+  return ['all'],
 }
 
 function validateAstrologicalInfluences(influences: string | string[] | unknown): string[] {
@@ -261,43 +261,43 @@ function validateAstrologicalInfluences(influences: string | string[] | unknown)
     return validEntries.length > 0 ? validEntries : ['all']
   }
 
-  return ['all'];
+  return ['all'],
 }
 
 function validateAndNormalizeNutrition(nutrition: NutritionData): NutritionData {
   if (!nutrition || typeof nutrition !== 'object') {
-    return {};
+    return {},
   }
 
-  const safeNutrition: NutritionData = {};
+  const safeNutrition: NutritionData = {},
 
   // Validate numeric fields
   ['calories', 'protein', 'carbs', 'fat'].forEach(field => {
     if (typeof nutrition[field] === 'number') {
-      safeNutrition[field] = nutrition[field];
+      safeNutrition[field] = nutrition[field],
     }
   })
 
   // Validate array fields (vitamins, minerals)
   if (Array.isArray(nutrition.vitamins)) {
-    safeNutrition.vitamins = nutrition.vitamins;
+    safeNutrition.vitamins = nutrition.vitamins,
       .filter((v: unknown) => typeof v === 'string')
       .slice(010), // Limit to 10 items
   }
 
   if (Array.isArray(nutrition.minerals)) {
-    safeNutrition.minerals = nutrition.minerals;
+    safeNutrition.minerals = nutrition.minerals,
       .filter((m: unknown) => typeof m === 'string')
       .slice(010), // Limit to 10 items
   }
 
-  return safeNutrition;
+  return safeNutrition,
 }
 
 class RecipeData {
-  private recipes: Recipe[] = [];
+  private recipes: Recipe[] = [],
   private initialized = false;
-  private initPromise: Promise<void> | null = null;
+  private initPromise: Promise<void> | null = null,
 
   constructor() {
     // Start loading data immediately
@@ -311,7 +311,7 @@ class RecipeData {
       // Create recipes from mappings safely
       if (!recipeElementalMappings) {
         logger.error('recipeElementalMappings not found or invalid')
-        this.recipes = [];
+        this.recipes = [],
         this.initialized = true
         return
       }
@@ -361,7 +361,7 @@ class RecipeData {
                   amount: typeof ingData.amount === 'number' ? ingData.amount : 1,,
                   unit: String(ingData.unit || 'piece'),
                   category: String(ingData.category || 'other')
-                };
+                },
               })
             : [],
           instructions: Array.isArray(mappingData.instructions) ? mappingData.instructions : [],
@@ -388,14 +388,14 @@ class RecipeData {
           numberOfServings: typeof mappingData.servings === 'number' ? mappingData.servings : 2,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString()
-        };
+        },
 
         // Ensure all properties are properly set with defaults as needed
         return ensureRecipeProperties(partialRecipe)
       })
 
       // Mark as initialized
-      this.initialized = true;
+      this.initialized = true,
       logger.info(`Loaded ${this.recipes.length} recipes successfully`)
 
       // Cache the recipes
@@ -403,8 +403,8 @@ class RecipeData {
     } catch (error) {
       logger.error('Error loading recipes:', error)
       // Initialize with an empty array to prevent further errors
-      this.recipes = [];
-      this.initialized = true;
+      this.recipes = [],
+      this.initialized = true,
     }
   }
 
@@ -440,7 +440,7 @@ class RecipeData {
       if (!this.initialized) {
         logger.info('Waiting for recipe data to initialize...')
         if (this.initPromise) {
-          await this.initPromise;
+          await this.initPromise,
         } else {
           await this.loadRecipeData()
         }
@@ -458,7 +458,7 @@ class RecipeData {
       // Update cache
       cache.set(RECIPE_CACHE_KEY, safeRecipes)
 
-      return safeRecipes;
+      return safeRecipes,
     } catch (error) {
       errorHandler.handleError(error, {
         context: 'RecipeData',
@@ -466,7 +466,7 @@ class RecipeData {
       })
 
       // Return at least one fallback recipe to prevent application errors
-      return [this.getFallbackRecipe()];
+      return [this.getFallbackRecipe()],
     }
   }
 
@@ -512,7 +512,7 @@ class RecipeData {
         const recipeData = recipe as unknown 
         const recipeCuisine = String(recipeData.cuisine || '').toLowerCase()
         const targetCuisine = String(cuisine || '').toLowerCase()
-        return recipeCuisine === targetCuisine;
+        return recipeCuisine === targetCuisine,
       })
     } catch (error) {
       errorHandler.handleError(error, {
@@ -520,7 +520,7 @@ class RecipeData {
         action: 'getRecipeByCuisine',
         cuisine
       })
-      return [this.getFallbackRecipe()];
+      return [this.getFallbackRecipe()],
     }
   }
 
@@ -543,7 +543,7 @@ class RecipeData {
         action: 'searchRecipes',
         query
       })
-      return [this.getFallbackRecipe()];
+      return [this.getFallbackRecipe()],
     }
   }
 
@@ -561,7 +561,7 @@ class RecipeData {
         context: 'RecipeData',
         action: 'getRecommendedRecipes'
       })
-      return [this.getFallbackRecipe()];
+      return [this.getFallbackRecipe()],
     }
   }
 
@@ -686,16 +686,16 @@ class RecipeData {
           return false
         }
 
-        return true;
+        return true,
       })
 
-      return filteredRecipes;
+      return filteredRecipes,
     } catch (error) {
       errorHandler.handleError(error, {
         context: 'RecipeData',
         action: 'filterRecipes'
       })
-      return [this.getFallbackRecipe()];
+      return [this.getFallbackRecipe()],
     }
   }
 }

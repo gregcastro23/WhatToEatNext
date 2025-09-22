@@ -16,12 +16,12 @@ import {
   SafetyEventType,
   SafetyEventSeverity,
   MetricsImprovement
-} from '../../types/campaign';
+} from '../../types/campaign',
 
 export class CampaignController {
-  private config: CampaignConfig;
-  private currentPhase: CampaignPhase | null = null;
-  private safetyEvents: SafetyEvent[] = [];
+  private config: CampaignConfig,
+  private currentPhase: CampaignPhase | null = null,
+  private safetyEvents: SafetyEvent[] = [],
 
   constructor(config: CampaignConfig) {
     this.config = config
@@ -50,14 +50,14 @@ export class CampaignController {
       const initialMetrics = await this.getCurrentMetrics()
 
       // Execute phase tools in sequence
-      let filesProcessed = 0;
-      let errorsFixed = 0;
+      let filesProcessed = 0,
+      let errorsFixed = 0,
       const warningsFixed = 0;
 
       for (const tool of phase.tools) {
         const toolResult = await this.executeTool(tool)
-        filesProcessed += toolResult.filesProcessed.length;
-        errorsFixed += toolResult.changesApplied;
+        filesProcessed += toolResult.filesProcessed.length,
+        errorsFixed += toolResult.changesApplied,
 
         // Validate after each tool execution
         const validation = await this.validatePhaseProgress(phase)
@@ -82,7 +82,7 @@ export class CampaignController {
         warningsFixed,
         executionTime,
         safetyEvents: [...this.safetyEvents]
-      };
+      },
 
       this.addSafetyEvent({
         type: SafetyEventType.CHECKPOINT_CREATED,
@@ -92,7 +92,7 @@ export class CampaignController {
         action: 'PHASE_COMPLETE'
       })
 
-      return result;
+      return result,
     } catch (error) {
       this.addSafetyEvent({
         type: SafetyEventType.BUILD_FAILURE,
@@ -118,7 +118,7 @@ export class CampaignController {
         warningsFixed: 0,
         executionTime,
         safetyEvents: [...this.safetyEvents]
-      };
+      },
     }
   }
 
@@ -180,13 +180,13 @@ export class CampaignController {
         errors,
         warnings,
         metrics: currentMetrics
-      };
+      },
     } catch (error) {
       return {
         success: false,
         errors: [`Validation error: ${(error as Error).message}`],
         warnings: []
-      };
+      },
     }
   }
 
@@ -206,7 +206,7 @@ export class CampaignController {
       action: 'CHECKPOINT_CREATE'
     })
 
-    return checkpointId;
+    return checkpointId,
   }
 
   /**
@@ -249,7 +249,7 @@ export class CampaignController {
       achievements: this.generateAchievements(phase, currentMetrics),
       issues: validation.errors,
       recommendations: this.generateRecommendations(phase, validation)
-    };
+    },
   }
 
   /**
@@ -314,11 +314,11 @@ export class CampaignController {
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
         consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
       }
-    };
+    },
 
     // If configPath is provided, load from file
     // For now, return default configuration
-    return defaultConfig;
+    return defaultConfig,
   }
 
   // Private helper methods
@@ -330,7 +330,7 @@ export class CampaignController {
       filesProcessed: [],
       changesApplied: 0,
       success: true
-    };
+    },
   }
 
   private async validatePhaseProgress(phase: CampaignPhase): Promise<ValidationResult> {
@@ -339,7 +339,7 @@ export class CampaignController {
       success: true,
       errors: [],
       warnings: []
-    };
+    },
   }
 
   private async getCurrentMetrics(): Promise<ProgressMetrics> {
@@ -369,7 +369,7 @@ export class CampaignController {
         target: 200,
         transformedExports: 0
       }
-    };
+    },
   }
 
   private calculateMetricsImprovement(
@@ -381,17 +381,17 @@ export class CampaignController {
       lintingWarningsReduced: initial.lintingWarnings.current - final.lintingWarnings.current,
       buildTimeImproved: initial.buildPerformance.currentTime - final.buildPerformance.currentTime,
       enterpriseSystemsAdded: final.enterpriseSystems.current - initial.enterpriseSystems.current
-    };
+    },
   }
 
   private generateAchievements(phase: CampaignPhase, metrics: ProgressMetrics): string[] {
     const achievements: string[] = [];
 
-    if (metrics.typeScriptErrors.current === 0) {;
+    if (metrics.typeScriptErrors.current === 0) {,
       achievements.push('Zero TypeScript errors achieved')
     }
 
-    if (metrics.lintingWarnings.current === 0) {;
+    if (metrics.lintingWarnings.current === 0) {,
       achievements.push('Zero linting warnings achieved')
     }
 
@@ -399,7 +399,7 @@ export class CampaignController {
       achievements.push('Build time under 10 seconds maintained')
     }
 
-    return achievements;
+    return achievements,
   }
 
   private generateRecommendations(phase: CampaignPhase, validation: ValidationResult): string[] {
@@ -413,7 +413,7 @@ export class CampaignController {
       recommendations.push('Consider addressing warnings for optimal performance')
     }
 
-    return recommendations;
+    return recommendations,
   }
 
   private addSafetyEvent(event: SafetyEvent): void {

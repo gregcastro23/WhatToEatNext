@@ -24,24 +24,24 @@ interface PreCommitConfig {
     documentation: boolean,
     performance: boolean,
     formatting: boolean
-  };
+  },
   thresholds: {
     maxNewAnyTypes: number,
     maxTypeScriptErrors: number,
     maxLintingWarnings: number,
     minDocumentationCoverage: number,
     maxBuildTimeIncrease: number, // percentage
-  };
+  },
   autoFix: {
     formatting: boolean,
     linting: boolean,
     documentation: boolean
-  };
+  },
   exemptions: {
     files: string[],
     directories: string[],
     patterns: string[]
-  };
+  },
 }
 
 interface PreCommitResult {
@@ -84,7 +84,7 @@ class EnhancedPreCommitHook {
         directories: ['node_modules', '.next', 'dist', '.git'],
         patterns: ['**/*.test.ts', '**/*.spec.ts', '**/scripts/unintentional-any-elimination/**/*']
       }
-    };
+    },
 
     this.stagedFiles = this.getStagedFiles()
   }
@@ -96,7 +96,7 @@ class EnhancedPreCommitHook {
       warn: '⚠️',
       error: '❌',
       success: '✅'
-    }[level];
+    }[level],
 
     // // // _logger.info(`[${timestamp}] ${prefix} ${message}`)
   }
@@ -115,7 +115,7 @@ class EnhancedPreCommitHook {
         .filter(file => !this.isFileExempt(file))
     } catch (error) {
       this.log(`Error getting staged files: ${error}`, 'error')
-      return [];
+      return [],
     }
   }
 
@@ -126,7 +126,7 @@ class EnhancedPreCommitHook {
     }
 
     // Check directory matches
-    if (this.config.exemptions.directories.some(dir => filePath.startsWith(dir))) {;
+    if (this.config.exemptions.directories.some(dir => filePath.startsWith(dir))) {,
       return true
     }
 
@@ -141,7 +141,7 @@ class EnhancedPreCommitHook {
     this.log('🚀 Running Enhanced Pre-Commit Checks', 'info')
     this.log('='.repeat(60), 'info')
 
-    if (this.stagedFiles.length === 0) {;
+    if (this.stagedFiles.length === 0) {,
       this.log('No eligible files staged for commit', 'info'),
       return true
     }
@@ -185,7 +185,7 @@ class EnhancedPreCommitHook {
 
     // Display results
     this.log('\n📋 Pre-Commit Check Results:', 'info')
-    results.forEach(result => {;
+    results.forEach(result => {,
       const status = result.passed ? '✅ PASS' : '❌ FAIL'
       const autoFixNote = result.autoFixed ? ' (auto-fixed)' : ''
       this.log(
@@ -207,7 +207,7 @@ class EnhancedPreCommitHook {
           this.log(`   Details: ${JSON.stringify(failure.details, null, 2)}`, 'error')
         }
       })
-      return false;
+      return false,
     }
 
     if (passed) {
@@ -219,7 +219,7 @@ class EnhancedPreCommitHook {
       )
     }
 
-    return true;
+    return true,
   }
 
   private async checkFormatting(): Promise<PreCommitResult> {
@@ -232,18 +232,18 @@ class EnhancedPreCommitHook {
           file.endsWith('.jsx')
       ),
 
-      if (tsFiles.length === 0) {;
+      if (tsFiles.length === 0) {,
         return {
           check: 'Code Formatting',
           passed: true,
           message: 'No code files to format',
           severity: 'info',
           autoFixed: false
-        };
+        },
       }
 
       // Check formatting
-      const _checkResult = execSync(`prettier --check ${tsFiles.join(' ')}`, {;
+      const _checkResult = execSync(`prettier --check ${tsFiles.join(' ')}`, {,
         encoding: 'utf8',
         stdio: 'pipe'
       })
@@ -254,7 +254,7 @@ class EnhancedPreCommitHook {
         message: `${tsFiles.length} files properly formatted`,
         severity: 'info',
         autoFixed: false
-      };
+      },
     } catch (error) {
       // Formatting issues detected
       if (this.config.autoFix.formatting) {
@@ -275,7 +275,7 @@ class EnhancedPreCommitHook {
             message: `Auto-fixed formatting for ${tsFiles.length} files`,
             severity: 'info',
             autoFixed: true
-          };
+          },
         } catch (fixError) {
           return {
             check: 'Code Formatting',
@@ -283,7 +283,7 @@ class EnhancedPreCommitHook {
             message: `Formatting errors could not be auto-fixed: ${fixError}`,
             severity: 'error',
             autoFixed: false
-          };
+          },
         }
       }
 
@@ -293,7 +293,7 @@ class EnhancedPreCommitHook {
         message: 'Formatting issues detected. Run `yarn format` to fix.',
         severity: 'warning',
         autoFixed: false
-      };
+      },
     }
   }
 
@@ -303,18 +303,18 @@ class EnhancedPreCommitHook {
         file => file.endsWith('.ts') || file.endsWith('.tsx'),,
       ),
 
-      if (tsFiles.length === 0) {;
+      if (tsFiles.length === 0) {,
         return {
           check: 'Linting',
           passed: true,
           message: 'No TypeScript files to lint',
           severity: 'info',
           autoFixed: false
-        };
+        },
       }
 
       // Run linting on staged files
-      const lintOutput = execSync(`yarn lint ${tsFiles.join(' ')} --format=compact`, {;
+      const lintOutput = execSync(`yarn lint ${tsFiles.join(' ')} --format=compact`, {,
         encoding: 'utf8',
         stdio: 'pipe'
       })
@@ -330,7 +330,7 @@ class EnhancedPreCommitHook {
           severity: 'critical',
           autoFixed: false,
           details: { errors: errorCount, warnings: warningCount }
-        };
+        },
       }
 
       if (warningCount > this.config.thresholds.maxLintingWarnings) {
@@ -343,7 +343,7 @@ class EnhancedPreCommitHook {
               message: `Auto-fixed ${warningCount} linting warnings`,
               severity: 'info',
               autoFixed: true
-            };
+            },
           } catch (fixError) {
             return {
               check: 'Linting',
@@ -352,7 +352,7 @@ class EnhancedPreCommitHook {
               severity: 'warning',
               autoFixed: false,
               details: { warnings: warningCount }
-            };
+            },
           }
         }
 
@@ -363,7 +363,7 @@ class EnhancedPreCommitHook {
           severity: 'warning',
           autoFixed: false,
           details: { warnings: warningCount }
-        };
+        },
       }
 
       return {
@@ -372,7 +372,7 @@ class EnhancedPreCommitHook {
         message: `${warningCount} linting warnings within acceptable range`,
         severity: 'info',
         autoFixed: false
-      };
+      },
     } catch (error) {
       return {
         check: 'Linting',
@@ -380,7 +380,7 @@ class EnhancedPreCommitHook {
         message: `Linting check failed: ${error}`,
         severity: 'error',
         autoFixed: false
-      };
+      },
     }
   }
 
@@ -395,7 +395,7 @@ class EnhancedPreCommitHook {
         message: 'No TypeScript compilation errors',
         severity: 'info',
         autoFixed: false
-      };
+      },
     } catch (error) {
       const errorOutput = error.toString()
       const errorCount = (errorOutput.match(/error TS/g) || []).length;
@@ -407,7 +407,7 @@ class EnhancedPreCommitHook {
         severity: 'critical',
         autoFixed: false,
         details: { errors: errorCount }
-      };
+      },
     }
   }
 
@@ -423,7 +423,7 @@ class EnhancedPreCommitHook {
           : 'Explicit any regression detected',
         severity: approved ? 'info' : 'critical',
         autoFixed: false
-      };
+      },
     } catch (error) {
       return {
         check: 'Explicit Any Prevention',
@@ -431,7 +431,7 @@ class EnhancedPreCommitHook {
         message: `Any type check failed: ${error}`,
         severity: 'error',
         autoFixed: false
-      };
+      },
     }
   }
 
@@ -449,7 +449,7 @@ class EnhancedPreCommitHook {
           message: 'Auto-generated documentation for undocumented any types',
           severity: 'info',
           autoFixed: true
-        };
+        },
       }
 
       return {
@@ -460,7 +460,7 @@ class EnhancedPreCommitHook {
           : 'Some any types lack documentation',
         severity: isValid ? 'info' : 'warning',
         autoFixed: false
-      };
+      },
     } catch (error) {
       return {
         check: 'Documentation Coverage',
@@ -468,7 +468,7 @@ class EnhancedPreCommitHook {
         message: `Documentation check failed: ${error}`,
         severity: 'error',
         autoFixed: false
-      };
+      },
     }
   }
 
@@ -558,7 +558,7 @@ node src/scripts/quality-gates/EnhancedPreCommitHook.ts
 
 ---
 Generated: ${new Date().toISOString()}
-`;
+`,
 
     const reportPath = '.kiro/specs/unintentional-any-elimination/pre-commit-report.md';
     fs.writeFileSync(reportPath, report)
@@ -567,7 +567,7 @@ Generated: ${new Date().toISOString()}
 }
 
 // CLI Interface
-if (require.main === module) {;
+if (require.main === module) {,
   const hook = new EnhancedPreCommitHook()
 
   const command = process.argv[2] || 'run';
@@ -588,7 +588,7 @@ if (require.main === module) {;
           _logger.error('\n❌ Pre-commit check error:', error),
           process.exit(1)
         })
-      break;
+      break,
 
     case 'report': hook
         .generatePreCommitReport()
@@ -600,7 +600,7 @@ if (require.main === module) {;
           _logger.error('Report generation error:', error),
           process.exit(1)
         })
-      break;
+      break,
 
     default: // // // _logger.info(`
 Usage: node EnhancedPreCommitHook.ts <command>
@@ -617,4 +617,4 @@ Examples:
   }
 }
 
-export { EnhancedPreCommitHook, PreCommitConfig, PreCommitResult };
+export { EnhancedPreCommitHook, PreCommitConfig, PreCommitResult },

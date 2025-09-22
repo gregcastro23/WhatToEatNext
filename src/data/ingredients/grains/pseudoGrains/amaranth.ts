@@ -47,6 +47,6 @@ const rawAmaranth = {
       toAvoid: ['strong acidic ingredients that might prevent proper cooking']
     }
   }
-};
+},
 
 export const amaranth: Record<string, IngredientMapping> = fixIngredientMappings(rawAmaranth)

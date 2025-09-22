@@ -15,24 +15,24 @@ export enum LogLevel {
 }
 
 export interface LogContext {
-  component?: string;
-  service?: string;
-  function?: string;
-  userId?: string;
-  sessionId?: string;
-  requestId?: string;
+  component?: string,
+  service?: string,
+  function?: string,
+  userId?: string,
+  sessionId?: string,
+  requestId?: string,
 
   // Intentionally any: Logging context needs flexibility for various metadata
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-  [key: string]: any;
+  [key: string]: any,
 }
 
 export interface LogEntry {
   timestamp: Date,
   level: LogLevel,
   message: string,
-  context?: LogContext;
-  error?: Error;
+  context?: LogContext,
+  error?: Error,
    
   // Intentionally, any: Log data can be of any type for debugging purposes
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
@@ -40,22 +40,22 @@ export interface LogEntry {
 }
 
 class LoggingService {
-  private static instance: LoggingService;
-  private logLevel: LogLevel = LogLevel.INFO;
-  private isDevelopment: boolean;
-  private logBuffer: LogEntry[] = [];
-  private maxBufferSize = 1000;
+  private static instance: LoggingService,
+  private logLevel: LogLevel = LogLevel.INFO,
+  private isDevelopment: boolean,
+  private logBuffer: LogEntry[] = [],
+  private maxBufferSize = 1000,
 
   private constructor() {
-    this.isDevelopment = process.env.NODE_ENV === 'development';
+    this.isDevelopment = process.env.NODE_ENV === 'development',
 
     // Set log level based on environment
     if (this.isDevelopment) {
       this.logLevel = LogLevel.DEBUG
-    } else if (process.env.NODE_ENV === 'test') {;
-      this.logLevel = LogLevel.WARN;
+    } else if (process.env.NODE_ENV === 'test') {,
+      this.logLevel = LogLevel.WARN,
     } else {
-      this.logLevel = LogLevel.INFO;
+      this.logLevel = LogLevel.INFO,
     }
   }
 
@@ -63,7 +63,7 @@ class LoggingService {
     if (!LoggingService.instance) {
       LoggingService.instance = new LoggingService()
     }
-    return LoggingService.instance;
+    return LoggingService.instance,
   }
 
   public setLogLevel(level: LogLevel): void {
@@ -109,7 +109,7 @@ class LoggingService {
       context,
       error,
       data
-    };
+    },
 
     // Add to buffer
     this.addToBuffer(logEntry)
@@ -139,19 +139,19 @@ class LoggingService {
         if (this.isDevelopment) {
           log.info(`🐛 ${baseMessage}`, entry.data || '')
         }
-        break;
+        break,
 
       case LogLevel.INFO:
         log.info(`ℹ️ ${baseMessage}`, entry.data || '')
-        break;
+        break,
 
       case LogLevel.WARN:
         _logger.warn(`⚠️ ${baseMessage}`, entry.data || '')
-        break;
+        break,
 
       case LogLevel.ERROR:
         _logger.error(`❌ ${baseMessage}`, entry.error || entry.data || '')
-        break;
+        break,
     }
   }
 
@@ -192,7 +192,7 @@ class LoggingService {
         const errorStr = entry.error ? ` ERROR: ${entry.error.message}` : ''
         const dataStr = entry.data ? ` DATA: ${JSON.stringify(entry.data)}` : ''
 
-        return `[${timestamp}] ${level}: ${entry.message}${context}${errorStr}${dataStr}`;
+        return `[${timestamp}] ${level}: ${entry.message}${context}${errorStr}${dataStr}`,
       })
       .join('\n')
   }
@@ -214,8 +214,8 @@ export const log = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error: (message: string, context?: LogContext, error?: Error, data?: any) =>
     logger.error(message, context, error, data)
-};
+},
 
 // Export service for advanced usage
-export { LoggingService };
-export default logger;
+export { LoggingService },
+export default logger,

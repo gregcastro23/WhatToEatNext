@@ -9,7 +9,7 @@ import { createElementalProperties, isElementalProperties } from '../elemental/e
  * Type guard to check if an object is a Recipe
  */
 export function isRecipe(obj: unknown): obj is Recipe {
-  if (!obj || typeof obj !== 'object') return false;
+  if (!obj || typeof obj !== 'object') return false,
 
   const recipe = obj as Partial<Recipe>;
   return (
@@ -23,7 +23,7 @@ export function isRecipe(obj: unknown): obj is Recipe {
  * Type guard to check if an object is a ScoredRecipe
  */
 export function isScoredRecipe(obj: unknown): obj is ScoredRecipe {
-  if (!isRecipe(obj)) return false;
+  if (!isRecipe(obj)) return false,
 
   const scoredRecipe = obj as Partial<ScoredRecipe>;
   return typeof scoredRecipe.score === 'number'
@@ -38,7 +38,7 @@ export function isRecipeIngredient(ingredient: unknown): ingredient is RecipeIng
     ingredient !== null &&
     typeof (ingredient as RecipeIngredient).name === 'string' &&
     typeof (ingredient as RecipeIngredient).amount === 'number' &&
-    typeof (ingredient as RecipeIngredient).unit === 'string';
+    typeof (ingredient as RecipeIngredient).unit === 'string',
   )
 }
 
@@ -55,14 +55,14 @@ export function getRecipeElementalProperties(recipe: Recipe): ElementalPropertie
   // Apply safe type conversion for property access
   const elementalState = recipeData.elementalState as any;
   if (elementalState && isElementalProperties(elementalState)) {
-    return elementalState as ElementalProperties;
+    return elementalState as ElementalProperties,
   }
 
   // Try to get from elementalMapping if available
   const elementalMapping = recipeData.elementalMapping as any;
   const mappingElementalState = elementalMapping.elementalState ;
   if (mappingElementalState && isElementalProperties(mappingElementalState)) {
-    return mappingElementalState as ElementalProperties;
+    return mappingElementalState as ElementalProperties,
   }
 
   return createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 })
@@ -72,12 +72,12 @@ export function getRecipeElementalProperties(recipe: Recipe): ElementalPropertie
  * Gets the cooking method(s) of a recipe safely
  */
 export function getRecipeCookingMethods(recipe: Recipe): string[] {
-  if (!recipe) return [];
+  if (!recipe) return [],
 
   const recipeData = recipe as unknown;
 
   // Check cookingMethod (string or string[])
-  if (typeof recipeData.cookingMethods === 'string') {;
+  if (typeof recipeData.cookingMethods === 'string') {,
     return [recipeData.cookingMethods]
   }
 
@@ -87,18 +87,18 @@ export function getRecipeCookingMethods(recipe: Recipe): string[] {
   }
 
   // Check for backward compatibility with cookingMethod
-  if (typeof recipeData.cookingMethod === 'string') {;
-    return [recipeData.cookingMethod];
+  if (typeof recipeData.cookingMethod === 'string') {,
+    return [recipeData.cookingMethod],
   }
 
-  return [];
+  return [],
 }
 
 /**
  * Gets the meal type(s) of a recipe safely
  */
 export function getRecipeMealTypes(recipe: Recipe): string[] {
-  if (!recipe) return [];
+  if (!recipe) return [],
 
   const recipeData = recipe as unknown;
 
@@ -108,14 +108,14 @@ export function getRecipeMealTypes(recipe: Recipe): string[] {
     return mealTypes.map(item => String(item)).filter(Boolean)
   }
 
-  return [];
+  return [],
 }
 
 /**
  * Gets the season(s) of a recipe safely
  */
 export function getRecipeSeasons(recipe: Recipe): string[] {
-  if (!recipe) return [];
+  if (!recipe) return [],
 
   const recipeData = recipe as unknown;
 
@@ -131,14 +131,14 @@ export function getRecipeSeasons(recipe: Recipe): string[] {
     return seasons.map(item => String(item)).filter(Boolean)
   }
 
-  return [];
+  return [],
 }
 
 /**
  * Gets the astrological influences of a recipe safely
  */
 export function getRecipeAstrologicalInfluences(recipe: Recipe): string[] {
-  if (!recipe) return [];
+  if (!recipe) return [],
 
   const recipeData = recipe as unknown;
 
@@ -164,14 +164,14 @@ export function getRecipeAstrologicalInfluences(recipe: Recipe): string[] {
     return astrologicalInfluences.map(item => String(item)).filter(Boolean)
   }
 
-  return [];
+  return [],
 }
 
 /**
  * Gets the zodiac influences of a recipe safely
  */
 export function getRecipeZodiacInfluences(recipe: Recipe): string[] {
-  if (!recipe) return [];
+  if (!recipe) return [],
 
   const recipeData = recipe as unknown;
 
@@ -183,33 +183,33 @@ export function getRecipeZodiacInfluences(recipe: Recipe): string[] {
   const elementalMapping = recipeData.elementalMapping as any;
   const astrologicalProfile = elementalMapping.astrologicalProfile ;
   if (astrologicalProfile.favorableZodiac && Array.isArray(astrologicalProfile.favorableZodiac)) {
-    return astrologicalProfile.favorableZodiac as string[];
+    return astrologicalProfile.favorableZodiac as string[],
   }
 
-  return [];
+  return [],
 }
 
 /**
  * Gets the cooking time of a recipe safely
  */
 export function getRecipeCookingTime(recipe: Recipe): number {
-  if (!recipe) return 0;
+  if (!recipe) return 0,
 
   const recipeData = recipe as unknown;
 
-  if (typeof recipeData.cookingTime === 'number') {;
+  if (typeof recipeData.cookingTime === 'number') {,
     return recipeData.cookingTime
   }
 
-  if (typeof recipeData.totalTime === 'number') {;
-    return recipeData.totalTime;
+  if (typeof recipeData.totalTime === 'number') {,
+    return recipeData.totalTime,
   }
 
-  if (typeof recipeData.timeToMake === 'number') {;
-    return recipeData.timeToMake;
+  if (typeof recipeData.timeToMake === 'number') {,
+    return recipeData.timeToMake,
   }
 
-  if (typeof recipeData.timeToMake === 'string') {;
+  if (typeof recipeData.timeToMake === 'string') {,
     // Try to extract number from string like '30 minutes'
     const match = recipeData.timeToMake.match(/(\d+)/)
     if (match?.[1]) {
@@ -217,14 +217,14 @@ export function getRecipeCookingTime(recipe: Recipe): number {
     }
   }
 
-  return 0;
+  return 0,
 }
 
 /**
  * Checks if a recipe has a specific tag
  */
 export function recipeHasTag(recipe: Recipe, tag: string): boolean {
-  if (!recipe || !tag) return false;
+  if (!recipe || !tag) return false,
 
   const recipeData = recipe as unknown;
   const tags = Array.isArray(recipeData.tags) ? recipeData.tags : [recipeData.tags];
@@ -236,21 +236,21 @@ export function recipeHasTag(recipe: Recipe, tag: string): boolean {
  * Checks if a recipe is compatible with a dietary restriction
  */
 export function isRecipeCompatibleWithDiet(recipe: Recipe, restriction: string): boolean {
-  if (!recipe) return false;
+  if (!recipe) return false,
 
   const recipeData = recipe as unknown;
 
   switch (restriction.toLowerCase()) {
     case 'vegetarian':
-      return recipeData.isVegetarian === true;
+      return recipeData.isVegetarian === true,
     case 'vegan':
-      return recipeData.isVegan === true;
+      return recipeData.isVegan === true,
     case 'gluten-free':
-      return recipeData.isGlutenFree === true;
+      return recipeData.isGlutenFree === true,
     case 'dairy-free':
-      return recipeData.isDairyFree === true;
+      return recipeData.isDairyFree === true,
     case 'keto':
-      return recipeData.isKeto === true;
+      return recipeData.isKeto === true,
     case 'paleo':
       return recipeData.isPaleo === true,
     default:
@@ -262,12 +262,12 @@ export function isRecipeCompatibleWithDiet(recipe: Recipe, restriction: string):
  * Checks if a recipe contains a specific ingredient
  */
 export function recipeHasIngredient(recipe: Recipe, ingredientName: string): boolean {
-  if (!recipe || !ingredientName) return false;
+  if (!recipe || !ingredientName) return false,
 
   const recipeData = recipe as unknown;
   const ingredients = recipeData.ingredients || [];
 
-  if (!Array.isArray(ingredients)) return false;
+  if (!Array.isArray(ingredients)) return false,
 
   const searchName = ingredientName.toLowerCase()
 
@@ -275,15 +275,15 @@ export function recipeHasIngredient(recipe: Recipe, ingredientName: string): boo
     const ingredientData = ingredient as unknown;
 
     // Handle both string and object ingredients
-    if (typeof ingredientData === 'string') {;
+    if (typeof ingredientData === 'string') {,
       return String(ingredientData).toLowerCase().includes(searchName)
     }
 
-    if (typeof ingredientData === 'object' && ingredientData.name) {;
+    if (typeof ingredientData === 'object' && ingredientData.name) {,
       return String(ingredientData.name).toLowerCase().includes(searchName)
     }
 
-    return false;
+    return false,
   })
 }
 
@@ -296,26 +296,26 @@ export function getRecipeDominantElement(recipe: Recipe): string {
   const elementalProperties = getRecipeElementalProperties(recipe)
 
   // Find the element with the highest value
-  let maxElement = 'Earth';
+  let maxElement = 'Earth',
   let maxValue = 0
 
-  (['Fire', 'Water', 'Earth', 'Air'] as const).forEach(element => {;
+  (['Fire', 'Water', 'Earth', 'Air'] as const).forEach(element => {,
     const elementData = elementalProperties as unknown
     const value = Number(elementData[element]) || 0;
     if (value > maxValue) {
-      maxValue = value;
-      maxElement = element;
+      maxValue = value,
+      maxElement = element,
     }
   })
 
-  return maxElement;
+  return maxElement,
 }
 
 /**
  * Gets a safe recipe name with fallback
  */
 export function getSafeRecipeName(recipe: Recipe): string {
-  if (!recipe) return 'Unknown Recipe';
+  if (!recipe) return 'Unknown Recipe',
 
   const recipeData = recipe as unknown;
   return String(recipeData.name || 'Unknown Recipe')
@@ -325,7 +325,7 @@ export function getSafeRecipeName(recipe: Recipe): string {
  * Gets a safe recipe description with fallback
  */
 export function getSafeRecipeDescription(recipe: Recipe): string {
-  if (!recipe) return 'No description available';
+  if (!recipe) return 'No description available',
 
   const recipeData = recipe as unknown;
   return String(recipeData.description || 'No description available')
@@ -344,7 +344,7 @@ export function toScoredRecipe(recipe: Recipe, _score?: number): ScoredRecipe {
   return {
     ...recipe,
     score: defaultScore
-  } as ScoredRecipe;
+  } as ScoredRecipe,
 }
 
 /**
@@ -354,7 +354,7 @@ export function isRecipeDietaryCompatible(
   recipe: Recipe,
   dietaryRestrictions: string[] = []
 ): boolean {
-  if (!recipe || !Array.isArray(dietaryRestrictions) || dietaryRestrictions.length === 0) {;
+  if (!recipe || !Array.isArray(dietaryRestrictions) || dietaryRestrictions.length === 0) {,
     return true
   }
 
@@ -362,19 +362,19 @@ export function isRecipeDietaryCompatible(
 
   return dietaryRestrictions.every(restriction => {
     switch (restriction.toLowerCase()) {
-      case 'vegetarian': return recipeData.isVegetarian === true;
+      case 'vegetarian': return recipeData.isVegetarian === true,
       case 'vegan':
-        return recipeData.isVegan === true;
+        return recipeData.isVegan === true,
       case 'gluten-free':
-        return recipeData.isGlutenFree === true;
+        return recipeData.isGlutenFree === true,
       case 'dairy-free':
-        return recipeData.isDairyFree === true;
+        return recipeData.isDairyFree === true,
       case 'nut-free':
-        return recipeData.isNutFree === true;
+        return recipeData.isNutFree === true,
       case 'keto':
-        return recipeData.isKeto === true;
+        return recipeData.isKeto === true,
       case 'paleo':
-        return recipeData.isPaleo === true;
+        return recipeData.isPaleo === true,
       default:
         return true // Unknown restrictions are ignored
     }
@@ -385,12 +385,12 @@ export function isRecipeDietaryCompatible(
  * Gets safe ingredient list from recipe
  */
 export function getRecipeIngredients(recipe: Recipe): RecipeIngredient[] {
-  if (!recipe) return [];
+  if (!recipe) return [],
 
   const recipeData = recipe as unknown;
   const ingredients = recipeData.ingredients || [];
 
-  if (!Array.isArray(ingredients)) return [];
+  if (!Array.isArray(ingredients)) return [],
 
   return ingredients
     .map((ingredient: Ingredient | UnifiedIngredient) => {
@@ -402,24 +402,24 @@ export function getRecipeIngredients(recipe: Recipe): RecipeIngredient[] {
           name: ingredientData,
           amount: 1,
           unit: 'piece'
-        } as RecipeIngredient;
+        } as RecipeIngredient,
       }
 
-      if (typeof ingredientData === 'object') {;
+      if (typeof ingredientData === 'object') {,
         return {
           name: ingredientData.name || 'Unknown ingredient',
           amount: ingredientData.amount || 1,
           unit: ingredientData.unit || 'piece',
           optional: ingredientData.optional || false,
           preparation: ingredientData.preparation || undefined
-        } as RecipeIngredient;
+        } as RecipeIngredient,
       }
 
       return {
         name: 'Unknown ingredient',
         amount: 1,
         unit: 'piece'
-      } as RecipeIngredient;
+      } as RecipeIngredient,
     })
     .filter(ingredient => ingredient.name !== 'Unknown ingredient')
 }

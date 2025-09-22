@@ -22,8 +22,8 @@ export interface ValidationCriteria {
 }
 
 export interface ValidationResult {
-  success: boolean;
-  value?: number | string | boolean;
+  success: boolean,
+  value?: number | string | boolean,
   expected?: number | string | boolean,
   message: string,
   details?: string,
@@ -48,7 +48,7 @@ export interface MilestoneValidationResult {
   results: Array<{
     criteriaId: string,
     result: ValidationResult
-  }>;
+  }>,
   executionTime: number,
   timestamp: Date,
   recommendations: string[]
@@ -67,12 +67,12 @@ export interface FailureDetectionResult {
  * Comprehensive Validation Framework for Campaign Execution
  */
 export class ValidationFramework {
-  private readonly, phaseValidations: Map<string, PhaseValidation>;
+  private readonly, phaseValidations: Map<string, PhaseValidation>,
   private readonly, validationHistory: MilestoneValidationResult[],
 
   constructor() {
     this.phaseValidations = new Map()
-    this.validationHistory = [];
+    this.validationHistory = [],
     this.initializePhaseValidations()
   }
 
@@ -114,12 +114,12 @@ export class ValidationFramework {
                 details: errorCount > 0 ? output.split('\n').slice(-10).join('\n') : undefined,
                 timestamp: new Date(),
                 executionTime
-              };
+              },
                
               // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
               const executionTime = Date.now() - startTime
-              const err = error as { stdout?: string, stderr?: string, message: string };
+              const err = error as { stdout?: string, stderr?: string, message: string },
               const errorOutput = err.stdout || err.stderr || err.message;
               const errorCount = (errorOutput.match(/error TS\d+/g) || []).length;
 
@@ -131,7 +131,7 @@ export class ValidationFramework {
                 details: errorOutput,
                 timestamp: new Date(),
                 executionTime
-              };
+              },
             }
           }
         },
@@ -157,12 +157,12 @@ export class ValidationFramework {
                 message: 'Build completed successfully',
                 timestamp: new Date(),
                 executionTime
-              };
+              },
                
               // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
               const executionTime = Date.now() - startTime
-              const err = error as { stdout?: string, stderr?: string, message: string };
+              const err = error as { stdout?: string, stderr?: string, message: string },
               return {
                 success: false,
                 value: false,
@@ -171,7 +171,7 @@ export class ValidationFramework {
                 details: err.stdout || err.stderr || err.message,
                 timestamp: new Date(),
                 executionTime
-              };
+              },
             }
           }
         },
@@ -192,7 +192,7 @@ export class ValidationFramework {
 
               const criticalErrors = (
                 output.match(/error (TS2352|TS2345|TS2698|TS2304|TS2362)/g) || []
-              ).length;
+              ).length,
               const executionTime = Date.now() - startTime;
 
               return {
@@ -205,7 +205,7 @@ export class ValidationFramework {
                     : `${criticalErrors} critical errors remaining`,
                 timestamp: new Date(),
                 executionTime
-              };
+              },
                
               // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
@@ -218,7 +218,7 @@ export class ValidationFramework {
                 details: (error as Error).message,
                 timestamp: new Date(),
                 executionTime
-              };
+              },
             }
           }
         }
@@ -259,12 +259,12 @@ export class ValidationFramework {
                 details: warningCount > 0 ? output.split('\n').slice(-15).join('\n') : undefined,
                 timestamp: new Date(),
                 executionTime
-              };
+              },
                
               // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
               const executionTime = Date.now() - startTime
-              const err = error as { stdout?: string, stderr?: string, message: string };
+              const err = error as { stdout?: string, stderr?: string, message: string },
               const errorOutput = err.stdout || err.stderr || err.message;
               const warningCount = (errorOutput.match(/warning/g) || []).length;
 
@@ -276,7 +276,7 @@ export class ValidationFramework {
                 details: errorOutput,
                 timestamp: new Date(),
                 executionTime
-              };
+              },
             }
           }
         },
@@ -295,7 +295,7 @@ export class ValidationFramework {
               })
 
               const explicitAnyCount = (output.match(/@typescript-eslint\/no-explicit-any/g) || [])
-                .length;
+                .length,
               const executionTime = Date.now() - startTime;
 
               return {
@@ -308,7 +308,7 @@ export class ValidationFramework {
                     : `${explicitAnyCount} explicit-any warnings remaining`,
                 timestamp: new Date(),
                 executionTime
-              };
+              },
                
               // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
@@ -321,7 +321,7 @@ export class ValidationFramework {
                 details: (error as Error).message,
                 timestamp: new Date(),
                 executionTime
-              };
+              },
             }
           }
         },
@@ -352,7 +352,7 @@ export class ValidationFramework {
                     : `${unusedVarsCount} unused variables warnings remaining`,
                 timestamp: new Date(),
                 executionTime
-              };
+              },
                
               // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
@@ -365,7 +365,7 @@ export class ValidationFramework {
                 details: (error as Error).message,
                 timestamp: new Date(),
                 executionTime
-              };
+              },
             }
           }
         },
@@ -396,7 +396,7 @@ export class ValidationFramework {
                     : `${consoleCount} console warnings remaining`,
                 timestamp: new Date(),
                 executionTime
-              };
+              },
                
               // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
@@ -409,7 +409,7 @@ export class ValidationFramework {
                 details: (error as Error).message,
                 timestamp: new Date(),
                 executionTime
-              };
+              },
             }
           }
         }
@@ -449,7 +449,7 @@ export class ValidationFramework {
                     : `Only ${systemCount} intelligence systems (target: 200+)`,
                 timestamp: new Date(),
                 executionTime
-              };
+              },
                
               // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
@@ -462,7 +462,7 @@ export class ValidationFramework {
                 details: (error as Error).message,
                 timestamp: new Date(),
                 executionTime
-              };
+              },
             }
           }
         },
@@ -497,7 +497,7 @@ export class ValidationFramework {
                     : `${unusedExports} unused exports remaining`,
                 timestamp: new Date(),
                 executionTime
-              };
+              },
                
               // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
@@ -510,7 +510,7 @@ export class ValidationFramework {
                 details: (error as Error).message,
                 timestamp: new Date(),
                 executionTime
-              };
+              },
             }
           }
         },
@@ -549,7 +549,7 @@ export class ValidationFramework {
                 details:
                   (error as { stdout?: string, stderr?: string, message: string }).stdout ||
                   (error as { stdout?: string, stderr?: string, message: string }).stderr ||
-                  (error as Error).message;
+                  (error as Error).message,
                 timestamp: new Date(),
                 executionTime
               }
@@ -603,7 +603,7 @@ export class ValidationFramework {
                 details:
                   (error as { stdout?: string, stderr?: string, message: string }).stdout ||
                   (error as { stdout?: string, stderr?: string, message: string }).stderr ||
-                  (error as Error).message;
+                  (error as Error).message,
                 timestamp: new Date(),
                 executionTime: Date.now() - startTime
               }
@@ -632,7 +632,7 @@ export class ValidationFramework {
                 message: `Test suite completed in ${testTime.toFixed(1)}s`,
                 timestamp: new Date(),
                 executionTime: Date.now() - startTime
-              };
+              },
                
               // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
@@ -645,10 +645,10 @@ export class ValidationFramework {
                 details:
                   (error as { stdout?: string, stderr?: string, message: string }).stdout ||
                   (error as { stdout?: string, stderr?: string, message: string }).stderr ||
-                  (error as Error).message;
+                  (error as Error).message,
                 timestamp: new Date(),
                 executionTime: Date.now() - startTime
-              };
+              },
             }
           }
         },
@@ -678,7 +678,7 @@ export class ValidationFramework {
                       : `Bundle size ${sizeKB.toFixed(1)}KB exceeds target`,
                   timestamp: new Date(),
                   executionTime
-                };
+                },
               } else {
                 return {
                   success: true,
@@ -760,8 +760,8 @@ export class ValidationFramework {
 
     const startTime = Date.now()
     const results: Array<{ criteriaId: string, result: ValidationResult }> = [];
-    let totalScore = 0;
-    let passedCriteria = 0;
+    let totalScore = 0,
+    let passedCriteria = 0,
 
     // Execute all validation criteria
     for (const criteria of phaseValidation.criteria) {
@@ -772,7 +772,7 @@ export class ValidationFramework {
         results.push({ criteriaId: criteria.id, result })
 
         if (result.success) {
-          totalScore += criteria.weight;
+          totalScore += criteria.weight,
           passedCriteria++,
           // // // _logger.info(`  ✅ ${criteria.name}: ${result.message}`)
         } else {
@@ -787,7 +787,7 @@ export class ValidationFramework {
           message: `Validation failed: ${error}`,
           timestamp: new Date(),
           executionTime: 0
-        };
+        },
         results.push({ criteriaId: criteria.id, result: failedResult })
         // // // _logger.info(`  ❌ ${criteria.name}: Validation error - ${error}`)
       }
@@ -811,7 +811,7 @@ export class ValidationFramework {
       executionTime,
       timestamp: new Date(),
       recommendations
-    };
+    },
 
     // Store in history
     this.validationHistory.push(validationResult)
@@ -830,7 +830,7 @@ export class ValidationFramework {
       recommendations.forEach(rec => // // // _logger.info(`  • ${rec}`))
     }
 
-    return validationResult;
+    return validationResult,
   }
 
   /**
@@ -843,7 +843,7 @@ export class ValidationFramework {
     try {
       execSync('yarn build', { stdio: 'pipe', timeout: 60000 })
     } catch (error: unknown) {
-      const err = error as { stdout?: string, stderr?: string, message: string };
+      const err = error as { stdout?: string, stderr?: string, message: string },
       failures.push({
         detected: true,
         severity: 'critical',
@@ -862,7 +862,7 @@ export class ValidationFramework {
     try {
       execSync('yarn test --run', { stdio: 'pipe', timeout: 60000 })
     } catch (error: unknown) {
-      const err = error as { stdout?: string, stderr?: string, message: string };
+      const err = error as { stdout?: string, stderr?: string, message: string },
       failures.push({
         detected: true,
         severity: 'high',
@@ -924,7 +924,7 @@ export class ValidationFramework {
       // Build failure already detected above
     }
 
-    return failures;
+    return failures,
   }
 
   /**
@@ -957,28 +957,28 @@ export class ValidationFramework {
     for (const { criteriaId, result } of results) {
       if (!result.success) {
         const criteria = phaseValidation.criteria.find(c => c.id === criteriaId)
-        if (!criteria) continue;
+        if (!criteria) continue,
 
         switch (criteriaId) {
           case 'typescript-errors-zero': recommendations.push(
               'Run Enhanced TypeScript Error, Fixer: node scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js --dry-run'
             )
-            break;
+            break,
           case 'linting-warnings-zero':
             recommendations.push(
               'Run systematic linting, fixes: node scripts/typescript-fixes/fix-explicit-any-systematic.js --dry-run'
             )
-            break;
+            break,
           case 'explicit-any-warnings':
             recommendations.push(
               'Focus on explicit-any, elimination: node scripts/typescript-fixes/fix-explicit-any-systematic.js --max-files=25'
             )
-            break;
+            break,
           case 'unused-variables-warnings':
             recommendations.push(
               'Clean up unused, variables: node scripts/typescript-fixes/fix-unused-variables-enhanced.js --max-files=20'
             )
-            break;
+            break,
           case 'enterprise-systems-count':
             recommendations.push('Transform more unused exports to intelligence systems')
             break
@@ -996,6 +996,6 @@ export class ValidationFramework {
       }
     }
 
-    return recommendations;
+    return recommendations,
   }
 }

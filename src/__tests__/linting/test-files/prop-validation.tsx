@@ -1,5 +1,5 @@
 interface Props {
-  required: string;
+  required: string,
   optional?: number
   callback: (value: string) => void
 }
@@ -7,7 +7,7 @@ interface Props {
 export function PropValidationComponent({ required, optional, callback }: Props) {
   const handleClick = () => {
     callback(required)
-  };
+  },
 
   return (
     <div>

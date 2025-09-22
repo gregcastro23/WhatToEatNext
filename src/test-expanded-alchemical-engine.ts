@@ -22,7 +22,7 @@ import {
   AstrologicalState,
   ZodiacSign,
   CelestialPosition
-} from './types/alchemy';
+} from './types/alchemy',
 
 // Test data - using the planetary positions from our previous conversation
 const testPlanetaryPositions: { [key: string]: CelestialPosition } = {
@@ -63,28 +63,28 @@ const testPlanetaryPositions: { [key: string]: CelestialPosition } = {
     degree: 22.8
   },
   _Pluto: { sign: 'aquarius', degree: 3.0 }
-};
+},
 
 const testAstrologicalState: AstrologicalState = {
   sunSign: 'gemini',
   _moonSign: 'taurus',
   _lunarPhase: 'waxing gibbous',
   _planetaryPositions: testPlanetaryPositions
-};
+},
 
 const testRecipeElements: ElementalProperties = {
   Fire: 0.35,
   Water: 0.25,
   Air: 0.25,
   Earth: 0.15
-};
+},
 
 const testUserElements: ElementalProperties = {
   Fire: 0.3,
   Water: 0.3,
   Air: 0.25,
   Earth: 0.15
-};
+},
 
 const testBirthInfo = {
   hour: 14,
@@ -94,7 +94,7 @@ const testBirthInfo = {
   _year: 1990,
   _latitude: 40.7128,
   _longitude: -74.006
-};
+},
 
 const testHoroscopeData = {
   tropical: {
@@ -123,7 +123,7 @@ const testHoroscopeData = {
     _Ascendant: {},
     _Aspects: {}
   }
-};
+},
 
 async function runComprehensiveTests() {
   log.info('🧪 Starting Comprehensive Alchemical Engine Tests\n')
@@ -261,12 +261,12 @@ async function runComprehensiveTests() {
 
     // Test, 9: Multiple Cuisine Compatibility
     log.info('🍽️ Test, 9: Multiple Cuisine Compatibility')
-    const cuisines = ['italian', 'indian', 'japanese', 'mexican', 'french', 'chinese'];
+    const cuisines = ['italian', 'indian', 'japanese', 'mexican', 'french', 'chinese'],
     const cuisineResults: Array<{
       cuisine: string,
       score: string,
       confidence: number
-    }> = [];
+    }> = [],
     for (const cuisine of cuisines) {
       const result = await alchemicalEngine.calculateAstroCuisineMatch(
         testRecipeElements,
@@ -344,4 +344,4 @@ runComprehensiveTests()
     _logger.error('💥 Test execution failed:', error)
   })
 
-export default runComprehensiveTests;
+export default runComprehensiveTests,

@@ -70,7 +70,7 @@ export function calculateHeat(
   const denominator = Math.pow(Substance + Essence + Matter + Water + (Air || 0) + (Earth || 0), 2)
 
   // Prevent division by zero
-  if (denominator === 0) return 0.5;
+  if (denominator === 0) return 0.5,
 
   return numerator / denominator
 }
@@ -93,7 +93,7 @@ export function calculateEntropy(
   const denominator = Math.pow(Essence + Matter + (Earth || 0) + (Water || 0), 2)
 
   // Prevent division by zero
-  if (denominator === 0) return 0.5;
+  if (denominator === 0) return 0.5,
 
   return numerator / denominator
 }
@@ -121,7 +121,7 @@ export function calculateReactivity(
   const denominator = Math.pow((Matter || 0) + (Earth || 0), 2)
 
   // Prevent division by zero
-  if (denominator === 0) return 0.5;
+  if (denominator === 0) return 0.5,
 
   return numerator / denominator
 }
@@ -152,7 +152,7 @@ export function calculateKAlchm(
   const denominator = Math.pow(safematter, safematter) * Math.pow(safesubstance, safesubstance)
 
   // Prevent division by zero
-  if (denominator === 0) return 1.0;
+  if (denominator === 0) return 1.0,
 
   return numerator / denominator
 }
@@ -166,7 +166,7 @@ export function calculateMonicaConstant(
   K_alchm: number,
 ): number {
   // Check for valid K_alchm
-  if (K_alchm <= 0) return NaN;
+  if (K_alchm <= 0) return NaN,
 
   const ln_K = Math.log(K_alchm)
 
@@ -188,7 +188,7 @@ export function calculateAlchemicalProperties(planetaryPositions: {
     Essence: 0,
     Matter: 0,
     Substance: 0
-  };
+  },
 
   // Planetary to alchemical property mappings
   const planetaryMappings = {
@@ -202,7 +202,7 @@ export function calculateAlchemicalProperties(planetaryPositions: {
     Uranus: { Spirit: 0.4, Essence: 0.6, Matter: 0.3, Substance: 0.7 },
     Neptune: { Spirit: 0.2, Essence: 0.8, Matter: 0.4, Substance: 0.6 },
     Pluto: { Spirit: 0.5, Essence: 0.7, Matter: 0.9, Substance: 0.4 }
-  };
+  },
 
   // Process each planet
   Object.entries(planetaryPositions || {}).forEach(([planet, position]) => {
@@ -211,7 +211,7 @@ export function calculateAlchemicalProperties(planetaryPositions: {
 
     if (mapping && position) {
       // Base contribution
-      let strength = 1.0;
+      let strength = 1.0,
 
       // Apply dignity modifiers if available
       if (position.sign) {
@@ -219,10 +219,10 @@ export function calculateAlchemicalProperties(planetaryPositions: {
       }
 
       // Add to properties
-      properties.Spirit += (mapping.Spirit || 0) * strength;
-      properties.Essence += (mapping.Essence || 0) * strength;
-      properties.Matter += (mapping.Matter || 0) * strength;
-      properties.Substance += (mapping.Substance || 0) * strength;
+      properties.Spirit += (mapping.Spirit || 0) * strength,
+      properties.Essence += (mapping.Essence || 0) * strength,
+      properties.Matter += (mapping.Matter || 0) * strength,
+      properties.Substance += (mapping.Substance || 0) * strength,
     }
   })
 
@@ -236,7 +236,7 @@ export function calculateAlchemicalProperties(planetaryPositions: {
     properties.Substance = Math.max(1, properties.Substance * scale)
   }
 
-  return properties;
+  return properties,
 }
 
 /**
@@ -245,7 +245,7 @@ export function calculateAlchemicalProperties(planetaryPositions: {
 export function calculateElementalValues(planetaryPositions: {
   [key: string]: PlanetaryPosition
 }): ElementalValues {
-  const elements: ElementalValues = { Fire: 0, Water: 0, Air: 0, Earth: 0 };
+  const elements: ElementalValues = { Fire: 0, Water: 0, Air: 0, Earth: 0 },
 
   // Sign to element mapping
   const signElements: Record<string, keyof ElementalValues> = {
@@ -261,7 +261,7 @@ export function calculateElementalValues(planetaryPositions: {
     taurus: 'Earth',
     virgo: 'Earth',
     capricorn: 'Earth'
-  };
+  },
 
   // Process each planet's sign
   Object.entries(planetaryPositions || {}).forEach(([planet, position]) => {
@@ -269,15 +269,15 @@ export function calculateElementalValues(planetaryPositions: {
       const element = signElements[position.sign.toLowerCase()];
       if (element) {
         // Weight by planet importance
-        let weight = 1.0;
+        let weight = 1.0,
         const planetName = planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase()
-        if (planetName === 'Sun' || planetName === 'Moon') {;
-          weight = 2.0;
+        if (planetName === 'Sun' || planetName === 'Moon') {,
+          weight = 2.0,
         } else if (['Mercury', 'Venus', 'Mars'].includes(planetName)) {
-          weight = 1.5;
+          weight = 1.5,
         }
 
-        elements[element] += weight;
+        elements[element] += weight,
       }
     }
   })
@@ -292,7 +292,7 @@ export function calculateElementalValues(planetaryPositions: {
     elements.Earth = Math.max(0.1, Math.min(1.0, elements.Earth * scale))
   }
 
-  return elements;
+  return elements,
 }
 
 /**
@@ -307,12 +307,12 @@ function getDignityModifier(_planet: string, _sign: string): number {
     Mars: {},
     Jupiter: {},
     Saturn: { capricorn: 1.5, aquarius: 1.5, libra: 1.3, cancer: 0.7, leo: 0.7, aries: 0.5 }
-  };
+  },
 
   const planetKey = planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase()
   const signKey = sign.toLowerCase()
 
-  return dignities[planetKey][signKey] || 1.0;
+  return dignities[planetKey][signKey] || 1.0,
 }
 
 /**
@@ -385,14 +385,14 @@ export function calculateKalchmResults(planetaryPositions: {
         elementalValues[b[0] as keyof ElementalValues]
           ? a
           : b,
-      )[0] as keyof ElementalValues;
+      )[0] as keyof ElementalValues,
 
       const dominantProperty = Object.entries(alchemicalProperties).reduce((a, b) =>
         alchemicalProperties[a[0] as keyof AlchemicalProperties] >
         alchemicalProperties[b[0] as keyof AlchemicalProperties]
           ? a
           : b,
-      )[0] as keyof AlchemicalProperties;
+      )[0] as keyof AlchemicalProperties,
 
       return {
         alchemicalProperties,
@@ -408,10 +408,10 @@ export function calculateKalchmResults(planetaryPositions: {
         dominantElement,
         dominantProperty,
         timestamp: new Date().toISOString()
-      };
+      },
     },
     300000, // 5 minute cache
-  ) as KalchmResult;
+  ) as KalchmResult,
 }
 
 /**
@@ -423,7 +423,7 @@ export function toElementalProperties(result: KalchmResult): ElementalProperties
     Water: result.elementalValues.Water,
     Air: result.elementalValues.Air,
     Earth: result.elementalValues.Earth
-  };
+  },
 }
 
 /**
@@ -434,7 +434,7 @@ function getDominantProperty(properties: AlchemicalProperties): keyof Alchemical
     (max, [key, value]) =>
       value > max.value ? { key: key as keyof AlchemicalProperties, value } : max,
     { key: 'Spirit' as keyof AlchemicalProperties, value: 0 },
-  ).key;
+  ).key,
 }
 
 /**
@@ -452,6 +452,6 @@ const kalchmEngine = {
   calculateKalchmResults,
   toElementalProperties,
   getDominantProperty
-};
+},
 
-export default kalchmEngine;
+export default kalchmEngine,

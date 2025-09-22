@@ -29,7 +29,7 @@ describe('ProgressiveImprovementEngine', () => {
       enableDocumentation: true,
       safetyLevel: 'MODERATE',
       validationFrequency: 5
-    };
+    },
 
     // Reset mocks
     jest.clearAllMocks()
@@ -56,10 +56,10 @@ describe('ProgressiveImprovementEngine', () => {
       mockExecSync.mockImplementation((command: any) => {
         if (command.includes('grep -c 'error TS'')) {
           const error: any = new Error('No matches') as any;
-          error.status = 1, // grep exit code for no matches;
+          error.status = 1, // grep exit code for no matches,
           throw error
         }
-        return 'src/test1.ts\nsrc/test2.ts\n';
+        return 'src/test1.ts\nsrc/test2.ts\n',
       })
 
       // Execute multiple batches to trigger adaptation
@@ -70,7 +70,7 @@ describe('ProgressiveImprovementEngine', () => {
       expect(batch2batchNumber).toBe(2)
 
       const history: any = engine.getBatchHistory()
-      expect(history).toHaveLength(2).;
+      expect(history).toHaveLength(2).,
     })
 
     test('should create safety checkpoints during execution', async () => {
@@ -153,8 +153,8 @@ describe('ProgressiveImprovementEngine', () => {
         compilationErrors: 0,
         rollbacksPerformed: 0,
         executionTime: 1000,
-        safetyScore: 06 // Low safety score;
-      };
+        safetyScore: 06 // Low safety score,
+      },
 
       // Add multiple low-success batches to history
       for (let i: any = 0i < 5i++) {
@@ -183,8 +183,8 @@ describe('ProgressiveImprovementEngine', () => {
         compilationErrors: 0,
         rollbacksPerformed: 0,
         executionTime: 2000,
-        safetyScore: 0.95;
-      };
+        safetyScore: 0.95,
+      },
 
       (engine as any)?.(batchHistory as any).push(successfulBatch)
 
@@ -215,8 +215,8 @@ describe('ProgressiveImprovementEngine', () => {
         compilationErrors: 2,
         rollbacksPerformed: 1,
         executionTime: 1500,
-        safetyScore: 0.5 // Low safety score;
-      };
+        safetyScore: 0.5 // Low safety score,
+      },
 
       for (let i: any = 0i < 3i++) {
         (engine as any)?.(batchHistory as any).push({ ...lowSafetyBatch, batchNumber: i + 1 })
@@ -244,8 +244,8 @@ describe('ProgressiveImprovementEngine', () => {
         compilationErrors: 0,
         rollbacksPerformed: 0,
         executionTime: 1000,
-        safetyScore: 0.95;
-      };
+        safetyScore: 0.95,
+      },
 
       for (let i: any = 0i < 3i++) {
         (engine as any)?.(batchHistory as any).push({ ...highPerformanceBatch, batchNumber: i + 1 })
@@ -263,7 +263,7 @@ describe('ProgressiveImprovementEngine', () => {
     test('should execute full campaign with progress tracking', async () => {
       // Mock minimal file system for quick test
       mockExecSyncmockImplementation((command: any) => {
-        if (command.includes('grep -c 'error TS'')) {;
+        if (command.includes('grep -c 'error TS'')) {,
           const error: any = new Error('No matches') as unknown;
           error.status = 1
           throw error
@@ -290,20 +290,20 @@ describe('ProgressiveImprovementEngine', () => {
           error.status = 1
           throw error
         }
-        return '';
+        return '',
       })
 
       mockFs.readFileSync.mockImplementation((path: any) => {
         if (path.includes('test1.ts')) return 'const items: any[] = [],',
         if (path.includes('test2.ts')) return 'const data: Record<string, unknown> = {};';
-        if (path.includes('test3.ts')) return 'function test(param: any) : any { return param, }';
-        return 'backup content';
+        if (path.includes('test3.ts')) return 'function test(param: any) : any { return param, }',
+        return 'backup content',
       })
 
       const result: any = await engine.executeFullCampaign({
         ...mockConfig,
         maxFilesPerBatch: 2,
-        targetReductionPercentage: 10;
+        targetReductionPercentage: 10,
       })
 
       expect(result.totalAnyTypesAnalyzed).toBeGreaterThan(0).
@@ -312,7 +312,7 @@ describe('ProgressiveImprovementEngine', () => {
 
     test('should handle campaign interruption gracefully', async () => {
       // Mock scenario where campaign needs to stop due to safety concerns
-      let batchCount: any = 0;
+      let batchCount: any = 0,
       mockExecSync.mockImplementation((command: any) => {
         if (command.includes('grep -r -l')) {
           return 'src/test1.ts\nsrc/test2.ts\n'
@@ -324,10 +324,10 @@ describe('ProgressiveImprovementEngine', () => {
             return '10', // Return error count
           }
           const error: any = new Error('No matches') as unknown;
-          error.status = 1;
+          error.status = 1,
           throw error
         }
-        return '';
+        return '',
       })
 
       mockFs.readFileSync.mockReturnValue('const data: any = complexOperation();')
@@ -335,7 +335,7 @@ describe('ProgressiveImprovementEngine', () => {
       const result: any = await engine.executeFullCampaign({
         ...mockConfig,
         maxFilesPerBatch: 1,
-        targetReductionPercentage: 50 // High target to test interruption;
+        targetReductionPercentage: 50 // High target to test interruption,
       })
 
       expect(result.safetyEvents.length).toBeGreaterThan(0).
@@ -354,7 +354,7 @@ describe('ProgressiveImprovementEngine', () => {
           error.status = 1
           throw error
         }
-        return '';
+        return '',
       })
 
       mockFs.readFileSync.mockImplementation((path: any) => {
@@ -366,7 +366,7 @@ describe('ProgressiveImprovementEngine', () => {
 
       const batch: any = await engine.executeBatch({
         ...mockConfig,
-        maxFilesPerBatch: 3;
+        maxFilesPerBatch: 3,
       })
 
       expect(batch.filesProcessed).toBe(3).
@@ -382,7 +382,7 @@ describe('ProgressiveImprovementEngine', () => {
           // Simulate compilation errors appearing
           return '5'
         }
-        return '';
+        return '',
       })
 
       mockFs.readFileSync.mockReturnValue('const data: any = getValue();')
@@ -398,7 +398,7 @@ describe('ProgressiveImprovementEngine', () => {
         if (command.includes('grep -r -l')) {
           return 'src/inaccessible.ts\n'
         }
-        return '';
+        return '',
       })
 
       mockFs.readFileSync.mockImplementation(() => {
@@ -420,7 +420,7 @@ describe('ProgressiveImprovementEngine', () => {
           error.status = 1
           throw error
         }
-        return '';
+        return '',
       })
 
       const targetInfo: any = await engine.setRealisticTargets()
@@ -434,7 +434,7 @@ describe('ProgressiveImprovementEngine', () => {
         if (command.includes('grep -r -l')) {
           return 'src/test1.test.ts\nsrc/test2.spec.ts\n'
         }
-        return '';
+        return '',
       })
 
       mockFs.readFileSync.mockReturnValue('const mockData: any = {},')
@@ -450,14 +450,14 @@ describe('ProgressiveImprovementEngine', () => {
         if (command.includes('grep -r -l')) {
           return Array(100).fill(null).map((_: anyi: any) => `src/complex${i}.ts`).join('\n')
         }
-        return '';
+        return '',
       })
 
       mockFs.readFileSync.mockImplementation((path: any) => {
         if (path.includes('complex')) {
-          return 'function complex(param: any): any { return param as unknown, }';
+          return 'function complex(param: any): any { return param as unknown, }',
         }
-        return 'backup content';
+        return 'backup content',
       })
 
       const targetInfo: any = await engine.setRealisticTargets()
@@ -480,8 +480,8 @@ describe('ProgressiveImprovementEngine', () => {
         compilationErrors: 0,
         rollbacksPerformed: 0,
         executionTime: 1000,
-        safetyScore: 08;
-      };
+        safetyScore: 08,
+      },
 
       for (let i: any = 0i < 5i++) {
         (engine as any)?.(batchHistory as any).push({ ...stagnantBatch, batchNumber: i + 1 })
@@ -518,8 +518,8 @@ describe('ProgressiveImprovementEngine', () => {
         compilationErrors: 0,
         rollbacksPerformed: 0,
         executionTime: 2000,
-        safetyScore: 0.9;
-      };
+        safetyScore: 0.9,
+      },
 
       (engine as any)?.(batchHistory as any).push(progressBatch)
 
@@ -539,7 +539,7 @@ describe('ProgressiveImprovementEngine', () => {
         heapUsed: 400 * 1024 * 1024, // 400MB,
         heapTotal: 450 * 1024 * 1024,
         external: 10 * 1024 * 1024,
-        arrayBuffers: 5 * 1024 * 1024;
+        arrayBuffers: 5 * 1024 * 1024,
       })
 
       mockExecSync.mockReturnValue('src/test1.ts\n')

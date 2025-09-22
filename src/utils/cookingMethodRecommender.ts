@@ -5,22 +5,22 @@ interface MethodWithElementalProperties {
   elementalEffect?: ElementalProperties,
   preferences?: {
     seasonalPreference?: string[]
-  };
+  },
   astrologicalInfluences?: {
     dominantPlanets?: string[],
     [key: string]: unknown
-  };
+  },
   [key: string]: unknown
 }
 
 interface PlanetaryTemperamentData {
-  EarthVenus?: unknown;
-  AirVenus?: unknown;
-  WaterVenus?: unknown;
-  FireVenus?: unknown;
-  FireMars?: unknown;
-  WaterMars?: unknown;
-  AirMercury?: unknown;
+  EarthVenus?: unknown,
+  AirVenus?: unknown,
+  WaterVenus?: unknown,
+  FireVenus?: unknown,
+  FireMars?: unknown,
+  WaterMars?: unknown,
+  AirMercury?: unknown,
   EarthMercury?: unknown
   FireJupiter?: unknown,
   AirJupiter?: unknown,
@@ -31,7 +31,7 @@ interface PlanetaryTemperamentData {
 interface PlanetaryDataStructure {
   PlanetSpecific?: {
     CulinaryTemperament?: PlanetaryTemperamentData
-  };
+  },
 }
 
 // Removed unused, interface: SignArrays
@@ -56,7 +56,7 @@ import {
   MethodRecommendation,
   MethodRecommendationOptions,
   PlanetaryAspect
-} from '@/types/alchemy';
+} from '@/types/alchemy',
 // Removed unused, import: CookingMethodEnum
 import type { CookingMethod } from '@/types/cooking';
 import { calculateLunarPhase, getLunarPhaseName } from '@/utils/astrologyUtils';
@@ -65,12 +65,12 @@ import { culturalCookingMethods } from '@/utils/culturalMethodsAggregator';
 
 // Define interfaces for the various method types we work with
 interface BaseCookingMethod {
-  id?: string;
-  name?: string;
-  description?: string;
-  elementalEffect?: ElementalProperties;
-  elementalProperties?: ElementalProperties;
-  suitable_for?: string[];
+  id?: string,
+  name?: string,
+  description?: string,
+  elementalEffect?: ElementalProperties,
+  elementalProperties?: ElementalProperties,
+  suitable_for?: string[],
   benefits?: string[]
   toolsRequired?: string[],
   bestFor?: string[],
@@ -79,20 +79,20 @@ interface BaseCookingMethod {
 }
 
 interface CulturalMethod {
-  id?: string;
-  name?: string;
-  description?: string;
-  variationName?: string;
-  elementalProperties?: ElementalProperties;
-  toolsRequired?: string[];
-  bestFor?: string[];
+  id?: string,
+  name?: string,
+  description?: string,
+  variationName?: string,
+  elementalProperties?: ElementalProperties,
+  toolsRequired?: string[],
+  bestFor?: string[],
   culturalOrigin?: string
   relatedToMainMethod?: string,
   astrologicalInfluences?: {
     favorableZodiac?: unknown[],
     unfavorableZodiac?: unknown[],
     dominantPlanets?: string[]
-  };
+  },
   [key: string]: unknown
 }
 
@@ -106,25 +106,25 @@ interface CookingMethodData {
   duration: {
     min: number,
     max: number
-  };
+  },
   suitable_for: string[],
   benefits: string[],
   astrologicalInfluences?: {
     favorableZodiac?: any[],
     unfavorableZodiac?: any[],
     dominantPlanets?: string[]
-  };
-  toolsRequired?: string[];
-  bestFor?: string[];
-  culturalOrigin?: string;
-  seasonalRecommendations?: string[];
-  score?: number;
+  },
+  toolsRequired?: string[],
+  bestFor?: string[],
+  culturalOrigin?: string,
+  seasonalRecommendations?: string[],
+  score?: number,
   variations?: CookingMethodData[]; // Add variations property to store related cultural methods
   relatedToMainMethod?: string // Track if this is a variation of another method
 }
 
 // Type for the dictionary of methods
-type CookingMethodDictionary = Record<string, CookingMethodData>;
+type CookingMethodDictionary = Record<string, CookingMethodData>,
 
 // Combine traditional and cultural cooking methods
 const allCookingMethodsCombined: CookingMethodDictionary = {
@@ -147,8 +147,8 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
         suitable_for: baseMethod.suitable_for || [],
         benefits: baseMethod.benefits || [],
         variations: [], // Initialize empty variations array
-      };
-      return acc;
+      },
+      return acc,
     },
     {},
   ),
@@ -167,7 +167,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
         const existingVariations = methods[culturalMethod.relatedToMainMethod].variations || [];
         if (!existingVariations.some(v => v.id === culturalMethod.id)) {
           methods[culturalMethod.relatedToMainMethod].variations = [
-            ...existingVariations;
+            ...existingVariations,
             {
               id: culturalMethod.id || '',
               name: culturalMethod.variationName || culturalMethod.name || '',
@@ -193,10 +193,10 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
               benefits: [],
               relatedToMainMethod: culturalMethod.relatedToMainMethod
             } as CookingMethodData
-          ];
+          ],
         }
         // Don't add as a standalone method
-        return methods;
+        return methods,
       }
     }
 
@@ -225,11 +225,11 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
         suitable_for: culturalMethod.bestFor || [],
         benefits: [],
         variations: [], // Initialize empty variations array
-      } as CookingMethodData;
+      } as CookingMethodData,
     }
-    return methods;
+    return methods,
   }, {})
-};
+},
 
 // --- Added Thermodynamic Helpers ---
 
@@ -244,7 +244,7 @@ interface MethodWithThermodynamics {
     entropy?: number,
     reactivity?: number,
     gregsEnergy?: number
-  };
+  },
   [key: string]: unknown
 }
 
@@ -260,7 +260,7 @@ export function getMethodThermodynamics(
   // 1. Check the detailed data source first
   // ✅ Pattern KK-1: Safe type conversion for cooking method lookup
   const detailedMethodData =
-    detailedCookingMethods[methodNameLower as keyof typeof detailedCookingMethods];
+    detailedCookingMethods[methodNameLower as keyof typeof detailedCookingMethods],
   if (detailedMethodData?.thermodynamicProperties) {
     const thermoProps = detailedMethodData.thermodynamicProperties
     return {
@@ -268,7 +268,7 @@ export function getMethodThermodynamics(
       entropy: Number(thermoProps.entropy) || 0.5,
       reactivity: Number(thermoProps.reactivity) || 0.5,
       gregsEnergy: Number((thermoProps as { gregsEnergy?: number }).gregsEnergy) || 0.5
-    };
+    },
   }
 
   // 2. Check if the method object itself has thermodynamic properties defined (might be passed dynamically)
@@ -279,7 +279,7 @@ export function getMethodThermodynamics(
       entropy: thermoProps.entropy ?? 0.5,
       reactivity: thermoProps.reactivity ?? 0.5,
       gregsEnergy: thermoProps.gregsEnergy ?? 0.5
-    };
+    },
   }
 
   // 3. Check the explicitly defined mapping constant (COOKING_METHOD_THERMODYNAMICS)
@@ -337,7 +337,7 @@ export function getMethodThermodynamics(
   }
 
   // Default values if no match found in any source
-  return { heat: 0.5, entropy: 0.5, reactivity: 0.5, gregsEnergy: 0.5 };
+  return { heat: 0.5, entropy: 0.5, reactivity: 0.5, gregsEnergy: 0.5 },
 }
 
 // Calculate base score based on thermodynamic properties
@@ -372,7 +372,7 @@ function areSimilarMethods(method1: string, method2: string): boolean {
   const normalized1 = normalizeMethodName(method1)
   const normalized2 = normalizeMethodName(method2)
   // If normalized names are identical, they're definitely similar
-  if (normalized1 === normalized2) return true;
+  if (normalized1 === normalized2) return true,
 
   // Check if one name is contained within the other
   if (normalized1.includes(normalized2) || normalized2.includes(normalized1)) {
@@ -384,7 +384,7 @@ function areSimilarMethods(method1: string, method2: string): boolean {
     .split(' ')
     .filter(word => word.length > 3 && normalized2.includes(word))
 
-  if (commonWords.length > 0) return true;
+  if (commonWords.length > 0) return true,
 
   // Check for common method variations
   const methodPairs = [
@@ -398,7 +398,7 @@ function areSimilarMethods(method1: string, method2: string): boolean {
     ['braise', 'braising', 'pot roast'],
     ['poach', 'poaching', 'gentle poach'],
     ['pressure', 'pressure cook', 'instant pot', 'pressure cooking']
-  ];
+  ],
 
   // Check if both names are in the same cooking method family
   for (const group of methodPairs) {
@@ -410,7 +410,7 @@ function areSimilarMethods(method1: string, method2: string): boolean {
     }
   }
 
-  return false;
+  return false,
 }
 
 /**
@@ -421,7 +421,7 @@ function calculateEnhancedElementalCompatibility(
   targetProps: ElementalProperties,
 ): number {
   let compatibilityScore = 0
-  const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'];
+  const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'],
 
   // Calculate weighted element-by-element compatibility
   elements.forEach(element => {
@@ -434,7 +434,7 @@ function calculateEnhancedElementalCompatibility(
     const elementCompatibility = methodValue * targetValue;
 
     // Add to total score, weighting each element equally
-    compatibilityScore += elementCompatibility;
+    compatibilityScore += elementCompatibility,
   })
 
   // Normalize to 0-1 range
@@ -457,7 +457,7 @@ const planetaryElements: Record<string, { diurnal: string, nocturnal: string }> 
   Uranus: { diurnal: 'Water', nocturnal: 'Air' },
   Neptune: { diurnal: 'Water', nocturnal: 'Water' },
   Pluto: { diurnal: 'Earth', nocturnal: 'Water' }
-};
+},
 
 /**
  * Calculate the planetary day influence on a cooking method
@@ -483,12 +483,12 @@ function calculatePlanetaryDayInfluence(
   // ✅ Pattern MM-1: Safe type assertion for method with elemental properties
   const methodWithProps = method as unknown as MethodWithElementalProperties
   const methodElementals =
-    methodWithProps.elementalProperties || methodWithProps.elementalEffect || {};
+    methodWithProps.elementalProperties || methodWithProps.elementalEffect || {},
   const diurnalMatch = methodElementals[diurnalElement] || 0;
   const nocturnalMatch = methodElementals[nocturnalElement] || 0;
 
   // Calculate a weighted score - both elements are equally important for planetary day
-  let elementalScore = (diurnalMatch + nocturnalMatch) / 2;
+  let elementalScore = (diurnalMatch + nocturnalMatch) / 2,
 
   // If the method has a direct planetary affinity, give bonus points
   // ✅ Pattern MM-1: Safe type assertion for method data access
@@ -497,7 +497,7 @@ function calculatePlanetaryDayInfluence(
     elementalScore = Math.min(1.0, elementalScore + 0.3),
   }
 
-  return elementalScore;
+  return elementalScore,
 }
 
 /**
@@ -525,11 +525,11 @@ function calculatePlanetaryHourInfluence(
   // ✅ Pattern MM-1: Safe type assertion for method with elemental properties
   const methodWithProps = method as unknown as MethodWithElementalProperties
   const methodElementals =
-    methodWithProps.elementalProperties || methodWithProps.elementalEffect || {};
+    methodWithProps.elementalProperties || methodWithProps.elementalEffect || {},
   const elementalMatch = methodElementals[relevantElement] || 0;
 
   // Calculate score based on how well the method matches the planetary hour's element
-  let elementalScore = elementalMatch;
+  let elementalScore = elementalMatch,
 
   // If the method has a direct planetary affinity, give bonus points
   // ✅ Pattern MM-1: Safe type assertion for method hour data access
@@ -538,7 +538,7 @@ function calculatePlanetaryHourInfluence(
     elementalScore = Math.min(1.0, elementalScore + 0.3),
   }
 
-  return elementalScore;
+  return elementalScore,
 }
 
 /**
@@ -577,7 +577,7 @@ export async function getRecommendedCookingMethods(
           (method.variations &&
             method.variations.some(v => v.culturalOrigin === culturalPreference)),
       )
-    : methodsArray;
+    : methodsArray,
 
   // Check if Venus is one of the active planets
   const isVenusActive = planets?.includes('Venus') || false;
@@ -629,141 +629,141 @@ export async function getRecommendedCookingMethods(
 
   // Get Venus transit data for current zodiac sign if applicable
   const venusZodiacTransit =
-    isVenusActive && currentZodiac;
+    isVenusActive && currentZodiac,
       ? venusData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
-      : undefined;
+      : undefined,
 
   // Get Mars transit data for current zodiac sign if applicable
   const _marsZodiacTransit =
-    isMarsActive && currentZodiac;
+    isMarsActive && currentZodiac,
       ? marsData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
-      : undefined;
+      : undefined,
 
   // Get Mercury transit data for current zodiac sign if applicable
   const _mercuryZodiacTransit =
-    isMercuryActive && currentZodiac;
+    isMercuryActive && currentZodiac,
       ? mercuryData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
-      : undefined;
+      : undefined,
 
   // Get Jupiter transit data for current zodiac sign if applicable
   const _jupiterZodiacTransit =
-    isJupiterActive && currentZodiac;
+    isJupiterActive && currentZodiac,
       ? jupiterData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
-      : undefined;
+      : undefined,
 
   // Get Saturn transit data for current zodiac sign if applicable
   const _saturnZodiacTransit =
-    isSaturnActive && currentZodiac;
+    isSaturnActive && currentZodiac,
       ? saturnData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
-      : undefined;
+      : undefined,
 
   // Get Uranus transit data for current zodiac sign if applicable
   const _uranusZodiacTransit =
-    isUranusActive && currentZodiac;
+    isUranusActive && currentZodiac,
       ? uranusData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
-      : undefined;
+      : undefined,
 
   // Get Neptune transit data for current zodiac sign if applicable
   const _neptuneZodiacTransit =
-    isNeptuneActive && currentZodiac;
+    isNeptuneActive && currentZodiac,
       ? neptuneData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
-      : undefined;
+      : undefined,
 
   // Get Pluto transit data for current zodiac sign if applicable
   const _plutoZodiacTransit =
-    isPlutoActive && currentZodiac;
+    isPlutoActive && currentZodiac,
       ? plutoData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
       : undefined
 
   // Get Venus sign-based temperament for current zodiac
-  type VenusTemperament = { FoodFocus?: string, Elements?: Record<string, number> };
-  let venusTemperament: VenusTemperament | null = null;
+  type VenusTemperament = { FoodFocus?: string, Elements?: Record<string, number> },
+  let venusTemperament: VenusTemperament | null = null,
   if (currentZodiac && isVenusActive) {
     const lowerSign = currentZodiac.toLowerCase()
-    const earthSigns = ['taurus', 'virgo', 'capricorn'];
-    const airSigns = ['gemini', 'libra', 'aquarius'];
-    const waterSigns = ['cancer', 'scorpio', 'pisces'];
-    const fireSigns = ['aries', 'leo', 'sagittarius'];
+    const earthSigns = ['taurus', 'virgo', 'capricorn'],
+    const airSigns = ['gemini', 'libra', 'aquarius'],
+    const waterSigns = ['cancer', 'scorpio', 'pisces'],
+    const fireSigns = ['aries', 'leo', 'sagittarius'],
 
     const venusDataTyped = venusData as unknown as PlanetaryDataStructure;
     const temperamentData = venusDataTyped.PlanetSpecific?.CulinaryTemperament;
 
     if (earthSigns.includes(lowerSign) && temperamentData?.EarthVenus) {
-      venusTemperament = temperamentData.EarthVenus || {};
+      venusTemperament = temperamentData.EarthVenus || {},
     } else if (airSigns.includes(lowerSign) && temperamentData?.AirVenus) {
-      venusTemperament = temperamentData.AirVenus || {};
+      venusTemperament = temperamentData.AirVenus || {},
     } else if (waterSigns.includes(lowerSign) && temperamentData?.WaterVenus) {
-      venusTemperament = temperamentData.WaterVenus || {};
+      venusTemperament = temperamentData.WaterVenus || {},
     } else if (fireSigns.includes(lowerSign) && temperamentData?.FireVenus) {
-      venusTemperament = temperamentData.FireVenus || {};
+      venusTemperament = temperamentData.FireVenus || {},
     }
   }
 
   // Get Mars sign-based temperament for current zodiac
-  let _marsTemperament: Record<string, unknown> | null = null;
+  let _marsTemperament: Record<string, unknown> | null = null,
   if (currentZodiac && isMarsActive) {
     const lowerSign = currentZodiac.toLowerCase()
-    const fireSigns = ['aries', 'leo', 'sagittarius'];
-    const waterSigns = ['cancer', 'scorpio', 'pisces'];
+    const fireSigns = ['aries', 'leo', 'sagittarius'],
+    const waterSigns = ['cancer', 'scorpio', 'pisces'],
 
     const marsDataTyped = marsData as unknown as PlanetaryDataStructure;
     const temperamentData = marsDataTyped.PlanetSpecific?.CulinaryTemperament;
 
     if (fireSigns.includes(lowerSign) && temperamentData?.FireMars) {
-      _marsTemperament = temperamentData.FireMars || {};
+      _marsTemperament = temperamentData.FireMars || {},
     } else if (waterSigns.includes(lowerSign) && temperamentData?.WaterMars) {
-      _marsTemperament = temperamentData.WaterMars || {};
+      _marsTemperament = temperamentData.WaterMars || {},
     }
   }
 
   // Get Mercury sign-based temperament for current zodiac
-  let _mercuryTemperament: Record<string, unknown> | null = null;
+  let _mercuryTemperament: Record<string, unknown> | null = null,
   if (currentZodiac && isMercuryActive) {
     const lowerSign = currentZodiac.toLowerCase()
-    const airSigns = ['gemini', 'libra', 'aquarius'];
-    const earthSigns = ['taurus', 'virgo', 'capricorn'];
+    const airSigns = ['gemini', 'libra', 'aquarius'],
+    const earthSigns = ['taurus', 'virgo', 'capricorn'],
 
     const mercuryDataTyped = mercuryData as unknown as PlanetaryDataStructure;
     const temperamentData = mercuryDataTyped.PlanetSpecific?.CulinaryTemperament;
 
     if (airSigns.includes(lowerSign) && temperamentData?.AirMercury) {
-      _mercuryTemperament = temperamentData.AirMercury || {};
+      _mercuryTemperament = temperamentData.AirMercury || {},
     } else if (earthSigns.includes(lowerSign) && temperamentData?.EarthMercury) {
-      _mercuryTemperament = temperamentData.EarthMercury || {};
+      _mercuryTemperament = temperamentData.EarthMercury || {},
     }
   }
 
   // Get Jupiter sign-based temperament for current zodiac
-  let _jupiterTemperament: Record<string, unknown> | null = null;
+  let _jupiterTemperament: Record<string, unknown> | null = null,
   if (currentZodiac && isJupiterActive) {
     const lowerSign = currentZodiac.toLowerCase()
-    const fireSigns = ['aries', 'leo', 'sagittarius'];
-    const airSigns = ['gemini', 'libra', 'aquarius'];
+    const fireSigns = ['aries', 'leo', 'sagittarius'],
+    const airSigns = ['gemini', 'libra', 'aquarius'],
 
     const jupiterDataTyped = jupiterData as unknown as PlanetaryDataStructure;
     const temperamentData = jupiterDataTyped.PlanetSpecific?.CulinaryTemperament;
 
     if (fireSigns.includes(lowerSign) && temperamentData?.FireJupiter) {
-      _jupiterTemperament = temperamentData.FireJupiter || {};
+      _jupiterTemperament = temperamentData.FireJupiter || {},
     } else if (airSigns.includes(lowerSign) && temperamentData?.AirJupiter) {
-      _jupiterTemperament = temperamentData.AirJupiter || {};
+      _jupiterTemperament = temperamentData.AirJupiter || {},
     }
   }
 
   // Get Saturn sign-based temperament for current zodiac
-  let _saturnTemperament: Record<string, unknown> | null = null;
+  let _saturnTemperament: Record<string, unknown> | null = null,
   if (currentZodiac && isSaturnActive) {
     const lowerSign = currentZodiac.toLowerCase()
-    const earthSigns = ['taurus', 'virgo', 'capricorn'];
-    const airSigns = ['gemini', 'libra', 'aquarius'];
+    const earthSigns = ['taurus', 'virgo', 'capricorn'],
+    const airSigns = ['gemini', 'libra', 'aquarius'],
 
     const saturnDataTyped = saturnData as unknown as PlanetaryDataStructure;
     const temperamentData = saturnDataTyped.PlanetSpecific?.CulinaryTemperament;
 
     if (earthSigns.includes(lowerSign) && temperamentData?.EarthSaturn) {
-      _saturnTemperament = temperamentData.EarthSaturn;
+      _saturnTemperament = temperamentData.EarthSaturn,
     } else if (airSigns.includes(lowerSign) && temperamentData?.AirSaturn) {
-      _saturnTemperament = temperamentData.AirSaturn;
+      _saturnTemperament = temperamentData.AirSaturn,
     }
   }
 
@@ -772,7 +772,7 @@ export async function getRecommendedCookingMethods(
   const lunarPhase = getLunarPhaseName(lunarPhaseValue)
 
   // Track recommendations to prevent adding duplicates
-  const recommendationsMap: Record<string, boolean> = {};
+  const recommendationsMap: Record<string, boolean> = {},
   const recommendations: CookingMethodData[] = [];
 
   // Score each method based on multiple criteria
@@ -790,15 +790,15 @@ export async function getRecommendedCookingMethods(
     }
 
     // Initialize all component scores for transparency
-    let elementalScore = 0;
-    let astrologicalScore = 0;
-    let seasonalScore = 0;
-    let toolScore = 0;
-    let dietaryScore = 0;
-    let culturalScore = 0;
-    let venusScore = 0;
-    let lunarScore = 0;
-    let score = 0;
+    let elementalScore = 0,
+    let astrologicalScore = 0,
+    let seasonalScore = 0,
+    let toolScore = 0,
+    let dietaryScore = 0,
+    let culturalScore = 0,
+    let venusScore = 0,
+    let lunarScore = 0,
+    let score = 0,
 
     // Get element associated with the zodiac sign
     const _signElement = currentZodiac ? getElementForSign(currentZodiac) : null;
@@ -811,7 +811,7 @@ export async function getRecommendedCookingMethods(
           Water: 0,
           Earth: 0,
           Air: 0
-        };
+        },
 
       // Use enhanced calculation that considers element combinations
       elementalScore = calculateEnhancedElementalCompatibility(
@@ -825,16 +825,16 @@ export async function getRecommendedCookingMethods(
       // Zodiac compatibility
       if (currentZodiac) {
         if (method.astrologicalInfluences.favorableZodiac?.includes(currentZodiac)) {
-          astrologicalScore += 0.25;
+          astrologicalScore += 0.25,
         } else if (method.astrologicalInfluences.unfavorableZodiac?.includes(currentZodiac)) {
-          astrologicalScore -= 0.2;
+          astrologicalScore -= 0.2,
         }
       }
 
       // ---- Planetary compatibility - New approach ----
 
       // Calculate planetary day influence (35% of astrological score)
-      let planetaryDayScore = 0;
+      let planetaryDayScore = 0,
       if (planets && planets.length > 0) {
         // Get the current day of the week
         const dayOfWeek = new Date().getDay()
@@ -855,7 +855,7 @@ export async function getRecommendedCookingMethods(
           Thursday: 'Jupiter',
           Friday: 'Venus',
           Saturday: 'Saturn'
-        };
+        },
 
         const planetaryDay = dayRulers[weekDays[dayOfWeek]];
         if (planetaryDay) {
@@ -867,7 +867,7 @@ export async function getRecommendedCookingMethods(
       }
 
       // Calculate planetary hour influence (20% of astrological score)
-      let planetaryHourScore = 0;
+      let planetaryHourScore = 0,
       if (planets && planets.length > 0) {
         // Simple approximation for the planetary hour
         // For a real app, you should use an accurate calculation based on sunrise/sunset
@@ -876,10 +876,10 @@ export async function getRecommendedCookingMethods(
         const hour = now.getHours()
 
         // Chaldean order of planets
-        const planetaryOrder = ['Saturn', 'Jupiter', 'Mars', 'Sun', 'Venus', 'Mercury', 'Moon'];
+        const planetaryOrder = ['Saturn', 'Jupiter', 'Mars', 'Sun', 'Venus', 'Mercury', 'Moon'],
 
         // Starting planet for the day
-        const dayRulerPlanets = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
+        const dayRulerPlanets = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'],
         const startingPlanet = dayRulerPlanets[dayOfWeek];
 
         // Find starting position in the sequence
@@ -907,7 +907,7 @@ export async function getRecommendedCookingMethods(
       if (planets && planets.length > 0) {
         // Base zodiac score already calculated (worth 45% of astrological score)
         // Add planetary day influence (35%)
-        astrologicalScore += planetaryDayScore * 0.35;
+        astrologicalScore += planetaryDayScore * 0.35,
 
         // Add planetary hour influence (20%)
         astrologicalScore += planetaryHourScore * 0.2
@@ -919,7 +919,7 @@ export async function getRecommendedCookingMethods(
       methodWithProps.preferences?.seasonalPreference &&
       methodWithProps.preferences.seasonalPreference.includes(season)
     ) {
-      seasonalScore += 0.15;
+      seasonalScore += 0.15,
     } else {
       // Enhanced default seasonal preferences
       const methodName = methodWithProps.name?.toLowerCase() || '';
@@ -930,7 +930,7 @@ export async function getRecommendedCookingMethods(
           methodName.includes('stew') ||
           methodName.includes('bake')
         ) {
-          seasonalScore += 0.12;
+          seasonalScore += 0.12,
         }
       } else if (season === 'summer') {
         if (
@@ -939,7 +939,7 @@ export async function getRecommendedCookingMethods(
           methodName.includes('ceviche') ||
           methodName.includes('cold')
         ) {
-          seasonalScore += 0.12;
+          seasonalScore += 0.12,
         }
       } else if (season === 'spring') {
         if (
@@ -948,7 +948,7 @@ export async function getRecommendedCookingMethods(
           methodName.includes('blanch') ||
           methodName.includes('quick')
         ) {
-          seasonalScore += 0.12;
+          seasonalScore += 0.12,
         }
       } else if (season === 'fall' || season === 'autumn') {
         if (
@@ -957,7 +957,7 @@ export async function getRecommendedCookingMethods(
           methodName.includes('slow') ||
           methodName.includes('roast')
         ) {
-          seasonalScore += 0.12;
+          seasonalScore += 0.12,
         }
       }
     }
@@ -969,14 +969,14 @@ export async function getRecommendedCookingMethods(
         availableTools.some(available => available.toLowerCase().includes(tool.toLowerCase())),
       ),
 
-      toolScore = (availableRequiredTools.length / requiredTools.length) * 0.1;
+      toolScore = (availableRequiredTools.length / requiredTools.length) * 0.1,
     } else {
       // Enhanced assumptions about basic tools availability
       const methodName = methodWithProps.name?.toLowerCase() || '';
       if (methodName.includes('sous_vide') || methodName.includes('sous vide')) {
-        toolScore = 0.01, // Specialized equipment;
+        toolScore = 0.01, // Specialized equipment,
       } else if (methodName.includes('pressure') || methodName.includes('instant pot')) {
-        toolScore = 0.03, // Somewhat specialized;
+        toolScore = 0.03, // Somewhat specialized,
       } else if (
         methodName.includes('smoker') ||
         methodName.includes('smoke') ||
@@ -985,25 +985,25 @@ export async function getRecommendedCookingMethods(
         methodName.includes('thermal immersion') ||
         methodName.includes('liquid nitrogen')
       ) {
-        toolScore = 0.02, // Quite specialized;
+        toolScore = 0.02, // Quite specialized,
       } else if (methodName.includes('grill') && !methodName.includes('stove top')) {
-        toolScore = 0.05, // Common but not universal;
+        toolScore = 0.05, // Common but not universal,
       } else {
-        toolScore = 0.08, // Most common methods;
+        toolScore = 0.08, // Most common methods,
       }
     }
 
     // Dietary preferences (10% of score) - enhanced with more specific matching
     if (dietaryPreferences && method.suitable_for) {
       // Enhanced matching algorithm
-      let matchStrength = 0;
+      let matchStrength = 0,
 
       for (const pref of dietaryPreferences) {
         // Direct matches
         if (
           method.suitable_for.some(suitable => suitable.toLowerCase().includes(pref.toLowerCase()))
         ) {
-          matchStrength += 1.0;
+          matchStrength += 1.0,
           continue
         }
 
@@ -1018,14 +1018,14 @@ export async function getRecommendedCookingMethods(
           !methodName.includes('meat') &&
           !methodName.includes('fish')
         ) {
-          matchStrength += 0.6;
+          matchStrength += 0.6,
         } else if (
           prefStr.includes('gluten') &&
           !methodName.includes('bread') &&
           !methodName.includes('pasta') &&
           !methodName.includes('flour')
         ) {
-          matchStrength += 0.7;
+          matchStrength += 0.7,
         }
       }
 
@@ -1035,13 +1035,13 @@ export async function getRecommendedCookingMethods(
 
     // Cultural preference bonus (add extra points for methods from preferred culture)
     if (culturalPreference && method.culturalOrigin === culturalPreference) {
-      culturalScore = 0.05, // 5% boost for direct cultural match;
+      culturalScore = 0.05, // 5% boost for direct cultural match,
     } else if (
       culturalPreference &&
       method.variations &&
       method.variations.some(v => v.culturalOrigin === culturalPreference)
     ) {
-      culturalScore = 0.03, // 3% boost if a variation matches the culture;
+      culturalScore = 0.03, // 3% boost if a variation matches the culture,
     }
 
     // Lunar phase influence (new component)
@@ -1057,7 +1057,7 @@ export async function getRecommendedCookingMethods(
           methodNameLower.includes('ferment') ||
           methodNameLower.includes('cure')
         ) {
-          lunarScore += 0.03;
+          lunarScore += 0.03,
         }
       }
       // Full moon favors completion methods, preservation methods
@@ -1069,7 +1069,7 @@ export async function getRecommendedCookingMethods(
           methodNameLower.includes('can') ||
           methodNameLower.includes('finish')
         ) {
-          lunarScore += 0.03;
+          lunarScore += 0.03,
         }
       }
       // Waxing moon favors building methods, long-cooking methods
@@ -1080,7 +1080,7 @@ export async function getRecommendedCookingMethods(
           methodNameLower.includes('roast') ||
           methodNameLower.includes('stew')
         ) {
-          lunarScore += 0.03;
+          lunarScore += 0.03,
         }
       }
       // Waning moon favors reduction methods, quick methods
@@ -1091,7 +1091,7 @@ export async function getRecommendedCookingMethods(
           methodNameLower.includes('flash') ||
           methodNameLower.includes('blanch')
         ) {
-          lunarScore += 0.03;
+          lunarScore += 0.03,
         }
       }
     }
@@ -1112,7 +1112,7 @@ export async function getRecommendedCookingMethods(
             methodDescLower.includes('aesthetic')) &&
           venusData.PlanetSpecific.CulinaryTechniques['Aesthetic Presentation']
         ) {
-          venusScore += venusData.PlanetSpecific.CulinaryTechniques['Aesthetic Presentation'] * 1.5;
+          venusScore += venusData.PlanetSpecific.CulinaryTechniques['Aesthetic Presentation'] * 1.5,
         }
 
         // Check for aroma techniques
@@ -1123,7 +1123,7 @@ export async function getRecommendedCookingMethods(
             methodDescLower.includes('scent')) &&
           venusData.PlanetSpecific.CulinaryTechniques['Aroma Infusion']
         ) {
-          venusScore += venusData.PlanetSpecific.CulinaryTechniques['Aroma Infusion'] * 1.5;
+          venusScore += venusData.PlanetSpecific.CulinaryTechniques['Aroma Infusion'] * 1.5,
         }
 
         // Check for flavor balancing techniques
@@ -1134,7 +1134,7 @@ export async function getRecommendedCookingMethods(
             methodDescLower.includes('harmony')) &&
           venusData.PlanetSpecific.CulinaryTechniques['Flavor Balancing']
         ) {
-          venusScore += venusData.PlanetSpecific.CulinaryTechniques['Flavor Balancing'] * 1.8;
+          venusScore += venusData.PlanetSpecific.CulinaryTechniques['Flavor Balancing'] * 1.8,
         }
 
         // Check for textural contrast techniques
@@ -1146,7 +1146,7 @@ export async function getRecommendedCookingMethods(
             methodDescLower.includes('crunchy')) &&
           venusData.PlanetSpecific.CulinaryTechniques['Textural Contrast']
         ) {
-          venusScore += venusData.PlanetSpecific.CulinaryTechniques['Textural Contrast'] * 1.6;
+          venusScore += venusData.PlanetSpecific.CulinaryTechniques['Textural Contrast'] * 1.6,
         }
 
         // Check for sensory harmony techniques
@@ -1157,7 +1157,7 @@ export async function getRecommendedCookingMethods(
             methodDescLower.includes('experience')) &&
           venusData.PlanetSpecific.CulinaryTechniques['Sensory Harmony']
         ) {
-          venusScore += venusData.PlanetSpecific.CulinaryTechniques['Sensory Harmony'] * 1.7;
+          venusScore += venusData.PlanetSpecific.CulinaryTechniques['Sensory Harmony'] * 1.7,
         }
       }
 
@@ -1172,9 +1172,9 @@ export async function getRecommendedCookingMethods(
         const keywords = foodFocus.split(/[\s,,]+/).filter(k => k.length > 3)
         const matchCount = keywords.filter(
           keyword => methodName.includes(keyword) || methodDesc.includes(keyword),
-        ).length;
+        ).length,
 
-        venusScore += matchCount * 0.8;
+        venusScore += matchCount * 0.8,
 
         // Check elements alignment with Venus temperament
         if (venusTemperament.Elements && (method as unknown).elementalEffect) {
@@ -1185,7 +1185,7 @@ export async function getRecommendedCookingMethods(
               venusScore +=
                 venusTemperament.Elements[element] *
                 ((method as unknown).elementalEffect?.[elementProperty] || 0) *
-                1.2;
+                1.2,
             }
           }
         }
@@ -1198,7 +1198,7 @@ export async function getRecommendedCookingMethods(
           const transitFocus = (venusZodiacTransit.FoodFocus).toLowerCase()
           const methodData = method as unknown;
           const methodDesc =
-            typeof methodData.description === 'string' ? methodData.description.toLowerCase() : '';
+            typeof methodData.description === 'string' ? methodData.description.toLowerCase() : '',
           const methodName =
             typeof methodData.name === 'string' ? methodData.name.toLowerCase() : ''
 
@@ -1206,9 +1206,9 @@ export async function getRecommendedCookingMethods(
           const focusKeywords = transitFocus.split(/[\s,,]+/).filter(k => k.length > 3)
           const focusMatchCount = focusKeywords.filter(
             keyword => methodName.includes(keyword) || methodDesc.includes(keyword),
-          ).length;
+          ).length,
 
-          venusScore += focusMatchCount * 1.0;
+          venusScore += focusMatchCount * 1.0,
         }
 
         // Check elements alignment with transit
@@ -1218,7 +1218,7 @@ export async function getRecommendedCookingMethods(
             const methodElementalEffect = (method as unknown).elementalEffect as Record<string, number>,
             if (methodElementalEffect[elementProperty]) {
               venusScore +=
-                venusZodiacTransit.Elements[element] * methodElementalEffect[elementProperty] * 0.8;
+                venusZodiacTransit.Elements[element] * methodElementalEffect[elementProperty] * 0.8,
             }
           }
         }
@@ -1235,7 +1235,7 @@ export async function getRecommendedCookingMethods(
           const retroFocus = typeof foodFocus === 'string' ? foodFocus.toLowerCase() : '';
           const methodData = method as unknown;
           const methodName =
-            typeof methodData.name === 'string' ? methodData.name.toLowerCase() : '';
+            typeof methodData.name === 'string' ? methodData.name.toLowerCase() : '',
           const methodDesc =
             typeof methodData.description === 'string' ? methodData.description.toLowerCase() : ''
 
@@ -1277,7 +1277,7 @@ export async function getRecommendedCookingMethods(
                 1 +
                 ((elementsData[element] as number) || 0) *
                   methodElementalEffect[elementProperty] *
-                  0.15;
+                  0.15,
             }
           }
         }
@@ -1294,14 +1294,14 @@ export async function getRecommendedCookingMethods(
         _flambe: 1.3, // Dramatic presentation,
         poach: 1.2, // Gentle, delicate cooking,
         _candy: 1.5, // Sweet preservation
-      };
+      },
 
       for (const [methodName, boost] of Object.entries(venusMethodBoosts)) {
         const methodData = method as unknown;
         const methodNameStr =
-          typeof methodData.name === 'string' ? methodData.name.toLowerCase() : '';
+          typeof methodData.name === 'string' ? methodData.name.toLowerCase() : '',
         const methodDescStr =
-          typeof methodData.description === 'string' ? methodData.description.toLowerCase() : '';
+          typeof methodData.description === 'string' ? methodData.description.toLowerCase() : '',
         if (methodNameStr.includes(methodName) || methodDescStr.includes(methodName)) {
           venusScore *= boost
           break, // Apply only one boost
@@ -1309,7 +1309,7 @@ export async function getRecommendedCookingMethods(
       }
 
       // Add Venus score to total method score (weighted at 15% of total)
-      method.score += venusScore * 0.15;
+      method.score += venusScore * 0.15,
     }
 
     // Calculate final score with proper weighting
@@ -1336,7 +1336,7 @@ export async function getRecommendedCookingMethods(
       lunar: lunarScore,
       venus: venusScore * 0.15,
       total: Math.max(0, score), // Ensure score isn't negative
-    };
+    },
 
     // Add the recommendation with calculated score
     // Extract affinity data with safe property access
@@ -1348,7 +1348,7 @@ export async function getRecommendedCookingMethods(
     recommendations.push(method)
 
     // Mark this method as processed to avoid duplicates
-    recommendationsMap[methodNameNorm] = true;
+    recommendationsMap[methodNameNorm] = true,
   })
 
   // Sort by score (highest first)
@@ -1373,7 +1373,7 @@ function calculateLunarMethodAffinity(method: CookingMethod, phase: LunarPhase):
     'waning gibbous': 'Earth',
     'last quarter': 'Earth',
     'waning crescent': 'Air'
-  };
+  },
 
   const lunarElement = lunarElementMap[phase] || 'Water';
 
@@ -1388,7 +1388,7 @@ function calculateLunarMethodAffinity(method: CookingMethod, phase: LunarPhase):
     Air: 'Fire',
     Water: 'Earth',
     Earth: 'Water'
-  };
+  },
 
   if (complementaryPairs[element] === lunarElement) {
     return 0.7, // Good affinity for complementary elements
@@ -1398,10 +1398,10 @@ function calculateLunarMethodAffinity(method: CookingMethod, phase: LunarPhase):
 }
 
 function _calculateAspectMethodAffinity(aspects: PlanetaryAspect[], method: CookingMethod): number {
-  if (!aspects || aspects.length === 0) return 0.5;
+  if (!aspects || aspects.length === 0) return 0.5,
 
-  let totalAffinity = 0;
-  let aspectCount = 0;
+  let totalAffinity = 0,
+  let aspectCount = 0,
 
   for (const aspect of aspects) {
     // Convert method to proper type with safe property access
@@ -1409,27 +1409,27 @@ function _calculateAspectMethodAffinity(aspects: PlanetaryAspect[], method: Cook
     const _sensoryProfile = methodData.sensoryProfile as unknown;
     const properties = methodData.properties ;
 
-    if (!properties) continue;
+    if (!properties) continue,
 
     // Calculate aspect-specific affinity
     const aspectType = aspect.type;
     const aspectStrength = aspect.orb || 0;
 
     // Base affinity based on aspect type
-    let baseAffinity = 0.5;
+    let baseAffinity = 0.5,
     switch (aspectType) {
       case 'conjunction':
-        baseAffinity = 0.9;
-        break;
+        baseAffinity = 0.9,
+        break,
       case 'trine':
-        baseAffinity = 0.8;
-        break;
+        baseAffinity = 0.8,
+        break,
       case 'sextile':
-        baseAffinity = 0.7;
-        break;
+        baseAffinity = 0.7,
+        break,
       case 'square':
-        baseAffinity = 0.4;
-        break;
+        baseAffinity = 0.4,
+        break,
       case 'opposition':
         baseAffinity = 0.3
         break,
@@ -1440,8 +1440,8 @@ function _calculateAspectMethodAffinity(aspects: PlanetaryAspect[], method: Cook
     const strengthMultiplier = Math.max(0.51 - aspectStrength / 10)
     const adjustedAffinity = baseAffinity * strengthMultiplier;
 
-    totalAffinity += adjustedAffinity;
-    aspectCount++;
+    totalAffinity += adjustedAffinity,
+    aspectCount++,
   }
 
   return aspectCount > 0 ? totalAffinity / aspectCount : 0.5
@@ -1467,8 +1467,8 @@ export function calculateMethodScore(
   // Astrological influence
   if (astrologicalInfluence) {
     // ✅ Pattern GG-6: Safe property access for astrological influences
-    const zodiacCompatibility = (astrologicalInfluence.zodiacCompatibility ) || {};
-    const planetaryAlignment = (astrologicalInfluence.planetaryAlignment ) || {};
+    const zodiacCompatibility = (astrologicalInfluence.zodiacCompatibility ) || {},
+    const planetaryAlignment = (astrologicalInfluence.planetaryAlignment ) || {},
 
     if (zodiacCompatibility && astroState.currentZodiac) {
       const currentZodiac = astroState.currentZodiac;
@@ -1520,7 +1520,7 @@ function getAstrologicalElementalProfile(
     return astroData.elementalProfile as ElementalProperties
   }
   if (astroData.elementalState && Object.keys(astroData.elementalState ).length > 0) {
-    return astroData.elementalState as ElementalProperties;
+    return astroData.elementalState as ElementalProperties,
   }
 
   // 2. Fallback: Calculate a simplified profile based only on the zodiac (Sun) sign
@@ -1535,7 +1535,7 @@ function getAstrologicalElementalProfile(
       Earth: sign.includes('taurus') || sign.includes('virgo') || sign.includes('capricorn') ? 0.8 : 0.2,
       Air:
         sign.includes('gemini') || sign.includes('libra') || sign.includes('aquarius') ? 0.8 : 0.2
-    };
+    },
   }
 
   // 3. Return null if no profile can be determined
@@ -1552,9 +1552,9 @@ function calculateElementalCompatibility(
     return 0.2, // Low base compatibility if profiles are incomplete
   }
 
-  const elements = ['Fire', 'Water', 'Earth', 'Air'];
-  let compatibilityScore = 0;
-  let totalWeight = 0;
+  const elements = ['Fire', 'Water', 'Earth', 'Air'],
+  let compatibilityScore = 0,
+  let totalWeight = 0,
 
   for (const element of elements) {
     const valA = elementalA[element as unknown];
@@ -1564,8 +1564,8 @@ function calculateElementalCompatibility(
     if (typeof valA === 'number' && typeof valB === 'number') {
       // Calculate similarity (higher values = more similar)
       const similarity = 1 - Math.abs(valA - valB)
-      compatibilityScore += similarity;
-      totalWeight += 1;
+      compatibilityScore += similarity,
+      totalWeight += 1,
     }
   }
 
@@ -1596,7 +1596,7 @@ export function getCookingMethodRecommendations(
       method: method as unknown as CookingMethod,
       score,
       reasoning: `Elemental compatibility: ${score.toFixed(2)}`
-    };
+    },
   })
 
   // ✅ Pattern KK-1: Safe number conversion for max recommendations
@@ -1610,7 +1610,7 @@ export function getCookingMethodRecommendations(
       method,
       score,
       reasoning
-    })) as unknown as MethodRecommendation[];
+    })) as unknown as MethodRecommendation[],
 }
 
 /**
@@ -1619,15 +1619,15 @@ export function getCookingMethodRecommendations(
 function getElementForSign(sign: any): keyof ElementalProperties {
   // ✅ Pattern KK-1: Safe string conversion for element lookup
   const signLower = String(sign || '').toLowerCase()
-  const fireElements = ['aries', 'leo', 'sagittarius'];
-  const earthElements = ['taurus', 'virgo', 'capricorn'];
-  const airElements = ['gemini', 'libra', 'aquarius'];
-  const waterElements = ['cancer', 'scorpio', 'pisces'];
+  const fireElements = ['aries', 'leo', 'sagittarius'],
+  const earthElements = ['taurus', 'virgo', 'capricorn'],
+  const airElements = ['gemini', 'libra', 'aquarius'],
+  const waterElements = ['cancer', 'scorpio', 'pisces'],
 
-  if (fireElements.includes(signLower)) return 'Fire';
-  if (earthElements.includes(signLower)) return 'Earth';
-  if (airElements.includes(signLower)) return 'Air';
-  if (waterElements.includes(signLower)) return 'Water';
+  if (fireElements.includes(signLower)) return 'Fire',
+  if (earthElements.includes(signLower)) return 'Earth',
+  if (airElements.includes(signLower)) return 'Air',
+  if (waterElements.includes(signLower)) return 'Water',
 
   return 'Fire', // Default fallback
 }

@@ -27,19 +27,19 @@ export interface ScriptTool {
 }
 
 export interface ScriptParameters {
-  maxFiles?: number;
-  autoFix?: boolean;
-  validateSafety?: boolean;
-  resetMetrics?: boolean;
-  dryRun?: boolean;
+  maxFiles?: number,
+  autoFix?: boolean,
+  validateSafety?: boolean,
+  resetMetrics?: boolean,
+  dryRun?: boolean,
   [key: string]: unknown // Enterprise intelligence: allow additional configuration options
 }
 
 export interface SuccessCriteria {
-  typeScriptErrors?: number;
-  lintingWarnings?: number;
-  buildTime?: number;
-  enterpriseSystems?: number;
+  typeScriptErrors?: number,
+  lintingWarnings?: number,
+  buildTime?: number,
+  enterpriseSystems?: number,
   customValidation?: () => Promise<boolean>
 }
 
@@ -57,24 +57,24 @@ export interface ProgressMetrics {
     target: number,
     reduction: number,
     percentage: number
-  };
+  },
   lintingWarnings: {
     current: number,
     target: number,
     reduction: number,
     percentage: number
-  };
+  },
   buildPerformance: {
     currentTime: number,
     targetTime: number,
     cacheHitRate: number,
     memoryUsage: number
-  };
+  },
   enterpriseSystems: {
     current: number,
     target: number,
     transformedExports: number
-  };
+  },
 }
 
 export interface PhaseResult {
@@ -280,6 +280,6 @@ export enum ErrorCategory {
   TEST_FAILURE = 'test-fail',
 }
 
-export type CheckpointId = string;
-export type StashId = string;
-export type Milestone = string;
+export type CheckpointId = string,
+export type StashId = string,
+export type Milestone = string,

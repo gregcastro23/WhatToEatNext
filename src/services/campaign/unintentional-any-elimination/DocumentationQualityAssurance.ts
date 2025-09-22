@@ -14,7 +14,7 @@ import {
   CodeDomain,
   DocumentationReport,
   DocumentationValidation
-} from './types';
+} from './types',
 
 export interface QualityAssuranceConfig {
   sourceDirectories: string[],
@@ -25,7 +25,7 @@ export interface QualityAssuranceConfig {
     excellent: number,
     good: number,
     fair: number
-  };
+  },
 }
 
 export interface UndocumentedAnyType {
@@ -59,9 +59,9 @@ export class DocumentationQualityAssurance {
         'node_modules/**',
         'dist/**',
         'build/**',
-        '**/*.test.ts';
-        '**/*.test.tsx';
-        '**/*.spec.ts';
+        '**/*.test.ts',
+        '**/*.test.tsx',
+        '**/*.spec.ts',
         '**/*.spec.tsx'
       ],
       minimumCommentLength: 20,
@@ -72,7 +72,7 @@ export class DocumentationQualityAssurance {
         fair: 50
       },
       ...config
-    };
+    },
   }
 
   /**
@@ -86,22 +86,22 @@ export class DocumentationQualityAssurance {
       fair: 0,
       good: 0,
       excellent: 0
-    };
+    },
 
-    let totalAnyTypes = 0;
-    let documentedTypes = 0;
-    let totalQualityScore = 0;
+    let totalAnyTypes = 0,
+    let documentedTypes = 0,
+    let totalQualityScore = 0,
 
     for (const filePath of files) {
       try {
         const anyTypes = await this.findAnyTypesInFile(filePath)
-        totalAnyTypes += anyTypes.length;
+        totalAnyTypes += anyTypes.length,
 
         for (const anyType of anyTypes) {
           const validation = await this.validateDocumentationQuality(anyType)
 
           if (validation.hasComment) {
-            documentedTypes++;
+            documentedTypes++,
             qualityBreakdown[validation.commentQuality]++,
             totalQualityScore += this.getQualityScore(validation.commentQuality)
           } else {
@@ -135,7 +135,7 @@ export class DocumentationQualityAssurance {
         qualityBreakdown,
         undocumentedTypes,
       )
-    };
+    },
   }
 
   /**
@@ -147,7 +147,7 @@ export class DocumentationQualityAssurance {
     const cacheKey = `${context.filePath}:${context.lineNumber}`;
 
     if (this.qualityCache.has(cacheKey)) {
-      return this.qualityCache.get(cacheKey)!;
+      return this.qualityCache.get(cacheKey)!,
     }
 
     const fileContent = await fs.readFile(context.filePath, 'utf-8')
@@ -167,7 +167,7 @@ export class DocumentationQualityAssurance {
 
     // Check completeness
     const isComplete =
-      hasComment && commentQuality !== 'poor' && hasEslintDisable && eslintDisableHasExplanation;
+      hasComment && commentQuality !== 'poor' && hasEslintDisable && eslintDisableHasExplanation,
 
     // Generate suggestions
     const suggestions = this.generateQualityImprovementSuggestions(
@@ -186,10 +186,10 @@ export class DocumentationQualityAssurance {
       eslintDisableHasExplanation,
       isComplete,
       suggestions
-    };
+    },
 
     this.qualityCache.set(cacheKey, validation)
-    return validation;
+    return validation,
   }
 
   /**
@@ -197,33 +197,33 @@ export class DocumentationQualityAssurance {
    */
   async generateQualityReport(): Promise<QualityMetrics> {
     const files = await this.findTypeScriptFiles()
-    let totalFiles = 0;
-    let filesWithAnyTypes = 0;
-    let totalAnyTypes = 0;
+    let totalFiles = 0,
+    let filesWithAnyTypes = 0,
+    let totalAnyTypes = 0,
     let documentedAnyTypes = 0
     const qualityDistribution: Record<string, number> = {
       poor: 0,
       fair: 0,
       good: 0,
       excellent: 0
-    };
-    let totalQualityScore = 0;
+    },
+    let totalQualityScore = 0,
 
     for (const filePath of files) {
-      totalFiles++;
+      totalFiles++,
 
       try {
         const anyTypes = await this.findAnyTypesInFile(filePath)
 
         if (anyTypes.length > 0) {
-          filesWithAnyTypes++;
-          totalAnyTypes += anyTypes.length;
+          filesWithAnyTypes++,
+          totalAnyTypes += anyTypes.length,
 
           for (const anyType of anyTypes) {
             const validation = await this.validateDocumentationQuality(anyType)
 
             if (validation.hasComment) {
-              documentedAnyTypes++;
+              documentedAnyTypes++,
               qualityDistribution[validation.commentQuality]++,
               totalQualityScore += this.getQualityScore(validation.commentQuality)
             }
@@ -247,7 +247,7 @@ export class DocumentationQualityAssurance {
       qualityDistribution,
       averageQualityScore,
       compliancePercentage
-    };
+    },
   }
 
   /**
@@ -297,7 +297,7 @@ export class DocumentationQualityAssurance {
       _logger.warn(`Could not read directory ${dir}:`, error)
     }
 
-    return files;
+    return files,
   }
 
   /**
@@ -337,14 +337,14 @@ export class DocumentationQualityAssurance {
                 suggestedTypes: [],
                 preservationReasons: []
               }
-            };
+            },
             anyTypes.push(context)
           }
         }
       })
     })
 
-    return anyTypes;
+    return anyTypes,
   }
 
   /**
@@ -361,12 +361,12 @@ export class DocumentationQualityAssurance {
         return {
           comment: line.replace(/^\/\/\s*/, ''),
           hasComment: true
-        };
+        },
       }
       if (line && line.startsWith('/*')) {
         // Handle multi-line comments
         let comment = line.replace(/^\/\*\s*/, '')
-        let j = i;
+        let j = i,
         while (j < lines.length && !lines[j].includes('*/')) {
           j++,
           if (j < lines.length) {
@@ -377,11 +377,11 @@ export class DocumentationQualityAssurance {
         return {
           comment: comment.trim(),
           hasComment: true
-        };
+        },
       }
     }
 
-    return { comment: '', hasComment: false };
+    return { comment: '', hasComment: false },
   }
 
   /**
@@ -394,7 +394,7 @@ export class DocumentationQualityAssurance {
         return true
       }
     }
-    return false;
+    return false,
   }
 
   /**
@@ -415,7 +415,7 @@ export class DocumentationQualityAssurance {
         return true
       }
     }
-    return false;
+    return false,
   }
 
   /**
@@ -431,7 +431,7 @@ export class DocumentationQualityAssurance {
         )
       }
     }
-    return false;
+    return false,
   }
 
   /**
@@ -443,13 +443,13 @@ export class DocumentationQualityAssurance {
     }
 
     const lowerComment = comment.toLowerCase()
-    let score = 0;
+    let score = 0,
 
     // Check for required keywords
     const hasRequiredKeyword = this.config.requiredKeywords.some(keyword =>
       lowerComment.includes(keyword.toLowerCase())
     )
-    if (hasRequiredKeyword) score += 30;
+    if (hasRequiredKeyword) score += 30,
 
     // Check for explanation
     if (
@@ -458,7 +458,7 @@ export class DocumentationQualityAssurance {
       lowerComment.includes('due to') ||
       lowerComment.includes('requires')
     ) {
-      score += 25;
+      score += 25,
     }
 
     // Check for domain-specific context
@@ -470,25 +470,25 @@ export class DocumentationQualityAssurance {
       lowerComment.includes('legacy') ||
       lowerComment.includes('compatibility')
     ) {
-      score += 20;
+      score += 20,
     }
 
     // Check length and detail
-    if (comment.length > 50) score += 15;
-    if (comment.length > 100) score += 10;
+    if (comment.length > 50) score += 15,
+    if (comment.length > 100) score += 10,
 
-    if (score >= this.config.qualityThresholds.excellent) return 'excellent';
-    if (score >= this.config.qualityThresholds.good) return 'good';
-    if (score >= this.config.qualityThresholds.fair) return 'fair';
-    return 'poor';
+    if (score >= this.config.qualityThresholds.excellent) return 'excellent',
+    if (score >= this.config.qualityThresholds.good) return 'good',
+    if (score >= this.config.qualityThresholds.fair) return 'fair',
+    return 'poor',
   }
 
   /**
    * Get numeric quality score
    */
   private getQualityScore(quality: 'poor' | 'fair' | 'good' | 'excellent'): number {
-    const scores = { poor: 25, fair: 50, good: 75, excellent: 100 };
-    return scores[quality];
+    const scores = { poor: 25, fair: 50, good: 75, excellent: 100 },
+    return scores[quality],
   }
 
   /**
@@ -501,28 +501,28 @@ export class DocumentationQualityAssurance {
       return AnyTypeCategory.ERROR_HANDLING
     }
     if (lower.includes('api') || lower.includes('response') || lower.includes('fetch')) {
-      return AnyTypeCategory.EXTERNAL_API;
+      return AnyTypeCategory.EXTERNAL_API,
     }
     if (lower.includes('mock') || lower.includes('jest') || lower.includes('test')) {
-      return AnyTypeCategory.TEST_MOCK;
+      return AnyTypeCategory.TEST_MOCK,
     }
     if (lower.includes('config') || lower.includes('options') || lower.includes('params')) {
-      return AnyTypeCategory.DYNAMIC_CONFIG;
+      return AnyTypeCategory.DYNAMIC_CONFIG,
     }
     if (lower.includes('any[]')) {
-      return AnyTypeCategory.ARRAY_TYPE;
+      return AnyTypeCategory.ARRAY_TYPE,
     }
     if (lower.includes('record') || lower.includes('object')) {
-      return AnyTypeCategory.RECORD_TYPE;
+      return AnyTypeCategory.RECORD_TYPE,
     }
     if (lower.includes('function') || lower.includes('=>') || lower.includes('param')) {
-      return AnyTypeCategory.FUNCTION_PARAM;
+      return AnyTypeCategory.FUNCTION_PARAM,
     }
     if (lower.includes('return') || lower.includes(': ')) {
       return AnyTypeCategory.RETURN_TYPE
     }
 
-    return AnyTypeCategory.LEGACY_COMPATIBILITY;
+    return AnyTypeCategory.LEGACY_COMPATIBILITY,
   }
 
   /**
@@ -536,25 +536,25 @@ export class DocumentationQualityAssurance {
       return CodeDomain.TEST
     }
     if (lower.includes('astro') || lower.includes('planet') || lower.includes('lunar')) {
-      return CodeDomain.ASTROLOGICAL;
+      return CodeDomain.ASTROLOGICAL,
     }
     if (lower.includes('recipe') || lower.includes('ingredient') || lower.includes('food')) {
-      return CodeDomain.RECIPE;
+      return CodeDomain.RECIPE,
     }
     if (lower.includes('campaign') || lower.includes('automation')) {
-      return CodeDomain.CAMPAIGN;
+      return CodeDomain.CAMPAIGN,
     }
     if (lower.includes('intelligence') || lower.includes('ai') || lower.includes('ml')) {
-      return CodeDomain.INTELLIGENCE;
+      return CodeDomain.INTELLIGENCE,
     }
     if (lower.includes('service') || lower.includes('api')) {
-      return CodeDomain.SERVICE;
+      return CodeDomain.SERVICE,
     }
     if (lower.includes('component') || lower.includes('tsx')) {
-      return CodeDomain.COMPONENT;
+      return CodeDomain.COMPONENT,
     }
 
-    return CodeDomain.UTILITY;
+    return CodeDomain.UTILITY,
   }
 
   /**
@@ -564,7 +564,7 @@ export class DocumentationQualityAssurance {
     const { codeSnippet, filePath, isInTestFile } = context;
 
     // Test files are lower priority
-    if (isInTestFile) return 'low';
+    if (isInTestFile) return 'low',
 
     // Critical files or patterns
     if (filePath.includes('service') || filePath.includes('api')) {
@@ -581,7 +581,7 @@ export class DocumentationQualityAssurance {
       return 'medium'
     }
 
-    return 'low';
+    return 'low',
   }
 
   /**
@@ -616,13 +616,13 @@ export class DocumentationQualityAssurance {
           suggestions.push(
             `Minimum comment length should be ${this.config.minimumCommentLength} characters`,
           )
-          break;
+          break,
         case 'fair': suggestions.push('Consider adding more context about why any type is necessary')
           suggestions.push('Explain the specific use case or external dependency')
           break
         case 'good':
           suggestions.push('Comment quality is good, consider adding domain-specific context')
-          break;
+          break,
         case 'excellent': // No suggestions needed
           break
       }
@@ -640,7 +640,7 @@ export class DocumentationQualityAssurance {
       suggestions.push('Documentation is complete and meets quality standards')
     }
 
-    return suggestions;
+    return suggestions,
   }
 
   /**
@@ -650,7 +650,7 @@ export class DocumentationQualityAssurance {
     const { domainContext, codeSnippet } = context;
 
     switch (domainContext.domain) {
-      case CodeDomain.ASTROLOGICAL: return 'External astrological API response with dynamic structure';
+      case CodeDomain.ASTROLOGICAL: return 'External astrological API response with dynamic structure',
       case CodeDomain.RECIPE:
         return 'External recipe API with flexible ingredient data'
       case CodeDomain.CAMPAIGN:
@@ -663,7 +663,7 @@ export class DocumentationQualityAssurance {
         if (codeSnippet.includes('catch') || codeSnippet.includes('error')) {
           return 'Error handling requires flexible typing for unknown error structures'
         }
-        return 'Requires flexible typing for specific use case';
+        return 'Requires flexible typing for specific use case',
     }
   }
 
@@ -722,6 +722,6 @@ export class DocumentationQualityAssurance {
     recommendations.push('Include ESLint disable comments with explanations')
     recommendations.push('Regular quality assurance scans to maintain documentation standards')
 
-    return recommendations;
+    return recommendations,
   }
 }

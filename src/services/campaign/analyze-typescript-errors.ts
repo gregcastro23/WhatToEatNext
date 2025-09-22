@@ -16,7 +16,7 @@
 import { TypeScriptErrorAnalyzer } from './TypeScriptErrorAnalyzer';
 
 async function main() {
-  const args = process.argv.slice(2),
+  const args = process.argv.slice(2);
 
   if (args.includes('--help')) {
     // // // _logger.info(`
@@ -51,7 +51,7 @@ Examples:
 
   try {
     if (args.includes('--count-only')) {
-      const count = await analyzer.getCurrentErrorCount(),
+      const count = await analyzer.getCurrentErrorCount();
       if (args.includes('--json')) {
         // // // _logger.info(
           JSON.stringify({ currentErrorCount: count, timestamp: new Date().toISOString() }),
@@ -59,7 +59,7 @@ Examples:
       } else {
         // // // _logger.info(`Current TypeScript errors: ${count}`)
       }
-      return;
+      return,
     }
 
     // // // _logger.info('🚀 Starting TypeScript Error Analysis...')
@@ -81,7 +81,7 @@ Examples:
 }
 
 // Run if called directly
-if (require.main === module) {;
+if (require.main === module) {,
   main().catch(error => {
     _logger.error('❌ Unexpected error:', error),
     process.exit(1)

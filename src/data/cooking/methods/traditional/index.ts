@@ -16,7 +16,7 @@ export const _traditionalCookingMethods = {
   // Add other cooking methods as they are implemented
   // smoking,
   // curing
-};
+},
 
 // Export individual methods
 export {
@@ -24,4 +24,4 @@ export {
   pickling,
   // smoking,
   // curing
-};
+},

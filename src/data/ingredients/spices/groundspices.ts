@@ -1713,7 +1713,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: []
     }
   }
-};
+},
 
 // Fix the ingredient mappings to ensure they have all required properties
 export const _groundSpices: Record<string, IngredientMapping> =

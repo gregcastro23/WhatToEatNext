@@ -12,7 +12,7 @@ import {
   CampaignIntelligenceMetrics,
   ErrorPatternIntelligence,
   CampaignProgressIntelligence
-} from './CampaignIntelligenceSystem';
+} from './CampaignIntelligenceSystem',
 import { FixerResult } from './EnhancedErrorFixerIntegration';
 import { CampaignProgress } from './ExplicitAnyEliminationSystem';
 import { ErrorCategory } from './TypeScriptErrorAnalyzer';
@@ -24,8 +24,8 @@ describe('Campaign Intelligence System', () => {
         { code: 'TS2352', category: ErrorCategory.TS2352_TYPE_CONVERSION, priority: 20 },
         { code: 'TS2352', category: ErrorCategory.TS2352_TYPE_CONVERSION, priority: 18 },
         { code: 'TS2345', category: ErrorCategory.TS2345_ARGUMENT_MISMATCH, priority: 15 },
-        { code: 'TS2304', category: ErrorCategory.TS2304_CANNOT_FIND_NAME, priority: 22 };
-      ];
+        { code: 'TS2304', category: ErrorCategory.TS2304_CANNOT_FIND_NAME, priority: 22 },
+      ],
 
       const patterns: any = ERROR_PATTERN_INTELLIGENCE.analyzeErrorPatterns(sampleErrors)
 
@@ -61,7 +61,7 @@ describe('Campaign Intelligence System', () => {
           campaignDurationEstimate: 30,
           buildStabilityPrediction: 0.94
         }
-      };
+      },
 
       const report: any = ERROR_PATTERN_INTELLIGENCE.generateErrorIntelligenceReport(patterns)
 
@@ -97,7 +97,7 @@ describe('Campaign Intelligence System', () => {
           warnings: [],
           errors: []
         }
-      ];
+      ],
 
       const sampleCampaignProgress: CampaignProgress = { totalExplicitAnyStart: 1000,,
         totalExplicitAnyRemaining: 200,
@@ -105,13 +105,13 @@ describe('Campaign Intelligence System', () => {
         reductionPercentage: 80,
         campaignTarget: 75.5,
         isTargetMet: true
-      };
+      },
 
       const progress: any = CAMPAIGN_PROGRESS_INTELLIGENCE.analyzeCampaignProgress(
         2420,
         2500,
         sampleFixerResults,
-        sampleCampaignProgress,;
+        sampleCampaignProgress,,
       )
 
       expect(progress.velocityAnalysis.currentVelocity).toBeGreaterThan(0).
@@ -146,7 +146,7 @@ describe('Campaign Intelligence System', () => {
           opportunityIdentification: ['High success rate - consider aggressive mode'],
           resourceOptimization: ['Focus on remaining high-impact errors']
         }
-      };
+      },
 
       const report: any = CAMPAIGN_PROGRESS_INTELLIGENCE.generateProgressIntelligenceReport(progress)
 
@@ -169,9 +169,9 @@ describe('Campaign Intelligence System', () => {
           }
         }),
         getCurrentErrorCount: jest.fn().mockResolvedValue(2500)
-      };
+      },
 
-      const mockFixerIntegration: any = {};
+      const mockFixerIntegration: any = {},
 
       const mockAnyElimination = {
         showCampaignProgress: jest.fn().mockResolvedValue({ totalExplicitAnyStart: 1000,
@@ -181,12 +181,12 @@ describe('Campaign Intelligence System', () => {
           campaignTarget: 75.5,
           isTargetMet: false
         })
-      };
+      },
 
       const intelligence: any = await CAMPAIGN_ENTERPRISE_INTELLIGENCE.generateComprehensiveIntelligence(
         mockErrorAnalyzer as unknown,
         mockFixerIntegration as unknown,
-        mockAnyElimination as unknown,;
+        mockAnyElimination as unknown,,
       )
 
       expect(intelligence.campaignMetrics).toBeDefined().
@@ -247,8 +247,8 @@ describe('Campaign Intelligence System', () => {
         },
         systemIntegration: { overallSystemIntegratio, n: 0.92 },
         intelligenceRecommendations: ['Test recommendation'],
-        enterpriseReadinessScore: 0.88;
-      };
+        enterpriseReadinessScore: 0.88,
+      },
 
       const consoleSpy: any = jest.spyOn(console, 'log').mockImplementation()
 

@@ -43,7 +43,7 @@ export async function testCookingMethodRecommendations() {
     _planetaryBoost: 1.0,
     _dominantPlanets: ['Venus'],
     _planetaryDignities: {}
-  };
+  },
 
   // Create mock cooking methods
   const mockCookingMethods = [
@@ -57,7 +57,7 @@ export async function testCookingMethodRecommendations() {
     { name: 'poaching', element: 'Water' },
     { name: 'frying', element: 'Fire' },
     { name: 'fermenting', element: 'Earth' }
-  ];
+  ],
 
   // Run the test
   _logger.warn('TESTING COOKING METHOD RECOMMENDATIONS')
@@ -126,5 +126,5 @@ export async function testCookingMethodRecommendations() {
     ingredient: mockIngredient,
     _holisticRecommendations: holisticRecs,
     standardRecommendations: standardRecs
-  };
+  },
 }

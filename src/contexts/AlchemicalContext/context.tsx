@@ -62,7 +62,7 @@ export const defaultState: AlchemicalState = {
   dominantElement: 'Fire',
   planetaryHour: 'Sun',
   svgRepresentation: null
-};
+},
 
 // Create the context with default values
 export const _AlchemicalContext = createContext<AlchemicalContextType>({
@@ -77,4 +77,4 @@ export const _AlchemicalContext = createContext<AlchemicalContextType>({
 })
 
 // Export the AlchemicalContextType for direct imports
-export type { AlchemicalContextType } from './types';
+export type { AlchemicalContextType } from './types',

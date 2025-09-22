@@ -52,4 +52,4 @@ export const curing: CookingMethodData = {
     'Nitrates and nitrites used in some curing may form nitrosamines',
     'Proper technique is essential to prevent harmful bacterial growth'
   ]
-};
+},

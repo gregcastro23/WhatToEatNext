@@ -837,7 +837,7 @@ const rawCruciferous = {
       }
     }
   }
-};
+},
 
 // Fix the ingredient mappings to ensure they have all required properties
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility

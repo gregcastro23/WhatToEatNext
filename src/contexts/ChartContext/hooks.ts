@@ -17,5 +17,5 @@ export const useChart = (): ChartContextType => {
     throw new Error('useChart must be used within a ChartProvider')
   }
 
-  return context;
-};
+  return context,
+},

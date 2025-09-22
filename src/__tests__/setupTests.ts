@@ -4,19 +4,19 @@ import '@testing-library/jest-dom';
 
 // Setup test environment
 // NODE_ENV is readonly in typings; override via type cast for test setup
-(process.env as any).NODE_ENV = 'test';
-process.env.NEXT_PUBLIC_ENABLE_ASTRO_DEBUG = 'false';
+(process.env as any).NODE_ENV = 'test',
+process.env.NEXT_PUBLIC_ENABLE_ASTRO_DEBUG = 'false',
 
 // Suppress console output during tests to reduce noise in CI
 if (process.env.CI) {
   global.console = {
-    ...console;
+    ...console,
     log: jest.fn(),
     debug: jest.fn(),
     info: jest.fn(),
     warn: jest.fn(),
     error: jest.fn()
-  };
+  },
 }
 
 // Mock fetch for all tests

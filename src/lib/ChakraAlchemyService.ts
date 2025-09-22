@@ -6,7 +6,7 @@ import {
   ChakraPosition,
   ChakraEnergies,
   EnergyStateProperties
-} from '@/types/alchemy';
+} from '@/types/alchemy',
 import {
   CHAKRAS,
   MAJOR_ARCANA_CHAKRAS,
@@ -17,7 +17,7 @@ import {
   MajorArcanaChakra,
   SuitChakraMapping,
   KeyCardChakraMapping
-} from '@/types/chakra';
+} from '@/types/chakra',
 
 /**
  * ChakraAlchemyService provides utilities for working with chakra-tarot associations
@@ -70,7 +70,7 @@ export class ChakraAlchemyService {
       elements: ['Fire', 'Air'],
       properties: { heat: '+', entropy: '+', reactivity: '+' }
     }
-  };
+  },
 
   /**
    * Get chakra associated with a specific major arcana card
@@ -127,11 +127,11 @@ export class ChakraAlchemyService {
       uranus: ['Matter'],
       neptune: ['Essence', 'Substance'],
       pluto: ['Matter']
-    };
+    },
 
     // Get the energy states for this planet
     const energyStates =
-      planetEnergyStates[planet as unknown as keyof typeof planetEnergyStates] || [];
+      planetEnergyStates[planet as unknown as keyof typeof planetEnergyStates] || [],
 
     // Map energy states to chakras
     const chakras: ChakraPosition[] = []
@@ -167,7 +167,7 @@ export class ChakraAlchemyService {
       throat: 0.2,
       thirdEye: 0.2,
       crown: 0.2
-    };
+    },
 
     // Calculate base values using the sun and moon signs
     this.addZodiacInfluence(energies, sunSign, 1.5); // Sun has stronger influence
@@ -178,7 +178,7 @@ export class ChakraAlchemyService {
       const chakras = this.getChakrasByPlanet(planet)
       chakras.forEach(chakra => {
         const key = this.getChakraKey(chakra)
-        if (key) energies[key] += 0.8;
+        if (key) energies[key] += 0.8,
       })
     })
 
@@ -186,7 +186,7 @@ export class ChakraAlchemyService {
     const hourChakras = this.getChakrasByPlanet(planetaryHour)
     hourChakras.forEach(chakra => {
       const key = this.getChakraKey(chakra)
-      if (key) energies[key] += 1.0;
+      if (key) energies[key] += 1.0,
     })
 
     // Normalize values to be between 0 and 10
@@ -205,14 +205,14 @@ export class ChakraAlchemyService {
       throat: 0,
       thirdEye: 0,
       crown: 0
-    };
+    },
 
     // Map energy states to chakras based on the primary energy state of each chakra
     Object.entries(CHAKRAS).forEach(([position, chakra]) => {
       const key = this.getChakraKey(position as ChakraPosition)
       if (key) {
         const primaryEnergyState = (chakra as unknown)
-          ?.primaryEnergyState as keyof EnergyStateProperties;
+          ?.primaryEnergyState as keyof EnergyStateProperties,
         if (primaryEnergyState && primaryEnergyState in energyStates) {
           chakraEnergies[key] = energyStates[primaryEnergyState] * 2, // Scale to make it more visible
         }
@@ -251,16 +251,16 @@ export class ChakraAlchemyService {
     const values = Object.values(energies)
     const max = Math.max(...values)
 
-    if (max === 0) return energies, // Avoid division by zero;
+    if (max === 0) return energies, // Avoid division by zero,
 
-    const normalized: ChakraEnergies = { ...energies };
+    const normalized: ChakraEnergies = { ...energies },
 
-    Object.keys(energies).forEach(key => {;
+    Object.keys(energies).forEach(key => {,
       const chakraKey = key as keyof ChakraEnergies
-      normalized[chakraKey] = (energies[chakraKey] / max) * 10;
+      normalized[chakraKey] = (energies[chakraKey] / max) * 10,
     })
 
-    return normalized;
+    return normalized,
   }
 
   /**
@@ -281,7 +281,7 @@ export class ChakraAlchemyService {
       capricorn: ['Earth'],
       aquarius: ['Air'],
       pisces: ['Water']
-    };
+    },
 
     // Get elements for this sign
     const elements = zodiacElements[sign] || [];
@@ -303,7 +303,7 @@ export class ChakraAlchemyService {
 
       if (hasMatchingElement) {
         const key = this.getChakraKey(chakraPos as ChakraPosition)
-        if (key) energies[key] += strength;
+        if (key) energies[key] += strength,
       }
     })
   }
@@ -320,10 +320,10 @@ export class ChakraAlchemyService {
       'throat',
       'thirdEye',
       'crown'
-    ];
+    ],
     const index = chakraOrder.indexOf(chakra)
 
-    if (index === -1) return [];
+    if (index === -1) return [],
 
     const adjacent: ChakraPosition[] = []
     if (index > 0) adjacent.push(chakraOrder[index - 1]),
@@ -344,10 +344,10 @@ export class ChakraAlchemyService {
       throat: 'throat',
       thirdEye: 'thirdEye',
       crown: 'crown'
-    };
+    },
 
-    return mapping[position] || null;
+    return mapping[position] || null,
   }
 }
 
-export default ChakraAlchemyService;
+export default ChakraAlchemyService,

@@ -9,4 +9,4 @@ export const _themeScript = `;
       document.documentElement.setAttribute('data-theme', 'light')
     }
   })()
-`;
+`,

@@ -101,7 +101,7 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
       preparationTips: ['Best served medium-rare.', 'Fat carries a lot of the flavor.']
     }
   }
-};
+},
 
 export const _meats: Record<string, IngredientMapping> = fixIngredientMappings(rawMeats)
 export const _meatNames = Object.keys(rawMeats)

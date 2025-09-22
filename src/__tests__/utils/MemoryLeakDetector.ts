@@ -21,16 +21,16 @@ interface MemoryLeakReport {
     current: number,
     baseline: number,
     increase: number
-  };
+  },
   timestamp: string
 }
 
 export class MemoryLeakDetector {
   private baseline: number,
-  private patterns: MemoryLeakPattern[];
+  private patterns: MemoryLeakPattern[],
 
   constructor() {
-    this.baseline = process.memoryUsage().heapUsed;
+    this.baseline = process.memoryUsage().heapUsed,
     this.patterns = this.initializePatterns()
   }
 
@@ -46,9 +46,9 @@ export class MemoryLeakDetector {
             const totalListeners = Object.values(
               (window as unknown as { _eventListeners: Record<string, unknown[]> })._eventListeners
             ).reduce((sum: number, listeners: unknown[]) => sum + (listeners?.length || 0), 0)
-            return totalListeners > 50;
+            return totalListeners > 50,
           }
-          return false;
+          return false,
         },
         description: 'Too many event listeners attached to DOM elements',
         fix: 'Remove event listeners in test cleanup or use cleanup utilities',
@@ -59,7 +59,7 @@ export class MemoryLeakDetector {
         detector: () => {
           // Check for active timers (this is a simplified check)
           const activeTimers = (global as { _activeTimers?: unknown[] })._activeTimers || [];
-          return activeTimers.length > 10;
+          return activeTimers.length > 10,
         },
         description: 'Active timers not cleared after tests',
         fix: 'Clear all timers in afterEach hooks using clearTimeout/clearInterval',
@@ -71,7 +71,7 @@ export class MemoryLeakDetector {
           if (global.__TEST_CACHE__ && global.__TEST_CACHE__ instanceof Map) {
             return (global.__TEST_CACHE__ as Map<unknown, unknown>).size > 100
           }
-          return false;
+          return false,
         },
         description: 'Test cache has grown too large',
         fix: 'Clear test cache regularly or implement cache size limits',
@@ -95,7 +95,7 @@ export class MemoryLeakDetector {
             const cacheSize = Object.keys(require.cache).length
             return cacheSize > 500
           }
-          return false;
+          return false,
         },
         description: 'Jest module cache has grown excessively large',
         fix: 'Use jest.resetModules() in test cleanup',
@@ -108,7 +108,7 @@ export class MemoryLeakDetector {
             const nodeCount = document.querySelectorAll('*').length
             return nodeCount > 1000
           }
-          return false;
+          return false,
         },
         description: 'Too many DOM nodes accumulated during testing',
         fix: 'Clear document.body.innerHTML in afterEach hooks',
@@ -120,13 +120,13 @@ export class MemoryLeakDetector {
           if (global.__TEST_REFS__) {
             return (global.__TEST_REFS__ as unknown[]).length > 50
           }
-          return false;
+          return false,
         },
         description: 'Too many global test references accumulated',
         fix: 'Clear global.__TEST_REFS__ in test cleanup',
         severity: 'medium'
       }
-    ];
+    ],
   }
 
   /**
@@ -141,7 +141,7 @@ export class MemoryLeakDetector {
         return pattern.detector()
       } catch (error) {
         _logger.warn(`Error checking pattern ${pattern.name}:`, error)
-        return false;
+        return false,
       }
     })
 
@@ -156,7 +156,7 @@ export class MemoryLeakDetector {
         increase: memoryIncrease / (1024 * 1024), // MB
       },
       timestamp: new Date().toISOString()
-    };
+    },
   }
 
   private generateRecommendations(leaks: MemoryLeakPattern[], memoryIncrease: number): string[] {
@@ -194,7 +194,7 @@ export class MemoryLeakDetector {
       recommendations.push('No significant memory leaks detected')
     }
 
-    return recommendations;
+    return recommendations,
   }
 
   /**
@@ -216,7 +216,7 @@ export class MemoryLeakDetector {
           const listeners =
             (window as unknown as { _eventListeners: Record<string, unknown[]> })._eventListeners[
               eventType
-            ] || [];
+            ] || [],
           listeners.forEach((listener: (event: Event) => void) => {
             try {
               window.removeEventListener(eventType, listener)
@@ -225,7 +225,7 @@ export class MemoryLeakDetector {
             }
           })
         })
-        (window as unknown as { _eventListeners: Record<string, unknown[]> })._eventListeners = {};
+        (window as unknown as { _eventListeners: Record<string, unknown[]> })._eventListeners = {},
         fixed.push('Cleared excessive event listeners')
       }
     } catch (error) {
@@ -249,7 +249,7 @@ export class MemoryLeakDetector {
     try {
       // Fix 3: Clear DOM nodes
       if (typeof document !== 'undefined') {
-        document.body.innerHTML = '';
+        document.body.innerHTML = '',
         fixed.push('Cleared DOM nodes')
       }
     } catch (error) {
@@ -259,7 +259,7 @@ export class MemoryLeakDetector {
     try {
       // Fix 4: Clear global references
       if (global.__TEST_REFS__) {
-        (global.__TEST_REFS__ as unknown[]).length = 0;
+        (global.__TEST_REFS__ as unknown[]).length = 0,
         fixed.push('Cleared global test references')
       }
     } catch (error) {
@@ -286,7 +286,7 @@ export class MemoryLeakDetector {
       failed.push('Failed to force garbage collection')
     }
 
-    return { fixed, failed };
+    return { fixed, failed },
   }
 
   /**
@@ -305,25 +305,25 @@ Memory Usage:
 - Baseline: ${report.memoryUsage.baseline.toFixed(2)}MB
 - Increase: ${report.memoryUsage.increase.toFixed(2)}MB
 
-`;
+`,
 
     if (report.leaksDetected.length > 0) {
       output += `Detected Memory Leaks (${report.leaksDetected.length}): \n`
       report.leaksDetected.forEach((leak, index) => {
-        output += `${index + 1}. ${leak.name} (${leak.severity.toUpperCase()})\n`;
-        output += `   Description: ${leak.description}\n`;
-        output += `   Fix: ${leak.fix}\n\n`;
+        output += `${index + 1}. ${leak.name} (${leak.severity.toUpperCase()})\n`,
+        output += `   Description: ${leak.description}\n`,
+        output += `   Fix: ${leak.fix}\n\n`,
       })
     } else {
-      output += 'No memory leaks detected.\n\n';
+      output += 'No memory leaks detected.\n\n',
     }
 
     output += 'Recommendations: \n'
     report.recommendations.forEach((rec, index) => {
-      output += `${index + 1}. ${rec}\n`;
+      output += `${index + 1}. ${rec}\n`,
     })
 
-    return output;
+    return output,
   }
 
   /**
@@ -350,4 +350,4 @@ Memory Usage:
   }
 }
 
-export default MemoryLeakDetector;
+export default MemoryLeakDetector,

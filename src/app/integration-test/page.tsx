@@ -9,4 +9,4 @@ export default function IntegrationTestPage() {
 export const _metadata = {
   title: 'Unified Scoring Integration Test',
   description: 'Test the integration of the UnifiedScoringService with existing components'
-};
+},

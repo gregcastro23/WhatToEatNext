@@ -69,7 +69,7 @@ function DebugContent() {
     } finally {
       setLoading(false)
     }
-  };
+  },
 
   return (
     <div className='container mx-auto space-y-6 p-4'>

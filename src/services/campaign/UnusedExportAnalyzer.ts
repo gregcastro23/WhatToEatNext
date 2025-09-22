@@ -57,7 +57,7 @@ export interface AnalysisSummary {
 }
 
 export enum FilePriority {
-  HIGH = 'HIGH', // Recipe building files;
+  HIGH = 'HIGH', // Recipe building files,
   MEDIUM = 'MEDIUM', // Core system files,
   LOW = 'LOW', // External/test files,
 }
@@ -86,10 +86,10 @@ export class UnusedExportAnalyzer {
     this.srcPath = srcPath
     this.excludePatterns = [
       '**/node_modules/**',
-      '**/*.test.ts';
-      '**/*.test.tsx';
-      '**/*.spec.ts';
-      '**/*.spec.tsx';
+      '**/*.test.ts',
+      '**/*.test.tsx',
+      '**/*.spec.ts',
+      '**/*.spec.tsx',
       '**/dist/**',
       '**/build/**',
       '**/*.d.ts'
@@ -112,7 +112,7 @@ export class UnusedExportAnalyzer {
         '**/providers/**'
       ],
       [FilePriority.LOW]: ['**/types/**', '**/constants/**', '**/config/**', '**/lib/**']
-    };
+    },
   }
 
   /**
@@ -147,7 +147,7 @@ export class UnusedExportAnalyzer {
       `${this.srcPath}/**/*.tsx`,
       `${this.srcPath}/**/*.js`,
       `${this.srcPath}/**/*.jsx`
-    ];
+    ],
 
     const files: string[] = []
     for (const pattern of patterns) {
@@ -179,7 +179,7 @@ export class UnusedExportAnalyzer {
       safetyScore,
       transformationCandidates,
       category
-    };
+    },
   }
 
   /**
@@ -200,7 +200,7 @@ export class UnusedExportAnalyzer {
       }
     }
 
-    return unusedExports;
+    return unusedExports,
   }
 
   /**
@@ -256,17 +256,17 @@ export class UnusedExportAnalyzer {
       }
     })
 
-    return exports;
+    return exports,
   }
 
   /**
    * Determine export type from line content
    */
   private determineExportType(line: string): UnusedExport['exportType'] {
-    if (line.includes('function')) return 'function';
-    if (line.includes('class')) return 'class';
-    if (line.includes('interface')) return 'interface';
-    if (line.includes('type')) return 'type';
+    if (line.includes('function')) return 'function',
+    if (line.includes('class')) return 'class',
+    if (line.includes('interface')) return 'interface',
+    if (line.includes('type')) return 'type',
     if (line.includes('const')) return 'const'
     return 'variable'
   }
@@ -276,7 +276,7 @@ export class UnusedExportAnalyzer {
    */
   private async countUsages(exportName: string, excludeFilePath: string): Promise<number> {
     const files = await this.getAllSourceFiles()
-    let usageCount = 0;
+    let usageCount = 0,
 
     for (const filePath of files) {
       if (filePath === excludeFilePath) continue
@@ -300,7 +300,7 @@ export class UnusedExportAnalyzer {
       }
     }
 
-    return usageCount;
+    return usageCount,
   }
 
   /**
@@ -314,21 +314,21 @@ export class UnusedExportAnalyzer {
     const startLine = exportInfo.lineNumber - 1;
 
     // Simple, heuristic: count lines of the export definition
-    let complexity = 1;
-    let braceCount = 0;
+    let complexity = 1,
+    let braceCount = 0,
     let inExport = false
 
     for (let i = startLine, i < lines.lengthi++) {
       const line = lines[i];
 
       if (!inExport && line.includes('export')) {
-        inExport = true;
+        inExport = true,
       }
 
       if (inExport) {
         complexity++,
-        braceCount += (line.match(/\{/g) || []).length;
-        braceCount -= (line.match(/\}/g) || []).length;
+        braceCount += (line.match(/\{/g) || []).length,
+        braceCount -= (line.match(/\}/g) || []).length,
 
         if (braceCount === 0 && line.includes('}')) {
           break
@@ -357,7 +357,7 @@ export class UnusedExportAnalyzer {
       }
     }
 
-    return FilePriority.LOW;
+    return FilePriority.LOW,
   }
 
   /**
@@ -366,30 +366,30 @@ export class UnusedExportAnalyzer {
   private determineCategory(filePath: string): FileCategory {
     const relativePath = path.relative(process.cwd(), filePath)
 
-    if (relativePath.includes('/recipe')) return FileCategory.RECIPE;
+    if (relativePath.includes('/recipe')) return FileCategory.RECIPE,
     if (
       relativePath.includes('/test') ||
       relativePath.includes('.test.') ||
       relativePath.includes('.spec.')
     ) {
-      return FileCategory.TEST;
+      return FileCategory.TEST,
     }
     if (
       relativePath.includes('/components') ||
       relativePath.includes('/services') ||
       relativePath.includes('/hooks')
     ) {
-      return FileCategory.CORE;
+      return FileCategory.CORE,
     }
     if (
       relativePath.includes('/types') ||
       relativePath.includes('/constants') ||
       relativePath.includes('/config')
     ) {
-      return FileCategory.EXTERNAL;
+      return FileCategory.EXTERNAL,
     }
 
-    return FileCategory.UTILITY;
+    return FileCategory.UTILITY,
   }
 
   /**
@@ -400,25 +400,25 @@ export class UnusedExportAnalyzer {
     content: string,
     unusedExports: UnusedExport[],
   ): number {
-    let score = 100, // Start with perfect score;
+    let score = 100, // Start with perfect score,
 
     // Reduce score based on file complexity
     const lines = content.split('\n').length;
-    if (lines > 500) score -= 20;
-    else if (lines > 200) score -= 10;
+    if (lines > 500) score -= 20,
+    else if (lines > 200) score -= 10,
 
     // Reduce score based on number of unused exports
-    if (unusedExports.length > 10) score -= 20;
-    else if (unusedExports.length > 5) score -= 10;
+    if (unusedExports.length > 10) score -= 20,
+    else if (unusedExports.length > 5) score -= 10,
 
     // Reduce score for critical files
     if (filePath.includes('/core/') || filePath.includes('/critical/')) {
-      score -= 15;
+      score -= 15,
     }
 
     // Increase score for test files (safer to transform)
     if (filePath.includes('/test/') || filePath.includes('.test.')) {
-      score += 10;
+      score += 10,
     }
 
     return Math.max(0, Math.min(100, score))
@@ -441,7 +441,7 @@ export class UnusedExportAnalyzer {
         transformationComplexity,
         safetyScore,
         estimatedBenefit
-      };
+      },
     })
   }
 
@@ -450,16 +450,16 @@ export class UnusedExportAnalyzer {
    */
   private generateIntelligenceSystemName(exportInfo: UnusedExport): string {
     const baseName = exportInfo.exportName.replace(/([A-Z])/g, '_1').toUpperCase(),
-    return `${baseName}_INTELLIGENCE_SYSTEM`;
+    return `${baseName}_INTELLIGENCE_SYSTEM`,
   }
 
   /**
    * Assess transformation complexity
    */
   private assessTransformationComplexity(exportInfo: UnusedExport): TransformationComplexity {
-    if (exportInfo.complexity < 5) return TransformationComplexity.SIMPLE;
-    if (exportInfo.complexity < 15) return TransformationComplexity.MODERATE;
-    if (exportInfo.complexity < 30) return TransformationComplexity.COMPLEX;
+    if (exportInfo.complexity < 5) return TransformationComplexity.SIMPLE,
+    if (exportInfo.complexity < 15) return TransformationComplexity.MODERATE,
+    if (exportInfo.complexity < 30) return TransformationComplexity.COMPLEX,
     return TransformationComplexity.VERY_COMPLEX
   }
 
@@ -467,15 +467,15 @@ export class UnusedExportAnalyzer {
    * Calculate transformation safety score
    */
   private calculateTransformationSafetyScore(exportInfo: UnusedExport): number {
-    let score = 90, // Start high for unused exports;
+    let score = 90, // Start high for unused exports,
 
     // Reduce for complex exports
-    if (exportInfo.complexity > 20) score -= 20;
-    else if (exportInfo.complexity > 10) score -= 10;
+    if (exportInfo.complexity > 20) score -= 20,
+    else if (exportInfo.complexity > 10) score -= 10,
 
     // Increase for simple types
     if (exportInfo.exportType === 'interface' || exportInfo.exportType === 'type') {
-      score += 10;
+      score += 10,
     }
 
     return Math.max(0, Math.min(100, score))
@@ -485,11 +485,11 @@ export class UnusedExportAnalyzer {
    * Calculate estimated benefit of transformation
    */
   private calculateEstimatedBenefit(exportInfo: UnusedExport): number {
-    let benefit = 50, // Base benefit;
+    let benefit = 50, // Base benefit,
 
     // Higher benefit for functions and classes (more transformable)
     if (exportInfo.exportType === 'function' || exportInfo.exportType === 'class') {
-      benefit += 30;
+      benefit += 30,
     }
 
     // Higher benefit for complex exports (more intelligence potential)
@@ -532,7 +532,7 @@ export class UnusedExportAnalyzer {
         averageSafetyScore,
         estimatedIntelligenceSystems: totalTransformationCandidates
       }
-    };
+    },
   }
 
   /**
@@ -566,14 +566,14 @@ export class UnusedExportAnalyzer {
       '',
       '## Top Transformation Candidates',
       ''
-    ];
+    ],
 
     // Add top candidates from each priority level
     const topCandidates = [
       ...analysis.highPriorityFiles.slice(05),
       ...analysis.mediumPriorityFiles.slice(05),
       ...analysis.lowPriorityFiles.slice(05)
-    ];
+    ],
 
     topCandidates.forEach(file => {
       report.push(`### ${file.filePath}`)

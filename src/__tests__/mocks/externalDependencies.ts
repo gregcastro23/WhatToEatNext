@@ -22,7 +22,7 @@ export const mockPlanetaryPositions: MockPlanetaryPositions = {
   pluto: { sign: 'aquarius', degree: 3.5, exactLongitude: 333.5, isRetrograde: false },
   northNode: { sign: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true },
   southNode: { sign: 'virgo', degree: 26.88, exactLongitude: 176.88, isRetrograde: true }
-};
+},
 
 // Mock logger implementation
 export const mockLogger = {
@@ -31,7 +31,7 @@ export const mockLogger = {
   warn: jest.fn(),
   error: jest.fn(),
   log: jest.fn()
-};
+},
 
 // Mock createLogger function
 export const mockCreateLogger = jest.fn(() => mockLogger)
@@ -47,7 +47,7 @@ export const mockRouter = {
   pathname: '/',
   query: {},
   asPath: '/'
-};
+},
 
 // Mock useRouter hook
 export const mockUseRouter = () => mockRouter;
@@ -55,7 +55,7 @@ export const mockUseRouter = () => mockRouter;
 // Mock reliable astronomy utility
 export const mockReliableAstronomy = {
   getReliablePlanetaryPositions: jest.fn(() => Promise.resolve(mockPlanetaryPositions))
-};
+},
 
 // Mock agent hooks
 export const mockAgentHooks = {
@@ -89,7 +89,7 @@ export const mockAgentHooks = {
     metrics: {},
     updateMetrics: jest.fn()
   })
-};
+},
 
 // Mock MCP server integration
 export const mockMCPServerIntegration = {
@@ -110,7 +110,7 @@ export const mockMCPServerIntegration = {
     ),
     getServerStatus: jest.fn(() => ({ connected: true, status: 'healthy' }))
   })
-};
+},
 
 // Mock development experience optimizations
 export const mockDevelopmentExperienceOptimizations = {
@@ -122,7 +122,7 @@ export const mockDevelopmentExperienceOptimizations = {
     getPerformanceOptimizationRecommendations: jest.fn(() => []),
     applyAutomaticOptimizations: jest.fn(() => ({ applied: [], errors: [] }))
   })
-};
+},
 
 // Mock state preservation hooks
 export const mockStatePreservationHooks = {
@@ -149,7 +149,7 @@ export const mockStatePreservationHooks = {
     getOptimizationRecommendations: jest.fn(),
     validatePerformanceMetrics: jest.fn()
   })
-};
+},
 
 // Mock error handling
 export const mockErrorHandler = {
@@ -158,14 +158,14 @@ export const mockErrorHandler = {
     clearErrors: jest.fn(),
     errors: []
   })
-};
+},
 
 // Mock steering file intelligence
 export const mockSteeringFileIntelligence = {
   useSteeringFileIntelligence: () => ({
     getGuidance: jest.fn(() => Promise.resolve({}))
   })
-};
+},
 
 // Mock alchemical context
 export const mockAlchemicalContext = {
@@ -177,7 +177,7 @@ export const mockAlchemicalContext = {
     planetaryPositions: mockPlanetaryPositions,
     isDaytime: true
   })
-};
+},
 
 // Export all mocks for easy importing
 export const _allMocks = {
@@ -194,4 +194,4 @@ export const _allMocks = {
   mockErrorHandler,
   mockSteeringFileIntelligence,
   mockAlchemicalContext
-};
+},

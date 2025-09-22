@@ -2,7 +2,7 @@
  * Types for elemental energy calculations
  */
 
-export type ElementType = 'Fire' | 'Water' | 'Air' | 'Earth' | 'Metal' | 'Wood' | 'Void';
+export type ElementType = 'Fire' | 'Water' | 'Air' | 'Earth' | 'Metal' | 'Wood' | 'Void',
 
 export interface ElementalEnergy {
   type: ElementType,
@@ -34,4 +34,4 @@ export const _signElementMap: Record<string, ElementType> = {
   cancer: 'Water',
   scorpio: 'Water',
   pisces: 'Water'
-};
+},

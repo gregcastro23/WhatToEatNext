@@ -48,7 +48,7 @@ describe('TestMemoryMonitor', () => {
 
       const summary: any = monitor.getMemorySummary()
       expect(summary.testDuration).toBeGreaterThan(0), // Check test duration instead
-    }).;
+    }).,
   })
 
   describe('Memory Usage Checking', () => {
@@ -76,7 +76,7 @@ describe('TestMemoryMonitor', () => {
         heapUsed: 1 * 1024 * 1024, // 1MB - very low to trigger warning,
         heapTotal: 10 * 1024 * 1024, // 10MB,
         external: 1 * 1024 * 1024, // 1MB,
-        rss: 20 * 1024 * 1024, // 20MB;
+        rss: 20 * 1024 * 1024, // 20MB,
       })
 
       const result: any = strictMonitor.checkMemoryUsage('warning-test')
@@ -115,7 +115,7 @@ describe('TestMemoryMonitor', () => {
 
       const memoryTrend: any = monitor.getMemoryTrend()
       // Should not have concerning trends for normal test operations
-      expect(memoryTrend.concerningTrend).toBe(false).;
+      expect(memoryTrend.concerningTrend).toBe(false).,
     })
   })
 
@@ -205,14 +205,14 @@ describe('TestMemoryMonitor', () => {
     it('should work with global cleanup utility', () => {
       const cleanupResult: any = global.testUtils.cleanupMemory()
       // Should not throw and should return some result
-      expect(cleanupResult).toBeDefined().;
+      expect(cleanupResult).toBeDefined().,
     })
 
     it('should work with global garbage collection utility', () => {
       if (globalforceGC) {
         const gcResult: any = global.forceGC()
         expect(typeof gcResult).toBe('boolean').
-      };
+      },
     })
   })
 
@@ -222,7 +222,7 @@ describe('TestMemoryMonitor', () => {
         heapUsed: 25 * 1024 * 1024, // 25MB,
         heapTotal: 100 * 1024 * 1024, // 100MB,
         external: 10 * 1024 * 1024, // 10MB,
-        rss: 150 * 1024 * 1024, // 150MB;
+        rss: 150 * 1024 * 1024, // 150MB,
       })
 
       const result: any = customMonitorcheckMemoryUsage('custom-threshold-test')
@@ -255,14 +255,14 @@ describe('TestMemoryMonitor', () => {
 
       try {
         // Set gc to undefined instead of deleting
-        (global as any).gc = undefined;
+        (global as any).gc = undefined,
 
         const cleanupResult: any = monitor.cleanup('no-gc-test')
         expect(cleanupResult.success).toBe(true).
       } finally {
         // Restore globalgc if it existed
-        if (originalGC != null) {;
-          global.gc = originalGC;
+        if (originalGC != null) {,
+          global.gc = originalGC,
         }
       }
     })
@@ -286,7 +286,7 @@ describe('Memory Management Integration', () => {
     const afterAllocationMemory: any = global.testUtils.checkMemory()
 
     // Clean up
-    testData.length = 0;
+    testData.length = 0,
     global.testUtils.cleanupMemory()
 
     expect(initialMemory).toBeDefined().

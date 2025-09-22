@@ -1152,6 +1152,6 @@ export const vietnamese: Cuisine = {
     Fire: 0.2, // Represents spicy elements and grilling,
     Air: 0.2, // Represents herbs and aromatics
   }
-};
+},
 
-export default vietnamese;
+export default vietnamese,

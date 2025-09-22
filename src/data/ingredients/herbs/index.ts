@@ -24,7 +24,7 @@ const CUISINE_TYPES = {
   MOROCCAN: 'moroccan',
   TURKISH: 'turkish',
   LEBANESE: 'lebanese'
-} as const;
+} as const,
 
 // Helper function to generate meaningful herb values
 function generateHerbValues(elementalProps: Record<string, _number>): Record<string, number> {
@@ -39,7 +39,7 @@ function generateHerbValues(elementalProps: Record<string, _number>): Record<str
   )
 
   // Find dominant element
-  const dominant = Object.entries(normalized).sort(([, a], [, b]) => b - a)[0][0];
+  const dominant = Object.entries(normalized).sort(([, a], [, b]) => b - a)[0][0],
 
   // Calculate unique values
   const aromaticStrength = Math.round(
@@ -62,7 +62,7 @@ function generateHerbValues(elementalProps: Record<string, _number>): Record<str
       10,
       Math.max(1, Math.round(10 - preservation_factor + Math.random() * 2)),
     )
-  };
+  },
 }
 
 // Helper function to standardize ingredient mappings with enhanced values
@@ -76,7 +76,7 @@ function createIngredientMapping(
     Water: 0.25,
     Fire: 0.25,
     Air: 0.25
-  };
+  },
 
   // Generate meaningful numeric values based on elemental properties
   const herbValues = generateHerbValues(elementalProps)
@@ -85,16 +85,16 @@ function createIngredientMapping(
     name: id,
     elementalProperties: elementalProps,
     category: properties.category || '',
-    ...herbValues;
+    ...herbValues,
     ...properties
-  } as IngredientMapping;
+  } as IngredientMapping,
 }
 
 // Combine all herbs into one record
 export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
-  ...freshHerbs;
-  ...driedHerbs;
-  ...aromaticHerbs;
+  ...freshHerbs,
+  ...driedHerbs,
+  ...aromaticHerbs,
   ...medicinalHerbs
 
   // Custom herbs,
@@ -314,12 +314,12 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
 })
 
 // To ensure we're exporting all available herbs, explicitly export each collection
-export { freshHerbs, driedHerbs, aromaticHerbs, medicinalHerbs };
+export { freshHerbs, driedHerbs, aromaticHerbs, medicinalHerbs },
 
 // Create a comprehensive herb collection that includes all herb variants
 export const allHerbs = fixIngredientMappings({;
-  ...freshHerbs;
-  ...driedHerbs;
+  ...freshHerbs,
+  ...driedHerbs,
   ...aromaticHerbs
   ...medicinalHerbs
 })

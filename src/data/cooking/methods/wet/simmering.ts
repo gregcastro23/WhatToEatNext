@@ -264,4 +264,4 @@ export const simmering: CookingMethodData = {
   sustainabilityRating: 0.85, // High - energy efficient over time with minimal waste
 
   equipmentComplexity: 0.3, // Low - requires basic equipment available worldwide
-};
+},

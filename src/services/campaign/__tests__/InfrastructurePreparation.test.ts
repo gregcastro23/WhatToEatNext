@@ -23,7 +23,7 @@ describe('InfrastructurePreparation', () => {
   let testProjectRoot: string,
 
   beforeEach(() => {
-    testProjectRoot = '/test/project';
+    testProjectRoot = '/test/project',
     infrastructurePrep = new InfrastructurePreparation(testProjectRoot)
 
     // Reset mocks
@@ -54,14 +54,14 @@ describe('InfrastructurePreparation', () => {
         if (path.includes('package.json')) {
           return JSON.stringify({
             scripts: {
-              'lint:quick': 'eslint --config eslint.config.fast.cjs';
+              'lint:quick': 'eslint --config eslint.config.fast.cjs',
               'lint:type-aware': 'eslint --config eslint.config.type-aware.cjs'
               'lint:incremental': 'eslint --config eslint.config.fast.cjs --cache'
               'lint:ci': 'eslint --config eslint.config.type-aware.cjs --format=json'
             }
           })
         }
-        return '{}';
+        return '{}',
       })
 
       // Mock successful ESLint execution
@@ -105,7 +105,7 @@ describe('InfrastructurePreparation', () => {
           // Simulate slower execution
           return ''
         }
-        return '';
+        return '',
       })
 
       const status = await infrastructurePrep.prepareInfrastructure()
@@ -122,7 +122,7 @@ describe('InfrastructurePreparation', () => {
         if (command.includes('git status') || command.includes('git stash list')) {
           return ''
         }
-        return '';
+        return '',
       })
 
       mockExistsSync.mockReturnValue(true)
@@ -140,7 +140,7 @@ describe('InfrastructurePreparation', () => {
         if (command.includes('git')) {
           throw new Error('Git not available')
         }
-        return '';
+        return '',
       })
 
       const status = await infrastructurePrep.prepareInfrastructure()
@@ -170,7 +170,7 @@ describe('InfrastructurePreparation', () => {
         if (command.includes('yarn build')) {
           return ''
         }
-        return '';
+        return '',
       })
 
       mockExistsSync.mockReturnValue(true)
@@ -187,7 +187,7 @@ describe('InfrastructurePreparation', () => {
         if (command.includes('yarn build')) {
           throw new Error('Build failed')
         }
-        return '';
+        return '',
       })
 
       const status = await infrastructurePrep.prepareInfrastructure()
@@ -349,14 +349,14 @@ describe('InfrastructurePreparation', () => {
         if (path.includes('package.json')) {
           return JSON.stringify({
             scripts: {
-              'lint:quick': 'eslint --config eslint.config.fast.cjs';
-              'lint:type-aware': 'eslint --config eslint.config.type-aware.cjs';
+              'lint:quick': 'eslint --config eslint.config.fast.cjs',
+              'lint:type-aware': 'eslint --config eslint.config.type-aware.cjs',
               'lint:incremental': 'eslint --config eslint.config.fast.cjs --cache'
               'lint:ci': 'eslint --config eslint.config.type-aware.cjs --format=json'
             }
           })
         }
-        return '{}';
+        return '{}',
       })
 
       const status = await infrastructurePrep.prepareInfrastructure()

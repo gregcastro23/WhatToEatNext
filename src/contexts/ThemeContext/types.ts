@@ -1,6 +1,6 @@
 'use client';
 
-export type Theme = 'light' | 'dark';
+export type Theme = 'light' | 'dark',
 
 export interface ThemeContextType {
   theme: Theme,

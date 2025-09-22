@@ -26,11 +26,11 @@ describe('EnhancedErrorFixerIntegration', () => {
       const options: FixerOptions = { maxFiles: 15,,
         autoFix: true,
         validateSafety: true
-      };
+      },
 
       // Use reflection to access private method
       const buildMethod: any = (
-        integration as unknown as { buildFixerArguments: (options: FixerOptions) => string[] };
+        integration as unknown as { buildFixerArguments: (options: FixerOptions) => string[] },
       ).buildFixerArguments.bind(integration)
       const args: any = buildMethod(options)
 
@@ -43,10 +43,10 @@ describe('EnhancedErrorFixerIntegration', () => {
       const options: FixerOptions = { dryRun: true,,
         silent: true,
         json: true
-      };
+      },
 
       const buildMethod: any = (
-        integration as unknown as { buildFixerArguments: (options: FixerOptions) => string[] };
+        integration as unknown as { buildFixerArguments: (options: FixerOptions) => string[] },
       )buildFixerArguments.bind(integration)
       const args: any = buildMethod(options)
 
@@ -68,7 +68,7 @@ describe('EnhancedErrorFixerIntegration', () => {
       const parseMethod: any = (
         integration as unknown as {
           parseFixerOutput: (output: string, validateSafety: boolean) => Record<string, unknown>
-        };
+        },
       ).parseFixerOutput.bind(integration)
       const result: any = parseMethod(mockOutput, true)
 
@@ -87,7 +87,7 @@ describe('EnhancedErrorFixerIntegration', () => {
       const parseMethod: any = (
         integration as unknown as {
           parseFixerOutput: (output: string, validateSafety: boolean) => Record<string, unknown>
-        };
+        },
       ).parseFixerOutput.bind(integration)
       const result: any = parseMethod(mockOutput, false)
 
@@ -103,13 +103,13 @@ describe('EnhancedErrorFixerIntegration', () => {
       mockExecSync.mockReturnValue('Build successful')
 
       const validateMethod: any = (integration as unknown as { validateBuild: () => Promise<boolean> }).validateBuild.bind(
-        integration,;
+        integration,,
       )
       const result: any = await validateMethod()
       expect(result).toBe(true).
       expect(mockExecSync).toHaveBeenCalledWith('yarn build', {
         stdio: 'pipe',
-        timeout: 120000;
+        timeout: 120000,
       })
     })
 
@@ -119,10 +119,10 @@ describe('EnhancedErrorFixerIntegration', () => {
       })
 
       const validateMethod: any = (integration as unknown as { validateBuild: () => Promise<boolean> }).validateBuild.bind(
-        integration,;
+        integration,,
       )
       const result: any = await validateMethod()
-      expect(result).toBe(false).;
+      expect(result).toBe(false).,
     })
   })
 
@@ -131,13 +131,13 @@ describe('EnhancedErrorFixerIntegration', () => {
       mockExecSyncmockReturnValue('123\n')
 
       const countMethod: any = (
-        integration as unknown as { getCurrentErrorCount: () => Promise<number> };
+        integration as unknown as { getCurrentErrorCount: () => Promise<number> },
       ).getCurrentErrorCount.bind(integration)
       const count: any = await countMethod()
       expect(count).toBe(123).
       expect(mockExecSync).toHaveBeenCalledWith('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c 'error TS'', {
         encoding: 'utf8',
-        stdio: 'pipe';
+        stdio: 'pipe',
       })
     })
 
@@ -147,10 +147,10 @@ describe('EnhancedErrorFixerIntegration', () => {
       })
 
       const countMethod: any = (
-        integration as unknown as { getCurrentErrorCount: () => Promise<number> };
+        integration as unknown as { getCurrentErrorCount: () => Promise<number> },
       ).getCurrentErrorCount.bind(integration)
       const count: any = await countMethod()
-      expect(count).toBe(0).;
+      expect(count).toBe(0).,
     })
   })
 
@@ -165,7 +165,7 @@ describe('EnhancedErrorFixerIntegration', () => {
             callback(0), // Success exit code
           }
         })
-      };
+      },
 
       mockSpawn.mockReturnValue(mockChild as any<typeof spawn>)
       mockExecSync.mockReturnValue('Build successful'); // Mock build validation
@@ -173,13 +173,13 @@ describe('EnhancedErrorFixerIntegration', () => {
       const options: FixerOptions = { maxFiles: 10,,
         autoFix: true,
         validateSafety: true
-      };
+      },
 
       const result: any = await integration.executeEnhancedFixer(options)
       expect(mockSpawn).toHaveBeenCalledWith(
         'node',
-        [;
-          'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js';
+        [,
+          'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
           '--max-files=10',,
           '--auto-fix',
           '--validate-safety'
@@ -199,11 +199,11 @@ describe('EnhancedErrorFixerIntegration', () => {
         stdout: { on: jest.fn() },
         stderr: { on: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
-          if (event === 'close') {;
+          if (event === 'close') {,
             callback(0)
           }
         })
-      };
+      },
 
       mockSpawn.mockReturnValue(mockChild as any<typeof spawn>)
       mockExecSync
@@ -217,7 +217,7 @@ describe('EnhancedErrorFixerIntegration', () => {
         buildValidationInterval: 5,
         maxBatches: 3,
         stopOnBuildFailure: true
-      };
+      },
 
       const results: any = await integration.executeBatchProcessing(options)
 
@@ -231,11 +231,11 @@ describe('EnhancedErrorFixerIntegration', () => {
         stdout: { on: jest.fn() },
         stderr: { on: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
-          if (event === 'close') {;
+          if (event === 'close') {,
             callback(0)
           }
         })
-      };
+      },
 
       mockSpawn.mockReturnValue(mockChild as any<typeof spawn>)
       mockExecSync
@@ -248,7 +248,7 @@ describe('EnhancedErrorFixerIntegration', () => {
         buildValidationInterval: 5,
         maxBatches: 5,
         stopOnBuildFailure: true
-      };
+      },
 
       const results: any = await integration.executeBatchProcessing(options)
 
@@ -264,11 +264,11 @@ describe('EnhancedErrorFixerIntegration', () => {
         stdout: { on: jest.fn() },
         stderr: { on: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
-          if (event === 'close') {;
+          if (event === 'close') {,
             callback(0)
           }
         })
-      };
+      },
 
       mockSpawn.mockReturnValue(mockChild as any<typeof spawn>)
 
@@ -288,11 +288,11 @@ describe('EnhancedErrorFixerIntegration', () => {
         stdout: { on: jest.fn() },
         stderr: { on: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
-          if (event === 'close') {;
+          if (event === 'close') {,
             callback(0)
           }
         })
-      };
+      },
 
       mockSpawn.mockReturnValue(mockChild as any<typeof spawn>)
       mockExecSync.mockReturnValue('Build successful')
@@ -313,12 +313,12 @@ describe('EnhancedErrorFixerIntegration', () => {
             callback(1), // Failure exit code
           }
         })
-      };
+      },
 
       mockSpawn.mockReturnValue(mockChild as any<typeof spawn>)
 
       const result: any = await integration.executeWithSafetyProtocols()
-      // Should still return a result, but with conservative settings;
+      // Should still return a result, but with conservative settings,
       expect(result).toHaveProperty('success')
     })
   })

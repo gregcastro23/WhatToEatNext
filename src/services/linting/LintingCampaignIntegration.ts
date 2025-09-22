@@ -24,13 +24,13 @@ export interface LintingCampaignConfig {
     maxErrors: number,
     maxWarnings: number,
     targetReduction: number
-  };
+  },
   safetyProtocols: string[],
   notifications: {
     onProgress: boolean,
     onCompletion: boolean,
     onRegression: boolean
-  };
+  },
 }
 
 /**
@@ -45,7 +45,7 @@ export interface LintingCampaignPhase {
     errorReduction: number,
     warningReduction: number,
     performanceThreshold: number
-  };
+  },
   estimatedDuration: number // minutes
 }
 
@@ -62,7 +62,7 @@ export interface CampaignExecutionResult {
     warningsBefore: number,
     warningsAfter: number,
     improvementPercentage: number
-  };
+  },
   executionTime: number,
   issues: string[],
   recommendations: string[]
@@ -72,9 +72,9 @@ export interface CampaignExecutionResult {
  * Linting Campaign Integration Service
  */
 export class LintingCampaignIntegration {
-  private progressTracker: LintingProgressTracker;
-  private campaignConfigFile = '.kiro/campaigns/linting-campaigns.json';
-  private activeConfigFile = '.kiro/campaigns/active-linting-campaign.json';
+  private progressTracker: LintingProgressTracker,
+  private campaignConfigFile = '.kiro/campaigns/linting-campaigns.json',
+  private activeConfigFile = '.kiro/campaigns/active-linting-campaign.json',
 
   constructor() {
     this.progressTracker = new LintingProgressTracker()
@@ -105,7 +105,7 @@ export class LintingCampaignIntegration {
       logger.info('Linting campaign completed:', finalReport)
     } catch (error) {
       logger.error('Error executing linting campaign:', error)
-      throw error;
+      throw error,
     }
   }
 
@@ -146,7 +146,7 @@ export class LintingCampaignIntegration {
         executionTime: Date.now() - startTime,
         issues: toolResults.issues,
         recommendations: toolResults.recommendations
-      };
+      },
 
       // Update campaign progress
       await this.updateCampaignProgress(config.campaignId, phase.id, result)
@@ -161,10 +161,10 @@ export class LintingCampaignIntegration {
         improvement: result.metricsImprovement.improvementPercentage
       })
 
-      return result;
+      return result,
     } catch (error) {
       logger.error(`Error executing phase ${phase.name}:`, error)
-      throw error;
+      throw error,
     }
   }
 
@@ -189,7 +189,7 @@ export class LintingCampaignIntegration {
       }
     }
 
-    return { issues, recommendations };
+    return { issues, recommendations },
   }
 
   /**
@@ -206,22 +206,22 @@ export class LintingCampaignIntegration {
         case 'eslint-fix':
           await this.executeESLintFix()
           recommendations.push('Applied ESLint auto-fixes')
-          break;
+          break,
 
         case 'unused-imports':
           await this.executeUnusedImportRemoval()
           recommendations.push('Removed unused imports')
-          break;
+          break,
 
         case 'import-organization':
           await this.executeImportOrganization()
           recommendations.push('Organized import statements')
-          break;
+          break,
 
         case 'explicit-any-elimination':
           await this.executeExplicitAnyElimination()
           recommendations.push('Reduced explicit any usage')
-          break;
+          break,
 
         case 'console-cleanup':
           await this.executeConsoleCleanup()
@@ -237,7 +237,7 @@ export class LintingCampaignIntegration {
       )
     }
 
-    return { issues, recommendations };
+    return { issues, recommendations },
   }
 
   /**
@@ -300,8 +300,8 @@ export class LintingCampaignIntegration {
     const errorReduction = preReport.currentMetrics.errors - postReport.currentMetrics.errors;
     const warningReduction = preReport.currentMetrics.warnings - postReport.currentMetrics.warnings;
     const performanceAcceptable =
-      postReport.currentMetrics.performanceMetrics.executionTime <=;
-      phase.successCriteria.performanceThreshold;
+      postReport.currentMetrics.performanceMetrics.executionTime <=,
+      phase.successCriteria.performanceThreshold,
 
     return (
       errorReduction >= phase.successCriteria.errorReduction &&
@@ -344,15 +344,15 @@ export class LintingCampaignIntegration {
           currentReport.improvement.percentageImprovement > 0
             ? ['Continue monitoring for regressions', 'Consider additional optimization phases']
             : ['Investigate why improvements were not achieved', 'Review tool configurations']
-      };
+      },
 
       // Save final report
       this.saveCampaignReport(report)
 
-      return report;
+      return report,
     } catch (error) {
       logger.error('Error generating campaign report:', error)
-      throw error;
+      throw error,
     }
   }
 
@@ -379,10 +379,10 @@ export class LintingCampaignIntegration {
             estimatedDuration: 15
           },
           {
-            id: 'phase-2-imports',
+            id: 'phase-2-imports';
             name: 'Import Organization',
-            description: 'Clean up and organize import statements',
-            tools: ['unused-imports', 'import-organization'],
+            description: 'Clean up and organize import statements';
+            tools: ['unused-imports', 'import-organization'];
             successCriteria: {
               errorReduction: 20,
               warningReduction: 200,
@@ -427,7 +427,7 @@ export class LintingCampaignIntegration {
           onRegression: true
         }
       }
-    ];
+    ],
   }
 
   /**
@@ -457,7 +457,7 @@ export class LintingCampaignIntegration {
       return configs[campaignId]
     } catch (error) {
       logger.error('Error reading campaign config:', error)
-      return undefined;
+      return undefined,
     }
   }
 
@@ -470,7 +470,7 @@ export class LintingCampaignIntegration {
     } catch (error) {
       logger.warn('Error reading campaign configs:', error)
     }
-    return {};
+    return {},
   }
 
   private setActiveCampaign(campaignId: string, baselineReport: LintingProgressReport): void {
@@ -480,7 +480,7 @@ export class LintingCampaignIntegration {
         startTime: new Date(),
         baselineMetrics: baselineReport.currentMetrics,
         phasesExecuted: []
-      };
+      },
       writeFileSync(this.activeConfigFile, JSON.stringify(activeCampaign, null, 2))
     } catch (error) {
       logger.error('Error setting active campaign:', error)
@@ -506,7 +506,7 @@ export class LintingCampaignIntegration {
   ): Promise<void> {
     try {
       const activeCampaign = this.getActiveCampaign()
-      if (activeCampaign && (activeCampaign as any)?.campaignId === campaignId) {;
+      if (activeCampaign && (activeCampaign as any)?.campaignId === campaignId) {,
         (activeCampaign as any)?.phasesExecuted = (activeCampaign as any)?.phasesExecuted || []
         (activeCampaign as any)?.phasesExecuted.push({
           phaseId,

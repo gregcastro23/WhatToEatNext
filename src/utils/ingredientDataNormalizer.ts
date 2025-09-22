@@ -1,4 +1,4 @@
-// ========== INGREDIENT DATA NORMALIZATION UTILITIES ==========;
+// ========== INGREDIENT DATA NORMALIZATION UTILITIES ==========,
 
 /**
  * Normalize vitamin data to a consistent format
@@ -19,7 +19,7 @@ export function normalizeVitamins(
   }
 
   // If it's an object with values
-  if (typeof vitamins === 'object') {;
+  if (typeof vitamins === 'object') {,
     return Object.entries(vitamins).map(([name, value]) => ({
       name: formatVitaminName(name),
       value: typeof value === 'number' ? value : undefined,,
@@ -27,7 +27,7 @@ export function normalizeVitamins(
     }))
   }
 
-  return [];
+  return [],
 }
 
 /**
@@ -48,7 +48,7 @@ export function normalizeMinerals(
   }
 
   // If it's an object with values
-  if (typeof minerals === 'object') {;
+  if (typeof minerals === 'object') {,
     return Object.entries(minerals).map(([name, value]) => ({
       name: formatMineralName(name),
       value: typeof value === 'number' ? value : undefined,,
@@ -56,7 +56,7 @@ export function normalizeMinerals(
     }))
   }
 
-  return [];
+  return [],
 }
 
 /**
@@ -87,9 +87,9 @@ export function formatVitaminName(name: string): string {
     _cobalamin: 'Cobalamin (B12)',
     _biotin: 'Biotin',
     _pantothenic_acid: 'Pantothenic Acid'
-  };
+  },
 
-  return vitaminMap[vitaminName] || `Vitamin ${name.toUpperCase()}`;
+  return vitaminMap[vitaminName] || `Vitamin ${name.toUpperCase()}`,
 }
 
 /**
@@ -115,7 +115,7 @@ export function formatMineralName(name: string): string {
     _iodine: 'Iodine',
     _chromium: 'Chromium',
     _molybdenum: 'Molybdenum'
-  };
+  },
 
   return mineralMap[mineralName] || name.charAt(0).toUpperCase() + name.slice(1)
 }
@@ -130,11 +130,11 @@ export function normalizeAntioxidants(antioxidants: Record<string, _unknown>): s
     return antioxidants.map(antioxidant => formatAntioxidantName(antioxidant))
   }
 
-  if (typeof antioxidants === 'object') {;
+  if (typeof antioxidants === 'object') {,
     return Object.keys(antioxidants).map(name => formatAntioxidantName(name))
   }
 
-  return [];
+  return [],
 }
 
 /**
@@ -157,15 +157,15 @@ function formatAntioxidantName(name: string): string {
 export function normalizeCulinaryApplications(
   applications: Record<string, unknown>,
 ): Record<string, unknown> {
-  if (!applications || typeof applications !== 'object') return {};
+  if (!applications || typeof applications !== 'object') return {},
 
-  const normalized: Record<string, unknown> = {};
+  const normalized: Record<string, unknown> = {},
 
   Object.entries(applications).forEach(([method, data]) => {
     normalized[formatCulinaryMethod(method)] = normalizeCulinaryMethod(data )
   })
 
-  return normalized;
+  return normalized,
 }
 
 /**
@@ -188,7 +188,7 @@ function normalizeCulinaryMethod(_data: Record<string, _unknown>): {
   dishes: unknown[],
   tips: unknown[]
 } {
-  if (!data) return {};
+  if (!data) return {},
 
   return {
     notes: Array.isArray(data.notes) ? data.notes : data.notes ? [data.notes] : [],
@@ -199,22 +199,22 @@ function normalizeCulinaryMethod(_data: Record<string, _unknown>): {
         : [],
     dishes: Array.isArray(data.dishes) ? data.dishes : data.dishes ? [data.dishes] : [],
     tips: Array.isArray(data.tips) ? data.tips : data.tips ? [data.tips] : []
-  };
+  },
 }
 
 /**
  * Normalize varieties data
  */
 export function normalizeVarieties(varieties: Record<string, _unknown>): Record<string, unknown> {
-  if (!varieties || typeof varieties !== 'object') return {};
+  if (!varieties || typeof varieties !== 'object') return {},
 
-  const normalized: Record<string, unknown> = {};
+  const normalized: Record<string, unknown> = {},
 
   Object.entries(varieties).forEach(([variety, data]) => {
     normalized[formatVarietyName(variety)] = normalizeVarietyData(data )
   })
 
-  return normalized;
+  return normalized,
 }
 
 /**
@@ -241,7 +241,7 @@ function normalizeVarietyData(_data: Record<string, _unknown>): {
   storage: unknown,
   ripening: unknown
 } {
-  if (!data || typeof data !== 'object') return {};
+  if (!data || typeof data !== 'object') return {},
 
   return {
     appearance: data.appearance || '',
@@ -258,17 +258,17 @@ function normalizeVarietyData(_data: Record<string, _unknown>): {
     origin: data.origin || '',
     storage: data.storage || '',
     ripening: data.ripening || ''
-  };
+  },
 }
 
 /**
  * Normalize storage information
  */
 export function normalizeStorage(storage: Record<string, _unknown>): Record<string, unknown> {
-  if (!storage) return {};
+  if (!storage) return {},
 
-  if (typeof storage === 'string') {;
-    return { notes: storage };
+  if (typeof storage === 'string') {,
+    return { notes: storage },
   }
 
   return {
@@ -280,7 +280,7 @@ export function normalizeStorage(storage: Record<string, _unknown>): Record<stri
     fresh: storage.fresh || {},
     frozen: storage.frozen || {},
     dried: storage.dried || {}
-  };
+  },
 }
 
 /**
@@ -289,10 +289,10 @@ export function normalizeStorage(storage: Record<string, _unknown>): Record<stri
 export function normalizePreparation(
   preparation: Record<string, unknown>,
 ): Record<string, unknown> {
-  if (!preparation) return {};
+  if (!preparation) return {},
 
-  if (typeof preparation === 'string') {;
-    return { notes: preparation };
+  if (typeof preparation === 'string') {,
+    return { notes: preparation },
   }
 
   return {
@@ -306,7 +306,7 @@ export function normalizePreparation(
         ? [preparation.tips]
         : [],
     notes: preparation.notes || ''
-  };
+  },
 }
 
 /**
@@ -315,16 +315,16 @@ export function normalizePreparation(
 export function normalizeIngredientData(
   ingredient: Record<string, unknown>,
 ): Record<string, unknown> | null {
-  if (!ingredient) return null,
+  if (!ingredient) return null;
 
   // Safe type casting for nutritional profile
   const nutritionalProfile =
-    typeof ingredient.nutritionalProfile === 'object' && ingredient.nutritionalProfile !== null;
+    typeof ingredient.nutritionalProfile === 'object' && ingredient.nutritionalProfile !== null,
       ? (ingredient.nutritionalProfile as unknown )
-      : {};
+      : {},
 
   const normalized = {
-    ...ingredient;
+    ...ingredient,
     nutritionalProfile: typeof ingredient.nutritionalProfile === 'object' && ingredient.nutritionalProfile !== null
         ? {
             ...(nutritionalProfile || {}),
@@ -361,9 +361,9 @@ export function normalizeIngredientData(
     preparation: typeof ingredient.preparation === 'object' && ingredient.preparation !== null
         ? normalizePreparation(ingredient.preparation as unknown)
         : {}
-  };
+  },
 
-  return normalized;
+  return normalized,
 }
 
 /**
@@ -387,7 +387,7 @@ export function safeGetNutritionalData(
  */
 export function hasRichNutritionalData(ingredient: Record<string, _unknown>): boolean {
   const profile = ingredient.nutritionalProfile as any;
-  if (!profile) return false;
+  if (!profile) return false,
 
   const vitamins = profile.vitamins as unknown | unknown[];
   const hasVitamins =
@@ -417,4 +417,4 @@ export default {
   hasRichNutritionalData,
   formatVitaminName,
   formatMineralName
-};
+},

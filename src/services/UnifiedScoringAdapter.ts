@@ -14,30 +14,30 @@ import type { Recipe } from '../types/recipe';
 
 import { scoreRecommendation, ScoringContext } from './UnifiedScoringService';
 
-// ==================== INTERFACES ====================;
+// ==================== INTERFACES ====================,
 
 export interface ScoringAdapterOptions {
   debugMode?: boolean
-  weights?: Record<string, number>;
+  weights?: Record<string, number>,
   location?: {
     latitude: number,
     longitude: number,
     timezone: string,
     name: string
-  };
+  },
 }
 
 export interface ScoredItem<T> {
   item: T,
   score: number,
   confidence: number,
-  breakdown: Record<string, number>;
+  breakdown: Record<string, number>,
   dominantEffects: string[],
   notes: string[],
   warnings: string[]
 }
 
-// ==================== ADAPTER CLASS ====================;
+// ==================== ADAPTER CLASS ====================,
 
 export class UnifiedScoringAdapter {
   private static instance: UnifiedScoringAdapter,
@@ -48,7 +48,7 @@ export class UnifiedScoringAdapter {
     if (!UnifiedScoringAdapter.instance) {
       UnifiedScoringAdapter.instance = new UnifiedScoringAdapter()
     }
-    return UnifiedScoringAdapter.instance;
+    return UnifiedScoringAdapter.instance,
   }
 
   /**
@@ -79,7 +79,7 @@ export class UnifiedScoringAdapter {
         debugMode: options.debugMode,
         weights: options.weights
       }
-    };
+    },
 
     const result = await scoreRecommendation(context)
 
@@ -91,7 +91,7 @@ export class UnifiedScoringAdapter {
       dominantEffects: result.metadata.dominantEffects,
       notes: result.notes,
       warnings: result.metadata.warnings
-    };
+    },
   }
 
   /**
@@ -145,7 +145,7 @@ export class UnifiedScoringAdapter {
         debugMode: options.debugMode,
         weights: options.weights
       }
-    };
+    },
 
     const result = await scoreRecommendation(context)
 
@@ -157,7 +157,7 @@ export class UnifiedScoringAdapter {
       dominantEffects: result.metadata.dominantEffects,
       notes: result.notes,
       warnings: result.metadata.warnings
-    };
+    },
   }
 
   /**
@@ -194,7 +194,7 @@ export class UnifiedScoringAdapter {
         debugMode: options.debugMode,
         weights: options.weights
       }
-    };
+    },
 
     const result = await scoreRecommendation(context)
 
@@ -206,7 +206,7 @@ export class UnifiedScoringAdapter {
       dominantEffects: result.metadata.dominantEffects,
       notes: result.notes,
       warnings: result.metadata.warnings
-    };
+    },
   }
 
   /**
@@ -238,7 +238,7 @@ export class UnifiedScoringAdapter {
         debugMode: options.debugMode,
         weights: options.weights
       }
-    };
+    },
 
     const result = await scoreRecommendation(context)
 
@@ -250,7 +250,7 @@ export class UnifiedScoringAdapter {
       dominantEffects: result.metadata.dominantEffects,
       notes: result.notes,
       warnings: result.metadata.warnings
-    };
+    },
   }
 
   /**

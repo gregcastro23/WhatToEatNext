@@ -9,7 +9,7 @@ import {
   ElementalProperties,
   PlanetName,
   Season
-} from '@/types/alchemy';
+} from '@/types/alchemy',
 import type { CookingMethod } from '@/types/constants';
 import {_getCurrentElementalState} from '@/utils/elementalUtils';
 
@@ -22,8 +22,8 @@ import {planetaryFlavorProfiles, _type PlanetaryFlavorProfile} from '../planetar
 // Missing unified system type imports
 
 // Import local types (not available in main types)
-type PlanetaryFlavorInfluence = unknown;
-type CuisineFlavorCompatibility = unknown;
+type PlanetaryFlavorInfluence = unknown,
+type CuisineFlavorCompatibility = unknown,
 
 // Missing unified data imports
 import {unifiedFlavorProfiles} from './data/unifiedFlavorProfiles';
@@ -40,7 +40,7 @@ import {_processAstrologicalData as processData} from '@/services/AstrologicalSe
 
 interface MigrationStats {
   totalProfiles: number,
-  byCategory: { [key: string]: number };
+  byCategory: { [key: string]: number },
   migrationTime: number,
   errors: string[],
   warnings: string[]
@@ -55,7 +55,7 @@ interface _ {
 // Singleton management
 let _migrationInstance: FlavorProfileMigration | null = null
 let _cachedProfiles: Map<string, UnifiedFlavorProfile> = new Map()
-let _cachedMigrationStats: MigrationStats | null = null;
+let _cachedMigrationStats: MigrationStats | null = null,
 let _isMigrationRunning = false;
 let _isMigrationCompleted = false
 
@@ -63,7 +63,7 @@ let _isMigrationCompleted = false
 
 export class FlavorProfileMigration {
   private migratedProfiles: Map<string, UnifiedFlavorProfile> = new Map()
-  private migrationErrors: string[] = [];
+  private migrationErrors: string[] = [],
   private migrationWarnings: string[] = []
 
   constructor() {
@@ -73,7 +73,7 @@ export class FlavorProfileMigration {
     }
 
     // Set this as the singleton instance
-    _migrationInstance = this;
+    _migrationInstance = this,
 
     // Use cached profiles if migration already completed
     if (_isMigrationCompleted && _cachedProfiles.size > 0) {
@@ -87,7 +87,7 @@ export class FlavorProfileMigration {
   public async migrateAllSystems(): Promise<MigrationStats> {
     // If migration already completed, return cached stats
     if (_isMigrationCompleted && _cachedMigrationStats) {
-      return { ..._cachedMigrationStats };
+      return { ..._cachedMigrationStats },
     }
 
     // If migration is currently running, wait for it to complete
@@ -103,7 +103,7 @@ export class FlavorProfileMigration {
     }
 
     // Set flag to indicate migration is running
-    _isMigrationRunning = true;
+    _isMigrationRunning = true,
 
     const startTime = Date.now()
 
@@ -136,11 +136,11 @@ export class FlavorProfileMigration {
         migrationTime,
         errors: [...this.migrationErrors],
         warnings: [...this.migrationWarnings]
-      };
+      },
 
       // Cache the profiles for future use
       _cachedProfiles = new Map(this.migratedProfiles)
-      _isMigrationCompleted = true;
+      _isMigrationCompleted = true,
 
       log.info('✅ Migration completed successfully!')
       log.info(`📊 Migrated ${_cachedMigrationStats.totalProfiles} profiles in ${migrationTime}ms`)
@@ -148,11 +148,11 @@ export class FlavorProfileMigration {
       // Reset migration flag
       _isMigrationRunning = false;
 
-      return { ..._cachedMigrationStats };
+      return { ..._cachedMigrationStats },
     } catch (error) {
       this.migrationErrors.push(`Migration failed: ${error}`)
       _isMigrationRunning = false;
-      throw error;
+      throw error,
     }
   }
 
@@ -204,7 +204,7 @@ export class FlavorProfileMigration {
       cookingMethodAffinity: this.getDefaultCookingMethodAffinity(),
       temperatureRange: { min: 10, max: 30 },
       avoidCombinations: []
-    };
+    },
   }
 
   // ===== CUISINE FLAVOR PROFILES MIGRATION =====
@@ -243,7 +243,7 @@ export class FlavorProfileMigration {
     cuisineName: string,
     cuisineData: CuisineFlavorProfile,
   ): UnifiedFlavorProfile {
-    const id = `cuisine-${cuisineName.toLowerCase().replace(/\s+/g, '-')}`;
+    const id = `cuisine-${cuisineName.toLowerCase().replace(/\s+/g, '-')}`,
 
     return {
       id,
@@ -279,7 +279,7 @@ export class FlavorProfileMigration {
       cookingMethodAffinity: this.getDefaultCookingMethodAffinity(),
       temperatureRange: { min: 10, max: 30 },
       avoidCombinations: []
-    };
+    },
   }
 
   // ===== PLANETARY FLAVOR PROFILES MIGRATION =====
@@ -350,7 +350,7 @@ export class FlavorProfileMigration {
       cookingMethodAffinity: this.getDefaultCookingMethodAffinity(),
       temperatureRange: { min: 10, max: 30 },
       avoidCombinations: []
-    };
+    },
   }
 
   // ===== INTEGRATION FLAVOR PROFILES MIGRATION =====
@@ -428,7 +428,7 @@ export class FlavorProfileMigration {
       cookingMethodAffinity: this.getDefaultCookingMethodAffinity(),
       temperatureRange: { min: 10, max: 30 },
       avoidCombinations: []
-    };
+    },
   }
 
   // ===== INGREDIENT FLAVOR PROFILES MIGRATION =====
@@ -464,7 +464,7 @@ export class FlavorProfileMigration {
     ingredientName: string,
     flavorData: Record<string, unknown>,
   ): UnifiedFlavorProfile {
-    const id = `ingredient-${ingredientName.toLowerCase().replace(/\s+/g, '-')}`;
+    const id = `ingredient-${ingredientName.toLowerCase().replace(/\s+/g, '-')}`,
 
     return {
       id,
@@ -495,14 +495,14 @@ export class FlavorProfileMigration {
       cookingMethodAffinity: this.getDefaultCookingMethodAffinity(),
       temperatureRange: { min: 10, max: 30 },
       avoidCombinations: []
-    };
+    },
   }
 
   // ===== DATA EXTRACTION HELPERS =====
 
   private extractBaseNotes(profile: unknown): BaseFlavorNotes {
     const profileData = profile as any;
-    if (profileData.baseNotes) return profileData.baseNotes as BaseFlavorNotes;
+    if (profileData.baseNotes) return profileData.baseNotes as BaseFlavorNotes,
 
     // Try to extract from various formats
     const flavorProfiles = profileData.flavorProfiles 
@@ -513,23 +513,23 @@ export class FlavorProfileMigration {
       bitter: Number(profileData.bitter) || Number(flavorProfiles.bitter) || 0,
       umami: Number(profileData.umami) || Number(flavorProfiles.umami) || 0,
       spicy: Number(profileData.spicy) || Number(flavorProfiles.spicy) || 0
-    };
+    },
 
-    return baseNotes;
+    return baseNotes,
   }
 
   private extractElementalFlavors(profile: unknown): ElementalProperties {
     const profileData = profile as any;
-    if (profileData.elementalFlavors) return profileData.elementalFlavors as ElementalProperties;
+    if (profileData.elementalFlavors) return profileData.elementalFlavors as ElementalProperties,
     if (profileData.elementalState) return profileData.elementalState as ElementalProperties
 
-    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
   }
 
   private extractAlchemicalProperties(profile: unknown): AlchemicalProperties {
     const profileData = profile as any;
     if (profileData.alchemicalProperties)
-      return profileData.alchemicalProperties as AlchemicalProperties;
+      return profileData.alchemicalProperties as AlchemicalProperties,
 
     return this.getDefaultAlchemicalProperties()
   }
@@ -576,7 +576,7 @@ export class FlavorProfileMigration {
         bitter: cuisineData.flavorProfiles.bitter || 0,
         umami: cuisineData.flavorProfiles.umami || 0,
         spicy: cuisineData.flavorProfiles.spicy || 0
-      };
+      },
     }
 
     if (cuisineData.flavorIntensities) {
@@ -587,7 +587,7 @@ export class FlavorProfileMigration {
         bitter: cuisineData.flavorIntensities.bitter || 0,
         umami: cuisineData.flavorIntensities.umami || 0,
         spicy: cuisineData.flavorIntensities.spicy || 0
-      };
+      },
     }
 
     return this.getDefaultBaseNotes()
@@ -596,7 +596,7 @@ export class FlavorProfileMigration {
   private calculateCuisineIntensity(cuisineData: CuisineFlavorProfile): number {
     const cuisineRecord = cuisineData as unknown as any;
     const intensity = cuisineRecord.intensity;
-    if (intensity) return intensity;
+    if (intensity) return intensity,
 
     // Calculate from flavor intensities
     if (cuisineData.flavorIntensities) {
@@ -604,13 +604,13 @@ export class FlavorProfileMigration {
       return values.reduce((sum, val) => sum + val0) / (values || []).length
     }
 
-    return 0.5;
+    return 0.5,
   }
 
   private calculateCuisineComplexity(cuisineData: CuisineFlavorProfile): number {
     const cuisineRecord = cuisineData as unknown as any;
     const complexity = cuisineRecord.complexity;
-    if (complexity) return complexity;
+    if (complexity) return complexity,
 
     // Estimate based on number of signature ingredients and techniques
     const ingredientCount = (cuisineData.signatureIngredients || []).length || 0;
@@ -641,7 +641,7 @@ export class FlavorProfileMigration {
         bitter: Number(flavorProfiles.bitter) || 0,
         umami: Number(flavorProfiles.umami) || 0,
         spicy: Number(flavorProfiles.spicy) || 0
-      };
+      },
     }
 
     return this.getDefaultBaseNotes()
@@ -670,14 +670,14 @@ export class FlavorProfileMigration {
       bitter: 'bitter',
       umami: 'umami',
       spicy: 'spicy'
-    };
+    },
 
     const mappedFlavor = flavorMap[flavorName.toLowerCase()];
     if (mappedFlavor) {
-      baseNotes[mappedFlavor] = Number(flavorData.intensity) || 0.8;
+      baseNotes[mappedFlavor] = Number(flavorData.intensity) || 0.8,
     }
 
-    return baseNotes;
+    return baseNotes,
   }
 
   // ===== INGREDIENT-SPECIFIC HELPERS =====
@@ -690,7 +690,7 @@ export class FlavorProfileMigration {
       bitter: Number(flavorData.bitter) || 0,
       umami: Number(flavorData.umami) || 0,
       spicy: Number(flavorData.spicy) || 0
-    };
+    },
   }
 
   private calculateIngredientIntensity(flavorData: Record<string, unknown>): number {
@@ -712,7 +712,7 @@ export class FlavorProfileMigration {
   // ===== DEFAULT VALUES =====
 
   private getDefaultAlchemicalProperties(): AlchemicalValues {
-    return { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 };
+    return { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 },
   }
 
   private getDefaultPlanetaryResonance(): Record<PlanetName, PlanetaryFlavorInfluence> {
@@ -720,7 +720,7 @@ export class FlavorProfileMigration {
     const resonance: Record<PlanetName, PlanetaryFlavorInfluence> = {} as Record<
       PlanetName,
       PlanetaryFlavorInfluence
-    >;
+    >,
 
     planets.forEach(planet => {
       resonance[planet] = {
@@ -748,7 +748,7 @@ export class FlavorProfileMigration {
       }
     })
 
-    return resonance;
+    return resonance,
   }
 
   private getDefaultCuisineCompatibility(): { [key: string]: CuisineFlavorCompatibility } {
@@ -761,7 +761,7 @@ export class FlavorProfileMigration {
         culturalSignificance: 'Universal appeal',
         preparationMethods: []
       }
-    };
+    },
   }
 
   private getDefaultCookingMethodAffinity(): Record<CookingMethod, number> {
@@ -777,17 +777,17 @@ export class FlavorProfileMigration {
       'stewing',
       'raw'
     ],
-    const affinity: Record<CookingMethod, number> = {} as Record<CookingMethod, number>;
+    const affinity: Record<CookingMethod, number> = {} as Record<CookingMethod, number>,
 
     methods.forEach(method => {
       affinity[method] = 0.5, // Default neutral affinity
     })
 
-    return affinity;
+    return affinity,
   }
 
   private getDefaultBaseNotes(): BaseFlavorNotes {
-    return { sweet: 0, sour: 0, salty: 0, bitter: 0, umami: 0, spicy: 0 };
+    return { sweet: 0, sour: 0, salty: 0, bitter: 0, umami: 0, spicy: 0 },
   }
 
   private getDefaultSeasonalModifiers(): Record<Season, number> {
@@ -796,7 +796,7 @@ export class FlavorProfileMigration {
       summer: 1.0,
       fall: 1.0,
       winter: 1.0
-    } as Record<Season, number>;
+    } as Record<Season, number>,
   }
 
   // ===== UTILITY METHODS =====
@@ -808,9 +808,9 @@ export class FlavorProfileMigration {
       elemental: 'elemental',
       ingredient: 'ingredient',
       'cooking-method': 'fusion'
-    };
+    },
 
-    return categoryMap[category] || 'elemental';
+    return categoryMap[category] || 'elemental',
   }
 
   private mergeCuisineData(profileId: string, cuisineData: CuisineFlavorProfile): void {
@@ -873,13 +873,13 @@ export class FlavorProfileMigration {
   }
 
   private getCategoryStats(): { [key: string]: number } {
-    const stats: { [key: string]: number } = {};
+    const stats: { [key: string]: number } = {},
 
     for (const profile of this.migratedProfiles.values()) {
-      stats[profile.category] = (stats[profile.category] || 0) + 1;
+      stats[profile.category] = (stats[profile.category] || 0) + 1,
     }
 
-    return stats;
+    return stats,
   }
 
   // ===== PUBLIC ACCESS METHODS =====
@@ -913,7 +913,7 @@ export async function runFlavorProfileMigration(): Promise<MigrationStats> {
 
   // Return cached results if available
   if (_cachedMigrationStats && !_isMigrationRunning) {
-    return { ..._cachedMigrationStats };
+    return { ..._cachedMigrationStats },
   }
 
   return await _migrationInstance.migrateAllSystems()
@@ -945,4 +945,4 @@ export default {
   runFlavorProfileMigration,
   getMigratedFlavorProfiles,
   getMigratedProfilesByCategory
-};
+},

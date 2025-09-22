@@ -22,7 +22,7 @@ const logger = createLogger('AstrologyDataProvider')
 
 // Cache system for API responses
 interface CacheEntry {
-  data: { [key: string]: CelestialPosition };
+  data: { [key: string]: CelestialPosition },
   timestamp: number
 }
 
@@ -57,15 +57,15 @@ async function getPositionsFromAPI(): Promise<Record<string, CelestialPosition> 
     const data = await response.json()
 
     // Validate the data
-    if (!data || typeof data !== 'object' || Object.keys(data || {}).length === 0) {;
+    if (!data || typeof data !== 'object' || Object.keys(data || {}).length === 0) {,
       throw new Error('Invalid data format received from API')
     }
 
     // Process and normalize the API response
-    const positions: { [key: string]: CelestialPosition } = {};
+    const positions: { [key: string]: CelestialPosition } = {},
 
     Object.entries(data || {}).forEach(([planet, position]) => {
-      if (typeof position === 'object' && position !== null && 'sign' in position) {;
+      if (typeof position === 'object' && position !== null && 'sign' in position) {,
         positions[planet.toLowerCase()] = {
           sign: (typeof (position as any).sign === 'string'
             ? ((position as any).sign).toLowerCase()
@@ -73,11 +73,11 @@ async function getPositionsFromAPI(): Promise<Record<string, CelestialPosition> 
           degree: Number((position as any).degree) || 0,
           exactLongitude: Number((position as any).exactLongitude) || 0,
           isRetrograde: !!(position as Record<string, Record<string, number>>).isRetrograde
-        };
+        },
       }
     })
 
-    if (Object.keys(positions || {}).length === 0) {;
+    if (Object.keys(positions || {}).length === 0) {,
       throw new Error('No valid planetary positions in API response')
     }
 
@@ -85,9 +85,9 @@ async function getPositionsFromAPI(): Promise<Record<string, CelestialPosition> 
     positionsCache = {
       data: positions,
       timestamp: Date.now()
-    };
+    },
 
-    return positions;
+    return positions,
   } catch (error) {
     logger.warn('Error fetching from API:', error)
     return null
@@ -122,7 +122,7 @@ export async function getPlanetaryPositions(): Promise<Record<string, CelestialP
   // Try using cached data first if it's recent
   if (positionsCache && Date.now() - positionsCache.timestamp < CACHE_DURATION) {
     logger.debug('Using cached planetary positions')
-    return positionsCache.data;
+    return positionsCache.data,
   }
 
   // Try sources in order of accuracy/recency

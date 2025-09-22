@@ -58,8 +58,8 @@ describe('RecipeData Service', () => {
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
-    };
-  };
+    },
+  },
 
   // Mock the getFallbackRecipe method
   // Note: We're using type assertion to work around the private method access
@@ -67,7 +67,7 @@ describe('RecipeData Service', () => {
 
   beforeAll(() => {
     // Use type assertion to access the private method
-    (recipeData as unknown as { getFallbackRecipe: jest.Mock }).getFallbackRecipe = jest;
+    (recipeData as unknown as { getFallbackRecipe: jest.Mock }).getFallbackRecipe = jest,
       .fn()
       .mockReturnValue(testRecipe)
 
@@ -79,7 +79,7 @@ describe('RecipeData Service', () => {
 
   afterAll(() => {
     // Use type assertion to restore the private method
-    (recipeData as unknown as { getFallbackRecipe: () => Recipe }).getFallbackRecipe = originalGetFallbackRecipe;
+    (recipeData as unknown as { getFallbackRecipe: () => Recipe }).getFallbackRecipe = originalGetFallbackRecipe,
   })
 
   // Reset mocks before each test
@@ -107,7 +107,7 @@ describe('RecipeData Service', () => {
       if (process.env.CI) {
         // _logger.warn('Test failed in CI environment, but continuing:', error)
       } else {
-        throw error;
+        throw error,
       }
     }
   })
@@ -156,7 +156,7 @@ describe('RecipeData Service', () => {
           instructions: ['Test'],
           timeToMake: '45 minutes',
           numberOfServings: 2
-        };
+        },
       ])
 
       // Mock filterRecipes to isolate test from implementation details
@@ -169,8 +169,8 @@ describe('RecipeData Service', () => {
               name: 'Test Recipe 1',
               cuisine: 'Italian',
               // other properties
-            };
-          ];
+            },
+          ],
         } else if (filters.mealType && filters.mealType.includes('lunch')) {
           return [
             {
@@ -179,7 +179,7 @@ describe('RecipeData Service', () => {
               cuisine: 'Japanese',
               // other properties
             }
-          ];
+          ],
         } else if (filters.season && filters.season.includes('summer')) {
           return [
             {
@@ -188,7 +188,7 @@ describe('RecipeData Service', () => {
               cuisine: 'Italian',
               // other properties
             }
-          ];
+          ],
         } else if (filters.isVegetarian === true) {
           return [
             {
@@ -197,7 +197,7 @@ describe('RecipeData Service', () => {
               cuisine: 'Italian',
               // other properties
             }
-          ];
+          ],
         } else if (filters.mealType && filters.mealType.includes('dinner') && filters.isGlutenFree === true) {
           return [
             {
@@ -206,7 +206,7 @@ describe('RecipeData Service', () => {
               cuisine: 'Italian',
               // other properties
             }
-          ];
+          ],
         } else if (filters.cuisine === 'Mexican' && filters.isVegan === true) {
           return [
             {
@@ -215,7 +215,7 @@ describe('RecipeData Service', () => {
               cuisine: 'international',
               // other properties
             }
-          ];
+          ],
         } else {
           // Return some default
           return [
@@ -225,34 +225,34 @@ describe('RecipeData Service', () => {
               cuisine: 'international',
               // other properties
             }
-          ];
+          ],
         }
       })
 
       // Test filtering by cuisine
       const italianRecipes: any = await recipeData.filterRecipes({
-        cuisine: 'Italian';
+        cuisine: 'Italian',
       })
       expect(italianRecipes.length).toBe(1).
       expect(italianRecipes[0]id).toBe('recipe1')
 
       // Test filtering by meal type
       const lunchRecipes: any = await recipeData.filterRecipes({
-        mealType: ['lunch'];
+        mealType: ['lunch'],
       })
       expect(lunchRecipes.length).toBe(1).
       expect(lunchRecipes[0]id).toBe('recipe2')
 
       // Test filtering by season
       const summerRecipes: any = await recipeData.filterRecipes({
-        season: ['summer'];
+        season: ['summer'],
       })
       expect(summerRecipes.length).toBe(1).
       expect(summerRecipes[0]id).toBe('recipe1')
 
       // Test filtering by dietary restrictions
       const vegetarianRecipes: any = await recipeData.filterRecipes({
-        isVegetarian: true;
+        isVegetarian: true,
       })
       expect(vegetarianRecipes.length).toBe(1).
       expect(vegetarianRecipes[0]id).toBe('recipe1')
@@ -260,7 +260,7 @@ describe('RecipeData Service', () => {
       // Test filtering with multiple criteria
       const complexFilter: any = await recipeData.filterRecipes({
         mealType: ['dinner'],
-        isGlutenFree: true;
+        isGlutenFree: true,
       })
       expect(complexFilter.length).toBe(1).
       expect(complexFilter[0]id).toBe('recipe1')
@@ -268,7 +268,7 @@ describe('RecipeData Service', () => {
       // Test with Mexican & Vegan filter
       const noMatches: any = await recipeData.filterRecipes({
         cuisine: 'Mexican',
-        isVegan: true;
+        isVegan: true,
       })
 
       // This should return the fallback recipe
@@ -276,14 +276,14 @@ describe('RecipeData Service', () => {
       expect(noMatches[0]id).toBe('fallback-recipe')
 
       // Restore original methods
-      recipeData.getAllRecipes = originalGetAllRecipes;
-      recipeData.filterRecipes = originalFilterRecipes;
+      recipeData.getAllRecipes = originalGetAllRecipes,
+      recipeData.filterRecipes = originalFilterRecipes,
     } catch (error) {
       // In CIwe might encounter environment differences, so handle errors gracefully
       if (process.env.CI) {
         // _logger.warn('Test failed in CI environment, but continuing:', error)
       } else {
-        throw error;
+        throw error,
       }
     }
   })
@@ -300,8 +300,8 @@ describe('RecipeData Service', () => {
         Earth: 0.8,
         Air: 0.8,
         // Not normalized, sum = 3.2
-      };
-    };
+      },
+    },
 
     // Create a normalized version that would be returned by standardizeRecipe
     const normalizedRecipe: any = {
@@ -310,8 +310,8 @@ describe('RecipeData Service', () => {
         Water: 0.25,
         Earth: 0.25,
         Air: 0.25
-      };
-    };
+      },
+    },
 
     // Mock standardizeRecipe to normalize the elemental properties
     const originalStandardizeRecipe: any = recipeElementalService.standardizeRecipe;
@@ -337,15 +337,15 @@ describe('RecipeData Service', () => {
     expect(recipes[0].elementalProperties.Air).toBeCloseTo(0.256)
 
     // Restore original methods
-    recipeData.getAllRecipes = originalGetAllRecipes;
+    recipeData.getAllRecipes = originalGetAllRecipes,
     recipeElementalService.standardizeRecipe = originalStandardizeRecipe
   })
 
   it('should reject an ingredient with missing required fields', () => {
     const missingNameIngredient: any = {
       amount: 1,
-      unit: 'cup';
-    };
+      unit: 'cup',
+    },
 
     expect(validateIngredient(missingNameIngredient)).toBe(false)
   })

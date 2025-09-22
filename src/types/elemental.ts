@@ -6,10 +6,10 @@
 import { Element } from '@/types/celestial';
 
 // Re-export Element for convenience
-export type { Element };
+export type { Element },
 
 // The four basic elements
-export type LowercaseElement = 'fire' | 'water' | 'air' | 'earth';
+export type LowercaseElement = 'fire' | 'water' | 'air' | 'earth',
 
 // Interface for elemental properties with standard case (uppercase first letter)
 export interface ElementalProperties {
@@ -53,14 +53,14 @@ export interface ElementalBalance {
 
 // Interface for elemental filter
 export interface ElementalFilter {
-  minFire?: number;
-  maxFire?: number;
-  minWater?: number;
-  maxWater?: number;
-  minEarth?: number;
-  maxEarth?: number;
-  minAir?: number;
-  maxAir?: number;
+  minFire?: number,
+  maxFire?: number,
+  minWater?: number,
+  maxWater?: number,
+  minEarth?: number,
+  maxEarth?: number,
+  minAir?: number,
+  maxAir?: number,
   dominantElement?: Element
 }
 
@@ -68,11 +68,11 @@ export interface ElementalFilter {
  * Interface for elemental transformation (used for ingredients)
  */
 export interface ElementalTransformation {
-  whenCooked?: Partial<ElementalProperties>;
-  whenFermented?: Partial<ElementalProperties>;
-  whenDried?: Partial<ElementalProperties>;
-  whenRoasted?: Partial<ElementalProperties>;
-  whenPickled?: Partial<ElementalProperties>;
+  whenCooked?: Partial<ElementalProperties>,
+  whenFermented?: Partial<ElementalProperties>,
+  whenDried?: Partial<ElementalProperties>,
+  whenRoasted?: Partial<ElementalProperties>,
+  whenPickled?: Partial<ElementalProperties>,
   whenRaw?: Partial<ElementalProperties>
 }
 
@@ -82,7 +82,7 @@ export const _DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
   Water: 0.25,
   Earth: 0.25,
   Air: 0.25
-};
+},
 
 // Type guard function for ElementalProperties
 export function isElementalProperties(obj: unknown): obj is ElementalProperties {

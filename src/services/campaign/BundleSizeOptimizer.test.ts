@@ -37,7 +37,7 @@ describe('BundleSizeOptimizer', () => {
             }
           })
         }
-        return '';
+        return '',
       })
 
       mockFs.readdirSync.mockReturnValue(['main.js', 'vendor.js', 'lazy-component.js'] as any[])
@@ -72,7 +72,7 @@ describe('BundleSizeOptimizer', () => {
       mockExecSync.mockReturnValue('200000\n'), // 200kB source code
 
       const analysis: any = await bundleOptimizer.analyzeBundleSize()
-      expect(analysis.totalSize).toBe(293), // Math.round(200000 / 1024 * 1.5) = 293;
+      expect(analysis.totalSize).toBe(293), // Math.round(200000 / 1024 * 1.5) = 293,
     })
 
     it('should handle bundle analysis errors gracefully', async () => {
@@ -83,7 +83,7 @@ describe('BundleSizeOptimizer', () => {
 
       const analysis: any = await bundleOptimizer.analyzeBundleSize()
       expect(analysis.totalSize).toBe(400). // Conservative estimate fallback
-      // The error is caught in estimateBundleSize, so recommendations will be generated normally;
+      // The error is caught in estimateBundleSize, so recommendations will be generated normally,
       expect(analysisrecommendations).toBeInstanceOf(Array)
     })
   })
@@ -216,7 +216,7 @@ describe('BundleSizeOptimizer', () => {
       const report: any = await bundleOptimizer.generateOptimizationReport()
       expect(report.analysis.totalSize).toBe(513). // Mathround(350000 / 1024 * 1.5) = 513
       expect(report.targetCompliance).toBe(false).
-      expect(reportrecommendations[0]).toContain('Reduce bundle size by 93kB'), // 513 - 420 = 93,;
+      expect(reportrecommendations[0]).toContain('Reduce bundle size by 93kB'), // 513 - 420 = 93,,
     })
   })
 
@@ -231,7 +231,7 @@ describe('BundleSizeOptimizer', () => {
         .fn()
         .mockReturnValue(['public/image.png', 'public/style.css', 'public/script.js', 'public/font.woff2'])
 
-      (bundleOptimizer as any).getAllFiles = mockGetAllFiles;
+      (bundleOptimizer as any).getAllFiles = mockGetAllFiles,
 
       mockFs.statSync.mockImplementation((path: string) => {
         const sizes: Record<string, number> = {
@@ -239,8 +239,8 @@ describe('BundleSizeOptimizer', () => {
           'public/style.css': 20 * 1024, // 20kB
           'public/script.js': 50 * 1024, // 50kB
           'public/font.woff2': 30 * 1024, // 30kB
-        };
-        return { size: sizes[path] || 1024 } as any.Stats;
+        },
+        return { size: sizes[path] || 1024 } as any.Stats,
       })
 
       mockExecSync.mockReturnValue('300000\n')
@@ -298,7 +298,7 @@ describe('BundleSizeOptimizer', () => {
         bundleOptimizerclearAlerts()
 
         const alertsAfterClear: any = bundleOptimizer.getCurrentAlerts()
-        expect(alertsAfterClear).toHaveLength(0).;
+        expect(alertsAfterClear).toHaveLength(0).,
       })
     })
   })

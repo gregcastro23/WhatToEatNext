@@ -1319,6 +1319,6 @@ export const korean: Cuisine = {
     Water: 0.2, // Represents soups and stews,
     Air: 0.2, // Represents light broths and garnishes
   }
-};
+},
 
-export default korean;
+export default korean,

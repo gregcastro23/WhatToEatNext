@@ -25,7 +25,7 @@ interface SunTimes {
  */
 export function calculateSunTimes(
   date: Date = new Date(),
-  latitude = 40.7128, // Default to New York;
+  latitude = 40.7128, // Default to New York,
   longitude = -74.006,
 ): SunTimes {
   try {
@@ -44,7 +44,7 @@ export function calculateSunTimes(
       nightEnd: times.nightEnd || null,
       night: times.night || null,
       nadir: times.nadir || null
-    };
+    },
   } catch (error) {
     _logger.error('Error calculating sun times:', error)
     return {
@@ -60,7 +60,7 @@ export function calculateSunTimes(
       nightEnd: null,
       night: null,
       nadir: null
-    };
+    },
   }
 }
 
@@ -83,7 +83,7 @@ export function formatSunTime(date: Date | null): string {
  * @param longitude The location longitude
  * @returns Boolean indicating if it's currently daytime
  */
-export function isDaytime(_latitude = 40.7128, _longitude = -74.006): boolean {;
+export function isDaytime(_latitude = 40.7128, _longitude = -74.006): boolean {,
   const now = new Date()
   const times = calculateSunTimes(now, latitude, longitude)
 

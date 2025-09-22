@@ -642,7 +642,7 @@ const rawDairy = {
       savory: ['chives', 'dill', 'garlic powder', 'everything bagel seasoning', 'black pepper']
     }
   }
-};
+},
 
 // Fix the ingredient mappings to ensure they have all required properties
 export const dairy: Record<string, IngredientMapping> = fixIngredientMappings(rawDairy)

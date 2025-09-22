@@ -21,7 +21,7 @@ interface OptimizationResult {
 
 export class MemoryOptimizationScript {
   private monitor: TestMemoryMonitor,
-  private detector: MemoryLeakDetector;
+  private detector: MemoryLeakDetector,
 
   constructor() {
     this.monitor = TestMemoryMonitor.createForCI()
@@ -91,10 +91,10 @@ export class MemoryOptimizationScript {
         optimizationsApplied,
         warnings,
         errors
-      };
+      },
 
       this.logOptimizationResult(result)
-      return result;
+      return result,
     } catch (error) {
       errors.push(`Optimization failed: ${error}`)
       return {
@@ -103,7 +103,7 @@ export class MemoryOptimizationScript {
         optimizationsApplied,
         warnings,
         errors
-      };
+      },
     }
   }
 
@@ -130,15 +130,15 @@ export class MemoryOptimizationScript {
       { key: 'logHeapUsage', value: 'true' },
       { key: 'detectOpenHandles', value: 'true' },
       { key: 'forceExit', value: 'true' }
-    ];
+    ],
 
     let modified = false;
     optimizations.forEach(opt => {
       if (!configContent.includes(opt.key)) {
         // Add the optimization
-        const insertion = `  ${opt.key}: ${opt.value},\n`;
+        const insertion = `  ${opt.key}: ${opt.value},\n`,
         configContent = configContent.replace(/(const config = {[^}]*)/, `1\n${insertion}`)
-        modified = true;
+        modified = true,
       }
     })
 
@@ -154,7 +154,7 @@ export class MemoryOptimizationScript {
    * Clean up global references that might cause memory leaks
    */
   private cleanupGlobalReferences(): void {
-    let cleaned = 0;
+    let cleaned = 0,
 
     // Clear test cache
     if (global.__TEST_CACHE__) {
@@ -163,31 +163,31 @@ export class MemoryOptimizationScript {
       } else {
         global.__TEST_CACHE__ = new Map()
       }
-      cleaned++;
+      cleaned++,
     }
 
     // Clear test references
     if (global.__TEST_REFS__) {
-      global.__TEST_REFS__.length = 0;
+      global.__TEST_REFS__.length = 0,
       cleaned++
     }
 
     // Clear memory tracking
     if (global.__TEST_MEMORY_TRACKING__) {
-      delete global.__TEST_MEMORY_TRACKING__;
+      delete global.__TEST_MEMORY_TRACKING__,
       cleaned++
     }
 
     // Clear DOM if available
     if (typeof document !== 'undefined') {
-      document.body.innerHTML = '';
+      document.body.innerHTML = '',
       cleaned++
     }
 
     // Clear event listeners
     if (typeof window !== 'undefined' && (window as unknown)._eventListeners) {
-      (window as unknown)._eventListeners = {};
-      cleaned++;
+      (window as unknown)._eventListeners = {},
+      cleaned++,
     }
 
     // Clear Jest modules
@@ -207,19 +207,19 @@ export class MemoryOptimizationScript {
 
     // Set memory limits if not already set
     if (!process.env.NODE_OPTIONS?.includes('--max-old-space-size')) {
-      process.env.NODE_OPTIONS = (process.env.NODE_OPTIONS || '') + ' --max-old-space-size=2048';
+      process.env.NODE_OPTIONS = (process.env.NODE_OPTIONS || '') + ' --max-old-space-size=2048',
       optimizations.push('Set max old space size to 2GB')
     }
 
     // Enable garbage collection exposure
     if (!process.env.NODE_OPTIONS.includes('--expose-gc')) {
-      process.env.NODE_OPTIONS = (process.env.NODE_OPTIONS || '') + ' --expose-gc';
+      process.env.NODE_OPTIONS = (process.env.NODE_OPTIONS || '') + ' --expose-gc',
       optimizations.push('Enabled garbage collection exposure')
     }
 
     // Optimize garbage collection
     if (!process.env.NODE_OPTIONS.includes('--optimize-for-size')) {
-      process.env.NODE_OPTIONS = (process.env.NODE_OPTIONS || '') + ' --optimize-for-size';
+      process.env.NODE_OPTIONS = (process.env.NODE_OPTIONS || '') + ' --optimize-for-size',
       optimizations.push('Enabled size optimization')
     }
 
@@ -243,7 +243,7 @@ export class MemoryOptimizationScript {
         return false
       }
     }
-    return false;
+    return false,
   }
 
   /**
@@ -331,4 +331,4 @@ if (require.main === module) {
   }
 }
 
-export default MemoryOptimizationScript;
+export default MemoryOptimizationScript,

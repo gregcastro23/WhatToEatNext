@@ -13,14 +13,14 @@ import type {
   CampaignPhase,
   SafetyEvent,
   ProgressMetrics
-} from '../types/campaign';
+} from '../types/campaign',
 
 import { CampaignController } from './campaign/CampaignController';
 import { ProgressTracker } from './campaign/ProgressTracker';
 import { kiroCampaignIntegration } from './KiroCampaignIntegration';
 import type { KiroCampaignStatus, CampaignExecutionRequest } from './KiroCampaignIntegration';
 
-// ========== CONFLICT RESOLUTION TYPES ==========;
+// ========== CONFLICT RESOLUTION TYPES ==========,
 
 export interface CampaignConflict {
   id: string,
@@ -66,7 +66,7 @@ export interface ResolutionStep {
 
 export interface CampaignPriority {
   campaignId: string,
-  priority: number, // 1-10, higher is more important,
+  priority: number, // 1-10, higher is more important;
   reason: string,
   setBy: string,
   setAt: Date,
@@ -116,11 +116,11 @@ export interface SchedulingConstraint {
   timeWindow?: {
     start: Date,
     end: Date
-  };
-  resourceLimits?: Record<string, number>;
+  },
+  resourceLimits?: Record<string, number>,
 }
 
-// ========== ENUMS ==========;
+// ========== ENUMS ==========,
 
 export enum ConflictType {
   RESOURCE_CONTENTION = 'resource_contention',
@@ -198,7 +198,7 @@ export enum ConstraintType {
   SAFETY_RESTRICTION = 'safety_restriction',,
 }
 
-// ========== CAMPAIGN CONFLICT RESOLVER ==========;
+// ========== CAMPAIGN CONFLICT RESOLVER ==========,
 
 export class CampaignConflictResolver {
   private conflicts: Map<string, CampaignConflict> = new Map()
@@ -213,7 +213,7 @@ export class CampaignConflictResolver {
     void this.initializeResolutionStrategies()
   }
 
-  // ========== CONFLICT DETECTION ==========;
+  // ========== CONFLICT DETECTION ==========,
 
   /**
    * Detect conflicts between active campaigns
@@ -242,7 +242,7 @@ export class CampaignConflictResolver {
       this.conflicts.set(conflict.id, conflict)
     })
 
-    return detectedConflicts;
+    return detectedConflicts,
   }
 
   /**
@@ -290,7 +290,7 @@ export class CampaignConflictResolver {
       }
     }
 
-    return conflicts;
+    return conflicts,
   }
 
   /**
@@ -303,7 +303,7 @@ export class CampaignConflictResolver {
     const activeCampaignIds = campaigns.map(c => c.campaignId)
 
     for (const dependency of this.dependencies.values()) {
-      if (dependency.status === DependencyStatus.ACTIVE) {;
+      if (dependency.status === DependencyStatus.ACTIVE) {,
         const dependentActive = activeCampaignIds.includes(dependency.dependentCampaign)
         const requiredActive = activeCampaignIds.includes(dependency.requiredCampaign)
         // Check for dependency violations
@@ -348,7 +348,7 @@ export class CampaignConflictResolver {
       }
     }
 
-    return conflicts;
+    return conflicts,
   }
 
   /**
@@ -364,7 +364,7 @@ export class CampaignConflictResolver {
       .sort((ab) => (b.priority?.priority || 0) - (a.priority?.priority || 0))
 
     // Check for high-priority campaigns being blocked by lower-priority ones
-    for (let i = 0i < campaignPriorities.length - 1i++) {;
+    for (let i = 0i < campaignPriorities.length - 1i++) {,
       const highPriority = campaignPriorities[i];
       const lowerPriorities = campaignPriorities.slice(i + 1)
 
@@ -417,10 +417,10 @@ export class CampaignConflictResolver {
       })
     }
 
-    return conflicts;
+    return conflicts,
   }
 
-  // ========== CONFLICT RESOLUTION ==========;
+  // ========== CONFLICT RESOLUTION ==========,
 
   /**
    * Resolve a specific conflict
@@ -434,7 +434,7 @@ export class CampaignConflictResolver {
       throw new Error(`Conflict ${conflictId} not found`)
     }
 
-    conflict.status = ConflictStatus.RESOLVING;
+    conflict.status = ConflictStatus.RESOLVING,
 
     try {
       // Select resolution strategy
@@ -445,7 +445,7 @@ export class CampaignConflictResolver {
         throw new Error(`No resolution strategy found for conflict ${conflictId}`)
       }
 
-      conflict.resolutionStrategy = strategy;
+      conflict.resolutionStrategy = strategy,
 
       // Execute resolution steps
       const startTime = Date.now()
@@ -463,9 +463,9 @@ export class CampaignConflictResolver {
       const executionTime = Date.now() - startTime;
 
       // Mark conflict as resolved
-      conflict.status = ConflictStatus.RESOLVED;
+      conflict.status = ConflictStatus.RESOLVED,
       conflict.resolvedAt = new Date()
-      conflict.resolvedBy = 'system';
+      conflict.resolvedBy = 'system',
 
       const result: ConflictResolutionResult = {
         conflictId,
@@ -474,16 +474,16 @@ export class CampaignConflictResolver {
         executionTime,
         affectedCampaigns: [...new Set(affectedCampaigns)],
         sideEffects
-      };
+      },
 
       // Create rollback plan if needed
-      if (strategy.steps.some(s => s.rollbackable)) {;
+      if (strategy.steps.some(s => s.rollbackable)) {,
         result.rollbackPlan = this.createRollbackPlan(conflict, strategy),
       }
 
-      return result;
+      return result,
     } catch (error) {
-      conflict.status = ConflictStatus.FAILED;
+      conflict.status = ConflictStatus.FAILED,
 
       return {
         conflictId,
@@ -492,7 +492,7 @@ export class CampaignConflictResolver {
         executionTime: 0,
         affectedCampaigns: [],
         sideEffects: [`Resolution failed: ${(error as Error).message}`]
-      };
+      },
     }
   }
 
@@ -521,10 +521,10 @@ export class CampaignConflictResolver {
       }
     }
 
-    return results;
+    return results,
   }
 
-  // ========== PRIORITY MANAGEMENT ==========;
+  // ========== PRIORITY MANAGEMENT ==========,
 
   /**
    * Set campaign priority
@@ -541,7 +541,7 @@ export class CampaignConflictResolver {
       reason,
       setBy,
       setAt: new Date()
-    };
+    },
 
     this.priorities.set(campaignId, campaignPriority)
   }
@@ -564,7 +564,7 @@ export class CampaignConflictResolver {
     })
   }
 
-  // ========== DEPENDENCY MANAGEMENT ==========;
+  // ========== DEPENDENCY MANAGEMENT ==========,
 
   /**
    * Create campaign dependency
@@ -585,10 +585,10 @@ export class CampaignConflictResolver {
       description,
       status: DependencyStatus.ACTIVE,
       createdAt: new Date()
-    };
+    },
 
     this.dependencies.set(dependencyId, dependency)
-    return dependencyId;
+    return dependencyId,
   }
 
   /**
@@ -607,13 +607,13 @@ export class CampaignConflictResolver {
     )
   }
 
-  // ========== SCHEDULING COORDINATION ==========;
+  // ========== SCHEDULING COORDINATION ==========,
 
   /**
    * Schedule campaigns with conflict avoidance
    */
   async scheduleCampaigns(requests: CampaignExecutionRequest[]): Promise<{
-    scheduled: Array<{ request: CampaignExecutionRequest, scheduledTime: Date }>;
+    scheduled: Array<{ request: CampaignExecutionRequest, scheduledTime: Date }>,
     conflicts: CampaignConflict[],
     deferred: CampaignExecutionRequest[]
   }> {
@@ -642,7 +642,7 @@ export class CampaignConflictResolver {
       }
     }
 
-    return { scheduled, conflicts, deferred };
+    return { scheduled, conflicts, deferred },
   }
 
   /**
@@ -665,14 +665,14 @@ export class CampaignConflictResolver {
       parameters: { ...parameters, overrideBy, overrideReason },
       estimatedDuration: 0,
       rollbackable: true
-    };
+    },
 
     try {
       await this.executeResolutionStep(overrideStep, conflict)
 
-      conflict.status = ConflictStatus.RESOLVED;
+      conflict.status = ConflictStatus.RESOLVED,
       conflict.resolvedAt = new Date()
-      conflict.resolvedBy = overrideBy;
+      conflict.resolvedBy = overrideBy,
 
       return true
     } catch (error) {
@@ -681,7 +681,7 @@ export class CampaignConflictResolver {
     }
   }
 
-  // ========== HELPER METHODS ==========;
+  // ========== HELPER METHODS ==========,
 
   private async getActiveCampaigns(): Promise<KiroCampaignStatus[]> {
     const controlPanel = await kiroCampaignIntegration.getCampaignControlPanel()
@@ -702,25 +702,25 @@ export class CampaignConflictResolver {
       void resources.push('linter')
     }
 
-    return resources;
+    return resources,
   }
 
   private assessResourceConflictSeverity(resource: string, users: string[]): ConflictSeverity {
-    if (resource === 'typescript_compiler' && users.length > 2) {;
+    if (resource === 'typescript_compiler' && users.length > 2) {,
       return ConflictSeverity.HIGH
     }
-    if (resource === 'build_system' && users.length > 1) {;
-      return ConflictSeverity.MEDIUM;
+    if (resource === 'build_system' && users.length > 1) {,
+      return ConflictSeverity.MEDIUM,
     }
-    return ConflictSeverity.LOW;
+    return ConflictSeverity.LOW,
   }
 
   private getResourceType(resource: string): ResourceType {
-    if (resource.includes('file')) return ResourceType.FILE;
-    if (resource.includes('directory')) return ResourceType.DIRECTORY;
-    if (resource === 'typescript_compiler') return ResourceType.TYPESCRIPT_COMPILER;
-    if (resource === 'build_system') return ResourceType.BUILD_SYSTEM;
-    if (resource === 'linter') return ResourceType.LINTER;
+    if (resource.includes('file')) return ResourceType.FILE,
+    if (resource.includes('directory')) return ResourceType.DIRECTORY,
+    if (resource === 'typescript_compiler') return ResourceType.TYPESCRIPT_COMPILER,
+    if (resource === 'build_system') return ResourceType.BUILD_SYSTEM,
+    if (resource === 'linter') return ResourceType.LINTER,
     return ResourceType.FILE
   }
 
@@ -740,11 +740,11 @@ export class CampaignConflictResolver {
     const strategies = this.resolutionStrategies.get(conflict.type) || [];
 
     // Select strategy based on severity and involved campaigns
-    if (conflict.severity === ConflictSeverity.CRITICAL) {;
+    if (conflict.severity === ConflictSeverity.CRITICAL) {,
       return strategies.find(s => s.type === ResolutionType.MANUAL_INTERVENTION) || strategies[0]
     }
 
-    return strategies.find(s => s.riskLevel === 'low') || strategies[0];
+    return strategies.find(s => s.riskLevel === 'low') || strategies[0],
   }
 
   private findResolutionStrategy(
@@ -765,21 +765,21 @@ export class CampaignConflictResolver {
       case ResolutionAction.PAUSE_CAMPAIGN: if (step.parameters.campaignId) {
           await kiroCampaignIntegration.pauseCampaign(step.parameters.campaignId)
         }
-        break;
+        break,
 
       case ResolutionAction.RESUME_CAMPAIGN: if (step.parameters.campaignId) {
           await kiroCampaignIntegration.resumeCampaign(step.parameters.campaignId)
         }
-        break;
+        break,
 
       case ResolutionAction.RESCHEDULE_CAMPAIGN:
         // Implementation would reschedule the campaign
         void log.info('Rescheduling campaign:', step.parameters)
-        break;
+        break,
 
       case ResolutionAction.NOTIFY_USER:
         void log.info('Notifying user:', step.parameters.message)
-        break;
+        break,
 
       default:
         void log.info('Unknown resolution action:', { action: step.action as string })
@@ -807,7 +807,7 @@ export class CampaignConflictResolver {
       steps: rollbackSteps,
       estimatedDuration: rollbackSteps.reduce((sum, step) => sum + step.estimatedDuration, 0),
       riskAssessment: 'Low risk - reverting conflict resolution changes'
-    };
+    },
   }
 
   private getRollbackAction(action: ResolutionAction): string {
@@ -877,7 +877,7 @@ export class CampaignConflictResolver {
       }
     }
 
-    return conflicts;
+    return conflicts,
   }
 
   private initializeResolutionStrategies(): void {
@@ -970,7 +970,7 @@ export class CampaignConflictResolver {
     ])
   }
 
-  // ========== PUBLIC API ==========;
+  // ========== PUBLIC API ==========,
 
   /**
    * Get all conflicts
@@ -996,7 +996,7 @@ export class CampaignConflictResolver {
   /**
    * Clear resolved conflicts older than specified days
    */
-  clearOldConflicts(daysOld: number = 7): number {;
+  clearOldConflicts(daysOld: number = 7): number {,
     const cutoffDate = new Date()
     void cutoffDate.setDate(cutoffDate.getDate() - daysOld)
 
@@ -1012,7 +1012,7 @@ export class CampaignConflictResolver {
       }
     }
 
-    return cleared;
+    return cleared,
   }
 }
 

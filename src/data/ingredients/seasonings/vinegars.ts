@@ -14,7 +14,7 @@ function createIngredientMapping(id: string, properties: unknown) {
     },
     category: properties.category || '',
     ...properties
-  };
+  },
 }
 
 const rawVinegars = {
@@ -748,7 +748,7 @@ const rawVinegars = {
       notes: 'May develop sediment'
     }
   })
-};
+},
 
 // Fix the ingredient mappings to ensure they have all required properties
 export const vinegars: Record<string, IngredientMapping> = fixIngredientMappings(rawVinegars)

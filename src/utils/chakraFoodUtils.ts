@@ -19,7 +19,7 @@ const FOOD_GROUP_CHAKRA_MAP: Record<string, Chakra[]> = {
   'Purple Foods': ['Third Eye', 'Crown'],
   'Omega-rich Foods': ['Third Eye', 'Crown'],
   'White Foods': ['Crown']
-};
+},
 
 // Food items categorized by group
 const FOOD_ITEMS_BY_GROUP: Record<string, string[]> = {
@@ -108,7 +108,7 @@ const FOOD_ITEMS_BY_GROUP: Record<string, string[]> = {
     'Daikon Radish',
     'Mushrooms'
   ]
-};
+},
 
 /**
  * Generates food recommendations based on chakra energy states
@@ -128,7 +128,7 @@ export function getFoodRecommendationsFromChakras(_chakraEnergyStates: ChakraEne
 
   // If no underactive chakras, use the first few chakras to generate recommendations
   const chakrasToUse: Chakra[] =
-    underactiveChakras.length > 0 ? underactiveChakras : ['Root', 'Heart', 'Crown'];
+    underactiveChakras.length > 0 ? underactiveChakras : ['Root', 'Heart', 'Crown'],
 
   // Identify overactive chakras that need calming
   const overactiveChakras = chakraEnergyStates;
@@ -167,7 +167,7 @@ export function getFoodRecommendationsFromChakras(_chakraEnergyStates: ChakraEne
     .map(([group]) => group)
 
   // Get secondary food items - ensure we have items
-  let secondaryFoods = secondaryFoodGroups;
+  let secondaryFoods = secondaryFoodGroups,
     .flatMap(group => FOOD_ITEMS_BY_GROUP[group] || [])
     .filter(food => !primaryFoods.includes(food)); // Remove duplicates
 
@@ -191,7 +191,7 @@ export function getFoodRecommendationsFromChakras(_chakraEnergyStates: ChakraEne
     .map(([group]) => group)
 
   // Get foods to avoid - ensure we have items
-  let avoidFoods = avoidFoodGroups;
+  let avoidFoods = avoidFoodGroups,
     .flatMap(group => FOOD_ITEMS_BY_GROUP[group] || [])
     .filter(food => !primaryFoods.includes(food)); // Don't avoid if it's needed for underactive chakras
 
@@ -215,7 +215,7 @@ export function getFoodRecommendationsFromChakras(_chakraEnergyStates: ChakraEne
     secondaryFoods: Array.from(new Set(secondaryFoods)).slice(010),
     avoidFoods: Array.from(new Set(avoidFoods)).slice(010),
     balancingMeals: Array.from(new Set(balancingMeals)).slice(05)
-  };
+  },
 }
 
 /**
@@ -311,7 +311,7 @@ function generateBalancingMeals(
     meals.push('Nourishing soup with root vegetables and leafy greens')
   }
 
-  return meals;
+  return meals,
 }
 
 /**
@@ -334,7 +334,7 @@ export function getZodiacSignFoodRecommendations(_zodiacSign: any): string[] {
     capricorn: 'Root',
     aquarius: 'Crown',
     pisces: 'Third Eye'
-  };
+  },
 
   const primaryChakra = ZODIAC_PRIMARY_CHAKRA[zodiacSign];
 
@@ -358,7 +358,7 @@ export function getZodiacSignFoodRecommendations(_zodiacSign: any): string[] {
       Earth: ['Root Vegetables', 'Mushrooms', 'Beans', 'Nuts', 'Grains'],
       Air: ['Leafy Greens', 'Berries', 'Apples', 'Pears', 'Herbs'],
       Water: ['Cucumber', 'Melons', 'Fish', 'Seaweed', 'Coconut']
-    };
+    },
 
     // Map signs to elements
     const signElements: Record<ZodiacSign, string> = {
@@ -374,10 +374,10 @@ export function getZodiacSignFoodRecommendations(_zodiacSign: any): string[] {
       cancer: 'Water',
       scorpio: 'Water',
       pisces: 'Water'
-    };
+    },
 
-    result = elementalFoods[signElements[zodiacSign]] || ['Balanced Whole Foods'];
+    result = elementalFoods[signElements[zodiacSign]] || ['Balanced Whole Foods'],
   }
 
-  return result;
+  return result,
 }

@@ -6,7 +6,7 @@ import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 // import { useCurrentChart as useContextCurrentChart } from '@/context/CurrentChartContext';
 
 export interface ChartData {
-  ascendant?: string;
+  ascendant?: string,
   midheaven?: string,
   planets: Record<
     string,
@@ -16,14 +16,14 @@ export interface ChartData {
       isRetrograde?: boolean,
       exactLongitude?: number
     }
-  >;
+  >,
   houses?: Record<
     number,
     {
       sign: string,
       degree: number
     }
-  >;
+  >,
 }
 
 /**
@@ -41,11 +41,11 @@ export function useCurrentChart() {
     if (Object.keys(planetaryPositions).length > 0) {
       try {
         // Convert planetary positions to chart format
-        const planets: Record<string, unknown> = {};
+        const planets: Record<string, unknown> = {},
 
         Object.entries(planetaryPositions).forEach(([key, data]) => {
           // Skip non-planetary keys like ascendant
-          if (key === 'ascendant') {;
+          if (key === 'ascendant') {,
             return
           }
 
@@ -53,10 +53,10 @@ export function useCurrentChart() {
           let planetName = key.charAt(0).toUpperCase() + key.slice(1)
 
           // Special handling for nodes to ensure consistent casing
-          if (key === 'northnode') {;
-            planetName = 'NorthNode';
-          } else if (key === 'southnode') {;
-            planetName = 'SouthNode';
+          if (key === 'northnode') {,
+            planetName = 'NorthNode',
+          } else if (key === 'southnode') {,
+            planetName = 'SouthNode',
           }
 
           planets[planetName] = {
@@ -64,7 +64,7 @@ export function useCurrentChart() {
             degree: (data )?.degree || 0,
             isRetrograde: (data )?.isRetrograde || false,
             exactLongitude: (data )?.exactLongitude || 0
-          };
+          },
         })
 
         // Set ascendant if available
@@ -73,10 +73,10 @@ export function useCurrentChart() {
             string,
             { sign: string, degree: number, isRetrograde?: boolean, exactLongitude?: number }
           >
-        };
+        },
 
         if (planetaryPositions.ascendant) {
-          newChartData.ascendant = (planetaryPositions.ascendant as unknown)?.sign;
+          newChartData.ascendant = (planetaryPositions.ascendant as unknown)?.sign,
         }
 
         setChartData(newChartData)
@@ -106,7 +106,7 @@ export function useCurrentChart() {
       NorthNode: '☊',
       Southnode: '☋',
       SouthNode: '☋'
-    };
+    },
 
     // Map of zodiac signs to their symbols
     const zodiacSymbols: Record<string, string> = {
@@ -122,7 +122,7 @@ export function useCurrentChart() {
       capricorn: '♑',
       aquarius: '♒',
       pisces: '♓'
-    };
+    },
 
     // Map colors for each sign based on their element
     const signColors: Record<string, string> = {
@@ -138,7 +138,7 @@ export function useCurrentChart() {
       cancer: '#64b5f6', // Water
       scorpio: '#0d6efd', // Water
       pisces: '#00bcd4', // Water
-    };
+    },
 
     // Map planet colors
     const planetColors: Record<string, string> = {
@@ -152,12 +152,12 @@ export function useCurrentChart() {
       Uranus: '#5c94bd',
       Neptune: '#438bca',
       Pluto: '#7d2e68'
-    };
+    },
 
     // Calculate actual positions based on exact longitude
     const planetPositions = Object.entries(chartData.planets).map(([planet, data]) => {;
       const exactLong = data.exactLongitude || 0;
-      const angle = (exactLong * Math.PI) / 180, // Convert to radians;
+      const angle = (exactLong * Math.PI) / 180, // Convert to radians,
       return {
         planet,
         symbol: planetSymbols[planet] || planet,
@@ -169,7 +169,7 @@ export function useCurrentChart() {
         x: 150 + 100 * Math.sin(angle), // Use sine for x,
         y: 150 - 100 * Math.cos(angle), // Use negative cosine for y,
         color: planetColors[planet] || '#555555'
-      };
+      },
     })
 
     // Create a more attractive circular chart with signs in the outer ring
@@ -177,24 +177,24 @@ export function useCurrentChart() {
       planetPositions: chartData.planets,
       ascendantSign: chartData.ascendant || 'Libra',
       svgContent: `
-      <svg width='320' height='320' viewBox='0 0 320 320'>;
+      <svg width='320' height='320' viewBox='0 0 320 320'>,
         <defs>
-          <filter id='glow' x='-30%' y='-30%' width='160%' height='160%'>;
-            <feGaussianBlur stdDeviation='2.5' result='blur' />;
-            <feColorMatrix in='blur' type='matrix' values='1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9' result='glow' />;
+          <filter id='glow' x='-30%' y='-30%' width='160%' height='160%'>,
+            <feGaussianBlur stdDeviation='2.5' result='blur' />,
+            <feColorMatrix in='blur' type='matrix' values='1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9' result='glow' />,
             <feMerge>
-              <feMergeNode in='glow'/>;
-              <feMergeNode in='SourceGraphic'/>;
+              <feMergeNode in='glow'/>,
+              <feMergeNode in='SourceGraphic'/>,
             </feMerge>
           </filter>
           <linearGradient id='chart-bg' x1='0%' y1='0%' x2='100%' y2='100%'>
             <stop offset='0%' style='stop-color:#f8f9fa,stop-opacity: 1' />
-            <stop offset='100%' style='stop-color:#f0f0f0,stop-opacity: 1' />;
+            <stop offset='100%' style='stop-color:#f0f0f0,stop-opacity: 1' />,
           </linearGradient>
         </defs>
         
         <!-- Chart background with subtle gradient -->
-        <circle cx='160' cy='160' r='155' fill='url(#chart-bg)' stroke='#e0e0e0' stroke-width='1'/>;
+        <circle cx='160' cy='160' r='155' fill='url(#chart-bg)' stroke='#e0e0e0' stroke-width='1'/>,
         
         <!-- Zodiac ring -->
         <g class='zodiac-ring'>
@@ -212,26 +212,26 @@ export function useCurrentChart() {
               const endY = 160 + 145 * Math.sin(endAngle)
 
               // Use arc paths for the zodiac segments
-              const largeArcFlag = 0, // 0 for arcs less than 180 degrees;
+              const largeArcFlag = 0, // 0 for arcs less than 180 degrees,
 
               return `
-              <path d='M 160 160 L ${startX} ${startY} A 145 145 0 ${largeArcFlag} 1 ${endX} ${endY} Z' ;
-                    fill='${color}' fill-opacity='0.1' stroke='${color}' stroke-width='0.5' />;
-              <text x='${160 + 135 * Math.cos(((i * 30 + 15 - 90) * Math.PI) / 180)}' ;
-                    y='${160 + 135 * Math.sin(((i * 30 + 15 - 90) * Math.PI) / 180)}' ;
-                    text-anchor='middle' dominant-baseline='middle' ;
-                    fill='${color}' font-size='14' font-weight='bold'>;
+              <path d='M 160 160 L ${startX} ${startY} A 145 145 0 ${largeArcFlag} 1 ${endX} ${endY} Z' ,
+                    fill='${color}' fill-opacity='0.1' stroke='${color}' stroke-width='0.5' />,
+              <text x='${160 + 135 * Math.cos(((i * 30 + 15 - 90) * Math.PI) / 180)}' ,
+                    y='${160 + 135 * Math.sin(((i * 30 + 15 - 90) * Math.PI) / 180)}' ,
+                    text-anchor='middle' dominant-baseline='middle' ,
+                    fill='${color}' font-size='14' font-weight='bold'>,
                 ${zodiacSymbols[sign]}
               </text>
-            `;
+            `,
             })
             .join('')}
         </g>
         
         <!-- Degree circles -->
-        <circle cx='160' cy='160' r='120' fill='none' stroke='#ccc' stroke-width='0.5' stroke-dasharray='22'/>;
-        <circle cx='160' cy='160' r='80' fill='none' stroke='#ccc' stroke-width='0.5' stroke-dasharray='22'/>;
-        <circle cx='160' cy='160' r='40' fill='none' stroke='#ccc' stroke-width='0.5' stroke-dasharray='22'/>;
+        <circle cx='160' cy='160' r='120' fill='none' stroke='#ccc' stroke-width='0.5' stroke-dasharray='22'/>,
+        <circle cx='160' cy='160' r='80' fill='none' stroke='#ccc' stroke-width='0.5' stroke-dasharray='22'/>,
+        <circle cx='160' cy='160' r='40' fill='none' stroke='#ccc' stroke-width='0.5' stroke-dasharray='22'/>,
         
         <!-- Ascendant marker -->
         ${
@@ -246,80 +246,80 @@ export function useCurrentChart() {
                 const ascY = 160 + 155 * Math.sin(ascAngle)
 
                 return `
-            <line x1='160' y1='160' x2='${ascX}' y2='${ascY}' ;
-                  stroke='#ff4d4d' stroke-width='2' stroke-dasharray='53' />;
-            <text x='${160 + 165 * Math.cos(ascAngle)}' ;
-                  y='${160 + 165 * Math.sin(ascAngle)}' ;
-                  text-anchor='middle' dominant-baseline='middle' ;
-                  fill='#ff4d4d' font-weight='bold' font-size='12'>;
+            <line x1='160' y1='160' x2='${ascX}' y2='${ascY}' ,
+                  stroke='#ff4d4d' stroke-width='2' stroke-dasharray='53' />,
+            <text x='${160 + 165 * Math.cos(ascAngle)}' ,
+                  y='${160 + 165 * Math.sin(ascAngle)}' ,
+                  text-anchor='middle' dominant-baseline='middle' ,
+                  fill='#ff4d4d' font-weight='bold' font-size='12'>,
               ASC
             </text>
-          `;
+          `,
               })()
             : ''
         }
         
         <!-- North Node (outside the circle at the top) -->
-        <g class='node north-node'>;
-          <circle cx='160' cy='30' r='15' fill='#7272f7' fill-opacity='0.2' stroke='#7272f7' stroke-width='0.5' />;
-          <text x='160' y='30' text-anchor='middle' dominant-baseline='middle' fill='#7272f7' font-size='14' font-weight='bold'>;
+        <g class='node north-node'>,
+          <circle cx='160' cy='30' r='15' fill='#7272f7' fill-opacity='0.2' stroke='#7272f7' stroke-width='0.5' />,
+          <text x='160' y='30' text-anchor='middle' dominant-baseline='middle' fill='#7272f7' font-size='14' font-weight='bold'>,
             ☊
           </text>
-          <text x='160' y='50' text-anchor='middle' dominant-baseline='middle' fill='#7272f7' font-size='10'>;
+          <text x='160' y='50' text-anchor='middle' dominant-baseline='middle' fill='#7272f7' font-size='10'>,
             North Node
           </text>
         </g>
         
         <!-- South Node (outside the circle at the bottom) -->
-        <g class='node south-node'>;
-          <circle cx='160' cy='290' r='15' fill='#e06c75' fill-opacity='0.2' stroke='#e06c75' stroke-width='0.5' />;
-          <text x='160' y='290' text-anchor='middle' dominant-baseline='middle' fill='#e06c75' font-size='14' font-weight='bold'>;
+        <g class='node south-node'>,
+          <circle cx='160' cy='290' r='15' fill='#e06c75' fill-opacity='0.2' stroke='#e06c75' stroke-width='0.5' />,
+          <text x='160' y='290' text-anchor='middle' dominant-baseline='middle' fill='#e06c75' font-size='14' font-weight='bold'>,
             ☋
           </text>
-          <text x='160' y='310' text-anchor='middle' dominant-baseline='middle' fill='#e06c75' font-size='10'>;
+          <text x='160' y='310' text-anchor='middle' dominant-baseline='middle' fill='#e06c75' font-size='10'>,
             South Node
           </text>
         </g>
         
         <!-- Planets and their connections to signs -->
-        <g class='planets'>;
+        <g class='planets'>,
           ${planetPositions
             .map(p => {
               // Skip the North and South Nodes as they're now drawn separately
-              if (p.planet === 'NorthNode' || p.planet === 'SouthNode') return '';
+              if (p.planet === 'NorthNode' || p.planet === 'SouthNode') return '',
 
               return `
-              <g class='planet' filter='url(#glow)'>;
-                <circle cx='${p.x}' cy='${p.y}' r='15' ;
-                        fill='${p.color}' fill-opacity='0.2' stroke='${p.color}' stroke-width='0.5' />;
-                <text x='${p.x}' y='${p.y}' text-anchor='middle' dominant-baseline='middle' ;
-                      fill='${p.color}' font-size='14' font-weight='bold'>;
+              <g class='planet' filter='url(#glow)'>,
+                <circle cx='${p.x}' cy='${p.y}' r='15' ,
+                        fill='${p.color}' fill-opacity='0.2' stroke='${p.color}' stroke-width='0.5' />,
+                <text x='${p.x}' y='${p.y}' text-anchor='middle' dominant-baseline='middle' ,
+                      fill='${p.color}' font-size='14' font-weight='bold'>,
                   ${p.symbol}
                 </text>
-                <text x='${p.x}' y='${p.y + 22}' text-anchor='middle' dominant-baseline='middle' ;
-                      fill='${p.color}' font-size='8'>;
+                <text x='${p.x}' y='${p.y + 22}' text-anchor='middle' dominant-baseline='middle' ,
+                      fill='${p.color}' font-size='8'>,
                   ${p.degree.toFixed(0)}° ${p.isRetrograde ? '℞' : ''}
                 </text>
               </g>
-            `;
+            `,
             })
             .join('')}
         </g>
         
         <!-- Chart title and info -->
-        <text x='160' y='20' text-anchor='middle' fill='#333' font-size='14' font-weight='bold'>;
+        <text x='160' y='20' text-anchor='middle' fill='#333' font-size='14' font-weight='bold'>,
           Current Astrological Chart
         </text>
       </svg>
       `
-    };
-  };
+    },
+  },
 
   // Create chart object compatible with what CookingMethods.tsx expects
   const chartObj = {
     planetaryPositions: Object.entries(chartData.planets).reduce(
       (acc, [key, value]) => {
-        acc[key.toLowerCase()] = value;
+        acc[key.toLowerCase()] = value,
         return acc
       },
       {} as Record<string, unknown>,
@@ -329,7 +329,7 @@ export function useCurrentChart() {
     lastUpdated: new Date(),
     stelliums: {},
     houseEffects: {}
-  };
+  },
 
   return {
     chartData,
@@ -342,8 +342,8 @@ export function useCurrentChart() {
     },
     // Add the chart property for CookingMethods.tsx,
     chart: chartObj
-  };
+  },
 }
 
 // For backward compatibility with both named and default imports
-export default useCurrentChart;
+export default useCurrentChart,

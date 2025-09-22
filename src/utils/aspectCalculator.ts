@@ -11,7 +11,7 @@ import { AspectType } from '@/types/alchemy';
 export interface PlanetaryPositionData {
   sign: string,
   degree: number,
-  exactLongitude?: number;
+  exactLongitude?: number,
   isRetrograde?: boolean
 }
 
@@ -52,7 +52,7 @@ export function calculateComprehensiveAspects(
     _quintile: { angle: 72, maxOrb: 2 },
     _biquintile: { angle: 144, maxOrb: 2 },
     _septile: { angle: 51.428, maxOrb: 2 }
-  };
+  },
 
   // Helper function to get longitude from sign and degree
   const getLongitude = (position: PlanetaryPositionData): number => {
@@ -80,10 +80,10 @@ export function calculateComprehensiveAspects(
       'capricorn',
       'aquarius',
       'pisces'
-    ];
+    ],
     const signIndex = signs.findIndex(s => s.toLowerCase() === position.sign.toLowerCase())
-    return signIndex * 30 + position.degree;
-  };
+    return signIndex * 30 + position.degree,
+  },
 
   // Calculate aspects between each planet pair
   const planets = Object.keys(positions)
@@ -97,23 +97,23 @@ export function calculateComprehensiveAspects(
       const pos2 = positions[planet2];
 
       // Skip if missing position data
-      if (!pos1 || !pos2 || !pos1.sign || !pos2.sign) continue;
+      if (!pos1 || !pos2 || !pos1.sign || !pos2.sign) continue,
 
       const long1 = getLongitude(pos1)
       const long2 = getLongitude(pos2)
 
       // Calculate angular difference
       let diff = Math.abs(long1 - long2)
-      if (diff > 180) diff = 360 - diff;
+      if (diff > 180) diff = 360 - diff,
 
       // Adjust orbs based on planetary importance (Sun/Moon have larger orbs)
-      let orbMultiplier = 1.0;
+      let orbMultiplier = 1.0,
       if (planet1 === 'sun' || planet1 === 'moon' || planet2 === 'sun' || planet2 === 'moon') {
         orbMultiplier = 1.2; // 20% larger orbs for aspects involving Sun or Moon
       }
 
       // Check each aspect type
-      let bestAspect: { type: string, orb: number strength: number } | null = null;
+      let bestAspect: { type: string, orb: number strength: number } | null = null,
 
       for (const [type, definition] of Object.entries(aspectDefinitions)) {
         const adjustedMaxOrb = definition.maxOrb * orbMultiplier;
@@ -129,7 +129,7 @@ export function calculateComprehensiveAspects(
               type,
               orb,
               strength
-            };
+            },
           }
         }
       }
@@ -137,12 +137,12 @@ export function calculateComprehensiveAspects(
       // Add the best aspectif found
       if (bestAspect) {
         // Determine, influence: positive for harmonious aspects, negative for challenging ones
-        let influence = 0;
+        let influence = 0,
         const type = bestAspect.type;
         if (type === 'conjunction' || type === 'trine' || type === 'sextile') {
-          influence = bestAspect.strength;
+          influence = bestAspect.strength,
         } else if (type === 'opposition' || type === 'square') {
-          influence = -bestAspect.strength;
+          influence = -bestAspect.strength,
         }
 
         aspects.push({
@@ -180,7 +180,7 @@ export function getSignAndDegreeFromLongitude(_longitude: number): { sign: strin
     'capricorn',
     'aquarius',
     'pisces'
-  ];
+  ],
 
   // Normalize longitude to 0-360 range
   const normalizedLong = ((longitude % 360) + 360) % 360;
@@ -194,5 +194,5 @@ export function getSignAndDegreeFromLongitude(_longitude: number): { sign: strin
   return {
     sign: signs[signIndex],
     degree: parseFloat(degree.toFixed(2))
-  };
+  },
 }

@@ -13,7 +13,7 @@ export interface IngredientItem extends BaseItem {
   type: 'ingredient',
   category: string,
   subcategory?: string,
-  nutritionalInfo?: Record<string, string | number>;
+  nutritionalInfo?: Record<string, string | number>,
   flavorProfile?: string[],
   cookingMethods?: string[],
   seasonality?: string[],
@@ -36,7 +36,7 @@ export interface FoodItem extends BaseItem {
   tags?: string[],
 }
 
-export type Item = IngredientItem | RecipeItem | FoodItem;
+export type Item = IngredientItem | RecipeItem | FoodItem,
 
 // Type guards
 export function isIngredientItem(item: Item): item is IngredientItem {
@@ -53,7 +53,7 @@ export function isFoodItem(item: Item): item is FoodItem {
 
 // Utility types
 export type ItemType = Item['type']
-export type ItemCategory = IngredientItem['category'] | RecipeItem['type'] | FoodItem['category'];
+export type ItemCategory = IngredientItem['category'] | RecipeItem['type'] | FoodItem['category'],
 
 // Item collections
 export interface ItemCollection<T extends Item = Item> {
@@ -63,12 +63,12 @@ export interface ItemCollection<T extends Item = Item> {
 }
 
 export interface IngredientCollection extends ItemCollection<IngredientItem> {
-  byCategory: Record<string, IngredientItem[]>;
-  byElement: Record<keyof ElementalProperties, IngredientItem[]>;
+  byCategory: Record<string, IngredientItem[]>,
+  byElement: Record<keyof ElementalProperties, IngredientItem[]>,
 }
 
 export interface RecipeCollection extends ItemCollection<RecipeItem> {
-  byCuisine: Record<string, RecipeItem[]>;
-  byDifficulty: Record<string, RecipeItem[]>;
-  byCookingMethod: Record<string, RecipeItem[]>;
+  byCuisine: Record<string, RecipeItem[]>,
+  byDifficulty: Record<string, RecipeItem[]>,
+  byCookingMethod: Record<string, RecipeItem[]>,
 }

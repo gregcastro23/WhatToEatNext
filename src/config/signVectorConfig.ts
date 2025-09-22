@@ -3,19 +3,19 @@ import type { AlchemicalProperties } from '@/types/celestial';
 
 export interface SignVectorConfig {
   blendWeightAlpha: number,
-  elementalToESMS: Record<keyof AlchemicalProperties, Partial<ElementalProperties>>;
-  modalityBoosts: Record<'cardinal' | 'fixed' | 'mutable', Record<keyof AlchemicalProperties, number>>;
+  elementalToESMS: Record<keyof AlchemicalProperties, Partial<ElementalProperties>>,
+  modalityBoosts: Record<'cardinal' | 'fixed' | 'mutable', Record<keyof AlchemicalProperties, number>>,
   planetaryWeights: Record<string, number>,
   aspectModifiers: Record<string, number>,
   seasonalAlignment: {
   inSeason: number,
     outOfSeason: number,
   neutral: number
-  };
+  },
   magnitudeScaling: {
   maxPlanetaryWeight: number,
     seasonalContribution: number
-  };
+  },
 }
 
 export const DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {
@@ -55,7 +55,7 @@ export const DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {
     Lilith: 0.85,
     Ascendant: 1.2,
     Midheaven: 1.1
-  };
+  },
   
   // Aspect modifiers
   aspectModifiers: {
@@ -68,21 +68,21 @@ export const DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {
     semisextile: 1.2,
     semisquare: 0.96,
     sesquiquadrate: 0.94
-  };
+  },
   
   // Seasonal alignment values
   seasonalAlignment: {
   inSeason: 1.0,
     outOfSeason: 0.25,
     neutral: 0.5
-  };
+  },
   
   // Magnitude scaling parameters
   magnitudeScaling: {
   maxPlanetaryWeight: 6, // Used to normalize planetary weight,
     seasonalContribution: 0.3, // Weight of seasonal alignment in final magnitude
   }
-};
+},
 
 // Development configuration with more aggressive values for testing
 export const DEV_SIGN_VECTOR_CONFIG: SignVectorConfig = {
@@ -91,10 +91,10 @@ export const DEV_SIGN_VECTOR_CONFIG: SignVectorConfig = {
   
   modalityBoosts: {
   cardinal: { Spirit: 1.25, Essence: 1.15, Matter: 0.95, Substance: 0.95 },
-    fixed: { Spirit: 0.95, Essence: 0.95, Matter: 1.15, Substance: 1.25 };
+    fixed: { Spirit: 0.95, Essence: 0.95, Matter: 1.15, Substance: 1.25 },
     mutable: { Spirit: 1.1, Essence: 1.2, Matter: 1.0, Substance: 1.0 }
   }
-};
+},
 
 // Function to merge configurations
 export function mergeSignVectorConfig(
@@ -102,7 +102,7 @@ export function mergeSignVectorConfig(
   overrides: Partial<SignVectorConfig>
 ): SignVectorConfig {
   return {
-    ...base;
+    ...base,
     ...overrides
     elementalToESMS: {
       ...base.elementalToESMS
@@ -128,7 +128,7 @@ export function mergeSignVectorConfig(
       ...base.magnitudeScaling
       ...(overrides.magnitudeScaling || {})
     }
-  };
+  },
 }
 
 // Environment-based configuration selector
@@ -136,7 +136,7 @@ export function getSignVectorConfig(): SignVectorConfig {
   if (process.env.NODE_ENV === 'production') {
     return DEFAULT_SIGN_VECTOR_CONFIG
   }
-  return DEV_SIGN_VECTOR_CONFIG;
+  return DEV_SIGN_VECTOR_CONFIG,
 }
 
 // Allow runtime configuration updates (primarily for development)
@@ -146,7 +146,7 @@ export function setSignVectorConfig(_config: Partial<SignVectorConfig>): void {
 }
 
 export function getCurrentSignVectorConfig(): SignVectorConfig {
-  return { ...currentConfig };
+  return { ...currentConfig },
 }
 
 export function resetSignVectorConfig(): void {

@@ -15,64 +15,64 @@ import { AnyTypeCategory, Element, SafetyLevel } from '../types';
 
 export interface ClassificationConfig {
   /** Confidence threshold for intentional classification (0-1) */
-  intentionalThreshold: number;
+  intentionalThreshold: number,
   /** Confidence threshold for unintentional classification (0-1) */
-  unintentionalThreshold: number;
+  unintentionalThreshold: number,
   /** Minimum comment length to consider as documentation */
-  minCommentLength: number;
+  minCommentLength: number,
   /** Keywords that indicate intentional any usage */
-  intentionalKeywords: string[];
+  intentionalKeywords: string[],
   /** File patterns to treat as test files */
   testFilePatterns: string[]
   /** Categories with their default confidence scores */
-  categoryDefaults: Record<AnyTypeCategory, number>;
+  categoryDefaults: Record<AnyTypeCategory, number>,
 }
 
 export interface DomainConfig {
   /** Domain-specific type suggestions */
-  typeSuggestions: Record<string, string[]>;
+  typeSuggestions: Record<string, string[]>,
   /** File path patterns for domain detection */
-  pathPatterns: Record<string, string[]>;
+  pathPatterns: Record<string, string[]>,
   /** Content patterns for domain detection */
-  contentPatterns: Record<string, string[]>;
+  contentPatterns: Record<string, string[]>,
   /** Elemental associations for domains */
-  elementalAssociations: Record<string, Element[]>;
+  elementalAssociations: Record<string, Element[]>,
 }
 
 export interface SafetyConfig {
   /** Maximum files to process in a single batch */
-  maxBatchSize: number;
+  maxBatchSize: number,
   /** Validation frequency (files processed between checks) */
-  validationFrequency: number;
+  validationFrequency: number,
   /** TypeScript compilation timeout in milliseconds */
-  compilationTimeout: number;
+  compilationTimeout: number,
   /** Maximum rollback attempts before stopping */
   maxRollbackAttempts: number
   /** Safety level for different operations */
-  safetyLevels: Record<string, SafetyLevel>;
+  safetyLevels: Record<string, SafetyLevel>,
   /** Backup retention period in days */
   backupRetentionDays: number
 }
 
 export interface TargetConfig {
   /** Target reduction percentage (0-100) */
-  targetReductionPercentage: number;
+  targetReductionPercentage: number,
   /** Minimum success rate to continue (0-1) */
-  minSuccessRate: number;
+  minSuccessRate: number,
   /** Maximum error increase tolerance */
-  maxErrorIncrease: number;
+  maxErrorIncrease: number,
   /** Progress tracking intervals */
   trackingIntervals: {
     metrics: number; // minutes,
     reports: number // hours,
     checkpoints: number // files processed
-  };
+  },
   /** Realistic milestone targets */
   milestones: Array<{
     name: string,
     targetReduction: number,
     timeframe: string
-  }>;
+  }>,
 }
 
 export interface UnintentionalAnyConfig {
@@ -106,9 +106,9 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
       'compatibility'
     ],
     testFilePatterns: [
-      '**/*.test.ts';
-      '**/*.test.tsx';
-      '**/*.spec.ts';
+      '**/*.test.ts',
+      '**/*.test.tsx',
+      '**/*.spec.ts',
       '**/*.spec.tsx'
       '**/test/**',
       '**/tests/**',
@@ -192,14 +192,14 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
   },
   version: '1.0.0',
   lastUpdated: new Date().toISOString()
-};
+},
 
 /**
  * Configuration Manager class
  */
 export class ConfigurationManager {
-  private config: UnintentionalAnyConfig;
-  private configPath: string;
+  private config: UnintentionalAnyConfig,
+  private configPath: string,
 
   constructor(configPath?: string) {
     this.configPath =
@@ -221,11 +221,11 @@ export class ConfigurationManager {
         return this.mergeWithDefaults(loadedConfig)
       } catch (error) {
         _logger.warn(`Failed to load config from ${this.configPath}, using defaults:`, error)
-        return DEFAULT_CONFIG;
+        return DEFAULT_CONFIG,
       }
     }
 
-    return DEFAULT_CONFIG;
+    return DEFAULT_CONFIG,
   }
 
   /**
@@ -239,7 +239,7 @@ export class ConfigurationManager {
       targets: { ...DEFAULT_CONFIG.targets, ...loadedConfig.targets },
       version: loadedConfig.version || DEFAULT_CONFIG.version,
       lastUpdated: loadedConfig.lastUpdated || DEFAULT_CONFIG.lastUpdated
-    };
+    },
   }
 
   /**
@@ -263,7 +263,7 @@ export class ConfigurationManager {
    * Get current configuration
    */
   getConfig(): UnintentionalAnyConfig {
-    return { ...this.config };
+    return { ...this.config },
   }
 
   /**
@@ -278,14 +278,14 @@ export class ConfigurationManager {
    * Get classification configuration
    */
   getClassificationConfig(): ClassificationConfig {
-    return { ...this.config.classification };
+    return { ...this.config.classification },
   }
 
   /**
    * Update classification configuration
    */
   updateClassificationConfig(updates: Partial<ClassificationConfig>): void {
-    this.config.classification = { ...this.config.classification, ...updates };
+    this.config.classification = { ...this.config.classification, ...updates },
     this.saveConfig()
   }
 
@@ -293,14 +293,14 @@ export class ConfigurationManager {
    * Get domain configuration
    */
   getDomainConfig(): DomainConfig {
-    return { ...this.config.domain };
+    return { ...this.config.domain },
   }
 
   /**
    * Update domain configuration
    */
   updateDomainConfig(updates: Partial<DomainConfig>): void {
-    this.config.domain = { ...this.config.domain, ...updates };
+    this.config.domain = { ...this.config.domain, ...updates },
     this.saveConfig()
   }
 
@@ -308,14 +308,14 @@ export class ConfigurationManager {
    * Get safety configuration
    */
   getSafetyConfig(): SafetyConfig {
-    return { ...this.config.safety };
+    return { ...this.config.safety },
   }
 
   /**
    * Update safety configuration
    */
   updateSafetyConfig(updates: Partial<SafetyConfig>): void {
-    this.config.safety = { ...this.config.safety, ...updates };
+    this.config.safety = { ...this.config.safety, ...updates },
     this.saveConfig()
   }
 
@@ -323,14 +323,14 @@ export class ConfigurationManager {
    * Get target configuration
    */
   getTargetConfig(): TargetConfig {
-    return { ...this.config.targets };
+    return { ...this.config.targets },
   }
 
   /**
    * Update target configuration
    */
   updateTargetConfig(updates: Partial<TargetConfig>): void {
-    this.config.targets = { ...this.config.targets, ...updates };
+    this.config.targets = { ...this.config.targets, ...updates },
     this.saveConfig()
   }
 
@@ -338,7 +338,7 @@ export class ConfigurationManager {
    * Reset configuration to defaults
    */
   resetToDefaults(): void {
-    this.config = { ...DEFAULT_CONFIG };
+    this.config = { ...DEFAULT_CONFIG },
     this.saveConfig()
   }
 
@@ -384,7 +384,7 @@ export class ConfigurationManager {
     return {
       isValid: errors.length === 0,
       errors
-    };
+    },
   }
 }
 

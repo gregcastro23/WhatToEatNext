@@ -1,5 +1,5 @@
 import type {
-  // ===== UNIFIED FLAVOR PROFILE SYSTEM =====;
+  // ===== UNIFIED FLAVOR PROFILE SYSTEM =====,
   // Phase 4 of WhatToEatNext Data Consolidation
   // Consolidates flavor profiles from multiple sources with elemental self-reinforcement principles
 
@@ -11,14 +11,14 @@ import type {
   _CookingMethod,
   AlchemicalValues,
   _
-} from '@/types/alchemy';
+} from '@/types/alchemy',
 
 import { _, calculateElementalCompatibility } from '../../utils/elemental/elementalUtils';
 
 import { unifiedCuisineIntegrationSystem } from './cuisineIntegrations';
 import { unifiedSeasonalSystem } from './seasonal';
 
-// ===== UNIFIED FLAVOR PROFILE INTERFACES =====;
+// ===== UNIFIED FLAVOR PROFILE INTERFACES =====,
 
 /**
  * Core flavor components on a 0-1 scale
@@ -48,13 +48,13 @@ export interface FlavorModification {
 export interface PlanetaryFlavorInfluence {
   influence: number,
   flavorModification: FlavorModification,
-  seasonalVariation: Record<Season, number>;
+  seasonalVariation: Record<Season, number>,
   monicaOptimization: number,
   optimalTiming: {
     planetaryHour: boolean,
     dayOfWeek: number,
     lunarPhases: string[]
-  };
+  },
 }
 
 /**
@@ -89,10 +89,10 @@ export interface UnifiedFlavorProfile {
   planetaryResonance: Record<PlanetName, PlanetaryFlavorInfluence>,
 
   // Cuisine compatibility
-  cuisineCompatibility: { [key: string]: CuisineFlavorCompatibility };
+  cuisineCompatibility: { [key: string]: CuisineFlavorCompatibility },
 
   // Alchemical properties,
-  alchemicalProperties: AlchemicalValues;
+  alchemicalProperties: AlchemicalValues,
 
   // Kalchm value,
   kalchm: number
@@ -105,14 +105,14 @@ export interface UnifiedFlavorProfile {
   nutritionalSynergy: number,
 
   // Integration properties,
-  cookingMethodAffinity: Record<string, number>;
-  temperatureRange: { min: number, max: number };
+  cookingMethodAffinity: Record<string, number>,
+  temperatureRange: { min: number, max: number },
   pairingRecommendations: string[],
   avoidCombinations: string[],
 
   // Dynamic properties,
   monicaOptimization: number,
-  seasonalModifiers: Record<Season, number>;
+  seasonalModifiers: Record<Season, number>,
 }
 
 /**
@@ -133,13 +133,13 @@ export interface FlavorCompatibilityResult {
  */
 export interface FlavorCriteria {
   elementalFocus?: Element,
-  intensityRange?: { min: number, max: number };
-  complexityRange?: { min: number, max: number };
-  seasonalAlignment?: Season;
-  cuisineStyle?: string;
+  intensityRange?: { min: number, max: number },
+  complexityRange?: { min: number, max: number },
+  seasonalAlignment?: Season,
+  cuisineStyle?: string,
   planetaryInfluence?: PlanetName
-  kalchmRange?: { min: number, max: number };
-  avoidElements?: Element[];
+  kalchmRange?: { min: number, max: number },
+  avoidElements?: Element[],
   culturalPreference?: string[]
 }
 
@@ -172,7 +172,7 @@ export interface SystemConditions {
  * Type guard to check if an object is a valid UnifiedFlavorProfile
  */
 export function isUnifiedFlavorProfile(obj: unknown): obj is UnifiedFlavorProfile {
-  if (!obj || typeof obj !== 'object') return false;
+  if (!obj || typeof obj !== 'object') return false,
 
   const profile = obj as Partial<UnifiedFlavorProfile>;
   return (
@@ -196,19 +196,19 @@ export function createBaseFlavorNotes(props?: Partial<BaseFlavorNotes>): BaseFla
     bitter: props?.bitter ?? 0,
     umami: props?.umami ?? 0,
     spicy: props?.spicy ?? 0
-  };
+  },
 }
 
-// ===== UNIFIED FLAVOR PROFILE SYSTEM =====;
+// ===== UNIFIED FLAVOR PROFILE SYSTEM =====,
 
 export class UnifiedFlavorProfileSystem {
-  private flavorProfiles: { [key: string]: UnifiedFlavorProfile } = {};
-  private seasonalSystem: typeof unifiedSeasonalSystem;
-  private cuisineSystem: typeof unifiedCuisineIntegrationSystem;
+  private flavorProfiles: { [key: string]: UnifiedFlavorProfile } = {},
+  private seasonalSystem: typeof unifiedSeasonalSystem,
+  private cuisineSystem: typeof unifiedCuisineIntegrationSystem,
 
   constructor() {
     this.flavorProfiles = this.initializeFlavorProfiles()
-    this.seasonalSystem = unifiedSeasonalSystem;
+    this.seasonalSystem = unifiedSeasonalSystem,
     this.cuisineSystem = unifiedCuisineIntegrationSystem
   }
 
@@ -235,7 +235,7 @@ export class UnifiedFlavorProfileSystem {
       return undefined
     }
 
-    return profile;
+    return profile,
   }
 
   /**
@@ -275,9 +275,9 @@ export class UnifiedFlavorProfileSystem {
       Array.isArray(profile2.seasonalPeak)
         ? profile2.seasonalPeak.includes(season)
         : profile2.seasonalPeak === season,
-    ).length;
+    ).length,
     const seasonalAlignment =
-      Number(seasonalOverlap) > 0;
+      Number(seasonalOverlap) > 0,
         ? Number(seasonalOverlap) /
           Math.max(
             Number((profile1.seasonalPeak || []).length),
@@ -290,7 +290,7 @@ export class UnifiedFlavorProfileSystem {
       elementalHarmony * 0.4 +
       kalchmResonance * 0.3 +
       monicaOptimization * 0.15 +
-      seasonalAlignment * 0.15;
+      seasonalAlignment * 0.15,
 
     // Generate recommendations and warnings
     const recommendations: string[] = [];
@@ -319,7 +319,7 @@ export class UnifiedFlavorProfileSystem {
       seasonalAlignment,
       recommendations,
       warnings
-    };
+    },
   }
 
   /**
@@ -328,15 +328,15 @@ export class UnifiedFlavorProfileSystem {
   private initializeFlavorProfiles(): { [key: string]: UnifiedFlavorProfile } {
     // This would normally load from source data, but for now we'll return an empty object
     // In a full implementation, this would load and transform data from various sources
-    return {};
+    return {},
   }
 }
 
-// ===== INITIALIZE SYSTEM =====;
+// ===== INITIALIZE SYSTEM =====,
 
 export const unifiedFlavorProfileSystem = new UnifiedFlavorProfileSystem()
 
-// ===== EXPORT INTERFACE =====;
+// ===== EXPORT INTERFACE =====,
 
 /**
  * Get a flavor profile by its identifier
@@ -361,4 +361,4 @@ export const calculateFlavorCompatibility = (
 ): FlavorCompatibilityResult =>
   unifiedFlavorProfileSystem.calculateFlavorCompatibility(profile1, profile2)
 
-export default unifiedFlavorProfileSystem;
+export default unifiedFlavorProfileSystem,

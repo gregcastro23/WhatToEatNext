@@ -11,7 +11,7 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Live Planetary Tracking | alchm.kitchen',
   description: 'Experience real-time planetary hour tracking with live WebSocket updates. Phase 26 advanced features.',
-};
+},
 
 export default function LivePlanetaryDemoPage() {
   return (

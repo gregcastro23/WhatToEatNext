@@ -20,23 +20,23 @@ interface MonitoringConfig {
       errorIncrease: number,
       successRateDecrease: number,
       buildFailureRate: number
-    };
-  };
+    },
+  },
   alerts: {
     enabled: boolean,
     channels: AlertChannel[],
     conditions: AlertCondition[]
-  };
+  },
   logging: {
     level: 'debug' | 'info' | 'warn' | 'error',
     retention: number, // days,
     maxFileSize: string
-  };
+  },
   healthChecks: {
     enabled: boolean,
     interval: number, // minutes,
     endpoints: HealthCheckEndpoint[]
-  };
+  },
 }
 
 interface AlertChannel {
@@ -163,7 +163,7 @@ function createMonitoringConfig(): MonitoringConfig {
           command: 'npx',
           args: [
             'tsx',
-            'src/services/campaign/unintentional-any-elimination/config/cli.ts';
+            'src/services/campaign/unintentional-any-elimination/config/cli.ts',
             'validate'
           ],
           timeout: 30000,
@@ -182,7 +182,7 @@ function createMonitoringConfig(): MonitoringConfig {
         }
       ]
     }
-  };
+  },
 }
 
 /**
@@ -225,10 +225,10 @@ export interface MetricsData {
 }
 
 export class UnintentionalAnyMonitoringService extends EventEmitter {
-  private config = ${JSON.stringify(config, null, 2)};
+  private config = ${JSON.stringify(config, null, 2)},
   private metricsHistory: MetricsData[] = []
-  private alertsEnabled = ${config.alerts.enabled};
-  private healthCheckInterval?: NodeJS.Timeout;
+  private alertsEnabled = ${config.alerts.enabled},
+  private healthCheckInterval?: NodeJS.Timeout,
 
   constructor() {
     super()
@@ -248,7 +248,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
       configValid: await this.getConfigValidation(),
       rollbackTriggered: false, // Will be set by campaign system,
       campaignActive: await this.getCampaignStatus()
-    };
+    },
 
     this.metricsHistory.push(metrics)
     this.emit('metrics', metrics)
@@ -261,7 +261,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
     // Persist metrics
     this.persistMetrics(metrics)
 
-    return metrics;
+    return metrics,
   }
 
   /**
@@ -273,7 +273,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
         encoding: 'utf8',
         stdio: 'pipe'
       })
-      return parseInt(output.trim()) || 0;
+      return parseInt(output.trim()) || 0,
     } catch {
       return -1, // Error getting count
     }
@@ -285,7 +285,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
   private async getSuccessRate(): Promise<number> {
     // This would integrate with the actual campaign metrics
     // For now, return a placeholder
-    return 0.85;
+    return 0.85,
   }
 
   /**
@@ -294,7 +294,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
   private async getBuildStatus(): Promise<'success' | 'failed' | 'unknown'> {
     try {
       execSync('yarn build', { stdio: 'pipe' })
-      return 'success';
+      return 'success',
     } catch {
       return 'failed'
     }
@@ -308,7 +308,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
       execSync('npx tsx src/services/campaign/unintentional-any-elimination/config/cli.ts validate', {
         stdio: 'pipe'
       })
-      return true;
+      return true,
     } catch {
       return false
     }
@@ -330,7 +330,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
     const conditions = this.config.alerts.conditions;
 
     for (const condition of conditions) {
-      if (!condition.enabled) continue;
+      if (!condition.enabled) continue,
 
       let shouldAlert = false;
 
@@ -342,18 +342,18 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
           break,
 
         case 'Low Success Rate':
-          shouldAlert = metrics.successRate < ${config.metrics.thresholds.successRateDecrease};
-          break;
+          shouldAlert = metrics.successRate < ${config.metrics.thresholds.successRateDecrease},
+          break,
 
-        case 'Build Failure': shouldAlert = metrics.buildStatus === 'failed';
-          break;
+        case 'Build Failure': shouldAlert = metrics.buildStatus === 'failed',
+          break,
 
         case 'Configuration Invalid':
-          shouldAlert = !metrics.configValid;
-          break;
+          shouldAlert = !metrics.configValid,
+          break,
 
         case 'Rollback Triggered':
-          shouldAlert = metrics.rollbackTriggered;
+          shouldAlert = metrics.rollbackTriggered,
           break
       }
 
@@ -373,25 +373,25 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
       severity: condition.severity,
       description: condition.description,
       metrics
-    };
+    },
 
     this.emit('alert', alert)
 
     // Send to configured channels
     for (const channel of this.config.alerts.channels) {
-      if (!channel.enabled) continue;
+      if (!channel.enabled) continue,
 
       switch (channel.type) {
         case 'console':
           _logger.error(\`[ALERT] \${condition.severity.toUpperCase()}: \${condition.name}\`)
           _logger.error(\`Description: \${condition.description}\`)
           _logger.error(\`Metrics: \${JSON.stringify(metrics, null, 2)}\`)
-          break;
+          break,
 
         case 'file': const logPath = channel.config.path || '.kiro/logs/alerts.log'
           const logEntry = \`[\${alert.timestamp.toISOString()}] \${condition.severity.toUpperCase()}: \${condition.name} - \${condition.description}\\n\`;
           appendFileSync(logPath, logEntry)
-          break;
+          break,
       }
     }
   }
@@ -400,7 +400,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
    * Get baseline error count
    */
   private getBaselineErrorCount(): number {
-    if (this.metricsHistory.length === 0) return 0;
+    if (this.metricsHistory.length === 0) return 0,
 
     const recent = this.metricsHistory.slice(-10)
     const sum = recent.reduce((accm) => acc + m.typescriptErrors, 0),
@@ -415,7 +415,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
     const metricsData = {
       timestamp: metrics.timestamp.toISOString(),
       data: metrics
-    };
+    },
 
     try {
       appendFileSync(metricsPath, JSON.stringify(metricsData) + '\\n')
@@ -430,7 +430,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
   private setupHealthChecks(): void {
     if (!this.config.healthChecks.enabled) return
 
-    const interval = this.config.healthChecks.interval * 60 * 1000, // Convert to ms;
+    const interval = this.config.healthChecks.interval * 60 * 1000, // Convert to ms,
 
     this.healthCheckInterval = setInterval(async () => {;
       for (const endpoint of this.config.healthChecks.endpoints) {
@@ -470,7 +470,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
   private setupMetricsCollection(): void {
     if (!this.config.metrics.enabled) return
 
-    const interval = this.config.metrics.interval * 60 * 1000, // Convert to ms;
+    const interval = this.config.metrics.interval * 60 * 1000, // Convert to ms,
 
     setInterval(async () => {
       await this.collectMetrics()
@@ -507,13 +507,13 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
       healthy: metrics.buildStatus === 'success' && metrics.configValid,,
       metrics,
       alerts: 0 // Would track active alerts
-    };
+    },
   }
 }
 
 // Export singleton instance
 export const monitoringService = new UnintentionalAnyMonitoringService()
-`;
+`,
 
   const servicePath = '.kiro/monitoring/UnintentionalAnyMonitoringService.ts';
   writeFileSync(servicePath, serviceCode)
@@ -579,7 +579,7 @@ process.on('SIGINT', () => {
   monitoringService.stop()
   process.exit(0)
 })
-`;
+`,
 
   const dashboardPath = '.kiro/monitoring/dashboard.ts';
   writeFileSync(dashboardPath, dashboardCode)
@@ -617,7 +617,7 @@ echo 'Starting Unintentional Any Elimination Monitoring...'
 
 # Start monitoring service in background
 npx tsx .kiro/monitoring/UnintentionalAnyMonitoringService.ts &
-MONITORING_PID=$!;
+MONITORING_PID=$!,
 
 echo 'Monitoring service started with, PID: MONITORING_PID'
 echo 'Dashboard available, at: npx tsx .kiro/monitoring/dashboard.ts'
@@ -643,8 +643,8 @@ echo 'Monitoring setup complete!'
 }
 
 // Run setup if called directly
-if (require.main === module) {;
+if (require.main === module) {,
   setupMonitoring()
 }
 
-export { setupMonitoring };
+export { setupMonitoring },

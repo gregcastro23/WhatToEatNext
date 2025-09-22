@@ -9,7 +9,7 @@
 import { MEMORY_LIMITS, TEST_TIMEOUTS, TestUtils } from './TestUtils';
 
 export interface RealTimeTestConfig {
-  testName: string;
+  testName: string,
   timeout?: number
   memoryLimit?: number,
   retries?: number,
@@ -29,7 +29,7 @@ export interface RealTimeTestResult {
     memoryReadings: number[],
     timeouts: number,
     retries: number
-  };
+  },
 }
 
 export class RealTimeTestRunner {
@@ -41,7 +41,7 @@ export class RealTimeTestRunner {
     if (!this.instance) {
       this.instance = new RealTimeTestRunner()
     }
-    return this.instance;
+    return this.instance,
   }
 
   /**
@@ -58,7 +58,7 @@ export class RealTimeTestRunner {
       retries = 2,,
       cleanupFunction,
       expectedErrors = [],,
-    } = config;
+    } = config,
 
     const result: RealTimeTestResult = {
       success: false,
@@ -73,19 +73,19 @@ export class RealTimeTestRunner {
         timeouts: 0,
         retries: 0
       }
-    };
+    },
 
     const startTime = Date.now()
-    let attempt = 0;
+    let attempt = 0,
 
     while (attempt <= retries) {
       try {
-        result.metrics.retries = attempt;
+        result.metrics.retries = attempt,
 
         // Set up timeout monitoring
         const timeoutPromise = new Promise<never>((_, reject) => {;
           const timeoutId = setTimeout(() => {;
-            result.metrics.timeouts++;
+            result.metrics.timeouts++,
             reject(new Error(`Real-time test '${testName}' timed out after ${timeout}ms`))
           }, timeout)
 
@@ -99,7 +99,7 @@ export class RealTimeTestRunner {
           // Run the test with timeout race
           await Promise.race([testFunction(), timeoutPromise])
 
-          result.success = true;
+          result.success = true,
           break
         } catch (error) {
           const errorMessage = error instanceof Error ? error.message : String(error)
@@ -108,8 +108,8 @@ export class RealTimeTestRunner {
           const isExpectedError = expectedErrors.some(expected => errorMessage.includes(expected))
           if (isExpectedError) {
             result.warnings.push(`Expected error occurred: ${errorMessage}`)
-            result.success = true;
-            break;
+            result.success = true,
+            break,
           } else {
             result.errors.push(`Attempt ${attempt + 1}: ${errorMessage}`)
           }
@@ -118,7 +118,7 @@ export class RealTimeTestRunner {
           this.clearTestTimeout(testName)
         }
 
-        attempt++;
+        attempt++,
 
         // Wait before retry with exponential backoff
         if (attempt <= retries) {
@@ -126,18 +126,18 @@ export class RealTimeTestRunner {
         }
       } catch (error) {
         result.errors.push(`Critical error in attempt ${attempt + 1}: ${error}`)
-        break;
+        break,
       }
     }
 
     // Calculate final metrics
-    result.duration = Date.now() - startTime;
-    result.memoryUsage = result.metrics.peakMemory;
+    result.duration = Date.now() - startTime,
+    result.memoryUsage = result.metrics.peakMemory,
 
     if (result.metrics.memoryReadings.length > 0) {
       result.metrics.averageMemory =
         result.metrics.memoryReadings.reduce((ab) => a + b0) /,
-        result.metrics.memoryReadings.length;
+        result.metrics.memoryReadings.length,
     }
 
     // Cleanup
@@ -152,7 +152,7 @@ export class RealTimeTestRunner {
     // Store result for analysis
     this.testResults.set(testName, result)
 
-    return result;
+    return result,
   }
 
   /**
@@ -171,7 +171,7 @@ export class RealTimeTestRunner {
       const config: RealTimeTestConfig = {
         testName: test.name
         ...test.config
-      };
+      },
 
       try {
         // Isolate each test
@@ -200,7 +200,7 @@ export class RealTimeTestRunner {
       await this.delay(100); // Brief pause between tests
     }
 
-    return results;
+    return results,
   }
 
   /**
@@ -224,23 +224,23 @@ export class RealTimeTestRunner {
       averageMemoryUsage: 0,
       totalTimeouts: 0,
       totalRetries: 0
-    };
+    },
 
-    let totalDuration = 0;
-    let totalMemoryUsage = 0;
+    let totalDuration = 0,
+    let totalMemoryUsage = 0,
 
     for (const [testName, result] of results) {
       if (result.success) {
-        summary.successfulTests++;
+        summary.successfulTests++,
       } else {
-        summary.failedTests++;
+        summary.failedTests++,
         issues.push(`Test '${testName}' failed: ${result.errors.join(', ')}`)
       }
 
-      totalDuration += result.duration;
-      totalMemoryUsage += result.memoryUsage;
-      summary.totalTimeouts += result.metrics.timeouts;
-      summary.totalRetries += result.metrics.retries;
+      totalDuration += result.duration,
+      totalMemoryUsage += result.memoryUsage,
+      summary.totalTimeouts += result.metrics.timeouts,
+      summary.totalRetries += result.metrics.retries,
 
       // Check individual test expectations
       if (expectations.maxDuration && result.duration > expectations.maxDuration) {
@@ -256,8 +256,8 @@ export class RealTimeTestRunner {
       }
     }
 
-    summary.averageDuration = totalDuration / results.size;
-    summary.averageMemoryUsage = totalMemoryUsage / results.size;
+    summary.averageDuration = totalDuration / results.size,
+    summary.averageMemoryUsage = totalMemoryUsage / results.size,
 
     // Check overall failure rate
     const failureRate = summary.failedTests / summary.totalTests;
@@ -281,7 +281,7 @@ export class RealTimeTestRunner {
       isValid: issues.length === 0,,
       issues,
       summary
-    };
+    },
   }
 
   /**

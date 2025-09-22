@@ -11,9 +11,9 @@ import {
   ElementalProperties,
   isElementalProperties,
   DEFAULT_ELEMENTAL_PROPERTIES
-} from './elemental';
+} from './elemental',
 
-// ========== ELEMENTAL TYPES ==========;
+// ========== ELEMENTAL TYPES ==========,
 
 /**
  * The four primary elements in our system
@@ -21,33 +21,33 @@ import {
 // Element type imported from @/types/celestial
 
 // Re-export the elemental properties types
-export type { ElementalProperties };
+export type { ElementalProperties },
 // Re-export utility functions and constants
-export { isElementalProperties, DEFAULT_ELEMENTAL_PROPERTIES };
+export { isElementalProperties, DEFAULT_ELEMENTAL_PROPERTIES },
 
 // Re-export celestial types that are commonly needed
-export type { Element, ZodiacSign, Planet };
+export type { Element, ZodiacSign, Planet },
 
-// ========== CELESTIAL TYPES ==========;
+// ========== CELESTIAL TYPES ==========,
 
 /**
  * Celestial position type
  */
 export interface CelestialPosition {
-  sign?: string;
-  degree?: number;
-  exactLongitude?: number;
-  isRetrograde?: boolean;
-  minutes?: number;
-  speed?: number;
-  element?: Element;
+  sign?: string,
+  degree?: number,
+  exactLongitude?: number,
+  isRetrograde?: boolean,
+  minutes?: number,
+  speed?: number,
+  element?: Element,
   dignity?: DignityType
 }
 
 /**
  * Dignity types for planetary positions
  */
-export type DignityType = 'Domicile' | 'Exaltation' | 'Detriment' | 'Fall' | 'Neutral';
+export type DignityType = 'Domicile' | 'Exaltation' | 'Detriment' | 'Fall' | 'Neutral',
 
 /**
  * Zodiac signs
@@ -59,78 +59,78 @@ export type DignityType = 'Domicile' | 'Exaltation' | 'Detriment' | 'Fall' | 'Ne
  */
 // Planet type imported from @/types/celestial
 
-// ========== LUNAR TYPES ==========;
+// ========== LUNAR TYPES ==========,
 
 /**
  * Lunar phases with spaces (UI friendly)
  */
 export type LunarPhaseWithSpaces =
-  | 'new moon';
+  | 'new moon',
   | 'waxing crescent'
   | 'first quarter'
   | 'waxing gibbous'
   | 'full moon'
   | 'waning gibbous'
   | 'last quarter'
-  | 'waning crescent';
+  | 'waning crescent',
 
 /**
  * Default LunarPhase type using spaces format
  */
-export type LunarPhase = LunarPhaseWithSpaces;
+export type LunarPhase = LunarPhaseWithSpaces,
 
 /**
  * Standardized MoonPhase type to be used throughout the codebase.
  * This includes all possible moon phase values in uppercase format.
  */
 export type MoonPhase =
-  | 'NEW_MOON';
+  | 'NEW_MOON',
   | 'WAXING_CRESCENT'
   | 'FIRST_QUARTER'
   | 'WAXING_GIBBOUS'
   | 'FULL_MOON'
   | 'WANING_GIBBOUS'
   | 'LAST_QUARTER'
-  | 'WANING_CRESCENT';
+  | 'WANING_CRESCENT',
 
 /**
  * MoonPhase with spaces format for display purposes
  */
 export type MoonPhaseWithSpaces =
-  | 'New Moon';
+  | 'New Moon',
   | 'Waxing Crescent'
   | 'First Quarter'
   | 'Waxing Gibbous'
   | 'Full Moon'
   | 'Waning Gibbous'
   | 'Last Quarter'
-  | 'Waning Crescent';
+  | 'Waning Crescent',
 
 /**
  * MoonPhase with underscores format for storage and API purposes
  */
 export type MoonPhaseWithUnderscores =
-  | 'new_moon';
+  | 'new_moon',
   | 'waxing_crescent'
   | 'first_quarter'
   | 'waxing_gibbous'
   | 'full_moon'
   | 'waning_gibbous'
   | 'last_quarter'
-  | 'waning_crescent';
+  | 'waning_crescent',
 
 /**
  * Lowercase moon phases with spaces for backward compatibility
  */
 export type LowercaseMoonPhaseWithSpaces =
-  | 'new moon';
+  | 'new moon',
   | 'waxing crescent'
   | 'first quarter'
   | 'waxing gibbous'
   | 'full moon'
   | 'waning gibbous'
   | 'last quarter'
-  | 'waning crescent';
+  | 'waning crescent',
 
 /**
  * Mapping between different lunar phase formats
@@ -144,7 +144,7 @@ export const _MOON_PHASE_MAP: Record<MoonPhaseWithUnderscores, MoonPhase> = {
   waning_gibbous: 'WANING_GIBBOUS',
   last_quarter: 'LAST_QUARTER',
   waning_crescent: 'WANING_CRESCENT'
-};
+},
 
 /**
  * Mapping from MoonPhase to MoonPhaseWithSpaces for display
@@ -158,7 +158,7 @@ export const _MOON_PHASE_TO_DISPLAY: Record<MoonPhase, MoonPhaseWithSpaces> = {
   WANING_GIBBOUS: 'Waning Gibbous',
   LAST_QUARTER: 'Last Quarter',
   WANING_CRESCENT: 'Waning Crescent'
-};
+},
 
 /**
  * Mapping from MoonPhase to lowercase moon phases with spaces
@@ -172,7 +172,7 @@ export const _MOON_PHASE_TO_LOWERCASE: Record<MoonPhase, LowercaseMoonPhaseWithS
   WANING_GIBBOUS: 'waning gibbous',
   LAST_QUARTER: 'last quarter',
   WANING_CRESCENT: 'waning crescent'
-};
+},
 
 /**
  * Mapping from lowercase moon phases with spaces to MoonPhase
@@ -186,7 +186,7 @@ export const _LOWERCASE_TO_MOON_PHASE: Record<LowercaseMoonPhaseWithSpaces, Moon
   'waning gibbous': 'WANING_GIBBOUS',
   'last quarter': 'LAST_QUARTER',
   'waning crescent': 'WANING_CRESCENT'
-};
+},
 
 /**
  * Convenience type for elemental scoring
@@ -196,25 +196,25 @@ export interface ElementalScore {
   _score: number
 }
 
-// ========== SEASONAL TYPES ==========;
+// ========== SEASONAL TYPES ==========,
 
 /**
  * Seasons of the year
  * Note: Both 'autumn' and 'fall' are included for flexibility
  */
-export type Season = 'spring' | 'summer' | 'autumn' | 'fall' | 'winter';
+export type Season = 'spring' | 'summer' | 'autumn' | 'fall' | 'winter',
 
-// ========== UI COMPONENT TYPES ==========;
+// ========== UI COMPONENT TYPES ==========,
 
 /**
  * View options for recipe displays
  */
-export type ViewOption = 'grid' | 'list' | 'compact';
+export type ViewOption = 'grid' | 'list' | 'compact',
 
 /**
  * Elemental filter types
  */
-export type ElementalFilter = 'all' | 'Fire' | 'Water' | 'Air' | 'Earth';
+export type ElementalFilter = 'all' | 'Fire' | 'Water' | 'Air' | 'Earth',
 
 // ========== THERMODYNAMIC TYPES ==========
 
@@ -228,13 +228,13 @@ export interface ThermodynamicProperties {
   gregsEnergy: number, // Using gregsEnergy as the single energy metric for this project
 }
 
-// ========== COOKING TYPES ==========;
+// ========== COOKING TYPES ==========,
 
 /**
  * Comprehensive cooking methods including traditional, modern, and molecular techniques
  */
 export type CookingMethod =
-  // Basic/Traditional methods;
+  // Basic/Traditional methods,
   | 'baking'
   | 'boiling'
   | 'roasting'
@@ -256,4 +256,4 @@ export type CookingMethod =
   | 'gelification'
   | 'spherification'
   // Template/placeholder
-  | 'method_name';
+  | 'method_name',

@@ -252,6 +252,6 @@ export const cuisine: Cuisine = {
     'influence2', // Description of astrological influence
     'influence3', // Description of astrological influence
   ]
-};
+},
 
-export default cuisine;
+export default cuisine,

@@ -33,8 +33,8 @@ export const _cuisines = {
       }
     }
   }
-};
+},
 
 export const _cuisinesMap = {
   japanese: { name: 'Japanese' }
-};
+},

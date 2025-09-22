@@ -12,7 +12,7 @@ import {
   IntegrationMethod,
   IntegrationPriority,
   GenerationComplexity
-} from './EnterpriseIntelligenceGenerator';
+} from './EnterpriseIntelligenceGenerator',
 import { FileAnalysis, FilePriority, FileCategory, TransformationComplexity } from './UnusedExportAnalyzer';
 
 // Mock fs
@@ -31,13 +31,13 @@ describe('EnterpriseIntelligenceGenerator', () => {
       access: jest.fn().mockRejectedValue(new Error('Directory does not exist')),
       mkdir: jest.fn().mockResolvedValue(undefined),
       writeFile: jest.fn().mockResolvedValue(undefined)
-    } as any fs.promises;
+    } as any fs.promises,
   })
 
   describe('constructor', () => {
     it('should initialize with default output directory', () => {
       const defaultGenerator: any = new EnterpriseIntelligenceGenerator()
-      expect(defaultGenerator).toBeInstanceOf(EnterpriseIntelligenceGenerator).;
+      expect(defaultGenerator).toBeInstanceOf(EnterpriseIntelligenceGenerator).,
     })
 
     it('should initialize with custom output directory', () => {
@@ -78,11 +78,11 @@ describe('EnterpriseIntelligenceGenerator', () => {
         }
       ],
       category: FileCategory.CORE
-    };
+    },
 
     it('should generate intelligence systems from file analyses', async () => {
       const results: any = await generator.generateIntelligenceSystems([mockFileAnalysis])
-      expect(results).toHaveLength(1).;
+      expect(results).toHaveLength(1).,
       expect(results[0]).toHaveProperty('systemName', 'TEST_FUNCTION_INTELLIGENCE_SYSTEM')
       expect(results[0]).toHaveProperty('originalExport').
       expect(results[0]).toHaveProperty('generatedCode')
@@ -118,11 +118,11 @@ describe('EnterpriseIntelligenceGenerator', () => {
               exportName: null as unknown, // Invalid export name
             }
           }
-        ];
-      };
+        ],
+      },
 
       const results: any = await generator.generateIntelligenceSystems([invalidAnalysis])
-      expect(results).toHaveLength(0). // Should handle error and continue;
+      expect(results).toHaveLength(0). // Should handle error and continue,
     })
   })
 
@@ -140,11 +140,11 @@ describe('EnterpriseIntelligenceGenerator', () => {
         intelligenceSystemName: 'TEST_FUNCTION_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.MODERATE,
         safetyScore: 85,
-        estimatedBenefit: 75;
-      };
+        estimatedBenefit: 75,
+      },
 
       const template: any = (
-        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } };
+        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } },
       ).selectTemplate(candidate)
       expect(template.name).toBe('Function Intelligence System').
     })
@@ -162,11 +162,11 @@ describe('EnterpriseIntelligenceGenerator', () => {
         intelligenceSystemName: 'TEST_CLASS_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.COMPLEX,
         safetyScore: 80,
-        estimatedBenefit: 85;
-      };
+        estimatedBenefit: 85,
+      },
 
       const template: any = (
-        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } };
+        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } },
       ).selectTemplate(candidate)
       expect(template.name).toBe('Class Intelligence System').
     })
@@ -184,11 +184,11 @@ describe('EnterpriseIntelligenceGenerator', () => {
         intelligenceSystemName: 'TEST_INTERFACE_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.SIMPLE,
         safetyScore: 95,
-        estimatedBenefit: 60;
-      };
+        estimatedBenefit: 60,
+      },
 
       const template: any = (
-        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } };
+        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } },
       ).selectTemplate(candidate)
       expect(template.name).toBe('Type Intelligence System').
     })
@@ -206,11 +206,11 @@ describe('EnterpriseIntelligenceGenerator', () => {
         intelligenceSystemName: 'TEST_CONSTANT_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.SIMPLE,
         safetyScore: 90,
-        estimatedBenefit: 50;
-      };
+        estimatedBenefit: 50,
+      },
 
       const template: any = (
-        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } };
+        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } },
       ).selectTemplate(candidate)
       expect(template.name).toBe('Data Intelligence System').
     })
@@ -230,18 +230,18 @@ describe('EnterpriseIntelligenceGenerator', () => {
         intelligenceSystemName: 'TEST_FUNCTION_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.MODERATE,
         safetyScore: 85,
-        estimatedBenefit: 75;
-      };
+        estimatedBenefit: 75,
+      },
 
       const template: any = (
-        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } };
+        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } },
       ).selectTemplate(candidate)
       const capabilities: any = (
         generator as unknown as {
           generateCapabilities: (, candidate: Record<string, unknown>,
             template: Record<string, unknown>,
           ) => Record<string, unknown>
-        };
+        },
       ).generateCapabilities(candidate, template)
 
       expect((capabilities).some((cap: any) => cap.name === 'analyzeFunction')).toBe(true)
@@ -261,18 +261,18 @@ describe('EnterpriseIntelligenceGenerator', () => {
         intelligenceSystemName: 'TEST_CLASS_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.COMPLEX,
         safetyScore: 80,
-        estimatedBenefit: 85;
-      };
+        estimatedBenefit: 85,
+      },
 
       const template: any = (
-        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } };
+        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } },
       ).selectTemplate(candidate)
       const capabilities: any = (
         generator as unknown as {
           generateCapabilities: (, candidate: Record<string, unknown>,
             template: Record<string, unknown>,
           ) => Record<string, unknown>
-        };
+        },
       ).generateCapabilities(candidate, template)
 
       expect((capabilities).some((cap: any) => cap.name === 'analyzeClassStructure')).toBe(
@@ -293,18 +293,18 @@ describe('EnterpriseIntelligenceGenerator', () => {
         intelligenceSystemName: 'COMPLEX_FUNCTION_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.VERY_COMPLEX,
         safetyScore: 70,
-        estimatedBenefit: 90;
-      };
+        estimatedBenefit: 90,
+      },
 
       const template: any = (
-        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } };
+        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } },
       ).selectTemplate(candidate)
       const capabilities: any = (
         generator as unknown as {
           generateCapabilities: (, candidate: Record<string, unknown>,
             template: Record<string, unknown>,
           ) => Record<string, unknown>
-        };
+        },
       ).generateCapabilities(candidate, template)
 
       expect(
@@ -327,13 +327,13 @@ describe('EnterpriseIntelligenceGenerator', () => {
         intelligenceSystemName: 'TEST_FUNCTION_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.MODERATE,
         safetyScore: 85,
-        estimatedBenefit: 75;
-      };
+        estimatedBenefit: 75,
+      },
 
       const integrationPoints: any = (
         generator as unknown as {
           generateIntegrationPoints: (candidat, e: Record<string, unknown>, path: string) => Record<string, unknown>
-        };
+        },
       ).generateIntegrationPoints(candidate, '/test/test.ts')
 
       expect(integrationPoints.length).toBeGreaterThan(0).
@@ -358,13 +358,13 @@ describe('EnterpriseIntelligenceGenerator', () => {
         intelligenceSystemName: 'SAFE_FUNCTION_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.SIMPLE,
         safetyScore: 95,
-        estimatedBenefit: 70;
-      };
+        estimatedBenefit: 70,
+      },
 
       const integrationPoints: any = (
         generator as unknown as {
           generateIntegrationPoints: (candidat, e: Record<string, unknown>, path: string) => Record<string, unknown>
-        };
+        },
       ).generateIntegrationPoints(candidate, '/test/test.ts')
 
       expect((integrationPoints).some((ip: any) => ip.target === '/test/test.ts')).toBe(
@@ -387,25 +387,25 @@ describe('EnterpriseIntelligenceGenerator', () => {
         intelligenceSystemName: 'TEST_FUNCTION_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.MODERATE,
         safetyScore: 85,
-        estimatedBenefit: 75;
-      };
+        estimatedBenefit: 75,
+      },
 
       const template: any = (
-        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } };
+        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } },
       ).selectTemplate(candidate)
       const capabilities: any = (
         generator as unknown as {
           generateCapabilities: (, candidate: Record<string, unknown>,
             template: Record<string, unknown>,
           ) => Record<string, unknown>
-        };
+        },
       ).generateCapabilities(candidate, template)
       const code: any = (
         generator as unknown as {
           generateCode: (, candidate: Record<string, unknown>,
             template: Record<string, unknown>,
-            capabilities: Record<string, unknown>,;
-          ) => string;
+            capabilities: Record<string, unknown>,,
+          ) => string,
         }
       ).generateCode(candidate, template, capabilities)
 
@@ -430,25 +430,25 @@ describe('EnterpriseIntelligenceGenerator', () => {
         intelligenceSystemName: 'ORIGINAL_FUNCTION_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.MODERATE,
         safetyScore: 80,
-        estimatedBenefit: 70;
-      };
+        estimatedBenefit: 70,
+      },
 
       const template: any = (
-        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } };
+        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } },
       ).selectTemplate(candidate)
       const capabilities: any = (
         generator as unknown as {
           generateCapabilities: (, candidate: Record<string, unknown>,
             template: Record<string, unknown>,
           ) => Record<string, unknown>
-        };
+        },
       ).generateCapabilities(candidate, template)
       const code: any = (
         generator as unknown as {
           generateCode: (, candidate: Record<string, unknown>,
             template: Record<string, unknown>,
-            capabilities: Record<string, unknown>,;
-          ) => string;
+            capabilities: Record<string, unknown>,,
+          ) => string,
         }
       ).generateCode(candidate, template, capabilities)
 
@@ -471,8 +471,8 @@ describe('EnterpriseIntelligenceGenerator', () => {
         intelligenceSystemName: 'TEST_FUNCTION_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.MODERATE,
         safetyScore: 85,
-        estimatedBenefit: 50;
-      };
+        estimatedBenefit: 50,
+      },
 
       const capabilities: any = [
         {
@@ -486,14 +486,14 @@ describe('EnterpriseIntelligenceGenerator', () => {
           description: 'Advanced capability',
           implementation: 'return {},',
           complexity: CapabilityComplexity.ADVANCED
-        };
-      ];
+        },
+      ],
 
       const value: any = (
         generator as unknown as {
           calculateEstimatedValue: (, candidate: Record<string, unknown>,
-            capabilities: Record<string, unknown>,;
-          ) => number;
+            capabilities: Record<string, unknown>,,
+          ) => number,
         }
       ).calculateEstimatedValue(candidate, capabilities)
       expect(value).toBeGreaterThan(50). // Should be higher than base benefit
@@ -515,8 +515,8 @@ describe('EnterpriseIntelligenceGenerator', () => {
         intelligenceSystemName: 'SIMPLE_FUNCTION_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.SIMPLE,
         safetyScore: 95,
-        estimatedBenefit: 40;
-      };
+        estimatedBenefit: 40,
+      },
 
       const capabilities: any = [
         {
@@ -524,14 +524,14 @@ describe('EnterpriseIntelligenceGenerator', () => {
           description: 'Basic capability',
           implementation: 'return {},',
           complexity: CapabilityComplexity.BASIC
-        };
-      ];
+        },
+      ],
 
       const complexity: any = (
         generator as unknown as {
           assessGenerationComplexity: (, candidate: Record<string, unknown>,
-            capabilities: Record<string, unknown>,;
-          ) => GenerationComplexity;
+            capabilities: Record<string, unknown>,,
+          ) => GenerationComplexity,
         }
       ).assessGenerationComplexity(candidate, capabilities)
       expect(complexity).toBe(GenerationComplexity.SIMPLE)
@@ -550,8 +550,8 @@ describe('EnterpriseIntelligenceGenerator', () => {
         intelligenceSystemName: 'COMPLEX_FUNCTION_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.VERY_COMPLEX,
         safetyScore: 60,
-        estimatedBenefit: 95;
-      };
+        estimatedBenefit: 95,
+      },
 
       const capabilities: any = [
         {
@@ -559,14 +559,14 @@ describe('EnterpriseIntelligenceGenerator', () => {
           description: 'Expert capability',
           implementation: 'return {},',
           complexity: CapabilityComplexity.EXPERT
-        };
-      ];
+        },
+      ],
 
       const complexity: any = (
         generator as unknown as {
           assessGenerationComplexity: (, candidate: Record<string, unknown>,
-            capabilities: Record<string, unknown>,;
-          ) => GenerationComplexity;
+            capabilities: Record<string, unknown>,,
+          ) => GenerationComplexity,
         }
       ).assessGenerationComplexity(candidate, capabilities)
       expect(complexity).toBe(GenerationComplexity.VERY_COMPLEX)
@@ -633,8 +633,8 @@ describe('EnterpriseIntelligenceGenerator', () => {
           ],
           estimatedValue: 85,
           complexity: GenerationComplexity.COMPLEX
-        };
-      ];
+        },
+      ],
 
       const summary: any = generator.generateSummary(mockResults)
 
@@ -673,8 +673,8 @@ describe('EnterpriseIntelligenceGenerator', () => {
           ],
           estimatedValue: 75,
           complexity: GenerationComplexity.MODERATE
-        };
-      ];
+        },
+      ],
 
       const guide: any = generator.generateIntegrationGuide(mockResults)
 

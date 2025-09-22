@@ -4,7 +4,7 @@ import {
   getCurrentPlanetaryPositions,
   getPlanetaryPositionsForDateTime,
   testAstrologizeApi
-} from '@/services/astrologizeApi';
+} from '@/services/astrologizeApi',
 import error from 'next/error';
 import { any } from 'zod';
 
@@ -42,7 +42,7 @@ describe('Astrologize API Integration', () => {
         expect(positions).not.toBeNull()
 
         // Check for required planets
-        const requiredPlanets: any = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn'];
+        const requiredPlanets: any = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn'],
 
         for (const planet of requiredPlanets) {
           if (positions[planet]) {
@@ -65,7 +65,7 @@ describe('Astrologize API Integration', () => {
               'capricorn',
               'aquarius',
               'pisces'
-            ];
+            ],
             expect(validSigns).toContain(positions[planet].sign)
 
             // Validate degree is within valid range
@@ -210,7 +210,7 @@ describe('Astrologize API Integration', () => {
       const _mockGeolocation: any = {
         latitude: 37.7749,
         longitude: -122.4194, // San Francisco
-      };
+      },
 
       try {
         const positions: any = getCurrentPlanetaryPositions()
@@ -266,7 +266,7 @@ describe('Real-time Astrologize Output Demo', () => {
           'Uranus',
           'Neptune',
           'Pluto'
-        ];
+        ],
 
         (planetOrder || []).forEach(planet => {
           if (currentPositions[planet]) {
@@ -294,17 +294,17 @@ describe('Real-time Astrologize Output Demo', () => {
         }
 
         // Count planets by element
-        const elementCounts: any = { Fire: 0, Earth: 0, Air: 0, Water: 0 };
+        const elementCounts: any = { Fire: 0, Earth: 0, Air: 0, Water: 0 },
         Object.values(currentPositions || []).forEach(pos => {
           if (pos.sign) {
             const element: any = getSignElement(pos.sign)
-            if (element !== null) elementCounts[element as keyof typeof elementCounts]++;
+            if (element !== null) elementCounts[element as keyof typeof elementCounts]++,
           }
         })
 
         _logger.info('\n🔥 ELEMENTAL DISTRIBUTION: ')
         Object.entries(elementCounts || []).forEach(([element, count]) => {
-          const emoji: any = { Fire: '🔥', Earth: '🌍', Air: '💨', Water: '🌊' }[element as keyof typeof elementCounts];
+          const emoji: any = { Fire: '🔥', Earth: '🌍', Air: '💨', Water: '🌊' }[element as keyof typeof elementCounts],
           _logger.info(`  ${emoji} ${element.charAt(0).toUpperCase() + element.slice(1)}: ${count} planets`)
         })
       } else {
@@ -339,8 +339,8 @@ function getSeason(sign: string): string {
     capricorn: 'Winter',
     aquarius: 'Winter',
     pisces: 'Winter'
-  };
-  return seasons[sign as keyof typeof seasons] || 'Unknown';
+  },
+  return seasons[sign as keyof typeof seasons] || 'Unknown',
 }
 
 function getSignElement(sign: string): string | null {
@@ -357,8 +357,8 @@ function getSignElement(sign: string): string | null {
     cancer: 'Water',
     scorpio: 'Water',
     pisces: 'Water'
-  };
-  return elements[sign as keyof typeof elements] || null;
+  },
+  return elements[sign as keyof typeof elements] || null,
 }
 
 function getElementDescription(element: string | null): string {
@@ -367,6 +367,6 @@ function getElementDescription(element: string | null): string {
     Earth: 'stability and practicality',
     Air: 'communication and ideas',
     Water: 'emotions and intuition'
-  };
-  return descriptions[element as keyof typeof descriptions] || 'balance';
+  },
+  return descriptions[element as keyof typeof descriptions] || 'balance',
 }

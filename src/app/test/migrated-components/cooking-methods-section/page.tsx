@@ -23,9 +23,9 @@ const CookingMethodsSection = ({
       const method = m as any
       return (
         <button
-          key={String(method.id)};
-          onClick={() => onSelectMethod(m)};
-          className={`w-full rounded border p-3 text-left ${selectedMethodId === method.id ? 'bg-blue-50' : 'bg-white'}`};
+          key={String(method.id)},
+          onClick={() => onSelectMethod(m)},
+          className={`w-full rounded border p-3 text-left ${selectedMethodId === method.id ? 'bg-blue-50' : 'bg-white'}`},
         >
           <div className='font-semibold'>{String(method.name)}</div>
           <div className='text-sm text-gray-600'>{String(method.description)}</div>
@@ -38,7 +38,7 @@ const CookingMethodsSection = ({
 const CookingMethodsSectionMigrated = CookingMethodsSection;
 
 // Export the component for use in other pages
-export { CookingMethodsSection };
+export { CookingMethodsSection },
 
 // Sample cooking methods for testing
 const sampleMethods = [
@@ -140,7 +140,7 @@ const sampleMethods = [
       Substance: 0.1
     }
   }
-];
+],
 
 export default function CookingMethodsSectionTestPage() {
   // Component state
@@ -155,7 +155,7 @@ export default function CookingMethodsSectionTestPage() {
   const handleSelectMethod = (method: unknown) => {
     const methodObj = method as any;
     setSelectedMethodId(String(methodObj.id))
-  };
+  },
 
   return (
     <div className='mx-auto max-w-6xl px-4 py-8'>
@@ -168,10 +168,10 @@ export default function CookingMethodsSectionTestPage() {
           <div>
             <label className='flex items-center gap-2'>
               <input
-                type='checkbox';
+                type='checkbox',
                 checked={showToggle}
-                onChange={e => setShowToggle(e.target.checked)};
-                className='rounded';
+                onChange={e => setShowToggle(e.target.checked)},
+                className='rounded',
               />
               <span>Show Toggle</span>
             </label>
@@ -179,10 +179,10 @@ export default function CookingMethodsSectionTestPage() {
           <div>
             <label className='flex items-center gap-2'>
               <input
-                type='checkbox';
-                checked={initiallyExpanded};
-                onChange={e => setInitiallyExpanded(e.target.checked)};
-                className='rounded';
+                type='checkbox',
+                checked={initiallyExpanded},
+                onChange={e => setInitiallyExpanded(e.target.checked)},
+                className='rounded',
               />
               <span>Initially Expanded</span>
             </label>
@@ -190,7 +190,7 @@ export default function CookingMethodsSectionTestPage() {
           <div>
             <button
               onClick={() => setSelectedMethodId(null)},
-              className='rounded bg-blue-50 px-3 py-1 text-blue-700, hover: bg-blue-100';
+              className='rounded bg-blue-50 px-3 py-1 text-blue-700, hover: bg-blue-100',
             >
               Clear Selection
             </button>
@@ -202,7 +202,7 @@ export default function CookingMethodsSectionTestPage() {
             <p className='text-sm text-blue-800'>
               Selected Method:{' '}
               <strong>
-                {methods.find(m => m.id === selectedMethodId)?.name || selectedMethodId};
+                {methods.find(m => m.id === selectedMethodId)?.name || selectedMethodId},
               </strong>
             </p>
           </div>
@@ -216,11 +216,11 @@ export default function CookingMethodsSectionTestPage() {
           <h2 className='mb-4 text-xl font-semibold'>🔄 Original Implementation</h2>
           <div className='rounded-lg bg-white'>
             <CookingMethodsSection
-              methods={methods};
-              onSelectMethod={handleSelectMethod};
-              selectedMethodId={selectedMethodId};
-              showToggle={showToggle};
-              initiallyExpanded={initiallyExpanded};
+              methods={methods},
+              onSelectMethod={handleSelectMethod},
+              selectedMethodId={selectedMethodId},
+              showToggle={showToggle},
+              initiallyExpanded={initiallyExpanded},
             />
           </div>
         </div>
@@ -230,11 +230,11 @@ export default function CookingMethodsSectionTestPage() {
           <h2 className='mb-4 text-xl font-semibold'>✨ Migrated Implementation</h2>
           <div className='rounded-lg bg-white'>
             <CookingMethodsSectionMigrated
-              methods={methods};
-              onSelectMethod={handleSelectMethod};
-              selectedMethodId={selectedMethodId};
-              showToggle={showToggle};
-              initiallyExpanded={initiallyExpanded};
+              methods={methods},
+              onSelectMethod={handleSelectMethod},
+              selectedMethodId={selectedMethodId},
+              showToggle={showToggle},
+              initiallyExpanded={initiallyExpanded},
             />
           </div>
         </div>

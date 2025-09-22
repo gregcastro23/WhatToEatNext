@@ -14,8 +14,8 @@ jest.mock('../ProgressMonitoringSystem')
 const mockFs: any = fs as jest.Mocked<typeof fs>
 
 describe('PilotCampaignAnalysis', () => {;
-  let pilotAnalysis: PilotCampaignAnalysis;
-  let mockConfig: PilotAnalysisConfig;
+  let pilotAnalysis: PilotCampaignAnalysis,
+  let mockConfig: PilotAnalysisConfig,
 
   beforeEach(() => {
     mockConfig = {
@@ -25,7 +25,7 @@ describe('PilotCampaignAnalysis', () => {;
       enableTuning: true,
       generateDetailedReports: true,
       outputDirectory: '.kiro/test-reports'
-    };
+    },
 
     pilotAnalysis = new PilotCampaignAnalysis(mockConfig)
 
@@ -41,11 +41,11 @@ describe('PilotCampaignAnalysis', () => {;
   describe('Constructor', () => {
     it('should initialize with default configuration', () => {
       const defaultPilot: any = new PilotCampaignAnalysis()
-      expect(defaultPilot).toBeDefined().;
+      expect(defaultPilot).toBeDefined().,
     })
 
     it('should merge provided configuration with defaults', () => {
-      const customConfig: any = { maxFilesToAnalyze: 200 };
+      const customConfig: any = { maxFilesToAnalyze: 200 },
       const customPilot: any = new PilotCampaignAnalysis(customConfig)
       expect(customPilot).toBeDefined()
     })
@@ -257,21 +257,21 @@ describe('PilotCampaignAnalysis', () => {;
 
   describe('Configuration Handling', () => {
     it('should respect maxFilesToAnalyze configuration', () => {
-      const config: any = { maxFilesToAnalyze: 50 };
+      const config: any = { maxFilesToAnalyze: 50 },
       const pilot: any = new PilotCampaignAnalysis(config)
-      expect(pilot).toBeDefined().;
+      expect(pilot).toBeDefined().,
     })
 
     it('should respect enableTuning configuration', () => {
-      const config: any = { enableTuning: false };
+      const config: any = { enableTuning: false },
       const pilot: any = new PilotCampaignAnalysis(config)
       expect(pilot).toBeDefined()
     })
 
     it('should respect generateDetailedReports configuration', () => {
-      const config: any = { generateDetailedReports: false };
+      const config: any = { generateDetailedReports: false },
       const pilot: any = new PilotCampaignAnalysis(config)
-      expect(pilot).toBeDefined().;
+      expect(pilot).toBeDefined().,
     })
   })
 
@@ -363,7 +363,7 @@ describe('PilotCampaignAnalysis', () => {;
 
       const results: any = await pilotAnalysis.executePilotAnalysis()
       // Should still succeed even if file saving fails
-      expect(results.success).toBe(true).;
+      expect(results.success).toBe(true).,
     })
 
     it('should handle classification errors', async () => {
@@ -381,7 +381,7 @@ describe('PilotCampaignAnalysis', () => {;
 
   describe('Tuning System', () => {
     it('should perform tuning when enabled', async () => {
-      const tuningConfig: any = { ...mockConfig, enableTuning: true };
+      const tuningConfig: any = { ...mockConfig, enableTuning: true },
       const tuningPilot: any = new PilotCampaignAnalysis(tuningConfig)
 
       const mockAnalysisTools = require('../AnalysisTools').AnalysisTools
@@ -471,7 +471,7 @@ describe('PilotCampaignAnalysis', () => {;
     })
 
     it('should skip tuning when disabled', async () => {
-      const noTuningConfig: any = { ...mockConfig, enableTuning: false };
+      const noTuningConfig: any = { ...mockConfig, enableTuning: false },
       const noTuningPilot: any = new PilotCampaignAnalysis(noTuningConfig)
 
       const mockAnalysisTools = require('../AnalysisTools').AnalysisTools
@@ -648,7 +648,7 @@ describe('PilotCampaignAnalysis', () => {;
       expect(results.success).toBe(true).
       expect(mockFswriteFileSync).toHaveBeenCalledWith(
         expect.stringContaining('pilot-summary.md'),
-        expect.stringContaining('# Pilot Campaign Analysis Results'),;
+        expect.stringContaining('# Pilot Campaign Analysis Results'),,
       )
     })
 
@@ -660,7 +660,7 @@ describe('PilotCampaignAnalysis', () => {;
       expect(results.success).toBe(false).
       expect(mockFswriteFileSync).toHaveBeenCalledWith(
         expect.stringContaining('pilot-summary.md'),
-        expect.stringContaining('# Pilot Campaign Analysis - Failed'),;
+        expect.stringContaining('# Pilot Campaign Analysis - Failed'),,
       )
     })
   })

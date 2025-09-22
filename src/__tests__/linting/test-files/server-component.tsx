@@ -11,4 +11,4 @@ async function ServerComponent() {
   )
 }
 
-export default ServerComponent;
+export default ServerComponent,

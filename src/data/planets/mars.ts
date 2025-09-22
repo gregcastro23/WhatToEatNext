@@ -519,6 +519,6 @@ const marsData: PlanetData = {
       }
     }
   }
-};
+},
 
-export default marsData;
+export default marsData,

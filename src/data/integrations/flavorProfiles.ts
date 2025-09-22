@@ -4,7 +4,7 @@ interface FlavorProfile {
   elementalProperties: ElementalProperties,
   taste: string[],
   intensity: number, // 0 to 1,
-  pairings: string[];
+  pairings: string[],
   seasonalPeak?: string[]
   description: string
 }
@@ -132,7 +132,7 @@ export const flavorProfiles: Record<string, FlavorProfile> = {
     pairings: ['sweet', 'umami', 'earthy'],
     description: 'Dispersing and warming, aids circulation'
   }
-};
+},
 
 // Flavor Combinations for Reference
 export const _flavorCombinations = {
@@ -154,6 +154,6 @@ export const _flavorCombinations = {
     autumn: ['earthy', 'umami', 'pungent'],
     winter: ['salty', 'sweet', 'umami']
   }
-};
+},
 
-export default flavorProfiles;
+export default flavorProfiles,

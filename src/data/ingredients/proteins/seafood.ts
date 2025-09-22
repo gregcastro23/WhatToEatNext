@@ -2121,7 +2121,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       }
     }
   }
-};
+},
 
 // Fix the ingredient mappings to ensure they have all required properties
 export const seafood: Record<string, IngredientMapping> = fixIngredientMappings(rawSeafood)
@@ -2129,4 +2129,4 @@ export const seafood: Record<string, IngredientMapping> = fixIngredientMappings(
 // Create a collection of all herbs for export
 export const _allSeafood = Object.values(seafood)
 
-export default seafood;
+export default seafood,

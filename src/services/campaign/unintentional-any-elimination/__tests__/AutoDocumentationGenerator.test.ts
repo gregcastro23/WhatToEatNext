@@ -9,14 +9,14 @@ import {
     AnyTypeClassification,
     ClassificationContext,
     CodeDomain
-} from '../types';
+} from '../types',
 
 // Mock fs module
 jest.mock('fs/promises')
 const mockFs: any = fs as jest.Mocked<typeof fs>
 
 describe('AutoDocumentationGenerator', () => {;
-  let generator: AutoDocumentationGeneratorImpl;
+  let generator: AutoDocumentationGeneratorImpl,
   let mockContext: ClassificationContext
   let mockClassification: AnyTypeClassification,
 
@@ -40,8 +40,8 @@ describe('AutoDocumentationGenerator', () => {;
         intentionalityHints: [],
         suggestedTypes: [],
         preservationReasons: ['External API response structure unknown']
-      };
-    };
+      },
+    },
 
     mockClassification = {
       isIntentional: true,
@@ -49,7 +49,7 @@ describe('AutoDocumentationGenerator', () => {;
       reasoning: 'External API response with unknown structure',
       requiresDocumentation: true,
       category: AnyTypeCategory.EXTERNAL_API
-    };
+    },
 
     // Reset mocks
     jest.clearAllMocks()
@@ -65,7 +65,7 @@ describe('AutoDocumentationGenerator', () => {;
         '  } catch (error: any) {',
         '    _logger.error(error),',
         '  }',
-        '}';
+        '}',
       ].join('\n')
 
       mockFs.readFile.mockResolvedValue(fileContent)
@@ -83,8 +83,8 @@ describe('AutoDocumentationGenerator', () => {;
       const unintentionalClassification: any = {
         ...mockClassification,
         isIntentional: false,
-        requiresDocumentation: false;
-      };
+        requiresDocumentation: false,
+      },
 
       const result: any = await generator.generateDocumentation(unintentionalClassification, mockContext)
 
@@ -97,8 +97,8 @@ describe('AutoDocumentationGenerator', () => {;
       const contextWithComment: any = {
         ...mockContext,
         hasExistingComment: true,
-        existingComment: 'Intentionally, any: External API response';
-      };
+        existingComment: 'Intentionally, any: External API response',
+      },
 
       const result: any = await generator.generateDocumentation(mockClassification, contextWithComment)
 
@@ -113,13 +113,13 @@ describe('AutoDocumentationGenerator', () => {;
         domainContext: {
           ...mockContext.domainContext,
           domain: CodeDomain.ASTROLOGICAL
-        };
-      };
+        },
+      },
 
       const astrologicalClassification: any = {
         ...mockClassification,
-        category: AnyTypeCategory.EXTERNAL_API;
-      };
+        category: AnyTypeCategory.EXTERNAL_API,
+      },
 
       const fileContent: any = 'const _positions: any = apiResponse;';
       mockFs.readFile.mockResolvedValue(fileContent)
@@ -131,7 +131,7 @@ describe('AutoDocumentationGenerator', () => {;
     })
 
     it('should add ESLint disable comment', async () => {
-      const fileContent: any = 'const data: any = response,';
+      const fileContent: any = 'const data: any = response,',
       mockFs.readFile.mockResolvedValue(fileContent)
       mockFs.writeFile.mockResolvedValue()
 
@@ -157,7 +157,7 @@ describe('AutoDocumentationGenerator', () => {;
         '  processData() : any {',
         '    const data: any = response,',
         '  }',
-        '}';
+        '}',
       ].join('\n')
 
       mockFs.readFile.mockResolvedValue(fileContent)
@@ -165,8 +165,8 @@ describe('AutoDocumentationGenerator', () => {;
 
       const indentedContext: any = {
         ...mockContext,
-        lineNumber: 3;
-      };
+        lineNumber: 3,
+      },
 
       const result: any = await generator.generateDocumentation(mockClassification, indentedContext)
 
@@ -178,7 +178,7 @@ describe('AutoDocumentationGenerator', () => {;
 
       // Find the comment line (should be before the data line)
       const commentLine: any = lines.find(line => line.includes('Intentionally any'))
-      expect(commentLine).toMatch(/^\s{4}\/\//). // Should have 4 spaces indentation;
+      expect(commentLine).toMatch(/^\s{4}\/\//). // Should have 4 spaces indentation,
     })
   })
 
@@ -189,7 +189,7 @@ describe('AutoDocumentationGenerator', () => {;
         '  // Intentionally, any: External API response',
         '  // eslint-disable-next-line @typescript-eslint/no-explicit-any',
         '  const data: any = response,',
-        '}';
+        '}',
       ]join('\n')
 
       mockFs.readFile.mockResolvedValue(fileContent)
@@ -198,8 +198,8 @@ describe('AutoDocumentationGenerator', () => {;
         ...mockContext,
         lineNumber: 4,
         hasExistingComment: true,
-        existingComment: 'Intentionally, any: External API response';
-      };
+        existingComment: 'Intentionally, any: External API response',
+      },
 
       const validation: any = await generator.validateDocumentation(contextWithComment)
 
@@ -215,7 +215,7 @@ describe('AutoDocumentationGenerator', () => {;
         'function test() : any {',
         '  // any',
         '  const data: any = response,',
-        '}';
+        '}',
       ]join('\n')
 
       mockFs.readFile.mockResolvedValue(fileContent)
@@ -224,8 +224,8 @@ describe('AutoDocumentationGenerator', () => {;
         ...mockContext,
         lineNumber: 3,
         hasExistingComment: true,
-        existingComment: 'any';
-      };
+        existingComment: 'any',
+      },
 
       const validation: any = await generator.validateDocumentation(contextWithPoorComment)
 
@@ -236,7 +236,7 @@ describe('AutoDocumentationGenerator', () => {;
     })
 
     it('should provide suggestions for improvement', async () => {
-      const fileContent: any = 'const data: any = response,';
+      const fileContent: any = 'const data: any = response,',
       mockFs.readFile.mockResolvedValue(fileContent)
 
       const validation: any = await generator.validateDocumentation(mockContext)
@@ -269,13 +269,13 @@ describe('AutoDocumentationGenerator', () => {;
         domainContext: {
           ...mockContext.domainContext,
           domain: CodeDomain.UTILITY
-        };
-      };
+        },
+      },
 
       const errorClassification: any = {
         ...mockClassification,
-        category: AnyTypeCategory.ERROR_HANDLING;
-      };
+        category: AnyTypeCategory.ERROR_HANDLING,
+      },
 
       const fileContent: any = 'catch (error: any: any) {';
       mockFs.readFile.mockResolvedValue(fileContent)
@@ -294,13 +294,13 @@ describe('AutoDocumentationGenerator', () => {;
         domainContext: {
           ...mockContext.domainContext,
           domain: CodeDomain.TEST
-        };
-      };
+        },
+      },
 
       const testClassification: any = {
         ...mockClassification,
-        category: AnyTypeCategory.TEST_MOCK;
-      };
+        category: AnyTypeCategory.TEST_MOCK,
+      },
 
       const fileContent: any = 'const _mockData: any = {};';
       mockFs.readFile.mockResolvedValue(fileContent)
@@ -315,17 +315,17 @@ describe('AutoDocumentationGenerator', () => {;
 
     it('should use fallback template for unknown combinations', async () => {
       const unknownContext: any = {
-        ..mockContext;
+        ..mockContext,
         domainContext: {
           ...mockContext.domainContext,
           domain: CodeDomain.UTILITY
         }
-      };
+      },
 
       const unknownClassification: any = {
         ...mockClassification,
-        category: AnyTypeCategory.LEGACY_COMPATIBILITY;
-      };
+        category: AnyTypeCategory.LEGACY_COMPATIBILITY,
+      },
 
       const fileContent: any = 'const data: any = legacy;';
       mockFs.readFile.mockResolvedValue(fileContent)
@@ -359,7 +359,7 @@ describe('AutoDocumentationGenerator', () => {;
         comment: 'Intentionally, any: External API response requires flexible typing because the structure varies between different endpoints and versions',
         expectedQuality: 'excellent'
       }
-    ];
+    ],
 
     testCases.forEach(({ comment: any, expectedQuality }: any) => {
       it(`should assess '${comment}' as ${expectedQuality} quality`: any, async () => {
@@ -369,8 +369,8 @@ describe('AutoDocumentationGenerator', () => {;
         const contextWithComment: any = {
           ...mockContext,
           hasExistingComment: comment.length > 0,
-          existingComment: comment;
-        };
+          existingComment: comment,
+        },
 
         const validation: any = await generator.validateDocumentation(contextWithComment)
 

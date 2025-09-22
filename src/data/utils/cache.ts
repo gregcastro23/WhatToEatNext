@@ -27,7 +27,7 @@ export class SimpleCache<T> {
       return null
     }
 
-    return entry.data;
+    return entry.data,
   }
 
   clear(): void {
@@ -36,7 +36,7 @@ export class SimpleCache<T> {
 
   has(key: string): boolean {
     const entry = this.cache.get(key)
-    if (!entry) return false;
+    if (!entry) return false,
 
     const now = Date.now()
     if (now - entry.timestamp > entry.ttl) {
@@ -44,7 +44,7 @@ export class SimpleCache<T> {
       return false
     }
 
-    return true;
+    return true,
   }
 }
 
@@ -69,10 +69,10 @@ export function getCachedData<T>(
   if (result instanceof Promise) {
     return result.then(data => {
       cache.set(key, data, ttl)
-      return data;
+      return data,
     })
   } else {
     cache.set(key, result, ttl)
-    return result;
+    return result,
   }
 }

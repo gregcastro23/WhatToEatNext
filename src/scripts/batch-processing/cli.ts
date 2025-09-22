@@ -25,12 +25,12 @@ interface AnalysisReport {
     analysisDate: string,
     totalVariables: number,
     analyzer: string
-  };
+  },
   summary: {
     total: number,
     preserved: number,
     forElimination: number
-  };
+  },
   detailedResults: Array<{
     id: string,
     filePath: string,
@@ -44,13 +44,13 @@ interface AnalysisReport {
       domain: string,
       reason: string,
       confidence: number
-    };
+    },
     eliminationStrategy: {
       method: string,
       confidence: number,
       priority: number
     }
-  }>;
+  }>,
 }
 
 class BatchProcessingCLI {
@@ -106,7 +106,7 @@ class BatchProcessingCLI {
       })
     }
 
-    return files;
+    return files,
   }
 
   /**
@@ -169,7 +169,7 @@ class BatchProcessingCLI {
           requireManualReview: !options.skipReview,
           enhancedValidation: !options.skipEnhanced
         }
-      };
+      },
 
       this.orchestrator = new BatchProcessingOrchestrator(config)
 
@@ -182,7 +182,7 @@ class BatchProcessingCLI {
         // // // _logger.info(`   Files to process: ${plan.automaticProcessing.length}`)
         // // // _logger.info(`   Manual reviews needed: ${plan.manualReviewRequired.length}`)
         // // // _logger.info(`   Estimated batches: ${plan.estimatedBatches}`)
-        return;
+        return,
       }
 
       const campaign = await this.orchestrator.executeCampaign(files)
@@ -206,7 +206,7 @@ class BatchProcessingCLI {
     try {
       const pendingReviews = this.orchestrator.getPendingManualReviews()
 
-      if (pendingReviews.length === 0) {;
+      if (pendingReviews.length === 0) {,
         // // // _logger.info('✅ No pending manual reviews')
         return
       }

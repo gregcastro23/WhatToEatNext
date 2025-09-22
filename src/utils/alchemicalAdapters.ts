@@ -13,7 +13,7 @@ export function toStandardElementalAffinity(engineAffinity: unknown): ElementalA
     source: engineData?.source,
     // Preserve other properties
     ...engineData
-  };
+  },
 }
 
 // Convert standardized format to alchemicalEngine format
@@ -26,5 +26,5 @@ export function toEngineElementalAffinity(standardAffinity: ElementalAffinity): 
     element: affinityData?.base,
     strength: affinityData?.strength || 1,
     source: affinityData?.source || 'default'
-  };
+  },
 }

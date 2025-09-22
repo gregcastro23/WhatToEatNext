@@ -15,7 +15,7 @@ import {
   scoreRecommendation,
   ScoringContext,
   ScoringResult
-} from '../UnifiedScoringService';
+} from '../UnifiedScoringService',
 
 // Example usage scenarios
 export class UnifiedScoringExample {
@@ -61,7 +61,7 @@ export class UnifiedScoringExample {
           elementalCompatibility: 1.1, // Boost elemental compatibility
         }
       }
-    };
+    },
 
     return await scoreRecommendation(context)
   }
@@ -101,7 +101,7 @@ export class UnifiedScoringExample {
       options: {
         debugMode: true
       }
-    };
+    },
 
     return await scoreRecommendation(context)
   }
@@ -143,7 +143,7 @@ export class UnifiedScoringExample {
           seasonalEffect: 1.3, // Boost seasonal importance
         }
       }
-    };
+    },
 
     return await scoreRecommendation(context)
   }
@@ -189,7 +189,7 @@ export class UnifiedScoringExample {
           culturalScore: 1.2, // Custom weight for cultural alignment
         }
       }
-    };
+    },
 
     return await scoreRecommendation(context)
   }
@@ -263,7 +263,7 @@ export class UnifiedScoringExample {
         planetaryRulers: ['Jupiter'],
         seasonality: ['autumn']
       }
-    };
+    },
 
     const result = await scoringService.scoreRecommendation(context)
     log.info('Singleton Example - Sage Score:', { score: result.score })
@@ -279,7 +279,7 @@ export class UnifiedScoringExample {
         intensityPreference: 'moderate' as const,
         complexityPreference: 'simple' as const
       }
-    };
+    },
 
     const items = [
       {
@@ -310,7 +310,7 @@ export class UnifiedScoringExample {
         planetaryRulers: ['Mars', 'Sun'] as Planet[],
         seasonality: ['all'] as Season[]
       } as unknown
-    ];
+    ],
 
     log.info('=== Comparing Herbs ===')
 
@@ -318,7 +318,7 @@ export class UnifiedScoringExample {
       const context: ScoringContext = {
         ...baseContext,
         item
-      };
+      },
 
       const result = await scoreRecommendation(context)
       log.info(
@@ -329,4 +329,4 @@ export class UnifiedScoringExample {
 }
 
 // Export for use in other modules
-export default UnifiedScoringExample;
+export default UnifiedScoringExample,

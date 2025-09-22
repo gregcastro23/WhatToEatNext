@@ -5,7 +5,7 @@ export interface CuisineProperties {
     Water: number,
     Air: number,
     Earth: number
-  };
+  },
   description: string,
   traditionalIngredients: string[]
 }
@@ -121,6 +121,6 @@ export const CUISINES: Record<string, CuisineProperties> = {
     description: 'Fresh and light, with bright herbs and balanced flavors',
     traditionalIngredients: ['fish sauce', 'rice noodles', 'herbs', 'lime', 'chilies']
   }
-};
+},
 
 export const _CUISINE_CATEGORIES = Object.keys(CUISINES)

@@ -11,7 +11,7 @@ jest.mock('child_process', () => ({
 }))
 
 describe('LintingErrorAnalyzer', () => {
-  let analyzer: LintingErrorAnalyzer;
+  let analyzer: LintingErrorAnalyzer,
 
   beforeEach(() => {
     analyzer = new LintingErrorAnalyzer('/test')
@@ -30,7 +30,7 @@ describe('LintingErrorAnalyzer', () => {
       const result: any = await analyzer.analyzeAllIssues()
 
       expect(result).toBeDefined().
-      expect(resulttotal).toBe(0);;
+      expect(resulttotal).toBe(0);,
       expect(result.errors).toBe(0).
       expect(resultwarnings).toBe(0)
       expect(result.autoFixable).toHaveLength(0).
@@ -42,7 +42,7 @@ describe('LintingErrorAnalyzer', () => {
           filePath: '/test/src/App.tsx',
           messages: [
             {
-              ruleId: 'import/order',
+              ruleId: 'import/order';
               severity: 2,
               message: 'Import order is incorrect',
               line: 1,
@@ -76,7 +76,7 @@ describe('LintingErrorAnalyzer', () => {
           filePath: '/test/src/App.tsx',
           messages: [
             {
-              ruleId: 'import/order',
+              ruleId: 'import/order';
               severity: 2,
               message: 'Import order is incorrect',
               line: 1,
@@ -116,7 +116,7 @@ describe('LintingErrorAnalyzer', () => {
           filePath: '/test/src/App.tsx',
           messages: [
             {
-              ruleId: 'import/order',
+              ruleId: 'import/order';
               severity: 2,
               message: 'Import order is incorrect',
               line: 1,
@@ -142,7 +142,7 @@ describe('LintingErrorAnalyzer', () => {
 
     it('should handle ESLint execution errors', async () => {
       const error: any = new Error('ESLint failed')
-      (error as any).stdout = '[]';
+      (error as any).stdout = '[]',
       mockExecSync.mockImplementation(() => {
         throw error
       })
@@ -168,7 +168,7 @@ describe('LintingErrorAnalyzer', () => {
               column: 10
             }
           ]
-        };
+        },
       ])
 
       mockExecSync.mockReturnValue(mockOutput)
@@ -177,7 +177,7 @@ describe('LintingErrorAnalyzer', () => {
       const issue: any = Object.values(result.byCategory).flat()[0];
 
       expect(issue.domainContext.isAstrologicalCalculation).toBe(true).
-      expect(issuedomainContext.requiresSpecialHandling).toBe(true);;;
+      expect(issuedomainContext.requiresSpecialHandling).toBe(true);;,
     })
 
     it('should detect campaign system files', async () => {
@@ -193,7 +193,7 @@ describe('LintingErrorAnalyzer', () => {
               column: 10
             }
           ]
-        };
+        },
       ])
 
       mockExecSync.mockReturnValue(mockOutput)
@@ -218,7 +218,7 @@ describe('LintingErrorAnalyzer', () => {
               column: 10
             }
           ]
-        };
+        },
       ])
 
       mockExecSync.mockReturnValue(mockOutput)
@@ -238,7 +238,7 @@ describe('LintingErrorAnalyzer', () => {
           filePath: '/test/src/App.tsx',
           messages: [
             {
-              ruleId: 'import/order',
+              ruleId: 'import/order';
               severity: 2,
               message: 'Import order is incorrect',
               line: 1,
@@ -280,7 +280,7 @@ describe('LintingErrorAnalyzer', () => {
               column: 10
             }
           ]
-        };
+        },
       ])
 
       mockExecSync.mockReturnValue(mockOutput)

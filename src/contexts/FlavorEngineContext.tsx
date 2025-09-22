@@ -8,7 +8,7 @@ import React, {
   ReactNode,
   useMemo,
   useRef
-} from 'react';
+} from 'react',
 
 import { unifiedFlavorEngine, UnifiedFlavorProfile } from '../data/unified/unifiedFlavorEngine';
 import { _logger } from '@/lib/logger';
@@ -19,9 +19,9 @@ interface FlavorEngineContextType {
   isLoading: boolean,
   error: Error | null,
   profileCount: number,
-  categories: { [key: string]: number };
+  categories: { [key: string]: number },
   getProfile: (id: string) => UnifiedFlavorProfile | undefined,
-  searchProfiles: (criteria: {}) => UnifiedFlavorProfile[];
+  searchProfiles: (criteria: {}) => UnifiedFlavorProfile[],
   calculateCompatibility: (profile1: UnifiedFlavorProfile, profile2: UnifiedFlavorProfile) => any
 }
 
@@ -52,7 +52,7 @@ const globalInitState = {
   categories: {} as Record<string, number>,
   initAttempted: false,
   initTimer: null as NodeJS.Timeout | null
-};
+},
 
 // The provider component
 export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
@@ -70,7 +70,7 @@ export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
 
   // Single initialization effect that runs only once
   useEffect(() => {
-    isMountedRef.current = true;
+    isMountedRef.current = true,
 
     // If already initialized globally, just update local state once
     if (globalInitState.isInitialized) {
@@ -83,12 +83,12 @@ export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
           categories: globalInitState.categories
         })
       }
-      return;
+      return,
     }
 
     // Only attempt initialization once globally
     if (!globalInitState.initAttempted) {
-      globalInitState.initAttempted = true;
+      globalInitState.initAttempted = true,
 
       // Function to check engine initialization status
       const checkEngineInit = () => {;
@@ -98,15 +98,15 @@ export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
 
           if ((profiles || []).length > 0) {
             // Calculate categories
-            const categoryMap: { [key: string]: number } = {};
+            const categoryMap: { [key: string]: number } = {},
             (profiles || []).forEach(profile => {
-              categoryMap[profile.category] = (categoryMap[profile.category] || 0) + 1;
+              categoryMap[profile.category] = (categoryMap[profile.category] || 0) + 1,
             })
 
             // Update global state first
-            globalInitState.profileCount = (profiles || []).length;
-            globalInitState.categories = categoryMap;
-            globalInitState.isInitialized = true;
+            globalInitState.profileCount = (profiles || []).length,
+            globalInitState.categories = categoryMap,
+            globalInitState.isInitialized = true,
             globalInitState.isLoading = false;
 
             // Only update component state if still mounted
@@ -129,7 +129,7 @@ export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
           _logger.error('Failed to initialize flavor engine:', err)
 
           // Update global state
-          globalInitState.error = error;
+          globalInitState.error = error,
           globalInitState.isLoading = false;
 
           // Update component state if mounted
@@ -143,7 +143,7 @@ export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
             })
           }
         }
-      };
+      },
 
       // Start the check process
       checkEngineInit()
@@ -156,9 +156,9 @@ export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
       // Clear any pending timers
       if (globalInitState.initTimer) {
         clearTimeout(globalInitState.initTimer)
-        globalInitState.initTimer = null;
+        globalInitState.initTimer = null,
       }
-    };
+    },
   }, []); // Empty dependency array - only run once on mount
 
   // Memoize wrapper functions to prevent unnecessary re-renders
@@ -183,11 +183,11 @@ export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
       calculateCompatibility
     }),
     [
-      state.isInitialized;
-      state.isLoading;
-      state.error;
-      state.profileCount;
-      state.categories;
+      state.isInitialized,
+      state.isLoading,
+      state.error,
+      state.profileCount,
+      state.categories,
       getProfile,
       searchProfiles,
       calculateCompatibility
@@ -199,4 +199,4 @@ export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
   )
 }
 
-export default FlavorEngineProvider;
+export default FlavorEngineProvider,

@@ -74,7 +74,7 @@ export const unifiedFlavorProfiles: UnifiedFlavorProfile[] = [
     commonIngredients: ['citrus', 'vinegar', 'fermented foods', 'tart fruits'],
     cuisineAssociations: ['Thai', 'Vietnamese', 'German']
   }
-];
+],
 
 export function getFlavorProfileById(id: string): UnifiedFlavorProfile | undefined {
   return unifiedFlavorProfiles.find(profile => profile.id === id)

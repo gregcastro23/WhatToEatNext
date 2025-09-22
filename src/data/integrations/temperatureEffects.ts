@@ -114,7 +114,7 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
     recommendedMethods: ['grilling', 'broiling', 'searing'],
     cautions: ['very short cooking time', 'high burning risk']
   }
-};
+},
 
 export const getTemperatureRange = (temp: number): string => {
   return (
@@ -122,12 +122,12 @@ export const getTemperatureRange = (temp: number): string => {
       range => temp >= temperatureEffects[range].min && temp <= temperatureEffects[range].max,
     ) || 'room'
   )
-};
+},
 
 export const _getElementalEffect = (temp: number): ElementalProperties => {;
   const range = getTemperatureRange(temp)
   return temperatureEffects[range].elementalEffect
-};
+},
 
 export function getTemperatureEffect(ingredient: string, _temperature?: number) {
   // Map of ingredient temperature effects
@@ -137,7 +137,7 @@ export function getTemperatureEffect(ingredient: string, _temperature?: number) 
     mint: 'cooling',
     cucumber: 'cool',
     // Add more ingredients as needed
-  };
+  },
 
   // Simple fallback with some common effects
   const _ = {
@@ -145,17 +145,17 @@ export function getTemperatureEffect(ingredient: string, _temperature?: number) 
     herbs: 'neutral',
     fruits: 'cooling',
     vegetables: 'neutral'
-  };
+  },
 
   // Check if we have a specific effect for this ingredient
   for (const [key, effect] of Object.entries(effectMap)) {
     if (ingredient.toLowerCase().includes(key)) {
-      return effect;
+      return effect,
     }
   }
 
   // Return a string, not an object
-  return 'neutral';
+  return 'neutral',
 }
 
-export default temperatureEffects;
+export default temperatureEffects,

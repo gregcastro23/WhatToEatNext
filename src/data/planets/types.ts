@@ -1,83 +1,83 @@
 export interface PlanetData {
-  'Dignity Effect': Record<string, number>;
+  'Dignity Effect': Record<string, number>,
   Elements: string[],
   Alchemy: {
     Spirit: number,
     Essence: number,
     Matter: number,
     Substance: number
-  };
-  'Diurnal Element': string;
-  'Nocturnal Element': string;
+  },
+  'Diurnal Element': string,
+  'Nocturnal Element': string,
   AstronomicalData?: {
-    DistanceFromSun?: string;
+    DistanceFromSun?: string,
     DistanceFromEarth?: {
       Minimum?: string
       Maximum?: string
-    };
-    Diameter?: string;
-    SurfaceTemperature?: string;
-    AtmosphericComposition?: string;
-    RotationPeriod?: string;
-    OrbitPeriod?: string;
-    'Axial Tilt'?: string;
-    PhaseCycle?: string;
-    SunlightTravelTime?: string;
-    ZodiacalRestriction?: string;
+    },
+    Diameter?: string,
+    SurfaceTemperature?: string,
+    AtmosphericComposition?: string,
+    RotationPeriod?: string,
+    OrbitPeriod?: string,
+    'Axial Tilt'?: string,
+    PhaseCycle?: string,
+    SunlightTravelTime?: string,
+    ZodiacalRestriction?: string,
     PhysicalCharacteristics?: {
-      Surface?: string;
-      MagneticField?: string;
-      Composition?: string;
+      Surface?: string,
+      MagneticField?: string,
+      Composition?: string,
       NotableFeatures?: string
-    };
-  };
+    },
+  },
   AstrologicalProperties?: {
-    AlchemicalName?: string;
-    BeneficType?: string;
+    AlchemicalName?: string,
+    BeneficType?: string,
     DualDomicile?: {
-      Spring?: string;
+      Spring?: string,
       Autumn?: string
-    };
-    HouseJoy?: number;
+    },
+    HouseJoy?: number,
     CyclePeriod?: {
-      Return?: string;
+      Return?: string,
       Retrograde?: string
-    };
+    },
     MorningEveningStar?: {
-      MorningStar?: string;
+      MorningStar?: string,
       EveningStar?: string
-    };
-    CoRules?: string[];
-    Exaltation?: string;
-    Fall?: string;
-    Detriment?: string[];
-    Keywords?: string[];
-    Colors?: string[];
-    Day?: string;
-    Metal?: string;
-    BodyParts?: string[];
-    Animals?: string[];
+    },
+    CoRules?: string[],
+    Exaltation?: string,
+    Fall?: string,
+    Detriment?: string[],
+    Keywords?: string[],
+    Colors?: string[],
+    Day?: string,
+    Metal?: string,
+    BodyParts?: string[],
+    Animals?: string[],
     Stones?: string[]
-  };
+  },
   ElementalConnections?: {
-    DayEmission?: string;
-    NightEmission?: string;
+    DayEmission?: string,
+    NightEmission?: string,
     ElementalBridges?: string[]
-    SharedElements?: Record<string, string[]>;
+    SharedElements?: Record<string, string[]>,
     AssociatedQualities?: string[]
-  };
+  },
   HerbalAssociations?: {
-    Herbs?: string[];
-    Flowers?: string[];
-    Woods?: string[];
+    Herbs?: string[],
+    Flowers?: string[],
+    Woods?: string[],
     Scents?: string[]
-  };
+  },
   RetrogradeEffect?: {
     Spirit: number,
     Essence: number,
     Matter: number,
     Substance: number
-  };
+  },
   FoodAssociations?: string[]
   FlavorProfiles?: {
     Sweet: number,
@@ -86,7 +86,7 @@ export interface PlanetData {
     Bitter: number,
     Umami: number,
     Spicy: number
-  };
+  },
   CulinaryInfluences?: string[]
   AspectsEffect?: Record<
     string,
@@ -97,8 +97,8 @@ export interface PlanetData {
       Square: number,
       Sextile: number
     }
-  >;
-  PlanetSpecific?: Record<string, unknown>;
+  >,
+  PlanetSpecific?: Record<string, unknown>,
 }
 
 // Type for Moon-specific data
@@ -112,17 +112,17 @@ export interface MoonSpecificData {
       Substance: number,
       CulinaryEffect: string
     }
-  >;
+  >,
   Nodes: {
     North: {
       Element: string,
       CulinaryEffect: string
-    };
+    },
     South: {
       Element: string,
       CulinaryEffect: string
-    };
-  };
+    },
+  },
 }
 
 // Type for Sun-specific data
@@ -132,29 +132,29 @@ export interface SunSpecificData {
       Summer: {
         Element: string,
         CulinaryEffect: string
-      };
+      },
       Winter: {
         Element: string,
         CulinaryEffect: string
-      };
-    };
+      },
+    },
     Equinox: {
       Spring: {
         Element: string,
         CulinaryEffect: string
-      };
+      },
       Fall: {
         Element: string,
         CulinaryEffect: string
-      };
-    };
-  };
+      },
+    },
+  },
   Eclipse: {
     Solar: {
       ElementalShift: string,
       CulinaryEffect: string
-    };
-  };
+    },
+  },
 }
 
 // Type for Mercury-specific data
@@ -163,11 +163,11 @@ export interface MercurySpecificData {
   CommunicationEffects: {
     Direct: string,
     Retrograde: string
-  };
+  },
   FlavorModulation: {
-    Direct: Record<string, number>;
-    Retrograde: Record<string, number>;
-  };
+    Direct: Record<string, number>,
+    Retrograde: Record<string, number>,
+  },
 }
 
 // Additional planet-specific interfaces can be added as needed

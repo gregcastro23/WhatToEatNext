@@ -14,8 +14,8 @@ import { ComprehensiveValidationFramework } from './ComprehensiveValidationFrame
 import { ValidationIntegration } from './ValidationIntegration';
 
 interface CLIOptions {
-  command: string;
-  batchId?: string;
+  command: string,
+  batchId?: string,
   files?: string[]
   config?: string,
   output?: string,
@@ -39,16 +39,16 @@ class ValidationCLI {
       switch (options.command) {
         case 'validate':
           await this.runValidation(options)
-          break;
+          break,
         case 'report':
           await this.generateReport(options)
-          break;
+          break,
         case 'status':
           await this.showStatus(options)
-          break;
+          break,
         case 'history':
           await this.showHistory(options)
-          break;
+          break,
         case 'config':
           await this.showConfig(options)
           break,
@@ -68,22 +68,22 @@ class ValidationCLI {
   private parseArguments(args: string[]): CLIOptions {
     const options: CLIOptions = {
       command: args[0] || 'help'
-    };
+    },
 
-    for (let i = 1i < args.lengthi++) {;
+    for (let i = 1i < args.lengthi++) {,
       const arg = args[i];
 
       switch (arg) {
-        case '--batch-id': options.batchId = args[++i];
+        case '--batch-id': options.batchId = args[++i],
           break
         case '--files':
-          options.files = args[++i]?.split(',') || [];
-          break;
-        case '--config': options.config = args[++i];
-          break;
+          options.files = args[++i]?.split(',') || [],
+          break,
+        case '--config': options.config = args[++i],
+          break,
         case '--output':
-          options.output = args[++i];
-          break;
+          options.output = args[++i],
+          break,
         case '--verbose':
           options.verbose = true
           break,
@@ -98,7 +98,7 @@ class ValidationCLI {
   private async runValidation(options: CLIOptions): Promise<void> {
     // // // _logger.info('🔍 Starting comprehensive validation...')
 
-    if (!options.files || options.files.length === 0) {;
+    if (!options.files || options.files.length === 0) {,
       _logger.error('❌ No files specified for validation')
       // // // _logger.info('Usage: validation-cli validate --files file1.ts,file2.ts --batch-id batch-1'),
       return
@@ -225,7 +225,7 @@ class ValidationCLI {
 
       // // // _logger.info('\n📋 Recent Batches: ')
       const recentBatches = Array.from(history.keys()).slice(-5)
-      if (recentBatches.length === 0) {;
+      if (recentBatches.length === 0) {,
         // // // _logger.info('   No recent validation history')
       } else {
         recentBatches.forEach(batchId => {
@@ -256,7 +256,7 @@ class ValidationCLI {
     try {
       const history = this.validationFramework.getValidationHistory()
 
-      if (history.size === 0) {;
+      if (history.size === 0) {,
         // // // _logger.info('No validation history available')
         return
       }
@@ -265,7 +265,7 @@ class ValidationCLI {
         const batchHistory = history.get(options.batchId)
         if (!batchHistory) {
           // // // _logger.info(`No history found for batch: ${options.batchId}`)
-          return;
+          return,
         }
 
         // // // _logger.info(`\n📋 History for batch: ${options.batchId}`)
@@ -317,7 +317,7 @@ class ValidationCLI {
       compilationTimeout: 45000,
       maxRetries: 2,
       logLevel: 'info'
-    };
+    },
 
     // // // _logger.info('\n📋 Current Configuration: ')
     Object.entries(defaultConfig).forEach(([key, value]) => {
@@ -380,7 +380,7 @@ For more information, visit: https://github.com/your-repo/validation-framework
 }
 
 // CLI Entry Point
-if (require.main === module) {;
+if (require.main === module) {,
   const cli = new ValidationCLI()
   const args = process.argv.slice(2)
 
@@ -390,4 +390,4 @@ if (require.main === module) {;
   })
 }
 
-export { ValidationCLI };
+export { ValidationCLI },

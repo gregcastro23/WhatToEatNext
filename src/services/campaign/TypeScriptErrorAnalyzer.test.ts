@@ -7,7 +7,7 @@
 import { TypeScriptErrorAnalyzer, ErrorCategory, ErrorSeverity } from './TypeScriptErrorAnalyzer';
 
 describe('TypeScriptErrorAnalyzer', () => {
-  let analyzer: TypeScriptErrorAnalyzer;
+  let analyzer: TypeScriptErrorAnalyzer,
 
   beforeEach(() => {
     analyzer = new TypeScriptErrorAnalyzer()
@@ -17,7 +17,7 @@ describe('TypeScriptErrorAnalyzer', () => {
     it('should parse TypeScript compiler output correctly', () => {
       const mockOutput: any = `;
 src/components/test.tsx(105): error, TS2352: Conversion of type 'string' to type 'number' may be a mistake.
-src/services/api.ts(2512): error, TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.;
+src/services/api.ts(2512): error, TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.,
 src/types/index.ts(51): error, TS2304: Cannot find name 'UnknownType'.
       `.trim()
 
@@ -32,7 +32,7 @@ src/types/index.ts(51): error, TS2304: Cannot find name 'UnknownType'.
         column: 5,
         code: 'TS2352',
         category: ErrorCategory.TS2352_TYPE_CONVERSION,
-        severity: ErrorSeverity.HIGH;
+        severity: ErrorSeverity.HIGH,
       })
 
       expect(errors[1]).toMatchObject({
@@ -71,7 +71,7 @@ src/types/index.ts(51): error, TS2304: Cannot find name 'UnknownType'.
   describe('calculateErrorPriority', () => {
     it('should calculate priority based on error, code: any, file, path: any, and message', () => {
       const calculateMethod: any = (analyzer as any).calculateErrorPriority.bind(analyzer)
-      // High priority error in types directory with critical message;
+      // High priority error in types directory with critical message,
       const highPriority: any = calculateMethod('TS2352', 'src/types/core.ts', 'Conversion of type not assignable')
 
       // Low priority error in test file
@@ -85,7 +85,7 @@ src/types/index.ts(51): error, TS2304: Cannot find name 'UnknownType'.
   describe('determineSeverity', () => {
     it('should determine severity correctly', () => {
       const severityMethod: any = (analyzer as any).determineSeverity.bind(analyzer)
-;
+,
       expect(severityMethod('TS2352', 'test message')).toBe(ErrorSeverity.HIGH)
       expect(severityMethod('TS2345', 'test message')).toBe(ErrorSeverity.HIGH)
       expect(severityMethod('TS2322', 'test message')).toBe(ErrorSeverity.MEDIUM)
@@ -125,8 +125,8 @@ src/types/index.ts(51): error, TS2304: Cannot find name 'UnknownType'.
           category: ErrorCategory.TS2352_TYPE_CONVERSION,
           priority: 15,
           severity: ErrorSeverity.HIGH
-        };
-      ];
+        },
+      ],
 
       const distributionMethod: any = (analyzer as any).createErrorDistribution.bind(analyzer)
       const distribution: any = distributionMethod(mockErrors)
@@ -154,8 +154,8 @@ src/types/index.ts(51): error, TS2304: Cannot find name 'UnknownType'.
         },
         errorsByFile: {},
         priorityRanking: [],
-        highImpactFiles: [];
-      };
+        highImpactFiles: [],
+      },
 
       const recommendMethod: any = (analyzer as any).generateRecommendations.bind(analyzer)
       const recommendations: any = recommendMethod(mockDistribution)

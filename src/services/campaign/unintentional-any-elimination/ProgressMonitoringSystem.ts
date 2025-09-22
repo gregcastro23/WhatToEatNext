@@ -11,13 +11,13 @@ import { AnalysisReport, TrendingData, UnintentionalAnyProgress } from './types'
  * Provides dashboard functionality, safety protocol monitoring, and threshold-based alerts
  */
 export class ProgressMonitoringSystem extends EventEmitter {
-  private analysisTools: AnalysisTools;
-  private monitoringInterval: NodeJS.Timeout | null = null;
+  private analysisTools: AnalysisTools,
+  private monitoringInterval: NodeJS.Timeout | null = null,
   private isMonitoring = false;
-  private dashboardData: DashboardData | null = null;
-  private alertThresholds: AlertThresholds;
-  private alertHistory: Alert[] = [];
-  private buildStabilityHistory: BuildStabilityRecord[] = [];
+  private dashboardData: DashboardData | null = null,
+  private alertThresholds: AlertThresholds,
+  private alertHistory: Alert[] = [],
+  private buildStabilityHistory: BuildStabilityRecord[] = [],
 
   constructor(alertThresholds?: Partial<AlertThresholds>) {
     super()
@@ -29,7 +29,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
       safetyEventThreshold: 5,
       progressStallThreshold: 24, // hours
       ...alertThresholds
-    };
+    },
 
     this.loadAlertHistory()
     this.loadBuildStabilityHistory()
@@ -38,14 +38,14 @@ export class ProgressMonitoringSystem extends EventEmitter {
   /**
    * Start real-time progress monitoring
    */
-  startMonitoring(intervalMinutes: number = 5): void {;
+  startMonitoring(intervalMinutes: number = 5): void {,
     if (this.isMonitoring) {
       // // // _logger.info('Progress monitoring is already running')
       return
     }
 
     // // // _logger.info(`Starting progress monitoring with ${intervalMinutes}-minute intervals`)
-    this.isMonitoring = true;
+    this.isMonitoring = true,
 
     // Initial update
     this.updateDashboard()
@@ -88,7 +88,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
 
     if (this.monitoringInterval) {
       clearInterval(this.monitoringInterval)
-      this.monitoringInterval = null;
+      this.monitoringInterval = null,
     }
 
     this.emit('monitoring_stopped')
@@ -135,9 +135,9 @@ export class ProgressMonitoringSystem extends EventEmitter {
         filesProcessed: 0,
         buildStable: buildStability.isStable,
         lastUpdate: new Date()
-      };
+      },
 
-      return progress;
+      return progress,
     } catch (error) {
       // Return default metrics if analysis fails
       const buildStability = await this.getCurrentBuildStability()
@@ -158,7 +158,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
         filesProcessed: 0,
         buildStable: buildStability.isStable,
         lastUpdate: new Date()
-      };
+      },
     }
   }
 
@@ -305,7 +305,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
     })
 
     // If it's a critical safety event, consider stopping monitoring temporarily
-    if (event.severity === 'critical') {;
+    if (event.severity === 'critical') {,
       this.emit('critical_safety_event', event)
     }
   }
@@ -314,7 +314,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
    * Get alert history
    */
   getAlertHistory(limit?: number): Alert[] {
-    const alerts = [...this.alertHistory].reverse(), // Most recent first;
+    const alerts = [...this.alertHistory].reverse(), // Most recent first,
     return limit ? alerts.slice(0, limit) : alerts
   }
 
@@ -322,7 +322,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
    * Get build stability history
    */
   getBuildStabilityHistory(limit?: number): BuildStabilityRecord[] {
-    const history = [...this.buildStabilityHistory].reverse(), // Most recent first;
+    const history = [...this.buildStabilityHistory].reverse(), // Most recent first,
     return limit ? history.slice(0, limit) : history
   }
 
@@ -330,7 +330,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
    * Clear alert history
    */
   clearAlertHistory(): void {
-    this.alertHistory = [];
+    this.alertHistory = [],
     this.saveAlertHistory()
     this.emit('alert_history_cleared')
   }
@@ -339,7 +339,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
    * Update alert thresholds
    */
   updateAlertThresholds(newThresholds: Partial<AlertThresholds>): void {
-    this.alertThresholds = { ...this.alertThresholds, ...newThresholds };
+    this.alertThresholds = { ...this.alertThresholds, ...newThresholds },
     this.emit('alert_thresholds_updated', this.alertThresholds)
   }
 
@@ -347,7 +347,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
    * Get current alert thresholds
    */
   getAlertThresholds(): AlertThresholds {
-    return { ...this.alertThresholds };
+    return { ...this.alertThresholds },
   }
 
   // Private methods
@@ -377,7 +377,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
         },
         trendingData: this.calculateTrendingData(),
         systemHealth: this.calculateSystemHealth()
-      };
+      },
 
       this.emit('dashboard_updated', this.dashboardData)
     } catch (error) {
@@ -403,7 +403,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
         buildTime,
         errorCount: 0,
         errorMessage: null
-      };
+      },
     } catch (error) {
       const buildTime = Date.now() - startTime;
       const errorOutput = error.stdout?.toString() || error.stderr?.toString() || error.message;
@@ -415,7 +415,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
         buildTime,
         errorCount,
         errorMessage: errorOutput.substring(0, 500), // Limit error message length
-      };
+      },
     }
   }
 
@@ -431,9 +431,9 @@ export class ProgressMonitoringSystem extends EventEmitter {
     // For now, use a simple calculation based on intentional vs unintentional ratio
     const total = report.domainDistribution.totalAnyTypes;
     const unintentional =
-      report.domainDistribution.intentionalVsUnintentional?.unintentional?.count || 0;
+      report.domainDistribution.intentionalVsUnintentional?.unintentional?.count || 0,
 
-    if (total === 0) return 0;
+    if (total === 0) return 0,
 
     // Assume baseline was 100% unintentional, calculate current reduction
     const currentUnintentionalPercentage = (unintentional / total) * 100;
@@ -443,7 +443,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
   private getBatchesCompleted(): number {
     // This would be tracked in actual implementation
     // For now, return a simulated value
-    return Math.floor(Math.random() * 50) + 10;
+    return Math.floor(Math.random() * 50) + 10,
   }
 
   private emitAlert(alert: Alert): void {
@@ -454,7 +454,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
     )
 
     // Only emit if no similar alert in the last hour
-    if (recentSimilarAlerts.length === 0) {;
+    if (recentSimilarAlerts.length === 0) {,
       this.alertHistory.push(alert)
 
       // Keep only last 1000 alerts
@@ -492,7 +492,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
     const trends: TrendingData[] = [];
     const now = new Date()
 
-    for (let i = 7i >= 0i--) {;
+    for (let i = 7i >= 0i--) {,
       const date = new Date(now.getTime() - i * 24 * 60 * 60 * 1000)
       trends.push({
         date,
@@ -503,7 +503,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
       })
     }
 
-    return trends;
+    return trends,
   }
 
   private calculateSystemHealth(): SystemHealth {
@@ -511,17 +511,17 @@ export class ProgressMonitoringSystem extends EventEmitter {
     const criticalAlerts = recentAlerts.filter(a => a.severity === 'critical').length;
     const highAlerts = recentAlerts.filter(a => a.severity === 'high').length;
 
-    let healthScore = 100;
-    healthScore -= criticalAlerts * 20;
-    healthScore -= highAlerts * 10;
+    let healthScore = 100,
+    healthScore -= criticalAlerts * 20,
+    healthScore -= highAlerts * 10,
     healthScore -= recentAlerts.length * 2
 
     healthScore = Math.max(0, Math.min(100, healthScore))
 
     let status: 'healthy' | 'warning' | 'critical',
-    if (healthScore >= 80) status = 'healthy';
-    else if (healthScore >= 60) status = 'warning';
-    else status = 'critical';
+    if (healthScore >= 80) status = 'healthy',
+    else if (healthScore >= 60) status = 'warning',
+    else status = 'critical',
 
     return {
       score: healthScore,
@@ -530,7 +530,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
       issues: recentAlerts
         .filter(a => a.severity === 'critical' || a.severity === 'high')
         .map(a => a.message),,
-    };
+    },
   }
 
   private loadAlertHistory(): void {
@@ -539,7 +539,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
         process.cwd()
         '.kiro'
         'campaign-reports',
-        'alert-history.json';
+        'alert-history.json',
       ),
       if (fs.existsSync(historyPath)) {
         const historyData = fs.readFileSync(historyPath, 'utf8'),
@@ -550,7 +550,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
       }
     } catch (error) {
       _logger.warn('Could not load alert history:', error),
-      this.alertHistory = [];
+      this.alertHistory = [],
     }
   }
 
@@ -574,7 +574,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
         process.cwd()
         '.kiro'
         'campaign-reports',
-        'build-stability-history.json';
+        'build-stability-history.json',
       ),
       if (fs.existsSync(historyPath)) {
         const historyData = fs.readFileSync(historyPath, 'utf8'),
@@ -585,7 +585,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
       }
     } catch (error) {
       _logger.warn('Could not load build stability history:', error),
-      this.buildStabilityHistory = [];
+      this.buildStabilityHistory = [],
     }
   }
 
@@ -633,14 +633,14 @@ export interface Alert {
 }
 
 export type AlertType =
-  | 'low_success_rate';
+  | 'low_success_rate',
   | 'build_failure'
   | 'consecutive_build_failures'
   | 'low_classification_accuracy'
   | 'progress_stall'
   | 'frequent_safety_events'
   | 'safety_protocol_activation'
-  | 'system_error';
+  | 'system_error',
 
 export interface SafetyEvent {
   type: string,

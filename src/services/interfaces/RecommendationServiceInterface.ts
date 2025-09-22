@@ -5,7 +5,7 @@ import {
   ZodiacSign,
   PlanetaryAlignment,
   Element
-} from '@/types/alchemy';
+} from '@/types/alchemy',
 import { CookingMethod } from '@/types/cooking';
 import { Ingredient } from '@/types/ingredient';
 import { Recipe } from '@/types/recipe';
@@ -15,19 +15,19 @@ import { Recipe } from '@/types/recipe';
  */
 export interface RecipeRecommendationCriteria {
   /** Elemental properties to consider for recommendation */
-  elementalProperties?: ElementalProperties;
+  elementalProperties?: ElementalProperties,
   /** Minimum compatibility score for recommendations */
-  minCompatibility?: number;
+  minCompatibility?: number,
   /** Preferred cooking method for recommendations */
-  cookingMethod?: string;
+  cookingMethod?: string,
   /** Preferred cuisine for recommendations */
-  cuisine?: string;
+  cuisine?: string,
   /** Specific ingredients to include */
-  includeIngredients?: string[];
+  includeIngredients?: string[],
   /** Specific ingredients to exclude */
   excludeIngredients?: string[]
   /** Planetary positions to consider for recommendation */
-  planetaryPositions?: Record<string, { sign: string, degree: number }>;
+  planetaryPositions?: Record<string, { sign: string, degree: number }>,
   /** Limit the number of recommendations */
   limit?: number
 }
@@ -37,17 +37,17 @@ export interface RecipeRecommendationCriteria {
  */
 export interface IngredientRecommendationCriteria {
   /** Elemental properties to consider for recommendation */
-  elementalProperties?: ElementalProperties;
+  elementalProperties?: ElementalProperties,
   /** Minimum compatibility score for recommendations */
-  minCompatibility?: number;
+  minCompatibility?: number,
   /** Specific ingredient categories to include */
-  categories?: string[];
+  categories?: string[],
   /** Specific ingredients to exclude */
-  excludeIngredients?: string[];
+  excludeIngredients?: string[],
   /** Planetary ruler to consider for recommendation */
-  planetaryRuler?: Planet;
+  planetaryRuler?: Planet,
   /** Season to consider for recommendation */
-  season?: string;
+  season?: string,
   /** Limit the number of recommendations */
   limit?: number
 }
@@ -57,13 +57,13 @@ export interface IngredientRecommendationCriteria {
  */
 export interface CuisineRecommendationCriteria {
   /** Elemental properties to consider for recommendation */
-  elementalProperties?: ElementalProperties;
+  elementalProperties?: ElementalProperties,
   /** Minimum compatibility score for recommendations */
   minCompatibility?: number
   /** Planetary positions to consider for recommendation */
-  planetaryPositions?: Record<string, { sign: string, degree: number }>;
+  planetaryPositions?: Record<string, { sign: string, degree: number }>,
   /** Specific cuisines to exclude */
-  excludeCuisines?: string[];
+  excludeCuisines?: string[],
   /** Limit the number of recommendations */
   limit?: number
 }
@@ -73,13 +73,13 @@ export interface CuisineRecommendationCriteria {
  */
 export interface CookingMethodRecommendationCriteria {
   /** Elemental properties to consider for recommendation */
-  elementalProperties?: ElementalProperties;
+  elementalProperties?: ElementalProperties,
   /** Minimum compatibility score for recommendations */
   minCompatibility?: number
   /** Planetary positions to consider for recommendation */
-  planetaryPositions?: Record<string, { sign: string, degree: number }>;
+  planetaryPositions?: Record<string, { sign: string, degree: number }>,
   /** Specific cooking methods to exclude */
-  excludeMethods?: string[];
+  excludeMethods?: string[],
   /** Limit the number of recommendations */
   limit?: number
 }
@@ -91,9 +91,9 @@ export interface RecommendationResult<T> {
   /** Recommended items */
   items: T[]
   /** Compatibility scores for each recommended item */
-  scores: { [key: string]: number };
+  scores: { [key: string]: number },
   /** Additional context or explanation for recommendations */
-  context?: Record<string, unknown>;
+  context?: Record<string, unknown>,
 }
 
 /**

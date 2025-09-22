@@ -14,7 +14,7 @@ import {
   Recipe,
   Season,
   ZodiacSign
-} from '@/types/alchemy';
+} from '@/types/alchemy',
 import {_PlanetaryAlignment} from '@/types/celestial';
 import type { ScoredRecipe } from '@/types/recipe';
 
@@ -46,7 +46,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
     if (!EnhancedFoodAlchemySystem.instance) {
       EnhancedFoodAlchemySystem.instance = new EnhancedFoodAlchemySystem()
     }
-    return EnhancedFoodAlchemySystem.instance;
+    return EnhancedFoodAlchemySystem.instance,
   }
 
   /**
@@ -67,7 +67,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       lunarPhase?: LunarPhase,
       dietaryPreferences?: string[],
       ingredients?: string[]
-    } = {};
+    } = {},
     limit: number = 10
   ): Promise<ScoredRecipe[]> {
     try {
@@ -78,14 +78,14 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
 
       // Prepare criteria for recipe service
       const recipeCriteria = {
-        ...criteria;
+        ...criteria,
         flavorProfile,
         elementalPreference: this.createElementalPreferenceFromState(state)
-      };
+      },
 
       // Get matching recipes from the consolidated service
       const recipes = await consolidatedRecipeService.getBestRecipeMatches(recipeCriteria, limit)
-      return recipes as unknown as ScoredRecipe[];
+      return recipes as unknown as ScoredRecipe[],
     } catch (error) {
       logger.error('Error getting recommended recipes', error),
       return []
@@ -109,7 +109,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       }
 
       // Create a planetary influences object from the positions
-      const planetaryInfluences: { [key: string]: number } = {};
+      const planetaryInfluences: { [key: string]: number } = {},
 
       for (const [planet, position] of Object.entries(state.planetaryPositions)) {
         // Apply surgical type casting with variable extraction
@@ -117,16 +117,16 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
         const sign = positionData.sign;
 
         // Skip non-standard planets or positions
-        if (!position || !sign) continue;
+        if (!position || !sign) continue,
 
         // Calculate base influence (0.5 as neutral)
         const influence = 0.5;
 
         // Add dignity effects if applicable - safe string handling
         const planetKey =
-          typeof planet === 'string' ? planet.charAt(0).toUpperCase() + planet.slice(1) : planet;
+          typeof planet === 'string' ? planet.charAt(0).toUpperCase() + planet.slice(1) : planet,
         const _signFormatted =
-          typeof sign === 'string' ? sign.charAt(0).toUpperCase() + sign.slice(1) : sign;
+          typeof sign === 'string' ? sign.charAt(0).toUpperCase() + sign.slice(1) : sign,
 
         // Track this planet's influence
         planetaryInfluences[planetKey] = influence
@@ -137,7 +137,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
         planetaryInfluences,
         minMatchScore,
       )
-      return recipes as unknown as Recipe[];
+      return recipes as unknown as Recipe[],
     } catch (error) {
       logger.error('Error getting recipes for planetary alignment', error),
       return []
@@ -154,7 +154,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
   getRecommendedIngredients(
     state: SystemState,
     options: {
-      season?: Season;
+      season?: Season,
       currentZodiacSign?: any
       categories?: string[]
       dietaryPreferences?: {
@@ -225,7 +225,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       bitter: Math.min(1, Fire * 0.2 + Air * 0.5 + reactivity * 0.3),
       salty: Math.min(1, Earth * 0.7 + Water * 0.3),
       umami: Math.min(1, Earth * 0.4 + Fire * 0.3 + reactivity * 0.3)
-    };
+    },
   }
 
   /**
@@ -241,7 +241,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       planetaryPositions: state.planetaryPositions,
       // Add other relevant state properties
       ...(state as unknown)
-    };
+    },
   }
 
   /**
@@ -260,7 +260,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       { name: 'Water', value: Water, diff: Math.abs(Water - 0.25) },
       { name: 'Earth', value: Earth, diff: Math.abs(Earth - 0.25) },
       { name: 'Air', value: Air, diff: Math.abs(Air - 0.25) }
-    ];
+    ],
 
     // Sort by difference from ideal (descending)
     elements.sort((ab) => b.diff - a.diff)
@@ -272,10 +272,10 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
     const preferenceValue = elementToBalance.value < 0.25 ? 0.8 : 0.2
 
     // Create a preference object with just the element that needs balancing
-    const preference: Partial<ElementalProperties> = {};
-    preference[elementToBalance.name as 'Fire' | 'Water' | 'Earth' | 'Air'] = preferenceValue;
+    const preference: Partial<ElementalProperties> = {},
+    preference[elementToBalance.name as 'Fire' | 'Water' | 'Earth' | 'Air'] = preferenceValue,
 
-    return preference;
+    return preference,
   }
 }
 
@@ -283,4 +283,4 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
 export const _enhancedFoodAlchemySystem = EnhancedFoodAlchemySystem.getInstance()
 
 // Default export
-export default EnhancedFoodAlchemySystem;
+export default EnhancedFoodAlchemySystem,

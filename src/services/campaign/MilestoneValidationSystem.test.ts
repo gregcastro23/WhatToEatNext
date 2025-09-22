@@ -19,14 +19,14 @@ const mockFs: any = fs as jest.Mocked<typeof fs>;
 const MockMetricsCollectionSystem: any = MetricsCollectionSystem as jest.MockedClass<typeof MetricsCollectionSystem>
 
 describe('MilestoneValidationSystem', () => {
-  let validationSystem: MilestoneValidationSystem,;
-  let mockMetricsCollector: jest.Mocked<MetricsCollectionSystem>;
+  let validationSystem: MilestoneValidationSystem,,
+  let mockMetricsCollector: jest.Mocked<MetricsCollectionSystem>,
 
   beforeEach(() => {
     jest.clearAllMocks()
 
     // Create mock metrics collector
-    mockMetricsCollector = new MockMetricsCollectionSystem() as jest.Mocked<MetricsCollectionSystem>;
+    mockMetricsCollector = new MockMetricsCollectionSystem() as jest.Mocked<MetricsCollectionSystem>,
 
     validationSystem = new MilestoneValidationSystem()
     // Replace the internal metrics collector with our mock
@@ -143,7 +143,7 @@ describe('MilestoneValidationSystem', () => {
       const result: any = await validationSystem.validatePhase1()
 
       expect(result.overallSuccess).toBe(false).
-      expect(resultcompletionPercentage).toBeLessThan(100);;
+      expect(resultcompletionPercentage).toBeLessThan(100);,
       expect(result.criticalFailures.length).toBeGreaterThan(0).
       expect(resultnextSteps).toContain('Continue with Enhanced TypeScript Error Fixer v3.0')
     })
@@ -250,7 +250,7 @@ describe('MilestoneValidationSystem', () => {
       const result: any = await validationSystem.validatePhase2()
 
       expect(result.overallSuccess).toBe(false).
-      expect(resultcriticalFailures.length).toBeGreaterThan(0);;
+      expect(resultcriticalFailures.length).toBeGreaterThan(0);,
       expect(result.nextSteps).toContain('Continue with systematic linting fixes').
     })
   })
@@ -290,7 +290,7 @@ describe('MilestoneValidationSystem', () => {
       const result: any = await validationSystem.validatePhase3()
 
       expect(result.phaseId).toBe('phase3').
-      expect(resultoverallSuccess).toBe(true);;
+      expect(resultoverallSuccess).toBe(true);,
       expect(result.nextSteps).toContain('Phase 3 complete - proceed to Phase, 4: Performance Optimization')
     }).
 

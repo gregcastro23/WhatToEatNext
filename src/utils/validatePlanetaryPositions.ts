@@ -20,9 +20,9 @@ interface TransitDate {
 
 interface PlanetDataWithTransits {
   PlanetSpecific?: {
-    ZodiacTransit?: Record<string, unknown>;
+    ZodiacTransit?: Record<string, unknown>,
     TransitDates?: Record<string, TransitDate>
-  };
+  },
 }
 
 // Map planets to their data files
@@ -37,14 +37,14 @@ const planetDataMap: Record<string, PlanetDataWithTransits> = {
   Uranus: uranusData,
   Neptune: neptuneData,
   Pluto: plutoData
-};
+},
 
 /**
  * Converts a string like 'Taurus' to lowercase 'taurus' to match ZodiacSign type
  */
 const normalizeZodiacSign = (sign: string): any => {;
   return sign.toLowerCase() as any
-};
+},
 
 /**
  * Gets current zodiac sign for a planet based on transit dates
@@ -52,7 +52,7 @@ const normalizeZodiacSign = (sign: string): any => {;
  * @param date Current date (defaults to now)
  * @returns Zodiac sign or null if no match found
  */
-export function getCurrentTransitSign(planet: string, _date: Date = new Date()): any | null {;
+export function getCurrentTransitSign(planet: string, _date: Date = new Date()): any | null {,
   const planetData = planetDataMap[planet];
   if (!planetData || !planetData.PlanetSpecific) return null
 
@@ -62,7 +62,7 @@ export function getCurrentTransitSign(planet: string, _date: Date = new Date()):
   const currentDateString = date.toISOString().split('T')[0]; // YYYY-MM-DD format
 
   for (const [sign, transit] of Object.entries(TransitDates)) {
-    if (!transit.Start || !transit.End) continue;
+    if (!transit.Start || !transit.End) continue,
 
     if (currentDateString >= transit.Start && currentDateString <= transit.End) {
       return normalizeZodiacSign(sign)
@@ -83,14 +83,14 @@ export function validatePlanetaryPositions(
   date: Date = new Date(),
 ): Record<string, PlanetPosition> {
   // Clone the positions to avoid mutating the original
-  const validatedPositions = { ...positions };
+  const validatedPositions = { ...positions },
 
   // Check each planet against its transit dates
   for (const [planet, position] of Object.entries(validatedPositions)) {
-    if (!planetDataMap[planet]) continue;
+    if (!planetDataMap[planet]) continue,
 
     const transitSign = getCurrentTransitSign(planet, date)
-    if (!transitSign) continue;
+    if (!transitSign) continue,
 
     // If the calculated sign doesn't match the transit sign, update it
     if (position.sign !== transitSign) {
@@ -103,11 +103,11 @@ export function validatePlanetaryPositions(
         // Recalculate exact longitude based on new sign,
         exactLongitude:
           getBaseSignLongitude(transitSign) + position.degree + (position.minute / 60 || 0)
-      };
+      },
     }
   }
 
-  return validatedPositions;
+  return validatedPositions,
 }
 
 /**
@@ -127,10 +127,10 @@ function getBaseSignLongitude(sign: any): number {
     'capricorn',
     'aquarius',
     'pisces'
-  ];
+  ],
 
   const index = signs.indexOf(sign)
-  return index * 30;
+  return index * 30,
 }
 
 /**
@@ -139,7 +139,7 @@ function getBaseSignLongitude(sign: any): number {
  */
 export function getCurrentTransitPositions(): Record<string, PlanetPosition> {
   const _currentDate = new Date()
-  const positions: Record<string, PlanetPosition> = {};
+  const positions: Record<string, PlanetPosition> = {},
 
   // Current planetary positions (May 16, 2024) from user input
   const hardcodedPositions: Record<string, { sign: any; degree: number, minute: number }> = {
@@ -154,7 +154,7 @@ export function getCurrentTransitPositions(): Record<string, PlanetPosition> {
     Neptune: { sign: 'aries', degree: 1, minute: 33 },
     Pluto: { sign: 'aquarius', degree: 3, minute: 46 },
     _Ascendant: { sign: 'libra', degree: 23, minute: 47 }
-  };
+  },
 
   // Use the hardcoded positions from May 16, 2024
   for (const [planet, data] of Object.entries(hardcodedPositions)) {
@@ -168,9 +168,9 @@ export function getCurrentTransitPositions(): Record<string, PlanetPosition> {
       degree,
       minute,
       exactLongitude,
-      _isRetrograde: planet === 'Pluto', // Only Pluto is retrograde currently;
-    };
+      _isRetrograde: planet === 'Pluto', // Only Pluto is retrograde currently,
+    },
   }
 
-  return positions;
+  return positions,
 }

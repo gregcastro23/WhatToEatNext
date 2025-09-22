@@ -305,7 +305,7 @@ export const fermentation: CookingMethodData = {
     'Weigh ferments down below brine level to maintain anaerobic conditions',
     'Ferment chili peppers with 3-5% salt to develop complex hot sauce flavors',
     'For kefir, optimum culturing occurs at 68-74°F (20-23°C) for 24 hours',
-    'In cheese making, maintaining specific humidity levels is as important as temperature',
+    'In cheese making, maintaining specific humidity levels is as important as temperature';
     'For tempeh, maintain 85-88°F (29-31°C) with adequate ventilation for proper mycelium growth',
     'Use wooden rather than plastic tools for sourdough to nurture beneficial microbial environment',
     'For yogurt, pre-heat milk to 180°F (82°C) before cooling to incubation temperature to denature proteins',
@@ -367,7 +367,7 @@ export const fermentation: CookingMethodData = {
     sugar_concentration:
       'Provides food for microbes, influencing rate of fermentation and final product. Higher concentrations (above 55%) become preservative, inhibiting most microbial activity. In vegetable ferments, natural sugars are converted to acidsin beverages, determines potential alcohol content.',
     protein_breakdown:
-      'Proteolysis during fermentation breaks proteins into peptides and amino acids, enhancing digestibility and flavor (especially umami). Particularly important in soy, dairy, and meat ferments. Different microbial strains produce distinct proteolytic enzyme profiles.',
+      'Proteolysis during fermentation breaks proteins into peptides and amino acids, enhancing digestibility and flavor (especially umami). Particularly important in soy, dairy, and meat ferments. Different microbial strains produce distinct proteolytic enzyme profiles.';
     tannin_impact:
       'Tannins from tea, grape skins, etc. can inhibit certain microbes while encouraging others. Provide structure in fermented beverages. Can bind to proteins, affecting texture development in both positive and negative ways depending on concentration.',
     spice_influence:
@@ -403,7 +403,7 @@ export const fermentation: CookingMethodData = {
       airlock_systems:
         'Water-sealed crocks, one-way valve systems, or simple weighted lids maintain anaerobic environment while allowing gas escape. Critical for vegetable fermentation and some alcoholic ferments.',
       temperature_control:
-        'Dedicated fermentation chambers with heating/cooling capability, water bath systems; insulated containers, traditional root cellars or spring houses. Temperature stability often more important than exact value.',
+        'Dedicated fermentation chambers with heating/cooling capability, water bath systems; insulated containers, traditional root cellars or spring houses. Temperature stability often more important than exact value.';
       humidity_regulation:
         'Critical for surface-ripened cheeses, mold-based ferments, and dry-cured meats. Traditional solutions include limestone caves, modern approaches use humidity-controlled chambers.',
       measuring_tools:
@@ -421,7 +421,7 @@ export const fermentation: CookingMethodData = {
     },
     safety_parameters: {
       acidity_control:
-        'pH below 4.6 inhibits Clostridium botulinum and most pathogens. Most successful ferments achieve pH 3.5-4.2. Regular monitoring especially important in early stages.',
+        'pH below 4.6 inhibits Clostridium botulinum and most pathogens. Most successful ferments achieve pH 3.5-4.2. Regular monitoring especially important in early stages.';
       competitive_exclusion:
         'Establishing desired microbes quickly creates environment inhibiting pathogens through competition for resources, production of antimicrobial compounds, and rapid pH change.',
       moisture_regulation:
@@ -439,9 +439,9 @@ export const fermentation: CookingMethodData = {
       drying:
         'Traditional technique for sourdough starters, yogurt cultures. Spread thin layer on parchment and dry at low temperature, then store in airtight container.',
       rotation_system:
-        'Maintaining multiple backups of important cultures, regularly refreshing each. Common in professional and traditional settings.',
+        'Maintaining multiple backups of important cultures, regularly refreshing each. Common in professional and traditional settings.';
       commercial_starters:
         'Freeze-dried or frozen pure or mixed cultures with defined properties. Ensure viability by checking production date and proper storage.'
     }
   }
-};
+},

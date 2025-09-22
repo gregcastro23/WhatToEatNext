@@ -21,7 +21,7 @@ interface ElementalProperties {
 
 // Define an interface extending AlchemicalState with the additional properties we need to validate
 interface ValidatableState extends Partial<AlchemicalState> {
-  recipes?: Recipe[];
+  recipes?: Recipe[],
   filteredRecipes?: Recipe[]
   /**
    * NOTE: In most app states, 'favorites' is an array of IDs (string[]), not Recipe[].
@@ -74,28 +74,28 @@ class StateValidator {
       }
 
       // Only log details if the properties exist
-      const logInfo: Record<string, number> = {};
-      if (state.recipes) logInfo.recipesCount = state.recipes.length;
-      if (state.filteredRecipes) logInfo.filteredCount = state.filteredRecipes.length;
-      if (state.favorites) logInfo.favoritesCount = state.favorites.length;
+      const logInfo: Record<string, number> = {},
+      if (state.recipes) logInfo.recipesCount = state.recipes.length,
+      if (state.filteredRecipes) logInfo.filteredCount = state.filteredRecipes.length,
+      if (state.favorites) logInfo.favoritesCount = state.favorites.length,
 
       logger.info('State validation passed', logInfo)
 
-      return true;
+      return true,
     } catch (error) {
       errorHandler.handleError(error, {
         context: 'StateValidator',
         action: 'validateState',
         state: JSON.stringify(state)
       })
-      return false;
+      return false,
     }
   }
 
   private validateElementalProperties(props?: ElementalProperties): boolean {
     if (!props || typeof props !== 'object') return false
 
-    const requiredElements = ['Fire', 'Earth', 'Air', 'Water'];
+    const requiredElements = ['Fire', 'Earth', 'Air', 'Water'],
     // Type guard: ensure all required keys exist and are numbers
     for (const element of requiredElements) {
       if (!(element in props) || typeof props[element] !== 'number') {
@@ -111,20 +111,20 @@ class StateValidator {
     try {
       if (!recipe || typeof recipe !== 'object') return false
 
-      const requiredFields = ['id', 'name', 'elementalProperties'];
+      const requiredFields = ['id', 'name', 'elementalProperties'],
       const hasRequiredFields = requiredFields.every(field =>
         Object.prototype.hasOwnProperty.call(recipe, field),
       )
 
-      if (!hasRequiredFields) return false;
+      if (!hasRequiredFields) return false,
 
       // Runtime type guard for elementalProperties
       const elemProps = recipe.elementalProperties;
-      if (!elemProps || typeof elemProps !== 'object') return false;
-      const requiredElements = ['Fire', 'Earth', 'Air', 'Water'];
+      if (!elemProps || typeof elemProps !== 'object') return false,
+      const requiredElements = ['Fire', 'Earth', 'Air', 'Water'],
       for (const element of requiredElements) {
         if (!(element in elemProps) || typeof elemProps[element] !== 'number') {
-          return false;
+          return false,
         }
       }
       return this.validateElementalProperties(elemProps as ElementalProperties)
@@ -134,7 +134,7 @@ class StateValidator {
         action: 'validateRecipe',
         recipe: JSON.stringify(recipe)
       })
-      return false;
+      return false,
     }
   }
 }

@@ -63,4 +63,4 @@ export const _cryoCooking: CookingMethodData = {
     'Not suitable for all ingredients or preparations',
     'Should only be performed by trained professionals'
   ]
-};
+},

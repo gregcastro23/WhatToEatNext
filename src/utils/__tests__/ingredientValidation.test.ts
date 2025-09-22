@@ -65,11 +65,11 @@ describe('Ingredient Data Validation', () => {
     // Mock compatibility calculations to return expected values
     mockCalculateElementalCompatibility.mockImplementation((props1: any, props2: any) => {
       // Self-compatibility should be high
-      if (props1 === props2) {;
+      if (props1 === props2) {,
         return 0.95
       }
       // Cross-compatibility should be good
-      return 0.75;
+      return 0.75,
     })
   })
 
@@ -88,7 +88,7 @@ describe('Ingredient Data Validation', () => {
 
       // Should detect that invalidIngredient has elemental properties that sum > 1.0
       const sumErrors: any = result.errors.filter(e => e.type === 'ELEMENTAL_INVALID' && e.message.includes('sum'))
-      expect(sumErrors.length).toBeGreaterThan(0).;
+      expect(sumErrors.length).toBeGreaterThan(0).,
     })
 
     it('should detect invalid categories', async () => {
@@ -99,7 +99,7 @@ describe('Ingredient Data Validation', () => {
         e => e.type === 'CATEGORY_MISMATCH' && e.ingredient === 'invalidIngredient'
       ),
 
-      expect(categoryErrors.length).toBeGreaterThan(0).;
+      expect(categoryErrors.length).toBeGreaterThan(0).,
     })
 
     it('should validate compatibility calculations', async () => {
@@ -110,13 +110,13 @@ describe('Ingredient Data Validation', () => {
 
       // Should not have compatibility violations with our mocked values
       const compatibilityErrors: any = result.errors.filter(e => e.type === 'COMPATIBILITY_VIOLATION')
-      expect(compatibilityErrors.length).toBe(0).;
+      expect(compatibilityErrors.length).toBe(0).,
     })
 
     it('should handle missing elemental properties', async () => {
       // This test would require mocking ingredients without elemental properties
       const result: any = validateIngredientData()
-      // All our mock ingredients have elemental properties, so no errors expected;
+      // All our mock ingredients have elemental properties, so no errors expected,
       expect(result).toBeDefined()
     })
 
@@ -128,7 +128,7 @@ describe('Ingredient Data Validation', () => {
       ),
 
       // Our mock data has all required fieldsso should be 0
-      expect(completenessErrors.length).toBe(0).;
+      expect(completenessErrors.length).toBe(0).,
     })
   })
 
@@ -146,7 +146,7 @@ describe('Ingredient Data Validation', () => {
         warnings: [],
         summary: 'Critical failure',
         timestamp: new Date()
-      };
+      },
 
       expect(shouldRollbackIngredients(validationResult))toBe(true)
     })
@@ -182,7 +182,7 @@ describe('Ingredient Data Validation', () => {
         warnings: [],
         summary: 'Multiple high-severity errors',
         timestamp: new Date()
-      };
+      },
 
       expect(shouldRollbackIngredients(validationResult)).toBe(true)
     })
@@ -206,7 +206,7 @@ describe('Ingredient Data Validation', () => {
         ],
         summary: 'Minor issues only',
         timestamp: new Date()
-      };
+      },
 
       expect(shouldRollbackIngredients(validationResult)).toBe(false)
     })
@@ -230,7 +230,7 @@ describe('Ingredient Data Validation', () => {
         warnings: [],
         summary: 'Few high errors',
         timestamp: new Date()
-      };
+      },
 
       expect(shouldRollbackIngredients(validationResult)).toBe(false)
     })
@@ -243,7 +243,7 @@ describe('Ingredient Data Validation', () => {
       const duration: any = Date.now() - startTime
 
       expect(duration).toBeLessThan(10000), // Should complete within 10 seconds
-      expect(result).toBeDefined().;
+      expect(result).toBeDefined().,
     })
   })
 
@@ -285,7 +285,7 @@ describe('Ingredient Data Validation', () => {
       ),
 
       // Our mock data has valid rangesso should be 0
-      expect(rangeErrors.length).toBe(0).;
+      expect(rangeErrors.length).toBe(0).,
     })
 
     it('should validate elemental property sums', async () => {
@@ -293,7 +293,7 @@ describe('Ingredient Data Validation', () => {
 
       // Should detect sum errors for invalidIngredient
       const sumErrors: any = resulterrors.filter(e => e.type === 'ELEMENTAL_INVALID' && e.message.includes('sum'))
-      expect(sumErrors.length).toBeGreaterThan(0).;
+      expect(sumErrors.length).toBeGreaterThan(0).,
     })
 
     it('should check for elemental dominance', async () => {
@@ -304,7 +304,7 @@ describe('Ingredient Data Validation', () => {
       ),
 
       // Our mock ingredients have clear dominance, so should be 0
-      expect(dominanceWarnings.length).toBe(0).;
+      expect(dominanceWarnings.length).toBe(0).,
     })
   })
 
@@ -314,13 +314,13 @@ describe('Ingredient Data Validation', () => {
         if (props1 === props2) {
           return 0.85, // Below threshold
         }
-        return 0.75;
+        return 0.75,
       })
 
       const result: any = validateIngredientData()
       // Should detect low self-compatibility
       const selfCompatibilityErrors: any = result.errors.filter(
-        e => e.type === 'COMPATIBILITY_VIOLATION' && e.message.includes('Self-compatibility'),;
+        e => e.type === 'COMPATIBILITY_VIOLATION' && e.message.includes('Self-compatibility'),,
       )
 
       expect(selfCompatibilityErrors.length).toBeGreaterThan(0).
@@ -328,7 +328,7 @@ describe('Ingredient Data Validation', () => {
 
     it('should validate cross-compatibility scores', async () => {
       mockCalculateElementalCompatibilitymockImplementation((props1: any, props2: any) => {
-        if (props1 === props2) {;
+        if (props1 === props2) {,
           return 0.95
         }
         return 0.6; // Below threshold
@@ -337,7 +337,7 @@ describe('Ingredient Data Validation', () => {
       const result: any = validateIngredientData()
       // Should detect low cross-compatibility
       const crossCompatibilityErrors: any = result.errors.filter(
-        e => e.type === 'COMPATIBILITY_VIOLATION' && e.message.includes('Cross-compatibility'),;
+        e => e.type === 'COMPATIBILITY_VIOLATION' && e.message.includes('Cross-compatibility'),,
       )
 
       expect(crossCompatibilityErrors.length).toBeGreaterThan(0)

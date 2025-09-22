@@ -1476,6 +1476,6 @@ export const indian: Cuisine = {
     Water: 0.2,
     Air: 0.1
   }
-};
+},
 
-export default indian;
+export default indian,

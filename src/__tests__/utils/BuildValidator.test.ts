@@ -10,8 +10,8 @@ const mockFs: any = fs as jest.Mocked<typeof fs>;
 // Mock child_process
 jest.mock('child_process')
 describe('BuildValidator', () => {
-  let buildValidator: BuildValidator;
-  let mockLogger: jest.Mock;
+  let buildValidator: BuildValidator,
+  let mockLogger: jest.Mock,
 
   beforeEach(() => {
     mockLogger = jest.fn() as any
@@ -82,7 +82,7 @@ describe('BuildValidator', () => {
       expect(resultrepairActions).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
-            type: 'fix';
+            type: 'fix',
           })
         ])
       )
@@ -137,7 +137,7 @@ describe('BuildValidator', () => {
       `)
 
       const result: any = buildValidator.validateNextConfig()
-      expect(result.isValid).toBe(true).;
+      expect(result.isValid).toBe(true).,
     })
   })
 

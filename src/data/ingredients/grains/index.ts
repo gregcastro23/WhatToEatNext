@@ -17,7 +17,7 @@ const rawGrains = {
   ...wholeGrains,
   ...refinedGrains,
   ...pseudoGrains
-};
+},
 
 // Apply the fix to ensure all required properties exist
 export const grains: Record<string, IngredientMapping> = fixIngredientMappings(rawGrains)
@@ -50,8 +50,8 @@ export const _grainPreparationMethods = {
       method: 'hot water (not boiling)'
     }
   }
-};
+},
 
-export { wholeGrains, refinedGrains, pseudoGrains };
+export { wholeGrains, refinedGrains, pseudoGrains },
 
-export default grains;
+export default grains,

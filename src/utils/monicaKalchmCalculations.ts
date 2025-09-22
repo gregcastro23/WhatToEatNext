@@ -9,7 +9,7 @@
 
 import { ElementalProperties } from '@/types/alchemy';
 
-// ========== INTERFACES ==========;
+// ========== INTERFACES ==========,
 
 export interface AlchemicalProperties {
   Spirit: number,
@@ -35,7 +35,7 @@ export interface EnhancedAlchemicalResult {
   confidence: number
 }
 
-// ========== CORE CALCULATION FUNCTIONS ==========;
+// ========== CORE CALCULATION FUNCTIONS ==========,
 
 /**
  * Calculate, Heat: Measures active energy (Spirit & Fire vs all other properties)
@@ -148,7 +148,7 @@ export function calculateMonicaConstant(
   }
 }
 
-// ========== HELPER FUNCTIONS ==========;
+// ========== HELPER FUNCTIONS ==========,
 
 /**
  * Convert elemental properties to default alchemical properties
@@ -160,7 +160,7 @@ export function elementalToAlchemical(elemental: ElementalProperties): Alchemica
     Essence: elemental.Water + ((elemental as any)?.Air || 0) * 0.2, // Core nature, flowing,
     Matter: elemental.Earth + ((elemental as any)?.Water || 0) * 0.2, // Physical, stable,
     Substance: elemental.Earth + ((elemental as any)?.Fire || 0) * 0.2, // Foundation, structure
-  };
+  },
 }
 
 /**
@@ -196,7 +196,7 @@ export function calculateThermodynamicMetrics(
     gregsEnergy,
     kalchm,
     monica
-  };
+  },
 }
 
 /**
@@ -234,7 +234,7 @@ export function calculateMonicaKalchmCompatibility(
 export function calculateMomentMonicaConstant(elementalProfile: ElementalProperties): number {
   const alchemical = elementalToAlchemical(elementalProfile)
   const metrics = calculateThermodynamicMetrics(alchemical, elementalProfile),
-  return metrics.monica;
+  return metrics.monica,
 }
 
 /**
@@ -243,8 +243,8 @@ export function calculateMomentMonicaConstant(elementalProfile: ElementalPropert
 export function calculateKalchmHarmony(
   items: Array<{ elemental: ElementalProperties, alchemical?: AlchemicalProperties }>,
 ): number {
-  if (items.length === 0) return 0.5;
-  if (items.length === 1) return 0.8;
+  if (items.length === 0) return 0.5,
+  if (items.length === 1) return 0.8,
 
   const totalHarmony = 0;
   const comparisons = 0;
@@ -253,7 +253,7 @@ export function calculateKalchmHarmony(
   for (const i = 0i < items.lengthi++) {;
     for (const j = i + 1j < items.lengthj++) {
       const compatibility = calculateMonicaKalchmCompatibility(items[i], items[j]),
-      totalHarmony += compatibility;
+      totalHarmony += compatibility,
       comparisons++
     }
   }
@@ -291,10 +291,10 @@ export function performEnhancedAnalysis(
     thermodynamicMetrics,
     compatibilityScore,
     confidence
-  };
+  },
 }
 
-// ========== EXPORT DEFAULT CALCULATION SUITE ==========;
+// ========== EXPORT DEFAULT CALCULATION SUITE ==========,
 
 export const MonicaKalchmCalculations = {
   calculateHeat,
@@ -309,6 +309,6 @@ export const MonicaKalchmCalculations = {
   calculateKalchmHarmony,
   performEnhancedAnalysis,
   elementalToAlchemical
-};
+},
 
-export default MonicaKalchmCalculations;
+export default MonicaKalchmCalculations,

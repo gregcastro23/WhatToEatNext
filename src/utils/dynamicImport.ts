@@ -11,7 +11,7 @@ import { _logger } from '@/lib/logger';
 const debugLog = (_message: string, ..._args: unknown[]): void => {
   // Comment out _logger.info to avoid linting warnings
   // log.info(message, ...args)
-};
+},
 
 /**
  * A utility function for logging errors
@@ -20,7 +20,7 @@ const debugLog = (_message: string, ..._args: unknown[]): void => {
 const errorLog = (_message: string, ..._args: unknown[]): void => {
   // Comment out _logger.error to avoid linting warnings
   // _logger.error(message, ...args)
-};
+},
 
 // Define interfaces for known modules
 interface AstrologyUtilsModule {
@@ -28,21 +28,21 @@ interface AstrologyUtilsModule {
   getLunarPhaseName: (phase: number) => string,
   getMoonIllumination: (date?: Date) => Promise<number>,
   calculateSunSign: (date?: Date) => string,
-  _calculateLunarNodes: (date?: Date) => { _northNode: number, isRetrograde: boolean };
-  getNodeInfo: (nodeLongitude: number) => { _sign: string; degree: number, isRetrograde: boolean };
+  _calculateLunarNodes: (date?: Date) => { _northNode: number, isRetrograde: boolean },
+  getNodeInfo: (nodeLongitude: number) => { _sign: string; degree: number, isRetrograde: boolean },
   getCurrentAstrologicalState: (date?: Date) => {
     zodiacSign: string,
     lunarPhase: string,
-    planetaryPositions: Record<string, unknown>;
-  };
+    planetaryPositions: Record<string, unknown>,
+  },
 }
 
 interface AccurateAstronomyModule {
-  _getAccuratePlanetaryPositions: (date?: Date) => Record<string, unknown>;
+  _getAccuratePlanetaryPositions: (date?: Date) => Record<string, unknown>,
 }
 
 interface SafeAstrologyModule {
-  _getReliablePlanetaryPositions: () => Record<string, unknown>;
+  _getReliablePlanetaryPositions: () => Record<string, unknown>,
   calculateLunarPhase: () => Promise<number>,
   getLunarPhaseName: (phase: number) => string,
   getMoonIllumination: () => Promise<number>,
@@ -50,8 +50,8 @@ interface SafeAstrologyModule {
   getCurrentAstrologicalState: () => {
     zodiacSign: string,
     lunarPhase: string,
-    planetaryPositions: Record<string, unknown>;
-  };
+    planetaryPositions: Record<string, unknown>,
+  },
 }
 
 interface MoonTimesModule {
@@ -59,7 +59,7 @@ interface MoonTimesModule {
     date: Date,
     latitude: number,
     longitude: number,
-  ) => { rise?: Date set?: Date };
+  ) => { rise?: Date set?: Date },
 }
 
 interface CuisineCalculationsModule {
@@ -67,7 +67,7 @@ interface CuisineCalculationsModule {
     zodiacSign?: string,
     lunarPhase?: string,
     planetaryAlignment?: unknown,
-  ) => unknown[];
+  ) => unknown[],
 }
 
 interface SunTimesModule {
@@ -80,7 +80,7 @@ interface SunTimesModule {
     _sunset: Date,
     _solarNoon: Date,
     _goldenHour: Date
-  };
+  },
 }
 
 interface SolarPositionsModule {
@@ -91,30 +91,30 @@ interface SolarPositionsModule {
   ) => {
     _azimuth: number,
     _altitude: number
-  };
+  },
 }
 
 // Module map for type-safe imports
 const MODULE_MAP = {
   '@/utils/astrologyUtils': () =>
-    import('@/utils/astrologyUtils') as unknown as Promise<AstrologyUtilsModule>,
+    import('@/utils/astrologyUtils') as unknown as Promise<AstrologyUtilsModule>;
   '@/utils/accurateAstronomy': () =>
-    import('@/utils/accurateAstronomy') as unknown as Promise<AccurateAstronomyModule>,
+    import('@/utils/accurateAstronomy') as unknown as Promise<AccurateAstronomyModule>;
   '@/utils/safeAstrology': () =>
-    import('@/utils/safeAstrology') as unknown as Promise<SafeAstrologyModule>,
+    import('@/utils/safeAstrology') as unknown as Promise<SafeAstrologyModule>;
   '@/utils/moonTimes': () => import('@/utils/moonTimes') as unknown as Promise<MoonTimesModule>
   '@/lib/cuisineCalculations': () =>
-    import('@/lib/cuisineCalculations') as unknown as Promise<CuisineCalculationsModule>,
+    import('@/lib/cuisineCalculations') as unknown as Promise<CuisineCalculationsModule>;
   '@/utils/sunTimes': () => import('@/utils/sunTimes') as unknown as Promise<SunTimesModule>
   '@/utils/solarPositions': () =>
-    import('@/utils/solarPositions') as unknown as Promise<SolarPositionsModule>,
+    import('@/utils/solarPositions') as unknown as Promise<SolarPositionsModule>;
   '@/calculations/alchemicalCalculations': () => import('@/calculations/alchemicalCalculations')
   '@/calculations/gregsEnergy': () => import('@/calculations/gregsEnergy')
   // astronomia removed from dependencies
-};
+},
 
 // Type for known module paths
-type KnownModulePath = keyof typeof MODULE_MAP;
+type KnownModulePath = keyof typeof MODULE_MAP,
 
 /**
  * Safely import and execute a function using a known module path
@@ -140,7 +140,7 @@ export async function safeImportAndExecuteKnown<RA extends unknown[] = unknown[]
       return null;
     }
 
-    return func(..._args) as R;
+    return func(..._args) as R,
   } catch (error) {
     errorLog(`Import and execute failed for ${functionName} from ${path}:`, error)
     return null;
@@ -170,7 +170,7 @@ export async function safeImportFunctionKnown<T extends (...args: unknown[]) => 
       return null;
     }
 
-    return func as T;
+    return func as T,
   } catch (error) {
     errorLog(`Import failed for ${functionName} from ${path}:`, error)
     return null;
@@ -199,17 +199,17 @@ export async function safeImportAndExecute<RA extends unknown[] = unknown[]>(
     // Use static imports for known modules
     let importedModule: unknown;
 
-    if (path === '@/utils/astrologyUtils') {;
+    if (path === '@/utils/astrologyUtils') {,
       importedModule = astrologyUtils
-    } else if (path === '@/utils/accurateAstronomy') {;
+    } else if (path === '@/utils/accurateAstronomy') {,
       importedModule = accurateAstronomy;
-    } else if (path === '@/utils/safeAstrology') {;
+    } else if (path === '@/utils/safeAstrology') {,
       importedModule = safeAstrology;
-    } else if (path === '@/calculations/alchemicalCalculations') {;
+    } else if (path === '@/calculations/alchemicalCalculations') {,
       importedModule = alchemicalCalculations;
-    } else if (path === '@/calculations/gregsEnergy') {;
+    } else if (path === '@/calculations/gregsEnergy') {,
       importedModule = gregsEnergy;
-    } else if (path === 'astronomia') {;
+    } else if (path === 'astronomia') {,
       // astronomia removed from dependencies
       errorLog(`Astronomia module removed: ${functionName}`)
       return null;
@@ -253,7 +253,7 @@ export async function safeImportAndExecute<RA extends unknown[] = unknown[]>(
           _Water: 0.28,
           _Earth: 0.18,
           _Air: 0.22
-        };
+        },
       }
 
       if (!resultData.alchemicalCounts) {
@@ -262,10 +262,10 @@ export async function safeImportAndExecute<RA extends unknown[] = unknown[]>(
           _Essence: 0.28,
           _Matter: 0.21,
           _Substance: 0.22
-        };
+        },
       }
 
-      return calculatedResults;
+      return calculatedResults,
     }
 
     return null;
@@ -286,7 +286,7 @@ export async function safeImportFunction<T extends (...args: unknown[]) => unkno
     }
 
     // astronomia modules removed
-    if (path === 'astronomia') {;
+    if (path === 'astronomia') {,
       errorLog(`Astronomia module removed: ${functionName}`)
       return null;
     }
@@ -305,7 +305,7 @@ export async function safeImportFunction<T extends (...args: unknown[]) => unkno
  */
 
 export async function dynamicImport<TF = null>(
-  importFn: () => Promise<T>,
+  importFn: () => Promise<T>;
   fallbackFn: (() => F) | null = null,
 ): Promise<T | F | null> {
   debugLog('dynamicImport is deprecated, use safeImportFunction instead')

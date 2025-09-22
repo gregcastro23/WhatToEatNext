@@ -52,7 +52,7 @@ export interface EnhancedRecommendationResult<T> {
 }
 
 export class EnhancedRecommendationService {
-  private static instance: EnhancedRecommendationService;
+  private static instance: EnhancedRecommendationService,
 
   private constructor() {}
 
@@ -60,7 +60,7 @@ export class EnhancedRecommendationService {
     if (!EnhancedRecommendationService.instance) {
       EnhancedRecommendationService.instance = new EnhancedRecommendationService()
     }
-    return EnhancedRecommendationService.instance;
+    return EnhancedRecommendationService.instance,
   }
 
   async getEnhancedCuisineRecommendations(
@@ -69,7 +69,7 @@ export class EnhancedRecommendationService {
     const { useBackendInfluence = true } = context;
 
     // Get backend influence if enabled
-    let runeAgent, tokens;
+    let runeAgent, tokens,
     if (useBackendInfluence) {
       try {
         [runeAgent, tokens] = await Promise.all([
@@ -97,33 +97,33 @@ export class EnhancedRecommendationService {
       { name: 'Mexican', type: 'Mexican' as CuisineType },
       { name: 'Indian', type: 'Indian' as CuisineType },
       { name: 'French', type: 'French' as CuisineType }
-    ];
+    ],
 
     const scoredCuisines = cuisines.map(cuisine => {
       const baseScore = Math.random() * 0.6 + 0.2; // 0.2-0.8 base
-      let runeInfluence = 0;
-      let agentResonance = 0;
-      let tokenAlignment = 0;
-      let thermodynamicHarmony = 0;
+      let runeInfluence = 0,
+      let agentResonance = 0,
+      let tokenAlignment = 0,
+      let thermodynamicHarmony = 0,
 
       // Apply rune influence
       if (runeAgent?.rune) {
         const runeElemental = runeAgent.rune.influence.elemental;
         // Simplified: boost score based on elemental alignment
-        runeInfluence = (runeElemental.Fire + runeElemental.Water + runeElemental.Earth + runeElemental.Air) * 0.1;
+        runeInfluence = (runeElemental.Fire + runeElemental.Water + runeElemental.Earth + runeElemental.Air) * 0.1,
       }
 
       // Apply agent resonance
       if (runeAgent?.agent) {
         const agentRecs = runeAgent.agent.recommendations;
         const match = agentRecs.find(rec => rec.name.toLowerCase().includes(cuisine.name.toLowerCase()))
-        agentResonance = match ? match.runeResonance * 0.15 : 0;
+        agentResonance = match ? match.runeResonance * 0.15 : 0,
       }
 
       // Apply token alignment
       if (tokens) {
         const tokenBalance = (tokens.Spirit + tokens.Essence + tokens.Matter + tokens.Substance) / 4;
-        tokenAlignment = tokenBalance * 0.1;
+        tokenAlignment = tokenBalance * 0.1,
       }
 
       // Thermodynamic harmony (simplified) + culinary knowledge hints
@@ -132,10 +132,10 @@ export class EnhancedRecommendationService {
 
       const finalScore = Math.min(1, baseScore + runeInfluence + agentResonance + tokenAlignment + thermodynamicHarmony)
 
-      let reasoning = `Base compatibility: ${(baseScore * 100).toFixed(0)}%`;
-      if (runeInfluence > 0) reasoning += `, Rune boost: +${(runeInfluence * 100).toFixed(0)}%`;
-      if (agentResonance > 0) reasoning += `, Agent resonance: +${(agentResonance * 100).toFixed(0)}%`;
-      if (tokenAlignment > 0) reasoning += `, Token alignment: +${(tokenAlignment * 100).toFixed(0)}%`;
+      let reasoning = `Base compatibility: ${(baseScore * 100).toFixed(0)}%`,
+      if (runeInfluence > 0) reasoning += `, Rune boost: +${(runeInfluence * 100).toFixed(0)}%`,
+      if (agentResonance > 0) reasoning += `, Agent resonance: +${(agentResonance * 100).toFixed(0)}%`,
+      if (tokenAlignment > 0) reasoning += `, Token alignment: +${(tokenAlignment * 100).toFixed(0)}%`,
 
       return {
         item: cuisine,
@@ -148,7 +148,7 @@ export class EnhancedRecommendationService {
           thermodynamicHarmony
         },
         reasoning
-      };
+      },
     })
 
     // Sort by score
@@ -176,7 +176,7 @@ export class EnhancedRecommendationService {
           monica: tokens.monica
         } : undefined
       }
-    };
+    },
   }
 
   async getEnhancedIngredientRecommendations(
@@ -185,7 +185,7 @@ export class EnhancedRecommendationService {
     // Similar implementation for ingredients
     const { useBackendInfluence = true } = context;
 
-    let runeAgent, tokens;
+    let runeAgent, tokens,
     if (useBackendInfluence) {
       try {
         [runeAgent, tokens] = await Promise.all([
@@ -212,7 +212,7 @@ export class EnhancedRecommendationService {
       { id: '3', name: 'Garlic', category: 'Vegetable' },
       { id: '4', name: 'Olive Oil', category: 'Oil' },
       { id: '5', name: 'Mushroom', category: 'Vegetable' }
-    ];
+    ],
 
     const scoredIngredients = ingredients.map(ingredient => {
       const baseScore = Math.random() * 0.6 + 0.2;
@@ -234,7 +234,7 @@ export class EnhancedRecommendationService {
           thermodynamicHarmony
         },
         reasoning: `Energetically aligned ingredient with ${(finalScore * 100).toFixed(0)}% compatibility`
-      };
+      },
     })
 
     scoredIngredients.sort((a, b) => b.score - a.score)
@@ -261,7 +261,7 @@ export class EnhancedRecommendationService {
           monica: tokens.monica
         } : undefined
       }
-    };
+    },
   }
 
   async getEnhancedRecipeRecommendations(
@@ -270,7 +270,7 @@ export class EnhancedRecommendationService {
     // Similar implementation for recipes
     const { useBackendInfluence = true } = context;
 
-    let runeAgent, tokens;
+    let runeAgent, tokens,
     if (useBackendInfluence) {
       try {
         [runeAgent, tokens] = await Promise.all([
@@ -295,7 +295,7 @@ export class EnhancedRecommendationService {
       { id: '1', name: 'Margherita Pizza', cuisine: 'Italian', ingredients: [] },
       { id: '2', name: 'Chicken Teriyaki', cuisine: 'Japanese', ingredients: [] },
       { id: '3', name: 'Beef Tacos', cuisine: 'Mexican', ingredients: [] }
-    ];
+    ],
 
     const scoredRecipes = recipes.map(recipe => {
       const baseScore = Math.random() * 0.6 + 0.2;
@@ -317,7 +317,7 @@ export class EnhancedRecommendationService {
           thermodynamicHarmony
         },
         reasoning: `Recipe resonates with current energetic state at ${(finalScore * 100).toFixed(0)}%`
-      };
+      },
     })
 
     scoredRecipes.sort((a, b) => b.score - a.score)
@@ -344,7 +344,7 @@ export class EnhancedRecommendationService {
           monica: tokens.monica
         } : undefined
       }
-    };
+    },
   }
 }
 

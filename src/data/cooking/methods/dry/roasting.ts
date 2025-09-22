@@ -460,4 +460,4 @@ export const roasting: CookingMethodData = {
         'Continuous rotation creates self-basting effect, proximity to heat source creates unique flavor development.'
     }
   }
-};
+},

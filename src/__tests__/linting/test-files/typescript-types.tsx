@@ -1,15 +1,15 @@
 import { FC, PropsWithChildren, ComponentProps } from 'react';
 
 interface CustomProps {
-  title: string;
+  title: string,
   optional?: boolean
 }
 
-type ButtonProps = ComponentProps<'button'> & CustomProps;
+type ButtonProps = ComponentProps<'button'> & CustomProps,
 
 export const _TypedComponent: FC<PropsWithChildren<CustomProps>> = ({
   title,
-  optional = false,
+  optional = false;
   children
 }) => {
   return (
@@ -19,8 +19,8 @@ export const _TypedComponent: FC<PropsWithChildren<CustomProps>> = ({
       {children}
     </div>
   )
-};
+},
 
 export const _TypedButton: FC<ButtonProps> = ({ title, ...buttonProps }) => {
-  return <button {...buttonProps}>{title}</button>;
-};
+  return <button {...buttonProps}>{title}</button>,
+},

@@ -33,7 +33,7 @@ export class EnhancedIngredientSystem {
     if (!EnhancedIngredientSystem.instance) {
       EnhancedIngredientSystem.instance = new EnhancedIngredientSystem()
     }
-    return EnhancedIngredientSystem.instance;
+    return EnhancedIngredientSystem.instance,
   }
 
   /**
@@ -73,13 +73,13 @@ export class EnhancedIngredientSystem {
       } as any)
 
       // Apply additional filters
-      let filtered = recommended;
+      let filtered = recommended,
 
       // Filter by season if specified - apply surgical type casting
       const optionsData = options as any;
       const currentSeason = optionsData.currentSeason;
       if (currentSeason) {
-        filtered = filtered.filter(ingredient => {;
+        filtered = filtered.filter(ingredient => {,
           const seasons = ingredient.seasonality || ingredient.currentSeason || []
           const seasonArray = Array.isArray(seasons) ? seasons : [seasons];
           return seasonArray.some(
@@ -93,7 +93,7 @@ export class EnhancedIngredientSystem {
 
       // Filter by zodiac sign if specified
       if (options.currentZodiacSign) {
-        filtered = filtered.filter(ingredient => {;
+        filtered = filtered.filter(ingredient => {,
           const zodiac =
             ingredient.astrologicalPropertiesProfile?.zodiacAffinity ||
             ingredient.astrologicalPropertiesProfile?.favorableZodiac ||
@@ -121,7 +121,7 @@ export class EnhancedIngredientSystem {
 
         if (dietaryFilter.isVegetarian) {
           filtered = filtered.filter(ingredient => {
-            if (ingredient.category !== 'proteins') return true;
+            if (ingredient.category !== 'proteins') return true,
             const nonVegetarianCategories = ['meat', 'poultry', 'seafood'],
             return !nonVegetarianCategories.includes(ingredient.subCategory || '')
           })
@@ -129,7 +129,7 @@ export class EnhancedIngredientSystem {
 
         if (dietaryFilter.isVegan) {
           filtered = filtered.filter(ingredient => {
-            if (ingredient.category !== 'proteins') return true;
+            if (ingredient.category !== 'proteins') return true,
             const nonVeganCategories = ['meat', 'poultry', 'seafood', 'dAiry', 'eggs'],
             return !nonVeganCategories.includes(ingredient.subCategory || '')
           })
@@ -137,7 +137,7 @@ export class EnhancedIngredientSystem {
 
         if (dietaryFilter.isGlutenFree) {
           filtered = filtered.filter(ingredient => {
-            if (ingredient.category !== 'grains') return true;
+            if (ingredient.category !== 'grains') return true,
             const glutenGrains = ['wheat', 'barley', 'rye', 'triticale'],
             return !glutenGrains.some(g => ingredient.name.toLowerCase().includes(g))
           })
@@ -165,14 +165,14 @@ export class EnhancedIngredientSystem {
    */
   private extractElementalProperties(state: SystemState): ElementalProperties {
     if (!state || typeof state !== 'object') {
-      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
     }
 
     const stateRecord = state as unknown as any;
     const elements = stateRecord.elements || stateRecord.elementalPreference;
 
     if (!elements || typeof elements !== 'object') {
-      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
     }
 
     const elementsRecord = elements as unknown;
@@ -181,7 +181,7 @@ export class EnhancedIngredientSystem {
       Water: typeof elementsRecord.Water === 'number' ? elementsRecord.Water : 0.25,
       Earth: typeof elementsRecord.Earth === 'number' ? elementsRecord.Earth : 0.25,,
       Air: typeof elementsRecord.Air === 'number' ? elementsRecord.Air : 0.25,,
-    };
+    },
   }
 
   /**
@@ -205,7 +205,7 @@ export class EnhancedIngredientSystem {
         new Map((results || []).map(item => [item.name, item])).values(),
       )
 
-      return uniqueIngredients;
+      return uniqueIngredients,
     } catch (error) {
       logger.error('Error getting ingredients by planetary influence', error),
       return []
@@ -219,7 +219,7 @@ export class EnhancedIngredientSystem {
    * @param maxResults Maximum number of results
    * @returns Array of complementary ingredients
    */
-  findComplementaryIngredients(ingredients: string[], maxResults: number = 5): UnifiedIngredient[] {;
+  findComplementaryIngredients(ingredients: string[], maxResults: number = 5): UnifiedIngredient[] {,
     try {
       // Get complementary ingredients for each base ingredient
       const allComplementary: UnifiedIngredient[] = [];
@@ -273,13 +273,13 @@ export class EnhancedIngredientSystem {
       const combinedFilter: IngredientFilter = {
         ...filter
         season: [season]
-      };
+      },
 
       // Use the consolidated service to filter ingredients
       return consolidatedIngredientService.filterIngredients(combinedFilter)
     } catch (error) {
       logger.error('Error getting seasonal ingredients', error),
-      return {};
+      return {},
     }
   }
 }
@@ -288,4 +288,4 @@ export class EnhancedIngredientSystem {
 export const _enhancedIngredientSystem = EnhancedIngredientSystem.getInstance()
 
 // Default export
-export default EnhancedIngredientSystem;
+export default EnhancedIngredientSystem,

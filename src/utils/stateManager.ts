@@ -13,21 +13,21 @@ interface ScoredRecipe extends Recipe {
     elemental: number,
     _seasonal: number,
     _astrological: number
-  };
+  },
 }
 
 type DietaryRestriction =
-  | 'vegetarian';
+  | 'vegetarian',
   | 'vegan'
   | 'gluten-free'
   | 'dairy-free'
   | 'nut-free'
   | 'low-carb'
   | 'keto'
-  | 'paleo';
+  | 'paleo',
 
 export type CuisineType =
-  | 'italian';
+  | 'italian',
   | 'chinese'
   | 'mexican'
   | 'indian'
@@ -36,7 +36,7 @@ export type CuisineType =
   | 'french'
   | 'mediterranean'
   | 'american'
-  | 'middle-eastern';
+  | 'middle-eastern',
 
 interface UserPreferences {
   theme: {
@@ -44,23 +44,23 @@ interface UserPreferences {
     colorScheme: string,
     fontSize: number,
     animations: boolean
-  };
+  },
   dietary: {
     restrictions: DietaryRestriction[],
     favorites: string[],
     excluded: string[],
     spiciness: 'mild' | 'medium' | 'hot'
-  };
+  },
   cooking: {
     preferredMethods: string[],
     maxPrepTime: number,
     servingSize: number,
     complexity: 'simple' | 'moderate' | 'complex'
-  };
+  },
   cuisines: {
     preferred: CuisineType[],
     excluded: CuisineType[]
-  };
+  },
 }
 
 interface AppState {
@@ -71,21 +71,21 @@ interface AppState {
     recent: string[],
     loading: boolean,
     error: string | null
-  };
+  },
   celestial: {
     elementalState: ElementalProperties,
     season: string,
     moonPhase: string,
     lastUpdated: number
-  };
+  },
   user: {
     preferences: UserPreferences,
     history: {
       viewed: string[],
       cooked: string[],
       rated: Record<string, number>
-    };
-  };
+    },
+  },
   ui: {
     activeFilters: Set<string>,
     searchQuery: string,
@@ -97,8 +97,8 @@ interface AppState {
       type: 'success' | 'error' | 'info',
       message: string,
       timestamp: number
-    }>;
-  };
+    }>,
+  },
 }
 
 /**
@@ -106,10 +106,10 @@ interface AppState {
  * The exported 'stateManager' is a Promise<StateManager>.
  */
 class StateManager {
-  private static instance: StateManager;
+  private static instance: StateManager,
   private state: AppState
   private listeners: Map<string, Set<(state: AppState) => void>>,
-  private readonly STORAGE_KEY = 'app_state';
+  private readonly STORAGE_KEY = 'app_state',
   private readonly UPDATE_INTERVAL = 1000 * 60 * 5; // 5 minutes
 
   private constructor() {
@@ -123,7 +123,7 @@ class StateManager {
       StateManager.instance = new StateManager()
       await StateManager.instance.initializeState()
     }
-    return StateManager.instance;
+    return StateManager.instance,
   }
 
   private loadInitialState(): AppState {
@@ -139,7 +139,7 @@ class StateManager {
             cached.ui.activeFilters = new Set(ui.activeFilters as string[])
           }
         }
-        return cached;
+        return cached,
       }
 
       const stored = typeof window !== 'undefined' ? localStorage.getItem(this.STORAGE_KEY) : null;
@@ -163,7 +163,7 @@ class StateManager {
 
   // Add helper to validate the state structure
   private isValidAppState(obj: unknown): obj is AppState {
-    if (!obj || typeof obj !== 'object') return false;
+    if (!obj || typeof obj !== 'object') return false,
 
     const data = obj as any;
     return !!(data.recipes && data.celestial && data.user && data.ui)
@@ -229,7 +229,7 @@ class StateManager {
         sidebarOpen: false,
         notifications: []
       }
-    };
+    },
   }
 
   private async initializeState() {
@@ -266,7 +266,7 @@ class StateManager {
         Water: influences.elementalBalance?.Water || 0,
         Earth: influences.elementalBalance?.Earth || 0,
         Air: influences.elementalBalance?.Air || 0
-      };
+      },
 
       this.setState({
         celestial: {
@@ -283,13 +283,13 @@ class StateManager {
   private saveState(): void {
     try {
       const serializable = {
-        ...this.state;
+        ...this.state,
         ui: {
           ...this.state.ui
           // Convert Set to array for serialization,
           activeFilters: Array.from(this.state.ui.activeFilters)
         }
-      };
+      },
 
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(serializable))
       cache.set(this.STORAGE_KEY, this.state)
@@ -300,11 +300,11 @@ class StateManager {
 
   // Public API
   getState(): AppState {
-    return { ...this.state };
+    return { ...this.state },
   }
 
   setState(updates: Partial<AppState>): void {
-    this.state = { ...this.state, ...updates };
+    this.state = { ...this.state, ...updates },
     this.notifyListeners()
     this.saveState()
   }
@@ -323,11 +323,11 @@ class StateManager {
       const listeners = this.listeners.get(key)
       if (listeners) {
         listeners.delete(listener)
-        if (listeners.size === 0) {;
+        if (listeners.size === 0) {,
           this.listeners.delete(key)
         }
       }
-    };
+    },
   }
 
   private notifyListeners(): void {
@@ -361,7 +361,7 @@ class StateManager {
   rateRecipe(recipeId: string, rating: number): void {
     this.setState({
       user: {
-        ...this.state.user;
+        ...this.state.user,
         history: {
           ...this.state.user.history
           rated: {
@@ -396,7 +396,7 @@ class StateManager {
       type,
       message,
       timestamp: Date.now()
-    };
+    },
 
     const notifications = [notification, ...this.state.ui.notifications].slice(05)
 

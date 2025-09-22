@@ -383,7 +383,7 @@ export const italian: Cuisine = {
           prepTime: '10 minutes',
           cookTime: '20 minutes',
           culturalNotes:
-            'A cornerstone of Italian cuisine, showcasing the importance of simplicity and quality ingredients',
+            'A cornerstone of Italian cuisine, showcasing the importance of simplicity and quality ingredients';
           pairingSuggestions: ['Chianti', 'green salad', 'crusty bread'],
           dietaryInfo: ['vegetarian', 'vegan'],
           spiceLevel: 'mild',
@@ -1387,6 +1387,6 @@ export const italian: Cuisine = {
     'Jupiter - Brings abundance and generosity to communal Italian dining traditions',
     'Mercury - Governs the communication and conviviality central to Italian food culture'
   ]
-};
+},
 
-export default italian;
+export default italian,

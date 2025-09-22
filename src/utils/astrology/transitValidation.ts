@@ -20,7 +20,7 @@ export interface TransitDate {
  * Transit dates structure for a planet
  */
 export interface PlanetTransitDates {
-  [sign: string]: TransitDate | { [phase: string]: TransitDate };
+  [sign: string]: TransitDate | { [phase: string]: TransitDate },
 }
 
 /**
@@ -35,7 +35,7 @@ export function validateTransitDate(
   try {
     if (!transitDates || !transitDates[sign]) {
       logger.warn(`No transit data found for ${planet} in ${sign}`)
-      return false;
+      return false,
     }
 
     const transit = transitDates[sign];
@@ -50,7 +50,7 @@ export function validateTransitDate(
     // Validate date format
     if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
       logger.error(`Invalid date format in transit data for ${planet} in ${sign}`)
-      return false;
+      return false,
     }
 
     // Check if current date falls within transit period
@@ -62,10 +62,10 @@ export function validateTransitDate(
       )
     }
 
-    return isValid;
+    return isValid,
   } catch (error) {
     logger.error(`Error validating transit date for ${planet}:`, error)
-    return false;
+    return false,
   }
 }
 
@@ -81,7 +81,7 @@ export function getCurrentTransitSign(
     const signs = Object.keys(transitDates).filter(key => key !== 'RetrogradePhases')
     for (const sign of signs) {
       if (validateTransitDate(planet, date, sign, transitDates)) {
-        return sign;
+        return sign,
       }
     }
 
@@ -103,14 +103,14 @@ export function validateRetrogradePhase(
 ): { isRetrograde: boolean phase?: string } {
   try {
     if (!transitDates.RetrogradePhases) {
-      return { isRetrograde: false };
+      return { isRetrograde: false },
     }
 
     const phases = Object.entries(transitDates.RetrogradePhases)
 
     for (const [phaseName, phaseData] of phases) {
       if (!phaseData.Start || !phaseData.End) {
-        continue;
+        continue,
       }
 
       const startDate = new Date(phaseData.Start)
@@ -118,18 +118,18 @@ export function validateRetrogradePhase(
 
       if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
         logger.warn(`Invalid retrograde phase dates for ${planet} phase ${phaseName}`)
-        continue;
+        continue,
       }
 
       if (date >= startDate && date <= endDate) {
-        return { isRetrograde: true, phase: phaseName };
+        return { isRetrograde: true, phase: phaseName },
       }
     }
 
-    return { isRetrograde: false };
+    return { isRetrograde: false },
   } catch (error) {
     logger.error(`Error validating retrograde phase for ${planet}:`, error)
-    return { isRetrograde: false };
+    return { isRetrograde: false },
   }
 }
 
@@ -153,7 +153,7 @@ export function validateAllTransitDates(_transitDates: PlanetTransitDates): {
 
       if (!transit.Start || !transit.End) {
         errors.push(`Missing Start or End date for sign ${sign}`)
-        continue;
+        continue,
       }
 
       const startDate = new Date(transit.Start as string | number | Date)
@@ -174,7 +174,7 @@ export function validateAllTransitDates(_transitDates: PlanetTransitDates): {
 
     // Check for gaps or overlaps between signs
     const sortedTransits = signs;
-      .map(sign => ({;
+      .map(sign => ({,
         sign,
         start: new Date(
           (
@@ -215,7 +215,7 @@ export function validateAllTransitDates(_transitDates: PlanetTransitDates): {
       for (const [phaseName, phaseData] of phases) {
         if (!phaseData.Start || !phaseData.End) {
           warnings.push(`Missing Start or End date for retrograde phase ${phaseName}`)
-          continue;
+          continue,
         }
 
         const startDate = new Date(phaseData.Start)
@@ -243,14 +243,14 @@ export function validateAllTransitDates(_transitDates: PlanetTransitDates): {
       isValid: errors.length === 0,
       errors,
       warnings
-    };
+    },
   } catch (error) {
     errors.push(`Validation error: ${error instanceof Error ? error.message : 'Unknown error'}`)
     return {
       isValid: false,
       errors,
       warnings
-    };
+    },
   }
 }
 
@@ -282,7 +282,7 @@ export async function loadPlanetTransitDates(
       logger.warn(`Transit date warnings for ${planetName}:`, validation.warnings)
     }
 
-    return transitDates;
+    return transitDates,
   } catch (error) {
     logger.error(`Error loading transit dates for ${planetName}:`, error)
     return null;
@@ -312,10 +312,10 @@ export async function validatePlanetaryPosition(
       )
     }
 
-    return isValid;
+    return isValid,
   } catch (error) {
     logger.error(`Error validating planetary position for ${planetName}:`, error)
-    return false;
+    return false,
   }
 }
 
@@ -352,4 +352,4 @@ export const _TRANSIT_CONSTANTS = {
   ],
   _ALWAYS_DIRECT: ['sun', 'moon'],
   _ALWAYS_RETROGRADE: ['northNode', 'southNode']
-} as const;
+} as const,

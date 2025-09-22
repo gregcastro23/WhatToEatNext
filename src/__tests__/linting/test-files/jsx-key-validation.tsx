@@ -1,5 +1,5 @@
 export function ListComponent() {
-  const items = ['a', 'b', 'c'];
+  const items = ['a', 'b', 'c'],
 
   return (
     <ul>

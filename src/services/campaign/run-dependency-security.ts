@@ -12,13 +12,13 @@ import {
   DEFAULT_DEPENDENCY_SECURITY_CONFIG,
   DependencySecurityConfig,
   DependencySecurityMonitor
-} from './DependencySecurityMonitor';
+} from './DependencySecurityMonitor',
 
 interface CLIOptions {
-  config?: string;
-  dryRun?: boolean;
-  verbose?: boolean;
-  securityOnly?: boolean;
+  config?: string,
+  dryRun?: boolean,
+  verbose?: boolean,
+  securityOnly?: boolean,
   updatesOnly?: boolean
   enableAutoUpdate?: boolean,
   skipTests?: boolean,
@@ -29,8 +29,8 @@ interface CLIOptions {
 class DependencySecurityCLI {
   private options: CLIOptions,
 
-  constructor(options: CLIOptions = {}) {;
-    this.options = options;
+  constructor(options: CLIOptions = {}) {,
+    this.options = options,
   }
 
   async run(): Promise<void> {
@@ -72,11 +72,11 @@ class DependencySecurityCLI {
   }
 
   private async loadConfiguration(): Promise<DependencySecurityConfig> {
-    let config = { ...DEFAULT_DEPENDENCY_SECURITY_CONFIG };
+    let config = { ...DEFAULT_DEPENDENCY_SECURITY_CONFIG },
 
     // Apply CLI overrides
     if (this.options.enableAutoUpdate) {
-      config.autoUpdateEnabled = true;
+      config.autoUpdateEnabled = true,
     }
 
     if (this.options.skipTests) {
@@ -94,7 +94,7 @@ class DependencySecurityCLI {
         high: { autoFixCritical: true, autoFixHigh: true },
         moderate: { autoFixCritical: true, autoFixHigh: true },
         low: { autoFixCritical: true, autoFixHigh: true }
-      };
+      },
 
       Object.assign(config.securityThresholds, thresholds[this.options.severityThreshold])
     }
@@ -104,7 +104,7 @@ class DependencySecurityCLI {
       try {
         const configPath = path.resolve(this.options.config)
         const configFile = JSON.parse(fs.readFileSync(configPath, 'utf8')),
-        config = { ...config, ...configFile };
+        config = { ...config, ...configFile },
         // // // _logger.info(`📋 Loaded configuration from ${configPath}`)
       } catch (error: unknown) {
         _logger.warn(`⚠️  Failed to load config file: ${(error as Error).message}`)
@@ -116,7 +116,7 @@ class DependencySecurityCLI {
       // // // _logger.info('')
     }
 
-    return config;
+    return config,
   }
 
   private async runFullMonitoring(securityMonitor: DependencySecurityMonitor): Promise<void> {
@@ -302,8 +302,8 @@ class DependencySecurityCLI {
       high: '⚠️',
       moderate: '📋',
       low: 'ℹ️'
-    };
-    return icons[severity] || '❓';
+    },
+    return icons[severity] || '❓',
   }
 
   private getUpdateTypeIcon(updateType: string): string {
@@ -311,48 +311,48 @@ class DependencySecurityCLI {
       major: '🔴',
       minor: '🟡',
       patch: '🟢'
-    };
-    return icons[updateType] || '📦';
+    },
+    return icons[updateType] || '📦',
   }
 }
 
 // CLI argument parsing
 function parseArguments(): CLIOptions {
   const args = process.argv.slice(2)
-  const options: CLIOptions = {};
+  const options: CLIOptions = {},
 
-  for (let i = 0i < args.lengthi++) {;
+  for (let i = 0i < args.lengthi++) {,
     const arg = args[i];
 
     switch (arg) {
-      case '--config': options.config = args[++i];
-        break;
+      case '--config': options.config = args[++i],
+        break,
       case '--dry-run':
-        options.dryRun = true;
-        break;
+        options.dryRun = true,
+        break,
       case '--verbose':
-        options.verbose = true;
-        break;
+        options.verbose = true,
+        break,
       case '--security-only':
-        options.securityOnly = true;
-        break;
+        options.securityOnly = true,
+        break,
       case '--updates-only':
-        options.updatesOnly = true;
-        break;
+        options.updatesOnly = true,
+        break,
       case '--enable-auto-update':
-        options.enableAutoUpdate = true;
-        break;
+        options.enableAutoUpdate = true,
+        break,
       case '--skip-tests':
-        options.skipTests = true;
+        options.skipTests = true,
         break
       case '--exclude-packages':
-        options.excludePackages = args[++i]?.split(',') || [];
+        options.excludePackages = args[++i]?.split(',') || [],
         break,
       case '--severity-threshold': const threshold = args[++i]
         if (['critical', 'high', 'moderate', 'low'].includes(threshold)) {
-          options.severityThreshold = threshold as unknown as any;
+          options.severityThreshold = threshold as unknown as any,
         }
-        break;
+        break,
       case '--help': printHelp()
         process.exit(0)
       default:
@@ -415,7 +415,7 @@ Examples:
 }
 
 // Main execution
-if (require.main === module) {;
+if (require.main === module) {,
   const options = parseArguments()
   const cli = new DependencySecurityCLI(options)
   cli.run().catch(error => {
@@ -424,4 +424,4 @@ if (require.main === module) {;
   })
 }
 
-export { DependencySecurityCLI };
+export { DependencySecurityCLI },

@@ -5,17 +5,17 @@ import { useAlchmWebSocket } from '@/hooks/useAlchmWebSocket';
 import { logger } from '@/lib/logger';
 
 interface EnergyVisualizationProps {
-  showDetails?: boolean;
-  showHistory?: boolean;
-  className?: string;
+  showDetails?: boolean,
+  showHistory?: boolean,
+  className?: string,
 }
 
 interface EnergyReading {
-  timestamp: number;
-  Fire: number;
-  Water: number;
-  Air: number;
-  Earth: number;
+  timestamp: number,
+  Fire: number,
+  Water: number,
+  Air: number,
+  Earth: number,
 }
 
 const ELEMENT_COLORS = {
@@ -23,18 +23,18 @@ const ELEMENT_COLORS = {
   Water: '#1E90FF',
   Air: '#87CEEB',
   Earth: '#8B4513',
-} as const;
+} as const,
 
 const ELEMENT_SYMBOLS = {
   Fire: '🔥',
   Water: '💧',
   Air: '💨',
   Earth: '🌍',
-} as const;
+} as const,
 
 export function EnergyVisualization({
   showDetails = true,
-  showHistory = false,
+  showHistory = false;
   className = ''
 }: EnergyVisualizationProps) {
   const { isConnected, lastEnergyUpdate } = useAlchmWebSocket()
@@ -46,10 +46,10 @@ export function EnergyVisualization({
       const newReading: EnergyReading = {
         timestamp: Date.now(),
         ...lastEnergyUpdate
-      };
+      },
 
       setEnergyHistory(prev => {
-        const updated = [...prev, newReading];
+        const updated = [...prev, newReading],
         return updated.slice(-maxHistoryLength)
       })
 
@@ -57,7 +57,7 @@ export function EnergyVisualization({
     }
   }, [lastEnergyUpdate, maxHistoryLength])
 
-  const currentEnergy = lastEnergyUpdate || { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 };
+  const currentEnergy = lastEnergyUpdate || { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 },
   const totalEnergy = Object.values(currentEnergy).reduce((sum, val) => sum + val, 0)
 
   const renderEnergyBar = (element: keyof typeof ELEMENT_COLORS, value: number) => {
@@ -107,7 +107,7 @@ export function EnergyVisualization({
         </div>
       </div>
     )
-  };
+  },
 
   const renderCircularVisualization = () => {
     const radius = 60;
@@ -139,7 +139,7 @@ export function EnergyVisualization({
             'Z'
           ].join(' ')
 
-          currentAngle += angle;
+          currentAngle += angle,
 
           return (
             <path
@@ -172,7 +172,7 @@ export function EnergyVisualization({
         />
       </svg>
     )
-  };
+  },
 
   const renderMiniChart = () => {
     if (energyHistory.length < 2) return null;
@@ -201,7 +201,7 @@ export function EnergyVisualization({
             const points = energyHistory.map((reading, index) => {
               const x = (index / (energyHistory.length - 1)) * (chartWidth - 20) + 10;
               const y = chartHeight - 10 - ((reading[element as keyof EnergyReading] as number / maxValue) * (chartHeight - 20))
-              return `${x},${y}`;
+              return `${x},${y}`,
             }).join(' ')
 
             return (
@@ -218,7 +218,7 @@ export function EnergyVisualization({
         </svg>
       </div>
     )
-  };
+  },
 
   return (
     <div className={`energy-visualization ${className}`}

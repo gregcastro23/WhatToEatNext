@@ -20,7 +20,7 @@ const streamlinedPositions: { [key: string]: PlanetaryPosition } = {
   _Uranus: { sign: 'taurus', degree: 23.4, element: 'Earth' },
   _Neptune: { sign: 'pisces', degree: 29.6, element: 'Water' },
   _Pluto: { sign: 'aquarius', degree: 2.75, element: 'Air' }
-};
+},
 
 async function testStreamlinedSystem() {
   log.info('=== Streamlined Alchemical Calculation System Test ===\n')
@@ -54,7 +54,7 @@ async function testStreamlinedSystem() {
     log.info('🌟 ELEMENTAL PROPERTIES: ')
     const resultData = result as unknown;
     const elementalState = resultData?.elementalState ||
-      resultData?.kalchm?.elementalProperties || { Fire: 0, Water: 0, Air: 0, Earth: 0 };
+      resultData?.kalchm?.elementalProperties || { Fire: 0, Water: 0, Air: 0, Earth: 0 },
     log.info(`  Fire: ${(elementalState.Fire * 100).toFixed(1)}%`)
     log.info(`  Water: ${(elementalState.Water * 100).toFixed(1)}%`)
     log.info(`  Air: ${(elementalState.Air * 100).toFixed(1)}%`)
@@ -88,7 +88,7 @@ async function testStreamlinedSystem() {
 
     // Test recipe compatibility
     log.info('🥘 RECIPE COMPATIBILITY _TEST: ')
-    const testRecipe = { Fire: 0.3, Water: 0.2, Air: 0.35, Earth: 0.15 };
+    const testRecipe = { Fire: 0.3, Water: 0.2, Air: 0.35, Earth: 0.15 },
 
     const compatibility = await import('./calculations/index').then(mod =>
       mod.calculateRecipeCompatibility(testRecipe, result),

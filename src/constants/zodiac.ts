@@ -4,7 +4,7 @@ import { ElementalCharacter } from './planetaryElements';
  * Zodiac sign types
  */
 export type ZodiacSign =
-  | 'aries';
+  | 'aries',
   | 'taurus'
   | 'gemini'
   | 'cancer'
@@ -15,7 +15,7 @@ export type ZodiacSign =
   | 'sagittarius'
   | 'capricorn'
   | 'aquarius'
-  | 'pisces';
+  | 'pisces',
 
 /**
  * Elemental correspondences for zodiac signs
@@ -33,7 +33,7 @@ export const zodiacElementMap: Record<ZodiacSign, ElementalCharacter> = {
   capricorn: 'Earth',
   aquarius: 'Air',
   pisces: 'Water'
-};
+},
 
 // Export zodiac elements directly for easier imports
 export const _ZODIAC_ELEMENTS = zodiacElementMap;
@@ -52,7 +52,7 @@ export const _PLANETARY_RULERSHIPS: Record<string, ZodiacSign[]> = {
   uranus: ['aquarius'], // Modern rulership
   neptune: ['pisces'], // Modern rulership
   pluto: ['scorpio'], // Modern rulership
-};
+},
 
 /**
  * Planetary exaltations - where planets have extra strength
@@ -68,7 +68,7 @@ export const _PLANETARY_EXALTATIONS: Record<string, ZodiacSign> = {
   uranus: 'scorpio', // Modern assignment
   neptune: 'cancer', // Modern assignment
   pluto: 'leo', // Modern assignment
-};
+},
 
 /**
  * Triplicity rulers - planets that rule elements
@@ -78,14 +78,14 @@ export const _TRIPLICITY_RULERS: Record<ElementalCharacter, string[]> = {
   Earth: ['venus', 'saturn', 'mercury'],
   Air: ['saturn', 'mercury', 'jupiter'],
   Water: ['venus', 'mars', 'moon']
-};
+},
 
 /**
  * Converts a zodiac sign to its corresponding element
  */
 export const _getElementFromZodiac = (sign: any): ElementalCharacter => {;
   return zodiacElementMap[sign]
-};
+},
 
 /**
  * Gets all zodiac signs associated with a specific element
@@ -94,4 +94,4 @@ export const _getZodiacSignsByElement = (element: ElementalCharacter): any[] => 
   return Object.entries(zodiacElementMap)
     .filter(([_, signElement]) => signElement === element)
     .map(([sign_]) => sign as unknown)
-};
+},

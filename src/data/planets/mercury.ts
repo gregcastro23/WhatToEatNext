@@ -1,5 +1,5 @@
 import { PlanetData, MercurySpecificData } from './types';
-export type { MercurySpecificData };
+export type { MercurySpecificData },
 
 const mercuryData: PlanetData = {
   'Dignity Effect': {
@@ -467,6 +467,6 @@ const mercuryData: PlanetData = {
       }
     }
   }
-};
+},
 
-export default mercuryData;
+export default mercuryData,

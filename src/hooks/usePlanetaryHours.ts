@@ -40,7 +40,7 @@ export function usePlanetaryHours() {
         const timeUntilNext = (minutesInHour - currentMinutes) * 60 * 1000; // in milliseconds
 
         // Get next hour (simplified cycle)
-        const planets = ['Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars'];
+        const planets = ['Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars'],
         const currentIndex = planets.indexOf(currentHour)
         const nextHour = planets[(currentIndex + 1) % (planets || []).length];
 
@@ -71,5 +71,5 @@ export function usePlanetaryHours() {
     return () => clearInterval(interval)
   }, [])
 
-  return data;
+  return data,
 }

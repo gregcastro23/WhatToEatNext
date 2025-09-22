@@ -47,15 +47,15 @@ export interface CategorizationAnalysis {
 export interface SeasonalAnalysis {
   currentSeasonCompatibility: number,
   optimalSeasons: string[],
-  seasonalAvailability: Record<string, number>;
-  energeticProperties: Record<string, number>;
+  seasonalAvailability: Record<string, number>,
+  energeticProperties: Record<string, number>,
 }
 
 export interface AstrologicalAnalysis {
-  zodiacInfluences: Record<ZodiacSign, number>;
-  planetaryInfluences: Record<string, number>;
+  zodiacInfluences: Record<ZodiacSign, number>,
+  planetaryInfluences: Record<string, number>,
   elementalProperties: ElementalProperties,
-  lunarPhaseCompatibility: Record<string, number>;
+  lunarPhaseCompatibility: Record<string, number>,
 }
 
 export interface IngredientIntelligenceResult {
@@ -106,22 +106,22 @@ export interface ValidationResults {
     score: number,
     issues: string[],
     warnings: string[]
-  };
+  },
   astrologicalConsistency: {
     score: number,
     inconsistencies: string[],
     recommendations: string[]
-  };
+  },
   nutritionalAccuracy: {
     score: number,
     inaccuracies: string[],
     suggestions: string[]
-  };
+  },
   seasonalValidity: {
     score: number,
     conflicts: string[],
     adjustments: string[]
-  };
+  },
 }
 
 export interface ValidationIntelligenceResult {
@@ -129,22 +129,22 @@ export interface ValidationIntelligenceResult {
     score: number,
     issues: string[],
     warnings: string[]
-  };
+  },
   astrologicalConsistency: {
     score: number,
     issues: string[],
     warnings: string[]
-  };
+  },
   elementalHarmony: {
     score: number,
     issues: string[],
     warnings: string[]
-  };
+  },
   overallValidation: {
     score: number,
     status: 'excellent' | 'good' | 'fair' | 'poor',
     criticalIssues: string[]
-  };
+  },
   confidence: number,
   timestamp: string
 }
@@ -154,12 +154,12 @@ export interface SafetyIntelligenceResult {
     level: 'low' | 'medium' | 'high' | 'critical',
     score: number,
     factors: string[]
-  };
+  },
   fallbackStrategies: string[],
   errorRecovery: {
     enabled: boolean,
     strategies: string[]
-  };
+  },
   monitoringAlerts: string[],
   confidence: number,
   timestamp: string
@@ -178,27 +178,27 @@ export interface OptimizationRecommendations {
     score: number,
     recommendations: string[],
     estimatedImpact: number
-  };
+  },
   accuracy: {
     score: number,
     recommendations: string[],
     estimatedImpact: number
-  };
+  },
   userExperience: {
     score: number,
     recommendations: string[],
     estimatedImpact: number
-  };
+  },
   systemIntegration: {
     score: number,
     recommendations: string[],
     estimatedImpact: number
-  };
+  },
   overallOptimization: {
     score: number,
     priority: 'low' | 'medium' | 'high' | 'critical',
     estimatedValue: number
-  };
+  },
 }
 
 export interface OptimizationIntelligenceResult {
@@ -254,7 +254,7 @@ export interface EnterpriseIntelligenceInput {
     type: string,
     region: string,
     characteristics: string[]
-  };
+  },
   context: {
     zodiacSign: any,
     lunarPhase: string,
@@ -263,6 +263,6 @@ export interface EnterpriseIntelligenceInput {
       dietaryRestrictions: string[],
       flavorPreferences: string[],
       culturalPreferences: string[]
-    };
-  };
+    },
+  },
 }

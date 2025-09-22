@@ -19,7 +19,7 @@ interface UnusedImport {
   file: string,
   line: number,
   column: number,
-  importName: string,
+  importName: string;
   message: string,
   isTypeImport: boolean,
   isDefaultImport: boolean,
@@ -43,7 +43,7 @@ class SafeUnusedImportRemover {
     'astrological',
     'planetary',
     'elemental'
-  ];
+  ],
 
   private campaignSystemFiles = [
     '/services/campaign/',
@@ -52,17 +52,17 @@ class SafeUnusedImportRemover {
     '/services/PredictiveIntelligenceService',
     'Campaign',
     'Intelligence'
-  ];
+  ],
 
   private preservePatterns = [
     // Type-only imports that might be used in annotations
-    /import\s+type\s+/,
+    /import\s+type\s+/;
     // React imports (often used in JSX)
     /from\s+['']react['']/,
     // Next.js imports (often used in complex ways)
     /from\s+['']next\//,
     // Dynamic imports
-    /import\(/,
+    /import\(/;
     // Conditional imports
     /require\(/
   ],
@@ -81,7 +81,7 @@ class SafeUnusedImportRemover {
       safeToRemove: [],
       requiresManualReview: [],
       preserved: []
-    };
+    },
 
     // Categorize each unused import
     for (const unusedImport of unusedImports) {
@@ -94,7 +94,7 @@ class SafeUnusedImportRemover {
       }
     }
 
-    return analysis;
+    return analysis,
   }
 
   /**
@@ -157,7 +157,7 @@ class SafeUnusedImportRemover {
         (line.includes('is defined but never used') || line.includes('is imported but never used'))
       ) {
         const match = line.match(
-          /^(.+):(\d+):(\d+):\s+warning\s+(.+?)\s+@typescript-eslint\/no-unused-vars/;
+          /^(.+):(\d+):(\d+):\s+warning\s+(.+?)\s+@typescript-eslint\/no-unused-vars/,
         )
         if (match) {
           const [, filePath, lineNum, colNum, message] = match;
@@ -170,7 +170,7 @@ class SafeUnusedImportRemover {
             file: filePath,
             line: parseInt(lineNum),
             column: parseInt(colNum),
-            importName,
+            importName;
             message,
             isTypeImport: message.includes('type'),
             isDefaultImport: !message.includes('{'),
@@ -180,7 +180,7 @@ class SafeUnusedImportRemover {
       }
     }
 
-    return unusedImports;
+    return unusedImports,
   }
 
   /**
@@ -227,13 +227,13 @@ class SafeUnusedImportRemover {
       'elemental',
       'astrological',
       'campaign'
-    ];
+    ],
 
     if (preserveNames.some(name => importName.toLowerCase().includes(name.toLowerCase()))) {
       return true
     }
 
-    return false;
+    return false,
   }
 
   /**
@@ -267,7 +267,7 @@ class SafeUnusedImportRemover {
       }
     }
 
-    return false;
+    return false,
   }
 
   /**
@@ -287,7 +287,7 @@ class SafeUnusedImportRemover {
   private displayImportsToRemove(imports: UnusedImport[]): void {
     const groupedByFile = imports.reduce(
       (acc, imp) => {
-        if (!acc[imp.file]) acc[imp.file] = [];
+        if (!acc[imp.file]) acc[imp.file] = [],
         acc[imp.file].push(imp),
         return acc
       },
@@ -310,14 +310,14 @@ class SafeUnusedImportRemover {
     // Group by file for efficient processing
     const groupedByFile = imports.reduce(
       (acc, imp) => {
-        if (!acc[imp.file]) acc[imp.file] = [];
+        if (!acc[imp.file]) acc[imp.file] = [],
         acc[imp.file].push(imp),
         return acc
       },
       {} as Record<string, UnusedImport[]>,
     )
 
-    let totalRemoved = 0;
+    let totalRemoved = 0,
 
     Object.entries(groupedByFile).forEach(([filePath, fileImports]) => {
       try {
@@ -333,7 +333,7 @@ class SafeUnusedImportRemover {
             const line = lines[lineIndex];
 
             // Remove the specific import from the line
-            const updatedLine = this.removeImportFromLine(line, imp.importName),
+            const updatedLine = this.removeImportFromLine(line, imp.importName);
 
             if (updatedLine !== line) {
               if (updatedLine.trim() === '' || updatedLine.match(/^import\s*{\s*}\s*from/)) {
@@ -341,9 +341,9 @@ class SafeUnusedImportRemover {
                 lines.splice(lineIndex, 1)
               } else {
                 // Update the line
-                lines[lineIndex] = updatedLine;
+                lines[lineIndex] = updatedLine,
               }
-              totalRemoved++;
+              totalRemoved++,
             }
           }
         }
@@ -351,7 +351,7 @@ class SafeUnusedImportRemover {
         // Write the updated content back
         fs.writeFileSync(filePath, lines.join('\n'))
         // // // _logger.info(
-          `✅ Updated ${filePath.replace(process.cwd(), '')}: ${fileImports.length} imports removed`,
+          `✅ Updated ${filePath.replace(process.cwd(), '')}: ${fileImports.length} imports removed`;
         )
       } catch (error) {
         _logger.error(`❌ Error processing ${filePath}:`, error)
@@ -391,7 +391,7 @@ class SafeUnusedImportRemover {
       return ''
     }
 
-    return line;
+    return line,
   }
 
   /**
@@ -423,7 +423,7 @@ class SafeUnusedImportRemover {
         encoding: 'utf8'
       })
       // // // _logger.info('✅ Build validation passed')
-      return true;
+      return true,
     } catch (error) {
       _logger.error('❌ Build validation failed')
       return false
@@ -453,4 +453,4 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   }
 }
 
-export default SafeUnusedImportRemover;
+export default SafeUnusedImportRemover,

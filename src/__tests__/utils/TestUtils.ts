@@ -16,7 +16,7 @@ export interface TestExecutionOptions {
 }
 
 export interface TestResult {
-  success: boolean;
+  success: boolean,
   output?: string
   error?: Error,
   executionTime: number,
@@ -26,8 +26,8 @@ export interface TestResult {
 
 export class TestUtils {
   private static readonly DEFAULT_TIMEOUT = 30000; // 30 seconds
-  private static readonly DEFAULT_RETRIES = 2;
-  private static readonly MEMORY_CHECK_INTERVAL = 100, // ms;
+  private static readonly DEFAULT_RETRIES = 2,
+  private static readonly MEMORY_CHECK_INTERVAL = 100, // ms,
 
   /**
    * Execute a command with enhanced error handling and timeout management
@@ -41,12 +41,12 @@ export class TestUtils {
       retries = this.DEFAULT_RETRIES,
       expectedErrors = [],,
       memoryLimit = 4096 * 1024 * 1024, // 4GB in bytes,
-    } = options;
+    } = options,
 
-    let lastError: Error | undefined;
-    let retryCount = 0;
+    let lastError: Error | undefined,
+    let retryCount = 0,
     const startTime = Date.now()
-    let peakMemoryUsage = 0;
+    let peakMemoryUsage = 0,
 
     // Start memory monitoring
     const memoryMonitor = setInterval(() => {;
@@ -59,11 +59,11 @@ export class TestUtils {
     }, this.MEMORY_CHECK_INTERVAL)
 
     try {
-      for (let attempt = 0, attempt <= retries, attempt++) {;
-        retryCount = attempt;
+      for (let attempt = 0, attempt <= retries, attempt++) {,
+        retryCount = attempt,
 
         try {
-          const output = execSync(command, {;
+          const output = execSync(command, {,
             stdio: 'pipe',
             timeout,
             encoding: 'utf8',
@@ -78,7 +78,7 @@ export class TestUtils {
             retryCount
           }
         } catch (error) {
-          lastError = error as Error;
+          lastError = error as Error,
 
           // Check if this is an expected error
           const isExpectedError = expectedErrors.some(expectedError =>
@@ -92,7 +92,7 @@ export class TestUtils {
               executionTime: Date.now() - startTime,
               memoryUsed: peakMemoryUsage,
               retryCount
-            };
+            },
           }
 
           // If not the last attempt, wait before retrying
@@ -160,7 +160,7 @@ export class TestUtils {
     return {
       isValid: issues.length === 0,,
       issues
-    };
+    },
   }
 
   /**
@@ -197,13 +197,13 @@ export class TestUtils {
       maxDuration?: number,
       memoryThreshold?: number,
       cleanupFunction?: () => void
-    } = {};
+    } = {},
   ): Promise<{ success: boolean, metrics: unknown, issues: string[] }> {
     const {
       maxDuration = 60000, // 1 minute,
       memoryThreshold = 2048 * 1024 * 1024, // 2GB,
       cleanupFunction
-    } = options;
+    } = options,
 
     const startTime = Date.now()
     const metrics = {
@@ -213,7 +213,7 @@ export class TestUtils {
       peakMemory: 0,
       averageMemory: 0,
       memoryReadings: [] as number[]
-    };
+    },
     const issues: string[] = [];
 
     // Memory monitoring
@@ -236,7 +236,7 @@ export class TestUtils {
       await testFunction()
 
       metrics.endTime = Date.now()
-      metrics.duration = metrics.endTime - metrics.startTime;
+      metrics.duration = metrics.endTime - metrics.startTime,
       metrics.averageMemory =
         metrics.memoryReadings.reduce((ab) => a + b0) / metrics.memoryReadings.length,
 
@@ -244,14 +244,14 @@ export class TestUtils {
         success: issues.length === 0,,
         metrics,
         issues
-      };
+      },
     } catch (error) {
       issues.push(`Test execution failed: ${error}`)
       return {
         success: false,
         metrics,
         issues
-      };
+      },
     } finally {
       clearInterval(memoryMonitor)
       clearTimeout(durationMonitor)
@@ -276,7 +276,7 @@ export class TestUtils {
   ): Promise<{ isConsistent: boolean, results: unknown[], variance: number }> {
     const results: unknown[] = [];
 
-    for (let _i = 0i < runsi++) {;
+    for (let _i = 0i < runsi++) {,
       try {
         const result = await testFunction()
         results.push(result)
@@ -287,15 +287,15 @@ export class TestUtils {
 
     // Calculate variance for numeric results
     const numericResults = results.filter(r => typeof r === 'number')
-    let variance = 0;
+    let variance = 0,
 
     if (numericResults.length > 1) {
       const mean =
-        numericResults.reduce((a: numberb: unknown) => (a ) + (b as number), 0) /;
-        numericResults.length;
+        numericResults.reduce((a: numberb: unknown) => (a ) + (b as number), 0) /,
+        numericResults.length,
       const squaredDiffs = numericResults.map((x: number) => Math.pow((x ) - mean2))
       variance = Math.sqrt(squaredDiffs.reduce((ab) => a + b0) / squaredDiffs.length),
-      variance = (variance / mean) * 100, // Convert to percentage;
+      variance = (variance / mean) * 100, // Convert to percentage,
     }
 
     return {
@@ -322,7 +322,7 @@ export class TestUtils {
     }
 
     // Clear any global test caches
-    const globalWithCache = global as { __TEST_CACHE__?: { clear(): void } };
+    const globalWithCache = global as { __TEST_CACHE__?: { clear(): void } },
     if (globalWithCache.__TEST_CACHE__) {
       globalWithCache.__TEST_CACHE__.clear()
     }
@@ -353,7 +353,7 @@ export class TestUtils {
           _logger.warn(`Test '${testName}' used ${memoryDiff / 1024 / 1024}MB of memory`)
         }
       }
-    };
+    },
   }
 }
 
@@ -366,7 +366,7 @@ export const _TEST_TIMEOUTS = {
   performance: 30000, // 30 seconds for performance tests,
   memory: 20000, // 20 seconds for memory tests,
   realtime: 10000, // 10 seconds for real-time monitoring tests
-};
+},
 
 /**
  * Memory limits for different test scenarios
@@ -376,4 +376,4 @@ export const _MEMORY_LIMITS = {
   integration: 512 * 1024 * 1024, // 512MB for integration tests,
   performance: 1024 * 1024 * 1024, // 1GB for performance tests,
   stress: 2048 * 1024 * 1024, // 2GB for stress tests
-};
+},

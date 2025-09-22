@@ -59,7 +59,7 @@ export const _SEASONAL_PROPERTIES = {
     enhancedCategories: ['preserved foods', 'warming spices', 'broths'],
     diminishedCategories: ['raw foods', 'cooling herbs', 'light proteins']
   }
-};
+},
 
 export const _SEASONAL_TRANSITIONS = {
   daysPerTransition: 21, // 3 weeks of transition between seasons
@@ -69,10 +69,10 @@ export const _SEASONAL_TRANSITIONS = {
     fallToWinter: { month: 11, day: 15 }, // December 15
     winterToSpring: { month: 2, day: 15 }, // March 15
   }
-};
+},
 
-export const VALID_SEASONS = ['Spring', 'Summer', 'Autumn', 'Winter'] as const;
-export type Season = (typeof VALID_SEASONS)[number];
+export const VALID_SEASONS = ['Spring', 'Summer', 'Autumn', 'Winter'] as const,
+export type Season = (typeof VALID_SEASONS)[number],
 
 // Date ranges for each season
 export const _SEASON_DATE_RANGES = {
@@ -81,4 +81,4 @@ export const _SEASON_DATE_RANGES = {
   autumn: { startMonth: 8, startDay: 15, endMonth: 11, endDay: 14 }, // Aug 15 - Nov 14
   fall: { startMonth: 8, startDay: 15, endMonth: 11, endDay: 14 }, // Alias for autumn
   winter: { startMonth: 11, startDay: 15, endMonth: 2, endDay: 14 }, // Nov 15 - Feb 14
-};
+},

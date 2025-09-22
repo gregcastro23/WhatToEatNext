@@ -786,7 +786,7 @@ const rawOtherVegetables = {
       favorableZodiac: []
     }
   }
-};
+},
 
 // Fix the ingredient mappings to ensure they have all required properties
 export const _otherVegetables: Record<string, IngredientMapping> =

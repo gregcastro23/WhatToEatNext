@@ -30,7 +30,7 @@ export function getTechnicalTips(methodName: string): string[] {
       tips.push(
         'For emulsified pastes like traditional pesto or curry pastes, add oil gradually while continuing to pound',
       )
-      break;
+      break,
 
     case 'slow simmering':
     case 'simmering':
@@ -48,7 +48,7 @@ export function getTechnicalTips(methodName: string): string[] {
       tips.push(
         'For maximum flavor extraction, maintain 3-4 hours of gentle simmering for stocks and broths',
       )
-      break;
+      break,
 
     case 'clay pot cooking':
       tips.push(
@@ -64,7 +64,7 @@ export function getTechnicalTips(methodName: string): string[] {
       tips.push(
         'Season new clay pots by rubbing with garlic and oil, then heating gently before first use',
       )
-      break;
+      break,
 
     case 'charcoal grilling':
     case 'grilling':
@@ -81,7 +81,7 @@ export function getTechnicalTips(methodName: string): string[] {
         'Use the hand test to gauge, temperature: 3 seconds (high), 5 seconds (medium), 7 seconds (low)',
       )
       tips.push('Oil the food not the grill to prevent sticking and reduce flare-ups')
-      break;
+      break,
 
     case 'fermentation':
     case 'fermenting':
@@ -100,7 +100,7 @@ export function getTechnicalTips(methodName: string): string[] {
       tips.push(
         'Use an airlock system for long fermentations to allow gases to escape while preventing oxygen entry',
       )
-      break;
+      break,
 
     case 'steaming':
       tips.push(
@@ -113,7 +113,7 @@ export function getTechnicalTips(methodName: string): string[] {
       tips.push(
         'For delicate items like fish, line the steamer with parchment paper or cabbage leaves to prevent sticking',
       )
-      break;
+      break,
 
     case 'tagine cooking':
     case 'tagine':
@@ -132,7 +132,7 @@ export function getTechnicalTips(methodName: string): string[] {
       tips.push(
         'Allow tagine to rest 15-20 minutes after cooking for flavors to settle and intensify',
       )
-      break;
+      break,
 
     case 'wok cooking':
     case 'stir fry':
@@ -160,7 +160,7 @@ export function getTechnicalTips(methodName: string): string[] {
       tips.push(
         'Incorporate sauces at the final stage, allowing 30 seconds to thicken before serving',
       )
-      break;
+      break,
 
     case 'open fire cooking':
     case 'open-fire cooking':
@@ -177,7 +177,7 @@ export function getTechnicalTips(methodName: string): string[] {
       tips.push('Rotate food frequently for even cooking, especially when using direct heat')
       tips.push('For basting, apply flavored liquids during final stages to prevent burning')
       tips.push('Use hardwoods (oak, maple, hickory) for longer burning coals and minimal smoke')
-      break;
+      break,
 
     case 'sous vide':
     case 'sous_vide':
@@ -200,7 +200,7 @@ export function getTechnicalTips(methodName: string): string[] {
       tips.push(
         'Use an ice bath immediately after cooking if not serving directly to halt the cooking process',
       )
-      break;
+      break,
 
     case 'smoking':
       tips.push(
@@ -222,7 +222,7 @@ export function getTechnicalTips(methodName: string): string[] {
       tips.push(
         'Use the Texas Crutch (wrapping in foil) to overcome the 'stall' in large meat cuts',
       )
-      break;
+      break,
 
     case 'pressure cooking': case 'pressure_cooking':
       tips.push('Brown proteins and sauté aromatics before sealing for deeper flavor development')
@@ -238,7 +238,7 @@ export function getTechnicalTips(methodName: string): string[] {
       tips.push(
         'When converting traditional recipes, reduce liquid by 25-30% as pressure cooking limits evaporation',
       )
-      break;
+      break,
 
     case 'dutch oven cooking':
       tips.push(
@@ -254,7 +254,7 @@ export function getTechnicalTips(methodName: string): string[] {
       tips.push(
         'For camp cooking, place coals on the lid as well as underneath for even heat distribution',
       )
-      break;
+      break,
 
     case 'roasting':
       tips.push(
@@ -278,7 +278,7 @@ export function getTechnicalTips(methodName: string): string[] {
       tips.push(
         'For vegetables, toss in oil and spread in a single layer without crowding to prevent steaming',
       )
-      break;
+      break,
 
     case 'baking':
       tips.push(
@@ -294,7 +294,7 @@ export function getTechnicalTips(methodName: string): string[] {
       tips.push(
         'Always cool baked goods on a wire rack to prevent soggy bottoms from condensation',
       )
-      break;
+      break,
 
     case 'boiling':
       tips.push(
@@ -310,7 +310,7 @@ export function getTechnicalTips(methodName: string): string[] {
         'Blanch green vegetables briefly (30-90 seconds), then shock in ice water to preserve color',
       )
       tips.push('Skim foam from stocks and broths regularly for clearer, cleaner final results')
-      break;
+      break,
 
     case 'frying':
       tips.push(
@@ -324,7 +324,7 @@ export function getTechnicalTips(methodName: string): string[] {
       )
       tips.push('Filter and reuse oil up to 3-4 times, storing away from light and heat')
       tips.push('Use a kitchen thermometer to monitor oil temperature, adjusting heat as needed')
-      break;
+      break,
 
     case 'sauteing': tips.push('Use a pan with good heat conductivity and a flat bottom for even cooking')
       tips.push('Heat the pan before adding oil to prevent sticking and ensure proper sear')
@@ -341,7 +341,7 @@ export function getTechnicalTips(methodName: string): string[] {
       tips.push(
         'When sautéing multiple items, cook them separately then combine to prevent overcrowding',
       )
-      break;
+      break,
 
     case 'poaching':
       tips.push(
@@ -359,7 +359,7 @@ export function getTechnicalTips(methodName: string): string[] {
         'Use a shallow poaching method for flat items like fish fillets to ensure even cooking',
       )
       tips.push('For fruits, create a flavored syrup with complementary spices and aromatics')
-      break;
+      break,
 
     case 'braising':
       tips.push(
@@ -383,7 +383,7 @@ export function getTechnicalTips(methodName: string): string[] {
       tips.push(
         'Layer aromatics beneath the main ingredient to create a natural rack and prevent scorching',
       )
-      break;
+      break,
 
     case 'distilling':
       tips.push(
@@ -403,7 +403,7 @@ export function getTechnicalTips(methodName: string): string[] {
         'When concentrating flavors, use vacuum distillation to lower boiling points and preserve delicate compounds',
       )
       tips.push('Keep accurate records of temperature, time, and cuts for reproducible results')
-      break;
+      break,
 
     case 'emulsification': tips.push('Ensure all ingredients are at the same temperature for stable emulsions')
       tips.push('Add oil or fat in a slow, thin stream while constantly whisking or blending')
@@ -418,7 +418,7 @@ export function getTechnicalTips(methodName: string): string[] {
       tips.push(
         'Optimize ingredient, _ratios: for aioli/mayonnaise, use 1 egg yolk per 3/4 cup oil for stable results',
       )
-      break;
+      break,
 
     case 'gelification': tips.push('Bloom gelatin in cold liquid for 5-10 minutes before dissolving in hot liquid')
       tips.push(
@@ -437,14 +437,14 @@ export function getTechnicalTips(methodName: string): string[] {
       tips.push(
         'For layered preparations, allow each layer to partially set before adding the next',
       )
-      break;
+      break,
 
     case 'curing':
       tips.push(
         'Calculate salt, precisely: use 2-3% salt by weight for short-term cures4-6% for long-term preservation',
       )
       tips.push(
-        'Add 0.25% pink curing salt (sodium nitrite) for items requiring protection from botulism';
+        'Add 0.25% pink curing salt (sodium nitrite) for items requiring protection from botulism',
       )
       tips.push('Ensure even distribution of cure mixture by massaging thoroughly into protein')
       tips.push(
@@ -457,7 +457,7 @@ export function getTechnicalTips(methodName: string): string[] {
         'Allow proper equilibration time after curing before serving (3-7 days for small items)',
       )
       tips.push('For even results, rotate and flip items regularly throughout the curing process')
-      break;
+      break,
 
     case 'infusing': tips.push('Toast spices and herbs briefly before infusing to activate volatile oils')
       tips.push(
@@ -476,7 +476,7 @@ export function getTechnicalTips(methodName: string): string[] {
       tips.push(
         'For fat infusions (oils, butter), cool slightly and strain while still warm but not hot',
       )
-      break;
+      break,
 
     case 'marinating':
       tips.push(
@@ -494,7 +494,7 @@ export function getTechnicalTips(methodName: string): string[] {
       )
       tips.push('Reserve a portion of marinade before adding raw protein for later use as a sauce')
       tips.push('Pat marinated items dry before cooking to ensure proper searing and browning')
-      break;
+      break,
 
     case 'dehydrating': tips.push('Maintain consistent airflow around all items by using proper spacing on trays')
       tips.push(
@@ -513,7 +513,7 @@ export function getTechnicalTips(methodName: string): string[] {
       tips.push(
         'Allow proper conditioning time (12-24 hours) in airtight containers before final storage',
       )
-      break;
+      break,
 
     case 'broiling':
       tips.push(
@@ -533,7 +533,7 @@ export function getTechnicalTips(methodName: string): string[] {
       tips.push(
         'For delicate fish, use a two-temperature, method: start with low broiler setting, finish on high',
       )
-      break;
+      break,
 
     case 'raw':
       tips.push(
@@ -557,7 +557,7 @@ export function getTechnicalTips(methodName: string): string[] {
       tips.push(
         'Create textural contrast by combining different cutting techniques in the same dish',
       )
-      break;
+      break,
 
     case 'spherification':
       tips.push(
@@ -577,7 +577,7 @@ export function getTechnicalTips(methodName: string): string[] {
       tips.push(
         'Rinse completed spheres in clean water to stop the reaction and remove residual sodium alginate',
       )
-      break;
+      break,
 
     case 'cryo_cooking': case 'cryo cooking':
       tips.push('Use liquid nitrogen only in well-ventilated areas to prevent oxygen displacement')
@@ -593,7 +593,7 @@ export function getTechnicalTips(methodName: string): string[] {
         'For freeze-fracturing, submerge item completely until frozen solid before shattering',
       )
       tips.push('Allow frozen items to temper slightly before serving to enhance flavor release')
-      break;
+      break,
 
     default: // Get expert tips from the cooking method data
       try {
@@ -604,7 +604,7 @@ export function getTechnicalTips(methodName: string): string[] {
             methodName.toLowerCase().includes(method.toLowerCase())
         ),
 
-        const methodObj = methodData as { expertTips?: string[] };
+        const methodObj = methodData as { expertTips?: string[] },
         if (methodObj?.expertTips && Array.isArray(methodObj.expertTips)) {
           // Use the method's actual expert tips
           methodObj.expertTips.forEach((tip: string) => tips.push(tip))
@@ -626,7 +626,7 @@ export function getTechnicalTips(methodName: string): string[] {
       }
   }
 
-  return tips;
+  return tips,
 }
 
 /**
@@ -639,33 +639,33 @@ export function getMethodDetails(methodName: string): string {
   switch (methodLower) {
     case 'hand pounding':
     case 'hand_pounding':
-      return 'Hand pounding is an ancient culinary technique utilizing a mortar and pestle to crush, grind, and blend ingredients through direct mechanical force. This method releases aromatic compounds and creates unique textures that modern electric processors cannot replicate. Hand pounding preserves traditional knowledge and produces superior textural and flavor profiles in many global cuisines.';
+      return 'Hand pounding is an ancient culinary technique utilizing a mortar and pestle to crush, grind, and blend ingredients through direct mechanical force. This method releases aromatic compounds and creates unique textures that modern electric processors cannot replicate. Hand pounding preserves traditional knowledge and produces superior textural and flavor profiles in many global cuisines.',
 
     case 'slow simmering':
-      return 'Slow simmering is a gentle cooking method where ingredients are cooked in liquid maintained just below the boiling point. This technique allows for gradual extraction of flavors and transformation of tough proteins into tender morsels. The gentle, sustained heat breaks down connective tissues while preserving structural integrity, resulting in deeply flavored dishes with exceptional tenderness.';
+      return 'Slow simmering is a gentle cooking method where ingredients are cooked in liquid maintained just below the boiling point. This technique allows for gradual extraction of flavors and transformation of tough proteins into tender morsels. The gentle, sustained heat breaks down connective tissues while preserving structural integrity, resulting in deeply flavored dishes with exceptional tenderness.',
 
     case 'clay pot cooking':
-      return 'Clay pot cooking utilizes unglazed or partially glazed earthenware that naturally regulates moisture and temperature. The porous nature of clay allows micro-evaporation that concentrates flavors while keeping ingredients moist. The clay also imparts subtle mineral notes to the food and creates a uniquely even, radiant heating environment that's forgiving and develops deep, complex flavors.';
+      return 'Clay pot cooking utilizes unglazed or partially glazed earthenware that naturally regulates moisture and temperature. The porous nature of clay allows micro-evaporation that concentrates flavors while keeping ingredients moist. The clay also imparts subtle mineral notes to the food and creates a uniquely even, radiant heating environment that's forgiving and develops deep, complex flavors.',
 
     case 'charcoal grilling':
-      return 'Charcoal grilling harnesses the intense, dry heat produced by burning hardwood charcoal to quickly cook ingredients while developing complex smoky flavors and distinctive caramelization patterns. This method creates the characteristic grilled appearance through the Maillard reaction and introduces aromatic compounds from both the charcoal itself and drippings that vaporize on contact with the hot coals.';
+      return 'Charcoal grilling harnesses the intense, dry heat produced by burning hardwood charcoal to quickly cook ingredients while developing complex smoky flavors and distinctive caramelization patterns. This method creates the characteristic grilled appearance through the Maillard reaction and introduces aromatic compounds from both the charcoal itself and drippings that vaporize on contact with the hot coals.',
 
     case 'steaming':
-      return 'Steaming is a gentle, moist-heat cooking method where ingredients are suspended above boiling water and cooked exclusively by hot vapor. This technique preserves nutrients, color, and texture while minimizing the loss of water-soluble vitamins and minerals. Steaming allows foods to cook in their own juices while absorbing aromatic elements that can be added to the steaming liquid.';
+      return 'Steaming is a gentle, moist-heat cooking method where ingredients are suspended above boiling water and cooked exclusively by hot vapor. This technique preserves nutrients, color, and texture while minimizing the loss of water-soluble vitamins and minerals. Steaming allows foods to cook in their own juices while absorbing aromatic elements that can be added to the steaming liquid.',
 
     case 'tagine cooking':
     case 'tagine':
-      return 'Tagine cooking employs a distinctive conical clay vessel designed to create a self-basting environment. The cone-shaped lid captures rising steam, condenses it, and returns moisture to ingredients, allowing for slow, gentle cooking with minimal added liquid. This Moroccan technique excels at developing intense, harmonized flavors while preserving the distinct character of individual ingredients.';
+      return 'Tagine cooking employs a distinctive conical clay vessel designed to create a self-basting environment. The cone-shaped lid captures rising steam, condenses it, and returns moisture to ingredients, allowing for slow, gentle cooking with minimal added liquid. This Moroccan technique excels at developing intense, harmonized flavors while preserving the distinct character of individual ingredients.',
 
     case 'wok cooking':
     case 'stir fry':
     case 'stir-fry':
-      return 'Wok cooking utilizes a rounded, high-sided pan capable of achieving extremely high temperatures to quickly cook ingredients while preserving texture and nutritional value. The technique relies on the wok's unique thermal properties—intense heat at the bottom that diminishes up the sides—to allow simultaneous cooking at different temperatures. The high heat and constant motion produce 'wok hei', a distinctive smoky flavor prized in Asian cuisines.';
+      return 'Wok cooking utilizes a rounded, high-sided pan capable of achieving extremely high temperatures to quickly cook ingredients while preserving texture and nutritional value. The technique relies on the wok's unique thermal properties—intense heat at the bottom that diminishes up the sides—to allow simultaneous cooking at different temperatures. The high heat and constant motion produce 'wok hei', a distinctive smoky flavor prized in Asian cuisines.',
 
     case 'open fire cooking':
     case 'open-fire cooking':
     case 'fire cooking':
-      return 'Open fire cooking connects with our most primal cooking techniques, utilizing direct flame, radiant heat, and smoke to transform ingredients. This versatile method adapts to various cooking styles from direct searing to low-and-slow roasting. The unpredictable nature of fire requires constant attention and adjustment, rewarding skill with uniquely complex flavors impossible to replicate with modern appliances.';
+      return 'Open fire cooking connects with our most primal cooking techniques, utilizing direct flame, radiant heat, and smoke to transform ingredients. This versatile method adapts to various cooking styles from direct searing to low-and-slow roasting. The unpredictable nature of fire requires constant attention and adjustment, rewarding skill with uniquely complex flavors impossible to replicate with modern appliances.',
 
     default: try {
         // Get cooking method data from imported methods
@@ -676,14 +676,14 @@ export function getMethodDetails(methodName: string): string {
             methodName.toLowerCase().includes(method.toLowerCase())
         ),
 
-        const methodObj = methodData as { expertTips?: string[], category?: string };
+        const methodObj = methodData as { expertTips?: string[], category?: string },
         if (methodObj?.description) {
-          return methodObj.description;
+          return methodObj.description,
         } else {
-          return `${methodName} is a cooking technique that transforms ingredients through specific application of heat, pressure, or chemical processes. It affects texture, flavor, and nutritional properties in unique ways.`;
+          return `${methodName} is a cooking technique that transforms ingredients through specific application of heat, pressure, or chemical processes. It affects texture, flavor, and nutritional properties in unique ways.`,
         }
       } catch (error) {
-        return `${methodName} is a cooking technique that transforms ingredients through specific application of heat, pressure, or chemical processes. It affects texture, flavor, and nutritional properties in unique ways.`;
+        return `${methodName} is a cooking technique that transforms ingredients through specific application of heat, pressure, or chemical processes. It affects texture, flavor, and nutritional properties in unique ways.`,
       }
   }
 }
@@ -707,7 +707,7 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Nuts and seeds (pine nuts, peanuts, sesame)')
       ingredients.push('Chilies and aromatics')
       ingredients.push('Starchy root vegetables (for fufu and similar dishes)')
-      break;
+      break,
 
     case 'slow simmering':
     case 'simmering':
@@ -717,7 +717,7 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Dried legumes (beans, lentils, split peas)')
       ingredients.push('Hearty grains (barley, farro, wheat berries)')
       ingredients.push('Aromatics (bay leaves, thyme, peppercorns)')
-      break;
+      break,
 
     case 'clay pot cooking': ingredients.push('Bone-in chicken pieces')
       ingredients.push('Firm fish and seafood')
@@ -726,7 +726,7 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Root vegetables')
       ingredients.push('Dried mushrooms')
       ingredients.push('Preserved ingredients (salted fish, preserved meats)')
-      break;
+      break,
 
     case 'charcoal grilling':
     case 'grilling':
@@ -737,7 +737,7 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Fish (firm varieties like swordfish, tuna, salmon)')
       ingredients.push('Shellfish (shrimp, scallops on skewers)')
       ingredients.push('Fruit for dessert (peaches, pineapple, plums)')
-      break;
+      break,
 
     case 'fermentation':
     case 'fermenting':
@@ -748,7 +748,7 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Soybeans (for miso, tempeh)')
       ingredients.push('Fruits with sufficient sugar content')
       ingredients.push('Grains (for sourdough, beer)')
-      break;
+      break,
 
     case 'steaming': ingredients.push('Delicate fish fillets')
       ingredients.push('Shellfish (crab, lobster, mussels)')
@@ -757,7 +757,7 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Dumplings and buns')
       ingredients.push('Eggs (for custards)')
       ingredients.push('Rice and grains')
-      break;
+      break,
 
     case 'tagine cooking':
     case 'tagine':
@@ -768,7 +768,7 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Chickpeas and legumes')
       ingredients.push('Preserved lemons')
       ingredients.push('Warm spices (cinnamon, cumin, ginger)')
-      break;
+      break,
 
     case 'wok cooking':
     case 'stir fry':
@@ -781,7 +781,7 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Rice and noodles (pre-cooked)')
       ingredients.push('Nuts for texture (cashews, peanuts)')
       ingredients.push('Shellfish (shrimp, scallops)')
-      break;
+      break,
 
     case 'open fire cooking': case 'open-fire cooking':
     case 'fire cooking':
@@ -792,7 +792,7 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Thick-skinned vegetables (eggplant, squash)')
       ingredients.push('Breads and flatbreads')
       ingredients.push('Thick-cut steaks and chops')
-      break;
+      break,
 
     case 'sous vide':
     case 'sous_vide':
@@ -803,7 +803,7 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Firm fish (salmon, cod)')
       ingredients.push('Vegetables that benefit from precise doneness (carrots, asparagus)')
       ingredients.push('Fruits for infusions')
-      break;
+      break,
 
     case 'smoking': ingredients.push('Brisket and pork shoulder')
       ingredients.push('Ribs (beef, pork)')
@@ -812,7 +812,7 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Cheese (for cold smoking)')
       ingredients.push('Salt (for smoked salt)')
       ingredients.push('Vegetables (tomatoes, peppers, eggplant)')
-      break;
+      break,
 
     case 'pressure cooking':
     case 'pressure_cooking':
@@ -823,7 +823,7 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Hearty stews and curries')
       ingredients.push('Stocks and broths')
       ingredients.push('Artichokes and other dense vegetables')
-      break;
+      break,
 
     case 'dutch oven cooking':
       ingredients.push('Large cuts of meat (pot roast, whole chicken)')
@@ -833,7 +833,7 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Casseroles and gratins')
       ingredients.push('Beans and legumes')
       ingredients.push('Fruit cobblers and crisps')
-      break;
+      break,
 
     case 'roasting':
       ingredients.push('Whole poultry (chicken, turkey, duck)')
@@ -843,7 +843,7 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Whole fish')
       ingredients.push('Bone-in pork loin or shoulder')
       ingredients.push('Garlic and alliums (for roasted flavor)')
-      break;
+      break,
 
     case 'baking': ingredients.push('Flour (varying protein levels for different applications)')
       ingredients.push('Leavening agents (yeast, baking powder, baking soda)')
@@ -852,7 +852,7 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Fats (butter, oils, shortening)')
       ingredients.push('Nuts and dried fruits')
       ingredients.push('Chocolate and cocoa')
-      break;
+      break,
 
     case 'boiling': ingredients.push('Pasta and noodles')
       ingredients.push('Rice and grains')
@@ -861,7 +861,7 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Dumplings')
       ingredients.push('Shellfish (lobster, crab)')
       ingredients.push('Bones and aromatics (for stocks)')
-      break;
+      break,
 
     case 'frying': ingredients.push('Chicken pieces (bone-in or boneless)')
       ingredients.push('Fish fillets')
@@ -870,7 +870,7 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Doughs (for donuts, fritters)')
       ingredients.push('Croquettes and fritters')
       ingredients.push('Spring rolls and egg rolls')
-      break;
+      break,
 
     case 'sauteing':
       ingredients.push('Tender cuts of meat (steak, chicken breast)')
@@ -880,7 +880,7 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Leafy greens (spinach, kale)')
       ingredients.push('Aromatics (shallots, garlic)')
       ingredients.push('Shellfish (scallops, shrimp)')
-      break;
+      break,
 
     case 'poaching':
       ingredients.push('Delicate fish (salmon, trout)')
@@ -890,7 +890,7 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Shellfish (shrimp)')
       ingredients.push('Delicate vegetables')
       ingredients.push('Proteins that benefit from gentle cooking')
-      break;
+      break,
 
     case 'braising':
       ingredients.push('Tough cuts of meat (short ribs, shanks, shoulder)')
@@ -900,7 +900,7 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Game meats')
       ingredients.push('Whole small birds')
       ingredients.push('Oxtail and other gelatinous cuts')
-      break;
+      break,
 
     case 'distilling':
       ingredients.push('Botanicals (herbs, spices, juniper berries)')
@@ -910,7 +910,7 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Vegetables with volatile compounds (cucumber, celery)')
       ingredients.push('Aromatic woods (for infusion)')
       ingredients.push('Citrus peels')
-      break;
+      break,
 
     case 'emulsification':
       ingredients.push('Oils (olive, neutral vegetable oils)')
@@ -920,7 +920,7 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Garlic and shallots (for flavor)')
       ingredients.push('Herbs and spices')
       ingredients.push('Lecithin (for modern emulsions)')
-      break;
+      break,
 
     case 'gelification': ingredients.push('Gelatin (from animal sources)')
       ingredients.push('Agar-agar (plant-based alternative)')
@@ -939,7 +939,7 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Sugar (white, brown, maple)')
       ingredients.push('Spices (black pepper, coriander, juniper)')
       ingredients.push('Herbs (thyme, bay leaves, rosemary)')
-      break;
+      break,
 
     case 'infusing':
       ingredients.push('Herbs (mint, basil, rosemary)')
@@ -949,7 +949,7 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Vanilla and aromatics')
       ingredients.push('Chilis and peppers')
       ingredients.push('Spirits and neutral alcohols')
-      break;
+      break,
 
     case 'marinating':
       ingredients.push('Proteins (chicken, beef, pork, tofu)')
@@ -959,7 +959,7 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Soy sauce and fish sauce')
       ingredients.push('Spices and pastes')
       ingredients.push('Enzymatic components (pineapple, papaya)')
-      break;
+      break,
 
     case 'dehydrating':
       ingredients.push('Fruit (apples, berries, mangoes)')
@@ -969,7 +969,7 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Flowers and aromatics')
       ingredients.push('Citrus (for zest)')
       ingredients.push('Nuts and seeds')
-      break;
+      break,
 
     case 'broiling': ingredients.push('Thin cuts of steak')
       ingredients.push('Chicken breasts and thighs')
@@ -978,7 +978,7 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Vegetables for quick charring')
       ingredients.push('Gratins and dishes with toppings')
       ingredients.push('Fruit for desserts (with sugar for caramelization)')
-      break;
+      break,
 
     case 'raw':
       ingredients.push('Highest-quality fish (for sashimi, ceviche)')
@@ -988,7 +988,7 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Herbs and microgreens')
       ingredients.push('Sprouted grains and legumes')
       ingredients.push('Cold-pressed oils and vinegars')
-      break;
+      break,
 
     case 'spherification': ingredients.push('Fruit juices and purees')
       ingredients.push('Vegetable juices')
@@ -997,7 +997,7 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Dairy (yogurt, cream)')
       ingredients.push('Sauces and coulis')
       ingredients.push('Infused waters and teas')
-      break;
+      break,
 
     case 'cryo_cooking': case 'cryo cooking':
       ingredients.push('Cream bases (for instant ice cream)')
@@ -1007,7 +1007,7 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Alcohol-based mixtures')
       ingredients.push('Mousses and foams')
       ingredients.push('Vegetables (for flash-freezing)')
-      break;
+      break,
 
     default:
       // Get method-specific ingredients from the cooking method data
@@ -1019,7 +1019,7 @@ export function getIdealIngredients(methodName: string): string[] {
             methodName.toLowerCase().includes(method.toLowerCase())
         ),
 
-        const methodObj = methodData as { expertTips?: string[], category?: string };
+        const methodObj = methodData as { expertTips?: string[], category?: string },
         if (methodObj?.suitable_for && Array.isArray(methodObj.suitable_for)) {
           // Use the actual suitable ingredients from the method data
           methodObj.suitable_for.forEach((ingredient: string) => ingredients.push(ingredient))
@@ -1041,5 +1041,5 @@ export function getIdealIngredients(methodName: string): string[] {
       }
   }
 
-  return ingredients;
+  return ingredients,
 }

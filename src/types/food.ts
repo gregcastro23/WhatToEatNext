@@ -7,6 +7,6 @@ export interface FoodAssociation {
   boostTimes?: {
     dayOfWeek?: number,
     hourOfDay?: number[],
-  };
+  },
   [key: string]: unknown // Allow additional properties
 }

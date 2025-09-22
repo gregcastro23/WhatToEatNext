@@ -8,7 +8,7 @@ import type {
   _PlanetaryPosition,
   CelestialPosition,
   _
-} from '@/types/alchemy';
+} from '@/types/alchemy',
 
 /**
  * Default elemental properties with balanced values
@@ -18,7 +18,7 @@ export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
   Water: 0.25,
   Earth: 0.25,
   Air: 0.25
-};
+},
 
 /**
  * Default alchemical values with standard distribution
@@ -28,7 +28,7 @@ export const DEFAULT_ALCHEMICAL_VALUES: AlchemicalValues = {
   Essence: 0.28,
   Matter: 0.21,
   Substance: 0.22
-};
+},
 
 /**
  * Default chakra energies with neutral values
@@ -41,7 +41,7 @@ export const _DEFAULT_CHAKRA_ENERGIES: ChakraEnergies = {
   throat: 0.5,
   thirdEye: 0.5,
   crown: 0.5
-};
+},
 
 /**
  * Default lunar phase
@@ -68,7 +68,7 @@ export const _DEFAULT_PLANETARY_ALIGNMENT: PlanetaryAlignment = {
   Uranus: { sign: 'aquarius', degree: 0 },
   Neptune: { sign: 'pisces', degree: 0 },
   Pluto: { sign: 'scorpio', degree: 0 }
-};
+},
 
 /**
  * Default planetary positions for Sun and Moon
@@ -86,7 +86,7 @@ export const DEFAULT_PLANETARY_POSITIONS: Record<string, CelestialPosition> = {
     exactLongitude: 38.2,
     isRetrograde: false
   }
-} as Record<string, CelestialPosition>;
+} as Record<string, CelestialPosition>,
 
 /**
  * Default astrological state with safe values for all required properties
@@ -121,7 +121,7 @@ export const _DEFAULT_ASTROLOGICAL_STATE = {
   calculationError: false,
   elementalBalance: DEFAULT_ELEMENTAL_PROPERTIES,
   alchemicalValues: DEFAULT_ALCHEMICAL_VALUES
-} as AstrologicalState;
+} as AstrologicalState,
 
 /**
  * Default zodiac energies
@@ -139,7 +139,7 @@ export const _DEFAULT_ZODIAC_ENERGIES: Record<string, number> = {
   capricorn: 0.25,
   aquarius: 0.25,
   pisces: 0.25
-};
+},
 
 /**
  * Default thermodynamic properties
@@ -149,7 +149,7 @@ export const _DEFAULT_THERMODYNAMIC_PROPERTIES = {
   entropy: 0.5,
   reactivity: 0.5,
   energy: 0
-};
+},
 
 /**
  * Default modality distribution
@@ -158,7 +158,7 @@ export const _DEFAULT_MODALITY_DISTRIBUTION = {
   cardinal: 0.33,
   fixed: 0.33,
   mutable: 0.34
-};
+},
 
 /**
  * Default error message templates
@@ -170,7 +170,7 @@ export const _DEFAULT_ERROR_MESSAGES = {
   connection: 'Error connecting to astrological service',
   timeout: 'Operation timed out',
   initialization: 'Error initializing alchemical engine'
-};
+},
 
 /**
  * Default recipe elemental values
@@ -180,7 +180,7 @@ export const DEFAULT_RECIPE_ELEMENTAL_VALUES = {
   Water: 0.3,
   Earth: 0.2,
   Air: 0.2
-};
+},
 
 /**
  * Default food recommendation
@@ -189,7 +189,7 @@ export const _DEFAULT_FOOD_RECOMMENDATION = {
   cuisine: 'balanced',
   elements: DEFAULT_RECIPE_ELEMENTAL_VALUES,
   recommendation: 'A balanced meal with a variety of fresh ingredients'
-};
+},
 
 /**
  * Default calculation parameters
@@ -201,7 +201,7 @@ export const _DEFAULT_CALCULATION_PARAMS = {
   useSeasonalFactors: true,
   useElementalAffinity: true,
   defaultWeight: 1.0
-};
+},
 
 /**
  * Create deep copy of default objects to prevent accidental modification

@@ -5,12 +5,12 @@ import type { Element, ElementalProperties, ZodiacSign } from '../types/alchemy'
 // Define StringIndexed type inline since we're not importing it
 type _<T = unknown> = {
   [key: string]: T
-};
+},
 
 /**
  * List of all elemental types
  */
-export const _ELEMENTS = ['Fire', 'Water', 'Earth', 'Air'] as const;
+export const _ELEMENTS = ['Fire', 'Water', 'Earth', 'Air'] as const,
 
 /**
  * Default balanced elemental properties (25% each)
@@ -20,7 +20,7 @@ export const _DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
   Water: 0.25,
   Earth: 0.25,
   Air: 0.25
-};
+},
 
 /**
  * Validation thresholds for elemental properties
@@ -29,14 +29,14 @@ export const _VALIDATION_THRESHOLDS = {
   MINIMUM_ELEMENT: 0, // Minimum allowed value for any element
   MAXIMUM_ELEMENT: 1, // Maximum allowed value for any element
   BALANCE_PRECISION: 0.01, // Tolerance for sum of elements to be considered valid (1 ± this value)
-};
+},
 
 export const _ELEMENT_AFFINITIES: Record<Element, Element[]> = {
   Fire: ['Air'],
   Water: ['Earth'],
   Air: ['Fire'],
   Earth: ['Water']
-};
+},
 
 export const _ZODIAC_ELEMENTS: Record<ZodiacSign, Element> = {
   aries: 'Fire',
@@ -51,7 +51,7 @@ export const _ZODIAC_ELEMENTS: Record<ZodiacSign, Element> = {
   cancer: 'Water',
   scorpio: 'Water',
   pisces: 'Water'
-} as const;
+} as const,
 
 export const _MINIMUM_THRESHOLD = 0.2;
 export const _MAXIMUM_THRESHOLD = 0.3;
@@ -118,14 +118,14 @@ export const _DECANS = {
     { ruler: 'Moon', element: 'Water', degree: 10 },
     { ruler: 'Pluto', element: 'Water', degree: 20 }
   ]
-};
+},
 
 export const _ELEMENTAL_WEIGHTS = {
   Fire: 1,
   Water: 1,
   Earth: 1,
   Air: 1
-};
+},
 
 /**
  * Enhanced elemental characteristics with comprehensive properties
@@ -201,4 +201,4 @@ export const _ELEMENTAL_CHARACTERISTICS = {
     cuisine: ['vietnamese', 'greek', 'levantine', 'persian'],
     effects: ['lightening', 'clarifying', 'refreshing']
   }
-};
+},

@@ -54,7 +54,7 @@ function computeFromElemental(elemental: ElementalProperties, esms: ESMSProperti
 
   const gregsEnergy = heat - entropy * reactivity;
 
-  return { heat, entropy, reactivity, gregsEnergy };
+  return { heat, entropy, reactivity, gregsEnergy },
 }
 
 /**
@@ -63,12 +63,12 @@ function computeFromElemental(elemental: ElementalProperties, esms: ESMSProperti
  * - NEXT_PUBLIC_THERMODYNAMICS_BACKEND: 'true' to enable backend-first calls
  */
 export class ThermodynamicsClient {
-  private readonly backendUrl: string | undefined;
-  private readonly useBackend: boolean;
+  private readonly backendUrl: string | undefined,
+  private readonly useBackend: boolean,
 
   constructor() {
-    this.backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
-    this.useBackend = String(process.env.NEXT_PUBLIC_THERMODYNAMICS_BACKEND).toLowerCase() === 'true';
+    this.backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL,
+    this.useBackend = String(process.env.NEXT_PUBLIC_THERMODYNAMICS_BACKEND).toLowerCase() === 'true',
   }
 
   async calculate(input: ThermodynamicsInput): Promise<ThermodynamicsResult> {
@@ -80,7 +80,7 @@ export class ThermodynamicsClient {
           const ingredients = input.ingredients.map(i => String(i))
           const result = await alchmAPI.calculateThermodynamics(ingredients)
           logger.debug('ThermodynamicsClient', 'Backend calculation successful', result)
-          return result;
+          return result,
         }
       } catch (error) {
         logger.warn('ThermodynamicsClient', 'Backend calculation failed, falling back to local', error)
@@ -93,7 +93,7 @@ export class ThermodynamicsClient {
     if (input.planetaryPositions && Object.keys(input.planetaryPositions).length > 0) {
       const result = calculateAlchemicalProperties(input.planetaryPositions as any)
       const t = result.thermodynamicProperties;
-      return { heat: t.heat, entropy: t.entropy, reactivity: t.reactivity, gregsEnergy: t.gregsEnergy };
+      return { heat: t.heat, entropy: t.entropy, reactivity: t.reactivity, gregsEnergy: t.gregsEnergy },
     }
 
     // 2b) If both elemental and ESMS provided, use exact formulas
@@ -108,13 +108,13 @@ export class ThermodynamicsClient {
       const entropy = calc.calculateEntropyValue(input.ingredients)
       const reactivity = calc.calculateReactivityValue(input.ingredients)
       const gregsEnergy = heat - entropy * reactivity;
-      return { heat, entropy, reactivity, gregsEnergy };
+      return { heat, entropy, reactivity, gregsEnergy },
     }
 
     // 2d) As a final real fallback, use current alchemical state (no placeholders)
     const current = getCurrentAlchemicalState()
     const t = current.thermodynamicProperties;
-    return { heat: t.heat, entropy: t.entropy, reactivity: t.reactivity, gregsEnergy: t.gregsEnergy };
+    return { heat: t.heat, entropy: t.entropy, reactivity: t.reactivity, gregsEnergy: t.gregsEnergy },
   }
 }
 

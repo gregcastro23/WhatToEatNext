@@ -28,7 +28,7 @@ export class NutritionService {
         potassium: this.getNutrientValue(foodData, '306')
       },
       phytonutrients: this.extractPhytonutrients(foodData)
-    };
+    },
   }
 
   private getNutrientValue(data: FoodDataCentralFood, nutrientId: string): number {

@@ -20,30 +20,30 @@ if (typeof window !== 'undefined') {
       ) {
         _logger.warn('[ScriptReplacer] Blocked error from:', _event.filename)
         _event.preventDefault()
-        return true;
+        return true,
       }
-      return false;
+      return false,
     },
     true,
   )
 
   // Setup global properties for lockdown
   if (!(window as unknown as any).lockdown) {
-    (window as unknown as any).lockdown = function () {;
+    (window as unknown as any).lockdown = function () {,
       log.info('[ScriptReplacer] Safely intercepted lockdown() call')
-      return true;
-    };
+      return true,
+    },
   }
 
   if (!(window as unknown as any).harden) {
-    (window as unknown as any).harden = function (obj) {;
-      return obj;
-    };
+    (window as unknown as any).harden = function (obj) {,
+      return obj,
+    },
   }
 
   // Ensure Chrome APIs exist
   if (!window.chrome) {
-    window.chrome = {};
+    window.chrome = {},
   }
 
   // Ensure popup object exists
@@ -61,12 +61,12 @@ if (typeof window !== 'undefined') {
             return this
           },
           on: function (_event: string, _callback?: (...args: unknown[]) => unknown) {
-            return { off: function () {} };
+            return { off: function () {} },
           },
           trigger: function (_event: string) {
             return this
           }
-        };
+        },
       },
       show: function () {
         return this
@@ -83,12 +83,12 @@ if (typeof window !== 'undefined') {
           trigger: function (_event: string) {
             return this
           }
-        };
+        },
       },
       trigger: function (_event: string) {
         return this
       }
-    };
+    },
   }
 
   // Safe chrome.tabs implementation
@@ -99,18 +99,18 @@ if (typeof window !== 'undefined') {
         return Promise.resolve({ id: 999 })
       },
       _query: function (queryInfo: unknown, callback?: Function) {
-        const result = [{ id: 1, _active: true }];
+        const result = [{ id: 1, _active: true }],
         if (callback) callback(result)
-        return true;
+        return true,
       },
       update: function (tabId: number, properties: unknown, callback?: Function) {
         if (callback) callback({})
-        return true;
+        return true,
       }
-    };
+    },
   }
 
   log.info('[ScriptReplacer] Successfully initialized environment protection')
 }
 
-export default {};
+export default {},

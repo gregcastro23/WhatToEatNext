@@ -8,11 +8,11 @@ export interface TarotElementalInfluences {
 }
 
 export interface TarotCard {
-  name: string;
-  suit?: string;
-  majorArcana?: boolean;
+  name: string,
+  suit?: string,
+  majorArcana?: boolean,
   description?: string
-  planetaryInfluences?: Record<string, number>;
+  planetaryInfluences?: Record<string, number>,
 }
 
 export interface TarotContextType {

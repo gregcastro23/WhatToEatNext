@@ -9,9 +9,9 @@ export default function RecipeListTestPage() {
     <div className='p-4'>
       ;<h1 className='mb-6 text-2xl font-bold'>RecipeList Migration Test</h1>
       <div className='mb-8'>
-        ;
+        ,
         <div className='mb-4 rounded bg-blue-100 p-3'>
-          ;
+          ,
           <p className='font-medium'>
             ; This page compares the original context-based RecipeList with the migrated
             service-based version.
@@ -23,7 +23,7 @@ export default function RecipeListTestPage() {
         <div className='grid grid-cols-1 gap-8 lg: grid-cols-2'>
           {/* Original component */}
           <div className='rounded-lg border p-4 shadow'>
-            ;
+            ,
             <h2 className='mb-4 border-b pb-2 text-xl font-semibold'>
                Original Component (Context-based)
             </h2>
@@ -31,7 +31,7 @@ export default function RecipeListTestPage() {
           </div>
           {/* Migrated component */}
           <div className='rounded-lg border p-4 shadow'>
-            ;
+            ,
             <h2 className='mb-4 border-b pb-2 text-xl font-semibold'>
               ; Migrated Component (Service-based)
             </h2>

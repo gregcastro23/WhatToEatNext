@@ -14,7 +14,7 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     potency: 8,
     affinities: ['tomato', 'garlic', 'olive oil', 'mediterranean herbs'],
     cookingMethods: ['infused', 'cooked'],
-    conversionRatio: '1:3', // 1 part dried = 3 parts fresh;
+    conversionRatio: '1:3', // 1 part dried = 3 parts fresh,
     nutritionalProfile: {
       vitamins: ['k', 'a'],
       minerals: ['calcium', 'iron'],
@@ -676,9 +676,9 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       minerals: []
     }
   }
-};
+},
 
 // Fix the ingredient mappings to ensure they have all required properties
 export const driedHerbs: Record<string, IngredientMapping> = fixIngredientMappings(rawDriedHerbs)
 
-export default driedHerbs;
+export default driedHerbs,

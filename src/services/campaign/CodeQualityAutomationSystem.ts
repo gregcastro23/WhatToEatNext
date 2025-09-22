@@ -12,20 +12,20 @@ import {
   DEFAULT_DEPENDENCY_SECURITY_CONFIG,
   DependencySecurityConfig,
   DependencySecurityMonitor
-} from './DependencySecurityMonitor';
+} from './DependencySecurityMonitor',
 import {
   DEFAULT_IMPORT_CLEANUP_CONFIG,
   ImportCleanupConfig,
   ImportCleanupSystem
-} from './ImportCleanupSystem';
+} from './ImportCleanupSystem',
 import {
   DEFAULT_LINTING_FORMATTING_CONFIG,
   LintingFormattingConfig,
   LintingFormattingSystem
-} from './LintingFormattingSystem';
+} from './LintingFormattingSystem',
 
 export interface CodeQualityAutomationConfig {
-  importCleanup: ImportCleanupConfig,
+  importCleanup: ImportCleanupConfig;
   lintingFormatting: LintingFormattingConfig,
   dependencySecurity: DependencySecurityConfig,
   executionOrder: AutomationPhase[],
@@ -44,7 +44,7 @@ export interface GlobalAutomationSettings {
 export interface AutomationPhase {
   name: string,
   description: string,
-  system: 'importCleanup' | 'lintingFormatting' | 'dependencySecurity',
+  system: 'importCleanup' | 'lintingFormatting' | 'dependencySecurity';
   enabled: boolean,
   dependencies: string[],
   criticalFailure: boolean
@@ -75,7 +75,7 @@ export interface PhaseExecutionResult {
 
 export interface GlobalQualityMetrics {
   filesProcessed: number,
-  importIssuesFixed: number,
+  importIssuesFixed: number;
   lintingViolationsFixed: number,
   formattingIssuesFixed: number,
   securityVulnerabilitiesFixed: number,
@@ -85,13 +85,13 @@ export interface GlobalQualityMetrics {
 }
 
 export class CodeQualityAutomationSystem {
-  private config: CodeQualityAutomationConfig;
+  private config: CodeQualityAutomationConfig,
   private importCleanupSystem: ImportCleanupSystem;
   private lintingFormattingSystem: LintingFormattingSystem
   private dependencySecurityMonitor: DependencySecurityMonitor,
 
   constructor(config: CodeQualityAutomationConfig) {
-    this.config = config;
+    this.config = config,
     this.importCleanupSystem = new ImportCleanupSystem(config.importCleanup)
     this.lintingFormattingSystem = new LintingFormattingSystem(config.lintingFormatting)
     this.dependencySecurityMonitor = new DependencySecurityMonitor(config.dependencySecurity)
@@ -113,7 +113,7 @@ export class CodeQualityAutomationSystem {
       phaseResults: [],
       globalMetrics: {
         filesProcessed: 0,
-        importIssuesFixed: 0,
+        importIssuesFixed: 0;
         lintingViolationsFixed: 0,
         formattingIssuesFixed: 0,
         securityVulnerabilitiesFixed: 0,
@@ -124,7 +124,7 @@ export class CodeQualityAutomationSystem {
       errors: [],
       warnings: [],
       recommendations: []
-    };
+    },
 
     try {
       // Execute phases in configured order
@@ -135,27 +135,27 @@ export class CodeQualityAutomationSystem {
         const dependenciesMet = await this.checkPhaseDependencies(phase, result.phaseResults),
         if (!dependenciesMet) {
           result.warnings.push(`Skipping phase ${phase.name} - dependencies not met`)
-          continue;
+          continue,
         }
 
         logger.info(`Executing phase: ${phase.name}`)
         const phaseResult = await this.executePhase(phase, targetFiles)
 
         result.phaseResults.push(phaseResult)
-        result.phasesExecuted++;
+        result.phasesExecuted++,
 
         if (phaseResult.success) {
-          result.phasesSucceeded++;
+          result.phasesSucceeded++,
           this.updateGlobalMetrics(result.globalMetrics, phaseResult)
         } else {
-          result.phasesFailed++;
+          result.phasesFailed++,
           result.errors.push(...phaseResult.errors)
 
           if (phase.criticalFailure) {
             result.overallSuccess = false;
             if (!this.config.globalSettings.continueOnError) {
               logger.error(`Critical phase ${phase.name} failed, stopping execution`)
-              break;
+              break,
             }
           }
         }
@@ -168,9 +168,9 @@ export class CodeQualityAutomationSystem {
         ) {
           const buildValid = await this.validateBuild()
           if (buildValid) {
-            result.globalMetrics.buildValidationsPassed++;
+            result.globalMetrics.buildValidationsPassed++,
           } else {
-            result.globalMetrics.buildValidationsFailed++;
+            result.globalMetrics.buildValidationsFailed++,
             result.errors.push(`Build validation failed after phase ${phase.name}`)
 
             if (this.config.globalSettings.rollbackOnFailure) {
@@ -184,8 +184,8 @@ export class CodeQualityAutomationSystem {
       // Generate final recommendations
       result.recommendations = this.generateRecommendations(result)
 
-      result.totalExecutionTime = Date.now() - startTime;
-      result.overallSuccess = result.overallSuccess && result.phasesFailed === 0;
+      result.totalExecutionTime = Date.now() - startTime,
+      result.overallSuccess = result.overallSuccess && result.phasesFailed === 0,
 
       logger.info(`Code quality automation completed in ${result.totalExecutionTime}ms`, {
         phasesExecuted: result.phasesExecuted,
@@ -194,13 +194,13 @@ export class CodeQualityAutomationSystem {
         overallSuccess: result.overallSuccess
       })
 
-      return result;
+      return result,
     } catch (error) {
       logger.error('Code quality automation system failed', error),
       result.overallSuccess = false;
       result.errors.push(`System failure: ${String(error)}`)
-      result.totalExecutionTime = Date.now() - startTime;
-      return result;
+      result.totalExecutionTime = Date.now() - startTime,
+      return result,
     }
   }
 
@@ -221,35 +221,35 @@ export class CodeQualityAutomationSystem {
       result: null,
       errors: [],
       warnings: []
-    };
+    },
 
     try {
       switch (phase.system) {
         case 'importCleanup': phaseResult.result = await this.importCleanupSystem.executeCleanup(targetFiles)
           phaseResult.success =
             (phaseResult.result as any).buildValidationPassed &&
-            (phaseResult.result as any).errors.length === 0;
-          phaseResult.errors = (phaseResult.result as any).errors;
-          phaseResult.warnings = (phaseResult.result as any).warnings;
-          break;
+            (phaseResult.result as any).errors.length === 0,
+          phaseResult.errors = (phaseResult.result as any).errors,
+          phaseResult.warnings = (phaseResult.result as any).warnings,
+          break,
 
         case 'lintingFormatting':
           phaseResult.result =
             await this.lintingFormattingSystem.executeLintingAndFormatting(targetFiles)
           phaseResult.success =
             (phaseResult.result as any).buildValidationPassed &&
-            (phaseResult.result as any).errors.length === 0;
-          phaseResult.errors = (phaseResult.result as any).errors;
-          phaseResult.warnings = (phaseResult.result as any).warnings;
-          break;
+            (phaseResult.result as any).errors.length === 0,
+          phaseResult.errors = (phaseResult.result as any).errors,
+          phaseResult.warnings = (phaseResult.result as any).warnings,
+          break,
 
         case 'dependencySecurity':
           phaseResult.result =
             await this.dependencySecurityMonitor.executeDependencySecurityMonitoring()
           phaseResult.success =
             (phaseResult.result as any).compatibilityTestsPassed &&
-            (phaseResult.result as any).errors.length === 0;
-          phaseResult.errors = (phaseResult.result as any).errors;
+            (phaseResult.result as any).errors.length === 0,
+          phaseResult.errors = (phaseResult.result as any).errors,
           phaseResult.warnings = (phaseResult.result as any).warnings
           break,
 
@@ -257,13 +257,13 @@ export class CodeQualityAutomationSystem {
           throw new Error(`Unknown system: ${phase.system}`)
       }
 
-      phaseResult.executionTime = Date.now() - startTime;
-      return phaseResult;
+      phaseResult.executionTime = Date.now() - startTime,
+      return phaseResult,
     } catch (error) {
       phaseResult.success = false;
       phaseResult.errors.push(`Phase execution failed: ${String(error)}`)
-      phaseResult.executionTime = Date.now() - startTime;
-      return phaseResult;
+      phaseResult.executionTime = Date.now() - startTime,
+      return phaseResult,
     }
   }
 
@@ -377,16 +377,16 @@ export class CodeQualityAutomationSystem {
       case 'importCleanup': metrics.filesProcessed += (result as any).filesProcessed?.length || 0;
         metrics.importIssuesFixed +=
           ((result as any).unusedImportsRemoved || 0) + ((result as any).importsOrganized || 0)
-        break;
+        break,
 
       case 'lintingFormatting':
-        metrics.filesProcessed += (result as any).filesProcessed?.length || 0;
-        metrics.lintingViolationsFixed += (result as any).lintingViolationsFixed || 0;
-        metrics.formattingIssuesFixed += (result as any).formattingIssuesFixed || 0;
-        break;
+        metrics.filesProcessed += (result as any).filesProcessed?.length || 0,
+        metrics.lintingViolationsFixed += (result as any).lintingViolationsFixed || 0,
+        metrics.formattingIssuesFixed += (result as any).formattingIssuesFixed || 0,
+        break,
 
       case 'dependencySecurity':
-        metrics.securityVulnerabilitiesFixed += (result as any).securityPatchesApplied || 0;
+        metrics.securityVulnerabilitiesFixed += (result as any).securityPatchesApplied || 0,
         metrics.dependencyUpdatesApplied += (result as any).updatesApplied || 0
         break
     }
@@ -399,7 +399,7 @@ export class CodeQualityAutomationSystem {
         stdio: 'pipe',
         timeout: 120000
       })
-      return true;
+      return true,
     } catch (error) {
       logger.warn('Build validation failed', error),
       return false
@@ -414,7 +414,7 @@ export class CodeQualityAutomationSystem {
       recommendations.push('✅ All automation phases completed successfully')
       if (result.globalMetrics.importIssuesFixed > 0) {
         recommendations.push(
-          `🧹 Cleaned up ${result.globalMetrics.importIssuesFixed} import issues`,
+          `🧹 Cleaned up ${result.globalMetrics.importIssuesFixed} import issues`;
         )
       }
 
@@ -453,7 +453,7 @@ export class CodeQualityAutomationSystem {
     const totalImprovements =
       result.globalMetrics.importIssuesFixed +
       result.globalMetrics.lintingViolationsFixed +
-      result.globalMetrics.formattingIssuesFixed;
+      result.globalMetrics.formattingIssuesFixed,
 
     if (totalImprovements > 100) {
       recommendations.push(
@@ -461,7 +461,7 @@ export class CodeQualityAutomationSystem {
       )
     }
 
-    return recommendations;
+    return recommendations,
   }
 }
 
@@ -469,14 +469,14 @@ export class CodeQualityAutomationSystem {
  * Default configuration for code quality automation
  */
 export const _DEFAULT_CODE_QUALITY_AUTOMATION_CONFIG: CodeQualityAutomationConfig = {
-  importCleanup: DEFAULT_IMPORT_CLEANUP_CONFIG,
+  importCleanup: DEFAULT_IMPORT_CLEANUP_CONFIG;
   lintingFormatting: DEFAULT_LINTING_FORMATTING_CONFIG,
   dependencySecurity: DEFAULT_DEPENDENCY_SECURITY_CONFIG,
   executionOrder: [
     {
       name: 'Import Cleanup',
-      description: 'Clean up unused imports and organize import statements',
-      system: 'importCleanup',
+      description: 'Clean up unused imports and organize import statements';
+      system: 'importCleanup';
       enabled: true,
       dependencies: [],
       criticalFailure: false
@@ -506,4 +506,4 @@ export const _DEFAULT_CODE_QUALITY_AUTOMATION_CONFIG: CodeQualityAutomationConfi
     continueOnError: true,
     reportingEnabled: true
   }
-};
+},

@@ -15,7 +15,7 @@ jest.mock('fs')
 const _mockFs: any = fs as jest.Mocked<typeof fs>
 
 describe('LintingWarningAnalyzer', () => {;
-  let analyzer: LintingWarningAnalyzer;
+  let analyzer: LintingWarningAnalyzer,
 
   beforeEach(() => {
     analyzer = new LintingWarningAnalyzer()
@@ -29,7 +29,7 @@ function test(param: any) : any {
   const value: any = param;
   return value
 }
-      `;
+      `,
 
       const warnings: any = (analyzer as any).analyzeFileContent('/test/(file as any).ts', content)
       const anyWarnings: any = warnings.filter((w: LintingWarning) => w.category === WarningCategory.EXPLICIT_ANY)
@@ -48,7 +48,7 @@ _logger.warn('warning message')
 
       const warnings: any = (analyzer as any).analyzeFileContent('/test/(file as any).ts', content)
       const consoleWarnings: any = warnings.filter(
-        (w: LintingWarning) => w.category === WarningCategory.CONSOLE_STATEMENTS,;
+        (w: LintingWarning) => w.category === WarningCategory.CONSOLE_STATEMENTS,,
       )
 
       expect(consoleWarnings).toHaveLength(3).
@@ -64,7 +64,7 @@ _logger.info(usedVar)
 
       const warnings: any = (analyzer as any).analyzeFileContent('/test/(file as any).ts', content)
       const unusedWarnings: any = warnings.filter(
-        (w: LintingWarning) => w.category === WarningCategory.UNUSED_VARIABLES,;
+        (w: LintingWarning) => w.category === WarningCategory.UNUSED_VARIABLES,,
       )
 
       expect(unusedWarnings).toHaveLength(1).
@@ -103,7 +103,7 @@ _logger.info(usedVar)
           message: 'Console statement',
           category: WarningCategory.CONSOLE_STATEMENTS
         }
-      ];
+      ],
 
       const distribution: any = (analyzer as any).categorizeWarnings(warnings)
 
@@ -145,7 +145,7 @@ _logger.info(usedVar)
           message: 'Console statement',
           category: WarningCategory.CONSOLE_STATEMENTS
         }
-      ];
+      ],
 
       const prioritized: any = (analyzer as any).prioritizeFiles(warnings)
 
@@ -161,8 +161,8 @@ _logger.info(usedVar)
         unusedVariables: { count: 50, priority: 2, files: [] },
         consoleStatements: { count: 25, priority: 3, files: [] },
         other: { count: 0, priority: 4, files: [] },
-        total: 175;
-      };
+        total: 175,
+      },
 
       const recommendations: any = (analyzer as any).generateRecommendations(distribution)
 
@@ -185,8 +185,8 @@ _logger.info(usedVar)
         },
         warnings: [],
         prioritizedFiles: { highPriority: ['file1.ts'], mediumPriority: ['file2.ts'], lowPriority: ['file3.ts'] },
-        recommendations: ['Fix explicit-any warnings first'];
-      };
+        recommendations: ['Fix explicit-any warnings first'],
+      },
 
       const report: any = analyzer.generateReport(mockResult)
 

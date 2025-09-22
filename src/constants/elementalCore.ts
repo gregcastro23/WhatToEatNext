@@ -5,12 +5,12 @@ import type { Element, _ZodiacSign, _, ElementalProperties } from '@/types/alche
  * This file, replaces: elementalConstants.ts, elements.ts, and elemental parts of defaults.ts
  */
 
-// ===== CORE ELEMENT DEFINITIONS =====;
+// ===== CORE ELEMENT DEFINITIONS =====,
 
 /**
  * List of all elemental types
  */
-export const ELEMENTS = ['Fire', 'Water', 'Earth', 'Air'] as const;
+export const ELEMENTS = ['Fire', 'Water', 'Earth', 'Air'] as const,
 
 /**
  * Default balanced elemental properties (25% each)
@@ -20,9 +20,9 @@ export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
   Water: 0.25,
   Earth: 0.25,
   Air: 0.25
-};
+},
 
-// ===== ELEMENTAL RELATIONSHIPS =====;
+// ===== ELEMENTAL RELATIONSHIPS =====,
 
 /**
  * Element affinities based on traditional correspondences
@@ -33,7 +33,7 @@ export const ELEMENT_AFFINITIES = {
   Water: ['Water', 'Earth'],
   Air: ['Air', 'Fire'],
   Earth: ['Earth', 'Water']
-};
+},
 
 /**
  * Element combinations for compatibility calculations
@@ -51,9 +51,9 @@ export const ELEMENT_COMBINATIONS = {
     ['Fire', 'Earth'], // Different elements with good compatibility
     ['Air', 'Water']
   ]
-};
+},
 
-// ===== ZODIAC CORRESPONDENCES =====;
+// ===== ZODIAC CORRESPONDENCES =====,
 
 /**
  * Zodiac sign to element mapping
@@ -71,7 +71,7 @@ export const ZODIAC_ELEMENTS = {
   cancer: 'Water',
   scorpio: 'Water',
   pisces: 'Water'
-} as const;
+} as const,
 
 /**
  * Decan rulers for each zodiac sign
@@ -137,9 +137,9 @@ export const DECANS = {
     { ruler: 'Moon', element: 'Water', degree: 10 },
     { ruler: 'Pluto', element: 'Water', degree: 20 }
   ]
-};
+},
 
-// ===== VALIDATION AND THRESHOLDS =====;
+// ===== VALIDATION AND THRESHOLDS =====,
 
 /**
  * Validation thresholds for elemental properties
@@ -148,7 +148,7 @@ export const VALIDATION_THRESHOLDS = {
   MINIMUM_ELEMENT: 0,
   MAXIMUM_ELEMENT: 1,
   BALANCE_PRECISION: 0.01
-};
+},
 
 /**
  * Elemental significance thresholds
@@ -158,14 +158,14 @@ export const ELEMENTAL_THRESHOLDS = {
   significant: 0.25,
   present: 0.1,
   trace: 0.05
-};
+},
 
 /**
  * Elemental weights for calculations
  */
-export const ELEMENTAL_WEIGHTS = { Fire: 1, Water: 1, Earth: 1, Air: 1 };
+export const ELEMENTAL_WEIGHTS = { Fire: 1, Water: 1, Earth: 1, Air: 1 },
 
-// ===== COMPREHENSIVE ELEMENTAL CHARACTERISTICS =====;
+// ===== COMPREHENSIVE ELEMENTAL CHARACTERISTICS =====,
 
 /**
  * Enhanced elemental characteristics with comprehensive properties
@@ -285,9 +285,9 @@ export const ELEMENTAL_CHARACTERISTICS = {
     moodEffects: ['uplifting', 'clarifying', 'refreshing', 'invigorating', 'inspiring'],
     effects: ['lightening', 'clarifying', 'refreshing']
   }
-};
+},
 
-// ===== UTILITY FUNCTIONS =====;
+// ===== UTILITY FUNCTIONS =====,
 
 /**
  * Get the dominant element from elemental properties
@@ -296,7 +296,7 @@ export function getDominantElement(properties: ElementalProperties): Element {
   return Object.entries(properties).reduce(
     (max, [element, value]) => (value > max.value ? { element: element as Element, value } : max),
     { element: 'Fire' as Element, value: 0 },
-  ).element;
+  ).element,
 }
 
 /**
@@ -305,8 +305,8 @@ export function getDominantElement(properties: ElementalProperties): Element {
 export function normalizeElementalProperties(properties: ElementalProperties): ElementalProperties {
   const total = Object.values(properties).reduce((sum, val) => sum + (val || 0), 0),
 
-  if (total === 0) {;
-    return { ...DEFAULT_ELEMENTAL_PROPERTIES };
+  if (total === 0) {,
+    return { ...DEFAULT_ELEMENTAL_PROPERTIES },
   }
 
   return {
@@ -314,7 +314,7 @@ export function normalizeElementalProperties(properties: ElementalProperties): E
     Water: (properties.Water || 0) / total,
     Earth: (properties.Earth || 0) / total,
     Air: (properties.Air || 0) / total
-  };
+  },
 }
 
 /**
@@ -325,8 +325,8 @@ export function calculateElementalCompatibility(
   properties2: ElementalProperties,
 ): number {
   // Each element reinforces itself most strongly
-  let compatibility = 0;
-  let totalWeight = 0;
+  let compatibility = 0,
+  let totalWeight = 0,
 
   for (const element of ELEMENTS) {
     const value1 = properties1[element] || 0;
@@ -334,13 +334,13 @@ export function calculateElementalCompatibility(
 
     // Same element compatibility (highest)
     const sameElementScore = Math.min(value1, value2)
-    compatibility += sameElementScore * 0.9;
-    totalWeight += sameElementScore;
+    compatibility += sameElementScore * 0.9,
+    totalWeight += sameElementScore,
 
     // Different element compatibility (good but lower)
     const differentElementScore = Math.abs(value1 - value2)
-    compatibility += (1 - differentElementScore) * 0.7;
-    totalWeight += 1;
+    compatibility += (1 - differentElementScore) * 0.7,
+    totalWeight += 1,
   }
 
   return totalWeight > 0 ? compatibility / totalWeight : 0.7
@@ -375,4 +375,4 @@ export default {
   normalizeElementalProperties,
   calculateElementalCompatibility,
   validateElementalProperties
-};
+},

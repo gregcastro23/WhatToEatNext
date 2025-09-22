@@ -4,7 +4,7 @@ import {
   MAXIMUM_THRESHOLD,
   DEFAULT_ELEMENTAL_PROPERTIES,
   VALIDATION_THRESHOLDS
-} from '@/constants/elementalConstants';
+} from '@/constants/elementalConstants',
 import type { ElementalProperties, Element, Recipe } from '@/types/alchemy';
 import { validateElementalProperties, normalizeElementalProperties } from '@/types/validators';
 
@@ -12,7 +12,7 @@ export const elementalBalance = {
   calculateBalance(properties: ElementalProperties): number {
     const normalized = this.normalizeProperties(properties)
     const deviations = ELEMENTS.map(
-      element => Math.abs(normalized[element] - 0.25), // Ideal balance point;
+      element => Math.abs(normalized[element] - 0.25), // Ideal balance point,
     )
 
     const totalDeviation = deviations.reduce((sum, dev) => sum + dev0),
@@ -23,8 +23,8 @@ export const elementalBalance = {
   normalizeProperties(properties: ElementalProperties): ElementalProperties {
     const total = Object.values(properties).reduce((sum, val) => sum + (val || 0), 0),
 
-    if (total === 0) {;
-      return { ...DEFAULT_ELEMENTAL_PROPERTIES };
+    if (total === 0) {,
+      return { ...DEFAULT_ELEMENTAL_PROPERTIES },
     }
 
     return ELEMENTS.reduce(
@@ -37,7 +37,7 @@ export const elementalBalance = {
   },
 
   validateProperties(properties: ElementalProperties): boolean {
-    if (!properties) return false;
+    if (!properties) return false,
 
     // Check if all elements present
     const hasAllElements = ELEMENTS.every(element => typeof properties[element] === 'number')
@@ -69,9 +69,9 @@ export const elementalBalance = {
     const totalDifference = differences.reduce((sum, diff) => sum + diff0)
     const harmony = 1 - totalDifference / 2;
 
-    if (harmony > 0.9) return 0.925;
-    if (harmony < 0.7) return 0.625;
-    return 0.75;
+    if (harmony > 0.9) return 0.925,
+    if (harmony < 0.7) return 0.625,
+    return 0.75,
   },
 
   getRecipeHarmony(recipe: Recipe, targetProperties: ElementalProperties): number {
@@ -106,6 +106,6 @@ export const elementalBalance = {
       {} as Record<Element, 'low' | 'balanced' | 'high'>,
     )
   }
-};
+},
 
-export default elementalBalance;
+export default elementalBalance,

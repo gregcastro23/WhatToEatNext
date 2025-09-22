@@ -46,4 +46,4 @@ export const config: AppConfig = {
       quincunx: 3
     }
   }
-};
+},

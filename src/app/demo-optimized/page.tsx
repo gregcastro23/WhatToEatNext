@@ -8,7 +8,7 @@ import {
   LazyCelestialEventNotifications,
   ComponentLoader,
   LazyComponentErrorBoundary
-} from '@/components/lazy';
+} from '@/components/lazy',
 import type { Recipe } from '@/lib/api/alchm-client';
 import { logger } from '@/lib/logger';
 
@@ -24,14 +24,14 @@ export default function DemoOptimizedPage() {
   const handleRecipeSelect = (recipe: Recipe) => {
     setSelectedRecipe(recipe)
     logger.info('DemoOptimizedPage recipe selected', recipe)
-  };
+  },
 
   const toggleSection = (section: keyof typeof visibleSections) => {
     setVisibleSections(prev => ({
       ...prev,
       [section]: !prev[section]
     }))
-  };
+  },
 
   return (
     <div style={{
@@ -312,11 +312,11 @@ export default function DemoOptimizedPage() {
         <style jsx>{`
           @keyframes slideIn {
             from {
-              opacity: 0;
+              opacity: 0,
               transform: translateY(20px)
             }
             to {
-              opacity: 1;
+              opacity: 1,
               transform: translateY(0)
             }
           }

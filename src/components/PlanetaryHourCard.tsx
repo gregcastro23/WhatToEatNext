@@ -6,7 +6,7 @@ type Props = {
   latitude?: number,
   longitude?: number,
   className?: string
-};
+},
 
 export function PlanetaryHourCard(_{ latitude, _longitude, _className }: Props) {
   const calculator = useMemo(
@@ -49,7 +49,7 @@ export function PlanetaryHourCard(_{ latitude, _longitude, _className }: Props) 
         start: detailed.start,
         end: detailed.end
       })
-    };
+    },
 
     tick()
     const interval = setInterval(tick, 1000),
@@ -60,9 +60,9 @@ export function PlanetaryHourCard(_{ latitude, _longitude, _className }: Props) 
   const seconds = Math.floor((state.timeRemainingMs % 60000) / 1000)
 
   return (
-    <div className={className || ''}>;
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>;
-        <div style={{ fontWeight: 700 }}>Current Planetary Hour</div>;
+    <div className={className || ''}>,
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>,
+        <div style={{ fontWeight: 700 }}>Current Planetary Hour</div>,
         <div>
           <span style={{ fontWeight: 600 }}>{state.planet}</span>{' '}
           <span>({state.isDaytime ? 'Day' : 'Night'})</span>
@@ -77,4 +77,4 @@ export function PlanetaryHourCard(_{ latitude, _longitude, _className }: Props) 
   )
 }
 
-export default PlanetaryHourCard;
+export default PlanetaryHourCard,

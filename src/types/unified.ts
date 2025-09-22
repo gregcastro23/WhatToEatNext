@@ -16,7 +16,7 @@ import type {
   Season,
   LunarPhase,
   AlchemicalResult
-} from '@/types/alchemy';
+} from '@/types/alchemy',
 import type { CookingMethod } from '@/types/cooking';
 
 // Re-export for convenience
@@ -31,67 +31,67 @@ export type {
   LunarPhase,
   AlchemicalResult,
   CookingMethod
-};
+},
 
 // Ingredient types - Unified interface consolidating all ingredient definitions
 export interface Ingredient {
   id?: string,
   name: string,
   category: string,
-  subCategory?: string;
+  subCategory?: string,
 
   // Core properties,
-  elementalProperties: ElementalProperties;
-  astrologicalProfile?: AstrologicalProfile;
-  nutritionalData?: NutritionalData;
-  description?: string;
-  aliases?: string[];
+  elementalProperties: ElementalProperties,
+  astrologicalProfile?: AstrologicalProfile,
+  nutritionalData?: NutritionalData,
+  description?: string,
+  aliases?: string[],
 
   // Additional properties from various interfaces
-  qualities?: string[];
+  qualities?: string[],
   storage?:
     | string
     | {
-        container?: string;
-        duration: string;
-        temperature?: string;
-        humidity?: string;
+        container?: string,
+        duration: string,
+        temperature?: string,
+        humidity?: string,
         light?: string
-      };
+      },
 
   // Preparation and usage
-  preparationMethods?: string[];
-  cookingMethods?: string[];
-  preparationNotes?: string;
+  preparationMethods?: string[],
+  cookingMethods?: string[],
+  preparationNotes?: string,
 
   // Seasonality and origins
-  seasonality?: Season[];
-  regionalOrigins?: string[];
-  availability?: string[];
+  seasonality?: Season[],
+  regionalOrigins?: string[],
+  availability?: string[],
 
   // Flavor and culinary properties
   flavorProfile?: {
-    spicy?: number;
-    sweet?: number;
-    sour?: number;
-    bitter?: number;
+    spicy?: number,
+    sweet?: number,
+    sour?: number,
+    bitter?: number,
     salty?: number
     umami?: number
-  };
+  },
 
   // Astrological properties
-  zodiacInfluences?: any[];
-  planetaryInfluences?: string[];
-  lunarPhaseInfluences?: LunarPhase[];
+  zodiacInfluences?: any[],
+  planetaryInfluences?: string[],
+  lunarPhaseInfluences?: LunarPhase[],
 
   // Alchemical properties
-  alchemicalProperties?: AlchemicalResult;
-  affinities?: string[];
+  alchemicalProperties?: AlchemicalResult,
+  affinities?: string[],
 
   // Metadata
-  source?: string;
-  validationStatus?: 'validated' | 'pending' | 'error';
-  createdAt?: Date;
+  source?: string,
+  validationStatus?: 'validated' | 'pending' | 'error',
+  createdAt?: Date,
   updatedAt?: Date
 }
 
@@ -112,10 +112,10 @@ export interface IngredientMapping {
 
 // Astrological profile types
 export interface AstrologicalProfile {
-  rulingPlanet?: string;
-  zodiacAffinity?: any[];
+  rulingPlanet?: string,
+  zodiacAffinity?: any[],
   elementalAlignment: ElementalProperties
-  planetaryCorrespondences?: Record<string, number>;
+  planetaryCorrespondences?: Record<string, number>,
   seasonalPreferences?: SeasonalPreferences
 }
 
@@ -128,14 +128,14 @@ export interface SeasonalPreferences {
 
 // Nutritional data types
 export interface NutritionalData {
-  calories?: number;
-  protein?: number;
-  carbohydrates?: number;
-  fat?: number;
+  calories?: number,
+  protein?: number,
+  carbohydrates?: number,
+  fat?: number,
   fiber?: number
-  vitamins?: Record<string, number>;
-  minerals?: Record<string, number>;
-  servingSize?: string;
+  vitamins?: Record<string, number>,
+  minerals?: Record<string, number>,
+  servingSize?: string,
   servingUnit?: string
 }
 
@@ -143,9 +143,9 @@ export interface NutritionalData {
 export interface PlanetPosition {
   sign: any,
   degree: number,
-  minute?: number;
-  _exactLongitude: number;
-  isRetrograde?: boolean;
+  minute?: number,
+  _exactLongitude: number,
+  isRetrograde?: boolean,
   error?: boolean
 }
 
@@ -164,7 +164,7 @@ export interface SearchFilters {
   _cookingTime: {
     min: number,
     max: number
-  };
+  },
   cuisineTypes: string[],
   _mealTypes: string[],
   _spiciness: string[],
@@ -185,14 +185,14 @@ export interface CookingMethodExtended {
   name: string,
   description: string,
   elementalEffect: ElementalProperties,
-  thermodynamicProperties?: ThermodynamicProperties;
-  astrologicalInfluences?: AstrologicalInfluences;
-  duration?: TimeRange;
-  temperature?: TemperatureRange;
-  suitable_for?: string[];
-  benefits?: string[];
-  variations?: string[];
-  difficulty?: 'easy' | 'medium' | 'hard';
+  thermodynamicProperties?: ThermodynamicProperties,
+  astrologicalInfluences?: AstrologicalInfluences,
+  duration?: TimeRange,
+  temperature?: TemperatureRange,
+  suitable_for?: string[],
+  benefits?: string[],
+  variations?: string[],
+  difficulty?: 'easy' | 'medium' | 'hard',
   equipment?: string[]
 }
 
@@ -216,9 +216,9 @@ export interface ThermodynamicProperties {
 }
 
 export interface AstrologicalInfluences {
-  favorableZodiac?: any[];
-  favorablePlanets?: string[];
-  lunarPhasePreference?: string[];
+  favorableZodiac?: any[],
+  favorablePlanets?: string[],
+  lunarPhasePreference?: string[],
   seasonalAlignment?: SeasonalPreferences
 }
 
@@ -231,104 +231,104 @@ export interface Recipe {
   instructions: string[],
   _cookingMethod: string,
   _servings: number,
-  prepTime?: number;
-  cookTime?: number;
-  totalTime?: number;
-  difficulty?: 'easy' | 'medium' | 'hard';
-  cuisine?: string;
-  tags?: string[];
+  prepTime?: number,
+  cookTime?: number,
+  totalTime?: number,
+  difficulty?: 'easy' | 'medium' | 'hard',
+  cuisine?: string,
+  tags?: string[],
 
   // Standardized elemental properties (not elementalBalance)
-  elementalProperties: ElementalProperties;
+  elementalProperties: ElementalProperties,
 
   // Astrological and thermodynamic properties
-  astrologicalTiming?: AstrologicalTiming;
-  thermodynamicProperties?: ThermodynamicProperties;
+  astrologicalTiming?: AstrologicalTiming,
+  thermodynamicProperties?: ThermodynamicProperties,
 
   // Nutritional information
-  nutritionalInfo?: NutritionalData;
+  nutritionalInfo?: NutritionalData,
 
   // Additional properties from various interfaces
-  season?: Season[];
-  seasonality?: Season | 'all' | Season[];
-  mealType?: string[];
-  source?: string;
-  category?: string;
+  season?: Season[],
+  seasonality?: Season | 'all' | Season[],
+  mealType?: string[],
+  source?: string,
+  category?: string,
 
   // Compatibility properties
-  monicaCompatibility?: number;
-  alchemicalScore?: number;
+  monicaCompatibility?: number,
+  alchemicalScore?: number,
 
   // Optional metadata
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Date,
+  updatedAt?: Date,
   validationStatus?: 'validated' | 'pending' | 'error'
 }
 
 export interface RecipeIngredient {
-  id?: string;
+  id?: string,
   ingredientId?: string,
   name: string,
   amount: number, // Standardized to 'amount' not 'quantity'
-  unit: string;
-  preparation?: string;
-  optional?: boolean;
-  substitutes?: string[];
+  unit: string,
+  preparation?: string,
+  optional?: boolean,
+  substitutes?: string[],
 
   // Additional properties from various interfaces
-  category?: string;
-  notes?: string;
-  function?: string;
-  cookingPoint?: string;
-  timing?: 'early' | 'middle' | 'late';
+  category?: string,
+  notes?: string,
+  function?: string,
+  cookingPoint?: string,
+  timing?: 'early' | 'middle' | 'late',
 
   // Elemental and astrological properties
-  elementalProperties?: ElementalProperties;
-  zodiacInfluences?: any[];
-  planetaryInfluences?: string[];
-  lunarPhaseInfluences?: LunarPhase[];
+  elementalProperties?: ElementalProperties,
+  zodiacInfluences?: any[],
+  planetaryInfluences?: string[],
+  lunarPhaseInfluences?: LunarPhase[],
 
   // Nutritional data
-  nutritionalContent?: NutritionalData;
+  nutritionalContent?: NutritionalData,
 
   // Seasonal and regional data
-  seasonality?: string[];
+  seasonality?: string[],
   regionalOrigins?: string[]
 }
 
 export interface AstrologicalTiming {
-  optimalLunarPhase?: string[];
-  favorableZodiac?: any[];
-  seasonalPreference?: string[];
+  optimalLunarPhase?: string[],
+  favorableZodiac?: any[],
+  seasonalPreference?: string[],
   planetaryHours?: string[]
-  zodiacCompatibility?: Record<ZodiacSign, number>;
-  lunarPhaseCompatibility?: Record<string, number>;
+  zodiacCompatibility?: Record<ZodiacSign, number>,
+  lunarPhaseCompatibility?: Record<string, number>,
 }
 
 // Recommendation types
 export interface RecommendationRequest {
-  userPreferences?: ElementalProperties;
-  astrologicalState?: AstrologicalState;
-  dietaryRestrictions?: string[];
-  cuisinePreferences?: string[];
-  availableIngredients?: string[];
-  cookingMethods?: string[];
-  timeConstraints?: TimeConstraints;
+  userPreferences?: ElementalProperties,
+  astrologicalState?: AstrologicalState,
+  dietaryRestrictions?: string[],
+  cuisinePreferences?: string[],
+  availableIngredients?: string[],
+  cookingMethods?: string[],
+  timeConstraints?: TimeConstraints,
   nutritionalGoals?: NutritionalGoals
 }
 
 export interface TimeConstraints {
-  maxPrepTime?: number;
-  maxCookTime?: number;
+  maxPrepTime?: number,
+  maxCookTime?: number,
   maxTotalTime?: number
 }
 
 export interface NutritionalGoals {
-  maxCalories?: number;
-  minProtein?: number;
-  maxCarbs?: number;
-  maxFat?: number;
-  requiredVitamins?: string[];
+  maxCalories?: number,
+  minProtein?: number,
+  maxCarbs?: number,
+  maxFat?: number,
+  requiredVitamins?: string[],
   requiredMinerals?: string[]
 }
 
@@ -366,35 +366,35 @@ export interface ValidationWarning {
 
 // API response types
 export interface ApiResponse<T> {
-  _success: boolean;
-  data?: T;
-  error?: ApiError;
-  timestamp: string;
+  _success: boolean,
+  data?: T,
+  error?: ApiError,
+  timestamp: string,
   requestId?: string
 }
 
 export interface ApiError {
   code: string,
   message: string,
-  details?: Record<string, unknown>;
+  details?: Record<string, unknown>,
   stack?: string
 }
 
 // Search and filter types
 export interface SearchCriteria {
-  query?: string;
-  filters?: SearchFilters;
-  sorting?: SortingOptions;
+  query?: string,
+  filters?: SearchFilters,
+  sorting?: SortingOptions,
   pagination?: PaginationOptions
 }
 
 // SearchFilters interface moved above - keeping unified structure
 
 export interface NutritionalRange {
-  calories?: { min?: number max?: number };
-  protein?: { min?: number max?: number };
-  carbs?: { min?: number max?: number };
-  fat?: { min?: number max?: number };
+  calories?: { min?: number max?: number },
+  protein?: { min?: number max?: number },
+  carbs?: { min?: number max?: number },
+  fat?: { min?: number max?: number },
 }
 
 export interface SortingOptions {
@@ -403,7 +403,7 @@ export interface SortingOptions {
   secondary?: {
     field: string,
     direction: 'asc' | 'desc'
-  };
+  },
 }
 
 export interface PaginationOptions {
@@ -437,23 +437,23 @@ export interface FacetCount {
 // Utility types
 export type DeepPartial<T> = {
   [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P]
-};
+},
 
-export type RequiredFields<TK extends keyof T> = T & Required<Pick<TK>>;
+export type RequiredFields<TK extends keyof T> = T & Required<Pick<TK>>,
 
-export type OptionalFields<TK extends keyof T> = Omit<TK> & Partial<Pick<TK>>;
+export type OptionalFields<TK extends keyof T> = Omit<TK> & Partial<Pick<TK>>,
 
-export type Nullable<T> = T | null;
+export type Nullable<T> = T | null,
 
-export type Optional<T> = T | undefined;
+export type Optional<T> = T | undefined,
 
 export type StringKeys<T> = {
   [K in keyof T]: T[K] extends string ? K : never
-}[keyof T];
+}[keyof T],
 
 export type NumberKeys<T> = {
   [K in keyof T]: T[K] extends number ? K : never
-}[keyof T];
+}[keyof T],
 
 // Default values and constants
 export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties  = {
@@ -461,7 +461,7 @@ export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties  = {
   _Water: 0.25,
   _Earth: 0.25,
   _Air: 0.25
-};
+},
 
 export const DEFAULT_NUTRITIONAL_DATA: NutritionalData  = {
   calories: 0,
@@ -473,19 +473,19 @@ export const DEFAULT_NUTRITIONAL_DATA: NutritionalData  = {
   minerals: {},
   servingSize: '1',
   servingUnit: 'serving'
-};
+},
 
 export const DEFAULT_TIME_RANGE: TimeRange  = {
   min: 0,
   max: 60,
   unit: 'minutes'
-};
+},
 
 export const DEFAULT_TEMPERATURE_RANGE: TemperatureRange  = {
   min: 20,
   max: 200,
   unit: 'celsius'
-};
+},
 
 // Type guards
 export const isIngredient = (value: unknown): value is Ingredient => {;
@@ -496,7 +496,7 @@ export const isIngredient = (value: unknown): value is Ingredient => {;
     'name' in value &&
     'elementalProperties' in value
   )
-};
+},
 
 export const isRecipe = (value: unknown): value is Recipe => {;
   return (
@@ -507,7 +507,7 @@ export const isRecipe = (value: unknown): value is Recipe => {;
     'ingredients' in value &&
     'instructions' in value
   )
-};
+},
 
 export const isCookingMethodExtended = (value: unknown): value is CookingMethodExtended => {;
   return (
@@ -517,7 +517,7 @@ export const isCookingMethodExtended = (value: unknown): value is CookingMethodE
     'name' in value &&
     'elementalEffect' in value
   )
-};
+},
 
 export default {
   DEFAULT_ELEMENTAL_PROPERTIES,
@@ -527,4 +527,4 @@ export default {
   isIngredient,
   isRecipe,
   isCookingMethodExtended
-};
+},

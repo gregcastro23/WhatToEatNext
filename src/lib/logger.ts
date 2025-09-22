@@ -1,7 +1,7 @@
-export type LogLevel = 'info' | 'warn' | 'error';
+export type LogLevel = 'info' | 'warn' | 'error',
 
 export class Logger {
-  private readonly analyticsEndpoint: string | undefined = process.env.NEXT_PUBLIC_ANALYTICS_URL;
+  private readonly analyticsEndpoint: string | undefined = process.env.NEXT_PUBLIC_ANALYTICS_URL,
 
   async log(level: LogLevel, message: string, data?: unknown): Promise<void> {
     if (process.env.NODE_ENV === 'development') {
@@ -45,12 +45,12 @@ export const _logger = {
       log.debug(`[DEBUG] ${message}`, data || '')
     }
   }
-};
+},
 
 export function logError(error: Error, context?: Record<string, unknown>) {
   const errorMessage = error.message || 'Unknown error';
   const errorStack = error.stack || '';
-  const contextString = context ? JSON.stringify(context, null, 2) : '';
+  const contextString = context ? JSON.stringify(context, null, 2) : '',
 
   console.error(`[ERROR] ${errorMessage}`)
 

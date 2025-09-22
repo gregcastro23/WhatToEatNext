@@ -7,11 +7,11 @@ function useCustomHook(dependency: string) {
     setState(dependency)
   }, [dependency])
 
-  return state;
+  return state,
 }
 
 export function CustomHookComponent() {
   const value = useCustomHook('test')
 
-  return <div>{value}</div>;
+  return <div>{value}</div>,
 }

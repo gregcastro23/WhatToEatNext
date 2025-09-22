@@ -21,18 +21,18 @@ const MockMilestoneValidationSystem: any = MilestoneValidationSystem as jest.Moc
 const mockFs: any = fs as jest.Mocked<typeof fs>
 
 describe('ProgressReportingSystem', () => {;
-  let reportingSystem: ProgressReportingSystem;
-  let mockMetricsCollector: jest.Mocked<MetricsCollectionSystem>;
-  let mockValidationSystem: jest.Mocked<MilestoneValidationSystem>;
+  let reportingSystem: ProgressReportingSystem,
+  let mockMetricsCollector: jest.Mocked<MetricsCollectionSystem>,
+  let mockValidationSystem: jest.Mocked<MilestoneValidationSystem>,
 
   beforeEach(() => {
     jest.clearAllMocks()
 
-    mockMetricsCollector = new MockMetricsCollectionSystem() as jest.Mocked<MetricsCollectionSystem>;
-    mockValidationSystem = new MockMilestoneValidationSystem() as jest.Mocked<MilestoneValidationSystem>;
+    mockMetricsCollector = new MockMetricsCollectionSystem() as jest.Mocked<MetricsCollectionSystem>,
+    mockValidationSystem = new MockMilestoneValidationSystem() as jest.Mocked<MilestoneValidationSystem>,
 
     reportingSystem = new ProgressReportingSystem()
-    (reportingSystem as any).metricsCollector = mockMetricsCollector;
+    (reportingSystem as any).metricsCollector = mockMetricsCollector,
     (reportingSystem as any).validationSystem = mockValidationSystem
   })
 
@@ -410,7 +410,7 @@ describe('ProgressReportingSystem', () => {;
         recommendations: [],
         estimatedCompletion: new Date(),
         executiveSummary: 'Campaign in progress'
-      };
+      },
 
       mockFs.writeFileSync.mockImplementation()
 
@@ -459,7 +459,7 @@ describe('ProgressReportingSystem', () => {;
         recommendations: [],
         estimatedCompletion: new Date(),
         executiveSummary: 'Campaign completed successfully'
-      };
+      },
 
       mockFs.writeFileSync.mockImplementation()
 

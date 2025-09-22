@@ -54,4 +54,4 @@ export const infusing: CookingMethodData = {
     'Some infused products need refrigeration',
     'Some herbs and plants are toxic and should not be used for infusions'
   ]
-};
+},

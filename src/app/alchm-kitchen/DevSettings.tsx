@@ -5,7 +5,7 @@ import { VECTOR_CONFIG } from '@/utils/signVectors';
 
 export default function DevSettings() {
   if (process.env.NODE_ENV === 'production') return null;
-  const [alpha, setAlpha] = React.useState<number>(VECTOR_CONFIG.blendWeightAlpha)
+  const [alpha, setAlpha] = React.useState<number>(VECTOR_CONFIG.blendWeightAlpha);
 
   React.useEffect(() => {
     VECTOR_CONFIG.blendWeightAlpha = alpha;

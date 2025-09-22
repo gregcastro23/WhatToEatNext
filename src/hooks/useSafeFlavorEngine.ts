@@ -11,7 +11,7 @@ const globalInitState = {
   attempted: false,
   checkCount: 0,
   lastCheckTime: Date.now()
-};
+},
 
 /**
  * A safer hook for accessing the flavor engine with error handling
@@ -28,7 +28,7 @@ export function useSafeFlavorEngine() {
   const renderCountRef = useRef(0)
 
   // Increment render count on each render
-  renderCountRef.current += 1;
+  renderCountRef.current += 1,
 
   // Add circuit breaker to prevent infinite update loops
   if (renderCountRef.current > 100) {
@@ -45,17 +45,17 @@ export function useSafeFlavorEngine() {
         calculateCompatibility: () => null,
         profileCount: 0,
         categories: {}
-      };
+      },
     }
   }
 
   // Check if flavor engine is ready (only once per component)
   useEffect(() => {
-    isMountedRef.current = true;
+    isMountedRef.current = true,
 
     // Skip if we've already checked in this component
-    if (initCheckedRef.current) return;
-    initCheckedRef.current = true;
+    if (initCheckedRef.current) return,
+    initCheckedRef.current = true,
 
     // Circuit, breaker: prevent checking more than once every 100ms globally
     const now = Date.now()
@@ -63,7 +63,7 @@ export function useSafeFlavorEngine() {
       // logger.warn('Throttling flavor engine initialization checks')
       return
     }
-    globalInitState.lastCheckTime = now;
+    globalInitState.lastCheckTime = now,
 
     // If we already know globally it's initialized, use that state
     if (globalInitState.initialized) {
@@ -77,16 +77,16 @@ export function useSafeFlavorEngine() {
       if (isMountedRef.current) {
         setError(new Error('Failed to initialize flavor engine after multiple attempts'))
       }
-      return;
+      return,
     }
 
     // Only check if the engine is actually available
     if (flavorEngine) {
-      globalInitState.checkCount++;
-      globalInitState.attempted = true;
+      globalInitState.checkCount++,
+      globalInitState.attempted = true,
 
       if (flavorEngine.isInitialized) {
-        globalInitState.initialized = true;
+        globalInitState.initialized = true,
         if (isMountedRef.current) {
           setIsReady(true)
         }
@@ -99,13 +99,13 @@ export function useSafeFlavorEngine() {
 
     return () => {
       isMountedRef.current = false;
-    };
+    },
   }, [flavorEngine])
 
   // Create safe, memoized versions of the engine methods to prevent re-renders
   const getProfile = useCallback(
-    (id: string): UnifiedFlavorProfile | undefined => {;
-      if (!isReady) return undefined;
+    (id: string): UnifiedFlavorProfile | undefined => {,
+      if (!isReady) return undefined,
 
       try {
         return flavorEngine.getProfile(id)
@@ -120,7 +120,7 @@ export function useSafeFlavorEngine() {
   // Safe search profiles function with error handling
   const searchProfiles = useCallback(
     (_criteria: unknown): UnifiedFlavorProfile[] => {
-      if (!isReady) return [];
+      if (!isReady) return [],
 
       try {
         return flavorEngine.searchProfiles(_criteria)
@@ -174,4 +174,4 @@ export function useSafeFlavorEngine() {
   )
 }
 
-export default useSafeFlavorEngine;
+export default useSafeFlavorEngine,

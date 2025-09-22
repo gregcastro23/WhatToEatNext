@@ -81,7 +81,7 @@ export function useIngredientMapping() {
         success: false,
         message: errorMessage,
         suggestions: []
-      };
+      },
     } finally {
       setIsLoading(false)
     }
@@ -103,7 +103,7 @@ export function useIngredientMapping() {
         success: false,
         message: errorMessage,
         compatibility: 0
-      };
+      },
     } finally {
       setIsLoading(false)
     }
@@ -125,7 +125,7 @@ export function useIngredientMapping() {
         success: false,
         message: errorMessage,
         mappingQuality: 0
-      };
+      },
     } finally {
       setIsLoading(false)
     }
@@ -139,5 +139,5 @@ export function useIngredientMapping() {
     suggestAlternatives,
     calculateCompatibility,
     analyzeRecipeCombinations
-  };
+  },
 }

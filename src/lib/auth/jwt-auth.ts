@@ -8,36 +8,36 @@ import bcrypt from 'bcryptjs';
 import { logger } from '@/utils/logger';
 
 export interface AuthConfig {
-  jwtSecret: string;
-  tokenExpiry: string;
-  refreshTokenExpiry: string;
-  issuer: string;
+  jwtSecret: string,
+  tokenExpiry: string,
+  refreshTokenExpiry: string,
+  issuer: string,
 }
 
 export interface TokenPayload {
-  userId: string;
-  email: string;
-  roles: UserRole[];
-  scopes: string[];
-  iat: number;
-  exp: number;
-  iss: string;
+  userId: string,
+  email: string,
+  roles: UserRole[],
+  scopes: string[],
+  iat: number,
+  exp: number,
+  iss: string,
 }
 
 export interface AuthTokens {
-  accessToken: string;
-  refreshToken: string;
-  expiresIn: number;
+  accessToken: string,
+  refreshToken: string,
+  expiresIn: number,
 }
 
 export interface User {
-  id: string;
-  email: string;
-  passwordHash: string;
-  roles: UserRole[];
-  isActive: boolean;
-  createdAt: Date;
-  lastLoginAt?: Date;
+  id: string,
+  email: string,
+  passwordHash: string,
+  roles: UserRole[],
+  isActive: boolean,
+  createdAt: Date,
+  lastLoginAt?: Date,
 }
 
 export enum UserRole {
@@ -48,10 +48,10 @@ export enum UserRole {
 }
 
 export interface RolePermissions {
-  [UserRole.ADMIN]: string[];
-  [UserRole.USER]: string[];
-  [UserRole.GUEST]: string[];
-  [UserRole.SERVICE]: string[];
+  [UserRole.ADMIN]: string[],
+  [UserRole.USER]: string[],
+  [UserRole.GUEST]: string[],
+  [UserRole.SERVICE]: string[],
 }
 
 // Define role-based permissions
@@ -81,14 +81,14 @@ export const ROLE_PERMISSIONS: RolePermissions = {
     'kitchen:recommend',
     'analytics:write'
   ]
-};
+},
 
 export class JWTAuthService {
-  private config: AuthConfig;
+  private config: AuthConfig,
   private users: Map<string, User> = new Map()
 
   constructor(config: AuthConfig) {
-    this.config = config;
+    this.config = config,
     this.initializeDefaultUsers()
   }
 
@@ -118,13 +118,13 @@ export class JWTAuthService {
         isActive: true,
         createdAt: new Date()
       }
-    ];
+    ],
 
     defaultUsers.forEach((userData, index) => {
       const user: User = {
         ...userData,
         id: `user_${index + 1}`
-      };
+      },
       this.users.set(user.email, user)
     })
 
@@ -161,7 +161,7 @@ export class JWTAuthService {
         roles: user.roles
       })
 
-      return tokens;
+      return tokens,
     } catch (error) {
       logger.error('Authentication error', { email, error })
       return null;
@@ -179,7 +179,7 @@ export class JWTAuthService {
       email: user.email,
       roles: user.roles,
       scopes
-    };
+    },
 
     const accessToken = jwt.sign(payload, this.config.jwtSecret, {
       expiresIn: this.config.tokenExpiry,
@@ -201,7 +201,7 @@ export class JWTAuthService {
       accessToken,
       refreshToken,
       expiresIn: this.parseExpiry(this.config.tokenExpiry)
-    };
+    },
   }
 
   /**
@@ -212,7 +212,7 @@ export class JWTAuthService {
       const decoded = jwt.verify(token, this.config.jwtSecret, {
         issuer: this.config.issuer,
         audience: 'alchm.kitchen'
-      }) as TokenPayload;
+      }) as TokenPayload,
 
       // Verify user still exists and is active
       const user = Array.from(this.users.values()).find(u => u.id === decoded.userId)
@@ -221,7 +221,7 @@ export class JWTAuthService {
         return null;
       }
 
-      return decoded;
+      return decoded,
     } catch (error) {
       logger.warn('Token validation failed', { error: error instanceof Error ? error.message : 'Unknown error' })
       return null;
@@ -236,7 +236,7 @@ export class JWTAuthService {
       const decoded = jwt.verify(refreshToken, this.config.jwtSecret, {
         issuer: this.config.issuer,
         audience: 'alchm.kitchen'
-      }) as any;
+      }) as any,
 
       if (decoded.type !== 'refresh') {
         logger.warn('Invalid refresh token type')
@@ -264,7 +264,7 @@ export class JWTAuthService {
 
     return userScopes.some(scope => {
       // Exact match
-      if (scope === requiredPermission) return true;
+      if (scope === requiredPermission) return true,
 
       // Wildcard match (e.g., 'alchemical:*' matches 'alchemical:calculate')
       if (scope.endsWith(':*')) {
@@ -272,7 +272,7 @@ export class JWTAuthService {
         return requiredPermission.startsWith(prefix)
       }
 
-      return false;
+      return false,
     })
   }
 
@@ -302,11 +302,11 @@ export class JWTAuthService {
     const unit = match[2];
 
     switch (unit) {
-      case 's': return value;
-      case 'm': return value * 60;
-      case 'h': return value * 3600;
-      case 'd': return value * 86400;
-      default: return 3600;
+      case 's': return value,
+      case 'm': return value * 60,
+      case 'h': return value * 3600,
+      case 'd': return value * 86400,
+      default: return 3600,
     }
   }
 
@@ -328,7 +328,7 @@ export class JWTAuthService {
         roles,
         isActive: true,
         createdAt: new Date()
-      };
+      },
 
       this.users.set(email, user)
 
@@ -338,7 +338,7 @@ export class JWTAuthService {
         roles: user.roles
       })
 
-      return user;
+      return user,
     } catch (error) {
       logger.error('User creation error', { email, error })
       return null;
@@ -353,16 +353,16 @@ export class JWTAuthService {
       const user = Array.from(this.users.values()).find(u => u.id === userId)
       if (!user) {
         logger.warn('User deactivation failed: user not found', { userId })
-        return false;
+        return false,
       }
 
       user.isActive = false;
 
       logger.info('User deactivated successfully', { userId, email: user.email })
-      return true;
+      return true,
     } catch (error) {
       logger.error('User deactivation error', { userId, error })
-      return false;
+      return false,
     }
   }
 
@@ -370,14 +370,14 @@ export class JWTAuthService {
    * Get user by ID
    */
   getUserById(userId: string): User | null {
-    return Array.from(this.users.values()).find(u => u.id === userId) || null;
+    return Array.from(this.users.values()).find(u => u.id === userId) || null,
   }
 
   /**
    * Get user by email
    */
   getUserByEmail(email: string): User | null {
-    return this.users.get(email) || null;
+    return this.users.get(email) || null,
   }
 }
 
@@ -389,4 +389,4 @@ export const authService = new JWTAuthService({
   issuer: 'alchm.kitchen'
 })
 
-export default authService;
+export default authService,

@@ -18,22 +18,22 @@ export default function PlanetTestLayout({ children }: { children: React.ReactNo
     _logger.error = (...args) => {
       setErrors(prev => [...prev, args.join(' ')])
       originalError(...args)
-    };
+    },
 
     _logger.info = (...args) => {
       setLogs(prev => [...prev, args.join(' ')])
       originalLog(...args)
-    };
+    },
 
     return () => {
-      _logger.error = originalError;
-      _logger.info = originalLog;
-    };
+      _logger.error = originalError,
+      _logger.info = originalLog,
+    },
   }, [])
 
   return (
     <div className='flex min-h-screen flex-col bg-gray-50'>
-      ;
+      ,
       <header className='bg-indigo-600 p-4 text-white'>
         ;<h1 className='text-xl font-bold'>Planetary Hours Test Page</h1>
       </header>

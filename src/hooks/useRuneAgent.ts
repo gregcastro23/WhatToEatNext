@@ -18,17 +18,17 @@ export function useRuneAgent(initial?: RuneAgentInput) {
         location: input?.location ?? initial?.location,
         context: input?.context ?? initial?.context,
         preferences: input?.preferences ?? initial?.preferences,
-      };
+      },
       const data = await runeAgentClient.generateComplete(payload)
       setResult(data)
       setRune(data.rune)
       setAgent(data.agent)
       setLoading(false)
-      return data;
+      return data,
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
       setLoading(false)
-      throw err;
+      throw err,
     }
   }, [initial?.datetime, initial?.location, initial?.context, initial?.preferences])
 
@@ -41,15 +41,15 @@ export function useRuneAgent(initial?: RuneAgentInput) {
         location: input?.location ?? initial?.location,
         context: input?.context ?? initial?.context,
         preferences: input?.preferences ?? initial?.preferences,
-      };
+      },
       const data = await runeAgentClient.generateRuneOfMoment(payload)
       setRune(data)
       setLoading(false)
-      return data;
+      return data,
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
       setLoading(false)
-      throw err;
+      throw err,
     }
   }, [initial?.datetime, initial?.location, initial?.context, initial?.preferences])
 
@@ -62,15 +62,15 @@ export function useRuneAgent(initial?: RuneAgentInput) {
         location: input?.location ?? initial?.location,
         context: input?.context ?? initial?.context,
         preferences: input?.preferences ?? initial?.preferences,
-      };
+      },
       const data = await runeAgentClient.generateAgentRecommendations(payload)
       setAgent(data)
       setLoading(false)
-      return data;
+      return data,
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
       setLoading(false)
-      throw err;
+      throw err,
     }
   }, [initial?.datetime, initial?.location, initial?.context, initial?.preferences])
 
@@ -86,4 +86,4 @@ export function useRuneAgent(initial?: RuneAgentInput) {
   }), [result, rune, agent, loading, error, generateComplete, generateRuneOnly, generateAgentOnly])
 }
 
-export default useRuneAgent;
+export default useRuneAgent,

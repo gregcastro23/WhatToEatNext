@@ -59,10 +59,10 @@ export interface SafetyCheckpoint {
 
 export class SafeBatchProcessor {
   private config: BatchProcessingConfig,
-  private checkpoints: SafetyCheckpoint[] = [];
-  private currentBatchId = 0;
-  private totalProcessed = 0;
-  private totalEliminated = 0;
+  private checkpoints: SafetyCheckpoint[] = [],
+  private currentBatchId = 0,
+  private totalProcessed = 0,
+  private totalEliminated = 0,
   private totalPreserved = 0
 
   constructor(config: Partial<BatchProcessingConfig> = {}) {
@@ -74,7 +74,7 @@ export class SafeBatchProcessor {
       createGitStash: true,
       logLevel: 'info',
       ...config
-    };
+    },
   }
 
   /**
@@ -99,7 +99,7 @@ export class SafeBatchProcessor {
     const batches = this.createBatches(sortedFiles)
     this.log('info', `📦 Created ${batches.length} batches for processing`)
 
-    for (let i = 0i < batches.lengthi++) {;
+    for (let i = 0i < batches.lengthi++) {,
       const batch = batches[i];
       const batchId = `batch-${++this.currentBatchId}`;
 
@@ -110,15 +110,15 @@ export class SafeBatchProcessor {
 
       if (!result.success) {
         this.log('error', `❌ Batch ${batchId} failed, stopping processing`)
-        break;
+        break,
       }
 
       this.log('info', `✅ Batch ${batchId} completed successfully`)
 
       // Update totals
-      this.totalProcessed += result.processedCount;
-      this.totalEliminated += result.eliminatedCount;
-      this.totalPreserved += result.preservedCount;
+      this.totalProcessed += result.processedCount,
+      this.totalEliminated += result.eliminatedCount,
+      this.totalPreserved += result.preservedCount,
     }
 
     this.log('info', `\n📊 Final Results: `)
@@ -130,7 +130,7 @@ export class SafeBatchProcessor {
       `   Success Rate: ${((results.filter(r => r.success).length / results.length) * 100).toFixed(1)}%`,
     )
 
-    return results;
+    return results,
   }
 
   /**
@@ -153,13 +153,13 @@ export class SafeBatchProcessor {
       warnings: [],
       processingTime: 0,
       stashId: undefined
-    };
+    },
 
     try {
       // Create git stash before processing if enabled
       if (this.config.createGitStash) {
         stashId = await this.createGitStash(batchId)
-        result.stashId = stashId;
+        result.stashId = stashId,
         this.log('debug', `📦 Created git stash: ${stashId}`)
       }
 
@@ -167,9 +167,9 @@ export class SafeBatchProcessor {
       for (const fileInfo of files) {
         try {
           const fileResult = await this.processFile(fileInfo)
-          result.processedCount++;
-          result.eliminatedCount += fileResult.eliminated;
-          result.preservedCount += fileResult.preserved;
+          result.processedCount++,
+          result.eliminatedCount += fileResult.eliminated,
+          result.preservedCount += fileResult.preserved,
 
           this.log(
             'debug',
@@ -194,17 +194,17 @@ export class SafeBatchProcessor {
           // Perform automatic rollback if enabled
           if (this.config.autoRollbackOnError && stashId) {
             await this.performRollback(stashId)
-            result.rollbackPerformed = true;
+            result.rollbackPerformed = true,
             this.log('info', '🔄 Automatic rollback performed')
           }
         } else {
           this.log('info', '✅ TypeScript compilation passed')
         }
       } else {
-        result.compilationPassed = true, // Assume success if not validating;
+        result.compilationPassed = true, // Assume success if not validating,
       }
 
-      result.success = result.compilationPassed && result.errors.length === 0;
+      result.success = result.compilationPassed && result.errors.length === 0,
     } catch (error) {
       const errorMsg = `Batch processing failed: ${error}`;
       result.errors.push(errorMsg)
@@ -213,21 +213,21 @@ export class SafeBatchProcessor {
       // Perform rollback on critical error
       if (this.config.autoRollbackOnError && stashId) {
         await this.performRollback(stashId)
-        result.rollbackPerformed = true;
+        result.rollbackPerformed = true,
       }
     }
 
-    result.processingTime = Date.now() - startTime;
+    result.processingTime = Date.now() - startTime,
 
     // Create safety checkpoint after batch
     await this.createSafetyCheckpoint(
       batchId,
-      result.compilationPassed;
+      result.compilationPassed,
       result.errors.length
       stashId,
     )
 
-    return result;
+    return result,
   }
 
   /**
@@ -250,7 +250,7 @@ export class SafeBatchProcessor {
     const eliminated = Math.floor(((fileInfo as any)?.unusedVariableCount || 0) * 0.2); // 70% elimination rate
     const preserved = fileInfo.unusedVariableCount - eliminated;
 
-    return { eliminated, preserved };
+    return { eliminated, preserved },
   }
 
   /**
@@ -259,14 +259,14 @@ export class SafeBatchProcessor {
   private sortFilesByRisk(files: FileProcessingInfo[]): FileProcessingInfo[] {
     return files.sort((ab) => {
       // Process low-risk files first
-      const riskOrder = { low: 1, medium: 2, high: 3 };
+      const riskOrder = { low: 1, medium: 2, high: 3 },
       if (riskOrder[a.riskLevel] !== riskOrder[b.riskLevel]) {
         return riskOrder[a.riskLevel] - riskOrder[b.riskLevel]
       }
 
       // Within same risk level, process files with fewer variables first
       if (a.unusedVariableCount !== b.unusedVariableCount) {
-        return a.unusedVariableCount - b.unusedVariableCount;
+        return a.unusedVariableCount - b.unusedVariableCount,
       }
 
       // Finally, sort alphabetically for consistency
@@ -279,7 +279,7 @@ export class SafeBatchProcessor {
    */
   private createBatches(files: FileProcessingInfo[]): FileProcessingInfo[][] {
     const batches: FileProcessingInfo[][] = [];
-    let currentBatch: FileProcessingInfo[] = [];
+    let currentBatch: FileProcessingInfo[] = [],
 
     for (const file of files) {
       const batchLimit = this.getBatchLimit(file)
@@ -300,7 +300,7 @@ export class SafeBatchProcessor {
       batches.push(currentBatch)
     }
 
-    return batches;
+    return batches,
   }
 
   /**
@@ -308,11 +308,11 @@ export class SafeBatchProcessor {
    */
   private getBatchLimit(file: FileProcessingInfo): number {
     // Use smaller batch sizes for critical files
-    if (file.isCritical || file.riskLevel === 'high' || file.unusedVariableCount > 20) {;
+    if (file.isCritical || file.riskLevel === 'high' || file.unusedVariableCount > 20) {,
       return this.config.maxBatchSizeCritical
     }
 
-    return this.config.maxBatchSize;
+    return this.config.maxBatchSize,
   }
 
   /**
@@ -378,10 +378,10 @@ export class SafeBatchProcessor {
         stdio: 'pipe',
         timeout: 30000, // 30 second timeout
       })
-      return true;
+      return true,
     } catch (error) {
       this.log('debug', `TypeScript compilation failed: ${error}`)
-      return false;
+      return false,
     }
   }
 
@@ -401,7 +401,7 @@ export class SafeBatchProcessor {
       compilationStatus,
       errorCount,
       stashId
-    };
+    },
 
     this.checkpoints.push(checkpoint)
     this.log('debug', `📍 Created safety checkpoint: ${id}`)
@@ -417,7 +417,7 @@ export class SafeBatchProcessor {
       totalPreserved: this.totalPreserved,
       checkpointsCreated: this.checkpoints.length,
       lastCheckpoint: this.checkpoints[this.checkpoints.length - 1]
-    };
+    },
   }
 
   /**
@@ -431,7 +431,7 @@ export class SafeBatchProcessor {
    * Log message with appropriate level
    */
   private log(level: 'debug' | 'info' | 'warn' | 'error', message: string): void {
-    const levels = { debug: 0, info: 1, warn: 2, error: 3 };
+    const levels = { debug: 0, info: 1, warn: 2, error: 3 },
     const configLevel = levels[this.config.logLevel];
     const messageLevel = levels[level];
 

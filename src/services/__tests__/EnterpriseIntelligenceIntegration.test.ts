@@ -38,15 +38,15 @@ describe('EnterpriseIntelligenceIntegration', () => {
     cookingMethods: [],
     season: ['all'],
     mealType: ['dinner'],
-    numberOfServings: 4;
-  } as any('@/types/unified').Recipe;
+    numberOfServings: 4,
+  } as any('@/types/unified').Recipe,
 
   const mockCuisineData: any = {
     name: 'Test Cuisine',
     type: 'fusion',
     region: 'global',
-    characteristics: ['spicy', 'aromatic'];
-  };
+    characteristics: ['spicy', 'aromatic'],
+  },
 
   beforeEach(() => {
     service = new EnterpriseIntelligenceIntegration({
@@ -73,8 +73,8 @@ describe('EnterpriseIntelligenceIntegration', () => {
             Air: 0.2
           }
         }
-      ];
-    };
+      ],
+    },
 
     const mockAstrologicalContext: any = {
       zodiacSign: 'aries' as any,
@@ -89,15 +89,15 @@ describe('EnterpriseIntelligenceIntegration', () => {
       userPreferences: { dietaryRestrictions: [],
         flavorPreferences: [],
         culturalPreferences: []
-      };
-    };
+      },
+    },
 
     it('should perform comprehensive enterprise analysis', async () => {
       const result: any = await service.performEnterpriseAnalysis(
         mockRecipeData,
         mockIngredientData.ingredients
         mockRecipeData, // Using recipeData as cuisineData for test,
-        mockAstrologicalContext,;
+        mockAstrologicalContext,,
       )
 
       expect(result).toBeDefined().
@@ -116,7 +116,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
         mockRecipeData,
         mockIngredientData.ingredients
         mockRecipeData, // Using recipeData as cuisineData for test,
-        mockAstrologicalContext,;
+        mockAstrologicalContext,,
       )
 
       const recipeIntelligence: any = result.recipeIntelligence;
@@ -136,7 +136,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
         mockRecipeData,
         mockIngredientData.ingredients
         mockRecipeData, // Using recipeData as cuisineData for test,
-        mockAstrologicalContext,;
+        mockAstrologicalContext,,
       )
 
       const ingredientIntelligence: any = result.ingredientIntelligence;
@@ -155,7 +155,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
         mockRecipeData,
         mockIngredientData.ingredients
         mockRecipeData, // Using recipeData as cuisineData for test,
-        mockAstrologicalContext,;
+        mockAstrologicalContext,,
       )
 
       const validation: any = result.validationIntelligence;
@@ -173,7 +173,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
         mockRecipeData,
         mockIngredientData.ingredients
         mockRecipeData, // Using recipeData as cuisineData for test,
-        mockAstrologicalContext,;
+        mockAstrologicalContext,,
       )
 
       const safety: any = result.safetyIntelligence;
@@ -192,7 +192,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
         mockRecipeData,
         mockIngredientData.ingredients
         mockRecipeData, // Using recipeData as cuisineData for test,
-        mockAstrologicalContext,;
+        mockAstrologicalContext,,
       )
 
       const optimization: any = result.optimizationRecommendations as any;
@@ -210,7 +210,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
         undefined,
         [],
         undefined, // cuisineData,
-        mockAstrologicalContext,;
+        mockAstrologicalContext,,
       )
 
       expect(result).toBeDefined().
@@ -226,7 +226,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
         enableIngredientIntelligence: false,
         enableValidationIntelligence: false,
         enableSafetyIntelligence: false,
-        enableOptimizationRecommendations: false;
+        enableOptimizationRecommendations: false,
       })
 
       const result: any = await disabledServiceperformEnterpriseAnalysis(
@@ -242,7 +242,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
             flavorPreferences: [],
             culturalPreferences: []
           }
-        } as unknown,;
+        } as unknown,,
       )
 
       expect(result.recipeIntelligence.recommendations).toContain('Recipe intelligence disabled').
@@ -292,7 +292,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
             flavorPreferences: [],
             culturalPreferences: []
           }
-        } as unknown,;
+        } as unknown,,
       )
 
       const updatedMetrics: any = service.getPerformanceMetrics()

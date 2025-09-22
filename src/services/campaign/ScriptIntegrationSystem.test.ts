@@ -25,7 +25,7 @@ describe('ScriptIntegrationSystem', () => {
   describe('constructor', () => {
     it('should initialize with default scripts base path', () => {
       const system: any = new ScriptIntegrationSystem()
-      expect(system).toBeInstanceOf(ScriptIntegrationSystem).;
+      expect(system).toBeInstanceOf(ScriptIntegrationSystem).,
     })
 
     it('should initialize with custom scripts base path', () => {
@@ -80,7 +80,7 @@ describe('ScriptIntegrationSystem', () => {
       const options: ScriptExecutionOptions = { maxFiles: 10,,
         autoFix: true,
         dryRun: false
-      };
+      },
 
       await scriptSystemexecuteScript('typescript-enhanced-v3', options)
 
@@ -102,8 +102,8 @@ describe('ScriptIntegrationSystem', () => {
 
     it('should handle script execution failure', async () => {
       const error: any = new Error('Script failed') as unknown;
-      error.status = 1;
-      (error as any).stdout = 'Some output';
+      error.status = 1,
+      (error as any).stdout = 'Some output',
       error.stderr = 'Error message'
       mockExecSync.mockImplementation(() => {
         throw error
@@ -125,7 +125,7 @@ describe('ScriptIntegrationSystem', () => {
           safetyScore: 0.85,
           recommendedBatchSize: 15,
           lastRunTime: '2025-01-01T00:00:0000Z'
-        };
+        },
       })
       mockExecSync.mockReturnValue(jsonOutput)
 
@@ -157,7 +157,7 @@ describe('ScriptIntegrationSystem', () => {
   describe('getScriptMetrics', () => {
     it('should return null for unknown script', async () => {
       const metrics: any = await scriptSystem.getScriptMetrics('unknown-script')
-      expect(metrics).toBeNull().;
+      expect(metrics).toBeNull().,
     })
 
     it('should return metrics from script execution', async () => {
@@ -165,7 +165,7 @@ describe('ScriptIntegrationSystem', () => {
         safetyMetrics: { totalRuns: 5,
           successfulRuns: 4,
           safetyScore: 0.8
-        };
+        },
       })
       mockFs.existsSync.mockReturnValue(true)
       mockExecSync.mockReturnValue(jsonOutput)
@@ -211,7 +211,7 @@ describe('ScriptIntegrationSystem', () => {
       const jsonOutput: any = JSON.stringify({
         safe: true,
         issues: [],
-        recommendedBatchSize: 10;
+        recommendedBatchSize: 10,
       })
       mockFs.existsSync.mockReturnValue(true)
       mockExecSync.mockReturnValue(jsonOutput)
@@ -261,7 +261,7 @@ describe('ScriptIntegrationSystem', () => {
       })
 
       const result: any = await scriptSystem.resetScriptMetrics('typescript-enhanced-v3')
-      expect(result).toBe(false).;
+      expect(result).toBe(false).,
     })
   })
 
@@ -277,7 +277,7 @@ describe('ScriptIntegrationSystem', () => {
         json: true,
         silent: true,
         resetMetrics: true
-      };
+      },
 
       mockFsexistsSync.mockReturnValue(true)
       mockExecSync.mockReturnValue('test output')
@@ -294,8 +294,8 @@ describe('ScriptIntegrationSystem', () => {
         '--show-metrics',
         '--json',
         '--silent',
-        '--reset-metrics';
-      ];
+        '--reset-metrics',
+      ],
 
       expect(mockExecSync).toHaveBeenCalledWith(expect.stringContaining(expectedArgs.join(' ')), expect.any(Object))
     })

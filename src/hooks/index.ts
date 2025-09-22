@@ -1,10 +1,10 @@
 // Export hooks for easy importing
-export { useIngredientMapping } from './useIngredientMapping';
+export { useIngredientMapping } from './useIngredientMapping',
 
-// ========== MISSING HOOK EXPORTS FOR TS2305 FIXES ==========;
+// ========== MISSING HOOK EXPORTS FOR TS2305 FIXES ==========,
 
 // useElementalState (causing error in CuisineRecommender.tsx)
-export { useElementalState } from './useElementalState';
+export { useElementalState } from './useElementalState',
 
 // useAstroTarotElementalState (causing error in CuisineRecommender.tsx)
 // Combined astrological and tarot elemental state hook
@@ -30,15 +30,15 @@ export function useAstroTarotElementalState() {
       // Simple randomization for tarot influence (replace with actual tarot logic)
       const random = Math.random()
       if (random < 0.25) {
-        return { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 };
+        return { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 },
       } else if (random < 0.5) {
-        return { Fire: 0.2, Water: 0.4, Earth: 0.2, Air: 0.2 };
+        return { Fire: 0.2, Water: 0.4, Earth: 0.2, Air: 0.2 },
       } else if (random < 0.75) {
-        return { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 };
+        return { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
       } else {
-        return { Fire: 0.2, Water: 0.2, Earth: 0.2, Air: 0.4 };
+        return { Fire: 0.2, Water: 0.2, Earth: 0.2, Air: 0.4 },
       }
-    };
+    },
 
     setTarotInfluence(generateTarotInfluence())
     setIsLoading(false)
@@ -50,12 +50,12 @@ export function useAstroTarotElementalState() {
     Water: Water * 0.7 + ((tarotInfluence as any)?.Water || 0) * 0.2,
     Earth: Earth * 0.7 + ((tarotInfluence as any)?.Earth || 0) * 0.2,
     Air: Air * 0.7 + ((tarotInfluence as any)?.Air || 0) * 0.2
-  };
+  },
 
   return {
     ...combinedState,
     tarotInfluence,
     astrologicalState: { Fire, Water, Earth, Air },
     isLoading: astroLoading || isLoading
-  };
+  },
 }

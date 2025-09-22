@@ -12,7 +12,7 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'alchm.kitchen | Alchemical Culinary Intelligence',
   description: 'Discover the perfect meal through ancient alchemical wisdom and modern AI. Real-time planetary influences guide your culinary journey.',
-};
+},
 
 const FeatureCard = ({
   icon,
@@ -21,11 +21,11 @@ const FeatureCard = ({
   href,
   status
 }: {
-  icon: string;
-  title: string;
-  description: string;
-  href: string;
-  status?: string;
+  icon: string,
+  title: string,
+  description: string,
+  href: string,
+  status?: string,
 }) => (
   <Link href={href} className="group">
     <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 h-full border border-gray-100 hover:border-purple-200">
@@ -55,7 +55,7 @@ const StatusIndicator = ({ label, status }: { label: string; status: 'active' | 
     active: 'bg-green-100 text-green-800',
     ready: 'bg-blue-100 text-blue-800',
     demo: 'bg-purple-100 text-purple-800'
-  };
+  },
 
   return (
     <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${colors[status]}`}>
@@ -66,7 +66,7 @@ const StatusIndicator = ({ label, status }: { label: string; status: 'active' | 
       {label}
     </div>
   )
-};
+},
 
 export default function Home() {
   return (

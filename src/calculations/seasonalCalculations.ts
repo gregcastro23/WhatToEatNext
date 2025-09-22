@@ -9,8 +9,8 @@ export interface SeasonalEffectiveness {
     elementalAlignment: number,
     ingredientSuitability: number,
     seasonalBonus: number
-  };
-  elementalBreakdown?: Record<string, number>;
+  },
+  elementalBreakdown?: Record<string, number>,
 }
 
 /**
@@ -20,12 +20,12 @@ export function calculateSeasonalEffectiveness(
   recipe: Recipe,
   season: string,
 ): SeasonalEffectiveness {
-  let totalScore = 0;
+  let totalScore = 0,
   const breakdown = {
     elementalAlignment: 0,
     ingredientSuitability: 0,
     seasonalBonus: 0
-  };
+  },
 
   // Normalize season to lowercase for consistent lookup
   const seasonLower = season.toLowerCase()
@@ -35,19 +35,19 @@ export function calculateSeasonalEffectiveness(
     (score, [element, value]) => {
       // Get modifier from SEASONAL_MODIFIERS using lowercase season
       // Using proper type access with fallback
-      const seasonModifiers = SEASONAL_MODIFIERS[seasonLower] || {};
+      const seasonModifiers = SEASONAL_MODIFIERS[seasonLower] || {},
       const seasonalModifier = seasonModifiers[element as any] || 0.25;
-      return score + value * seasonalModifier;
+      return score + value * seasonalModifier,
     },
     0,
   )
-  breakdown.elementalAlignment = elementalScore * 50;
-  totalScore += breakdown.elementalAlignment;
+  breakdown.elementalAlignment = elementalScore * 50,
+  totalScore += breakdown.elementalAlignment,
 
   // 2. Calculate Ingredient Seasonality (30% of total)
   if (recipe.ingredients.length) {
     // Count ingredients that have this season in their seasonality array
-    let seasonalCount = 0;
+    let seasonalCount = 0,
     for (const ingredient of recipe.ingredients) {
       if (Array.isArray(ingredient.seasonality)) {
         const lowerSeasons = ingredient.seasonality.map((s: string) => s.toLowerCase())
@@ -58,8 +58,8 @@ export function calculateSeasonalEffectiveness(
     }
 
     const ingredientScore = (seasonalCount / recipe.ingredients.length) * 30;
-    breakdown.ingredientSuitability = ingredientScore;
-    totalScore += ingredientScore;
+    breakdown.ingredientSuitability = ingredientScore,
+    totalScore += ingredientScore,
   }
 
   // 3. Calculate Direct Season Match (20% of total)
@@ -68,7 +68,7 @@ export function calculateSeasonalEffectiveness(
     const recipeSeasonLower = recipeSeasons.map((s: string) => s.toLowerCase())
 
     if (recipeSeasonLower.includes(seasonLower)) {
-      breakdown.seasonalBonus = 20;
+      breakdown.seasonalBonus = 20,
       totalScore += 20
     }
   }
@@ -77,17 +77,17 @@ export function calculateSeasonalEffectiveness(
   const normalizedScore = Math.round(Math.max(0, Math.min(100, totalScore)))
 
   // Determine rating based on score
-  let rating = 'Poor';
-  if (normalizedScore >= 80) rating = 'Excellent';
-  else if (normalizedScore >= 60) rating = 'Good';
-  else if (normalizedScore >= 40) rating = 'Average';
-  else if (normalizedScore >= 20) rating = 'Below Average';
+  let rating = 'Poor',
+  if (normalizedScore >= 80) rating = 'Excellent',
+  else if (normalizedScore >= 60) rating = 'Good',
+  else if (normalizedScore >= 40) rating = 'Average',
+  else if (normalizedScore >= 20) rating = 'Below Average',
 
   return {
     score: normalizedScore,
     rating,
     breakdown
-  };
+  },
 }
 
 export function calculateSeasonalElements(
@@ -95,14 +95,14 @@ export function calculateSeasonalElements(
   season: string,
 ): ElementalProperties {
   const normalizedSeason = season.toLowerCase()
-  const modifier = SEASONAL_MODIFIERS[normalizedSeason] || {};
+  const modifier = SEASONAL_MODIFIERS[normalizedSeason] || {},
 
   return Object.fromEntries(
     Object.entries(baseElements).map(([element, value]) => {
       const adjusted = value + (modifier[element as any] || 0)
       return [element, Math.max(0, Math.min(1, adjusted))]
     }),
-  ) as ElementalProperties;
+  ) as ElementalProperties,
 }
 
 export function calculateSeasonalScores(
@@ -127,7 +127,7 @@ export function calculateSeasonalScores(
   return {
     seasonalScore,
     astrologicalInfluence
-  };
+  },
 }
 
 // Helper function to get current season as a zodiac sign
@@ -153,4 +153,4 @@ function _getCurrentSeason(): Season {
 export default {
   calculateSeasonalEffectiveness,
   SEASONAL_MODIFIERS
-};
+},

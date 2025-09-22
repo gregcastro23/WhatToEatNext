@@ -40,9 +40,9 @@ const AlchemicalCalculator = createLazyComponent(
 )
 
 interface LazyAlchemicalEngineProps {
-  ingredients?: string[];
-  calculationType?: 'elemental' | 'thermodynamic' | 'energy';
-  onCalculationComplete?: (result: any) => void;
+  ingredients?: string[],
+  calculationType?: 'elemental' | 'thermodynamic' | 'energy',
+  onCalculationComplete?: (result: any) => void,
 }
 
 export const LazyAlchemicalEngine: React.FC<LazyAlchemicalEngineProps> = ({
@@ -60,7 +60,7 @@ export const LazyAlchemicalEngine: React.FC<LazyAlchemicalEngineProps> = ({
       // Trigger preload
       import('@/calculations/alchemicalEngine')
     }
-  };
+  },
 
   return (
     <div className="lazy-alchemical-engine">
@@ -102,6 +102,6 @@ export const LazyAlchemicalEngine: React.FC<LazyAlchemicalEngineProps> = ({
       </div>
     </div>
   )
-};
+},
 
-export default LazyAlchemicalEngine;
+export default LazyAlchemicalEngine,

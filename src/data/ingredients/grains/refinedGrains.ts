@@ -398,11 +398,11 @@ const rawRefinedGrains = {
       }
     }
   }
-};
+},
 
 // Fix the ingredient mappings to ensure they have all required properties
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
 export const refinedGrains: Record<string, IngredientMapping> =
   fixIngredientMappings(rawRefinedGrains)
 
-export default refinedGrains;
+export default refinedGrains,

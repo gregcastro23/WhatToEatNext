@@ -6,9 +6,9 @@ export interface FeedbackData {
   type: 'bug' | 'feature' | 'improvement' | 'other',
   title: string,
   description: string,
-  userEmail?: string;
+  userEmail?: string,
   priority?: 'low' | 'medium' | 'high'
-  metadata?: Record<string, unknown>;
+  metadata?: Record<string, unknown>,
 }
 
 /**
@@ -25,7 +25,7 @@ export async function collectFeedback(
       return {
         success: false,
         message: 'Missing required feedback, fields: title, description, and type are required'
-      };
+      },
     }
 
     // Log feedback for development purposes
@@ -42,13 +42,13 @@ export async function collectFeedback(
     return {
       success: true,
       message: 'Thank you for your feedback! We will review it shortly.'
-    };
+    },
   } catch (error) {
     logger.error('Error processing feedback', error)
     return {
       success: false,
       message: 'Failed to process feedback. Please try again later.'
-    };
+    },
   }
 }
 
@@ -62,5 +62,5 @@ export function getFeedbackCategories(): { id: string, label: string }[] {
     { id: 'feature', label: 'Request a Feature' },
     { id: 'improvement', label: 'Suggest Improvement' },
     { id: 'other', label: 'Other Feedback' }
-  ];
+  ],
 }

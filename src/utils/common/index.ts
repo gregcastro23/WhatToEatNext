@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 import { logger } from '../logger';
-// ===== THEME MANAGEMENT =====;
+// ===== THEME MANAGEMENT =====,
 
 export interface ThemeData {
   mode: 'light' | 'dark' | 'system',
@@ -18,11 +18,11 @@ export class ThemeManager {
     try {
       const savedTheme = localStorage.getItem('theme') || 'light';
       this.updateTheme(savedTheme)
-      return savedTheme;
+      return savedTheme,
     } catch (error) {
       logger.error('Error initializing theme:', error)
       this.updateTheme('light')
-      return 'light';
+      return 'light',
     }
   }
 
@@ -34,17 +34,17 @@ export class ThemeManager {
       return {
         mode: savedTheme as 'light' | 'dark' | 'system',
         accent: savedAccent
-      };
+      },
     } catch (error) {
       logger.error('Error getting theme:', error)
-      return { mode: 'light', accent: 'blue' };
+      return { mode: 'light', accent: 'blue' },
     }
   }
 }
 
 export const themeManager = new ThemeManager()
 
-// ===== ENVIRONMENT VALIDATION =====;
+// ===== ENVIRONMENT VALIDATION =====,
 
 const envSchema = z.object({
   _NODE_ENV: z.enum(['development', 'production', 'test']),
@@ -64,7 +64,7 @@ export function validateEnv() {
 export const env = validateEnv()
 
 export function validateAstrologyConfig() {
-  const required = ['NEXT_PUBLIC_PROKERALA_CLIENT_ID', 'NEXT_PUBLIC_PROKERALA_CLIENT_SECRET'];
+  const required = ['NEXT_PUBLIC_PROKERALA_CLIENT_ID', 'NEXT_PUBLIC_PROKERALA_CLIENT_SECRET'],
   const missing = (required || []).filter(key => !process.env[key])
 
   if ((missing || []).length > 0) {
@@ -72,15 +72,15 @@ export function validateAstrologyConfig() {
   }
 }
 
-// ===== FEEDBACK COLLECTION =====;
+// ===== FEEDBACK COLLECTION =====,
 
 export interface FeedbackData {
   type: 'bug' | 'feature' | 'improvement' | 'other',
   title: string,
   description: string,
-  userEmail?: string;
+  userEmail?: string,
   priority?: 'low' | 'medium' | 'high'
-  metadata?: { [key: string]: unknown };
+  metadata?: { [key: string]: unknown },
 }
 
 /**
@@ -97,7 +97,7 @@ export async function collectFeedback(
       return {
         success: false,
         message: 'Missing required feedback, fields: title, description, and type are required'
-      };
+      },
     }
 
     // Log feedback for development purposes
@@ -114,13 +114,13 @@ export async function collectFeedback(
     return {
       success: true,
       message: 'Thank you for your feedback! We will review it shortly.'
-    };
+    },
   } catch (error) {
     logger.error('Error processing feedback', error)
     return {
       success: false,
       message: 'Failed to process feedback. Please try again later.'
-    };
+    },
   }
 }
 
@@ -134,8 +134,8 @@ export function getFeedbackCategories(): { id: string, label: string }[] {
     { id: 'feature', label: 'Request a Feature' },
     { id: 'improvement', label: 'Suggest Improvement' },
     { id: 'other', label: 'Other Feedback' }
-  ];
+  ],
 }
 
-// ===== EXPORTS =====;
-export { themeManager as default };
+// ===== EXPORTS =====,
+export { themeManager as default },

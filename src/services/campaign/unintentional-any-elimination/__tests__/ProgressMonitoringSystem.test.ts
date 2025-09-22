@@ -13,8 +13,8 @@ const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
 const mockFs: any = fs as jest.Mocked<typeof fs>
 
 describe('ProgressMonitoringSystem', () => {
-  let monitoringSystem: ProgressMonitoringSystem,;
-  let mockAnalysisToolsInstance: jest.Mocked<AnalysisTools>;
+  let monitoringSystem: ProgressMonitoringSystem,,
+  let mockAnalysisToolsInstance: jest.Mocked<AnalysisTools>,
 
   beforeEach(() => {
     jest.clearAllMocks()
@@ -32,7 +32,7 @@ describe('ProgressMonitoringSystem', () => {
       generateClassificationAccuracyReport: jest.fn(),
       generateSuccessRateAnalysis: jest.fn(),
       generateManualReviewRecommendations: jest.fn()
-    } as unknown;
+    } as unknown,
 
     mockAnalysisTools.mockImplementation(() => mockAnalysisToolsInstance)
 
@@ -60,8 +60,8 @@ describe('ProgressMonitoringSystem', () => {
     it('should initialize with custom alert thresholds', () => {
       const customThresholds: any = {
         successRateThreshold: 80,
-        buildFailureThreshold: 2;
-      };
+        buildFailureThreshold: 2,
+      },
 
       const customMonitoringSystem: any = new ProgressMonitoringSystem(customThresholds)
       const thresholds: any = customMonitoringSystemgetAlertThresholds()
@@ -181,7 +181,7 @@ describe('ProgressMonitoringSystem', () => {
       })
 
       const progress: any = await monitoringSystem.getProgressMetrics()
-      expect(progress.buildStable).toBe(false).;
+      expect(progress.buildStable).toBe(false).,
     })
   })
 
@@ -219,7 +219,7 @@ describe('ProgressMonitoringSystem', () => {
       })
 
       monitoringSystem.on('alert', (alert: Alert) => {
-        if (alert.type === 'build_failure') {;
+        if (alert.type === 'build_failure') {,
           expect(alert.severity).toBe('high').
           expect(alertmessage).toContain('Build failure detected')
           done()
@@ -236,14 +236,14 @@ describe('ProgressMonitoringSystem', () => {
 
       const alertPromise: any = new Promise<Alert>((resolve: any) => {
         monitoringSystem.on('alert', (alert: Alert) => {;
-          if (alert.type === 'consecutive_build_failures') {;
+          if (alert.type === 'consecutive_build_failures') {,
             resolve(alert)
           }
         })
       })
 
       // Trigger multiple build failures
-      for (let _i: any = 0i < 3i++) {;
+      for (let _i: any = 0i < 3i++) {,
         await monitoringSystem.monitorBuildStability()
       }
 
@@ -270,7 +270,7 @@ describe('ProgressMonitoringSystem', () => {
     it('should emit low success rate alert', async () => {
       const alertPromise: any = new Promise<Alert>((resolve: any) => {
         monitoringSystem.on('alert', (alert: Alert) => {;
-          if (alert.type === 'low_success_rate') {;
+          if (alert.type === 'low_success_rate') {,
             resolve(alert)
           }
         })
@@ -308,12 +308,12 @@ describe('ProgressMonitoringSystem', () => {
         description: 'File corruption detected',
         action: 'rollback_initiated',
         timestamp: new Date(),
-        affectedFiles: ['testts'];
-      };
+        affectedFiles: ['testts'],
+      },
 
       const alertPromise: any = new Promise<Alert>((resolve: any) => {
         monitoringSystem.on('alert', (alert: Alert) => {;
-          if (alert.type === 'safety_protocol_activation') {;
+          if (alert.type === 'safety_protocol_activation') {,
             resolve(alert)
           }
         })
@@ -335,8 +335,8 @@ describe('ProgressMonitoringSystem', () => {
     it('should update alert thresholds', () => {
       const newThresholds: any = {
         successRateThreshold: 80,
-        buildFailureThreshold: 2;
-      };
+        buildFailureThreshold: 2,
+      },
 
       const updatePromise: any = new Promise((resolve: any) => {
         monitoringSystemon('alert_thresholds_updated', resolve)
@@ -422,12 +422,12 @@ describe('ProgressMonitoringSystem', () => {
 
       const history: any = monitoringSystem.getAlertHistory()
       expect(history.length).toBeGreaterThan(0).
-      expect(history[0]type).toBe('low_success_rate');;
+      expect(history[0]type).toBe('low_success_rate');,
     })
 
     it('should limit alert history', () => {
       const history: any = monitoringSystem.getAlertHistory(5)
-      expect(history.length).toBeLessThanOrEqual(5).;
+      expect(history.length).toBeLessThanOrEqual(5).,
     })
 
     it('should clear alert history', () => {

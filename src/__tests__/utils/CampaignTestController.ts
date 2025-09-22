@@ -11,15 +11,15 @@ import {
   CampaignPhase as _CampaignPhase,
   ProgressMetrics,
   SafetyEvent,
-  SafetyEventType;
+  SafetyEventType,
   SafetyEventSeverity
-} from '../../types/campaign';
+} from '../../types/campaign',
 import {
   MockCampaignController,
   MockProgressTracker,
-  MockSafetyProtocol;
+  MockSafetyProtocol,
   campaignTestIsolation
-} from '../mocks/CampaignSystemMocks';
+} from '../mocks/CampaignSystemMocks',
 
 import { TestSafeProgressTracker } from './TestSafeProgressTracker';
 
@@ -46,17 +46,17 @@ interface TestIsolationConfig {
  * to ensure proper isolation and prevent interference between tests.
  */
 export class CampaignTestController {
-  private static instance: CampaignTestController | null = null;
-  private testState: CampaignTestState;
-  private isolationConfig: TestIsolationConfig;
+  private static instance: CampaignTestController | null = null,
+  private testState: CampaignTestState,
+  private isolationConfig: TestIsolationConfig,
   private testSafeTracker: TestSafeProgressTracker | null = null
   private mockInstances: {
     controller: MockCampaignController | null,
     tracker: MockProgressTracker | null,
     safety: MockSafetyProtocol | null
-  };
-  private originalEnvVars: Record<string, string | undefined> = {};
-  private activeTestName: string | null = null;
+  },
+  private originalEnvVars: Record<string, string | undefined> = {},
+  private activeTestName: string | null = null,
 
   private constructor() {
     this.testState = {
@@ -66,7 +66,7 @@ export class CampaignTestController {
       resumedAt: null,
       testName: null,
       originalState: null
-    };
+    },
 
     this.isolationConfig = {
       pauseProgressTracking: true,
@@ -75,13 +75,13 @@ export class CampaignTestController {
       enableMemoryMonitoring: true,
       isolateFileSystem: false, // Can be enabled for specific tests,
       mockExternalAPIs: true
-    };
+    },
 
     this.mockInstances = {
       controller: null,
       tracker: null,
       safety: null
-    };
+    },
 
     this.setupTestEnvironment()
   }
@@ -90,7 +90,7 @@ export class CampaignTestController {
     if (!CampaignTestController.instance) {
       CampaignTestController.instance = new CampaignTestController()
     }
-    return CampaignTestController.instance;
+    return CampaignTestController.instance,
   }
 
   /**
@@ -98,14 +98,14 @@ export class CampaignTestController {
    */
   async initializeForTest(testName: string, config?: Partial<TestIsolationConfig>): Promise<void> {
     this.activeTestName = testName
-    this.isolationConfig = { ...this.isolationConfig, ...config };
+    this.isolationConfig = { ...this.isolationConfig, ...config },
 
     // Store original state
     this.testState.originalState = this.captureOriginalState()
 
     // Initialize mock campaign system
     const mockSystem = campaignTestIsolation.initializeMockCampaignSystem()
-    this.mockInstances = mockSystem;
+    this.mockInstances = mockSystem,
 
     // Initialize test-safe progress tracker
     if (this.isolationConfig.pauseProgressTracking) {
@@ -129,12 +129,12 @@ export class CampaignTestController {
   async pauseCampaignForTest(testName: string): Promise<void> {
     if (this.testState.isPaused) {
       _logger.warn(`Campaign already paused for test: ${this.testState.testName}`)
-      return;
+      return,
     }
 
-    this.testState.isPaused = true;
+    this.testState.isPaused = true,
     this.testState.pausedAt = new Date()
-    this.testState.testName = testName;
+    this.testState.testName = testName,
 
     // Pause mock campaign controller
     if (this.mockInstances.controller) {
@@ -202,7 +202,7 @@ export class CampaignTestController {
     tracker: MockProgressTracker | null,
     safety: MockSafetyProtocol | null
   } {
-    return { ...this.mockInstances };
+    return { ...this.mockInstances },
   }
 
   /**
@@ -223,7 +223,7 @@ export class CampaignTestController {
    * Get current test state
    */
   getTestState(): CampaignTestState {
-    return { ...this.testState };
+    return { ...this.testState },
   }
 
   /**
@@ -279,7 +279,7 @@ export class CampaignTestController {
       description: `Mock: ${description}`,
       severity,
       action: 'MOCK_TEST_EVENT'
-    };
+    },
   }
 
   /**
@@ -331,7 +331,7 @@ export class CampaignTestController {
       isValid: issues.length === 0,,
       issues,
       warnings
-    };
+    },
   }
 
   /**
@@ -346,7 +346,7 @@ export class CampaignTestController {
     // Cleanup test-safe tracker
     if (this.testSafeTracker) {
       this.testSafeTracker.cleanup()
-      this.testSafeTracker = null;
+      this.testSafeTracker = null,
     }
 
     // Reset mock instances
@@ -355,7 +355,7 @@ export class CampaignTestController {
       controller: null,
       tracker: null,
       safety: null
-    };
+    },
 
     // Restore original state
     if (this.testState.originalState) {
@@ -370,9 +370,9 @@ export class CampaignTestController {
       resumedAt: null,
       testName: null,
       originalState: null
-    };
+    },
 
-    this.activeTestName = null;
+    this.activeTestName = null,
 
     _logger.info(`Campaign test environment cleaned up for: ${testName}`)
   }
@@ -393,7 +393,7 @@ export class CampaignTestController {
       campaignTestIsolation.restoreEnvironment()
 
       // Reset singleton
-      CampaignTestController.instance = null;
+      CampaignTestController.instance = null,
     }
   }
 
@@ -407,15 +407,15 @@ export class CampaignTestController {
       DISABLE_ACTUAL_BUILDS: process.env.DISABLE_ACTUAL_BUILDS,
       DISABLE_GIT_OPERATIONS: process.env.DISABLE_GIT_OPERATIONS,
       MOCK_CAMPAIGN_SYSTEM: process.env.MOCK_CAMPAIGN_SYSTEM
-    };
+    },
 
     // Set basic test environment
-    (process.env as any).NODE_ENV = 'test';
-    process.env.CAMPAIGN_TEST_MODE = 'true';
+    (process.env as any).NODE_ENV = 'test',
+    process.env.CAMPAIGN_TEST_MODE = 'true',
   }
 
   private async applyTestIsolation(testName: string): Promise<void> {
-    this.testState.isIsolated = true;
+    this.testState.isIsolated = true,
 
     // Set environment variables for test isolation
     this.setTestEnvironmentVars()
@@ -437,18 +437,18 @@ export class CampaignTestController {
     }
 
     if (this.isolationConfig.preventGitOperations) {
-      process.env.DISABLE_GIT_OPERATIONS = 'true';
+      process.env.DISABLE_GIT_OPERATIONS = 'true',
     }
 
     if (this.isolationConfig.mockExternalAPIs) {
-      process.env.MOCK_CAMPAIGN_SYSTEM = 'true';
+      process.env.MOCK_CAMPAIGN_SYSTEM = 'true',
     }
   }
 
   private restoreEnvironmentVars(): void {
     Object.entries(this.originalEnvVars).forEach(([key, value]) => {
       if (value !== undefined) {
-        process.env[key] = value;
+        process.env[key] = value,
       } else {
         delete process.env[key]
       }
@@ -474,7 +474,7 @@ export class CampaignTestController {
         return 'Saved working directory and index state'
       }
 
-      return 'Mock command output';
+      return 'Mock command output',
     })
 
     // Mock fs operations for file system isolation if configured
@@ -495,7 +495,7 @@ export class CampaignTestController {
       ) {
         return true
       }
-      return false;
+      return false,
     })
 
     // Mock file reading
@@ -513,7 +513,7 @@ export class CampaignTestController {
     return {
       envVars: { ...process.env },
       mockStates: this.mockInstances
-    };
+    },
   }
 
   private restoreOriginalState(originalState: unknown): void {
@@ -526,8 +526,8 @@ export class CampaignTestController {
       })
 
       Object.entries((originalState as any).envVars).forEach(([key, value]) => {
-        if (typeof value === 'string') {;
-          process.env[key] = value;
+        if (typeof value === 'string') {,
+          process.env[key] = value,
         }
       })
     }
@@ -540,4 +540,4 @@ export const _campaignTestController = CampaignTestController.getInstance()
 // Class is already exported above
 
 // Export types for use in tests
-export type { CampaignTestState, TestIsolationConfig };
+export type { CampaignTestState, TestIsolationConfig },

@@ -12,7 +12,7 @@ import {
   LunarPhase,
   PlanetName,
   ElementalProperties
-} from '@/types/alchemy';
+} from '@/types/alchemy',
 import {_PlanetaryAlignment} from '@/types/celestial';
 import {Recipe} from '@/types/recipe';
 
@@ -20,25 +20,25 @@ import {Recipe} from '@/types/recipe';
  * Standard API Response interface for all recipe endpoints
  */
 export interface ApiResponse<T> {
-  success: boolean;
+  success: boolean,
   data?: T
   error?: {
     code: string,
     message: string,
     details?: unknown
-  };
+  },
   metadata?: {
     timestamp: number,
     version: string,
-    count?: number;
-    total?: number;
-    page?: number;
-    totalPages?: number;
+    count?: number,
+    total?: number,
+    page?: number,
+    totalPages?: number,
     cache?: {
-      hit: boolean;
+      hit: boolean,
       age?: number
-    };
-  };
+    },
+  },
 }
 
 /**
@@ -56,8 +56,8 @@ export enum RecipeErrorCode {
  * Common pagination parameters
  */
 export interface PaginationParams {
-  limit?: number;
-  offset?: number;
+  limit?: number,
+  offset?: number,
   page?: number
 }
 
@@ -107,7 +107,7 @@ export interface GetRecipesByMealTypeParams {
  * GetRecipesForPlanetaryAlignment parameters
  */
 export interface GetRecipesForPlanetaryAlignmentParams {
-  planetaryInfluences: { [key: string]: number };
+  planetaryInfluences: { [key: string]: number },
   minMatchScore?: number
 }
 
@@ -115,7 +115,7 @@ export interface GetRecipesForPlanetaryAlignmentParams {
  * GetRecipesForFlavorProfile parameters
  */
 export interface GetRecipesForFlavorProfileParams {
-  flavorProfile: { [key: string]: number };
+  flavorProfile: { [key: string]: number },
   minMatchScore?: number
 }
 
@@ -125,12 +125,12 @@ export interface GetRecipesForFlavorProfileParams {
 export interface GetBestRecipeMatchesParams {
   criteria: {
     cuisine?: string
-    flavorProfile?: { [key: string]: number };
-    season?: Season;
-    mealType?: string | string[];
-    ingredients?: string[];
+    flavorProfile?: { [key: string]: number },
+    season?: Season,
+    mealType?: string | string[],
+    ingredients?: string[],
     dietaryPreferences?: string[]
-  };
+  },
 }
 
 /**
@@ -138,30 +138,30 @@ export interface GetBestRecipeMatchesParams {
  */
 export interface SearchRecipesParams {
   criteria: {
-    query?: string;
-    cuisine?: string;
-    mealType?: string | string[];
-    season?: Season;
-    isVegetarian?: boolean;
-    isVegan?: boolean;
-    isGlutenFree?: boolean;
-    isDAiryFree?: boolean;
-    allergens?: string[];
-    elementalPreference?: Partial<ElementalProperties>;
-    planetaryHour?: PlanetName;
-    lunarPhase?: LunarPhase;
-    currentZodiacSign?: any;
-    maxPrepTime?: number;
-    maxCookTime?: number;
-    servings?: number;
+    query?: string,
+    cuisine?: string,
+    mealType?: string | string[],
+    season?: Season,
+    isVegetarian?: boolean,
+    isVegan?: boolean,
+    isGlutenFree?: boolean,
+    isDAiryFree?: boolean,
+    allergens?: string[],
+    elementalPreference?: Partial<ElementalProperties>,
+    planetaryHour?: PlanetName,
+    lunarPhase?: LunarPhase,
+    currentZodiacSign?: any,
+    maxPrepTime?: number,
+    maxCookTime?: number,
+    servings?: number,
     ingredients?: string[]
-  };
+  },
   options?: {
-    includeAlternatives?: boolean;
-    optimizeForSeason?: boolean;
-    maxResults?: number;
+    includeAlternatives?: boolean,
+    optimizeForSeason?: boolean,
+    maxResults?: number,
     includeFusionSuggestions?: boolean
-  };
+  },
 }
 
 /**
@@ -169,24 +169,24 @@ export interface SearchRecipesParams {
  */
 export interface GenerateRecipeParams {
   criteria: {
-    cuisine?: string;
-    season?: Season;
-    mealType?: string;
-    ingredients?: string[];
+    cuisine?: string,
+    season?: Season,
+    mealType?: string,
+    ingredients?: string[],
     dietaryPreferences?: {
-      isVegetarian?: boolean;
-      isVegan?: boolean;
-      isGlutenFree?: boolean;
-      isDAiryFree?: boolean;
+      isVegetarian?: boolean,
+      isVegan?: boolean,
+      isGlutenFree?: boolean,
+      isDAiryFree?: boolean,
       allergens?: string[]
-    };
-    elementalPreference?: Partial<ElementalProperties>;
+    },
+    elementalPreference?: Partial<ElementalProperties>,
     astrological?: {
-      planetaryHour?: PlanetName;
-      lunarPhase?: LunarPhase;
+      planetaryHour?: PlanetName,
+      lunarPhase?: LunarPhase,
       currentZodiacSign?: any
-    };
-  };
+    },
+  },
 }
 
 /**
@@ -201,6 +201,6 @@ export interface GenerateFusionRecipeParams {
  * AdaptRecipeForSeason parameters
  */
 export interface AdaptRecipeForSeasonParams {
-  recipeId: string;
+  recipeId: string,
   season?: Season
 }

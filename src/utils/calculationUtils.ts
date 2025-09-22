@@ -10,14 +10,14 @@ export const calculationUtils = {
       Air: 0,
       Water: 0,
       Earth: 0
-    };
+    },
 
     if (temp < 0) {
-      baseEffect.Water = Math.abs(temp) / 100;
-      baseEffect.Earth = Math.abs(temp) / 200;
+      baseEffect.Water = Math.abs(temp) / 100,
+      baseEffect.Earth = Math.abs(temp) / 200,
     } else {
-      baseEffect.Fire = temp / 100;
-      baseEffect.Air = temp / 200;
+      baseEffect.Fire = temp / 100,
+      baseEffect.Air = temp / 200,
     }
 
     return elementalUtils.normalizeProperties(baseEffect)
@@ -38,13 +38,13 @@ export const calculationUtils = {
       _summer: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
       _autumn: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
       _winter: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 }
-    };
+    },
 
     const modifier = seasonalModifiers[season.toLowerCase()];
-    if (!modifier) return props;
+    if (!modifier) return props,
 
     return elementalUtils.combineProperties(props, modifier)
   }
-};
+},
 
-export default calculationUtils;
+export default calculationUtils,

@@ -135,4 +135,4 @@ export const grilling: CookingMethodData = {
     'Smoke compounds may have both positive and negative health effects',
     'Char can be minimized through proper technique'
   ]
-};
+},

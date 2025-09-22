@@ -61,11 +61,11 @@ export class LazyComponentErrorBoundary extends React.Component<
 > {
   constructor(props: { children: React.ReactNode; fallback?: React.ReactNode }) {
     super(props)
-    this.state = { hasError: false };
+    this.state = { hasError: false },
   }
 
   static getDerivedStateFromError(error: Error) {
-    return { hasError: true, error };
+    return { hasError: true, error },
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
@@ -94,6 +94,6 @@ export class LazyComponentErrorBoundary extends React.Component<
       )
     }
 
-    return this.props.children;
+    return this.props.children,
   }
 }

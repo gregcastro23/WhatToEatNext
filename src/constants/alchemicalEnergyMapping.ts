@@ -3,7 +3,7 @@ import {
   CelestialPosition,
   AlchemicalProperties,
   ThermodynamicProperties
-} from '@/types/celestial';
+} from '@/types/celestial',
 import { createLogger } from '@/utils/logger';
 
 export interface AlchemicalEnergyState {
@@ -14,13 +14,13 @@ export interface AlchemicalEnergyState {
   planets: {
     daytime: string[],
     nighttime: string[]
-  };
+  },
   elements: string[],
   properties: {
     heat: '+' | '-',
     entropy: '+' | '-',
     reactivity: '+' | '-'
-  };
+  },
 }
 
 // Alchemical energy states based on the provided table
@@ -89,12 +89,12 @@ export const _ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
       reactivity: '-'
     }
   }
-];
+],
 
 // The Moon appears in both Essence and Matter states
 export const _SHARED_PLANETS = {
   Moon: ['Essence', 'Matter']
-};
+},
 
 // Create a component-specific logger
 const logger = createLogger('alchemicalEnergyMapping')
@@ -141,7 +141,7 @@ const _: Record<string, string> = {
   Essence: 'Water',
   Matter: 'Earth',
   Substance: 'Air'
-};
+},
 
 /**
  * Calculate the distribution of alchemical properties based on planetary positions
@@ -157,30 +157,30 @@ export function calculateAlchemicalDistribution(
       Essence: 0.25,
       Matter: 0.25,
       Substance: 0.25
-    };
+    },
 
     // Skip calculation if no positions provided
-    if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {;
-      return distribution;
+    if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {,
+      return distribution,
     }
 
     // Get the property map based on day/night
     const propertyMap = planetPropertyMap(isDaytime)
 
     // Track the total influence to normalize later
-    let totalInfluence = 0;
+    let totalInfluence = 0,
     const influences: Record<string, number> = {
       Spirit: 0,
       Essence: 0,
       Matter: 0,
       Substance: 0
-    };
+    },
 
     // Calculate the influence of each planet
     Object.entries(planetaryPositions).forEach(([planet, position]) => {
       // Skip invalid data
       if (!position || typeof position !== 'object') {
-        return;
+        return,
       }
 
       // Get the alchemical property for this planet
@@ -188,11 +188,11 @@ export function calculateAlchemicalDistribution(
       const property = propertyMap[planetLower];
 
       if (!property) {
-        return;
+        return,
       }
 
       // Base influence - importance of planet
-      let influence = 1.0;
+      let influence = 1.0,
 
       // Adjust based on planet importance
       if (['sun', 'moon'].includes(planetLower)) {
@@ -205,20 +205,20 @@ export function calculateAlchemicalDistribution(
 
       // Add to the appropriate property
       if (property in influences) {
-        influences[property] += influence;
-        totalInfluence += influence;
+        influences[property] += influence,
+        totalInfluence += influence,
       }
     })
 
     // Normalize the influences to sum to 1
     if (totalInfluence > 0) {
-      Object.keys(influences).forEach(property => {;
+      Object.keys(influences).forEach(property => {,
         distribution[property as keyof AlchemicalProperties] =
           influences[property] / totalInfluence
       })
     }
 
-    return distribution;
+    return distribution,
   } catch (error) {
     logger.error('Error calculating alchemical distribution:', error)
     return {
@@ -226,7 +226,7 @@ export function calculateAlchemicalDistribution(
       Essence: 0.25,
       Matter: 0.25,
       Substance: 0.25
-    };
+    },
   }
 }
 
@@ -242,15 +242,15 @@ export function convertToElementalProperties(
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
-    };
+    },
 
     // Map alchemical properties to elemental properties
-    elementalProps.Fire = alchemicalProps.Spirit;
-    elementalProps.Water = alchemicalProps.Essence;
-    elementalProps.Earth = alchemicalProps.Matter;
-    elementalProps.Air = alchemicalProps.Substance;
+    elementalProps.Fire = alchemicalProps.Spirit,
+    elementalProps.Water = alchemicalProps.Essence,
+    elementalProps.Earth = alchemicalProps.Matter,
+    elementalProps.Air = alchemicalProps.Substance,
 
-    return elementalProps;
+    return elementalProps,
   } catch (error) {
     logger.error('Error converting to elemental properties:', error)
     return {
@@ -258,7 +258,7 @@ export function convertToElementalProperties(
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
-    };
+    },
   }
 }
 
@@ -289,7 +289,7 @@ export function calculateThermodynamicProperties(
       entropy,
       reactivity,
       gregsEnergy
-    };
+    },
   } catch (error) {
     logger.error('Error calculating thermodynamic properties:', error)
     return {
@@ -297,6 +297,6 @@ export function calculateThermodynamicProperties(
       entropy: 0.5,
       reactivity: 0.5,
       gregsEnergy: -0.35, // Calculated using heat - (entropy * reactivity), // Default Greg's Energy calculation
-    };
+    },
   }
 }

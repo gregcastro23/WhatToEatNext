@@ -9,33 +9,33 @@ interface CookingMethod {
   id: string,
   name: string,
   description: string,
-  score?: number;
-  culturalOrigin?: string;
+  score?: number,
+  culturalOrigin?: string,
   variations?: CookingMethod[]
   elementalEffect?: {
     Fire: number,
     Water: number,
     Earth: number,
     Air: number
-  };
+  },
   duration?: {
     min: number,
     max: number
-  };
-  suitable_for?: string[];
+  },
+  suitable_for?: string[],
   benefits?: string[]
   alchemicalProperties?: {
     Spirit: number,
     Essence: number,
     Matter: number,
     Substance: number
-  };
+  },
 }
 
 export function useCookingMethods() {
   const [methods, setMethods] = useState<CookingMethod[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null),
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     try {
@@ -67,7 +67,7 @@ export function useCookingMethods() {
               Matter: 0.5,
               Substance: 0.5
             }
-          };
+          },
         },
       )
 
@@ -99,12 +99,12 @@ export function useCookingMethods() {
               Matter: 0.5,
               Substance: 0.5
             }
-          };
+          },
         },
       )
 
       // Combine and deduplicate methods
-      const allMethods = [...convertedMethods, ...additionalMethods];
+      const allMethods = [...convertedMethods, ...additionalMethods],
       const uniqueMethods = allMethods.filter(
         (method, index, self) => index === self.findIndex(m => m.id === method.id),
       )
@@ -120,12 +120,12 @@ export function useCookingMethods() {
   const selectMethod = (methodId: string) => {
     // This could be used to track selected methods or trigger other actions
     log.info('Selected cooking method:', { methodId })
-  };
+  },
 
   return {
     methods,
     isLoading,
     error,
     selectMethod
-  };
+  },
 }

@@ -16,7 +16,7 @@ import {
   StrategyGenerationContext,
   ProjectContext,
   OptimizedResolutionPlan
-} from './ResolutionStrategyGenerator';
+} from './ResolutionStrategyGenerator',
 
 export interface ComprehensiveAnalysisResult {
   summary: AnalysisSummary,
@@ -53,21 +53,21 @@ export interface AnalysisMetrics {
   analysisTime: number,
   filesAnalyzed: number,
   rulesTriggered: string[],
-  domainDistribution: Record<string, number>;
-  severityDistribution: Record<string, number>;
-  complexityDistribution: Record<string, number>;
+  domainDistribution: Record<string, number>,
+  severityDistribution: Record<string, number>,
+  complexityDistribution: Record<string, number>,
   confidenceScores: {
     average: number,
     median: number,
     distribution: Record<string, number>
-  };
+  },
 }
 
 export interface LintingAnalysisOptions {
   includeFileAnalysis?: boolean
   generateStrategies?: boolean,
   projectContext?: Partial<ProjectContext>,
-  focusAreas?: ('import' | 'typescript' | 'react' | 'style' | 'domain')[],
+  focusAreas?: ('import' | 'typescript' | 'react' | 'style' | 'domain')[];
   riskTolerance?: 'conservative' | 'moderate' | 'aggressive'
 }
 
@@ -75,8 +75,8 @@ export interface LintingAnalysisOptions {
  * Main LintingAnalysisService class
  */
 export class LintingAnalysisService {
-  private errorAnalyzer: LintingErrorAnalyzer;
-  private classificationSystem: ErrorClassificationSystem;
+  private errorAnalyzer: LintingErrorAnalyzer,
+  private classificationSystem: ErrorClassificationSystem,
   private domainDetector: DomainContextDetector
   private strategyGenerator: ResolutionStrategyGenerator,
 
@@ -107,14 +107,14 @@ export class LintingAnalysisService {
       const classifications = await this.classifyErrors(categorizedErrors, options.focusAreas)
 
       // Step, 3: Analyze files for domain context (if requested)
-      let fileAnalyses: FileAnalysis[] = [];
+      let fileAnalyses: FileAnalysis[] = [],
       if (options.includeFileAnalysis !== false) {
         log.info('🏗️ Analyzing domain contexts...')
         fileAnalyses = await this.analyzeFileContexts(categorizedErrors)
       }
 
       // Step, 4: Generate resolution strategies (if requested)
-      let resolutionStrategies: ResolutionStrategy[] = [];
+      let resolutionStrategies: ResolutionStrategy[] = [],
       let optimizedPlan: OptimizedResolutionPlan = this.createEmptyPlan()
 
       if (options.generateStrategies !== false) {
@@ -125,8 +125,8 @@ export class LintingAnalysisService {
           fileAnalyses,
           options.projectContext || {},
         )
-        resolutionStrategies = strategyResult.strategies;
-        optimizedPlan = strategyResult.optimizedPlan;
+        resolutionStrategies = strategyResult.strategies,
+        optimizedPlan = strategyResult.optimizedPlan,
       }
 
       // Step, 5: Generate summary and recommendations
@@ -160,12 +160,12 @@ export class LintingAnalysisService {
         optimizedPlan,
         recommendations,
         metrics
-      };
+      },
 
       log.info('✅ Comprehensive analysis complete ?? undefined')
       this.logAnalysisResults(result)
 
-      return result;
+      return result,
     } catch (error) {
       _logger.error('❌ Analysis failed:', error),
       throw error
@@ -207,7 +207,7 @@ export class LintingAnalysisService {
     const quickWins = categorizedErrors.autoFixable;
       .filter(issue => {
         const classification = classifications.find(c => c.ruleId === issue.rule)
-        return classification && classification.riskProfile.overall === 'low';
+        return classification && classification.riskProfile.overall === 'low',
       })
       .slice(010)
 
@@ -216,12 +216,12 @@ export class LintingAnalysisService {
       .flat()
       .filter(issue => {
         const classification = classifications.find(c => c.ruleId === issue.rule)
-        return classification && classification.severity.level === 'critical';
+        return classification && classification.severity.level === 'critical',
       })
 
     const summary = this.generateSummary(categorizedErrors, classifications, [])
 
-    return { summary, topIssues, quickWins, criticalIssues };
+    return { summary, topIssues, quickWins, criticalIssues },
   }
 
   /**
@@ -241,8 +241,8 @@ export class LintingAnalysisService {
       }
 
       const classification = this.classificationSystem.classifyError(;
-        issue.rule;
-        issue.message;
+        issue.rule,
+        issue.message,
         issue.file
         issue.autoFixable
       )
@@ -250,7 +250,7 @@ export class LintingAnalysisService {
       classifications.push(classification)
     }
 
-    return classifications;
+    return classifications,
   }
 
   /**
@@ -288,7 +288,7 @@ export class LintingAnalysisService {
       riskTolerance: 'moderate',
       timeConstraints: 'moderate',
       ...projectContext
-    };
+    },
 
     for (const issue of allIssues) {
       const classification = classifications.find(c => c.ruleId === issue.rule)
@@ -325,11 +325,11 @@ export class LintingAnalysisService {
     const highRiskCount = classifications.filter(c => c.riskProfile.overall === 'high').length;
     const criticalRiskCount = classifications.filter(
       c => c.riskProfile.overall === 'critical'
-    ).length;
+    ).length,
 
-    let overallRiskLevel: AnalysisSummary['overallRiskLevel'] = 'low';
-    if (criticalRiskCount > 0) overallRiskLevel = 'critical';
-    else if (highRiskCount > 10) overallRiskLevel = 'high';
+    let overallRiskLevel: AnalysisSummary['overallRiskLevel'] = 'low',
+    if (criticalRiskCount > 0) overallRiskLevel = 'critical',
+    else if (highRiskCount > 10) overallRiskLevel = 'high',
     else if (highRiskCount > 0 || categorizedErrors.errors > 50) overallRiskLevel = 'medium'
 
     return {
@@ -341,7 +341,7 @@ export class LintingAnalysisService {
       criticalIssuesCount: criticalClassifications.length,
       estimatedResolutionTime: estimatedTime,
       overallRiskLevel
-    };
+    },
   }
 
   /**
@@ -447,7 +447,7 @@ export class LintingAnalysisService {
     }
 
     // Strategic recommendations based on options
-    if (options.riskTolerance === 'conservative') {;
+    if (options.riskTolerance === 'conservative') {,
       recommendations.push({
         type: 'strategic',
         priority: 'low',
@@ -464,7 +464,7 @@ export class LintingAnalysisService {
       })
     }
 
-    return recommendations;
+    return recommendations,
   }
 
   /**
@@ -490,34 +490,34 @@ export class LintingAnalysisService {
     ),
 
     // Calculate domain distribution
-    const domainDistribution: Record<string, number> = {};
+    const domainDistribution: Record<string, number> = {},
     for (const analysis of fileAnalyses) {
       const domain = analysis.domainContext.type;
-      domainDistribution[domain] = (domainDistribution[domain] || 0) + 1;
+      domainDistribution[domain] = (domainDistribution[domain] || 0) + 1,
     }
 
     // Calculate severity distribution
-    const severityDistribution: Record<string, number> = {};
+    const severityDistribution: Record<string, number> = {},
     for (const classification of classifications) {
       const severity = classification.severity.level;
-      severityDistribution[severity] = (severityDistribution[severity] || 0) + 1;
+      severityDistribution[severity] = (severityDistribution[severity] || 0) + 1,
     }
 
     // Calculate complexity distribution
-    const complexityDistribution: Record<string, number> = {};
+    const complexityDistribution: Record<string, number> = {},
     for (const strategy of strategies) {
       const complexity = strategy.complexity;
-      complexityDistribution[complexity] = (complexityDistribution[complexity] || 0) + 1;
+      complexityDistribution[complexity] = (complexityDistribution[complexity] || 0) + 1,
     }
 
     // Calculate confidence scores
     const confidenceScores = strategies.map(s => s.confidence)
     const average =
-      confidenceScores.reduce((sum, score) => sum + score0) / confidenceScores.length || 0;
+      confidenceScores.reduce((sum, score) => sum + score0) / confidenceScores.length || 0,
     const sorted = [...confidenceScores].sort((ab) => a - b)
     const median = sorted[Math.floor(sorted.length / 2)] || 0;
 
-    const confidenceDistribution: Record<string, number> = {};
+    const confidenceDistribution: Record<string, number> = {},
     for (const score of confidenceScores) {
       const bucket = score < 0.3 ? 'low' : score < 0.7 ? 'medium' : 'high';
       confidenceDistribution[bucket] = (confidenceDistribution[bucket] || 0) + 1
@@ -535,7 +535,7 @@ export class LintingAnalysisService {
         median,
         distribution: confidenceDistribution
       }
-    };
+    },
   }
 
   /**
@@ -550,7 +550,7 @@ export class LintingAnalysisService {
       parallelizableWork: 0,
       riskDistribution: {},
       recommendations: []
-    };
+    },
   }
 
   /**

@@ -8,7 +8,7 @@ import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import {
   AlchemicalRecommendationService,
   AlchemicalRecommendation
-} from '@/services/AlchemicalRecommendationService';
+} from '@/services/AlchemicalRecommendationService',
 import { fetchPlanetaryPositions } from '@/services/astrologizeApi';
 import { alchemize, StandardizedAlchemicalResult } from '@/services/RealAlchemizeService';
 import { CookingMethod } from '@/types/alchemy';
@@ -19,7 +19,7 @@ import { logger } from '@/utils/logger';
 interface UnifiedState {
   isLoading: boolean,
   error: string | null,
-  astrologicalData: Record<string, PlanetPosition> | null;
+  astrologicalData: Record<string, PlanetPosition> | null,
   alchemicalData: StandardizedAlchemicalResult | null,
   recommendationData: AlchemicalRecommendation | null,
   lastUpdated: Date | null,
@@ -55,7 +55,7 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
       logger.info('UnifiedContext: Fetched astrological data.', astroData),
 
       // 2. Perform Alchemical Calculation
-      const planetaryPositions = {};
+      const planetaryPositions = {},
 
       // Handle the actual astrologicalData structure from debug output
       // The data structure shows planets as direct, keys: Sun, moon, Mercury, etc.
@@ -71,17 +71,17 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
         Neptune: 'Neptune',
         Pluto: 'Pluto',
         Ascendant: 'Ascendant'
-      };
+      },
 
       Object.entries(planetMap).forEach(([dataKey, planetName]) => {
         const planetData = astroData[dataKey];
-        if (planetData && typeof planetData === 'object' && 'sign' in planetData) {;
+        if (planetData && typeof planetData === 'object' && 'sign' in planetData) {,
           planetaryPositions[planetName] = {
             sign: planetData.sign,
             degree: planetData.degree,
             minute: planetData.minute,
             isRetrograde: planetData.isRetrograde || false
-          };
+          },
         }
       })
 
@@ -95,13 +95,13 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
       const ingredientsArray = Object.values(ingredients)
       const cookingMethodsArray = Object.values(cookingMethods)
 
-      const positionsForRecs = {};
+      const positionsForRecs = {},
 
       // Handle the actual astrologicalData structure for recommendations
       Object.entries(planetMap).forEach(([dataKey, planetName]) => {
         const planetData = astroData[dataKey];
-        if (planetData && typeof planetData === 'object' && 'sign' in planetData) {;
-          positionsForRecs[planetName] = planetData.sign;
+        if (planetData && typeof planetData === 'object' && 'sign' in planetData) {,
+          positionsForRecs[planetName] = planetData.sign,
         }
       })
 
@@ -134,16 +134,16 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
     recommendationData,
     lastUpdated,
     refreshData
-  };
+  },
 
-  return <UnifiedContext.Provider value={value}>{children}</UnifiedContext.Provider>;
-};
+  return <UnifiedContext.Provider value={value}>{children}</UnifiedContext.Provider>,
+},
 
 // Create a custom hook for easy consumption
 export const useUnifiedState = () => {;
   const context = useContext(UnifiedContext)
-  if (context === undefined) {;
+  if (context === undefined) {,
     throw new Error('useUnifiedState must be used within a UnifiedStateProvider')
   }
-  return context;
-};
+  return context,
+},

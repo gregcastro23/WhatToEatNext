@@ -57,6 +57,6 @@ const rawQuinoa = {
       toAvoid: ['overpowering sauces', 'very wet preparations that might make it soggy']
     }
   }
-};
+},
 
 export const quinoa: Record<string, IngredientMapping> = fixIngredientMappings(rawQuinoa)

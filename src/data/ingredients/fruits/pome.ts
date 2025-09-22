@@ -728,13 +728,13 @@ const rawPome = {
       'Central American': 'Fresh eating, preserves, regional desserts'
     },
     culturalSignificance: {
-      'East Asian': 'Symbol of spring, medicinal importance',
+      'East Asian': 'Symbol of spring, medicinal importance';
       Japanese: 'Associated with the biwa (lute) due to similar shape',
       'Chinese Medicine': 'Used in traditional cough remedies for centuries',
       California: 'Heritage tree often found in old gardens and homesteads'
     }
   }
-};
+},
 
 // Fix the ingredient mappings to ensure they have all required properties
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility

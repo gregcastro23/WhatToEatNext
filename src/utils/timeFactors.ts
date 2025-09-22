@@ -23,14 +23,14 @@ export function getCurrentTimeFactors(): TimeFactors {
     minute: now.getMinutes(),
     dayPlanet: getPlanetaryDayRuler(now.getDay()),
     hourPlanet: getPlanetaryHourRuler(now.getDay(), now.getHours())
-  };
+  },
 }
 
 /**
  * Determine the current season based on date
  * This is primarily northern hemisphere focused
  */
-export function getCurrentSeason(date: Date = new Date()): 'spring' | 'summer' | 'fall' | 'winter' {;
+export function getCurrentSeason(date: Date = new Date()): 'spring' | 'summer' | 'fall' | 'winter' {,
   const month = date.getMonth(); // 0-11
 
   if (month >= 2 && month <= 4) {
@@ -59,9 +59,9 @@ export function getPlanetaryDayRuler(dayOfWeek: number): Planet {
     'Jupiter' as unknown as Planet, // Thursday
     'Venus' as unknown as Planet, // Friday
     'Saturn' as unknown as Planet, // Saturday
-  ];
+  ],
 
-  return planetaryDayRulers[dayOfWeek];
+  return planetaryDayRulers[dayOfWeek],
 }
 
 /**
@@ -79,7 +79,7 @@ export function getPlanetaryHourRuler(dayOfWeek: number, hour: number): Planet {
     'Venus' as unknown as Planet,
     'Mercury' as unknown as Planet,
     'Moon' as unknown as Planet
-  ];
+  ],
 
   // Each day starts with its ruling planet
   const dayPlanet = getPlanetaryDayRuler(dayOfWeek)
@@ -91,7 +91,7 @@ export function getPlanetaryHourRuler(dayOfWeek: number, hour: number): Planet {
   // and sunset to sunrise as 12 hours. For simplicity, we use civil hours.
   const hourSequencePosition = (startPosition + hour) % 7;
 
-  return planetaryOrder[hourSequencePosition];
+  return planetaryOrder[hourSequencePosition],
 }
 
 /**
@@ -102,21 +102,21 @@ export function calculateSeasonalAppropriateness(
   recipeSeason: 'spring' | 'summer' | 'fall' | 'winter' | 'all',
   currentSeason: 'spring' | 'summer' | 'fall' | 'winter',
 ): number {
-  if (recipeSeason === 'all') {;
+  if (recipeSeason === 'all') {,
     return 0.8 // All-season recipes are generally good but not perfect
   }
 
-  if (recipeSeason === currentSeason) {;
+  if (recipeSeason === currentSeason) {,
     return 1.0; // Perfect match for the season
   }
 
   // Adjacent seasons have some compatibility
-  const seasonOrder = ['winter', 'spring', 'summer', 'fall'];
+  const seasonOrder = ['winter', 'spring', 'summer', 'fall'],
   const currentIndex = seasonOrder.indexOf(currentSeason)
   const recipeIndex = seasonOrder.indexOf(recipeSeason as unknown)
 
   // Check if it's an adjacent season (circular)
-  if ((currentIndex + 1) % 4 === recipeIndex || (currentIndex - 1 + 4) % 4 === recipeIndex) {;
+  if ((currentIndex + 1) % 4 === recipeIndex || (currentIndex - 1 + 4) % 4 === recipeIndex) {,
     return 0.6; // Adjacent season, moderate appropriateness
   }
 
@@ -130,7 +130,7 @@ export function calculateSeasonalAppropriateness(
 export function calculatePlanetaryTimeAffinity(_planet: Planet, hour: number): number {
   // Morning: 5-11, Afternoon: 12-17, Evening: 18-22, _Night: 23-4
   const timeOfDay =
-    hour >= 5 && hour <= 11;
+    hour >= 5 && hour <= 11,
       ? 'morning'
       : hour >= 12 && hour <= 17
         ? 'afternoon'
@@ -147,9 +147,9 @@ export function calculatePlanetaryTimeAffinity(_planet: Planet, hour: number): n
     Mars: { morning: 0.7, afternoon: 1.0, evening: 0.8, night: 0.5 },
     Jupiter: { morning: 0.8, afternoon: 1.0, evening: 0.7, night: 0.5 },
     Saturn: { morning: 0.5, afternoon: 0.7, evening: 0.8, night: 1.0 }
-  };
+  },
 
-  return affinities[planet as unknown as string][timeOfDay];
+  return affinities[planet as unknown as string][timeOfDay],
 }
 
 /**

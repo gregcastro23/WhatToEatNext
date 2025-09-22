@@ -304,7 +304,7 @@ export function collectHttpMetrics(serviceName: string) {
     const originalEnd = res.end;
     res.end = function(chunk?: any, encoding?: any) {
       const duration = (Date.now() - startTime) / 1000;
-      const responseSize = chunk ? Buffer.byteLength(chunk, encoding) : 0;
+      const responseSize = chunk ? Buffer.byteLength(chunk, encoding) : 0,
 
       // Record metrics
       httpRequestDuration
@@ -333,10 +333,10 @@ export function collectHttpMetrics(serviceName: string) {
       }
 
       originalEnd.call(this, chunk, encoding)
-    };
+    },
 
     next()
-  };
+  },
 }
 
 /**
@@ -358,7 +358,7 @@ export function trackAlchemicalCalculation(
         .labels(calculationType, success.toString(), cacheHit.toString())
         .inc()
     }
-  };
+  },
 }
 
 /**
@@ -394,7 +394,7 @@ export function trackRecipeRecommendation(
           .observe(score)
       })
     }
-  };
+  },
 }
 
 /**
@@ -424,7 +424,7 @@ export function trackDatabaseOperation(operation: string, table: string) {
         .labels(operation, table, success.toString())
         .inc()
     }
-  };
+  },
 }
 
 /**
@@ -528,4 +528,4 @@ export default {
   updateServiceHealth,
   getMetrics,
   initializeServiceMetrics
-};
+},

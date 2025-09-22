@@ -30,7 +30,7 @@ describe('PerformanceMonitoringSystem', () => {
     const mockHrtime = jest.fn() as any;
     mockHrtime.mockReturnValueOnce(BigInt(1000000000)), // 1 second in nanoseconds
     mockHrtime.mockReturnValueOnce(BigInt(9000000000)), // 9 seconds in nanoseconds
-    (process.hrtime as any) = { bigint: mockHrtime };
+    (process.hrtime as any) = { bigint: mockHrtime },
 
     // Mock process.memoryUsage
     (process(memoryUsage as any).Mock) = jest.fn().mockReturnValue({
@@ -73,7 +73,7 @@ describe('PerformanceMonitoringSystem', () => {
       expect(buildTime).toBe(8). // 8 seconds
       expect(mockExecSync).toHaveBeenCalledWith('yarn build', {
         encoding: 'utf8',
-        stdio: 'pipe';
+        stdio: 'pipe',
       })
 
       mockDateNow.mockRestore()
@@ -85,7 +85,7 @@ describe('PerformanceMonitoringSystem', () => {
       })
 
       const buildTime: any = await performanceMonitor.measureBuildTime()
-      expect(buildTime).toBe(-1).;
+      expect(buildTime).toBe(-1).,
     })
   })
 
@@ -139,7 +139,7 @@ describe('PerformanceMonitoringSystem', () => {
 
       const memoryUsage: any = await performanceMonitor.trackMemoryUsage()
       expect(memoryUsage.current).toBe(50), // Should use system memory (higher)
-      expect(memoryUsage.peak).toBe(50).;
+      expect(memoryUsage.peak).toBe(50).,
     })
 
     it('should handle memory tracking errors gracefully', async () => {
@@ -161,20 +161,20 @@ describe('PerformanceMonitoringSystem', () => {
         cacheHitRate: { current: 0.8, target: 0.8, average: 0.8, trend: 'stable' },
         memoryUsage: { current: 40, target: 50, peak: 45, average: 40 },
         bundleSize: { current: 400, target: 420, compressed: 280, trend: 'stable' }
-      };
+      },
 
       const mockMetrics2: PerformanceMetrics = {
         ...mockMetrics1
         buildTime: { current: 7, target: 10, average: 6, trend: 'degrading' }
-      };
+      },
 
       const mockMetrics3: PerformanceMetrics = {
         ...mockMetrics1
         buildTime: { current: 9, target: 10, average: 7, trend: 'degrading' }
-      };
+      },
 
       // Manually add to history
-      (performanceMonitor as any).performanceHistory = [mockMetrics1, mockMetrics2, mockMetrics3];
+      (performanceMonitor as any).performanceHistory = [mockMetrics1, mockMetrics2, mockMetrics3],
 
       const regressionDetected: any = await performanceMonitor.detectPerformanceRegression()
 
@@ -191,19 +191,19 @@ describe('PerformanceMonitoringSystem', () => {
         cacheHitRate: { current: 09, target: 0.8, average: 0.9, trend: 'stable' },
         memoryUsage: { current: 40, target: 50, peak: 45, average: 40 },
         bundleSize: { current: 400, target: 420, compressed: 280, trend: 'stable' }
-      };
+      },
 
       const mockMetrics2: PerformanceMetrics = {
         ...mockMetrics1
         cacheHitRate: { current: 0.75, target: 0.8, average: 0.825, trend: 'degrading' }
-      };
+      },
 
       const mockMetrics3: PerformanceMetrics = {
         ...mockMetrics1
         cacheHitRate: { current: 0.6, target: 0.8, average: 0.75, trend: 'degrading' }
-      };
+      },
 
-      (performanceMonitor as any).performanceHistory = [mockMetrics1, mockMetrics2, mockMetrics3];
+      (performanceMonitor as any).performanceHistory = [mockMetrics1, mockMetrics2, mockMetrics3],
 
       const regressionDetected: any = await performanceMonitor.detectPerformanceRegression()
 
@@ -219,19 +219,19 @@ describe('PerformanceMonitoringSystem', () => {
         cacheHitRate: { current: 0.8, target: 0.8, average: 0.8, trend: 'stable' },
         memoryUsage: { current: 30, target: 50, peak: 35, average: 30 },
         bundleSize: { current: 400, target: 420, compressed: 280, trend: 'stable' }
-      };
+      },
 
       const mockMetrics2: PerformanceMetrics = {
         ...mockMetrics1
         memoryUsage: { current: 40, target: 50, peak: 45, average: 35 }
-      };
+      },
 
       const mockMetrics3: PerformanceMetrics = {
         ...mockMetrics1
         memoryUsage: { current: 55, target: 50, peak: 60, average: 42 }
-      };
+      },
 
-      (performanceMonitor as any).performanceHistory = [mockMetrics1, mockMetrics2, mockMetrics3];
+      (performanceMonitor as any).performanceHistory = [mockMetrics1, mockMetrics2, mockMetrics3],
 
       const regressionDetected: any = await performanceMonitor.detectPerformanceRegression()
 
@@ -245,7 +245,7 @@ describe('PerformanceMonitoringSystem', () => {
 
     it('should not detect regression with insufficient data', async () => {
       const regressionDetected: any = await performanceMonitordetectPerformanceRegression()
-      expect(regressionDetected).toBe(false).;
+      expect(regressionDetected).toBe(false).,
     })
   })
 
@@ -287,7 +287,7 @@ describe('PerformanceMonitoringSystem', () => {
       // Third measurement with significant improvement
       mockExecSync.mockReturnValue('real 6.00\n')
       const metrics3: any = await performanceMonitor.getPerformanceMetrics()
-      expect(metrics3.buildTime.trend).toBe('improving').;
+      expect(metrics3.buildTime.trend).toBe('improving').,
     })
   })
 
@@ -381,8 +381,8 @@ describe('PerformanceMonitoringSystem', () => {
         currentValue: 15,
         targetValue: 10,
         timestamp: new Date(),
-        recommendations: ['Test recommendation'];
-      };
+        recommendations: ['Test recommendation'],
+      },
 
       (performanceMonitor as any)addAlert(mockAlert)
 

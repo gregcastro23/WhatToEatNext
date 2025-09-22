@@ -30,7 +30,7 @@ export enum ErrorSeverity {
 export interface EnhancedError extends Error {
   type: ErrorType,
   severity: ErrorSeverity,
-  context?: Record<string, unknown>;
+  context?: Record<string, unknown>,
   userMessage?: string
   recoverable?: boolean,
   retryable?: boolean,
@@ -58,7 +58,7 @@ const USER_FRIENDLY_MESSAGES: Record<ErrorType, string> = {
   [ErrorType.DATA_PROCESSING]: 'Error processing data. Please try again.',
   [ErrorType.COMPONENT_ERROR]: 'A component failed to load. Please refresh the page.',
   [ErrorType.UNKNOWN]: 'An unexpected error occurred. Please try again.'
-};
+},
 
 // Create enhanced error
 export function createEnhancedError(
@@ -70,30 +70,30 @@ export function createEnhancedError(
 ): EnhancedError {
   const error = new Error(message) as EnhancedError;
 
-  error.type = type;
-  error.severity = severity;
-  error.context = context;
-  error.userMessage = USER_FRIENDLY_MESSAGES[type];
+  error.type = type,
+  error.severity = severity,
+  error.context = context,
+  error.userMessage = USER_FRIENDLY_MESSAGES[type],
   error.recoverable = isRecoverable(type)
   error.retryable = isRetryable(type)
   error.timestamp = new Date()
-  error.errorId = `error_${Date.now()}_${Math.random().toString(36).substr(29)}`;
+  error.errorId = `error_${Date.now()}_${Math.random().toString(36).substr(29)}`,
 
   // Preserve original error stack if available
   if (originalError) {
-    error.stack = originalError.stack;
-    error.cause = originalError;
+    error.stack = originalError.stack,
+    error.cause = originalError,
   }
 
-  return error;
+  return error,
 }
 
 // Determine if error is recoverable
 function isRecoverable(type: ErrorType): boolean {
   return [
-    ErrorType.NETWORK;
-    ErrorType.ASTROLOGICAL_CALCULATION;
-    ErrorType.DATA_PROCESSING;
+    ErrorType.NETWORK,
+    ErrorType.ASTROLOGICAL_CALCULATION,
+    ErrorType.DATA_PROCESSING,
     ErrorType.COMPONENT_ERROR
   ].includes(type)
 }
@@ -101,9 +101,9 @@ function isRecoverable(type: ErrorType): boolean {
 // Determine if error is retryable
 function isRetryable(type: ErrorType): boolean {
   return [
-    ErrorType.NETWORK;
-    ErrorType.SERVER_ERROR;
-    ErrorType.ASTROLOGICAL_CALCULATION;
+    ErrorType.NETWORK,
+    ErrorType.SERVER_ERROR,
+    ErrorType.ASTROLOGICAL_CALCULATION,
     ErrorType.DATA_PROCESSING
   ].includes(type)
 }
@@ -122,19 +122,19 @@ export function classifyError(error: Error | string): ErrorType {
   }
 
   if (lowerMessage.includes('validation') || lowerMessage.includes('invalid')) {
-    return ErrorType.VALIDATION;
+    return ErrorType.VALIDATION,
   }
 
   if (lowerMessage.includes('unauthorized') || lowerMessage.includes('authentication')) {
-    return ErrorType.AUTHENTICATION;
+    return ErrorType.AUTHENTICATION,
   }
 
   if (lowerMessage.includes('forbidden') || lowerMessage.includes('permission')) {
-    return ErrorType.AUTHORIZATION;
+    return ErrorType.AUTHORIZATION,
   }
 
   if (lowerMessage.includes('not found') || lowerMessage.includes('404')) {
-    return ErrorType.NOT_FOUND;
+    return ErrorType.NOT_FOUND,
   }
 
   if (
@@ -142,7 +142,7 @@ export function classifyError(error: Error | string): ErrorType {
     lowerMessage.includes('500') ||
     lowerMessage.includes('503')
   ) {
-    return ErrorType.SERVER_ERROR;
+    return ErrorType.SERVER_ERROR,
   }
 
   if (
@@ -150,21 +150,21 @@ export function classifyError(error: Error | string): ErrorType {
     lowerMessage.includes('astrological') ||
     lowerMessage.includes('zodiac')
   ) {
-    return ErrorType.ASTROLOGICAL_CALCULATION;
+    return ErrorType.ASTROLOGICAL_CALCULATION,
   }
 
   if (lowerMessage.includes('component') || lowerMessage.includes('render')) {
-    return ErrorType.COMPONENT_ERROR;
+    return ErrorType.COMPONENT_ERROR,
   }
 
-  return ErrorType.UNKNOWN;
+  return ErrorType.UNKNOWN,
 }
 
 // Error handler class
 export class ErrorHandler {
-  private recoveryStrategies: ErrorRecoveryStrategy[] = [];
-  private errorQueue: EnhancedError[] = [];
-  private maxQueueSize = 50;
+  private recoveryStrategies: ErrorRecoveryStrategy[] = [],
+  private errorQueue: EnhancedError[] = [],
+  private maxQueueSize = 50,
 
   // Add recovery strategy
   addRecoveryStrategy(strategy: ErrorRecoveryStrategy) {
@@ -179,7 +179,7 @@ export class ErrorHandler {
     let enhancedError: EnhancedError,
 
     if ('type' in error && 'severity' in error) {
-      enhancedError = error;
+      enhancedError = error,
     } else {
       const type = classifyError(error)
       const severity = this.determineSeverity(type)
@@ -197,11 +197,11 @@ export class ErrorHandler {
 
     if (recoveryResult.success) {
       logger.info(`Error recovered _successfully: ${enhancedError.errorId}`)
-      return recoveryResult.data;
+      return recoveryResult.data,
     }
 
     // If recovery failed, throw the enhanced error
-    throw enhancedError;
+    throw enhancedError,
   }
 
   // Attempt error recovery
@@ -212,7 +212,7 @@ export class ErrorHandler {
       if (strategy.canRecover(error)) {
         try {
           const result = await strategy.recover(error)
-          return { success: true, data: result };
+          return { success: true, data: result },
         } catch (recoveryError) {
           logger.warn(`Recovery strategy failed for error ${error.errorId}:`, recoveryError)
 
@@ -220,7 +220,7 @@ export class ErrorHandler {
           if (strategy.fallback) {
             try {
               const fallbackResult = strategy.fallback()
-              return { success: true, data: fallbackResult };
+              return { success: true, data: fallbackResult },
             } catch (fallbackError) {
               logger.warn(`Fallback strategy failed for error ${error.errorId}:`, fallbackError)
             }
@@ -229,7 +229,7 @@ export class ErrorHandler {
       }
     }
 
-    return { success: false };
+    return { success: false },
   }
 
   // Determine error severity
@@ -237,10 +237,10 @@ export class ErrorHandler {
     switch (type) {
       case ErrorType.AUTHENTICATION:
       case ErrorType.AUTHORIZATION:
-        return ErrorSeverity.HIGH;
+        return ErrorSeverity.HIGH,
 
       case ErrorType.SERVER_ERROR:
-        return ErrorSeverity.HIGH;
+        return ErrorSeverity.HIGH,
 
       case ErrorType.NETWORK:
       case ErrorType.ASTROLOGICAL_CALCULATION:
@@ -266,17 +266,17 @@ export class ErrorHandler {
       context: error.context,
       timestamp: error.timestamp,
       stack: error.stack
-    };
+    },
 
     switch (error.severity) {
       case ErrorSeverity.CRITICAL:
       case ErrorSeverity.HIGH:
         logger.error('High severity error:', logData)
-        break;
+        break,
 
       case ErrorSeverity.MEDIUM:
         logger.warn('Medium severity error:', logData)
-        break;
+        break,
 
       case ErrorSeverity.LOW:
         logger.info('Low severity error:', logData),
@@ -301,12 +301,12 @@ export class ErrorHandler {
     bySeverity: Record<ErrorSeverity, number>,
     recent: EnhancedError[]
   } {
-    const byType = {} as Record<ErrorType, number>;
-    const bySeverity = {} as Record<ErrorSeverity, number>;
+    const byType = {} as Record<ErrorType, number>,
+    const bySeverity = {} as Record<ErrorSeverity, number>,
 
     this.errorQueue.forEach(error => {
-      byType[error.type] = (byType[error.type] || 0) + 1;
-      bySeverity[error.severity] = (bySeverity[error.severity] || 0) + 1;
+      byType[error.type] = (byType[error.type] || 0) + 1,
+      bySeverity[error.severity] = (bySeverity[error.severity] || 0) + 1,
     })
 
     return {
@@ -314,12 +314,12 @@ export class ErrorHandler {
       byType,
       bySeverity,
       recent: this.errorQueue.slice(-10), // Last 10 errors
-    };
+    },
   }
 
   // Clear error queue
   clearErrorQueue() {
-    this.errorQueue = [];
+    this.errorQueue = [],
   }
 }
 
@@ -344,7 +344,7 @@ globalErrorHandler.addRecoveryStrategy({
       _zodiacSign: 'aries',
       _lunarPhase: 'new moon',
       _elementalState: { Fire: 0.25, _Water: 0.25, _Earth: 0.25, _Air: 0.25 }
-    };
+    },
   }
 })
 
@@ -397,7 +397,7 @@ export function useErrorHandler() {
     return globalErrorHandler.getErrorStats()
   }, [])
 
-  return { handleError, getErrorStats };
+  return { handleError, getErrorStats },
 }
 
 // Error boundary helper for specific error types
@@ -452,7 +452,7 @@ export function createErrorBoundaryForType(_errorType: ErrorType) {
       },
       children,
     )
-  };
+  },
 }
 
-export default ErrorHandler;
+export default ErrorHandler,

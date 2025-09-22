@@ -23,7 +23,7 @@ const commands = {
   'monitor-trends': monitorTrends,
   'create-cicd-report': createCICDReport,
   help: showHelp
-};
+},
 
 /**
  * Main CLI entry point
@@ -144,7 +144,7 @@ async function startCampaign(args: string[]) {
     standardCampaigns.forEach(c => {
       // // // _logger.info(`  - ${c.campaignId}: ${c.name}`)
     })
-    return;
+    return,
   }
 
   // // // _logger.info(`Campaign: ${campaign.name}`)
@@ -159,7 +159,7 @@ async function startCampaign(args: string[]) {
       // // // _logger.info(`     Tools: ${phase.tools.join(', ')}`)
       // // // _logger.info(`     Estimated Duration: ${phase.estimatedDuration} minutes`)
     })
-    return;
+    return,
   }
 
   if (!args.includes('--confirm')) {
@@ -191,9 +191,9 @@ async function evaluateQualityGates(args: string[]) {
     // // // _logger.info('\n⚠️  Violations: ')
     result.violations.forEach((violation, index) => {
       const icon =
-        violation.severity === 'critical';
+        violation.severity === 'critical',
           ? '🚨'
-          : violation.severity === 'high';
+          : violation.severity === 'high',
             ? '⚠️'
             : violation.severity === 'medium'
               ? '⚡'
@@ -423,11 +423,11 @@ For more information, see the documentation in the linting services directory.
 }
 
 // Run the CLI if this file is executed directly
-if (require.main === module) {;
+if (require.main === module) {,
   main().catch(error => {
     _logger.error('Fatal error:', error),
     process.exit(1)
   })
 }
 
-export { commands, main };
+export { commands, main },

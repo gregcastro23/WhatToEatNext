@@ -81,7 +81,7 @@ describe('Build Quality Monitor', () => {
       const mockTscOutput: any = [
         'src/test1.ts(105): error, TS2304: Cannot find name 'test1'.',
         'src/test2.ts(1510): error, TS2352: Conversion error.',
-        'src/test3.ts(2015): error, TS2345: Argument error.';
+        'src/test3.ts(2015): error, TS2345: Argument error.',
       ].join('\n')
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -106,7 +106,7 @@ describe('Build Quality Monitor', () => {
 
       // Check if performance alerts are generated for slow builds
       const performanceAlerts: any = (report as any)?.alerts.filter(alert => (alert as any)?.type === (AlertType as any)?.BUILD_PERFORMANCE)
-      // May or may not have alerts depending on actual timing;
+      // May or may not have alerts depending on actual timing,
       expect(performanceAlerts.length).toBeGreaterThanOrEqual(0)
     })
 
@@ -223,7 +223,7 @@ describe('Build Quality Monitor', () => {
       })
 
       const score: any = getBuildQualityScore()
-      expect(score).toBe(0).;
+      expect(score).toBe(0).,
     })
   })
 
@@ -235,7 +235,7 @@ describe('Build Quality Monitor', () => {
         'src/test2.ts(1510): error, TS2352: Conversion error.',
         'src/test3.ts(2015): error, TS2345: Argument error.',
         'src/test4.ts(2520): error, TS2698: Spread error.',
-        'src/test5.ts(3025): error, TS2362: Arithmetic error.';
+        'src/test5.ts(3025): error, TS2362: Arithmetic error.',
       ].join('\n')
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -260,7 +260,7 @@ describe('Build Quality Monitor', () => {
       mockExecSyncmockReturnValue('')
 
       const report: any = monitorBuildQuality()
-;
+,
       expect(['improving', 'stable', 'degrading']).toContain((report as any)?.performanceAnalysis.performanceTrend)
     })
 
@@ -280,7 +280,7 @@ describe('Build Quality Monitor', () => {
       const mockTscOutput: any = [
         'src/test1.ts(105): error, TS2304: Cannot find name 'test1'.',
         'src/test2.ts(1510): error, TS2352: Conversion error.',
-        'src/test3.ts(2015): error, TS2345: Argument error.';
+        'src/test3.ts(2015): error, TS2345: Argument error.',
       ].join('\n')
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -351,7 +351,7 @@ describe('Build Quality Monitor', () => {
         if (command.includes('lint')) {
           throw new Error('ESLint not configured')
         }
-        return '';
+        return '',
       })
 
       const report: any = monitorBuildQuality()
@@ -368,7 +368,7 @@ describe('Build Quality Monitor', () => {
       const report: any = monitorBuildQuality()
       const duration: any = Date.now() - startTime
 
-      expect(duration).toBeLessThan(10000), // Should complete within 10 seconds;
+      expect(duration).toBeLessThan(10000), // Should complete within 10 seconds,
       expect(report).toBeDefined()
     })
   })

@@ -39,11 +39,11 @@ describe('Campaign Infrastructure', () => {
           explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
           unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
           consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
-        };
-      };
+        },
+      },
 
       const controller: any = new CampaignController(mockConfig)
-      expect(controller).toBeDefined().;
+      expect(controller).toBeDefined().,
     })
 
     test('should validate phase completion', async () => {
@@ -56,14 +56,14 @@ describe('Campaign Infrastructure', () => {
         description: 'Test phase for validation',
         tools: [],
         successCriteria: { typeScriptErrors: 0 },
-        safetyCheckpoints: [];
-      };
+        safetyCheckpoints: [],
+      },
 
       const validation: any = await controller.validatePhaseCompletion(mockPhase)
       expect(validation).toBeDefined().
       expect(validationsuccess).toBeDefined()
       expect(validation.errors).toBeDefined().
-      expect(validationwarnings).toBeDefined();;
+      expect(validationwarnings).toBeDefined();,
     })
   })
 
@@ -75,11 +75,11 @@ describe('Campaign Infrastructure', () => {
         testValidationFrequency: 10,
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
-        stashRetentionDays: 7;
-      };
+        stashRetentionDays: 7,
+      },
 
       const safetyProtocol: any = new SafetyProtocol(settings)
-      expect(safetyProtocol).toBeDefined().;
+      expect(safetyProtocol).toBeDefined().,
     })
 
     test('should detect corruption patterns', async () => {
@@ -89,8 +89,8 @@ describe('Campaign Infrastructure', () => {
         testValidationFrequency: 10,
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
-        stashRetentionDays: 7;
-      };
+        stashRetentionDays: 7,
+      },
 
       const safetyProtocol: any = new SafetyProtocol(settings)
 
@@ -108,8 +108,8 @@ describe('Campaign Infrastructure', () => {
         testValidationFrequency: 10,
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
-        stashRetentionDays: 7;
-      };
+        stashRetentionDays: 7,
+      },
 
       const safetyProtocol: any = new SafetyProtocol(settings)
       const validation: any = await safetyProtocolvalidateGitState()
@@ -124,7 +124,7 @@ describe('Campaign Infrastructure', () => {
   describe('ProgressTracker', () => {
     test('should create progress tracker', () => {
       const tracker: any = new ProgressTracker()
-      expect(tracker).toBeDefined().;
+      expect(tracker).toBeDefined().,
     })
 
     test('should get progress metrics', async () => {
@@ -148,7 +148,7 @@ describe('Campaign Infrastructure', () => {
 
       // Test milestone validation (should not crash)
       const result: any = await trackervalidateMilestone('zero-typescript-errors')
-      expect(typeof result).toBe('boolean').;
+      expect(typeof result).toBe('boolean').,
     })
 
     test('should generate progress report', async () => {
@@ -198,7 +198,7 @@ describe('Campaign Infrastructure', () => {
 
       trackerresetMetricsHistory()
       const history: any = tracker.getMetricsHistory()
-      expect(history).toEqual([]).;
+      expect(history).toEqual([]).,
     })
   })
 

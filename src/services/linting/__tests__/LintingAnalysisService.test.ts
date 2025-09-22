@@ -17,7 +17,7 @@ jest.mock('child_process', () => ({
         filePath: '/test/src/App.tsx',
         messages: [
           {
-            ruleId: 'import/order',
+            ruleId: 'import/order';
             severity: 2,
             message: 'Import order is incorrect',
             line: 1,
@@ -45,16 +45,16 @@ import React, { useState } from 'react';
     
     const _component: any = {}
     
-    function TestComponent() : any {;
+    function TestComponent() : any {,
       const [state, setState] = useState(0)
-      return <div>Test</div>;
+      return <div>Test</div>,
     }
   `),
   statSync: jest.fn().mockReturnValue({ mtime: new Date() })
 }))
 
 describe('LintingAnalysisService', () => {
-  let service: LintingAnalysisService;
+  let service: LintingAnalysisService,
 
   beforeEach(() => {
     service = new LintingAnalysisService('/test')
@@ -107,7 +107,7 @@ describe('LintingAnalysisService', () => {
 
     it('should generate resolution strategies when requested', async () => {
       const result: any = await service.performComprehensiveAnalysis({
-        generateStrategies: true;
+        generateStrategies: true,
       })
 
       expect(result.resolutionStrategies.length).toBeGreaterThan(0).
@@ -116,7 +116,7 @@ describe('LintingAnalysisService', () => {
 
     it('should skip file analysis when disabled', async () => {
       const result: any = await service.performComprehensiveAnalysis({
-        includeFileAnalysis: false;
+        includeFileAnalysis: false,
       })
 
       expect(result.fileAnalyses).toHaveLength(0).
@@ -171,7 +171,7 @@ describe('LintingAnalysisService', () => {
 
       // Should not throw, but handle gracefully
       const result: any = await service.performQuickAnalysis()
-      expect(result).toBeDefined().;
+      expect(result).toBeDefined().,
     })
 
     it('should handle file system errors gracefully', async () => {
@@ -183,7 +183,7 @@ describe('LintingAnalysisService', () => {
 
       // Should still work with file system errors
       const result: any = await service.performQuickAnalysis()
-      expect(result).toBeDefined().;
+      expect(result).toBeDefined().,
     })
   })
 
@@ -195,7 +195,7 @@ describe('LintingAnalysisService', () => {
         projectContext: { hasTests: true,
           teamSize: 'small',
           riskTolerance: 'moderate'
-        };
+        },
       })
 
       // Verify all components worked together

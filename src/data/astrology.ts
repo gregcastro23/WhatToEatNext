@@ -12,7 +12,7 @@ export const zodiacSigns = [
   'Capricorn',
   'Aquarius',
   'Pisces'
-];
+],
 
 export const elements = {
   aries: 'Fire',
@@ -27,7 +27,7 @@ export const elements = {
   cancer: 'Water',
   scorpio: 'Water',
   pisces: 'Water'
-};
+},
 
 export const planetaryRulers = {
   aries: 'Mars',
@@ -42,7 +42,7 @@ export const planetaryRulers = {
   capricorn: 'Saturn',
   aquarius: 'Uranus',
   pisces: 'Neptune'
-};
+},
 
 // Export planetInfo data structure needed by the calculations
 export const planetInfo = {
@@ -127,7 +127,7 @@ export const planetInfo = {
     'Diurnal Element': 'Earth',
     'Nocturnal Element': 'Earth'
   }
-};
+},
 
 // Export signInfo data structure needed by the calculations
 export const signInfo = {
@@ -407,7 +407,7 @@ export const signInfo = {
     Ruler: 'Jupiter',
     Modality: 'Mutable'
   }
-};
+},
 
 // NOTE: signInfo is truncated for brevity - please add the remaining signs as needed
 
@@ -417,4 +417,4 @@ export default {
   planetaryRulers,
   planetInfo,
   signInfo
-};
+},

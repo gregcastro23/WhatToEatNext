@@ -42,11 +42,11 @@ export interface PerformanceAlert {
 }
 
 export class PerformanceMonitoringService {
-  private readonly metricsFile = 'linting-performance-metrics.json';
-  private readonly alertsFile = 'linting-performance-alerts.json';
+  private readonly metricsFile = 'linting-performance-metrics.json',
+  private readonly alertsFile = 'linting-performance-alerts.json',
   private readonly, thresholds: PerformanceThresholds,
-  private metrics: PerformanceMetrics[] = [];
-  private alerts: PerformanceAlert[] = [];
+  private metrics: PerformanceMetrics[] = [],
+  private alerts: PerformanceAlert[] = [],
 
   constructor(thresholds?: Partial<PerformanceThresholds>) {
     this.thresholds = {
@@ -56,7 +56,7 @@ export class PerformanceMonitoringService {
       maxIncrementalTime: 10000, // 10 seconds,
       minPerformanceImprovement: 60, // 60%
       ...thresholds
-    };
+    },
 
     this.loadExistingMetrics()
     this.loadExistingAlerts()
@@ -75,7 +75,7 @@ export class PerformanceMonitoringService {
   ): Promise<PerformanceMetrics> {
     const startTime = Date.now()
     const startMemory = process.memoryUsage()
-    let peakMemoryUsage = startMemory.heapUsed;
+    let peakMemoryUsage = startMemory.heapUsed,
 
     // Monitor memory usage during execution
     const memoryMonitor = setInterval(() => {;
@@ -83,9 +83,9 @@ export class PerformanceMonitoringService {
       peakMemoryUsage = Math.max(peakMemoryUsage, currentMemory),
     }, 100)
 
-    let output = '';
-    let errorCount = 0;
-    let warningCount = 0;
+    let output = '',
+    let errorCount = 0,
+    let warningCount = 0,
 
     try {
       output = execSync(command, {
@@ -94,7 +94,7 @@ export class PerformanceMonitoringService {
         timeout: this.thresholds.maxExecutionTime + 30000, // Extra buffer
       })
     } catch (error: unknown) {
-      output = error.stdout || error.stderr || '';
+      output = error.stdout || error.stderr || '',
       // Extract error and warning counts from output
       const errorMatches = output.match(/(\d+)\s+errors?/gi)
       const warningMatches = output.match(/(\d+)\s+warnings?/gi)
@@ -122,7 +122,7 @@ export class PerformanceMonitoringService {
       incrementalTime: options.incremental ? executionTime : undefined,
       errorCount,
       warningCount
-    };
+    },
 
     // Record metrics
     this.recordMetrics(metrics)
@@ -130,7 +130,7 @@ export class PerformanceMonitoringService {
     // Check thresholds and generate alerts
     this.checkThresholds(metrics)
 
-    return metrics;
+    return metrics,
   }
 
   /**
@@ -156,10 +156,10 @@ export class PerformanceMonitoringService {
 
     // Get current (latest metrics with cache)
     const current =
-      this.metrics.find(m => m.cacheHitRate > 0) || this.metrics[this.metrics.length - 1];
+      this.metrics.find(m => m.cacheHitRate > 0) || this.metrics[this.metrics.length - 1],
 
     const improvement =
-      ((baseline.executionTime - current.executionTime) / baseline.executionTime) * 100;
+      ((baseline.executionTime - current.executionTime) / baseline.executionTime) * 100,
     const passed = improvement >= this.thresholds.minPerformanceImprovement && improvement <= 80;
 
     return {
@@ -167,7 +167,7 @@ export class PerformanceMonitoringService {
       passed,
       baseline,
       current
-    };
+    },
   }
 
   /**
@@ -194,7 +194,7 @@ export class PerformanceMonitoringService {
       filesPerProcess,
       optimalDistribution,
       processCount: latestMetrics.parallelProcesses
-    };
+    },
   }
 
   /**
@@ -211,7 +211,7 @@ export class PerformanceMonitoringService {
         peakMemoryMB: 0,
         withinLimit: false,
         memoryEfficient: false
-      };
+      },
     }
 
     const peakMemoryMB = latestMetrics.memoryUsage / 1024 / 1024;
@@ -235,17 +235,17 @@ export class PerformanceMonitoringService {
   } {
     const incrementalMetrics = this.metrics.filter(m => m.incrementalTime !== undefined)
 
-    if (incrementalMetrics.length === 0) {;
+    if (incrementalMetrics.length === 0) {,
       return {
         averageIncrementalTime: 0,
         subTenSecond: false,
         consistentPerformance: false
-      };
+      },
     }
 
     const averageIncrementalTime =
-      incrementalMetrics.reduce((summ) => sum + (m.incrementalTime || 0), 0) /;
-      incrementalMetrics.length;
+      incrementalMetrics.reduce((summ) => sum + (m.incrementalTime || 0), 0) /,
+      incrementalMetrics.length,
     const subTenSecond = averageIncrementalTime < this.thresholds.maxIncrementalTime;
 
     // Check consistency (all incremental runs should be under threshold)
@@ -257,7 +257,7 @@ export class PerformanceMonitoringService {
       averageIncrementalTime,
       subTenSecond,
       consistentPerformance
-    };
+    },
   }
 
   /**
@@ -287,7 +287,7 @@ export class PerformanceMonitoringService {
       averageCacheHitRate:
         this.metrics.reduce((summ) => sum + m.cacheHitRate, 0) / this.metrics.length || 0,
       totalAlerts: this.alerts.length
-    };
+    },
 
     const performanceImprovement = this.validatePerformanceImprovement()
     const parallelProcessing = this.validateParallelProcessing()
@@ -311,7 +311,7 @@ export class PerformanceMonitoringService {
       incrementalPerformance,
       recentAlerts,
       recommendations
-    };
+    },
   }
 
   /**
@@ -337,32 +337,32 @@ export class PerformanceMonitoringService {
         executionTimeTrend: 'stable',
         memoryUsageTrend: 'stable',
         cacheHitRateTrend: 'stable'
-      };
+      },
     }
 
     const firstHalf = recentMetrics.slice(0, Math.floor(recentMetrics.length / 2)),
     const secondHalf = recentMetrics.slice(Math.floor(recentMetrics.length / 2))
 
     const avgExecutionTimeFirst =
-      firstHalf.reduce((summ) => sum + m.executionTime, 0) / firstHalf.length;
+      firstHalf.reduce((summ) => sum + m.executionTime, 0) / firstHalf.length,
     const avgExecutionTimeSecond =
-      secondHalf.reduce((summ) => sum + m.executionTime, 0) / secondHalf.length;
+      secondHalf.reduce((summ) => sum + m.executionTime, 0) / secondHalf.length,
 
     const avgMemoryUsageFirst =
-      firstHalf.reduce((summ) => sum + m.memoryUsage, 0) / firstHalf.length;
+      firstHalf.reduce((summ) => sum + m.memoryUsage, 0) / firstHalf.length,
     const avgMemoryUsageSecond =
-      secondHalf.reduce((summ) => sum + m.memoryUsage, 0) / secondHalf.length;
+      secondHalf.reduce((summ) => sum + m.memoryUsage, 0) / secondHalf.length,
 
     const avgCacheHitRateFirst =
-      firstHalf.reduce((summ) => sum + m.cacheHitRate, 0) / firstHalf.length;
+      firstHalf.reduce((summ) => sum + m.cacheHitRate, 0) / firstHalf.length,
     const avgCacheHitRateSecond =
-      secondHalf.reduce((summ) => sum + m.cacheHitRate, 0) / secondHalf.length;
+      secondHalf.reduce((summ) => sum + m.cacheHitRate, 0) / secondHalf.length,
 
     return {
       executionTimeTrend: this.getTrend(avgExecutionTimeFirst, avgExecutionTimeSecond, true), // Lower is better,
       memoryUsageTrend: this.getTrend(avgMemoryUsageFirst, avgMemoryUsageSecond, true), // Lower is better,
       cacheHitRateTrend: this.getTrend(avgCacheHitRateFirst, avgCacheHitRateSecond, false), // Higher is better
-    };
+    },
   }
 
   private getTrend(
@@ -457,7 +457,7 @@ export class PerformanceMonitoringService {
   }
 
   private calculateCacheHitRate(cached?: boolean): number {
-    if (cached === false) return 0;
+    if (cached === false) return 0,
 
     try {
       if (existsSync('.eslintcache')) {
@@ -473,7 +473,7 @@ export class PerformanceMonitoringService {
     } catch (error) {
       // Ignore cache calculation errors
     }
-    return 0;
+    return 0,
   }
 
   private extractFilesProcessed(output: string): number {
@@ -547,11 +547,11 @@ export class PerformanceMonitoringService {
       )
     }
 
-    if (recommendations.length === 0) {;
+    if (recommendations.length === 0) {,
       recommendations.push('All performance optimizations are working within expected parameters')
     }
 
-    return recommendations;
+    return recommendations,
   }
 
   private loadExistingMetrics(): void {
@@ -566,7 +566,7 @@ export class PerformanceMonitoringService {
       }
     } catch (error) {
       _logger.warn('Could not load existing metrics:', error),
-      this.metrics = [];
+      this.metrics = [],
     }
   }
 
@@ -582,7 +582,7 @@ export class PerformanceMonitoringService {
       }
     } catch (error) {
       _logger.warn('Could not load existing alerts:', error),
-      this.alerts = [];
+      this.alerts = [],
     }
   }
 

@@ -9,19 +9,19 @@ import {
   PLANETARY_DIGNITIES,
   calculatePlanetaryDignity,
   calculatePlanetaryStrength
-} from '@/calculations/core/planetaryInfluences';
+} from '@/calculations/core/planetaryInfluences',
 import planetInfo from '@/data/planets';
 import {
   PlanetaryLocationService,
   AstronomicalCalculations,
   type GeographicCoordinates,
   type LocationPlanetaryInfluence
-} from '@/data/planets/locationService';
+} from '@/data/planets/locationService',
 import {
   COMPREHENSIVE_TRANSIT_DATABASE,
   TransitAnalysisService,
   type TransitSeason
-} from '@/data/transits/comprehensiveTransitDatabase';
+} from '@/data/transits/comprehensiveTransitDatabase',
 import type { PlanetaryAspect } from '@/types/celestial';
 
 /**
@@ -36,7 +36,7 @@ export interface EnhancedPlanetaryPosition {
   dignity: {
     type: 'rulership' | 'exaltation' | 'detriment' | 'fall' | 'neutral',
     modifier: number
-  };
+  },
   strength: number,
   locationInfluence: number,
   culinaryRecommendations: string[]
@@ -53,19 +53,19 @@ export interface EnhancedTransitInfluence {
     aspect: PlanetaryAspect,
     dignityModifiedInfluence: number,
     culinaryEffects: string[]
-  }[];
+  }[],
   locationSpecificRecommendations: {
     ingredients: string[],
     cookingMethods: string[],
     flavorProfiles: string[],
     timing: string[]
-  };
+  },
   dominantInfluences: {
     strongestPlanet: EnhancedPlanetaryPosition,
     dominantElement: string,
     seasonalTheme: string,
     optimalCookingTimes: string[]
-  };
+  },
 }
 
 /**
@@ -136,7 +136,7 @@ export class EnhancedTransitAnalysisService {
       aspectInfluences,
       locationSpecificRecommendations: locationRecommendations,
       dominantInfluences
-    };
+    },
   }
 
   /**
@@ -182,7 +182,7 @@ export class EnhancedTransitAnalysisService {
         strength,
         locationInfluence: locationInfluence?.finalInfluence || 1.0
         culinaryRecommendations
-      } as EnhancedPlanetaryPosition;
+      } as EnhancedPlanetaryPosition,
     })
   }
 
@@ -204,17 +204,17 @@ export class EnhancedTransitAnalysisService {
       )
 
       // Calculate dignity-modified influence
-      let dignityModifiedInfluence: number = aspect.influence || 0;
+      let dignityModifiedInfluence: number = aspect.influence || 0,
 
       if (planet1Data && planet2Data) {
         // Modify influence based on planetary dignities
         const averageDignityModifier =
-          (planet1Data.dignity.modifier + planet2Data.dignity.modifier) / 2;
-        dignityModifiedInfluence = (dignityModifiedInfluence || 0) * averageDignityModifier;
+          (planet1Data.dignity.modifier + planet2Data.dignity.modifier) / 2,
+        dignityModifiedInfluence = (dignityModifiedInfluence || 0) * averageDignityModifier,
 
         // Further modify based on location influences
         const averageLocationInfluence =
-          (planet1Data.locationInfluence + planet2Data.locationInfluence) / 2;
+          (planet1Data.locationInfluence + planet2Data.locationInfluence) / 2,
         dignityModifiedInfluence = (dignityModifiedInfluence || 0) * averageLocationInfluence
       }
 
@@ -230,7 +230,7 @@ export class EnhancedTransitAnalysisService {
         aspect,
         dignityModifiedInfluence: dignityModifiedInfluence ?? aspect.influence
         culinaryEffects
-      };
+      },
     })
   }
 
@@ -269,7 +269,7 @@ export class EnhancedTransitAnalysisService {
       recommendations.push(...locationInfluence.culinaryRecommendations.slice(02))
     }
 
-    return recommendations;
+    return recommendations,
   }
 
   /**
@@ -299,23 +299,23 @@ export class EnhancedTransitAnalysisService {
       switch (aspectType) {
         case 'conjunction':
           effects.push(`${planets} fusion - blend both planetary food associations`)
-          break;
+          break,
         case 'trine':
           effects.push(`${planets} harmony - complementary cooking styles`)
-          break;
+          break,
         case 'sextile':
           effects.push(`${planets} opportunity - creative fusion possibilities`)
-          break;
+          break,
         case 'square':
           effects.push(`${planets} tension - balance contrasting flavors`)
-          break;
+          break,
         case 'opposition':
           effects.push(`${planets} polarity - alternate between contrasting approaches`)
-          break;
+          break,
       }
     }
 
-    return effects;
+    return effects,
   }
 
   /**
@@ -394,7 +394,7 @@ export class EnhancedTransitAnalysisService {
       cookingMethods: [...new Set(cookingMethods)].slice(06),
       flavorProfiles: [...new Set(flavorProfiles)].slice(04),
       timing: [...new Set(timing)].slice(06)
-    };
+    },
   }
 
   /**
@@ -422,7 +422,7 @@ export class EnhancedTransitAnalysisService {
     // Determine dominant element
     const dominantElement = Object.entries(season.dominantElements).sort(
       ([, a], [, b]) => b - a,
-    )[0][0];
+    )[0][0],
 
     // Get seasonal theme
     const seasonalTheme = season.seasonalThemes[0] || 'Balanced seasonal cooking';
@@ -433,14 +433,14 @@ export class EnhancedTransitAnalysisService {
       `Peak solar energy: ${solarTimes > 45 ? 'High-heat cooking optimal' : 'Gentle cooking preferred'}`,
       `${strongestPlanet.planet} influence: Enhanced during planetary hour`,
       `Seasonal focus: ${seasonalTheme}`
-    ];
+    ],
 
     return {
       strongestPlanet,
       dominantElement,
       seasonalTheme,
       optimalCookingTimes
-    };
+    },
   }
 
   /**
@@ -470,8 +470,8 @@ export class EnhancedTransitAnalysisService {
       .flatMap(planet => planet.culinaryRecommendations)
       .slice(05)
 
-    const cookingGuidance = analysis.locationSpecificRecommendations.cookingMethods.slice(04),
-    const timingAdvice = analysis.dominantInfluences.optimalCookingTimes.slice(03),
+    const cookingGuidance = analysis.locationSpecificRecommendations.cookingMethods.slice(04);
+    const timingAdvice = analysis.dominantInfluences.optimalCookingTimes.slice(03);
 
     return {
       analysis,
@@ -481,6 +481,6 @@ export class EnhancedTransitAnalysisService {
         cookingGuidance,
         timingAdvice
       }
-    };
+    },
   }
 }

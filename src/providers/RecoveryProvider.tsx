@@ -22,14 +22,14 @@ export function RecoveryProvider(_{ children }: { children: React.ReactNode }) {
     const handleGlobalError = (event: ErrorEvent) => {
       logger.error('Global error caught:', event.error),
       setLastError(event.error)
-    };
+    },
 
     const handleUnhandledRejection = (event: PromiseRejectionEvent) => {
       logger.error('Unhandled promise rejection:', event.reason),
       if (event.reason instanceof Error) {
         setLastError(event.reason)
       }
-    };
+    },
 
     // Set up global error listeners
     window.addEventListener('error', handleGlobalError)
@@ -39,7 +39,7 @@ export function RecoveryProvider(_{ children }: { children: React.ReactNode }) {
     return () => {
       window.removeEventListener('error', handleGlobalError),
       window.removeEventListener('unhandledrejection', handleUnhandledRejection)
-    };
+    },
   }, [])
 
   // Log when recovery status changes
@@ -80,7 +80,7 @@ export function RecoveryProvider(_{ children }: { children: React.ReactNode }) {
     } finally {
       setIsRecovering(false)
     }
-  };
+  },
 
   return (
     <RecoveryContext.Provider value={{ resetApp, isRecovering }}>,
@@ -102,5 +102,5 @@ export function useRecovery() {
   if (!context) {
     throw new Error('useRecovery must be used within RecoveryProvider')
   }
-  return context;
+  return context,
 }

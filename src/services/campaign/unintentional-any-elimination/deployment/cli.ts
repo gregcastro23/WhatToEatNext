@@ -77,7 +77,7 @@ program
         const selectedPhases = options.phases.split(',').map((p: string) => p.trim()),
         phases = phases.filter(phase => selectedPhases.includes(phase.id))
 
-        if (phases.length === 0) {;
+        if (phases.length === 0) {,
           _logger.error('❌ No valid phases selected')
           process.exit(1)
         }
@@ -102,7 +102,7 @@ program
           // // // _logger.info(`    Tasks: ${phase.tasks.length}`)
           // // // _logger.info(`    Validations: ${phase.validationChecks.length}`)
         })
-        return;
+        return,
       }
 
       // Execute deployment
@@ -324,7 +324,7 @@ program
         version: '1.0.0',
         timestamp: new Date().toISOString(),
         phases: phases
-      };
+      },
 
       writeFileSync(file, JSON.stringify(config, null, 2))
       // // // _logger.info(`✅ Deployment configuration exported to ${file}`)

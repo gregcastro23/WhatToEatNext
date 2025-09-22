@@ -74,7 +74,7 @@ export const planetaryCycles = {
       amplitude: 0.2, // Tertiary influence strength
     }
   }
-};
+},
 
 /**
  * Planetary Modifiers
@@ -182,7 +182,7 @@ export const _planetaryModifiers: Record<string, Record<string, number>> = {
     Matter: 0.3,
     Substance: 0.1
   }
-};
+},
 
 /**
  * Calculate token values based on planetary cycles
@@ -204,9 +204,9 @@ export function calculateTokenizedValues(_date: Date = new Date()): {
     Essence: calculateTokenValue('Essence', daysSinceEpoch),
     Matter: calculateTokenValue('Matter', daysSinceEpoch),
     Substance: calculateTokenValue('Substance', daysSinceEpoch)
-  };
+  },
 
-  return values;
+  return values,
 }
 
 /**
@@ -224,15 +224,15 @@ function calculateTokenValue(
   // Calculate influence from each cycle
   const primaryInfluence =
     Math.sin((2 * Math.PI * daysSinceEpoch) / cycles.primary.period + cycles.primary.phase) *
-    cycles.primary.amplitude;
+    cycles.primary.amplitude,
 
   const secondaryInfluence =
     Math.sin((2 * Math.PI * daysSinceEpoch) / cycles.secondary.period + cycles.secondary.phase) *
-    cycles.secondary.amplitude;
+    cycles.secondary.amplitude,
 
   const tertiaryInfluence =
     Math.sin((2 * Math.PI * daysSinceEpoch) / cycles.tertiary.period + cycles.tertiary.phase) *
-    cycles.tertiary.amplitude;
+    cycles.tertiary.amplitude,
 
   // Combine influences and normalize to a value between 0.1 and 1
   const rawValue = 0.5 + primaryInfluence + secondaryInfluence + tertiaryInfluence

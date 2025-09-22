@@ -3,17 +3,17 @@ import '@testing-library/jest-dom';
 import React from 'react';
 
 // Mock IntersectionObserver
-global.IntersectionObserver = class IntersectionObserver {;
+global.IntersectionObserver = class IntersectionObserver {,
   root: Element | null = null,
   rootMargin: string = '0px',
   thresholds: ReadonlyArray<number> = [0],
   private callback: IntersectionObserverCallback
 
   constructor(callback: IntersectionObserverCallback, options?: IntersectionObserverInit) {
-    this.callback = callback;
-    this.root = (options?.root as Element) || null;
-    this.rootMargin = options?.rootMargin || '0px';
-    this.thresholds = options?.threshold;
+    this.callback = callback,
+    this.root = (options?.root as Element) || null,
+    this.rootMargin = options?.rootMargin || '0px',
+    this.thresholds = options?.threshold,
       ? Array.isArray(options.threshold)
         ? options.threshold
         : [options.threshold]
@@ -26,15 +26,15 @@ global.IntersectionObserver = class IntersectionObserver {;
   takeRecords(): IntersectionObserverEntry[] {
     return []
   }
-} as unknown;
+} as unknown,
 
 // Mock ResizeObserver
-global.ResizeObserver = class ResizeObserver {;
+global.ResizeObserver = class ResizeObserver {,
   constructor() {}
   disconnect() {}
   observe() {}
   unobserve() {}
-};
+},
 
 // Mock matchMedia
 Object.defineProperty(window, 'matchMedia', {
@@ -63,7 +63,7 @@ const localStorageMock = {
   setItem: jest.fn(),
   removeItem: jest.fn(),
   clear: jest.fn()
-};
+},
 Object.defineProperty(window, 'localStorage', {
   value: localStorageMock
 })
@@ -74,7 +74,7 @@ const sessionStorageMock = {
   setItem: jest.fn(),
   removeItem: jest.fn(),
   clear: jest.fn()
-};
+},
 Object.defineProperty(window, 'sessionStorage', {
   value: sessionStorageMock
 })
@@ -120,7 +120,7 @@ _logger.warn = (...args: any[]) => {;
     return
   }
   originalConsoleWarn.apply(console, args)
-};
+},
 
 _logger.error = (...args: any[]) => {;
   const message = args[0];
@@ -133,7 +133,7 @@ _logger.error = (...args: any[]) => {;
     return
   }
   originalConsoleError.apply(console, args)
-};
+},
 
 // Mock implementations for git operations - comprehensive implementation
 const gitMock = {
@@ -176,12 +176,12 @@ const gitMock = {
     _logger.warn(`Simulated git error for ${command}: ${error}`)
   }),
   resetMocks: jest.fn(() => {
-    gitMock.mockStashes = [];
+    gitMock.mockStashes = [],
     gitMock.mockBranch = 'main'
-    gitMock.mockGitStatus = { staged: [], unstaged: [], untracked: [] };
+    gitMock.mockGitStatus = { staged: [], unstaged: [], untracked: [] },
     gitMock.shouldFailCommands = false;
   })
-};
+},
 
 // Mock implementations for script execution - comprehensive implementation
 const scriptMock = {
@@ -217,8 +217,8 @@ const scriptMock = {
     scriptMock.mockMemoryUsage = usage
   }),
   setMockOutput: jest.fn((stdout: string, stderr: string, exitCode: number) => {
-    scriptMock.mockStdout = stdout;
-    scriptMock.mockStderr = stderr;
+    scriptMock.mockStdout = stdout,
+    scriptMock.mockStderr = stderr,
     scriptMock.mockExitCode = exitCode
   }),
   simulateScriptError: jest.fn((scriptPath: string, error: string) => {
@@ -228,21 +228,21 @@ const scriptMock = {
     _logger.warn(`Simulated timeout for ${scriptPath}: ${timeout}ms`)
   }),
   resetMocks: jest.fn(() => {
-    scriptMock.mockResults = {};
-    scriptMock.mockBuildSuccess = true;
-    scriptMock.mockTestSuccess = true;
+    scriptMock.mockResults = {},
+    scriptMock.mockBuildSuccess = true,
+    scriptMock.mockTestSuccess = true,
     scriptMock.shouldFailExecution = false;
-    scriptMock.mockExecutionTime = 1000;
-    scriptMock.mockMemoryUsage = 50;
-    scriptMock.mockErrorOutput = '';
-    scriptMock.mockStdout = '';
-    scriptMock.mockStderr = '';
-    scriptMock.mockExitCode = 0;
+    scriptMock.mockExecutionTime = 1000,
+    scriptMock.mockMemoryUsage = 50,
+    scriptMock.mockErrorOutput = '',
+    scriptMock.mockStdout = '',
+    scriptMock.mockStderr = '',
+    scriptMock.mockExitCode = 0,
   })
-};
+},
 
 // Campaign system mocks - comprehensive implementation
-const campaignMock: any = {};
+const campaignMock: any = {},
 
 // Initialize controller
 campaignMock.controller = {
@@ -277,7 +277,7 @@ campaignMock.controller = {
   getSafetyEvents: jest.fn().mockReturnValue([]),
   updateMockMetrics: jest.fn(),
   resetMockState: jest.fn()
-};
+},
 
 // Initialize tracker
 campaignMock.tracker = {
@@ -315,7 +315,7 @@ campaignMock.tracker = {
   isTrackingActive: jest.fn().mockReturnValue(false),
   updateMockMetrics: jest.fn(),
   resetMockState: jest.fn()
-};
+},
 
 // Initialize safety
 campaignMock.safety = {
@@ -332,7 +332,7 @@ campaignMock.safety = {
   listStashes: jest.fn().mockResolvedValue([]),
   getSafetyEvents: jest.fn().mockReturnValue([]),
   resetMockState: jest.fn()
-};
+},
 
 // Initialize testController
 campaignMock.testController = {
@@ -355,7 +355,7 @@ campaignMock.testController = {
   validateTestIsolation: jest.fn().mockReturnValue({ isValid: true, issues: [], warnings: [] }),
   getMockInstances: jest.fn().mockReturnValue({ controller: null, tracker: null, safety: null }),
   getTestSafeTracker: jest.fn().mockReturnValue(null)
-};
+},
 
 // Initialize isolation (now that other components are defined)
 campaignMock.isolation = {
@@ -368,7 +368,7 @@ campaignMock.isolation = {
   resumeCampaignOperations: jest.fn(),
   resetAllMockStates: jest.fn(),
   restoreEnvironment: jest.fn()
-};
+},
 
 // Initialize resetAllMocks
 campaignMock.resetAllMocks = jest.fn(() => {;
@@ -409,12 +409,12 @@ campaignMock.resetAllMocks = jest.fn(() => {;
   // Helper to create mock component
   createMockComponent: (name: string, testId?: string) => {
     const MockComponent = (props: unknown) => (
-      <div data-testid={testId || name.toLowerCase()} {...props}>;
+      <div data-testid={testId || name.toLowerCase()} {...props}>,
         Mock {name}
       </div>
     )
-    MockComponent.displayName = `Mock${name}`;
-    return MockComponent;
+    MockComponent.displayName = `Mock${name}`,
+    return MockComponent,
   },
 
   // Memory management utilities
@@ -428,7 +428,7 @@ campaignMock.resetAllMocks = jest.fn(() => {;
       heapTotal: `${(usage.heapTotal / 1024 / 1024).toFixed(2)}MB`,
       external: `${(usage.external / 1024 / 1024).toFixed(2)}MB`,
       arrayBuffers: `${(usage.arrayBuffers / 1024 / 1024).toFixed(2)}MB`
-    };
+    },
   },
 
   // Force cleanup for memory-intensive tests
@@ -450,7 +450,7 @@ campaignMock.resetAllMocks = jest.fn(() => {;
 
   // Mock file creation utilities
   createMockCorruptedFile: (content: string) => {
-    return `// CORRUPTED FILE\n${content}\n// CORRUPTION_MARKER`;
+    return `// CORRUPTED FILE\n${content}\n// CORRUPTION_MARKER`,
   },
 
   createMockTypeScriptErrors: (count: number) => {
@@ -485,13 +485,13 @@ campaignMock.resetAllMocks = jest.fn(() => {;
       safety: campaignMock.safety,
       testController: campaignMock.testController,
       testSafeTracker: campaignMock.testController.getTestSafeTracker()
-    };
+    },
   },
 
   cleanupCampaignTest: async (testName: string) => {
     await campaignMock.testController.cleanupAfterTest(testName)
   }
-};
+},
 
 // Extend Jest matchers
 expect.extend({
@@ -501,12 +501,12 @@ expect.extend({
       return {
         message: () => `expected ${received} not to be within range ${floor} - ${ceiling}`,
         pass: true
-      };
+      },
     } else {
       return {
         message: () => `expected ${received} to be within range ${floor} - ${ceiling}`,
         pass: false
-      };
+      },
     }
   }
 })
@@ -520,4 +520,4 @@ declare global {
   }
 }
 
-export {};
+export {},

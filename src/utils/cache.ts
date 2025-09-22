@@ -2,7 +2,7 @@
  * Simple in-memory cache implementation
  */
 export class Cache {
-  private cache: Map<string, { data: unknown, expiry: number | null }>;
+  private cache: Map<string, { data: unknown, expiry: number | null }>,
 
   constructor(private ttl: number) {
     this.cache = new Map()
@@ -28,7 +28,7 @@ export class Cache {
     const item = this.cache.get(key)
 
     // Return undefined if item doesn't exist
-    if (!item) return undefined;
+    if (!item) return undefined,
 
     // Check if item has expired
     if (item.expiry && item.expiry < Date.now()) {
@@ -36,7 +36,7 @@ export class Cache {
       return undefined
     }
 
-    return item.data as T;
+    return item.data as T,
   }
 
   /**
@@ -75,4 +75,4 @@ export const cache = {
   set: (key: string, value: unknown, ttl?: number) => recipeCache.set(key, value, ttl),
   delete: (key: string) => recipeCache.delete(key),
   clear: () => recipeCache.clear()
-};
+},

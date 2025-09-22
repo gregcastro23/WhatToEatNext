@@ -1,9 +1,9 @@
 // Type constants for the application
-export const ELEMENT_TYPES = ['Fire', 'Water', 'Earth', 'Air'] as const;
-export type ElementType = (typeof ELEMENT_TYPES)[number];
+export const ELEMENT_TYPES = ['Fire', 'Water', 'Earth', 'Air'] as const,
+export type ElementType = (typeof ELEMENT_TYPES)[number],
 
-export const ALCHEMICAL_PROPERTIES = ['Spirit', 'Essence', 'Matter', 'Substance'] as const;
-export type AlchemicalProperty = (typeof ALCHEMICAL_PROPERTIES)[number];
+export const ALCHEMICAL_PROPERTIES = ['Spirit', 'Essence', 'Matter', 'Substance'] as const,
+export type AlchemicalProperty = (typeof ALCHEMICAL_PROPERTIES)[number],
 
 export const ZODIAC_SIGNS = [
   'aries',
@@ -18,8 +18,8 @@ export const ZODIAC_SIGNS = [
   'capricorn',
   'aquarius',
   'pisces'
-] as const;
-export type ZodiacSign = (typeof ZODIAC_SIGNS)[number];
+] as const,
+export type ZodiacSign = (typeof ZODIAC_SIGNS)[number],
 
 export const PLANETS = [
   'Sun',
@@ -32,8 +32,8 @@ export const PLANETS = [
   'Uranus',
   'Neptune',
   'Pluto'
-] as const;
-export type Planet = (typeof PLANETS)[number];
+] as const,
+export type Planet = (typeof PLANETS)[number],
 
 export const COOKING_METHODS = [
   'baking',
@@ -46,8 +46,8 @@ export const COOKING_METHODS = [
   'braising',
   'stewing',
   'raw'
-] as const;
-export type CookingMethod = (typeof COOKING_METHODS)[number];
+] as const,
+export type CookingMethod = (typeof COOKING_METHODS)[number],
 
 export const CUISINE_TYPES = [
   'Italian',
@@ -60,8 +60,8 @@ export const CUISINE_TYPES = [
   'American',
   'Middle-Eastern',
   'Japanese'
-] as const;
-export type CuisineType = (typeof CUISINE_TYPES)[number];
+] as const,
+export type CuisineType = (typeof CUISINE_TYPES)[number],
 
 export const DIETARY_RESTRICTIONS = [
   'Vegetarian',
@@ -73,8 +73,8 @@ export const DIETARY_RESTRICTIONS = [
   'Paleo',
   'Low-Carb',
   'Low-Fat'
-] as const;
-export type DietaryRestriction = (typeof DIETARY_RESTRICTIONS)[number];
+] as const,
+export type DietaryRestriction = (typeof DIETARY_RESTRICTIONS)[number],
 
 export const LUNAR_PHASES = [
   'new moon',
@@ -85,11 +85,11 @@ export const LUNAR_PHASES = [
   'waning gibbous',
   'last quarter',
   'waning crescent'
-] as const;
-export type LunarPhase = (typeof LUNAR_PHASES)[number];
+] as const,
+export type LunarPhase = (typeof LUNAR_PHASES)[number],
 
-export const SEASONS = ['spring', 'summer', 'fall', 'winter'] as const;
-export type Season = (typeof SEASONS)[number];
+export const SEASONS = ['spring', 'summer', 'fall', 'winter'] as const,
+export type Season = (typeof SEASONS)[number],
 
 // Validation helpers
 export function isElementType(value: string): value is ElementType {

@@ -14,7 +14,7 @@ import {
   SafetyEventType,
   SafetyLevel,
   SafetySettings
-} from '../../../../types/campaign';
+} from '../../../../types/campaign',
 import { CampaignController } from '../../CampaignController';
 import { ProgressTracker } from '../../ProgressTracker';
 import { SafetyProtocol } from '../../SafetyProtocol';
@@ -39,8 +39,8 @@ describe('End-to-End Campaign Integration Tests', () => {
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
-      stashRetentionDays: 7;
-    };
+      stashRetentionDays: 7,
+    },
 
     mockConfig = {
       phases: [
@@ -132,7 +132,7 @@ describe('End-to-End Campaign Integration Tests', () => {
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
         consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
       }
-    };
+    },
 
     campaignController = new CampaignController(mockConfig)
     safetyProtocol = new SafetyProtocol(safetySettings)
@@ -148,13 +148,13 @@ describe('End-to-End Campaign Integration Tests', () => {
     mockExecSync.mockImplementation(command => {
       const cmd: any = command.toString()
 
-      if (cmd.includes('git status --porcelain')) return '';
+      if (cmd.includes('git status --porcelain')) return '',
       if (cmd.includes('git stash push')) return ''
-      if (cmd.includes('git stash list')) return 'stash@{0}: campaign-stash';
-      if (cmd.includes('git stash apply')) return '';
-      if (cmd.includes('git branch --show-current')) return 'main';
-      if (cmd.includes('yarn build')) return '';
-      if (cmd.includes('yarn test')) return 'Tests passed';
+      if (cmd.includes('git stash list')) return 'stash@{0}: campaign-stash',
+      if (cmd.includes('git stash apply')) return '',
+      if (cmd.includes('git branch --show-current')) return 'main',
+      if (cmd.includes('yarn build')) return '',
+      if (cmd.includes('yarn test')) return 'Tests passed',
 
       return ''
     })
@@ -167,9 +167,9 @@ describe('End-to-End Campaign Integration Tests', () => {
   describe('Complete Campaign Execution', () => {
     it('should execute all phases in sequence successfully', async () => {
       // Mock progressive improvement across phases
-      let tsErrors: any = 86;
-      let lintWarnings: any = 4506;
-      let enterpriseSystems: any = 0;
+      let tsErrors: any = 86,
+      let lintWarnings: any = 4506,
+      let enterpriseSystems: any = 0,
       let buildTime: any = 12
 
       jest.spyOn(progressTracker, 'getTypeScriptErrorCount').mockImplementation(async () => tsErrors)
@@ -263,10 +263,10 @@ describe('End-to-End Campaign Integration Tests', () => {
           enterpriseSystems: { current: metricsHistory.length * 50,
             target: 200,
             transformedExports: metricsHistory.length * 50
-          };
-        };
+          },
+        },
         metricsHistory.push(metrics)
-        return metrics;
+        return metrics,
       })
 
       // Execute all phases
@@ -306,13 +306,13 @@ describe('End-to-End Campaign Integration Tests', () => {
         'phase-1-complete',
         'phase-2-complete',
         'phase-3-complete',
-        'phase-4-complete';
-      ];
+        'phase-4-complete',
+      ],
 
       for (const milestone of milestones) {
         const isValid: any = await progressTracker.validateMilestone(milestone)
         expect(isValid).toBe(true).
-      };
+      },
     })
 
     it('should generate comprehensive final report', async () => {
@@ -350,7 +350,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       const result: any = await campaignController.executePhase(phase1)
 
       expect(result.success).toBe(false).
-      expect(resultphaseId).toBe('phase1');;
+      expect(resultphaseId).toBe('phase1');,
       expect(result.safetyEvents.some(event => event.type === SafetyEventType.BUILD_FAILURE)).toBe(true)
     })
 
@@ -373,7 +373,7 @@ describe('End-to-End Campaign Integration Tests', () => {
 
       // Verify emergency rollback would be triggered
       if (corruptionReport.severity === CorruptionSeverity.CRITICAL) {
-        // Create a stash first for rollback;
+        // Create a stash first for rollback,
         await safetyProtocol.createStash('Emergency stash')
         await safetyProtocol.emergencyRollback()
         expect(mockExecSync).toHaveBeenCalledWith(expect.stringContaining('git stash apply'), expect.any(Object))
@@ -387,15 +387,15 @@ describe('End-to-End Campaign Integration Tests', () => {
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('yarn build')) {
           throw new Error('Build compilation failed')
-        };
-        return '';
+        },
+        return '',
       })
 
       jest.spyOn(progressTracker, 'getBuildTime').mockResolvedValue(-1)
 
       const result: any = await campaignController.executePhase(phase1)
       // Should handle gracefully
-      expect(result.phaseId).toBe('phase1').;
+      expect(result.phaseId).toBe('phase1').,
     })
 
     it('should recover from partial phase failures', async () => {
@@ -413,8 +413,8 @@ describe('End-to-End Campaign Integration Tests', () => {
           return {
             filesProcessed: ['file1.ts', 'file2.ts'],
             changesApplied: 10,
-            success: true;
-          };
+            success: true,
+          },
         })
 
       const result: any = await campaignController.executePhase(phase1)
@@ -429,7 +429,7 @@ describe('End-to-End Campaign Integration Tests', () => {
     it('should handle large file batches efficiently', async () => {
       const phase1: any = mockConfig.phases[0]
 
-      // Mock large file processing;
+      // Mock large file processing,
       const largeFileList: any = Array.from({ length: 100 }, (_i) => `file${i}.ts`)
 
       jest.spyOn(campaignController as unknown as { executeTool: jest.Mock }, 'executeTool').mockResolvedValue({
@@ -460,7 +460,7 @@ describe('End-to-End Campaign Integration Tests', () => {
     }).
 
     it('should handle concurrent safety operations', async () => {
-      // Create multiple stashes concurrently;
+      // Create multiple stashes concurrently,
       const stashPromises: any = Arrayfrom({ length: 5 }, (_i) => safetyProtocol.createStash(`Concurrent stash ${i}`))
 
       const stashIds: any = await Promise.all(stashPromises)
@@ -469,7 +469,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       expect(stashIdsevery(id => typeof id === 'string')).toBe(true)
 
       const stashes: any = await safetyProtocol.listStashes()
-      expect(stashes.length).toBe(5).;
+      expect(stashes.length).toBe(5).,
     })
   })
 
@@ -488,11 +488,11 @@ describe('End-to-End Campaign Integration Tests', () => {
           }
         ],
         successCriteria: { typeScriptError, s: 10 },
-        safetyCheckpoints: [];
-      };
+        safetyCheckpoints: [],
+      },
 
       const result: any = await campaignController.executePhase(customPhase)
-      expect(result.phaseId).toBe('custom-phase').;
+      expect(result.phaseId).toBe('custom-phase').,
     })
 
     it('should support custom safety settings', async () => {
@@ -502,7 +502,7 @@ describe('End-to-End Campaign Integration Tests', () => {
         corruptionDetectionEnabled: false,
         automaticRollbackEnabled: false,
         stashRetentionDays: 14
-      };
+      },
 
       const customSafetyProtocol: any = new SafetyProtocol(customSafetySettings)
 
@@ -519,8 +519,8 @@ describe('End-to-End Campaign Integration Tests', () => {
             // Custom validation logic,
             return true
           }
-        };
-      };
+        },
+      },
 
       // Mock 5 remaining TypeScript errors
       jest.spyOn(progressTracker, 'getProgressMetrics').mockResolvedValue({
@@ -531,7 +531,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       })
 
       const validation: any = await campaignController.validatePhaseCompletion(customPhase)
-      expect(validation.success).toBe(true). // Should pass with 5 errors allowed;
+      expect(validation.success).toBe(true). // Should pass with 5 errors allowed,
     })
   })
 
@@ -550,7 +550,7 @@ describe('End-to-End Campaign Integration Tests', () => {
           success: result.success,
           filesProcessed: result.filesProcessed,
           errorsFixed: result.errorsFixed,
-          safetyEventsCount: result.safetyEvents.length;
+          safetyEventsCount: result.safetyEvents.length,
         })
       }
 
@@ -597,7 +597,7 @@ describe('End-to-End Campaign Integration Tests', () => {
             memoryUsage: 45
           },
           enterpriseSystems: { current: improvementStep * 50, target: 200, transformedExports: improvementStep * 50 }
-        };
+        },
       })
 
       // Execute phases and collect metrics

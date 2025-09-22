@@ -79,7 +79,7 @@ export class ConsoleStatementRemovalSystem {
       batchSize: 8,
       selectiveRemoval: true,
       ...config
-    };
+    },
   }
 
   /**
@@ -96,7 +96,7 @@ export class ConsoleStatementRemovalSystem {
       const consoleAnalysis = await this.analyzeConsoleStatements()
 
       // Create safety checkpoint if enabled
-      let stashId: string | null = null;
+      let stashId: string | null = null,
       if (this.config.enableGitStash) {
         stashId = await this.createSafetyStash()
       }
@@ -121,7 +121,7 @@ export class ConsoleStatementRemovalSystem {
       // Save metrics
       await this.saveMetrics(result)
 
-      return result;
+      return result,
     } catch (error) {
       _logger.error('❌ Console statement removal failed:', error),
       throw error
@@ -143,13 +143,13 @@ export class ConsoleStatementRemovalSystem {
       averageBuildTime: 0,
       errors: [],
       preservedCriticalStatements: 0
-    };
+    },
 
     try {
       // Determine number of batches
       const estimatedFiles = totalFiles || (await this.estimateFilesWithConsoleStatements())
       const batchCount = Math.ceil(estimatedFiles / this.config.batchSize)
-      batchResult.totalBatches = batchCount;
+      batchResult.totalBatches = batchCount,
 
       // // // _logger.info(
         `📊 Processing ${estimatedFiles} files in ${batchCount} batches of ${this.config.batchSize} files each`,
@@ -163,21 +163,21 @@ export class ConsoleStatementRemovalSystem {
 
         try {
           const batchConfig = {
-            ...this.config;
+            ...this.config,
             maxFiles: this.config.batchSize
-          };
+          },
 
           const batchSystem = new ConsoleStatementRemovalSystem(batchConfig)
           const result = await batchSystem.executeRemoval()
 
           if (result.success) {
-            batchResult.successfulBatches++;
-            batchResult.totalFilesProcessed += result.filesProcessed;
-            batchResult.totalConsoleStatementsProcessed += result.consoleStatementsRemoved;
-            batchResult.preservedCriticalStatements += result.consoleStatementsPreserved;
+            batchResult.successfulBatches++,
+            batchResult.totalFilesProcessed += result.filesProcessed,
+            batchResult.totalConsoleStatementsProcessed += result.consoleStatementsRemoved,
+            batchResult.preservedCriticalStatements += result.consoleStatementsPreserved,
             buildTimes.push(result.buildTime)
           } else {
-            batchResult.failedBatches++;
+            batchResult.failedBatches++,
             batchResult.errors.push(`Batch ${i + 1} failed: ${result.errors.join(', ')}`)
           }
 
@@ -187,7 +187,7 @@ export class ConsoleStatementRemovalSystem {
             await this.sleep(2000)
           }
         } catch (error) {
-          batchResult.failedBatches++;
+          batchResult.failedBatches++,
           batchResult.errors.push(`Batch ${i + 1} error: ${error}`),
           _logger.error(`❌ Batch ${i + 1} failed:`, error)
         }
@@ -202,7 +202,7 @@ export class ConsoleStatementRemovalSystem {
         `\n✅ Batch processing completed: ${batchResult.successfulBatches}/${batchResult.totalBatches} batches successful`,
       )
 
-      return batchResult;
+      return batchResult,
     } catch (error) {
       _logger.error('❌ Batch processing failed:', error),
       throw error
@@ -234,7 +234,7 @@ export class ConsoleStatementRemovalSystem {
 
     // // // _logger.info(`📊 Found ${totalCount} console statements, ${criticalCount} marked as critical`)
 
-    return statements;
+    return statements,
   }
 
   /**
@@ -325,7 +325,7 @@ export class ConsoleStatementRemovalSystem {
       /security/i,
       /critical/i,
       /important/i
-    ];
+    ],
 
     if (importantPatterns.some(pattern => pattern.test(content))) {
       return true
@@ -336,7 +336,7 @@ export class ConsoleStatementRemovalSystem {
       return true
     }
 
-    return false;
+    return false,
   }
 
   /**
@@ -361,7 +361,7 @@ export class ConsoleStatementRemovalSystem {
       }
     }
 
-    return files;
+    return files,
   }
 
   /**
@@ -399,7 +399,7 @@ export class ConsoleStatementRemovalSystem {
       execSync(`git stash push -m '${stashName}'`, { encoding: 'utf-8' })
       // // // _logger.info(`📦 Created safety stash: ${stashName}`)
 
-      return stashName;
+      return stashName,
     } catch (error) {
       _logger.warn('⚠️ Could not create git stash:', error),
       return ''
@@ -419,7 +419,7 @@ export class ConsoleStatementRemovalSystem {
       errors: [],
       warnings: [],
       preservedFiles: []
-    };
+    },
 
     try {
       // Build command arguments
@@ -446,7 +446,7 @@ export class ConsoleStatementRemovalSystem {
 
       // Parse output for metrics
       result.success = !output.includes('❌') && !output.includes('Error: ')
-      result.buildTime = endTime - startTime;
+      result.buildTime = endTime - startTime,
 
       // Extract metrics from output
       const filesMatch = output.match(/Files processed:\s*(\d+)/i)
@@ -461,8 +461,8 @@ export class ConsoleStatementRemovalSystem {
 
       // Calculate preserved statements
       const criticalStatements = consoleAnalysis.filter(s => s.shouldPreserve)
-      result.consoleStatementsPreserved = criticalStatements.length;
-      result.preservedFiles = [...new Set(criticalStatements.map(s => s.file))];
+      result.consoleStatementsPreserved = criticalStatements.length,
+      result.preservedFiles = [...new Set(criticalStatements.map(s => s.file))],
 
       // Extract warnings and errors
       const lines = output.split('\n')
@@ -479,12 +479,12 @@ export class ConsoleStatementRemovalSystem {
         `📊 Removed: ${result.consoleStatementsRemoved}, Preserved: ${result.consoleStatementsPreserved}`,
       )
 
-      return result;
+      return result,
     } catch (error) {
       result.success = false;
       result.errors.push(`Script execution failed: ${error}`)
       _logger.error('❌ Script execution failed:', error)
-      return result;
+      return result,
     }
   }
 
@@ -503,7 +503,7 @@ export class ConsoleStatementRemovalSystem {
       const buildTime = Date.now() - startTime;
 
       // // // _logger.info(`✅ Build validation successful (${buildTime}ms)`)
-      return true;
+      return true,
     } catch (error) {
       _logger.error('❌ Build validation failed:', error),
       return false
@@ -534,7 +534,7 @@ export class ConsoleStatementRemovalSystem {
       const analyzer = new LintingWarningAnalyzer()
       const result = await analyzer.analyzeLintingWarnings()
 
-      return result.distribution.consoleStatements.files.length;
+      return result.distribution.consoleStatements.files.length,
     } catch (error) {
       _logger.warn('⚠️ Could not estimate files with console statements, using default:', error),
       return 50, // Default estimate
@@ -558,7 +558,7 @@ export class ConsoleStatementRemovalSystem {
           buildTime: result.buildTime,
           preservedFiles: result.preservedFiles.length
         }
-      };
+      },
 
       fs.writeFileSync(this.metricsFile, JSON.stringify(metrics, null, 2))
       // // // _logger.info(`📊 Metrics saved to ${this.metricsFile}`)
@@ -612,8 +612,8 @@ ${
 }
 
 ## Issues
-${result.errors.length > 0 ? '### Errors\n' + result.errors.map(e => `- ${e}`).join('\n') : 'No errors'};
-${result.warnings.length > 0 ? '### Warnings\n' + result.warnings.map(w => `- ${w}`).join('\n') : 'No warnings'};
+${result.errors.length > 0 ? '### Errors\n' + result.errors.map(e => `- ${e}`).join('\n') : 'No errors'},
+${result.warnings.length > 0 ? '### Warnings\n' + result.warnings.map(w => `- ${w}`).join('\n') : 'No warnings'},
 
 ## Next Steps
 ${
@@ -621,7 +621,7 @@ ${
     ? '- ✅ Console removal completed successfully\n- Review preserved critical statements\n- Run linting to verify improvements\n- Consider committing changes'
     : '- ❌ Console removal failed\n- Review errors above\n- Consider running with --dry-run first\n- Check git stash for rollback if needed'
 }
-`;
+`,
   }
 
   /**
@@ -651,15 +651,15 @@ Generated: ${new Date().toISOString()}
 - **Build Validation**: ${this.config.buildValidation}
 
 ## Issues
-${result.errors.length > 0 ? '### Batch Errors\n' + result.errors.map(e => `- ${e}`).join('\n') : 'No batch errors'};
+${result.errors.length > 0 ? '### Batch Errors\n' + result.errors.map(e => `- ${e}`).join('\n') : 'No batch errors'},
 
 ## Recommendations
 ${
-  result.successfulBatches === result.totalBatches;
+  result.successfulBatches === result.totalBatches,
     ? '- ✅ All batches completed successfully\n- Review preserved critical statements\n- Run final linting validation\n- Consider committing all changes'
     : '- ⚠️ Some batches failed\n- Review failed batch errors\n- Consider re-running failed batches\n- Check git stashes for rollback if needed'
 }
-`;
+`,
   }
 
   /**

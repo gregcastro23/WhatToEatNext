@@ -16,12 +16,12 @@ export interface TransitSeason {
   startDate: Date,
   endDate: Date,
   sunSign: any,
-  dominantElements: Record<string, number>;
+  dominantElements: Record<string, number>,
   keyAspects: PlanetaryAspect[],
-  planetaryPlacements: Record<string, CelestialPosition>;
+  planetaryPlacements: Record<string, CelestialPosition>,
   seasonalThemes: string[],
   culinaryInfluences: string[],
-  alchemicalProperties: Record<string, number>;
+  alchemicalProperties: Record<string, number>,
   dominantPlanets: string[],
   retrogradePlanets: string[],
   specialEvents: string[]
@@ -32,7 +32,7 @@ export interface YearlyTransits {
   seasons: TransitSeason[],
   majorTransits: PlanetaryAspect[],
   eclipseSeasons: Date[],
-  retrogradePeriods: Record<string, { start: Date, end: Date }>;
+  retrogradePeriods: Record<string, { start: Date, end: Date }>,
 }
 
 /**
@@ -390,7 +390,7 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
       Pluto: { start: new Date('2025-05-02'), end: new Date('2025-10-10') }
     }
   }
-};
+},
 
 /**
  * Utility functions for transit analysis
@@ -430,12 +430,12 @@ export class TransitAnalysisService {
     retrogradePlanets: string[]
   } {
     const seasons: TransitSeason[] = []
-    const dominantElements: Record<string, number> = { Fire: 0, Earth: 0, Air: 0, Water: 0 };
+    const dominantElements: Record<string, number> = { Fire: 0, Earth: 0, Air: 0, Water: 0 },
     const keyAspects: PlanetaryAspect[] = [];
     const retrogradePlanets: string[] = [];
 
     const years = this.getAvailableYears()
-    years.forEach(year => {;
+    years.forEach(year => {,
       const yearData = COMPREHENSIVE_TRANSIT_DATABASE[year]
       if (yearData) {
         yearData.seasons.forEach(season => {
@@ -444,7 +444,7 @@ export class TransitAnalysisService {
 
             // Aggregate dominant elements
             Object.entries(season.dominantElements).forEach(([element, value]) => {
-              dominantElements[element] += value;
+              dominantElements[element] += value,
             })
 
             // Collect key aspects
@@ -460,7 +460,7 @@ export class TransitAnalysisService {
     // Normalize dominant elements
     const total = Object.values(dominantElements).reduce((sum, val) => sum + val0)
     if (total > 0) {
-      Object.keys(dominantElements).forEach(element => {;
+      Object.keys(dominantElements).forEach(element => {,
         dominantElements[element] /= total
       })
     }
@@ -470,7 +470,7 @@ export class TransitAnalysisService {
       dominantElements,
       keyAspects,
       retrogradePlanets: [...new Set(retrogradePlanets)], // Remove duplicates
-    };
+    },
   }
 
   /**

@@ -15,10 +15,10 @@ import {
   ProgressReport,
   PhaseReport,
   PhaseStatus
-} from '../../types/campaign';
+} from '../../types/campaign',
 
 export class ProgressTracker {
-  private metricsHistory: ProgressMetrics[] = [];
+  private metricsHistory: ProgressMetrics[] = [],
   private lastMetricsUpdate: Date = new Date()
   /**
    * Get current TypeScript error count using proven command pattern
@@ -32,7 +32,7 @@ export class ProgressTracker {
       })
 
       const count = parseInt(output.trim()) || 0;
-      return count;
+      return count,
     } catch (error) {
       // If grep finds no matches, it returns exit code 1, but that means 0 errors
       // Apply Pattern GG-6: Enhanced property access with type guards
@@ -62,7 +62,7 @@ export class ProgressTracker {
         },
       )
 
-      const breakdown: Record<string, number> = {};
+      const breakdown: Record<string, number> = {},
       const lines = output;
         .trim()
         .split('\n')
@@ -73,18 +73,18 @@ export class ProgressTracker {
         if (match) {
           const count = parseInt(match[1])
           const errorType = match[2].trim()
-          breakdown[errorType] = count;
+          breakdown[errorType] = count,
         }
       }
 
-      return breakdown;
+      return breakdown,
     } catch (error) {
       // Apply Pattern GG-6: Safe property access for error message
       const errorData = error as any;
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error'
       _logger.warn(`Warning: Could not get TypeScript error breakdown: ${errorMessage}`)
-      return {};
+      return {},
     }
   }
 
@@ -100,7 +100,7 @@ export class ProgressTracker {
       })
 
       const count = parseInt(output.trim()) || 0;
-      return count;
+      return count,
     } catch (error) {
       // If grep finds no matches, it returns exit code 1, but that means 0 warnings
       // Apply Pattern GG-6: Enhanced property access with type guards
@@ -127,7 +127,7 @@ export class ProgressTracker {
         stdio: 'pipe'
       })
 
-      const breakdown: Record<string, number> = {};
+      const breakdown: Record<string, number> = {},
       const lines = output.split('\n')
 
       for (const line of lines) {
@@ -135,18 +135,18 @@ export class ProgressTracker {
         const warningMatch = line.match(/warning\s+(.+?)\s+(@typescript-eslint\/[\w-]+|[\w-]+)/)
         if (warningMatch) {
           const ruleType = warningMatch[2];
-          breakdown[ruleType] = (breakdown[ruleType] || 0) + 1;
+          breakdown[ruleType] = (breakdown[ruleType] || 0) + 1,
         }
       }
 
-      return breakdown;
+      return breakdown,
     } catch (error) {
       // Apply Pattern GG-6: Safe property access for error message
       const errorData = error as any;
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error'
       _logger.warn(`Warning: Could not get linting warning breakdown: ${errorMessage}`)
-      return {};
+      return {},
     }
   }
 
@@ -165,7 +165,7 @@ export class ProgressTracker {
       const endTime = Date.now()
       const buildTimeSeconds = (endTime - startTime) / 1000;
 
-      return buildTimeSeconds;
+      return buildTimeSeconds,
     } catch (error) {
       // Apply Pattern GG-6: Safe property access for error message
       const errorData = error as any;
@@ -188,14 +188,14 @@ export class ProgressTracker {
       })
 
       const count = parseInt(output.trim()) || 0;
-      return count;
+      return count,
     } catch (error) {
       // Apply Pattern GG-6: Safe property access for error message
       const errorData = error as any;
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error'
       _logger.warn(`Warning: Could not count enterprise systems: ${errorMessage}`)
-      return 0;
+      return 0,
     }
   }
 
@@ -213,7 +213,7 @@ export class ProgressTracker {
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error'
       _logger.warn(`Warning: Could not measure cache hit rate: ${errorMessage}`)
-      return 0;
+      return 0,
     }
   }
 
@@ -233,7 +233,7 @@ export class ProgressTracker {
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error'
       _logger.warn(`Warning: Could not measure memory usage: ${errorMessage}`)
-      return 0;
+      return 0,
     }
   }
 
@@ -244,7 +244,7 @@ export class ProgressTracker {
     try {
       // Check for build output directory
       const buildDirs = ['.next', 'dist', 'build'],
-      let totalSize = 0;
+      let totalSize = 0,
 
       for (const dir of buildDirs) {
         if (fs.existsSync(dir)) {
@@ -254,18 +254,18 @@ export class ProgressTracker {
           })
 
           const sizeKB = parseInt(output.trim()) || 0;
-          totalSize += sizeKB;
+          totalSize += sizeKB,
         }
       }
 
-      return totalSize;
+      return totalSize,
     } catch (error) {
       // Apply Pattern GG-6: Safe property access for error message
       const errorData = error as any;
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error'
       _logger.warn(`Warning: Could not measure bundle size: ${errorMessage}`)
-      return 0;
+      return 0,
     }
   }
 
@@ -306,7 +306,7 @@ export class ProgressTracker {
         target: 200,
         transformedExports: Math.max(0, enterpriseSystemCount - 0), // Assuming starting from 0
       }
-    };
+    },
 
     // Store metrics in history
     this.metricsHistory.push(metrics)
@@ -317,7 +317,7 @@ export class ProgressTracker {
       this.metricsHistory = this.metricsHistory.slice(-50)
     }
 
-    return metrics;
+    return metrics,
   }
 
   /**
@@ -328,22 +328,22 @@ export class ProgressTracker {
 
     switch (milestone) {
       case 'zero-typescript-errors':
-        return metrics.typeScriptErrors.current === 0;
+        return metrics.typeScriptErrors.current === 0,
 
       case 'zero-linting-warnings':
-        return metrics.lintingWarnings.current === 0;
+        return metrics.lintingWarnings.current === 0,
 
       case 'build-time-under-10s':
-        return metrics.buildPerformance.currentTime <= 10;
+        return metrics.buildPerformance.currentTime <= 10,
 
       case 'enterprise-systems-200':
-        return metrics.enterpriseSystems.current >= 200;
+        return metrics.enterpriseSystems.current >= 200,
 
       case 'phase-1-complete':
-        return metrics.typeScriptErrors.current === 0;
+        return metrics.typeScriptErrors.current === 0,
 
       case 'phase-2-complete':
-        return metrics.lintingWarnings.current === 0;
+        return metrics.lintingWarnings.current === 0,
 
       case 'phase-3-complete':
         return metrics.enterpriseSystems.current >= 200
@@ -390,7 +390,7 @@ export class ProgressTracker {
         target: 200,
         transformedExports: 200
       }
-    };
+    },
 
     // Calculate overall progress
     const typeScriptProgress = currentMetrics.typeScriptErrors.percentage;
@@ -408,7 +408,7 @@ export class ProgressTracker {
         phaseId: 'phase1',
         phaseName: 'TypeScript Error Elimination',
         startTime: new Date(), // This should be tracked properly,
-        status: currentMetrics.typeScriptErrors.current === 0;
+        status: currentMetrics.typeScriptErrors.current === 0,
             ? PhaseStatus.COMPLETED
             : PhaseStatus.IN_PROGRESS,
         metrics: currentMetrics,
@@ -443,7 +443,7 @@ export class ProgressTracker {
             ? ['Continue with systematic linting fixes']
             : []
       }
-    ];
+    ],
 
     // Estimate completion time based on current progress rate
     const estimatedCompletion = new Date()
@@ -458,7 +458,7 @@ export class ProgressTracker {
       currentMetrics,
       targetMetrics,
       estimatedCompletion
-    };
+    },
   }
 
   /**
@@ -483,7 +483,7 @@ export class ProgressTracker {
         lintingWarningsReduced: 0,
         buildTimeImproved: 0,
         enterpriseSystemsAdded: 0
-      };
+      },
     }
 
     const first = this.metricsHistory[0];
@@ -508,7 +508,7 @@ export class ProgressTracker {
         report,
         history: this.metricsHistory,
         improvement: this.getMetricsImprovement()
-      };
+      },
 
       fs.writeFileSync(filePath, JSON.stringify(exportData, null, 2))
       // // // _logger.info(`📊 Metrics exported to: ${filePath}`)
@@ -521,7 +521,7 @@ export class ProgressTracker {
    * Reset metrics history (for testing or fresh start)
    */
   resetMetricsHistory(): void {
-    this.metricsHistory = [];
+    this.metricsHistory = [],
     this.lastMetricsUpdate = new Date()
     // // // _logger.info('📊 Metrics history reset')
   }

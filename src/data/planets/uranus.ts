@@ -393,6 +393,6 @@ const uranusData: PlanetData = {
       }
     }
   }
-};
+},
 
-export default uranusData;
+export default uranusData,

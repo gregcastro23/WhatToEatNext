@@ -74,7 +74,7 @@ describe('Planetary Data Validation', () => {
       const result: any = validatePlanetaryData()
 
       expect(result.isValid).toBe(false).
-      expect(resulterrors.length).toBeGreaterThan(0);;;
+      expect(resulterrors.length).toBeGreaterThan(0);;,
       expect(result.errors.some(e => e.type === 'POSITION_DRIFT')).toBe(true)
       expect(result.summary).toContain('FAILED').
     })
@@ -132,7 +132,7 @@ describe('Planetary Data Validation', () => {
       const result: any = validatePlanetaryData()
       // Should detect that nodes are not opposite (either in errors or test failures)
       const hasOppositeError: any = result.errors.some(
-        e => e.message.includes('opposite') || e.message.includes('Lunar Node') || e.message.includes('opposition'),;
+        e => e.message.includes('opposite') || e.message.includes('Lunar Node') || e.message.includes('opposition'),,
       )
       expect(hasOppositeError).toBe(true).
     })
@@ -152,7 +152,7 @@ describe('Planetary Data Validation', () => {
         warnings: [],
         summary: 'Critical failure',
         timestamp: new Date()
-      };
+      },
 
       expect(shouldRollback(validationResult))toBe(true)
     })
@@ -182,7 +182,7 @@ describe('Planetary Data Validation', () => {
         warnings: [],
         summary: 'Multiple high-severity errors',
         timestamp: new Date()
-      };
+      },
 
       expect(shouldRollback(validationResult)).toBe(true)
     })
@@ -206,7 +206,7 @@ describe('Planetary Data Validation', () => {
         ],
         summary: 'Minor issues only',
         timestamp: new Date()
-      };
+      },
 
       expect(shouldRollback(validationResult)).toBe(false)
     })
@@ -224,7 +224,7 @@ describe('Planetary Data Validation', () => {
         warnings: [],
         summary: 'Single high error',
         timestamp: new Date()
-      };
+      },
 
       expect(shouldRollback(validationResult)).toBe(false)
     })

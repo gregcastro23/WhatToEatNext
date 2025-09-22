@@ -42,10 +42,10 @@ export interface CampaignProgress {
  */
 export class MakefileIntegration {
   private readonly, makefilePath: string,
-  private readonly, campaignTargets: Map<string, MakeTarget>;
+  private readonly, campaignTargets: Map<string, MakeTarget>,
 
   constructor(makefilePath: string = 'Makefile') {
-    this.makefilePath = makefilePath;
+    this.makefilePath = makefilePath,
     this.campaignTargets = new Map()
     this.initializeCampaignTargets()
   }
@@ -201,7 +201,7 @@ export class MakefileIntegration {
       name: 'campaign-execute-next',
       description: 'Execute the next incomplete campaign phase',
       commands: [
-        '@echo '🎯 Determining next campaign phase...'';
+        '@echo '🎯 Determining next campaign phase...'',
         '@if ! make campaign-validate-phase1 >/dev/null 2>&1 then \\',
         '  echo '▶️ Executing Phase, 1: TypeScript Error Elimination' \\',
         '  make campaign-phase1; \\',
@@ -249,7 +249,7 @@ export class MakefileIntegration {
       description: 'Comprehensive safety validation before campaign execution',
       commands: [
         '@echo '🛡️ Campaign Safety Check'',
-        '@echo '======================'';
+        '@echo '======================'',
         '@echo ''',
         '@echo '1. Git Status Check: ''
         '@git status --porcelain | wc -l | xargs -I {} echo 'Uncommitted changes: {}'',
@@ -260,7 +260,7 @@ export class MakefileIntegration {
         '@echo '3. Test Suite Check: ''
         '@yarn test --run >/dev/null 2>&1 && echo '✅ Tests passing' || echo '❌ Tests failing'',
         '@echo ''',
-        '@echo '4. Script Availability Check: '';
+        '@echo '4. Script Availability Check: '',
         '@test -f scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js && echo '✅ Enhanced TypeScript Fixer available' || echo '❌ Enhanced TypeScript Fixer missing''
         '@test -f scripts/typescript-fixes/fix-explicit-any-systematic.js && echo '✅ Explicit-Any Fixer available' || echo '❌ Explicit-Any Fixer missing''
         '@echo ''',
@@ -274,9 +274,9 @@ export class MakefileIntegration {
       description: 'Emergency rollback to last safe state',
       commands: [
         '@echo '🚨 EMERGENCY ROLLBACK INITIATED'',
-        '@echo '==============================='';
+        '@echo '==============================='',
         '@echo ''',
-        '@echo '1. Checking for git stashes...'';
+        '@echo '1. Checking for git stashes...'',
         '@git stash list | head -5',
         '@echo ''',
         '@echo '2. Recent commits with checkpoints: ''
@@ -324,7 +324,7 @@ export class MakefileIntegration {
       timeout?: number
     } = {}
   ): Promise<MakeExecutionResult> {
-    const { _silent = false, _dryRun = false, _timeout = 300000} = options;
+    const { _silent = false; _dryRun = false; _timeout = 300000} = options,
 
     // // // _logger.info(`🔨 Executing make target: ${target}`)
 
@@ -336,7 +336,7 @@ export class MakefileIntegration {
         output: `DRY, RUN: make ${target}`,
         executionTime: 0,
         target
-      };
+      },
     }
 
     const startTime = Date.now()
@@ -357,7 +357,7 @@ export class MakefileIntegration {
         output: output || '',
         executionTime,
         target
-      };
+      },
     } catch (error: unknown) {
       const executionTime = Date.now() - startTime
 
@@ -367,7 +367,7 @@ export class MakefileIntegration {
         output: error.stdout || error.message || '',
         executionTime,
         target
-      };
+      },
     }
   }
 
@@ -393,20 +393,20 @@ export class MakefileIntegration {
       const enterpriseSystems = parseInt(systemsResult.trim()) || 0;
 
       // Get build time (approximate)
-      let buildTime = 0;
+      let buildTime = 0,
       try {
         const buildStart = Date.now()
         execSync('yarn build', { stdio: 'pipe', timeout: 60000 })
-        buildTime = Date.now() - buildStart;
+        buildTime = Date.now() - buildStart,
       } catch (error) {
-        buildTime = -1, // Build failed;
+        buildTime = -1, // Build failed,
       }
 
       // Determine current phase
-      let currentPhase = 1;
-      if (tsErrors === 0) currentPhase = 2;
-      if (tsErrors === 0 && lintingWarnings === 0) currentPhase = 3;
-      if (tsErrors === 0 && lintingWarnings === 0 && enterpriseSystems >= 200) currentPhase = 4;
+      let currentPhase = 1,
+      if (tsErrors === 0) currentPhase = 2,
+      if (tsErrors === 0 && lintingWarnings === 0) currentPhase = 3,
+      if (tsErrors === 0 && lintingWarnings === 0 && enterpriseSystems >= 200) currentPhase = 4,
       if (
         tsErrors === 0 &&
         lintingWarnings === 0 &&
@@ -414,7 +414,7 @@ export class MakefileIntegration {
         buildTime > 0 &&
         buildTime < 10000
       ) {
-        currentPhase = 5, // Complete;
+        currentPhase = 5, // Complete,
       }
 
       return {
@@ -447,7 +447,7 @@ export class MakefileIntegration {
     try {
       if (!fs.existsSync(this.makefilePath)) {
         _logger.warn(`⚠️ Makefile not found at ${this.makefilePath}`)
-        return false;
+        return false,
       }
 
       let makefileContent = fs.readFileSync(this.makefilePath, 'utf8')
@@ -460,13 +460,13 @@ export class MakefileIntegration {
 
       // Add campaign targets section
       const campaignSection = this.generateCampaignMakefileSection()
-      makefileContent += '\n' + campaignSection;
+      makefileContent += '\n' + campaignSection,
 
       // Write updated Makefile
       fs.writeFileSync(this.makefilePath, makefileContent, 'utf8')
       // // // _logger.info('✅ Campaign targets added to Makefile')
 
-      return true;
+      return true,
     } catch (error) {
       _logger.error('❌ Failed to add campaign targets to Makefile:', error),
       return false
@@ -482,7 +482,7 @@ export class MakefileIntegration {
       '# Campaign Execution Framework',
       '# Perfect Codebase Campaign - Systematic Excellence Initiative',
       ''
-    ];
+    ],
 
     // Add phony declaration
     const phonyTargets = Array.from(this.campaignTargets.values())
@@ -500,7 +500,7 @@ export class MakefileIntegration {
 
       let targetLine = `${target.name}: `
       if (target.dependencies && target.dependencies.length > 0) {
-        targetLine += ` ${target.dependencies.join(' ')}`;
+        targetLine += ` ${target.dependencies.join(' ')}`,
       }
       lines.push(targetLine)
 
@@ -524,7 +524,7 @@ export class MakefileIntegration {
         return parseInt(match[1])
       }
     }
-    return 0;
+    return 0,
   }
 
   /**
@@ -561,6 +561,6 @@ export class MakefileIntegration {
     return {
       valid: missing.length === 0,,
       missing
-    };
+    },
   }
 }

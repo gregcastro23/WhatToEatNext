@@ -10,7 +10,7 @@ declare global {
   namespace Astrology {
     // Zodiac signs with enhanced documentation
     type ZodiacSign =
-      | 'aries' // ♈ Fire - Cardinal - Mars;
+      | 'aries' // ♈ Fire - Cardinal - Mars,
       | 'taurus' // ♉ Earth - Fixed - Venus
       | 'gemini' // ♊ Air - Mutable - Mercury
       | 'cancer' // ♋ Water - Cardinal - Moon
@@ -25,7 +25,7 @@ declare global {
 
     // Planetary bodies with enhanced documentation
     type Planet =
-      | 'sun' // ☉ Vitality, ego, life force;
+      | 'sun' // ☉ Vitality, ego, life force,
       | 'moon' // ☽ Emotions, intuition, cycles
       | 'mercury' // ☿ Communication, intellect, travel
       | 'venus' // ♀ Love, beauty, harmony, values
@@ -40,29 +40,29 @@ declare global {
 
     // Elements with enhanced documentation
     type Element =
-      | 'Fire' // Energy, enthusiasm, action, creativity;
+      | 'Fire' // Energy, enthusiasm, action, creativity,
       | 'Water' // Emotion, intuition, flow, healing
       | 'Earth' // Stability, practicality, material, grounding
       | 'Air'; // Intellect, communication, ideas, movement
 
     // Modalities with enhanced documentation
     type Modality =
-      | 'Cardinal' // Initiation, leadership, new beginnings;
+      | 'Cardinal' // Initiation, leadership, new beginnings,
       | 'Fixed' // Stability, persistence, determination
       | 'Mutable'; // Adaptability, flexibility, change
 
     // Planetary positions with comprehensive type safety
     interface PlanetaryPosition {
       /** Zodiac sign position */
-      sign: any;
+      sign: any,
       /** Degree within the sign (0-29.999...) */
-      degree: number;
+      degree: number,
       /** Exact longitude in degrees (0-359.999...) */
-      exactLongitude: number;
+      exactLongitude: number,
       /** Whether the planet is in retrograde motion */
-      isRetrograde: boolean;
+      isRetrograde: boolean,
       /** Optional: Speed of the planet in degrees per day */
-      speed?: number;
+      speed?: number,
       /** Optional: Declination in degrees */
       declination?: number
     }
@@ -82,11 +82,11 @@ declare global {
     // Planetary correspondences for culinary applications
     interface PlanetaryCorrespondence {
       /** Primary ruling planet */
-      rulingPlanet: Planet;
+      rulingPlanet: Planet,
       /** Secondary planetary influences */
-      influences?: Planet[];
+      influences?: Planet[],
       /** Optimal timing for use based on planetary hours */
-      optimalTiming?: string;
+      optimalTiming?: string,
       /** Planetary aspects that enhance the correspondence */
       enhancingAspects?: string[]
     }
@@ -94,9 +94,9 @@ declare global {
     // Comprehensive astrological state
     interface AstrologicalState {
       /** Current planetary positions */
-      planetaryPositions: Record<Planet, PlanetaryPosition>;
+      planetaryPositions: Record<Planet, PlanetaryPosition>,
       /** Dominant element based on current positions */
-      dominantElement: Element;
+      dominantElement: Element,
       /** Current lunar phase */
       lunarPhase:
         | 'new'
@@ -106,11 +106,11 @@ declare global {
         | 'full'
         | 'waning_gibbous'
         | 'last_quarter'
-        | 'waning_crescent';
+        | 'waning_crescent',
       /** Current planetary hour */
-      planetaryHour: Planet;
+      planetaryHour: Planet,
       /** Whether it's currently daytime */
-      isDaytime: boolean;
+      isDaytime: boolean,
       /** Active planetary influences */
       activePlanets: Planet[]
       /** Current season */
@@ -127,31 +127,31 @@ declare global {
         element: Element,
         planets: Planet[],
         reasoning: string
-      }>;
+      }>,
       /** Optimal ingredients for current conditions */
       optimalIngredients: Array<{
         name: string,
         element: Element,
         planet: Planet,
         compatibility: number
-      }>;
+      }>,
       /** Timing recommendations */
       timing: {
         bestHours: string[],
         lunarPhase: string,
         planetaryHour: Planet,
         optimalDays: string[]
-      };
+      },
       /** Elemental balance recommendations */
       elementalBalance: ElementalProperties
     }
 
     // Type guards for runtime validation with enhanced error messages
     interface TypeGuards {
-      isPlanetaryPosition(obj: unknown): obj is PlanetaryPosition;
-      isElementalProperties(obj: unknown): obj is ElementalProperties;
-      isValidCompatibilityScore(score: number): boolean;
-      isZodiacSign(sign: string): sign is ZodiacSign;
+      isPlanetaryPosition(obj: unknown): obj is PlanetaryPosition,
+      isElementalProperties(obj: unknown): obj is ElementalProperties,
+      isValidCompatibilityScore(score: number): boolean,
+      isZodiacSign(sign: string): sign is ZodiacSign,
       isPlanet(planet: string): planet is Planet
       isElement(element: string): element is Element
     }
@@ -172,9 +172,9 @@ declare global {
     // Astrological calculation utilities
     interface CalculationUtilities {
       /** Get element for zodiac sign */
-      getElementForSign(sign: any): Element;
+      getElementForSign(sign: any): Element,
       /** Get modality for zodiac sign */
-      getModalityForSign(sign: any): Modality;
+      getModalityForSign(sign: any): Modality,
       /** Get ruling planet for zodiac sign */
       getRulingPlanetForSign(sign: any): Planet
       /** Calculate planetary aspects */
@@ -183,7 +183,7 @@ declare global {
         planet2: Planet,
         aspect: 'conjunction' | 'opposition' | 'trine' | 'square' | 'sextile',
         orb: number
-      }>;
+      }>,
     }
   }
 }
@@ -193,24 +193,24 @@ export interface EnhancedIngredient {
   /** Ingredient name */
   name: string
   /** Category (e.g., 'vegetables', 'grains', 'spices') */
-  category: string;
+  category: string,
   /** Elemental properties following self-reinforcement principles */
-  elementalProperties: Astrology.ElementalProperties;
+  elementalProperties: Astrology.ElementalProperties,
   /** Planetary correspondences */
-  planetaryCorrespondence: Astrology.PlanetaryCorrespondence;
+  planetaryCorrespondence: Astrology.PlanetaryCorrespondence,
   /** Culinary properties */
   culinaryProperties: {
     /** Flavor profile descriptors */
-    flavorProfile: Array<'sweet' | 'sour' | 'salty' | 'bitter' | 'umami' | 'spicy' | 'astringent'>;
+    flavorProfile: Array<'sweet' | 'sour' | 'salty' | 'bitter' | 'umami' | 'spicy' | 'astringent'>,
     /** Compatible cooking methods */
-    cookingMethods: string[];
+    cookingMethods: string[],
     /** Seasonal availability */
     seasonality: Array<'spring' | 'summer' | 'autumn' | 'winter'>
     /** Ingredient pairings */
     pairings: string[]
     /** Preparation tips */
     preparationTips: string[]
-  };
+  },
   /** Optional nutritional data */
   nutritionalData?: {
     calories: number,
@@ -220,20 +220,20 @@ export interface EnhancedIngredient {
     fiber: number,
     vitamins: string[],
     minerals: string[]
-  };
+  },
   /** Cultural significance and sensitivity */
   culturalContext?: {
     origin: string,
     traditionalUses: string[],
     culturalSignificance: string,
     respectfulUsage: string[]
-  };
+  },
 }
 
 // Enhanced recipe type with astrological optimization
 export interface EnhancedRecipe {
   /** Unique recipe identifier */
-  id: string;
+  id: string,
   /** Recipe name */
   name: string
   /** List of ingredients with quantities */
@@ -242,17 +242,17 @@ export interface EnhancedRecipe {
     quantity: string,
     preparation: string,
     timing: 'early' | 'middle' | 'late'
-  }>;
+  }>,
   /** Step-by-step instructions */
   instructions: Array<{
     step: number,
     instruction: string,
-    timing?: string;
-    temperature?: string;
+    timing?: string,
+    temperature?: string,
     technique?: string
-  }>;
+  }>,
   /** Astrological optimization data */
-  astrologicalOptimization: Astrology.CulinaryAstrologyData;
+  astrologicalOptimization: Astrology.CulinaryAstrologyData,
   /** Overall elemental balance of the recipe */
   elementalBalance: Astrology.ElementalProperties
   /** Timing information */
@@ -265,10 +265,10 @@ export interface EnhancedRecipe {
       bestPlanetaryHour: Astrology.Planet,
       bestLunarPhase: string,
       bestSeason: string
-    };
-  };
+    },
+  },
   /** Serving information */
-  servings: number;
+  servings: number,
   /** Difficulty level */
   difficulty: 'beginner' | 'intermediate' | 'advanced' | 'expert'
   /** Cultural context */
@@ -277,19 +277,19 @@ export interface EnhancedRecipe {
     region: string,
     traditionalSignificance: string,
     modernAdaptations: string[]
-  };
+  },
 }
 
 // Cooking method with astrological correspondences
 export interface EnhancedCookingMethod {
   /** Method name */
-  name: string;
+  name: string,
   /** Primary element associated with the method */
-  primaryElement: Astrology.Element;
+  primaryElement: Astrology.Element,
   /** Elemental effects of using this method */
-  elementalEffect: Astrology.ElementalProperties;
+  elementalEffect: Astrology.ElementalProperties,
   /** Planetary correspondences */
-  planetaryCorrespondences: Astrology.Planet[];
+  planetaryCorrespondences: Astrology.Planet[],
   /** Benefits of using this method */
   benefits: string[]
   /** Optimal timing for this method */
@@ -297,13 +297,13 @@ export interface EnhancedCookingMethod {
     planetaryHours: Astrology.Planet[],
     lunarPhases: string[],
     seasons: string[]
-  };
+  },
   /** Temperature range */
   temperatureRange?: {
     min: number,
     max: number,
     unit: 'celsius' | 'fahrenheit'
-  };
+  },
   /** Equipment needed */
   equipment: string[]
   /** Difficulty level */
@@ -313,61 +313,61 @@ export interface EnhancedCookingMethod {
 // Cuisine profile with astrological characteristics
 export interface EnhancedCuisineProfile {
   /** Cuisine name */
-  name: string;
+  name: string,
   /** Regional origin */
-  region: string;
+  region: string,
   /** Elemental alignment of the cuisine */
-  elementalAlignment: Astrology.ElementalProperties;
+  elementalAlignment: Astrology.ElementalProperties,
   /** Dominant planetary influences */
   planetaryInfluences: Astrology.Planet[]
   /** Signature modifications for different elemental dominances */
-  signatureModifications: Record<string, string>;
+  signatureModifications: Record<string, string>,
   /** Astrological profile */
   astrologicalProfile: {
     rulingPlanets: Astrology.Planet[],
     aspectEnhancers: string[],
     seasonalPreferences: string[]
-  };
+  },
   /** Cultural sensitivity guidelines */
   culturalGuidelines: {
     respectfulRepresentation: string[],
     traditionalContext: string,
     modernAdaptations: string[]
-  };
+  },
 }
 
 // Export commonly used types for easy importing
-export type ZodiacSign = Astrology.ZodiacSign;
-export type Planet = Astrology.Planet;
-export type Element = Astrology.Element;
-export type PlanetaryPosition = Astrology.PlanetaryPosition;
-export type ElementalProperties = Astrology.ElementalProperties;
-export type AstrologicalState = Astrology.AstrologicalState;
-export type CulinaryAstrologyData = Astrology.CulinaryAstrologyData;
+export type ZodiacSign = Astrology.ZodiacSign,
+export type Planet = Astrology.Planet,
+export type Element = Astrology.Element,
+export type PlanetaryPosition = Astrology.PlanetaryPosition,
+export type ElementalProperties = Astrology.ElementalProperties,
+export type AstrologicalState = Astrology.AstrologicalState,
+export type CulinaryAstrologyData = Astrology.CulinaryAstrologyData,
 
-export type { EnhancedCookingMethod, EnhancedCuisineProfile, EnhancedIngredient, EnhancedRecipe };
+export type { EnhancedCookingMethod, EnhancedCuisineProfile, EnhancedIngredient, EnhancedRecipe },
 
 // Utility type for component props that use astrological data
-export type WithAstrologicalData<T = {}> = T & {;
-  astrologicalState?: Astrology.AstrologicalState;
+export type WithAstrologicalData<T = {}> = T & {,
+  astrologicalState?: Astrology.AstrologicalState,
   elementalProperties?: Astrology.ElementalProperties
   onAstrologicalUpdate?: (state: Astrology.AstrologicalState) => void
-};
+},
 
 // Utility type for components that can be culturally sensitive
-export type WithCulturalSensitivity<T = {}> = T & {;
+export type WithCulturalSensitivity<T = {}> = T & {,
   culturalContext?: {
     respectTraditionalUses: boolean,
     acknowledgeOrigins: boolean,
     useInclusiveLanguage: boolean
-  };
-};
+  },
+},
 
 // Utility type for performance-optimized components
-export type WithPerformanceOptimization<T = {}> = T & {;
+export type WithPerformanceOptimization<T = {}> = T & {,
   performanceConfig?: {
     enableMemoization: boolean,
     enableLazyLoading: boolean,
     enableVirtualization: boolean
-  };
-};
+  },
+},

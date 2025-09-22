@@ -15,21 +15,21 @@ import {
   PhaseStatus,
   ProgressReport,
   ValidationResult
-} from '../types/campaign';
+} from '../types/campaign',
 
 import { CampaignController } from './campaign/CampaignController';
 import {_CAMPAIGN_INTELLIGENCE_DEMO as CampaignIntelligenceSystem} from './campaign/CampaignIntelligenceSystem';
 import {ProgressTracker} from './campaign/ProgressTracker';
 
 // Re-export required types for external components
-export type { CampaignPhase, ValidationResult } from '../types/campaign';
+export type { CampaignPhase, ValidationResult } from '../types/campaign',
 
-// ========== KIRO INTEGRATION TYPES ==========;
+// ========== KIRO INTEGRATION TYPES ==========,
 
 export interface KiroCampaignStatus {
   campaignId: string,
   status: 'idle' | 'running' | 'paused' | 'completed' | 'failed',
-  currentPhase?: string;
+  currentPhase?: string,
   progress: number // 0-100%
   metrics: ProgressMetrics,
   safetyEvents: SafetyEvent[],
@@ -73,7 +73,7 @@ export interface CampaignResult {
     errorsReduced: number,
     warningsReduced: number,
     buildTimeImproved: number
-  };
+  },
   duration: number // minutes
 }
 
@@ -103,7 +103,7 @@ export interface CampaignSchedule {
   nextRun?: Date
 }
 
-// ========== KIRO CAMPAIGN INTEGRATION SERVICE ==========;
+// ========== KIRO CAMPAIGN INTEGRATION SERVICE ==========,
 
 export class KiroCampaignIntegration {
   private campaignController: CampaignController
@@ -115,12 +115,12 @@ export class KiroCampaignIntegration {
   constructor() {
     this.campaignController = new CampaignController(this.getDefaultConfig())
     this.progressTracker = new ProgressTracker()
-    this.intelligenceSystem = CampaignIntelligenceSystem as unknown as {;
+    this.intelligenceSystem = CampaignIntelligenceSystem as unknown as {,
       initialize: (config: Record<string, unknown>) => Promise<void>
-    };
+    },
   }
 
-  // ========== REAL-TIME MONITORING ==========;
+  // ========== REAL-TIME MONITORING ==========,
 
   /**
    * Get comprehensive campaign control panel data
@@ -137,7 +137,7 @@ export class KiroCampaignIntegration {
       systemHealth,
       quickActions,
       recentResults
-    };
+    },
   }
 
   /**
@@ -149,7 +149,7 @@ export class KiroCampaignIntegration {
 
     // Update with latest metrics
     const currentMetrics = await this.progressTracker.getProgressMetrics()
-    status.metrics = currentMetrics;
+    status.metrics = currentMetrics,
     status.lastUpdate = new Date()
     return status
   }
@@ -164,7 +164,7 @@ export class KiroCampaignIntegration {
     const errorScore = Math.max(0, 100 - metrics.typeScriptErrors.current / 10)
     const warningScore = Math.max(0, 100 - metrics.lintingWarnings.current / 100)
     const buildScore =
-      metrics.buildPerformance.currentTime <= 10;
+      metrics.buildPerformance.currentTime <= 10,
         ? 100
         : Math.max(0, 100 - (metrics.buildPerformance.currentTime - 10) * 10),
 
@@ -214,7 +214,7 @@ export class KiroCampaignIntegration {
         changePercentage: Math.abs(improvement.buildTimeImproved * 10),
         timeframe: 'last 24 hours'
       }
-    ];
+    ],
 
     return {
       overallHealth,
@@ -226,7 +226,7 @@ export class KiroCampaignIntegration {
     }
   }
 
-  // ========== CAMPAIGN CONTROL ==========;
+  // ========== CAMPAIGN CONTROL ==========,
 
   /**
    * Start a new campaign with specified configuration
@@ -243,7 +243,7 @@ export class KiroCampaignIntegration {
       metrics: await this.progressTracker.getProgressMetrics(),
       safetyEvents: [],
       lastUpdate: new Date()
-    };
+    },
 
     this.activeCampaigns.set(campaignId, status)
 
@@ -253,31 +253,31 @@ export class KiroCampaignIntegration {
 
       for (const phaseId of request.phaseIds) {
         const phase = config.phases.find(p => p.id === phaseId)
-        if (!phase) continue;
+        if (!phase) continue,
 
-        status.currentPhase = phaseId;
+        status.currentPhase = phaseId,
         status.lastUpdate = new Date()
 
         const result = await this.campaignController.executePhase(phase)
 
         // Update progress
-        status.progress = ((request.phaseIds.indexOf(phaseId) + 1) / request.phaseIds.length) * 100;
+        status.progress = ((request.phaseIds.indexOf(phaseId) + 1) / request.phaseIds.length) * 100,
         status.metrics = await this.progressTracker.getProgressMetrics()
         status.safetyEvents.push(...result.safetyEvents)
 
         if (!result.success) {
-          status.status = 'failed';
+          status.status = 'failed',
           throw new Error(
             `Phase ${phaseId} failed: ${result.safetyEvents.map(e => e.description).join(', ')}`,
           )
         }
       }
 
-      status.status = 'completed';
-      status.progress = 100;
-      status.currentPhase = undefined;
+      status.status = 'completed',
+      status.progress = 100,
+      status.currentPhase = undefined,
     } catch (error) {
-      status.status = 'failed';
+      status.status = 'failed',
       status.safetyEvents.push({
         type: 'BUILD_FAILURE' as SafetyEvent['type'],
         timestamp: new Date(),
@@ -287,7 +287,7 @@ export class KiroCampaignIntegration {
       })
     }
 
-    return campaignId;
+    return campaignId,
   }
 
   /**
@@ -295,9 +295,9 @@ export class KiroCampaignIntegration {
    */
   async pauseCampaign(campaignId: string): Promise<boolean> {
     const status = this.activeCampaigns.get(campaignId)
-    if (!status || status.status !== 'running') return false;
+    if (!status || status.status !== 'running') return false,
 
-    status.status = 'paused';
+    status.status = 'paused',
     status.lastUpdate = new Date()
     status.safetyEvents.push({
       type: 'CHECKPOINT_CREATED' as SafetyEvent['type'],
@@ -307,7 +307,7 @@ export class KiroCampaignIntegration {
       action: 'PAUSE'
     })
 
-    return true;
+    return true,
   }
 
   /**
@@ -315,9 +315,9 @@ export class KiroCampaignIntegration {
    */
   async resumeCampaign(campaignId: string): Promise<boolean> {
     const status = this.activeCampaigns.get(campaignId)
-    if (!status || status.status !== 'paused') return false;
+    if (!status || status.status !== 'paused') return false,
 
-    status.status = 'running';
+    status.status = 'running',
     status.lastUpdate = new Date()
     status.safetyEvents.push({
       type: 'CHECKPOINT_CREATED' as SafetyEvent['type'],
@@ -327,7 +327,7 @@ export class KiroCampaignIntegration {
       action: 'RESUME'
     })
 
-    return true;
+    return true,
   }
 
   /**
@@ -335,9 +335,9 @@ export class KiroCampaignIntegration {
    */
   async stopCampaign(campaignId: string): Promise<boolean> {
     const status = this.activeCampaigns.get(campaignId)
-    if (!status) return false;
+    if (!status) return false,
 
-    status.status = 'completed';
+    status.status = 'completed',
     status.lastUpdate = new Date()
     status.safetyEvents.push({
       type: 'CHECKPOINT_CREATED' as SafetyEvent['type'],
@@ -355,10 +355,10 @@ export class KiroCampaignIntegration {
       5 * 60 * 1000,
     ); // 5 minutes
 
-    return true;
+    return true,
   }
 
-  // ========== CAMPAIGN SCHEDULING ==========;
+  // ========== CAMPAIGN SCHEDULING ==========,
 
   /**
    * Schedule a campaign for future execution
@@ -367,12 +367,12 @@ export class KiroCampaignIntegration {
     const scheduleId = `schedule_${Date.now()}`;
     const campaignSchedule: CampaignSchedule = {
       id: scheduleId,
-      ...schedule;
+      ...schedule,
       nextRun: this.calculateNextRun(schedule.scheduledTime, schedule.recurrence)
-    };
+    },
 
     this.campaignSchedules.set(scheduleId, campaignSchedule)
-    return scheduleId;
+    return scheduleId,
   }
 
   /**
@@ -398,7 +398,7 @@ export class KiroCampaignIntegration {
       schedule.nextRun = this.calculateNextRun(schedule.scheduledTime, schedule.recurrence),
     }
 
-    return true;
+    return true,
   }
 
   /**
@@ -408,7 +408,7 @@ export class KiroCampaignIntegration {
     return this.campaignSchedules.delete(scheduleId)
   }
 
-  // ========== REPORTING AND ANALYSIS ==========;
+  // ========== REPORTING AND ANALYSIS ==========,
 
   /**
    * Generate comprehensive campaign report
@@ -424,7 +424,7 @@ export class KiroCampaignIntegration {
           currentMetrics: status.metrics,
           targetMetrics: await this.getTargetMetrics(),
           estimatedCompletion: status.estimatedCompletion || new Date()
-        };
+        },
       }
     }
 
@@ -456,10 +456,10 @@ export class KiroCampaignIntegration {
       intelligence,
       recommendations,
       nextSteps
-    };
+    },
   }
 
-  // ========== HELPER METHODS ==========;
+  // ========== HELPER METHODS ==========,
 
   private async getAvailablePhases(): Promise<CampaignPhase[]> {
     const config = await CampaignController.loadConfiguration()
@@ -504,7 +504,7 @@ export class KiroCampaignIntegration {
         estimatedDuration: 60,
         safetyLevel: 'maximum'
       }
-    ];
+    ],
   }
 
   private async getRecentCampaignResults(): Promise<CampaignResult[]> {
@@ -522,35 +522,35 @@ export class KiroCampaignIntegration {
     const safetySettings = {
       ...baseConfig.safetySettings,
       maxFilesPerBatch: request.batchSize || baseConfig.safetySettings.maxFilesPerBatch
-    };
+    },
 
-    if (request.safetyLevel === 'conservative') {;
+    if (request.safetyLevel === 'conservative') {,
       safetySettings.maxFilesPerBatch = Math.min(safetySettings.maxFilesPerBatch, 10),
-      safetySettings.buildValidationFrequency = 3;
-    } else if (request.safetyLevel === 'aggressive') {;
+      safetySettings.buildValidationFrequency = 3,
+    } else if (request.safetyLevel === 'aggressive') {,
       safetySettings.maxFilesPerBatch = Math.max(safetySettings.maxFilesPerBatch, 25),
-      safetySettings.buildValidationFrequency = 10;
+      safetySettings.buildValidationFrequency = 10,
     }
 
     return {
-      ...baseConfig;
+      ...baseConfig,
       phases: requestedPhases,
       safetySettings
-    };
+    },
   }
 
   private calculateNextRun(scheduledTime: Date, recurrence?: string): Date {
     const nextRun = new Date(scheduledTime)
 
-    if (recurrence === 'daily') {;
+    if (recurrence === 'daily') {,
       nextRun.setDate(nextRun.getDate() + 1)
-    } else if (recurrence === 'weekly') {;
+    } else if (recurrence === 'weekly') {,
       nextRun.setDate(nextRun.getDate() + 7)
-    } else if (recurrence === 'monthly') {;
+    } else if (recurrence === 'monthly') {,
       nextRun.setMonth(nextRun.getMonth() + 1)
     }
 
-    return nextRun;
+    return nextRun,
   }
 
   private async getTargetMetrics(): Promise<ProgressMetrics> {
@@ -559,7 +559,7 @@ export class KiroCampaignIntegration {
       lintingWarnings: { current: 0, target: 0, reduction: 0, percentage: 100 },
       buildPerformance: { currentTime: 8, targetTime: 10, cacheHitRate: 0.9, memoryUsage: 40 },
       enterpriseSystems: { current: 200, target: 200, transformedExports: 200 }
-    };
+    },
   }
 
   private generateNextSteps(intelligence: unknown): string[] {
@@ -579,7 +579,7 @@ export class KiroCampaignIntegration {
 
     nextSteps.push('Monitor progress and adjust campaign strategy as needed')
 
-    return nextSteps;
+    return nextSteps,
   }
 
   private getDefaultConfig(): CampaignConfig {
@@ -605,7 +605,7 @@ export class KiroCampaignIntegration {
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
         consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
       }
-    };
+    },
   }
 }
 

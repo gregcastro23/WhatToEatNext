@@ -13,5 +13,5 @@ declare module 'swe' {
     _longitude: number,
     _latitude: number,
     distance: number
-  };
+  },
 }

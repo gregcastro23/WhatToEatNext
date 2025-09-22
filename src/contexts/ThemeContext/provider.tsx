@@ -22,10 +22,10 @@ export function ThemeProvider(_{ children }: { children: ReactNode }) {
   const handleThemeChange = (newTheme: Theme) => {
     setTheme(newTheme)
     themeManager.updateTheme(newTheme)
-  };
+  },
 
   return (
-    <ThemeContext.Provider value={{ theme, setTheme: handleThemeChange }}>;
+    <ThemeContext.Provider value={{ theme, setTheme: handleThemeChange }}>,
       {children}
     </ThemeContext.Provider>
   )

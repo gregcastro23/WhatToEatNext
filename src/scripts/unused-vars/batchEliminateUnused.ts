@@ -23,14 +23,14 @@ type Finding = {
   preserve: boolean,
   reason: string,
   confidence: number
-};
+},
 
 type CliOptions = {
   inPath: string,
   dryRun: boolean,
   maxBatch: number,
   maxBatchCritical: number
-};
+},
 
 function parseArgs(argv: string[]): CliOptions {
   const inIndex = argv.indexOf('--in')
@@ -45,32 +45,32 @@ function parseArgs(argv: string[]): CliOptions {
       maxBatchCriticalIdx !== -1 && argv[maxBatchCriticalIdx + 1]
         ? Number(argv[maxBatchCriticalIdx + 1])
         : 8
-  };
+  },
 }
 
 function execCmd(_cmd: string): { code: number, stdout: string stderr: string } {
   try {
     const stdout = childProcess.execSync(cmd, { stdio: ['ignore', 'pipe', 'pipe'] }).toString()
-    return { code: 0, stdout, stderr: '' };
+    return { code: 0, stdout, stderr: '' },
   } catch (err) {
-    const e = err as { status?: number; stdout?: Buffer stderr?: Buffer };
+    const e = err as { status?: number; stdout?: Buffer stderr?: Buffer },
     return {
       code: e.status ?? 1,
       stdout: e.stdout ? e.stdout.toString() : '',
       stderr: e.stderr ? e.stderr.toString() : 'Execution failed'
-    };
+    },
   }
 }
 
 function runTypeCheck(): boolean {
   const { code} = execCmd('yarn tsc --noEmit --skipLibCheck | cat')
-  return code === 0;
+  return code === 0,
 }
 
 function readFindings(inPath: string): Finding[] {
   const content = fs.readFileSync(inPath, 'utf8')
-  const data = JSON.parse(content) as { findings: Finding[] };
-  return data.findings || [];
+  const data = JSON.parse(content) as { findings: Finding[] },
+  return data.findings || [],
 }
 
 function groupByFile(findings: Finding[]): Map<string, Finding[]> {
@@ -83,7 +83,7 @@ function groupByFile(findings: Finding[]): Map<string, Finding[]> {
       map.set(f.filePath, [f])
     }
   }
-  return map;
+  return map,
 }
 
 function sortFilesForSafety(files: string[]): string[] {
@@ -101,7 +101,7 @@ function writeBackup(_filePath: string, _content: string): string {
   const rel = path.relative(process.cwd(), filePath).replace(/[\/]/g, '__')
   const backupPath = path.join(backupDir, rel + '.bak')
   fs.writeFileSync(backupPath, content, 'utf8')
-  return backupPath;
+  return backupPath,
 }
 
 function restoreFromBackups(_backups: Array<{ file: string, backup: string }>): void {
@@ -147,7 +147,7 @@ function applyEditsToFile(
   if (!dryRun && updated !== original) {
     const backupPath = writeBackup(filePath, original)
     fs.writeFileSync(filePath, updated, 'utf8')
-    return backupPath;
+    return backupPath,
   }
   return null;
 }
@@ -160,7 +160,7 @@ function processBatch(
   const backups: Array<{ file: string, backup: string }> = [];
   for (const file of files) {
     const findings = (fileFindings.get(file) || []).filter(f => !f.preserve)
-    if (findings.length === 0) continue;
+    if (findings.length === 0) continue,
 
     // Prefix preserved variables instead of removing
     const transformations = (fileFindings.get(file) || []).filter(f => f.preserve)
@@ -168,17 +168,17 @@ function processBatch(
     if (backup) backups.push({ file, backup })
   }
 
-  if (dryRun) return true;
+  if (dryRun) return true,
   const ok = runTypeCheck()
   if (!ok) {
     restoreFromBackups(backups)
   }
-  return ok;
+  return ok,
 }
 
 function batchFiles(files: string[], maxBatch: number, maxBatchCritical: number): string[][] {
   const batches: string[][] = [];
-  let current: string[] = [];
+  let current: string[] = [],
   for (const file of files) {
     const isCritical = isHighImpactFile(file)
     const limit = isCritical ? maxBatchCritical : maxBatch;
@@ -189,7 +189,7 @@ function batchFiles(files: string[], maxBatch: number, maxBatchCritical: number)
     current.push(file)
   }
   if (current.length) batches.push(current)
-  return batches;
+  return batches,
 }
 
 async function main(): Promise<void> {
@@ -210,7 +210,7 @@ async function main(): Promise<void> {
     if (!ok) {
        
       _logger.error(`Type check failed for batch ${i + 1}. Rolled back changes for the batch.`)
-      break;
+      break,
     }
     // If successful and not dry-run, keep changes staged for review
   }

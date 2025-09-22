@@ -54,7 +54,7 @@ describe('DeploymentManager', () => {
           configurationValid: false,
           customChecks: []
         }
-      };
+      },
 
       const result: any = await deploymentManager.executePhase(phase)
 
@@ -90,14 +90,14 @@ describe('DeploymentManager', () => {
           configurationValid: false,
           customChecks: []
         }
-      };
+      },
 
       const result: any = await deploymentManager.executePhase(phase)
 
       expect(result.success).toBe(false).
       expect(resulttasksExecuted).toBe(1)
       expect(result.tasksSucceeded).toBe(0).
-      expect(resulttasksFailed).toBe(1);;
+      expect(resulttasksFailed).toBe(1);,
       expect(result.errors.length).toBeGreaterThan(0).
     })
 
@@ -139,7 +139,7 @@ describe('DeploymentManager', () => {
           configurationValid: false,
           customChecks: []
         }
-      };
+      },
 
       const result: any = await deploymentManager.executePhase(phase)
 
@@ -190,7 +190,7 @@ describe('DeploymentManager', () => {
           configurationValid: false,
           customChecks: []
         }
-      };
+      },
 
       const result: any = await deploymentManager.executePhase(phase)
 
@@ -227,7 +227,7 @@ describe('DeploymentManager', () => {
           configurationValid: false,
           customChecks: []
         }
-      };
+      },
 
       const result: any = await deploymentManagerexecutePhase(phase)
 
@@ -261,7 +261,7 @@ describe('DeploymentManager', () => {
           configurationValid: false,
           customChecks: []
         }
-      };
+      },
 
       const result: any = await deploymentManager.executePhase(phase)
 
@@ -295,7 +295,7 @@ describe('DeploymentManager', () => {
           configurationValid: false,
           customChecks: []
         }
-      };
+      },
 
       const result: any = await deploymentManager.executePhase(phase)
 
@@ -330,7 +330,7 @@ describe('DeploymentManager', () => {
             }
           ]
         }
-      };
+      },
 
       const result: any = await deploymentManagerexecutePhase(phase)
 
@@ -357,10 +357,10 @@ describe('DeploymentManager', () => {
             }
           ]
         }
-      };
+      },
 
       const result: any = await deploymentManager.executePhase(phase)
-      expect(result.success).toBe(false).;
+      expect(result.success).toBe(false).,
       expect(resulterrors).toContain('Custom check, failed: Failing Check')
     })
   })
@@ -418,12 +418,12 @@ describe('DeploymentManager', () => {
             customChecks: []
           }
         }
-      ];
+      ],
 
       const results: any = await deploymentManager.executeDeployment(phases)
 
       expect(results).toHaveLength(2).
-      expect(results[0]success).toBe(true);;
+      expect(results[0]success).toBe(true);,
       expect(results[0].phase).toBe('phase1').
       expect(results[1]success).toBe(true)
       expect(results[1].phase).toBe('phase2').
@@ -496,7 +496,7 @@ describe('DeploymentManager', () => {
             customChecks: []
           }
         }
-      ];
+      ],
 
       const results: any = await deploymentManagerexecuteDeployment(phases)
 
@@ -527,7 +527,7 @@ describe('DeploymentManager', () => {
     test('standard phases have proper task configuration', () => {
       const phases: any = createStandardDeploymentPhases()
 
-      phasesforEach(phase => {;
+      phasesforEach(phase => {,
         phase.tasks.forEach(task => {
           expect(task.id).toBeDefined().
           expect(taskname).toBeDefined()
@@ -566,7 +566,7 @@ describe('DeploymentManager', () => {
           configurationValid: false,
           customChecks: []
         }
-      };
+      },
 
       await deploymentManagerexecutePhase(phase)
       const log: any = deploymentManager.getDeploymentLog()
@@ -590,7 +590,7 @@ describe('DeploymentManager', () => {
           configurationValid: false,
           customChecks: []
         }
-      };
+      },
 
       await deploymentManager.executePhase(phase)
 

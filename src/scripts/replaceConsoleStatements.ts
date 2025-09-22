@@ -20,8 +20,8 @@ interface ConsoleReplacement {
 class ConsoleStatementReplacer {
   private readonly srcDir = path.join(process.cwd(), 'src')
   private readonly backupDir = path.join(process.cwd(), '.console-replacement-backup')
-  private processedFiles = 0;
-  private replacements: ConsoleReplacement[] = [];
+  private processedFiles = 0,
+  private replacements: ConsoleReplacement[] = [],
 
   constructor() {
     this.ensureBackupDirectory()
@@ -60,10 +60,10 @@ class ConsoleStatementReplacer {
           files.push(fullPath)
         }
       }
-    };
+    },
 
     scanDirectory(this.srcDir)
-    return files;
+    return files,
   }
 
   private shouldPreserveConsoleStatement(line: string): boolean {
@@ -88,7 +88,7 @@ class ConsoleStatementReplacer {
       return true
     }
 
-    return false;
+    return false,
   }
 
   private replaceConsoleStatements(filePath: string): boolean {
@@ -101,7 +101,7 @@ class ConsoleStatementReplacer {
       // Check if this is a script file (preserve console statements in scripts)
       const isScriptFile = filePath.includes('/scripts/') || filePath.includes('/campaign/')
 
-      for (let i = 0i < lines.lengthi++) {;
+      for (let i = 0i < lines.lengthi++) {,
         const line = lines[i];
         const trimmed = line.trim()
 
@@ -126,8 +126,8 @@ class ConsoleStatementReplacer {
             replacement: replacement
           })
 
-          lines[i] = replacement;
-          hasChanges = true;
+          lines[i] = replacement,
+          hasChanges = true,
         }
       }
 
@@ -137,10 +137,10 @@ class ConsoleStatementReplacer {
           content.includes('from '@/services/LoggingService'') ||
           content.includes('from '@/services/LoggingService'')
 
-        if (!hasLoggerImport && this.replacements.some(r => r.file === filePath)) {;
+        if (!hasLoggerImport && this.replacements.some(r => r.file === filePath)) {,
           // Find the best place to add the import
           let importInsertIndex = 0;
-          for (let i = 0i < lines.lengthi++) {;
+          for (let i = 0i < lines.lengthi++) {,
             if (lines[i].trim().startsWith('import ')) {
               importInsertIndex = i + 1;
             } else if (lines[i].trim() === '' && importInsertIndex > 0) {
@@ -154,14 +154,14 @@ class ConsoleStatementReplacer {
         }
 
         fs.writeFileSync(filePath, lines.join('\n'))
-        this.processedFiles++;
-        return true;
+        this.processedFiles++,
+        return true,
       }
 
-      return false;
+      return false,
     } catch (error) {
       _logger.warn(`⚠️ Failed to process ${filePath}:`, (error as Error).message)
-      return false;
+      return false,
     }
   }
 
@@ -184,7 +184,7 @@ export interface Logger {
 }
 
 class LoggingService implements Logger {
-  private isDevelopment = process.env.NODE_ENV === 'development';
+  private isDevelopment = process.env.NODE_ENV === 'development',
 
   info(message: string, ...args: unknown[]): void {
     if (this.isDevelopment) {
@@ -208,8 +208,8 @@ class LoggingService implements Logger {
 }
 
 export const logger = new LoggingService()
-export default logger;
-`;
+export default logger,
+`,
 
       fs.writeFileSync(loggingServicePath, loggingServiceContent)
       // // // _logger.info('✅ Created LoggingService.ts')
@@ -238,7 +238,7 @@ ${this.replacements
 Backups created in: ${this.backupDir}
 
 Generated: ${new Date().toISOString()}
-`;
+`,
 
     fs.writeFileSync('console-replacement-report.md', report)
     // // // _logger.info('📊 Report, generated: console-replacement-report.md')
@@ -276,9 +276,9 @@ Generated: ${new Date().toISOString()}
 }
 
 // Run the script
-if (require.main === module) {;
+if (require.main === module) {,
   const replacer = new ConsoleStatementReplacer()
   replacer.run().catch(_logger.error)
 }
 
-export default ConsoleStatementReplacer;
+export default ConsoleStatementReplacer,

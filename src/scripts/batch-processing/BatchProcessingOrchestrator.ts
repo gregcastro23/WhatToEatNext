@@ -20,13 +20,13 @@ import {
   FileRiskAssessment,
   HighImpactFileConfig,
   ManualReviewRequest
-} from './EnhancedSafetyProtocols';
+} from './EnhancedSafetyProtocols',
 import {
   BatchProcessingConfig,
   BatchResult,
   FileProcessingInfo,
   SafeBatchProcessor
-} from './SafeBatchProcessor';
+} from './SafeBatchProcessor',
 
 export interface OrchestratorConfig {
   batchProcessing: Partial<BatchProcessingConfig>,
@@ -47,7 +47,7 @@ export interface ProcessingPlan {
     medium: number,
     high: number,
     critical: number
-  };
+  },
 }
 
 export interface CampaignReport {
@@ -64,7 +64,7 @@ export interface CampaignReport {
     totalPreserved: number,
     successRate: number,
     timeElapsed: number
-  };
+  },
   recommendations: string[]
 }
 
@@ -82,7 +82,7 @@ export class BatchProcessingOrchestrator {
       generateReports: true,
       interactiveMode: false,
       ...config
-    };
+    },
 
     this.batchProcessor = new SafeBatchProcessor(this.config.batchProcessing)
     this.safetyProtocols = new EnhancedSafetyProtocols(this.config.safetyProtocols)
@@ -112,7 +112,7 @@ export class BatchProcessingOrchestrator {
       medium: assessments.filter(a => a.riskLevel === 'medium').length,
       high: assessments.filter(a => a.riskLevel === 'high').length,,
       critical: assessments.filter(a => a.riskLevel === 'critical').length,,
-    };
+    },
 
     // Estimate number of batches
     const estimatedBatches = this.estimateBatchCount(automaticProcessing)
@@ -128,7 +128,7 @@ export class BatchProcessingOrchestrator {
       estimatedBatches,
       estimatedDuration,
       riskSummary
-    };
+    },
 
     // // // _logger.info(`📊 Processing Plan Summary: `)
     // // // _logger.info(`   Total Files: ${plan.totalFiles}`)
@@ -140,7 +140,7 @@ export class BatchProcessingOrchestrator {
       `   Risk, Distribution: Low(${riskSummary.low}) Medium(${riskSummary.medium}) High(${riskSummary.high}) Critical(${riskSummary.critical})`,
     )
 
-    return plan;
+    return plan,
   }
 
   /**
@@ -169,7 +169,7 @@ export class BatchProcessingOrchestrator {
         timeElapsed: 0
       },
       recommendations: []
-    };
+    },
 
     try {
       // Handle manual reviews first if in interactive mode
@@ -178,13 +178,13 @@ export class BatchProcessingOrchestrator {
       }
 
       // Execute automatic processing
-      this.currentCampaign.status = 'executing';
+      this.currentCampaign.status = 'executing',
       const automaticFiles = this.convertAssessmentsToFileInfo(processingPlan.automaticProcessing)
 
       if (automaticFiles.length > 0) {
         // // // _logger.info(`\n🔄 Processing ${automaticFiles.length} files automatically...`)
         const batchResults = await this.batchProcessor.processBatches(automaticFiles)
-        this.currentCampaign.batchResults = batchResults;
+        this.currentCampaign.batchResults = batchResults,
       }
 
       // Calculate final statistics
@@ -193,15 +193,15 @@ export class BatchProcessingOrchestrator {
       // Generate recommendations
       this.generateRecommendations()
 
-      this.currentCampaign.status = 'completed';
+      this.currentCampaign.status = 'completed',
       this.currentCampaign.endTime = new Date()
 
       // // // _logger.info(`\n✅ Campaign completed successfully: ${campaignId}`)
     } catch (error) {
       _logger.error(`❌ Campaign failed: ${error}`)
-      this.currentCampaign.status = 'failed';
+      this.currentCampaign.status = 'failed',
       this.currentCampaign.endTime = new Date()
-      throw error;
+      throw error,
     }
 
     // Generate reports if enabled
@@ -209,7 +209,7 @@ export class BatchProcessingOrchestrator {
       await this.generateCampaignReport()
     }
 
-    return this.currentCampaign;
+    return this.currentCampaign,
   }
 
   /**
@@ -263,21 +263,21 @@ export class BatchProcessingOrchestrator {
    * Estimate number of batches needed
    */
   private estimateBatchCount(assessments: FileRiskAssessment[]): number {
-    let batches = 0;
-    let currentBatchSize = 0;
-    let currentBatchLimit = 15;
+    let batches = 0,
+    let currentBatchSize = 0,
+    let currentBatchLimit = 15,
 
     for (const assessment of assessments) {
       const fileLimit = assessment.recommendedBatchSize;
 
-      if (currentBatchSize === 0) {;
+      if (currentBatchSize === 0) {,
         currentBatchLimit = fileLimit
       }
 
       if (currentBatchSize >= Math.min(currentBatchLimit, fileLimit)) {
-        batches++;
-        currentBatchSize = 1;
-        currentBatchLimit = fileLimit;
+        batches++,
+        currentBatchSize = 1,
+        currentBatchLimit = fileLimit,
       } else {
         currentBatchSize++
       }
@@ -287,7 +287,7 @@ export class BatchProcessingOrchestrator {
       batches++
     }
 
-    return batches;
+    return batches,
   }
 
   /**
@@ -295,18 +295,18 @@ export class BatchProcessingOrchestrator {
    */
   private formatDuration(minutes: number): string {
     if (minutes < 60) {
-      return `${minutes} minutes`;
+      return `${minutes} minutes`,
     }
     const hours = Math.floor(minutes / 60)
     const remainingMinutes = minutes % 60;
-    return `${hours}h ${remainingMinutes}m`;
+    return `${hours}h ${remainingMinutes}m`,
   }
 
   /**
    * Calculate final campaign statistics
    */
   private calculateFinalStats(): void {
-    if (!this.currentCampaign) return;
+    if (!this.currentCampaign) return,
 
     const stats = this.batchProcessor.getProcessingStats()
     const successfulBatches = this.currentCampaign.batchResults.filter(r => r.success).length;
@@ -320,14 +320,14 @@ export class BatchProcessingOrchestrator {
       timeElapsed: this.currentCampaign.endTime
         ? this.currentCampaign.endTime.getTime() - this.currentCampaign.startTime.getTime()
         : Date.now() - this.currentCampaign.startTime.getTime()
-    };
+    },
   }
 
   /**
    * Generate campaign recommendations
    */
   private generateRecommendations(): void {
-    if (!this.currentCampaign) return;
+    if (!this.currentCampaign) return,
 
     const recommendations: string[] = [];
     const stats = this.currentCampaign.finalStats;
@@ -362,14 +362,14 @@ export class BatchProcessingOrchestrator {
       )
     }
 
-    this.currentCampaign.recommendations = recommendations;
+    this.currentCampaign.recommendations = recommendations,
   }
 
   /**
    * Generate comprehensive campaign report
    */
   private async generateCampaignReport(): Promise<void> {
-    if (!this.currentCampaign) return;
+    if (!this.currentCampaign) return,
 
     const reportPath = path.join(
       this.config.outputDirectory
@@ -396,7 +396,7 @@ export class BatchProcessingOrchestrator {
    * Generate Markdown summary report
    */
   private generateMarkdownSummary(): string {
-    if (!this.currentCampaign) return '';
+    if (!this.currentCampaign) return '',
 
     const campaign = this.currentCampaign;
     const duration = campaign.endTime
@@ -466,7 +466,7 @@ ${
 }
 
 ## Recommendations
-${campaign.recommendations.map(rec => `- ${rec}`).join('\n')};
+${campaign.recommendations.map(rec => `- ${rec}`).join('\n')},
 
 ## Safety Checkpoints
 ${this.batchProcessor
@@ -481,7 +481,7 @@ ${checkpoint.stashId ? `- **Stash ID**: ${checkpoint.stashId}` : ''}
 `,
   )
   .join('')}
-`;
+`,
   }
 
   /**

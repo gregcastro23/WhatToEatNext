@@ -152,7 +152,7 @@ describe('System Validation - Task 11.2', () => {
         '../../services/campaign/CampaignController',
         '../../services/campaign/ProgressTracker',
         '../../services/campaign/SafetyProtocol'
-      ];
+      ],
 
       campaignFiles.forEach(file => {
         expect(() => require(file)).not.toThrow()
@@ -174,7 +174,7 @@ describe('System Validation - Task 11.2', () => {
         '../../components/layout/MainPageLayout',
         '../../contexts/AlchemicalContext',
         '../../utils/errorHandling'
-      ];
+      ],
 
       criticalModules.forEach(module => {
         expect(() => require(module)).not.toThrow()

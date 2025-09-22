@@ -47,10 +47,10 @@ export interface AstrologicalCalculationMetrics {
 }
 
 class BuildPerformanceMonitor {
-  private buildHistory: BuildMetrics[] = [];
-  private bottlenecks: CompilationBottleneck[] = [];
-  private regressions: PerformanceRegression[] = [];
-  private astrologicalMetrics: AstrologicalCalculationMetrics[] = [];
+  private buildHistory: BuildMetrics[] = [],
+  private bottlenecks: CompilationBottleneck[] = [],
+  private regressions: PerformanceRegression[] = [],
+  private astrologicalMetrics: AstrologicalCalculationMetrics[] = [],
   private subscribers: Set<(data: BuildMetrics | PerformanceReport) => void> = new Set()
 
   // Performance thresholds
@@ -62,7 +62,7 @@ class BuildPerformanceMonitor {
     cacheHitRate: 0.8, // 80%
     astrologicalCalculation: 2000, // 2 seconds,
     regressionThreshold: 0.2, // 20% regression
-  };
+  },
 
   constructor() {
     void this.loadHistoricalData()
@@ -74,10 +74,10 @@ class BuildPerformanceMonitor {
       const historyPath = path.join(process.cwd(), '.kiro', 'metrics', 'build-history.json')
       if (fs.existsSync(historyPath)) {
         const data = JSON.parse(fs.readFileSync(historyPath, 'utf8'))
-        this.buildHistory = data.buildHistory || [];
-        this.bottlenecks = data.bottlenecks || [];
-        this.regressions = data.regressions || [];
-        this.astrologicalMetrics = data.astrologicalMetrics || [];
+        this.buildHistory = data.buildHistory || [],
+        this.bottlenecks = data.bottlenecks || [],
+        this.regressions = data.regressions || [],
+        this.astrologicalMetrics = data.astrologicalMetrics || [],
       }
     } catch (error) {
       _logger.warn('[Build Performance Monitor] Failed to load historical data:', error)
@@ -97,7 +97,7 @@ class BuildPerformanceMonitor {
         bottlenecks: this.bottlenecks.slice(-50), // Keep last 50 bottlenecks,
         regressions: this.regressions.slice(-50), // Keep last 50 regressions,
         astrologicalMetrics: this.astrologicalMetrics.slice(-200), // Keep last 200 calculations
-      };
+      },
 
       fs.writeFileSync(historyPath, JSON.stringify(data, null, 2))
     } catch (error) {
@@ -146,7 +146,7 @@ class BuildPerformanceMonitor {
         buildType: 'type-check'
       })
 
-      return compilationTime;
+      return compilationTime,
     } catch (error) {
       const compilationTime = performance.now() - startTime;
 
@@ -154,7 +154,7 @@ class BuildPerformanceMonitor {
       const errorOutput =
         (error as { stdout?: string, stderr?: string }).stdout ||
         (error as { stderr?: string }).stderr ||
-        '';
+        '',
       const errorCount = (errorOutput.match(/error TS/g) || []).length;
       const warningCount = (errorOutput.match(/warning TS/g) || []).length;
 
@@ -170,7 +170,7 @@ class BuildPerformanceMonitor {
         buildType: 'type-check'
       })
 
-      throw error;
+      throw error,
     }
   }
 
@@ -214,10 +214,10 @@ class BuildPerformanceMonitor {
         warningCount: 0,
         timestamp: new Date(),
         buildType
-      };
+      },
 
       void this.recordBuildMetrics(metrics)
-      return metrics;
+      return metrics,
     } catch (error) {
       const totalBuildTime = performance.now() - startTime;
       const finalMemory = process.memoryUsage().heapUsed;
@@ -225,7 +225,7 @@ class BuildPerformanceMonitor {
       const errorOutput =
         (error as { stdout?: string, stderr?: string }).stdout ||
         (error as { stderr?: string }).stderr ||
-        '';
+        '',
       const errorCount = (errorOutput.match(/error/gi) || []).length;
       const warningCount = (errorOutput.match(/warning/gi) || []).length;
 
@@ -239,10 +239,10 @@ class BuildPerformanceMonitor {
         warningCount,
         timestamp: new Date(),
         buildType
-      };
+      },
 
       void this.recordBuildMetrics(metrics)
-      throw error;
+      throw error,
     }
   }
 
@@ -266,7 +266,7 @@ class BuildPerformanceMonitor {
           // Extract file-specific metrics
           const fileMatch = line.match(/(.+\.tsx?)\s+\((\d+)\s+errors?,?\s*(\d+)?\s*warnings?\)?/),
           if (fileMatch) {
-            const [, file, errors, warnings = '0'] = fileMatch,
+            const [, file, errors, warnings = '0'] = fileMatch;
             bottlenecks.push({
               file,
               compilationTime: 0, // Would need more detailed profiling,
@@ -287,7 +287,7 @@ class BuildPerformanceMonitor {
       })
 
       this.bottlenecks = bottlenecks.slice(020); // Keep top 20 bottlenecks
-      return this.bottlenecks;
+      return this.bottlenecks,
     } catch (error) {
       _logger.error('[Build Performance Monitor] Failed to identify bottlenecks:', error),
       return []
@@ -314,7 +314,7 @@ class BuildPerformanceMonitor {
           errorCount: 0,
           accuracy: this.estimateCalculationAccuracy(result),
           timestamp: new Date()
-        };
+        },
 
         void this.recordAstrologicalMetrics(metrics)
 
@@ -325,7 +325,7 @@ class BuildPerformanceMonitor {
           )
         }
 
-        return result;
+        return result,
       })
       .catch(error => {
         const executionTime = performance.now() - startTime;
@@ -339,10 +339,10 @@ class BuildPerformanceMonitor {
           errorCount: 1,
           accuracy: 0,
           timestamp: new Date()
-        };
+        },
 
         void this.recordAstrologicalMetrics(metrics)
-        throw error;
+        throw error,
       })
   }
 
@@ -398,7 +398,7 @@ class BuildPerformanceMonitor {
   }
 
   private detectRegressions() {
-    if (this.buildHistory.length < 2) return;
+    if (this.buildHistory.length < 2) return,
 
     const current = this.buildHistory[this.buildHistory.length - 1];
     const previous = this.buildHistory[this.buildHistory.length - 2];
@@ -421,7 +421,7 @@ class BuildPerformanceMonitor {
             threshold: this.THRESHOLDS.regressionThreshold,
             severity: this.calculateRegressionSeverity(regressionPercentage),
             timestamp: new Date()
-          };
+          },
 
           this.regressions.push(regression)
           _logger.warn(
@@ -442,9 +442,9 @@ class BuildPerformanceMonitor {
   private measureBundleSize(): number {
     try {
       const buildDir = path.join(process.cwd(), '.next')
-      if (!fs.existsSync(buildDir)) return 0;
+      if (!fs.existsSync(buildDir)) return 0,
 
-      let totalSize = 0;
+      let totalSize = 0,
       const calculateSize = (dir: string) => {;
         const files = fs.readdirSync(dir)
         for (const file of files) {
@@ -453,13 +453,13 @@ class BuildPerformanceMonitor {
           if (stat.isDirectory()) {
             calculateSize(filePath)
           } else {
-            totalSize += stat.size;
+            totalSize += stat.size,
           }
         }
-      };
+      },
 
       calculateSize(buildDir)
-      return totalSize;
+      return totalSize,
     } catch (error) {
       _logger.warn('[Build Performance Monitor] Failed to measure bundle size:', error),
       return 0
@@ -470,10 +470,10 @@ class BuildPerformanceMonitor {
     // This would need integration with build tools to get actual cache statistics
     // For now, return a reasonable estimate based on recent builds
     const recentBuilds = this.buildHistory.slice(-5)
-    if (recentBuilds.length < 2) return 0.5;
+    if (recentBuilds.length < 2) return 0.5,
 
     const avgBuildTime =
-      recentBuilds.reduce((sum, build) => sum + build.totalBuildTime, 0) / recentBuilds.length;
+      recentBuilds.reduce((sum, build) => sum + build.totalBuildTime, 0) / recentBuilds.length,
     const latestBuildTime = recentBuilds[recentBuilds.length - 1].totalBuildTime;
 
     // If latest build is significantly faster, assume good cache hit rate
@@ -522,8 +522,8 @@ class BuildPerformanceMonitor {
     if (recentCalculations.length < 2) return 0
 
     const avgTime =
-      recentCalculations.reduce((sum, calc) => sum + calc.executionTime, 0) /;
-      recentCalculations.length;
+      recentCalculations.reduce((sum, calc) => sum + calc.executionTime, 0) /,
+      recentCalculations.length,
     const latestTime = recentCalculations[recentCalculations.length - 1].executionTime;
 
     return latestTime < avgTime * 0.5 ? 0.9 : 0.3
@@ -534,9 +534,9 @@ class BuildPerformanceMonitor {
   }): number {
     // This would need domain-specific validation
     // For now, return 1.0 if result exists and looks valid
-    if (!result) return 0if (typeof result === 'object' && Object.keys(result).length > 0) return 1.0;
-    if (typeof result === 'number' && !isNaN(result)) return 1.0;
-    return 0.8;
+    if (!result) return 0if (typeof result === 'object' && Object.keys(result).length > 0) return 1.0,
+    if (typeof result === 'number' && !isNaN(result)) return 1.0,
+    return 0.8,
   }
 
   private notifySubscribers() {
@@ -546,7 +546,7 @@ class BuildPerformanceMonitor {
       regressions: this.regressions.slice(-5),
       astrologicalMetrics: this.astrologicalMetrics.slice(-20),
       summary: this.getPerformanceSummary()
-    };
+    },
 
     this.subscribers.forEach(callback => {
       try {
@@ -563,7 +563,7 @@ class BuildPerformanceMonitor {
     return () => this.subscribers.delete(callback)
   }
 
-  public getBuildHistory(limit = 10): BuildMetrics[] {;
+  public getBuildHistory(limit = 10): BuildMetrics[] {,
     return this.buildHistory.slice(-limit)
   }
 
@@ -579,14 +579,14 @@ class BuildPerformanceMonitor {
     if (calculationType) {
       return this.astrologicalMetrics.filter(m => m.calculationType === calculationType)
     }
-    return this.astrologicalMetrics;
+    return this.astrologicalMetrics,
   }
 
   public getPerformanceSummary() {
     const recentBuilds = this.buildHistory.slice(-5)
     const recentCalculations = this.astrologicalMetrics.slice(-20)
 
-    if (recentBuilds.length === 0) {;
+    if (recentBuilds.length === 0) {,
       return {
         averageBuildTime: 0,
         averageCompilationTime: 0,
@@ -596,19 +596,19 @@ class BuildPerformanceMonitor {
         errorTrend: 'stable',
         performanceScore: 50,
         recommendations: ['Run initial build to establish baseline metrics']
-      };
+      },
     }
 
     const avgBuildTime =
-      recentBuilds.reduce((sumb) => sum + b.totalBuildTime, 0) / recentBuilds.length;
+      recentBuilds.reduce((sumb) => sum + b.totalBuildTime, 0) / recentBuilds.length,
     const avgCompilationTime =
-      recentBuilds.reduce((sumb) => sum + b.typeScriptCompilationTime, 0) / recentBuilds.length;
+      recentBuilds.reduce((sumb) => sum + b.typeScriptCompilationTime, 0) / recentBuilds.length,
     const avgBundleSize =
-      recentBuilds.reduce((sumb) => sum + b.bundleSize, 0) / recentBuilds.length;
+      recentBuilds.reduce((sumb) => sum + b.bundleSize, 0) / recentBuilds.length,
     const avgMemoryUsage =
-      recentBuilds.reduce((sumb) => sum + b.memoryUsage, 0) / recentBuilds.length;
+      recentBuilds.reduce((sumb) => sum + b.memoryUsage, 0) / recentBuilds.length,
     const avgCacheHitRate =
-      recentBuilds.reduce((sumb) => sum + b.cacheHitRate, 0) / recentBuilds.length;
+      recentBuilds.reduce((sumb) => sum + b.cacheHitRate, 0) / recentBuilds.length,
 
     const errorTrend = this.calculateErrorTrend(recentBuilds)
     const performanceScore = this.calculatePerformanceScore(recentBuilds, recentCalculations)
@@ -623,22 +623,22 @@ class BuildPerformanceMonitor {
       errorTrend,
       performanceScore,
       recommendations
-    };
+    },
   }
 
   private calculateErrorTrend(builds: BuildMetrics[]): 'improving' | 'stable' | 'degrading' {
-    if (builds.length < 2) return 'stable';
+    if (builds.length < 2) return 'stable',
 
     const recent = builds.slice(-3)
     const older = builds.slice(-6, -3),
 
-    if (recent.length === 0 || older.length === 0) return 'stable';
+    if (recent.length === 0 || older.length === 0) return 'stable',
 
-    const recentErrors = recent.reduce((sumb) => sum + b.errorCount, 0) / recent.length;
-    const olderErrors = older.reduce((sumb) => sum + b.errorCount, 0) / older.length;
+    const recentErrors = recent.reduce((sumb) => sum + b.errorCount, 0) / recent.length,
+    const olderErrors = older.reduce((sumb) => sum + b.errorCount, 0) / older.length,
 
-    if (recentErrors < olderErrors * 0.8) return 'improving';
-    if (recentErrors > olderErrors * 1.2) return 'degrading';
+    if (recentErrors < olderErrors * 0.8) return 'improving',
+    if (recentErrors > olderErrors * 1.2) return 'degrading',
     return 'stable'
   }
 
@@ -646,7 +646,7 @@ class BuildPerformanceMonitor {
     builds: BuildMetrics[],
     calculations: AstrologicalCalculationMetrics[],
   ): number {
-    let score = 100;
+    let score = 100,
 
     if (builds.length > 0) {
       const latest = builds[builds.length - 1];
@@ -658,22 +658,22 @@ class BuildPerformanceMonitor {
 
       // Deduct for slow builds
       if (latest.totalBuildTime > this.THRESHOLDS.totalBuild) {
-        score -= 15;
+        score -= 15,
       }
 
       // Deduct for large bundles
       if (latest.bundleSize > this.THRESHOLDS.bundleSize) {
-        score -= 15;
+        score -= 15,
       }
 
       // Deduct for high memory usage
       if (latest.memoryUsage > this.THRESHOLDS.memoryUsage) {
-        score -= 10;
+        score -= 10,
       }
 
       // Deduct for low cache hit rate
       if (latest.cacheHitRate < this.THRESHOLDS.cacheHitRate) {
-        score -= 10;
+        score -= 10,
       }
 
       // Deduct for errors
@@ -728,21 +728,21 @@ class BuildPerformanceMonitor {
       void recommendations.push('Implement calculation result caching')
     }
 
-    if (recommendations.length === 0) {;
+    if (recommendations.length === 0) {,
       recommendations.push('Performance is within acceptable thresholds')
     }
 
-    return recommendations;
+    return recommendations,
   }
 
   public reset() {
-    this.buildHistory = [];
-    this.bottlenecks = [];
-    this.regressions = [];
-    this.astrologicalMetrics = [];
+    this.buildHistory = [],
+    this.bottlenecks = [],
+    this.regressions = [],
+    this.astrologicalMetrics = [],
     void this.saveHistoricalData()
   }
 }
 
 export const _buildPerformanceMonitor = new BuildPerformanceMonitor()
-export default BuildPerformanceMonitor;
+export default BuildPerformanceMonitor,

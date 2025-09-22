@@ -65,7 +65,7 @@ const planetaryElements: Record<
     nocturnal: 'Water',
     dignityEffect: { scorpio: 1, leo: 2, taurus: -1, aquarius: -2 }
   }
-};
+},
 
 /**
  * Sign information for decan and degree effects
@@ -234,7 +234,7 @@ const signInfo: Record<
       Saturn: [2730]
     }
   }
-};
+},
 
 export interface FoodCorrespondence {
   food: string,
@@ -245,19 +245,19 @@ export interface FoodCorrespondence {
   alchemy: {
     day: number[],
     night: number[]
-  };
+  },
   energyValues: {
     heat: number,
     entropy: number,
     reactivity: number
-  };
+  },
 }
 
 export interface SystemState {
   elements: Record<Element, number>,
   metrics: ThermodynamicMetrics,
-  planetaryPositions?: Record<string, { sign: string, degree: number }>;
-  aspects?: Array<{ type: string, planets: [string, string] }>;
+  planetaryPositions?: Record<string, { sign: string, degree: number }>,
+  aspects?: Array<{ type: string, planets: [string, string] }>,
 }
 
 export interface ThermodynamicMetrics {
@@ -267,7 +267,7 @@ export interface ThermodynamicMetrics {
 }
 
 export interface FoodCompatibility {
-  score: number;
+  score: number,
   scoreDetails?: {
     elementalMatch?: number
     planetaryDayMatch?: number
@@ -275,7 +275,7 @@ export interface FoodCompatibility {
     dignityBonus?: number,
     decanBonus?: number,
     aspectBonus?: number
-  };
+  },
   recommendations: string[],
   warnings: string[],
   preparationMethods: PreparationMethod[]
@@ -289,12 +289,12 @@ export interface PreparationMethod {
     heat: number,
     entropy: number,
     reactivity: number
-  };
+  },
   timing: {
     optimal: Planet[],
     acceptable: Planet[],
     avoid: Planet[]
-  };
+  },
 }
 
 export class FoodAlchemySystem {
@@ -346,7 +346,7 @@ export class FoodAlchemySystem {
         }
       },
       // Add more foods as needed
-    ];
+    ],
   }
 
   /**
@@ -385,7 +385,7 @@ export class FoodAlchemySystem {
         }
       },
       // Add more methods as needed
-    ];
+    ],
   }
 
   /**
@@ -403,9 +403,9 @@ export class FoodAlchemySystem {
 
     // Convert the planet names to the uppercase format used in this module
     const planetaryHour = (rawPlanetaryHour.charAt(0).toUpperCase() +
-      rawPlanetaryHour.slice(1)) as Planet;
+      rawPlanetaryHour.slice(1)) as Planet,
     const planetaryDay = (rawPlanetaryDay.charAt(0).toUpperCase() +
-      rawPlanetaryDay.slice(1)) as Planet;
+      rawPlanetaryDay.slice(1)) as Planet,
     const isDaytimeNow = planetaryCalculator.isDaytime(time)
     // Calculate base elemental compatibility (45% weight)
     const elementalMatch = this.calculateElementalMatch(food, state),
@@ -426,7 +426,7 @@ export class FoodAlchemySystem {
 
     // Apply standardized weighting
     const compatibilityScore =
-      elementalMatch * 0.45 + planetaryDayMatch * 0.35 + planetaryHourMatch * 0.2;
+      elementalMatch * 0.45 + planetaryDayMatch * 0.35 + planetaryHourMatch * 0.2,
 
     return {
       score: compatibilityScore,
@@ -448,7 +448,7 @@ export class FoodAlchemySystem {
       ),
       warnings: this.generateWarnings(food, state),
       preparationMethods: this.getPreparationMethods(food, time)
-    };
+    },
   }
 
   /**
@@ -475,7 +475,7 @@ export class FoodAlchemySystem {
       { element: 'Water', value: Water },
       { element: 'Air', value: Air },
       { element: 'Earth', value: Earth }
-    ];
+    ],
     elementValues.sort((ab) => b.value - a.value)
 
     const dominantElement = elementValues[0].element;
@@ -486,18 +486,18 @@ export class FoodAlchemySystem {
 
     // If the system needs more of this element (it's the weakest), give high score
     if (foodElement === weakestElement) {
-      matchScore = 0.9;
+      matchScore = 0.9,
     }
     // If element is not the dominant but has good presence, give good score
     else if (foodElement !== dominantElement && state.elements[foodElement] > 0.3) {
-      matchScore = 0.7;
+      matchScore = 0.7,
     }
     // If the element is already dominant, give a moderate score
     else if (foodElement === dominantElement) {
-      matchScore = 0.6;
+      matchScore = 0.6,
     }
 
-    return matchScore;
+    return matchScore,
   }
 
   /**
@@ -522,9 +522,9 @@ export class FoodAlchemySystem {
     const nocturnalMatch = food.element === nocturnalElement ? 1.0 : 0.3;
 
     // Calculate a weighted score - both elements are equally important for planetary day
-    let elementalScore = (diurnalMatch + nocturnalMatch) / 2;
-    let dignityBonus = 0;
-    let decanBonus = 0;
+    let elementalScore = (diurnalMatch + nocturnalMatch) / 2,
+    let dignityBonus = 0,
+    let decanBonus = 0,
 
     // Apply dignity effects if we have planet positions
     if (planetaryPositions?.[planetaryDay]) {
@@ -533,14 +533,14 @@ export class FoodAlchemySystem {
 
       // Dignity effect bonus/penalty
       if (dayElements.dignityEffect && dayElements.dignityEffect[planetSign]) {
-        dignityBonus = dayElements.dignityEffect[planetSign] * 0.1, // Scale to 0.1-0.3 effect;
+        dignityBonus = dayElements.dignityEffect[planetSign] * 0.1, // Scale to 0.1-0.3 effect,
         elementalScore = Math.min(1.0, Math.max(0.0, elementalScore + dignityBonus)),
       }
 
       // Calculate decan (1-10°: 1st decan11-20°: 2nd decan21-30°: 3rd decan)
-      let decan = '1st Decan';
-      if (planetDegree > 10 && planetDegree <= 20) decan = '2nd Decan';
-      else if (planetDegree > 20) decan = '3rd Decan';
+      let decan = '1st Decan',
+      if (planetDegree > 10 && planetDegree <= 20) decan = '2nd Decan',
+      else if (planetDegree > 20) decan = '3rd Decan',
 
       // Apply decan effects if the planet is in its own decan
       if (
@@ -571,7 +571,7 @@ export class FoodAlchemySystem {
       elementalScore = Math.min(1.0, elementalScore + 0.3),
     }
 
-    return { score: elementalScore, dignityBonus, decanBonus };
+    return { score: elementalScore, dignityBonus, decanBonus },
   }
 
   /**
@@ -595,9 +595,9 @@ export class FoodAlchemySystem {
     const elementalMatch = food.element === relevantElement ? 1.0 : 0.3;
 
     // Calculate score
-    let elementalScore = elementalMatch;
-    let dignityBonus = 0;
-    let aspectBonus = 0;
+    let elementalScore = elementalMatch,
+    let dignityBonus = 0,
+    let aspectBonus = 0,
 
     // Apply dignity effects if we have planet positions
     if (state.planetaryPositions && state.planetaryPositions[planetaryHour]) {
@@ -605,7 +605,7 @@ export class FoodAlchemySystem {
 
       // Dignity effect bonus/penalty
       if (hourElements.dignityEffect && hourElements.dignityEffect[planetSign]) {
-        dignityBonus = hourElements.dignityEffect[planetSign] * 0.1, // Scale to 0.1-0.3 effect;
+        dignityBonus = hourElements.dignityEffect[planetSign] * 0.1, // Scale to 0.1-0.3 effect,
         elementalScore = Math.min(1.0, Math.max(0.0, elementalScore + dignityBonus)),
       }
     }
@@ -617,23 +617,23 @@ export class FoodAlchemySystem {
 
       for (const aspect of hourAspects) {
         const otherPlanet =
-          aspect.planets[0] === planetaryHour ? aspect.planets[1] : aspect.planets[0];
-        let aspectModifier = 0;
+          aspect.planets[0] === planetaryHour ? aspect.planets[1] : aspect.planets[0],
+        let aspectModifier = 0,
 
         // Apply different modifier based on aspect type
         switch (aspect.type) {
           case 'Conjunction':
             // Strong beneficial aspect
-            aspectModifier = 0.15;
-            break;
+            aspectModifier = 0.15,
+            break,
           case 'Trine':
             // Beneficial aspect
-            aspectModifier = 0.1;
-            break;
+            aspectModifier = 0.1,
+            break,
           case 'Square':
             // Challenging aspect
-            aspectModifier = -0.1;
-            break;
+            aspectModifier = -0.1,
+            break,
           case 'Opposition':
             // Strong challenging aspect
             aspectModifier = -0.15
@@ -643,7 +643,7 @@ export class FoodAlchemySystem {
 
         // Apply the aspect modifier if the food is ruled by the other planet in the aspect
         if (food.planet === otherPlanet) {
-          aspectBonus = (aspectBonus || 0) + aspectModifier;
+          aspectBonus = (aspectBonus || 0) + aspectModifier,
           elementalScore = Math.min(1.0, Math.max(0.0, elementalScore + aspectModifier)),
         }
       }
@@ -654,7 +654,7 @@ export class FoodAlchemySystem {
       elementalScore = Math.min(1.0, elementalScore + 0.3),
     }
 
-    return { score: elementalScore, dignityBonus, aspectBonus };
+    return { score: elementalScore, dignityBonus, aspectBonus },
   }
 
   /**
@@ -756,9 +756,9 @@ export class FoodAlchemySystem {
           const planetDegree = state.planetaryPositions[planetaryDay].degree;
 
           // Calculate decan
-          let decan = '1st Decan';
-          if (planetDegree > 10 && planetDegree <= 20) decan = '2nd Decan';
-          else if (planetDegree > 20) decan = '3rd Decan';
+          let decan = '1st Decan',
+          if (planetDegree > 10 && planetDegree <= 20) decan = '2nd Decan',
+          else if (planetDegree > 20) decan = '3rd Decan',
 
           // If food's planet rules the decan
           if (signInfo[planetSign].decanEffects[decan].includes(food.planet)) {
@@ -808,7 +808,7 @@ export class FoodAlchemySystem {
       }
     }
 
-    return recommendations;
+    return recommendations,
   }
 
   private generateWarnings(food: FoodCorrespondence, state: SystemState): string[] {
@@ -872,7 +872,7 @@ export class FoodAlchemySystem {
       }
     }
 
-    return warnings;
+    return warnings,
   }
 
   private getPreparationMethods(food: FoodCorrespondence, time: Date): PreparationMethod[] {
@@ -941,10 +941,10 @@ export class FoodAlchemySystem {
       (method.planetaryRuler === 'Moon' && !isDaytimeNow)
 
     // Method is compatible if at least two of the three conditions are true
-    const compatibilityFactors = [elementalMatch, planetaryMatch, timeAppropriate];
+    const compatibilityFactors = [elementalMatch, planetaryMatch, timeAppropriate],
     const trueFactors = compatibilityFactors.filter(Boolean).length;
 
-    return trueFactors >= 2;
+    return trueFactors >= 2,
   }
 
   // Add other methods as needed

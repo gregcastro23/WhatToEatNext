@@ -17,7 +17,7 @@ export default function RecipeRecommendationsTestPage() {
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFilters(prev => ({ ...prev, [name]: value }))
-  };
+  },
 
   return (
     <div className='container mx-auto p-4'>
@@ -32,7 +32,7 @@ export default function RecipeRecommendationsTestPage() {
               name='servingSize'
               value={filters.servingSize},
               onChange={handleFilterChange},
-              className='w-full rounded-md border border-gray-300 px-3 py-2';
+              className='w-full rounded-md border border-gray-300 px-3 py-2',
             >
               <option value='2'>2 servings</option>
               <option value='4'>4 servings</option>
@@ -46,10 +46,10 @@ export default function RecipeRecommendationsTestPage() {
               Dietary Preference
             </label>
             <select
-              name='dietaryPreference';
+              name='dietaryPreference',
               value={filters.dietaryPreference},
               onChange={handleFilterChange},
-              className='w-full rounded-md border border-gray-300 px-3 py-2';
+              className='w-full rounded-md border border-gray-300 px-3 py-2',
             >
               <option value='none'>No Preference</option>
               <option value='vegetarian'>Vegetarian</option>
@@ -62,10 +62,10 @@ export default function RecipeRecommendationsTestPage() {
           <div>
             <label className='mb-1 block text-sm font-medium text-gray-700'>Cooking Time</label>
             <select
-              name='cookingTime';
+              name='cookingTime',
               value={filters.cookingTime},
               onChange={handleFilterChange},
-              className='w-full rounded-md border border-gray-300 px-3 py-2';
+              className='w-full rounded-md border border-gray-300 px-3 py-2',
             >
               <option value='30'>30 minutes</option>
               <option value='60'>60 minutes</option>

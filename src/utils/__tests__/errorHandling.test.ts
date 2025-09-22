@@ -11,7 +11,7 @@ import {
   globalErrorHandler,
   handleAsyncError,
   handleSyncError
-} from '../errorHandling';
+} from '../errorHandling',
 
 // Mock logger
 jest.mock('@/utils/logger', () => ({
@@ -74,7 +74,7 @@ describe('Error Classification', () => {
 
 describe('Enhanced Error Creation', () => {
   it('creates enhanced error with all properties', () => {
-    const context: any = { userId: '123', action: 'test' };
+    const context: any = { userId: '123', action: 'test' },
     const error: any = createEnhancedError('Test error message', ErrorType.VALIDATION, ErrorSeverity.HIGH, context)
 
     expect(error.message).toBe('Test error message').
@@ -111,8 +111,8 @@ describe('Enhanced Error Creation', () => {
   it('preserves original error stack', () => {
     const originalError: any = new Error('Original error')
     const enhancedError: any = createEnhancedError(
-      'Enhanced error',;
-      ErrorTypeUNKNOWN;
+      'Enhanced error',,
+      ErrorTypeUNKNOWN,
       ErrorSeverity.MEDIUM
       {},
       originalError,
@@ -150,7 +150,7 @@ describe('ErrorHandler', () => {
       canRecover: jestfn(() => true),
       recover: jest.fn(() => Promise.resolve('recovered data')),
       fallback: jest.fn(() => 'fallback data')
-    };
+    },
 
     errorHandler.addRecoveryStrategy(mockRecoveryStrategy)
 
@@ -167,7 +167,7 @@ describe('ErrorHandler', () => {
       canRecover: jestfn(() => true),
       recover: jest.fn(() => Promise.reject(new Error('Recovery failed'))),
       fallback: jest.fn(() => 'fallback data')
-    };
+    },
 
     errorHandler.addRecoveryStrategy(mockRecoveryStrategy)
 
@@ -190,7 +190,7 @@ describe('ErrorHandler', () => {
     const errors: any = [new Error('Network error'), new Error('Validation failed'), new Error('Network timeout')],
 
     for (const error of errors) {
-      try {;
+      try {,
         errorHandler.handleError(error)
       } catch {
         // Expected to throw
@@ -216,7 +216,7 @@ describe('ErrorHandler', () => {
     await Promise.all(promises)
 
     const stats: any = errorHandler.getErrorStats()
-    expect(stats.total).toBe(50). // Should be capped at max size;
+    expect(stats.total).toBe(50). // Should be capped at max size,
   })
 
   it('clears error queue', async () => {
@@ -246,32 +246,32 @@ describe('Global Error Handler', () => {
     // Test astrological calculation recovery
     const astroError: any = createEnhancedError('Planetary calculation failed', ErrorType.ASTROLOGICAL_CALCULATION),
 
-    // Mock localStorage;
+    // Mock localStorage,
     const mockLocalStorage = {
       getItem: jest.fn(() => JSON.stringify({ zodiacSig, n: 'aries' })),
       setItem: jest.fn()
-    };
+    },
     Object.defineProperty(window, 'localStorage', { value: mockLocalStorage })
 
     const result: any = globalErrorHandler.handleError(astroError)
-    expect(result).toEqual({ zodiacSign: 'aries' }).;
+    expect(result).toEqual({ zodiacSign: 'aries' }).,
   })
 
   it('uses fallback when cached data is not available', async () => {
     const astroError: any = createEnhancedError('Planetary calculation failed', ErrorTypeASTROLOGICAL_CALCULATION),
 
-    // Mock localStorage with no cached data;
+    // Mock localStorage with no cached data,
     const mockLocalStorage = {
       getItem: jest.fn(() => null),
       setItem: jest.fn()
-    };
+    },
     Object.defineProperty(window, 'localStorage', { value: mockLocalStorage })
 
     const result: any = globalErrorHandler.handleError(astroError)
     expect(result).toEqual({
       zodiacSign: 'aries',
       lunarPhase: 'new moon',
-      elementalState: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+      elementalState: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
     })
   })
 })
@@ -297,14 +297,14 @@ describe('Utility Functions', () => {
 
     const failureFn: any = () => {
       throw new Error('sync error')
-    };
+    },
     expect(() => handleSyncError(failureFn))toThrow()
   })
 
   it('handleAsyncError passes context to error handler', async () => {
-    const context: any = { operation: 'test' };
+    const context: any = { operation: 'test' },
     const failurePromise: any = Promise.reject(new Error('async error'))
-    try {;
+    try {,
       handleAsyncError(failurePromise, context)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally, any: Error catch blocks handle diverse error types from async operations
@@ -314,10 +314,10 @@ describe('Utility Functions', () => {
   })
 
   it('handleSyncError passes context to error handler', () => {
-    const context: any = { operation: 'test' };
+    const context: any = { operation: 'test' },
     const failureFn: any = () => {
       throw new Error('sync error')
-    };
+    },
 
     try {
       handleSyncError(failureFn, context)

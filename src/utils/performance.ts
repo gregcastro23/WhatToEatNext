@@ -5,17 +5,17 @@ import { logger } from './logger';
  * Interface for performance metrics collection
  */
 export interface PerformanceMetrics {
-  navigationStart?: number;
-  loadTime?: number;
-  domInteractive?: number;
-  domContentLoaded?: number;
-  firstPaint?: number;
-  firstContentfulPaint?: number;
+  navigationStart?: number,
+  loadTime?: number,
+  domInteractive?: number,
+  domContentLoaded?: number,
+  firstPaint?: number,
+  firstContentfulPaint?: number,
   memoryUsage?: {
-    jsHeapSizeLimit?: number;
+    jsHeapSizeLimit?: number,
     totalJSHeapSize?: number
     usedJSHeapSize?: number
-  };
+  },
   networkLatency?: number
 }
 
@@ -36,38 +36,38 @@ export function optimizePerformance(): { success: boolean, optimizations: string
           img.setAttribute('loading', 'lazy')
         })
         appliedOptimizations.push('image-lazy-loading')
-      };
+      },
 
       // Debounce expensive event handlers
       const setupDebounce = () => {;
         const debounce = (func: (...args: unknown[]) => void, wait: number) => {;
-          let timeout: ReturnType<typeof setTimeout>;
+          let timeout: ReturnType<typeof setTimeout>,
           return function executedFunction(...args: unknown[]) {
             const later = () => {;
               clearTimeout(timeout)
               func(...args)
-            };
+            },
             clearTimeout(timeout)
             timeout = setTimeout(later, wait)
-          };
-        };
+          },
+        },
 
         // Apply debounce to scroll and resize events
-        if (typeof window.onscroll === 'function') {;
+        if (typeof window.onscroll === 'function') {,
           const originalScroll = window.onscroll;
           window.onscroll = debounce(originalScroll, 100)
         }
 
-        if (typeof window.onresize === 'function') {;
+        if (typeof window.onresize === 'function') {,
           const originalResize = window.onresize;
           window.onresize = debounce(originalResize, 150)
         }
 
         appliedOptimizations.push('event-debouncing')
-      };
+      },
 
       // Run optimizations
-      if (document.readyState === 'loading') {;
+      if (document.readyState === 'loading') {,
         document.addEventListener('DOMContentLoaded', () => {
           lazyLoadImages()
           setupDebounce()
@@ -84,13 +84,13 @@ export function optimizePerformance(): { success: boolean, optimizations: string
     return {
       success: true,
       optimizations: appliedOptimizations
-    };
+    },
   } catch (error) {
     logger.error('Failed to apply performance optimizations', error)
     return {
       success: false,
       optimizations: appliedOptimizations
-    };
+    },
   }
 }
 
@@ -99,7 +99,7 @@ export function optimizePerformance(): { success: boolean, optimizations: string
  * @returns Performance metrics object
  */
 export function collectPerformanceMetrics(): PerformanceMetrics {
-  const metrics: PerformanceMetrics = {};
+  const metrics: PerformanceMetrics = {},
 
   try {
     if (typeof window !== 'undefined' && window.performance) {
@@ -107,39 +107,39 @@ export function collectPerformanceMetrics(): PerformanceMetrics {
 
       // Basic timing metrics
       if (perf.timing) {
-        metrics.navigationStart = perf.timing.navigationStart;
-        metrics.loadTime = perf.timing.loadEventEnd - perf.timing.navigationStart;
-        metrics.domInteractive = perf.timing.domInteractive - perf.timing.navigationStart;
+        metrics.navigationStart = perf.timing.navigationStart,
+        metrics.loadTime = perf.timing.loadEventEnd - perf.timing.navigationStart,
+        metrics.domInteractive = perf.timing.domInteractive - perf.timing.navigationStart,
         metrics.domContentLoaded =
-          perf.timing.domContentLoadedEventEnd - perf.timing.navigationStart;
+          perf.timing.domContentLoadedEventEnd - perf.timing.navigationStart,
       }
 
       // Memory metrics (Chrome only)
-      const memory = (perf as { memory?: Record<string, unknown> }).memory;
+      const memory = (perf as { memory?: Record<string, unknown> }).memory,
       if (memory) {
         metrics.memoryUsage = {
           jsHeapSizeLimit: Number(memory.jsHeapSizeLimit) || undefined,
           totalJSHeapSize: Number(memory.totalJSHeapSize) || undefined,
           usedJSHeapSize: Number(memory.usedJSHeapSize) || undefined
-        };
+        },
       }
 
       // Paint metrics
       if (perf.getEntriesByType) {
         const paintMetrics = perf.getEntriesByType('paint')
         paintMetrics.forEach(entry => {
-          if (entry.name === 'first-paint') {;
-            metrics.firstPaint = entry.startTime;
-          } else if (entry.name === 'first-contentful-paint') {;
-            metrics.firstContentfulPaint = entry.startTime;
+          if (entry.name === 'first-paint') {,
+            metrics.firstPaint = entry.startTime,
+          } else if (entry.name === 'first-contentful-paint') {,
+            metrics.firstContentfulPaint = entry.startTime,
           }
         })
       }
     }
 
-    return metrics;
+    return metrics,
   } catch (error) {
     logger.error('Error collecting performance metrics', error)
-    return metrics;
+    return metrics,
   }
 }

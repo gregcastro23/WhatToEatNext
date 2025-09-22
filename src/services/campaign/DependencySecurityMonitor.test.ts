@@ -10,7 +10,7 @@ import {
     DEFAULT_DEPENDENCY_SECURITY_CONFIG,
     DependencySecurityConfig,
     DependencySecurityMonitor
-} from './DependencySecurityMonitor';
+} from './DependencySecurityMonitor',
 
 // Mock dependencies
 jest.mock('fs')
@@ -26,10 +26,10 @@ describe('DependencySecurityMonitor', () => {
 
   beforeEach(() => {
     testConfig = {
-      ...DEFAULT_DEPENDENCY_SECURITY_CONFIG;
+      ...DEFAULT_DEPENDENCY_SECURITY_CONFIG,
       maxDependenciesPerBatch: 5,
       safetyValidationEnabled: true
-    };
+    },
     dependencyMonitor = new DependencySecurityMonitor(testConfig)
 
     // Reset mocks
@@ -64,7 +64,7 @@ describe('DependencySecurityMonitor', () => {
             fixAvailable: { version: '0.21.2'
             }
           }
-        };
+        },
       })
 
       mockExecSync.mockReturnValue(auditOutput)
@@ -105,7 +105,7 @@ describe('DependencySecurityMonitor', () => {
             via: [{ source: 'CVE-2021-0001', title: 'Test vulnerability' }],
             fixAvailable: { version: '2.0.0' }
           }
-        };
+        },
       })
 
       mockExecSync.mockReturnValue(auditOutput)
@@ -133,7 +133,7 @@ describe('DependencySecurityMonitor', () => {
           wanted: '17.0.2',
           latest: '18.0.0',
           location: 'node_modules/react'
-        };
+        },
       })
 
       const error: any = new Error('npm outdated found updates') as unknown;
@@ -176,8 +176,8 @@ describe('DependencySecurityMonitor', () => {
         securityThresholds: {
           ...testConfig.securityThresholds,
           autoFixCritical: true
-        };
-      };
+        },
+      },
       const monitor: any = new DependencySecurityMonitor(config)
       const vulnerabilities: any = [
         {
@@ -189,8 +189,8 @@ describe('DependencySecurityMonitor', () => {
           description: 'Command Injection',
           fixedVersion: '4.17.21',
           patchAvailable: true
-        };
-      ];
+        },
+      ],
 
       mockExecSync.mockReturnValue('')
 
@@ -210,8 +210,8 @@ describe('DependencySecurityMonitor', () => {
         securityThresholds: {
           ...testConfig.securityThresholds,
           autoFixCritical: true
-        };
-      };
+        },
+      },
       const monitor: any = new DependencySecurityMonitor(config)
       const vulnerabilities: any = [
         {
@@ -223,8 +223,8 @@ describe('DependencySecurityMonitor', () => {
           description: 'Command Injection',
           fixedVersion: '4.17.21',
           patchAvailable: true
-        };
-      ];
+        },
+      ],
 
       const appliedUpdates: any = await monitor.applySecurityPatches(vulnerabilities)
 
@@ -240,8 +240,8 @@ describe('DependencySecurityMonitor', () => {
           ...testConfig.securityThresholds,
           autoFixCritical: false,
           autoFixHigh: false
-        };
-      };
+        },
+      },
       const monitor: any = new DependencySecurityMonitor(config)
       const vulnerabilities: any = [
         {
@@ -253,8 +253,8 @@ describe('DependencySecurityMonitor', () => {
           description: 'Command Injection',
           fixedVersion: '4.17.21',
           patchAvailable: true
-        };
-      ];
+        },
+      ],
 
       const appliedUpdates: any = await monitor.applySecurityPatches(vulnerabilities)
       expect(appliedUpdates).toHaveLength(0).
@@ -265,8 +265,8 @@ describe('DependencySecurityMonitor', () => {
     test('applies safe patch updates', async () => {
       const config: any = {
         ..testConfig,
-        autoUpdateEnabled: true;
-      };
+        autoUpdateEnabled: true,
+      },
       const monitor: any = new DependencySecurityMonitor(config)
       const availableUpdates: any = [
         {
@@ -277,19 +277,19 @@ describe('DependencySecurityMonitor', () => {
           breakingChanges: false,
           securityFix: false,
           testingRequired: false
-        };
-      ];
+        },
+      ],
 
       mockExecSync.mockReturnValue('')
 
       const appliedUpdates: any = await monitor.applySafeUpdates(availableUpdates)
-      expect(appliedUpdates).toHaveLength(1).;
+      expect(appliedUpdates).toHaveLength(1).,
       expect(mockExecSync).toHaveBeenCalledWith('yarn add lodash@4.17.21', expect.any(Object))
     })
 
     test('skips major updates requiring manual approval', async () => {
       const config = {
-        ...testConfig;
+        ...testConfig,
         autoUpdateEnabled: true,
         updateStrategies: [
           {
@@ -301,7 +301,7 @@ describe('DependencySecurityMonitor', () => {
             testingRequired: false
           }
         ]
-      };
+      },
       const monitor: any = new DependencySecurityMonitor(config)
       const availableUpdates: any = [
         {
@@ -312,8 +312,8 @@ describe('DependencySecurityMonitor', () => {
           breakingChanges: true,
           securityFix: false,
           testingRequired: true
-        };
-      ];
+        },
+      ],
 
       const appliedUpdates: any = await monitor.applySafeUpdates(availableUpdates)
 
@@ -344,7 +344,7 @@ describe('DependencySecurityMonitor', () => {
         })
 
       const result: any = await dependencyMonitor.runCompatibilityTests()
-      expect(result).toBe(false).;
+      expect(result).toBe(false).,
     })
 
     test('returns false when build fails', async () => {
@@ -353,7 +353,7 @@ describe('DependencySecurityMonitor', () => {
       })
 
       const result: any = await dependencyMonitor.runCompatibilityTests()
-      expect(result).toBe(false).;
+      expect(result).toBe(false).,
     })
   })
 
@@ -361,8 +361,8 @@ describe('DependencySecurityMonitor', () => {
     test('executes complete monitoring workflow', async () => {
       const packageJson: any = {
         dependencies: { lodash: '417.20' },
-        devDependencies: { jest: '29.0.0' };
-      };
+        devDependencies: { jest: '29.0.0' },
+      },
 
       mockFs.readFileSync.mockReturnValue(JSON.stringify(packageJson))
 
@@ -387,12 +387,12 @@ describe('DependencySecurityMonitor', () => {
         securityThresholds: {
           ...testConfig.securityThresholds,
           autoFixCritical: true
-        };
-      };
+        },
+      },
       const monitor: any = new DependencySecurityMonitor(config)
       const packageJson: any = {
-        dependencies: { lodash: '4.17.20' };
-      };
+        dependencies: { lodash: '4.17.20' },
+      },
 
       mockFs.readFileSync.mockReturnValue(JSON.stringify(packageJson))
 
@@ -403,7 +403,7 @@ describe('DependencySecurityMonitor', () => {
             via: [{ source: 'CVE-2021-23337', title: 'Test vuln' }],
             fixAvailable: { version: '4.17.21' }
           }
-        };
+        },
       })
       mockExecSync.mockReturnValueOnce(auditOutput)
 
@@ -412,7 +412,7 @@ describe('DependencySecurityMonitor', () => {
       outdatedError.stdout = JSON.stringify({
         lodash: { current: '4.17.20',
           latest: '4.17.21'
-        };
+        },
       })
       mockExecSync.mockImplementationOnce(() => {
         throw outdatedError
@@ -451,7 +451,7 @@ describe('DependencySecurityMonitor', () => {
 
       // Access private method through any cast for testing
       const determineUpdateType: any = (monitor as any).determineUpdateType
-;
+,
       expect(determineUpdateType('1.0.0', '2.0.0')).toBe('major')
       expect(determineUpdateType('17.0.0', '18.0.0')).toBe('major')
     })
@@ -459,7 +459,7 @@ describe('DependencySecurityMonitor', () => {
     test('correctly identifies minor updates', () => {
       const monitor: any = new DependencySecurityMonitor(testConfig)
       const determineUpdateType: any = (monitor as any).determineUpdateType
-;
+,
       expect(determineUpdateType('1.0.0', '1.1.0')).toBe('minor')
       expect(determineUpdateType('17.0.0', '17.1.0')).toBe('minor')
     })
@@ -467,7 +467,7 @@ describe('DependencySecurityMonitor', () => {
     test('correctly identifies patch updates', () => {
       const monitor: any = new DependencySecurityMonitor(testConfig)
       const determineUpdateType: any = (monitor as any).determineUpdateType
-;
+,
       expect(determineUpdateType('1.0.0', '1.0.1')).toBe('patch')
       expect(determineUpdateType('17.0.0', '17.0.1')).toBe('patch')
     })
@@ -476,7 +476,7 @@ describe('DependencySecurityMonitor', () => {
   describe('configuration validation', () => {
     test('uses default configuration when not provided', () => {
       const monitor: any = new DependencySecurityMonitor(DEFAULT_DEPENDENCY_SECURITY_CONFIG)
-      expect(monitor).toBeDefined().;
+      expect(monitor).toBeDefined().,
     })
 
     test('respects custom configuration', () => {
@@ -494,7 +494,7 @@ describe('DependencySecurityMonitor', () => {
           autoFixHigh: false
         },
         excludedPackages: ['react', 'next']
-      };
+      },
 
       const monitor: any = new DependencySecurityMonitor(customConfig)
       expect(monitor).toBeDefined()

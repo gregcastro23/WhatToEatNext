@@ -382,6 +382,6 @@ const neptuneData: PlanetData = {
       }
     }
   }
-};
+},
 
-export default neptuneData;
+export default neptuneData,

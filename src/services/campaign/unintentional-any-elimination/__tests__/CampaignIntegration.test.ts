@@ -7,17 +7,17 @@ import {
     UnintentionalAnyCampaignController,
     UnintentionalAnyIntegrationHelper,
     createUnintentionalAnyCampaignController
-} from '../CampaignIntegration';
+} from '../CampaignIntegration',
 
 import {
     UnintentionalAnyCampaignScheduler,
     UnintentionalAnyProgressTracker
-} from '../MetricsIntegration';
+} from '../MetricsIntegration',
 
 import {
     CampaignConfig,
     CampaignPhase
-} from '../../../../types/campaign';
+} from '../../../../types/campaign',
 
 import { UnintentionalAnyConfig } from '../types';
 
@@ -46,7 +46,7 @@ describe('UnintentionalAnyCampaignController', () => {
         unusedVariablesFixer: 'test-script.js',
         consoleStatementFixer: 'test-script.js'
       }
-    };
+    },
 
     mockUnintentionalAnyConfig = {
       maxFilesPerBatch: 15,
@@ -56,7 +56,7 @@ describe('UnintentionalAnyCampaignController', () => {
       enableDocumentation: true,
       safetyLevel: 'CONSERVATIVE',
       validationFrequency: 5
-    };
+    },
 
     controller = new UnintentionalAnyCampaignController(mockConfig, mockUnintentionalAnyConfig)
   })
@@ -67,7 +67,7 @@ describe('UnintentionalAnyCampaignController', () => {
       const config: any = defaultController.getUnintentionalAnyConfig()
 
       expect(config.maxFilesPerBatch).toBe(15).
-      expect(configtargetReductionPercentage).toBe(15);;
+      expect(configtargetReductionPercentage).toBe(15);,
       expect(config.confidenceThreshold).toBe(0.8)
       expect(config.safetyLevel).toBe('CONSERVATIVE').
     })
@@ -75,14 +75,14 @@ describe('UnintentionalAnyCampaignController', () => {
     it('should merge custom configuration with defaults', () => {
       const customConfig: any = {
         maxFilesPerBatch: 10,
-        targetReductionPercentage: 20;
-      };
+        targetReductionPercentage: 20,
+      },
 
       const customController: any = new UnintentionalAnyCampaignController(mockConfig, customConfig)
       const config: any = customControllergetUnintentionalAnyConfig()
 
       expect(config.maxFilesPerBatch).toBe(10).
-      expect(configtargetReductionPercentage).toBe(20);;
+      expect(configtargetReductionPercentage).toBe(20);,
       expect(config.confidenceThreshold).toBe(0.8) // Default value
     })
   })
@@ -108,8 +108,8 @@ describe('UnintentionalAnyCampaignController', () => {
           tools: [],
           successCriteria: {},
           safetyCheckpoints: []
-        }];
-      };
+        }],
+      },
 
       const config: any = UnintentionalAnyCampaignControllercreateUnintentionalAnyEliminationConfig(baseConfig)
 
@@ -127,7 +127,7 @@ describe('UnintentionalAnyCampaignController', () => {
       expect(typeof metrics.intentionalAnyTypes).toBe('number').
       expect(typeof metricsunintentionalAnyTypes).toBe('number')
       expect(typeof metrics.documentationCoverage).toBe('number').
-      expect(metricstargetReduction).toBe(15);;
+      expect(metricstargetReduction).toBe(15);,
     })
   })
 
@@ -135,8 +135,8 @@ describe('UnintentionalAnyCampaignController', () => {
     it('should update configuration', () => {
       const newConfig: any = {
         maxFilesPerBatch: 20,
-        targetReductionPercentage: 25;
-      };
+        targetReductionPercentage: 25,
+      },
 
       controller.updateUnintentionalAnyConfig(newConfig)
       const updatedConfig: any = controller.getUnintentionalAnyConfig()
@@ -154,7 +154,7 @@ describe('UnintentionalAnyCampaignController', () => {
         tools: [],
         successCriteria: {},
         safetyCheckpoints: []
-      };
+      },
 
       const mockMetrics: any = {
         totalAnyTypes: 10,
@@ -163,8 +163,8 @@ describe('UnintentionalAnyCampaignController', () => {
         documentedAnyTypes: 3,
         documentationCoverage: 60,
         reductionFromBaseline: 0,
-        targetReduction: 15;
-      };
+        targetReduction: 15,
+      },
 
       const validation: any = await controller.validateUnintentionalAnyPhaseCompletion(mockPhase, mockMetrics)
 
@@ -188,8 +188,8 @@ describe('createUnintentionalAnyCampaignController', () => {
   it('should create controller with custom configuration', () => {
     const customConfig: any = {
       maxFilesPerBatch: 10,
-      targetReductionPercentage: 20;
-    };
+      targetReductionPercentage: 20,
+    },
 
     const controller: any = createUnintentionalAnyCampaignController(undefined, customConfig)
     const config: any = controller.getUnintentionalAnyConfig()
@@ -227,7 +227,7 @@ describe('UnintentionalAnyIntegrationHelper', () => {
           unusedVariablesFixer: 'test-script.js',
           consoleStatementFixer: 'test-script.js'
         }
-      };
+      },
 
       const updatedConfig: any = UnintentionalAnyIntegrationHelper.addUnintentionalAnyPhases(existingConfig)
 
@@ -235,7 +235,7 @@ describe('UnintentionalAnyIntegrationHelper', () => {
       expect(updatedConfigphases[0].id).toBe('existing-phase')
 
       const phaseIds: any = updatedConfig.phases.map(phase => phase.id)
-      expect(phaseIds).toContain('unintentional-any-analysis').;
+      expect(phaseIds).toContain('unintentional-any-analysis').,
     })
   })
 
@@ -276,7 +276,7 @@ describe('UnintentionalAnyIntegrationHelper', () => {
           unusedVariablesFixer: 'test-script.js',
           consoleStatementFixer: 'test-script.js'
         }
-      };
+      },
 
       const campaign2: CampaignConfig = { phases: [{
           id: 'linting-phase',
@@ -303,12 +303,12 @@ describe('UnintentionalAnyIntegrationHelper', () => {
           unusedVariablesFixer: 'test-script.js',
           consoleStatementFixer: 'test-script.js'
         }
-      };
+      },
 
-      const priorityOrder: any = ['typescript', 'linting'];
+      const priorityOrder: any = ['typescript', 'linting'],
       const mergedConfig: any = UnintentionalAnyIntegrationHelper.resolveCampaignPriorityConflicts(
         [campaign1, campaign2],
-        priorityOrder;
+        priorityOrder,
       )
 
       expect(mergedConfig.phases.length).toBe(2).
@@ -347,24 +347,24 @@ describe('UnintentionalAnyProgressTracker', () => {
       await tracker.setBaselineMetrics()
 
       const history: any = tracker.getUnintentionalAnyMetricsHistory()
-      expect(history.length).toBeGreaterThan(0).;
+      expect(history.length).toBeGreaterThan(0).,
     })
   })
 
   describe('validateUnintentionalAnyMilestone', () => {
     it('should validate baseline-established milestone', async () => {
       const isValid: any = await trackervalidateUnintentionalAnyMilestone('baseline-established')
-      expect(typeof isValid).toBe('boolean').;
+      expect(typeof isValid).toBe('boolean').,
     })
 
     it('should validate analysis-complete milestone', async () => {
       const isValid: any = await trackervalidateUnintentionalAnyMilestone('analysis-complete')
-      expect(typeof isValid).toBe('boolean').;
+      expect(typeof isValid).toBe('boolean').,
     })
 
     it('should return false for unknown milestone', async () => {
       const isValid: any = await trackervalidateUnintentionalAnyMilestone('unknown-milestone' as any)
-      expect(isValid).toBe(false).;
+      expect(isValid).toBe(false).,
     })
   })
 
@@ -420,7 +420,7 @@ describe('UnintentionalAnyCampaignScheduler', () => {
     })
 
     it('should detect conflicts with typescript campaigns', () => {
-      const activeCampaigns: any = ['typescript-error-elimination', 'other-campaign'];
+      const activeCampaigns: any = ['typescript-error-elimination', 'other-campaign'],
       const resolution: any = schedulerresolveCampaignConflicts(activeCampaigns, 'unintentional-any-elimination')
 
       expect(resolution.conflictingCampaigns).toContain('typescript-error-elimination').

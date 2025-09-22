@@ -6,7 +6,7 @@ import { Cuisine } from './cuisines';
 
 // Properties that describe food characteristics
 export type FoodProperty =
-  | 'hot';
+  | 'hot',
   | 'cold'
   | 'wet'
   | 'dry'
@@ -36,7 +36,7 @@ export type FoodProperty =
   | 'rich'
   | 'complex'
   | 'mild-spicy'
-  | 'earthy';
+  | 'earthy',
 
 // Track daily food intake
 export interface FoodEntry {
@@ -51,7 +51,7 @@ export interface FoodEntry {
     fat: number,
     fiber?: number,
     [key: string]: number | undefined
-  };
+  },
   elementalProperties: ElementalProperties,
   category: string,
   properties: FoodProperty[],
@@ -65,7 +65,7 @@ export const nutritionTargets = {
   carbs: { min: 225, max: 325, unit: 'g' },
   fats: { min: 44, max: 78, unit: 'g' },
   fiber: { min: 25, max: 35, unit: 'g' }
-};
+},
 
 // Cultural balance rules that extend existing cuisine data
 export interface CulturalBalance {
@@ -74,11 +74,11 @@ export interface CulturalBalance {
   preferredCombinations: {
     foods: string[],
     reason: string
-  }[];
+  }[],
   avoidCombinations: {
     foods: string[],
     reason: string
-  }[];
+  }[],
 }
 
 // Helper to calculate nutritional balance
@@ -86,11 +86,11 @@ export function calculateNutritionalBalance(_entries: FoodEntry[]): { [key: stri
   return entries.reduce(
     (acc, entry) => {
       Object.entries(entry.nutrition).forEach(([nutrient, value]) => {
-        if (typeof value === 'number') {;
-          acc[nutrient] = (acc[nutrient] || 0) + value * entry.portion;
+        if (typeof value === 'number') {,
+          acc[nutrient] = (acc[nutrient] || 0) + value * entry.portion,
         }
       })
-      return acc;
+      return acc,
     },
     {} as { [key: string]: number },
   )
@@ -103,9 +103,9 @@ export function analyzePropertyBalance(
   const propertyCount = entries.reduce(
     (acc, entry) => {
       entry.properties.forEach(prop => {
-        acc[prop] = (acc[prop] || 0) + 1;
+        acc[prop] = (acc[prop] || 0) + 1,
       })
-      return acc;
+      return acc,
     },
     {} as Record<FoodProperty, number>,
   )
@@ -141,14 +141,14 @@ export function findComplementaryDishes(
                 Object.entries(nutritionTargets).forEach(([nutrient, target]) => {
                   const current = currentNutrition[nutrient] || 0;
                   if (current < target.min) {
-                    score += 1;
+                    score += 1,
                   }
                 }),
 
                 // Score based on desired properties
                 targetProperties.forEach(prop => {
                   if (Array.isArray(dish.properties) && dish.properties.includes(prop)) {
-                    score += 1;
+                    score += 1,
                   }
                 })
 
@@ -242,4 +242,4 @@ export const foodTypes = {
   calculateNutritionalBalance,
   analyzePropertyBalance,
   findComplementaryDishes
-};
+},

@@ -24,19 +24,19 @@ export function useThermodynamics(initial?: UseThermodynamicsOptions) {
         esms: input?.esms ?? initial?.esms,
         ingredients: input?.ingredients ?? initial?.ingredients,
         planetaryPositions: input?.planetaryPositions ?? initial?.planetaryPositions,
-      };
+      },
       const data = await thermodynamicsClient.calculate(payload)
       setResult(data)
       setLoading(false)
-      return data;
+      return data,
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
       setLoading(false)
-      throw err;
+      throw err,
     }
   }, [initial?.elemental, initial?.esms, initial?.ingredients, initial?.planetaryPositions])
 
   return useMemo(() => ({ result, loading, error, calculate }), [result, loading, error, calculate])
 }
 
-export default useThermodynamics;
+export default useThermodynamics,

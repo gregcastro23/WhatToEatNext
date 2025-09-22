@@ -4,7 +4,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import './styles.css';
 
 interface _CustomComponentProps {
-  title?: string;
+  title?: string,
   children?: React.ReactNode
 }
 
@@ -29,6 +29,6 @@ const ImportOrganizationPage: NextPage = () => {
       <CustomComponent title={memoizedValue} /><p>{String(customValue)}</p>
     </div>
   )
-};
+},
 
-export default ImportOrganizationPage;
+export default ImportOrganizationPage,

@@ -1596,6 +1596,6 @@ export const russian: Cuisine = {
     Fire: 0.1,
     Air: 0.1
   }
-};
+},
 
-export default russian;
+export default russian,

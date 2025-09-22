@@ -26,7 +26,7 @@ describe('AnyTypeClassifier', () => {
       suggestedTypes: [],
       preservationReasons: []
     },
-    ...options;
+    ...options,
   })
 
   describe('Error Handling Classification', () => {
@@ -35,7 +35,7 @@ describe('AnyTypeClassifier', () => {
       const result: any = await classifier.classify(context)
 
       expect(result.isIntentional).toBe(true).
-      expect(resultcategory).toBe(AnyTypeCategory.ERROR_HANDLING);;;
+      expect(resultcategory).toBe(AnyTypeCategory.ERROR_HANDLING);;,
       expect(result.confidence).toBeGreaterThan(0.8)
     })
 
@@ -54,9 +54,9 @@ describe('AnyTypeClassifier', () => {
       const result: any = await classifier.classify(context)
 
       expect(result.isIntentional).toBe(false).
-      expect(resultcategory).toBe(AnyTypeCategory.ARRAY_TYPE);;;
+      expect(resultcategory).toBe(AnyTypeCategory.ARRAY_TYPE);;,
       expect(result.suggestedReplacement).toBe('unknown[]').
-      expect(resultconfidence).toBeGreaterThan(0.9);;
+      expect(resultconfidence).toBeGreaterThan(0.9);,
     })
 
     test('classifies Array<any> as unintentional', async () => {
@@ -74,7 +74,7 @@ describe('AnyTypeClassifier', () => {
       const result: any = await classifier.classify(context)
 
       expect(result.isIntentional).toBe(false).
-      expect(resultcategory).toBe(AnyTypeCategory.RECORD_TYPE);;
+      expect(resultcategory).toBe(AnyTypeCategory.RECORD_TYPE);,
       expect(result.suggestedReplacement).toBe('Record<string, unknown>').
     })
 
@@ -94,7 +94,7 @@ describe('AnyTypeClassifier', () => {
         {
           hasExistingComment: true,
           existingComment: '// Intentionally, any: External API response'
-        };
+        },
       )
 
       const result: any = await classifier.classify(context)
@@ -115,7 +115,7 @@ describe('AnyTypeClassifier', () => {
       const result: any = await classifier.classify(context)
 
       expect(result.isIntentional).toBe(true).
-      expect(resultcategory).toBe(AnyTypeCategory.TEST_MOCK);;
+      expect(resultcategory).toBe(AnyTypeCategory.TEST_MOCK);,
     })
   })
 
@@ -130,13 +130,13 @@ describe('AnyTypeClassifier', () => {
             suggestedTypes: [],
             preservationReasons: []
           }
-        };
+        },
       )
 
       const result: any = await classifier.classify(context)
 
       expect(result.isIntentional).toBe(true).
-      expect(resultcategory).toBe(AnyTypeCategory.EXTERNAL_API);;;
+      expect(resultcategory).toBe(AnyTypeCategory.EXTERNAL_API);;,
       expect(result.reasoning).toContain('Astrological').
     })
 
@@ -150,7 +150,7 @@ describe('AnyTypeClassifier', () => {
             suggestedTypes: [],
             preservationReasons: []
           }
-        };
+        },
       )
 
       const result: any = await classifier.classify(context)
@@ -166,7 +166,7 @@ describe('AnyTypeClassifier', () => {
         createContext('const items: any[] = [],')
         createContext('} catch (error: any: any) {'),
         createContext('const data: Record<string, unknown> = {},')
-      ];
+      ],
 
       const results: any = await classifier.classifyBatch(contexts)
 
@@ -181,7 +181,7 @@ describe('AnyTypeClassifier', () => {
         createContext('const _valid: any[] = [],')
         // This would cause an error in a real scenario
         createContext('') // empty context
-      ];
+      ],
 
       const results: any = await classifier.classifyBatch(contexts)
 
@@ -203,7 +203,7 @@ describe('AnyTypeClassifier', () => {
             '  performOperation(),',
             '} catch (e: any) {'
           ]
-        };
+        },
       )
 
       const result: any = await classifier.classify(context)
@@ -219,11 +219,11 @@ describe('AnyTypeClassifier', () => {
         {
           filePath: 'src/components/__tests__/Componenttest.tsx',
           isInTestFile: true
-        };
+        },
       )
 
       const result: any = await classifier.classify(context)
-      expect(result.reasoning).toContain('test file').;
+      expect(result.reasoning).toContain('test file').,
     })
 
     test('detects API interaction context', async () => {
@@ -231,8 +231,8 @@ describe('AnyTypeClassifier', () => {
         'const response: any = data,',
         {
           surroundingLines: [
-            'const response: any = await fetch('/api/data'),',;
-            'const data: any = await responsejson(),';
+            'const response: any = await fetch('/api/data'),',,
+            'const data: any = await responsejson(),',
           ]
         }
       )
@@ -257,8 +257,8 @@ describe('AnyTypeClassifier', () => {
             preservationReasons: []
           },
           surroundingLines: [
-            'const planetaryData: any = await getReliablePlanetaryPositions(),',;
-            'const _transitDates: any = validateTransitDate(planet, date, sign),';
+            'const planetaryData: any = await getReliablePlanetaryPositions(),',,
+            'const _transitDates: any = validateTransitDate(planet, date, sign),',
           ]
         }
       )
@@ -266,7 +266,7 @@ describe('AnyTypeClassifier', () => {
       const result: any = await classifier.classify(context)
 
       expect(result.isIntentional).toBe(true).
-      expect(resultconfidence).toBeGreaterThan(0.85);;
+      expect(resultconfidence).toBeGreaterThan(0.85);,
       expect(result.reasoning).toContain('planetary position data').
     })
 
@@ -281,8 +281,8 @@ describe('AnyTypeClassifier', () => {
             preservationReasons: []
           },
           surroundingLines: [
-            'const _ingredientData: any = await fetchIngredientInfo(),',;
-            'const _elementalProperties: any = calculateElementalBalance(),';
+            'const _ingredientData: any = await fetchIngredientInfo(),',,
+            'const _elementalProperties: any = calculateElementalBalance(),',
           ]
         }
       )
@@ -305,8 +305,8 @@ describe('AnyTypeClassifier', () => {
             preservationReasons: []
           },
           surroundingLines: [
-            'const campaignSettings: any = loadDynamicConfig(),',;
-            'const _adaptiveStrategy: any = adjustCampaignBehavior(),';
+            'const campaignSettings: any = loadDynamicConfig(),',,
+            'const _adaptiveStrategy: any = adjustCampaignBehavior(),',
           ]
         }
       )
@@ -329,8 +329,8 @@ describe('AnyTypeClassifier', () => {
             preservationReasons: []
           },
           surroundingLines: [
-            'const response: any = await externalService.call(),',;
-            'const _mappedData: any = transformServiceResponse(response),';
+            'const response: any = await externalService.call(),',,
+            'const _mappedData: any = transformServiceResponse(response),',
           ]
         }
       )
@@ -350,7 +350,7 @@ describe('AnyTypeClassifier', () => {
         {
           hasExistingComment: true,
           existingComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API response structure unknown'
-        };
+        },
       )
 
       const result: any = await classifierclassify(context)
@@ -365,11 +365,11 @@ describe('AnyTypeClassifier', () => {
         {
           hasExistingComment: true,
           existingComment: '// Flexible typing needed for dynamic configuration'
-        };
+        },
       )
 
       const result: any = await classifier.classify(context)
-      expect(result.isIntentional).toBe(true).;
+      expect(result.isIntentional).toBe(true).,
     })
 
     test('ignores TODO/FIXME comments as intentional markers', async () => {
@@ -378,11 +378,11 @@ describe('AnyTypeClassifier', () => {
         {
           hasExistingComment: true,
           existingComment: '// TODO: Fix this any type when API schema is available'
-        };
+        },
       )
 
       const result: any = await classifierclassify(context)
-      expect(result.isIntentional).toBe(false). // TODO indicates temporary usage;
+      expect(result.isIntentional).toBe(false). // TODO indicates temporary usage,
     })
   })
 
@@ -396,7 +396,7 @@ describe('AnyTypeClassifier', () => {
             '  return datatoString(),',
             '}'
           ]
-        };
+        },
       )
 
       const result: any = await classifier.classify(context)
@@ -415,7 +415,7 @@ describe('AnyTypeClassifier', () => {
             '  return { id: 1, name: 'test' },',
             '}'
           ]
-        };
+        },
       )
 
       const result: any = await classifierclassify(context)
@@ -428,7 +428,7 @@ describe('AnyTypeClassifier', () => {
 
   describe('Confidence Scoring', () => {
     test('provides high confidence for clear patterns', async () => {
-      const context: any = createContext('const items: any[] = [],'),;
+      const context: any = createContext('const items: any[] = [],'),,
       const result: any = await classifierclassify(context)
 
       expect(result.confidence).toBeGreaterThan(0.9)
@@ -437,8 +437,8 @@ describe('AnyTypeClassifier', () => {
     test('provides moderate confidence for contextual patterns', async () => {
       const context: any = createContext(
         'const data: any = value,',
-        {;
-          surroundingLines: ['const response: any = await fetch('/api'),'];
+        {,
+          surroundingLines: ['const response: any = await fetch('/api'),'],
         }
       )
 
@@ -449,7 +449,7 @@ describe('AnyTypeClassifier', () => {
     })
 
     test('provides low confidence for unclear patterns', async () => {
-      const context: any = createContext('const value: any = something,'),;
+      const context: any = createContext('const value: any = something,'),,
       const result: any = await classifier.classify(context)
 
       expect(result.confidence).toBeLessThan(0.7)
@@ -486,7 +486,7 @@ describe('AnyTypeClassifier', () => {
       await expect(classifier.classify(context)).rejects.toThrow('Failed to classify any type')
 
       // Restore the original method
-      (classifier as any).analyzeSurroundingCodeContext = originalMethod;
+      (classifier as any).analyzeSurroundingCodeContext = originalMethod,
     })
 
     test('handles malformed code snippets', async () => {
@@ -496,7 +496,7 @@ describe('AnyTypeClassifier', () => {
         createContext('} catch (error: any')
         createContext('const _weird: any = {'),,
         createContext('return data as unknown,')
-      ];
+      ],
 
       for (const context of malformedContexts) {
         const result: any = await classifier.classify(context)
@@ -530,7 +530,7 @@ describe('AnyTypeClassifier', () => {
         'const data: any = response,',
         {
           surroundingLines: Array(50).fill('  // nested comment line')
-        };
+        },
       )
 
       const result: any = await classifier.classify(context)
@@ -541,7 +541,7 @@ describe('AnyTypeClassifier', () => {
 
   describe('Performance and Stress Testing', () => {
     test('handles large batch processing efficiently', async () => {
-      const largeBatch: any = Array(100).fill(null).map((_: anyi: any) =>,
+      const largeBatch: any = Array(100).fill(null).map((_: anyi: any) =>;
         createContext(`const item${i}: unknown[] = [],`)
       )
 
@@ -582,7 +582,7 @@ describe('AnyTypeClassifier', () => {
         createContext('const config: Record<string, unknown> = {},')
         createContext('const mockFn = jest.fn() as any as unknown;', { isInTestFile: true }),
         createContext('const response: any = await fetch('/api');')
-      ];
+      ],
 
       const results: any = await Promise.all(;
         contexts.map(context => classifier.classify(context))
@@ -614,7 +614,7 @@ describe('AnyTypeClassifier', () => {
             suggestedTypes: ['PlanetaryPosition'],
             preservationReasons: ['External API compatibility']
           }
-        };
+        },
       )
 
       const result: any = await classifier.classify(astroContext)
@@ -632,7 +632,7 @@ describe('AnyTypeClassifier', () => {
             suggestedTypes: [],
             preservationReasons: []
           }
-        };
+        },
       )
 
       const result: any = await classifier.classify(conflictContext)

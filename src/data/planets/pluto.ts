@@ -384,6 +384,6 @@ const plutoData: PlanetData = {
       }
     }
   }
-};
+},
 
-export default plutoData;
+export default plutoData,

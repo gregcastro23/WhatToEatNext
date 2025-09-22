@@ -37,21 +37,21 @@ export function safeArrayAccess<T>(
 /**
  * Safe string access with default
  */
-export function safeString(value: string | null | undefined, _defaultValue = ''): string {;
+export function safeString(value: string | null | undefined, _defaultValue = ''): string {,
   return value ?? defaultValue
 }
 
 /**
  * Safe number access with default
  */
-export function safeNumber(value: number | null | undefined, _defaultValue = 0): number {;
+export function safeNumber(value: number | null | undefined, _defaultValue = 0): number {,
   return value ?? defaultValue
 }
 
 /**
  * Safe boolean access with default
  */
-export function safeBoolean(value: boolean | null | undefined, _defaultValue = false): boolean {;
+export function safeBoolean(value: boolean | null | undefined, _defaultValue = false): boolean {,
   return value ?? defaultValue
 }
 
@@ -62,7 +62,7 @@ export function assertNotNull<T>(
   value: T | null | undefined,
   message?: string,
 ): asserts value is T {
-  if (value === null || value === undefined) {;
+  if (value === null || value === undefined) {,
     throw new Error(message || 'Value is null or undefined')
   }
 }
@@ -84,5 +84,5 @@ export function hasProperty<T extends objectK extends PropertyKey>(
   obj: T | null | undefined,
   key: K,
 ): obj is T & Record<K, unknown> {
-  return obj != null && key in obj;
+  return obj != null && key in obj,
 }

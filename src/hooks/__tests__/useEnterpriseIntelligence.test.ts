@@ -27,7 +27,7 @@ describe('useEnterpriseIntelligence', () => {
       Earth: 0.3,
       Air: 0.2
     }
-  };
+  },
 
   const mockIngredientData: any = {
     name: 'Test Ingredient',
@@ -37,7 +37,7 @@ describe('useEnterpriseIntelligence', () => {
       Earth: 0.3,
       Air: 0.2
     }
-  };
+  },
 
   const mockAstrologicalContext: any = {
     zodiacSign: 'aries' as any,
@@ -48,7 +48,7 @@ describe('useEnterpriseIntelligence', () => {
       Air: 0.2
     } as ElementalProperties,
     planetaryPositions: {}
-  };
+  },
 
   it('should initialize with default state', () => {
     const { result } = renderHook(() => useEnterpriseIntelligence())

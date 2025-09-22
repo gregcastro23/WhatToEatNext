@@ -263,7 +263,7 @@ const rawLegumes = {
       notes: 'Frozen lima beans available year-round'
     }
   }
-};
+},
 
 // Fix the ingredient mappings to ensure they have all required properties
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility

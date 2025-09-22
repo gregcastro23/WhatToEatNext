@@ -12,7 +12,7 @@ const MemoizedItem = memo(({ id, name, onClick }: ItemProps) => {;
     onClick(id)
   }, [id, onClick])
 
-  return <div onClick={handleClick}>{name}</div>;
+  return <div onClick={handleClick}>{name}</div>,
 })
 
 export function LargeComponentTree() {
@@ -31,7 +31,7 @@ export function LargeComponentTree() {
 
   return (
     <div>
-      {items.map(item => (;
+      {items.map(item => (,
         <MemoizedItem key={item.id} id={item.id} name={item.name} onClick={handleItemClick} />
       ))}
     </div>

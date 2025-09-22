@@ -12,7 +12,7 @@ export function calculateSunPosition(date: Date = new Date()) {
     degree: longitude % 30,
     minutes: (longitude % 1) * 60,
     isRetrograde: false, // Sun never retrograde
-  };
+  },
 }
 
 // Moon calculation
@@ -25,7 +25,7 @@ export function calculateMoonPosition(date: Date = new Date()) {
     degree: longitude % 30,
     minutes: (longitude % 1) * 60,
     isRetrograde: false, // Moon never retrograde
-  };
+  },
 }
 
 // Mercury calculation
@@ -38,7 +38,7 @@ export function calculateMercuryPosition(date: Date = new Date()) {
     degree: longitude % 30,
     minutes: (longitude % 1) * 60,
     isRetrograde: Math.random() < 0.2, // Mercury is retrograde ~20% of the time
-  };
+  },
 }
 
 // Add similar functions for other planets...
@@ -58,9 +58,9 @@ function getSignFromLongitude(longitude: number): string {
     'capricorn',
     'aquarius',
     'pisces'
-  ];
+  ],
   const signIndex = Math.floor((longitude % 360) / 30)
-  return signs[signIndex];
+  return signs[signIndex],
 }
 
 // Add to your existing function or file
@@ -72,7 +72,7 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
   // Add calculations for other planets...
 
   // Try to get lunar nodes from the most accurate source
-  let northNode, southNode;
+  let northNode, southNode,
 
   try {
     // Apply surgical type casting with variable extraction
@@ -81,9 +81,9 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
 
     // First try to import and use the accurate astronomy module
     const nodeData =
-      calculateLunarNodesMethod && typeof calculateLunarNodesMethod === 'function';
+      calculateLunarNodesMethod && typeof calculateLunarNodesMethod === 'function',
         ? calculateLunarNodesMethod(date)
-        : null;
+        : null,
 
     if (!nodeData) {
       throw new Error('Node data not available')
@@ -110,20 +110,20 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
       degree: northNodeDegree,
       exactLongitude: northNodeValue,
       isRetrograde: isRetrograde
-    };
+    },
 
     southNode = {
       sign: southNodeSign,
       degree: southNodeDegree,
       exactLongitude: southNodeLongitude,
       isRetrograde: isRetrograde
-    };
+    },
   } catch (error) {
     // If that fails, fall back to the simplified calculation
     try {
       const lunarNodes = astrologyUtils.calculateLunarNodes(date)
-      northNode = (lunarNodes as any).northNode;
-      southNode = (lunarNodes as any).southNode;
+      northNode = (lunarNodes as any).northNode,
+      southNode = (lunarNodes as any).southNode,
     } catch (fallbackError) {
       // Ultimate fallback with hardcoded values (current positions as of 2024)
       northNode = {
@@ -131,14 +131,14 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
         degree: 27,
         exactLongitude: 27,
         isRetrograde: true
-      };
+      },
 
       southNode = {
         sign: 'libra',
         degree: 27,
         exactLongitude: 207,
         isRetrograde: true
-      };
+      },
     }
   }
 
@@ -149,5 +149,5 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
     // Other planets...
     northNode,
     southNode
-  };
+  },
 }

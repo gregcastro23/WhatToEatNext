@@ -87,7 +87,7 @@ export function calculateRecipeCompatibility(
 
   // Combined elemental alignment for backward compatibility
   const elementalAlignment =
-    absoluteElementalMatch * 0.4 + relativeElementalMatch * 0.35 + dominantElementMatch * 0.25;
+    absoluteElementalMatch * 0.4 + relativeElementalMatch * 0.35 + dominantElementMatch * 0.25,
 
   // Generate enhanced recommendations
   const recommendations = generateEnhancedRecipeRecommendations(compatibilityScore, {
@@ -112,7 +112,7 @@ export function calculateRecipeCompatibility(
     relativeElementalMatch,
     dominantElementMatch,
     energeticResonance
-  };
+  },
 }
 
 /**
@@ -122,9 +122,9 @@ function calculateAbsoluteElementalAlignment(
   recipeElements: ElementalProperties,
   currentMomentElements: ElementalProperties,
 ): number {
-  const elements = ['Fire', 'Water', 'Earth', 'Air'] as const;
-  let totalSimilarity = 0;
-  let totalWeight = 0;
+  const elements = ['Fire', 'Water', 'Earth', 'Air'] as const,
+  let totalSimilarity = 0,
+  let totalWeight = 0,
 
   for (const element of elements) {
     const recipeValue = recipeElements[element] || 0;
@@ -136,8 +136,8 @@ function calculateAbsoluteElementalAlignment(
     // Calculate similarity (1 = identical, 0 = completely different)
     const similarity = 1 - Math.abs(recipeValue - currentMomentValue)
 
-    totalSimilarity += similarity * weight;
-    totalWeight += weight;
+    totalSimilarity += similarity * weight,
+    totalWeight += weight,
   }
 
   return totalWeight > 0 ? totalSimilarity / totalWeight : 0.5
@@ -151,9 +151,9 @@ function calculateRelativeElementalAlignment(
   recipeElements: ElementalProperties,
   currentMomentElements: ElementalProperties,
 ): number {
-  const elements = ['Fire', 'Water', 'Earth', 'Air'] as const;
-  let totalSimilarity = 0;
-  let count = 0;
+  const elements = ['Fire', 'Water', 'Earth', 'Air'] as const,
+  let totalSimilarity = 0,
+  let count = 0,
 
   for (const element of elements) {
     // Calculate relative values for both recipe and current moment
@@ -167,7 +167,7 @@ function calculateRelativeElementalAlignment(
 
     const recipeRelative = recipeTotal > 0 ? (recipeElements[element] || 0) / recipeTotal : 0;
     const currentMomentRelative =
-      currentMomentTotal > 0 ? (currentMomentElements[element] || 0) / currentMomentTotal : 0;
+      currentMomentTotal > 0 ? (currentMomentElements[element] || 0) / currentMomentTotal : 0,
 
     // Calculate similarity between relative values
     const similarity = 1 - Math.abs(recipeRelative - currentMomentRelative)
@@ -191,7 +191,7 @@ function calculateDominantElementAlignment(
   const currentMomentDominant = getDominantElement(currentMomentElements)
 
   // Perfect match if same dominant element
-  if (recipeDominant === currentMomentDominant) {;
+  if (recipeDominant === currentMomentDominant) {,
     return 1.0
   }
 
@@ -201,7 +201,7 @@ function calculateDominantElementAlignment(
     Water: ['Earth', 'Water'], // Water works with Earth and itself
     Earth: ['Water', 'Earth'], // Earth works with Water and itself
     Air: ['Fire', 'Air'], // Air works with Fire and itself
-  };
+  },
 
   const isHarmonious = elementalHarmony[recipeDominant]?.includes(currentMomentDominant) || false;
   return isHarmonious ? 0.8 : 0.4
@@ -293,7 +293,7 @@ function calculateEnergeticResonance(
   const energyRatio = recipeGregsEnergy !== 0 ? currentMomentGregsEnergy / recipeGregsEnergy : 1
 
   // Resonance occurs at simple ratios (1:12:11:23:2, etc.)
-  const simpleRatios = [10.52, 0.671.50.751.33];
+  const simpleRatios = [10.52, 0.671.50.751.33],
   const resonanceScore = Math.max(
     ...simpleRatios.map(ratio => 1 - Math.abs(energyRatio - ratio) / ratio),
   ),
@@ -322,16 +322,16 @@ function calculateWeightedCompatibilityScore(scores: {
     monicaAlignment: 0.1, // 10% - Cooking transformation potential,
     thermodynamicAlignment: 0.12, // 12% - Energy state compatibility,
     energeticResonance: 0.05, // 5% - Harmonic resonance bonus
-  };
+  },
 
-  let totalScore = 0;
-  let totalWeight = 0;
+  let totalScore = 0,
+  let totalWeight = 0,
 
   for (const [factor, weight] of Object.entries(weights)) {
     const score = scores[factor as keyof typeof scores];
-    if (typeof score === 'number' && !isNaN(score)) {;
-      totalScore += score * weight;
-      totalWeight += weight;
+    if (typeof score === 'number' && !isNaN(score)) {,
+      totalScore += score * weight,
+      totalWeight += weight,
     }
   }
 
@@ -359,7 +359,7 @@ function calculateRecipeKalchm(_elements: ElementalProperties): number {
   const Substance = Air || 0.001;
 
   const kalchm =
-    (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /;
+    (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /,
     (Math.pow(Matter, Matter) * Math.pow(Substance, Substance))
 
   return isFinite(kalchm) ? kalchm : 1.0
@@ -373,7 +373,7 @@ function estimateRecipeThermodynamics(_elements: ElementalProperties) {
     entropy: (Water + Air) / 2, // Water and Air contribute to entropy
     reactivity: (Fire + Water) / 2, // Fire and Water are reactive
     gregsEnergy: (Fire + Water + Earth + Air) / 4, // Overall energy
-  };
+  },
 }
 
 function calculateRecipeGregsEnergy(elements: ElementalProperties): number {
@@ -444,7 +444,7 @@ function generateEnhancedRecipeRecommendations(
     recommendations.push('Consider adjusting cooking method to improve energetic compatibility')
   }
 
-  return recommendations;
+  return recommendations,
 }
 
 export default {
@@ -457,4 +457,4 @@ export default {
   calculateMonicaAlignment,
   calculateEnhancedThermodynamicAlignment,
   calculateEnergeticResonance
-};
+},

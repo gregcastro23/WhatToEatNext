@@ -66,15 +66,15 @@ const baseCuisine: Cuisine = {
     Air: 0
   },
   astrologicalInfluences: []
-};
+},
 
 // Process the recipes to combine seasonal and 'all' categories
 const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
-  if (!cuisine) return { ...baseCuisine };
+  if (!cuisine) return { ...baseCuisine },
 
   // Helper to combine 'all' recipes with seasonal ones
   const combineRecipes = (mealType: unknown) => {
-    if (!mealType) return { spring: [], summer: [], autumn: [], winter: [] };
+    if (!mealType) return { spring: [], summer: [], autumn: [], winter: [] },
 
     // Use safe type casting for mealType property access
     const mealData = mealType as any;
@@ -88,8 +88,8 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
       summer: [...(Array.isArray(mealData.summer) ? mealData.summer : []), ...allRecipes],
       autumn: [...(Array.isArray(mealData.autumn) ? mealData.autumn : []), ...allRecipes],
       winter: [...(Array.isArray(mealData.winter) ? mealData.winter : []), ...allRecipes]
-    };
-  };
+    },
+  },
 
   // Ensure the cuisine has at least a valid ID and name
   const name = cuisine.name || '';
@@ -124,7 +124,7 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
       ? cuisine.astrologicalInfluences
       : []
   } as Cuisine; // Use type assertion to ensure the return type is Cuisine
-};
+},
 
 // Create and export the cuisines map with validated structures
 export const cuisinesMap = {
@@ -145,10 +145,10 @@ export const cuisinesMap = {
   // Add lowercase variants for problematic cuisines
   african: processCuisineRecipes(african as Partial<Cuisine>),
   american: processCuisineRecipes(american as Partial<Cuisine>)
-} as const;
+} as const,
 
-export type CuisineName = keyof typeof cuisinesMap;
-export default cuisinesMap;
+export type CuisineName = keyof typeof cuisinesMap,
+export default cuisinesMap,
 
 // Element properties for the refined culinary search
 export const CUISINES = {
@@ -278,7 +278,7 @@ export const CUISINES = {
       Air: 0.1
     }
   }
-} as const;
+} as const,
 
 // Type for cuisine data
 export type CuisineData = {
@@ -288,8 +288,8 @@ export type CuisineData = {
     Water: number,
     Earth: number,
     Air: number
-  };
-};
+  },
+},
 
 // Ensure type safety
-export type Cuisines = typeof CUISINES;
+export type Cuisines = typeof CUISINES,

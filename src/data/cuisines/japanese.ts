@@ -375,7 +375,7 @@ export const japanese: Cuisine = {
           allergens: ['egg', 'wheat', 'soy', 'sesame'],
           prepTime: '15 minutes',
           cookTime: '10 minutes',
-          culturalNotes: 'A refreshing summer dish that became popular in the post-war period. The colorful presentation is as important as the taste',
+          culturalNotes: 'A refreshing summer dish that became popular in the post-war period. The colorful presentation is as important as the taste';
           pairingSuggestions: ['cold barley tea', 'gyoza', 'pickled ginger'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'mild',
@@ -1161,7 +1161,7 @@ export const japanese: Cuisine = {
           allergens: ['wheat', 'egg', 'soy'],
           prepTime: '20 minutes',
           cookTime: '25 minutes',
-          culturalNotes: 'A popular comfort food that combines tonkatsu with the donburi style. Often eaten before important exams as 'katsu' sounds like 'win' in Japanese',
+          culturalNotes: 'A popular comfort food that combines tonkatsu with the donburi style. Often eaten before important exams as 'katsu' sounds like 'win' in Japanese';
           pairingSuggestions: ['miso soup', 'pickled vegetables', 'green tea'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'none',
@@ -1472,6 +1472,6 @@ export const japanese: Cuisine = {
     'Mercury - Influences the precision and attention to detail',
     'Moon - Shapes the cyclical nature of seasonal cuisine'
   ]
-};
+},
 
-export default japanese;
+export default japanese,

@@ -21,23 +21,23 @@ interface QualityGateConfig {
     warningThreshold: number,
     criticalThreshold: number,
     baselineCount: number
-  };
+  },
   typescript: {
     maxErrors: number,
     criticalErrorTypes: string[]
-  };
+  },
   linting: {
     maxWarnings: number,
     criticalRules: string[]
-  };
+  },
   performance: {
     maxBuildTime: number, // seconds,
     maxBundleSize: number, // MB
-  };
+  },
   documentation: {
     requireDocumentedAnyTypes: boolean,
     minCoveragePercent: number
-  };
+  },
 }
 
 interface QualityMetrics {
@@ -91,9 +91,9 @@ class QualityGatesSystem {
         requireDocumentedAnyTypes: true,
         minCoveragePercent: 80
       }
-    };
+    },
 
-    this.metricsFile = '.kiro/specs/unintentional-any-elimination/quality-metrics.json';
+    this.metricsFile = '.kiro/specs/unintentional-any-elimination/quality-metrics.json',
   }
 
   log(message: string, level: 'info' | 'warn' | 'error' | 'success' = 'info'): void {
@@ -103,7 +103,7 @@ class QualityGatesSystem {
       warn: '⚠️',
       error: '❌',
       success: '✅'
-    }[level];
+    }[level],
 
     // // // _logger.info(`[${timestamp}] ${prefix} ${message}`)
   }
@@ -119,12 +119,12 @@ class QualityGatesSystem {
       bundleSize: await this.getBundleSize(),
       documentationCoverage: await this.getDocumentationCoverage(),
       lastAuditDate: new Date()
-    };
+    },
 
     // Save metrics for historical tracking
     await this.saveMetrics(metrics)
 
-    return metrics;
+    return metrics,
   }
 
   private async getExplicitAnyCount(): Promise<number> {
@@ -136,10 +136,10 @@ class QualityGatesSystem {
           stdio: 'pipe'
         },
       )
-      return parseInt(output.trim()) || 0;
+      return parseInt(output.trim()) || 0,
     } catch (error) {
       this.log(`Error counting explicit-any warnings: ${error}`, 'error')
-      return -1;
+      return -1,
     }
   }
 
@@ -152,10 +152,10 @@ class QualityGatesSystem {
           stdio: 'pipe'
         },
       )
-      return parseInt(output.trim()) || 0;
+      return parseInt(output.trim()) || 0,
     } catch (error) {
       this.log(`Error counting TypeScript errors: ${error}`, 'error')
-      return -1;
+      return -1,
     }
   }
 
@@ -168,10 +168,10 @@ class QualityGatesSystem {
           stdio: 'pipe'
         },
       )
-      return parseInt(output.trim()) || 0;
+      return parseInt(output.trim()) || 0,
     } catch (error) {
       this.log(`Error counting linting warnings: ${error}`, 'error')
-      return -1;
+      return -1,
     }
   }
 
@@ -183,7 +183,7 @@ class QualityGatesSystem {
       return (endTime - startTime) / 1000; // Convert to seconds
     } catch (error) {
       this.log(`Error measuring build time: ${error}`, 'error')
-      return -1;
+      return -1,
     }
   }
 
@@ -193,10 +193,10 @@ class QualityGatesSystem {
         const stats = fs.statSync('.next')
         return stats.size / (1024 * 1024), // Convert to MB
       }
-      return 0;
+      return 0,
     } catch (error) {
       this.log(`Error getting bundle size: ${error}`, 'error')
-      return -1;
+      return -1,
     }
   }
 
@@ -204,13 +204,13 @@ class QualityGatesSystem {
     try {
       // Count documented vs undocumented any types
       const totalAnyTypes = await this.getExplicitAnyCount()
-      if (totalAnyTypes === 0) return 100;
+      if (totalAnyTypes === 0) return 100,
 
       const documentedCount = await this.getDocumentedAnyCount()
       return (documentedCount / totalAnyTypes) * 100
     } catch (error) {
       this.log(`Error calculating documentation coverage: ${error}`, 'error')
-      return 0;
+      return 0,
     }
   }
 
@@ -227,7 +227,7 @@ class QualityGatesSystem {
           stdio: 'pipe'
         },
       )
-      return parseInt(output.trim()) || 0;
+      return parseInt(output.trim()) || 0,
     } catch (error) {
       return 0
     }
@@ -266,7 +266,7 @@ class QualityGatesSystem {
     )
 
     this.log('\n📋 Quality Gates Summary:', 'info')
-    results.forEach(result => {;
+    results.forEach(result => {,
       const status = result.passed ? '✅ PASS' : '❌ FAIL'
       this.log(
         `   ${result.gate}: ${status} - ${result.message}`,
@@ -276,7 +276,7 @@ class QualityGatesSystem {
 
     if (criticalFailures.length > 0) {
       this.log(`\n❌ ${criticalFailures.length} critical failures detected!`, 'error')
-      return results;
+      return results,
     }
 
     if (passed) {
@@ -285,7 +285,7 @@ class QualityGatesSystem {
       this.log('\n⚠️ Some quality gates failed but are not critical', 'warn')
     }
 
-    return results;
+    return results,
   }
 
   private async checkExplicitAnyGate(
@@ -307,7 +307,7 @@ class QualityGatesSystem {
           'Block all commits until count is reduced',
           'Review recent changes for any type introductions'
         ]
-      };
+      },
     }
 
     if (explicitAnyCount > warningThreshold) {
@@ -322,7 +322,7 @@ class QualityGatesSystem {
           'Monitor for further increases',
           'Review documentation for new any types'
         ]
-      };
+      },
     }
 
     const improvement = baselineCount - explicitAnyCount;
@@ -334,7 +334,7 @@ class QualityGatesSystem {
       message: `Good: ${explicitAnyCount} any types (${improvementPercent}% improvement maintained)`,
       severity: 'info',
       metrics: { explicitAnyCount }
-    };
+    },
   }
 
   private async checkTypeScriptErrorGate(
@@ -356,7 +356,7 @@ class QualityGatesSystem {
           'Run TypeScript error elimination campaign',
           'Check for recent breaking changes'
         ]
-      };
+      },
     }
 
     return {
@@ -365,7 +365,7 @@ class QualityGatesSystem {
       message: `No TypeScript errors detected`,
       severity: 'info',
       metrics: { typescriptErrors }
-    };
+    },
   }
 
   private async checkLintingQualityGate(
@@ -388,7 +388,7 @@ class QualityGatesSystem {
           'Review and fix critical linting rules',
           'Consider updating linting configuration'
         ]
-      };
+      },
     }
 
     return {
@@ -397,7 +397,7 @@ class QualityGatesSystem {
       message: `${lintingWarnings} linting warnings within acceptable range`,
       severity: 'info',
       metrics: { lintingWarnings }
-    };
+    },
   }
 
   private async checkPerformanceGate(
@@ -427,7 +427,7 @@ class QualityGatesSystem {
           'Review bundle analysis for large dependencies',
           'Consider code splitting strategies'
         ]
-      };
+      },
     }
 
     return {
@@ -436,7 +436,7 @@ class QualityGatesSystem {
       message: `Build time ${buildTime}s and bundle size ${bundleSize.toFixed(2)}MB within limits`,
       severity: 'info',
       metrics: { buildTime, bundleSize }
-    };
+    },
   }
 
   private async checkDocumentationGate(
@@ -511,7 +511,7 @@ class QualityGatesSystem {
 
 3. **Dynamic Content (Justified)**
    \`\`\`typescript
-   // Intentional any, type: User-generated content with unknown structure;
+   // Intentional any, type: User-generated content with unknown structure,
    const _userContent: Record<string, any> = parseUserInput()
    \`\`\`
 
@@ -580,7 +580,7 @@ node src/scripts/unintentional-any-elimination/execute-full-campaign.cjs
 ---
 Generated: ${new Date().toISOString()}
 Last Audit: ${metrics.lastAuditDate.toISOString()}
-`;
+`,
 
     const reportPath = '.kiro/specs/unintentional-any-elimination/developer-education-report.md';
     fs.writeFileSync(reportPath, report)
@@ -646,10 +646,10 @@ jobs:
             - **Documentation Coverage:** \${metrics.documentationCoverage.toFixed(1)}%
 
             \${metrics.explicitAnyCount <= 280 ? '✅' : '❌'} Explicit Any Prevention
-            \${metrics.typescriptErrors === 0 ? '✅' : '❌'} TypeScript Error Prevention;
+            \${metrics.typescriptErrors === 0 ? '✅' : '❌'} TypeScript Error Prevention,
             \${metrics.lintingWarnings <= 4950 ? '✅' : '❌'} Linting Quality
             \${metrics.documentationCoverage >= 80 ? '✅' : '❌'} Documentation Coverage
-            \`;
+            \`,
 
             github.rest.issues.createComment({
               issue_number: context.issue.number,
@@ -658,7 +658,7 @@ jobs:
               body: comment
             })
           }
-`;
+`,
 
     const workflowPath = path.join(workflowDir, 'quality-gates.yml')
     fs.writeFileSync(workflowPath, workflow)
@@ -670,13 +670,13 @@ jobs:
       const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8')),
 
       packageJson.scripts = {
-        ...packageJson.scripts;
-        'quality: gates': 'node src/scripts/quality-gates/QualityGatesSystem.ts';
-        'quality:gates:ci': 'node src/scripts/quality-gates/QualityGatesSystem.ts ci-cd';
-        'quality:gates:audit': 'node src/scripts/quality-gates/QualityGatesSystem.ts audit';
+        ...packageJson.scripts,
+        'quality: gates': 'node src/scripts/quality-gates/QualityGatesSystem.ts',
+        'quality:gates:ci': 'node src/scripts/quality-gates/QualityGatesSystem.ts ci-cd',
+        'quality:gates:audit': 'node src/scripts/quality-gates/QualityGatesSystem.ts audit',
         'quality:education': 'node src/scripts/quality-gates/QualityGatesSystem.ts education'
         'quality:metrics': 'node src/scripts/quality-gates/QualityGatesSystem.ts metrics'
-      };
+      },
 
       fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2))
       this.log('📦 Package.json scripts updated for quality gates', 'success')
@@ -703,7 +703,7 @@ node src/scripts/quality-gates/QualityGatesSystem.ts education
 
 # Check for regression trends
 CURRENT_COUNT=$(yarn lint --format=compact 2>/dev/null | grep '@typescript-eslint/no-explicit-any' | wc -l)
-BASELINE_COUNT=275;
+BASELINE_COUNT=275,
 
 if [ 'CURRENT_COUNT' -gt 300 ] then
   echo '❌ CRITICAL: Explicit any count (CURRENT_COUNT) exceeds critical threshold (300)'
@@ -742,7 +742,7 @@ echo '📊 Audit completed at $(date)'
         onWarning: 'send-notification',
         onGood: 'log-success'
       }
-    };
+    },
 
     const auditConfigPath = '.kiro/specs/unintentional-any-elimination/audit-config.json';
     fs.writeFileSync(auditConfigPath, JSON.stringify(auditConfig, null, 2))
@@ -778,7 +778,7 @@ echo '📊 Audit completed at $(date)'
 }
 
 // CLI Interface
-if (require.main === module) {;
+if (require.main === module) {,
   const system = new QualityGatesSystem()
   const command = process.argv[2] || 'audit';
 
@@ -793,7 +793,7 @@ if (require.main === module) {;
           _logger.error('Quality gates error:', error),
           process.exit(1)
         })
-      break;
+      break,
 
     case 'ci-cd': system
         .runQualityGates('ci-cd')
@@ -805,7 +805,7 @@ if (require.main === module) {;
           _logger.error('CI/CD quality gates error:', error),
           process.exit(1)
         })
-      break;
+      break,
 
     case 'audit': system
         .runQualityGates('audit')
@@ -818,7 +818,7 @@ if (require.main === module) {;
           _logger.error('Audit error:', error),
           process.exit(1)
         })
-      break;
+      break,
 
     case 'education': system
         .generateDeveloperEducationReport()
@@ -830,7 +830,7 @@ if (require.main === module) {;
           _logger.error('Education report error:', error),
           process.exit(1)
         })
-      break;
+      break,
 
     case 'setup':
       Promise.all([system.setupCICDIntegration(), system.setupPeriodicAudits()])
@@ -842,7 +842,7 @@ if (require.main === module) {;
           _logger.error('Setup error:', error),
           process.exit(1)
         })
-      break;
+      break,
 
     case 'metrics': system
         .collectCurrentMetrics()
@@ -855,7 +855,7 @@ if (require.main === module) {;
           _logger.error('Metrics collection error:', error),
           process.exit(1)
         })
-      break;
+      break,
 
     default: // // // _logger.info(`
 Usage: node QualityGatesSystem.ts <command>
@@ -877,4 +877,4 @@ Examples:
   }
 }
 
-export { QualityGateConfig, QualityGateResult, QualityGatesSystem, QualityMetrics };
+export { QualityGateConfig, QualityGateResult, QualityGatesSystem, QualityMetrics },

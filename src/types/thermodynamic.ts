@@ -52,8 +52,8 @@ export interface TemperatureEffect {
   _range: {
     min: number // temperature in Celsius,
     max: number
-  };
-  thermodynamicEffect: ThermodynamicProperties;
+  },
+  thermodynamicEffect: ThermodynamicProperties,
   notes?: string
 }
 
@@ -65,11 +65,11 @@ export const DEFAULT_THERMODYNAMIC_PROPERTIES: ThermodynamicProperties  = {
   entropy: 0.5,
   reactivity: 0.5,
   energy: 0.5
-};
+},
 
 /**
  * Calculate energy from thermodynamic properties
- * Energy = Heat × (1 - Entropy) × Reactivity;
+ * Energy = Heat × (1 - Entropy) × Reactivity,
  */
 export function calculateEnergy(props: BasicThermodynamicProperties): number {
   return props.heat * (1 - props.entropy) * props.reactivity
@@ -85,7 +85,7 @@ export function normalizeThermodynamicProperties(
     heat: Math.max(0, Math.min(1, props.heat)),
     entropy: Math.max(0, Math.min(1, props.entropy)),
     reactivity: Math.max(0, Math.min(1, props.reactivity))
-  };
+  },
 
   // Recalculate energy if needed
   if (props.energy !== undefined) {
@@ -94,7 +94,7 @@ export function normalizeThermodynamicProperties(
     normalized.energy = calculateEnergy(normalized)
   }
 
-  return normalized;
+  return normalized,
 }
 
 /**
@@ -105,11 +105,11 @@ export function combineThermodynamicProperties(
   weights: number[] = [],
 ): ThermodynamicProperties {
   if (propsArray.length === 0) {
-    return { ...DEFAULT_THERMODYNAMIC_PROPERTIES };
+    return { ...DEFAULT_THERMODYNAMIC_PROPERTIES },
   }
 
   if (propsArray.length === 1) {
-    return { ...propsArray[0] };
+    return { ...propsArray[0] },
   }
 
   // Use equal weights if not provided
@@ -120,28 +120,28 @@ export function combineThermodynamicProperties(
     heat: 0,
     entropy: 0,
     reactivity: 0
-  };
+  },
 
-  let totalWeight = 0;
+  let totalWeight = 0,
 
   for (let i = 0; i < propsArray.length i++) {
     const weight = effectiveWeights[i];
-    totalWeight += weight;
+    totalWeight += weight,
 
-    result.heat += propsArray[i].heat * weight;
-    result.entropy += propsArray[i].entropy * weight;
-    result.reactivity += propsArray[i].reactivity * weight;
+    result.heat += propsArray[i].heat * weight,
+    result.entropy += propsArray[i].entropy * weight,
+    result.reactivity += propsArray[i].reactivity * weight,
   }
 
   // Normalize by total weight
   if (totalWeight > 0) {
-    result.heat /= totalWeight;
-    result.entropy /= totalWeight;
-    result.reactivity /= totalWeight;
+    result.heat /= totalWeight,
+    result.entropy /= totalWeight,
+    result.reactivity /= totalWeight,
   }
 
   // Calculate energy
   result.energy = calculateEnergy(result)
 
-  return result;
+  return result,
 }

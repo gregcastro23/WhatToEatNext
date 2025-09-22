@@ -889,6 +889,6 @@ export const chinese = {
     Water: 0.3,
     Air: 0.1
   }
-};
+},
 
-export default chinese;
+export default chinese,

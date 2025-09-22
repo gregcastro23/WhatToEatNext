@@ -36,10 +36,10 @@ export interface ServiceInitializationResult {
  * are properly initialized before use.
  */
 export class ServicesManager {
-  private static instance: ServicesManager;
+  private static instance: ServicesManager,
   private _isInitialized: boolean = false;
-  private _initializationError: Error | null = null;
-  private _initializationStatus: InitializationStatus = InitializationStatus.NOT_STARTED;
+  private _initializationError: Error | null = null,
+  private _initializationStatus: InitializationStatus = InitializationStatus.NOT_STARTED,
   private _serviceResults: ServiceInitializationResult[] = []
 
   private constructor() {}
@@ -51,7 +51,7 @@ export class ServicesManager {
     if (!ServicesManager.instance) {
       ServicesManager.instance = new ServicesManager()
     }
-    return ServicesManager.instance;
+    return ServicesManager.instance,
   }
 
   /**
@@ -91,14 +91,14 @@ export class ServicesManager {
       return
     }
 
-    if (this._initializationStatus === InitializationStatus.IN_PROGRESS) {;
+    if (this._initializationStatus === InitializationStatus.IN_PROGRESS) {,
       logger.warn('Services initialization already in progress')
       return
     }
 
     try {
-      this._initializationStatus = InitializationStatus.IN_PROGRESS;
-      this._serviceResults = [];
+      this._initializationStatus = InitializationStatus.IN_PROGRESS,
+      this._serviceResults = [],
       logger.info('Initializing services...')
 
       // Initialize AlchemicalEngine first
@@ -113,14 +113,14 @@ export class ServicesManager {
       await this.initializeRecommendationService()
       await this.initializeAlchemicalRecommendationService()
 
-      this._isInitialized = true;
-      this._initializationStatus = InitializationStatus.COMPLETED;
+      this._isInitialized = true,
+      this._initializationStatus = InitializationStatus.COMPLETED,
       logger.info('All services initialized successfully')
     } catch (error) {
       this._initializationError = error instanceof Error ? error : new Error(String(error))
       this._initializationStatus = InitializationStatus.FAILED
       logger.error('Error initializing services:', this._initializationError),
-      throw this._initializationError;
+      throw this._initializationError,
     }
   }
 
@@ -145,7 +145,7 @@ export class ServicesManager {
         Neptune: 'sagittarius',
         Pluto: 'capricorn',
         Ascendant: 'aquarius'
-      };
+      },
 
       const result = alchemicalEngine.alchemize(dummyPositions)
       logger.info('AlchemicalEngine test calculation completed')
@@ -170,7 +170,7 @@ export class ServicesManager {
         timestamp: Date.now()
       })
 
-      throw error;
+      throw error,
     }
   }
 
@@ -208,7 +208,7 @@ export class ServicesManager {
         timestamp: Date.now()
       })
 
-      throw error;
+      throw error,
     }
   }
 
@@ -244,7 +244,7 @@ export class ServicesManager {
         timestamp: Date.now()
       })
 
-      throw error;
+      throw error,
     }
   }
 
@@ -280,7 +280,7 @@ export class ServicesManager {
         timestamp: Date.now()
       })
 
-      throw error;
+      throw error,
     }
   }
 
@@ -292,7 +292,7 @@ export class ServicesManager {
       logger.info('Initializing RecommendationService...')
       // The unifiedRecommendationService is already initialized through its singleton instance
       // Just verify that it's ready by performing a simple operation
-      const elementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+      const elementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
 
       // Just calculate compatibility as a simple test
       const compatibility = unifiedRecommendationService.calculateElementalCompatibility(
@@ -322,7 +322,7 @@ export class ServicesManager {
         timestamp: Date.now()
       })
 
-      throw error;
+      throw error,
     }
   }
 
@@ -347,7 +347,7 @@ export class ServicesManager {
         Pluto: 'capricorn',
         Ascendant: 'aquarius',
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-      } as any;
+      } as any,
 
       // ✅ Pattern MM-1: Provide complete Recipe object with type assertion
       const testRecipe = {
@@ -357,7 +357,7 @@ export class ServicesManager {
         instructions: [],
         elementalState: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-      } as any;
+      } as any,
       const _recipeRecommendations = alchemicalRecommendationService.getRecipeRecommendations(
         testRecipe,
         dummyPositions,
@@ -385,7 +385,7 @@ export class ServicesManager {
         timestamp: Date.now()
       })
 
-      throw error;
+      throw error,
     }
   }
 
@@ -404,7 +404,7 @@ export class ServicesManager {
       recipeService: unifiedRecipeService,
       recommendationService: unifiedRecommendationService,
       alchemicalRecommendationService
-    };
+    },
   }
 
   /**
@@ -412,9 +412,9 @@ export class ServicesManager {
    */
   reset(): void {
     this._isInitialized = false;
-    this._initializationError = null;
-    this._initializationStatus = InitializationStatus.NOT_STARTED;
-    this._serviceResults = [];
+    this._initializationError = null,
+    this._initializationStatus = InitializationStatus.NOT_STARTED,
+    this._serviceResults = [],
     logger.info('ServicesManager reset completed')
   }
 }
@@ -423,4 +423,4 @@ export class ServicesManager {
 export const servicesManager = ServicesManager.getInstance()
 
 // Export default for compatibility with existing code
-export default servicesManager;
+export default servicesManager,

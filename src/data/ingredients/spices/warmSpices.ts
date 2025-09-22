@@ -62,7 +62,7 @@ const rawWarmSpices: Record<string, Partial<IngredientMapping>> = {
     // ... rest of cinnamon properties
   },
   // ... other warm spices
-};
+},
 
 // Fix the ingredient mappings to ensure they have all required properties
 export const warmSpices: Record<string, IngredientMapping> = fixIngredientMappings(rawWarmSpices)
@@ -70,4 +70,4 @@ export const warmSpices: Record<string, IngredientMapping> = fixIngredientMappin
 // Create a collection of all warm spices
 export const _allWarmSpices = Object.values(warmSpices)
 
-export default warmSpices;
+export default warmSpices,

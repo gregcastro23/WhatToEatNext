@@ -4,44 +4,44 @@ import { ZodiacSign, ElementalProperties } from '@/types/alchemy';
 // Create element modifiers based on zodiac sign's element
 type ZodiacElementModifiers = {
   [key in ZodiacSign]: ElementalProperties
-};
+},
 
 // Helper function to create elemental modifiers based on dominant element
 function createElementalModifiersForZodiac(dominantElement: string): ElementalProperties {
   return {
     Fire:
-      dominantElement === 'Fire';
+      dominantElement === 'Fire',
         ? 0.8
-        : dominantElement === 'Air';
+        : dominantElement === 'Air',
           ? 0.6
-          : dominantElement === 'Earth';
+          : dominantElement === 'Earth',
             ? 0.3
-            : 0.2;
+            : 0.2,
     Water:
-      dominantElement === 'Water';
+      dominantElement === 'Water',
         ? 0.8
-        : dominantElement === 'Earth';
+        : dominantElement === 'Earth',
           ? 0.6
-          : dominantElement === 'Air';
+          : dominantElement === 'Air',
             ? 0.3
-            : 0.2;
+            : 0.2,
     Earth:
-      dominantElement === 'Earth';
+      dominantElement === 'Earth',
         ? 0.8
-        : dominantElement === 'Water';
+        : dominantElement === 'Water',
           ? 0.6
-          : dominantElement === 'Fire';
+          : dominantElement === 'Fire',
             ? 0.3
-            : 0.2;
+            : 0.2,
     Air:
-      dominantElement === 'Air';
+      dominantElement === 'Air',
         ? 0.8
-        : dominantElement === 'Fire';
+        : dominantElement === 'Fire',
           ? 0.6
           : dominantElement === 'Water'
             ? 0.3
             : 0.2
-  };
+  },
 }
 
 // Build the modifiers for each zodiac sign
@@ -72,7 +72,7 @@ export const SEASONAL_MODIFIERS: SeasonalModifiers = {
   fall: createElementalModifiersForZodiac('Earth'),
   // Add zodiac signs to the seasonal modifiers for direct access
   ...ZODIAC_MODIFIERS
-};
+},
 
 // Influence of seasonal factors on food preferences and energy levels
 export const _SEASONAL_INFLUENCE = {
@@ -90,6 +90,6 @@ export const _SEASONAL_INFLUENCE = {
     autumn: { vitality: 0.5, creativity: 0.6, stability: 0.8, adaptability: 0.5 },
     winter: { vitality: 0.4, creativity: 0.5, stability: 0.7, adaptability: 0.4 }
   }
-};
+},
 
-export default SEASONAL_MODIFIERS;
+export default SEASONAL_MODIFIERS,

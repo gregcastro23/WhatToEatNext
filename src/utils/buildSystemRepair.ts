@@ -10,14 +10,14 @@ import { NextConfigOptimizer } from './nextConfigOptimizer';
  * Implements all requirements for task 3: Build System Repair and Validation
  */
 export class BuildSystemRepair {
-  private readonly buildValidator: BuildValidator;
+  private readonly buildValidator: BuildValidator,
   private readonly configOptimizer: NextConfigOptimizer
-  private readonly logger: (message: string, ..._args: unknown[]) => void;
+  private readonly logger: (message: string, ..._args: unknown[]) => void,
 
   constructor(logger = _logger.info) {
     this.buildValidator = new BuildValidator('.next', logger)
     this.configOptimizer = new NextConfigOptimizer('next.config.js', logger)
-    this.logger = logger;
+    this.logger = logger,
   }
 
   /**
@@ -30,7 +30,7 @@ export class BuildSystemRepair {
       steps: [],
       errors: [],
       recommendations: []
-    };
+    },
 
     try {
       this.logger('Starting comprehensive build system repair...')
@@ -98,7 +98,7 @@ export class BuildSystemRepair {
       this.logger('Build system repair encountered an error:', error)
     }
 
-    return result;
+    return result,
   }
 
   /**
@@ -118,10 +118,10 @@ export class BuildSystemRepair {
       const validation = await this.buildValidator.validateBuild()
 
       this.logger(`Quick repair completed. Success: ${validation.isValid}`)
-      return validation.isValid;
+      return validation.isValid,
     } catch (error) {
       this.logger('Quick repair failed:', error)
-      return false;
+      return false,
     }
   }
 
@@ -144,7 +144,7 @@ export class BuildSystemRepair {
       } catch (error) {
         this.logger('Health monitoring error:', error)
       }
-    };
+    },
 
     // Initial check
     await monitor()
@@ -166,7 +166,7 @@ export class BuildSystemRepair {
         unknown
       >,
       recommendations: []
-    };
+    },
 
     // Generate recommendations based on findings
     if (!report.validation.isValid) {
@@ -186,7 +186,7 @@ export class BuildSystemRepair {
       report.recommendations.push('Consider optimizing build size')
     }
 
-    return report;
+    return report,
   }
 
   /**
@@ -216,11 +216,11 @@ export class BuildSystemRepair {
         return true
       } else {
         this.logger('Emergency recovery failed')
-        return false;
+        return false,
       }
     } catch (error) {
       this.logger('Emergency recovery error:', error)
-      return false;
+      return false,
     }
   }
 }
@@ -237,7 +237,7 @@ export interface BuildSystemReport {
   timestamp: Date,
   validation: BuildValidationResult,
   health: BuildHealthReport,
-  configValidation: Record<string, unknown>;
+  configValidation: Record<string, unknown>,
   recommendations: string[]
 }
 

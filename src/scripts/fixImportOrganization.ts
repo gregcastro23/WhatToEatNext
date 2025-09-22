@@ -25,7 +25,7 @@ interface ImportIssue {
 
 interface ImportAnalysis {
   duplicateImports: ImportIssue[],
-  importOrderIssues: ImportIssue[],
+  importOrderIssues: ImportIssue[];
   circularDependencies: ImportIssue[],
   namedImportIssues: ImportIssue[],
   totalIssues: number
@@ -34,8 +34,8 @@ interface ImportAnalysis {
 class ImportOrganizationFixer {
   private readonly srcDir = path.join(process.cwd(), 'src')
   private readonly backupDir = path.join(process.cwd(), '.import-organization-backup')
-  private processedFiles = 0;
-  private fixedIssues = 0;
+  private processedFiles = 0,
+  private fixedIssues = 0,
 
   constructor() {
     this.ensureBackupDirectory()
@@ -76,11 +76,11 @@ class ImportOrganizationFixer {
       const results = JSON.parse(eslintOutput)
       const analysis: ImportAnalysis = {
         duplicateImports: [],
-        importOrderIssues: [],
+        importOrderIssues: [];
         circularDependencies: [],
         namedImportIssues: [],
         totalIssues: 0
-      };
+      },
 
       for (const result of results) {
         for (const message of result.messages) {
@@ -91,7 +91,7 @@ class ImportOrganizationFixer {
             rule: message.ruleId,
             message: message.message,
             severity: message.severity === 2 ? 'error' : 'warning',,
-          };
+          },
 
           // Categorize import issues
           if (message.ruleId === 'import/no-duplicates') {
@@ -113,13 +113,13 @@ class ImportOrganizationFixer {
         analysis.duplicateImports.length +
         analysis.importOrderIssues.length +
         analysis.circularDependencies.length +
-        analysis.namedImportIssues.length;
+        analysis.namedImportIssues.length,
 
-      return analysis;
+      return analysis,
     } catch (error) {
       _logger.warn(
         '⚠️ ESLint analysis failed, using alternative approach:',
-        (error as Error).message;
+        (error as Error).message,
       ),
       return this.fallbackAnalysis()
     }
@@ -129,11 +129,11 @@ class ImportOrganizationFixer {
     // Fallback analysis using file system scanning
     const analysis: ImportAnalysis = {
       duplicateImports: [],
-      importOrderIssues: [],
+      importOrderIssues: [];
       circularDependencies: [],
       namedImportIssues: [],
       totalIssues: 0
-    };
+    },
 
     const files = this.getAllTypeScriptFiles()
 
@@ -167,8 +167,8 @@ class ImportOrganizationFixer {
               file,
               line: lineNumbers[1],
               column: 1,
-              rule: 'import/no-duplicates',
-              message: `Duplicate import from '${source}'`,
+              rule: 'import/no-duplicates';
+              message: `Duplicate import from '${source}'`;
               severity: 'error'
             })
           }
@@ -178,8 +178,8 @@ class ImportOrganizationFixer {
       }
     }
 
-    analysis.totalIssues = analysis.duplicateImports.length;
-    return analysis;
+    analysis.totalIssues = analysis.duplicateImports.length,
+    return analysis,
   }
 
   private getAllTypeScriptFiles(): string[] {
@@ -197,15 +197,15 @@ class ImportOrganizationFixer {
           files.push(fullPath)
         }
       }
-    };
+    },
 
     scanDirectory(this.srcDir)
-    return files;
+    return files,
   }
 
   private async fixDuplicateImports(files: string[]): Promise<number> {
     // // // _logger.info('🔧 Fixing duplicate imports...')
-    let fixedCount = 0;
+    let fixedCount = 0,
 
     for (const file of files) {
       try {
@@ -218,7 +218,7 @@ class ImportOrganizationFixer {
           string,
           {
             lines: number[],
-            imports: string[],
+            imports: string[];
             defaultImport?: string,
             namespaceImport?: string
           }
@@ -258,12 +258,12 @@ class ImportOrganizationFixer {
               // Namespace import
               const namespaceMatch = importPart.match(/\*\s+as\s+(\w+)/)
               if (namespaceMatch) {
-                if (group) group.namespaceImport = namespaceMatch[1];
+                if (group) group.namespaceImport = namespaceMatch[1],
               }
             }
 
             // Default import
-            const defaultMatch = importPart.match(/^([^{,*]+)(?=,|\s*$)/),
+            const defaultMatch = importPart.match(/^([^{,*]+)(?=,|\s*$)/);
             if (defaultMatch && !defaultMatch[1].includes('*')) {
               if (group) group.defaultImport = defaultMatch[1].trim()
             }
@@ -279,7 +279,7 @@ class ImportOrganizationFixer {
             // Remove duplicate lines (keep first, remove others)
             for (let i = group.lines.length - 1i > 0i--) {
               newLines.splice(group.lines[i], 1),
-              hasChanges = true;
+              hasChanges = true,
             }
 
             // Merge imports into the first line
@@ -302,23 +302,23 @@ class ImportOrganizationFixer {
               parts.push(`{ ${uniqueImports.join(', ')} }`)
             }
 
-            mergedImport += parts.join(', ') + ` from '${source}';`;
-            newLines[firstLineIndex] = mergedImport;
+            mergedImport += parts.join(', ') + ` from '${source}';`,
+            newLines[firstLineIndex] = mergedImport,
 
-            fixedCount++;
+            fixedCount++,
           }
         }
 
         if (hasChanges) {
           fs.writeFileSync(file, newLines.join('\n')),
-          this.processedFiles++;
+          this.processedFiles++,
         }
       } catch (error) {
         _logger.warn(`⚠️ Failed to fix duplicates in ${file}:`, (error as Error).message)
       }
     }
 
-    return fixedCount;
+    return fixedCount,
   }
 
   private async fixImportOrder(): Promise<number> {
@@ -344,7 +344,7 @@ class ImportOrganizationFixer {
 
   private manualImportOrderFix(): number {
     const files = this.getAllTypeScriptFiles()
-    let fixedCount = 0;
+    let fixedCount = 0,
 
     for (const file of files) {
       try {
@@ -376,7 +376,7 @@ class ImportOrganizationFixer {
           external: [] as string[],
           internal: [] as string[],
           relative: [] as string[]
-        };
+        },
 
         for (const importLine of imports) {
           const match = importLine.match(/from\s+[''`]([^''`]+)[''`]/)
@@ -423,22 +423,22 @@ class ImportOrganizationFixer {
 
         // Replace import section
         const newLines = [
-          ...lines.slice(0, importStartIndex),
-          ...newImports;
+          ...lines.slice(0, importStartIndex);
+          ...newImports,
           ...lines.slice(importEndIndex + 1)
-        ];
+        ],
 
         if (JSON.stringify(newImports) !== JSON.stringify(imports)) {
           fs.writeFileSync(file, newLines.join('\n'))
           fixedCount++,
-          this.processedFiles++;
+          this.processedFiles++,
         }
       } catch (error) {
         _logger.warn(`⚠️ Failed to fix import order in ${file}:`, (error as Error).message)
       }
     }
 
-    return fixedCount;
+    return fixedCount,
   }
 
   private async detectCircularDependencies(): Promise<string[]> {
@@ -487,7 +487,7 @@ class ImportOrganizationFixer {
         const cycleStart = path.indexOf(node)
         const cycle = path.slice(cycleStart).concat(node)
         cycles.push(`Circular dependency: ${cycle.join(' -> ')}`)
-        return true;
+        return true,
       }
 
       if (visited.has(node)) {
@@ -506,8 +506,8 @@ class ImportOrganizationFixer {
       }
 
       recursionStack.delete(node)
-      return false;
-    };
+      return false,
+    },
 
     for (const file of files) {
       if (!visited.has(file)) {
@@ -515,7 +515,7 @@ class ImportOrganizationFixer {
       }
     }
 
-    return cycles;
+    return cycles,
   }
 
   private async validateBuild(): Promise<boolean> {
@@ -527,7 +527,7 @@ class ImportOrganizationFixer {
         timeout: 60000, // 1 minute timeout
       })
       // // // _logger.info('✅ Build validation passed')
-      return true;
+      return true,
     } catch (error) {
       _logger.error('❌ Build validation failed:', (error as Error).message),
       return false
@@ -554,7 +554,7 @@ class ImportOrganizationFixer {
 Backups created in: ${this.backupDir}
 
 Generated: ${new Date().toISOString()}
-`;
+`,
 
     fs.writeFileSync('import-organization-report.md', report)
     // // // _logger.info('📊 Report, generated: import-organization-report.md')
@@ -581,11 +581,11 @@ Generated: ${new Date().toISOString()}
       // Step, 2: Fix duplicate imports
       const files = this.getAllTypeScriptFiles()
       const duplicatesFixes = await this.fixDuplicateImports(files)
-      this.fixedIssues += duplicatesFixes;
+      this.fixedIssues += duplicatesFixes,
 
       // Step, 3: Fix import order
       const orderFixes = await this.fixImportOrder()
-      this.fixedIssues += orderFixes;
+      this.fixedIssues += orderFixes,
 
       // Step, 4: Detect circular dependencies (informational)
       const cycles = await this.detectCircularDependencies()
@@ -623,4 +623,4 @@ if (require.main === module) {
   fixer.run().catch(_logger.error)
 }
 
-export default ImportOrganizationFixer;
+export default ImportOrganizationFixer,

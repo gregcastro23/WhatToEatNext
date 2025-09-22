@@ -14,7 +14,7 @@ import { campaignConflictResolver } from './CampaignConflictResolver';
 import { kiroCampaignIntegration } from './KiroCampaignIntegration';
 import type { KiroCampaignStatus } from './KiroCampaignIntegration';
 
-// ========== DEBUGGING TYPES ==========;
+// ========== DEBUGGING TYPES ==========,
 
 export interface CampaignDebugSession {
   id: string,
@@ -97,7 +97,7 @@ export interface RecoveryStep {
   description: string,
   type: RecoveryStepType,
   action: string,
-  parameters: Record<string, unknown>;
+  parameters: Record<string, unknown>,
   estimatedDuration: number,
   criticalPath: boolean,
   rollbackable: boolean,
@@ -159,7 +159,7 @@ export interface MaintenanceRecommendation {
   nextDue: Date
 }
 
-// ========== ENUMS ==========;
+// ========== ENUMS ==========,
 
 export enum DebugSessionStatus {
   ACTIVE = 'active',
@@ -291,7 +291,7 @@ export enum MaintenanceFrequency {
   QUARTERLY = 'quarterly',,
 }
 
-// ========== CAMPAIGN DEBUGGER ==========;
+// ========== CAMPAIGN DEBUGGER ==========,
 
 export class CampaignDebugger {
   private debugSessions: Map<string, CampaignDebugSession> = new Map()
@@ -304,7 +304,7 @@ export class CampaignDebugger {
     this.progressTracker = new ProgressTracker()
   }
 
-  // ========== DEBUG SESSION MANAGEMENT ==========;
+  // ========== DEBUG SESSION MANAGEMENT ==========,
 
   /**
    * Start a new debugging session for a failed campaign
@@ -320,12 +320,12 @@ export class CampaignDebugger {
       debugSteps: [],
       findings: [],
       recommendations: []
-    };
+    },
 
     this.debugSessions.set(sessionId, session)
     await this.initializeDebugSteps(session)
 
-    return sessionId;
+    return sessionId,
   }
 
   /**
@@ -340,25 +340,25 @@ export class CampaignDebugger {
     const findings: DebugFinding[] = [];
 
     for (const step of session.debugSteps) {
-      step.status = DebugStepStatus.RUNNING;
+      step.status = DebugStepStatus.RUNNING,
       step.startTime = new Date()
       try {
         const stepFindings = await this.executeDebugStep(step, session.campaignId)
         findings.push(...stepFindings)
 
-        step.status = DebugStepStatus.COMPLETED;
+        step.status = DebugStepStatus.COMPLETED,
         step.endTime = new Date()
       } catch (error) {
-        step.status = DebugStepStatus.FAILED;
+        step.status = DebugStepStatus.FAILED,
         step.errors.push((error as Error).message)
         step.endTime = new Date()
       }
     }
 
-    session.findings = findings;
+    session.findings = findings,
     session.recommendations = await this.generateRecommendations(findings)
 
-    return findings;
+    return findings,
   }
 
   /**
@@ -371,12 +371,12 @@ export class CampaignDebugger {
     }
 
     const recoveryPlan = await this.createRecoveryPlan(session.campaignId, session.findings)
-    session.recoveryPlan = recoveryPlan;
+    session.recoveryPlan = recoveryPlan,
 
-    return recoveryPlan;
+    return recoveryPlan,
   }
 
-  // ========== FAILURE ANALYSIS ==========;
+  // ========== FAILURE ANALYSIS ==========,
 
   /**
    * Analyze campaign failure and identify root causes
@@ -401,9 +401,9 @@ export class CampaignDebugger {
 
     // Analyze error patterns
     for (const event of failureEvents) {
-      if (event.type === 'BUILD_FAILURE') {;
+      if (event.type === 'BUILD_FAILURE') {,
         rootCauses.push('Build system failure during campaign execution')
-      } else if (event.type === 'CORRUPTION_DETECTED') {;
+      } else if (event.type === 'CORRUPTION_DETECTED') {,
         rootCauses.push('Data corruption detected during file processing')
       }
     }
@@ -424,10 +424,10 @@ export class CampaignDebugger {
       contributingFactors,
       impactAssessment,
       recommendations
-    };
+    },
   }
 
-  // ========== RECOVERY MECHANISMS ==========;
+  // ========== RECOVERY MECHANISMS ==========,
 
   /**
    * Execute recovery plan for a failed campaign
@@ -444,7 +444,7 @@ export class CampaignDebugger {
       completedSteps: ['step1', 'step2'],
       failedSteps: [],
       rollbackRequired: false
-    };
+    },
   }
 
   /**
@@ -476,7 +476,7 @@ export class CampaignDebugger {
         rollbackable: false,
         validationRequired: true
       }
-    ];
+    ],
 
     return {
       id: `emergency_recovery_${campaignId}_${Date.now()}`,
@@ -500,10 +500,10 @@ export class CampaignDebugger {
           automated: true
         }
       ]
-    };
+    },
   }
 
-  // ========== HEALTH MONITORING ==========;
+  // ========== HEALTH MONITORING ==========,
 
   /**
    * Perform comprehensive health check on a campaign
@@ -529,13 +529,13 @@ export class CampaignDebugger {
       healthMetrics,
       issues,
       recommendations
-    };
+    },
 
     this.healthReports.set(campaignId, healthReport)
-    return healthReport;
+    return healthReport,
   }
 
-  // ========== HELPER METHODS ==========;
+  // ========== HELPER METHODS ==========,
 
   private async initializeDebugSteps(session: CampaignDebugSession): Promise<void> {
     const debugSteps: DebugStep[] = [
@@ -572,9 +572,9 @@ export class CampaignDebugger {
         errors: [],
         warnings: []
       }
-    ];
+    ],
 
-    session.debugSteps = debugSteps;
+    session.debugSteps = debugSteps,
   }
 
   private async executeDebugStep(step: DebugStep, campaignId: string): Promise<DebugFinding[]> {
@@ -583,7 +583,7 @@ export class CampaignDebugger {
     switch (step.type) {
       case DebugStepType.CONFIGURATION_CHECK:
         findings.push(...(await this.checkConfiguration(campaignId)))
-        break;
+        break,
       case DebugStepType.DEPENDENCY_ANALYSIS:
         findings.push(...(await this.analyzeDependencies(campaignId)))
         break,
@@ -591,8 +591,8 @@ export class CampaignDebugger {
         break
     }
 
-    step.output = { findingsCount: findings.length };
-    return findings;
+    step.output = { findingsCount: findings.length },
+    return findings,
   }
 
   private async checkConfiguration(campaignId: string): Promise<DebugFinding[]> {
@@ -617,7 +617,7 @@ export class CampaignDebugger {
       detectedAt: new Date()
     })
 
-    return findings;
+    return findings,
   }
 
   private async analyzeDependencies(campaignId: string): Promise<DebugFinding[]> {
@@ -647,7 +647,7 @@ export class CampaignDebugger {
       }
     }
 
-    return findings;
+    return findings,
   }
 
   private async analyzePerformance(campaignId: string): Promise<DebugFinding[]> {
@@ -674,7 +674,7 @@ export class CampaignDebugger {
       })
     }
 
-    return findings;
+    return findings,
   }
 
   private async generateRecommendations(findings: DebugFinding[]): Promise<DebugRecommendation[]> {
@@ -702,7 +702,7 @@ export class CampaignDebugger {
             riskLevel: 'low',
             category: RecommendationCategory.CONFIGURATION_FIX
           })
-          break;
+          break,
         case FindingCategory.PERFORMANCE_ISSUE:
           recommendations.push({
             id: `rec_${finding.id}`,
@@ -723,11 +723,11 @@ export class CampaignDebugger {
             riskLevel: 'medium',
             category: RecommendationCategory.PERFORMANCE_TUNING
           })
-          break;
+          break,
       }
     }
 
-    return recommendations;
+    return recommendations,
   }
 
   private async createRecoveryPlan(
@@ -793,7 +793,7 @@ export class CampaignDebugger {
           automated: true
         }
       ]
-    };
+    },
   }
 
   private async getCampaignStatus(campaignId: string): Promise<KiroCampaignStatus | null> {
@@ -841,7 +841,7 @@ export class CampaignDebugger {
       })
     }
 
-    return recommendations;
+    return recommendations,
   }
 
   private async collectHealthMetrics(campaign: KiroCampaignStatus): Promise<HealthMetric[]> {
@@ -866,7 +866,7 @@ export class CampaignDebugger {
         threshold: 30,
         trend: 'stable'
       }
-    ];
+    ],
   }
 
   private async detectHealthIssues(
@@ -890,7 +890,7 @@ export class CampaignDebugger {
       }
     }
 
-    return issues;
+    return issues,
   }
 
   private async generateMaintenanceRecommendations(
@@ -914,27 +914,27 @@ export class CampaignDebugger {
       }
     }
 
-    return recommendations;
+    return recommendations,
   }
 
   private calculateHealthScore(metrics: HealthMetric[], issues: HealthIssue[]): number {
-    let score = 100;
+    let score = 100,
 
     // Deduct points for critical metrics
     for (const metric of metrics) {
-      if (metric.status === MetricStatus.CRITICAL) {;
+      if (metric.status === MetricStatus.CRITICAL) {,
         score -= 30
-      } else if (metric.status === MetricStatus.WARNING) {;
-        score -= 15;
+      } else if (metric.status === MetricStatus.WARNING) {,
+        score -= 15,
       }
     }
 
     // Deduct points for issues
     for (const issue of issues) {
-      if (issue.severity === IssueSeverity.CRITICAL) {;
-        score -= 25;
-      } else if (issue.severity === IssueSeverity.HIGH) {;
-        score -= 15;
+      if (issue.severity === IssueSeverity.CRITICAL) {,
+        score -= 25,
+      } else if (issue.severity === IssueSeverity.HIGH) {,
+        score -= 15,
       }
     }
 
@@ -942,9 +942,9 @@ export class CampaignDebugger {
   }
 
   private determineOverallHealth(healthScore: number): HealthStatus {
-    if (healthScore >= 90) return HealthStatus.EXCELLENT;
-    if (healthScore >= 70) return HealthStatus.GOOD;
-    if (healthScore >= 50) return HealthStatus.WARNING;
+    if (healthScore >= 90) return HealthStatus.EXCELLENT,
+    if (healthScore >= 70) return HealthStatus.GOOD,
+    if (healthScore >= 50) return HealthStatus.WARNING,
     return HealthStatus.CRITICAL
   }
 
@@ -971,10 +971,10 @@ export class CampaignDebugger {
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
         consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
       }
-    };
+    },
   }
 
-  // ========== PUBLIC API ==========;
+  // ========== PUBLIC API ==========,
 
   /**
    * Get debug session by ID

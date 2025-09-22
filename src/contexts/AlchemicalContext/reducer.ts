@@ -20,9 +20,9 @@ export type AlchemicalAction =
   | { type: 'UPDATE_STATE', payload: Partial<AlchemicalState> }
   | {
       type: 'SET_ALCHEMICAL_VALUES',
-      payload: { Spirit: number, Essence: number, Matter: number, Substance: number };
+      payload: { Spirit: number, Essence: number, Matter: number, Substance: number },
     }
-  | { type: 'SET_LUNAR_PHASE', payload: string };
+  | { type: 'SET_LUNAR_PHASE', payload: string },
 
 /**
  * Reducer for the AlchemicalContext
@@ -37,7 +37,7 @@ export const _alchemicalReducer = (
         ...state,
         currentSeason: action.payload.season,
         lastUpdated: new Date()
-      };
+      },
 
     case 'SET_ELEMENTAL_PREFERENCE':
       return {
@@ -51,14 +51,14 @@ export const _alchemicalReducer = (
           [action.payload.element]: action.payload.value
         },
         lastUpdated: new Date()
-      };
+      },
 
     case 'SET_ELEMENTAL_STATE':
       return {
         ...state,
         elementalState: action.payload,
         lastUpdated: new Date()
-      };
+      },
 
     case 'SET_ZODIAC_ENERGY':
       return {
@@ -70,7 +70,7 @@ export const _alchemicalReducer = (
           planetaryEnergy: state.currentEnergy?.planetaryEnergy || []
         },
         lastUpdated: new Date()
-      };
+      },
 
     case 'SET_LUNAR_ENERGY':
       return {
@@ -82,7 +82,7 @@ export const _alchemicalReducer = (
           planetaryEnergy: state.currentEnergy?.planetaryEnergy || []
         },
         lastUpdated: new Date()
-      };
+      },
 
     case 'SET_PLANETARY_ENERGY':
       return {
@@ -94,7 +94,7 @@ export const _alchemicalReducer = (
           planetaryEnergy: action.payload
         },
         lastUpdated: new Date()
-      };
+      },
 
     case 'SET_ASTROLOGICAL_STATE':
       return {
@@ -108,7 +108,7 @@ export const _alchemicalReducer = (
           ...(action.payload && typeof action.payload === 'object' ? action.payload : {}),
         } as AstrologicalState,
         lastUpdated: new Date()
-      };
+      },
 
     case 'SET_ERROR':
       return {
@@ -117,7 +117,7 @@ export const _alchemicalReducer = (
         errorMessage: action.payload.message,
         errors: [...state.errors, action.payload.message],
         lastUpdated: new Date()
-      };
+      },
 
     case 'CLEAR_ERROR':
       return {
@@ -125,37 +125,37 @@ export const _alchemicalReducer = (
         error: false,
         errorMessage: '',
         lastUpdated: new Date()
-      };
+      },
 
     case 'ADD_ERROR':
       return {
         ...state,
         errors: [...state.errors, action.payload],
         lastUpdated: new Date()
-      };
+      },
 
     case 'UPDATE_STATE':
       return {
         ...state,
         ...action.payload,
         lastUpdated: new Date()
-      };
+      },
 
     case 'SET_ALCHEMICAL_VALUES':
       return {
         ...state,
         alchemicalValues: action.payload,
         lastUpdated: new Date()
-      };
+      },
 
     case 'SET_LUNAR_PHASE':
       return {
         ...state,
         lunarPhase: action.payload,
         lastUpdated: new Date()
-      };
+      },
 
     default:
       return state
   }
-};
+},

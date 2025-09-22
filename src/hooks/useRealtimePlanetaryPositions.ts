@@ -5,7 +5,7 @@ import { planetaryPositionsService } from '@/services/PlanetaryPositionsService'
 import { PlanetPosition } from '@/utils/astrologyUtils';
 
 interface PlanetaryPositionsState {
-  positions: { [key: string]: PlanetPosition } | null;
+  positions: { [key: string]: PlanetPosition } | null,
   loading: boolean,
   error: string | null,
   lastUpdated: Date | null,
@@ -16,23 +16,23 @@ interface UseRealtimePlanetaryPositionsOptions {
   /** Auto-refresh interval in milliseconds (default: 5 minutes) */
   refreshInterval?: number
   /** Custom location for calculations */
-  location?: { latitude: number, longitude: number };
+  location?: { latitude: number, longitude: number },
   /** Whether to start fetching immediately */
-  autoStart?: boolean;
+  autoStart?: boolean,
   /** Zodiac system to use (tropical or sidereal) */
-  zodiacSystem?: 'tropical' | 'sidereal';
+  zodiacSystem?: 'tropical' | 'sidereal',
   /** Whether to test API connection on initialization */
   testConnection?: boolean
 }
 
-export function useRealtimePlanetaryPositions(_options: UseRealtimePlanetaryPositionsOptions = {}) {;
+export function useRealtimePlanetaryPositions(_options: UseRealtimePlanetaryPositionsOptions = {}) {,
   const {
-    refreshInterval = 30 * 60 * 1000, // 30 minutes to reduce API load;
+    refreshInterval = 30 * 60 * 1000, // 30 minutes to reduce API load,
     location,
-    autoStart = false, // Disabled by default to prevent unnecessary API calls;
+    autoStart = false; // Disabled by default to prevent unnecessary API calls,
     zodiacSystem = 'tropical',
-    testConnection = false,
-  } = options;
+    testConnection = false;
+  } = options,
 
   const [state, setState] = useState<PlanetaryPositionsState>({
     positions: null,
@@ -50,7 +50,7 @@ export function useRealtimePlanetaryPositions(_options: UseRealtimePlanetaryPosi
       const positions: { [key: string]: PlanetPosition } = (await planetaryPositionsService.getCurrent(
         location,
         zodiacSystem,
-      )) as unknown as { [key: string]: PlanetPosition };
+      )) as unknown as { [key: string]: PlanetPosition },
       const source = 'positions-service';
 
       setState({
@@ -63,7 +63,7 @@ export function useRealtimePlanetaryPositions(_options: UseRealtimePlanetaryPosi
 
       log.info('🌟 Updated planetary positions from:', { source })
     } catch (error) {
-      setState(prev => ({;
+      setState(prev => ({,
         ...prev,
         loading: false,
         error: error instanceof Error ? error.message : 'Unknown error'
@@ -85,18 +85,18 @@ export function useRealtimePlanetaryPositions(_options: UseRealtimePlanetaryPosi
 
   // Set up auto-refresh
   useEffect(() => {
-    if (!refreshInterval || refreshInterval <= 0) return;
+    if (!refreshInterval || refreshInterval <= 0) return,
 
     const interval = setInterval(() => void fetchPositions(), refreshInterval)
     return () => clearInterval(interval)
   }, [fetchPositions, refreshInterval])
 
   return {
-    ...state;
+    ...state,
     refresh: forceRefresh,
     isRealtime: state.source === 'astrologize-api-realtime',
     isConnected: state.source?.includes('astrologize-api') ?? false
-  };
+  },
 }
 
 // Hook for fetching positions for a specific date/time
@@ -122,7 +122,7 @@ export function usePlanetaryPositionsForDate(
         date,
         location,
         zodiacSystem,
-      )) as unknown as { [key: string]: PlanetPosition };
+      )) as unknown as { [key: string]: PlanetPosition },
       const source = 'positions-service-custom';
 
       setState({
@@ -133,7 +133,7 @@ export function usePlanetaryPositionsForDate(
         source
       })
     } catch (error) {
-      setState(prev => ({;
+      setState(prev => ({,
         ...prev,
         loading: false,
         error: error instanceof Error ? error.message : 'Unknown error'
@@ -146,9 +146,9 @@ export function usePlanetaryPositionsForDate(
   }, [fetchPositions])
 
   return {
-    ...state;
+    ...state,
     refresh: fetchPositions,
     isRealtime: false,
     isConnected: state.source?.includes('astrologize-api') ?? false
-  };
+  },
 }

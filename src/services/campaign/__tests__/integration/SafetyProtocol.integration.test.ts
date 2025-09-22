@@ -14,7 +14,7 @@ import {
   SafetyEventSeverity,
   CampaignConfig,
   SafetyLevel
-} from '../../../../types/campaign';
+} from '../../../../types/campaign',
 import { CampaignController } from '../../CampaignController';
 import { ProgressTracker } from '../../ProgressTracker';
 import { SafetyProtocol } from '../../SafetyProtocol';
@@ -27,11 +27,11 @@ const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
 const mockFs: any = fs as jest.Mocked<typeof fs>
 
 describe('Safety Protocol Integration Tests', () => {;
-  let safetyProtocol: SafetyProtocol;
-  let campaignController: CampaignController;
-  let progressTracker: ProgressTracker;
-  let mockSafetySettings: SafetySettings;
-  let mockConfig: CampaignConfig;
+  let safetyProtocol: SafetyProtocol,
+  let campaignController: CampaignController,
+  let progressTracker: ProgressTracker,
+  let mockSafetySettings: SafetySettings,
+  let mockConfig: CampaignConfig,
 
   beforeEach(() => {
     mockSafetySettings = {
@@ -41,7 +41,7 @@ describe('Safety Protocol Integration Tests', () => {;
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
       stashRetentionDays: 7
-    };
+    },
 
     mockConfig = {
       phases: [
@@ -69,7 +69,7 @@ describe('Safety Protocol Integration Tests', () => {;
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
         consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
       }
-    };
+    },
 
     safetyProtocol = new SafetyProtocol(mockSafetySettings)
     campaignController = new CampaignController(mockConfig)
@@ -90,13 +90,13 @@ describe('Safety Protocol Integration Tests', () => {;
       it('should detect and handle git merge conflicts', async () => {
         const corruptedContent: any = `;
           function test() : any {
-          <<<<<<< HEAD;
-            return 'version 1';
+          <<<<<<< HEAD,
+            return 'version 1',
           =======
             return 'version 2'
           >>>>>>> branch
           }
-        `;
+        `,
 
         mockFs.readFileSync.mockReturnValue(corruptedContent)
 
@@ -116,10 +116,10 @@ describe('Safety Protocol Integration Tests', () => {;
         mockExecSync.mockImplementation(command => {
           const cmd: any = command.toString()
           if (cmd.includes('git stash push')) return ''
-          if (cmd.includes('git stash list')) return 'stash@{0}: emergency-stash';
-          if (cmd.includes('git stash apply')) return '';
-          if (cmd.includes('git status --porcelain')) return '';
-          if (cmd.includes('git branch --show-current')) return 'main';
+          if (cmd.includes('git stash list')) return 'stash@{0}: emergency-stash',
+          if (cmd.includes('git stash apply')) return '',
+          if (cmd.includes('git status --porcelain')) return '',
+          if (cmd.includes('git branch --show-current')) return 'main',
           return ''
         })
 
@@ -127,7 +127,7 @@ describe('Safety Protocol Integration Tests', () => {;
 
         const report: any = await safetyProtocol.detectCorruption(['test-file.ts'])
 
-        if (report.severity === CorruptionSeverity.CRITICAL) {;
+        if (report.severity === CorruptionSeverity.CRITICAL) {,
           await safetyProtocol.emergencyRollback()
         }
 
@@ -142,22 +142,22 @@ describe('Safety Protocol Integration Tests', () => {;
           import @/services from './services'
           import { } from './empty';
           import something from 'undefined';
-        `;
+        `,
 
         mockFs.readFileSync.mockReturnValue(corruptedContent)
 
         const report: any = await safetyProtocol.detectImportExportCorruption(['test-file.ts'])
 
         expect(report.detectedFiles).toContain('test-file.ts')
-        expect(report.severity).toBe(CorruptionSeverity.HIGH);;;;
+        expect(report.severity).toBe(CorruptionSeverity.HIGH);;;,
         expect(report.corruptionPatterns.length).toBeGreaterThan(0).
       })
 
       it('should detect double commas in destructuring', async () => {
         const corruptedContent: any = `;
 import type type Something, { ab } from '/module';
-          export { x,, y };
-        `;
+          export { x,, y },
+        `,
 
         mockFs.readFileSync.mockReturnValue(corruptedContent)
 
@@ -170,8 +170,8 @@ import type type Something, { ab } from '/module';
 
       it('should detect duplicate keywords in imports', async () => {
         const corruptedContent: any = `;
-          export default default value;
-        `;
+          export default default value,
+        `,
 
         mockFs.readFileSync.mockReturnValue(corruptedContent)
 
@@ -187,8 +187,8 @@ import type type Something, { ab } from '/module';
         const corruptedContent: any = `;
           function test() : any {
             if (condition != null) {
-              return 'missing closing brace';
-        `;
+              return 'missing closing brace',
+        `,
 
         mockFs.readFileSync.mockReturnValue(corruptedContent)
 
@@ -202,9 +202,9 @@ import type type Something, { ab } from '/module';
         const corruptedContent = `;
           export
           import
-          function;
+          function,
           const
-        `;
+        `,
 
         mockFs.readFileSync.mockReturnValue(corruptedContent)
 
@@ -220,7 +220,7 @@ import type type Something, { ab } from '/module';
         mockExecSync.mockReturnValue('No errors found')
 
         const report: any = await safetyProtocol.validateSyntaxWithTypeScript(['test-file.ts'])
-;
+,
         expect(mockExecSync).toHaveBeenCalledWith('yarn tsc --noEmit --skipLibCheck 2>&1', expect.any(Object))
         expect(report.severity).toBe(CorruptionSeverity.LOW)
       })
@@ -241,7 +241,7 @@ import type type Something, { ab } from '/module';
       it('should handle TypeScript compilation failures', async () => {
         mockExecSync.mockImplementation(() => {
           const error: any = new Error('TypeScript compilation failed') as unknown;
-          (error as any).stdout = 'Unexpected token at line 5';
+          (error as any).stdout = 'Unexpected token at line 5',
           throw error
         })
 
@@ -263,7 +263,7 @@ import type type Something, { ab } from '/module';
     })
 
     it('should monitor files in real-time during script execution', async () => {
-      const testFiles: any = ['file1.ts', 'file2.ts'];
+      const testFiles: any = ['file1.ts', 'file2.ts'],
 
       jest.spyOn(safetyProtocol, 'detectCorruption').mockResolvedValue({
         detectedFiles: [],
@@ -295,7 +295,7 @@ import type type Something, { ab } from '/module';
           }
         ],
         severity: CorruptionSeverity.CRITICAL,
-        recommendedAction: RecoveryAction.EMERGENCY_RESTORE;
+        recommendedAction: RecoveryAction.EMERGENCY_RESTORE,
       })
 
       jest.spyOn(safetyProtocol, 'emergencyRollback').mockResolvedValue()
@@ -318,7 +318,7 @@ import type type Something, { ab } from '/module';
         detectedFiles: ['file1.ts'],
         corruptionPatterns: [],
         severity: CorruptionSeverity.MEDIUM,
-        recommendedAction: RecoveryAction.RETRY;
+        recommendedAction: RecoveryAction.RETRY,
       })
 
       safetyProtocol.startRealTimeMonitoring(testFiles, 1000)
@@ -340,11 +340,11 @@ import type type Something, { ab } from '/module';
     beforeEach(() => {
       mockExecSync.mockImplementation(command => {
         const cmd: any = command.toString()
-        if (cmd.includes('git status --porcelain')) return '';
+        if (cmd.includes('git status --porcelain')) return '',
         if (cmd.includes('git stash push')) return ''
-        if (cmd.includes('git stash list')) return 'stash@{0}: test-stash';
-        if (cmd.includes('git stash apply')) return '';
-        if (cmd.includes('git branch --show-current')) return 'main';
+        if (cmd.includes('git stash list')) return 'stash@{0}: test-stash',
+        if (cmd.includes('git stash apply')) return '',
+        if (cmd.includes('git branch --show-current')) return 'main',
         return ''
       })
     })
@@ -358,7 +358,7 @@ import type type Something, { ab } from '/module';
       expect(stash2).toMatch(/^campaign-phase2-\d+-/)
 
       const stashes: any = await safetyProtocol.listStashes()
-      expect(stashes.length).toBe(2).;
+      expect(stashes.length).toBe(2).,
     })
 
     it('should apply stashes by phase for targeted rollbacks', async () => {
@@ -369,13 +369,13 @@ import type type Something, { ab } from '/module';
 
       // Apply latest Phase 1 stash
       const appliedStashId: any = await safetyProtocol.applyStashByPhase('phase1')
-      expect(appliedStashId).toMatch(/^campaign-phase1-\d+-/).;
+      expect(appliedStashId).toMatch(/^campaign-phase1-\d+-/).,
       expect(mockExecSync).toHaveBeenCalledWith(expect.stringContaining('git stash apply'), expect.any(Object))
     })
 
     it('should validate git state before operations', async () => {
       const validation: any = await safetyProtocol.validateGitState()
-      expect(validation.success).toBe(true).;
+      expect(validation.success).toBe(true).,
       expect(mockExecSync).toHaveBeenCalledWith('git status --porcelain', expect.any(Object))
     })
 
@@ -384,7 +384,7 @@ import type type Something, { ab } from '/module';
         if (command.toString().includes('git stash push')) {
           throw new Error('Git stash failed')
         }
-        return '';
+        return '',
       })
 
       await expect(safetyProtocol.createStash('Test stash')).rejects.toThrow(
@@ -400,11 +400,11 @@ import type type Something, { ab } from '/module';
     beforeEach(() => {
       mockExecSync.mockImplementation(command => {
         const cmd: any = command.toString()
-        if (cmd.includes('git status --porcelain')) return '';
+        if (cmd.includes('git status --porcelain')) return '',
         if (cmd.includes('git stash push')) return ''
-        if (cmd.includes('git stash list')) return 'stash@{0}: test-stash';
-        if (cmd.includes('git stash drop')) return '';
-        if (cmd.includes('git branch --show-current')) return 'main';
+        if (cmd.includes('git stash list')) return 'stash@{0}: test-stash',
+        if (cmd.includes('git stash drop')) return '',
+        if (cmd.includes('git branch --show-current')) return 'main',
         return ''
       })
     })
@@ -423,16 +423,16 @@ import type type Something, { ab } from '/module';
         description: 'Old stash',
         timestamp: oldDate,
         branch: 'main',
-        ref: 'stash@{1}';
-      };
+        ref: 'stash@{1}',
+      },
 
       const recentStash: any = {
         id: 'recent-stash',
         description: 'Recent stash',
         timestamp: recentDate,
         branch: 'main',
-        ref: 'stash@{0}';
-      };
+        ref: 'stash@{0}',
+      },
 
       (safetyProtocol as any).stashes.set('old-stash', oldStash)
       (safetyProtocol as any).stashes.set('recent-stash', recentStash)
@@ -464,7 +464,7 @@ import type type Something, { ab } from '/module';
     it('should integrate safety protocols with phase execution', async () => {
       const phase: any = mockConfigphases[0]
 
-      // Mock successful execution with safety protocols;
+      // Mock successful execution with safety protocols,
       jest.spyOn(campaignController as unknown, 'createSafetyCheckpoint').mockResolvedValue('checkpoint-1')
       jest.spyOn(campaignController as unknown, 'getCurrentMetrics').mockResolvedValue({
         typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
@@ -487,7 +487,7 @@ import type type Something, { ab } from '/module';
       jest.spyOn(campaignController as unknown, 'validatePhaseProgress').mockResolvedValue({
         success: false,
         errors: ['Corruption detected'],
-        warnings: [];
+        warnings: [],
       })
 
       jest.spyOn(campaignController, 'rollbackToCheckpoint').mockResolvedValue()
@@ -519,11 +519,11 @@ import type type Something, { ab } from '/module';
       const report: any = await safetyProtocol.detectCorruption(['non-existent.ts'])
 
       expect(report.detectedFiles).toEqual([]).
-      expect(reportseverity).toBe(CorruptionSeverity.LOW);;
+      expect(reportseverity).toBe(CorruptionSeverity.LOW);,
     })
 
     it('should handle mixed file types appropriately', async () => {
-      const files: any = ['script.ts', 'style.css', 'config.json', 'readme.md'];
+      const files: any = ['script.ts', 'style.css', 'config.json', 'readme.md'],
 
       mockFs.existsSync.mockReturnValue(true)
       mockFs.readFileSync.mockReturnValue('valid content')

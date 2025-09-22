@@ -15,14 +15,14 @@ export type PlanetaryPosition = {
   degree: number,
   minute: number,
   isRetrograde: boolean
-};
+},
 
 export type ThermodynamicProperties = {
   heat: number,
   entropy: number,
   reactivity: number,
   gregsEnergy: number
-};
+},
 
 export type StandardizedAlchemicalResult = {
   elementalProperties: ElementalProperties,
@@ -39,8 +39,8 @@ export type StandardizedAlchemicalResult = {
     dominantModality: string,
     sunSign: string,
     chartRuler: string
-  };
-};
+  },
+},
 
 // Utility functions
 function normalizeSign(sign: string): any {
@@ -58,7 +58,7 @@ function normalizeSign(sign: string): any {
     'capricorn',
     'aquarius',
     'pisces'
-  ];
+  ],
 
   if (validSigns.includes(normalized as any)) {
     return normalized as any
@@ -81,8 +81,8 @@ function getZodiacElement(_sign: string): string {
     capricorn: 'Earth',
     aquarius: 'Air',
     pisces: 'Water'
-  };
-  return elementMap[sign.toLowerCase()] || 'Air';
+  },
+  return elementMap[sign.toLowerCase()] || 'Air',
 }
 
 function getPlanetaryDignity(_planet: string, _sign: string): number {
@@ -154,9 +154,9 @@ function getPlanetaryDignity(_planet: string, _sign: string): number {
       taurus: -1,
       aquarius: -2
     }
-  };
+  },
 
-  return dignityMap[planet][sign.toLowerCase()] || 0;
+  return dignityMap[planet][sign.toLowerCase()] || 0,
 }
 
 /**
@@ -176,7 +176,7 @@ export function alchemize(
     Water: 0,
     Air: 0,
     Earth: 0
-  };
+  },
 
   // Planetary alchemical properties
   const planetaryAlchemy: Record<
@@ -193,7 +193,7 @@ export function alchemize(
     Uranus: { Spirit: 0.4, Essence: 0.6, Matter: 0.3, Substance: 0.7 },
     Neptune: { Spirit: 0.2, Essence: 0.8, Matter: 0.4, Substance: 0.6 },
     Pluto: { Spirit: 0.5, Essence: 0.7, Matter: 0.9, Substance: 0.4 }
-  };
+  },
 
   // Process each planet
   for (const [planet, position] of Object.entries(planetaryPositions)) {
@@ -204,20 +204,20 @@ export function alchemize(
       const dignity = getPlanetaryDignity(planet, position.sign)
       const dignityMultiplier = Math.max(0.11 + dignity * 0.2); // Dignity affects strength
 
-      totals.Spirit += alchemy.Spirit * dignityMultiplier;
-      totals.Essence += alchemy.Essence * dignityMultiplier;
-      totals.Matter += alchemy.Matter * dignityMultiplier;
-      totals.Substance += alchemy.Substance * dignityMultiplier;
+      totals.Spirit += alchemy.Spirit * dignityMultiplier,
+      totals.Essence += alchemy.Essence * dignityMultiplier,
+      totals.Matter += alchemy.Matter * dignityMultiplier,
+      totals.Substance += alchemy.Substance * dignityMultiplier,
     }
 
     // Add elemental contribution from sign
     const element = getZodiacElement(position.sign)
     const elementWeight = 1.0; // Base weight for sign element
 
-    if (element === 'Fire') totals.Fire += elementWeight;
-    else if (element === 'Water') totals.Water += elementWeight;
-    else if (element === 'Air') totals.Air += elementWeight;
-    else if (element === 'Earth') totals.Earth += elementWeight;
+    if (element === 'Fire') totals.Fire += elementWeight,
+    else if (element === 'Water') totals.Water += elementWeight,
+    else if (element === 'Air') totals.Air += elementWeight,
+    else if (element === 'Earth') totals.Earth += elementWeight,
   }
 
   // Calculate thermodynamic metrics using the exact formulas
@@ -263,8 +263,8 @@ export function alchemize(
   }
 
   // Calculate dominant element
-  const elements = { Fire, Water, Air, Earth };
-  const dominantElement = Object.entries(elements).sort((a, b) => b[1] - a[1])[0][0];
+  const elements = { Fire, Water, Air, Earth },
+  const dominantElement = Object.entries(elements).sort((a, b) => b[1] - a[1])[0][0],
 
   // Calculate score based on total energy
   const score = Math.min(
@@ -298,7 +298,7 @@ export function alchemize(
       sunSign: planetaryPositions['Sun'].sign || '',
       chartRuler: getZodiacElement(planetaryPositions['Sun'].sign || 'aries')
     }
-  };
+  },
 }
 
 /**
@@ -317,7 +317,7 @@ export function loadPlanetaryPositions(): Record<string, PlanetaryPosition> {
     const positions = JSON.parse(rawData)
 
     // Convert to the format expected by alchemize
-    const convertedPositions: Record<string, PlanetaryPosition> = {};
+    const convertedPositions: Record<string, PlanetaryPosition> = {},
 
     for (const [planetName, planetData] of Object.entries(positions)) {
       const data = planetData as any;
@@ -327,10 +327,10 @@ export function loadPlanetaryPositions(): Record<string, PlanetaryPosition> {
         degree: Number(data.degree) || 0,
         minute: Number(data.minute) || 0,
         isRetrograde: Boolean(data.isRetrograde) || false
-      };
+      },
     }
 
-    return convertedPositions;
+    return convertedPositions,
   } catch (error) {
     _logger.warn('Error loading planetary positions from file, using fallback data:', error)
     return getFallbackPlanetaryPositions()
@@ -353,7 +353,7 @@ function getFallbackPlanetaryPositions(): Record<string, PlanetaryPosition> {
     Uranus: { sign: 'taurus', degree: 25, minute: 30, isRetrograde: false },
     Neptune: { sign: 'aries', degree: 29, minute: 45, isRetrograde: false },
     Pluto: { sign: 'aquarius', degree: 1, minute: 20, isRetrograde: false }
-  };
+  },
 }
 
 /**
@@ -379,4 +379,4 @@ export default {
   loadPlanetaryPositions,
   getCurrentAlchemicalState,
   calculateAlchemicalProperties
-};
+},

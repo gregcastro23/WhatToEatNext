@@ -12,7 +12,7 @@ import { getZodiacElement } from './astrologyUtils';
 const debugLog = (_message: string, ..._args: unknown[]): void => {
   // Comment out _logger.info to avoid linting warnings
   // log.info(message, ...args)
-};
+},
 
 /**
  * Interface for house data in astrological charts
@@ -139,7 +139,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     significance: 8,
     ruling_planet: 'Neptune'
   }
-};
+},
 
 /**
  * House strength multipliers based on house nature
@@ -148,7 +148,7 @@ export const HOUSE_STRENGTH: Record<'Angular' | 'Succedent' | 'Cadent', number> 
   Angular: 1.0, // Strongest influence,
   Succedent: 0.7, // Medium influence,
   Cadent: 0.4, // Weakest influence
-};
+},
 
 /**
  * Calculate elemental effects from a planet being in a specific house
@@ -168,13 +168,13 @@ export function calculateHouseEffect(
     Earth: 0,
     Air: 0,
     Water: 0
-  };
+  },
 
   // Get house data
   const houseData = HOUSE_DATA[house];
   if (!houseData) {
     debugLog(`House number ${house} not found in house data`)
-    return effects;
+    return effects,
   }
 
   // Get sign element
@@ -185,7 +185,7 @@ export function calculateHouseEffect(
   const houseStrength = HOUSE_STRENGTH[houseData.nature];
 
   // Add house-based effect
-  effects[houseElement] += houseStrength;
+  effects[houseElement] += houseStrength,
 
   // Add synergy effect if sign element matches house element
   if (signElement === houseElement) {
@@ -212,7 +212,7 @@ export function calculateHouseEffect(
     debugLog(`Ruling planet bonus for ${planet} in house ${house}: +0.7 to ${signElement}`)
   }
 
-  return effects;
+  return effects,
 }
 
 /**
@@ -231,7 +231,7 @@ export function calculateAllHouseEffects(
     Earth: 0,
     Air: 0,
     Water: 0
-  };
+  },
 
   debugLog(`Calculating house effects for ${Object.keys(planetPositions).length} planets`)
 
@@ -240,7 +240,7 @@ export function calculateAllHouseEffects(
     // Skip if house is not defined
     if (!position.house) {
       debugLog(`House not defined for ${planet}, skipping`)
-      continue;
+      continue,
     }
 
     const house = position.house;
@@ -251,10 +251,10 @@ export function calculateAllHouseEffects(
 
     // Add to total effects
     for (const element in houseEffects) {
-      totalEffects[element as ElementalCharacter] += houseEffects[element as ElementalCharacter];
+      totalEffects[element as ElementalCharacter] += houseEffects[element as ElementalCharacter],
     }
   }
 
   debugLog(`House effects calculation complete. _Results:`, totalEffects)
-  return totalEffects;
+  return totalEffects,
 }

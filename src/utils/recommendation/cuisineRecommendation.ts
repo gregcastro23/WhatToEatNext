@@ -11,8 +11,8 @@ export interface CuisineRecommendation {
 }
 
 export interface CuisineRecommendationParams {
-  elementalProperties: ElementalProperties;
-  preferences?: string[];
+  elementalProperties: ElementalProperties,
+  preferences?: string[],
   dietaryRestrictions?: string[]
 }
 
@@ -75,24 +75,24 @@ export function getCuisineElementalProfile(_cuisine: string): ElementalPropertie
     Asian: { Fire: 0.5, Water: 0.6, Earth: 0.4, Air: 0.8 },
     _Indian: { Fire: 0.9, Water: 0.3, Earth: 0.6, Air: 0.5 },
     _Thai: { Fire: 0.7, Water: 0.7, Earth: 0.4, Air: 0.6 }
-  };
+  },
 
-  return profiles[cuisine] || { Fire: 0.5, Water: 0.5, Earth: 0.5, Air: 0.5 };
+  return profiles[cuisine] || { Fire: 0.5, Water: 0.5, Earth: 0.5, Air: 0.5 },
 }
 
 export function getMatchScoreClass(score: number): string {
-  if (score >= 0.8) return 'match-excellent';
-  if (score >= 0.6) return 'match-good';
-  if (score >= 0.4) return 'match-fair';
+  if (score >= 0.8) return 'match-excellent',
+  if (score >= 0.6) return 'match-good',
+  if (score >= 0.4) return 'match-fair',
   return 'match-poor'
 }
 
 export function renderScoreBadge(score: number): string {
   const percentage = Math.round(score * 100)
-  if (percentage >= 80) return `🌟 ${percentage}%`;
-  if (percentage >= 60) return `⭐ ${percentage}%`;
-  if (percentage >= 40) return `⚡ ${percentage}%`;
-  return `💫 ${percentage}%`;
+  if (percentage >= 80) return `🌟 ${percentage}%`,
+  if (percentage >= 60) return `⭐ ${percentage}%`,
+  if (percentage >= 40) return `⚡ ${percentage}%`,
+  return `💫 ${percentage}%`,
 }
 
 export function calculateElementalProfileFromZodiac(_zodiacSign: string): ElementalProperties {
@@ -116,7 +116,7 @@ export function calculateElementalProfileFromZodiac(_zodiacSign: string): Elemen
     _cancer: { Fire: 0.2, Water: 0.8, Earth: 0.4, Air: 0.3 },
     _scorpio: { Fire: 0.6, Water: 0.9, Earth: 0.3, Air: 0.2 },
     _pisces: { Fire: 0.3, Water: 0.8, Earth: 0.2, Air: 0.4 }
-  };
+  },
 
   return (
     zodiacProfiles[zodiacSign.toLowerCase()] || { Fire: 0.5, Water: 0.5, Earth: 0.5, Air: 0.5 }
@@ -126,7 +126,7 @@ export function calculateElementalProfileFromZodiac(_zodiacSign: string): Elemen
 export function calculateElementalContributionsFromPlanets(
   planetaryPositions: Record<string, unknown>,
 ): ElementalProperties {
-  const contributions: ElementalProperties = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+  const contributions: ElementalProperties = { Fire: 0, Water: 0, Earth: 0, Air: 0 },
 
   // Basic planetary element contributions
   const planetaryElements: Record<string, ElementalProperties> = {
@@ -137,15 +137,15 @@ export function calculateElementalContributionsFromPlanets(
     _mars: { Fire: 1.0, Water: 0, Earth: 0, Air: 0 },
     _jupiter: { Fire: 0.5, Water: 0, Earth: 0, Air: 0.5 },
     _saturn: { Fire: 0, Water: 0, Earth: 1.0, Air: 0 }
-  };
+  },
 
   Object.entries(planetaryPositions).forEach(([planet, position]) => {
     const planetElements = planetaryElements[planet.toLowerCase()];
     if (planetElements && position) {
       const strength = typeof position === 'object' && position.strength ? position.strength : 0.5;
-      contributions.Fire += planetElements.Fire * strength;
-      contributions.Water += planetElements.Water * strength;
-      contributions.Earth += planetElements.Earth * strength;
+      contributions.Fire += planetElements.Fire * strength,
+      contributions.Water += planetElements.Water * strength,
+      contributions.Earth += planetElements.Earth * strength,
       contributions.Air += planetElements.Air * strength
     }
   })
@@ -153,11 +153,11 @@ export function calculateElementalContributionsFromPlanets(
   // Normalize
   const total = contributions.Fire + contributions.Water + contributions.Earth + contributions.Air;
   if (total > 0) {
-    contributions.Fire /= total;
-    contributions.Water /= total;
-    contributions.Earth /= total;
-    contributions.Air /= total;
+    contributions.Fire /= total,
+    contributions.Water /= total,
+    contributions.Earth /= total,
+    contributions.Air /= total,
   }
 
-  return contributions;
+  return contributions,
 }

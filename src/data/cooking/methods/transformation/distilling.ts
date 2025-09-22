@@ -53,4 +53,4 @@ export const _distilling: CookingMethodData = {
     'Concentrated plant compounds can be toxic if not properly identified',
     'High proof spirits should be consumed in moderation'
   ]
-};
+},

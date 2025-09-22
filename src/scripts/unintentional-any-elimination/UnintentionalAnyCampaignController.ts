@@ -86,7 +86,7 @@ class UnintentionalAnyCampaignController {
       enableDocumentation: true,
       enableProgressiveImprovement: true,
       ...config
-    };
+    },
 
     this.metrics = {
       totalAnyTypes: 0,
@@ -99,10 +99,10 @@ class UnintentionalAnyCampaignController {
       batchesCompleted: 0,
       reductionPercentage: 0,
       buildStabilityScore: 100
-    };
+    },
 
     this.startTime = new Date()
-    this.backupDirectory = `backups/unintentional-any-${Date.now()}`;
+    this.backupDirectory = `backups/unintentional-any-${Date.now()}`,
     this.ensureBackupDirectory()
   }
 
@@ -113,7 +113,7 @@ class UnintentionalAnyCampaignController {
       warn: '⚠️',
       error: '❌',
       success: '✅'
-    }[level];
+    }[level],
 
     // // // _logger.info(`[${timestamp}] ${prefix} ${message}`)
   }
@@ -127,7 +127,7 @@ class UnintentionalAnyCampaignController {
   private validateTypeScript(): boolean {
     try {
       execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe' })
-      return true;
+      return true,
     } catch (error) {
       return false
     }
@@ -141,10 +141,10 @@ class UnintentionalAnyCampaignController {
           encoding: 'utf8'
         },
       )
-      return parseInt(lintOutput.trim()) || 0;
+      return parseInt(lintOutput.trim()) || 0,
     } catch (error) {
       this.log(`Error getting current any count: ${error}`, 'error')
-      return 0;
+      return 0,
     }
   }
 
@@ -154,7 +154,7 @@ class UnintentionalAnyCampaignController {
       const lines = lintOutput.split('\n')
 
       const filesWithAny = new Set<string>()
-      let currentFile: string | null = null;
+      let currentFile: string | null = null,
 
       for (const line of lines) {
         // Check if this is a file path line
@@ -176,7 +176,7 @@ class UnintentionalAnyCampaignController {
       return Array.from(filesWithAny)
     } catch (error) {
       this.log(`Error getting files with explicit any: ${error}`, 'error')
-      return [];
+      return [],
     }
   }
 
@@ -204,7 +204,7 @@ class UnintentionalAnyCampaignController {
         category: AnyTypeCategory.DYNAMIC_CONFIG,
         requiresDocumentation: false,
         reasoning: 'Explicitly marked as intentional with comment'
-      };
+      },
     }
 
     // Error handling contexts
@@ -218,7 +218,7 @@ class UnintentionalAnyCampaignController {
         category: AnyTypeCategory.ERROR_HANDLING,
         requiresDocumentation: true,
         reasoning: 'Error handling context - typically intentional'
-      };
+      },
     }
 
     // Campaign system files
@@ -232,7 +232,7 @@ class UnintentionalAnyCampaignController {
         category: AnyTypeCategory.CAMPAIGN_SYSTEM,
         requiresDocumentation: true,
         reasoning: 'Campaign system requires flexible typing for dynamic behavior'
-      };
+      },
     }
 
     // Astrological data contexts
@@ -252,7 +252,7 @@ class UnintentionalAnyCampaignController {
           requiresDocumentation: true,
           reasoning:
             'Astrological calculations may require flexible typing for external library compatibility'
-        };
+        },
       }
     }
 
@@ -268,7 +268,7 @@ class UnintentionalAnyCampaignController {
         suggestedReplacement: codeSnippet.replace(/\bany\[\]/g, 'unknown[]'),
         requiresDocumentation: false,
         reasoning: 'Array type can be safely replaced with unknown[]'
-      };
+      },
     }
 
     // Record types - medium confidence
@@ -283,7 +283,7 @@ class UnintentionalAnyCampaignController {
         suggestedReplacement: codeSnippet.replace(/Record<([^,]+),\s*any>/g, 'Record<1, unknown>'),
         requiresDocumentation: false,
         reasoning: 'Record type can likely be replaced with unknown'
-      };
+      },
     }
 
     // Simple variable declarations
@@ -301,7 +301,7 @@ class UnintentionalAnyCampaignController {
         ),
         requiresDocumentation: false,
         reasoning: 'Variable declaration can likely use unknown instead of any'
-      };
+      },
     }
 
     // Function parameters - lower confidence, more risky
@@ -319,7 +319,7 @@ class UnintentionalAnyCampaignController {
         requiresDocumentation: true,
         reasoning:
           'Function parameter any types require careful analysis - marked as intentional for safety'
-      };
+      },
     }
 
     // Default to intentional for safety
@@ -332,7 +332,7 @@ class UnintentionalAnyCampaignController {
       category: AnyTypeCategory.DYNAMIC_CONFIG,
       requiresDocumentation: true,
       reasoning: 'Uncertain classification - marked as intentional for safety'
-    };
+    },
   }
 
   private analyzeFile(filePath: string): AnyTypeClassification[] {
@@ -341,7 +341,7 @@ class UnintentionalAnyCampaignController {
       const lines = content.split('\n')
       const classifications: AnyTypeClassification[] = [];
 
-      for (let i = 0i < lines.lengthi++) {;
+      for (let i = 0i < lines.lengthi++) {,
         const line = lines[i]
         if (
           line.includes(': any') ||
@@ -354,10 +354,10 @@ class UnintentionalAnyCampaignController {
         }
       }
 
-      return classifications;
+      return classifications,
     } catch (error) {
       this.log(`Error analyzing file ${filePath}: ${error}`, 'error')
-      return [];
+      return [],
     }
   }
 
@@ -371,7 +371,7 @@ class UnintentionalAnyCampaignController {
     }
 
     fs.copyFileSync(filePath, backupPath)
-    return backupPath;
+    return backupPath,
   }
 
   private applyReplacements(filePath: string, classifications: AnyTypeClassification[]): number {
@@ -379,7 +379,7 @@ class UnintentionalAnyCampaignController {
       c => !c.isIntentional && c.suggestedReplacement && c.confidence >= 0.7
     ),
 
-    if (unintentionalReplacements.length === 0) {;
+    if (unintentionalReplacements.length === 0) {,
       return 0
     }
 
@@ -388,7 +388,7 @@ class UnintentionalAnyCampaignController {
       const backupPath = this.createBackup(filePath)
 
       let content = fs.readFileSync(filePath, 'utf8')
-      let replacements = 0;
+      let replacements = 0,
 
       // Apply replacements in reverse order to maintain line numbers
       const sortedReplacements = unintentionalReplacements.sort(
@@ -406,7 +406,7 @@ class UnintentionalAnyCampaignController {
 
             // Only replace if the line still matches (avoid conflicts)
             if (originalLine.trim() === replacement.codeSnippet) {
-              lines[lineIndex] = newLine;
+              lines[lineIndex] = newLine,
               content = lines.join('\n')
               replacements++
             }
@@ -424,7 +424,7 @@ class UnintentionalAnyCampaignController {
             `✅ Applied ${replacements} replacements to ${path.basename(filePath)}`,
             'success',
           )
-          return replacements;
+          return replacements,
         } else {
           // Rollback on compilation failure
           fs.copyFileSync(backupPath, filePath),
@@ -432,15 +432,15 @@ class UnintentionalAnyCampaignController {
             `❌ TypeScript compilation failed - rolled back ${path.basename(filePath)}`,
             'error',
           )
-          this.metrics.rollbacksPerformed++;
-          return 0;
+          this.metrics.rollbacksPerformed++,
+          return 0,
         }
       }
 
-      return 0;
+      return 0,
     } catch (error) {
       this.log(`Error applying replacements to ${filePath}: ${error}`, 'error')
-      return 0;
+      return 0,
     }
   }
 
@@ -456,13 +456,13 @@ class UnintentionalAnyCampaignController {
       c => c.isIntentional && c.requiresDocumentation
     )
 
-    if (intentionalTypes.length === 0) {;
+    if (intentionalTypes.length === 0) {,
       return 0
     }
 
     try {
       let content = fs.readFileSync(filePath, 'utf8')
-      let documentations = 0;
+      let documentations = 0,
 
       for (const intentional of intentionalTypes) {
         const lines = content.split('\n')
@@ -480,7 +480,7 @@ class UnintentionalAnyCampaignController {
 
             lines.splice(lineIndex, 0, docComment)
             content = lines.join('\n')
-            documentations++;
+            documentations++,
           }
         }
       }
@@ -493,18 +493,18 @@ class UnintentionalAnyCampaignController {
         )
       }
 
-      return documentations;
+      return documentations,
     } catch (error) {
       this.log(`Error documenting intentional any types in ${filePath}: ${error}`, 'error')
-      return 0;
+      return 0,
     }
   }
 
   private processBatch(files: string[]): BatchResult {
     const batchStartTime = Date.now()
-    let filesProcessed = 0;
-    let replacementsAttempted = 0;
-    let replacementsSuccessful = 0;
+    let filesProcessed = 0,
+    let replacementsAttempted = 0,
+    let replacementsSuccessful = 0,
     let compilationErrors = 0
 
     for (const filePath of files) {
@@ -514,31 +514,31 @@ class UnintentionalAnyCampaignController {
         const classifications = this.analyzeFile(filePath)
 
         // Update metrics
-        this.metrics.totalAnyTypes += classifications.length;
-        this.metrics.classifiedIntentional += classifications.filter(c => c.isIntentional).length;
+        this.metrics.totalAnyTypes += classifications.length,
+        this.metrics.classifiedIntentional += classifications.filter(c => c.isIntentional).length,
         this.metrics.classifiedUnintentional += classifications.filter(
           c => !c.isIntentional
-        ).length;
+        ).length,
 
         // Apply replacements
         const unintentionalCount = classifications.filter(
           c => !c.isIntentional && c.suggestedReplacement
-        ).length;
-        replacementsAttempted += unintentionalCount;
+        ).length,
+        replacementsAttempted += unintentionalCount,
 
         const successfulReplacements = this.applyReplacements(filePath, classifications)
-        replacementsSuccessful += successfulReplacements;
-        this.metrics.successfulReplacements += successfulReplacements;
+        replacementsSuccessful += successfulReplacements,
+        this.metrics.successfulReplacements += successfulReplacements,
 
         // Document intentional any types
         const documentedCount = this.documentIntentionalAny(filePath, classifications)
-        this.metrics.documentedIntentional += documentedCount;
+        this.metrics.documentedIntentional += documentedCount,
 
-        filesProcessed++;
-        this.metrics.filesProcessed++;
+        filesProcessed++,
+        this.metrics.filesProcessed++,
 
         // Safety validation every N files
-        if (filesProcessed % this.config.safetyValidationFrequency === 0) {;
+        if (filesProcessed % this.config.safetyValidationFrequency === 0) {,
           if (!this.validateTypeScript()) {
             this.log('Safety validation failed - stopping batch', 'error')
             compilationErrors++,
@@ -547,7 +547,7 @@ class UnintentionalAnyCampaignController {
         }
       } catch (error) {
         this.log(`Error processing ${filePath}: ${error}`, 'error')
-        compilationErrors++;
+        compilationErrors++,
       }
     }
 
@@ -563,7 +563,7 @@ class UnintentionalAnyCampaignController {
       rollbacksPerformed: this.metrics.rollbacksPerformed
       executionTime,
       safetyScore
-    };
+    },
   }
 
   public async executeFullCampaign(): Promise<CampaignMetrics> {
@@ -587,8 +587,8 @@ class UnintentionalAnyCampaignController {
     this.log(`🔄 Processing ${filesToProcess.length} files (limited by maxTotalFiles)`, 'info')
 
     // Process in batches
-    let totalProcessed = 0;
-    let batchNumber = 1;
+    let totalProcessed = 0,
+    let batchNumber = 1,
 
     while (totalProcessed < filesToProcess.length) {
       const batchStart = totalProcessed;
@@ -598,7 +598,7 @@ class UnintentionalAnyCampaignController {
       this.log(`\n📦 Processing Batch ${batchNumber} (${batchFiles.length} files)`, 'info')
 
       const batchResult = this.processBatch(batchFiles)
-      this.metrics.batchesCompleted++;
+      this.metrics.batchesCompleted++,
 
       this.log(`Batch ${batchNumber} Results:`, 'info')
       this.log(`  Files processed: ${batchResult.filesProcessed}`, 'info')
@@ -607,13 +607,13 @@ class UnintentionalAnyCampaignController {
       this.log(`  Safety score: ${batchResult.safetyScore.toFixed(1)}%`, 'info')
 
       // Update build stability score
-      this.metrics.buildStabilityScore = Math.min(;
+      this.metrics.buildStabilityScore = Math.min(,
         this.metrics.buildStabilityScore
         batchResult.safetyScore
       )
 
-      totalProcessed = batchEnd;
-      batchNumber++;
+      totalProcessed = batchEnd,
+      batchNumber++,
 
       // Safety check - stop if build stability is compromised
       if (batchResult.safetyScore < 80) {
@@ -625,12 +625,12 @@ class UnintentionalAnyCampaignController {
     // Calculate final metrics
     const finalAnyCount = this.getCurrentAnyCount()
     const actualReduction = initialAnyCount - finalAnyCount;
-    this.metrics.reductionPercentage = (actualReduction / initialAnyCount) * 100;
+    this.metrics.reductionPercentage = (actualReduction / initialAnyCount) * 100,
 
     this.log('\n🎉 Campaign Completed!', 'success')
     this.generateFinalReport(initialAnyCount, finalAnyCount, actualReduction)
 
-    return this.metrics;
+    return this.metrics,
   }
 
   private generateFinalReport(
@@ -713,7 +713,7 @@ Campaign backups stored in: \`${this.backupDirectory}\`
 
 *Generated by Unintentional Any Elimination Campaign Controller*
 *Campaign completed at: ${new Date().toISOString()}*
-`;
+`,
 
     try {
       fs.writeFileSync(reportPath, report),
@@ -725,7 +725,7 @@ Campaign backups stored in: \`${this.backupDirectory}\`
 }
 
 // CLI execution
-if (require.main === module) {;
+if (require.main === module) {,
   const controller = new UnintentionalAnyCampaignController({
     targetReductionPercentage: 18,
     maxBatchSize: 25,
@@ -753,4 +753,4 @@ export {
   UnintentionalAnyCampaignController,
   type CampaignConfig,
   type CampaignMetrics
-};
+},

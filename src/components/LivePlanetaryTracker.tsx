@@ -13,13 +13,13 @@ import { getPlanetaryInfluencers } from '@/calculations/elementalcalculations';
 import { logger } from '@/lib/logger';
 
 interface PlanetaryDisplayData {
-  planet: string;
-  influence: number;
-  timeRemaining: string;
-  energyType: string;
-  recommendations: string[];
-  color: string;
-  icon: string;
+  planet: string,
+  influence: number,
+  timeRemaining: string,
+  energyType: string,
+  recommendations: string[],
+  color: string,
+  icon: string,
 }
 
 const PLANETARY_DATA = {
@@ -30,7 +30,7 @@ const PLANETARY_DATA = {
   Jupiter: { color: 'from-purple-500 to-blue-600', icon: '♃', energyType: 'Expansion & Wisdom' },
   Venus: { color: 'from-pink-400 to-rose-500', icon: '♀', energyType: 'Love & Beauty' },
   Saturn: { color: 'from-gray-600 to-blue-800', icon: '♄', energyType: 'Structure & Discipline' }
-};
+},
 
 export const LivePlanetaryTracker: React.FC = () => {
   const { isConnected, lastPlanetaryHour, lastEnergyUpdate } = useAlchmWebSocket()
@@ -53,7 +53,7 @@ export const LivePlanetaryTracker: React.FC = () => {
       const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000)
 
       const planetData = PLANETARY_DATA[influence.dominantPlanet as keyof typeof PLANETARY_DATA] ||
-                        PLANETARY_DATA.Sun;
+                        PLANETARY_DATA.Sun,
 
       setPlanetaryData({
         planet: influence.dominantPlanet,
@@ -70,7 +70,7 @@ export const LivePlanetaryTracker: React.FC = () => {
       logger.error('Error updating planetary display', error)
       setIsLoading(false)
     }
-  };
+  },
 
   // Generate contextual recommendations based on current planetary influence
   const generateRecommendations = (planet: string): string[] => {
@@ -82,10 +82,10 @@ export const LivePlanetaryTracker: React.FC = () => {
       Jupiter: ['Rich, abundant meals', 'Purple foods', 'Celebration-worthy dishes'],
       Venus: ['Sweet desserts', 'Beautiful plated foods', 'Rose or floral ingredients'],
       Saturn: ['Slow-cooked stews', 'Root vegetables', 'Traditional comfort foods']
-    };
+    },
 
-    return recommendations[planet] || recommendations.Sun;
-  };
+    return recommendations[planet] || recommendations.Sun,
+  },
 
   // Real-time updates
   useEffect(() => {
@@ -239,6 +239,6 @@ export const LivePlanetaryTracker: React.FC = () => {
       </div>
     </div>
   )
-};
+},
 
-export default LivePlanetaryTracker;
+export default LivePlanetaryTracker,

@@ -11,16 +11,16 @@ import { CookingMethod, ElementType, LunarPhase, Planet, Season, ZodiacSign } fr
 // Import LunarPhase as type from constants.ts
 
 // Define types directly since they're not exported from constants
-type Element = 'Fire' | 'Water' | 'Earth' | 'Air';
-type PlanetName = 'Sun' | 'Moon' | 'Mercury' | 'Venus' | 'Mars' | 'Jupiter' | 'Saturn';
+type Element = 'Fire' | 'Water' | 'Earth' | 'Air',
+type PlanetName = 'Sun' | 'Moon' | 'Mercury' | 'Venus' | 'Mars' | 'Jupiter' | 'Saturn',
 
 // Define necessary types directly if they're not available for import
 // Define a simplified AstrologicalState type
 export interface AstrologicalState {
-  currentZodiac?: string;
-  sunSign?: string;
-  moonPhase?: string;
-  lunarPhase?: string;
+  currentZodiac?: string,
+  sunSign?: string,
+  moonPhase?: string,
+  lunarPhase?: string,
   activePlanets?: string[]
   [key: string]: unknown
 }
@@ -36,8 +36,8 @@ export interface ElementalProperties {
 
 // Define basic Recipe and RecipeIngredient types
 export interface RecipeIngredient {
-  name: string;
-  amount?: number | string;
+  name: string,
+  amount?: number | string,
   unit?: string
   [key: string]: unknown
 }
@@ -69,7 +69,7 @@ export type {
   CookingMethod,
   ElementType as Element,
   Planet as PlanetName
-};
+},
 
 // Type conversion utilities
 
@@ -90,5 +90,5 @@ export function toSeason(value: string | string[]): Season | Season[] {
   if (Array.isArray(value)) {
     return value.map(v => v as Season)
   }
-  return value as Season;
+  return value as Season,
 }

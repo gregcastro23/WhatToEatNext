@@ -40,6 +40,6 @@ const rawChia: Record<string, Partial<IngredientMapping>> = {
       toAvoid: ['high-acid marinades that might break down the gel structure']
     }
   }
-};
+},
 
 export const chia: Record<string, IngredientMapping> = fixIngredientMappings(rawChia)

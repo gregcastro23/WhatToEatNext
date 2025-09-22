@@ -1831,7 +1831,7 @@ const rawPoultry = {
       }
     }
   }
-};
+},
 
 // Fix the ingredient mappings to ensure they have all required properties
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
@@ -1842,4 +1842,4 @@ export const poultry: Record<string, IngredientMapping> = fixIngredientMappings(
 // Create a collection of all poultry items
 export const _allPoultry = Object.values(poultry)
 
-export default poultry;
+export default poultry,

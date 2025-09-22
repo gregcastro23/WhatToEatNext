@@ -1,7 +1,7 @@
 import type {
     EnhancedRecommendationContext,
     EnhancedRecommendationResult
-} from '@/services/EnhancedRecommendationService';
+} from '@/services/EnhancedRecommendationService',
 import { enhancedRecommendationService } from '@/services/EnhancedRecommendationService';
 import { kitchenBackendClient } from '@/services/KitchenBackendClient';
 import type { CuisineType } from '@/types/constants';
@@ -25,16 +25,16 @@ export function useEnhancedRecommendations(initial?: EnhancedRecommendationConte
         location: context?.location ?? initial?.location,
         preferences: context?.preferences ?? initial?.preferences,
         useBackendInfluence: context?.useBackendInfluence ?? initial?.useBackendInfluence ?? true,
-      };
+      },
       const backendFirst = await kitchenBackendClient.getCuisineRecommendations(payload)
       const data = backendFirst || (await enhancedRecommendationService.getEnhancedCuisineRecommendations(payload))
       setCuisines(data)
       setLoading(false)
-      return data;
+      return data,
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
       setLoading(false)
-      throw err;
+      throw err,
     }
   }, [initial?.datetime, initial?.location, initial?.preferences, initial?.useBackendInfluence])
 
@@ -47,16 +47,16 @@ export function useEnhancedRecommendations(initial?: EnhancedRecommendationConte
         location: context?.location ?? initial?.location,
         preferences: context?.preferences ?? initial?.preferences,
         useBackendInfluence: context?.useBackendInfluence ?? initial?.useBackendInfluence ?? true,
-      };
+      },
       const backendFirst = await kitchenBackendClient.getIngredientRecommendations(payload)
       const data = backendFirst || (await enhancedRecommendationService.getEnhancedIngredientRecommendations(payload))
       setIngredients(data)
       setLoading(false)
-      return data;
+      return data,
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
       setLoading(false)
-      throw err;
+      throw err,
     }
   }, [initial?.datetime, initial?.location, initial?.preferences, initial?.useBackendInfluence])
 
@@ -69,16 +69,16 @@ export function useEnhancedRecommendations(initial?: EnhancedRecommendationConte
         location: context?.location ?? initial?.location,
         preferences: context?.preferences ?? initial?.preferences,
         useBackendInfluence: context?.useBackendInfluence ?? initial?.useBackendInfluence ?? true,
-      };
+      },
       const backendFirst = await kitchenBackendClient.getRecipeRecommendations(payload)
       const data = backendFirst || (await enhancedRecommendationService.getEnhancedRecipeRecommendations(payload))
       setRecipes(data)
       setLoading(false)
-      return data;
+      return data,
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
       setLoading(false)
-      throw err;
+      throw err,
     }
   }, [initial?.datetime, initial?.location, initial?.preferences, initial?.useBackendInfluence])
 
@@ -91,7 +91,7 @@ export function useEnhancedRecommendations(initial?: EnhancedRecommendationConte
         location: context?.location ?? initial?.location,
         preferences: context?.preferences ?? initial?.preferences,
         useBackendInfluence: context?.useBackendInfluence ?? initial?.useBackendInfluence ?? true,
-      };
+      },
 
       const [cuisineData, ingredientData, recipeData] = await Promise.all([
         kitchenBackendClient.getCuisineRecommendations(payload)
@@ -107,11 +107,11 @@ export function useEnhancedRecommendations(initial?: EnhancedRecommendationConte
       setRecipes(recipeData)
       setLoading(false)
 
-      return { cuisines: cuisineData, ingredients: ingredientData, recipes: recipeData };
+      return { cuisines: cuisineData, ingredients: ingredientData, recipes: recipeData },
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
       setLoading(false)
-      throw err;
+      throw err,
     }
   }, [initial?.datetime, initial?.location, initial?.preferences, initial?.useBackendInfluence])
 
@@ -138,4 +138,4 @@ export function useEnhancedRecommendations(initial?: EnhancedRecommendationConte
   ])
 }
 
-export default useEnhancedRecommendations;
+export default useEnhancedRecommendations,

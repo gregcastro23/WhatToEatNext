@@ -31,7 +31,7 @@ export const _ELEMENTAL_PROPERTIES = {
     colors: ['brown', 'green', 'gold'],
     energy: 'stabilizing'
   }
-};
+},
 
 export const _ELEMENT_COMBINATIONS = {
   harmonious: [
@@ -44,11 +44,11 @@ export const _ELEMENT_COMBINATIONS = {
     ['Fire', 'Water'],
     ['Air', 'Earth']
   ]
-};
+},
 
 export const _ELEMENTAL_THRESHOLDS = {
   dominant: 0.4,
   significant: 0.25,
   present: 0.1,
   trace: 0.05
-};
+},

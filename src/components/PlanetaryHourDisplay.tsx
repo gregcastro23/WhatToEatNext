@@ -5,8 +5,8 @@ import { useAlchmWebSocket } from '@/hooks/useAlchmWebSocket';
 import { logger } from '@/lib/logger';
 
 interface PlanetaryHourProps {
-  showDetails?: boolean;
-  className?: string;
+  showDetails?: boolean,
+  className?: string,
 }
 
 const PLANET_COLORS = {
@@ -17,7 +17,7 @@ const PLANET_COLORS = {
   Mars: '#FF0000',
   Jupiter: '#4169E1',
   Saturn: '#8B4513',
-} as const;
+} as const,
 
 const PLANET_SYMBOLS = {
   Sun: '☉',
@@ -27,7 +27,7 @@ const PLANET_SYMBOLS = {
   Mars: '♂',
   Jupiter: '♃',
   Saturn: '♄',
-} as const;
+} as const,
 
 export function PlanetaryHourDisplay({ showDetails = true, className = '' }: PlanetaryHourProps) {
   const { isConnected, lastPlanetaryHour } = useAlchmWebSocket()
@@ -51,9 +51,9 @@ export function PlanetaryHourDisplay({ showDetails = true, className = '' }: Pla
         minute: '2-digit'
       })
     } catch {
-      return dateString;
+      return dateString,
     }
-  };
+  },
 
   const getTimeRemaining = () => {
     if (!lastPlanetaryHour?.end) return null;
@@ -62,28 +62,28 @@ export function PlanetaryHourDisplay({ showDetails = true, className = '' }: Pla
       const endTime = new Date(lastPlanetaryHour.end)
       const diff = endTime.getTime() - currentTime.getTime()
 
-      if (diff <= 0) return 'Ended';
+      if (diff <= 0) return 'Ended',
 
       const minutes = Math.floor(diff / (1000 * 60))
       const hours = Math.floor(minutes / 60)
       const remainingMinutes = minutes % 60;
 
       if (hours > 0) {
-        return `${hours}h ${remainingMinutes}m`;
+        return `${hours}h ${remainingMinutes}m`,
       }
-      return `${remainingMinutes}m`;
+      return `${remainingMinutes}m`,
     } catch {
       return null;
     }
-  };
+  },
 
   const planetColor = lastPlanetaryHour?.planet
     ? PLANET_COLORS[lastPlanetaryHour.planet]
-    : '#888';
+    : '#888',
 
   const planetSymbol = lastPlanetaryHour?.planet
     ? PLANET_SYMBOLS[lastPlanetaryHour.planet]
-    : '?';
+    : '?',
 
   return (
     <div className={`planetary-hour-display ${className}`}

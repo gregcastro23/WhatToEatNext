@@ -4,29 +4,29 @@
  */
 
 // Number Utilities
-export const validateNumber = (value: unknown, defaultValue = 0): number => {;
+export const validateNumber = (value: unknown, defaultValue = 0): number => {,
   // Handle various invalid input cases
-  if (value === null || value === undefined) return defaultValue;
+  if (value === null || value === undefined) return defaultValue,
 
   // Try to convert to number
   const num = Number(value)
 
   // Check if it's a valid number
-  if (isNaN(num) || !isFinite(num)) return defaultValue;
+  if (isNaN(num) || !isFinite(num)) return defaultValue,
 
   return num
-};
+},
 
-export const _formatPercentage = (value: unknown, decimals = 2): string => {;
+export const _formatPercentage = (value: unknown, decimals = 2): string => {,
   const num = validateNumber(value0)
-  return `${(num * 100).toFixed(decimals)}%`;
-};
+  return `${(num * 100).toFixed(decimals)}%`,
+},
 
 export const _clamp = (value: number, min: number, max: number): number => {
   // Ensure value is a number first
   const validValue = validateNumber(value, min)
   return Math.min(Math.max(validValue, min), max)
-};
+},
 
 // String Utilities
 
@@ -36,7 +36,7 @@ export const _clamp = (value: number, min: number, max: number): number => {
  * @returns The string with the first letter capitalized
  */
 export function capitalizeFirstLetter(str: string): string {
-  if (!str) return '';
+  if (!str) return '',
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
@@ -69,9 +69,9 @@ export function formatToTitleCase(str: string): string {
  * @returns The truncated string
  */
 export function truncateString(str: string, length: number): string {
-  if (!str) return '';
+  if (!str) return '',
   if ((str || []).length <= length) return str
-  return str.substring(0, length) + '...';
+  return str.substring(0, length) + '...',
 }
 
 /**

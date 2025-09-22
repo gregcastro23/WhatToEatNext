@@ -12,7 +12,7 @@ import {
   IngredientSearchCriteria,
   PlanetName,
   Season
-} from '@/types/alchemy';
+} from '@/types/alchemy',
 
 import {
   EnhancedIngredient,
@@ -20,25 +20,25 @@ import {
   searchIngredients,
   getIngredientsByCategory,
   generateIngredientRecommendations
-} from '../../data/unified/enhancedIngredients';
+} from '../../data/unified/enhancedIngredients',
 import {
   UnifiedFlavorProfile,
   unifiedFlavorProfileSystem,
   getFlavorProfile
-} from '../../data/unified/flavorProfiles';
+} from '../../data/unified/flavorProfiles',
 import {
   createElementalProperties,
   calculateElementalCompatibility
-} from '../../utils/elemental/elementalUtils';
+} from '../../utils/elemental/elementalUtils',
 
 /**
  * Interface for the UnifiedDataAdapter
  */
 export interface UnifiedDataAdapterInterface {
   // Ingredient operations
-  getIngredient(name: string): EnhancedIngredient | undefined;
-  getIngredientsByCategory(category: string): EnhancedIngredient[];
-  searchIngredients(criteria: IngredientSearchCriteria): EnhancedIngredient[];
+  getIngredient(name: string): EnhancedIngredient | undefined,
+  getIngredientsByCategory(category: string): EnhancedIngredient[],
+  searchIngredients(criteria: IngredientSearchCriteria): EnhancedIngredient[],
   getSeasonalIngredients(season: string): EnhancedIngredient[]
 
   // Flavor profile operations
@@ -52,7 +52,7 @@ export interface UnifiedDataAdapterInterface {
   ): number
 
   // Elemental operations
-  calculateElementalCompatibility(props1: ElementalProperties, props2: ElementalProperties): number;
+  calculateElementalCompatibility(props1: ElementalProperties, props2: ElementalProperties): number,
   createElementalProperties(partialProps?: Partial<ElementalProperties>): ElementalProperties
 }
 
@@ -70,7 +70,7 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
       return getEnhancedIngredient(name)
     } catch (error) {
       _logger.error(`Error getting ingredient ${name}:`, error)
-      return undefined;
+      return undefined,
     }
   }
 
@@ -82,7 +82,7 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
       return getIngredientsByCategory(category)
     } catch (error) {
       _logger.error(`Error getting ingredients in category ${category}:`, error)
-      return [];
+      return [],
     }
   }
 
@@ -94,7 +94,7 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
       return searchIngredients(criteria as unknown)
     } catch (error) {
       _logger.error('Error searching ingredients:', error)
-      return [];
+      return [],
     }
   }
 
@@ -106,7 +106,7 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
       return getIngredientsByCategory(season)
     } catch (error) {
       _logger.error(`Error getting seasonal ingredients for ${season}:`, error)
-      return [];
+      return [],
     }
   }
 
@@ -121,7 +121,7 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
       return getFlavorProfile(id, type)
     } catch (error) {
       _logger.error(`Error getting flavor profile ${id}:`, error)
-      return undefined;
+      return undefined,
     }
   }
 
@@ -134,7 +134,7 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
   ): number {
     try {
       const result = unifiedFlavorProfileSystem.calculateFlavorCompatibility(profile1, profile2)
-      return result.compatibility;
+      return result.compatibility,
     } catch (error) {
       _logger.error('Error calculating flavor compatibility:', error)
       return 0.5; // Default moderate compatibility
@@ -167,4 +167,4 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
 // Singleton instance
 export const unifiedDataAdapter = new UnifiedDataAdapter()
 
-export default unifiedDataAdapter;
+export default unifiedDataAdapter,

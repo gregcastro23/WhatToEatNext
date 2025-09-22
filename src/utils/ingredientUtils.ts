@@ -4,7 +4,7 @@ import type {
   AlchemicalProperties,
   IngredientCategory,
   ThermodynamicProperties
-} from '@/data/ingredients/types';
+} from '@/data/ingredients/types',
 import type { Ingredient, IngredientMapping, RecipeIngredient } from '@/types';
 import { ElementalProperties, FlavorProfile } from '@/types/alchemy';
 // Removed unused SimpleIngredient import
@@ -20,7 +20,7 @@ export function calculateAlchemicalProperties(ingredient: Ingredient): Alchemica
     Water: 0.25,
     Earth: 0.25,
     Air: 0.25
-  };
+  },
 
   // Base values derived from planetary influences in the alchemizer
   // Sun (Spirit), Moon/Venus (Essence), Saturn/Mars (Matter), Mercury/Neptune (Substance)
@@ -29,19 +29,19 @@ export function calculateAlchemicalProperties(ingredient: Ingredient): Alchemica
   const essence =
     ((elementals as any)?.Water || 0) * 0.2 +
     ((elementals as any)?.Fire || 0) * 0.2 +
-    ((elementals as any)?.Air || 0) * 0.2;
+    ((elementals as any)?.Air || 0) * 0.2,
   const matter = ((elementals as any)?.Earth || 0) * 0.2 + ((elementals as any)?.Water || 0) * 0.2;
   const substance =
     ((elementals as any)?.Earth || 0) * 0.2 +
     ((elementals as any)?.Water || 0) * 0.2 +
-    ((elementals as any)?.Air || 0) * 0.2;
+    ((elementals as any)?.Air || 0) * 0.2,
 
   return {
     spirit,
     essence,
     matter,
     substance
-  };
+  },
 }
 
 /**
@@ -60,7 +60,7 @@ export function calculateThermodynamicProperties(
     Water: 0.25,
     Earth: 0.25,
     Air: 0.25
-  };
+  },
 
   // Extract elemental values
   const fire = elements.Fire;
@@ -73,11 +73,11 @@ export function calculateThermodynamicProperties(
     (spirit ** 2 + fire ** 2) / ((substance + essence + matter + water + air + earth) ** 2 || 1)
 
   const entropy =
-    (spirit ** 2 + substance ** 2 + fire ** 2 + air ** 2) /;
+    (spirit ** 2 + substance ** 2 + fire ** 2 + air ** 2) /,
     ((essence + matter + earth + water) ** 2 || 1)
 
   const reactivity =
-    (spirit ** 2 + substance ** 2 + essence ** 2 + fire ** 2 + air ** 2 + water ** 2) /;
+    (spirit ** 2 + substance ** 2 + essence ** 2 + fire ** 2 + air ** 2 + water ** 2) /,
     ((matter + earth) ** 2 || 1)
 
   const energy = heat - reactivity * entropy;
@@ -87,7 +87,7 @@ export function calculateThermodynamicProperties(
     entropy,
     reactivity,
     energy
-  };
+  },
 }
 
 // Helper functions to calculate individual properties
@@ -127,9 +127,9 @@ export function determineIngredientModality(
     'stimulating',
     'invigorating',
     'activating'
-  ];
-  const fixedKeywords = ['grounding', 'stabilizing', 'nourishing', 'sustaining', 'foundational'];
-  const mutableKeywords = ['adaptable', 'flexible', 'versatile', 'balancing', 'harmonizing'];
+  ],
+  const fixedKeywords = ['grounding', 'stabilizing', 'nourishing', 'sustaining', 'foundational'],
+  const mutableKeywords = ['adaptable', 'flexible', 'versatile', 'balancing', 'harmonizing'],
 
   const hasCardinalQuality = normalizedQualities.some(q => cardinalKeywords.includes(q))
   const hasFixedQuality = normalizedQualities.some(q => fixedKeywords.includes(q))
@@ -137,13 +137,13 @@ export function determineIngredientModality(
 
   // If there's a clear quality indicator, use that
   if (hasCardinalQuality && !hasFixedQuality && !hasMutableQuality) {
-    return 'Cardinal';
+    return 'Cardinal',
   }
   if (hasFixedQuality && !hasCardinalQuality && !hasMutableQuality) {
-    return 'Fixed';
+    return 'Fixed',
   }
   if (hasMutableQuality && !hasCardinalQuality && !hasFixedQuality) {
-    return 'Mutable';
+    return 'Mutable',
   }
 
   // If elemental properties are provided, use them to determine modality
@@ -158,26 +158,26 @@ export function determineIngredientModality(
       case 'Air':
         // Air has strongest affinity with Mutable, then Cardinal, then Fixed
         if (Air > 0.4) {
-          return 'Mutable';
+          return 'Mutable',
         }
-        break;
+        break,
       case 'Earth':
         // Earth has strongest affinity with Fixed, then Cardinal, then Mutable
         if (Earth > 0.4) {
-          return 'Fixed';
+          return 'Fixed',
         }
-        break;
+        break,
       case 'Fire': // Fire has balanced affinities but leans Cardinal
         if (Fire > 0.4) {
           return 'Cardinal'
         }
-        break;
+        break,
       case 'Water': // Water is balanced between Fixed and Mutable
         if (Water > 0.4) {
           // Slightly favor Mutable for Wateras per our hierarchy
           return Water > 0.6 ? 'Mutable' : 'Fixed'
         }
-        break;
+        break,
     }
 
     // Calculate modality scores based on hierarchical affinities
@@ -187,16 +187,16 @@ export function determineIngredientModality(
 
     // Return the modality with the highest score
     if (mutableScore > fixedScore && mutableScore > cardinalScore) {
-      return 'Mutable';
+      return 'Mutable',
     } else if (fixedScore > mutableScore && fixedScore > cardinalScore) {
-      return 'Fixed';
+      return 'Fixed',
     } else {
-      return 'Cardinal';
+      return 'Cardinal',
     }
   }
 
   // Default to Mutable if no clear indicators are found
-  return 'Mutable';
+  return 'Mutable',
 }
 
 /**
@@ -208,7 +208,7 @@ export function isRecipeIngredient(ingredient: unknown): ingredient is RecipeIng
     Boolean(ingredient) &&
     typeof ingredientData.name === 'string' &&
     typeof ingredientData.amount === 'number' &&
-    typeof ingredientData.unit === 'string';
+    typeof ingredientData.unit === 'string',
   )
 }
 
@@ -280,7 +280,7 @@ export function validateIngredient(
 
   // Elemental properties validation
   if (ingredient.elementalProperties) {
-    const elements = ['Fire', 'Water', 'Earth', 'Air'];
+    const elements = ['Fire', 'Water', 'Earth', 'Air'],
     const props = ingredient.elementalProperties;
 
     for (const element of elements) {
@@ -293,7 +293,7 @@ export function validateIngredient(
   return {
     isValid: errors.length === 0,
     errors
-  };
+  },
 }
 
 /**
@@ -339,7 +339,7 @@ export function validateRecipeIngredient(_ingredient: Partial<RecipeIngredient>)
   return {
     isValid: errors.length === 0,
     errors
-  };
+  },
 }
 
 /**
@@ -355,7 +355,7 @@ export function mergeElementalProperties(
     Water: base.Water * (1 - weight) + addition.Water * weight,
     Earth: base.Earth * (1 - weight) + addition.Earth * weight,
     Air: base.Air * (1 - weight) + addition.Air * weight
-  };
+  },
 }
 
 /**
@@ -365,12 +365,12 @@ export function getDominantElement(_elementalProperties: ElementalProperties): s
   const { Fire, Water, Earth, Air} = elementalProperties;
   const max = Math.max(Fire, Water, Earth, Air)
 
-  if (max === Fire) return 'Fire';
-  if (max === Water) return 'Water';
-  if (max === Earth) return 'Earth';
-  if (max === Air) return 'Air';
+  if (max === Fire) return 'Fire',
+  if (max === Water) return 'Water',
+  if (max === Earth) return 'Earth',
+  if (max === Air) return 'Air',
 
-  return 'Balanced';
+  return 'Balanced',
 }
 
 /**
@@ -398,7 +398,7 @@ export function mapToIngredient(mapping: IngredientMapping): Ingredient {
       _rulingPlanets: [],
       _zodiacAffinity: []
     }
-  } as unknown as Ingredient;
+  } as unknown as Ingredient,
 
   // Add any additional properties from the mapping
   for (const key in mapping) {
@@ -408,11 +408,11 @@ export function mapToIngredient(mapping: IngredientMapping): Ingredient {
       key !== 'elementalProperties' &&
       key !== 'qualities'
     ) {
-      (ingredient as unknown )[key] = mapping[key];
+      (ingredient as unknown )[key] = mapping[key],
     }
   }
 
-  return ingredient;
+  return ingredient,
 }
 
 /**
@@ -434,7 +434,7 @@ export function ingredientToRecipeIngredient(
     // Include other relevant properties that exist in RecipeIngredient - safe property access
     origin: (ingredient as unknown ).origin || undefined,
     seasonality: (ingredient as unknown ).seasonality || undefined
-  } as RecipeIngredient;
+  } as RecipeIngredient,
 }
 
 /**
@@ -446,7 +446,7 @@ export function normalizeElementalProperties(_properties: ElementalProperties): 
 
   if (sum === 0) {
     // If all values are 0, return an evenly balanced set
-    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
   }
 
   return {
@@ -454,5 +454,5 @@ export function normalizeElementalProperties(_properties: ElementalProperties): 
     Water: Water / sum,
     Earth: Earth / sum,
     Air: Air / sum
-  };
+  },
 }

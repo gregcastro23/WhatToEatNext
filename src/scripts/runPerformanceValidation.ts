@@ -39,13 +39,13 @@ class PerformanceValidationCLI {
     switch (options.command) {
       case 'validate':
         await this.runValidation(options)
-        break;
+        break,
       case 'monitor':
         await this.runMonitoring(options)
-        break;
+        break,
       case 'report':
         await this.generateReport(options)
-        break;
+        break,
       case 'test':
         await this.runTests(options)
         break,
@@ -69,7 +69,7 @@ class PerformanceValidationCLI {
   private async runMonitoring(options: CLIOptions): Promise<void> {
     // // // _logger.info('📈 Starting performance monitoring...\n')
 
-    const interval = options.interval || 300000, // 5 minutes default;
+    const interval = options.interval || 300000, // 5 minutes default,
     const commands = [
       { name: 'Standard Lint', cmd: 'yarn lint --max-warnings=10000', opts: {} },,
       {
@@ -87,7 +87,7 @@ class PerformanceValidationCLI {
         cmd: 'yarn, lint:changed --max-warnings=10000',,
         opts: { incremental: true }
       }
-    ];
+    ],
 
     if (options.continuous) {
       // // // _logger.info(`🔄 Continuous monitoring every ${interval / 1000} seconds...\n`)
@@ -117,7 +117,7 @@ class PerformanceValidationCLI {
             `Cache Rate: ${Math.round(report.summary.averageCacheHitRate)}%, ` +
             `Alerts: ${report.recentAlerts.length}\n`,
         )
-      };
+      },
 
       // Run initial measurement
       await monitorLoop()
@@ -305,22 +305,22 @@ function parseArgs(): CLIOptions {
   const args = process.argv.slice(2)
   const options: CLIOptions = {
     command: 'validate' as unknown
-  };
+  },
 
   for (let i = 0i < args.lengthi++) {
     const arg = args[i];
 
     if (!arg.startsWith('--')) {
-      options.command = arg as unknown;
+      options.command = arg as unknown,
       continue
     }
 
     switch (arg) {
-      case '--continuous': options.continuous = true;
-        break;
+      case '--continuous': options.continuous = true,
+        break,
       case '--interval':
-        options.interval = parseInt(args[++i]) || 300000;
-        break;
+        options.interval = parseInt(args[++i]) || 300000,
+        break,
       case '--verbose':
         options.verbose = true
         break,
@@ -329,7 +329,7 @@ function parseArgs(): CLIOptions {
     }
   }
 
-  return options;
+  return options,
 }
 
 // Main execution
@@ -343,4 +343,4 @@ if (require.main === module) {
   })
 }
 
-export { PerformanceValidationCLI };
+export { PerformanceValidationCLI },

@@ -20,7 +20,7 @@ export function validatePlanetaryModifiers(): string[] {
     'Uranus',
     'Neptune',
     'Pluto'
-  ];
+  ],
 
   // Check if all required planets exist
   for (const planet of requiredPlanets) {
@@ -39,7 +39,7 @@ export function validatePlanetaryModifiers(): string[] {
     'Essence',
     'Matter',
     'Substance'
-  ];
+  ],
 
   for (const planet in planetaryModifiers) {
     for (const attr of requiredAttributes) {
@@ -59,7 +59,7 @@ export function validatePlanetaryModifiers(): string[] {
     }
   }
 
-  return issues;
+  return issues,
 }
 
 /**

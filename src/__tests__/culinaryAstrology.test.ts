@@ -2,7 +2,7 @@
 import { CulinaryAstrologer } from '@/calculations/culinaryAstrology';
 import { AstrologicalState } from '@/types/alchemy';
 
-// Mock the getRecipeRecommendations method;
+// Mock the getRecipeRecommendations method,
 jest.mock('@/calculations/culinaryAstrology', () => {
   const original = jest.requireActual('@/calculations/culinaryAstrology')
   return {
@@ -22,7 +22,7 @@ jest.mock('@/calculations/culinaryAstrology', () => {
             elementDistribution: { Fire: 0.6, Earth: 0.3, Air: 0.1, Water: 0 },
             planetaryActivators: ['Sun', 'Saturn']
           }
-        ];
+        ],
       }
 
       getGuidance(): any {
@@ -39,14 +39,14 @@ jest.mock('@/calculations/culinaryAstrology', () => {
             pairingTip: 'Combine with Air-dominant preparations'
           },
           cuisineRecommendation: { style: 'Mediterranean', modification: 'Use more spices', astrologicalBoost: 0.75 }
-        };
+        },
       }
     }
-  };
+  },
 })
 
 describe('CulinaryAstrologer', () => {
-  let astrologer: CulinaryAstrologer;
+  let astrologer: CulinaryAstrologer,
 
   beforeEach(() => {
     astrologer = new CulinaryAstrologer()
@@ -65,7 +65,7 @@ describe('CulinaryAstrologer', () => {
       aspects: [],
       tarotElementBoosts: { Fire: 0.2, Water: 0.1, Air: 0, Earth: 0 },
       tarotPlanetaryBoosts: { Sun: 0.2, Moon: 0.1 }
-    };
+    },
 
     const recommendations: any = astrologer.getRecipeRecommendations(astroState)
 

@@ -9,35 +9,35 @@ interface PlanetaryAspect {
 }
 
 export interface ChartData {
-  planetaryPositions: Record<string, unknown>;
-  ascendant?: string;
+  planetaryPositions: Record<string, unknown>,
+  ascendant?: string,
   midheaven?: string
   planets: Record<
     string,
     {
       sign: string,
       degree: number,
-      isRetrograde?: boolean;
+      isRetrograde?: boolean,
       exactLongitude?: number
     }
-  >;
+  >,
   houses?: Record<
     number,
     {
       sign: string,
       degree: number
     }
-  >;
+  >,
 }
 
 export interface CurrentChart {
-  planetaryPositions: Record<string, unknown>;
+  planetaryPositions: Record<string, unknown>,
   aspects: PlanetaryAspect[],
   currentSeason: string,
   lastUpdated: Date,
-  stelliums: Record<string, string[]>;
-  houseEffects: Record<string, number>;
-  elementalEffects?: Record<string, number>;
+  stelliums: Record<string, string[]>,
+  houseEffects: Record<string, number>,
+  elementalEffects?: Record<string, number>,
 }
 
 export interface ChartContextType {
@@ -46,8 +46,8 @@ export interface ChartContextType {
   error: string | null,
   refreshChart: () => Promise<void>,
   createChartSvg: () => {
-    planetPositions: Record<string, unknown>;
+    planetPositions: Record<string, unknown>,
     ascendantSign: string,
     svgContent: string
-  };
+  },
 }

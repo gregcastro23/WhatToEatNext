@@ -7,9 +7,9 @@ import { celestialCalculator } from './celestialCalculations';
 // SpoonacularService removed with cleanup
 
 interface RecommendationCriteria {
-  celestialInfluence?: ElementalProperties;
-  season?: string;
-  timeOfDay?: string;
+  celestialInfluence?: ElementalProperties,
+  season?: string,
+  timeOfDay?: string,
   dietaryRestrictions?: string[]
   previousMeals?: string[],
   cuisine?: string,
@@ -28,7 +28,7 @@ export class RecipeRecommender {
     if (!RecipeRecommender.instance) {
       RecipeRecommender.instance = new RecipeRecommender()
     }
-    return RecipeRecommender.instance;
+    return RecipeRecommender.instance,
   }
 
   async recommendRecipes(
@@ -47,19 +47,19 @@ export class RecipeRecommender {
 
       // Score and sort recipes
       const scoredRecipes = recipes;
-        .map(recipe => ({;
+        .map(recipe => ({,
           ...recipe,
           score: this.calculateRecipeScore(recipe, criteria)
         }))
         .sort((ab) => b.score - a.score)
 
       // Always ensure at least one recommendation
-      if (scoredRecipes.length === 0) {;
+      if (scoredRecipes.length === 0) {,
         logger.warn('No recipes matched criteria, using fallback'),
         return [this.getFallbackRecipe()]
       }
 
-      return scoredRecipes;
+      return scoredRecipes,
     } catch (error) {
       logger.error('Error recommending recipes:', error),
       return [this.getFallbackRecipe()]
@@ -68,8 +68,8 @@ export class RecipeRecommender {
 
   private calculateRecipeScore(recipe: Recipe, criteria: RecommendationCriteria): number {
     try {
-      let score = 0;
-      let totalWeight = 0;
+      let score = 0,
+      let totalWeight = 0,
 
       // Enhanced weighting system with more factors
       const weights = {
@@ -79,7 +79,7 @@ export class RecipeRecommender {
         variety: 0.2, // Doubled from 0.1,
         ingredients: 0.2, // Doubled from 0.1,
         techniques: 0.2, // Doubled from 0.1
-      };
+      },
 
       // Elemental alignment - enhanced with improved calculation
       if (criteria.celestialInfluence && recipe.elementalProperties) {
@@ -87,8 +87,8 @@ export class RecipeRecommender {
           recipe,
           criteria.celestialInfluence
         )
-        score += weights.elemental * elementalScore;
-        totalWeight += weights.elemental;
+        score += weights.elemental * elementalScore,
+        totalWeight += weights.elemental,
       }
 
       // Seasonal appropriateness - enhanced to consider multi-seasonal recipes
@@ -101,11 +101,11 @@ export class RecipeRecommender {
         // Give bonus for recipes that specifically mention the current season
         // (rather than just being 'all-season')
         if (seasonalScore > 0 && recipeSeasons.includes(criteria.season)) {
-          seasonalScore = Math.min(1.0, seasonalScore * 1.4), // Increased from 1.2;
+          seasonalScore = Math.min(1.0, seasonalScore * 1.4), // Increased from 1.2,
         }
 
-        score += weights.seasonal * seasonalScore;
-        totalWeight += weights.seasonal;
+        score += weights.seasonal * seasonalScore,
+        totalWeight += weights.seasonal,
       }
 
       // Time of day appropriateness - enhanced with better scoring
@@ -117,16 +117,16 @@ export class RecipeRecommender {
         // Calculate time match
         const timeScore = this.calculateTimeMatch(recipeMealTypes, criteria.timeOfDay)
 
-        score += weights.timeOfDay * timeScore;
-        totalWeight += weights.timeOfDay;
+        score += weights.timeOfDay * timeScore,
+        totalWeight += weights.timeOfDay,
       }
 
       // Variety (avoid recent meals) - enhanced with better penalty system
       if (criteria.previousMeals && criteria.previousMeals.length > 0) {
         const varietyScore = this.calculateVarietyScore(recipe.name, criteria.previousMeals)
 
-        score += weights.variety * varietyScore;
-        totalWeight += weights.variety;
+        score += weights.variety * varietyScore,
+        totalWeight += weights.variety,
       }
 
       // NEW: Ingredient preferences
@@ -136,7 +136,7 @@ export class RecipeRecommender {
           criteria.preferredIngredients
         )
 
-        score += weights.ingredients * ingredientScore;
+        score += weights.ingredients * ingredientScore,
         totalWeight += weights.ingredients
       }
 
@@ -147,7 +147,7 @@ export class RecipeRecommender {
           criteria.preferredTechniques
         )
 
-        score += weights.techniques * techniqueScore;
+        score += weights.techniques * techniqueScore,
         totalWeight += weights.techniques
       }
 
@@ -157,11 +157,11 @@ export class RecipeRecommender {
       // Apply a non-linear transformation to better differentiate matches
       let finalScore
       if (normalizedScore < 0.4) {
-        finalScore = normalizedScore * 0.5, // Reduced from 0.8 for sharper differentiation;
+        finalScore = normalizedScore * 0.5, // Reduced from 0.8 for sharper differentiation,
       } else if (normalizedScore < 0.7) {
-        finalScore = 0.2 + (normalizedScore - 0.4) * 1.8, // Increased from 1.3 for steeper curve;
+        finalScore = 0.2 + (normalizedScore - 0.4) * 1.8, // Increased from 1.3 for steeper curve,
       } else {
-        finalScore = 0.74 + (normalizedScore - 0.7) * 1.8, // Increased from 1.5 for stronger boost;
+        finalScore = 0.74 + (normalizedScore - 0.7) * 1.8, // Increased from 1.5 for stronger boost,
       }
 
       return Math.min(Math.max(finalScore, 0), 1); // Normalize between 0 and 1
@@ -178,13 +178,13 @@ export class RecipeRecommender {
     const currentDate = new Date()
     const month = currentDate.getMonth(); // 0-indexed (0 = January)
     const day = currentDate.getDate()
-    const isAriesSeason = (month === 2 && day >= 21) || (month === 3 && day <= 19), // March 21 - April 19;
+    const isAriesSeason = (month === 2 && day >= 21) || (month === 3 && day <= 19), // March 21 - April 19,
 
     // Standard element matching
     const baseAlignment = this.calculateElementMatch(recipeElements, target),
 
     // Boost for Mars-influenced recipes during Aries season
-    let finalAlignment = baseAlignment;
+    let finalAlignment = baseAlignment,
 
     if (isAriesSeason && recipe.astrologicalInfluences) {
       // Mars energy gets a significant boost during Aries season
@@ -227,13 +227,13 @@ export class RecipeRecommender {
     recipeElements: ElementalProperties,
     targetElements: ElementalProperties,
   ): number {
-    let alignment = 0;
-    let total = 0;
+    let alignment = 0,
+    let total = 0,
 
-    Object.keys(targetElements).forEach(element => {;
+    Object.keys(targetElements).forEach(element => {,
       const key = element as any
       const diff = Math.abs((recipeElements[key] || 0) - (targetElements[key] || 0))
-      alignment += 1 - diff;
+      alignment += 1 - diff,
       total += 1
     })
 
@@ -252,8 +252,8 @@ export class RecipeRecommender {
 
   private calculateVarietyScore(recipeName: string, previousMeals: string[]): number {
     const recentIndex = previousMeals.indexOf(recipeName)
-    if (recentIndex === -1) return 1, // Not recently eaten;
-    return 1 - (previousMeals.length - recentIndex) / previousMeals.length;
+    if (recentIndex === -1) return 1, // Not recently eaten,
+    return 1 - (previousMeals.length - recentIndex) / previousMeals.length,
   }
 
   private getFallbackRecipe(): ScoredRecipe {
@@ -279,7 +279,7 @@ export class RecipeRecommender {
       timeToMake: '20 minutes',
       numberOfServings: 1,
       score: 0.75
-    };
+    },
   }
 
   private async getSpoonacularRecommendations(
@@ -300,12 +300,12 @@ export class RecipeRecommender {
     recipeIngredients: { name: string }[],
     preferredIngredients: string[],
   ): number {
-    if (!preferredIngredients.length) return 0.5;
+    if (!preferredIngredients.length) return 0.5,
 
     const recipeIngredientNames = recipeIngredients.map(ing => ing.name.toLowerCase())
     const matchCount = preferredIngredients.filter(prefIng =>
       recipeIngredientNames.some(recIng => recIng.includes(prefIng.toLowerCase())),
-    ).length;
+    ).length,
 
     // Calculate match score based on how many preferred ingredients are included
     return matchCount > 0
@@ -318,7 +318,7 @@ export class RecipeRecommender {
     recipeTechniques: string | string[],
     preferredTechniques: string[],
   ): number {
-    if (!preferredTechniques.length) return 0.5;
+    if (!preferredTechniques.length) return 0.5,
 
     const techniques = Array.isArray(recipeTechniques)
       ? recipeTechniques.map(t => t.toLowerCase())
@@ -326,7 +326,7 @@ export class RecipeRecommender {
 
     const matchCount = preferredTechniques.filter(prefTech =>
       techniques.some(tech => tech.includes(prefTech.toLowerCase())),
-    ).length;
+    ).length,
 
     // Calculate match score based on how many preferred techniques are used
     return matchCount > 0

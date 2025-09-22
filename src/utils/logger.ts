@@ -4,7 +4,7 @@ import { log } from '@/services/LoggingService';
  * This module provides component-specific logging capabilities and consistent formatting.
  */
 
-type LogLevel = 'debug' | 'info' | 'warn' | 'error';
+type LogLevel = 'debug' | 'info' | 'warn' | 'error',
 
 // Get environment
 const isDev = process.env.NODE_ENV !== 'production';
@@ -14,9 +14,9 @@ const _isBrowser = typeof window !== 'undefined';
  * Logger class providing centralized logging capabilities
  */
 class Logger {
-  private logLevel: LogLevel = isDev ? 'debug' : 'info';
-  private recentErrors: Array<{ message: string; timestamp: number; component?: string }> = [];
-  private readonly MAX_ERRORS = 20;
+  private logLevel: LogLevel = isDev ? 'debug' : 'info',
+  private recentErrors: Array<{ message: string; timestamp: number; component?: string }> = [],
+  private readonly MAX_ERRORS = 20,
 
   // Track components that have created loggers
   private componentLoggers: Set<string> = new Set()
@@ -72,7 +72,7 @@ class Logger {
           _logger.error(`[LOGGER-ERROR] Failed to log error for ${component}:`, e)
         }
       }
-    };
+    },
   }
 
   /**
@@ -131,9 +131,9 @@ class Logger {
       return {
         component: last.component as string,
         rest: args.slice(0, args.length - 1)
-      };
+      },
     }
-    return { rest: args };
+    return { rest: args },
   }
 
   /**
@@ -156,7 +156,7 @@ class Logger {
    * Get a summary of recent errors
    */
   getErrorSummary(): string {
-    if (this.recentErrors.length === 0) {;
+    if (this.recentErrors.length === 0) {,
       return 'No recent errors'
     }
 
@@ -164,7 +164,7 @@ class Logger {
       .map(err => {
         const date = new Date(err.timestamp).toLocaleTimeString()
         const component = err.component ? `[${err.component}]` : ''
-        return `[${date}]${component} ${err.message}`;
+        return `[${date}]${component} ${err.message}`,
       })
       .join('\n')
   }
@@ -185,22 +185,22 @@ class Logger {
       return true // Default to allowing all logs if level is undefined
     }
 
-    const levels: LogLevel[] = ['debug', 'info', 'warn', 'error'];
+    const levels: LogLevel[] = ['debug', 'info', 'warn', 'error'],
     const currentLevelIndex = levels.indexOf(this.logLevel)
     const targetLevelIndex = levels.indexOf(level)
 
-    return targetLevelIndex >= currentLevelIndex;
+    return targetLevelIndex >= currentLevelIndex,
   }
 }
 
 // Singleton instance of the logger with safe initialization
-let loggerInstance: Logger | undefined;
+let loggerInstance: Logger | undefined,
 
 export const logger = (() => {
   if (!loggerInstance) {
     loggerInstance = new Logger()
   }
-  return loggerInstance;
+  return loggerInstance,
 })()
 
 // Helper functions for creating component-specific loggers

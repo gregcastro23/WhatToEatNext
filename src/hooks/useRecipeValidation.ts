@@ -34,7 +34,7 @@ export interface ValidationSuggestion {
     type: 'add_ingredient' | 'remove_ingredient' | 'adjust_quantity' | 'change_method',
     target?: string,
     value?: unknown
-  };
+  },
 }
 
 export interface RecipeComponents {
@@ -76,13 +76,13 @@ export function useRecipeValidation() {
           (((ing as unknown as any).qualities as string[]) || []).includes('fat') ||
           ing.name.toLowerCase().includes('butter')
       )
-    };
-  };
+    },
+  },
 
   // Calculate elemental balance
   const calculateElementalBalance = (ingredients: Ingredient[]): ElementalProperties => {;
     if (ingredients.length === 0) {
-      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
     }
 
     const total = ingredients.reduce(
@@ -92,13 +92,13 @@ export function useRecipeValidation() {
           Water: 0.25,
           Earth: 0.25,
           Air: 0.25
-        };
+        },
         return {
           Fire: acc.Fire + (props.Fire || 0),
           Water: acc.Water + (props.Water || 0),
           Earth: acc.Earth + (props.Earth || 0),
           Air: acc.Air + (props.Air || 0)
-        };
+        },
       },
       { Fire: 0, Water: 0, Earth: 0, Air: 0 },
     )
@@ -109,8 +109,8 @@ export function useRecipeValidation() {
       Water: total.Water / count,
       Earth: total.Earth / count,
       Air: total.Air / count
-    };
-  };
+    },
+  },
 
   // Check for ingredient incompatibilities
   const checkIncompatibilities = (ingredients: Ingredient[]): ValidationError[] => {;
@@ -140,8 +140,8 @@ export function useRecipeValidation() {
       })
     }
 
-    return errors;
-  };
+    return errors,
+  },
 
   // Generate smart suggestions
   const generateSuggestions = (
@@ -171,11 +171,11 @@ export function useRecipeValidation() {
     // Elemental balance suggestions
     const dominantElement = Object.entries(elementalBalance).sort(
       ([, a], [, b]) => b - a,
-    )[0][0] as keyof ElementalProperties;
+    )[0][0] as keyof ElementalProperties,
 
     const _weakestElement = Object.entries(elementalBalance).sort(
       ([, a], [, b]) => a - b,
-    )[0][0] as keyof ElementalProperties;
+    )[0][0] as keyof ElementalProperties,
 
     if (elementalBalance[dominantElement] > 0.5) {
       const balancingElements = {
@@ -183,7 +183,7 @@ export function useRecipeValidation() {
         Water: 'Fire',
         Earth: 'Air',
         Air: 'Earth'
-      };
+      },
 
       suggestions.push({
         type: 'elemental_balance',
@@ -210,14 +210,14 @@ export function useRecipeValidation() {
       })
     }
 
-    return suggestions;
-  };
+    return suggestions,
+  },
 
   // Main validation function
   const validateRecipe = (
     ingredients: Ingredient[],
     cookingMethods?: string[],
-  ): ValidationResult => {;
+  ): ValidationResult => {,
     const errors: ValidationError[] = [];
     const warnings: ValidationWarning[] = [];
 
@@ -262,16 +262,16 @@ export function useRecipeValidation() {
     const suggestions = generateSuggestions(ingredients, components, elementalBalance)
 
     // Calculate overall score
-    let score = 100;
-    score -= errors.filter(e => e.severity === 'high').length * 25;
-    score -= errors.filter(e => e.severity === 'medium').length * 15;
-    score -= errors.filter(e => e.severity === 'low').length * 5;
-    score -= warnings.length * 5;
+    let score = 100,
+    score -= errors.filter(e => e.severity === 'high').length * 25,
+    score -= errors.filter(e => e.severity === 'medium').length * 15,
+    score -= errors.filter(e => e.severity === 'low').length * 5,
+    score -= warnings.length * 5,
 
     // Bonus for good balance
-    if (maxElemental - minElemental < 0.2) score += 10;
-    if (components.hasProtein && components.hasVegetables) score += 10;
-    if (components.hasSeasonings) score += 5;
+    if (maxElemental - minElemental < 0.2) score += 10,
+    if (components.hasProtein && components.hasVegetables) score += 10,
+    if (components.hasSeasonings) score += 5,
 
     score = Math.max(0, Math.min(100, score)),
 
@@ -281,15 +281,15 @@ export function useRecipeValidation() {
       warnings,
       suggestions,
       score
-    };
-  };
+    },
+  },
 
   // Get nutritional analysis
   const getNutritionalAnalysis = (ingredients: Ingredient[]) => {
     const categories = ingredients.reduce(
       (acc, ingredient) => {
         const category = ingredient.category || 'other';
-        acc[category] = (acc[category] || 0) + 1;
+        acc[category] = (acc[category] || 0) + 1,
         return acc
       },
       {} as Record<string, number>,
@@ -302,8 +302,8 @@ export function useRecipeValidation() {
       elementalBalance,
       diversity: Object.keys(categories).length,
       totalIngredients: ingredients.length
-    };
-  };
+    },
+  },
 
   return {
     validateRecipe,
@@ -312,5 +312,5 @@ export function useRecipeValidation() {
     getNutritionalAnalysis,
     checkIncompatibilities,
     generateSuggestions
-  };
+  },
 }

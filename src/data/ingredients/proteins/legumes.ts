@@ -322,10 +322,10 @@ const rawLegumes = {
     substitutions: ['tofu', 'seitan'],
     affinities: ['asian_aromatics', 'umami_flavors']
   }
-};
+},
 
 export const legumes: Record<string, IngredientMapping> = fixIngredientMappings(
   rawLegumes as unknown,
 )
 
-export default legumes;
+export default legumes,

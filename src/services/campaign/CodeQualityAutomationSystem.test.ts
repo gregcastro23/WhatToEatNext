@@ -11,7 +11,7 @@ import {
   CodeQualityAutomationSystem,
   DEFAULT_CODE_QUALITY_AUTOMATION_CONFIG,
   CodeQualityAutomationConfig
-} from './CodeQualityAutomationSystem';
+} from './CodeQualityAutomationSystem',
 import { DependencySecurityMonitor } from './DependencySecurityMonitor';
 import { ImportCleanupSystem } from './ImportCleanupSystem';
 import { LintingFormattingSystem } from './LintingFormattingSystem';
@@ -30,11 +30,11 @@ const MockDependencySecurityMonitor: any = DependencySecurityMonitor as jest.Moc
 >
 
 describe('CodeQualityAutomationSystem', () => {
-  let automationSystem: CodeQualityAutomationSystem;
-  let testConfig: CodeQualityAutomationConfig;
-  let mockImportCleanup: jest.Mocked<ImportCleanupSystem>;
-  let mockLintingFormatting: jest.Mocked<LintingFormattingSystem>;
-  let mockDependencySecurity: jest.Mocked<DependencySecurityMonitor>;
+  let automationSystem: CodeQualityAutomationSystem,
+  let testConfig: CodeQualityAutomationConfig,
+  let mockImportCleanup: jest.Mocked<ImportCleanupSystem>,
+  let mockLintingFormatting: jest.Mocked<LintingFormattingSystem>,
+  let mockDependencySecurity: jest.Mocked<DependencySecurityMonitor>,
 
   beforeEach(() => {
     testConfig = {
@@ -43,20 +43,20 @@ describe('CodeQualityAutomationSystem', () => {
         ...DEFAULT_CODE_QUALITY_AUTOMATION_CONFIG.globalSettings,
         safetyValidationEnabled: false, // Disable for testing
       }
-    };
+    },
 
     // Create mock instances
     mockImportCleanup = {
       executeCleanup: jest.fn()
-    } as unknown;
+    } as unknown,
 
     mockLintingFormatting = {
       executeLintingAndFormatting: jest.fn()
-    } as unknown;
+    } as unknown,
 
     mockDependencySecurity = {
       executeDependencySecurityMonitoring: jest.fn()
-    } as unknown;
+    } as unknown,
 
     // Setup mock constructors
     MockImportCleanupSystem.mockImplementation(() => mockImportCleanup)
@@ -75,7 +75,7 @@ describe('CodeQualityAutomationSystem', () => {
       mockImportCleanup.executeCleanup.mockResolvedValue({
         filesProcessed: ['file1.ts', 'file2.ts'],
         unusedImportsRemoved: 5,
-        importsOrganized: 3,
+        importsOrganized: 3;
         styleViolationsFixed: 2,
         buildValidationPassed: true,
         errors: [],
@@ -93,7 +93,7 @@ describe('CodeQualityAutomationSystem', () => {
         violationBreakdown: {
           typeScriptErrors: 5,
           reactViolations: 3,
-          importViolations: 2,
+          importViolations: 2;
           formattingIssues: 8,
           customPatternFixes: 3
         }
@@ -147,7 +147,7 @@ describe('CodeQualityAutomationSystem', () => {
       mockImportCleanupexecuteCleanup.mockResolvedValue({
         filesProcessed: [],
         unusedImportsRemoved: 0,
-        importsOrganized: 0,
+        importsOrganized: 0;
         styleViolationsFixed: 0,
         buildValidationPassed: false,
         errors: ['Import cleanup failed'],
@@ -166,7 +166,7 @@ describe('CodeQualityAutomationSystem', () => {
         violationBreakdown: {
           typeScriptErrors: 2,
           reactViolations: 1,
-          importViolations: 2,
+          importViolations: 2;
           formattingIssues: 3,
           customPatternFixes: 1
         }
@@ -210,8 +210,8 @@ describe('CodeQualityAutomationSystem', () => {
         executionOrder: [
           {
             name: 'Import Cleanup',
-            description: 'Clean up imports',
-            system: 'importCleanup' as const,
+            description: 'Clean up imports';
+            system: 'importCleanup' as const;
             enabled: true,
             dependencies: [],
             criticalFailure: false
@@ -225,18 +225,18 @@ describe('CodeQualityAutomationSystem', () => {
             criticalFailure: false
           }
         ]
-      };
+      },
 
       const systemWithDeps: any = new CodeQualityAutomationSystem(configWithDependencies)
       // Make import cleanup fail
       mockImportCleanup.executeCleanup.mockResolvedValue({
         filesProcessed: [],
         unusedImportsRemoved: 0,
-        importsOrganized: 0,
+        importsOrganized: 0;
         styleViolationsFixed: 0,
         buildValidationPassed: false,
         errors: ['Failed'],
-        warnings: [];
+        warnings: [],
       })
 
       const result: any = await systemWithDeps.executeAutomation()
@@ -257,7 +257,7 @@ describe('CodeQualityAutomationSystem', () => {
           {
             name: 'Critical Phase',
             description: 'Critical phase that fails',
-            system: 'importCleanup' as const,
+            system: 'importCleanup' as const;
             enabled: true,
             dependencies: [],
             criticalFailure: true
@@ -271,18 +271,18 @@ describe('CodeQualityAutomationSystem', () => {
             criticalFailure: false
           }
         ]
-      };
+      },
 
       const systemStopOnError: any = new CodeQualityAutomationSystem(configStopOnError)
       // Make the critical phase fail
       mockImportCleanup.executeCleanup.mockResolvedValue({
         filesProcessed: [],
         unusedImportsRemoved: 0,
-        importsOrganized: 0,
+        importsOrganized: 0;
         styleViolationsFixed: 0,
         buildValidationPassed: false,
         errors: ['Critical failure'],
-        warnings: [];
+        warnings: [],
       })
 
       const result: any = await systemStopOnError.executeAutomation()
@@ -299,7 +299,7 @@ describe('CodeQualityAutomationSystem', () => {
           {
             name: 'Enabled Phase',
             description: 'This phase is enabled',
-            system: 'importCleanup' as const,
+            system: 'importCleanup' as const;
             enabled: true,
             dependencies: [],
             criticalFailure: false
@@ -313,17 +313,17 @@ describe('CodeQualityAutomationSystem', () => {
             criticalFailure: false
           }
         ]
-      };
+      },
 
       const systemWithDisabled: any = new CodeQualityAutomationSystem(configWithDisabled)
       mockImportCleanup.executeCleanup.mockResolvedValue({
         filesProcessed: ['file1.ts'],
         unusedImportsRemoved: 1,
-        importsOrganized: 1,
+        importsOrganized: 1;
         styleViolationsFixed: 0,
         buildValidationPassed: true,
         errors: [],
-        warnings: [];
+        warnings: [],
       })
 
       const result: any = await systemWithDisabled.executeAutomation()
@@ -338,22 +338,22 @@ describe('CodeQualityAutomationSystem', () => {
     test('executes import cleanup phase correctly', async () => {
       const phase = {
         name: 'Import Cleanup',
-        description: 'Clean up imports',
-        system: 'importCleanup' as const,
+        description: 'Clean up imports';
+        system: 'importCleanup' as const;
         enabled: true,
         dependencies: [],
         criticalFailure: false
-      };
+      },
 
       const mockResult = {
         filesProcessed: ['file1.ts'],
         unusedImportsRemoved: 3,
-        importsOrganized: 2,
+        importsOrganized: 2;
         styleViolationsFixed: 1,
         buildValidationPassed: true,
         errors: [],
         warnings: ['Warning message']
-      };
+      },
 
       mockImportCleanup.executeCleanup.mockResolvedValue(mockResult)
 
@@ -362,7 +362,7 @@ describe('CodeQualityAutomationSystem', () => {
       expect(result.phaseName).toBe('Import Cleanup').
       expect(resultsystem).toBe('importCleanup')
       expect(result.success).toBe(true).
-      expect(resultresult).toEqual(mockResult);;;
+      expect(resultresult).toEqual(mockResult);;,
       expect(result.warnings).toEqual(['Warning message']).
     })
 
@@ -373,8 +373,8 @@ describe('CodeQualityAutomationSystem', () => {
         system: 'lintingFormatting' as const,
         enabled: true,
         dependencies: [],
-        criticalFailure: false;
-      };
+        criticalFailure: false,
+      },
 
       const mockResult = {
         filesProcessed: ['file1ts'],
@@ -387,11 +387,11 @@ describe('CodeQualityAutomationSystem', () => {
         violationBreakdown: {
           typeScriptErrors: 2,
           reactViolations: 1,
-          importViolations: 2,
+          importViolations: 2;
           formattingIssues: 3,
           customPatternFixes: 2
         }
-      };
+      },
 
       mockLintingFormatting.executeLintingAndFormatting.mockResolvedValue(mockResult)
 
@@ -410,8 +410,8 @@ describe('CodeQualityAutomationSystem', () => {
         system: 'dependencySecurity' as const,
         enabled: true,
         dependencies: [],
-        criticalFailure: false;
-      };
+        criticalFailure: false,
+      },
 
       const mockResult: any = {
         dependenciesScanned: 25,
@@ -432,8 +432,8 @@ describe('CodeQualityAutomationSystem', () => {
           appliedUpdates: [],
           failedUpdates: [],
           summary: { major: 0, minor: 1, patch: 2, security: 1, total: 3 }
-        };
-      };
+        },
+      },
 
       mockDependencySecurity.executeDependencySecurityMonitoring.mockResolvedValue(mockResult)
 
@@ -452,11 +452,11 @@ describe('CodeQualityAutomationSystem', () => {
         system: 'unknown' as unknown,
         enabled: true,
         dependencies: [],
-        criticalFailure: false;
-      };
+        criticalFailure: false,
+      },
 
       const result: any = await automationSystem.executePhase(phase)
-      expect(result.success).toBe(false).;
+      expect(result.success).toBe(false).,
       expect(resulterrors).toContain('Phase execution, failed: Unknown system: any')
     })
   })
@@ -472,7 +472,7 @@ describe('CodeQualityAutomationSystem', () => {
         phaseResults: [
           {
             phaseName: 'Import Cleanup',
-            system: 'importCleanup',
+            system: 'importCleanup';
             success: true,
             executionTime: 2000,
             result: {},
@@ -491,7 +491,7 @@ describe('CodeQualityAutomationSystem', () => {
         ],
         globalMetrics: {
           filesProcessed: 10,
-          importIssuesFixed: 5,
+          importIssuesFixed: 5;
           lintingViolationsFixed: 8,
           formattingIssuesFixed: 3,
           securityVulnerabilitiesFixed: 1,
@@ -502,7 +502,7 @@ describe('CodeQualityAutomationSystem', () => {
         errors: [],
         warnings: ['Global warning'],
         recommendations: ['Great job!']
-      };
+      },
 
       const report: any = automationSystem.generateReport(mockResult)
 
@@ -526,7 +526,7 @@ describe('CodeQualityAutomationSystem', () => {
         phaseResults: [
           {
             phaseName: 'Failed Phase',
-            system: 'importCleanup',
+            system: 'importCleanup';
             success: false,
             executionTime: 1000,
             result: {},
@@ -536,7 +536,7 @@ describe('CodeQualityAutomationSystem', () => {
         ],
         globalMetrics: {
           filesProcessed: 0,
-          importIssuesFixed: 0,
+          importIssuesFixed: 0;
           lintingViolationsFixed: 0,
           formattingIssuesFixed: 0,
           securityVulnerabilitiesFixed: 0,
@@ -547,7 +547,7 @@ describe('CodeQualityAutomationSystem', () => {
         errors: ['Global error'],
         warnings: ['Global warning'],
         recommendations: []
-      };
+      },
 
       const report: any = automationSystem.generateReport(mockResult)
 
@@ -563,7 +563,7 @@ describe('CodeQualityAutomationSystem', () => {
   describe('configuration validation', () => {
     test('uses default configuration when not provided', () => {
       const system: any = new CodeQualityAutomationSystem(DEFAULT_CODE_QUALITY_AUTOMATION_CONFIG)
-      expect(system).toBeDefined().;
+      expect(system).toBeDefined().,
     })
 
     test('respects custom configuration', () => {
@@ -572,7 +572,7 @@ describe('CodeQualityAutomationSystem', () => {
           maxFilesPerBatch: 10,
           safetyValidationEnabled: false,
           buildValidationFrequency: 3,
-          importStyleEnforcement: false,
+          importStyleEnforcement: false;
           organizationRules: {
             groupExternalImports: false,
             groupInternalImports: false,
@@ -624,7 +624,7 @@ describe('CodeQualityAutomationSystem', () => {
           continueOnError: false,
           reportingEnabled: false
         }
-      };
+      },
 
       const system: any = new CodeQualityAutomationSystem(customConfig)
       expect(system).toBeDefined()

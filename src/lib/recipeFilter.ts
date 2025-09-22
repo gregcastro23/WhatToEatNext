@@ -10,8 +10,8 @@ const calculateElementalHarmony = (
   // Simple implementation - can be replaced with the actual alchemical engine later
   return {
     elementalHarmony: 0.5, // Default value
-  };
-};
+  },
+},
 
 export const _recipeFilter = {
   async filterAndSortRecipes(
@@ -28,7 +28,7 @@ export const _recipeFilter = {
     },
     sortOptions: { by: string, direction: 'asc' | 'desc' },
   ): Promise<Recipe[]> {
-    let filteredRecipes = [...recipes];
+    let filteredRecipes = [...recipes],
 
     // Apply search filter
     if (filters.searchQuery) {
@@ -61,7 +61,7 @@ export const _recipeFilter = {
 
     // Apply dietary restrictions filter
     if (filters.dietaryRestrictions && filters.dietaryRestrictions.length > 0) {
-      filteredRecipes = filteredRecipes.filter(recipe => {;
+      filteredRecipes = filteredRecipes.filter(recipe => {,
         const recipeDietaryRestrictions = recipe.dietaryRestrictions
         // Safe array access with type checking
         if (Array.isArray(recipeDietaryRestrictions)) {
@@ -69,12 +69,12 @@ export const _recipeFilter = {
             recipeDietaryRestrictions.includes(restriction)
           )
         }
-        return false;
+        return false,
       })
     }
 
     // Apply prep time filter
-    if (typeof filters.maxPrepTime === 'number') {;
+    if (typeof filters.maxPrepTime === 'number') {,
       filteredRecipes = filteredRecipes.filter(
         recipe =>
           typeof recipe.prepTime === 'number' && recipe.prepTime <= (filters.maxPrepTime || 0),,
@@ -82,7 +82,7 @@ export const _recipeFilter = {
     }
 
     // Apply spiciness filter
-    if (typeof filters.spiciness === 'number') {;
+    if (typeof filters.spiciness === 'number') {,
       filteredRecipes = filteredRecipes.filter(
         recipe =>
           typeof recipe.spiciness === 'number' && recipe.spiciness <= (filters.spiciness || 0),,
@@ -90,7 +90,7 @@ export const _recipeFilter = {
     }
 
     // Apply complexity filter
-    if (typeof filters.complexity === 'number') {;
+    if (typeof filters.complexity === 'number') {,
       filteredRecipes = filteredRecipes.filter(
         recipe =>
           typeof recipe.complexity === 'number' && recipe.complexity <= (filters.complexity || 0),,
@@ -100,7 +100,7 @@ export const _recipeFilter = {
     // Apply elemental balance filter
     if (filters.elementalState) {
       const recipesWithScores = await Promise.all(;
-        filteredRecipes.map(async recipe => {;
+        filteredRecipes.map(async recipe => {,
           const recipeElementalProps = recipe.elementalProperties || {;
             Fire: 0.25,
             Water: 0.25,
@@ -113,7 +113,7 @@ export const _recipeFilter = {
               recipeElementalProps,
               filters.elementalState as ElementalProperties
             ).elementalHarmony
-          };
+          },
         }),
       )
 
@@ -126,7 +126,7 @@ export const _recipeFilter = {
     }
 
     // Apply sorting
-    if (sortOptions.by === 'relevance') {;
+    if (sortOptions.by === 'relevance') {,
       filteredRecipes.sort((ab) => {
         // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
         const scoreA = Number(a.matchScore) || 0;
@@ -135,6 +135,6 @@ export const _recipeFilter = {
       })
     }
 
-    return filteredRecipes;
+    return filteredRecipes,
   }
-};
+},

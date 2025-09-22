@@ -2,15 +2,15 @@ import { herbs } from '../ingredients/herbs';
 import { medicinalHerbs } from '../ingredients/herbs/medicinalHerbs';
 
 // Cross-references culinary and medicinal uses
-export const _herbMedicinalUses = Object.entries(herbs).reduce(,
+export const _herbMedicinalUses = Object.entries(herbs).reduce(;
   (acc, [herbName, herb]) => {
     if (medicinalHerbs[herbName]) {
       acc[herbName] = {
         culinary: herb.culinary_traditions,
         medicinal: medicinalHerbs[herbName].properties
-      };
+      },
     }
-    return acc;
+    return acc,
   },
   {} as Record<string, unknown>,
 )
@@ -20,5 +20,5 @@ export function getMedicinalProperties(_ingredient: string) {
   // Implement the function
   return {
     /* ... */
-  };
+  },
 }

@@ -17,20 +17,20 @@ export interface AlertingConfig {
     enabled: boolean,
     sensitivity: 'low' | 'medium' | 'high',
     cooldownPeriod: number, // minutes
-  };
+  },
   performanceMonitoring: {
     enabled: boolean,
     thresholds: PerformanceThreshold[]
-  };
+  },
   autoResponse: {
     enabled: boolean,
     actions: AutoResponseAction[]
-  };
+  },
 }
 
 export interface AlertChannel {
   type: 'console' | 'file' | 'webhook' | 'kiro',
-  config: Record<string, unknown>;
+  config: Record<string, unknown>,
   severityFilter: ('info' | 'warning' | 'error' | 'critical')[]
 }
 
@@ -44,7 +44,7 @@ export interface PerformanceThreshold {
 export interface AutoResponseAction {
   trigger: string,
   action: 'enableCache' | 'reduceBatchSize' | 'skipNonCritical' | 'emergencyStop',
-  parameters: Record<string, unknown>;
+  parameters: Record<string, unknown>,
 }
 
 export interface AlertHistory {
@@ -66,9 +66,9 @@ export interface PerformanceEvent {
 }
 
 export class LintingAlertingSystem {
-  private readonly configFile = '.kiro/metrics/alerting-config.json';
-  private readonly historyFile = '.kiro/metrics/alerting-history.json';
-  private readonly suppressionFile = '.kiro/metrics/alert-suppressions.json';
+  private readonly configFile = '.kiro/metrics/alerting-config.json',
+  private readonly historyFile = '.kiro/metrics/alerting-history.json',
+  private readonly suppressionFile = '.kiro/metrics/alert-suppressions.json',
 
   private config: AlertingConfig
   private lastAlertTime: Map<string, Date> = new Map()
@@ -140,7 +140,7 @@ export class LintingAlertingSystem {
           threshold: threshold.threshold,
           impact: this.calculateImpact(threshold.severity),
           autoResponseTriggered: false
-        };
+        },
 
         events.push(event)
         // // // _logger.info(
@@ -149,7 +149,7 @@ export class LintingAlertingSystem {
       }
     }
 
-    return events;
+    return events,
   }
 
   /**
@@ -174,13 +174,13 @@ export class LintingAlertingSystem {
           break
         case 'file':
           await this.sendFileAlert(alert, channel.config)
-          break;
+          break,
         case 'kiro':
           await this.sendKiroAlert(alert, channel.config)
-          break;
+          break,
         case 'webhook':
           await this.sendWebhookAlert(alert, channel.config)
-          break;
+          break,
       }
     } catch (error) {
       _logger.error(`Failed to send alert to ${channel.type}:`, error)
@@ -234,7 +234,7 @@ export class LintingAlertingSystem {
         threshold: alert.threshold
       },
       actions: this.generateKiroActions(alert)
-    };
+    },
 
     const kiroFile = '.kiro/notifications/linting-alerts.json';
     writeFileSync(kiroFile, JSON.stringify(kiroAlert, null, 2))
@@ -258,13 +258,13 @@ export class LintingAlertingSystem {
       threshold: alert.threshold,
       message: alert.message,
       source: 'linting-excellence-dashboard'
-    };
+    },
 
     try {
       // Use curl for webhook (Node.js fetch might not be available)
       const curlCommand = `curl -X POST '${config.url}' \;
         -H 'Content-Type: application/json' \
-        -d '${JSON.stringify(payload)}'`;
+        -d '${JSON.stringify(payload)}'`,
 
       execSync(curlCommand, { stdio: 'pipe' })
     } catch (error) {
@@ -280,7 +280,7 @@ export class LintingAlertingSystem {
 
     // Log performance event
     const performanceLog = `.kiro/metrics/performance-events.log`;
-    const logEntry = `[${event.timestamp.toISOString()}] ${event.type.toUpperCase()}: ${event.metric} = ${event.value} (threshold: ${event.threshold}, impact: ${event.impact})\n`;
+    const logEntry = `[${event.timestamp.toISOString()}] ${event.type.toUpperCase()}: ${event.metric} = ${event.value} (threshold: ${event.threshold}, impact: ${event.impact})\n`,
 
     try {
       execSync(`echo '${logEntry}' >> '${performanceLog}'`)
@@ -314,13 +314,13 @@ export class LintingAlertingSystem {
     try {
       switch (action.action) {
         case 'enableCache': await this.enableLintingCache()
-          break;
+          break,
         case 'reduceBatchSize':
           await this.reduceBatchSize(action.parameters.newSize || 10)
-          break;
+          break,
         case 'skipNonCritical':
           await this.skipNonCriticalRules()
-          break;
+          break,
         case 'emergencyStop':
           await this.emergencyStop()
           break
@@ -345,11 +345,11 @@ export class LintingAlertingSystem {
       if (lastAlert) {
         const cooldownMs = this.config.regressionDetection.cooldownPeriod * 60 * 1000;
         if (Date.now() - lastAlert.getTime() < cooldownMs) {
-          return false;
+          return false,
         }
       }
 
-      return true;
+      return true,
     })
   }
 
@@ -359,7 +359,7 @@ export class LintingAlertingSystem {
   private generateKiroActions(alert: Alert): Array<Record<string, unknown>> {
     const actions: Array<Record<string, unknown>> = [];
 
-    if (alert.metric === 'parserErrors' && alert.currentValue > 0) {;
+    if (alert.metric === 'parserErrors' && alert.currentValue > 0) {,
       actions.push({
         type: 'command',
         label: 'Fix Parser Errors',
@@ -368,7 +368,7 @@ export class LintingAlertingSystem {
       })
     }
 
-    if (alert.metric === 'explicitAnyErrors' && alert.currentValue > 100) {;
+    if (alert.metric === 'explicitAnyErrors' && alert.currentValue > 100) {,
       actions.push({
         type: 'campaign',
         label: 'Start Explicit Any Campaign',
@@ -386,7 +386,7 @@ export class LintingAlertingSystem {
       })
     }
 
-    return actions;
+    return actions,
   }
 
   // Auto-response implementations
@@ -483,7 +483,7 @@ export class LintingAlertingSystem {
           }
         ]
       }
-    };
+    },
   }
 
   private loadSuppressions(): void {
@@ -545,17 +545,17 @@ export class LintingAlertingSystem {
       suppressedAlerts: [],
       resolvedAlerts: [],
       performanceEvents: []
-    };
+    },
   }
 
   private getPerformanceMetricValue(metrics: LintingMetrics, metric: string): number {
     switch (metric) {
       case 'duration':
-        return metrics.performanceMetrics.lintingDuration;
+        return metrics.performanceMetrics.lintingDuration,
       case 'memory':
-        return metrics.performanceMetrics.memoryUsage;
+        return metrics.performanceMetrics.memoryUsage,
       case 'cacheHitRate':
-        return metrics.performanceMetrics.cacheHitRate;
+        return metrics.performanceMetrics.cacheHitRate,
       case 'filesPerSecond':
         return (
           metrics.performanceMetrics.filesProcessed /
@@ -567,7 +567,7 @@ export class LintingAlertingSystem {
   }
 
   private isThresholdExceeded(value: number, threshold: PerformanceThreshold): boolean {
-    if (threshold.metric === 'cacheHitRate') {;
+    if (threshold.metric === 'cacheHitRate') {,
       return value < threshold.threshold // Cache hit rate should be above threshold
     }
     return value > threshold.threshold; // Other metrics should be below threshold
@@ -576,7 +576,7 @@ export class LintingAlertingSystem {
   private calculateImpact(severity: string): 'low' | 'medium' | 'high' {
     switch (severity) {
       case 'critical':
-        return 'high';
+        return 'high',
       case 'error':
         return 'medium'
       default:
@@ -604,11 +604,11 @@ export class LintingAlertingSystem {
   private getSeverityIcon(severity: string): string {
     switch (severity) {
       case 'critical':
-        return '🚨';
+        return '🚨',
       case 'error':
-        return '❌';
+        return '❌',
       case 'warning':
-        return '⚠️';
+        return '⚠️',
       case 'info':
         return 'ℹ️'
       default:

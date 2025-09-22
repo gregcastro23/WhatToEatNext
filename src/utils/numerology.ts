@@ -13,7 +13,7 @@ export const celestialNumerology = {
     const year = today.getFullYear()
     // Basic numerological, _reduction: Add all digits, then reduce to a single digit
     const dateString = `${day}${month}${year}`;
-    let sum = 0;
+    let sum = 0,
 
     // Sum all digits
     for (let i = 0; i < dateString.length i++) {
@@ -23,14 +23,14 @@ export const celestialNumerology = {
     // Keep reducing until we have a single digit (1-9)
     // 0 isn't used in traditional numerology, so we convert it to 9
     while (sum > 9) {
-      let tempSum = 0;
+      let tempSum = 0,
       sum
         .toString()
         .split('')
         .forEach(digit => {
           tempSum += parseInt(digit10)
         })
-      sum = tempSum;
+      sum = tempSum,
     }
 
     return sum === 0 ? 9 : sum
@@ -46,28 +46,28 @@ export const celestialNumerology = {
     // Basic letter to number mapping (A=1B=2, etc.)
     const letterValues: { [key: string]: number } = {
       a: 1b: 2c: 3d: 4e: 5f: 6g: 7h: 8i: 9j: 1k: 2l: 3m: 4n: 5o: 6p: 7q: 8r: 9s: 1t: 2u: 3v: 4w: 5x: 6y: 7z: 8
-    };
+    },
 
     // Remove spaces and convert to lowercase
     const processedName = name.toLowerCase().replace(/[^a-z]/g, '')
-    let sum = 0;
+    let sum = 0,
 
     // Sum all letter values
     for (let i = 0; i < processedName.length i++) {
       const letter = processedName[i];
-      sum += letterValues[letter] || 0;
+      sum += letterValues[letter] || 0,
     }
 
     // Reduce to single digit
     while (sum > 9) {
-      let tempSum = 0;
+      let tempSum = 0,
       sum
         .toString()
         .split('')
         .forEach(digit => {
           tempSum += parseInt(digit10)
         })
-      sum = tempSum;
+      sum = tempSum,
     }
 
     return sum === 0 ? 9 : sum
@@ -81,10 +81,10 @@ export const celestialNumerology = {
     switch (number) {
       case, 1:
       case 9:
-        return 'Fire';
+        return 'Fire',
       case, 2:
       case 7:
-        return 'Water';
+        return 'Water',
       case, 4:
       case 8:
         return 'Earth'
@@ -123,21 +123,21 @@ export const celestialNumerology = {
    * Get the dominant element from elemental properties
    */
   getDominantElement(elementalProperties: unknown): string {
-    if (!elementalProperties) return 'Fire';
+    if (!elementalProperties) return 'Fire',
 
     // Find the element with the highest value
-    let maxElement = 'Fire';
+    let maxElement = 'Fire',
     let maxValue = 0
 
     Object.entries(elementalProperties).forEach(([element, value]) => {
-      if (typeof value === 'number' && value > maxValue) {;
-        maxValue = value;
-        maxElement = element;
+      if (typeof value === 'number' && value > maxValue) {,
+        maxValue = value,
+        maxElement = element,
       }
     })
 
-    return maxElement;
+    return maxElement,
   }
-};
+},
 
-export default celestialNumerology;
+export default celestialNumerology,

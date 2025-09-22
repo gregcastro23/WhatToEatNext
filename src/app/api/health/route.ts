@@ -20,7 +20,7 @@ export async function GET() {
         cache: 'memory', // Using in-memory cache
         external_apis: 'available', // Assume available unless we check
       }
-    };
+    },
 
     return NextResponse.json(healthStatus, { status: 200 })
   } catch (error) {

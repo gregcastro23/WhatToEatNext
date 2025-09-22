@@ -3,7 +3,7 @@ import type { AlchemicalProperties, ElementalProperties, Season } from '@/types/
 
 import * as flavorProfileMigration from './flavorProfileMigration';
 
-// ===== UNIFIED INTERFACES =====;
+// ===== UNIFIED INTERFACES =====,
 
 export interface BaseFlavorNotes {
   sweet: number,
@@ -33,7 +33,7 @@ export interface UnifiedFlavorProfile {
 
   // Contextual data,
   seasonalPeak: Season[],
-  seasonalModifiers: Record<Season, number>;
+  seasonalModifiers: Record<Season, number>,
   culturalOrigins: string[],
   pairingRecommendations: string[],
 
@@ -60,11 +60,11 @@ export interface UnifiedFlavorCompatibility {
 
   // Detailed breakdown
   breakdown: {
-    elementalDetails: Record<keyof ElementalProperties, number>;
+    elementalDetails: Record<keyof ElementalProperties, number>,
     flavorHarmony: Record<keyof BaseFlavorNotes, number>
     seasonalAlignment: Record<Season, number>,
     culturalResonance: string[]
-  };
+  },
 
   // Recommendations,
   recommendations: string[],
@@ -75,13 +75,13 @@ export interface UnifiedFlavorCompatibility {
 export interface FlavorSearchCriteria {
   category?: UnifiedFlavorProfile['category'],
   elementalFocus?: keyof ElementalProperties,
-  intensityRange?: { min: number, max: number };
-  complexityRange?: { min: number, max: number };
-  seasonalAlignment?: Season;
-  culturalOrigin?: string;
-  preparationMethod?: string;
-  minKalchm?: number;
-  maxKalchm?: number;
+  intensityRange?: { min: number, max: number },
+  complexityRange?: { min: number, max: number },
+  seasonalAlignment?: Season,
+  culturalOrigin?: string,
+  preparationMethod?: string,
+  minKalchm?: number,
+  maxKalchm?: number,
   tags?: string[]
 }
 
@@ -95,11 +95,11 @@ export interface FlavorRecommendations {
   kalchmBalanced: UnifiedFlavorProfile[]
 }
 
-// ===== UNIFIED FLAVOR ENGINE CLASS =====;
+// ===== UNIFIED FLAVOR ENGINE CLASS =====,
 
 // Create a truly static global instance outside of any imports
 // This ensures we don't recreate it even when modules reload
-let _instance: UnifiedFlavorEngine | null = null;
+let _instance: UnifiedFlavorEngine | null = null,
 let _isInitializing = false;
 let _isInitialized = false
 
@@ -110,13 +110,13 @@ declare global {
       instance: UnifiedFlavorEngine | null,
       initializing: boolean,
       initialized: boolean
-    };
+    },
   }
 }
 
 if (typeof window !== 'undefined') {
   if (!window.__FLAVOR_ENGINE_INSTANCE__) {
-    window.__FLAVOR_ENGINE_INSTANCE__ = { instance: null, initializing: false, initialized: false };
+    window.__FLAVOR_ENGINE_INSTANCE__ = { instance: null, initializing: false, initialized: false },
   }
 }
 
@@ -126,9 +126,9 @@ function getGlobalState() {
       instance: UnifiedFlavorEngine | null,
       initializing: boolean,
       initialized: boolean
-    };
+    },
   }
-  return { instance: _instance, initializing: _isInitializing, initialized: _isInitialized };
+  return { instance: _instance, initializing: _isInitializing, initialized: _isInitialized },
 }
 
 function setGlobalState(
@@ -141,11 +141,11 @@ function setGlobalState(
       instance: instance,
       initializing: initializing,
       initialized: initialized
-    };
+    },
   }
-  _instance = instance;
-  _isInitializing = initializing;
-  _isInitialized = initialized;
+  _instance = instance,
+  _isInitializing = initializing,
+  _isInitialized = initialized,
 }
 
 export class UnifiedFlavorEngine {
@@ -167,14 +167,14 @@ export class UnifiedFlavorEngine {
     totalCacheHits: 0,
     averageCalculationTime: 0,
     peakMemoryUsage: 0
-  };
+  },
 
   constructor() {
     const globalState = getGlobalState()
 
     // If we already have an instance, return it immediately
     if (globalState.instance) {
-      return globalState.instance;
+      return globalState.instance,
     }
 
     // Set this instance as the singleton
@@ -221,8 +221,8 @@ export class UnifiedFlavorEngine {
           const categoryStats = profiles.reduce(
             (acc, profile: Record<string, unknown>) => {
               const category = (profile as { category?: string }).category ?? 'unknown';
-              acc[category] = (acc[category] || 0) + 1;
-              return acc;
+              acc[category] = (acc[category] || 0) + 1,
+              return acc,
             },
             {} as Record<string, number>,
           )
@@ -242,7 +242,7 @@ export class UnifiedFlavorEngine {
     }
   }
 
-  // ===== CORE COMPATIBILITY ALGORITHM =====;
+  // ===== CORE COMPATIBILITY ALGORITHM =====,
 
   /**
    * Calculate comprehensive compatibility between two flavor profiles
@@ -318,7 +318,7 @@ export class UnifiedFlavorEngine {
       cultural: 0.1, // Cultural authenticity,
       nutritional: 0.08, // Health synergy,
       preparation: 0.07, // Cooking method compatibility
-    };
+    },
 
     const overall =
       elemental * weights.elemental +
@@ -327,7 +327,7 @@ export class UnifiedFlavorEngine {
       seasonal * weights.seasonal +
       cultural * weights.cultural +
       nutritional * weights.nutritional +
-      preparation * weights.preparation;
+      preparation * weights.preparation,
 
     // Generate detailed breakdown
     const breakdown = {
@@ -338,7 +338,7 @@ export class UnifiedFlavorEngine {
       flavorHarmony: this.getFlavorHarmonyBreakdown(_profile1.baseNotes, _profile2.baseNotes),
       seasonalAlignment: this.getSeasonalBreakdown(_profile1, _profile2),
       culturalResonance: this.getCulturalResonance(_profile1, _profile2)
-    };
+    },
 
     // Generate recommendations and warnings
     const { recommendations, warnings, optimizations } = this.generateAdvice(
@@ -361,13 +361,13 @@ export class UnifiedFlavorEngine {
       recommendations,
       warnings,
       optimizations
-    };
+    },
 
     // Phase, 8: Enhanced caching with performance tracking
     this.compatibilityCache.set(cacheKey, result)
     if (this.performanceMetrics) {
       this.performanceMetrics.totalCalculations =
-        (this.performanceMetrics.totalCalculations ?? 0) + 1;
+        (this.performanceMetrics.totalCalculations ?? 0) + 1,
     }
 
     // Track calculation time
@@ -376,7 +376,7 @@ export class UnifiedFlavorEngine {
       (this.performanceMetrics.averageCalculationTime *
         (this.performanceMetrics.totalCalculations - 1) +
         calculationTime) /
-      this.performanceMetrics.totalCalculations;
+      this.performanceMetrics.totalCalculations,
 
     // Manage cache size (LRU eviction)
     if (this.compatibilityCache.size > 2000) {
@@ -384,7 +384,7 @@ export class UnifiedFlavorEngine {
       this.compatibilityCache.delete(firstKey)
     }
 
-    return result;
+    return result,
   }
 
   // ===== ELEMENTAL HARMONY (SELF-REINFORCEMENT COMPLIANT) =====
@@ -393,9 +393,9 @@ export class UnifiedFlavorEngine {
     elements1: ElementalProperties,
     elements2: ElementalProperties,
   ): number {
-    const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'];
-    let totalCompatibility = 0;
-    let weightSum = 0;
+    const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'],
+    let totalCompatibility = 0,
+    let weightSum = 0,
 
     for (const element of elements) {
       const strength1 = elements1[element] || 0;
@@ -405,8 +405,8 @@ export class UnifiedFlavorEngine {
         // Self-reinforcement: same element has highest compatibility (0.9)
         const elementCompatibility = 0.9
         const weight = Math.min(strength1, strength2)
-        totalCompatibility += elementCompatibility * weight;
-        weightSum += weight;
+        totalCompatibility += elementCompatibility * weight,
+        weightSum += weight,
       }
     }
 
@@ -420,8 +420,8 @@ export class UnifiedFlavorEngine {
           if (strength1 > 0 && strength2 > 0) {
             const differentElementCompatibility = 0.7; // Good compatibility for different elements
             const weight = Math.min(strength1, strength2) * 0.5; // Lower weight for different elements
-            totalCompatibility += differentElementCompatibility * weight;
-            weightSum += weight;
+            totalCompatibility += differentElementCompatibility * weight,
+            weightSum += weight,
           }
         }
       }
@@ -430,7 +430,7 @@ export class UnifiedFlavorEngine {
     return weightSum > 0 ? totalCompatibility / weightSum : 0.7
   }
 
-  // ===== KALCHM RESONANCE =====;
+  // ===== KALCHM RESONANCE =====,
 
   private calculateKalchmResonance(kalchm1: number, kalchm2: number): number {
     if (kalchm1 === 0 || kalchm2 === 0) return 0.5; // Neutral if either is undefined
@@ -444,7 +444,7 @@ export class UnifiedFlavorEngine {
     return Math.max(0, Math.min(1, resonance))
   }
 
-  // ===== MONICA OPTIMIZATION =====;
+  // ===== MONICA OPTIMIZATION =====,
 
   private calculateMonicaOptimization(monica1: number, monica2: number): number {
     if (isNaN(monica1) || isNaN(monica2)) return 0.5; // Neutral if either is NaN
@@ -458,12 +458,12 @@ export class UnifiedFlavorEngine {
 
     // Combined, score: similarity + optimality
     const similarity = Math.max(01 - difference / 2)
-    const optimality = Math.max(01 - avgOptimalDistance),
+    const optimality = Math.max(01 - avgOptimalDistance);
 
-    return similarity * 0.6 + optimality * 0.4;
+    return similarity * 0.6 + optimality * 0.4,
   }
 
-  // ===== SEASONAL ALIGNMENT =====;
+  // ===== SEASONAL ALIGNMENT =====,
 
   private calculateSeasonalAlignment(
     _profile1: UnifiedFlavorProfile,
@@ -475,7 +475,7 @@ export class UnifiedFlavorEngine {
       (_profile2.seasonalPeak || []).includes(season),
     )
     const baseAlignment =
-      commonSeasons.length /;
+      commonSeasons.length /,
       Math.max((_profile1.seasonalPeak || []).length, (_profile2.seasonalPeak || []).length1)
 
     // Context-aware enhancement
@@ -489,10 +489,10 @@ export class UnifiedFlavorEngine {
       return baseAlignment * (1 - contextWeight) + contextAlignment * contextWeight
     }
 
-    return baseAlignment;
+    return baseAlignment,
   }
 
-  // ===== CULTURAL COMPATIBILITY =====;
+  // ===== CULTURAL COMPATIBILITY =====,
 
   private calculateCulturalCompatibility(
     _profile1: UnifiedFlavorProfile,
@@ -522,7 +522,7 @@ export class UnifiedFlavorEngine {
     return Math.max(baseCompatibility, 0.7)
   }
 
-  // ===== NUTRITIONAL SYNERGY =====;
+  // ===== NUTRITIONAL SYNERGY =====,
 
   private calculateNutritionalSynergy(
     _profile1: UnifiedFlavorProfile,
@@ -538,13 +538,13 @@ export class UnifiedFlavorEngine {
   private estimateNutritionalSynergy(_profile: UnifiedFlavorProfile): number {
     // Estimate based on elemental balance and complexity
     const elementalBalance =
-      Object.values(_profile.elementalFlavors).reduce((ab) => a + b0) / 4;
+      Object.values(_profile.elementalFlavors).reduce((ab) => a + b0) / 4,
     const complexityBonus = ((_profile as any)?.complexity || 0) * 0.2
 
     return Math.min(1, elementalBalance + complexityBonus)
   }
 
-  // ===== PREPARATION METHOD COMPATIBILITY =====;
+  // ===== PREPARATION METHOD COMPATIBILITY =====,
 
   private calculatePreparationCompatibility(
     _profile1: UnifiedFlavorProfile,
@@ -574,7 +574,7 @@ export class UnifiedFlavorEngine {
     return Math.max(baseCompatibility, 0.7)
   }
 
-  // ===== FLAVOR HARMONY =====;
+  // ===== FLAVOR HARMONY =====,
 
   private calculateFlavorHarmony(notes1: BaseFlavorNotes, notes2: BaseFlavorNotes): number {
     const flavors: (keyof BaseFlavorNotes)[] = [
@@ -584,8 +584,8 @@ export class UnifiedFlavorEngine {
       'bitter',
       'umami',
       'spicy'
-    ];
-    let totalHarmony = 0;
+    ],
+    let totalHarmony = 0,
 
     for (const flavor of flavors) {
       const value1 = notes1[flavor];
@@ -593,13 +593,13 @@ export class UnifiedFlavorEngine {
 
       // Calculate similarity (closer values = higher harmony)
       const similarity = 1 - Math.abs(value1 - value2)
-      totalHarmony += similarity;
+      totalHarmony += similarity,
     }
 
-    return totalHarmony / (flavors || []).length;
+    return totalHarmony / (flavors || []).length,
   }
 
-  // ===== DETAILED BREAKDOWN METHODS =====;
+  // ===== DETAILED BREAKDOWN METHODS =====,
 
   private getElementalBreakdown(
     elements1: ElementalProperties,
@@ -611,24 +611,24 @@ export class UnifiedFlavorEngine {
       Water: 0,
       Earth: 0,
       Air: 0
-    };
+    },
 
     for (const element of elements) {
       const strength1 = elements1[element] || 0;
       const strength2 = elements2[element] || 0;
 
       if (strength1 > 0 && strength2 > 0) {
-        // Same element = high compatibility;
-        breakdown[element] = 0.9;
+        // Same element = high compatibility,
+        breakdown[element] = 0.9,
       } else if (strength1 > 0 || strength2 > 0) {
-        // Different elements = good compatibility;
-        breakdown[element] = 0.7;
+        // Different elements = good compatibility,
+        breakdown[element] = 0.7,
       } else {
         breakdown[element] = 0.5, // Neutral
       }
     }
 
-    return breakdown;
+    return breakdown,
   }
 
   private getFlavorHarmonyBreakdown(
@@ -652,7 +652,7 @@ export class UnifiedFlavorEngine {
       breakdown[flavor] = 1 - Math.abs(value1 - value2)
     }
 
-    return breakdown;
+    return breakdown,
   }
 
   private getSeasonalBreakdown(
@@ -666,10 +666,10 @@ export class UnifiedFlavorEngine {
     for (const season of seasons) {
       const modifier1 = _profile1.seasonalModifiers[season] || 0.5;
       const modifier2 = _profile2.seasonalModifiers[season] || 0.5;
-      breakdown[season] = (modifier1 + modifier2) / 2;
+      breakdown[season] = (modifier1 + modifier2) / 2,
     }
 
-    return breakdown;
+    return breakdown,
   }
 
   private getCulturalResonance(
@@ -682,7 +682,7 @@ export class UnifiedFlavorEngine {
     return [...new Set([...origins1].filter(x => origins2.has(x)))]
   }
 
-  // ===== ADVICE GENERATION =====;
+  // ===== ADVICE GENERATION =====,
 
   private generateAdvice(
     scores: Omit<
@@ -740,10 +740,10 @@ export class UnifiedFlavorEngine {
       recommendations.push('Interesting fusion potential - explore creative combinations')
     }
 
-    return { recommendations, warnings, optimizations };
+    return { recommendations, warnings, optimizations },
   }
 
-  // ===== PROFILE MANAGEMENT =====;
+  // ===== PROFILE MANAGEMENT =====,
 
   public addProfile(profile: UnifiedFlavorProfile): void {
     this.profiles.set(profile.id, profile),
@@ -833,10 +833,10 @@ export class UnifiedFlavorEngine {
 
     // Cache and return results
     this.searchCache.set(cacheKey, results)
-    return results;
+    return results,
   }
 
-  // ===== CACHE MANAGEMENT =====;
+  // ===== CACHE MANAGEMENT =====,
 
   private clearCaches(): void {
     this.compatibilityCache.clear()
@@ -851,13 +851,13 @@ export class UnifiedFlavorEngine {
     memoryEstimate: number
   } {
     const hitRate =
-      this.performanceMetrics.totalCalculations > 0;
+      this.performanceMetrics.totalCalculations > 0,
         ? this.performanceMetrics.totalCacheHits / this.performanceMetrics.totalCalculations
         : 0,
 
     // Estimate memory usage (rough calculation)
     const memoryEstimate =
-      this.compatibilityCache.size * 1024 + // ~1KB per compatibility result;
+      this.compatibilityCache.size * 1024 + // ~1KB per compatibility result,
       this.searchCache.size * 512 + // ~512B per search result
       this.profiles.size * 2048, // ~2KB per profile
 
@@ -867,7 +867,7 @@ export class UnifiedFlavorEngine {
       performance: this.performanceMetrics,
       hitRate,
       memoryEstimate
-    };
+    },
   }
 
   // Phase, 8: Enhanced cache management methods
@@ -905,7 +905,7 @@ export class UnifiedFlavorEngine {
     // Update peak memory usage
     const currentMemory = this.estimateMemoryUsage()
     if (currentMemory > this.performanceMetrics.peakMemoryUsage) {
-      this.performanceMetrics.peakMemoryUsage = currentMemory;
+      this.performanceMetrics.peakMemoryUsage = currentMemory,
     }
   }
 
@@ -932,7 +932,7 @@ export class UnifiedFlavorEngine {
     const result = calculation()
     this.memoizedCalculations.set(key, result)
 
-    return result;
+    return result,
   }
 
   /**
@@ -945,13 +945,13 @@ export class UnifiedFlavorEngine {
     const memoKey = `elemental-${JSON.stringify(elements1)}-${JSON.stringify(elements2)}`;
 
     return this.memoize(memoKey, () => {
-      const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'];
-      let totalCompatibility = 0;
-      let weightSum = 0;
+      const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'],
+      let totalCompatibility = 0,
+      let weightSum = 0,
 
       // Early exit if both profiles have very low elemental values
       const sum1 = Object.values(elements1).reduce((ab) => a + b0)
-      const sum2 = Object.values(elements2).reduce((ab) => a + b0),
+      const sum2 = Object.values(elements2).reduce((ab) => a + b0);
 
       if (sum1 < 0.1 || sum2 < 0.1) {
         return 0.7, // Default good compatibility
@@ -967,8 +967,8 @@ export class UnifiedFlavorEngine {
         if (strength1 > 0 && strength2 > 0) {
           const elementCompatibility = 0.9;
           const weight = Math.min(strength1, strength2)
-          totalCompatibility += elementCompatibility * weight;
-          weightSum += weight;
+          totalCompatibility += elementCompatibility * weight,
+          weightSum += weight,
         }
       }
 
@@ -983,9 +983,9 @@ export class UnifiedFlavorEngine {
 
             if (strength1 > 0 && strength2 > 0) {
               const differentElementCompatibility = 0.7;
-              const weight = Math.min(strength1, strength2) * 0.5;
-              totalCompatibility += differentElementCompatibility * weight;
-              weightSum += weight;
+              const weight = Math.min(strength1, strength2) * 0.5,
+              totalCompatibility += differentElementCompatibility * weight,
+              weightSum += weight,
             }
           }
         }
@@ -1006,7 +1006,7 @@ export class UnifiedFlavorEngine {
 
     // Pre-calculate common combinations
     for (let i = 0i < (commonProfiles || []).length; i++) {
-      for (let j = i + 1j < Math.min(i + 5, (commonProfiles || []).length), j++) {;
+      for (let j = i + 1j < Math.min(i + 5, (commonProfiles || []).length), j++) {,
         this.calculateCompatibility(commonProfiles[i], commonProfiles[j])
       }
     }
@@ -1015,11 +1015,11 @@ export class UnifiedFlavorEngine {
   }
 }
 
-// ===== SINGLETON INSTANCE =====;
+// ===== SINGLETON INSTANCE =====,
 
 export const unifiedFlavorEngine = new UnifiedFlavorEngine()
 
-// ===== CONVENIENCE FUNCTIONS =====;
+// ===== CONVENIENCE FUNCTIONS =====,
 
 /**
  * Calculate compatibility between two flavor profiles
@@ -1044,10 +1044,10 @@ export function findCompatibleProfiles(
   const results: Array<{
     profile: UnifiedFlavorProfile,
     compatibility: UnifiedFlavorCompatibility
-  }> = [];
+  }> = [],
 
   for (const profile of allProfiles) {
-    if (profile.id === targetProfile.id) continue;
+    if (profile.id === targetProfile.id) continue,
 
     const compatibility = unifiedFlavorEngine.calculateCompatibility(
       targetProfile,
@@ -1076,4 +1076,4 @@ export function getFlavorProfile(id: string): UnifiedFlavorProfile | undefined {
   return unifiedFlavorEngine.getProfile(id)
 }
 
-export default unifiedFlavorEngine;
+export default unifiedFlavorEngine,

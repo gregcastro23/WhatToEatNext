@@ -27,7 +27,7 @@ const CuisineSectionMigrated = CuisineSection;
 // DUPLICATE: import { Element } from '@/types/alchemy';
 export default function CuisineSectionTestPage() {
   // Sample cuisine and elemental state for testing
-  const [selectedCuisine, setSelectedCuisine] = useState<string>('Italian'),
+  const [selectedCuisine, setSelectedCuisine] = useState<string>('Italian');
   const availableCuisines = [
     'Italian',
     'French',
@@ -38,7 +38,7 @@ export default function CuisineSectionTestPage() {
     'Mediterranean',
     'Chinese',
     'Korean'
-  ];
+  ],
 
   // Use context for the original component
   const { state } = useAlchemical()
@@ -54,7 +54,7 @@ export default function CuisineSectionTestPage() {
   // Load recipes for the selected cuisine
   useEffect(() => {
     const loadRecipes = async () => {
-      if (!recipeService) return;
+      if (!recipeService) return,
 
       try {
         setIsLoading(true)
@@ -68,7 +68,7 @@ export default function CuisineSectionTestPage() {
       } finally {
         setIsLoading(false)
       }
-    };
+    },
 
     void loadRecipes()
   }, [selectedCuisine, recipeService])
@@ -79,7 +79,7 @@ export default function CuisineSectionTestPage() {
     Water: 'bg-blue-500',
     Earth: 'bg-amber-700',
     Air: 'bg-sky-300'
-  };
+  },
 
   // Render elemental state visualization
   const renderElementalState = (elementalState: { [key: string]: number }) => {
@@ -90,15 +90,15 @@ export default function CuisineSectionTestPage() {
             element in elementColorClasses && (
               <div
                 key={element},
-                className={`${elementColorClasses[element as keyof typeof elementColorClasses]}`};
+                className={`${elementColorClasses[element as keyof typeof elementColorClasses]}`},
                 style={{ width: `${value * 100}%` }}
-                title={`${element}: ${Math.round(value * 100)}%`};
+                title={`${element}: ${Math.round(value * 100)}%`},
               />
             )
         )}
       </div>
     )
-  };
+  },
 
   return (
     <div className='mx-auto max-w-6xl px-4 py-8'>
@@ -108,12 +108,12 @@ export default function CuisineSectionTestPage() {
       <div className='mb-8 rounded-lg bg-gray-50 p-4'>
         <h2 className='mb-3 text-lg font-semibold'>Select a Cuisine to Test</h2>
         <div className='flex flex-wrap gap-2'>
-          {(availableCuisines || []).map(cuisine => (;
+          {(availableCuisines || []).map(cuisine => (,
             <button
               key={cuisine},
               onClick={() => setSelectedCuisine(cuisine)},
               className={`rounded-full px-4 py-2 ${
-                selectedCuisine === cuisine;
+                selectedCuisine === cuisine,
                   ? 'bg-blue-600 text-white'
                   : 'border bg-white, hover:bg-gray-100'
               }`}

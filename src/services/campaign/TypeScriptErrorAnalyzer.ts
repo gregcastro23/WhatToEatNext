@@ -40,15 +40,15 @@ export enum ErrorSeverity {
 
 export interface ErrorDistribution {
   totalErrors: number,
-  errorsByCategory: Record<ErrorCategory, TypeScriptError[]>;
-  errorsByFile: Record<string, TypeScriptError[]>;
+  errorsByCategory: Record<ErrorCategory, TypeScriptError[]>,
+  errorsByFile: Record<string, TypeScriptError[]>,
   priorityRanking: TypeScriptError[],
   highImpactFiles: Array<{
     filePath: string,
     errorCount: number,
     categories: ErrorCategory[],
     averagePriority: number
-  }>;
+  }>,
 }
 
 export interface AnalysisResult {
@@ -59,14 +59,14 @@ export interface AnalysisResult {
     priority: number,
     description: string,
     estimatedReduction: number
-  }>;
+  }>,
   timestamp: string
 }
 
 export class TypeScriptErrorAnalyzer {
-  private readonly HIGH_PRIORITY_ERRORS = ['TS2352', 'TS2345', 'TS2698', 'TS2304', 'TS2362'];
-  private readonly MEDIUM_PRIORITY_ERRORS = ['TS2322', 'TS2740', 'TS2339', 'TS2741', 'TS2688'];
-  private readonly LOW_PRIORITY_ERRORS = ['TS2820', 'TS2588', 'TS2300'];
+  private readonly HIGH_PRIORITY_ERRORS = ['TS2352', 'TS2345', 'TS2698', 'TS2304', 'TS2362'],
+  private readonly MEDIUM_PRIORITY_ERRORS = ['TS2322', 'TS2740', 'TS2339', 'TS2741', 'TS2688'],
+  private readonly LOW_PRIORITY_ERRORS = ['TS2820', 'TS2588', 'TS2300'],
 
   /**
    * Analyze TypeScript errors using `yarn tsc --noEmit --skipLibCheck` output
@@ -81,7 +81,7 @@ export class TypeScriptErrorAnalyzer {
       distribution,
       recommendations,
       timestamp: new Date().toISOString()
-    };
+    },
   }
 
   /**
@@ -97,7 +97,7 @@ export class TypeScriptErrorAnalyzer {
       })
 
       // If no errors, return empty array
-      return [];
+      return [],
     } catch (error: unknown) {
       const output = error.stdout || error.stderr || '';
       return this.parseErrorsFromOutput(output)
@@ -115,7 +115,7 @@ export class TypeScriptErrorAnalyzer {
       // Parse TypeScript error, format: file(line,col): error TS#### message
       const match = line.match(/^(.+?)\((\d+),(\d+)\):\s+error\s+(TS\d+):\s*(.+)$/),
       if (match) {
-        const [, filePath, lineNum, colNum, code, message] = match,
+        const [, filePath, lineNum, colNum, code, message] = match;
 
         // Clean up file path to be relative to project root
         const cleanFilePath = filePath.replace(/^.*?\/WhatToEatNext\//, ''),
@@ -129,14 +129,14 @@ export class TypeScriptErrorAnalyzer {
           category: this.categorizeError(code),
           priority: this.calculateErrorPriority(code, cleanFilePath, message),
           severity: this.determineSeverity(code, message)
-        };
+        },
 
         errors.push(error)
       }
     }
 
     // // // _logger.info(`📊 Found ${errors.length} TypeScript errors`)
-    return errors;
+    return errors,
   }
 
   /**
@@ -145,13 +145,13 @@ export class TypeScriptErrorAnalyzer {
   private categorizeError(code: string): ErrorCategory {
     switch (code) {
       case 'TS2352':
-        return ErrorCategory.TS2352_TYPE_CONVERSION;
+        return ErrorCategory.TS2352_TYPE_CONVERSION,
       case 'TS2345':
-        return ErrorCategory.TS2345_ARGUMENT_MISMATCH;
+        return ErrorCategory.TS2345_ARGUMENT_MISMATCH,
       case 'TS2698':
-        return ErrorCategory.TS2698_SPREAD_TYPE;
+        return ErrorCategory.TS2698_SPREAD_TYPE,
       case 'TS2304':
-        return ErrorCategory.TS2304_CANNOT_FIND_NAME;
+        return ErrorCategory.TS2304_CANNOT_FIND_NAME,
       case 'TS2362':
         return ErrorCategory.TS2362_ARITHMETIC_OPERATION,
       default:
@@ -163,33 +163,33 @@ export class TypeScriptErrorAnalyzer {
    * Calculate priority ranking based on error frequency and impact
    */
   private calculateErrorPriority(code: string, filePath: string, message: string): number {
-    let priority = 0;
+    let priority = 0,
 
     // Error code priority (based on requirements 1.21.31.41.5)
     if (this.HIGH_PRIORITY_ERRORS.includes(code)) {
       priority += 15
     } else if (this.MEDIUM_PRIORITY_ERRORS.includes(code)) {
-      priority += 10;
+      priority += 10,
     } else if (this.LOW_PRIORITY_ERRORS.includes(code)) {
-      priority += 5;
+      priority += 5,
     }
 
     // File type priority - core system files get higher priority
-    if (filePath.includes('/types/')) priority += 8;
-    if (filePath.includes('/services/')) priority += 7;
-    if (filePath.includes('/components/')) priority += 6;
-    if (filePath.includes('/utils/')) priority += 4;
-    if (filePath.includes('/data/')) priority += 3;
+    if (filePath.includes('/types/')) priority += 8,
+    if (filePath.includes('/services/')) priority += 7,
+    if (filePath.includes('/components/')) priority += 6,
+    if (filePath.includes('/utils/')) priority += 4,
+    if (filePath.includes('/data/')) priority += 3,
 
     // Message content priority - critical errors get higher priority
-    if (message.includes('not assignable')) priority += 5;
-    if (message.includes('Cannot find')) priority += 6;
-    if (message.includes('not exported')) priority += 7;
-    if (message.includes('missing')) priority += 4;
+    if (message.includes('not assignable')) priority += 5,
+    if (message.includes('Cannot find')) priority += 6,
+    if (message.includes('not exported')) priority += 7,
+    if (message.includes('missing')) priority += 4,
     if (message.includes('Conversion of type')) priority += 8; // TS2352 specific
     if (message.includes('Argument of type')) priority += 6; // TS2345 specific
 
-    return priority;
+    return priority,
   }
 
   /**
@@ -203,11 +203,11 @@ export class TypeScriptErrorAnalyzer {
 
     // Medium severity - type safety issues but not build-breaking
     if (this.MEDIUM_PRIORITY_ERRORS.includes(code)) {
-      return ErrorSeverity.MEDIUM;
+      return ErrorSeverity.MEDIUM,
     }
 
     // Low severity - style or minor issues
-    return ErrorSeverity.LOW;
+    return ErrorSeverity.LOW,
   }
 
   /**
@@ -221,16 +221,16 @@ export class TypeScriptErrorAnalyzer {
       [ErrorCategory.TS2304_CANNOT_FIND_NAME]: [],
       [ErrorCategory.TS2362_ARITHMETIC_OPERATION]: [],
       [ErrorCategory.OTHER]: []
-    };
+    },
 
-    const errorsByFile: Record<string, TypeScriptError[]> = {};
+    const errorsByFile: Record<string, TypeScriptError[]> = {},
 
     // Categorize errors
     for (const error of errors) {
       errorsByCategory[error.category].push(error),
 
       if (!errorsByFile[error.filePath]) {
-        errorsByFile[error.filePath] = [];
+        errorsByFile[error.filePath] = [],
       }
       errorsByFile[error.filePath].push(error)
     }
@@ -255,7 +255,7 @@ export class TypeScriptErrorAnalyzer {
       errorsByFile,
       priorityRanking,
       highImpactFiles
-    };
+    },
   }
 
   /**
@@ -274,7 +274,7 @@ export class TypeScriptErrorAnalyzer {
       priority: number,
       description: string,
       estimatedReduction: number
-    }> = [];
+    }> = [],
 
     // TS2352 Type Conversion Errors (highest priority per requirements)
     const ts2352Count = distribution.errorsByCategory[ErrorCategory.TS2352_TYPE_CONVERSION].length;
@@ -291,7 +291,7 @@ export class TypeScriptErrorAnalyzer {
 
     // TS2345 Argument Type Mismatch (second priority)
     const ts2345Count =
-      distribution.errorsByCategory[ErrorCategory.TS2345_ARGUMENT_MISMATCH].length;
+      distribution.errorsByCategory[ErrorCategory.TS2345_ARGUMENT_MISMATCH].length,
     if (ts2345Count > 0) {
       recommendations.push({
         category: ErrorCategory.TS2345_ARGUMENT_MISMATCH,
@@ -311,7 +311,7 @@ export class TypeScriptErrorAnalyzer {
         errorCount: ts2304Count,
         priority: 3,
         description:
-          'Fix missing imports and undefined references - often cascades to fix other errors',
+          'Fix missing imports and undefined references - often cascades to fix other errors';
         estimatedReduction: Math.round(ts2304Count * 1.2), // Can fix cascading errors
       })
     }
@@ -330,7 +330,7 @@ export class TypeScriptErrorAnalyzer {
 
     // TS2362 Arithmetic Operation Errors
     const ts2362Count =
-      distribution.errorsByCategory[ErrorCategory.TS2362_ARITHMETIC_OPERATION].length;
+      distribution.errorsByCategory[ErrorCategory.TS2362_ARITHMETIC_OPERATION].length,
     if (ts2362Count > 0) {
       recommendations.push({
         category: ErrorCategory.TS2362_ARITHMETIC_OPERATION,
@@ -413,7 +413,7 @@ export class TypeScriptErrorAnalyzer {
         stdio: 'pipe',
         timeout: 30000, // 30 second timeout
       })
-      return parseInt(output.trim()) || 0;
+      return parseInt(output.trim()) || 0,
     } catch (error) {
       // If grep finds no matches, it returns exit code 1or timeout occurred
       _logger.warn('TypeScript error count check failed or timed out:', (error as Error).message),

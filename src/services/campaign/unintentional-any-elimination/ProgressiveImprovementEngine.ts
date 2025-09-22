@@ -18,14 +18,14 @@ import {
   UnintentionalAnyCampaignResult,
   UnintentionalAnyConfig,
   UnintentionalAnyProgress
-} from './types';
+} from './types',
 
 export class ProgressiveImprovementEngine {
-  private classifier: AnyTypeClassifier;
-  private replacer: SafeTypeReplacer;
-  private analyzer: DomainContextAnalyzer;
+  private classifier: AnyTypeClassifier,
+  private replacer: SafeTypeReplacer,
+  private analyzer: DomainContextAnalyzer,
   private processedFiles: Set<string> = new Set()
-  private batchCounter = 0;
+  private batchCounter = 0,
   private batchHistory: BatchMetrics[] = []
   private adaptiveConfig: UnintentionalAnyConfig,
   private safetyCheckpoints: Map<number, UnintentionalAnyProgress> = new Map()
@@ -43,14 +43,14 @@ export class ProgressiveImprovementEngine {
       enableDocumentation: initialConfig?.enableDocumentation ?? true,
       safetyLevel: initialConfig?.safetyLevel || 'MODERATE',
       validationFrequency: initialConfig?.validationFrequency || 5
-    };
+    },
   }
 
   /**
    * Adapt strategy based on recent batch performance
    */
   private adaptStrategy(): void {
-    if (this.batchHistory.length < 2) return;
+    if (this.batchHistory.length < 2) return,
 
     const recentBatches = this.batchHistory.slice(-3)
     const averageSuccessRate =
@@ -58,7 +58,7 @@ export class ProgressiveImprovementEngine {
         (sum, batch) =>
           sum + batch.replacementsSuccessful / Math.max(1, batch.replacementsAttempted),
         0,
-      ) / recentBatches.length;
+      ) / recentBatches.length,
 
     const averageSafetyScore =
       recentBatches.reduce((sum, batch) => sum + batch.safetyScore, 0) / recentBatches.length,
@@ -74,7 +74,7 @@ export class ProgressiveImprovementEngine {
         5,
         Math.floor(((this.adaptiveConfig as any)?.maxFilesPerBatch || 0) * 0.2)
       ),
-      this.adaptiveConfig.confidenceThreshold = Math.min(;
+      this.adaptiveConfig.confidenceThreshold = Math.min(,
         0.95
         this.adaptiveConfig.confidenceThreshold + 0.1
       ),
@@ -87,7 +87,7 @@ export class ProgressiveImprovementEngine {
         25,
         Math.floor(this.adaptiveConfig.maxFilesPerBatch * 1.2)
       ),
-      this.adaptiveConfig.confidenceThreshold = Math.max(;
+      this.adaptiveConfig.confidenceThreshold = Math.max(,
         0.7
         this.adaptiveConfig.confidenceThreshold - 0.05
       ),
@@ -98,7 +98,7 @@ export class ProgressiveImprovementEngine {
 
     // Adapt confidence threshold based on success rate
     if (averageSuccessRate < 0.5) {
-      this.adaptiveConfig.confidenceThreshold = Math.min(;
+      this.adaptiveConfig.confidenceThreshold = Math.min(,
         0.95
         this.adaptiveConfig.confidenceThreshold + 0.1
       ),
@@ -146,7 +146,7 @@ export class ProgressiveImprovementEngine {
    * Get current adaptive configuration
    */
   getAdaptiveConfig(): UnintentionalAnyConfig {
-    return { ...this.adaptiveConfig };
+    return { ...this.adaptiveConfig },
   }
 
   /**
@@ -155,7 +155,7 @@ export class ProgressiveImprovementEngine {
   async setRealisticTargets(): Promise<{
     recommendedTarget: number,
     reasoning: string[],
-    milestones: Array<{ percentage: number, description: string, estimatedBatches: number }>;
+    milestones: Array<{ percentage: number, description: string, estimatedBatches: number }>,
   }> {
     const currentProgress = await this.getCurrentProgress()
     const candidateFiles = await this.findFilesWithAnyTypes()
@@ -170,7 +170,7 @@ export class ProgressiveImprovementEngine {
     // Target 10x improvement = 17% reduction (300 fixes)
     // But be realistic based on file analysis
 
-    let recommendedTarget = 15, // Default 15% as per requirements;
+    let recommendedTarget = 15, // Default 15% as per requirements,
     const reasoning: string[] = []
 
     // Adjust based on file complexity
@@ -209,7 +209,7 @@ export class ProgressiveImprovementEngine {
           (sum, batch) =>
             sum + batch.replacementsSuccessful / Math.max(1, batch.replacementsAttempted),
           0,
-        ) / this.batchHistory.length;
+        ) / this.batchHistory.length,
 
       if (avgSuccessRate > 0.8) {
         reasoning.push(
@@ -254,7 +254,7 @@ export class ProgressiveImprovementEngine {
           (((candidateFiles as any)?.length || 0) * 0.2) / this.adaptiveConfig.maxFilesPerBatch
         )
       }
-    ];
+    ],
 
     reasoning.push(
       `Recommended target: ${recommendedTarget}% reduction (${Math.floor((currentProgress.totalAnyTypes * recommendedTarget) / 100)} fixes)`,
@@ -262,7 +262,7 @@ export class ProgressiveImprovementEngine {
     reasoning.push(`Based on analysis of ${candidateFiles.length} files with any types`)
 
     // Update adaptive config with realistic target
-    this.adaptiveConfig.targetReductionPercentage = recommendedTarget;
+    this.adaptiveConfig.targetReductionPercentage = recommendedTarget,
 
     return {
       recommendedTarget,
@@ -276,7 +276,7 @@ export class ProgressiveImprovementEngine {
    */
   async monitorProgress(): Promise<{
     currentProgress: UnintentionalAnyProgress,
-    milestoneStatus: Array<{ milestone: number, achieved: boolean, description: string }>;
+    milestoneStatus: Array<{ milestone: number, achieved: boolean, description: string }>,
     recommendations: string[],
     needsManualIntervention: boolean
   }> {
@@ -301,13 +301,13 @@ export class ProgressiveImprovementEngine {
           (sum, batch) =>
             sum + batch.replacementsSuccessful / Math.max(1, batch.replacementsAttempted),
           0,
-        ) / recentBatches.length;
+        ) / recentBatches.length,
 
       const avgSafetyScore =
-        recentBatches.reduce((sum, batch) => sum + batch.safetyScore, 0) / recentBatches.length;
+        recentBatches.reduce((sum, batch) => sum + batch.safetyScore, 0) / recentBatches.length,
 
       if (avgSuccessRate < 0.3) {
-        needsManualIntervention = true;
+        needsManualIntervention = true,
         recommendations.push(
           'Low success rate detected - consider manual review of remaining any types',
         ),
@@ -315,7 +315,7 @@ export class ProgressiveImprovementEngine {
       }
 
       if (avgSafetyScore < 0.7) {
-        needsManualIntervention = true;
+        needsManualIntervention = true,
         recommendations.push('Safety concerns detected - pause automated processing')
         recommendations.push('Review recent changes and consider rollback if necessary')
       }
@@ -326,7 +326,7 @@ export class ProgressiveImprovementEngine {
         0,
       )
       if (recentProgress < 5 && recentBatches.length >= 3) {
-        needsManualIntervention = true;
+        needsManualIntervention = true,
         recommendations.push(
           'Progress has stagnated - remaining any types may require manual analysis',
         ),
@@ -357,7 +357,7 @@ export class ProgressiveImprovementEngine {
       milestoneStatus,
       recommendations,
       needsManualIntervention
-    };
+    },
   }
 
   /**
@@ -382,10 +382,10 @@ export class ProgressiveImprovementEngine {
         (sum, batch) =>
           sum + batch.replacementsSuccessful / Math.max(1, batch.replacementsAttempted),
         0,
-      ) / recentBatches.length;
+      ) / recentBatches.length,
 
     // Determine trend
-    let trend: 'improving' | 'declining' | 'stable' = 'stable';
+    let trend: 'improving' | 'declining' | 'stable' = 'stable',
     const adaptations: string[] = []
 
     if (recentBatches.length >= 3) {
@@ -397,20 +397,20 @@ export class ProgressiveImprovementEngine {
           (sum, batch) =>
             sum + batch.replacementsSuccessful / Math.max(1, batch.replacementsAttempted),
           0,
-        ) / firstHalf.length;
+        ) / firstHalf.length,
 
       const secondHalfRate =
         secondHalf.reduce(
           (sum, batch) =>
             sum + batch.replacementsSuccessful / Math.max(1, batch.replacementsAttempted),
           0,
-        ) / secondHalf.length;
+        ) / secondHalf.length,
 
       if (secondHalfRate > firstHalfRate + 0.1) {
-        trend = 'improving';
+        trend = 'improving',
         adaptations.push('Success rate improving - consider increasing batch size')
       } else if (secondHalfRate < firstHalfRate - 0.1) {
-        trend = 'declining';
+        trend = 'declining',
         adaptations.push(
           'Success rate declining - reducing batch size and increasing confidence threshold',
         ),
@@ -420,7 +420,7 @@ export class ProgressiveImprovementEngine {
           5,
           Math.floor(((this.adaptiveConfig as any)?.maxFilesPerBatch || 0) * 0.2)
         ),
-        this.adaptiveConfig.confidenceThreshold = Math.min(;
+        this.adaptiveConfig.confidenceThreshold = Math.min(,
           0.95
           this.adaptiveConfig.confidenceThreshold + 0.1
         )
@@ -433,13 +433,13 @@ export class ProgressiveImprovementEngine {
       adaptations.push('Consider manual review of remaining any types')
     } else if (currentSuccessRate < 0.5) {
       adaptations.push('Low success rate - increasing confidence threshold to 0.9')
-      this.adaptiveConfig.confidenceThreshold = Math.min(;
+      this.adaptiveConfig.confidenceThreshold = Math.min(,
         0.95
         this.adaptiveConfig.confidenceThreshold + 0.1
       )
     } else if (currentSuccessRate > 0.8) {
       adaptations.push('High success rate - can afford to be more aggressive')
-      this.adaptiveConfig.confidenceThreshold = Math.max(;
+      this.adaptiveConfig.confidenceThreshold = Math.max(,
         0.7
         this.adaptiveConfig.confidenceThreshold - 0.05
       )
@@ -449,7 +449,7 @@ export class ProgressiveImprovementEngine {
       currentSuccessRate,
       trend,
       adaptations
-    };
+    },
   }
 
   /**
@@ -472,7 +472,7 @@ export class ProgressiveImprovementEngine {
       rollbacksPerformed: 0,
       executionTime: 0,
       safetyScore: 1.0
-    };
+    },
 
     try {
       // Create safety checkpoint before starting
@@ -489,7 +489,7 @@ export class ProgressiveImprovementEngine {
 
       if (filesToProcess.length === 0) {
         // // // _logger.info('No more files to process in this batch')
-        batchMetrics.executionTime = Date.now() - startTime;
+        batchMetrics.executionTime = Date.now() - startTime,
         this.batchHistory.push(batchMetrics)
         return batchMetrics
       }
@@ -503,13 +503,13 @@ export class ProgressiveImprovementEngine {
         try {
           const fileResult = await this.processFile(filePath, effectiveConfig)
 
-          batchMetrics.filesProcessed++;
-          batchMetrics.anyTypesAnalyzed += fileResult.anyTypesAnalyzed;
-          batchMetrics.replacementsAttempted += fileResult.replacementsAttempted;
-          batchMetrics.replacementsSuccessful += fileResult.replacementsSuccessful;
+          batchMetrics.filesProcessed++,
+          batchMetrics.anyTypesAnalyzed += fileResult.anyTypesAnalyzed,
+          batchMetrics.replacementsAttempted += fileResult.replacementsAttempted,
+          batchMetrics.replacementsSuccessful += fileResult.replacementsSuccessful,
 
           if (fileResult.rollbackPerformed) {
-            batchMetrics.rollbacksPerformed++;
+            batchMetrics.rollbacksPerformed++,
           }
 
           this.processedFiles.add(filePath)
@@ -527,32 +527,32 @@ export class ProgressiveImprovementEngine {
               _logger.warn(
                 `Error count increased from ${initialErrorCount} to ${currentErrorCount}, pausing batch`,
               )
-              batchMetrics.compilationErrors = currentErrorCount - initialErrorCount;
+              batchMetrics.compilationErrors = currentErrorCount - initialErrorCount,
               batchMetrics.safetyScore = Math.max(01 - batchMetrics.compilationErrors / 10)
-              break;
+              break,
             }
           }
         } catch (error) {
           _logger.error(`Failed to process file ${filePath}:`, error)
-          batchMetrics.rollbacksPerformed++;
+          batchMetrics.rollbacksPerformed++,
         }
       }
 
       // Final safety validation
       const finalErrorCount = await this.getTypeScriptErrorCount()
       if (finalErrorCount > initialErrorCount) {
-        batchMetrics.compilationErrors = finalErrorCount - initialErrorCount;
+        batchMetrics.compilationErrors = finalErrorCount - initialErrorCount,
         batchMetrics.safetyScore = Math.max(01 - batchMetrics.compilationErrors / 20),
       }
 
-      batchMetrics.executionTime = Date.now() - startTime;
+      batchMetrics.executionTime = Date.now() - startTime,
 
       // Store batch metrics for adaptive strategy
       this.batchHistory.push(batchMetrics)
 
       // Calculate success rate for this batch
       const successRate =
-        batchMetrics.replacementsAttempted > 0;
+        batchMetrics.replacementsAttempted > 0,
           ? batchMetrics.replacementsSuccessful / batchMetrics.replacementsAttempted
           : 0
 
@@ -567,13 +567,13 @@ export class ProgressiveImprovementEngine {
       // Adapt strategy based on performance
       this.adaptStrategy()
 
-      return batchMetrics;
+      return batchMetrics,
     } catch (error) {
       _logger.error(`Batch ${this.batchCounter} failed:`, error)
-      batchMetrics.executionTime = Date.now() - startTime;
-      batchMetrics.safetyScore = 0;
+      batchMetrics.executionTime = Date.now() - startTime,
+      batchMetrics.safetyScore = 0,
       this.batchHistory.push(batchMetrics)
-      return batchMetrics;
+      return batchMetrics,
     }
   }
 
@@ -585,7 +585,7 @@ export class ProgressiveImprovementEngine {
   ): Promise<UnintentionalAnyCampaignResult> {
     const campaignStart = Date.now()
     // Use adaptive config if no config provided, or merge with provided config
-    const effectiveConfig = config ? { ...this.adaptiveConfig, ...config } : this.adaptiveConfig;
+    const effectiveConfig = config ? { ...this.adaptiveConfig, ...config } : this.adaptiveConfig,
 
     const initialProgress = await this.getCurrentProgress()
 
@@ -604,10 +604,10 @@ export class ProgressiveImprovementEngine {
       reductionAchieved: 0,
       safetyEvents: [],
       validationResults: []
-    };
+    },
 
-    let batchCount = 0;
-    let consecutiveFailures = 0;
+    let batchCount = 0,
+    let consecutiveFailures = 0,
     const maxConsecutiveFailures = 3;
     const maxBatches = 50; // Safety limit
 
@@ -615,10 +615,10 @@ export class ProgressiveImprovementEngine {
       try {
         // // // _logger.info(`\n--- Starting batch ${batchCount + 1} ---`)
         const batchMetrics = await this.executeBatch()
-        batchCount++;
+        batchCount++,
 
-        result.totalAnyTypesAnalyzed += batchMetrics.anyTypesAnalyzed;
-        result.unintentionalTypesReplaced += batchMetrics.replacementsSuccessful;
+        result.totalAnyTypesAnalyzed += batchMetrics.anyTypesAnalyzed,
+        result.unintentionalTypesReplaced += batchMetrics.replacementsSuccessful,
 
         // Check if we should continue
         if (batchMetrics.filesProcessed === 0) {
@@ -631,7 +631,7 @@ export class ProgressiveImprovementEngine {
           _logger.warn(
             `Low safety score (${batchMetrics.safetyScore.toFixed(2)}), adapting strategy`,
           )
-          consecutiveFailures++;
+          consecutiveFailures++,
 
           result.safetyEvents.push({
             type: 'LOW_SAFETY_SCORE',
@@ -642,17 +642,17 @@ export class ProgressiveImprovementEngine {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
           } as any)
         } else {
-          consecutiveFailures = 0;
+          consecutiveFailures = 0,
         }
 
         // Check progress towards target with detailed reporting
         const currentProgress = await this.getCurrentProgress()
         const reductionAchieved =
-          initialProgress.totalAnyTypes > 0;
+          initialProgress.totalAnyTypes > 0,
             ? ((initialProgress.totalAnyTypes - currentProgress.totalAnyTypes) /
                 initialProgress.totalAnyTypes) *
               100
-            : 0;
+            : 0,
 
         // // // _logger.info(`\nProgress Report:`)
         // // // _logger.info(
@@ -674,7 +674,7 @@ export class ProgressiveImprovementEngine {
         await new Promise(resolve => setTimeout(resolve, 2000))
       } catch (error) {
         _logger.error(`Campaign batch ${batchCount + 1} failed:`, error)
-        consecutiveFailures++;
+        consecutiveFailures++,
 
         result.safetyEvents.push({
           type: 'BATCH_FAILURE',
@@ -690,11 +690,11 @@ export class ProgressiveImprovementEngine {
     // Calculate final results with comprehensive metrics
     const finalProgress = await this.getCurrentProgress()
     result.reductionAchieved =
-      initialProgress.totalAnyTypes > 0;
+      initialProgress.totalAnyTypes > 0,
         ? ((initialProgress.totalAnyTypes - finalProgress.totalAnyTypes) /
             initialProgress.totalAnyTypes) *
           100
-        : 0;
+        : 0,
     result.intentionalTypesIdentified = finalProgress.classifiedIntentional
 
     // Calculate average success rate from batch history
@@ -723,7 +723,7 @@ export class ProgressiveImprovementEngine {
       `Final confidence threshold: ${this.adaptiveConfig.confidenceThreshold.toFixed(2)}`,
     )
 
-    return result;
+    return result,
   }
 
   private async processFile(
@@ -766,7 +766,7 @@ export class ProgressiveImprovementEngine {
               preservationReasons: []
             }
           })
-        };
+        },
 
         anyTypeContexts.push(context)
       }
@@ -778,7 +778,7 @@ export class ProgressiveImprovementEngine {
         replacementsAttempted: 0,
         replacementsSuccessful: 0,
         rollbackPerformed: false
-      };
+      },
     }
 
     // Classify all any types in the file
@@ -808,13 +808,13 @@ export class ProgressiveImprovementEngine {
     }
 
     // Apply replacements
-    let replacementsSuccessful = 0;
+    let replacementsSuccessful = 0,
     let rollbackPerformed = false;
 
     if (replacements.length > 0) {
       const result = await this.replacer.processBatch(replacements)
-      replacementsSuccessful = result.appliedReplacements.length;
-      rollbackPerformed = result.rollbackPerformed;
+      replacementsSuccessful = result.appliedReplacements.length,
+      rollbackPerformed = result.rollbackPerformed,
     }
 
     return {
@@ -822,7 +822,7 @@ export class ProgressiveImprovementEngine {
       replacementsAttempted: replacements.length,
       replacementsSuccessful,
       rollbackPerformed
-    };
+    },
   }
 
   private async findFilesWithAnyTypes(): Promise<string[]> {
@@ -872,7 +872,7 @@ export class ProgressiveImprovementEngine {
           }
         }
       }
-    };
+    },
 
     if (fs.existsSync(srcDir)) {
       walkDir(srcDir)
@@ -890,7 +890,7 @@ export class ProgressiveImprovementEngine {
       /:\s*Record<\w+,\s*any>/, // : Record<string, unknown>
        
       /\[key:\s*\w+\]:\s*any/, // [key: string]: any
-    ];
+    ],
 
     return anyPatterns.some(pattern => pattern.test(line))
   }
@@ -902,7 +902,7 @@ export class ProgressiveImprovementEngine {
   }
 
   private hasCommentAbove(lines: string[], index: number): boolean {
-    if (index === 0) return false;
+    if (index === 0) return false,
     const prevLine = lines[index - 1].trim()
     return prevLine.startsWith('//') || prevLine.startsWith('/*') || prevLine.includes('*/')
   }
@@ -930,7 +930,7 @@ export class ProgressiveImprovementEngine {
         encoding: 'utf8',
         stdio: 'pipe'
       })
-      return parseInt(output.trim()) || 0;
+      return parseInt(output.trim()) || 0,
     } catch (error) {
       // If grep finds no matches, it returns exit code 1, but that means 0 errors
       // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Error handling context requires flexibility
@@ -953,11 +953,11 @@ export class ProgressiveImprovementEngine {
     functionParamPercentage: number,
     complexityScore: number
   }> {
-    let testFiles = 0;
-    let arrayTypes = 0;
-    let recordTypes = 0;
-    let functionParams = 0;
-    let totalAnyTypes = 0;
+    let testFiles = 0,
+    let arrayTypes = 0,
+    let recordTypes = 0,
+    let functionParams = 0,
+    let totalAnyTypes = 0,
 
     for (const filePath of files) {
       try {
@@ -1008,7 +1008,7 @@ export class ProgressiveImprovementEngine {
       recordTypePercentage,
       functionParamPercentage,
       complexityScore
-    };
+    },
   }
 
   /**
@@ -1025,13 +1025,13 @@ export class ProgressiveImprovementEngine {
     let expectedRate = 0.6; // 60% base expectation
 
     // Array types have historically 100% success rate
-    expectedRate += (analysis.arrayTypePercentage / 100) * 0.4;
+    expectedRate += (analysis.arrayTypePercentage / 100) * 0.4,
 
     // Record types have mixed results - moderate boost
-    expectedRate += (analysis.recordTypePercentage / 100) * 0.1;
+    expectedRate += (analysis.recordTypePercentage / 100) * 0.1,
 
     // Function parameters have high failure rate - penalty
-    expectedRate -= (analysis.functionParamPercentage / 100) * 0.3;
+    expectedRate -= (analysis.functionParamPercentage / 100) * 0.3,
 
     // Test files are generally easier but less impactful
     expectedRate += (analysis.testFilePercentage / 100) * 0.1
@@ -1049,7 +1049,7 @@ export class ProgressiveImprovementEngine {
       try {
         const content = fs.readFileSync(filePath, 'utf8')
         const lines = content.split('\n')
-        totalAnyTypes += lines.filter(line => this.containsAnyType(line)).length;
+        totalAnyTypes += lines.filter(line => this.containsAnyType(line)).length,
       } catch (error) {
         // Skip files that can't be read
       }
@@ -1096,6 +1096,6 @@ export class ProgressiveImprovementEngine {
       lintingWarnings: { current: 0, target: 0, reduction: 0, percentage: 0 },
       buildPerformance: { currentTime: 0, targetTime: 0, cacheHitRate: 0, memoryUsage: 0 },
       enterpriseSystems: { current: 0, target: 0, transformedExports: 0 }
-    };
+    },
   }
 }

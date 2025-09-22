@@ -65,7 +65,7 @@ export async function getRecipesForTarotCard(cards: TarotCardResult): Promise<Re
       preparation: 'Brew under the light of the full moon.',
       astrologicalInfluences: ['Moon', 'Neptune']
     }
-  ];
+  ],
 
   // If there are no cards, return default recipes
   if (!cards || !cards.minorCard || !cards.majorCard) {
@@ -77,7 +77,7 @@ export async function getRecipesForTarotCard(cards: TarotCardResult): Promise<Re
     const element =
       cards.minorCard.element ||
       SUIT_TO_ELEMENT[cards.minorCard.suit as keyof typeof SUIT_TO_ELEMENT] ||
-      'Fire';
+      'Fire',
 
     // Get the recipes that match the element
     // This is a placeholder - in a real implementation, you would filter based on the element

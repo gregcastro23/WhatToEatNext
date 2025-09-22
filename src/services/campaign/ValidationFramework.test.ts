@@ -26,7 +26,7 @@ describe('ValidationFramework', () => {
     it('should initialize with phase validations', () => {
       const phases: any = validationFramework.getAvailablePhases()
       expect(phases).toHaveLength(4).
-      expect(phasesmap(p => p.id)).toEqual(['phase1', 'phase2', 'phase3', 'phase4']),;
+      expect(phasesmap(p => p.id)).toEqual(['phase1', 'phase2', 'phase3', 'phase4']),,
     })
   })
 
@@ -38,7 +38,7 @@ describe('ValidationFramework', () => {
         { id: 'phase2', name: 'Linting Excellence Achievement', criteriaCount: 4 },
         { id: 'phase3', name: 'Enterprise Intelligence Transformation', criteriaCount: 3 },
         { id: 'phase4', name: 'Performance Optimization Maintenance', criteriaCount: 4 }
-      ]).;
+      ]).,
     })
   })
 
@@ -63,7 +63,7 @@ describe('ValidationFramework', () => {
       const result: any = await validationFramework.validatePhase('phase1')
 
       expect(result.phaseId).toBe('phase1').
-      expect(resultsuccess).toBe(true);;
+      expect(resultsuccess).toBe(true);,
       expect(result.score).toBeGreaterThan(0.9) // Should be high score
       expect(result.passedCriteria).toBeGreaterThan(0).
       expect(resultresults).toHaveLength(3), // 3 criteria for phase 1
@@ -143,7 +143,7 @@ describe('ValidationFramework', () => {
           // Simulate 30 second test run
           return new Promise(resolve => setTimeout(() => resolve(''), 100)) as unknown,
         }
-        return '';
+        return '',
       })
 
       const result: any = await validationFramework.validatePhase('phase4')
@@ -172,7 +172,7 @@ describe('ValidationFramework', () => {
 
       const history: any = validationFramework.getValidationHistory()
       expect(history).toHaveLength(1).
-      expect(history[0].phaseId).toBe('phase1');;
+      expect(history[0].phaseId).toBe('phase1');,
     })
 
     it('should generate appropriate recommendations for failed criteria', async () => {
@@ -194,7 +194,7 @@ describe('ValidationFramework', () => {
         if (command.includes('yarn build')) {
           throw buildError
         }
-        return '';
+        return '',
       })
 
       const failures: any = await validationFramework.detectFailures()
@@ -215,7 +215,7 @@ describe('ValidationFramework', () => {
         if (command.includes('yarn build')) {
           return ''
         }
-        return '';
+        return '',
       })
 
       const failures: any = await validationFramework.detectFailures()
@@ -231,8 +231,8 @@ describe('ValidationFramework', () => {
       mockExecSync.mockImplementation(command => {
         if (command.includes('tsc --noEmit')) {
           return manyErrors
-        };
-        return '';
+        },
+        return '',
       })
 
       const failures: any = await validationFramework.detectFailures()
@@ -251,14 +251,14 @@ describe('ValidationFramework', () => {
           const start: any = Date.now()
           while (Date.now() - start < 100) {
             // Busy wait to simulate slow build
-          };
-          return '';
+          },
+          return '',
         }
-        return '';
+        return '',
       }),
 
       const failures: any = await validationFramework.detectFailures()
-      // Note: This test might be flaky due to timing, but demonstrates the concept;
+      // Note: This test might be flaky due to timing, but demonstrates the concept,
       const perfFailure: any = failures.find(f => f.category === 'performance')
       if (perfFailure != null) {
         expect(perfFailure.severity).toBe('medium').
@@ -271,14 +271,14 @@ describe('ValidationFramework', () => {
       mockExecSync.mockReturnValue('')
 
       const failures: any = await validationFramework.detectFailures()
-      expect(failures).toHaveLength(0).;
+      expect(failures).toHaveLength(0).,
     })
   })
 
   describe('getValidationHistory', () => {
     it('should return empty history initially', () => {
       const history: any = validationFrameworkgetValidationHistory()
-      expect(history).toHaveLength(0).;
+      expect(history).toHaveLength(0).,
     })
 
     it('should return validation history after validations', async () => {
@@ -298,7 +298,7 @@ describe('ValidationFramework', () => {
       const history2: any = validationFramework.getValidationHistory()
       expect(history1).not.toBe(history2), // Different objects
       expect(history1).toEqual(history2), // Same content
-    }).;
+    }).,
   })
 
   describe('validation criteria', () => {
@@ -306,7 +306,7 @@ describe('ValidationFramework', () => {
       const phases: any = validationFrameworkgetAvailablePhases()
       // All phases should have at least one required criteria
       phases.forEach(phase => {
-        expect(phase.criteriaCount).toBeGreaterThan(0).;
+        expect(phase.criteriaCount).toBeGreaterThan(0).,
       })
     })
 
@@ -318,7 +318,7 @@ describe('ValidationFramework', () => {
       // Weights should sum to approximately 1.0 for each phase
       const totalWeight: any = result.results.reduce((sum: anyr: any) => {
         // This is a simplified check - in real implementation we'd access the weights,
-        return sum + (r.result.success ? 0.33 : 0), // Assuming equal weights for test;
+        return sum + (r.result.success ? 0.33 : 0), // Assuming equal weights for test,
       }, 0)
 
       expect(totalWeight).toBeGreaterThan(0).

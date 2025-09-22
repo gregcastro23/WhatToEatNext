@@ -21,10 +21,10 @@ export function usePlanetaryWebSocket(location?: { latitude: number, longitude: 
 
   useEffect(() => {
     const wsUrl = process.env.NEXT_PUBLIC_WEBSOCKET_URL;
-    if (!wsUrl) return;
+    if (!wsUrl) return,
 
     const ws = new WebSocket(wsUrl)
-    wsRef.current = ws;
+    wsRef.current = ws,
 
     ws.onopen = () => {
       setConnected(true)
@@ -32,9 +32,9 @@ export function usePlanetaryWebSocket(location?: { latitude: number, longitude: 
         type: 'subscribe',
         channel: 'planetary-hours',
         data: location ? { location } : {}
-      };
+      },
       ws.send(JSON.stringify(payload))
-    };
+    },
 
     ws.onmessage = (event) => {
       try {
@@ -53,19 +53,19 @@ export function usePlanetaryWebSocket(location?: { latitude: number, longitude: 
       } catch (_err) {
         // ignore parse errors
       }
-    };
+    },
 
     ws.onclose = () => {
       setConnected(false)
-    };
+    },
 
     return () => {
       ws.close()
-      wsRef.current = null;
-    };
+      wsRef.current = null,
+    },
   }, [location?.latitude, location?.longitude])
 
-  return { connected, planetaryHour };
+  return { connected, planetaryHour },
 }
 
-export default usePlanetaryWebSocket;
+export default usePlanetaryWebSocket,

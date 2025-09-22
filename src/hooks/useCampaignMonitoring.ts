@@ -14,7 +14,7 @@ import type {
   SystemHealthStatus,
   CampaignExecutionRequest,
   CampaignSchedule
-} from '../services/KiroCampaignIntegration';
+} from '../services/KiroCampaignIntegration',
 
 export interface CampaignMonitoringState {
   controlPanel: KiroCampaignControlPanel | null,
@@ -37,9 +37,9 @@ export interface CampaignMonitoringActions {
 }
 
 export interface UseCampaignMonitoringOptions {
-  autoRefresh?: boolean;
+  autoRefresh?: boolean,
   refreshInterval?: number; // milliseconds
-  onCampaignStart?: (campaignId: string) => void;
+  onCampaignStart?: (campaignId: string) => void,
   onCampaignComplete?: (campaignId: string) => void
   onCampaignFailed?: (campaignId: string, error: string) => void,
   onSystemHealthChange?: (health: SystemHealthStatus) => void
@@ -63,7 +63,7 @@ export const useCampaignMonitoring = (
     onCampaignComplete,
     onCampaignFailed,
     onSystemHealthChange
-  } = options;
+  } = options,
 
   // State
   const [state, setState] = useState<CampaignMonitoringState>({
@@ -87,7 +87,7 @@ export const useCampaignMonitoring = (
 
       const controlPanel = await kiroCampaignIntegration.getCampaignControlPanel()
 
-      setState(prev => ({;
+      setState(prev => ({,
         ...prev
         controlPanel,
         activeCampaigns: controlPanel.activeCampaigns,
@@ -102,7 +102,7 @@ export const useCampaignMonitoring = (
         if (!prevHealth || prevHealth.overallHealth !== controlPanel.systemHealth.overallHealth) {
           onSystemHealthChange(controlPanel.systemHealth)
         }
-        previousHealthRef.current = controlPanel.systemHealth;
+        previousHealthRef.current = controlPanel.systemHealth,
       }
 
       // Check for campaign status changes
@@ -111,11 +111,11 @@ export const useCampaignMonitoring = (
         const currentStatus = campaign.status;
 
         if (prevStatus && prevStatus !== currentStatus) {
-          if (currentStatus === 'completed') {;
+          if (currentStatus === 'completed') {,
             onCampaignComplete?.(campaign.campaignId)
-          } else if (currentStatus === 'failed') {;
+          } else if (currentStatus === 'failed') {,
             const errorMessage =
-              campaign.safetyEvents;
+              campaign.safetyEvents,
                 .filter(e => e.severity === 'ERROR')
                 .map(e => e.description)
                 .join(', ') || 'Campaign failed',
@@ -127,7 +127,7 @@ export const useCampaignMonitoring = (
       })
     } catch (error) {
       const errorMessage =
-        error instanceof Error ? error.message : 'Failed to refresh campaign data';
+        error instanceof Error ? error.message : 'Failed to refresh campaign data',
       setState(prev => ({
         ...prev,
         loading: false,
@@ -150,7 +150,7 @@ export const useCampaignMonitoring = (
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Failed to start campaign'
         setState(prev => ({ ...prev, error: errorMessage }))
-        throw error;
+        throw error,
       }
     },
     [refreshData, onCampaignStart],
@@ -164,11 +164,11 @@ export const useCampaignMonitoring = (
         if (success) {
           await refreshData()
         }
-        return success;
+        return success,
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Failed to pause campaign'
         setState(prev => ({ ...prev, error: errorMessage }))
-        return false;
+        return false,
       }
     },
     [refreshData],
@@ -182,11 +182,11 @@ export const useCampaignMonitoring = (
         if (success) {
           await refreshData()
         }
-        return success;
+        return success,
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Failed to resume campaign'
         setState(prev => ({ ...prev, error: errorMessage }))
-        return false;
+        return false,
       }
     },
     [refreshData],
@@ -201,11 +201,11 @@ export const useCampaignMonitoring = (
           await refreshData(),
           onCampaignComplete?.(campaignId)
         }
-        return success;
+        return success,
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Failed to stop campaign'
         setState(prev => ({ ...prev, error: errorMessage }))
-        return false;
+        return false,
       }
     },
     [refreshData, onCampaignComplete],
@@ -234,7 +234,7 @@ export const useCampaignMonitoring = (
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Failed to schedule campaign'
         setState(prev => ({ ...prev, error: errorMessage }))
-        throw error;
+        throw error,
       }
     },
     [],
@@ -260,7 +260,7 @@ export const useCampaignMonitoring = (
       if (refreshIntervalRef.current) {
         clearInterval(refreshIntervalRef.current)
       }
-    };
+    },
   }, [refreshData, autoRefresh, refreshInterval])
 
   // Cleanup on unmount
@@ -269,7 +269,7 @@ export const useCampaignMonitoring = (
       if (refreshIntervalRef.current) {
         clearInterval(refreshIntervalRef.current)
       }
-    };
+    },
   }, [])
 
   // Actions object
@@ -282,10 +282,10 @@ export const useCampaignMonitoring = (
     getCampaignStatus,
     scheduleCampaign,
     getScheduledCampaigns
-  };
+  },
 
-  return { state, actions };
-};
+  return { state, actions },
+},
 
 /**
  * Hook for monitoring a specific campaign
@@ -316,8 +316,8 @@ export const _useCampaignStatus = (campaignId: string) => {
     return () => clearInterval(interval)
   }, [refreshStatus])
 
-  return { status, loading, error, refreshStatus };
-};
+  return { status, loading, error, refreshStatus },
+},
 
 /**
  * Hook for system health monitoring
@@ -348,7 +348,7 @@ export const _useSystemHealth = () => {;
     return () => clearInterval(interval)
   }, [refreshHealth])
 
-  return { health, loading, error, refreshHealth };
-};
+  return { health, loading, error, refreshHealth },
+},
 
-export default useCampaignMonitoring;
+export default useCampaignMonitoring,

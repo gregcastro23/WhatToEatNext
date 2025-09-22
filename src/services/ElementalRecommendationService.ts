@@ -46,7 +46,7 @@ export class ElementalRecommendationService {
           ? (characteristics.culinaryHerbs as string[])
           : []
       })()
-    };
+    },
   }
 
   /**
@@ -61,7 +61,7 @@ export class ElementalRecommendationService {
       Water: element === 'Water' ? 0.6 : 0.1,
       Earth: element === 'Earth' ? 0.6 : 0.1,
       Air: element === 'Air' ? 0.6 : 0.1
-    };
+    },
 
     return this.generateRecommendation(elementalUtils.normalizeProperties(properties))
   }
@@ -82,14 +82,14 @@ export class ElementalRecommendationService {
       'waning gibbous': { Water: 0.4, Earth: 0.3 },
       'last quarter': { Earth: 0.4, Water: 0.3 },
       'waning crescent': { Earth: 0.5, Air: 0.2 }
-    };
+    },
 
     const properties = {
       Fire: lunarElementalMap[lunarPhase].Fire || 0.25,
       Water: lunarElementalMap[lunarPhase].Water || 0.25,
       Earth: lunarElementalMap[lunarPhase].Earth || 0.25,
       Air: lunarElementalMap[lunarPhase].Air || 0.25
-    };
+    },
 
     return this.generateRecommendation(elementalUtils.normalizeProperties(properties))
   }
@@ -113,7 +113,7 @@ export class ElementalRecommendationService {
     return Object.entries(properties).reduce(
       (max, [element, value]) => (value > max.value ? { element, value } : max),
       { element: '', value: 0 },
-    ).element;
+    ).element,
   }
 
   /**
@@ -127,9 +127,9 @@ export class ElementalRecommendationService {
       Water: ['Winter', 'Late Autumn'],
       Earth: ['Autumn', 'Late Summer'],
       Air: ['Spring', 'Early Summer']
-    };
+    },
 
-    return seasonalMap[element] || ['Any season'];
+    return seasonalMap[element] || ['Any season'],
   }
 }
 
@@ -149,4 +149,4 @@ export interface ElementalRecommendation {
   culinaryHerbs: string[]
 }
 
-export default ElementalRecommendationService;
+export default ElementalRecommendationService,

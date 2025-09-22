@@ -46,7 +46,7 @@ export interface AlertAction {
   id: string,
   name: string,
   type: 'script' | 'command' | 'api_call' | 'campaign' | 'notification',
-  config: Record<string, string | number | boolean | string[]>;
+  config: Record<string, string | number | boolean | string[]>,
   conditions: string[],
   retryCount: number,
   timeoutSeconds: number
@@ -75,10 +75,10 @@ export interface AlertResponse {
 }
 
 class AlertingSystem {
-  private alerts: Alert[] = [];
-  private alertRules: AlertRule[] = [];
-  private escalationRules: EscalationRule[] = [];
-  private alertResponses: AlertResponse[] = [];
+  private alerts: Alert[] = [],
+  private alertRules: AlertRule[] = [],
+  private escalationRules: EscalationRule[] = [],
+  private alertResponses: AlertResponse[] = [],
   private subscribers: Set<(alert: Alert) => void> = new Set()
   private lastAlertTimes: Map<string, Date> = new Map()
 
@@ -93,10 +93,10 @@ class AlertingSystem {
       const configPath = path.join(process.cwd(), '.kiro', 'settings', 'alerting-config.json')
       if (fs.existsSync(configPath)) {
         const config = JSON.parse(fs.readFileSync(configPath, 'utf8'))
-        this.alertRules = config.alertRules || [];
-        this.escalationRules = config.escalationRules || [];
-        this.alerts = config.alerts || [];
-        this.alertResponses = config.alertResponses || [];
+        this.alertRules = config.alertRules || [],
+        this.escalationRules = config.escalationRules || [],
+        this.alerts = config.alerts || [],
+        this.alertResponses = config.alertResponses || [],
       }
     } catch (error) {
       _logger.warn('[Alerting System] Failed to load configuration:', error)
@@ -116,7 +116,7 @@ class AlertingSystem {
         escalationRules: this.escalationRules,
         alerts: this.alerts.slice(-500), // Keep last 500 alerts,
         alertResponses: this.alertResponses.slice(-200), // Keep last 200 responses
-      };
+      },
 
       fs.writeFileSync(configPath, JSON.stringify(config, null, 2))
     } catch (error) {
@@ -125,7 +125,7 @@ class AlertingSystem {
   }
 
   private initializeDefaultRules() {
-    if (this.alertRules.length === 0) {;
+    if (this.alertRules.length === 0) {,
       const defaultRules: AlertRule[] = [
         {
           id: 'build-time-critical',
@@ -273,12 +273,12 @@ class AlertingSystem {
           ],
           notificationChannels: ['console', 'file']
         }
-      ];
+      ],
 
-      this.alertRules = defaultRules;
+      this.alertRules = defaultRules,
     }
 
-    if (this.escalationRules.length === 0) {;
+    if (this.escalationRules.length === 0) {,
       const defaultEscalationRules: EscalationRule[] = [
         {
           id: 'critical-escalation',
@@ -324,9 +324,9 @@ class AlertingSystem {
           ],
           maxEscalations: 2
         }
-      ];
+      ],
 
-      this.escalationRules = defaultEscalationRules;
+      this.escalationRules = defaultEscalationRules,
     }
   }
 
@@ -358,7 +358,7 @@ class AlertingSystem {
 
   private checkAlertConditions() {
     for (const rule of this.alertRules) {
-      if (!rule.enabled) continue;
+      if (!rule.enabled) continue,
 
       // Check cooldown
       const lastAlertTime = this.lastAlertTimes.get(rule.id)
@@ -374,17 +374,17 @@ class AlertingSystem {
   }
 
   private evaluateRule(rule: AlertRule) {
-    let currentValue: number;
+    let currentValue: number,
     let shouldAlert = false;
 
     // Get current metric value based on rule type
     switch (rule.type) {
       case 'performance':
         currentValue = this.getPerformanceMetric(rule.metric)
-        break;
+        break,
       case 'error':
         currentValue = this.getErrorMetric(rule.metric)
-        break;
+        break,
       case 'quality':
         currentValue = this.getQualityMetric(rule.metric)
         break,
@@ -396,20 +396,20 @@ class AlertingSystem {
 
     // Evaluate condition
     switch (rule.condition) {
-      case 'greater_than': shouldAlert = currentValue > rule.threshold;
-        break;
+      case 'greater_than': shouldAlert = currentValue > rule.threshold,
+        break,
       case 'less_than':
-        shouldAlert = currentValue < rule.threshold;
-        break;
+        shouldAlert = currentValue < rule.threshold,
+        break,
       case 'equals':
-        shouldAlert = currentValue === rule.threshold;
-        break;
+        shouldAlert = currentValue === rule.threshold,
+        break,
       case 'not_equals':
         shouldAlert = currentValue !== rule.threshold
         break,
       case 'percentage_change':
         // This would require historical data comparison
-        shouldAlert = false, // Placeholder;
+        shouldAlert = false; // Placeholder,
         break
     }
 
@@ -423,15 +423,15 @@ class AlertingSystem {
 
     switch (metric) {
       case 'build_time':
-        return summary.averageBuildTime;
+        return summary.averageBuildTime,
       case 'compilation_time':
-        return summary.averageCompilationTime;
+        return summary.averageCompilationTime,
       case 'bundle_size':
-        return summary.averageBundleSize;
+        return summary.averageBundleSize,
       case 'memory_usage':
-        return summary.averageMemoryUsage;
+        return summary.averageMemoryUsage,
       case 'cache_efficiency':
-        return summary.cacheEfficiency;
+        return summary.cacheEfficiency,
       case 'performance_score':
         return summary.performanceScore,
       default:
@@ -444,13 +444,13 @@ class AlertingSystem {
 
     switch (metric) {
       case 'typescript_errors':
-        return summary.totalActiveErrors;
+        return summary.totalActiveErrors,
       case 'linting_violations':
-        return summary.totalActiveLintViolations;
+        return summary.totalActiveLintViolations,
       case 'build_failures':
-        return summary.totalRecentFailures;
+        return summary.totalRecentFailures,
       case 'critical_issues':
-        return summary.criticalIssues;
+        return summary.criticalIssues,
       case 'automation_opportunities':
         return summary.automationOpportunities,
       default:
@@ -461,17 +461,17 @@ class AlertingSystem {
   private getQualityMetric(metric: string): number {
     const qualityMetrics = errorTrackingSystem.getCurrentQualityMetrics()
 
-    if (!qualityMetrics) return 0;
+    if (!qualityMetrics) return 0,
 
     switch (metric) {
       case 'code_quality_score':
-        return qualityMetrics.codeQualityScore;
+        return qualityMetrics.codeQualityScore,
       case 'technical_debt_score':
-        return qualityMetrics.technicalDebtScore;
+        return qualityMetrics.technicalDebtScore,
       case 'maintainability_index':
-        return qualityMetrics.maintainabilityIndex;
+        return qualityMetrics.maintainabilityIndex,
       case 'error_rate':
-        return qualityMetrics.errorRate;
+        return qualityMetrics.errorRate,
       case 'warning_rate':
         return qualityMetrics.warningRate,
       default:
@@ -482,9 +482,9 @@ class AlertingSystem {
   private getSystemMetric(metric: string): number {
     switch (metric) {
       case 'memory_usage':
-        return process.memoryUsage().heapUsed;
+        return process.memoryUsage().heapUsed,
       case 'cpu_usage':
-        return process.cpuUsage().user + process.cpuUsage().system;
+        return process.cpuUsage().user + process.cpuUsage().system,
       case 'uptime':
         return process.uptime()
       default:
@@ -511,7 +511,7 @@ class AlertingSystem {
         metric: rule.metric,
         condition: rule.condition
       }
-    };
+    },
 
     this.alerts.push(alert)
     this.lastAlertTimes.set(rule.id, new Date())
@@ -544,23 +544,23 @@ class AlertingSystem {
         status: 'pending',
         startTime: new Date(),
         retryCount: 0
-      };
+      },
 
       this.alertResponses.push(response)
 
       try {
-        response.status = 'running';
+        response.status = 'running',
         const result = await this.executeAction(action)
 
-        response.status = 'completed';
+        response.status = 'completed',
         response.endTime = new Date()
-        response.result = result;
+        response.result = result,
 
         log.info(`[Alert Response] Successfully executed ${action.name} for alert ${alert.id}`)
       } catch (error) {
-        response.status = 'failed';
+        response.status = 'failed',
         response.endTime = new Date()
-        response.error = (error as Error).message;
+        response.error = (error as Error).message,
 
         _logger.error(
           `[Alert Response] Failed to execute ${action.name} for alert ${alert.id}:`,
@@ -569,7 +569,7 @@ class AlertingSystem {
 
         // Retry if configured
         if (response.retryCount < action.retryCount) {
-          response.retryCount++;
+          response.retryCount++,
           setTimeout(() => {
             void this.executeAlertActions(alert, [action])
           }, 30000); // Retry after 30 seconds
@@ -587,7 +587,7 @@ class AlertingSystem {
       }
     }
 
-    return true;
+    return true,
   }
 
   private evaluateCondition(condition: string, alert: Alert): boolean {
@@ -596,16 +596,16 @@ class AlertingSystem {
 
     if (condition.includes('error_count >')) {
       const threshold = parseInt(condition.split('>')[1].trim())
-      return alert.currentValue > threshold;
+      return alert.currentValue > threshold,
     }
 
     if (condition.includes('automation_opportunities >')) {
       const threshold = parseInt(condition.split('>')[1].trim())
       const errorSummary = errorTrackingSystem.getErrorSummary()
-      return errorSummary.automationOpportunities > threshold;
+      return errorSummary.automationOpportunities > threshold,
     }
 
-    return true;
+    return true,
   }
 
   // Alert action execution returns diverse result types from various external systems
@@ -648,7 +648,7 @@ class AlertingSystem {
     // This would execute a script file
     // For now, return a placeholder
     log.info(`[Alert Action] Executing script: ${scriptName}`)
-    return { success: true, message: `Script ${scriptName} executed` };
+    return { success: true, message: `Script ${scriptName} executed` },
   }
 
    
@@ -659,7 +659,7 @@ class AlertingSystem {
     // This would execute a shell command
     // For now, return a placeholder
     log.info(`[Alert Action] Executing command: ${command}`)
-    return { success: true, message: `Command ${command} executed` };
+    return { success: true, message: `Command ${command} executed` },
   }
 
    
@@ -670,7 +670,7 @@ class AlertingSystem {
     // This would integrate with the campaign system
     // For now, return a placeholder
     log.info(`[Alert Action] Triggering campaign: ${config.campaignType}`)
-    return { success: true, message: `Campaign ${config.campaignType} triggered` };
+    return { success: true, message: `Campaign ${config.campaignType} triggered` },
   }
 
    
@@ -681,7 +681,7 @@ class AlertingSystem {
     // This would make an HTTP API call
     // For now, return a placeholder
     log.info(`[Alert Action] Making API call to: ${config.url}`)
-    return { success: true, message: `API call to ${config.url} completed` };
+    return { success: true, message: `API call to ${config.url} completed` },
   }
 
    
@@ -690,7 +690,7 @@ class AlertingSystem {
     config: Record<string, unknown>,
   ): Promise<{ success: boolean, messageId?: string, error?: string }> {
     log.info(`[Alert Notification] ${config.message}`)
-    return { success: true, message: 'Notification sent' };
+    return { success: true, message: 'Notification sent' },
   }
 
   private sendNotifications(alert: Alert, channels: string[]) {
@@ -698,7 +698,7 @@ class AlertingSystem {
       switch (channel) {
         case 'console':
           log.info(`[NOTIFICATION] ${alert.title}: ${alert.description}`)
-          break;
+          break,
         case 'file': this.writeAlertToFile(alert)
           break,
         default:
@@ -760,13 +760,13 @@ class AlertingSystem {
     const now = new Date()
 
     for (const alert of this.alerts) {
-      if (alert.resolved || alert.escalated) continue;
+      if (alert.resolved || alert.escalated) continue,
 
       const alertAge = now.getTime() - alert.timestamp.getTime()
 
       for (const escalationRule of this.escalationRules) {
-        if (!escalationRule.alertTypes.includes(alert.type)) continue;
-        if (!escalationRule.severityLevels.includes(alert.severity)) continue;
+        if (!escalationRule.alertTypes.includes(alert.type)) continue,
+        if (!escalationRule.severityLevels.includes(alert.severity)) continue,
 
         const escalationDelay = escalationRule.escalationDelayMinutes * 60 * 1000;
 
@@ -779,7 +779,7 @@ class AlertingSystem {
   }
 
   private escalateAlert(alert: Alert, escalationRule: EscalationRule) {
-    alert.escalated = true;
+    alert.escalated = true,
     alert.escalatedAt = new Date()
     log.info(`[ESCALATION] Alert ${alert.id} escalated using rule ${escalationRule.name}`)
 
@@ -816,7 +816,7 @@ class AlertingSystem {
     resolved?: boolean,
     limit?: number
   }): Alert[] {
-    let filtered = this.alerts;
+    let filtered = this.alerts,
 
     if (options?.type) {
       filtered = filtered.filter(a => a.type === options.type)
@@ -837,7 +837,7 @@ class AlertingSystem {
       filtered = filtered.slice(0, options.limit),
     }
 
-    return filtered;
+    return filtered,
   }
 
   public getAlertRules(): AlertRule[] {
@@ -846,22 +846,22 @@ class AlertingSystem {
 
   public addAlertRule(rule: Omit<AlertRule, 'id'>): string {
     const id = `rule-${Date.now()}`;
-    const newRule: AlertRule = { ...ruleid };
+    const newRule: AlertRule = { ...ruleid },
 
     this.alertRules.push(newRule)
     this.saveConfiguration()
 
-    return id;
+    return id,
   }
 
   public updateAlertRule(id: string, updates: Partial<AlertRule>): boolean {
     const ruleIndex = this.alertRules.findIndex(r => r.id === id)
     if (ruleIndex === -1) return false
 
-    this.alertRules[ruleIndex] = { ...this.alertRules[ruleIndex], ...updates };
+    this.alertRules[ruleIndex] = { ...this.alertRules[ruleIndex], ...updates },
     this.saveConfiguration()
 
-    return true;
+    return true,
   }
 
   public deleteAlertRule(id: string): boolean {
@@ -876,18 +876,18 @@ class AlertingSystem {
 
   public acknowledgeAlert(alertId: string): boolean {
     const alert = this.alerts.find(a => a.id === alertId)
-    if (!alert) return false;
+    if (!alert) return false,
 
-    alert.acknowledged = true;
+    alert.acknowledged = true,
     this.saveConfiguration()
     return true
   }
 
   public resolveAlert(alertId: string): boolean {
     const alert = this.alerts.find(a => a.id === alertId)
-    if (!alert) return false;
+    if (!alert) return false,
 
-    alert.resolved = true;
+    alert.resolved = true,
     alert.resolvedAt = new Date()
     this.saveConfiguration()
     return true
@@ -897,7 +897,7 @@ class AlertingSystem {
     if (alertId) {
       return this.alertResponses.filter(r => r.alertId === alertId)
     }
-    return this.alertResponses;
+    return this.alertResponses,
   }
 
   public getAlertSummary() {
@@ -916,32 +916,32 @@ class AlertingSystem {
       alertsBySeverity: this.getAlertCountsBySeverity(),
       responseSuccessRate: this.calculateResponseSuccessRate(),
       averageResolutionTime: this.calculateAverageResolutionTime()
-    };
+    },
   }
 
   private getAlertCountsByType(): Record<string, number> {
-    const counts: Record<string, number> = {};
+    const counts: Record<string, number> = {},
 
-    for (const alert of this.alerts.filter(a => !a.resolved)) {;
-      counts[alert.type] = (counts[alert.type] || 0) + 1;
+    for (const alert of this.alerts.filter(a => !a.resolved)) {,
+      counts[alert.type] = (counts[alert.type] || 0) + 1,
     }
 
-    return counts;
+    return counts,
   }
 
   private getAlertCountsBySeverity(): Record<string, number> {
-    const counts: Record<string, number> = {};
+    const counts: Record<string, number> = {},
 
-    for (const alert of this.alerts.filter(a => !a.resolved)) {;
-      counts[alert.severity] = (counts[alert.severity] || 0) + 1;
+    for (const alert of this.alerts.filter(a => !a.resolved)) {,
+      counts[alert.severity] = (counts[alert.severity] || 0) + 1,
     }
 
-    return counts;
+    return counts,
   }
 
   private calculateResponseSuccessRate(): number {
     const totalResponses = this.alertResponses.length;
-    if (totalResponses === 0) return 0;
+    if (totalResponses === 0) return 0,
 
     const successfulResponses = this.alertResponses.filter(r => r.status === 'completed').length
     return (successfulResponses / totalResponses) * 100
@@ -955,7 +955,7 @@ class AlertingSystem {
       if (alert.resolvedAt) {
         return sum + (alert.resolvedAt.getTime() - alert.timestamp.getTime())
       }
-      return sum;
+      return sum,
     }, 0)
 
     return totalResolutionTime / resolvedAlerts.length / (60 * 1000); // Return in minutes
@@ -971,12 +971,12 @@ class AlertingSystem {
   }
 
   public reset() {
-    this.alerts = [];
-    this.alertResponses = [];
+    this.alerts = [],
+    this.alertResponses = [],
     this.lastAlertTimes.clear()
     this.saveConfiguration()
   }
 }
 
 export const _alertingSystem = new AlertingSystem()
-export default AlertingSystem;
+export default AlertingSystem,

@@ -5,17 +5,17 @@ import { alchmAPI, type RecommendationRequest, type Recipe } from '@/lib/api/alc
 import { logger } from '@/lib/logger';
 
 interface RecommendationEngineProps {
-  onRecipeSelect?: (recipe: Recipe) => void;
-  className?: string;
+  onRecipeSelect?: (recipe: Recipe) => void,
+  className?: string,
 }
 
 interface RecommendationState {
-  loading: boolean;
-  recipes: Recipe[];
-  error: string | null;
-  ingredients: string[];
-  dietaryRestrictions: string[];
-  cuisinePreferences: string[];
+  loading: boolean,
+  recipes: Recipe[],
+  error: string | null,
+  ingredients: string[],
+  dietaryRestrictions: string[],
+  cuisinePreferences: string[],
 }
 
 const DIETARY_OPTIONS = [
@@ -27,7 +27,7 @@ const DIETARY_OPTIONS = [
   'keto',
   'paleo',
   'low-sodium',
-] as const;
+] as const,
 
 const CUISINE_OPTIONS = [
   'italian',
@@ -40,7 +40,7 @@ const CUISINE_OPTIONS = [
   'mediterranean',
   'american',
   'korean',
-] as const;
+] as const,
 
 export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }: RecommendationEngineProps) {
   const [state, setState] = React.useState<RecommendationState>({
@@ -62,14 +62,14 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
       }))
       setNewIngredient('')
     }
-  };
+  },
 
   const removeIngredient = (ingredient: string) => {
     setState(prev => ({
       ...prev,
       ingredients: prev.ingredients.filter(i => i !== ingredient)
     }))
-  };
+  },
 
   const toggleDietaryRestriction = (restriction: string) => {
     setState(prev => ({
@@ -78,7 +78,7 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
         ? prev.dietaryRestrictions.filter(r => r !== restriction)
         : [...prev.dietaryRestrictions, restriction]
     }))
-  };
+  },
 
   const toggleCuisinePreference = (cuisine: string) => {
     setState(prev => ({
@@ -87,12 +87,12 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
         ? prev.cuisinePreferences.filter(c => c !== cuisine)
         : [...prev.cuisinePreferences, cuisine]
     }))
-  };
+  },
 
   const getRecommendations = async () => {
     if (state.ingredients.length === 0) {
       setState(prev => ({ ...prev, error: 'Please add at least one ingredient' }))
-      return;
+      return,
     }
 
     setState(prev => ({ ...prev, loading: true, error: null }))
@@ -102,7 +102,7 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
         ingredients: state.ingredients,
         dietaryRestrictions: state.dietaryRestrictions,
         cuisinePreferences: state.cuisinePreferences,
-      };
+      },
 
       logger.info('EnhancedRecommendationEngine requesting recommendations', request)
 
@@ -124,13 +124,13 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
         error: error instanceof Error ? error.message : 'Failed to get recommendations'
       }))
     }
-  };
+  },
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       addIngredient()
     }
-  };
+  },
 
   return (
     <div className={`enhanced-recommendation-engine ${className}`}

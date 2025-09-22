@@ -8,16 +8,16 @@ export interface PredictiveContext {
   _zodiacSign: any,
   _lunarPhase: string,
   season: string,
-  planetaryPositions?: Record<string, PlanetaryPosition>;
-  _elementalProperties: ElementalProperties;
-  timeOfDay?: string;
+  planetaryPositions?: Record<string, PlanetaryPosition>,
+  _elementalProperties: ElementalProperties,
+  timeOfDay?: string,
   userPreferences?: UserPreferences
 }
 
 export interface PlanetaryPosition {
   sign: string,
   _degree: number,
-  isRetrograde?: boolean;
+  isRetrograde?: boolean,
   aspect?: string
 }
 
@@ -81,7 +81,7 @@ export interface PredictiveMetrics {
   _errorRate: number,
   _executionTimes: number[],
   accuracyRate?: number
-  _predictionTypes: Record<string, number>;
+  _predictionTypes: Record<string, number>,
 }
 
 export interface PredictiveModelWeights {
@@ -109,15 +109,15 @@ export interface TrendAnalysis {
 }
 
 export interface PredictionInput {
-  recipe?: Recipe;
+  recipe?: Recipe,
   ingredients?: Ingredient[]
   cuisine?: {
     name: string,
     _type: string,
     _characteristics: string[]
-  };
-  context: PredictiveContext;
-  historicalData?: TimeSeriesData[];
+  },
+  context: PredictiveContext,
+  historicalData?: TimeSeriesData[],
   modelWeights?: PredictiveModelWeights
 }
 

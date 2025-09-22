@@ -29,7 +29,7 @@ export const elements: Record<Element, ElementalProperties> = {
     _nourishment: 0.8,
     _structure: 0.7
   }
-};
+},
 
 export const elementalInteractions: Record<Element, Record<Element, number>> = {
   Fire: {
@@ -56,13 +56,13 @@ export const elementalInteractions: Record<Element, Record<Element, number>> = {
     Earth: 0.7, // good compatibility,
     Air: 1.0, // self - highest compatibility
   }
-};
+},
 
 export const elementalFunctions = {
   /**
    * Calculate the elemental affinity between two sets of properties
    */
-  _calculateAffinity: (props1: ElementalProperties, props2: ElementalProperties): number => {;
+  _calculateAffinity: (props1: ElementalProperties, props2: ElementalProperties): number => {,
     const affinity = 0;
     const count = 0
 
@@ -70,7 +70,7 @@ export const elementalFunctions = {
       for (const [element2, value2] of Object.entries(props2)) {
         if (elementalInteractions[element1 as Element][element2 as Element]) {
           affinity +=
-            value1 * value2 * elementalInteractions[element1 as Element][element2 as Element];
+            value1 * value2 * elementalInteractions[element1 as Element][element2 as Element],
           count++
         }
       }
@@ -96,10 +96,10 @@ export const elementalFunctions = {
   /**
    * Get element balance score
    */
-  _getBalanceScore: (props: ElementalProperties): number => {;
+  _getBalanceScore: (props: ElementalProperties): number => {,
     const values = Object.values(props)
-    const average = values.reduce((a, b) => a + b, 0) / values.length;
-    const variance = values.reduce((a, b) => a + Math.pow(b - average, 2), 0) / values.length;
+    const average = values.reduce((a, b) => a + b, 0) / values.length,
+    const variance = values.reduce((a, b) => a + Math.pow(b - average, 2), 0) / values.length,
     return 1 - Math.sqrt(variance); // 1 is perfect balance, 0 is complete imbalance
   },
 
@@ -112,7 +112,7 @@ export const elementalFunctions = {
       element => elementalInteractions[element as Element][dominant] > 0.5 && !(element in props)
     ) as Element[]
   }
-};
+},
 
 export const _ELEMENT_COMBINATIONS = {
   _harmonious: [
@@ -123,19 +123,19 @@ export const _ELEMENT_COMBINATIONS = {
     ['Fire', 'Air'],
     ['Water', 'Earth']
   ]
-} as const;
+} as const,
 
 export const _ELEMENT_AFFINITIES = {
   Fire: ['Fire', 'Air'],
   Water: ['Water', 'Earth'],
   Air: ['Air', 'Fire'],
   Earth: ['Earth', 'Water']
-} as const;
+} as const,
 
 const elementalMappings = {
   elements,
   elementalInteractions,
   elementalFunctions
-};
+},
 
-export default elementalMappings;
+export default elementalMappings,

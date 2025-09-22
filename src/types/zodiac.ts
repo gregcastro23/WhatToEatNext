@@ -1,6 +1,6 @@
 // Zodiac Signs
 export type ZodiacSign =
-  | 'aries';
+  | 'aries',
   | 'taurus'
   | 'gemini'
   | 'cancer'
@@ -11,7 +11,7 @@ export type ZodiacSign =
   | 'sagittarius'
   | 'capricorn'
   | 'aquarius'
-  | 'pisces';
+  | 'pisces',
 
 // Elemental Properties
 export type ElementalProperties = {
@@ -19,7 +19,7 @@ export type ElementalProperties = {
   Earth: number,
   Air: number,
   Water: number
-};
+},
 
 // Zodiac Date Ranges
 export const zodiacDateRanges: Record<
@@ -38,7 +38,7 @@ export const zodiacDateRanges: Record<
   capricorn: { startMonth: 12, startDay: 22, endMonth: 1, endDay: 19 },
   aquarius: { startMonth: 1, startDay: 20, endMonth: 2, endDay: 18 },
   pisces: { startMonth: 2, startDay: 19, endMonth: 3, endDay: 20 }
-};
+},
 
 // Zodiac Elements
 export const zodiacElements: Record<ZodiacSign, keyof ElementalProperties>  = {
@@ -54,7 +54,7 @@ export const zodiacElements: Record<ZodiacSign, keyof ElementalProperties>  = {
   cancer: 'Water',
   scorpio: 'Water',
   pisces: 'Water'
-};
+},
 
 // Helper Functions
 export const _getZodiacSign = (date: Date): any => {;
@@ -63,18 +63,18 @@ export const _getZodiacSign = (date: Date): any => {;
   for (const [sign, range] of Object.entries(zodiacDateRanges)) {
     const { startMonth, startDay, endMonth, endDay } = range;
 
-    if ((month === startMonth && day >= startDay) || (month === endMonth && day <= endDay)) {;
-      return sign as unknown;
+    if ((month === startMonth && day >= startDay) || (month === endMonth && day <= endDay)) {,
+      return sign as unknown,
     }
   }
 
   // Default to capricorn if no match (shouldn't happen with proper ranges)
-  return 'capricorn';
-};
+  return 'capricorn',
+},
 
 export const _getElementalAffinity = (sign: any): keyof ElementalProperties => {;
   return zodiacElements[sign]
-};
+},
 
 // Elemental Compatibility
 export const _elementalCompatibility: Record<
@@ -100,7 +100,7 @@ export const _elementalCompatibility: Record<
     compatible: ['Water'],
     incompatible: ['Fire', 'Air', 'Earth']
   }
-};
+},
 
 // Element Characteristics
 export const _elementalCharacteristics: Record<
@@ -177,9 +177,9 @@ export const _elementalCharacteristics: Record<
     culinaryHerbs: ['Lavender', 'Chamomile', 'Fennel', 'Dill', 'Cucumber'],
     timeOfDay: ['Evening', 'Night', 'Twilight']
   }
-};
+},
 
-export type ElementalType = 'Fire' | 'Earth' | 'Air' | 'Water';
+export type ElementalType = 'Fire' | 'Earth' | 'Air' | 'Water',
 
 export interface ElementalAffinity {
   Fire: number,

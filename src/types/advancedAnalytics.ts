@@ -8,10 +8,10 @@ export interface AstrologicalContext {
   zodiacSign: any,
   lunarPhase: LunarPhase,
   elementalProperties: ElementalProperties,
-  planetaryPositions?: Record<string, PlanetaryPosition>;
-  date?: Date;
-  sunSign?: string;
-  mercuryRetrograde?: boolean;
+  planetaryPositions?: Record<string, PlanetaryPosition>,
+  date?: Date,
+  sunSign?: string,
+  mercuryRetrograde?: boolean,
   favorableAspects?: string[]
 }
 
@@ -27,18 +27,18 @@ export interface LunarPhase {
 }
 
 export interface CuisineData {
-  name: string;
-  type?: string;
+  name: string,
+  type?: string,
   elementalProperties?: ElementalProperties
-  seasonalVariations?: Record<string, unknown>;
-  culturalOrigin?: string;
-  spiceLevel?: string;
+  seasonalVariations?: Record<string, unknown>,
+  culturalOrigin?: string,
+  spiceLevel?: string,
   commonIngredients?: string[]
 }
 
 export interface CulinaryContext {
-  recipe?: Recipe;
-  ingredients?: Ingredient[];
+  recipe?: Recipe,
+  ingredients?: Ingredient[],
   cuisine?: CuisineData
 }
 
@@ -77,9 +77,9 @@ export interface SynergyAnalysis {
 }
 
 export interface IngredientAnalytics {
-  interactionMatrix: Record<string, Record<string, number>>;
+  interactionMatrix: Record<string, Record<string, number>>,
   synergyAnalysis: SynergyAnalysis,
-  substitutionNetwork: Record<string, string[]>;
+  substitutionNetwork: Record<string, string[]>,
   optimizationPotential: number
 }
 
@@ -91,7 +91,7 @@ export interface CulturalCorrelations {
 }
 
 export interface FusionAnalytics {
-  compatibilityMatrix: Record<string, Record<string, number>>;
+  compatibilityMatrix: Record<string, Record<string, number>>,
   innovationPotential: number,
   culturalAcceptance: number,
   seasonalRelevance: number
@@ -111,10 +111,10 @@ export interface CuisineAnalytics {
 }
 
 export interface PatternSet {
-  planetaryPatterns: Record<string, number>;
-  zodiacPatterns: Record<string, number>;
-  lunarPatterns: Record<string, number>;
-  seasonalPatterns: Record<string, number>;
+  planetaryPatterns: Record<string, number>,
+  zodiacPatterns: Record<string, number>,
+  lunarPatterns: Record<string, number>,
+  seasonalPatterns: Record<string, number>,
 }
 
 export interface CorrelationSet {

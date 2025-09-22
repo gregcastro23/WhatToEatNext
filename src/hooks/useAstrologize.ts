@@ -4,15 +4,15 @@ import { AstrologicalService } from '@/services/AstrologicalService';
 import { log } from '@/services/LoggingService';
 
 interface AstrologizeOptions {
-  useCurrentTime?: boolean;
-  useCurrentLocation?: boolean;
-  year?: number;
-  month?: number;
-  date?: number;
-  hour?: number;
-  minute?: number;
-  latitude?: number;
-  longitude?: number;
+  useCurrentTime?: boolean,
+  useCurrentLocation?: boolean,
+  year?: number,
+  month?: number,
+  date?: number,
+  hour?: number,
+  minute?: number,
+  latitude?: number,
+  longitude?: number,
   zodiacSystem?: 'tropical' | 'sidereal'
 }
 
@@ -47,7 +47,7 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
     latitude,
     longitude,
     zodiacSystem = 'tropical',
-  } = options;
+  } = options,
 
   // Get current location if needed
   useEffect(() => {
@@ -66,7 +66,7 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
           // Use default location (coordinates will be provided by the API)
           setLocation(null)
         }
-      };
+      },
 
       getLocation()
     } else if (!useCurrentLocation) {
@@ -82,9 +82,9 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
 
     try {
       // Determine if we're using current time or custom time
-      let url = '/api/astrologize';
-      let method = 'GET';
-      let body: string | undefined = undefined;
+      let url = '/api/astrologize',
+      let method = 'GET',
+      let body: string | undefined = undefined,
 
       if (!useCurrentTime && year && month && date) {
         // Use POST with custom date/time
@@ -108,7 +108,7 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
         params.append('zodiacSystem', zodiacSystem)
 
         if (params.toString()) {
-          url = `/api/astrologize?${params.toString()}`;
+          url = `/api/astrologize?${params.toString()}`,
         }
       }
 
@@ -141,7 +141,7 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
     } finally {
       setLoading(false)
     }
-  };
+  },
 
   // Fetch data when dependencies change
   useEffect(() => {
@@ -156,5 +156,5 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
     error,
     data,
     refetch: fetchData
-  };
+  },
 }

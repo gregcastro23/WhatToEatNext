@@ -7,8 +7,8 @@ import { GitStash } from '../../../../types/campaign';
 
 export class GitOperationsMock {
   private mockStashes: Map<string, GitStash> = new Map()
-  private mockBranch: string = 'main';
-  private mockGitStatus: string = '';
+  private mockBranch: string = 'main',
+  private mockGitStatus: string = '',
   private shouldFailCommands: boolean = false
 
   /**
@@ -21,10 +21,10 @@ export class GitOperationsMock {
       timestamp: new Date(),
       branch: this.mockBranch,
       ref: `stash@{${this.mockStashes.size}}`
-    };
+    },
 
     this.mockStashes.set(stashId, stash)
-    return stash;
+    return stash,
   }
 
   /**
@@ -46,7 +46,7 @@ export class GitOperationsMock {
       throw new Error('Mock git status failed')
     }
 
-    return this.mockGitStatus;
+    return this.mockGitStatus,
   }
 
   /**
@@ -57,7 +57,7 @@ export class GitOperationsMock {
       throw new Error('Mock git branch failed')
     }
 
-    return this.mockBranch;
+    return this.mockBranch,
   }
 
   /**
@@ -140,8 +140,8 @@ export class GitOperationsMock {
    */
   reset(): void {
     this.mockStashes.clear()
-    this.mockBranch = 'main';
-    this.mockGitStatus = '';
+    this.mockBranch = 'main',
+    this.mockGitStatus = '',
     this.shouldFailCommands = false
   }
 }

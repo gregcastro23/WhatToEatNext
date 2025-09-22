@@ -1,4 +1,4 @@
-export type Season = 'spring' | 'summer' | 'autumn' | 'fall' | 'winter' | 'all';
+export type Season = 'spring' | 'summer' | 'autumn' | 'fall' | 'winter' | 'all',
 
 export interface SeasonalProfile {
   spring: number,
@@ -14,7 +14,7 @@ export interface SeasonalAdjustment {
   _recommendations: string[]
 }
 
-// ========== MISSING TYPES FOR TS2305 FIXES ==========;
+// ========== MISSING TYPES FOR TS2305 FIXES ==========,
 
 // SeasonalRecommendations (causing error in recipeBuilding.ts)
 export interface SeasonalRecommendations {
@@ -23,29 +23,29 @@ export interface SeasonalRecommendations {
     recipes: string[],
     techniques: string[],
     energies: string[]
-  };
+  },
   summer: {
     ingredients: string[],
     recipes: string[],
     techniques: string[],
     energies: string[]
-  };
+  },
   autumn: {
     ingredients: string[],
     recipes: string[],
     techniques: string[],
     energies: string[]
-  };
+  },
   winter: {
     ingredients: string[],
     recipes: string[],
     techniques: string[],
     energies: string[]
-  };
+  },
   general: {
     transitions: string[],
     _balancing: string[]
-  };
+  },
 }
 
 // getCurrentSeason function type (causing error in AlchemicalRecommendationService.ts)
@@ -63,12 +63,12 @@ export function getCurrentSeason(): Season {
 export interface recipe {
   _id: string,
   _name: string,
-  season?: Season | Season[];
+  season?: Season | Season[],
   ingredients?: string[]
   elementalProperties?: {
     _Fire: number,
     _Water: number,
     _Earth: number,
     Air: number
-  };
+  },
 }

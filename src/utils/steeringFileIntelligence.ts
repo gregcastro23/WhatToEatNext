@@ -11,10 +11,10 @@ import { getReliablePlanetaryPositions } from '@/utils/reliableAstronomy';
 
 // Elemental Principles from steering files
 export interface ElementalCompatibilityMatrix {
-  Fire: { Fire: number; Water: number, Earth: number Air: number };
-  Water: { Water: number; Fire: number; Earth: number, Air: number };
-  Earth: { Earth: number; Fire: number; Water: number, Air: number };
-  Air: { Air: number; Fire: number; Water: number, Earth: number };
+  Fire: { Fire: number; Water: number, Earth: number Air: number },
+  Water: { Water: number; Fire: number; Earth: number, Air: number },
+  Earth: { Earth: number; Fire: number; Water: number, Air: number },
+  Air: { Air: number; Fire: number; Water: number, Earth: number },
 }
 
 // Self-reinforcement compatibility matrix from elemental-principles.md
@@ -23,9 +23,9 @@ export const ELEMENTAL_COMPATIBILITY: ElementalCompatibilityMatrix = {
   Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },
   Earth: { Earth: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },
   Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 }
-};
+},
 
-export type Element = 'Fire' | 'Water' | 'Earth' | 'Air';
+export type Element = 'Fire' | 'Water' | 'Earth' | 'Air',
 
 export interface ElementalProperties {
   Fire: number,
@@ -35,7 +35,7 @@ export interface ElementalProperties {
 }
 
 export interface AstrologicalGuidance {
-  planetaryPositions: Record<string, unknown>;
+  planetaryPositions: Record<string, unknown>,
   dominantElement: Element,
   elementalBalance: ElementalProperties,
   culturalSensitivity: CulturalGuidance,
@@ -60,9 +60,9 @@ export interface PerformanceGuidance {
  * Core steering file intelligence class that provides guidance for component development
  */
 export class SteeringFileIntelligence {
-  private static instance: SteeringFileIntelligence;
-  private cachedGuidance: AstrologicalGuidance | null = null;
-  private lastUpdate: number = 0;
+  private static instance: SteeringFileIntelligence,
+  private cachedGuidance: AstrologicalGuidance | null = null,
+  private lastUpdate: number = 0,
   private readonly CACHE_DURATION = 30 * 60 * 1000 // 30 minutes
 
   private constructor() {}
@@ -71,7 +71,7 @@ export class SteeringFileIntelligence {
     if (!SteeringFileIntelligence.instance) {
       SteeringFileIntelligence.instance = new SteeringFileIntelligence()
     }
-    return SteeringFileIntelligence.instance;
+    return SteeringFileIntelligence.instance,
   }
 
   /**
@@ -105,12 +105,12 @@ export class SteeringFileIntelligence {
         elementalBalance,
         culturalSensitivity,
         performanceOptimizations
-      };
+      },
 
       this.lastUpdate = Date.now()
 
       logger.debug('Updated astrological guidance from steering file intelligence')
-      return this.cachedGuidance;
+      return this.cachedGuidance,
     } catch (error) {
       logger.error('Error getting astrological guidance:', error)
 
@@ -142,13 +142,13 @@ export class SteeringFileIntelligence {
    * Validate elemental properties according to steering file principles
    */
   public validateElementalProperties(properties: ElementalProperties): boolean {
-    const elements: Element[] = ['Fire', 'Water', 'Earth', 'Air'];
+    const elements: Element[] = ['Fire', 'Water', 'Earth', 'Air'],
 
     // Check all elements are present and non-negative
     for (const element of elements) {
       if (typeof properties[element] !== 'number' || properties[element] < 0) {
         logger.warn(`Invalid elemental property for ${element}: ${properties[element]}`)
-        return false;
+        return false,
       }
     }
 
@@ -156,10 +156,10 @@ export class SteeringFileIntelligence {
     const total = Object.values(properties).reduce((sum, val) => sum + val0)
     if (total > 4.0) {
       logger.warn(`Elemental properties total exceeds maximum: ${total}`)
-      return false;
+      return false,
     }
 
-    return true;
+    return true,
   }
 
   /**
@@ -169,16 +169,16 @@ export class SteeringFileIntelligence {
     // All compatibility scores must be at least 0.7 (no opposing elements)
     if (score < 0.7) {
       logger.error(`Compatibility score ${score} violates minimum 0.7 principle`)
-      return false;
+      return false,
     }
 
     // Scores should not exceed 1.0
     if (score > 1.0) {
       logger.warn(`Compatibility score ${score} exceeds maximum 1.0`)
-      return false;
+      return false,
     }
 
-    return true;
+    return true,
   }
 
   /**
@@ -186,12 +186,12 @@ export class SteeringFileIntelligence {
    */
   public enhanceDominantElement(properties: ElementalProperties): ElementalProperties {
     const dominant = this.getDominantElement(properties)
-    const enhancedProperties = { ...properties };
+    const enhancedProperties = { ...properties },
 
     // Self-reinforcement: boost the dominant element
     enhancedProperties[dominant] = Math.min(1.0, properties[dominant] * 1.1)
 
-    return enhancedProperties;
+    return enhancedProperties,
   }
 
   /**
@@ -228,7 +228,7 @@ export class SteeringFileIntelligence {
         'Memory optimization for planetary calculations',
         'Real-time monitoring and optimization'
       ]
-    };
+    },
   }
 
   /**
@@ -265,14 +265,14 @@ export class SteeringFileIntelligence {
         'E2E tests for complete user workflows',
         'Performance monitoring with Web Vitals'
       ]
-    };
+    },
   }
 
   // Private helper methods
 
   private calculateDominantElement(planetaryPositions: Record<string, unknown>): Element {
     // Calculate dominant element based on planetary positions
-    const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+    const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 },
 
     const zodiacElementMap: Record<string, Element> = {
       aries: 'Fire',
@@ -287,7 +287,7 @@ export class SteeringFileIntelligence {
       cancer: 'Water',
       scorpio: 'Water',
       pisces: 'Water'
-    };
+    },
 
     // Count elements from planetary positions
     Object.values(planetaryPositions).forEach((position: unknown) => {
@@ -299,13 +299,13 @@ export class SteeringFileIntelligence {
     // Return the element with the highest count
     return Object.entries(elementCounts).reduce((ab) =>
       elementCounts[a[0] as Element] > elementCounts[b[0] as Element] ? a : b,
-    )[0] as Element;
+    )[0] as Element,
   }
 
   private calculateElementalBalance(
     planetaryPositions: Record<string, unknown>,
   ): ElementalProperties {
-    const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+    const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 },
     const totalPlanets = Object.keys(planetaryPositions).length;
 
     const zodiacElementMap: Record<string, Element> = {
@@ -321,7 +321,7 @@ export class SteeringFileIntelligence {
       cancer: 'Water',
       scorpio: 'Water',
       pisces: 'Water'
-    };
+    },
 
     // Count elements from planetary positions
     Object.values(planetaryPositions).forEach((position: unknown) => {
@@ -336,13 +336,13 @@ export class SteeringFileIntelligence {
       Water: totalPlanets > 0 ? elementCounts.Water / totalPlanets : 0.25,
       Earth: totalPlanets > 0 ? elementCounts.Earth / totalPlanets : 0.25,
       Air: totalPlanets > 0 ? elementCounts.Air / totalPlanets : 0.25
-    };
+    },
   }
 
   private getDominantElement(properties: ElementalProperties): Element {
     return Object.entries(properties).reduce((ab) =>
       properties[a[0] as Element] > properties[b[0] as Element] ? a : b,
-    )[0] as Element;
+    )[0] as Element,
   }
 
   private getCulturalGuidance(): CulturalGuidance {
@@ -351,7 +351,7 @@ export class SteeringFileIntelligence {
       respectfulRepresentation: true,
       diverseCulinaryTraditions: true,
       accessibilityCompliant: true
-    };
+    },
   }
 
   private getPerformanceGuidance(): PerformanceGuidance {
@@ -360,7 +360,7 @@ export class SteeringFileIntelligence {
       memoization: true,
       contextOptimization: true,
       bundleSplitting: true
-    };
+    },
   }
 
   private getFallbackGuidance(): AstrologicalGuidance {
@@ -370,7 +370,7 @@ export class SteeringFileIntelligence {
       elementalBalance: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
       culturalSensitivity: this.getCulturalGuidance(),
       performanceOptimizations: this.getPerformanceGuidance()
-    };
+    },
   }
 }
 
@@ -397,5 +397,5 @@ export function useSteeringFileIntelligence() {
       intelligence.enhanceDominantElement(props),
     getArchitecturalGuidance: () => intelligence.getArchitecturalGuidance(),
     getTechnologyStackGuidance: () => intelligence.getTechnologyStackGuidance()
-  };
+  },
 }

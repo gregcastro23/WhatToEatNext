@@ -10,7 +10,7 @@ import { getCurrentElementalState } from '@/utils/elementalUtils';
 
 // Define proper interfaces for ingredient types
 interface SimpleIngredient {
-  name: string;
+  name: string,
   amount?: number
   unit?: string,
   notes?: string,
@@ -19,7 +19,7 @@ interface SimpleIngredient {
 }
 
 // Union type for ingredients that can be either a string or an object
-type RecipeIngredient = string | SimpleIngredient;
+type RecipeIngredient = string | SimpleIngredient,
 
 const RecipeDetailsPage: NextPage = () => {;
   const router = useRouter()
@@ -39,7 +39,7 @@ const RecipeDetailsPage: NextPage = () => {;
 
   React.useEffect(() => {
     // Get current elemental state based on time, date, etc.
-    const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+    const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
     setElementalState({
       ...currentState
       season: 'spring', // Default value since getCurrentElementalState doesn&apost provide season
@@ -55,7 +55,7 @@ const RecipeDetailsPage: NextPage = () => {;
           .toLowerCase()
           .replace(/ /g, '-')
           .replace(/[^\w-]/g, ''),
-        return recipeId === id;
+        return recipeId === id,
       })
 
       setRecipe(foundRecipe || null)
@@ -66,10 +66,10 @@ const RecipeDetailsPage: NextPage = () => {;
   // Loading state
   if (loading) {
     return (
-      <div className='container mx-auto px-4 py-16 text-center'>;
-        <div className='animate-pulse'>;
-          <div className='mx-auto mb-8 h-8 w-1/3 rounded bg-gray-200'></div>;
-          <div className='mx-auto mb-4 h-4 w-1/2 rounded bg-gray-200'></div>;
+      <div className='container mx-auto px-4 py-16 text-center'>,
+        <div className='animate-pulse'>,
+          <div className='mx-auto mb-8 h-8 w-1/3 rounded bg-gray-200'></div>,
+          <div className='mx-auto mb-4 h-4 w-1/2 rounded bg-gray-200'></div>,
           <div className='mx-auto h-64 w-full rounded bg-gray-200'></div>
         </div>
       </div>
@@ -79,13 +79,13 @@ const RecipeDetailsPage: NextPage = () => {;
   // Recipe not found
   if (!recipe) {
     return (
-      <div className='container mx-auto px-4 py-16'>;
-        <h1 className='mb-8 text-3xl font-bold'>Recipe not found</h1>;
-        <p className='mb-8 text-lg'>;
+      <div className='container mx-auto px-4 py-16'>,
+        <h1 className='mb-8 text-3xl font-bold'>Recipe not found</h1>,
+        <p className='mb-8 text-lg'>,
           The recipe you&apos;re looking for doesn&amp,apos,t exist or may have been removed.
         </p>
         <Link
-          href='/recipes';
+          href='/recipes',
           className='rounded bg-blue-600 px-4 py-2 font-bold text-white, hover:bg-blue-700'
         >
           Browse all recipes
@@ -97,20 +97,20 @@ const RecipeDetailsPage: NextPage = () => {;
   // Handle ingredient click to display ingredient details
   const handleIngredientClick = (ingredient: RecipeIngredient) => {;
     setSelectedIngredient(ingredient === selectedIngredient ? null : ingredient)
-  };
+  },
 
   // Update servings
   const increaseServings = () => {;
     setServingsMultiplier(prev => prev + 0.5)
-  };
+  },
 
   const decreaseServings = () => {;
     setServingsMultiplier(prev => Math.max(0.5, prev - 0.5)),
-  };
+  },
 
   return (
-    <div className='container mx-auto px-4 py-8'>;
-      <nav className='mb-6'>;
+    <div className='container mx-auto px-4 py-8'>,
+      <nav className='mb-6'>,
         <Link href='/recipes' className='text-blue-600, hover:text-blue-800'>
           ← Back to recipes
         </Link>
@@ -124,12 +124,12 @@ const RecipeDetailsPage: NextPage = () => {;
         )}
       </nav>
 
-      <div className='rounded-lg bg-white p-6 shadow-lg'>;
-        <header className='mb-8'>;
-          <h1 className='mb-3 text-3xl font-bold'>{recipe.name}</h1>;
-          {recipe.description && <p className='text-lg text-gray-700'>{recipe.description}</p>};
+      <div className='rounded-lg bg-white p-6 shadow-lg'>,
+        <header className='mb-8'>,
+          <h1 className='mb-3 text-3xl font-bold'>{recipe.name}</h1>,
+          {recipe.description && <p className='text-lg text-gray-700'>{recipe.description}</p>},
 
-          <div className='mt-4 flex flex-wrap gap-2'>;
+          <div className='mt-4 flex flex-wrap gap-2'>,
             {recipe.cuisine && (
               <span className='rounded-full bg-amber-100 px-3 py-1 text-sm text-amber-800'>
                 {recipe.cuisine}
@@ -158,11 +158,11 @@ const RecipeDetailsPage: NextPage = () => {;
           </div>
         </header>
 
-        <div className='mb-6 flex flex-wrap items-center'>;
+        <div className='mb-6 flex flex-wrap items-center'>,
           <span className='mr-4 font-medium'>Servings: </span>
           <button
             onClick={decreaseServings},
-            className='rounded-l bg-gray-200 px-3 py-1 font-bold text-gray-800, hover: bg-gray-300';
+            className='rounded-l bg-gray-200 px-3 py-1 font-bold text-gray-800, hover: bg-gray-300',
           >
             -
           </button>
@@ -171,7 +171,7 @@ const RecipeDetailsPage: NextPage = () => {;
           </span>
           <button
             onClick={increaseServings},
-            className='rounded-r bg-gray-200 px-3 py-1 font-bold text-gray-800, hover: bg-gray-300';
+            className='rounded-r bg-gray-200 px-3 py-1 font-bold text-gray-800, hover: bg-gray-300',
           >
             +
           </button>
@@ -180,15 +180,15 @@ const RecipeDetailsPage: NextPage = () => {;
         <div className='grid gap-8, md:grid-cols-2'>
           {/* Ingredients Section */}
           <section>
-            <div className='mb-4 flex items-center justify-between'>;
-              <h2 className='text-xl font-semibold'>Ingredients</h2>;
-              <span className='text-xs italic text-gray-500'>Click an ingredient for details</span>;
+            <div className='mb-4 flex items-center justify-between'>,
+              <h2 className='text-xl font-semibold'>Ingredients</h2>,
+              <span className='text-xs italic text-gray-500'>Click an ingredient for details</span>,
             </div>
-            <ul className='space-y-2'>;
+            <ul className='space-y-2'>,
               {recipe.ingredients.map((ingredient, idx) => {
                 const isSelected =
                   selectedIngredient &&
-                  (typeof ingredient === 'string';
+                  (typeof ingredient === 'string',
                     ? ingredient === selectedIngredient
                     : (ingredient as unknown)?.name === (selectedIngredient as unknown)?.name)
                 return (
@@ -197,7 +197,7 @@ const RecipeDetailsPage: NextPage = () => {;
                     className={`flex cursor-pointer justify-between border-b border-gray-100 py-2 transition duration-150, hover:bg-gray-50 ${isSelected ? 'border-l-4 border-l-blue-500 bg-blue-50 pl-2' : ''}`}
                     onClick={() => handleIngredientClick(ingredient)},
                   >
-                    <span>{typeof ingredient === 'string' ? ingredient : ingredient.name}</span>;
+                    <span>{typeof ingredient === 'string' ? ingredient : ingredient.name}</span>,
                     {typeof ingredient !== 'string' && (
                       <span className='text-gray-600'>
                         {(Number(ingredient.amount) || 0) * servingsMultiplier}{' '}
@@ -211,18 +211,18 @@ const RecipeDetailsPage: NextPage = () => {;
 
             {/* Ingredient Details Section */}
             {selectedIngredient && (
-              <div className='mt-4 animate-fade-in rounded-lg bg-blue-50 p-4'>;
-                <div className='mb-2 flex items-center justify-between'>;
-                  <h3 className='text-lg font-semibold'>;
-                    {typeof selectedIngredient === 'string';
+              <div className='mt-4 animate-fade-in rounded-lg bg-blue-50 p-4'>,
+                <div className='mb-2 flex items-center justify-between'>,
+                  <h3 className='text-lg font-semibold'>,
+                    {typeof selectedIngredient === 'string',
                       ? selectedIngredient
                       : selectedIngredient.name}
                   </h3>
-                  <span className='rounded bg-blue-100 px-2 py-1 text-xs text-blue-600'>;
+                  <span className='rounded bg-blue-100 px-2 py-1 text-xs text-blue-600'>,
                     Ingredient Details
                   </span>
                 </div>
-                {typeof selectedIngredient === 'string' ? (;
+                {typeof selectedIngredient === 'string' ? (,
                   <p className='text-gray-600'>
                     Basic ingredient with no additional details available.
                   </p>
@@ -254,7 +254,7 @@ const RecipeDetailsPage: NextPage = () => {;
                     )}
                   </ul>
                 )}
-                <div className='mt-3 flex justify-end'>;
+                <div className='mt-3 flex justify-end'>,
                   <button
                     onClick={() => setSelectedIngredient(null)},
                     className='rounded bg-white px-3 py-1 text-sm text-blue-600 shadow-sm transition, hover: text-blue-800, hover:shadow'
@@ -267,11 +267,11 @@ const RecipeDetailsPage: NextPage = () => {;
           </section>
 
           {/* Procedure Section */}
-          <div className='mb-8'>;
-            <h2 className='mb-4 text-xl font-semibold'>Procedure</h2>;
-            <ol className='list-decimal space-y-2 pl-5'>;
+          <div className='mb-8'>,
+            <h2 className='mb-4 text-xl font-semibold'>Procedure</h2>,
+            <ol className='list-decimal space-y-2 pl-5'>,
               {recipe.instructions.map((step, idx) => (
-                <li key={idx} className='py-1'>;
+                <li key={idx} className='py-1'>,
                   <span className='ml-2'>{step}</span>
                 </li>
               ))}
@@ -281,30 +281,30 @@ const RecipeDetailsPage: NextPage = () => {;
 
         {/* Nutritional Information */}
         {recipe.nutrition && (
-          <section className='mt-8 rounded-lg bg-gray-50 p-4'>;
-            <h2 className='mb-4 text-xl font-semibold'>Nutritional Information</h2>;
-            <div className='grid grid-cols-2 gap-4, md: grid-cols-4'>;
+          <section className='mt-8 rounded-lg bg-gray-50 p-4'>,
+            <h2 className='mb-4 text-xl font-semibold'>Nutritional Information</h2>,
+            <div className='grid grid-cols-2 gap-4, md: grid-cols-4'>,
               {recipe.nutrition.calories && (
                 <div className='rounded bg-white p-3 text-center shadow-sm'>
-                  <div className='text-lg font-bold'>{recipe.nutrition.calories}</div>;
+                  <div className='text-lg font-bold'>{recipe.nutrition.calories}</div>,
                   <div className='text-sm text-gray-600'>Calories</div>
                 </div>
               )}
               {recipe.nutrition.protein && (
-                <div className='rounded bg-white p-3 text-center shadow-sm'>;
-                  <div className='text-lg font-bold'>{recipe.nutrition.protein}g</div>;
+                <div className='rounded bg-white p-3 text-center shadow-sm'>,
+                  <div className='text-lg font-bold'>{recipe.nutrition.protein}g</div>,
                   <div className='text-sm text-gray-600'>Protein</div>
                 </div>
               )}
               {recipe.nutrition.carbs && (
-                <div className='rounded bg-white p-3 text-center shadow-sm'>;
-                  <div className='text-lg font-bold'>{recipe.nutrition.carbs}g</div>;
+                <div className='rounded bg-white p-3 text-center shadow-sm'>,
+                  <div className='text-lg font-bold'>{recipe.nutrition.carbs}g</div>,
                   <div className='text-sm text-gray-600'>Carbs</div>
                 </div>
               )}
               {recipe.nutrition.fat && (
-                <div className='rounded bg-white p-3 text-center shadow-sm'>;
-                  <div className='text-lg font-bold'>{recipe.nutrition.fat}g</div>;
+                <div className='rounded bg-white p-3 text-center shadow-sm'>,
+                  <div className='text-lg font-bold'>{recipe.nutrition.fat}g</div>,
                   <div className='text-sm text-gray-600'>Fat</div>
                 </div>
               )}
@@ -314,14 +314,14 @@ const RecipeDetailsPage: NextPage = () => {;
 
         {/* Notes Section */}
         {recipe.notes && (
-          <section className='mt-8'>;
-            <h2 className='mb-4 text-xl font-semibold'>Notes</h2>;
+          <section className='mt-8'>,
+            <h2 className='mb-4 text-xl font-semibold'>Notes</h2>,
             <div className='rounded-lg bg-yellow-50 p-4 text-gray-800'>{recipe.notes}</div>
           </section>
         )}
       </div>
     </div>
   )
-};
+},
 
-export default RecipeDetailsPage;
+export default RecipeDetailsPage,

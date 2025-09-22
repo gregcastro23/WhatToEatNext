@@ -13,13 +13,13 @@ import type { Season } from './shared';
  * Standardized Elemental Properties
  * Using the project-wide standardized elemental properties type
  */
-export type ElementalProperties = ElementalPropertiesType;
+export type ElementalProperties = ElementalPropertiesType,
 
 /**
  * Standardized Nutritional Content
  * Complete nutritional information structure
  */
-export type NutritionalContent = NutritionalContentType;
+export type NutritionalContent = NutritionalContentType,
 
 /**
  * Standardized Ingredient Mapping
@@ -31,7 +31,7 @@ export type IngredientMapping = IngredientMappingType
  * Ingredient Collection Type
  * Collection of ingredients indexed by name/id
  */
-export type IngredientCollection = Record<string, IngredientMapping>;
+export type IngredientCollection = Record<string, IngredientMapping>,
 
 /**
  * Ingredient Category Type
@@ -55,7 +55,7 @@ export interface IngredientRecommendation {
     category: string,
     elementalProperties: ElementalProperties,
     nutritionalContent?: NutritionalContent,
-  };
+  },
   matchScore: number,
   elementalCompatibility: number,
   nutritionalScore: number,
@@ -78,11 +78,11 @@ export type IngredientSearchCriteria = {
     maxCalories?: number,
     minFiber?: number,
     allergens?: string[],
-  };
+  },
   cookingMethods?: string[],
   sustainabilityThreshold?: number,
   regionalOrigins?: string[],
-};
+},
 
 /**
  * Ingredient Compatibility Result
@@ -93,9 +93,9 @@ export type IngredientCompatibilityResult = {
   compatibleIngredients: string[],
   incompatibleIngredients: string[],
   neutralIngredients: string[],
-  compatibilityScores: Record<string, number>;
-  reasoning: Record<string, string>;
-};
+  compatibilityScores: Record<string, number>,
+  reasoning: Record<string, string>,
+},
 
 /**
  * Ingredient Substitution Recommendation
@@ -109,7 +109,7 @@ export type IngredientSubstitution = {
   nutritionalDifference: Partial<NutritionalContent>,
   flavorNotes: string[],
   cookingAdjustments?: string[]
-};
+},
 
 /**
  * Ingredient Recommendation Response
@@ -121,7 +121,7 @@ export type IngredientRecommendationResponse = ServiceResponseType<{
   criteria: IngredientSearchCriteria,
   elementalBalance: ElementalProperties,
   nutritionalSummary: NutritionalContent
-}>;
+}>,
 
 /**
  * Ingredient Analysis Response
@@ -132,9 +132,9 @@ export type IngredientAnalysisResponse = ServiceResponseType<{
   elementalProfile: ElementalProperties,
   nutritionalAnalysis: NutritionalContent,
   seasonalAvailability: Season[],
-  compatibilityMatrix: Record<string, number>;
+  compatibilityMatrix: Record<string, number>,
   substitutions: IngredientSubstitution[]
-}>;
+}>,
 
 // Re-export Season type for convenience
 export { Season, type ElementalPropertiesType }

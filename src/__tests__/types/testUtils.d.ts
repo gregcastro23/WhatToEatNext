@@ -16,8 +16,8 @@ export interface MemoryUsage {
 }
 
 export interface MemoryThresholds {
-  warning?: number;
-  error?: number;
+  warning?: number,
+  error?: number,
   leak?: number
 }
 
@@ -27,9 +27,9 @@ export interface MemoryUsageFn {
 
 // Jest mock-compatible memory usage function type for tests
 export type MockableMemoryUsageFn =
-  | MemoryUsageFn;
+  | MemoryUsageFn,
   | jest.Mock<MemoryUsage, []>
-  | jest.Mock<unknown, unknown[]>;
+  | jest.Mock<unknown, unknown[]>,
 
 // Git operations mock interface - comprehensive implementation
 export interface GitOperationsMock {
@@ -44,7 +44,7 @@ export interface GitOperationsMock {
     staged: string[],
     unstaged: string[],
     untracked: string[]
-  };
+  },
   shouldFailCommands: boolean,
   setMockBranch: (branch: string) => void,
   setMockStashes: (stashes: string[]) => void,
@@ -63,7 +63,7 @@ export interface ScriptExecutionMock {
   executeScript: Mock,
   executeCommand: Mock,
   getScriptOutput: Mock,
-  mockResults: Record<string, unknown>;
+  mockResults: Record<string, unknown>,
   mockBuildSuccess: boolean,
   mockTestSuccess: boolean,
   shouldFailExecution: boolean,
@@ -92,7 +92,7 @@ export interface CoreTestUtils {
   createMockComponent: (
     name: string,
     testId?: string,
-  ) => React.ComponentType<Record<string, unknown>>;
+  ) => React.ComponentType<Record<string, unknown>>,
   checkMemory: () => MemoryUsage,
   cleanupMemory: () => unknown
 }
@@ -143,8 +143,8 @@ export interface AppProps {
 
 // MainPageLayout props interface
 export interface MainPageLayoutProps {
-  children?: React.ReactNode;
-  debugMode?: boolean;
+  children?: React.ReactNode,
+  debugMode?: boolean,
   loading?: boolean
   onSectionNavigate?: (sectionId: string) => void
 }
@@ -156,12 +156,12 @@ export interface AlchemicalProviderProps {
 
 // Global declarations
 declare global {
-  let _testUtils: ExtendedTestUtils;
-  let _forceGC: (() => boolean) | undefined;
-  let _getMemoryUsage: (() => MemoryUsage) | undefined;
+  let _testUtils: ExtendedTestUtils,
+  let _forceGC: (() => boolean) | undefined,
+  let _getMemoryUsage: (() => MemoryUsage) | undefined,
   let _cleanupTestMemory: (() => unknown) | undefined
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-  let __TEST_CACHE__: Map<string, any> | { clear: () => void } | undefined;
+  let __TEST_CACHE__: Map<string, any> | { clear: () => void } | undefined,
   let __TEST_REFS__: unknown[] | undefined
 
   // Allow process.memoryUsage to be mocked in tests
@@ -178,4 +178,4 @@ declare global {
   }
 }
 
-export {};
+export {},

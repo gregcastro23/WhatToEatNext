@@ -80,12 +80,12 @@ export default function IngredientsPage() {
 
     // Navigate with smooth transition
     router.push('/#ingredients')
-  };
+  },
 
   // Handle navigation to home
   const handleGoHome = () => {
     router.push('/')
-  };
+  },
 
   // Enhanced ingredient recommendations context (rune/agent banner)
   const {

@@ -14,7 +14,7 @@ function getUnusedVariables() {
     const results = JSON.parse(output)
 
     const unusedVars: Array<{ filePath: string; varName: string; line: number, column: number }> =
-      [];
+      [],
 
     for (const result of results) {
       const filePath = result.filePath;
@@ -35,10 +35,10 @@ function getUnusedVariables() {
       }
     }
 
-    return unusedVars;
+    return unusedVars,
   } catch (error) {
     // _logger.error('Error running ESLint:', error)
-    return [];
+    return [],
   }
 }
 
@@ -47,7 +47,7 @@ function fixUnusedVariables(_unusedVars) {
   const processedFiles = new Set()
 
   for (const { filePath, varName, line, column } of unusedVars) {
-    if (!fs.existsSync(filePath)) continue;
+    if (!fs.existsSync(filePath)) continue,
 
     const content = fs.readFileSync(filePath, 'utf8')
     const lines = content.split('\n')
@@ -57,7 +57,7 @@ function fixUnusedVariables(_unusedVars) {
     const newLineContent =
       lineContent.substring(0, column - 1) + '_' + lineContent.substring(column - 1)
 
-    lines[line - 1] = newLineContent;
+    lines[line - 1] = newLineContent,
 
     // Write the file back
     fs.writeFileSync(filePath, lines.join('\n'))

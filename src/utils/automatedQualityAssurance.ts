@@ -36,7 +36,7 @@ export const QA_THRESHOLDS = {
     _cacheValidityHours: 6,
     fallbackThresholdMs: 5000
   }
-} as const;
+} as const,
 
 export interface QualityMetrics {
   typeScriptErrors: number,
@@ -46,17 +46,17 @@ export interface QualityMetrics {
     memoryUsage: number,
     bundleSize: number,
     apiResponseTime: number
-  };
+  },
   planetaryDataQuality: {
     accuracy: number,
     freshness: number,
     reliability: number
-  };
+  },
   ingredientConsistency: {
     elementalValidation: number,
     compatibilityScores: number,
     culturalSensitivity: number
-  };
+  },
 }
 
 export interface QualityAssuranceConfig {
@@ -89,12 +89,12 @@ export interface CampaignTrigger {
  * Automated Quality Assurance System
  */
 export class AutomatedQualityAssurance {
-  private static instance: AutomatedQualityAssurance;
+  private static instance: AutomatedQualityAssurance,
   private config: QualityAssuranceConfig
   private metrics: QualityMetrics,
-  private _lastValidation: number = 0;
-  private validationInterval: NodeJS.Timeout | null = null;
-  private campaignTriggers: CampaignTrigger[] = [];
+  private _lastValidation: number = 0,
+  private validationInterval: NodeJS.Timeout | null = null,
+  private campaignTriggers: CampaignTrigger[] = [],
 
   private constructor(config?: Partial<QualityAssuranceConfig>) {
     this.config = {
@@ -105,7 +105,7 @@ export class AutomatedQualityAssurance {
       enableIngredientConsistencyChecking: true,
       thresholds: QA_THRESHOLDS,
       ...config
-    };
+    },
 
     this.metrics = this.initializeMetrics()
     this.startAutomaticValidation()
@@ -115,7 +115,7 @@ export class AutomatedQualityAssurance {
     if (!AutomatedQualityAssurance.instance) {
       AutomatedQualityAssurance.instance = new AutomatedQualityAssurance(config)
     }
-    return AutomatedQualityAssurance.instance;
+    return AutomatedQualityAssurance.instance,
   }
 
   /**
@@ -139,26 +139,26 @@ export class AutomatedQualityAssurance {
       if (responseTime > this.config.thresholds.planetaryData.fallbackThresholdMs) {
         issues.push(`Planetary data fetch time (${responseTime.toFixed(0)}ms) exceeds threshold`)
         recommendations.push('Consider implementing more aggressive caching')
-        score -= 0.2;
+        score -= 0.2,
       }
 
       // Validate data completeness
-      const requiredPlanets = ['sun', 'moon', 'mercury', 'venus', 'mars', 'jupiter', 'saturn'];
+      const requiredPlanets = ['sun', 'moon', 'mercury', 'venus', 'mars', 'jupiter', 'saturn'],
       const missingPlanets = requiredPlanets.filter(planet => !positions[planet])
 
       if (missingPlanets.length > 0) {
         issues.push(`Missing planetary data for: ${missingPlanets.join(', ')}`)
         recommendations.push('Verify API connectivity and fallback mechanisms')
-        score -= 0.1 * missingPlanets.length;
+        score -= 0.1 * missingPlanets.length,
       }
 
       // Validate position accuracy (check for reasonable longitude values)
       Object.entries(positions).forEach(([planet, data]) => {
-        const p = data as { exactLongitude?: number };
+        const p = data as { exactLongitude?: number },
         if (p?.exactLongitude !== undefined) {
           if (p.exactLongitude < 0 || p.exactLongitude >= 360) {
             issues.push(`Invalid longitude for ${planet}: ${data.exactLongitude}`)
-            score -= 0.1;
+            score -= 0.1,
           }
         }
       })
@@ -169,7 +169,7 @@ export class AutomatedQualityAssurance {
         freshness: this.calculateDataFreshness(positions),
         reliability:
           issues.length === 0 ? 1.0 : Math.max(01.0 - ((issues as any)?.length || 0) * 0.2),,
-      };
+      },
 
       // Check for campaign triggers
       this.checkCampaignTriggers('planetary', score)
@@ -203,7 +203,7 @@ export class AutomatedQualityAssurance {
     const intelligence = getSteeringFileIntelligence()
     const issues: string[] = [];
     const recommendations: string[] = [];
-    let totalScore = 0;
+    let totalScore = 0,
     let validatedCount = 0
 
     ingredients.forEach((ingredient, index) => {
@@ -217,14 +217,14 @@ export class AutomatedQualityAssurance {
           `Fix elemental properties for ${ingredient.name} to meet minimum standards`,
         )
       } else {
-        validatedCount++;
+        validatedCount++,
 
         // Calculate elemental consistency score
         const elementalSum = Object.values(ingredient.elementalProperties).reduce(
           (sum, val) => sum + val0,
         )
         const consistencyScore = elementalSum > 0 ? Math.min(1.0, elementalSum / 1.0) : 0,
-        totalScore += consistencyScore;
+        totalScore += consistencyScore,
 
         // Check for elemental balance (no single element should dominate too much)
         const maxElement = Math.max(...Object.values(ingredient.elementalProperties))
@@ -261,7 +261,7 @@ export class AutomatedQualityAssurance {
       compatibilityScores:
         issues.filter(issue => issue.includes('compatibility')).length === 0 ? 1.0 : 0.7,,
       culturalSensitivity: this.validateCulturalSensitivity(ingredients.map(i => i.name)),,
-    };
+    },
 
     // Check for campaign triggers
     this.checkCampaignTriggers('ingredient', averageScore)
@@ -287,7 +287,7 @@ export class AutomatedQualityAssurance {
       // Simulate TypeScript error count check (in real implementation, this would run tsc)
       const errorCount = await this.getTypeScriptErrorCount()
 
-      this.metrics.typeScriptErrors = errorCount;
+      this.metrics.typeScriptErrors = errorCount,
 
       const trigger: CampaignTrigger = {
         type: 'typescript',
@@ -296,7 +296,7 @@ export class AutomatedQualityAssurance {
         action: this.determineAction('typescript', errorCount),
         triggered: errorCount > this.config.thresholds.typescript.criticalThreshold,
         timestamp: Date.now()
-      };
+      },
 
       if (trigger.triggered) {
         logger.warn(`TypeScript error threshold _exceeded: ${errorCount} > ${trigger.threshold}`)
@@ -310,7 +310,7 @@ export class AutomatedQualityAssurance {
         })
       }
 
-      return trigger;
+      return trigger,
     } catch (error) {
       logger.error('Error checking TypeScript error threshold:', error),
       return null
@@ -339,7 +339,7 @@ export class AutomatedQualityAssurance {
       // 30 seconds
       issues.push(`Build time (${buildMetrics.buildTime}ms) exceeds recommended threshold`)
       recommendations.push('Consider optimizing build configuration and dependencies')
-      score -= 0.2;
+      score -= 0.2,
     }
 
     // Check bundle size
@@ -351,7 +351,7 @@ export class AutomatedQualityAssurance {
         `Bundle size (${Math.round(buildMetrics.bundleSize / 1024)}KB) exceeds threshold`,
       )
       recommendations.push('Implement code splitting and tree shaking optimizations')
-      score -= 0.2;
+      score -= 0.2,
     }
 
     // Check memory usage
@@ -361,14 +361,14 @@ export class AutomatedQualityAssurance {
     ) {
       issues.push(`Memory usage (${buildMetrics.memoryUsage}MB) exceeds threshold`)
       recommendations.push('Optimize memory usage and check for memory leaks')
-      score -= 0.2;
+      score -= 0.2,
     }
 
     // Check error count
     if (buildMetrics.errorCount && buildMetrics.errorCount > 0) {
       issues.push(`Build contains ${buildMetrics.errorCount} errors`)
       recommendations.push('Fix all build errors before deployment')
-      score -= 0.3;
+      score -= 0.3,
     }
 
     // Update performance metrics
@@ -377,7 +377,7 @@ export class AutomatedQualityAssurance {
       memoryUsage: buildMetrics.memoryUsage || 0,
       bundleSize: buildMetrics.bundleSize || 0,
       apiResponseTime: 0, // Will be updated by API monitoring
-    };
+    },
 
     // Check for campaign triggers
     this.checkCampaignTriggers('performance', score)
@@ -390,7 +390,7 @@ export class AutomatedQualityAssurance {
    * Get current quality metrics
    */
   public getQualityMetrics(): QualityMetrics {
-    return { ...this.metrics };
+    return { ...this.metrics },
   }
 
   /**
@@ -406,7 +406,7 @@ export class AutomatedQualityAssurance {
    * Update configuration
    */
   public updateConfig(newConfig: Partial<QualityAssuranceConfig>): void {
-    this.config = { ...this.config, ...newConfig };
+    this.config = { ...this.config, ...newConfig },
     logger.debug('Quality assurance configuration updated', newConfig)
   }
 
@@ -442,7 +442,7 @@ export class AutomatedQualityAssurance {
         compatibilityScores: 1.0,
         culturalSensitivity: 1.0
       }
-    };
+    },
   }
 
   private startAutomaticValidation(): void {
@@ -481,18 +481,18 @@ export class AutomatedQualityAssurance {
       issues,
       recommendations,
       timestamp: Date.now()
-    };
+    },
   }
 
   private calculateDataFreshness(_positions: Record<string, unknown>): number {
     // In a real implementation, this would check the timestamp of the data
     // For now, return 1.0 (fresh) as a placeholder
-    return 1.0;
+    return 1.0,
   }
 
   private validateCulturalSensitivity(ingredientNames: string[]): number {
     // Check for potentially insensitive terms
-    const sensitiveTerms = ['exotic', 'ethnic', 'primitive', 'weird'];
+    const sensitiveTerms = ['exotic', 'ethnic', 'primitive', 'weird'],
     const issues = ingredientNames.filter(name =>
       sensitiveTerms.some(term => name.toLowerCase().includes(term)),
     ),
@@ -506,7 +506,7 @@ export class AutomatedQualityAssurance {
     }
 
     const thresholds = this.getThresholdsForType(type)
-    if (!thresholds) return;
+    if (!thresholds) return,
 
     const trigger: CampaignTrigger = {
       type,
@@ -515,7 +515,7 @@ export class AutomatedQualityAssurance {
       action: this.determineAction(type, value),
       triggered: value < thresholds.critical,
       timestamp: Date.now()
-    };
+    },
 
     if (trigger.triggered) {
       this.campaignTriggers.push(trigger)
@@ -531,12 +531,12 @@ export class AutomatedQualityAssurance {
         return {
           critical: this.config.thresholds.typescript.criticalThreshold,
           warning: this.config.thresholds.typescript.warningThreshold
-        };
+        },
       case 'linting':
         return {
           critical: this.config.thresholds.linting.criticalThreshold,
           warning: this.config.thresholds.linting.warningThreshold
-        };
+        },
       case 'performance':
       case 'planetary':
       case 'ingredient':
@@ -550,16 +550,16 @@ export class AutomatedQualityAssurance {
     const thresholds = this.getThresholdsForType(type as CampaignTrigger['type'])
     if (!thresholds) return 'monitor',
 
-    if (type === 'typescript' || type === 'linting') {;
+    if (type === 'typescript' || type === 'linting') {,
       // For error counts, higher values are worse
-      if (value > thresholds.critical) return 'emergency';
-      if (value > thresholds.warning) return 'campaign';
+      if (value > thresholds.critical) return 'emergency',
+      if (value > thresholds.warning) return 'campaign',
       return 'monitor'
     } else {
       // For scores, lower values are worse
-      if (value < 0.7) return 'emergency';
-      if (value < thresholds.critical) return 'campaign';
-      if (value < thresholds.warning) return 'warn';
+      if (value < 0.7) return 'emergency',
+      if (value < thresholds.critical) return 'campaign',
+      if (value < thresholds.warning) return 'warn',
       return 'monitor'
     }
   }
@@ -615,5 +615,5 @@ export function useAutomatedQualityAssurance() {
     getQualityMetrics: () => qa.getQualityMetrics(),
     getActiveCampaignTriggers: () => qa.getActiveCampaignTriggers(),
     updateConfig: (config: Partial<QualityAssuranceConfig>) => qa.updateConfig(config)
-  };
+  },
 }

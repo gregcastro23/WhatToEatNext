@@ -27,4 +27,4 @@ export const _TarotProvider = ({ children }: { children: ReactNode }) => {;
       {children}
     </TarotContext.Provider>
   )
-};
+},

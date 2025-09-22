@@ -10,12 +10,12 @@ export interface Sauce {
   elementalProperties: ElementalProperties,
   astrologicalInfluences: string[],
   seasonality: string,
-  preparationNotes?: string;
-  technicalTips?: string;
-  cuisine?: string;
+  preparationNotes?: string,
+  technicalTips?: string,
+  cuisine?: string,
   // Enhanced properties
-  ingredients?: string[];
-  preparationSteps?: string[];
+  ingredients?: string[],
+  preparationSteps?: string[],
   storageInstructions?: string
   prepTime?: string,
   cookTime?: string,
@@ -24,10 +24,10 @@ export interface Sauce {
 }
 
 export interface SauceRecommendation {
-  forProtein: Record<string, string[]>;
-  forVegetable: Record<string, string[]>;
-  forCookingMethod: Record<string, string[]>;
-  byAstrological: Record<string, string[]>;
+  forProtein: Record<string, string[]>,
+  forVegetable: Record<string, string[]>,
+  forCookingMethod: Record<string, string[]>,
+  byAstrological: Record<string, string[]>,
   byRegion: Record<string, string[]>,
   byDietary: Record<string, string[]>
 }
@@ -70,9 +70,9 @@ export const italianSauces: Record<string, Sauce> = {
       'If using red pepper flakes, add them with the garlic.',
       'Pour in the tomatoes with their juices, crushing them with your hands or a potato masher as you add them.',
       'Add salt, pepper, and dried oregano.',
-      'Bring to a gentle simmer and reduce heat to low.';
+      'Bring to a gentle simmer and reduce heat to low.',
       'Cook uncovered, stirring occasionally, for 25-30 minutes until slightly thickened.',
-      'Remove from heat and stir in fresh basil.';
+      'Remove from heat and stir in fresh basil.',
       'Taste and adjust seasoning if necessary.'
     ],
     storageInstructions: 'Refrigerate for up to 5 days in an airtight container. Can be frozen for up to 3 months.',
@@ -120,7 +120,7 @@ export const italianSauces: Record<string, Sauce> = {
     preparationSteps: [
       'If using a mortar and pestle (traditional method): Add garlic and salt, pound until creamy. Add pine nuts and work into a paste. Add basil leaves in small batches, grinding until smooth. Mix in cheeses, then slowly drizzle in olive oil while mixing.',
       'If using a food, processor: Pulse pine nuts and garlic until coarsely chopped. Add basil and pulse again. Add cheeses and pulse to combine. With processor running, slowly drizzle in olive oil until desired consistency is reached.',
-      'Season with salt and pepper to taste.';
+      'Season with salt and pepper to taste.',
       'If not using immediately, cover the surface directly with plastic wrap or a thin layer of olive oil to prevent oxidation.'
     ],
     storageInstructions: 'Refrigerate for up to 3 days with a thin layer of olive oil on top to prevent browning. Can be frozen in ice cube trays for up to 3 months.',
@@ -167,10 +167,10 @@ export const italianSauces: Record<string, Sauce> = {
       'In a medium bowl, whisk together egg yolks, whole eggs, Pecorino Romano, Parmigiano (if using), and black pepper. Set aside.',
       'In a large skillet over medium heat, cook the diced guanciale until the fat renders and meat is crispy but not burnt, about 8-10 minutes.',
       'Meanwhile, cook pasta in well-salted water according to package instructions until al dente.',
-      'Turn off heat under the skillet with guanciale. Remove about 1/2 cup of the pasta cooking water before draining.';
+      'Turn off heat under the skillet with guanciale. Remove about 1/2 cup of the pasta cooking water before draining.',
       'Working quickly, add drained pasta to the skillet with guanciale and toss to coat in the rendered fat.',
-      'Allow pasta to cool for 1 minute (to prevent scrambling the eggs).';
-      'Add 1/4 cup of the reserved pasta water to the egg mixture and whisk quickly.';
+      'Allow pasta to cool for 1 minute (to prevent scrambling the eggs).',
+      'Add 1/4 cup of the reserved pasta water to the egg mixture and whisk quickly.',
       'Pour the egg mixture over the pasta and toss vigorously with tongs until a creamy sauce forms. If too thick, add more pasta water 1 tablespoon at a time.',
       'Serve immediately with additional grated cheese and black pepper on top.'
     ],
@@ -220,14 +220,14 @@ export const italianSauces: Record<string, Sauce> = {
       'Heat olive oil in a large, heavy-bottomed pot or Dutch oven over medium heat.',
       'Add pancetta and cook until fat renders, about 5 minutes.',
       'Add onion, carrot, and celery (soffritto) and sauté until softened but not browned, about 5-7 minutes.',
-      'Add garlic and cook for another minute until fragrant.';
+      'Add garlic and cook for another minute until fragrant.',
       'Increase heat to medium-high and add ground beef and pork. Break up the meat with a wooden spoon and cook until no longer pink, about 8-10 minutes.',
       'Add tomato paste and cook, stirring constantly, for 2-3 minutes until it darkens slightly.',
       'Pour in red wine and scrape up any browned bits from the bottom of the pot. Allow wine to reduce by half, about A-5 minutes.',
       'Add beef stock, bay leaf, and a generous pinch of salt and pepper. Bring to a boil, then reduce heat to the lowest setting.',
       'Partially cover and simmer very gently, stirring occasionally, for at least 2 hours (3-4 hours is better).',
       'In the final 30 minutes of cooking, stir in the milk and grated nutmeg.',
-      'Continue to simmer uncovered until the sauce reaches your desired consistency.';
+      'Continue to simmer uncovered until the sauce reaches your desired consistency.',
       'Taste and adjust seasoning with salt and pepper before serving.'
     ],
     storageInstructions: 'Refrigerate for up to 5 days. Freezes extremely well for up to 3 months. The flavor often improves after a day in the refrigerator.',
@@ -274,7 +274,7 @@ export const italianSauces: Record<string, Sauce> = {
     ],
     preparationSteps: [
       'In a medium saucepan, combine milk, bay leaf, onion (with clove stuck into it), and warm over medium-low heat until steaming but not boiling. Turn off heat and let infuse for 15 minutes.',
-      'Strain the infused milk into a pitcher or bowl and discard the solids.';
+      'Strain the infused milk into a pitcher or bowl and discard the solids.',
       'In a large saucepan, melt butter over medium-low heat.',
       'Add flour and whisk continuously until well combined and slightly golden (a blonde roux), about 2-3 minutes.',
       'Slowly add the warm infused milk, about 1/2 cup at a time, whisking constantly to prevent lumps. Wait until each addition is fully incorporated before adding more.',
@@ -318,14 +318,14 @@ export const italianSauces: Record<string, Sauce> = {
       '1 tbsp tomato paste (optional, for deeper flavor)'
     ],
     preparationSteps: [
-      'Heat olive oil in a large saucepan over medium heat.';
+      'Heat olive oil in a large saucepan over medium heat.',
       'Add sliced garlic and chili peppers (or red pepper flakes). Sauté for 1-2 minutes until fragrant but not browned.'
       'If using tomato paste, add it now and cook for 30 seconds, stirring constantly.',
       'Add the tomatoes, crushing them with your hands or a potato masher as you add them to the pan.',
-      'Add salt and dried oregano if using.';
+      'Add salt and dried oregano if using.',
       'Bring to a simmer, then reduce heat to medium-low and cook uncovered for 20-25 minutes, stirring occasionally.',
       'The sauce should reduce and thicken slightly. For a smoother sauce, use an immersion blender or let cool slightly and transfer to a blender.',
-      'Stir in fresh parsley just before serving.';
+      'Stir in fresh parsley just before serving.',
       'Taste and adjust seasoning if necessary.'
     ],
     storageInstructions: 'Refrigerate for up to 5 days in an airtight container. Can be frozen for up to 3 months.',
@@ -334,7 +334,7 @@ export const italianSauces: Record<string, Sauce> = {
     difficulty: 'Easy',
     yield: 'Makes about 3 cups'
   }
-};
+},
 
 // Mexican sauces
 export const mexicanSauces: Record<string, Sauce> = {
@@ -381,7 +381,7 @@ export const mexicanSauces: Record<string, Sauce> = {
       'Add tomatoes and cook until softened, about 5 minutes. Transfer to a bowl.',
       'In the same skillet toast pumpkin seeds and sesame seeds until golden, about 2-3 minutes. Add to the bowl with tomatoes.',
       'Toast almonds in the skillet until fragrant, about 3 minutes. Add to the same bowl.',
-      'Add raisins and torn tortilla to the bowl.';
+      'Add raisins and torn tortilla to the bowl.',
       'Drain the soaked chilies, reserving 1 cup of the soaking liquid.',
       'In a blender, combine the soaked chilies, the tomato-seed-nut mixture, spices, and enough reserved soaking liquid to blend smoothly. Work in batches if needed.',
       'Heat remaining oil in a large pot. Carefully pour in the blended sauce (it may splatter). Cook, stirring constantly, for 5 minutes.',
@@ -427,19 +427,19 @@ export const mexicanSauces: Record<string, Sauce> = {
     preparationSteps: [
       'Fresh (Raw) Method:',
       'Roughly chop tomatoes, chilies, and onion.',
-      'Place all ingredients except cilantro and lime juice in a food processor or blender.';
-      'Pulse to desired consistency - chunky or smooth.';
-      'Stir in cilantro and lime juice.';
-      'Adjust seasoning with salt to taste.';
-      'Let sit for at least 30 minutes before serving to allow flavors to meld.';
+      'Place all ingredients except cilantro and lime juice in a food processor or blender.',
+      'Pulse to desired consistency - chunky or smooth.',
+      'Stir in cilantro and lime juice.',
+      'Adjust seasoning with salt to taste.',
+      'Let sit for at least 30 minutes before serving to allow flavors to meld.',
       '',
       'Roasted Method:',
-      'Preheat oven to 450°F (230°C) or heat a comal/cast-iron skillet over medium-high heat.';
+      'Preheat oven to 450°F (230°C) or heat a comal/cast-iron skillet over medium-high heat.',
       'Place whole tomatoes, chilies, onion quarters, and garlic on a baking sheet. Drizzle with oil.',
       'Roast for 15-20 minutes, turning once, until vegetables have charred spots and tomatoes are soft.',
       'Let cool slightly, then transfer to a blender or food processor.',
       'Add cilantro, lime juice, salt, and cumin if using.',
-      'Pulse to desired consistency.';
+      'Pulse to desired consistency.',
       'Adjust seasoning to taste.'
     ],
     storageInstructions: 'Refrigerate in an airtight container for up to 1 week. Fresh salsa is best consumed within 3-4 days for optimal flavor. Not recommended for freezing as texture will change.',
@@ -448,7 +448,7 @@ export const mexicanSauces: Record<string, Sauce> = {
     difficulty: 'Easy',
     yield: 'Makes about 3 cups'
   }
-};
+},
 
 // Asian sauces
 export const asianSauces: Record<string, Sauce> = {
@@ -497,15 +497,15 @@ export const asianSauces: Record<string, Sauce> = {
     difficulty: 'Medium',
     yield: 'Makes about 1 cup of curry paste (enough for 3-4 curries)'
   }
-};
+},
 
 // Consolidate all sauces
 export const allSauces: Record<string, Sauce> = {
-  ...italianSauces;
-  ...mexicanSauces;
-  ...asianSauces;
+  ...italianSauces,
+  ...mexicanSauces,
+  ...asianSauces,
   // Add other cuisine sauces as they become available
-};
+},
 
 // Sauce recommendations
 export const sauceRecommendations: SauceRecommendation = {
@@ -560,7 +560,7 @@ export const sauceRecommendations: SauceRecommendation = {
     glutenFree: ['salsa verde', 'salmoriglio', 'sugo di pomodoro', 'lemon sauce'],
     dairyFree: ['marinara', 'aglio e olio', 'puttanesca', 'arrabbiata']
   }
-};
+},
 
 // Helper functions
 export function getSaucesByAstrologicalInfluence(influence: string): Sauce[] {
@@ -575,7 +575,7 @@ export function getSaucesByElement(element: keyof ElementalProperties): Sauce[] 
     const dominantElement = Object.entries(sauce.elementalProperties).sort(
       ([, a], [, b]) => b - a,
     )[0][0],
-    return dominantElement === element;
+    return dominantElement === element,
   })
 }
 
@@ -592,6 +592,6 @@ const saucesExport = {
   getSaucesByAstrologicalInfluence,
   getSaucesByElement,
   getMarsInfluencedSauces
-};
+},
 
-export default saucesExport;
+export default saucesExport,

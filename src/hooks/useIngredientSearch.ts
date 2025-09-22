@@ -13,7 +13,7 @@ import {
   getAllHerbs,
   getAllSpices,
   getAllGrains
-} from '@/data/ingredients';
+} from '@/data/ingredients',
 import type { Ingredient } from '@/types/alchemy';
 
 export interface IngredientSearchOptions {
@@ -23,9 +23,9 @@ export interface IngredientSearchOptions {
     Water?: number,
     Earth?: number,
     Air?: number
-  };
-  season?: string;
-  dietary?: string[];
+  },
+  season?: string,
+  dietary?: string[],
   maxResults?: number
 }
 
@@ -38,7 +38,7 @@ export function useIngredientSearch() {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState<string>('')
   const [isLoading, setIsLoading] = useState(false)
-  const [allIngredients, setAllIngredients] = useState<Ingredient[]>([]),
+  const [allIngredients, setAllIngredients] = useState<Ingredient[]>([]);
 
   // Load all ingredients on mount
   useEffect(() => {
@@ -52,14 +52,14 @@ export function useIngredientSearch() {
           ...(getAllSpices() as unknown as Ingredient[]),
           ...(getAllGrains() as unknown as Ingredient[]),
           ...(Object.values(ingredientsMap || {}).filter(Boolean) as unknown as Ingredient[])
-        ] as Ingredient[];
+        ] as Ingredient[],
 
         // Remove duplicates by name
         const uniqueIngredients = ingredients.reduce((acc, ingredient) => {
           if (!acc.find(item => item.name === ingredient.name)) {
             acc.push(ingredient)
           }
-          return acc;
+          return acc,
         }, [] as Ingredient[])
 
         setAllIngredients(uniqueIngredients)
@@ -69,7 +69,7 @@ export function useIngredientSearch() {
       } finally {
         setIsLoading(false)
       }
-    };
+    },
 
     void loadIngredients()
   }, [])
@@ -80,16 +80,16 @@ export function useIngredientSearch() {
     const text = target.toLowerCase()
 
     // Exact match gets highest score
-    if (text === search) return 1.0;
+    if (text === search) return 1.0,
 
     // Starts with gets high score
-    if (text.startsWith(search)) return 0.9;
+    if (text.startsWith(search)) return 0.9,
 
     // Contains gets medium score
-    if (text.includes(search)) return 0.7;
+    if (text.includes(search)) return 0.7,
 
     // Fuzzy character matching
-    let searchIndex = 0;
+    let searchIndex = 0,
     let matches = 0
 
     for (let i = 0i < text.length && searchIndex < search.lengthi++) {
@@ -112,7 +112,7 @@ export function useIngredientSearch() {
       }))
     }
 
-    let filteredIngredients = allIngredients;
+    let filteredIngredients = allIngredients,
 
     // Filter by category
     if (selectedCategory) {
@@ -126,11 +126,11 @@ export function useIngredientSearch() {
       const results = filteredIngredients;
         .map(ingredient => {
           const nameScore = fuzzyMatch(searchTerm, ingredient.name)
-          const categoryScore = fuzzyMatch(searchTerm, ingredient.category || '') * 0.5;
+          const categoryScore = fuzzyMatch(searchTerm, ingredient.category || '') * 0.5,
           const qualitiesScore =
             (((ingredient as unknown as any).qualities as string[]) || [])
               .map((quality: string) => fuzzyMatch(searchTerm, quality))
-              .reduce((max: number, score: number) => Math.max(max, score), 0) * 0.3;
+              .reduce((max: number, score: number) => Math.max(max, score), 0) * 0.3,
 
           const totalScore = Math.max(nameScore, categoryScore, qualitiesScore)
 
@@ -143,13 +143,13 @@ export function useIngredientSearch() {
             ...ingredient,
             searchScore: totalScore,
             matchReasons
-          };
+          },
         })
         .filter(result => result.searchScore > 0.1)
         .sort((ab) => b.searchScore - a.searchScore)
         .slice(050)
 
-      return results;
+      return results,
     }
 
     return filteredIngredients.slice(050).map(ingredient => ({
@@ -171,22 +171,22 @@ export function useIngredientSearch() {
           Water: 0.25,
           Earth: 0.25,
           Air: 0.25
-        };
+        },
         return {
           Fire: acc.Fire + (props.Fire || 0),
           Water: acc.Water + (props.Water || 0),
           Earth: acc.Earth + (props.Earth || 0),
           Air: acc.Air + (props.Air || 0)
-        };
+        },
       },
       { Fire: 0, Water: 0, Earth: 0, Air: 0 },
     )
 
     const count = selectedIngredients.length;
-    avgElemental.Fire /= count;
-    avgElemental.Water /= count;
-    avgElemental.Earth /= count;
-    avgElemental.Air /= count;
+    avgElemental.Fire /= count,
+    avgElemental.Water /= count,
+    avgElemental.Earth /= count,
+    avgElemental.Air /= count,
 
     // Find complementary ingredients
     return allIngredients
@@ -203,29 +203,29 @@ export function useIngredientSearch() {
 
         // Calculate elemental harmony (prefer ingredients that balance the current selection)
         const harmony =
-          1 -;
+          1 -,
           Math.abs(
             Math.abs((props.Fire || 0) - avgElemental.Fire) +
               Math.abs((props.Water || 0) - avgElemental.Water) +
               Math.abs((props.Earth || 0) - avgElemental.Earth) +
               Math.abs((props.Air || 0) - avgElemental.Air)
           ) /
-            4;
+            4,
 
         return {
-          ...ingredient;
+          ...ingredient,
           searchScore: harmony,
           matchReasons: ['Elemental balance', 'Recipe harmony']
-        };
+        },
       })
       .sort((ab) => b.searchScore - a.searchScore)
       .slice(010)
-  };
+  },
 
   // Get ingredients by category
   const getIngredientsByCategory = (category: string): Ingredient[] => {
     return allIngredients.filter(ingredient => ingredient.category === category)
-  };
+  },
 
   // Get available categories
   const availableCategories = useMemo(() => {
@@ -244,5 +244,5 @@ export function useIngredientSearch() {
     getSuggestions,
     getIngredientsByCategory,
     allIngredients
-  };
+  },
 }

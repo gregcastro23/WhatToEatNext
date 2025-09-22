@@ -39,8 +39,8 @@ describe('SafetyValidator', () => {
       const errorOutput: any = `
         src/testts(105): error, TS2322: Type 'string' is not assignable to type 'number'.
         src/test.ts(1510): error, TS2304: Cannot find name 'unknownVariable'.,
-        Found 2 errors.;
-      `;
+        Found 2 errors.,
+      `,
 
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Compilation failed') as unknown;
@@ -98,12 +98,12 @@ describe('SafetyValidator', () => {
         const start: any = Date.now()
         while (Date.now() - start < 100) {
           // Busy wait to simulate slow build
-        };
-        return '';
+        },
+        return '',
       })
 
       const slowValidator: any = new SafetyValidator(60000, {
-        maximumBuildTime: 50 // Very low threshold;
+        maximumBuildTime: 50 // Very low threshold,
       })
 
       const result: any = await slowValidator.validateBuildAfterBatch(['test.ts'])
@@ -168,7 +168,7 @@ describe('SafetyValidator', () => {
         lineNumber: 1,
         confidence: 0.9,
         validationRequired: true
-      };
+      },
 
       const context: ClassificationContext = { filePath: 'test.ts',,
         lineNumber: 1,
@@ -181,7 +181,7 @@ describe('SafetyValidator', () => {
           suggestedTypes: [],
           preservationReasons: []
         }
-      };
+      },
 
       const result: any = validator.calculateSafetyScore(replacement, context)
 
@@ -197,7 +197,7 @@ describe('SafetyValidator', () => {
         lineNumber: 1,
         confidence: 0.8,
         validationRequired: true
-      };
+      },
 
       const errorContext: ClassificationContext = { filePath: 'test.ts',,
         lineNumber: 1,
@@ -210,7 +210,7 @@ describe('SafetyValidator', () => {
           suggestedTypes: [],
           preservationReasons: []
         }
-      };
+      },
 
       const result: any = validator.calculateSafetyScore(replacement, errorContext)
 
@@ -225,7 +225,7 @@ describe('SafetyValidator', () => {
         lineNumber: 1,
         confidence: 0.8,
         validationRequired: true
-      };
+      },
 
       const testContext: ClassificationContext = { filePath: 'test.test.ts',,
         lineNumber: 1,
@@ -238,7 +238,7 @@ describe('SafetyValidator', () => {
           suggestedTypes: [],
           preservationReasons: []
         }
-      };
+      },
 
       const result: any = validator.calculateSafetyScore(replacement, testContext)
 
@@ -252,7 +252,7 @@ describe('SafetyValidator', () => {
         lineNumber: 1,
         confidence: 0.8,
         validationRequired: true
-      };
+      },
 
       const apiContext: ClassificationContext = { filePath: 'api.ts',,
         lineNumber: 1,
@@ -265,7 +265,7 @@ describe('SafetyValidator', () => {
           suggestedTypes: [],
           preservationReasons: []
         }
-      };
+      },
 
       const result: any = validator.calculateSafetyScore(replacement, apiContext)
 
@@ -280,7 +280,7 @@ describe('SafetyValidator', () => {
         lineNumber: 1,
         confidence: 0.8,
         validationRequired: true
-      };
+      },
 
       const functionContext: ClassificationContext = { filePath: 'function.ts',,
         lineNumber: 1,
@@ -293,7 +293,7 @@ describe('SafetyValidator', () => {
           suggestedTypes: [],
           preservationReasons: []
         }
-      };
+      },
 
       const result: any = validator.calculateSafetyScore(replacement, functionContext)
 
@@ -313,8 +313,8 @@ describe('SafetyValidator', () => {
     test('updates safety thresholds', () => {
       const newThresholds: any = {
         minimumSafetyScore: 09,
-        maximumBuildTime: 60000;
-      };
+        maximumBuildTime: 60000,
+      },
 
       validator.updateSafetyThresholds(newThresholds)
       const updatedThresholds: any = validator.getSafetyThresholds()
@@ -327,7 +327,7 @@ describe('SafetyValidator', () => {
   describe('Performance Metrics Validation', () => {
     test('validates acceptable performance metrics', () => {
       const fastValidator: any = new SafetyValidator(60000, {
-        maximumBuildTime: 30000;
+        maximumBuildTime: 30000,
       })
 
       const mockReplacement: TypeReplacement = { original: 'any[]',,
@@ -336,7 +336,7 @@ describe('SafetyValidator', () => {
         lineNumber: 1,
         confidence: 0.9,
         validationRequired: true
-      };
+      },
 
       const mockContext: ClassificationContext = { filePath: 'test.ts',,
         lineNumber: 1,
@@ -349,7 +349,7 @@ describe('SafetyValidator', () => {
           suggestedTypes: [],
           preservationReasons: []
         }
-      };
+      },
 
       const result: any = fastValidator.calculateSafetyScore(mockReplacement, mockContext)
       expect(result.isValid).toBe(true).
@@ -362,8 +362,8 @@ describe('SafetyValidator', () => {
         src/file1ts(105): error, TS2322: Type 'string' is not assignable to type 'number'.
         src/file2.ts(1510): error, TS2304: Cannot find name 'unknownVariable'.
         src/file3.ts(2015): error, TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.,
-        Found 3 errors.;
-      `;
+        Found 3 errors.,
+      `,
 
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Compilation failed') as unknown;
@@ -392,7 +392,7 @@ describe('SafetyValidator', () => {
       })
 
       const limitedValidator: any = new SafetyValidator(60000, {
-        maximumErrorCount: 5;
+        maximumErrorCount: 5,
       })
 
       const result: any = await limitedValidator.validateTypeScriptCompilation()

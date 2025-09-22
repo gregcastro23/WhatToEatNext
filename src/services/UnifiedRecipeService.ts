@@ -19,7 +19,7 @@ export class UnifiedRecipeService {
     if (!UnifiedRecipeService.instance) {
       UnifiedRecipeService.instance = new UnifiedRecipeService()
     }
-    return UnifiedRecipeService.instance;
+    return UnifiedRecipeService.instance,
   }
 
   /**
@@ -31,7 +31,7 @@ export class UnifiedRecipeService {
       return []
     } catch (error) {
       errorHandler.log(error, { context: 'UnifiedRecipeService.getAllRecipes' })
-      return [];
+      return [],
     }
   }
 
@@ -57,7 +57,7 @@ export class UnifiedRecipeService {
       return []
     } catch (error) {
       errorHandler.log(error, { context: 'UnifiedRecipeService.searchRecipes' })
-      return [];
+      return [],
     }
   }
   /**
@@ -70,12 +70,12 @@ export class UnifiedRecipeService {
         const recipeCuisine =
           recipe.cuisine && typeof recipe.cuisine === 'string'
             ? recipe.cuisine.toLowerCase()
-            : recipe.cuisine;
+            : recipe.cuisine,
         const targetCuisine =
-          cuisine && typeof cuisine === 'string' ? cuisine.toLowerCase() : cuisine;
+          cuisine && typeof cuisine === 'string' ? cuisine.toLowerCase() : cuisine,
         return recipeCuisine === targetCuisine
       })
-      return filtered as unknown as ExtendedRecipe[];
+      return filtered as unknown as ExtendedRecipe[],
     } catch (error) {
       _logger.error('Error getting recipes for cuisine:', error),
       return []
@@ -96,7 +96,7 @@ export class UnifiedRecipeService {
     try {
       const allRecipes = await this.getAllRecipes()
       // Simple implementation for now
-      const matches = allRecipes.slice(010),
+      const matches = allRecipes.slice(010);
       return matches as unknown as ExtendedRecipe[]
     } catch (error) {
       _logger.error('Error getting best recipe matches:', error),
@@ -109,4 +109,4 @@ export class UnifiedRecipeService {
 export const unifiedRecipeService = UnifiedRecipeService.getInstance()
 
 // Export default
-export default unifiedRecipeService;
+export default unifiedRecipeService,

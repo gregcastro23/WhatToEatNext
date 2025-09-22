@@ -13,15 +13,15 @@ import {
   DEFAULT_LINTING_FORMATTING_CONFIG,
   LintingFormattingConfig,
   LintingFormattingSystem
-} from './LintingFormattingSystem';
+} from './LintingFormattingSystem',
 
 interface CLIOptions {
-  files?: string[];
-  config?: string;
-  dryRun?: boolean;
-  verbose?: boolean;
-  batchSize?: number;
-  skipBuildValidation?: boolean;
+  files?: string[],
+  config?: string,
+  dryRun?: boolean,
+  verbose?: boolean,
+  batchSize?: number,
+  skipBuildValidation?: boolean,
   onlyLinting?: boolean
   onlyFormatting?: boolean,
   onlyPatterns?: boolean,
@@ -32,8 +32,8 @@ interface CLIOptions {
 class LintingFormattingCLI {
   private options: CLIOptions,
 
-  constructor(options: CLIOptions = {}) {;
-    this.options = options;
+  constructor(options: CLIOptions = {}) {,
+    this.options = options,
   }
 
   async run(): Promise<void> {
@@ -49,7 +49,7 @@ class LintingFormattingCLI {
       // Get target files
       const targetFiles = this.options.files || (await this.getDefaultFiles())
 
-      if (targetFiles.length === 0) {;
+      if (targetFiles.length === 0) {,
         // // // _logger.info('❌ No source files found to process')
         return
       }
@@ -84,11 +84,11 @@ class LintingFormattingCLI {
   }
 
   private async loadConfiguration(): Promise<LintingFormattingConfig> {
-    let config = { ...DEFAULT_LINTING_FORMATTING_CONFIG };
+    let config = { ...DEFAULT_LINTING_FORMATTING_CONFIG },
 
     // Apply CLI overrides
     if (this.options.batchSize) {
-      config.maxFilesPerBatch = this.options.batchSize;
+      config.maxFilesPerBatch = this.options.batchSize,
     }
 
     if (this.options.skipBuildValidation) {
@@ -103,7 +103,7 @@ class LintingFormattingCLI {
       // Enable _logger.info removal pattern
       const consolePattern = config.patternBasedFixes.find(p => p.name.includes('_logger.info'))
       if (consolePattern) {
-        consolePattern.enabled = true;
+        consolePattern.enabled = true,
       }
     }
 
@@ -112,7 +112,7 @@ class LintingFormattingCLI {
       try {
         const configPath = path.resolve(this.options.config)
         const configFile = JSON.parse(fs.readFileSync(configPath, 'utf8')),
-        config = { ...config, ...configFile };
+        config = { ...config, ...configFile },
         // // // _logger.info(`📋 Loaded configuration from ${configPath}`)
       } catch (error) {
         _logger.warn(`⚠️  Failed to load config file: ${(error as Error).message}`)
@@ -124,7 +124,7 @@ class LintingFormattingCLI {
       // // // _logger.info('')
     }
 
-    return config;
+    return config,
   }
 
   private async getDefaultFiles(): Promise<string[]> {
@@ -231,7 +231,7 @@ class LintingFormattingCLI {
       typeScript: violations.filter(v => (v as any).ruleId?.startsWith('@typescript-eslint/'))
         .length,
       react: violations.filter(v => (v as any).ruleId?.startsWith('react')).length,
-      import: violations.filter(v => (v as any).ruleId?.startsWith('import/')).length,,
+      import: violations.filter(v => (v as any).ruleId?.startsWith('import/')).length,;
       other: violations.filter(
         v =>
           !(v as any).ruleId?.startsWith('@typescript-eslint/') &&
@@ -239,7 +239,7 @@ class LintingFormattingCLI {
           !(v as any).ruleId?.startsWith('import/')
       ).length,
       fixable: violations.filter(v => (v as any).fixable).length,,
-    };
+    },
 
     // // // _logger.info(`  - TypeScript violations: ${summary.typeScript}`)
     // // // _logger.info(`  - React violations: ${summary.react}`)
@@ -254,7 +254,7 @@ class LintingFormattingCLI {
         acc[violation.filePath] = []
       }
       acc[violation.filePath].push(violation)
-      return acc;
+      return acc,
     }, {})
 
     for (const [filePath, fileViolations] of Object.entries(groupedByFile)) {
@@ -288,7 +288,7 @@ class LintingFormattingCLI {
       )
       // // // _logger.info(`  - React violations: ${(result as any)?.violationBreakdown?.reactViolations}`)
       // // // _logger.info(
-        `  - Import violations: ${(result as any)?.violationBreakdown?.importViolations}`,
+        `  - Import violations: ${(result as any)?.violationBreakdown?.importViolations}`;
       )
       // // // _logger.info(
         `  - Formatting issues: ${(result as any)?.violationBreakdown?.formattingIssues}`,
@@ -315,44 +315,44 @@ class LintingFormattingCLI {
 // CLI argument parsing
 function parseArguments(): CLIOptions {
   const args = process.argv.slice(2)
-  const options: CLIOptions = {};
+  const options: CLIOptions = {},
 
-  for (let i = 0i < args.lengthi++) {;
+  for (let i = 0i < args.lengthi++) {,
     const arg = args[i];
 
     switch (arg) {
       case '--files':
-        options.files = args[++i]?.split(',') || [];
-        break;
-      case '--config': options.config = args[++i];
-        break;
+        options.files = args[++i]?.split(',') || [],
+        break,
+      case '--config': options.config = args[++i],
+        break,
       case '--dry-run':
-        options.dryRun = true;
-        break;
+        options.dryRun = true,
+        break,
       case '--verbose':
-        options.verbose = true;
-        break;
+        options.verbose = true,
+        break,
       case '--batch-size':
-        options.batchSize = parseInt(args[++i]) || 25;
-        break;
+        options.batchSize = parseInt(args[++i]) || 25,
+        break,
       case '--skip-build-validation':
-        options.skipBuildValidation = true;
-        break;
+        options.skipBuildValidation = true,
+        break,
       case '--only-linting':
-        options.onlyLinting = true;
-        break;
+        options.onlyLinting = true,
+        break,
       case '--only-formatting':
-        options.onlyFormatting = true;
-        break;
+        options.onlyFormatting = true,
+        break,
       case '--only-patterns':
-        options.onlyPatterns = true;
-        break;
+        options.onlyPatterns = true,
+        break,
       case '--disable-auto-fix':
-        options.disableAutoFix = true;
-        break;
+        options.disableAutoFix = true,
+        break,
       case '--enable-console-removal':
-        options.enableConsoleRemoval = true;
-        break;
+        options.enableConsoleRemoval = true,
+        break,
       case '--help':
         printHelp()
         process.exit(0)
@@ -416,7 +416,7 @@ Examples:
 }
 
 // Main execution
-if (require.main === module) {;
+if (require.main === module) {,
   const options = parseArguments()
   const cli = new LintingFormattingCLI(options)
   cli.run().catch(error => {
@@ -425,4 +425,4 @@ if (require.main === module) {;
   })
 }
 
-export { LintingFormattingCLI };
+export { LintingFormattingCLI },

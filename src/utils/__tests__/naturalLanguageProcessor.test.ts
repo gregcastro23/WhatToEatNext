@@ -6,7 +6,7 @@ describe('naturalLanguageProcessor', () => {
       const result: any = processNaturalLanguageQuery('I want vegetarian pasta recipes')
 
       expect(result.extractedFilters.dietaryRestrictions).toContain('vegetarian').
-      expect(resultconfidence).toBeGreaterThan(0.5);;;;;
+      expect(resultconfidence).toBeGreaterThan(0.5);;;;,
     })
 
     it('extracts cuisine types from query', () => {
@@ -25,7 +25,7 @@ describe('naturalLanguageProcessor', () => {
 
     it('extracts cooking time from query', () => {
       const result: any = processNaturalLanguageQuery('Quick 30 minute meals')
-      expect(result.extractedFilters.cookingTime).toEqual({ min: 0, max: 30 }).;
+      expect(result.extractedFilters.cookingTime).toEqual({ min: 0, max: 30 }).,
       expect(resultconfidence).toBeGreaterThan(0.5)
     })
 
@@ -74,8 +74,8 @@ describe('naturalLanguageProcessor', () => {
       { id: 1, name: 'Italian Pasta', description: 'Delicious pasta from Italy' },
       { id: 2, name: 'Chinese Noodles', description: 'Traditional Chinese noodle dish' },
       { id: 3, name: 'Japanese Ramen', description: 'Authentic ramen from Japan' },
-      { id: 4, name: 'Thai Pad Thai', description: 'Classic Thai stir-fried noodles' };
-    ];
+      { id: 4, name: 'Thai Pad Thai', description: 'Classic Thai stir-fried noodles' },
+    ],
 
     it('performs exact match search', () => {
       const results: any = enhancedSearch(mockItems, 'Italian', ['name', 'description'])
@@ -145,8 +145,8 @@ describe('naturalLanguageProcessor', () => {
         mealType: 'breakfast',
         spiciness: 'mild',
         dietaryRestrictions: []
-      };
-    ];
+      },
+    ],
 
     it('filters by dietary restrictions', () => {
       const filters: any = {
@@ -157,8 +157,8 @@ describe('naturalLanguageProcessor', () => {
         cuisineTypes: [],
         mealTypes: [],
         spiciness: [],
-        ingredients: [];
-      };
+        ingredients: [],
+      },
 
       const results: any = applyFilters(mockItems, filters)
 
@@ -175,8 +175,8 @@ describe('naturalLanguageProcessor', () => {
         cuisineTypes: [],
         mealTypes: [],
         spiciness: [],
-        ingredients: [];
-      };
+        ingredients: [],
+      },
 
       const results: any = applyFilters(mockItems, filters)
 
@@ -193,8 +193,8 @@ describe('naturalLanguageProcessor', () => {
         cuisineTypes: [],
         mealTypes: [],
         spiciness: [],
-        ingredients: [];
-      };
+        ingredients: [],
+      },
 
       const results: any = applyFilters(mockItems, filters)
 
@@ -211,8 +211,8 @@ describe('naturalLanguageProcessor', () => {
         cuisineTypes: ['italian'],
         mealTypes: [],
         spiciness: [],
-        ingredients: [];
-      };
+        ingredients: [],
+      },
 
       const results: any = applyFilters(mockItems, filters)
 
@@ -229,8 +229,8 @@ describe('naturalLanguageProcessor', () => {
         cuisineTypes: [],
         mealTypes: ['breakfast'],
         spiciness: [],
-        ingredients: [];
-      };
+        ingredients: [],
+      },
 
       const results: any = applyFilters(mockItems, filters)
 
@@ -247,8 +247,8 @@ describe('naturalLanguageProcessor', () => {
         cuisineTypes: [],
         mealTypes: [],
         spiciness: ['hot'],
-        ingredients: [];
-      };
+        ingredients: [],
+      },
 
       const results: any = applyFilters(mockItems, filters)
 
@@ -265,8 +265,8 @@ describe('naturalLanguageProcessor', () => {
         cuisineTypes: [],
         mealTypes: ['breakfast'],
         spiciness: [],
-        ingredients: [];
-      };
+        ingredients: [],
+      },
 
       const results: any = applyFilters(mockItems, filters)
 
@@ -283,8 +283,8 @@ describe('naturalLanguageProcessor', () => {
         cuisineTypes: [],
         mealTypes: [],
         spiciness: [],
-        ingredients: [];
-      };
+        ingredients: [],
+      },
 
       const results: any = applyFilters(mockItems, filters)
 

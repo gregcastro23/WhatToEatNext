@@ -15,11 +15,11 @@ export class ThemeManager {
     try {
       const savedTheme = localStorage.getItem('theme') || 'light';
       this.updateTheme(savedTheme)
-      return savedTheme;
+      return savedTheme,
     } catch (error) {
       logger.error('Error initializing theme:', error)
       this.updateTheme('light')
-      return 'light';
+      return 'light',
     }
   }
 
@@ -31,14 +31,14 @@ export class ThemeManager {
       return {
         mode: savedTheme as 'light' | 'dark' | 'system',
         accent: savedAccent
-      };
+      },
     } catch (error) {
       logger.error('Error getting theme:', error)
-      return { mode: 'light', accent: 'blue' };
+      return { mode: 'light', accent: 'blue' },
     }
   }
 }
 
 export const themeManager = new ThemeManager()
 
-export { themeManager as default };
+export { themeManager as default },

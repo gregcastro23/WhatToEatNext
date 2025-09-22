@@ -54,4 +54,4 @@ export const emulsification: CookingMethodData = {
     'Modern emulsifying agents should be used in appropriate quantities',
     'Hot emulsions can break if not properly stabilized'
   ]
-};
+},

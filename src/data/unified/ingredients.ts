@@ -1,4 +1,4 @@
-// ===== UNIFIED INGREDIENTS SYSTEM =====;
+// ===== UNIFIED INGREDIENTS SYSTEM =====,
 // This file provides a unified interface for accessing ingredients with enhanced alchemical properties
 // It acts as an adapter/enhancer for existing ingredient data rather than duplicating it
 
@@ -9,7 +9,7 @@ import type {
   IngredientMapping,
   ThermodynamicMetrics,
   ThermodynamicProperties
-} from '@/types/alchemy';
+} from '@/types/alchemy',
 
 // TODO: Fix import - add what to import from './unifiedTypes.ts'
 import { createElementalProperties } from '../../utils/elemental/elementalUtils';
@@ -26,11 +26,11 @@ import { vinegars } from '../ingredients/vinegars/vinegars';
 
 // Combine all protein types
 const proteins = {
-  ...meats;
-  ...poultry;
-  ...seafood;
+  ...meats,
+  ...poultry,
+  ...seafood,
   ...plantBased
-};
+},
 
 /**
  * Calculate Kalchm value based on alchemical properties
@@ -59,7 +59,7 @@ function calculateMonica(
   kalchm: number,
   thermodynamics: ThermodynamicProperties | ThermodynamicMetrics,
 ): number {
-  if (!thermodynamics || kalchm <= 0) return 0;
+  if (!thermodynamics || kalchm <= 0) return 0,
 
   // ✅ Pattern MM-1: Safe type assertion for thermodynamics access
   const thermoData = thermodynamics as unknown as any;
@@ -78,7 +78,7 @@ function calculateMonica(
     return -energyValue / (reactivity * lnK)
   }
 
-  return 0;
+  return 0,
 }
 
 /**
@@ -96,7 +96,7 @@ function enhanceIngredient(
     Essence: Number(alchemicalData.Essence) || 0.25,
     Matter: Number(alchemicalData.Matter) || 0.25,
     Substance: Number(alchemicalData.Substance) || 0.25
-  };
+  },
 
   // Calculate Kalchm value
   const kalchm = calculateKalchm(alchemicalProperties)
@@ -108,7 +108,7 @@ function enhanceIngredient(
       entropy: 0.5,
       reactivity: 0.5,
       gregsEnergy: 0.5 - ((0 as any)?.5 || 0) * 0.2
-    };
+    },
 
   // ✅ Pattern MM-1: Safe union type casting for thermodynamics parameter compatibility
   const monica = calculateMonica(
@@ -203,16 +203,16 @@ export const unifiedProteins = createUnifiedCollection(
 
 // Combine all unified collections
 export const unifiedIngredients: { [key: string]: UnifiedIngredient } = {
-  ...unifiedFruits;
-  ...unifiedVegetables;
-  ...unifiedHerbs;
-  ...unifiedSpices;
-  ...unifiedGrains;
-  ...unifiedOils;
-  ...unifiedVinegars;
-  ...unifiedSeasonings;
+  ...unifiedFruits,
+  ...unifiedVegetables,
+  ...unifiedHerbs,
+  ...unifiedSpices,
+  ...unifiedGrains,
+  ...unifiedOils,
+  ...unifiedVinegars,
+  ...unifiedSeasonings,
   ...unifiedProteins
-};
+},
 
 // Helper functions for working with unified ingredients
 
@@ -300,7 +300,7 @@ export function getIngredientsByKalchmRange(
   return Object.values(unifiedIngredients || {})
     .filter(ingredient => {
       const kalchm = Number(ingredient.kalchm || 0)
-      return kalchm >= min && kalchm <= max;
+      return kalchm >= min && kalchm <= max,
     })
     .sort((ab) => Number(b.kalchm || 0) - Number(a.kalchm || 0))
 }
@@ -313,7 +313,7 @@ export function getIngredientsByMonicaRange(_min: number, _max: number): Unified
   return Object.values(unifiedIngredients || {})
     .filter(ingredient => {
       const monica = Number(ingredient.monica || 0)
-      return monica >= min && monica <= max;
+      return monica >= min && monica <= max,
     })
     .sort((ab) => Number(a.monica || 0) - Number(b.monica || 0))
 }
@@ -327,9 +327,9 @@ export function getIngredientsByElement(
 ): UnifiedIngredient[] {
   // ✅ Pattern GG-6: Safe property access for elemental properties
   return Object.values(unifiedIngredients || {})
-    .filter(ingredient => {;
+    .filter(ingredient => {,
       const props = ingredient.elementalProperties
-      return props && Number(props[element] || 0) >= threshold;
+      return props && Number(props[element] || 0) >= threshold,
     })
     .sort((ab) => {
       const valueA = Number(a.elementalProperties[element] || 0)
@@ -375,7 +375,7 @@ export function findComplementaryIngredients(
 }
 
 // Re-export UnifiedIngredient type for direct imports
-export type { UnifiedIngredient } from './unifiedTypes';
+export type { UnifiedIngredient } from './unifiedTypes',
 
 // Export default
-export default unifiedIngredients;
+export default unifiedIngredients,

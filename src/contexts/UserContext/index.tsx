@@ -2,26 +2,26 @@
 import { _logger } from '@/lib/logger';
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
-// Import { UserProfile } from '../../services/userService';
-// Import * as userService from '../../services/userService';
+// Import { UserProfile } from '../../services/userService',
+// Import * as userService from '../../services/userService',
 
 // Mock UserProfile interface for build compatibility
 interface UserProfile {
-  userId: string;
-  name?: string;
+  userId: string,
+  name?: string,
   email?: string
-  preferences?: Record<string, unknown>;
+  preferences?: Record<string, unknown>,
 }
 
 // Mock userService for build compatibility
 const userService = {
   getUserProfile: async (userId: string): Promise<UserProfile> => {
-    return { userId, name: 'Mock User', email: 'mock@example.com' };
+    return { userId, name: 'Mock User', email: 'mock@example.com' },
   },
   saveUserProfile: async (profile: Partial<UserProfile>): Promise<UserProfile> => {
-    return { userId: profile.userId || 'mock', ...profile } as UserProfile;
+    return { userId: profile.userId || 'mock', ...profile } as UserProfile,
   }
-};
+},
 
 interface UserContextType {
   currentUser: UserProfile | null,
@@ -56,7 +56,7 @@ export const UserProvider: React.FC<UserProviderProps>  = ({ children }) => {
     } finally {
       setIsLoading(false)
     }
-  };
+  },
 
   const updateProfile = async (data: Partial<UserProfile>): Promise<UserProfile | null> => {;
     setIsLoading(true)
@@ -72,7 +72,7 @@ export const UserProvider: React.FC<UserProviderProps>  = ({ children }) => {
       })
 
       setCurrentUser(updatedProfile)
-      return updatedProfile;
+      return updatedProfile,
     } catch (err) {
       setError('Failed to update profile')
       _logger.error('Error updating profile:', err)
@@ -80,11 +80,11 @@ export const UserProvider: React.FC<UserProviderProps>  = ({ children }) => {
     } finally {
       setIsLoading(false)
     }
-  };
+  },
 
   const logout = () => {;
     setCurrentUser(null)
-  };
+  },
 
   useEffect(() => {
     void loadProfile()
@@ -97,15 +97,15 @@ export const UserProvider: React.FC<UserProviderProps>  = ({ children }) => {
     loadProfile,
     updateProfile,
     logout
-  };
+  },
 
-  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
-};
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>,
+},
 
 export const useUser = (): UserContextType => {;
   const context = useContext(UserContext)
   if (!context) {
     throw new Error('useUser must be used within a UserProvider')
   }
-  return context;
-};
+  return context,
+},

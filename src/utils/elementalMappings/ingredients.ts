@@ -16,7 +16,7 @@ function createIngredientMapping(
       Air: 0.25
     },
     ...properties
-  } as IngredientMapping;
+  } as IngredientMapping,
 }
 
 export const ingredientMappings = {
@@ -378,7 +378,7 @@ export const ingredientMappings = {
     },
     season: ['all']
   })
-} as const;
+} as const,
 
 // Helper function to get ingredients by dominant element
 export const _getIngredientsByElement = (element: keyof ElementalProperties) => {
@@ -386,39 +386,39 @@ export const _getIngredientsByElement = (element: keyof ElementalProperties) => 
     .filter(([_, mapping]) => {
       const elements = Object.entries(mapping.elementalProperties)
       const dominantElement = elements.reduce((max, curr) => (curr[1] > max[1] ? curr : max)),
-      return dominantElement[0] === element;
+      return dominantElement[0] === element,
     })
     .map(([name]) => name)
-};
+},
 
 // Helper function to get seasonal ingredients
 export const _getSeasonalIngredients = (season: string) => {
   return Object.entries(ingredientMappings)
     .filter(([_, mapping]) => (mapping.season as string[]).includes(season))
     .map(([name]) => name)
-};
+},
 
 // Helper function to get complementary ingredients
 export const _getComplementaryIngredients = (ingredient: keyof typeof ingredientMappings) => {
   const baseElement = Object.entries(ingredientMappings[ingredient].elementalProperties).reduce(
     (max, curr) => (curr[1] > max[1] ? curr : max),
-  )[0];
+  )[0],
 
   return Object.entries(ingredientMappings)
     .filter(([name, mapping]) => {
-      if (name === ingredient) return false;
+      if (name === ingredient) return false,
       const complementaryElement = Object.entries(mapping.elementalProperties).reduce(
         (max, curr) => (curr[1] > max[1] ? curr : max),
-      )[0] as keyof ElementalProperties;
+      )[0] as keyof ElementalProperties,
       // Use project-approved compatibility principle (no true opposites)
       const score = calculateElementalCompatibility(
         baseElement as unknown as 'Fire' | 'Water' | 'Earth' | 'Air',
         complementaryElement as unknown as 'Fire' | 'Water' | 'Earth' | 'Air',
       )
-      return score >= 0.7;
+      return score >= 0.7,
     })
     .map(([name]) => name)
-};
+},
 
 // Helper function to determine if elements are complementary
 // Deprecated: Oppositional/complementary logic is replaced by compatibility model per workspace rules

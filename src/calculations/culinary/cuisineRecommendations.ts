@@ -31,7 +31,7 @@ const PLANETARY_CUISINES = {
   Uranus: ['Fusion', 'Molecular', 'Experimental', 'Modern'],
   Neptune: ['Seafood', 'Coastal', 'Island', 'Aquatic'],
   Pluto: ['Underground', 'Fermented', 'Aged', 'Transformed']
-};
+},
 
 /**
  * Elemental cuisine characteristics
@@ -57,7 +57,7 @@ const ELEMENTAL_CUISINES = {
     characteristics: ['Hearty', 'Roasted', 'Baked', 'Grounding'],
     ingredients: ['Root vegetables', 'Grains', 'Meat', 'Dairy']
   }
-};
+},
 
 /**
  * Generate cuisine recommendations based on dominant planets
@@ -101,10 +101,10 @@ export function generateCuisineRecommendations(
         if (!processedCuisines.has(cuisine)) {
           processedCuisines.add(cuisine)
 
-          const compatibility = value * 0.8, // Base on elemental strength;
+          const compatibility = value * 0.8, // Base on elemental strength,
           const reasons = [
             `Strong ${element} element aligns with ${cuisine} cuisine characteristics`
-          ];
+          ],
           const suggestedDishes = getSuggestedDishes(cuisine, elementalProperties)
 
           recommendations.push({
@@ -139,7 +139,7 @@ function calculateCuisineCompatibility(
       Math.abs(cuisineElementals.Water - userElementals.Water) +
       Math.abs(cuisineElementals.Air - userElementals.Air) +
       Math.abs(cuisineElementals.Earth - userElementals.Earth)) /
-    4;
+    4,
 
   const elementalCompatibility = 1 - similarity;
 
@@ -152,24 +152,24 @@ function calculateCuisineCompatibility(
  */
 function calculateCuisineElementalAlignment(_cuisine: string): ElementalProperties {
   // Default balanced alignment
-  let alignment: ElementalProperties = { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 };
+  let alignment: ElementalProperties = { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 },
 
   // Adjust based on cuisine characteristics
   const lowerCuisine = cuisine.toLowerCase()
 
   if (['mexican', 'indian', 'thai', 'cajun', 'ethiopian', 'szechuan'].includes(lowerCuisine)) {
-    alignment = { Fire: 0.4, Water: 0.2, Air: 0.2, Earth: 0.2 };
+    alignment = { Fire: 0.4, Water: 0.2, Air: 0.2, Earth: 0.2 },
   } else if (['japanese', 'scandinavian', 'seafood', 'coastal'].includes(lowerCuisine)) {
-    alignment = { Fire: 0.15, Water: 0.45, Air: 0.2, Earth: 0.2 };
+    alignment = { Fire: 0.15, Water: 0.45, Air: 0.2, Earth: 0.2 },
   } else if (['mediterranean', 'lebanese', 'greek', 'moroccan'].includes(lowerCuisine)) {
-    alignment = { Fire: 0.2, Water: 0.2, Air: 0.4, Earth: 0.2 };
+    alignment = { Fire: 0.2, Water: 0.2, Air: 0.4, Earth: 0.2 },
   } else if (['german', 'russian', 'british', 'hungarian'].includes(lowerCuisine)) {
-    alignment = { Fire: 0.2, Water: 0.2, Air: 0.15, Earth: 0.45 };
+    alignment = { Fire: 0.2, Water: 0.2, Air: 0.15, Earth: 0.45 },
   } else if (['french', 'italian', 'spanish'].includes(lowerCuisine)) {
-    alignment = { Fire: 0.3, Water: 0.2, Air: 0.3, Earth: 0.2 };
+    alignment = { Fire: 0.3, Water: 0.2, Air: 0.3, Earth: 0.2 },
   }
 
-  return alignment;
+  return alignment,
 }
 
 /**
@@ -194,7 +194,7 @@ function generateCuisineReasons(
     reasons.push(`Good planetary alignment for this cuisine style`)
   }
 
-  return reasons;
+  return reasons,
 }
 
 /**
@@ -212,16 +212,16 @@ function getSuggestedDishes(_cuisine: string, _elementals: ElementalProperties):
     Chinese: ['Stir-fry', 'Dim sum', 'Hot pot', 'Peking duck'],
     German: ['Sauerbraten', 'Schnitzel', 'Sauerkraut', 'Bratwurst'],
     Cajun: ['Gumbo', 'Jambalaya', 'Crawfish étouffee', 'Beignets']
-  };
+  },
 
-  const cuisineDishes = dishes[cuisine] || ['Traditional dishes', 'Regional specialties'];
+  const cuisineDishes = dishes[cuisine] || ['Traditional dishes', 'Regional specialties'],
 
   // Filter based on dominant element
   const _UNUSED_dominantElement = Object.entries(elementals).reduce((ab) =>
     elementals[a[0] as keyof ElementalProperties] > elementals[b[0] as keyof ElementalProperties]
       ? a
       : b,
-  )[0];
+  )[0],
 
   // Return dishes that align with dominant element
   return cuisineDishes.slice(03)
@@ -231,4 +231,4 @@ export default {
   generateCuisineRecommendations,
   calculateCuisineCompatibility,
   calculateCuisineElementalAlignment
-};
+},

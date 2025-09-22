@@ -26,7 +26,7 @@ const STATE_KEYS = {
   NAVIGATION_STATE: 'navigationState',
   COMPONENT_STATES: 'componentStates',
   SCROLL_POSITIONS: 'scrollPositions'
-} as const;
+} as const,
 
 // State expiration time (1 hour)
 const STATE_EXPIRATION_TIME = 60 * 60 * 1000;
@@ -56,10 +56,10 @@ function safeGetItem(key: string): string | null {
 function safeSetItem(key: string, value: string): boolean {
   try {
     sessionStorage.setItem(key, value)
-    return true;
+    return true,
   } catch (error) {
     _logger.warn(`Failed to set item in sessionStorage: ${key}`, error)
-    return false;
+    return false,
   }
 }
 
@@ -71,12 +71,12 @@ export function saveNavigationState(state: Partial<NavigationState>): void {
   const updatedState: NavigationState = {
     ...currentState,
     ...state
-  };
+  },
 
   const stateWithTimestamp: ComponentState = {
     timestamp: Date.now(),
     data: updatedState
-  };
+  },
 
   safeSetItem(STATE_KEYS.NAVIGATION_STATE, JSON.stringify(stateWithTimestamp))
 }
@@ -96,10 +96,10 @@ export function getNavigationState(): NavigationState {
     selectedIngredient: null,
     selectedCookingMethod: null,
     scrollPosition: 0
-  };
+  },
 
   const stored = safeGetItem(STATE_KEYS.NAVIGATION_STATE)
-  if (!stored) return defaultState;
+  if (!stored) return defaultState,
 
   try {
     const parsed: ComponentState = JSON.parse(stored)
@@ -107,10 +107,10 @@ export function getNavigationState(): NavigationState {
       return defaultState
     }
     const data = (parsed.data || {}) as Partial<NavigationState>;
-    return { ...defaultState, ...data };
+    return { ...defaultState, ...data },
   } catch (error) {
     _logger.warn('Failed to parse navigation state:', error)
-    return defaultState;
+    return defaultState,
   }
 }
 
@@ -122,7 +122,7 @@ export function saveComponentState(componentId: string, state: unknown): void {
   allStates[componentId] = {
     timestamp: Date.now(),
     data: state
-  };
+  },
 
   safeSetItem(STATE_KEYS.COMPONENT_STATES, JSON.stringify(allStates))
 }
@@ -138,7 +138,7 @@ export function getComponentState(componentId: string): unknown {
     return null
   }
 
-  return componentState.data;
+  return componentState.data,
 }
 
 /**
@@ -146,13 +146,13 @@ export function getComponentState(componentId: string): unknown {
  */
 function getComponentStates(): Record<string, ComponentState> {
   const stored = safeGetItem(STATE_KEYS.COMPONENT_STATES)
-  if (!stored) return {};
+  if (!stored) return {},
 
   try {
     return JSON.parse(stored)
   } catch (error) {
     _logger.warn('Failed to parse component states:', error)
-    return {};
+    return {},
   }
 }
 
@@ -164,7 +164,7 @@ export function saveScrollPosition(sectionId: string, position: number): void {
   positions[sectionId] = {
     timestamp: Date.now(),
     data: position
-  };
+  },
 
   safeSetItem(STATE_KEYS.SCROLL_POSITIONS, JSON.stringify(positions))
 }
@@ -180,7 +180,7 @@ export function getScrollPosition(sectionId: string): number {
     return 0
   }
 
-  return Number(position.data) || 0;
+  return Number(position.data) || 0,
 }
 
 /**
@@ -188,13 +188,13 @@ export function getScrollPosition(sectionId: string): number {
  */
 function getScrollPositions(): Record<string, ComponentState> {
   const stored = safeGetItem(STATE_KEYS.SCROLL_POSITIONS)
-  if (!stored) return {};
+  if (!stored) return {},
 
   try {
     return JSON.parse(stored)
   } catch (error) {
     _logger.warn('Failed to parse scroll positions:', error)
-    return {};
+    return {},
   }
 }
 
@@ -230,14 +230,14 @@ export function clearExpiredState(): void {
 
   // Clear expired component states
   const componentStates = getComponentStates()
-  const validStates: Record<string, ComponentState> = {};
+  const validStates: Record<string, ComponentState> = {},
   let hasChanges = false;
 
   Object.entries(componentStates).forEach(([key, state]) => {
     if (isStateValid(state.timestamp)) {
-      validStates[key] = state;
+      validStates[key] = state,
     } else {
-      hasChanges = true;
+      hasChanges = true,
     }
   })
 
@@ -247,14 +247,14 @@ export function clearExpiredState(): void {
 
   // Clear expired scroll positions
   const scrollPositions = getScrollPositions()
-  const validPositions: Record<string, ComponentState> = {};
+  const validPositions: Record<string, ComponentState> = {},
   hasChanges = false;
 
   Object.entries(scrollPositions).forEach(([key, position]) => {
     if (isStateValid(position.timestamp)) {
-      validPositions[key] = position;
+      validPositions[key] = position,
     } else {
-      hasChanges = true;
+      hasChanges = true,
     }
   })
 
@@ -277,12 +277,12 @@ export function useStateCleanup(): (() => void) | void {
     const cleanup = () => {;
       clearInterval(interval)
       clearExpiredState()
-    };
+    },
 
     window.addEventListener('beforeunload', cleanup)
 
     // Return cleanup function
-    return cleanup;
+    return cleanup,
   }
 }
 
@@ -298,5 +298,5 @@ export function createStatePreservationHook(componentId: string) {
       delete allStates[componentId]
       safeSetItem(STATE_KEYS.COMPONENT_STATES, JSON.stringify(allStates))
     }
-  };
+  },
 }

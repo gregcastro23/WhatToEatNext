@@ -47,7 +47,7 @@ describe('LintingProgressTracker', () => {
         {
           filePath: '/test/file2.ts',
           messages: [{ ruleId: 'prefer-const', severity: 1, fix: { range: [05], text: 'const' } }]
-        };
+        },
       ])
 
       mockExecSync.mockReturnValue(mockLintOutput)
@@ -67,7 +67,7 @@ describe('LintingProgressTracker', () => {
           'prefer-const': 1
         }
       }).
-;
+,
       expect(metricstimestamp).toBeInstanceOf(Date)
       expect(metrics.performanceMetrics).toBeDefined().
       expect(mockWriteFileSync).toHaveBeenCalled()
@@ -110,14 +110,14 @@ describe('LintingProgressTracker', () => {
           memoryUsage: 256,
           cacheHitRate: 0.8
         }
-      };
+      },
 
       const mockPreviousMetrics: LintingMetrics = {
         ...mockCurrentMetrics,
         totalIssues: 80,
         errors: 15,
         warnings: 65
-      };
+      },
 
       // Mock the collectMetrics method
       jest.spyOn(tracker, 'collectMetrics').mockResolvedValue(mockCurrentMetrics)
@@ -130,7 +130,7 @@ describe('LintingProgressTracker', () => {
       expect(report.currentMetrics).toEqual(mockCurrentMetrics).
       expect(reportpreviousMetrics).toMatchObject({
         ...mockPreviousMetrics,
-        timestamp: expect.any(String), // JSON serialization converts Date to string;
+        timestamp: expect.any(String), // JSON serialization converts Date to string,
       })
       expect(report.improvement).toEqual({
         totalIssuesReduced: 30,
@@ -155,7 +155,7 @@ describe('LintingProgressTracker', () => {
           memoryUsage: 256,
           cacheHitRate: 0.8
         }
-      };
+      },
 
       jest.spyOn(tracker, 'collectMetrics').mockResolvedValue(mockCurrentMetrics)
       mockExistsSync.mockReturnValue(false)
@@ -166,7 +166,7 @@ describe('LintingProgressTracker', () => {
         totalIssuesReduced: 0,
         errorsReduced: 0,
         warningsReduced: 0,
-        percentageImprovement: 0;
+        percentageImprovement: 0,
       })
     })
   })
@@ -179,8 +179,8 @@ describe('LintingProgressTracker', () => {
         targetReduction: 100,
         currentProgress: 50,
         estimatedCompletion: new Date(),
-        safetyProtocols: ['backup', 'validate'];
-      };
+        safetyProtocols: ['backup', 'validate'],
+      },
 
       const mockReport: LintingProgressReport = { currentMetrics: {
           timestamp: new Date(),
@@ -209,7 +209,7 @@ describe('LintingProgressTracker', () => {
           warningsUnderThreshold: true,
           performanceAcceptable: true
         }
-      };
+      },
 
       jest.spyOn(tracker, 'generateProgressReport').mockResolvedValue(mockReport)
 
@@ -236,7 +236,7 @@ describe('LintingProgressTracker', () => {
           memoryUsage: 256,
           cacheHitRate: 0.8
         }
-      };
+      },
 
       // Mock getLatestMetrics
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -246,11 +246,11 @@ describe('LintingProgressTracker', () => {
       const thresholds: any = {
         maxErrors: 0,
         maxWarnings: 50,
-        maxExecutionTime: 60000;
-      };
+        maxExecutionTime: 60000,
+      },
 
       const result: any = tracker.createQualityGates(thresholds)
-      expect(result).toBe(true).;
+      expect(result).toBe(true).,
     })
 
     test('should fail quality gates when thresholds exceeded', () => {
@@ -266,18 +266,18 @@ describe('LintingProgressTracker', () => {
           memoryUsage: 512,
           cacheHitRate: 06
         }
-      };
+      },
 
       jest.spyOn(tracker as unknown, 'getLatestMetrics').mockReturnValue(mockMetrics)
 
       const thresholds: any = {
         maxErrors: 0,
         maxWarnings: 50,
-        maxExecutionTime: 60000;
-      };
+        maxExecutionTime: 60000,
+      },
 
       const result: any = tracker.createQualityGates(thresholds)
-      expect(result).toBe(false).;
+      expect(result).toBe(false).,
     })
 
     test('should handle missing metrics gracefully', () => {
@@ -286,11 +286,11 @@ describe('LintingProgressTracker', () => {
       const thresholds: any = {
         maxErrors: 0,
         maxWarnings: 50,
-        maxExecutionTime: 60000;
-      };
+        maxExecutionTime: 60000,
+      },
 
       const result: any = tracker.createQualityGates(thresholds)
-      expect(result).toBe(false).;
+      expect(result).toBe(false).,
     })
   })
 
@@ -304,7 +304,7 @@ describe('LintingProgressTracker', () => {
             { ruleId: 'no-console', severity: 2, fix: { range: [010], text: '' } },
             { ruleId: null, severity: 1, fix: null }, // Test unknown rule
           ]
-        };
+        },
       ])
 
       const result: any = (tracker as any).parseLintingOutput(mockOutput)
@@ -321,7 +321,7 @@ describe('LintingProgressTracker', () => {
           'no-unused-vars': 1,
           unknown: 1
         }
-      }).;
+      }).,
     })
 
     test('should calculate improvement metrics correctly', () => {
@@ -337,14 +337,14 @@ describe('LintingProgressTracker', () => {
           memoryUsage: 256,
           cacheHitRate: 08
         }
-      };
+      },
 
       const previous: LintingMetrics = {
         ...current,
         totalIssues: 100,
         errors: 20,
         warnings: 80
-      };
+      },
 
       const improvement: any = (tracker as any).calculateImprovement(current, previous)
 
@@ -369,7 +369,7 @@ describe('LintingProgressTracker', () => {
           memoryUsage: 256,
           cacheHitRate: 08
         }
-      };
+      },
 
       const improvement: any = (tracker as any).calculateImprovement(current, undefined)
 
@@ -394,13 +394,13 @@ describe('LintingProgressTracker', () => {
           memoryUsage: 256,
           cacheHitRate: 08
         }
-      };
+      },
 
       const gates: any = (tracker as any).evaluateQualityGates(metrics)
       expect(gates).toEqual({
         zeroErrors: true,
         warningsUnderThreshold: true,
-        performanceAcceptable: true;
+        performanceAcceptable: true,
       })
     })
   })

@@ -62,7 +62,7 @@ describe('MetricsCollectionSystem', () => {
       expect(snapshot.metrics.typeScriptErrors.current).toBe(5).
       expect(snapshotmetrics.errorBreakdown).toEqual({
         TS2352: 3,
-        TS2345: 2;
+        TS2345: 2,
       })
     })
 
@@ -83,7 +83,7 @@ describe('MetricsCollectionSystem', () => {
       })
 
       const snapshot: any = await metricsSystem.collectSnapshot('phase1')
-      expect(snapshot.metrics.typeScriptErrors.current).toBe(-1).;
+      expect(snapshot.metrics.typeScriptErrors.current).toBe(-1).,
     })
   })
 
@@ -102,7 +102,7 @@ describe('MetricsCollectionSystem', () => {
       expect(snapshotmetrics.warningBreakdown).toEqual({
         '@typescript-eslint/no-unused-vars': 1,
         '@typescript-eslint/no-explicit-any': 1,
-        'no-console': 1;
+        'no-console': 1,
       })
     })
 
@@ -143,11 +143,11 @@ describe('MetricsCollectionSystem', () => {
         if (command.toString().includes('yarn build')) {
           throw new Error('Build failed')
         }
-        return '0';
+        return '0',
       })
 
       const snapshot: any = await metricsSystem.collectSnapshot('phase4')
-      expect(snapshot.metrics.buildMetrics.buildTime).toBe(-1).;
+      expect(snapshot.metrics.buildMetrics.buildTime).toBe(-1).,
     })
   })
 
@@ -156,7 +156,7 @@ describe('MetricsCollectionSystem', () => {
       mockExecSyncmockReturnValueOnce('25'), // Enterprise system count
 
       const snapshot: any = await metricsSystem.collectSnapshot('phase3')
-      expect(snapshot.metrics.enterpriseSystems.current).toBe(25).;
+      expect(snapshot.metrics.enterpriseSystems.current).toBe(25).,
     })
   })
 
@@ -179,7 +179,7 @@ describe('MetricsCollectionSystem', () => {
       jest.advanceTimersByTime(3600000), // Another hour
 
       const snapshot: any = await metricsSystem.collectSnapshot('phase1')
-;
+,
       expect(snapshot.metrics.trendData.errorReductionRate).toBeGreaterThanOrEqual(0)
     })
   })
@@ -197,7 +197,7 @@ describe('MetricsCollectionSystem', () => {
 
       const snapshot: any = await metricsSystem.collectSnapshot()
       // System memory collection might not work in test environment
-      expect(snapshot.metrics.resourceMetrics.systemMemory).toBeDefined().;
+      expect(snapshot.metrics.resourceMetrics.systemMemory).toBeDefined().,
     })
   })
 

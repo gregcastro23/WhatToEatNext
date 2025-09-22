@@ -550,6 +550,6 @@ const venusData: PlanetData = {
       }
     }
   }
-};
+},
 
-export default venusData;
+export default venusData,

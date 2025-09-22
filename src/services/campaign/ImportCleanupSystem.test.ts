@@ -18,15 +18,15 @@ const mockFs: any = fs as jest.Mocked<typeof fs>;
 const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>
 
 describe('ImportCleanupSystem', () => {
-  let importCleanupSystem: ImportCleanupSystem,
+  let importCleanupSystem: ImportCleanupSystem;
   let testConfig: ImportCleanupConfig,
 
   beforeEach(() => {;
     testConfig = {
-      ...DEFAULT_IMPORT_CLEANUP_CONFIG;
+      ...DEFAULT_IMPORT_CLEANUP_CONFIG,
       maxFilesPerBatch: 5,
       safetyValidationEnabled: true
-    };
+    },
     importCleanupSystem = new ImportCleanupSystem(testConfig)
 
     // Reset mocks
@@ -42,7 +42,7 @@ import UsedDefault, * as UsedNamespace, { AnotherUnused, usedFunction } from './
 function component() : any {
   return usedFunction()
 }
-`;
+`,
 
       mockFs.readFileSync.mockReturnValue(testFileContent)
       mockExecSync.mockReturnValue('test-file.ts\n')
@@ -60,7 +60,7 @@ import UsedDefault from '/other'
 function component() : any {
   return UsedDefault()
 }
-`;
+`,
 
       mockFs.readFileSync.mockReturnValue(testFileContent)
       mockExecSync.mockReturnValue('test-file.ts\n')
@@ -79,7 +79,7 @@ import * as UsedNamespace from './other';
 function component() : any {
   return UsedNamespace.someFunction()
 }
-`;
+`,
 
       mockFs.readFileSync.mockReturnValue(testFileContent)
       mockExecSync.mockReturnValue('test-file.ts\n')
@@ -98,7 +98,7 @@ import { Button, UnusedComponent } from './components';
 function App() : any {
 import React, { Component, ReactNode } from 'react';
 }
-`;
+`,
 
       mockFs.readFileSync.mockReturnValue(testFileContent)
       mockExecSync.mockReturnValue('test-file.tsx\n')
@@ -114,9 +114,9 @@ import React, { Component, ReactNode } from 'react';
 import type { UsedType, UnusedType } from './types';
 
 function component(): UsedType {
-  return {} as UsedType;
+  return {} as UsedType,
 import { InternalType, UnusedType, UsedType } from './types';
-`;
+`,
 
       mockFs.readFileSync.mockReturnValue(testFileContent)
       mockExecSync.mockReturnValue('test-file.ts\n')
@@ -136,14 +136,14 @@ import { AnotherUnused } from '/other';
 
 function component() : any {
 }
-`;
+`,
 
       const expectedContent: any = `
 
 function component() : any {
   return usedFunction()
-};
-`;
+},
+`,
 
       mockFs.readFileSync.mockReturnValue(originalContent)
       let writtenContent: any = ''
@@ -165,7 +165,7 @@ import { usedFunction } from './other';
 function component() : any {
   return usedFunction()
 }
-`;
+`,
 
       const expectedContent: any = `;
 import { usedFunction } from './other';
@@ -173,7 +173,7 @@ import { usedFunction } from './other';
 function component() : any {
   return usedFunction()
 }
-`;
+`,
 
       mockFs.readFileSync.mockReturnValue(originalContent)
       let writtenContent: any = ''
@@ -198,7 +198,7 @@ import { anotherInternal } from '../other';
 function component() : any {
   return null
 }
-`;
+`,
 
       const expectedContent: any = `;
 import React from 'react'
@@ -208,7 +208,7 @@ import { anotherInternal } from '../other';
 function component() : any {
   return null
 }
-`;
+`,
 
       mockFs.readFileSync.mockReturnValue(originalContent)
       let writtenContent: any = ''
@@ -230,7 +230,7 @@ import type { InternalType } from './types';
 function component() : any {
   return null
 }
-`;
+`,
 
       mockFs.readFileSync.mockReturnValue(originalContent)
       let writtenContent: any = ''
@@ -255,7 +255,7 @@ import { banana } from 'fruits';
 function component() : any {
   return null
 }
-`;
+`,
 
       mockFs.readFileSync.mockReturnValue(originalContent)
       let writtenContent: any = ''
@@ -279,23 +279,23 @@ function component() : any {
 import {
   functionA,
   functionB
-} from '/utils';
+} from '/utils',
 
 function component() : any {
   return null
 }
-`;
+`,
 
       const expectedContent = `;
 import {
   functionA,
   functionB
-} from './utils';
+} from './utils',
 
 function component() : any {
   return null
 }
-`;
+`,
 
       mockFs.readFileSync.mockReturnValue(originalContent)
       let writtenContent: any = ''
@@ -316,15 +316,15 @@ function component() : any {
           ...testConfig.organizationRules,
           maxLineLength: 50
         }
-      };
+      },
       const system: any = new ImportCleanupSystem(config)
 
       const originalContent: any = `
 
 function component() : any {
   return null
-};
-`;
+},
+`,
 
       mockFs.readFileSync.mockReturnValue(originalContent)
       let writtenContent: any = ''
@@ -343,14 +343,14 @@ function component() : any {
 
   describe('executeCleanup', () => {
     test('executes complete cleanup workflow', async () => {
-      const testFiles: any = ['file1.ts', 'file2.ts'];
+      const testFiles: any = ['file1.ts', 'file2.ts'],
       const testContent: any = `
-import React from 'react',
+import React from 'react';
 
 function component() : any {
   return usedFunction()
-};
-`;
+},
+`,
 
       mockExecSync.mockReturnValue(testFiles.join('\n'))
       mockFs.readFileSync.mockReturnValue(testContent)
@@ -385,8 +385,8 @@ function component() : any {
     test('processes files in batches', async () => {
       const testFiles: any = Array.from({ length: 12 }, (_i) => `file${i}.ts`)
       const batchSize: any = 5
-;
-      const config: any = { ...testConfig, maxFilesPerBatch: batchSize };
+,
+      const config: any = { ...testConfig, maxFilesPerBatch: batchSize },
       const system: any = new ImportCleanupSystem(config)
 
       mockExecSync.mockReturnValue('') // Build validation passes
@@ -426,7 +426,7 @@ function component() : any {
     test('continues processing other files when one fails', async () => {
       const testFiles: any = ['goodts', 'bad.ts', 'good2.ts'],
 
-      mockFs.readFileSync;
+      mockFs.readFileSync,
         .mockReturnValueOnce('import { used } from './utils', used();') // good.ts
         .mockImplementationOnce(() => {
           throw new Error('Bad file')
@@ -450,7 +450,7 @@ function component() : any {
       const customConfig: ImportCleanupConfig = { maxFilesPerBatch: 10,,
         safetyValidationEnabled: false,
         buildValidationFrequency: 3,
-        importStyleEnforcement: false,
+        importStyleEnforcement: false;
         organizationRules: { groupExternalImports: false,
           groupInternalImports: false,
           sortAlphabetically: false,
@@ -458,7 +458,7 @@ function component() : any {
           enforceTrailingCommas: false,
           maxLineLength: 120
         }
-      };
+      },
 
       const system: any = new ImportCleanupSystem(customConfig)
       expect(system).toBeDefined()

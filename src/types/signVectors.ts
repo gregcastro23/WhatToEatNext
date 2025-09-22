@@ -23,7 +23,7 @@ export interface SignVectorComponents {
   seasonal: number
 }
 
-export type SignDirection = 'cardinal' | 'fixed' | 'mutable';
+export type SignDirection = 'cardinal' | 'fixed' | 'mutable',
 
 export interface SignVector {
   sign: any,
@@ -33,12 +33,12 @@ export interface SignVector {
 }
 
 export interface SignVectorCalculationInput {
-  planetaryPositions: Record<string, PlanetaryPosition>;
-  aspects?: PlanetaryAspect[];
+  planetaryPositions: Record<string, PlanetaryPosition>,
+  aspects?: PlanetaryAspect[],
   season?: Season
 }
 
-export type SignVectorMap = Record<ZodiacSign, SignVector>;
+export type SignVectorMap = Record<ZodiacSign, SignVector>,
 
 export interface SignVectorCompatibilityResult {
   similarity: number // 0-1 cosine similarity across components
@@ -55,5 +55,5 @@ export function signVectorComponentsToArray(components: SignVectorComponents): n
     components.Earth,
     components.Air,
     components.seasonal
-  ];
+  ],
 }

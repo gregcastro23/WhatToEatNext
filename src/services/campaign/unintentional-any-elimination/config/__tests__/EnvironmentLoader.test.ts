@@ -9,7 +9,7 @@ import {
     getEnvironmentConfig,
     loadEnvironmentConfig,
     validateEnvironmentConfig
-} from '../loader';
+} from '../loader',
 
 describe('Environment Configuration Loader', () => {
   const originalNodeEnv: any = (process.env as any).NODE_ENV;
@@ -21,32 +21,32 @@ describe('Environment Configuration Loader', () => {
 
   describe('Environment Detection', () => {
     test('detects development environment by default', () => {
-      delete (process.env as any).NODE_ENV;
+      delete (process.env as any).NODE_ENV,
       expect(getCurrentEnvironment()).toBe('development')
     })
 
     test('detects production environment', () => {
-      (process.env as any).NODE_ENV = 'production';
+      (process.env as any).NODE_ENV = 'production',
       expect(getCurrentEnvironment()).toBe('production')
     })
 
     test('detects production environment with 'prod'', () => {
-      (process.env as any).NODE_ENV = 'prod';
+      (process.env as any).NODE_ENV = 'prod',
       expect(getCurrentEnvironment()).toBe('production')
     })
 
     test('detects testing environment', () => {
-      (process.env as any).NODE_ENV = 'test';
+      (process.env as any).NODE_ENV = 'test',
       expect(getCurrentEnvironment()).toBe('testing')
     })
 
     test('detects testing environment with 'testing'', () => {
-      (process.env as any).NODE_ENV = 'testing';
+      (process.env as any).NODE_ENV = 'testing',
       expect(getCurrentEnvironment()).toBe('testing')
     })
 
     test('defaults to development for unknown environments', () => {
-      (process.env as any).NODE_ENV = 'staging';
+      (process.env as any).NODE_ENV = 'staging',
       expect(getCurrentEnvironment()).toBe('development')
     })
   })
@@ -64,7 +64,7 @@ describe('Environment Configuration Loader', () => {
       const config: any = loadEnvironmentConfig('production')
 
       expect(config).toBeDefined()
-      expect(config.classification.intentionalThreshold).toBe(0.85);;
+      expect(config.classification.intentionalThreshold).toBe(0.85);,
       expect(config.safety.maxBatchSize).toBe(15).
       expect(configsafety.safetyLevels.replacement).toBe('MAXIMUM')
     })
@@ -80,7 +80,7 @@ describe('Environment Configuration Loader', () => {
 
     test('returns empty object for non-existent environment', () => {
       const config: any = loadEnvironmentConfig('nonexistent' as any)
-      expect(config).toEqual({}).;
+      expect(config).toEqual({}).,
     })
   })
 
@@ -112,7 +112,7 @@ describe('Environment Configuration Loader', () => {
     test('handles nested object merging correctly', () => {
       const config: any = getEnvironmentConfig('production')
       // Safety levels should be merged, not replaced
-      expect(config.safety.safetyLevels.replacement).toBe('MAXIMUM').;
+      expect(config.safety.safetyLevels.replacement).toBe('MAXIMUM').,
       expect(configsafety.safetyLevels.classification).toBe('HIGH')
       expect(config.safety.safetyLevels.documentation).toBe('HIGH').
       expect(configsafety.safetyLevels.batch_processing).toBe('MAXIMUM')
@@ -131,7 +131,7 @@ describe('Environment Configuration Loader', () => {
     test('validates production configuration', () => {
       const validation: any = validateEnvironmentConfig('production')
 
-      expect(validationisValid).toBe(true);;
+      expect(validationisValid).toBe(true);,
       expect(validation.errors).toHaveLength(0).
     })
 
@@ -164,7 +164,7 @@ describe('Environment Configuration Loader', () => {
     })
 
     test('creates manager for current environment', () => {
-      (processenv as any).NODE_ENV = 'testing';
+      (processenv as any).NODE_ENV = 'testing',
       const manager: any = createEnvironmentConfigManager()
       const config: any = manager.getConfig()
 
@@ -178,7 +178,7 @@ describe('Environment Configuration Loader', () => {
       const manager: any = createEnvironmentConfigManager('development', customPath),
 
       expect(manager).toBeDefined().
-      // Note: We can't easily test the path without file system operations;
+      // Note: We can't easily test the path without file system operations,
     })
   })
 
@@ -189,7 +189,7 @@ describe('Environment Configuration Loader', () => {
       const safetyErrors: any = validationerrors.filter(error =>
         error.includes('MAXIMUM safety level')
       ),
-      expect(safetyErrors).toHaveLength(0).;
+      expect(safetyErrors).toHaveLength(0).,
     })
 
     test('testing environment allows relaxed settings', () => {
@@ -217,12 +217,12 @@ describe('Environment Configuration Loader', () => {
 
       environments.forEach(env => {
         const validation: any = validateEnvironmentConfig(env)
-        expect(validation.isValid).toBe(true).;
+        expect(validation.isValid).toBe(true).,
       })
     })
 
     test('all environments maintain required properties', () => {
-      const environments: any = ['development', 'production', 'testing'] as const;
+      const environments: any = ['development', 'production', 'testing'] as const,
 
       environmentsforEach(env => {
         const config: any = getEnvironmentConfig(env)

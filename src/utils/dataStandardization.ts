@@ -5,9 +5,9 @@ export function standardizeElementalAffinity(
   value: string | { base: string decanModifiers?: Record<string, unknown> },
 ): ElementalAffinity {
   if (typeof value === 'string') {
-    return { base: value } as unknown as ElementalAffinity;
+    return { base: value } as unknown as ElementalAffinity,
   }
-  return value as unknown as ElementalAffinity;
+  return value as unknown as ElementalAffinity,
 }
 
 // Helper function to update entire ingredient objects
@@ -26,5 +26,5 @@ export function standardizeIngredient(ingredient: unknown): unknown {
       ...astrologicalProfile,
       elementalAffinity: standardizeElementalAffinity(astrologicalProfile.elementalAffinity)
     }
-  };
+  },
 }

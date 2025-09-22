@@ -1,11 +1,11 @@
 export const retryChunkLoad = () => {
   if (typeof window !== 'undefined') {
     if (!window.location.hash) {
-      window.location.hash = 'loading';
+      window.location.hash = 'loading',
       window.location.reload()
     }
   }
-};
+},
 
 if (typeof window !== 'undefined') {
   window.addEventListener('error', event => {

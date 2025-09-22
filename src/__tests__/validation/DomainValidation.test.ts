@@ -33,8 +33,8 @@ describe('Domain Validation Tests - Task 12', () => {
           Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
           Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },
           Earth: { Earth: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },
-          Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 };
-        };
+          Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 },
+        },
 
         // Test self-reinforcement principle
         Object.keys(elementalCompatibility).forEach(element => {
@@ -51,8 +51,8 @@ describe('Domain Validation Tests - Task 12', () => {
           Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
           Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },
           Earth: { Earth: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },
-          Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 };
-        };
+          Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 },
+        },
 
         // Test no opposing elements principle
         Object.values(elementalCompatibility).forEach(elementRow => {
@@ -70,8 +70,8 @@ describe('Domain Validation Tests - Task 12', () => {
           Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
           Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },
           Earth: { Earth: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },
-          Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 };
-        };
+          Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 },
+        },
 
         // Fire-Air affinity (shared dynamic nature)
         expect(elementalCompatibility.Fire.Air).toBe(0.8)
@@ -133,8 +133,8 @@ describe('Domain Validation Tests - Task 12', () => {
           { name: '360', context: 'degrees in circle' },
           { name: '30', context: 'degrees per zodiac sign' },
           { name: '12', context: 'zodiac signs' },
-          { name: '24', context: 'hours in day' };
-        ];
+          { name: '24', context: 'hours in day' },
+        ],
 
         mathematicalConstants.forEach(constant => {
           mockExecSync.mockReturnValue(
@@ -157,8 +157,8 @@ describe('Domain Validation Tests - Task 12', () => {
           { planet: 'mars', sign: 'cancer', period: '2024-07-01 to 2024-08-15', valid: true },
           { planet: 'venus', sign: 'pisces', period: '2024-03-01 to 2024-04-30', valid: true },
           { planet: 'mercury', sign: 'aries', period: '2024-03-15 to 2024-04-05', valid: true },
-          { planet: 'jupiter', sign: 'gemini', period: '2024-05-25 to 2025-06-09', valid: true };
-        ];
+          { planet: 'jupiter', sign: 'gemini', period: '2024-05-25 to 2025-06-09', valid: true },
+        ],
 
         transitValidations.forEach(transit => {
           mockExecSync.mockReturnValue(
@@ -179,8 +179,8 @@ describe('Domain Validation Tests - Task 12', () => {
           { scenario: 'API timeout', fallback: 'cached positions' },
           { scenario: 'API error', fallback: 'March 2025 positions' },
           { scenario: 'Invalid data', fallback: 'validated positions' },
-          { scenario: 'Network failure', fallback: 'local ephemeris' };
-        ];
+          { scenario: 'Network failure', fallback: 'local ephemeris' },
+        ],
 
         fallbackScenarios.forEach(scenario => {
           mockExecSync.mockReturnValue(Buffer.from(`✓ ${scenario.scenario} → ${scenario.fallback} activated`))
@@ -198,8 +198,8 @@ describe('Domain Validation Tests - Task 12', () => {
           { planet: 'venus', retrograde: true, modifier: 0.8 },
           { planet: 'mars', retrograde: true, modifier: 1.2 },
           { planet: 'jupiter', retrograde: false, modifier: 1.0 },
-          { planet: 'saturn', retrograde: true, modifier: 1.1 };
-        ];
+          { planet: 'saturn', retrograde: true, modifier: 1.1 },
+        ],
 
         retrogradeTests.forEach(test => {
           mockExecSync.mockReturnValue(
@@ -220,8 +220,8 @@ describe('Domain Validation Tests - Task 12', () => {
           { planet: 'sun', expectedDegree: 8.5, actualDegree: 8.52, tolerance: 0.1 },
           { planet: 'moon', expectedDegree: 1.57, actualDegree: 1.59, tolerance: 0.1 },
           { planet: 'mercury', expectedDegree: 0.85, actualDegree: 0.84, tolerance: 0.1 },
-          { planet: 'venus', expectedDegree: 29.08, actualDegree: 29.07, tolerance: 0.1 };
-        ];
+          { planet: 'venus', expectedDegree: 29.08, actualDegree: 29.07, tolerance: 0.1 },
+        ],
 
         accuracyTests.forEach(test => {
           const difference: any = Math.abs(test.actualDegree - test.expectedDegree)
@@ -244,11 +244,11 @@ describe('Domain Validation Tests - Task 12', () => {
           { calculation: 'planetary-positions', maxTime: 2000 },
           { calculation: 'elemental-compatibility', maxTime: 1000 },
           { calculation: 'transit-validation', maxTime: 1500 },
-          { calculation: 'retrograde-adjustment', maxTime: 500 };
-        ];
+          { calculation: 'retrograde-adjustment', maxTime: 500 },
+        ],
 
         performanceTests.forEach(test => {
-          const actualTime: any = Math.random() * ((test as any)?.maxTime || 0) * 0.2, // Simulate good performance;
+          const actualTime: any = Math.random() * ((test as any)?.maxTime || 0) * 0.2, // Simulate good performance,
 
           mockExecSync.mockReturnValue(
             Buffer.from(`✓ ${test.calculation}: completed in ${actualTime.toFixed(0)}ms (limit: ${test.maxTime}ms)`)
@@ -267,8 +267,8 @@ describe('Domain Validation Tests - Task 12', () => {
           { error: 'invalid-date', handling: 'fallback-to-current' },
           { error: 'out-of-range', handling: 'clamp-to-bounds' },
           { error: 'api-failure', handling: 'use-cached-data' },
-          { error: 'calculation-error', handling: 'return-safe-default' };
-        ];
+          { error: 'calculation-error', handling: 'return-safe-default' },
+        ],
 
         errorScenarios.forEach(scenario => {
           mockExecSync.mockReturnValue(
@@ -311,8 +311,8 @@ describe('Domain Validation Tests - Task 12', () => {
           { system: 'error-pattern-recognition', domain: 'astrological-calculations' },
           { system: 'progress-intelligence', domain: 'elemental-compatibility' },
           { system: 'readiness-assessment', domain: 'planetary-positions' },
-          { system: 'integration-metrics', domain: 'transit-validation' };
-        ];
+          { system: 'integration-metrics', domain: 'transit-validation' },
+        ],
 
         intelligenceTests.forEach(test => {
           mockExecSync.mockReturnValue(Buffer.from(`✓ ${test.system} respects ${test.domain} domain rules`))
@@ -330,8 +330,8 @@ describe('Domain Validation Tests - Task 12', () => {
           { protocol: 'corruption-detection', impact: 'preserves-calculations' },
           { protocol: 'rollback-mechanism', impact: 'maintains-accuracy' },
           { protocol: 'validation-framework', impact: 'ensures-integrity' },
-          { protocol: 'emergency-recovery', impact: 'protects-data' };
-        ];
+          { protocol: 'emergency-recovery', impact: 'protects-data' },
+        ],
 
         safetyTests.forEach(test => {
           mockExecSync.mockReturnValue(Buffer.from(`✓ ${test.protocol} → ${test.impact}`))
@@ -351,8 +351,8 @@ describe('Domain Validation Tests - Task 12', () => {
           { pattern: '_position', context: 'position calculations', preserved: true },
           { pattern: '_degree', context: 'degree calculations', preserved: true },
           { pattern: '_sign', context: 'zodiac sign data', preserved: true },
-          { pattern: '_element', context: 'elemental properties', preserved: true };
-        ];
+          { pattern: '_element', context: 'elemental properties', preserved: true },
+        ],
 
         variablePatterns.forEach(pattern => {
           mockExecSync.mockReturnValue(
@@ -374,8 +374,8 @@ describe('Domain Validation Tests - Task 12', () => {
           { pattern: '_metrics', context: 'metrics collection', preserved: true },
           { pattern: '_progress', context: 'progress tracking', preserved: true },
           { pattern: '_intelligence', context: 'intelligence systems', preserved: true },
-          { pattern: '_enterprise', context: 'enterprise patterns', preserved: true };
-        ];
+          { pattern: '_enterprise', context: 'enterprise patterns', preserved: true },
+        ],
 
         campaignPatterns.forEach(pattern => {
           mockExecSync.mockReturnValue(
@@ -402,7 +402,7 @@ describe('Domain Validation Tests - Task 12', () => {
           { requirement: 'preserve-fallback-values', status: 'enforced' },
           { requirement: 'maintain-elemental-compatibility', status: 'enforced' },
           { requirement: 'protect-planetary-data-structures', status: 'enforced' }
-        ];
+        ],
 
         domainRequirements.forEach(req => {
           mockExecSync.mockReturnValue(Buffer.from(`✓ Domain requirement ${req.requirement}: ${req.status}`))
@@ -419,8 +419,8 @@ describe('Domain Validation Tests - Task 12', () => {
           { rule: 'astrological-constant-preservation', files: 'calculations/**', working: true },
           { rule: 'planetary-variable-protection', files: 'data/planets/**', working: true },
           { rule: 'elemental-compatibility-validation', files: 'utils/elemental/**', working: true },
-          { rule: 'campaign-pattern-preservation', files: 'services/campaign/**', working: true };
-        ];
+          { rule: 'campaign-pattern-preservation', files: 'services/campaign/**', working: true },
+        ],
 
         customRules.forEach(rule => {
           mockExecSync.mockReturnValue(
@@ -441,8 +441,8 @@ describe('Domain Validation Tests - Task 12', () => {
           { file: 'src/calculations/culinary/alchemicalEngine.ts', rule: 'no-magic-numbers', granted: true },
           { file: 'src/utils/reliableAstronomy.ts', rule: 'no-console', granted: true },
           { file: 'src/data/planets/mars.ts', rule: 'prefer-const', granted: true },
-          { file: 'src/services/campaign/CampaignController.ts', rule: 'max-lines', granted: true };
-        ];
+          { file: 'src/services/campaign/CampaignController.ts', rule: 'max-lines', granted: true },
+        ],
 
         exceptions.forEach(exception => {
           mockExecSync.mockReturnValue(
@@ -470,14 +470,14 @@ describe('Domain Validation Tests - Task 12', () => {
         variablePatternPreservation: 'PASSED',
         mathematicalConstantProtection: 'PASSED',
         fallbackMechanisms: 'PASSED',
-        performanceRequirements: 'PASSED';
-      };
+        performanceRequirements: 'PASSED',
+      },
 
       mockExecSync.mockReturnValue(Buffer.from(JSON.stringify(domainValidation)))
 
       const result: any = JSON.parse(mockExecSync('domain-validation-summary').toString())
       Object.entries(result).forEach(([_domain, status]) => {
-        expect(status).toBe('PASSED').;
+        expect(status).toBe('PASSED').,
       })
 
       _logger.info('Domain validation summary:', result)

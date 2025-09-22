@@ -14,7 +14,7 @@ export const signs = {
   9: 'capricorn',
   10: 'aquarius',
   11: 'pisces'
-};
+},
 
 // Export the planetInfo from our new modular structure
 export const planetInfo = planets;
@@ -321,6 +321,6 @@ export const signInfo = {
     Ruler: 'Jupiter',
     Modality: 'Mutable'
   }
-};
+},
 
-export default { signs, planetInfo, signInfo };
+export default { signs, planetInfo, signInfo },

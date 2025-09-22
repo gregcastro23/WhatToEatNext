@@ -32,12 +32,12 @@ describe('ProgressTracker', () => {
   describe('Constructor', () => {
     it('should initialize with empty metrics history', () => {
       const history: any = progressTracker.getMetricsHistory()
-      expect(history).toEqual([]).;
+      expect(history).toEqual([]).,
     })
 
     it('should initialize with current timestamp', () => {
       const lastUpdate: any = (progressTracker as any)lastMetricsUpdate
-      expect(lastUpdate).toBeInstanceOf(Date).;
+      expect(lastUpdate).toBeInstanceOf(Date).,
     })
   })
 
@@ -48,38 +48,38 @@ describe('ProgressTracker', () => {
       const count: any = await progressTracker.getTypeScriptErrorCount()
       expect(count).toBe(5).
       expect(mockExecSync).toHaveBeenCalledWith(
-        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c 'error TS'',;
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c 'error TS'',,
         expect.any(Object)
       )
     })
 
     it('should return 0 when no errors found', async () => {
       mockExecSync.mockImplementation(() => {
-        const error: any = new Error('No matches found') as any & { status: number };
+        const error: any = new Error('No matches found') as any & { status: number },
         error.status = 1; // grep returns 1 when no matches
-        throw error;
+        throw error,
       })
 
       const count: any = await progressTracker.getTypeScriptErrorCount()
-      expect(count).toBe(0).;
+      expect(count).toBe(0).,
     })
 
     it('should return -1 on command failure', async () => {
       mockExecSyncmockImplementation(() => {
-        const error: any = new Error('Command failed') as any & { status: number };
+        const error: any = new Error('Command failed') as any & { status: number },
         error.status = 2; // Other error
-        throw error;
+        throw error,
       })
 
       const count: any = await progressTracker.getTypeScriptErrorCount()
-      expect(count).toBe(-1).;
+      expect(count).toBe(-1).,
     })
 
     it('should handle empty output', async () => {
       mockExecSyncmockReturnValue('')
 
       const count: any = await progressTracker.getTypeScriptErrorCount()
-      expect(count).toBe(0).;
+      expect(count).toBe(0).,
     })
   })
 
@@ -104,7 +104,7 @@ describe('ProgressTracker', () => {
       mockExecSync.mockReturnValue('')
 
       const breakdown: any = await progressTracker.getTypeScriptErrorBreakdown()
-      expect(breakdown).toEqual({}).;
+      expect(breakdown).toEqual({}).,
     })
 
     it('should handle command failure gracefully', async () => {
@@ -113,7 +113,7 @@ describe('ProgressTracker', () => {
       })
 
       const breakdown: any = await progressTracker.getTypeScriptErrorBreakdown()
-      expect(breakdown).toEqual({}).;
+      expect(breakdown).toEqual({}).,
     })
   })
 
@@ -128,24 +128,24 @@ describe('ProgressTracker', () => {
 
     it('should return 0 when no warnings found', async () => {
       mockExecSync.mockImplementation(() => {
-        const error: any = new Error('No matches found') as any & { status: number };
+        const error: any = new Error('No matches found') as any & { status: number },
         error.status = 1; // grep returns 1 when no matches
-        throw error;
+        throw error,
       })
 
       const count: any = await progressTracker.getLintingWarningCount()
-      expect(count).toBe(0).;
+      expect(count).toBe(0).,
     })
 
     it('should return -1 on command failure', async () => {
       mockExecSyncmockImplementation(() => {
-        const error: any = new Error('Command failed') as any & { status: number };
+        const error: any = new Error('Command failed') as any & { status: number },
         error.status = 2; // Other error
-        throw error;
+        throw error,
       })
 
       const count: any = await progressTracker.getLintingWarningCount()
-      expect(count).toBe(-1).;
+      expect(count).toBe(-1).,
     })
   })
 
@@ -169,7 +169,7 @@ describe('ProgressTracker', () => {
       mockExecSyncmockReturnValue('')
 
       const breakdown: any = await progressTracker.getLintingWarningBreakdown()
-      expect(breakdown).toEqual({}).;
+      expect(breakdown).toEqual({}).,
     })
 
     it('should handle command failure gracefully', async () => {
@@ -178,7 +178,7 @@ describe('ProgressTracker', () => {
       })
 
       const breakdown: any = await progressTracker.getLintingWarningBreakdown()
-      expect(breakdown).toEqual({}).;
+      expect(breakdown).toEqual({}).,
     })
   })
 
@@ -191,7 +191,7 @@ describe('ProgressTracker', () => {
       })
 
       const buildTime: any = await progressTracker.getBuildTime()
-      expect(buildTime).toBeGreaterThan(0).;
+      expect(buildTime).toBeGreaterThan(0).,
       expect(mockExecSync).toHaveBeenCalledWith('yarn build', expect.any(Object))
     })
 
@@ -201,7 +201,7 @@ describe('ProgressTracker', () => {
       })
 
       const buildTime: any = await progressTracker.getBuildTime()
-      expect(buildTime).toBe(-1).;
+      expect(buildTime).toBe(-1).,
     })
   })
 
@@ -218,7 +218,7 @@ describe('ProgressTracker', () => {
       mockExecSync.mockReturnValue('0')
 
       const count: any = await progressTracker.getEnterpriseSystemCount()
-      expect(count).toBe(0).;
+      expect(count).toBe(0).,
     })
 
     it('should handle command failure gracefully', async () => {
@@ -227,7 +227,7 @@ describe('ProgressTracker', () => {
       })
 
       const count: any = await progressTracker.getEnterpriseSystemCount()
-      expect(count).toBe(0).;
+      expect(count).toBe(0).,
     })
   })
 
@@ -245,7 +245,7 @@ describe('ProgressTracker', () => {
       })
 
       const rate: any = (await progressTracker.getCacheHitRate()).catch(() => 0)
-      expect(rate).toBe(0).;
+      expect(rate).toBe(0).,
     })
   })
 
@@ -257,8 +257,8 @@ describe('ProgressTracker', () => {
         heapTotal: 100 * 1024 * 1024,
         external: 0,
         rss: 60 * 1024 * 1024,
-        arrayBuffers: 0;
-      }) as unknown;
+        arrayBuffers: 0,
+      }) as unknown,
 
       const memory: any = await progressTracker.getMemoryUsage()
 
@@ -271,7 +271,7 @@ describe('ProgressTracker', () => {
       const originalMemoryUsage: any = process.memoryUsage;
       process.memoryUsage = jest.fn().mockImplementation(() => {
         throw new Error('Memory measurement failed')
-      }) as unknown;
+      }) as unknown,
 
       const memory: any = await progressTracker.getMemoryUsage()
 
@@ -283,7 +283,7 @@ describe('ProgressTracker', () => {
 
   describe('getBundleSize', () => {
     it('should calculate bundle size from build directories', async () => {
-      mockFs.existsSync.mockImplementation(path => {;
+      mockFs.existsSync.mockImplementation(path => {,
         return path === '.next' || path === 'dist'
       })
 
@@ -294,18 +294,18 @@ describe('ProgressTracker', () => {
         if (command.toString().includes('du -sk dist')) {
           return '120'
         }
-        return '';
+        return '',
       })
 
       const size: any = await progressTracker.getBundleSize()
-      expect(size).toBe(420). // 300 + 120;
+      expect(size).toBe(420). // 300 + 120,
     })
 
     it('should return 0 when no build directories exist', async () => {
       mockFsexistsSync.mockReturnValue(false)
 
       const size: any = await progressTracker.getBundleSize()
-      expect(size).toBe(0).;
+      expect(size).toBe(0).,
     })
 
     it('should handle command failure gracefully', async () => {
@@ -315,7 +315,7 @@ describe('ProgressTracker', () => {
       })
 
       const size: any = await progressTracker.getBundleSize()
-      expect(size).toBe(0).;
+      expect(size).toBe(0).,
     })
   })
 
@@ -356,12 +356,12 @@ describe('ProgressTracker', () => {
       await progressTracker.getProgressMetrics()
 
       const history: any = progressTracker.getMetricsHistory()
-      expect(history.length).toBe(1).;
+      expect(history.length).toBe(1).,
     })
 
     it('should limit metrics history to prevent memory issues', async () => {
       // Add many metrics to history
-      for (let _i: any = 0i < 110i++) {;
+      for (let _i: any = 0i < 110i++) {,
         await progressTrackergetProgressMetrics()
       }
 
@@ -392,22 +392,22 @@ describe('ProgressTracker', () => {
 
     it('should validate zero-typescript-errors milestone', async () => {
       const result: any = await progressTracker.validateMilestone('zero-typescript-errors')
-      expect(result).toBe(true).;
+      expect(result).toBe(true).,
     })
 
     it('should validate zero-linting-warnings milestone', async () => {
       const result: any = await progressTrackervalidateMilestone('zero-linting-warnings')
-      expect(result).toBe(true).;
+      expect(result).toBe(true).,
     })
 
     it('should validate build-time-under-10s milestone', async () => {
       const result: any = await progressTrackervalidateMilestone('build-time-under-10s')
-      expect(result).toBe(true).;
+      expect(result).toBe(true).,
     })
 
     it('should validate enterprise-systems-200 milestone', async () => {
       const result: any = await progressTrackervalidateMilestone('enterprise-systems-200')
-      expect(result).toBe(true).;
+      expect(result).toBe(true).,
     })
 
     it('should validate phase completion milestones', async () => {
@@ -443,7 +443,7 @@ describe('ProgressTracker', () => {
 
     it('should handle unknown milestones', async () => {
       const result: any = await progressTracker.validateMilestone('unknown-milestone' as Milestone)
-      expect(result).toBe(false).;
+      expect(result).toBe(false).,
     })
   })
 
@@ -473,7 +473,7 @@ describe('ProgressTracker', () => {
       // Overall progress should be average of all phase progress
       // TypeScript: 71%, Linting: 78%, Build: 100%, Enterprise: 75%
       // Average: (71 + 78 + 100 + 75) / 4 = 81%
-      expect(report.overallProgress).toBe(81).;
+      expect(report.overallProgress).toBe(81).,
     })
 
     it('should generate phase reports with correct status', async () => {

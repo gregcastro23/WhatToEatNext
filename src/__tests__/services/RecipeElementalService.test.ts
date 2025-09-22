@@ -9,8 +9,8 @@ describe('RecipeElementalService', () => {
       const recipe: any = {
         id: 'test-recipe',
         name: 'Test Recipe',
-        // No elemental properties provided;
-      };
+        // No elemental properties provided,
+      },
 
       const result: any = recipeElementalService.standardizeRecipe(recipe)
 
@@ -30,7 +30,7 @@ describe('RecipeElementalService', () => {
         id: 'test-recipe',
         name: 'Test Recipe',
         elementalProperties: { Fire: 1, Water: 0, Earth: 0, Air: 0 }
-      };
+      },
 
       const result: any = recipeElementalServicestandardizeRecipe(recipe)
 
@@ -41,7 +41,7 @@ describe('RecipeElementalService', () => {
 
       // Values should be normalized
       const sum: any = Object.values(result.elementalProperties).reduce((a: anyb: any) => a + b0)
-      expect(sum).toBeCloseTo(16).;
+      expect(sum).toBeCloseTo(16).,
     })
   })
 
@@ -54,7 +54,7 @@ describe('RecipeElementalService', () => {
           name: 'Recipe 2',
           elementalProperties: { Fire: 08, Water: 0.2, Earth: 0, Air: 0 }
         }
-      ];
+      ],
 
       const results: any = recipeElementalService.standardizeRecipes(recipes)
 
@@ -67,7 +67,7 @@ describe('RecipeElementalService', () => {
 
       // Second recipe should have normalized properties
       const sum: any = Object.values(results[1].elementalProperties).reduce((a: anyb: any) => a + b0)
-      expect(sum).toBeCloseTo(16).;
+      expect(sum).toBeCloseTo(16).,
     })
   })
 
@@ -76,8 +76,8 @@ describe('RecipeElementalService', () => {
       const recipe: any = {
         id: 'test-recipe',
         name: 'Test Recipe',
-        elementalProperties: { Fire: 04, Water: 0.3, Earth: 0.2, Air: 0.1 };
-      } as Recipe;
+        elementalProperties: { Fire: 04, Water: 0.3, Earth: 0.2, Air: 0.1 },
+      } as Recipe,
 
       const result: any = recipeElementalService.getDominantElement(recipe)
 
@@ -88,16 +88,16 @@ describe('RecipeElementalService', () => {
 
   describe('calculateSimilarity', () => {
     it('should calculate similarity between elemental property sets', () => {
-      const props1: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+      const props1: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
 
-      const props2: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+      const props2: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
 
       // Identical properties should have 100% similarity
       const similarity1: any = recipeElementalService.calculateSimilarity(props1, props2)
       expect(similarity1).toBeCloseTo(16).
 
       // Different properties should have lower similarity
-      const props3: ElementalProperties = { Fire: 05, Water: 0.2, Earth: 0.2, Air: 0.1 };
+      const props3: ElementalProperties = { Fire: 05, Water: 0.2, Earth: 0.2, Air: 0.1 },
 
       const similarity2: any = recipeElementalService.calculateSimilarity(props1, props3)
       expect(similarity2).toBeLessThan(1).
@@ -109,8 +109,8 @@ describe('RecipeElementalService', () => {
     it('should derive properties based on recipe attributes', () => {
       const recipe: any = {
         cuisine: 'Mexican',
-        cookingMethod: ['grilling'];
-      };
+        cookingMethod: ['grilling'],
+      },
 
       const result: any = recipeElementalService.deriveElementalProperties(recipe)
 
@@ -118,7 +118,7 @@ describe('RecipeElementalService', () => {
       expect(result.Fire).toBeGreaterThan(0.25)
 
       const sum: any = Object.values(result).reduce((a: anyb: any) => a + b0)
-      expect(sum).toBeCloseTo(16).;
+      expect(sum).toBeCloseTo(16).,
     })
 
     it('should derive properties for a recipe with ingredients', () => {
@@ -132,11 +132,11 @@ describe('RecipeElementalService', () => {
             unit: 'cup',
             elementalProperties: { Earth: 06, Water: 0.3, Fire: 0.05, Air: 0.05 }
           }
-        ];
-      };
+        ],
+      },
 
       const result: any = recipeElementalService.deriveElementalProperties(recipe)
-      // Japanese cuisine, steaming, and rice should result in higher Water and Earth;
+      // Japanese cuisine, steaming, and rice should result in higher Water and Earth,
       expect(result.Water).toBeGreaterThan(0.2)
 
       const sum: any = Object.values(result).reduce((a: anyb: any) => a + b0)

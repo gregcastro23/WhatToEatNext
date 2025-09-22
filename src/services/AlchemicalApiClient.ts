@@ -17,37 +17,37 @@ const API_CONFIG = {
   kitchen: process.env.NEXT_PUBLIC_KITCHEN_BACKEND_URL || 'http://localhost:8100',
   websocket: process.env.NEXT_PUBLIC_WEBSOCKET_URL || 'ws://localhost:8001',
   runes: process.env.NEXT_PUBLIC_RUNE_AGENT_URL || 'http://localhost:8002'
-};
+},
 
 // Request/Response interfaces matching backend models
 export interface RecommendationRequest {
-  current_time: string;
-  location?: { latitude: number; longitude: number };
-  current_elements?: ElementalProperties;
-  desired_elements?: ElementalProperties;
-  cuisine_preferences?: string[];
-  dietary_restrictions?: string[];
-  max_prep_time?: number;
-  limit?: number;
+  current_time: string,
+  location?: { latitude: number; longitude: number },
+  current_elements?: ElementalProperties,
+  desired_elements?: ElementalProperties,
+  cuisine_preferences?: string[],
+  dietary_restrictions?: string[],
+  max_prep_time?: number,
+  limit?: number,
 }
 
 export interface ThermodynamicsResult {
-  heat: number;
-  entropy: number;
-  reactivity: number;
-  gregsEnergy: number;
-  equilibrium: number;
+  heat: number,
+  entropy: number,
+  reactivity: number,
+  gregsEnergy: number,
+  equilibrium: number,
 }
 
 export interface PlanetaryInfluenceResponse {
-  current_time: string;
-  dominant_planet: string;
-  influence_strength: number;
-  all_influences: Record<string, number>;
+  current_time: string,
+  dominant_planet: string,
+  influence_strength: number,
+  all_influences: Record<string, number>,
 }
 
 export class AlchemicalApiClient {
-  private baseUrls = API_CONFIG;
+  private baseUrls = API_CONFIG,
 
   /**
    * Calculate elemental balance using backend service
@@ -69,7 +69,7 @@ export class AlchemicalApiClient {
     } catch (error) {
       _logger.error('Elemental calculation error:', error)
       // Fallback to simple balanced elements
-      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
     }
   }
 
@@ -99,7 +99,7 @@ export class AlchemicalApiClient {
         reactivity: 0.7,
         gregsEnergy: 75.0,
         equilibrium: 0.6
-      };
+      },
     }
   }
 
@@ -132,7 +132,7 @@ export class AlchemicalApiClient {
           Jupiter: 0.5,
           Saturn: 0.3
         }
-      };
+      },
     }
   }
 
@@ -163,7 +163,7 @@ export class AlchemicalApiClient {
           timestamp: new Date().toISOString(),
           elemental_state: request.current_elements
         }
-      };
+      },
     }
   }
 
@@ -187,7 +187,7 @@ export class AlchemicalApiClient {
         Essence: essence,
         Matter: matter,
         Substance: substance
-      };
+      },
     }
   }
 
@@ -206,7 +206,7 @@ export class AlchemicalApiClient {
       return await response.json()
     } catch (error) {
       _logger.error('Balance optimization error:', error)
-      return { optimization: 'balanced', recommendations: [] };
+      return { optimization: 'balanced', recommendations: [] },
     }
   }
 
@@ -225,20 +225,20 @@ export class AlchemicalApiClient {
           action: 'subscribe',
           channel: 'planetary_hours'
         }))
-      };
+      },
 
       ws.onmessage = (event) => {
         const data = JSON.parse(event.data)
         if (data.channel === 'planetary_hours' && onPlanetaryUpdate) {
           onPlanetaryUpdate(data.current_hour)
         }
-      };
+      },
 
       ws.onerror = (error) => {
         _logger.error('WebSocket connection error:', error)
-      };
+      },
 
-      return ws;
+      return ws,
     } catch (error) {
       _logger.error('Failed to create WebSocket connection:', error)
       return null;
@@ -253,7 +253,7 @@ export class AlchemicalApiClient {
       { name: 'Alchemical Core', url: `${this.baseUrls.alchemical}/health` },
       { name: 'Kitchen Intelligence', url: `${this.baseUrls.kitchen}/health` },
       { name: 'Rune Agent', url: `${this.baseUrls.runes}/health` }
-    ];
+    ],
 
     const results = await Promise.allSettled(
       services.map(async (service) => {
@@ -265,12 +265,12 @@ export class AlchemicalApiClient {
           return {
             service: service.name,
             status: response.ok ? 'healthy' : 'unhealthy'
-          };
+          },
         } catch {
           return {
             service: service.name,
             status: 'offline'
-          };
+          },
         }
       })
     )
@@ -292,7 +292,7 @@ export const useBackendCalculations = () => {
     getPlanetaryData: alchemicalApi.getCurrentPlanetaryHour.bind(alchemicalApi),
     getRecommendations: alchemicalApi.getRecipeRecommendations.bind(alchemicalApi),
     createRealtimeConnection: alchemicalApi.createRealtimeConnection.bind(alchemicalApi)
-  };
-};
+  },
+},
 
-export default AlchemicalApiClient;
+export default AlchemicalApiClient,

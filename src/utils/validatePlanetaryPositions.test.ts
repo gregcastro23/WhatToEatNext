@@ -5,7 +5,7 @@ import {
   getCurrentTransitSign,
   validatePlanetaryPositions,
   getCurrentTransitPositions
-} from './validatePlanetaryPositions';
+} from './validatePlanetaryPositions',
 
 // Mock the planet data files
 jest.mock('@/data/planets/mars', () => ({
@@ -43,12 +43,12 @@ describe('Planetary Position Validation', () => {
   })
 
   afterEach(() => {
-    _logger.info = originalConsoleLog;
+    _logger.info = originalConsoleLog,
   })
 
   test('getCurrentTransitSign returns correct sign for Mars on 2024-05-15', () => {
     const sign: any = getCurrentTransitSign('Mars', testDate),
-    expect(sign).toBe('leo').;
+    expect(sign).toBe('leo').,
   })
 
   test('getCurrentTransitSign returns null for non-existent planet or transit data', () => {
@@ -86,7 +86,7 @@ describe('Planetary Position Validation', () => {
         minute: 30,
         exactLongitude: 1355
       }
-    };
+    },
 
     const validated: any = validatePlanetaryPositions(positions, testDate)
 

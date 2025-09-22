@@ -11,19 +11,19 @@ export interface CampaignConfig {
   _campaignType: | 'typescript-fixes'
     | 'linting-improvements'
     | 'explicit-any-reduction'
-    | 'build-optimization';
-  priority: 'low' | 'medium' | 'high' | 'critical';
-  targetFiles?: string[];
-  maxFiles?: number;
-  autoFix?: boolean;
-  safetyLevel: 'conservative' | 'standard' | 'aggressive';
-  timeoutMs?: number;
-  enableBackup?: boolean;
+    | 'build-optimization',
+  priority: 'low' | 'medium' | 'high' | 'critical',
+  targetFiles?: string[],
+  maxFiles?: number,
+  autoFix?: boolean,
+  safetyLevel: 'conservative' | 'standard' | 'aggressive',
+  timeoutMs?: number,
+  enableBackup?: boolean,
   validationRequired?: boolean
 }
 
 export interface CampaignMetrics {
-  startTime: Date;
+  startTime: Date,
   endTime?: Date
   filesProcessed: number,
   _filesModified: number,
@@ -36,7 +36,7 @@ export interface CampaignMetrics {
     averageProcessingTime: number,
     _memoryUsage: number,
     _cacheHitRate: number
-  };
+  },
 }
 
 export interface CampaignResult {
@@ -50,16 +50,16 @@ export interface CampaignResult {
     backupPaths: string[],
     _logFiles: string[],
     _reportFiles: string[]
-  };
+  },
 }
 
 export interface CampaignError {
   type: 'compilation' | 'runtime' | 'validation' | 'system',
   severity: 'low' | 'medium' | 'high' | 'critical',
   message: string,
-  file?: string;
-  line?: number;
-  column?: number;
+  file?: string,
+  line?: number,
+  column?: number,
   context?: string
   timestamp: Date
 }
@@ -71,12 +71,12 @@ export interface QualityGateConfig {
   description: string,
   enabled: boolean,
   threshold: {
-    errorCount?: number;
-    warningCount?: number;
-    coveragePercentage?: number;
+    errorCount?: number,
+    warningCount?: number,
+    coveragePercentage?: number,
     performanceScore?: number
     buildTime?: number
-  };
+  },
   blocksDeployment: boolean,
   _notificationChannels: string[]
 }
@@ -91,7 +91,7 @@ export interface QualityGateResult {
     coveragePercentage: number,
     performanceScore: number,
     _buildTimeMs: number
-  };
+  },
   violations: QualityViolation[],
   timestamp: Date,
   executionTime: number
@@ -101,8 +101,8 @@ export interface QualityViolation {
   type: 'error' | 'warning' | 'coverage' | 'performance' | 'security',
   severity: 'low' | 'medium' | 'high' | 'critical',
   message: string,
-  file?: string;
-  rule?: string;
+  file?: string,
+  rule?: string,
   suggestion?: string
 }
 
@@ -134,10 +134,10 @@ export interface Alert {
     metric: string,
     _actualValue: number,
     _thresholdValue: number,
-    file?: string;
+    file?: string,
     context?: string
-  };
-  _resolved: boolean;
+  },
+  _resolved: boolean,
   resolvedAt?: Date
 }
 
@@ -152,34 +152,34 @@ export interface RecipeServiceConfig {
 }
 
 export interface RecipeQueryParams {
-  cuisine?: string;
-  dietaryRestrictions?: string[];
-  allergens?: string[];
-  maxIngredients?: number;
-  maxCookTime?: number;
-  difficulty?: 'easy' | 'medium' | 'hard';
-  season?: 'spring' | 'summer' | 'autumn' | 'winter';
+  cuisine?: string,
+  dietaryRestrictions?: string[],
+  allergens?: string[],
+  maxIngredients?: number,
+  maxCookTime?: number,
+  difficulty?: 'easy' | 'medium' | 'hard',
+  season?: 'spring' | 'summer' | 'autumn' | 'winter',
   astrologicalContext?: {
-    zodiacSign?: string;
-    lunarPhase?: string;
+    zodiacSign?: string,
+    lunarPhase?: string,
     elementalPreferences?: string[]
-  };
+  },
 }
 
-export interface RecipeServiceResult<T = unknown> {;
-  success: boolean;
+export interface RecipeServiceResult<T = unknown> {,
+  success: boolean,
   data?: T
   error?: {
     type: 'validation' | 'network' | 'parsing' | 'system',
     message: string,
     code?: string
-  };
+  },
   metadata: {
     source: string,
     _cached: boolean,
     executionTime: number,
     timestamp: Date
-  };
+  },
 }
 
 // Enterprise intelligence service types
@@ -196,16 +196,16 @@ export interface EnterpriseServiceConfig {
 }
 
 export interface EnterpriseAnalysisContext {
-  requestId: string;
-  userId?: string;
+  requestId: string,
+  userId?: string,
   sessionId?: string
   timestamp: Date,
   _parameters: {
     analysisType: string,
     dataSource: string,
     _filters: EnterpriseFilter[]
-  };
-  metadata: Record<string, string | number | boolean>;
+  },
+  metadata: Record<string, string | number | boolean>,
 }
 
 export interface EnterpriseFilter {
@@ -214,8 +214,8 @@ export interface EnterpriseFilter {
   _value: unknown
 }
 
-export interface EnterpriseServiceResult<T = unknown> {;
-  success: boolean;
+export interface EnterpriseServiceResult<T = unknown> {,
+  success: boolean,
   data?: T
   confidence: number,
   _processingTime: number,
@@ -223,10 +223,10 @@ export interface EnterpriseServiceResult<T = unknown> {;
   warnings: string[],
   recommendations: string[],
   metadata: {
-    version: string;
+    version: string,
     model?: string
     timestamp: Date
-  };
+  },
 }
 
 // Linting service types
@@ -243,8 +243,8 @@ export interface LintingConfig {
 export interface LintingRule {
   ruleId: string,
   severity: 'off' | 'warn' | 'error',
-  options?: unknown[];
-  files?: string[];
+  options?: unknown[],
+  files?: string[],
   excludeFiles?: string[]
 }
 
@@ -256,7 +256,7 @@ export interface LintingResult {
   _fixableErrorCount: number,
   _fixableWarningCount: number,
   _messages: LintingMessage[],
-  source?: string;
+  source?: string,
   output?: string
 }
 
@@ -266,31 +266,31 @@ export interface LintingMessage {
   message: string,
   line: number,
   column: number,
-  endLine?: number;
+  endLine?: number,
   endColumn?: number
   fix?: {
-    range: [number, number];
+    range: [number, number],
     text: string
-  };
+  },
   suggestions?: LintingSuggestion[]
 }
 
 export interface LintingSuggestion {
-  desc: string;
+  desc: string,
   messageId?: string
   fix: {
-    range: [number, number];
+    range: [number, number],
     text: string
-  };
+  },
 }
 
 // Generic service response wrapper
-export interface ServiceResponse<T = unknown> {;
-  success: boolean;
-  data?: T;
-  error?: ServiceError;
-  timestamp: Date;
-  requestId?: string;
+export interface ServiceResponse<T = unknown> {,
+  success: boolean,
+  data?: T,
+  error?: ServiceError,
+  timestamp: Date,
+  requestId?: string,
   executionTime?: number
 }
 
@@ -298,7 +298,7 @@ export interface ServiceError {
   code: string,
   message: string,
   type: 'validation' | 'authorization' | 'not_found' | 'rate_limit' | 'internal' | 'external',
-  details?: Record<string, unknown>;
+  details?: Record<string, unknown>,
   _retryable: boolean
 }
 
@@ -316,7 +316,7 @@ export interface ServiceConfig {
 export interface ServiceFeature {
   name: string,
   enabled: boolean,
-  _configuration: Record<string, unknown>;
+  _configuration: Record<string, unknown>,
   dependencies?: string[]
 }
 
@@ -324,7 +324,7 @@ export interface ServiceDependency {
   name: string,
   type: 'internal' | 'external',
   _required: boolean,
-  healthCheckUrl?: string;
+  healthCheckUrl?: string,
   timeout?: number
 }
 
@@ -333,21 +333,21 @@ export interface MonitoringConfig {
   _tracingEnabled: boolean,
   _loggingLevel: 'debug' | 'info' | 'warn' | 'error',
   _healthCheckInterval: number,
-  _alertingThresholds: Record<string, number>;
+  _alertingThresholds: Record<string, number>,
 }
 
 export interface SecurityConfig {
   _authenticationRequired: boolean,
   _rateLimiting: {
-    enabled: boolean;
+    enabled: boolean,
     requestsPerMinute?: number
-  };
+  },
   validation: {
     inputSanitization: boolean,
     outputSanitization: boolean
-  };
+  },
   encryption: {
-    enabled: boolean;
+    enabled: boolean,
     algorithm?: string
-  };
+  },
 }

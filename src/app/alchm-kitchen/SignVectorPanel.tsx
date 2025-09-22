@@ -15,13 +15,13 @@ type Props = {
   aspects?: Array<{
     planet1: string,
     planet2: string,
-    type?: string;
-    aspectType?: string;
+    type?: string,
+    aspectType?: string,
     orb?: number
   }>
   season?: Season;
-  governing?: 'sun' | 'moon' | 'dominant' | 'ensemble'
-};
+  governing?: 'sun' | 'moon' | 'dominant' | 'ensemble';
+}
 
 export default function SignVectorPanel({
   planetaryPositions: propPositions,
@@ -54,7 +54,7 @@ export default function SignVectorPanel({
     }
     return () => {
       mounted = false;
-    };
+    },
   }, [propPositions])
 
   const state = React.useMemo(() => {
@@ -77,7 +77,7 @@ export default function SignVectorPanel({
     }
     // Apply dev alpha to global config
     if (process.env.NODE_ENV !== 'production') {
-      VECTOR_CONFIG.blendWeightAlpha = alpha;
+      VECTOR_CONFIG.blendWeightAlpha = alpha,
     }
     const res = getAlchemicalStateWithVectors({
       planetaryPositions: positions,
@@ -94,7 +94,7 @@ export default function SignVectorPanel({
         Essence: Number((blended.Essence - base.Essence).toFixed(4)),
         Matter: Number((blended.Matter - base.Matter).toFixed(4)),
         Substance: Number((blended.Substance - base.Substance).toFixed(4))
-      };
+      },
       TelemetryDev.recordVectorBlend(
         res.selected.sign,
         alpha,
@@ -102,7 +102,7 @@ export default function SignVectorPanel({
         res.thermodynamics as any,
       )
     }
-    return res;
+    return res,
   }, [positions, aspects, season, mode, alpha, logger])
 
   if (loading || !state) {

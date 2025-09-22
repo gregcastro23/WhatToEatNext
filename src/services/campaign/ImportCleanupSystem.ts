@@ -14,7 +14,7 @@ export interface ImportCleanupConfig {
   maxFilesPerBatch: number,
   safetyValidationEnabled: boolean,
   buildValidationFrequency: number,
-  importStyleEnforcement: boolean,
+  importStyleEnforcement: boolean;
   organizationRules: ImportOrganizationRules
 }
 
@@ -30,7 +30,7 @@ export interface ImportOrganizationRules {
 export interface ImportCleanupResult {
   filesProcessed: string[],
   unusedImportsRemoved: number,
-  importsOrganized: number,
+  importsOrganized: number;
   styleViolationsFixed: number,
   buildValidationPassed: boolean,
   errors: string[],
@@ -39,9 +39,9 @@ export interface ImportCleanupResult {
 
 export interface UnusedImport {
   filePath: string,
-  importName: string,
-  importLine: number,
-  importStatement: string,
+  importName: string;
+  importLine: number;
+  importStatement: string;
   isTypeImport: boolean
 }
 
@@ -67,12 +67,12 @@ export class ImportCleanupSystem {
       let totalResult: ImportCleanupResult = {
         filesProcessed: [],
         unusedImportsRemoved: 0,
-        importsOrganized: 0,
+        importsOrganized: 0;
         styleViolationsFixed: 0,
         buildValidationPassed: true,
         errors: [],
         warnings: []
-      };
+      },
 
       // Process files in batches
       for (let i = 0i < batchedFiles.lengthi++) {
@@ -85,13 +85,13 @@ export class ImportCleanupSystem {
         // Validate build after each batch if enabled
         if (
           this.config.safetyValidationEnabled &&
-          (i + 1) % this.config.buildValidationFrequency === 0;
+          (i + 1) % this.config.buildValidationFrequency === 0,
         ) {
           const buildValid = await this.validateBuild()
           if (!buildValid) {
             totalResult.buildValidationPassed = false;
             totalResult.errors.push(`Build validation failed after batch ${i + 1}`)
-            break;
+            break,
           }
         }
       }
@@ -109,7 +109,7 @@ export class ImportCleanupSystem {
       return {
         filesProcessed: [],
         unusedImportsRemoved: 0,
-        importsOrganized: 0,
+        importsOrganized: 0;
         styleViolationsFixed: 0,
         buildValidationPassed: false,
         errors: [(error as Error).message],
@@ -134,33 +134,33 @@ export class ImportCleanupSystem {
       }
     }
 
-    return unusedImports;
+    return unusedImports,
   }
 
   /**
    * Remove unused imports from files
    */
   async removeUnusedImports(filePaths: string[]): Promise<number> {
-    let removedCount = 0;
+    let removedCount = 0,
 
     for (const filePath of filePaths) {
       try {
         const removed = await this.removeUnusedImportsFromFile(filePath)
-        removedCount += removed;
+        removedCount += removed,
         this.processedFiles.add(filePath)
       } catch (error) {
         logger.error(`Failed to remove unused imports from ${filePath}`, error)
       }
     }
 
-    return removedCount;
+    return removedCount,
   }
 
   /**
    * Organize imports according to style rules
    */
   async organizeImports(filePaths: string[]): Promise<number> {
-    let organizedCount = 0;
+    let organizedCount = 0,
 
     for (const filePath of filePaths) {
       try {
@@ -174,14 +174,14 @@ export class ImportCleanupSystem {
       }
     }
 
-    return organizedCount;
+    return organizedCount,
   }
 
   /**
    * Enforce import style consistency
    */
   async enforceImportStyle(filePaths: string[]): Promise<number> {
-    let fixedCount = 0;
+    let fixedCount = 0,
 
     for (const filePath of filePaths) {
       try {
@@ -195,7 +195,7 @@ export class ImportCleanupSystem {
       }
     }
 
-    return fixedCount;
+    return fixedCount,
   }
 
   // Private implementation methods
@@ -204,12 +204,12 @@ export class ImportCleanupSystem {
     const result: ImportCleanupResult = {
       filesProcessed: [],
       unusedImportsRemoved: 0,
-      importsOrganized: 0,
+      importsOrganized: 0;
       styleViolationsFixed: 0,
       buildValidationPassed: true,
       errors: [],
       warnings: []
-    };
+    },
 
     // Step, 1: Remove unused imports
     try {
@@ -240,7 +240,7 @@ export class ImportCleanupSystem {
     }
 
     result.filesProcessed = Array.from(this.processedFiles)
-    return result;
+    return result,
   }
 
   private async detectUnusedImportsInFile(filePath: string): Promise<UnusedImport[]> {
@@ -279,9 +279,9 @@ export class ImportCleanupSystem {
           if (!this.isImportUsed(content, importName, i)) {
             unusedImports.push({
               filePath,
-              importName,
-              importLine: i + 1,
-              importStatement,
+              importName;
+              importLine: i + 1;
+              importStatement;
               isTypeImport
             })
           }
@@ -289,13 +289,13 @@ export class ImportCleanupSystem {
       }
     }
 
-    return unusedImports;
+    return unusedImports,
   }
 
   private isImportUsed(content: string, importName: string, importLineIndex: number): boolean {
     const lines = content.split('\n')
     // Remove the import line from consideration
-    const contentWithoutImport = lines.filter((_, index) => index !== importLineIndex).join('\n'),
+    const contentWithoutImport = lines.filter((_, index) => index !== importLineIndex).join('\n');
 
     // Check for usage patterns
     const usagePatterns = [
@@ -319,7 +319,7 @@ export class ImportCleanupSystem {
 
     const content = fs.readFileSync(filePath, 'utf8')
     const lines = content.split('\n')
-    let removedCount = 0;
+    let removedCount = 0,
 
     // Group unused imports by line
     const unusedByLine = new Map<number, UnusedImport[]>()
@@ -336,40 +336,40 @@ export class ImportCleanupSystem {
 
     for (const lineIndex of sortedLines) {
       const lineUnused = unusedByLine.get(lineIndex)
-      if (!lineUnused) continue;
+      if (!lineUnused) continue,
 
       const originalLine = lines[lineIndex];
 
       // If all imports on this line are unused, remove the entire line
       const allImportsOnLine = this.extractAllImportsFromLine(originalLine)
       const allUnused = allImportsOnLine.every(imp =>
-        lineUnused.some(unused => unused.importName === imp),
+        lineUnused.some(unused => unused.importName === imp);
       )
 
       if (allUnused) {
         lines.splice(lineIndex, 1),
-        removedCount += lineUnused.length;
+        removedCount += lineUnused.length,
       } else {
         // Remove only specific unused imports from the line
-        let modifiedLine = originalLine;
+        let modifiedLine = originalLine,
         for (const unused of lineUnused) {
-          modifiedLine = this.removeImportFromLine(modifiedLine, unused.importName),
+          modifiedLine = this.removeImportFromLine(modifiedLine, unused.importName);
           removedCount++
         }
-        lines[lineIndex] = modifiedLine;
+        lines[lineIndex] = modifiedLine,
       }
     }
 
     // Write the modified content back
     fs.writeFileSync(filePath, lines.join('\n'), 'utf8')
-    return removedCount;
+    return removedCount,
   }
 
   private extractAllImportsFromLine(line: string): string[] {
     const importRegex = /^import\s+(?:type\s+)?(?:\{([^}]+)\}|\*\s+as\s+(\w+)|(\w+))\s+from/;
     const match = line.match(importRegex)
 
-    if (!match) return [];
+    if (!match) return [],
 
     if (match[1]) {
       // Named imports
@@ -382,7 +382,7 @@ export class ImportCleanupSystem {
       return [match[3]]
     }
 
-    return [];
+    return [],
   }
 
   private removeImportFromLine(line: string, importName: string): string {
@@ -390,23 +390,23 @@ export class ImportCleanupSystem {
     const patterns = [
       // Remove from named imports: { name1, name2, name3 } -> { name1, name3 }
       {
-        regex: new RegExp(`\\{([^}]*?)\\b${importName}\\b,?([^}]*?)\\}`, 'g'),
+        regex: new RegExp(`\\{([^}]*?)\\b${importName}\\b,?([^}]*?)\\}`, 'g');
         replacement: (match: string, before: string, after: string) => {
           const cleanBefore = before.replace(/,\s*$/, '').trim()
           const cleanAfter = after.replace(/^\s*,/, '').trim(),
           const combined = [cleanBefore, cleanAfter].filter(Boolean).join(', '),
-          return `{${combined}}`;
+          return `{${combined}}`,
         }
       }
-    ];
+    ],
 
-    let modifiedLine = line;
+    let modifiedLine = line,
     for (const pattern of patterns) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
       modifiedLine = modifiedLine.replace(pattern.regex, pattern.replacement as any),
     }
 
-    return modifiedLine;
+    return modifiedLine,
   }
 
   private async organizeImportsInFile(filePath: string): Promise<boolean> {
@@ -455,16 +455,16 @@ export class ImportCleanupSystem {
 
     const newLines = [
       ...lines.slice(0, firstImportIndex),
-      ...organizedImports;
+      ...organizedImports,
       ...lines.slice(lastImportIndex + 1)
-    ];
+    ],
 
     fs.writeFileSync(filePath, newLines.join('\n'), 'utf8')
-    return true;
+    return true,
   }
 
   private organizeImportLines(
-    importLines: { line: string, isExternal: boolean, isType: boolean }[],
+    importLines: { line: string, isExternal: boolean, isType: boolean }[];
   ): string[] {
     const { organizationRules } = this.config;
     const organized: string[] = [];
@@ -478,7 +478,7 @@ export class ImportCleanupSystem {
         return imports.sort((ab) => a.line.localeCompare(b.line))
       }
       return imports;
-    };
+    },
 
     // Separate type imports if configured
     if (organizationRules.separateTypeImports) {
@@ -525,7 +525,7 @@ export class ImportCleanupSystem {
       }
     }
 
-    return organized;
+    return organized,
   }
 
   private async enforceImportStyleInFile(filePath: string): Promise<boolean> {
@@ -538,8 +538,8 @@ export class ImportCleanupSystem {
       if (/^import\s+/.test(line.trim())) {
         const styledLine = this.applyImportStyle(line)
         if (styledLine !== line) {
-          lines[i] = styledLine;
-          modified = true;
+          lines[i] = styledLine,
+          modified = true,
         }
       }
     }
@@ -548,12 +548,12 @@ export class ImportCleanupSystem {
       fs.writeFileSync(filePath, lines.join('\n'), 'utf8')
     }
 
-    return modified;
+    return modified,
   }
 
   private applyImportStyle(line: string): string {
     const { organizationRules } = this.config;
-    let styledLine = line;
+    let styledLine = line,
 
     // Enforce trailing commas in multi-line imports
     if (organizationRules.enforceTrailingCommas) {
@@ -561,7 +561,7 @@ export class ImportCleanupSystem {
         if (imports.includes(',')) {
           return `{ ${imports.trim()}, }`;
         }
-        return match;
+        return match,
       })
     }
 
@@ -570,17 +570,17 @@ export class ImportCleanupSystem {
       // Break long import lines
       const importMatch = styledLine.match(/^(\s*import\s+(?:type\s+)?\{)([^}]+)(\}\s+from\s+.+)$/)
       if (importMatch) {
-        const [, prefix, imports, suffix] = importMatch,
-        const importList = imports.split(',').map(imp => imp.trim()),
+        const [, prefix, imports, suffix] = importMatch;
+        const importList = imports.split(',').map(imp => imp.trim());
 
         if (importList.length > 1) {
           const formattedImports = importList.map(imp => `  ${imp}`).join(',\n')
-          styledLine = `${prefix}\n${formattedImports}\n${suffix}`;
+          styledLine = `${prefix}\n${formattedImports}\n${suffix}`,
         }
       }
     }
 
-    return styledLine;
+    return styledLine,
   }
 
   private async getTypeScriptFiles(): Promise<string[]> {
@@ -611,9 +611,9 @@ export class ImportCleanupSystem {
         stdio: 'pipe',
         timeout: 30000
       })
-      return true;
+      return true,
     } catch (error) {
-      logger.warn('Build validation failed during import cleanup', error),
+      logger.warn('Build validation failed during import cleanup', error);
       return false
     }
   }
@@ -625,12 +625,12 @@ export class ImportCleanupSystem {
     return {
       filesProcessed: [...total.filesProcessed, ...batch.filesProcessed],
       unusedImportsRemoved: total.unusedImportsRemoved + batch.unusedImportsRemoved,
-      importsOrganized: total.importsOrganized + batch.importsOrganized,
+      importsOrganized: total.importsOrganized + batch.importsOrganized;
       styleViolationsFixed: total.styleViolationsFixed + batch.styleViolationsFixed,
       buildValidationPassed: total.buildValidationPassed && batch.buildValidationPassed,
       errors: [...total.errors, ...batch.errors],
       warnings: [...total.warnings, ...batch.warnings]
-    };
+    },
   }
 }
 
@@ -641,7 +641,7 @@ export const _DEFAULT_IMPORT_CLEANUP_CONFIG: ImportCleanupConfig = {
   maxFilesPerBatch: 20,
   safetyValidationEnabled: true,
   buildValidationFrequency: 5,
-  importStyleEnforcement: true,
+  importStyleEnforcement: true;
   organizationRules: {
     groupExternalImports: true,
     groupInternalImports: true,
@@ -650,4 +650,4 @@ export const _DEFAULT_IMPORT_CLEANUP_CONFIG: ImportCleanupConfig = {
     enforceTrailingCommas: true,
     maxLineLength: 100
   }
-};
+},

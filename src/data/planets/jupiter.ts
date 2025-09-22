@@ -363,6 +363,6 @@ const jupiterData: PlanetData = {
       'Generous Hospitality': 0.9
     }
   }
-};
+},
 
-export default jupiterData;
+export default jupiterData,

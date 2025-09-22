@@ -4,7 +4,7 @@ import type {
   ElementalProperties,
   CuisineType,
   Cuisine as AlchemyCuisine
-} from '@/types/alchemy';
+} from '@/types/alchemy',
 
 import { african } from './cuisines/african';
 import { american } from './cuisines/american';
@@ -48,7 +48,7 @@ const _: Recipe = {
   },
   season: ['all'],
   mealType: ['any']
-};
+},
 
 // Helper function to adapt ElementalProperties from cuisine.ts to alchemy.ts format
 function adaptElementalProperties(props: unknown): ElementalProperties {
@@ -59,7 +59,7 @@ function adaptElementalProperties(props: unknown): ElementalProperties {
     typeof propsData === 'object' &&
     Object.prototype.hasOwnProperty.call(propsData, 'Fire')
   ) {
-    return propsData as ElementalProperties;
+    return propsData as ElementalProperties,
   }
 
   // Convert to the format expected by alchemy.ts
@@ -68,7 +68,7 @@ function adaptElementalProperties(props: unknown): ElementalProperties {
     Water: propsData?.Water || 0,
     Earth: propsData?.Earth || 0,
     Air: propsData?.Air || 0
-  };
+  },
 }
 
 // Helper function to adapt cuisines to the Cuisine interface format
@@ -85,7 +85,7 @@ function adaptCuisine(cuisine: unknown): AlchemyCuisine {
     elementalState: cuisineData.elementalState
       ? adaptElementalProperties(cuisineData.elementalState)
       : undefined
-  };
+  },
 }
 
 // Combine all cuisines
@@ -104,27 +104,27 @@ export const cuisines: Record<string, AlchemyCuisine> = {
   vietnamese: adaptCuisine(vietnamese),
   african: adaptCuisine(african),
   russian: adaptCuisine(russian)
-};
+},
 
 // Type exports
-export type { CuisineType };
-export type Cuisine = (typeof cuisines)[keyof typeof cuisines];
+export type { CuisineType },
+export type Cuisine = (typeof cuisines)[keyof typeof cuisines],
 
 // Helper functions for accessing cuisine properties
 export const _getCuisineByName = (name: string): AlchemyCuisine | undefined =>
-  cuisines[name.toLowerCase()];
+  cuisines[name.toLowerCase()],
 
 export const _getCuisinesByElement = (element: keyof ElementalProperties): AlchemyCuisine[] =>
   Object.values(cuisines).filter(
     cuisine =>
       (cuisine.elementalState?.[element] ?? 0) >= 0.3 ||
-      (cuisine.elementalProperties?.[element] ?? 0) >= 0.3;
+      (cuisine.elementalProperties?.[element] ?? 0) >= 0.3,
   )
 
 // Re-export the cuisinesMap from the imported one
 export const cuisinesMap = importedCuisinesMap
 
 // Re-export CUISINES constant
-export { CUISINES };
+export { CUISINES },
 
-export default cuisines;
+export default cuisines,

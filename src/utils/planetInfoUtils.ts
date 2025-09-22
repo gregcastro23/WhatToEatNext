@@ -15,28 +15,28 @@ export interface PlanetInfo {
   dignity: {
     type: string,
     strength: number
-  };
+  },
   tarotCard: {
     name: string,
     element: string
-  };
+  },
   aspects: {
     planet: string,
     type: string,
     orb: number
-  }[];
+  }[],
   elementalInfluence: {
     fire: number,
     water: number,
     air: number,
     earth: number
-  };
+  },
   tokenInfluence: {
     spirit: number,
     essence: number,
     matter: number,
     substance: number
-  };
+  },
 }
 
 /**
@@ -64,21 +64,21 @@ export function getPlanetInfo(
       return null;
     }
 
-    let normalizedPlanetName = planetName;
+    let normalizedPlanetName = planetName,
 
     // Normalize planet names for chart data
-    if (planetName === 'north_node' || planetName === 'northnode') {;
-      normalizedPlanetName = 'NorthNode';
-    } else if (planetName === 'south_node' || planetName === 'southnode') {;
-      normalizedPlanetName = 'SouthNode';
-    } else if (planetName === 'ascendant') {;
-      normalizedPlanetName = 'Ascendant';
+    if (planetName === 'north_node' || planetName === 'northnode') {,
+      normalizedPlanetName = 'NorthNode',
+    } else if (planetName === 'south_node' || planetName === 'southnode') {,
+      normalizedPlanetName = 'SouthNode',
+    } else if (planetName === 'ascendant') {,
+      normalizedPlanetName = 'Ascendant',
     } else {
       normalizedPlanetName = planetName.charAt(0).toUpperCase() + planetName.slice(1).toLowerCase()
     }
 
     // Get dignity information
-    let dignity = { type: 'Neutral', strength: 0 };
+    let dignity = { type: 'Neutral', strength: 0 },
 
     // Don't calculate dignity for Ascendant and Lunar Nodes
     if (
@@ -90,12 +90,12 @@ export function getPlanetInfo(
         dignity = getPlanetaryDignityInfo(normalizedPlanetName, planetSign),
       } catch (error) {
         _logger.error(`Error getting dignity for ${normalizedPlanetName}:`, error)
-        dignity = { type: 'Neutral', strength: 0 };
+        dignity = { type: 'Neutral', strength: 0 },
       }
     }
 
     // Get tarot card correspondence
-    let tarotCard = { name: 'Unknown', element: 'Unknown' };
+    let tarotCard = { name: 'Unknown', element: 'Unknown' },
 
     // For Ascendant or Lunar Nodes, set tarot card based on sign
     if (
@@ -117,42 +117,42 @@ export function getPlanetInfo(
         capricorn: 'The Devil',
         aquarius: 'The Star',
         pisces: 'The Moon'
-      };
+      },
 
       const cardName = signToCard[planetSign] || 'The Fool';
       tarotCard = {
         name: cardName,
         element: MAJOR_ARCANA[cardName]?.element || 'Unknown'
-      };
+      },
     } else if (PLANET_TO_MAJOR_ARCANA[normalizedPlanetName]) {
       const cardName = PLANET_TO_MAJOR_ARCANA[normalizedPlanetName];
       tarotCard = {
         name: cardName,
         element: MAJOR_ARCANA[cardName]?.element || 'Unknown'
-      };
+      },
     }
 
     // Calculate aspects - handle special cases for lunar nodes
-    let planetAspects: Array<{ planet: string, type: unknown, orb: number }> = [];
+    let planetAspects: Array<{ planet: string, type: unknown, orb: number }> = [],
     try {
       const { aspects } = calculateAspects(planetaryPositions as unknown, 0)
 
       // Filter aspects for this planet
-      planetAspects = aspects;
+      planetAspects = aspects,
         .filter(aspect => aspect.planet1 === planetKey || aspect.planet2 === planetKey)
-        .map(aspect => ({;
+        .map(aspect => ({,
           planet: aspect.planet1 === planetKey ? aspect.planet2 : aspect.planet1,,
           type: aspect.type,
           orb: aspect.orb || 0
         }))
     } catch (error) {
       _logger.error(`Error calculating aspects for ${planetName}:`, error)
-      planetAspects = [];
+      planetAspects = [],
     }
 
     // Get elemental influence
     // Special handling for ascendant, lunar nodes and outer planets
-    let elementalInfluence = { fire: 0, water: 0, air: 0, earth: 0 };
+    let elementalInfluence = { fire: 0, water: 0, air: 0, earth: 0 },
 
     if (
       normalizedPlanetName === 'Ascendant' ||
@@ -173,7 +173,7 @@ export function getPlanetInfo(
         cancer: 'Water',
         scorpio: 'Water',
         pisces: 'Water'
-      };
+      },
 
       const element = signToElement[planetSign] || 'air';
       // North Node emphasizes its element, South Node has less influence
@@ -186,7 +186,7 @@ export function getPlanetInfo(
           water: planetaryModifiers[normalizedPlanetName].Water || 0,
           air: planetaryModifiers[normalizedPlanetName].Air || 0,
           earth: planetaryModifiers[normalizedPlanetName].Earth || 0
-        };
+        },
       } else {
         _logger.warn(`No planetary modifier found for ${normalizedPlanetName}`)
       }
@@ -194,7 +194,7 @@ export function getPlanetInfo(
 
     // Get token influence
     // Special handling for ascendant and lunar nodes
-    let tokenInfluence = { spirit: 0, essence: 0, matter: 0, substance: 0 };
+    let tokenInfluence = { spirit: 0, essence: 0, matter: 0, substance: 0 },
 
     if (
       normalizedPlanetName === 'Ascendant' ||
@@ -215,53 +215,53 @@ export function getPlanetInfo(
         cancer: 'Water',
         scorpio: 'Water',
         pisces: 'Water'
-      };
+      },
 
       const element = signToElement[planetSign] || 'air';
 
       // Map elements to tokens with different emphasis for North vs South Node
-      if (normalizedPlanetName === 'NorthNode') {;
-        if (element === 'fire') {;
-          tokenInfluence.spirit = 0.4;
-          tokenInfluence.essence = 0.1;
-        } else if (element === 'water') {;
-          tokenInfluence.essence = 0.4;
-          tokenInfluence.substance = 0.1;
-        } else if (element === 'air') {;
-          tokenInfluence.spirit = 0.3;
-          tokenInfluence.matter = 0.2;
-        } else if (element === 'earth') {;
-          tokenInfluence.matter = 0.3;
-          tokenInfluence.substance = 0.2;
+      if (normalizedPlanetName === 'NorthNode') {,
+        if (element === 'fire') {,
+          tokenInfluence.spirit = 0.4,
+          tokenInfluence.essence = 0.1,
+        } else if (element === 'water') {,
+          tokenInfluence.essence = 0.4,
+          tokenInfluence.substance = 0.1,
+        } else if (element === 'air') {,
+          tokenInfluence.spirit = 0.3,
+          tokenInfluence.matter = 0.2,
+        } else if (element === 'earth') {,
+          tokenInfluence.matter = 0.3,
+          tokenInfluence.substance = 0.2,
         }
-      } else if (normalizedPlanetName === 'SouthNode') {;
-        if (element === 'fire') {;
-          tokenInfluence.spirit = 0.2;
-          tokenInfluence.matter = 0.2;
-        } else if (element === 'water') {;
-          tokenInfluence.essence = 0.2;
-          tokenInfluence.substance = 0.2;
-        } else if (element === 'air') {;
-          tokenInfluence.spirit = 0.1;
-          tokenInfluence.essence = 0.3;
-        } else if (element === 'earth') {;
-          tokenInfluence.matter = 0.2;
-          tokenInfluence.substance = 0.2;
+      } else if (normalizedPlanetName === 'SouthNode') {,
+        if (element === 'fire') {,
+          tokenInfluence.spirit = 0.2,
+          tokenInfluence.matter = 0.2,
+        } else if (element === 'water') {,
+          tokenInfluence.essence = 0.2,
+          tokenInfluence.substance = 0.2,
+        } else if (element === 'air') {,
+          tokenInfluence.spirit = 0.1,
+          tokenInfluence.essence = 0.3,
+        } else if (element === 'earth') {,
+          tokenInfluence.matter = 0.2,
+          tokenInfluence.substance = 0.2,
         }
       } else {
         // Ascendant
-        if (element === 'fire') {;
-          tokenInfluence.spirit = 0.3;
-          tokenInfluence.essence = 0.1;
-        } else if (element === 'water') {;
-          tokenInfluence.essence = 0.3;
-          tokenInfluence.substance = 0.1;
-        } else if (element === 'air') {;
-          tokenInfluence.spirit = 0.2;
-          tokenInfluence.matter = 0.2;
-        } else if (element === 'earth') {;
-          tokenInfluence.matter = 0.2;
-          tokenInfluence.substance = 0.2;
+        if (element === 'fire') {,
+          tokenInfluence.spirit = 0.3,
+          tokenInfluence.essence = 0.1,
+        } else if (element === 'water') {,
+          tokenInfluence.essence = 0.3,
+          tokenInfluence.substance = 0.1,
+        } else if (element === 'air') {,
+          tokenInfluence.spirit = 0.2,
+          tokenInfluence.matter = 0.2,
+        } else if (element === 'earth') {,
+          tokenInfluence.matter = 0.2,
+          tokenInfluence.substance = 0.2,
         }
       }
     } else {
@@ -273,7 +273,7 @@ export function getPlanetInfo(
           essence: planetary.Essence || 0,
           matter: planetary.Matter || 0,
           substance: planetary.Substance || 0
-        };
+        },
       } else {
         _logger.warn(`No planetary token influence for ${normalizedPlanetName}`)
       }
@@ -290,7 +290,7 @@ export function getPlanetInfo(
       aspects: planetAspects,
       elementalInfluence,
       tokenInfluence
-    };
+    },
   } catch (error) {
     _logger.error('Error in getPlanetInfo:', error)
     return null
@@ -303,13 +303,13 @@ export function getPlanetInfo(
 export function getDignityDescription(dignityType: string): string {
   switch (dignityType) {
     case 'Domicile':
-      return 'The planet is in its home sign, where it expresses its energy most naturally and effectively.';
+      return 'The planet is in its home sign, where it expresses its energy most naturally and effectively.',
     case 'Exaltation':
-      return 'The planet is in a sign where its energy is elevated and refined, producing highly positive effects.';
+      return 'The planet is in a sign where its energy is elevated and refined, producing highly positive effects.',
     case 'Detriment':
-      return 'The planet is in the sign opposite its rulership, where its energy is challenged and may be expressed less harmoniously.';
+      return 'The planet is in the sign opposite its rulership, where its energy is challenged and may be expressed less harmoniously.',
     case 'Fall':
-      return 'The planet is in the sign opposite its exaltation, where its energy is diminished or suppressed.';
+      return 'The planet is in the sign opposite its exaltation, where its energy is diminished or suppressed.',
     case 'Neutral': return 'The planet is neither strengthened nor weakened by its sign placement.'
     default:
       return 'Unknown dignity type'
@@ -322,19 +322,19 @@ export function getDignityDescription(dignityType: string): string {
 export function getAspectDescription(aspectType: string): string {
   switch (aspectType.toLowerCase()) {
     case 'conjunction':
-      return 'The planets are aligned, creating a powerful blending of their energies.';
+      return 'The planets are aligned, creating a powerful blending of their energies.',
     case 'sextile':
-      return 'The planets are 60° apart, creating a harmonious, opportunity-filled connection.';
+      return 'The planets are 60° apart, creating a harmonious, opportunity-filled connection.',
     case 'square':
-      return 'The planets are 90° apart, creating tension and challenges that motivate growth.';
+      return 'The planets are 90° apart, creating tension and challenges that motivate growth.',
     case 'trine':
-      return 'The planets are 120° apart, creating a harmonious, flowing, and creative connection.';
+      return 'The planets are 120° apart, creating a harmonious, flowing, and creative connection.',
     case 'opposition':
-      return 'The planets are 180° apart, creating a pull in opposite directions that requires balance.';
+      return 'The planets are 180° apart, creating a pull in opposite directions that requires balance.',
     case 'quincunx':
-      return 'The planets are 150° apart, creating an awkward adjustment between energies.';
+      return 'The planets are 150° apart, creating an awkward adjustment between energies.',
     case 'semisextile':
-      return 'The planets are 30° apart, creating a subtle connection that stimulates growth.';
+      return 'The planets are 30° apart, creating a subtle connection that stimulates growth.',
     default:
       return 'This aspect creates a specific relationship between the planetary energies.'
   }

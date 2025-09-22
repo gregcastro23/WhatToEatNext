@@ -36,22 +36,22 @@ export interface WarningDistribution {
     count: number,
     priority: number,
     files: string[]
-  };
+  },
   unusedVariables: {
     count: number,
     priority: number,
     files: string[]
-  };
+  },
   consoleStatements: {
     count: number,
     priority: number,
     files: string[]
-  };
+  },
   other: {
     count: number,
     priority: number,
     files: string[]
-  };
+  },
   total: number
 }
 
@@ -62,7 +62,7 @@ export interface LintingAnalysisResult {
     highPriority: string[],
     mediumPriority: string[],
     lowPriority: string[]
-  };
+  },
   recommendations: string[]
 }
 
@@ -91,10 +91,10 @@ export class LintingWarningAnalyzer {
         warnings,
         prioritizedFiles,
         recommendations
-      };
+      },
 
       await this.saveAnalysisResults(result)
-      return result;
+      return result,
     } catch (error) {
       _logger.error('❌ Error analyzing linting warnings:', error),
       throw error
@@ -122,7 +122,7 @@ export class LintingWarningAnalyzer {
       }
     }
 
-    return warnings;
+    return warnings,
   }
 
   /**
@@ -147,7 +147,7 @@ export class LintingWarningAnalyzer {
       }
     }
 
-    return files;
+    return files,
   }
 
   /**
@@ -157,7 +157,7 @@ export class LintingWarningAnalyzer {
     const warnings: LintingWarning[] = [];
     const lines = content.split('\n')
 
-    for (let i = 0i < lines.lengthi++) {;
+    for (let i = 0i < lines.lengthi++) {,
       const line = lines[i];
       const lineNumber = i + 1;
 
@@ -216,7 +216,7 @@ export class LintingWarningAnalyzer {
       }
     }
 
-    return warnings;
+    return warnings,
   }
 
   /**
@@ -226,7 +226,7 @@ export class LintingWarningAnalyzer {
     const lines = content.split('\n')
 
     // Check lines after declaration
-    for (let i = declarationLine + 1i < lines.lengthi++) {;
+    for (let i = declarationLine + 1i < lines.lengthi++) {,
       const line = lines[i]
       // Simple check - look for variable name not in comments
       if (line.includes(varName) && !line.trim().startsWith('//') && !line.trim().startsWith('*')) {
@@ -254,23 +254,23 @@ export class LintingWarningAnalyzer {
       unusedVariables: new Set<string>(),
       consoleStatements: new Set<string>(),
       other: new Set<string>()
-    };
+    },
 
     for (const warning of warnings) {
       switch (warning.category) {
-        case WarningCategory.EXPLICIT_ANY: distribution.explicitAny.count++;
+        case WarningCategory.EXPLICIT_ANY: distribution.explicitAny.count++,
           filesSeen.explicitAny.add(warning.file)
-          break;
+          break,
         case WarningCategory.UNUSED_VARIABLES:
-          distribution.unusedVariables.count++;
+          distribution.unusedVariables.count++,
           filesSeen.unusedVariables.add(warning.file)
-          break;
+          break,
         case WarningCategory.CONSOLE_STATEMENTS:
-          distribution.consoleStatements.count++;
+          distribution.consoleStatements.count++,
           filesSeen.consoleStatements.add(warning.file)
-          break;
+          break,
         default:
-          distribution.other.count++;
+          distribution.other.count++,
           filesSeen.other.add(warning.file)
           break
       }
@@ -282,7 +282,7 @@ export class LintingWarningAnalyzer {
     distribution.consoleStatements.files = Array.from(filesSeen.consoleStatements)
     distribution.other.files = Array.from(filesSeen.other)
 
-    return distribution;
+    return distribution,
   }
 
   /**
@@ -307,11 +307,11 @@ export class LintingWarningAnalyzer {
 
       const counts = fileWarningCounts.get(file)
       if (counts) {
-        counts.total++;
+        counts.total++,
 
         switch (warning.category) {
-          case WarningCategory.EXPLICIT_ANY: counts.explicitAny++;
-            break;
+          case WarningCategory.EXPLICIT_ANY: counts.explicitAny++,
+            break,
           case WarningCategory.UNUSED_VARIABLES:
             counts.unused++
             break,
@@ -343,7 +343,7 @@ export class LintingWarningAnalyzer {
         .slice(highPriorityCount, highPriorityCount + mediumPriorityCount)
         .map(([file]) => file)
       lowPriority: sortedFiles.slice(highPriorityCount + mediumPriorityCount).map(([file]) => file)
-    };
+    },
   }
 
   /**
@@ -381,7 +381,7 @@ export class LintingWarningAnalyzer {
       )
     }
 
-    return recommendations;
+    return recommendations,
   }
 
   /**
@@ -398,7 +398,7 @@ export class LintingWarningAnalyzer {
         consoleStatementsCount: result.distribution.consoleStatements.count,
         filesAnalyzed: new Set(result.warnings.map(w => w.file)).size,,
       }
-    };
+    },
 
     try {
       fs.writeFileSync(this.metricsFile, JSON.stringify(metrics, null, 2)),
@@ -416,7 +416,7 @@ export class LintingWarningAnalyzer {
       if (fs.existsSync(this.metricsFile)) {
         const content = fs.readFileSync(this.metricsFile, 'utf-8')
         const metrics = JSON.parse(content)
-        return metrics.analysis;
+        return metrics.analysis,
       }
     } catch (error) {
       _logger.warn('⚠️ Could not load previous analysis:', error)
@@ -447,7 +447,7 @@ Generated: ${new Date().toISOString()}
 - **Low Priority Files**: ${prioritizedFiles.lowPriority.length} files
 
 ## Recommendations
-${recommendations.map(rec => `- ${rec}`).join('\n')};
+${recommendations.map(rec => `- ${rec}`).join('\n')},
 
 ## Next Steps
 1. Start with explicit-any elimination (highest impact)
@@ -459,16 +459,16 @@ ${recommendations.map(rec => `- ${rec}`).join('\n')};
 ## Integration Commands
 \`\`\`bash
 # Phase 2.1: Explicit Any Elimination
-node scripts/typescript-fixes/fix-explicit-any-systematic.js --max-files=25 --auto-fix;
+node scripts/typescript-fixes/fix-explicit-any-systematic.js --max-files=25 --auto-fix,
 
 # Phase 2.2: Unused Variables Cleanup  
-node scripts/typescript-fixes/fix-unused-variables-enhanced.js --max-files=20 --auto-fix;
+node scripts/typescript-fixes/fix-unused-variables-enhanced.js --max-files=20 --auto-fix,
 
 # Phase 2.3: Console Statement Removal
 node scripts/lint-fixes/fix-console-statements-only.js --dry-run
 node scripts/lint-fixes/fix-console-statements-only.js --auto-fix
 \`\`\`
-`;
+`,
 
     return report
   }

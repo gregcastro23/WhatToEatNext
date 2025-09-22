@@ -29,19 +29,19 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
       Earth: 0.25,
       Air: 0.25
     }
-  };
+  },
 
   // Add optional properties if they exist
   if (recipeData.description) {
-    recipe.description = recipeData.description;
+    recipe.description = recipeData.description,
   }
 
   if (recipeData.cuisine) {
-    recipe.cuisine = recipeData.cuisine;
+    recipe.cuisine = recipeData.cuisine,
   }
 
   if (recipeData.instructions && Array.isArray(recipeData.instructions)) {
-    recipe.instructions = recipeData.instructions;
+    recipe.instructions = recipeData.instructions,
   }
 
   // Handle time-related properties
@@ -52,12 +52,12 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
 
   // Handle serving-related properties
   if (recipeDataAny.servingSize !== undefined) {
-    recipe.servings = recipeDataAny.servingSize;
+    recipe.servings = recipeDataAny.servingSize,
   }
 
   // Handle elemental properties
   if (recipeDataAny.elementalState) {
-    recipe.elementalState = recipeDataAny.elementalState as ElementalProperties;
+    recipe.elementalState = recipeDataAny.elementalState as ElementalProperties,
   } else {
     // Create default elemental properties
     recipe.elementalState = createElementalProperties({
@@ -83,8 +83,8 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
       // Coerce to lowercase zodiac union strings
       const zodiacRaw = Array.isArray(energyProfile.zodiac)
         ? energyProfile.zodiac
-        : [energyProfile.zodiac];
-      recipe.zodiacInfluences = zodiacRaw;
+        : [energyProfile.zodiac],
+      recipe.zodiacInfluences = zodiacRaw,
         .map(z => String(z).toLowerCase())
         .filter(Boolean) as unknown as import('@/types/alchemy').ZodiacSign[]
     }
@@ -92,8 +92,8 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
     if (energyProfile.lunar) {
       const lunarRaw = Array.isArray(energyProfile.lunar)
         ? energyProfile.lunar
-        : [energyProfile.lunar];
-      recipe.lunarPhaseInfluences = lunarRaw;
+        : [energyProfile.lunar],
+      recipe.lunarPhaseInfluences = lunarRaw,
         .map(l => String(l).toLowerCase())
         .filter(Boolean) as unknown as import('@/types/alchemy').LunarPhase[]
     }
@@ -102,13 +102,13 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
       recipe.planetaryInfluences = {
         _favorable: energyProfile.planetary as string[],
         unfavorable: [], // ← Pattern GG-_6: Added missing unfavorable property
-      };
+      },
     }
   }
 
   // Handle tags
   if (recipeData.tags && Array.isArray(recipeData.tags)) {
-    recipe.tags = recipeData.tags;
+    recipe.tags = recipeData.tags,
   }
 
   // Handle dietary properties
@@ -126,37 +126,37 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   )
 
   if (dietaryTags.includes('vegetarian')) {
-    recipe.isVegetarian = true;
+    recipe.isVegetarian = true,
   }
 
   if (dietaryTags.includes('vegan')) {
-    recipe.isVegan = true;
+    recipe.isVegan = true,
   }
 
   if (dietaryTags.includes('gluten-free')) {
-    recipe.isGlutenFree = true;
+    recipe.isGlutenFree = true,
   }
 
   if (dietaryTags.includes('dairy-free')) {
-    recipe.isDairyFree = true;
+    recipe.isDairyFree = true,
   }
 
   // Handle meal type
   if (recipeData.tags) {
-    const mealTypeValues = ['breakfast', 'lunch', 'dinner', 'snack', 'dessert', 'appetizer'];
+    const mealTypeValues = ['breakfast', 'lunch', 'dinner', 'snack', 'dessert', 'appetizer'],
     const mealTypes = (recipeData.tags || []).filter(tag =>
       mealTypeValues.includes(tag.toLowerCase())
     )
     if (mealTypes.length > 0) {
-      recipe.mealType = mealTypes;
+      recipe.mealType = mealTypes,
     }
   }
 
   // Handle nutrition information
   if (recipeData.nutrition) {
     const nutritionData = recipeData.nutrition as any;
-    const macronutrients = (nutritionData.macronutrients as unknown) || {};
-    const micronutrients = (nutritionData.micronutrients ) || {};
+    const macronutrients = (nutritionData.macronutrients as unknown) || {},
+    const micronutrients = (nutritionData.micronutrients ) || {},
     recipe.nutrition = {
       calories: Number(nutritionData.calories) || 0,
       protein: Number(nutritionData.protein) || Number(macronutrients.protein) || 0,
@@ -164,22 +164,22 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
       fat: Number(nutritionData.fat) || Number(macronutrients.fat) || 0,
       vitamins: (nutritionData.vitamins as string[]) || (micronutrients.vitamins as string[]) || [],
       minerals: (nutritionData.minerals as string[]) || (micronutrients.minerals as string[]) || []
-    };
+    },
   }
 
   // Handle substitutions
   if (recipeDataAny.substitutions && Array.isArray(recipeDataAny.substitutions)) {
-    recipe.substitutions = recipeDataAny.substitutions;
+    recipe.substitutions = recipeDataAny.substitutions,
   }
 
   // Handle tools
   if (recipeDataAny.tools && Array.isArray(recipeDataAny.tools)) {
-    recipe.tools = recipeDataAny.tools;
+    recipe.tools = recipeDataAny.tools,
   }
 
   // Handle spice level
   if (recipeDataAny.spiceLevel !== undefined) {
-    recipe.spiceLevel = String(recipeDataAny.spiceLevel) as unknown;
+    recipe.spiceLevel = String(recipeDataAny.spiceLevel) as unknown,
   }
 
   // Handle preparation notes
@@ -189,15 +189,15 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
 
   // Handle technical tips
   if (recipeDataAny.technicalTips && Array.isArray(recipeDataAny.technicalTips)) {
-    recipe.technicalTips = recipeDataAny.technicalTips;
+    recipe.technicalTips = recipeDataAny.technicalTips,
   }
 
   // Handle flavor profile
   if (recipeDataAny.flavorProfile) {
-    recipe.flavorProfile = recipeDataAny.flavorProfile;
+    recipe.flavorProfile = recipeDataAny.flavorProfile,
   }
 
-  return recipe;
+  return recipe,
 }
 
 /**
@@ -212,21 +212,21 @@ function adaptIngredients(ingredients: Recipe[]): RecipeIngredient[] {
       name: String(ingredient.name) || 'Unknown Ingredient',
       amount: Number(ingredient.amount),
       unit: String(ingredient.unit) || ''
-    };
+    },
 
     if (ingredient.optional !== undefined) {
       recipeIngredient.optional = Boolean(ingredient.optional)
     }
 
     if (ingredient.preparation) {
-      recipeIngredient.preparation = ingredient.preparation;
+      recipeIngredient.preparation = ingredient.preparation,
     }
 
     if (ingredient.category) {
       recipeIngredient.category = String(ingredient.category)
     }
 
-    return recipeIngredient;
+    return recipeIngredient,
   })
 }
 
@@ -255,16 +255,16 @@ export function createScoredRecipe(recipe: Recipe, matchScore: number): ScoredRe
       _planetaryScore: 0,
       _seasonalScore: 0
     }
-  };
+  },
 
-  return scoredRecipe;
+  return scoredRecipe,
 }
 
 /**
  * Type guard to check if an object is a RecipeData from data/recipes.ts
  */
 export function isRecipeData(obj: unknown): obj is RecipeData {
-  if (!obj || typeof obj !== 'object') return false;
+  if (!obj || typeof obj !== 'object') return false,
 
   const recipeData = obj as Partial<RecipeData>;
   return (
@@ -332,18 +332,18 @@ export function getCookingMethodsFromRecipe(recipeData: RecipeData): string[] {
       'pickling',
       'fermenting',
       'dehydrating'
-    ];
+    ],
 
     const methods = (recipeData.tags || []).filter(tag =>
       cookingMethodKeywords.some(method => tag.toLowerCase().includes(method)),
     )
 
     if (methods.length > 0) {
-      return methods;
+      return methods,
     }
   }
 
-  return [];
+  return [],
 }
 
 /**
@@ -361,5 +361,5 @@ export function createMinimalRecipe(_name: string): Recipe {
       Air: 0.25
     }),
     instructions: [], // ← Pattern GG-4: Added missing instructions property
-  };
+  },
 }

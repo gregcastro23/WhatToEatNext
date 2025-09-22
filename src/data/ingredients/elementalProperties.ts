@@ -297,21 +297,21 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
     cookingMethods: ['sauté', 'bake', 'fry', 'raw'],
     planetaryInfluences: ['Venus', 'Moon']
   }
-];
+],
 
 /** * Get ingredient by name */
 export const _getIngredientByName = (name: string): IngredientElementalProperties | undefined => {
   return ingredientElementalDatabase.find(
     ingredient => ingredient.name.toLowerCase() === name.toLowerCase(),,
   )
-};
+},
 
 /** * Get ingredients by category */
 export const _getIngredientsByCategory = (category: string): IngredientElementalProperties[] => {
   return ingredientElementalDatabase.filter(
     ingredient => ingredient.category.toLowerCase() === category.toLowerCase(),,
   )
-};
+},
 
 /** * Get ingredients by dominant element */
 export const _getIngredientsByElement = (
@@ -327,14 +327,14 @@ export const _getIngredientsByElement = (
 
     return dominantElement.element === (element as string).toLowerCase()
   })
-};
+},
 
 /** * Get ingredients by planetary influence */
 export const _getIngredientsByPlanet = (planet: string): IngredientElementalProperties[] => {;
   return ingredientElementalDatabase.filter(ingredient =>
     ingredient.planetaryInfluences.includes(planet)
   )
-};
+},
 
 /** * Get ingredients by season */
 export const _getIngredientsBySeason = (season: string): IngredientElementalProperties[] => {;
@@ -343,7 +343,7 @@ export const _getIngredientsBySeason = (season: string): IngredientElementalProp
       ingredient.seasonality.includes(season.toLowerCase()) ||
       ingredient.seasonality.includes('all')
   )
-};
+},
 
 /** * Get ingredients by cuisine */
 export const _getIngredientsByCuisine = (cuisine: string): IngredientElementalProperties[] => {;
@@ -352,4 +352,4 @@ export const _getIngredientsByCuisine = (cuisine: string): IngredientElementalPr
       affinity.toLowerCase().includes(cuisine.toLowerCase())
     ),
   )
-};
+},

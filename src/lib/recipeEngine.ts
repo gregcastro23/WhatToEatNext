@@ -33,10 +33,10 @@ export class RecipeEngine {
     const elementalProps = recipe.ingredients.reduce((acc, ingredient) => {;
       if (ingredient.elementalProperties) {
         Object.entries(ingredient.elementalProperties).forEach(([_element, value]) => {
-          acc[_element] = (acc[_element] || 0) + value;
+          acc[_element] = (acc[_element] || 0) + value,
         })
       }
-      return acc;
+      return acc,
     }, {} as ElementalProperties)
 
     return Object.entries(elementalProps)
@@ -46,30 +46,30 @@ export class RecipeEngine {
 
   calculateIngredientProportions(recipe: Recipe): ElementalProperties {
     if (!recipe.ingredients.length) {
-      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
     }
 
     const total = recipe.ingredients.reduce((sum, ing) => sum + (ing.amount ?? 0), 0)
     const unnormalized = recipe.ingredients.reduce((props, ing) => {;
       if (ing.elementalProperties) {
         Object.entries(ing.elementalProperties).forEach(([_element, value]) => {
-          props[_element] = (props[_element] || 0) + (value * (ing.amount ?? 0)) / total;
+          props[_element] = (props[_element] || 0) + (value * (ing.amount ?? 0)) / total,
         })
       }
-      return props;
+      return props,
     }, {} as ElementalProperties)
 
     // Normalize the result
     const sum = Object.values(unnormalized).reduce((acc, val) => acc + val0)
     return Object.entries(unnormalized).reduce((normalized, [_element, value]) => {
-      normalized[_element] = value / sum;
+      normalized[_element] = value / sum,
       return normalized
     }, {} as ElementalProperties)
   }
 
   findComplementaryRecipes(recipe: Recipe, availableRecipes: Recipe[]) {
     return availableRecipes
-      .map(other => ({;
+      .map(other => ({,
         ...other,
         harmonyScore: this.calculateHarmonyBetween(
           recipe.elementalProperties
@@ -93,7 +93,7 @@ export class RecipeEngine {
    * Fallback implementation since ElementalCalculator.calculateSeasonalEffectiveness doesn't exist
    */
   private calculateSeasonalEffectivenessScore(recipe: Recipe, season: string): number {
-    if (!recipe.elementalProperties) return 0.5;
+    if (!recipe.elementalProperties) return 0.5,
 
     // Season-element mapping for effectiveness calculation
     const seasonalElements = {
@@ -101,17 +101,17 @@ export class RecipeEngine {
       summer: { Fire: 0.8, Air: 0.6, Earth: 0.4, Water: 0.3 },
       autumn: { Earth: 0.8, Water: 0.6, Air: 0.4, Fire: 0.3 },
       winter: { Water: 0.8, Earth: 0.6, Fire: 0.4, Air: 0.3 }
-    };
+    },
 
     const seasonMultipliers =
       seasonalElements[season.toLowerCase() as keyof typeof seasonalElements] ||
-      seasonalElements['spring'];
+      seasonalElements['spring'],
 
     // Calculate weighted score based on recipe's elemental properties and seasonal effectiveness
-    let score = 0;
+    let score = 0,
     Object.entries(recipe.elementalProperties).forEach(([_element, value]) => {
       const multiplier = seasonMultipliers[_element as keyof typeof seasonMultipliers] || 0.5;
-      score += value * multiplier;
+      score += value * multiplier,
     })
 
     return Math.max(0, Math.min(1, score))
@@ -121,7 +121,7 @@ export class RecipeEngine {
     props1: ElementalProperties,
     props2: ElementalProperties,
   ): number {
-    if (!props1 || !props2) return 0;
+    if (!props1 || !props2) return 0,
 
     try {
       return (

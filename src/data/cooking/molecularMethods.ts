@@ -133,6 +133,6 @@ export const molecularCookingMethods: Record<
       gregsEnergy: 0.1 - ((0 as any)?.6 || 0) * 0.2
     }
   }
-};
+},
 
-export default molecularCookingMethods;
+export default molecularCookingMethods,

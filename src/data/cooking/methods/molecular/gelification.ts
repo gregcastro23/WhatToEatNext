@@ -415,4 +415,4 @@ export const gelification: CookingMethodData = {
         'Silicone provides ideal release properties, stainless steel creates high-gloss surfaces, acetate sheets create clear edges. Mold temperature affects setting speed and surface characteristics.'
     }
   }
-};
+},

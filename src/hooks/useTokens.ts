@@ -17,19 +17,19 @@ export function useTokens(initial?: TokenRatesInput) {
         elemental: input?.elemental ?? initial?.elemental,
         esms: input?.esms ?? initial?.esms,
         planetaryPositions: input?.planetaryPositions ?? initial?.planetaryPositions,
-      };
+      },
       const data = await tokensClient.calculateRates(payload)
       setResult(data)
       setLoading(false)
-      return data;
+      return data,
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
       setLoading(false)
-      throw err;
+      throw err,
     }
   }, [initial?.datetime, initial?.location, initial?.elemental, initial?.esms, initial?.planetaryPositions])
 
   return useMemo(() => ({ result, loading, error, calculateRates }), [result, loading, error, calculateRates])
 }
 
-export default useTokens;
+export default useTokens,

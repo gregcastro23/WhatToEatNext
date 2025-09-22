@@ -214,7 +214,7 @@ const rawVinegars = {
       notes: 'Keep away from direct light'
     }
   }
-};
+},
 
 // Fix the ingredient mappings to ensure they have all required properties
 export const _vinegars: Record<string, IngredientMapping> = fixIngredientMappings(

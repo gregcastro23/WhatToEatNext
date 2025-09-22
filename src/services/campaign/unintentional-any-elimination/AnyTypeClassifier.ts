@@ -10,11 +10,11 @@ import {
   ClassificationError,
   ClassificationRules,
   CodeDomain
-} from './types';
+} from './types',
 
 export class AnyTypeClassifier {
   private rules: ClassificationRules,
-  private confidenceWeights: Map<AnyTypeCategory, number>;
+  private confidenceWeights: Map<AnyTypeCategory, number>,
   private patternMatchers: Map<AnyTypeCategory, (context: ClassificationContext) => number>,
 
   constructor(rules?: Partial<ClassificationRules>) {
@@ -38,8 +38,8 @@ export class AnyTypeClassifier {
       ],
       testMockPatterns: [
         /mock\w*\s*:\s*any/,
-        /jest\.fn\(\)\s*as\s*any/;
-        /\.mockReturnValue\s*\(\s*\w+\s*as\s*any\s*\)/;
+        /jest\.fn\(\)\s*as\s*any/,
+        /\.mockReturnValue\s*\(\s*\w+\s*as\s*any\s*\)/,
         /\.mockImplementation\s*\(\s*\w+\s*:\s*any/
         /\.spyOn\s*\([\s\S]*?\)\s*as\s*any/,
         /describe\s*\([\s\S]*?\w+\s*:\s*any/,
@@ -86,7 +86,7 @@ export class AnyTypeClassifier {
       [AnyTypeCategory.TEST_MOCK, this.calculateTestMockConfidence.bind(this)],
       [AnyTypeCategory.DYNAMIC_CONFIG, this.calculateDynamicConfigConfidence.bind(this)],
       [
-        AnyTypeCategory.LEGACY_COMPATIBILITY;
+        AnyTypeCategory.LEGACY_COMPATIBILITY,
         this.calculateLegacyCompatibilityConfidence.bind(this)
       ],
       [AnyTypeCategory.ARRAY_TYPE, this.calculateArrayTypeConfidence.bind(this)],
@@ -110,7 +110,7 @@ export class AnyTypeClassifier {
           reasoning: `Explicitly documented as intentional${surroundingContext.contextualClues.length > 0 ? ` (${surroundingContext.contextualClues.join(', ')})` : ''}`,
           requiresDocumentation: false,
           category: this.categorizeFromComment(context.existingComment)
-        };
+        },
       }
 
       // Run pattern recognition algorithms for all categories
@@ -129,13 +129,13 @@ export class AnyTypeClassifier {
       }
 
       // Find the highest scoring category
-      let bestCategory: AnyTypeCategory | null = null;
+      let bestCategory: AnyTypeCategory | null = null,
       let bestScore = 0
 
       for (const [category, score] of categoryScores) {
         if (score > bestScore) {
-          bestScore = score;
-          bestCategory = category;
+          bestScore = score,
+          bestCategory = category,
         }
       }
 
@@ -157,7 +157,7 @@ export class AnyTypeClassifier {
             : this.getSuggestedReplacement(bestCategory, context),
           requiresDocumentation: isIntentional,
           category: bestCategory
-        };
+        },
       }
 
       // Domain-specific analysis for moderate confidence cases
@@ -200,7 +200,7 @@ export class AnyTypeClassifier {
         suggestedReplacement: defaultConfidence <= 0.6 ? this.getDefaultSuggestedReplacement(context) : undefined,
         requiresDocumentation: defaultConfidence > 0.6,
         category: AnyTypeCategory.TYPE_ASSERTION
-      };
+      },
     } catch (error) {
       throw new ClassificationError(
         `Failed to classify any type at ${context.filePath}:${context.lineNumber}`,
@@ -235,7 +235,7 @@ export class AnyTypeClassifier {
       }
     }
 
-    return results;
+    return results,
   }
 
   /**
@@ -264,7 +264,7 @@ export class AnyTypeClassifier {
       'third party',
       'api response',
       'unknown structure'
-    ];
+    ],
 
     const lowerComment = comment.toLowerCase()
 
@@ -331,7 +331,7 @@ export class AnyTypeClassifier {
     // Complex logic detection (loops, conditions, multiple function calls)
     const hasComplexLogic =
       (surroundingCode.match(/if\s*\(|for\s*\(|while\s*\(|switch\s*\(/g) || []).length > 2 ||
-      (surroundingCode.match(/\.\w+\s*\(/g) || []).length > 3;
+      (surroundingCode.match(/\.\w+\s*\(/g) || []).length > 3,
     if (hasComplexLogic) contextualClues.push('complex logic context')
 
     return {
@@ -341,7 +341,7 @@ export class AnyTypeClassifier {
       hasTypeAssertions,
       hasComplexLogic,
       contextualClues
-    };
+    },
   }
 
   /**
@@ -403,13 +403,13 @@ export class AnyTypeClassifier {
       )
 
     // Determine file category
-    let fileCategory = 'unknown';
-    if (isTestFile) fileCategory = 'test';
-    else if (isConfigFile) fileCategory = 'config';
-    else if (isTypeDefinitionFile) fileCategory = 'types';
-    else if (isServiceFile) fileCategory = 'service';
-    else if (isComponentFile) fileCategory = 'component';
-    else if (isUtilityFile) fileCategory = 'utility';
+    let fileCategory = 'unknown',
+    if (isTestFile) fileCategory = 'test',
+    else if (isConfigFile) fileCategory = 'config',
+    else if (isTypeDefinitionFile) fileCategory = 'types',
+    else if (isServiceFile) fileCategory = 'service',
+    else if (isComponentFile) fileCategory = 'component',
+    else if (isUtilityFile) fileCategory = 'utility',
 
     return {
       isTestFile,
@@ -419,11 +419,11 @@ export class AnyTypeClassifier {
       isComponentFile,
       isUtilityFile,
       fileCategory
-    };
+    },
   }
 
   private categorizeFromComment(comment?: string): AnyTypeCategory {
-    if (!comment) return AnyTypeCategory.LEGACY_COMPATIBILITY;
+    if (!comment) return AnyTypeCategory.LEGACY_COMPATIBILITY,
 
     const lowerComment = comment.toLowerCase()
 
@@ -431,16 +431,16 @@ export class AnyTypeClassifier {
       return AnyTypeCategory.EXTERNAL_API
     }
     if (lowerComment.includes('error') || lowerComment.includes('catch')) {
-      return AnyTypeCategory.ERROR_HANDLING;
+      return AnyTypeCategory.ERROR_HANDLING,
     }
     if (lowerComment.includes('test') || lowerComment.includes('mock')) {
-      return AnyTypeCategory.TEST_MOCK;
+      return AnyTypeCategory.TEST_MOCK,
     }
     if (lowerComment.includes('config') || lowerComment.includes('dynamic')) {
-      return AnyTypeCategory.DYNAMIC_CONFIG;
+      return AnyTypeCategory.DYNAMIC_CONFIG,
     }
 
-    return AnyTypeCategory.LEGACY_COMPATIBILITY;
+    return AnyTypeCategory.LEGACY_COMPATIBILITY,
   }
 
   private matchesErrorHandling(context: ClassificationContext): boolean {
@@ -463,7 +463,7 @@ export class AnyTypeClassifier {
 
   private isSimpleArrayType(context: ClassificationContext): boolean {
     // Match patterns, like: unknown[], Array<any>
-    const arrayPatterns = [/:\s*any\[\]/, /:\s*Array<any>/, /=\s*\[\]\s*as\s*any\[\]/];
+    const arrayPatterns = [/:\s*any\[\]/, /:\s*Array<any>/, /=\s*\[\]\s*as\s*any\[\]/],
 
     return arrayPatterns.some(pattern => pattern.test(context.codeSnippet))
   }
@@ -476,7 +476,7 @@ export class AnyTypeClassifier {
       /:\s*\{\s*\[key:\s*string\]\s*:\s*any\s*\}/,
       /\{\s*\[key:\s*string\]\s*:\s*any\s*\}/, // Without colon prefix
       /Record<\w+,\s*any\[\]>/, // Record with any arrays
-    ];
+    ],
 
     return recordPatterns.some(pattern => pattern.test(context.codeSnippet))
   }
@@ -492,7 +492,7 @@ export class AnyTypeClassifier {
       return '[key: string]: unknown'
     }
 
-    return 'unknown';
+    return 'unknown',
   }
 
   private analyzeDomainSpecific(context: ClassificationContext): AnyTypeClassification | null {
@@ -525,7 +525,7 @@ export class AnyTypeClassifier {
       /business\s*service/i,
       /application\s*service/i,
       /domain\s*service/i
-    ];
+    ],
 
     // External service integration patterns
     const externalServicePatterns = [
@@ -537,7 +537,7 @@ export class AnyTypeClassifier {
       /rest\s*api/i,
       /graphql/i,
       /grpc/i
-    ];
+    ],
 
     // Service configuration patterns
     const serviceConfigPatterns = [
@@ -547,7 +547,7 @@ export class AnyTypeClassifier {
       /client\s*config/i,
       /service\s*options/i,
       /service\s*settings/i
-    ];
+    ],
 
     // Data transformation patterns
     const dataTransformPatterns = [
@@ -557,56 +557,56 @@ export class AnyTypeClassifier {
       /entity\s*mapper/i,
       /serializer/i,
       /deserializer/i
-    ];
+    ],
 
-    let confidence = 0;
-    let reasoning = '';
-    let suggestedReplacement = '';
+    let confidence = 0,
+    let reasoning = '',
+    let suggestedReplacement = '',
     let isIntentional = false;
-    let category = AnyTypeCategory.TYPE_ASSERTION;
+    let category = AnyTypeCategory.TYPE_ASSERTION,
 
     // Check for external service integration (intentional)
     if (externalServicePatterns.some(pattern => pattern.test(codeWithSurrounding))) {
-      confidence = 0.85;
+      confidence = 0.85,
       reasoning =
-        'External service integration requires flexible typing for unknown response structures';
-      isIntentional = true;
-      category = AnyTypeCategory.EXTERNAL_API;
+        'External service integration requires flexible typing for unknown response structures',
+      isIntentional = true,
+      category = AnyTypeCategory.EXTERNAL_API,
     }
     // Check for service configuration (intentional)
     else if (serviceConfigPatterns.some(pattern => pattern.test(codeWithSurrounding))) {
-      confidence = 0.8;
-      reasoning = 'Service configuration requires flexible typing for dynamic setup options';
-      isIntentional = true;
-      category = AnyTypeCategory.DYNAMIC_CONFIG;
+      confidence = 0.8,
+      reasoning = 'Service configuration requires flexible typing for dynamic setup options',
+      isIntentional = true,
+      category = AnyTypeCategory.DYNAMIC_CONFIG,
     }
     // Check for data transformation (can be more specific)
     else if (dataTransformPatterns.some(pattern => pattern.test(codeWithSurrounding))) {
-      confidence = 0.75;
-      reasoning = 'Data transformation can use specific interface types for better type safety';
-      suggestedReplacement = 'Record<string, unknown>';
+      confidence = 0.75,
+      reasoning = 'Data transformation can use specific interface types for better type safety',
+      suggestedReplacement = 'Record<string, unknown>',
       isIntentional = false;
-      category = AnyTypeCategory.TYPE_ASSERTION;
+      category = AnyTypeCategory.TYPE_ASSERTION,
     }
     // Check for service interfaces (can be more specific)
     else if (serviceInterfacePatterns.some(pattern => pattern.test(codeWithSurrounding))) {
-      confidence = 0.7;
+      confidence = 0.7,
       reasoning =
-        'Service interfaces can use specific interface types for better contract definition';
-      suggestedReplacement = 'ServiceInterface';
+        'Service interfaces can use specific interface types for better contract definition',
+      suggestedReplacement = 'ServiceInterface',
       isIntentional = false;
-      category = AnyTypeCategory.TYPE_ASSERTION;
+      category = AnyTypeCategory.TYPE_ASSERTION,
     }
     // General service context
     else if (
       lowerCode.includes('service') &&
       (lowerCode.includes('data') || lowerCode.includes('response'))
     ) {
-      confidence = 0.65;
-      reasoning = 'Service layer data handling can likely use more specific types';
-      suggestedReplacement = 'unknown';
+      confidence = 0.65,
+      reasoning = 'Service layer data handling can likely use more specific types',
+      suggestedReplacement = 'unknown',
       isIntentional = false;
-      category = AnyTypeCategory.TYPE_ASSERTION;
+      category = AnyTypeCategory.TYPE_ASSERTION,
     }
 
     if (confidence > 0) {
@@ -617,7 +617,7 @@ export class AnyTypeClassifier {
         suggestedReplacement: isIntentional ? undefined : suggestedReplacement,
         requiresDocumentation: isIntentional,
         category
-      };
+      },
     }
 
     return null;
@@ -636,7 +636,7 @@ export class AnyTypeClassifier {
       /machine\s*learning/i,
       /ai\s*system/i,
       /predictive\s*analytics/i
-    ];
+    ],
 
     // Dynamic analysis patterns
     const dynamicAnalysisPatterns = [
@@ -646,30 +646,30 @@ export class AnyTypeClassifier {
       /learning\s*algorithm/i,
       /evolving\s*pattern/i,
       /self\s*adjusting/i
-    ];
+    ],
 
-    let confidence = 0;
-    let reasoning = '';
-    let category = AnyTypeCategory.DYNAMIC_CONFIG;
+    let confidence = 0,
+    let reasoning = '',
+    let category = AnyTypeCategory.DYNAMIC_CONFIG,
 
     // Check for intelligence systems (high confidence for intentional)
     if (intelligencePatterns.some(pattern => pattern.test(codeWithSurrounding))) {
-      confidence = 0.9;
-      reasoning = 'Intelligence systems require flexible typing for evolving analytical patterns';
-      category = AnyTypeCategory.DYNAMIC_CONFIG;
+      confidence = 0.9,
+      reasoning = 'Intelligence systems require flexible typing for evolving analytical patterns',
+      category = AnyTypeCategory.DYNAMIC_CONFIG,
     }
     // Check for dynamic analysis
     else if (dynamicAnalysisPatterns.some(pattern => pattern.test(codeWithSurrounding))) {
-      confidence = 0.85;
-      reasoning = 'Dynamic analysis systems require flexible typing for adaptive behavior';
-      category = AnyTypeCategory.DYNAMIC_CONFIG;
+      confidence = 0.85,
+      reasoning = 'Dynamic analysis systems require flexible typing for adaptive behavior',
+      category = AnyTypeCategory.DYNAMIC_CONFIG,
     }
     // General intelligence context
     else if (lowerCode.includes('intelligence') || lowerCode.includes('analytics')) {
-      confidence = 0.75;
+      confidence = 0.75,
       reasoning =
-        'Intelligence domain requires flexible typing for complex analytical data structures';
-      category = AnyTypeCategory.DYNAMIC_CONFIG;
+        'Intelligence domain requires flexible typing for complex analytical data structures',
+      category = AnyTypeCategory.DYNAMIC_CONFIG,
     }
 
     if (confidence > 0) {
@@ -679,7 +679,7 @@ export class AnyTypeClassifier {
         reasoning,
         requiresDocumentation: true,
         category
-      };
+      },
     }
 
     return null;
@@ -700,7 +700,7 @@ export class AnyTypeClassifier {
       /transit\s*date/i,
       /lunar\s*phase/i,
       /solar\s*position/i
-    ];
+    ],
 
     // External astronomy API patterns
     const astronomyApiPatterns = [
@@ -712,7 +712,7 @@ export class AnyTypeClassifier {
       /astronomical\s*api/i,
       /getReliablePlanetaryPositions/i,
       /planetaryConsistencyCheck/i
-    ];
+    ],
 
     // Astrological calculation patterns
     const calculationPatterns = [
@@ -724,31 +724,31 @@ export class AnyTypeClassifier {
       /retrograde\s*motion/i,
       /aspect\s*calculation/i,
       /house\s*position/i
-    ];
+    ],
 
-    let confidence = 0;
-    let reasoning = '';
-    let category = AnyTypeCategory.EXTERNAL_API;
+    let confidence = 0,
+    let reasoning = '',
+    let category = AnyTypeCategory.EXTERNAL_API,
 
     // Check for planetary position data (highest confidence)
     if (planetaryPatterns.some(pattern => pattern.test(codeWithSurrounding))) {
-      confidence = 0.9;
+      confidence = 0.9,
       reasoning =
-        'Astrological planetary position data requires flexible typing for external API responses';
-      category = AnyTypeCategory.EXTERNAL_API;
+        'Astrological planetary position data requires flexible typing for external API responses',
+      category = AnyTypeCategory.EXTERNAL_API,
     }
     // Check for astronomy API integration
     else if (astronomyApiPatterns.some(pattern => pattern.test(codeWithSurrounding))) {
-      confidence = 0.85;
-      reasoning = 'Astronomy API integration requires flexible typing for varying response formats';
-      category = AnyTypeCategory.EXTERNAL_API;
+      confidence = 0.85,
+      reasoning = 'Astronomy API integration requires flexible typing for varying response formats',
+      category = AnyTypeCategory.EXTERNAL_API,
     }
     // Check for astrological calculations
     else if (calculationPatterns.some(pattern => pattern.test(codeWithSurrounding))) {
-      confidence = 0.8;
+      confidence = 0.8,
       reasoning =
-        'Astrological calculations require flexible typing for dynamic elemental properties';
-      category = AnyTypeCategory.DYNAMIC_CONFIG;
+        'Astrological calculations require flexible typing for dynamic elemental properties',
+      category = AnyTypeCategory.DYNAMIC_CONFIG,
     }
     // General astrological context
     else if (
@@ -756,10 +756,10 @@ export class AnyTypeClassifier {
       lowerCode.includes('planetary') ||
       lowerCode.includes('zodiac')
     ) {
-      confidence = 0.75;
+      confidence = 0.75,
       reasoning =
-        'Astrological domain code often requires flexible typing for cosmic data structures';
-      category = AnyTypeCategory.LEGACY_COMPATIBILITY;
+        'Astrological domain code often requires flexible typing for cosmic data structures',
+      category = AnyTypeCategory.LEGACY_COMPATIBILITY,
     }
 
     if (confidence > 0) {
@@ -769,7 +769,7 @@ export class AnyTypeClassifier {
         reasoning,
         requiresDocumentation: true,
         category
-      };
+      },
     }
 
     return null;
@@ -788,7 +788,7 @@ export class AnyTypeClassifier {
       /nutritional\s*data/i,
       /spoonacular\s*api/i,
       /usda\s*food/i
-    ];
+    ],
 
     const recipePatterns = [
       /recipe\s*data/i,
@@ -799,7 +799,7 @@ export class AnyTypeClassifier {
       /food\s*recommendation/i,
       /alchemical\s*recipe/i,
       /elemental\s*recipe/i
-    ];
+    ],
 
     const cuisinePatterns = [
       /cuisine\s*data/i,
@@ -807,7 +807,7 @@ export class AnyTypeClassifier {
       /ethnic\s*cuisine/i,
       /traditional\s*recipe/i,
       /regional\s*food/i
-    ];
+    ],
 
     // External food API patterns
     const foodApiPatterns = [
@@ -817,44 +817,44 @@ export class AnyTypeClassifier {
       /recipe\s*api/i,
       /usda\s*api/i,
       /food\s*database/i
-    ];
+    ],
 
-    let confidence = 0;
-    let reasoning = '';
-    let suggestedReplacement = '';
+    let confidence = 0,
+    let reasoning = '',
+    let suggestedReplacement = '',
     let isIntentional = false;
-    let category = AnyTypeCategory.TYPE_ASSERTION;
+    let category = AnyTypeCategory.TYPE_ASSERTION,
 
     // Check for external food API integration (intentional)
     if (foodApiPatterns.some(pattern => pattern.test(codeWithSurrounding))) {
-      confidence = 0.85;
-      reasoning = 'Food API integration requires flexible typing for varying response structures';
-      isIntentional = true;
-      category = AnyTypeCategory.EXTERNAL_API;
+      confidence = 0.85,
+      reasoning = 'Food API integration requires flexible typing for varying response structures',
+      isIntentional = true,
+      category = AnyTypeCategory.EXTERNAL_API,
     }
     // Check for ingredient data (can be typed more specifically)
     else if (ingredientPatterns.some(pattern => pattern.test(codeWithSurrounding))) {
-      confidence = 0.8;
-      reasoning = 'Ingredient data can use specific Ingredient interface type';
-      suggestedReplacement = 'Ingredient';
+      confidence = 0.8,
+      reasoning = 'Ingredient data can use specific Ingredient interface type',
+      suggestedReplacement = 'Ingredient',
       isIntentional = false;
-      category = AnyTypeCategory.TYPE_ASSERTION;
+      category = AnyTypeCategory.TYPE_ASSERTION,
     }
     // Check for recipe data (can be typed more specifically)
     else if (recipePatterns.some(pattern => pattern.test(codeWithSurrounding))) {
-      confidence = 0.8;
-      reasoning = 'Recipe data can use specific Recipe interface type';
-      suggestedReplacement = 'Recipe';
+      confidence = 0.8,
+      reasoning = 'Recipe data can use specific Recipe interface type',
+      suggestedReplacement = 'Recipe',
       isIntentional = false;
-      category = AnyTypeCategory.TYPE_ASSERTION;
+      category = AnyTypeCategory.TYPE_ASSERTION,
     }
     // Check for cuisine data (can be typed more specifically)
     else if (cuisinePatterns.some(pattern => pattern.test(codeWithSurrounding))) {
-      confidence = 0.75;
-      reasoning = 'Cuisine data can use specific Cuisine interface type';
-      suggestedReplacement = 'Cuisine';
+      confidence = 0.75,
+      reasoning = 'Cuisine data can use specific Cuisine interface type',
+      suggestedReplacement = 'Cuisine',
       isIntentional = false;
-      category = AnyTypeCategory.TYPE_ASSERTION;
+      category = AnyTypeCategory.TYPE_ASSERTION,
     }
     // General food-related context
     else if (
@@ -868,17 +868,17 @@ export class AnyTypeClassifier {
         lowerCode.includes('api') ||
         lowerCode.includes('config')
       ) {
-        confidence = 0.7;
-        reasoning = 'Food-related API response or configuration may require flexible typing';
-        isIntentional = true;
-        category = AnyTypeCategory.EXTERNAL_API;
+        confidence = 0.7,
+        reasoning = 'Food-related API response or configuration may require flexible typing',
+        isIntentional = true,
+        category = AnyTypeCategory.EXTERNAL_API,
       } else {
-        confidence = 0.7;
+        confidence = 0.7,
         reasoning =
-          'Food-related data can likely use more specific types (Ingredient, Recipe, etc.)';
-        suggestedReplacement = 'Ingredient | Recipe | Cuisine';
+          'Food-related data can likely use more specific types (Ingredient, Recipe, etc.)',
+        suggestedReplacement = 'Ingredient | Recipe | Cuisine',
         isIntentional = false;
-        category = AnyTypeCategory.TYPE_ASSERTION;
+        category = AnyTypeCategory.TYPE_ASSERTION,
       }
     }
 
@@ -890,7 +890,7 @@ export class AnyTypeClassifier {
         suggestedReplacement: isIntentional ? undefined : suggestedReplacement,
         requiresDocumentation: isIntentional,
         category
-      };
+      },
     }
 
     return null;
@@ -908,7 +908,7 @@ export class AnyTypeClassifier {
       /flexible\s*config/i,
       /runtime\s*config/i,
       /adaptive\s*config/i
-    ];
+    ],
 
     // Campaign metrics and intelligence patterns
     const metricsPatterns = [
@@ -920,7 +920,7 @@ export class AnyTypeClassifier {
       /analytics\s*data/i,
       /campaign\s*intelligence/i,
       /enterprise\s*intelligence/i
-    ];
+    ],
 
     // Campaign execution and automation patterns
     const executionPatterns = [
@@ -931,7 +931,7 @@ export class AnyTypeClassifier {
       /safety\s*protocol/i,
       /rollback\s*mechanism/i,
       /validation\s*framework/i
-    ];
+    ],
 
     // Campaign tool integration patterns
     const toolIntegrationPatterns = [
@@ -942,37 +942,37 @@ export class AnyTypeClassifier {
       /compilation\s*result/i,
       /error\s*analysis/i,
       /fix\s*strategy/i
-    ];
+    ],
 
-    let confidence = 0;
-    let reasoning = '';
-    let category = AnyTypeCategory.DYNAMIC_CONFIG;
+    let confidence = 0,
+    let reasoning = '',
+    let category = AnyTypeCategory.DYNAMIC_CONFIG,
 
     // Check for campaign configuration (highest confidence for intentional)
     if (campaignConfigPatterns.some(pattern => pattern.test(codeWithSurrounding))) {
-      confidence = 0.9;
+      confidence = 0.9,
       reasoning =
-        'Campaign system configuration requires flexible typing for dynamic behavior adaptation';
-      category = AnyTypeCategory.DYNAMIC_CONFIG;
+        'Campaign system configuration requires flexible typing for dynamic behavior adaptation',
+      category = AnyTypeCategory.DYNAMIC_CONFIG,
     }
     // Check for metrics and intelligence data
     else if (metricsPatterns.some(pattern => pattern.test(codeWithSurrounding))) {
-      confidence = 0.85;
+      confidence = 0.85,
       reasoning =
-        'Campaign metrics and intelligence data require flexible typing for evolving analytics';
-      category = AnyTypeCategory.DYNAMIC_CONFIG;
+        'Campaign metrics and intelligence data require flexible typing for evolving analytics',
+      category = AnyTypeCategory.DYNAMIC_CONFIG,
     }
     // Check for campaign execution context
     else if (executionPatterns.some(pattern => pattern.test(codeWithSurrounding))) {
-      confidence = 0.8;
-      reasoning = 'Campaign execution system requires flexible typing for diverse tool integration';
-      category = AnyTypeCategory.DYNAMIC_CONFIG;
+      confidence = 0.8,
+      reasoning = 'Campaign execution system requires flexible typing for diverse tool integration',
+      category = AnyTypeCategory.DYNAMIC_CONFIG,
     }
     // Check for tool integration
     else if (toolIntegrationPatterns.some(pattern => pattern.test(codeWithSurrounding))) {
-      confidence = 0.75;
-      reasoning = 'Campaign tool integration requires flexible typing for varying tool outputs';
-      category = AnyTypeCategory.EXTERNAL_API;
+      confidence = 0.75,
+      reasoning = 'Campaign tool integration requires flexible typing for varying tool outputs',
+      category = AnyTypeCategory.EXTERNAL_API,
     }
     // General campaign context
     else if (
@@ -980,9 +980,9 @@ export class AnyTypeClassifier {
       lowerCode.includes('intelligence') ||
       lowerCode.includes('automation')
     ) {
-      confidence = 0.7;
-      reasoning = 'Campaign system context often requires flexible typing for dynamic operations';
-      category = AnyTypeCategory.DYNAMIC_CONFIG;
+      confidence = 0.7,
+      reasoning = 'Campaign system context often requires flexible typing for dynamic operations',
+      category = AnyTypeCategory.DYNAMIC_CONFIG,
     }
 
     if (confidence > 0) {
@@ -992,7 +992,7 @@ export class AnyTypeClassifier {
         reasoning,
         requiresDocumentation: true,
         category
-      };
+      },
     }
 
     return null;
@@ -1001,8 +1001,8 @@ export class AnyTypeClassifier {
   // Confidence calculation methods for pattern recognition algorithms
   private calculateErrorHandlingConfidence(context: ClassificationContext): number {
     const codeWithSurrounding = this.getCombinedCode(context)
-    let confidence = 0;
-    let matchCount = 0;
+    let confidence = 0,
+    let matchCount = 0,
 
     for (const pattern of this.rules.errorHandlingPatterns) {
       if (pattern.test(codeWithSurrounding)) {
@@ -1013,7 +1013,7 @@ export class AnyTypeClassifier {
 
     // Boost confidence for catch blocks and error variables
     if (codeWithSurrounding.includes('catch') && codeWithSurrounding.includes('any')) {
-      confidence += 0.4;
+      confidence += 0.4,
     }
 
     // Additional context clues
@@ -1021,7 +1021,7 @@ export class AnyTypeClassifier {
       codeWithSurrounding.toLowerCase().includes('error') ||
       codeWithSurrounding.toLowerCase().includes('exception')
     ) {
-      confidence += 0.2;
+      confidence += 0.2,
     }
 
     return Math.min(confidence, 0.95); // Cap at 95%
@@ -1029,7 +1029,7 @@ export class AnyTypeClassifier {
 
   private calculateExternalApiConfidence(context: ClassificationContext): number {
     const codeWithSurrounding = this.getCombinedCode(context)
-    let confidence = 0;
+    let confidence = 0,
 
     for (const pattern of this.rules.externalApiPatterns) {
       if (pattern.test(codeWithSurrounding)) {
@@ -1038,20 +1038,20 @@ export class AnyTypeClassifier {
     }
 
     // API-related keywords boost confidence
-    const apiKeywords = ['fetch', 'axios', 'api', 'response', 'request', 'http', 'json'];
+    const apiKeywords = ['fetch', 'axios', 'api', 'response', 'request', 'http', 'json'],
     const foundKeywords = apiKeywords.filter(keyword =>
       codeWithSurrounding.toLowerCase().includes(keyword)
     )
-    confidence += ((foundKeywords as any)?.length || 0) * 0.2;
+    confidence += ((foundKeywords as any)?.length || 0) * 0.2,
 
     return Math.min(confidence, 0.9)
   }
 
   private calculateTestMockConfidence(context: ClassificationContext): number {
-    if (!context.isInTestFile) return 0;
+    if (!context.isInTestFile) return 0,
 
     const codeWithSurrounding = this.getCombinedCode(context)
-    let confidence = 0;
+    let confidence = 0,
 
     for (const pattern of this.rules.testMockPatterns) {
       if (pattern.test(codeWithSurrounding)) {
@@ -1060,18 +1060,18 @@ export class AnyTypeClassifier {
     }
 
     // Test-specific keywords
-    const testKeywords = ['mock', 'spy', 'jest', 'describe', 'it', 'test', 'expect'];
+    const testKeywords = ['mock', 'spy', 'jest', 'describe', 'it', 'test', 'expect'],
     const foundKeywords = testKeywords.filter(keyword =>
       codeWithSurrounding.toLowerCase().includes(keyword)
     )
-    confidence += ((foundKeywords as any)?.length || 0) * 0.2;
+    confidence += ((foundKeywords as any)?.length || 0) * 0.2,
 
     return Math.min(confidence, 0.9)
   }
 
   private calculateDynamicConfigConfidence(context: ClassificationContext): number {
     const codeWithSurrounding = this.getCombinedCode(context)
-    let confidence = 0;
+    let confidence = 0,
 
     for (const pattern of this.rules.dynamicConfigPatterns) {
       if (pattern.test(codeWithSurrounding)) {
@@ -1080,18 +1080,18 @@ export class AnyTypeClassifier {
     }
 
     // Configuration-related context
-    const configKeywords = ['config', 'options', 'settings', 'params', 'env'];
+    const configKeywords = ['config', 'options', 'settings', 'params', 'env'],
     const foundKeywords = configKeywords.filter(keyword =>
       codeWithSurrounding.toLowerCase().includes(keyword)
     )
-    confidence += ((foundKeywords as any)?.length || 0) * 0.2;
+    confidence += ((foundKeywords as any)?.length || 0) * 0.2,
 
     return Math.min(confidence, 0.85)
   }
 
   private calculateLegacyCompatibilityConfidence(context: ClassificationContext): number {
     const codeWithSurrounding = this.getCombinedCode(context)
-    let confidence = 0;
+    let confidence = 0,
 
     for (const pattern of this.rules.legacyCompatibilityPatterns) {
       if (pattern.test(codeWithSurrounding)) {
@@ -1100,11 +1100,11 @@ export class AnyTypeClassifier {
     }
 
     // Legacy-related keywords
-    const legacyKeywords = ['legacy', 'deprecated', 'old', 'backward', 'compat'];
+    const legacyKeywords = ['legacy', 'deprecated', 'old', 'backward', 'compat'],
     const foundKeywords = legacyKeywords.filter(keyword =>
       codeWithSurrounding.toLowerCase().includes(keyword)
     )
-    confidence += ((foundKeywords as any)?.length || 0) * 0.2;
+    confidence += ((foundKeywords as any)?.length || 0) * 0.2,
 
     return Math.min(confidence, 0.8)
   }
@@ -1113,9 +1113,9 @@ export class AnyTypeClassifier {
     const arrayPatterns = [
       /:\s*any\[\]/,
       /:\s*Array<any>/,
-      /=\s*\[\]\s*as\s*any\[\]/;
+      /=\s*\[\]\s*as\s*any\[\]/,
       /new\s+Array\s*\(\s*\)\s*as\s*any\[\]/
-    ];
+    ],
 
     for (const pattern of arrayPatterns) {
       if (pattern.test(context.codeSnippet)) {
@@ -1123,7 +1123,7 @@ export class AnyTypeClassifier {
       }
     }
 
-    return 0;
+    return 0,
   }
 
   private calculateRecordTypeConfidence(context: ClassificationContext): number {
@@ -1132,7 +1132,7 @@ export class AnyTypeClassifier {
       /:\s*Record<\s*number\s*,\s*any\s*>/,
       /:\s*\{\s*\[key:\s*string\]\s*:\s*any\s*\}/,
       /\{\s*\[key:\s*string\]\s*:\s*any\s*\}/
-    ];
+    ],
 
     for (const pattern of recordPatterns) {
       if (pattern.test(context.codeSnippet)) {
@@ -1140,7 +1140,7 @@ export class AnyTypeClassifier {
       }
     }
 
-    return 0;
+    return 0,
   }
 
   // Helper methods for classification logic
@@ -1150,12 +1150,12 @@ export class AnyTypeClassifier {
 
   private isIntentionalCategory(category: AnyTypeCategory): boolean {
     const intentionalCategories = [
-      AnyTypeCategory.ERROR_HANDLING;
-      AnyTypeCategory.EXTERNAL_API;
-      AnyTypeCategory.TEST_MOCK;
-      AnyTypeCategory.DYNAMIC_CONFIG;
+      AnyTypeCategory.ERROR_HANDLING,
+      AnyTypeCategory.EXTERNAL_API,
+      AnyTypeCategory.TEST_MOCK,
+      AnyTypeCategory.DYNAMIC_CONFIG,
       AnyTypeCategory.LEGACY_COMPATIBILITY
-    ];
+    ],
     return intentionalCategories.includes(category)
   }
 
@@ -1180,9 +1180,9 @@ export class AnyTypeClassifier {
       [AnyTypeCategory.RETURN_TYPE]: 'Function return type - may be replaceable with inferred type',
       [AnyTypeCategory.TYPE_ASSERTION]:
         'Type assertion - may be replaceable with more specific type'
-    };
+    },
 
-    return reasoningMap[category] || 'Pattern-based classification';
+    return reasoningMap[category] || 'Pattern-based classification',
   }
 
   private getSuggestedReplacement(
@@ -1191,7 +1191,7 @@ export class AnyTypeClassifier {
   ): string {
     switch (category) {
       case AnyTypeCategory.ARRAY_TYPE:
-        return 'unknown[]';
+        return 'unknown[]',
       case AnyTypeCategory.RECORD_TYPE:
         return this.suggestRecordReplacement(context)
       case AnyTypeCategory.FUNCTION_PARAM:
@@ -1217,7 +1217,7 @@ export class AnyTypeClassifier {
         suggestedReplacement: this.suggestFunctionParamReplacement(context),
         requiresDocumentation: false,
         category: AnyTypeCategory.FUNCTION_PARAM
-      };
+      },
     }
 
     // Return type analysis
@@ -1229,7 +1229,7 @@ export class AnyTypeClassifier {
         suggestedReplacement: this.suggestReturnTypeReplacement(context),
         requiresDocumentation: false,
         category: AnyTypeCategory.RETURN_TYPE
-      };
+      },
     }
 
     return null;
@@ -1246,7 +1246,7 @@ export class AnyTypeClassifier {
     if (context.codeSnippet.includes('boolean') || context.codeSnippet.includes('Boolean')) {
       return 'boolean'
     }
-    return 'unknown';
+    return 'unknown',
   }
 
   private suggestReturnTypeReplacement(context: ClassificationContext): string {
@@ -1268,7 +1268,7 @@ export class AnyTypeClassifier {
       return 'Record<string, unknown>'
     }
 
-    return 'unknown';
+    return 'unknown',
   }
 
   private calculateDefaultConfidence(context: ClassificationContext): number {
@@ -1281,7 +1281,7 @@ export class AnyTypeClassifier {
 
     // Check for any comments that might indicate intentionality
     if (context.hasExistingComment) {
-      confidence += 0.1;
+      confidence += 0.1,
     }
 
     // Domain-specific adjustments
@@ -1316,7 +1316,7 @@ export class AnyTypeClassifier {
     if (context.codeSnippet.includes('Record') || context.codeSnippet.includes('{')) {
       return 'Record<string, unknown>'
     }
-    return 'unknown';
+    return 'unknown',
   }
 
   // Contextual analysis helper methods
@@ -1343,20 +1343,20 @@ export class AnyTypeClassifier {
 
     // Contextual adjustments
     if (surroundingContext.hasErrorHandling && category === AnyTypeCategory.ERROR_HANDLING) {
-      adjustedScore *= 1.2;
+      adjustedScore *= 1.2,
     }
 
     if (surroundingContext.hasApiCalls && category === AnyTypeCategory.EXTERNAL_API) {
-      adjustedScore *= 1.15;
+      adjustedScore *= 1.15,
     }
 
     if (surroundingContext.hasTestingCode && category === AnyTypeCategory.TEST_MOCK) {
-      adjustedScore *= 1.1;
+      adjustedScore *= 1.1,
     }
 
     // Penalize type assertions in complex logic (likely can be more specific)
     if (surroundingContext.hasComplexLogic && category === AnyTypeCategory.TYPE_ASSERTION) {
-      adjustedScore *= 0.7;
+      adjustedScore *= 0.7,
     }
 
     return Math.min(adjustedScore, 1.0)
@@ -1428,15 +1428,15 @@ export class AnyTypeClassifier {
 
     // Contextual adjustments
     if (surroundingContext.hasErrorHandling) {
-      confidence += 0.15;
+      confidence += 0.15,
     }
 
     if (surroundingContext.hasApiCalls) {
-      confidence += 0.1;
+      confidence += 0.1,
     }
 
     if (surroundingContext.hasTestingCode) {
-      confidence += 0.1;
+      confidence += 0.1,
     }
 
     if (surroundingContext.hasTypeAssertions) {
@@ -1449,7 +1449,7 @@ export class AnyTypeClassifier {
 
     // Comment analysis
     if (context.hasExistingComment) {
-      confidence += 0.1;
+      confidence += 0.1,
     }
 
     // Domain-specific adjustments
@@ -1481,17 +1481,17 @@ export class AnyTypeClassifier {
       contextualInfo.push(surroundingContext.contextualClues.join(', '))
     }
 
-    let baseReasoning: string;
+    let baseReasoning: string,
     if (confidence > 0.7) {
       baseReasoning = 'High contextual confidence - likely intentional but needs documentation'
     } else if (confidence > 0.6) {
       baseReasoning = 'Moderate contextual confidence - may be intentional, requires review',
     } else if (confidence > 0.4) {
       baseReasoning =
-        'Low-moderate contextual confidence - likely unintentional but needs careful review';
+        'Low-moderate contextual confidence - likely unintentional but needs careful review',
     } else {
       baseReasoning =
-        'Low contextual confidence - appears unintentional and suitable for replacement';
+        'Low contextual confidence - appears unintentional and suitable for replacement',
     }
 
     return contextualInfo.length > 0

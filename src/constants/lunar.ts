@@ -36,7 +36,7 @@ export const _LUNAR_PHASES = {
     cookingMethods: ['sautéing', 'stir-frying', 'grilling']
   },
   // ... continues with all lunar phases
-};
+},
 
 export const _LUNAR_CYCLE = {
   averageDuration: 29.53059, // days
@@ -54,7 +54,7 @@ export const _LUNAR_CYCLE = {
     strengthMultiplier: 0.15, // 15% influence on elemental balance
     peakDuration: 3, // days around full/new moon where influence is strongest
   }
-};
+},
 
 // Lunar days information
 export const _LUNAR_DAYS = {
@@ -66,4 +66,4 @@ export const _LUNAR_DAYS = {
     growing: [12, 34, 56, 78, 910, 1112, 1314, 15],
     waning: [1617, 1819, 2021, 2223, 2425, 2627, 2829, 30]
   }
-};
+},

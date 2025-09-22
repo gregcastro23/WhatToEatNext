@@ -17,7 +17,7 @@ import {
   DocumentationResult,
   DocumentationTemplate,
   DocumentationValidation
-} from './types';
+} from './types',
 
 export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerator {
   private templates: Map<string, DocumentationTemplate> = new Map(),
@@ -126,9 +126,9 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
         eslintDisableComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any',
         explanation: 'Type flexibility needed for this specific implementation'
       }
-    ];
+    ],
 
-    templates.forEach(template => {;
+    templates.forEach(template => {,
       const key = `${template.category}_${template.domain}`
       this.templates.set(key, template)
     })
@@ -151,7 +151,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
           commentAdded: '',
           success: false,
           error: 'Type is not intentional or does not require documentation'
-        };
+        },
       }
 
       // Skip if already has adequate documentation
@@ -163,7 +163,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
           documentedCode: context.codeSnippet,
           commentAdded: context.existingComment || '',
           success: true
-        };
+        },
       }
 
       const template = this.getTemplate(classification.category, context.domainContext.domain)
@@ -196,7 +196,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
         commentAdded: insertedComment,
         eslintDisableAdded: eslintDisableComment,
         success: true
-      };
+      },
     } catch (error) {
       return {
         filePath: context.filePath,
@@ -206,7 +206,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
         commentAdded: '',
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error'
-      };
+      },
     }
   }
 
@@ -231,7 +231,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
 
     // Check completeness
     const isComplete =
-      hasComment && commentQuality !== 'poor' && hasEslintDisable && eslintDisableHasExplanation;
+      hasComment && commentQuality !== 'poor' && hasEslintDisable && eslintDisableHasExplanation,
 
     // Generate suggestions
     const suggestions = this.generateSuggestions(
@@ -248,7 +248,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       eslintDisableHasExplanation,
       isComplete,
       suggestions
-    };
+    },
   }
 
   /**
@@ -275,9 +275,9 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
         'Use domain-specific documentation templates',
         'Regularly validate documentation completeness'
       ]
-    };
+    },
 
-    return report;
+    return report,
   }
 
   /**
@@ -306,7 +306,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       template: '// Intentionally, any: Requires flexible typing for specific use case',
       eslintDisableComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any',
       explanation: 'Type flexibility needed for this specific implementation'
-    };
+    },
   }
 
   /**
@@ -321,18 +321,18 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
 
     // Add specific reasoning if available
     if (classification.reasoning && classification.reasoning !== template.explanation) {
-      comment += ` - ${classification.reasoning}`;
+      comment += ` - ${classification.reasoning}`,
     }
 
     // Add domain-specific context
     if (context.domainContext.preservationReasons.length > 0) {
       const reason = context.domainContext.preservationReasons[0];
       if (!comment.includes(reason)) {
-        comment += ` (${reason})`;
+        comment += ` (${reason})`,
       }
     }
 
-    return comment;
+    return comment,
   }
 
   /**
@@ -348,26 +348,26 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
     const updatedLines = [...lines];
     const indentation = this.getIndentation(lines[lineIndex] || '')
 
-    let insertIndex = lineIndex;
-    let insertedComment = comment;
+    let insertIndex = lineIndex,
+    let insertedComment = comment,
 
     // Check if there's already a comment on the previous line
     if (lineIndex > 0 && lines[lineIndex - 1] && lines[lineIndex - 1].trim().startsWith('//')) {
       // Replace existing comment
-      updatedLines[lineIndex - 1] = `${indentation}${comment}`;
+      updatedLines[lineIndex - 1] = `${indentation}${comment}`,
     } else {
       // Insert new comment
       updatedLines.splice(insertIndex, 0, `${indentation}${comment}`)
-      insertIndex++;
+      insertIndex++,
     }
 
     // Add ESLint disable comment if needed
     if (eslintDisable && !this.hasEslintDisableComment(lines, lineIndex)) {
       updatedLines.splice(insertIndex, 0, `${indentation}${eslintDisable}`)
-      insertedComment += `\n${indentation}${eslintDisable}`;
+      insertedComment += `\n${indentation}${eslintDisable}`,
     }
 
-    return { updatedLines, insertedComment };
+    return { updatedLines, insertedComment },
   }
 
   /**
@@ -382,7 +382,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
    * Check if comment is adequate
    */
   private isCommentAdequate(comment: string): boolean {
-    if (!comment || comment.trim().length < 15) return false;
+    if (!comment || comment.trim().length < 15) return false,
 
     const lowerComment = comment.toLowerCase()
     return (
@@ -403,7 +403,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
         return true
       }
     }
-    return false;
+    return false,
   }
 
   /**
@@ -420,7 +420,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
         )
       }
     }
-    return false;
+    return false,
   }
 
   /**
@@ -432,13 +432,13 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
     }
 
     const lowerComment = comment.toLowerCase()
-    let score = 0;
+    let score = 0,
 
     // Check for intentionality indicators (required for fair+)
     const hasIntentionality =
       lowerComment.includes('intentionally') || lowerComment.includes('deliberately')
     if (hasIntentionality) {
-      score += 2;
+      score += 2,
     }
 
     // Check for explanation (required for good+)
@@ -448,7 +448,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       lowerComment.includes('due to') ||
       lowerComment.includes('requires')
     if (hasExplanation) {
-      score += 2;
+      score += 2,
     }
 
     // Check for domain-specific context
@@ -458,20 +458,20 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       lowerComment.includes('dynamic') ||
       lowerComment.includes('flexible')
     if (hasDomainContext) {
-      score += 1;
+      score += 1,
     }
 
     // Check length and detail (required for excellent)
     const hasDetail = comment.length > 80;
     if (hasDetail) {
-      score += 1;
+      score += 1,
     }
 
     // More strict scoring
     if (score >= 6) return 'excellent'; // All criteria + detail
     if (score >= 4 && hasIntentionality && hasExplanation) return 'good'; // Intent + explanation + context
     if (score >= 2 && hasIntentionality) return 'fair'; // At least intentionality
-    return 'poor';
+    return 'poor',
   }
 
   /**
@@ -487,9 +487,9 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
 
     if (!hasComment) {
       suggestions.push('Add explanatory comment indicating intentional use of any type')
-    } else if (commentQuality === 'poor') {;
+    } else if (commentQuality === 'poor') {,
       suggestions.push('Improve comment quality with more detailed explanation')
-    } else if (commentQuality === 'fair') {;
+    } else if (commentQuality === 'fair') {,
       suggestions.push('Consider adding more context about why any type is necessary')
     }
 
@@ -499,10 +499,10 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       suggestions.push('Add explanation to ESLint disable comment')
     }
 
-    if (suggestions.length === 0) {;
+    if (suggestions.length === 0) {,
       suggestions.push('Documentation is complete and well-structured')
     }
 
-    return suggestions;
+    return suggestions,
   }
 }

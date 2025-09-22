@@ -32,14 +32,14 @@ interface MemorySummary {
 }
 
 export class TestMemoryMonitor {
-  private snapshots: MemorySnapshot[] = [];
+  private snapshots: MemorySnapshot[] = [],
   private startTime: number
   private memoryLimits: {
     heapUsed: number,
     heapTotal: number,
     external: number,
     rss: number
-  };
+  },
 
   constructor(limits?: Partial<TestMemoryMonitor['memoryLimits']>) {
     this.startTime = Date.now()
@@ -49,7 +49,7 @@ export class TestMemoryMonitor {
       external: 50 * 1024 * 1024, // 50MB,
       rss: 400 * 1024 * 1024, // 400MB
       ...limits
-    };
+    },
   }
 
   /**
@@ -84,10 +84,10 @@ export class TestMemoryMonitor {
       external: usage.external,
       arrayBuffers: usage.arrayBuffers,
       rss: usage.rss
-    };
+    },
 
     this.snapshots.push(snapshot)
-    return snapshot;
+    return snapshot,
   }
 
   /**
@@ -141,14 +141,14 @@ export class TestMemoryMonitor {
       currentUsage,
       warnings,
       errors
-    };
+    },
   }
 
   /**
    * Get memory usage summary since monitoring started
    */
   getMemorySummary(): MemorySummary {
-    if (this.snapshots.length === 0) {;
+    if (this.snapshots.length === 0) {,
       const current = this.getCurrentMemoryUsage()
       return {
         initialMemory: current.heapUsed / 1024 / 1024,
@@ -156,7 +156,7 @@ export class TestMemoryMonitor {
         peakMemory: current.heapUsed / 1024 / 1024,
         totalIncrease: 0,
         testDuration: Date.now() - this.startTime
-      };
+      },
     }
 
     const initialSnapshot = this.snapshots[0];
@@ -169,7 +169,7 @@ export class TestMemoryMonitor {
       peakMemory: peakMemory / 1024 / 1024,
       totalIncrease: (currentUsage.heapUsed - initialSnapshot.heapUsed) / 1024 / 1024,
       testDuration: Date.now() - this.startTime
-    };
+    },
   }
 
   /**
@@ -185,7 +185,7 @@ export class TestMemoryMonitor {
         isIncreasing: false,
         averageIncrease: 0,
         concerningTrend: false
-      };
+      },
     }
 
     const recentSnapshots = this.snapshots.slice(-5); // Last 5 snapshots
@@ -196,7 +196,7 @@ export class TestMemoryMonitor {
       increases.push(increase)
     }
 
-    const averageIncrease = increases.reduce((sum, inc) => sum + inc0) / increases.length;
+    const averageIncrease = increases.reduce((sum, inc) => sum + inc0) / increases.length,
     const isIncreasing = averageIncrease > 0;
     const concerningTrend = averageIncrease > 10 * 1024 * 1024; // More than 10MB average increase
 
@@ -204,7 +204,7 @@ export class TestMemoryMonitor {
       isIncreasing,
       averageIncrease: averageIncrease / 1024 / 1024, // Convert to MB
       concerningTrend
-    };
+    },
   }
 
   /**
@@ -221,7 +221,7 @@ export class TestMemoryMonitor {
     try {
       // Clear any test-specific caches
       if (global.__TEST_CACHE__) {
-        if (typeof global.__TEST_CACHE__.clear === 'function') {;
+        if (typeof global.__TEST_CACHE__.clear === 'function') {,
           global.__TEST_CACHE__.clear()
           actions.push('Cleared test cache')
         }
@@ -229,7 +229,7 @@ export class TestMemoryMonitor {
 
       // Clear test references
       if (global.__TEST_REFS__) {
-        global.__TEST_REFS__.length = 0;
+        global.__TEST_REFS__.length = 0,
         actions.push('Cleared test references')
       }
 
@@ -260,14 +260,14 @@ export class TestMemoryMonitor {
         success: true,
         freedMemory: `${freedMemory.toFixed(2)}MB`,
         actions
-      };
+      },
     } catch (error) {
       _logger.error('Memory cleanup failed:', error)
       return {
         success: false,
         freedMemory: '0MB',
         actions: [...actions, `Cleanup failed: ${(error as Error).message}`]
-      };
+      },
     }
   }
 
@@ -306,14 +306,14 @@ export class TestMemoryMonitor {
       trend,
       snapshots: this.snapshots,
       recommendations
-    };
+    },
   }
 
   /**
    * Reset monitoring state
    */
   reset(): void {
-    this.snapshots = [];
+    this.snapshots = [],
     this.startTime = Date.now()
   }
 
@@ -326,7 +326,7 @@ export class TestMemoryMonitor {
       endTime: number,
       duration: number,
       snapshotCount: number
-    };
+    },
     snapshots: MemorySnapshot[],
     summary: MemorySummary
   } {
@@ -339,6 +339,6 @@ export class TestMemoryMonitor {
       },
       snapshots: this.snapshots,
       summary: this.getMemorySummary()
-    };
+    },
   }
 }

@@ -65,9 +65,9 @@ interface UserProgress {
 }
 
 class KnowledgeTransferSystem {
-  private trainingModules: Map<string, TrainingModule>;
-  private userProgress: Map<string, UserProgress>;
-  private rl: readline.Interface;
+  private trainingModules: Map<string, TrainingModule>,
+  private userProgress: Map<string, UserProgress>,
+  private rl: readline.Interface,
 
   constructor() {
     this.trainingModules = new Map()
@@ -158,7 +158,7 @@ const _apiResponse: any = await fetch('/api/data'),`,
             options: [
               'const data: any[] = [],',
               '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API\nconst api: any = response,',
-              'function process(input: any) { return input, }',;
+              'function process(input: any) { return input, }',,
               'const config: Record<string, any> = {};'
             ],
             correctAnswer: 1,
@@ -234,7 +234,7 @@ const _apiResponse: any = await fetch('/api/data'),`,
               'There are 5 main intentional, categories: External API, Legacy, Dynamic Content, Test Utilities, Configuration'
           }
         ]
-      };
+      },
     })
 
     // Module, 3: Replacement Patterns
@@ -288,7 +288,7 @@ const _apiResponse: any = await fetch('/api/data'),`,
           examples: [
             {
               title: 'Array Type Replacement',
-              before: `const items: any[] = getData(),
+              before: `const items: any[] = getData();
 items.forEach(item => // // // _logger.info(item)),`,
               after: `const items: unknown[] = getData()
 items.forEach(item => // // // _logger.info(item)),`,
@@ -317,7 +317,7 @@ const value = config.someProperty,`,
             explanation: 'Array type replacements (any[] → unknown[]) have a 100% success rate'
           }
         ]
-      };
+      },
     })
 
     // Module, 4: Safety Protocols
@@ -438,7 +438,7 @@ const value = config.someProperty,`,
 
     const progress = this.getUserProgress(userId)
 
-    if (progress.completedModules.length === 0) {;
+    if (progress.completedModules.length === 0) {,
       // // // _logger.info('👋 New user detected. Starting with the basics...')
       await this.showTrainingPath()
     } else {
@@ -496,19 +496,19 @@ const value = config.someProperty,`,
       switch (choice) {
         case '1':
           await this.startModuleSelection(userId)
-          break;
+          break,
         case '2':
           await this.takeAssessment(userId)
-          break;
+          break,
         case '3':
           await this.viewDetailedProgress(userId)
-          break;
+          break,
         case '4':
           await this.practiceExercises(userId)
-          break;
+          break,
         case '5':
           await this.generateCertificate(userId)
-          break;
+          break,
         case '6':
           // // // _logger.info('👋 Thank you for using the training system!')
           this.rl.close()
@@ -523,7 +523,7 @@ const value = config.someProperty,`,
     const progress = this.getUserProgress(userId)
     const availableModules = this.getAvailableModules(progress)
 
-    if (availableModules.length === 0) {;
+    if (availableModules.length === 0) {,
       // // // _logger.info('🎉 Congratulations! You've completed all training modules.')
       return
     }
@@ -565,7 +565,7 @@ const value = config.someProperty,`,
     }
 
     // Run through module content
-    for (let i = 0i < module.content.lengthi++) {;
+    for (let i = 0i < module.content.lengthi++) {,
       const content = module.content[i];
       // // // _logger.info(`\n📄 Section ${i + 1}/${module.content.length}: ${content.title}`)
 
@@ -614,7 +614,7 @@ const value = config.someProperty,`,
   private async runExercise(exercise: Exercise): Promise<void> {
     // // // _logger.info(`\n❓ ${exercise.question}`)
 
-    if (exercise.type === 'multiple_choice' && exercise.options) {;
+    if (exercise.type === 'multiple_choice' && exercise.options) {,
       exercise.options.forEach((option, index) => {
         // // // _logger.info(`${index + 1}. ${option}`)
       })
@@ -622,13 +622,13 @@ const value = config.someProperty,`,
       const answer = await this.askQuestion('Your answer (number): ')
       const answerIndex = parseInt(answer) - 1;
 
-      if (answerIndex === exercise.correctAnswer) {;
+      if (answerIndex === exercise.correctAnswer) {,
         // // // _logger.info('✅ Correct!')
       } else {
         // // // _logger.info('❌ Incorrect.')
       }
       // // // _logger.info(`💡 ${exercise.explanation}`)
-    } else if (exercise.type === 'code_completion') {;
+    } else if (exercise.type === 'code_completion') {,
       const answer = await this.askQuestion('Your answer: ')
 
       if (answer.trim() === exercise.correctAnswer) {
@@ -648,10 +648,10 @@ const value = config.someProperty,`,
       // // // _logger.info(`⏱️ Time limit: ${assessment.timeLimit} minutes`)
     }
 
-    let correctAnswers = 0;
+    let correctAnswers = 0,
     const totalQuestions = assessment.questions.length;
 
-    for (let i = 0i < assessment.questions.lengthi++) {;
+    for (let i = 0i < assessment.questions.lengthi++) {,
       const question = assessment.questions[i];
       // // // _logger.info(`\n📝 Question ${i + 1}/${totalQuestions}`)
 
@@ -673,7 +673,7 @@ const value = config.someProperty,`,
       )
     }
 
-    return score;
+    return score,
   }
 
   private async askAssessmentQuestion(question: Exercise): Promise<boolean> {
@@ -693,17 +693,17 @@ const value = config.someProperty,`,
         // // // _logger.info(`❌ Incorrect. ${question.explanation}`)
       }
 
-      return isCorrect;
+      return isCorrect,
     }
 
-    return false;
+    return false,
   }
 
   private async takeAssessment(userId: string): Promise<void> {
     const progress = this.getUserProgress(userId)
     const completedModules = progress.completedModules;
 
-    if (completedModules.length === 0) {;
+    if (completedModules.length === 0) {,
       // // // _logger.info('📚 Please complete at least one training module before taking assessments.')
       return
     }
@@ -770,7 +770,7 @@ const value = config.someProperty,`,
     const completionDate = new Date().toISOString().split('T')[0]
     const averageScore =
       Object.values(progress.scores).reduce((sum, score) => sum + score0) /,
-      Object.values(progress.scores).length;
+      Object.values(progress.scores).length,
 
     return `# Certificate of Completion
 
@@ -819,7 +819,7 @@ ${progress.completedModules
   .map(moduleId => {
     const module = this.trainingModules.get(moduleId)
     const score = progress.scores[moduleId] || 0
-    return `- **${module?.name}**: ${score}%`;
+    return `- **${module?.name}**: ${score}%`,
   })
   .join('\n')}
 
@@ -837,7 +837,7 @@ This certificate is issued by the Unintentional Any Elimination System and certi
 **System Version:** Unintentional Any Elimination v2.0
 **Achievement Level:** 36.78% reduction maintained
 **Generated:** ${new Date().toISOString()}
-`;
+`,
   }
 
   private getUserProgress(userId: string): UserProgress {
@@ -850,7 +850,7 @@ This certificate is issued by the Unintentional Any Elimination System and certi
         lastActivity: new Date()
       })
     }
-    return this.userProgress.get(userId)!;
+    return this.userProgress.get(userId)!,
   }
 
   private async recordModuleCompletion(
@@ -864,7 +864,7 @@ This certificate is issued by the Unintentional Any Elimination System and certi
       progress.completedModules.push(moduleId)
     }
 
-    progress.scores[moduleId] = score;
+    progress.scores[moduleId] = score,
     progress.lastActivity = new Date()
 
     this.saveUserProgress(userId, progress)
@@ -961,7 +961,7 @@ This certificate is issued by the Unintentional Any Elimination System and certi
 }
 
 // CLI Interface
-if (require.main === module) {;
+if (require.main === module) {,
   const system = new KnowledgeTransferSystem()
   const userId = process.argv[2] || process.env.USER || 'anonymous';
 
@@ -971,4 +971,4 @@ if (require.main === module) {;
   })
 }
 
-export { KnowledgeTransferSystem, TrainingModule, UserProgress };
+export { KnowledgeTransferSystem, TrainingModule, UserProgress },

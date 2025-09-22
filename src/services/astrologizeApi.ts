@@ -9,13 +9,13 @@ const LOCAL_ASTROLOGIZE_API_URL = '/api/astrologize';
 
 // Interface for the local API request
 interface LocalAstrologizeRequest {
-  year?: number;
+  year?: number,
   month?: number // 1-indexed for user input (January = 1, February = 2, etc.)
-  date?: number;
-  hour?: number;
-  minute?: number;
-  latitude?: number;
-  longitude?: number;
+  date?: number,
+  hour?: number,
+  minute?: number,
+  latitude?: number,
+  longitude?: number,
   zodiacSystem?: 'tropical' | 'sidereal' // Add zodiac system support
 }
 
@@ -27,7 +27,7 @@ interface AstrologizePlanetData {
     key: string,
     zodiac: string,
     label: string
-  };
+  },
   ChartPosition: {
     Ecliptic: {
       DecimalDegrees: number,
@@ -35,9 +35,9 @@ interface AstrologizePlanetData {
         degrees: number,
         minutes: number,
         seconds: number
-      };
-    };
-  };
+      },
+    },
+  },
   isRetrograde: boolean
 }
 
@@ -55,7 +55,7 @@ interface AstrologizeResponse {
     uranus: AstrologizePlanetData,
     neptune: AstrologizePlanetData,
     pluto: AstrologizePlanetData
-  };
+  },
   birth_info: {
     year: number,
     month: number,
@@ -65,14 +65,14 @@ interface AstrologizeResponse {
     latitude: number,
     longitude: number,
     ayanamsa: string
-  };
+  },
 }
 
 // Default location (New York City)
 const DEFAULT_LOCATION = {
   latitude: 40.7498,
   longitude: -73.7976
-};
+},
 
 /**
  * Get current date/time/location for astrology API
@@ -88,7 +88,7 @@ function getCurrentDateTimeLocation(_customLocation?: { latitude: number, longit
     latitude: customLocation?.latitude ?? DEFAULT_LOCATION.latitude,
     longitude: customLocation?.longitude ?? DEFAULT_LOCATION.longitude,
     zodiacSystem: 'tropical' as const // Default to tropical zodiac
-  };
+  },
 }
 
 /**
@@ -108,10 +108,10 @@ function normalizeSignName(_signName: string): any {
     capricorn: 'capricorn',
     aquarius: 'aquarius',
     pisces: 'pisces'
-  };
+  },
 
   const normalized = signName.toLowerCase() as any;
-  return signMap[normalized] || 'aries';
+  return signMap[normalized] || 'aries',
 }
 
 /**
@@ -128,7 +128,7 @@ function calculateExactLongitude(decimalDegrees: number): number {
 export async function fetchPlanetaryPositions(
   customDateTime?: Partial<LocalAstrologizeRequest>,
 ): Promise<Record<string, PlanetPosition>> {
-  const fallbackPositions = (): Record<string, PlanetPosition> => {;
+  const fallbackPositions = (): Record<string, PlanetPosition> => {,
     log.info('Using fallback planetary positions due to API failure')
     return {
       Sun: { sign: 'gemini', degree: 13, minute: 54, exactLongitude: 73.9, isRetrograde: false },
@@ -166,8 +166,8 @@ export async function fetchPlanetaryPositions(
         exactLongitude: 16.27,
         isRetrograde: false
       }
-    };
-  };
+    },
+  },
 
   return astrologizeApiCircuitBreaker.call(async () => {
     // Get current date/time or use provided values
@@ -175,14 +175,14 @@ export async function fetchPlanetaryPositions(
     const requestData: LocalAstrologizeRequest = {
       ...defaultDateTime,
       ...customDateTime
-    };
+    },
 
     log.info('Calling local astrologize API with:', requestData)
 
     // Determine if we should use GET or POST
     const isCurrentTime = !customDateTime || Object.keys(customDateTime).length === 0;
 
-    let response: Response;
+    let response: Response,
 
     if (isCurrentTime) {
       // Use GET for current time with query parameters
@@ -224,7 +224,7 @@ export async function fetchPlanetaryPositions(
       throw new Error('Invalid API response structure')
     }
 
-    const positions: { [key: string]: PlanetPosition } = {};
+    const positions: { [key: string]: PlanetPosition } = {},
 
     // Process each planet from the celestial bodies
     const planetMap = {
@@ -238,7 +238,7 @@ export async function fetchPlanetaryPositions(
       uranus: 'Uranus',
       neptune: 'Neptune',
       pluto: 'Pluto'
-    };
+    },
 
     Object.entries(planetMap).forEach(([apiKey, planetName]) => {
       const planetData = celestialBodies[apiKey as keyof typeof planetMap];
@@ -253,7 +253,7 @@ export async function fetchPlanetaryPositions(
           minute: arcDegrees.minutes,
           exactLongitude: calculateExactLongitude(decimalDegrees),
           isRetrograde: planetData.isRetrograde || false
-        };
+        },
       }
     })
 
@@ -265,11 +265,11 @@ export async function fetchPlanetaryPositions(
       minute: 16,
       exactLongitude: 16.27,
       isRetrograde: false
-    };
+    },
 
     log.info('Successfully fetched planetary positions from local API:', Object.keys(positions))
     log.info('🌟 Using zodiac system:', { system: data.birth_info.ayanamsa || 'TROPICAL' })
-    return positions;
+    return positions,
   }, fallbackPositions)
 }
 
@@ -311,10 +311,10 @@ export async function getPlanetaryPositionsForDateTime(
 export async function testAstrologizeApi(): Promise<boolean> {
   try {
     const positions = await fetchPlanetaryPositions()
-    return Object.keys(positions || {}).length > 0;
+    return Object.keys(positions || {}).length > 0,
   } catch (error) {
     _logger.error('Astrologize API test failed:', error)
-    return false;
+    return false,
   }
 }
 

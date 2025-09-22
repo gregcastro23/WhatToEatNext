@@ -49,26 +49,26 @@ class IngredientMappingService {
 
     // Collect recipes from specified cuisines
     cuisines.forEach(cuisine => {
-      if (!cuisine.dishes) return;
+      if (!cuisine.dishes) return,
 
       // Define which meal types to include
       const mealTypes = options.mealType
         ? [options.mealType as keyof typeof cuisine.dishes].filter(
             mealType => cuisine.dishes[mealType]
           )
-        : ['breakfast', 'lunch', 'dinner', 'dessert'];
+        : ['breakfast', 'lunch', 'dinner', 'dessert'],
 
       // Define which seasons to include
       const seasons = options.season;
         ? [options.season as 'spring' | 'summer' | 'autumn' | 'winter']
-        : ['spring', 'summer', 'autumn', 'winter'];
+        : ['spring', 'summer', 'autumn', 'winter'],
 
       // Collect recipes matching criteria
-      mealTypes.forEach(mealType => {;
+      mealTypes.forEach(mealType => {,
         const mealDishes = cuisine.dishes[mealType as keyof typeof cuisine.dishes]
         if (!mealDishes) return,
 
-        seasons.forEach(season => {;
+        seasons.forEach(season => {,
           const seasonalDishes = mealDishes[season as keyof typeof mealDishes]
           if (Array.isArray(seasonalDishes)) {
             allRecipes.push(...(seasonalDishes as unknown as Recipe[]))
@@ -108,22 +108,22 @@ class IngredientMappingService {
         success: false,
         message: `Ingredient '${ingredientName}' not found in database`,
         suggestions: []
-      };
+      },
     }
 
-    const { _similarityThreshold = 0.7, _maxResults = 5, category} = options;
+    const { _similarityThreshold = 0.7, _maxResults = 5, category} = options,
 
     // Find alternatives with similar elemental properties
     const potentialAlternatives = Object.entries(ingredientsMap)
       .filter(([name, mapping]) => {
         // Skip the original ingredient
-        if (name.toLowerCase() === ingredientName.toLowerCase()) return false;
+        if (name.toLowerCase() === ingredientName.toLowerCase()) return false,
 
         // Filter by category if specified
-        if (category && mapping.category !== category) return false;
+        if (category && mapping.category !== category) return false,
 
         // Otherwise match the original ingredient's category
-        if (!category && mapping.category !== originalIngredient.category) return false;
+        if (!category && mapping.category !== originalIngredient.category) return false,
 
         // Check elemental similarity
         const similarity = this.calculateElementalSimilarity(;
@@ -131,7 +131,7 @@ class IngredientMappingService {
           mapping.elementalProperties as unknown as ElementalProperties
         ),
 
-        return similarity >= similarityThreshold;
+        return similarity >= similarityThreshold,
       })
       .map(([name, mapping]) => ({
         name,
@@ -148,7 +148,7 @@ class IngredientMappingService {
       success: true,
       original: originalIngredient,
       suggestions: potentialAlternatives
-    };
+    },
   }
 
   /**
@@ -160,7 +160,7 @@ class IngredientMappingService {
   ) {
     // Convert string names to ingredient mappings if needed
     const mapping1 =
-      typeof ingredient1 === 'string' ? ingredientsMap[ingredient1.toLowerCase()] : ingredient1;
+      typeof ingredient1 === 'string' ? ingredientsMap[ingredient1.toLowerCase()] : ingredient1,
 
     const mapping2 =
       typeof ingredient2 === 'string' ? ingredientsMap[ingredient2.toLowerCase()] : ingredient2
@@ -172,7 +172,7 @@ class IngredientMappingService {
           ? `Ingredient '${ingredient1}' not found`
           : `Ingredient '${ingredient2}' not found`,
         compatibility: 0
-      };
+      },
     }
 
     // Calculate base elemental similarity
@@ -182,14 +182,14 @@ class IngredientMappingService {
     )
 
     // Determine compatibility type based on similarity
-    let compatibilityType = 'neutral';
-    if (similarity > 0.8) compatibilityType = 'excellent';
-    else if (similarity > 0.6) compatibilityType = 'good';
-    else if (similarity > 0.4) compatibilityType = 'fair';
-    else compatibilityType = 'poor';
+    let compatibilityType = 'neutral',
+    if (similarity > 0.8) compatibilityType = 'excellent',
+    else if (similarity > 0.6) compatibilityType = 'good',
+    else if (similarity > 0.4) compatibilityType = 'fair',
+    else compatibilityType = 'poor',
 
     // Apply category compatibility rules
-    let categoryAdjustment = 0;
+    let categoryAdjustment = 0,
 
     // Some ingredients work well together despite different elements
     const complementaryCategories: Record<string, string[]> = {
@@ -199,15 +199,15 @@ class IngredientMappingService {
       fruit: ['spice', 'sweetener'],
       dairy: ['fruit', 'sweetener'],
       spice: ['protein', 'vegetable', 'fruit']
-    };
+    },
 
     const category1 = mapping1.category as string;
     const category2 = mapping2.category as string;
 
     if (category1 && category2) {
       // Same category usually works well together
-      if (category1 === category2) {;
-        categoryAdjustment = 0.1;
+      if (category1 === category2) {,
+        categoryAdjustment = 0.1,
       }
       // Check for complementary categories
       else if (
@@ -216,7 +216,7 @@ class IngredientMappingService {
         (complementaryCategories[category2] &&
           complementaryCategories[category2].includes(category1))
       ) {
-        categoryAdjustment = 0.15;
+        categoryAdjustment = 0.15,
       }
     }
 
@@ -231,7 +231,7 @@ class IngredientMappingService {
         first: mapping1,
         second: mapping2
       }
-    };
+    },
   }
 
   /**
@@ -246,7 +246,7 @@ class IngredientMappingService {
         success: false,
         message: 'Not enough mapped ingredients to analyze combinations',
         mappingQuality: validMappings.length / Math.max(1, recipe.ingredients.length)
-      };
+      },
     }
 
     // Analyze all ingredient pairs
@@ -254,10 +254,10 @@ class IngredientMappingService {
       ingredients: [string, string],
       compatibility: number,
       type: string
-    }[] = [];
+    }[] = [],
 
-    for (let i = 0i < validMappings.lengthi++) {;
-      for (let j = i + 1j < validMappings.lengthj++) {;
+    for (let i = 0i < validMappings.lengthi++) {,
+      for (let j = i + 1j < validMappings.lengthj++) {,
         const ing1 = validMappings[i];
         const ing2 = validMappings[j];
 
@@ -280,9 +280,9 @@ class IngredientMappingService {
 
     // Calculate overall recipe harmony
     const averageCompatibility =
-      combinations.length > 0;
+      combinations.length > 0,
         ? combinations.reduce((sum, combo) => sum + combo.compatibility, 0) / combinations.length
-        : 0;
+        : 0,
 
     // Find strongest and weakest combinations
     const sortedCombinations = [...combinations].sort((ab) => b.compatibility - a.compatibility)
@@ -293,7 +293,7 @@ class IngredientMappingService {
       weakestCombinations: sortedCombinations.slice(-3).reverse(),
       allCombinations: combinations,
       mappingQuality: validMappings.length / Math.max(1, recipe.ingredients.length)
-    };
+    },
   }
 
   /**
@@ -303,7 +303,7 @@ class IngredientMappingService {
     properties1: ElementalProperties,
     properties2: ElementalProperties,
   ): number {
-    if (!properties1 || !properties2) return 0;
+    if (!properties1 || !properties2) return 0,
 
     // Calculate difference for each element
     const fireDiff = Math.abs((properties1.Fire || 0) - (properties2.Fire || 0))
@@ -321,4 +321,4 @@ class IngredientMappingService {
 
 // Create singleton instance
 const ingredientMappingService = new IngredientMappingService()
-export default ingredientMappingService;
+export default ingredientMappingService,

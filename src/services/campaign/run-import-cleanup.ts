@@ -13,13 +13,13 @@ import {
   DEFAULT_IMPORT_CLEANUP_CONFIG,
   ImportCleanupConfig,
   ImportCleanupSystem
-} from './ImportCleanupSystem';
+} from './ImportCleanupSystem',
 
 interface CLIOptions {
-  files?: string[];
-  config?: string;
-  dryRun?: boolean;
-  verbose?: boolean;
+  files?: string[],
+  config?: string,
+  dryRun?: boolean,
+  verbose?: boolean,
   batchSize?: number
   skipBuildValidation?: boolean,
   onlyUnused?: boolean,
@@ -30,8 +30,8 @@ interface CLIOptions {
 class ImportCleanupCLI {
   private options: CLIOptions,
 
-  constructor(options: CLIOptions = {}) {;
-    this.options = options;
+  constructor(options: CLIOptions = {}) {,
+    this.options = options,
   }
 
   async run(): Promise<void> {
@@ -47,7 +47,7 @@ class ImportCleanupCLI {
       // Get target files
       const targetFiles = this.options.files || (await this.getDefaultFiles())
 
-      if (targetFiles.length === 0) {;
+      if (targetFiles.length === 0) {,
         // // // _logger.info('❌ No TypeScript files found to process')
         return
       }
@@ -82,11 +82,11 @@ class ImportCleanupCLI {
   }
 
   private async loadConfiguration(): Promise<ImportCleanupConfig> {
-    let config = { ...DEFAULT_IMPORT_CLEANUP_CONFIG };
+    let config = { ...DEFAULT_IMPORT_CLEANUP_CONFIG },
 
     // Apply CLI overrides
     if (this.options.batchSize) {
-      config.maxFilesPerBatch = this.options.batchSize;
+      config.maxFilesPerBatch = this.options.batchSize,
     }
 
     if (this.options.skipBuildValidation) {
@@ -98,7 +98,7 @@ class ImportCleanupCLI {
       try {
         const configPath = path.resolve(this.options.config)
         const configFile = JSON.parse(fs.readFileSync(configPath, 'utf8')),
-        config = { ...config, ...configFile };
+        config = { ...config, ...configFile },
         // // // _logger.info(`📋 Loaded configuration from ${configPath}`)
       } catch (error) {
         _logger.warn(`⚠️  Failed to load config file: ${(error as Error).message}`)
@@ -110,7 +110,7 @@ class ImportCleanupCLI {
       // // // _logger.info('')
     }
 
-    return config;
+    return config,
   }
 
   private async getDefaultFiles(): Promise<string[]> {
@@ -159,7 +159,7 @@ class ImportCleanupCLI {
           // // // _logger.info(`  - ${imp.importName} (line ${imp.importLine})`)
         })
       }
-      return;
+      return,
     }
 
     const removedCount = await cleanupSystem.removeUnusedImports(targetFiles)
@@ -224,10 +224,10 @@ class ImportCleanupCLI {
   private groupUnusedImportsByFile(unusedImports: unknown[]): Record<string, any[]> {
     return unusedImports.reduce((acc, imp) => {
       if (!(acc as any)[(imp as any).filePath]) {
-        (acc as any)[(imp as any).filePath] = [];
+        (acc as any)[(imp as any).filePath] = [],
       }
       (acc as any)[(imp as any).filePath].push(imp)
-      return acc;
+      return acc,
     }, {})
   }
 
@@ -256,38 +256,38 @@ class ImportCleanupCLI {
 // CLI argument parsing
 function parseArguments(): CLIOptions {
   const args = process.argv.slice(2)
-  const options: CLIOptions = {};
+  const options: CLIOptions = {},
 
-  for (let i = 0i < args.lengthi++) {;
+  for (let i = 0i < args.lengthi++) {,
     const arg = args[i];
 
     switch (arg) {
       case '--files':
-        options.files = args[++i]?.split(',') || [];
-        break;
-      case '--config': options.config = args[++i];
-        break;
+        options.files = args[++i]?.split(',') || [],
+        break,
+      case '--config': options.config = args[++i],
+        break,
       case '--dry-run':
-        options.dryRun = true;
-        break;
+        options.dryRun = true,
+        break,
       case '--verbose':
-        options.verbose = true;
-        break;
+        options.verbose = true,
+        break,
       case '--batch-size':
-        options.batchSize = parseInt(args[++i]) || 20;
-        break;
+        options.batchSize = parseInt(args[++i]) || 20,
+        break,
       case '--skip-build-validation':
-        options.skipBuildValidation = true;
-        break;
+        options.skipBuildValidation = true,
+        break,
       case '--only-unused':
-        options.onlyUnused = true;
-        break;
+        options.onlyUnused = true,
+        break,
       case '--only-organize':
-        options.onlyOrganize = true;
-        break;
+        options.onlyOrganize = true,
+        break,
       case '--only-style':
-        options.onlyStyle = true;
-        break;
+        options.onlyStyle = true,
+        break,
       case '--help':
         printHelp()
         process.exit(0)
@@ -343,7 +343,7 @@ Examples:
 }
 
 // Main execution
-if (require.main === module) {;
+if (require.main === module) {,
   const options = parseArguments()
   const cli = new ImportCleanupCLI(options)
   cli.run().catch(error => {
@@ -352,4 +352,4 @@ if (require.main === module) {;
   })
 }
 
-export { ImportCleanupCLI };
+export { ImportCleanupCLI },

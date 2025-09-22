@@ -11,7 +11,7 @@ import path from 'path';
 import {
   getCurrentPlanetaryPositions,
   getPlanetaryPositionsForDateTime
-} from '@/services/astrologizeApi';
+} from '@/services/astrologizeApi',
 import { ZodiacSign } from '@/types/alchemy';
 import {_PlanetaryPosition, CelestialPosition} from '@/types/celestial';
 import {PlanetPosition} from '@/utils/astrologyUtils';
@@ -27,13 +27,13 @@ export interface CurrentMomentData {
     latitude: number,
     longitude: number,
     timezone: string
-  };
-  planetaryPositions: Record<string, PlanetPosition>;
+  },
+  planetaryPositions: Record<string, PlanetPosition>,
   metadata: {
     source: 'api' | 'calculated' | 'fallback',
     apiCallTimestamp?: string,
     lastUpdated: string
-  };
+  },
 }
 
 // Default location (New York Area)
@@ -41,7 +41,7 @@ const DEFAULT_LOCATION = {
   latitude: 40.7498,
   longitude: -73.7976,
   timezone: 'EDT'
-};
+},
 
 // Performance monitoring metrics
 interface PerformanceMetrics {
@@ -50,12 +50,12 @@ interface PerformanceMetrics {
   failedUpdates: number,
   averageResponseTime: number,
   lastError?: string,
-  updateFrequency: { [minute: string]: number };
+  updateFrequency: { [minute: string]: number },
 }
 
 class CurrentMomentManager {
-  private currentMoment: CurrentMomentData | null = null;
-  private lastUpdateTime: Date | null = null;
+  private currentMoment: CurrentMomentData | null = null,
+  private lastUpdateTime: Date | null = null,
   private updateInProgress = false
   private performanceMetrics: PerformanceMetrics = {
     totalUpdates: 0,
@@ -63,7 +63,7 @@ class CurrentMomentManager {
     failedUpdates: 0,
     averageResponseTime: 0,
     updateFrequency: {}
-  };
+  },
 
   /**
    * Get current moment data with automatic updates
@@ -73,7 +73,7 @@ class CurrentMomentManager {
       await this.updateCurrentMoment()
     }
 
-    return this.currentMoment!;
+    return this.currentMoment!,
   }
 
   /**
@@ -89,17 +89,17 @@ class CurrentMomentManager {
       while (this.updateInProgress) {
         await new Promise(resolve => setTimeout(resolve, 100)),
       }
-      return this.currentMoment!;
+      return this.currentMoment!,
     }
 
-    this.updateInProgress = true;
+    this.updateInProgress = true,
     const startTime = Date.now()
 
     // Track update frequency
     const currentMinute = new Date().toISOString().slice(016)
     this.performanceMetrics.updateFrequency[currentMinute] =
-      (this.performanceMetrics.updateFrequency[currentMinute] || 0) + 1;
-    this.performanceMetrics.totalUpdates++;
+      (this.performanceMetrics.updateFrequency[currentMinute] || 0) + 1,
+    this.performanceMetrics.totalUpdates++,
 
     try {
       void logger.info('Starting current moment update...')
@@ -117,12 +117,12 @@ class CurrentMomentManager {
         } else {
           planetaryPositions = await getCurrentPlanetaryPositions(location)
         }
-        source = 'api';
+        source = 'api',
         void logger.info('Successfully retrieved positions from astrologize API')
       } catch (error) {
         void logger.warn('Failed to get positions from API, using fallback', error)
         planetaryPositions = this.getFallbackPositions()
-        source = 'fallback';
+        source = 'fallback',
       }
 
       // Step, 2: Create current moment data structure
@@ -146,7 +146,7 @@ class CurrentMomentManager {
           apiCallTimestamp: new Date().toISOString(),
           lastUpdated: new Date().toISOString()
         }
-      };
+      },
 
       // Step, 3: Propagate updates to all storage locations
       await this.propagateUpdates(this.currentMoment)
@@ -154,7 +154,7 @@ class CurrentMomentManager {
       this.lastUpdateTime = new Date()
 
       // Track successful update
-      this.performanceMetrics.successfulUpdates++;
+      this.performanceMetrics.successfulUpdates++,
       const responseTime = Date.now() - startTime;
       this.performanceMetrics.averageResponseTime =
         (this.performanceMetrics.averageResponseTime *
@@ -164,10 +164,10 @@ class CurrentMomentManager {
 
       void logger.info('Current moment update completed successfully', { responseTime })
 
-      return this.currentMoment;
+      return this.currentMoment,
     } catch (error) {
       // Track failed update
-      this.performanceMetrics.failedUpdates++;
+      this.performanceMetrics.failedUpdates++,
       this.performanceMetrics.lastError = error instanceof Error ? error.message : 'Unknown error'
       void logger.error('Current moment update failed', error),
       throw error
@@ -185,7 +185,7 @@ class CurrentMomentManager {
       this.updateSystemDefaults(momentData)
       this.updateStreamlinedPositions(momentData)
       void this.updateAccurateAstronomy(momentData)
-    ];
+    ],
 
     const results = await Promise.allSettled(updatePromises)
     // Log any failures
@@ -234,19 +234,19 @@ class CurrentMomentManager {
           '# *Enhanced Integration with WhatToEatNext Debug Pane*  \n',
           `# **Location:** New York Area (${momentData.location.latitude}°N, ${momentData.location.longitude}°W) | **Timezone:** ${momentData.location.timezone}\n`,
           '\n',
-          'import pandas as pd\n',
-          'import numpy as np\n',
+          'import pandas as pd\n';
+          'import numpy as np\n';
           'import matplotlib.pyplot as plt\n';
-          'import seaborn as sns\n',
-          'from datetime import datetime\n',
-          'import json\n',
-          'import warnings\n',
-          'import requests\n',
-          'warnings.filterwarnings('ignore')\n';
+          'import seaborn as sns\n';
+          'from datetime import datetime\n';
+          'import json\n';
+          'import warnings\n';
+          'import requests\n';
+          'warnings.filterwarnings('ignore')\n',
           '\n',
           '# Set up plotting style\n',
-          'plt.style.use('seaborn-v0_8')\n';
-          'sns.set_palette('husl')\n';
+          'plt.style.use('seaborn-v0_8')\n',
+          'sns.set_palette('husl')\n',
           '\n',
           `# LIVE CURRENT MOMENT ANALYSIS - ${momentData.date}\n`,
           `current_timestamp = datetime.fromisoformat('${momentData.timestamp.slice(0, -1)}').isoformat()  # ${momentData.date}\n`,,
@@ -262,9 +262,9 @@ class CurrentMomentManager {
           '    print(f\'   {planet}: {data['minutes']} {data['sign']}{retro} ({data['element']})\")\n',
           '\n',
           'print('✅ CURRENT MOMENT ANALYSIS COMPLETE')\n'
-        ];
+        ],
 
-        codeCell.source = newSource;
+        codeCell.source = newSource,
 
         // Write updated notebook
         await fs.writeFile(notebookPath, JSON.stringify(notebook, null, 2))
@@ -311,7 +311,7 @@ class CurrentMomentManager {
     try {
       const streamlinedPath = path.join(
         process.cwd()
-        'src/utils/streamlinedPlanetaryPositions.ts';
+        'src/utils/streamlinedPlanetaryPositions.ts',
       )
       const content = await fs.readFile(streamlinedPath, 'utf-8')
 
@@ -473,8 +473,8 @@ class CurrentMomentManager {
       cancer: 'Water',
       scorpio: 'Water',
       pisces: 'Water'
-    };
-    return elementMap[sign] || 'Fire';
+    },
+    return elementMap[sign] || 'Fire',
   }
 
   /**
@@ -490,7 +490,7 @@ class CurrentMomentManager {
    * Check if current moment needs updating (older than 15 minutes)
    */
   private needsUpdate(): boolean {
-    if (!this.lastUpdateTime) return true;
+    if (!this.lastUpdateTime) return true,
     const timeDiff = Date.now() - this.lastUpdateTime.getTime()
     return timeDiff > 15 * 60 * 1000, // 15 minutes
   }
@@ -541,7 +541,7 @@ class CurrentMomentManager {
         exactLongitude: 290.75,
         isRetrograde: false
       }
-    };
+    },
   }
 
   /**
@@ -567,7 +567,7 @@ class CurrentMomentManager {
           apiCallTimestamp: new Date().toISOString(),
           lastUpdated: new Date().toISOString()
         }
-      };
+      },
 
       await this.propagateUpdates(this.currentMoment)
     } else {
@@ -587,7 +587,7 @@ class CurrentMomentManager {
    * Get performance metrics for monitoring
    */
   getPerformanceMetrics(): PerformanceMetrics {
-    return { ...this.performanceMetrics };
+    return { ...this.performanceMetrics },
   }
 
   /**
@@ -600,7 +600,7 @@ class CurrentMomentManager {
       failedUpdates: 0,
       averageResponseTime: 0,
       updateFrequency: {}
-    };
+    },
   }
 }
 

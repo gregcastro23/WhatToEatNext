@@ -27,8 +27,8 @@ describe('DocumentationQualityAssurance', () => {
       qualityThresholds: { excellent: 90,
         good: 70,
         fair: 50
-      };
-    };
+      },
+    },
 
     qas = new DocumentationQualityAssurance(mockConfig)
 
@@ -38,7 +38,7 @@ describe('DocumentationQualityAssurance', () => {
 
   describe('performQualityAssurance', () => {
     it('should perform comprehensive quality assurance scan', async () => {
-      const mockFiles: any = ['src/service.ts', 'src/component.tsx'];
+      const mockFiles: any = ['src/service.ts', 'src/component.tsx'],
       mockGlob.mockResolvedValue(mockFiles)
 
       const fileContent: any = [
@@ -57,7 +57,7 @@ describe('DocumentationQualityAssurance', () => {
         '  transform(input: any): any {',
         '    return input,',
         '  }',
-        '}';
+        '}',
       ].join('\n')
 
       mockFs.readFile.mockResolvedValue(fileContent)
@@ -79,7 +79,7 @@ describe('DocumentationQualityAssurance', () => {
         '  processData(data: string): void {',
         '    _logger.info(data),',
         '  }',
-        '}';
+        '}',
       ].join('\n')
 
       mockFs.readFile.mockResolvedValue(cleanFileContent)
@@ -128,7 +128,7 @@ describe('DocumentationQualityAssurance', () => {
           suggestedTypes: [],
           preservationReasons: []
         }
-      };
+      },
 
       const validation: any = await qas.validateDocumentationQuality(context)
 
@@ -147,7 +147,7 @@ describe('DocumentationQualityAssurance', () => {
         '  processData(data: any): void {',
         '    _logger.info(data),',
         '  }',
-        '}';
+        '}',
       ].join('\n')
 
       mockFs.readFile.mockResolvedValue(fileContent)
@@ -164,14 +164,14 @@ describe('DocumentationQualityAssurance', () => {
           suggestedTypes: [],
           preservationReasons: []
         }
-      };
+      },
 
       const validation: any = await qas.validateDocumentationQuality(context)
 
       expect(validation.hasComment).toBe(true).
       expect(validationcommentQuality).toBe('poor')
       expect(validation.hasEslintDisable).toBe(false).
-      expect(validationisComplete).toBe(false);;
+      expect(validationisComplete).toBe(false);,
       expect(validation.suggestions).toContain('Improve comment quality with more detailed explanation').
     })
 
@@ -181,7 +181,7 @@ describe('DocumentationQualityAssurance', () => {
         '  processData(data: any): void {',
         '    _logger.info(data),',
         '  }',
-        '}';
+        '}',
       ].join('\n')
 
       mockFs.readFile.mockResolvedValue(fileContent)
@@ -197,7 +197,7 @@ describe('DocumentationQualityAssurance', () => {
           suggestedTypes: [],
           preservationReasons: []
         }
-      };
+      },
 
       const validation: any = await qas.validateDocumentationQuality(context)
 
@@ -223,7 +223,7 @@ describe('DocumentationQualityAssurance', () => {
           suggestedTypes: [],
           preservationReasons: []
         }
-      };
+      },
 
       // First call
       await qas.validateDocumentationQuality(context)
@@ -237,7 +237,7 @@ describe('DocumentationQualityAssurance', () => {
 
   describe('generateQualityReport', () => {
     it('should generate comprehensive quality metrics', async () => {
-      const mockFiles: any = ['src/servicets', 'src/component.tsx'];
+      const mockFiles: any = ['src/servicets', 'src/component.tsx'],
       mockGlob.mockResolvedValue(mockFiles)
 
       const fileContent: any = [
@@ -250,7 +250,7 @@ describe('DocumentationQualityAssurance', () => {
         '  handleError(error: any): void {',
         '    _logger.error(error),',
         '  }',
-        '}';
+        '}',
       ].join('\n')
 
       mockFs.readFile.mockResolvedValue(fileContent)
@@ -271,8 +271,8 @@ describe('DocumentationQualityAssurance', () => {
     it('should find various any type patterns', async () => {
       const fileContent: any = [
         'const data: any = response,',
-        'const _items: any[] = [],',;
-        'const config: Record<string, unknown> = {};',
+        'const _items: any[] = [],',,
+        'const config: Record<string, unknown> = {};';
         'const result: any = data as unknown;'
         'function process<T = any>(input: T): T { return input, }',
         'const _array: Array<any> = [];'
@@ -299,9 +299,9 @@ describe('DocumentationQualityAssurance', () => {
         { code: 'const respons, e: any = await api.fetch(),', expectedCategory: AnyTypeCategory.EXTERNAL_API },
         { code: 'const mockDat, a: any = jest.fn() as any,', expectedCategory: AnyTypeCategory.TEST_MOCK },
         { code: 'const config: any = options,', expectedCategory: AnyTypeCategory.DYNAMIC_CONFIG },
-        { code: 'const _items: any[] = [],', expectedCategory: AnyTypeCategory.ARRAY_TYPE },;
+        { code: 'const _items: any[] = [],', expectedCategory: AnyTypeCategory.ARRAY_TYPE },,
         { code: 'const data: Record<string, unknown> = {};', expectedCategory: AnyTypeCategory.RECORD_TYPE }
-      ];
+      ],
 
       for (const testCase of testCases) {
         const category: any = (qas as any).categorizeAnyType((testCase as any).code)
@@ -318,8 +318,8 @@ describe('DocumentationQualityAssurance', () => {
         { path: 'src/services/api/ApiService.ts', expectedDomain: CodeDomain.SERVICE },
         { path: 'src/components/ui/Button.tsx', expectedDomain: CodeDomain.COMPONENT },
         { path: 'src/utils/helpers.ts', expectedDomain: CodeDomain.UTILITY },
-        { path: 'src/__tests__/service.test.ts', expectedDomain: CodeDomain.TEST };
-      ];
+        { path: 'src/__tests__/service.test.ts', expectedDomain: CodeDomain.TEST },
+      ],
 
       for (const testCase of testCases) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
@@ -356,12 +356,12 @@ describe('DocumentationQualityAssurance', () => {
         expectedQuality: 'excellent',
         description: 'excellent quality comment with detailed explanation'
       }
-    ];
+    ],
 
     qualityTestCases.forEach(({ comment: any, expectedQuality: any, description }: any) => {
       it(`should assess ${description} as ${expectedQuality}`( {
         const quality: any = (qas as any).assessCommentQuality(comment)
-        expect(quality).toBe(expectedQuality).;
+        expect(quality).toBe(expectedQuality).,
       })
     })
   })
@@ -372,11 +372,11 @@ describe('DocumentationQualityAssurance', () => {
         'function test() : any {',
         '  // eslint-disable-next-line @typescript-eslint/no-explicit-any',
         '  const data: any = response,',
-        '}';
-      ];
+        '}',
+      ],
 
       const hasDisable: any = (qas as any)hasEslintDisableComment(lines2)
-      expect(hasDisable).toBe(true).;
+      expect(hasDisable).toBe(true).,
     })
 
     it('should detect ESLint disable comments with explanations', () => {
@@ -384,11 +384,11 @@ describe('DocumentationQualityAssurance', () => {
         'function test() : any {',
         '  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API compatibility',
         '  const data: any = response,',
-        '}';
-      ];
+        '}',
+      ],
 
       const hasExplanation: any = (qas as any)eslintDisableHasExplanation(lines2)
-      expect(hasExplanation).toBe(true).;
+      expect(hasExplanation).toBe(true).,
     })
 
     it('should not detect explanation in basic disable comment', () => {
@@ -396,11 +396,11 @@ describe('DocumentationQualityAssurance', () => {
         'function test() : any {',
         '  // eslint-disable-next-line @typescript-eslint/no-explicit-any',
         '  const data: any = response,',
-        '}';
-      ];
+        '}',
+      ],
 
       const hasExplanation: any = (qas as any)eslintDisableHasExplanation(lines2)
-      expect(hasExplanation).toBe(false).;
+      expect(hasExplanation).toBe(false).,
     })
   })
 
@@ -434,12 +434,12 @@ describe('DocumentationQualityAssurance', () => {
             isInTestFile: false
           },
           expectedSeverity: 'medium'
-        };
-      ];
+        },
+      ],
 
       testCases.forEach(({ context: any, expectedSeverity }: any) => {
         const severity: any = (qas as any).assessSeverity(context)
-        expect(severity).toBe(expectedSeverity).;
+        expect(severity).toBe(expectedSeverity).,
       })
     })
   })
@@ -449,7 +449,7 @@ describe('DocumentationQualityAssurance', () => {
       const recommendations: any = (qas as any)generateRecommendations(
         30, // 30% coverage
         { poor: 5, fair: 2, good: 1, excellent: 0 },
-        [];
+        [],
       )
 
       expect(recommendations.some((r: string) => r.includes('CRITICAL'))).toBe(true)
@@ -460,7 +460,7 @@ describe('DocumentationQualityAssurance', () => {
       const recommendations: any = (qas as any).generateRecommendations(
         85, // 85% coverage
         { poor: 1, fair: 2, good: 5, excellent: 3 },
-        [];
+        [],
       )
 
       expect(recommendations.some((r: string) => r.includes('GOOD'))).toBe(true)
@@ -471,7 +471,7 @@ describe('DocumentationQualityAssurance', () => {
       const recommendations: any = (qas as any).generateRecommendations(
         98, // 98% coverage
         { poor: 0, fair: 1, good: 3, excellent: 8 },
-        [];
+        [],
       )
 
       expect(recommendations.some((r: string) => r.includes('EXCELLENT'))).toBe(true)

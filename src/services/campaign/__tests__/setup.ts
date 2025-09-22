@@ -77,7 +77,7 @@ afterEach(() => {
     success: true,
     freedMemory: '5.2MB'
   })
-};
+},
 
 // Extend Jest matchers
 expect.extend({
@@ -91,12 +91,12 @@ expect.extend({
       return {
         message: () => `expected ${received} not to be within range ${floor} - ${ceiling}`,
         pass: true
-      };
+      },
     } else {
       return {
         message: () => `expected ${received} to be within range ${floor} - ${ceiling}`,
         pass: false
-      };
+      },
     }
   },
 
@@ -111,12 +111,12 @@ expect.extend({
       return {
         message: () => `expected mock not to have been called with script ${scriptPath}`,
         pass: true
-      };
+      },
     } else {
       return {
         message: () => `expected mock to have been called with script ${scriptPath}`,
         pass: false
-      };
+      },
     }
   }
 })
@@ -140,4 +140,4 @@ global.console = {
   error: jest.fn() as unknown,
   info: jest.fn() as unknown,
   debug: jest.fn() as unknown
-} as Console;
+} as Console,

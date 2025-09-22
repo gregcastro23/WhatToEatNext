@@ -3,12 +3,12 @@
  * Perfect Codebase Campaign - Complete Infrastructure System
  */
 
-export { CampaignController } from './CampaignController';
-export { ProgressTracker } from './ProgressTracker';
-export { SafetyProtocol } from './SafetyProtocol';
+export { CampaignController } from './CampaignController',
+export { ProgressTracker } from './ProgressTracker',
+export { SafetyProtocol } from './SafetyProtocol',
 
 // Unintentional Any Elimination System
-export * from './unintentional-any-elimination';
+export * from './unintentional-any-elimination',
 
 // Re-export types for convenience
 export type {
@@ -26,7 +26,7 @@ export type {
   SafetySettings,
   StashId,
   ValidationResult
-} from '../../types/campaign';
+} from '../../types/campaign',
 
 export {
   CorruptionSeverity,
@@ -36,4 +36,4 @@ export {
   SafetyEventSeverity,
   SafetyEventType,
   SafetyLevel
-} from '../../types/campaign';
+} from '../../types/campaign',

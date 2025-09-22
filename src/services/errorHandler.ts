@@ -6,15 +6,15 @@
 // Simple logger functionality
 const logError = (_message: string, _data?: unknown) => {
   // No-op for production
-};
+},
 
 const logWarning = (_message: string, _data?: unknown) => {
   // No-op for production
-};
+},
 
 const logInfo = (_message: string, _data?: unknown) => {
   // No-op for production
-};
+},
 
 // Error types
 export enum ErrorType {
@@ -37,8 +37,8 @@ export enum ErrorSeverity {
 
 // Options for the error handler
 export interface ErrorOptions {
-  type?: ErrorType;
-  severity?: ErrorSeverity;
+  type?: ErrorType,
+  severity?: ErrorSeverity,
   component?: string
   context?: string,
   data?: unknown,
@@ -47,8 +47,8 @@ export interface ErrorOptions {
 }
 
 interface ErrorDetails {
-  message: string;
-  stack?: string;
+  message: string,
+  stack?: string,
   componentStack?: string
   context?: string,
   data?: unknown,
@@ -60,16 +60,16 @@ class ErrorHandlerService {
   /**
    * Log an error with additional context
    */
-  log(error: unknown, options: ErrorOptions = {}) {;
+  log(error: unknown, options: ErrorOptions = {}) {,
     const {
       type = ErrorType.UNKNOWN,
       severity = ErrorSeverity.ERROR,
       component = 'unknown',
       context = {},
       data = {},
-      isFatal = false,
-      silent = false,
-    } = options;
+      isFatal = false;
+      silent = false;
+    } = options,
 
     const errorDetails = this.prepareErrorDetails(error, options)
 
@@ -78,10 +78,10 @@ class ErrorHandlerService {
       switch (severity) {
         case ErrorSeverity.INFO:
           logInfo(`[${component}] ${errorDetails.message}`, { error, context, data })
-          break;
+          break,
         case ErrorSeverity.WARNING:
           logWarning(`[${component}] ${errorDetails.message}`, { error, context, data })
-          break;
+          break,
         case ErrorSeverity.ERROR:
         case ErrorSeverity.CRITICAL:
         case ErrorSeverity.FATAL:
@@ -90,7 +90,7 @@ class ErrorHandlerService {
             context,
             data
           })
-          break;
+          break,
       }
     }
 
@@ -103,13 +103,13 @@ class ErrorHandlerService {
       severity,
       timestamp: new Date().toISOString(),
       handled: true
-    };
+    },
   }
 
   /**
    * Create a custom application error
    */
-  createError(message: string, options: ErrorOptions = {}): Error {;
+  createError(message: string, options: ErrorOptions = {}): Error {,
     const error = new Error(message)
     // Add custom properties to the error
     Object.assign(error, {
@@ -117,7 +117,7 @@ class ErrorHandlerService {
       severity: options.severity || ErrorSeverity.ERROR,
       context: options.context || {}
     })
-    return error;
+    return error,
   }
 
   /**
@@ -128,7 +128,7 @@ class ErrorHandlerService {
       return await fn()
     } catch (error) {
       this.log(error, { context })
-      return defaultValue;
+      return defaultValue,
     }
   }
 
@@ -140,7 +140,7 @@ class ErrorHandlerService {
       return fn()
     } catch (error) {
       this.log(error, { context })
-      return defaultValue;
+      return defaultValue,
     }
   }
 
@@ -160,23 +160,23 @@ class ErrorHandlerService {
    * Prepare standardized error details object
    */
   private prepareErrorDetails(error: unknown, options: ErrorOptions): ErrorDetails {
-    let message = 'Unknown error';
-    let stack: string | undefined;
-    let errorType = 'unknown';
-    let componentStack: string | undefined;
+    let message = 'Unknown error',
+    let stack: string | undefined,
+    let errorType = 'unknown',
+    let componentStack: string | undefined,
 
     if (error instanceof Error) {
-      message = error.message;
-      stack = error.stack;
-      errorType = error.name;
+      message = error.message,
+      stack = error.stack,
+      errorType = error.name,
       // @ts-expect-error: componentStack is not standard on Error
       componentStack = error.componentStack
-    } else if (typeof error === 'string') {;
-      message = error;
-      errorType = 'string';
-    } else if (error !== null && typeof error === 'object') {;
+    } else if (typeof error === 'string') {,
+      message = error,
+      errorType = 'string',
+    } else if (error !== null && typeof error === 'object') {,
       message = String(error)
-      errorType = 'object';
+      errorType = 'object',
       // @ts-expect-error: componentStack may exist
       componentStack = error.componentStack
     }
@@ -189,7 +189,7 @@ class ErrorHandlerService {
       timestamp: new Date().toISOString(),
       errorType,
       componentStack
-    };
+    },
   }
 }
 
@@ -197,8 +197,8 @@ class ErrorHandlerService {
 const ErrorHandler = new ErrorHandlerService()
 
 // Export the singleton instance as default and for named imports
-export default ErrorHandler;
-export { ErrorHandler };
+export default ErrorHandler,
+export { ErrorHandler },
 
 // Export with lowercase name for compatibility
 export const _errorHandler = ErrorHandler;
@@ -218,7 +218,7 @@ export function safeValue<T>(
     warnNullValue(variableName, context, value)
     return fallback
   }
-  return value;
+  return value,
 }
 
 /**
@@ -236,25 +236,25 @@ export function safePropertyAccess<T>(
 ): T {
   if (obj === null || obj === undefined) {
     warnNullValue(properties.join('.'), context)
-    return defaultValue;
+    return defaultValue,
   }
 
   try {
-    let current: unknown = obj;
+    let current: unknown = obj,
     for (const prop of properties) {
       if (current === null || current === undefined || typeof current !== 'object') {
         warnNullValue(`${properties.join('.')}.${prop}`, context)
-        return defaultValue;
+        return defaultValue,
       }
-      current = (current as any)[prop];
+      current = (current as any)[prop],
     }
-    if (current === undefined || current === null) {;
+    if (current === undefined || current === null) {,
       return defaultValue
     }
-    return current as T;
+    return current as T,
   } catch (error) {
     handlePropertyAccessError(error, properties.join('.'), context)
-    return defaultValue;
+    return defaultValue,
   }
 }
 
@@ -269,7 +269,7 @@ export function safeExecuteWithContext<T>(fn: () => T, defaultValue: T, context:
     return fn()
   } catch (error) {
     ErrorHandler.log(error, { context })
-    return defaultValue;
+    return defaultValue,
   }
 }
 
@@ -300,20 +300,20 @@ export function validateType(
   }
 
   // Handle object type special case (but not null)
-  if (expectedType === 'object' && actualType === 'object' && value !== null) {;
+  if (expectedType === 'object' && actualType === 'object' && value !== null) {,
     return true
   }
 
   // Basic type checking
-  if (actualType !== expectedType && !(expectedType === 'object' && Array.isArray(value))) {;
+  if (actualType !== expectedType && !(expectedType === 'object' && Array.isArray(value))) {,
     logWarning(
       `Type mismatch in ${context}: ${variableName} should be ${expectedType}, but got ${actualType}`,
       { value },
     )
-    return false;
+    return false,
   }
 
-  return true;
+  return true,
 }
 
 /**
@@ -333,9 +333,9 @@ export function handlePropertyAccessError(
       error.message.includes('is not a function') ||
       error.message.includes('is not iterable'))
   ) {
-    message = `TypeError accessing ${propertyPath} in ${context}: ${error.message}`;
+    message = `TypeError accessing ${propertyPath} in ${context}: ${error.message}`,
   } else if (error instanceof Error) {
-    message = `Error accessing ${propertyPath} in ${context}: ${error.message}`;
+    message = `Error accessing ${propertyPath} in ${context}: ${error.message}`,
   }
 
   ErrorHandler.log(error, {

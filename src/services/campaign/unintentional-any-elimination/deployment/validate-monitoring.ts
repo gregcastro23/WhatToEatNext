@@ -48,7 +48,7 @@ async function validateMonitoring(): Promise<ValidationResult[]> {
  * Validate monitoring directories exist
  */
 function validateDirectories(): ValidationResult {
-  const requiredDirs = ['.kiro/logs', '.kiro/metrics', '.kiro/monitoring', '.kiro/alerts'];
+  const requiredDirs = ['.kiro/logs', '.kiro/metrics', '.kiro/monitoring', '.kiro/alerts'],
 
   const missingDirs = requiredDirs.filter(dir => !existsSync(dir))
 
@@ -57,14 +57,14 @@ function validateDirectories(): ValidationResult {
       component: 'Directories',
       status: 'pass',
       message: 'All monitoring directories exist'
-    };
+    },
   } else {
     return {
       component: 'Directories',
       status: 'fail',
       message: `Missing directories: ${missingDirs.join(', ')}`,
       details: 'Run setup-monitoring.ts to create missing directories'
-    };
+    },
   }
 }
 
@@ -80,7 +80,7 @@ function validateConfiguration(): ValidationResult {
       status: 'fail',
       message: 'Monitoring configuration file not found',
       details: `Expected: ${configPath}`
-    };
+    },
   }
 
   try {
@@ -88,7 +88,7 @@ function validateConfiguration(): ValidationResult {
     const config = JSON.parse(configContent)
 
     // Validate required sections
-    const requiredSections = ['metrics', 'alerts', 'logging', 'healthChecks'];
+    const requiredSections = ['metrics', 'alerts', 'logging', 'healthChecks'],
     const missingSections = requiredSections.filter(section => !config[section])
 
     if (missingSections.length > 0) {
@@ -96,7 +96,7 @@ function validateConfiguration(): ValidationResult {
         component: 'Configuration',
         status: 'fail',
         message: `Missing configuration sections: ${missingSections.join(', ')}`
-      };
+      },
     }
 
     // Validate metrics configuration
@@ -105,7 +105,7 @@ function validateConfiguration(): ValidationResult {
         component: 'Configuration',
         status: 'warning',
         message: 'Metrics collection is disabled'
-      };
+      },
     }
 
     // Validate alerts configuration
@@ -114,21 +114,21 @@ function validateConfiguration(): ValidationResult {
         component: 'Configuration',
         status: 'warning',
         message: 'Alerts are disabled'
-      };
+      },
     }
 
     return {
       component: 'Configuration',
       status: 'pass',
       message: 'Monitoring configuration is valid'
-    };
+    },
   } catch (error) {
     return {
       component: 'Configuration',
       status: 'fail',
       message: 'Invalid monitoring configuration JSON',
       details: String(error)
-    };
+    },
   }
 }
 
@@ -144,7 +144,7 @@ function validateMonitoringService(): ValidationResult {
       status: 'fail',
       message: 'Monitoring service file not found',
       details: `Expected: ${servicePath}`
-    };
+    },
   }
 
   try {
@@ -155,14 +155,14 @@ function validateMonitoringService(): ValidationResult {
       component: 'Monitoring Service',
       status: 'pass',
       message: 'Monitoring service is valid'
-    };
+    },
   } catch (error) {
     return {
       component: 'Monitoring Service',
       status: 'fail',
       message: 'Monitoring service has compilation errors',
       details: String(error)
-    };
+    },
   }
 }
 
@@ -178,7 +178,7 @@ function validateDashboard(): ValidationResult {
       status: 'fail',
       message: 'Monitoring dashboard not found',
       details: `Expected: ${dashboardPath}`
-    };
+    },
   }
 
   try {
@@ -189,14 +189,14 @@ function validateDashboard(): ValidationResult {
       component: 'Dashboard',
       status: 'pass',
       message: 'Monitoring dashboard is valid'
-    };
+    },
   } catch (error) {
     return {
       component: 'Dashboard',
       status: 'fail',
       message: 'Dashboard has compilation errors',
       details: String(error)
-    };
+    },
   }
 }
 
@@ -212,7 +212,7 @@ function validateStartupScripts(): ValidationResult {
       status: 'fail',
       message: 'Monitoring startup script not found',
       details: `Expected: ${startupScript}`
-    };
+    },
   }
 
   try {
@@ -224,14 +224,14 @@ function validateStartupScripts(): ValidationResult {
       component: 'Startup Scripts',
       status: 'pass',
       message: 'Startup scripts are available'
-    };
+    },
   } catch (error) {
     return {
       component: 'Startup Scripts',
       status: 'warning',
       message: 'Could not validate startup script permissions',
       details: String(error)
-    };
+    },
   }
 }
 
@@ -250,7 +250,7 @@ async function validateHealthChecks(): Promise<ValidationResult[]> {
         status: 'fail',
         message: 'Cannot validate health checks - configuration not found'
       }
-    ];
+    ],
   }
 
   try {
@@ -264,7 +264,7 @@ async function validateHealthChecks(): Promise<ValidationResult[]> {
           status: 'warning',
           message: 'No health check endpoints configured'
         }
-      ];
+      ],
     }
 
     // Test each health check endpoint
@@ -299,7 +299,7 @@ async function validateHealthChecks(): Promise<ValidationResult[]> {
     })
   }
 
-  return results;
+  return results,
 }
 
 /**
@@ -310,9 +310,9 @@ function displayResults(results: ValidationResult[]): void {
   // // // _logger.info('  MONITORING VALIDATION RESULTS')
   // // // _logger.info('='.repeat(80))
 
-  let passCount = 0;
-  let failCount = 0;
-  let warningCount = 0;
+  let passCount = 0,
+  let failCount = 0,
+  let warningCount = 0,
 
   for (const result of results) {
     const icon = result.status === 'pass' ? '✅' : result.status === 'fail' ? '❌' : '⚠️'
@@ -324,13 +324,13 @@ function displayResults(results: ValidationResult[]): void {
     }
 
     switch (result.status) {
-      case 'pass': passCount++;
-        break;
+      case 'pass': passCount++,
+        break,
       case 'fail':
-        failCount++;
-        break;
+        failCount++,
+        break,
       case 'warning':
-        warningCount++;
+        warningCount++,
         break
     }
   }
@@ -371,4 +371,4 @@ if (require.main === module) {
   main()
 }
 
-export { validateMonitoring };
+export { validateMonitoring },

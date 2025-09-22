@@ -33,7 +33,7 @@ export function createSuccessResponse<T>(
       version: API_VERSION,
       ...metadata
     }
-  };
+  },
 }
 
 /**
@@ -49,7 +49,7 @@ export function createCollectionResponse<T>(
   total: number,
   params: { limit?: number, offset?: number page?: number } = {},
 ): ApiResponse<T[]> {
-  const { _limit = 20, _offset = 0, _page = Math.floor(offset / limit) + 1} = params;
+  const { _limit = 20, _offset = 0, _page = Math.floor(offset / limit) + 1} = params,
   const totalPages = Math.ceil(total / limit)
 
   return {
@@ -66,7 +66,7 @@ export function createCollectionResponse<T>(
         hit: false, // Default to false, can be overridden by cache middleware
       }
     }
-  };
+  },
 }
 
 /**
@@ -94,7 +94,7 @@ export function createErrorResponse<T>(
       details: process.env.NODE_ENV === 'development' ? details : undefined,
     },
     metadata: { timestamp: Date.now(), version: API_VERSION }
-  };
+  },
 }
 
 /**

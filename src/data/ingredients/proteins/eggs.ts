@@ -101,8 +101,8 @@ const rawEggs = {
     substitutions: ['small_chicken_egg'],
     affinities: ['gourmet_presentations', 'appetizers']
   }
-};
+},
 
-export const eggs = fixIngredientMappings(rawEggs) as Record<string, IngredientMapping>;
+export const eggs = fixIngredientMappings(rawEggs) as Record<string, IngredientMapping>,
 
-export default eggs;
+export default eggs,

@@ -655,7 +655,7 @@ const rawWholeGrains = {
       fiber_g: 15.1
     }
   }
-};
+},
 
 // Fix the ingredient mappings to ensure they have all required properties
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
@@ -664,4 +664,4 @@ export const wholeGrains: Record<string, IngredientMapping> = fixIngredientMappi
 // Create a collection of all whole grains
 export const _allWholeGrains = Object.values(wholeGrains)
 
-export default wholeGrains;
+export default wholeGrains,

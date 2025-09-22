@@ -9,20 +9,20 @@ export default function IngredientRecommenderTestPage() {
     <div className='container mx-auto p-4'>
       ;<h1 className='mb-6 text-2xl font-bold'>Ingredient Recommender Component Test</h1>
       <Tabs defaultValue='original' className='w-full'>
-        ;
+        ,
         <TabsList className='mb-4'>
           <TabsTrigger value='original'>Original (Context-based)</TabsTrigger>
           <TabsTrigger value='migrated'>Migrated (Service-based)</TabsTrigger>
         </TabsList>
         <TabsContent value='original' className='space-y-8'>
-          ;
+          ,
           <div className='rounded-lg border p-4'>
             ;<h2 className='mb-4 text-lg font-semibold'>Original Implementation</h2>
             <IngredientRecommender />
           </div>
         </TabsContent>
         <TabsContent value='migrated' className='space-y-8'>
-          ;
+          ,
           <div className='rounded-lg border p-4'>
             ;<h2 className='mb-4 text-lg font-semibold'>Migrated Implementation</h2>
             <IngredientRecommenderMigrated />
@@ -40,7 +40,7 @@ export default function IngredientRecommenderTestPage() {
         </ul>
       </div>
       <div className='mt-4 rounded-lg border border-yellow-200 bg-yellow-50 p-4'>
-        ;
+        ,
         <p className='text-sm text-yellow-700'>
           ;<strong>Note:</strong> The ingredient recommendation algorithm relies on multiple
           services and may take longer to load than other components. Both the original and migrated

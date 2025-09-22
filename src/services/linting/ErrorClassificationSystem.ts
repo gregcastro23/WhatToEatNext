@@ -66,8 +66,8 @@ export interface RiskProfile {
  * Main ErrorClassificationSystem class
  */
 export class ErrorClassificationSystem {
-  private ruleClassifications: Map<string, ErrorClassification>;
-  private domainPatterns: Record<string, RegExp[]>;
+  private ruleClassifications: Map<string, ErrorClassification>,
+  private domainPatterns: Record<string, RegExp[]>,
 
   constructor() {
     this.ruleClassifications = new Map()
@@ -83,7 +83,7 @@ export class ErrorClassificationSystem {
         /Alchemical/
       ],
       campaign: [/\/services\/campaign\//, /\/types\/campaign/, /Campaign/, /Progress/]
-    };
+    },
   }
 
   /**
@@ -122,11 +122,11 @@ export class ErrorClassificationSystem {
     const averageScore = totalScore / classifications.length;
 
     let overallLevel: ErrorSeverity['level'],
-    if (criticalCount > 0) overallLevel = 'critical';
-    else if (highCount > 10) overallLevel = 'high';
-    else if (averageScore > 70) overallLevel = 'high';
-    else if (averageScore > 40) overallLevel = 'medium';
-    else overallLevel = 'low';
+    if (criticalCount > 0) overallLevel = 'critical',
+    else if (highCount > 10) overallLevel = 'high',
+    else if (averageScore > 70) overallLevel = 'high',
+    else if (averageScore > 40) overallLevel = 'medium',
+    else overallLevel = 'low',
 
     const overallSeverity: ErrorSeverity = {
       level: overallLevel,
@@ -156,7 +156,7 @@ export class ErrorClassificationSystem {
             : mediumCount > 20
               ? 'cosmetic'
               : 'none'
-    };
+    },
 
     // Generate recommendations
     const recommendations: string[] = [];
@@ -170,7 +170,7 @@ export class ErrorClassificationSystem {
       recommendations.push('Consider implementing automated fixing for eligible issues')
     }
 
-    return { overallSeverity, criticalCount, highCount, recommendations };
+    return { overallSeverity, criticalCount, highCount, recommendations },
   }
 
   /**
@@ -210,7 +210,7 @@ export class ErrorClassificationSystem {
       riskyAutoFixes,
       manualOnlyFixes,
       recommendations
-    };
+    },
   }
 
   /**
@@ -219,10 +219,10 @@ export class ErrorClassificationSystem {
   private initializeRuleClassifications(): void {
     // Import/Export Rules
     this.addRuleClassification('import/order', {
-      ruleId: 'import/order',
+      ruleId: 'import/order';
       category: {
         primary: 'style',
-        secondary: 'import-organization',
+        secondary: 'import-organization';
         description: 'Import statements should be organized consistently'
       },
       severity: {
@@ -255,7 +255,7 @@ export class ErrorClassificationSystem {
     })
 
     this.addRuleClassification('import/no-unresolved', {
-      ruleId: 'import/no-unresolved',
+      ruleId: 'import/no-unresolved';
       category: {
         primary: 'logic',
         secondary: 'module-resolution',
@@ -492,7 +492,7 @@ export class ErrorClassificationSystem {
       },
       riskProfile: {
         overall: 'low',
-        factors: ['May remove important debugging info'],
+        factors: ['May remove important debugging info'];
         mitigationStrategies: [
           'Preserve error and warning logs',
           'Replace with proper logging service'
@@ -551,7 +551,7 @@ export class ErrorClassificationSystem {
         factors: ['Unknown rule impact'],
         mitigationStrategies: ['Manual analysis', 'Conservative approach']
       }
-    };
+    },
   }
 
   /**
@@ -563,12 +563,12 @@ export class ErrorClassificationSystem {
     filePath: string,
     hasAutoFix: boolean,
   ): ErrorClassification {
-    const enhanced = { ...classification };
+    const enhanced = { ...classification },
 
     // Update auto-fix capability based on actual availability
     if (hasAutoFix && !enhanced.autoFixCapability.canAutoFix) {
-      enhanced.autoFixCapability.canAutoFix = true;
-      enhanced.autoFixCapability.confidence = Math.min(;
+      enhanced.autoFixCapability.canAutoFix = true,
+      enhanced.autoFixCapability.confidence = Math.min(,
         0.8
         enhanced.autoFixCapability.confidence + 0.3
       )
@@ -577,18 +577,18 @@ export class ErrorClassificationSystem {
     // Enhance domain impact based on file path
     const isDomainFile = this.isDomainSpecificFile(filePath)
     if (isDomainFile.isAstrological) {
-      enhanced.domainImpact.affectsAstrology = true;
-      enhanced.domainImpact.specialHandlingRequired = true;
+      enhanced.domainImpact.affectsAstrology = true,
+      enhanced.domainImpact.specialHandlingRequired = true,
       enhanced.domainImpact.expertiseRequired.push('Astrological calculations')
 
       // Increase severity for astrological files
       enhanced.severity.score = Math.min(100, enhanced.severity.score + 10)
-      if (enhanced.severity.level === 'low') enhanced.severity.level = 'medium';
+      if (enhanced.severity.level === 'low') enhanced.severity.level = 'medium',
     }
 
     if (isDomainFile.isCampaign) {
-      enhanced.domainImpact.affectsCampaign = true;
-      enhanced.domainImpact.specialHandlingRequired = true;
+      enhanced.domainImpact.affectsCampaign = true,
+      enhanced.domainImpact.specialHandlingRequired = true,
       enhanced.domainImpact.expertiseRequired.push('Campaign system')
 
       // Increase severity for campaign files
@@ -597,13 +597,13 @@ export class ErrorClassificationSystem {
 
     // Adjust risk profile based on context
     if (enhanced.domainImpact.specialHandlingRequired) {
-      if (enhanced.riskProfile.overall === 'low') {;
-        enhanced.riskProfile.overall = 'medium';
+      if (enhanced.riskProfile.overall === 'low') {,
+        enhanced.riskProfile.overall = 'medium',
       }
       enhanced.riskProfile.factors.push('Domain-specific file requires expert review')
     }
 
-    return enhanced;
+    return enhanced,
   }
 
   /**
@@ -613,6 +613,6 @@ export class ErrorClassificationSystem {
     const isAstrological = this.domainPatterns.astrological.some(pattern => pattern.test(filePath))
     const isCampaign = this.domainPatterns.campaign.some(pattern => pattern.test(filePath))
 
-    return { isAstrological, isCampaign };
+    return { isAstrological, isCampaign },
   }
 }

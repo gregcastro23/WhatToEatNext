@@ -22,7 +22,7 @@ export const _wetCookingMethods = {
   poaching,
   simmering,
   pressure_cooking: pressureCooking
-};
+},
 
 // Export individual methods
-export { sousVide, boiling, steaming, braising, poaching, simmering };
+export { sousVide, boiling, steaming, braising, poaching, simmering },

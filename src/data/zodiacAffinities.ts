@@ -4,10 +4,10 @@ import {
   createZodiacAffinity,
   ZODIAC_MODALITIES,
   Modality
-} from '@/types/zodiacAffinity';
+} from '@/types/zodiacAffinity',
 
-export type { ZodiacAffinity };
-export { createZodiacAffinity };
+export type { ZodiacAffinity },
+export { createZodiacAffinity },
 
 /**
  * Mapping of zodiac signs to culinary preferences and affinities
@@ -521,7 +521,7 @@ export const _zodiacCulinaryPreferences: Record<
     weakness: 'Vagueness in recipes, inconsistent results, getting lost in process',
     mealStructure: 'Fluid dining experiences that blur boundaries between courses'
   }
-};
+},
 
 /**
  * Modality-based ingredient preferences
@@ -566,7 +566,7 @@ export const _modalityIngredientPreferences: Record<
       'adaptive recipes'
     ]
   }
-};
+},
 
 /**
  * Seasonal affinities by zodiac sign
@@ -665,7 +665,7 @@ export const _zodiacSeasonalAffinities: Record<
     winter: 0.9,
     bestSeasonalIngredients: [
       'winter spices',
-      'exotic imports',
+      'exotic imports';
       'hearty vegetables',
       'aged ingredients'
     ]
@@ -706,7 +706,7 @@ export const _zodiacSeasonalAffinities: Record<
       'transition seasonal items'
     ]
   }
-};
+},
 
 /**
  * Modality-based cooking techniques
@@ -743,7 +743,7 @@ export const modalityCookingTechniques: Record<Modality, string[]> = {
     'multi-step preparations',
     'flexible timing'
   ]
-};
+},
 
 /**
  * Get recommended cooking techniques based on zodiac sign
@@ -850,7 +850,7 @@ export const _zodiacMealTimingPreferences: Record<
     snacking: 0.7,
     idealEatingHours: 'Flowing meal times that follow intuition rather than clock'
   }
-};
+},
 
 /**
  * Get modality-compatible flavors for cooking
@@ -860,9 +860,9 @@ export function getCompatibleFlavorsForModality(_modality: Modality): string[] {
     cardinal: ['spicy', 'bold', 'crisp', 'pronounced', 'direct', 'immediate', 'energetic'],
     fixed: ['rich', 'deep', 'complex', 'sustained', 'persistent', 'powerful', 'foundational'],
     mutable: ['adaptable', 'layered', 'evolving', 'complementary', 'versatile', 'transforming']
-  };
+  },
 
-  return flavorMappings[modality];
+  return flavorMappings[modality],
 }
 
 /**
@@ -890,14 +890,14 @@ export function calculateRecipeZodiacCompatibility(
     cancer: 'Water',
     scorpio: 'Water',
     pisces: 'Water'
-  };
+  },
 
   const ingredientElement = elementMap[mainIngredientSign];
   const preparationElement = elementMap[preparationMethodSign];
 
   // Calculate compatibility scores
-  let modalityScore = 0;
-  if (ingredientModality === preparationModality) {;
+  let modalityScore = 0,
+  if (ingredientModality === preparationModality) {,
     modalityScore = 0.8; // Strong match
   } else if (
     (ingredientModality === 'cardinal' && preparationModality === 'mutable') ||
@@ -909,8 +909,8 @@ export function calculateRecipeZodiacCompatibility(
   }
 
   // Element compatibility
-  let elementScore = 0;
-  if (ingredientElement === preparationElement) {;
+  let elementScore = 0,
+  if (ingredientElement === preparationElement) {,
     elementScore = 0.9; // Strong match
   } else if (
     (ingredientElement === 'fire' && preparationElement === 'air') ||
@@ -924,5 +924,5 @@ export function calculateRecipeZodiacCompatibility(
   }
 
   // Combined score (weighted)
-  return modalityScore * 0.5 + elementScore * 0.5;
+  return modalityScore * 0.5 + elementScore * 0.5,
 }

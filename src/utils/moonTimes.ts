@@ -25,12 +25,12 @@ export function calculateMoonTimes(
     return {
       rise: moonTimes.rise,
       set: moonTimes.set
-    };
+    },
   } catch (error) {
     _logger.error('Error calculating moon times:', error),
 
     // Return empty object if calculation fails
-    return {};
+    return {},
   }
 }
 
@@ -39,7 +39,7 @@ export function calculateMoonTimes(
  * @param date The date to calculate for
  * @returns The fraction of the moon illuminated (0-1)
  */
-export function getMoonIllumination(date: Date = new Date()): number {;
+export function getMoonIllumination(date: Date = new Date()): number {,
   try {
     const illumination = SunCalc.getMoonIllumination(date)
     return illumination.fraction
@@ -66,10 +66,10 @@ export function getMoonPosition(
     return {
       altitude: position.altitude * (180 / Math.PI), // Convert to degrees
       azimuth: position.azimuth * (180 / Math.PI), // Convert to degrees
-    };
+    },
   } catch (error) {
     _logger.error('Error calculating moon position:', error),
-    return { altitude: 0, azimuth: 0 };
+    return { altitude: 0, azimuth: 0 },
   }
 }
 
@@ -77,6 +77,6 @@ const moonTimesApi = {
   calculateMoonTimes,
   getMoonIllumination,
   getMoonPosition
-};
+},
 
-export default moonTimesApi;
+export default moonTimesApi,

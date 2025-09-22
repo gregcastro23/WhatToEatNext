@@ -18,9 +18,9 @@ const _mockESLintOutput = [
     filePath: '/project/src/App.tsx',
     messages: [
       {
-        ruleId: 'import/order',
+        ruleId: 'import/order';
         severity: 2,
-        message: 'There should be at least one empty line between import groups',
+        message: 'There should be at least one empty line between import groups';
         line: 1,
         column: 1,
         fix: { range: [5151], text: '\n' }
@@ -79,7 +79,7 @@ const _mockESLintOutput = [
       }
     ]
   }
-];
+],
 
 /**
  * Demonstrate error classification system
@@ -93,7 +93,7 @@ function demonstrateErrorClassification() {
   // Classify different types of errors
   const testCases = [
     {
-      rule: 'import/order',
+      rule: 'import/order';
       message: 'Import order incorrect',
       file: 'src/App.tsx',
       hasAutoFix: true
@@ -116,12 +116,12 @@ function demonstrateErrorClassification() {
       file: 'src/calculations/astrology.ts',
       hasAutoFix: false
     }
-  ];
+  ],
 
   testCases.forEach(testCase => {
     const classification = classifier.classifyError(;
-      testCase.rule;
-      testCase.message;
+      testCase.rule,
+      testCase.message,
       testCase.file
       testCase.hasAutoFix
     ),
@@ -153,11 +153,11 @@ async function demonstrateDomainContextDetection() {
   const detector = new DomainContextDetector('/project')
 
   const testFiles = [
-    'src/App.tsx';
-    'src/calculations/astrology.ts';
-    'src/services/campaign/CampaignController.ts';
-    'src/components/__tests__/Component.test.tsx';
-    'src/scripts/build.js';
+    'src/App.tsx',
+    'src/calculations/astrology.ts',
+    'src/services/campaign/CampaignController.ts',
+    'src/components/__tests__/Component.test.tsx',
+    'src/scripts/build.js',
     'src/data/planets/mars.ts'
   ],
 
@@ -184,7 +184,7 @@ async function demonstrateDomainContextDetection() {
         },
         riskFactors: [],
         preservationRequirements: []
-      };
+      },
 
       log.info(`\n📁 File: ${file}`)
       log.info(`   Domain: ${mockAnalysis.domainContext.type}`)
@@ -225,13 +225,13 @@ function demonstrateResolutionStrategies() {
   // Create mock contexts for strategy generation
   const testContexts: Array<{
     errorClassification: ReturnType<ErrorClassificationSystem['classifyError']>,
-    domainContext: { type: string, confidence: number };
-    fileAnalysis: { filePath: string, riskFactors: unknown[], preservationRequirements: unknown[] };
-    projectContext: { hasTests: boolean, teamSize: string, riskTolerance: string };
+    domainContext: { type: string, confidence: number },
+    fileAnalysis: { filePath: string, riskFactors: unknown[], preservationRequirements: unknown[] },
+    projectContext: { hasTests: boolean, teamSize: string, riskTolerance: string },
   }> = [
     {
       errorClassification: classifier.classifyError(
-        'import/order',
+        'import/order';
         'Import order incorrect',
         'src/App.tsx'
         true,
@@ -255,7 +255,7 @@ function demonstrateResolutionStrategies() {
       },
       projectContext: { hasTests: true, teamSize: 'small', riskTolerance: 'conservative' }
     }
-  ];
+  ],
 
   testContexts.forEach((context, index) => {
     const strategy = generator.generateStrategy(context)
@@ -291,11 +291,11 @@ function demonstrateCompleteWorkflow() {
     byCategory: {
       import: [
         {
-          id: 'src/App.tsx:1:1:import/order',
+          id: 'src/App.tsx:1:1:import/order';
           file: 'src/App.tsx',
           line: 1,
           column: 1,
-          rule: 'import/order',
+          rule: 'import/order';
           message: 'Import order incorrect',
           severity: 'error',
           category: { primary: 'import', secondary: 'order', priority: 2 },
@@ -357,7 +357,7 @@ function demonstrateCompleteWorkflow() {
     byFile: {},
     autoFixable: [],
     requiresManualReview: []
-  };
+  },
 
   // Populate derived fields
   const allIssues = Object.values(mockCategorizedErrors.byCategory).flat()
@@ -370,12 +370,12 @@ function demonstrateCompleteWorkflow() {
   for (const issue of allIssues) {
     const priority = issue.category.priority;
     if (!mockCategorizedErrors.byPriority[priority]) {
-      mockCategorizedErrors.byPriority[priority] = [];
+      mockCategorizedErrors.byPriority[priority] = [],
     }
     mockCategorizedErrors.byPriority[priority].push(issue)
 
     if (!mockCategorizedErrors.byFile[issue.file]) {
-      mockCategorizedErrors.byFile[issue.file] = [];
+      mockCategorizedErrors.byFile[issue.file] = [],
     }
     mockCategorizedErrors.byFile[issue.file].push(issue)
   }
@@ -451,4 +451,4 @@ if (require.main === module) {
   void runDemonstration()
 }
 
-export { runDemonstration };
+export { runDemonstration },

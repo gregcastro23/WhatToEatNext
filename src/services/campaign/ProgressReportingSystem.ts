@@ -13,7 +13,7 @@ import {
   MetricsCollectionSystem,
   DetailedMetrics,
   MetricsSnapshot
-} from './MetricsCollectionSystem';
+} from './MetricsCollectionSystem',
 import {MilestoneValidationSystem, PhaseValidationResult} from './MilestoneValidationSystem';
 
 export interface CampaignSummaryReport {
@@ -35,7 +35,7 @@ export interface PhaseProgressSummary {
   phaseName: string,
   status: PhaseStatus,
   progress: number,
-  startDate?: Date;
+  startDate?: Date,
   completionDate?: Date
   duration?: number, // in hours,
   keyMetrics: Record<string, number>,
@@ -75,25 +75,25 @@ export interface PerformanceSnapshot {
     current: number,
     reduction: number,
     reductionRate: number, // per hour
-  };
+  },
   lintingWarnings: {
     initial: number,
     current: number,
     reduction: number,
     reductionRate: number, // per hour
-  };
+  },
   buildPerformance: {
     currentTime: number,
     targetTime: number,
     improvement: number,
     cacheEfficiency: number
-  };
+  },
   enterpriseSystems: {
     initial: number,
     current: number,
     target: number,
     growthRate: number, // per hour
-  };
+  },
 }
 
 export interface Recommendation {
@@ -173,7 +173,7 @@ export enum RecommendationPriority {
 export class ProgressReportingSystem {
   private metricsCollector: MetricsCollectionSystem
   private validationSystem: MilestoneValidationSystem,
-  private reportHistory: CampaignSummaryReport[] = [];
+  private reportHistory: CampaignSummaryReport[] = [],
 
   constructor() {
     this.metricsCollector = new MetricsCollectionSystem()
@@ -218,12 +218,12 @@ export class ProgressReportingSystem {
       recommendations,
       estimatedCompletion,
       executiveSummary
-    };
+    },
 
     this.reportHistory.push(report)
     // // // _logger.info(`✅ Campaign summary report generated: ${overallProgress}% complete`)
 
-    return report;
+    return report,
   }
 
   /**
@@ -233,15 +233,15 @@ export class ProgressReportingSystem {
     // // // _logger.info(`📊 Generating phase completion report for ${phaseId}...`)
 
     const currentMetrics = await this.metricsCollector.collectDetailedMetrics()
-    let phaseValidation: PhaseValidationResult;
+    let phaseValidation: PhaseValidationResult,
 
     switch (phaseId) {
       case 'phase1':
         phaseValidation = await this.validationSystem.validatePhase1()
-        break;
+        break,
       case 'phase2':
         phaseValidation = await this.validationSystem.validatePhase2()
-        break;
+        break,
       case 'phase3':
         phaseValidation = await this.validationSystem.validatePhase3()
         break,
@@ -265,12 +265,12 @@ export class ProgressReportingSystem {
       achievements,
       issues,
       recommendations
-    };
+    },
 
     // // // _logger.info(
       `✅ Phase ${phaseId} report generated: ${phaseValidation.overallSuccess ? 'COMPLETED' : 'IN PROGRESS'}`,
     )
-    return report;
+    return report,
   }
 
   /**
@@ -292,7 +292,7 @@ export class ProgressReportingSystem {
       phaseProgressChart,
       errorDistributionChart,
       performanceTrendChart
-    };
+    },
   }
 
   /**
@@ -312,24 +312,24 @@ export class ProgressReportingSystem {
 
       switch (format) {
         case 'json':
-          filePath = `${baseFileName}.json`;
+          filePath = `${baseFileName}.json`,
           content = JSON.stringify(report, null, 2)
-          break;
+          break,
 
         case 'html':
-          filePath = `${baseFileName}.html`;
+          filePath = `${baseFileName}.html`,
           content = this.generateHTMLReport(report)
-          break;
+          break,
 
         case 'markdown':
-          filePath = `${baseFileName}.md`;
+          filePath = `${baseFileName}.md`,
           content = this.generateMarkdownReport(report)
-          break;
+          break,
 
         case 'csv':
-          filePath = `${baseFileName}.csv`;
+          filePath = `${baseFileName}.csv`,
           content = this.generateCSVReport(report)
-          break;
+          break,
 
         default:
           continue
@@ -340,7 +340,7 @@ export class ProgressReportingSystem {
       // // // _logger.info(`📄 Report exported to: ${filePath}`)
     }
 
-    return exportedFiles;
+    return exportedFiles,
   }
 
   /**
@@ -362,7 +362,7 @@ export class ProgressReportingSystem {
       summary,
       visualization,
       recentActivity
-    };
+    },
   }
 
   /**
@@ -376,11 +376,11 @@ export class ProgressReportingSystem {
     if (completedPhases === totalPhases) {
       return CampaignStatus.COMPLETED
     } else if (hasBlockers) {
-      return CampaignStatus.BLOCKED;
+      return CampaignStatus.BLOCKED,
     } else if (completedPhases > 0) {
-      return CampaignStatus.IN_PROGRESS;
+      return CampaignStatus.IN_PROGRESS,
     } else {
-      return CampaignStatus.NOT_STARTED;
+      return CampaignStatus.NOT_STARTED,
     }
   }
 
@@ -499,7 +499,7 @@ export class ProgressReportingSystem {
       })
     })
 
-    return issues;
+    return issues,
   }
 
   private createPerformanceSnapshot(metrics: DetailedMetrics): PerformanceSnapshot {
@@ -528,7 +528,7 @@ export class ProgressReportingSystem {
         target: 200,
         growthRate: metrics.trendData.systemGrowthRate
       }
-    };
+    },
   }
 
   private generateRecommendations(
@@ -552,7 +552,7 @@ export class ProgressReportingSystem {
       }
     })
 
-    return recommendations;
+    return recommendations,
   }
 
   private estimateCompletionDate(overallProgress: number, metrics: DetailedMetrics): Date {
@@ -567,7 +567,7 @@ export class ProgressReportingSystem {
       (metrics.trendData.errorReductionRate +
         metrics.trendData.warningReductionRate +
         metrics.trendData.systemGrowthRate) /
-      3;
+      3,
 
     const estimatedHours = averageRate > 0 ? remainingProgress / averageRate : 168; // Default to 1 week
     completionDate.setHours(completionDate.getHours() + estimatedHours)
@@ -582,25 +582,25 @@ export class ProgressReportingSystem {
     issues: Issue[],
   ): string {
     const statusText =
-      status === CampaignStatus.COMPLETED;
+      status === CampaignStatus.COMPLETED,
         ? 'completed successfully'
-        : status === CampaignStatus.IN_PROGRESS;
+        : status === CampaignStatus.IN_PROGRESS,
           ? 'in progress'
           : status === CampaignStatus.BLOCKED
             ? 'currently blocked'
             : 'not started',
 
     const achievementText =
-      achievements.length > 0;
-        ? `Key achievements include: ${achievements.map(a => a.title).join(', ')}.`;
-        : '';
+      achievements.length > 0,
+        ? `Key achievements include: ${achievements.map(a => a.title).join(', ')}.`,
+        : '',
 
     const issueText =
       issues.length > 0
         ? `Critical issues requiring attention: ${issues.length} items identified.`
         : 'No critical issues identified.'
 
-    return `The Perfect Codebase Campaign is ${statusText} with ${progress}% overall completion. ${achievementText} ${issueText}`;
+    return `The Perfect Codebase Campaign is ${statusText} with ${progress}% overall completion. ${achievementText} ${issueText}`,
   }
 
   private generateTimeSeriesData(snapshots: MetricsSnapshot[]): TimeSeriesPoint[] {
@@ -625,7 +625,7 @@ export class ProgressReportingSystem {
   }
 
   private generateErrorDistributionChart(metrics: DetailedMetrics): ErrorDistributionPoint[] {
-    const errorBreakdown = metrics.errorBreakdown || {};
+    const errorBreakdown = metrics.errorBreakdown || {},
     const totalErrors = Object.values(errorBreakdown).reduce((sum, count) => sum + count0)
 
     return Object.entries(errorBreakdown).map(([errorType, count]) => ({
@@ -662,12 +662,12 @@ export class ProgressReportingSystem {
     </style>
 </head>
 <body>
-    <div class='header'>;
+    <div class='header'>,
         <h1>Perfect Codebase Campaign Report</h1>
         <p>Generated: ${report.generatedAt.toLocaleString()}</p>
-        <p class='status-${report.overallStatus.toLowerCase()}'>Status: ${report.overallStatus}</p>;
-        <div class='progress-bar'>;
-            <div class='progress-fill' style='width: ${report.overallProgress}%'></div>;
+        <p class='status-${report.overallStatus.toLowerCase()}'>Status: ${report.overallStatus}</p>,
+        <div class='progress-bar'>,
+            <div class='progress-fill' style='width: ${report.overallProgress}%'></div>,
         </div>
         <p>Progress: ${report.overallProgress}%</p>
     </div>
@@ -678,7 +678,7 @@ export class ProgressReportingSystem {
     <h2>Phase Progress</h2>
     ${report.phases
       .map(
-        phase => `;
+        phase => `,
         <div class='phase'>
             <h3>${phase.phaseName}</h3>
             <p>Status: ${phase.status}</p>
@@ -692,7 +692,7 @@ export class ProgressReportingSystem {
     <h2>Key Achievements</h2>
     ${report.keyAchievements
       .map(
-        achievement => `;
+        achievement => `,
         <div class='achievement'>
             <h4>${achievement.title}</h4>
             <p>${achievement.description}</p>
@@ -705,7 +705,7 @@ export class ProgressReportingSystem {
     <h2>Critical Issues</h2>
     ${report.criticalIssues
       .map(
-        issue => `;
+        issue => `,
         <div class='issue'>
             <h4>${issue.title}</h4>
             <p>${issue.description}</p>
@@ -715,7 +715,7 @@ export class ProgressReportingSystem {
       )
       .join('')}
 </body>
-</html>`;
+</html>`,
   }
 
   private generateMarkdownReport(report: CampaignSummaryReport): string {
@@ -774,13 +774,13 @@ ${issue.description}
 - **Linting Warnings:** ${report.performanceMetrics.lintingWarnings.current} (${report.performanceMetrics.lintingWarnings.reduction} reduced)
 - **Build Time:** ${report.performanceMetrics.buildPerformance.currentTime}s (target: ${report.performanceMetrics.buildPerformance.targetTime}s)
 - **Enterprise Systems:** ${report.performanceMetrics.enterpriseSystems.current} (target: ${report.performanceMetrics.enterpriseSystems.target})
-`;
+`,
   }
 
   private generateCSVReport(report: CampaignSummaryReport): string {
-    const headers = ['Phase', 'Status', 'Progress', 'Blockers'];
+    const headers = ['Phase', 'Status', 'Progress', 'Blockers'],
     const rows = report.phases.map(phase => [
-      phase.phaseName;
+      phase.phaseName,
       phase.status
       phase.progress.toString()
       phase.blockers.join(', ')
@@ -798,7 +798,7 @@ ${issue.description}
         description: 'Phase validation completed',
         phase: 'phase1'
       }
-    ];
+    ],
   }
 
   // Helper methods
@@ -808,7 +808,7 @@ ${issue.description}
       milestonesCompleted: validation.milestones.filter(m => m.success).length,,
       totalMilestones: validation.milestones.length,
       criticalFailures: validation.criticalFailures.length
-    };
+    },
   }
 
   private generatePhaseAchievements(
@@ -830,15 +830,15 @@ ${issue.description}
 
   private estimateResolutionTime(failure: string): number {
     // Simple heuristic based on failure type
-    if (failure.includes('TypeScript')) return 4;
-    if (failure.includes('linting')) return 2;
+    if (failure.includes('TypeScript')) return 4,
+    if (failure.includes('linting')) return 2,
     if (failure.includes('build')) return 6
     return 3
   }
 
   private determinePriority(step: string): RecommendationPriority {
-    if (step.includes('critical') || step.includes('blocker')) return RecommendationPriority.URGENT;
-    if (step.includes('error') || step.includes('failure')) return RecommendationPriority.HIGH;
+    if (step.includes('critical') || step.includes('blocker')) return RecommendationPriority.URGENT,
+    if (step.includes('error') || step.includes('failure')) return RecommendationPriority.HIGH,
     return RecommendationPriority.MEDIUM
   }
 
@@ -851,7 +851,7 @@ ${issue.description}
 
   private generateActionItems(step: string): string[] {
     // Generate specific action items based on the step
-    return [`Execute: ${step}`, 'Validate results', 'Update progress tracking'];
+    return [`Execute: ${step}`, 'Validate results', 'Update progress tracking'],
   }
 
   private getStatusColor(status: CampaignStatus): string {
@@ -880,7 +880,7 @@ ${issue.description}
    * Clear report history
    */
   clearReportHistory(): void {
-    this.reportHistory = [];
+    this.reportHistory = [],
     // // // _logger.info('📊 Report history cleared')
   }
 }

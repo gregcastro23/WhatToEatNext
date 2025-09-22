@@ -1350,6 +1350,6 @@ export const greek: Cuisine = {
     Fire: 0.2,
     Air: 0.1
   }
-};
+},
 
-export default greek;
+export default greek,

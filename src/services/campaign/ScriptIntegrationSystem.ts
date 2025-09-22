@@ -12,15 +12,15 @@ import fs from 'fs';
 import path from 'path';
 
 export interface ScriptExecutionOptions {
-  maxFiles?: number;
-  autoFix?: boolean;
-  validateSafety?: boolean;
-  dryRun?: boolean;
-  interactive?: boolean;
-  aggressive?: boolean;
-  showMetrics?: boolean;
-  json?: boolean;
-  silent?: boolean;
+  maxFiles?: number,
+  autoFix?: boolean,
+  validateSafety?: boolean,
+  dryRun?: boolean,
+  interactive?: boolean,
+  aggressive?: boolean,
+  showMetrics?: boolean,
+  json?: boolean,
+  silent?: boolean,
   resetMetrics?: boolean
 }
 
@@ -69,10 +69,10 @@ export interface ScriptConfig {
  */
 export class ScriptIntegrationSystem {
   private readonly, scriptsBasePath: string
-  private readonly, scriptConfigs: Map<string, ScriptConfig>;
+  private readonly, scriptConfigs: Map<string, ScriptConfig>,
 
-  constructor(scriptsBasePath: string = 'scripts') {;
-    this.scriptsBasePath = scriptsBasePath;
+  constructor(scriptsBasePath: string = 'scripts') {,
+    this.scriptsBasePath = scriptsBasePath,
     this.scriptConfigs = new Map()
     this.initializeScriptConfigs()
   }
@@ -162,7 +162,7 @@ export class ScriptIntegrationSystem {
     }
 
     // Merge options with defaults
-    const mergedOptions = { ...config.defaultOptions, ...options };
+    const mergedOptions = { ...config.defaultOptions, ...options },
 
     // Validate safety requirements
     if (config.requiresGitClean && !options.dryRun) {
@@ -199,7 +199,7 @@ export class ScriptIntegrationSystem {
     // Log execution summary
     this.logExecutionSummary(scriptId, result)
 
-    return result;
+    return result,
   }
 
   /**
@@ -219,7 +219,7 @@ export class ScriptIntegrationSystem {
       })
 
       if (result.metrics) {
-        return result.metrics;
+        return result.metrics,
       }
 
       // Fallback: try to read metrics file directly
@@ -234,7 +234,7 @@ export class ScriptIntegrationSystem {
           safetyScore: metricsData.safetyScore || 0,
           recommendedBatchSize: metricsData.recommendedBatchSize || 5,
           lastRunTime: metricsData.lastRunTime || ''
-        };
+        },
       }
 
       return null;
@@ -254,7 +254,7 @@ export class ScriptIntegrationSystem {
   }> {
     const config = this.scriptConfigs.get(scriptId)
     if (!config) {
-      return { safe: false, issues: ['Unknown script'], recommendedBatchSize: 1 };
+      return { safe: false, issues: ['Unknown script'], recommendedBatchSize: 1 },
     }
 
     try {
@@ -271,7 +271,7 @@ export class ScriptIntegrationSystem {
           safe: safetyData.safe || false,
           issues: safetyData.issues || [],
           recommendedBatchSize: safetyData.recommendedBatchSize || 5
-        };
+        },
       }
 
       // Fallback: basic safety check
@@ -289,16 +289,16 @@ export class ScriptIntegrationSystem {
           safe: issues.length === 0,
           issues,
           recommendedBatchSize: metrics.recommendedBatchSize
-        };
+        },
       }
 
-      return { safe: true, issues: [], recommendedBatchSize: 5 };
+      return { safe: true, issues: [], recommendedBatchSize: 5 },
     } catch (error) {
       return {
         safe: false,
         issues: [`Safety validation failed: ${error}`],
         recommendedBatchSize: 1
-      };
+      },
     }
   }
 
@@ -311,10 +311,10 @@ export class ScriptIntegrationSystem {
         resetMetrics: true,
         silent: true
       })
-      return true;
+      return true,
     } catch (error) {
       _logger.warn(`⚠️ Could not reset metrics for ${scriptId}:`, error)
-      return false;
+      return false,
     }
   }
 
@@ -365,7 +365,7 @@ export class ScriptIntegrationSystem {
       args.push('--reset-metrics')
     }
 
-    return args;
+    return args,
   }
 
   /**
@@ -387,7 +387,7 @@ export class ScriptIntegrationSystem {
       warningsFixed: 0,
       executionTime,
       safetyEvents: []
-    };
+    },
 
     // Try to parse JSON output first
     try {
@@ -402,9 +402,9 @@ export class ScriptIntegrationSystem {
             safetyScore: jsonData.safetyMetrics.safetyScore || 0,
             recommendedBatchSize: jsonData.safetyMetrics.recommendedBatchSize || 5,
             lastRunTime: jsonData.safetyMetrics.lastRunTime || ''
-          };
+          },
         }
-        return result;
+        return result,
       }
     } catch (error) {
       // Continue with text parsing
@@ -461,7 +461,7 @@ export class ScriptIntegrationSystem {
       }
     }
 
-    return result;
+    return result,
   }
 
   /**
@@ -492,7 +492,7 @@ export class ScriptIntegrationSystem {
       'typescript-enhanced-v3': '.typescript-errors-metrics.json',
       'explicit-any-systematic': '.explicit-any-metrics.json',
       'unused-variables-enhanced': '.unused-variables-metrics.json'
-    };
+    },
 
     return path.resolve(metricsFiles[scriptId] || `.${scriptId}-metrics.json`)
   }

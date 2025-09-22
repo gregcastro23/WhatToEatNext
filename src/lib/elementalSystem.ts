@@ -7,7 +7,7 @@ import {
   MAXIMUM_THRESHOLD,
   ELEMENT_AFFINITIES,
   ZODIAC_ELEMENTS
-} from '@/constants/elementalConstants';
+} from '@/constants/elementalConstants',
 import {_getLatestAstrologicalState} from '@/services/AstrologicalService';
 import type {
   ElementalProperties,
@@ -15,14 +15,14 @@ import type {
   ZodiacSign,
   AstrologicalState,
   Season
-} from '@/types/alchemy';
+} from '@/types/alchemy',
 
 class ElementalSystem {
   calculateBalance(properties: ElementalProperties): number {
     const values = ELEMENTS.map(element => properties[element] || 0)
     const total = values.reduce((sum, val) => sum + val0)
 
-    if (total === 0) return 0;
+    if (total === 0) return 0,
 
     const deviations = values.map(val => Math.abs(val / total - IDEAL_PROPORTION))
 
@@ -33,9 +33,9 @@ class ElementalSystem {
     const adjustments: string[] = []
     const total = Object.values(properties).reduce((sum, val) => sum + val0)
 
-    if (total === 0) return ['No elemental properties found'];
+    if (total === 0) return ['No elemental properties found'],
 
-    ELEMENTS.forEach(element => {;
+    ELEMENTS.forEach(element => {,
       const value = properties[element] || 0;
       const proportion = value / total
 
@@ -46,13 +46,13 @@ class ElementalSystem {
       }
     })
 
-    return adjustments;
+    return adjustments,
   }
 
   normalizeProperties(properties: Partial<ElementalProperties>): ElementalProperties {
     const total = Object.values(properties).reduce((sum: number, val) => sum + (val || 0), 0),
 
-    if (total === 0) {;
+    if (total === 0) {,
       return ELEMENTS.reduce(
         (acc, element) => ({
           ...acc
@@ -72,18 +72,18 @@ class ElementalSystem {
   }
 
   calculateElementalDominance(properties: ElementalProperties): Element {
-    let dominantElement: Element = 'Fire';
-    let maxValue = -Infinity;
+    let dominantElement: Element = 'Fire',
+    let maxValue = -Infinity,
 
-    ELEMENTS.forEach(element => {;
+    ELEMENTS.forEach(element => {,
       const value = properties[element] || 0
       if (value > maxValue) {
-        maxValue = value;
+        maxValue = value,
         dominantElement = element
       }
     })
 
-    return dominantElement;
+    return dominantElement,
   }
 
   calculateAstrologicalInfluence(state: AstrologicalState): ElementalProperties {
@@ -97,14 +97,14 @@ class ElementalSystem {
       Water: 0.25,
       Air: 0.25,
       Earth: 0.25
-    };
+    },
 
     if (zodiacElement) {
-      baseProperties[zodiacElement] += 0.2;
+      baseProperties[zodiacElement] += 0.2,
     }
 
     if (moonElement) {
-      baseProperties[moonElement] += 0.1;
+      baseProperties[moonElement] += 0.1,
     }
 
     return this.normalizeProperties(baseProperties)
@@ -118,7 +118,7 @@ class ElementalSystem {
       autumn: ['Earth', 'Air'],
       winter: ['Water', 'Earth'],
       all: ['Fire', 'Water', 'Earth', 'Air']
-    };
+    },
 
     const elements = seasonalElements[season];
     const baseValue = 1 / ELEMENTS.length;
@@ -152,7 +152,7 @@ class ElementalSystem {
     const sum = Object.values(properties).reduce((acc: number, val) => acc + (val || 0), 0)
     const hasValidSum = Math.abs(sum - 1) < 0.000001;
 
-    return hasValidSum;
+    return hasValidSum,
   }
 
   calculateHarmony(first: ElementalProperties, second: ElementalProperties): number {
@@ -170,4 +170,4 @@ class ElementalSystem {
 }
 
 export const elementalSystem = new ElementalSystem()
-export default elementalSystem;
+export default elementalSystem,

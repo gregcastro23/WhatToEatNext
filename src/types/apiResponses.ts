@@ -11,7 +11,7 @@ import {
   PlanetaryInfluenceResultType,
   ElementalPropertiesType,
   ThermodynamicMetricsType
-} from './alchemy';
+} from './alchemy',
 import { IngredientRecommendationResponse, IngredientAnalysisResponse } from './ingredients';
 
 // ========== PHASE, 1: API RESPONSE TYPE ALIASES ==========
@@ -32,13 +32,13 @@ export type AlchemicalRecommendationResponse = ServiceResponseType<{
   reasoning: string[],
   elementalBalance: ElementalPropertiesType,
   thermodynamicMetrics: ThermodynamicMetricsType
-}>;
+}>,
 
 /**
  * Planetary Influence Response
  * Standardized response for planetary influence calculations
  */
-export type PlanetaryInfluenceResponse = ServiceResponseType<PlanetaryInfluenceResultType>;
+export type PlanetaryInfluenceResponse = ServiceResponseType<PlanetaryInfluenceResultType>,
 
 /**
  * Standardized Planetary Position Response
@@ -49,7 +49,7 @@ export type StandardizedPlanetaryResponse = ServiceResponseType<{
   timestamp: string,
   source: string,
   accuracy: number
-}>;
+}>,
 
 /**
  * Recipe Recommendation Response
@@ -63,10 +63,10 @@ export type RecipeRecommendationResponse = ServiceResponseType<{
     elementalBalance: ElementalPropertiesType,
     ingredients: string[],
     reasoning: string[]
-  }>;
+  }>,
   totalMatches: number,
-  searchCriteria: Record<string, Record<string, number>>;
-}>;
+  searchCriteria: Record<string, Record<string, number>>,
+}>,
 
 /**
  * Culinary Analysis Response
@@ -82,7 +82,7 @@ export type CulinaryAnalysisResponse = ServiceResponseType<{
     seasonalTiming: string[]
   },
   warnings: string[]
-}>;
+}>,
 
 // ========== EXTERNAL API RESPONSE TYPES ==========
 
@@ -106,7 +106,7 @@ export interface NasaHorizonsResponse {
   signature?: {
     source?: string,
     version?: string
-  };
+  },
 }
 
 /**
@@ -147,13 +147,13 @@ export interface AstronomyApiResponse {
               hours?: number,
               minutes?: number,
               seconds?: number
-            };
+            },
             declination?: {
               degrees?: number,
               minutes?: number,
               seconds?: number
-            };
-          };
+            },
+          },
 
           /**
            * Ecliptic coordinates (longitude and latitude)
@@ -163,17 +163,17 @@ export interface AstronomyApiResponse {
               degrees?: number,
               minutes?: number,
               seconds?: number
-            };
+            },
             latitude?: {
               degrees?: number,
               minutes?: number,
               seconds?: number
-            };
+            },
           }
         }
-      }>;
-    };
-  };
+      }>,
+    },
+  },
 
   /**
    * Error information
@@ -181,7 +181,7 @@ export interface AstronomyApiResponse {
   error?: {
     code?: number,
     message?: string
-  };
+  },
 }
 
 /**
@@ -216,7 +216,7 @@ export interface SwissEphemerisApiResponse {
        */
       speed?: number
     }
-  }>;
+  }>,
 
   /**
    * Error information
@@ -226,7 +226,7 @@ export interface SwissEphemerisApiResponse {
     | {
         message?: string,
         code?: number
-      };
+      },
 }
 
 /**
@@ -236,7 +236,7 @@ export interface StandardizedPlanetaryPosition {
   /**
    * Zodiac sign (e.g., 'aries', 'taurus')
    */
-  sign: anyType;
+  sign: anyType,
 
   /**
    * Degree within the sign (0-29)

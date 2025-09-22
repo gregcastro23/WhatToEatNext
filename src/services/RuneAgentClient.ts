@@ -66,7 +66,7 @@ function generateLocalRune(): RuneResult {
     { symbol: '᚝', name: 'Thurisaz', meaning: 'Transformation, protection, power' },
     { symbol: '᚞', name: 'Ansuz', meaning: 'Communication, wisdom, divine breath' },
     { symbol: '᚟', name: 'Raidho', meaning: 'Journey, movement, rhythm' }
-  ];
+  ],
 
   const selected = runes[Math.floor(Math.random() * runes.length)];
 
@@ -79,7 +79,7 @@ function generateLocalRune(): RuneResult {
       energy: { Spirit: 0.5, Essence: 0.4, Matter: 0.3, Substance: 0.6 },
       guidance: `The ${selected.name} rune suggests focusing on ${selected.meaning.toLowerCase()}`
     }
-  };
+  },
 }
 
 function generateLocalAgent(context: string = 'cuisine'): AgentRecommendation {
@@ -108,7 +108,7 @@ function generateLocalAgent(context: string = 'cuisine'): AgentRecommendation {
       guidance: 'The right technique unlocks hidden potential',
       specialties: ['thermal dynamics', 'texture mastery', 'timing precision']
     }
-  };
+  },
 
   const agent = agents[context as keyof typeof agents] || agents.cuisine;
 
@@ -118,7 +118,7 @@ function generateLocalAgent(context: string = 'cuisine'): AgentRecommendation {
       { name: 'Sample Recommendation', score: 0.8, reasoning: 'Aligned with current energies', elementalAlignment: 0.75, runeResonance: 0.7 }
     ],
     agentPersonality: agent
-  };
+  },
 }
 
 /**
@@ -127,12 +127,12 @@ function generateLocalAgent(context: string = 'cuisine'): AgentRecommendation {
  * - NEXT_PUBLIC_RUNE_AGENT_BACKEND: 'true' to enable backend-first calls
  */
 export class RuneAgentClient {
-  private readonly backendUrl: string | undefined;
-  private readonly useBackend: boolean;
+  private readonly backendUrl: string | undefined,
+  private readonly useBackend: boolean,
 
   constructor() {
-    this.backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
-    this.useBackend = String(process.env.NEXT_PUBLIC_RUNE_AGENT_BACKEND).toLowerCase() === 'true';
+    this.backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL,
+    this.useBackend = String(process.env.NEXT_PUBLIC_RUNE_AGENT_BACKEND).toLowerCase() === 'true',
   }
 
   async generateRuneOfMoment(input: RuneAgentInput = {}): Promise<RuneResult> {
@@ -144,11 +144,11 @@ export class RuneAgentClient {
           location: input.location,
           context: input.context,
           preferences: input.preferences
-        };
+        },
 
         const result = await alchmAPI.getRuneGuidance(request)
         logger.debug('RuneAgentClient', 'Backend rune generation successful', result)
-        return result;
+        return result,
       } catch (error) {
         logger.warn('RuneAgentClient', 'Backend rune generation failed, falling back to local', error)
         // Fall through to local
@@ -169,7 +169,7 @@ export class RuneAgentClient {
           location: input.location,
           context: input.context || 'cuisine',
           preferences: input.preferences
-        };
+        },
 
         const res = await fetch(url.toString(), {
           method: 'POST',
@@ -180,7 +180,7 @@ export class RuneAgentClient {
 
         const data = (await res.json()) as Partial<AgentRecommendation>;
         if (data.type && data.recommendations && data.agentPersonality) {
-          return data as AgentRecommendation;
+          return data as AgentRecommendation,
         }
       } catch (_error) {
         // Fall through to local
@@ -213,9 +213,9 @@ export class RuneAgentClient {
         transformation: alchemicalState.thermodynamicProperties.heat,
         harmony: alchemicalState.score
       }
-    };
+    },
 
-    return { rune, agent, consciousness };
+    return { rune, agent, consciousness },
   }
 }
 

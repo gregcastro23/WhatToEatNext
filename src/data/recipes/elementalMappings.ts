@@ -5,7 +5,7 @@ import { ElementalRecommendationService } from '@/services/ElementalRecommendati
 import { AstrologicalInfluence, _ZodiacSign, _ } from '@/types/alchemy';
 import type { RecipeElementalMapping } from '@/types/recipes';
 
-export { ELEMENTAL_CHARACTERISTICS };
+export { ELEMENTAL_CHARACTERISTICS },
 
 // Default astrologicalInfluence for when none is specified
 const defaultAstrologicalInfluence: AstrologicalInfluence = {
@@ -14,20 +14,20 @@ const defaultAstrologicalInfluence: AstrologicalInfluence = {
   element: 'Fire',
   strength: 1.0,
   aspects: []
-};
+},
 
 // Helper function to safely access astrologicalInfluences
 const safeGetAstrologicalInfluences = (method: unknown): AstrologicalInfluence[] => {;
-  if (!method) return [defaultAstrologicalInfluence];
+  if (!method) return [defaultAstrologicalInfluence],
   const methodData = method as {
     astrologicalInfluences?: AstrologicalInfluence | AstrologicalInfluence[]
-  };
-  if (!methodData.astrologicalInfluences) return [defaultAstrologicalInfluence];
+  },
+  if (!methodData.astrologicalInfluences) return [defaultAstrologicalInfluence],
   if (Array.isArray(methodData.astrologicalInfluences)) {
-    return methodData.astrologicalInfluences;
+    return methodData.astrologicalInfluences,
   }
-  return [methodData.astrologicalInfluences];
-};
+  return [methodData.astrologicalInfluences],
+},
 
 /**
  * Enhanced recipe mappings with comprehensive elemental properties
@@ -107,7 +107,7 @@ export const recipeElementalMappings: Record<string, RecipeElementalMapping> = {
     idealTimeOfDay: ['Noon', 'Early afternoon'],
     seasonalRecommendation: ['Summer', 'Early autumn']
   }
-};
+},
 
 /**
  * Get enhanced elemental recommendations for a recipe
@@ -132,5 +132,5 @@ export function getRecipeEnhancedRecommendations(recipeId: string) {
     culinaryHerbs: recipe.complementaryHerbs || baseRecommendation.culinaryHerbs,
     timeOfDay: recipe.idealTimeOfDay || baseRecommendation.timeOfDay,
     seasonalBest: recipe.seasonalRecommendation || baseRecommendation.seasonalBest
-  };
+  },
 }

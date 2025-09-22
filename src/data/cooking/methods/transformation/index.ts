@@ -19,4 +19,4 @@ export const _transformationMethods = {
   distilling,
   marinating,
   // Add other transformation methods as they are implemented
-};
+},

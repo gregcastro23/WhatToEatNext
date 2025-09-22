@@ -309,4 +309,4 @@ export const baking: CookingMethodData = {
         'Folding fat between dough layers. Creates distinct, flaky layers in puff pastry, croissants, and Danish pastries.'
     }
   }
-};
+},

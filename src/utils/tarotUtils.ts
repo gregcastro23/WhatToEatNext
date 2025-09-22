@@ -9,34 +9,34 @@ export const _getElementalAlignmentFromTarot = (tarot: {
   Earth: number,
   Air: number
 } => {
-  const alignment = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+  const alignment = { Fire: 0, Water: 0, Earth: 0, Air: 0 },
 
   // Major arcana influences
-  tarot.majorArcana.forEach(card => {;
+  tarot.majorArcana.forEach(card => {,
     const cardElement = TAROT_ELEMENT_ASSOCIATIONS[card].element
     if (cardElement) {
-      alignment[cardElement] += 0.5;
+      alignment[cardElement] += 0.5,
     }
   })
 
   // Minor arcana influences
-  tarot.minorArcana.forEach(card => {;
+  tarot.minorArcana.forEach(card => {,
     const cardElement = TAROT_ELEMENT_ASSOCIATIONS[card].element
     if (cardElement) {
-      alignment[cardElement] += 0.3;
+      alignment[cardElement] += 0.3,
     }
   })
 
   // Normalize values to 0-1 range
   const maxValue = Math.max(...Object.values(alignment))
   if (maxValue > 0) {
-    Object.keys(alignment).forEach(key => {;
+    Object.keys(alignment).forEach(key => {,
       alignment[key] = alignment[key] / maxValue
     })
   }
 
-  return alignment;
-};
+  return alignment,
+},
 
 const TAROT_ELEMENT_ASSOCIATIONS: Record<string, { element: keyof ElementalProperties }> = {
   'The Fool': { element: 'Air' },
@@ -65,4 +65,4 @@ const TAROT_ELEMENT_ASSOCIATIONS: Record<string, { element: keyof ElementalPrope
   _Wands: { element: 'Fire' },
   _Swords: { element: 'Air' },
   Pentacles: { element: 'Earth' }
-};
+},

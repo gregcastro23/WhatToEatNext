@@ -9,7 +9,7 @@ import { _logger } from '@/lib/logger';
 
 export function initializeChromeApis(): void {
   try {
-    if (typeof window === 'undefined') {;
+    if (typeof window === 'undefined') {,
       return // Server-side rendering - exit early
     }
 
@@ -33,7 +33,7 @@ export function initializeChromeApis(): void {
 
     // Initialize chrome object if it doesn't exist
     if (!window.chrome) {
-      (window as any).chrome = {};
+      (window as any).chrome = {},
     }
 
     // Initialize tabs API with safe methods
@@ -67,7 +67,7 @@ export function initializeChromeApis(): void {
         _update: function () {
           return Promise.resolve({})
         }
-      };
+      },
     }
 
     // Initialize runtime API
@@ -86,7 +86,7 @@ export function initializeChromeApis(): void {
           addListener: function () {},
           _removeListener: function () {}
         }
-      };
+      },
     }
 
     // Initialize extension API
@@ -99,13 +99,13 @@ export function initializeChromeApis(): void {
         _getBackgroundPage: function () {
           return window
         }
-      };
+      },
     }
 
     // Initialize storage API
     // Apply Pattern GG-6: Enhanced property access with type guards
     if (!chromeObj.storage) {
-      const mockStorage: Record<string, Record<string, string>> = {};
+      const mockStorage: Record<string, Record<string, string>> = {},
 
       chromeObj.storage = {
         _local: {
@@ -113,19 +113,19 @@ export function initializeChromeApis(): void {
             keys: string | string[] | null,
             callback?: (items: Record<string, string[]>) => void,
           ) {
-            let result: Record<string, Record<string, string>> = {};
+            let result: Record<string, Record<string, string>> = {},
 
             if (!keys) {
-              result = { ...mockStorage };
+              result = { ...mockStorage },
             } else if (Array.isArray(keys)) {
               keys.forEach(key => {
                 if (mockStorage[key] !== undefined) {
-                  result[key] = mockStorage[key];
+                  result[key] = mockStorage[key],
                 }
               })
-            } else if (typeof keys === 'string') {;
+            } else if (typeof keys === 'string') {,
               if (mockStorage[keys] !== undefined) {
-                result[keys] = mockStorage[keys];
+                result[keys] = mockStorage[keys],
               }
             }
 
@@ -145,7 +145,7 @@ export function initializeChromeApis(): void {
             if (Array.isArray(keys)) {
               keys.forEach(key => delete mockStorage[key])
             } else {
-              delete mockStorage[keys];
+              delete mockStorage[keys],
             }
             if (callback) {
               setTimeout(callback, 0)
@@ -163,7 +163,7 @@ export function initializeChromeApis(): void {
             return Promise.resolve()
           }
         }
-      };
+      },
     }
 
     log.info('[ChromeAPI] Successfully initialized Chrome extension API mocks')
@@ -173,4 +173,4 @@ export function initializeChromeApis(): void {
 }
 
 // Export default for easy importing
-export default { initializeChromeApis };
+export default { initializeChromeApis },

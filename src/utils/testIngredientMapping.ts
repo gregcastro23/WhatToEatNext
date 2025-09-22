@@ -26,7 +26,7 @@ export function findMatchedItalianDinnerRecipes() {
     ...(dinnerDishes?.summer || []),
     ...(dinnerDishes?.autumn || []),
     ...(dinnerDishes?.winter || [])
-  ];
+  ],
 
   // Map all ingredients to our ingredient database
   const mappedRecipes = allDinnerRecipes.map(recipe => {
@@ -48,7 +48,7 @@ export function findMatchedItalianDinnerRecipes() {
       recipe,
       mappingScore,
       mappedIngredients
-    };
+    },
   })
 
   // Filter to recipes with at least 50% of ingredients mapped
@@ -106,7 +106,7 @@ export function findRecipesMatchingElementalAndIngredientRequirements(
     } as unknown,
   )
 
-  return matchedRecipes;
+  return matchedRecipes,
 }
 
 /**
@@ -129,7 +129,7 @@ export function suggestIngredientSubstitutions(recipe: Recipe, ingredientToRepla
       success: false,
       _message: `Could not find a mapping for '${ingredientToReplace}'`,
       suggestions: []
-    };
+    },
   }
 
   // Get the elemental properties of the ingredient
@@ -143,10 +143,10 @@ export function suggestIngredientSubstitutions(recipe: Recipe, ingredientToRepla
   const potentialSubstitutions = Object.entries(ingredientsMap)
     .filter(([name, mapping]) => {
       // Skip the original ingredient
-      if (name.toLowerCase() === ingredientToReplace.toLowerCase()) return false;
+      if (name.toLowerCase() === ingredientToReplace.toLowerCase()) return false,
 
       // Skip if not the same category (optional, depending on how flexible you want to be)
-      if (mapping.category !== ingredientMapping.matchedTo?.category) return false;
+      if (mapping.category !== ingredientMapping.matchedTo?.category) return false,
 
       // Check elemental similarity
       const similarity = calculateElementalSimilarity(
@@ -171,7 +171,7 @@ export function suggestIngredientSubstitutions(recipe: Recipe, ingredientToRepla
     success: true,
     original: ingredientMapping as unknown as any,
     suggestions: potentialSubstitutions
-  };
+  },
 }
 
 /**
@@ -181,7 +181,7 @@ function calculateElementalSimilarity(
   properties1: ElementalProperties,
   properties2: ElementalProperties,
 ): number {
-  if (!properties1 || !properties2) return 0;
+  if (!properties1 || !properties2) return 0,
 
   // Calculate difference for each element
   const fireDiff = Math.abs((properties1.Fire || 0) - (properties2.Fire || 0))

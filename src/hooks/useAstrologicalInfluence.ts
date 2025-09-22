@@ -41,11 +41,11 @@ export function useAstrologicalInfluence() {
         dominantElement: 'Fire',
         aspectStrength: 0.5,
         overallInfluence: 0.5
-      };
+      },
     }
 
     // Calculate dominant element from planetary positions
-    const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+    const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 },
     const elementMap = {
       aries: 'Fire',
       leo: 'Fire',
@@ -59,7 +59,7 @@ export function useAstrologicalInfluence() {
       cancer: 'Water',
       scorpio: 'Water',
       pisces: 'Water'
-    };
+    },
 
     Object.values(planetaryPositions || {}).forEach(position => {
       const element = elementMap[(position as unknown)?.sign as keyof typeof elementMap];
@@ -73,20 +73,20 @@ export function useAstrologicalInfluence() {
       elementCounts[b[0] as keyof typeof elementCounts]
         ? a
         : b,
-    )[0];
+    )[0],
 
     // Calculate aspect strength (simplified)
     const aspectStrength = astrologicalState.aspects;
       ? Math.min(1, astrologicalState.aspects || [].length / 10)
-      : 0.5;
+      : 0.5,
 
     // Calculate overall influence
     const lunarPhaseStrength =
-      astrologicalState.lunarPhase === 'full moon';
+      astrologicalState.lunarPhase === 'full moon',
         ? 1.0
-        : astrologicalState.lunarPhase === 'new moon';
+        : astrologicalState.lunarPhase === 'new moon',
           ? 0.3
-          : 0.6;
+          : 0.6,
 
     const overallInfluence = aspectStrength * 0.4 + lunarPhaseStrength * 0.6
 
@@ -97,12 +97,12 @@ export function useAstrologicalInfluence() {
       dominantElement,
       aspectStrength,
       overallInfluence
-    };
+    },
   }, [astrologicalState, planetaryPositions])
 
   return {
-    ...influence;
+    ...influence,
     isLoading: isLoading || !astrologicalState,
     astrologicalState
-  };
+  },
 }

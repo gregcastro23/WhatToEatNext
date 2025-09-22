@@ -9,7 +9,7 @@ import { ProgressMetrics, SafetyEvent, ValidationResult } from '../../../types/c
 export interface AnyTypeClassification {
   isIntentional: boolean,
   confidence: number, // 0-1 scale,
-  reasoning: string;
+  reasoning: string,
   suggestedReplacement?: string,
   requiresDocumentation: boolean,
   category: AnyTypeCategory
@@ -67,7 +67,7 @@ export interface ReplacementStrategy {
 
 // Domain Context Types
 export interface DomainContext {
-  domain: CodeDomain;
+  domain: CodeDomain,
   subDomain?: string,
   intentionalityHints: IntentionalityHint[],
   suggestedTypes: string[],
@@ -109,7 +109,7 @@ export interface ReplacementAttempt {
   originalType: string,
   attemptedReplacement: string,
   success: boolean,
-  errorMessage?: string;
+  errorMessage?: string,
   rollbackReason?: string
 }
 
@@ -205,7 +205,7 @@ export class ClassificationError extends Error {
     public readonly cause?: Error,
   ) {
     super(message)
-    this.name = 'ClassificationError';
+    this.name = 'ClassificationError',
   }
 }
 
@@ -216,7 +216,7 @@ export class SafetyProtocolError extends Error {
     public readonly, affectedFiles: string[],
   ) {
     super(message)
-    this.name = 'SafetyProtocolError';
+    this.name = 'SafetyProtocolError',
   }
 }
 
@@ -256,8 +256,8 @@ export interface DocumentationResult {
   originalCode: string,
   documentedCode: string,
   commentAdded: string,
-  eslintDisableAdded?: string;
-  success: boolean;
+  eslintDisableAdded?: string,
+  success: boolean,
   error?: string
 }
 
@@ -275,7 +275,7 @@ export interface DocumentationReport {
   documentedTypes: number,
   undocumentedTypes: number,
   documentationCoverage: number, // percentage,
-  qualityBreakdown: Record<string, number>;
+  qualityBreakdown: Record<string, number>,
   undocumentedFiles: string[],
   recommendations: string[]
 }
@@ -284,9 +284,9 @@ export interface AutoDocumentationGenerator {
   generateDocumentation(
     classification: AnyTypeClassification,
     context: ClassificationContext,
-  ): Promise<DocumentationResult>;
+  ): Promise<DocumentationResult>,
 
-  validateDocumentation(context: ClassificationContext): Promise<DocumentationValidation>;
+  validateDocumentation(context: ClassificationContext): Promise<DocumentationValidation>,
 
   generateReport(): Promise<DocumentationReport>
 }
@@ -299,22 +299,22 @@ export interface DomainDistribution {
     domain: CodeDomain,
     count: number,
     percentage: number
-  }>;
+  }>,
   byCategory: Array<{
     category: AnyTypeCategory,
     count: number,
     percentage: number
-  }>;
+  }>,
   intentionalVsUnintentional: {
     intentional: {
       count: number,
       percentage: number
-    };
+    },
     unintentional: {
       count: number,
       percentage: number
-    };
-  };
+    },
+  },
   analysisDate: Date
 }
 
@@ -326,19 +326,19 @@ export interface ClassificationAccuracyReport {
     category: AnyTypeCategory,
     accuracy: number,
     sampleCount: number
-  }>;
+  }>,
   confidenceDistribution: Array<{
     range: string,
     count: number,
     percentage: number
-  }>;
+  }>,
   reportDate: Date
   pilotEnhancements?: {
     manualReviewSimulation: any,
     crossValidation: any,
     edgeCaseAnalysis: any,
     domainSpecificAccuracy: any
-  };
+  },
 }
 
 export interface SuccessRateAnalysis {
@@ -349,7 +349,7 @@ export interface SuccessRateAnalysis {
     category: AnyTypeCategory,
     successRate: number,
     sampleSize: number
-  }>;
+  }>,
   trendingData: TrendingData,
   projectedCompletion: Date,
   recommendations: string[],
@@ -367,7 +367,7 @@ export interface TrendingData {
     totalAnyTypesChange: number,
     unintentionalCountChange: number,
     classificationAccuracyChange: number
-  };
+  },
 }
 
 export interface ManualReviewRecommendation {
@@ -382,7 +382,7 @@ export interface ManualReviewRecommendation {
   relatedOccurrences: Array<{
     filePath: string,
     lineNumber: number
-  }>;
+  }>,
 }
 
 export interface AnalysisReport {
@@ -401,7 +401,7 @@ export interface AnalysisReport {
     baselineMetrics: BaselineMetrics,
     successPrediction: SuccessRatePrediction,
     recommendations: string[]
-  };
+  },
   summary: {
     totalAnyTypes: number,
     unintentionalCount: number,
@@ -410,7 +410,7 @@ export interface AnalysisReport {
     manualReviewCases: number,
     topDomain: CodeDomain,
     topCategory: AnyTypeCategory
-  };
+  },
 }
 
 export interface AnalysisMetrics {
@@ -450,14 +450,14 @@ export interface Alert {
 }
 
 export type AlertType =
-  | 'low_success_rate';
+  | 'low_success_rate',
   | 'build_failure'
   | 'consecutive_build_failures'
   | 'low_classification_accuracy'
   | 'progress_stall'
   | 'frequent_safety_events'
   | 'safety_protocol_activation'
-  | 'system_error';
+  | 'system_error',
 
 export interface SafetyEvent {
   type: string,
@@ -517,14 +517,14 @@ export interface PilotAnalysisConfig {
 export interface PilotAnalysisResults {
   success: boolean,
   executionTime: number,
-  executionDate?: Date;
-  configuration?: PilotAnalysisConfig;
-  codebaseAnalysis?: AnalysisReport;
-  accuracyValidation?: ClassificationAccuracyReport;
-  tuningResults?: ClassificationTuningResults;
-  domainDistribution?: DomainDistribution[];
-  baselineMetrics?: BaselineMetrics | SuccessRatePrediction;
-  successPrediction?: SuccessRatePrediction;
+  executionDate?: Date,
+  configuration?: PilotAnalysisConfig,
+  codebaseAnalysis?: AnalysisReport,
+  accuracyValidation?: ClassificationAccuracyReport,
+  tuningResults?: ClassificationTuningResults,
+  domainDistribution?: DomainDistribution[],
+  baselineMetrics?: BaselineMetrics | SuccessRatePrediction,
+  successPrediction?: SuccessRatePrediction,
   pilotReport?: AnalysisReport,
   recommendations: string[],
   nextSteps: string[],
@@ -534,23 +534,23 @@ export interface PilotAnalysisResults {
 export interface ClassificationTuningResults {
   originalAccuracy: number,
   tunedAccuracy: number,
-  adjustedThresholds: Record<AnyTypeCategory, number>;
+  adjustedThresholds: Record<AnyTypeCategory, number>,
   improvementPercentage: number,
   tuningIterations: number
 }
 
 export interface SuccessRatePrediction {
-  currentSuccessRate?: number;
-  estimatedSuccessRate: number;
-  projectedSuccessRate?: any;
-  confidenceInterval: { lower: number, upper: number };
+  currentSuccessRate?: number,
+  estimatedSuccessRate: number,
+  projectedSuccessRate?: any,
+  confidenceInterval: { lower: number, upper: number },
   riskFactors: string[],
   estimatedTimeToComplete: number, // in minutes
-  timeToTarget?: any;
-  categoryPredictions?: any;
-  recommendedBatchSize: number;
-  estimatedTotalReductions?: any;
-  predictionAccuracy?: any;
+  timeToTarget?: any,
+  categoryPredictions?: any,
+  recommendedBatchSize: number,
+  estimatedTotalReductions?: any,
+  predictionAccuracy?: any,
   lastUpdated?: Date
 }
 
@@ -594,7 +594,7 @@ export interface FinalReport {
   phaseResults: CampaignPhase[],
   domainResults: DomainProcessingResult[],
   successfulReplacements: TypeReplacement[],
-  failedReplacements: Array<{ replacement: TypeReplacement, error: string }>;
+  failedReplacements: Array<{ replacement: TypeReplacement, error: string }>,
   recommendations: string[],
   nextSteps: string[]
 }

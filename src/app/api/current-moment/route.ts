@@ -4,7 +4,7 @@ import {
     currentMomentManager,
     getCurrentMoment,
     updateCurrentMoment
-} from '@/services/CurrentMomentManager';
+} from '@/services/CurrentMomentManager',
 import { createLogger } from '@/utils/logger';
 
 const logger = createLogger('CurrentMomentAPI')
@@ -46,7 +46,7 @@ export async function GET(request: Request) {
             performanceMetrics.updateFrequency[new Date().toISOString().slice(0, 16)] || 0
         }
       }
-    };
+    },
 
     return NextResponse.json(response)
   } catch (error) {
@@ -74,7 +74,7 @@ export async function POST(request: Request) {
 
     logger.info(`Current moment ${action} requested`)
 
-    let result;
+    let result,
 
     switch (action) {
       case 'update': const customDate = customDateTime ? new Date(customDateTime) : undefined
@@ -143,7 +143,7 @@ export async function POST(request: Request) {
 export async function PUT(request: Request) {
   try {
     const body = await request.json()
-    const { _targets = ['all'], customDateTime, latitude, longitude} = body;
+    const { _targets = ['all'], customDateTime, latitude, longitude} = body,
 
     logger.info(`Selective update requested for targets: ${targets.join(', ')}`)
 
@@ -158,21 +158,21 @@ export async function PUT(request: Request) {
       systemDefaults: false,
       streamlinedPositions: false,
       accurateAstronomy: false
-    };
+    },
 
     // Note: The updateCurrentMoment already updates all files,
     // so this is more of a status report
     if (targets.includes('all') || targets.includes('notebook')) {
-      updateResults.notebook = true;
+      updateResults.notebook = true,
     }
     if (targets.includes('all') || targets.includes('systemDefaults')) {
-      updateResults.systemDefaults = true;
+      updateResults.systemDefaults = true,
     }
     if (targets.includes('all') || targets.includes('streamlinedPositions')) {
-      updateResults.streamlinedPositions = true;
+      updateResults.streamlinedPositions = true,
     }
     if (targets.includes('all') || targets.includes('accurateAstronomy')) {
-      updateResults.accurateAstronomy = true;
+      updateResults.accurateAstronomy = true,
     }
 
     return NextResponse.json({

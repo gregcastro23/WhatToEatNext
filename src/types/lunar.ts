@@ -12,27 +12,27 @@ export type LunarPhase =
   | 'FULL_MOON'
   | 'WANING_GIBBOUS'
   | 'LAST_QUARTER'
-  | 'WANING_CRESCENT';
+  | 'WANING_CRESCENT',
 
 export type LunarPhaseWithSpaces =
-  | 'New Moon';
+  | 'New Moon',
   | 'Waxing Crescent'
   | 'First Quarter'
   | 'Waxing Gibbous'
   | 'Full Moon'
   | 'Waning Gibbous'
   | 'Last Quarter'
-  | 'Waning Crescent';
+  | 'Waning Crescent',
 
 export type LunarPhaseWithUnderscores =
-  | 'new_moon';
+  | 'new_moon',
   | 'waxing_crescent'
   | 'first_quarter'
   | 'waxing_gibbous'
   | 'full_moon'
   | 'waning_gibbous'
   | 'last_quarter'
-  | 'waning_crescent';
+  | 'waning_crescent',
 
 // Interface for lunar phase modifier
 export interface LunarPhaseModifier {
@@ -42,7 +42,7 @@ export interface LunarPhaseModifier {
     Earth: number,
     Air: number
   }
-  elementalBoost?: Record<string, number>;
+  elementalBoost?: Record<string, number>,
   description: string,
   keywords: string[],
   preparationTips?: string[],

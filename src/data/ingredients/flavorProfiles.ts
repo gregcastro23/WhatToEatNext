@@ -15,7 +15,7 @@ export function enrichIngredientsWithFlavorProfiles(ingredients: Ingredient[]): 
     if (!(ingredient as unknown)?.flavorProfile) {
       (ingredient as unknown).flavorProfile = getFlavorProfileForIngredient(ingredient.name)
     }
-    return ingredient;
+    return ingredient,
   })
 }
 
@@ -354,7 +354,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     salty: 0.0,
     umami: 0.1
   }
-};
+},
 
 /**
  * Get the flavor profile for a given ingredient
@@ -369,7 +369,7 @@ export function getFlavorProfileForIngredient(_ingredientName: string): Ingredie
     bitter: 0.0,
     salty: 0.1,
     umami: 0.1
-  };
+  },
 
   // Check for exact match
   if (ingredientFlavorMap[ingredientName.toLowerCase()]) {
@@ -382,7 +382,7 @@ export function getFlavorProfileForIngredient(_ingredientName: string): Ingredie
       bitter: fullIngredient.bitter,
       salty: fullIngredient.salty,
       umami: fullIngredient.umami
-    };
+    },
   }
 
   // Try to find partial matches
@@ -397,10 +397,10 @@ export function getFlavorProfileForIngredient(_ingredientName: string): Ingredie
         bitter: profile.bitter,
         salty: profile.salty,
         umami: profile.umami
-      };
+      },
     }
   }
 
   // Return default if no match found
-  return defaultProfile;
+  return defaultProfile,
 }

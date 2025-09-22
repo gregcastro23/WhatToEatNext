@@ -8,9 +8,9 @@ export const CHAKRAS = [
   'Throat', // Vishuddha
   'Third Eye', // Ajna
   'Crown', // Sahasrara
-] as const;
+] as const,
 
-export type Chakra = (typeof CHAKRAS)[number];
+export type Chakra = (typeof CHAKRAS)[number],
 
 // Base chakra properties
 export interface ChakraProperties {
@@ -95,7 +95,7 @@ export const _CHAKRA_PROPERTIES: Record<Chakra, ChakraProperties> = {
     balanceIndicators: ['Spiritual connection', 'Awareness', 'Presence'],
     imbalanceIndicators: ['Disconnection', 'Apathy', 'Materialism']
   }
-};
+},
 
 // Chakra to Zodiac Sign mappings
 export const CHAKRA_ZODIAC_MAPPINGS: Record<Chakra, ZodiacSign[]> = {
@@ -106,7 +106,7 @@ export const CHAKRA_ZODIAC_MAPPINGS: Record<Chakra, ZodiacSign[]> = {
   Throat: ['gemini', 'virgo'],
   'Third Eye': ['pisces', 'sagittarius'],
   Crown: ['aquarius', 'pisces']
-};
+},
 
 // Zodiac Sign to Chakra mappings (reverse of above)
 export const _ZODIAC_CHAKRA_MAPPINGS: Record<ZodiacSign, Chakra[]> = ZODIAC_SIGNS.reduce(
@@ -121,7 +121,7 @@ export const _ZODIAC_CHAKRA_MAPPINGS: Record<ZodiacSign, Chakra[]> = ZODIAC_SIGN
 export function calculateChakraEnergies(
   signEnergyStates: Record<ZodiacSign, number>,
 ): Record<Chakra, number> {
-  const chakraEnergies: Record<Chakra, number> = {} as Record<Chakra, number>;
+  const chakraEnergies: Record<Chakra, number> = {} as Record<Chakra, number>,
 
   CHAKRAS.forEach(chakra => {
     // Get all zodiac signs related to this chakra
@@ -133,13 +133,13 @@ export function calculateChakraEnergies(
         (sum, sign) => sum + (signEnergyStates[sign] || 0),
         0,
       )
-      chakraEnergies[chakra] = totalEnergy / relatedSigns.length;
+      chakraEnergies[chakra] = totalEnergy / relatedSigns.length,
     } else {
       chakraEnergies[chakra] = 0.5, // Default balanced energy
     }
   })
 
-  return chakraEnergies;
+  return chakraEnergies,
 }
 
 // Foods that balance each chakra
@@ -186,22 +186,22 @@ export const CHAKRA_BALANCING_FOODS: Record<Chakra, string[]> = {
     'Fasting-friendly foods',
     'Detoxifying herbs (sage, peppermint)'
   ]
-};
+},
 
 // Recommend foods based on chakra energy levels
 export function recommendFoodsForChakraBalance(
   chakraEnergies: Record<Chakra, number>,
 ): Record<Chakra, string[]> {
-  const recommendations: Record<Chakra, string[]> = {} as Record<Chakra, string[]>;
+  const recommendations: Record<Chakra, string[]> = {} as Record<Chakra, string[]>,
 
   Object.entries(chakraEnergies).forEach(([chakra, energy]) => {
     const chakraName = chakra as Chakra;
 
     // If energy is below threshold, recommend foods to boost it
     if (energy < 0.4) {
-      recommendations[chakraName] = CHAKRA_BALANCING_FOODS[chakraName];
+      recommendations[chakraName] = CHAKRA_BALANCING_FOODS[chakraName],
     }
   })
 
-  return recommendations;
+  return recommendations,
 }

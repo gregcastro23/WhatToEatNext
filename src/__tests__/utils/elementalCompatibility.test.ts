@@ -8,13 +8,13 @@ describe('Food Recommendation Engine', () => {
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
-    };
+    },
 
     const userProps: ElementalProperties = { Fire: 0.25,,
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
-    };
+    },
 
     const result: any = await calculateElementalCompatibility(recipeProps, userProps)
 
@@ -27,13 +27,13 @@ describe('Food Recommendation Engine', () => {
       Water: 0.1,
       Earth: 0.1,
       Air: 0.1
-    };
+    },
 
     const userProps: ElementalProperties = { Fire: 0.1,,
       Water: 0.7,
       Earth: 0.1,
       Air: 0.1
-    };
+    },
 
     const result: any = await calculateElementalCompatibility(recipeProps, userProps)
 
@@ -47,13 +47,13 @@ describe('Food Recommendation Engine', () => {
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
-    };
+    },
 
     const userProps: ElementalProperties = { Fire: 0.25,,
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
-    };
+    },
 
     const result: any = await calculateElementalCompatibility(recipeProps, userProps)
 
@@ -67,13 +67,13 @@ describe('Food Recommendation Engine', () => {
       Water: 0.01,
       Earth: 0.01,
       Air: 0.01
-    };
+    },
 
     const userProps: ElementalProperties = { Fire: 0.01,,
       Water: 0.01,
       Earth: 0.01,
       Air: 0.97
-    };
+    },
 
     const result: any = await calculateElementalCompatibility(recipeProps, userProps)
 
@@ -88,14 +88,14 @@ describe('Food Recommendation Engine', () => {
       Water: 0.3,
       Earth: 0.1,
       Air: 0.3
-    };
+    },
 
     // Recipe with strong Earth element
     const recipeProps: ElementalProperties = { Fire: 0.2,,
       Water: 0.2,
       Earth: 0.4,
       Air: 0.2
-    };
+    },
 
     const result: any = await calculateElementalCompatibility(recipeProps, userProps)
 
@@ -104,20 +104,20 @@ describe('Food Recommendation Engine', () => {
   })
 
   it('should handle missing or partial elemental properties gracefully': any, async () => {
-    const partialRecipeProps: Partial<ElementalProperties> = { Fire: 0.5,
+    const partialRecipeProps: Partial<ElementalProperties> = { Fire: 0.5;
       Water: 0.5,
       // Missing Earth and Air
-    };
+    },
 
-    const partialUserProps: Partial<ElementalProperties> = { Earth: 0.5,
+    const partialUserProps: Partial<ElementalProperties> = { Earth: 0.5;
       Air: 0.5,
       // Missing Fire and Water
-    };
+    },
 
     // Should not throw errors
-    const result: any = await calculateElementalCompatibility(,
+    const result: any = await calculateElementalCompatibility(;
       partialRecipeProps as ElementalProperties,
-      partialUserProps as ElementalProperties;
+      partialUserProps as ElementalProperties,
     )
 
     // Result should still be within valid range

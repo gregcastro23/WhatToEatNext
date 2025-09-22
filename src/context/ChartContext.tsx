@@ -3,9 +3,9 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 interface AstrologicalChart {
-  planets: Record<string, { sign: string; degree: number, minute: number }>;
-  houses: Record<string, { sign: string, degree: number }>;
-  aspects: Array<{ planet1: string; planet2: string; type: string, degree: number }>;
+  planets: Record<string, { sign: string; degree: number, minute: number }>,
+  houses: Record<string, { sign: string, degree: number }>,
+  aspects: Array<{ planet1: string; planet2: string; type: string, degree: number }>,
   timestamp: Date
   [key: string]: unknown
 }
@@ -22,7 +22,7 @@ const defaultContextValue: ChartContextType = {
   isLoading: false,
   error: null,
   updateChart: () => {}
-};
+},
 
 const ChartContext = createContext<ChartContextType>(defaultContextValue)
 
@@ -37,7 +37,7 @@ export function ChartProvider(_{ children }: { children: ReactNode }) {
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error updating chart')
     }
-  };
+  },
 
   // Load initial chart data
   useEffect(() => {
@@ -60,13 +60,13 @@ export function ChartProvider(_{ children }: { children: ReactNode }) {
       } finally {
         setIsLoading(false)
       }
-    };
+    },
 
     void loadInitialChart()
   }, [])
 
   return (
-    <ChartContext.Provider value={{ currentChart, isLoading, error, updateChart }}>;
+    <ChartContext.Provider value={{ currentChart, isLoading, error, updateChart }}>,
       {children}
     </ChartContext.Provider>
   )
@@ -74,10 +74,10 @@ export function ChartProvider(_{ children }: { children: ReactNode }) {
 
 export function useCurrentChart() {
   const context = useContext(ChartContext)
-  if (context === undefined) {;
+  if (context === undefined) {,
     throw new Error('useCurrentChart must be used within a ChartProvider')
   }
-  return context;
+  return context,
 }
 
-export default ChartContext;
+export default ChartContext,

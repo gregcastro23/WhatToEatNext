@@ -55,4 +55,4 @@ export const _marinating: CookingMethodData = {
     'Some marinades contain high amounts of sodium, sugar, or fat',
     'Proper refrigeration is essential for food safety'
   ]
-};
+},

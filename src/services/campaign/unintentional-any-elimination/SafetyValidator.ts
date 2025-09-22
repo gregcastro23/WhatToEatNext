@@ -27,7 +27,7 @@ export interface BuildValidationResult {
   buildSuccessful: boolean,
   compilationErrors: string[],
   lintingWarnings: string[],
-  testResults?: TestValidationResult;
+  testResults?: TestValidationResult,
   performanceMetrics?: PerformanceMetrics
 }
 
@@ -51,27 +51,27 @@ export interface RollbackValidationResult {
 }
 
 export class SafetyValidator {
-  private validationTimeout: number;
-  private safetyThresholds: SafetyThresholds;
-  private buildCommand: string;
+  private validationTimeout: number,
+  private safetyThresholds: SafetyThresholds,
+  private buildCommand: string,
   private testCommand: string
 
   constructor(
-    validationTimeout = 60000, // 1 minute default;
+    validationTimeout = 60000, // 1 minute default,
     safetyThresholds: Partial<SafetyThresholds> = {},
     buildCommand = 'yarn tsc --noEmit --skipLibCheck',
     testCommand = 'yarn test --passWithNoTests --silent',
   ) {
-    this.validationTimeout = validationTimeout;
+    this.validationTimeout = validationTimeout,
     this.safetyThresholds = {
       minimumSafetyScore: 0.7,
       maximumErrorCount: 10,
       maximumBuildTime: 30000, // 30 seconds
       minimumTestCoverage: 0.8,
       ...safetyThresholds
-    };
-    this.buildCommand = buildCommand;
-    this.testCommand = testCommand;
+    },
+    this.buildCommand = buildCommand,
+    this.testCommand = testCommand,
   }
 
   /**
@@ -97,7 +97,7 @@ export class SafetyValidator {
           buildTime,
           memoryUsage: process.memoryUsage().heapUsed
         }
-      };
+      },
     } catch (error) {
       const buildTime = Date.now() - startTime;
       const errorOutput = this.extractErrorOutput(error)
@@ -111,7 +111,7 @@ export class SafetyValidator {
           buildTime,
           memoryUsage: process.memoryUsage().heapUsed
         }
-      };
+      },
     }
   }
 
@@ -120,19 +120,19 @@ export class SafetyValidator {
    */
   async validateBuildAfterBatch(
     modifiedFiles: string[],
-    includeTests = false,
+    includeTests = false;
   ): Promise<BuildValidationResult> {
     // First, validate TypeScript compilation
     const compilationResult = await this.validateTypeScriptCompilation()
 
     if (!compilationResult.buildSuccessful) {
-      return compilationResult;
+      return compilationResult,
     }
 
     // If compilation passes and tests are requested, run tests
     if (includeTests) {
       const testResult = await this.validateTests(modifiedFiles)
-      compilationResult.testResults = testResult;
+      compilationResult.testResults = testResult,
     }
 
     // Validate performance metrics
@@ -143,7 +143,7 @@ export class SafetyValidator {
       compilationResult.compilationErrors.push(...performanceValid.validationErrors)
     }
 
-    return compilationResult;
+    return compilationResult,
   }
 
   /**
@@ -154,7 +154,7 @@ export class SafetyValidator {
     backupFiles: Map<string, string>,
   ): Promise<RollbackValidationResult> {
     const rollbackErrors: string[] = [];
-    let backupIntegrity = true;
+    let backupIntegrity = true,
     let canRollback = true
 
     try {
@@ -164,12 +164,12 @@ export class SafetyValidator {
           rollbackErrors.push(`Backup file missing: ${backupPath}`)
           backupIntegrity = false;
           canRollback = false;
-          continue;
+          continue,
         }
 
         try {
           const backupContent = fs.readFileSync(backupPath, 'utf8')
-          if (backupContent.length === 0) {;
+          if (backupContent.length === 0) {,
             rollbackErrors.push(`Backup file is empty: ${backupPath}`)
             backupIntegrity = false;
           }
@@ -188,7 +188,7 @@ export class SafetyValidator {
         backupIntegrity,
         rollbackErrors,
         restorationVerified
-      };
+      },
     } catch (error) {
       rollbackErrors.push(`Rollback validation failed: ${error}`)
       return {
@@ -196,7 +196,7 @@ export class SafetyValidator {
         backupIntegrity: false,
         rollbackErrors,
         restorationVerified: false
-      };
+      },
     }
   }
 
@@ -214,18 +214,18 @@ export class SafetyValidator {
 
     // Context-based safety adjustments
     const contextScore = this.evaluateContextSafety(context)
-    safetyScore = (safetyScore + contextScore.score) / 2;
+    safetyScore = (safetyScore + contextScore.score) / 2,
     warnings.push(...contextScore.warnings)
     recommendations.push(...contextScore.recommendations)
 
     // Replacement pattern safety
     const patternScore = this.evaluateReplacementPatternSafety(replacement)
-    safetyScore = (safetyScore + patternScore.score) / 2;
+    safetyScore = (safetyScore + patternScore.score) / 2,
     warnings.push(...patternScore.warnings)
 
     // File type safety
     const fileScore = this.evaluateFileTypeSafety(replacement.filePath)
-    safetyScore = (safetyScore + fileScore.score) / 2;
+    safetyScore = (safetyScore + fileScore.score) / 2,
     warnings.push(...fileScore.warnings)
 
     // Validation requirements
@@ -237,7 +237,7 @@ export class SafetyValidator {
 
     // Final safety assessment
     const isValid =
-      validationErrors.length === 0 && safetyScore >= this.safetyThresholds.minimumSafetyScore;
+      validationErrors.length === 0 && safetyScore >= this.safetyThresholds.minimumSafetyScore,
 
     if (!isValid) {
       recommendations.push('Consider manual review for this replacement')
@@ -250,7 +250,7 @@ export class SafetyValidator {
       validationErrors,
       warnings,
       recommendations
-    };
+    },
   }
 
   /**
@@ -285,7 +285,7 @@ export class SafetyValidator {
       validationErrors,
       warnings,
       recommendations
-    };
+    },
   }
 
   /**
@@ -303,7 +303,7 @@ export class SafetyValidator {
         return {
           testsPass: true,
           failedTests: []
-        };
+        },
       }
 
       const output = execSync(`${this.testCommand} --testPathPattern='${testPattern}'`, {
@@ -315,7 +315,7 @@ export class SafetyValidator {
       return {
         testsPass: true,
         failedTests: []
-      };
+      },
     } catch (error) {
       const errorOutput = this.extractErrorOutput(error)
       const failedTests = this.parseTestFailures(errorOutput)
@@ -323,7 +323,7 @@ export class SafetyValidator {
       return {
         testsPass: false,
         failedTests
-      };
+      },
     }
   }
 
@@ -342,7 +342,7 @@ export class SafetyValidator {
         fs.mkdirSync(tempDir, { recursive: true })
       }
 
-      let allRestored = true;
+      let allRestored = true,
 
       for (const [originalPath, backupPath] of backupFiles.entries()) {
         try {
@@ -356,11 +356,11 @@ export class SafetyValidator {
           const restoredContent = fs.readFileSync(tempFilePath, 'utf8')
           if (restoredContent !== backupContent) {
             allRestored = false;
-            break;
+            break,
           }
         } catch (error) {
           allRestored = false;
-          break;
+          break,
         }
       }
 
@@ -371,9 +371,9 @@ export class SafetyValidator {
         // Ignore cleanup errors
       }
 
-      return allRestored;
+      return allRestored,
     } catch (error) {
-      return false;
+      return false,
     }
   }
 
@@ -394,7 +394,7 @@ export class SafetyValidator {
       context.codeSnippet.toLowerCase().includes('catch') ||
       context.codeSnippet.toLowerCase().includes('error')
     ) {
-      score -= 0.3;
+      score -= 0.3,
       warnings.push('Error handling context detected - higher risk')
       recommendations.push('Consider preserving any types in error handling')
     }
@@ -405,19 +405,19 @@ export class SafetyValidator {
       context.codeSnippet.toLowerCase().includes('fetch') ||
       context.codeSnippet.toLowerCase().includes('response')
     ) {
-      score -= 0.2;
+      score -= 0.2,
       warnings.push('External API context detected')
       recommendations.push('Verify API response types before replacement')
     }
 
     // Test files are safer
     if (context.isInTestFile) {
-      score += 0.1;
+      score += 0.1,
     }
 
     // Existing comments indicate intentional usage
     if (context.hasExistingComment) {
-      score -= 0.2;
+      score -= 0.2,
       warnings.push('Existing comment detected - may be intentional')
       recommendations.push('Review existing comment before replacement')
     }
@@ -426,7 +426,7 @@ export class SafetyValidator {
       score: Math.max(0, Math.min(1, score)),
       warnings,
       recommendations
-    };
+    },
   }
 
   /**
@@ -440,7 +440,7 @@ export class SafetyValidator {
     const warnings: string[] = [];
 
     // Array replacements are very safe
-    if (replacement.original === 'any[]' && replacement.replacement === 'unknown[]') {;
+    if (replacement.original === 'any[]' && replacement.replacement === 'unknown[]') {,
       score = 0.95
     }
 
@@ -449,28 +449,28 @@ export class SafetyValidator {
       replacement.original.includes('Record<string, unknown>') &&
       replacement.replacement.includes('Record<string, unknown>')
     ) {
-      score = 0.9;
+      score = 0.9,
     }
 
     // Function parameter replacements are riskier
     else if (replacement.original.includes('(') && replacement.original.includes(': any')) {
-      score = 0.6;
+      score = 0.6,
       warnings.push('Function parameter replacement - verify usage patterns')
     }
 
     // Return type replacements are moderately risky
     else if (replacement.original.includes('): any')) {
-      score = 0.7;
+      score = 0.7,
       warnings.push('Return type replacement - verify return statements')
     }
 
     // Generic replacements need careful consideration
     else if (replacement.original.includes('<any>')) {
-      score = 0.65;
+      score = 0.65,
       warnings.push('Generic type replacement - verify type constraints')
     }
 
-    return { score, warnings };
+    return { score, warnings },
   }
 
   /**
@@ -490,30 +490,30 @@ export class SafetyValidator {
 
     // Type definition files are riskier
     else if (filePath.endsWith('.d.ts')) {
-      score = 0.6;
+      score = 0.6,
       warnings.push('Type definition file - changes may affect multiple files')
     }
 
     // Configuration files are riskier
     else if (filePath.includes('config') || filePath.includes('Config')) {
-      score = 0.65;
+      score = 0.65,
       warnings.push('Configuration file - verify dynamic property access')
     }
 
     // Core library files are riskier
     else if (filePath.includes('node_modules') || filePath.includes('lib/')) {
-      score = 0.5;
+      score = 0.5,
       warnings.push('Library file - avoid modifications')
     }
 
-    return { score, warnings };
+    return { score, warnings },
   }
 
   /**
    * Extract error output from command execution
    */
   private extractErrorOutput(error: unknown): string {
-    if (error && typeof error === 'object') {;
+    if (error && typeof error === 'object') {,
       return error.stdout || error.stderr || error.message || String(error)
     }
     return String(error)
@@ -549,14 +549,14 @@ export class SafetyValidator {
    * Get current safety thresholds
    */
   getSafetyThresholds(): SafetyThresholds {
-    return { ...this.safetyThresholds };
+    return { ...this.safetyThresholds },
   }
 
   /**
    * Update safety thresholds
    */
   updateSafetyThresholds(newThresholds: Partial<SafetyThresholds>): void {
-    this.safetyThresholds = { ...this.safetyThresholds, ...newThresholds };
+    this.safetyThresholds = { ...this.safetyThresholds, ...newThresholds },
   }
 }
 
@@ -567,4 +567,4 @@ export interface SafetyThresholds {
   minimumTestCoverage: number
 }
 
-export default SafetyValidator;
+export default SafetyValidator,

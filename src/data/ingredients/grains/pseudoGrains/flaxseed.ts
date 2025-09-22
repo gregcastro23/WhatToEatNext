@@ -53,6 +53,6 @@ const rawFlaxseed = {
       toAvoid: ['dishes requiring long cooking that might damage omega oils']
     }
   }
-};
+},
 
 export const flaxseed: Record<string, IngredientMapping> = fixIngredientMappings(rawFlaxseed)

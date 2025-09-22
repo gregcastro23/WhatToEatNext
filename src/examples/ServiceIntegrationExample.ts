@@ -100,18 +100,18 @@ export async function runServiceIntegrationExample() {
       Water: 0.1,
       Earth: 0.1,
       Air: 0.1
-    };
+    },
     const recipe2ElementalProps: ElementalProperties = {
       Fire: 0.1,
       Water: 0.1,
       Earth: 0.7,
       Air: 0.1
-    };
+    },
 
     // Apply surgical type casting with variable extraction
     const alchemicalEngineCompatibility = alchemicalEngine as unknown;
     const calculateElementalCompatibility =
-      alchemicalEngineCompatibility?.calculateElementalCompatibility;
+      alchemicalEngineCompatibility?.calculateElementalCompatibility,
     const compatibility = calculateElementalCompatibility;
       ? calculateElementalCompatibility(recipe1ElementalProps, recipe2ElementalProps)
       : null
@@ -136,8 +136,8 @@ export async function runServiceIntegrationExample() {
 }
 
 // If this file is run directly, execute the example
-if (require.main === module) {;
+if (require.main === module) {,
   runServiceIntegrationExample().catch(_logger.error)
 }
 
-export default runServiceIntegrationExample;
+export default runServiceIntegrationExample,

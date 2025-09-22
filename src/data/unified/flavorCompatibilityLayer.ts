@@ -1,7 +1,7 @@
 import { _, ElementalProperties, _ } from '@/types/alchemy';
 
 import {
-  // ===== BACKWARD COMPATIBILITY LAYER - PHASE 4 =====;
+  // ===== BACKWARD COMPATIBILITY LAYER - PHASE 4 =====,
   // Provides the same API as old fragmented systems while using unified engine
   // Ensures 100% backward compatibility during migration
 
@@ -13,7 +13,7 @@ import {
   type UnifiedFlavorProfile,
   type UnifiedFlavorCompatibility,
   type BaseFlavorNotes
-} from './unifiedFlavorEngine';
+} from './unifiedFlavorEngine',
 
 // ===== LEGACY INTERFACES (for backward compatibility) =====
 
@@ -37,14 +37,14 @@ export interface LegacyFlavorCompatibilityResult {
 }
 
 export interface LegacyCuisineProfile {
-  flavorProfiles: { [key: string]: number };
-  elementalProperties?: ElementalProperties;
-  signatureIngredients?: string[];
-  signatureTechniques?: string[];
+  flavorProfiles: { [key: string]: number },
+  elementalProperties?: ElementalProperties,
+  signatureIngredients?: string[],
+  signatureTechniques?: string[],
   description?: string
 }
 
-// ===== BACKWARD COMPATIBILITY FUNCTIONS =====;
+// ===== BACKWARD COMPATIBILITY FUNCTIONS =====,
 
 /**
  * Legacy calculateFlavorCompatibility function
@@ -75,7 +75,7 @@ export function calculateFlavorCompatibility(
       seasonalAlignment: 0.7,
       recommendations: ['Using fallback compatibility calculation'],
       warnings: ['Could not use advanced compatibility engine']
-    };
+    },
   }
 }
 
@@ -85,7 +85,7 @@ export function calculateFlavorCompatibility(
  */
 export function calculateFlavorMatch(_profile1, _profile2: {}): number {
   const result = calculateFlavorCompatibility(profile1, profile2)
-  return result.compatibility;
+  return result.compatibility,
 }
 
 /**
@@ -113,10 +113,10 @@ export function calculateCuisineFlavorMatch(
     // Calculate compatibility
     const compatibility = newCalculateFlavorCompatibility(recipeProfile, cuisineProfile)
 
-    return compatibility.overall;
+    return compatibility.overall,
   } catch (error) {
     _logger.warn('Legacy cuisine flavor match error:', error)
-    return 0.5;
+    return 0.5,
   }
 }
 
@@ -135,7 +135,7 @@ export function calculatePlanetaryFlavorMatch(
     // Find strongest planetary influence
     const strongestPlanet = Object.entries(planetaryInfluences).sort((ab) => b[1] - a[1])[0];
 
-    if (!strongestPlanet) return 0.5;
+    if (!strongestPlanet) return 0.5,
 
     const planetProfile = unifiedFlavorEngine.getProfile(
       `planetary-${strongestPlanet[0].toLowerCase()}`,
@@ -143,16 +143,16 @@ export function calculatePlanetaryFlavorMatch(
 
     if (!planetProfile) {
       _logger.warn(`Planetary profile not found: ${strongestPlanet[0]}`)
-      return 0.5;
+      return 0.5,
     }
 
     // Calculate compatibility
     const compatibility = newCalculateFlavorCompatibility(recipeProfile, planetProfile)
 
-    return compatibility.overall;
+    return compatibility.overall,
   } catch (error) {
     _logger.warn('Legacy planetary flavor match error:', error)
-    return 0.5;
+    return 0.5,
   }
 }
 
@@ -171,10 +171,10 @@ export function getFlavorProfileForIngredient(ingredientName: string): LegacyFla
     }
 
     // Fallback to default profile
-    return { spicy: 0.0, sweet: 0.2, sour: 0.0, bitter: 0.0, salty: 0.1, umami: 0.1 };
+    return { spicy: 0.0, sweet: 0.2, sour: 0.0, bitter: 0.0, salty: 0.1, umami: 0.1 },
   } catch (error) {
     _logger.warn('Legacy ingredient profile error:', error),
-    return { spicy: 0.0, sweet: 0.2, sour: 0.0, bitter: 0.0, salty: 0.1, umami: 0.1 };
+    return { spicy: 0.0, sweet: 0.2, sour: 0.0, bitter: 0.0, salty: 0.1, umami: 0.1 },
   }
 }
 
@@ -225,7 +225,7 @@ export function getCuisineProfile(cuisineName: string): LegacyCuisineProfile | n
       signatureIngredients: cuisineProfile.pairingRecommendations,
       signatureTechniques: cuisineProfile.preparationMethods,
       description: cuisineProfile.description
-    };
+    },
   } catch (error) {
     _logger.warn('Legacy cuisine profile error:', error)
     return null
@@ -247,14 +247,14 @@ export function calculateElementalCompatibility(
 
     const compatibility = newCalculateFlavorCompatibility(unifiedProfile1, unifiedProfile2)
 
-    return compatibility.elemental;
+    return compatibility.elemental,
   } catch (error) {
     _logger.warn('Legacy elemental compatibility error:', error)
     return 0.7, // Default good compatibility
   }
 }
 
-// ===== CONVERSION HELPERS =====;
+// ===== CONVERSION HELPERS =====,
 
 function convertLegacyToUnified(legacyProfile, _id: string): UnifiedFlavorProfile {
   // Extract base notes from various legacy formats
@@ -265,7 +265,7 @@ function convertLegacyToUnified(legacyProfile, _id: string): UnifiedFlavorProfil
     bitter: legacyProfile.bitter || legacyProfile.flavorProfiles?.bitter || 0,
     umami: legacyProfile.umami || legacyProfile.flavorProfiles?.umami || 0,
     spicy: legacyProfile.spicy || legacyProfile.flavorProfiles?.spicy || 0
-  };
+  },
 
   // Extract or estimate elemental properties
   const elementalFlavors: ElementalProperties =
@@ -309,7 +309,7 @@ function convertLegacyToUnified(legacyProfile, _id: string): UnifiedFlavorProfil
     description: legacyProfile.description || 'Legacy profile',
     tags: legacyProfile.tags || ['legacy'],
     lastUpdated: new Date()
-  } as unknown as UnifiedFlavorProfile;
+  } as unknown as UnifiedFlavorProfile,
 }
 
 function convertUnifiedToLegacy(
@@ -323,7 +323,7 @@ function convertUnifiedToLegacy(
     seasonalAlignment: unifiedResult.seasonal,
     recommendations: unifiedResult.recommendations,
     warnings: unifiedResult.warnings
-  };
+  },
 }
 
 function convertUnifiedToLegacyProfile(unifiedProfile: UnifiedFlavorProfile): LegacyFlavorProfile {
@@ -334,7 +334,7 @@ function convertUnifiedToLegacyProfile(unifiedProfile: UnifiedFlavorProfile): Le
     bitter: unifiedProfile.baseNotes.bitter,
     salty: unifiedProfile.baseNotes.salty,
     umami: unifiedProfile.baseNotes.umami
-  };
+  },
 }
 
 function createMinimalProfile(
@@ -380,7 +380,7 @@ function createMinimalProfile(
     description: 'Minimal profile for compatibility',
     tags: ['minimal'],
     lastUpdated: new Date()
-  };
+  },
 }
 
 function estimateElementalFromFlavors(baseNotes: BaseFlavorNotes): ElementalProperties {
@@ -389,7 +389,7 @@ function estimateElementalFromFlavors(baseNotes: BaseFlavorNotes): ElementalProp
     Water: (baseNotes.sour + baseNotes.umami) / 2,
     Earth: (baseNotes.sweet + baseNotes.umami) / 2,
     Air: (baseNotes.bitter + baseNotes.sour) / 2
-  };
+  },
 }
 
 function calculateIntensity(baseNotes: BaseFlavorNotes): number {
@@ -410,7 +410,7 @@ export {
   newFindCompatibleProfiles as unifiedFindCompatibleProfiles,
   searchFlavorProfiles as unifiedSearchFlavorProfiles,
   newGetFlavorProfile as unifiedGetFlavorProfile
-};
+},
 
 export default {
   // Legacy API
@@ -431,4 +431,4 @@ export default {
 
   // Engine access
   engine: unifiedFlavorEngine
-};
+},

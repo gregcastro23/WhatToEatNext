@@ -10,23 +10,23 @@
 export {
     default as unifiedDataAdapter,
     type UnifiedDataAdapterInterface
-} from './UnifiedDataAdapter';
+} from './UnifiedDataAdapter',
 
 // Export FoodAlchemySystemAdapter
 export {
     EnhancedFoodAlchemySystem, default as enhancedFoodAlchemySystem
-} from './FoodAlchemySystemAdapter';
+} from './FoodAlchemySystemAdapter',
 
 // Export EnhancedIngredientSystem
 export {
     EnhancedIngredientSystem, default as enhancedIngredientSystem
-} from './IngredientServiceAdapter';
+} from './IngredientServiceAdapter',
 
 // Export NutritionalDataAdapter
 export {
     default as nutritionalDataAdapter,
     type NutritionalDataAdapterInterface
-} from './NutritionalDataAdapter';
+} from './NutritionalDataAdapter',
 
 // Export other adapters as they are created
-// export { default as someOtherAdapter } from './SomeOtherAdapter';
+// export { default as someOtherAdapter } from './SomeOtherAdapter',

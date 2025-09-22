@@ -10,7 +10,7 @@ import type {
   Planet,
   BasicThermodynamicProperties,
   ZodiacSign
-} from '@/types/alchemy';
+} from '@/types/alchemy',
 import { getRecommendedIngredients, EnhancedIngredient } from '@/utils/foodRecommender';
 
 /**
@@ -114,7 +114,7 @@ export const useChakraInfluencedFood = (options?: {
       aspects: state.astrologicalState.aspects || [],
       tarotElementBoosts: state.astrologicalState.tarotElementBoosts || {},
       tarotPlanetaryBoosts: state.astrologicalState.tarotPlanetaryBoosts || {}
-    } as unknown as AstrologicalState;
+    } as unknown as AstrologicalState,
   }, [
     currentZodiac,
     lunarPhase,
@@ -122,8 +122,8 @@ export const useChakraInfluencedFood = (options?: {
     activePlanets,
     planetaryPositions,
     planetaryHour,
-    state.astrologicalState.aspects;
-    state.astrologicalState.tarotElementBoosts;
+    state.astrologicalState.aspects,
+    state.astrologicalState.tarotElementBoosts,
     state.astrologicalState.tarotPlanetaryBoosts
   ])
 
@@ -159,7 +159,7 @@ export const useChakraInfluencedFood = (options?: {
         const results = getRecommendedIngredients(astroState)
 
         // Create chakra-filtered recommendations
-        const chakraFiltered: Record<string, EnhancedIngredient[]> = {};
+        const chakraFiltered: Record<string, EnhancedIngredient[]> = {},
 
         // Group ingredients by which chakra they support the most
         Object.keys(chakraEnergies).forEach(chakraKey => {
@@ -239,7 +239,7 @@ export const useChakraInfluencedFood = (options?: {
         // Apply limit if specified
         const limitedResults = options?.limit
           ? filteredResults.slice(0, options.limit)
-          : filteredResults;
+          : filteredResults,
 
         // Modify scores based on chakra energy levels
         const chakraModifiedResults = limitedResults;
@@ -254,7 +254,7 @@ export const useChakraInfluencedFood = (options?: {
             if (basedElemental === 'Earth') {
               // Earth is strongest in Root (Matter) and Throat (Substance)
               chakraScore =
-                (chakraEnergies.root / 10) * 0.6 + (chakraEnergies.throat / 10) * 0.3 + 0.1;
+                (chakraEnergies.root / 10) * 0.6 + (chakraEnergies.throat / 10) * 0.3 + 0.1,
             } else if (basedElemental === 'Water') {
               // Water is strongest in Root (Matter), Sacral and Solar Plexus (Essence)
               // Avoid Crown (Spirit) which should not include Water
@@ -264,7 +264,7 @@ export const useChakraInfluencedFood = (options?: {
                 ((Number((chakraEnergies as unknown as any).thirdEye) || chakraEnergies.throat) /
                   10) *
                   0.1 +
-                0.1;
+                0.1,
             } else if (basedElemental === 'Fire') {
               // Fire is strongest in Crown and Heart (Spirit) and Solar Plexus (Essence)
               // Avoid Root (Matter) and Throat (Substance) which should not include Fire
@@ -272,30 +272,30 @@ export const useChakraInfluencedFood = (options?: {
                 (chakraEnergies.solarPlexus / 10) * 0.5 +
                 (chakraEnergies.crown / 10) * 0.3 +
                 (chakraEnergies.heart / 10) * 0.1 +
-                0.1;
+                0.1,
             } else if (basedElemental === 'Air') {
               // Air is strongest in Crown (Spirit), Throat (Substance), and Heart
               chakraScore =
                 (chakraEnergies.throat / 10) * 0.4 +
                 (chakraEnergies.crown / 10) * 0.4 +
                 (chakraEnergies.heart / 10) * 0.1 +
-                0.1;
+                0.1,
             }
 
             // Additionally factor in thermodynamic properties if available
             if (ingredient.thermodynamicProperties) {
               // Use safe type casting for thermodynamic properties
               const thermoData = ingredient.thermodynamicProperties as BasicThermodynamicProperties;
-              const { _heat = 0.5, _entropy = 0.5, _reactivity = 0.5} = thermoData || {};
+              const { _heat = 0.5, _entropy = 0.5, _reactivity = 0.5} = thermoData || {},
 
               // Crown (Spirit): (+) Heat, (+) Entropy, (+) Reactivity
               if (heat > 0.6 && entropy > 0.6 && reactivity > 0.6) {
-                chakraScore = (chakraScore + chakraEnergies.crown / 10) / 2;
+                chakraScore = (chakraScore + chakraEnergies.crown / 10) / 2,
               }
 
               // Throat (Substance): (-) Heat, (+) Entropy, (+) Reactivity
               if (heat < 0.4 && entropy > 0.6 && reactivity > 0.6) {
-                chakraScore = (chakraScore + chakraEnergies.throat / 10) / 2;
+                chakraScore = (chakraScore + chakraEnergies.throat / 10) / 2,
               }
 
               // Brow, Solar Plexus, Sacral (Essence): (-) Heat, (-) Entropy, (+) Reactivity
@@ -313,13 +313,13 @@ export const useChakraInfluencedFood = (options?: {
 
               // Root (Matter): (-) Heat, (-) Entropy, (-) Reactivity
               if (heat < 0.4 && entropy < 0.4 && reactivity < 0.4) {
-                chakraScore = (chakraScore + chakraEnergies.root / 10) / 2;
+                chakraScore = (chakraScore + chakraEnergies.root / 10) / 2,
               }
             }
 
             // Add the chakra score to the ingredient's scoreDetails
             return {
-              ...ingredient;
+              ...ingredient,
               scoreDetails: {
                 ...(ingredient.scoreDetails || {}),
                 chakraScore: chakraScore
@@ -338,7 +338,7 @@ export const useChakraInfluencedFood = (options?: {
       } finally {
         setLoading(false)
       }
-    };
+    },
 
     void fetchRecommendations()
   }, [astroState, chakraEnergies, options?.filter, options?.limit])
@@ -365,14 +365,14 @@ export const useChakraInfluencedFood = (options?: {
       const results = getRecommendedIngredients(astroState)
 
       // Create chakra-filtered recommendations - simplified for refresh function
-      const chakraFiltered: Record<string, EnhancedIngredient[]> = {};
+      const chakraFiltered: Record<string, EnhancedIngredient[]> = {},
 
       // Apply filters and limits
       const filteredResults = options?.filter ? results.filter(options.filter) : results;
 
       const limitedResults = options?.limit
         ? filteredResults.slice(0, options.limit)
-        : filteredResults;
+        : filteredResults,
 
       // Apply chakra influence to scores (simplified)
       const chakraModifiedResults = limitedResults;
@@ -384,7 +384,7 @@ export const useChakraInfluencedFood = (options?: {
           if (baseElement === 'Earth') {
             // Earth is strongest in Root (Matter) and Throat (Substance)
             chakraScore =
-              (chakraEnergies.root / 10) * 0.6 + (chakraEnergies.throat / 10) * 0.3 + 0.1;
+              (chakraEnergies.root / 10) * 0.6 + (chakraEnergies.throat / 10) * 0.3 + 0.1,
           } else if (baseElement === 'Water') {
             // Water is strongest in Root (Matter), Sacral and Third Eye (Essence)
             // Avoid Crown (Spirit) which should not include Water
@@ -394,7 +394,7 @@ export const useChakraInfluencedFood = (options?: {
               ((Number((chakraEnergies as unknown as any).thirdEye) || chakraEnergies.throat) /
                 10) *
                 0.1 +
-              0.1;
+              0.1,
           } else if (baseElement === 'Fire') {
             // Fire is strongest in Crown (Spirit) and Solar Plexus (Essence)
             // Avoid Root (Matter) and Throat (Substance) which should not include Fire
@@ -402,31 +402,31 @@ export const useChakraInfluencedFood = (options?: {
               (chakraEnergies.solarPlexus / 10) * 0.5 +
               (chakraEnergies.crown / 10) * 0.3 +
               (chakraEnergies.heart / 10) * 0.1 +
-              0.1;
+              0.1,
           } else if (baseElement === 'Air') {
             // Air is strongest in Crown (Spirit), Throat (Substance), and Heart
             chakraScore =
               (chakraEnergies.throat / 10) * 0.4 +
               (chakraEnergies.crown / 10) * 0.4 +
               (chakraEnergies.heart / 10) * 0.1 +
-              0.1;
+              0.1,
           }
 
           // Additionally factor in thermodynamic properties if available
           if (ingredient.thermodynamicProperties) {
             // Use safe type casting for thermodynamic properties
             const thermoData = ingredient.thermodynamicProperties as BasicThermodynamicProperties;
-            const { _heat = 0.5, _entropy = 0.5, _reactivity = 0.5} = thermoData || {};
+            const { _heat = 0.5, _entropy = 0.5, _reactivity = 0.5} = thermoData || {},
 
             // Apply alchemical energy state rules
             // Crown (Spirit): (+) Heat, (+) Entropy, (+) Reactivity
             if (heat > 0.6 && entropy > 0.6 && reactivity > 0.6) {
-              chakraScore = (chakraScore + chakraEnergies.crown / 10) / 2;
+              chakraScore = (chakraScore + chakraEnergies.crown / 10) / 2,
             }
 
             // Throat (Substance): (-) Heat, (+) Entropy, (+) Reactivity
             if (heat < 0.4 && entropy > 0.6 && reactivity > 0.6) {
-              chakraScore = (chakraScore + chakraEnergies.throat / 10) / 2;
+              chakraScore = (chakraScore + chakraEnergies.throat / 10) / 2,
             }
 
             // Brow, Solar Plexus, Sacral (Essence): (-) Heat, (-) Entropy, (+) Reactivity
@@ -443,12 +443,12 @@ export const useChakraInfluencedFood = (options?: {
 
             // Root (Matter): (-) Heat, (-) Entropy, (-) Reactivity
             if (heat < 0.4 && entropy < 0.4 && reactivity < 0.4) {
-              chakraScore = (chakraScore + chakraEnergies.root / 10) / 2;
+              chakraScore = (chakraScore + chakraEnergies.root / 10) / 2,
             }
           }
 
           return {
-            ...ingredient;
+            ...ingredient,
             scoreDetails: {
               ...(ingredient.scoreDetails || {}),
               chakraScore: chakraScore
@@ -466,7 +466,7 @@ export const useChakraInfluencedFood = (options?: {
     } finally {
       setLoading(false)
     }
-  };
+  },
 
   return {
     recommendations,
@@ -475,7 +475,7 @@ export const useChakraInfluencedFood = (options?: {
     error,
     refreshRecommendations,
     chakraRecommendations
-  };
-};
+  },
+},
 
-export default useChakraInfluencedFood;
+export default useChakraInfluencedFood,

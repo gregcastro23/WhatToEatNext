@@ -4,89 +4,89 @@
 */
 
 export type ElementalProperties = {
-  Fire: number;
-  Water: number;
-  Air: number;
-  Earth: number;
-};
+  Fire: number,
+  Water: number,
+  Air: number,
+  Earth: number,
+},
 
 export interface ThermodynamicsResult {
-  heat: number;
-  entropy: number;
-  reactivity: number;
-  gregsEnergy: number;
-  kalchm: number;
-  monica: number | null;
+  heat: number,
+  entropy: number,
+  reactivity: number,
+  gregsEnergy: number,
+  kalchm: number,
+  monica: number | null,
 }
 
 export interface RecommendationRequest {
-  ingredients: string[];
-  dietaryRestrictions?: string[];
-  cuisinePreferences?: string[];
+  ingredients: string[],
+  dietaryRestrictions?: string[],
+  cuisinePreferences?: string[],
 }
 
 export interface Recipe {
-  id: string;
-  name: string;
-  url?: string;
+  id: string,
+  name: string,
+  url?: string,
 }
 
 export interface TokenRatesRequest {
-  datetime?: string;
-  location?: { latitude: number; longitude: number };
-  elemental?: ElementalProperties;
-  esms?: { Spirit: number; Essence: number; Matter: number; Substance: number };
+  datetime?: string,
+  location?: { latitude: number; longitude: number },
+  elemental?: ElementalProperties,
+  esms?: { Spirit: number; Essence: number; Matter: number; Substance: number },
 }
 
 export interface TokenRatesResult {
-  Spirit: number;
-  Essence: number;
-  Matter: number;
-  Substance: number;
-  kalchm: number;
-  monica: number;
+  Spirit: number,
+  Essence: number,
+  Matter: number,
+  Substance: number,
+  kalchm: number,
+  monica: number,
 }
 
 export interface RuneAgentRequest {
-  datetime?: string;
-  location?: { latitude: number; longitude: number };
-  context?: 'cuisine' | 'recipe' | 'ingredient' | 'cooking_method';
+  datetime?: string,
+  location?: { latitude: number; longitude: number },
+  context?: 'cuisine' | 'recipe' | 'ingredient' | 'cooking_method',
   preferences?: {
-    dietaryRestrictions?: string[];
-    cuisineTypes?: string[];
-    intensity?: 'mild' | 'moderate' | 'intense';
-  };
+    dietaryRestrictions?: string[],
+    cuisineTypes?: string[],
+    intensity?: 'mild' | 'moderate' | 'intense',
+  },
 }
 
 export interface RuneResult {
-  symbol: string;
-  name: string;
-  meaning: string;
+  symbol: string,
+  name: string,
+  meaning: string,
   influence: {
-    elemental: ElementalProperties;
-    energy: { Spirit: number; Essence: number; Matter: number; Substance: number };
-    guidance: string;
-  };
+    elemental: ElementalProperties,
+    energy: { Spirit: number; Essence: number; Matter: number; Substance: number },
+    guidance: string,
+  },
 }
 
 export interface PlanetaryHourRequest {
-  datetime?: string;
-  location?: { latitude: number; longitude: number };
+  datetime?: string,
+  location?: { latitude: number; longitude: number },
 }
 
 export interface PlanetaryHourResult {
-  planet: string;
-  hourNumber?: number;
-  isDaytime: boolean;
-  start?: string;
-  end?: string;
+  planet: string,
+  hourNumber?: number,
+  isDaytime: boolean,
+  start?: string,
+  end?: string,
 }
 
 export class AlchmAPIClient {
   private readonly endpoints = {
     alchemical: process.env.NEXT_PUBLIC_BACKEND_URL ?? '',
     kitchen: process.env.NEXT_PUBLIC_KITCHEN_BACKEND_URL ?? '',
-  } as const;
+  } as const,
 
   private async request<TResponse>(url: string, init?: RequestInit): Promise<TResponse> {
     const response = await fetch(url, init)
@@ -94,7 +94,7 @@ export class AlchmAPIClient {
       const statusText = response.statusText || 'Unknown Error';
       throw new Error(`API Error: ${response.status} ${statusText}`)
     }
-    return response.json() as Promise<TResponse>;
+    return response.json() as Promise<TResponse>,
   }
 
   async calculateElemental(ingredients: string[]): Promise<ElementalProperties> {

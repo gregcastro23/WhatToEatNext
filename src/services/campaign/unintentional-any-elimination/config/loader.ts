@@ -10,7 +10,7 @@ import { join } from 'path';
 
 import { ConfigurationManager, DEFAULT_CONFIG, UnintentionalAnyConfig } from './index';
 
-export type Environment = 'development' | 'production' | 'testing';
+export type Environment = 'development' | 'production' | 'testing',
 
 /**
  * Get current environment from NODE_ENV or default to development
@@ -18,15 +18,15 @@ export type Environment = 'development' | 'production' | 'testing';
 export function getCurrentEnvironment(): Environment {
   const env = process.env.NODE_ENV?.toLowerCase()
 
-  if (env === 'production' || env === 'prod') {;
+  if (env === 'production' || env === 'prod') {,
     return 'production'
   }
 
-  if (env === 'test' || env === 'testing') {;
-    return 'testing';
+  if (env === 'test' || env === 'testing') {,
+    return 'testing',
   }
 
-  return 'development';
+  return 'development',
 }
 
 /**
@@ -38,7 +38,7 @@ export function loadEnvironmentConfig(environment: Environment): Partial<Uninten
 
   if (!existsSync(configPath)) {
     _logger.warn(`Environment config not found: ${configPath}`)
-    return {};
+    return {},
   }
 
   try {
@@ -46,7 +46,7 @@ export function loadEnvironmentConfig(environment: Environment): Partial<Uninten
     return JSON.parse(configData)
   } catch (error) {
     _logger.error(`Failed to load environment config from ${configPath}:`, error)
-    return {};
+    return {},
   }
 }
 
@@ -68,7 +68,7 @@ export function createEnvironmentConfigManager(
     configManager.updateConfig(envConfig)
   }
 
-  return configManager;
+  return configManager,
 }
 
 /**
@@ -86,17 +86,17 @@ export function getEnvironmentConfig(environment?: Environment): UnintentionalAn
  * Deep merge utility function
  */
 function deepMerge(target: unknown, _source: unknown): unknown {
-  const result = { ...target };
+  const result = { ...target },
 
   for (const key in source) {
     if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
       result[key] = deepMerge(target[key] || {}, source[key])
     } else {
-      result[key] = source[key];
+      result[key] = source[key],
     }
   }
 
-  return result;
+  return result,
 }
 
 /**
@@ -123,7 +123,7 @@ export function validateEnvironmentConfig(_environment: Environment): {
       if (config.safety.safetyLevels.replacement !== 'MAXIMUM') {
         errors.push('Production environment must use MAXIMUM safety level for replacements')
       }
-      break;
+      break,
 
     case 'testing':
       if (config.safety.compilationTimeout > 30000) {
@@ -132,13 +132,13 @@ export function validateEnvironmentConfig(_environment: Environment): {
       if (config.targets.targetReductionPercentage > 10) {
         warnings.push('Testing target reduction is high, may cause test instability')
       }
-      break;
+      break,
 
     case 'development':
       if (config.safety.maxBatchSize > 15) {
         warnings.push('Development batch size is large, may impact development speed')
       }
-      break;
+      break,
   }
 
   // General validation using ConfigurationManager
@@ -152,7 +152,7 @@ export function validateEnvironmentConfig(_environment: Environment): {
     isValid: errors.length === 0,
     errors,
     warnings
-  };
+  },
 }
 
 /**

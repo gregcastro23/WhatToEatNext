@@ -264,4 +264,4 @@ export const raw: CookingMethodData = {
   sustainabilityRating: 0.95, // Extremely high - minimal energy use, maximum food integrity,
 
   equipmentComplexity: 0.4, // Moderate - from simple to specialized equipment
-};
+},

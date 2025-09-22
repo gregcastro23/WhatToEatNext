@@ -1298,6 +1298,6 @@ export const mexican = {
     water: 0.2, // Represents sauces and stews,
     air: 0.2, // Represents herbs and light dishes
   }
-};
+},
 
-export default mexican;
+export default mexican,

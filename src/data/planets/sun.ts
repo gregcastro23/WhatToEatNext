@@ -1,5 +1,5 @@
 import { PlanetData, SunSpecificData } from './types';
-export type { SunSpecificData };
+export type { SunSpecificData },
 
 const sunData: PlanetData = {
   'Dignity Effect': {
@@ -246,6 +246,6 @@ const sunData: PlanetData = {
       }
     }
   }
-};
+},
 
-export default sunData;
+export default sunData,

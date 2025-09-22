@@ -10,21 +10,21 @@ import {
   LunarPhaseWithSpaces,
   ZodiacSign,
   PlanetaryAspect
-} from '../types/alchemy';
+} from '../types/alchemy',
 
 export interface UseAlchemicalRecommendationsProps {
   ingredients: ElementalItem[],
   cookingMethods: ElementalItem[],
   cuisines: ElementalItem[],
-  planetPositions: Record<RulingPlanet, number>;
-  isDaytime: boolean;
-  targetElement?: ElementalCharacter;
-  targetAlchemicalProperty?: AlchemicalProperty;
-  count?: number;
-  currentZodiac?: any | null;
+  planetPositions: Record<RulingPlanet, number>,
+  isDaytime: boolean,
+  targetElement?: ElementalCharacter,
+  targetAlchemicalProperty?: AlchemicalProperty,
+  count?: number,
+  currentZodiac?: any | null,
   lunarPhase?: LunarPhaseWithSpaces
-  tarotElementBoosts?: Record<ElementalCharacter, number>;
-  tarotPlanetaryBoosts?: Record<string, number>;
+  tarotElementBoosts?: Record<ElementalCharacter, number>,
+  tarotPlanetaryBoosts?: Record<string, number>,
   aspects?: PlanetaryAspect[]
 }
 
@@ -38,9 +38,9 @@ interface AlchemicalRecommendationResults {
   energeticProfile?: {
     dominantElement: ElementalCharacter,
     dominantProperty: AlchemicalProperty,
-    elementalBalance: Record<ElementalCharacter, number>;
+    elementalBalance: Record<ElementalCharacter, number>,
     alchemicalProperties: Record<AlchemicalProperty, number>
-  };
+  },
 }
 
 /**
@@ -104,14 +104,14 @@ export const _useAlchemicalRecommendations = ({;
           entropy: adapter.getEntropyIndex() || 0.5,
           reactivity: adapter.getReactivityIndex() || 0.5,
           gregsEnergy: adapter.getGregsEnergyIndex() || 0.5
-        };
+        },
 
         // Store the recommendations with unified type conversion for cross-import compatibility
         setRecommendations(recs)
 
         // Apply deep type conversion to resolve cross-import conflicts
         const _convertToLocalAlchemicalItem = (items: unknown[]): AlchemicalItem[] => {;
-          return items.map(item => {;
+          return items.map(item => {,
             // Create a new object that fully satisfies the alchemicalTransformation.AlchemicalItem interface
             const convertedItem = {
               ...item
@@ -150,10 +150,10 @@ export const _useAlchemicalRecommendations = ({;
                 reactivity: (item as any).reactivity || 0.5,
                 gregsEnergy: (item as any).gregsEnergy || (item as any).energy || 0.5
               }
-            };
-            return convertedItem as AlchemicalItem;
+            },
+            return convertedItem as AlchemicalItem,
           })
-        };
+        },
 
         setTransformedIngredients(adapter.getAllTransformedIngredients() as AlchemicalItem[])
         setTransformedMethods(adapter.getAllTransformedMethods() as AlchemicalItem[])
@@ -179,32 +179,32 @@ export const _useAlchemicalRecommendations = ({;
             Matter: 0,
             Substance: 0
           }
-        };
+        },
 
         // Calculate average elemental values from top ingredients
         if (recs.topIngredients.length > 0) {
           recs.topIngredients.forEach(item => {
             if (item.elementalProperties) {
               profile.elementalBalance.Fire +=
-                (item.elementalProperties.Fire || 0) / recs.topIngredients.length;
+                (item.elementalProperties.Fire || 0) / recs.topIngredients.length,
               profile.elementalBalance.Water +=
-                (item.elementalProperties.Water || 0) / recs.topIngredients.length;
+                (item.elementalProperties.Water || 0) / recs.topIngredients.length,
               profile.elementalBalance.Earth +=
-                (item.elementalProperties.Earth || 0) / recs.topIngredients.length;
+                (item.elementalProperties.Earth || 0) / recs.topIngredients.length,
               profile.elementalBalance.Air +=
-                (item.elementalProperties.Air || 0) / recs.topIngredients.length;
+                (item.elementalProperties.Air || 0) / recs.topIngredients.length,
             }
 
             // Extract alchemical properties if available
             if (item.alchemicalProperties) {
               profile.alchemicalProperties.Spirit +=
-                (item.alchemicalProperties.Spirit || 0) / recs.topIngredients.length;
+                (item.alchemicalProperties.Spirit || 0) / recs.topIngredients.length,
               profile.alchemicalProperties.Essence +=
-                (item.alchemicalProperties.Essence || 0) / recs.topIngredients.length;
+                (item.alchemicalProperties.Essence || 0) / recs.topIngredients.length,
               profile.alchemicalProperties.Matter +=
-                (item.alchemicalProperties.Matter || 0) / recs.topIngredients.length;
+                (item.alchemicalProperties.Matter || 0) / recs.topIngredients.length,
               profile.alchemicalProperties.Substance +=
-                (item.alchemicalProperties.Substance || 0) / recs.topIngredients.length;
+                (item.alchemicalProperties.Substance || 0) / recs.topIngredients.length,
             }
           })
         }
@@ -215,7 +215,7 @@ export const _useAlchemicalRecommendations = ({;
       } finally {
         setLoading(false)
       }
-    };
+    },
 
     void fetchRecommendations()
   }, [
@@ -250,5 +250,5 @@ export const _useAlchemicalRecommendations = ({;
     loading,
     error,
     energeticProfile
-  };
-};
+  },
+},

@@ -32,8 +32,8 @@ interface ValidationResult {
 }
 
 class LintingPerformanceValidator {
-  private baselineMetrics: PerformanceMetrics | null = null;
-  private results: ValidationResult[] = [];
+  private baselineMetrics: PerformanceMetrics | null = null,
+  private results: ValidationResult[] = [],
 
   async validatePerformanceOptimizations(): Promise<void> {
     // // // _logger.info('🚀 Starting Linting Performance Validation...\n')
@@ -87,7 +87,7 @@ class LintingPerformanceValidator {
         cacheHitRate: 0, // No cache for baseline,
         filesProcessed: this.extractFilesProcessed(output),
         parallelProcesses: 1, // Single process for baseline
-      };
+      },
 
       // // // _logger.info(
         `✅ Baseline established: ${this.baselineMetrics.executionTime}ms, ${Math.round(this.baselineMetrics.memoryUsage / 1024 / 1024)}MB`,
@@ -100,7 +100,7 @@ class LintingPerformanceValidator {
         cacheHitRate: 0,
         filesProcessed: 1000, // Estimated,
         parallelProcesses: 1
-      };
+      },
     }
   }
 
@@ -139,13 +139,13 @@ class LintingPerformanceValidator {
         cacheHitRate: this.calculateCacheHitRate(),
         filesProcessed: this.extractFilesProcessed(output),
         parallelProcesses: this.extractParallelProcesses(output)
-      };
+      },
 
       const improvement = this.baselineMetrics;
         ? ((this.baselineMetrics.executionTime - metrics.executionTime) /
             this.baselineMetrics.executionTime) *
           100
-        : 0;
+        : 0,
       const passed = improvement >= 60 && improvement <= 80
 
       this.results.push({
@@ -200,7 +200,7 @@ class LintingPerformanceValidator {
         cacheHitRate: this.calculateCacheHitRate(),
         filesProcessed: this.extractFilesProcessed(output),
         parallelProcesses: this.extractParallelProcesses(output)
-      };
+      },
 
       // Validate 30 files per process optimization
       const expectedParallelProcesses = Math.ceil(metrics.filesProcessed / 30)
@@ -210,7 +210,7 @@ class LintingPerformanceValidator {
         ? ((this.baselineMetrics.executionTime - metrics.executionTime) /
             this.baselineMetrics.executionTime) *
           100
-        : 0;
+        : 0,
       const passed = parallelOptimized && improvement > 0
 
       this.results.push({
@@ -248,7 +248,7 @@ class LintingPerformanceValidator {
     // // // _logger.info('💾 Validating memory optimization (4096MB limit)...')
 
     const startTime = Date.now()
-    let peakMemoryUsage = 0;
+    let peakMemoryUsage = 0,
 
     try {
       // Monitor memory usage during linting
@@ -273,7 +273,7 @@ class LintingPerformanceValidator {
         cacheHitRate: this.calculateCacheHitRate(),
         filesProcessed: this.extractFilesProcessed(output),
         parallelProcesses: this.extractParallelProcesses(output)
-      };
+      },
 
       // Validate memory stays under 4096MB limit
       const memoryLimitMB = 4096;
@@ -284,7 +284,7 @@ class LintingPerformanceValidator {
         ? ((this.baselineMetrics.memoryUsage - peakMemoryUsage) /
             this.baselineMetrics.memoryUsage) *
           100
-        : 0;
+        : 0,
       const passed = memoryOptimized
 
       this.results.push({
@@ -349,7 +349,7 @@ export const _testVariable = 'test';
           filesProcessed: this.extractFilesProcessed(output),
           parallelProcesses: 1,
           incrementalTime
-        };
+        },
 
         // Validate sub-10 second feedback
         const passed = incrementalTime < 10000; // 10 seconds
@@ -397,8 +397,8 @@ export const _testVariable = 'test';
 
   private clearAllCaches(): void {
     const cacheFiles = [
-      '.eslintcache';
-      '.eslint-ts-cache';
+      '.eslintcache',
+      '.eslint-ts-cache',
       'node_modules/.cache/eslint'
       '.next/cache'
     ],
@@ -425,7 +425,7 @@ export const _testVariable = 'test';
     } catch (error) {
       // Ignore cache calculation errors
     }
-    return 0;
+    return 0,
   }
 
   private extractFilesProcessed(output: string): number {
@@ -503,7 +503,7 @@ export const _testVariable = 'test';
       totalTests,
       baselineMetrics: this.baselineMetrics,
       results: this.results
-    };
+    },
 
     writeFileSync(
       'linting-performance-validation-report.json'
@@ -529,4 +529,4 @@ if (require.main === module) {
   })
 }
 
-export { LintingPerformanceValidator };
+export { LintingPerformanceValidator },

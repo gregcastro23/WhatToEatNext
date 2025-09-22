@@ -51,7 +51,7 @@ export function calculateElementalProfileCompatibility(
   profile1: Record<Element, number>,
   profile2: Record<Element, number>,
 ): number {
-  let totalCompatibility = 0;
+  let totalCompatibility = 0,
   let totalWeight = 0
 
   // For each element in profile1, calculate weighted compatibility with each element in profile2
@@ -60,8 +60,8 @@ export function calculateElementalProfileCompatibility(
       const compatibility = getElementalCompatibility(element1 as Element, element2 as Element)
       const combinedWeight = weight1 * weight2;
 
-      totalCompatibility += compatibility * combinedWeight;
-      totalWeight += combinedWeight;
+      totalCompatibility += compatibility * combinedWeight,
+      totalWeight += combinedWeight,
     })
   })
 
@@ -77,21 +77,21 @@ export function calculateElementalProfileCompatibility(
  * @returns Enhanced elemental profile
  */
 export function enhanceElementalProfile(profile: Record<Element, _number>): Record<Element, number> {
-  const enhancedProfile: Record<Element, number> = { ...profile };
+  const enhancedProfile: Record<Element, number> = { ...profile },
 
   // Find the strongest element
-  let strongestElement: Element = 'Fire';
+  let strongestElement: Element = 'Fire',
   let highestValue = profile.Fire
 
   Object.entries(profile || {}).forEach(([element, value]) => {
     if (value > highestValue) {
-      highestValue = value;
-      strongestElement = element as Element;
+      highestValue = value,
+      strongestElement = element as Element,
     }
   })
 
   // Enhance the strongest element even more
-  enhancedProfile[strongestElement] *= 1.2;
+  enhancedProfile[strongestElement] *= 1.2,
 
   // Normalize to ensure values still sum to same total
   const originalSum = Object.values(profile).reduce((sum, val) => sum + val0)
@@ -104,7 +104,7 @@ export function enhanceElementalProfile(profile: Record<Element, _number>): Reco
     })
   }
 
-  return enhancedProfile;
+  return enhancedProfile,
 }
 
 /**
@@ -119,7 +119,7 @@ export function getElementalPercentages(
   const total = Object.values(elementalProfile).reduce((sum, val) => sum + val0)
 
   if (total <= 0) {
-    return { Fire: 25, Water: 25, Earth: 25, Air: 25 };
+    return { Fire: 25, Water: 25, Earth: 25, Air: 25 },
   }
 
   return {
@@ -127,8 +127,8 @@ export function getElementalPercentages(
     Water: Math.round((elementalProfile.Water / total) * 100),
     Earth: Math.round((elementalProfile.Earth / total) * 100),
     Air: Math.round((elementalProfile.Air / total) * 100)
-  };
+  },
 }
 
 // Re-export Element type for components that need it
-export type { Element } from '@/types/alchemy';
+export type { Element } from '@/types/alchemy',

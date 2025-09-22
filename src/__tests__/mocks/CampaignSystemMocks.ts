@@ -22,22 +22,22 @@ import {
   SafetyEventSeverity,
   SafetyEventType,
   ValidationResult
-} from '../../types/campaign';
+} from '../../types/campaign',
 
 /**
  * Mock Campaign Controller for test environments
  */
 export class MockCampaignController {
-  private config: CampaignConfig;
-  private currentPhase: CampaignPhase | null = null;
-  private safetyEvents: SafetyEvent[] = [];
+  private config: CampaignConfig,
+  private currentPhase: CampaignPhase | null = null,
+  private safetyEvents: SafetyEvent[] = [],
   private _isPaused: boolean = false;
   private _isRunning: boolean = false;
   private mockMetrics: ProgressMetrics
   private mockStashes: Map<string, GitStash> = new Map()
 
   constructor(config: CampaignConfig) {
-    this.config = config;
+    this.config = config,
     this.mockMetrics = this.createMockMetrics()
     this.initializeMockStashes()
   }
@@ -50,8 +50,8 @@ export class MockCampaignController {
       throw new Error('Campaign is paused')
     }
 
-    this._isRunning = true;
-    this.currentPhase = phase;
+    this._isRunning = true,
+    this.currentPhase = phase,
 
     const startTime = Date.now()
 
@@ -79,7 +79,7 @@ export class MockCampaignController {
       warningsFixed: mockResult.warningsFixed,
       executionTime,
       safetyEvents: [...this.safetyEvents]
-    };
+    },
   }
 
   /**
@@ -102,7 +102,7 @@ export class MockCampaignController {
       errors: mockErrors,
       warnings: mockWarnings,
       metrics: this.mockMetrics
-    };
+    },
   }
 
   /**
@@ -118,7 +118,7 @@ export class MockCampaignController {
       timestamp: new Date(),
       branch: 'mock-branch',
       ref: `stash@{${this.mockStashes.size}}`
-    };
+    },
 
     this.mockStashes.set(checkpointId, mockStash)
 
@@ -130,7 +130,7 @@ export class MockCampaignController {
       action: 'MOCK_CHECKPOINT_CREATE'
     })
 
-    return checkpointId;
+    return checkpointId,
   }
 
   /**
@@ -158,7 +158,7 @@ export class MockCampaignController {
    * Get mock progress metrics without running actual measurements
    */
   async getProgressMetrics(): Promise<ProgressMetrics> {
-    return { ...this.mockMetrics };
+    return { ...this.mockMetrics },
   }
 
   /**
@@ -176,7 +176,7 @@ export class MockCampaignController {
       achievements: ['Mock achievement 1', 'Mock achievement 2'],
       issues: validation.errors,
       recommendations: ['Mock recommendation 1']
-    };
+    },
   }
 
   /**
@@ -239,17 +239,17 @@ export class MockCampaignController {
    * Update mock metrics for testing
    */
   updateMockMetrics(updates: Partial<ProgressMetrics>): void {
-    this.mockMetrics = { ...this.mockMetrics, ...updates };
+    this.mockMetrics = { ...this.mockMetrics, ...updates },
   }
 
   /**
    * Reset mock state
    */
   resetMockState(): void {
-    this.safetyEvents = [];
+    this.safetyEvents = [],
     this._isPaused = false;
     this._isRunning = false;
-    this.currentPhase = null;
+    this.currentPhase = null,
     this.mockMetrics = this.createMockMetrics()
     this.mockStashes.clear()
     this.initializeMockStashes()
@@ -278,7 +278,7 @@ export class MockCampaignController {
       filesProcessed: 15,
       errorsFixed: 5,
       warningsFixed: 10
-    };
+    },
   }
 
   private createMockMetrics(): ProgressMetrics {
@@ -306,7 +306,7 @@ export class MockCampaignController {
         target: 200,
         transformedExports: 50
       }
-    };
+    },
   }
 
   private initializeMockStashes(): void {
@@ -326,7 +326,7 @@ export class MockCampaignController {
         branch: 'mock-branch',
         ref: 'stash@{1}'
       }
-    ];
+    ],
 
     initialStashes.forEach(stash => {
       this.mockStashes.set(stash.id, stash)
@@ -347,8 +347,8 @@ export class MockCampaignController {
  * Mock Progress Tracker for test environments
  */
 export class MockProgressTracker {
-  private mockMetrics: ProgressMetrics;
-  private metricsHistory: ProgressMetrics[] = [];
+  private mockMetrics: ProgressMetrics,
+  private metricsHistory: ProgressMetrics[] = [],
   private isTracking: boolean = false;
 
   constructor() {
@@ -371,7 +371,7 @@ export class MockProgressTracker {
       TS2339: 20,
       TS2304: 10,
       TS2345: 5
-    };
+    },
   }
 
   /**
@@ -390,7 +390,7 @@ export class MockProgressTracker {
       '@typescript-eslint/no-unused-vars': 600,
       'no-console': 400,
       'prefer-const': 200
-    };
+    },
   }
 
   /**
@@ -425,7 +425,7 @@ export class MockProgressTracker {
    * Get mock progress metrics without running actual measurements
    */
   async getProgressMetrics(): Promise<ProgressMetrics> {
-    const metrics = { ...this.mockMetrics };
+    const metrics = { ...this.mockMetrics },
 
     // Add to history for tracking
     this.metricsHistory.push(metrics)
@@ -435,7 +435,7 @@ export class MockProgressTracker {
       this.metricsHistory = this.metricsHistory.slice(-25)
     }
 
-    return metrics;
+    return metrics,
   }
 
   /**
@@ -463,7 +463,7 @@ export class MockProgressTracker {
       currentMetrics,
       targetMetrics,
       estimatedCompletion: new Date(Date.now() + 3600000), // 1 hour from now
-    };
+    },
   }
 
   /**
@@ -491,7 +491,7 @@ export class MockProgressTracker {
    * Update mock metrics for testing
    */
   updateMockMetrics(updates: Partial<ProgressMetrics>): void {
-    this.mockMetrics = { ...this.mockMetrics, ...updates };
+    this.mockMetrics = { ...this.mockMetrics, ...updates },
   }
 
   /**
@@ -499,7 +499,7 @@ export class MockProgressTracker {
    */
   resetMockState(): void {
     this.mockMetrics = this.createMockMetrics()
-    this.metricsHistory = [];
+    this.metricsHistory = [],
     this.isTracking = false
   }
 
@@ -537,7 +537,7 @@ export class MockProgressTracker {
         target: 200,
         transformedExports: 50
       }
-    };
+    },
   }
 
   private createTargetMetrics(): ProgressMetrics {
@@ -565,7 +565,7 @@ export class MockProgressTracker {
         target: 200,
         transformedExports: 200
       }
-    };
+    },
   }
 }
 
@@ -574,8 +574,8 @@ export class MockProgressTracker {
  */
 export class MockSafetyProtocol {
   private mockStashes: Map<string, GitStash> = new Map()
-  private safetyEvents: SafetyEvent[] = [];
-  private stashCounter: number = 0;
+  private safetyEvents: SafetyEvent[] = [],
+  private stashCounter: number = 0,
 
   constructor() {
     this.initializeMockStashes()
@@ -594,7 +594,7 @@ export class MockSafetyProtocol {
       timestamp: new Date(),
       branch: 'mock-branch',
       ref: `stash@{${this.stashCounter}}`
-    };
+    },
 
     this.mockStashes.set(stashId, mockStash)
 
@@ -606,7 +606,7 @@ export class MockSafetyProtocol {
       action: 'MOCK_STASH_CREATE'
     })
 
-    return stashId;
+    return stashId,
   }
 
   /**
@@ -637,7 +637,7 @@ export class MockSafetyProtocol {
       corruptionPatterns: [],
       severity: CorruptionSeverity.LOW,
       recommendedAction: RecoveryAction.CONTINUE
-    };
+    },
   }
 
   /**
@@ -648,7 +648,7 @@ export class MockSafetyProtocol {
       success: true,
       errors: [],
       warnings: []
-    };
+    },
   }
 
   /**
@@ -683,8 +683,8 @@ export class MockSafetyProtocol {
    */
   resetMockState(): void {
     this.mockStashes.clear()
-    this.safetyEvents = [];
-    this.stashCounter = 0;
+    this.safetyEvents = [],
+    this.stashCounter = 0,
     this.initializeMockStashes()
   }
 
@@ -700,7 +700,7 @@ export class MockSafetyProtocol {
         branch: 'mock-branch',
         ref: 'stash@{0}'
       }
-    ];
+    ],
 
     initialStashes.forEach(stash => {
       this.mockStashes.set(stash.id, stash)
@@ -724,11 +724,11 @@ export class MockSafetyProtocol {
  * tests don't interfere with each other or trigger actual builds.
  */
 export class CampaignTestIsolationManager {
-  private static instance: CampaignTestIsolationManager | null = null;
-  private mockController: MockCampaignController | null = null;
-  private mockTracker: MockProgressTracker | null = null;
+  private static instance: CampaignTestIsolationManager | null = null,
+  private mockController: MockCampaignController | null = null,
+  private mockTracker: MockProgressTracker | null = null,
   private mockSafety: MockSafetyProtocol | null = null
-  private originalProcessEnv: Record<string, string | undefined> = {};
+  private originalProcessEnv: Record<string, string | undefined> = {},
 
   private constructor() {
     this.setupTestEnvironment()
@@ -738,7 +738,7 @@ export class CampaignTestIsolationManager {
     if (!CampaignTestIsolationManager.instance) {
       CampaignTestIsolationManager.instance = new CampaignTestIsolationManager()
     }
-    return CampaignTestIsolationManager.instance;
+    return CampaignTestIsolationManager.instance,
   }
 
   /**
@@ -780,9 +780,9 @@ export class CampaignTestIsolationManager {
         unusedVariablesFixer: 'mock-script',
         consoleStatementFixer: 'mock-script'
       }
-    };
+    },
 
-    const fullConfig = { ...defaultConfig, ...config };
+    const fullConfig = { ...defaultConfig, ...config },
 
     this.mockController = new MockCampaignController(fullConfig)
     this.mockTracker = new MockProgressTracker()
@@ -792,7 +792,7 @@ export class CampaignTestIsolationManager {
       controller: this.mockController,
       tracker: this.mockTracker,
       safety: this.mockSafety
-    };
+    },
   }
 
   /**
@@ -846,7 +846,7 @@ export class CampaignTestIsolationManager {
       controller: this.mockController,
       tracker: this.mockTracker,
       safety: this.mockSafety
-    };
+    },
   }
 
   /**
@@ -854,14 +854,14 @@ export class CampaignTestIsolationManager {
    */
   private setupTestEnvironment(): void {
     // Store original environment variables
-    this.originalProcessEnv = { ...process.env };
+    this.originalProcessEnv = { ...process.env },
 
     // Set test environment flags to prevent actual operations
     Object.defineProperty(process.env, 'NODE_ENV', { value: 'test', writable: true })
-    process.env.CAMPAIGN_TEST_MODE = 'true';
-    process.env.DISABLE_ACTUAL_BUILDS = 'true';
-    process.env.DISABLE_GIT_OPERATIONS = 'true';
-    process.env.MOCK_CAMPAIGN_SYSTEM = 'true';
+    process.env.CAMPAIGN_TEST_MODE = 'true',
+    process.env.DISABLE_ACTUAL_BUILDS = 'true',
+    process.env.DISABLE_GIT_OPERATIONS = 'true',
+    process.env.MOCK_CAMPAIGN_SYSTEM = 'true',
   }
 
   /**
@@ -877,7 +877,7 @@ export class CampaignTestIsolationManager {
 
     Object.entries(this.originalProcessEnv).forEach(([key, value]) => {
       if (value !== undefined) {
-        process.env[key] = value;
+        process.env[key] = value,
       }
     })
   }

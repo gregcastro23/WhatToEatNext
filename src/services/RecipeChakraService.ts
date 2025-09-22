@@ -5,7 +5,7 @@ import { getFoodRecommendationsFromChakras } from '../utils/chakraFoodUtils';
 import { ChakraService, ChakraEnergyState } from './ChakraService';
 
 export class RecipeChakraService {
-  private chakraService: ChakraService;
+  private chakraService: ChakraService,
 
   constructor() {
     this.chakraService = new ChakraService()
@@ -30,16 +30,16 @@ export class RecipeChakraService {
     const recommendations = getFoodRecommendationsFromChakras(chakraEnergyStates)
 
     // Create a copy of the recipe to modify
-    const enhancedRecipe = { ...recipe };
+    const enhancedRecipe = { ...recipe },
 
     // Add chakra-balancing ingredient suggestions
     enhancedRecipe.chakraBalance = {
       underactiveChakras,
       suggestedAdditions: recommendations.primaryFoods.slice(03),
       suggestedMeals: recommendations.balancingMeals
-    };
+    },
 
-    return enhancedRecipe;
+    return enhancedRecipe,
   }
 
   /**
@@ -69,17 +69,17 @@ export class RecipeChakraService {
       Throat: 0,
       'Third Eye': 0,
       Crown: 0
-    };
+    },
 
     // Analyze ingredient colors and map to chakra influences
     ingredientColors.forEach(color => {
-      if (color === 'red' || color === 'brown') chakraInfluences['Root'] += 1;
-      if (color === 'orange') chakraInfluences['Sacral'] += 1;
-      if (color === 'yellow') chakraInfluences['Solar Plexus'] += 1;
-      if (color === 'green') chakraInfluences['Heart'] += 1;
-      if (color === 'blue') chakraInfluences['Throat'] += 1;
-      if (color === 'indigo' || color === 'purple') chakraInfluences['Third Eye'] += 1;
-      if (color === 'violet' || color === 'white') chakraInfluences['Crown'] += 1;
+      if (color === 'red' || color === 'brown') chakraInfluences['Root'] += 1,
+      if (color === 'orange') chakraInfluences['Sacral'] += 1,
+      if (color === 'yellow') chakraInfluences['Solar Plexus'] += 1,
+      if (color === 'green') chakraInfluences['Heart'] += 1,
+      if (color === 'blue') chakraInfluences['Throat'] += 1,
+      if (color === 'indigo' || color === 'purple') chakraInfluences['Third Eye'] += 1,
+      if (color === 'violet' || color === 'white') chakraInfluences['Crown'] += 1,
     })
 
     // Find balanced and imbalanced chakras
@@ -95,17 +95,17 @@ export class RecipeChakraService {
     const suggestions = imbalancedChakras;
       .map(chakra => {
         switch (chakra) {
-          case 'Root': return 'Add red foods like beets or root vegetables';
+          case 'Root': return 'Add red foods like beets or root vegetables',
           case 'Sacral':
-            return 'Include orange foods like carrots or oranges';
+            return 'Include orange foods like carrots or oranges',
           case 'Solar Plexus':
-            return 'Add yellow foods like corn or yellow peppers';
+            return 'Add yellow foods like corn or yellow peppers',
           case 'Heart':
-            return 'Include green foods like leafy greens or avocados';
+            return 'Include green foods like leafy greens or avocados',
           case 'Throat':
-            return 'Add blue foods like blueberries';
+            return 'Add blue foods like blueberries',
           case 'Third Eye':
-            return 'Include purple foods like eggplant or grapes';
+            return 'Include purple foods like eggplant or grapes',
           case 'Crown':
             return 'Add violet or white foods like cauliflower'
           default:
@@ -122,7 +122,7 @@ export class RecipeChakraService {
       balancedChakras,
       imbalancedChakras,
       suggestions
-    };
+    },
   }
 
   /**
@@ -138,16 +138,16 @@ export class RecipeChakraService {
       blue: ['blueberry', 'blue cheese'],
       purple: ['eggplant', 'grape', 'plum', 'blackberry'],
       white: ['cauliflower', 'garlic', 'onion', 'potato', 'rice']
-    };
+    },
 
     // Try to match ingredient to a color
     for (const [color, foods] of Object.entries(colorMap)) {
-      if (foods.some(food => ingredientName.toLowerCase().includes(food))) {;
-        return color;
+      if (foods.some(food => ingredientName.toLowerCase().includes(food))) {,
+        return color,
       }
     }
 
     // Default color if no match
-    return 'neutral';
+    return 'neutral',
   }
 }

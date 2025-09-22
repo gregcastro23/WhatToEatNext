@@ -16,7 +16,7 @@ import { Nutrition } from './index';
 
 /** Narrow unknown object to `Nutrition` (aka NutritionalProfile). */
 export function isNutritionalProfile(obj: unknown): obj is Nutrition {
-  if (!obj || typeof obj !== 'object') return false;
+  if (!obj || typeof obj !== 'object') return false,
   const maybe = obj as Partial<Nutrition>;
   return (
     typeof maybe.calories === 'number' ||
@@ -29,12 +29,12 @@ export function isNutritionalProfile(obj: unknown): obj is Nutrition {
 
 /** Narrow unknown object to `PlanetaryPosition`. */
 export function isPlanetaryPosition(obj: unknown): obj is PlanetaryPosition {
-  if (!obj || typeof obj !== 'object') return false;
+  if (!obj || typeof obj !== 'object') return false,
   const maybe = obj as Partial<PlanetaryPosition>;
   return (
     typeof maybe.degree === 'number' ||
     typeof (maybe as any).exactLongitude === 'number' ||
-    typeof maybe.sign === 'string';
+    typeof maybe.sign === 'string',
   )
 }
 
@@ -52,7 +52,7 @@ export function hasAstrologicalProfile(
 
 /** Dedicated guard for AstrologicalProfile itself. */
 export function isAstrologicalProfile(obj: unknown): obj is AstrologicalProfile {
-  if (!obj || typeof obj !== 'object') return false;
+  if (!obj || typeof obj !== 'object') return false,
   const maybe = obj as Partial<AstrologicalProfile>;
   return (
     Array.isArray(maybe.zodiac) ||
@@ -64,7 +64,7 @@ export function isAstrologicalProfile(obj: unknown): obj is AstrologicalProfile 
 
 /** Narrow unknown object to `CookingMethod`. */
 export function isCookingMethod(obj: unknown): obj is CookingMethod {
-  if (!obj || typeof obj !== 'object') return false;
+  if (!obj || typeof obj !== 'object') return false,
   const maybe = obj as Partial<CookingMethod>;
   return (
     typeof maybe.id === 'string' ||
@@ -78,7 +78,7 @@ export function isCookingMethod(obj: unknown): obj is CookingMethod {
 
 /** Narrow unknown object to `Ingredient`. */
 export function isIngredient(obj: unknown): obj is Ingredient {
-  if (!obj || typeof obj !== 'object') return false;
+  if (!obj || typeof obj !== 'object') return false,
   const maybe = obj as Partial<Ingredient>;
   return (
     typeof maybe.name === 'string' ||

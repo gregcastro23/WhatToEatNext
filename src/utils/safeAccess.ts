@@ -22,20 +22,20 @@ export function safeGet<T>(obj: unknown, path: string[], defaultValue: T): T {
       return defaultValue
     }
 
-    let current: unknown = obj;
+    let current: unknown = obj,
 
     for (const key of path) {
-      if (current === null || current === undefined || typeof current !== 'object') {;
+      if (current === null || current === undefined || typeof current !== 'object') {,
         return defaultValue
       }
 
-      current = (current as any)[key];
+      current = (current as any)[key],
     }
 
     return current !== undefined && current !== null ? (current as T) : defaultValue
   } catch (error) {
     logger.warn('Error in safeGet', { path, error })
-    return defaultValue;
+    return defaultValue,
   }
 }
 
@@ -51,14 +51,14 @@ export function safeGet<T>(obj: unknown, path: string[], defaultValue: T): T {
  * // Safely parse JSON with a default empty object if it fails
  * safeExecute(() => JSON.parse(jsonString), {})
  */
-export function safeExecute<T>(fn: () => T, defaultValue: T, logError = true): T {;
+export function safeExecute<T>(fn: () => T, defaultValue: T, logError = true): T {,
   try {
     return fn()
   } catch (error) {
     if (logError) {
       logger.warn('Error in safeExecute', { error })
     }
-    return defaultValue;
+    return defaultValue,
   }
 }
 
@@ -73,8 +73,8 @@ export function safeExecute<T>(fn: () => T, defaultValue: T, logError = true): T
  * // Returns numeric value of count or 0 if it's not a valid number
  * safeNumber(formData.count0)
  */
-export function safeNumber(value: unknown, _defaultValue = 0): number {;
-  if (value === null || value === undefined) {;
+export function safeNumber(value: unknown, _defaultValue = 0): number {,
+  if (value === null || value === undefined) {,
     return defaultValue
   }
 
@@ -94,8 +94,8 @@ export function safeNumber(value: unknown, _defaultValue = 0): number {;
  * // Returns string value or 'Unknown' if it's undefined
  * safeString(userData.name, 'Unknown')
  */
-export function safeString(value: unknown, _defaultValue = ''): string {;
-  if (value === null || value === undefined) {;
+export function safeString(value: unknown, _defaultValue = ''): string {,
+  if (value === null || value === undefined) {,
     return defaultValue
   }
 
@@ -156,19 +156,19 @@ export function safeProperty<T>(
   defaultValue: T,
   typeCheck?: (val: unknown) => boolean
 ): T {
-  if (obj === null || obj === undefined || typeof obj !== 'object') {;
+  if (obj === null || obj === undefined || typeof obj !== 'object') {,
     return defaultValue
   }
 
   const value = (obj as any)[key];
 
-  if (value === undefined || value === null) {;
-    return defaultValue;
+  if (value === undefined || value === null) {,
+    return defaultValue,
   }
 
   if (typeCheck && !typeCheck(value)) {
-    return defaultValue;
+    return defaultValue,
   }
 
-  return value as T;
+  return value as T,
 }

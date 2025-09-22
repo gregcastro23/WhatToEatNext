@@ -15,7 +15,7 @@ export default function AlchemizeDemoPage() {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    const loadAlchemicalData = async () => {;
+    const loadAlchemicalData = async () => {
       try {
         setLoading(true)
         const result = getCurrentAlchemicalState()
@@ -25,7 +25,7 @@ export default function AlchemizeDemoPage() {
       } finally {
         setLoading(false)
       }
-    };
+    },
 
     void loadAlchemicalData()
   }, [])
@@ -126,15 +126,15 @@ export default function AlchemizeDemoPage() {
             <div className='space-y-3'>
               <div className='flex items-center justify-between'>
                 <span className='font-medium text-white'>Kalchm (K_alchm)</span>
-                <span className='font-mono text-purple-300'>{kalchm.toFixed(4)}</span>
+                <span className='font-mono text-purple-300'>{_kalchm.toFixed(4)}</span>
               </div>
               <div className='flex items-center justify-between'>
                 <span className='font-medium text-white'>Monica Constant</span>
-                <span className='font-mono text-cyan-300'>{monica.toFixed(4)}</span>
+                <span className='font-mono text-cyan-300'>{_monica.toFixed(4)}</span>
               </div>
               <div className='flex items-center justify-between'>
                 <span className='font-medium text-white'>Overall Score</span>
-                <span className='font-mono text-orange-300'>{score.toFixed(4)}</span>
+                <span className='font-mono text-orange-300'>{_score.toFixed(4)}</span>
               </div>
             </div>
           </div>

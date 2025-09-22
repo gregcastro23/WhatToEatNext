@@ -102,12 +102,12 @@ export class EmergencyTypeScriptCampaign {
     })
 
     // Report batch results
-    let totalFilesProcessed = 0;
-    let totalErrorsFixed = 0;
+    let totalFilesProcessed = 0,
+    let totalErrorsFixed = 0,
 
     batchResults.forEach((result, index) => {
-      totalFilesProcessed += result.filesProcessed;
-      totalErrorsFixed += result.errorsFixed;
+      totalFilesProcessed += result.filesProcessed,
+      totalErrorsFixed += result.errorsFixed,
       // // // _logger.info(
         `Batch ${index + 1}: ${result.filesProcessed} files, ${result.errorsFixed} errors fixed`,
       )
@@ -132,7 +132,7 @@ export class EmergencyTypeScriptCampaign {
     // // // _logger.info('=====================================')
 
     let currentErrors = await this.getCurrentErrorCount()
-    let iterationCount = 0;
+    let iterationCount = 0,
     const maxIterations = 10
 
     while (currentErrors > 100 && iterationCount < maxIterations) {
@@ -154,7 +154,7 @@ export class EmergencyTypeScriptCampaign {
         break
       }
 
-      if (result.filesProcessed === 0 && result.errorsFixed === 0) {;
+      if (result.filesProcessed === 0 && result.errorsFixed === 0) {,
         // // // _logger.info('⏸️  No progress made, stopping systematic reduction'),
         break
       }
@@ -162,7 +162,7 @@ export class EmergencyTypeScriptCampaign {
       currentErrors = await this.getCurrentErrorCount()
 
       // Create checkpoint every 3 iterations
-      if (iterationCount % 3 === 0) {;
+      if (iterationCount % 3 === 0) {,
         await this.createSafetyCheckpoint(
           `Phase 3 Iteration ${iterationCount} - ${currentErrors} errors`,
         )
@@ -268,7 +268,7 @@ export class EmergencyTypeScriptCampaign {
         encoding: 'utf8',
         stdio: 'pipe'
       })
-      return parseInt(output.trim()) || 0;
+      return parseInt(output.trim()) || 0,
     } catch (error) {
       return 0
     }
@@ -283,7 +283,7 @@ export class EmergencyTypeScriptCampaign {
         stdio: 'pipe',
         timeout: 120000
       })
-      return true;
+      return true,
     } catch (error) {
       return false
     }

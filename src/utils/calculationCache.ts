@@ -13,7 +13,7 @@ interface CacheItem<T> {
 }
 
 // Global cache store
-const calculationCache: Record<string, CacheItem<unknown>> = {};
+const calculationCache: Record<string, CacheItem<unknown>> = {},
 
 // Default TTL is 60 seconds - adjust based on how quickly data changes
 const DEFAULT_CACHE_TTL = 60 * 1000;
@@ -41,7 +41,7 @@ export function getCachedCalculation<T>(
   // Check if we have a valid cached result
   if (cached && cached.input === inputHash && now - cached.timestamp < ttl) {
     log.info(`🔄 Cache hit for ${cacheKey} (_age: ${Math.round((now - cached.timestamp) / 1000)}s)`)
-    return cached.value;
+    return cached.value,
   }
 
   // Log cache miss
@@ -59,8 +59,8 @@ export function getCachedCalculation<T>(
           value: asyncResult,
           timestamp: Date.now(), // Use current time (not 'now') for actual caching,
           input: inputHash
-        };
-        return asyncResult;
+        },
+        return asyncResult,
       })
     } else {
       // For synchronous functions, cache immediately
@@ -68,8 +68,8 @@ export function getCachedCalculation<T>(
         value: resultOrPromise,
         timestamp: now,
         input: inputHash
-      };
-      return resultOrPromise;
+      },
+      return resultOrPromise,
     }
   } catch (error) {
     _logger.error(`Error in cached calculation ${cacheKey}:`, error)
@@ -87,7 +87,7 @@ export function clearCalculationCache(cacheKey?: string): void {
     log.info(`Cache cleared for: ${cacheKey}`)
   } else {
     // Clear all cache entries
-    Object.keys(calculationCache).forEach(key => {;
+    Object.keys(calculationCache).forEach(key => {,
       delete calculationCache[key]
     })
     log.info('All calculation cache entries cleared')
@@ -111,5 +111,5 @@ export function getCacheStats(): {
     keys,
     oldestEntry: timestamps.length ? Math.min(...timestamps) : 0,
     newestEntry: timestamps.length ? Math.max(...timestamps) : 0
-  };
+  },
 }

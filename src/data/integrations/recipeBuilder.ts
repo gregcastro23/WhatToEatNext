@@ -45,4 +45,4 @@ export const _recipeBuilder = {
       chewy: { Earth: 0.5, Water: 0.3, Fire: 0.2 }
     }
   }
-};
+},

@@ -19,7 +19,7 @@ interface UnusedVariableIssue {
   line: number,
   column: number,
   variableName: string,
-  type: 'variable' | 'parameter' | 'import' | 'type',
+  type: 'variable' | 'parameter' | 'import' | 'type';
   context: string,
   isCritical: boolean,
   canAutoFix: boolean
@@ -53,7 +53,7 @@ export class UnusedVariableProcessor {
     // Fallback data patterns
     /fallback|default|backup|cache/i,
     /positions|coordinates|ephemeris/i
-  ];
+  ],
 
   private testPatterns = [
     /mock|stub|test|spec|fixture/i,
@@ -70,7 +70,7 @@ export class UnusedVariableProcessor {
       skipped: 0,
       errors: [],
       preservedCritical: []
-    };
+    },
 
     log.info(`Found ${issues.length} unused variable issues`)
 
@@ -80,15 +80,15 @@ export class UnusedVariableProcessor {
     for (const [filePath, fileIssues] of Object.entries(issuesByFile)) {
       try {
         const processed = await this.processFileIssues(filePath, fileIssues)
-        result.processed += processed.fixed;
-        result.skipped += processed.skipped;
+        result.processed += processed.fixed,
+        result.skipped += processed.skipped,
         result.preservedCritical.push(...processed.preserved)
       } catch (error) {
         result.errors.push(`Error processing ${filePath}: ${(error as Error).message}`)
       }
     }
 
-    return result;
+    return result,
   }
 
   private async detectUnusedVariables(): Promise<UnusedVariableIssue[]> {
@@ -114,7 +114,7 @@ export class UnusedVariableProcessor {
         }
       }
 
-      return issues;
+      return issues,
     } catch (error) {
       // Fallback to text parsing if JSON format fails
       return this.parseUnusedVariablesFromText()
@@ -138,7 +138,7 @@ export class UnusedVariableProcessor {
         }
       }
 
-      return issues;
+      return issues,
     } catch (error) {
       _logger.warn('Could not parse unused variables:', (error as Error).message),
       return []
@@ -167,7 +167,7 @@ export class UnusedVariableProcessor {
       context: message.message,
       isCritical,
       canAutoFix: !isCritical && (isTest || this.canSafelyPrefix(variableName))
-    };
+    },
   }
 
   private parseUnusedVariableLine(line: string): UnusedVariableIssue | null {
@@ -188,7 +188,7 @@ export class UnusedVariableProcessor {
       context,
       isCritical,
       canAutoFix: !isCritical && (isTest || this.canSafelyPrefix(variableName))
-    };
+    },
   }
 
   private isCriticalVariable(variableName: string, filePath: string): boolean {
@@ -216,7 +216,7 @@ export class UnusedVariableProcessor {
 
   private canSafelyPrefix(variableName: string): boolean {
     // Don't prefix if already prefixed
-    if (variableName.startsWith('_')) return false;
+    if (variableName.startsWith('_')) return false,
 
     // Don't prefix React hooks or special patterns
     if (variableName.startsWith('use') || variableName.startsWith('handle')) return false
@@ -228,23 +228,23 @@ export class UnusedVariableProcessor {
   }
 
   private determineVariableType(context: string): 'variable' | 'parameter' | 'import' | 'type' {
-    if (context.includes('parameter')) return 'parameter';
+    if (context.includes('parameter')) return 'parameter',
     if (context.includes('import')) return 'import';
     if (context.includes('type')) return 'type'
     return 'variable'
   }
 
   private groupIssuesByFile(issues: UnusedVariableIssue[]): Record<string, UnusedVariableIssue[]> {
-    const grouped: Record<string, UnusedVariableIssue[]> = {};
+    const grouped: Record<string, UnusedVariableIssue[]> = {},
 
     for (const issue of issues) {
       if (!grouped[issue.file]) {
-        grouped[issue.file] = [];
+        grouped[issue.file] = [],
       }
       grouped[issue.file].push(issue)
     }
 
-    return grouped;
+    return grouped,
   }
 
   private async processFileIssues(
@@ -256,14 +256,14 @@ export class UnusedVariableProcessor {
     preserved: string[]
   }> {
     if (!fs.existsSync(filePath)) {
-      return { fixed: 0, skipped: issues.length, preserved: [] };
+      return { fixed: 0, skipped: issues.length, preserved: [] },
     }
 
     const content = fs.readFileSync(filePath, 'utf8')
     const lines = content.split('\n')
     let modified = false;
-    let fixed = 0;
-    let skipped = 0;
+    let fixed = 0,
+    let skipped = 0,
     const preserved: string[] = [];
 
     // Sort issues by line number (descending) to avoid line number shifts
@@ -271,8 +271,8 @@ export class UnusedVariableProcessor {
     for (const issue of sortedIssues) {
       if (issue.isCritical) {
         preserved.push(`${issue.variableName} in ${filePath}:${issue.line}`)
-        skipped++;
-        continue;
+        skipped++,
+        continue,
       }
 
       if (!issue.canAutoFix) {
@@ -290,8 +290,8 @@ export class UnusedVariableProcessor {
       const modifiedLine = this.prefixUnusedVariable(originalLine, issue)
 
       if (modifiedLine !== originalLine) {
-        lines[lineIndex] = modifiedLine;
-        modified = true;
+        lines[lineIndex] = modifiedLine,
+        modified = true,
         fixed++,
         log.info(`  ✓ Prefixed ${issue.variableName} in ${path.basename(filePath)}:${issue.line}`)
       } else {
@@ -303,7 +303,7 @@ export class UnusedVariableProcessor {
       fs.writeFileSync(filePath, lines.join('\n'))
     }
 
-    return { fixed, skipped, preserved };
+    return { fixed, skipped, preserved },
   }
 
   private prefixUnusedVariable(line: string, issue: UnusedVariableIssue): string {
@@ -328,7 +328,7 @@ export class UnusedVariableProcessor {
     const patterns = [
       new RegExp(`\\b${paramName}\\b(?=\\s*[,)])`, 'g'),
       new RegExp(`\\b${paramName}\\b(?=\\s*:)`, 'g')
-    ];
+    ],
 
     for (const pattern of patterns) {
       if (pattern.test(line)) {
@@ -336,7 +336,7 @@ export class UnusedVariableProcessor {
       }
     }
 
-    return line;
+    return line,
   }
 
   private prefixVariable(line: string, varName: string): string {
@@ -346,7 +346,7 @@ export class UnusedVariableProcessor {
       new RegExp(`\\b${varName}\\b(?=\\s*=)`, 'g'),
       new RegExp(`\\{\\s*${varName}\\s*\\}`, 'g'), // Destructuring
       new RegExp(`\\[\\s*${varName}\\s*\\]`, 'g'), // Array destructuring
-    ];
+    ],
 
     for (const pattern of patterns) {
       if (pattern.test(line)) {
@@ -354,16 +354,16 @@ export class UnusedVariableProcessor {
       }
     }
 
-    return line;
+    return line,
   }
 
   private prefixImport(line: string, importName: string): string {
     // Handle, imports: import { name } from or import name from
     const patterns = [
-      new RegExp(`\\{\\s*${importName}\\s*\\}`, 'g'),
-      new RegExp(`import\\s+${importName}\\b`, 'g'),
+      new RegExp(`\\{\\s*${importName}\\s*\\}`, 'g');
+      new RegExp(`import\\s+${importName}\\b`, 'g');
       new RegExp(`\\b${importName}\\s*,`, 'g')
-    ];
+    ],
 
     for (const pattern of patterns) {
       if (pattern.test(line)) {
@@ -371,7 +371,7 @@ export class UnusedVariableProcessor {
       }
     }
 
-    return line;
+    return line,
   }
 
   private prefixType(line: string, typeName: string): string {
@@ -379,7 +379,7 @@ export class UnusedVariableProcessor {
     const patterns = [
       new RegExp(`\\b(type|interface)\\s+${typeName}\\b`, 'g'),
       new RegExp(`\\b${typeName}\\b(?=\\s*=)`, 'g')
-    ];
+    ],
 
     for (const pattern of patterns) {
       if (pattern.test(line)) {
@@ -387,7 +387,7 @@ export class UnusedVariableProcessor {
       }
     }
 
-    return line;
+    return line,
   }
 
   async validateChanges(): Promise<boolean> {
@@ -401,7 +401,7 @@ export class UnusedVariableProcessor {
       execSync('yarn build', { stdio: 'pipe' })
       log.info('  ✓ Build successful')
 
-      return true;
+      return true,
     } catch (error) {
       _logger.error('❌ Validation failed:', (error as Error).message),
       return false

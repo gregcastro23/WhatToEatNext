@@ -3,20 +3,20 @@ import {
   calculateAlchemicalCompatibility,
   generateEnhancedRecommendation,
   validateAlgorithms
-} from './enhancedAlchemicalMatching';
+} from './enhancedAlchemicalMatching',
 
 describe('Enhanced Alchemical Matching Algorithms', () => {
   describe('calculateAstrologicalAffinity', () => {
     it('should calculate compatibility between signs with the same element', () => {
       // Test Fire signs (should be harmonious)
       const compatibility: any = calculateAstrologicalAffinity('aries' as any, 'leo' as any),
-      expect(compatibility).toBeGreaterThan(0.5), // Should be above neutral;
+      expect(compatibility).toBeGreaterThan(0.5), // Should be above neutral,
     })
 
     it('should calculate compatibility between signs with different elements', () => {
       // Test Fire and Water signs (should still have good compatibility)
       const compatibility: any = calculateAstrologicalAffinity('aries' as any, 'cancer' as any),
-      expect(compatibility).toBeGreaterThanOrEqual(0.5), // All elements work well together;
+      expect(compatibility).toBeGreaterThanOrEqual(0.5), // All elements work well together,
     })
 
     it('should incorporate modality compatibility in scoring', () => {
@@ -56,7 +56,7 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
       // Cardinal Fire and Fixed Fire
       const _fireSignsCompat: any = calculateAstrologicalAffinity('aries' as any, 'leo' as any),
 
-      // The air signs compatibility should reflect air's natural affinity with mutability;
+      // The air signs compatibility should reflect air's natural affinity with mutability,
       expect(airSignsCompat).toBeGreaterThan(0.45)
     })
 
@@ -64,7 +64,7 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
       // Signs with same element tarot cards
       const compatibility: any = calculateAstrologicalAffinity('aries' as any, 'leo' as any),
 
-      // The Emperor (Aries) and Strength (Leo) are both Fire-aligned Major Arcana;
+      // The Emperor (Aries) and Strength (Leo) are both Fire-aligned Major Arcana,
       expect(compatibility).toBeGreaterThan(0.5)
     })
 
@@ -72,23 +72,23 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
       // Aries (ruled by Mars) and Scorpio (traditionally ruled by Mars)
       const compatibility: any = calculateAstrologicalAffinity('aries' as any, 'scorpio' as any),
 
-      // Different elements, but shared ruler should prevent score from being too low;
+      // Different elements, but shared ruler should prevent score from being too low,
       expect(compatibility).toBeGreaterThan(0.3)
     })
   })
 
   describe('calculateAlchemicalCompatibility', () => {
     it('should calculate compatibility between similar elemental properties', () => {
-      const elemPropsA: any = { Fire: 0.6, Water: 0.1, Earth: 0.2, Air: 0.1 };
-      const elemPropsB: any = { Fire: 0.5, Water: 0.2, Earth: 0.2, Air: 0.1 };
+      const elemPropsA: any = { Fire: 0.6, Water: 0.1, Earth: 0.2, Air: 0.1 },
+      const elemPropsB: any = { Fire: 0.5, Water: 0.2, Earth: 0.2, Air: 0.1 },
 
       const compatibility: any = calculateAlchemicalCompatibility(elemPropsA, elemPropsB)
       expect(compatibility).toBeGreaterThan(0.7); // Should be highly compatible
     })
 
     it('should calculate compatibility between contrasting elemental properties', () => {
-      const elemPropsA: any = { Fire: 0.7, Water: 0.1, Earth: 0.1, Air: 0.1 };
-      const elemPropsB: any = { Fire: 0.1, Water: 0.7, Earth: 0.1, Air: 0.1 };
+      const elemPropsA: any = { Fire: 0.7, Water: 0.1, Earth: 0.1, Air: 0.1 },
+      const elemPropsB: any = { Fire: 0.1, Water: 0.7, Earth: 0.1, Air: 0.1 },
 
       const compatibility: any = calculateAlchemicalCompatibility(elemPropsA, elemPropsB)
       // Different elements should still have good compatibility
@@ -96,15 +96,15 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
     })
 
     it('should incorporate zodiac affinity when signs are provided', () => {
-      const elemPropsA: any = { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 };
-      const elemPropsB: any = { Fire: 0.3, Water: 0.3, Earth: 0.2, Air: 0.2 };
+      const elemPropsA: any = { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 },
+      const elemPropsB: any = { Fire: 0.3, Water: 0.3, Earth: 0.2, Air: 0.2 },
 
       // With harmonious signs
       const compatWithSigns: any = calculateAlchemicalCompatibility(
         elemPropsA,
         elemPropsB,
         'aries' as any,
-        'leo' as any,;
+        'leo' as any,,
       )
 
       // Without signs
@@ -121,15 +121,15 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
         elements: { Fire: 06, Water: 0.2, Earth: 0.1, Air: 0.1 },
         modalities: { Cardina, l: 0.5, Fixed: 0.3, Mutable: 0.2 },
         qualities: { Hot: 0.7, Dry: 0.5, Cold: 0.2, Wet: 0.1 },
-        dominant: { element: 'Fire', modality: 'Cardinal', quality: 'Hot' };
-      };
+        dominant: { element: 'Fire', modality: 'Cardinal', quality: 'Hot' },
+      },
 
       const mockResultMutableAir: any = {
         elements: { Fire: 0.2, Water: 0.2, Earth: 0.1, Air: 0.5 },
         modalities: { Cardina, l: 0.2, Fixed: 0.2, Mutable: 0.6 },
         qualities: { Hot: 0.3, Dry: 0.6, Cold: 0.2, Wet: 0.3 },
-        dominant: { element: 'Air', modality: 'Mutable', quality: 'Dry' };
-      };
+        dominant: { element: 'Air', modality: 'Mutable', quality: 'Dry' },
+      },
 
       const recCardinalFire: any = generateEnhancedRecommendation(mockResultCardinalFire)
       const recMutableAir: any = generateEnhancedRecommendation(mockResultMutableAir)
@@ -150,8 +150,8 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
         elements: { Fire: 0.6, Water: 0.2, Earth: 0.1, Air: 0.1 },
         modalities: { Cardina, l: 0.5, Fixed: 0.3, Mutable: 0.2 },
         qualities: { Hot: 0.7, Dry: 0.5, Cold: 0.2, Wet: 0.1 },
-        dominant: { element: 'Fire', modality: 'Cardinal', quality: 'Hot' };
-      };
+        dominant: { element: 'Fire', modality: 'Cardinal', quality: 'Hot' },
+      },
 
       // User doesn't eat chicken
       const userPreferences: any = ['chicken'];
@@ -166,8 +166,8 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
         elements: { Fire: 0.6, Water: 0.2, Earth: 0.1, Air: 0.1 },
         modalities: { Cardina, l: 0.5, Fixed: 0.3, Mutable: 0.2 },
         qualities: { Hot: 0.7, Dry: 0.5, Cold: 0.2, Wet: 0.1 },
-        dominant: { element: 'Fire', modality: 'Cardinal', quality: 'Hot' };
-      };
+        dominant: { element: 'Fire', modality: 'Cardinal', quality: 'Hot' },
+      },
 
       // Test winter recommendations
       const winterRecommendation: any = generateEnhancedRecommendation(mockResult, [], 'winter')

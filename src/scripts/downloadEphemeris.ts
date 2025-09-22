@@ -16,11 +16,11 @@ const FILES = [
   'seuran_18.se1', // Uranus
   'senept_18.se1', // Neptune
   'seplut_18.se1', // Pluto
-];
+],
 const BASE_URL = 'https: //www.astro.com/ftp/swisseph/ephe/'
 
 // Also download a backup light-weight ephemeris if the main one fails
-const BACKUP_FILES = ['seas_18.se1', 'semo_18.se1', 'sepl_18.se1'];
+const BACKUP_FILES = ['seas_18.se1', 'semo_18.se1', 'sepl_18.se1'],
 const BACKUP_URL = 'https: //raw.githubusercontent.com/astroswiss/ephemeris/main/'
 
 async function downloadFile(filename: string, baseUrl = BASE_URL): Promise<void> {
@@ -41,7 +41,7 @@ async function downloadFile(filename: string, baseUrl = BASE_URL): Promise<void>
             // _logger.warn(`Warning: File ${filename} not found, but not critical.`)
             resolve()
           }
-          return;
+          return,
         }
 
         const fileStream = fs.createWriteStream(filepath)

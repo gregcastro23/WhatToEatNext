@@ -42,8 +42,8 @@ export default function MigratedComponentsTestPage() {
 
       <div className='mb-8 grid grid-cols-1 gap-4, md: grid-cols-2, lg:grid-cols-3'>
         <Link
-          href='/test/migrated-components/recipe-recommender-test';
-          className='rounded-lg border border-gray-200 bg-white p-4 transition-all, hover:border-blue-500, hover:shadow-md';
+          href='/test/migrated-components/recipe-recommender-test',
+          className='rounded-lg border border-gray-200 bg-white p-4 transition-all, hover:border-blue-500, hover:shadow-md',
         >
           <h2 className='mb-2 text-lg font-semibold'>Recipe Recommendations</h2>
           <p className='text-sm text-gray-600'>
@@ -52,8 +52,8 @@ export default function MigratedComponentsTestPage() {
         </Link>
 
         <Link
-          href='/test/migrated-components/ingredient-recommender-test';
-          className='rounded-lg border border-gray-200 bg-white p-4 transition-all, hover:border-blue-500, hover:shadow-md';
+          href='/test/migrated-components/ingredient-recommender-test',
+          className='rounded-lg border border-gray-200 bg-white p-4 transition-all, hover:border-blue-500, hover:shadow-md',
         >
           <h2 className='mb-2 text-lg font-semibold'>Ingredient Recommender</h2>
           <p className='text-sm text-gray-600'>

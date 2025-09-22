@@ -1,8 +1,8 @@
 import type { ElementalProperties } from '@/types/alchemy';
 
-export type MealType = 'breakfast' | 'lunch' | 'dinner' | 'snack' | 'dessert';
+export type MealType = 'breakfast' | 'lunch' | 'dinner' | 'snack' | 'dessert',
 export type CuisineType =
-  | 'chinese';
+  | 'chinese',
   | 'japanese'
   | 'korean'
   | 'indian'
@@ -10,13 +10,13 @@ export type CuisineType =
   | 'vietnamese'
   | 'western'
   | 'mediterranean'
-  | 'middle-eastern';
-export type DietaryType = 'vegetarian' | 'vegan' | 'pescatarian' | 'omnivore' | 'keto' | 'paleo';
-export type CookingTime = 'quick' | 'medium' | 'slow';
-export type Season = 'spring' | 'summer' | 'fall' | 'winter' | 'all';
+  | 'middle-eastern',
+export type DietaryType = 'vegetarian' | 'vegan' | 'pescatarian' | 'omnivore' | 'keto' | 'paleo',
+export type CookingTime = 'quick' | 'medium' | 'slow',
+export type Season = 'spring' | 'summer' | 'fall' | 'winter' | 'all',
 
 // Constants for meal types and recipe types
-export const _MEAL_TYPES: MealType[] = ['breakfast', 'lunch', 'dinner', 'snack', 'dessert'];
+export const _MEAL_TYPES: MealType[] = ['breakfast', 'lunch', 'dinner', 'snack', 'dessert'],
 export const _RECIPE_TYPES: DietaryType[] = [
   'vegetarian',
   'vegan',
@@ -24,17 +24,17 @@ export const _RECIPE_TYPES: DietaryType[] = [
   'omnivore',
   'keto',
   'paleo'
-];
+],
 
 export interface Ingredient {
   name: string,
   amount: string,
   unit: string,
   category: string,
-  subCategory?: string;
-  preparation?: string;
-  notes?: string;
-  substitutes?: string[];
+  subCategory?: string,
+  preparation?: string,
+  notes?: string,
+  substitutes?: string[],
   elementalProperties?: ElementalProperties
 }
 
@@ -44,23 +44,23 @@ export interface CookingStep {
   duration?: {
     value: number,
     unit: 'minutes' | 'hours'
-  };
+  },
   method?: string
   temperature?: {
     value: number,
     unit: 'C' | 'F'
-  };
+  },
   notes?: string
 }
 
 export interface NutritionalInfo {
-  calories?: number;
-  protein?: number;
-  carbs?: number;
-  fat?: number;
+  calories?: number,
+  protein?: number,
+  carbs?: number,
+  fat?: number,
   fiber?: number
-  vitamins?: Record<string, number>;
-  minerals?: Record<string, number>;
+  vitamins?: Record<string, number>,
+  minerals?: Record<string, number>,
 }
 
 export interface Dish {
@@ -78,6 +78,6 @@ export interface Dish {
   totalTime: number,
   ingredients: Ingredient[],
   steps: CookingStep[],
-  nutritionalInfo?: NutritionalInfo;
+  nutritionalInfo?: NutritionalInfo,
   elementalState?: ElementalProperties
 }

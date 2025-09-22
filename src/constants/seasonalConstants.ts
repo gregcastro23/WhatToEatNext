@@ -5,7 +5,7 @@ export const _SCORE_THRESHOLDS = {
   GOOD: 60,
   MODERATE: 40,
   POOR: 20
-};
+},
 
 export const _SEASONAL_MODIFIERS: Record<Season, ElementalProperties> = {
   spring: {
@@ -44,7 +44,7 @@ export const _SEASONAL_MODIFIERS: Record<Season, ElementalProperties> = {
     Water: 0.25,
     Earth: 0.25
   }
-};
+},
 
 // For balanced elemental properties (not part of Season type)
 export const _BALANCED_ELEMENTS: ElementalProperties = {
@@ -52,7 +52,7 @@ export const _BALANCED_ELEMENTS: ElementalProperties = {
   Air: 0.25,
   Water: 0.25,
   Earth: 0.25
-};
+},
 
 export const _ZODIAC_SEASONS: Record<Season, ZodiacSign[]> = {
   spring: ['aries', 'taurus', 'gemini'],
@@ -74,12 +74,12 @@ export const _ZODIAC_SEASONS: Record<Season, ZodiacSign[]> = {
     'aquarius',
     'pisces'
   ]
-};
+},
 
 export const _VALIDATION_THRESHOLDS = {
   MINIMUM_ELEMENT: 0,
   MAXIMUM_ELEMENT: 1,
   BALANCE_PRECISION: 0.000001
-};
+},
 
-export const _VALID_SEASONS = ['spring', 'summer', 'autumn', 'winter', 'fall', 'all'] as const;
+export const _VALID_SEASONS = ['spring', 'summer', 'autumn', 'winter', 'fall', 'all'] as const,

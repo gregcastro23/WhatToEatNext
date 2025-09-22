@@ -191,7 +191,7 @@ const rawStarchyVegetables = {
       }
     }
   }
-};
+},
 
 // Fix the ingredient mappings to ensure they have all required properties
 export const _starchyVegetables: Record<string, IngredientMapping> = fixIngredientMappings(

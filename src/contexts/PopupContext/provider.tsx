@@ -10,10 +10,10 @@ import { Popup, PopupOptions, ElementalInfluence, PopupProviderProps } from './t
 import '@/styles/popup.css';
 
 export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactElement => {
-  const [popups, setPopups] = useState<Popup[]>([]),
+  const [popups, setPopups] = useState<Popup[]>([]);
 
   const calculateElementalInfluence = (sunSign?: string, moonSign?: string): ElementalInfluence => {
-    if (!sunSign || !moonSign) return {};
+    if (!sunSign || !moonSign) return {},
 
     const sunElement = ZODIAC_ELEMENTS[sunSign.toLowerCase() as keyof typeof ZODIAC_ELEMENTS];
     const moonElement = ZODIAC_ELEMENTS[moonSign.toLowerCase() as keyof typeof ZODIAC_ELEMENTS];
@@ -27,8 +27,8 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
       isHarmonious,
       primaryElement: sunElement,
       secondaryElement: moonElement
-    };
-  };
+    },
+  },
 
   const showPopup = (message: string, options: PopupOptions = {}): number => {
     const {
@@ -40,7 +40,7 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
       season,
       animation = 'fade',,
       className = '',,
-    } = options;
+    } = options,
 
     const id = Date.now()
 
@@ -54,7 +54,7 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
       `popup-${position}`,
       `popup-${animation}`,
       className
-    ];
+    ],
 
     // Add elemental classes if applicable
     if (elemental.sunElement) {
@@ -83,7 +83,7 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
         moonSign,
         season
       }
-    };
+    },
 
     setPopups(current => [...current, newPopup])
 
@@ -101,8 +101,8 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
       setPopups(current => current.filter(popup => popup.id !== id))
     }, duration)
 
-    return id;
-  };
+    return id,
+  },
 
   const closePopup = (id: number): void => {
     const popupElement = document.getElementById(`popup-${id}`)
@@ -112,10 +112,10 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
         setPopups(current => current.filter(popup => popup.id !== id))
       }, 300)
     }
-  };
+  },
 
   const getElementalIcon = (element?: string): string => {
-    if (!element) return '';
+    if (!element) return '',
 
     switch (element.toLowerCase()) {
       case 'fire':
@@ -129,13 +129,13 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
       default:
         return ''
     }
-  };
+  },
 
   return (
-    <PopupContext.Provider value={{ showPopup, closePopup }}>;
+    <PopupContext.Provider value={{ showPopup, closePopup }}>,
       {children}
-      <div className='popup-container'>;
-        {popups.map(popup => (;
+      <div className='popup-container'>,
+        {popups.map(popup => (,
           <div
             key={popup.id},
             id={`popup-${popup.id}`}
@@ -147,10 +147,10 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
                 {getElementalIcon(popup.elemental.primaryElement)}
               </span>
             )}
-            <div className='popup-content'>;
+            <div className='popup-content'>,
               <div className='popup-message'>{popup.message}</div>
               {popup.metadata?.sunSign && (
-                <div className='popup-metadata'>;
+                <div className='popup-metadata'>,
                   {popup.metadata.sunSign && (
                     <span className='popup-sun-sign'>☉ {popup.metadata.sunSign}</span>
                   )}
@@ -165,4 +165,4 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
       </div>
     </PopupContext.Provider>
   )
-};
+},

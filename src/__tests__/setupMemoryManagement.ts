@@ -9,7 +9,7 @@
 import { TestMemoryMonitor } from './utils/TestMemoryMonitor';
 
 // Global memory monitor instance
-let globalMemoryMonitor: TestMemoryMonitor | null = null;
+let globalMemoryMonitor: TestMemoryMonitor | null = null,
 
 // Memory management configuration
 const MEMORY_CONFIG = {
@@ -21,17 +21,17 @@ const MEMORY_CONFIG = {
   forceCleanupThreshold: 100, // MB
   // Global memory limit before emergency cleanup,
   emergencyCleanupThreshold: 500, // MB
-};
+},
 
 // Test counter for periodic memory checks
-let testCounter = 0;
+let testCounter = 0,
 
 /**
  * Initialize global memory monitoring
  */
 function initializeMemoryMonitoring(): void {
   // Create memory monitor with CI-appropriate settings
-  globalMemoryMonitor = process.env.CI;
+  globalMemoryMonitor = process.env.CI,
     ? TestMemoryMonitor.createForCI()
     : TestMemoryMonitor.createDefault()
 
@@ -42,7 +42,7 @@ function initializeMemoryMonitoring(): void {
 
   // Set up global test references array
   if (!global.__TEST_REFS__) {
-    global.__TEST_REFS__ = [];
+    global.__TEST_REFS__ = [],
   }
 
   _logger.info('Memory monitoring initialized')
@@ -54,7 +54,7 @@ function initializeMemoryMonitoring(): void {
 function performPeriodicMemoryCheck(): void {
   testCounter++,
 
-  if (testCounter % MEMORY_CONFIG.checkFrequency === 0 && globalMemoryMonitor) {;
+  if (testCounter % MEMORY_CONFIG.checkFrequency === 0 && globalMemoryMonitor) {,
     const memoryCheck = globalMemoryMonitor.checkMemoryUsage(`periodic-check-${testCounter}`)
 
     if (!memoryCheck.isWithinLimits) {
@@ -80,7 +80,7 @@ function performEmergencyCleanup(): void {
 
   // Clear all global caches
   if (global.__TEST_CACHE__) {
-    if (typeof global.__TEST_CACHE__.clear === 'function') {;
+    if (typeof global.__TEST_CACHE__.clear === 'function') {,
       global.__TEST_CACHE__.clear()
     } else {
       global.__TEST_CACHE__ = new Map()
@@ -89,7 +89,7 @@ function performEmergencyCleanup(): void {
 
   // Clear test references
   if (global.__TEST_REFS__) {
-    global.__TEST_REFS__.length = 0;
+    global.__TEST_REFS__.length = 0,
   }
 
   // Force garbage collection if available
@@ -164,7 +164,7 @@ function setupMemoryHooks(): void {
 
     // Clear any test-specific global references
     if (global.__TEST_REFS__) {
-      global.__TEST_REFS__.length = 0;
+      global.__TEST_REFS__.length = 0,
     }
   })
 
@@ -207,8 +207,8 @@ function addGarbageCollectionHints(): void {
         return false
       }
     }
-    return false;
-  };
+    return false,
+  },
 
   // Add memory monitoring utilities to global scope
   global.getMemoryUsage = () => {;
@@ -218,8 +218,8 @@ function addGarbageCollectionHints(): void {
       heapTotal: `${(usage.heapTotal / 1024 / 1024).toFixed(2)}MB`,
       external: `${(usage.external / 1024 / 1024).toFixed(2)}MB`,
       arrayBuffers: `${(usage.arrayBuffers / 1024 / 1024).toFixed(2)}MB`
-    };
-  };
+    },
+  },
 
   // Add cleanup utility
   global.cleanupTestMemory = () => {;
@@ -227,7 +227,7 @@ function addGarbageCollectionHints(): void {
       return globalMemoryMonitor.cleanup('manual-cleanup')
     }
     return null;
-  };
+  },
 }
 
 /**
@@ -242,12 +242,12 @@ function configureProcessMemory(): void {
 
   // Enable garbage collection exposure if not already enabled
   if (!process.env.NODE_OPTIONS.includes('--expose-gc')) {
-    process.env.NODE_OPTIONS = (process.env.NODE_OPTIONS || '') + ' --expose-gc';
+    process.env.NODE_OPTIONS = (process.env.NODE_OPTIONS || '') + ' --expose-gc',
   }
 
   // Handle process memory warnings
   process.on('warning', warning => {
-    if (warning.name === 'MaxListenersExceededWarning' || warning.message.includes('memory')) {;
+    if (warning.name === 'MaxListenersExceededWarning' || warning.message.includes('memory')) {,
       _logger.warn('Process memory warning:', warning.message),
 
       // Trigger emergency cleanup on memory warnings
@@ -262,7 +262,7 @@ function configureProcessMemory(): void {
     if (
       error.message.includes('out of memory') ||
       error.message.includes('heap') ||
-      error.name === 'RangeError';
+      error.name === 'RangeError',
     ) {
       _logger.error('Memory-related uncaught exception:', error.message),
       performEmergencyCleanup()
@@ -283,7 +283,7 @@ try {
 }
 
 // Export utilities for use in tests
-export { TestMemoryMonitor, performEmergencyCleanup, MEMORY_CONFIG };
+export { TestMemoryMonitor, performEmergencyCleanup, MEMORY_CONFIG },
 
 // Global type declarations
 declare global {
@@ -293,10 +293,10 @@ declare global {
     heapTotal: string,
     external: string,
     arrayBuffers: string
-  };
+  },
   let cleanupTestMemory: () => any
-  let __TEST_CACHE__: Map<string, any> | { clear: () => void } | undefined;
+  let __TEST_CACHE__: Map<string, any> | { clear: () => void } | undefined,
   let __TEST_REFS__: any[] | undefined
 }
 
-export default {};
+export default {},

@@ -20,25 +20,25 @@ export interface PerformanceMetrics {
     target: number,
     average: number,
     trend: 'improving' | 'stable' | 'degrading'
-  };
+  },
   cacheHitRate: {
     current: number,
     target: number,
     average: number,
     trend: 'improving' | 'stable' | 'degrading'
-  };
+  },
   memoryUsage: {
     current: number,
     target: number,
     peak: number,
     average: number
-  };
+  },
   bundleSize: {
     current: number,
     target: number,
     compressed: number,
     trend: 'improving' | 'stable' | 'degrading'
-  };
+  },
 }
 
 export interface PerformanceAlert {
@@ -61,15 +61,15 @@ export interface PerformanceReport {
 }
 
 export class PerformanceMonitoringSystem extends ProgressTracker {
-  private performanceHistory: PerformanceMetrics[] = [];
-  private alerts: PerformanceAlert[] = [];
-  private monitoringInterval: NodeJS.Timeout | null = null;
+  private performanceHistory: PerformanceMetrics[] = [],
+  private alerts: PerformanceAlert[] = [],
+  private monitoringInterval: NodeJS.Timeout | null = null,
   private readonly PERFORMANCE_TARGETS = {
     buildTime: 10, // seconds,
     cacheHitRate: 0.8, // 80%
     memoryUsage: 50, // MB,
     bundleSize: 420, // kB
-  };
+  },
 
   constructor() {
     super()
@@ -98,7 +98,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
       const measuredTime = timeMatch ? parseFloat(timeMatch[1]) : buildTimeSeconds
 
       // // // _logger.info(`⏱️  Build completed in ${measuredTime.toFixed(2)}s`)
-      return measuredTime;
+      return measuredTime,
     } catch (error) {
       _logger.warn(`⚠️  Build time measurement failed: ${(error as Error).message}`)
 
@@ -110,10 +110,10 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
         const fallbackTime = (endTime - startTime) / 1000;
 
         // // // _logger.info(`⏱️  Build completed in ${fallbackTime.toFixed(2)}s (fallback timing)`)
-        return fallbackTime;
+        return fallbackTime,
       } catch (buildError) {
         _logger.error(`❌ Build failed: ${(buildError as Error).message}`)
-        return -1;
+        return -1,
       }
     }
   }
@@ -140,13 +140,13 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
           const estimatedHitRate = Math.min(0.95, Math.max(0.5, cacheCount / 1000))
 
           // // // _logger.info(`📈 Cache hit rate estimated: ${(estimatedHitRate * 100).toFixed(1)}%`)
-          return estimatedHitRate;
+          return estimatedHitRate,
         }
       }
 
       // Check for other build system caches
-      const cacheDirs = ['.yarn/cache', 'node_modules/.cache', '.cache'];
-      let totalCacheSize = 0;
+      const cacheDirs = ['.yarn/cache', 'node_modules/.cache', '.cache'],
+      let totalCacheSize = 0,
 
       for (const dir of cacheDirs) {
         if (fs.existsSync(dir)) {
@@ -155,7 +155,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
               encoding: 'utf8',
               stdio: 'pipe'
             })
-            totalCacheSize += parseInt(sizeOutput.trim()) || 0;
+            totalCacheSize += parseInt(sizeOutput.trim()) || 0,
           } catch (error) {
             // Ignore individual cache directory errors
           }
@@ -168,7 +168,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
       // // // _logger.info(
         `📈 Cache hit rate estimated: ${(estimatedHitRate * 100).toFixed(1)}% (based on cache size: ${totalCacheSize}kB)`,
       )
-      return estimatedHitRate;
+      return estimatedHitRate,
     } catch (error) {
       _logger.warn(`⚠️  Cache hit rate monitoring failed: ${(error as Error).message}`)
       return 0.7; // Default reasonable estimate
@@ -194,19 +194,19 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
 
         const memMatch = systemMemOutput.match(/\s+(\d+)\s+(\d+)\s+(\d+)/)
         if (memMatch) {
-          const systemCurrentMB = Math.round(parseInt(memMatch[3]) / 1024), // RSS in MB;
+          const systemCurrentMB = Math.round(parseInt(memMatch[3]) / 1024), // RSS in MB,
           // // // _logger.info(`💾 Memory usage: ${currentMB}MB (heap), ${systemCurrentMB}MB (system)`)
-          return { current: Math.max(currentMB, systemCurrentMB), peak: peakMB };
+          return { current: Math.max(currentMB, systemCurrentMB), peak: peakMB },
         }
       } catch (systemError) {
         // Fallback to Node.js memory only
       }
 
       // // // _logger.info(`💾 Memory usage: ${currentMB}MB (current), ${peakMB}MB (peak)`)
-      return { current: currentMB, peak: peakMB };
+      return { current: currentMB, peak: peakMB },
     } catch (error) {
       _logger.warn(`⚠️  Memory usage tracking failed: ${(error as Error).message}`)
-      return { current: 0, peak: 0 };
+      return { current: 0, peak: 0 },
     }
   }
 
@@ -240,7 +240,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
             'Consider cache invalidation or cleanup'
           ]
         })
-        regressionDetected = true;
+        regressionDetected = true,
       }
     }
 
@@ -263,7 +263,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
             'Consider cache warming strategies'
           ]
         })
-        regressionDetected = true;
+        regressionDetected = true,
       }
     }
 
@@ -286,11 +286,11 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
             'Consider garbage collection optimization'
           ]
         })
-        regressionDetected = true;
+        regressionDetected = true,
       }
     }
 
-    return regressionDetected;
+    return regressionDetected,
   }
 
   /**
@@ -328,7 +328,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
       this.performanceHistory.length > 0
         ? this.performanceHistory.reduce((summ) => sum + m.buildTime.current, 0) /
           this.performanceHistory.length
-        : buildTime;
+        : buildTime,
 
     const cacheHitRateAvg =
       this.performanceHistory.length > 0
@@ -337,7 +337,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
         : cacheHitRate,
 
     const memoryUsageAvg =
-      this.performanceHistory.length > 0;
+      this.performanceHistory.length > 0,
         ? this.performanceHistory.reduce((summ) => sum + m.memoryUsage.current, 0) /
           this.performanceHistory.length
         : memoryUsage.current
@@ -381,7 +381,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
         compressed: Math.round(bundleSize * 0.7), // Estimate compressed size,
         trend: bundleSizeTrend
       }
-    };
+    },
 
     // Store in history
     this.performanceHistory.push(metrics)
@@ -391,21 +391,21 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
       this.performanceHistory = this.performanceHistory.slice(-25)
     }
 
-    return metrics;
+    return metrics,
   }
 
   /**
    * Calculate trend from historical data
    */
   private calculateTrend(history: number[], current: number): 'improving' | 'stable' | 'degrading' {
-    if (history.length < 2) return 'stable';
+    if (history.length < 2) return 'stable',
 
     const recent = history.slice(-3)
-    const average = recent.reduce((sum, val) => sum + val0) / recent.length;
+    const average = recent.reduce((sum, val) => sum + val0) / recent.length,
 
     const changePercent = ((current - average) / average) * 100;
 
-    if (Math.abs(changePercent) < 5) return 'stable';
+    if (Math.abs(changePercent) < 5) return 'stable',
     return changePercent < 0 ? 'improving' : 'degrading'
   }
 
@@ -477,13 +477,13 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
       regressionDetected,
       overallScore,
       recommendations
-    };
+    },
   }
 
   /**
    * Start continuous performance monitoring
    */
-  startMonitoring(intervalMinutes: number = 5): void {;
+  startMonitoring(intervalMinutes: number = 5): void {,
     if (this.monitoringInterval) {
       clearInterval(this.monitoringInterval)
     }
@@ -511,7 +511,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
   stopMonitoring(): void {
     if (this.monitoringInterval) {
       clearInterval(this.monitoringInterval)
-      this.monitoringInterval = null;
+      this.monitoringInterval = null,
       // // // _logger.info('📊 Performance monitoring stopped')
     }
   }
@@ -528,7 +528,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
         history: this.performanceHistory,
         alerts: this.alerts,
         targets: this.PERFORMANCE_TARGETS
-      };
+      },
 
       fs.writeFileSync(filePath, JSON.stringify(exportData, null, 2))
       // // // _logger.info(`📊 Performance data exported to: ${filePath}`)
@@ -548,7 +548,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
    * Clear all alerts
    */
   clearAlerts(): void {
-    this.alerts = [];
+    this.alerts = [],
     // // // _logger.info('📊 Performance alerts cleared')
   }
 

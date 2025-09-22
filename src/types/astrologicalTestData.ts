@@ -5,7 +5,7 @@
  */
 
 export interface AstrologicalTestData {
-  mockPlanetaryPositions?: Record<string, number>;
+  mockPlanetaryPositions?: Record<string, number>,
   testZodiacSign?: string,
   testLunarPhase?: string,
   testElementalInfluence?: {
@@ -13,12 +13,12 @@ export interface AstrologicalTestData {
     Water: number,
     Earth: number,
     Air: number
-  };
+  },
   testDate?: Date,
   mockCoordinates?: {
     latitude: number,
     longitude: number
-  };
+  },
   testScenario?: string,
-  expectedResults?: Record<string, unknown>;
+  expectedResults?: Record<string, unknown>,
 }

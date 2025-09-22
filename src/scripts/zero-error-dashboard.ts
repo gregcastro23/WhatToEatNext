@@ -33,10 +33,10 @@ class ZeroErrorDashboardCLI {
       switch (options.command) {
         case 'generate':
           await this.generateDashboard(options)
-          break;
+          break,
         case 'monitor':
           await this.startMonitoring(options)
-          break;
+          break,
         case 'status':
           await this.showStatus(options)
           break,
@@ -59,19 +59,19 @@ class ZeroErrorDashboardCLI {
       monitor: false,
       interval: 5,
       verbose: false
-    };
+    },
 
-    for (let i = 1i < args.lengthi++) {;
+    for (let i = 1i < args.lengthi++) {,
       const arg = args[i];
 
       switch (arg) {
         case '--monitor': case '-m':
-          options.monitor = true;
-          break;
+          options.monitor = true,
+          break,
         case '--interval':
         case '-i':
-          options.interval = parseInt(args[++i]) || 5;
-          break;
+          options.interval = parseInt(args[++i]) || 5,
+          break,
         case '--verbose':
         case '-v':
           options.verbose = true
@@ -271,7 +271,7 @@ MAINTENANCE PROCEDURES:
   private getStatusDisplay(status: string): string {
     switch (status) {
       case 'excellent':
-        return '🏆 EXCELLENT';
+        return '🏆 EXCELLENT',
       case 'good':
         return '👍 GOOD'
       case 'improving':
@@ -306,7 +306,7 @@ MAINTENANCE PROCEDURES:
 }
 
 // CLI Entry Point
-if (require.main === module) {;
+if (require.main === module) {,
   const cli = new ZeroErrorDashboardCLI()
   const args = process.argv.slice(2)
 
@@ -316,4 +316,4 @@ if (require.main === module) {;
   })
 }
 
-export { ZeroErrorDashboardCLI };
+export { ZeroErrorDashboardCLI },

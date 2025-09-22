@@ -39,7 +39,7 @@ export default function useErrorHandler({
     // Clean up resources and set loading to false when the component unmounts
     return () => {
       setFoodLoading(false)
-    };
+    },
   }, [])
 
   // Capture and handle errors
@@ -79,5 +79,5 @@ export default function useErrorHandler({
     foodLoading,
     foodRecommendations,
     setFoodRecommendations
-  };
+  },
 }

@@ -564,4 +564,4 @@ export const frying: CookingMethodData = {
         'Thermal expansion combined with steam pressure creates substantial volume increase in many fried items. Expansion rate influences final texture, too rapid causes structural failure.'
     }
   }
-};
+},

@@ -11,18 +11,18 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import {
   EnterpriseIntelligenceIntegration,
   enterpriseIntelligenceIntegration
-} from '@/services/EnterpriseIntelligenceIntegration';
+} from '@/services/EnterpriseIntelligenceIntegration',
 import type { ElementalProperties, ZodiacSign, LunarPhase } from '@/types/alchemy';
 import type {
   EnterpriseRecipeData,
   EnterpriseIngredientData,
   EnterpriseAstrologicalContext,
   EnterpriseIntelligenceAnalysisState
-} from '@/types/enterpriseHooks';
+} from '@/types/enterpriseHooks',
 import type {
   EnterpriseIntelligenceConfig,
   EnterpriseIntelligenceResult
-} from '@/types/enterpriseIntelligence';
+} from '@/types/enterpriseIntelligence',
 import { logger } from '@/utils/logger';
 
 // ========== INTERFACES ==========
@@ -43,7 +43,7 @@ export interface EnterpriseIntelligenceState {
     averageExecutionTime: number,
     cacheHitRate: number,
     errorRate: number
-  };
+  },
 }
 
 export interface EnterpriseIntelligenceActions {
@@ -56,7 +56,7 @@ export interface EnterpriseIntelligenceActions {
       elementalProperties: ElementalProperties,
       planetaryPositions?: EnterpriseAstrologicalContext['planetaryPositions']
     },
-  ) => Promise<EnterpriseIntelligenceResult | null>;
+  ) => Promise<EnterpriseIntelligenceResult | null>,
   clearAnalysis: () => void,
   updateConfig: (config: Partial<EnterpriseIntelligenceConfig>) => void,
   clearCache: () => void,
@@ -73,13 +73,13 @@ export interface UseEnterpriseIntelligenceReturn {
     validation: string[],
     safety: string[],
     optimization: string[]
-  };
+  },
   systemHealth: {
     overall: 'excellent' | 'good' | 'fair' | 'poor',
     score: number,
     issues: string[],
     warnings: string[]
-  };
+  },
   isHealthy: boolean,
   needsAttention: boolean
 }
@@ -116,7 +116,7 @@ export function useEnterpriseIntelligence(
     if (Object.keys(config).length > 0) {
       return new EnterpriseIntelligenceIntegration(config)
     }
-    return enterpriseIntelligenceIntegration;
+    return enterpriseIntelligenceIntegration,
   }, [config])
 
   const recommendations = useMemo(() => {
@@ -127,7 +127,7 @@ export function useEnterpriseIntelligence(
         validation: [],
         safety: [],
         optimization: []
-      };
+      },
     }
 
     return {
@@ -163,8 +163,8 @@ export function useEnterpriseIntelligence(
         ...((
           state.analysis as unknown as {
             optimizationRecommendations?: {
-              performance?: { recommendations?: string[] };
-              accuracy?: { recommendations?: string[] };
+              performance?: { recommendations?: string[] },
+              accuracy?: { recommendations?: string[] },
               userExperience?: { recommendations?: string[] }
               systemIntegration?: { recommendations?: string[] }
             }
@@ -186,7 +186,7 @@ export function useEnterpriseIntelligence(
           }
         ).optimizationRecommendations?.systemIntegration?.recommendations || [])
       ]
-    };
+    },
   }, [state.analysis])
 
   const systemHealth = useMemo(() => {
@@ -196,7 +196,7 @@ export function useEnterpriseIntelligence(
         score: 0.7,
         issues: ['No analysis available'],
         warnings: []
-      };
+      },
     }
 
     const analysis = state.analysis;
@@ -209,7 +209,7 @@ export function useEnterpriseIntelligence(
       ...((analysis.safetyIntelligence as { riskAssessment?: { level?: string } })?.riskAssessment
         ?.level === 'high' ||
       (analysis.safetyIntelligence as { riskAssessment?: { level?: string } })?.riskAssessment
-        ?.level === 'critical';
+        ?.level === 'critical',
         ? ['High risk level detected']
         : [])
     ]
@@ -230,21 +230,21 @@ export function useEnterpriseIntelligence(
       ...((analysis.validationIntelligence as { elementalHarmony?: { warnings?: string[] } })
         ?.elementalHarmony?.warnings || []),
       ...((analysis.safetyIntelligence as { monitoringAlerts?: string[] })?.monitoringAlerts || [])
-    ];
+    ],
 
     return {
       overall: (analysis as { systemHealth?: string }).systemHealth || 'fair',
       score:
         (analysis as { overallScore?: number }).overallScore ||
         analysis.overallIntelligenceScore ||
-        0.7;
+        0.7,
       issues,
       warnings
-    };
+    },
   }, [state.analysis])
 
   const isHealthy = useMemo(() => {
-    return systemHealth.overall === 'excellent' || systemHealth.overall === 'good';
+    return systemHealth.overall === 'excellent' || systemHealth.overall === 'good',
   }, [systemHealth.overall])
 
   const needsAttention = useMemo(() => {
@@ -254,7 +254,7 @@ export function useEnterpriseIntelligence(
       (state.analysis?.safetyIntelligence as { riskAssessment?: { level?: string } })
         ?.riskAssessment?.level === 'high' ||
       (state.analysis?.safetyIntelligence as { riskAssessment?: { level?: string } })
-        ?.riskAssessment?.level === 'critical';
+        ?.riskAssessment?.level === 'critical',
     )
   }, [systemHealth.issues.length, systemHealth.overall, state.analysis])
 
@@ -310,11 +310,11 @@ export function useEnterpriseIntelligence(
         logger.info('[useEnterpriseIntelligence] Enterprise intelligence analysis completed', {
           overallScore:
             (analysis as { overallScore?: number }).overallScore ||
-            analysis.overallIntelligenceScore;
+            analysis.overallIntelligenceScore,
           systemHealth: (analysis as { systemHealth?: string }).systemHealth || 'unknown'
         })
 
-        return analysis;
+        return analysis,
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
 
@@ -380,7 +380,7 @@ export function useEnterpriseIntelligence(
 
     logger.info('[useEnterpriseIntelligence] Retrying enterprise intelligence analysis')
     await performAnalysis(
-      lastAnalysisParams.recipeData;
+      lastAnalysisParams.recipeData,
       lastAnalysisParams.ingredientData
       lastAnalysisParams.astrologicalContext
     )
@@ -391,7 +391,7 @@ export function useEnterpriseIntelligence(
   // Auto-analyze effect
   useEffect(() => {
     if (config.autoAnalyze && lastAnalysisParams && !state.isAnalyzing) {
-      const interval = config.analysisInterval || 30000, // Default 30 seconds;
+      const interval = config.analysisInterval || 30000, // Default 30 seconds,
 
       const timer = setInterval(() => {
         if (config.enableRealTimeUpdates) {
@@ -402,11 +402,11 @@ export function useEnterpriseIntelligence(
       return () => clearInterval(timer)
     }
   }, [
-    config.autoAnalyze;
-    config.analysisInterval;
-    config.enableRealTimeUpdates;
+    config.autoAnalyze,
+    config.analysisInterval,
+    config.enableRealTimeUpdates,
     lastAnalysisParams,
-    state.isAnalyzing;
+    state.isAnalyzing,
     retryAnalysis
   ])
 
@@ -418,7 +418,7 @@ export function useEnterpriseIntelligence(
         ...prev,
         performanceMetrics: metrics
       }))
-    };
+    },
 
     // Update metrics every 10 seconds
     const metricsTimer = setInterval(() => void updateMetrics(), 10000)
@@ -442,7 +442,7 @@ export function useEnterpriseIntelligence(
     systemHealth,
     isHealthy,
     needsAttention
-  };
+  },
 }
 
 // ========== UTILITY HOOKS ==========
@@ -475,7 +475,7 @@ export function useEnterpriseIntelligenceHealth() {
     [systemHealth, isHealthy, needsAttention, state],
   )
 
-  return healthStatus;
+  return healthStatus,
 }
 
 /**
@@ -498,10 +498,10 @@ export function useEnterpriseIntelligenceRecommendations() {
         text: r,
         priority: 'low'
       }))
-    ];
+    ],
 
     // Sort by priority
-    const priorityOrder = { high: 3, medium: 2, low: 1 };
+    const priorityOrder = { high: 3, medium: 2, low: 1 },
     return allRecommendations.sort(
       (ab) =>
         priorityOrder[b.priority as keyof typeof priorityOrder] -
@@ -514,7 +514,7 @@ export function useEnterpriseIntelligenceRecommendations() {
     hasRecommendations: prioritizedRecommendations.length > 0,
     highPriorityCount: prioritizedRecommendations.filter(r => r.priority === 'high').length,,
     lastUpdated: state.lastAnalyzed
-  };
+  },
 }
 
 /**
@@ -539,5 +539,5 @@ export function useEnterpriseIntelligencePerformance() {
     [state.performanceMetrics],
   )
 
-  return performanceStatus;
+  return performanceStatus,
 }

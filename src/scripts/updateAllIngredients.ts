@@ -28,7 +28,7 @@ const categoryUpdaters = {
   spices: updateSpices,
   oils: updateOils,
   vinegars: updateVinegars
-};
+},
 
 // All categories in the order they should be processed
 const ALL_CATEGORIES = [
@@ -40,7 +40,7 @@ const ALL_CATEGORIES = [
   'proteins',
   'oils',
   'vinegars'
-];
+],
 
 /**
  * Run the specified category updaters sequentially
@@ -54,7 +54,7 @@ async function updateCategories(categories: string[]): Promise<void> {
     const updater = categoryUpdaters[category];
     if (!updater) {
       // _logger.warn(`No updater found for category: ${category}`)
-      continue;
+      continue,
     }
 
     // // // // _logger.info(`\n========== UPDATING ${category.toUpperCase()} ==========\n`)
@@ -74,7 +74,7 @@ async function main() {
   const args = process.argv.slice(2)
 
   // If specific categories are requested, validate them and only process those
-  let categoriesToProcess = ALL_CATEGORIES;
+  let categoriesToProcess = ALL_CATEGORIES,
 
   if (args.length > 0) {
     const validCategories = args.filter(cat => ALL_CATEGORIES.includes(cat.toLowerCase()))
@@ -84,7 +84,7 @@ async function main() {
       process.exit(1)
     }
 
-    categoriesToProcess = validCategories;
+    categoriesToProcess = validCategories,
   }
 
   await updateCategories(categoriesToProcess)
@@ -99,4 +99,4 @@ if (typeof require !== 'undefined' && require.main === module) {
 }
 
 // Export for use in other scripts if needed
-export { updateCategories };
+export { updateCategories },

@@ -224,7 +224,7 @@ const rawSquash = {
       notes: 'Store away from apples / (pears || 1)'
     }
   }
-};
+},
 
 // Fix the ingredient mappings to ensure they have all required properties
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility

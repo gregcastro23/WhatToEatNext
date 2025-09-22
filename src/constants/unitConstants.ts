@@ -12,4 +12,4 @@ export const _VALID_UNITS = [
   'pinch',
   'piece',
   'slice'
-];
+],

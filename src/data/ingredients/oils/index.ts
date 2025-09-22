@@ -3,13 +3,13 @@ import { _, fixIngredientMappings } from '@/utils/elementalUtils';
 
 import { oils } from './oils';
 
-export { oils };
+export { oils },
 
 // Process oils to add enhanced properties
 export const processedOils: Record<string, IngredientMapping> = fixIngredientMappings(oils)
 
 // Export enhanced oils as default
-export default processedOils;
+export default processedOils,
 
 // Export specific oil categories
 export const _cookingOils = Object.entries(processedOils)
@@ -80,7 +80,7 @@ export const _highHeatOils = Object.entries(processedOils)
         'fahrenheit' in value.smokePoint &&
         (value.smokePoint as unknown).fahrenheit >= 400) ||
       value.culinaryApplications?.frying ||
-      value.culinaryApplications?.deepfrying;
+      value.culinaryApplications?.deepfrying,
   )
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
 

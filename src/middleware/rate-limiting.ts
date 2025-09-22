@@ -10,11 +10,11 @@ import { UserRole } from '@/lib/auth/jwt-auth';
 import { logger } from '@/utils/logger';
 
 export interface RateLimitTier {
-  windowMs: number;
-  max: number;
-  message: string;
-  standardHeaders: boolean;
-  legacyHeaders: boolean;
+  windowMs: number,
+  max: number,
+  message: string,
+  standardHeaders: boolean,
+  legacyHeaders: boolean,
 }
 
 /**
@@ -74,7 +74,7 @@ export const rateLimitTiers: Record<string, RateLimitTier> = {
     standardHeaders: true,
     legacyHeaders: false
   }
-};
+},
 
 /**
  * Endpoint-specific rate limits
@@ -113,7 +113,7 @@ export const endpointLimits: Record<string, Partial<RateLimitTier>> = {
     max: 30, // 30 recommendations per minute
     message: 'Too many recommendation requests. Please wait before trying again.'
   }
-};
+},
 
 /**
  * Create a key generator that considers authentication status
@@ -124,11 +124,11 @@ function createKeyGenerator() {
     const ip = req.ip || req.connection.remoteAddress || 'unknown';
 
     if (userId) {
-      return `auth:${userId}`;
+      return `auth:${userId}`,
     }
 
-    return `anon:${ip}`;
-  };
+    return `anon:${ip}`,
+  },
 }
 
 /**
@@ -138,26 +138,26 @@ function determineRateLimitTier(req: Request): RateLimitTier {
   const user = req.user;
 
   if (!user) {
-    return rateLimitTiers.anonymous;
+    return rateLimitTiers.anonymous,
   }
 
   // Check for admin role
   if (user.roles.includes(UserRole.ADMIN)) {
-    return rateLimitTiers.admin;
+    return rateLimitTiers.admin,
   }
 
   // Check for service role
   if (user.roles.includes(UserRole.SERVICE)) {
-    return rateLimitTiers.service;
+    return rateLimitTiers.service,
   }
 
   // Check for premium user (could be determined by subscription status)
   // For now, treat all authenticated users as premium
   if (user.roles.includes(UserRole.USER)) {
-    return rateLimitTiers.premium;
+    return rateLimitTiers.premium,
   }
 
-  return rateLimitTiers.authenticated;
+  return rateLimitTiers.authenticated,
 }
 
 /**
@@ -168,7 +168,7 @@ export function createAdaptiveRateLimit(baseTier?: string): RateLimitRequestHand
     windowMs: 15 * 60 * 1000, // Default window
     max: (req: Request) => {
       const tier = baseTier ? rateLimitTiers[baseTier] : determineRateLimitTier(req)
-      return tier.max;
+      return tier.max,
     },
     message: (req: Request) => {
       const tier = baseTier ? rateLimitTiers[baseTier] : determineRateLimitTier(req)
@@ -178,7 +178,7 @@ export function createAdaptiveRateLimit(baseTier?: string): RateLimitRequestHand
         retryAfter: Math.ceil(tier.windowMs / 1000),
         limit: tier.max,
         userTier: req.user ? 'authenticated' : 'anonymous'
-      };
+      },
     },
     keyGenerator: createKeyGenerator(),
     standardHeaders: true,
@@ -269,9 +269,9 @@ export const rateLimiters = {
   computation: rateLimit({
     windowMs: 60 * 1000, // 1 minute
     max: (req: Request) => {
-      if (isAdmin(req)) return 100;
-      if (getAuthenticatedUserId(req)) return 20;
-      return 5;
+      if (isAdmin(req)) return 100,
+      if (getAuthenticatedUserId(req)) return 20,
+      return 5,
     },
     message: {
       error: 'Computation rate limit exceeded',
@@ -286,9 +286,9 @@ export const rateLimiters = {
   websocket: rateLimit({
     windowMs: 60 * 1000, // 1 minute
     max: (req: Request) => {
-      if (isAdmin(req)) return 50;
-      if (getAuthenticatedUserId(req)) return 10;
-      return 3;
+      if (isAdmin(req)) return 50,
+      if (getAuthenticatedUserId(req)) return 10,
+      return 3,
     },
     message: {
       error: 'WebSocket connection rate limit exceeded',
@@ -298,7 +298,7 @@ export const rateLimiters = {
     standardHeaders: true,
     legacyHeaders: false
   })
-};
+},
 
 /**
  * Global rate limiting configuration
@@ -335,4 +335,4 @@ export default {
   rateLimitStatus,
   rateLimitTiers,
   endpointLimits
-};
+},

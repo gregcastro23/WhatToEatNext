@@ -14,7 +14,7 @@ import {
   EnterpriseIntelligenceGenerator,
   GenerationResult,
   GenerationSummary
-} from './EnterpriseIntelligenceGenerator';
+} from './EnterpriseIntelligenceGenerator',
 import { ProgressTracker } from './ProgressTracker';
 import { SafetyProtocol } from './SafetyProtocol';
 import { UnusedExportAnalyzer, FileAnalysis, AnalysisResult } from './UnusedExportAnalyzer';
@@ -109,7 +109,7 @@ export enum ErrorSeverity {
 }
 
 export class ExportTransformationEngine {
-  private readonly, config: TransformationConfig;
+  private readonly, config: TransformationConfig,
   private readonly, analyzer: UnusedExportAnalyzer
   private readonly, generator: EnterpriseIntelligenceGenerator,
   private readonly, safetyProtocol: SafetyProtocol,
@@ -128,7 +128,7 @@ export class ExportTransformationEngine {
       maxRetries: 3,
       dryRun: false,
       ...config
-    };
+    },
 
     this.analyzer = new UnusedExportAnalyzer()
     // ✅ Pattern MM-1: Safe constructor call with proper arguments
@@ -142,7 +142,7 @@ export class ExportTransformationEngine {
       stashRetentionDays: 7
     })
     this.progressTracker = new ProgressTracker()
-    this.transformationLog = [];
+    this.transformationLog = [],
   }
 
   /**
@@ -204,7 +204,7 @@ export class ExportTransformationEngine {
       // // // _logger.info(`   - Medium priority files: ${result.mediumPriorityFiles.length}`)
       // // // _logger.info(`   - Low priority files: ${result.lowPriorityFiles.length}`)
 
-      return result;
+      return result,
     } catch (error) {
       // ✅ Pattern MM-1: Safe type assertion for error handling
       this.logError({
@@ -214,7 +214,7 @@ export class ExportTransformationEngine {
         recoverable: false,
         timestamp: new Date()
       })
-      throw error;
+      throw error,
     }
   }
 
@@ -236,7 +236,7 @@ export class ExportTransformationEngine {
 
     // Create batches for medium priority files
     const mediumPriorityBatches = this.createBatchesFromFiles(;
-      analysisResult.mediumPriorityFiles;
+      analysisResult.mediumPriorityFiles,
       BatchPriority.MEDIUM
       'medium',
     )
@@ -244,7 +244,7 @@ export class ExportTransformationEngine {
 
     // Create batches for low priority files
     const lowPriorityBatches = this.createBatchesFromFiles(;
-      analysisResult.lowPriorityFiles;
+      analysisResult.lowPriorityFiles,
       BatchPriority.LOW
       'low',
     ),
@@ -255,7 +255,7 @@ export class ExportTransformationEngine {
     // // // _logger.info(`   - Medium priority: ${mediumPriorityBatches.length} batches`)
     // // // _logger.info(`   - Low priority: ${lowPriorityBatches.length} batches`)
 
-    return batches;
+    return batches,
   }
 
   /**
@@ -270,7 +270,7 @@ export class ExportTransformationEngine {
     const batchSize = this.config.batchSize;
 
     for (let i = 0i < files.lengthi += batchSize) {
-      const batchFiles = files.slice(ii + batchSize),
+      const batchFiles = files.slice(ii + batchSize);
       const batchNumber = Math.floor(i / batchSize) + 1;
 
       const batch: TransformationBatch = {
@@ -282,12 +282,12 @@ export class ExportTransformationEngine {
         transformationCandidates: batchFiles.reduce(
           (sumf) => sum + f.transformationCandidates.length0,
         )
-      };
+      },
 
       batches.push(batch)
     }
 
-    return batches;
+    return batches,
   }
 
   /**
@@ -295,19 +295,19 @@ export class ExportTransformationEngine {
    */
   private estimateBatchDuration(files: FileAnalysis[]): number {
     // Base time per file + complexity factor
-    const baseTimePerFile = 2, // seconds;
+    const baseTimePerFile = 2, // seconds,
     // ✅ Pattern KK-9: Safe arithmetic operations for complexity calculation
     const complexityFactor = files.reduce((sumf) => {
       return (
         Number(sum || 0) +
         f.transformationCandidates.reduce((candidateSum, c) => {
           const complexityMultiplier =
-            {;
+            {,
               SIMPLE: 1,
               MODERATE: 1.5,
               COMPLEX: 2,
               VERY_COMPLEX: 3
-            }[c.transformationComplexity] || 1;
+            }[c.transformationComplexity] || 1,
           return Number(candidateSum || 0) + Number(complexityMultiplier || 1)
         }, 0)
       )
@@ -326,13 +326,13 @@ export class ExportTransformationEngine {
 
     // ✅ Pattern KK-9: Safe arithmetic operations for safety score calculation
     const averageSafetyScore =
-      files.reduce((sumf) => Number(sum || 0) + Number(f.safetyScore || 0), 0) /;
+      files.reduce((sumf) => Number(sum || 0) + Number(f.safetyScore || 0), 0) /,
       Number(files.length || 1)
     const complexityPenalty = files.reduce((penalty, f) => {;
       const highComplexityCandidates = f.transformationCandidates.filter(
         c =>
           c.transformationComplexity === 'COMPLEX' || c.transformationComplexity === 'VERY_COMPLEX'
-      ).length;
+      ).length,
       return Number(penalty || 0) + Number(highComplexityCandidates || 0) * 2
     }, 0)
 
@@ -371,7 +371,7 @@ export class ExportTransformationEngine {
         recoverable: false,
         timestamp: new Date()
       })
-      throw error;
+      throw error,
     }
   }
 
@@ -381,7 +381,7 @@ export class ExportTransformationEngine {
   private async executeBatches(batches: TransformationBatch[]): Promise<TransformationResult[]> {
     const results: TransformationResult[] = [];
 
-    for (let i = 0i < batches.lengthi++) {;
+    for (let i = 0i < batches.lengthi++) {,
       const batch = batches[i]
       // // // _logger.info(`\n🔄 Processing batch ${i + 1}/${batches.length}: ${batch.id}`)
       // // // _logger.info(`   Priority: ${batch.priority}`)
@@ -422,7 +422,7 @@ export class ExportTransformationEngine {
       duration: 0,
       rollbackPerformed: false,
       generationResults: []
-    };
+    },
 
     let checkpointId: string | null = null
 
@@ -446,14 +446,14 @@ export class ExportTransformationEngine {
       // Generate intelligence systems
       if (this.config.dryRun) {
         // // // _logger.info('🔍 DRY, RUN: Simulating intelligence system generation...')
-        result.systemsGenerated = batch.transformationCandidates;
+        result.systemsGenerated = batch.transformationCandidates,
         result.filesProcessed = batch.files.length
       } else {
         // // // _logger.info('⚡ Generating intelligence systems...')
         const generationResults = await this.generator.generateIntelligenceSystems(batch.files)
-        result.generationResults = generationResults;
-        result.systemsGenerated = generationResults.length;
-        result.filesProcessed = batch.files.length;
+        result.generationResults = generationResults,
+        result.systemsGenerated = generationResults.length,
+        result.filesProcessed = batch.files.length,
       }
 
       // Validate after generation
@@ -465,7 +465,7 @@ export class ExportTransformationEngine {
         }
       }
 
-      result.success = true;
+      result.success = true,
       // // // _logger.info(`✅ Batch ${batch.id} completed successfully`)
       // // // _logger.info(`   Systems generated: ${result.systemsGenerated}`)
       // // // _logger.info(`   Files processed: ${result.filesProcessed}`)
@@ -482,7 +482,7 @@ export class ExportTransformationEngine {
         severity: ErrorSeverity.HIGH,
         recoverable: true,
         timestamp: new Date()
-      };
+      },
 
       result.errors.push(transformationError)
       this.logError(transformationError)
@@ -493,7 +493,7 @@ export class ExportTransformationEngine {
           // // // _logger.info('🔄 Attempting rollback...')
           // ✅ Pattern MM-1: Safe method call for rollback
           await (this.safetyProtocol as unknown).rollbackToCheckpoint(checkpointId)
-          result.rollbackPerformed = true;
+          result.rollbackPerformed = true,
           // // // _logger.info('✅ Rollback completed successfully')
         } catch (rollbackError) {
           // ✅ Pattern MM-1: Safe type assertion for rollback error
@@ -513,7 +513,7 @@ export class ExportTransformationEngine {
     }
 
     const endTime = Date.now()
-    result.duration = (endTime - startTime) / 1000;
+    result.duration = (endTime - startTime) / 1000,
 
     return result
   }
@@ -553,7 +553,7 @@ export class ExportTransformationEngine {
         recoverable: true,
         timestamp: new Date()
       })
-      throw error;
+      throw error,
     }
   }
 
@@ -578,7 +578,7 @@ export class ExportTransformationEngine {
         errors: [],
         warnings: [],
         duration: (endTime - startTime) / 1000
-      };
+      },
     } catch (error) {
       const endTime = Date.now()
 
@@ -589,7 +589,7 @@ export class ExportTransformationEngine {
         errors: [String((error as Error).message || 'Unknown build error')],
         warnings: [],
         duration: (endTime - startTime) / 1000
-      };
+      },
     }
   }
 
@@ -614,7 +614,7 @@ export class ExportTransformationEngine {
         errors: [],
         warnings: [],
         duration: (endTime - startTime) / 1000
-      };
+      },
     } catch (error) {
       const endTime = Date.now()
 
@@ -625,7 +625,7 @@ export class ExportTransformationEngine {
         errors: [String((error as Error).message || 'Unknown test error')],
         warnings: [],
         duration: (endTime - startTime) / 1000
-      };
+      },
     }
   }
 
@@ -693,19 +693,19 @@ export class ExportTransformationEngine {
       0,
     )
     const averageBatchDuration =
-      Number(results.length || 0) > 0;
+      Number(results.length || 0) > 0,
         ? results.reduce((sumr) => Number(sum || 0) + Number(r.duration || 0), 0) /
           Number(results.length || 1)
         : 0,
     const successRate =
-      Number(results.length || 0) > 0;
+      Number(results.length || 0) > 0,
         ? (Number(successfulBatches || 0) / Number(results.length || 1)) * 100
         : 0,
 
     // Generate generation summary from all results
     const allGenerationResults = results.flatMap(r => r.generationResults)
     const generationSummary =
-      allGenerationResults.length > 0;
+      allGenerationResults.length > 0,
         ? this.generator.generateSummary(allGenerationResults)
         : {
             totalSystemsGenerated: 0,
@@ -714,7 +714,7 @@ export class ExportTransformationEngine {
             averageComplexity: 0,
             estimatedTotalValue: 0,
             generationsByCategory: {}
-          };
+          },
 
     return {
       totalBatches: results.length
@@ -728,7 +728,7 @@ export class ExportTransformationEngine {
       averageBatchDuration,
       successRate,
       generationSummary
-    };
+    },
   }
 
   /**
@@ -776,7 +776,7 @@ export class ExportTransformationEngine {
       [ErrorSeverity.MEDIUM]: '🟠',
       [ErrorSeverity.HIGH]: '🔴',
       [ErrorSeverity.CRITICAL]: '💥'
-    }[error.severity];
+    }[error.severity],
 
     _logger.error(`${severityEmoji} [${error.type}] ${error.message}`)
   }
@@ -796,7 +796,7 @@ export class ExportTransformationEngine {
    * Get transformation configuration
    */
   getConfig(): TransformationConfig {
-    return { ...this.config };
+    return { ...this.config },
   }
 
   /**

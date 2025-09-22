@@ -21,11 +21,11 @@ describe('ServiceIntegrationValidator', () => {
   let mockProcessedFiles: string[],
 
   beforeEach(() => {
-    // Reset mocks;
+    // Reset mocks,
     jest.clearAllMocks()
 
     // Setup default configuration
-    const config: Partial<ServiceIntegrationConfig> = { enableApiEndpointValidation: true,
+    const config: Partial<ServiceIntegrationConfig> = { enableApiEndpointValidation: true;
       enableServiceMethodValidation: true,
       enableConfigurationValidation: true,
       enableIntegrationTests: true,
@@ -34,17 +34,17 @@ describe('ServiceIntegrationValidator', () => {
       qualityTarget: 90,
       buildStabilityTarget: 100,
       logLevel: 'info'
-    };
+    },
 
     validator = new ServiceIntegrationValidator(config)
 
     // Setup mock processed files
     mockProcessedFiles = [
-      '/project/src/services/ApiService.ts';
-      '/project/src/services/UserService.ts';
-      '/project/src/components/TestComponent.tsx';
+      '/project/src/services/ApiService.ts',
+      '/project/src/services/UserService.ts',
+      '/project/src/components/TestComponent.tsx',
       '/project/src/utils/helper.ts'
-    ];
+    ],
 
     // Mock successful executions by default
     mockExecSync.mockReturnValue(Buffer.from(''))
@@ -69,9 +69,9 @@ describe('ServiceIntegrationValidator', () => {
                 return fetch('/api/submit', { method: 'POST' })
               }
             }
-          `;
+          `,
         }
-        return 'export default Service;';
+        return 'export default Service;',
       })
 
       // Mock successful lint and build
@@ -98,10 +98,10 @@ describe('ServiceIntegrationValidator', () => {
 
     test('should identify service files correctly', async () => {
       const mixedFiles: any = [;
-        '/project/src/services/ApiService.ts';
-        '/project/src/components/Component.tsx';
-        '/project/src/utils/helper.ts';
-        '/project/src/services/UserService.ts';
+        '/project/src/services/ApiService.ts',
+        '/project/src/components/Component.tsx',
+        '/project/src/utils/helper.ts',
+        '/project/src/services/UserService.ts',
         '/project/src/api/routes.ts'
       ]
 
@@ -116,14 +116,14 @@ describe('ServiceIntegrationValidator', () => {
 
     test('should calculate quality metrics correctly', async () => {
       // Mock baseline metrics
-      const baselineMetrics: any = { unusedVariables: 100, buildErrors: 0 };
+      const baselineMetrics: any = { unusedVariables: 100, buildErrors: 0 },
 
       // Mock current state with reduced unused variables
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn lint')) {
           // Simulate 10 remaining unused variables (90% reduction)
           const lintResults: any = Array.from({ length: 10 }, () => ({
-            messages: [{ ruleId: '@typescript-eslint/no-unused-vars' }];
+            messages: [{ ruleId: '@typescript-eslint/no-unused-vars' }],
           }))
           return Buffer.from(JSON.stringify(lintResults))
         }
@@ -136,7 +136,7 @@ describe('ServiceIntegrationValidator', () => {
       const report: any = await validator.validateServiceIntegration(
         mockProcessedFiles,
         'test-batch-1',
-        baselineMetrics;
+        baselineMetrics,
       )
 
       expect(report.qualityMetrics.unusedVariableReduction).toBe(90).
@@ -151,7 +151,7 @@ describe('ServiceIntegrationValidator', () => {
         if (cmd.toString().includes('yarn lint')) {
           // Simulate 50 remaining unused variables (50% reduction)
           const lintResults: any = Array.from({ length: 50 }, () => ({
-            messages: [{ ruleId: '@typescript-eslint/no-unused-vars' }];
+            messages: [{ ruleId: '@typescript-eslint/no-unused-vars' }],
           }))
           return Buffer.from(JSON.stringify(lintResults))
         }
@@ -160,15 +160,15 @@ describe('ServiceIntegrationValidator', () => {
           const error: any = new Error('Build failed') as any
           (error as any).stdout = 'error, TS2322: Type error\nerror, TS2339: Property error',
           throw error
-        };
+        },
         return Buffer.from('')
       })
 
-      const baselineMetrics: any = { unusedVariables: 100, buildErrors: 0 };
+      const baselineMetrics: any = { unusedVariables: 100, buildErrors: 0 },
       const report: any = await validator.validateServiceIntegration(
         mockProcessedFiles,
         'test-batch-1',
-        baselineMetrics;
+        baselineMetrics,
       )
 
       expect(report.qualityMetrics.unusedVariableReduction).toBe(50).
@@ -305,7 +305,7 @@ describe('ServiceIntegrationValidator', () => {
       mockFs.readFileSync.mockReturnValue(`
         export class, ConfigService : any {
           private apiUrl = process.env.API_URL || 'http: //localhos, t:3000' = undefined as any,
-          private apiKey = process.env.API_KEY;
+          private apiKey = process.env.API_KEY,
           private timeout = config.timeout ?? 5000
 
           getConfig(key: string) {
@@ -333,7 +333,7 @@ describe('ServiceIntegrationValidator', () => {
         const requiredConfig: any = process.env.REQUIRED_API_KEY;
         const optionalConfig: any = process.env.OPTIONAL_SETTING || 'default'
       `)
-;
+,
       const report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1')
 
       const configResults: any = report.serviceResults.filter(r => r.validationType === 'configuration')
@@ -399,7 +399,7 @@ describe('ServiceIntegrationValidator', () => {
           const error: any = new Error('Tests failed') as any
           (error as any).stdout = '2 passed1 failed3 total',
           throw error
-        };
+        },
         return Buffer.from('')
       })
 
@@ -416,13 +416,13 @@ describe('ServiceIntegrationValidator', () => {
 
   describe('Quality Metrics Calculation', () => {
     test('should calculate unused variable reduction correctly', async () => {
-      const baselineMetrics: any = { unusedVariables: 200, buildErrors: 0 };
+      const baselineMetrics: any = { unusedVariables: 200, buildErrors: 0 },
 
       // Mock 20 remaining unused variables (90% reduction)
       mockExecSyncmockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn lint')) {
           const lintResults: any = Array.from({ length: 20 }, () => ({
-            messages: [{ ruleId: '@typescript-eslint/no-unused-vars' }];
+            messages: [{ ruleId: '@typescript-eslint/no-unused-vars' }],
           }))
           return Buffer.from(JSON.stringify(lintResults))
         }
@@ -435,7 +435,7 @@ describe('ServiceIntegrationValidator', () => {
       const report: any = await validator.validateServiceIntegration(
         mockProcessedFiles,
         'test-batch-1',
-        baselineMetrics;
+        baselineMetrics,
       )
 
       expect(report.qualityMetrics.unusedVariableReduction).toBe(90).
@@ -452,7 +452,7 @@ describe('ServiceIntegrationValidator', () => {
         }
         if (cmd.toString().includes('yarn lint')) {
           return Buffer.from('[]')
-        };
+        },
         return Buffer.from('')
       })
 
@@ -464,7 +464,7 @@ describe('ServiceIntegrationValidator', () => {
     })
 
     test('should calculate overall quality score correctly', async () => {
-      const baselineMetrics: any = { unusedVariables: 100, buildErrors: 0 };
+      const baselineMetrics: any = { unusedVariables: 100, buildErrors: 0 },
 
       // Mock perfect scenario
       mockExecSync.mockImplementation((cmd: any) => {
@@ -480,7 +480,7 @@ describe('ServiceIntegrationValidator', () => {
       const report: any = await validator.validateServiceIntegration(
         mockProcessedFiles,
         'test-batch-1',
-        baselineMetrics;
+        baselineMetrics,
       )
 
       // Perfect scores should result in high overall quality
@@ -511,7 +511,7 @@ describe('ServiceIntegrationValidator', () => {
         if (cmd.toString().includes('yarn lint')) {
           // 50% reduction (below 90% target)
           const lintResults: any = Array.from({ length: 50 }, () => ({
-            messages: [{ ruleId: '@typescript-eslint/no-unused-vars' }];
+            messages: [{ ruleId: '@typescript-eslint/no-unused-vars' }],
           }))
           return Buffer.from(JSON.stringify(lintResults))
         }
@@ -524,11 +524,11 @@ describe('ServiceIntegrationValidator', () => {
         return Buffer.from('')
       })
 
-      const baselineMetrics: any = { unusedVariables: 100, buildErrors: 0 };
+      const baselineMetrics: any = { unusedVariables: 100, buildErrors: 0 },
       const report: any = await validator.validateServiceIntegration(
         mockProcessedFiles,
         'test-batch-1',
-        baselineMetrics;
+        baselineMetrics,
       )
 
       expect(report.actionItems).toContain('Achieve 90% unused variable reduction target').
@@ -550,11 +550,11 @@ describe('ServiceIntegrationValidator', () => {
 
   describe('Configuration Options', () => {
     test('should respect disabled validation options', async () => {
-      const configWithDisabledValidations: Partial<ServiceIntegrationConfig> = { enableApiEndpointValidation: false,
+      const configWithDisabledValidations: Partial<ServiceIntegrationConfig> = { enableApiEndpointValidation: false;
         enableServiceMethodValidation: false,
         enableConfigurationValidation: false,
         enableIntegrationTests: false
-      };
+      },
 
       const validatorWithDisabledValidations: any = new ServiceIntegrationValidator(configWithDisabledValidations)
       const report: any = await validatorWithDisabledValidations.validateServiceIntegration(mockProcessedFiles, 'test-batch-1')
@@ -564,9 +564,9 @@ describe('ServiceIntegrationValidator', () => {
     })
 
     test('should respect timeout configurations', async () => {
-      const configWithShortTimeouts: Partial<ServiceIntegrationConfig> = { apiTimeout: 1000,
+      const configWithShortTimeouts: Partial<ServiceIntegrationConfig> = { apiTimeout: 1000;
         testTimeout: 1000
-      };
+      },
 
       const validatorWithShortTimeouts: any = new ServiceIntegrationValidator(configWithShortTimeouts)
 
@@ -586,7 +586,7 @@ describe('ServiceIntegrationValidator', () => {
       const testResults: any = report.serviceResults.filter(r => r.validationType === 'integration-test')
       if (testResults.length > 0) {
         expect(testResults[0].passed).toBe(false).
-      };
+      },
     })
   })
 

@@ -54,7 +54,7 @@ export interface SuccessCriteria {
   customChecks: Array<{
     name: string,
     validator: () => Promise<boolean>
-  }>;
+  }>,
 }
 
 export interface DeploymentResult {
@@ -105,13 +105,13 @@ export class DeploymentManager {
 
     for (const phase of phases) {
       try {
-        this.currentPhase = phase.id;
+        this.currentPhase = phase.id,
         const result = await this.executePhase(phase)
         results.push(result)
 
         if (!result.success) {
           this.log(`Phase ${phase.id} failed, stopping deployment`)
-          break;
+          break,
         }
 
         this.log(`Phase ${phase.id} completed successfully`)
@@ -131,12 +131,12 @@ export class DeploymentManager {
           warnings: [],
           rollbackPerformed: false
         })
-        break;
+        break,
       }
     }
 
     this.log('Deployment automation completed')
-    return results;
+    return results,
   }
 
   /**
@@ -157,7 +157,7 @@ export class DeploymentManager {
       errors: [],
       warnings: [],
       rollbackPerformed: false
-    };
+    },
 
     this.log(`Executing phase: ${phase.name}`)
 
@@ -167,14 +167,14 @@ export class DeploymentManager {
 
       // Execute tasks
       for (const task of phase.tasks) {
-        result.tasksExecuted++;
+        result.tasksExecuted++,
 
         try {
           await this.executeTask(task)
-          result.tasksSucceeded++;
+          result.tasksSucceeded++,
           this.log(`Task completed: ${task.name}`)
         } catch (error) {
-          result.tasksFailed++;
+          result.tasksFailed++,
           result.errors.push(`Task ${task.name} failed: ${error}`)
 
           if (task.critical) {
@@ -193,7 +193,7 @@ export class DeploymentManager {
         phase.successCriteria
         result.validationResults
       )
-      result.success = criteriaResult.success;
+      result.success = criteriaResult.success,
 
       if (!criteriaResult.success) {
         result.errors.push(...criteriaResult.errors)
@@ -207,7 +207,7 @@ export class DeploymentManager {
         this.log(`Attempting rollback for phase: ${phase.name}`)
         try {
           await this.executeRollback(phase.rollbackTasks)
-          result.rollbackPerformed = true;
+          result.rollbackPerformed = true,
           this.log('Rollback completed successfully')
         } catch (rollbackError) {
           result.errors.push(`Rollback failed: ${rollbackError}`)
@@ -217,10 +217,10 @@ export class DeploymentManager {
     }
 
     const endTime = new Date()
-    result.endTime = endTime;
+    result.endTime = endTime,
     result.duration = endTime.getTime() - startTime.getTime()
 
-    return result;
+    return result,
   }
 
   /**
@@ -233,8 +233,8 @@ export class DeploymentManager {
         stdio: 'pipe'
       })
 
-      let output = '';
-      let errorOutput = '';
+      let output = '',
+      let errorOutput = '',
 
       process.stdout?.on('data', data => {
         output += data.toString()
@@ -252,7 +252,7 @@ export class DeploymentManager {
       process.on('close', code => {
         clearTimeout(timeout)
 
-        if (code === 0) {;
+        if (code === 0) {,
           resolve()
         } else {
           reject(new Error(`Task ${task.name} exited with code ${code}: ${errorOutput}`))
@@ -280,22 +280,22 @@ export class DeploymentManager {
         success: false,
         output: '',
         duration: 0
-      };
+      },
 
       try {
         const output = await this.executeValidationCheck(check)
-        result.output = output;
+        result.output = output,
         result.success = check.outputValidation ? check.outputValidation(output) : true
       } catch (error) {
         result.error = String(error)
         result.success = false;
       }
 
-      result.duration = Date.now() - startTime;
+      result.duration = Date.now() - startTime,
       results.push(result)
     }
 
-    return results;
+    return results,
   }
 
   /**
@@ -307,8 +307,8 @@ export class DeploymentManager {
         stdio: 'pipe'
       })
 
-      let output = '';
-      let errorOutput = '';
+      let output = '',
+      let errorOutput = '',
 
       process.stdout?.on('data', data => {
         output += data.toString()
@@ -326,7 +326,7 @@ export class DeploymentManager {
       process.on('close', code => {
         clearTimeout(timeout)
 
-        if (code === check.expectedExitCode) {;
+        if (code === check.expectedExitCode) {,
           resolve(output)
         } else {
           reject(
@@ -399,7 +399,7 @@ export class DeploymentManager {
     return {
       success: errors.length === 0,,
       errors
-    };
+    },
   }
 
   /**
@@ -519,7 +519,7 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
           command: 'npx',
           args: [
             'tsx',
-            'src/services/campaign/unintentional-any-elimination/config/cli.ts';
+            'src/services/campaign/unintentional-any-elimination/config/cli.ts',
             'validate'
           ],
           timeout: 30000,
@@ -543,7 +543,7 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
           command: 'npx',
           args: [
             'tsx',
-            'src/services/campaign/unintentional-any-elimination/config/cli.ts';
+            'src/services/campaign/unintentional-any-elimination/config/cli.ts',
             'reset',
             '--confirm'
           ],
@@ -560,7 +560,7 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
           command: 'npx',
           args: [
             'tsx',
-            'src/services/campaign/unintentional-any-elimination/config/cli.ts';
+            'src/services/campaign/unintentional-any-elimination/config/cli.ts',
             'validate'
           ],
           timeout: 30000,
@@ -740,5 +740,5 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
         ]
       }
     }
-  ];
+  ],
 }

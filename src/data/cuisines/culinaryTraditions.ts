@@ -1,6 +1,6 @@
 // Define the CuisineProfile interface to match the type needed for culinary traditions
 export interface CuisineProfile {
-  elementalAlignment: Record<string, number>;
+  elementalAlignment: Record<string, number>,
   description?: string // Add optional description field
   astrologicalProfile: {
     rulingPlanets: string[],
@@ -8,8 +8,8 @@ export interface CuisineProfile {
     techniques: string[],
     aspectEnhancers: string[],
     seasonalPreference?: string[]
-  };
-  signatureModifications: Record<string, string>;
+  },
+  signatureModifications: Record<string, string>,
   seasonalPreferences?: string[]
 }
 
@@ -197,7 +197,7 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
       water_dominant: 'Balance with coconut milk'
     }
   }
-};
+},
 
 // Add validation to ensure all elementalAlignments sum to 1.0
 Object.entries(culinaryTraditions).forEach(([_cuisine, profile]) => {

@@ -49,4 +49,4 @@ export const _LUNAR_PHASES: { [key: string]: ElementalProperties } = {
     Earth: 0.6,
     Fire: 0.2
   }
-};
+},

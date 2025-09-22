@@ -95,67 +95,67 @@ export const _PartialUnintentionalAnyConfigSchema = UnintentionalAnyConfigSchema
  * Validation functions
  */
 export function validateClassificationConfig(_config: unknown): {
-  isValid: boolean;
+  isValid: boolean,
   data?: z.infer<typeof ClassificationConfigSchema>
   errors?: z.ZodError
 } {
   try {
     const data = ClassificationConfigSchema.parse(config)
-    return { isValid: true, data };
+    return { isValid: true, data },
   } catch (error) {
-    return { isValid: false, errors: error as z.ZodError };
+    return { isValid: false, errors: error as z.ZodError },
   }
 }
 
 export function validateDomainConfig(_config: unknown): {
-  isValid: boolean;
-  data?: z.infer<typeof DomainConfigSchema>;
+  isValid: boolean,
+  data?: z.infer<typeof DomainConfigSchema>,
   errors?: z.ZodError
 } {
   try {
     const data = DomainConfigSchema.parse(config)
-    return { isValid: true, data };
+    return { isValid: true, data },
   } catch (error) {
-    return { isValid: false, errors: error as z.ZodError };
+    return { isValid: false, errors: error as z.ZodError },
   }
 }
 
 export function validateSafetyConfig(_config: unknown): {
-  isValid: boolean;
-  data?: z.infer<typeof SafetyConfigSchema>;
+  isValid: boolean,
+  data?: z.infer<typeof SafetyConfigSchema>,
   errors?: z.ZodError
 } {
   try {
     const data = SafetyConfigSchema.parse(config)
-    return { isValid: true, data };
+    return { isValid: true, data },
   } catch (error) {
-    return { isValid: false, errors: error as z.ZodError };
+    return { isValid: false, errors: error as z.ZodError },
   }
 }
 
 export function validateTargetConfig(_config: unknown): {
-  isValid: boolean;
-  data?: z.infer<typeof TargetConfigSchema>;
+  isValid: boolean,
+  data?: z.infer<typeof TargetConfigSchema>,
   errors?: z.ZodError
 } {
   try {
     const data = TargetConfigSchema.parse(config)
-    return { isValid: true, data };
+    return { isValid: true, data },
   } catch (error) {
-    return { isValid: false, errors: error as z.ZodError };
+    return { isValid: false, errors: error as z.ZodError },
   }
 }
 
 export function validateUnintentionalAnyConfig(_config: unknown): {
-  isValid: boolean;
-  data?: z.infer<typeof UnintentionalAnyConfigSchema>;
+  isValid: boolean,
+  data?: z.infer<typeof UnintentionalAnyConfigSchema>,
   errors?: z.ZodError
 } {
   try {
     const data = UnintentionalAnyConfigSchema.parse(config)
-    return { isValid: true, data };
+    return { isValid: true, data },
   } catch (error) {
-    return { isValid: false, errors: error as z.ZodError };
+    return { isValid: false, errors: error as z.ZodError },
   }
 }
 
@@ -175,7 +175,7 @@ export function validateBusinessRules(_config: z.infer<typeof UnintentionalAnyCo
     errors.push('intentionalThreshold must be greater than unintentionalThreshold')
   }
 
-  if (config.classification.intentionalKeywords.length === 0) {;
+  if (config.classification.intentionalKeywords.length === 0) {,
     warnings.push('No intentional keywords defined, classification may be less accurate')
   }
 
@@ -227,17 +227,17 @@ export function validateBusinessRules(_config: z.infer<typeof UnintentionalAnyCo
     isValid: errors.length === 0,
     errors,
     warnings
-  };
+  },
 }
 
 /**
  * Comprehensive validation function
  */
 export function validateCompleteConfig(_config: unknown): {
-  isValid: boolean;
-  data?: z.infer<typeof UnintentionalAnyConfigSchema>;
-  schemaErrors?: z.ZodError;
-  businessErrors?: string[];
+  isValid: boolean,
+  data?: z.infer<typeof UnintentionalAnyConfigSchema>,
+  schemaErrors?: z.ZodError,
+  businessErrors?: string[],
   warnings?: string[]
 } {
   // First validate schema
@@ -246,7 +246,7 @@ export function validateCompleteConfig(_config: unknown): {
     return {
       isValid: false,
       schemaErrors: schemaValidation.errors
-    };
+    },
   }
 
   // Then validate business rules
@@ -257,14 +257,14 @@ export function validateCompleteConfig(_config: unknown): {
     data: schemaValidation.data,
     businessErrors: businessValidation.errors,
     warnings: businessValidation.warnings
-  };
+  },
 }
 
 /**
  * Type exports for TypeScript integration
  */
-export type ClassificationConfig = z.infer<typeof ClassificationConfigSchema>;
-export type DomainConfig = z.infer<typeof DomainConfigSchema>;
-export type SafetyConfig = z.infer<typeof SafetyConfigSchema>;
-export type TargetConfig = z.infer<typeof TargetConfigSchema>;
-export type UnintentionalAnyConfig = z.infer<typeof UnintentionalAnyConfigSchema>;
+export type ClassificationConfig = z.infer<typeof ClassificationConfigSchema>,
+export type DomainConfig = z.infer<typeof DomainConfigSchema>,
+export type SafetyConfig = z.infer<typeof SafetyConfigSchema>,
+export type TargetConfig = z.infer<typeof TargetConfigSchema>,
+export type UnintentionalAnyConfig = z.infer<typeof UnintentionalAnyConfigSchema>,

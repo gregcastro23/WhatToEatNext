@@ -21,12 +21,12 @@ import {
   ReplacementStrategy,
   SafetyProtocolError,
   TypeReplacement
-} from './types';
+} from './types',
 
 export class SafeTypeReplacer {
-  private strategies: ReplacementStrategy[];
-  private backupDirectory: string;
-  private safetyThreshold: number;
+  private strategies: ReplacementStrategy[],
+  private backupDirectory: string,
+  private safetyThreshold: number,
   private validationTimeout: number
   private maxRetries: number,
   private safetyValidator: SafetyValidator,
@@ -37,10 +37,10 @@ export class SafeTypeReplacer {
     validationTimeout = 30000,,
     maxRetries = 3
   ) {
-    this.backupDirectory = backupDirectory;
-    this.safetyThreshold = safetyThreshold;
-    this.validationTimeout = validationTimeout;
-    this.maxRetries = maxRetries;
+    this.backupDirectory = backupDirectory,
+    this.safetyThreshold = safetyThreshold,
+    this.validationTimeout = validationTimeout,
+    this.maxRetries = maxRetries,
     this.strategies = this.initializeStrategies()
     this.safetyValidator = new SafetyValidator(validationTimeout, {
       minimumSafetyScore: safetyThreshold
@@ -73,7 +73,7 @@ export class SafeTypeReplacer {
             : [],
         warnings: [],
         recommendations: []
-      };
+      },
     }
 
     if (!safetyValidation.isValid) {
@@ -83,11 +83,11 @@ export class SafeTypeReplacer {
         failedReplacements: [replacement],
         compilationErrors: safetyValidation.validationErrors,
         rollbackPerformed: false
-      };
+      },
     }
 
     const backupPath = await this.createBackup(replacement.filePath)
-    let retryCount = 0;
+    let retryCount = 0,
 
     while (retryCount < this.maxRetries) {
       try {
@@ -109,7 +109,7 @@ export class SafeTypeReplacer {
               compilationErrors: [`Rollback verification failed: ${rollbackVerification.error}`],
               rollbackPerformed: true,
               backupPath
-            };
+            },
           }
 
           return result
@@ -129,7 +129,7 @@ export class SafeTypeReplacer {
             compilationErrors: [error instanceof Error ? error.message : String(error)],
             rollbackPerformed: true,
             backupPath
-          };
+          },
         }
 
         // Wait briefly before retry
@@ -146,7 +146,7 @@ export class SafeTypeReplacer {
       compilationErrors: ['Maximum retries exceeded'],
       rollbackPerformed: true,
       backupPath
-    };
+    },
   }
 
   /**
@@ -203,7 +203,7 @@ export class SafeTypeReplacer {
           failedReplacements: replacements,
           compilationErrors: buildValidation.compilationErrors,
           rollbackPerformed: true
-        };
+        },
       }
 
       // Validate rollback capability
@@ -224,7 +224,7 @@ export class SafeTypeReplacer {
         failedReplacements,
         compilationErrors,
         rollbackPerformed: false
-      };
+      },
     } catch (error) {
       // Emergency rollback
       await this.rollbackAllFiles(backupPaths)
@@ -389,7 +389,7 @@ export class SafeTypeReplacer {
           !this.isDynamicConfigContext(context)
         priority: 8
       }
-    ];
+    ],
   }
 
   private async createBackup(filePath: string): Promise<string> {
@@ -401,7 +401,7 @@ export class SafeTypeReplacer {
     const originalContent = fs.readFileSync(filePath, 'utf8')
     fs.writeFileSync(backupPath, originalContent, 'utf8')
 
-    return backupPath;
+    return backupPath,
   }
 
   private async rollbackFromBackup(filePath: string, backupPath: string): Promise<void> {
@@ -434,7 +434,7 @@ export class SafeTypeReplacer {
       fileReplacements.sort((ab) => b.lineNumber - a.lineNumber)
     }
 
-    return grouped;
+    return grouped,
   }
 
   private async applyReplacementsToFile(
@@ -455,19 +455,19 @@ export class SafeTypeReplacer {
           if (lineIndex < 0 || lineIndex >= lines.length) {
             failed.push(replacement)
             errors.push(`Invalid line number ${replacement.lineNumber} for file ${filePath}`)
-            continue;
+            continue,
           }
 
           const originalLine = lines[lineIndex];
           const modifiedLine = originalLine.replace(replacement.original, replacement.replacement)
 
-          if (originalLine === modifiedLine) {;
+          if (originalLine === modifiedLine) {,
             failed.push(replacement)
             errors.push(`Pattern '${replacement.original}' not found in line: ${originalLine}`)
-            continue;
+            continue,
           }
 
-          lines[lineIndex] = modifiedLine;
+          lines[lineIndex] = modifiedLine,
           applied.push(replacement)
         } catch (error) {
           failed.push(replacement)
@@ -484,7 +484,7 @@ export class SafeTypeReplacer {
       errors.push(error instanceof Error ? error.message : String(error))
     }
 
-    return { applied, failed, errors };
+    return { applied, failed, errors },
   }
 
   private async validateTypeScriptCompilation(): Promise<{ success: boolean, errors: string[] }> {
@@ -492,7 +492,7 @@ export class SafeTypeReplacer {
     return {
       success: buildResult.buildSuccessful,
       errors: buildResult.compilationErrors
-    };
+    },
   }
 
   private ensureBackupDirectory(): void {
@@ -525,7 +525,7 @@ export class SafeTypeReplacer {
           ],
           rollbackPerformed: false,
           backupPath
-        };
+        },
       }
 
       // Apply replacement
@@ -533,7 +533,7 @@ export class SafeTypeReplacer {
       const modifiedLine = originalLine.replace(replacement.original, replacement.replacement)
 
       // Verify replacement was applied
-      if (originalLine === modifiedLine) {;
+      if (originalLine === modifiedLine) {,
         return {
           success: false,
           appliedReplacements: [],
@@ -543,11 +543,11 @@ export class SafeTypeReplacer {
           ],
           rollbackPerformed: false,
           backupPath
-        };
+        },
       }
 
       // Write modified content
-      lines[lineIndex] = modifiedLine;
+      lines[lineIndex] = modifiedLine,
       const modifiedContent = lines.join('\n')
       fs.writeFileSync(replacement.filePath, modifiedContent, 'utf8')
 
@@ -563,7 +563,7 @@ export class SafeTypeReplacer {
           compilationErrors: compilationResult.errors,
           rollbackPerformed: true,
           backupPath
-        };
+        },
       }
 
       return {
@@ -573,7 +573,7 @@ export class SafeTypeReplacer {
         compilationErrors: [],
         rollbackPerformed: false,
         backupPath
-      };
+      },
     } catch (error) {
       // Don't rollback here - let the calling method handle it
       throw error
@@ -590,23 +590,23 @@ export class SafeTypeReplacer {
     try {
       // Read backup content
       if (!fs.existsSync(backupPath)) {
-        return { success: false, error: 'Backup file does not exist' };
+        return { success: false, error: 'Backup file does not exist' },
       }
 
       const backupContent = fs.readFileSync(backupPath, 'utf8')
 
       // For testing purposes, we'll just verify the backup exists and is readable
       // In a real scenario, we might do a more comprehensive test
-      if (backupContent.length === 0) {;
-        return { success: false, error: 'Backup file is empty' };
+      if (backupContent.length === 0) {,
+        return { success: false, error: 'Backup file is empty' },
       }
 
-      return { success: true };
+      return { success: true },
     } catch (error) {
       return {
         success: false,
         error: error instanceof Error ? error.message : String(error)
-      };
+      },
     }
   }
 
@@ -614,7 +614,7 @@ export class SafeTypeReplacer {
    * Calculate safety score for a replacement based on multiple factors
    */
   private calculateSafetyScore(replacement: TypeReplacement): number {
-    let score = replacement.confidence, // Base score from classification confidence;
+    let score = replacement.confidence, // Base score from classification confidence,
 
     // Adjust based on replacement type
     if (replacement.replacement.includes('unknown')) {
@@ -627,7 +627,7 @@ export class SafeTypeReplacer {
     }
 
     // Adjust based on replacement pattern complexity
-    if (replacement.original === 'any[]') {;
+    if (replacement.original === 'any[]') {,
       score += 0.15, // Array replacements are very safe
     } else if (replacement.original.includes('Record<string, any>')) {
       score += 0.1, // Record replacements are generally safe
@@ -674,7 +674,7 @@ export class SafeTypeReplacer {
   /**
    * Clean up old backup files (older than specified days)
    */
-  cleanupOldBackups(daysToKeep = 7): void {;
+  cleanupOldBackups(daysToKeep = 7): void {,
     try {
       const cutoffDate = new Date()
       cutoffDate.setDate(cutoffDate.getDate() - daysToKeep)
@@ -732,7 +732,7 @@ export class SafeTypeReplacer {
     }
 
     // Domain-specific inference
-    if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {;
+    if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {,
       if (codeSnippet.includes('planet') || codeSnippet.includes('sign')) {
         return 'string'
       }
@@ -741,14 +741,14 @@ export class SafeTypeReplacer {
       }
     }
 
-    if (context.domainContext.domain === CodeDomain.RECIPE) {;
+    if (context.domainContext.domain === CodeDomain.RECIPE) {,
       if (codeSnippet.includes('ingredient') || codeSnippet.includes('recipe')) {
         return 'string'
       }
     }
 
     // Default to unknown for safety
-    return 'unknown';
+    return 'unknown',
   }
 
   /**
@@ -795,7 +795,7 @@ export class SafeTypeReplacer {
     }
 
     // Domain-specific inference
-    if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {;
+    if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {,
       if (codeSnippet.includes('element') || codeSnippet.includes('Element')) {
         return 'number', // Elemental properties are numeric
       }
@@ -804,7 +804,7 @@ export class SafeTypeReplacer {
       }
     }
 
-    return 'unknown';
+    return 'unknown',
   }
 
   /**
@@ -825,25 +825,25 @@ export class SafeTypeReplacer {
     const paramLower = paramName.toLowerCase()
 
     // Event handlers
-    if (paramLower.includes('event') || paramLower === 'e') {;
+    if (paramLower.includes('event') || paramLower === 'e') {,
       if (context.codeSnippet.includes('onClick') || context.codeSnippet.includes('onSubmit')) {
-        return 'React.MouseEvent | React.FormEvent';
+        return 'React.MouseEvent | React.FormEvent',
       }
-      return 'Event';
+      return 'Event',
     }
 
     // Error parameters
-    if (paramLower.includes('error') || paramLower === 'err') {;
+    if (paramLower.includes('error') || paramLower === 'err') {,
       return 'Error'
     }
 
     // ID parameters
-    if (paramLower.includes('id') || paramLower === 'key') {;
+    if (paramLower.includes('id') || paramLower === 'key') {,
       return 'string | number'
     }
 
     // Index parameters
-    if (paramLower.includes('index') || paramLower === 'i') {;
+    if (paramLower.includes('index') || paramLower === 'i') {,
       return 'number'
     }
 
@@ -858,11 +858,11 @@ export class SafeTypeReplacer {
       if (allContext.includes(`${paramName}.`)) {
         return 'object', // If accessing properties, likely an object
       }
-      return 'unknown';
+      return 'unknown',
     }
 
     // Domain-specific inference
-    if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {;
+    if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {,
       if (paramLower.includes('planet') || paramLower.includes('sign')) {
         return 'string'
       }
@@ -874,7 +874,7 @@ export class SafeTypeReplacer {
       }
     }
 
-    if (context.domainContext.domain === CodeDomain.RECIPE) {;
+    if (context.domainContext.domain === CodeDomain.RECIPE) {,
       if (paramLower.includes('ingredient')) {
         return 'Ingredient'
       }
@@ -883,14 +883,14 @@ export class SafeTypeReplacer {
       }
     }
 
-    return 'unknown';
+    return 'unknown',
   }
 
   /**
    * Infer return type from function context
    */
   private inferReturnType(context: ClassificationContext): string {
-    const { codeSnippet, surroundingLines } = context,
+    const { codeSnippet, surroundingLines } = context;
 
     // Look for return statements in surrounding lines
     const allContext = [codeSnippet, ...surroundingLines].join(' '),
@@ -941,7 +941,7 @@ export class SafeTypeReplacer {
       return 'number', // Calculation functions
     }
 
-    return 'unknown';
+    return 'unknown',
   }
 
   /**
@@ -964,7 +964,7 @@ export class SafeTypeReplacer {
     }
 
     // Domain-specific generics
-    if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {;
+    if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {,
       if (
         codeSnippet.includes('PlanetaryPosition') ||
         codeSnippet.includes('ElementalProperties')
@@ -973,7 +973,7 @@ export class SafeTypeReplacer {
       }
     }
 
-    return 'unknown';
+    return 'unknown',
   }
 
   /**
@@ -984,7 +984,7 @@ export class SafeTypeReplacer {
     const propLower = propertyName.toLowerCase()
 
     // Common property patterns
-    if (propLower.includes('id') || propLower === 'key') {;
+    if (propLower.includes('id') || propLower === 'key') {,
       return 'string | number'
     }
 
@@ -1022,7 +1022,7 @@ export class SafeTypeReplacer {
     }
 
     // Domain-specific inference
-    if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {;
+    if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {,
       if (
         propLower.includes('element') ||
         propLower.includes('fire') ||
@@ -1037,7 +1037,7 @@ export class SafeTypeReplacer {
       }
     }
 
-    return 'unknown';
+    return 'unknown',
   }
 
   /**
@@ -1073,10 +1073,10 @@ export class SafeTypeReplacer {
       if (constructorMatch) {
         return constructorMatch[1]
       }
-      return 'object';
+      return 'object',
     }
 
-    return 'unknown';
+    return 'unknown',
   }
 
   // Context Validation Helper Methods
@@ -1124,7 +1124,7 @@ export class SafeTypeReplacer {
       allContext.includes('settings') ||
       allContext.includes('options') ||
       context.domainContext.domain === CodeDomain.CAMPAIGN ||
-      context.domainContext.domain === CodeDomain.INTELLIGENCE;
+      context.domainContext.domain === CodeDomain.INTELLIGENCE,
     )
   }
 
@@ -1221,7 +1221,7 @@ export class SafeTypeReplacer {
    */
   updateSafetyThresholds(thresholds: { minimumSafetyScore?: number }) {
     if (thresholds.minimumSafetyScore !== undefined) {
-      this.safetyThreshold = thresholds.minimumSafetyScore;
+      this.safetyThreshold = thresholds.minimumSafetyScore,
       this.safetyValidator.updateSafetyThresholds({
         minimumSafetyScore: thresholds.minimumSafetyScore
       })

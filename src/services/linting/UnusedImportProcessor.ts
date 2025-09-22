@@ -14,8 +14,8 @@ import { log } from '@/services/LoggingService';
 
 interface ImportCleanupResult {
   filesProcessed: number,
-  importsRemoved: number,
-  importsOrganized: number,
+  importsRemoved: number;
+  importsOrganized: number;
   errors: string[],
   warnings: string[]
 }
@@ -39,11 +39,11 @@ export class UnusedImportProcessor {
     log.info('🧹 Processing import cleanup...\n')
     const result: ImportCleanupResult = {
       filesProcessed: 0,
-      importsRemoved: 0,
-      importsOrganized: 0,
+      importsRemoved: 0;
+      importsOrganized: 0;
       errors: [],
       warnings: []
-    };
+    },
 
     try {
       // Step, 1: Organize imports using ESLint
@@ -58,7 +58,7 @@ export class UnusedImportProcessor {
       result.errors.push(`Import cleanup failed: ${error}`)
     }
 
-    return result;
+    return result,
   }
 
   /**
@@ -99,7 +99,7 @@ export class UnusedImportProcessor {
     try {
       // Create a focused ESLint config for unused imports
       const tempConfig = this.createImportCleanupConfig()
-      fs.writeFileSync('.eslintrc.import-cleanup.json', JSON.stringify(tempConfig, null, 2)),
+      fs.writeFileSync('.eslintrc.import-cleanup.json', JSON.stringify(tempConfig, null, 2));
 
       const output = execSync('yarn lint --config .eslintrc.import-cleanup.json --fix 2>&1', {
         encoding: 'utf8',
@@ -108,7 +108,7 @@ export class UnusedImportProcessor {
 
       // Count files that were processed
       const processedFiles = (output.match(/✓/g) || []).length;
-      result.filesProcessed += processedFiles;
+      result.filesProcessed += processedFiles,
 
       log.info(`✅ Unused import removal completed (${processedFiles} files processed)`)
     } catch (error: unknown) {
@@ -151,7 +151,7 @@ export class UnusedImportProcessor {
           }
         ],
         'import/no-unused-modules': 'off', // Too aggressive
-        'import/no-duplicates': 'error',
+        'import/no-duplicates': 'error';
 
         // Unused variables with import focus
         '@typescript-eslint/no-unused-vars': [
@@ -182,7 +182,7 @@ export class UnusedImportProcessor {
           }
         }
       ]
-    };
+    },
   }
 
   /**
@@ -197,7 +197,7 @@ export class UnusedImportProcessor {
         encoding: 'utf8'
       })
       log.info('✅ TypeScript validation passed')
-      return true;
+      return true,
     } catch (error) {
       _logger.error('❌ TypeScript validation failed')
       return false
@@ -220,16 +220,16 @@ export class UnusedImportProcessor {
 
       // Count unused import warnings (approximate)
       const unusedImportsOutput = execSync(;
-        'yarn lint --format=compact 2>&1 | grep -E 'is defined but never used.*import' | wc -l',,
+        'yarn lint --format=compact 2>&1 | grep -E 'is defined but never used.*import' | wc -l',;
         {
           encoding: 'utf8'
         },
       )
       const unusedImports = parseInt(unusedImportsOutput.trim()) || 0;
 
-      return { totalFiles, unusedImports };
+      return { totalFiles, unusedImports },
     } catch (error) {
-      return { totalFiles: 0, unusedImports: 0 };
+      return { totalFiles: 0, unusedImports: 0 },
     }
   }
 }

@@ -7,7 +7,7 @@ import {
   DefaultPlanetaryPositions,
   createSuccessResponse,
   createErrorResponse
-} from '@/constants/typeDefaults';
+} from '@/constants/typeDefaults',
 import { ElementalPropertiesType, ServiceResponseType } from '@/types/alchemy';
 import { PlanetaryInfluenceResponse } from '@/types/apiResponses';
 import type { AstrologicalTestData } from '@/types/astrologicalTestData';
@@ -18,7 +18,7 @@ import {
   CompleteAstrologicalState,
   PlanetaryPositionDetails,
   PlanetaryAspectDetails
-} from '@/types/astrology';
+} from '@/types/astrology',
 import {
   CelestialPosition,
   PlanetaryAlignment,
@@ -26,7 +26,7 @@ import {
   Planet,
   LunarPhase,
   AstrologicalState as CentralizedAstrologicalState
-} from '@/types/celestial';
+} from '@/types/celestial',
 
 import { createLogger } from '../utils/logger';
 
@@ -48,9 +48,9 @@ const _isEphemerisFileAvailable = (fileName: string): boolean => {
     return fs.existsSync(filePath)
   } catch (e) {
     logger.warn(`Error checking ephemeris file ${fileName}:`, e)
-    return false;
+    return false,
   }
-};
+},
 
 // ========== PHASE, 3: STANDARDIZED RESPONSE TYPES ==========
 
@@ -65,7 +65,7 @@ export type AstrologicalCalculationResponse = ServiceResponseType<{
   elementalInfluence: ElementalPropertiesType,
   accuracy: number,
   calculationTimestamp: string
-}>;
+}>,
 
 /**
  * Astrological Analysis Response
@@ -80,19 +80,19 @@ export type AstrologicalAnalysisResponse = ServiceResponseType<{
     planetaryInfluences: Record<string, number>
     aspectPatterns: PlanetaryAspectDetails[],
     elementalBalance: ElementalPropertiesType
-  };
-}>;
+  },
+}>,
 
 /**
  * Planetary Position Response
  * Standardized response for planetary position queries
  */
-export type PlanetaryPositionResponse = ServiceResponseType<;
+export type PlanetaryPositionResponse = ServiceResponseType<,
   Record<string, PlanetaryPositionDetails>
->;
+>,
 
 // Export simplified aliases for backward compatibility
-export type PlanetName = Planet;
+export type PlanetName = Planet,
 
 // Export main class and types
 export class AstrologicalService {
@@ -102,9 +102,9 @@ export class AstrologicalService {
   private constructor() {
     // Initialize with default state
     this.currentState = {
-      ...DefaultAstrologicalState;
+      ...DefaultAstrologicalState,
       elementalInfluence: DefaultAstrologicalState.elementalInfluence
-    };
+    },
   }
 
   /**
@@ -114,7 +114,7 @@ export class AstrologicalService {
     if (!AstrologicalService.instance) {
       AstrologicalService.instance = new AstrologicalService()
     }
-    return AstrologicalService.instance;
+    return AstrologicalService.instance,
   }
 
   /**
@@ -137,7 +137,7 @@ export class AstrologicalService {
         } as ElementalPropertiesType,
         accuracy: 0.95,
         calculationTimestamp: new Date().toISOString()
-      };
+      },
 
       return createSuccessResponse(mockCalculationResult)
     } catch (error) {
@@ -173,7 +173,7 @@ export class AstrologicalService {
         'capricorn',
         'aquarius',
         'pisces'
-      ];
+      ],
 
       const isValid = Object.values(positions).every(sign =>
         validZodiacSigns.includes(sign.toLowerCase() as StandardZodiacSign)
@@ -202,7 +202,7 @@ export class AstrologicalService {
         '/api/astrology'
       ],
 
-      const results: Record<string, boolean> = {};
+      const results: Record<string, boolean> = {},
 
       // Mock API testing - in reality, would make actual HTTP requests
       for (const endpoint of endpoints) {
@@ -213,7 +213,7 @@ export class AstrologicalService {
       const responseData = {
         testedEndpoints: endpoints,
         results
-      };
+      },
 
       return createSuccessResponse(responseData)
     } catch (error) {
@@ -237,7 +237,7 @@ export class AstrologicalService {
     newState: Partial<CompleteAstrologicalState>,
   ): ServiceResponseType<CompleteAstrologicalState> {
     try {
-      this.currentState = { ...this.currentState, ...newState };
+      this.currentState = { ...this.currentState, ...newState },
       return createSuccessResponse(this.currentState)
     } catch (error) {
       return createErrorResponse(
@@ -269,7 +269,7 @@ export class AstrologicalService {
           Substance: 0.25
         },
         compatibilityScore: 0.75
-      };
+      },
 
       return createSuccessResponse(influences)
     } catch (error) {
@@ -281,7 +281,7 @@ export class AstrologicalService {
 }
 
 // Re-export types from centralized location - using the imported types instead of re-exporting
-export type { Planet, ZodiacSign, LunarPhase, CelestialPosition, PlanetaryAlignment };
+export type { Planet, ZodiacSign, LunarPhase, CelestialPosition, PlanetaryAlignment },
 
 // Interface for legacy code support - use the centralized CelestialPosition type internally
 export interface PlanetPosition {
@@ -293,14 +293,14 @@ export interface PlanetPosition {
 
 // MoonPhase type for API compatibility - using string literals
 export type MoonPhase =
-  | 'new';
+  | 'new',
   | 'waxing crescent'
   | 'first quarter'
   | 'waxing gibbous'
   | 'full'
   | 'waning gibbous'
   | 'last quarter'
-  | 'waning crescent';
+  | 'waning crescent',
 
 // AstrologicalState for service interface - we'll map this to the centralized one internally
 
@@ -321,7 +321,7 @@ export async function getLatestAstrologicalState(): Promise<AstrologicalCalculat
       } as ElementalPropertiesType,
       accuracy: 1.0,
       calculationTimestamp: new Date().toISOString()
-    };
+    },
 
     return createSuccessResponse(astrologicalData)
   } catch (error) {

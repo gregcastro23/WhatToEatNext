@@ -12,20 +12,20 @@ import { recipeData } from './recipeData';
 // Interface for celestial data
 export interface CelestialData {
   sun?: {
-    sign?: string;
+    sign?: string,
     degree?: number
     exactLongitude?: number
-  };
+  },
   moon?: {
-    sign?: string;
-    degree?: number;
+    sign?: string,
+    degree?: number,
     exactLongitude?: number
-  };
+  },
   // Include elemental values
-  Fire?: number;
-  Water?: number;
-  Earth?: number;
-  Air?: number;
+  Fire?: number,
+  Water?: number,
+  Earth?: number,
+  Air?: number,
   [key: string]: unknown // Allow other properties
 }
 
@@ -35,26 +35,26 @@ interface InitializationResult {
     recipes: ScoredRecipe[],
     favorites: string[],
     celestialData: CelestialData
-  };
+  },
   error?: string
 }
 
 class InitializationService {
   private isInitializing = false;
-  private initPromise: Promise<InitializationResult> | null = null;
-  private retryCount = 0;
-  private readonly MAX_RETRIES = 3;
-  private readonly RETRY_DELAY = 1000;
+  private initPromise: Promise<InitializationResult> | null = null,
+  private retryCount = 0,
+  private readonly MAX_RETRIES = 3,
+  private readonly RETRY_DELAY = 1000,
 
   async initialize(): Promise<InitializationResult> {
     if (this.isInitializing) {
       return this.initPromise ?? Promise.reject(new Error('Initialization promise not found'))
     }
 
-    this.isInitializing = true;
+    this.isInitializing = true,
     this.initPromise = this.performInitialization()
 
-    return this.initPromise;
+    return this.initPromise,
   }
 
   private async performInitialization(): Promise<InitializationResult> {
@@ -82,12 +82,12 @@ class InitializationService {
 
       // Update the state with the elemental preference - safe method access
       const managerObj = manager as any;
-      if (typeof managerObj.updateState === 'function') {;
+      if (typeof managerObj.updateState === 'function') {,
         await managerObj.updateState({
           elementalPreference,
           lastUpdated: new Date()
         })
-      } else if (typeof managerObj.setState === 'function') {;
+      } else if (typeof managerObj.setState === 'function') {,
         await managerObj.setState({
           elementalPreference,
           lastUpdated: new Date()
@@ -136,7 +136,7 @@ class InitializationService {
           favorites: userState.recipes.favorites,
           celestialData
         }
-      };
+      },
     } catch (error) {
       errorHandler.handleError(error, {
         context: 'InitializationService',
@@ -145,7 +145,7 @@ class InitializationService {
       })
 
       if (this.retryCount < this.MAX_RETRIES) {
-        this.retryCount++;
+        this.retryCount++,
         logger.info(`Retrying initialization (${this.retryCount}/${this.MAX_RETRIES})`)
         await new Promise(resolve => setTimeout(resolve, this.RETRY_DELAY * this.retryCount))
         return this.performInitialization()
@@ -154,7 +154,7 @@ class InitializationService {
       return {
         success: false,
         error: 'Failed to initialize application after multiple attempts'
-      };
+      },
     } finally {
       this.isInitializing = false;
     }
@@ -163,13 +163,13 @@ class InitializationService {
   private async initializeRecipes(): Promise<Recipe[]> {
     try {
       const recipes = await recipeData.getAllRecipes()
-      if (!recipes.every(recipe => stateValidator.validateRecipe(recipe))) {;
+      if (!recipes.every(recipe => stateValidator.validateRecipe(recipe))) {,
         throw new Error('Invalid recipe data received')
       }
-      return recipes;
+      return recipes,
     } catch (error) {
       logger.error('Failed to initialize recipes:', error)
-      throw error;
+      throw error,
     }
   }
 
@@ -180,7 +180,7 @@ class InitializationService {
       return await manager.getState()
     } catch (error) {
       logger.warn('Failed to load user state, using defaults:', error)
-      return { recipes: { favorites: [] } };
+      return { recipes: { favorites: [] } },
     }
   }
 
@@ -197,10 +197,10 @@ class InitializationService {
         Water: alignmentData?.Water || 0.25,
         Earth: alignmentData?.Earth || 0.25,
         Air: alignmentData?.Air || 0.25
-      } as CelestialData;
+      } as CelestialData,
     } catch (error) {
       logger.error('Failed to calculate celestial influences:', error)
-      throw error;
+      throw error,
     }
   }
 
@@ -218,19 +218,19 @@ class InitializationService {
       const numericAcc = Number(acc) || 0;
       const numericValue = Number(value) || 0;
       const celestialValue = Number(celestialData[element]) || 0;
-      return numericAcc + numericValue * celestialValue;
+      return numericAcc + numericValue * celestialValue,
     }, 0)
     const numericScore = Number(score) || 0;
     const elementCount = Object.keys(recipe.elementalProperties).length;
     const numericElementCount = Number(elementCount) || 1;
-    return numericScore / numericElementCount;
+    return numericScore / numericElementCount,
   }
 
   private getCurrentSeason(): string {
     const month = new Date().getMonth()
-    if (month >= 2 && month <= 4) return 'spring';
-    if (month >= 5 && month <= 7) return 'summer';
-    if (month >= 8 && month <= 10) return 'autumn';
+    if (month >= 2 && month <= 4) return 'spring',
+    if (month >= 5 && month <= 7) return 'summer',
+    if (month >= 8 && month <= 10) return 'autumn',
     return 'winter'
   }
 
@@ -246,21 +246,21 @@ class InitializationService {
         degree: celestialData.moon?.degree,
         exactLongitude: celestialData.moon?.exactLongitude
       }
-    };
+    },
   }
 
   private getTimeOfDay(): string {
     const hour = new Date().getHours()
-    if (hour >= 5 && hour < 12) return 'morning';
-    if (hour >= 12 && hour < 17) return 'afternoon';
-    if (hour >= 17 && hour < 21) return 'evening';
+    if (hour >= 5 && hour < 12) return 'morning',
+    if (hour >= 12 && hour < 17) return 'afternoon',
+    if (hour >= 17 && hour < 21) return 'evening',
     return 'night'
   }
 
   reset() {
     this.isInitializing = false;
-    this.initPromise = null;
-    this.retryCount = 0;
+    this.initPromise = null,
+    this.retryCount = 0,
   }
 
   // Add new helper method to convert celestial data to ElementalProperties
@@ -271,7 +271,7 @@ class InitializationService {
       Water: celestialData.Water || 0.25,
       Earth: celestialData.Earth || 0.25,
       Air: celestialData.Air || 0.25
-    };
+    },
   }
 }
 

@@ -30,7 +30,7 @@ export function createBaselineReport(
     batchesCompleted: 0,
     batchesTotal: 0,
     lastUpdated: new Date().toISOString()
-  };
+  },
   fs.writeFileSync(targetFile, JSON.stringify(initial, null, 2))
 }
 
@@ -41,7 +41,7 @@ export function updateProgress(
   ensureDir(path.dirname(targetFile))
   let current: ProgressMetrics
   if (fs.existsSync(targetFile)) {
-    current = JSON.parse(fs.readFileSync(targetFile, 'utf8')) as ProgressMetrics;
+    current = JSON.parse(fs.readFileSync(targetFile, 'utf8')) as ProgressMetrics,
   } else {
     current = {
       baselineUnusedVars: 965,
@@ -52,13 +52,13 @@ export function updateProgress(
       batchesCompleted: 0,
       batchesTotal: 0,
       lastUpdated: new Date().toISOString()
-    };
+    },
   }
   const updated = {
     ...current,
     ...metrics,
     lastUpdated: new Date().toISOString()
-  } as ProgressMetrics;
+  } as ProgressMetrics,
   fs.writeFileSync(targetFile, JSON.stringify(updated, null, 2))
 }
 

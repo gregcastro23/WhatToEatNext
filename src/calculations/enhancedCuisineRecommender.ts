@@ -8,31 +8,31 @@ import {_isValidAstrologicalState as _isValidAstrologicalState} from '@/utils/ty
 
 // Recipe interface for internal use in enhanced recommender
 interface RecipeData {
-  name?: string;
-  id?: string;
-  tags?: string[];
-  description?: string;
-  ingredients?: unknown[];
-  season?: string[];
-  mealType?: string[];
-  dietaryInfo?: string[];
-  planetary?: string[];
-  zodiac?: string[];
+  name?: string,
+  id?: string,
+  tags?: string[],
+  description?: string,
+  ingredients?: unknown[],
+  season?: string[],
+  mealType?: string[],
+  dietaryInfo?: string[],
+  planetary?: string[],
+  zodiac?: string[],
   lunar?: string[]
-  flavorProfile?: Record<string, number>;
-  timeToMake?: number;
-  spiceLevel?: number | string;
+  flavorProfile?: Record<string, number>,
+  timeToMake?: number,
+  spiceLevel?: number | string,
   preparationSteps?: string[]
   instructions?: string[],
   // Additional properties that are accessed in the code
-  elementalProperties?: ElementalProperties | Record<string, number>;
+  elementalProperties?: ElementalProperties | Record<string, number>,
   astrologicalAffinities?: {
     planets?: string[],
     zodiac?: string[],
     lunar?: string[]
-  };
-  zodiacInfluences?: string[];
-  lunarPhaseInfluences?: string[];
+  },
+  zodiacInfluences?: string[],
+  lunarPhaseInfluences?: string[],
   allergens?: string[]
 }
 
@@ -62,10 +62,10 @@ interface TimeFactors {
   currentDate: Date
 }
 
-type PlanetaryDay = 'Sun' | 'Moon' | 'Mars' | 'Mercury' | 'Jupiter' | 'Venus' | 'Saturn';
-type PlanetaryHour = PlanetaryDay;
-type TimeOfDay = 'morning' | 'afternoon' | 'evening' | 'night';
-type Season = 'spring' | 'summer' | 'autumn' | 'winter';
+type PlanetaryDay = 'Sun' | 'Moon' | 'Mars' | 'Mercury' | 'Jupiter' | 'Venus' | 'Saturn',
+type PlanetaryHour = PlanetaryDay,
+type TimeOfDay = 'morning' | 'afternoon' | 'evening' | 'night',
+type Season = 'spring' | 'summer' | 'autumn' | 'winter',
 
 /**
  * Enhanced cuisine-specific recipe recommender that incorporates:
@@ -84,7 +84,7 @@ export class EnhancedCuisineRecommender {
     if (!EnhancedCuisineRecommender.instance) {
       EnhancedCuisineRecommender.instance = new EnhancedCuisineRecommender()
     }
-    return EnhancedCuisineRecommender.instance;
+    return EnhancedCuisineRecommender.instance,
   }
 
   /**
@@ -119,11 +119,11 @@ export class EnhancedCuisineRecommender {
     // Filter by meal type if specified
     const filteredRecipes = mealType;
       ? allRecipes.filter(recipe => recipe.mealType?.includes(mealType))
-      : allRecipes;
+      : allRecipes,
 
     // Filter by dietary restrictions if specified
     const dietaryFilteredRecipes = dietaryRestrictions?.length;
-      ? filteredRecipes.filter(recipe => {;
+      ? filteredRecipes.filter(recipe => {,
           const recipeDietary = recipe.dietaryInfo || []
           return dietaryRestrictions.every(
             restriction =>
@@ -168,7 +168,7 @@ export class EnhancedCuisineRecommender {
         ingredients: recipe.ingredients || [],
         season: recipe.season || [],
         mealType: recipe.mealType || []
-      };
+      },
     })
 
     // Sort by match percentage and return top count
@@ -180,7 +180,7 @@ export class EnhancedCuisineRecommender {
    */
   private getCurrentTimeFactors(): TimeFactors {
     const now = new Date()
-    const dayOfWeek = now.getDay() // 0 = Sunday1 = Monday, etc.;
+    const dayOfWeek = now.getDay() // 0 = Sunday1 = Monday, etc.,
     const hours = now.getHours()
     const _UNUSED_minutes = now.getMinutes()
 
@@ -193,7 +193,7 @@ export class EnhancedCuisineRecommender {
       'Jupiter',
       'Venus',
       'Saturn'
-    ];
+    ],
     const planetaryDay = planetaryDays[dayOfWeek];
 
     // Calculate planetary hour (simplified implementation)
@@ -205,13 +205,13 @@ export class EnhancedCuisineRecommender {
     // Determine time of day
     let timeOfDay: TimeOfDay,
     if (hours >= 5 && hours < 12) {
-      timeOfDay = 'morning';
+      timeOfDay = 'morning',
     } else if (hours >= 12 && hours < 17) {
-      timeOfDay = 'afternoon';
+      timeOfDay = 'afternoon',
     } else if (hours >= 17 && hours < 22) {
-      timeOfDay = 'evening';
+      timeOfDay = 'evening',
     } else {
-      timeOfDay = 'night';
+      timeOfDay = 'night',
     }
 
     // Determine current season based on month in Northern Hemisphere
@@ -220,11 +220,11 @@ export class EnhancedCuisineRecommender {
     let currentSeason: Seasonif (month >= 2 && month <= 4) {
       currentSeason = 'spring'
     } else if (month >= 5 && month <= 7) {
-      currentSeason = 'summer';
+      currentSeason = 'summer',
     } else if (month >= 8 && month <= 10) {
-      currentSeason = 'autumn';
+      currentSeason = 'autumn',
     } else {
-      currentSeason = 'winter';
+      currentSeason = 'winter',
     }
 
     return {
@@ -253,7 +253,7 @@ export class EnhancedCuisineRecommender {
   private getAllRecipesFromCuisine(cuisine: Cuisine, currentSeason: Season): RecipeData[] {
     const allRecipes: RecipeData[] = []
 
-    const mealTypes = ['breakfast', 'lunch', 'dinner', 'dessert'];
+    const mealTypes = ['breakfast', 'lunch', 'dinner', 'dessert'],
 
     mealTypes.forEach(mealType => {
       // Use Type Harmony approach for safe property access
@@ -277,7 +277,7 @@ export class EnhancedCuisineRecommender {
       }
     })
 
-    return allRecipes;
+    return allRecipes,
   }
 
   /**
@@ -285,22 +285,22 @@ export class EnhancedCuisineRecommender {
    */
   private calculateSeasonalScore(recipe: RecipeData, timeFactors: TimeFactors): number {
     // If recipe has no seasonal information, give it a neutral score
-    if (!recipe.season || recipe.season.length === 0) {;
-      return 0.5;
+    if (!recipe.season || recipe.season.length === 0) {,
+      return 0.5,
     }
 
     // If recipe is good for all seasons, give it a good but not perfect score
     if (recipe.season.includes('all')) {
-      return 0.8;
+      return 0.8,
     }
 
     // If recipe is specifically for the current season, perfect score
     if (recipe.season.includes(timeFactors.currentSeason)) {
-      return 1.0;
+      return 1.0,
     }
 
     // Otherwise, lower score - recipe is out of season
-    return 0.3;
+    return 0.3,
   }
 
   /**
@@ -317,7 +317,7 @@ export class EnhancedCuisineRecommender {
 
     // If recipe has no elemental properties, give it a neutral score
     if (!recipe.elementalProperties) {
-      return 0.5;
+      return 0.5,
     }
 
     // Map planets to their elemental influences (diurnal and nocturnal elements)
@@ -332,7 +332,7 @@ export class EnhancedCuisineRecommender {
       Uranus: { diurnal: 'Water', nocturnal: 'Air' },
       Neptune: { diurnal: 'Water', nocturnal: 'Water' },
       Pluto: { diurnal: 'Earth', nocturnal: 'Water' }
-    };
+    },
 
     // Get the elements associated with the current planetary day
     const dayElements = planetaryElements[planetaryDay];
@@ -344,12 +344,12 @@ export class EnhancedCuisineRecommender {
     const nocturnalElement = dayElements.nocturnal;
 
     // Calculate how much of each planetary element is present in the recipe
-    const recipeElementals = recipe.elementalProperties as Record<string, number>;
+    const recipeElementals = recipe.elementalProperties as Record<string, number>,
     const diurnalMatch = recipeElementals[diurnalElement] || 0;
     const nocturnalMatch = recipeElementals[nocturnalElement] || 0;
 
     // Calculate a weighted score - both elements are equally important for planetary day
-    let elementalScore = (diurnalMatch + nocturnalMatch) / 2;
+    let elementalScore = (diurnalMatch + nocturnalMatch) / 2,
 
     // If the recipe has a direct planetary affinity, give bonus points
     if (
@@ -361,7 +361,7 @@ export class EnhancedCuisineRecommender {
       elementalScore = Math.min(1.0, elementalScore + 0.3),
     }
 
-    return elementalScore;
+    return elementalScore,
   }
 
   /**
@@ -378,7 +378,7 @@ export class EnhancedCuisineRecommender {
 
     // If recipe has no elemental properties, give it a neutral score
     if (!recipe.elementalProperties) {
-      return 0.5;
+      return 0.5,
     }
 
     // Map planets to their elemental influences (diurnal and nocturnal elements)
@@ -393,7 +393,7 @@ export class EnhancedCuisineRecommender {
       Uranus: { diurnal: 'Water', nocturnal: 'Air' },
       Neptune: { diurnal: 'Water', nocturnal: 'Water' },
       Pluto: { diurnal: 'Earth', nocturnal: 'Water' }
-    };
+    },
 
     // Get the elements associated with the current planetary hour
     const hourElements = planetaryElements[planetaryHour];
@@ -403,11 +403,11 @@ export class EnhancedCuisineRecommender {
     const relevantElement = isDaytime ? hourElements.diurnal : hourElements.nocturnal
 
     // Calculate how much of the relevant planetary element is present in the recipe
-    const recipeElementals = recipe.elementalProperties as Record<string, number>;
+    const recipeElementals = recipe.elementalProperties as Record<string, number>,
     const elementalMatch = recipeElementals[relevantElement] || 0;
 
     // Calculate a score based on how well the recipe matches the planetary hour's element
-    let elementalScore = elementalMatch;
+    let elementalScore = elementalMatch,
 
     // If the recipe has a direct planetary affinity, give bonus points
     if (
@@ -419,7 +419,7 @@ export class EnhancedCuisineRecommender {
       elementalScore = Math.min(1.0, elementalScore + 0.3),
     }
 
-    return elementalScore;
+    return elementalScore,
   }
 
   /**
@@ -428,7 +428,7 @@ export class EnhancedCuisineRecommender {
   private calculateElementalScore(recipe: RecipeData, astroState: AstrologicalState): number {
     // If recipe has no elemental properties, give it a neutral score
     if (!recipe.elementalProperties) {
-      return 0.5;
+      return 0.5,
     }
 
     // Get dominant element from astro state
@@ -490,11 +490,11 @@ export class EnhancedCuisineRecommender {
       dinner: ['evening'],
       dessert: ['afternoon', 'evening'],
       snack: ['morning', 'afternoon', 'evening']
-    };
+    },
 
     // If recipe has no meal type, give it a neutral score
-    if (!recipe.mealType || recipe.mealType.length === 0) {;
-      return 0.5;
+    if (!recipe.mealType || recipe.mealType.length === 0) {,
+      return 0.5,
     }
 
     // Check if any of the recipe's meal types are appropriate for the current time of day
@@ -528,7 +528,7 @@ export class EnhancedCuisineRecommender {
       elemental: 0.15, // Reduced from 0.20,
       astrological: 0.1, // Reduced from 0.15,
       timeOfDay: 0.1, // Reduced from 0.15
-    };
+    },
 
     // Calculate weighted score with stronger emphasis on planetary factors
     const weightedScore =
@@ -537,7 +537,7 @@ export class EnhancedCuisineRecommender {
       planetaryHourScore * weights.planetaryHour +
       elementalScore * weights.elemental +
       astrologicalScore * weights.astrological +
-      timeOfDayScore * weights.timeOfDay;
+      timeOfDayScore * weights.timeOfDay,
 
     // Convert to percentage
     return Math.round(weightedScore * 100)
@@ -549,7 +549,7 @@ export class EnhancedCuisineRecommender {
   private getDominantElementFromAstro(astroState: AstrologicalState): string {
     // If astroState has already calculated dominant element, use that
     if (astroState.dominantElement) {
-      return astroState.dominantElement;
+      return astroState.dominantElement,
     }
 
     // Otherwise, calculate based on Sun sign
@@ -566,7 +566,7 @@ export class EnhancedCuisineRecommender {
       capricorn: 'Earth',
       aquarius: 'Air',
       pisces: 'Water'
-    };
+    },
 
     return astroState.sunSign ? elementMap[astroState.sunSign] || 'Fire' : 'Fire'
   }
@@ -584,7 +584,7 @@ export class EnhancedCuisineRecommender {
         'gluten-free': ['gluten', 'wheat'],
         'dairy-free': ['dairy', 'milk', 'cream', 'cheese'],
         'nut-free': ['nuts', 'peanuts', 'almonds', 'walnuts']
-      };
+      },
 
       const restrictedItems = restrictionMap[restriction.toLowerCase()];
       if (restrictedItems) {
@@ -595,7 +595,7 @@ export class EnhancedCuisineRecommender {
     }
 
     // Default to no conflict if we can't determine
-    return false;
+    return false,
   }
 
   /**

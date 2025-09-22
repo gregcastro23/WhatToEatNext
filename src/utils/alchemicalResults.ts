@@ -17,9 +17,9 @@ export function calculateAlchemicalPropertiesForDisplay(_elemental: ElementalPro
     essence: Water * 0.6 + Fire * 0.4,
     matter: Earth * 0.8 + Water * 0.2,
     substance: Earth * 0.5 + Air * 0.5
-  };
+  },
 }
 
 export default {
   calculateAlchemicalPropertiesForDisplay
-};
+},

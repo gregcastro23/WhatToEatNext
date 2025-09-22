@@ -14,33 +14,33 @@ import { logger } from '@/lib/logger';
 interface PerformanceMetrics {
   // Cache performance
   cacheStats: {
-    elemental: { hits: number; misses: number; hitRate: number; size: number };
-    planetary: { hits: number; misses: number; hitRate: number; size: number };
-    recipe: { hits: number; misses: number; hitRate: number; size: number };
-    user: { hits: number; misses: number; hitRate: number; size: number };
-  };
+    elemental: { hits: number; misses: number; hitRate: number; size: number },
+    planetary: { hits: number; misses: number; hitRate: number; size: number },
+    recipe: { hits: number; misses: number; hitRate: number; size: number },
+    user: { hits: number; misses: number; hitRate: number; size: number },
+  },
 
   // Runtime performance
-  renderTime: number;
-  apiResponseTimes: Record<string, number>;
-  memoryUsage?: number;
+  renderTime: number,
+  apiResponseTimes: Record<string, number>,
+  memoryUsage?: number,
 
   // User experience metrics
-  timeToInteractive: number;
-  largestContentfulPaint: number;
-  firstInputDelay: number;
-  cumulativeLayoutShift: number;
+  timeToInteractive: number,
+  largestContentfulPaint: number,
+  firstInputDelay: number,
+  cumulativeLayoutShift: number,
 
   // Real-time status
-  lastUpdated: number;
-  isOptimal: boolean;
-  recommendations: string[];
+  lastUpdated: number,
+  isOptimal: boolean,
+  recommendations: string[],
 }
 
 interface PerformanceConfig {
-  updateInterval: number;
-  trackWebVitals: boolean;
-  enableMemoryTracking: boolean;
+  updateInterval: number,
+  trackWebVitals: boolean,
+  enableMemoryTracking: boolean,
 }
 
 export function usePerformanceMonitoring(config: PerformanceConfig = {
@@ -75,8 +75,8 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
       const endTime = performance.now()
       const renderTime = endTime - startTime;
       setMetrics(prev => ({ ...prev, renderTime }))
-      return renderTime;
-    };
+      return renderTime,
+    },
   }, [])
 
   // Track API response times
@@ -92,7 +92,7 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
 
   // Get Web Vitals metrics
   const getWebVitals = useCallback(() => {
-    if (!config.trackWebVitals || typeof window === 'undefined') return;
+    if (!config.trackWebVitals || typeof window === 'undefined') return,
 
     // Largest Contentful Paint
     if ('PerformanceObserver' in window) {
@@ -126,10 +126,10 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
 
         // Cumulative Layout Shift
         const clsObserver = new PerformanceObserver((list) => {
-          let clsValue = 0;
+          let clsValue = 0,
           list.getEntries().forEach((entry: any) => {
             if (!entry.hadRecentInput) {
-              clsValue += entry.value;
+              clsValue += entry.value,
             }
           })
           setMetrics(prev => ({
@@ -147,7 +147,7 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
 
   // Get memory usage (if supported)
   const getMemoryUsage = useCallback(() => {
-    if (!config.enableMemoryTracking || typeof window === 'undefined') return;
+    if (!config.enableMemoryTracking || typeof window === 'undefined') return,
 
     const performance = window.performance as any;
     if (performance.memory) {
@@ -190,7 +190,7 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
       recommendations.push(`High memory usage (${currentMetrics.memoryUsage.toFixed(1)}MB)`)
     }
 
-    return recommendations;
+    return recommendations,
   }, [])
 
   // Update all metrics
@@ -204,7 +204,7 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
           ...prev,
           cacheStats,
           lastUpdated: now
-        };
+        },
 
         const recommendations = generateRecommendations(updated)
         const isOptimal = recommendations.length === 0;
@@ -213,7 +213,7 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
           ...updated,
           recommendations,
           isOptimal
-        };
+        },
       })
 
       getMemoryUsage()
@@ -237,7 +237,7 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
 
   // Setup periodic updates
   useEffect(() => {
-    if (!isTracking) return;
+    if (!isTracking) return,
 
     const interval = setInterval(updateMetrics, config.updateInterval)
     return () => clearInterval(interval)
@@ -257,7 +257,7 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
     measureRenderTime,
     trackApiCall,
     updateMetrics
-  };
+  },
 }
 
-export default usePerformanceMonitoring;
+export default usePerformanceMonitoring,

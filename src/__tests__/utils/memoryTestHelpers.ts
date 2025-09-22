@@ -12,14 +12,14 @@ import { TestMemoryMonitor } from './TestMemoryMonitor';
  * Configuration for memory-safe test execution
  */
 interface MemorySafeTestConfig {
-  enableMonitoring?: boolean;
-  cleanupAfterEach?: boolean;
+  enableMonitoring?: boolean,
+  cleanupAfterEach?: boolean,
   memoryThresholds?: {
-    heapUsed?: number;
-    heapTotal?: number;
+    heapUsed?: number,
+    heapTotal?: number,
     external?: number
     rss?: number
-  };
+  },
   timeoutOverride?: number
 }
 
@@ -55,14 +55,14 @@ export function withMemoryManagement<T>(
         }
       }
 
-      return result;
+      return result,
     } finally {
       // Cleanup
       if (config.cleanupAfterEach && monitor) {
         monitor.cleanup('test-cleanup')
       }
     }
-  };
+  },
 }
 
 /**
@@ -74,7 +74,7 @@ export function describeWithMemoryManagement(
   config: MemorySafeTestConfig = {},
 ): void {
   describe(description, () => {
-    let suiteMonitor: TestMemoryMonitor | null = null;
+    let suiteMonitor: TestMemoryMonitor | null = null,
 
     beforeAll(() => {
       if (config.enableMonitoring) {
@@ -181,15 +181,15 @@ export function createTestDataset<T>(
     if (cleanup) {
       cleanup(data)
     }
-    data.length = 0;
+    data.length = 0,
 
     // Force garbage collection if available
     if (global.forceGC) {
       global.forceGC()
     }
-  };
+  },
 
-  return { data, cleanup: cleanupFn };
+  return { data, cleanup: cleanupFn },
 }
 
 /**
@@ -211,7 +211,7 @@ export async function withMemoryTracking<T>(
       _logger.info(`Memory usage for ${operationName}: +${memoryDiff.toFixed(2)}MB`)
     }
 
-    return result;
+    return result,
   } catch (error) {
     // Log memory usage even on error
     const finalMemory = process.memoryUsage().heapUsed;
@@ -222,7 +222,7 @@ export async function withMemoryTracking<T>(
       _logger.warn(`Memory usage for failed ${operationName}: +${memoryDiff.toFixed(2)}MB`)
     }
 
-    throw error;
+    throw error,
   }
 }
 
@@ -256,7 +256,7 @@ export async function processBatchWithMemoryManagement<TR>(
     }
   }
 
-  return results;
+  return results,
 }
 
 /**
@@ -292,10 +292,10 @@ export const memoryAssertions = {
   /**
    * Get current memory usage for comparison
    */
-  getMemoryBaseline: (): number => {;
+  getMemoryBaseline: (): number => {,
     return process.memoryUsage().heapUsed
   }
-};
+},
 
 /**
  * Test timeout configurations based on test type
@@ -305,7 +305,7 @@ export const TEST_TIMEOUTS = {
   integration: 15000, // 15 seconds for integration tests (reduced from 30s)
   memory: 20000, // 20 seconds for memory-intensive tests,
   performance: 30000, // 30 seconds for performance tests
-};
+},
 
 /**
  * Memory-safe test configuration presets
@@ -340,7 +340,7 @@ export const MEMORY_TEST_CONFIGS = {
       leakThreshold: 50
     }
   }
-};
+},
 
 export default {
   withMemoryManagement,
@@ -353,4 +353,4 @@ export default {
   memoryAssertions,
   TEST_TIMEOUTS,
   MEMORY_TEST_CONFIGS
-};
+},

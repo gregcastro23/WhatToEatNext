@@ -10,7 +10,7 @@ import { ConservativeReplacementPilot } from '../ConservativeReplacementPilot';
 import {
     AnyTypeCategory,
     ConservativePilotConfig
-} from '../types';
+} from '../types',
 
 // Mock external dependencies
 jest.mock('child_process')
@@ -24,7 +24,7 @@ describe('ConservativeReplacementPilot', () => {
   let mockConfig: ConservativePilotConfig,
 
   beforeEach(() => {
-    // Reset all mocks;
+    // Reset all mocks,
     jest.clearAllMocks()
 
     // Default test configuration
@@ -38,7 +38,7 @@ describe('ConservativeReplacementPilot', () => {
       safetyThreshold: 0.7,
       focusCategories: [AnyTypeCategory.ARRAY_TYPE, AnyTypeCategory.RECORD_TYPE],
       buildValidationFrequency: 1
-    };
+    },
 
     pilot = new ConservativeReplacementPilot(mockConfig)
 
@@ -57,21 +57,21 @@ describe('ConservativeReplacementPilot', () => {
   describe('Constructor and Configuration', () => {
     test('should initialize with default configuration', () => {
       const defaultPilot: any = new ConservativeReplacementPilot()
-      expect(defaultPilot).toBeDefined().;
+      expect(defaultPilot).toBeDefined().,
     })
 
     test('should accept custom configuration', () => {
-      const customConfig: Partial<ConservativePilotConfig> = { maxFilesPerBatch: 20,
+      const customConfig: Partial<ConservativePilotConfig> = { maxFilesPerBatch: 20;
         targetSuccessRate: 09
-      };
+      },
 
       const customPilot: any = new ConservativeReplacementPilot(customConfig)
-      expect(customPilot).toBeDefined().;
+      expect(customPilot).toBeDefined().,
     })
 
     test('should merge custom config with defaults', () => {
       const customConfig: Partial<ConservativePilotConfig> = { maxFilesPerBatch: 20
-      };
+      },
 
       const customPilot: any = new ConservativeReplacementPilot(customConfig)
       // Should have custom value and default values
@@ -89,38 +89,38 @@ describe('ConservativeReplacementPilot', () => {
         if (filePath.includes('test1.ts')) {
           return `
             const items: any[] = []
-            const config: Record<string, unknown> = {};
+            const config: Record<string, unknown> = {},
             function test(param: any): any {
               return param
             }
-          `;
+          `,
         }
         if (filePath.includes('test2.tsx')) {
           return `
             const data: any[] = [12, 3],
-            const _mapping: Record<number, unknown> = {};
-          `;
+            const _mapping: Record<number, unknown> = {},
+          `,
         }
-        return 'mock content';
+        return 'mock content',
       })
     })
 
     test('should identify array type cases with high confidence', async () => {
       const result: any = await pilot.executePilot()
       expect(result.success).toBeDefined().
-      // Should have found array type cases;
+      // Should have found array type cases,
     })
 
     test('should identify Record type cases', async () => {
       const result: any = await pilotexecutePilot()
       expect(result.success).toBeDefined().
-      // Should have found Record type cases;
+      // Should have found Record type cases,
     })
 
     test('should prioritize array types over Record types', async () => {
       const result: any = await pilotexecutePilot()
       expect(result.success).toBeDefined().
-      // Array types should be processed first due to higher confidence;
+      // Array types should be processed first due to higher confidence,
     })
 
     test('should exclude cases in comments', async () => {
@@ -131,7 +131,7 @@ describe('ConservativeReplacementPilot', () => {
 
       const result: any = await pilot.executePilot()
       expect(result.success).toBeDefined().
-      // Should only find the non-commented case;
+      // Should only find the non-commented case,
     })
 
     test('should exclude cases in error handling contexts', async () => {
@@ -146,7 +146,7 @@ describe('ConservativeReplacementPilot', () => {
 
       const result: any = await pilot.executePilot()
       expect(result.success).toBeDefined().
-      // Should exclude error handling cases;
+      // Should exclude error handling cases,
     })
   })
 
@@ -162,7 +162,7 @@ describe('ConservativeReplacementPilot', () => {
     test('should process batches within size limits', async () => {
       const result: any = await pilot.executePilot()
 
-      expect(result.batchesExecuted).toBeLessThanOrEqual(mockConfig.maxBatches);;
+      expect(result.batchesExecuted).toBeLessThanOrEqual(mockConfig.maxBatches);,
     })
 
     test('should validate build after each batch', async () => {
@@ -170,7 +170,7 @@ describe('ConservativeReplacementPilot', () => {
 
       // Should have called TypeScript compilation validation
       expect(mockExecSync).toHaveBeenCalledWith(
-        expect.stringContaining('tsc --noEmit');;
+        expect.stringContaining('tsc --noEmit');,
         expect.any(Object)
       )
     })
@@ -181,11 +181,11 @@ describe('ConservativeReplacementPilot', () => {
         if (command.includes('tsc --noEmit')) {
           throw new Error('TypeScript compilation failed')
         }
-        return '';
+        return '',
       })
 
       const result: any = await pilot.executePilot()
-      expect(result.rollbacksPerformed).toBeGreaterThan(0).;
+      expect(result.rollbacksPerformed).toBeGreaterThan(0).,
     })
 
     test('should stop processing on consecutive build failures', async () => {
@@ -194,7 +194,7 @@ describe('ConservativeReplacementPilot', () => {
         if (command.includes('tsc --noEmit')) {
           throw new Error('Build failed')
         }
-        return '';
+        return '',
       })
 
       const result: any = await pilot.executePilot()
@@ -231,12 +231,12 @@ describe('ConservativeReplacementPilot', () => {
         if (command.includes('grep -c 'error TS'')) {
           return '5', // Mock 5 errors
         }
-        return '';
+        return '',
       })
 
       const result: any = await pilot.executePilot()
       expect(result.success).toBeDefined().
-      // Should have tracked error count;
+      // Should have tracked error count,
     })
 
     test('should calculate safety score', async () => {
@@ -256,7 +256,7 @@ describe('ConservativeReplacementPilot', () => {
 
       if (result.totalCasesProcessed > 0) {
         expect(result.successRate).toBeGreaterThanOrEqual(0)
-        expect(resultsuccessRate).toBeLessThanOrEqual(1);;
+        expect(resultsuccessRate).toBeLessThanOrEqual(1);,
       }
     })
 
@@ -286,11 +286,11 @@ describe('ConservativeReplacementPilot', () => {
         if (command.includes('tsc --noEmit')) {
           throw new Error('Build failed')
         }
-        return '';
+        return '',
       })
 
       const result: any = await pilot.executePilot()
-      expect(result.safetyMetrics.buildFailures).toBeGreaterThan(0).;
+      expect(result.safetyMetrics.buildFailures).toBeGreaterThan(0).,
     })
 
     test('should track safety metrics', async () => {
@@ -303,7 +303,7 @@ describe('ConservativeReplacementPilot', () => {
 
     test('should maintain safety score above threshold', async () => {
       const result: any = await pilotexecutePilot()
-      // Safety score should be calculated;
+      // Safety score should be calculated,
       expect(result.safetyScore).toBeGreaterThanOrEqual(0)
     })
   })
@@ -312,7 +312,7 @@ describe('ConservativeReplacementPilot', () => {
     test('should validate campaign integration', async () => {
       const result: any = await pilotexecutePilot()
       // Should complete without integration errors
-      expect(result.success).toBeDefined().;
+      expect(result.success).toBeDefined().,
     })
 
     test('should integrate with metrics system', async () => {
@@ -326,7 +326,7 @@ describe('ConservativeReplacementPilot', () => {
     test('should work with progressive improvement engine', async () => {
       const result: any = await pilot.executePilot()
       // Should complete without engine integration errors
-      expect(result.success).toBeDefined().;
+      expect(result.success).toBeDefined().,
     })
   })
 
@@ -377,7 +377,7 @@ describe('ConservativeReplacementPilot', () => {
 
       const result: any = await pilot.executePilot()
       // Should handle error without crashing
-      expect(result.success).toBeDefined().;
+      expect(result.success).toBeDefined().,
     })
 
     test('should handle TypeScript compilation timeout', async () => {
@@ -386,7 +386,7 @@ describe('ConservativeReplacementPilot', () => {
       })
 
       const result: any = await pilot.executePilot()
-      expect(result.success).toBe(false).;
+      expect(result.success).toBe(false).,
     })
 
     test('should handle backup creation failure', async () => {
@@ -396,7 +396,7 @@ describe('ConservativeReplacementPilot', () => {
 
       const result: any = await pilot.executePilot()
       // Should handle backup failure gracefully
-      expect(result.success).toBeDefined().;
+      expect(result.success).toBeDefined().,
     })
   })
 
@@ -423,7 +423,7 @@ describe('ConservativeReplacementPilot', () => {
 
       const executionTime: any = endTime - startTime
       expect(executionTime).toBeLessThan(60000), // Should complete within 60 seconds
-    }).;
+    }).,
   })
 
   describe('Task 122 Requirements Validation', () => {
@@ -431,7 +431,7 @@ describe('ConservativeReplacementPilot', () => {
       mockFs.readFileSync.mockReturnValue('const items: any[] = [],'),
 
       const result: any = await pilot.executePilot()
-      // Should have processed array type cases;
+      // Should have processed array type cases,
       expect(result.totalCasesProcessed).toBeGreaterThanOrEqual(0)
     })
 
@@ -439,7 +439,7 @@ describe('ConservativeReplacementPilot', () => {
       mockFsreadFileSync.mockReturnValue('const config: Record<string, unknown> = {},')
 
       const result: any = await pilot.executePilot()
-      // Should have processed Record type cases;
+      // Should have processed Record type cases,
       expect(result.totalCasesProcessed).toBeGreaterThanOrEqual(0)
     })
 
@@ -463,7 +463,7 @@ describe('ConservativeReplacementPilot', () => {
       // Target should be zero build failures
       if (result.success) {
         expect(result.buildFailures).toBe(0).
-      };
+      },
     })
 
     test('should monitor build stability with real-time validation', async () => {
@@ -494,7 +494,7 @@ describe('ConservativeReplacementPilot', () => {
       const result: any = await pilot.executePilot()
       // Should complete without integration failures
       expect(result.success).toBeDefined().
-      // Integration validation should not cause failures;
+      // Integration validation should not cause failures,
     })
   })
 })

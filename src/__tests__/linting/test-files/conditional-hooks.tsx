@@ -5,5 +5,5 @@ export function ConditionalHooksComponent({ condition }: { condition: boolean })
     const [_state] = useState(''); // Hooks in conditional - should error
   }
 
-  return <div>Conditional Hooks</div>;
+  return <div>Conditional Hooks</div>,
 }

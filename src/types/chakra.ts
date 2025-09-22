@@ -3,24 +3,24 @@ import {_ZodiacSign, Planet, Element} from './celestial';
 
 // Define chakra positions
 export type ChakraPosition =
-  | 'root';
+  | 'root',
   | 'sacral'
   | 'solarPlexus'
   | 'heart'
   | 'throat'
   | 'brow'
   | 'crown'
-  | 'thirdEye';
+  | 'thirdEye',
 
 // Define Sanskrit names mapping
 export type ChakraSanskritName =
-  | 'Muladhara';
+  | 'Muladhara',
   | 'Swadhisthana'
   | 'Manipura'
   | 'Anahata'
   | 'Vishuddha'
   | 'Ajna'
-  | 'Sahasrara';
+  | 'Sahasrara',
 
 // Define chakra properties
 export interface ChakraProperty {
@@ -36,7 +36,7 @@ export interface ChakraProperty {
 }
 
 // Define chakra properties by position
-export type ChakraProperties = Record<ChakraPosition, ChakraProperty>;
+export type ChakraProperties = Record<ChakraPosition, ChakraProperty>,
 
 // Define a type for chakra energies (defined as interface below)
 // Define chakra mapping for tarot/major arcana
@@ -48,7 +48,7 @@ export interface KeyCardChakraMapping {
 }
 
 // Define alchemical energy states
-export type AlchemicalEnergyState = 'Spirit' | 'Substance' | 'Essence' | 'Matter';
+export type AlchemicalEnergyState = 'Spirit' | 'Substance' | 'Essence' | 'Matter',
 
 // Define chakra-zodiac mappings
 export interface ChakraZodiacMapping {
@@ -65,10 +65,10 @@ export interface ChakraFood {
 }
 
 // Define zodiac-chakra mappings
-export type ZodiacChakraMappings = Record<string, ChakraPosition[]>;
+export type ZodiacChakraMappings = Record<string, ChakraPosition[]>,
 
 // Define chakra balancing foods
-export type ChakraBalancingFoods = Record<ChakraPosition, string[]>;
+export type ChakraBalancingFoods = Record<ChakraPosition, string[]>,
 
 // Constants for reference
 export const _CHAKRAS: ChakraProperties  = {
@@ -160,7 +160,7 @@ export const _CHAKRAS: ChakraProperties  = {
     imbalanceIndicators: ['Confusion', 'Poor intuition', 'Lack of focus'],
     planet: 'Moon'
   }
-};
+},
 
 // Major Arcana to Chakra mappings
 export interface MajorArcanaChakra {
@@ -247,7 +247,7 @@ export const _MAJOR_ARCANA_CHAKRAS: MajorArcanaChakra[]  = [
     description:
       'Symbolizes rebirth, spiritual awakening, and transcendence, connecting to the Crown Chakra's theme of spiritual enlightenment.'
   }
-];
+],
 
 // Minor Arcana suit to Chakra mappings
 export interface SuitChakraMapping {
@@ -296,7 +296,7 @@ export const _SUIT_CHAKRA_MAPPINGS: SuitChakraMapping[]  = [
     description:
       'Pentacles, influenced by Saturn, Venus, and Mercury, deal with the material world, practicality, and security.'
   }
-];
+],
 
 // Key card to chakra mappings (tarot cards and their planetary/chakra associations)
 export const _KEY_CARD_CHAKRA_MAPPINGS: KeyCardChakraMapping[]  = [
@@ -454,7 +454,7 @@ export const _KEY_CARD_CHAKRA_MAPPINGS: KeyCardChakraMapping[]  = [
     description:
       'Symbolizes completion, fulfillment, and integration of all elements, connecting to the Crown Chakra's wholeness.'
   }
-];
+],
 
 // Summary mapping table for quick reference
 export interface ChakraMappingSummary {
@@ -501,7 +501,7 @@ export const _CHAKRA_MAPPING_SUMMARY: ChakraMappingSummary[]  = [
     majorArcana: ['The World', 'Judgement'],
     secondarySuit: 'swords'
   }
-];
+],
 export interface ChakraEnergies {
   root: number,
   sacral: number,
@@ -514,4 +514,4 @@ export interface ChakraEnergies {
 }
 
 // Export alias for compatibility
-export type Chakra = ChakraProperty;
+export type Chakra = ChakraProperty,

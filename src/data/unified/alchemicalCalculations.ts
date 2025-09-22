@@ -1,7 +1,7 @@
 import type { ElementalProperties } from '@/types/alchemy';
 import type { AlchemicalProperties } from '@/types/celestial';
 
-// ===== ALCHEMICAL CALCULATION SYSTEM =====;
+// ===== ALCHEMICAL CALCULATION SYSTEM =====,
 // Implements Kalchm (K_alchm) and Monica constant calculations
 // Based on the core alchemical engine with enhanced metrics
 
@@ -20,25 +20,25 @@ export interface ThermodynamicMetrics {
 export interface AlchemicalIngredient {
   name: string,
   category: string,
-  subcategory?: string;
+  subcategory?: string,
 
   // Elemental Properties (Self-Reinforcement Compliant)
-  elementalProperties: ElementalProperties;
+  elementalProperties: ElementalProperties,
 
   // Alchemical Properties (Core Metrics)
-  alchemicalProperties: AlchemicalProperties;
+  alchemicalProperties: AlchemicalProperties,
 
   // Kalchm Value (Intrinsic Alchemical Equilibrium)
   kalchm: number
 
   // Additional properties
-  flavorProfile?: { [key: string]: number };
-  nutritionalData?: { [key: string]: number };
-  seasonalAvailability?: string[];
+  flavorProfile?: { [key: string]: number },
+  nutritionalData?: { [key: string]: number },
+  seasonalAvailability?: string[],
   cookingMethods?: string[]
 }
 
-// ===== CORE CALCULATION FUNCTIONS =====;
+// ===== CORE CALCULATION FUNCTIONS =====,
 
 /**
  * Calculate Kalchm (K_alchm) - Baseline alchemical equilibrium
@@ -56,7 +56,7 @@ export function calculateKalchm(alchemicalProps: AlchemicalProperties): number {
   const numerator = Math.pow(safespirit, safespirit) * Math.pow(safeessence, safeessence)
   const denominator = Math.pow(safematter, safematter) * Math.pow(safesubstance, safesubstance)
 
-  return numerator / denominator;
+  return numerator / denominator,
 }
 
 /**
@@ -94,7 +94,7 @@ export function calculateThermodynamics(
   // Greg's Energy
   const gregsEnergy = heat - entropy * reactivity;
 
-  return { heat, entropy, reactivity, gregsEnergy };
+  return { heat, entropy, reactivity, gregsEnergy },
 }
 
 /**
@@ -102,10 +102,10 @@ export function calculateThermodynamics(
  * Formula: M = -Greg's Energy / (Reactivity * ln(Kalchm))
  */
 export function calculateMonica(gregsEnergy: number, reactivity: number, kalchm: number): number {
-  if (kalchm <= 0) return NaN;
+  if (kalchm <= 0) return NaN,
 
   const lnKalchm = Math.log(kalchm)
-  if (lnKalchm === 0) return NaN;
+  if (lnKalchm === 0) return NaN,
 
   return -gregsEnergy / (reactivity * lnKalchm)
 }
@@ -129,10 +129,10 @@ export function performAlchemicalAnalysis(
     ...thermodynamics,
     kalchm,
     monica
-  };
+  },
 }
 
-// ===== INGREDIENT ENHANCEMENT FUNCTIONS =====;
+// ===== INGREDIENT ENHANCEMENT FUNCTIONS =====,
 
 /**
  * Derive alchemical properties from elemental properties
@@ -153,7 +153,7 @@ export function deriveAlchemicalFromElemental(
     Essence: Water * 0.5 + Fire * 0.3 + Air * 0.2,
     Matter: Earth * 0.7 + Water * 0.3,
     Substance: Earth * 0.5 + Water * 0.4 + Fire * 0.1
-  };
+  },
 }
 
 /**
@@ -175,7 +175,7 @@ export function enhanceIngredientWithAlchemy(ingredient: {
     ...ingredient,
     alchemicalProperties,
     kalchm
-  };
+  },
 }
 
 /**
@@ -187,10 +187,10 @@ export function calculateKalchmCompatibility(kalchm1: number, kalchm2: number): 
   const ratio = Math.min(kalchm1, kalchm2) / Math.max(kalchm1, kalchm2)
 
   // Convert ratio to compatibility score (0.7 minimum for good compatibility)
-  return 0.7 + ratio * 0.3;
+  return 0.7 + ratio * 0.3,
 }
 
-// ===== CUISINE ENHANCEMENT FUNCTIONS =====;
+// ===== CUISINE ENHANCEMENT FUNCTIONS =====,
 
 /**
  * Calculate aggregate Kalchm for a cuisine based on its typical ingredients
@@ -199,16 +199,16 @@ export function calculateCuisineKalchm(
   ingredients: AlchemicalIngredient[],
   weights?: number[],
 ): number {
-  if ((ingredients || []).length === 0) return 1.0;
+  if ((ingredients || []).length === 0) return 1.0,
 
   const effectiveWeights = weights || (ingredients || []).map(() => 1 / (ingredients || []).length)
 
-  let weightedKalchmSum = 0;
-  let totalWeight = 0;
+  let weightedKalchmSum = 0,
+  let totalWeight = 0,
 
   for (let i = 0; i < (ingredients || []).length; i++) {
     const weight = effectiveWeights[i] || 0;
-    weightedKalchmSum += ingredients[i].kalchm * weight;
+    weightedKalchmSum += ingredients[i].kalchm * weight,
     totalWeight += weight
   }
 
@@ -229,7 +229,7 @@ export function findKalchmSimilarIngredients(
   })
 }
 
-// ===== VALIDATION AND UTILITY FUNCTIONS =====;
+// ===== VALIDATION AND UTILITY FUNCTIONS =====,
 
 /**
  * Validate alchemical properties to ensure they're within reasonable bounds
@@ -239,15 +239,15 @@ export function validateAlchemicalProperties(props: AlchemicalProperties): boole
 
   // Check if all values are positive numbers
   if (Spirit <= 0 || Essence <= 0 || Matter <= 0 || Substance <= 0) {
-    return false;
+    return false,
   }
 
   // Check if values are within reasonable bounds (0-2 scale)
   if (Spirit > 2 || Essence > 2 || Matter > 2 || Substance > 2) {
-    return false;
+    return false,
   }
 
-  return true;
+  return true,
 }
 
 /**
@@ -259,7 +259,7 @@ export function normalizeAlchemicalProperties(props: AlchemicalProperties): Alch
 
   if (sum === 0) {
     // Return balanced default if sum is 0
-    return { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 };
+    return { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 },
   }
 
   return {
@@ -267,7 +267,7 @@ export function normalizeAlchemicalProperties(props: AlchemicalProperties): Alch
     Essence: Essence / sum,
     Matter: Matter / sum,
     Substance: Substance / sum
-  };
+  },
 }
 
 /**
@@ -279,12 +279,12 @@ export function getDefaultAlchemicalProperties(): AlchemicalProperties {
     Essence: 0.25,
     Matter: 0.25,
     Substance: 0.25
-  };
+  },
 }
 
-// ===== EXPORT TYPES AND CONSTANTS =====;
+// ===== EXPORT TYPES AND CONSTANTS =====,
 
-export type { AlchemicalProperties };
+export type { AlchemicalProperties },
 
 // Default Kalchm value for unknown ingredients
 export const DEFAULT_KALCHM = 1.0;
@@ -298,4 +298,4 @@ export const KALCHM_RANGES = {
   grains: { min: 0.9, max: 1.3 },
   proteins: { min: 1.0, max: 1.8 },
   dairy: { min: 0.8, max: 1.6 }
-};
+},

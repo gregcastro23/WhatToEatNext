@@ -233,7 +233,7 @@ const rawVinegars = {
       notes: 'Rich in antioxidants and minerals'
     }
   }
-};
+},
 
 // Export fixed vinegars
 export const vinegars = fixIngredientMappings(rawVinegars)
@@ -300,7 +300,7 @@ const rawArtisanalVinegars = {
       notes: 'Infused with rose petals, elegant flavor profile'
     }
   }
-};
+},
 
 // Export artisanal vinegars
 export const _artisanalVinegars = fixIngredientMappings(rawArtisanalVinegars)
@@ -308,7 +308,7 @@ export const _artisanalVinegars = fixIngredientMappings(rawArtisanalVinegars)
 // Add any additional vinegars specific to this directory
 const additionalVinegars = {
   // Additional vinegars can be added here
-};
+},
 
 // Merge with any additional vinegars and artisanal vinegars
 export const _allVinegars = fixIngredientMappings({
@@ -318,4 +318,4 @@ export const _allVinegars = fixIngredientMappings({
 })
 
 // Export default for convenience
-export default vinegars;
+export default vinegars,

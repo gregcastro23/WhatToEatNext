@@ -243,4 +243,4 @@ export const broiling: CookingMethodData = {
       basting: 'Apply during cooking to add flavor and prevent drying.'
     }
   }
-};
+},

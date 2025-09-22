@@ -273,4 +273,4 @@ export const pickling: CookingMethodData = {
   sustainabilityRating: 0.9, // Very high - preserves seasonal abundance, low energy use
 
   equipmentComplexity: 0.35, // Low-moderate - basic equipment with some specialized items
-};
+},

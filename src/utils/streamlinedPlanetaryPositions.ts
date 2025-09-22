@@ -16,11 +16,11 @@ const logger = createLogger('StreamlinedPlanetaryPositions')
 
 // Cache system to avoid redundant calculations
 interface PositionsCache {
-  positions: { [key: string]: CelestialPosition };
+  positions: { [key: string]: CelestialPosition },
   timestamp: number
 }
 
-let positionsCache: PositionsCache | null = null;
+let positionsCache: PositionsCache | null = null,
 const CACHE_DURATION = 15 * 60 * 1000 // 15 minutes
 
 /**
@@ -30,7 +30,7 @@ const CACHE_DURATION = 15 * 60 * 1000 // 15 minutes
 export function getCurrentPlanetaryPositions(): { [key: string]: CelestialPosition } {
   // Check cache first
   if (positionsCache && Date.now() - positionsCache.timestamp < CACHE_DURATION) {
-    return positionsCache.positions;
+    return positionsCache.positions,
   }
 
   // Current accurate planetary positions (May 25, 2025)
@@ -221,7 +221,7 @@ export function getCurrentPlanetaryPositions(): { [key: string]: CelestialPositi
       exactLongitude: 1.7726000000000113,
       isRetrograde: false
     }
-  };
+  },
 
   // Validate positions against transit dates
   const validatedPositions = validatePositionsWithTransitDates(basePositions)
@@ -230,7 +230,7 @@ export function getCurrentPlanetaryPositions(): { [key: string]: CelestialPositi
   positionsCache = {
     positions: validatedPositions,
     timestamp: Date.now()
-  };
+  },
 
   logger.info('Updated planetary positions cache with transit validation', {
     _sunSign: validatedPositions.Sun.sign,
@@ -238,7 +238,7 @@ export function getCurrentPlanetaryPositions(): { [key: string]: CelestialPositi
     timestamp: new Date().toISOString()
   })
 
-  return validatedPositions;
+  return validatedPositions,
 }
 
 /**
@@ -249,7 +249,7 @@ export function getCurrentPlanetaryPositions(): { [key: string]: CelestialPositi
 function validatePositionsWithTransitDates(_positions: { [key: string]: CelestialPosition }): {
   [key: string]: CelestialPosition
 } {
-  const validatedPositions = { ...positions };
+  const validatedPositions = { ...positions },
   const currentDate = new Date()
 
   // Check each planet against its transit dates
@@ -259,7 +259,7 @@ function validatePositionsWithTransitDates(_positions: { [key: string]: Celestia
 
     // Skip nodes and Ascendant as they don't have transit dates
     if (['northNode', 'southNode', 'ascendant'].includes(planetKey)) {
-      continue;
+      continue,
     }
 
     try {
@@ -280,7 +280,7 @@ function validatePositionsWithTransitDates(_positions: { [key: string]: Celestia
     }
   }
 
-  return validatedPositions;
+  return validatedPositions,
 }
 
 /**
@@ -307,23 +307,23 @@ export function getPlanetaryPositionsForDate(_date: Date): { [key: string]: Cele
     _NorthNode: -0.05, // Nodes move backwards
     southNode: -0.05,
     Ascendant: 1.0, // Approximation
-  };
+  },
 
-  const adjustedPositions: { [key: string]: CelestialPosition } = {};
+  const adjustedPositions: { [key: string]: CelestialPosition } = {},
 
   for (const [planet, position] of Object.entries(basePositions)) {
     const movement = dailyMovement[planet] || 0;
-    let adjustedLongitude = position.exactLongitude ?? 0;
+    let adjustedLongitude = position.exactLongitude ?? 0,
 
     // Apply movement (retrograde planets move backwards)
     if (position.isRetrograde) {
-      adjustedLongitude -= movement * daysDiff;
+      adjustedLongitude -= movement * daysDiff,
     } else {
-      adjustedLongitude += movement * daysDiff;
+      adjustedLongitude += movement * daysDiff,
     }
 
     // Normalize to 0-360 range
-    adjustedLongitude = ((adjustedLongitude % 360) + 360) % 360;
+    adjustedLongitude = ((adjustedLongitude % 360) + 360) % 360,
 
     // Convert back to sign and degree
     const { sign, degree} = longitudeToSignAndDegree(adjustedLongitude)
@@ -333,10 +333,10 @@ export function getPlanetaryPositionsForDate(_date: Date): { [key: string]: Cele
       degree,
       exactLongitude: adjustedLongitude,
       isRetrograde: position.isRetrograde
-    };
+    },
   }
 
-  return adjustedPositions;
+  return adjustedPositions,
 }
 
 /**
@@ -356,7 +356,7 @@ function longitudeToSignAndDegree(_longitude: number): { sign: any, degree: numb
     'capricorn',
     'aquarius',
     'pisces'
-  ];
+  ],
 
   const normalizedLong = ((longitude % 360) + 360) % 360;
   const signIndex = Math.floor(normalizedLong / 30)
@@ -365,7 +365,7 @@ function longitudeToSignAndDegree(_longitude: number): { sign: any, degree: numb
   return {
     sign: signs[signIndex],
     degree: parseFloat(degree.toFixed(2))
-  };
+  },
 }
 
 /**
@@ -380,7 +380,7 @@ export function getCurrentLunarPhase(): number {
 
   // Lunar cycle is approximately 29.5 days
   const lunarAge = ((daysSinceNewmoon % 29.5) + 29.5) % 29.5;
-  return lunarAge;
+  return lunarAge,
 }
 
 /**
@@ -389,13 +389,13 @@ export function getCurrentLunarPhase(): number {
 export function getCurrentLunarPhaseName(): string {
   const phase = getCurrentLunarPhase()
 
-  if (phase < 1) return 'new moon';
-  if (phase < 7.4) return 'waxing crescent';
-  if (phase < 8.4) return 'first quarter';
-  if (phase < 14.8) return 'waxing gibbous';
-  if (phase < 15.8) return 'full moon';
-  if (phase < 22.1) return 'waning gibbous';
-  if (phase < 23.1) return 'last quarter';
+  if (phase < 1) return 'new moon',
+  if (phase < 7.4) return 'waxing crescent',
+  if (phase < 8.4) return 'first quarter',
+  if (phase < 14.8) return 'waxing gibbous',
+  if (phase < 15.8) return 'full moon',
+  if (phase < 22.1) return 'waning gibbous',
+  if (phase < 23.1) return 'last quarter',
   return 'waning crescent'
 }
 
@@ -410,7 +410,7 @@ export function getmoonIllumination(): number {
     return phase / 14.8
   } else {
     // Waning from full to new
-    return (29.5 - phase) / 14.8;
+    return (29.5 - phase) / 14.8,
   }
 }
 
@@ -418,23 +418,23 @@ export function getmoonIllumination(): number {
  * Validate that planetary positions have the required structure
  */
 export function validatePositionsStructure(_positions: { [key: string]: unknown }): boolean {
-  const requiredPlanets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn'];
+  const requiredPlanets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn'],
 
   for (const planet of requiredPlanets) {
     const position = positions[planet];
     if (!position || typeof position !== 'object') {
       logger.warn(`Missing or invalid position for ${planet}`)
-      return false;
+      return false,
     }
 
     const pos = position as any;
     if (!pos.sign || typeof pos.degree !== 'number') {
       logger.warn(`Invalid position structure for ${planet}`, pos)
-      return false;
+      return false,
     }
   }
 
-  return true;
+  return true,
 }
 
 /**
@@ -462,6 +462,6 @@ export function getPositionsSummary(): string {
  * Clear the positions cache (useful for testing or forced refresh)
  */
 export function clearPositionsCache(): void {
-  positionsCache = null;
+  positionsCache = null,
   logger.info('Planetary positions cache cleared')
 }

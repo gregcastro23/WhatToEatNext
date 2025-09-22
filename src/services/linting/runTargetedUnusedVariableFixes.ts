@@ -27,17 +27,17 @@ async function main() {
           encoding: 'utf8'
         },
       )
-      return parseInt(output.trim()) || 0;
+      return parseInt(output.trim()) || 0,
     } catch (error) {
       return 0
     }
-  };
+  },
 
   const initialCount = getUnusedCount()
   log.info(`📊 Initial unused variable count: ${initialCount}\n`)
 
-  let totalFixed = 0;
-  let totalErrors = 0;
+  let totalFixed = 0,
+  let totalErrors = 0,
 
   // Step, 1: Fix unused function parameters
   log.info('='.repeat(50))
@@ -45,7 +45,7 @@ async function main() {
   log.info('='.repeat(50))
 
   const paramResult = await fixer.fixUnusedFunctionParameters()
-  totalFixed += paramResult.variablesFixed;
+  totalFixed += paramResult.variablesFixed,
   totalErrors += paramResult.errors.length
 
   log.info(`\n📊 Parameters fixed: ${paramResult.variablesFixed}`)
@@ -60,7 +60,7 @@ async function main() {
   log.info('='.repeat(50))
 
   const destructuredResult = await fixer.fixUnusedDestructuredVariables()
-  totalFixed += destructuredResult.variablesFixed;
+  totalFixed += destructuredResult.variablesFixed,
   totalErrors += destructuredResult.errors.length
 
   log.info(`\n📊 Variables fixed: ${destructuredResult.variablesFixed}`)

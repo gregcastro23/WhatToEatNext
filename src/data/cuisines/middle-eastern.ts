@@ -481,7 +481,7 @@ export const middleEastern: Cuisine = {
           prepTime: '60 minutes',
           cookTime: '180 minutes',
           culturalNotes:
-            'A celebratory dish often served at important gatherings and festivals. The combination of meat, rice, and nuts represents abundance and hospitality',
+            'A celebratory dish often served at important gatherings and festivals. The combination of meat, rice, and nuts represents abundance and hospitality';
           pairingSuggestions: ['tabbouleh', 'yogurt sauce', 'flatbread'],
           dietaryInfo: ['halal'],
           spiceLevel: 'medium',
@@ -1394,6 +1394,6 @@ export const middleEastern: Cuisine = {
     Earth: 0.3,
     Air: 0.2
   }
-};
+},
 
-export default middleEastern;
+export default middleEastern,

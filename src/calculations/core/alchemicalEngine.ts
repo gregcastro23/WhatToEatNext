@@ -30,14 +30,14 @@ const signs = {
   9: 'capricorn',
   10: 'aquarius',
   11: 'pisces'
-};
+},
 
 // Planetary alchemy and element info
 interface PlanetInfo {
-  'Dignity Effect': Record<string, number>;
+  'Dignity Effect': Record<string, number>,
   Elements: Element[],
-  Alchemy: { Spirit: number, Essence: number, Matter: number Substance: number };
-  'Diurnal Element': Element;
+  Alchemy: { Spirit: number, Essence: number, Matter: number Substance: number },
+  'Diurnal Element': Element,
   'Nocturnal Element': Element
 }
 
@@ -126,7 +126,7 @@ const planetInfo: Record<string, PlanetInfo> = {
     'Diurnal Element': 'Earth',
     'Nocturnal Element': 'Earth'
   }
-};
+},
 
 // Zodiac sign info (abbreviated for brevity, expand as needed)
 interface SignInfo {
@@ -146,7 +146,7 @@ const signInfo: Record<string, SignInfo> = {
   capricorn: { Element: 'Earth' },
   aquarius: { Element: 'Air' },
   pisces: { Element: 'Water' }
-};
+},
 
 // --- Types ---
 type AlchemyTotals = {
@@ -158,7 +158,7 @@ type AlchemyTotals = {
   Water: number,
   Air: number,
   Earth: number
-};
+},
 
 type ThermodynamicMetrics = {
   heat: number,
@@ -167,7 +167,7 @@ type ThermodynamicMetrics = {
   gregsEnergy: number,
   kalchm: number,
   monica: number
-};
+},
 
 // --- Core Calculation Function ---
 function alchemize(_planetaryPositions: { [planet: string]: string }): ThermodynamicMetrics {
@@ -181,22 +181,22 @@ function alchemize(_planetaryPositions: { [planet: string]: string }): Thermodyn
     Water: 0,
     Air: 0,
     Earth: 0
-  };
+  },
 
   for (const planet in planetaryPositions) {
     const sign = planetaryPositions[planet];
     const planetData = planetInfo[planet];
-    if (!planetData) continue;
+    if (!planetData) continue,
 
     // Sum alchemical properties
     for (const prop in planetData.Alchemy) {
-      totals[prop as keyof AlchemyTotals] += planetData.Alchemy[prop];
+      totals[prop as keyof AlchemyTotals] += planetData.Alchemy[prop],
     }
 
     // Sum elemental properties (use signInfo for sign's element)
     const signElement = signInfo[sign].Element;
     if (signElement && totals[signElement] !== undefined) {
-      totals[signElement] += 1;
+      totals[signElement] += 1,
     }
   }
 
@@ -230,11 +230,11 @@ function alchemize(_planetaryPositions: { [planet: string]: string }): Thermodyn
 
   // Kalchm (K_alchm)
   const kalchm =
-    (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /;
+    (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /,
     (Math.pow(Matter, Matter) * Math.pow(Substance, Substance))
 
   // Monica constant
-  let monica = NaN;
+  let monica = NaN,
   if (kalchm > 0) {
     const lnK = Math.log(kalchm)
     if (lnK !== 0) {
@@ -242,15 +242,15 @@ function alchemize(_planetaryPositions: { [planet: string]: string }): Thermodyn
     }
   }
 
-  return { heat, entropy, reactivity, gregsEnergy, kalchm, monica };
+  return { heat, entropy, reactivity, gregsEnergy, kalchm, monica },
 }
 
 // --- Export for use in other modules ---
-export { alchemize, signs, planetInfo, signInfo };
+export { alchemize, signs, planetInfo, signInfo },
 
 // Pattern OO-4: Integration Import Resolution - AlchemicalEngine class for service compatibility
 export class AlchemicalEngine {
-  private advanced: AlchemicalEngineAdvanced;
+  private advanced: AlchemicalEngineAdvanced,
 
   constructor() {
     this.advanced = new AlchemicalEngineAdvanced()
@@ -274,7 +274,7 @@ export class AlchemicalEngine {
     // Use getElementalAffinity which returns ElementalAffinity object, extract compatibility score
     // Determine dominant element from properties1
     const _dominantElement =
-      (Object.entries(properties1).sort(([, a], [, b]) => b - a)[0]?.[0] as Element) || 'Fire';
+      (Object.entries(properties1).sort(([, a], [, b]) => b - a)[0]?.[0] as Element) || 'Fire',
     const affinity = this.advanced.getElementalAffinity(_dominantElement, _dominantElement); // Use dominant element for both
     // Extract the compatibility score for the dominant element
     return typeof affinity.compatibility[_dominantElement] === 'number'
@@ -330,17 +330,17 @@ export class AlchemicalEngine {
     weight2?: number,
   ) {
     // If weights are provided, combine with weights; else, sum
-    if (typeof weight1 === 'number' && typeof weight2 === 'number') {;
+    if (typeof weight1 === 'number' && typeof weight2 === 'number') {,
       return {
         Fire: elementObject1.Fire * weight1 + elementObject2.Fire * weight2,
         Water: elementObject1.Water * weight1 + elementObject2.Water * weight2,
         Air: elementObject1.Air * weight1 + elementObject2.Air * weight2,
         Earth: elementObject1.Earth * weight1 + elementObject2.Earth * weight2
-      };
+      },
     }
     return this.advanced.combineElementObjects(elementObject1, elementObject2)
   }
 }
 
 // Also provide default export for backwards compatibility
-export default { alchemize, signs, planetInfo, signInfo };
+export default { alchemize, signs, planetInfo, signInfo },

@@ -7,7 +7,7 @@ import React, {
   useEffect,
   useCallback,
   ReactNode
-} from 'react';
+} from 'react',
 
 import alchemicalEngine from '@/calculations/alchemicalEngine';
 import { ChakraEnergies } from '@/types/alchemy';
@@ -58,7 +58,7 @@ export function AstrologicalProvider({ children }: AstrologicalProviderProps) {
   const updateZodiac = (zodiac: string) => {
     setCurrentZodiac(zodiac)
     void calculateAstrologicalState(zodiac)
-  };
+  },
 
   // Calculate astrological state based on zodiac
   const calculateAstrologicalState = useCallback(async (zodiac: string) => {
@@ -71,7 +71,7 @@ export function AstrologicalProvider({ children }: AstrologicalProviderProps) {
         Water: zodiac === 'cancer' || zodiac === 'scorpio' || zodiac === 'pisces' ? 0.7 : 0.2,
         Earth: zodiac === 'taurus' || zodiac === 'virgo' || zodiac === 'capricorn' ? 0.7 : 0.2,
         Air: zodiac === 'gemini' || zodiac === 'libra' || zodiac === 'aquarius' ? 0.7 : 0.2,
-      };
+      },
 
       // Calculate basic alchemical values from elemental properties
       const alchemicalValues = {
@@ -79,7 +79,7 @@ export function AstrologicalProvider({ children }: AstrologicalProviderProps) {
         Essence: (elementalProperties.Water + elementalProperties.Fire) * 0.5,
         Matter: (elementalProperties.Earth + elementalProperties.Water) * 0.5,
         Substance: (elementalProperties.Earth + elementalProperties.Air) * 0.5
-      };
+      },
 
       // Get current planetary hour (simple mock based on time)
       const currentHour = new Date().getHours()
@@ -91,7 +91,7 @@ export function AstrologicalProvider({ children }: AstrologicalProviderProps) {
         'Saturn',
         'Jupiter',
         'Mars'
-      ] as const;
+      ] as const,
       const planetaryHour = planetaryHours[currentHour % 7];
 
       const mockState = {
@@ -115,7 +115,7 @@ export function AstrologicalProvider({ children }: AstrologicalProviderProps) {
         )[0] as 'Fire' | 'Water' | 'Earth' | 'Air',
         activePlanets: ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars'], // Add active planets,
         isDaytime: currentHour >= 6 && currentHour < 18, // Simple day/night calculation
-      } as AstrologicalState;
+      } as AstrologicalState,
 
       // Calculate chakra energies using alchemical engine with safe property access
       const chakraResult = alchemicalEngine.calculateChakraEnergies(
@@ -146,7 +146,7 @@ export function AstrologicalProvider({ children }: AstrologicalProviderProps) {
     loading,
     error,
     updateZodiac
-  };
+  },
 
   return <AstrologicalContext.Provider value={value}>{children}</AstrologicalContext.Provider>
 }
@@ -159,5 +159,5 @@ export function useAstrologicalState() {
     throw new Error('useAstrologicalState must be used within an AstrologicalProvider')
   }
 
-  return context;
+  return context,
 }

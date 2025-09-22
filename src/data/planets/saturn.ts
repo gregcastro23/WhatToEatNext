@@ -368,6 +368,6 @@ const saturnData: PlanetData = {
       'Traditional Methods': 0.9
     }
   }
-};
+},
 
-export default saturnData;
+export default saturnData,

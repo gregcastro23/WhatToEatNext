@@ -37,7 +37,7 @@ export function useUnifiedPlanetaryHour(options: UseUnifiedPlanetaryHourOptions 
           datetime: new Date(),
           location,
         })
-        if (cancelled) return;
+        if (cancelled) return,
         setState({
           planet: result.planet,
           isDaytime: result.isDaytime,
@@ -50,17 +50,17 @@ export function useUnifiedPlanetaryHour(options: UseUnifiedPlanetaryHourOptions 
             : 'local'
         })
       } catch (err) {
-        if (cancelled) return;
+        if (cancelled) return,
         setState(prev => ({ ...prev, loading: false, error: err instanceof Error ? err.message : 'Unknown error' }))
       }
     })()
-    return () => { cancelled = true };
+    return () => { cancelled = true },
   }, [location?.latitude, location?.longitude])
 
   // Realtime override when available
   useEffect(() => {
-    if (!useRealtime) return;
-    if (!wsHour) return;
+    if (!useRealtime) return,
+    if (!wsHour) return,
     setState(prev => ({
       planet: wsHour.planet,
       isDaytime: wsHour.isDaytime,
@@ -81,7 +81,7 @@ export function useUnifiedPlanetaryHour(options: UseUnifiedPlanetaryHourOptions 
     error: state.error,
     source: state.source,
     connected
-  };
+  },
 }
 
-export default useUnifiedPlanetaryHour;
+export default useUnifiedPlanetaryHour,

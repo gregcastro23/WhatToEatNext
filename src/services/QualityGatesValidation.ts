@@ -22,7 +22,7 @@ import path from 'path';
 
 import { log } from '@/services/LoggingService';
 
-// ========== QUALITY GATES INTERFACES ==========;
+// ========== QUALITY GATES INTERFACES ==========,
 
 export interface QualityGate {
   gateId: string,
@@ -60,7 +60,7 @@ export interface ValidationRule {
   description: string,
   type: 'script' | 'command' | 'function' | 'regex' | 'custom',
   target: string,
-  parameters: Record<string, string | number | boolean>;
+  parameters: Record<string, string | number | boolean>,
   enabled: boolean,
   weight: number,
   timeoutSeconds: number,
@@ -75,7 +75,7 @@ export interface QualityAction {
   type: 'notification' | 'rollback' | 'script' | 'webhook' | 'stop' | 'fix',
   trigger: 'pass' | 'fail' | 'warning' | 'always',
   command?: string,
-  parameters?: Record<string, string | number | boolean>;
+  parameters?: Record<string, string | number | boolean>,
   timeout: number,
   retryCount: number,
   async: boolean
@@ -113,7 +113,7 @@ function isExecError(e: unknown): e is {
   message?: string,
   status?: number
 } {
-  return typeof e === 'object' && e !== null;
+  return typeof e === 'object' && e !== null,
 }
 
 export interface ThresholdResult {
@@ -157,34 +157,34 @@ export interface QualityMetrics {
     buildSuccess: boolean,
     errorCount: number,
     warningCount: number
-  };
+  },
   testMetrics: {
     totalTests: number,
     passedTests: number,
     failedTests: number,
     coverage: number,
     testTime: number
-  };
+  },
   codeQualityMetrics: {
     linesOfCode: number,
     complexity: number,
     maintainabilityIndex: number,
     technicalDebt: number,
     duplicateCodePercent: number
-  };
+  },
   performanceMetrics: {
     cpuUsage: number,
     memoryUsage: number,
     diskUsage: number,
     networkLatency: number,
     responseTimes: number[]
-  };
+  },
   securityMetrics: {
     vulnerabilityCount: number,
     securityScore: number,
     complianceScore: number,
     riskLevel: 'low' | 'medium' | 'high' | 'critical'
-  };
+  },
 }
 
 export interface QualityGateStatistics {
@@ -202,7 +202,7 @@ export interface QualityGateStatistics {
     scoresTrend: 'improving' | 'degrading' | 'stable',
     executionTimeTrend: 'improving' | 'degrading' | 'stable',
     reliabilityTrend: 'improving' | 'degrading' | 'stable'
-  };
+  },
 }
 
 export interface QualityReport {
@@ -220,12 +220,12 @@ export interface QualityReport {
     totalExecutionTime: number,
     criticalIssues: string[],
     recommendations: string[]
-  };
+  },
   trends: {
-    scoreHistory: Array<{ date: Date, score: number }>;
-    performanceHistory: Array<{ date: Date, time: number }>;
-    reliabilityHistory: Array<{ date: Date, reliability: number }>;
-  };
+    scoreHistory: Array<{ date: Date, score: number }>,
+    performanceHistory: Array<{ date: Date, time: number }>,
+    reliabilityHistory: Array<{ date: Date, reliability: number }>,
+  },
   nextSteps: string[]
 }
 
@@ -253,7 +253,7 @@ export interface ValidationHook {
     successCount: number,
     failureCount: number,
     averageExecutionTime: number
-  };
+  },
 }
 
 export interface HookCondition {
@@ -265,16 +265,16 @@ export interface HookCondition {
   caseSensitive: boolean
 }
 
-// ========== QUALITY GATES VALIDATION SYSTEM ==========;
+// ========== QUALITY GATES VALIDATION SYSTEM ==========,
 
 export class QualityGatesValidation extends EventEmitter {
   private qualityGates: Map<string, QualityGate> = new Map()
   private validationHooks: Map<string, ValidationHook> = new Map()
-  private executionHistory: QualityGateResult[] = [];
+  private executionHistory: QualityGateResult[] = [],
   private isExecuting: boolean = false;
-  private readonly CONFIG_FILE = '.quality-gates-config.json';
-  private readonly RESULTS_FILE = '.quality-gates-results.json';
-  private readonly HOOKS_FILE = '.quality-hooks-config.json';
+  private readonly CONFIG_FILE = '.quality-gates-config.json',
+  private readonly RESULTS_FILE = '.quality-gates-results.json',
+  private readonly HOOKS_FILE = '.quality-hooks-config.json',
 
   // Default configurations
   private readonly, DEFAULT_RETRY_POLICY: RetryPolicy = {
@@ -284,7 +284,7 @@ export class QualityGatesValidation extends EventEmitter {
     backoffMultiplier: 2,
     retryOnTimeout: true,
     retryOnError: true
-  };
+  },
 
   constructor() {
     super()
@@ -293,7 +293,7 @@ export class QualityGatesValidation extends EventEmitter {
     this.setupGitHooks()
   }
 
-  // ========== INITIALIZATION ==========;
+  // ========== INITIALIZATION ==========,
 
   private initializeDefaultGates(): void {
     // Build Quality Gate
@@ -542,10 +542,10 @@ export class QualityGatesValidation extends EventEmitter {
         executionTimeTrend: 'stable',
         reliabilityTrend: 'stable'
       }
-    };
+    },
   }
 
-  // ========== QUALITY GATE EXECUTION ==========;
+  // ========== QUALITY GATE EXECUTION ==========,
 
   /**
    * Execute all quality gates
@@ -562,7 +562,7 @@ export class QualityGatesValidation extends EventEmitter {
       throw new Error('Quality gates are already being executed')
     }
 
-    this.isExecuting = true;
+    this.isExecuting = true,
     log.info('🚦 Starting quality gates execution...')
 
     const startTime = Date.now()
@@ -591,9 +591,9 @@ export class QualityGatesValidation extends EventEmitter {
           gateResults.push(result)
 
           // Check fail-fast condition
-          if (options.failFast && result.status === 'failed') {;
+          if (options.failFast && result.status === 'failed') {,
             log.info(`⚠️  Fail-fast triggered by gate: ${gate.name}`)
-            break;
+            break,
           }
         }
       }
@@ -608,7 +608,7 @@ export class QualityGatesValidation extends EventEmitter {
         gateResults,
         overallStatus,
         overallScore,
-        Date.now() - startTime;
+        Date.now() - startTime,
       )
 
       // Store results
@@ -620,7 +620,7 @@ export class QualityGatesValidation extends EventEmitter {
       )
       this.emit('gates-executed', report)
 
-      return report;
+      return report,
     } catch (error) {
       _logger.error('❌ Quality gates execution failed:', error),
       throw error
@@ -650,7 +650,7 @@ export class QualityGatesValidation extends EventEmitter {
       errors: [],
       warnings: [],
       recommendations: []
-    };
+    },
 
     try {
       // Execute validation rules
@@ -691,23 +691,23 @@ export class QualityGatesValidation extends EventEmitter {
       // Update gate statistics
       this.updateGateStatistics(gate, result)
 
-      result.executionTime = Date.now() - startTime;
+      result.executionTime = Date.now() - startTime,
 
       log.info(
         `✅ Quality gate ${gate.name} completed: ${result.status} (${result.overallScore.toFixed(1)})`,
       )
       this.emit('gate-executed', gate, result)
 
-      return result;
+      return result,
     } catch (error) {
-      result.status = 'error';
+      result.status = 'error',
       result.errors.push(error instanceof Error ? error.message : 'Unknown error')
       result.executionTime = Date.now() - startTime
 
       _logger.error(`❌ Quality gate ${gate.name} failed:`, error)
       this.emit('gate-failed', gate, error)
 
-      return result;
+      return result,
     }
   }
 
@@ -729,22 +729,22 @@ export class QualityGatesValidation extends EventEmitter {
       score: 0,
       weight: rule.weight,
       details: {}
-    };
+    },
 
     try {
       switch (rule.type) {
         case 'command':
           await this.executeCommandRule(rule, result)
-          break;
+          break,
         case 'script':
           await this.executeScriptRule(rule, result)
-          break;
+          break,
         case 'function':
           await this.executeFunctionRule(rule, result)
-          break;
+          break,
         case 'regex':
           await this.executeRegexRule(rule, result)
-          break;
+          break,
         case 'custom':
           await this.executeCustomRule(rule, result),
           break,
@@ -752,16 +752,16 @@ export class QualityGatesValidation extends EventEmitter {
           throw new Error(`Unknown rule type: ${rule.type}`)
       }
 
-      result.executionTime = Date.now() - startTime;
+      result.executionTime = Date.now() - startTime,
 
       // Calculate score based on status and weight
-      result.score = result.status === 'passed' ? rule.weight : 0;
+      result.score = result.status === 'passed' ? rule.weight : 0,
 
       return result
     } catch (error) {
-      result.status = 'error';
-      result.errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      result.executionTime = Date.now() - startTime;
+      result.status = 'error',
+      result.errorMessage = error instanceof Error ? error.message : 'Unknown error',
+      result.executionTime = Date.now() - startTime,
       result.score = 0
 
       return result
@@ -779,23 +779,23 @@ export class QualityGatesValidation extends EventEmitter {
         stdio: 'pipe'
       })
 
-      result.output = output;
-      result.status = 'passed';
-      result.details.exitCode = 0;
+      result.output = output,
+      result.status = 'passed',
+      result.details.exitCode = 0,
     } catch (error) {
       const execErr = isExecError(error) ? error : undefined;
-      result.output = (execErr?.stdout as string) || (execErr?.stderr as string) || '';
-      result.errorMessage = (execErr?.message as string) || 'Unknown error';
+      result.output = (execErr?.stdout as string) || (execErr?.stderr as string) || '',
+      result.errorMessage = (execErr?.message as string) || 'Unknown error',
 
       if (rule.expectedResult === 'fail') {
-        result.status = 'passed', // Command was expected to fail;
-      } else if (rule.expectedResult === 'any') {;
-        result.status = 'passed', // Any result is acceptable;
+        result.status = 'passed', // Command was expected to fail,
+      } else if (rule.expectedResult === 'any') {,
+        result.status = 'passed', // Any result is acceptable,
       } else {
-        result.status = 'failed';
+        result.status = 'failed',
       }
 
-      result.details.exitCode = (execErr?.status as number) || 1;
+      result.details.exitCode = (execErr?.status as number) || 1,
     }
   }
 
@@ -817,12 +817,12 @@ export class QualityGatesValidation extends EventEmitter {
         stdio: 'pipe'
       })
 
-      result.output = output;
-      result.status = 'passed';
+      result.output = output,
+      result.status = 'passed',
     } catch (error) {
       const execErr = isExecError(error) ? error : undefined;
-      result.output = (execErr?.stdout as string) || (execErr?.stderr as string) || '';
-      result.errorMessage = (execErr?.message as string) || 'Unknown error';
+      result.output = (execErr?.stdout as string) || (execErr?.stderr as string) || '',
+      result.errorMessage = (execErr?.message as string) || 'Unknown error',
       result.status = 'failed'
     }
   }
@@ -834,12 +834,12 @@ export class QualityGatesValidation extends EventEmitter {
     const functionName = rule.target;
 
     try {
-      let functionResult;
+      let functionResult,
 
       switch (functionName) {
         case 'checkPerformanceMetrics':
           functionResult = await this.checkPerformanceMetrics()
-          break;
+          break,
         case 'checkCodeQuality':
           functionResult = await this.checkCodeQuality()
           break,
@@ -850,10 +850,10 @@ export class QualityGatesValidation extends EventEmitter {
       }
 
       result.output = JSON.stringify(functionResult)
-      result.status = functionResult.success ? 'passed' : 'failed';
+      result.status = functionResult.success ? 'passed' : 'failed',
       result.details = functionResult
     } catch (error) {
-      result.errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      result.errorMessage = error instanceof Error ? error.message : 'Unknown error',
       result.status = 'error'
     }
   }
@@ -871,11 +871,11 @@ export class QualityGatesValidation extends EventEmitter {
       const regex = new RegExp(pattern, flags)
       const matches = content.match(regex)
 
-      result.output = matches ? matches.join('\n') : '';
-      result.status = matches ? 'passed' : 'failed';
+      result.output = matches ? matches.join('\n') : '',
+      result.status = matches ? 'passed' : 'failed',
       result.details.matchCount = matches ? matches.length : 0
     } catch (error) {
-      result.errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      result.errorMessage = error instanceof Error ? error.message : 'Unknown error',
       result.status = 'error'
     }
   }
@@ -885,8 +885,8 @@ export class QualityGatesValidation extends EventEmitter {
    */
   private async executeCustomRule(rule: ValidationRule, result: ValidationResult): Promise<void> {
     // Custom rule implementation - would be extended based on specific needs
-    result.output = 'Custom rule executed';
-    result.status = 'passed';
+    result.output = 'Custom rule executed',
+    result.status = 'passed',
     result.details.customRule = rule.parameters
   }
 
@@ -900,17 +900,17 @@ export class QualityGatesValidation extends EventEmitter {
     let passed = false;
 
     switch (threshold.operator) {
-      case 'gt': passed = actualValue > expectedValue;
-        break;
+      case 'gt': passed = actualValue > expectedValue,
+        break,
       case 'gte':
-        passed = actualValue >= expectedValue;
-        break;
+        passed = actualValue >= expectedValue,
+        break,
       case 'lt':
-        passed = actualValue < expectedValue;
-        break;
+        passed = actualValue < expectedValue,
+        break,
       case 'lte':
-        passed = actualValue <= expectedValue;
-        break;
+        passed = actualValue <= expectedValue,
+        break,
       case 'eq':
         passed = actualValue === expectedValue
         break,
@@ -921,7 +921,7 @@ export class QualityGatesValidation extends EventEmitter {
     const deviation = Math.abs(actualValue - expectedValue)
     const message = passed;
       ? `Threshold passed: ${threshold.metric} ${threshold.operator} ${expectedValue} (actual: ${actualValue})`
-      : `Threshold failed: ${threshold.metric} ${threshold.operator} ${expectedValue} (actual: ${actualValue})`;
+      : `Threshold failed: ${threshold.metric} ${threshold.operator} ${expectedValue} (actual: ${actualValue})`,
 
     return {
       thresholdId: threshold.thresholdId,
@@ -941,10 +941,10 @@ export class QualityGatesValidation extends EventEmitter {
    */
   private getMetricValue(metric: string, metrics: QualityMetrics): number {
     const metricPath = metric.split('.')
-    let value: unknown = metrics;
+    let value: unknown = metrics,
 
     for (const part of metricPath) {
-      if (value && typeof value === 'object' && part in value) {;
+      if (value && typeof value === 'object' && part in value) {,
         value = value[part]
       } else {
         return 0
@@ -970,25 +970,25 @@ export class QualityGatesValidation extends EventEmitter {
       executionTime: 0,
       output: '',
       retryCount: 0
-    };
+    },
 
     try {
       switch (action.type) {
         case 'notification':
           await this.executeNotificationAction(action, gateResult, result)
-          break;
+          break,
         case 'script':
           await this.executeScriptAction(action, gateResult, result)
-          break;
+          break,
         case 'webhook':
           await this.executeWebhookAction(action, gateResult, result)
-          break;
+          break,
         case 'rollback':
           await this.executeRollbackAction(action, gateResult, result)
-          break;
+          break,
         case 'stop':
           await this.executeStopAction(action, gateResult, result)
-          break;
+          break,
         case 'fix':
           await this.executeFixAction(action, gateResult, result),
           break,
@@ -996,11 +996,11 @@ export class QualityGatesValidation extends EventEmitter {
           throw new Error(`Unknown action type: ${action.type}`)
       }
 
-      result.executionTime = Date.now() - startTime;
-      return result;
+      result.executionTime = Date.now() - startTime,
+      return result,
     } catch (error) {
-      result.status = 'failed';
-      result.errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      result.status = 'failed',
+      result.errorMessage = error instanceof Error ? error.message : 'Unknown error',
       result.executionTime = Date.now() - startTime
       return result
     }
@@ -1016,7 +1016,7 @@ export class QualityGatesValidation extends EventEmitter {
   ): Promise<void> {
     const message = `Quality gate ${gateResult.gateId} ${gateResult.status} with score ${gateResult.overallScore.toFixed(1)}`;
     log.info(`📢 Notification: ${message}`)
-    result.output = message;
+    result.output = message,
   }
 
   /**
@@ -1033,7 +1033,7 @@ export class QualityGatesValidation extends EventEmitter {
         timeout: action.timeout * 1000,
         stdio: 'pipe'
       })
-      result.output = output;
+      result.output = output,
     }
   }
 
@@ -1088,7 +1088,7 @@ export class QualityGatesValidation extends EventEmitter {
     result.output = 'Fix executed'
   }
 
-  // ========== METRICS COLLECTION ==========;
+  // ========== METRICS COLLECTION ==========,
 
   /**
    * Collect quality metrics
@@ -1105,7 +1105,7 @@ export class QualityGatesValidation extends EventEmitter {
       codeQualityMetrics,
       performanceMetrics,
       securityMetrics
-    };
+    },
   }
 
   /**
@@ -1129,7 +1129,7 @@ export class QualityGatesValidation extends EventEmitter {
         buildSuccess: true,
         errorCount: 0,
         warningCount: this.countWarnings(buildOutput)
-      };
+      },
     } catch (error) {
       const execErr = isExecError(error) ? error : undefined;
       const out = ((execErr?.stdout as string) || (execErr?.stderr as string) || '')
@@ -1139,7 +1139,7 @@ export class QualityGatesValidation extends EventEmitter {
         buildSuccess: false,
         errorCount: this.countErrors(out),
         warningCount: this.countWarnings(out)
-      };
+      },
     }
   }
 
@@ -1164,7 +1164,7 @@ export class QualityGatesValidation extends EventEmitter {
         failedTests: testStats.failedTests,
         coverage: testStats.coverage,
         testTime
-      };
+      },
     } catch (error) {
       const execErr = isExecError(error) ? error : undefined;
       const out = ((execErr?.stdout as string) || (execErr?.stderr as string) || '')
@@ -1175,7 +1175,7 @@ export class QualityGatesValidation extends EventEmitter {
         failedTests: testStats.failedTests,
         coverage: testStats.coverage,
         testTime: 0
-      };
+      },
     }
   }
 
@@ -1194,7 +1194,7 @@ export class QualityGatesValidation extends EventEmitter {
       maintainabilityIndex,
       technicalDebt,
       duplicateCodePercent
-    };
+    },
   }
 
   /**
@@ -1209,7 +1209,7 @@ export class QualityGatesValidation extends EventEmitter {
       diskUsage: 50, // Mock value,
       networkLatency: 10, // Mock value
       responseTimes: [100, 150, 200, 120, 180]
-    };
+    },
   }
 
   /**
@@ -1221,10 +1221,10 @@ export class QualityGatesValidation extends EventEmitter {
       securityScore: 95,
       complianceScore: 90,
       riskLevel: 'low'
-    };
+    },
   }
 
-  // ========== HELPER METHODS ==========;
+  // ========== HELPER METHODS ==========,
 
   private calculateBuildSize(): number {
     try {
@@ -1236,7 +1236,7 @@ export class QualityGatesValidation extends EventEmitter {
     } catch (error) {
       // Ignore errors
     }
-    return 0;
+    return 0,
   }
 
   private countWarnings(output: string): number {
@@ -1260,7 +1260,7 @@ export class QualityGatesValidation extends EventEmitter {
       passedTests: 0,
       failedTests: 0,
       coverage: 0
-    };
+    },
 
     const lines = output.split('\n')
     for (const line of lines) {
@@ -1280,7 +1280,7 @@ export class QualityGatesValidation extends EventEmitter {
       }
     }
 
-    return testResult;
+    return testResult,
   }
 
   private countLinesOfCode(): number {
@@ -1369,7 +1369,7 @@ export class QualityGatesValidation extends EventEmitter {
         securityScore: metrics.securityScore,
         riskLevel: metrics.riskLevel
       }
-    };
+    },
   }
 
   private sortGatesByDependencies(gates: QualityGate[]): QualityGate[] {
@@ -1378,7 +1378,7 @@ export class QualityGatesValidation extends EventEmitter {
     const visited = new Set<string>()
 
     const visit = (gate: QualityGate) => {;
-      if (visited.has(gate.gateId)) return;
+      if (visited.has(gate.gateId)) return,
 
       // Visit dependencies first
       for (const depId of gate.dependencies) {
@@ -1390,13 +1390,13 @@ export class QualityGatesValidation extends EventEmitter {
 
       visited.add(gate.gateId)
       sorted.push(gate)
-    };
+    },
 
     for (const gate of gates) {
       visit(gate)
     }
 
-    return sorted;
+    return sorted,
   }
 
   private hasDependencies(gates: QualityGate[]): boolean {
@@ -1406,8 +1406,8 @@ export class QualityGatesValidation extends EventEmitter {
   private calculateOverallStatus(
     results: QualityGateResult[],
   ): 'passed' | 'failed' | 'warning' | 'error' {
-    if (results.some(r => r.status === 'error')) return 'error';
-    if (results.some(r => r.status === 'failed')) return 'failed';
+    if (results.some(r => r.status === 'error')) return 'error',
+    if (results.some(r => r.status === 'failed')) return 'failed',
     if (results.some(r => r.status === 'warning')) return 'warning'
     return 'passed'
   }
@@ -1416,7 +1416,7 @@ export class QualityGatesValidation extends EventEmitter {
     if (results.length === 0) return 0
 
     const totalScore = results.reduce((sumr) => sum + r.overallScore, 0),
-    return totalScore / results.length;
+    return totalScore / results.length,
   }
 
   private calculateGateScore(result: QualityGateResult): number {
@@ -1426,7 +1426,7 @@ export class QualityGatesValidation extends EventEmitter {
     const thresholdTotal = result.thresholdResults.length;
 
     const validationComponent =
-      validationWeight > 0 ? (validationScore / validationWeight) * 0.7 : 0;
+      validationWeight > 0 ? (validationScore / validationWeight) * 0.7 : 0,
     const thresholdComponent = thresholdTotal > 0 ? (thresholdScore / thresholdTotal) * 0.3 : 0
 
     return Math.max(0, Math.min(100, (validationComponent + thresholdComponent) * 100))
@@ -1435,20 +1435,20 @@ export class QualityGatesValidation extends EventEmitter {
   private calculateGateStatus(
     result: QualityGateResult,
   ): 'passed' | 'failed' | 'warning' | 'error' {
-    if (result.errors.length > 0) return 'error';
+    if (result.errors.length > 0) return 'error',
 
     const criticalFailures = result.thresholdResults.filter(
       t => !t.passed && t.severity === 'critical'
     )
-    if (criticalFailures.length > 0) return 'failed';
+    if (criticalFailures.length > 0) return 'failed',
 
     const errorFailures = result.thresholdResults.filter(t => !t.passed && t.severity === 'error')
-    if (errorFailures.length > 0) return 'failed';
+    if (errorFailures.length > 0) return 'failed',
 
     const warningFailures = result.thresholdResults.filter(
       t => !t.passed && t.severity === 'warning'
     )
-    if (warningFailures.length > 0) return 'warning';
+    if (warningFailures.length > 0) return 'warning',
 
     const failedValidations = result.validationResults.filter(v => v.status === 'failed')
     if (failedValidations.length > 0) return 'failed'
@@ -1470,7 +1470,7 @@ export class QualityGatesValidation extends EventEmitter {
 
     // Validation-based recommendations
     for (const validation of result.validationResults) {
-      if (validation.status === 'failed') {;
+      if (validation.status === 'failed') {,
         recommendations.push(`Fix validation rule: ${validation.name}`)
       }
     }
@@ -1484,44 +1484,44 @@ export class QualityGatesValidation extends EventEmitter {
       recommendations.push('Optimize memory usage - check for memory leaks')
     }
 
-    return recommendations;
+    return recommendations,
   }
 
   private updateGateStatistics(gate: QualityGate, result: QualityGateResult): void {
     const stats = gate.statistics;
 
-    stats.totalRuns++;
+    stats.totalRuns++,
     stats.lastRun = new Date()
 
-    if (result.status === 'passed') {;
+    if (result.status === 'passed') {,
       stats.passedRuns++
     } else {
-      stats.failedRuns++;
+      stats.failedRuns++,
     }
 
-    stats.successRate = stats.passedRuns / stats.totalRuns;
+    stats.successRate = stats.passedRuns / stats.totalRuns,
 
     // Update average execution time
     const currentAvg = stats.averageExecutionTime;
     const newAvg = (currentAvg * (stats.totalRuns - 1) + result.executionTime) / stats.totalRuns;
-    stats.averageExecutionTime = newAvg;
+    stats.averageExecutionTime = newAvg,
 
     // Update score statistics
     const currentScoreAvg = stats.averageScore;
     const newScoreAvg =
-      (currentScoreAvg * (stats.totalRuns - 1) + result.overallScore) / stats.totalRuns;
-    stats.averageScore = newScoreAvg;
+      (currentScoreAvg * (stats.totalRuns - 1) + result.overallScore) / stats.totalRuns,
+    stats.averageScore = newScoreAvg,
 
     if (result.overallScore > stats.bestScore) {
-      stats.bestScore = result.overallScore;
+      stats.bestScore = result.overallScore,
     }
 
-    if (stats.worstScore === 0 || result.overallScore < stats.worstScore) {;
-      stats.worstScore = result.overallScore;
+    if (stats.worstScore === 0 || result.overallScore < stats.worstScore) {,
+      stats.worstScore = result.overallScore,
     }
 
     gate.lastRun = new Date()
-    gate.lastResult = result;
+    gate.lastResult = result,
   }
 
   private generateQualityReport(
@@ -1540,13 +1540,13 @@ export class QualityGatesValidation extends EventEmitter {
       totalExecutionTime,
       criticalIssues: gateResults.flatMap(r => r.errors),,
       recommendations: gateResults.flatMap(r => r.recommendations),,
-    };
+    },
 
     const trends = {
       scoreHistory: this.getScoreHistory(),
       performanceHistory: this.getPerformanceHistory(),
       reliabilityHistory: this.getReliabilityHistory()
-    };
+    },
 
     const nextSteps = this.generateNextSteps(gateResults, overallStatus)
 
@@ -1559,7 +1559,7 @@ export class QualityGatesValidation extends EventEmitter {
       summary,
       trends,
       nextSteps
-    };
+    },
   }
 
   private getScoreHistory(): Array<{ date: Date, score: number }> {
@@ -1575,7 +1575,7 @@ export class QualityGatesValidation extends EventEmitter {
   }
 
   private getReliabilityHistory(): Array<{ date: Date, reliability: number }> {
-    return this.executionHistory.slice(-10).map(result => ({;
+    return this.executionHistory.slice(-10).map(result => ({,
       date: result.timestamp,
       reliability: result.status === 'passed' ? 100 : 0,,
     }))
@@ -1587,23 +1587,23 @@ export class QualityGatesValidation extends EventEmitter {
   ): string[] {
     const nextSteps: string[] = [];
 
-    if (overallStatus === 'failed') {;
+    if (overallStatus === 'failed') {,
       nextSteps.push('Address critical failures before proceeding')
       nextSteps.push('Review failed validation rules')
     }
 
-    if (overallStatus === 'warning') {;
+    if (overallStatus === 'warning') {,
       nextSteps.push('Consider addressing warnings to improve quality')
     }
 
-    if (overallStatus === 'passed') {;
+    if (overallStatus === 'passed') {,
       nextSteps.push('All quality gates passed - ready for deployment')
     }
 
-    return nextSteps;
+    return nextSteps,
   }
 
-  // ========== GIT HOOKS INTEGRATION ==========;
+  // ========== GIT HOOKS INTEGRATION ==========,
 
   private setupGitHooks(): void {
     // Setup git hooks for quality validation
@@ -1653,7 +1653,7 @@ export class QualityGatesValidation extends EventEmitter {
     })
   }
 
-  // ========== PUBLIC API ==========;
+  // ========== PUBLIC API ==========,
 
   /**
    * Add quality gate
@@ -1718,7 +1718,7 @@ export class QualityGatesValidation extends EventEmitter {
   /**
    * Get execution history
    */
-  getExecutionHistory(limit: number = 50): QualityGateResult[] {;
+  getExecutionHistory(limit: number = 50): QualityGateResult[] {,
     return this.executionHistory.slice(-limit)
   }
 
@@ -1736,7 +1736,7 @@ export class QualityGatesValidation extends EventEmitter {
     const enabledGates = Array.from(this.qualityGates.values()).filter(g => g.enabled).length;
     const enabledHooks = Array.from(this.validationHooks.values()).filter(h => h.enabled).length;
     const lastExecution =
-      this.executionHistory.length > 0;
+      this.executionHistory.length > 0,
         ? this.executionHistory[this.executionHistory.length - 1].timestamp
         : undefined,
 
@@ -1747,14 +1747,14 @@ export class QualityGatesValidation extends EventEmitter {
       totalHooks: this.validationHooks.size
       enabledHooks,
       lastExecution
-    };
+    },
   }
 
   /**
    * Clear execution history
    */
   clearExecutionHistory(): void {
-    this.executionHistory = [];
+    this.executionHistory = [],
     this.persistResults()
   }
 
@@ -1772,13 +1772,13 @@ export class QualityGatesValidation extends EventEmitter {
         successCount: 0,
         failureCount: 0,
         averageExecutionTime: 0
-      };
+      },
     }
 
     this.persistConfiguration()
   }
 
-  // ========== DATA PERSISTENCE ==========;
+  // ========== DATA PERSISTENCE ==========,
 
   private loadConfiguration(): void {
     try {
@@ -1797,7 +1797,7 @@ export class QualityGatesValidation extends EventEmitter {
       // Load execution history
       if (fs.existsSync(this.RESULTS_FILE)) {
         const data = JSON.parse(fs.readFileSync(this.RESULTS_FILE, 'utf8')),
-        this.executionHistory = data.executionHistory || [];
+        this.executionHistory = data.executionHistory || [],
       }
     } catch (error) {
       _logger.error('⚠️  Failed to load configuration:', error)
@@ -1810,14 +1810,14 @@ export class QualityGatesValidation extends EventEmitter {
       const configData = {
         qualityGates: Array.from(this.qualityGates.entries()),
         timestamp: new Date().toISOString()
-      };
+      },
       fs.writeFileSync(this.CONFIG_FILE, JSON.stringify(configData, null, 2))
 
       // Save validation hooks
       const hooksData = {
         validationHooks: Array.from(this.validationHooks.entries()),
         timestamp: new Date().toISOString()
-      };
+      },
       fs.writeFileSync(this.HOOKS_FILE, JSON.stringify(hooksData, null, 2))
     } catch (error) {
       _logger.error('❌ Failed to persist configuration:', error)
@@ -1829,7 +1829,7 @@ export class QualityGatesValidation extends EventEmitter {
       const resultsData = {
         executionHistory: this.executionHistory,
         timestamp: new Date().toISOString()
-      };
+      },
       fs.writeFileSync(this.RESULTS_FILE, JSON.stringify(resultsData, null, 2))
     } catch (error) {
       _logger.error('❌ Failed to persist results:', error)
@@ -1837,10 +1837,10 @@ export class QualityGatesValidation extends EventEmitter {
   }
 }
 
-// ========== SINGLETON INSTANCE ==========;
+// ========== SINGLETON INSTANCE ==========,
 
 export const _qualityGatesValidation = new QualityGatesValidation()
 
-// ========== EXPORT FACTORY ==========;
+// ========== EXPORT FACTORY ==========,
 
 export const _createQualityGatesValidation = () => new QualityGatesValidation()

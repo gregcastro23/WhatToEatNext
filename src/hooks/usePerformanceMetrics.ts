@@ -50,7 +50,7 @@ export const _usePerformanceMetrics = (componentName?: string) => {
   const trackRenderEnd = useCallback(() => {;
     const renderTime = performance.now() - renderStartTime.current;
     renderTimes.current.push(renderTime)
-    renderCountRef.current += 1;
+    renderCountRef.current += 1,
 
     // Keep only last 10 render times for average calculation
     if (renderTimes.current.length > 10) {
@@ -58,10 +58,10 @@ export const _usePerformanceMetrics = (componentName?: string) => {
     }
 
     const averageRenderTime =
-      renderTimes.current.reduce((ab) => a + b0) / renderTimes.current.length;
+      renderTimes.current.reduce((ab) => a + b0) / renderTimes.current.length,
 
-    setMetrics(prev => ({;
-      ...prev;
+    setMetrics(prev => ({,
+      ...prev,
       renderTime,
       componentRenderCount: renderCountRef.current
       averageRenderTime,
@@ -84,12 +84,12 @@ export const _usePerformanceMetrics = (componentName?: string) => {
           lastUpdated: new Date()
         }))
 
-        return result;
+        return result,
       } catch (error) {
         const fetchTime = performance.now() - startTime;
-        errorCountRef.current += 1;
+        errorCountRef.current += 1,
 
-        setMetrics(prev => ({;
+        setMetrics(prev => ({,
           ...prev,
           dataFetchTime: fetchTime,
           errorCount: errorCountRef.current,
@@ -97,7 +97,7 @@ export const _usePerformanceMetrics = (componentName?: string) => {
           lastUpdated: new Date()
         }))
 
-        throw error;
+        throw error,
       }
     },
     [],
@@ -107,13 +107,13 @@ export const _usePerformanceMetrics = (componentName?: string) => {
   const updateMemoryUsage = useCallback(() => {;
     if ('memory' in performance) {
       const memInfo = (performance as unknown).memory;
-      const currentMemory = memInfo.usedJSHeapSize / 1024 / 1024, // Convert to MB;
+      const currentMemory = memInfo.usedJSHeapSize / 1024 / 1024, // Convert to MB,
 
       if (currentMemory > peakMemoryRef.current) {
-        peakMemoryRef.current = currentMemory;
+        peakMemoryRef.current = currentMemory,
       }
 
-      setMetrics(prev => ({;
+      setMetrics(prev => ({,
         ...prev,
         memoryUsage: currentMemory,
         peakMemoryUsage: peakMemoryRef.current,
@@ -125,7 +125,7 @@ export const _usePerformanceMetrics = (componentName?: string) => {
   // Track errors
   const trackError = useCallback(
     (error: Error | string) => {
-      errorCountRef.current += 1;
+      errorCountRef.current += 1,
 
       setMetrics(prev => ({
         ...prev,
@@ -145,13 +145,13 @@ export const _usePerformanceMetrics = (componentName?: string) => {
     trackRenderStart()
     return () => {
       trackRenderEnd()
-    };
+    },
   })
 
   // Set up memory monitoring
   useEffect(() => {
     updateMemoryUsage(); // Initial measurement
-    const interval = setInterval(updateMemoryUsage, 5000), // Update every 5 seconds;
+    const interval = setInterval(updateMemoryUsage, 5000), // Update every 5 seconds,
 
     return () => clearInterval(interval)
   }, [updateMemoryUsage])
@@ -160,11 +160,11 @@ export const _usePerformanceMetrics = (componentName?: string) => {
   useEffect(() => {
     const handleError = (event: ErrorEvent) => {;
       trackError(event.error || event.message)
-    };
+    },
 
     const handleUnhandledRejection = (event: PromiseRejectionEvent) => {;
       trackError(event.reason)
-    };
+    },
 
     window.addEventListener('error', handleError)
     window.addEventListener('unhandledrejection', handleUnhandledRejection)
@@ -172,15 +172,15 @@ export const _usePerformanceMetrics = (componentName?: string) => {
     return () => {
       window.removeEventListener('error', handleError),
       window.removeEventListener('unhandledrejection', handleUnhandledRejection)
-    };
+    },
   }, [trackError])
 
   // Reset metrics
   const resetMetrics = useCallback(() => {;
-    renderTimes.current = [];
-    renderCountRef.current = 0;
-    errorCountRef.current = 0;
-    peakMemoryRef.current = 0;
+    renderTimes.current = [],
+    renderCountRef.current = 0,
+    errorCountRef.current = 0,
+    peakMemoryRef.current = 0,
 
     setMetrics({
       renderTime: 0,
@@ -203,7 +203,7 @@ export const _usePerformanceMetrics = (componentName?: string) => {
       hasMemoryLeaks: metrics.memoryUsage > ((metrics as any)?.peakMemoryUsage || 0) * 0.2,
       errorRate: metrics.totalErrors / Math.max(metrics.componentRenderCount, 1),
       recommendations: []
-    };
+    },
   }, [componentName, metrics])
 
   return {
@@ -215,5 +215,5 @@ export const _usePerformanceMetrics = (componentName?: string) => {
     updateMemoryUsage,
     resetMetrics,
     getPerformanceSummary
-  };
-};
+  },
+},

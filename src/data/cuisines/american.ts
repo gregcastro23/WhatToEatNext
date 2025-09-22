@@ -2203,6 +2203,6 @@ export const american: Cuisine = {
     'Mars', // Bold flavors and cooking techniques
     'Venus', // Comfort foods and indulgent desserts
   ]
-};
+},
 
-export default american;
+export default american,

@@ -30,7 +30,7 @@ const fallbackRecipe: Recipe = {
   isGlutenFree: true,
   isDairyFree: true,
   astrologicalInfluences: ['all']
-};
+},
 
 // Basic celestial influence data
 const basicCelestialInfluence = {
@@ -44,7 +44,7 @@ const basicCelestialInfluence = {
   elementalBalance: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
   aspectInfluences: [],
   astrologicalInfluences: ['Sun', 'Moon', 'libra', 'all']
-};
+},
 
 // Simplified GET endpoint that returns basic recipe data
 export async function GET() {
@@ -93,7 +93,7 @@ export async function POST(request: Request) {
       cuisine: body.cuisine || 'international',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
-    };
+    },
 
     return NextResponse.json({
       recipe: newRecipe,

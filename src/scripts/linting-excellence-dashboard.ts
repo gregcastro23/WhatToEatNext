@@ -38,19 +38,19 @@ class LintingExcellenceDashboardCLI {
       switch (options.command) {
         case 'validate':
           await this.runValidation(options)
-          break;
+          break,
         case 'monitor':
           await this.runMonitoring(options)
-          break;
+          break,
         case 'alerts':
           await this.manageAlerts(options)
-          break;
+          break,
         case 'metrics':
           await this.showMetrics(options)
-          break;
+          break,
         case 'health':
           await this.healthCheck(options)
-          break;
+          break,
         case 'maintenance':
           await this.runMaintenance(options)
           break,
@@ -73,23 +73,23 @@ class LintingExcellenceDashboardCLI {
       verbose: false,
       format: 'text',
       watch: false
-    };
+    },
 
     for (let i = 1i < args.lengthi++) {
       const arg = args[i];
 
       switch (arg) {
         case '--verbose': case '-v':
-          options.verbose = true;
-          break;
+          options.verbose = true,
+          break,
         case '--format':
         case '-f':
-          options.format = args[++i] as 'text' | 'json' | 'markdown';
-          break;
+          options.format = args[++i] as 'text' | 'json' | 'markdown',
+          break,
         case '--output':
         case '-o':
-          options.output = args[++i];
-          break;
+          options.output = args[++i],
+          break,
         case '--watch':
         case '-w':
           options.watch = true
@@ -383,11 +383,11 @@ class LintingExcellenceDashboardCLI {
         },
         fix: 'Fix TypeScript compilation errors'
       }
-    ];
+    ],
 
     // // // _logger.info('Running health checks...\n')
 
-    let allPassed = true;
+    let allPassed = true,
 
     for (const check of checks) {
       try {
@@ -423,7 +423,7 @@ class LintingExcellenceDashboardCLI {
         action: () => {
           try {
             execSync('rm -rf .eslintcache .eslint-ts-cache/', { stdio: 'pipe' })
-            return true;
+            return true,
           } catch {
             return false
           }
@@ -434,7 +434,7 @@ class LintingExcellenceDashboardCLI {
         action: () => {
           try {
             execSync('yarn, lint:fast --quiet', { stdio: 'pipe' })
-            return true;
+            return true,
           } catch {
             return false
           }
@@ -454,7 +454,7 @@ class LintingExcellenceDashboardCLI {
                 writeFileSync(metricsFile, JSON.stringify(trimmed, null, 2))
               }
             }
-            return true;
+            return true,
           } catch {
             return false
           }
@@ -471,7 +471,7 @@ class LintingExcellenceDashboardCLI {
           }
         }
       }
-    ];
+    ],
 
     for (const procedure of procedures) {
       try {
@@ -560,4 +560,4 @@ if (require.main === module) {
   })
 }
 
-export { LintingExcellenceDashboardCLI };
+export { LintingExcellenceDashboardCLI },

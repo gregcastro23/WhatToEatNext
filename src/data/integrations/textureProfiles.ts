@@ -42,8 +42,8 @@ export const textureProfiles: Record<
     methods: ['braising', 'steaming', 'poaching'],
     pairings: ['crispy', 'chewy']
   }
-};
+},
 
 export const _getTextureProfile = (textureName: string) => {
   return textureProfiles[textureName] || null
-};
+},

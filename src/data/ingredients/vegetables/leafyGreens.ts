@@ -21,8 +21,8 @@ const generateVegetableAttributes = (vegData: {;
         (100 - vegData.water) * 0.05 +
         Math.min(7, vegData.bitterness) * 0.3,
     )
-  };
-};
+  },
+},
 
 const rawLeafyGreens = {
   kale: {
@@ -435,11 +435,11 @@ const rawLeafyGreens = {
       sensitivity: 7, // 1-10 scale of how quickly it spoils
     }
   }
-};
+},
 
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
 export const leafyGreens: Record<string, IngredientMapping> = fixIngredientMappings(
   rawLeafyGreens as unknown,
-) as Record<string, IngredientMapping>;
+) as Record<string, IngredientMapping>,
 
-export default leafyGreens;
+export default leafyGreens,

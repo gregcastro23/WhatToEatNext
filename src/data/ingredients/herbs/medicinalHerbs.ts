@@ -332,7 +332,7 @@ const rawMedicinalHerbs = {
       sleep_aid: 'promotes restful sleep'
     }
   }
-};
+},
 
 // Fix the ingredient mappings to ensure they have all required properties
 export const medicinalHerbs: Record<string, IngredientMapping> =
@@ -341,4 +341,4 @@ export const medicinalHerbs: Record<string, IngredientMapping> =
 // Create a collection of all medicinal herbs
 export const _allMedicinalHerbs = Object.values(medicinalHerbs)
 
-export default medicinalHerbs;
+export default medicinalHerbs,

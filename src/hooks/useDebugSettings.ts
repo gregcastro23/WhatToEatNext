@@ -6,7 +6,7 @@ export interface DebugSettings {
   isVisible: boolean,
   isCollapsed: boolean,
   position: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left',
-  customPosition?: { x: numbery: number };
+  customPosition?: { x: numbery: number },
   showPerformanceMetrics: boolean,
   showAstrologicalData: boolean,
   showComponentStates: boolean,
@@ -23,7 +23,7 @@ const DEFAULT_SETTINGS: DebugSettings = {
   showComponentStates: true,
   opacity: 0.9,
   size: 'medium'
-};
+},
 
 const STORAGE_KEY = 'debug-panel-settings';
 
@@ -46,7 +46,7 @@ export const _useDebugSettings = () => {;
   // Save settings to localStorage whenever they change
   const saveSettings = useCallback(
     (newSettings: Partial<DebugSettings>) => {
-      const updatedSettings = { ...settings, ...newSettings };
+      const updatedSettings = { ...settings, ...newSettings },
       setSettings(updatedSettings)
 
       try {
@@ -129,5 +129,5 @@ export const _useDebugSettings = () => {;
     setSize,
     resetSettings,
     saveSettings
-  };
-};
+  },
+},

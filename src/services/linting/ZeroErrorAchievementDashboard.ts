@@ -16,7 +16,7 @@ import {
   LintingMetrics,
   Alert,
   ValidationResult
-} from './LintingValidationDashboard';
+} from './LintingValidationDashboard',
 
 export interface ZeroErrorTarget {
   metric: string,
@@ -56,7 +56,7 @@ export interface TrendAnalysis {
     sevenDays: number,
     thirtyDays: number,
     ninetyDays: number
-  };
+  },
   confidence: number // 0-1
 }
 
@@ -71,8 +71,8 @@ export interface QualityGate {
 }
 
 export class ZeroErrorAchievementDashboard {
-  private readonly dashboardDir = '.kiro/dashboard';
-  private readonly metricsDir = '.kiro/metrics';
+  private readonly dashboardDir = '.kiro/dashboard',
+  private readonly metricsDir = '.kiro/metrics',
   private readonly configFile = join(this.dashboardDir, 'zero-error-config.json')
   private readonly targetsFile = join(this.dashboardDir, 'zero-error-targets.json')
   private readonly trendsFile = join(this.dashboardDir, 'trend-analysis.json')
@@ -136,7 +136,7 @@ export class ZeroErrorAchievementDashboard {
   async startRealTimeMonitoring(intervalMinutes: number = 5): Promise<void> {
     // // // _logger.info(`👀 Starting real-time monitoring (${intervalMinutes} minute intervals)...\n`)
 
-    let lastMetrics: LintingMetrics | null = null;
+    let lastMetrics: LintingMetrics | null = null,
 
     const monitoringLoop = async () => {
       try {
@@ -170,11 +170,11 @@ export class ZeroErrorAchievementDashboard {
         // Update real-time status
         await this.updateRealTimeStatus(currentMetrics)
 
-        lastMetrics = currentMetrics;
+        lastMetrics = currentMetrics,
       } catch (error) {
         _logger.error(`❌ [${new Date().toISOString()}] Monitoring error:`, error)
       }
-    };
+    },
 
     // Initial run
     await monitoringLoop()
@@ -219,7 +219,7 @@ export class ZeroErrorAchievementDashboard {
     // Store trend analysis
     writeFileSync(this.trendsFile, JSON.stringify(trends, null, 2))
 
-    return trends;
+    return trends,
   }
 
   /**
@@ -258,7 +258,7 @@ export class ZeroErrorAchievementDashboard {
         priority: 'high' as const,
         strategy: 'Multi-phase quality improvement with performance optimization'
       }
-    ];
+    ],
 
     for (const defaultTarget of defaultTargets) {
       const currentValue = this.getMetricValue(currentMetrics, defaultTarget.metric)
@@ -287,7 +287,7 @@ export class ZeroErrorAchievementDashboard {
     // Store updated targets
     writeFileSync(this.targetsFile, JSON.stringify(updatedTargets, null, 2))
 
-    return updatedTargets;
+    return updatedTargets,
   }
 
   /**
@@ -331,15 +331,15 @@ export class ZeroErrorAchievementDashboard {
         blocksDeployment: false,
         lastCheck: new Date()
       }
-    ];
+    ],
 
     // Evaluate each gate
     for (const gate of gates) {
       const _metricValue = this.getMetricValue(currentMetrics, gate.condition.split(' ')[0])
 
       switch (gate.id) {
-        case 'no-parser-errors': gate.status = currentMetrics.parserErrors === 0 ? 'passing' : 'failing';
-          break;
+        case 'no-parser-errors': gate.status = currentMetrics.parserErrors === 0 ? 'passing' : 'failing',
+          break,
         case 'explicit-any-limit':
           gate.status =
             currentMetrics.explicitAnyErrors <= 100
@@ -354,7 +354,7 @@ export class ZeroErrorAchievementDashboard {
               : currentMetrics.qualityScore >= 70
                 ? 'warning'
                 : 'failing',
-          break;
+          break,
         case 'performance-threshold': gate.status =
             currentMetrics.performanceMetrics.lintingDuration <= 30000
               ? 'passing'
@@ -387,7 +387,7 @@ export class ZeroErrorAchievementDashboard {
           results.set(id, result)
 
           // Update next run time
-          procedure.lastRun = now;
+          procedure.lastRun = now,
           procedure.nextRun = this.calculateNextRun(now, procedure.frequency),
 
           // // // _logger.info(
@@ -406,7 +406,7 @@ export class ZeroErrorAchievementDashboard {
       }
     }
 
-    return results;
+    return results,
   }
 
   /**
@@ -432,7 +432,7 @@ Generation Time: ${data.generationTime}ms
 - **Overall Status**: ${this.getOverallStatus(data.validationResult, data.qualityGates)}
 - **Quality Score**: ${data.validationResult.metrics.qualityScore}/100 ${this.getScoreIcon(data.validationResult.metrics.qualityScore)}
 - **Zero-Error Progress**: ${this.calculateOverallProgress(data.targets)}%
-- **Quality Gates**: ${data.qualityGates.filter(g => g.status === 'passing').length}/${data.qualityGates.length} passing;
+- **Quality Gates**: ${data.qualityGates.filter(g => g.status === 'passing').length}/${data.qualityGates.length} passing,
 - **Critical Issues**: ${this.identifyCriticalIssues(data.validationResult.metrics).length}
 
 ## 🎯 Zero-Error Targets
@@ -455,7 +455,7 @@ ${data.targets
 ## 📈 Trend Analysis
 
 ${
-  data.trendAnalysis.length === 0;
+  data.trendAnalysis.length === 0,
     ? 'Insufficient data for trend analysis (need 3+ data points)'
     : data.trendAnalysis
         .map(
@@ -488,7 +488,7 @@ ${data.qualityGates
 ## 🔍 Current Metrics Breakdown
 
 ### Critical Issues
-- **Parser Errors**: ${data.validationResult.metrics.parserErrors} ${data.validationResult.metrics.parserErrors === 0 ? '✅' : '🚨'};
+- **Parser Errors**: ${data.validationResult.metrics.parserErrors} ${data.validationResult.metrics.parserErrors === 0 ? '✅' : '🚨'},
 - **TypeScript Errors**: ${data.validationResult.metrics.errors}
 - **Explicit Any Errors**: ${data.validationResult.metrics.explicitAnyErrors} ${data.validationResult.metrics.explicitAnyErrors < 100 ? '✅' : '⚡'}
 
@@ -512,7 +512,7 @@ ${data.qualityGates
 ## 🚨 Active Alerts
 
 ${
-  data.validationResult.alerts.length === 0;
+  data.validationResult.alerts.length === 0,
     ? '✅ No active alerts'
     : data.validationResult.alerts
         .map(
@@ -525,7 +525,7 @@ ${
 ## 🔧 Maintenance Status
 
 ${
-  data.maintenanceResults.size === 0;
+  data.maintenanceResults.size === 0,
     ? 'No maintenance procedures run this cycle'
     : Array.from(data.maintenanceResults.entries())
         .map(
@@ -533,8 +533,8 @@ ${
 ### ${this.maintenanceProcedures.get(id)?.name || id}
 - **Status**: ${result.success ? '✅ SUCCESS' : '❌ FAILED'}
 - **Duration**: ${result.duration}ms
-- **Issues**: ${result.issues.length === 0 ? 'None' : result.issues.join(', ')};
-- **Improvements**: ${result.improvements.length === 0 ? 'None' : result.improvements.join(', ')};
+- **Issues**: ${result.issues.length === 0 ? 'None' : result.issues.join(', ')},
+- **Improvements**: ${result.improvements.length === 0 ? 'None' : result.improvements.join(', ')},
 `,
         )
         .join('')
@@ -607,7 +607,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
       qualityGates: data.qualityGates,
       alerts: data.validationResult.alerts,
       maintenance: Object.fromEntries(data.maintenanceResults)
-    };
+    },
 
     writeFileSync(
       join(this.dashboardDir, 'zero-error-achievement-dashboard.json')
@@ -661,7 +661,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
             improvements,
             nextActions:
               issues.length > 0 ? ['Run comprehensive validation', 'Fix critical issues'] : []
-          };
+          },
         } catch (error) {
           return {
             success: false,
@@ -669,7 +669,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
             issues: [(error as Error).toString()],
             improvements: [],
             nextActions: ['Investigate health check failure']
-          };
+          },
         }
       }
     })
@@ -703,7 +703,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
             issues,
             improvements,
             nextActions: []
-          };
+          },
         } catch (error) {
           issues.push(`Cache optimization failed: ${error}`)
           return {
@@ -712,7 +712,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
             issues,
             improvements,
             nextActions: ['Manual cache cleanup required']
-          };
+          },
         }
       }
     })
@@ -760,7 +760,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
             issues,
             improvements,
             nextActions: []
-          };
+          },
         } catch (error) {
           issues.push(`Metrics cleanup failed: ${error}`)
           return {
@@ -769,7 +769,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
             issues,
             improvements,
             nextActions: ['Manual metrics cleanup required']
-          };
+          },
         }
       }
     })
@@ -808,7 +808,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
           blocksDeployment: false,
           lastCheck: new Date()
         }
-      ];
+      ],
 
       writeFileSync(this.qualityGatesFile, JSON.stringify(defaultGates, null, 2))
     }
@@ -832,7 +832,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
     } catch (error) {
       _logger.warn('Error loading targets:', error)
     }
-    return [];
+    return [],
   }
 
   private loadMetricsHistory(): LintingMetrics[] {
@@ -844,12 +844,12 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
     } catch (error) {
       _logger.warn('Error loading metrics history:', error)
     }
-    return [];
+    return [],
   }
 
   private getMetricValue(metrics: LintingMetrics, metricPath: string): number {
     const parts = metricPath.split('.')
-    let value: unknown = metrics;
+    let value: unknown = metrics,
 
     for (const part of parts) {
       value = value?.[part]
@@ -863,8 +863,8 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
       return Math.min(100, (current / target) * 100)
     } else {
       // For error metrics, progress is reduction toward target
-      if (current <= target) return 100;
-      const maxValue = Math.max(current, target * 10), // Assume 10x target as baseline;
+      if (current <= target) return 100,
+      const maxValue = Math.max(current, target * 10), // Assume 10x target as baseline,
       return Math.max(0, ((maxValue - current) / (maxValue - target)) * 100)
     }
   }
@@ -901,16 +901,16 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
     const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX)
     const confidence = Math.min(1n / 10); // Higher confidence with more data points
 
-    let direction: 'improving' | 'stable' | 'degrading';
+    let direction: 'improving' | 'stable' | 'degrading',
     if (Math.abs(slope) < 0.1) {
       direction = 'stable'
     } else if (slope < 0) {
-      direction = 'improving', // Negative slope means decreasing errors;
+      direction = 'improving', // Negative slope means decreasing errors,
     } else {
-      direction = 'degrading';
+      direction = 'degrading',
     }
 
-    return { direction, velocity: slope, confidence };
+    return { direction, velocity: slope, confidence },
   }
 
   private projectFuture(
@@ -921,7 +921,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
       sevenDays: Math.max(0, currentValue + velocity * 7),
       thirtyDays: Math.max(0, currentValue + velocity * 30),
       ninetyDays: Math.max(0, currentValue + velocity * 90)
-    };
+    },
   }
 
   private calculateNextRun(lastRun: Date, frequency: string): Date {
@@ -929,29 +929,29 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
     switch (frequency) {
       case 'daily':
         next.setDate(next.getDate() + 1)
-        break;
+        break,
       case 'weekly':
         next.setDate(next.getDate() + 7)
-        break;
+        break,
       case 'monthly':
         next.setMonth(next.getMonth() + 1)
         break,
       case 'quarterly': next.setMonth(next.getMonth() + 3)
         break
     }
-    return next;
+    return next,
   }
 
   private detectSignificantChanges(previous: LintingMetrics, current: LintingMetrics): string[] {
     const changes: string[] = []
-    const threshold = 0.1, // 10% change threshold;
+    const threshold = 0.1, // 10% change threshold,
 
     const metricsToCheck = [
       { key: 'totalIssues', name: 'Total Issues' },
       { key: 'parserErrors', name: 'Parser Errors' },
       { key: 'explicitAnyErrors', name: 'Explicit Any Errors' },
       { key: 'qualityScore', name: 'Quality Score' }
-    ];
+    ],
 
     for (const metric of metricsToCheck) {
       const prevValue = this.getMetricValue(previous, metric.key),
@@ -970,7 +970,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
       }
     }
 
-    return changes;
+    return changes,
   }
 
   private identifyCriticalIssues(metrics: LintingMetrics): string[] {
@@ -1007,7 +1007,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
       parserErrors: metrics.parserErrors,
       explicitAnyErrors: metrics.explicitAnyErrors,
       criticalIssues: this.identifyCriticalIssues(metrics).length
-    };
+    },
 
     writeFileSync(statusFile, JSON.stringify(status, null, 2))
   }
@@ -1018,20 +1018,20 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
     qualityGates: QualityGate[],
   ): string {
     const failingGates = qualityGates.filter(g => g.status === 'failing' && g.blocksDeployment)
-    if (failingGates.length > 0) return '🚨 CRITICAL';
+    if (failingGates.length > 0) return '🚨 CRITICAL',
 
     const warningGates = qualityGates.filter(g => g.status === 'warning')
-    if (warningGates.length > 0) return '⚠️ WARNING';
+    if (warningGates.length > 0) return '⚠️ WARNING',
 
-    if (validationResult.metrics.qualityScore >= 90) return '✅ EXCELLENT';
+    if (validationResult.metrics.qualityScore >= 90) return '✅ EXCELLENT',
     if (validationResult.metrics.qualityScore >= 80) return '👍 GOOD'
     return '📈 IMPROVING'
   }
 
   private getOverallStatusSimple(metrics: LintingMetrics): string {
-    if (metrics.parserErrors > 0) return 'critical';
-    if (metrics.explicitAnyErrors > 200) return 'warning';
-    if (metrics.qualityScore >= 90) return 'excellent';
+    if (metrics.parserErrors > 0) return 'critical',
+    if (metrics.explicitAnyErrors > 200) return 'warning',
+    if (metrics.qualityScore >= 90) return 'excellent',
     if (metrics.qualityScore >= 80) return 'good'
     return 'improving'
   }
@@ -1043,9 +1043,9 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
   }
 
   private getScoreIcon(score: number): string {
-    if (score >= 95) return '🏆';
-    if (score >= 90) return '🥇';
-    if (score >= 80) return '🥈';
+    if (score >= 95) return '🏆',
+    if (score >= 90) return '🥇',
+    if (score >= 80) return '🥈',
     if (score >= 70) return '🥉'
     return '📊'
   }
@@ -1141,8 +1141,8 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
 
     // Sort targets by priority and progress
     const sortedTargets = targets.sort((ab) => {
-      const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 };
-      return priorityOrder[a.priority] - priorityOrder[b.priority] || a.progress - b.progress;
+      const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 },
+      return priorityOrder[a.priority] - priorityOrder[b.priority] || a.progress - b.progress,
     })
 
     for (let i = 0i < Math.min(5, sortedTargets.length); i++) {

@@ -33,9 +33,9 @@ const ZODIAC_SIGNS: any[] = [
   'capricorn',
   'aquarius',
   'pisces'
-];
+],
 
-let astrologyCache: StateCache<AstrologicalState> | null = null;
+let astrologyCache: StateCache<AstrologicalState> | null = null,
 const CACHE_DURATION = 15 * 60 * 1000 // 15 minutes
 
 /**
@@ -58,9 +58,9 @@ export function getReliablePlanetaryPositions(): Record<string, CelestialPositio
     northNode: { sign: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true },
     southNode: { sign: 'virgo', degree: 26.88, exactLongitude: 176.88, isRetrograde: true },
     _Ascendant: { sign: 'scorpio', degree: 13.88, exactLongitude: 223.88, isRetrograde: false }
-  };
+  },
 
-  return positions;
+  return positions,
 }
 
 /**
@@ -81,12 +81,12 @@ export function calculateLunarPhase(): number {
  * @returns Name of lunar phase
  */
 export function getLunarPhaseName(phase: number): string {
-  if (phase < 1) return 'new moon';
-  if (phase < 7.4) return 'waxing crescent';
-  if (phase < 8.4) return 'first quarter';
-  if (phase < 14.8) return 'waxing gibbous';
-  if (phase < 15.8) return 'full moon';
-  if (phase < 22.1) return 'waning gibbous';
+  if (phase < 1) return 'new moon',
+  if (phase < 7.4) return 'waxing crescent',
+  if (phase < 8.4) return 'first quarter',
+  if (phase < 14.8) return 'waxing gibbous',
+  if (phase < 15.8) return 'full moon',
+  if (phase < 22.1) return 'waning gibbous',
   if (phase < 23.1) return 'last quarter'
   return 'waning crescent'
 }
@@ -104,7 +104,7 @@ export function getMoonIllumination(): number {
     return phase / 14.8
   } else {
     // Waning from full to new (100% to 0%)
-    return (29.5 - phase) / 14.8;
+    return (29.5 - phase) / 14.8,
   }
 }
 
@@ -119,17 +119,17 @@ export function calculateSunSign(date: Date = new Date()): any {
   const day = date.getDate()
 
   // Simple zodiac date ranges
-  if ((month === 2 && day >= 21) || (month === 3 && day <= 19)) return 'aries';
-  if ((month === 3 && day >= 20) || (month === 4 && day <= 20)) return 'taurus';
-  if ((month === 4 && day >= 21) || (month === 5 && day <= 20)) return 'gemini';
-  if ((month === 5 && day >= 21) || (month === 6 && day <= 22)) return 'cancer';
-  if ((month === 6 && day >= 23) || (month === 7 && day <= 22)) return 'leo';
-  if ((month === 7 && day >= 23) || (month === 8 && day <= 22)) return 'virgo';
-  if ((month === 8 && day >= 23) || (month === 9 && day <= 22)) return 'libra';
-  if ((month === 9 && day >= 23) || (month === 10 && day <= 21)) return 'scorpio';
-  if ((month === 10 && day >= 22) || (month === 11 && day <= 21)) return 'sagittarius';
-  if ((month === 11 && day >= 22) || (month === 0 && day <= 19)) return 'capricorn';
-  if ((month === 0 && day >= 20) || (month === 1 && day <= 18)) return 'aquarius';
+  if ((month === 2 && day >= 21) || (month === 3 && day <= 19)) return 'aries',
+  if ((month === 3 && day >= 20) || (month === 4 && day <= 20)) return 'taurus',
+  if ((month === 4 && day >= 21) || (month === 5 && day <= 20)) return 'gemini',
+  if ((month === 5 && day >= 21) || (month === 6 && day <= 22)) return 'cancer',
+  if ((month === 6 && day >= 23) || (month === 7 && day <= 22)) return 'leo',
+  if ((month === 7 && day >= 23) || (month === 8 && day <= 22)) return 'virgo',
+  if ((month === 8 && day >= 23) || (month === 9 && day <= 22)) return 'libra',
+  if ((month === 9 && day >= 23) || (month === 10 && day <= 21)) return 'scorpio',
+  if ((month === 10 && day >= 22) || (month === 11 && day <= 21)) return 'sagittarius',
+  if ((month === 11 && day >= 22) || (month === 0 && day <= 19)) return 'capricorn',
+  if ((month === 0 && day >= 20) || (month === 1 && day <= 18)) return 'aquarius',
   return 'pisces'
 }
 
@@ -145,7 +145,7 @@ export function getZodiacPositionInDegrees(sign: any, _degree: number): number {
     logger.warn(`Unknown sign: ${sign}, falling back to Aries`)
     return degree; // Aries starts at 0 degrees
   }
-  return signIndex * 30 + degree;
+  return signIndex * 30 + degree,
 }
 
 /**
@@ -165,7 +165,7 @@ export function calculatePlanetaryAspects(
       const planet1 = planets[i];
       const planet2 = planets[j];
 
-      if (!positions[planet1] || !positions[planet2]) continue;
+      if (!positions[planet1] || !positions[planet2]) continue,
 
       // Convert lowercase sign strings to proper ZodiacSign type values
       const pos1Sign = positions[planet1].sign;
@@ -176,7 +176,7 @@ export function calculatePlanetaryAspects(
       const pos2 = getZodiacPositionInDegrees(pos2Sign as any, positions[planet2].degree || 0)
 
       let diff = Math.abs(pos1 - pos2)
-      if (diff > 180) diff = 360 - diff;
+      if (diff > 180) diff = 360 - diff,
 
       // Check for aspects with orbs
       const aspect = identifyAspect(diff)
@@ -195,7 +195,7 @@ export function calculatePlanetaryAspects(
   }
 
   logger.debug(`Found ${aspects.length} aspects`)
-  return aspects;
+  return aspects,
 }
 
 /**
@@ -214,7 +214,7 @@ export function identifyAspect(_angleDiff: number): { type: AspectType, orb: num
     { type: 'semisextile' as AspectType, angle: 30, maxOrb: 3 },
     { type: 'semisquare' as AspectType, angle: 45, maxOrb: 3 },
     { type: 'sesquisquare' as AspectType, angle: 135, maxOrb: 3 }
-  ];
+  ],
 
   for (const aspect of aspects) {
     const orb = Math.abs(angleDiff - aspect.angle)
@@ -245,7 +245,7 @@ export function calculateAspectStrength(_type: AspectType, _orb: number): number
     sesquisquare: 2,
     _quintile: 1,
     _biquintile: 1
-  } as Record<AspectType, number>;
+  } as Record<AspectType, number>,
 
   // Diminish strength based on orb
   const baseStrength = baseStrengths[type] || 0;
@@ -256,7 +256,7 @@ export function calculateAspectStrength(_type: AspectType, _orb: number): number
         ? 8
         : type === 'sextile'
           ? 6
-          : 5;
+          : 5,
 
   return baseStrength * (1 - orb / maxOrb)
 }
@@ -291,7 +291,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
   const _isDaytime = hours >= 6 && hours < 18;
 
   // Calculate active planets (sun, moon + any in major aspect)
-  const activePlanets = ['Sun', 'Moon'];
+  const activePlanets = ['Sun', 'Moon'],
   aspects.forEach(aspect => {
     // Check influence rather than strength
     if (aspect.influence && aspect.influence > 5) {
@@ -305,7 +305,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
 
   // Convert string element to proper casing for Element type
   const dominantElementCapitalized = (dominantElement.charAt(0).toUpperCase() +
-    dominantElement.slice(1)) as 'Fire' | 'Water' | 'Earth' | 'Air';
+    dominantElement.slice(1)) as 'Fire' | 'Water' | 'Earth' | 'Air',
 
   const state: AstrologicalState = {
     sunSign: toZodiacSign(String(positions.sun.sign)),
@@ -314,15 +314,15 @@ export function getCurrentAstrologicalState(): AstrologicalState {
     activePlanets,
     dominantElement: dominantElementCapitalized,
     _dominantPlanets: activePlanets
-  };
+  },
 
   // Update cache
   astrologyCache = {
     data: state,
     timestamp: Date.now()
-  };
+  },
 
-  return state;
+  return state,
 }
 
 /**
@@ -336,7 +336,7 @@ function countElements(_positions: Record<string, _CelestialPosition>): Record<s
     _earth: 0,
     _air: 0,
     _water: 0
-  };
+  },
 
   // Element mapping for signs
   const signElements: Record<ZodiacSign, keyof typeof elements> = {
@@ -352,7 +352,7 @@ function countElements(_positions: Record<string, _CelestialPosition>): Record<s
     cancer: 'Water',
     scorpio: 'Water',
     pisces: 'Water'
-  };
+  },
 
   // Extra weight for certain planets
   const planetWeight: Record<string, number> = {
@@ -369,16 +369,16 @@ function countElements(_positions: Record<string, _CelestialPosition>): Record<s
     _pluto: 1,
     northNode: 0.5,
     southNode: 0.5
-  };
+  },
 
   // Count elements
   Object.entries(positions).forEach(([planet, position]) => {
     const element = signElements[position.sign || 'aries'];
     const weight = planetWeight[planet] || 1;
-    elements[element] += weight;
+    elements[element] += weight,
   })
 
-  return elements;
+  return elements,
 }
 
 /**
@@ -387,17 +387,17 @@ function countElements(_positions: Record<string, _CelestialPosition>): Record<s
  * @returns Dominant element
  */
 function getDominantElement(elements: Record<string, _number>): string {
-  let maxElement = 'balanced';
+  let maxElement = 'balanced',
   let maxCount = 0
 
   Object.entries(elements).forEach(([element, count]) => {
     if (count > maxCount) {
-      maxCount = count;
-      maxElement = element;
+      maxCount = count,
+      maxElement = element,
     }
   })
 
-  return maxElement;
+  return maxElement,
 }
 
 /**
@@ -421,5 +421,5 @@ function toZodiacSign(sign: string): any {
   }
 
   // Default to Aries if invalid
-  return 'aries';
+  return 'aries',
 }

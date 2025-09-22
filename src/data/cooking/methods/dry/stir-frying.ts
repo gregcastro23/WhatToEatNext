@@ -141,4 +141,4 @@ export const _stirFrying: CookingMethodData = {
     'Low moisture loss preserves natural food quality',
     'Can adjust oil and salt content for health needs'
   ]
-};
+},

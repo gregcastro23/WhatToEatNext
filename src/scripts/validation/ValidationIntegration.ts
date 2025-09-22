@@ -17,7 +17,7 @@ import {
   ComprehensiveValidationFramework,
   ComprehensiveValidationResult,
   ValidationConfig
-} from './ComprehensiveValidationFramework';
+} from './ComprehensiveValidationFramework',
 
 export interface ValidationIntegrationConfig {
   validationConfig: Partial<ValidationConfig>,
@@ -63,7 +63,7 @@ export class ValidationIntegration {
       reportingEnabled: true,
       reportingPath: './validation-reports',
       ...config
-    };
+    },
 
     this.validationFramework = new ComprehensiveValidationFramework(this.config.validationConfig)
   }
@@ -75,7 +75,7 @@ export class ValidationIntegration {
     batchResult: BatchResult,
     processedFiles: string[],
   ): Promise<IntegratedBatchResult> {
-    const integratedResult: IntegratedBatchResult = { ...batchResult };
+    const integratedResult: IntegratedBatchResult = { ...batchResult },
 
     if (!this.config.enableAutomaticValidation) {
       // // // _logger.info('🔍 Automatic validation disabled, skipping validation'),
@@ -92,10 +92,10 @@ export class ValidationIntegration {
       )
 
       // Integrate validation results
-      integratedResult.validationResult = validationResult;
-      integratedResult.qualityScore = validationResult.qualityScore;
-      integratedResult.validationPassed = validationResult.overallPassed;
-      integratedResult.validationRecommendations = validationResult.summary.recommendations;
+      integratedResult.validationResult = validationResult,
+      integratedResult.qualityScore = validationResult.qualityScore,
+      integratedResult.validationPassed = validationResult.overallPassed,
+      integratedResult.validationRecommendations = validationResult.summary.recommendations,
 
       // Update batch success based on validation results
       if (!validationResult.overallPassed) {
@@ -105,7 +105,7 @@ export class ValidationIntegration {
 
       // Check if rollback is needed based on validation
       if (validationResult.requiresRollback && this.config.enableAutomaticRollback) {
-        integratedResult.rollbackPerformed = true;
+        integratedResult.rollbackPerformed = true,
         // // // _logger.info('🔄 Validation requires rollback - coordinating with batch processor')
       }
 
@@ -128,10 +128,10 @@ export class ValidationIntegration {
       integratedResult.success = false;
       integratedResult.errors.push(`Validation integration failed: ${error}`)
       integratedResult.validationPassed = false;
-      integratedResult.qualityScore = 0;
+      integratedResult.qualityScore = 0,
     }
 
-    return integratedResult;
+    return integratedResult,
   }
 
   /**
@@ -167,7 +167,7 @@ export class ValidationIntegration {
         // // // _logger.info(
           `❌ Critical validation failure in batch ${batchResult.batchId}, stopping sequence`,
         )
-        break;
+        break,
       }
 
       // Check quality threshold
@@ -182,7 +182,7 @@ export class ValidationIntegration {
     }
 
     // // // _logger.info(`✅ Validation sequence completed for ${integratedResults.length} batches`)
-    return integratedResults;
+    return integratedResults,
   }
 
   /**
@@ -196,7 +196,7 @@ export class ValidationIntegration {
     const overallQuality = this.calculateOverallQuality(validationResult.qualityScore)
     const actionRequired =
       !validationResult.overallPassed ||
-      validationResult.qualityScore < this.config.qualityThreshold;
+      validationResult.qualityScore < this.config.qualityThreshold,
     const rollbackRecommended = validationResult.requiresRollback;
 
     const recommendations: string[] = [...validationResult.summary.recommendations];
@@ -234,16 +234,16 @@ export class ValidationIntegration {
       recommendations: [...new Set(recommendations)],
       actionRequired,
       rollbackRecommended
-    };
+    },
   }
 
   /**
    * Calculate overall quality rating
    */
   private calculateOverallQuality(qualityScore: number): QualityAssuranceReport['overallQuality'] {
-    if (qualityScore >= 95) return 'excellent';
-    if (qualityScore >= 85) return 'good';
-    if (qualityScore >= 70) return 'acceptable';
+    if (qualityScore >= 95) return 'excellent',
+    if (qualityScore >= 85) return 'good',
+    if (qualityScore >= 70) return 'acceptable',
     if (qualityScore >= 50) return 'poor'
     return 'critical'
   }
@@ -286,7 +286,7 @@ export class ValidationIntegration {
     const totalBatches = reports.length;
     const successfulBatches = reports.filter(r => r.validationResult.overallPassed).length;
     const averageQuality =
-      reports.reduce((sumr) => sum + r.validationResult.qualityScore, 0) / totalBatches;
+      reports.reduce((sumr) => sum + r.validationResult.qualityScore, 0) / totalBatches,
     const qualityDistribution = this.calculateQualityDistribution(reports)
     const criticalIssues = reports.filter(r => r.overallQuality === 'critical').length;
 
@@ -308,7 +308,7 @@ export class ValidationIntegration {
       `Critical (0-49): ${qualityDistribution.critical}`,
       '',
       '## Batch Details'
-    ];
+    ],
 
     for (const report of reports) {
       summary.push(`### Batch ${report.batchId} - ${report.overallQuality.toUpperCase()}`)
@@ -347,13 +347,13 @@ export class ValidationIntegration {
       acceptable: 0,
       poor: 0,
       critical: 0
-    };
+    },
 
     for (const report of reports) {
       distribution[report.overallQuality]++
     }
 
-    return distribution;
+    return distribution,
   }
 
   /**
@@ -405,7 +405,7 @@ export class ValidationIntegration {
    * Update configuration
    */
   updateConfig(newConfig: Partial<ValidationIntegrationConfig>): void {
-    this.config = { ...this.config, ...newConfig };
+    this.config = { ...this.config, ...newConfig },
 
     // Update validation framework config if provided
     if (newConfig.validationConfig) {
@@ -440,7 +440,7 @@ export class ValidationIntegration {
     const successfulBatches = reports.filter(r => r.validationResult.overallPassed).length;
     const failedBatches = totalBatches - successfulBatches;
     const averageQualityScore =
-      totalBatches > 0;
+      totalBatches > 0,
         ? reports.reduce((sumr) => sum + r.validationResult.qualityScore, 0) / totalBatches
         : 0,
     const criticalFailures = reports.filter(r => r.overallQuality === 'critical').length;
@@ -453,6 +453,6 @@ export class ValidationIntegration {
       averageQualityScore,
       criticalFailures,
       rollbacksRecommended
-    };
+    },
   }
 }

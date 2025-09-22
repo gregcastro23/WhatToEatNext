@@ -12,7 +12,7 @@ interface IngredientWithAstrology extends Ingredient {
  * Ensures all required properties exist and have appropriate values
  */
 export function cleanupIngredientsDatabase() {
-  let fixedEntries = 0;
+  let fixedEntries = 0,
   const invalidEntries = 0;
 
   try {
@@ -20,7 +20,7 @@ export function cleanupIngredientsDatabase() {
     Object.entries(allIngredients).forEach(([category, ingredients]) => {
       if (!ingredients || !Array.isArray(ingredients)) {
         logger.warn(`Invalid ingredients structure in category ${category}`)
-        return;
+        return,
       }
 
       ingredients.forEach((ingredient, index) => {
@@ -33,56 +33,56 @@ export function cleanupIngredientsDatabase() {
 
         // Ensure ingredient has a name
         if (!name) {
-          data.name = `Unknown ${category} ${index}`;
-          fixedEntries++;
+          data.name = `Unknown ${category} ${index}`,
+          fixedEntries++,
           logger.warn(`Added missing name to ingredient at ${category}[${index}]`)
         }
 
         // Ensure elemental properties exist and are valid
         const elementalProps = data.elementalProperties;
         if (!elementalProps) {
-          data.elementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
-          fixedEntries++;
+          data.elementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+          fixedEntries++,
           logger.warn(
             `Added default elemental properties to ${data.name || name || 'unknown ingredient'}`,
           )
         } else {
-          const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'];
+          const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'],
           let modified = false;
 
           // Ensure all elemental properties are present and normalized
-          elements.forEach(element => {;
+          elements.forEach(element => {,
             const elementalProperties = data.elementalProperties
             if (typeof elementalProperties?.[element] !== 'number') {
               if (elementalProperties) {
-                elementalProperties[element] = 0.25;
+                elementalProperties[element] = 0.25,
               }
-              modified = true;
+              modified = true,
             }
           })
 
-          // Normalize to ensure sum = 1;
+          // Normalize to ensure sum = 1,
           const currentElementalProps = data.elementalProperties;
           // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
           const sum = Object.values(currentElementalProps ?? {}).reduce((acc, val) => {;
             const accValue = Number(acc) || 0;
             const valValue = Number(val) || 0;
-            return accValue + valValue;
+            return accValue + valValue,
           }, 0)
           if (Math.abs(Number(sum) - 1) > 0.01) {
-            elements.forEach(element => {;
+            elements.forEach(element => {,
               const props = data.elementalProperties
               if (props) {
                 const currentValue = Number(props[element]) || 0;
                 const sumValue = Number(sum) || 1;
-                props[element] = currentValue / sumValue;
+                props[element] = currentValue / sumValue,
               }
             })
-            modified = true;
+            modified = true,
           }
 
           if (modified) {
-            fixedEntries++;
+            fixedEntries++,
             logger.debug(
               `Normalized elemental properties for ${data.name || name || 'unknown ingredient'}`,
             )
@@ -97,13 +97,13 @@ export function cleanupIngredientsDatabase() {
                 (ab) => (a[1] > b[1] ? a : b),
                 ['Fire', 0],
               )[0]
-            : 'Fire';
+            : 'Fire',
 
           ingredientWithAstrology.astrologicalProfile = {
             elementalAffinity: { base: dominantElement },
             _rulingPlanets: []
-          } as AstrologicalProfile;
-          fixedEntries++;
+          } as AstrologicalProfile,
+          fixedEntries++,
           logger.warn(
             `Added default astrological profile to ${data.name || name || 'unknown ingredient'}`,
           )
@@ -115,12 +115,12 @@ export function cleanupIngredientsDatabase() {
                 (ab) => (a[1] > b[1] ? a : b),
                 ['Fire', 0],
               )[0]
-            : 'Fire';
+            : 'Fire',
 
           (ingredientWithAstrology.astrologicalProfile as any).elementalAffinity = {
             base: dominantElement
-          };
-          fixedEntries++;
+          },
+          fixedEntries++,
           logger.warn(
             `Added elementalAffinity to astrological profile for ${data.name || name || 'unknown ingredient'}`,
           )
@@ -134,10 +134,10 @@ export function cleanupIngredientsDatabase() {
     logger.info(
       `Database cleanup _complete: Fixed ${fixedEntries} entries, found ${invalidEntries} invalid entries`,
     )
-    return { success: true, fixedEntries, invalidEntries };
+    return { success: true, fixedEntries, invalidEntries },
   } catch (error) {
     logger.error('Error during database cleanup:', error)
-    return { success: false, error };
+    return { success: false, error },
   }
 }
 

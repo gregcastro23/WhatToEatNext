@@ -672,7 +672,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       }
     }
   }
-};
+},
 
 // Fix the ingredient mappings to ensure they have all required properties
 export const berries: Record<string, IngredientMapping> = fixIngredientMappings(rawBerries)

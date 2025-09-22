@@ -16,7 +16,7 @@ import {
   getCurrentEnvironment,
   getEnvironmentConfig,
   validateEnvironmentConfig
-} from './loader';
+} from './loader',
 
 import { ConfigurationManager, DEFAULT_CONFIG } from './index';
 
@@ -129,7 +129,7 @@ program
       }
 
       const [section, property] = pathParts;
-      let parsedValue: unknown = value;
+      let parsedValue: unknown = value,
 
       // Parse value based on type
       switch (options.type) {
@@ -139,9 +139,9 @@ program
             _logger.error('Invalid number value')
             process.exit(1)
           }
-          break;
-        case 'boolean': parsedValue = value.toLowerCase() === 'true';
-          break;
+          break,
+        case 'boolean': parsedValue = value.toLowerCase() === 'true',
+          break,
         case 'json':
           try {
             parsedValue = JSON.parse(value)
@@ -149,7 +149,7 @@ program
             _logger.error('Invalid JSON value')
             process.exit(1)
           }
-          break;
+          break,
       }
 
       // Update configuration
@@ -166,7 +166,7 @@ program
         process.exit(1)
       }
 
-      sectionConfig[property] = parsedValue;
+      sectionConfig[property] = parsedValue,
       configManager.updateConfig({ [section]: sectionConfig })
 
       // // // _logger.info(`✅ Updated ${path} = ${JSON.stringify(parsedValue)}`)
@@ -193,7 +193,7 @@ program
       if (!options.confirm) {
         // // // _logger.info('This will reset all configuration to defaults.')
         // // // _logger.info('Use --confirm to proceed without this prompt.')
-        return;
+        return,
       }
 
       configManager.resetToDefaults()
@@ -243,7 +243,7 @@ program
   .option('-e, --environment <env>', 'Export environment-specific config')
   .action((file, options) => {
     try {
-      let config;
+      let config,
 
       if (options.environment) {
         config = getEnvironmentConfig(options.environment as Environment)

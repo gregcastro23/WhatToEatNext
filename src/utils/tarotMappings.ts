@@ -3,11 +3,11 @@ export const _SUIT_TO_ELEMENT = {
   Cups: 'Water',
   Pentacles: 'Earth',
   Swords: 'Air'
-};
+},
 
 export const _SUIT_TO_TOKEN = {
   Wands: 'Spirit',
   Cups: 'Essence',
   Pentacles: 'Matter',
   Swords: 'Substance'
-};
+},

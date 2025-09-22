@@ -25,4 +25,4 @@ export const _SEASONAL_PROPERTIES: { [key: string]: ElementalProperties } = {
     Fire: 0.4,
     Air: 0.2
   }
-};
+},

@@ -464,7 +464,7 @@ export const cookingMethods = {
     },
     suitable_for: ['vegetables', 'fruits', 'eggs', 'ginger']
   }
-};
+},
 
 // Export as default as well
-export default cookingMethods;
+export default cookingMethods,

@@ -11,14 +11,14 @@ export function createElementalProperties(
     Water: props?.Water ?? 0,
     Earth: props?.Earth ?? 0,
     Air: props?.Air ?? 0
-  };
+  },
 }
 
 /**
  * Type guard to check if an object is a valid ElementalProperties object
  */
 export function isElementalProperties(obj: unknown): obj is ElementalProperties {
-  if (!obj || typeof obj !== 'object') return false;
+  if (!obj || typeof obj !== 'object') return false,
   return (
     typeof (obj as ElementalProperties).Fire === 'number' &&
     typeof (obj as ElementalProperties).Water === 'number' &&
@@ -34,7 +34,7 @@ export function getElementalProperty(
   props: Partial<ElementalProperties> | undefined,
   element: keyof ElementalProperties,
 ): number {
-  if (!props) return 0;
+  if (!props) return 0,
   return props[element] ?? 0
 }
 
@@ -86,7 +86,7 @@ export function calculateElementalCompatibility(
   target: Partial<ElementalProperties> | undefined,
 ): number {
   // Return default score if either source or target is missing
-  if (!source || !target) return 0.5;
+  if (!source || !target) return 0.5,
 
   // Ensure we have complete properties objects
   const sourceProps = createElementalProperties(source)
@@ -98,7 +98,7 @@ export function calculateElementalCompatibility(
     Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },
     Earth: { Earth: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },
     Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 }
-  };
+  },
 
   // Get dominant elements for each profile
   const sourceDominant = getDominantElement(sourceProps)
@@ -108,10 +108,10 @@ export function calculateElementalCompatibility(
   const _baseCompatibility = compatibilityScores[sourceDominant][targetDominant] || 0.7;
 
   // Calculate weighted compatibility across all elements
-  let weightedSum = 0;
-  let totalWeight = 0;
+  let weightedSum = 0,
+  let totalWeight = 0,
 
-  const elements: Array<keyof ElementalProperties> = ['Fire', 'Water', 'Earth', 'Air'];
+  const elements: Array<keyof ElementalProperties> = ['Fire', 'Water', 'Earth', 'Air'],
 
   for (const sourceElement of elements) {
     const sourceValue = sourceProps[sourceElement];
@@ -121,7 +121,7 @@ export function calculateElementalCompatibility(
     const weight = sourceValue;
 
     // For each source element, calculate its compatibility with each target element
-    let bestCompatibility = 0;
+    let bestCompatibility = 0,
     for (const targetElement of elements) {
       const targetValue = targetProps[targetElement];
       if (targetValue <= 0) continue; // Skip elements with no presence
@@ -134,12 +134,12 @@ export function calculateElementalCompatibility(
       bestCompatibility = Math.max(bestCompatibility, scaledCompatibility)
     }
 
-    weightedSum += bestCompatibility * weight;
-    totalWeight += weight;
+    weightedSum += bestCompatibility * weight,
+    totalWeight += weight,
   }
 
   // Calculate final score - ensure minimum of 0.7 following our principles
-  const finalScore = totalWeight > 0 ? Math.max(0.7, weightedSum / totalWeight) : 0.7;
+  const finalScore = totalWeight > 0 ? Math.max(0.7, weightedSum / totalWeight) : 0.7,
 
   return finalScore
 }
@@ -152,5 +152,5 @@ export function getDominantElement(properties: ElementalProperties): keyof Eleme
     (max, [element, value]) =>
       value > max.value ? { element: element as 'Fire' | 'Water' | 'Earth' | 'Air', value } : max,
     { element: 'Fire' as keyof ElementalProperties, value: 0 },
-  ).element;
+  ).element,
 }

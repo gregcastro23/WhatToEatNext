@@ -20,7 +20,7 @@ export const allCookingMethods = {
   ...rawCookingMethods,
   // Add other method categories as they are implemented
   ...transformationMethods
-};
+},
 
 /**
  * Get cooking methods that are favorable for a specific zodiac sign
@@ -35,7 +35,7 @@ export const _getMethodsForZodiacSign = (sign: any): Record<string, CookingMetho
       return methodData?.astrologicalInfluences?.favorableZodiac?.includes(sign)
     })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
-};
+},
 
 /**
  * Get cooking methods that have a specific dominant element
@@ -51,10 +51,10 @@ export const _getMethodsByElement = (
     .filter(([_, method]) => {
       // Apply safe type casting for method property access
       const methodData = method
-      return (methodData?.elementalEffect?.[element] || 0) >= threshold;
+      return (methodData?.elementalEffect?.[element] || 0) >= threshold,
     })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
-};
+},
 
 /**
  * Get cooking methods suitable for a specific ingredient type
@@ -73,7 +73,7 @@ export const _getMethodsForIngredientType = (
       )
     })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
-};
+},
 
 /**
  * Get cooking methods influenced by a specific planet
@@ -91,7 +91,7 @@ export const _getMethodsByPlanet = (planet: string): Record<string, CookingMetho
       )
     })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
-};
+},
 
 // Export individual categories
 export {
@@ -101,4 +101,4 @@ export {
   traditionalCookingMethods,
   rawCookingMethods,
   transformationMethods
-};
+},

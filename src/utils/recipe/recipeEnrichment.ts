@@ -12,18 +12,18 @@ export function enrichRecipeData(recipe: unknown): Recipe {
   // Create a deep copy to avoid mutating the original
   const enrichedRecipe = JSON.parse(JSON.stringify(recipe))
   // Ensure all required properties exist
-  enrichedRecipe.id = enrichedRecipe.id || `recipe-${Date.now()}`;
-  enrichedRecipe.name = enrichedRecipe.name || 'Unnamed Recipe';
-  enrichedRecipe.description = enrichedRecipe.description || '';
-  enrichedRecipe.cuisine = enrichedRecipe.cuisine || 'Various';
-  enrichedRecipe.timeToMake = enrichedRecipe.timeToMake || '30 minutes';
-  enrichedRecipe.numberOfServings = enrichedRecipe.numberOfServings || 4;
-  enrichedRecipe.instructions = enrichedRecipe.instructions || [];
+  enrichedRecipe.id = enrichedRecipe.id || `recipe-${Date.now()}`,
+  enrichedRecipe.name = enrichedRecipe.name || 'Unnamed Recipe',
+  enrichedRecipe.description = enrichedRecipe.description || '',
+  enrichedRecipe.cuisine = enrichedRecipe.cuisine || 'Various',
+  enrichedRecipe.timeToMake = enrichedRecipe.timeToMake || '30 minutes',
+  enrichedRecipe.numberOfServings = enrichedRecipe.numberOfServings || 4,
+  enrichedRecipe.instructions = enrichedRecipe.instructions || [],
 
   // 1. Derive astrological influences from ingredients if not present
   if (
     !enrichedRecipe.astrologicalInfluences ||
-    (enrichedRecipe.astrologicalInfluences || []).length === 0;
+    (enrichedRecipe.astrologicalInfluences || []).length === 0,
   ) {
     enrichedRecipe.astrologicalInfluences =
       deriveAstrologicalInfluencesFromIngredients(enrichedRecipe)
@@ -40,7 +40,7 @@ export function enrichRecipeData(recipe: unknown): Recipe {
   // 4. Add celestial timing recommendations
   enrichedRecipe.celestialTiming = deriveCelestialTiming(enrichedRecipe)
 
-  return enrichedRecipe as Recipe;
+  return enrichedRecipe as Recipe,
 }
 
 /**
@@ -100,7 +100,7 @@ function deriveAstrologicalInfluencesFromIngredients(_recipe: Recipe): string[] 
     _sage: ['Jupiter', 'Air'],
     _mint: ['Mercury', 'Air'],
     _parsley: ['Mercury', 'Air']
-  };
+  },
 
   // Extract ingredient names from recipe
   if (recipe.ingredients) {
@@ -123,7 +123,7 @@ function deriveAstrologicalInfluencesFromIngredients(_recipe: Recipe): string[] 
  * Derive elemental properties from recipe characteristics
  */
 function deriveElementalProperties(_recipe: Recipe): ElementalProperties {
-  const elementalProps = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+  const elementalProps = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
 
   // Cooking method influences
   if (recipe.cookingMethods) {
@@ -134,17 +134,17 @@ function deriveElementalProperties(_recipe: Recipe): ElementalProperties {
       methodStr?.includes('bake') ||
       methodStr?.includes('fry')
     ) {
-      elementalProps.Fire += 0.3;
+      elementalProps.Fire += 0.3,
     } else if (
       methodStr?.includes('steam') ||
       methodStr?.includes('boil') ||
       methodStr?.includes('poach')
     ) {
-      elementalProps.Water += 0.3;
+      elementalProps.Water += 0.3,
     } else if (methodStr?.includes('raw') || methodStr?.includes('fresh')) {
-      elementalProps.Air += 0.3;
+      elementalProps.Air += 0.3,
     } else if (methodStr?.includes('slow') || methodStr?.includes('stew')) {
-      elementalProps.Earth += 0.3;
+      elementalProps.Earth += 0.3,
     }
   }
 
@@ -152,27 +152,27 @@ function deriveElementalProperties(_recipe: Recipe): ElementalProperties {
   if (recipe.cuisine) {
     const cuisine = recipe.cuisine.toLowerCase()
     if (cuisine.includes('indian') || cuisine.includes('thai') || cuisine.includes('mexican')) {
-      elementalProps.Fire += 0.2;
+      elementalProps.Fire += 0.2,
     } else if (cuisine.includes('japanese') || cuisine.includes('chinese')) {
-      elementalProps.Water += 0.2;
+      elementalProps.Water += 0.2,
     } else if (cuisine.includes('mediterranean')) {
-      elementalProps.Air += 0.2;
+      elementalProps.Air += 0.2,
     } else if (cuisine.includes('german') || cuisine.includes('comfort')) {
-      elementalProps.Earth += 0.2;
+      elementalProps.Earth += 0.2,
     }
   }
 
   // Normalize to ensure sum equals 1
   const total =
-    elementalProps.Fire + elementalProps.Water + elementalProps.Earth + elementalProps.Air;
+    elementalProps.Fire + elementalProps.Water + elementalProps.Earth + elementalProps.Air,
   if (total > 0) {
-    elementalProps.Fire /= total;
-    elementalProps.Water /= total;
-    elementalProps.Earth /= total;
-    elementalProps.Air /= total;
+    elementalProps.Fire /= total,
+    elementalProps.Water /= total,
+    elementalProps.Earth /= total,
+    elementalProps.Air /= total,
   }
 
-  return elementalProps;
+  return elementalProps,
 }
 
 /**
@@ -189,9 +189,9 @@ function enrichAndNormalizeSeasons(seasons?: string[]): string[] {
     const s = season.toLowerCase().trim()
 
     // Normalize season names
-    if (s === 'spring' || s === 'aries' || s === 'taurus' || s === 'gemini') {;
+    if (s === 'spring' || s === 'aries' || s === 'taurus' || s === 'gemini') {,
       normalizedSeasons.push('spring')
-    } else if (s === 'summer' || s === 'cancer' || s === 'leo' || s === 'virgo') {;
+    } else if (s === 'summer' || s === 'cancer' || s === 'leo' || s === 'virgo') {,
       normalizedSeasons.push('summer')
     } else if (
       s === 'autumn' ||
@@ -201,9 +201,9 @@ function enrichAndNormalizeSeasons(seasons?: string[]): string[] {
       s === 'sagittarius'
     ) {
       normalizedSeasons.push('autumn')
-    } else if (s === 'winter' || s === 'capricorn' || s === 'aquarius' || s === 'pisces') {;
+    } else if (s === 'winter' || s === 'capricorn' || s === 'aquarius' || s === 'pisces') {,
       normalizedSeasons.push('winter')
-    } else if (s === 'all' || s === 'year-round' || s === 'any') {;
+    } else if (s === 'all' || s === 'year-round' || s === 'any') {,
       normalizedSeasons.push('all')
     } else {
       // Keep original if not recognized
@@ -212,7 +212,7 @@ function enrichAndNormalizeSeasons(seasons?: string[]): string[] {
   })
 
   // Remove duplicates
-  return [...new Set(normalizedSeasons)];
+  return [...new Set(normalizedSeasons)],
 }
 
 /**
@@ -227,7 +227,7 @@ function deriveCelestialTiming(_recipe: Recipe): {
     optimalMoonPhase?: string,
     optimalPlanetaryHour?: string,
     bestZodiacSeason?: string
-  } = {};
+  } = {},
 
   // Determine optimal Moon phase based on recipe characteristics
   if (recipe.cookingMethods) {
@@ -237,29 +237,29 @@ function deriveCelestialTiming(_recipe: Recipe): {
       methodStr?.includes('rise') ||
       methodStr?.includes('proof')
     ) {
-      timing.optimalMoonPhase = 'waxing', // Growing energy for fermentation;
+      timing.optimalMoonPhase = 'waxing', // Growing energy for fermentation,
     } else if (
       methodStr?.includes('preserve') ||
       methodStr?.includes('cure') ||
       methodStr?.includes('age')
     ) {
-      timing.optimalMoonPhase = 'waning', // Reducing energy for preservation;
+      timing.optimalMoonPhase = 'waning', // Reducing energy for preservation,
     } else if (
       methodStr?.includes('quick') ||
       methodStr?.includes('flash') ||
       methodStr?.includes('instant')
     ) {
-      timing.optimalMoonPhase = 'new', // New beginnings for quick cooking;
+      timing.optimalMoonPhase = 'new', // New beginnings for quick cooking,
     } else if (
       methodStr?.includes('slow') ||
       methodStr?.includes('braise') ||
       methodStr?.includes('stew')
     ) {
-      timing.optimalMoonPhase = 'full', // Full energy for long cooking;
+      timing.optimalMoonPhase = 'full', // Full energy for long cooking,
     }
   }
 
-  return timing;
+  return timing,
 }
 
 /**
@@ -281,19 +281,19 @@ export function calculateRecipeComplexity(recipe: Recipe): number {
       methodStr?.includes('molecular') ||
       methodStr?.includes('smoking')
     ) {
-      complexity += 3;
+      complexity += 3,
     } else if (
       methodStr?.includes('braise') ||
       methodStr?.includes('confit') ||
       methodStr?.includes('ferment')
     ) {
-      complexity += 2;
+      complexity += 2,
     } else if (
       methodStr?.includes('roast') ||
       methodStr?.includes('bake') ||
       methodStr?.includes('grill')
     ) {
-      complexity += 1;
+      complexity += 1,
     }
   }
 
@@ -317,7 +317,7 @@ export function enhanceWithNutritionalEstimates(recipe: Recipe): Recipe {
     fat: 0,
     fiber: 0,
     _sugar: 0
-  };
+  },
 
   // Basic calorie estimation based on ingredients
   if (recipe.ingredients) {
@@ -326,18 +326,18 @@ export function enhanceWithNutritionalEstimates(recipe: Recipe): Recipe {
 
       // Rough calorie estimates per common ingredient
       if (name.includes('oil') || name.includes('butter')) {
-        estimatedNutrition.calories += 120;
-        estimatedNutrition.fat += 14;
+        estimatedNutrition.calories += 120,
+        estimatedNutrition.fat += 14,
       } else if (name.includes('meat') || name.includes('chicken') || name.includes('beef')) {
-        estimatedNutrition.calories += 200;
-        estimatedNutrition.protein += 25;
+        estimatedNutrition.calories += 200,
+        estimatedNutrition.protein += 25,
       } else if (name.includes('rice') || name.includes('pasta') || name.includes('bread')) {
-        estimatedNutrition.calories += 150;
-        estimatedNutrition.carbs += 30;
+        estimatedNutrition.calories += 150,
+        estimatedNutrition.carbs += 30,
       } else if (name.includes('vegetable') || name.includes('fruit')) {
-        estimatedNutrition.calories += 25;
-        estimatedNutrition.carbs += 6;
-        estimatedNutrition.fiber += 2;
+        estimatedNutrition.calories += 25,
+        estimatedNutrition.carbs += 6,
+        estimatedNutrition.fiber += 2,
       }
     })
   }
@@ -351,5 +351,5 @@ export function enhanceWithNutritionalEstimates(recipe: Recipe): Recipe {
     })
   }
 
-  return { ...recipe, nutrition: estimatedNutrition };
+  return { ...recipe, nutrition: estimatedNutrition },
 }

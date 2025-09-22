@@ -5,19 +5,19 @@ import { useAlchmWebSocket } from '@/hooks/useAlchmWebSocket';
 import { logger } from '@/lib/logger';
 
 interface CelestialEventNotificationsProps {
-  maxNotifications?: number;
-  autoHide?: boolean;
-  autoHideDelay?: number;
-  className?: string;
+  maxNotifications?: number,
+  autoHide?: boolean,
+  autoHideDelay?: number,
+  className?: string,
 }
 
 interface CelestialEventWithId {
-  id: string;
-  type: string;
-  timestamp: string;
-  detail?: string;
-  visible: boolean;
-  receivedAt: number;
+  id: string,
+  type: string,
+  timestamp: string,
+  detail?: string,
+  visible: boolean,
+  receivedAt: number,
 }
 
 const EVENT_ICONS = {
@@ -31,7 +31,7 @@ const EVENT_ICONS = {
   'square': '🟩',
   'retrograde': '↩️',
   'default': '✨'
-} as const;
+} as const,
 
 const EVENT_COLORS = {
   'lunar_phase': '#C0C0C0',
@@ -44,7 +44,7 @@ const EVENT_COLORS = {
   'square': '#DC143C',
   'retrograde': '#9370DB',
   'default': '#6495ED'
-} as const;
+} as const,
 
 export function CelestialEventNotifications({
   maxNotifications = 5,
@@ -62,12 +62,12 @@ export function CelestialEventNotifications({
         id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         visible: true,
         receivedAt: Date.now()
-      };
+      },
 
       setEvents(prev => {
-        const updated = [eventWithId, ...prev.slice(0, maxNotifications - 1)];
+        const updated = [eventWithId, ...prev.slice(0, maxNotifications - 1)],
         logger.debug('CelestialEventNotifications added event', eventWithId)
-        return updated;
+        return updated,
       })
 
       // Auto-hide after delay
@@ -98,7 +98,7 @@ export function CelestialEventNotifications({
     setTimeout(() => {
       setEvents(prev => prev.filter(event => event.id !== eventId))
     }, 300)
-  };
+  },
 
   const clearAllEvents = () => {
     setEvents(prev =>
@@ -108,7 +108,7 @@ export function CelestialEventNotifications({
     setTimeout(() => {
       setEvents([])
     }, 300)
-  };
+  },
 
   const formatEventTime = (timestamp: string) => {
     try {
@@ -117,23 +117,23 @@ export function CelestialEventNotifications({
         minute: '2-digit'
       })
     } catch {
-      return timestamp;
+      return timestamp,
     }
-  };
+  },
 
   const getEventIcon = (type: string) => {
-    return EVENT_ICONS[type as keyof typeof EVENT_ICONS] || EVENT_ICONS.default;
-  };
+    return EVENT_ICONS[type as keyof typeof EVENT_ICONS] || EVENT_ICONS.default,
+  },
 
   const getEventColor = (type: string) => {
-    return EVENT_COLORS[type as keyof typeof EVENT_COLORS] || EVENT_COLORS.default;
-  };
+    return EVENT_COLORS[type as keyof typeof EVENT_COLORS] || EVENT_COLORS.default,
+  },
 
   const formatEventType = (type: string) => {
     return type.split('_').map(word =>
       word.charAt(0).toUpperCase() + word.slice(1)
     ).join(' ')
-  };
+  },
 
   if (events.length === 0) {
     return (
@@ -305,10 +305,10 @@ export function CelestialEventNotifications({
       <style jsx>{`
         @keyframes fadeBar {
           from {
-            width: 100%;
+            width: 100%,
           }
           to {
-            width: 0%;
+            width: 0%,
           }
         }
       `}</style>

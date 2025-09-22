@@ -42,7 +42,7 @@ export interface TokenRatesResult {
 function computeTokensFromAlchemical(alchemicalResult: any): TokenRatesResult {
   const esms = (alchemicalResult && typeof alchemicalResult === 'object')
     ? (alchemicalResult as Record<string, any>).esms
-    : undefined;
+    : undefined,
 
   const Spirit = typeof esms?.Spirit === 'number' ? esms.Spirit : 0.5;
   const Essence = typeof esms?.Essence === 'number' ? esms.Essence : 0.5;
@@ -56,7 +56,7 @@ function computeTokensFromAlchemical(alchemicalResult: any): TokenRatesResult {
     Substance,
     kalchm: typeof alchemicalResult?.kalchm === 'number' ? alchemicalResult.kalchm : 1.0,
     monica: typeof alchemicalResult?.monica === 'number' ? alchemicalResult.monica : 1.0
-  };
+  },
 }
 
 /**
@@ -65,12 +65,12 @@ function computeTokensFromAlchemical(alchemicalResult: any): TokenRatesResult {
  * - NEXT_PUBLIC_TOKENS_BACKEND: 'true' to enable backend-first calls
  */
 export class TokensClient {
-  private readonly backendUrl: string | undefined;
-  private readonly useBackend: boolean;
+  private readonly backendUrl: string | undefined,
+  private readonly useBackend: boolean,
 
   constructor() {
-    this.backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
-    this.useBackend = String(process.env.NEXT_PUBLIC_TOKENS_BACKEND).toLowerCase() === 'true';
+    this.backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL,
+    this.useBackend = String(process.env.NEXT_PUBLIC_TOKENS_BACKEND).toLowerCase() === 'true',
   }
 
   async calculateRates(input: TokenRatesInput = {}): Promise<TokenRatesResult> {
@@ -82,11 +82,11 @@ export class TokensClient {
           location: input.location,
           elemental: input.elemental,
           esms: input.esms
-        };
+        },
 
         const result = await alchmAPI.calculateTokenRates(request)
         logger.debug('TokensClient', 'Backend calculation successful', result)
-        return result;
+        return result,
       } catch (error) {
         logger.warn('TokensClient', 'Backend calculation failed, falling back to local', error)
         // Fall through to local

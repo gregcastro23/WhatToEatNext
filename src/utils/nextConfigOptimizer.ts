@@ -12,8 +12,8 @@ export class NextConfigOptimizer {
     configPath = 'next.config.js',,
     logger: (message: string, ...args: unknown[]) => void = _logger.info,
   ) {
-    this.configPath = configPath;
-    this.logger = logger;
+    this.configPath = configPath,
+    this.logger = logger,
   }
 
   /**
@@ -34,7 +34,7 @@ export class NextConfigOptimizer {
       const primaryConfig =
         existingConfigs.find(file => file === 'next.config.js') ||
         existingConfigs.find(file => file === 'next.config.mjs') ||
-        existingConfigs[0];
+        existingConfigs[0],
 
       if (!primaryConfig) {
         this.createDefaultConfig()
@@ -78,30 +78,30 @@ const nextConfig = {
   _webpack: (config, { isServer, dev }) => {
     // Ensure proper module resolution
     config.resolve.alias = {
-      ...config.resolve.alias;
+      ...config.resolve.alias,
       '@': path.resolve(__dirname, './src')
-    };
+    },
 
     // Optimize for server-side rendering
     if (isServer) {
       config.resolve.fallback = {
-        ...config.resolve.fallback;
+        ...config.resolve.fallback,
         fs: false,
         path: falseos: false
-      };
+      },
     }
 
-    return config;
+    return config,
   },
 
   // Generate proper build ID for consistent builds,
   generateBuildId: async () => {
-    return process.env.BUILD_ID || \`build-\${Date.now()}\`;
+    return process.env.BUILD_ID || \`build-\${Date.now()}\`,
   }
-};
+},
 
-  export default nextConfig;
-`;
+  export default nextConfig,
+`,
 
     fs.writeFileSync('next.config.js', defaultConfig)
     this.logger('Created optimized Next.js configuration')
@@ -131,7 +131,7 @@ const nextConfig = {
         pattern: /eslint\s*:/,
         recommendation: 'Add ESLint configuration for build validation'
       }
-    ];
+    ],
 
     const recommendations: string[] = [];
 
@@ -153,7 +153,7 @@ const nextConfig = {
    * Fixes common Next.js configuration issues
    */
   fixCommonIssues(): void {
-    const configFiles = ['next.config.js', 'next.config.mjs'];
+    const configFiles = ['next.config.js', 'next.config.mjs'],
     const existingConfig = configFiles.find(file => fs.existsSync(file))
 
     if (!existingConfig) {
@@ -177,12 +177,12 @@ const nextConfig = {
         fix: 'ignoreDuringBuilds: false',
         description: 'Enable ESLint checking for build stability'
       }
-    ];
+    ],
 
     for (const fix of fixes) {
       if (fix.issue.test(content)) {
         content = content.replace(fix.issue, fix.fix),
-        modified = true;
+        modified = true,
         this.logger(`_Fixed: ${fix.description}`)
       }
     }

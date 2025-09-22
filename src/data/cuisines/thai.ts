@@ -2210,6 +2210,6 @@ export const thai: Cuisine = {
     Earth: 0.25, // Represents grains, proteins, and root vegetables,
     Air: 0.15, // Represents herbs, aromatics, and light textures
   }
-};
+},
 
-export default thai;
+export default thai,

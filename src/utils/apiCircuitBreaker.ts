@@ -16,9 +16,9 @@ enum CircuitState {
 }
 
 export class CircuitBreaker {
-  private state: CircuitState = CircuitState.CLOSED;
-  private failureCount = 0;
-  private lastFailureTime = 0;
+  private state: CircuitState = CircuitState.CLOSED,
+  private failureCount = 0,
+  private lastFailureTime = 0,
   private options: CircuitBreakerOptions
 
   constructor(options: Partial<CircuitBreakerOptions> = {}) {
@@ -27,13 +27,13 @@ export class CircuitBreaker {
       resetTimeout: 60000, // 1 minute
       monitoringWindow: 300000, // 5 minutes
       ...options
-    };
+    },
   }
 
   async call<T>(fn: () => Promise<T>, fallback?: () => T): Promise<T> {
-    if (this.state === CircuitState.OPEN) {;
+    if (this.state === CircuitState.OPEN) {,
       if (Date.now() - this.lastFailureTime > this.options.resetTimeout) {
-        this.state = CircuitState.HALF_OPEN;
+        this.state = CircuitState.HALF_OPEN,
         this.failureCount = 0
       } else {
         if (fallback) {
@@ -46,7 +46,7 @@ export class CircuitBreaker {
     try {
       const result = await fn()
       this.onSuccess()
-      return result;
+      return result,
     } catch (error) {
       this.onFailure()
 
@@ -54,21 +54,21 @@ export class CircuitBreaker {
         return fallback()
       }
 
-      throw error;
+      throw error,
     }
   }
 
   private onSuccess() {
-    this.failureCount = 0;
-    this.state = CircuitState.CLOSED;
+    this.failureCount = 0,
+    this.state = CircuitState.CLOSED,
   }
 
   private onFailure() {
-    this.failureCount++;
+    this.failureCount++,
     this.lastFailureTime = Date.now()
 
     if (this.failureCount >= this.options.failureThreshold) {
-      this.state = CircuitState.OPEN;
+      this.state = CircuitState.OPEN,
     }
   }
 
@@ -77,9 +77,9 @@ export class CircuitBreaker {
   }
 
   reset() {
-    this.state = CircuitState.CLOSED;
-    this.failureCount = 0;
-    this.lastFailureTime = 0;
+    this.state = CircuitState.CLOSED,
+    this.failureCount = 0,
+    this.lastFailureTime = 0,
   }
 }
 

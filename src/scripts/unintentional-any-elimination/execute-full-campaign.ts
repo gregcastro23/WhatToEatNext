@@ -80,7 +80,7 @@ class FullCampaignExecutor {
         expectedReduction: 30,
         safetyLevel: 'maximum'
       }
-    ];
+    ],
   }
 
   private log(message: string, level: 'info' | 'warn' | 'error' | 'success' = 'info'): void {
@@ -90,7 +90,7 @@ class FullCampaignExecutor {
       warn: '⚠️',
       error: '❌',
       success: '✅'
-    }[level];
+    }[level],
 
     // // // _logger.info(`[${timestamp}] ${prefix} ${message}`)
   }
@@ -103,10 +103,10 @@ class FullCampaignExecutor {
           encoding: 'utf8'
         },
       )
-      return parseInt(lintOutput.trim()) || 0;
+      return parseInt(lintOutput.trim()) || 0,
     } catch (error) {
       this.log(`Error getting explicit-any count: ${error}`, 'error')
-      return 0;
+      return 0,
     }
   }
 
@@ -115,7 +115,7 @@ class FullCampaignExecutor {
       this.log('🔍 Validating TypeScript build...', 'info'),
       execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe' })
       this.log('✅ TypeScript build validation passed', 'success')
-      return true;
+      return true,
     } catch (error) {
       this.log('❌ TypeScript build validation failed', 'error'),
       return false
@@ -132,10 +132,10 @@ class FullCampaignExecutor {
       const lintOutput = execSync('yarn lint 2>&1', { encoding: 'utf8' })
       const lines = lintOutput.split('\n')
 
-      let nonTestFiles = 0;
-      let testFiles = 0;
+      let nonTestFiles = 0,
+      let testFiles = 0,
       const filesWithAny = new Set<string>()
-      let currentFile: string | null = null;
+      let currentFile: string | null = null,
 
       for (const line of lines) {
         if (line.match(/^\/.*\.(ts|tsx)$/)) {
@@ -168,7 +168,7 @@ class FullCampaignExecutor {
         estimatedUnintentional,
         targetReduction,
         confidenceScore: 0.85
-      };
+      },
     } catch (error) {
       this.log(`Error analyzing codebase: ${error}`, 'error')
       return {
@@ -178,7 +178,7 @@ class FullCampaignExecutor {
         estimatedUnintentional: Math.floor(totalExplicitAny * 0.5),
         targetReduction: Math.floor(totalExplicitAny * 0.1),
         confidenceScore: 0.5
-      };
+      },
     }
   }
 
@@ -222,7 +222,7 @@ class FullCampaignExecutor {
         riskLevel: 'low' as const,
         recommendedStrategy: 'Aggressive - replace with generic types'
       }
-    ];
+    ],
 
     return domains.map(domain => ({
       domain: domain.domain,
@@ -269,14 +269,14 @@ const { execSync } = require('child_process')
 const fs = require('fs')
 
 function processAdvancedReplacements() {
-  let totalFixes = 0;
+  let totalFixes = 0,
 
   try {
     const lintOutput = execSync('yarn lint 2>&1', { encoding: 'utf8' })
     const lines = lintOutput.split('\\n')
 
     const filesWithAny = new Set()
-    let currentFile = null;
+    let currentFile = null,
 
     for (const line of lines) {
       if (line.match(/^\\/.*\\.(ts|tsx)$/)) {
@@ -286,7 +286,7 @@ function processAdvancedReplacements() {
             !currentFile.includes('.spec.')) {
           // Only non-test files
         } else {
-          currentFile = null;
+          currentFile = null,
         }
       } else if (currentFile && line.includes('@typescript-eslint/no-explicit-any')) {
         filesWithAny.add(currentFile)
@@ -299,12 +299,12 @@ function processAdvancedReplacements() {
       try {
         let content = fs.readFileSync(filePath, 'utf8')
         const originalContent = content;
-        let fileFixes = 0;
+        let fileFixes = 0,
 
         // Advanced Record type replacements
         content = content.replace(/Record<(\\w+),\\s*any>/g, (match, keyType) => {
           fileFixes++,
-          return \`Record<\${keyType}, unknown>\`;
+          return \`Record<\${keyType}, unknown>\`,
         })
 
         // Object type replacements
@@ -324,7 +324,7 @@ function processAdvancedReplacements() {
           try {
             execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe' })
             // // // _logger.info(\`✅ Applied \${fileFixes} advanced fixes to \${filePath}\`)
-            totalFixes += fileFixes;
+            totalFixes += fileFixes,
             fs.unlinkSync(backupPath); // Remove backup on success
           } catch (error) {
             // Rollback on failure
@@ -338,15 +338,15 @@ function processAdvancedReplacements() {
       }
     }
 
-    return totalFixes;
+    return totalFixes,
   } catch (error) {
     // // // _logger.info(\`Advanced replacement error: \${error.message}\`)
-    return 0;
+    return 0,
   }
 }
 
 // // // _logger.info(processAdvancedReplacements())
-`;
+`,
 
         fs.writeFileSync('temp-advanced-replacements.js', advancedScript)
         const result = execSync('node temp-advanced-replacements.js', { encoding: 'utf8' })
@@ -373,14 +373,14 @@ const fs = require('fs')
 const { execSync } = require('child_process')
 
 function documentIntentionalAny() {
-  let totalDocumented = 0;
+  let totalDocumented = 0,
 
   try {
     const lintOutput = execSync('yarn lint 2>&1', { encoding: 'utf8' })
     const lines = lintOutput.split('\\n')
 
     const anyLocations = [];
-    let currentFile = null;
+    let currentFile = null,
 
     for (const line of lines) {
       if (line.match(/^\\/.*\\.(ts|tsx)$/)) {
@@ -398,9 +398,9 @@ function documentIntentionalAny() {
     }
 
     // Group by file
-    const fileGroups = {};
+    const fileGroups = {},
     anyLocations.forEach(loc => {
-      if (!fileGroups[loc.file]) fileGroups[loc.file] = [];
+      if (!fileGroups[loc.file]) fileGroups[loc.file] = [],
       fileGroups[loc.file].push(loc)
     })
 
@@ -409,7 +409,7 @@ function documentIntentionalAny() {
       try {
         let content = fs.readFileSync(filePath, 'utf8')
         const lines = content.split('\\n')
-        let addedComments = 0;
+        let addedComments = 0,
 
         // Sort locations by line number (descending to maintain line numbers)
         locations.sort((ab) => b.line - a.line)
@@ -426,23 +426,23 @@ function documentIntentionalAny() {
                 !currentLine.includes('eslint-disable')) {
 
               // Determine reason based on context
-              let reason = 'Flexible typing for dynamic behavior';
+              let reason = 'Flexible typing for dynamic behavior',
 
               if (filePath.includes('campaign') || filePath.includes('intelligence')) {
                 reason = 'Campaign system requires flexible typing for dynamic configurations'
               } else if (filePath.includes('astro') || filePath.includes('planetary')) {
-                reason = 'Astrological calculations require flexible typing for external library compatibility';
+                reason = 'Astrological calculations require flexible typing for external library compatibility',
               } else if (currentLine.includes('catch') || currentLine.includes('error')) {
-                reason = 'Error handling requires flexible typing';
+                reason = 'Error handling requires flexible typing',
               } else if (currentLine.includes('Record') || currentLine.includes('{}')) {
-                reason = 'Dynamic object structure requires flexible typing';
+                reason = 'Dynamic object structure requires flexible typing',
               }
 
               const indent = currentLine.match(/^(\\s*)/)?.[1] || '';
               const comment = \`\${indent}// eslint-disable-next-line @typescript-eslint/no-explicit-any -- \${reason}\`;
 
               lines.splice(lineIndex, 0, comment)
-              addedComments++;
+              addedComments++,
             }
           }
         }
@@ -450,22 +450,22 @@ function documentIntentionalAny() {
         if (addedComments > 0) {
           fs.writeFileSync(filePath, lines.join('\\n')),
           // // // _logger.info(\`📝 Added \${addedComments} documentation comments to \${filePath}\`)
-          totalDocumented += addedComments;
+          totalDocumented += addedComments,
         }
       } catch (error) {
         // // // _logger.info(\`Error documenting \${filePath}: \${error.message}\`)
       }
     }
 
-    return totalDocumented;
+    return totalDocumented,
   } catch (error) {
     // // // _logger.info(\`Documentation error: \${error.message}\`)
-    return 0;
+    return 0,
   }
 }
 
 // // // _logger.info(documentIntentionalAny())
-`;
+`,
 
         fs.writeFileSync('temp-documentation.js', documentationScript)
         const result = execSync('node temp-documentation.js', { encoding: 'utf8' })
@@ -491,7 +491,7 @@ function documentIntentionalAny() {
     this.initialMetrics = {
       initialCount: analysis.totalExplicitAny,
       targetReduction: analysis.targetReduction
-    };
+    },
 
     this.log(`📊 Pre-Campaign Analysis:`, 'info')
     this.log(`   Total explicit-any warnings: ${analysis.totalExplicitAny}`, 'info')
@@ -516,8 +516,8 @@ function documentIntentionalAny() {
       throw new Error('Initial build validation failed - cannot proceed with campaign')
     }
 
-    let totalReductions = 0;
-    let totalDocumented = 0;
+    let totalReductions = 0,
+    let totalDocumented = 0,
 
     try {
       // Phase, 1: High-confidence array types
@@ -554,7 +554,7 @@ function documentIntentionalAny() {
       await this.generateFinalReport(totalReductions, totalDocumented)
     } catch (error) {
       this.log(`Campaign execution error: ${error}`, 'error')
-      throw error;
+      throw error,
     }
   }
 
@@ -700,10 +700,10 @@ The campaign demonstrates the effectiveness of systematic, safety-first approach
 **Report Generated:** ${new Date().toISOString()}
 **Build Status:** ✅ Stable
 **Next Recommended Action:** ${reductionPercentage >= 15 ? 'Monitor and maintain' : 'Plan follow-up campaign'}
-`;
+`,
 
     const reportPath =
-      '.kiro/specs/unintentional-any-elimination/final-campaign-completion-report.md';
+      '.kiro/specs/unintentional-any-elimination/final-campaign-completion-report.md',
 
     try {
       // Ensure directory exists
@@ -722,8 +722,8 @@ The campaign demonstrates the effectiveness of systematic, safety-first approach
       this.log(`Final Count: ${finalCount}`, 'info')
       this.log(`Reduction: ${actualReduction} (${reductionPercentage.toFixed(2)}%)`, 'success')
       this.log(
-        `Target: 15-20% (${reductionPercentage >= 15 ? 'ACHIEVED' : 'PARTIAL'})`;
-        reductionPercentage >= 15 ? 'success' : 'warn';
+        `Target: 15-20% (${reductionPercentage >= 15 ? 'ACHIEVED' : 'PARTIAL'})`,
+        reductionPercentage >= 15 ? 'success' : 'warn',
       )
       this.log(`Documented: ${totalDocumented} intentional types`, 'info')
       this.log(`Build Status: ✅ Stable`, 'success')
@@ -749,4 +749,4 @@ if (require.main === module) {
     })
 }
 
-export { FullCampaignExecutor };
+export { FullCampaignExecutor },

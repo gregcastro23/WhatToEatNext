@@ -3,8 +3,8 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 import { vinegars } from './vinegars';
 
-export { vinegars };
-export default vinegars;
+export { vinegars },
+export default vinegars,
 
 // Export specific vinegar categories
 // Don't re-import vinegars - use the one already imported

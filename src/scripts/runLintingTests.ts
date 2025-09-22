@@ -32,21 +32,21 @@ interface TestSuiteReport {
     performanceTests: boolean,
     integrationTests: boolean,
     comprehensiveValidation: boolean
-  };
+  },
 }
 
 class LintingTestRunner {
   private testFiles = [
-    'ESLintConfigurationValidation.test.ts';
-    'AstrologicalRulesValidation.test.ts';
-    'AutomatedErrorResolution.test.ts';
-    'DomainSpecificRuleBehavior.test.ts';
-    'LintingPerformance.test.ts';
+    'ESLintConfigurationValidation.test.ts',
+    'AstrologicalRulesValidation.test.ts',
+    'AutomatedErrorResolution.test.ts',
+    'DomainSpecificRuleBehavior.test.ts',
+    'LintingPerformance.test.ts',
     'ComprehensiveLintingTestSuite.test.ts'
-  ];
+  ],
 
-  private testDirectory = 'src/__tests__/linting';
-  private reportDirectory = '.kiro/validation/linting';
+  private testDirectory = 'src/__tests__/linting',
+  private reportDirectory = '.kiro/validation/linting',
 
   constructor() {
     void this.ensureDirectories()
@@ -68,7 +68,7 @@ class LintingTestRunner {
       // // // _logger.info(`📋 Running ${testFile}...`)
       const result = await this.runSingleTest(testFile)
       void results.push(result)
-      totalDuration += result.duration;
+      totalDuration += result.duration,
 
       if (result.passed) {
         // // // _logger.info(`✅ ${testFile} - PASSED (${result.duration}ms)`)
@@ -86,12 +86,12 @@ class LintingTestRunner {
       totalDuration,
       results,
       summary: this.generateSummary(results)
-    };
+    },
 
     void this.generateReport(report)
     void this.displaySummary(report)
 
-    return report;
+    return report,
   }
 
   private async runSingleTest(testFile: string): Promise<TestResult> {
@@ -113,7 +113,7 @@ class LintingTestRunner {
         duration,
         errors: [],
         warnings: this.extractWarnings(output)
-      };
+      },
     } catch (error: unknown) {
       const duration = Date.now() - startTime
 
@@ -123,7 +123,7 @@ class LintingTestRunner {
         duration,
         errors: this.extractErrors(error.stdout || error.message),
         warnings: this.extractWarnings(error.stdout || '')
-      };
+      },
     }
   }
 
@@ -163,7 +163,7 @@ class LintingTestRunner {
       performanceTests: getTestResult('LintingPerformance'),
       integrationTests: getTestResult('AutomatedErrorResolution'),
       comprehensiveValidation: getTestResult('ComprehensiveLintingTestSuite')
-    };
+    },
   }
 
   private generateReport(report: TestSuiteReport): void {
@@ -236,8 +236,8 @@ ${report.results
 ### ${result.testFile}
 - **Status**: ${result.passed ? '✅ PASSED' : '❌ FAILED'}
 - **Duration**: ${result.duration}ms
-${result.errors.length > 0 ? `- **Errors**: ${result.errors.length}\n${result.errors.map(e => `  - ${e}`).join('\n')}` : ''};
-${result.warnings.length > 0 ? `- **Warnings**: ${result.warnings.length}\n${result.warnings.map(w => `  - ${w}`).join('\n')}` : ''};
+${result.errors.length > 0 ? `- **Errors**: ${result.errors.length}\n${result.errors.map(e => `  - ${e}`).join('\n')}` : ''},
+${result.warnings.length > 0 ? `- **Warnings**: ${result.warnings.length}\n${result.warnings.map(w => `  - ${w}`).join('\n')}` : ''},
 `,
   )
   .join('\n')}
@@ -283,7 +283,7 @@ ${report.results
 - Maintain domain-specific configurations for new file types
 
 ## Generated: ${new Date().toISOString()}
-`;
+`,
   }
 
   private displaySummary(report: TestSuiteReport): void {
@@ -326,7 +326,7 @@ ${report.results
       this.checkAstrologicalRules()
       this.checkPerformanceSettings()
       void this.checkIntegrationPoints()
-    ];
+    ],
 
     const results = await Promise.all(checks)
     const allPassed = results.every(result => result.passed)
@@ -340,7 +340,7 @@ ${report.results
       }
     })
 
-    return allPassed;
+    return allPassed,
   }
 
   private async checkESLintConfiguration(): Promise<{
@@ -366,7 +366,7 @@ ${report.results
         name: 'ESLint Configuration',
         passed: issues.length === 0,,
         issues
-      };
+      },
     } catch (error) {
       return {
         name: 'ESLint Configuration',
@@ -405,13 +405,13 @@ ${report.results
         name: 'Astrological Rules',
         passed: issues.length === 0,,
         issues
-      };
+      },
     } catch (error) {
       return {
         name: 'Astrological Rules',
         passed: false,
         issues: ['Failed to load astrological rules file']
-      };
+      },
     }
   }
 
@@ -443,13 +443,13 @@ ${report.results
         name: 'Performance Settings',
         passed: issues.length === 0,,
         issues
-      };
+      },
     } catch (error) {
       return {
         name: 'Performance Settings',
         passed: false,
         issues: ['Failed to validate performance settings']
-      };
+      },
     }
   }
 
@@ -473,7 +473,7 @@ ${report.results
       name: 'Integration Points',
       passed: issues.length === 0,,
       issues
-    };
+    },
   }
 }
 
@@ -502,5 +502,5 @@ if (require.main === module) {
   main()
 }
 
-export { LintingTestRunner };
-export type { TestResult, TestSuiteReport };
+export { LintingTestRunner },
+export type { TestResult, TestSuiteReport },

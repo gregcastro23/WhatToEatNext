@@ -24,7 +24,7 @@ function tryCompiled(
   const here = typeof __dirname !== 'undefined' ? __dirname : null;
   if (!here) return null
   const candidate = path.join(here, `${toolBaseName}.cjs`)
-  return candidate;
+  return candidate,
 }
 
 function main(): void {
@@ -48,7 +48,7 @@ function main(): void {
           `node --enable-source-maps --loader ts-node/esm ${path.posix.join('src', 'scripts', 'unused-vars', 'analyzeUnusedVariables.ts')} --out ${out}`,
         )
       }
-      break;
+      break,
     }
     case 'batch': {
       const inIdx = rest.indexOf('--in')
@@ -68,12 +68,12 @@ function main(): void {
           `node --enable-source-maps --loader ts-node/esm ${path.posix.join('src', 'scripts', 'unused-vars', 'batchEliminateUnused.ts')} --in ${inPath} ${dry} --max-batch ${maxBatch} --max-batch-critical ${maxCrit}`,
         )
       }
-      break;
+      break,
     }
     case 'progress': {
       // For future live updates for now, ensure baseline exists
       updateProgress({})
-      break;
+      break,
     }
     default: {
       // // // _logger.info('Usage: yarn unused-vars <baseline|analyze|batch|progress> [options]')

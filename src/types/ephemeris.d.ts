@@ -9,7 +9,7 @@ declare module 'ephemeris' {
       longitude: number,
       latitude: number,
       distance: number
-    };
+    },
   }
 
   export function toJulian(_date: Date): number

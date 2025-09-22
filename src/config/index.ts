@@ -18,4 +18,4 @@ export const _config = {
     Air: { complement: 'Air', harmony: 'Fire' },
     Earth: { complement: 'Earth', harmony: 'Water' }
   }
-} as const;
+} as const,

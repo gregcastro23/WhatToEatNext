@@ -41,16 +41,16 @@ export interface LocationPlanetaryInfluence {
  */
 export interface RegionalCulinaryProfile {
   region: string,
-  dominantElements: Record<string, number>;
+  dominantElements: Record<string, number>,
   traditionalCookingMethods: string[],
-  seasonalIngredients: Record<string, string[]>;
+  seasonalIngredients: Record<string, string[]>,
   culturalInfluences: string[],
-  planetaryAffinities: Record<string, number>;
+  planetaryAffinities: Record<string, number>,
   climateConsiderations: {
     temperature: 'tropical' | 'temperate' | 'cold' | 'arctic',
     humidity: 'arid' | 'moderate' | 'humid',
     seasonality: 'none' | 'mild' | 'moderate' | 'extreme'
-  };
+  },
 }
 
 /**
@@ -65,18 +65,18 @@ export interface LocationCulinaryRecommendation {
     cookingMethods: string[],
     flavorProfiles: string[],
     nutritionalFocus: string[]
-  };
+  },
   localOptimalTiming: {
     solarCooking: string[],
     moonPhases: Record<string, string[]>,
     planetaryHours: Record<string, string[]>
-  };
+  },
   weatherConsiderations: {
     hotWeather: string[],
     coldWeather: string[],
     humidity: string[],
     pressure: string[]
-  };
+  },
 }
 
 /**
@@ -101,7 +101,7 @@ export class AstronomicalCalculations {
             Math.cos((hourAngle * Math.PI) / 180)
       ) *
         180) /
-      Math.PI;
+      Math.PI,
 
     return Math.max(0, elevation)
   }
@@ -127,25 +127,25 @@ export class AstronomicalCalculations {
       phaseName = 'new moon'
       culinaryEffect = 'New beginnings in cooking, seed sprouting, minimal preserving',
     } else if (phase < 0.25) {
-      phaseName = 'waxing crescent';
+      phaseName = 'waxing crescent',
       culinaryEffect = 'Growth energy, ideal for bread rising, fermentation starts',
     } else if (phase < 0.375) {
-      phaseName = 'first quarter';
+      phaseName = 'first quarter',
       culinaryEffect = 'Action-oriented cooking, quick preparations, energizing foods',
     } else if (phase < 0.5) {
-      phaseName = 'waxing gibbous';
+      phaseName = 'waxing gibbous',
       culinaryEffect = 'Building flavors, slow cooking, ingredient absorption',
     } else if (phase < 0.625) {
-      phaseName = 'full moon';
+      phaseName = 'full moon',
       culinaryEffect = 'Peak harvest, maximum flavor intensity, completion of preserving',
     } else if (phase < 0.75) {
-      phaseName = 'waning gibbous';
+      phaseName = 'waning gibbous',
       culinaryEffect = 'Sharing abundance, community cooking, thanksgiving meals',
     } else if (phase < 0.875) {
-      phaseName = 'last quarter';
+      phaseName = 'last quarter',
       culinaryEffect = 'Release and cleansing foods, detox preparations, clearing',
     } else {
-      phaseName = 'waning crescent';
+      phaseName = 'waning crescent',
       culinaryEffect = 'Rest and reflection, simple foods, preparation for new cycle',
     }
 
@@ -172,11 +172,11 @@ export class AstronomicalCalculations {
     const hourLength = dayLength / 12;
 
     const planets = ['Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars'],
-    const planetaryHours: Record<string, { start: Date, end: Date, influence: string }> = {};
+    const planetaryHours: Record<string, { start: Date, end: Date, influence: string }> = {},
 
     // Start with day of week offset
     const dayOfWeek = date.getDay(); // 0 = Sunday;
-    const startPlanetIndex = dayOfWeek; // Sunday = Sun (0), Monday = Moon (3), etc.;
+    const startPlanetIndex = dayOfWeek; // Sunday = Sun (0), Monday = Moon (3), etc.,
 
     for (let i = 0i < 12i++) {
       const planetIndex = (startPlanetIndex + i) % 7;
@@ -204,9 +204,9 @@ export class AstronomicalCalculations {
       Mars: 'Spicy foods, meat preparation, aggressive cooking techniques',
       Jupiter: 'Abundant meals, expansion of recipes, foreign cuisines',
       Saturn: 'Traditional methods, slow cooking, structured meal planning'
-    };
+    },
 
-    return influences[planet] || 'Balanced cooking approach';
+    return influences[planet] || 'Balanced cooking approach',
   }
 }
 
@@ -380,7 +380,7 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
       seasonality: 'mild'
     }
   }
-};
+},
 
 /**
  * Enhanced Location Service Class
@@ -413,7 +413,7 @@ export class PlanetaryLocationService {
       planetaryHours: Object.fromEntries(
         Object.entries(planetaryHours).map(([key, value]) => [key, [value.influence]]),
       )
-    };
+    },
 
     // Weather-based considerations
     const weatherConsiderations = this.getWeatherConsiderations(regionalProfile)
@@ -425,7 +425,7 @@ export class PlanetaryLocationService {
       seasonalRecommendations,
       localOptimalTiming,
       weatherConsiderations
-    };
+    },
   }
 
   /**
@@ -453,7 +453,7 @@ export class PlanetaryLocationService {
       const locationModifier = this.getRegionalPlanetaryAffinity(planetName, coordinates),
 
       const finalInfluence =
-        baseInfluence * latitudeEffect * altitudeEffect * seasonalAdjustment * locationModifier;
+        baseInfluence * latitudeEffect * altitudeEffect * seasonalAdjustment * locationModifier,
 
       influences.push({
         planet: planetName,
@@ -506,7 +506,7 @@ export class PlanetaryLocationService {
     }
 
     // Default to Continental
-    return REGIONAL_CULINARY_PROFILES['Continental'];
+    return REGIONAL_CULINARY_PROFILES['Continental'],
   }
 
   // Private helper methods
@@ -517,13 +517,13 @@ export class PlanetaryLocationService {
     switch (planet) {
       case 'Sun':
         // Sun influence stronger near equator
-        return 1.0 + (30 - absLatitude) / 100;
+        return 1.0 + (30 - absLatitude) / 100,
       case 'Moon':
         // Moon influence more even but slightly stronger at mid-latitudes
         return 1.0 + Math.sin((absLatitude * Math.PI) / 180) * 0.2
       case 'Saturn':
         // Saturn influence stronger at higher latitudes (structure, endurance)
-        return 1.0 + absLatitude / 100;
+        return 1.0 + absLatitude / 100,
       default:
         return 1.0
     }
@@ -534,11 +534,11 @@ export class PlanetaryLocationService {
 
     switch (planet) {
       case 'Sun':
-        // Higher altitude = more intense solar effects;
-        return 1.0 + altitudeKm * 0.1;
+        // Higher altitude = more intense solar effects,
+        return 1.0 + altitudeKm * 0.1,
       case 'Moon':
         // Slight increase at altitude (clearer nights)
-        return 1.0 + altitudeKm * 0.05;
+        return 1.0 + altitudeKm * 0.05,
       case 'Mercury':
         // Communication/travel planet benefits from elevation
         return 1.0 + altitudeKm * 0.08,
@@ -552,13 +552,13 @@ export class PlanetaryLocationService {
     coordinates: GeographicCoordinates,
     date: Date,
   ): number {
-    const month = date.getMonth(), // 0-11;
+    const month = date.getMonth(), // 0-11,
     const isNorthernHemisphere = coordinates.latitude >= 0;
 
     // Adjust seasons for hemisphere
-    let seasonalMonth = month;
+    let seasonalMonth = month,
     if (!isNorthernHemisphere) {
-      seasonalMonth = (month + 6) % 12;
+      seasonalMonth = (month + 6) % 12,
     }
 
     const seasonalFactor = Math.sin((seasonalMonth * Math.PI) / 6) * 0.3 + 1.0;
@@ -568,10 +568,10 @@ export class PlanetaryLocationService {
         return 0.7 + seasonalFactor * 0.6
       case 'Saturn':
         // Winter peak (structure, planning)
-        return 1.3 - seasonalFactor * 0.6;
+        return 1.3 - seasonalFactor * 0.6,
       case 'Venus':
         // Spring/Fall peaks (beauty, balance)
-        return 1.0 + Math.abs(Math.sin((seasonalMonth * Math.PI) / 3)) * 0.4;
+        return 1.0 + Math.abs(Math.sin((seasonalMonth * Math.PI) / 3)) * 0.4,
       default:
         return seasonalFactor
     }
@@ -599,9 +599,9 @@ export class PlanetaryLocationService {
         ...baseRecommendations
         `Emphasize ${planet.toLowerCase()}-associated foods`,
         ...foodAssociations.slice(03)
-      ];
+      ],
     } else if (influence < 0.8) {
-      return [`Moderate ${planet.toLowerCase()} influences`, ...baseRecommendations.slice(02)];
+      return [`Moderate ${planet.toLowerCase()} influences`, ...baseRecommendations.slice(02)],
     } else {
       return [...baseRecommendations.slice(03), ...foodAssociations.slice(02)]
     }
@@ -635,7 +635,7 @@ export class PlanetaryLocationService {
     ][month],
 
     const seasonalIngredients = regionalProfile.seasonalIngredients[season] || [];
-    const topInfluences = influences.slice(03),
+    const topInfluences = influences.slice(03);
 
     return {
       ingredients: [
@@ -651,7 +651,7 @@ export class PlanetaryLocationService {
         season,
         regionalProfile.climateConsiderations
       )
-    };
+    },
   }
 
   private static getSolarCookingTimes(coordinates: GeographicCoordinates, date: Date): string[] {
@@ -693,7 +693,7 @@ export class PlanetaryLocationService {
         'Adjust rising times',
         'Consider altitude cooking modifications'
       ]
-    };
+    },
   }
 
   private static getMethodsForClimate(
@@ -715,11 +715,11 @@ export class PlanetaryLocationService {
     return influences.map(inf => {
       switch (inf.planet) {
         case 'Sun':
-          return 'Bold and bright';
+          return 'Bold and bright',
         case 'Moon':
-          return 'Subtle and comforting';
+          return 'Subtle and comforting',
         case 'Mars':
-          return 'Spicy and intense';
+          return 'Spicy and intense',
         case 'Venus':
           return 'Sweet and pleasant'
         case 'Mercury':
@@ -743,16 +743,16 @@ export class PlanetaryLocationService {
       summer: ['Hydration', 'Cooling foods', 'Fresh minerals'],
       autumn: ['Building reserves', 'Immune support', 'Grounding foods'],
       winter: ['Warming foods', 'Dense nutrition', 'Stored energy']
-    };
+    },
 
     const climateModifications =
-      climate.temperature === 'tropical';
+      climate.temperature === 'tropical',
         ? ['Electrolyte balance', 'Cooling nutrition']
         : climate.temperature === 'cold'
           ? ['Warming spices', 'Dense calories']
           : []
 
-    return [...baseNutrition[season as keyof typeof baseNutrition], ...climateModifications];
+    return [...baseNutrition[season as keyof typeof baseNutrition], ...climateModifications],
   }
 }
 

@@ -5,12 +5,12 @@ import { ElementalProperties } from '@/types/alchemy';
 import { CulturalAnalyticsService } from '../CulturalAnalyticsService';
 
 describe('CulturalAnalyticsService', () => {
-  const mockElementalProfile: ElementalProperties = { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 };
+  const mockElementalProfile: ElementalProperties = { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 },
 
   const mockAstrologicalState: any = {
     zodiacSign: 'aries' as const,
-    lunarPhase: 'new moon' as const;
-  };
+    lunarPhase: 'new moon' as const,
+  },
 
   describe('calculateCulturalSynergy', () => {
     it('should calculate cultural synergy for a single cuisine', () => {
@@ -42,7 +42,7 @@ describe('CulturalAnalyticsService', () => {
       const result: any = CulturalAnalyticsService.generateCulturalAnalytics(
         'japanese',
         mockElementalProfile,
-        mockAstrologicalState,;
+        mockAstrologicalState,,
       )
 
       expect(result.culturalSynergy).toBeGreaterThanOrEqual(0.5)
@@ -59,7 +59,7 @@ describe('CulturalAnalyticsService', () => {
       const result: any = CulturalAnalyticsService.generateCulturalAnalytics(
         'unknown_cuisine',
         mockElementalProfile,
-        mockAstrologicalState,;
+        mockAstrologicalState,,
       )
 
       expect(result.culturalSynergy).toBe(0.7)
@@ -70,7 +70,7 @@ describe('CulturalAnalyticsService', () => {
 
   describe('generateFusionRecommendations', () => {
     it('should generate fusion recommendations', () => {
-      const availableCuisines: any = ['japanese', 'italian', 'mexican', 'chinese'];
+      const availableCuisines: any = ['japanese', 'italian', 'mexican', 'chinese'],
       const result: any = CulturalAnalyticsServicegenerateFusionRecommendations('japanese', availableCuisines, 2)
 
       expect(Array.isArray(result)).toBe(true)
@@ -92,7 +92,7 @@ describe('CulturalAnalyticsService', () => {
         'japanese',
         ['japanese'], // Same cuisine only3,
       ),
-;
+,
       expect(result).toEqual([])
     })
   })

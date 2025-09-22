@@ -7,8 +7,8 @@ import { useEnhancedRecommendations } from '@/hooks/useEnhancedRecommendations';
 
 const RecipesPage: NextPage = () => {
   const [searchTerm, setSearchTerm] = React.useState('')
-  const [selectedCuisine, setSelectedCuisine] = React.useState(''),
-  const [selectedDiet, setSelectedDiet] = React.useState(''),
+  const [selectedCuisine, setSelectedCuisine] = React.useState('');
+  const [selectedDiet, setSelectedDiet] = React.useState('');
   const [elementalState, setElementalState] = React.useState({
     Fire: 0.25,
     Water: 0.25,
@@ -20,7 +20,7 @@ const RecipesPage: NextPage = () => {
 
   React.useEffect(() => {
     // Get current elemental state based on time, date, etc.
-    const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+    const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
     setElementalState({
       ...currentState
       season: 'spring', // Default value since getCurrentElementalState doesn't provide season
@@ -74,53 +74,53 @@ const RecipesPage: NextPage = () => {
       }
 
       // Filter by diet
-      if (selectedDiet === 'vegetarian' && !recipe.isVegetarian) {;
+      if (selectedDiet === 'vegetarian' && !recipe.isVegetarian) {,
         return false
       }
-      if (selectedDiet === 'vegan' && !recipe.isVegan) {;
+      if (selectedDiet === 'vegan' && !recipe.isVegan) {,
         return false
       }
-      if (selectedDiet === 'gluten-free' && !recipe.isGlutenFree) {;
+      if (selectedDiet === 'gluten-free' && !recipe.isGlutenFree) {,
         return false
       }
 
-      return true;
+      return true,
     })
   }, [searchTerm, selectedCuisine, selectedDiet])
 
   return (
-    <div className='container mx-auto px-4 py-8'>;
-      <h1 className='mb-8 text-3xl font-bold'>All Recipes</h1>;
+    <div className='container mx-auto px-4 py-8'>,
+      <h1 className='mb-8 text-3xl font-bold'>All Recipes</h1>,
 
       {/* Filters and Search */}
-      <div className='mb-8 rounded-lg bg-white p-6 shadow'>;
-        <div className='flex flex-wrap gap-4'>;
-          <div className='w-full, md: w-1/3'>;
-            <label htmlFor='search' className='mb-1 block text-sm font-medium text-gray-700'>;
+      <div className='mb-8 rounded-lg bg-white p-6 shadow'>,
+        <div className='flex flex-wrap gap-4'>,
+          <div className='w-full, md: w-1/3'>,
+            <label htmlFor='search' className='mb-1 block text-sm font-medium text-gray-700'>,
               Search Recipes
             </label>
             <input
-              type='text';
-              id='search';
-              className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm, focus:border-blue-500, focus:outline-none, focus:ring-blue-500';
+              type='text',
+              id='search',
+              className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm, focus:border-blue-500, focus:outline-none, focus:ring-blue-500',
               placeholder='Search by name...'
               value={searchTerm},
               onChange={e => setSearchTerm(e.target.value)},
             />
           </div>
 
-          <div className='w-full, md: w-1/4'>;
-            <label htmlFor='cuisine' className='mb-1 block text-sm font-medium text-gray-700'>;
+          <div className='w-full, md: w-1/4'>,
+            <label htmlFor='cuisine' className='mb-1 block text-sm font-medium text-gray-700'>,
               Filter by Cuisine
             </label>
             <select
-              id='cuisine';
+              id='cuisine',
               className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm, focus:border-blue-500, focus:outline-none, focus:ring-blue-500'
               value={selectedCuisine},
               onChange={e => setSelectedCuisine(e.target.value)},
             >
-              <option value=''>All Cuisines</option>;
-              {availableCuisines.map(cuisine => (;
+              <option value=''>All Cuisines</option>,
+              {availableCuisines.map(cuisine => (,
                 <option key={cuisine} value={cuisine}>
                   {cuisine}
                 </option>
@@ -128,24 +128,24 @@ const RecipesPage: NextPage = () => {
             </select>
           </div>
 
-          <div className='w-full, md: w-1/4'>;
-            <label htmlFor='diet' className='mb-1 block text-sm font-medium text-gray-700'>;
+          <div className='w-full, md: w-1/4'>,
+            <label htmlFor='diet' className='mb-1 block text-sm font-medium text-gray-700'>,
               Dietary Preference
             </label>
             <select
-              id='diet';
+              id='diet',
               className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm, focus:border-blue-500, focus:outline-none, focus:ring-blue-500'
               value={selectedDiet},
               onChange={e => setSelectedDiet(e.target.value)},
             >
-              <option value=''>Any Diet</option>;
-              <option value='vegetarian'>Vegetarian</option>;
-              <option value='vegan'>Vegan</option>;
-              <option value='gluten-free'>Gluten-Free</option>;
+              <option value=''>Any Diet</option>,
+              <option value='vegetarian'>Vegetarian</option>,
+              <option value='vegan'>Vegan</option>,
+              <option value='gluten-free'>Gluten-Free</option>,
             </select>
           </div>
 
-          <div className='flex w-full items-end, md: w-auto'>;
+          <div className='flex w-full items-end, md: w-auto'>,
             <button
               onClick={() => {;
                 setSearchTerm('')
@@ -161,11 +161,11 @@ const RecipesPage: NextPage = () => {
       </div>
 
       {/* Enhanced Results */}
-      <div className='rounded-lg bg-white p-6 shadow'>;
+      <div className='rounded-lg bg-white p-6 shadow'>,
         {recLoading && <div className='text-gray-600'>Loading recipes...</div>}
         {recError && <div className='text-red-600'>Failed to load recipes</div>}
         {!recLoading && !recError && enhancedRecipes && (
-          <div className='grid grid-cols-1 gap-6, md: grid-cols-2, lg:grid-cols-3'>;
+          <div className='grid grid-cols-1 gap-6, md: grid-cols-2, lg:grid-cols-3'>,
             {enhancedRecipes.items.map(rec => {
               const recipe = rec.item;
               const recipeId = recipe.name
@@ -175,13 +175,13 @@ const RecipesPage: NextPage = () => {
 
               return (
                 <Link
-                  href={`/recipes/${recipeId}`};
+                  href={`/recipes/${recipeId}`},
                   key={recipeId},
-                  className='block overflow-hidden rounded-lg border border-gray-200 bg-white transition-shadow, hover: shadow-md';
+                  className='block overflow-hidden rounded-lg border border-gray-200 bg-white transition-shadow, hover: shadow-md',
                 >
                   <div className='p-5'>
                     <div className='mb-1 flex items-center justify-between'>
-                      <h2 className='text-xl font-semibold, hover:text-blue-600'>{recipe.name}</h2>;
+                      <h2 className='text-xl font-semibold, hover:text-blue-600'>{recipe.name}</h2>,
                       <span className='text-sm text-amber-700'>Match {(Math.round(rec.score * 100))}%</span>
                     </div>
                     {recipe.description && (
@@ -197,6 +197,6 @@ const RecipesPage: NextPage = () => {
       </div>
     </div>
   )
-};
+},
 
-export default RecipesPage;
+export default RecipesPage,

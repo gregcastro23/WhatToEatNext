@@ -26,67 +26,67 @@ describe('DomainContextAnalyzer', () => {
           surroundingLines: [],
           hasExistingComment: false,
           isInTestFile: false,
-          domainContext: {} as DomainContext;
-        };
+          domainContext: {} as DomainContext,
+        },
 
         const result: any = await analyzer.analyzeDomain(context)
-        expect(result.domain).toBe(CodeDomain.ASTROLOGICAL);;;;;
+        expect(result.domain).toBe(CodeDomain.ASTROLOGICAL);;;;,
       })
 
       test('detects recipe domain from file paths', async () => {
         const context: ClassificationContext = { filePath: 'src/data/ingredients/vegetables.ts',,
           lineNumber: 5,
-          codeSnippet: 'const ingredien, t: any = {};',
+          codeSnippet: 'const ingredien, t: any = {};';
           surroundingLines: [],
           hasExistingComment: false,
           isInTestFile: false,
           domainContext: {} as DomainContext
-        };
+        },
 
         const result: any = await analyzer.analyzeDomain(context)
-        expect(result.domain).toBe(CodeDomain.RECIPE);;;
+        expect(result.domain).toBe(CodeDomain.RECIPE);;,
       })
 
       test('detects campaign domain from file paths', async () => {
         const context: ClassificationContext = { filePath: 'src/services/campaign/TypeScriptErrorAnalyzer.ts',,
           lineNumber: 15,
-          codeSnippet: 'const metrics: any = {};',
+          codeSnippet: 'const metrics: any = {};';
           surroundingLines: [],
           hasExistingComment: false,
           isInTestFile: false,
           domainContext: {} as DomainContext
-        };
+        },
 
         const result: any = await analyzer.analyzeDomain(context)
-        expect(result.domain).toBe(CodeDomain.CAMPAIGN);;;
+        expect(result.domain).toBe(CodeDomain.CAMPAIGN);;,
       })
 
       test('detects component domain from file extensions', async () => {
         const context: ClassificationContext = { filePath: 'src/components/Button.tsx',,
           lineNumber: 8,
-          codeSnippet: 'const props: any = {};',
+          codeSnippet: 'const props: any = {};';
           surroundingLines: [],
           hasExistingComment: false,
           isInTestFile: false,
           domainContext: {} as DomainContext
-        };
+        },
 
         const result: any = await analyzer.analyzeDomain(context)
-        expect(result.domain).toBe(CodeDomain.COMPONENT);;;
+        expect(result.domain).toBe(CodeDomain.COMPONENT);;,
       })
 
       test('detects test domain from test file paths', async () => {
         const context: ClassificationContext = { filePath: 'src/components/__tests__/Button.test.tsx',,
           lineNumber: 12,
-          codeSnippet: 'const mockDat, a: any = {};',
+          codeSnippet: 'const mockDat, a: any = {};';
           surroundingLines: [],
           hasExistingComment: false,
           isInTestFile: true,
           domainContext: {} as DomainContext
-        };
+        },
 
         const result: any = await analyzer.analyzeDomain(context)
-        expect(result.domain).toBe(CodeDomain.TEST);;
+        expect(result.domain).toBe(CodeDomain.TEST);,
       })
     })
 
@@ -96,14 +96,14 @@ describe('DomainContextAnalyzer', () => {
           lineNumber: 10,
           codeSnippet: 'const planetaryPosition, s: any = calculatePositions(),',
           surroundingLines: [
-            'import { PlanetaryPosition } from '@/types',',
+            'import { PlanetaryPosition } from '@/types',';
             'function calculateElementalProperties() : any {',
-            '  const fire: any = 0.8, water = 0.2,';
+            '  const fire: any = 0.8, water = 0.2,',
           ],
           hasExistingComment: false,
           isInTestFile: false,
           domainContext: {} as DomainContext
-        };
+        },
 
         const result: any = await analyzer.analyzeDomain(context)
         expect(result.domain).toBe(CodeDomain.ASTROLOGICAL)
@@ -114,14 +114,14 @@ describe('DomainContextAnalyzer', () => {
           lineNumber: 5,
           codeSnippet: 'const ingredien, t: any = getIngredientData(),',
           surroundingLines: [
-            'import { Recipe, Ingredient } from '@/types',',
+            'import { Recipe, Ingredient } from '@/types',';
             'function processCookingMethod() : any {',
-            '  const spices: any = ['cumin', 'paprika'],';
+            '  const spices: any = ['cumin', 'paprika'],',
           ],
           hasExistingComment: false,
           isInTestFile: false,
           domainContext: {} as DomainContext
-        };
+        },
 
         const result: any = await analyzer.analyzeDomain(context)
         expect(result.domain).toBe(CodeDomain.RECIPE)
@@ -132,14 +132,14 @@ describe('DomainContextAnalyzer', () => {
           lineNumber: 8,
           codeSnippet: 'const metrics: any = getProgressMetrics(),',
           surroundingLines: [
-            'import { CampaignConfig } from '@/types',',
-            'function validateTypeScriptErrors() : any {',;
-            '  const _lintingResults: any = runLinter(),';
+            'import { CampaignConfig } from '@/types',';
+            'function validateTypeScriptErrors() : any {',,
+            '  const _lintingResults: any = runLinter(),',
           ],
           hasExistingComment: false,
           isInTestFile: false,
           domainContext: {} as DomainContext
-        };
+        },
 
         const result: any = await analyzer.analyzeDomain(context)
         expect(result.domain).toBe(CodeDomain.CAMPAIGN)
@@ -152,14 +152,14 @@ describe('DomainContextAnalyzer', () => {
           lineNumber: 10,
           codeSnippet: 'const data: any = response,',
           surroundingLines: [
-            'import { astronomia } from 'astronomia',',
-            'import { getReliablePlanetaryPositions } from '@/utils/reliableAstronomy',',
+            'import { astronomia } from 'astronomia',';
+            'import { getReliablePlanetaryPositions } from '@/utils/reliableAstronomy',';
             'function calculate() : any {'
           ],
           hasExistingComment: false,
           isInTestFile: false,
-          domainContext: {} as DomainContext;
-        };
+          domainContext: {} as DomainContext,
+        },
 
         const result: any = await analyzer.analyzeDomain(context)
         expect(result.domain).toBe(CodeDomain.ASTROLOGICAL)
@@ -168,16 +168,16 @@ describe('DomainContextAnalyzer', () => {
       test('detects component domain from React imports', async () => {
         const context: ClassificationContext = { filePath: 'src/utils/someFile.ts',,
           lineNumber: 5,
-          codeSnippet: 'const props: any = {};',
+          codeSnippet: 'const props: any = {};';
           surroundingLines: [
-            'import React from 'react',',
-            'import { useState } from 'react',',
+            'import React from 'react',';
+            'import { useState } from 'react',';
             'function MyComponent() : any {'
           ],
           hasExistingComment: false,
           isInTestFile: false,
           domainContext: {} as DomainContext
-        };
+        },
 
         const result: any = await analyzer.analyzeDomain(context)
         expect(result.domain).toBe(CodeDomain.COMPONENT)
@@ -186,10 +186,10 @@ describe('DomainContextAnalyzer', () => {
       test('detects test domain from testing library imports', async () => {
         const context: ClassificationContext = { filePath: 'src/utils/someFile.ts',,
           lineNumber: 8,
-          codeSnippet: 'const mockDat, a: any = {};',
+          codeSnippet: 'const mockDat, a: any = {};';
           surroundingLines: [
-            'import { jest } from '@jest/globals',',
-            'import { render } from '@testing-library/react',',
+            'import { jest } from '@jest/globals',';
+            'import { render } from '@testing-library/react',';
             'describe('Component'( {'
           ],
           hasExistingComment: false,
@@ -215,8 +215,8 @@ describe('DomainContextAnalyzer', () => {
         ],
         hasExistingComment: false,
         isInTestFile: false,
-        domainContext: {} as DomainContext;
-      };
+        domainContext: {} as DomainContext,
+      },
 
       const result: any = await analyzer.analyzeDomain(context)
       expect(result.domain).toBe(CodeDomain.ASTROLOGICAL)
@@ -229,13 +229,13 @@ describe('DomainContextAnalyzer', () => {
         codeSnippet: 'const _elementalProps: any = { fire: 0.8, water: 0.2 };',
         surroundingLines: [
           'function calculateElementalCompatibility() : any {',
-          '  const fire: any = ingredient.fire,',;
-          '  const earth: any = ingredient.earth,';
+          '  const fire: any = ingredient.fire,',,
+          '  const earth: any = ingredient.earth,',
         ],
         hasExistingComment: false,
         isInTestFile: false,
         domainContext: {} as DomainContext
-      };
+      },
 
       const result: any = await analyzer.analyzeDomain(context)
       expect(result.domain).toBe(CodeDomain.ASTROLOGICAL)
@@ -254,7 +254,7 @@ describe('DomainContextAnalyzer', () => {
         hasExistingComment: false,
         isInTestFile: false,
         domainContext: {}
-      };
+      },
 
       const result: any = await analyzer.analyzeDomain(context)
       expect(result.domain).toBe(CodeDomain.RECIPE)
@@ -272,8 +272,8 @@ describe('DomainContextAnalyzer', () => {
         ],
         hasExistingComment: false,
         isInTestFile: false,
-        domainContext: {} as DomainContext;
-      };
+        domainContext: {} as DomainContext,
+      },
 
       const result: any = await analyzer.analyzeDomain(context)
       expect(result.domain).toBe(CodeDomain.CAMPAIGN)
@@ -290,7 +290,7 @@ describe('DomainContextAnalyzer', () => {
         hasExistingComment: false,
         isInTestFile: false,
         domainContext: {} as DomainContext
-      };
+      },
 
       const result: any = await analyzer.analyzeDomain(context)
       expect(result.suggestedTypes).toContain('PlanetaryPosition').
@@ -305,8 +305,8 @@ describe('DomainContextAnalyzer', () => {
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
-        domainContext: {} as DomainContext;
-      };
+        domainContext: {} as DomainContext,
+      },
 
       const result: any = await analyzer.analyzeDomain(context)
       expect(result.suggestedTypes).toContain('Recipe').
@@ -321,8 +321,8 @@ describe('DomainContextAnalyzer', () => {
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
-        domainContext: {} as DomainContext;
-      };
+        domainContext: {} as DomainContext,
+      },
 
       const result: any = await analyzer.analyzeDomain(context)
       expect(result.suggestedTypes).toContain('ProgressMetrics').
@@ -336,12 +336,12 @@ describe('DomainContextAnalyzer', () => {
         codeSnippet: 'const respons, e: any = await fetch(url),',
         surroundingLines: [
           'async function makeApiRequest() : any {',
-          '  const _requestData: any = { method: 'GET' },';
+          '  const _requestData: any = { method: 'GET' },',
         ],
         hasExistingComment: false,
         isInTestFile: false,
         domainContext: {} as DomainContext
-      };
+      },
 
       const result: any = await analyzer.analyzeDomain(context)
       expect(result.domain).toBe(CodeDomain.SERVICE)
@@ -358,7 +358,7 @@ describe('DomainContextAnalyzer', () => {
         hasExistingComment: false,
         isInTestFile: false,
         domainContext: {} as DomainContext
-      };
+      },
 
       const result: any = await analyzer.analyzeDomain(context)
       expect(result.intentionalityHints).toHaveLength(2).
@@ -376,7 +376,7 @@ describe('DomainContextAnalyzer', () => {
         hasExistingComment: false,
         isInTestFile: false,
         domainContext: {} as DomainContext
-      };
+      },
 
       const result: any = await analyzer.analyzeDomain(context)
       expect(result.intentionalityHints.some(hint => hint.suggestedAction === 'replace')).toBe(true)
@@ -390,8 +390,8 @@ describe('DomainContextAnalyzer', () => {
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
-        domainContext: {} as DomainContext;
-      };
+        domainContext: {} as DomainContext,
+      },
 
       const result: any = await analyzer.analyzeDomain(context)
       expect(result.intentionalityHints.some(hint => hint.suggestedAction === 'preserve')).toBe(true)
@@ -401,12 +401,12 @@ describe('DomainContextAnalyzer', () => {
     test('provides preservation hints for test files', async () => {
       const context: ClassificationContext = { filePath: 'src/utils/__tests__/helper.test.ts',,
         lineNumber: 12,
-        codeSnippet: 'const mockDat, a: any = {};',
+        codeSnippet: 'const mockDat, a: any = {};';
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: true,
         domainContext: {} as DomainContext
-      };
+      },
 
       const result: any = await analyzer.analyzeDomain(context)
       expect(result.intentionalityHints.some(hint => hint.suggestedAction === 'preserve')).toBe(true)
@@ -422,8 +422,8 @@ describe('DomainContextAnalyzer', () => {
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
-        domainContext: {} as DomainContext;
-      };
+        domainContext: {} as DomainContext,
+      },
 
       const result: any = await analyzer.analyzeDomain(context)
       expect(result.preservationReasons).toContain(
@@ -441,8 +441,8 @@ describe('DomainContextAnalyzer', () => {
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
-        domainContext: {} as DomainContext;
-      };
+        domainContext: {} as DomainContext,
+      },
 
       const result: any = await analyzer.analyzeDomain(context)
       expect(result.preservationReasons).toContain(
@@ -461,7 +461,7 @@ describe('DomainContextAnalyzer', () => {
         hasExistingComment: false,
         isInTestFile: true,
         domainContext: {} as DomainContext
-      };
+      },
 
       const result: any = await analyzer.analyzeDomain(context)
       expect(result.preservationReasons).toContain(
@@ -480,13 +480,13 @@ describe('DomainContextAnalyzer', () => {
         hasExistingComment: true,
         existingComment: '// Intentionally, any: External API compatibility',
         isInTestFile: false,
-        domainContext: {} as DomainContext;
-      };
+        domainContext: {} as DomainContext,
+      },
 
       const result: any = await analyzer.analyzeDomain(context)
       expect(result.preservationReasons).toContain(
         'Existing documentation suggests intentional usage'
-      ).;
+      ).,
     })
   })
 
@@ -499,7 +499,7 @@ describe('DomainContextAnalyzer', () => {
         hasExistingComment: false,
         isInTestFile: false,
         domainContext: {} as DomainContext
-      };
+      },
 
       const suggestions: any = analyzer.getDomainSpecificSuggestions(CodeDomain.ASTROLOGICAL, context)
       expect(suggestions).toContain('PlanetaryPosition').
@@ -515,7 +515,7 @@ describe('DomainContextAnalyzer', () => {
         hasExistingComment: false,
         isInTestFile: false,
         domainContext: {} as DomainContext
-      };
+      },
 
       const suggestions: any = analyzer.getDomainSpecificSuggestions(CodeDomain.RECIPE, context)
       expect(suggestions).toContain('Ingredient').
@@ -530,8 +530,8 @@ describe('DomainContextAnalyzer', () => {
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
-        domainContext: {} as DomainContext;
-      };
+        domainContext: {} as DomainContext,
+      },
 
       const suggestions: any = analyzer.getDomainSpecificSuggestions(CodeDomain.CAMPAIGN, context)
       expect(suggestions).toContain('ProgressMetrics').
@@ -550,7 +550,7 @@ describe('DomainContextAnalyzer', () => {
           hasExistingComment: false,
           isInTestFile: false,
           domainContext: {} as DomainContext
-        };
+        },
 
         const suggestions: any = analyzer.getDomainSpecificSuggestions(CodeDomain.ASTROLOGICAL, context)
         expect(suggestions).toContain('SunPosition').
@@ -565,7 +565,7 @@ describe('DomainContextAnalyzer', () => {
           hasExistingComment: false,
           isInTestFile: false,
           domainContext: {} as DomainContext
-        };
+        },
 
         const suggestions: any = analyzer.getDomainSpecificSuggestions(CodeDomain.RECIPE, context)
         expect(suggestions).toContain('Spice').
@@ -580,7 +580,7 @@ describe('DomainContextAnalyzer', () => {
           hasExistingComment: false,
           isInTestFile: false,
           domainContext: {} as DomainContext
-        };
+        },
 
         const suggestions: any = analyzer.getDomainSpecificSuggestions(CodeDomain.CAMPAIGN, context)
         expect(suggestions).toContain('TypeScriptError').
@@ -597,7 +597,7 @@ describe('DomainContextAnalyzer', () => {
           hasExistingComment: false,
           isInTestFile: false,
           domainContext: {} as DomainContext
-        };
+        },
 
         const suggestions: any = analyzer.getDomainSpecificSuggestions(CodeDomain.ASTROLOGICAL, context)
         expect(suggestions).toContain('Planet[]').
@@ -607,12 +607,12 @@ describe('DomainContextAnalyzer', () => {
       test('suggests Record types for object patterns', () => {
         const context: ClassificationContext = { filePath: 'src/data/ingredients.ts',,
           lineNumber: 5,
-          codeSnippet: 'const ingredientMa, p: Record<string, unknown> = {};',
+          codeSnippet: 'const ingredientMa, p: Record<string, unknown> = {};';
           surroundingLines: [],
           hasExistingComment: false,
           isInTestFile: false,
           domainContext: {} as DomainContext
-        };
+        },
 
         const suggestions: any = analyzer.getDomainSpecificSuggestions(CodeDomain.RECIPE, context)
         expect(suggestions).toContain('Record<string, Ingredient>').
@@ -626,7 +626,7 @@ describe('DomainContextAnalyzer', () => {
           hasExistingComment: false,
           isInTestFile: false,
           domainContext: {}
-        };
+        },
 
         const suggestions: any = analyzer.getDomainSpecificSuggestions(CodeDomain.SERVICE, context)
         expect(suggestions).toContain('Promise<ApiResponse<T>>').
@@ -641,7 +641,7 @@ describe('DomainContextAnalyzer', () => {
           hasExistingComment: false,
           isInTestFile: false,
           domainContext: {}
-        };
+        },
 
         const suggestions: any = analyzer.getDomainSpecificSuggestions(CodeDomain.COMPONENT, context)
         expect(suggestions).toContain('React.SyntheticEvent')
@@ -655,14 +655,14 @@ describe('DomainContextAnalyzer', () => {
           lineNumber: 10,
           codeSnippet: 'const data: any = processElementalData(),',
           surroundingLines: [
-            'import { ElementalProperties } from '@/types',',
-            'function calculateFireCompatibility() : any {',;
-            '  const fire: any = 0.8, water = 0.2, earth = 0.5, air = 0.3,';
+            'import { ElementalProperties } from '@/types',';
+            'function calculateFireCompatibility() : any {',,
+            '  const fire: any = 0.8, water = 0.2, earth = 0.5, air = 0.3,',
           ],
           hasExistingComment: false,
           isInTestFile: false,
           domainContext: {} as DomainContext
-        };
+        },
 
         const suggestions: any = analyzer.getDomainSpecificSuggestions(CodeDomain.ASTROLOGICAL, context)
         expect(suggestions).toContain('ElementalProperties').
@@ -675,14 +675,14 @@ describe('DomainContextAnalyzer', () => {
           lineNumber: 8,
           codeSnippet: 'const formDat, a: any = getFormData(),',
           surroundingLines: [
-            'import React from 'react',',
+            'import React from 'react',';
             'function onSubmit(event: React.FormEvent) : any {',
             '  event.preventDefault(),'
           ],
           hasExistingComment: false,
           isInTestFile: false,
           domainContext: {} as DomainContext
-        };
+        },
 
         const suggestions: any = analyzer.getDomainSpecificSuggestions(CodeDomain.COMPONENT, context)
         expect(suggestions).toContain('FormProps').
@@ -694,14 +694,14 @@ describe('DomainContextAnalyzer', () => {
           lineNumber: 12,
           codeSnippet: 'const mockFunctio, n: any = jest.fn(),',
           surroundingLines: [
-            'import { jest } from '@jest/globals',',
+            'import { jest } from '@jest/globals',';
             'describe('Helper functions'( {',
-            '  const _spy: any = jest.spyOn(console, 'log'),';
+            '  const _spy: any = jest.spyOn(console, 'log'),',
           ],
           hasExistingComment: false,
           isInTestFile: true,
           domainContext: {} as DomainContext
-        };
+        },
 
         const suggestions: any = analyzer.getDomainSpecificSuggestions(CodeDomain.TEST, context)
         expect(suggestions).toContain('jest.Mock')
@@ -714,15 +714,15 @@ describe('DomainContextAnalyzer', () => {
     test('handles empty file paths gracefully', async () => {
       const context: ClassificationContext = { filePath: '',,
         lineNumber: 1,
-        codeSnippet: 'const data: any = {};',
+        codeSnippet: 'const data: any = {};';
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
         domainContext: {} as DomainContext
-      };
+      },
 
       const result: any = await analyzer.analyzeDomain(context)
-      // Empty path should default to utility, but content might suggest service;
+      // Empty path should default to utility, but content might suggest service,
       expect([CodeDomain.UTILITY, CodeDomain.SERVICE]).toContain(result.domain)
       expect(result.suggestedTypes).toContain('unknown').
     })
@@ -732,14 +732,14 @@ describe('DomainContextAnalyzer', () => {
         lineNumber: 10,
         codeSnippet: 'const chartDat, a: any = props.data,',
         surroundingLines: [
-          'import React from 'react',',
+          'import React from 'react',';
           'function renderChart() : any {',
           '  return <div>Chart</div>,'
         ],
         hasExistingComment: false,
         isInTestFile: false,
         domainContext: {} as DomainContext
-      };
+      },
 
       const result: any = await analyzer.analyzeDomain(context)
       // Component domain should win due to file extension and React import
@@ -750,12 +750,12 @@ describe('DomainContextAnalyzer', () => {
     test('handles Windows file paths correctly', async () => {
       const context: ClassificationContext = { filePath: 'src\\calculations\\planetary\\positionsts',,
         lineNumber: 5,
-        codeSnippet: 'const data: any = {};',
+        codeSnippet: 'const data: any = {};';
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
         domainContext: {} as DomainContext
-      };
+      },
 
       const result: any = await analyzer.analyzeDomain(context)
       expect(result.domain).toBe(CodeDomain.ASTROLOGICAL)

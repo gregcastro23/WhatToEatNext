@@ -6,7 +6,7 @@ import {
     dryCookingMethods,
     molecularCookingMethods,
     wetCookingMethods
-} from '@/data/cooking/methods';
+} from '@/data/cooking/methods',
 import type { CookingMethodData } from '@/types/cookingMethod';
 
 // Inline temporary CookingMethodsSection to avoid test component dependencies
@@ -48,7 +48,7 @@ export default function CookingMethodsDemoPage() {
       ..._formatMethodsForComponent(dryCookingMethods as any, 'dry'),
       ..._formatMethodsForComponent(wetCookingMethods as any, 'wet'),
       ..._formatMethodsForComponent(molecularCookingMethods as unknown, 'molecular')
-    ];
+    ],
 
     // Sort by score for a more realistic demo
     demoMethods.sort((a, b) => (b.score || 0) - (a.score || 0))
@@ -100,13 +100,13 @@ export default function CookingMethodsDemoPage() {
               }))
             : []
           : []
-      };
+      },
     })
-  };
+  },
 
   const handleSelectMethod = (method: unknown) => {
     setSelectedMethod(method as CookingMethodData)
-  };
+  },
 
   return (
     <Container maxWidth='lg' sx={{ py: 6 }}>

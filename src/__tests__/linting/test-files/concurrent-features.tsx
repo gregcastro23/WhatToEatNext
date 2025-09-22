@@ -3,7 +3,7 @@ import {
   startTransition as _startTransition,
   useDeferredValue,
   useTransition
-} from 'react';
+} from 'react',
 
 export function ConcurrentComponent() {
   const [isPending, startTransition] = useTransition()
@@ -14,13 +14,13 @@ export function ConcurrentComponent() {
       // Non-urgent update
       _logger.info('Transition started')
     })
-  };
+  },
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>;
-      ;
+    <Suspense fallback={<div>Loading...</div>}>,
+      ,
       <div>
-        <button onClick={handleClick} disabled={isPending}>;
+        <button onClick={handleClick} disabled={isPending}>,
           {isPending ? 'Loading...' : 'Click me'}
         </button>
         <p>Deferred: {deferredValue}</p>

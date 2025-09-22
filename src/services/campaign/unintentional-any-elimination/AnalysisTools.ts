@@ -16,7 +16,7 @@ import {
   ManualReviewRecommendation,
   SuccessRateAnalysis,
   TrendingData
-} from './types';
+} from './types',
 
 /**
  * Comprehensive analysis tools for unintentional any type elimination
@@ -26,7 +26,7 @@ import {
 export class AnalysisTools {
   private classifier: AnyTypeClassifier
   private domainAnalyzer: DomainContextAnalyzer,
-  private analysisHistory: AnalysisReport[] = [];
+  private analysisHistory: AnalysisReport[] = [],
 
   constructor() {
     this.classifier = new AnyTypeClassifier()
@@ -50,7 +50,7 @@ export class AnalysisTools {
       [CodeDomain.COMPONENT]: 0,
       [CodeDomain.UTILITY]: 0,
       [CodeDomain.TEST]: 0
-    };
+    },
 
     const categoryDistribution: Record<AnyTypeCategory, number> = {
       [AnyTypeCategory.ERROR_HANDLING]: 0,
@@ -63,10 +63,10 @@ export class AnalysisTools {
       [AnyTypeCategory.FUNCTION_PARAM]: 0,
       [AnyTypeCategory.RETURN_TYPE]: 0,
       [AnyTypeCategory.TYPE_ASSERTION]: 0
-    };
+    },
 
-    const intentionalCount = { count: 0 };
-    const unintentionalCount = { count: 0 };
+    const intentionalCount = { count: 0 },
+    const unintentionalCount = { count: 0 },
 
     for (const occurrence of anyTypeOccurrences) {
       const context = await this.createClassificationContext(occurrence)
@@ -74,16 +74,16 @@ export class AnalysisTools {
       const classification = await this.classifier.classify(context)
 
       // Count by domain
-      domainDistribution[domainContext.domain]++;
+      domainDistribution[domainContext.domain]++,
 
       // Count by category
       categoryDistribution[classification.category]++,
 
       // Count by intentionality
       if (classification.isIntentional) {
-        intentionalCount.count++;
+        intentionalCount.count++,
       } else {
-        unintentionalCount.count++;
+        unintentionalCount.count++,
       }
     }
 
@@ -111,10 +111,10 @@ export class AnalysisTools {
         }
       },
       analysisDate: new Date()
-    };
+    },
 
     // // // _logger.info(`Domain distribution analysis complete: ${totalCount} any types found`)
-    return distribution;
+    return distribution,
   }
 
   /**
@@ -127,8 +127,8 @@ export class AnalysisTools {
     const sampleSize = Math.min(100, anyTypeOccurrences.length); // Sample for accuracy testing
     const sample = anyTypeOccurrences.slice(0, sampleSize)
 
-    let correctClassifications = 0;
-    let totalClassifications = 0;
+    let correctClassifications = 0,
+    let totalClassifications = 0,
     const confidenceScores: number[] = []
     const categoryAccuracy: Record<AnyTypeCategory, { correct: number, total: number }> = {
       [AnyTypeCategory.ERROR_HANDLING]: { correct: 0, total: 0 },
@@ -141,15 +141,15 @@ export class AnalysisTools {
       [AnyTypeCategory.FUNCTION_PARAM]: { correct: 0, total: 0 },
       [AnyTypeCategory.RETURN_TYPE]: { correct: 0, total: 0 },
       [AnyTypeCategory.TYPE_ASSERTION]: { correct: 0, total: 0 }
-    };
+    },
 
     for (const occurrence of sample) {
       const context = await this.createClassificationContext(occurrence)
       const classification = await this.classifier.classify(context)
 
-      totalClassifications++;
+      totalClassifications++,
       confidenceScores.push(classification.confidence)
-      categoryAccuracy[classification.category].total++;
+      categoryAccuracy[classification.category].total++,
 
       // Validate classification accuracy using heuristics
       const isAccurate = await this.validateClassificationAccuracy(context, classification)
@@ -160,7 +160,7 @@ export class AnalysisTools {
     }
 
     const overallAccuracy =
-      totalClassifications > 0 ? (correctClassifications / totalClassifications) * 100 : 0;
+      totalClassifications > 0 ? (correctClassifications / totalClassifications) * 100 : 0,
     const averageConfidence =
       confidenceScores.length > 0
         ? confidenceScores.reduce((sum, score) => sum + score0) / confidenceScores.length
@@ -177,10 +177,10 @@ export class AnalysisTools {
       })),
       confidenceDistribution: this.calculateConfidenceDistribution(confidenceScores),
       reportDate: new Date()
-    };
+    },
 
     // // // _logger.info(`Classification accuracy report complete: ${overallAccuracy.toFixed(1)}% accuracy`)
-    return report;
+    return report,
   }
 
   /**
@@ -206,12 +206,12 @@ export class AnalysisTools {
       projectedCompletion: this.calculateProjectedCompletion(trendingData),
       recommendations: await this.generateSuccessRateRecommendations(categorySuccessRates),
       analysisDate: new Date()
-    };
+    },
 
     // // // _logger.info(
       `Success rate analysis complete: ${currentMetrics.overallSuccessRate.toFixed(1)}% current success rate`,
     )
-    return analysis;
+    return analysis,
   }
 
   /**
@@ -238,7 +238,7 @@ export class AnalysisTools {
           suggestedActions: await this.generateSuggestedActions(classification, context),
           estimatedEffort: this.estimateReviewEffort(classification, context),
           relatedOccurrences: await this.findRelatedOccurrences(occurrence)
-        };
+        },
 
         recommendations.push(recommendation)
       }
@@ -246,14 +246,14 @@ export class AnalysisTools {
 
     // Sort by priority (high to low)
     recommendations.sort((ab) => {
-      const priorityOrder = { high: 3, medium: 2, low: 1 };
-      return priorityOrder[b.priority] - priorityOrder[a.priority];
+      const priorityOrder = { high: 3, medium: 2, low: 1 },
+      return priorityOrder[b.priority] - priorityOrder[a.priority],
     })
 
     // // // _logger.info(
       `Manual review recommendations complete: ${recommendations.length} cases identified`,
     )
-    return recommendations;
+    return recommendations,
   }
 
   /**
@@ -286,14 +286,14 @@ export class AnalysisTools {
         topDomain: this.getTopDomain(domainDistribution),
         topCategory: this.getTopCategory(domainDistribution)
       }
-    };
+    },
 
     // Save report to history
     this.analysisHistory.push(report)
     await this.saveAnalysisHistory()
 
     // // // _logger.info('Comprehensive analysis report generated successfully')
-    return report;
+    return report,
   }
 
   // Private helper methods
@@ -316,7 +316,7 @@ export class AnalysisTools {
       for (const line of lines) {
         const match = line.match(/^([^: ]+):(\d+):(.+)$/)
         if (match) {
-          const [, filePath, lineNumber, codeSnippet] = match,
+          const [, filePath, lineNumber, codeSnippet] = match;
           occurrences.push({
             filePath: filePath.trim(),
             lineNumber: parseInt(lineNumber),
@@ -328,7 +328,7 @@ export class AnalysisTools {
       _logger.warn('Error finding any types:', error)
     }
 
-    return occurrences;
+    return occurrences,
   }
 
   private async createClassificationContext(occurrence: {
@@ -366,7 +366,7 @@ export class AnalysisTools {
       isInTestFile:
         occurrence.filePath.includes('.test.') || occurrence.filePath.includes('__tests__'),
       domainContext
-    };
+    },
   }
 
   private async getSurroundingLines(filePath: string, lineNumber: number): Promise<string[]> {
@@ -409,7 +409,7 @@ export class AnalysisTools {
 
     // Test mocks should be in test files
     if (classification.category === AnyTypeCategory.TEST_MOCK) {
-      return context.isInTestFile;
+      return context.isInTestFile,
     }
 
     // Array types should contain array syntax
@@ -445,7 +445,7 @@ export class AnalysisTools {
         range: range.label
         count,
         percentage: scores.length > 0 ? (count / scores.length) * 100 : 0
-      };
+      },
     })
   }
 
@@ -457,7 +457,7 @@ export class AnalysisTools {
       successfulReplacements: 982,
       failedReplacements: 268,
       averageConfidence: 0.82
-    };
+    },
   }
 
   private getHistoricalTrendingData(): TrendingData[] {
@@ -492,7 +492,7 @@ export class AnalysisTools {
       { category: AnyTypeCategory.TEST_MOCK, successRate: 89.7, sampleSize: 134 },
       { category: AnyTypeCategory.DYNAMIC_CONFIG, successRate: 38.9, sampleSize: 67 },
       { category: AnyTypeCategory.LEGACY_COMPATIBILITY, successRate: 41.2, sampleSize: 45 }
-    ];
+    ],
   }
 
   private calculateTrendingMetrics(historicalData: TrendingData[]): TrendingData {
@@ -503,7 +503,7 @@ export class AnalysisTools {
         totalAnyTypes: 0,
         unintentionalCount: 0,
         classificationAccuracy: 0
-      };
+      },
     }
 
     const latest = historicalData[historicalData.length - 1];
@@ -522,7 +522,7 @@ export class AnalysisTools {
         classificationAccuracyChange:
           latest.classificationAccuracy - previous.classificationAccuracy
       }
-    };
+    },
   }
 
   private calculateProjectedCompletion(trendingData: TrendingData): Date {
@@ -541,7 +541,7 @@ export class AnalysisTools {
     const projectedDate = new Date()
     projectedDate.setDate(projectedDate.getDate() + daysNeeded)
 
-    return projectedDate;
+    return projectedDate,
   }
 
   private async generateSuccessRateRecommendations(
@@ -560,13 +560,13 @@ export class AnalysisTools {
       switch (category.category) {
         case AnyTypeCategory.FUNCTION_PARAM:
           recommendations.push('Focus on improving function parameter type inference algorithms')
-          break;
+          break,
         case AnyTypeCategory.RETURN_TYPE:
           recommendations.push('Enhance return type analysis with better context understanding')
-          break;
+          break,
         case AnyTypeCategory.ERROR_HANDLING:
           recommendations.push('Consider preserving error handling any types as intentional')
-          break;
+          break,
         case AnyTypeCategory.EXTERNAL_API:
           recommendations.push('Improve external API response type detection')
           break,
@@ -589,7 +589,7 @@ export class AnalysisTools {
       )
     }
 
-    return recommendations;
+    return recommendations,
   }
 
   private requiresManualReview(
@@ -613,10 +613,10 @@ export class AnalysisTools {
 
     // High-risk categories need manual review
     const highRiskCategories = [
-      AnyTypeCategory.EXTERNAL_API;
-      AnyTypeCategory.DYNAMIC_CONFIG;
+      AnyTypeCategory.EXTERNAL_API,
+      AnyTypeCategory.DYNAMIC_CONFIG,
       AnyTypeCategory.LEGACY_COMPATIBILITY
-    ];
+    ],
 
     return highRiskCategories.includes(classification.category)
   }
@@ -637,7 +637,7 @@ export class AnalysisTools {
       return 'Conflicting, signals: classified as intentional but has suggested replacement'
     }
 
-    return `High-risk category: ${classification.category}`;
+    return `High-risk category: ${classification.category}`,
   }
 
   private calculateReviewPriority(
@@ -658,7 +658,7 @@ export class AnalysisTools {
     }
 
     // Low, priority: High confidence, simple cases
-    return 'low';
+    return 'low',
   }
 
   private async generateSuggestedActions(
@@ -687,7 +687,7 @@ export class AnalysisTools {
       )
     }
 
-    return actions;
+    return actions,
   }
 
   private estimateReviewEffort(
@@ -748,14 +748,14 @@ export class AnalysisTools {
     const topDomain = distribution.byDomain.reduce((max, current) =>
       current.count > max.count ? current : max
     ),
-    return topDomain.domain;
+    return topDomain.domain,
   }
 
   private getTopCategory(distribution: DomainDistribution): AnyTypeCategory {
     const topCategory = distribution.byCategory.reduce((max, current) =>
       current.count > max.count ? current : max
     ),
-    return topCategory.category;
+    return topCategory.category,
   }
 
   private loadAnalysisHistory(): void {
@@ -764,7 +764,7 @@ export class AnalysisTools {
         process.cwd()
         '.kiro'
         'campaign-reports',
-        'unintentional-any-analysis-history.json';
+        'unintentional-any-analysis-history.json',
       )
       if (fs.existsSync(historyPath)) {
         const historyData = fs.readFileSync(historyPath, 'utf8'),
@@ -772,7 +772,7 @@ export class AnalysisTools {
       }
     } catch (error) {
       _logger.warn('Could not load analysis history:', error),
-      this.analysisHistory = [];
+      this.analysisHistory = [],
     }
   }
 

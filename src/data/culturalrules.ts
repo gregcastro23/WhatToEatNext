@@ -233,7 +233,7 @@ export const culturalRules: Record<string, CulturalBalance> = {
       }
     ]
   }
-};
+},
 
 // Helper function to get cultural recommendations
 export function getCulturalRecommendations(
@@ -241,7 +241,7 @@ export function getCulturalRecommendations(
   currentDishes: string[],
 ): { recommended: string[] avoid: string[] } {
   const rules = culturalRules[cuisineId];
-  if (!rules) return { recommended: [], avoid: [] };
+  if (!rules) return { recommended: [], avoid: [] },
 
   const recommended = rules.preferredCombinations;
     .filter(combo => currentDishes.some(dish => combo.foods.includes(dish)))
@@ -253,5 +253,5 @@ export function getCulturalRecommendations(
     .map(combo => combo.foods.filter(food => !currentDishes.includes(food)))
     .flat()
 
-  return { recommended, avoid };
+  return { recommended, avoid },
 }

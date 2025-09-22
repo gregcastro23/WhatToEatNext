@@ -1234,6 +1234,6 @@ export const french: Cuisine = {
     'Jupiter - Influences the celebratory and abundant nature of French dining',
     'Mercury - Shapes the precise techniques and articulate presentation'
   ]
-};
+},
 
-export default french;
+export default french,

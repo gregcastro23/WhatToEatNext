@@ -42,6 +42,6 @@ export const planetaryData = {
     cookingMethods: ['slow cooking', 'fermenting'],
     governs: ['discipline', 'structure', 'time']
   }
-};
+},
 
-export default planetaryData;
+export default planetaryData,

@@ -14,7 +14,7 @@ import {
   PhaseStatus,
   CorruptionSeverity,
   RecoveryAction
-} from '../../../../types/campaign';
+} from '../../../../types/campaign',
 import { CampaignController } from '../../CampaignController';
 import { ProgressTracker } from '../../ProgressTracker';
 import { SafetyProtocol } from '../../SafetyProtocol';
@@ -34,7 +34,7 @@ describe('Phase Execution Integration Tests', () => {
   let mockSafetySettings: SafetySettings,
 
   beforeEach(() => {
-    // Setup mock safety settings;
+    // Setup mock safety settings,
     mockSafetySettings = {
       maxFilesPerBatch: 25,
       buildValidationFrequency: 5,
@@ -42,7 +42,7 @@ describe('Phase Execution Integration Tests', () => {
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
       stashRetentionDays: 7
-    };
+    },
 
     // Setup mock campaign configuration
     mockConfig = {
@@ -91,7 +91,7 @@ describe('Phase Execution Integration Tests', () => {
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
         consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
       }
-    };
+    },
 
     // Initialize components
     campaignController = new CampaignController(mockConfig)
@@ -131,8 +131,8 @@ describe('Phase Execution Integration Tests', () => {
         if (cmd.includes('git status --porcelain')) {
           return '', // Clean working directory
         }
-;
-        return '';
+,
+        return '',
       })
     })
 
@@ -142,7 +142,7 @@ describe('Phase Execution Integration Tests', () => {
       // Mock progress tracking
       jest
         .spyOn(progressTracker, 'getTypeScriptErrorCount')
-        .mockResolvedValueOnce(86) // Initial count;
+        .mockResolvedValueOnce(86) // Initial count,
         .mockResolvedValueOnce(0); // After fixing
 
       // Execute phase
@@ -170,13 +170,13 @@ describe('Phase Execution Integration Tests', () => {
         typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
         lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
         buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-        enterpriseSystems: { current: 0, target: 200, transformedExports: 0 };
+        enterpriseSystems: { current: 0, target: 200, transformedExports: 0 },
       })
 
       const validation: any = await campaignController.validatePhaseCompletion(phase1)
 
       expect(validation.success).toBe(true).
-      expect(validationerrors).toEqual([]);;
+      expect(validationerrors).toEqual([]);,
     })
 
     it('should generate comprehensive phase report', async () => {
@@ -187,7 +187,7 @@ describe('Phase Execution Integration Tests', () => {
         typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
         lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
         buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-        enterpriseSystems: { current: 0, target: 200, transformedExports: 0 };
+        enterpriseSystems: { current: 0, target: 200, transformedExports: 0 },
       })
 
       const report: any = await campaignController.generatePhaseReport(phase1)
@@ -222,8 +222,8 @@ describe('Phase Execution Integration Tests', () => {
         if (cmd.includes('git status --porcelain')) {
           return '', // Clean working directory
         }
-;
-        return '';
+,
+        return '',
       })
     })
 
@@ -233,7 +233,7 @@ describe('Phase Execution Integration Tests', () => {
       // Mock progress tracking
       jest
         .spyOn(progressTracker, 'getLintingWarningCount')
-        .mockResolvedValueOnce(4506) // Initial count;
+        .mockResolvedValueOnce(4506) // Initial count,
         .mockResolvedValueOnce(0); // After fixing
 
       // Execute phase
@@ -252,7 +252,7 @@ describe('Phase Execution Integration Tests', () => {
         typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
         lintingWarnings: { current: 0, target: 0, reduction: 4506, percentage: 100 },
         buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-        enterpriseSystems: { current: 0, target: 200, transformedExports: 0 };
+        enterpriseSystems: { current: 0, target: 200, transformedExports: 0 },
       })
 
       const validation: any = await campaignController.validatePhaseCompletion(phase2)
@@ -265,7 +265,7 @@ describe('Phase Execution Integration Tests', () => {
   describe('Multi-Phase Campaign Execution', () => {
     it('should execute multiple phases in sequence', async () => {
       // Mock progressive improvement
-      let tsErrorCount: any = 86;
+      let tsErrorCount: any = 86,
       let lintWarningCount: any = 4506
 
       jest.spyOn(progressTracker, 'getTypeScriptErrorCount').mockImplementation(async () => {
@@ -316,7 +316,7 @@ describe('Phase Execution Integration Tests', () => {
     it('should handle tool execution failure gracefully', async () => {
       const phase1: any = mockConfig.phases[0]
 
-      // Mock tool execution failure;
+      // Mock tool execution failure,
       jest.spyOn(campaignController as unknown, 'executeTool').mockRejectedValue(new Error('Tool execution failed'))
 
       const result: any = await campaignController.executePhase(phase1)
@@ -334,7 +334,7 @@ describe('Phase Execution Integration Tests', () => {
       jest.spyOn(campaignController as unknown, 'validatePhaseProgress').mockResolvedValue({
         success: false,
         errors: ['Build validation failed'],
-        warnings: [];
+        warnings: [],
       })
 
       // Mock rollback
@@ -354,8 +354,8 @@ describe('Phase Execution Integration Tests', () => {
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('yarn build')) {
           throw new Error('Build failed')
-        };
-        return '';
+        },
+        return '',
       })
 
       // Mock build validation failure
@@ -363,7 +363,7 @@ describe('Phase Execution Integration Tests', () => {
 
       const result: any = await campaignController.executePhase(phase1)
       // Should handle gracefully but may not succeed
-      expect(result.phaseId).toBe('phase1').;
+      expect(result.phaseId).toBe('phase1').,
     })
   })
 
@@ -375,7 +375,7 @@ describe('Phase Execution Integration Tests', () => {
       jest
         .spyOn(progressTracker, 'getTypeScriptErrorCount')
         .mockResolvedValueOnce(86) // Before
-        .mockResolvedValueOnce(50) // During;
+        .mockResolvedValueOnce(50) // During,
         .mockResolvedValueOnce(0); // After
 
       await campaignController.executePhase(phase1)
@@ -404,13 +404,13 @@ describe('Phase Execution Integration Tests', () => {
         typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
         lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
         buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-        enterpriseSystems: { current: 0, target: 200, transformedExports: 0 };
+        enterpriseSystems: { current: 0, target: 200, transformedExports: 0 },
       })
 
       await campaignController.executePhase(phase1)
 
       const milestone: any = await progressTracker.validateMilestone('phase-1-complete')
-      expect(milestone).toBe(true).;
+      expect(milestone).toBe(true).,
     })
   })
 
@@ -424,7 +424,7 @@ describe('Phase Execution Integration Tests', () => {
         detectedFiles: [],
         corruptionPatterns: [],
         severity: CorruptionSeverity.LOW,
-        recommendedAction: RecoveryAction.CONTINUE;
+        recommendedAction: RecoveryAction.CONTINUE,
       })
 
       await campaignController.executePhase(phase1)
@@ -448,7 +448,7 @@ describe('Phase Execution Integration Tests', () => {
           }
         ],
         severity: CorruptionSeverity.HIGH,
-        recommendedAction: RecoveryAction.ROLLBACK;
+        recommendedAction: RecoveryAction.ROLLBACK,
       })
 
       // This would require actual integration to test properly

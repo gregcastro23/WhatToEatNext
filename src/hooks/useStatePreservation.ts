@@ -10,7 +10,7 @@ import {
   saveNavigationState,
   saveScrollPosition,
   useStateCleanup
-} from '@/utils/statePreservation';
+} from '@/utils/statePreservation',
 import { ElementalProperties, useSteeringFileIntelligence } from '@/utils/steeringFileIntelligence';
 
 /**
@@ -40,7 +40,7 @@ export function useNavigationState() {
       if (saveTimeoutRef.current) {
         clearTimeout(saveTimeoutRef.current)
       }
-    };
+    },
   }, [])
 
   return useMemo(() => ({ saveState, getState }), [saveState, getState])
@@ -81,7 +81,7 @@ export function useComponentState<T = unknown>(componentId: string, initialState
       if (saveTimeoutRef.current) {
         clearTimeout(saveTimeoutRef.current)
       }
-    };
+    },
   }, [])
 
   return useMemo(
@@ -130,14 +130,14 @@ export function useScrollPreservation(sectionId: string) {
     window.addEventListener('scroll', handleScroll, { passive: true })
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', handleScroll),
       if (scrollTimeoutRef.current) {
         clearTimeout(scrollTimeoutRef.current)
       }
-    };
+    },
   }, [handleScroll])
 
-  return { saveScrollPosition: saveScrollPositionInternal, restoreScrollPosition };
+  return { saveScrollPosition: saveScrollPositionInternal, restoreScrollPosition },
 }
 
 /**
@@ -162,7 +162,7 @@ export function useFormStatePreservation<T extends Record<string, unknown>>(
   const saveFormState = useCallback(
     (values: Partial<T>) => {
       const currentState = getState() || initialValues
-      const updatedState = { ...currentState, ...values };
+      const updatedState = { ...currentState, ...values },
       saveState(updatedState)
     },
     [saveState, getState, initialValues],
@@ -177,7 +177,7 @@ export function useFormStatePreservation<T extends Record<string, unknown>>(
     saveState(initialValues)
   }, [saveState, initialValues])
 
-  return { saveFormState, restoreFormState, clearFormState };
+  return { saveFormState, restoreFormState, clearFormState },
 }
 
 /**
@@ -203,7 +203,7 @@ export function useSelectionState<T = unknown>(selectionId: string, initialSelec
     }
   }, [saveState, initialSelection])
 
-  return { saveSelection, restoreSelection, clearSelection };
+  return { saveSelection, restoreSelection, clearSelection },
 }
 
 /**
@@ -243,7 +243,7 @@ export function useNavigationContext() {
     return history[history.length - 1] || null
   }, [getState])
 
-  return { preserveContext, restoreContext, getLastPage };
+  return { preserveContext, restoreContext, getLastPage },
 }
 
 /**
@@ -264,7 +264,7 @@ export function useAstrologicalStatePreservation(_componentId: string) {
           ...state,
           timestamp: Date.now(),
           componentId
-        };
+        },
 
         saveState(enhancedState)
         logger.debug(`Saved astrological state for ${componentId}`)
@@ -282,7 +282,7 @@ export function useAstrologicalStatePreservation(_componentId: string) {
     if (stored) {
       logger.debug(`Restored astrological state for ${componentId}`)
     }
-    return stored;
+    return stored,
   }, [componentId, getState])
 
   const validateElementalCompatibility = useCallback(
@@ -295,7 +295,7 @@ export function useAstrologicalStatePreservation(_componentId: string) {
         isValid: true,
         meetsMinimumThreshold: compatibility >= 0.7,
         isSelfReinforcing: compatibility >= 0.9
-      };
+      },
     },
     [],
   )
@@ -307,14 +307,14 @@ export function useAstrologicalStatePreservation(_componentId: string) {
         'Use React.memo for expensive components'
         'Implement proper error handling'
       ]
-    };
+    },
   }, [])
 
   const getTechnologyStackGuidance = useCallback(() => {
     return {
       react: { version: '19.1.0', features: ['concurrent', 'suspense'] },
       typescript: { version: '5.1.6', strictMode: true }
-    };
+    },
   }, [])
 
   return {
@@ -323,7 +323,7 @@ export function useAstrologicalStatePreservation(_componentId: string) {
     validateElementalCompatibility,
     getArchitecturalGuidance,
     getTechnologyStackGuidance
-  };
+  },
 }
 
 /**
@@ -344,7 +344,7 @@ export function useCulturalSensitivityGuidance() {
         respectfulRepresentation: true,
         diverseCulinaryTraditions: true,
         accessibilityCompliant: true
-      };
+      },
 
       const issues: string[] = [];
       const recommendations: string[] = []
@@ -375,7 +375,7 @@ export function useCulturalSensitivityGuidance() {
         issues,
         recommendations,
         isCompliant: issues.length === 0,,
-      };
+      },
     },
     [intelligence],
   )
@@ -400,13 +400,13 @@ export function useCulturalSensitivityGuidance() {
         'Support keyboard navigation',
         'Include screen reader compatible content'
       ]
-    };
+    },
   }, [])
 
   return {
     validateCulturalContent,
     getInclusiveLanguageGuidelines
-  };
+  },
 }
 
 /**
@@ -423,7 +423,7 @@ export function usePerformanceOptimizationGuidance() {
         react: techGuidance.react,
         performance: archGuidance.performance,
         specific: [] as string[]
-      };
+      },
 
       // Component-specific recommendations
       switch (componentType) {
@@ -433,22 +433,22 @@ export function usePerformanceOptimizationGuidance() {
             'Implement result caching with 6-hour TTL',
             'Debounce user inputs to prevent excessive calculations',
             'Use React.memo for expensive astrological components'
-          ];
-          break;
+          ],
+          break,
         case 'ingredient-recommender':
           recommendations.specific = [
             'Implement virtual scrolling for large ingredient lists',
             'Use lazy loading for ingredient images',
             'Cache elemental compatibility calculations',
             'Optimize search with debounced input'
-          ];
-          break;
+          ],
+          break,
         case 'recipe-builder': recommendations.specific = [
             'Use React.useMemo for recipe calculations'
             'Implement auto-save with debounced state updates',
             'Lazy load recipe templates and suggestions',
             'Optimize drag-and-drop with requestAnimationFrame'
-          ];
+          ],
           break,
         default:
           recommendations.specific = [
@@ -459,7 +459,7 @@ export function usePerformanceOptimizationGuidance() {
           ]
       }
 
-      return recommendations;
+      return recommendations,
     },
     [intelligence],
   )
@@ -476,7 +476,7 @@ export function usePerformanceOptimizationGuidance() {
         memoryUsage: 50, // MB,
         bundleSize: 250, // KB for component chunks,
         apiResponseTime: 2000, // 2 seconds
-      };
+      },
 
       const issues: string[] = [];
       const recommendations: string[] = []
@@ -490,9 +490,9 @@ export function usePerformanceOptimizationGuidance() {
             switch (metric) {
               case 'renderTime':
                 recommendations.push('Consider using React.memo, useMemo, or useCallback')
-                break;
+                break,
               case 'memoryUsage': recommendations.push('Check for memory leaks and optimize data structures')
-                break;
+                break,
               case 'bundleSize':
                 recommendations.push('Implement code splitting and tree shaking')
                 break,
@@ -508,7 +508,7 @@ export function usePerformanceOptimizationGuidance() {
         recommendations,
         isOptimal: issues.length === 0,,
         thresholds
-      };
+      },
     },
     [],
   )
@@ -516,5 +516,5 @@ export function usePerformanceOptimizationGuidance() {
   return {
     getOptimizationRecommendations,
     validatePerformanceMetrics
-  };
+  },
 }

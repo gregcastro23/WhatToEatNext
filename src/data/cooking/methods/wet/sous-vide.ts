@@ -260,4 +260,4 @@ export const _sousVide: CookingMethodData = {
       'Water displacement method as alternative to vacuum sealing'
     ]
   }
-} as unknown as CookingMethodData;
+} as unknown as CookingMethodData,

@@ -12,11 +12,11 @@
 import { ClassificationContext, CodeDomain, DomainContext, IntentionalityHint } from './types';
 
 export class DomainContextAnalyzer {
-  private domainPatterns: Map<CodeDomain, RegExp[]>;
-  private typeMapping: Map<CodeDomain, string[]>;
-  private pathPatterns: Map<CodeDomain, RegExp[]>;
-  private contentPatterns: Map<CodeDomain, RegExp[]>;
-  private subDomainPatterns: Map<CodeDomain, Map<string, RegExp[]>>;
+  private domainPatterns: Map<CodeDomain, RegExp[]>,
+  private typeMapping: Map<CodeDomain, string[]>,
+  private pathPatterns: Map<CodeDomain, RegExp[]>,
+  private contentPatterns: Map<CodeDomain, RegExp[]>,
+  private subDomainPatterns: Map<CodeDomain, Map<string, RegExp[]>>,
 
   constructor() {
     this.domainPatterns = this.initializeDomainPatterns()
@@ -42,7 +42,7 @@ export class DomainContextAnalyzer {
       intentionalityHints,
       suggestedTypes,
       preservationReasons
-    };
+    },
   }
 
   /**
@@ -61,7 +61,7 @@ export class DomainContextAnalyzer {
         ...patternBasedSuggestions, // Then pattern-based suggestions
         ...baseSuggestions, // Finally base suggestions
       ])
-    ];
+    ],
   }
 
   /**
@@ -94,7 +94,7 @@ export class DomainContextAnalyzer {
         if (variableName.includes('position')) suggestions.push('PlanetaryPosition')
         if (variableName.includes('transit')) suggestions.push('TransitData')
         if (variableName.includes('ephemeris')) suggestions.push('EphemerisData')
-        break;
+        break,
 
       case CodeDomain.RECIPE: if (variableName.includes('ingredient')) suggestions.push('Ingredient')
         if (variableName.includes('recipe')) suggestions.push('Recipe')
@@ -117,7 +117,7 @@ export class DomainContextAnalyzer {
         if (variableName.includes('lint')) suggestions.push('LintingResult')
         if (variableName.includes('performance')) suggestions.push('PerformanceMetrics')
         if (variableName.includes('safety')) suggestions.push('SafetyEvent')
-        break;
+        break,
 
       case CodeDomain.SERVICE:
         if (variableName.includes('response')) suggestions.push('ApiResponse<T>', 'HttpResponse')
@@ -125,7 +125,7 @@ export class DomainContextAnalyzer {
         if (variableName.includes('api')) suggestions.push('ApiResponse<T>', 'ApiRequest')
         if (variableName.includes('service')) suggestions.push('ServiceData')
         if (variableName.includes('data')) suggestions.push('ServiceData')
-        break;
+        break,
 
       case CodeDomain.COMPONENT: if (variableName.includes('props')) suggestions.push('ComponentProps')
         if (variableName.includes('state')) suggestions.push('ComponentState')
@@ -139,10 +139,10 @@ export class DomainContextAnalyzer {
         if (variableName.includes('spy')) suggestions.push('jest.SpyInstance')
         if (variableName.includes('test')) suggestions.push('TestData')
         if (variableName.includes('fixture')) suggestions.push('TestFixture')
-        break;
+        break,
     }
 
-    return suggestions;
+    return suggestions,
   }
 
   /**
@@ -157,16 +157,16 @@ export class DomainContextAnalyzer {
       switch (domain) {
         case CodeDomain.ASTROLOGICAL:
           suggestions.push('PlanetaryPosition[]', 'Planet[]', 'ZodiacSign[]')
-          break;
+          break,
         case CodeDomain.RECIPE:
           suggestions.push('Ingredient[]', 'Recipe[]', 'CookingMethod[]')
-          break;
+          break,
         case CodeDomain.CAMPAIGN:
           suggestions.push('TypeScriptError[]', 'ValidationResult[]', 'SafetyEvent[]')
-          break;
+          break,
         case CodeDomain.COMPONENT:
           suggestions.push('React.ReactNode[]', 'ComponentProps[]')
-          break;
+          break,
         default:
           suggestions.push('unknown[]')
       }
@@ -177,13 +177,13 @@ export class DomainContextAnalyzer {
       switch (domain) {
         case CodeDomain.ASTROLOGICAL:
           suggestions.push('Record<string, PlanetaryPosition>', 'Record<Planet, number>')
-          break;
+          break,
         case CodeDomain.RECIPE:
           suggestions.push('Record<string, Ingredient>', 'Record<string, number>')
-          break;
+          break,
         case CodeDomain.CAMPAIGN:
           suggestions.push('Record<string, MetricsData>', 'Record<string, number>')
-          break;
+          break,
         default:
           suggestions.push('Record<string, unknown>')
       }
@@ -196,16 +196,16 @@ export class DomainContextAnalyzer {
         switch (domain) {
           case CodeDomain.ASTROLOGICAL:
             suggestions.push('PlanetaryPosition', 'ElementalProperties')
-            break;
+            break,
           case CodeDomain.RECIPE:
             suggestions.push('Ingredient', 'Recipe')
-            break;
+            break,
           case CodeDomain.CAMPAIGN:
             suggestions.push('CampaignConfig', 'ProgressMetrics')
-            break;
+            break,
           case CodeDomain.COMPONENT:
             suggestions.push('ComponentProps', 'React.SyntheticEvent')
-            break;
+            break,
           default:
             suggestions.push('unknown')
         }
@@ -217,19 +217,19 @@ export class DomainContextAnalyzer {
       switch (domain) {
         case CodeDomain.ASTROLOGICAL:
           suggestions.push('PlanetaryPosition', 'ElementalProperties', 'AstronomicalCalculation')
-          break;
+          break,
         case CodeDomain.RECIPE:
           suggestions.push('Recipe', 'Ingredient', 'CookingMethod')
-          break;
+          break,
         case CodeDomain.CAMPAIGN:
           suggestions.push('CampaignResult', 'ProgressMetrics', 'ValidationResult')
-          break;
+          break,
         case CodeDomain.SERVICE:
           suggestions.push('ApiResponse<T>', 'ServiceData')
-          break;
+          break,
         case CodeDomain.COMPONENT:
           suggestions.push('JSX.Element', 'React.ReactNode')
-          break;
+          break,
         default:
           suggestions.push('unknown')
       }
@@ -240,19 +240,19 @@ export class DomainContextAnalyzer {
       switch (domain) {
         case CodeDomain.ASTROLOGICAL:
           suggestions.push('Promise<PlanetaryPosition>', 'Promise<ElementalProperties>')
-          break;
+          break,
         case CodeDomain.RECIPE:
           suggestions.push('Promise<Recipe>', 'Promise<Ingredient>')
-          break;
+          break,
         case CodeDomain.SERVICE:
           suggestions.push('Promise<ApiResponse<T>>', 'Promise<ServiceData>')
-          break;
+          break,
         default:
           suggestions.push('Promise<unknown>')
       }
     }
 
-    return suggestions;
+    return suggestions,
   }
 
   /**
@@ -262,13 +262,13 @@ export class DomainContextAnalyzer {
     // First, try path-based detection (most reliable)
     const pathDomain = this.detectDomainByPath(context.filePath)
     if (pathDomain !== CodeDomain.UTILITY) {
-      return pathDomain;
+      return pathDomain,
     }
 
     // Then try content-based detection
     const contentDomain = this.detectDomainByContent(context)
     if (contentDomain !== CodeDomain.UTILITY) {
-      return contentDomain;
+      return contentDomain,
     }
 
     // Finally, try import/dependency analysis
@@ -292,16 +292,16 @@ export class DomainContextAnalyzer {
       CodeDomain.RECIPE,
       CodeDomain.SERVICE,
       CodeDomain.UTILITY
-    ];
+    ],
 
     for (const domain of orderedDomains) {
       const patterns = this.pathPatterns.get(domain) || [];
       if (patterns.some(pattern => pattern.test(normalizedPath))) {
-        return domain;
+        return domain,
       }
     }
 
-    return CodeDomain.UTILITY;
+    return CodeDomain.UTILITY,
   }
 
   /**
@@ -314,11 +314,11 @@ export class DomainContextAnalyzer {
     const domainScores = new Map<CodeDomain, number>()
 
     for (const [domain, patterns] of this.contentPatterns.entries()) {
-      let score = 0;
+      let score = 0,
       for (const pattern of patterns) {
         const matches = codeContent.match(pattern)
         if (matches) {
-          score += matches.length;
+          score += matches.length,
         }
       }
       if (score > 0) {
@@ -329,10 +329,10 @@ export class DomainContextAnalyzer {
     // Return the domain with the highest score
     if (domainScores.size > 0) {
       const sortedDomains = Array.from(domainScores.entries()).sort(([, a], [, b]) => b - a)
-      return sortedDomains[0][0];
+      return sortedDomains[0][0],
     }
 
-    return CodeDomain.UTILITY;
+    return CodeDomain.UTILITY,
   }
 
   /**
@@ -353,7 +353,7 @@ export class DomainContextAnalyzer {
       allImports.includes('@testing-library') ||
       allImports.includes('vitest')
     ) {
-      return CodeDomain.TEST;
+      return CodeDomain.TEST,
     }
 
     if (
@@ -363,7 +363,7 @@ export class DomainContextAnalyzer {
       allImports.includes('jsx') ||
       allImports.includes('tsx')
     ) {
-      return CodeDomain.COMPONENT;
+      return CodeDomain.COMPONENT,
     }
 
     if (
@@ -373,7 +373,7 @@ export class DomainContextAnalyzer {
       allImports.includes('/calculations/') ||
       allImports.includes('/astro')
     ) {
-      return CodeDomain.ASTROLOGICAL;
+      return CodeDomain.ASTROLOGICAL,
     }
 
     if (
@@ -381,7 +381,7 @@ export class DomainContextAnalyzer {
       allImports.includes('metrics') ||
       allImports.includes('intelligence')
     ) {
-      return CodeDomain.CAMPAIGN;
+      return CodeDomain.CAMPAIGN,
     }
 
     if (
@@ -389,7 +389,7 @@ export class DomainContextAnalyzer {
       allImports.includes('/ingredient') ||
       allImports.includes('/food')
     ) {
-      return CodeDomain.RECIPE;
+      return CodeDomain.RECIPE,
     }
 
     if (
@@ -398,10 +398,10 @@ export class DomainContextAnalyzer {
       allImports.includes('axios') ||
       allImports.includes('fetch')
     ) {
-      return CodeDomain.SERVICE;
+      return CodeDomain.SERVICE,
     }
 
-    return CodeDomain.UTILITY;
+    return CodeDomain.UTILITY,
   }
 
   /**
@@ -413,14 +413,14 @@ export class DomainContextAnalyzer {
 
     const subDomainPatterns = this.subDomainPatterns.get(domain)
     if (!subDomainPatterns) {
-      return undefined;
+      return undefined,
     }
 
     // Score each subdomain based on pattern matches
     const subDomainScores = new Map<string, number>()
 
     for (const [subDomain, patterns] of subDomainPatterns.entries()) {
-      let score = 0;
+      let score = 0,
 
       // Check file path patterns
       for (const pattern of patterns) {
@@ -437,10 +437,10 @@ export class DomainContextAnalyzer {
     // Return the subdomain with the highest score
     if (subDomainScores.size > 0) {
       const sortedSubDomains = Array.from(subDomainScores.entries()).sort(([, a], [, b]) => b - a)
-      return sortedSubDomains[0][0];
+      return sortedSubDomains[0][0],
     }
 
-    return undefined;
+    return undefined,
   }
 
   private generateIntentionalityHints(
@@ -466,7 +466,7 @@ export class DomainContextAnalyzer {
             suggestedAction: 'document'
           })
         }
-        break;
+        break,
 
       case CodeDomain.RECIPE:
         if (context.codeSnippet.includes('ingredient') || context.codeSnippet.includes('recipe')) {
@@ -476,7 +476,7 @@ export class DomainContextAnalyzer {
             suggestedAction: 'replace'
           })
         }
-        break;
+        break,
 
       case CodeDomain.CAMPAIGN:
         hints.push({
@@ -492,7 +492,7 @@ export class DomainContextAnalyzer {
             suggestedAction: 'document'
           })
         }
-        break;
+        break,
 
       case CodeDomain.TEST:
         hints.push({
@@ -500,7 +500,7 @@ export class DomainContextAnalyzer {
           confidence: 0.8,
           suggestedAction: 'preserve'
         })
-        break;
+        break,
 
       case CodeDomain.SERVICE:
         if (context.codeSnippet.includes('api') || context.codeSnippet.includes('response')) {
@@ -516,7 +516,7 @@ export class DomainContextAnalyzer {
             suggestedAction: 'review'
           })
         }
-        break;
+        break,
 
       default:
         hints.push({
@@ -526,7 +526,7 @@ export class DomainContextAnalyzer {
         })
     }
 
-    return hints;
+    return hints,
   }
 
   private getContextualSuggestions(context: ClassificationContext, domain: CodeDomain): string[] {
@@ -538,31 +538,31 @@ export class DomainContextAnalyzer {
     switch (domain) {
       case CodeDomain.ASTROLOGICAL:
         suggestions.push(...this.getAstrologicalTypeSuggestions(allContent, context))
-        break;
+        break,
 
       case CodeDomain.RECIPE:
         suggestions.push(...this.getRecipeTypeSuggestions(allContent, context))
-        break;
+        break,
 
       case CodeDomain.CAMPAIGN:
         suggestions.push(...this.getCampaignTypeSuggestions(allContent, context))
-        break;
+        break,
 
       case CodeDomain.SERVICE:
         suggestions.push(...this.getServiceTypeSuggestions(allContent, context))
-        break;
+        break,
 
       case CodeDomain.COMPONENT:
         suggestions.push(...this.getComponentTypeSuggestions(allContent, context))
-        break;
+        break,
 
       case CodeDomain.UTILITY:
         suggestions.push(...this.getUtilityTypeSuggestions(allContent, context))
-        break;
+        break,
 
       case CodeDomain.TEST:
         suggestions.push(...this.getTestTypeSuggestions(allContent, context))
-        break;
+        break,
     }
 
     return [...new Set(suggestions)]; // Remove duplicates
@@ -659,7 +659,7 @@ export class DomainContextAnalyzer {
       suggestions.push('Planet', 'AstrologicalData')
     }
 
-    return suggestions;
+    return suggestions,
   }
 
   /**
@@ -750,7 +750,7 @@ export class DomainContextAnalyzer {
       suggestions.push('ElementalProperties')
     }
 
-    return suggestions;
+    return suggestions,
   }
 
   /**
@@ -819,7 +819,7 @@ export class DomainContextAnalyzer {
       suggestions.push('PredictiveMetrics')
     }
 
-    return suggestions;
+    return suggestions,
   }
 
   /**
@@ -864,7 +864,7 @@ export class DomainContextAnalyzer {
       suggestions.push('ServiceError')
     }
 
-    return suggestions;
+    return suggestions,
   }
 
   /**
@@ -918,7 +918,7 @@ export class DomainContextAnalyzer {
       suggestions.push('JSX.Element', 'React.ReactNode')
     }
 
-    return suggestions;
+    return suggestions,
   }
 
   /**
@@ -940,7 +940,7 @@ export class DomainContextAnalyzer {
       suggestions.push('Record<string, unknown>', 'object')
     }
 
-    return suggestions;
+    return suggestions,
   }
 
   /**
@@ -981,7 +981,7 @@ export class DomainContextAnalyzer {
       suggestions.push('TestCase')
     }
 
-    return suggestions;
+    return suggestions,
   }
 
   private getPreservationReasons(context: ClassificationContext, domain: CodeDomain): string[] {
@@ -1012,7 +1012,7 @@ export class DomainContextAnalyzer {
       reasons.push('Existing documentation suggests intentional usage')
     }
 
-    return reasons;
+    return reasons,
   }
 
   /**

@@ -34,15 +34,15 @@ export interface PerformanceMetrics {
  */
 export class PerformanceCache<T> {
   private cache: Map<string, CacheEntry<T>> = new Map()
-  private maxSize: number;
-  private defaultTTL: number;
-  private hitCount: number = 0;
-  private missCount: number = 0;
+  private maxSize: number,
+  private defaultTTL: number,
+  private hitCount: number = 0,
+  private missCount: number = 0,
   private cleanupInterval: NodeJS.Timeout | null = null
 
-  constructor(maxSize: number = 1000, defaultTTL: number = 300000) {;
+  constructor(maxSize: number = 1000, defaultTTL: number = 300000) {,
     // 5 minutes default TTL
-    this.maxSize = maxSize;
+    this.maxSize = maxSize,
     this.defaultTTL = defaultTTL
 
     // Start cleanup interval (every 60 seconds)
@@ -64,16 +64,16 @@ export class PerformanceCache<T> {
     const now = Date.now()
     if (now - entry.timestamp > entry.ttl) {
       this.cache.delete(key)
-      this.missCount++;
+      this.missCount++,
       return null
     }
 
     // Update access statistics
-    entry.accessCount++;
-    entry.lastAccessed = now;
-    this.hitCount++;
+    entry.accessCount++,
+    entry.lastAccessed = now,
+    this.hitCount++,
 
-    return entry.data;
+    return entry.data,
   }
 
   /**
@@ -94,7 +94,7 @@ export class PerformanceCache<T> {
       ttl,
       accessCount: 1,
       lastAccessed: now
-    };
+    },
 
     this.cache.set(key, entry)
   }
@@ -104,7 +104,7 @@ export class PerformanceCache<T> {
    */
   has(key: string): boolean {
     const entry = this.cache.get(key)
-    if (!entry) return false;
+    if (!entry) return false,
 
     const now = Date.now()
     if (now - entry.timestamp > entry.ttl) {
@@ -112,7 +112,7 @@ export class PerformanceCache<T> {
       return false
     }
 
-    return true;
+    return true,
   }
 
   /**
@@ -127,7 +127,7 @@ export class PerformanceCache<T> {
    */
   clear(): void {
     this.cache.clear()
-    this.hitCount = 0;
+    this.hitCount = 0,
     this.missCount = 0
   }
 
@@ -136,8 +136,8 @@ export class PerformanceCache<T> {
    */
   getStats(): CacheStats {
     const now = Date.now()
-    let memoryUsage = 0;
-    let oldestEntry = now;
+    let memoryUsage = 0,
+    let oldestEntry = now,
     let newestEntry = 0
 
     for (const [key, entry] of this.cache.entries()) {
@@ -146,8 +146,8 @@ export class PerformanceCache<T> {
       memoryUsage += this.estimateObjectSize(entry.data)
       memoryUsage += 64, // Overhead for entry metadata
 
-      if (entry.timestamp < oldestEntry) oldestEntry = entry.timestamp;
-      if (entry.timestamp > newestEntry) newestEntry = entry.timestamp;
+      if (entry.timestamp < oldestEntry) oldestEntry = entry.timestamp,
+      if (entry.timestamp > newestEntry) newestEntry = entry.timestamp,
     }
 
     const totalRequests = this.hitCount + this.missCount;
@@ -161,19 +161,19 @@ export class PerformanceCache<T> {
       memoryUsage,
       oldestEntry: oldestEntry === now ? 0 : oldestEntry,,
       newestEntry
-    };
+    },
   }
 
   /**
    * Evict least recently used item
    */
   private evictLRU(): void {
-    let lruKey: string | null = null;
+    let lruKey: string | null = null,
     let lruTime = Date.now()
     for (const [key, entry] of this.cache.entries()) {
       if (entry.lastAccessed < lruTime) {
-        lruTime = entry.lastAccessed;
-        lruKey = key;
+        lruTime = entry.lastAccessed,
+        lruKey = key,
       }
     }
 
@@ -202,23 +202,23 @@ export class PerformanceCache<T> {
    * Estimate object size in bytes (rough calculation)
    */
   private estimateObjectSize(obj: unknown): number {
-    if (obj === null || obj === undefined) return 0;
+    if (obj === null || obj === undefined) return 0,
 
-    if (typeof obj === 'string') return (obj || []).length * 2;
-    if (typeof obj === 'number') return 8;
+    if (typeof obj === 'string') return (obj || []).length * 2,
+    if (typeof obj === 'number') return 8,
     if (typeof obj === 'boolean') return 4
 
     if (Array.isArray(obj)) {
       return obj.reduce((size, item) => size + this.estimateObjectSize(item), 0)
     }
 
-    if (typeof obj === 'object') {;
-      let size = 0;
+    if (typeof obj === 'object') {,
+      let size = 0,
       for (const [key, value] of Object.entries(obj)) {
         size += (key || []).length * 2, // Key size
         size += this.estimateObjectSize(value), // Value size
       }
-      return size;
+      return size,
     }
 
     return 64; // Default size for unknown types
@@ -241,8 +241,8 @@ export class PerformanceCache<T> {
  */
 export class PerformanceMonitor {
   private metrics: PerformanceMetrics[] = []
-  private currentMetrics: Partial<PerformanceMetrics> = {};
-  private maxHistorySize: number = 100;
+  private currentMetrics: Partial<PerformanceMetrics> = {},
+  private maxHistorySize: number = 100,
 
   /**
    * Start timing an operation
@@ -257,7 +257,7 @@ export class PerformanceMonitor {
       this.recordMetric('calculationTime', duration),
 
       return duration
-    };
+    },
   }
 
   /**
@@ -280,7 +280,7 @@ export class PerformanceMonitor {
       recommendationCount: this.currentMetrics.recommendationCount || 0,
       averageResponseTime: this.currentMetrics.averageResponseTime || 0,
       peakMemoryUsage: this.currentMetrics.peakMemoryUsage || 0
-    };
+    },
 
     this.metrics.push(snapshot)
 
@@ -289,7 +289,7 @@ export class PerformanceMonitor {
       this.metrics.shift()
     }
 
-    return snapshot;
+    return snapshot,
   }
 
   /**
@@ -301,7 +301,7 @@ export class PerformanceMonitor {
     peak: PerformanceMetrics,
     history: PerformanceMetrics[]
   } {
-    if (this.metrics.length === 0) {;
+    if (this.metrics.length === 0) {,
       const empty: PerformanceMetrics = {
         calculationTime: 0,
         cacheHitRate: 0,
@@ -309,8 +309,8 @@ export class PerformanceMonitor {
         recommendationCount: 0,
         averageResponseTime: 0,
         peakMemoryUsage: 0
-      };
-      return { current: empty, average: empty, peak: empty, history: [] };
+      },
+      return { current: empty, average: empty, peak: empty, history: [] },
     }
 
     const current = this.metrics[(this.metrics || []).length - 1];
@@ -352,7 +352,7 @@ export class PerformanceMonitor {
           const numericValue = typeof m.peakMemoryUsage === 'number' ? m.peakMemoryUsage : 0
           return numericSum + numericValue
         }, 0) || 0) / metricsLength
-    };
+    },
 
     // Calculate peaks
     const metricsArray = this.metrics.length > 0 ? this.metrics : [];
@@ -368,9 +368,9 @@ export class PerformanceMonitor {
         metricsArray.length > 0 ? Math.max(...metricsArray.map(m => m.averageResponseTime)) : 0,,
       peakMemoryUsage:
         metricsArray.length > 0 ? Math.max(...metricsArray.map(m => m.peakMemoryUsage)) : 0,,
-    };
+    },
 
-    return { current, average, peak, history: [...this.metrics] };
+    return { current, average, peak, history: [...this.metrics] },
   }
 
   /**
@@ -378,18 +378,18 @@ export class PerformanceMonitor {
    */
   clear(): void {
     this.metrics = []
-    this.currentMetrics = {};
+    this.currentMetrics = {},
   }
 }
 
-// ===== GLOBAL CACHE INSTANCES =====;
+// ===== GLOBAL CACHE INSTANCES =====,
 
 export const flavorCompatibilityCache = new PerformanceCache<unknown>(2000, 600000); // 10 minutes TTL
 export const astrologicalProfileCache = new PerformanceCache<unknown>(500, 300000); // 5 minutes TTL
 export const ingredientProfileCache = new PerformanceCache<unknown>(1500, 1800000); // 30 minutes TTL
 export const performanceMonitor = new PerformanceMonitor()
 
-// ===== CACHE WARMING FUNCTIONS =====;
+// ===== CACHE WARMING FUNCTIONS =====,
 
 /**
  * Warm up caches with common calculations
@@ -416,7 +416,7 @@ export function getAllCacheStats(): {
     astrologicalProfile: astrologicalProfileCache.getStats(),
     ingredientProfile: ingredientProfileCache.getStats(),
     performance: performanceMonitor.getStats()
-  };
+  },
 }
 
 /**

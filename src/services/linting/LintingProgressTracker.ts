@@ -18,39 +18,39 @@ export interface LintingMetrics {
   totalIssues: number,
   errors: number,
   warnings: number,
-  errorsByCategory: Record<string, number>;
-  warningsByCategory: Record<string, number>;
+  errorsByCategory: Record<string, number>,
+  warningsByCategory: Record<string, number>,
   filesCovered: number,
   fixableIssues: number,
   performanceMetrics: {
     executionTime: number,
     memoryUsage: number,
     cacheHitRate: number
-  };
+  },
 }
 
 /**
  * Linting progress report
  */
 export interface LintingProgressReport {
-  currentMetrics: LintingMetrics;
+  currentMetrics: LintingMetrics,
   previousMetrics?: LintingMetrics
   improvement: {
     totalIssuesReduced: number,
     errorsReduced: number,
     warningsReduced: number,
     percentageImprovement: number
-  };
+  },
   trends: {
     last24Hours: number,
     last7Days: number,
     last30Days: number
-  };
+  },
   qualityGates: {
     zeroErrors: boolean,
     warningsUnderThreshold: boolean,
     performanceAcceptable: boolean
-  };
+  },
 }
 
 /**
@@ -69,9 +69,9 @@ export interface CampaignIntegrationData {
  * Linting Progress Tracker Class
  */
 export class LintingProgressTracker {
-  private metricsFile = '.kiro/metrics/linting-metrics.json';
-  private historyFile = '.kiro/metrics/linting-history.json';
-  private configFile = '.kiro/metrics/linting-config.json';
+  private metricsFile = '.kiro/metrics/linting-metrics.json',
+  private historyFile = '.kiro/metrics/linting-history.json',
+  private configFile = '.kiro/metrics/linting-config.json',
 
   constructor() {
     this.ensureDirectoryExists()
@@ -100,13 +100,13 @@ export class LintingProgressTracker {
           memoryUsage: this.getMemoryUsage(),
           cacheHitRate: this.calculateCacheHitRate()
         }
-      };
+      },
 
       // Save metrics
       this.saveMetrics(fullMetrics)
 
       logger.info(`Linting metrics collected: ${fullMetrics.totalIssues} total issues`)
-      return fullMetrics;
+      return fullMetrics,
     } catch (error) {
       logger.error('Error collecting linting metrics:', error)
       throw error
@@ -131,10 +131,10 @@ export class LintingProgressTracker {
         improvement,
         trends,
         qualityGates
-      };
+      },
 
       logger.info('Linting progress report generated')
-      return report;
+      return report,
     } catch (error) {
       logger.error('Error generating progress report:', error)
       throw error
@@ -156,7 +156,7 @@ export class LintingProgressTracker {
         qualityScore: this.calculateQualityScore(report.currentMetrics),
         riskAssessment: this.assessRisk(report),
         recommendations: this.generateRecommendations(report)
-      };
+      },
 
       // Save campaign integration data
       this.saveCampaignIntegration(campaignProgress)
@@ -206,7 +206,7 @@ export class LintingProgressTracker {
         }
       })
 
-      return allGatesPassed;
+      return allGatesPassed,
     } catch (error) {
       logger.error('Error evaluating quality gates:', error)
       return false
@@ -226,14 +226,14 @@ export class LintingProgressTracker {
         maxBuffer: 10 * 1024 * 1024, // 10MB buffer
       })
 
-      return result;
+      return result,
     } catch (error) {
       // ESLint returns non-zero exit code when issues are found
       // The output is still valid JSON in error.stdout
       if ((error as { stdout?: string }).stdout) {
-        return (error as { stdout: string }).stdout;
+        return (error as { stdout: string }).stdout,
       }
-      throw error;
+      throw error,
     }
   }
 
@@ -246,12 +246,12 @@ export class LintingProgressTracker {
     try {
       const results = JSON.parse(output)
 
-      let totalIssues = 0;
-      let errors = 0;
-      let warnings = 0;
-      let fixableIssues = 0;
-      const errorsByCategory: Record<string, number> = {};
-      const warningsByCategory: Record<string, number> = {};
+      let totalIssues = 0,
+      let errors = 0,
+      let warnings = 0,
+      let fixableIssues = 0,
+      const errorsByCategory: Record<string, number> = {},
+      const warningsByCategory: Record<string, number> = {},
       const filesCovered = results.length;
 
       results.forEach(
@@ -266,14 +266,14 @@ export class LintingProgressTracker {
           file.messages?.forEach(message => {
             totalIssues++,
 
-            if (message.severity === 2) {;
-              errors++;
+            if (message.severity === 2) {,
+              errors++,
               errorsByCategory[message.ruleId || 'unknown'] =
-                (errorsByCategory[message.ruleId || 'unknown'] || 0) + 1;
+                (errorsByCategory[message.ruleId || 'unknown'] || 0) + 1,
             } else {
-              warnings++;
+              warnings++,
               warningsByCategory[message.ruleId || 'unknown'] =
-                (warningsByCategory[message.ruleId || 'unknown'] || 0) + 1;
+                (warningsByCategory[message.ruleId || 'unknown'] || 0) + 1,
             }
 
             if (message.fix) {
@@ -291,7 +291,7 @@ export class LintingProgressTracker {
         warningsByCategory,
         filesCovered,
         fixableIssues
-      };
+      },
     } catch (error) {
       logger.error('Error parsing linting output:', error)
       throw error
@@ -308,7 +308,7 @@ export class LintingProgressTracker {
         errorsReduced: 0,
         warningsReduced: 0,
         percentageImprovement: 0
-      };
+      },
     }
 
     const totalIssuesReduced = previous.totalIssues - current.totalIssues;
@@ -322,7 +322,7 @@ export class LintingProgressTracker {
       errorsReduced,
       warningsReduced,
       percentageImprovement
-    };
+    },
   }
 
   /**
@@ -337,7 +337,7 @@ export class LintingProgressTracker {
     const last7Days = this.calculateTrendForPeriod(history, sevenDaysAgo)
     const last30Days = this.calculateTrendForPeriod(history, thirtyDaysAgo),
 
-    return { last24Hours, last7Days, last30Days };
+    return { last24Hours, last7Days, last30Days },
   }
 
   /**
@@ -345,7 +345,7 @@ export class LintingProgressTracker {
    */
   private calculateTrendForPeriod(history: LintingMetrics[], since: Date): number {
     const recentMetrics = history.filter(m => new Date(m.timestamp) >= since)
-    if (recentMetrics.length < 2) return 0;
+    if (recentMetrics.length < 2) return 0,
 
     const oldest = recentMetrics[0];
     const newest = recentMetrics[recentMetrics.length - 1];
@@ -361,7 +361,7 @@ export class LintingProgressTracker {
       zeroErrors: metrics.errors === 0,,
       warningsUnderThreshold: metrics.warnings < 1000, // Configurable threshold,
       performanceAcceptable: metrics.performanceMetrics.executionTime < 60000, // 1 minute
-    };
+    },
   }
 
   /**
@@ -437,7 +437,7 @@ export class LintingProgressTracker {
       recommendations.push('Consider optimizing linting performance with caching')
     }
 
-    return recommendations;
+    return recommendations,
   }
 
   /**
@@ -476,7 +476,7 @@ export class LintingProgressTracker {
     } catch (error) {
       logger.warn('Error reading previous metrics:', error)
     }
-    return undefined;
+    return undefined,
   }
 
   private getLatestMetrics(): LintingMetrics | undefined {
@@ -493,7 +493,7 @@ export class LintingProgressTracker {
     } catch (error) {
       logger.warn('Error reading metrics history:', error)
     }
-    return [];
+    return [],
   }
 
   private getMemoryUsage(): number {

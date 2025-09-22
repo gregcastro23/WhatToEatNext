@@ -323,4 +323,4 @@ export const spherification: CookingMethodData = {
     natural_calcium_content:
       'Ingredients like dairy naturally high in calcium will begin to gel immediately with alginate, use reverse method.'
   }
-};
+},

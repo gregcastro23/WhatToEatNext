@@ -16,16 +16,16 @@ import {
   DryRunResult,
   SafetySettings,
   ToolConfiguration
-} from '../types/campaign';
+} from '../types/campaign',
 
 import { CampaignController } from './campaign/CampaignController';
 import { ProgressTracker } from './campaign/ProgressTracker';
 import { TypeScriptErrorAnalyzer } from './campaign/TypeScriptErrorAnalyzer';
 
 // Re-export required types for external components
-export type { ValidationResult, DryRunResult } from '../types/campaign';
+export type { ValidationResult, DryRunResult } from '../types/campaign',
 
-// ========== WORKFLOW TYPES ==========;
+// ========== WORKFLOW TYPES ==========,
 
 export interface CampaignTemplate {
   id: string,
@@ -46,11 +46,11 @@ export interface CampaignPhaseTemplate {
   description: string,
   tools: ToolTemplate[],
   successCriteria: {
-    typeScriptErrors?: number;
-    lintingWarnings?: number;
+    typeScriptErrors?: number,
+    lintingWarnings?: number,
     buildTime?: number
     customValidation?: string // Function name or description
-  };
+  },
   estimatedDuration: number // minutes
   riskLevel: 'low' | 'medium' | 'high'
 }
@@ -59,7 +59,7 @@ export interface ToolTemplate {
   name: string,
   scriptPath: string,
   description: string,
-  parameters: Record<string, ParameterTemplate>;
+  parameters: Record<string, ParameterTemplate>,
   batchSize: number,
   safetyLevel: 'LOW' | 'MEDIUM' | 'HIGH' | 'MAXIMUM'
 }
@@ -95,9 +95,9 @@ export interface WorkflowStep {
     | 'validation'
     | 'dry_run'
     | 'approval'
-    | 'execution';
+    | 'execution',
   status: 'pending' | 'in_progress' | 'completed' | 'skipped' | 'failed'
-  data?: Record<string, unknown>;
+  data?: Record<string, unknown>,
   validationRules?: ValidationRule[]
 }
 
@@ -133,19 +133,19 @@ export interface RollbackStep {
   id: string,
   description: string,
   action: 'restore_files' | 'revert_config' | 'rebuild' | 'validate',
-  parameters: Record<string, unknown>;
+  parameters: Record<string, unknown>,
   estimatedDuration: number
 }
 
-// ========== CAMPAIGN WORKFLOW MANAGER ==========;
+// ========== CAMPAIGN WORKFLOW MANAGER ==========,
 
 export class CampaignWorkflowManager {
   private workflows: Map<string, CampaignWorkflow> = new Map()
   private templates: Map<string, CampaignTemplate> = new Map()
   private versions: Map<string, CampaignVersion[]> = new Map()
-  private campaignController: CampaignController;
-  private progressTracker: ProgressTracker;
-  private errorAnalyzer: TypeScriptErrorAnalyzer;
+  private campaignController: CampaignController,
+  private progressTracker: ProgressTracker,
+  private errorAnalyzer: TypeScriptErrorAnalyzer,
 
   constructor() {
     this.campaignController = new CampaignController(this.getDefaultConfig())
@@ -154,7 +154,7 @@ export class CampaignWorkflowManager {
     this.initializeTemplates()
   }
 
-  // ========== WORKFLOW CREATION ==========;
+  // ========== WORKFLOW CREATION ==========,
 
   /**
    * Create a new campaign workflow from template
@@ -178,10 +178,10 @@ export class CampaignWorkflowManager {
       dryRunResults: [],
       createdAt: new Date(),
       updatedAt: new Date()
-    };
+    },
 
     this.workflows.set(workflowId, workflow)
-    return workflowId;
+    return workflowId,
   }
 
   /**
@@ -201,13 +201,13 @@ export class CampaignWorkflowManager {
       dryRunResults: [],
       createdAt: new Date(),
       updatedAt: new Date()
-    };
+    },
 
     this.workflows.set(workflowId, workflow)
-    return workflowId;
+    return workflowId,
   }
 
-  // ========== WORKFLOW MANAGEMENT ==========;
+  // ========== WORKFLOW MANAGEMENT ==========,
 
   /**
    * Get workflow by ID
@@ -233,14 +233,14 @@ export class CampaignWorkflowManager {
     const workflow = this.workflows.get(workflowId)
     if (!workflow) return false
 
-    workflow.config = { ...workflow.config, ...configUpdates };
+    workflow.config = { ...workflow.config, ...configUpdates },
     workflow.updatedAt = new Date()
 
     // Validate the updated configuration
     const validation = await this.validateWorkflowConfig(workflowId)
-    workflow.validationResults = [validation];
+    workflow.validationResults = [validation],
 
-    return true;
+    return true,
   }
 
   /**
@@ -248,7 +248,7 @@ export class CampaignWorkflowManager {
    */
   async advanceWorkflowStep(workflowId: string): Promise<boolean> {
     const workflow = this.workflows.get(workflowId)
-    if (!workflow) return false;
+    if (!workflow) return false,
 
     const currentStep = workflow.steps[workflow.currentStep];
     if (!currentStep || currentStep.status !== 'completed') {
@@ -256,13 +256,13 @@ export class CampaignWorkflowManager {
     }
 
     if (workflow.currentStep < workflow.steps.length - 1) {
-      workflow.currentStep++;
-      workflow.steps[workflow.currentStep].status = 'in_progress';
+      workflow.currentStep++,
+      workflow.steps[workflow.currentStep].status = 'in_progress',
       workflow.updatedAt = new Date()
-      return true;
+      return true,
     }
 
-    return false;
+    return false,
   }
 
   /**
@@ -273,12 +273,12 @@ export class CampaignWorkflowManager {
     stepData?: Record<string, unknown>,
   ): Promise<boolean> {
     const workflow = this.workflows.get(workflowId)
-    if (!workflow) return false;
+    if (!workflow) return false,
 
     const currentStep = workflow.steps[workflow.currentStep];
-    if (!currentStep) return false;
+    if (!currentStep) return false,
 
-    currentStep.status = 'completed';
+    currentStep.status = 'completed',
     if (stepData) {
       currentStep.data = stepData
     }
@@ -287,16 +287,16 @@ export class CampaignWorkflowManager {
 
     // Auto-advance to next step if possible
     if (workflow.currentStep < workflow.steps.length - 1) {
-      workflow.currentStep++;
-      workflow.steps[workflow.currentStep].status = 'in_progress';
+      workflow.currentStep++,
+      workflow.steps[workflow.currentStep].status = 'in_progress',
     } else {
-      workflow.status = 'ready';
+      workflow.status = 'ready',
     }
 
-    return true;
+    return true,
   }
 
-  // ========== VALIDATION AND TESTING ==========;
+  // ========== VALIDATION AND TESTING ==========,
 
   /**
    * Validate workflow configuration
@@ -308,21 +308,21 @@ export class CampaignWorkflowManager {
         success: false,
         errors: ['Workflow not found'],
         warnings: []
-      };
+      },
     }
 
     const errors: string[] = [];
     const warnings: string[] = [];
 
     // Validate basic configuration
-    if (!workflow.config.phases || workflow.config.phases.length === 0) {;
+    if (!workflow.config.phases || workflow.config.phases.length === 0) {,
       errors.push('At least one campaign phase is required')
     }
 
     // Validate phases
     if (workflow.config.phases) {
       for (const phase of workflow.config.phases) {
-        if (!phase.tools || phase.tools.length === 0) {;
+        if (!phase.tools || phase.tools.length === 0) {,
           errors.push(`Phase ${phase.name} has no tools configured`)
         }
 
@@ -347,7 +347,7 @@ export class CampaignWorkflowManager {
       success: errors.length === 0,
       errors,
       warnings
-    };
+    },
   }
 
   /**
@@ -361,13 +361,13 @@ export class CampaignWorkflowManager {
         estimatedChanges: 0,
         potentialIssues: ['Invalid workflow configuration'],
         safetyScore: 0
-      };
+      },
     }
 
     const wouldProcess: string[] = [];
-    let estimatedChanges = 0;
+    let estimatedChanges = 0,
     const potentialIssues: string[] = [];
-    let safetyScore = 1.0;
+    let safetyScore = 1.0,
 
     // Analyze each phase
     for (const phase of workflow.config.phases) {
@@ -375,7 +375,7 @@ export class CampaignWorkflowManager {
         // Simulate tool execution analysis
         const analysis = await this.analyzeToolImpact(tool as unknown as any)
         wouldProcess.push(...analysis.files)
-        estimatedChanges += analysis.changes;
+        estimatedChanges += analysis.changes,
         potentialIssues.push(...analysis.issues)
         safetyScore = Math.min(safetyScore, analysis.safetyScore)
       }
@@ -386,16 +386,16 @@ export class CampaignWorkflowManager {
       estimatedChanges,
       potentialIssues,
       safetyScore
-    };
+    },
 
     // Store dry run results
     workflow.dryRunResults.push(dryRunResult)
     workflow.updatedAt = new Date()
 
-    return dryRunResult;
+    return dryRunResult,
   }
 
-  // ========== VERSIONING AND ROLLBACK ==========;
+  // ========== VERSIONING AND ROLLBACK ==========,
 
   /**
    * Create a new version of campaign configuration
@@ -419,12 +419,12 @@ export class CampaignWorkflowManager {
       description,
       status: 'draft',
       parentVersion: versions.length > 0 ? versions[versions.length - 1].version : undefined
-    };
+    },
 
     versions.push(version)
     this.versions.set(campaignId, versions)
 
-    return version.id;
+    return version.id,
   }
 
   /**
@@ -474,7 +474,7 @@ export class CampaignWorkflowManager {
         parameters: { runTests: true },
         estimatedDuration: 3
       }
-    ];
+    ],
 
     const totalDuration = rollbackSteps.reduce((sum, step) => sum + step.estimatedDuration, 0)
 
@@ -485,7 +485,7 @@ export class CampaignWorkflowManager {
       estimatedDuration: totalDuration,
       riskAssessment: 'Low risk - configuration rollback with validation',
       approvalRequired: true
-    };
+    },
   }
 
   /**
@@ -501,23 +501,23 @@ export class CampaignWorkflowManager {
             break
           case 'revert_config':
             await this.revertConfiguration(rollbackPlan.campaignId, step.parameters.targetVersion)
-            break;
+            break,
           case 'rebuild': await this.rebuildProject()
-            break;
+            break,
           case 'validate':
             await this.validateRollback(step.parameters)
             break
         }
       }
 
-      return true;
+      return true,
     } catch (error) {
       _logger.error('Rollback failed:', error)
-      return false;
+      return false,
     }
   }
 
-  // ========== TEMPLATE MANAGEMENT ==========;
+  // ========== TEMPLATE MANAGEMENT ==========,
 
   /**
    * Get all available templates
@@ -540,7 +540,7 @@ export class CampaignWorkflowManager {
     return Array.from(this.templates.values()).filter(t => t.category === category)
   }
 
-  // ========== PRIVATE HELPER METHODS ==========;
+  // ========== PRIVATE HELPER METHODS ==========,
 
   private initializeTemplates(): void {
     // TypeScript Error Elimination Template
@@ -823,7 +823,7 @@ export class CampaignWorkflowManager {
         type: 'execution',
         status: 'pending'
       }
-    ];
+    ],
   }
 
   private createDefaultWorkflowSteps(): WorkflowStep[] {
@@ -863,7 +863,7 @@ export class CampaignWorkflowManager {
         type: 'execution',
         status: 'pending'
       }
-    ];
+    ],
   }
 
   private templateToConfig(template: CampaignTemplate): Partial<CampaignConfig> {
@@ -904,7 +904,7 @@ export class CampaignWorkflowManager {
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
         consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
       }
-    };
+    },
   }
 
   private async analyzeToolImpact(tool: Record<string, unknown>): Promise<{
@@ -919,7 +919,7 @@ export class CampaignWorkflowManager {
       changes: 10,
       issues: [],
       safetyScore: 0.9
-    };
+    },
   }
 
   private async restoreFiles(parameters: Record<string, unknown>): Promise<void> {
@@ -965,7 +965,7 @@ export class CampaignWorkflowManager {
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
         consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
       }
-    };
+    },
   }
 }
 

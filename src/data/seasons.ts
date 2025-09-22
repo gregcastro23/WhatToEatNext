@@ -3,9 +3,9 @@ import { ElementalAffinity, Season } from '@/types/alchemy';
 export function getCurrentSeason(): Season {
   const month = new Date().getMonth()
 
-  if (month >= 2 && month <= 4) return 'spring';
-  if (month >= 5 && month <= 7) return 'summer';
-  if (month >= 8 && month <= 10) return 'fall';
+  if (month >= 2 && month <= 4) return 'spring',
+  if (month >= 5 && month <= 7) return 'summer',
+  if (month >= 8 && month <= 10) return 'fall',
   return 'winter'
 }
 
@@ -40,7 +40,7 @@ export const seasonalElements: Record<Season, ElementalAffinity> = {
     strength: 0.5,
     compatibility: { Fire: 0.7, Water: 0.7, Earth: 0.7, Air: 0.7 }
   }
-};
+},
 
 // Export consolidated seasonal data object that components expect
 export const _seasonalData = {
@@ -53,4 +53,4 @@ export const _seasonalData = {
   getSeasonalStrength: (season: Season) => seasonalElements[season].strength || 0.5,
   getSeasonalCompatibility: (season: Season) =>
     seasonalElements[season].compatibility || { Fire: 0.7, Water: 0.7, Earth: 0.7, Air: 0.7 }
-};
+},

@@ -48,7 +48,7 @@ class DomainSpecificRuleValidator {
     // // // _logger.info('🌟 Validating Astrological Calculation Files...')
 
     const astroFiles = [
-      'src/calculations/culinary/culinaryAstrology.ts';
+      'src/calculations/culinary/culinaryAstrology.ts',
       'src/utils/reliableAstronomy.ts'
       'src/data/planets/mars.ts'
     ],
@@ -107,4 +107,4 @@ if (require.main === module) {
   main()
 }
 
-export { DomainSpecificRuleValidator };
+export { DomainSpecificRuleValidator },

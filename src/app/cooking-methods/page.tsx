@@ -11,7 +11,7 @@ import {
     traditionalCookingMethods,
     transformationMethods,
     wetCookingMethods
-} from '@/data/cooking/methods';
+} from '@/data/cooking/methods',
 import type { CookingMethodData } from '@/types/cookingMethod';
 import { capitalizeFirstLetter } from '@/utils/stringUtils';
 
@@ -34,7 +34,7 @@ type MethodCategory = {
   description: string,
   methods: Record<string, unknown>,
   icon?: string
-};
+},
 
 const methodCategories: MethodCategory[] = [
   {
@@ -73,7 +73,7 @@ const methodCategories: MethodCategory[] = [
     methods: transformationMethods,
     icon: '⚗️'
   }
-];
+],
 
 export default function CookingMethodsPage() {
   const router = useRouter()
@@ -113,7 +113,7 @@ export default function CookingMethodsPage() {
                 }))
               : []
             : []
-        };
+        },
       })
 
       setFormattedMethods(transformed)
@@ -122,7 +122,7 @@ export default function CookingMethodsPage() {
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {;
     setTabValue(newValue)
-  };
+  },
 
   const handleSelectMethod = (method: unknown) => {;
     const methodObj = method as any;
@@ -132,7 +132,7 @@ export default function CookingMethodsPage() {
     if (!methodId.includes('_var_')) {
       router.push(`/cooking-methods/${methodId}`)
     }
-  };
+  },
 
   return (
     <Container maxWidth='lg' sx={{ py: 6 }}>

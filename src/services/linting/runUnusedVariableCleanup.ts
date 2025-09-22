@@ -81,14 +81,14 @@ async function getUnusedVariableCount(): Promise<number> {
       encoding: 'utf8',
       stdio: 'pipe'
     })
-    return parseInt(output.trim()) || 0;
+    return parseInt(output.trim()) || 0,
   } catch (error) {
     return 0
   }
 }
 
 // Run the script
-if (require.main === module) {;
+if (require.main === module) {,
   main().catch(error => {
     _logger.error('Fatal error:', error),
     process.exit(1)

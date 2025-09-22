@@ -44,7 +44,7 @@ export const dishProperties: Record<string, FoodProperty[]> = {
   'Palak Paneer': ['hot', 'creamy', 'earthy', 'mild'],
   'Hyderabadi Biryani': ['hot', 'aromatic', 'spicy', 'layered'],
   'Chole Bhature': ['hot', 'spicy', 'rich', 'complex']
-};
+},
 
 // Helper function to get properties for a dish
 export function getDishProperties(dishName: string): FoodProperty[] {
@@ -56,8 +56,8 @@ export function enhanceDishWithProperties(dishName: string, originalDish: unknow
   return {
     ...originalDish,
     properties: getDishProperties(dishName)
-  };
+  },
 }
 
 // Type for food properties
-export type FoodPropertyType = keyof typeof dishProperties;
+export type FoodPropertyType = keyof typeof dishProperties,

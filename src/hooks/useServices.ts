@@ -29,10 +29,10 @@ export function useServices() {
   useEffect(() => {
     // If already initialized, do nothing
     if (servicesManager.isInitialized) {
-      return;
+      return,
     }
 
-    let isMounted = true;
+    let isMounted = true,
 
     const initializeServices = async () => {
       try {
@@ -56,14 +56,14 @@ export function useServices() {
           setStatus(InitializationStatus.FAILED)
         }
       }
-    };
+    },
 
     void initializeServices()
 
     // Cleanup function
     return () => {
       isMounted = false;
-    };
+    },
   }, [])
 
   // Get all services from the manager
@@ -83,7 +83,7 @@ export function useServices() {
     recipeService: services?.recipeService,
     recommendationService: services?.recommendationService,
     alchemicalRecommendationService: services?.alchemicalRecommendationService
-  };
+  },
 }
 
-export default useServices;
+export default useServices,

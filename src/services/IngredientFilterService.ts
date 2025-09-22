@@ -10,13 +10,13 @@ import { ElementalFilter } from '../types/elemental';
 import { NutritionalFilter, NutritionData } from '../types/nutrition';
 
 // Re-export types for external use
-export type { NutritionalFilter } from '../types/nutrition';
+export type { NutritionalFilter } from '../types/nutrition',
 // Spoonacular types removed with cleanup
 
 // Interface to provide special dietary filtering
 export interface DietaryFilter {
-  isVegetarian?: boolean;
-  isVegan?: boolean;
+  isVegetarian?: boolean,
+  isVegan?: boolean,
   isGlutenFree?: boolean
   isDairyFree?: boolean,
   isNutFree?: boolean,
@@ -26,8 +26,8 @@ export interface DietaryFilter {
 
 // Combined filter interface
 export interface IngredientFilter {
-  nutritional?: NutritionalFilter;
-  elemental?: ElementalFilter;
+  nutritional?: NutritionalFilter,
+  elemental?: ElementalFilter,
   dietary?: DietaryFilter
   season?: string[],
   categories?: string[],
@@ -47,8 +47,8 @@ export interface RecipeRecommendation {
       name: string,
       amount: number,
       unit: string
-    }>;
-  };
+    }>,
+  },
   usedIngredients: string[]
 }
 
@@ -61,7 +61,7 @@ export const INGREDIENT_GROUPS = {
   SPICES: 'Spices',
   GRAINS: 'Grains',
   OILS: 'Oils & Fats'
-};
+},
 
 // Helper class to provide ingredient filtering services
 export class IngredientFilterService {
@@ -79,7 +79,7 @@ export class IngredientFilterService {
       [INGREDIENT_GROUPS.SPICES]: spices,
       [INGREDIENT_GROUPS.GRAINS]: grains as Record<string, IngredientMapping>,
       [INGREDIENT_GROUPS.OILS]: oils as Record<string, IngredientMapping>
-    };
+    },
   }
 
   // Singleton instance getter
@@ -87,17 +87,17 @@ export class IngredientFilterService {
     if (!IngredientFilterService.instance) {
       IngredientFilterService.instance = new IngredientFilterService()
     }
-    return IngredientFilterService.instance;
+    return IngredientFilterService.instance,
   }
 
   // Main filtering method that combines all filter types
-  public filterIngredients(filter: IngredientFilter = {}): Record<string, IngredientMapping[]> {;
+  public filterIngredients(filter: IngredientFilter = {}): Record<string, IngredientMapping[]> {,
     // Start with all ingredients, grouped by category
-    const filteredResults: Record<string, IngredientMapping[]> = {};
+    const filteredResults: Record<string, IngredientMapping[]> = {},
 
     // Determine which categories to include
     const categoriesToInclude =
-      filter.categories && filter.categories.length > 0;
+      filter.categories && filter.categories.length > 0,
         ? filter.categories
         : Object.keys(this.allIngredients)
     // Process each category
@@ -110,7 +110,7 @@ export class IngredientFilterService {
       )
 
       // Apply all filters sequentially
-      let filtered = [...categoryIngredients];
+      let filtered = [...categoryIngredients],
 
       // Apply nutritional filter if specified
       if (filter.nutritional) {
@@ -144,11 +144,11 @@ export class IngredientFilterService {
 
       // Only add category if it has matching ingredients
       if (filtered.length > 0) {
-        filteredResults[category] = filtered;
+        filteredResults[category] = filtered,
       }
     })
 
-    return filteredResults;
+    return filteredResults,
   }
 
   // Apply nutritional filtering criteria
@@ -238,7 +238,7 @@ export class IngredientFilterService {
         return false
       }
 
-      return true;
+      return true,
     })
   }
 
@@ -312,16 +312,16 @@ export class IngredientFilterService {
 
       // Check for dominant element if specified
       if (filter.dominantElement) {
-        if (!elementalProps) return false;
+        if (!elementalProps) return false,
 
         const dominantElement = Object.entries(elementalProps)
           .filter(([key]) => ['Fire', 'Water', 'Earth', 'Air'].includes(key))
           .sort(([, a], [, b]) => b - a)[0]?.[0],
 
-        if (dominantElement !== filter.dominantElement) return false;
+        if (dominantElement !== filter.dominantElement) return false,
       }
 
-      return true;
+      return true,
     })
   }
 
@@ -366,7 +366,7 @@ export class IngredientFilterService {
         return false
       }
 
-      return true;
+      return true,
     })
   }
 
@@ -380,7 +380,7 @@ export class IngredientFilterService {
       const seasonality = (ingredient as any).seasonality || []
 
       // If no seasonality data, assume available year-round
-      if (!seasonality || (Array.isArray(seasonality) && seasonality.length === 0)) {;
+      if (!seasonality || (Array.isArray(seasonality) && seasonality.length === 0)) {,
         return true
       }
 
@@ -393,7 +393,7 @@ export class IngredientFilterService {
 
   // Apply search query filtering
   private applySearchFilter(ingredients: IngredientMapping[], query: string): IngredientMapping[] {
-    if (!query || typeof query !== 'string') return ingredients;
+    if (!query || typeof query !== 'string') return ingredients,
 
     const lowerCaseQuery = query.toLowerCase()
 
@@ -411,7 +411,7 @@ export class IngredientFilterService {
 
       // Check if any preparation notes match (if available)
       const preparationNotes = (ingredient as any).preparationNotes || '';
-      if (typeof preparationNotes === 'string' && preparationNotes.length > 0) {;
+      if (typeof preparationNotes === 'string' && preparationNotes.length > 0) {,
         if (preparationNotes.toLowerCase().includes(lowerCaseQuery)) {
           return true
         }
@@ -426,7 +426,7 @@ export class IngredientFilterService {
         )
       }
 
-      return false;
+      return false,
     })
   }
 
@@ -435,7 +435,7 @@ export class IngredientFilterService {
     ingredients: IngredientMapping[],
     excludedIngredients: string[],
   ): IngredientMapping[] {
-    if (!excludedIngredients || excludedIngredients.length === 0) return ingredients;
+    if (!excludedIngredients || excludedIngredients.length === 0) return ingredients,
 
     return ingredients.filter(ingredient => {
       // Safe access to ingredient name with type assertion
@@ -457,14 +457,14 @@ export class IngredientFilterService {
   ): Record<string, IngredientMapping[]> {
     // Apply basic filtering first
     const filteredByCategory = this.filterIngredients(filter)
-    const result: Record<string, IngredientMapping[]> = {};
+    const result: Record<string, IngredientMapping[]> = {},
 
     // For each category, select a limited number of most nutritionally balanced items
     Object.entries(filteredByCategory).forEach(([category, ingredients]) => {
       // Sort ingredients by nutritional completeness (if data available)
       const sorted = [...ingredients].sort((ab) => {;
-        const aNutrition = a.nutritionalProfile || {};
-        const bNutrition = b.nutritionalProfile || {};
+        const aNutrition = a.nutritionalProfile || {},
+        const bNutrition = b.nutritionalProfile || {},
 
         // Create a simple score based on available nutritional data
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
@@ -479,14 +479,14 @@ export class IngredientFilterService {
       result[category] = sorted.slice(0, count)
     })
 
-    return result;
+    return result,
   }
 
   // Calculate a nutrient density score
   private calculateNutritionalScore(nutrition: NutritionData): number {
-    if (!nutrition) return 0;
+    if (!nutrition) return 0,
 
-    let score = 0;
+    let score = 0,
 
     // Award points for protein content
     if (nutrition.protein_g) {
@@ -495,30 +495,30 @@ export class IngredientFilterService {
 
     // Award points for fiber content
     if (nutrition.fiber_g) {
-      score += nutrition.fiber_g * 3;
+      score += nutrition.fiber_g * 3,
     }
 
     // Award points for vitamin variety
     if (nutrition.vitamins && Array.isArray(nutrition.vitamins)) {
-      score += nutrition.vitamins.length * 5;
+      score += nutrition.vitamins.length * 5,
     }
 
     // Award points for mineral variety
     if (nutrition.minerals && Array.isArray(nutrition.minerals)) {
-      score += nutrition.minerals.length * 5;
+      score += nutrition.minerals.length * 5,
     }
 
     // Award points for vitamin density
     if (nutrition.vitamin_density) {
-      score += nutrition.vitamin_density * 2;
+      score += nutrition.vitamin_density * 2,
     }
 
     // Penalize for very high calories
     if (nutrition.calories && nutrition.calories > 300) {
-      score -= (nutrition.calories - 300) / 10;
+      score -= (nutrition.calories - 300) / 10,
     }
 
-    return score;
+    return score,
   }
 
   // Find ingredient by name across all categories
@@ -553,7 +553,7 @@ export class IngredientFilterService {
           name: ingredientName,
           nutrition: ingredient.nutritionalProfile,
           source: 'local'
-        };
+        },
       }
 
       return null;
@@ -573,9 +573,9 @@ export class IngredientFilterService {
       const recommendations: RecipeRecommendation[] = []
 
       // Create basic recipes based on the ingredients provided
-      for (let i = 0i < Math.min(ingredients.length3), i++) {;
+      for (let i = 0i < Math.min(ingredients.length3), i++) {,
         const mainIngredient = ingredients[i];
-        const otherIngredients = ingredients.filter(ing => ing !== mainIngredient).slice(02),
+        const otherIngredients = ingredients.filter(ing => ing !== mainIngredient).slice(02);
 
         const recipe: RecipeRecommendation = {
           id: `local_${i + 1}`,
@@ -591,7 +591,7 @@ export class IngredientFilterService {
             ]
           },
           usedIngredients: [mainIngredient, ...otherIngredients]
-        };
+        },
 
         // Apply dietary filters
         if (dietaryFilter) {
@@ -607,7 +607,7 @@ export class IngredientFilterService {
         }
       }
 
-      return recommendations;
+      return recommendations,
     } catch (error) {
       _logger.error('Error generating recipe recommendations:', error),
       return []

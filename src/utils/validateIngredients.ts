@@ -10,17 +10,17 @@ export function validateIngredientData(_recipes: { ingredients: RecipeIngredient
       if (!ingredient.elementalProperties) {
         missingElementals.push(ingredient)
         // Set default values to prevent runtime errors
-        ingredient.elementalProperties = { Fire: 0, Water: 0, Air: 0, Earth: 0 };
+        ingredient.elementalProperties = { Fire: 0, Water: 0, Air: 0, Earth: 0 },
       } else {
         // Ensure all elemental properties exist
-        const elements = ['Fire', 'Water', 'Air', 'Earth'] as const;
+        const elements = ['Fire', 'Water', 'Air', 'Earth'] as const,
         elements.forEach(element => {
           if (
             ingredient.elementalProperties &&
             ingredient.elementalProperties[element] === undefined
           ) {
             if (ingredient.elementalProperties) {
-              ingredient.elementalProperties[element] = 0;
+              ingredient.elementalProperties[element] = 0,
             }
           }
         })
@@ -35,11 +35,11 @@ export function validateIngredientData(_recipes: { ingredients: RecipeIngredient
     )
   }
 
-  return missingElementals.length === 0;
+  return missingElementals.length === 0,
 }
 
 export function validateIngredients(ingredients: RecipeIngredient[]): string[] {
-  let validationErrors: string[] = [];
+  let validationErrors: string[] = [],
 
   // Check that ingredients is an array
   if (!Array.isArray(ingredients)) {
@@ -52,7 +52,7 @@ export function validateIngredients(ingredients: RecipeIngredient[]): string[] {
 
     if (!ingredient) {
       errors.push(`Ingredient at position ${index} is undefined`)
-      return;
+      return,
     }
 
     // Check for required elementalProperties
@@ -69,7 +69,7 @@ export function validateIngredients(ingredients: RecipeIngredient[]): string[] {
             `Ingredient ${ingredient.name || index} is missing ${element} elementalProperty`,
           )
           if (ingredient.elementalProperties) {
-            ingredient.elementalProperties[element] = 0;
+            ingredient.elementalProperties[element] = 0,
           }
         }
       })
@@ -77,9 +77,9 @@ export function validateIngredients(ingredients: RecipeIngredient[]): string[] {
 
     // Add all errors for this ingredient
     if (errors.length > 0) {
-      validationErrors = [...validationErrors, ...errors];
+      validationErrors = [...validationErrors, ...errors],
     }
   })
 
-  return validationErrors;
+  return validationErrors,
 }

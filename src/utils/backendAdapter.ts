@@ -30,7 +30,7 @@ function withCache<T>(key: string, apiCall: () => Promise<T>): Promise<T> {
 
   return apiCall().then(data => {
     calculationCache.set(key, { data, timestamp: Date.now() })
-    return data;
+    return data,
   })
 }
 
@@ -44,7 +44,7 @@ export const calculateElementalBalance = async (
 ): Promise<ElementalProperties> => {
   const cacheKey = `elemental_${JSON.stringify(ingredients)}_${JSON.stringify(weights)}`;
   return withCache(cacheKey, () => alchemicalApi.calculateElementalBalance(ingredients, weights))
-};
+},
 
 /**
  * KALCHM ENGINE ADAPTER
@@ -53,7 +53,7 @@ export const calculateElementalBalance = async (
 export const calculateKalchmMetrics = async (elements: ElementalProperties) => {
   const cacheKey = `kalchm_${JSON.stringify(elements)}`;
   return withCache(cacheKey, () => alchemicalApi.calculateThermodynamics(elements))
-};
+},
 
 /**
  * MONICA CONSTANT ADAPTER
@@ -67,9 +67,9 @@ export const calculateMonicaConstant = async (
   const cacheKey = `monica_${gregsEnergy}_${reactivity}_${kalchm}`;
   return withCache(cacheKey, async () => {
     const esmsResult = await alchemicalApi.calculateESMS(kalchm, gregsEnergy, reactivity, 0.5)
-    return esmsResult.monica || gregsEnergy * reactivity * kalchm * 0.1;
+    return esmsResult.monica || gregsEnergy * reactivity * kalchm * 0.1,
   })
-};
+},
 
 /**
  * PLANETARY INFLUENCES ADAPTER
@@ -78,7 +78,7 @@ export const calculateMonicaConstant = async (
 export const getCurrentPlanetaryInfluences = async () => {
   const cacheKey = `planetary_${Math.floor(Date.now() / 60000)}`; // 1-minute cache
   return withCache(cacheKey, () => alchemicalApi.getCurrentPlanetaryHour())
-};
+},
 
 /**
  * ALCHEMICAL CALCULATIONS ADAPTER
@@ -90,7 +90,7 @@ export const optimizeAlchemicalBalance = async (
 ) => {
   const cacheKey = `optimize_${JSON.stringify(currentElements)}_${JSON.stringify(targetElements)}`;
   return withCache(cacheKey, () => alchemicalApi.optimizeElementalBalance(currentElements, targetElements))
-};
+},
 
 /**
  * SIMPLIFIED ELEMENTAL PROPERTIES
@@ -115,11 +115,11 @@ export const getElementalProperties = (ingredient: string): ElementalProperties 
     // Air-dominant
     mint: { Fire: 0.1, Water: 0.2, Earth: 0.1, Air: 0.6 },
     basil: { Fire: 0.15, Water: 0.15, Earth: 0.15, Air: 0.55 }
-  };
+  },
 
   return elementalMap[ingredient.toLowerCase()] ||
-    { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
-};
+    { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+},
 
 /**
  * GREGS ENERGY CALCULATION
@@ -133,7 +133,7 @@ export const calculateGregsEnergy = (
   return Math.max(0, Math.min(200,
     (heat * 0.4 + reactivity * 0.4 - entropy * 0.2) * 100
   ))
-};
+},
 
 /**
  * SEASONAL MODIFIERS
@@ -145,11 +145,11 @@ export const getSeasonalModifier = (season: string): ElementalProperties => {
     summer: { Fire: 0.5, Water: 0.2, Earth: 0.1, Air: 0.2 },
     autumn: { Fire: 0.2, Water: 0.3, Earth: 0.4, Air: 0.1 },
     winter: { Fire: 0.1, Water: 0.4, Earth: 0.3, Air: 0.2 }
-  };
+  },
 
   return modifiers[season.toLowerCase() as keyof typeof modifiers] ||
-    modifiers.spring;
-};
+    modifiers.spring,
+},
 
 /**
  * RECIPE RECOMMENDATIONS ADAPTER
@@ -157,11 +157,11 @@ export const getSeasonalModifier = (season: string): ElementalProperties => {
  */
 export const getPersonalizedRecommendations = async (
   preferences: {
-    currentElements?: ElementalProperties;
-    cuisinePreferences?: string[];
-    dietaryRestrictions?: string[];
-    maxPrepTime?: number;
-    limit?: number;
+    currentElements?: ElementalProperties,
+    cuisinePreferences?: string[],
+    dietaryRestrictions?: string[],
+    maxPrepTime?: number,
+    limit?: number,
   }
 ) => {
   const request = {
@@ -172,11 +172,11 @@ export const getPersonalizedRecommendations = async (
     dietary_restrictions: preferences.dietaryRestrictions || [],
     max_prep_time: preferences.maxPrepTime,
     limit: preferences.limit || 10
-  };
+  },
 
   const cacheKey = `recommendations_${JSON.stringify(request)}`;
   return withCache(cacheKey, () => alchemicalApi.getRecipeRecommendations(request))
-};
+},
 
 /**
  * REAL-TIME PLANETARY UPDATES
@@ -195,28 +195,28 @@ export const connectToRealtimeUpdates = (
       onEnergyUpdate(planetaryData.gregsEnergy)
     }
   })
-};
+},
 
 /**
  * HEALTH CHECK FOR BACKEND SERVICES
  */
 export const checkBackendHealth = async () => {
   return alchemicalApi.checkHealth()
-};
+},
 
 /**
  * CACHE MANAGEMENT
  */
 export const clearCalculationCache = () => {
   calculationCache.clear()
-};
+},
 
 export const getCacheStats = () => {
   return {
     size: calculationCache.size,
     entries: Array.from(calculationCache.keys())
-  };
-};
+  },
+},
 
 // Export commonly used combinations
 export const backendCalculations = {
@@ -228,6 +228,6 @@ export const backendCalculations = {
   optimize: optimizeAlchemicalBalance,
   realtime: connectToRealtimeUpdates,
   health: checkBackendHealth
-};
+},
 
-export default backendCalculations;
+export default backendCalculations,

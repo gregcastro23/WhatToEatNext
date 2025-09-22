@@ -285,7 +285,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     description:
       'Semi-solid at room temperature, red palm oil has a natural deep orange-red color from carotenoids, while refined palm oil is pale yellow. Contains balanced amounts of saturated and unsaturated fatty acids, with palmitic acid and oleic acid being predominant.',
     cautions:
-      'Sustainable sourcing is important. Look for RSPO-certified (Roundtable on Sustainable Palm Oil) sources to ensure environmental and social responsibility.',
+      'Sustainable sourcing is important. Look for RSPO-certified (Roundtable on Sustainable Palm Oil) sources to ensure environmental and social responsibility.';
     psychoactiveProperties: null,
     medicalProperties: {
       inflammation: 'Tocotrienols have anti-inflammatory properties',
@@ -1068,7 +1068,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       ]
     }
   }
-};
+},
 
 // Fix the ingredient mappings to ensure they have all required properties
 export const oils: Record<string, IngredientMapping> = fixIngredientMappings(rawOils)
@@ -1077,4 +1077,4 @@ export const oils: Record<string, IngredientMapping> = fixIngredientMappings(raw
 export const _allOils = oils;
 
 // Export default for convenience
-export default oils;
+export default oils,

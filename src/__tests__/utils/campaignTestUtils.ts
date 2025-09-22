@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars -- Campaign/test file with intentional patterns */
-type SafetyLevel = 'LOW' | 'MEDIUM' | 'HIGH' | 'MAXIMUM';
+type SafetyLevel = 'LOW' | 'MEDIUM' | 'HIGH' | 'MAXIMUM',
 
 /**
  * Campaign Test Utilities
@@ -14,14 +14,14 @@ import {
   PhaseResult,
   ProgressMetrics,
   SafetyEvent,
-  SafetyEventSeverity;
+  SafetyEventSeverity,
   SafetyEventType
-} from '../../types/campaign';
+} from '../../types/campaign',
 import {
   MockCampaignController,
-  MockProgressTracker;
+  MockProgressTracker,
   MockSafetyProtocol
-} from '../mocks/CampaignSystemMocks';
+} from '../mocks/CampaignSystemMocks',
 
 import { campaignTestController, CampaignTestController } from './CampaignTestController';
 import { TestSafeProgressTracker } from './TestSafeProgressTracker';
@@ -30,8 +30,8 @@ import { TestSafeProgressTracker } from './TestSafeProgressTracker';
  * Test setup configuration for campaign tests
  */
 export interface CampaignTestSetup {
-  testName: string;
-  enableMemoryMonitoring?: boolean;
+  testName: string,
+  enableMemoryMonitoring?: boolean,
   preventActualBuilds?: boolean
   preventGitOperations?: boolean,
   mockProgressTracking?: boolean,
@@ -60,9 +60,9 @@ export async function setupCampaignTest(setup: CampaignTestSetup): Promise<Campa
     preventActualBuilds = true,
     preventGitOperations = true,
     mockProgressTracking = true,,
-    simulateRealProgress: _simulateRealProgress = false,,
+    simulateRealProgress: _simulateRealProgress = false;,
     customConfig: _customConfig
-  } = setup;
+  } = setup,
 
   // Initialize test controller with configuration
   await campaignTestController.initializeForTest(testName, {
@@ -92,7 +92,7 @@ export async function setupCampaignTest(setup: CampaignTestSetup): Promise<Campa
     safety: mockInstances.safety,
     testSafeTracker,
     testController: campaignTestController
-  };
+  },
 }
 
 /**
@@ -147,9 +147,9 @@ export function createMockCampaignConfig(overrides?: Partial<CampaignConfig>): C
       unusedVariablesFixer: 'mock-unused-fixer.js',
       consoleStatementFixer: 'mock-console-fixer.js'
     }
-  };
+  },
 
-  return { ...defaultConfig, ...overrides };
+  return { ...defaultConfig, ...overrides },
 }
 
 /**
@@ -168,7 +168,7 @@ export function createMockProgressMetrics(overrides?: Partial<ProgressMetrics>):
       target: 0,
       reduction: 2506,
       percentage: 56
-    };
+    },
     buildPerformance: {
       currentTime: 8.5,
       targetTime: 10,
@@ -180,9 +180,9 @@ export function createMockProgressMetrics(overrides?: Partial<ProgressMetrics>):
       target: 200,
       transformedExports: 50
     }
-  };
+  },
 
-  return { ...defaultMetrics, ...overrides };
+  return { ...defaultMetrics, ...overrides },
 }
 
 /**
@@ -199,7 +199,7 @@ export function createMockSafetyEvent(
     description: `Mock: ${description}`,
     severity,
     action: 'MOCK_TEST_EVENT'
-  };
+  },
 }
 
 /**
@@ -223,7 +223,7 @@ export async function simulateCampaignPhase(
     }
   }
 
-  return result;
+  return result,
 }
 
 /**
@@ -293,9 +293,9 @@ export async function executeCampaignTestScenario(
     const campaignConfig = createMockCampaignConfig(config)
     const results: PhaseResult[] = [];
 
-    for (let i = 0i < campaignConfig.phases.lengthi++) {;
+    for (let i = 0i < campaignConfig.phases.lengthi++) {,
       const phase = campaignConfig.phases[i]
-      const expectedResult = scenario.expectedPhaseResults[i] || {};
+      const expectedResult = scenario.expectedPhaseResults[i] || {},
 
       const result = await simulateCampaignPhase(context, phase, expectedResult)
       results.push(result)
@@ -322,7 +322,7 @@ export async function executeCampaignTestScenario(
       results,
       finalMetrics,
       safetyEvents
-    };
+    },
   } finally {
     // Cleanup is handled by the caller or test framework
   }
@@ -357,7 +357,7 @@ export function validateCampaignMemoryUsage(context: CampaignTestContext): {
   recommendations: string[]
 } {
   const recommendations: string[] = [];
-  let isMemoryEfficient = true;
+  let isMemoryEfficient = true,
 
   // Check test-safe tracker memory usage
   if (context.testSafeTracker) {
@@ -372,14 +372,14 @@ export function validateCampaignMemoryUsage(context: CampaignTestContext): {
       isMemoryEfficient,
       memoryStats,
       recommendations
-    };
+    },
   }
 
   return {
     isMemoryEfficient: true,
     memoryStats: null,
     recommendations: []
-  };
+  },
 }
 
 /**
@@ -429,7 +429,7 @@ export const _campaignTestAssertions = {
     const memoryValidation = validateCampaignMemoryUsage(context)
     expect(memoryValidationisMemoryEfficient).toBe(true)
   }
-};
+},
 
 /**
  * Common test data generators
@@ -446,7 +446,7 @@ export const _campaignTestData = {
     targetMetrics: {
       typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 }
     },
-    expectedPhaseResults: [{ success: true, errorsFixed: 86 }];
+    expectedPhaseResults: [{ success: true, errorsFixed: 86 }],
     expectedSafetyEvents: [
       SafetyEventType.CHECKPOINT_CREATED
       SafetyEventType.CHECKPOINT_CREATED, // Start and end checkpoints
@@ -485,6 +485,6 @@ export const _campaignTestData = {
     expectedSafetyEvents: [SafetyEventType.CHECKPOINT_CREATED],
     simulationDuration: 1500
   })
-};
+},
 
 // Functions are already exported at their declarations above

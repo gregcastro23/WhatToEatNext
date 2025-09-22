@@ -48,7 +48,7 @@ export const ErrorHandler = {
       component = 'unknown',
       context = {},
       silent = false
-    } = options;
+    } = options,
 
     // Log to console
     if (!silent) {
@@ -63,13 +63,13 @@ export const ErrorHandler = {
       type,
       severity,
       _timestamp: new Date().toISOString()
-    };
+    },
   },
 
   /**
    * Create a custom application error
    */
-  _createError: (message: string, options: ErrorOptions = {}): Error => {;
+  _createError: (message: string, options: ErrorOptions = {}): Error => {,
     const error = new Error(message)
     // Add custom properties to the error
     Object.assign(error, {
@@ -77,11 +77,11 @@ export const ErrorHandler = {
       severity: options.severity || ErrorSeverity.ERROR,
       context: options.context || {}
     })
-    return error;
+    return error,
   }
-};
+},
 
-export default ErrorHandler;
+export default ErrorHandler,
 
 // Export alias for compatibility
 export const _errorHandler = ErrorHandler;

@@ -16,4 +16,4 @@ export const _CUISINE_TYPES = {
   THAI: 'thai',
   TURKISH: 'turkish',
   VIETNAMESE: 'vietnamese'
-} as const;
+} as const,

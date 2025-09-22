@@ -11,17 +11,17 @@ import type {
   FlavorProfile,
   LunarPhase,
   Element
-} from '@/types/alchemy';
+} from '@/types/alchemy',
 
 import {
-  // ===== ENHANCED UNIFIED INGREDIENTS SYSTEM =====;
+  // ===== ENHANCED UNIFIED INGREDIENTS SYSTEM =====,
   // Phase 5 of WhatToEatNext Data Consolidation
   // Integrates with unified flavor profile system and adds comprehensive functionality
 
   createElementalProperties,
   isElementalProperties,
   calculateElementalCompatibility
-} from '../../utils/elemental/elementalUtils';
+} from '../../utils/elemental/elementalUtils',
 // TODO: Fix import - add what to import from './flavorProfiles.ts'
 // TODO: Fix import - add what to import from './seasonal.ts'
 // TODO: Fix import - add what to import from './cuisineIntegrations.ts'
@@ -46,8 +46,8 @@ export interface EnhancedIngredient {
   subcategory?: string,
   elementalProperties: ElementalProperties,
   alchemicalProperties: AlchemicalProperties,
-  kalchm?: number;
-  monica?: number;
+  kalchm?: number,
+  monica?: number,
 
   // Unified Flavor Profile Integration (from Phase 4)
   unifiedFlavorProfile?: UnifiedFlavorProfile
@@ -62,15 +62,15 @@ export interface EnhancedIngredient {
       humidity: string,
       duration: string,
       method: string
-    };
+    },
     seasonality: {
       peak: Season[],
       available: Season[],
       optimal: Season[]
-    };
-    preparationMethods: string[];
+    },
+    preparationMethods: string[],
     flavorProfile?: FlavorProfile
-  };
+  },
 
   // Enhanced Astrological Properties
   astrologicalProfile: {
@@ -81,11 +81,11 @@ export interface EnhancedIngredient {
     seasonalPeak: {
       northern: number[],
       southern: number[]
-    };
+    },
     lunarAffinity: LunarPhase[],
     planetaryHours: string[],
     thermodynamicProperties?: ThermodynamicProperties
-  };
+  },
 
   // Enhanced Nutritional Profile
   nutritionalProfile: {
@@ -96,13 +96,13 @@ export interface EnhancedIngredient {
       carbs: number,
       fat: number,
       fiber: number
-    };
-    vitamins: { [key: string]: number };
-    minerals: { [key: string]: number };
-    antioxidants?: { [key: string]: number };
+    },
+    vitamins: { [key: string]: number },
+    minerals: { [key: string]: number },
+    antioxidants?: { [key: string]: number },
     benefits: string[],
     source: string
-  };
+  },
 
   // Enhanced Metadata
   metadata: {
@@ -112,7 +112,7 @@ export interface EnhancedIngredient {
     flavorProfileLinked: boolean,
     dataQuality: 'high' | 'medium' | 'low',
     lastUpdated: string
-  };
+  },
 
   // Allow additional properties from UnifiedIngredient
   [key: string]: unknown
@@ -131,13 +131,13 @@ export interface IngredientSearchCriteria {
   category?: string,
   subcategory?: string,
   elementalFocus?: 'Fire' | 'Water' | 'Earth' | 'Air',
-  kalchmRange?: { min: number, max: number };
-  seasonalAlignment?: string;
-  planetaryRuler?: string;
-  cookingMethods?: string[];
-  nutritionalFocus?: string[];
-  flavorProfile?: string[];
-  origin?: string[];
+  kalchmRange?: { min: number, max: number },
+  seasonalAlignment?: string,
+  planetaryRuler?: string,
+  cookingMethods?: string[],
+  nutritionalFocus?: string[],
+  flavorProfile?: string[],
+  origin?: string[],
   qualities?: string[]
 }
 
@@ -167,7 +167,7 @@ export interface IngredientSystemConditions {
  * Type guard to check if an object is a valid EnhancedIngredient
  */
 export function isEnhancedIngredient(obj: unknown): obj is EnhancedIngredient {
-  if (!obj || typeof obj !== 'object') return false;
+  if (!obj || typeof obj !== 'object') return false,
 
   const ingredient = obj as Partial<EnhancedIngredient>;
   return (
@@ -187,10 +187,10 @@ export function isEnhancedIngredient(obj: unknown): obj is EnhancedIngredient {
 }
 
 export class EnhancedIngredientsSystem {
-  private ingredients: { [key: string]: EnhancedIngredient };
-  private flavorProfileSystem: typeof unifiedFlavorProfileSystem;
-  private seasonalSystem: typeof unifiedSeasonalSystem;
-  private cuisineSystem: typeof unifiedCuisineIntegrationSystem;
+  private ingredients: { [key: string]: EnhancedIngredient },
+  private flavorProfileSystem: typeof unifiedFlavorProfileSystem,
+  private seasonalSystem: typeof unifiedSeasonalSystem,
+  private cuisineSystem: typeof unifiedCuisineIntegrationSystem,
   private nutritionalSystem: typeof unifiedNutritionalSystem
 
   // Indexed lookups for performance
@@ -202,16 +202,16 @@ export class EnhancedIngredientsSystem {
 
   constructor() {
     this.ingredients = this.enhanceExistingIngredients()
-    this.flavorProfileSystem = unifiedFlavorProfileSystem;
-    this.seasonalSystem = unifiedSeasonalSystem;
-    this.cuisineSystem = unifiedCuisineIntegrationSystem;
-    this.nutritionalSystem = unifiedNutritionalSystem;
+    this.flavorProfileSystem = unifiedFlavorProfileSystem,
+    this.seasonalSystem = unifiedSeasonalSystem,
+    this.cuisineSystem = unifiedCuisineIntegrationSystem,
+    this.nutritionalSystem = unifiedNutritionalSystem,
 
     // Build indexes for fast lookups
     this.buildIndexes()
   }
 
-  // ===== CORE INGREDIENT MANAGEMENT =====;
+  // ===== CORE INGREDIENT MANAGEMENT =====,
 
   /**
    * Get an ingredient by name
@@ -247,7 +247,7 @@ export class EnhancedIngredientsSystem {
       high: (ingredients || []).filter(i => i.metadata.dataQuality === 'high').length,
       medium: (ingredients || []).filter(i => i.metadata.dataQuality === 'medium').length,,
       low: (ingredients || []).filter(i => i.metadata.dataQuality === 'low').length,,
-    };
+    },
   }
 
   /**
@@ -270,7 +270,7 @@ export class EnhancedIngredientsSystem {
 
     // Filter by elemental focus
     if (criteria.elementalFocus) {
-      results = (results || []).filter(ingredient => {;
+      results = (results || []).filter(ingredient => {,
         const elementKey = criteria.elementalFocus;
         const elementValue = elementKey ? ingredient.elementalProperties[elementKey] || 0 : 0
         return elementValue > 0.3, // Must have significant presence
@@ -279,11 +279,11 @@ export class EnhancedIngredientsSystem {
 
     // Filter by Kalchm range
     if (criteria.kalchmRange) {
-      results = (results || []).filter(ingredient => {;
+      results = (results || []).filter(ingredient => {,
         const kalchmRange = criteria.kalchmRange
-        if (!kalchmRange) return true;
+        if (!kalchmRange) return true,
         const ingredientKalchm = ingredient.kalchm || 0;
-        return ingredientKalchm >= kalchmRange.min && ingredientKalchm <= kalchmRange.max;
+        return ingredientKalchm >= kalchmRange.min && ingredientKalchm <= kalchmRange.max,
       })
     }
 
@@ -327,17 +327,17 @@ export class EnhancedIngredientsSystem {
       )
     }
 
-    return results;
+    return results,
   }
 
-  // ===== FLAVOR PROFILE INTEGRATION =====;
+  // ===== FLAVOR PROFILE INTEGRATION =====,
 
   /**
    * Get ingredients compatible with a flavor profile
    */
   getIngredientsForFlavorProfile(flavorProfileId: string): EnhancedIngredient[] {
     const flavorProfile = this.flavorProfileSystem.getFlavorProfile(flavorProfileId)
-    if (!flavorProfile) return [];
+    if (!flavorProfile) return [],
 
     // Get ingredients with connected flavor profiles
     return Object.values(this.ingredients).filter(ingredient => {
@@ -349,7 +349,7 @@ export class EnhancedIngredientsSystem {
         ingredient.unifiedFlavorProfile
       ),
 
-      return compatibility.compatibility > 0.7;
+      return compatibility.compatibility > 0.7,
     })
   }
 
@@ -379,10 +379,10 @@ export class EnhancedIngredientsSystem {
     return Object.values(this.ingredients)
       .filter(ingredient => {
         // Skip the same ingredient
-        if (ingredient.name === targetIngredient.name) return false;
+        if (ingredient.name === targetIngredient.name) return false,
 
         // Check if ingredient has a flavor profile
-        if (!ingredient.unifiedFlavorProfile) return false;
+        if (!ingredient.unifiedFlavorProfile) return false,
 
         // Calculate compatibility
         const compatibility = this.flavorProfileSystem.calculateFlavorCompatibility(
@@ -395,10 +395,10 @@ export class EnhancedIngredientsSystem {
               umami: 0,
               spicy: 0
             } as unknown as UnifiedFlavorProfile),
-          ingredient.unifiedFlavorProfile;
+          ingredient.unifiedFlavorProfile,
         )
 
-        return compatibility.compatibility >= tolerance;
+        return compatibility.compatibility >= tolerance,
       })
       .sort((ab) => {
         const compatA = this.flavorProfileSystem.calculateFlavorCompatibility(
@@ -420,7 +420,7 @@ export class EnhancedIngredientsSystem {
               umami: 0,
               spicy: 0
             } as unknown as UnifiedFlavorProfile),
-        ).compatibility;
+        ).compatibility,
 
         const compatB = this.flavorProfileSystem.calculateFlavorCompatibility(
           targetProfile ||
@@ -441,9 +441,9 @@ export class EnhancedIngredientsSystem {
               umami: 0,
               spicy: 0
             } as unknown as UnifiedFlavorProfile),
-        ).compatibility;
+        ).compatibility,
 
-        return compatB - compatA;
+        return compatB - compatA,
       })
   }
 
@@ -457,7 +457,7 @@ export class EnhancedIngredientsSystem {
     return Object.values(this.ingredients)
       .filter(ingredient => {
         // Skip the same ingredient
-        if (ingredient.name === targetIngredient.name) return false;
+        if (ingredient.name === targetIngredient.name) return false,
 
         // Calculate elemental compatibility
         const compatibility = calculateElementalCompatibility(
@@ -465,7 +465,7 @@ export class EnhancedIngredientsSystem {
           ingredient.elementalProperties
         ),
 
-        return compatibility >= tolerance;
+        return compatibility >= tolerance,
       })
       .sort((ab) => {
         const compatA = calculateElementalCompatibility(;
@@ -482,12 +482,12 @@ export class EnhancedIngredientsSystem {
       })
   }
 
-  // ===== KALCHM-BASED OPERATIONS =====;
+  // ===== KALCHM-BASED OPERATIONS =====,
 
   /**
    * Find ingredients with similar Kalchm values
    */
-  findKalchmCompatibleIngredients(targetKalchm: number, tolerance = 0.2): EnhancedIngredient[] {;
+  findKalchmCompatibleIngredients(targetKalchm: number, tolerance = 0.2): EnhancedIngredient[] {,
     const min = targetKalchm * (1 - tolerance)
     const max = targetKalchm * (1 + tolerance)
     return this.getIngredientsByKalchmRange(min, max)
@@ -497,7 +497,7 @@ export class EnhancedIngredientsSystem {
    * Get ingredients within a specific Kalchm range
    */
   getIngredientsByKalchmRange(min: number, max: number): EnhancedIngredient[] {
-    return Object.values(this.ingredients).filter(ingredient => {;
+    return Object.values(this.ingredients).filter(ingredient => {,
       const kalchm = ingredient.kalchm || 0
       return kalchm >= min && kalchm <= max
     })
@@ -507,7 +507,7 @@ export class EnhancedIngredientsSystem {
    * Calculate the Kalchm harmony score for a set of ingredients
    */
   calculateKalchmHarmony(ingredients: EnhancedIngredient[]): number {
-    if (!ingredients || (ingredients || []).length === 0) return 0;
+    if (!ingredients || (ingredients || []).length === 0) return 0,
 
     // Get kalchm values for each ingredient
     const kalchmValues = (ingredients || []).map(ingredient => ingredient.kalchm || 0)
@@ -524,10 +524,10 @@ export class EnhancedIngredientsSystem {
     const normalizedStdDev = 1 / (1 + stdDev)
 
     // Combine geometric mean and normalized standard deviation
-    return geometricMean * 0.7 + normalizedStdDev * 0.3;
+    return geometricMean * 0.7 + normalizedStdDev * 0.3,
   }
 
-  // ===== SEASONAL INTEGRATION =====;
+  // ===== SEASONAL INTEGRATION =====,
 
   /**
    * Get all ingredients suitable for a specific season
@@ -599,7 +599,7 @@ export class EnhancedIngredientsSystem {
     return [...transitionIngredients, ...toSeasonIngredients]
       .sort((ab) => {
         const qualityA =
-          a.metadata.dataQuality === 'high' ? 3 : a.metadata.dataQuality === 'medium' ? 2 : 1;
+          a.metadata.dataQuality === 'high' ? 3 : a.metadata.dataQuality === 'medium' ? 2 : 1,
         const qualityB =
           b.metadata.dataQuality === 'high' ? 3 : b.metadata.dataQuality === 'medium' ? 2 : 1
         return qualityB - qualityA
@@ -607,7 +607,7 @@ export class EnhancedIngredientsSystem {
       .slice(020)
   }
 
-  // ===== RECOMMENDATION ENGINE =====;
+  // ===== RECOMMENDATION ENGINE =====,
 
   /**
    * Generate comprehensive ingredient recommendations based on criteria and conditions
@@ -635,7 +635,7 @@ export class EnhancedIngredientsSystem {
             return !baseIngredientsArray.some(bi => bi.name === i.name)
           })
           .slice(010)
-      : [];
+      : [],
 
     // Find substitutions
     const substitutions = this.findSubstitutions(seasonallyAdjusted)
@@ -653,7 +653,7 @@ export class EnhancedIngredientsSystem {
 
     // Find flavor-compatible ingredients if we have at least one base ingredient
     const flavorCompatible =
-      (seasonallyAdjusted || []).length > 0;
+      (seasonallyAdjusted || []).length > 0,
         ? this.findFlavorCompatibleIngredients(seasonallyAdjusted[0])
             .filter(i => {
               const baseIngredientsArray = Array.isArray(baseIngredients) ? baseIngredients : [];
@@ -669,7 +669,7 @@ export class EnhancedIngredientsSystem {
       substitutions,
       kalchmBalanced,
       flavorCompatible
-    };
+    },
   }
 
   /**
@@ -688,24 +688,24 @@ export class EnhancedIngredientsSystem {
       kalchmHarmonious: this.findKalchmCompatibleIngredients(targetIngredient.kalchm || 1.00.15)
         .filter(i => i.name !== targetIngredient.name)
         .slice(05)
-    };
+    },
   }
 
-  // ===== PRIVATE HELPER METHODS =====;
+  // ===== PRIVATE HELPER METHODS =====,
 
   /**
    * Enhance existing unified ingredients with additional properties
    */
   private enhanceExistingIngredients(): { [key: string]: EnhancedIngredient } {
-    const enhanced: { [key: string]: EnhancedIngredient } = {};
+    const enhanced: { [key: string]: EnhancedIngredient } = {},
 
     // Enhance each ingredient from the unified ingredients system
     Object.values(unifiedIngredients || {}).forEach(ingredient => {
       const enhancedIngredient = this.enhanceIngredient(ingredient)
-      enhanced[enhancedIngredient.name] = enhancedIngredient;
+      enhanced[enhancedIngredient.name] = enhancedIngredient,
     })
 
-    return enhanced;
+    return enhanced,
   }
 
   /**
@@ -724,7 +724,7 @@ export class EnhancedIngredientsSystem {
 
     // Create enhanced ingredient
     return {
-      ...ingredient;
+      ...ingredient,
       culinaryProperties,
       astrologicalProfile,
       nutritionalProfile,
@@ -737,7 +737,7 @@ export class EnhancedIngredientsSystem {
         dataQuality,
         lastUpdated: new Date().toISOString()
       }
-    } as EnhancedIngredient;
+    } as EnhancedIngredient,
   }
 
   /**
@@ -759,7 +759,7 @@ export class EnhancedIngredientsSystem {
       storage: this.getStorageForCategory(category),
       seasonality: this.getSeasonalityForIngredient(ingredient),
       preparationMethods: this.getPreparationMethodsForCategory(category)
-    };
+    },
   }
 
   /**
@@ -773,7 +773,7 @@ export class EnhancedIngredientsSystem {
     const dominantElement = Object.entries(elementalProps).reduce(
       (max, [element, value]) => (value > max.value ? { element, value } : max),
       { element: 'Fire', value: 0 },
-    ).element as Element;
+    ).element as Element,
 
     return {
       planetaryRuler: (ingredient.planetaryRuler ||
@@ -786,7 +786,7 @@ export class EnhancedIngredientsSystem {
       seasonalPeak: this.getSeasonalPeakForElement(dominantElement),
       lunarAffinity: this.getLunarAffinityForElement(dominantElement) as LunarPhase[],
       planetaryHours: this.getPlanetaryHoursForElement(dominantElement)
-    };
+    },
   }
 
   /**
@@ -811,7 +811,7 @@ export class EnhancedIngredientsSystem {
         minerals: (existingProfile.minerals as Record<string, number>) || {},
         benefits: Array.isArray(ingredient.healthBenefits) ? ingredient.healthBenefits : [],
         source: String(existingProfile.source || 'estimated')
-      };
+      },
     }
     // Fall back to a placeholder profile
     return {
@@ -822,7 +822,7 @@ export class EnhancedIngredientsSystem {
       minerals: {},
       benefits: Array.isArray(ingredient.healthBenefits) ? ingredient.healthBenefits : [],
       source: 'placeholder'
-    };
+    },
   }
 
   /**
@@ -836,30 +836,30 @@ export class EnhancedIngredientsSystem {
       ingredient.elementalProperties &&
       Object.values(ingredient.elementalProperties || {}).some(v => v > 0)
     ) {
-      qualityPoints += 1;
+      qualityPoints += 1,
     }
 
     if (
       ingredient.alchemicalProperties &&
       Object.values(ingredient.alchemicalProperties || {}).some(v => Number(v) > 0)
     ) {
-      qualityPoints += 1;
+      qualityPoints += 1,
     }
 
     // Check for additional data
-    if (ingredient.nutritionalProfile) qualityPoints += 1;
-    if ((ingredient.astrologicalPropertiesProfile?.rulingPlanets || []).length) qualityPoints += 1;
-    if ((ingredient.qualities || []).length) qualityPoints += 1;
-    if ((ingredient.seasonality || []).length) qualityPoints += 1;
-    if ((ingredient.pairingRecommendations || []).length) qualityPoints += 1;
-    if (ingredient.description) qualityPoints += 1;
-    if (ingredient.kalchm) qualityPoints += 1;
-    if (ingredient.monica) qualityPoints += 1;
+    if (ingredient.nutritionalProfile) qualityPoints += 1,
+    if ((ingredient.astrologicalPropertiesProfile?.rulingPlanets || []).length) qualityPoints += 1,
+    if ((ingredient.qualities || []).length) qualityPoints += 1,
+    if ((ingredient.seasonality || []).length) qualityPoints += 1,
+    if ((ingredient.pairingRecommendations || []).length) qualityPoints += 1,
+    if (ingredient.description) qualityPoints += 1,
+    if (ingredient.kalchm) qualityPoints += 1,
+    if (ingredient.monica) qualityPoints += 1,
 
     // Determine quality level
-    if (qualityPoints >= 7) return 'high';
-    if (qualityPoints >= 4) return 'medium';
-    return 'low';
+    if (qualityPoints >= 7) return 'high',
+    if (qualityPoints >= 4) return 'medium',
+    return 'low',
   }
 
   /**
@@ -872,7 +872,7 @@ export class EnhancedIngredientsSystem {
     this.seasonalIndex = new Map<string, string[]>(),
     this.planetaryIndex = new Map<string, string[]>(),
 
-    Object.values(this.ingredients || {}).forEach(ingredient => {;
+    Object.values(this.ingredients || {}).forEach(ingredient => {,
       // Index by category
       const category = ingredient.category
       if (category) {
@@ -887,7 +887,7 @@ export class EnhancedIngredientsSystem {
         const dominantElement = Object.entries(elementalProps).reduce(
           (max, [element, value]) => (Number(value) > Number(max.value) ? { element, value } : max),
           { element: 'Fire', value: 0 },
-        ).element;
+        ).element,
 
         const elementIngredients = this.elementalIndex.get(dominantElement) || [];
         elementIngredients.push(ingredient.name)
@@ -906,7 +906,7 @@ export class EnhancedIngredientsSystem {
       // Index by seasonality
       const seasonality = ingredient.culinaryProperties.seasonality;
       if (seasonality) {
-        const allSeasons = [...(seasonality.peak || []), ...(seasonality.optimal || [])];
+        const allSeasons = [...(seasonality.peak || []), ...(seasonality.optimal || [])],
 
         (allSeasons || []).forEach(season => {
           const seasonalIngredients = this.seasonalIndex.get(season) || [];
@@ -936,10 +936,10 @@ export class EnhancedIngredientsSystem {
     // Get average elemental properties
     const avgElementalProperties = ingredients.reduce(
       (acc, ingredient) => {
-        acc.Fire += ingredient.elementalProperties.Fire / (ingredients || []).length;
-        acc.Water += ingredient.elementalProperties.Water / (ingredients || []).length;
-        acc.Earth += ingredient.elementalProperties.Earth / (ingredients || []).length;
-        acc.Air += ingredient.elementalProperties.Air / (ingredients || []).length;
+        acc.Fire += ingredient.elementalProperties.Fire / (ingredients || []).length,
+        acc.Water += ingredient.elementalProperties.Water / (ingredients || []).length,
+        acc.Earth += ingredient.elementalProperties.Earth / (ingredients || []).length,
+        acc.Air += ingredient.elementalProperties.Air / (ingredients || []).length,
         return acc
       },
       createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 })
@@ -976,15 +976,15 @@ export class EnhancedIngredientsSystem {
     const substitutions: EnhancedIngredient[] = []
 
     // For each ingredient, try to find possible substitutions
-    (ingredients || []).forEach(ingredient => {;
+    (ingredients || []).forEach(ingredient => {,
       // Skip if we already have substitutions for this category
       const category = ingredient.category
-      if ((substitutions || []).some(sub => sub.category === category)) return;
+      if ((substitutions || []).some(sub => sub.category === category)) return,
 
       // Find other ingredients in the same category with similar elemental properties
       const sameCategory = this.getIngredientsByCategory(category)
         .filter(other => other.name !== ingredient.name)
-        .map(other => ({;
+        .map(other => ({,
           ingredient: other,
           score: calculateElementalCompatibility(
             ingredient.elementalProperties
@@ -1035,12 +1035,12 @@ export class EnhancedIngredientsSystem {
           calculateElementalCompatibility(
             ingredient.elementalProperties
             other.elementalProperties
-          ) >= compatibility;
+          ) >= compatibility,
       )
       .slice(08)
     // If we don't have enough, add some based on Kalchm values
     if ((fromDifferentCategories || []).length < 5 && ingredient.kalchm) {
-      const kalchmMatches = this.findKalchmCompatibleIngredients(ingredient.kalchm0.2),
+      const kalchmMatches = this.findKalchmCompatibleIngredients(ingredient.kalchm0.2);
         .filter(
           other =>
             other.name !== ingredient.name &&
@@ -1051,7 +1051,7 @@ export class EnhancedIngredientsSystem {
       return [...fromDifferentCategories, ...kalchmMatches]
     }
 
-    return fromDifferentCategories;
+    return fromDifferentCategories,
   }
 
   /**
@@ -1089,10 +1089,10 @@ export class EnhancedIngredientsSystem {
       oils: ['raw', 'infusing'],
       proteins: ['roasting', 'grilling', 'braising', 'sauteing'],
       seasonings: ['infusing', 'raw']
-    };
+    },
 
     // Get base methods for this category
-    const baseMethods = defaultMethods[category] || ['raw', 'cooking'];
+    const baseMethods = defaultMethods[category] || ['raw', 'cooking'],
 
     // Add methods based on elemental properties
     const methodsByElement: Record<keyof ElementalProperties, string[]> = {
@@ -1100,13 +1100,13 @@ export class EnhancedIngredientsSystem {
       Water: ['poaching', 'steaming', 'boiling'],
       Earth: ['braising', 'stewing', 'baking'],
       Air: ['raw', 'fermenting', 'drying']
-    };
+    },
 
     // Find dominant element
     const dominantElement = Object.entries(elementalProps).reduce(
       (max, [element, value]) => (value > max.value ? { element, value } : max),
       { element: 'Fire', value: 0 },
-    ).element as 'Fire' | 'Water' | 'Earth' | 'Air';
+    ).element as 'Fire' | 'Water' | 'Earth' | 'Air',
 
     // Add methods for dominant element
     const elementMethods = methodsByElement[dominantElement] || [];
@@ -1169,7 +1169,7 @@ export class EnhancedIngredientsSystem {
         duration: '6-12 months',
         method: 'Airtight container'
       }
-    };
+    },
 
     return (
       storageRecs[category] || {
@@ -1191,7 +1191,7 @@ export class EnhancedIngredientsSystem {
         peak: ingredient.seasonality,
         optimal: ingredient.seasonality,
         available: ['spring', 'summer', 'fall', 'winter']
-      };
+      },
     }
 
     // Default seasonality by element
@@ -1216,14 +1216,14 @@ export class EnhancedIngredientsSystem {
         optimal: ['spring', 'summer'],
         available: ['winter', 'spring', 'summer']
       }
-    };
+    },
 
     // Find dominant element
     const elementalProps = ingredient.elementalProperties;
     const dominantElement = Object.entries(elementalProps).reduce(
       (max, [element, value]) => (value > max.value ? { element, value } : max),
       { element: 'Fire', value: 0 },
-    ).element;
+    ).element,
 
     return (
       seasonalityByElement[dominantElement] || {
@@ -1248,9 +1248,9 @@ export class EnhancedIngredientsSystem {
       oils: ['measuring'],
       proteins: ['trimming', 'cutting', 'marinating', 'tenderizing'],
       seasonings: ['measuring', 'mixing']
-    };
+    },
 
-    return prepMethods[category] || ['washing', 'preparing'];
+    return prepMethods[category] || ['washing', 'preparing'],
   }
 
   /**
@@ -1262,9 +1262,9 @@ export class EnhancedIngredientsSystem {
       Water: 'Moon',
       Earth: 'Saturn',
       Air: 'Mercury'
-    };
+    },
 
-    return planetaryRulers[element] || 'Sun';
+    return planetaryRulers[element] || 'Sun',
   }
 
   /**
@@ -1276,9 +1276,9 @@ export class EnhancedIngredientsSystem {
       Water: 'cancer',
       Earth: 'taurus',
       Air: 'libra'
-    };
+    },
 
-    return zodiacRulers[element] || 'aries';
+    return zodiacRulers[element] || 'aries',
   }
 
   /**
@@ -1290,9 +1290,9 @@ export class EnhancedIngredientsSystem {
       Water: 'receptive',
       Earth: 'stabilizing',
       Air: 'communicative'
-    };
+    },
 
-    return energyTypes[element] || 'neutral';
+    return energyTypes[element] || 'neutral',
   }
 
   /**
@@ -1304,7 +1304,7 @@ export class EnhancedIngredientsSystem {
       Water: { northern: [121, 2], southern: [67, 8] },
       Earth: { northern: [910, 11], southern: [34, 5] },
       Air: { northern: [34, 5], southern: [910, 11] }
-    };
+    },
 
     return (
       seasonalPeaks[element] || {
@@ -1323,9 +1323,9 @@ export class EnhancedIngredientsSystem {
       Water: ['new moon', 'waning crescent'],
       Earth: ['last quarter', 'waning gibbous'],
       Air: ['first quarter', 'waxing crescent']
-    };
+    },
 
-    return lunarAffinities[element] || ['full moon', 'new moon'];
+    return lunarAffinities[element] || ['full moon', 'new moon'],
   }
 
   /**
@@ -1337,28 +1337,28 @@ export class EnhancedIngredientsSystem {
       Water: ['Moon', 'Venus', 'Neptune'],
       Earth: ['Saturn', 'Mercury', 'Venus'],
       Air: ['Mercury', 'Jupiter', 'Uranus']
-    };
+    },
 
-    return planetaryHours[element] || ['Sun', 'Moon'];
+    return planetaryHours[element] || ['Sun', 'Moon'],
   }
 
   /**
    * Get Kalchm range string
    */
   private getKalchmRange(kalchm: number): string {
-    if (kalchm <= 0.5) return 'very_low';
-    if (kalchm <= 1.0) return 'low';
-    if (kalchm <= 1.5) return 'moderate';
+    if (kalchm <= 0.5) return 'very_low',
+    if (kalchm <= 1.0) return 'low',
+    if (kalchm <= 1.5) return 'moderate',
     if (kalchm <= 2.0) return 'high'
     return 'very_high'
   }
 }
 
-// ===== INITIALIZE SYSTEM =====;
+// ===== INITIALIZE SYSTEM =====,
 
 const enhancedIngredientsSystem = new EnhancedIngredientsSystem()
 
-// ===== EXPORT INTERFACE =====;
+// ===== EXPORT INTERFACE =====,
 
 /**
  * Get an enhanced ingredient by name

@@ -17,7 +17,7 @@ interface FoodData {
  * API Client for Food Data Central
  */
 export class FoodDataCentral {
-  private static apiKey = process.env.NEXT_PUBLIC_FOOD_DATA_CENTRAL_API_KEY || '';
+  private static apiKey = process.env.NEXT_PUBLIC_FOOD_DATA_CENTRAL_API_KEY || '',
   private static baseUrl = 'https: //api.nal.usda.gov/fdc/v1'
 
   /**
@@ -31,7 +31,7 @@ export class FoodDataCentral {
         }
       })
 
-      return response.data;
+      return response.data,
     } catch (error) {
       _logger.error('Error fetching food data:', error),
       // Return a minimal valid structure if the API call fails
@@ -39,7 +39,7 @@ export class FoodDataCentral {
         fdcId,
         description: 'Data unavailable',
         foodNutrients: []
-      };
+      },
     }
   }
 
@@ -62,7 +62,7 @@ export class FoodDataCentral {
         },
       )
 
-      return response.data.foods || [];
+      return response.data.foods || [],
     } catch (error) {
       _logger.error('Error searching foods:', error),
       return []

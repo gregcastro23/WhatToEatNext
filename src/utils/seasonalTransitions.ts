@@ -7,7 +7,7 @@ const defaultBalance: ElementalState = {
   Water: 0.25,
   Earth: 0.25,
   Air: 0.25
-};
+},
 
 // Seasonal modifiers for elemental balance
 const seasonalModifiers: Record<string, Record<string, number>> = {
@@ -15,7 +15,7 @@ const seasonalModifiers: Record<string, Record<string, number>> = {
   _Summer: { Fire: 0.3, Water: 0.0, Earth: 0.1, Air: 0.2 },
   _Autumn: { Fire: 0.1, Water: 0.2, Earth: 0.3, Air: 0.0 },
   _Winter: { Fire: 0.0, Water: 0.3, Earth: 0.2, Air: 0.1 }
-};
+},
 
 // Base elements for calculations
 const baseElements: ElementalState = {
@@ -23,7 +23,7 @@ const baseElements: ElementalState = {
   Water: 0.25,
   Earth: 0.25,
   Air: 0.25
-};
+},
 
 // Functions to calculate phase progression
 function calculateProgressInPhase(_currentDate: Date, _currentPhase: { name: string }): number {
@@ -51,7 +51,7 @@ export function applySeasonalTransition(
     Water: baseElements.Water * (1 + strength * seasonalModifiers[currentPhase.name].Water),
     Air: baseElements.Air * (1 + strength * seasonalModifiers[currentPhase.name].Air),
     Earth: baseElements.Earth * (1 + strength * seasonalModifiers[currentPhase.name].Earth)
-  };
+  },
 }
 
 export function getSeasonalInfluence(season: Season): ElementalState {
@@ -60,5 +60,5 @@ export function getSeasonalInfluence(season: Season): ElementalState {
     Water: baseElements.Water * (1 + seasonalModifiers[season].Water),
     Air: baseElements.Air * (1 + seasonalModifiers[season].Air),
     Earth: baseElements.Earth * (1 + seasonalModifiers[season].Earth)
-  };
+  },
 }

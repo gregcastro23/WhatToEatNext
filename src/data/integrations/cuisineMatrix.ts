@@ -3,7 +3,7 @@
 import { grainCuisineMatrix } from './grainCuisineMatrix';
 import { herbCuisineMatrix } from './herbCuisineMatrix';
 
-type IngredientCategory = 'grain' | 'herb' | 'spice' | 'protein' | 'vegetable';
+type IngredientCategory = 'grain' | 'herb' | 'spice' | 'protein' | 'vegetable',
 
 /**
  * Get cuisine pairings for a specific ingredient
@@ -11,7 +11,7 @@ type IngredientCategory = 'grain' | 'herb' | 'spice' | 'protein' | 'vegetable';
 export function getCuisinePairings(ingredientName: string, category: IngredientCategory): string[] {
   switch (category) {
     case 'grain':
-      return grainCuisineMatrix[ingredientName] || [];
+      return grainCuisineMatrix[ingredientName] || [],
     case 'herb':
       return herbCuisineMatrix[ingredientName] || []
     // Additional categories can be added as their matrix files are created
@@ -33,7 +33,7 @@ export function getIngredientsForCuisine(
     spice: [],
     protein: [],
     vegetable: []
-  };
+  },
 
   // Process each matrix to find ingredients that pair with this cuisine
   if (categories.includes('grain')) {
@@ -54,5 +54,5 @@ export function getIngredientsForCuisine(
 
   // Additional matrices can be processed here
 
-  return result;
+  return result,
 }

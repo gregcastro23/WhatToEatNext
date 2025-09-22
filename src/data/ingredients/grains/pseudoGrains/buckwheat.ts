@@ -47,6 +47,6 @@ const rawBuckwheat = {
       toAvoid: ['subtle flavors that would be overpowered']
     }
   }
-};
+},
 
 export const buckwheat: Record<string, IngredientMapping> = fixIngredientMappings(rawBuckwheat)

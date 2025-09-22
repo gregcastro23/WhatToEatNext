@@ -6,60 +6,60 @@ import { Ingredient, ElementalProperties } from './index';
  */
 export interface RecipeIngredient {
   // Core ingredient identification
-  id?: string;
+  id?: string,
   name: string
 
   // Recipe-specific properties,
   amount: number,
   unit: string,
-  optional?: boolean;
-  preparation?: string;
-  notes?: string;
-  function?: string;
-  cookingPoint?: string;
-  substitutes?: string[];
+  optional?: boolean,
+  preparation?: string,
+  notes?: string,
+  function?: string,
+  cookingPoint?: string,
+  substitutes?: string[],
 
   // Ingredient properties (optional in recipe context)
-  category?: string;
-  elementalProperties?: ElementalProperties;
-  qualities?: string[];
+  category?: string,
+  elementalProperties?: ElementalProperties,
+  qualities?: string[],
 
   // Astrological profile for recipe context
   astrologicalProfile?: {
     _elementalAffinity: {
       base: string
       secondary?: string
-    };
-    rulingPlanets?: string[];
+    },
+    rulingPlanets?: string[],
     zodiacAffinity?: string[]
-  };
+  },
 
   // Nutritional properties (optional)
-  calories?: number;
+  calories?: number,
   macronutrients?: {
-    carbs?: number;
-    protein?: number;
+    carbs?: number,
+    protein?: number,
     fat?: number
-  };
+  },
 
   // Storage and handling
-  storage?: string;
-  shelfLife?: string;
+  storage?: string,
+  shelfLife?: string,
 
   // Seasonal availability
-  seasonality?: string[];
+  seasonality?: string[],
 
   // Cultural and culinary properties
-  origin?: string;
-  culinaryUse?: string[];
-  flavorProfile?: string[];
+  origin?: string,
+  culinaryUse?: string[],
+  flavorProfile?: string[],
 
   // Processing state
-  isProcessed?: boolean;
-  processingLevel?: 'minimal' | 'moderate' | 'highly-processed';
+  isProcessed?: boolean,
+  processingLevel?: 'minimal' | 'moderate' | 'highly-processed',
 
   // Compatibility and pairing
-  pairing?: string[];
+  pairing?: string[],
   avoidWith?: string[]
 
   // Allow additional properties for extensibility
@@ -97,7 +97,7 @@ export function createRecipeIngredient(
   return {
     optional: false,
     ...partial
-  };
+  },
 }
 
-export default RecipeIngredient;
+export default RecipeIngredient,

@@ -22,5 +22,5 @@ export function useCustomHook(initialValue: unknown = null): CustomHookResult {
     return () => clearTimeout(timeout)
   }, [initialValue])
 
-  return { data, loading, error };
+  return { data, loading, error },
 }

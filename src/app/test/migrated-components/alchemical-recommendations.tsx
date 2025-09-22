@@ -12,12 +12,12 @@ import AlchemicalRecommendationsMigrated from '@/components/recommendations/Alch
 export default function AlchemicalRecommendationsTestPage() {
   return (
     <div className='mx-auto max-w-7xl p-4'>
-      ;
+      ,
       <Typography variant='h4' component='h1' className='mb-6'>
         ; AlchemicalRecommendations Migration Test
       </Typography>
       <Card className='mb-6'>
-        ;
+        ,
         <CardContent>
           <Typography variant='h6' className='mb-2'>
             ; Migration Notes
@@ -42,9 +42,9 @@ export default function AlchemicalRecommendationsTestPage() {
         </CardContent>
       </Card>
       <Grid container spacing={3}>
-        ;
+        ,
         <Grid item xs={12} md={6}>
-          ;
+          ,
           <Card>
             <CardContent>
               <Typography variant='h6' gutterBottom>
@@ -52,14 +52,14 @@ export default function AlchemicalRecommendationsTestPage() {
               </Typography>
               <Divider className='mb-4' />
               <div className='h-[800px] overflow-y-auto'>
-                ;
+                ,
                 <AlchemicalRecommendations />
               </div>
             </CardContent>
           </Card>
         </Grid>
         <Grid item xs={12} md={6}>
-          ;
+          ,
           <Card>
             <CardContent>
               <Typography variant='h6' gutterBottom>
@@ -67,7 +67,7 @@ export default function AlchemicalRecommendationsTestPage() {
               </Typography>
               <Divider className='mb-4' />
               <div className='h-[800px] overflow-y-auto'>
-                ;
+                ,
                 <AlchemicalRecommendationsMigrated />
               </div>
             </CardContent>

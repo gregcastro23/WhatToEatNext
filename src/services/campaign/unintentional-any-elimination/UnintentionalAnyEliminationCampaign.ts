@@ -9,7 +9,7 @@ import {
   ProgressMetrics,
   SafetyEventSeverity,
   SafetyEventType
-} from '../../../types/campaign';
+} from '../../../types/campaign',
 import { ProgressTracker } from '../ProgressTracker';
 import { SafetyProtocol } from '../SafetyProtocol';
 
@@ -20,7 +20,7 @@ import { UnintentionalAnyCampaignResult, UnintentionalAnyConfig } from './types'
 import { AutoDocumentationGenerator } from '.';
 
 export class UnintentionalAnyEliminationCampaign {
-  private engine: ProgressiveImprovementEngine;
+  private engine: ProgressiveImprovementEngine,
   private progressTracker: ProgressTracker
   private safetyProtocol: SafetyProtocol,
   private config: UnintentionalAnyConfig,
@@ -37,7 +37,7 @@ export class UnintentionalAnyEliminationCampaign {
       safetyLevel: 'CONSERVATIVE',
       validationFrequency: 5,
       ...config
-    };
+    },
 
     this.engine = new ProgressiveImprovementEngine()
     this.progressTracker = new ProgressTracker()
@@ -50,14 +50,14 @@ export class UnintentionalAnyEliminationCampaign {
       stashRetentionDays: 7
     })
     this.documentationGenerator = new AutoDocumentationGenerator()
-    this.qualityAssurance = new DocumentationQualityAssurance({;
+    this.qualityAssurance = new DocumentationQualityAssurance({,
       sourceDirectories: ['src'],
       excludePatterns: [
         'node_modules/**',
         'dist/**',
         'build/**',
-        '**/*.test.ts';
-        '**/*.test.tsx';
+        '**/*.test.ts',
+        '**/*.test.tsx',
         '**/*.spec.ts'
         '**/*.spec.tsx'
       ]
@@ -177,7 +177,7 @@ export class UnintentionalAnyEliminationCampaign {
           }
         ]
       }
-    ];
+    ],
   }
 
   /**
@@ -210,7 +210,7 @@ export class UnintentionalAnyEliminationCampaign {
         totalAnalyzed: result.totalAnyTypesAnalyzed
       })
 
-      return result;
+      return result,
     } catch (error) {
       _logger.error('Campaign failed, initiating rollback:', error),
 
@@ -240,7 +240,7 @@ export class UnintentionalAnyEliminationCampaign {
             warnings: []
           }
         ]
-      };
+      },
     }
   }
 
@@ -252,12 +252,12 @@ export class UnintentionalAnyEliminationCampaign {
     // // // _logger.info(`Executing phase: ${phase.name}`)
 
     try {
-      let result: UnintentionalAnyCampaignResult;
+      let result: UnintentionalAnyCampaignResult,
 
       switch (phase.id) {
         case 'unintentional-any-analysis':
           result = await this.executeAnalysisPhase()
-          break;
+          break,
         case 'unintentional-any-replacement':
           result = await this.executeReplacementPhase()
           break,
@@ -283,7 +283,7 @@ export class UnintentionalAnyEliminationCampaign {
         warningsFixed: result.unintentionalTypesReplaced,
         executionTime,
         safetyEvents: result.safetyEvents
-      };
+      },
     } catch (error) {
       const executionTime = Date.now() - startTime;
 
@@ -309,7 +309,7 @@ export class UnintentionalAnyEliminationCampaign {
             action: 'PHASE_FAILURE'
           }
         ]
-      };
+      },
     }
   }
 
@@ -321,7 +321,7 @@ export class UnintentionalAnyEliminationCampaign {
       ...this.config,
       maxFilesPerBatch: Math.min(this.config.maxFilesPerBatch, 10), // More conservative for analysis,
       confidenceThreshold: 0.9, // Higher threshold for analysis phase
-    };
+    },
 
     // Execute a single batch for analysis
     const batchMetrics = await this.engine.executeBatch(analysisConfig)
@@ -343,7 +343,7 @@ export class UnintentionalAnyEliminationCampaign {
           warnings: []
         }
       ]
-    };
+    },
   }
 
   private async executeReplacementPhase(): Promise<UnintentionalAnyCampaignResult> {
@@ -364,7 +364,7 @@ export class UnintentionalAnyEliminationCampaign {
         undocumentedTypes: qaReport.undocumentedTypes
       })
 
-      let documentationAdded = 0;
+      let documentationAdded = 0,
       const safetyEvents = [];
 
       // If documentation coverage is below 80%, add documentation
@@ -395,7 +395,7 @@ export class UnintentionalAnyEliminationCampaign {
                 : []
           }
         ]
-      };
+      },
     } catch (error) {
       _logger.error('Documentation phase failed:', error),
 
@@ -436,7 +436,7 @@ export class UnintentionalAnyEliminationCampaign {
    * Update configuration
    */
   updateConfig(newConfig: Partial<UnintentionalAnyConfig>): void {
-    this.config = { ...this.config, ...newConfig };
+    this.config = { ...this.config, ...newConfig },
   }
 
   /**

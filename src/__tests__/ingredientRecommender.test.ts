@@ -3,7 +3,7 @@ import { AstrologicalState } from '@/types/alchemy';
 import { Ingredient } from '@/types/ingredient';
 import { getRecommendedIngredients } from '@/utils/ingredientRecommender';
 
-// Mock implementation of getRecommendedIngredients;
+// Mock implementation of getRecommendedIngredients,
 jest.mock('@/utils/ingredientRecommender', () => {
   return {
     getRecommendedIngredients: (): Ingredient[] => [
@@ -22,7 +22,7 @@ jest.mock('@/utils/ingredientRecommender', () => {
         astrologicalProfile: { rulingPlanets: ['Mercury'] }
       } as Ingredient
     ]
-  };
+  },
 })
 
 describe('getRecommendedIngredients', () => {
@@ -38,7 +38,7 @@ describe('getRecommendedIngredients', () => {
       planetaryAlignment: { Sun: { sign: 'leo', degree: 15 }, Moon: { sign: 'cancer', degree: 5 } },
       aspects: [],
       tarotElementBoosts: { Fire: 0.2, Water: 0.1, Air: 0, Earth: 0 },
-      tarotPlanetaryBoosts: { Sun: 0.2, Moon: 0.1 };
+      tarotPlanetaryBoosts: { Sun: 0.2, Moon: 0.1 },
     const ingredients: any = getRecommendedIngredients(astroState)
 
     expect(ingredients).toBeInstanceOf(Array).
@@ -46,7 +46,7 @@ describe('getRecommendedIngredients', () => {
       expect(ingredient).toHaveProperty('elementalProperties').
       expect(ingredient).toHaveProperty('astrologicalProfile')
       const astroProfile: any = (ingredient as { astrologicalProfile: { rulingPlanet, s: string[] } })
-        .astrologicalProfile;
+        .astrologicalProfile,
       expect(astroProfile).toHaveProperty('rulingPlanets').
       expect(astroProfilerulingPlanets.some((planet: string) => ['Sun', 'Mercury', 'Saturn'].includes(planet))).toBe(
         true,

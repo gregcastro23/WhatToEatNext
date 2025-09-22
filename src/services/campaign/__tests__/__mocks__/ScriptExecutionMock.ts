@@ -10,7 +10,7 @@ import {
   BuildValidation,
   TestValidation,
   ScriptParameters
-} from '../../../../types/campaign';
+} from '../../../../types/campaign',
 
 export interface MockScriptResult {
   success: boolean,
@@ -23,14 +23,14 @@ export interface MockScriptResult {
 
 export class ScriptExecutionMock {
   private mockResults: Map<string, MockScriptResult> = new Map()
-  private mockBuildSuccess: boolean = true;
-  private mockTestSuccess: boolean = true;
+  private mockBuildSuccess: boolean = true,
+  private mockTestSuccess: boolean = true,
   private shouldFailExecution: boolean = false
   private executionHistory: Array<{
     scriptPath: string,
     parameters: ScriptParameters,
     timestamp: Date
-  }> = [];
+  }> = [],
 
   /**
    * Mock script execution
@@ -53,7 +53,7 @@ export class ScriptExecutionMock {
       errors: [],
       warnings: [],
       executionTime: 1000
-    };
+    },
 
     return Promise.resolve({
       success: mockResult.success,
@@ -80,7 +80,7 @@ export class ScriptExecutionMock {
       errors: [],
       warnings: [],
       executionTime: 500
-    };
+    },
 
     return Promise.resolve({
       wouldProcess: mockResult.filesProcessed,
@@ -106,7 +106,7 @@ export class ScriptExecutionMock {
       errors: [],
       warnings: [],
       executionTime: 2000
-    };
+    },
 
     return Promise.resolve({
       batchId: `batch_${Date.now()}`,
@@ -194,7 +194,7 @@ export class ScriptExecutionMock {
     parameters: ScriptParameters,
     timestamp: Date
   }> {
-    return [...this.executionHistory];
+    return [...this.executionHistory],
   }
 
   /**
@@ -248,8 +248,8 @@ export class ScriptExecutionMock {
    */
   reset(): void {
     this.mockResults.clear()
-    this.mockBuildSuccess = true;
-    this.mockTestSuccess = true;
+    this.mockBuildSuccess = true,
+    this.mockTestSuccess = true,
     this.shouldFailExecution = false;
     this.executionHistory = []
   }
@@ -284,7 +284,7 @@ export class ScriptExecutionMock {
       filesProcessed: ['utils1.ts', 'utils2.ts', 'utils3.ts'],
       changesApplied: 20,
       errors: [],
-      warnings: ['Removed potentially important variable'],
+      warnings: ['Removed potentially important variable'];
       executionTime: 2000
     })
 

@@ -14,14 +14,14 @@ export interface PlanetaryPositions {
     degree: number,
     exactLongitude?: number
     isRetrograde: boolean
-  };
+  },
 
   southNode?: {
     sign: string,
     degree: number,
     exactLongitude?: number
     isRetrograde: boolean
-  };
+  },
 }
 
 import { ElementalCharacter } from '../constants/planetaryElements';
@@ -32,33 +32,33 @@ import {
   LunarPhaseType,
   ElementalPropertiesType,
   AstrologicalStateType
-} from './alchemy';
+} from './alchemy',
 
-// ========== PHASE 1: ASTROLOGICAL TYPE ALIASES ==========;
+// ========== PHASE 1: ASTROLOGICAL TYPE ALIASES ==========,
 
 /**
  * Planetary Positions Type
  * Standardized type for planetary position data across the system
  */
-export type PlanetaryPositions = PlanetaryPositionsType;
+export type PlanetaryPositions = PlanetaryPositionsType,
 
 /**
  * Standardized Zodiac Sign Type
  * Using the project standard lowercase zodiac signs
  */
-export type StandardZodiacSign = ZodiacSignType;
+export type StandardZodiacSign = ZodiacSignType,
 
 /**
  * Standardized Lunar Phase Type
  * Using the project standard lunar phases with spaces
  */
-export type StandardLunarPhase = LunarPhaseType;
+export type StandardLunarPhase = LunarPhaseType,
 
 /**
  * Complete Astrological State
  * Standardized astrological state combining all astrological factors
  */
-export type CompleteAstrologicalState = AstrologicalStateType;
+export type CompleteAstrologicalState = AstrologicalStateType,
 
 /**
  * Planetary Position Details
@@ -68,11 +68,11 @@ export type PlanetaryPositionDetails = {
   planet: string,
   sign: string,
   degree: number,
-  minute?: number;
-  isRetrograde?: boolean;
-  element?: string;
+  minute?: number,
+  isRetrograde?: boolean,
+  element?: string,
   dignity?: string
-};
+},
 
 /**
  * Astrological Aspect Types
@@ -85,7 +85,7 @@ export type AspectType =
   | 'trine'
   | 'opposition'
   | 'quincunx'
-  | 'semisextile';
+  | 'semisextile',
 
 /**
  * Planetary Aspect Details
@@ -98,38 +98,38 @@ export type PlanetaryAspectDetails = {
   orb: number,
   influence: 'harmonious' | 'challenging' | 'neutral',
   strength: number
-};
+},
 
 /**
  * Birth Chart Data
  * Standardized birth chart information
  */
 export type BirthChartData = {
-  elementalState: Record<ElementalCharacter, number>;
-  planetaryPositions: Record<string, number>;
+  elementalState: Record<ElementalCharacter, number>,
+  planetaryPositions: Record<string, number>,
   ascendant: string,
   lunarPhase: string,
   aspects: PlanetaryAspectDetails[]
-};
+},
 
 /**
  * Astrological Profile Type
  * Complete astrological profile for ingredients or individuals
  */
 export type AstrologicalProfileType = {
-  zodiac?: StandardZodiacSign[];
-  lunar?: StandardLunarPhase[];
-  planetary?: PlanetaryPositionDetails[];
-  aspects?: PlanetaryAspectDetails[];
+  zodiac?: StandardZodiacSign[],
+  lunar?: StandardLunarPhase[],
+  planetary?: PlanetaryPositionDetails[],
+  aspects?: PlanetaryAspectDetails[],
   elementalInfluence?: ElementalPropertiesType
-};
+},
 
 // ========== EXISTING TYPES (Updated to use new aliases) ==========
 
 /**
  * Represents planetary alignments in astrology
  */
-export type PlanetaryAlignment = AspectType;
+export type PlanetaryAlignment = AspectType,
 
 /**
  * Represents a planetary position with key details
@@ -156,15 +156,15 @@ export interface PlanetaryAspect {
  * Interface for astrological profiles of ingredients
  */
 export interface AstrologicalProfile {
-  zodiac?: any[];
-  lunar?: LunarPhase[];
-  planetary?: PlanetaryPosition[];
+  zodiac?: any[],
+  lunar?: LunarPhase[],
+  planetary?: PlanetaryPosition[],
   aspects?: PlanetaryAspect[]
 }
 
 export interface BirthChart {
-  elementalState: Record<ElementalCharacter, number>;
-  planetaryPositions: Record<string, number>;
+  elementalState: Record<ElementalCharacter, number>,
+  planetaryPositions: Record<string, number>,
   ascendant: string,
   lunarPhase: string,
   aspects: AstrologicalAspect[]
@@ -199,7 +199,7 @@ export type AstrologyLunarPhase =
   | 'full_moon'
   | 'waning_gibbous'
   | 'last_quarter'
-  | 'waning_crescent';
+  | 'waning_crescent',
 
 // Re-export types for convenience
-export type { ZodiacSign, LunarPhase, Planet, PlanetName } from '@/types/alchemy';
+export type { ZodiacSign, LunarPhase, Planet, PlanetName } from '@/types/alchemy',

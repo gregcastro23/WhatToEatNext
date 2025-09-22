@@ -9,9 +9,9 @@ export const CHAKRA_KEYS = [
   'throat',
   'brow',
   'crown'
-] as const;
+] as const,
 
-export type ChakraKey = (typeof CHAKRA_KEYS)[number];
+export type ChakraKey = (typeof CHAKRA_KEYS)[number],
 
 /**
  * Type guard to check if a value is a valid chakra key
@@ -51,7 +51,7 @@ export function isArray<T>(value: unknown, itemGuard?: (item: unknown) => item i
   if (!Array.isArray(value)) return false
 
   // If no item guard is provided, just check it's an array
-  if (!itemGuard) return true;
+  if (!itemGuard) return true,
 
   // Check each item passes the guard
   return value.every(item => itemGuard(item))
@@ -103,7 +103,7 @@ export function safeGetArray<T = unknown>(value: unknown, defaultValue: T[] = []
  * Safe getter for object properties
  */
 export function safeGet<T>(obj: unknown, path: string, defaultValue?: T): T | undefined {
-  if (!isObject(obj)) return defaultValue;
+  if (!isObject(obj)) return defaultValue,
 
   const keys = path.split('.')
   let current: any = obj
@@ -112,10 +112,10 @@ export function safeGet<T>(obj: unknown, path: string, defaultValue?: T): T | un
     if (!isObject(current) || !(key in current)) {
       return defaultValue
     }
-    current = current[key];
+    current = current[key],
   }
 
-  return current as T;
+  return current as T,
 }
 
 /**
@@ -157,7 +157,7 @@ export function isError(value: unknown): value is Error {
  * Safe cast to Record type
  */
 export function asRecord(value: unknown): Record<string, unknown> {
-  return isObject(value) ? value : {};
+  return isObject(value) ? value : {},
 }
 
 /**

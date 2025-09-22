@@ -10,7 +10,7 @@ const _CuisineType = {
   JAPANESE: 'japanese',
   THAI: 'thai',
   MEXICAN: 'mexican'
-};
+},
 
 export const seasonalUsage = {
   spring: {
@@ -205,7 +205,7 @@ export const seasonalUsage = {
       ]
     }
   }
-} as unknown as Record<Season, unknown>;
+} as unknown as Record<Season, unknown>,
 
 // Helper functions if needed
 export function getSeasonalUsageData(ingredient: string, season: Season) {
@@ -214,7 +214,7 @@ export function getSeasonalUsageData(ingredient: string, season: Season) {
     inGrowing: seasonData.growing.includes(ingredient),
     inHerbs: seasonData.herbs.includes(ingredient),
     inVegetables: seasonData.vegetables.includes(ingredient)
-  };
+  },
 }
 
 export function getTarotRecommendationsForSeason(season: Season) {

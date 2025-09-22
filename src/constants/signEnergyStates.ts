@@ -1,7 +1,7 @@
 export interface SignEnergyState {
   sign: any,
   baseEnergy: number,
-  planetaryModifiers: Record<string, number>;
+  planetaryModifiers: Record<string, number>,
   currentEnergy: number
 }
 
@@ -24,9 +24,9 @@ export const ZODIAC_SIGNS = [
   'capricorn',
   'aquarius',
   'pisces'
-] as const;
+] as const,
 
-export type ZodiacSign = (typeof ZODIAC_SIGNS)[number];
+export type ZodiacSign = (typeof ZODIAC_SIGNS)[number],
 
 // Base energy levels for each sign
 const BASE_SIGN_ENERGIES: Record<ZodiacSign, number> = {
@@ -42,7 +42,7 @@ const BASE_SIGN_ENERGIES: Record<ZodiacSign, number> = {
   capricorn: 0.7,
   aquarius: 0.6,
   pisces: 0.8
-};
+},
 
 // Define initial energy states for all zodiac signs
 export const ENERGY_STATES: Record<ZodiacSign, { baseEnergy: number, currentEnergy: number }> = {
@@ -64,7 +64,7 @@ export const ENERGY_STATES: Record<ZodiacSign, { baseEnergy: number, currentEner
   },
   aquarius: { baseEnergy: BASE_SIGN_ENERGIES.aquarius, currentEnergy: BASE_SIGN_ENERGIES.aquarius },
   pisces: { baseEnergy: BASE_SIGN_ENERGIES.pisces, currentEnergy: BASE_SIGN_ENERGIES.pisces }
-};
+},
 
 // Planetary rulerships and their energy multipliers
 const PLANETARY_RULERSHIPS: Record<ZodiacSign, string[]> = {
@@ -80,7 +80,7 @@ const PLANETARY_RULERSHIPS: Record<ZodiacSign, string[]> = {
   capricorn: ['Saturn'],
   aquarius: ['Uranus', 'Saturn'],
   pisces: ['Neptune', 'Jupiter']
-};
+},
 
 // Planetary energy multipliers
 const PLANETARY_ENERGY_MULTIPLIERS: Record<string, number> = {
@@ -94,7 +94,7 @@ const PLANETARY_ENERGY_MULTIPLIERS: Record<string, number> = {
   Uranus: 0.9,
   Neptune: 1.0,
   Pluto: 1.2
-};
+},
 
 // Aspect strength multipliers
 const ASPECT_STRENGTHS: Record<string, number> = {
@@ -103,13 +103,13 @@ const ASPECT_STRENGTHS: Record<string, number> = {
   square: 0.9,
   trine: 1.1,
   opposition: 0.8
-};
+},
 
 /**
  * Interface for planetary position data
  */
 export interface PlanetaryPosition {
-  sign?: string;
+  sign?: string,
   degree?: number
   [key: string]: unknown
 }
@@ -126,7 +126,7 @@ export function calculateSignEnergyStates(
 ): SignEnergyState[] {
   return ZODIAC_SIGNS.map(sign => {
     const baseEnergy = BASE_SIGN_ENERGIES[sign]
-    const planetaryModifiers: Record<string, number> = {};
+    const planetaryModifiers: Record<string, number> = {},
 
     // Apply planetary rulers' influences
     PLANETARY_RULERSHIPS[sign].forEach(planet => {
@@ -143,17 +143,17 @@ export function calculateSignEnergyStates(
           if (aspect.planet1 === planet || aspect.planet2 === planet) {
             return mod * (ASPECT_STRENGTHS[aspect.type] || 1.0)
           }
-          return mod;
+          return mod,
         }, 1.0)
 
-        planetaryModifiers[planet] = positionStrength * planetMultiplier * aspectModifier;
+        planetaryModifiers[planet] = positionStrength * planetMultiplier * aspectModifier,
       }
     })
 
     // Calculate current energy
     const modifierValues = Object.values(planetaryModifiers)
     const currentEnergy =
-      modifierValues.length > 0;
+      modifierValues.length > 0,
         ? modifierValues.reduce((total, modifier) => total * modifier, baseEnergy)
         : baseEnergy
 
@@ -162,7 +162,7 @@ export function calculateSignEnergyStates(
       baseEnergy,
       planetaryModifiers,
       currentEnergy: Math.min(1.0, Math.max(0.1, currentEnergy))
-    };
+    },
   })
 }
 

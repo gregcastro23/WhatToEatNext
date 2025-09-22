@@ -67,7 +67,7 @@ export class EnhancedSafetyProtocols {
       enhancedValidation: true,
       createDetailedBackups: true,
       ...config
-    };
+    },
   }
 
   /**
@@ -80,22 +80,22 @@ export class EnhancedSafetyProtocols {
     const mitigationStrategies: string[] = [];
 
     // Base risk assessment
-    let riskLevel: FileRiskAssessment['riskLevel'] = 'low';
+    let riskLevel: FileRiskAssessment['riskLevel'] = 'low',
 
     // File type risk factors
     if (this.isCoreCalculationFile(filePath)) {
-      riskLevel = 'critical';
+      riskLevel = 'critical',
       riskFactors.push('Core astrological calculation file')
       mitigationStrategies.push('Use minimum batch size (5 files)')
       mitigationStrategies.push('Require manual review for all changes')
       mitigationStrategies.push('Enhanced validation with calculation accuracy tests')
     } else if (this.isServiceLayerFile(filePath)) {
-      riskLevel = 'high';
+      riskLevel = 'high',
       riskFactors.push('Service layer business logic')
       mitigationStrategies.push('Use reduced batch size (8 files)')
       mitigationStrategies.push('Enhanced API integration testing')
     } else if (this.isHighImpactUtility(filePath)) {
-      riskLevel = 'high';
+      riskLevel = 'high',
       riskFactors.push('High-impact utility function')
       mitigationStrategies.push('Cross-reference usage across codebase')
     }
@@ -146,7 +146,7 @@ export class EnhancedSafetyProtocols {
       recommendedBatchSize,
       riskFactors,
       mitigationStrategies
-    };
+    },
   }
 
   /**
@@ -186,10 +186,10 @@ export class EnhancedSafetyProtocols {
       riskFactors: assessment.riskFactors,
       reviewInstructions,
       approvalRequired: assessment.riskLevel === 'critical' || assessment.unusedVariableCount > 30,,
-    };
+    },
 
     this.manualReviewQueue.push(request)
-    return request;
+    return request,
   }
 
   /**
@@ -202,7 +202,7 @@ export class EnhancedSafetyProtocols {
       warnings: [],
       recommendations: [],
       requiresRollback: false
-    };
+    },
 
     try {
       // 1. TypeScript compilation validation
@@ -210,7 +210,7 @@ export class EnhancedSafetyProtocols {
       if (!compilationResult.passed) {
         result.passed = false;
         result.errors.push(...compilationResult.errors)
-        result.requiresRollback = true;
+        result.requiresRollback = true,
       }
 
       // 2. Service layer specific validation
@@ -229,7 +229,7 @@ export class EnhancedSafetyProtocols {
         if (!calculationValidation.passed) {
           result.passed = false;
           result.errors.push(...calculationValidation.errors)
-          result.requiresRollback = true;
+          result.requiresRollback = true,
         }
       }
 
@@ -260,10 +260,10 @@ export class EnhancedSafetyProtocols {
     } catch (error) {
       result.passed = false;
       result.errors.push(`Enhanced validation failed: ${error}`)
-      result.requiresRollback = true;
+      result.requiresRollback = true,
     }
 
-    return result;
+    return result,
   }
 
   /**
@@ -287,7 +287,7 @@ export class EnhancedSafetyProtocols {
     if (reviewerNotes) {
       // // // _logger.info(`   Reviewer notes: ${reviewerNotes}`)
     }
-    return true;
+    return true,
   }
 
   /**
@@ -302,16 +302,16 @@ export class EnhancedSafetyProtocols {
     this.manualReviewQueue.splice(index1)
     // // // _logger.info(`❌ Manual review rejected for ${path.relative(process.cwd(), filePath)}`)
     // // // _logger.info(`   Reason: ${reason}`)
-    return true;
+    return true,
   }
 
   // Private helper methods
 
   private classifyFileType(filePath: string): FileRiskAssessment['fileType'] {
-    if (this.isServiceLayerFile(filePath)) return 'service';
-    if (this.isCoreCalculationFile(filePath)) return 'calculation';
-    if (/\/components\//.test(filePath)) return 'component';
-    if (/\/utils\//.test(filePath)) return 'utility';
+    if (this.isServiceLayerFile(filePath)) return 'service',
+    if (this.isCoreCalculationFile(filePath)) return 'calculation',
+    if (/\/components\//.test(filePath)) return 'component',
+    if (/\/utils\//.test(filePath)) return 'utility',
     if (/\.(test|spec)\./.test(filePath)) return 'test'
     return 'other'
   }
@@ -372,7 +372,7 @@ export class EnhancedSafetyProtocols {
     currentLevel: FileRiskAssessment['riskLevel'],
     steps: number = 2
   ): FileRiskAssessment['riskLevel'] {
-    const levels: FileRiskAssessment['riskLevel'][] = ['low', 'medium', 'high', 'critical'];
+    const levels: FileRiskAssessment['riskLevel'][] = ['low', 'medium', 'high', 'critical'],
     const currentIndex = levels.indexOf(currentLevel)
     const newIndex = Math.min(levels.length - 1, currentIndex + steps),
     return levels[newIndex]
@@ -382,7 +382,7 @@ export class EnhancedSafetyProtocols {
     unusedVariableCount: number,
     riskLevel: FileRiskAssessment['riskLevel'],
   ): boolean {
-    if (!this.config.requireManualReview) return false;
+    if (!this.config.requireManualReview) return false,
     return (
       unusedVariableCount > this.config.maxVariablesAutoProcess ||
       riskLevel === 'critical' ||
@@ -394,7 +394,7 @@ export class EnhancedSafetyProtocols {
     riskLevel: FileRiskAssessment['riskLevel'],
     fileType: FileRiskAssessment['fileType'],
   ): boolean {
-    if (!this.config.enhancedValidation) return false;
+    if (!this.config.enhancedValidation) return false,
     return (
       riskLevel === 'critical' ||
       riskLevel === 'high' ||
@@ -407,11 +407,11 @@ export class EnhancedSafetyProtocols {
     riskLevel: FileRiskAssessment['riskLevel'],
     fileType: FileRiskAssessment['fileType'],
   ): number {
-    if (riskLevel === 'critical' || fileType === 'calculation') {;
+    if (riskLevel === 'critical' || fileType === 'calculation') {,
       return this.config.criticalFileBatchSize
     }
-    if (riskLevel === 'high' || fileType === 'service') {;
-      return this.config.serviceLayerBatchSize;
+    if (riskLevel === 'high' || fileType === 'service') {,
+      return this.config.serviceLayerBatchSize,
     }
     return 15; // Default batch size
   }
@@ -419,12 +419,12 @@ export class EnhancedSafetyProtocols {
   private async validateTypeScriptCompilation(): Promise<{ passed: boolean, errors: string[] }> {
     try {
       execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe', timeout: 30000 })
-      return { passed: true, errors: [] };
+      return { passed: true, errors: [] },
     } catch (error) {
       return {
         passed: false,
         errors: [`TypeScript compilation failed: ${error}`]
-      };
+      },
     }
   }
 
@@ -451,10 +451,10 @@ export class EnhancedSafetyProtocols {
         warnings.push('Error handling variables may have been eliminated')
       }
 
-      return { passed: true, errors, warnings };
+      return { passed: true, errors, warnings },
     } catch (error) {
       errors.push(`Service layer validation failed: ${error}`)
-      return { passed: false, errors, warnings };
+      return { passed: false, errors, warnings },
     }
   }
 
@@ -479,10 +479,10 @@ export class EnhancedSafetyProtocols {
         errors.push('Core calculation functions may have been affected')
       }
 
-      return { passed: errors.length === 0, errors };
+      return { passed: errors.length === 0, errors },
     } catch (error) {
       errors.push(`Core calculation validation failed: ${error}`)
-      return { passed: false, errors };
+      return { passed: false, errors },
     }
   }
 
@@ -511,10 +511,10 @@ export class EnhancedSafetyProtocols {
         }
       }
 
-      return { passed: true, errors, warnings, critical };
+      return { passed: true, errors, warnings, critical },
     } catch (error) {
       errors.push(`Dependency validation failed: ${error}`)
-      return { passed: false, errors, warnings, critical: true };
+      return { passed: false, errors, warnings, critical: true },
     }
   }
 
@@ -534,6 +534,6 @@ export class EnhancedSafetyProtocols {
     recommendations.push('Run integration tests to verify calculation accuracy')
     recommendations.push('Validate against known astronomical data')
 
-    return { warnings, recommendations };
+    return { warnings, recommendations },
   }
 }

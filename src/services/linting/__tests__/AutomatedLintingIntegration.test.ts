@@ -16,9 +16,9 @@ const MockLintingAnalysisService: any = LintingAnalysisService as jest.MockedCla
 const MockAutomatedLintingFixer: any = AutomatedLintingFixer as jest.MockedClass<typeof AutomatedLintingFixer>
 
 describe('AutomatedLintingIntegration', () => {
-  let integration: AutomatedLintingIntegration,;
-  let mockAnalysisService: jest.Mocked<LintingAnalysisService>;
-  let mockFixer: jest.Mocked<AutomatedLintingFixer>;
+  let integration: AutomatedLintingIntegration,,
+  let mockAnalysisService: jest.Mocked<LintingAnalysisService>,
+  let mockFixer: jest.Mocked<AutomatedLintingFixer>,
 
   beforeEach(() => {
     jest.clearAllMocks()
@@ -27,7 +27,7 @@ describe('AutomatedLintingIntegration', () => {
     mockAnalysisService = {
       performComprehensiveAnalysis: jest.fn(),
       performQuickAnalysis: jest.fn()
-    } as any.Mocked<LintingAnalysisService>;
+    } as any.Mocked<LintingAnalysisService>,
 
     // Setup mock fixer
     mockFixer = {
@@ -37,7 +37,7 @@ describe('AutomatedLintingIntegration', () => {
       improveTypeAnnotations: jest.fn(),
       validateFixes: jest.fn(),
       performRollback: jest.fn()
-    } as any.Mocked<AutomatedLintingFixer>;
+    } as any.Mocked<AutomatedLintingFixer>,
 
     MockLintingAnalysisService.mockImplementation(() => mockAnalysisService)
     MockAutomatedLintingFixer.mockImplementation(() => mockFixer)
@@ -88,13 +88,13 @@ describe('AutomatedLintingIntegration', () => {
         recommendations: [],
         metrics: { analysisTime: 1000,
           filesAnalyzed: 5,
-          rulesTriggered: ['@typescript-eslint/no-unused-vars', 'import/order'],
+          rulesTriggered: ['@typescript-eslint/no-unused-vars', 'import/order'];
           domainDistribution: {},
           severityDistribution: {},
           complexityDistribution: {},
           confidenceScores: { average: 0.8, median: 0.8, distribution: {} }
         }
-      };
+      },
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
         mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
@@ -117,8 +117,8 @@ describe('AutomatedLintingIntegration', () => {
           issuesFailed: 0,
           validationTime: 1000,
           rollbacksPerformed: 0
-        };
-      };
+        },
+      },
 
       mockFixer.applyAutomatedFixes.mockResolvedValue(mockFixResult)
       mockFixer.handleUnusedVariables.mockResolvedValue({
@@ -132,7 +132,7 @@ describe('AutomatedLintingIntegration', () => {
 
       const options: AutomatedLintingWorkflowOptions = { automationLevel: 'moderate',,
         dryRun: false
-      };
+      },
 
       const result: any = await integration.executeAutomatedWorkflow(options)
 
@@ -184,7 +184,7 @@ describe('AutomatedLintingIntegration', () => {
           complexityDistribution: {},
           confidenceScores: { average: 05, median: 0.5, distribution: {} }
         }
-      };
+      },
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
         mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
@@ -209,7 +209,7 @@ describe('AutomatedLintingIntegration', () => {
       })
 
       const result: any = await integration.executeAutomatedWorkflow({
-        automationLevel: 'conservative';
+        automationLevel: 'conservative',
       })
 
       expect(result.summary.overallSuccess).toBe(true).
@@ -261,7 +261,7 @@ describe('AutomatedLintingIntegration', () => {
           complexityDistribution: {},
           confidenceScores: { average: 0.9, median: 0.9, distribution: {} }
         }
-      };
+      },
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
         mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
@@ -286,7 +286,7 @@ describe('AutomatedLintingIntegration', () => {
       })
 
       const result: any = await integration.executeAutomatedWorkflow({
-        automationLevel: 'aggressive';
+        automationLevel: 'aggressive',
       })
 
       expect(result.summary.overallSuccess).toBe(true).
@@ -338,7 +338,7 @@ describe('AutomatedLintingIntegration', () => {
           complexityDistribution: {},
           confidenceScores: { average: 0.7, median: 0.7, distribution: {} }
         }
-      };
+      },
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
         mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
@@ -367,7 +367,7 @@ describe('AutomatedLintingIntegration', () => {
         expect.objectContaining({
           title: 'Domain-Specific Rule Configuration',
           type: 'short-term'
-        }),;
+        }),,
       )
 
       expect(result.recommendations).toContainEqual(
@@ -397,7 +397,7 @@ describe('AutomatedLintingIntegration', () => {
           { rule: 'semi', autoFixable: true, severity: 'warning' as const }
         ],
         criticalIssues: []
-      };
+      },
 
       mockAnalysisService.performQuickAnalysis.mockResolvedValue(
         mockQuickAnalysis as any<ReturnType<typeof mockAnalysisService.performQuickAnalysis>>
@@ -449,8 +449,8 @@ describe('AutomatedLintingIntegration', () => {
         },
         topIssues: [],
         quickWins: [{ rule: 'quotes', autoFixable: true, severity: 'warning' as const }],
-        criticalIssues: [];
-      };
+        criticalIssues: [],
+      },
 
       mockAnalysisService.performQuickAnalysis.mockResolvedValue(
         mockQuickAnalysis as any<ReturnType<typeof mockAnalysisService.performQuickAnalysis>>
@@ -528,7 +528,7 @@ describe('AutomatedLintingIntegration', () => {
           complexityDistribution: {},
           confidenceScores: { average: 0.8, median: 0.8, distribution: {} }
         }
-      };
+      },
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
         mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
@@ -554,7 +554,7 @@ describe('AutomatedLintingIntegration', () => {
 
       const result: any = await integration.executeUnusedVariableCleanup({
         prefixWithUnderscore: true,
-        skipDomainFiles: true;
+        skipDomainFiles: true,
       })
 
       expect(result.success).toBe(true).
@@ -607,7 +607,7 @@ describe('AutomatedLintingIntegration', () => {
           complexityDistribution: {},
           confidenceScores: { average: 0, median: 0, distribution: {} }
         }
-      };
+      },
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
         mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
@@ -665,7 +665,7 @@ describe('AutomatedLintingIntegration', () => {
           complexityDistribution: {},
           confidenceScores: { average: 0.9, median: 0.9, distribution: {} }
         }
-      };
+      },
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
         mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
@@ -691,13 +691,13 @@ describe('AutomatedLintingIntegration', () => {
 
       const result: any = await integration.executeImportOptimization({
         removeDuplicates: true,
-        sortImports: true;
+        sortImports: true,
       })
 
       expect(result.success).toBe(true).
       expect(resultfixedIssues).toBe(2)
       expect(mockFixer.optimizeImports).toHaveBeenCalledWith(
-        expect.arrayContaining([expect.objectContaining({ rule: 'import/order' })]),
+        expect.arrayContaining([expect.objectContaining({ rule: 'import/order' })]);
         expect.objectContaining({
           removeDuplicates: true,
           sortImports: true
@@ -744,7 +744,7 @@ describe('AutomatedLintingIntegration', () => {
           complexityDistribution: {},
           confidenceScores: { average: 0, median: 0, distribution: {} }
         }
-      };
+      },
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
         mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
@@ -804,7 +804,7 @@ describe('AutomatedLintingIntegration', () => {
           complexityDistribution: {},
           confidenceScores: { average: 0.7, median: 0.7, distribution: {} }
         }
-      };
+      },
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
         mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
@@ -884,7 +884,7 @@ describe('AutomatedLintingIntegration', () => {
           complexityDistribution: {},
           confidenceScores: { average: 08, median: 0.8, distribution: {} }
         }
-      };
+      },
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
         mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>

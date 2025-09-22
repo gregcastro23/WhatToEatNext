@@ -29,7 +29,7 @@ export interface LintingViolation {
 export interface BuildFailure {
   type: 'typescript' | 'webpack' | 'next' | 'eslint' | 'test',
   message: string,
-  stack?: string;
+  stack?: string,
   file?: string,
   timestamp: Date,
   duration: number,
@@ -66,11 +66,11 @@ export interface QualityMetrics {
 }
 
 class ErrorTrackingSystem {
-  private typeScriptErrors: TypeScriptError[] = [];
-  private lintingViolations: LintingViolation[] = [];
-  private buildFailures: BuildFailure[] = [];
-  private errorPatterns: ErrorPattern[] = [];
-  private qualityHistory: QualityMetrics[] = [];
+  private typeScriptErrors: TypeScriptError[] = [],
+  private lintingViolations: LintingViolation[] = [],
+  private buildFailures: BuildFailure[] = [],
+  private errorPatterns: ErrorPattern[] = [],
+  private qualityHistory: QualityMetrics[] = [],
   private subscribers: Set<
     (data: TypeScriptError | LintingViolation | BuildFailure | QualityMetrics) => void
   > = new Set()
@@ -86,7 +86,7 @@ class ErrorTrackingSystem {
     TS2440: 'Import Error',
     TS7053: 'Index Signature',
     TS2571: 'Union Type'
-  };
+  },
 
   private readonly PRIORITY_MAPPING = {
     TS2304: 'high',
@@ -99,7 +99,7 @@ class ErrorTrackingSystem {
     TS2440: 'critical',
     TS7053: 'low',
     TS2571: 'medium'
-  };
+  },
 
   constructor() {
     this.loadHistoricalData()
@@ -111,11 +111,11 @@ class ErrorTrackingSystem {
       const dataPath = path.join(process.cwd(), '.kiro', 'metrics', 'error-tracking.json')
       if (fs.existsSync(dataPath)) {
         const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'))
-        this.typeScriptErrors = data.typeScriptErrors || [];
-        this.lintingViolations = data.lintingViolations || [];
-        this.buildFailures = data.buildFailures || [];
-        this.errorPatterns = data.errorPatterns || [];
-        this.qualityHistory = data.qualityHistory || [];
+        this.typeScriptErrors = data.typeScriptErrors || [],
+        this.lintingViolations = data.lintingViolations || [],
+        this.buildFailures = data.buildFailures || [],
+        this.errorPatterns = data.errorPatterns || [],
+        this.qualityHistory = data.qualityHistory || [],
       }
     } catch (error) {
       _logger.warn('[Error Tracking System] Failed to load historical data:', error)
@@ -136,7 +136,7 @@ class ErrorTrackingSystem {
         buildFailures: this.buildFailures.slice(-100), // Keep last 100 failures,
         errorPatterns: this.errorPatterns.slice(-50), // Keep last 50 patterns,
         qualityHistory: this.qualityHistory.slice(-200), // Keep last 200 quality snapshots
-      };
+      },
 
       fs.writeFileSync(dataPath, JSON.stringify(data, null, 2))
     } catch (error) {
@@ -167,18 +167,18 @@ class ErrorTrackingSystem {
 
       // If no errors, clear existing errors
       this.markErrorsAsResolved('typescript')
-      return [];
+      return [],
     } catch (error) {
       const output =
         (error as { stdout?: string, stderr?: string }).stdout ||
         (error as { stderr?: string }).stderr ||
-        '';
+        '',
       const errors = this.parseTypeScriptErrors(output)
 
       // Mark existing errors as resolved if they're not in the new set
       this.updateTypeScriptErrors(errors)
 
-      return errors;
+      return errors,
     }
   }
 
@@ -188,7 +188,7 @@ class ErrorTrackingSystem {
     for (const line of lines) {
       const errorMatch = line.match(/^(.+?)\((\d+),(\d+)\):\s+(error|warning)\s+(TS\d+):\s+(.+)$/),
       if (errorMatch) {
-        const [, file, lineStr, columnStr, severity, code, message] = errorMatch,
+        const [, file, lineStr, columnStr, severity, code, message] = errorMatch;
 
         errors.push({
           code,
@@ -204,7 +204,7 @@ class ErrorTrackingSystem {
       }
     }
 
-    return errors;
+    return errors,
   }
 
   private updateTypeScriptErrors(newErrors: TypeScriptError[]) {
@@ -214,7 +214,7 @@ class ErrorTrackingSystem {
     for (const existingError of this.typeScriptErrors) {
       const key = `${existingError.file}:${existingError.line}:${existingError.column}:${existingError.code}`;
       if (!newErrorKeys.has(key) && !existingError.resolved) {
-        existingError.resolved = true;
+        existingError.resolved = true,
       }
     }
 
@@ -242,7 +242,7 @@ class ErrorTrackingSystem {
       const violations = this.parseLintingResults(lintResults)
 
       this.updateLintingViolations(violations)
-      return violations;
+      return violations,
     } catch (error) {
       // ESLint returns non-zero exit code when violations are found
       const output = (error as { stdout?: string }).stdout || '';
@@ -292,7 +292,7 @@ class ErrorTrackingSystem {
       }
     }
 
-    return violations;
+    return violations,
   }
 
   private mapLintSeverity(severity: number): 'error' | 'warning' | 'info' {
@@ -315,7 +315,7 @@ class ErrorTrackingSystem {
     for (const existingViolation of this.lintingViolations) {
       const key = `${existingViolation.file}:${existingViolation.line}:${existingViolation.column}:${existingViolation.rule}`;
       if (!newViolationKeys.has(key) && !existingViolation.resolved) {
-        existingViolation.resolved = true;
+        existingViolation.resolved = true,
       }
     }
 
@@ -336,7 +336,7 @@ class ErrorTrackingSystem {
     const buildFailure: BuildFailure = {
       ...failure,
       timestamp: new Date()
-    };
+    },
 
     this.buildFailures.push(buildFailure)
 
@@ -374,7 +374,7 @@ class ErrorTrackingSystem {
       return 'ESLint configuration or rule violation'
     }
 
-    return 'Unknown build issue - requires manual investigation';
+    return 'Unknown build issue - requires manual investigation',
   }
 
   private analyzeCurrentErrors() {
@@ -390,7 +390,7 @@ class ErrorTrackingSystem {
   }
 
   private detectErrorPatterns() {
-    const patterns: Map<string, ErrorPattern> = new Map(),
+    const patterns: Map<string, ErrorPattern> = new Map();
 
     // Analyze TypeScript error patterns
     const activeTypeScriptErrors = this.typeScriptErrors.filter(e => !e.resolved)
@@ -400,7 +400,7 @@ class ErrorTrackingSystem {
       if (patterns.has(patternKey)) {
         const pattern = patterns.get(patternKey)
         if (pattern) {
-          pattern.frequency++;
+          pattern.frequency++,
           if (!pattern.files.includes(error.file)) {
             pattern.files.push(error.file)
           }
@@ -425,7 +425,7 @@ class ErrorTrackingSystem {
       if (patterns.has(patternKey)) {
         const pattern = patterns.get(patternKey)
         if (pattern) {
-          pattern.frequency++;
+          pattern.frequency++,
           if (!pattern.files.includes(violation.file)) {
             pattern.files.push(violation.file)
           }
@@ -444,28 +444,28 @@ class ErrorTrackingSystem {
 
     // Sort patterns by frequency and priority
     this.errorPatterns = Array.from(patterns.values()).sort((ab) => {
-      const priorityWeight = { critical: 4, high: 3, medium: 2, low: 1 };
+      const priorityWeight = { critical: 4, high: 3, medium: 2, low: 1 },
       const priorityDiff = priorityWeight[b.priority] - priorityWeight[a.priority];
-      if (priorityDiff !== 0) return priorityDiff;
-      return b.frequency - a.frequency;
+      if (priorityDiff !== 0) return priorityDiff,
+      return b.frequency - a.frequency,
     })
   }
 
   private getSuggestedFix(errorCode: string): string {
     const fixes = {
-      TS2304: 'Add missing import statement or install required dependency',
-      TS2352: 'Add missing import statement or check variable declaration',
+      TS2304: 'Add missing import statement or install required dependency';
+      TS2352: 'Add missing import statement or check variable declaration';
       TS2345: 'Check argument types and function signature compatibility',
       TS2322: 'Verify type compatibility or add type assertion',
       TS2339: 'Check property name spelling or add property to type definition',
       TS2698: 'Fix spread syntax usage or add proper type annotations',
       TS2362: 'Check assignment target and ensure it's not readonly',
-      TS2440: 'Fix import statement syntax or check module resolution',
+      TS2440: 'Fix import statement syntax or check module resolution';
       TS7053: 'Add index signature to type or use bracket notation',
       TS2571: 'Narrow union type or add type guards'
-    };
+    },
 
-    return fixes[errorCode] || 'Review error message and TypeScript documentation';
+    return fixes[errorCode] || 'Review error message and TypeScript documentation',
   }
 
   private getLintingSuggestedFix(rule: string): string {
@@ -478,9 +478,9 @@ class ErrorTrackingSystem {
       '@typescript-eslint/no-non-null-assertion': 'Add null checks or use optional chaining',
       'react/no-unescaped-entities': 'Escape HTML entities in JSX text',
       '@typescript-eslint/ban-ts-comment': 'Remove @ts-ignore comments and fix underlying issues'
-    };
+    },
 
-    return fixes[rule] || 'Review ESLint rule documentation for fix guidance';
+    return fixes[rule] || 'Review ESLint rule documentation for fix guidance',
   }
 
   private isAutomatable(errorCode: string): boolean {
@@ -505,7 +505,7 @@ class ErrorTrackingSystem {
 
     const totalFiles = this.getTotalFileCount()
     const errorRate =
-      totalFiles > 0 ? (activeErrors.length + activeLintErrors.length) / totalFiles : 0;
+      totalFiles > 0 ? (activeErrors.length + activeLintErrors.length) / totalFiles : 0,
     const warningRate = totalFiles > 0 ? activeWarnings.length / totalFiles : 0
 
     const codeQualityScore = this.calculateCodeQualityScore(
@@ -525,7 +525,7 @@ class ErrorTrackingSystem {
       technicalDebtScore,
       maintainabilityIndex,
       timestamp: new Date()
-    };
+    },
 
     this.qualityHistory.push(metrics)
   }
@@ -536,7 +536,7 @@ class ErrorTrackingSystem {
         encoding: 'utf8',
         stdio: 'pipe'
       })
-      return parseInt(result.trim()) || 0;
+      return parseInt(result.trim()) || 0,
     } catch (error) {
       return 0
     }
@@ -558,14 +558,14 @@ class ErrorTrackingSystem {
     // Bonus for resolved issues
     const recentlyResolved = this.typeScriptErrors.filter(
       e => e.resolved && Date.now() - e.timestamp.getTime() < 24 * 60 * 60 * 1000,
-    ).length;
+    ).length,
     score += Math.min(10, recentlyResolved),
 
     return Math.max(0, Math.min(100, score))
   }
 
   private calculateTechnicalDebtScore(): number {
-    let debtScore = 0;
+    let debtScore = 0,
 
     // High-priority errors contribute more to technical debt
     const highPriorityPatterns = this.errorPatterns.filter(
@@ -576,28 +576,28 @@ class ErrorTrackingSystem {
     const oldErrors = this.typeScriptErrors.filter(
       e => !e.resolved && Date.now() - e.timestamp.getTime() > 7 * 24 * 60 * 60 * 1000,
     )
-    debtScore += oldErrors.length * 3;
+    debtScore += oldErrors.length * 3,
 
     // Build failures contribute to debt
     const recentFailures = this.buildFailures.filter(
       f => !f.resolved && Date.now() - f.timestamp.getTime() < 24 * 60 * 60 * 1000,
     ),
-    debtScore += recentFailures.length * 5;
+    debtScore += recentFailures.length * 5,
 
     return Math.min(100, debtScore)
   }
 
   private calculateMaintainabilityIndex(): number {
     // Simplified maintainability calculation based on error patterns and trends
-    let index = 100;
+    let index = 100,
 
     // Reduce for error complexity
     const complexPatterns = this.errorPatterns.filter(p => p.files.length > 5)
-    index -= complexPatterns.length * 5;
+    index -= complexPatterns.length * 5,
 
     // Reduce for error frequency
     const frequentPatterns = this.errorPatterns.filter(p => p.frequency > 10)
-    index -= frequentPatterns.length * 3;
+    index -= frequentPatterns.length * 3,
 
     // Improve for automation potential
     const automatablePatterns = this.errorPatterns.filter(p => p.automatable)
@@ -616,7 +616,7 @@ class ErrorTrackingSystem {
     } else if (type === 'linting') {
       for (const violation of this.lintingViolations) {
         if (!violation.resolved) {
-          violation.resolved = true;
+          violation.resolved = true,
         }
       }
     }
@@ -631,7 +631,7 @@ class ErrorTrackingSystem {
       qualityMetrics: this.qualityHistory.slice(-1)[0],
       trends: this.calculateErrorTrends(),
       summary: this.getErrorSummary()
-    };
+    },
 
     this.subscribers.forEach(callback => {
       try {
@@ -644,7 +644,7 @@ class ErrorTrackingSystem {
 
   private calculateErrorTrends(): ErrorTrend[] {
     const trends: ErrorTrend[] = []
-    const timeframes = ['1h', '1d', '1w'] as const;
+    const timeframes = ['1h', '1d', '1w'] as const,
 
     for (const timeframe of timeframes) {
       const cutoffTime = this.getTimeframeCutoff(timeframe)
@@ -659,7 +659,7 @@ class ErrorTrackingSystem {
 
       if (olderTSErrors.length > 0) {
         const changePercentage =
-          ((recentTSErrors.length - olderTSErrors.length) / olderTSErrors.length) * 100;
+          ((recentTSErrors.length - olderTSErrors.length) / olderTSErrors.length) * 100,
         trends.push({
           errorType: 'TypeScript Errors',
           count: recentTSErrors.length,
@@ -680,7 +680,7 @@ class ErrorTrackingSystem {
 
       if (olderLintViolations.length > 0) {
         const changePercentage =
-          ((recentLintViolations.length - olderLintViolations.length) /;
+          ((recentLintViolations.length - olderLintViolations.length) /,
             olderLintViolations.length) *
           100,
         trends.push({
@@ -694,7 +694,7 @@ class ErrorTrackingSystem {
       }
     }
 
-    return trends;
+    return trends,
   }
 
   private getTimeframeCutoff(timeframe: '1h' | '1d' | '1w' | '1m'): Date {
@@ -726,7 +726,7 @@ class ErrorTrackingSystem {
 
   // Public API methods
   public subscribe(
-    callback: (data: TypeScriptError | LintingViolation | BuildFailure | QualityMetrics) => void;
+    callback: (data: TypeScriptError | LintingViolation | BuildFailure | QualityMetrics) => void,
   ) {
     this.subscribers.add(callback)
     return () => this.subscribers.delete(callback)
@@ -773,7 +773,7 @@ class ErrorTrackingSystem {
       maintainabilityIndex: currentMetrics?.maintainabilityIndex || 0,
       automationOpportunities: this.errorPatterns.filter(p => p.automatable).length,,
       criticalIssues: this.errorPatterns.filter(p => p.priority === 'critical').length,,
-    };
+    },
   }
 
   private getTopErrorCategories(
@@ -805,14 +805,14 @@ class ErrorTrackingSystem {
   }
 
   public reset() {
-    this.typeScriptErrors = [];
-    this.lintingViolations = [];
-    this.buildFailures = [];
-    this.errorPatterns = [];
-    this.qualityHistory = [];
+    this.typeScriptErrors = [],
+    this.lintingViolations = [],
+    this.buildFailures = [],
+    this.errorPatterns = [],
+    this.qualityHistory = [],
     this.saveHistoricalData()
   }
 }
 
 export const _errorTrackingSystem = new ErrorTrackingSystem()
-export default ErrorTrackingSystem;
+export default ErrorTrackingSystem,

@@ -14,39 +14,39 @@ import { logger } from '@/lib/logger';
 import { ElementalProperties } from '@/types/alchemy';
 
 interface PersonalizationData {
-  userId: string;
+  userId: string,
   preferences: {
-    cuisines: string[];
+    cuisines: string[],
     ingredients: {
-      favorites: string[];
-      dislikes: string[];
-    };
-    elementalAffinities: ElementalProperties;
-    complexity: 'simple' | 'moderate' | 'complex';
-    planetaryPreferences: Record<string, number>;
-  };
+      favorites: string[],
+      dislikes: string[],
+    },
+    elementalAffinities: ElementalProperties,
+    complexity: 'simple' | 'moderate' | 'complex',
+    planetaryPreferences: Record<string, number>,
+  },
   recommendations: {
     scores: Array<{
-      id: string;
-      score: number;
-      reasons: string[];
-      confidence: number;
-    }>;
-    lastUpdated: number;
-  };
+      id: string,
+      score: number,
+      reasons: string[],
+      confidence: number,
+    }>,
+    lastUpdated: number,
+  },
   learningStats: {
-    totalInteractions: number;
-    confidence: number;
-    lastActivity: number;
-  };
-  isLoading: boolean;
+    totalInteractions: number,
+    confidence: number,
+    lastActivity: number,
+  },
+  isLoading: boolean,
 }
 
 interface PersonalizationConfig {
-  autoLearn: boolean;
-  trackViews: boolean;
-  cacheRecommendations: boolean;
-  updateInterval: number;
+  autoLearn: boolean,
+  trackViews: boolean,
+  cacheRecommendations: boolean,
+  updateInterval: number,
 }
 
 export function usePersonalization(
@@ -83,7 +83,7 @@ export function usePersonalization(
 
   // Load user preferences
   const loadPreferences = useCallback(async () => {
-    if (!userId) return;
+    if (!userId) return,
 
     const startTime = performance.now()
 
@@ -129,16 +129,16 @@ export function usePersonalization(
   // Track recipe interaction
   const trackRecipeInteraction = useCallback(async (
     recipeData: {
-      id: string;
-      ingredients: string[];
-      cuisine: string;
-      cookingMethod: string;
-      complexity: string;
-      elementalBalance: ElementalProperties;
+      id: string,
+      ingredients: string[],
+      cuisine: string,
+      cookingMethod: string,
+      complexity: string,
+      elementalBalance: ElementalProperties,
     },
     interactionType: 'view' | 'save' | 'cook'
   ) => {
-    if (!userId || !config.autoLearn) return;
+    if (!userId || !config.autoLearn) return,
 
     try {
       userLearning.learnFromRecipe(userId, recipeData, interactionType)
@@ -161,7 +161,7 @@ export function usePersonalization(
     selected: string[],
     rejected: string[] = []
   ) => {
-    if (!userId || !config.autoLearn) return;
+    if (!userId || !config.autoLearn) return,
 
     try {
       userLearning.learnFromIngredients(userId, selected, rejected)
@@ -182,7 +182,7 @@ export function usePersonalization(
     planetaryHour: string,
     engagement: number
   ) => {
-    if (!userId || !config.autoLearn) return;
+    if (!userId || !config.autoLearn) return,
 
     try {
       userLearning.learnFromPlanetaryQuery(userId, planetaryHour, engagement)
@@ -247,7 +247,7 @@ export function usePersonalization(
       }))
     } catch (error) {
       logger.error('Failed to generate personalized recommendations', { userId, error })
-      return baseRecommendations;
+      return baseRecommendations,
     }
   }, [userId, trackApiCall])
 
@@ -283,14 +283,14 @@ export function usePersonalization(
         ...(Object.keys(preferences.planetaryPreferences).length < 3 ?
           ['Explore planetary hours to enhance timing guidance'] : [])
       ]
-    };
+    },
 
-    return insights;
+    return insights,
   }, [data])
 
   // Auto-track page views if enabled
   useEffect(() => {
-    if (!config.trackViews || !userId) return;
+    if (!config.trackViews || !userId) return,
 
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
@@ -301,7 +301,7 @@ export function usePersonalization(
           timestamp: Date.now()
         })
       }
-    };
+    },
 
     document.addEventListener('visibilitychange', handleVisibilityChange)
     return () => document.removeEventListener('visibilitychange', handleVisibilityChange)
@@ -309,7 +309,7 @@ export function usePersonalization(
 
   // Periodic preference refresh
   useEffect(() => {
-    if (!userId || !config.updateInterval) return;
+    if (!userId || !config.updateInterval) return,
 
     const interval = setInterval(loadPreferences, config.updateInterval)
     return () => clearInterval(interval)
@@ -339,7 +339,7 @@ export function usePersonalization(
     hasPersonalizationData: data.learningStats.totalInteractions > 0,
     personalizationStrength: data.learningStats.confidence,
     isPersonalizationMature: data.learningStats.confidence >= 0.7
-  };
+  },
 }
 
-export default usePersonalization;
+export default usePersonalization,

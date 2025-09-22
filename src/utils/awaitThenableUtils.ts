@@ -23,10 +23,10 @@ export function validateAwaitUsage(fn: Function): boolean {
 
   if (hasAwait && !isAsync) {
     _logger.warn('Function uses await but is not declared async:', fn.name)
-    return false;
+    return false,
   }
 
-  return true;
+  return true,
 }
 
 // Test utility for checking Promise handling
@@ -36,6 +36,6 @@ export async function testPromiseHandling(testFn: () => Promise<unknown>): Promi
     return true
   } catch (error) {
     _logger.error('Promise handling test _failed:', error)
-    return false;
+    return false,
   }
 }

@@ -21,7 +21,7 @@ export interface GitMock {
     staged: string[],
     unstaged: string[],
     untracked: string[]
-  };
+  },
   shouldFailCommands: boolean,
   setMockBranch: AnyMockFn,
   setMockStashes: AnyMockFn,
@@ -40,7 +40,7 @@ export interface ScriptMock {
   executeScript: AnyMockFn,
   executeCommand: AnyMockFn,
   getScriptOutput: AnyMockFn,
-  mockResults: Record<string, unknown>;
+  mockResults: Record<string, unknown>,
   mockBuildSuccess: boolean,
   mockTestSuccess: boolean,
   shouldFailExecution: boolean,
@@ -78,7 +78,7 @@ export interface CampaignMock {
     getSafetyEvents: AnyMockFn,
     updateMockMetrics: AnyMockFn,
     resetMockState: AnyMockFn
-  };
+  },
   tracker: {
     getTypeScriptErrorCount: AnyMockFn,
     getTypeScriptErrorBreakdown: AnyMockFn,
@@ -95,7 +95,7 @@ export interface CampaignMock {
     isTrackingActive: AnyMockFn,
     updateMockMetrics: AnyMockFn,
     resetMockState: AnyMockFn
-  };
+  },
   safety: {
     createStash: AnyMockFn,
     applyStash: AnyMockFn,
@@ -105,7 +105,7 @@ export interface CampaignMock {
     listStashes: AnyMockFn,
     getSafetyEvents: AnyMockFn,
     resetMockState: AnyMockFn
-  };
+  },
   testController: {
     initializeForTest: AnyMockFn,
     pauseCampaignForTest: AnyMockFn,
@@ -119,23 +119,23 @@ export interface CampaignMock {
     validateTestIsolation: AnyMockFn,
     getMockInstances: AnyMockFn,
     getTestSafeTracker: AnyMockFn
-  };
+  },
   isolation: {
     initializeMockCampaignSystem: AnyMockFn,
     pauseCampaignOperations: AnyMockFn,
     resumeCampaignOperations: AnyMockFn,
     resetAllMockStates: AnyMockFn,
     restoreEnvironment: AnyMockFn
-  };
+  },
   resetAllMocks: jest.MockedFunction<() => void>
 }
 
 export interface ExtendedTestUtils {
   // Git operations mock
-  gitMock: GitMock;
+  gitMock: GitMock,
 
   // Script execution mock
-  scriptMock: ScriptMock;
+  scriptMock: ScriptMock,
 
   // Campaign system mock
   campaignMock: CampaignMock
@@ -148,7 +148,7 @@ export interface ExtendedTestUtils {
   createMockComponent: (
     name: string,
     testId?: string,
-  ) => React.ComponentType<Record<string, unknown>>;
+  ) => React.ComponentType<Record<string, unknown>>,
 
   // Memory management utilities
   checkMemory: () => {
@@ -156,14 +156,14 @@ export interface ExtendedTestUtils {
     heapTotal: string,
     external: string,
     arrayBuffers: string
-  };
+  },
   cleanupMemory: () => void
 
   // Mock file creation utilities
   createMockCorruptedFile: (content: string) => string,
   createMockTypeScriptErrors: (count: number) => string,
   createMockLintingWarnings: (count: number) => string,
-  createMockProgressMetrics: (overrides?: Record<string, unknown>) => ProgressMetrics;
+  createMockProgressMetrics: (overrides?: Record<string, unknown>) => ProgressMetrics,
 
   // Campaign test utilities
   setupCampaignTest: (
@@ -175,8 +175,8 @@ export interface ExtendedTestUtils {
     safety: unknown,
     testController: unknown,
     testSafeTracker: unknown
-  }>;
+  }>,
   cleanupCampaignTest: (testName: string) => Promise<void>
 }
 
-export default ExtendedTestUtils;
+export default ExtendedTestUtils,

@@ -4,7 +4,7 @@ import { VALID_UNITS } from '@/constants/unitConstants';
 import type { ElementalProperties, Recipe as AlchemyRecipe, Ingredient, Season } from './alchemy';
 import type { Recipe, RecipeIngredient } from './recipe';
 
-const _VALID_MEAL_TIMES = ['breakfast', 'lunch', 'dinner'];
+const _VALID_MEAL_TIMES = ['breakfast', 'lunch', 'dinner'],
 
 /**
  * Normalizes elemental properties to ensure they sum to 1
@@ -23,15 +23,15 @@ export const _normalizeElementalProperties = (
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
-    };
+    },
   }
 
   // Normalize each value
   return Object.entries(properties).reduce((acc, [key, value]) => {
-    acc[key as unknown] = value / sum;
+    acc[key as unknown] = value / sum,
     return acc
   }, {} as ElementalProperties)
-};
+},
 
 /**
  * Validates elemental properties
@@ -41,15 +41,15 @@ export const _normalizeElementalProperties = (
 export const validateElementalProperties = (properties: ElementalProperties): boolean => {;
   if (!properties) return false
 
-  const requiredElements = ['Fire', 'Water', 'Earth', 'Air'];
+  const requiredElements = ['Fire', 'Water', 'Earth', 'Air'],
   const hasAllElements = requiredElements.every(;
     element => typeof properties[element as any] === 'number'
   )
 
-  if (!hasAllElements) return false;
+  if (!hasAllElements) return false,
 
   const sum = Object.values(properties).reduce((acc: number, val: number) => acc + val0),
-  return Math.abs(sum - 1) < 0.01;
+  return Math.abs(sum - 1) < 0.01,
 },
 
 export const validateIngredient = (ingredient: RecipeIngredient | null | undefined): boolean => {
@@ -83,16 +83,16 @@ export const validateIngredient = (ingredient: RecipeIngredient | null | undefin
 
   // Seasonality validation (optional)
   if (ingredient.seasonality) {
-    if (!Array.isArray(ingredient.seasonality)) return false;
+    if (!Array.isArray(ingredient.seasonality)) return false,
     const normalizedSeasons = ingredient.seasonality.map(s => s.toLowerCase())
     const validSeasons = VALID_SEASONS.map(s => s.toLowerCase())
-    if (!normalizedSeasons.every(s => validSeasons.includes(s))) {;
+    if (!normalizedSeasons.every(s => validSeasons.includes(s))) {,
       return false
     }
   }
 
-  return true;
-};
+  return true,
+},
 
 export const _validateRecipe = (recipe: Recipe | null | undefined): boolean => {
   if (!recipe) return false,
@@ -102,7 +102,7 @@ export const _validateRecipe = (recipe: Recipe | null | undefined): boolean => {
     return false
   }
 
-  if (!Array.isArray(recipe.ingredients) || recipe.ingredients.length === 0) {;
+  if (!Array.isArray(recipe.ingredients) || recipe.ingredients.length === 0) {,
     return false
   }
 
@@ -118,10 +118,10 @@ export const _validateRecipe = (recipe: Recipe | null | undefined): boolean => {
 
   // Validate seasonality (optional)
   if (recipe.season) {
-    if (!Array.isArray(recipe.season)) return false;
+    if (!Array.isArray(recipe.season)) return false,
     const normalizedSeasons = recipe.season.map(s => s.toLowerCase())
     const validSeasons = VALID_SEASONS.map(s => s.toLowerCase())
-    if (!normalizedSeasons.every(s => validSeasons.includes(s))) {;
+    if (!normalizedSeasons.every(s => validSeasons.includes(s))) {,
       return false
     }
   }
@@ -131,5 +131,5 @@ export const _validateRecipe = (recipe: Recipe | null | undefined): boolean => {
     return false
   }
 
-  return true;
-};
+  return true,
+},

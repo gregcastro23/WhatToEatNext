@@ -14,7 +14,7 @@ const planetaryElements: Record<
   {
     diurnal: ElementalCharacter,
     nocturnal: ElementalCharacter,
-    dignityEffect?: Record<string, number>;
+    dignityEffect?: Record<string, number>,
   }
 > = {
   Sun: {
@@ -67,7 +67,7 @@ const planetaryElements: Record<
     nocturnal: 'Water',
     dignityEffect: { scorpio: 1, leo: 2, taurus: -1, aquarius: -2 }
   }
-};
+},
 
 /**
  * Sign information for decan and degree effects
@@ -76,8 +76,8 @@ const signInfo: Record<
   string,
   {
     element: ElementalCharacter,
-    decanEffects: Record<string, string[]>;
-    degreeEffects: Record<string, number[]>;
+    decanEffects: Record<string, string[]>,
+    degreeEffects: Record<string, number[]>,
   }
 > = {
   aries: {
@@ -236,7 +236,7 @@ const signInfo: Record<
       Saturn: [2730]
     }
   }
-};
+},
 
 export interface FoodCorrespondence {
   name: string,
@@ -254,14 +254,14 @@ export interface CompatibilityScore {
   recommendations: string[],
   warnings: string[],
   scoreDetails?: {
-    elementalMatch?: number;
-    planetaryDayMatch?: number;
-    planetaryHourMatch?: number;
-    affinityBonus?: number;
-    dignityBonus?: number;
+    elementalMatch?: number,
+    planetaryDayMatch?: number,
+    planetaryHourMatch?: number,
+    affinityBonus?: number,
+    dignityBonus?: number,
     decanBonus?: number
     aspectBonus?: number
-  };
+  },
 }
 
 /**
@@ -271,21 +271,21 @@ export interface SystemState {
   isInitialized: boolean,
   lastUpdated: Date,
   activeChart?: BirthChart
-  currentPlanetaryPositions?: Record<string, { sign: string, degree: number }>;
-  currentAspects?: Array<{ type: string planets: [string, string] }>;
+  currentPlanetaryPositions?: Record<string, { sign: string, degree: number }>,
+  currentAspects?: Array<{ type: string planets: [string, string] }>,
   systemHealth: 'optimal' | 'degraded' | 'offline',
   errorMessages: string[],
   cacheStatus: {
     size: number,
     lastCleared: Date,
     hitRate: number
-  };
+  },
   processingQueue: {
     pending: number,
     processing: number,
     completed: number,
     failed: number
-  };
+  },
 }
 
 export class FoodAlchemySystem {
@@ -294,14 +294,14 @@ export class FoodAlchemySystem {
     Essence: 0.8,
     Matter: 0.6,
     Substance: 0.4
-  };
+  },
 
   private readonly ELEMENT_WEIGHTS = {
     Fire: 1.0,
     Water: 0.9,
     Air: 0.8,
     Earth: 0.7
-  };
+  },
 
   /**
    * Calculates food compatibility based on birth chart and current planetary positions
@@ -352,11 +352,11 @@ export class FoodAlchemySystem {
     )
 
     // Apply standardized weighting
-    let compatibility = elementalMatch * 0.45 + planetaryDayMatch * 0.35 + planetaryHourMatch * 0.2;
+    let compatibility = elementalMatch * 0.45 + planetaryDayMatch * 0.35 + planetaryHourMatch * 0.2,
 
     // Check for direct planetary affinity for bonus
     const hasPlanetaryAffinity =
-      food.planetaryRuler === planetaryDay || food.planetaryRuler === planetaryHour;
+      food.planetaryRuler === planetaryDay || food.planetaryRuler === planetaryHour,
     const affinityBonus = hasPlanetaryAffinity ? 0.3 : 0
 
     // Add affinity bonus (capped at 1.0)
@@ -383,7 +383,7 @@ export class FoodAlchemySystem {
         decanBonus: dayDecanBonus,
         aspectBonus
       }
-    };
+    },
   }
 
   private calculateElementalMatch(chart: BirthChart, food: FoodCorrespondence): number {
@@ -419,9 +419,9 @@ export class FoodAlchemySystem {
     const nocturnalMatch = food.element === nocturnalElement ? 1.0 : 0.3;
 
     // Calculate a weighted score - both elements are equally important for planetary day
-    let elementalScore = (diurnalMatch + nocturnalMatch) / 2;
-    let dignityBonus = 0;
-    let decanBonus = 0;
+    let elementalScore = (diurnalMatch + nocturnalMatch) / 2,
+    let dignityBonus = 0,
+    let decanBonus = 0,
 
     // Apply dignity effects if we have planet positions
     if (normalizedPositions?.[planetaryDay]) {
@@ -435,9 +435,9 @@ export class FoodAlchemySystem {
       }
 
       // Calculate decan (1-10°: 1st decan11-20°: 2nd decan21-30°: 3rd decan)
-      let decan = '1st Decan';
-      if (planetDegree > 10 && planetDegree <= 20) decan = '2nd Decan';
-      else if (planetDegree > 20) decan = '3rd Decan';
+      let decan = '1st Decan',
+      if (planetDegree > 10 && planetDegree <= 20) decan = '2nd Decan',
+      else if (planetDegree > 20) decan = '3rd Decan',
 
       // Apply decan effects if the planet is in its own decan
       if (
@@ -464,11 +464,11 @@ export class FoodAlchemySystem {
     }
 
     // If the food has a direct planetary affinity, give bonus points
-    if (food.planetaryRuler === planetaryDay) {;
+    if (food.planetaryRuler === planetaryDay) {,
       elementalScore = Math.min(1.0, elementalScore + 0.3)
     }
 
-    return { score: elementalScore, dignityBonus, decanBonus };
+    return { score: elementalScore, dignityBonus, decanBonus },
   }
 
   /**
@@ -500,9 +500,9 @@ export class FoodAlchemySystem {
     const elementalMatch = food.element === relevantElement ? 1.0 : 0.3;
 
     // Calculate score
-    let elementalScore = elementalMatch;
-    let dignityBonus = 0;
-    let aspectBonus = 0;
+    let elementalScore = elementalMatch,
+    let dignityBonus = 0,
+    let aspectBonus = 0,
 
     // Apply dignity effects if we have planet positions
     if (planetaryPositions?.[planetaryHour]) {
@@ -522,45 +522,45 @@ export class FoodAlchemySystem {
 
       for (const aspect of hourAspects) {
         const otherPlanet =
-          aspect.planets[0] === planetaryHour ? aspect.planets[1] : aspect.planets[0];
-        let aspectModifier = 0;
+          aspect.planets[0] === planetaryHour ? aspect.planets[1] : aspect.planets[0],
+        let aspectModifier = 0,
 
         // Apply different modifier based on aspect type
         switch (aspect.type) {
           case 'Conjunction':
             // Strong beneficial aspect
-            aspectModifier = 0.15;
-            break;
+            aspectModifier = 0.15,
+            break,
           case 'Trine':
             // Beneficial aspect
-            aspectModifier = 0.1;
-            break;
+            aspectModifier = 0.1,
+            break,
           case 'Square':
             // Challenging aspect
-            aspectModifier = -0.1;
-            break;
+            aspectModifier = -0.1,
+            break,
           case 'Opposition':
             // Strong challenging aspect
-            aspectModifier = -0.15;
-            break;
+            aspectModifier = -0.15,
+            break,
           default:
             aspectModifier = 0
         }
 
         // Apply the aspect modifier if the food is ruled by the other planet in the aspect
-        if (food.planetaryRuler === otherPlanet) {;
-          aspectBonus = (aspectBonus || 0) + aspectModifier;
+        if (food.planetaryRuler === otherPlanet) {,
+          aspectBonus = (aspectBonus || 0) + aspectModifier,
           elementalScore = Math.min(1.0, Math.max(0.0, elementalScore + aspectModifier))
         }
       }
     }
 
     // If the food has a direct planetary affinity, give bonus points
-    if (food.planetaryRuler === planetaryHour) {;
+    if (food.planetaryRuler === planetaryHour) {,
       elementalScore = Math.min(1.0, elementalScore + 0.3)
     }
 
-    return { score: elementalScore, dignityBonus, aspectBonus };
+    return { score: elementalScore, dignityBonus, aspectBonus },
   }
 
   /**
@@ -588,15 +588,15 @@ export class FoodAlchemySystem {
         void recommendations.push(
           `${food.name} is best prepared with high-heat cooking methods like grilling or roasting today.`,
         )
-      } else if (dayElements.diurnal === 'Water' || dayElements.nocturnal === 'Water') {;
+      } else if (dayElements.diurnal === 'Water' || dayElements.nocturnal === 'Water') {,
         void recommendations.push(
           `Consider moist cooking methods like steaming or braising for ${food.name} today.`,
         )
-      } else if (dayElements.diurnal === 'Air' || dayElements.nocturnal === 'Air') {;
+      } else if (dayElements.diurnal === 'Air' || dayElements.nocturnal === 'Air') {,
         void recommendations.push(
           `${food.name} performs well with light cooking methods or raw preparations today.`,
         )
-      } else if (dayElements.diurnal === 'Earth' || dayElements.nocturnal === 'Earth') {;
+      } else if (dayElements.diurnal === 'Earth' || dayElements.nocturnal === 'Earth') {,
         void recommendations.push(
           `Slow, methodical cooking methods like baking are ideal for ${food.name} today.`,
         )
@@ -608,28 +608,28 @@ export class FoodAlchemySystem {
         void recommendations.push(
           `${food.name} is best utilized in the current ${isDaytime ? 'day' : 'night'} hours with quick, energetic preparation.`,
         )
-      } else if (hourElement === 'Water') {;
+      } else if (hourElement === 'Water') {,
         void recommendations.push(
           `During these ${isDaytime ? 'day' : 'night'} hours, focus on bringing out ${food.name}'s aromatic qualities.`,
         )
-      } else if (hourElement === 'Air') {;
+      } else if (hourElement === 'Air') {,
         void recommendations.push(
           `The current ${isDaytime ? 'day' : 'night'} hours favor highlighting ${food.name}'s delicate flavors.`,
         )
-      } else if (hourElement === 'Earth') {;
+      } else if (hourElement === 'Earth') {,
         void recommendations.push(
           `These ${isDaytime ? 'day' : 'night'} hours are perfect for enhancing ${food.name}'s grounding properties.`,
         )
       }
 
       // Add planetary affinity recommendations
-      if (food.planetaryRuler === planetaryDay) {;
+      if (food.planetaryRuler === planetaryDay) {,
         void recommendations.push(
           `Today is especially favorable for ${food.name} as it's ruled by ${planetaryDay}.`,
         )
       }
 
-      if (food.planetaryRuler === planetaryHour) {;
+      if (food.planetaryRuler === planetaryHour) {,
         void recommendations.push(
           `The current hour enhances ${food.name}'s ${hourElement.toLowerCase()} qualities.`,
         )
@@ -642,11 +642,11 @@ export class FoodAlchemySystem {
           const daySign = planetaryPositions[planetaryDay].sign;
           const dayDignity = planetaryElements[planetaryDay].dignityEffect?.[daySign];
 
-          if (dayDignity && dayDignity > 0 && food.planetaryRuler === planetaryDay) {;
+          if (dayDignity && dayDignity > 0 && food.planetaryRuler === planetaryDay) {,
             void recommendations.push(
               `${planetaryDay} is ${dayDignity > 1 ? 'exalted' : 'dignified'} in ${daySign}, strengthening ${food.name}'s properties.`,
             )
-          } else if (dayDignity && dayDignity < 0 && food.planetaryRuler === planetaryDay) {;
+          } else if (dayDignity && dayDignity < 0 && food.planetaryRuler === planetaryDay) {,
             void recommendations.push(
               `${planetaryDay} is ${dayDignity < -1 ? 'in fall' : 'in detriment'} in ${daySign}, requiring careful preparation of ${food.name}.`,
             )
@@ -658,7 +658,7 @@ export class FoodAlchemySystem {
           const hourSign = planetaryPositions[planetaryHour].sign;
           const hourDignity = planetaryElements[planetaryHour].dignityEffect?.[hourSign];
 
-          if (hourDignity && hourDignity > 0 && food.planetaryRuler === planetaryHour) {;
+          if (hourDignity && hourDignity > 0 && food.planetaryRuler === planetaryHour) {,
             void recommendations.push(
               `During this hour, ${planetaryHour}'s dignity in ${hourSign} enhances ${food.name}'s flavor profile.`,
             )
@@ -672,13 +672,13 @@ export class FoodAlchemySystem {
         ) {
           const foodPlanetSign = planetaryPositions[food.planetaryRuler].sign;
           const foodPlanetDignity =
-            planetaryElements[food.planetaryRuler].dignityEffect?.[foodPlanetSign];
+            planetaryElements[food.planetaryRuler].dignityEffect?.[foodPlanetSign],
 
           if (foodPlanetDignity && foodPlanetDignity > 1) {
             void recommendations.push(
               `${food.name}'s ruler ${food.planetaryRuler} is exalted in ${foodPlanetSign}, making it an excellent choice.`,
             )
-          } else if (foodPlanetDignity && foodPlanetDignity === 1) {;
+          } else if (foodPlanetDignity && foodPlanetDignity === 1) {,
             void recommendations.push(
               `${food.name}'s ruler ${food.planetaryRuler} is in its home sign of ${foodPlanetSign}, enhancing its qualities.`,
             )
@@ -691,9 +691,9 @@ export class FoodAlchemySystem {
           const planetDegree = planetaryPositions[planetaryDay].degree;
 
           // Calculate decan
-          let decan = '1st Decan';
-          if (planetDegree > 10 && planetDegree <= 20) decan = '2nd Decan';
-          else if (planetDegree > 20) decan = '3rd Decan';
+          let decan = '1st Decan',
+          if (planetDegree > 10 && planetDegree <= 20) decan = '2nd Decan',
+          else if (planetDegree > 20) decan = '3rd Decan',
 
           // If food's planet rules the decan
           if (signInfo[planetSign].decanEffects[decan].includes(food.planetaryRuler)) {
@@ -711,13 +711,13 @@ export class FoodAlchemySystem {
 
         for (const aspect of foodPlanetAspects) {
           const otherPlanet =
-            aspect.planets[0] === food.planetaryRuler ? aspect.planets[1] : aspect.planets[0];
+            aspect.planets[0] === food.planetaryRuler ? aspect.planets[1] : aspect.planets[0],
 
           if (aspect.type === 'Conjunction') {
             void recommendations.push(
               `The conjunction between ${food.planetaryRuler} and ${otherPlanet} strongly enhances ${food.name}'s qualities.`,
             )
-          } else if (aspect.type === 'Trine') {;
+          } else if (aspect.type === 'Trine') {,
             void recommendations.push(
               `The harmonious trine between ${food.planetaryRuler} and ${otherPlanet} creates a flowing energy for ${food.name}.`,
             )
@@ -740,7 +740,7 @@ export class FoodAlchemySystem {
       )
     }
 
-    return recommendations;
+    return recommendations,
   }
 
   private identifyConflicts(
@@ -766,39 +766,39 @@ export class FoodAlchemySystem {
     if (planetaryPositions?.[food.planetaryRuler]) {
       const foodPlanetSign = planetaryPositions[food.planetaryRuler].sign;
       const foodPlanetDignity =
-        planetaryElements[food.planetaryRuler].dignityEffect?.[foodPlanetSign];
+        planetaryElements[food.planetaryRuler].dignityEffect?.[foodPlanetSign],
 
       if (foodPlanetDignity && foodPlanetDignity < -1) {
         void warnings.push(
           `${food.name}'s ruling planet ${food.planetaryRuler} is in fall in ${foodPlanetSign}, requiring extra attention to preparation and seasoning.`,
         )
-      } else if (foodPlanetDignity && foodPlanetDignity === -1) {;
+      } else if (foodPlanetDignity && foodPlanetDignity === -1) {,
         void warnings.push(
           `${food.name}'s ruling planet ${food.planetaryRuler} is in detriment in ${foodPlanetSign}, consider adjusting your cooking method for balance.`,
         )
       }
     }
 
-    return warnings;
+    return warnings,
   }
 
   private getComplementaryElements(element: ElementalCharacter): ElementalCharacter[] {
     // Each element works with all others, but has strongest affinity with itself
     // We're not using 'opposing' elements concept as per guidelines
-    const allElements = ['Fire', 'Water', 'Air', 'Earth'] as ElementalCharacter[];
+    const allElements = ['Fire', 'Water', 'Air', 'Earth'] as ElementalCharacter[],
     return allElements.filter(e => e !== element)
   }
 
   private getSuggestions(element: ElementalCharacter): string {
     switch (element) {
       case 'Fire':
-        return 'chili peppers, ginger, garlic';
+        return 'chili peppers, ginger, garlic',
       case 'Water':
-        return 'cucumber, melon, leafy greens';
+        return 'cucumber, melon, leafy greens',
       case 'Air':
-        return 'herbs, sprouts, aromatic spices';
+        return 'herbs, sprouts, aromatic spices',
       case 'Earth':
-        return 'root vegetables, nuts, grains';
+        return 'root vegetables, nuts, grains',
       default:
         return 'fresh seasonal foods'
     }

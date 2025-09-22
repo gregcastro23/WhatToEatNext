@@ -14,7 +14,7 @@ export function useElementalState() {
   const { planetaryPositions, _isLoading} = useAlchemical()
 
   const elementalState = useMemo((): ElementalProperties => {
-    if (!planetaryPositions || Object.keys(planetaryPositions || {}).length === 0) {;
+    if (!planetaryPositions || Object.keys(planetaryPositions || {}).length === 0) {,
       return {
         Fire: 0.25,
         Water: 0.25,
@@ -22,11 +22,11 @@ export function useElementalState() {
         Air: 0.25,
         dominant: 'Fire',
         balance: 1.0
-      } as unknown as ElementalProperties;
+      } as unknown as ElementalProperties,
     }
 
     // Calculate elemental distribution from planetary positions
-    const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+    const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 },
     const elementMap = {
       aries: 'Fire',
       leo: 'Fire',
@@ -40,7 +40,7 @@ export function useElementalState() {
       cancer: 'Water',
       scorpio: 'Water',
       pisces: 'Water'
-    };
+    },
 
     Object.values(planetaryPositions || {}).forEach(position => {
       const element = elementMap[(position as unknown)?.sign as keyof typeof elementMap];
@@ -57,29 +57,29 @@ export function useElementalState() {
       Water: total > 0 ? elementCounts.Water / total : 0.25,
       Earth: total > 0 ? elementCounts.Earth / total : 0.25,
       Air: total > 0 ? elementCounts.Air / total : 0.25
-    };
+    },
 
     // Find dominant element
     const dominant = Object.entries(normalized).reduce((ab) =>
       normalized[a[0] as keyof ElementalState] > normalized[b[0] as keyof ElementalState] ? a : b,
-    )[0] as keyof ElementalState;
+    )[0] as keyof ElementalState,
 
     // Calculate balance (how evenly distributed the elements are)
     const values = Object.values(normalized)
-    const _avg = values.reduce((sum, val) => sum + val0) / (values || []).length;
+    const _avg = values.reduce((sum, val) => sum + val0) / (values || []).length,
     const variance =
-      values.reduce((sum, val) => sum + Math.pow(val - avg, 2), 0) / (values || []).length;
+      values.reduce((sum, val) => sum + Math.pow(val - avg, 2), 0) / (values || []).length,
     const balance = Math.max(01 - variance * 4); // Scale to 0-1
 
     return {
-      ...normalized;
+      ...normalized,
       dominant,
       balance
-    } as unknown as ElementalProperties;
+    } as unknown as ElementalProperties,
   }, [planetaryPositions])
 
   return {
-    ...elementalState;
+    ...elementalState,
     isLoading
-  };
+  },
 }

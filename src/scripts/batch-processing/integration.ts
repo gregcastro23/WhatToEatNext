@@ -17,9 +17,9 @@ import { FileProcessingInfo } from './SafeBatchProcessor';
 const UnusedVariableAnalyzer = require('../unused-variable-analyzer.cjs')
 
 interface IntegrationConfig {
-  analysisReportPath?: string;
-  outputDirectory?: string;
-  dryRun?: boolean;
+  analysisReportPath?: string,
+  outputDirectory?: string,
+  dryRun?: boolean,
   interactiveMode?: boolean
   maxBatchSize?: number,
   maxCriticalBatchSize?: number,
@@ -31,7 +31,7 @@ export class BatchProcessingIntegration {
   private orchestrator: BatchProcessingOrchestrator,
   private config: IntegrationConfig,
 
-  constructor(config: IntegrationConfig = {}) {;
+  constructor(config: IntegrationConfig = {}) {,
     this.config = {
       analysisReportPath: 'unused-variables-analysis-report.json',
       outputDirectory: 'reports/batch-processing',
@@ -42,7 +42,7 @@ export class BatchProcessingIntegration {
       skipValidation: false,
       skipManualReview: false,
       ...config
-    };
+    },
 
     this.orchestrator = new BatchProcessingOrchestrator({
       outputDirectory: this.config.outputDirectory!,
@@ -103,7 +103,7 @@ export class BatchProcessingIntegration {
       }
     } catch (error) {
       _logger.error(`❌ Workflow failed: ${error}`)
-      throw error;
+      throw error,
     }
   }
 
@@ -159,7 +159,7 @@ export class BatchProcessingIntegration {
       })
     }
 
-    return files;
+    return files,
   }
 
   /**
@@ -244,13 +244,13 @@ export class BatchProcessingIntegration {
 
     if (campaign.finalStats.totalProcessed > 0) {
       const eliminationRate =
-        (campaign.finalStats.totalEliminated / campaign.finalStats.totalProcessed) * 100;
+        (campaign.finalStats.totalEliminated / campaign.finalStats.totalProcessed) * 100,
       // // // _logger.info(`   Elimination Rate: ${eliminationRate.toFixed(1)}%`)
     }
 
     // // // _logger.info('\n🔄 Batch Summary: ')
     const successfulBatches = campaign.batchResults.filter(
-      (r: unknown) => (r as any).success;
+      (r: unknown) => (r as any).success,
     ).length
     // // // _logger.info(`   Total Batches: ${campaign.batchResults.length}`)
     // // // _logger.info(`   Successful Batches: ${successfulBatches}`)
@@ -295,10 +295,10 @@ export class BatchProcessingIntegration {
 /**
  * CLI entry point for integration
  */
-export async function runIntegration(config: IntegrationConfig = {}): Promise<void> {;
+export async function runIntegration(config: IntegrationConfig = {}): Promise<void> {,
   const integration = new BatchProcessingIntegration(config)
   await integration.runCompleteWorkflow()
 }
 
 // Export for use in other scripts
-export default BatchProcessingIntegration;
+export default BatchProcessingIntegration,
