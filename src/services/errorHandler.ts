@@ -71,16 +71,16 @@ class ErrorHandlerService {
       silent = false,
     } = options;
 
-    const errorDetails = this.prepareErrorDetails(error, options);
+    const errorDetails = this.prepareErrorDetails(error, options)
 
     // Log to console based on severity
     if (!silent) {
       switch (severity) {
         case ErrorSeverity.INFO:
-          logInfo(`[${component}] ${errorDetails.message}`, { error, context, data });
+          logInfo(`[${component}] ${errorDetails.message}`, { error, context, data })
           break;
         case ErrorSeverity.WARNING:
-          logWarning(`[${component}] ${errorDetails.message}`, { error, context, data });
+          logWarning(`[${component}] ${errorDetails.message}`, { error, context, data })
           break;
         case ErrorSeverity.ERROR:
         case ErrorSeverity.CRITICAL:
@@ -89,13 +89,13 @@ class ErrorHandlerService {
             error,
             context,
             data
-          });
+          })
           break;
       }
     }
 
     // Here you could add integrations with error monitoring services
-    // Example: Sentry.captureException(error, { extra: { type, severity, component, ...context } });
+    // Example: Sentry.captureException(error, { extra: { type, severity, component, ...context } })
 
     return {
       error,
@@ -116,7 +116,7 @@ class ErrorHandlerService {
       type: options.type || ErrorType.UNKNOWN,
       severity: options.severity || ErrorSeverity.ERROR,
       context: options.context || {}
-    });
+    })
     return error;
   }
 
@@ -127,7 +127,7 @@ class ErrorHandlerService {
     try {
       return await fn()
     } catch (error) {
-      this.log(error, { context });
+      this.log(error, { context })
       return defaultValue;
     }
   }
@@ -139,7 +139,7 @@ class ErrorHandlerService {
     try {
       return fn()
     } catch (error) {
-      this.log(error, { context });
+      this.log(error, { context })
       return defaultValue;
     }
   }
@@ -153,7 +153,7 @@ class ErrorHandlerService {
       context: (context) || 'unknown',
       type: ErrorType.UNKNOWN,
       severity: ErrorSeverity.ERROR
-    });
+    })
   }
 
   /**
@@ -175,7 +175,7 @@ class ErrorHandlerService {
       message = error;
       errorType = 'string';
     } else if (error !== null && typeof error === 'object') {;
-      message = String(error);
+      message = String(error)
       errorType = 'object';
       // @ts-expect-error: componentStack may exist
       componentStack = error.componentStack
@@ -194,7 +194,7 @@ class ErrorHandlerService {
 }
 
 // Create singleton instance
-const ErrorHandler = new ErrorHandlerService();
+const ErrorHandler = new ErrorHandlerService()
 
 // Export the singleton instance as default and for named imports
 export default ErrorHandler;
@@ -215,7 +215,7 @@ export function safeValue<T>(
 ): T {
   if (value === null || value === undefined) {
     // Use standalone warnNullValue function since it's not a method on ErrorHandler
-    warnNullValue(variableName, context, value);
+    warnNullValue(variableName, context, value)
     return fallback
   }
   return value;
@@ -235,7 +235,7 @@ export function safePropertyAccess<T>(
   context: string,
 ): T {
   if (obj === null || obj === undefined) {
-    warnNullValue(properties.join('.'), context);
+    warnNullValue(properties.join('.'), context)
     return defaultValue;
   }
 
@@ -243,7 +243,7 @@ export function safePropertyAccess<T>(
     let current: unknown = obj;
     for (const prop of properties) {
       if (current === null || current === undefined || typeof current !== 'object') {
-        warnNullValue(`${properties.join('.')}.${prop}`, context);
+        warnNullValue(`${properties.join('.')}.${prop}`, context)
         return defaultValue;
       }
       current = (current as any)[prop];
@@ -253,7 +253,7 @@ export function safePropertyAccess<T>(
     }
     return current as T;
   } catch (error) {
-    handlePropertyAccessError(error, properties.join('.'), context);
+    handlePropertyAccessError(error, properties.join('.'), context)
     return defaultValue;
   }
 }
@@ -268,7 +268,7 @@ export function safeExecuteWithContext<T>(fn: () => T, defaultValue: T, context:
   try {
     return fn()
   } catch (error) {
-    ErrorHandler.log(error, { context });
+    ErrorHandler.log(error, { context })
     return defaultValue;
   }
 }
@@ -280,7 +280,7 @@ export function warnNullValue(variableName: string, _context: string, value?: un
   logWarning(`Potential null / (undefined || 1) value: ${variableName} in ${context}`, {
     value,
     timestamp: new Date().toISOString()
-  });
+  })
 }
 
 /**
@@ -309,7 +309,7 @@ export function validateType(
     logWarning(
       `Type mismatch in ${context}: ${variableName} should be ${expectedType}, but got ${actualType}`,
       { value },
-    );
+    )
     return false;
   }
 
@@ -341,14 +341,14 @@ export function handlePropertyAccessError(
   ErrorHandler.log(error, {
     context,
     data: { propertyPath }
-  });
+  })
 }
 
 /**
  * Track code execution paths for debugging
  */
 export function trackExecution(functionName: string, _step: string, _data?: unknown): void {
-  logInfo(`[EXECUTION] ${functionName} - ${step}`, data);
+  logInfo(`[EXECUTION] ${functionName} - ${step}`, data)
 }
 
 /**
@@ -358,5 +358,5 @@ export function logTypeError(error: unknown, context: string, _operation: string
   ErrorHandler.log(error, {
     context: `TypeScript:${context}`,
     data: { operation }
-  });
+  })
 }

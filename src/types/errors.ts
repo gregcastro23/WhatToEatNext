@@ -9,7 +9,7 @@ export interface ApiError extends Error {
 export class NotFoundError extends Error implements ApiError {
   statusCode = 404;
   constructor(message = 'Resource not found') {
-    super(message);
+    super(message)
     this.name = 'NotFoundError';
   }
 }
@@ -19,7 +19,7 @@ export class ValidationError extends Error implements ApiError {
   details?: unknown
 
   constructor(message = 'Invalid request data', details?: unknown) {
-    super(message);
+    super(message)
     this.name = 'ValidationError';
     this.details = details
   }
@@ -29,7 +29,7 @@ export class ServiceError extends Error implements ApiError {
   statusCode = 500;
 
   constructor(message = 'Service error occurred') {
-    super(message);
+    super(message)
     this.name = 'ServiceError';
   }
 }
@@ -38,7 +38,7 @@ export class AstrologyCalculationError extends Error implements ApiError {
   statusCode = 500;
 
   constructor(message = 'Error during astronomical calculation') {
-    super(message);
+    super(message)
     this.name = 'AstrologyCalculationError';
   }
 }

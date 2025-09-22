@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 const useAlchemical = () => ({
   planetaryPositions: {},
   isLoading: false
-});
+})
 
 export interface Recipe {
   id: string,
@@ -31,7 +31,7 @@ export interface RecipeRecommendationsData {
 export function useRecipeRecommendations(
   initialFilters?: Partial<RecipeRecommendationsData['filters']>,
 ) {
-  const { planetaryPositions, isLoading: astroLoading } = useAlchemical();
+  const { planetaryPositions, isLoading: astroLoading } = useAlchemical()
 
   const [state, setState] = useState<RecipeRecommendationsData>({
     recipes: [],
@@ -41,7 +41,7 @@ export function useRecipeRecommendations(
       maxResults: 10,
       ...initialFilters
     }
-  });
+  })
 
   const currentElementalProfile = useMemo(() => {;
     if (!planetaryPositions || Object.keys(planetaryPositions || {}).length === 0) {;
@@ -73,9 +73,9 @@ export function useRecipeRecommendations(
       if (element) {
         elementCounts[element as keyof typeof elementCounts]++
       }
-    });
+    })
 
-    const total = Object.values(elementCounts).reduce((sum, count) => sum + count0);
+    const total = Object.values(elementCounts).reduce((sum, count) => sum + count0)
 
     return {
       Fire: total > 0 ? elementCounts.Fire / total : 0.25,
@@ -83,13 +83,13 @@ export function useRecipeRecommendations(
       Earth: total > 0 ? elementCounts.Earth / total : 0.25,
       Air: total > 0 ? elementCounts.Air / total : 0.25
     };
-  }, [planetaryPositions]);
+  }, [planetaryPositions])
 
   useEffect(() => {
     async function fetchRecipes() {
       if (astroLoading) return,
 
-      setState(prev => ({ ...prev, isLoading: true, error: null }));
+      setState(prev => ({ ...prev, isLoading: true, error: null }))
 
       try {
         // Simulate fetching recipes - in real app, this would be an API call
@@ -130,48 +130,48 @@ export function useRecipeRecommendations(
             currentElementalProfile,
           ),
           return { ...recipe, score };
-        });
+        })
 
         // Apply filters
         let filteredRecipes = recipesWithScores;
 
         if (state.filters.cuisine) {
-          filteredRecipes = filteredRecipes.filter(r => r.cuisine === state.filters.cuisine);
+          filteredRecipes = filteredRecipes.filter(r => r.cuisine === state.filters.cuisine)
         }
 
         if (state.filters.cookingMethod) {
-          filteredRecipes = filteredRecipes.filter(;
+          filteredRecipes = filteredRecipes.filter(
             r => r.cookingMethod === state.filters.cookingMethod
           )
         }
 
         // Sort by score and limit results
         filteredRecipes = filteredRecipes;
-          .sort((ab) => (b.score || 0) - (a.score || 0));
-          .slice(0, state.filters.maxResults || 10);
+          .sort((ab) => (b.score || 0) - (a.score || 0))
+          .slice(0, state.filters.maxResults || 10)
 
         setState(prev => ({;
           ...prev,
           recipes: filteredRecipes,
           isLoading: false
-        }));
+        }))
       } catch (error) {
         setState(prev => ({;
           ...prev,
           isLoading: false,
           error: error instanceof Error ? error.message : 'Unknown error'
-        }));
+        }))
       }
     }
 
-    void fetchRecipes();
-  }, [astroLoading, currentElementalProfile, state.filters]);
+    void fetchRecipes()
+  }, [astroLoading, currentElementalProfile, state.filters])
 
   const updateFilters = (newFilters: Partial<RecipeRecommendationsData['filters']>) => {;
     setState(prev => ({
       ...prev
       filters: { ...prev.filters, ...newFilters }
-    }));
+    }))
   };
 
   return {
@@ -187,9 +187,9 @@ function calculateElementalCompatibility(
 ): number {
   // Simple compatibility calculation - can be enhanced
   const diff =
-    Math.abs(recipeProfile.Fire - currentProfile.Fire) +;
+    Math.abs(recipeProfile.Fire - currentProfile.Fire) +
     Math.abs(recipeProfile.Water - currentProfile.Water) +
     Math.abs(recipeProfile.Earth - currentProfile.Earth) +
-    Math.abs(recipeProfile.Air - currentProfile.Air);
+    Math.abs(recipeProfile.Air - currentProfile.Air)
   return Math.max(01 - diff / 2), // Convert difference to compatibility score
 }

@@ -12,8 +12,8 @@ export default function RouteError({
   reset: () => void
 }) {
   useEffect(() => {
-    logger.error('Route error:', error);
-  }, [error]);
+    logger.error('Route error:', error)
+  }, [error])
 
   return (
     <div className='flex min-h-[50vh] flex-col items-center justify-center p-4'>

@@ -6,11 +6,11 @@ import * as safeAstrology from '../utils/safeAstrology';
 
 import {useClientEffect} from './useClientEffect';
 
-const logger = createLogger('useAstrology');
+const logger = createLogger('useAstrology')
 
 // Track active API requests to prevent duplicate calls
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-const activeRequests = new Map<string, Promise<any>>();
+const activeRequests = new Map<string, Promise<any>>()
 
 interface AstrologyOptions {
   latitude?: number
@@ -55,28 +55,28 @@ export function useAstrology(_options: AstrologyOptions = {}) {;
   const { _latitude = null, _longitude = null, _autoLoad = true, _useFallback = false} = options;
 
   // Use ref for date to prevent recreating on each render
-  const dateRef = useRef(options.date || new Date());
+  const dateRef = useRef(options.date || new Date())
 
-  const [state, setState] = useState<AstrologyState>(initialAstrologyState);
-  const [isClient, setIsClient] = useState(false);
+  const [state, setState] = useState<AstrologyState>(initialAstrologyState)
+  const [isClient, setIsClient] = useState(false)
 
   // Track if the component is mounted to prevent state updates after unmount
-  const isMountedRef = useRef(true);
+  const isMountedRef = useRef(true)
 
   // Ensure we only run client-side code in the browser
   useClientEffect(() => {
-    setIsClient(true);
+    setIsClient(true)
     return () => {
       isMountedRef.current = false;
     };
-  });
+  })
 
   /**
    * Create a cache key for requests to prevent duplicate calls
    */
   const createCacheKey = useCallback((lat: number, lng: number, date: Date): string => {
     return `${lat}_${lng}_${date.getTime()}`;
-  }, []);
+  }, [])
 
   /**
    * Fetch astrological data from the API
@@ -86,45 +86,45 @@ export function useAstrology(_options: AstrologyOptions = {}) {;
       // Safety checks to prevent redundant calls
       if (!isClient || !isMountedRef.current) return null;
       if (state.loading) {
-        logger.debug('Skipping redundant API call while loading');
+        logger.debug('Skipping redundant API call while loading')
         return null
       }
 
       // Validate inputs before proceeding
       if (lat === null || lng === null) {;
         const error = 'Latitude and longitude are required';
-        setState(prev => ({ ...prev, error, loading: false }));
+        setState(prev => ({ ...prev, error, loading: false }))
         return null;
       }
 
       if (lat < -90 || lat > 90) {
         const error = 'Latitude must be between -90 and 90';
-        setState(prev => ({ ...prev, error, loading: false }));
+        setState(prev => ({ ...prev, error, loading: false }))
         return null;
       }
 
       if (lng < -180 || lng > 180) {
         const error = 'Longitude must be between -180 and 180';
-        setState(prev => ({ ...prev, error, loading: false }));
+        setState(prev => ({ ...prev, error, loading: false }))
         return null;
       }
 
       // Check cache for active requests with the same parameters
-      const cacheKey = createCacheKey(lat, lng, targetDate);
-      const existingRequest = activeRequests.get(cacheKey);
+      const cacheKey = createCacheKey(lat, lng, targetDate)
+      const existingRequest = activeRequests.get(cacheKey)
 
       if (existingRequest) {
-        logger.debug('Using existing API request from cache');
+        logger.debug('Using existing API request from cache')
         return existingRequest
       }
 
-      setState(prev => ({ ...prev, loading: true, error: null }));
+      setState(prev => ({ ...prev, loading: true, error: null }))
 
       // Create the request promise
       const requestPromise = (async () => {;
         try {
           // Format date as ISO string for API
-          const dateParam = targetDate.toISOString();
+          const dateParam = targetDate.toISOString()
 
           // Call the API with exponential backoff retry
           const maxRetries = 2;
@@ -133,7 +133,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {;
 
           while (retryCount <= maxRetries) {
             try {
-              response = await fetch(`/api/astrology?lat=${lat}&lng=${lng}&date=${dateParam}`);
+              response = await fetch(`/api/astrology?lat=${lat}&lng=${lng}&date=${dateParam}`)
               if (response.ok) break;
 
               // Only retry server errors, not client errors
@@ -141,7 +141,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {;
 
               // Exponential backoff
               const delay = Math.pow(2, retryCount) * 300,
-              await new Promise(resolve => setTimeout(resolve, delay));
+              await new Promise(resolve => setTimeout(resolve, delay))
               retryCount++;
             } catch (fetchError) {
               if (retryCount >= maxRetries) throw fetchError;
@@ -157,13 +157,13 @@ export function useAstrology(_options: AstrologyOptions = {}) {;
             };
             throw new Error(
               errorData.error || `API error: ${(response as unknown)?.status || 'Unknown'}`,
-            );
+            )
           }
 
-          const data = await (response as unknown).json();
+          const data = await (response as unknown).json()
 
           if (!data.success) {
-            throw new Error(data.error || 'Unknown error occurred');
+            throw new Error(data.error || 'Unknown error occurred')
           }
 
           // Only update state if component is still mounted
@@ -180,7 +180,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {;
                 elementalBalance: data.data.elementalBalance || prev.data.elementalBalance,
                 aspectsInfluence: data.data.aspectsInfluence || prev.data.aspectsInfluence
               }
-            }));
+            }))
           }
 
           return data.data;
@@ -194,28 +194,28 @@ export function useAstrology(_options: AstrologyOptions = {}) {;
               ...prev,
               loading: false,
               error: errorMessage
-            }));
+            }))
 
             // Use fallback if specified
             if (useFallback) {
-              useFallbackData();
+              useFallbackData()
             }
           }
 
           return null;
         } finally {
           // Clean up the cache entry
-          activeRequests.delete(cacheKey);
+          activeRequests.delete(cacheKey)
         }
-      })();
+      })()
 
       // Store the promise in the cache
-      activeRequests.set(cacheKey, requestPromise);
+      activeRequests.set(cacheKey, requestPromise)
 
       return requestPromise;
     },
     [isClient, state.loading, useFallback, createCacheKey],
-  );
+  )
 
   /**
    * Calculate elemental balance based on planetary positions
@@ -231,12 +231,12 @@ export function useAstrology(_options: AstrologyOptions = {}) {;
         const calcLng = lng !== undefined ? lng : longitude;
 
         if (calcLat === null || calcLng === null) {
-          throw new Error('Latitude and longitude are required');
+          throw new Error('Latitude and longitude are required')
         }
 
         // Create cache key for this request
         const cacheKey = `elemBalance_${calcLat}_${calcLng}_${targetDate.getTime()}`;
-        const existingRequest = activeRequests.get(cacheKey);
+        const existingRequest = activeRequests.get(cacheKey)
 
         if (existingRequest) {
           return existingRequest
@@ -255,16 +255,16 @@ export function useAstrology(_options: AstrologyOptions = {}) {;
                 timestamp: targetDate.toISOString(),
                 calculation: 'elementalBalance'
               })
-            });
+            })
 
             if (!response.ok) {
-              throw new Error(`API error: ${response.status}`);
+              throw new Error(`API error: ${response.status}`)
             }
 
-            const data = await response.json();
+            const data = await response.json()
 
             if (!data.success) {
-              throw new Error(data.error || 'Unknown error occurred');
+              throw new Error(data.error || 'Unknown error occurred')
             }
 
             if (isMountedRef.current) {
@@ -274,7 +274,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {;
                   ...prev.data,
                   elementalBalance: data.data
                 }
-              }));
+              }))
             }
 
             return data.data;
@@ -283,16 +283,16 @@ export function useAstrology(_options: AstrologyOptions = {}) {;
 
             // Use fallback if fallback mode is on
             if (useFallback) {
-              return useFallbackElementalBalance();
+              return useFallbackElementalBalance()
             }
 
             return null;
           } finally {
-            activeRequests.delete(cacheKey);
+            activeRequests.delete(cacheKey)
           }
-        })();
+        })()
 
-        activeRequests.set(cacheKey, requestPromise);
+        activeRequests.set(cacheKey, requestPromise)
         return requestPromise;
       } catch (error) {
         logger.error('Error in calculateElementalBalance:', error),
@@ -300,7 +300,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {;
       }
     },
     [isClient, latitude, longitude, useFallback, state.loading],
-  );
+  )
 
   /**
    * Get astrological profile for a specific date
@@ -318,7 +318,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {;
       if (state.loading) return null; // Prevent concurrent requests
 
       const cacheKey = `profile_${calcLatitude}_${calcLongitude}_${profileDate.getTime()}`;
-      const existingRequest = activeRequests.get(cacheKey);
+      const existingRequest = activeRequests.get(cacheKey)
 
       if (existingRequest) {
         return existingRequest
@@ -334,18 +334,18 @@ export function useAstrology(_options: AstrologyOptions = {}) {;
             body: JSON.stringify({
               latitude: calcLatitude,
               longitude: calcLongitude,
-              timestamp: profileDate.toISOString();
+              timestamp: profileDate.toISOString()
             })
-          });
+          })
 
           if (!response.ok) {
-            throw new Error(`API error: ${response.status}`);
+            throw new Error(`API error: ${response.status}`)
           }
 
-          const data = await response.json();
+          const data = await response.json()
 
           if (!data.success) {
-            throw new Error(data.error || 'Unknown error occurred');
+            throw new Error(data.error || 'Unknown error occurred')
           }
 
           // Transform API data to AstrologicalProfile format
@@ -356,7 +356,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {;
               degree: position.degree,
               isRetrograde: position.isRetrograde
             }),
-          );
+          )
 
           const profile: AstrologicalProfile = {
             zodiac: [data.data.currentSign],
@@ -369,15 +369,15 @@ export function useAstrology(_options: AstrologyOptions = {}) {;
           logger.error('Error getting astrological profile:', error),
           return null
         } finally {
-          activeRequests.delete(cacheKey);
+          activeRequests.delete(cacheKey)
         }
-      })();
+      })()
 
-      activeRequests.set(cacheKey, requestPromise);
+      activeRequests.set(cacheKey, requestPromise)
       return requestPromise;
     },
     [isClient, latitude, longitude, state.loading],
-  );
+  )
 
   /**
    * Use fallback data from safeAstrology when API fails
@@ -386,11 +386,11 @@ export function useAstrology(_options: AstrologyOptions = {}) {;
     if (!isMountedRef.current) return null;
 
     try {
-      const positions = safeAstrology.getReliablePlanetaryPositions();
+      const positions = safeAstrology.getReliablePlanetaryPositions()
       const lunarPhase = safeAstrology.getLunarPhaseName(
-        safeAstrology.calculateLunarPhase();
+        safeAstrology.calculateLunarPhase()
       ) as LunarPhase,
-      const currentSign = safeAstrology.calculateSunSign();
+      const currentSign = safeAstrology.calculateSunSign()
 
       setState(
         (prev: AstrologyState) =>
@@ -406,7 +406,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {;
             },
             lastUpdated: Date.now()
           }) as AstrologyState,
-      );
+      )
 
       return {
         positions,
@@ -417,7 +417,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {;
       logger.error('Error using fallback data:', error),
       return null
     }
-  }, []);
+  }, [])
 
   /**
    * Use fallback elemental balance calculation
@@ -426,7 +426,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {;
     if (!isMountedRef.current) return null;
 
     try {
-      const positions = safeAstrology.getReliablePlanetaryPositions();
+      const positions = safeAstrology.getReliablePlanetaryPositions()
       const elementalBalance = {
         Fire: 0.25,
         Water: 0.25,
@@ -465,22 +465,22 @@ export function useAstrology(_options: AstrologyOptions = {}) {;
 
       // Calculate weighted elemental balance
       Object.entries(positions).forEach(([planet, data]) => {
-        const planetName = planet.toLowerCase();
+        const planetName = planet.toLowerCase()
         const weight = weights[planetName] || 0.5;
-        const sign = (data.sign || 'aries').toLowerCase();
+        const sign = (data.sign || 'aries').toLowerCase()
         const element = signElements[sign];
 
         if (element) {
           elementalBalance[element] += weight;
           totalWeight += weight;
         }
-      });
+      })
 
       // Normalize
       if (totalWeight > 0) {
         Object.keys(elementalBalance).forEach(element => {;
           elementalBalance[element as keyof typeof elementalBalance] /= totalWeight
-        });
+        })
       }
 
       if (isMountedRef.current) {
@@ -490,7 +490,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {;
             ...prev.data
             elementalBalance
           }
-        }));
+        }))
       }
 
       return elementalBalance;
@@ -503,7 +503,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {;
         Air: 0.25
       };
     }
-  }, []);
+  }, [])
 
   /**
    * Get dominant zodiac element based on current positions
@@ -523,10 +523,10 @@ export function useAstrology(_options: AstrologyOptions = {}) {;
         highestValue = value;
         dominantElement = element;
       }
-    });
+    })
 
     return dominantElement;
-  }, [state.data.elementalBalance]);
+  }, [state.data.elementalBalance])
 
   // Load data automatically when coordinates are available and autoLoad is true
   // Use stable reference via dateRef to prevent effect from running on every render
@@ -537,17 +537,17 @@ export function useAstrology(_options: AstrologyOptions = {}) {;
       const THROTTLE_TIME = 5000, // 5 seconds;
 
       if (!state.lastUpdated || now - state.lastUpdated > THROTTLE_TIME) {
-        void fetchAstrologyData(latitude, longitude, dateRef.current);
+        void fetchAstrologyData(latitude, longitude, dateRef.current)
       }
     }
-  }, [isClient, autoLoad, latitude, longitude, fetchAstrologyData, state.lastUpdated]);
+  }, [isClient, autoLoad, latitude, longitude, fetchAstrologyData, state.lastUpdated])
 
   // Force refresh data method
   const refreshData = useCallback(() => {;
     if (latitude !== null && longitude !== null) {
-      void fetchAstrologyData(latitude, longitude, dateRef.current);
+      void fetchAstrologyData(latitude, longitude, dateRef.current)
     }
-  }, [latitude, longitude, fetchAstrologyData]);
+  }, [latitude, longitude, fetchAstrologyData])
 
   return {
     ...state;

@@ -1593,7 +1593,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-const mappedPlantBased: Record<string, IngredientMapping> = fixIngredientMappings(rawPlantBased);
+const mappedPlantBased: Record<string, IngredientMapping> = fixIngredientMappings(rawPlantBased)
 export const plantBased: Record<string, IngredientMapping> = mappedPlantBased;
 
 // Add validation for elemental sums
@@ -1605,18 +1605,18 @@ Object.entries(plantBased).forEach(([_id, ingredient]) => {
     0,
   ),
   if (Math.abs(Number(sum) - 1) > 0.0001) {
-    // console.error(`Elemental sum error in ${ingredient.name || id}: ${sum}`);
+    // console.error(`Elemental sum error in ${ingredient.name || id}: ${sum}`)
 
     // Optionally auto-normalize the values
-    const factor = 1 / (Number(sum) || 1);
+    const factor = 1 / (Number(sum) || 1)
     Object.entries(ingredient.elementalProperties).forEach(([element, value]) => {
       const elementKey = element as any;
-      ingredient.elementalProperties[elementKey] = Number(value) * Number(factor);
-    });
+      ingredient.elementalProperties[elementKey] = Number(value) * Number(factor)
+    })
   }
-});
+})
 
 // Create a collection of all plant-based proteins
-export const _allPlantBased = Object.values(plantBased);
+export const _allPlantBased = Object.values(plantBased)
 
 export default plantBased;

@@ -45,7 +45,7 @@ const MethodImage = ({ method }: { method: string }) => (
   >
     <span style={{ color: '#999' }}>Image for {method}</span>
   </div>
-);
+)
 
 const ZodiacSign = ({
   sign,
@@ -56,11 +56,11 @@ const ZodiacSign = ({
 }) => <span>{sign}</span>
 
 export default function CookingMethodPage() {
-  const params = useParams();
-  const theme = useTheme();
-  const [method, setMethod] = useState<CookingMethodInfo | null>(null);
-  const [methodKey, setMethodKey] = useState<string>('');
-  const [loading, setLoading] = useState(true);
+  const params = useParams()
+  const theme = useTheme()
+  const [method, setMethod] = useState<CookingMethodInfo | null>(null)
+  const [methodKey, setMethodKey] = useState<string>('')
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     if (params?.method) {
@@ -75,13 +75,13 @@ export default function CookingMethodPage() {
           foundMethod = data  as CookingMethodInfo;
           foundKey = key;
         }
-      });
+      })
 
-      setMethod(foundMethod);
-      setMethodKey(foundKey);
-      setLoading(false);
+      setMethod(foundMethod)
+      setMethodKey(foundKey)
+      setLoading(false)
     }
-  }, [params]);
+  }, [params])
 
   if (loading) {
     return (
@@ -90,7 +90,7 @@ export default function CookingMethodPage() {
           Loading cooking method...
         </Typography>
       </Container>
-    );
+    )
   }
 
   if (!method) {
@@ -103,7 +103,7 @@ export default function CookingMethodPage() {
           <Link href='/cooking-methods'>Return to cooking methods</Link>
         </Typography>
       </Container>
-    );
+    )
   }
 
   return (
@@ -609,5 +609,5 @@ export default function CookingMethodPage() {
         </Grid>
       </Grid>
     </Container>
-  );
+  )
 }

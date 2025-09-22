@@ -576,11 +576,11 @@ export function getSaucesByElement(element: keyof ElementalProperties): Sauce[] 
       ([, a], [, b]) => b - a,
     )[0][0],
     return dominantElement === element;
-  });
+  })
 }
 
 export function getMarsInfluencedSauces(): Sauce[] {
-  return getSaucesByAstrologicalInfluence('Mars');
+  return getSaucesByAstrologicalInfluence('Mars')
 }
 
 const saucesExport = {

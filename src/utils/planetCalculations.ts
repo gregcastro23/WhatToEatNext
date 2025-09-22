@@ -5,7 +5,7 @@ import * as astrologyUtils from '@/utils/astrologyUtils';
 // Sun calculation
 export function calculateSunPosition(date: Date = new Date()) {
   const t =
-    (date.getTime() - new Date('2000-01-01T12:00:00Z').getTime()) / (1000 * 60 * 60 * 24 * 365.25);
+    (date.getTime() - new Date('2000-01-01T12:00:00Z').getTime()) / (1000 * 60 * 60 * 24 * 365.25)
   const longitude = 280.46061837 + 360.98564736629 * t
   return {
     sign: getSignFromLongitude(longitude),
@@ -18,7 +18,7 @@ export function calculateSunPosition(date: Date = new Date()) {
 // Moon calculation
 export function calculateMoonPosition(date: Date = new Date()) {
   const t =
-    (date.getTime() - new Date('2000-01-01T12:00:00Z').getTime()) / (1000 * 60 * 60 * 24 * 27.322);
+    (date.getTime() - new Date('2000-01-01T12:00:00Z').getTime()) / (1000 * 60 * 60 * 24 * 27.322)
   const longitude = 218.3164477 + 481267.88123421 * t
   return {
     sign: getSignFromLongitude(longitude),
@@ -31,7 +31,7 @@ export function calculateMoonPosition(date: Date = new Date()) {
 // Mercury calculation
 export function calculateMercuryPosition(date: Date = new Date()) {
   const t =
-    (date.getTime() - new Date('2000-01-01T12:00:00Z').getTime()) / (1000 * 60 * 60 * 24 * 87.969);
+    (date.getTime() - new Date('2000-01-01T12:00:00Z').getTime()) / (1000 * 60 * 60 * 24 * 87.969)
   const longitude = 252.25084 + 538101.03 * t
   return {
     sign: getSignFromLongitude(longitude),
@@ -59,15 +59,15 @@ function getSignFromLongitude(longitude: number): string {
     'aquarius',
     'pisces'
   ];
-  const signIndex = Math.floor((longitude % 360) / 30);
+  const signIndex = Math.floor((longitude % 360) / 30)
   return signs[signIndex];
 }
 
 // Add to your existing function or file
 export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
   // Calculate positions for the basic planets
-  const sun = calculateSunPosition(date);
-  const moon = calculateMoonPosition(date);
+  const sun = calculateSunPosition(date)
+  const moon = calculateMoonPosition(date)
   const mercury = calculateMercuryPosition(date)
   // Add calculations for other planets...
 
@@ -95,11 +95,11 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
     const _southNodeValue = Number(nodeDataTyped.southNode) || (northNodeValue + 180) % 360;
 
     // Convert longitude to sign and degree
-    const northNodeSign = getSignFromLongitude(Number(northNodeValue));
+    const northNodeSign = getSignFromLongitude(Number(northNodeValue))
     const northNodeDegree = Number(northNodeValue) % 30;
 
     const southNodeLongitude = (Number(northNodeValue) + 180) % 360;
-    const southNodeSign = getSignFromLongitude(southNodeLongitude);
+    const southNodeSign = getSignFromLongitude(southNodeLongitude)
     const southNodeDegree = southNodeLongitude % 30;
 
     // Apply surgical type casting for node data properties
@@ -121,7 +121,7 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
   } catch (error) {
     // If that fails, fall back to the simplified calculation
     try {
-      const lunarNodes = astrologyUtils.calculateLunarNodes(date);
+      const lunarNodes = astrologyUtils.calculateLunarNodes(date)
       northNode = (lunarNodes as any).northNode;
       southNode = (lunarNodes as any).southNode;
     } catch (fallbackError) {

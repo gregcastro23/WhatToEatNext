@@ -19,7 +19,7 @@ const AlchemicalCalculator = createLazyComponent(
           <p>Performing complex elemental calculations...</p>
           {/* Calculation results would be rendered here */}
         </div>
-      );
+      )
     })
   })),
   // Custom loading component
@@ -37,7 +37,7 @@ const AlchemicalCalculator = createLazyComponent(
       </span>
     </div>
   )
-);
+)
 
 interface LazyAlchemicalEngineProps {
   ingredients?: string[];
@@ -50,15 +50,15 @@ export const LazyAlchemicalEngine: React.FC<LazyAlchemicalEngineProps> = ({
   calculationType = 'elemental',
   onCalculationComplete,
 }) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [shouldPreload, setShouldPreload] = useState(false);
+  const [isVisible, setIsVisible] = useState(false)
+  const [shouldPreload, setShouldPreload] = useState(false)
 
   // Preload the module when user hovers over the trigger
   const handlePreloadHover = () => {
     if (!shouldPreload) {
-      setShouldPreload(true);
+      setShouldPreload(true)
       // Trigger preload
-      import('@/calculations/alchemicalEngine');
+      import('@/calculations/alchemicalEngine')
     }
   };
 
@@ -101,7 +101,7 @@ export const LazyAlchemicalEngine: React.FC<LazyAlchemicalEngineProps> = ({
         {shouldPreload && !isVisible && ' (Preloaded)'}
       </div>
     </div>
-  );
+  )
 };
 
 export default LazyAlchemicalEngine;

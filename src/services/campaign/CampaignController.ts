@@ -40,14 +40,14 @@ export class CampaignController {
       description: `Starting phase: ${phase.name}`,
       severity: SafetyEventSeverity.INFO,
       action: 'PHASE_START'
-    });
+    })
 
     try {
       // Create safety checkpoint before phase execution
-      const checkpointId = await this.createSafetyCheckpoint(`Pre-phase checkpoint: ${phase.name}`);
+      const checkpointId = await this.createSafetyCheckpoint(`Pre-phase checkpoint: ${phase.name}`)
 
       // Initialize phase metrics
-      const initialMetrics = await this.getCurrentMetrics();
+      const initialMetrics = await this.getCurrentMetrics()
 
       // Execute phase tools in sequence
       let filesProcessed = 0;
@@ -55,21 +55,21 @@ export class CampaignController {
       const warningsFixed = 0;
 
       for (const tool of phase.tools) {
-        const toolResult = await this.executeTool(tool);
+        const toolResult = await this.executeTool(tool)
         filesProcessed += toolResult.filesProcessed.length;
         errorsFixed += toolResult.changesApplied;
 
         // Validate after each tool execution
-        const validation = await this.validatePhaseProgress(phase);
+        const validation = await this.validatePhaseProgress(phase)
         if (!validation.success && this.config.safetySettings.automaticRollbackEnabled) {
-          await this.rollbackToCheckpoint(checkpointId);
-          throw new Error(`Tool execution failed: ${validation.errors.join(', ')}`);
+          await this.rollbackToCheckpoint(checkpointId)
+          throw new Error(`Tool execution failed: ${validation.errors.join(', ')}`)
         }
       }
 
       // Get final metrics and calculate improvement
-      const finalMetrics = await this.getCurrentMetrics();
-      const metricsImprovement = this.calculateMetricsImprovement(initialMetrics, finalMetrics);
+      const finalMetrics = await this.getCurrentMetrics()
+      const metricsImprovement = this.calculateMetricsImprovement(initialMetrics, finalMetrics)
 
       const executionTime = Date.now() - startTime;
 
@@ -90,7 +90,7 @@ export class CampaignController {
         description: `Phase completed successfully: ${phase.name}`,
         severity: SafetyEventSeverity.INFO,
         action: 'PHASE_COMPLETE'
-      });
+      })
 
       return result;
     } catch (error) {
@@ -100,7 +100,7 @@ export class CampaignController {
         description: `Phase execution failed: ${(error as Error).message}`,
         severity: SafetyEventSeverity.ERROR,
         action: 'PHASE_FAILED'
-      });
+      })
 
       const executionTime = Date.now() - startTime;
 
@@ -127,7 +127,7 @@ export class CampaignController {
    */
   async validatePhaseCompletion(phase: CampaignPhase): Promise<ValidationResult> {
     try {
-      const currentMetrics = await this.getCurrentMetrics();
+      const currentMetrics = await this.getCurrentMetrics()
       const errors: string[] = [];
       const warnings: string[] = []
 
@@ -136,7 +136,7 @@ export class CampaignController {
         if (currentMetrics.typeScriptErrors.current > phase.successCriteria.typeScriptErrors) {
           errors.push(
             `TypeScript errors: ${currentMetrics.typeScriptErrors.current} > ${phase.successCriteria.typeScriptErrors}`,
-          );
+          )
         }
       }
 
@@ -145,7 +145,7 @@ export class CampaignController {
         if (currentMetrics.lintingWarnings.current > phase.successCriteria.lintingWarnings) {
           errors.push(
             `Linting warnings: ${currentMetrics.lintingWarnings.current} > ${phase.successCriteria.lintingWarnings}`,
-          );
+          )
         }
       }
 
@@ -154,7 +154,7 @@ export class CampaignController {
         if (currentMetrics.buildPerformance.currentTime > phase.successCriteria.buildTime) {
           warnings.push(
             `Build time: ${currentMetrics.buildPerformance.currentTime}s > ${phase.successCriteria.buildTime}s`,
-          );
+          )
         }
       }
 
@@ -163,15 +163,15 @@ export class CampaignController {
         if (currentMetrics.enterpriseSystems.current < phase.successCriteria.enterpriseSystems) {
           errors.push(
             `Enterprise systems: ${currentMetrics.enterpriseSystems.current} < ${phase.successCriteria.enterpriseSystems}`,
-          );
+          )
         }
       }
 
       // Run custom validation if provided
       if (phase.successCriteria.customValidation) {
-        const customResult = await phase.successCriteria.customValidation();
+        const customResult = await phase.successCriteria.customValidation()
         if (!customResult) {
-          errors.push('Custom validation failed');
+          errors.push('Custom validation failed')
         }
       }
 
@@ -204,7 +204,7 @@ export class CampaignController {
       description: `Safety checkpoint created: ${description}`,
       severity: SafetyEventSeverity.INFO,
       action: 'CHECKPOINT_CREATE'
-    });
+    })
 
     return checkpointId;
   }
@@ -219,11 +219,11 @@ export class CampaignController {
       description: `Rolling back to checkpoint: ${checkpointId}`,
       severity: SafetyEventSeverity.WARNING,
       action: 'ROLLBACK'
-    });
+    })
 
     // This will be implemented by the SafetyProtocol class
     // For now, just log the rollback attempt
-    // // // console.log(`Rollback to checkpoint ${checkpointId} requested`);
+    // // // console.log(`Rollback to checkpoint ${checkpointId} requested`)
   }
 
   /**
@@ -237,7 +237,7 @@ export class CampaignController {
    * Generate comprehensive phase report
    */
   async generatePhaseReport(phase: CampaignPhase): Promise<PhaseReport> {
-    const currentMetrics = await this.getCurrentMetrics();
+    const currentMetrics = await this.getCurrentMetrics()
     const validation = await this.validatePhaseCompletion(phase)
 
     return {
@@ -392,11 +392,11 @@ export class CampaignController {
     }
 
     if (metrics.lintingWarnings.current === 0) {;
-      achievements.push('Zero linting warnings achieved');
+      achievements.push('Zero linting warnings achieved')
     }
 
     if (metrics.buildPerformance.currentTime <= 10) {
-      achievements.push('Build time under 10 seconds maintained');
+      achievements.push('Build time under 10 seconds maintained')
     }
 
     return achievements;
@@ -410,14 +410,14 @@ export class CampaignController {
     }
 
     if (validation.warnings.length > 0) {
-      recommendations.push('Consider addressing warnings for optimal performance');
+      recommendations.push('Consider addressing warnings for optimal performance')
     }
 
     return recommendations;
   }
 
   private addSafetyEvent(event: SafetyEvent): void {
-    this.safetyEvents.push(event);
+    this.safetyEvents.push(event)
 
     // Keep only recent events to prevent memory issues
     if (this.safetyEvents.length > 1000) {

@@ -3,7 +3,7 @@ export const _mockLogger = {
   _info: jest.fn(),
   _error: jest.fn(),
   _warn: jest.fn(),
-  _debug: jest.fn();
+  _debug: jest.fn()
 };
 
 export const _mockElementalCalculator = {

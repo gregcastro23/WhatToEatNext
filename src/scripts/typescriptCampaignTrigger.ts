@@ -149,33 +149,33 @@ export async function analyzeTypeScriptErrors(): Promise<CampaignTriggerResult> 
   const startTime = Date.now()
 
   try {
-    logger.info('Starting TypeScript error analysis for campaign trigger evaluation');
+    logger.info('Starting TypeScript error analysis for campaign trigger evaluation')
 
     // 1. Get current TypeScript error count and details
-    const errorAnalysis = await getTypeScriptErrorAnalysis();
+    const errorAnalysis = await getTypeScriptErrorAnalysis()
 
     // 2. Determine if campaign should be triggered
-    const shouldTrigger = shouldTriggerCampaign(errorAnalysis.totalErrors);
+    const shouldTrigger = shouldTriggerCampaign(errorAnalysis.totalErrors)
 
     // 3. Determine campaign mode based on error count
-    const campaignMode = determineCampaignMode(errorAnalysis.totalErrors);
+    const campaignMode = determineCampaignMode(errorAnalysis.totalErrors)
 
     // 4. Generate fix recommendations
-    const recommendations = generateFixRecommendations(errorAnalysis);
+    const recommendations = generateFixRecommendations(errorAnalysis)
 
     // 5. Create batch processing schedule
-    const batchSchedule = createBatchSchedule(recommendations, campaignMode);
+    const batchSchedule = createBatchSchedule(recommendations, campaignMode)
 
     // 6. Calculate estimated duration
-    const estimatedDuration = calculateTotalEstimatedDuration(batchSchedule);
+    const estimatedDuration = calculateTotalEstimatedDuration(batchSchedule)
 
     // 7. Determine safety level
-    const safetyLevel = determineSafetyLevel(campaignMode);
+    const safetyLevel = determineSafetyLevel(campaignMode)
 
     const duration = Date.now() - startTime;
     logger.info(
       `TypeScript error analysis completed in ${duration}ms: ${errorAnalysis.totalErrors} errors found`,
-    );
+    )
 
     return {
       shouldTrigger,
@@ -215,22 +215,22 @@ export async function analyzeTypeScriptErrors(): Promise<CampaignTriggerResult> 
 async function getTypeScriptErrorAnalysis(): Promise<ErrorAnalysisResult> {
   try {
     // Get TypeScript errors using tsc command
-    const errorOutput = await getTypeScriptErrors();
+    const errorOutput = await getTypeScriptErrors()
 
     // Parse errors into structured format
-    const errors = parseTypeScriptErrors(errorOutput);
+    const errors = parseTypeScriptErrors(errorOutput)
 
     // Categorize errors
-    const errorsByCategory = categorizeErrors(errors);
+    const errorsByCategory = categorizeErrors(errors)
 
     // Group errors by file
-    const errorsByFile = groupErrorsByFile(errors);
+    const errorsByFile = groupErrorsByFile(errors)
 
     // Identify high-impact files
-    const highImpactFiles = identifyHighImpactFiles(errorsByFile);
+    const highImpactFiles = identifyHighImpactFiles(errorsByFile)
 
     // Create priority ranking
-    const priorityRanking = createPriorityRanking(errors);
+    const priorityRanking = createPriorityRanking(errors)
 
     // Generate campaign recommendations
     const campaignRecommendations = generateCampaignRecommendations(;
@@ -261,7 +261,7 @@ async function getTypeScriptErrors(): Promise<string> {
     const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
       encoding: 'utf8',
       stdio: 'pipe'
-    });
+    })
 
     return output;
   } catch (error: unknown) {
@@ -274,7 +274,7 @@ async function getTypeScriptErrors(): Promise<string> {
     if ((error as any)?.stderr || (error as any)?.message) {
       throw new Error(
         `TypeScript compilation failed: ${(error as any)?.stderr || (error as any)?.message}`,
-      );
+      )
     }
 
     // If there's no stdout or stderr, assume no errors
@@ -292,7 +292,7 @@ function parseTypeScriptErrors(errorOutput: string): TypeScriptError[] {
     return errors
   }
 
-  const lines = errorOutput.split('\n');
+  const lines = errorOutput.split('\n')
 
   for (const line of lines) {
     // Match TypeScript error format: file(line,col): error TSxxxx: message
@@ -300,11 +300,11 @@ function parseTypeScriptErrors(errorOutput: string): TypeScriptError[] {
 
     if (match) {
       const [, filePath, lineStr, colStr, code, message] = match;
-      const lineNum = parseInt(lineStr, 10);
-      const colNum = parseInt(colStr10);
+      const lineNum = parseInt(lineStr, 10)
+      const colNum = parseInt(colStr10)
 
-      const category = categorizeErrorCode(code);
-      const severity = determineSeverity(category);
+      const category = categorizeErrorCode(code)
+      const severity = determineSeverity(category)
       const priority = calculatePriority(category, severity),;
 
       errors.push({
@@ -312,11 +312,11 @@ function parseTypeScriptErrors(errorOutput: string): TypeScriptError[] {
         line: lineNum,
         column: colNum,
         code,
-        message: message.trim();
+        message: message.trim()
         category,
         priority,
         severity
-      });
+      })
     }
   }
 
@@ -382,7 +382,7 @@ function categorizeErrors(errors: TypeScriptError[]): Record<string, TypeScriptE
     if (!categorized[category]) {
       categorized[category] = [];
     }
-    categorized[category].push(error);
+    categorized[category].push(error)
   }
 
   return categorized;
@@ -399,7 +399,7 @@ function groupErrorsByFile(errors: TypeScriptError[]): Record<string, TypeScript
     if (!grouped[filePath]) {
       grouped[filePath] = [];
     }
-    grouped[filePath].push(error);
+    grouped[filePath].push(error)
   }
 
   return grouped;
@@ -424,12 +424,12 @@ function identifyHighImpactFiles(
         errorCount: errors.length;
         categories,
         averagePriority
-      });
+      })
     }
   }
 
   // Sort by error count descending
-  return highImpactFiles.sort((ab) => b.errorCount - a.errorCount);
+  return highImpactFiles.sort((ab) => b.errorCount - a.errorCount)
 }
 
 /**
@@ -455,7 +455,7 @@ function generateCampaignRecommendations(
       estimatedDuration: Math.ceil(totalErrors * 0.5), // 30 seconds per error
       safetyLevel: SafetyLevel.MAXIMUM,
       description: `Emergency campaign for ${totalErrors} critical errors`
-    });
+    })
   } else if (totalErrors >= ERROR_THRESHOLDS.HIGH) {
     recommendations.push({
       mode: CampaignMode.AGGRESSIVE,
@@ -463,7 +463,7 @@ function generateCampaignRecommendations(
       estimatedDuration: Math.ceil(totalErrors * 0.3), // 18 seconds per error
       safetyLevel: SafetyLevel.HIGH,
       description: `Aggressive campaign for ${totalErrors} high-priority errors`
-    });
+    })
   } else if (totalErrors >= ERROR_THRESHOLDS.MEDIUM) {
     recommendations.push({
       mode: CampaignMode.STANDARD,
@@ -471,7 +471,7 @@ function generateCampaignRecommendations(
       estimatedDuration: Math.ceil(totalErrors * 0.2), // 12 seconds per error
       safetyLevel: SafetyLevel.MEDIUM,
       description: `Standard campaign for ${totalErrors} errors`
-    });
+    })
   }
 
   return recommendations;
@@ -509,7 +509,7 @@ function generateFixRecommendations(analysis: ErrorAnalysisResult): FixRecommend
     if (errors.length > 0) {
       const errorCategory = category as ErrorCategory;
       const successRate = CATEGORY_SUCCESS_RATES[errorCategory] || 0.7;
-      const estimatedEffort = calculateEstimatedEffort(errors);
+      const estimatedEffort = calculateEstimatedEffort(errors)
       const batchSize = determineBatchSize(errors.length, errorCategory),;
       const priority = calculateCategoryPriority(errorCategory, errors.length),;
 
@@ -521,11 +521,11 @@ function generateFixRecommendations(analysis: ErrorAnalysisResult): FixRecommend
         batchSize,
         priority,
         successRate
-      });
+      })
     }
   }
 
-  return recommendations.sort((ab) => b.priority - a.priority);
+  return recommendations.sort((ab) => b.priority - a.priority)
 }
 
 /**
@@ -560,7 +560,7 @@ function calculateEstimatedEffort(errors: TypeScriptError[]): number {
     totalTime += baseTimePerError * multiplier;
   }
 
-  return Math.ceil(totalTime);
+  return Math.ceil(totalTime)
 }
 
 /**
@@ -625,10 +625,10 @@ function createBatchSchedule(
   const batches: ProcessingBatch[] = [];
   const safetyProtocols: SafetyProtocol[] = [];
   let totalEstimatedTime = 0;
-  let currentTime = new Date();
+  let currentTime = new Date()
 
   // Add safety protocols based on campaign mode
-  safetyProtocols.push(...getSafetyProtocols(mode));
+  safetyProtocols.push(...getSafetyProtocols(mode))
 
   for (const recommendation of recommendations) {
     const batch: ProcessingBatch = {
@@ -641,7 +641,7 @@ function createBatchSchedule(
       scheduledTime: new Date(currentTime)
     };
 
-    batches.push(batch);
+    batches.push(batch)
     totalEstimatedTime += batch.estimatedDuration;
 
     // Schedule next batch with buffer time
@@ -670,7 +670,7 @@ function getSafetyProtocols(mode: CampaignMode): SafetyProtocol[] {
         description: 'Maximum safety with validation after every file',
         triggers: ['BUILD_FAILURE', 'ERROR_INCREASE', 'CORRUPTION_DETECTED'],
         actions: ['IMMEDIATE_ROLLBACK', 'ALERT_TEAM', 'PAUSE_CAMPAIGN']
-      });
+      })
       break;
 
     case CampaignMode.AGGRESSIVE:
@@ -679,7 +679,7 @@ function getSafetyProtocols(mode: CampaignMode): SafetyProtocol[] {
         description: 'High safety with frequent validation checkpoints',
         triggers: ['BUILD_FAILURE', 'MAJOR_ERROR_INCREASE'],
         actions: ['AUTOMATIC_ROLLBACK', 'REDUCE_BATCH_SIZE']
-      });
+      })
       break;
 
     case CampaignMode.STANDARD:
@@ -688,7 +688,7 @@ function getSafetyProtocols(mode: CampaignMode): SafetyProtocol[] {
         description: 'Standard safety with build validation',
         triggers: ['BUILD_FAILURE'],
         actions: ['ROLLBACK_BATCH', 'NOTIFY_DEVELOPER']
-      });
+      })
       break;
   }
 
@@ -728,8 +728,8 @@ function generateBatchId(): string {
  */
 export async function getCurrentTypeScriptErrorCount(): Promise<number> {
   try {
-    const errorOutput = await getTypeScriptErrors();
-    const errors = parseTypeScriptErrors(errorOutput);
+    const errorOutput = await getTypeScriptErrors()
+    const errors = parseTypeScriptErrors(errorOutput)
     return errors.length;
   } catch (error) {
     logger.error('Failed to get TypeScript error count:', error),
@@ -742,7 +742,7 @@ export async function getCurrentTypeScriptErrorCount(): Promise<number> {
  */
 export async function checkCampaignTriggerConditions(): Promise<boolean> {
   try {
-    const errorCount = await getCurrentTypeScriptErrorCount();
+    const errorCount = await getCurrentTypeScriptErrorCount()
     return shouldTriggerCampaign(errorCount)
   } catch (error) {
     logger.error('Failed to check campaign trigger conditions:', error),

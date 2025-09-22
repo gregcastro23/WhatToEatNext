@@ -18,7 +18,7 @@ export const _TypedComponent: FC<PropsWithChildren<CustomProps>> = ({
       {optional && <p>Optional content</p>}
       {children}
     </div>
-  );
+  )
 };
 
 export const _TypedButton: FC<ButtonProps> = ({ title, ...buttonProps }) => {

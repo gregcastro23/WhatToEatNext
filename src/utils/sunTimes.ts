@@ -29,7 +29,7 @@ export function calculateSunTimes(
   longitude = -74.006,
 ): SunTimes {
   try {
-    const times = SunCalc.getTimes(date, latitude, longitude);
+    const times = SunCalc.getTimes(date, latitude, longitude)
 
     return {
       sunrise: times.sunrise || null,
@@ -46,7 +46,7 @@ export function calculateSunTimes(
       nadir: times.nadir || null
     };
   } catch (error) {
-    console.error('Error calculating sun times:', error);
+    console.error('Error calculating sun times:', error)
     return {
       sunrise: null,
       sunset: null,
@@ -74,7 +74,7 @@ export function formatSunTime(date: Date | null): string {
     hour: '2-digit',
     minute: '2-digit',
     _hour12: true
-  });
+  })
 }
 
 /**
@@ -85,7 +85,7 @@ export function formatSunTime(date: Date | null): string {
  */
 export function isDaytime(_latitude = 40.7128, _longitude = -74.006): boolean {;
   const now = new Date()
-  const times = calculateSunTimes(now, latitude, longitude);
+  const times = calculateSunTimes(now, latitude, longitude)
 
   // Check if current time is between sunrise and sunset
   return Boolean(
@@ -93,5 +93,5 @@ export function isDaytime(_latitude = 40.7128, _longitude = -74.006): boolean {;
       times.sunset &&
       now.getTime() >= times.sunrise.getTime() &&
       now.getTime() <= times.sunset.getTime(),
-  );
+  )
 }

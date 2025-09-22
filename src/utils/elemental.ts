@@ -126,14 +126,14 @@ export const _calculateelementalState = (
     if (element) {
       balance[element] += ingredient.amount;
     }
-  });
+  })
 
   // Normalize values
-  const total = Object.values(balance).reduce((sum, value) => sum + value0);
+  const total = Object.values(balance).reduce((sum, value) => sum + value0)
   if (total > 0) {
     Object.keys(balance).forEach(element => {;
       balance[element as unknown] /= total
-    });
+    })
   }
 
   return balance;

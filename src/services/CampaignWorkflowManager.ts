@@ -140,17 +140,17 @@ export interface RollbackStep {
 // ========== CAMPAIGN WORKFLOW MANAGER ==========;
 
 export class CampaignWorkflowManager {
-  private workflows: Map<string, CampaignWorkflow> = new Map();
-  private templates: Map<string, CampaignTemplate> = new Map();
-  private versions: Map<string, CampaignVersion[]> = new Map();
+  private workflows: Map<string, CampaignWorkflow> = new Map()
+  private templates: Map<string, CampaignTemplate> = new Map()
+  private versions: Map<string, CampaignVersion[]> = new Map()
   private campaignController: CampaignController;
   private progressTracker: ProgressTracker;
   private errorAnalyzer: TypeScriptErrorAnalyzer;
 
   constructor() {
-    this.campaignController = new CampaignController(this.getDefaultConfig());
-    this.progressTracker = new ProgressTracker();
-    this.errorAnalyzer = new TypeScriptErrorAnalyzer();
+    this.campaignController = new CampaignController(this.getDefaultConfig())
+    this.progressTracker = new ProgressTracker()
+    this.errorAnalyzer = new TypeScriptErrorAnalyzer()
     this.initializeTemplates()
   }
 
@@ -162,7 +162,7 @@ export class CampaignWorkflowManager {
   async createWorkflowFromTemplate(templateId: string, workflowName: string): Promise<string> {
     const template = this.templates.get(templateId)
     if (!template) {
-      throw new Error(`Template ${templateId} not found`);
+      throw new Error(`Template ${templateId} not found`)
     }
 
     const workflowId = `workflow_${Date.now()}`;
@@ -180,7 +180,7 @@ export class CampaignWorkflowManager {
       updatedAt: new Date()
     };
 
-    this.workflows.set(workflowId, workflow);
+    this.workflows.set(workflowId, workflow)
     return workflowId;
   }
 
@@ -203,7 +203,7 @@ export class CampaignWorkflowManager {
       updatedAt: new Date()
     };
 
-    this.workflows.set(workflowId, workflow);
+    this.workflows.set(workflowId, workflow)
     return workflowId;
   }
 
@@ -230,14 +230,14 @@ export class CampaignWorkflowManager {
     workflowId: string,
     configUpdates: Partial<CampaignConfig>,
   ): Promise<boolean> {
-    const workflow = this.workflows.get(workflowId);
+    const workflow = this.workflows.get(workflowId)
     if (!workflow) return false
 
     workflow.config = { ...workflow.config, ...configUpdates };
-    workflow.updatedAt = new Date();
+    workflow.updatedAt = new Date()
 
     // Validate the updated configuration
-    const validation = await this.validateWorkflowConfig(workflowId);
+    const validation = await this.validateWorkflowConfig(workflowId)
     workflow.validationResults = [validation];
 
     return true;
@@ -247,7 +247,7 @@ export class CampaignWorkflowManager {
    * Advance workflow to next step
    */
   async advanceWorkflowStep(workflowId: string): Promise<boolean> {
-    const workflow = this.workflows.get(workflowId);
+    const workflow = this.workflows.get(workflowId)
     if (!workflow) return false;
 
     const currentStep = workflow.steps[workflow.currentStep];
@@ -258,7 +258,7 @@ export class CampaignWorkflowManager {
     if (workflow.currentStep < workflow.steps.length - 1) {
       workflow.currentStep++;
       workflow.steps[workflow.currentStep].status = 'in_progress';
-      workflow.updatedAt = new Date();
+      workflow.updatedAt = new Date()
       return true;
     }
 
@@ -272,7 +272,7 @@ export class CampaignWorkflowManager {
     workflowId: string,
     stepData?: Record<string, unknown>,
   ): Promise<boolean> {
-    const workflow = this.workflows.get(workflowId);
+    const workflow = this.workflows.get(workflowId)
     if (!workflow) return false;
 
     const currentStep = workflow.steps[workflow.currentStep];
@@ -283,7 +283,7 @@ export class CampaignWorkflowManager {
       currentStep.data = stepData
     }
 
-    workflow.updatedAt = new Date();
+    workflow.updatedAt = new Date()
 
     // Auto-advance to next step if possible
     if (workflow.currentStep < workflow.steps.length - 1) {
@@ -323,11 +323,11 @@ export class CampaignWorkflowManager {
     if (workflow.config.phases) {
       for (const phase of workflow.config.phases) {
         if (!phase.tools || phase.tools.length === 0) {;
-          errors.push(`Phase ${phase.name} has no tools configured`);
+          errors.push(`Phase ${phase.name} has no tools configured`)
         }
 
         if (!phase.successCriteria) {
-          warnings.push(`Phase ${phase.name} has no success criteria defined`);
+          warnings.push(`Phase ${phase.name} has no success criteria defined`)
         }
       }
     }
@@ -336,10 +336,10 @@ export class CampaignWorkflowManager {
     if (workflow.config.safetySettings) {
       const safety = workflow.config.safetySettings;
       if (safety.maxFilesPerBatch > 50) {
-        warnings.push('Large batch size may impact system stability');
+        warnings.push('Large batch size may impact system stability')
       }
       if (!safety.automaticRollbackEnabled) {
-        warnings.push('Automatic rollback is disabled - manual intervention may be required');
+        warnings.push('Automatic rollback is disabled - manual intervention may be required')
       }
     }
 
@@ -373,11 +373,11 @@ export class CampaignWorkflowManager {
     for (const phase of workflow.config.phases) {
       for (const tool of phase.tools) {
         // Simulate tool execution analysis
-        const analysis = await this.analyzeToolImpact(tool as unknown as any);
-        wouldProcess.push(...analysis.files);
+        const analysis = await this.analyzeToolImpact(tool as unknown as any)
+        wouldProcess.push(...analysis.files)
         estimatedChanges += analysis.changes;
         potentialIssues.push(...analysis.issues)
-        safetyScore = Math.min(safetyScore, analysis.safetyScore);
+        safetyScore = Math.min(safetyScore, analysis.safetyScore)
       }
     }
 
@@ -389,8 +389,8 @@ export class CampaignWorkflowManager {
     };
 
     // Store dry run results
-    workflow.dryRunResults.push(dryRunResult);
-    workflow.updatedAt = new Date();
+    workflow.dryRunResults.push(dryRunResult)
+    workflow.updatedAt = new Date()
 
     return dryRunResult;
   }
@@ -421,8 +421,8 @@ export class CampaignWorkflowManager {
       parentVersion: versions.length > 0 ? versions[versions.length - 1].version : undefined
     };
 
-    versions.push(version);
-    this.versions.set(campaignId, versions);
+    versions.push(version)
+    this.versions.set(campaignId, versions)
 
     return version.id;
   }
@@ -442,7 +442,7 @@ export class CampaignWorkflowManager {
     const targetVersionObj = versions.find(v => v.version === targetVersion)
 
     if (!targetVersionObj) {
-      throw new Error(`Version ${targetVersion} not found for campaign ${campaignId}`);
+      throw new Error(`Version ${targetVersion} not found for campaign ${campaignId}`)
     }
 
     const rollbackSteps: RollbackStep[] = [
@@ -476,7 +476,7 @@ export class CampaignWorkflowManager {
       }
     ];
 
-    const totalDuration = rollbackSteps.reduce((sum, step) => sum + step.estimatedDuration, 0);
+    const totalDuration = rollbackSteps.reduce((sum, step) => sum + step.estimatedDuration, 0)
 
     return {
       campaignId,
@@ -494,25 +494,25 @@ export class CampaignWorkflowManager {
   async executeRollback(rollbackPlan: RollbackPlan): Promise<boolean> {
     try {
       for (const step of rollbackPlan.rollbackSteps) {
-        log.info(`Executing rollback step: ${step.description}`);
+        log.info(`Executing rollback step: ${step.description}`)
 
         switch (step.action) {
-          case 'restore_files': await this.restoreFiles(step.parameters);
+          case 'restore_files': await this.restoreFiles(step.parameters)
             break
           case 'revert_config':
-            await this.revertConfiguration(rollbackPlan.campaignId, step.parameters.targetVersion);
+            await this.revertConfiguration(rollbackPlan.campaignId, step.parameters.targetVersion)
             break;
-          case 'rebuild': await this.rebuildProject();
+          case 'rebuild': await this.rebuildProject()
             break;
           case 'validate':
-            await this.validateRollback(step.parameters);
+            await this.validateRollback(step.parameters)
             break
         }
       }
 
       return true;
     } catch (error) {
-      console.error('Rollback failed:', error);
+      console.error('Rollback failed:', error)
       return false;
     }
   }
@@ -606,7 +606,7 @@ export class CampaignWorkflowManager {
         'Improved code quality',
         'Better IDE support'
       ]
-    });
+    })
 
     // Linting Excellence Template
     this.templates.set('linting-excellence', {
@@ -665,7 +665,7 @@ export class CampaignWorkflowManager {
         'Consistent code style',
         'Better maintainability'
       ]
-    });
+    })
 
     // Comprehensive Quality Template
     this.templates.set('comprehensive-quality', {
@@ -767,7 +767,7 @@ export class CampaignWorkflowManager {
         'Optimized build performance',
         'Enterprise-ready codebase'
       ]
-    });
+    })
   }
 
   private createWorkflowSteps(template: CampaignTemplate): WorkflowStep[] {
@@ -887,7 +887,7 @@ export class CampaignWorkflowManager {
           successCriteria: phaseTemplate.successCriteria,
           safetyCheckpoints: []
         }) as CampaignPhase,
-    );
+    )
 
     return {
       phases,
@@ -924,12 +924,12 @@ export class CampaignWorkflowManager {
 
   private async restoreFiles(parameters: Record<string, unknown>): Promise<void> {
     // Mock implementation
-    log.info('Restoring files with parameters:', parameters);
+    log.info('Restoring files with parameters:', parameters)
   }
 
   private async revertConfiguration(campaignId: string, targetVersion: string): Promise<void> {
     // Mock implementation
-    log.info(`Reverting campaign ${campaignId} to version ${targetVersion}`);
+    log.info(`Reverting campaign ${campaignId} to version ${targetVersion}`)
   }
 
   private async rebuildProject(): Promise<void> {
@@ -939,7 +939,7 @@ export class CampaignWorkflowManager {
 
   private async validateRollback(parameters: Record<string, unknown>): Promise<void> {
     // Mock implementation
-    log.info('Validating rollback with parameters:', parameters);
+    log.info('Validating rollback with parameters:', parameters)
   }
 
   private getDefaultConfig(): CampaignConfig {
@@ -970,4 +970,4 @@ export class CampaignWorkflowManager {
 }
 
 // Export singleton instance
-export const _campaignWorkflowManager = new CampaignWorkflowManager();
+export const _campaignWorkflowManager = new CampaignWorkflowManager()

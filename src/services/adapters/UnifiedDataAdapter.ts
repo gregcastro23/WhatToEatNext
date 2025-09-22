@@ -69,7 +69,7 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
     try {
       return getEnhancedIngredient(name)
     } catch (error) {
-      console.error(`Error getting ingredient ${name}:`, error);
+      console.error(`Error getting ingredient ${name}:`, error)
       return undefined;
     }
   }
@@ -81,7 +81,7 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
     try {
       return getIngredientsByCategory(category)
     } catch (error) {
-      console.error(`Error getting ingredients in category ${category}:`, error);
+      console.error(`Error getting ingredients in category ${category}:`, error)
       return [];
     }
   }
@@ -93,7 +93,7 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
     try {
       return searchIngredients(criteria as unknown)
     } catch (error) {
-      console.error('Error searching ingredients:', error);
+      console.error('Error searching ingredients:', error)
       return [];
     }
   }
@@ -105,7 +105,7 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
     try {
       return getIngredientsByCategory(season)
     } catch (error) {
-      console.error(`Error getting seasonal ingredients for ${season}:`, error);
+      console.error(`Error getting seasonal ingredients for ${season}:`, error)
       return [];
     }
   }
@@ -118,9 +118,9 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
     type?: 'cuisine' | 'planetary' | 'ingredient' | 'elemental',
   ): UnifiedFlavorProfile | undefined {
     try {
-      return getFlavorProfile(id, type);
+      return getFlavorProfile(id, type)
     } catch (error) {
-      console.error(`Error getting flavor profile ${id}:`, error);
+      console.error(`Error getting flavor profile ${id}:`, error)
       return undefined;
     }
   }
@@ -133,10 +133,10 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
     profile2: UnifiedFlavorProfile,
   ): number {
     try {
-      const result = unifiedFlavorProfileSystem.calculateFlavorCompatibility(profile1, profile2);
+      const result = unifiedFlavorProfileSystem.calculateFlavorCompatibility(profile1, profile2)
       return result.compatibility;
     } catch (error) {
-      console.error('Error calculating flavor compatibility:', error);
+      console.error('Error calculating flavor compatibility:', error)
       return 0.5; // Default moderate compatibility
     }
   }
@@ -149,9 +149,9 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
     props2: ElementalProperties,
   ): number {
     try {
-      return calculateElementalCompatibility(props1, props2);
+      return calculateElementalCompatibility(props1, props2)
     } catch (error) {
-      console.error('Error calculating elemental compatibility:', error);
+      console.error('Error calculating elemental compatibility:', error)
       return 0.5; // Default moderate compatibility
     }
   }
@@ -165,6 +165,6 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
 }
 
 // Singleton instance
-export const unifiedDataAdapter = new UnifiedDataAdapter();
+export const unifiedDataAdapter = new UnifiedDataAdapter()
 
 export default unifiedDataAdapter;

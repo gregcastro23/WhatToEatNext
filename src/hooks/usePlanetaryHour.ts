@@ -16,7 +16,7 @@ interface PlanetaryHourData {
  * @returns The current planetary hour and associated chakras
  */
 export function usePlanetaryHour(): PlanetaryHourData {
-  const { planet, loading, error } = useUnifiedPlanetaryHour();
+  const { planet, loading, error } = useUnifiedPlanetaryHour()
 
   const chakraMapping: Record<Planet, string[]> = useMemo(() => ({
     Sun: ['Crown', 'Solar Plexus'],
@@ -26,7 +26,7 @@ export function usePlanetaryHour(): PlanetaryHourData {
     Mars: ['Root', 'Solar Plexus'],
     Jupiter: ['Crown', 'Heart'],
     Saturn: ['Root', 'Third Eye']
-  }), []);
+  }), [])
 
   const planetaryHourChakras = planet ? chakraMapping[planet] || [] : [];
   const currentPlanetaryHour = planet || '';

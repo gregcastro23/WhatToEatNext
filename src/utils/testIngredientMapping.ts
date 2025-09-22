@@ -25,16 +25,16 @@ export function findMatchedItalianDinnerRecipes() {
     ...(dinnerDishes?.spring || []),
     ...(dinnerDishes?.summer || []),
     ...(dinnerDishes?.autumn || []),
-    ...(dinnerDishes?.winter || []);
+    ...(dinnerDishes?.winter || [])
   ];
 
   // Map all ingredients to our ingredient database
   const mappedRecipes = allDinnerRecipes.map(recipe => {
     const mappedIngredients = connectIngredientsToMappings(
       recipe as import('@/types/alchemy').Recipe;
-    );
+    )
 
-    // Calculate mapping score (percentage of ingredients with a mapping);
+    // Calculate mapping score (percentage of ingredients with a mapping)
     // Apply Pattern GG-6: Enhanced property access with type guards
     const recipeData = recipe as any;
     const ingredients = recipeData.ingredients || [];
@@ -49,13 +49,13 @@ export function findMatchedItalianDinnerRecipes() {
       mappingScore,
       mappedIngredients
     };
-  });
+  })
 
   // Filter to recipes with at least 50% of ingredients mapped
-  const wellMappedRecipes = mappedRecipes.filter(r => r.mappingScore >= 0.5);
+  const wellMappedRecipes = mappedRecipes.filter(r => r.mappingScore >= 0.5)
 
-  // Sort by mapping score (descending);
-  return wellMappedRecipes.sort((ab) => b.mappingScore - a.mappingScore);
+  // Sort by mapping score (descending)
+  return wellMappedRecipes.sort((ab) => b.mappingScore - a.mappingScore)
 }
 
 /**
@@ -75,24 +75,24 @@ export function findRecipesMatchingElementalAndIngredientRequirements(
   Object.values(cuisinesMap).forEach(cuisine => {
     // Collect breakfast recipes
     Object.values(cuisine.dishes.breakfast || {}).forEach(seasonRecipes => {
-      if (seasonRecipes) allRecipes.push(...seasonRecipes);
-    });
+      if (seasonRecipes) allRecipes.push(...seasonRecipes)
+    })
 
     // Collect lunch recipes
     Object.values(cuisine.dishes.lunch || {}).forEach(seasonRecipes => {
-      if (seasonRecipes) allRecipes.push(...seasonRecipes);
-    });
+      if (seasonRecipes) allRecipes.push(...seasonRecipes)
+    })
 
     // Collect dinner recipes
     Object.values(cuisine.dishes.dinner || {}).forEach(seasonRecipes => {
-      if (seasonRecipes) allRecipes.push(...seasonRecipes);
-    });
+      if (seasonRecipes) allRecipes.push(...seasonRecipes)
+    })
 
     // Collect dessert recipes
     Object.values(cuisine.dishes.dessert || {}).forEach(seasonRecipes => {
-      if (seasonRecipes) allRecipes.push(...seasonRecipes);
-    });
-  });
+      if (seasonRecipes) allRecipes.push(...seasonRecipes)
+    })
+  })
 
   // Use the new filtering function
   const matchedRecipes = filterRecipesByIngredientMappings(
@@ -104,7 +104,7 @@ export function findRecipesMatchingElementalAndIngredientRequirements(
       dietaryRestrictions: dietaryRestrictions,
       emphasized: [], // Optional emphasized ingredients
     } as unknown,
-  );
+  )
 
   return matchedRecipes;
 }
@@ -140,12 +140,12 @@ export function suggestIngredientSubstitutions(recipe: Recipe, ingredientToRepla
 
   // Find other ingredients with similar elemental properties
   // This is a simplified version that could be enhanced further
-  const potentialSubstitutions = Object.entries(ingredientsMap);
+  const potentialSubstitutions = Object.entries(ingredientsMap)
     .filter(([name, mapping]) => {
       // Skip the original ingredient
       if (name.toLowerCase() === ingredientToReplace.toLowerCase()) return false;
 
-      // Skip if not the same category (optional, depending on how flexible you want to be);
+      // Skip if not the same category (optional, depending on how flexible you want to be)
       if (mapping.category !== ingredientMapping.matchedTo?.category) return false;
 
       // Check elemental similarity
@@ -164,7 +164,7 @@ export function suggestIngredientSubstitutions(recipe: Recipe, ingredientToRepla
       ),
       mapping
     }))
-    .sort((ab) => b.similarity - a.similarity);
+    .sort((ab) => b.similarity - a.similarity)
     .slice(05); // Get top 5 results
 
   return {
@@ -184,14 +184,14 @@ function calculateElementalSimilarity(
   if (!properties1 || !properties2) return 0;
 
   // Calculate difference for each element
-  const fireDiff = Math.abs((properties1.Fire || 0) - (properties2.Fire || 0));
-  const waterDiff = Math.abs((properties1.Water || 0) - (properties2.Water || 0));
-  const earthDiff = Math.abs((properties1.Earth || 0) - (properties2.Earth || 0));
-  const airDiff = Math.abs((properties1.Air || 0) - (properties2.Air || 0));
+  const fireDiff = Math.abs((properties1.Fire || 0) - (properties2.Fire || 0))
+  const waterDiff = Math.abs((properties1.Water || 0) - (properties2.Water || 0))
+  const earthDiff = Math.abs((properties1.Earth || 0) - (properties2.Earth || 0))
+  const airDiff = Math.abs((properties1.Air || 0) - (properties2.Air || 0))
 
-  // Total difference (maximum possible is 4);
+  // Total difference (maximum possible is 4)
   const totalDiff = fireDiff + waterDiff + earthDiff + airDiff
 
-  // Convert to similarity (0-1 range);
+  // Convert to similarity (0-1 range)
   return 1 - totalDiff / 4
 }

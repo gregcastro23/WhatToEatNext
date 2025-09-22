@@ -12,8 +12,8 @@ export default function GlobalError({
   reset: () => void
 }) {
   useEffect(() => {
-    logger.error('Global error:', error);
-  }, [error]);
+    logger.error('Global error:', error)
+  }, [error])
 
   return (
     <html>

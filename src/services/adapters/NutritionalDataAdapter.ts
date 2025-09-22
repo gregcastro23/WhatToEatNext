@@ -99,7 +99,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
           context: 'NutritionalDataAdapter',
           action: 'getNutritionalData',
           foodName
-        });
+        })
       }
       return null;
     }
@@ -121,7 +121,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         logError(error, {
           context: 'NutritionalDataAdapter',
           action: 'calculateNutritionalBalance'
-        });
+        })
       }
       return {
         calories: 0,
@@ -142,7 +142,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
     try {
       // The original function returns { Fire, Water, Earth, Air } with 'Earth' capitalized
       // We need to convert it to proper ElementalProperties
-      const result = nutritionalToElemental(profile as any);
+      const result = nutritionalToElemental(profile as any)
 
       // Create a proper ElementalProperties object
       return createElementalProperties({
@@ -150,7 +150,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         Water: result.Water,
         Earth: result.Earth,
         Air: result.Air
-      });
+      })
     } catch (error) {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = errorHandler as unknown as any;
@@ -159,9 +159,9 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         logError(error, {
           context: 'NutritionalDataAdapter',
           action: 'convertNutritionalToElemental'
-        });
+        })
       }
-      return createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
+      return createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 })
     }
   }
 
@@ -175,10 +175,10 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
   } {
     try {
       // Convert sign to string for the original function with safe type casting
-      const signStr = typeof sign === 'string' ? sign.toLowerCase() : String(sign).toLowerCase();
+      const signStr = typeof sign === 'string' ? sign.toLowerCase() : String(sign).toLowerCase()
 
       // Get recommendations
-      const result = getZodiacNutritionalRecommendations(signStr);
+      const result = getZodiacNutritionalRecommendations(signStr)
       // Convert elementalBalance to proper ElementalProperties
       return {
         focusNutrients: result.focusNutrients,
@@ -193,8 +193,8 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         logError(error, {
           context: 'NutritionalDataAdapter',
           action: 'getZodiacNutritionalRecommendations',
-          sign: String(sign);
-        });
+          sign: String(sign)
+        })
       }
       return {
         focusNutrients: [],
@@ -214,9 +214,9 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
   } {
     try {
       // Convert planets to strings for the original function
-      const planetStrings = (planets || []).map(p => String(p));
+      const planetStrings = (planets || []).map(p => String(p))
 
-      return getPlanetaryNutritionalRecommendations(planetStrings);
+      return getPlanetaryNutritionalRecommendations(planetStrings)
     } catch (error) {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = errorHandler as unknown as any;
@@ -225,7 +225,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         logError(error, {
           context: 'NutritionalDataAdapter',
           action: 'getPlanetaryNutritionalRecommendations'
-        });
+        })
       }
       return {
         focusNutrients: [],
@@ -250,11 +250,11 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
   } {
     try {
       // Convert planet names to strings for the original function
-      const dayStr = String(planetaryDay);
-      const hourStr = String(planetaryHour);
+      const dayStr = String(planetaryDay)
+      const hourStr = String(planetaryHour)
 
       // Get recommendations
-      const result = getEnhancedPlanetaryNutritionalRecommendations(dayStr, hourStr, currentTime);
+      const result = getEnhancedPlanetaryNutritionalRecommendations(dayStr, hourStr, currentTime)
 
       // Convert elements to proper ElementalProperties
       const elements = createElementalProperties({
@@ -262,7 +262,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         Water: result.elements.Water || 0,
         Earth: result.elements.Earth || 0,
         Air: result.elements.Air || 0
-      });
+      })
 
       return {
         elements,
@@ -279,8 +279,8 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
           context: 'NutritionalDataAdapter',
           action: 'getEnhancedPlanetaryNutritionalRecommendations',
           planetaryDay: String(planetaryDay),
-          planetaryHour: String(planetaryHour);
-        });
+          planetaryHour: String(planetaryHour)
+        })
       }
       return {
         elements: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
@@ -301,9 +301,9 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
   } {
     try {
       // Convert season to string for the original function
-      const seasonStr = String(season);
+      const seasonStr = String(season)
 
-      const result = getSeasonalNutritionalRecommendations(seasonStr);
+      const result = getSeasonalNutritionalRecommendations(seasonStr)
       return {
         ...result,
         element: result.element as Element
@@ -317,8 +317,8 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       errorHandlerService.logError?.(error, {
         context: 'NutritionalDataAdapter',
         action: 'getSeasonalNutritionalRecommendations',
-        season: String(season);
-      });
+        season: String(season)
+      })
       return {
         element: 'Fire' as Element,
         focusNutrients: [],
@@ -347,7 +347,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         Air: targetElements.Air
       };
 
-      return evaluateNutritionalElementalBalance(profile as unknown, legacyTargetElements);
+      return evaluateNutritionalElementalBalance(profile as unknown, legacyTargetElements)
     } catch (error) {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = errorHandler as unknown as any;
@@ -356,7 +356,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         logError(error, {
           context: 'NutritionalDataAdapter',
           action: 'evaluateNutritionalElementalBalance'
-        });
+        })
       }
       return {
         score: 0.5, // Default moderate score
@@ -368,6 +368,6 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
 }
 
 // Singleton instance
-export const nutritionalDataAdapter = new NutritionalDataAdapter();
+export const nutritionalDataAdapter = new NutritionalDataAdapter()
 
 export default nutritionalDataAdapter;

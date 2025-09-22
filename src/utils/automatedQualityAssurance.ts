@@ -89,12 +89,12 @@ export interface CampaignTrigger {
  * Automated Quality Assurance System
  */
 export class AutomatedQualityAssurance {
-  private static, instance: AutomatedQualityAssurance;
-  private, config: QualityAssuranceConfig
-  private, metrics: QualityMetrics,
-  private, _lastValidation: number = 0;
-  private, validationInterval: NodeJS.Timeout | null = null;
-  private, campaignTriggers: CampaignTrigger[] = [];
+  private static instance: AutomatedQualityAssurance;
+  private config: QualityAssuranceConfig
+  private metrics: QualityMetrics,
+  private _lastValidation: number = 0;
+  private validationInterval: NodeJS.Timeout | null = null;
+  private campaignTriggers: CampaignTrigger[] = [];
 
   private constructor(config?: Partial<QualityAssuranceConfig>) {
     this.config = {
@@ -107,13 +107,13 @@ export class AutomatedQualityAssurance {
       ...config
     };
 
-    this.metrics = this.initializeMetrics();
-    this.startAutomaticValidation();
+    this.metrics = this.initializeMetrics()
+    this.startAutomaticValidation()
   }
 
   public static getInstance(config?: Partial<QualityAssuranceConfig>): AutomatedQualityAssurance {
     if (!AutomatedQualityAssurance.instance) {
-      AutomatedQualityAssurance.instance = new AutomatedQualityAssurance(config);
+      AutomatedQualityAssurance.instance = new AutomatedQualityAssurance(config)
     }
     return AutomatedQualityAssurance.instance;
   }
@@ -123,12 +123,12 @@ export class AutomatedQualityAssurance {
    */
   public async validatePlanetaryData(date: Date = new Date()): Promise<ValidationResult> {
     if (!this.config.enablePlanetaryDataValidation) {
-      return this.createValidationResult(true1.0, [], []);
+      return this.createValidationResult(true1.0, [], [])
     }
 
     try {
-      const startTime = performance.now();
-      const positions = await getReliablePlanetaryPositions(date);
+      const startTime = performance.now()
+      const positions = await getReliablePlanetaryPositions(date)
       const responseTime = performance.now() - startTime;
 
       const issues: string[] = [];
@@ -137,31 +137,31 @@ export class AutomatedQualityAssurance {
 
       // Validate response time
       if (responseTime > this.config.thresholds.planetaryData.fallbackThresholdMs) {
-        issues.push(`Planetary data fetch time (${responseTime.toFixed(0)}ms) exceeds threshold`);
-        recommendations.push('Consider implementing more aggressive caching');
+        issues.push(`Planetary data fetch time (${responseTime.toFixed(0)}ms) exceeds threshold`)
+        recommendations.push('Consider implementing more aggressive caching')
         score -= 0.2;
       }
 
       // Validate data completeness
       const requiredPlanets = ['sun', 'moon', 'mercury', 'venus', 'mars', 'jupiter', 'saturn'];
-      const missingPlanets = requiredPlanets.filter(planet => !positions[planet]);
+      const missingPlanets = requiredPlanets.filter(planet => !positions[planet])
 
       if (missingPlanets.length > 0) {
-        issues.push(`Missing planetary data for: ${missingPlanets.join(', ')}`);
-        recommendations.push('Verify API connectivity and fallback mechanisms');
+        issues.push(`Missing planetary data for: ${missingPlanets.join(', ')}`)
+        recommendations.push('Verify API connectivity and fallback mechanisms')
         score -= 0.1 * missingPlanets.length;
       }
 
-      // Validate position accuracy (check for reasonable longitude values);
+      // Validate position accuracy (check for reasonable longitude values)
       Object.entries(positions).forEach(([planet, data]) => {
         const p = data as { exactLongitude?: number };
         if (p?.exactLongitude !== undefined) {
           if (p.exactLongitude < 0 || p.exactLongitude >= 360) {
-            issues.push(`Invalid longitude for ${planet}: ${data.exactLongitude}`);
+            issues.push(`Invalid longitude for ${planet}: ${data.exactLongitude}`)
             score -= 0.1;
           }
         }
-      });
+      })
 
       // Update metrics
       this.metrics.planetaryDataQuality = {
@@ -172,10 +172,10 @@ export class AutomatedQualityAssurance {
       };
 
       // Check for campaign triggers
-      this.checkCampaignTriggers('planetary', score);
+      this.checkCampaignTriggers('planetary', score)
 
-      logger.debug('Planetary data validation completed', { score, issues: issues.length });
-      return this.createValidationResult(score >= 0.8, score, issues, recommendations);
+      logger.debug('Planetary data validation completed', { score, issues: issues.length })
+      return this.createValidationResult(score >= 0.8, score, issues, recommendations)
     } catch (error) {
       logger.error('Error validating planetary data:', error),
       return this.createValidationResult(
@@ -197,10 +197,10 @@ export class AutomatedQualityAssurance {
     }>,
   ): ValidationResult {
     if (!this.config.enableIngredientConsistencyChecking) {
-      return this.createValidationResult(true1.0, [], []);
+      return this.createValidationResult(true1.0, [], [])
     }
 
-    const intelligence = getSteeringFileIntelligence();
+    const intelligence = getSteeringFileIntelligence()
     const issues: string[] = [];
     const recommendations: string[] = [];
     let totalScore = 0;
@@ -212,26 +212,26 @@ export class AutomatedQualityAssurance {
         ingredient.elementalProperties
       ),
       if (!isValidStructure) {
-        issues.push(`Invalid elemental properties for ingredient: ${ingredient.name}`);
+        issues.push(`Invalid elemental properties for ingredient: ${ingredient.name}`)
         recommendations.push(
           `Fix elemental properties for ${ingredient.name} to meet minimum standards`,
-        );
+        )
       } else {
         validatedCount++;
 
         // Calculate elemental consistency score
         const elementalSum = Object.values(ingredient.elementalProperties).reduce(
           (sum, val) => sum + val0,
-        );
+        )
         const consistencyScore = elementalSum > 0 ? Math.min(1.0, elementalSum / 1.0) : 0,
         totalScore += consistencyScore;
 
-        // Check for elemental balance (no single element should dominate too much);
-        const maxElement = Math.max(...Object.values(ingredient.elementalProperties));
+        // Check for elemental balance (no single element should dominate too much)
+        const maxElement = Math.max(...Object.values(ingredient.elementalProperties))
         if (maxElement > 0.8) {
           recommendations.push(
             `Consider balancing elemental properties for ${ingredient.name} (max: ${maxElement.toFixed(2)})`,
-          );
+          )
         }
       }
 
@@ -247,8 +247,8 @@ export class AutomatedQualityAssurance {
         if (compatibility < 0.7) {
           issues.push(
             `Low compatibility between ${ingredient.name} and ${prevIngredient.name}: ${compatibility.toFixed(2)}`,
-          );
-          recommendations.push('Consider adjusting elemental properties to improve compatibility');
+          )
+          recommendations.push('Consider adjusting elemental properties to improve compatibility')
         }
       }
     }),
@@ -264,15 +264,15 @@ export class AutomatedQualityAssurance {
     };
 
     // Check for campaign triggers
-    this.checkCampaignTriggers('ingredient', averageScore);
+    this.checkCampaignTriggers('ingredient', averageScore)
 
     logger.debug('Ingredient consistency validation completed', {
       score: averageScore,
       issues: issues.length,
       validatedCount
-    });
+    })
 
-    return this.createValidationResult(averageScore >= 0.8, averageScore, issues, recommendations);
+    return this.createValidationResult(averageScore >= 0.8, averageScore, issues, recommendations)
   }
 
   /**
@@ -284,8 +284,8 @@ export class AutomatedQualityAssurance {
     }
 
     try {
-      // Simulate TypeScript error count check (in real implementation, this would run tsc);
-      const errorCount = await this.getTypeScriptErrorCount();
+      // Simulate TypeScript error count check (in real implementation, this would run tsc)
+      const errorCount = await this.getTypeScriptErrorCount()
 
       this.metrics.typeScriptErrors = errorCount;
 
@@ -299,15 +299,15 @@ export class AutomatedQualityAssurance {
       };
 
       if (trigger.triggered) {
-        logger.warn(`TypeScript error threshold _exceeded: ${errorCount} > ${trigger.threshold}`);
-        this.campaignTriggers.push(trigger);
+        logger.warn(`TypeScript error threshold _exceeded: ${errorCount} > ${trigger.threshold}`)
+        this.campaignTriggers.push(trigger)
 
         // In a real implementation, this would trigger the campaign system
         this.triggerCampaign('typescript-error-elimination', {
           errorCount,
           threshold: trigger.threshold,
           action: trigger.action
-        });
+        })
       }
 
       return trigger;
@@ -327,7 +327,7 @@ export class AutomatedQualityAssurance {
     errorCount?: number
   }): ValidationResult {
     if (!this.config.enablePerformanceMonitoring) {
-      return this.createValidationResult(true1.0, [], []);
+      return this.createValidationResult(true1.0, [], [])
     }
 
     const issues: string[] = [];
@@ -337,8 +337,8 @@ export class AutomatedQualityAssurance {
     // Check build time
     if (buildMetrics.buildTime && buildMetrics.buildTime > 30000) {
       // 30 seconds
-      issues.push(`Build time (${buildMetrics.buildTime}ms) exceeds recommended threshold`);
-      recommendations.push('Consider optimizing build configuration and dependencies');
+      issues.push(`Build time (${buildMetrics.buildTime}ms) exceeds recommended threshold`)
+      recommendations.push('Consider optimizing build configuration and dependencies')
       score -= 0.2;
     }
 
@@ -349,8 +349,8 @@ export class AutomatedQualityAssurance {
     ) {
       issues.push(
         `Bundle size (${Math.round(buildMetrics.bundleSize / 1024)}KB) exceeds threshold`,
-      );
-      recommendations.push('Implement code splitting and tree shaking optimizations');
+      )
+      recommendations.push('Implement code splitting and tree shaking optimizations')
       score -= 0.2;
     }
 
@@ -359,15 +359,15 @@ export class AutomatedQualityAssurance {
       buildMetrics.memoryUsage &&
       buildMetrics.memoryUsage > this.config.thresholds.performance.memoryUsage
     ) {
-      issues.push(`Memory usage (${buildMetrics.memoryUsage}MB) exceeds threshold`);
-      recommendations.push('Optimize memory usage and check for memory leaks');
+      issues.push(`Memory usage (${buildMetrics.memoryUsage}MB) exceeds threshold`)
+      recommendations.push('Optimize memory usage and check for memory leaks')
       score -= 0.2;
     }
 
     // Check error count
     if (buildMetrics.errorCount && buildMetrics.errorCount > 0) {
-      issues.push(`Build contains ${buildMetrics.errorCount} errors`);
-      recommendations.push('Fix all build errors before deployment');
+      issues.push(`Build contains ${buildMetrics.errorCount} errors`)
+      recommendations.push('Fix all build errors before deployment')
       score -= 0.3;
     }
 
@@ -380,10 +380,10 @@ export class AutomatedQualityAssurance {
     };
 
     // Check for campaign triggers
-    this.checkCampaignTriggers('performance', score);
+    this.checkCampaignTriggers('performance', score)
 
-    logger.debug('Build quality monitoring completed', { score, issues: issues.length });
-    return this.createValidationResult(score >= 0.8, score, issues, recommendations);
+    logger.debug('Build quality monitoring completed', { score, issues: issues.length })
+    return this.createValidationResult(score >= 0.8, score, issues, recommendations)
   }
 
   /**
@@ -407,7 +407,7 @@ export class AutomatedQualityAssurance {
    */
   public updateConfig(newConfig: Partial<QualityAssuranceConfig>): void {
     this.config = { ...this.config, ...newConfig };
-    logger.debug('Quality assurance configuration updated', newConfig);
+    logger.debug('Quality assurance configuration updated', newConfig)
   }
 
   /**
@@ -415,7 +415,7 @@ export class AutomatedQualityAssurance {
    */
   public stop(): void {
     if (this.validationInterval) {
-      clearInterval(this.validationInterval);
+      clearInterval(this.validationInterval)
       this.validationInterval = null
     }
   }
@@ -455,18 +455,18 @@ export class AutomatedQualityAssurance {
       () => {
         void (async () => {
           try {
-            await this.validatePlanetaryData();
-            await this.checkTypeScriptErrorThreshold();
-            logger.debug('Automatic quality validation completed');
+            await this.validatePlanetaryData()
+            await this.checkTypeScriptErrorThreshold()
+            logger.debug('Automatic quality validation completed')
           } catch (error) {
-            logger.error('Error in automatic validation:', error);
+            logger.error('Error in automatic validation:', error)
           }
-        })();
+        })()
       },
       5 * 60 * 1000,
-    );
+    )
 
-    logger.debug('Automatic quality validation started');
+    logger.debug('Automatic quality validation started')
   }
 
   private createValidationResult(
@@ -505,7 +505,7 @@ export class AutomatedQualityAssurance {
       return
     }
 
-    const thresholds = this.getThresholdsForType(type);
+    const thresholds = this.getThresholdsForType(type)
     if (!thresholds) return;
 
     const trigger: CampaignTrigger = {
@@ -518,8 +518,8 @@ export class AutomatedQualityAssurance {
     };
 
     if (trigger.triggered) {
-      this.campaignTriggers.push(trigger);
-      logger.warn(`Campaign trigger activated for ${type}:`, trigger);
+      this.campaignTriggers.push(trigger)
+      logger.warn(`Campaign trigger activated for ${type}:`, trigger)
     }
   }
 
@@ -547,7 +547,7 @@ export class AutomatedQualityAssurance {
   }
 
   private determineAction(type: string, value: number): CampaignTrigger['action'] {
-    const thresholds = this.getThresholdsForType(type as CampaignTrigger['type']);
+    const thresholds = this.getThresholdsForType(type as CampaignTrigger['type'])
     if (!thresholds) return 'monitor',
 
     if (type === 'typescript' || type === 'linting') {;
@@ -572,7 +572,7 @@ export class AutomatedQualityAssurance {
 
   private triggerCampaign(campaignType: string, context: unknown): void {
     // In a real implementation, this would integrate with the campaign system
-    logger.info(`Campaign triggered: ${campaignType}`, context);
+    logger.info(`Campaign triggered: ${campaignType}`, context)
 
     // Simulate campaign system integration
     if (typeof window !== 'undefined') {
@@ -581,7 +581,7 @@ export class AutomatedQualityAssurance {
         new CustomEvent('kiro-campaign-trigger', {
           _detail: { campaignType, context }
         }),
-      );
+      )
     }
   }
 }
@@ -592,14 +592,14 @@ export class AutomatedQualityAssurance {
 export function getAutomatedQualityAssurance(
   config?: Partial<QualityAssuranceConfig>,
 ): AutomatedQualityAssurance {
-  return AutomatedQualityAssurance.getInstance(config);
+  return AutomatedQualityAssurance.getInstance(config)
 }
 
 /**
  * Hook for components to use automated quality assurance
  */
 export function useAutomatedQualityAssurance() {
-  const qa = getAutomatedQualityAssurance();
+  const qa = getAutomatedQualityAssurance()
 
   return {
     validatePlanetaryData: (date?: Date) => qa.validatePlanetaryData(date),
@@ -609,11 +609,11 @@ export function useAutomatedQualityAssurance() {
         elementalProperties: ElementalProperties,
         category?: string
       }>,
-    ) => qa.validateIngredientConsistency(ingredients);
+    ) => qa.validateIngredientConsistency(ingredients)
     checkTypeScriptErrorThreshold: () => qa.checkTypeScriptErrorThreshold(),
     monitorBuildQuality: (metrics: unknown) => qa.monitorBuildQuality(metrics),
     getQualityMetrics: () => qa.getQualityMetrics(),
     getActiveCampaignTriggers: () => qa.getActiveCampaignTriggers(),
-    updateConfig: (config: Partial<QualityAssuranceConfig>) => qa.updateConfig(config);
+    updateConfig: (config: Partial<QualityAssuranceConfig>) => qa.updateConfig(config)
   };
 }

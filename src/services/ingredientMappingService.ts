@@ -21,7 +21,7 @@ class IngredientMappingService {
    */
   mapRecipeIngredients(recipe: Recipe) {
     // Pattern, HH: Safe Recipe type casting for connectIngredientsToMappings with proper import resolution
-    return connectIngredientsToMappings(recipe as unknown);
+    return connectIngredientsToMappings(recipe as unknown)
   }
 
   /**
@@ -44,8 +44,8 @@ class IngredientMappingService {
 
     // Filter by cuisine if specified
     const cuisines = options.cuisineType;
-      ? [cuisinesMap[options.cuisineType as keyof typeof cuisinesMap]].filter(Boolean);
-      : Object.values(cuisinesMap);
+      ? [cuisinesMap[options.cuisineType as keyof typeof cuisinesMap]].filter(Boolean)
+      : Object.values(cuisinesMap)
 
     // Collect recipes from specified cuisines
     cuisines.forEach(cuisine => {
@@ -71,11 +71,11 @@ class IngredientMappingService {
         seasons.forEach(season => {;
           const seasonalDishes = mealDishes[season as keyof typeof mealDishes]
           if (Array.isArray(seasonalDishes)) {
-            allRecipes.push(...(seasonalDishes as unknown as Recipe[]));
+            allRecipes.push(...(seasonalDishes as unknown as Recipe[]))
           }
-        });
-      });
-    });
+        })
+      })
+    })
 
     // Use the filter function with collected recipes
     return filterRecipesByIngredientMappings(
@@ -87,7 +87,7 @@ class IngredientMappingService {
         dietaryRestrictions: options.dietaryRestrictions || [],
         emphasized: options.emphasizedIngredients || []
       },
-    );
+    )
   }
 
   /**
@@ -114,7 +114,7 @@ class IngredientMappingService {
     const { _similarityThreshold = 0.7, _maxResults = 5, category} = options;
 
     // Find alternatives with similar elemental properties
-    const potentialAlternatives = Object.entries(ingredientsMap);
+    const potentialAlternatives = Object.entries(ingredientsMap)
       .filter(([name, mapping]) => {
         // Skip the original ingredient
         if (name.toLowerCase() === ingredientName.toLowerCase()) return false;
@@ -141,8 +141,8 @@ class IngredientMappingService {
         ),
         mapping
       }))
-      .sort((ab) => b.similarity - a.similarity);
-      .slice(0, maxResults);
+      .sort((ab) => b.similarity - a.similarity)
+      .slice(0, maxResults)
 
     return {
       success: true,
@@ -179,7 +179,7 @@ class IngredientMappingService {
     const similarity = this.calculateElementalSimilarity(;
       mapping1.elementalProperties as unknown as ElementalProperties
       mapping2.elementalProperties as unknown as ElementalProperties
-    );
+    )
 
     // Determine compatibility type based on similarity
     let compatibilityType = 'neutral';
@@ -214,14 +214,14 @@ class IngredientMappingService {
         (complementaryCategories[category1] &&
           complementaryCategories[category1].includes(category2)) ||
         (complementaryCategories[category2] &&
-          complementaryCategories[category2].includes(category1));
+          complementaryCategories[category2].includes(category1))
       ) {
         categoryAdjustment = 0.15;
       }
     }
 
     // Adjust final compatibility score
-    const adjustedCompatibility = Math.min(1, Math.max(0, similarity + categoryAdjustment));
+    const adjustedCompatibility = Math.min(1, Math.max(0, similarity + categoryAdjustment))
 
     return {
       success: true,
@@ -238,14 +238,14 @@ class IngredientMappingService {
    * Analyze ingredient combinations for a recipe
    */
   analyzeRecipeIngredientCombinations(recipe: Recipe) {
-    const mappedIngredients = this.mapRecipeIngredients(recipe);
-    const validMappings = mappedIngredients.filter(mapping => mapping.matchedTo);
+    const mappedIngredients = this.mapRecipeIngredients(recipe)
+    const validMappings = mappedIngredients.filter(mapping => mapping.matchedTo)
     // Not enough ingredients with mappings to analyze
     if (validMappings.length < 2) {
       return {
         success: false,
         message: 'Not enough mapped ingredients to analyze combinations',
-        mappingQuality: validMappings.length / Math.max(1, recipe.ingredients.length);
+        mappingQuality: validMappings.length / Math.max(1, recipe.ingredients.length)
       };
     }
 
@@ -285,14 +285,14 @@ class IngredientMappingService {
         : 0;
 
     // Find strongest and weakest combinations
-    const sortedCombinations = [...combinations].sort((ab) => b.compatibility - a.compatibility);
+    const sortedCombinations = [...combinations].sort((ab) => b.compatibility - a.compatibility)
     return {
       success: true,
       averageCompatibility,
       bestCombinations: sortedCombinations.slice(03),
       weakestCombinations: sortedCombinations.slice(-3).reverse(),
       allCombinations: combinations,
-      mappingQuality: validMappings.length / Math.max(1, recipe.ingredients.length);
+      mappingQuality: validMappings.length / Math.max(1, recipe.ingredients.length)
     };
   }
 
@@ -306,19 +306,19 @@ class IngredientMappingService {
     if (!properties1 || !properties2) return 0;
 
     // Calculate difference for each element
-    const fireDiff = Math.abs((properties1.Fire || 0) - (properties2.Fire || 0));
-    const waterDiff = Math.abs((properties1.Water || 0) - (properties2.Water || 0));
-    const earthDiff = Math.abs((properties1.Earth || 0) - (properties2.Earth || 0));
-    const airDiff = Math.abs((properties1.Air || 0) - (properties2.Air || 0));
+    const fireDiff = Math.abs((properties1.Fire || 0) - (properties2.Fire || 0))
+    const waterDiff = Math.abs((properties1.Water || 0) - (properties2.Water || 0))
+    const earthDiff = Math.abs((properties1.Earth || 0) - (properties2.Earth || 0))
+    const airDiff = Math.abs((properties1.Air || 0) - (properties2.Air || 0))
 
-    // Total difference (maximum possible is 4);
+    // Total difference (maximum possible is 4)
     const totalDiff = fireDiff + waterDiff + earthDiff + airDiff
 
-    // Convert to similarity (0-1 range);
+    // Convert to similarity (0-1 range)
     return 1 - totalDiff / 4
   }
 }
 
 // Create singleton instance
-const ingredientMappingService = new IngredientMappingService();
+const ingredientMappingService = new IngredientMappingService()
 export default ingredientMappingService;

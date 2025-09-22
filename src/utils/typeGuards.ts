@@ -17,14 +17,14 @@ export type ChakraKey = (typeof CHAKRA_KEYS)[number];
  * Type guard to check if a value is a valid chakra key
  */
 export function isChakraKey(value: unknown): value is ChakraKey {
-  return typeof value === 'string' && CHAKRA_KEYS.includes(value as ChakraKey);
+  return typeof value === 'string' && CHAKRA_KEYS.includes(value as ChakraKey)
 }
 
 /**
  * Type guard to check if a value is a valid number
  */
 export function isNumber(value: unknown): value is number {
-  return typeof value === 'number' && !isNaN(value);
+  return typeof value === 'number' && !isNaN(value)
 }
 
 /**
@@ -34,7 +34,7 @@ export function isChakraEnergies(obj: unknown): obj is ChakraEnergies {
   if (typeof obj !== 'object' || obj === null) return false
 
   // Check all keys and values are valid
-  return Object.entries(obj as any).every(([key, value]) => isChakraKey(key) && isNumber(value));
+  return Object.entries(obj as any).every(([key, value]) => isChakraKey(key) && isNumber(value))
 }
 
 /**
@@ -54,14 +54,14 @@ export function isArray<T>(value: unknown, itemGuard?: (item: unknown) => item i
   if (!itemGuard) return true;
 
   // Check each item passes the guard
-  return value.every(item => itemGuard(item));
+  return value.every(item => itemGuard(item))
 }
 
 /**
- * Type guard for checking if a value is a valid object (not null, not array);
+ * Type guard for checking if a value is a valid object (not null, not array)
  */
 export function isObject(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null && !Array.isArray(value);
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
 
 /**
@@ -105,7 +105,7 @@ export function safeGetArray<T = unknown>(value: unknown, defaultValue: T[] = []
 export function safeGet<T>(obj: unknown, path: string, defaultValue?: T): T | undefined {
   if (!isObject(obj)) return defaultValue;
 
-  const keys = path.split('.');
+  const keys = path.split('.')
   let current: any = obj
 
   for (const key of keys) {
@@ -126,7 +126,7 @@ export function assertType<T>(value: unknown): T {
 }
 
 /**
- * Check if value is defined (not null or undefined);
+ * Check if value is defined (not null or undefined)
  */
 export function isDefined<T>(value: T | null | undefined): value is T {
   return value !== null && value !== undefined

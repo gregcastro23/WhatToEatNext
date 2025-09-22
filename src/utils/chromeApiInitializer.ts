@@ -22,13 +22,13 @@ export function initializeChromeApis(): void {
             e.message.includes('extension') ||
             e.message.includes('Cannot read properties of undefined (reading'))
         ) {
-          console.warn('[ChromeAPI] Safely suppressed error:', e.message);
+          console.warn('[ChromeAPI] Safely suppressed error:', e.message)
           return true; // Prevent default error handling
         }
         return false; // Let other errors propagate normally
       },
       true,
-    );
+    )
 
     // Initialize chrome object if it doesn't exist
     if (!window.chrome) {
@@ -41,30 +41,30 @@ export function initializeChromeApis(): void {
     if (!chromeObj.tabs) {
       chromeObj.tabs = {
         create: function (options: { url?: string }) {
-          log.info('[ChromeAPI] Mocked chrome.tabs.create called with:', options);
+          log.info('[ChromeAPI] Mocked chrome.tabs.create called with:', options)
 
           // Safely handle URL opening
           if (options?.url) {
             try {
               // Use timeout to avoid popup blockers
               setTimeout(() => {
-                const newTab = window.open(options.url, '_blank');
+                const newTab = window.open(options.url, '_blank')
                 if (!newTab) {
-                  console.warn('[ChromeAPI] Popup may have been blocked');
+                  console.warn('[ChromeAPI] Popup may have been blocked')
                 }
-              }, 10);
+              }, 10)
             } catch (e) {
-              console.warn('[ChromeAPI] Error opening URL:', e);
+              console.warn('[ChromeAPI] Error opening URL:', e)
             }
           }
 
-          return Promise.resolve({ id: 999, url: options.url || 'about:blank' });
+          return Promise.resolve({ id: 999, url: options.url || 'about:blank' })
         },
         _query: function () {
-          return Promise.resolve([{ id: 1, _active: true, _windowId: 1 }]);
+          return Promise.resolve([{ id: 1, _active: true, _windowId: 1 }])
         },
         _update: function () {
-          return Promise.resolve({});
+          return Promise.resolve({})
         }
       };
     }
@@ -78,8 +78,8 @@ export function initializeChromeApis(): void {
           return window.location.origin + '/' + path
         },
         sendMessage: function (message: unknown) {
-          log.info('[ChromeAPI] Mocked chrome.runtime.sendMessage called:', message);
-          return Promise.resolve({ _success: true });
+          log.info('[ChromeAPI] Mocked chrome.runtime.sendMessage called:', message)
+          return Promise.resolve({ _success: true })
         },
         _onMessage: {
           addListener: function () {},
@@ -121,7 +121,7 @@ export function initializeChromeApis(): void {
                 if (mockStorage[key] !== undefined) {
                   result[key] = mockStorage[key];
                 }
-              });
+              })
             } else if (typeof keys === 'string') {;
               if (mockStorage[keys] !== undefined) {
                 result[keys] = mockStorage[keys];
@@ -129,16 +129,16 @@ export function initializeChromeApis(): void {
             }
 
             if (callback) {
-              setTimeout(() => callback(result as unknown as Record<string, string[]>), 0);
+              setTimeout(() => callback(result as unknown as Record<string, string[]>), 0)
             }
-            return Promise.resolve(result);
+            return Promise.resolve(result)
           },
           set: function (items: Record<string, Record<string, string>>, callback?: () => void) {
-            Object.assign(mockStorage, items);
+            Object.assign(mockStorage, items)
             if (callback) {
-              setTimeout(callback, 0);
+              setTimeout(callback, 0)
             }
-            return Promise.resolve();
+            return Promise.resolve()
           },
           _remove: function (keys: string | string[], callback?: () => void) {
             if (Array.isArray(keys)) {
@@ -147,27 +147,27 @@ export function initializeChromeApis(): void {
               delete mockStorage[keys];
             }
             if (callback) {
-              setTimeout(callback, 0);
+              setTimeout(callback, 0)
             }
-            return Promise.resolve();
+            return Promise.resolve()
           }
         },
         _sync: {
           get: function (keys: unknown, callback?: Function) {
-            if (callback) setTimeout(() => callback({}), 0);
-            return Promise.resolve({});
+            if (callback) setTimeout(() => callback({}), 0)
+            return Promise.resolve({})
           },
           set: function (items: unknown, callback?: Function) {
-            if (callback) setTimeout(callback, 0);
-            return Promise.resolve();
+            if (callback) setTimeout(callback, 0)
+            return Promise.resolve()
           }
         }
       };
     }
 
-    log.info('[ChromeAPI] Successfully initialized Chrome extension API mocks');
+    log.info('[ChromeAPI] Successfully initialized Chrome extension API mocks')
   } catch (error) {
-    console.warn('[ChromeAPI] Error initializing Chrome APIs:', error);
+    console.warn('[ChromeAPI] Error initializing Chrome APIs:', error)
   }
 }
 

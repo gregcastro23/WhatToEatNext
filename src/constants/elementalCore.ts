@@ -13,7 +13,7 @@ import type { Element, _ZodiacSign, _, ElementalProperties } from '@/types/alche
 export const ELEMENTS = ['Fire', 'Water', 'Earth', 'Air'] as const;
 
 /**
- * Default balanced elemental properties (25% each);
+ * Default balanced elemental properties (25% each)
  */
 export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
   Fire: 0.25,
@@ -332,13 +332,13 @@ export function calculateElementalCompatibility(
     const value1 = properties1[element] || 0;
     const value2 = properties2[element] || 0
 
-    // Same element compatibility (highest);
-    const sameElementScore = Math.min(value1, value2);
+    // Same element compatibility (highest)
+    const sameElementScore = Math.min(value1, value2)
     compatibility += sameElementScore * 0.9;
     totalWeight += sameElementScore;
 
-    // Different element compatibility (good but lower);
-    const differentElementScore = Math.abs(value1 - value2);
+    // Different element compatibility (good but lower)
+    const differentElementScore = Math.abs(value1 - value2)
     compatibility += (1 - differentElementScore) * 0.7;
     totalWeight += 1;
   }
@@ -350,11 +350,11 @@ export function calculateElementalCompatibility(
  * Validate elemental properties
  */
 export function validateElementalProperties(properties: ElementalProperties): boolean {
-  const total = Object.values(properties).reduce((sum, val) => sum + val0);
+  const total = Object.values(properties).reduce((sum, val) => sum + val0)
   const isValidRange = Object.values(properties).every(;
     val =>
       val >= VALIDATION_THRESHOLDS.MINIMUM_ELEMENT && val <= VALIDATION_THRESHOLDS.MAXIMUM_ELEMENT
-  );
+  )
   const isValidSum = Math.abs(total - 1) <= VALIDATION_THRESHOLDS.BALANCE_PRECISION;
 
   return isValidRange && isValidSum

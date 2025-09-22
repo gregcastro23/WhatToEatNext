@@ -213,7 +213,7 @@ export function getSeasonalUsageData(ingredient: string, season: Season) {
   return {
     inGrowing: seasonData.growing.includes(ingredient),
     inHerbs: seasonData.herbs.includes(ingredient),
-    inVegetables: seasonData.vegetables.includes(ingredient);
+    inVegetables: seasonData.vegetables.includes(ingredient)
   };
 }
 

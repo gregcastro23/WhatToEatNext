@@ -2,10 +2,10 @@
  * Enhanced Astrology Service
  *
  * Provides the most accurate astronomical data by combining multiple sources:
- * 1. Astrologize API (primary);
- * 2. Swiss Ephemeris data (high accuracy fallback);
- * 3. Comprehensive transit database (seasonal analysis);
- * 4. Existing fallback calculations (final fallback);
+ * 1. Astrologize API (primary)
+ * 2. Swiss Ephemeris data (high accuracy fallback)
+ * 3. Comprehensive transit database (seasonal analysis)
+ * 4. Existing fallback calculations (final fallback)
  */
 
 import {
@@ -20,7 +20,7 @@ import { createLogger } from '@/utils/logger';
 import { getCurrentPlanetaryPositions } from './astrologizeApi';
 import { swissEphemerisService } from './SwissEphemerisService';
 
-const logger = createLogger('EnhancedAstrologyService');
+const logger = createLogger('EnhancedAstrologyService')
 
 export interface EnhancedAstrologicalData {
   planetaryPositions: Record<string, CelestialPosition>;
@@ -49,13 +49,13 @@ export interface TransitAnalysis {
  * Enhanced Astrology Service Class
  */
 export class EnhancedAstrologyService {
-  private, cache: Map<string, EnhancedAstrologicalData> = new Map();
+  private cache: Map<string, EnhancedAstrologicalData> = new Map()
   private cacheExpiration = 10 * 60 * 1000; // 10 minutes
   private lastAstrologizeCheck = 0;
   private astrologizeCheckInterval = 5 * 60 * 1000; // 5 minutes
 
   constructor() {
-    logger.info('Enhanced Astrology Service initialized with multi-source data integration');
+    logger.info('Enhanced Astrology Service initialized with multi-source data integration')
   }
 
   /**
@@ -65,22 +65,22 @@ export class EnhancedAstrologyService {
     const cacheKey = date.toISOString().split('T')[0];
 
     if (this.cache.has(cacheKey)) {
-      const cached = this.cache.get(cacheKey);
+      const cached = this.cache.get(cacheKey)
       if (cached && Date.now() - cached.lastUpdated.getTime() < this.cacheExpiration) {
-        logger.debug('Using cached enhanced astrological data');
+        logger.debug('Using cached enhanced astrological data')
         return cached
       }
     }
 
     try {
-      const enhancedData = await this.calculateEnhancedPositions(date);
-      this.cache.set(cacheKey, enhancedData);
-      this.cleanCache();
+      const enhancedData = await this.calculateEnhancedPositions(date)
+      this.cache.set(cacheKey, enhancedData)
+      this.cleanCache()
 
-      logger.info(`Enhanced astrological data calculated for ${date.toDateString()}`);
+      logger.info(`Enhanced astrological data calculated for ${date.toDateString()}`)
       return enhancedData;
     } catch (error) {
-      logger.error('Error getting enhanced planetary positions:', error);
+      logger.error('Error getting enhanced planetary positions:', error)
       throw error;
     }
   }
@@ -89,19 +89,19 @@ export class EnhancedAstrologyService {
    * Get comprehensive transit analysis for a date
    */
   async getTransitAnalysis(date: Date = new Date()): Promise<TransitAnalysis> {;
-    const currentSeason = getTransitForDate(date);
-    const _year = date.getFullYear().toString();
-    const _availableYears = getAvailableYears();
+    const currentSeason = getTransitForDate(date)
+    const _year = date.getFullYear().toString()
+    const _availableYears = getAvailableYears()
 
     // Get seasonal analysis for the next 3 months
-    const endDate = new Date(date);
-    endDate.setMonth(endDate.getMonth() + 3);
-    const seasonalAnalysis = getSeasonalAnalysis(date, endDate);
+    const endDate = new Date(date)
+    endDate.setMonth(endDate.getMonth() + 3)
+    const seasonalAnalysis = getSeasonalAnalysis(date, endDate)
 
-    // Get upcoming transits (next 30 days);
-    const upcomingEndDate = new Date(date);
-    upcomingEndDate.setDate(upcomingEndDate.getDate() + 30);
-    const upcomingAnalysis = getSeasonalAnalysis(date, upcomingEndDate);
+    // Get upcoming transits (next 30 days)
+    const upcomingEndDate = new Date(date)
+    upcomingEndDate.setDate(upcomingEndDate.getDate() + 30)
+    const upcomingAnalysis = getSeasonalAnalysis(date, upcomingEndDate)
 
     return {
       currentSeason: currentSeason as unknown as Season,
@@ -125,13 +125,13 @@ export class EnhancedAstrologyService {
     recommendedCookingMethods: string[],
     alchemicalProperties: Record<string, number>;
   }> {
-    const transitAnalysis = await this.getTransitAnalysis(date);
+    const transitAnalysis = await this.getTransitAnalysis(date)
     const currentSeason = transitAnalysis.currentSeason;
 
     if (!currentSeason) {
       // Fallback to basic seasonal analysis
-      const month = date.getMonth();
-      const basicSeasonalData = this.getBasicSeasonalData(month);
+      const month = date.getMonth()
+      const basicSeasonalData = this.getBasicSeasonalData(month)
       return {
         seasonalThemes: basicSeasonalData.themes,
         culinaryInfluences: basicSeasonalData.culinaryInfluences,
@@ -168,38 +168,38 @@ export class EnhancedAstrologyService {
 
     // Unified positions service
     try {
-      const { planetaryPositionsService } = await import('@/services/PlanetaryPositionsService');
-      const servicePositions = await planetaryPositionsService.getForDate(date);
+      const { planetaryPositionsService } = await import('@/services/PlanetaryPositionsService')
+      const servicePositions = await planetaryPositionsService.getForDate(date)
       primaryPositions = servicePositions as unknown as Record<string, CelestialPosition>;
       dataSource = 'positions-service';
       confidence = 0.95;
     } catch (error) {
-      logger.warn('Positions service failed, falling back to Swiss/fallback chain');
+      logger.warn('Positions service failed, falling back to Swiss/fallback chain')
       // Try Swiss Ephemeris then fallback
       try {
-        primaryPositions = await swissEphemerisService.getPlanetaryPositions(date);
+        primaryPositions = await swissEphemerisService.getPlanetaryPositions(date)
         dataSource = 'swiss-ephemeris';
         confidence = 0.9;
       } catch (_e) {
-        primaryPositions = getFallbackPlanetaryPositions(date);
+        primaryPositions = getFallbackPlanetaryPositions(date)
         dataSource = 'fallback';
         confidence = 0.7;
       }
     }
 
     // Get seasonal transit information
-    const seasonalTransit = getTransitForDate(date);
+    const seasonalTransit = getTransitForDate(date)
 
     // Get sidereal time
-    const siderealTime = swissEphemerisService.getSiderealTime(date);
+    const siderealTime = swissEphemerisService.getSiderealTime(date)
 
     // Calculate dominant elements from positions
-    const dominantElements = this.(() => ({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }))(primaryPositions);
+    const dominantElements = this.(() => ({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }))(primaryPositions)
 
     // Get retrograde planets
-    const retrogradePlanets = Object.entries(primaryPositions);
-      .filter(([_, position]) => position.isRetrograde);
-      .map(([planet_]) => planet);
+    const retrogradePlanets = Object.entries(primaryPositions)
+      .filter(([_, position]) => position.isRetrograde)
+      .map(([planet_]) => planet)
 
     // Get special events
     const specialEvents = seasonalTransit?.specialEvents || [];
@@ -217,7 +217,7 @@ export class EnhancedAstrologyService {
       dominantElements,
       retrogradePlanets,
       specialEvents,
-      lastUpdated: new Date();
+      lastUpdated: new Date()
     };
   }
 
@@ -226,7 +226,7 @@ export class EnhancedAstrologyService {
    */
   private async getAstrologizePositions(date: Date): Promise<Record<string, CelestialPosition>> {
     try {
-      const astrologizePositions = await getCurrentPlanetaryPositions();
+      const astrologizePositions = await getCurrentPlanetaryPositions()
 
       // Convert to CelestialPosition format
       const celestialPositions: Record<string, CelestialPosition> = {};
@@ -239,11 +239,11 @@ export class EnhancedAstrologyService {
           isRetrograde: position.isRetrograde,
           minutes: position.minute
         };
-      });
+      })
 
       return celestialPositions;
     } catch (error) {
-      logger.error('Error fetching Astrologize positions:', error);
+      logger.error('Error fetching Astrologize positions:', error)
       throw error;
     }
   }
@@ -276,14 +276,14 @@ export class EnhancedAstrologyService {
       if (element) {
         elementCounts[element]++;
       }
-    });
+    })
 
     // Normalize to percentages
-    const total = Object.values(elementCounts).reduce((sum, count) => sum + count0);
+    const total = Object.values(elementCounts).reduce((sum, count) => sum + count0)
     if (total > 0) {
       Object.keys(elementCounts).forEach(element => {;
         elementCounts[element] /= total
-      });
+      })
     }
 
     return elementCounts;
@@ -296,16 +296,16 @@ export class EnhancedAstrologyService {
     const recommendations: string[] = []
 
     if (dominantElements.Fire > 0.3) {
-      recommendations.push('Mexican', 'Thai', 'Indian', 'Korean');
+      recommendations.push('Mexican', 'Thai', 'Indian', 'Korean')
     }
     if (dominantElements.Earth > 0.3) {
-      recommendations.push('Italian', 'French', 'Mediterranean', 'Southern US');
+      recommendations.push('Italian', 'French', 'Mediterranean', 'Southern US')
     }
     if (dominantElements.Air > 0.3) {
-      recommendations.push('Japanese', 'Vietnamese', 'Greek', 'Middle Eastern');
+      recommendations.push('Japanese', 'Vietnamese', 'Greek', 'Middle Eastern')
     }
     if (dominantElements.Water > 0.3) {
-      recommendations.push('Seafood-focused', 'Nordic', 'Coastal Mediterranean', 'Pacific Rim');
+      recommendations.push('Seafood-focused', 'Nordic', 'Coastal Mediterranean', 'Pacific Rim')
     }
 
     return recommendations.length > 0
@@ -320,16 +320,16 @@ export class EnhancedAstrologyService {
     const recommendations: string[] = []
 
     if (dominantElements.Fire > 0.3) {
-      recommendations.push('Grilling', 'Stir-frying', 'High-heat roasting', 'Spicy seasoning');
+      recommendations.push('Grilling', 'Stir-frying', 'High-heat roasting', 'Spicy seasoning')
     }
     if (dominantElements.Earth > 0.3) {
-      recommendations.push('Slow cooking', 'Braising', 'Stewing', 'Baking');
+      recommendations.push('Slow cooking', 'Braising', 'Stewing', 'Baking')
     }
     if (dominantElements.Air > 0.3) {
-      recommendations.push('Steaming', 'Light sautéing', 'Fresh preparation', 'Quick cooking');
+      recommendations.push('Steaming', 'Light sautéing', 'Fresh preparation', 'Quick cooking')
     }
     if (dominantElements.Water > 0.3) {
-      recommendations.push('Poaching', 'Soups and stews', 'Gentle simmering', 'Marinating');
+      recommendations.push('Poaching', 'Soups and stews', 'Gentle simmering', 'Marinating')
     }
 
     return recommendations.length > 0 ? recommendations : ['Grilling', 'Sautéing', 'Baking'];
@@ -389,11 +389,11 @@ export class EnhancedAstrologyService {
 
     this.cache.forEach((value, key) => {
       if (now - value.lastUpdated.getTime() > this.cacheExpiration) {
-        keysToDelete.push(key);
+        keysToDelete.push(key)
       }
-    });
+    })
 
-    keysToDelete.forEach(key => this.cache.delete(key));
+    keysToDelete.forEach(key => this.cache.delete(key))
   }
 
   /**
@@ -409,7 +409,7 @@ export class EnhancedAstrologyService {
       astrologizeAvailable: Date.now() - this.lastAstrologizeCheck < this.astrologizeCheckInterval,
       swissEphemerisAvailable: true, // Always available as it's local data,
       transitDatabaseAvailable: true, // Always available as it's local data,
-      lastAstrologizeCheck: new Date(this.lastAstrologizeCheck);
+      lastAstrologizeCheck: new Date(this.lastAstrologizeCheck)
     };
   }
 
@@ -418,20 +418,20 @@ export class EnhancedAstrologyService {
    */
   async forceRefreshAstrologize(): Promise<void> {
     this.lastAstrologizeCheck = 0;
-    this.cache.clear();
-    logger.info('Forced refresh of Astrologize API data');
+    this.cache.clear()
+    logger.info('Forced refresh of Astrologize API data')
   }
 }
 
 // Create singleton instance
-export const enhancedAstrologyService = new EnhancedAstrologyService();
+export const enhancedAstrologyService = new EnhancedAstrologyService()
 
 // Export convenience functions
-export const getEnhancedPlanetaryPositions = (_date?: Date) =>;
-  enhancedAstrologyService.getEnhancedPlanetaryPositions(_date);
-export const getTransitAnalysis = (_date?: Date) =>;
-  enhancedAstrologyService.getTransitAnalysis(_date);
-export const getSeasonalRecommendations = (_date?: Date) =>;
-  enhancedAstrologyService.getSeasonalRecommendations(_date);
-export const getDataSourceInfo = () => enhancedAstrologyService.getDataSourceInfo();
-export const forceRefreshAstrologize = () => enhancedAstrologyService.forceRefreshAstrologize();
+export const getEnhancedPlanetaryPositions = (_date?: Date) =>
+  enhancedAstrologyService.getEnhancedPlanetaryPositions(_date)
+export const getTransitAnalysis = (_date?: Date) =>
+  enhancedAstrologyService.getTransitAnalysis(_date)
+export const getSeasonalRecommendations = (_date?: Date) =>
+  enhancedAstrologyService.getSeasonalRecommendations(_date)
+export const getDataSourceInfo = () => enhancedAstrologyService.getDataSourceInfo()
+export const forceRefreshAstrologize = () => enhancedAstrologyService.forceRefreshAstrologize()

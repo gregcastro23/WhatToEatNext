@@ -45,7 +45,7 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
     const id = Date.now()
 
     // Calculate elemental influences
-    const elemental = calculateElementalInfluence(sunSign, moonSign);
+    const elemental = calculateElementalInfluence(sunSign, moonSign)
 
     // Build class list
     const classes = [
@@ -58,16 +58,16 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
 
     // Add elemental classes if applicable
     if (elemental.sunElement) {
-      classes.push(`popup-${elemental.sunElement.toLowerCase()}`);
+      classes.push(`popup-${elemental.sunElement.toLowerCase()}`)
     }
     if (elemental.moonElement) {
-      classes.push(`popup-${elemental.moonElement.toLowerCase()}`);
+      classes.push(`popup-${elemental.moonElement.toLowerCase()}`)
     }
     if (elemental.isHarmonious) {
-      classes.push('popup-harmonious');
+      classes.push('popup-harmonious')
     }
     if (season) {
-      classes.push(`popup-${season.toLowerCase()}`);
+      classes.push(`popup-${season.toLowerCase()}`)
     }
 
     const newPopup: Popup  = {
@@ -75,7 +75,7 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
       message,
       type,
       position,
-      className: classes.join(' ');
+      className: classes.join(' ')
       elemental,
       season,
       metadata: {
@@ -85,32 +85,32 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
       }
     };
 
-    setPopups(current => [...current, newPopup]);
+    setPopups(current => [...current, newPopup])
 
     // Handle animation timing
     const animationDuration = 300; // ms
     setTimeout(() => {
-      const popupElement = document.getElementById(`popup-${id}`);
+      const popupElement = document.getElementById(`popup-${id}`)
       if (popupElement) {
-        popupElement.classList.add('popup-exit');
+        popupElement.classList.add('popup-exit')
       }
-    }, duration - animationDuration);
+    }, duration - animationDuration)
 
     // Remove popup after animation
     setTimeout(() => {
-      setPopups(current => current.filter(popup => popup.id !== id));
-    }, duration);
+      setPopups(current => current.filter(popup => popup.id !== id))
+    }, duration)
 
     return id;
   };
 
   const closePopup = (id: number): void => {
-    const popupElement = document.getElementById(`popup-${id}`);
+    const popupElement = document.getElementById(`popup-${id}`)
     if (popupElement) {
-      popupElement.classList.add('popup-exit');
+      popupElement.classList.add('popup-exit')
       setTimeout(() => {
-        setPopups(current => current.filter(popup => popup.id !== id));
-      }, 300);
+        setPopups(current => current.filter(popup => popup.id !== id))
+      }, 300)
     }
   };
 
@@ -164,5 +164,5 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
         ))}
       </div>
     </PopupContext.Provider>
-  );
+  )
 };

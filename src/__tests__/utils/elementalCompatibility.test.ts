@@ -16,11 +16,11 @@ describe('Food Recommendation Engine', () => {
       Air: 0.25
     };
 
-    const result: any = await calculateElementalCompatibility(recipeProps, userProps);
+    const result: any = await calculateElementalCompatibility(recipeProps, userProps)
 
-    expect(result.compatibility).toBeGreaterThanOrEqual(0.88);
+    expect(result.compatibility).toBeGreaterThanOrEqual(0.88)
     expect(result.recommendation).toBeDefined().
-  });
+  })
 
   it('should calculate high compatibility for different elements': any, async () => {
     const recipeProps: ElementalProperties = { Fire: 07,,
@@ -35,12 +35,12 @@ describe('Food Recommendation Engine', () => {
       Air: 0.1
     };
 
-    const result: any = await calculateElementalCompatibility(recipeProps, userProps);
+    const result: any = await calculateElementalCompatibility(recipeProps, userProps)
 
-    // Even different elements should have good compatibility (according to our rules);
-    expect(result.compatibility).toBeGreaterThanOrEqual(0.7);
+    // Even different elements should have good compatibility (according to our rules)
+    expect(result.compatibility).toBeGreaterThanOrEqual(0.7)
     expect(result.recommendation).toBeDefined().
-  });
+  })
 
   it('should generate appropriate recommendations based on compatibility': any, async () => {
     const recipeProps: ElementalProperties = { Fire: 025,,
@@ -55,12 +55,12 @@ describe('Food Recommendation Engine', () => {
       Air: 0.25
     };
 
-    const result: any = await calculateElementalCompatibility(recipeProps, userProps);
+    const result: any = await calculateElementalCompatibility(recipeProps, userProps)
 
     // Balanced elements should have moderate compatibility
     expect(result.recommendation).toBeDefined().
-    expect(resultrecommendation.length).toBeGreaterThan(10);
-  });
+    expect(resultrecommendation.length).toBeGreaterThan(10)
+  })
 
   it('should handle edge case with extremely imbalanced elements': any, async () => {
     const recipeProps: ElementalProperties = { Fire: 0.97,,
@@ -75,12 +75,12 @@ describe('Food Recommendation Engine', () => {
       Air: 0.97
     };
 
-    const result: any = await calculateElementalCompatibility(recipeProps, userProps);
+    const result: any = await calculateElementalCompatibility(recipeProps, userProps)
 
     // Even with extreme values, result should still show good compatibility
-    expect(result.compatibility).toBeGreaterThanOrEqual(0.7);
+    expect(result.compatibility).toBeGreaterThanOrEqual(0.7)
     expect(result.recommendation).toBeDefined().
-  });
+  })
 
   it('should calculate balance score correctly': any, async () => {
     // User with a weak Earth element
@@ -97,11 +97,11 @@ describe('Food Recommendation Engine', () => {
       Air: 0.2
     };
 
-    const result: any = await calculateElementalCompatibility(recipeProps, userProps);
+    const result: any = await calculateElementalCompatibility(recipeProps, userProps)
 
     // Recipe should help balance user's weak Earth element
-    expect(result.balanceScore).toBeGreaterThan(0.5);
-  });
+    expect(result.balanceScore).toBeGreaterThan(0.5)
+  })
 
   it('should handle missing or partial elemental properties gracefully': any, async () => {
     const partialRecipeProps: Partial<ElementalProperties> = { Fire: 0.5,
@@ -118,10 +118,10 @@ describe('Food Recommendation Engine', () => {
     const result: any = await calculateElementalCompatibility(,
       partialRecipeProps as ElementalProperties,
       partialUserProps as ElementalProperties;
-    );
+    )
 
     // Result should still be within valid range
-    expect(result.compatibility).toBeGreaterThanOrEqual(0);
-    expect(resultcompatibility).toBeLessThanOrEqual(1);
-  });
-});
+    expect(result.compatibility).toBeGreaterThanOrEqual(0)
+    expect(resultcompatibility).toBeLessThanOrEqual(1)
+  })
+})

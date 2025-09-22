@@ -120,7 +120,7 @@ export const endpointLimits: Record<string, Partial<RateLimitTier>> = {
  */
 function createKeyGenerator() {
   return (req: Request): string => {
-    const userId = getAuthenticatedUserId(req);
+    const userId = getAuthenticatedUserId(req)
     const ip = req.ip || req.connection.remoteAddress || 'unknown';
 
     if (userId) {
@@ -167,11 +167,11 @@ export function createAdaptiveRateLimit(baseTier?: string): RateLimitRequestHand
   return rateLimit({
     windowMs: 15 * 60 * 1000, // Default window
     max: (req: Request) => {
-      const tier = baseTier ? rateLimitTiers[baseTier] : determineRateLimitTier(req);
+      const tier = baseTier ? rateLimitTiers[baseTier] : determineRateLimitTier(req)
       return tier.max;
     },
     message: (req: Request) => {
-      const tier = baseTier ? rateLimitTiers[baseTier] : determineRateLimitTier(req);
+      const tier = baseTier ? rateLimitTiers[baseTier] : determineRateLimitTier(req)
       return {
         error: 'Rate limit exceeded',
         message: tier.message,
@@ -184,8 +184,8 @@ export function createAdaptiveRateLimit(baseTier?: string): RateLimitRequestHand
     standardHeaders: true,
     legacyHeaders: false,
     handler: (req: Request, res: Response) => {
-      const userId = getAuthenticatedUserId(req);
-      const tier = baseTier ? rateLimitTiers[baseTier] : determineRateLimitTier(req);
+      const userId = getAuthenticatedUserId(req)
+      const tier = baseTier ? rateLimitTiers[baseTier] : determineRateLimitTier(req)
 
       logger.warn('Rate limit exceeded', {
         userId: userId || 'anonymous',
@@ -195,7 +195,7 @@ export function createAdaptiveRateLimit(baseTier?: string): RateLimitRequestHand
         userAgent: req.get('User-Agent'),
         limit: tier.max,
         window: tier.windowMs
-      });
+      })
 
       res.status(429).json({
         error: 'Rate limit exceeded',
@@ -204,9 +204,9 @@ export function createAdaptiveRateLimit(baseTier?: string): RateLimitRequestHand
         limit: tier.max,
         userTier: req.user ? 'authenticated' : 'anonymous',
         upgradeMessage: req.user ? null : 'Authenticate for higher rate limits'
-      });
+      })
     }
-  });
+  })
 }
 
 /**
@@ -216,7 +216,7 @@ export function createEndpointRateLimit(endpoint: string): RateLimitRequestHandl
   const endpointConfig = endpointLimits[endpoint];
 
   if (!endpointConfig) {
-    return createAdaptiveRateLimit();
+    return createAdaptiveRateLimit()
   }
 
   return rateLimit({
@@ -231,7 +231,7 @@ export function createEndpointRateLimit(endpoint: string): RateLimitRequestHandl
     standardHeaders: true,
     legacyHeaders: false,
     handler: (req: Request, res: Response) => {
-      const userId = getAuthenticatedUserId(req);
+      const userId = getAuthenticatedUserId(req)
 
       logger.warn('Endpoint rate limit exceeded', {
         userId: userId || 'anonymous',
@@ -240,16 +240,16 @@ export function createEndpointRateLimit(endpoint: string): RateLimitRequestHandl
         path: req.path,
         method: req.method,
         userAgent: req.get('User-Agent')
-      });
+      })
 
       res.status(429).json({
         error: 'Rate limit exceeded',
         message: endpointConfig.message || 'Too many requests for this endpoint',
         endpoint,
         retryAfter: Math.ceil((endpointConfig.windowMs || 15 * 60 * 1000) / 1000)
-      });
+      })
     }
-  });
+  })
 }
 
 /**
@@ -303,14 +303,14 @@ export const rateLimiters = {
 /**
  * Global rate limiting configuration
  */
-export const globalRateLimit = createAdaptiveRateLimit();
+export const globalRateLimit = createAdaptiveRateLimit()
 
 /**
  * Rate limit status endpoint
  */
 export function rateLimitStatus(req: Request, res: Response): void {
-  const userId = getAuthenticatedUserId(req);
-  const tier = determineRateLimitTier(req);
+  const userId = getAuthenticatedUserId(req)
+  const tier = determineRateLimitTier(req)
 
   res.json({
     userId: userId || null,
@@ -324,7 +324,7 @@ export function rateLimitStatus(req: Request, res: Response): void {
       authenticate: !userId ? 'Authenticate for higher rate limits' : null,
       upgrade: userId && !isAdmin(req) ? 'Upgrade to premium for higher limits' : null
     }
-  });
+  })
 }
 
 export default {

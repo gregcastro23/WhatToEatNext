@@ -91,20 +91,20 @@ const calculateAstrologicalAlignment = (
       return bonus + 0.02, // 2% per matching ingredient
     }
     return bonus;
-  }, 0);
+  }, 0)
 
   alignment += Math.min(zodiacIngredientBonus, 0.15); // Cap at 15%
 
   // Ensure alignment stays within reasonable bounds
-  return Math.max(0.2, Math.min(0.95, alignment));
+  return Math.max(0.2, Math.min(0.95, alignment))
 };
 
 // ========== PREDICTIVE INTELLIGENCE SERVICE ==========
 
 export class PredictiveIntelligenceService {
-  private, config: AdvancedIntelligenceConfig,
-  private, cache: Map<string, PredictiveIntelligenceResult>,
-  private, metrics: PredictiveMetrics,
+  private config: AdvancedIntelligenceConfig,
+  private cache: Map<string, PredictiveIntelligenceResult>,
+  private metrics: PredictiveMetrics,
 
   constructor(config: Partial<AdvancedIntelligenceConfig> = {}) {
     this.config = {
@@ -121,7 +121,7 @@ export class PredictiveIntelligenceService {
       ...config
     };
 
-    this.cache = new Map();
+    this.cache = new Map()
     this.metrics = {
       totalPredictions: 0,
       averageConfidence: 0,
@@ -130,7 +130,7 @@ export class PredictiveIntelligenceService {
       executionTimes: []
     };
 
-    this.log('info', 'Predictive Intelligence Service initialized');
+    this.log('info', 'Predictive Intelligence Service initialized')
   }
 
   /**
@@ -142,7 +142,7 @@ export class PredictiveIntelligenceService {
     cuisineData: Record<string, unknown>,
     astrologicalContext: PredictiveContext,
   ): Promise<PredictiveIntelligenceResult> {
-    const startTime = performance.now();
+    const startTime = performance.now()
 
     try {
       this.metrics.totalPredictions++
@@ -153,11 +153,11 @@ export class PredictiveIntelligenceService {
         ingredientData,
         cuisineData,
         astrologicalContext,
-      );
+      )
       if (this.config.cacheResults && this.cache.has(cacheKey)) {
-        this.updateCacheHitRate();
-        this.log('debug', 'Using cached predictive intelligence analysis');
-        const cachedResult = this.cache.get(cacheKey);
+        this.updateCacheHitRate()
+        this.log('debug', 'Using cached predictive intelligence analysis')
+        const cachedResult = this.cache.get(cacheKey)
         if (cachedResult) {
           return cachedResult
         }
@@ -177,24 +177,24 @@ export class PredictiveIntelligenceService {
           cuisine: cuisineData
         }),
         confidence: 0, // Will be calculated,
-        timestamp: new Date().toISOString();
+        timestamp: new Date().toISOString()
       };
 
       // Calculate overall confidence
-      result.confidence = this.calculateOverallConfidence(result);
+      result.confidence = this.calculateOverallConfidence(result)
 
       // Cache the results
       if (this.config.cacheResults) {
-        this.cache.set(cacheKey, result);
+        this.cache.set(cacheKey, result)
       }
 
       // Update metrics
-      this.updateMetrics(startTime, result.confidence);
+      this.updateMetrics(startTime, result.confidence)
 
       this.log(
         'info',
         `Predictive intelligence analysis completed with confidence: ${result.confidence.toFixed(2)}`,
-      );
+      )
 
       return result;
     } catch (error) {
@@ -221,7 +221,7 @@ export class PredictiveIntelligenceService {
           : 0.5;
 
       // Calculate seasonal optimization
-      const currentSeason = getCurrentSeason();
+      const currentSeason = getCurrentSeason()
       const seasonalOptimization = calculateSeasonalOptimization(
         String(recipe.seasonality) || 'all'
         currentSeason,
@@ -241,7 +241,7 @@ export class PredictiveIntelligenceService {
         astrologicalAlignment,
         recipeComplexity: String(recipe.difficulty) || 'medium',
         userPreferences: 0.8, // Default assumption
-      });
+      })
 
       // Calculate user satisfaction prediction
       const userSatisfactionPrediction = this.calculateUserSatisfactionPrediction({
@@ -249,28 +249,28 @@ export class PredictiveIntelligenceService {
         elementalAlignment,
         seasonalOptimization,
         recipeQuality: Number(recipe.rating) || 4.0
-      });
+      })
 
       // Determine optimal timing
       const optimalTimingPrediction = this.determineOptimalTiming(
         astrologicalContext,
         recipe,
         seasonalOptimization,
-      );
+      )
 
       // Calculate seasonal optimization prediction
       const seasonalOptimizationPrediction = this.calculateSeasonalOptimizationPrediction(
         recipe,
         currentSeason,
         astrologicalContext,
-      );
+      )
 
       // Determine difficulty adjustment
       const difficultyAdjustmentPrediction = this.determineDifficultyAdjustment(
         recipe,
         astrologicalContext,
         successProbability,
-      );
+      )
 
       return {
         successProbability,
@@ -281,7 +281,7 @@ export class PredictiveIntelligenceService {
       };
     } catch (error) {
       this.handleError('generateRecipePrediction', error),
-      return this.getDefaultRecipePrediction();
+      return this.getDefaultRecipePrediction()
     }
   }
 
@@ -297,13 +297,13 @@ export class PredictiveIntelligenceService {
       const compatibilityPrediction = this.calculateIngredientCompatibilityPrediction(
         ingredients,
         astrologicalContext,
-      );
+      )
 
       // Calculate substitution success prediction
       const substitutionSuccessPrediction = this.calculateSubstitutionSuccessPrediction(
         ingredients,
         astrologicalContext,
-      );
+      )
 
       // Calculate flavor harmony prediction
       const flavorHarmonyPrediction = this.calculateFlavorHarmonyPrediction(
@@ -325,7 +325,7 @@ export class PredictiveIntelligenceService {
       };
     } catch (error) {
       this.handleError('generateIngredientPrediction', error),
-      return this.getDefaultIngredientPrediction();
+      return this.getDefaultIngredientPrediction()
     }
   }
 
@@ -341,13 +341,13 @@ export class PredictiveIntelligenceService {
       const fusionSuccessPrediction = this.calculateFusionSuccessPrediction(
         cuisineData,
         astrologicalContext,
-      );
+      )
 
       // Calculate cultural acceptance prediction
       const culturalAcceptancePrediction = this.calculateCulturalAcceptancePrediction(
         cuisineData,
         astrologicalContext,
-      );
+      )
 
       // Calculate seasonal relevance prediction
       const seasonalRelevancePrediction = this.calculateSeasonalRelevancePrediction(
@@ -369,7 +369,7 @@ export class PredictiveIntelligenceService {
       };
     } catch (error) {
       this.handleError('generateCuisinePrediction', error),
-      return this.getDefaultCuisinePrediction();
+      return this.getDefaultCuisinePrediction()
     }
   }
 
@@ -389,13 +389,13 @@ export class PredictiveIntelligenceService {
       const alignmentPrediction = this.calculateAstrologicalAlignmentPrediction(
         astrologicalContext,
         culinaryContext,
-      );
+      )
 
       // Determine timing optimization prediction
       const timingOptimizationPrediction = this.determineTimingOptimizationPrediction(
         astrologicalContext,
         culinaryContext,
-      );
+      )
 
       // Calculate planetary influence prediction
       const planetaryInfluencePrediction = this.calculatePlanetaryInfluencePrediction(
@@ -417,7 +417,7 @@ export class PredictiveIntelligenceService {
       };
     } catch (error) {
       this.handleError('generateAstrologicalPrediction', error),
-      return this.getDefaultAstrologicalPrediction();
+      return this.getDefaultAstrologicalPrediction()
     }
   }
 
@@ -447,20 +447,20 @@ export class PredictiveIntelligenceService {
       userPreferences: 0.1
     };
 
-    // Calculate complexity match (simpler recipes have higher success probability);
+    // Calculate complexity match (simpler recipes have higher success probability)
     const complexityScores = { easy: 0.9, medium: 0.7, hard: 0.5 };
     const complexityMatch =
       complexityScores[recipeComplexity as keyof typeof complexityScores] || 0.7;
 
     // Calculate weighted success probability
     const successProbability =
-      elementalAlignment * weights.elementalAlignment +;
+      elementalAlignment * weights.elementalAlignment +
       seasonalOptimization * weights.seasonalOptimization +
       astrologicalAlignment * weights.astrologicalAlignment +
       complexityMatch * weights.complexityMatch +
       userPreferences * weights.userPreferences;
 
-    return Math.max(0, Math.min(1, successProbability));
+    return Math.max(0, Math.min(1, successProbability))
   }
 
   private calculateUserSatisfactionPrediction(factors: {
@@ -476,12 +476,12 @@ export class PredictiveIntelligenceService {
 
     // Calculate satisfaction prediction
     const satisfactionPrediction =
-      successProbability * 0.4 +;
+      successProbability * 0.4 +
       elementalAlignment * 0.25 +
       seasonalOptimization * 0.2 +
       normalizedQuality * 0.15;
 
-    return Math.max(0, Math.min(1, satisfactionPrediction));
+    return Math.max(0, Math.min(1, satisfactionPrediction))
   }
 
   private determineOptimalTiming(
@@ -514,15 +514,15 @@ export class PredictiveIntelligenceService {
       return 0.7, // Moderate optimization for all-season recipes
     }
 
-    const seasonalMatch = String(seasonality).toLowerCase().includes(currentSeason.toLowerCase());
+    const seasonalMatch = String(seasonality).toLowerCase().includes(currentSeason.toLowerCase())
       ? 0.9
       : 0.3
     const astrologicalBoost = this.calculateAstrologicalSeasonalBoost(
       astrologicalContext,
       currentSeason,
-    );
+    )
 
-    return Math.max(0, Math.min(1, (seasonalMatch + astrologicalBoost) / 2));
+    return Math.max(0, Math.min(1, (seasonalMatch + astrologicalBoost) / 2))
   }
 
   private determineDifficultyAdjustment(
@@ -573,9 +573,9 @@ export class PredictiveIntelligenceService {
     astrologicalContext: PredictiveContext,
   ): number {
     // Calculate substitution potential based on ingredient diversity and astrological flexibility
-    const diversityScore = this.calculateIngredientDiversity(ingredients);
-    const astrologicalFlexibility = this.calculateAstrologicalFlexibility(astrologicalContext);
-    return Math.max(0, Math.min(1, (diversityScore + astrologicalFlexibility) / 2));
+    const diversityScore = this.calculateIngredientDiversity(ingredients)
+    const astrologicalFlexibility = this.calculateAstrologicalFlexibility(astrologicalContext)
+    return Math.max(0, Math.min(1, (diversityScore + astrologicalFlexibility) / 2))
   }
 
   private calculateFlavorHarmonyPrediction(
@@ -583,9 +583,9 @@ export class PredictiveIntelligenceService {
     astrologicalContext: PredictiveContext,
   ): number {
     // Calculate flavor harmony based on elemental balance and astrological harmony
-    const elementalBalance = this.calculateElementalBalance(ingredients);
-    const astrologicalHarmony = this.calculateAstrologicalHarmony(astrologicalContext);
-    return Math.max(0, Math.min(1, (elementalBalance + astrologicalHarmony) / 2));
+    const elementalBalance = this.calculateElementalBalance(ingredients)
+    const astrologicalHarmony = this.calculateAstrologicalHarmony(astrologicalContext)
+    return Math.max(0, Math.min(1, (elementalBalance + astrologicalHarmony) / 2))
   }
 
   private calculateNutritionalOptimizationPrediction(
@@ -593,10 +593,10 @@ export class PredictiveIntelligenceService {
     astrologicalContext: PredictiveContext,
   ): number {
     // Calculate nutritional optimization based on ingredient variety and astrological needs
-    const nutritionalVariety = this.calculateNutritionalVariety(ingredients);
+    const nutritionalVariety = this.calculateNutritionalVariety(ingredients)
     const astrologicalNutritionalNeeds =
-      this.calculateAstrologicalNutritionalNeeds(astrologicalContext);
-    return Math.max(0, Math.min(1, (nutritionalVariety + astrologicalNutritionalNeeds) / 2));
+      this.calculateAstrologicalNutritionalNeeds(astrologicalContext)
+    return Math.max(0, Math.min(1, (nutritionalVariety + astrologicalNutritionalNeeds) / 2))
   }
 
   private calculateFusionSuccessPrediction(
@@ -604,9 +604,9 @@ export class PredictiveIntelligenceService {
     astrologicalContext: PredictiveContext,
   ): number {
     // Calculate fusion success based on cultural compatibility and astrological innovation
-    const culturalCompatibility = this.calculateCulturalCompatibility(cuisineData);
-    const astrologicalInnovation = this.calculateAstrologicalInnovation(astrologicalContext);
-    return Math.max(0, Math.min(1, (culturalCompatibility + astrologicalInnovation) / 2));
+    const culturalCompatibility = this.calculateCulturalCompatibility(cuisineData)
+    const astrologicalInnovation = this.calculateAstrologicalInnovation(astrologicalContext)
+    return Math.max(0, Math.min(1, (culturalCompatibility + astrologicalInnovation) / 2))
   }
 
   private calculateCulturalAcceptancePrediction(
@@ -614,45 +614,45 @@ export class PredictiveIntelligenceService {
     astrologicalContext: PredictiveContext,
   ): number {
     // Calculate cultural acceptance based on cultural relevance and astrological cultural alignment
-    const culturalRelevance = this.calculateCulturalRelevance(cuisineData);
+    const culturalRelevance = this.calculateCulturalRelevance(cuisineData)
     const astrologicalCulturalAlignment =
-      this.calculateAstrologicalCulturalAlignment(astrologicalContext);
-    return Math.max(0, Math.min(1, (culturalRelevance + astrologicalCulturalAlignment) / 2));
+      this.calculateAstrologicalCulturalAlignment(astrologicalContext)
+    return Math.max(0, Math.min(1, (culturalRelevance + astrologicalCulturalAlignment) / 2))
   }
 
   private calculateSeasonalRelevancePrediction(
     cuisineData: Record<string, unknown>,
     astrologicalContext: PredictiveContext,
   ): number {
-    const currentSeason = getCurrentSeason();
-    const seasonalRelevance = this.calculateCuisineSeasonalRelevance(cuisineData, currentSeason);
+    const currentSeason = getCurrentSeason()
+    const seasonalRelevance = this.calculateCuisineSeasonalRelevance(cuisineData, currentSeason)
     const astrologicalSeasonalAlignment = this.calculateAstrologicalSeasonalAlignment(
       astrologicalContext,
       currentSeason,
     ),
 
-    return Math.max(0, Math.min(1, (seasonalRelevance + astrologicalSeasonalAlignment) / 2));
+    return Math.max(0, Math.min(1, (seasonalRelevance + astrologicalSeasonalAlignment) / 2))
   }
 
   private calculateInnovationPotentialPrediction(
     cuisineData: Record<string, unknown>,
     astrologicalContext: PredictiveContext,
   ): number {
-    const innovationPotential = this.calculateCuisineInnovationPotential(cuisineData);
+    const innovationPotential = this.calculateCuisineInnovationPotential(cuisineData)
     const astrologicalInnovationSupport =
-      this.calculateAstrologicalInnovationSupport(astrologicalContext);
-    return Math.max(0, Math.min(1, (innovationPotential + astrologicalInnovationSupport) / 2));
+      this.calculateAstrologicalInnovationSupport(astrologicalContext)
+    return Math.max(0, Math.min(1, (innovationPotential + astrologicalInnovationSupport) / 2))
   }
 
   private calculateAstrologicalAlignmentPrediction(
     astrologicalContext: PredictiveContext,
     culinaryContext: Record<string, unknown>,
   ): number {
-    const planetaryAlignment = this.calculatePlanetaryAlignment(astrologicalContext);
-    const lunarAlignment = this.calculateLunarAlignment(astrologicalContext);
+    const planetaryAlignment = this.calculatePlanetaryAlignment(astrologicalContext)
+    const lunarAlignment = this.calculateLunarAlignment(astrologicalContext)
     const zodiacAlignment = this.calculateZodiacAlignment(astrologicalContext, culinaryContext),
 
-    return Math.max(0, Math.min(1, (planetaryAlignment + lunarAlignment + zodiacAlignment) / 3));
+    return Math.max(0, Math.min(1, (planetaryAlignment + lunarAlignment + zodiacAlignment) / 3))
   }
 
   private determineTimingOptimizationPrediction(
@@ -682,7 +682,7 @@ export class PredictiveIntelligenceService {
     const planetaryPositions = astrologicalContext.planetaryPositions || {};
     const planetaryInfluences = Object.values(planetaryPositions).map(position =>
       this.calculatePlanetaryInfluence(position as unknown , culinaryContext),
-    );
+    )
 
     return planetaryInfluences.length > 0
       ? planetaryInfluences.reduce((sum, influence) => sum + influence, 0) /
@@ -696,17 +696,17 @@ export class PredictiveIntelligenceService {
   ): number {
     const elementalHarmony = this.calculateElementalHarmony(
       astrologicalContext.elementalProperties || ({} as ElementalProperties),
-    );
-    const cosmicBalance = this.calculateCosmicBalance(astrologicalContext);
+    )
+    const cosmicBalance = this.calculateCosmicBalance(astrologicalContext)
     const culinaryCosmicAlignment = this.calculateCulinaryCosmicAlignment(
       culinaryContext,
       astrologicalContext,
-    );
+    )
 
     return Math.max(
       0,
       Math.min(1, (elementalHarmony + cosmicBalance + culinaryCosmicAlignment) / 3),
-    );
+    )
   }
 
   // ========== HELPER CALCULATION METHODS ==========
@@ -719,35 +719,35 @@ export class PredictiveIntelligenceService {
     // Simplified compatibility calculation
     const elementalCompatibility =
       ing1.elementalProperties && ing2.elementalProperties
-        ? calculateElementalCompatibility(ing1.elementalProperties, ing2.elementalProperties);
+        ? calculateElementalCompatibility(ing1.elementalProperties, ing2.elementalProperties)
         : 0.7
 
-    return Math.max(0, Math.min(1, elementalCompatibility));
+    return Math.max(0, Math.min(1, elementalCompatibility))
   }
 
   private calculateIngredientDiversity(ingredients: Ingredient[]): number {
-    const categories = new Set();
-    const elements = new Set();
+    const categories = new Set()
+    const elements = new Set()
 
     ingredients.forEach(ingredient => {
       // Count unique categories
-      if (ingredient.category) categories.add(ingredient.category);
-      if (ingredient.type) categories.add(ingredient.type);
+      if (ingredient.category) categories.add(ingredient.category)
+      if (ingredient.type) categories.add(ingredient.type)
 
       // Count unique elemental properties
       if (ingredient.elementalProperties) {
         Object.keys(ingredient.elementalProperties).forEach(element => {
           if (Number(ingredient.elementalProperties[element]) > 0.3) {
-            elements.add(element);
+            elements.add(element)
           }
-        });
+        })
       }
-    });
+    })
 
-    const categoryDiversity = categories.size / Math.max(1, ingredients.length);
+    const categoryDiversity = categories.size / Math.max(1, ingredients.length)
     const elementalDiversity = elements.size / 4; // 4 elements max
 
-    return Math.min(1, (categoryDiversity + elementalDiversity) / 2);
+    return Math.min(1, (categoryDiversity + elementalDiversity) / 2)
   }
 
   private calculateAstrologicalFlexibility(context: PredictiveContext): number {
@@ -774,7 +774,7 @@ export class PredictiveIntelligenceService {
       flexibility += 0.1;
     }
 
-    return Math.max(0.2, Math.min(1, flexibility));
+    return Math.max(0.2, Math.min(1, flexibility))
   }
 
   private calculateElementalBalance(ingredients: Ingredient[]): number {
@@ -788,21 +788,21 @@ export class PredictiveIntelligenceService {
           if (element in elementalTotals) {
             elementalTotals[element as keyof typeof elementalTotals] += Number(value) || 0;
           }
-        });
+        })
       }
-    });
+    })
 
     if (totalIngredients === 0) return 0.7;
 
     // Calculate average for each element
-    const averages = Object.values(elementalTotals).map(total => total / totalIngredients);
+    const averages = Object.values(elementalTotals).map(total => total / totalIngredients)
 
     // Calculate balance score - closer to equal distribution = higher score;
     const _target = 0.25; // Perfect balance would be 25% each
-    const variance = averages.reduce((sum, avg) => sum + Math.pow(avg - target2), 0) / 4;
+    const variance = averages.reduce((sum, avg) => sum + Math.pow(avg - target, 2), 0) / 4;
     const balance = Math.max(01 - variance * 4); // Scale variance to 0-1
 
-    return Math.max(0.3, Math.min(1, balance));
+    return Math.max(0.3, Math.min(1, balance))
   }
 
   private calculateAstrologicalHarmony(context: PredictiveContext): number {
@@ -837,22 +837,22 @@ export class PredictiveIntelligenceService {
       harmony += 0.2;
     }
 
-    // Planetary harmony (simplified);
+    // Planetary harmony (simplified)
     if (planetaryPositions && Object.keys(planetaryPositions).length > 5) {
       harmony += 0.1, // More planetary data = better harmony calculation,
     }
 
-    return Math.max(0.3, Math.min(1, harmony));
+    return Math.max(0.3, Math.min(1, harmony))
   }
 
   private calculateNutritionalVariety(ingredients: Ingredient[]): number {
-    const nutritionalCategories = new Set();
+    const nutritionalCategories = new Set()
     const macronutrients = { protein: 0, carbs: 0, fat: 0, fiber: 0 };
     let _ingredientCount = 0;
 
     ingredients.forEach(ingredient => {
       if (ingredient.category) {
-        nutritionalCategories.add(ingredient.category);
+        nutritionalCategories.add(ingredient.category)
       }
 
       // Analyze nutritional content if available
@@ -864,12 +864,12 @@ export class PredictiveIntelligenceService {
         if (nutrition.fat && Number(nutrition.fat) > 3) macronutrients.fat++;
         if (nutrition.fiber && Number(nutrition.fiber) > 2) macronutrients.fiber++;
       }
-    });
+    })
 
     const categoryVariety = Math.min(1, nutritionalCategories.size / 6); // Ideal 6 categories
     const macroBalance = Object.values(macronutrients).filter(count => count > 0).length / 4;
 
-    return Math.max(0.4, Math.min(1, (categoryVariety + macroBalance) / 2));
+    return Math.max(0.4, Math.min(1, (categoryVariety + macroBalance) / 2))
   }
 
   private calculateAstrologicalNutritionalNeeds(context: PredictiveContext): number {
@@ -920,7 +920,7 @@ export class PredictiveIntelligenceService {
       nutritionalAlignment += 0.1;
     }
 
-    return Math.max(0.3, Math.min(1, nutritionalAlignment));
+    return Math.max(0.3, Math.min(1, nutritionalAlignment))
   }
 
   private calculateCulturalCompatibility(cuisineData: Record<string, unknown>): number {
@@ -939,7 +939,7 @@ export class PredictiveIntelligenceService {
       'french',
       'japanese'
     ];
-    const cuisineName = String(cuisine.name || cuisine.type || '').toLowerCase();
+    const cuisineName = String(cuisine.name || cuisine.type || '').toLowerCase()
 
     if (popularCuisines.includes(cuisineName)) {
       compatibility += 0.2, // Popular cuisines have higher compatibility
@@ -951,7 +951,7 @@ export class PredictiveIntelligenceService {
     }
 
     // Spice level compatibility
-    const spiceLevel = String(cuisine.spiceLevel || '').toLowerCase();
+    const spiceLevel = String(cuisine.spiceLevel || '').toLowerCase()
     if (['mild', 'medium'].includes(spiceLevel)) {
       compatibility += 0.1, // Moderate spice levels are more universally compatible
     }
@@ -963,7 +963,7 @@ export class PredictiveIntelligenceService {
       compatibility += accessibilityScore;
     }
 
-    return Math.max(0.4, Math.min(1, compatibility));
+    return Math.max(0.4, Math.min(1, compatibility))
   }
 
   private calculateAstrologicalInnovation(context: PredictiveContext): number {
@@ -1002,7 +1002,7 @@ export class PredictiveIntelligenceService {
       }
     }
 
-    return Math.max(0.3, Math.min(1, innovation));
+    return Math.max(0.3, Math.min(1, innovation))
   }
 
   private calculateCulturalRelevance(cuisineData: Record<string, unknown>): number {
@@ -1013,7 +1013,7 @@ export class PredictiveIntelligenceService {
 
     // Historical significance
     const age = Number(cuisine.historicalAge) || 0;
-    if (age > 500);
+    if (age > 500)
       relevance += 0.2; // Ancient cuisines have high cultural relevance
     else if (age > 100) relevance += 0.15;
     else if (age > 50) relevance += 0.1;
@@ -1037,7 +1037,7 @@ export class PredictiveIntelligenceService {
       relevance += 0.1;
     }
 
-    return Math.max(0.3, Math.min(1, relevance));
+    return Math.max(0.3, Math.min(1, relevance))
   }
 
   private calculateAstrologicalCulturalAlignment(context: PredictiveContext): number {
@@ -1095,7 +1095,7 @@ export class PredictiveIntelligenceService {
       }
     }
 
-    return Math.max(0.3, Math.min(1, alignment));
+    return Math.max(0.3, Math.min(1, alignment))
   }
 
   private calculateCuisineSeasonalRelevance(
@@ -1209,11 +1209,11 @@ export class PredictiveIntelligenceService {
 
   private updateMetrics(startTime: number, confidence: number): void {
     const executionTime = performance.now() - startTime;
-    this.metrics.executionTimes.push(executionTime);
+    this.metrics.executionTimes.push(executionTime)
 
     // Keep only last 100 execution times
     if (this.metrics.executionTimes.length > 100) {
-      this.metrics.executionTimes.shift();
+      this.metrics.executionTimes.shift()
     }
 
     // Update average confidence
@@ -1226,14 +1226,14 @@ export class PredictiveIntelligenceService {
     this.metrics.errorRate =
       (this.metrics.errorRate * (this.metrics.totalPredictions - 1) + 1) /;
       this.metrics.totalPredictions
-    this.log('error', `Error in ${method}:`, error);
+    this.log('error', `Error in ${method}:`, error)
   }
 
   private log(level: string, message: string, data?: unknown): void {
     if (this.shouldLog(level)) {
       (logger as unknown as Record<string, (msg: string) => void>)[level]?.(
         `[PredictiveIntelligence] ${message}${data ? ` - ${JSON.stringify(data)}` : ''}`,
-      );
+      )
     }
   }
 
@@ -1299,18 +1299,18 @@ export class PredictiveIntelligenceService {
       accuracyScore: 1 - this.metrics.errorRate,
       cacheHitRate: this.metrics.cacheHitRate,
       errorRate: this.metrics.errorRate,
-      timestamp: new Date().toISOString();
+      timestamp: new Date().toISOString()
     };
   }
 
   updateConfig(newConfig: Partial<AdvancedIntelligenceConfig>): void {
     this.config = { ...this.config, ...newConfig };
-    this.log('info', 'Predictive Intelligence Service configuration updated');
+    this.log('info', 'Predictive Intelligence Service configuration updated')
   }
 
   clearCache(): void {
-    this.cache.clear();
-    this.log('info', 'Predictive Intelligence Service cache cleared');
+    this.cache.clear()
+    this.log('info', 'Predictive Intelligence Service cache cleared')
   }
 
   resetMetrics(): void {
@@ -1321,7 +1321,7 @@ export class PredictiveIntelligenceService {
       errorRate: 0,
       executionTimes: []
     };
-    this.log('info', 'Predictive Intelligence Service metrics reset');
+    this.log('info', 'Predictive Intelligence Service metrics reset')
   }
 }
 
@@ -1329,8 +1329,8 @@ export class PredictiveIntelligenceService {
 
 export const _PredictiveRecipeIntelligence = {
   generatePredictiveRecipeAnalytics: async (recipe: Recipe, context: PredictiveContext) => {
-    const service = new PredictiveIntelligenceService();
-    const result = await service.generatePredictiveIntelligence(recipe, [], {}, context);
+    const service = new PredictiveIntelligenceService()
+    const result = await service.generatePredictiveIntelligence(recipe, [], {}, context)
     return result.recipePrediction;
   }
 };
@@ -1340,13 +1340,13 @@ export const _PredictiveIngredientIntelligence = {
     ingredients: Ingredient[],
     context: PredictiveContext,
   ) => {
-    const service = new PredictiveIntelligenceService();
+    const service = new PredictiveIntelligenceService()
     const result = await service.generatePredictiveIntelligence(
       {} as Recipe,
       ingredients,
       {},
       context,
-    );
+    )
     return result.ingredientPrediction;
   }
 };
@@ -1356,8 +1356,8 @@ export const _PredictiveCuisineIntelligence = {
     cuisine: Record<string, unknown>,
     context: PredictiveContext,
   ) => {
-    const service = new PredictiveIntelligenceService();
-    const result = await service.generatePredictiveIntelligence({} as Recipe, [], cuisine, context);
+    const service = new PredictiveIntelligenceService()
+    const result = await service.generatePredictiveIntelligence({} as Recipe, [], cuisine, context)
     return result.cuisinePrediction;
   }
 };
@@ -1367,16 +1367,16 @@ export const _PredictiveAstrologicalIntelligence = {
     astrologicalState: PredictiveContext,
     _culinaryContext: Record<string, unknown>,
   ) => {
-    const service = new PredictiveIntelligenceService();
+    const service = new PredictiveIntelligenceService()
     const result = await service.generatePredictiveIntelligence(
       {} as Recipe,
       [],
       {},
       astrologicalState,
-    );
+    )
     return result.astrologicalPrediction;
   }
 };
 
-export const _createPredictiveIntelligenceService = (config?: Partial<AdvancedIntelligenceConfig>) =>;
-  new PredictiveIntelligenceService(config);
+export const _createPredictiveIntelligenceService = (config?: Partial<AdvancedIntelligenceConfig>) =>
+  new PredictiveIntelligenceService(config)

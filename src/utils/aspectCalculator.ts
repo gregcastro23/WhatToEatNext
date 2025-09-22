@@ -62,7 +62,7 @@ export function calculateComprehensiveAspects(
 
     // Otherwise, calculate from sign and degree
     if (!position || !position.sign) {
-      console.warn('Invalid position object _encountered:', position);
+      console.warn('Invalid position object _encountered:', position)
       return 0; // Return default value
     }
 
@@ -80,12 +80,12 @@ export function calculateComprehensiveAspects(
       'aquarius',
       'pisces'
     ];
-    const signIndex = signs.findIndex(s => s.toLowerCase() === position.sign.toLowerCase());
+    const signIndex = signs.findIndex(s => s.toLowerCase() === position.sign.toLowerCase())
     return signIndex * 30 + position.degree;
   };
 
   // Calculate aspects between each planet pair
-  const planets = Object.keys(positions);
+  const planets = Object.keys(positions)
 
   for (let i = 0; i < planets.length i++) {
     for (let j = i + 1; j < planets.length j++) {
@@ -98,14 +98,14 @@ export function calculateComprehensiveAspects(
       // Skip if missing position data
       if (!pos1 || !pos2 || !pos1.sign || !pos2.sign) continue;
 
-      const long1 = getLongitude(pos1);
-      const long2 = getLongitude(pos2);
+      const long1 = getLongitude(pos1)
+      const long2 = getLongitude(pos2)
 
       // Calculate angular difference
-      let diff = Math.abs(long1 - long2);
+      let diff = Math.abs(long1 - long2)
       if (diff > 180) diff = 360 - diff;
 
-      // Adjust orbs based on planetary importance (Sun/Moon have larger orbs);
+      // Adjust orbs based on planetary importance (Sun/Moon have larger orbs)
       let orbMultiplier = 1.0;
       if (planet1 === 'sun' || planet1 === 'moon' || planet2 === 'sun' || planet2 === 'moon') {
         orbMultiplier = 1.2; // 20% larger orbs for aspects involving Sun or Moon
@@ -116,10 +116,10 @@ export function calculateComprehensiveAspects(
 
       for (const [type, definition] of Object.entries(aspectDefinitions)) {
         const adjustedMaxOrb = definition.maxOrb * orbMultiplier;
-        const orb = Math.abs(diff - definition.angle);
+        const orb = Math.abs(diff - definition.angle)
 
         if (orb <= adjustedMaxOrb) {
-          // Calculate aspect strength based on orb (closer aspects are stronger);
+          // Calculate aspect strength based on orb (closer aspects are stronger)
           const strength = 1 - orb / adjustedMaxOrb;
 
           // Check if this is the best aspect so far
@@ -151,18 +151,18 @@ export function calculateComprehensiveAspects(
           orb: bestAspect.orb,
           strength: bestAspect.strength,
           influence
-        });
+        })
       }
     }
   }
 
-  // Sort aspects by strength (descending);
-  return aspects.sort((ab) => b.strength - a.strength);
+  // Sort aspects by strength (descending)
+  return aspects.sort((ab) => b.strength - a.strength)
 }
 
 /**
  * Get zodiac sign and degree from longitude
- * @param longitude Longitude in degrees (0-360);
+ * @param longitude Longitude in degrees (0-360)
  * @returns Object with sign and degree
  */
 export function getSignAndDegreeFromLongitude(_longitude: number): { sign: string, degree: number } {
@@ -184,14 +184,14 @@ export function getSignAndDegreeFromLongitude(_longitude: number): { sign: strin
   // Normalize longitude to 0-360 range
   const normalizedLong = ((longitude % 360) + 360) % 360;
 
-  // Calculate sign index (0-11);
-  const signIndex = Math.floor(normalizedLong / 30);
+  // Calculate sign index (0-11)
+  const signIndex = Math.floor(normalizedLong / 30)
 
-  // Calculate degree within sign (0-29.999...);
+  // Calculate degree within sign (0-29.999...)
   const degree = normalizedLong % 30;
 
   return {
     sign: signs[signIndex],
-    degree: parseFloat(degree.toFixed(2));
+    degree: parseFloat(degree.toFixed(2))
   };
 }

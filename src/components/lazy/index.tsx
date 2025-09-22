@@ -5,25 +5,25 @@ export const LazyPlanetaryHourDisplay = lazy(() =>
   import('../PlanetaryHourDisplay').then(module => ({
     default: module.PlanetaryHourDisplay
   }))
-);
+)
 
 export const LazyEnhancedRecommendationEngine = lazy(() =>
   import('../EnhancedRecommendationEngine').then(module => ({
     default: module.EnhancedRecommendationEngine
   }))
-);
+)
 
 export const LazyEnergyVisualization = lazy(() =>
   import('../EnergyVisualization').then(module => ({
     default: module.EnergyVisualization
   }))
-);
+)
 
 export const LazyCelestialEventNotifications = lazy(() =>
   import('../CelestialEventNotifications').then(module => ({
     default: module.CelestialEventNotifications
   }))
-);
+)
 
 // Loading component for Suspense fallbacks
 export const ComponentLoader: React.FC<{ message?: string }> = ({ message = 'Loading component...' }) => (
@@ -52,7 +52,7 @@ export const ComponentLoader: React.FC<{ message?: string }> = ({ message = 'Loa
       </div>
     </div>
   </div>
-);
+)
 
 // Error boundary for lazy components
 export class LazyComponentErrorBoundary extends React.Component<
@@ -60,7 +60,7 @@ export class LazyComponentErrorBoundary extends React.Component<
   { hasError: boolean; error?: Error }
 > {
   constructor(props: { children: React.ReactNode; fallback?: React.ReactNode }) {
-    super(props);
+    super(props)
     this.state = { hasError: false };
   }
 
@@ -69,7 +69,7 @@ export class LazyComponentErrorBoundary extends React.Component<
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error('LazyComponent Error:', error, errorInfo);
+    console.error('LazyComponent Error:', error, errorInfo)
   }
 
   render() {
@@ -91,7 +91,7 @@ export class LazyComponentErrorBoundary extends React.Component<
             {this.state.error?.message || 'An unexpected error occurred'}
           </div>
         </div>
-      );
+      )
     }
 
     return this.props.children;

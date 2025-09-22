@@ -48,46 +48,46 @@ const ALL_CATEGORIES = [
  * @returns {Promise<void>}
  */
 async function updateCategories(categories: string[]): Promise<void> {
-  // // // // console.log(`Starting update for categories: ${categories.join(', ')}`);
+  // // // // console.log(`Starting update for categories: ${categories.join(', ')}`)
 
   for (const category of categories) {
     const updater = categoryUpdaters[category];
     if (!updater) {
-      // console.warn(`No updater found for category: ${category}`);
+      // console.warn(`No updater found for category: ${category}`)
       continue;
     }
 
-    // // // // console.log(`\n========== UPDATING ${category.toUpperCase()} ==========\n`);
+    // // // // console.log(`\n========== UPDATING ${category.toUpperCase()} ==========\n`)
     try {
-      await updater();
+      await updater()
     } catch (error) {
-      // console.error(`Error updating ${category}:`, error);
+      // console.error(`Error updating ${category}:`, error)
     }
   }
 
-  // // // // console.log('\nAll specified categories have been processed.');
+  // // // // console.log('\nAll specified categories have been processed.')
 }
 
 // Main function
 async function main() {
   // Get categories from command line arguments, or use all categories if none specified
-  const args = process.argv.slice(2);
+  const args = process.argv.slice(2)
 
   // If specific categories are requested, validate them and only process those
   let categoriesToProcess = ALL_CATEGORIES;
 
   if (args.length > 0) {
-    const validCategories = args.filter(cat => ALL_CATEGORIES.includes(cat.toLowerCase()));
+    const validCategories = args.filter(cat => ALL_CATEGORIES.includes(cat.toLowerCase()))
 
     if (validCategories.length === 0) {
-      // console.error(`No valid categories specified. Available categories: ${ALL_CATEGORIES.join(', ')}`);
-      process.exit(1);
+      // console.error(`No valid categories specified. Available categories: ${ALL_CATEGORIES.join(', ')}`)
+      process.exit(1)
     }
 
     categoriesToProcess = validCategories;
   }
 
-  await updateCategories(categoriesToProcess);
+  await updateCategories(categoriesToProcess)
 }
 
 // Run the main function
@@ -95,7 +95,7 @@ async function main() {
 
 // @ts-expect-error Node.js runtime check
 if (typeof require !== 'undefined' && require.main === module) {
-  void main().catch(() => process.exit(1));
+  void main().catch(() => process.exit(1))
 }
 
 // Export for use in other scripts if needed

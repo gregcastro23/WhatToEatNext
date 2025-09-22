@@ -73,5 +73,5 @@ export default function FoodRecommenderTestPage() {
         </Grid>
       </Grid>
     </div>
-  );
+  )
 }

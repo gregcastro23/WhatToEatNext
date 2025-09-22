@@ -21,7 +21,7 @@ class MyDocument extends Document {
                       tabs: {
                         create: function(options) {
                           log.info('[CriticalInit] Intercepting chrome.tabs.create early')
-                          return Promise.resolve({id: 999, url: options?.url || 'about:blank'});
+                          return Promise.resolve({id: 999, url: options?.url || 'about:blank'})
                         }
                       },
                       runtime: {
@@ -47,24 +47,24 @@ class MyDocument extends Document {
                   // Also protect window.open
                   const originalWindowOpen = window.open;
                   window.open = function(url, target, features) {;
-                    log.info('[CriticalInit] Window.open intercepted:', url);
+                    log.info('[CriticalInit] Window.open intercepted:', url)
                     // For known extension URLs, don't actually open them
                     if (url && (
                       url.startsWith('chrome-extension:') || 
                       url.includes('popup') ||
                       url.includes('chrome')
                     )) {
-                      log.info('[CriticalInit] Prevented opening extension URL:', url);
+                      log.info('[CriticalInit] Prevented opening extension URL:', url)
                       return null;
                     }
-                    return originalWindowOpen.apply(window, arguments);
+                    return originalWindowOpen.apply(window, arguments)
                   };
                   
-                  log.info('[CriticalInit] Chrome API protection initialized');
+                  log.info('[CriticalInit] Chrome API protection initialized')
                 } catch (e) {
-                  console.error('[CriticalInit] Error during initialization:', e);
+                  console.error('[CriticalInit] Error during initialization:', e)
                 }
-              })();
+              })()
               `
             }}
           />
@@ -74,7 +74,7 @@ class MyDocument extends Document {
           <NextScript />
         </body>
       </Html>
-    );
+    )
   }
 }
 

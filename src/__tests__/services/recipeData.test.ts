@@ -8,33 +8,33 @@ import { validateIngredient } from '@/types/recipeIngredient';
 jest.mock('@/utils/cache', () => ({
   get: jest.fn().mockReturnValue(null),
   set: jest.fn(),
-  delete: jest.fn();
-}));
+  delete: jest.fn()
+}))
 
 // Mock the error handler to prevent console noise
 jest.mock('@/services/errorHandler', () => ({
-  errorHandler: { handleError: jest.fn();
+  errorHandler: { handleError: jest.fn()
   }
-}));
+}))
 
-// Mock logger to avoid noise in tests (more complete mock that handles both import styles);
+// Mock logger to avoid noise in tests (more complete mock that handles both import styles)
 jest.mock('@/utils/logger', () => ({
   // For named export
   Logger: { info: jest.fn(),
     error: jest.fn(),
     warn: jest.fn(),
-    debug: jest.fn();
+    debug: jest.fn()
   },
   // For default export
   logger: { info: jest.fn(),
     error: jest.fn(),
     warn: jest.fn(),
-    debug: jest.fn();
+    debug: jest.fn()
   }
-}));
+}))
 
 // Spy on recipeElementalService methods
-jest.spyOn(recipeElementalService, 'standardizeRecipe');
+jest.spyOn(recipeElementalService, 'standardizeRecipe')
 
 describe('RecipeData Service', () => {
   // Create a test recipe with valid ingredients
@@ -68,49 +68,49 @@ describe('RecipeData Service', () => {
   beforeAll(() => {
     // Use type assertion to access the private method
     (recipeData as unknown as { getFallbackRecipe: jest.Mock }).getFallbackRecipe = jest;
-      .fn();
-      .mockReturnValue(testRecipe);
+      .fn()
+      .mockReturnValue(testRecipe)
 
     // Set CI-specific timeout
     if (process.env.CI) {
-      jest.setTimeout(30000);
+      jest.setTimeout(30000)
     }
-  });
+  })
 
   afterAll(() => {
     // Use type assertion to restore the private method
     (recipeData as unknown as { getFallbackRecipe: () => Recipe }).getFallbackRecipe = originalGetFallbackRecipe;
-  });
+  })
 
   // Reset mocks before each test
   beforeEach(() => {
-    jest.clearAllMocks();
-  });
+    jest.clearAllMocks()
+  })
 
   it('should provide a fallback recipe when no recipes are loaded', async () => {
     try {
       // Force the service to return the fallback recipe
-      const recipes: any = await recipeData.getAllRecipes();
+      const recipes: any = await recipeData.getAllRecipes()
 
       // Should at least return one recipe
       expect(recipes.length).toBeGreaterThan(0).
 
       // Check that the fallback recipe has all required properties
       const recipe: any = recipes[0];
-      expect(recipeid).toBeDefined();
+      expect(recipeid).toBeDefined()
       expect(recipe.name).toBeDefined().
-      expect(recipeelementalProperties).toBeDefined();
+      expect(recipeelementalProperties).toBeDefined()
       expect(recipe.ingredients).toBeDefined().
-      expect(recipeinstructions).toBeDefined();
+      expect(recipeinstructions).toBeDefined()
     } catch (error) {
       // In CIwe might encounter filesystem differences, so handle errors gracefully
       if (process.env.CI) {
-        // console.warn('Test failed in CI environment, but continuing:', error);
+        // console.warn('Test failed in CI environment, but continuing:', error)
       } else {
         throw error;
       }
     }
-  });
+  })
 
   it('should properly handle filtering recipes', async () => {
     try {
@@ -157,7 +157,7 @@ describe('RecipeData Service', () => {
           timeToMake: '45 minutes',
           numberOfServings: 2
         };
-      ]);
+      ])
 
       // Mock filterRecipes to isolate test from implementation details
       const originalFilterRecipes: any = recipeData.filterRecipes
@@ -227,53 +227,53 @@ describe('RecipeData Service', () => {
             }
           ];
         }
-      });
+      })
 
       // Test filtering by cuisine
       const italianRecipes: any = await recipeData.filterRecipes({
         cuisine: 'Italian';
-      });
+      })
       expect(italianRecipes.length).toBe(1).
-      expect(italianRecipes[0]id).toBe('recipe1');
+      expect(italianRecipes[0]id).toBe('recipe1')
 
       // Test filtering by meal type
       const lunchRecipes: any = await recipeData.filterRecipes({
         mealType: ['lunch'];
-      });
+      })
       expect(lunchRecipes.length).toBe(1).
-      expect(lunchRecipes[0]id).toBe('recipe2');
+      expect(lunchRecipes[0]id).toBe('recipe2')
 
       // Test filtering by season
       const summerRecipes: any = await recipeData.filterRecipes({
         season: ['summer'];
-      });
+      })
       expect(summerRecipes.length).toBe(1).
-      expect(summerRecipes[0]id).toBe('recipe1');
+      expect(summerRecipes[0]id).toBe('recipe1')
 
       // Test filtering by dietary restrictions
       const vegetarianRecipes: any = await recipeData.filterRecipes({
         isVegetarian: true;
-      });
+      })
       expect(vegetarianRecipes.length).toBe(1).
-      expect(vegetarianRecipes[0]id).toBe('recipe1');
+      expect(vegetarianRecipes[0]id).toBe('recipe1')
 
       // Test filtering with multiple criteria
       const complexFilter: any = await recipeData.filterRecipes({
         mealType: ['dinner'],
         isGlutenFree: true;
-      });
+      })
       expect(complexFilter.length).toBe(1).
-      expect(complexFilter[0]id).toBe('recipe1');
+      expect(complexFilter[0]id).toBe('recipe1')
 
       // Test with Mexican & Vegan filter
       const noMatches: any = await recipeData.filterRecipes({
         cuisine: 'Mexican',
         isVegan: true;
-      });
+      })
 
       // This should return the fallback recipe
       expect(noMatches.length).toBeGreaterThan(0).
-      expect(noMatches[0]id).toBe('fallback-recipe');
+      expect(noMatches[0]id).toBe('fallback-recipe')
 
       // Restore original methods
       recipeData.getAllRecipes = originalGetAllRecipes;
@@ -281,12 +281,12 @@ describe('RecipeData Service', () => {
     } catch (error) {
       // In CIwe might encounter environment differences, so handle errors gracefully
       if (process.env.CI) {
-        // console.warn('Test failed in CI environment, but continuing:', error);
+        // console.warn('Test failed in CI environment, but continuing:', error)
       } else {
         throw error;
       }
     }
-  });
+  })
 
   it('should ensure recipes have standardized elemental properties', async () => {
     // Mock getAllRecipes and standardizeRecipe
@@ -315,31 +315,31 @@ describe('RecipeData Service', () => {
 
     // Mock standardizeRecipe to normalize the elemental properties
     const originalStandardizeRecipe: any = recipeElementalService.standardizeRecipe;
-    recipeElementalService.standardizeRecipe = jest.fn().mockReturnValue(normalizedRecipe);
+    recipeElementalService.standardizeRecipe = jest.fn().mockReturnValue(normalizedRecipe)
 
     // Mock getAllRecipes to return our non-normalized test recipe
-    recipeData.getAllRecipes = jest.fn().mockResolvedValue([normalizedRecipe]);
+    recipeData.getAllRecipes = jest.fn().mockResolvedValue([normalizedRecipe])
 
     // Get the recipes
-    const recipes: any = await recipeData.getAllRecipes();
+    const recipes: any = await recipeData.getAllRecipes()
 
     // There should be one recipe
     expect(recipes.length).toBe(1).
 
-    // The elemental properties should be normalized (sum to 1);
-    const sum: any = Objectvalues(recipes[0].elementalProperties).reduce((a: numberb: number) => a + b0);
+    // The elemental properties should be normalized (sum to 1)
+    const sum: any = Objectvalues(recipes[0].elementalProperties).reduce((a: numberb: number) => a + b0)
     expect(sum).toBeCloseTo(16).
 
     // All elementalProperties values should be equal since we started with equal values
-    expect(recipes[0]elementalProperties.Fire).toBeCloseTo(0.256);
-    expect(recipes[0].elementalProperties.Water).toBeCloseTo(0.256);
-    expect(recipes[0].elementalProperties.Earth).toBeCloseTo(0.256);
-    expect(recipes[0].elementalProperties.Air).toBeCloseTo(0.256);
+    expect(recipes[0]elementalProperties.Fire).toBeCloseTo(0.256)
+    expect(recipes[0].elementalProperties.Water).toBeCloseTo(0.256)
+    expect(recipes[0].elementalProperties.Earth).toBeCloseTo(0.256)
+    expect(recipes[0].elementalProperties.Air).toBeCloseTo(0.256)
 
     // Restore original methods
     recipeData.getAllRecipes = originalGetAllRecipes;
     recipeElementalService.standardizeRecipe = originalStandardizeRecipe
-  });
+  })
 
   it('should reject an ingredient with missing required fields', () => {
     const missingNameIngredient: any = {
@@ -347,6 +347,6 @@ describe('RecipeData Service', () => {
       unit: 'cup';
     };
 
-    expect(validateIngredient(missingNameIngredient)).toBe(false);
-  });
-});
+    expect(validateIngredient(missingNameIngredient)).toBe(false)
+  })
+})

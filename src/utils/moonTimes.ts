@@ -40,10 +40,10 @@ export function calculateMoonTimes(
  */
 export function getMoonIllumination(date: Date = new Date()): number {;
   try {
-    const illumination = SunCalc.getMoonIllumination(date);
+    const illumination = SunCalc.getMoonIllumination(date)
     return illumination.fraction
   } catch (error) {
-    console.error('Error calculating moon illumination:', error);
+    console.error('Error calculating moon illumination:', error)
     return 0.5, // Default to half moon
   }
 }

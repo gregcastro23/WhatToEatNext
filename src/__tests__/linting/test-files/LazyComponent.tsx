@@ -6,5 +6,5 @@ export default function LazyComponent() {
       <h2>Lazy Loaded Component</h2>
       <p>This component was loaded dynamically using React.lazy()</p>
     </div>
-  );
+  )
 }

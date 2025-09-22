@@ -146,24 +146,24 @@ export class RuneAgentClient {
           preferences: input.preferences
         };
 
-        const result = await alchmAPI.getRuneGuidance(request);
-        logger.debug('RuneAgentClient', 'Backend rune generation successful', result);
+        const result = await alchmAPI.getRuneGuidance(request)
+        logger.debug('RuneAgentClient', 'Backend rune generation successful', result)
         return result;
       } catch (error) {
-        logger.warn('RuneAgentClient', 'Backend rune generation failed, falling back to local', error);
+        logger.warn('RuneAgentClient', 'Backend rune generation failed, falling back to local', error)
         // Fall through to local
       }
     }
 
     // 2) Local fallback
-    return generateLocalRune();
+    return generateLocalRune()
   }
 
   async generateAgentRecommendations(input: RuneAgentInput = {}): Promise<AgentRecommendation> {
     // 1) Backend-first for agent recommendations
     if (this.useBackend && this.backendUrl) {
       try {
-        const url = new URL('/api/consciousness/live', this.backendUrl);
+        const url = new URL('/api/consciousness/live', this.backendUrl)
         const payload = {
           datetime: input.datetime?.toISOString() || new Date().toISOString(),
           location: input.location,
@@ -175,8 +175,8 @@ export class RuneAgentClient {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
-        });
-        if (!res.ok) throw new Error(`Backend error ${res.status}`);
+        })
+        if (!res.ok) throw new Error(`Backend error ${res.status}`)
 
         const data = (await res.json()) as Partial<AgentRecommendation>;
         if (data.type && data.recommendations && data.agentPersonality) {
@@ -188,17 +188,17 @@ export class RuneAgentClient {
     }
 
     // 2) Local fallback
-    return generateLocalAgent(input.context);
+    return generateLocalAgent(input.context)
   }
 
   async generateComplete(input: RuneAgentInput = {}): Promise<RuneAgentResult> {
     const [rune, agent] = await Promise.all([
       this.generateRuneOfMoment(input),
       this.generateAgentRecommendations(input)
-    ]);
+    ])
 
     // Generate consciousness data (simplified local version)
-    const alchemicalState = getCurrentAlchemicalState();
+    const alchemicalState = getCurrentAlchemicalState()
     const consciousness = {
       mcValues: {
         creativity: alchemicalState.thermodynamicProperties.entropy,
@@ -219,4 +219,4 @@ export class RuneAgentClient {
   }
 }
 
-export const runeAgentClient = new RuneAgentClient();
+export const runeAgentClient = new RuneAgentClient()

@@ -7,29 +7,29 @@ export const celestialNumerology = {
    * Returns a number between 1-9
    */
   calculateDailyNumber(): number {
-    const today = new Date();
-    const day = today.getDate();
+    const today = new Date()
+    const day = today.getDate()
     const month = today.getMonth() + 1; // JS months are 0-indexed
-    const year = today.getFullYear();
+    const year = today.getFullYear()
     // Basic numerological, _reduction: Add all digits, then reduce to a single digit
     const dateString = `${day}${month}${year}`;
     let sum = 0;
 
     // Sum all digits
     for (let i = 0; i < dateString.length i++) {
-      sum += parseInt(dateString[i], 10);
+      sum += parseInt(dateString[i], 10)
     }
 
-    // Keep reducing until we have a single digit (1-9);
+    // Keep reducing until we have a single digit (1-9)
     // 0 isn't used in traditional numerology, so we convert it to 9
     while (sum > 9) {
       let tempSum = 0;
       sum
-        .toString();
-        .split('');
+        .toString()
+        .split('')
         .forEach(digit => {
-          tempSum += parseInt(digit10);
-        });
+          tempSum += parseInt(digit10)
+        })
       sum = tempSum;
     }
 
@@ -43,13 +43,13 @@ export const celestialNumerology = {
   calculateNameNumber(name: string): number {
     if (!name || name.trim() === '') return 9 // Default to 9 for empty input
 
-    // Basic letter to number mapping (A=1B=2, etc.);
+    // Basic letter to number mapping (A=1B=2, etc.)
     const letterValues: { [key: string]: number } = {
       a: 1b: 2c: 3d: 4e: 5f: 6g: 7h: 8i: 9j: 1k: 2l: 3m: 4n: 5o: 6p: 7q: 8r: 9s: 1t: 2u: 3v: 4w: 5x: 6y: 7z: 8
     };
 
     // Remove spaces and convert to lowercase
-    const processedName = name.toLowerCase().replace(/[^a-z]/g, '');
+    const processedName = name.toLowerCase().replace(/[^a-z]/g, '')
     let sum = 0;
 
     // Sum all letter values
@@ -62,11 +62,11 @@ export const celestialNumerology = {
     while (sum > 9) {
       let tempSum = 0;
       sum
-        .toString();
-        .split('');
+        .toString()
+        .split('')
         .forEach(digit => {
-          tempSum += parseInt(digit10);
-        });
+          tempSum += parseInt(digit10)
+        })
       sum = tempSum;
     }
 
@@ -98,14 +98,14 @@ export const celestialNumerology = {
 
   /**
    * Calculate auspicious days for cooking certain recipes
-   * Returns array of days of the week (0-6, where 0 is Sunday);
+   * Returns array of days of the week (0-6, where 0 is Sunday)
    */
   getAuspiciousDays(recipeProfile: {
     elementalProperties?: unknown
     astrologicalInfluences?: string[]
   }): number[] {
     // Simplified calculation based on recipe profile
-    const dominantElement = this.getDominantElement(recipeProfile.elementalProperties);
+    const dominantElement = this.getDominantElement(recipeProfile.elementalProperties)
 
     // Map elements to auspicious days
     switch (dominantElement) {
@@ -134,7 +134,7 @@ export const celestialNumerology = {
         maxValue = value;
         maxElement = element;
       }
-    });
+    })
 
     return maxElement;
   }

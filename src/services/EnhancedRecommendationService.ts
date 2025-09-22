@@ -58,7 +58,7 @@ export class EnhancedRecommendationService {
 
   public static getInstance(): EnhancedRecommendationService {
     if (!EnhancedRecommendationService.instance) {
-      EnhancedRecommendationService.instance = new EnhancedRecommendationService();
+      EnhancedRecommendationService.instance = new EnhancedRecommendationService()
     }
     return EnhancedRecommendationService.instance;
   }
@@ -83,10 +83,10 @@ export class EnhancedRecommendationService {
             datetime: context.datetime,
             location: context.location
           })
-        ]);
+        ])
       } catch (error) {
         // Fall back to local recommendations
-        console.warn('Backend influence failed, using local recommendations:', error);
+        console.warn('Backend influence failed, using local recommendations:', error)
       }
     }
 
@@ -116,7 +116,7 @@ export class EnhancedRecommendationService {
       // Apply agent resonance
       if (runeAgent?.agent) {
         const agentRecs = runeAgent.agent.recommendations;
-        const match = agentRecs.find(rec => rec.name.toLowerCase().includes(cuisine.name.toLowerCase()));
+        const match = agentRecs.find(rec => rec.name.toLowerCase().includes(cuisine.name.toLowerCase()))
         agentResonance = match ? match.runeResonance * 0.15 : 0;
       }
 
@@ -128,9 +128,9 @@ export class EnhancedRecommendationService {
 
       // Thermodynamic harmony (simplified) + culinary knowledge hints
       const hints = cuisineElementHints[cuisine.name] || [];
-      thermodynamicHarmony = Math.min(0.05, hints.length * 0.01);
+      thermodynamicHarmony = Math.min(0.05, hints.length * 0.01)
 
-      const finalScore = Math.min(1, baseScore + runeInfluence + agentResonance + tokenAlignment + thermodynamicHarmony);
+      const finalScore = Math.min(1, baseScore + runeInfluence + agentResonance + tokenAlignment + thermodynamicHarmony)
 
       let reasoning = `Base compatibility: ${(baseScore * 100).toFixed(0)}%`;
       if (runeInfluence > 0) reasoning += `, Rune boost: +${(runeInfluence * 100).toFixed(0)}%`;
@@ -149,10 +149,10 @@ export class EnhancedRecommendationService {
         },
         reasoning
       };
-    });
+    })
 
     // Sort by score
-    scoredCuisines.sort((a, b) => b.score - a.score);
+    scoredCuisines.sort((a, b) => b.score - a.score)
 
     return {
       items: scoredCuisines,
@@ -199,9 +199,9 @@ export class EnhancedRecommendationService {
             datetime: context.datetime,
             location: context.location
           })
-        ]);
+        ])
       } catch (error) {
-        console.warn('Backend influence failed for ingredients:', error);
+        console.warn('Backend influence failed for ingredients:', error)
       }
     }
 
@@ -221,7 +221,7 @@ export class EnhancedRecommendationService {
       const tokenAlignment = tokens ? Math.random() * 0.1 : 0;
       const thermodynamicHarmony = 0.02;
 
-      const finalScore = Math.min(1, baseScore + runeInfluence + agentResonance + tokenAlignment + thermodynamicHarmony);
+      const finalScore = Math.min(1, baseScore + runeInfluence + agentResonance + tokenAlignment + thermodynamicHarmony)
 
       return {
         item: ingredient,
@@ -235,9 +235,9 @@ export class EnhancedRecommendationService {
         },
         reasoning: `Energetically aligned ingredient with ${(finalScore * 100).toFixed(0)}% compatibility`
       };
-    });
+    })
 
-    scoredIngredients.sort((a, b) => b.score - a.score);
+    scoredIngredients.sort((a, b) => b.score - a.score)
 
     return {
       items: scoredIngredients,
@@ -284,9 +284,9 @@ export class EnhancedRecommendationService {
             datetime: context.datetime,
             location: context.location
           })
-        ]);
+        ])
       } catch (error) {
-        console.warn('Backend influence failed for recipes:', error);
+        console.warn('Backend influence failed for recipes:', error)
       }
     }
 
@@ -304,7 +304,7 @@ export class EnhancedRecommendationService {
       const tokenAlignment = tokens ? Math.random() * 0.1 : 0;
       const thermodynamicHarmony = 0.02;
 
-      const finalScore = Math.min(1, baseScore + runeInfluence + agentResonance + tokenAlignment + thermodynamicHarmony);
+      const finalScore = Math.min(1, baseScore + runeInfluence + agentResonance + tokenAlignment + thermodynamicHarmony)
 
       return {
         item: recipe,
@@ -318,9 +318,9 @@ export class EnhancedRecommendationService {
         },
         reasoning: `Recipe resonates with current energetic state at ${(finalScore * 100).toFixed(0)}%`
       };
-    });
+    })
 
-    scoredRecipes.sort((a, b) => b.score - a.score);
+    scoredRecipes.sort((a, b) => b.score - a.score)
 
     return {
       items: scoredRecipes,
@@ -348,4 +348,4 @@ export class EnhancedRecommendationService {
   }
 }
 
-export const enhancedRecommendationService = EnhancedRecommendationService.getInstance();
+export const enhancedRecommendationService = EnhancedRecommendationService.getInstance()

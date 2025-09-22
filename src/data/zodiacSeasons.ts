@@ -4,7 +4,7 @@ import { ZodiacSign, Element } from '@/types/alchemy';
 interface ZodiacSeasonData {
   name: any,
   element: Element,
-  startMonth: number, // 1-based month (1 = January);
+  startMonth: number, // 1-based month (1 = January)
   startDay: number,
   endMonth: number,
   endDay: number,
@@ -248,7 +248,7 @@ export const zodiacSeasons: Record<ZodiacSign, ZodiacSeasonData> = {
  */
 export function getZodiacSignForDate(date: Date): any {
   const month = date.getMonth() + 1; // JavaScript months are 0-indexed
-  const day = date.getDate();
+  const day = date.getDate()
 
   // Check each zodiac sign's date range
   if ((month === 3 && day >= 21) || (month === 4 && day <= 19)) {

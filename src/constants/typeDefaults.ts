@@ -33,8 +33,8 @@ export const _EmptyAlchemicalProperties: AlchemicalPropertiesType = {
 } as const;
 
 /**
- * Default Alchemical Properties (alias for compatibility);
- * Equal distribution across all four alchemical properties (25% each);
+ * Default Alchemical Properties (alias for compatibility)
+ * Equal distribution across all four alchemical properties (25% each)
  */
 export const _DefaultAlchemicalProperties: AlchemicalPropertiesType = {
   Spirit: 0.25,
@@ -45,7 +45,7 @@ export const _DefaultAlchemicalProperties: AlchemicalPropertiesType = {
 
 /**
  * Balanced Alchemical Properties
- * Equal distribution across all four alchemical properties (25% each);
+ * Equal distribution across all four alchemical properties (25% each)
  */
 export const BalancedAlchemicalProperties: AlchemicalPropertiesType = {
   Spirit: 0.25,
@@ -66,8 +66,8 @@ export const _EmptyElementalProperties: ElementalPropertiesType = {
 } as const;
 
 /**
- * Default Elemental Properties (alias for compatibility);
- * Equal distribution across all four elements (25% each);
+ * Default Elemental Properties (alias for compatibility)
+ * Equal distribution across all four elements (25% each)
  */
 export const _DefaultElementalProperties: ElementalPropertiesType = {
   Fire: 0.25,
@@ -78,7 +78,7 @@ export const _DefaultElementalProperties: ElementalPropertiesType = {
 
 /**
  * Balanced Elemental Properties
- * Equal distribution across all four elements (25% each);
+ * Equal distribution across all four elements (25% each)
  */
 export const BalancedElementalProperties: ElementalPropertiesType = {
   Fire: 0.25,
@@ -143,13 +143,13 @@ export const DefaultPlanetaryPositions: PlanetaryPositionsType = {
 
 /**
  * Default Zodiac Sign
- * Fallback zodiac sign (first sign of the zodiac);
+ * Fallback zodiac sign (first sign of the zodiac)
  */
 export const DefaultZodiacSign: anyType = 'aries' as const;
 
 /**
  * Default Lunar Phase
- * Fallback lunar phase (new moon);
+ * Fallback lunar phase (new moon)
  */
 export const DefaultLunarPhase: LunarPhaseType = 'new moon' as const;
 
@@ -203,8 +203,8 @@ export const _DefaultAstrologicalState: AstrologicalStateType = {
 export const _createErrorResponse = <T>(error: string): ServiceResponseType<T> => ({
   success: false,
   error,
-  timestamp: new Date().toISOString();
-});
+  timestamp: new Date().toISOString()
+})
 
 /**
  * Success Service Response Factory
@@ -213,8 +213,8 @@ export const _createErrorResponse = <T>(error: string): ServiceResponseType<T> =
 export const _createSuccessResponse = <T>(data: T): ServiceResponseType<T> => ({
   success: true,
   data,
-  timestamp: new Date().toISOString();
-});
+  timestamp: new Date().toISOString()
+})
 
 // ========== UTILITY FUNCTIONS ==========;
 
@@ -251,8 +251,8 @@ export const _createSafeAlchemicalProperties = (
   const spirit = Number.isFinite(properties.Spirit) ? Math.max(0, properties.Spirit ?? 0) : 0.25
   const essence = Number.isFinite(properties.Essence) ? Math.max(0, properties.Essence ?? 0) : 0.25
   const matter = Number.isFinite(properties.Matter) ? Math.max(0, properties.Matter ?? 0) : 0.25;
-  const substance = Number.isFinite(properties.Substance);
-    ? Math.max(0, properties.Substance ?? 0);
+  const substance = Number.isFinite(properties.Substance)
+    ? Math.max(0, properties.Substance ?? 0)
     : 0.25;
 
   const total = spirit + essence + matter + substance;
@@ -275,14 +275,14 @@ export const _createSafeThermodynamicMetrics = (
 ): ThermodynamicMetricsType => {
   return {
     heat: Number.isFinite(metrics.heat) ? Math.max(0.1, Math.min(1.0, metrics.heat ?? 0.5)) : 0.5,
-    entropy: Number.isFinite(metrics.entropy);
-      ? Math.max(0.1, Math.min(1.0, metrics.entropy ?? 0.5));
+    entropy: Number.isFinite(metrics.entropy)
+      ? Math.max(0.1, Math.min(1.0, metrics.entropy ?? 0.5))
       : 0.5,
-    reactivity: Number.isFinite(metrics.reactivity);
-      ? Math.max(0.1, Math.min(1.0, metrics.reactivity ?? 0.5));
+    reactivity: Number.isFinite(metrics.reactivity)
+      ? Math.max(0.1, Math.min(1.0, metrics.reactivity ?? 0.5))
       : 0.5,
-    gregsEnergy: Number.isFinite(metrics.gregsEnergy);
-      ? Math.max(0.1, Math.min(1.0, metrics.gregsEnergy ?? 0.5));
+    gregsEnergy: Number.isFinite(metrics.gregsEnergy)
+      ? Math.max(0.1, Math.min(1.0, metrics.gregsEnergy ?? 0.5))
       : 0.5,
     kalchm: Number.isFinite(metrics.kalchm) ? Math.max(0.1, metrics.kalchm ?? 1.0) : 1.0,
     monica: Number.isFinite(metrics.monica) ? Math.max(0.1, metrics.monica ?? 1.0) : 1.0

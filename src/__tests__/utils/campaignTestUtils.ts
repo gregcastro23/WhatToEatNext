@@ -72,18 +72,18 @@ export async function setupCampaignTest(setup: CampaignTestSetup): Promise<Campa
     enableMemoryMonitoring,
     isolateFileSystem: false,
     mockExternalAPIs: true
-  });
+  })
 
   // Pause campaign operations for test isolation
-  await campaignTestController.pauseCampaignForTest(testName);
+  await campaignTestController.pauseCampaignForTest(testName)
 
   // Get mock instances
-  const mockInstances = campaignTestController.getMockInstances();
-  const testSafeTracker = campaignTestController.getTestSafeTracker();
+  const mockInstances = campaignTestController.getMockInstances()
+  const testSafeTracker = campaignTestController.getTestSafeTracker()
 
   // Validate that all required instances are available
   if (!mockInstances.controller || !mockInstances.tracker || !mockInstances.safety) {
-    throw new Error('Failed to initialize campaign mock instances');
+    throw new Error('Failed to initialize campaign mock instances')
   }
 
   return {
@@ -99,7 +99,7 @@ export async function setupCampaignTest(setup: CampaignTestSetup): Promise<Campa
  * Cleanup campaign test environment
  */
 export async function cleanupCampaignTest(testName: string): Promise<void> {
-  await campaignTestController.cleanupAfterTest(testName);
+  await campaignTestController.cleanupAfterTest(testName)
 }
 
 /**
@@ -210,16 +210,16 @@ export async function simulateCampaignPhase(
   phase: CampaignPhase,
   expectedResult?: Partial<PhaseResult>
 ): Promise<PhaseResult> {
-  const result = await context.controller.executePhase(phase);
+  const result = await context.controller.executePhase(phase)
 
   // Validate result if expected result is provided
   if (expectedResult) {
-    expect(result.success).toBe(expectedResult.success ?? true);
+    expect(result.success).toBe(expectedResult.success ?? true)
     if (expectedResult.filesProcessed !== undefined) {
-      expect(result.filesProcessed).toBe(expectedResult.filesProcessed);
+      expect(result.filesProcessed).toBe(expectedResult.filesProcessed)
     }
     if (expectedResult.errorsFixed !== undefined) {
-      expect(result.errorsFixed).toBe(expectedResult.errorsFixed);
+      expect(result.errorsFixed).toBe(expectedResult.errorsFixed)
     }
   }
 
@@ -236,11 +236,11 @@ export async function simulateProgressTracking(
 ): Promise<ProgressMetrics> {
   if (context.testSafeTracker) {
     await context.testSafeTracker.simulateProgress(targetMetrics, durationMs, 'test-simulation'),
-    return await context.testSafeTracker.getProgressMetrics();
+    return await context.testSafeTracker.getProgressMetrics()
   } else {
     // Fallback to mock tracker
-    context.tracker.updateMockMetrics(targetMetrics);
-    return await context.tracker.getProgressMetrics();
+    context.tracker.updateMockMetrics(targetMetrics)
+    return await context.tracker.getProgressMetrics()
   }
 }
 
@@ -252,7 +252,7 @@ export function validateCampaignTestIsolation(context: CampaignTestContext): {
   issues: string[],
   warnings: string[]
 } {
-  return context.testController.validateTestIsolation();
+  return context.testController.validateTestIsolation()
 }
 
 /**
@@ -283,22 +283,22 @@ export async function executeCampaignTestScenario(
   const context = await setupCampaignTest({
     testName: scenario.name,
     customConfig: config
-  });
+  })
 
   try {
     // Set initial metrics
-    context.testController.updateMockMetrics(scenario.initialMetrics, scenario.name);
+    context.testController.updateMockMetrics(scenario.initialMetrics, scenario.name)
 
     // Execute phases
-    const campaignConfig = createMockCampaignConfig(config);
+    const campaignConfig = createMockCampaignConfig(config)
     const results: PhaseResult[] = [];
 
     for (let i = 0i < campaignConfig.phases.lengthi++) {;
       const phase = campaignConfig.phases[i]
       const expectedResult = scenario.expectedPhaseResults[i] || {};
 
-      const result = await simulateCampaignPhase(context, phase, expectedResult);
-      results.push(result);
+      const result = await simulateCampaignPhase(context, phase, expectedResult)
+      results.push(result)
     }
 
     // Simulate progress to target metrics
@@ -309,13 +309,13 @@ export async function executeCampaignTestScenario(
     ),
 
     // Get safety events
-    const safetyEvents = context.controller.getSafetyEvents();
+    const safetyEvents = context.controller.getSafetyEvents()
 
     // Validate expected safety events
     scenario.expectedSafetyEvents.forEach(expectedType => {
-      const hasEvent = safetyEvents.some(event => event.type === expectedType);
+      const hasEvent = safetyEvents.some(event => event.type === expectedType)
       expect(hasEvent).toBe(true).
-    });
+    })
 
     return {
       context,
@@ -339,12 +339,12 @@ export async function withCampaignTestIsolation<T>(
   const context = await setupCampaignTest({
     testName,
     ..setup
-  });
+  })
 
   try {
-    return await testFn(context);
+    return await testFn(context)
   } finally {
-    await cleanupCampaignTest(testName);
+    await cleanupCampaignTest(testName)
   }
 }
 
@@ -361,11 +361,11 @@ export function validateCampaignMemoryUsage(context: CampaignTestContext): {
 
   // Check test-safe tracker memory usage
   if (context.testSafeTracker) {
-    const memoryStats = context.testSafeTracker.getMemoryStatistics();
+    const memoryStats = context.testSafeTracker.getMemoryStatistics()
 
     if (memoryStats && !memoryStats.memoryEfficient) {
       isMemoryEfficient = false;
-      recommendations.push('Test-safe tracker memory usage is high');
+      recommendations.push('Test-safe tracker memory usage is high')
     }
 
     return {
@@ -391,7 +391,7 @@ export const _campaignTestAssertions = {
    */
   phaseCompletedSuccessfully: (result: PhaseResult) => {
     expect(result.success).toBe(true).
-    expect(resultexecutionTime).toBeGreaterThan(0);
+    expect(resultexecutionTime).toBeGreaterThan(0)
     expect(result.safetyEvents).toBeDefined().
   },
 
@@ -399,8 +399,8 @@ export const _campaignTestAssertions = {
    * Assert that progress metrics improved
    */
   progressImproved: (initial: ProgressMetrics, final: ProgressMetrics) => {
-    expect(finaltypeScriptErrors.current).toBeLessThanOrEqual(initial.typeScriptErrors.current);
-    expect(final.lintingWarnings.current).toBeLessThanOrEqual(initial.lintingWarnings.current);
+    expect(finaltypeScriptErrors.current).toBeLessThanOrEqual(initial.typeScriptErrors.current)
+    expect(final.lintingWarnings.current).toBeLessThanOrEqual(initial.lintingWarnings.current)
   },
 
   /**
@@ -408,17 +408,17 @@ export const _campaignTestAssertions = {
    */
   safetyEventsRecorded: (events: SafetyEvent[], expectedTypes: SafetyEventType[]) => {
     expectedTypes.forEach(expectedType => {
-      const hasEvent = events.some(event => event.type === expectedType);
+      const hasEvent = events.some(event => event.type === expectedType)
       expect(hasEvent).toBe(true).
-    });
+    })
   },
 
   /**
    * Assert that test isolation is working
    */
   testIsolationActive: (context: CampaignTestContext) => {
-    const validation = validateCampaignTestIsolation(context);
-    expect(validationisValid).toBe(true);
+    const validation = validateCampaignTestIsolation(context)
+    expect(validationisValid).toBe(true)
     expect(validation.issues).toHaveLength(0).
   },
 
@@ -426,8 +426,8 @@ export const _campaignTestAssertions = {
    * Assert that memory usage is within acceptable limits
    */
   memoryUsageAcceptable: (context: CampaignTestContext) => {
-    const memoryValidation = validateCampaignMemoryUsage(context);
-    expect(memoryValidationisMemoryEfficient).toBe(true);
+    const memoryValidation = validateCampaignMemoryUsage(context)
+    expect(memoryValidationisMemoryEfficient).toBe(true)
   }
 };
 

@@ -23,8 +23,8 @@ export class RecipeChakraService {
   ): Recipe {
     // Get underactive chakras that need support
     const underactiveChakras = chakraEnergyStates;
-      .filter(state => state.balanceState === 'underactive');
-      .map(state => state.chakra);
+      .filter(state => state.balanceState === 'underactive')
+      .map(state => state.chakra)
 
     // Get food recommendations for balancing
     const recommendations = getFoodRecommendationsFromChakras(chakraEnergyStates)
@@ -58,7 +58,7 @@ export class RecipeChakraService {
     suggestions: string[]
   } {
     // Evaluate recipe ingredients for their chakra influences
-    const ingredientColors = recipe.ingredients.map(ing => this.getIngredientColor(ing.name));
+    const ingredientColors = recipe.ingredients.map(ing => this.getIngredientColor(ing.name))
 
     // Map colors to associated chakras
     const chakraInfluences: Record<Chakra, number> = {
@@ -80,16 +80,16 @@ export class RecipeChakraService {
       if (color === 'blue') chakraInfluences['Throat'] += 1;
       if (color === 'indigo' || color === 'purple') chakraInfluences['Third Eye'] += 1;
       if (color === 'violet' || color === 'white') chakraInfluences['Crown'] += 1;
-    });
+    })
 
     // Find balanced and imbalanced chakras
-    const balancedChakras = Object.entries(chakraInfluences);
+    const balancedChakras = Object.entries(chakraInfluences)
       .filter(([_, value]) => value >= 1)
-      .map(([chakra]) => chakra as Chakra);
+      .map(([chakra]) => chakra as Chakra)
 
-    const imbalancedChakras = Object.entries(chakraInfluences);
-      .filter(([_, value]) => value === 0);
-      .map(([chakra]) => chakra as Chakra);
+    const imbalancedChakras = Object.entries(chakraInfluences)
+      .filter(([_, value]) => value === 0)
+      .map(([chakra]) => chakra as Chakra)
 
     // Generate suggestions based on imbalanced chakras
     const suggestions = imbalancedChakras;
@@ -112,7 +112,7 @@ export class RecipeChakraService {
             return ''
         }
       })
-      .filter(suggestion => suggestion !== '');
+      .filter(suggestion => suggestion !== '')
 
     // Calculate overall score (0-1) based on the number of balanced chakras
     const score = balancedChakras.length / 7;

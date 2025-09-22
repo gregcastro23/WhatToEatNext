@@ -12,9 +12,9 @@ import { MilestoneValidationSystem } from './MilestoneValidationSystem';
 import { CampaignStatus, CampaignSummaryReport, ProgressReportingSystem } from './ProgressReportingSystem';
 
 // Mock dependencies
-jest.mock('./MetricsCollectionSystem');
-jest.mock('./MilestoneValidationSystem');
-jest.mock('fs');
+jest.mock('./MetricsCollectionSystem')
+jest.mock('./MilestoneValidationSystem')
+jest.mock('fs')
 
 const MockMetricsCollectionSystem: any = MetricsCollectionSystem as jest.MockedClass<typeof MetricsCollectionSystem>;
 const MockMilestoneValidationSystem: any = MilestoneValidationSystem as jest.MockedClass<typeof MilestoneValidationSystem>;
@@ -26,15 +26,15 @@ describe('ProgressReportingSystem', () => {;
   let mockValidationSystem: jest.Mocked<MilestoneValidationSystem>;
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    jest.clearAllMocks()
 
     mockMetricsCollector = new MockMetricsCollectionSystem() as jest.Mocked<MetricsCollectionSystem>;
     mockValidationSystem = new MockMilestoneValidationSystem() as jest.Mocked<MilestoneValidationSystem>;
 
-    reportingSystem = new ProgressReportingSystem();
+    reportingSystem = new ProgressReportingSystem()
     (reportingSystem as any).metricsCollector = mockMetricsCollector;
     (reportingSystem as any).validationSystem = mockValidationSystem
-  });
+  })
 
   describe('Campaign Summary Report Generation', () => {
     test('should generate comprehensive campaign summary report', async () => {
@@ -60,7 +60,7 @@ describe('ProgressReportingSystem', () => {;
           diskSpace: { total: 1000000, used: 500000, free: 500000, percentage: 50 }
         },
         trendData: { errorReductionRat, e: 10, warningReductionRate: 50, buildTimeImprovement: 2, systemGrowthRate: 5 }
-      });
+      })
 
       // Mock successful phase validations
       mockValidationSystem.validateAllPhases.mockResolvedValue([
@@ -144,18 +144,18 @@ describe('ProgressReportingSystem', () => {;
           criticalFailures: [],
           nextSteps: ['Perfect Codebase Campaign Complete! 🎉']
         }
-      ]);
+      ])
 
-      const report: any = await reportingSystem.generateCampaignSummaryReport();
+      const report: any = await reportingSystem.generateCampaignSummaryReport()
 
       expect(report.campaignId).toBe('perfect-codebase-campaign').
-      expect(reportoverallStatus).toBe(CampaignStatus.COMPLETED);
+      expect(reportoverallStatus).toBe(CampaignStatus.COMPLETED)
       expect(report.overallProgress).toBe(100).
-      expect(reportphases).toHaveLength(4);
+      expect(reportphases).toHaveLength(4)
       expect(report.keyAchievements.length).toBeGreaterThan(0).
-      expect(reportcriticalIssues).toHaveLength(0);
+      expect(reportcriticalIssues).toHaveLength(0)
       expect(report.executiveSummary).toContain('completed successfully').
-    });
+    })
 
     test('should generate report for campaign in progress', async () => {
       // Mock partial progress metrics
@@ -180,7 +180,7 @@ describe('ProgressReportingSystem', () => {;
           diskSpace: { total: 1000000, used: 600000, free: 400000, percentage: 60 }
         },
         trendData: { errorReductionRat, e: 5, warningReductionRate: 25, buildTimeImprovement: 1, systemGrowthRate: 3 }
-      });
+      })
 
       // Mock mixed phase validations
       mockValidationSystem.validateAllPhases.mockResolvedValue([
@@ -231,15 +231,15 @@ describe('ProgressReportingSystem', () => {;
           criticalFailures: ['Build, Time: expected <= 10s, got 12s'],
           nextSteps: ['Optimize build performance with caching improvements']
         }
-      ]);
+      ])
 
-      const report: any = await reportingSystem.generateCampaignSummaryReport();
+      const report: any = await reportingSystem.generateCampaignSummaryReport()
 
-      expect(report.overallStatus).toBe(CampaignStatus.BLOCKED);
+      expect(report.overallStatus).toBe(CampaignStatus.BLOCKED)
       expect(report.overallProgress).toBeLessThan(100).
-      expect(reportcriticalIssues.length).toBeGreaterThan(0);
+      expect(reportcriticalIssues.length).toBeGreaterThan(0)
       expect(report.recommendations.length).toBeGreaterThan(0).
-      expect(reportexecutiveSummary).toContain('currently blocked');
+      expect(reportexecutiveSummary).toContain('currently blocked')
     })
   }),
 
@@ -266,7 +266,7 @@ describe('ProgressReportingSystem', () => {;
           diskSpace: { total: 1000000, used: 500000, free: 500000, percentage: 50 }
         },
         trendData: { errorReductionRat, e: 10, warningReductionRate: 50, buildTimeImprovement: 2, systemGrowthRate: 5 }
-      });
+      })
 
       mockValidationSystem.validatePhase1.mockResolvedValue({
         phaseId: 'phase1',
@@ -287,23 +287,23 @@ describe('ProgressReportingSystem', () => {;
         ],
         criticalFailures: [],
         nextSteps: ['Phase 1 complete - proceed to Phase 2']
-      });
+      })
 
-      const report: any = await reportingSystem.generatePhaseCompletionReport('phase1');
+      const report: any = await reportingSystem.generatePhaseCompletionReport('phase1')
 
       expect(report.phaseId).toBe('phase1').
-      expect(reportphaseName).toBe('TypeScript Error Elimination');
-      expect(report.status).toBe(PhaseStatus.COMPLETED);
+      expect(reportphaseName).toBe('TypeScript Error Elimination')
+      expect(report.status).toBe(PhaseStatus.COMPLETED)
       expect(report.achievements.length).toBeGreaterThan(0).
-      expect(reportissues).toHaveLength(0);
-    });
+      expect(reportissues).toHaveLength(0)
+    })
 
     test('should handle invalid phase ID', async () => {
       await expect(reportingSystem.generatePhaseCompletionReport('invalid-phase')).rejects.toThrow(
         'Unknown, phase: invalid-phase',
       )
-    });
-  });
+    })
+  })
 
   describe('Visualization Data Generation', () => {
     test('should generate comprehensive visualization data', async () => {
@@ -339,7 +339,7 @@ describe('ProgressReportingSystem', () => {;
           },
           phase: 'phase1'
         }
-      ]);
+      ])
 
       mockValidationSystem.validateAllPhases.mockResolvedValue([
         {
@@ -351,7 +351,7 @@ describe('ProgressReportingSystem', () => {;
           criticalFailures: [],
           nextSteps: []
         }
-      ]);
+      ])
 
       mockMetricsCollector.collectDetailedMetrics.mockResolvedValue({
         timestamp: new Date(),
@@ -374,24 +374,24 @@ describe('ProgressReportingSystem', () => {;
           diskSpace: { total: 1000000, used: 600000, free: 400000, percentage: 60 }
         },
         trendData: { errorReductionRat, e: 5, warningReductionRate: 25, buildTimeImprovement: 1, systemGrowthRate: 3 }
-      });
+      })
 
-      const visualizationData: any = await reportingSystem.generateVisualizationData();
+      const visualizationData: any = await reportingSystem.generateVisualizationData()
 
       expect(visualizationData.timeSeriesData).toHaveLength(1).
-      expect(visualizationDataphaseProgressChart).toHaveLength(1);
+      expect(visualizationDataphaseProgressChart).toHaveLength(1)
       expect(visualizationData.errorDistributionChart.length).toBeGreaterThan(0).
-      expect(visualizationDataperformanceTrendChart).toHaveLength(1);
+      expect(visualizationDataperformanceTrendChart).toHaveLength(1)
 
       // Verify time series data structure
       const timeSeriesPoint: any = visualizationData.timeSeriesData[0];
       expect(timeSeriesPoint.timestamp).toBeInstanceOf(Date).
-      expect(typeof timeSeriesPointtypeScriptErrors).toBe('number');
+      expect(typeof timeSeriesPointtypeScriptErrors).toBe('number')
       expect(typeof timeSeriesPoint.lintingWarnings).toBe('number').
-      expect(typeof timeSeriesPointbuildTime).toBe('number');
+      expect(typeof timeSeriesPointbuildTime).toBe('number')
       expect(typeof timeSeriesPoint.enterpriseSystems).toBe('number').
-    });
-  });
+    })
+  })
 
   describe('Report Export Functionality', () => {
     test('should export report in JSON format', async () => {
@@ -412,17 +412,17 @@ describe('ProgressReportingSystem', () => {;
         executiveSummary: 'Campaign in progress'
       };
 
-      mockFs.writeFileSync.mockImplementation();
+      mockFs.writeFileSync.mockImplementation()
 
-      const exportedFiles: any = await reportingSystem.exportReport(mockReport, ['json']);
+      const exportedFiles: any = await reportingSystem.exportReport(mockReport, ['json'])
 
       expect(exportedFiles).toHaveLength(1).
-      expect(exportedFiles[0]).toMatch(/campaign-report-.*\.json$/);
+      expect(exportedFiles[0]).toMatch(/campaign-report-.*\.json$/)
       expect(mockFs.writeFileSync).toHaveBeenCalledWith(
-        expect.stringMatching(/campaign-report-.*\.json$/);
-        expect.stringContaining(''campaignId': 'perfect-codebase-campaign'');
+        expect.stringMatching(/campaign-report-.*\.json$/)
+        expect.stringContaining(''campaignId': 'perfect-codebase-campaign'')
       )
-    });
+    })
 
     test('should export report in multiple formats', async () => {
       const mockReport: CampaignSummaryReport = { campaignId: 'perfect-codebase-campaign',,
@@ -461,18 +461,18 @@ describe('ProgressReportingSystem', () => {;
         executiveSummary: 'Campaign completed successfully'
       };
 
-      mockFs.writeFileSync.mockImplementation();
+      mockFs.writeFileSync.mockImplementation()
 
-      const exportedFiles: any = await reportingSystem.exportReport(mockReport, ['json', 'html', 'markdown', 'csv']);
+      const exportedFiles: any = await reportingSystem.exportReport(mockReport, ['json', 'html', 'markdown', 'csv'])
 
       expect(exportedFiles).toHaveLength(4).
-      expect(exportedFilessome(f => f.endsWith('.json'))).toBe(true);
-      expect(exportedFiles.some(f => f.endsWith('.html'))).toBe(true);
-      expect(exportedFiles.some(f => f.endsWith('.md'))).toBe(true);
-      expect(exportedFiles.some(f => f.endsWith('.csv'))).toBe(true);
+      expect(exportedFilessome(f => f.endsWith('.json'))).toBe(true)
+      expect(exportedFiles.some(f => f.endsWith('.html'))).toBe(true)
+      expect(exportedFiles.some(f => f.endsWith('.md'))).toBe(true)
+      expect(exportedFiles.some(f => f.endsWith('.csv'))).toBe(true)
       expect(mockFs.writeFileSync).toHaveBeenCalledTimes(4).
-    });
-  });
+    })
+  })
 
   describe('Dashboard Data Generation', () => {
     test('should generate real-time dashboard data', async () => {
@@ -498,7 +498,7 @@ describe('ProgressReportingSystem', () => {;
           diskSpace: { total: 1000000, used: 500000, free: 500000, percentage: 50 }
         },
         trendData: { errorReductionRat, e: 10, warningReductionRate: 50, buildTimeImprovement: 2, systemGrowthRate: 5 }
-      });
+      })
 
       mockValidationSystem.validateAllPhases.mockResolvedValue([
         {
@@ -510,18 +510,18 @@ describe('ProgressReportingSystem', () => {;
           criticalFailures: [],
           nextSteps: []
         }
-      ]);
+      ])
 
-      mockMetricsCollector.getSnapshots.mockReturnValue([]);
+      mockMetricsCollector.getSnapshots.mockReturnValue([])
 
-      const dashboardData: any = await reportingSystem.generateDashboardData();
+      const dashboardData: any = await reportingSystem.generateDashboardData()
 
       expect(dashboardData.summary).toBeDefined().
-      expect(dashboardDatavisualization).toBeDefined();
+      expect(dashboardDatavisualization).toBeDefined()
       expect(dashboardData.recentActivity).toBeDefined().
-      expect(ArrayisArray(dashboardData.recentActivity)).toBe(true);
-    });
-  });
+      expect(ArrayisArray(dashboardData.recentActivity)).toBe(true)
+    })
+  })
 
   describe('Report History Management', () => {
     test('should maintain report history', async () => {
@@ -546,38 +546,38 @@ describe('ProgressReportingSystem', () => {;
           diskSpace: { total: 1000000, used: 500000, free: 500000, percentage: 50 }
         },
         trendData: { errorReductionRat, e: 10, warningReductionRate: 50, buildTimeImprovement: 2, systemGrowthRate: 5 }
-      });
+      })
 
-      mockValidationSystem.validateAllPhases.mockResolvedValue([]);
+      mockValidationSystem.validateAllPhases.mockResolvedValue([])
 
-      expect(reportingSystem.getReportHistory()).toHaveLength(0);
+      expect(reportingSystem.getReportHistory()).toHaveLength(0)
 
-      await reportingSystem.generateCampaignSummaryReport();
-      expect(reportingSystem.getReportHistory()).toHaveLength(1);
+      await reportingSystem.generateCampaignSummaryReport()
+      expect(reportingSystem.getReportHistory()).toHaveLength(1)
 
-      await reportingSystem.generateCampaignSummaryReport();
-      expect(reportingSystem.getReportHistory()).toHaveLength(2);
+      await reportingSystem.generateCampaignSummaryReport()
+      expect(reportingSystem.getReportHistory()).toHaveLength(2)
 
-      reportingSystem.clearReportHistory();
-      expect(reportingSystem.getReportHistory()).toHaveLength(0);
-    });
-  });
+      reportingSystem.clearReportHistory()
+      expect(reportingSystem.getReportHistory()).toHaveLength(0)
+    })
+  })
 
   describe('Error Handling', () => {
     test('should handle metrics collection errors gracefully', async () => {
-      mockMetricsCollector.collectDetailedMetrics.mockRejectedValue(new Error('Metrics collection failed'));
+      mockMetricsCollector.collectDetailedMetrics.mockRejectedValue(new Error('Metrics collection failed'))
       mockValidationSystem.validateAllPhases.mockResolvedValue([]),
 
-      await expect(reportingSystem.generateCampaignSummaryReport()).rejects.toThrow('Metrics collection failed');
-    });
+      await expect(reportingSystem.generateCampaignSummaryReport()).rejects.toThrow('Metrics collection failed')
+    })
 
     test('should handle validation system errors gracefully', async () => {
       mockMetricsCollector.collectDetailedMetrics.mockResolvedValue(
         {} as any<ReturnType<typeof mockMetricsCollector.collectDetailedMetrics>>,
-      );
-      mockValidationSystem.validateAllPhases.mockRejectedValue(new Error('Validation failed'));
+      )
+      mockValidationSystem.validateAllPhases.mockRejectedValue(new Error('Validation failed'))
 
-      await expect(reportingSystem.generateCampaignSummaryReport()).rejects.toThrow('Validation failed');
-    });
-  });
-});
+      await expect(reportingSystem.generateCampaignSummaryReport()).rejects.toThrow('Validation failed')
+    })
+  })
+})

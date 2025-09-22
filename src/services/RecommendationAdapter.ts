@@ -51,22 +51,22 @@ interface TransformedItem extends AlchemicalItem {
  * based on current planetary alignments and user preferences
  */
 export class RecommendationAdapter {
-  private, ingredients: ElementalItem[];
-  private, methods: ElementalItem[];
-  private, cuisines: ElementalItem[]
-  private, planetaryPositions: Record<string, PlanetData>;
-  private, isDaytime: boolean;
-  private, currentZodiac: string | null;
-  private, lunarPhase: LunarPhaseWithSpaces | null;
-  private, transformedIngredients: AlchemicalItem[] = [];
-  private, transformedMethods: AlchemicalItem[] = [];
-  private, transformedCuisines: AlchemicalItem[] = []
+  private ingredients: ElementalItem[];
+  private methods: ElementalItem[];
+  private cuisines: ElementalItem[]
+  private planetaryPositions: Record<string, PlanetData>;
+  private isDaytime: boolean;
+  private currentZodiac: string | null;
+  private lunarPhase: LunarPhaseWithSpaces | null;
+  private transformedIngredients: AlchemicalItem[] = [];
+  private transformedMethods: AlchemicalItem[] = [];
+  private transformedCuisines: AlchemicalItem[] = []
   private tarotElementBoosts?: Record<ElementalCharacter, number>;
   private tarotPlanetaryBoosts?: Record<string, number>,
-  private, aspects: PlanetaryAspect[] = []
-  private, retrogradeStatus: Record<string, boolean> = {};
-  private, convertedPositions: Record<string, PlanetData> = {};
-  private, alchemicalResult: Record<string, number>;
+  private aspects: PlanetaryAspect[] = []
+  private retrogradeStatus: Record<string, boolean> = {};
+  private convertedPositions: Record<string, PlanetData> = {};
+  private alchemicalResult: Record<string, number>;
 
   constructor(
     ingredients: ElementalItem[],
@@ -115,7 +115,7 @@ export class RecommendationAdapter {
         if (typeof data === 'object' && data !== null && 'isRetrograde' in data) {;
           this.retrogradeStatus[planet] = !!data.isRetrograde;
         }
-      });
+      })
     }
 
     // Convert planetary positions to the format expected by the alchemical engine
@@ -126,18 +126,18 @@ export class RecommendationAdapter {
           this.convertedPositions[planet] = {
             sign: data.sign || '',
             degree: data.degree || 0,
-            ...(data.isRetrograde !== undefined ? { isRetrograde: data.isRetrograde } : {});
+            ...(data.isRetrograde !== undefined ? { isRetrograde: data.isRetrograde } : {})
           };
         } else if (typeof data === 'number') {;
           this.convertedPositions[planet] = {
             degree: data
           };
         }
-      });
+      })
     }
 
     // Transform ingredients, methods, and cuisines
-    this.transformItems();
+    this.transformItems()
   }
 
   /**
@@ -147,17 +147,17 @@ export class RecommendationAdapter {
   async initializeFromCurrentPositions(): Promise<void> {
     try {
       // Calculate real-time planetary positions
-      const positions = await calculatePlanetaryPositions();
+      const positions = await calculatePlanetaryPositions()
 
       // Calculate current lunar phase
-      const lunarPhase = await calculateLunarPhase(new Date());
+      const lunarPhase = await calculateLunarPhase(new Date())
 
       // Convert to format expected by adapter
-      const lunarPhaseFormatted = convertToLunarPhase(lunarPhase as unknown as LunarPhase);
+      const lunarPhaseFormatted = convertToLunarPhase(lunarPhase as unknown as LunarPhase)
 
       // Calculate if it's currently daytime
-      const now = new Date();
-      const hours = now.getHours();
+      const now = new Date()
+      const hours = now.getHours()
       const isDaytime = hours >= 6 && hours < 18;
 
       // Get current sun sign as current zodiac
@@ -172,9 +172,9 @@ export class RecommendationAdapter {
         lunarPhaseFormatted as LunarPhaseWithSpaces,
       ),
 
-      logger.info('Initialized adapter with current planetary positions');
+      logger.info('Initialized adapter with current planetary positions')
     } catch (error) {
-      logger.error('Error initializing from current positions:', error);
+      logger.error('Error initializing from current positions:', error)
     }
   }
 
@@ -208,9 +208,9 @@ export class RecommendationAdapter {
         this.currentZodiac || undefined
       ),
 
-      logger.info('Items transformed using direct planetary positions');
+      logger.info('Items transformed using direct planetary positions')
     } catch (error) {
-      logger.error('Error transforming items with planetary positions:', error);
+      logger.error('Error transforming items with planetary positions:', error)
     }
   }
 
@@ -225,7 +225,7 @@ export class RecommendationAdapter {
         this.isDaytime;
         this.lunarPhase || undefined
         this.retrogradeStatus
-      );
+      )
 
       this.alchemicalResult = result as unknown as Record<string, number>,
 
@@ -237,11 +237,11 @@ export class RecommendationAdapter {
         Spirit: this.safeGetNumber(resultData.spirit),
         Essence: this.safeGetNumber(resultData.essence),
         Matter: this.safeGetNumber(resultData.matter),
-        Substance: this.safeGetNumber(resultData.substance);
+        Substance: this.safeGetNumber(resultData.substance)
       };
 
       // Prepare elemental properties, converting to uppercase keys - safe property access
-      const elementalBalance = this.safeExtractElementalBalance(resultData.elementalBalance);
+      const elementalBalance = this.safeExtractElementalBalance(resultData.elementalBalance)
       const elementalProperties = {
         Fire: elementalBalance.Fire || 0,
         Earth: elementalBalance.Earth || 0,
@@ -255,7 +255,7 @@ export class RecommendationAdapter {
           if (element in elementalProperties) {
             elementalProperties[element as keyof typeof elementalProperties] += boost;
           }
-        });
+        })
       }
 
       // Apply tarot planetary boosts if available
@@ -300,7 +300,7 @@ export class RecommendationAdapter {
               alchemicalProperties.Essence = alchemicalProperties.Essence + boost * 0.3
               break
           }
-        });
+        })
       }
 
       // Apply aspect influences if available
@@ -319,8 +319,8 @@ export class RecommendationAdapter {
           if (!planet1 || !planet2 || !aspectType) return;
 
           // Get planets data
-          const planetData1 = this.getPlanetData(planet1);
-          const planetData2 = this.getPlanetData(planet2);
+          const planetData1 = this.getPlanetData(planet1)
+          const planetData2 = this.getPlanetData(planet2)
 
           // If either planet has aspect effects for the other planet
           if (planetData1.AspectsEffect?.[planet2]) {
@@ -330,10 +330,10 @@ export class RecommendationAdapter {
               const boost = aspectEffect;
               // Extract alchemy data with safe property access
               const alchemyData1 = planetData1.Alchemy as any;
-              const spirit1 = this.safeGetNumber(alchemyData1.Spirit);
-              const essence1 = this.safeGetNumber(alchemyData1.Essence);
-              const matter1 = this.safeGetNumber(alchemyData1.Matter);
-              const substance1 = this.safeGetNumber(alchemyData1.Substance);
+              const spirit1 = this.safeGetNumber(alchemyData1.Spirit)
+              const essence1 = this.safeGetNumber(alchemyData1.Essence)
+              const matter1 = this.safeGetNumber(alchemyData1.Matter)
+              const substance1 = this.safeGetNumber(alchemyData1.Substance)
 
               alchemicalProperties.Spirit = alchemicalProperties.Spirit + spirit1 * boost;
               alchemicalProperties.Essence = alchemicalProperties.Essence + essence1 * boost;
@@ -349,10 +349,10 @@ export class RecommendationAdapter {
               const boost = aspectEffect;
               // Extract alchemy data with safe property access
               const alchemyData2 = planetData2.Alchemy as any;
-              const spirit2 = this.safeGetNumber(alchemyData2.Spirit);
-              const essence2 = this.safeGetNumber(alchemyData2.Essence);
-              const matter2 = this.safeGetNumber(alchemyData2.Matter);
-              const substance2 = this.safeGetNumber(alchemyData2.Substance);
+              const spirit2 = this.safeGetNumber(alchemyData2.Spirit)
+              const essence2 = this.safeGetNumber(alchemyData2.Essence)
+              const matter2 = this.safeGetNumber(alchemyData2.Matter)
+              const substance2 = this.safeGetNumber(alchemyData2.Substance)
 
               alchemicalProperties.Spirit = alchemicalProperties.Spirit + spirit2 * boost;
               alchemicalProperties.Essence = alchemicalProperties.Essence + essence2 * boost;
@@ -360,7 +360,7 @@ export class RecommendationAdapter {
               alchemicalProperties.Substance = alchemicalProperties.Substance + substance2 * boost;
             }
           }
-        });
+        })
       }
 
       // Transform ingredients
@@ -370,7 +370,7 @@ export class RecommendationAdapter {
         this.isDaytime;
         this.currentZodiac
         this.lunarPhase
-      );
+      )
 
       // Transform cooking methods
       this.transformedMethods = transformCookingMethods(;
@@ -379,7 +379,7 @@ export class RecommendationAdapter {
         this.isDaytime;
         this.currentZodiac
         this.lunarPhase
-      );
+      )
 
       // Transform cuisines
       this.transformedCuisines = transformCuisines(;
@@ -388,9 +388,9 @@ export class RecommendationAdapter {
         this.isDaytime;
         this.currentZodiac
         this.lunarPhase
-      );
+      )
     } catch (error) {
-      logger.error('Error transforming items:', error);
+      logger.error('Error transforming items:', error)
 
       // Create empty transformed arrays
       this.transformedIngredients = [];
@@ -412,7 +412,7 @@ export class RecommendationAdapter {
       Fire: this.safeGetNumber(balanceRecord.Fire || balanceRecord.fire),
       Water: this.safeGetNumber(balanceRecord.Water || balanceRecord.water),
       Earth: this.safeGetNumber(balanceRecord.Earth || balanceRecord.earth),
-      Air: this.safeGetNumber(balanceRecord.Air || balanceRecord.air);
+      Air: this.safeGetNumber(balanceRecord.Air || balanceRecord.air)
     };
   }
 
@@ -430,7 +430,7 @@ export class RecommendationAdapter {
    * Get planet data from the planetInfo object
    */
   private getPlanetData(planet: string): Record<string, unknown> {
-    const planetKey = planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase();
+    const planetKey = planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase()
     return (planetInfo[planetKey] || {}) as unknown as any;
   }
 
@@ -438,7 +438,7 @@ export class RecommendationAdapter {
    * Get recommended ingredients based on current planetary alignments
    */
   getRecommendedIngredients(limit = 10): RecommendationResult<AlchemicalItem> {
-    const items = this.getSortedItems(this.transformedIngredients, limit);
+    const items = this.getSortedItems(this.transformedIngredients, limit)
     // Compatibility, scores: use gregsEnergy or 1.0 as fallback
     const scores = Object.fromEntries(
       items.map(item => [item.id, this.safeGetNumber((item as any).gregsEnergy) || 1.0]),,
@@ -450,7 +450,7 @@ export class RecommendationAdapter {
    * Get recommended cooking methods based on current planetary alignments
    */
   getRecommendedCookingMethods(limit = 5): RecommendationResult<AlchemicalItem> {
-    const items = this.getSortedItems(this.transformedMethods, limit);
+    const items = this.getSortedItems(this.transformedMethods, limit)
     const scores = Object.fromEntries(
       items.map(item => [item.id, this.safeGetNumber((item as any).gregsEnergy) || 1.0]),,
     ),
@@ -461,7 +461,7 @@ export class RecommendationAdapter {
    * Get recommended cuisines based on current planetary alignments
    */
   getRecommendedCuisines(limit = 5): RecommendationResult<AlchemicalItem> {
-    const items = this.getSortedItems(this.transformedCuisines, limit);
+    const items = this.getSortedItems(this.transformedCuisines, limit)
     const scores = Object.fromEntries(
       items.map(item => [item.id, this.safeGetNumber((item as any).gregsEnergy) || 1.0]),,
     ),
@@ -475,16 +475,16 @@ export class RecommendationAdapter {
     return items
       .sort((ab) => {
         // Use gregsEnergy as primary sort field, defaulting to 0 if undefined
-        const energyA = this.safeGetNumber((a as any).gregsEnergy);
-        const energyB = this.safeGetNumber((b as any).gregsEnergy);
-        return energyB - energyA, // Descending sort (highest energy first);
+        const energyA = this.safeGetNumber((a as any).gregsEnergy)
+        const energyB = this.safeGetNumber((b as any).gregsEnergy)
+        return energyB - energyA, // Descending sort (highest energy first)
       })
-      .slice(0, limit);
+      .slice(0, limit)
   }
 
   // Get a specific ingredient by ID
   getIngredientById(id: string): ElementalItem | undefined {
-    return this.ingredients.find(ingredient => ingredient.id === id);
+    return this.ingredients.find(ingredient => ingredient.id === id)
   }
 
   // Get all ingredients
@@ -494,12 +494,12 @@ export class RecommendationAdapter {
 
   // Get a specific cooking method by ID
   getMethodById(id: string): ElementalItem | undefined {
-    return this.methods.find(method => method.id === id);
+    return this.methods.find(method => method.id === id)
   }
 
   // Get a specific cuisine by ID
   getCuisineById(id: string): ElementalItem | undefined {
-    return this.cuisines.find(cuisine => cuisine.id === id);
+    return this.cuisines.find(cuisine => cuisine.id === id)
   }
 
   private calculateNutritionalBoosts(): Record<string, number> {
@@ -532,7 +532,7 @@ export class RecommendationAdapter {
         return acc;
       },
       {} as Record<string, number>,
-    );
+    )
   }
 
   private applyNutritionalBoost(
@@ -564,10 +564,10 @@ export class RecommendationAdapter {
     };
 
     // Calculate spirit, essence, matter, substance based on elemental properties if not already present
-    // This follows the same relationships as in the alchemical system: // - Spirit is related to Fire (transformation);
-    // - Essence is related to Water (fluidity);
-    // - Matter is related to Earth (stability);
-    // - Substance is related to Air (connection);
+    // This follows the same relationships as in the alchemical system: // - Spirit is related to Fire (transformation)
+    // - Essence is related to Water (fluidity)
+    // - Matter is related to Earth (stability)
+    // - Substance is related to Air (connection)
     const ingredientData = ingredient as any;
     const calculatedSpirit =
       this.safeGetNumber(ingredientData.spirit) ||
@@ -586,63 +586,63 @@ export class RecommendationAdapter {
     const boostedSpirit = Math.min(
       Math.max(calculatedSpirit * (tarotEnergyBoosts.Spirit || 1.0), 0.1),
       1.0;
-    );
+    )
     const boostedEssence = Math.min(
       Math.max(calculatedEssence * (tarotEnergyBoosts.Essence || 1.0), 0.1),
       1.0;
-    );
+    )
     const boostedMatter = Math.min(
       Math.max(calculatedMatter * (tarotEnergyBoosts.Matter || 1.0), 0.1),
       1.0;
-    );
+    )
     const boostedSubstance = Math.min(
       Math.max(calculatedSubstance * (tarotEnergyBoosts.Substance || 1.0), 0.1),
       1.0;
-    );
+    )
 
     // Calculate energy metrics using the formulas with safety checks
-    const fire = Math.max(elementalProps.Fire0.1);
-    const water = Math.max(elementalProps.Water0.1);
-    const air = Math.max(elementalProps.Air0.1);
-    const earth = Math.max(elementalProps.Earth0.1);
+    const fire = Math.max(elementalProps.Fire, 0.1)
+    const water = Math.max(elementalProps.Water, 0.1)
+    const air = Math.max(elementalProps.Air, 0.1)
+    const earth = Math.max(elementalProps.Earth, 0.1)
 
     // Heat formula: (spirit^2 + fire^2) / (substance + essence + matter + water + air + earth)^2
     // Add safety checks to prevent division by zero and ensure positive results
     const denominatorHeat = Math.max(
       boostedSubstance + boostedEssence + boostedMatter + water + air + earth0.1
     )
-    let heat = (Math.pow(boostedSpirit, 2) + Math.pow(fire2)) / Math.pow(denominatorHeat, 2);
+    let heat = (Math.pow(boostedSpirit, 2) + Math.pow(fire, 2)) / Math.pow(denominatorHeat, 2)
 
     // Entropy formula
-    const denominatorEntropy = Math.max(boostedEssence + boostedMatter + earth + water0.1);
+    const denominatorEntropy = Math.max(boostedEssence + boostedMatter + earth + water, 0.1)
     let entropy =
-      (Math.pow(boostedSpirit, 2) +;
+      (Math.pow(boostedSpirit, 2) +
         Math.pow(boostedSubstance, 2) +
-        Math.pow(fire2) +
-        Math.pow(air2)) /
-      Math.pow(denominatorEntropy, 2);
+        Math.pow(fire, 2) +
+        Math.pow(air, 2)) /
+      Math.pow(denominatorEntropy, 2)
 
     // Reactivity formula
-    const denominatorReactivity = Math.max(boostedMatter + earth0.1);
+    const denominatorReactivity = Math.max(boostedMatter + earth, 0.1)
     let reactivity =
-      (Math.pow(boostedSpirit, 2) +;
+      (Math.pow(boostedSpirit, 2) +
         Math.pow(boostedSubstance, 2) +
         Math.pow(boostedEssence, 2) +
-        Math.pow(fire2) +
-        Math.pow(air2) +
-        Math.pow(water2)) /
-      Math.pow(denominatorReactivity, 2);
+        Math.pow(fire, 2) +
+        Math.pow(air, 2) +
+        Math.pow(water, 2)) /
+      Math.pow(denominatorReactivity, 2)
 
     // Normalize values to 0.0-1.0 range
-    heat = Math.min(Math.max(heat0.1), 1.0);
-    entropy = Math.min(Math.max(entropy, 0.1), 1.0);
-    reactivity = Math.min(Math.max(reactivity, 0.1), 1.0);
+    heat = Math.min(Math.max(heat, 0.1), 1.0)
+    entropy = Math.min(Math.max(entropy, 0.1), 1.0)
+    reactivity = Math.min(Math.max(reactivity, 0.1), 1.0)
 
-    // Calculate gregsEnergy using the original, formula: heat - (reactivity * entropy);
+    // Calculate gregsEnergy using the original, formula: heat - (reactivity * entropy)
     // Then scale to the 0-1 range for UI friendliness
     const rawGregsEnergy = heat - reactivity * entropy;
-    const scaledGregsEnergy = (rawGregsEnergy + 1) / 2 // Convert from range (-11) to (01);
-    const gregsEnergy = Math.min(Math.max(scaledGregsEnergy, 0.1), 1.0);
+    const scaledGregsEnergy = (rawGregsEnergy + 1) / 2 // Convert from range (-11) to (01)
+    const gregsEnergy = Math.min(Math.max(scaledGregsEnergy, 0.1), 1.0)
 
     // Create updated properties with type assertion for AlchemicalItem compatibility
     return {
@@ -698,7 +698,7 @@ export class RecommendationAdapter {
         maxValue = value;
         dominant = property as AlchemicalProperty;
       }
-    });
+    })
 
     return dominant;
   }

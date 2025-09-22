@@ -49,7 +49,7 @@ export interface ExtendedRecipe extends Recipe {
   // Additional instruction variations,
   instructions: string[]
 
-  // Elemental properties with proper casing (Fire, Water, Earth, Air);
+  // Elemental properties with proper casing (Fire, Water, Earth, Air)
   elementalProperties: ElementalProperties;
 
   // Enhanced properties commonly accessed

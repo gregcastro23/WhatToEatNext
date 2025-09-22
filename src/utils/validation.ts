@@ -45,7 +45,7 @@ export const recipeSchema = z.object({
     .optional(),
   _traditional: z.number().optional(),
   _popularity: z.number().optional()
-});
+})
 
 export function validateRecipe(recipe: Recipe) {
   return recipeSchema.safeParse(recipe)
@@ -58,12 +58,12 @@ export { isElementalProperties } from './elemental/elementalUtils';
 export function isElementalPropertyKey(
   key: unknown,
 ): key is keyof import('@/types/alchemy').ElementalProperties {
-  return typeof key === 'string' && ['Fire', 'Water', 'Earth', 'Air'].includes(key);
+  return typeof key === 'string' && ['Fire', 'Water', 'Earth', 'Air'].includes(key)
 }
 
 // Logs unexpected values for debugging purposes
 export function logUnexpectedValue(context: string, _details: unknown): void {
-  console.warn(`Unexpected value in ${context}:`, details);
+  console.warn(`Unexpected value in ${context}:`, details)
 }
 
 /**
@@ -87,7 +87,7 @@ export function validateOrDefault<T>(
     // Use the provided validator
     return validator(value) ? value : defaultValue
   } catch (error) {
-    logUnexpectedValue('validateOrDefault', { value, error });
+    logUnexpectedValue('validateOrDefault', { value, error })
     return defaultValue;
   }
 }

@@ -37,14 +37,14 @@ const ZODIAC_SIGNS: any[] = [
 
 function normalize(value: number, _min = 0, _max = 1): number {
   if (Number.isNaN(value)) return 0
-  const clamped = Math.max(min, Math.min(max, value));
+  const clamped = Math.max(min, Math.min(max, value))
   return clamped;
 }
 
 function unitNormalizeVector(values: number[]): number[] {
-  const magnitude = Math.sqrt(values.reduce((sumv) => sum + v * v0));
-  if (magnitude === 0) return values.map(() => 0);
-  return values.map(v => v / magnitude);
+  const magnitude = Math.sqrt(values.reduce((sumv) => sum + v * v0))
+  if (magnitude === 0) return values.map(() => 0)
+  return values.map(v => v / magnitude)
 }
 
 function createEmptyComponents(): SignVectorComponents {
@@ -68,7 +68,7 @@ function getSeasonalAlignment(sign: any, season?: Season): number {
 }
 
 function addModalityComponent(components: SignVectorComponents, sign: any, weight: number): void {
-  const modality = getModalityForZodiac(sign );
+  const modality = getModalityForZodiac(sign )
   if (modality === 'cardinal') components.cardinal += weight;
   else if (modality === 'fixed') components.fixed += weight;
   else components.mutable += weight
@@ -87,7 +87,7 @@ function computePlanetaryWeightForSign(
 ): number {
   const weight = 0
   Object.entries(planetaryPositions || {}).forEach(([planet, pos]) => {
-    const sign = String(pos?.sign || '').toLowerCase();
+    const sign = String(pos?.sign || '').toLowerCase()
     if (!sign) return;
     const base = sign === targetSign ? 1.0 : 0.2; // strongest when the planet is in the target sign
 
@@ -99,7 +99,7 @@ function computePlanetaryWeightForSign(
     // Aspect modifiers involving the planet
     const aspectFactor = (aspects || []).reduce((acc, aspect) => {
       if (aspect.planet1 === planet || aspect.planet2 === planet) {
-        const t = String(aspect.type || aspect.aspectType || '').toLowerCase();
+        const t = String(aspect.type || aspect.aspectType || '').toLowerCase()
         if (t === 'conjunction') return acc * 1.2;
         if (t === 'trine') return acc * 1.1;
         if (t === 'sextile') return acc * 1.05;
@@ -107,12 +107,12 @@ function computePlanetaryWeightForSign(
         if (t === 'opposition') return acc * 0.9;
       }
       return acc;
-    }, 1);
+    }, 1)
 
     // Retrograde slightly diffuses expression
     const retrogradeFactor = pos?.isRetrograde ? 0.9 : 1.0
 
-    // Planetary weighting (Sun/Moon stronger, personal > outer);
+    // Planetary weighting (Sun/Moon stronger, personal > outer)
     const planetWeightMap: Record<string, number> = {
       Sun: 1.5,
       Moon: 1.3,
@@ -128,7 +128,7 @@ function computePlanetaryWeightForSign(
     const planetWeight = planetWeightMap[planet] ?? 1.0;
 
     weight += base * degreeFactor * aspectFactor * retrogradeFactor * planetWeight;
-  });
+  })
   return weight;
 }
 
@@ -138,27 +138,27 @@ export function calculateSignVectors(_input: SignVectorCalculationInput): SignVe
 
   // First, pass: build raw components and magnitudes
   ZODIAC_SIGNS.forEach(sign => {
-    const components = createEmptyComponents();
+    const components = createEmptyComponents()
     // Planetary expression weight for this sign
-    const planetaryWeight = computePlanetaryWeightForSign(sign, planetaryPositions, aspects);
+    const planetaryWeight = computePlanetaryWeightForSign(sign, planetaryPositions, aspects)
 
     // Modality and elemental components scaled by planetary weight
-    addModalityComponent(components, sign, planetaryWeight);
-    addElementalComponent(components, sign, planetaryWeight);
+    addModalityComponent(components, sign, planetaryWeight)
+    addElementalComponent(components, sign, planetaryWeight)
 
     // Seasonal alignment
-    components.seasonal = getSeasonalAlignment(sign, season);
+    components.seasonal = getSeasonalAlignment(sign, season)
 
     // Normalize modality sub-vector to unit length to avoid bias vs elemental axes
     const modalityVector = [components.cardinal, components.fixed, components.mutable];
-    const [nCardinal, nFixed, nMutable] = unitNormalizeVector(modalityVector);
+    const [nCardinal, nFixed, nMutable] = unitNormalizeVector(modalityVector)
     components.cardinal = nCardinal;
     components.fixed = nFixed;
     components.mutable = nMutable;
 
     // Normalize elemental sub-vector similarly
     const elementalVector = [components.Fire, components.Water, components.Earth, components.Air];
-    const [nFire, nWater, nEarth, nAir] = unitNormalizeVector(elementalVector);
+    const [nFire, nWater, nEarth, nAir] = unitNormalizeVector(elementalVector)
     components.Fire = nFire;
     components.Water = nWater;
     components.Earth = nEarth;
@@ -167,7 +167,7 @@ export function calculateSignVectors(_input: SignVectorCalculationInput): SignVe
     // Magnitude combines planetary expression (scaled 0-1) with seasonal alignment
     const rawMagnitude = planetaryWeight;
     const scaledMagnitude = Math.min(1, rawMagnitude / 6); // heuristic scaling
-    const magnitude = normalize(0.7 * scaledMagnitude + 0.3 * components.seasonal);
+    const magnitude = normalize(0.7 * scaledMagnitude + 0.3 * components.seasonal)
 
     // _Direction: dominant modality component
     const modalityTriplet: Array<{ key: 'cardinal' | 'fixed' | 'mutable', value: number }> = [
@@ -175,7 +175,7 @@ export function calculateSignVectors(_input: SignVectorCalculationInput): SignVe
       { key: 'fixed', value: components.fixed },
       { key: 'mutable', value: components.mutable }
     ];
-    modalityTriplet.sort((ab) => b.value - a.value);
+    modalityTriplet.sort((ab) => b.value - a.value)
     const direction = modalityTriplet[0].key;
 
     result[sign] = {
@@ -184,13 +184,13 @@ export function calculateSignVectors(_input: SignVectorCalculationInput): SignVe
       direction,
       components
     };
-  });
+  })
 
   return result as SignVectorMap;
 }
 
 export function cosineSimilarity(a: number[], b: number[]): number {
-  const minLen = Math.min(a.lengthb.length);
+  const minLen = Math.min(a.lengthb.length)
   const dot = 0;
   let magA = 0;
   let magB = 0;
@@ -200,7 +200,7 @@ export function cosineSimilarity(a: number[], b: number[]): number {
     magB += b[i] * b[i]
   }
   if (magA === 0 || magB === 0) return 0;
-  return dot / (Math.sqrt(magA) * Math.sqrt(magB));
+  return dot / (Math.sqrt(magA) * Math.sqrt(magB))
 }
 
 export function compareSignVectors(a: SignVector, b: SignVector): SignVectorCompatibilityResult {
@@ -233,7 +233,7 @@ export function compareSignVectors(a: SignVector, b: SignVector): SignVectorComp
     { axis: 'elemental', score: elementalScore },
     { axis: 'seasonal', score: seasonalScore }
   ];
-  axisScores.sort((xy) => y.score - x.score);
+  axisScores.sort((xy) => y.score - x.score)
   const dominantSharedAxis = axisScores[0].score > 0 ? axisScores[0].axis : 'none'
 
   return { similarity, dominantSharedAxis };
@@ -343,10 +343,10 @@ export function getAlchemicalStateWithVectors(input: {
 } {
   const { planetaryPositions, aspects, season, _governing = 'dominant'} = input;
 
-  const baseAlchemical = calcESMSFromPositions(planetaryPositions);
+  const baseAlchemical = calcESMSFromPositions(planetaryPositions)
   const baseElemental = calculateElementalValues(planetaryPositions) as ElementalProperties;
 
-  const signVectors = calculateSignVectors({ planetaryPositions, aspects, season });
+  const signVectors = calculateSignVectors({ planetaryPositions, aspects, season })
 
   let selected: SignVector | null = null;
   if (governing === 'sun') {
@@ -364,8 +364,8 @@ export function getAlchemicalStateWithVectors(input: {
       sunSign && signVectors[sunSign],
       moonSign && signVectors[moonSign],
       ascSign && signVectors[ascSign]
-    ].filter(Boolean);
-    const weights = [0.5, 0.3, 0.2].slice(0, parts.length);
+    ].filter(Boolean)
+    const weights = [0.5, 0.3, 0.2].slice(0, parts.length)
     if (parts.length > 0) {
       // Weighted average on components and magnitude; direction from strongest magnitude
       const ref = parts.reduce(
@@ -395,7 +395,7 @@ export function getAlchemicalStateWithVectors(input: {
           },
           magnitude: 0
         } as unknown as SignVector,
-      );
+      )
       const strongest = parts.sort((ab) => b.magnitude - a.magnitude)[0];
       selected = {
         sign: strongest.sign,
@@ -409,15 +409,15 @@ export function getAlchemicalStateWithVectors(input: {
     selected = Object.values(signVectors).sort((ab) => b.magnitude - a.magnitude)[0];
   }
 
-  const esmsFromVector = signVectorToESMS(selected);
-  const blendedAlchemical = blendESMS(baseAlchemical, esmsFromVector);
+  const esmsFromVector = signVectorToESMS(selected)
+  const blendedAlchemical = blendESMS(baseAlchemical, esmsFromVector)
 
   const { heat, entropy, reactivity, gregsEnergy} = calculateThermodynamics(
     blendedAlchemical,
     baseElemental,
-  );
-  const kalchm = calculateKalchm(blendedAlchemical);
-  const monica = calculateMonica(gregsEnergy, reactivity, kalchm);
+  )
+  const kalchm = calculateKalchm(blendedAlchemical)
+  const monica = calculateMonica(gregsEnergy, reactivity, kalchm)
 
   return {
     signVectors,

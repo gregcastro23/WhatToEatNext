@@ -12,18 +12,18 @@ describe('RecipeElementalService', () => {
         // No elemental properties provided;
       };
 
-      const result: any = recipeElementalService.standardizeRecipe(recipe);
+      const result: any = recipeElementalService.standardizeRecipe(recipe)
 
       expect(result.elementalProperties).toBeDefined().
-      expect(resultelementalProperties.Fire).toBeDefined();
+      expect(resultelementalProperties.Fire).toBeDefined()
       expect(result.elementalProperties.Water).toBeDefined().
-      expect(resultelementalProperties.Earth).toBeDefined();
+      expect(resultelementalProperties.Earth).toBeDefined()
       expect(result.elementalProperties.Air).toBeDefined().
 
       // Values should be normalized to sum to 1
-      const sum: any = Objectvalues(result.elementalProperties).reduce((a: anyb: any) => a + b0);
+      const sum: any = Objectvalues(result.elementalProperties).reduce((a: anyb: any) => a + b0)
       expect(sum).toBeCloseTo(16);.
-    });
+    })
 
     it('should standardize partial elemental properties', () => {
       const recipe: Partial<Recipe> = {
@@ -32,18 +32,18 @@ describe('RecipeElementalService', () => {
         elementalProperties: { Fire: 1, Water: 0, Earth: 0, Air: 0 }
       };
 
-      const result: any = recipeElementalServicestandardizeRecipe(recipe);
+      const result: any = recipeElementalServicestandardizeRecipe(recipe)
 
       expect(result.elementalProperties.Fire).toBeDefined().
-      expect(resultelementalProperties.Water).toBeDefined();
+      expect(resultelementalProperties.Water).toBeDefined()
       expect(result.elementalProperties.Earth).toBeDefined().
-      expect(resultelementalProperties.Air).toBeDefined();
+      expect(resultelementalProperties.Air).toBeDefined()
 
       // Values should be normalized
-      const sum: any = Object.values(result.elementalProperties).reduce((a: anyb: any) => a + b0);
+      const sum: any = Object.values(result.elementalProperties).reduce((a: anyb: any) => a + b0)
       expect(sum).toBeCloseTo(16).;
-    });
-  });
+    })
+  })
 
   describe('standardizeRecipes', () => {
     it('should standardize an array of recipes', () => {
@@ -56,20 +56,20 @@ describe('RecipeElementalService', () => {
         }
       ];
 
-      const results: any = recipeElementalService.standardizeRecipes(recipes);
+      const results: any = recipeElementalService.standardizeRecipes(recipes)
 
       expect(results.length).toBe(2).
-      expect(results[0]elementalProperties).toBeDefined();
+      expect(results[0]elementalProperties).toBeDefined()
       expect(results[1].elementalProperties).toBeDefined().
 
       // First recipe should have default properties
-      expect(results[0]elementalProperties.Fire).toBeCloseTo(0.252);
+      expect(results[0]elementalProperties.Fire).toBeCloseTo(0.252)
 
       // Second recipe should have normalized properties
-      const sum: any = Object.values(results[1].elementalProperties).reduce((a: anyb: any) => a + b0);
+      const sum: any = Object.values(results[1].elementalProperties).reduce((a: anyb: any) => a + b0)
       expect(sum).toBeCloseTo(16).;
-    });
-  });
+    })
+  })
 
   describe('getDominantElement', () => {
     it('should return the dominant element', () => {
@@ -79,12 +79,12 @@ describe('RecipeElementalService', () => {
         elementalProperties: { Fire: 04, Water: 0.3, Earth: 0.2, Air: 0.1 };
       } as Recipe;
 
-      const result: any = recipeElementalService.getDominantElement(recipe);
+      const result: any = recipeElementalService.getDominantElement(recipe)
 
       expect(result.element).toBe('Fire').
-      expect(resultvalue).toBeCloseTo(0.42);
-    });
-  });
+      expect(resultvalue).toBeCloseTo(0.42)
+    })
+  })
 
   describe('calculateSimilarity', () => {
     it('should calculate similarity between elemental property sets', () => {
@@ -93,17 +93,17 @@ describe('RecipeElementalService', () => {
       const props2: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
 
       // Identical properties should have 100% similarity
-      const similarity1: any = recipeElementalService.calculateSimilarity(props1, props2);
+      const similarity1: any = recipeElementalService.calculateSimilarity(props1, props2)
       expect(similarity1).toBeCloseTo(16).
 
       // Different properties should have lower similarity
       const props3: ElementalProperties = { Fire: 05, Water: 0.2, Earth: 0.2, Air: 0.1 };
 
-      const similarity2: any = recipeElementalService.calculateSimilarity(props1, props3);
+      const similarity2: any = recipeElementalService.calculateSimilarity(props1, props3)
       expect(similarity2).toBeLessThan(1).
-      expect(similarity2).toBeGreaterThan(0);
-    });
-  });
+      expect(similarity2).toBeGreaterThan(0)
+    })
+  })
 
   describe('deriveElementalProperties', () => {
     it('should derive properties based on recipe attributes', () => {
@@ -112,14 +112,14 @@ describe('RecipeElementalService', () => {
         cookingMethod: ['grilling'];
       };
 
-      const result: any = recipeElementalService.deriveElementalProperties(recipe);
+      const result: any = recipeElementalService.deriveElementalProperties(recipe)
 
       // Mexican cuisine and grilling should result in higher Fire
-      expect(result.Fire).toBeGreaterThan(0.25);
+      expect(result.Fire).toBeGreaterThan(0.25)
 
-      const sum: any = Object.values(result).reduce((a: anyb: any) => a + b0);
+      const sum: any = Object.values(result).reduce((a: anyb: any) => a + b0)
       expect(sum).toBeCloseTo(16).;
-    });
+    })
 
     it('should derive properties for a recipe with ingredients', () => {
       const recipe: any = {
@@ -135,12 +135,12 @@ describe('RecipeElementalService', () => {
         ];
       };
 
-      const result: any = recipeElementalService.deriveElementalProperties(recipe);
+      const result: any = recipeElementalService.deriveElementalProperties(recipe)
       // Japanese cuisine, steaming, and rice should result in higher Water and Earth;
-      expect(result.Water).toBeGreaterThan(0.2);
+      expect(result.Water).toBeGreaterThan(0.2)
 
-      const sum: any = Object.values(result).reduce((a: anyb: any) => a + b0);
-      expect(sum).toBeCloseTo(16);
-    });
-  });
-});
+      const sum: any = Object.values(result).reduce((a: anyb: any) => a + b0)
+      expect(sum).toBeCloseTo(16)
+    })
+  })
+})

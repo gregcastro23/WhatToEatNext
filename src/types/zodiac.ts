@@ -59,7 +59,7 @@ export const zodiacElements: Record<ZodiacSign, keyof ElementalProperties>  = {
 // Helper Functions
 export const _getZodiacSign = (date: Date): any => {;
   const month = date.getMonth() + 1;
-  const day = date.getDate();
+  const day = date.getDate()
   for (const [sign, range] of Object.entries(zodiacDateRanges)) {
     const { startMonth, startDay, endMonth, endDay } = range;
 
@@ -68,7 +68,7 @@ export const _getZodiacSign = (date: Date): any => {;
     }
   }
 
-  // Default to capricorn if no match (shouldn't happen with proper ranges);
+  // Default to capricorn if no match (shouldn't happen with proper ranges)
   return 'capricorn';
 };
 

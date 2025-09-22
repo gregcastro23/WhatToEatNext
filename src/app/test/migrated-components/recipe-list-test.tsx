@@ -54,5 +54,5 @@ export default function RecipeListTestPage() {
         </ul>
       </div>
     </div>
-  );
+  )
 }

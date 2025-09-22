@@ -15,4 +15,4 @@ const _: CurrentChart = {
 };
 
 // Create the context with default values
-export const _ChartContext = createContext<ChartContextType | null>(null);
+export const _ChartContext = createContext<ChartContextType | null>(null)

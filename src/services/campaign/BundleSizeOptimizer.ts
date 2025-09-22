@@ -76,8 +76,8 @@ export class BundleSizeOptimizer {
   private readonly TARGET_BUNDLE_SIZE = 420; // kB
   private readonly TARGET_CHUNK_SIZE = 100; // kB
   private readonly COMPRESSION_RATIO = 0.7, // Typical gzip compression;
-  private, alerts: BundleOptimizationAlert[] = [];
-  private, analysisHistory: BundleAnalysis[] = []
+  private alerts: BundleOptimizationAlert[] = [];
+  private analysisHistory: BundleAnalysis[] = []
 
   constructor() {}
 
@@ -86,16 +86,16 @@ export class BundleSizeOptimizer {
    */
   async analyzeBundleSize(): Promise<BundleAnalysis> {
     try {
-      // // // console.log('📦 Analyzing bundle size...');
+      // // // console.log('📦 Analyzing bundle size...')
 
       // Get bundle information from build output
-      const bundleInfo = await this.getBundleInformation();
-      const chunks = await this.analyzeChunks();
-      const assets = await this.analyzeAssets();
-      const dependencies = await this.analyzeDependencies();
+      const bundleInfo = await this.getBundleInformation()
+      const chunks = await this.analyzeChunks()
+      const assets = await this.analyzeAssets()
+      const dependencies = await this.analyzeDependencies()
 
       const totalSize = bundleInfo.totalSize;
-      const compressedSize = Math.round(totalSize * this.COMPRESSION_RATIO);
+      const compressedSize = Math.round(totalSize * this.COMPRESSION_RATIO)
       // Generate recommendations based on analysis
       const recommendations = this.generateBundleRecommendations(
         totalSize,
@@ -114,20 +114,20 @@ export class BundleSizeOptimizer {
       };
 
       // Store in history
-      this.analysisHistory.push(analysis);
+      this.analysisHistory.push(analysis)
       if (this.analysisHistory.length > 20) {
-        this.analysisHistory = this.analysisHistory.slice(-10);
+        this.analysisHistory = this.analysisHistory.slice(-10)
       }
 
       // Check for alerts
-      await this.checkBundleSizeAlerts(analysis);
+      await this.checkBundleSizeAlerts(analysis)
 
       // // // console.log(
         `📦 Bundle analysis complete: ${totalSize}kB total, ${compressedSize}kB compressed`,
-      );
+      )
       return analysis;
     } catch (error) {
-      console.warn(`⚠️  Bundle analysis failed: ${(error as any).message || 'Unknown error'}`);
+      console.warn(`⚠️  Bundle analysis failed: ${(error as any).message || 'Unknown error'}`)
 
       // Return fallback analysis
       return {
@@ -148,23 +148,23 @@ export class BundleSizeOptimizer {
     try {
       // Check for Next.js build output
       if (fs.existsSync('.next')) {
-        return await this.getNextJsBundleInfo();
+        return await this.getNextJsBundleInfo()
       }
 
       // Check for other build outputs
       const buildDirs = ['dist', 'build', 'out'];
       for (const dir of buildDirs) {
         if (fs.existsSync(dir)) {
-          return await this.getGenericBundleInfo(dir);
+          return await this.getGenericBundleInfo(dir)
         }
       }
 
       // Fallback: estimate from source code
-      return await this.estimateBundleSize();
+      return await this.estimateBundleSize()
     } catch (error) {
       throw new Error(
         `Failed to get bundle information: ${(error as any).message || 'Unknown error'}`,
-      );
+      )
     }
   }
 
@@ -181,11 +181,11 @@ export class BundleSizeOptimizer {
           const output = execSync('yarn analyze 2>/dev/null || echo 'analyzer not available'', {
             encoding: 'utf8',
             stdio: 'pipe'
-          });
+          })
 
           if (!output.includes('analyzer not available')) {
-            // Parse analyzer output (simplified);
-            const sizeMatch = output.match(/Total bundle size: (\d+(?:\.\d+)?)\s*kB/);
+            // Parse analyzer output (simplified)
+            const sizeMatch = output.match(/Total bundle size: (\d+(?:\.\d+)?)\s*kB/)
             if (sizeMatch) {
               return { totalSize: parseFloat(sizeMatch[1]) };
             }
@@ -197,14 +197,14 @@ export class BundleSizeOptimizer {
       const output = execSync('du -sk .next/static | cut -f1', {
         encoding: 'utf8',
         stdio: 'pipe'
-      });
+      })
 
       const sizeKB = parseInt(output.trim()) || 0;
       return { totalSize: sizeKB };
     } catch (error) {
       throw new Error(
         `Failed to get Next.js bundle info: ${(error as any).message || 'Unknown error'}`,
-      );
+      )
     }
   }
 
@@ -216,14 +216,14 @@ export class BundleSizeOptimizer {
       const output = execSync(`du -sk ${buildDir} | cut -f1`, {
         encoding: 'utf8',
         stdio: 'pipe'
-      });
+      })
 
       const sizeKB = parseInt(output.trim()) || 0;
       return { totalSize: sizeKB };
     } catch (error) {
       throw new Error(
         `Failed to get bundle info from ${buildDir}: ${(error as any).message || 'Unknown error'}`,
-      );
+      )
     }
   }
 
@@ -239,17 +239,17 @@ export class BundleSizeOptimizer {
           encoding: 'utf8',
           stdio: 'pipe'
         },
-      );
+      )
 
       const sourceBytes = parseInt(output.trim()) || 0;
       const estimatedKB = Math.round((sourceBytes / 1024) * 1.5); // Rough estimate with bundling overhead
 
-      // // // console.log(`📦 Estimated bundle size from source: ${estimatedKB}kB`);
+      // // // console.log(`📦 Estimated bundle size from source: ${estimatedKB}kB`)
       return { totalSize: estimatedKB };
     } catch (error) {
       console.warn(
         `⚠️  Bundle size estimation failed: ${(error as any).message || 'Unknown error'}`,
-      );
+      )
       return { totalSize: 400 }; // Conservative estimate
     }
   }
@@ -263,27 +263,27 @@ export class BundleSizeOptimizer {
 
       // Check for Next.js chunks
       if (fs.existsSync('.next/static/chunks')) {
-        const chunkFiles = fs.readdirSync('.next/static/chunks');
+        const chunkFiles = fs.readdirSync('.next/static/chunks')
         for (const file of chunkFiles) {
           if (file.endsWith('.js')) {
-            const filePath = path.join('.next/static/chunks', file);
-            const stats = fs.statSync(filePath);
-            const sizeKB = Math.round(stats.size / 1024);
+            const filePath = path.join('.next/static/chunks', file)
+            const stats = fs.statSync(filePath)
+            const sizeKB = Math.round(stats.size / 1024)
 
             chunks.push({
               name: file,
               size: sizeKB,
               compressedSize: Math.round(sizeKB * this.COMPRESSION_RATIO),
               modules: [], // Would need webpack stats for detailed module info,
-              isLazyLoaded: file.includes('lazy') || file.includes('dynamic');
-            });
+              isLazyLoaded: file.includes('lazy') || file.includes('dynamic')
+            })
           }
         }
       }
 
       return chunks;
     } catch (error) {
-      console.warn(`⚠️  Chunk analysis failed: ${(error as any).message || 'Unknown error'}`);
+      console.warn(`⚠️  Chunk analysis failed: ${(error as any).message || 'Unknown error'}`)
       return [];
     }
   }
@@ -300,17 +300,17 @@ export class BundleSizeOptimizer {
 
       for (const dir of assetDirs) {
         if (fs.existsSync(dir)) {
-          const files = this.getAllFiles(dir);
+          const files = this.getAllFiles(dir)
 
           for (const file of files) {
-            const stats = fs.statSync(file);
-            const sizeKB = Math.round(stats.size / 1024);
-            const ext = path.extname(file).toLowerCase();
+            const stats = fs.statSync(file)
+            const sizeKB = Math.round(stats.size / 1024)
+            const ext = path.extname(file).toLowerCase()
 
             let type: BundleAsset['type'] = 'other'
             if (['.js', '.mjs'].includes(ext)) type = 'js';
             else if (ext === '.css') type = 'css';
-            else if (['.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp'].includes(ext));
+            else if (['.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp'].includes(ext))
               type = 'image';
             else if (['.woff', '.woff2', '.ttf', '.otf'].includes(ext)) type = 'font',
 
@@ -318,15 +318,15 @@ export class BundleSizeOptimizer {
               name: path.relative(process.cwd(), file),
               size: sizeKB,
               type,
-              optimized: this.isAssetOptimized(file, type);
-            });
+              optimized: this.isAssetOptimized(file, type)
+            })
           }
         }
       }
 
       return assets.sort((ab) => b.size - a.size); // Sort by size descending
     } catch (error) {
-      console.warn(`⚠️  Asset analysis failed: ${(error as any).message || 'Unknown error'}`);
+      console.warn(`⚠️  Asset analysis failed: ${(error as any).message || 'Unknown error'}`)
       return [];
     }
   }
@@ -342,7 +342,7 @@ export class BundleSizeOptimizer {
         return dependencies
       }
 
-      const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+      const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'))
       const deps = { ...packageJson.dependencies, ...packageJson.devDependencies };
 
       // Analyze major dependencies that impact bundle size
@@ -361,9 +361,9 @@ export class BundleSizeOptimizer {
 
       for (const [name, version] of Object.entries(deps)) {
         if (heavyDependencies.includes(name) || this.isLikelyHeavyDependency(name)) {
-          const size = await this.estimateDependencySize(name);
-          const usage = this.analyzeDependencyUsage(name);
-          const alternatives = this.suggestAlternatives(name);
+          const size = await this.estimateDependencySize(name)
+          const usage = this.analyzeDependencyUsage(name)
+          const alternatives = this.suggestAlternatives(name)
 
           dependencies.push({
             name,
@@ -371,13 +371,13 @@ export class BundleSizeOptimizer {
             version: version,
             usage,
             alternatives
-          });
+          })
         }
       }
 
-      return dependencies.sort((ab) => b.size - a.size);
+      return dependencies.sort((ab) => b.size - a.size)
     } catch (error) {
-      console.warn(`⚠️  Dependency analysis failed: ${(error as any).message || 'Unknown error'}`);
+      console.warn(`⚠️  Dependency analysis failed: ${(error as any).message || 'Unknown error'}`)
       return [];
     }
   }
@@ -387,17 +387,17 @@ export class BundleSizeOptimizer {
    */
   async validateLazyLoading(): Promise<LazyLoadingValidation> {
     try {
-      // // // console.log('🔄 Validating lazy loading implementation...');
+      // // // console.log('🔄 Validating lazy loading implementation...')
 
-      const componentsAnalyzed = await this.countComponents();
-      const lazyLoadedComponents = await this.countLazyLoadedComponents();
-      const potentialLazyComponents = await this.identifyPotentialLazyComponents();
-      const dataFetchingOptimizations = await this.identifyDataFetchingOptimizations();
+      const componentsAnalyzed = await this.countComponents()
+      const lazyLoadedComponents = await this.countLazyLoadedComponents()
+      const potentialLazyComponents = await this.identifyPotentialLazyComponents()
+      const dataFetchingOptimizations = await this.identifyDataFetchingOptimizations()
       const score = Math.round((lazyLoadedComponents / Math.max(componentsAnalyzed, 1)) * 100),
 
       // // // console.log(
         `🔄 Lazy loading validation complete: ${lazyLoadedComponents}/${componentsAnalyzed} components lazy loaded (${score}%)`,
-      );
+      )
 
       return {
         componentsAnalyzed,
@@ -409,7 +409,7 @@ export class BundleSizeOptimizer {
     } catch (error) {
       console.warn(
         `⚠️  Lazy loading validation failed: ${(error as any).message || 'Unknown error'}`,
-      );
+      )
 
       return {
         componentsAnalyzed: 0,
@@ -439,8 +439,8 @@ export class BundleSizeOptimizer {
           'Review and optimize large dependencies',
           'Enable tree shaking for unused code elimination'
         ],
-        timestamp: new Date();
-      });
+        timestamp: new Date()
+      })
     }
 
     // Check individual chunks
@@ -457,8 +457,8 @@ export class BundleSizeOptimizer {
             'Implement dynamic imports for heavy components',
             'Review chunk splitting configuration'
           ],
-          timestamp: new Date();
-        });
+          timestamp: new Date()
+        })
       }
     }
 
@@ -475,8 +475,8 @@ export class BundleSizeOptimizer {
             `Consider removing ${dep.name} if not essential`,
             ...dep.alternatives.map(alt => `Consider lighter alternative: ${alt}`),,
           ],
-          timestamp: new Date();
-        });
+          timestamp: new Date()
+        })
       }
     }
   }
@@ -485,15 +485,15 @@ export class BundleSizeOptimizer {
    * Generate comprehensive bundle optimization report
    */
   async generateOptimizationReport(): Promise<BundleOptimizationReport> {
-    const analysis = await this.analyzeBundleSize();
-    const lazyLoadingValidation = await this.validateLazyLoading();
-    // Calculate overall score (0-100);
+    const analysis = await this.analyzeBundleSize()
+    const lazyLoadingValidation = await this.validateLazyLoading()
+    // Calculate overall score (0-100)
     const sizeScore = Math.max(
       0,
       Math.min(100, (this.TARGET_BUNDLE_SIZE / Math.max(analysis.totalSize, 1)) * 100),
-    );
+    )
     const lazyLoadingScore = lazyLoadingValidation.score;
-    const overallScore = Math.round((sizeScore + lazyLoadingScore) / 2);
+    const overallScore = Math.round((sizeScore + lazyLoadingScore) / 2)
 
     const targetCompliance = analysis.totalSize <= this.TARGET_BUNDLE_SIZE;
 
@@ -503,7 +503,7 @@ export class BundleSizeOptimizer {
     if (!targetCompliance) {
       recommendations.push(
         `Reduce bundle size by ${analysis.totalSize - this.TARGET_BUNDLE_SIZE}kB to meet target`,
-      );
+      )
     }
 
     if (lazyLoadingScore < 50) {
@@ -512,7 +512,7 @@ export class BundleSizeOptimizer {
       )
     }
 
-    recommendations.push(...analysis.recommendations);
+    recommendations.push(...analysis.recommendations)
 
     return {
       timestamp: new Date(),
@@ -531,15 +531,15 @@ export class BundleSizeOptimizer {
     const files: string[] = [];
 
     try {
-      const items = fs.readdirSync(dir);
+      const items = fs.readdirSync(dir)
       for (const item of items) {
-        const fullPath = path.join(dir, item);
-        const stat = fs.statSync(fullPath);
+        const fullPath = path.join(dir, item)
+        const stat = fs.statSync(fullPath)
 
         if (stat.isDirectory()) {
-          files.push(...this.getAllFiles(fullPath));
+          files.push(...this.getAllFiles(fullPath))
         } else {
-          files.push(fullPath);
+          files.push(fullPath)
         }
       }
     } catch (error) {
@@ -550,15 +550,15 @@ export class BundleSizeOptimizer {
   }
 
   private isAssetOptimized(filePath: string, type: BundleAsset['type']): boolean {
-    const fileName = path.basename(filePath);
+    const fileName = path.basename(filePath)
 
     switch (type) {
       case 'image':
-        return fileName.includes('.webp') || fileName.includes('optimized');
+        return fileName.includes('.webp') || fileName.includes('optimized')
       case 'js':
-        return fileName.includes('.min.') || !fileName.includes('dev');
+        return fileName.includes('.min.') || !fileName.includes('dev')
       case 'css':
-        return fileName.includes('.min.') || !fileName.includes('dev');
+        return fileName.includes('.min.') || !fileName.includes('dev')
       default:
         return true
     }
@@ -566,7 +566,7 @@ export class BundleSizeOptimizer {
 
   private isLikelyHeavyDependency(name: string): boolean {
     const heavyPatterns = ['ui', 'chart', 'graph', 'editor', 'calendar', 'table', 'grid'],
-    return heavyPatterns.some(pattern => name.toLowerCase().includes(pattern));
+    return heavyPatterns.some(pattern => name.toLowerCase().includes(pattern))
   }
 
   private async estimateDependencySize(name: string): Promise<number> {
@@ -613,7 +613,7 @@ export class BundleSizeOptimizer {
       const output = execSync('find src -name '*.tsx' -o -name '*.jsx' | wc -l', {
         encoding: 'utf8',
         stdio: 'pipe'
-      });
+      })
 
       return parseInt(output.trim()) || 0;
     } catch (error) {
@@ -629,7 +629,7 @@ export class BundleSizeOptimizer {
           encoding: 'utf8',
           stdio: 'pipe'
         },
-      );
+      )
 
       return parseInt(output.trim()) || 0;
     } catch (error) {
@@ -646,12 +646,12 @@ export class BundleSizeOptimizer {
           encoding: 'utf8',
           stdio: 'pipe'
         },
-      );
+      )
 
       return output
-        .trim();
-        .split('\n');
-        .filter(line => line.trim());
+        .trim()
+        .split('\n')
+        .filter(line => line.trim())
     } catch (error) {
       return []
     }
@@ -668,7 +668,7 @@ export class BundleSizeOptimizer {
           encoding: 'utf8',
           stdio: 'pipe'
         },
-      );
+      )
 
       const hasUseSWR = execSync(;
         'grep -r 'useSWR\\|useQuery' src --include='*.tsx' --include='*.jsx' | wc -l',,
@@ -676,18 +676,18 @@ export class BundleSizeOptimizer {
           encoding: 'utf8',
           stdio: 'pipe'
         },
-      );
+      )
 
       const effectCount = parseInt(hasUseEffect.trim()) || 0;
       const swr = parseInt(hasUseSWR.trim()) || 0;
 
       if (effectCount > swr * 2) {
-        optimizations.push('Consider using SWR or React Query for data fetching optimization');
+        optimizations.push('Consider using SWR or React Query for data fetching optimization')
       }
 
       if (effectCount > 20) {
-        optimizations.push('Implement data prefetching for frequently accessed data');
-        optimizations.push('Consider implementing virtual scrolling for large lists');
+        optimizations.push('Implement data prefetching for frequently accessed data')
+        optimizations.push('Consider implementing virtual scrolling for large lists')
       }
     } catch (error) {
       // Ignore errors in optimization detection
@@ -707,44 +707,44 @@ export class BundleSizeOptimizer {
     if (totalSize > this.TARGET_BUNDLE_SIZE) {
       recommendations.push(
         `Bundle size exceeds target by ${totalSize - this.TARGET_BUNDLE_SIZE}kB`,
-      );
+      )
     }
 
-    const largeChunks = chunks.filter(chunk => chunk.size > this.TARGET_CHUNK_SIZE);
+    const largeChunks = chunks.filter(chunk => chunk.size > this.TARGET_CHUNK_SIZE)
     if (largeChunks.length > 0) {
       recommendations.push(
         `${largeChunks.length} chunks exceed recommended size - consider code splitting`,
-      );
+      )
     }
 
-    const unoptimizedAssets = assets.filter(asset => !asset.optimized && asset.size > 10);
+    const unoptimizedAssets = assets.filter(asset => !asset.optimized && asset.size > 10)
     if (unoptimizedAssets.length > 0) {
       recommendations.push(
         `${unoptimizedAssets.length} assets could be optimized for better compression`,
-      );
+      )
     }
 
-    const heavyDependencies = dependencies.filter(dep => dep.size > 100);
+    const heavyDependencies = dependencies.filter(dep => dep.size > 100)
     if (heavyDependencies.length > 0) {
       recommendations.push(
         `Consider alternatives for ${heavyDependencies.length} heavy dependencies`,
-      );
+      )
     }
 
     return recommendations;
   }
 
   private addAlert(alert: BundleOptimizationAlert): void {
-    this.alerts.push(alert);
+    this.alerts.push(alert)
 
     // Keep only recent alerts
     if (this.alerts.length > 50) {
-      this.alerts = this.alerts.slice(-25);
+      this.alerts = this.alerts.slice(-25)
     }
 
     // Log alert
     const severityIcon = alert.severity === 'critical' ? '🚨' : '⚠️'
-    // // // console.log(`${severityIcon} Bundle Alert: ${alert.message}`);
+    // // // console.log(`${severityIcon} Bundle Alert: ${alert.message}`)
   }
 
   /**
@@ -759,7 +759,7 @@ export class BundleSizeOptimizer {
    */
   clearAlerts(): void {
     this.alerts = [];
-    // // // console.log('📦 Bundle optimization alerts cleared');
+    // // // console.log('📦 Bundle optimization alerts cleared')
   }
 
   /**
@@ -767,18 +767,18 @@ export class BundleSizeOptimizer {
    */
   async exportBundleData(filePath: string): Promise<void> {
     try {
-      const report = await this.generateOptimizationReport();
+      const report = await this.generateOptimizationReport()
       const exportData = {
-        timestamp: new Date().toISOString();
+        timestamp: new Date().toISOString()
         report,
         history: this.analysisHistory,
         alerts: this.alerts
       };
 
-      fs.writeFileSync(filePath, JSON.stringify(exportData, null, 2));
-      // // // console.log(`📦 Bundle analysis data exported to: ${filePath}`);
+      fs.writeFileSync(filePath, JSON.stringify(exportData, null, 2))
+      // // // console.log(`📦 Bundle analysis data exported to: ${filePath}`)
     } catch (error) {
-      throw new Error(`Failed to export bundle data: ${(error as any).message || 'Unknown error'}`);
+      throw new Error(`Failed to export bundle data: ${(error as any).message || 'Unknown error'}`)
     }
   }
 }

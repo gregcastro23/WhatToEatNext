@@ -63,7 +63,7 @@ export function createLazyComponent<T extends ComponentType<any>>(
       </div>
     )),
     ssr: false, // Disable server-side rendering for heavy components
-  });
+  })
 }
 
 /**
@@ -72,20 +72,20 @@ export function createLazyComponent<T extends ComponentType<any>>(
 export const preloadCalculations = {
   // Preload when user hovers over calculation-related UI
   onCalculationHover: () => {
-    lazyCalculations.alchemical();
-    lazyCalculations.elemental();
+    lazyCalculations.alchemical()
+    lazyCalculations.elemental()
   },
 
   // Preload when user hovers over recipe recommendation UI
   onRecommendationHover: () => {
-    lazyCalculations.recommendations();
-    lazyUnifiedData.enhancedIngredients();
+    lazyCalculations.recommendations()
+    lazyUnifiedData.enhancedIngredients()
   },
 
   // Preload when user hovers over astrological features
   onAstrologicalHover: () => {
-    lazyCalculations.astrological();
-    lazyCalculations.thermodynamics();
+    lazyCalculations.astrological()
+    lazyCalculations.thermodynamics()
   },
 };
 
@@ -113,7 +113,7 @@ export const bundleOptimization = {
       '/components/': 30000,     // 30KB average for components
     };
 
-    const category = Object.keys(sizeEstimates).find(key => modulePath.includes(key));
+    const category = Object.keys(sizeEstimates).find(key => modulePath.includes(key))
     return category ? sizeEstimates[category] : 50000; // Default 50KB
   },
 };
@@ -127,16 +127,16 @@ export const performanceMonitoring = {
     const loadTime = performance.now() - startTime;
 
     // In production, this would send to analytics
-    console.log(`Module ${moduleName} loaded in ${loadTime.toFixed(2)}ms`);
+    console.log(`Module ${moduleName} loaded in ${loadTime.toFixed(2)}ms`)
 
     // Store performance data for optimization
     if (typeof window !== 'undefined') {
-      const perfData = JSON.parse(localStorage.getItem('modulePerformance') || '{}');
+      const perfData = JSON.parse(localStorage.getItem('modulePerformance') || '{}')
       perfData[moduleName] = {
         loadTime,
         timestamp: Date.now(),
       };
-      localStorage.setItem('modulePerformance', JSON.stringify(perfData));
+      localStorage.setItem('modulePerformance', JSON.stringify(perfData))
     }
   },
 
@@ -144,14 +144,14 @@ export const performanceMonitoring = {
   getPerformanceRecommendations: () => {
     if (typeof window === 'undefined') return [];
 
-    const perfData = JSON.parse(localStorage.getItem('modulePerformance') || '{}');
+    const perfData = JSON.parse(localStorage.getItem('modulePerformance') || '{}')
     const recommendations: string[] = [];
 
     Object.entries(perfData).forEach(([module, data]: [string, any]) => {
       if (data.loadTime > 1000) { // > 1 second
-        recommendations.push(`Consider preloading ${module} for better UX`);
+        recommendations.push(`Consider preloading ${module} for better UX`)
       }
-    });
+    })
 
     return recommendations;
   },

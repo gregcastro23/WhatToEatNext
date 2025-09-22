@@ -4,7 +4,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import handleError, { ErrorType, ErrorSeverity } from '../utils/errorHandler';
 import { createLogger } from '../utils/logger';
 // Logger instance
-const logger = createLogger('useErrorHandler');
+const logger = createLogger('useErrorHandler')
 // Component props
 interface UseErrorHandlerProps {
   componentName: string
@@ -26,21 +26,21 @@ interface UseErrorHandlerReturn {
 export default function useErrorHandler({
   componentName
 }: UseErrorHandlerProps): UseErrorHandlerReturn {
-  const [foodError, setFoodError] = useState<Error | null>(null);
-  const [foodLoading, setFoodLoading] = useState<boolean>(true);
+  const [foodError, setFoodError] = useState<Error | null>(null)
+  const [foodLoading, setFoodLoading] = useState<boolean>(true)
    
-  const [foodRecommendations, setFoodRecommendations] = useState<unknown[] | null>(null);
+  const [foodRecommendations, setFoodRecommendations] = useState<unknown[] | null>(null)
 
   // Use effect to initialize and cleanup
   useEffect(() => {
     // Set initial loading state
-    setFoodLoading(true);
+    setFoodLoading(true)
 
     // Clean up resources and set loading to false when the component unmounts
     return () => {
-      setFoodLoading(false);
+      setFoodLoading(false)
     };
-  }, []);
+  }, [])
 
   // Capture and handle errors
   const captureError = useCallback(
@@ -56,7 +56,7 @@ export default function useErrorHandler({
         error: errorObj.message,
         stack: errorObj.stack,
         context
-      });
+      })
 
       // Handle the error through the error system
       handleError.log(errorObj, {
@@ -64,14 +64,14 @@ export default function useErrorHandler({
         severity: ErrorSeverity.WARNING,
         type: ErrorType.DATA,
         context: { details: context }
-      });
+      })
 
       // Update state
-      setFoodError(errorObj);
-      setFoodLoading(false);
+      setFoodError(errorObj)
+      setFoodLoading(false)
     },
     [componentName],
-  );
+  )
 
   return {
     captureError,

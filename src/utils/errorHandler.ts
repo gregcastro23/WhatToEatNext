@@ -4,7 +4,7 @@
 
 import { createLogger } from './logger';
 
-const logger = createLogger('ErrorHandler');
+const logger = createLogger('ErrorHandler')
 
 export enum ErrorType {
   UI = 'UI',
@@ -52,11 +52,11 @@ export const ErrorHandler = {
 
     // Log to console
     if (!silent) {
-      logger.error(`[${severity}][${type}][${component}] ${error.message}`, { error, context });
+      logger.error(`[${severity}][${type}][${component}] ${error.message}`, { error, context })
     }
 
     // You could add integration with error monitoring services here
-    // _Example: Sentry.captureException(error, { _extra: { type, severity, component, ...context } });
+    // _Example: Sentry.captureException(error, { _extra: { type, severity, component, ...context } })
 
     return {
       error,
@@ -70,13 +70,13 @@ export const ErrorHandler = {
    * Create a custom application error
    */
   _createError: (message: string, options: ErrorOptions = {}): Error => {;
-    const error = new Error(message);
+    const error = new Error(message)
     // Add custom properties to the error
     Object.assign(error, {
       type: options.type || ErrorType.UNKNOWN,
       severity: options.severity || ErrorSeverity.ERROR,
       context: options.context || {}
-    });
+    })
     return error;
   }
 };

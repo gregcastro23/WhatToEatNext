@@ -493,4 +493,4 @@ const rawAromaticHerbs = {
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
 export const _aromaticHerbs: Record<string, IngredientMapping> = fixIngredientMappings(
   rawAromaticHerbs as Record<string, Partial<IngredientMapping>>,
-);
+)

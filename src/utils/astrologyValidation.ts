@@ -10,7 +10,7 @@ interface PlanetaryPosition {
   isRetrograde?: boolean
 }
 
-// Reference data from _https://www.jessicaadams.com/astrology/current-planetary-positions/ (March 23, 2025);
+// Reference data from _https://www.jessicaadams.com/astrology/current-planetary-positions/ (March 23, 2025)
 const REFERENCE_POSITIONS: Record<string, PlanetaryPosition> = {
   _sun: { sign: 'aries', degree: 2, minute: 37 },
   _moon: { sign: 'capricorn', degree: 8, minute: 54 },
@@ -44,16 +44,16 @@ function _calculatePositionDifference(pos1: PlanetaryPosition, pos2: PlanetaryPo
       'pisces'
     ];
 
-    const signIndex1 = signs.indexOf(pos1.sign);
-    const signIndex2 = signs.indexOf(pos2.sign);
+    const signIndex1 = signs.indexOf(pos1.sign)
+    const signIndex2 = signs.indexOf(pos2.sign)
 
     if (signIndex1 === -1 || signIndex2 === -1) {
       return -1; // Can't calculate if sign not found
     }
 
     const signDiff = (signIndex1 - signIndex2 + 12) % 12;
-    const degreeDiff = pos1.degree - (signDiff === 0 ? pos2.degree : 0);
-    const minuteDiff = pos1.minute - (signDiff === 0 && degreeDiff === 0 ? pos2.minute : 0);
+    const degreeDiff = pos1.degree - (signDiff === 0 ? pos2.degree : 0)
+    const minuteDiff = pos1.minute - (signDiff === 0 && degreeDiff === 0 ? pos2.minute : 0)
 
     return signDiff * 30 * 60 + degreeDiff * 60 + minuteDiff
   }
@@ -71,7 +71,7 @@ export async function validatePlanetaryPositions(
 ): Promise<{ accurate: boolean, differences: Record<string, unknown> } | boolean> {
   // If positions are provided, perform basic validation on the object structure
   if (positions) {
-    return validatePlanetaryPositionsStructure(positions);
+    return validatePlanetaryPositionsStructure(positions)
   }
 
   // Otherwise, perform detailed validation against reference data
@@ -80,7 +80,7 @@ export async function validatePlanetaryPositions(
     let totalAccuracy = true;
 
     // Check each planet in the reference data
-    const astrologicalState = await getLatestAstrologicalState();
+    const astrologicalState = await getLatestAstrologicalState()
     Object.entries(REFERENCE_POSITIONS).forEach(([planet, refPosition]) => {
       // Get the calculated position for this planet
       const calculated = astrologicalState.data?.planetaryPositions[planet];
@@ -99,14 +99,14 @@ export async function validatePlanetaryPositions(
         sign: String(calculatedData.sign || '').toLowerCase(),
         degree: Math.floor(Number(calculatedData.degree || 0)),
         minute: Math.floor((Number(calculatedData.degree || 0) % 1) * 60),
-        isRetrograde: Boolean(calculatedData.isRetrograde);
+        isRetrograde: Boolean(calculatedData.isRetrograde)
       };
 
       // Calculate difference
       const signDiff = formattedCalculated.sign !== refPosition.sign;
-      const degreeDiff = Math.abs(formattedCalculated.degree - refPosition.degree);
+      const degreeDiff = Math.abs(formattedCalculated.degree - refPosition.degree)
       const minuteDiff = refPosition.minute;
-        ? Math.abs((formattedCalculated.minute || 0) - refPosition.minute);
+        ? Math.abs((formattedCalculated.minute || 0) - refPosition.minute)
         : 0;
       const retrogradeMatch = formattedCalculated.isRetrograde === refPosition.isRetrograde;
 
@@ -115,7 +115,7 @@ export async function validatePlanetaryPositions(
         !signDiff &&
         degreeDiff < 1 &&
         (refPosition.minute === undefined || minuteDiff < 5) &&
-        (refPosition.isRetrograde === undefined || retrogradeMatch);
+        (refPosition.isRetrograde === undefined || retrogradeMatch)
       // Store the differences
       diff[planet] = {
         reference: refPosition,
@@ -133,14 +133,14 @@ export async function validatePlanetaryPositions(
       };
 
       if (!accurate) totalAccuracy = false;
-    });
+    })
 
     return {
       accurate: totalAccuracy,
       differences: diff
     };
   } catch (error) {
-    console.error('Error validating planetary positions:', error);
+    console.error('Error validating planetary positions:', error)
     return {
       accurate: false,
       differences: { error: String(error) }
@@ -150,7 +150,7 @@ export async function validatePlanetaryPositions(
 
 // Export a debug component function to display validation results
 export async function getValidationSummary(): Promise<string> {
-  const result = await validatePlanetaryPositions();
+  const result = await validatePlanetaryPositions()
   // Handle the case where result is a boolean
   if (typeof result === 'boolean') {
     return `Planetary Positions Validation: ${result ? 'PASSED ✓' : 'FAILED ✗'}`;
@@ -191,7 +191,7 @@ export async function getValidationSummary(): Promise<string> {
     }
 
     summary += '\n';
-  });
+  })
 
   return summary;
 }
@@ -199,17 +199,17 @@ export async function getValidationSummary(): Promise<string> {
 // Add a function to fetch the latest positions from our API
 export async function fetchLatestPositions(): Promise<Record<string, unknown>> {
   try {
-    const response = await fetch('/api/planetary-positions');
+    const response = await fetch('/api/planetary-positions')
 
     if (!response.ok) {
-      throw new Error(`API error: ${response.status}`);
+      throw new Error(`API error: ${response.status}`)
     }
 
-    const data = await response.json();
+    const data = await response.json()
     const responseData = data ;
     return (responseData.calculatedPositions || {}) as Record<string, unknown>;
   } catch (error) {
-    console.error('Error fetching latest positions:', error);
+    console.error('Error fetching latest positions:', error)
     return {};
   }
 }
@@ -219,7 +219,7 @@ export async function validateAgainstAPI(): Promise<{
   accurate: boolean,
   differences: Record<string, unknown>;
 }> {
-  const calculatedPositions = await fetchLatestPositions();
+  const calculatedPositions = await fetchLatestPositions()
   const differences: Record<string, unknown> = {};
   let accurate = true;
 
@@ -248,14 +248,14 @@ export async function validateAgainstAPI(): Promise<{
       sign: String(positionData.sign || '').toLowerCase(),
       degree: Math.floor(Number(positionData.degree || 0)),
       minute: Math.floor((Number(positionData.degree || 0) % 1) * 60),
-      isRetrograde: Boolean(positionData.isRetrograde);
+      isRetrograde: Boolean(positionData.isRetrograde)
     };
 
     // Calculate differences
     const signDiff = formattedCalculated.sign !== refPosition.sign;
-    const degreeDiff = Math.abs(formattedCalculated.degree - refPosition.degree);
+    const degreeDiff = Math.abs(formattedCalculated.degree - refPosition.degree)
     const minuteDiff = refPosition.minute;
-      ? Math.abs((formattedCalculated.minute || 0) - refPosition.minute);
+      ? Math.abs((formattedCalculated.minute || 0) - refPosition.minute)
       : 0;
     const retrogradeMatch = formattedCalculated.isRetrograde === refPosition.isRetrograde;
 
@@ -263,7 +263,7 @@ export async function validateAgainstAPI(): Promise<{
       !signDiff &&
       degreeDiff < 1 &&
       (refPosition.minute === undefined || minuteDiff < 5) &&
-      (refPosition.isRetrograde === undefined || retrogradeMatch);
+      (refPosition.isRetrograde === undefined || retrogradeMatch)
     differences[planet] = {
       reference: refPosition,
       calculated: formattedCalculated,
@@ -280,7 +280,7 @@ export async function validateAgainstAPI(): Promise<{
     };
 
     if (!planetAccurate) accurate = false;
-  });
+  })
 
   return { accurate, differences };
 }
@@ -311,6 +311,6 @@ export function validatePlanetaryPositionsStructure(positions: Record<string, _u
       planetData.longitude < 360 &&
       typeof planetData.latitude === 'number' &&
       typeof planetData.distance === 'number'
-    );
-  });
+    )
+  })
 }

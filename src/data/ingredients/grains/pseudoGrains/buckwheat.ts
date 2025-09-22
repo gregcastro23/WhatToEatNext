@@ -49,4 +49,4 @@ const rawBuckwheat = {
   }
 };
 
-export const buckwheat: Record<string, IngredientMapping> = fixIngredientMappings(rawBuckwheat);
+export const buckwheat: Record<string, IngredientMapping> = fixIngredientMappings(rawBuckwheat)

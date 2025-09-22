@@ -20,7 +20,7 @@ const CuisineSection = ({
     <div className='font-semibold'>Cuisine: {cuisine}</div>
     <div className='text-sm text-gray-600'>Recipes: {recipes?.length || 0}</div>
   </div>
-);
+)
 
 const CuisineSectionMigrated = CuisineSection;
 
@@ -41,15 +41,15 @@ export default function CuisineSectionTestPage() {
   ];
 
   // Use context for the original component
-  const { state } = useAlchemical();
+  const { state } = useAlchemical()
 
   // Use services for both components
-  const { recipeService } = useServices();
+  const { recipeService } = useServices()
 
   // Component state
-  const [recipes, setRecipes] = useState<unknown[]>([]);
-  const [_isLoading, setIsLoading] = useState(true);
-  const [_error, setError] = useState<Error | null>(null);
+  const [recipes, setRecipes] = useState<unknown[]>([])
+  const [_isLoading, setIsLoading] = useState(true)
+  const [_error, setError] = useState<Error | null>(null)
 
   // Load recipes for the selected cuisine
   useEffect(() => {
@@ -57,21 +57,21 @@ export default function CuisineSectionTestPage() {
       if (!recipeService) return;
 
       try {
-        setIsLoading(true);
-        const cuisineRecipes = await recipeService.getRecipesForCuisine(selectedCuisine);
-        setRecipes(cuisineRecipes);
-        setError(null);
+        setIsLoading(true)
+        const cuisineRecipes = await recipeService.getRecipesForCuisine(selectedCuisine)
+        setRecipes(cuisineRecipes)
+        setError(null)
       } catch (err) {
         logger.error('Error loading recipes:', err),
         setError(err instanceof Error ? err : new Error('Error loading recipes')),
-        setRecipes([]);
+        setRecipes([])
       } finally {
-        setIsLoading(false);
+        setIsLoading(false)
       }
     };
 
-    void loadRecipes();
-  }, [selectedCuisine, recipeService]);
+    void loadRecipes()
+  }, [selectedCuisine, recipeService])
 
   // Element color classes for better visualization
   const elementColorClasses = {
@@ -97,7 +97,7 @@ export default function CuisineSectionTestPage() {
             )
         )}
       </div>
-    );
+    )
   };
 
   return (
@@ -197,5 +197,5 @@ export default function CuisineSectionTestPage() {
         </ul>
       </div>
     </div>
-  );
+  )
 }

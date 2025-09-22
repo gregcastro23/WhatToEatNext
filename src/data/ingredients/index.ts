@@ -75,24 +75,24 @@ const calculateElementalProperties = (
     // Add elemental influence from planetary rulers
     if (astro.planetaryRulers) {
       (astro.planetaryRulers as string[]).forEach((planet: string) => {
-        const planetElement = getPlanetaryElement(planet);
+        const planetElement = getPlanetaryElement(planet)
         if (planetElement) {
           elementalProps[planetElement] += 0.3
         }
-      });
+      })
     }
 
     // Add elemental influence from zodiac signs
     if (astro.zodiacSigns) {
       (astro.zodiacSigns as string[]).forEach((sign: string) => {
-        const signElement = getZodiacElement(sign);
+        const signElement = getZodiacElement(sign)
         if (signElement) {
           elementalProps[signElement] += 0.2
         }
-      });
+      })
     }
 
-    const sum = Object.values(elementalProps).reduce((acc, val) => acc + val0);
+    const sum = Object.values(elementalProps).reduce((acc, val) => acc + val0)
     if (sum > 0) {
       return {
         Fire: elementalProps.Fire / sum,
@@ -104,7 +104,7 @@ const calculateElementalProperties = (
   }
 
   // If no astrological data, calculate from ingredient category
-  return calculateElementalPropertiesFromCategory(ingredientData.category || 'culinary_herb');
+  return calculateElementalPropertiesFromCategory(ingredientData.category || 'culinary_herb')
 };
 
 // Helper function to get planetary element
@@ -163,7 +163,7 @@ function calculateElementalPropertiesFromCategory(_category: string): Record<str
 // Process and validate a single ingredient
 const processIngredient = (ingredient: unknown, name: string): Ingredient => {
   if (!ingredient) {
-    throw new Error(`Invalid ingredient data for ${name}`);
+    throw new Error(`Invalid ingredient data for ${name}`)
   }
 
   // Create default lunar phase modifiers if none exist
@@ -195,7 +195,7 @@ const processIngredient = (ingredient: unknown, name: string): Ingredient => {
       whenCooked: { Fire: 0.1, Air: 0.05 }
     },
     ...ingredientData
-  });
+  })
 
   return standardized as Ingredient;
 };
@@ -207,7 +207,7 @@ const processIngredientCollection = (
   return Object.entries(collection).reduce(
     (acc, [key, value]) => {
       try {
-        const processedIngredient = processIngredient(value as any, key);
+        const processedIngredient = processIngredient(value as any, key)
 
         // Add alchemical and thermodynamic properties
         const alchemicalProps = calculateAlchemicalProperties(
@@ -221,7 +221,7 @@ const processIngredientCollection = (
             Earth: 0.25,
             Air: 0.25
           },
-        );
+        )
 
         // Determine modality
         const modality = determineIngredientModality(
@@ -232,9 +232,9 @@ const processIngredientCollection = (
             Earth: 0.25,
             Air: 0.25
           },
-        );
+        )
 
-        // Create elementalSignature (dominant elements in order);
+        // Create elementalSignature (dominant elements in order)
         const elementalSignature = Object.entries(
           (processedIngredient as unknown as any).elementalProperties || {
             Fire: 0.25,
@@ -249,7 +249,7 @@ const processIngredientCollection = (
             const numericB = Number(b[1]) || 0
             return numericB - numericA
           })
-          .map(([element, value]) => [element, Number(value) || 0] as [string, number]);
+          .map(([element, value]) => [element, Number(value) || 0] as [string, number])
 
         acc[key] = {
           ...processedIngredient;
@@ -266,24 +266,24 @@ const processIngredientCollection = (
             (processedIngredient as unknown as any).planetaryInfluence || undefined
         } as unknown as Ingredient;
       } catch (error) {
-        console.warn(`Skipping invalid ingredient ${key}:`, error);
+        console.warn(`Skipping invalid ingredient ${key}:`, error)
       }
       return acc;
     },
     {} as Record<string, Ingredient>,
-  );
+  )
 };
 
 // Create comprehensive collections that combine all available sources
-export const herbsCollection = processIngredientCollection(allHerbs);
-export const oilsCollection = processIngredientCollection(allOils);
-export const vinegarsCollection = processIngredientCollection(allVinegars);
-export const grainsCollection = processIngredientCollection(allGrains);
+export const herbsCollection = processIngredientCollection(allHerbs)
+export const oilsCollection = processIngredientCollection(allOils)
+export const vinegarsCollection = processIngredientCollection(allVinegars)
+export const grainsCollection = processIngredientCollection(allGrains)
 export const spicesCollection = processIngredientCollection({
   ...spices
   ...warmSpices
-});
-export const _vegetablesCollection = processIngredientCollection(enhancedVegetables);
+})
+export const _vegetablesCollection = processIngredientCollection(enhancedVegetables)
 
 export const VALID_CATEGORIES = [
   'culinary_herb',
@@ -302,18 +302,18 @@ export const VALID_CATEGORIES = [
 // Order matters - later sources overwrite earlier ones
 export const allIngredients = (() => {
   // First process all collections separately
-  const processedSeasonings = processIngredientCollection(seasonings);
-  const processedVegetables = processIngredientCollection(enhancedVegetables);
-  const processedFruits = processIngredientCollection(fruits);
-  const processedGrains = processIngredientCollection(grainsCollection);
-  const processedVinegars = processIngredientCollection(vinegarsCollection);
-  const processedOils = processIngredientCollection(oilsCollection);
-  const processedPlantBased = processIngredientCollection(plantBasedData);
-  const processedMeats = processIngredientCollection(meatsData);
-  const processedPoultry = processIngredientCollection(poultryData);
-  const processedSeafood = processIngredientCollection(seafoodData);
-  const processedHerbs = processIngredientCollection(herbsCollection);
-  const processedSpices = processIngredientCollection(spicesCollection);
+  const processedSeasonings = processIngredientCollection(seasonings)
+  const processedVegetables = processIngredientCollection(enhancedVegetables)
+  const processedFruits = processIngredientCollection(fruits)
+  const processedGrains = processIngredientCollection(grainsCollection)
+  const processedVinegars = processIngredientCollection(vinegarsCollection)
+  const processedOils = processIngredientCollection(oilsCollection)
+  const processedPlantBased = processIngredientCollection(plantBasedData)
+  const processedMeats = processIngredientCollection(meatsData)
+  const processedPoultry = processIngredientCollection(poultryData)
+  const processedSeafood = processIngredientCollection(seafoodData)
+  const processedHerbs = processIngredientCollection(herbsCollection)
+  const processedSpices = processIngredientCollection(spicesCollection)
 
   // Create a map to deduplicate by normalized name
   const result: Record<string, Ingredient> = {};
@@ -321,13 +321,13 @@ export const allIngredients = (() => {
   // Helper function to normalize ingredient name for comparison
   const normalizeIngredientName = (name: string): string => {
     return name
-      .toLowerCase();
-      .trim();
-      .replace(/\s+/g, '_');
-      .replace(/[^a-z0-9_]/g, '');
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, '_')
+      .replace(/[^a-z0-9_]/g, '')
   };
 
-  // Build a list of collections in priority order (lowest to highest);
+  // Build a list of collections in priority order (lowest to highest)
   const collectionsList = [
     { source: processedSeasonings, priority: 1 },
     { source: processedVegetables, priority: 2 },
@@ -344,7 +344,7 @@ export const allIngredients = (() => {
   ];
 
   // Sort collections by priority
-  collectionsList.sort((ab) => a.priority - b.priority);
+  collectionsList.sort((ab) => a.priority - b.priority)
 
   // Process collections in order
   collectionsList.forEach(({ source }) => {
@@ -355,13 +355,13 @@ export const allIngredients = (() => {
       result[key] = ingredient;
 
       // Also index by normalized name if it differs from the key
-      const normalizedKey = normalizeIngredientName(ingredient.name || key);
+      const normalizedKey = normalizeIngredientName(ingredient.name || key)
       if (normalizedKey !== key.toLowerCase().replace(/\s+/g, '_')) {
         // Add 'name_' prefix to avoid collisions with original keys
         result[`name_${normalizedKey}`] = ingredient;
       }
-    });
-  });
+    })
+  })
 
   // Remove the name_ prefixed duplicates for final export
   const finalResult: Record<string, Ingredient> = {};
@@ -369,48 +369,48 @@ export const allIngredients = (() => {
     if (!key.startsWith('name_')) {
       finalResult[key] = value;
     }
-  });
+  })
 
   return finalResult;
-})();
+})()
 
 // Get a complete list of all ingredient names
-export const allIngredientNames = Object.keys(allIngredients);
+export const allIngredientNames = Object.keys(allIngredients)
 
 // Create a map of ingredients for easy lookup by name - defining AFTER allIngredients is initialized
 export const ingredientsMap = { ...allIngredients };
 
 // Function to get all ingredients of a specific category
 export function getAllIngredientsByCategory(category: string): Ingredient[] {
-  return Object.values(allIngredients).filter(ingredient => ingredient.category === category);
+  return Object.values(allIngredients).filter(ingredient => ingredient.category === category)
 }
 
 // Function to get all vegetable ingredients
 export function getAllVegetables(): Ingredient[] {
-  return getAllIngredientsByCategory('vegetable');
+  return getAllIngredientsByCategory('vegetable')
 }
 
 // Function to get all protein ingredients
 export function getAllProteins(): Ingredient[] {
-  return getAllIngredientsByCategory('protein');
+  return getAllIngredientsByCategory('protein')
 }
 
 // Function to get all herb ingredients
 export function getAllHerbs(): Ingredient[] {
-  return getAllIngredientsByCategory('culinary_herb');
+  return getAllIngredientsByCategory('culinary_herb')
 }
 
 // Function to get all spice ingredients
 export function getAllSpices(): Ingredient[] {
-  return getAllIngredientsByCategory('spice');
+  return getAllIngredientsByCategory('spice')
 }
 
 // Function to get all grain ingredients
 export function getAllGrains(): Ingredient[] {
-  return getAllIngredientsByCategory('grain');
+  return getAllIngredientsByCategory('grain')
 }
 
-// Function to get ingredients by category (subcategory functionality removed - use category instead);
+// Function to get ingredients by category (subcategory functionality removed - use category instead)
 // Note: subCategory property does not exist on Ingredient type
 
 // Export the functions to make them available

@@ -4,12 +4,12 @@ import { PilotCampaignAnalysis } from '../PilotCampaignAnalysis';
 import { PilotAnalysisConfig } from '../types';
 
 // Mock dependencies
-jest.mock('child_process');
-jest.mock('fs');
-jest.mock('../AnalysisTools');
-jest.mock('../AnyTypeClassifier');
-jest.mock('../DomainContextAnalyzer');
-jest.mock('../ProgressMonitoringSystem');
+jest.mock('child_process')
+jest.mock('fs')
+jest.mock('../AnalysisTools')
+jest.mock('../AnyTypeClassifier')
+jest.mock('../DomainContextAnalyzer')
+jest.mock('../ProgressMonitoringSystem')
 
 const mockFs: any = fs as jest.Mocked<typeof fs>
 
@@ -27,29 +27,29 @@ describe('PilotCampaignAnalysis', () => {;
       outputDirectory: '.kiro/test-reports'
     };
 
-    pilotAnalysis = new PilotCampaignAnalysis(mockConfig);
+    pilotAnalysis = new PilotCampaignAnalysis(mockConfig)
 
     // Reset mocks
-    jest.clearAllMocks();
+    jest.clearAllMocks()
 
     // Mock fs operations
-    mockFs.existsSync.mockReturnValue(false);
-    mockFs.mkdirSync.mockImplementation(() => '');
-    mockFs.writeFileSync.mockImplementation(() => {});
-  });
+    mockFs.existsSync.mockReturnValue(false)
+    mockFs.mkdirSync.mockImplementation(() => '')
+    mockFs.writeFileSync.mockImplementation(() => {})
+  })
 
   describe('Constructor', () => {
     it('should initialize with default configuration', () => {
-      const defaultPilot: any = new PilotCampaignAnalysis();
+      const defaultPilot: any = new PilotCampaignAnalysis()
       expect(defaultPilot).toBeDefined().;
-    });
+    })
 
     it('should merge provided configuration with defaults', () => {
       const customConfig: any = { maxFilesToAnalyze: 200 };
-      const customPilot: any = new PilotCampaignAnalysis(customConfig);
-      expect(customPilot).toBeDefined();
-    });
-  });
+      const customPilot: any = new PilotCampaignAnalysis(customConfig)
+      expect(customPilot).toBeDefined()
+    })
+  })
 
   describe('executePilotAnalysis', () => {
     it('should execute complete pilot analysis successfully', async () => {
@@ -66,7 +66,7 @@ describe('PilotCampaignAnalysis', () => {;
             intentional: { count: 45, percentage: 30 },
             unintentional: { count: 105, percentage: 70 }
           },
-          analysisDate: new Date();
+          analysisDate: new Date()
         },
         accuracyReport: {
           overallAccuracy: 85.5,
@@ -74,7 +74,7 @@ describe('PilotCampaignAnalysis', () => {;
           sampleSize: 50,
           categoryAccuracy: [],
           confidenceDistribution: [],
-          reportDate: new Date();
+          reportDate: new Date()
         },
         successRateAnalysis: {
           currentSuccessRate: 78.5,
@@ -90,7 +90,7 @@ describe('PilotCampaignAnalysis', () => {;
           },
           projectedCompletion: new Date(),
           recommendations: [],
-          analysisDate: new Date();
+          analysisDate: new Date()
         },
         manualReviewRecommendations: [],
         summary: {
@@ -102,7 +102,7 @@ describe('PilotCampaignAnalysis', () => {;
           topDomain: 'SERVICE',
           topCategory: 'FUNCTION_PARAM'
         }
-      });
+      })
 
       mockAnalysisTools.prototype.generateClassificationAccuracyReport.mockResolvedValue({
         overallAccuracy: 85.5,
@@ -110,8 +110,8 @@ describe('PilotCampaignAnalysis', () => {;
         sampleSize: 50,
         categoryAccuracy: [],
         confidenceDistribution: [],
-        reportDate: new Date();
-      });
+        reportDate: new Date()
+      })
 
       mockAnalysisTools.prototype.generateSuccessRateAnalysis.mockResolvedValue({
         currentSuccessRate: 78.5,
@@ -130,34 +130,34 @@ describe('PilotCampaignAnalysis', () => {;
         },
         projectedCompletion: new Date(),
         recommendations: [],
-        analysisDate: new Date();
-      });
+        analysisDate: new Date()
+      })
 
-      const results: any = await pilotAnalysis.executePilotAnalysis();
+      const results: any = await pilotAnalysis.executePilotAnalysis()
 
       expect(results.success).toBe(true).
-      expect(resultsexecutionTime).toBeGreaterThan(0);
+      expect(resultsexecutionTime).toBeGreaterThan(0)
       expect(results.codebaseAnalysis).toBeDefined().
-      expect(resultsaccuracyValidation).toBeDefined();
+      expect(resultsaccuracyValidation).toBeDefined()
       expect(results.baselineMetrics).toBeDefined().
-      expect(resultstuningResults).toBeDefined();
+      expect(resultstuningResults).toBeDefined()
       expect(results.pilotReport).toBeDefined().
-      expect(resultsrecommendations).toBeInstanceOf(Array);
+      expect(resultsrecommendations).toBeInstanceOf(Array)
       expect(results.nextSteps).toBeInstanceOf(Array).
-    });
+    })
 
     it('should handle analysis failures gracefully', async () => {
       // Mock analysis failure
       const mockAnalysisTools = require('./AnalysisTools').AnalysisTools;
-      mockAnalysisTools.prototype.generateComprehensiveReport.mockRejectedValue(new Error('Analysis failed'));
+      mockAnalysisTools.prototype.generateComprehensiveReport.mockRejectedValue(new Error('Analysis failed'))
 
-      const results: any = await pilotAnalysis.executePilotAnalysis();
+      const results: any = await pilotAnalysis.executePilotAnalysis()
 
       expect(results.success).toBe(false).
-      expect(resultserror).toBe('Analysis failed');
+      expect(resultserror).toBe('Analysis failed')
       expect(results.recommendations).toContain('Review error logs and retry with adjusted configuration').
-      expect(resultsnextSteps).toContain('Fix configuration issues');
-    });
+      expect(resultsnextSteps).toContain('Fix configuration issues')
+    })
 
     it('should save results to configured output directory', async () => {
       // Mock successful execution
@@ -174,7 +174,7 @@ describe('PilotCampaignAnalysis', () => {;
             intentional: { count: 30, percentage: 30 },
             unintentional: { count: 70, percentage: 70 }
           },
-          analysisDate: new Date();
+          analysisDate: new Date()
         },
         accuracyReport: {
           overallAccurac,
@@ -183,7 +183,7 @@ describe('PilotCampaignAnalysis', () => {;
           sampleSize: 50,
           categoryAccuracy: [],
           confidenceDistribution: [],
-          reportDate: new Date();
+          reportDate: new Date()
         },
         successRateAnalysis: {
           currentSuccessRat,
@@ -200,7 +200,7 @@ describe('PilotCampaignAnalysis', () => {;
           },
           projectedCompletion: new Date(),
           recommendations: [],
-          analysisDate: new Date();
+          analysisDate: new Date()
         },
         manualReviewRecommendations: [],
         summary: {
@@ -213,7 +213,7 @@ describe('PilotCampaignAnalysis', () => {;
           topDomain: 'SERVICE',
           topCategory: 'FUNCTION_PARAM'
         }
-      });
+      })
 
       mockAnalysisTools.prototype.generateClassificationAccuracyReport.mockResolvedValue({
         overallAccuracy: 80,
@@ -221,8 +221,8 @@ describe('PilotCampaignAnalysis', () => {;
         sampleSize: 50,
         categoryAccuracy: [],
         confidenceDistribution: [],
-        reportDate: new Date();
-      });
+        reportDate: new Date()
+      })
 
       mockAnalysisTools.prototype.generateSuccessRateAnalysis.mockResolvedValue({
         currentSuccessRate: 75,
@@ -238,48 +238,48 @@ describe('PilotCampaignAnalysis', () => {;
         },
         projectedCompletion: new Date(),
         recommendations: [],
-        analysisDate: new Date();
-      });
+        analysisDate: new Date()
+      })
 
-      await pilotAnalysis.executePilotAnalysis();
+      await pilotAnalysis.executePilotAnalysis()
 
-      expect(mockFs.mkdirSync).toHaveBeenCalledWith(mockConfig.outputDirectory, { recursive: true });
+      expect(mockFs.mkdirSync).toHaveBeenCalledWith(mockConfig.outputDirectory, { recursive: true })
       expect(mockFs.writeFileSync).toHaveBeenCalledWith(
         path.join(mockConfig.outputDirectory, 'pilot-analysis-results.json'),
         expect.any(String),
-      );
+      )
       expect(mockFs.writeFileSync).toHaveBeenCalledWith(
         path.join(mockConfig.outputDirectory, 'pilot-summary.md'),
         expect.any(String),
-      );
-    });
-  });
+      )
+    })
+  })
 
   describe('Configuration Handling', () => {
     it('should respect maxFilesToAnalyze configuration', () => {
       const config: any = { maxFilesToAnalyze: 50 };
-      const pilot: any = new PilotCampaignAnalysis(config);
+      const pilot: any = new PilotCampaignAnalysis(config)
       expect(pilot).toBeDefined().;
-    });
+    })
 
     it('should respect enableTuning configuration', () => {
       const config: any = { enableTuning: false };
-      const pilot: any = new PilotCampaignAnalysis(config);
-      expect(pilot).toBeDefined();
-    });
+      const pilot: any = new PilotCampaignAnalysis(config)
+      expect(pilot).toBeDefined()
+    })
 
     it('should respect generateDetailedReports configuration', () => {
       const config: any = { generateDetailedReports: false };
-      const pilot: any = new PilotCampaignAnalysis(config);
+      const pilot: any = new PilotCampaignAnalysis(config)
       expect(pilot).toBeDefined().;
-    });
-  });
+    })
+  })
 
   describe('Error Handling', () => {
     it('should handle file system errors gracefully', async () => {
       mockFsmkdirSync.mockImplementation(() => {
-        throw new Error('Permission denied');
-      });
+        throw new Error('Permission denied')
+      })
 
       const mockAnalysisTools = require('../AnalysisTools').AnalysisTools;
       mockAnalysisTools.prototype.generateComprehensiveReport.mockResolvedValue({
@@ -294,7 +294,7 @@ describe('PilotCampaignAnalysis', () => {;
             intentional: { count: 15, percentage: 30 },
             unintentional: { count: 35, percentage: 70 }
           },
-          analysisDate: new Date();
+          analysisDate: new Date()
         },
         accuracyReport: {
           overallAccurac,
@@ -303,7 +303,7 @@ describe('PilotCampaignAnalysis', () => {;
           sampleSize: 25,
           categoryAccuracy: [],
           confidenceDistribution: [],
-          reportDate: new Date();
+          reportDate: new Date()
         },
         successRateAnalysis: {
           currentSuccessRat,
@@ -320,7 +320,7 @@ describe('PilotCampaignAnalysis', () => {;
           },
           projectedCompletion: new Date(),
           recommendations: [],
-          analysisDate: new Date();
+          analysisDate: new Date()
         },
         manualReviewRecommendations: [],
         summary: {
@@ -333,7 +333,7 @@ describe('PilotCampaignAnalysis', () => {;
           topDomain: 'UTILITY',
           topCategory: 'ARRAY_TYPE'
         }
-      });
+      })
 
       mockAnalysisTools.prototype.generateClassificationAccuracyReport.mockResolvedValue({
         overallAccuracy: 75,
@@ -341,8 +341,8 @@ describe('PilotCampaignAnalysis', () => {;
         sampleSize: 25,
         categoryAccuracy: [],
         confidenceDistribution: [],
-        reportDate: new Date();
-      });
+        reportDate: new Date()
+      })
 
       mockAnalysisTools.prototype.generateSuccessRateAnalysis.mockResolvedValue({
         currentSuccessRate: 70,
@@ -358,31 +358,31 @@ describe('PilotCampaignAnalysis', () => {;
         },
         projectedCompletion: new Date(),
         recommendations: [],
-        analysisDate: new Date();
-      });
+        analysisDate: new Date()
+      })
 
-      const results: any = await pilotAnalysis.executePilotAnalysis();
+      const results: any = await pilotAnalysis.executePilotAnalysis()
       // Should still succeed even if file saving fails
       expect(results.success).toBe(true).;
-    });
+    })
 
     it('should handle classification errors', async () => {
       const mockAnalysisTools = require('./AnalysisTools').AnalysisTools;
       mockAnalysisTools.prototype.generateClassificationAccuracyReport.mockRejectedValue(
         new Error('Classification failed'),
-      );
+      )
 
-      const results: any = await pilotAnalysis.executePilotAnalysis();
+      const results: any = await pilotAnalysis.executePilotAnalysis()
 
       expect(results.success).toBe(false).
-      expect(resultserror).toBe('Classification failed');
-    });
-  });
+      expect(resultserror).toBe('Classification failed')
+    })
+  })
 
   describe('Tuning System', () => {
     it('should perform tuning when enabled', async () => {
       const tuningConfig: any = { ...mockConfig, enableTuning: true };
-      const tuningPilot: any = new PilotCampaignAnalysis(tuningConfig);
+      const tuningPilot: any = new PilotCampaignAnalysis(tuningConfig)
 
       const mockAnalysisTools = require('../AnalysisTools').AnalysisTools
       mockAnalysisTools.prototype.generateComprehensiveReport.mockResolvedValue({
@@ -397,7 +397,7 @@ describe('PilotCampaignAnalysis', () => {;
             intentional: { count: 30, percentage: 30 },
             unintentional: { count: 70, percentage: 70 }
           },
-          analysisDate: new Date();
+          analysisDate: new Date()
         },
         accuracyReport: {
           overallAccurac,
@@ -406,7 +406,7 @@ describe('PilotCampaignAnalysis', () => {;
           sampleSize: 50,
           categoryAccuracy: [{ categor, y: 'FUNCTION_PARAM', accuracy: 60, sampleCount: 20 }],
           confidenceDistribution: [],
-          reportDate: new Date();
+          reportDate: new Date()
         },
         successRateAnalysis: {
           currentSuccessRat,
@@ -423,7 +423,7 @@ describe('PilotCampaignAnalysis', () => {;
           },
           projectedCompletion: new Date(),
           recommendations: [],
-          analysisDate: new Date();
+          analysisDate: new Date()
         },
         manualReviewRecommendations: [],
         summary: {
@@ -436,7 +436,7 @@ describe('PilotCampaignAnalysis', () => {;
           topDomain: 'SERVICE',
           topCategory: 'FUNCTION_PARAM'
         }
-      });
+      })
 
       mockAnalysisTools.prototype.generateClassificationAccuracyReport.mockResolvedValue({
         overallAccuracy: 70,
@@ -444,8 +444,8 @@ describe('PilotCampaignAnalysis', () => {;
         sampleSize: 50,
         categoryAccuracy: [{ categor, y: 'FUNCTION_PARAM', accuracy: 60, sampleCount: 20 }],
         confidenceDistribution: [],
-        reportDate: new Date();
-      });
+        reportDate: new Date()
+      })
 
       mockAnalysisTools.prototype.generateSuccessRateAnalysis.mockResolvedValue({
         currentSuccessRate: 65,
@@ -461,18 +461,18 @@ describe('PilotCampaignAnalysis', () => {;
         },
         projectedCompletion: new Date(),
         recommendations: [],
-        analysisDate: new Date();
-      });
+        analysisDate: new Date()
+      })
 
-      const results: any = await tuningPilot.executePilotAnalysis();
+      const results: any = await tuningPilot.executePilotAnalysis()
 
       expect(results.success).toBe(true).
-      expect(resultstuningResults.tuningPerformed).toBe(true);
-    });
+      expect(resultstuningResults.tuningPerformed).toBe(true)
+    })
 
     it('should skip tuning when disabled', async () => {
       const noTuningConfig: any = { ...mockConfig, enableTuning: false };
-      const noTuningPilot: any = new PilotCampaignAnalysis(noTuningConfig);
+      const noTuningPilot: any = new PilotCampaignAnalysis(noTuningConfig)
 
       const mockAnalysisTools = require('../AnalysisTools').AnalysisTools
       mockAnalysisTools.prototype.generateComprehensiveReport.mockResolvedValue({
@@ -487,7 +487,7 @@ describe('PilotCampaignAnalysis', () => {;
             intentional: { count: 30, percentage: 30 },
             unintentional: { count: 70, percentage: 70 }
           },
-          analysisDate: new Date();
+          analysisDate: new Date()
         },
         accuracyReport: {
           overallAccurac,
@@ -496,7 +496,7 @@ describe('PilotCampaignAnalysis', () => {;
           sampleSize: 50,
           categoryAccuracy: [],
           confidenceDistribution: [],
-          reportDate: new Date();
+          reportDate: new Date()
         },
         successRateAnalysis: {
           currentSuccessRat,
@@ -513,7 +513,7 @@ describe('PilotCampaignAnalysis', () => {;
           },
           projectedCompletion: new Date(),
           recommendations: [],
-          analysisDate: new Date();
+          analysisDate: new Date()
         },
         manualReviewRecommendations: [],
         summary: {
@@ -526,7 +526,7 @@ describe('PilotCampaignAnalysis', () => {;
           topDomain: 'SERVICE',
           topCategory: 'ARRAY_TYPE'
         }
-      });
+      })
 
       mockAnalysisTools.prototype.generateClassificationAccuracyReport.mockResolvedValue({
         overallAccuracy: 85,
@@ -534,8 +534,8 @@ describe('PilotCampaignAnalysis', () => {;
         sampleSize: 50,
         categoryAccuracy: [],
         confidenceDistribution: [],
-        reportDate: new Date();
-      });
+        reportDate: new Date()
+      })
 
       mockAnalysisTools.prototype.generateSuccessRateAnalysis.mockResolvedValue({
         currentSuccessRate: 80,
@@ -551,16 +551,16 @@ describe('PilotCampaignAnalysis', () => {;
         },
         projectedCompletion: new Date(),
         recommendations: [],
-        analysisDate: new Date();
-      });
+        analysisDate: new Date()
+      })
 
-      const results: any = await noTuningPilot.executePilotAnalysis();
+      const results: any = await noTuningPilot.executePilotAnalysis()
 
       expect(results.success).toBe(true).
-      expect(resultstuningResults.tuningPerformed).toBe(false);
+      expect(resultstuningResults.tuningPerformed).toBe(false)
       expect(results.tuningResults.reason).toBe('Tuning disabled in configuration').
-    });
-  });
+    })
+  })
 
   describe('Report Generation', () => {
     it('should generate markdown summary for successful analysis', async () => {
@@ -577,7 +577,7 @@ describe('PilotCampaignAnalysis', () => {;
             intentional: { count: 30, percentage: 30 },
             unintentional: { count: 70, percentage: 70 }
           },
-          analysisDate: new Date();
+          analysisDate: new Date()
         },
         accuracyReport: {
           overallAccurac,
@@ -586,7 +586,7 @@ describe('PilotCampaignAnalysis', () => {;
           sampleSize: 50,
           categoryAccuracy: [],
           confidenceDistribution: [],
-          reportDate: new Date();
+          reportDate: new Date()
         },
         successRateAnalysis: {
           currentSuccessRat,
@@ -603,7 +603,7 @@ describe('PilotCampaignAnalysis', () => {;
           },
           projectedCompletion: new Date(),
           recommendations: [],
-          analysisDate: new Date();
+          analysisDate: new Date()
         },
         manualReviewRecommendations: [],
         summary: {
@@ -616,7 +616,7 @@ describe('PilotCampaignAnalysis', () => {;
           topDomain: 'SERVICE',
           topCategory: 'ARRAY_TYPE'
         }
-      });
+      })
 
       mockAnalysisTools.prototype.generateClassificationAccuracyReport.mockResolvedValue({
         overallAccuracy: 85,
@@ -624,8 +624,8 @@ describe('PilotCampaignAnalysis', () => {;
         sampleSize: 50,
         categoryAccuracy: [],
         confidenceDistribution: [],
-        reportDate: new Date();
-      });
+        reportDate: new Date()
+      })
 
       mockAnalysisTools.prototype.generateSuccessRateAnalysis.mockResolvedValue({
         currentSuccessRate: 80,
@@ -641,27 +641,27 @@ describe('PilotCampaignAnalysis', () => {;
         },
         projectedCompletion: new Date(),
         recommendations: [],
-        analysisDate: new Date();
-      });
+        analysisDate: new Date()
+      })
 
-      const results: any = await pilotAnalysis.executePilotAnalysis();
+      const results: any = await pilotAnalysis.executePilotAnalysis()
       expect(results.success).toBe(true).
       expect(mockFswriteFileSync).toHaveBeenCalledWith(
         expect.stringContaining('pilot-summary.md'),
         expect.stringContaining('# Pilot Campaign Analysis Results'),;
-      );
-    });
+      )
+    })
 
     it('should generate markdown summary for failed analysis', async () => {
       const mockAnalysisTools = require('../AnalysisTools').AnalysisTools;
-      mockAnalysisTools.prototype.generateComprehensiveReport.mockRejectedValue(new Error('Test failure'));
+      mockAnalysisTools.prototype.generateComprehensiveReport.mockRejectedValue(new Error('Test failure'))
 
-      const results: any = await pilotAnalysis.executePilotAnalysis();
+      const results: any = await pilotAnalysis.executePilotAnalysis()
       expect(results.success).toBe(false).
       expect(mockFswriteFileSync).toHaveBeenCalledWith(
         expect.stringContaining('pilot-summary.md'),
         expect.stringContaining('# Pilot Campaign Analysis - Failed'),;
-      );
-    });
-  });
-});
+      )
+    })
+  })
+})

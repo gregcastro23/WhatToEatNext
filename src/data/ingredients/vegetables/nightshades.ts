@@ -91,4 +91,4 @@ const rawNightshades = {
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
 export const _nightshades: Record<string, IngredientMapping> = fixIngredientMappings(
   rawNightshades as Record<string, Partial<IngredientMapping>>,
-);
+)

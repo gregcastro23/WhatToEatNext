@@ -139,17 +139,17 @@ export const raw: CookingMethodData = {
     omega_3_fatty_acids: 0.98, // Excellent fatty acid preservation
   },
   optimalTemperatures: {
-    general_storage: 40, // Refrigeration temperature (°F);
-    serving_temperature: 45, // Ideal serving temperature (°F);
-    sprouting: 70, // Ideal sprouting temperature (°F);
-    dehydration: 115, // Maximum temperature for 'raw' dehydration (°F);
-    nut_activation: 95, // Soaking temperature for nuts (°F);
-    fermentation: 72, // Ideal fermentation temperature (°F);
-    cold_infusion: 45, // Cold infusion temperature (°F);
-    seed_germination: 75, // Seed germination temperature (°F);
-    fruit_ripening: 65, // Fruit ripening temperature (°F);
-    vegetable_crisping: 34, // Pre-service crisping temperature (°F);
-    avocado_ripening: 68, // Avocado ripening temperature (°F);
+    general_storage: 40, // Refrigeration temperature (°F)
+    serving_temperature: 45, // Ideal serving temperature (°F)
+    sprouting: 70, // Ideal sprouting temperature (°F)
+    dehydration: 115, // Maximum temperature for 'raw' dehydration (°F)
+    nut_activation: 95, // Soaking temperature for nuts (°F)
+    fermentation: 72, // Ideal fermentation temperature (°F)
+    cold_infusion: 45, // Cold infusion temperature (°F)
+    seed_germination: 75, // Seed germination temperature (°F)
+    fruit_ripening: 65, // Fruit ripening temperature (°F)
+    vegetable_crisping: 34, // Pre-service crisping temperature (°F)
+    avocado_ripening: 68, // Avocado ripening temperature (°F)
   },
   regionalVariations: {
     japanese: ['sashimi', 'namasu', 'tataki'],
@@ -197,7 +197,7 @@ export const raw: CookingMethodData = {
     heat: 0.0, // No heat applied,
     entropy: 0.3, // Minimal structural disruption,
     reactivity: 0.4, // Moderate natural enzymatic reactions,
-    gregsEnergy: 0.05, // Calculated using heat - (entropy * reactivity), // Calculated using heat - (entropy * reactivity);
+    gregsEnergy: 0.05, // Calculated using heat - (entropy * reactivity), // Calculated using heat - (entropy * reactivity)
   } as ThermodynamicProperties,
 
   // Additional metadata

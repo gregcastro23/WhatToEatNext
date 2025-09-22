@@ -6,19 +6,19 @@ import { logger } from './logger';
 
 export function initializeApp() {
   // Validate environment variables
-  validateEnv();
+  validateEnv()
 
   // Setup error handlers
-  setupGlobalErrorHandlers();
+  setupGlobalErrorHandlers()
 
   // Initialize cache
   const cache = new Cache(3600000); // 1 hour cache timeout
 
   // Clean up and validate database
-  initializeDatabaseIntegrity();
+  initializeDatabaseIntegrity()
 
   // Log initialization
-  logger.info('Application initialized');
+  logger.info('Application initialized')
 
   return {
     cache

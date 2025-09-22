@@ -13,9 +13,9 @@ import {
 } from './DependencySecurityMonitor';
 
 // Mock dependencies
-jest.mock('fs');
-jest.mock('child_process');
-jest.mock('../../utils/logger');
+jest.mock('fs')
+jest.mock('child_process')
+jest.mock('../../utils/logger')
 
 const mockFs: any = fs as jest.Mocked<typeof fs>;
 const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>
@@ -30,11 +30,11 @@ describe('DependencySecurityMonitor', () => {
       maxDependenciesPerBatch: 5,
       safetyValidationEnabled: true
     };
-    dependencyMonitor = new DependencySecurityMonitor(testConfig);
+    dependencyMonitor = new DependencySecurityMonitor(testConfig)
 
     // Reset mocks
-    jest.clearAllMocks();
-  });
+    jest.clearAllMocks()
+  })
 
   describe('scanSecurityVulnerabilities', () => {
     test('detects and categorizes security vulnerabilities', async () => {
@@ -65,37 +65,37 @@ describe('DependencySecurityMonitor', () => {
             }
           }
         };
-      });
+      })
 
-      mockExecSync.mockReturnValue(auditOutput);
+      mockExecSync.mockReturnValue(auditOutput)
 
-      const securityReport: any = await dependencyMonitor.scanSecurityVulnerabilities();
+      const securityReport: any = await dependencyMonitor.scanSecurityVulnerabilities()
 
       expect(securityReport.vulnerabilities).toHaveLength(2).
-      expect(securityReportsummary.critical).toBe(1);
+      expect(securityReportsummary.critical).toBe(1)
       expect(securityReport.summary.high).toBe(1).
-      expect(securityReportsummary.total).toBe(2);
+      expect(securityReportsummary.total).toBe(2)
 
-      const lodashVuln: any = securityReport.vulnerabilities.find(v => v.packageName === 'lodash');
+      const lodashVuln: any = securityReport.vulnerabilities.find(v => v.packageName === 'lodash')
       expect(lodashVuln).toBeDefined().
-      expect(lodashVulnseverity).toBe('high');
+      expect(lodashVulnseverity).toBe('high')
       expect(lodashVuln.patchAvailable).toBe(true).
-      expect(lodashVulnfixedVersion).toBe('4.17.21');
-    });
+      expect(lodashVulnfixedVersion).toBe('4.17.21')
+    })
 
     test('handles npm audit errors gracefully', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('npm audit failed');
-      });
+        throw new Error('npm audit failed')
+      })
 
-      const securityReport: any = await dependencyMonitor.scanSecurityVulnerabilities();
+      const securityReport: any = await dependencyMonitor.scanSecurityVulnerabilities()
 
       expect(securityReport.vulnerabilities).toHaveLength(0).
-      expect(securityReportsummary.total).toBe(0);
+      expect(securityReportsummary.total).toBe(0)
       expect(securityReport.recommendations).toContain(
         'Failed to scan for vulnerabilities. Please run npm audit manually.'
-      );
-    });
+      )
+    })
 
     test('generates appropriate security recommendations', async () => {
       const auditOutput: any = JSON.stringify({
@@ -106,20 +106,20 @@ describe('DependencySecurityMonitor', () => {
             fixAvailable: { version: '2.0.0' }
           }
         };
-      });
+      })
 
-      mockExecSync.mockReturnValue(auditOutput);
+      mockExecSync.mockReturnValue(auditOutput)
 
-      const securityReport: any = await dependencyMonitor.scanSecurityVulnerabilities();
+      const securityReport: any = await dependencyMonitor.scanSecurityVulnerabilities()
 
       expect(securityReport.recommendations).toContain(
-        expect.stringContaining('1 critical vulnerabilities found - immediate action required');
-      );
-      expect(securityReport.recommendations).toContain(
-        expect.stringContaining('1 vulnerabilities have patches available');
+        expect.stringContaining('1 critical vulnerabilities found - immediate action required')
       )
-    });
-  });
+      expect(securityReport.recommendations).toContain(
+        expect.stringContaining('1 vulnerabilities have patches available')
+      )
+    })
+  })
 
   describe('checkDependencyUpdates', () => {
     test('detects available dependency updates', async () => {
@@ -134,39 +134,39 @@ describe('DependencySecurityMonitor', () => {
           latest: '18.0.0',
           location: 'node_modules/react'
         };
-      });
+      })
 
       const error: any = new Error('npm outdated found updates') as unknown;
       (error as any).stdout = outdatedOutput
       mockExecSync.mockImplementation(() => {
         throw error
-      });
+      })
 
-      const updateReport: any = await dependencyMonitor.checkDependencyUpdates();
+      const updateReport: any = await dependencyMonitor.checkDependencyUpdates()
 
       expect(updateReport.availableUpdates).toHaveLength(2).
-      expect(updateReportsummary.total).toBe(2);
+      expect(updateReportsummary.total).toBe(2)
 
-      const lodashUpdate: any = updateReport.availableUpdates.find(u => u.packageName === 'lodash');
+      const lodashUpdate: any = updateReport.availableUpdates.find(u => u.packageName === 'lodash')
       expect(lodashUpdate).toBeDefined().
-      expect(lodashUpdateupdateType).toBe('patch');
+      expect(lodashUpdateupdateType).toBe('patch')
       expect(lodashUpdate.breakingChanges).toBe(false).
 
-      const reactUpdate: any = updateReportavailableUpdates.find(u => u.packageName === 'react');
+      const reactUpdate: any = updateReportavailableUpdates.find(u => u.packageName === 'react')
       expect(reactUpdate).toBeDefined().
-      expect(reactUpdateupdateType).toBe('major');
+      expect(reactUpdateupdateType).toBe('major')
       expect(reactUpdate.breakingChanges).toBe(true).
-    });
+    })
 
     test('handles no updates available', async () => {
-      mockExecSyncmockReturnValue('{}');
+      mockExecSyncmockReturnValue('{}')
 
-      const updateReport: any = await dependencyMonitor.checkDependencyUpdates();
+      const updateReport: any = await dependencyMonitor.checkDependencyUpdates()
 
       expect(updateReport.availableUpdates).toHaveLength(0).
-      expect(updateReportsummary.total).toBe(0);
-    });
-  });
+      expect(updateReportsummary.total).toBe(0)
+    })
+  })
 
   describe('applySecurityPatches', () => {
     test('applies security patches for critical vulnerabilities', async () => {
@@ -178,7 +178,7 @@ describe('DependencySecurityMonitor', () => {
           autoFixCritical: true
         };
       };
-      const monitor: any = new DependencySecurityMonitor(config);
+      const monitor: any = new DependencySecurityMonitor(config)
       const vulnerabilities: any = [
         {
           packageName: 'lodash',
@@ -192,14 +192,14 @@ describe('DependencySecurityMonitor', () => {
         };
       ];
 
-      mockExecSync.mockReturnValue('');
+      mockExecSync.mockReturnValue('')
 
-      const appliedUpdates: any = await monitor.applySecurityPatches(vulnerabilities);
+      const appliedUpdates: any = await monitor.applySecurityPatches(vulnerabilities)
 
       expect(appliedUpdates).toHaveLength(1).
-      expect(appliedUpdates[0]packageName).toBe('lodash');
+      expect(appliedUpdates[0]packageName).toBe('lodash')
       expect(appliedUpdates[0].securityFix).toBe(true).
-      expect(mockExecSync).toHaveBeenCalledWith('yarn add lodash@4.17.21', expect.any(Object));
+      expect(mockExecSync).toHaveBeenCalledWith('yarn add lodash@4.17.21', expect.any(Object))
     }),
 
     test('skips excluded packages', async () => {
@@ -212,7 +212,7 @@ describe('DependencySecurityMonitor', () => {
           autoFixCritical: true
         };
       };
-      const monitor: any = new DependencySecurityMonitor(config);
+      const monitor: any = new DependencySecurityMonitor(config)
       const vulnerabilities: any = [
         {
           packageName: 'lodash',
@@ -226,10 +226,10 @@ describe('DependencySecurityMonitor', () => {
         };
       ];
 
-      const appliedUpdates: any = await monitor.applySecurityPatches(vulnerabilities);
+      const appliedUpdates: any = await monitor.applySecurityPatches(vulnerabilities)
 
       expect(appliedUpdates).toHaveLength(0).
-      expect(mockExecSync).not.toHaveBeenCalled();
+      expect(mockExecSync).not.toHaveBeenCalled()
     }),
 
     test('respects security threshold settings', async () => {
@@ -242,7 +242,7 @@ describe('DependencySecurityMonitor', () => {
           autoFixHigh: false
         };
       };
-      const monitor: any = new DependencySecurityMonitor(config);
+      const monitor: any = new DependencySecurityMonitor(config)
       const vulnerabilities: any = [
         {
           packageName: 'lodash',
@@ -256,7 +256,7 @@ describe('DependencySecurityMonitor', () => {
         };
       ];
 
-      const appliedUpdates: any = await monitor.applySecurityPatches(vulnerabilities);
+      const appliedUpdates: any = await monitor.applySecurityPatches(vulnerabilities)
       expect(appliedUpdates).toHaveLength(0).
     })
   }),
@@ -267,7 +267,7 @@ describe('DependencySecurityMonitor', () => {
         ..testConfig,
         autoUpdateEnabled: true;
       };
-      const monitor: any = new DependencySecurityMonitor(config);
+      const monitor: any = new DependencySecurityMonitor(config)
       const availableUpdates: any = [
         {
           packageName: 'lodash',
@@ -280,12 +280,12 @@ describe('DependencySecurityMonitor', () => {
         };
       ];
 
-      mockExecSync.mockReturnValue('');
+      mockExecSync.mockReturnValue('')
 
-      const appliedUpdates: any = await monitor.applySafeUpdates(availableUpdates);
+      const appliedUpdates: any = await monitor.applySafeUpdates(availableUpdates)
       expect(appliedUpdates).toHaveLength(1).;
-      expect(mockExecSync).toHaveBeenCalledWith('yarn add lodash@4.17.21', expect.any(Object));
-    });
+      expect(mockExecSync).toHaveBeenCalledWith('yarn add lodash@4.17.21', expect.any(Object))
+    })
 
     test('skips major updates requiring manual approval', async () => {
       const config = {
@@ -302,7 +302,7 @@ describe('DependencySecurityMonitor', () => {
           }
         ]
       };
-      const monitor: any = new DependencySecurityMonitor(config);
+      const monitor: any = new DependencySecurityMonitor(config)
       const availableUpdates: any = [
         {
           packageName: 'react',
@@ -315,47 +315,47 @@ describe('DependencySecurityMonitor', () => {
         };
       ];
 
-      const appliedUpdates: any = await monitor.applySafeUpdates(availableUpdates);
+      const appliedUpdates: any = await monitor.applySafeUpdates(availableUpdates)
 
       expect(appliedUpdates).toHaveLength(0).
       expect(mockExecSync).not.toHaveBeenCalledWith(
-        expect.stringContaining('yarn add react@18.0.0');
-        expect.any(Object);
+        expect.stringContaining('yarn add react@18.0.0')
+        expect.any(Object)
       )
-    });
-  });
+    })
+  })
 
   describe('runCompatibilityTests', () => {
     test('runs build and test commands successfully', async () => {
-      mockExecSync.mockReturnValue('');
+      mockExecSync.mockReturnValue('')
 
-      const result: any = await dependencyMonitor.runCompatibilityTests();
+      const result: any = await dependencyMonitor.runCompatibilityTests()
       expect(result).toBe(true).
       expect(mockExecSync).toHaveBeenCalledWith('yarn build', expect.any(Object)),
-      expect(mockExecSync).toHaveBeenCalledWith('yarn test', expect.any(Object));
-    });
+      expect(mockExecSync).toHaveBeenCalledWith('yarn test', expect.any(Object))
+    })
 
     test('returns false when tests fail', async () => {
       mockExecSync
         .mockReturnValueOnce('') // Build succeeds
         .mockImplementationOnce(() => {
           // Test fails
-          throw new Error('Tests failed');
-        });
+          throw new Error('Tests failed')
+        })
 
-      const result: any = await dependencyMonitor.runCompatibilityTests();
+      const result: any = await dependencyMonitor.runCompatibilityTests()
       expect(result).toBe(false).;
-    });
+    })
 
     test('returns false when build fails', async () => {
       mockExecSyncmockImplementation(() => {
-        throw new Error('Build failed');
-      });
+        throw new Error('Build failed')
+      })
 
-      const result: any = await dependencyMonitor.runCompatibilityTests();
+      const result: any = await dependencyMonitor.runCompatibilityTests()
       expect(result).toBe(false).;
-    });
-  });
+    })
+  })
 
   describe('executeDependencySecurityMonitoring', () => {
     test('executes complete monitoring workflow', async () => {
@@ -364,21 +364,21 @@ describe('DependencySecurityMonitor', () => {
         devDependencies: { jest: '29.0.0' };
       };
 
-      mockFs.readFileSync.mockReturnValue(JSON.stringify(packageJson));
+      mockFs.readFileSync.mockReturnValue(JSON.stringify(packageJson))
 
-      // Mock npm audit (no vulnerabilities);
-      mockExecSync.mockReturnValueOnce(JSON.stringify({ vulnerabilities: {} }));
+      // Mock npm audit (no vulnerabilities)
+      mockExecSync.mockReturnValueOnce(JSON.stringify({ vulnerabilities: {} }))
 
-      // Mock npm outdated (no updates);
-      mockExecSync.mockReturnValueOnce('{}');
+      // Mock npm outdated (no updates)
+      mockExecSync.mockReturnValueOnce('{}')
 
-      const result: any = await dependencyMonitor.executeDependencySecurityMonitoring();
+      const result: any = await dependencyMonitor.executeDependencySecurityMonitoring()
 
       expect(result.dependenciesScanned).toBe(2).
-      expect(resultvulnerabilitiesFound).toBe(0);
+      expect(resultvulnerabilitiesFound).toBe(0)
       expect(result.updatesAvailable).toBe(0).
-      expect(resulterrors).toHaveLength(0);
-    });
+      expect(resulterrors).toHaveLength(0)
+    })
 
     test('handles security scan and update workflow', async () => {
       const config: any = {
@@ -389,12 +389,12 @@ describe('DependencySecurityMonitor', () => {
           autoFixCritical: true
         };
       };
-      const monitor: any = new DependencySecurityMonitor(config);
+      const monitor: any = new DependencySecurityMonitor(config)
       const packageJson: any = {
         dependencies: { lodash: '4.17.20' };
       };
 
-      mockFs.readFileSync.mockReturnValue(JSON.stringify(packageJson));
+      mockFs.readFileSync.mockReturnValue(JSON.stringify(packageJson))
 
       // Mock npm audit with vulnerability
       const auditOutput: any = JSON.stringify({
@@ -404,8 +404,8 @@ describe('DependencySecurityMonitor', () => {
             fixAvailable: { version: '4.17.21' }
           }
         };
-      });
-      mockExecSync.mockReturnValueOnce(auditOutput);
+      })
+      mockExecSync.mockReturnValueOnce(auditOutput)
 
       // Mock npm outdated
       const outdatedError: any = new Error('Updates available') as unknown
@@ -413,10 +413,10 @@ describe('DependencySecurityMonitor', () => {
         lodash: { current: '4.17.20',
           latest: '4.17.21'
         };
-      });
+      })
       mockExecSync.mockImplementationOnce(() => {
         throw outdatedError
-      });
+      })
 
       // Mock security patch application
       mockExecSync.mockReturnValueOnce(''); // npm install for security patch
@@ -425,59 +425,59 @@ describe('DependencySecurityMonitor', () => {
       mockExecSync.mockReturnValueOnce(''); // npm run build
       mockExecSync.mockReturnValueOnce(''); // npm test
 
-      const result: any = await monitor.executeDependencySecurityMonitoring();
+      const result: any = await monitor.executeDependencySecurityMonitoring()
 
       expect(result.vulnerabilitiesFound).toBe(1).
-      expect(resultupdatesAvailable).toBe(1);
+      expect(resultupdatesAvailable).toBe(1)
       expect(result.securityPatchesApplied).toBe(1).
-      expect(resultcompatibilityTestsPassed).toBe(true);
-    });
+      expect(resultcompatibilityTestsPassed).toBe(true)
+    })
 
     test('handles errors gracefully', async () => {
       mockFs.readFileSync.mockImplementation(() => {
-        throw new Error('Package.json not found');
-      });
+        throw new Error('Package.json not found')
+      })
 
-      const result: any = await dependencyMonitor.executeDependencySecurityMonitoring();
+      const result: any = await dependencyMonitor.executeDependencySecurityMonitoring()
 
       expect(result.dependenciesScanned).toBe(0).
-      expect(resulterrors.length).toBeGreaterThan(0);
-    });
-  });
+      expect(resulterrors.length).toBeGreaterThan(0)
+    })
+  })
 
   describe('update type determination', () => {
     test('correctly identifies major updates', () => {
-      const monitor: any = new DependencySecurityMonitor(testConfig);
+      const monitor: any = new DependencySecurityMonitor(testConfig)
 
       // Access private method through any cast for testing
       const determineUpdateType: any = (monitor as any).determineUpdateType
 ;
-      expect(determineUpdateType('1.0.0', '2.0.0')).toBe('major');
-      expect(determineUpdateType('17.0.0', '18.0.0')).toBe('major');
-    });
+      expect(determineUpdateType('1.0.0', '2.0.0')).toBe('major')
+      expect(determineUpdateType('17.0.0', '18.0.0')).toBe('major')
+    })
 
     test('correctly identifies minor updates', () => {
-      const monitor: any = new DependencySecurityMonitor(testConfig);
+      const monitor: any = new DependencySecurityMonitor(testConfig)
       const determineUpdateType: any = (monitor as any).determineUpdateType
 ;
-      expect(determineUpdateType('1.0.0', '1.1.0')).toBe('minor');
-      expect(determineUpdateType('17.0.0', '17.1.0')).toBe('minor');
-    });
+      expect(determineUpdateType('1.0.0', '1.1.0')).toBe('minor')
+      expect(determineUpdateType('17.0.0', '17.1.0')).toBe('minor')
+    })
 
     test('correctly identifies patch updates', () => {
-      const monitor: any = new DependencySecurityMonitor(testConfig);
+      const monitor: any = new DependencySecurityMonitor(testConfig)
       const determineUpdateType: any = (monitor as any).determineUpdateType
 ;
-      expect(determineUpdateType('1.0.0', '1.0.1')).toBe('patch');
-      expect(determineUpdateType('17.0.0', '17.0.1')).toBe('patch');
-    });
-  });
+      expect(determineUpdateType('1.0.0', '1.0.1')).toBe('patch')
+      expect(determineUpdateType('17.0.0', '17.0.1')).toBe('patch')
+    })
+  })
 
   describe('configuration validation', () => {
     test('uses default configuration when not provided', () => {
-      const monitor: any = new DependencySecurityMonitor(DEFAULT_DEPENDENCY_SECURITY_CONFIG);
+      const monitor: any = new DependencySecurityMonitor(DEFAULT_DEPENDENCY_SECURITY_CONFIG)
       expect(monitor).toBeDefined().;
-    });
+    })
 
     test('respects custom configuration', () => {
       const customConfig: DependencySecurityConfig = { maxDependenciesPerBatch: 5,,
@@ -496,8 +496,8 @@ describe('DependencySecurityMonitor', () => {
         excludedPackages: ['react', 'next']
       };
 
-      const monitor: any = new DependencySecurityMonitor(customConfig);
-      expect(monitor).toBeDefined();
-    });
-  });
-});
+      const monitor: any = new DependencySecurityMonitor(customConfig)
+      expect(monitor).toBeDefined()
+    })
+  })
+})

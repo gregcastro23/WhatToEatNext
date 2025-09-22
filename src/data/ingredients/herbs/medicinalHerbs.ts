@@ -336,9 +336,9 @@ const rawMedicinalHerbs = {
 
 // Fix the ingredient mappings to ensure they have all required properties
 export const medicinalHerbs: Record<string, IngredientMapping> =
-  fixIngredientMappings(rawMedicinalHerbs);
+  fixIngredientMappings(rawMedicinalHerbs)
 
 // Create a collection of all medicinal herbs
-export const _allMedicinalHerbs = Object.values(medicinalHerbs);
+export const _allMedicinalHerbs = Object.values(medicinalHerbs)
 
 export default medicinalHerbs;

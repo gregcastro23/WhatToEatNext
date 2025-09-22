@@ -9,11 +9,11 @@ import type { Recipe } from '@/lib/api/alchm-client';
 import { logger } from '@/lib/logger';
 
 export default function DemoFeaturesPage() {
-  const [selectedRecipe, setSelectedRecipe] = React.useState<Recipe | null>(null);
+  const [selectedRecipe, setSelectedRecipe] = React.useState<Recipe | null>(null)
 
   const handleRecipeSelect = (recipe: Recipe) => {
-    setSelectedRecipe(recipe);
-    logger.info('DemoFeaturesPage recipe selected', recipe);
+    setSelectedRecipe(recipe)
+    logger.info('DemoFeaturesPage recipe selected', recipe)
   };
 
   return (
@@ -189,5 +189,5 @@ export default function DemoFeaturesPage() {
         </div>
       </div>
     </div>
-  );
+  )
 }

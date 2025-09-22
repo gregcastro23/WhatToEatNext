@@ -30,13 +30,13 @@ import {FoodAlchemySystem} from '../FoodAlchemySystem';
  * Enhanced food alchemy system that uses modern service architecture
  */
 export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
-  private static, instance: EnhancedFoodAlchemySystem,
+  private static instance: EnhancedFoodAlchemySystem,
 
   /**
    * Private constructor to enforce singleton pattern
    */
   private constructor() {
-    super();
+    super()
   }
 
   /**
@@ -44,7 +44,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
    */
   public static getInstance(): EnhancedFoodAlchemySystem {
     if (!EnhancedFoodAlchemySystem.instance) {
-      EnhancedFoodAlchemySystem.instance = new EnhancedFoodAlchemySystem();
+      EnhancedFoodAlchemySystem.instance = new EnhancedFoodAlchemySystem()
     }
     return EnhancedFoodAlchemySystem.instance;
   }
@@ -71,20 +71,20 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
     limit: number = 10
   ): Promise<ScoredRecipe[]> {
     try {
-      logger.info('Getting recommended recipes', { state, criteria });
+      logger.info('Getting recommended recipes', { state, criteria })
 
       // Create a flavor profile from the current state
-      const flavorProfile = this.createFlavorProfileFromState(state);
+      const flavorProfile = this.createFlavorProfileFromState(state)
 
       // Prepare criteria for recipe service
       const recipeCriteria = {
         ...criteria;
         flavorProfile,
-        elementalPreference: this.createElementalPreferenceFromState(state);
+        elementalPreference: this.createElementalPreferenceFromState(state)
       };
 
       // Get matching recipes from the consolidated service
-      const recipes = await consolidatedRecipeService.getBestRecipeMatches(recipeCriteria, limit);
+      const recipes = await consolidatedRecipeService.getBestRecipeMatches(recipeCriteria, limit)
       return recipes as unknown as ScoredRecipe[];
     } catch (error) {
       logger.error('Error getting recommended recipes', error),
@@ -119,7 +119,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
         // Skip non-standard planets or positions
         if (!position || !sign) continue;
 
-        // Calculate base influence (0.5 as neutral);
+        // Calculate base influence (0.5 as neutral)
         const influence = 0.5;
 
         // Add dignity effects if applicable - safe string handling
@@ -136,7 +136,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       const recipes = await consolidatedRecipeService.getRecipesForPlanetaryAlignment(
         planetaryInfluences,
         minMatchScore,
-      );
+      )
       return recipes as unknown as Recipe[];
     } catch (error) {
       logger.error('Error getting recipes for planetary alignment', error),
@@ -167,8 +167,8 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
     } = {}
   ): UnifiedIngredient[] {
     // ✅ Pattern MM-1: Safe type conversion with runtime validation
-    const stateRecord = this.convertSystemStateToRecord(state);
-    return enhancedIngredientSystem.getRecommendedIngredients(stateRecord as unknown, options);
+    const stateRecord = this.convertSystemStateToRecord(state)
+    return enhancedIngredientSystem.getRecommendedIngredients(stateRecord as unknown, options)
   }
 
   /**
@@ -179,7 +179,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
    * @returns Array of complementary ingredients
    */
   findComplementaryIngredients(ingredients: string[], maxResults: number = 5): UnifiedIngredient[] {
-    return enhancedIngredientSystem.findComplementaryIngredients(ingredients, maxResults);
+    return enhancedIngredientSystem.findComplementaryIngredients(ingredients, maxResults)
   }
 
   /**
@@ -204,7 +204,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
     return enhancedIngredientSystem.getSeasonalIngredients(season, {
       categories: filter.categories,
       dietary: filter.dietary
-    });
+    })
   }
 
   /**
@@ -224,7 +224,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       sour: Math.min(1, Air * 0.5 + Water * 0.2 + entropy * 0.3),
       bitter: Math.min(1, Fire * 0.2 + Air * 0.5 + reactivity * 0.3),
       salty: Math.min(1, Earth * 0.7 + Water * 0.3),
-      umami: Math.min(1, Earth * 0.4 + Fire * 0.3 + reactivity * 0.3);
+      umami: Math.min(1, Earth * 0.4 + Fire * 0.3 + reactivity * 0.3)
     };
   }
 
@@ -240,7 +240,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       metrics: state.metrics,
       planetaryPositions: state.planetaryPositions,
       // Add other relevant state properties
-      ...(state as unknown);
+      ...(state as unknown)
     };
   }
 
@@ -254,7 +254,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
     const { Fire, Water, Earth, Air} = state.elements;
 
     // Find the element that needs balancing the most
-    // (the element that's furthest from 0.25, the ideal balance);
+    // (the element that's furthest from 0.25, the ideal balance)
     const elements = [
       { name: 'Fire', value: Fire, diff: Math.abs(Fire - 0.25) },
       { name: 'Water', value: Water, diff: Math.abs(Water - 0.25) },
@@ -262,13 +262,13 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       { name: 'Air', value: Air, diff: Math.abs(Air - 0.25) }
     ];
 
-    // Sort by difference from ideal (descending);
-    elements.sort((ab) => b.diff - a.diff);
+    // Sort by difference from ideal (descending)
+    elements.sort((ab) => b.diff - a.diff)
 
     // Get the element that needs balancing the most
     const elementToBalance = elements[0];
 
-    // Determine the preference direction (boost low elements, reduce high elements);
+    // Determine the preference direction (boost low elements, reduce high elements)
     const preferenceValue = elementToBalance.value < 0.25 ? 0.8 : 0.2
 
     // Create a preference object with just the element that needs balancing
@@ -280,7 +280,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
 }
 
 // Export singleton instance
-export const _enhancedFoodAlchemySystem = EnhancedFoodAlchemySystem.getInstance();
+export const _enhancedFoodAlchemySystem = EnhancedFoodAlchemySystem.getInstance()
 
 // Default export
 export default EnhancedFoodAlchemySystem;

@@ -39,17 +39,17 @@ export function getIngredientsForCuisine(
   if (categories.includes('grain')) {
     Object.entries(grainCuisineMatrix).forEach(([grain, cuisines]) => {
       if (cuisines.includes(cuisineName)) {
-        result.grain.push(grain);
+        result.grain.push(grain)
       }
-    });
+    })
   }
 
   if (categories.includes('herb')) {
     Object.entries(herbCuisineMatrix).forEach(([herb, cuisines]) => {
       if (cuisines.includes(cuisineName)) {
-        result.herb.push(herb);
+        result.herb.push(herb)
       }
-    });
+    })
   }
 
   // Additional matrices can be processed here

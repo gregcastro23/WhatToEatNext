@@ -12,8 +12,8 @@ export default function NotFoundError({
   reset: () => void
 }) {
   useEffect(() => {
-    logger.error('Not found error:', error);
-  }, [error]);
+    logger.error('Not found error:', error)
+  }, [error])
 
   return (
     <div className='flex min-h-screen flex-col items-center justify-center p-4'>

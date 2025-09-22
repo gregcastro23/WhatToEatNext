@@ -1,6 +1,6 @@
 import { Suspense, lazy } from 'react';
 
-const LazyComponent = lazy(() => import('./LazyComponent'));
+const LazyComponent = lazy(() => import('./LazyComponent'))
 
 export function SuspenseBoundary() {
   return (
@@ -8,5 +8,5 @@ export function SuspenseBoundary() {
       
       <LazyComponent />
     </Suspense>
-  );
+  )
 }

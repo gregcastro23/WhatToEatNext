@@ -33,19 +33,19 @@ export interface PerformanceMetrics {
  * Designed for Phase 8 performance optimization
  */
 export class PerformanceCache<T> {
-  private, cache: Map<string, CacheEntry<T>> = new Map();
-  private, maxSize: number;
-  private, defaultTTL: number;
-  private, hitCount: number = 0;
-  private, missCount: number = 0;
-  private, cleanupInterval: NodeJS.Timeout | null = null
+  private cache: Map<string, CacheEntry<T>> = new Map()
+  private maxSize: number;
+  private defaultTTL: number;
+  private hitCount: number = 0;
+  private missCount: number = 0;
+  private cleanupInterval: NodeJS.Timeout | null = null
 
   constructor(maxSize: number = 1000, defaultTTL: number = 300000) {;
     // 5 minutes default TTL
     this.maxSize = maxSize;
     this.defaultTTL = defaultTTL
 
-    // Start cleanup interval (every 60 seconds);
+    // Start cleanup interval (every 60 seconds)
     this.cleanupInterval = setInterval(() => this.cleanup(), 60000),
   }
 
@@ -53,7 +53,7 @@ export class PerformanceCache<T> {
    * Get item from cache with automatic TTL checking
    */
   get(key: string): T | null {
-    const entry = this.cache.get(key);
+    const entry = this.cache.get(key)
 
     if (!entry) {
       this.missCount++
@@ -63,7 +63,7 @@ export class PerformanceCache<T> {
     // Check TTL
     const now = Date.now()
     if (now - entry.timestamp > entry.ttl) {
-      this.cache.delete(key);
+      this.cache.delete(key)
       this.missCount++;
       return null
     }
@@ -85,7 +85,7 @@ export class PerformanceCache<T> {
 
     // Check if we need to evict items
     if (this.cache.size >= this.maxSize && !this.cache.has(key)) {
-      this.evictLRU();
+      this.evictLRU()
     }
 
     const entry: CacheEntry<T> = {
@@ -96,19 +96,19 @@ export class PerformanceCache<T> {
       lastAccessed: now
     };
 
-    this.cache.set(key, entry);
+    this.cache.set(key, entry)
   }
 
   /**
    * Check if key exists and is valid
    */
   has(key: string): boolean {
-    const entry = this.cache.get(key);
+    const entry = this.cache.get(key)
     if (!entry) return false;
 
     const now = Date.now()
     if (now - entry.timestamp > entry.ttl) {
-      this.cache.delete(key);
+      this.cache.delete(key)
       return false
     }
 
@@ -119,14 +119,14 @@ export class PerformanceCache<T> {
    * Delete specific key
    */
   delete(key: string): boolean {
-    return this.cache.delete(key);
+    return this.cache.delete(key)
   }
 
   /**
    * Clear all cache entries
    */
   clear(): void {
-    this.cache.clear();
+    this.cache.clear()
     this.hitCount = 0;
     this.missCount = 0
   }
@@ -141,9 +141,9 @@ export class PerformanceCache<T> {
     let newestEntry = 0
 
     for (const [key, entry] of this.cache.entries()) {
-      // Estimate memory usage (rough calculation);
+      // Estimate memory usage (rough calculation)
       memoryUsage += (key || []).length * 2; // String characters are 2 bytes each
-      memoryUsage += this.estimateObjectSize(entry.data);
+      memoryUsage += this.estimateObjectSize(entry.data)
       memoryUsage += 64, // Overhead for entry metadata
 
       if (entry.timestamp < oldestEntry) oldestEntry = entry.timestamp;
@@ -178,7 +178,7 @@ export class PerformanceCache<T> {
     }
 
     if (lruKey) {
-      this.cache.delete(lruKey);
+      this.cache.delete(lruKey)
     }
   }
 
@@ -191,15 +191,15 @@ export class PerformanceCache<T> {
 
     for (const [key, entry] of this.cache.entries()) {
       if (now - entry.timestamp > entry.ttl) {
-        keysToDelete.push(key);
+        keysToDelete.push(key)
       }
     }
 
-    (keysToDelete || []).forEach(key => this.cache.delete(key));
+    (keysToDelete || []).forEach(key => this.cache.delete(key))
   }
 
   /**
-   * Estimate object size in bytes (rough calculation);
+   * Estimate object size in bytes (rough calculation)
    */
   private estimateObjectSize(obj: unknown): number {
     if (obj === null || obj === undefined) return 0;
@@ -209,7 +209,7 @@ export class PerformanceCache<T> {
     if (typeof obj === 'boolean') return 4
 
     if (Array.isArray(obj)) {
-      return obj.reduce((size, item) => size + this.estimateObjectSize(item), 0);
+      return obj.reduce((size, item) => size + this.estimateObjectSize(item), 0)
     }
 
     if (typeof obj === 'object') {;
@@ -229,10 +229,10 @@ export class PerformanceCache<T> {
    */
   destroy(): void {
     if (this.cleanupInterval) {
-      clearInterval(this.cleanupInterval);
+      clearInterval(this.cleanupInterval)
       this.cleanupInterval = null
     }
-    this.clear();
+    this.clear()
   }
 }
 
@@ -240,18 +240,18 @@ export class PerformanceCache<T> {
  * Performance monitoring utility
  */
 export class PerformanceMonitor {
-  private, metrics: PerformanceMetrics[] = []
-  private, currentMetrics: Partial<PerformanceMetrics> = {};
-  private, maxHistorySize: number = 100;
+  private metrics: PerformanceMetrics[] = []
+  private currentMetrics: Partial<PerformanceMetrics> = {};
+  private maxHistorySize: number = 100;
 
   /**
    * Start timing an operation
    */
   startTiming(operation: string): () => void {
-    const startTime = performance.now();
+    const startTime = performance.now()
 
     return () => {
-      const endTime = performance.now();
+      const endTime = performance.now()
       const duration = endTime - startTime
 
       this.recordMetric('calculationTime', duration),
@@ -282,11 +282,11 @@ export class PerformanceMonitor {
       peakMemoryUsage: this.currentMetrics.peakMemoryUsage || 0
     };
 
-    this.metrics.push(snapshot);
+    this.metrics.push(snapshot)
 
     // Keep only recent metrics
     if (this.metrics || [].length > this.maxHistorySize) {
-      this.metrics.shift();
+      this.metrics.shift()
     }
 
     return snapshot;
@@ -387,7 +387,7 @@ export class PerformanceMonitor {
 export const flavorCompatibilityCache = new PerformanceCache<unknown>(2000, 600000); // 10 minutes TTL
 export const astrologicalProfileCache = new PerformanceCache<unknown>(500, 300000); // 5 minutes TTL
 export const ingredientProfileCache = new PerformanceCache<unknown>(1500, 1800000); // 30 minutes TTL
-export const performanceMonitor = new PerformanceMonitor();
+export const performanceMonitor = new PerformanceMonitor()
 
 // ===== CACHE WARMING FUNCTIONS =====;
 
@@ -395,11 +395,11 @@ export const performanceMonitor = new PerformanceMonitor();
  * Warm up caches with common calculations
  */
 export async function warmupCaches(): Promise<void> {
-  log.info('🔥 Warming up caches for optimal performance...');
+  log.info('🔥 Warming up caches for optimal performance...')
   // This will be implemented with actual data warming
   // For now, just log the warming process
 
-  log.info('✅ Cache warmup complete');
+  log.info('✅ Cache warmup complete')
 }
 
 /**
@@ -415,7 +415,7 @@ export function getAllCacheStats(): {
     flavorCompatibility: flavorCompatibilityCache.getStats(),
     astrologicalProfile: astrologicalProfileCache.getStats(),
     ingredientProfile: ingredientProfileCache.getStats(),
-    performance: performanceMonitor.getStats();
+    performance: performanceMonitor.getStats()
   };
 }
 
@@ -423,9 +423,9 @@ export function getAllCacheStats(): {
  * Clear all caches
  */
 export function clearAllCaches(): void {
-  flavorCompatibilityCache.clear();
-  astrologicalProfileCache.clear();
-  ingredientProfileCache.clear();
-  performanceMonitor.clear();
-  log.info('🧹 All caches cleared');
+  flavorCompatibilityCache.clear()
+  astrologicalProfileCache.clear()
+  ingredientProfileCache.clear()
+  performanceMonitor.clear()
+  log.info('🧹 All caches cleared')
 }

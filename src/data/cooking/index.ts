@@ -55,7 +55,7 @@ export const _getAstrologicalEffect = (
   }
 
   // Keep score within 0.0-1.0 range
-  return Math.max(0.0, Math.min(1.0, effectScore));
+  return Math.max(0.0, Math.min(1.0, effectScore))
 };
 
 /**
@@ -77,11 +77,11 @@ export const _calculateModifiedElementalEffect = (
   const baseEffect = { ...methodData.elementalEffect };
 
   // Apply duration modifier (simplified)
-  const normalizedDuration = Math.min(1.0, duration / (methodData.duration.max || 60));
+  const normalizedDuration = Math.min(1.0, duration / (methodData.duration.max || 60))
   if (normalizedDuration > 0.7) {
     // Longer cooking enhances Fire and reduces Water
-    baseEffect.Fire = Math.min(1.0, (baseEffect.Fire || 0) * 1.2);
-    baseEffect.Water = Math.max(0.0, (baseEffect.Water || 0) * 0.8);
+    baseEffect.Fire = Math.min(1.0, (baseEffect.Fire || 0) * 1.2)
+    baseEffect.Water = Math.max(0.0, (baseEffect.Water || 0) * 0.8)
   }
 
   // Return the modified effect
@@ -135,14 +135,14 @@ export function getCookingMethod(name: string): CookingMethodData | undefined {
 export function getCookingMethods(names: string[]): Record<string, CookingMethodData> {
   return names.reduce(
     (methods, name) => {
-      const method = getCookingMethod(name);
+      const method = getCookingMethod(name)
       if (method) {
         methods[name] = method;
       }
       return methods;
     },
     {} as Record<string, CookingMethodData>,
-  );
+  )
 }
 
 /**
@@ -199,7 +199,7 @@ export function getCookingMethodsByTemperature(
         return numericTemp >= numericMinTemp && numericTemp <= numericMaxTemp
       })
     })
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
 }
 
 /**
@@ -221,5 +221,5 @@ export function getCookingMethodsBySustainability(_descending = true): CookingMe
       const aRating = aData?.sustainabilityRating || 0;
       const bRating = bData?.sustainabilityRating || 0;
       return descending ? bRating - aRating : aRating - bRating
-    });
+    })
 }

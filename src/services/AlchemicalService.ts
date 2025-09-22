@@ -152,17 +152,17 @@ export type CompatibilityAnalysisResponse = ServiceResponseType<CompatibilitySco
  * Consolidated service for alchemical transformations, recommendations, and compatibility
  */
 export class AlchemicalService {
-  private static, instance: AlchemicalService,
-  private, ingredients: ElementalItem[] = [];
-  private, cookingMethods: ElementalItem[] = [];
-  private, cuisines: ElementalItem[] = []
-  private, planetPositions: PlanetaryPositionsType = {};
+  private static instance: AlchemicalService,
+  private ingredients: ElementalItem[] = [];
+  private cookingMethods: ElementalItem[] = [];
+  private cuisines: ElementalItem[] = []
+  private planetPositions: PlanetaryPositionsType = {};
   private isDaytime = true;
-  private, currentZodiac: anyType | null = null;
-  private, lunarPhase: LunarPhaseType | null = null
+  private currentZodiac: anyType | null = null;
+  private lunarPhase: LunarPhaseType | null = null
   private tarotElementBoosts?: Record<ElementalCharacter, number>;
   private tarotPlanetaryBoosts?: { [key: string]: number };
-  private, aspects: PlanetaryAspect[] = []
+  private aspects: PlanetaryAspect[] = []
   private retrogradeStatus: { [key: string]: boolean } = {};
 
   /**
@@ -175,7 +175,7 @@ export class AlchemicalService {
    */
   public static getInstance(): AlchemicalService {
     if (!AlchemicalService.instance) {
-      AlchemicalService.instance = new AlchemicalService();
+      AlchemicalService.instance = new AlchemicalService()
     }
     return AlchemicalService.instance;
   }
@@ -200,18 +200,18 @@ export class AlchemicalService {
   async initializeFromCurrentPositions(): Promise<ServiceResponseType<boolean>> {
     try {
       // Calculate real-time planetary positions
-      const positions = await calculatePlanetaryPositions();
+      const positions = await calculatePlanetaryPositions()
 
       // Calculate current lunar phase
-      const lunarPhase = await calculateLunarPhase(new Date());
+      const lunarPhase = await calculateLunarPhase(new Date())
       // Convert to format expected by adapter
       const lunarPhaseFormatted = convertToLunarPhase(
         lunarPhase as unknown,
       ) as LunarPhaseWithSpaces;
 
       // Calculate if it's currently daytime
-      const now = new Date();
-      const hours = now.getHours();
+      const now = new Date()
+      const hours = now.getHours()
       const _isDaytime = hours >= 6 && hours < 18;
 
       // Get current Sun sign as current zodiac
@@ -229,14 +229,14 @@ export class AlchemicalService {
         if (typeof data === 'object' && data !== null && 'isRetrograde' in data) {;
           this.retrogradeStatus[planet] = !!data.isRetrograde;
         }
-      });
+      })
 
-      return createSuccessResponse(true);
+      return createSuccessResponse(true)
     } catch (error) {
       logger.error('Failed to initialize from current positions:', error),
       return createErrorResponse(
         `Failed to initialize: ${error instanceof Error ? error.message : 'Unknown error'}`,
-      );
+      )
     }
   }
 
@@ -248,7 +248,7 @@ export class AlchemicalService {
     const convertedPositions: PlanetaryPositionsType = {};
     Object.entries(positions).forEach(([planet, position]) => {
       convertedPositions[planet] = `${position.sign}:${position.degree}`;
-    });
+    })
     this.planetPositions = convertedPositions;
     return this;
   }
@@ -368,11 +368,11 @@ export class AlchemicalService {
    * Get alchemical recommendations based on current planetary positions
    */
   getRecommendations(count = 5): AlchemicalRecommendations {;
-    const transformedIngredients = this.getTransformedIngredients();
-    const transformedMethods = this.getTransformedCookingMethods();
-    const transformedCuisines = this.getTransformedCuisines();
-    const topIngredients = getTopCompatibleItems(transformedIngredients, count);
-    const topMethods = getTopCompatibleItems(transformedMethods, count);
+    const transformedIngredients = this.getTransformedIngredients()
+    const transformedMethods = this.getTransformedCookingMethods()
+    const transformedCuisines = this.getTransformedCuisines()
+    const topIngredients = getTopCompatibleItems(transformedIngredients, count)
+    const topMethods = getTopCompatibleItems(transformedMethods, count)
     const topCuisines = getTopCompatibleItems(transformedCuisines, count),
 
     // Determine overall dominant element and alchemical property
@@ -413,7 +413,7 @@ export class AlchemicalService {
       cookingMethodScore: 0.5,
       elementalProfile: DefaultElementalProperties,
       thermodynamicProfile: DefaultThermodynamicMetrics
-    }));
+    }))
   }
 
   /**
@@ -422,8 +422,8 @@ export class AlchemicalService {
    * @returns A comprehensive recommendation object
    */
   generateElementalRecommendation(properties: ElementalProperties): ElementalRecommendation {
-    const profile = {}; // elementalUtils.getElementalProfile(properties);
-    const dominantElement = this.getDominantElement(properties);
+    const profile = {}; // elementalUtils.getElementalProfile(properties)
+    const dominantElement = this.getDominantElement(properties)
 
     // Apply safe type casting for profile property access
     const profileData = profile as any;
@@ -472,7 +472,7 @@ export class AlchemicalService {
       Air: element === 'Air' ? 0.6 : 0.1,,
     };
 
-    return this.generateElementalRecommendation(properties); // elementalUtils.normalizeProperties(properties));
+    return this.generateElementalRecommendation(properties); // elementalUtils.normalizeProperties(properties))
   }
 
   /**
@@ -517,7 +517,7 @@ export class AlchemicalService {
         Earth: 0,
         Air: 0
       },
-    );
+    )
   }
 
   /**
@@ -531,7 +531,7 @@ export class AlchemicalService {
     properties1: ElementalProperties,
     properties2: ElementalProperties,
   ): number {
-    // Define element compatibility scores (same elements have highest compatibility);
+    // Define element compatibility scores (same elements have highest compatibility)
     const compatibilityScores = {
       Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
       Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },

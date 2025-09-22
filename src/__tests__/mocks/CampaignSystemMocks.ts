@@ -34,11 +34,11 @@ export class MockCampaignController {
   private _isPaused: boolean = false;
   private _isRunning: boolean = false;
   private mockMetrics: ProgressMetrics
-  private mockStashes: Map<string, GitStash> = new Map();
+  private mockStashes: Map<string, GitStash> = new Map()
 
   constructor(config: CampaignConfig) {
     this.config = config;
-    this.mockMetrics = this.createMockMetrics();
+    this.mockMetrics = this.createMockMetrics()
     this.initializeMockStashes()
   }
 
@@ -62,10 +62,10 @@ export class MockCampaignController {
       description: `Mock phase execution: ${phase.name}`,
       severity: SafetyEventSeverity.INFO,
       action: 'MOCK_PHASE_START'
-    });
+    })
 
     // Simulate phase execution without running actual scripts
-    const mockResult = await this.simulatePhaseExecution(phase);
+    const mockResult = await this.simulatePhaseExecution(phase)
 
     const executionTime = Date.now() - startTime;
     this._isRunning = false;
@@ -120,7 +120,7 @@ export class MockCampaignController {
       ref: `stash@{${this.mockStashes.size}}`
     };
 
-    this.mockStashes.set(checkpointId, mockStash);
+    this.mockStashes.set(checkpointId, mockStash)
 
     this.addSafetyEvent({
       type: SafetyEventType.CHECKPOINT_CREATED,
@@ -128,7 +128,7 @@ export class MockCampaignController {
       description: `Mock checkpoint created: ${description}`,
       severity: SafetyEventSeverity.INFO,
       action: 'MOCK_CHECKPOINT_CREATE'
-    });
+    })
 
     return checkpointId;
   }
@@ -139,7 +139,7 @@ export class MockCampaignController {
   async rollbackToCheckpoint(checkpointId: string): Promise<void> {
     const stash = this.mockStashes.get(checkpointId)
     if (!stash) {
-      throw new Error(`Mock stash not found: ${checkpointId}`);
+      throw new Error(`Mock stash not found: ${checkpointId}`)
     }
 
     this.addSafetyEvent({
@@ -148,10 +148,10 @@ export class MockCampaignController {
       description: `Mock rollback to: ${checkpointId}`,
       severity: SafetyEventSeverity.WARNING,
       action: 'MOCK_ROLLBACK'
-    });
+    })
 
     // Simulate rollback by resetting mock metrics
-    this.mockMetrics = this.createMockMetrics();
+    this.mockMetrics = this.createMockMetrics()
   }
 
   /**
@@ -190,7 +190,7 @@ export class MockCampaignController {
       description: 'Campaign paused for test isolation',
       severity: SafetyEventSeverity.INFO,
       action: 'CAMPAIGN_PAUSED'
-    });
+    })
   }
 
   /**
@@ -204,7 +204,7 @@ export class MockCampaignController {
       description: 'Campaign resumed after test isolation',
       severity: SafetyEventSeverity.INFO,
       action: 'CAMPAIGN_RESUMED'
-    });
+    })
   }
 
   /**
@@ -250,8 +250,8 @@ export class MockCampaignController {
     this._isPaused = false;
     this._isRunning = false;
     this.currentPhase = null;
-    this.mockMetrics = this.createMockMetrics();
-    this.mockStashes.clear();
+    this.mockMetrics = this.createMockMetrics()
+    this.mockStashes.clear()
     this.initializeMockStashes()
   }
 
@@ -329,12 +329,12 @@ export class MockCampaignController {
     ];
 
     initialStashes.forEach(stash => {
-      this.mockStashes.set(stash.id, stash);
-    });
+      this.mockStashes.set(stash.id, stash)
+    })
   }
 
   private addSafetyEvent(event: SafetyEvent): void {
-    this.safetyEvents.push(event);
+    this.safetyEvents.push(event)
 
     // Keep only recent events to prevent memory issues
     if (this.safetyEvents.length > 100) {
@@ -428,11 +428,11 @@ export class MockProgressTracker {
     const metrics = { ...this.mockMetrics };
 
     // Add to history for tracking
-    this.metricsHistory.push(metrics);
+    this.metricsHistory.push(metrics)
 
     // Keep only recent history to prevent memory issues
     if (this.metricsHistory.length > 50) {
-      this.metricsHistory = this.metricsHistory.slice(-25);
+      this.metricsHistory = this.metricsHistory.slice(-25)
     }
 
     return metrics;
@@ -442,7 +442,7 @@ export class MockProgressTracker {
    * Generate mock progress report
    */
   async generateProgressReport(): Promise<ProgressReport> {
-    const currentMetrics = await this.getProgressMetrics();
+    const currentMetrics = await this.getProgressMetrics()
     const targetMetrics = this.createTargetMetrics()
 
     return {
@@ -498,7 +498,7 @@ export class MockProgressTracker {
    * Reset mock state
    */
   resetMockState(): void {
-    this.mockMetrics = this.createMockMetrics();
+    this.mockMetrics = this.createMockMetrics()
     this.metricsHistory = [];
     this.isTracking = false
   }
@@ -573,7 +573,7 @@ export class MockProgressTracker {
  * Mock Safety Protocol for test environments
  */
 export class MockSafetyProtocol {
-  private mockStashes: Map<string, GitStash> = new Map();
+  private mockStashes: Map<string, GitStash> = new Map()
   private safetyEvents: SafetyEvent[] = [];
   private stashCounter: number = 0;
 
@@ -596,7 +596,7 @@ export class MockSafetyProtocol {
       ref: `stash@{${this.stashCounter}}`
     };
 
-    this.mockStashes.set(stashId, mockStash);
+    this.mockStashes.set(stashId, mockStash)
 
     this.addSafetyEvent({
       type: SafetyEventType.CHECKPOINT_CREATED,
@@ -604,7 +604,7 @@ export class MockSafetyProtocol {
       description: `Mock stash created: ${stashId}`,
       severity: SafetyEventSeverity.INFO,
       action: 'MOCK_STASH_CREATE'
-    });
+    })
 
     return stashId;
   }
@@ -615,7 +615,7 @@ export class MockSafetyProtocol {
   async applyStash(stashId: string, _validateAfter: boolean = true): Promise<void> {
     const stash = this.mockStashes.get(stashId)
     if (!stash) {
-      throw new Error(`Mock stash not found: ${stashId}`);
+      throw new Error(`Mock stash not found: ${stashId}`)
     }
 
     this.addSafetyEvent({
@@ -624,7 +624,7 @@ export class MockSafetyProtocol {
       description: `Mock stash applied: ${stashId}`,
       severity: SafetyEventSeverity.WARNING,
       action: 'MOCK_STASH_APPLY'
-    });
+    })
   }
 
   /**
@@ -661,7 +661,7 @@ export class MockSafetyProtocol {
       description: 'Mock emergency rollback performed',
       severity: SafetyEventSeverity.WARNING,
       action: 'MOCK_EMERGENCY_ROLLBACK'
-    });
+    })
   }
 
   /**
@@ -682,7 +682,7 @@ export class MockSafetyProtocol {
    * Reset mock state
    */
   resetMockState(): void {
-    this.mockStashes.clear();
+    this.mockStashes.clear()
     this.safetyEvents = [];
     this.stashCounter = 0;
     this.initializeMockStashes()
@@ -703,12 +703,12 @@ export class MockSafetyProtocol {
     ];
 
     initialStashes.forEach(stash => {
-      this.mockStashes.set(stash.id, stash);
-    });
+      this.mockStashes.set(stash.id, stash)
+    })
   }
 
   private addSafetyEvent(event: SafetyEvent): void {
-    this.safetyEvents.push(event);
+    this.safetyEvents.push(event)
 
     // Keep only recent events to prevent memory issues
     if (this.safetyEvents.length > 100) {
@@ -731,7 +731,7 @@ export class CampaignTestIsolationManager {
   private originalProcessEnv: Record<string, string | undefined> = {};
 
   private constructor() {
-    this.setupTestEnvironment();
+    this.setupTestEnvironment()
   }
 
   static getInstance(): CampaignTestIsolationManager {
@@ -784,9 +784,9 @@ export class CampaignTestIsolationManager {
 
     const fullConfig = { ...defaultConfig, ...config };
 
-    this.mockController = new MockCampaignController(fullConfig);
-    this.mockTracker = new MockProgressTracker();
-    this.mockSafety = new MockSafetyProtocol();
+    this.mockController = new MockCampaignController(fullConfig)
+    this.mockTracker = new MockProgressTracker()
+    this.mockSafety = new MockSafetyProtocol()
 
     return {
       controller: this.mockController,
@@ -803,7 +803,7 @@ export class CampaignTestIsolationManager {
       this.mockController.pauseCampaign()
     }
     if (this.mockTracker) {
-      this.mockTracker.stopTracking();
+      this.mockTracker.stopTracking()
     }
   }
 
@@ -815,7 +815,7 @@ export class CampaignTestIsolationManager {
       this.mockController.resumeCampaign()
     }
     if (this.mockTracker) {
-      this.mockTracker.startTracking();
+      this.mockTracker.startTracking()
     }
   }
 
@@ -827,10 +827,10 @@ export class CampaignTestIsolationManager {
       this.mockController.resetMockState()
     }
     if (this.mockTracker) {
-      this.mockTracker.resetMockState();
+      this.mockTracker.resetMockState()
     }
     if (this.mockSafety) {
-      this.mockSafety.resetMockState();
+      this.mockSafety.resetMockState()
     }
   }
 
@@ -857,7 +857,7 @@ export class CampaignTestIsolationManager {
     this.originalProcessEnv = { ...process.env };
 
     // Set test environment flags to prevent actual operations
-    Object.defineProperty(process.env, 'NODE_ENV', { value: 'test', writable: true });
+    Object.defineProperty(process.env, 'NODE_ENV', { value: 'test', writable: true })
     process.env.CAMPAIGN_TEST_MODE = 'true';
     process.env.DISABLE_ACTUAL_BUILDS = 'true';
     process.env.DISABLE_GIT_OPERATIONS = 'true';
@@ -873,13 +873,13 @@ export class CampaignTestIsolationManager {
       if (key.startsWith('CAMPAIGN_') || key.startsWith('DISABLE_') || key.startsWith('MOCK_')) {
         delete process.env[key]
       }
-    });
+    })
 
     Object.entries(this.originalProcessEnv).forEach(([key, value]) => {
       if (value !== undefined) {
         process.env[key] = value;
       }
-    });
+    })
   }
 
   /**
@@ -887,13 +887,13 @@ export class CampaignTestIsolationManager {
    */
   static cleanup(): void {
     if (CampaignTestIsolationManager.instance) {
-      CampaignTestIsolationManager.instance.restoreEnvironment();
+      CampaignTestIsolationManager.instance.restoreEnvironment()
       CampaignTestIsolationManager.instance = null
     }
   }
 }
 
 // Export singleton instance for easy access
-export const _campaignTestIsolation = CampaignTestIsolationManager.getInstance();
+export const _campaignTestIsolation = CampaignTestIsolationManager.getInstance()
 
 // Classes are already exported at their declarations above

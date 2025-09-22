@@ -202,5 +202,5 @@ export default function BackendDemoPage() {
         </div>
       </div>
     </div>
-  );
+  )
 }

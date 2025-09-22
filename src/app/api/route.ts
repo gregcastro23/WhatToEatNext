@@ -5,5 +5,5 @@ export async function GET() {
     status: 'API is running',
     endpoints: ['/api/current-moment'],
     message: 'Use the specific endpoints for data access'
-  });
+  })
 }

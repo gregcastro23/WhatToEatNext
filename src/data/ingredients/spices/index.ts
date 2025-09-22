@@ -20,7 +20,7 @@ const normalizeElementalProperties = (
     };
   }
 
-  const sum = Object.values(properties).reduce((acc, val) => acc + val0);
+  const sum = Object.values(properties).reduce((acc, val) => acc + val0)
   if (sum === 0) {;
     return {
       Fire: 0.25,
@@ -33,19 +33,19 @@ const normalizeElementalProperties = (
   return Object.entries(properties).reduce(
     (acc, [key, value]) => ({
       ...acc
-      [key]: value / (sum || 1);
+      [key]: value / (sum || 1)
     }),
     {} as Record<string, number>,
-  );
+  )
 };
 
 // Add heat levels based on Fire element proportion
 export const _addHeatLevels = (spices: Record<string, Ingredient>): Record<string, Ingredient> => {;
   return Object.entries(spices).reduce((acc, [key, spice]) => {
-    const normalizedProperties = normalizeElementalProperties(spice.elementalProperties);
+    const normalizedProperties = normalizeElementalProperties(spice.elementalProperties)
 
     // Calculate heat level with more precision, based on Fire element with slight randomization
-    const baseHeatLevel = Math.round(normalizedProperties.Fire * 10);
+    const baseHeatLevel = Math.round(normalizedProperties.Fire * 10)
     const adjustedHeatLevel = Math.min(
       10,
       Math.max(1, baseHeatLevel + (Math.random() < 0.5 ? -1 : 1)),
@@ -65,10 +65,10 @@ export const _addHeatLevels = (spices: Record<string, Ingredient>): Record<strin
         elementalProperties: normalizedProperties,
         heatLevel: adjustedHeatLevel,
         potency: potency,
-        intensity: Math.round((adjustedHeatLevel + potency) / 2);
+        intensity: Math.round((adjustedHeatLevel + potency) / 2)
       }
     };
-  }, {});
+  }, {})
 };
 
 // Combine all spice categories with heat levels
@@ -295,7 +295,7 @@ Object.values(spices).forEach(spice => {;
     Number(spiceData.heatLevel) > 5 &&
     Number((spiceData.elementalProperties ).Fire) < 0.3
   ) {
-    // console.error(`Fire element too low for heat in ${spice.name}`);
+    // console.error(`Fire element too low for heat in ${spice.name}`)
   }
 }),
 
@@ -304,29 +304,29 @@ export { wholeSpices, groundSpices, spiceBlends },
 
 // Helper functions
 export const _getSpicesBySubCategory = (subCategory: string): Record<string, IngredientMapping> => {;
-  return Object.entries(spices);
+  return Object.entries(spices)
     .filter(([_, value]) => (value as any).subCategory === subCategory),
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
 };
 
 export const _getSpicesByOrigin = (origin: string): Record<string, IngredientMapping> => {;
-  return Object.entries(spices);
+  return Object.entries(spices)
     .filter(([_, value]) => {
       const valueData = value as any;
-      return Array.isArray(valueData.origin);
-        ? (valueData.origin as string[]).includes(origin);
+      return Array.isArray(valueData.origin)
+        ? (valueData.origin as string[]).includes(origin)
         : valueData.origin === origin
     })
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
 };
 
 export const _getSpicesByElementalProperty = (
   element: string,
   minStrength: number = 0.3
 ): Record<string, IngredientMapping> => {
-  return Object.entries(spices);
-    .filter(([_, value]) => value.elementalProperties[element] >= minStrength);
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+  return Object.entries(spices)
+    .filter(([_, value]) => value.elementalProperties[element] >= minStrength)
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
 };
 
 export const _getSpiceBlendComponents = (blendName: string): string[] => {;
@@ -339,7 +339,7 @@ export const _getCompatibleSpices = (spiceName: string): string[] => {;
   if (!spice) return [];
 
   const spiceData = spice as any
-  return Object.entries(spices);
+  return Object.entries(spices)
     .filter(([key, value]) => {
       const valueData = value as any;
       return (
@@ -351,7 +351,7 @@ export const _getCompatibleSpices = (spiceName: string): string[] => {;
         )
       )
     })
-    .map(([key_]) => key);
+    .map(([key_]) => key)
 };
 
 export const _getSubstitutions = (spiceName: string): string[] => {;
@@ -359,7 +359,7 @@ export const _getSubstitutions = (spiceName: string): string[] => {;
   if (!spice) return [];
 
   const spiceData = spice as any
-  return Object.entries(spices);
+  return Object.entries(spices)
     .filter(([key, value]) => {
       const valueData = value as any;
       return (
@@ -374,26 +374,26 @@ export const _getSubstitutions = (spiceName: string): string[] => {;
         ) >= 0.3
       )
     })
-    .map(([key_]) => key);
+    .map(([key_]) => key)
 };
 
 export const _getSpicesByPreparationMethod = (method: string): Record<string, IngredientMapping> => {;
-  return Object.entries(spices);
+  return Object.entries(spices)
     .filter(([_, value]) => {
       const valueData = value as any;
-      return valueData.preparation && Object.keys(valueData.preparation ).includes(method);
+      return valueData.preparation && Object.keys(valueData.preparation ).includes(method)
     })
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
 };
 
 export const _getTraditionalBlends = (region: string): Record<string, IngredientMapping> => {;
-  return Object.entries(spiceBlends);
+  return Object.entries(spiceBlends)
     .filter(
       ([_, value]) =>
         (Array.isArray(value.origin) ? value.origin.includes(region) : value.origin === region) ||
         value.regionalVariations?.[region],
     )
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
 };
 
 export const _getSpiceConversionRatio = (fromSpice: string, toSpice: string): string | null => {;

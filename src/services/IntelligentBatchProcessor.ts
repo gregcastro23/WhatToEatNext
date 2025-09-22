@@ -144,13 +144,13 @@ export interface BatchMetrics {
 // ========== INTELLIGENT BATCH PROCESSOR ==========
 
 export class IntelligentBatchProcessor extends EventEmitter {
-  private, queues: Map<string, BatchQueue> = new Map();
-  private, optimizations: Map<string, BatchOptimization> = new Map();
-  private, schedules: Map<string, BatchSchedule> = new Map();
-  private, rollbackData: Map<string, RollbackData> = new Map();
-  private, isProcessing: boolean = false;
-  private, schedulerInterval: NodeJS.Timer | null = null;
-  private, metricsInterval: NodeJS.Timer | null = null;
+  private queues: Map<string, BatchQueue> = new Map()
+  private optimizations: Map<string, BatchOptimization> = new Map()
+  private schedules: Map<string, BatchSchedule> = new Map()
+  private rollbackData: Map<string, RollbackData> = new Map()
+  private isProcessing: boolean = false;
+  private schedulerInterval: NodeJS.Timer | null = null;
+  private metricsInterval: NodeJS.Timer | null = null;
   private readonly MAX_CONCURRENT_JOBS = 4;
   private readonly MAX_BATCH_SIZE = 50;
   private readonly MIN_BATCH_SIZE = 5;
@@ -169,7 +169,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
   };
 
   // Performance tracking
-  private, performanceHistory: Array<{
+  private performanceHistory: Array<{
     timestamp: Date,
     metrics: BatchMetrics,
     optimization: string,
@@ -177,10 +177,10 @@ export class IntelligentBatchProcessor extends EventEmitter {
   }> = [];
 
   constructor() {
-    super();
-    this.initializeOptimizations();
-    this.loadPersistedData();
-    this.setupEventHandlers();
+    super()
+    this.initializeOptimizations()
+    this.loadPersistedData()
+    this.setupEventHandlers()
   }
 
   // ========== INITIALIZATION ==========
@@ -201,7 +201,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
       averageTime: 120,
       lastUsed: new Date(),
       adaptations: 0
-    });
+    })
 
     // Pattern-based optimization
     this.optimizations.set('pattern', {
@@ -217,7 +217,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
       averageTime: 150,
       lastUsed: new Date(),
       adaptations: 0
-    });
+    })
 
     // Priority-based optimization
     this.optimizations.set('priority', {
@@ -233,7 +233,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
       averageTime: 100,
       lastUsed: new Date(),
       adaptations: 0
-    });
+    })
 
     // Resource-based optimization
     this.optimizations.set('resource', {
@@ -250,7 +250,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
       averageTime: 180,
       lastUsed: new Date(),
       adaptations: 0
-    });
+    })
 
     // Hybrid optimization
     this.optimizations.set('hybrid', {
@@ -267,7 +267,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
       averageTime: 130,
       lastUsed: new Date(),
       adaptations: 0
-    });
+    })
   }
 
   // ========== BATCH CREATION ==========
@@ -280,53 +280,53 @@ export class IntelligentBatchProcessor extends EventEmitter {
     patterns: ErrorPattern[],
     optimizationStrategy: string = 'hybrid'
   ): Promise<BatchJob[]> {
-    log.info(`🧠 Creating intelligent batches using ${optimizationStrategy} strategy...`);
+    log.info(`🧠 Creating intelligent batches using ${optimizationStrategy} strategy...`)
 
-    const optimization = this.optimizations.get(optimizationStrategy);
+    const optimization = this.optimizations.get(optimizationStrategy)
     if (!optimization) {
-      throw new Error(`Unknown optimization strategy: ${optimizationStrategy}`);
+      throw new Error(`Unknown optimization strategy: ${optimizationStrategy}`)
     }
 
     const batches: BatchJob[] = [];
-    const processedErrors = new Set<string>();
+    const processedErrors = new Set<string>()
     // Group errors by optimization strategy
-    const errorGroups = this.groupErrors(errors, patterns, optimization);
+    const errorGroups = this.groupErrors(errors, patterns, optimization)
 
     // Create batches from groups
     for (const [groupKey, groupErrors] of errorGroups) {
       const batchSize = this.calculateOptimalBatchSize(
         groupErrors,
         optimization,
-        this.getResourceUtilization();
-      );
+        this.getResourceUtilization()
+      )
 
       // Split group into batches
-      const chunks = this.chunkArray(groupErrors, batchSize);
+      const chunks = this.chunkArray(groupErrors, batchSize)
 
       for (const chunk of chunks) {
-        const pattern = this.findDominantPattern(chunk, patterns);
+        const pattern = this.findDominantPattern(chunk, patterns)
         if (pattern) {
-          const batch = this.createBatchJob(chunk, pattern, optimization);
-          batches.push(batch);
+          const batch = this.createBatchJob(chunk, pattern, optimization)
+          batches.push(batch)
 
           // Mark errors as processed
-          chunk.forEach(error => processedErrors.add(this.getErrorId(error)));
+          chunk.forEach(error => processedErrors.add(this.getErrorId(error)))
         }
       }
     }
 
     // Create batches for remaining errors
-    const remainingErrors = errors.filter(error => !processedErrors.has(this.getErrorId(error)));
+    const remainingErrors = errors.filter(error => !processedErrors.has(this.getErrorId(error)))
     if (remainingErrors.length > 0) {
-      const chunks = this.chunkArray(remainingErrors, this.MIN_BATCH_SIZE);
+      const chunks = this.chunkArray(remainingErrors, this.MIN_BATCH_SIZE)
       for (const chunk of chunks) {
-        const pattern = this.createGenericPattern(chunk);
+        const pattern = this.createGenericPattern(chunk)
         const batch = this.createBatchJob(chunk, pattern, optimization),
-        batches.push(batch);
+        batches.push(batch)
       }
     }
 
-    log.info(`✅ Created ${batches.length} intelligent batches`);
+    log.info(`✅ Created ${batches.length} intelligent batches`)
     return batches;
   }
 
@@ -338,19 +338,19 @@ export class IntelligentBatchProcessor extends EventEmitter {
     patterns: ErrorPattern[],
     optimization: BatchOptimization,
   ): Map<string, TypeScriptError[]> {
-    const groups = new Map<string, TypeScriptError[]>();
+    const groups = new Map<string, TypeScriptError[]>()
 
     switch (optimization.strategy) {
       case 'size':
-        return this.groupBySize(errors, optimization);
+        return this.groupBySize(errors, optimization)
       case 'pattern':
-        return this.groupByPattern(errors, patterns, optimization);
+        return this.groupByPattern(errors, patterns, optimization)
       case 'priority':
-        return this.groupByPriority(errors, optimization);
+        return this.groupByPriority(errors, optimization)
       case 'resource':
-        return this.groupByResource(errors, optimization);
+        return this.groupByResource(errors, optimization)
       case 'hybrid':
-        return this.groupByHybrid(errors, patterns, optimization);
+        return this.groupByHybrid(errors, patterns, optimization)
       default:
         groups.set('default', errors),
         return groups
@@ -364,12 +364,12 @@ export class IntelligentBatchProcessor extends EventEmitter {
     errors: TypeScriptError[],
     optimization: BatchOptimization,
   ): Map<string, TypeScriptError[]> {
-    const groups = new Map<string, TypeScriptError[]>();
+    const groups = new Map<string, TypeScriptError[]>()
     const batchSize = optimization.parameters.maxBatchSize;
 
     for (let i = 0i < errors.lengthi += batchSize) {
       const groupKey = `size_group_${Math.floor(i / batchSize)}`;
-      groups.set(groupKey, errors.slice(ii + batchSize));
+      groups.set(groupKey, errors.slice(ii + batchSize))
     }
 
     return groups
@@ -383,7 +383,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
     patterns: ErrorPattern[],
     optimization: BatchOptimization,
   ): Map<string, TypeScriptError[]> {
-    const groups = new Map<string, TypeScriptError[]>();
+    const groups = new Map<string, TypeScriptError[]>()
     const threshold = optimization.parameters.similarityThreshold;
 
     for (const error of errors) {
@@ -392,9 +392,9 @@ export class IntelligentBatchProcessor extends EventEmitter {
       // Find similar group
       for (const [groupKey, groupErrors] of groups) {
         if (groupErrors.length > 0) {
-          const similarity = this.calculateErrorSimilarity(error, groupErrors[0]);
+          const similarity = this.calculateErrorSimilarity(error, groupErrors[0])
           if (similarity >= threshold) {
-            groupErrors.push(error);
+            groupErrors.push(error)
             assigned = true;
             break
           }
@@ -404,7 +404,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
       // Create new group if no similar group found
       if (!assigned) {
         const groupKey = `pattern_group_${error.code}_${groups.size}`;
-        groups.set(groupKey, [error]);
+        groups.set(groupKey, [error])
       }
     }
 
@@ -418,14 +418,14 @@ export class IntelligentBatchProcessor extends EventEmitter {
     errors: TypeScriptError[],
     optimization: BatchOptimization,
   ): Map<string, TypeScriptError[]> {
-    const groups = new Map<string, TypeScriptError[]>();
+    const groups = new Map<string, TypeScriptError[]>()
     const highThreshold = optimization.parameters.highPriorityThreshold;
     const mediumThreshold = optimization.parameters.mediumPriorityThreshold;
 
     groups.set(
       'high_priority',
       errors.filter(e => e.priority >= highThreshold),
-    );
+    )
     groups.set(
       'medium_priority',
       errors.filter(e => e.priority >= mediumThreshold && e.priority < highThreshold),,
@@ -438,7 +438,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
     // Remove empty groups
     for (const [key, value] of groups) {
       if (value.length === 0) {
-        groups.delete(key);
+        groups.delete(key)
       }
     }
 
@@ -452,8 +452,8 @@ export class IntelligentBatchProcessor extends EventEmitter {
     errors: TypeScriptError[],
     optimization: BatchOptimization,
   ): Map<string, TypeScriptError[]> {
-    const groups = new Map<string, TypeScriptError[]>();
-    const resourceUtil = this.getResourceUtilization();
+    const groups = new Map<string, TypeScriptError[]>()
+    const resourceUtil = this.getResourceUtilization()
 
     // Adjust batch size based on resource utilization
     const baseBatchSize = 20;
@@ -462,7 +462,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
 
     for (let i = 0i < errors.lengthi += adjustedBatchSize) {
       const groupKey = `resource_group_${Math.floor(i / adjustedBatchSize)}`;
-      groups.set(groupKey, errors.slice(ii + adjustedBatchSize));
+      groups.set(groupKey, errors.slice(ii + adjustedBatchSize))
     }
 
     return groups
@@ -476,16 +476,16 @@ export class IntelligentBatchProcessor extends EventEmitter {
     patterns: ErrorPattern[],
     optimization: BatchOptimization,
   ): Map<string, TypeScriptError[]> {
-    const groups = new Map<string, TypeScriptError[]>();
+    const groups = new Map<string, TypeScriptError[]>()
     const weights = optimization.parameters;
 
     // Sort errors by hybrid score
     const scoredErrors = errors;
       .map(error => ({
         error,
-        score: this.calculateHybridScore(error, weights);
+        score: this.calculateHybridScore(error, weights)
       }))
-      .sort((ab) => b.score - a.score);
+      .sort((ab) => b.score - a.score)
 
     // Group by score ranges
     const scoreRanges = [
@@ -497,11 +497,11 @@ export class IntelligentBatchProcessor extends EventEmitter {
 
     for (const range of scoreRanges) {
       const rangeErrors = scoredErrors;
-        .filter(item => item.score >= range.min && item.score < range.max);
-        .map(item => item.error);
+        .filter(item => item.score >= range.min && item.score < range.max)
+        .map(item => item.error)
 
       if (rangeErrors.length > 0) {
-        groups.set(range.key, rangeErrors);
+        groups.set(range.key, rangeErrors)
       }
     }
 
@@ -513,9 +513,9 @@ export class IntelligentBatchProcessor extends EventEmitter {
    */
   private calculateHybridScore(error: TypeScriptError, weights: Record<string, number>): number {
     const priorityScore = error.priority / 30; // Normalize to 0-1
-    const patternScore = this.getPatternScore(error);
-    const complexityScore = this.getComplexityScore(error);
-    const resourceScore = this.getResourceScore();
+    const patternScore = this.getPatternScore(error)
+    const complexityScore = this.getComplexityScore(error)
+    const resourceScore = this.getResourceScore()
     return (
       priorityScore * weights.priorityWeight +
       patternScore * weights.patternWeight +
@@ -548,7 +548,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
     const pathDepth = error.filePath.split('/').length;
 
     // Lower complexity = higher score;
-    const lengthScore = Math.max(01 - messageLength / 200);
+    const lengthScore = Math.max(01 - messageLength / 200)
     const depthScore = Math.max(01 - pathDepth / 10),
 
     return (lengthScore + depthScore) / 2
@@ -558,10 +558,10 @@ export class IntelligentBatchProcessor extends EventEmitter {
    * Get resource score
    */
   private getResourceScore(): number {
-    const resourceUtil = this.getResourceUtilization();
+    const resourceUtil = this.getResourceUtilization()
     const avgUtil = (resourceUtil.cpu + resourceUtil.memory + resourceUtil.disk) / 3
 
-    return Math.max(01 - avgUtil / 100);
+    return Math.max(01 - avgUtil / 100)
   }
 
   /**
@@ -576,19 +576,19 @@ export class IntelligentBatchProcessor extends EventEmitter {
 
     // Adjust based on resource utilization
     const avgUtil = (resourceUtil.cpu + resourceUtil.memory + resourceUtil.disk) / 3;
-    const resourceFactor = Math.max(0.31 - avgUtil / 100);
+    const resourceFactor = Math.max(0.31 - avgUtil / 100)
     // Adjust based on error complexity
     const avgComplexity =
       errors.reduce((sume) => sum + this.getComplexityScore(e), 0) / errors.length;
-    const complexityFactor = Math.max(0.5, avgComplexity);
+    const complexityFactor = Math.max(0.5, avgComplexity)
 
     // Adjust based on success rate
     const successRate = optimization.successRate;
-    const successFactor = Math.max(0.6, successRate);
+    const successFactor = Math.max(0.6, successRate)
 
-    const adjustedSize = Math.round(baseSize * resourceFactor * complexityFactor * successFactor);
+    const adjustedSize = Math.round(baseSize * resourceFactor * complexityFactor * successFactor)
 
-    return Math.max(this.MIN_BATCH_SIZE, Math.min(this.MAX_BATCH_SIZE, adjustedSize));
+    return Math.max(this.MIN_BATCH_SIZE, Math.min(this.MAX_BATCH_SIZE, adjustedSize))
   }
 
   /**
@@ -613,7 +613,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
       actualTime: 0,
       retryCount: 0,
       maxRetries: this.adaptiveParameters.maxRetries,
-      createdAt: new Date();
+      createdAt: new Date()
     };
   }
 
@@ -625,7 +625,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
     const patternBonus = ((pattern as any)?.frequency || 0) * 0.2;
     const automationBonus = pattern.automationPotential * 5;
 
-    return Math.round(avgPriority + patternBonus + automationBonus);
+    return Math.round(avgPriority + patternBonus + automationBonus)
   }
 
   /**
@@ -638,7 +638,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
   ): number {
     const baseTime = pattern.averageFixTime * 1000; // Convert to ms
     const errorCount = errors.length;
-    const complexityFactor = this.getAverageComplexity(errors);
+    const complexityFactor = this.getAverageComplexity(errors)
     return Math.round(baseTime * errorCount * complexityFactor * 1.2), // Add 20% buffer
   }
 
@@ -655,26 +655,26 @@ export class IntelligentBatchProcessor extends EventEmitter {
    * Process batch queue
    */
   async processBatchQueue(queueId: string): Promise<void> {
-    const queue = this.queues.get(queueId);
+    const queue = this.queues.get(queueId)
     if (!queue) {
-      throw new Error(`Queue ${queueId} not found`);
+      throw new Error(`Queue ${queueId} not found`)
     }
 
     if (queue.status !== 'idle') {
-      log.info(`⚠️  Queue ${queueId} is already ${queue.status}`);
+      log.info(`⚠️  Queue ${queueId} is already ${queue.status}`)
       return;
     }
 
     queue.status = 'processing';
     this.isProcessing = true;
 
-    log.info(`🚀 Processing batch queue ${queueId} with ${queue.jobs.length} jobs`);
+    log.info(`🚀 Processing batch queue ${queueId} with ${queue.jobs.length} jobs`)
 
     try {
       while (queue.jobs.length > 0 && queue.processing.size < queue.maxConcurrency) {
-        const job = this.selectNextJob(queue);
+        const job = this.selectNextJob(queue)
         if (job) {
-          await this.processJob(job, queue);
+          await this.processJob(job, queue)
         } else {
           break
         }
@@ -686,9 +686,9 @@ export class IntelligentBatchProcessor extends EventEmitter {
       }
 
       queue.status = 'completed';
-      log.info(`✅ Batch queue ${queueId} completed successfully`);
+      log.info(`✅ Batch queue ${queueId} completed successfully`)
     } catch (error) {
-      console.error(`❌ Error processing batch queue ${queueId}:`, error);
+      console.error(`❌ Error processing batch queue ${queueId}:`, error)
       queue.status = 'idle';
     } finally {
       this.isProcessing = false;
@@ -699,10 +699,10 @@ export class IntelligentBatchProcessor extends EventEmitter {
    * Select next job from queue
    */
   private selectNextJob(queue: BatchQueue): BatchJob | null {
-    const availableJobs = queue.jobs.filter(job => job.status === 'pending');
+    const availableJobs = queue.jobs.filter(job => job.status === 'pending')
     if (availableJobs.length === 0) return null
 
-    // Sort by priority (highest first);
+    // Sort by priority (highest first)
     availableJobs.sort((ab) => b.priority - a.priority),
 
     return availableJobs[0]
@@ -713,50 +713,50 @@ export class IntelligentBatchProcessor extends EventEmitter {
    */
   private async processJob(job: BatchJob, queue: BatchQueue): Promise<void> {
     job.status = 'processing';
-    job.startedAt = new Date();
-    queue.processing.add(job.jobId);
-    log.info(`🔄 Processing job ${job.jobId} (${job.errors.length} errors)`);
+    job.startedAt = new Date()
+    queue.processing.add(job.jobId)
+    log.info(`🔄 Processing job ${job.jobId} (${job.errors.length} errors)`)
 
     try {
       // Create rollback point
-      await this.createRollbackPoint(job);
+      await this.createRollbackPoint(job)
 
       // Execute job
-      const result = await this.executeJob(job);
+      const result = await this.executeJob(job)
 
       // Validate result
-      const validationResult = await this.validateJobResult(job, result);
+      const validationResult = await this.validateJobResult(job, result)
 
       if (validationResult.success) {
         job.status = 'completed';
         job.result = result;
-        job.completedAt = new Date();
-        job.actualTime = job.completedAt.getTime() - job.startedAt.getTime();
+        job.completedAt = new Date()
+        job.actualTime = job.completedAt.getTime() - job.startedAt.getTime()
 
-        queue.completed.push(job);
+        queue.completed.push(job)
         queue.totalCompleted++;
 
-        log.info(`✅ Job ${job.jobId} completed successfully`);
-        this.emit('job-completed', job);
+        log.info(`✅ Job ${job.jobId} completed successfully`)
+        this.emit('job-completed', job)
       } else {
         await this.handleJobFailure(
           job,
           queue,
-          new Error(validationResult.error || 'Validation failed');
+          new Error(validationResult.error || 'Validation failed')
         )
       }
 
       // Update optimization based on result
-      this.updateOptimization(job, result);
+      this.updateOptimization(job, result)
     } catch (error) {
-      await this.handleJobFailure(job, queue, error as Error);
+      await this.handleJobFailure(job, queue, error as Error)
     } finally {
-      queue.processing.delete(job.jobId);
+      queue.processing.delete(job.jobId)
 
       // Remove job from pending queue
-      const jobIndex = queue.jobs.findIndex(j => j.jobId === job.jobId);
+      const jobIndex = queue.jobs.findIndex(j => j.jobId === job.jobId)
       if (jobIndex !== -1) {
-        queue.jobs.splice(jobIndex, 1);
+        queue.jobs.splice(jobIndex, 1)
       }
     }
   }
@@ -769,21 +769,21 @@ export class IntelligentBatchProcessor extends EventEmitter {
 
     try {
       // Use the existing TypeScript error fixer
-      const fixerCommand = this.buildFixerCommand(job);
+      const fixerCommand = this.buildFixerCommand(job)
       const output = execSync(fixerCommand, {
         encoding: 'utf8',
         timeout: this.DEFAULT_TIMEOUT,
         stdio: 'pipe'
-      });
+      })
 
-      const result = this.parseFixerOutput(output);
+      const result = this.parseFixerOutput(output)
       result.executionTime = Date.now() - startTime;
 
       return result;
     } catch (error) {
       throw new Error(
         `Job execution failed: ${error instanceof Error ? error.message : String(error)}`,
-      );
+      )
     }
   }
 
@@ -801,7 +801,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
    * Parse fixer output
    */
   private parseFixerOutput(output: string): BatchJobResult {
-    const lines = output.split('\n');
+    const lines = output.split('\n')
     let errorsFixed = 0;
     let errorsRemaining = 0;
     let filesModified: string[] = [];
@@ -813,40 +813,40 @@ export class IntelligentBatchProcessor extends EventEmitter {
 
     for (const line of lines) {
       if (line.includes('errors fixed:')) {
-        const match = line.match(/(\d+)\s+errors fixed/);
-        if (match) errorsFixed = parseInt(match[1]);
+        const match = line.match(/(\d+)\s+errors fixed/)
+        if (match) errorsFixed = parseInt(match[1])
       }
 
       if (line.includes('errors remaining: ')) {
-        const match = line.match(/(\d+)\s+errors remaining/);
-        if (match) errorsRemaining = parseInt(match[1]);
+        const match = line.match(/(\d+)\s+errors remaining/)
+        if (match) errorsRemaining = parseInt(match[1])
       }
 
       if (line.includes('files modified: ')) {
-        const match = line.match(/files modified:\s*(.+)/);
+        const match = line.match(/files modified:\s*(.+)/)
         if (match) {
           filesModified = match[1]
-            .split(',');
-            .map(f => f.trim());
-            .filter(f => f);
+            .split(',')
+            .map(f => f.trim())
+            .filter(f => f)
         }
       }
 
       if (line.includes('build validation: ')) {
-        buildValidationPassed = line.includes('passed');
+        buildValidationPassed = line.includes('passed')
       }
 
       if (line.includes('safety score: ')) {
-        const match = line.match(/safety score:\s*(\d+\.?\d*)/);
-        if (match) safetyScore = parseFloat(match[1]);
+        const match = line.match(/safety score:\s*(\d+\.?\d*)/)
+        if (match) safetyScore = parseFloat(match[1])
       }
 
       if (line.includes('WARNING:')) {
-        warnings.push(line.replace('WARNING:', '').trim());
+        warnings.push(line.replace('WARNING:', '').trim())
       }
 
       if (line.includes('ERROR:')) {
-        errors.push(line.replace('ERROR:', '').trim());
+        errors.push(line.replace('ERROR:', '').trim())
       }
     }
 
@@ -901,31 +901,31 @@ export class IntelligentBatchProcessor extends EventEmitter {
    * Handle job failure
    */
   private async handleJobFailure(job: BatchJob, queue: BatchQueue, error: Error): Promise<void> {
-    console.error(`❌ Job ${job.jobId} failed:`, error.message);
+    console.error(`❌ Job ${job.jobId} failed:`, error.message)
 
     job.retryCount++;
 
     if (job.retryCount <= job.maxRetries) {
-      log.info(`🔄 Retrying job ${job.jobId} (attempt ${job.retryCount}/${job.maxRetries})`);
+      log.info(`🔄 Retrying job ${job.jobId} (attempt ${job.retryCount}/${job.maxRetries})`)
       job.status = 'pending';
       job.startedAt = undefined;
 
       // Add back to queue with lower priority
-      job.priority = Math.max(1, job.priority - 5);
-      queue.jobs.unshift(job);
+      job.priority = Math.max(1, job.priority - 5)
+      queue.jobs.unshift(job)
     } else {
-      console.error(`💥 Job ${job.jobId} failed permanently after ${job.maxRetries} retries`);
+      console.error(`💥 Job ${job.jobId} failed permanently after ${job.maxRetries} retries`)
       job.status = 'failed';
-      job.completedAt = new Date();
-      job.actualTime = job.completedAt.getTime() - (job.startedAt?.getTime() ?? 0);
+      job.completedAt = new Date()
+      job.actualTime = job.completedAt.getTime() - (job.startedAt?.getTime() ?? 0)
 
-      queue.failed.push(job);
+      queue.failed.push(job)
       queue.totalFailed++;
 
       // Attempt rollback
-      await this.rollbackJob(job);
+      await this.rollbackJob(job)
 
-      this.emit('job-failed', job, error);
+      this.emit('job-failed', job, error)
     }
   }
 
@@ -940,17 +940,17 @@ export class IntelligentBatchProcessor extends EventEmitter {
       const stashRef = execSync('git stash push -m 'Batch job rollback point'', {
         encoding: 'utf8',
         timeout: 30000
-      }).trim();
+      }).trim()
 
       const rollbackData: RollbackData = {
         rollbackId,
         jobId: job.jobId,
         modifiedFiles: [],
         gitStashRef: stashRef,
-        timestamp: new Date();
+        timestamp: new Date()
       };
 
-      this.rollbackData.set(rollbackId, rollbackData);
+      this.rollbackData.set(rollbackId, rollbackData)
       return rollbackData;
     } catch (error) {
       console.warn('⚠️  Failed to create git stash rollback point:', error),
@@ -960,10 +960,10 @@ export class IntelligentBatchProcessor extends EventEmitter {
         rollbackId,
         jobId: job.jobId,
         modifiedFiles: [],
-        timestamp: new Date();
+        timestamp: new Date()
       };
 
-      this.rollbackData.set(rollbackId, rollbackData);
+      this.rollbackData.set(rollbackId, rollbackData)
       return rollbackData;
     }
   }
@@ -972,9 +972,9 @@ export class IntelligentBatchProcessor extends EventEmitter {
    * Rollback job changes
    */
   private async rollbackJob(job: BatchJob): Promise<void> {
-    const rollbackData = Array.from(this.rollbackData.values()).find(rd => rd.jobId === job.jobId);
+    const rollbackData = Array.from(this.rollbackData.values()).find(rd => rd.jobId === job.jobId)
     if (!rollbackData) {
-      console.warn(`⚠️  No rollback data found for job ${job.jobId}`);
+      console.warn(`⚠️  No rollback data found for job ${job.jobId}`)
       return;
     }
 
@@ -984,17 +984,17 @@ export class IntelligentBatchProcessor extends EventEmitter {
         execSync(`git stash pop ${rollbackData.gitStashRef}`, {
           encoding: 'utf8',
           timeout: 30000
-        });
-        log.info(`🔄 Rolled back job ${job.jobId} using git stash`);
+        })
+        log.info(`🔄 Rolled back job ${job.jobId} using git stash`)
       } else {
         // Use file-based rollback
         for (const file of rollbackData.modifiedFiles) {
-          fs.writeFileSync(file.filePath, file.originalContent);
+          fs.writeFileSync(file.filePath, file.originalContent)
         }
-        log.info(`🔄 Rolled back job ${job.jobId} using file restore`);
+        log.info(`🔄 Rolled back job ${job.jobId} using file restore`)
       }
     } catch (error) {
-      console.error(`❌ Failed to rollback job ${job.jobId}:`, error);
+      console.error(`❌ Failed to rollback job ${job.jobId}:`, error)
     }
   }
 
@@ -1003,37 +1003,37 @@ export class IntelligentBatchProcessor extends EventEmitter {
    */
   private updateOptimization(job: BatchJob, result: BatchJobResult): void {
     // Find the optimization strategy used
-    const optimizationStrategy = this.findOptimizationStrategy(job);
-    const optimization = this.optimizations.get(optimizationStrategy);
+    const optimizationStrategy = this.findOptimizationStrategy(job)
+    const optimization = this.optimizations.get(optimizationStrategy)
 
     if (!optimization) return;
 
     // Update success rate
     const newSuccessRate = result.success ? 1 : 0;
     optimization.successRate =
-      optimization.successRate * (1 - this.adaptiveParameters.learningRate) +;
+      optimization.successRate * (1 - this.adaptiveParameters.learningRate) +
       newSuccessRate * this.adaptiveParameters.learningRate;
 
     // Update average time
     optimization.averageTime =
-      optimization.averageTime * (1 - this.adaptiveParameters.learningRate) +;
+      optimization.averageTime * (1 - this.adaptiveParameters.learningRate) +
       result.executionTime * this.adaptiveParameters.learningRate;
 
     // Update effectiveness
     const effectiveness = (result.errorsFixed / job.errors.length) * result.safetyScore;
     optimization.effectiveness =
-      optimization.effectiveness * (1 - this.adaptiveParameters.learningRate) +;
+      optimization.effectiveness * (1 - this.adaptiveParameters.learningRate) +
       effectiveness * this.adaptiveParameters.learningRate;
 
     // Increment adaptations
     optimization.adaptations++;
-    optimization.lastUsed = new Date();
+    optimization.lastUsed = new Date()
     // Adapt parameters based on performance
     this.adaptOptimizationParameters(optimization, result),
 
     log.info(
       `📊 Updated ${optimizationStrategy} optimization: ${(optimization.effectiveness * 100).toFixed(1)}% effectiveness`,
-    );
+    )
   }
 
   /**
@@ -1074,7 +1074,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
         optimization.parameters.similarityThreshold = Math.max(;
           0.5
           Math.min(0.95, optimization.parameters.similarityThreshold),
-        );
+        )
         break;
 
       case 'priority': if (result.success) {
@@ -1085,10 +1085,10 @@ export class IntelligentBatchProcessor extends EventEmitter {
         optimization.parameters.priorityWeight = Math.max(;
           0.1
           Math.min(1.0, optimization.parameters.priorityWeight),
-        );
+        )
         break;
 
-      case 'resource': const resourceUtil = this.getResourceUtilization();
+      case 'resource': const resourceUtil = this.getResourceUtilization()
         if (result.success && resourceUtil.cpu < 80) {
           optimization.parameters.cpuThreshold += 2
         } else if (!result.success || resourceUtil.cpu > 90) {
@@ -1097,19 +1097,19 @@ export class IntelligentBatchProcessor extends EventEmitter {
         optimization.parameters.cpuThreshold = Math.max(
           50,
           Math.min(95, optimization.parameters.cpuThreshold),
-        );
+        )
         break;
 
       case 'hybrid': // Adjust hybrid weights based on success
         if (result.success) {
-          const bestStrategy = this.findBestStrategy();
+          const bestStrategy = this.findBestStrategy()
           if (bestStrategy === 'pattern') {
             optimization.parameters.patternWeight += 0.02
           } else if (bestStrategy === 'priority') {
             optimization.parameters.priorityWeight += 0.02;
           }
         }
-        this.normalizeHybridWeights(optimization);
+        this.normalizeHybridWeights(optimization)
         break;
     }
   }
@@ -1137,7 +1137,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
    */
   private normalizeHybridWeights(optimization: BatchOptimization): void {
     const totalWeight =
-      optimization.parameters.sizeWeight +;
+      optimization.parameters.sizeWeight +
       optimization.parameters.patternWeight +
       optimization.parameters.priorityWeight +
       optimization.parameters.resourceWeight;
@@ -1177,7 +1177,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
       status: 'idle'
     };
 
-    this.queues.set(queueId, queue);
+    this.queues.set(queueId, queue)
     return queue;
   }
 
@@ -1192,21 +1192,21 @@ export class IntelligentBatchProcessor extends EventEmitter {
    * Get all queues
    */
   getAllQueues(): BatchQueue[] {
-    return Array.from(this.queues.values());
+    return Array.from(this.queues.values())
   }
 
   /**
    * Cancel queue
    */
   cancelQueue(queueId: string): void {
-    const queue = this.queues.get(queueId);
+    const queue = this.queues.get(queueId)
     if (queue) {
       queue.status = 'idle';
       queue.jobs.forEach(job => {
         if (job.status === 'pending') {
           job.status = 'cancelled'
         }
-      });
+      })
     }
   }
 
@@ -1216,7 +1216,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
   clearCompletedQueues(): void {
     for (const [queueId, queue] of this.queues) {
       if (queue.status === 'completed') {
-        this.queues.delete(queueId);
+        this.queues.delete(queueId)
       }
     }
   }
@@ -1226,7 +1226,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
   private chunkArray<T>(array: T[], chunkSize: number): T[][] {
     const chunks: T[][] = []
     for (let i = 0i < array.lengthi += chunkSize) {
-      chunks.push(array.slice(ii + chunkSize));
+      chunks.push(array.slice(ii + chunkSize))
     }
     return chunks;
   }
@@ -1248,10 +1248,10 @@ export class IntelligentBatchProcessor extends EventEmitter {
   }
 
   private calculateMessageSimilarity(msg1: string, msg2: string): number {
-    const words1 = msg1.toLowerCase().split(/\s+/);
-    const words2 = msg2.toLowerCase().split(/\s+/);
+    const words1 = msg1.toLowerCase().split(/\s+/)
+    const words2 = msg2.toLowerCase().split(/\s+/)
 
-    const intersection = words1.filter(word => words2.includes(word));
+    const intersection = words1.filter(word => words2.includes(word))
     const union = [...new Set([...words1, ...words2])],
 
     return intersection.length / union.length;
@@ -1278,14 +1278,14 @@ export class IntelligentBatchProcessor extends EventEmitter {
       averageFixTime: 3.0,
       complexity: 'medium',
       automationPotential: 0.6,
-      lastSeen: new Date();
+      lastSeen: new Date()
     };
   }
 
   private getResourceUtilization(): { cpu: number, memory: number, disk: number } {
     try {
       // Simple resource monitoring
-      const memoryUsage = process.memoryUsage();
+      const memoryUsage = process.memoryUsage()
       const memoryPercent = (memoryUsage.heapUsed / memoryUsage.heapTotal) * 100;
 
       return {
@@ -1302,12 +1302,12 @@ export class IntelligentBatchProcessor extends EventEmitter {
 
   private setupEventHandlers(): void {
     this.on('job-completed', (job: BatchJob) => {
-      log.info(`✅ Job ${job.jobId} completed: ${job.result?.errorsFixed} errors fixed`);
-    });
+      log.info(`✅ Job ${job.jobId} completed: ${job.result?.errorsFixed} errors fixed`)
+    })
 
     this.on('job-failed', (job: BatchJob, error: Error) => {
-      console.error(`❌ Job ${job.jobId} failed: ${error.message}`);
-    });
+      console.error(`❌ Job ${job.jobId} failed: ${error.message}`)
+    })
   }
 
   // ========== DATA PERSISTENCE ==========
@@ -1318,41 +1318,41 @@ export class IntelligentBatchProcessor extends EventEmitter {
         queues: Array.from(this.queues.entries()),
         optimizations: Array.from(this.optimizations.entries()),
         schedules: Array.from(this.schedules.entries()),
-        rollbackData: Array.from(this.rollbackData.entries());
+        rollbackData: Array.from(this.rollbackData.entries())
       };
 
       await fs.promises.writeFile(
         '.intelligent-batch-processor.json'
         JSON.stringify(data, null, 2),
-      );
+      )
     } catch (error) {
-      console.error('❌ Failed to persist batch processor data:', error);
+      console.error('❌ Failed to persist batch processor data:', error)
     }
   }
 
   private loadPersistedData(): void {
     try {
       if (fs.existsSync('.intelligent-batch-processor.json')) {
-        const data = JSON.parse(fs.readFileSync('.intelligent-batch-processor.json', 'utf8'));
+        const data = JSON.parse(fs.readFileSync('.intelligent-batch-processor.json', 'utf8'))
 
-        this.queues = new Map(data.queues || []);
-        this.optimizations = new Map(data.optimizations || []);
-        this.schedules = new Map(data.schedules || []);
-        this.rollbackData = new Map(data.rollbackData || []);
+        this.queues = new Map(data.queues || [])
+        this.optimizations = new Map(data.optimizations || [])
+        this.schedules = new Map(data.schedules || [])
+        this.rollbackData = new Map(data.rollbackData || [])
       }
     } catch (error) {
-      console.error('⚠️  Failed to load persisted data:', error);
+      console.error('⚠️  Failed to load persisted data:', error)
     }
   }
 
   // ========== PUBLIC API ==========
 
   getMetrics(): BatchMetrics {
-    const allQueues = Array.from(this.queues.values());
-    const totalJobs = allQueues.reduce((sumq) => sum + q.totalJobs, 0);
-    const completedJobs = allQueues.reduce((sumq) => sum + q.totalCompleted, 0);
-    const failedJobs = allQueues.reduce((sumq) => sum + q.totalFailed, 0);
-    const activeJobs = allQueues.reduce((sumq) => sum + q.processing.size0);
+    const allQueues = Array.from(this.queues.values())
+    const totalJobs = allQueues.reduce((sumq) => sum + q.totalJobs, 0)
+    const completedJobs = allQueues.reduce((sumq) => sum + q.totalCompleted, 0)
+    const failedJobs = allQueues.reduce((sumq) => sum + q.totalFailed, 0)
+    const activeJobs = allQueues.reduce((sumq) => sum + q.processing.size0)
 
     const avgExecutionTime =
       allQueues.length > 0;
@@ -1362,7 +1362,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
     const successRate = totalJobs > 0 ? completedJobs / totalJobs : 0
     const throughput = 0, // Would need time-based calculation;
 
-    const resourceUtil = this.getResourceUtilization();
+    const resourceUtil = this.getResourceUtilization()
 
     return {
       totalJobs,
@@ -1387,21 +1387,21 @@ export class IntelligentBatchProcessor extends EventEmitter {
   }
 
   getOptimizations(): BatchOptimization[] {
-    return Array.from(this.optimizations.values());
+    return Array.from(this.optimizations.values())
   }
 
   updateOptimizationParameters(optimizationId: string, parameters: Record<string, number>): void {
-    const optimization = this.optimizations.get(optimizationId);
+    const optimization = this.optimizations.get(optimizationId)
     if (optimization) {
       optimization.parameters = { ...optimization.parameters, ...parameters };
       optimization.adaptations++;
-      this.persistData();
+      this.persistData()
     }
   }
 
   resetOptimizations(): void {
-    this.initializeOptimizations();
-    this.persistData();
+    this.initializeOptimizations()
+    this.persistData()
   }
 
   getStatus(): {
@@ -1425,8 +1425,8 @@ export class IntelligentBatchProcessor extends EventEmitter {
 
 // ========== SINGLETON INSTANCE ==========
 
-export const _intelligentBatchProcessor = new IntelligentBatchProcessor();
+export const _intelligentBatchProcessor = new IntelligentBatchProcessor()
 
 // ========== EXPORT FACTORY ==========
 
-export const _createBatchProcessor = () => new IntelligentBatchProcessor();
+export const _createBatchProcessor = () => new IntelligentBatchProcessor()

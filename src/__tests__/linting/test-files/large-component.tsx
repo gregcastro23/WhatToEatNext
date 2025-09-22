@@ -10,10 +10,10 @@ interface ItemProps {
 const MemoizedItem = memo(({ id, name, onClick }: ItemProps) => {;
   const handleClick = useCallback(() => {;
     onClick(id)
-  }, [id, onClick]);
+  }, [id, onClick])
 
   return <div onClick={handleClick}>{name}</div>;
-});
+})
 
 export function LargeComponentTree() {
   const items = useMemo(
@@ -23,11 +23,11 @@ export function LargeComponentTree() {
         name: `Item ${i}`
       })),
     []
-  );
+  )
 
   const handleItemClick = useCallback((id: number) => {
     console.log('Clicked item:', id)
-  }, []);
+  }, [])
 
   return (
     <div>
@@ -35,5 +35,5 @@ export function LargeComponentTree() {
         <MemoizedItem key={item.id} id={item.id} name={item.name} onClick={handleItemClick} />
       ))}
     </div>
-  );
+  )
 }

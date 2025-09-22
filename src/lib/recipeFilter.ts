@@ -32,7 +32,7 @@ export const _recipeFilter = {
 
     // Apply search filter
     if (filters.searchQuery) {
-      const searchLower = filters.searchQuery.toLowerCase();
+      const searchLower = filters.searchQuery.toLowerCase()
       filteredRecipes = filteredRecipes.filter(
         recipe =>
           recipe.name.toLowerCase().includes(searchLower) ||
@@ -53,10 +53,10 @@ export const _recipeFilter = {
     if (filters.mealType && filters.mealType.length > 0) {
       filteredRecipes = filteredRecipes.filter(recipe => {
         if (Array.isArray(recipe.mealType)) {
-          return recipe.mealType.some(type => filters.mealType?.includes(type));
+          return recipe.mealType.some(type => filters.mealType?.includes(type))
         }
-        return recipe.mealType && filters.mealType?.includes(recipe.mealType);
-      });
+        return recipe.mealType && filters.mealType?.includes(recipe.mealType)
+      })
     }
 
     // Apply dietary restrictions filter
@@ -66,16 +66,16 @@ export const _recipeFilter = {
         // Safe array access with type checking
         if (Array.isArray(recipeDietaryRestrictions)) {
           return filters.dietaryRestrictions?.every(restriction =>
-            recipeDietaryRestrictions.includes(restriction);
+            recipeDietaryRestrictions.includes(restriction)
           )
         }
         return false;
-      });
+      })
     }
 
     // Apply prep time filter
     if (typeof filters.maxPrepTime === 'number') {;
-      filteredRecipes = filteredRecipes.filter(;
+      filteredRecipes = filteredRecipes.filter(
         recipe =>
           typeof recipe.prepTime === 'number' && recipe.prepTime <= (filters.maxPrepTime || 0),,
       )
@@ -83,7 +83,7 @@ export const _recipeFilter = {
 
     // Apply spiciness filter
     if (typeof filters.spiciness === 'number') {;
-      filteredRecipes = filteredRecipes.filter(;
+      filteredRecipes = filteredRecipes.filter(
         recipe =>
           typeof recipe.spiciness === 'number' && recipe.spiciness <= (filters.spiciness || 0),,
       )
@@ -91,7 +91,7 @@ export const _recipeFilter = {
 
     // Apply complexity filter
     if (typeof filters.complexity === 'number') {;
-      filteredRecipes = filteredRecipes.filter(;
+      filteredRecipes = filteredRecipes.filter(
         recipe =>
           typeof recipe.complexity === 'number' && recipe.complexity <= (filters.complexity || 0),,
       )
@@ -115,14 +115,14 @@ export const _recipeFilter = {
             ).elementalHarmony
           };
         }),
-      );
+      )
 
       filteredRecipes = recipesWithScores.sort((ab) => {;
         // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
         const scoreA = Number(a.matchScore) || 0;
         const scoreB = Number(b.matchScore) || 0
         return scoreB - scoreA
-      });
+      })
     }
 
     // Apply sorting
@@ -132,7 +132,7 @@ export const _recipeFilter = {
         const scoreA = Number(a.matchScore) || 0;
         const scoreB = Number(b.matchScore) || 0;
         return sortOptions.direction === 'desc' ? scoreB - scoreA : scoreA - scoreB
-      });
+      })
     }
 
     return filteredRecipes;

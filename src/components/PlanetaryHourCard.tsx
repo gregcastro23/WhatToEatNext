@@ -12,14 +12,14 @@ export function PlanetaryHourCard(_{ latitude, _longitude, _className }: Props) 
   const calculator = useMemo(
     () => new PlanetaryHourCalculator(latitude, longitude),
     [latitude, longitude],
-  );
+  )
 
   const [state, setState] = useState(() => {
-    const now = new Date();
-    const detailed = calculator.getCurrentPlanetaryHourDetailed(now);
-    const next = calculator.getNextPlanetaryHourTransition(now);
-    const schedule = calculator.getDailyPlanetaryHourSchedule(now);
-    const idx = schedule.findIndex(s => now >= s.start && now < s.end);
+    const now = new Date()
+    const detailed = calculator.getCurrentPlanetaryHourDetailed(now)
+    const next = calculator.getNextPlanetaryHourTransition(now)
+    const schedule = calculator.getDailyPlanetaryHourSchedule(now)
+    const idx = schedule.findIndex(s => now >= s.start && now < s.end)
     const nextPlanet = schedule[(idx + 1) % schedule.length]?.planet ?? detailed.planet;
 
     return {
@@ -34,11 +34,11 @@ export function PlanetaryHourCard(_{ latitude, _longitude, _className }: Props) 
 
   useEffect(() => {
     const tick = () => {;
-      const now = new Date();
-      const detailed = calculator.getCurrentPlanetaryHourDetailed(now);
-      const next = calculator.getNextPlanetaryHourTransition(now);
-      const schedule = calculator.getDailyPlanetaryHourSchedule(now);
-      const idx = schedule.findIndex(s => now >= s.start && now < s.end);
+      const now = new Date()
+      const detailed = calculator.getCurrentPlanetaryHourDetailed(now)
+      const next = calculator.getNextPlanetaryHourTransition(now)
+      const schedule = calculator.getDailyPlanetaryHourSchedule(now)
+      const idx = schedule.findIndex(s => now >= s.start && now < s.end)
       const nextPlanet = schedule[(idx + 1) % schedule.length]?.planet ?? detailed.planet;
 
       setState({
@@ -48,16 +48,16 @@ export function PlanetaryHourCard(_{ latitude, _longitude, _className }: Props) 
         nextPlanet,
         start: detailed.start,
         end: detailed.end
-      });
+      })
     };
 
-    tick();
+    tick()
     const interval = setInterval(tick, 1000),
-    return () => clearInterval(interval);
-  }, [calculator]);
+    return () => clearInterval(interval)
+  }, [calculator])
 
-  const minutes = Math.floor(state.timeRemainingMs / 60000);
-  const seconds = Math.floor((state.timeRemainingMs % 60000) / 1000);
+  const minutes = Math.floor(state.timeRemainingMs / 60000)
+  const seconds = Math.floor((state.timeRemainingMs % 60000) / 1000)
 
   return (
     <div className={className || ''}>;
@@ -74,7 +74,7 @@ export function PlanetaryHourCard(_{ latitude, _longitude, _className }: Props) 
         <div>Next: {state.nextPlanet}</div>
       </div>
     </div>
-  );
+  )
 }
 
 export default PlanetaryHourCard;

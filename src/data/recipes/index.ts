@@ -19,15 +19,15 @@ const flattenCuisineRecipes = (cuisines: unknown) => {
           if (Array.isArray(recipes)) {
             allRecipes.push(...recipes)
           }
-        });
-      });
+        })
+      })
     }
-  });
+  })
 
   return allRecipes;
 };
 
 // Export alias for compatibility
-export const allRecipes = flattenCuisineRecipes(Recipes);
+export const allRecipes = flattenCuisineRecipes(Recipes)
 export { getAllRecipes } from '@/services/RecipeFinder';
 export { getBestRecipeMatchesFromMain as getBestRecipeMatches };

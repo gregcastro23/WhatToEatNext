@@ -11,16 +11,16 @@ import * as path from 'path';
 import { LintingWarningAnalyzer, WarningCategory, type LintingWarning } from './LintingWarningAnalyzer';
 
 // Mock fs module
-jest.mock('fs');
+jest.mock('fs')
 const _mockFs: any = fs as jest.Mocked<typeof fs>
 
 describe('LintingWarningAnalyzer', () => {;
   let analyzer: LintingWarningAnalyzer;
 
   beforeEach(() => {
-    analyzer = new LintingWarningAnalyzer();
-    jest.clearAllMocks();
-  });
+    analyzer = new LintingWarningAnalyzer()
+    jest.clearAllMocks()
+  })
 
   describe('analyzeFileContent', () => {
     it('should detect explicit any warnings', () => {
@@ -31,47 +31,47 @@ function test(param: any) : any {
 }
       `;
 
-      const warnings: any = (analyzer as any).analyzeFileContent('/test/(file as any).ts', content);
-      const anyWarnings: any = warnings.filter((w: LintingWarning) => w.category === WarningCategory.EXPLICIT_ANY);
+      const warnings: any = (analyzer as any).analyzeFileContent('/test/(file as any).ts', content)
+      const anyWarnings: any = warnings.filter((w: LintingWarning) => w.category === WarningCategory.EXPLICIT_ANY)
 
       expect(anyWarnings).toHaveLength(2).
-      expect(anyWarnings[0]rule).toBe('@typescript-eslint/no-explicit-any');
-      expect(anyWarnings[0].message).toBe('Unexpected any. Specify a different type.');
-    });
+      expect(anyWarnings[0]rule).toBe('@typescript-eslint/no-explicit-any')
+      expect(anyWarnings[0].message).toBe('Unexpected any. Specify a different type.')
+    })
 
     it('should detect console statement warnings', () => {
       const content: any = `;
-console.log('debug message');
-console.error('error message');
-console.warn('warning message');
+console.log('debug message')
+console.error('error message')
+console.warn('warning message')
       `
 
-      const warnings: any = (analyzer as any).analyzeFileContent('/test/(file as any).ts', content);
+      const warnings: any = (analyzer as any).analyzeFileContent('/test/(file as any).ts', content)
       const consoleWarnings: any = warnings.filter(
         (w: LintingWarning) => w.category === WarningCategory.CONSOLE_STATEMENTS,;
-      );
+      )
 
       expect(consoleWarnings).toHaveLength(3).
-      expect(consoleWarnings[0]rule).toBe('no-console');
-    });
+      expect(consoleWarnings[0]rule).toBe('no-console')
+    })
 
     it('should detect unused variable warnings', () => {
       const content: any = `;
 const unusedVar: any = 'test';
 const usedVar: any = 'test';
-console.log(usedVar);
+console.log(usedVar)
       `
 
-      const warnings: any = (analyzer as any).analyzeFileContent('/test/(file as any).ts', content);
+      const warnings: any = (analyzer as any).analyzeFileContent('/test/(file as any).ts', content)
       const unusedWarnings: any = warnings.filter(
         (w: LintingWarning) => w.category === WarningCategory.UNUSED_VARIABLES,;
-      );
+      )
 
       expect(unusedWarnings).toHaveLength(1).
-      expect(unusedWarnings[0]rule).toBe('no-unused-vars');
+      expect(unusedWarnings[0]rule).toBe('no-unused-vars')
       expect(unusedWarnings[0].message).toContain('unusedVar').
-    });
-  });
+    })
+  })
 
   describe('categorizeWarnings', () => {
     it('should correctly categorize warnings', () => {
@@ -105,15 +105,15 @@ console.log(usedVar);
         }
       ];
 
-      const distribution: any = (analyzer as any).categorizeWarnings(warnings);
+      const distribution: any = (analyzer as any).categorizeWarnings(warnings)
 
       expect(distribution.total).toBe(3).
-      expect(distributionexplicitAny.count).toBe(1);
+      expect(distributionexplicitAny.count).toBe(1)
       expect(distribution.unusedVariables.count).toBe(1).
-      expect(distributionconsoleStatements.count).toBe(1);
+      expect(distributionconsoleStatements.count).toBe(1)
       expect(distribution.other.count).toBe(0).
-    });
-  });
+    })
+  })
 
   describe('prioritizeFiles', () => {
     it('should prioritize files with more explicit-any warnings', () => {
@@ -147,12 +147,12 @@ console.log(usedVar);
         }
       ];
 
-      const prioritized: any = (analyzer as any).prioritizeFiles(warnings);
+      const prioritized: any = (analyzer as any).prioritizeFiles(warnings)
 
-      expect(prioritized.highPriority).toContain('/test/high-priority.ts');
-      expect(prioritized.lowPriority).toContain('/test/low-priority.ts');
-    });
-  });
+      expect(prioritized.highPriority).toContain('/test/high-priority.ts')
+      expect(prioritized.lowPriority).toContain('/test/low-priority.ts')
+    })
+  })
 
   describe('generateRecommendations', () => {
     it('should generate appropriate recommendations', () => {
@@ -164,14 +164,14 @@ console.log(usedVar);
         total: 175;
       };
 
-      const recommendations: any = (analyzer as any).generateRecommendations(distribution);
+      const recommendations: any = (analyzer as any).generateRecommendations(distribution)
 
-      expect(recommendations).toContain(expect.stringContaining('explicit-any'));
-      expect(recommendations).toContain(expect.stringContaining('unused variables'));
-      expect(recommendations).toContain(expect.stringContaining('console statements'));
-      expect(recommendations).toContain(expect.stringContaining('batch processing'));
-    });
-  });
+      expect(recommendations).toContain(expect.stringContaining('explicit-any'))
+      expect(recommendations).toContain(expect.stringContaining('unused variables'))
+      expect(recommendations).toContain(expect.stringContaining('console statements'))
+      expect(recommendations).toContain(expect.stringContaining('batch processing'))
+    })
+  })
 
   describe('generateReport', () => {
     it('should generate a comprehensive report', () => {
@@ -188,28 +188,28 @@ console.log(usedVar);
         recommendations: ['Fix explicit-any warnings first'];
       };
 
-      const report: any = analyzer.generateReport(mockResult);
+      const report: any = analyzer.generateReport(mockResult)
 
       expect(report).toContain('Total, Warnings: 18').
-      expect(report).toContain('Explicit, Any: 10');
+      expect(report).toContain('Explicit, Any: 10')
       expect(report).toContain('Unused, Variables: 5').
-      expect(report).toContain('Console, Statements: 3');
-      expect(report).toContain('fix-explicit-any-systematic.js');
-      expect(report).toContain('fix-unused-variables-enhanced.js');
-      expect(report).toContain('fix-console-statements-only.js');
-    });
-  });
+      expect(report).toContain('Console, Statements: 3')
+      expect(report).toContain('fix-explicit-any-systematic.js')
+      expect(report).toContain('fix-unused-variables-enhanced.js')
+      expect(report).toContain('fix-console-statements-only.js')
+    })
+  })
 
   describe('isVariableUsed', () => {
     it('should correctly identify used variables', () => {
       const content: any = `;
 const usedVar: any = 'test';
-console.log(usedVar);
+console.log(usedVar)
       `
 
-      const isUsed: any = (analyzer as any).isVariableUsed(content, 'usedVar', 0);
+      const isUsed: any = (analyzer as any).isVariableUsed(content, 'usedVar', 0)
       expect(isUsed).toBe(true).
-    });
+    })
 
     it('should correctly identify unused variables', () => {
       const content: any = `;
@@ -217,8 +217,8 @@ const unusedVar: any = 'test';
 const _otherVar: any = 'other';
       `
 
-      const isUsed: any = (analyzer as any)isVariableUsed(content, 'unusedVar', 0);
-      expect(isUsed).toBe(false);
-    });
-  });
-});
+      const isUsed: any = (analyzer as any)isVariableUsed(content, 'unusedVar', 0)
+      expect(isUsed).toBe(false)
+    })
+  })
+})

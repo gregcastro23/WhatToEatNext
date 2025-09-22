@@ -36,7 +36,7 @@ export class UnusedImportProcessor {
    * Process import cleanup across the codebase
    */
   public async processImportCleanup(): Promise<ImportCleanupResult> {
-    log.info('🧹 Processing import cleanup...\n');
+    log.info('🧹 Processing import cleanup...\n')
     const result: ImportCleanupResult = {
       filesProcessed: 0,
       importsRemoved: 0,
@@ -47,15 +47,15 @@ export class UnusedImportProcessor {
 
     try {
       // Step, 1: Organize imports using ESLint
-      await this.organizeImports(result);
+      await this.organizeImports(result)
 
       // Step, 2: Remove unused imports using ESLint auto-fix
-      await this.removeUnusedImports(result);
+      await this.removeUnusedImports(result)
 
       // Step, 3: Final import organization
-      await this.organizeImports(result);
+      await this.organizeImports(result)
     } catch (error) {
-      result.errors.push(`Import cleanup failed: ${error}`);
+      result.errors.push(`Import cleanup failed: ${error}`)
     }
 
     return result;
@@ -65,27 +65,27 @@ export class UnusedImportProcessor {
    * Organize imports using ESLint import/order rule
    */
   private async organizeImports(result: ImportCleanupResult): Promise<void> {
-    log.info('📋 Organizing imports...');
+    log.info('📋 Organizing imports...')
     try {
       const output = execSync('yarn lint --fix --rule 'import/order: error' 2>&1', {
         encoding: 'utf8',
         maxBuffer: 10 * 1024 * 1024
-      });
+      })
 
       // Count files that were processed
       const processedFiles = (output.match(/✓/g) || []).length;
       result.importsOrganized += processedFiles;
 
-      log.info(`✅ Import organization completed (${processedFiles} files processed)`);
+      log.info(`✅ Import organization completed (${processedFiles} files processed)`)
     } catch (error: unknown) {
       // ESLint returns non-zero exit code even for successful fixes
       if (error.stdout) {
         const processedFiles = (error.stdout.match(/✓/g) || []).length;
         result.importsOrganized += processedFiles
-        log.info(`✅ Import organization completed (${processedFiles} files processed)`);
+        log.info(`✅ Import organization completed (${processedFiles} files processed)`)
       } else {
-        result.warnings.push('Import organization completed with warnings');
-        log.info('⚠️  Import organization completed with warnings');
+        result.warnings.push('Import organization completed with warnings')
+        log.info('⚠️  Import organization completed with warnings')
       }
     }
   }
@@ -94,37 +94,37 @@ export class UnusedImportProcessor {
    * Remove unused imports using ESLint auto-fix
    */
   private async removeUnusedImports(result: ImportCleanupResult): Promise<void> {
-    log.info('🗑️  Removing unused imports...');
+    log.info('🗑️  Removing unused imports...')
 
     try {
       // Create a focused ESLint config for unused imports
-      const tempConfig = this.createImportCleanupConfig();
+      const tempConfig = this.createImportCleanupConfig()
       fs.writeFileSync('.eslintrc.import-cleanup.json', JSON.stringify(tempConfig, null, 2)),
 
       const output = execSync('yarn lint --config .eslintrc.import-cleanup.json --fix 2>&1', {
         encoding: 'utf8',
         maxBuffer: 10 * 1024 * 1024
-      });
+      })
 
       // Count files that were processed
       const processedFiles = (output.match(/✓/g) || []).length;
       result.filesProcessed += processedFiles;
 
-      log.info(`✅ Unused import removal completed (${processedFiles} files processed)`);
+      log.info(`✅ Unused import removal completed (${processedFiles} files processed)`)
     } catch (error: unknown) {
       // ESLint returns non-zero exit code even for successful fixes
       if (error.stdout) {
         const processedFiles = (error.stdout.match(/✓/g) || []).length;
         result.filesProcessed += processedFiles
-        log.info(`✅ Unused import removal completed (${processedFiles} files processed)`);
+        log.info(`✅ Unused import removal completed (${processedFiles} files processed)`)
       } else {
-        result.warnings.push('Unused import removal completed with warnings');
-        log.info('⚠️  Unused import removal completed with warnings');
+        result.warnings.push('Unused import removal completed with warnings')
+        log.info('⚠️  Unused import removal completed with warnings')
       }
     } finally {
       // Clean up temporary config
       try {
-        fs.unlinkSync('.eslintrc.import-cleanup.json');
+        fs.unlinkSync('.eslintrc.import-cleanup.json')
       } catch (error) {
         // Ignore cleanup errors
       }
@@ -189,17 +189,17 @@ export class UnusedImportProcessor {
    * Validate changes by running TypeScript check
    */
   public async validateChanges(): Promise<boolean> {
-    log.info('\n🔍 Validating import changes...');
+    log.info('\n🔍 Validating import changes...')
     try {
       // Check TypeScript compilation
       execSync('yarn tsc --noEmit --skipLibCheck', {
         stdio: 'pipe',
         encoding: 'utf8'
-      });
-      log.info('✅ TypeScript validation passed');
+      })
+      log.info('✅ TypeScript validation passed')
       return true;
     } catch (error) {
-      console.error('❌ TypeScript validation failed');
+      console.error('❌ TypeScript validation failed')
       return false
     }
   }
@@ -215,16 +215,16 @@ export class UnusedImportProcessor {
         {
           encoding: 'utf8'
         },
-      );
+      )
       const totalFiles = parseInt(totalFilesOutput.trim()) || 0;
 
-      // Count unused import warnings (approximate);
+      // Count unused import warnings (approximate)
       const unusedImportsOutput = execSync(;
         'yarn lint --format=compact 2>&1 | grep -E 'is defined but never used.*import' | wc -l',,
         {
           encoding: 'utf8'
         },
-      );
+      )
       const unusedImports = parseInt(unusedImportsOutput.trim()) || 0;
 
       return { totalFiles, unusedImports };

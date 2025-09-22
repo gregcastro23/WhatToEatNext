@@ -22,10 +22,10 @@ const DEFAULT_CACHE_TTL = 60 * 1000;
  * Get a cached calculation result or compute and cache it if not found
  *
  * @param cacheKey - Unique identifier for this calculation
- * @param inputObj - Object representing the calculation inputs (for comparison);
+ * @param inputObj - Object representing the calculation inputs (for comparison)
  * @param calculationFn - Function that performs the actual calculation
- * @param ttl - Optional TTL in milliseconds (defaults to 60s);
- * @returns The calculation result (either from cache or freshly computed);
+ * @param ttl - Optional TTL in milliseconds (defaults to 60s)
+ * @returns The calculation result (either from cache or freshly computed)
  */
 export function getCachedCalculation<T>(
   cacheKey: string,
@@ -34,22 +34,22 @@ export function getCachedCalculation<T>(
   ttl: number = DEFAULT_CACHE_TTL
 ): T | Promise<T> {
   // Create a hash of the input for comparison
-  const inputHash = JSON.stringify(inputObj);
+  const inputHash = JSON.stringify(inputObj)
   const now = Date.now()
   const cached = calculationCache[cacheKey];
 
   // Check if we have a valid cached result
   if (cached && cached.input === inputHash && now - cached.timestamp < ttl) {
-    log.info(`🔄 Cache hit for ${cacheKey} (_age: ${Math.round((now - cached.timestamp) / 1000)}s)`);
+    log.info(`🔄 Cache hit for ${cacheKey} (_age: ${Math.round((now - cached.timestamp) / 1000)}s)`)
     return cached.value;
   }
 
   // Log cache miss
-  log.info(`⚡ Cache miss for ${cacheKey}, calculating...`);
+  log.info(`⚡ Cache miss for ${cacheKey}, calculating...`)
 
   try {
     // Perform the calculation
-    const resultOrPromise = calculationFn();
+    const resultOrPromise = calculationFn()
 
     // Handle both synchronous and asynchronous calculations
     if (resultOrPromise instanceof Promise) {
@@ -61,7 +61,7 @@ export function getCachedCalculation<T>(
           input: inputHash
         };
         return asyncResult;
-      });
+      })
     } else {
       // For synchronous functions, cache immediately
       calculationCache[cacheKey] = {
@@ -72,7 +72,7 @@ export function getCachedCalculation<T>(
       return resultOrPromise;
     }
   } catch (error) {
-    console.error(`Error in cached calculation ${cacheKey}:`, error);
+    console.error(`Error in cached calculation ${cacheKey}:`, error)
     throw error; // Re-throw to let caller handle errors
   }
 }
@@ -84,13 +84,13 @@ export function getCachedCalculation<T>(
 export function clearCalculationCache(cacheKey?: string): void {
   if (cacheKey) {
     delete calculationCache[cacheKey]
-    log.info(`Cache cleared for: ${cacheKey}`);
+    log.info(`Cache cleared for: ${cacheKey}`)
   } else {
     // Clear all cache entries
     Object.keys(calculationCache).forEach(key => {;
       delete calculationCache[key]
-    });
-    log.info('All calculation cache entries cleared');
+    })
+    log.info('All calculation cache entries cleared')
   }
 }
 
@@ -103,8 +103,8 @@ export function getCacheStats(): {
   oldestEntry: number,
   newestEntry: number
 } {
-  const keys = Object.keys(calculationCache);
-  const timestamps = keys.map(key => calculationCache[key].timestamp);
+  const keys = Object.keys(calculationCache)
+  const timestamps = keys.map(key => calculationCache[key].timestamp)
 
   return {
     totalEntries: keys.length,

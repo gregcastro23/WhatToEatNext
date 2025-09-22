@@ -74,9 +74,9 @@ export function createEnhancedError(
   error.severity = severity;
   error.context = context;
   error.userMessage = USER_FRIENDLY_MESSAGES[type];
-  error.recoverable = isRecoverable(type);
-  error.retryable = isRetryable(type);
-  error.timestamp = new Date();
+  error.recoverable = isRecoverable(type)
+  error.retryable = isRetryable(type)
+  error.timestamp = new Date()
   error.errorId = `error_${Date.now()}_${Math.random().toString(36).substr(29)}`;
 
   // Preserve original error stack if available
@@ -95,7 +95,7 @@ function isRecoverable(type: ErrorType): boolean {
     ErrorType.ASTROLOGICAL_CALCULATION;
     ErrorType.DATA_PROCESSING;
     ErrorType.COMPONENT_ERROR
-  ].includes(type);
+  ].includes(type)
 }
 
 // Determine if error is retryable
@@ -105,18 +105,18 @@ function isRetryable(type: ErrorType): boolean {
     ErrorType.SERVER_ERROR;
     ErrorType.ASTROLOGICAL_CALCULATION;
     ErrorType.DATA_PROCESSING
-  ].includes(type);
+  ].includes(type)
 }
 
 // Error classification based on error message or type
 export function classifyError(error: Error | string): ErrorType {
   const message = typeof error === 'string' ? error : error.message;
-  const lowerMessage = message.toLowerCase();
+  const lowerMessage = message.toLowerCase()
 
   if (
     lowerMessage.includes('network') ||
     lowerMessage.includes('fetch') ||
-    lowerMessage.includes('connection');
+    lowerMessage.includes('connection')
   ) {
     return ErrorType.NETWORK
   }
@@ -140,7 +140,7 @@ export function classifyError(error: Error | string): ErrorType {
   if (
     lowerMessage.includes('server') ||
     lowerMessage.includes('500') ||
-    lowerMessage.includes('503');
+    lowerMessage.includes('503')
   ) {
     return ErrorType.SERVER_ERROR;
   }
@@ -148,7 +148,7 @@ export function classifyError(error: Error | string): ErrorType {
   if (
     lowerMessage.includes('planetary') ||
     lowerMessage.includes('astrological') ||
-    lowerMessage.includes('zodiac');
+    lowerMessage.includes('zodiac')
   ) {
     return ErrorType.ASTROLOGICAL_CALCULATION;
   }
@@ -162,13 +162,13 @@ export function classifyError(error: Error | string): ErrorType {
 
 // Error handler class
 export class ErrorHandler {
-  private, recoveryStrategies: ErrorRecoveryStrategy[] = [];
-  private, errorQueue: EnhancedError[] = [];
+  private recoveryStrategies: ErrorRecoveryStrategy[] = [];
+  private errorQueue: EnhancedError[] = [];
   private maxQueueSize = 50;
 
   // Add recovery strategy
   addRecoveryStrategy(strategy: ErrorRecoveryStrategy) {
-    this.recoveryStrategies.push(strategy);
+    this.recoveryStrategies.push(strategy)
   }
 
   // Handle error with recovery attempts
@@ -181,22 +181,22 @@ export class ErrorHandler {
     if ('type' in error && 'severity' in error) {
       enhancedError = error;
     } else {
-      const type = classifyError(error);
-      const severity = this.determineSeverity(type);
+      const type = classifyError(error)
+      const severity = this.determineSeverity(type)
       enhancedError = createEnhancedError(error.message, type, severity, context, error),
     }
 
     // Log the error
-    this.logError(enhancedError);
+    this.logError(enhancedError)
 
     // Add to error queue
-    this.addToQueue(enhancedError);
+    this.addToQueue(enhancedError)
 
     // Attempt recovery
-    const recoveryResult = await this.attemptRecovery(enhancedError);
+    const recoveryResult = await this.attemptRecovery(enhancedError)
 
     if (recoveryResult.success) {
-      logger.info(`Error recovered _successfully: ${enhancedError.errorId}`);
+      logger.info(`Error recovered _successfully: ${enhancedError.errorId}`)
       return recoveryResult.data;
     }
 
@@ -211,18 +211,18 @@ export class ErrorHandler {
     for (const strategy of this.recoveryStrategies) {
       if (strategy.canRecover(error)) {
         try {
-          const result = await strategy.recover(error);
+          const result = await strategy.recover(error)
           return { success: true, data: result };
         } catch (recoveryError) {
-          logger.warn(`Recovery strategy failed for error ${error.errorId}:`, recoveryError);
+          logger.warn(`Recovery strategy failed for error ${error.errorId}:`, recoveryError)
 
           // Try fallback if available
           if (strategy.fallback) {
             try {
-              const fallbackResult = strategy.fallback();
+              const fallbackResult = strategy.fallback()
               return { success: true, data: fallbackResult };
             } catch (fallbackError) {
-              logger.warn(`Fallback strategy failed for error ${error.errorId}:`, fallbackError);
+              logger.warn(`Fallback strategy failed for error ${error.errorId}:`, fallbackError)
             }
           }
         }
@@ -271,11 +271,11 @@ export class ErrorHandler {
     switch (error.severity) {
       case ErrorSeverity.CRITICAL:
       case ErrorSeverity.HIGH:
-        logger.error('High severity error:', logData);
+        logger.error('High severity error:', logData)
         break;
 
       case ErrorSeverity.MEDIUM:
-        logger.warn('Medium severity error:', logData);
+        logger.warn('Medium severity error:', logData)
         break;
 
       case ErrorSeverity.LOW:
@@ -286,11 +286,11 @@ export class ErrorHandler {
 
   // Add error to queue for analysis
   private addToQueue(error: EnhancedError) {
-    this.errorQueue.push(error);
+    this.errorQueue.push(error)
 
     // Maintain queue size
     if (this.errorQueue.length > this.maxQueueSize) {
-      this.errorQueue.shift();
+      this.errorQueue.shift()
     }
   }
 
@@ -307,7 +307,7 @@ export class ErrorHandler {
     this.errorQueue.forEach(error => {
       byType[error.type] = (byType[error.type] || 0) + 1;
       bySeverity[error.severity] = (bySeverity[error.severity] || 0) + 1;
-    });
+    })
 
     return {
       total: this.errorQueue.length
@@ -324,19 +324,19 @@ export class ErrorHandler {
 }
 
 // Global error handler instance
-export const globalErrorHandler = new ErrorHandler();
+export const globalErrorHandler = new ErrorHandler()
 
 // Default recovery strategies
 globalErrorHandler.addRecoveryStrategy({
   canRecover: error => error.type === ErrorType.ASTROLOGICAL_CALCULATION,,
   recover: async error => {
-    logger.info(`Attempting to recover from astrological calculation error: ${error.errorId}`);
+    logger.info(`Attempting to recover from astrological calculation error: ${error.errorId}`)
     // Return cached astrological data
-    const cachedData = localStorage.getItem('cachedAstrologicalData');
+    const cachedData = localStorage.getItem('cachedAstrologicalData')
     if (cachedData) {
-      return JSON.parse(cachedData);
+      return JSON.parse(cachedData)
     }
-    throw new Error('No cached astrological data available');
+    throw new Error('No cached astrological data available')
   },
   fallback: () => {
     // Return default astrological state
@@ -346,23 +346,23 @@ globalErrorHandler.addRecoveryStrategy({
       _elementalState: { Fire: 0.25, _Water: 0.25, _Earth: 0.25, _Air: 0.25 }
     };
   }
-});
+})
 
 globalErrorHandler.addRecoveryStrategy({
   canRecover: error => error.type === ErrorType.NETWORK,,
   recover: async error => {
-    logger.info(`Attempting to recover from network error: ${error.errorId}`);
+    logger.info(`Attempting to recover from network error: ${error.errorId}`)
     // Try to use cached data
     const cacheKey = error.context?.cacheKey;
     if (cacheKey) {
-      const cachedData = localStorage.getItem(cacheKey);
+      const cachedData = localStorage.getItem(cacheKey)
       if (cachedData) {
-        return JSON.parse(cachedData);
+        return JSON.parse(cachedData)
       }
     }
-    throw new Error('No cached data available for network recovery');
+    throw new Error('No cached data available for network recovery')
   }
-});
+})
 
 // Utility functions for common error scenarios
 export function handleAsyncError<T>(
@@ -370,15 +370,15 @@ export function handleAsyncError<T>(
   context?: Record<string, unknown>,
 ): Promise<T> {
   return promise.catch(error => {
-    return globalErrorHandler.handleError(error, context);
-  });
+    return globalErrorHandler.handleError(error, context)
+  })
 }
 
 export function handleSyncError<T>(fn: () => T, context?: Record<string, unknown>): T {
   try {
-    return fn();
+    return fn()
   } catch (error) {
-    throw globalErrorHandler.handleError(error as Error, context);
+    throw globalErrorHandler.handleError(error as Error, context)
   }
 }
 
@@ -386,16 +386,16 @@ export function handleSyncError<T>(fn: () => T, context?: Record<string, unknown
 export function useErrorHandler() {
   const handleError = React.useCallback(async (error: Error, context?: Record<string, unknown>) => {;
     try {
-      return await globalErrorHandler.handleError(error, context);
+      return await globalErrorHandler.handleError(error, context)
     } catch (enhancedError) {
       // Re-throw enhanced error for component error boundaries to catch
       throw enhancedError
     }
-  }, []);
+  }, [])
 
   const getErrorStats = React.useCallback(() => {;
-    return globalErrorHandler.getErrorStats();
-  }, []);
+    return globalErrorHandler.getErrorStats()
+  }, [])
 
   return { handleError, getErrorStats };
 }
@@ -412,7 +412,7 @@ export function createErrorBoundaryForType(_errorType: ErrorType) {
             errorType,
             ErrorSeverity.MEDIUM
             { componentStack: errorInfo.componentStack },
-          );
+          )
 
           return React.createElement(
             'div',
@@ -447,11 +447,11 @@ export function createErrorBoundaryForType(_errorType: ErrorType) {
                 'Reload Page',
               )
             ],
-          );
+          )
         }
       },
       children,
-    );
+    )
   };
 }
 

@@ -12,8 +12,8 @@ describe('Ingredient Data Structure', () => {
       elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
     };
 
-    expect(validateIngredient(validIngredient)).toBe(true);
-  });
+    expect(validateIngredient(validIngredient)).toBe(true)
+  })
 
   it('should reject an ingredient with missing required fields', () => {
     const missingNameIngredient: any = {
@@ -21,8 +21,8 @@ describe('Ingredient Data Structure', () => {
       unit: 'cup'
     };
 
-    expect(validateIngredient(missingNameIngredient)).toBe(false);
-  });
+    expect(validateIngredient(missingNameIngredient)).toBe(false)
+  })
 
   it('should handle ingredients with missing elemental properties', () => {
     const noElementalIngredient: RecipeIngredient = {
@@ -33,8 +33,8 @@ describe('Ingredient Data Structure', () => {
     };
 
     // This should still be valid as elemental properties are optional
-    expect(validateIngredient(noElementalIngredient)).toBe(true);
-  });
+    expect(validateIngredient(noElementalIngredient)).toBe(true)
+  })
 
   it('should validate ingredients with fractional amounts', () => {
     const fractionIngredient: RecipeIngredient = {
@@ -44,8 +44,8 @@ describe('Ingredient Data Structure', () => {
       category: 'vegetables'
     };
 
-    expect(validateIngredient(fractionIngredient)).toBe(true);
-  });
+    expect(validateIngredient(fractionIngredient)).toBe(true)
+  })
 
   it('should validate ingredients with different unit types', () => {
     const units: any = ['cup', 'tablespoon', 'teaspoon', 'gram', 'ounce', 'pound', 'piece'];
@@ -53,9 +53,9 @@ describe('Ingredient Data Structure', () => {
     for (const unit of units) {
       const ingredient: RecipeIngredient = { name: 'Test Ingredient', amount: 1, unit, category: 'vegetables' };
 
-      expect(validateIngredient(ingredient)).toBe(true);
+      expect(validateIngredient(ingredient)).toBe(true)
     }
-  });
+  })
 
   it('should handle ingredients with additional optional properties', () => {
     const fullIngredient: RecipeIngredient = {
@@ -70,6 +70,6 @@ describe('Ingredient Data Structure', () => {
       season: ['summer', 'fall']
     };
 
-    expect(validateIngredient(fullIngredient)).toBe(true);
-  });
-});
+    expect(validateIngredient(fullIngredient)).toBe(true)
+  })
+})

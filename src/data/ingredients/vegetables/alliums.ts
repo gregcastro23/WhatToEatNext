@@ -1160,4 +1160,4 @@ const rawAlliums = {
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
 export const _alliums: Record<string, IngredientMapping> = fixIngredientMappings(
   rawAlliums as Record<string, Partial<IngredientMapping>>,
-);
+)

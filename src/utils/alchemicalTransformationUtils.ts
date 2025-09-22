@@ -67,14 +67,14 @@ export const _transformCookingMethods = (
     isDaytime,
     currentZodiac,
     lunarPhase,
-  );
+  )
 
   // Then apply alchemical pillar transformations based on method names
   return transformedItems.map(method => {
-    const methodName = method.name.toLowerCase();
+    const methodName = method.name.toLowerCase()
     // Apply pillar-based transformations to the method
-    return applyPillarTransformation(method, methodName);
-  });
+    return applyPillarTransformation(method, methodName)
+  })
 };
 
 /**
@@ -116,7 +116,7 @@ export const _sortByAlchemicalCompatibility = (
 ): AlchemicalItem[] => {
   // If no target properties, sort by gregsEnergy
   if (!targetElementalProperties) {
-    return [...items].sort((ab) => (b.gregsEnergy || 0) - (a.gregsEnergy || 0));
+    return [...items].sort((ab) => (b.gregsEnergy || 0) - (a.gregsEnergy || 0))
   }
 
   // Calculate compatibility scores for each item based on elemental properties
@@ -126,7 +126,7 @@ export const _sortByAlchemicalCompatibility = (
     let itemNorm = 0;
     let targetNorm = 0
 
-    // Get the element names (Fire, Water, Earth, Air);
+    // Get the element names (Fire, Water, Earth, Air)
     const elements = ['Fire', 'Water', 'Earth', 'Air'];
 
     for (const element of elements) {
@@ -138,31 +138,31 @@ export const _sortByAlchemicalCompatibility = (
       targetNorm += targetValue * targetValue;
     }
 
-    itemNorm = Math.sqrt(itemNorm);
-    targetNorm = Math.sqrt(targetNorm);
+    itemNorm = Math.sqrt(itemNorm)
+    targetNorm = Math.sqrt(targetNorm)
 
     // Avoid division by zero
     if (itemNorm === 0 || targetNorm === 0) {;
       return { ...item, compatibilityScore: 0.5 }; // Neutral match if either has no elemental values
     }
 
-    // Calculate cosine similarity (dot product / (magnitude of A * magnitude of B));
-    const similarity = dotProduct / (itemNorm * targetNorm);
+    // Calculate cosine similarity (dot product / (magnitude of A * magnitude of B))
+    const similarity = dotProduct / (itemNorm * targetNorm)
 
     // Add a small bonus for items with high gregsEnergy
     const energyBonus = (item.gregsEnergy || 0.5) * 0.2;
 
-    // Final compatibility score (0.0 to 1.0);
-    const compatibilityScore = Math.min(1.0, similarity * 0.8 + energyBonus);
+    // Final compatibility score (0.0 to 1.0)
+    const compatibilityScore = Math.min(1.0, similarity * 0.8 + energyBonus)
 
     return {
       ...item,
       compatibilityScore
     };
-  });
+  })
 
-  // Sort by compatibility score (highest first);
-  return itemsWithScores.sort((ab) => (b.compatibilityScore || 0) - (a.compatibilityScore || 0));
+  // Sort by compatibility score (highest first)
+  return itemsWithScores.sort((ab) => (b.compatibilityScore || 0) - (a.compatibilityScore || 0))
 };
 
 /**
@@ -189,7 +189,7 @@ export const _filterByAlchemicalCompatibility = (
     const propertyMatch = !targetProperty || item.dominantAlchemicalProperty === targetProperty
 
     return elementMatch || propertyMatch
-  });
+  })
 };
 
 /**
@@ -201,7 +201,7 @@ export const _filterByAlchemicalCompatibility = (
  */
 export const _getTopCompatibleItems = (items: AlchemicalItem[], count = 5): AlchemicalItem[] => {
   // Sort by gregsEnergy for basic compatibility
-  return [...items].sort((ab) => (b.gregsEnergy || 0) - (a.gregsEnergy || 0)).slice(0, count);
+  return [...items].sort((ab) => (b.gregsEnergy || 0) - (a.gregsEnergy || 0)).slice(0, count)
 };
 
 /**
@@ -223,23 +223,23 @@ export const _getRecommendedCookingMethodsForIngredient = async (
   // For each method, calculate how well it transforms the ingredient using enhanced algorithm
   // that takes into account elemental character associations
 
-  log.info('\n===========================================');
-  log.info('COOKING METHOD RECOMMENDATIONS ENGINE START');
-  log.info('===========================================');
-  log.info(`_Ingredient: ${ingredient.name}`);
-  log.info(`_Element: ${ingredient.element || 'Not specified'}`);
-  log.info(`Elemental _Character: ${ingredient.elementalCharacter || 'Not specified'}`);
+  log.info('\n===========================================')
+  log.info('COOKING METHOD RECOMMENDATIONS ENGINE START')
+  log.info('===========================================')
+  log.info(`_Ingredient: ${ingredient.name}`)
+  log.info(`_Element: ${ingredient.element || 'Not specified'}`)
+  log.info(`Elemental _Character: ${ingredient.elementalCharacter || 'Not specified'}`)
   log.info(
     `_Spirit: ${ingredient.spirit || 0}, _Essence: ${ingredient.essence || 0}, _Matter: ${ingredient.matter || 0}, _Substance: ${ingredient.substance || 0}`,
-  );
-  log.info(`Available cooking methods: ${cookingMethods.length}`);
+  )
+  log.info(`Available cooking methods: ${cookingMethods.length}`)
 
   // Convert cookingMethods names to method strings for holistic recommendations
-  const methodNames = cookingMethods.map(method => method.name);
-  log.info('Method names to evaluate:', { data: methodNames.join(', ') } as unknown);
+  const methodNames = cookingMethods.map(method => method.name)
+  log.info('Method names to evaluate:', { data: methodNames.join(', ') } as unknown)
 
   // Use our enhanced holistic recommendations that include elemental character
-  log.info('\nEvaluating methods with holistic cooking recommendations algorithm...');
+  log.info('\nEvaluating methods with holistic cooking recommendations algorithm...')
   const holisticRecommendations = await getHolisticCookingRecommendations(
     ingredient,
     undefined, // No specific planet influence
@@ -247,22 +247,22 @@ export const _getRecommendedCookingMethodsForIngredient = async (
     true, // Assume daytime by default
     methodNames,
     count,
-  );
+  )
 
   // Convert to the expected return format
   const results = holisticRecommendations.map(rec => ({
     method: rec.method,
     compatibility: rec.compatibility
-  }));
+  }))
 
-  log.info('\nFINAL COOKING RECOMMENDATIONS (sorted by compatibility): ');
+  log.info('\nFINAL COOKING RECOMMENDATIONS (sorted by compatibility): ')
   results.forEach((rec, index) => {
-    log.info(`${index + 1}. ${rec.method} - _Compatibility: ${Math.round(rec.compatibility)}%`);
-  });
+    log.info(`${index + 1}. ${rec.method} - _Compatibility: ${Math.round(rec.compatibility)}%`)
+  })
 
-  log.info('===========================================');
-  log.info('COOKING METHOD RECOMMENDATIONS ENGINE END');
-  log.info('===========================================\n');
+  log.info('===========================================')
+  log.info('COOKING METHOD RECOMMENDATIONS ENGINE END')
+  log.info('===========================================\n')
 
   return results;
 };
@@ -283,7 +283,7 @@ function _calculateAlchemicalScore(item: AlchemicalItem): number {
       score += item[prop as keyof AlchemicalItem] as number;
       count++
     }
-  });
+  })
 
   // Include thermodynamic properties if they exist
   ['heat', 'entropy', 'reactivity', 'gregsEnergy'].forEach(prop => {
@@ -291,7 +291,7 @@ function _calculateAlchemicalScore(item: AlchemicalItem): number {
       score += item[prop as keyof AlchemicalItem] as number;
       count++
     }
-  });
+  })
 
   // Calculate average score
   return count > 0 ? score / count : 0.5

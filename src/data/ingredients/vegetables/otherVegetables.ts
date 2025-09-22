@@ -790,4 +790,4 @@ const rawOtherVegetables = {
 
 // Fix the ingredient mappings to ensure they have all required properties
 export const _otherVegetables: Record<string, IngredientMapping> =
-  fixIngredientMappings(rawOtherVegetables);
+  fixIngredientMappings(rawOtherVegetables)

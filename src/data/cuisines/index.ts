@@ -93,7 +93,7 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
 
   // Ensure the cuisine has at least a valid ID and name
   const name = cuisine.name || '';
-  const id = cuisine.id || 'cuisine-' + name.toLowerCase().replace(/\s+/g, '-');
+  const id = cuisine.id || 'cuisine-' + name.toLowerCase().replace(/\s+/g, '-')
 
   return {
     id,

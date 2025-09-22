@@ -159,8 +159,8 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
   ];
 
   const methods: CulturalCookingMethod[] = [];
-  // Use a Set to track method names already added (case insensitive);
-  const addedMethods = new Set<string>();
+  // Use a Set to track method names already added (case insensitive)
+  const addedMethods = new Set<string>()
   // Keep track of method variations already mapped to main methods
   const methodVariationsMap: Record<string, Set<string>> = {};
 
@@ -173,7 +173,7 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
 
     cuisine.data.cookingTechniques.forEach(technique => {
       // Generate a unique ID for each cooking method
-      const methodName = technique.name.toLowerCase();
+      const methodName = technique.name.toLowerCase()
       const methodId = `${cuisine.name.toLowerCase()}_${methodName.replace(/\s+/g, '_')}`;
 
       // Skip if this is a duplicate name/cuisine combination
@@ -181,26 +181,26 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
       if (addedMethods.has(caseInsensitiveKey)) {
         return
       }
-      addedMethods.add(caseInsensitiveKey);
+      addedMethods.add(caseInsensitiveKey)
 
       // Check if this method is a variation of a standard cooking method
       // Use case-insensitive matching for technique mapping
       const relatedMainMethod = Object.entries(TECHNIQUE_MAPPING).find(
-        ([key]) => methodName.toLowerCase() === key.toLowerCase();
+        ([key]) => methodName.toLowerCase() === key.toLowerCase()
       )?.[1];
 
       // If this is a variation and we've already added a variation from this culture
       // to this main method, skip it to avoid duplicates
       if (relatedMainMethod) {
         if (!methodVariationsMap[relatedMainMethod]) {
-          methodVariationsMap[relatedMainMethod] = new Set<string>();
+          methodVariationsMap[relatedMainMethod] = new Set<string>()
         }
 
         const culturalMethodKey = `${cuisine.name.toLowerCase()}:${relatedMainMethod}`;
         if (methodVariationsMap[relatedMainMethod].has(culturalMethodKey)) {
           return
         }
-        methodVariationsMap[relatedMainMethod].add(culturalMethodKey);
+        methodVariationsMap[relatedMainMethod].add(culturalMethodKey)
       }
 
       const culturalMethod: CulturalCookingMethod = {
@@ -220,17 +220,17 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
         }
       };
 
-      methods.push(culturalMethod);
+      methods.push(culturalMethod)
 
       // Group method by main category for hierarchical organization
       if (relatedMainMethod) {
         if (!methodsByMainCategory[relatedMainMethod]) {
           methodsByMainCategory[relatedMainMethod] = [];
         }
-        methodsByMainCategory[relatedMainMethod].push(culturalMethod);
+        methodsByMainCategory[relatedMainMethod].push(culturalMethod)
       }
-    });
-  });
+    })
+  })
 
   // Add basic astrological influences for methods that don't have them
   methods.forEach(method => {
@@ -246,13 +246,13 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
         };
       }
     }
-  });
+  })
 
   return methods;
 }
 
 // Export a ready-to-use object with all cultural cooking methods
-export const culturalCookingMethods = extractCulturalCookingMethods();
+export const culturalCookingMethods = extractCulturalCookingMethods()
 
 // Helper to get methods by cultural origin
 export function getMethodsByCulture(culture: string): CulturalCookingMethod[] {
@@ -263,7 +263,7 @@ export function getMethodsByCulture(culture: string): CulturalCookingMethod[] {
 
 // Helper to get cultural variations of a main cooking method
 export function getCulturalVariations(mainMethod: string): CulturalCookingMethod[] {
-  return culturalCookingMethods.filter(method => method.relatedToMainMethod === mainMethod);
+  return culturalCookingMethods.filter(method => method.relatedToMainMethod === mainMethod)
 }
 
 // Helper to map elemental properties to astrological influences

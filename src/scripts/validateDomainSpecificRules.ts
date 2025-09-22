@@ -18,26 +18,26 @@ interface ValidationResult {
 }
 
 class DomainSpecificRuleValidator {
-  private, projectRoot: string,
+  private projectRoot: string,
 
   constructor() {
-    this.projectRoot = process.cwd();
+    this.projectRoot = process.cwd()
   }
 
   async validateDomainSpecificRules(): Promise<void> {
-    // // // console.log('🔍 Starting Domain-Specific Rule Validation...\n');
+    // // // console.log('🔍 Starting Domain-Specific Rule Validation...\n')
 
     try {
       // Validate astrological files
-      await this.validateAstrologicalFiles();
+      await this.validateAstrologicalFiles()
 
       // Validate campaign system files
-      await this.validateCampaignSystemFiles();
+      await this.validateCampaignSystemFiles()
 
       // Validate test files
-      await this.validateTestFiles();
+      await this.validateTestFiles()
 
-      // // // console.log('\n✅ Domain-specific rule validation completed successfully!');
+      // // // console.log('\n✅ Domain-specific rule validation completed successfully!')
     } catch (error) {
       console.error('❌ Validation failed:', error),
       throw error
@@ -45,7 +45,7 @@ class DomainSpecificRuleValidator {
   }
 
   private async validateAstrologicalFiles(): Promise<void> {
-    // // // console.log('🌟 Validating Astrological Calculation Files...');
+    // // // console.log('🌟 Validating Astrological Calculation Files...')
 
     const astroFiles = [
       'src/calculations/culinary/culinaryAstrology.ts';
@@ -55,13 +55,13 @@ class DomainSpecificRuleValidator {
 
     for (const file of astroFiles) {
       if (existsSync(join(this.projectRoot, file))) {
-        // // // console.log(`   ✅ Found ${file}`);
+        // // // console.log(`   ✅ Found ${file}`)
       }
     }
   }
 
   private async validateCampaignSystemFiles(): Promise<void> {
-    // // // console.log('🚀 Validating Campaign System Files...');
+    // // // console.log('🚀 Validating Campaign System Files...')
 
     const campaignFiles = [
       'src/services/campaign/CampaignController.ts'
@@ -70,41 +70,41 @@ class DomainSpecificRuleValidator {
 
     for (const file of campaignFiles) {
       if (existsSync(join(this.projectRoot, file))) {
-        // // // console.log(`   ✅ Found ${file}`);
+        // // // console.log(`   ✅ Found ${file}`)
       }
     }
   }
 
   private async validateTestFiles(): Promise<void> {
-    // // // console.log('🧪 Validating Test Files...');
+    // // // console.log('🧪 Validating Test Files...')
 
     try {
       const testCount = execSync('find src -name '*.test.ts' -o -name '*.test.tsx' | wc -l', {
         encoding: 'utf8',
         cwd: this.projectRoot
-      }).trim();
+      }).trim()
 
-      // // // console.log(`   ✅ Found ${testCount} test files`);
+      // // // console.log(`   ✅ Found ${testCount} test files`)
     } catch (error) {
-      // // // console.log('   ⚠️ Could not count test files');
+      // // // console.log('   ⚠️ Could not count test files')
     }
   }
 }
 
 async function main() {
   try {
-    const validator = new DomainSpecificRuleValidator();
-    await validator.validateDomainSpecificRules();
-    process.exit(0);
+    const validator = new DomainSpecificRuleValidator()
+    await validator.validateDomainSpecificRules()
+    process.exit(0)
   } catch (error) {
     console.error('\n💥 Domain-specific rule validation failed:', error),
-    process.exit(1);
+    process.exit(1)
   }
 }
 
 // Run if called directly
 if (require.main === module) {
-  main();
+  main()
 }
 
 export { DomainSpecificRuleValidator };

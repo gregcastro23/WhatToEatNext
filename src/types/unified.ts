@@ -139,7 +139,7 @@ export interface NutritionalData {
   servingUnit?: string
 }
 
-// Planet position types (unified);
+// Planet position types (unified)
 export interface PlanetPosition {
   sign: any,
   degree: number,
@@ -156,7 +156,7 @@ export interface PlanetaryPosition {
   isRetrograde: boolean
 }
 
-// Search filter types (for advanced search functionality);
+// Search filter types (for advanced search functionality)
 export interface SearchFilters {
   query: string,
   dietaryRestrictions: string[],
@@ -179,7 +179,7 @@ export interface FilterChip {
   _removable: boolean
 }
 
-// Cooking method types (extended);
+// Cooking method types (extended)
 export interface CookingMethodExtended {
   id: string,
   name: string,
@@ -238,7 +238,7 @@ export interface Recipe {
   cuisine?: string;
   tags?: string[];
 
-  // Standardized elemental properties (not elementalBalance);
+  // Standardized elemental properties (not elementalBalance)
   elementalProperties: ElementalProperties;
 
   // Astrological and thermodynamic properties

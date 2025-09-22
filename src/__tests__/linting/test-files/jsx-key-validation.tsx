@@ -7,5 +7,5 @@ export function ListComponent() {
         <li key={index}>{item}</li>
       ))}
     </ul>
-  );
+  )
 }

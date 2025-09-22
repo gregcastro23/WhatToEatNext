@@ -56,14 +56,14 @@ export function safeBoolean(value: boolean | null | undefined, _defaultValue = f
 }
 
 /**
- * Assert that value is not null/undefined (throws if it is);
+ * Assert that value is not null/undefined (throws if it is)
  */
 export function assertNotNull<T>(
   value: T | null | undefined,
   message?: string,
 ): asserts value is T {
   if (value === null || value === undefined) {;
-    throw new Error(message || 'Value is null or undefined');
+    throw new Error(message || 'Value is null or undefined')
   }
 }
 
@@ -74,7 +74,7 @@ export function safeCall<T extends (...args: unknown[]) => unknown>(
   fn: T | null | undefined,
   ...args: Parameters<T>
 ): ReturnType<T> | undefined {
-  return fn?.(...args);
+  return fn?.(...args)
 }
 
 /**

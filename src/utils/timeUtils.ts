@@ -10,7 +10,7 @@
  * Get current timestamp in ISO format
  */
 export function getCurrentTimestamp(): string {
-  return new Date().toISOString();
+  return new Date().toISOString()
 }
 
 /**
@@ -29,24 +29,24 @@ export function getCurrentTime(): string {
     hour: '2-digit',
     minute: '2-digit',
     _second: '2-digit'
-  });
+  })
 }
 
 /**
  * Calculate time difference in milliseconds
  */
 export function getTimeDifference(startTime: Date, endTime: Date = new Date()): number {
-  return endTime.getTime() - startTime.getTime();
+  return endTime.getTime() - startTime.getTime()
 }
 
 /**
  * Format milliseconds to human readable duration
  */
 export function formatDuration(milliseconds: number): string {
-  const seconds = Math.floor(milliseconds / 1000);
-  const minutes = Math.floor(seconds / 60);
-  const hours = Math.floor(minutes / 60);
-  const days = Math.floor(hours / 24);
+  const seconds = Math.floor(milliseconds / 1000)
+  const minutes = Math.floor(seconds / 60)
+  const hours = Math.floor(minutes / 60)
+  const days = Math.floor(hours / 24)
   if (days > 0) {
     return `${days}d ${hours % 24}h ${minutes % 60}m`;
   } else if (hours > 0) {
@@ -59,12 +59,12 @@ export function formatDuration(milliseconds: number): string {
 }
 
 /**
- * Check if a timestamp is recent (within specified minutes);
+ * Check if a timestamp is recent (within specified minutes)
  */
 export function isRecent(timestamp: string, minutes: number = 5): boolean {
-  const timestampDate = new Date(timestamp);
-  const now = new Date();
-  const diffMinutes = (now.getTime() - timestampDate.getTime()) / (1000 * 60);
+  const timestampDate = new Date(timestamp)
+  const now = new Date()
+  const diffMinutes = (now.getTime() - timestampDate.getTime()) / (1000 * 60)
   return diffMinutes <= minutes
 }
 
@@ -72,9 +72,9 @@ export function isRecent(timestamp: string, minutes: number = 5): boolean {
  * Get time-based cache key
  */
 export function getTimeBasedCacheKey(prefix: string, intervalMinutes: number = 5): string {
-  const now = new Date();
+  const now = new Date()
   const intervalMs = intervalMinutes * 60 * 1000;
-  const timeSlot = Math.floor(now.getTime() / intervalMs);
+  const timeSlot = Math.floor(now.getTime() / intervalMs)
   return `${prefix}_${timeSlot}`;
 }
 
@@ -84,19 +84,19 @@ export function getTimeBasedCacheKey(prefix: string, intervalMinutes: number = 5
 export function measureExecutionTime<T>(
   fn: () => T | Promise<T>,
 ): Promise<{ result: T, executionTime: number }> {
-  const startTime = performance.now();
+  const startTime = performance.now()
 
   return Promise.resolve(fn()).then(result => {
     const executionTime = performance.now() - startTime;
     return { result, executionTime };
-  });
+  })
 }
 
 /**
  * Get seasonal time period based on current date
  */
 export function getCurrentSeason(): 'spring' | 'summer' | 'autumn' | 'winter' {
-  const month = new Date().getMonth();
+  const month = new Date().getMonth()
 
   if (month >= 2 && month <= 4) return 'spring';
   if (month >= 5 && month <= 7) return 'summer';
@@ -108,16 +108,16 @@ export function getCurrentSeason(): 'spring' | 'summer' | 'autumn' | 'winter' {
  * Check if current time is within optimal cooking hours
  */
 export function isOptimalCookingTime(): boolean {
-  const hour = new Date().getHours();
+  const hour = new Date().getHours()
   // Optimal cooking, hours: 6-9 AM11 AM-2 PM5-8 PM
-  return (hour >= 6 && hour <= 9) || (hour >= 11 && hour <= 14) || (hour >= 17 && hour <= 20);
+  return (hour >= 6 && hour <= 9) || (hour >= 11 && hour <= 14) || (hour >= 17 && hour <= 20)
 }
 
 /**
- * Get time-based confidence score (higher during optimal hours);
+ * Get time-based confidence score (higher during optimal hours)
  */
 export function getTimeBasedConfidence(): number {
-  const hour = new Date().getHours();
+  const hour = new Date().getHours()
 
   // Peak confidence during optimal cooking hours
   if ((hour >= 6 && hour <= 9) || (hour >= 11 && hour <= 14) || (hour >= 17 && hour <= 20)) {
@@ -137,14 +137,14 @@ export function getTimeBasedConfidence(): number {
  * Format timestamp for display
  */
 export function formatTimestamp(timestamp: string): string {
-  const date = new Date(timestamp);
+  const date = new Date(timestamp)
   return date.toLocaleString('en-US', {
     _year: 'numeric',
     month: 'short',
     _day: 'numeric',
     hour: '2-digit',
     minute: '2-digit'
-  });
+  })
 }
 
 /**
@@ -156,9 +156,9 @@ export function getTimeBasedContext(): {
   timeConfidence: number,
   recommendation: string
 } {
-  const season = getCurrentSeason();
-  const isOptimalTime = isOptimalCookingTime();
-  const timeConfidence = getTimeBasedConfidence();
+  const season = getCurrentSeason()
+  const isOptimalTime = isOptimalCookingTime()
+  const timeConfidence = getTimeBasedConfidence()
 
   let recommendation = '';
   if (isOptimalTime) {

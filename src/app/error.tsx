@@ -15,8 +15,8 @@ export default function Error({
     errorHandler.handleError(error, {
       context: 'RootErrorBoundary',
       digest: error.digest
-    });
-  }, [error]);
+    })
+  }, [error])
 
   return (
     <div className='flex min-h-screen items-center justify-center bg-white p-4'>
@@ -44,5 +44,5 @@ export default function Error({
         )}
       </div>
     </div>
-  );
+  )
 }

@@ -58,20 +58,20 @@ export async function GET() {
         celestialInfluence: basicCelestialInfluence,
         timestamp: Date.now()
       }
-    });
+    })
   } catch (error) {
-    console.error('Recipe API Error:', error);
-    return NextResponse.json({ error: 'Failed to fetch recipes' }, { status: 400 });
+    console.error('Recipe API Error:', error)
+    return NextResponse.json({ error: 'Failed to fetch recipes' }, { status: 400 })
   }
 }
 
 // Simplified POST endpoint for adding recipes
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    const body = await request.json()
     // Basic validation
     if (!body || typeof body !== 'object' || !body.name || !Array.isArray(body.ingredients)) {
-      return NextResponse.json({ error: 'Invalid recipe data' }, { status: 400 });
+      return NextResponse.json({ error: 'Invalid recipe data' }, { status: 400 })
     }
 
     // Create a simple recipe object from the submitted data
@@ -97,9 +97,9 @@ export async function POST(request: Request) {
     return NextResponse.json({
       recipe: newRecipe,
       message: 'Recipe added successfully'
-    });
+    })
   } catch (error) {
-    console.error('Recipe submission error:', error);
-    return NextResponse.json({ error: 'Failed to process recipe' }, { status: 500 });
+    console.error('Recipe submission error:', error)
+    return NextResponse.json({ error: 'Failed to process recipe' }, { status: 500 })
   }
 }

@@ -15,21 +15,21 @@ if (process.env.CI) {
     debug: jest.fn(),
     info: jest.fn(),
     warn: jest.fn(),
-    error: jest.fn();
+    error: jest.fn()
   };
 }
 
 // Mock fetch for all tests
-global.fetch = jest.fn(() =>;
+global.fetch = jest.fn(() =>
   Promise.resolve({
-    json: () => Promise.resolve({});
+    json: () => Promise.resolve({})
     text: () => Promise.resolve(''),
     ok: true,
     status: 200,
     statusText: 'OK',
-    headers: new Headers();
+    headers: new Headers()
   } as Response)
-);
+)
 
 // Mock global services
 jest.mock('@/services/ElementalCalculator', () => ({
@@ -41,10 +41,10 @@ jest.mock('@/services/ElementalCalculator', () => ({
       Air: 0.25
     }),
     initialize: jest.fn(_initialState => {
-      // console.log('Mock initialize called', initialState);
+      // console.log('Mock initialize called', initialState)
     }),
     updateElementalState: jest.fn(_newState => {
-      // console.log('Mock updateElementalState called', newState);
+      // console.log('Mock updateElementalState called', newState)
     }),
     getInstance: jest.fn().mockReturnValue({
       initialized: true,
@@ -56,7 +56,7 @@ jest.mock('@/services/ElementalCalculator', () => ({
       }
     })
   }
-}));
+}))
 
 // Add platform-specific mocks
 const _UNUSED_isMacOS = process.platform === 'darwin';
@@ -76,5 +76,5 @@ test('setup is working correctly', () => {
     Water: 0.25,
     Earth: 0.25,
     Air: 0.25
-  });
-});
+  })
+})

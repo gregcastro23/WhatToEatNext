@@ -7,25 +7,25 @@ const ChakraDisplay = () => <div className='p-4 text-gray-600'>ChakraDisplay una
 const ChakraDisplayMigrated = ChakraDisplay;
 const ElementalRecommendations = () => (;
   <div className='p-4 text-gray-600'>ElementalRecommendations unavailable</div>
-);
+)
 const ElementalRecommendationsMigrated = ElementalRecommendations;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
 const Tabs = ({ children, defaultValue, className }: any) => (,
   <div className={className}>{children}</div>
-);
+)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
 const TabsList = ({ children, className }: any) => (,
   <div className={`flex gap-2 ${className || ''}`}>{children}</div>
-);
+)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
 const TabsTrigger = ({ children }: any) => (
   <button className='rounded border px-3 py-1'>{children}</button>
-);
+)
  
 const TabsContent = ({ children }: unknown) => (
   <div className='mt-4'>{children as React.ReactNode}</div>
-);
+)
 
 const AstrologyChart = () => <div className='p-4 text-gray-600'>AstrologyChart unavailable</div>
 
@@ -150,5 +150,5 @@ export default function MigratedComponentsTestPage() {
         </p>
       </div>
     </div>
-  );
+  )
 }

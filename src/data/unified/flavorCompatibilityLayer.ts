@@ -56,11 +56,11 @@ export function calculateFlavorCompatibility(
 ): LegacyFlavorCompatibilityResult {
   try {
     // Convert legacy profiles to unified format
-    const unifiedProfile1 = convertLegacyToUnified(profile1, 'legacy-1');
-    const unifiedProfile2 = convertLegacyToUnified(profile2, 'legacy-2');
+    const unifiedProfile1 = convertLegacyToUnified(profile1, 'legacy-1')
+    const unifiedProfile2 = convertLegacyToUnified(profile2, 'legacy-2')
 
     // Use new unified engine
-    const result = newCalculateFlavorCompatibility(unifiedProfile1, unifiedProfile2);
+    const result = newCalculateFlavorCompatibility(unifiedProfile1, unifiedProfile2)
 
     // Convert back to legacy format
     return convertUnifiedToLegacy(result)
@@ -84,7 +84,7 @@ export function calculateFlavorCompatibility(
  * @deprecated Use calculateFlavorCompatibility from unifiedFlavorEngine instead
  */
 export function calculateFlavorMatch(_profile1, _profile2: {}): number {
-  const result = calculateFlavorCompatibility(profile1, profile2);
+  const result = calculateFlavorCompatibility(profile1, profile2)
   return result.compatibility;
 }
 
@@ -100,22 +100,22 @@ export function calculateCuisineFlavorMatch(
     // Find cuisine profile in unified system
     const cuisineProfile = unifiedFlavorEngine.getProfile(
       `cuisine-${cuisineName.toLowerCase().replace(/\s+/g, '-')}`,
-    );
+    )
 
     if (!cuisineProfile) {
-      console.warn(`Cuisine profile not found: ${cuisineName}`);
+      console.warn(`Cuisine profile not found: ${cuisineName}`)
       return 0.5; // Neutral compatibility
     }
 
     // Convert recipe profile to unified format
-    const recipeProfile = convertLegacyToUnified(recipeFlavorProfile, 'recipe-temp');
+    const recipeProfile = convertLegacyToUnified(recipeFlavorProfile, 'recipe-temp')
 
     // Calculate compatibility
-    const compatibility = newCalculateFlavorCompatibility(recipeProfile, cuisineProfile);
+    const compatibility = newCalculateFlavorCompatibility(recipeProfile, cuisineProfile)
 
     return compatibility.overall;
   } catch (error) {
-    console.warn('Legacy cuisine flavor match error:', error);
+    console.warn('Legacy cuisine flavor match error:', error)
     return 0.5;
   }
 }
@@ -130,7 +130,7 @@ export function calculatePlanetaryFlavorMatch(
 ): number {
   try {
     // Convert recipe to unified format
-    const recipeProfile = convertLegacyToUnified(recipeFlavors, 'recipe-planetary');
+    const recipeProfile = convertLegacyToUnified(recipeFlavors, 'recipe-planetary')
 
     // Find strongest planetary influence
     const strongestPlanet = Object.entries(planetaryInfluences).sort((ab) => b[1] - a[1])[0];
@@ -139,19 +139,19 @@ export function calculatePlanetaryFlavorMatch(
 
     const planetProfile = unifiedFlavorEngine.getProfile(
       `planetary-${strongestPlanet[0].toLowerCase()}`,
-    );
+    )
 
     if (!planetProfile) {
-      console.warn(`Planetary profile not found: ${strongestPlanet[0]}`);
+      console.warn(`Planetary profile not found: ${strongestPlanet[0]}`)
       return 0.5;
     }
 
     // Calculate compatibility
-    const compatibility = newCalculateFlavorCompatibility(recipeProfile, planetProfile);
+    const compatibility = newCalculateFlavorCompatibility(recipeProfile, planetProfile)
 
     return compatibility.overall;
   } catch (error) {
-    console.warn('Legacy planetary flavor match error:', error);
+    console.warn('Legacy planetary flavor match error:', error)
     return 0.5;
   }
 }
@@ -164,7 +164,7 @@ export function getFlavorProfileForIngredient(ingredientName: string): LegacyFla
   try {
     const ingredientProfile = unifiedFlavorEngine.getProfile(
       `ingredient-${ingredientName.toLowerCase().replace(/\s+/g, '-')}`,
-    );
+    )
 
     if (ingredientProfile) {
       return convertUnifiedToLegacyProfile(ingredientProfile)
@@ -187,15 +187,15 @@ export function findCompatibleProfiles(
   minCompatibility = 0.7
 ): Array<{ profile: unknown, compatibility: number }> {
   try {
-    const unifiedTarget = convertLegacyToUnified(targetProfile, 'target-legacy');
+    const unifiedTarget = convertLegacyToUnified(targetProfile, 'target-legacy')
     const results = newFindCompatibleProfiles(unifiedTarget, minCompatibility),
 
     return (results || []).map(result => ({
       profile: convertUnifiedToLegacyProfile(result.profile),
       compatibility: result.compatibility.overall
-    }));
+    }))
   } catch (error) {
-    console.warn('Legacy compatible profiles error:', error);
+    console.warn('Legacy compatible profiles error:', error)
     return []
   }
 }
@@ -208,7 +208,7 @@ export function getCuisineProfile(cuisineName: string): LegacyCuisineProfile | n
   try {
     const cuisineProfile = unifiedFlavorEngine.getProfile(
       `cuisine-${cuisineName.toLowerCase().replace(/\s+/g, '-')}`,
-    );
+    )
 
     if (!cuisineProfile) return null;
 
@@ -227,7 +227,7 @@ export function getCuisineProfile(cuisineName: string): LegacyCuisineProfile | n
       description: cuisineProfile.description
     };
   } catch (error) {
-    console.warn('Legacy cuisine profile error:', error);
+    console.warn('Legacy cuisine profile error:', error)
     return null
   }
 }
@@ -242,14 +242,14 @@ export function calculateElementalCompatibility(
 ): number {
   try {
     // Create minimal unified profiles for elemental comparison
-    const unifiedProfile1: UnifiedFlavorProfile = createMinimalProfile('elemental-1', profile1);
-    const unifiedProfile2: UnifiedFlavorProfile = createMinimalProfile('elemental-2', profile2);
+    const unifiedProfile1: UnifiedFlavorProfile = createMinimalProfile('elemental-1', profile1)
+    const unifiedProfile2: UnifiedFlavorProfile = createMinimalProfile('elemental-2', profile2)
 
-    const compatibility = newCalculateFlavorCompatibility(unifiedProfile1, unifiedProfile2);
+    const compatibility = newCalculateFlavorCompatibility(unifiedProfile1, unifiedProfile2)
 
     return compatibility.elemental;
   } catch (error) {
-    console.warn('Legacy elemental compatibility error:', error);
+    console.warn('Legacy elemental compatibility error:', error)
     return 0.7, // Default good compatibility
   }
 }
@@ -399,7 +399,7 @@ function calculateIntensity(baseNotes: BaseFlavorNotes): number {
 
 function calculateComplexity(baseNotes: BaseFlavorNotes): number {
   const nonZeroFlavors = Object.values(baseNotes || {}).filter(val => val > 0.1).length;
-  return Math.min(1, nonZeroFlavors / 6);
+  return Math.min(1, nonZeroFlavors / 6)
 }
 
 // ===== LEGACY EXPORTS (for backward compatibility) =====

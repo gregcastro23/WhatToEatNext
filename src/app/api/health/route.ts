@@ -22,7 +22,7 @@ export async function GET() {
       }
     };
 
-    return NextResponse.json(healthStatus, { status: 200 });
+    return NextResponse.json(healthStatus, { status: 200 })
   } catch (error) {
     return NextResponse.json(
       {
@@ -31,11 +31,11 @@ export async function GET() {
         timestamp: new Date().toISOString()
       },
       { status: 500 },
-    );
+    )
   }
 }
 
 export async function HEAD() {
   // Simple HEAD request for basic health check
-  return new NextResponse(null, { status: 200 });
+  return new NextResponse(null, { status: 200 })
 }

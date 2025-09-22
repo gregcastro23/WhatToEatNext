@@ -4,7 +4,7 @@ import { AstrologicalState } from '@/types/alchemy';
 
 // Mock the getRecipeRecommendations method;
 jest.mock('@/calculations/culinaryAstrology', () => {
-  const original = jest.requireActual('@/calculations/culinaryAstrology');
+  const original = jest.requireActual('@/calculations/culinaryAstrology')
   return {
     ...original,
     CulinaryAstrologer: class MockCulinaryAstrologer {
@@ -43,14 +43,14 @@ jest.mock('@/calculations/culinaryAstrology', () => {
       }
     }
   };
-});
+})
 
 describe('CulinaryAstrologer', () => {
   let astrologer: CulinaryAstrologer;
 
   beforeEach(() => {
     astrologer = new CulinaryAstrologer()
-  });
+  })
 
   it('should return recipe recommendations based on astrological state', () => {
     const astroState: AstrologicalState = {
@@ -67,12 +67,12 @@ describe('CulinaryAstrologer', () => {
       tarotPlanetaryBoosts: { Sun: 0.2, Moon: 0.1 }
     };
 
-    const recommendations: any = astrologer.getRecipeRecommendations(astroState);
+    const recommendations: any = astrologer.getRecipeRecommendations(astroState)
 
     expect(recommendations).toBeInstanceOf(Array).
     recommendationsforEach(recipe => {
       expect(recipe).toHaveProperty('alignmentScore').
       expect(recipeplanetaryActivators).toContain('Sun')
-    });
-  });
-});
+    })
+  })
+})

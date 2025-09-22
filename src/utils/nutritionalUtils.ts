@@ -20,7 +20,7 @@ export function normalizeIngredientName(name: string): string {
       .replace(/[\s-/]+/g, '_')
       // Remove any remaining special characters
       .replace(/[^\w_]/g, '')
-  );
+  )
 }
 
 /**
@@ -34,7 +34,7 @@ export async function getNutritionalData(
   ingredientName: string,
 ): Promise<NutritionalProfile | null> {
   // Use the fetchNutritionalData function from nutritional.ts
-  const profile = await fetchNutritionalData(ingredientName);
+  const profile = await fetchNutritionalData(ingredientName)
 
   if (!profile) return null;
 
@@ -76,8 +76,8 @@ export async function compareNutritionalValues(
   ingredient2: NutritionalProfile | null,
   differences: Record<string, number>;
 }> {
-  const profile1 = await getNutritionalData(ingredient1);
-  const profile2 = await getNutritionalData(ingredient2);
+  const profile1 = await getNutritionalData(ingredient1)
+  const profile2 = await getNutritionalData(ingredient2)
 
   // Return early if either ingredient not found
   if (!profile1 || !profile2) {

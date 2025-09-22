@@ -5,7 +5,7 @@ import { logger as _logger } from '@/utils/logger';
 import { AlchemicalEngineAdvanced } from '../alchemicalEngine';
 // Import types for NaturalInfluenceParams interface
 
-// Define NaturalInfluenceParams interface locally (matching alchemicalEngine.ts);
+// Define NaturalInfluenceParams interface locally (matching alchemicalEngine.ts)
 interface NaturalInfluenceParams {
   season: string,
   moonPhase: LunarPhaseWithSpaces,
@@ -128,7 +128,7 @@ const planetInfo: Record<string, PlanetInfo> = {
   }
 };
 
-// Zodiac sign info (abbreviated for brevity, expand as needed);
+// Zodiac sign info (abbreviated for brevity, expand as needed)
 interface SignInfo {
   Element: Element
 }
@@ -193,52 +193,52 @@ function alchemize(_planetaryPositions: { [planet: string]: string }): Thermodyn
       totals[prop as keyof AlchemyTotals] += planetData.Alchemy[prop];
     }
 
-    // Sum elemental properties (use signInfo for sign's element);
+    // Sum elemental properties (use signInfo for sign's element)
     const signElement = signInfo[sign].Element;
     if (signElement && totals[signElement] !== undefined) {
       totals[signElement] += 1;
     }
   }
 
-  // 2. Calculate thermodynamic metrics (using exact formulas);
+  // 2. Calculate thermodynamic metrics (using exact formulas)
   const { Spirit, Essence, Matter, Substance, Fire, Water, Air, Earth} = totals;
 
   // Heat
-  const heatNum = Math.pow(Spirit2) + Math.pow(Fire2);
-  const heatDen = Math.pow(Substance + Essence + Matter + Water + Air + Earth2);
+  const heatNum = Math.pow(Spirit, 2) + Math.pow(Fire, 2)
+  const heatDen = Math.pow(Substance + Essence + Matter + Water + Air + Earth, 2)
   const heat = heatNum / heatDen;
 
   // Entropy
   const entropyNum =
-    Math.pow(Spirit2) + Math.pow(Substance, 2) + Math.pow(Fire2) + Math.pow(Air2);
-  const entropyDen = Math.pow(Essence + Matter + Earth + Water2);
+    Math.pow(Spirit, 2) + Math.pow(Substance, 2) + Math.pow(Fire, 2) + Math.pow(Air, 2)
+  const entropyDen = Math.pow(Essence + Matter + Earth + Water, 2)
   const entropy = entropyNum / entropyDen;
 
   // Reactivity
   const reactivityNum =
-    Math.pow(Spirit2) +;
+    Math.pow(Spirit, 2) +
     Math.pow(Substance, 2) +
     Math.pow(Essence, 2) +
-    Math.pow(Fire2) +
-    Math.pow(Air2) +
-    Math.pow(Water2);
-  const reactivityDen = Math.pow(Matter + Earth2);
+    Math.pow(Fire, 2) +
+    Math.pow(Air, 2) +
+    Math.pow(Water, 2)
+  const reactivityDen = Math.pow(Matter + Earth, 2)
   const reactivity = reactivityNum / reactivityDen;
 
   // Greg's Energy
   const gregsEnergy = heat - entropy * reactivity;
 
-  // Kalchm (K_alchm);
+  // Kalchm (K_alchm)
   const kalchm =
     (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /;
-    (Math.pow(Matter, Matter) * Math.pow(Substance, Substance));
+    (Math.pow(Matter, Matter) * Math.pow(Substance, Substance))
 
   // Monica constant
   let monica = NaN;
   if (kalchm > 0) {
-    const lnK = Math.log(kalchm);
+    const lnK = Math.log(kalchm)
     if (lnK !== 0) {
-      monica = -gregsEnergy / (reactivity * lnK);
+      monica = -gregsEnergy / (reactivity * lnK)
     }
   }
 
@@ -250,17 +250,17 @@ export { alchemize, signs, planetInfo, signInfo };
 
 // Pattern OO-4: Integration Import Resolution - AlchemicalEngine class for service compatibility
 export class AlchemicalEngine {
-  private, advanced: AlchemicalEngineAdvanced;
+  private advanced: AlchemicalEngineAdvanced;
 
   constructor() {
-    this.advanced = new AlchemicalEngineAdvanced();
+    this.advanced = new AlchemicalEngineAdvanced()
   }
 
   /**
    * Calculate thermodynamic metrics from planetary positions
    */
   alchemize(planetaryPositions: { [planet: string]: string }): ThermodynamicMetrics {
-    return alchemize(planetaryPositions);
+    return alchemize(planetaryPositions)
   }
 
   /**
@@ -294,7 +294,7 @@ export class AlchemicalEngine {
       astrologicalState,
       season,
       cuisine,
-    );
+    )
   }
 
   // Proxy: calculateAdvancedRecipeHarmony → calculateRecipeHarmony
@@ -304,23 +304,23 @@ export class AlchemicalEngine {
     astroState: AstrologicalState,
     _birthInfo?: unknown, // optional, legacy signature
   ) {
-    return this.advanced.calculateRecipeHarmony(recipeName, userElements, astroState);
+    return this.advanced.calculateRecipeHarmony(recipeName, userElements, astroState)
   }
 
   calculateAstrologicalPower(recipeSunSign: any, astrologicalState: AstrologicalState) {
-    return this.advanced.calculateAstrologicalPower(recipeSunSign, astrologicalState);
+    return this.advanced.calculateAstrologicalPower(recipeSunSign, astrologicalState)
   }
 
   getElementalAffinity(element1: keyof ElementalProperties, element2: keyof ElementalProperties) {
-    return this.advanced.getElementalAffinity(element1, element2);
+    return this.advanced.getElementalAffinity(element1, element2)
   }
 
   calculateNaturalInfluences(params: unknown) {
-    return this.advanced.calculateNaturalInfluences(params as NaturalInfluenceParams);
+    return this.advanced.calculateNaturalInfluences(params as NaturalInfluenceParams)
   }
 
   getElementRanking(elementObject: Record<string, number>) {
-    return this.advanced.getElementRanking(elementObject);
+    return this.advanced.getElementRanking(elementObject)
   }
 
   combineElementObjects(
@@ -338,7 +338,7 @@ export class AlchemicalEngine {
         Earth: elementObject1.Earth * weight1 + elementObject2.Earth * weight2
       };
     }
-    return this.advanced.combineElementObjects(elementObject1, elementObject2);
+    return this.advanced.combineElementObjects(elementObject1, elementObject2)
   }
 }
 

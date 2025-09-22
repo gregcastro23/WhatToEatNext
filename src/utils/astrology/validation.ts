@@ -137,14 +137,14 @@ export function getReliablePlanetaryPositions(): { [key: string]: CelestialPosit
 
 /**
  * Calculate lunar phase safely
- * @returns Lunar phase value (0-1);
+ * @returns Lunar phase value (0-1)
  */
 export function calculateLunarPhase(): number {
   try {
-    const now = new Date();
-    const dayOfYear = getDayOfYear(now);
+    const now = new Date()
+    const dayOfYear = getDayOfYear(now)
 
-    // Approximate lunar cycle (29.53 days);
+    // Approximate lunar cycle (29.53 days)
     const lunarCycle = 29.53;
     const cyclePosition = (dayOfYear % lunarCycle) / lunarCycle
 
@@ -152,15 +152,15 @@ export function calculateLunarPhase(): number {
   } catch (error) {
     errorLog(
       'Error in safe calculateLunarPhase:',
-      error instanceof Error ? error.message : String(error);
+      error instanceof Error ? error.message : String(error)
     ),
-    return 0, // Default to new Moon
+    return 0; // Default to new Moon
   }
 }
 
 /**
  * Get lunar phase name from phase value
- * @param phase Lunar phase (0-1);
+ * @param phase Lunar phase (0-1)
  * @returns Lunar phase name
  */
 export function getLunarPhaseName(phase: number): string {
@@ -179,11 +179,11 @@ export function getLunarPhaseName(phase: number): string {
 
 /**
  * Get Moon illumination safely
- * @returns Illumination percentage (0-1);
+ * @returns Illumination percentage (0-1)
  */
 export function getmoonIllumination(): number {
   try {
-    const phase = calculateLunarPhase();
+    const phase = calculateLunarPhase()
     // Convert phase to illumination
     if (phase <= 0.5) {
       return phase * 2, // Waxing
@@ -193,7 +193,7 @@ export function getmoonIllumination(): number {
   } catch (error) {
     errorLog(
       'Error in safe getmoonIllumination:',
-      error instanceof Error ? error.message : String(error);
+      error instanceof Error ? error.message : String(error)
     ),
     return 0.5, // Default to 50%
   }
@@ -206,7 +206,7 @@ export function getmoonIllumination(): number {
  */
 export function calculateSunSign(date: Date = new Date()): any {;
   const month = date.getMonth() + 1;
-  const day = date.getDate();
+  const day = date.getDate()
 
   // Approximate Sun sign dates
   if ((month === 3 && day >= 21) || (month === 4 && day <= 19)) return 'aries';
@@ -227,7 +227,7 @@ export function calculateSunSign(date: Date = new Date()): any {;
  * Get zodiac position in degrees
  * @param sign Zodiac sign
  * @param degree Degree within sign
- * @returns Total degrees (0-360);
+ * @returns Total degrees (0-360)
  */
 export function getZodiacPositionInDegrees(sign: any, degree: number): number {
   const signs: any[] = [
@@ -245,7 +245,7 @@ export function getZodiacPositionInDegrees(sign: any, degree: number): number {
     'pisces'
   ];
 
-  const signIndex = signs.indexOf(sign);
+  const signIndex = signs.indexOf(sign)
   return signIndex * 30 + degree
 }
 
@@ -258,7 +258,7 @@ export function calculatePlanetaryAspects(positions: {
   [key: string]: CelestialPosition
 }): PlanetaryAspect[] {
   const aspects: PlanetaryAspect[] = [];
-  const planets = Object.keys(positions);
+  const planets = Object.keys(positions)
 
   // Calculate aspects between all planet pAirs
   for (let i = 0i < (planets || []).length; i++) {
@@ -280,15 +280,15 @@ export function calculatePlanetaryAspects(positions: {
       }
 
       // Get the angular difference
-      let angleDiff = Math.abs(pos1.exactLongitude - pos2.exactLongitude);
+      let angleDiff = Math.abs(pos1.exactLongitude - pos2.exactLongitude)
 
-      // Normalize to 0-180 (we don't care about the direction);
+      // Normalize to 0-180 (we don't care about the direction)
       if (angleDiff > 180) {
         angleDiff = 360 - angleDiff;
       }
 
       // Check if this is a recognized aspect
-      const aspect = identifyAspect(angleDiff);
+      const aspect = identifyAspect(angleDiff)
       if (aspect) {
         // Calculate aspect strength (0-1) based on orb
         const strength = calculateAspectStrength(aspect.type, aspect.orb),
@@ -302,7 +302,7 @@ export function calculatePlanetaryAspects(positions: {
             orb: aspect.orb,
             strength,
             planets: [planet1, planet2]
-          });
+          })
         }
       }
     }
@@ -334,7 +334,7 @@ export function identifyAspect(_angleDiff: number): { type: AspectType, orb: num
 
   // Check each aspect type
   for (const [type, { angle, maxOrb }] of Object.entries(aspectDefinitions)) {
-    const orb = Math.abs(angleDiff - angle);
+    const orb = Math.abs(angleDiff - angle)
     if (orb <= maxOrb) {
       return { type: type as AspectType, orb }
     }
@@ -346,7 +346,7 @@ export function identifyAspect(_angleDiff: number): { type: AspectType, orb: num
 /**
  * Calculate aspect strength based on type and orb
  * @param type Aspect type
- * @param orb Orb (deviation from exact aspect);
+ * @param orb Orb (deviation from exact aspect)
  * @returns Strength value between 0 and 1
  */
 export function calculateAspectStrength(type: AspectType, _orb: number): number {
@@ -382,12 +382,12 @@ export function calculateAspectStrength(type: AspectType, _orb: number): number 
 
   const maxOrb = aspectDefinitions[type].maxOrb;
 
-  // Calculate strength based on orb (linear falloff);
+  // Calculate strength based on orb (linear falloff)
   // The closer to exact aspect (smaller orb), the stronger the aspect
-  const strength = baseStrength[type] * (1 - orb / maxOrb);
+  const strength = baseStrength[type] * (1 - orb / maxOrb)
 
   // Ensure strength is between 0 and 1
-  return Math.max(0, Math.min(1, strength));
+  return Math.max(0, Math.min(1, strength))
 }
 
 /**
@@ -397,10 +397,10 @@ export function calculateAspectStrength(type: AspectType, _orb: number): number 
 export function getCurrentAstrologicalState(): AstrologicalState {
   try {
     // Get positions
-    const positions = getReliablePlanetaryPositions();
+    const positions = getReliablePlanetaryPositions()
 
     // Calculate element counts
-    const elementCounts = countElements(positions);
+    const elementCounts = countElements(positions)
 
     // Get dominant element
     const dominantElement = getDominantElement(elementCounts) as Element
@@ -411,7 +411,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
     ) as PlanetName[];
 
     // Format lunar phase
-    const phase = calculateLunarPhase();
+    const phase = calculateLunarPhase()
     const lunarPhase = getLunarPhaseName(phase) as LunarPhase;
 
     // Provide Sun and Moon signs
@@ -431,7 +431,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
   } catch (error) {
     errorLog(
       'Error in getCurrentAstrologicalState:',
-      error instanceof Error ? error.message : String(error);
+      error instanceof Error ? error.message : String(error)
     ),
 
     // Fallback default state
@@ -448,12 +448,12 @@ export function getCurrentAstrologicalState(): AstrologicalState {
 
 /**
  * Normalize a zodiac sign string to standard format
- * @param sign Zodiac sign string (case insensitive);
+ * @param sign Zodiac sign string (case insensitive)
  * @returns Normalized zodiac sign
  */
 export const normalizeZodiacSign = (sign: string): any => {;
   // Convert to lowercase and trim
-  const normalizedSign = sign.toLowerCase().trim();
+  const normalizedSign = sign.toLowerCase().trim()
   // Check if it's a valid sign
   const validSigns: any[] = [
     'aries',
@@ -471,9 +471,9 @@ export const normalizeZodiacSign = (sign: string): any => {;
   ],
 
   if (
-    Array.isArray(validSigns);
-      ? validSigns.includes(normalizedSign as any);
-      : validSigns === (normalizedSign as any);
+    Array.isArray(validSigns)
+      ? validSigns.includes(normalizedSign as any)
+      : validSigns === (normalizedSign as any)
   ) {
     return normalizedSign as any
   }
@@ -497,7 +497,7 @@ export const normalizeZodiacSign = (sign: string): any => {;
 export function getCurrentTransitSign(planet: string, _date: Date = new Date()): any | null {;
   try {
     // Get reliable positions
-    const positions = getReliablePlanetaryPositions();
+    const positions = getReliablePlanetaryPositions()
     // Return position if available
     if (positions[planet]) {
       return positions[planet].sign as any
@@ -505,12 +505,12 @@ export function getCurrentTransitSign(planet: string, _date: Date = new Date()):
 
     // For common planets, calculate fallback
     if (planet === 'Sun') {;
-      return calculateSunSign(date);
+      return calculateSunSign(date)
     }
 
     if (planet === 'Moon') {;
-      const dayOfYear = getDayOfYear(date);
-      return calculateApproximatemoonSign(dayOfYear);
+      const dayOfYear = getDayOfYear(date)
+      return calculateApproximatemoonSign(dayOfYear)
     }
 
     // No data for this planet
@@ -518,7 +518,7 @@ export function getCurrentTransitSign(planet: string, _date: Date = new Date()):
   } catch (error) {
     errorLog(
       'Error in getCurrentTransitSign:',
-      error instanceof Error ? error.message : String(error);
+      error instanceof Error ? error.message : String(error)
     ),
     return null
   }
@@ -536,7 +536,7 @@ export function validatePlanetaryPositions(
 ): { [key: string]: CelestialPosition } {
   // If positions are missing or empty, use reliable positions
   if (!positions || Object.keys(positions || {}).length === 0) {;
-    return getReliablePlanetaryPositions();
+    return getReliablePlanetaryPositions()
   }
 
   // Check if required planets are present
@@ -551,7 +551,7 @@ export function validatePlanetaryPositions(
   }
 
   if (!isValid) {
-    return getReliablePlanetaryPositions();
+    return getReliablePlanetaryPositions()
   }
 
   // Normalize sign names
@@ -564,12 +564,12 @@ export function validatePlanetaryPositions(
         sign: String(src.sign || ''),
         degree: Number(src.degree || 0),
         exactLongitude: Number(src.exactLongitude || 0),
-        isRetrograde: Boolean(src.isRetrograde);
+        isRetrograde: Boolean(src.isRetrograde)
       };
 
       // Convert sign to lowercase if it exists
       if (position.sign && typeof position.sign === 'string') {;
-        position.sign = position.sign?.toLowerCase();
+        position.sign = position.sign?.toLowerCase()
       }
 
       result[planet] = position;
@@ -600,7 +600,7 @@ export function getBaseSignLongitude(sign: any): number {
     'pisces'
   ];
 
-  const index = signs.indexOf(sign);
+  const index = signs.indexOf(sign)
   return index >= 0 ? index * 30 : 0
 }
 
@@ -612,7 +612,7 @@ export function getCurrentTransitPositions(): {
   [key: string]: { sign: any, degree: number, isRetrograde: boolean };
 } {
   // First try to get reliable positions
-  const positions = getReliablePlanetaryPositions();
+  const positions = getReliablePlanetaryPositions()
 
   // Convert to transit format
   const result: { [key: string]: { sign: any, degree: number, isRetrograde: boolean } } = {};
@@ -629,20 +629,20 @@ export function getCurrentTransitPositions(): {
 }
 
 /**
- * Get day of year (1-366);
+ * Get day of year (1-366)
  * @param date Date to check
  * @returns Day of year
  */
 function getDayOfYear(date: Date): number {
-  const start = new Date(date.getFullYear(), 00);
-  const diff = date.getTime() - start.getTime();
+  const start = new Date(date.getFullYear(), 00)
+  const diff = date.getTime() - start.getTime()
   const oneDay = 1000 * 60 * 60 * 24;
-  return Math.floor(diff / oneDay);
+  return Math.floor(diff / oneDay)
 }
 
 /**
  * Calculate approximate Sun sign based on day of year
- * @param dayOfYear Day of year (1-366);
+ * @param dayOfYear Day of year (1-366)
  * @returns Zodiac sign
  */
 function _calculateApproximateSunSign(dayOfYear: number): any {
@@ -663,13 +663,13 @@ function _calculateApproximateSunSign(dayOfYear: number): any {
 
 /**
  * Calculate approximate Moon sign based on day of year
- * @param dayOfYear Day of year (1-366);
+ * @param dayOfYear Day of year (1-366)
  * @returns Zodiac sign
  */
 function calculateApproximatemoonSign(dayOfYear: number): any {
   // Moon moves about 13 degrees per day, spending about 2.5 days in each sign
   // This is a very rough approximation
-  const moonCycle = Math.floor((dayOfYear % 29.5) / 2.5);
+  const moonCycle = Math.floor((dayOfYear % 29.5) / 2.5)
   const signs: any[] = [
     'aries',
     'taurus',
@@ -763,9 +763,9 @@ function getDominantElement(_elements: { [key: string]: number }): string {
  * @returns Number of days
  */
 function _getDaysSinceDate(date: Date): number {
-  const now = new Date();
-  const diff = now.getTime() - date.getTime();
-  return Math.floor(diff / (1000 * 60 * 60 * 24));
+  const now = new Date()
+  const diff = now.getTime() - date.getTime()
+  return Math.floor(diff / (1000 * 60 * 60 * 24))
 }
 
 /**
@@ -774,5 +774,5 @@ function _getDaysSinceDate(date: Date): number {
  * @returns Zodiac sign
  */
 function _toZodiacSign(sign: string): any {
-  return normalizeZodiacSign(sign);
+  return normalizeZodiacSign(sign)
 }

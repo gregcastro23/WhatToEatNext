@@ -8,25 +8,25 @@ import { ThemeContext } from './context';
 import { Theme } from './types';
 
 export function ThemeProvider(_{ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('light');
+  const [theme, setTheme] = useState<Theme>('light')
 
   useEffect(() => {
     // Initialize theme from localStorage or system preference
     const savedTheme = localStorage.getItem('theme') as Theme;
     if (savedTheme) {
-      setTheme(savedTheme);
-      themeManager.updateTheme(savedTheme);
+      setTheme(savedTheme)
+      themeManager.updateTheme(savedTheme)
     }
-  }, []);
+  }, [])
 
   const handleThemeChange = (newTheme: Theme) => {
-    setTheme(newTheme);
-    themeManager.updateTheme(newTheme);
+    setTheme(newTheme)
+    themeManager.updateTheme(newTheme)
   };
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme: handleThemeChange }}>;
       {children}
     </ThemeContext.Provider>
-  );
+  )
 }

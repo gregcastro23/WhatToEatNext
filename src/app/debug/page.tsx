@@ -9,10 +9,10 @@ import { log } from '@/services/LoggingService';
 // Fallback, stubs: real debug components are not available in this build
 const StateInspector = () => (
   <div className='rounded border border-gray-200 bg-white p-4'>State Inspector unavailable</div>
-);
+)
 const DebugHub = () => (
   <div className='rounded border border-gray-200 bg-white p-4'>Debug Hub unavailable</div>
-);
+)
 
 import { testCookingMethodRecommendations } from '../../utils/testRecommendations';
 
@@ -31,11 +31,11 @@ interface TestResult {
 }
 
 function ClientOnly({ children }: { children: React.ReactNode }) {
-  const [hasMounted, setHasMounted] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false)
 
   useEffect(() => {
-    setHasMounted(true);
-  }, []);
+    setHasMounted(true)
+  }, [])
 
   if (!hasMounted) {
     return (
@@ -49,24 +49,24 @@ function ClientOnly({ children }: { children: React.ReactNode }) {
 }
 
 function DebugContent() {
-  const [testResults, setTestResults] = useState<TestResult | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [testResults, setTestResults] = useState<TestResult | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const runTest = () => {
-    setLoading(true);
-    setError(null);
+    setLoading(true)
+    setError(null)
 
     try {
-      log.info('Running cooking method recommendations test...');
-      const results = testCookingMethodRecommendations();
-      setTestResults(results as unknown);
-      log.info('Test complete, results:', results);
+      log.info('Running cooking method recommendations test...')
+      const results = testCookingMethodRecommendations()
+      setTestResults(results as unknown)
+      log.info('Test complete, results:', results)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error');
-      console.error('Test failed:', err);
+      setError(err instanceof Error ? err.message : 'Unknown error')
+      console.error('Test failed:', err)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
   };
 
@@ -140,7 +140,7 @@ function DebugContent() {
         )}
       </div>
     </div>
-  );
+  )
 }
 
 export default function DebugPage() {
@@ -152,5 +152,5 @@ export default function DebugPage() {
         </ClientOnly>
       </AstrologicalProvider>
     </AlchemicalProvider>
-  );
+  )
 }

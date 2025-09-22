@@ -130,7 +130,7 @@ export interface IngredientServiceInterface {
 
   /**
    * Get ingredient by name
-   * @param name The ingredient name (case-insensitive);
+   * @param name The ingredient name (case-insensitive)
    * @returns The ingredient or undefined if not found
    */
   getIngredientByName(name: string): UnifiedIngredient | undefined;
@@ -166,7 +166,7 @@ export interface IngredientServiceInterface {
   /**
    * Get ingredients by flavor profile
    * @param flavorProfile The flavor profile to match
-   * @param minMatchScore Minimum match score (0-1);
+   * @param minMatchScore Minimum match score (0-1)
    * @returns An array of ingredients matching the flavor profile
    */
   getIngredientsByFlavor(
@@ -176,7 +176,7 @@ export interface IngredientServiceInterface {
 
   /**
    * Get ingredients by season
-   * @param season The season(s);
+   * @param season The season(s)
    * @returns An array of seasonal ingredients
    */
   getIngredientsBySeason(season: Season | Season[]): UnifiedIngredient[];
@@ -208,8 +208,8 @@ export interface IngredientServiceInterface {
 
   /**
    * Calculate the compatibility between two ingredients
-   * @param ingredient1 First ingredient (name or object);
-   * @param ingredient2 Second ingredient (name or object);
+   * @param ingredient1 First ingredient (name or object)
+   * @param ingredient2 Second ingredient (name or object)
    * @returns Compatibility score (0-1) and compatibility aspects
    */
   calculateIngredientCompatibility(

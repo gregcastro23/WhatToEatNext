@@ -58,11 +58,11 @@ export async function getCuisineRecommendations(): Promise<CuisineRecommendation
           }
         };
       },
-    );
+    )
 
     return recommendations;
   } catch (error) {
-    console.error('Error getting cuisine recommendations:', error);
+    console.error('Error getting cuisine recommendations:', error)
     return [];
   }
 }
@@ -81,7 +81,7 @@ function deriveAstrologicalInfluences(tradition: unknown): string[] {
   if (
     astroProfile?.influences &&
     (astroProfile as any)?.influences.length > 0 &&
-    !(astroProfile as any)?.influences.includes('Universal');
+    !(astroProfile as any)?.influences.includes('Universal')
   ) {
     return (astroProfile as any)?.influences;
   }
@@ -92,7 +92,7 @@ function deriveAstrologicalInfluences(tradition: unknown): string[] {
   }
 
   // Collect influences from regional cuisines if available
-  const influences = new Set<string>();
+  const influences = new Set<string>()
 
   const regionalCuisines = traditionData?.regionalCuisines;
   if (regionalCuisines) {
@@ -107,10 +107,10 @@ function deriveAstrologicalInfluences(tradition: unknown): string[] {
 
       if (regionInfluences && Array.isArray(regionInfluences)) {
         regionInfluences.forEach((influence: string) => {
-          influences.add(influence);
-        });
+          influences.add(influence)
+        })
       }
-    });
+    })
   }
 
   // If we found regional influences, use those

@@ -1071,7 +1071,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-export const oils: Record<string, IngredientMapping> = fixIngredientMappings(rawOils);
+export const oils: Record<string, IngredientMapping> = fixIngredientMappings(rawOils)
 
 // For backward compatibility
 export const _allOils = oils;

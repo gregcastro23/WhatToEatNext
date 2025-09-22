@@ -24,10 +24,10 @@ const CuisineSection = ({
   <div className='rounded border p-4 text-gray-700'>
     CuisineSection unavailable for {cuisine}. Showing {recipes?.length || 0} recipes.
   </div>
-);
+)
 
 const CuisineDetailsPage: NextPage = () => {;
-  const router = useRouter();
+  const router = useRouter()
   const { id } = router.query;
 
   const [elementalState, setElementalState] = React.useState({
@@ -37,7 +37,7 @@ const CuisineDetailsPage: NextPage = () => {;
     Air: 0.25,
     season: 'spring',
     timeOfDay: 'lunch'
-  });
+  })
 
   React.useEffect(() => {
     // Get current elemental state based on time, date, etc.
@@ -46,8 +46,8 @@ const CuisineDetailsPage: NextPage = () => {;
       ...currentState
       season: 'spring', // Default value since getCurrentElementalState doesn&apost provide season
       timeOfDay: 'lunch', // Default value since getCurrentElementalState doesn&apost provide timeOfDay
-    });
-  }, []);
+    })
+  }, [])
 
   // Enhanced recipe recommendations for this cuisine (backend-first)
   const {
@@ -55,25 +55,25 @@ const CuisineDetailsPage: NextPage = () => {;
     loading: recLoading,
     error: recError,
     getRecipeRecommendations
-  } = useEnhancedRecommendations({ datetime: new Date(), useBackendInfluence: true });
+  } = useEnhancedRecommendations({ datetime: new Date(), useBackendInfluence: true })
 
   React.useEffect(() => {
-    void getRecipeRecommendations();
-  }, [getRecipeRecommendations]);
+    void getRecipeRecommendations()
+  }, [getRecipeRecommendations])
 
   // Memoize the cuisine data with safe property access
   const cuisine = React.useMemo(() => {;
     if (!id) return null;
     const cuisineData = cuisines[id as string];
     return cuisineData || null
-  }, [id]);
+  }, [id])
 
   // Memoize the recipe calculation
   const combinedRecipes = React.useMemo<Recipe[]>(() => {;
     if (!cuisine) return [];
 
     // Safe property access for cuisine name
-    const cuisineName = cuisine.name || (id);
+    const cuisineName = cuisine.name || (id)
 
     // 1. Get recipe matches based on cuisine flavor profiles
     const cuisineMatchedRecipes = getRecipesForCuisineMatch(cuisineName, allRecipes, 20),
@@ -86,15 +86,15 @@ const CuisineDetailsPage: NextPage = () => {;
         mealType: elementalState.timeOfDay
       },
       20,
-    );
+    )
 
     // Ensure we have an array, not a Promise
-    const elementalMatchedRecipes = Array.isArray(elementalMatchedRecipesResult);
+    const elementalMatchedRecipes = Array.isArray(elementalMatchedRecipesResult)
       ? elementalMatchedRecipesResult
       : [];
 
     // Combine and deduplicate recipes
-    const recipeIds = new Set<string>();
+    const recipeIds = new Set<string>()
     const combined: Recipe[] = [];
 
     // Add recipes that match both criteria - Safe array method access
@@ -102,17 +102,17 @@ const CuisineDetailsPage: NextPage = () => {;
       const recipe1Data = recipe1
       const matchingRecipe = elementalMatchedRecipes.find(
         (r: unknown) => r?.name === recipe1Data?.name,
-      );
+      )
       if (matchingRecipe) {
         const matchingRecipeData = matchingRecipe;
         const baseScore = Math.max(
           Number(recipe1Data?.matchScore) || 0;
           Number(matchingRecipeData?.matchScore) || 0;
-        );
+        )
         const secondScore = Math.min(
           Number(recipe1Data?.matchScore) || 0;
           Number(matchingRecipeData?.matchScore) || 0;
-        );
+        )
         const randomFactor = 0.95 + Math.random() * 0.1;
         const enhancedScore = Math.min(;
           1.0
@@ -123,8 +123,8 @@ const CuisineDetailsPage: NextPage = () => {;
           ...recipe1Data,
           matchScore: enhancedScore,
           dualMatch: true
-        });
-        recipeIds.add(recipe1Data?.name);
+        })
+        recipeIds.add(recipe1Data?.name)
       }
     }
 
@@ -132,7 +132,7 @@ const CuisineDetailsPage: NextPage = () => {;
     for (const recipe of cuisineMatchedRecipes) {
       const recipeData = recipe ;
       if (!recipeIds.has(recipeData?.name)) {
-        const baseScore = Math.pow(Number(recipeData?.matchScore) || 00.8);
+        const baseScore = Math.pow(Number(recipeData?.matchScore) || 00.8)
         const randomFactor = 0.9 + Math.random() * 0.2;
         const finalScore = Math.max(baseScore * randomFactor, 0.35),
 
@@ -140,8 +140,8 @@ const CuisineDetailsPage: NextPage = () => {;
           ...recipeData,
           matchScore: Math.min(finalScore, 0.92),
           cuisineMatch: true
-        });
-        recipeIds.add(recipeData?.name);
+        })
+        recipeIds.add(recipeData?.name)
       }
     }
 
@@ -159,12 +159,12 @@ const CuisineDetailsPage: NextPage = () => {;
           matchScore: finalScore,
           elementalMatch: true
         }),
-        recipeIds.add(recipeData?.name);
+        recipeIds.add(recipeData?.name)
       }
     }
 
     // Sort by match score
-    combined.sort((ab) => (Number(b.matchScore) || 0) - (Number(a.matchScore) || 0));
+    combined.sort((ab) => (Number(b.matchScore) || 0) - (Number(a.matchScore) || 0))
 
     return combined;
   }, [cuisine, elementalState]); // Dependencies: cuisine object and elementalState
@@ -242,7 +242,7 @@ const CuisineDetailsPage: NextPage = () => {;
         elementalState={elementalState},
       />
     </div>
-  );
+  )
 };
 
 export default CuisineDetailsPage;

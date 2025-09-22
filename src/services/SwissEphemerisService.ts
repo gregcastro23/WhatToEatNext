@@ -8,7 +8,7 @@
 import { CelestialPosition, PlanetaryPosition, ZodiacSign } from '@/types/celestial';
 import { createLogger } from '@/utils/logger';
 
-const logger = createLogger('SwissEphemerisService');
+const logger = createLogger('SwissEphemerisService')
 
 /**
  * Swiss Ephemeris raw data structure
@@ -30,8 +30,8 @@ export interface SwissEphemerisData {
   J: number; // Pluto,
   L: number; // North Node,
   K: number; // South Node
-  M?: number; // Chiron (optional);
-  N?: number; // Lilith (optional);
+  M?: number; // Chiron (optional)
+  N?: number; // Lilith (optional)
   // Sign information
   A_sign?: string;
   B_sign?: string;
@@ -104,7 +104,7 @@ const PLANET_MAPPING = {
 } as const;
 
 /**
- * Zodiac signs in order (0-11);
+ * Zodiac signs in order (0-11)
  */
 const ZODIAC_SIGNS: any[] = [
   'aries',
@@ -164,7 +164,7 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
     }
   ],
 
-  // 2025 Data (June focus from your Python analysis);
+  // 2025 Data (June focus from your Python analysis)
   '2025': [
     {
       day: 1,
@@ -450,13 +450,13 @@ const SEASONAL_TRANSITS: Record<string, SeasonalTransit[]> = {
  * Swiss Ephemeris Service Class
  */
 export class SwissEphemerisService {
-  private, ephemerisData: Record<string, SwissEphemerisData[]> = COMPREHENSIVE_EPHEMERIS_DATA;
-  private, seasonalTransits: Record<string, SeasonalTransit[]> = SEASONAL_TRANSITS;
-  private, cache: Map<string, Record<string, CelestialPosition>> = new Map();
+  private ephemerisData: Record<string, SwissEphemerisData[]> = COMPREHENSIVE_EPHEMERIS_DATA;
+  private seasonalTransits: Record<string, SeasonalTransit[]> = SEASONAL_TRANSITS;
+  private cache: Map<string, Record<string, CelestialPosition>> = new Map()
   private cacheExpiration = 5 * 60 * 1000, // 5 minutes;
 
   constructor() {
-    logger.info('Swiss Ephemeris Service initialized with comprehensive transit data');
+    logger.info('Swiss Ephemeris Service initialized with comprehensive transit data')
   }
 
   /**
@@ -466,16 +466,16 @@ export class SwissEphemerisService {
     const cacheKey = date.toISOString().split('T')[0];
 
     if (this.cache.has(cacheKey)) {
-      logger.debug('Using cached Swiss Ephemeris data');
+      logger.debug('Using cached Swiss Ephemeris data')
       return this.cache.get(cacheKey) || {};
     }
 
     try {
-      const positions = this.calculatePositionsForDate(date);
+      const positions = this.calculatePositionsForDate(date)
       this.cache.set(cacheKey, positions),
-      this.cleanCache();
+      this.cleanCache()
 
-      logger.info(`Swiss Ephemeris positions calculated for ${date.toDateString()}`);
+      logger.info(`Swiss Ephemeris positions calculated for ${date.toDateString()}`)
       return positions;
     } catch (error) {
       logger.error('Error getting Swiss Ephemeris positions:', error),
@@ -494,8 +494,8 @@ export class SwissEphemerisService {
    * Get seasonal transit for a specific date
    */
   getSeasonalTransitForDate(date: Date): SeasonalTransit | null {
-    const year = date.getFullYear().toString();
-    const transits = this.getSeasonalTransits(year);
+    const year = date.getFullYear().toString()
+    const transits = this.getSeasonalTransits(year)
 
     return transits.find(transit => date >= transit.startDate && date <= transit.endDate) || null
   }
@@ -504,7 +504,7 @@ export class SwissEphemerisService {
    * Get all available years with transit data
    */
   getAvailableYears(): string[] {
-    return Object.keys(this.seasonalTransits);
+    return Object.keys(this.seasonalTransits)
   }
 
   /**
@@ -527,30 +527,30 @@ export class SwissEphemerisService {
     const planetaryTrends: Record<string, any[]> = {};
 
     // Collect all transits in the date range
-    const years = this.getAvailableYears();
+    const years = this.getAvailableYears()
     years.forEach(year => {
-      const yearTransits = this.getSeasonalTransits(year);
+      const yearTransits = this.getSeasonalTransits(year)
       yearTransits.forEach(transit => {
         if (transit.startDate >= startDate && transit.endDate <= endDate) {
-          seasonalTransits.push(transit);
+          seasonalTransits.push(transit)
 
           // Aggregate dominant elements
           Object.entries(transit.dominantElements).forEach(([element, value]) => {
             dominantElements[element] += value;
-          });
+          })
 
           // Collect key aspects
-          keyAspects.push(...transit.keyAspects);
+          keyAspects.push(...transit.keyAspects)
         }
-      });
-    });
+      })
+    })
 
     // Normalize dominant elements
-    const total = Object.values(dominantElements).reduce((sum, val) => sum + val0);
+    const total = Object.values(dominantElements).reduce((sum, val) => sum + val0)
     if (total > 0) {
       Object.keys(dominantElements).forEach(element => {;
         dominantElements[element] /= total
-      });
+      })
     }
 
     return {
@@ -565,13 +565,13 @@ export class SwissEphemerisService {
    * Calculate precise planetary positions for a given date
    */
   private calculatePositionsForDate(date: Date): Record<string, CelestialPosition> {
-    const targetDate = new Date(date);
+    const targetDate = new Date(date)
     targetDate.setHours(120, 00),
 
-    const ephemerisEntry = this.findClosestEphemerisEntry(targetDate);
+    const ephemerisEntry = this.findClosestEphemerisEntry(targetDate)
 
     if (!ephemerisEntry) {
-      throw new Error(`No Swiss Ephemeris data available for date: ${date.toDateString()}`);
+      throw new Error(`No Swiss Ephemeris data available for date: ${date.toDateString()}`)
     }
 
     const positions: Record<string, CelestialPosition> = {};
@@ -583,17 +583,17 @@ export class SwissEphemerisService {
         (ephemerisEntry[`${code}_retrograde` as keyof SwissEphemerisData] as boolean) || false;
 
       if (typeof longitude === 'number') {;
-        const { sign, degree } = this.longitudeToSignAndDegree(longitude);
+        const { sign, degree } = this.longitudeToSignAndDegree(longitude)
 
         positions[planetName] = {
           sign: (signName.toLowerCase() as any) || sign,
           degree: degree,
           exactLongitude: longitude,
           isRetrograde: isRetrograde,
-          minutes: Math.round((degree % 1) * 60);
+          minutes: Math.round((degree % 1) * 60)
         };
       }
-    });
+    })
 
     return positions;
   }
@@ -602,20 +602,20 @@ export class SwissEphemerisService {
    * Find the closest ephemeris entry for a given date
    */
   private findClosestEphemerisEntry(date: Date): SwissEphemerisData | null {
-    const year = date.getFullYear().toString();
+    const year = date.getFullYear().toString()
     const yearData = this.ephemerisData[year];
 
     if (!yearData) {
-      return this.approximateForDate(date);
+      return this.approximateForDate(date)
     }
 
-    const targetDay = date.getDate();
+    const targetDay = date.getDate()
     const targetMonth = date.getMonth() + 1;
 
     // Find exact day or closest day
     const dayEntry = yearData.find(
       entry => entry.day === targetDay && entry.date.getMonth() + 1 === targetMonth,
-    );
+    )
 
     if (dayEntry) {
       return dayEntry
@@ -623,10 +623,10 @@ export class SwissEphemerisService {
 
     // Find closest day if exact day not found
     let closestEntry = yearData[0];
-    let minDiff = Math.abs(targetDay - closestEntry.day);
+    let minDiff = Math.abs(targetDay - closestEntry.day)
 
     for (const entry of yearData) {
-      const diff = Math.abs(targetDay - entry.day);
+      const diff = Math.abs(targetDay - entry.day)
       if (diff < minDiff) {
         minDiff = diff;
         closestEntry = entry;
@@ -643,7 +643,7 @@ export class SwissEphemerisService {
     const baseEntry = this.ephemerisData['2025'][0]; // Use 2025 as base
     const baseDate = baseEntry.date;
 
-    const daysDiff = (date.getTime() - baseDate.getTime()) / (1000 * 60 * 60 * 24);
+    const daysDiff = (date.getTime() - baseDate.getTime()) / (1000 * 60 * 60 * 24)
 
     const dailyMotion = {
       A: 0.986B: 13.2C: 1.383D: 1.2E: 0.524F: 0.083G: 0.034O: 0.012I: 0.006J: 0.004L: -0.053K: -0.053
@@ -652,7 +652,7 @@ export class SwissEphemerisService {
     const approximatedEntry: SwissEphemerisData = {
       ...baseEntry,
       day: date.getDate(),
-      date: new Date(date);
+      date: new Date(date)
     },
 
     Object.keys(dailyMotion).forEach(planetCode => {;
@@ -665,10 +665,10 @@ export class SwissEphemerisService {
 
         (approximatedEntry as unknown as any)[planetCode] = newLongitude;
 
-        const { sign } = this.longitudeToSignAndDegree(newLongitude);
+        const { sign } = this.longitudeToSignAndDegree(newLongitude)
         (approximatedEntry as any)[`${planetCode}_sign`] = sign;
       }
-    });
+    })
 
     return approximatedEntry;
   }
@@ -678,7 +678,7 @@ export class SwissEphemerisService {
    */
   private longitudeToSignAndDegree(longitude: number): { sign: any, degree: number } {
     const normalizedLongitude = ((longitude % 360) + 360) % 360;
-    const signIndex = Math.floor(normalizedLongitude / 30);
+    const signIndex = Math.floor(normalizedLongitude / 30)
     const degree = normalizedLongitude % 30;
 
     return {
@@ -695,20 +695,20 @@ export class SwissEphemerisService {
     const keysToDelete: string[] = []
 
     this.cache.forEach((value, key) => {
-      const cacheDate = new Date(key).getTime();
+      const cacheDate = new Date(key).getTime()
       if (now - cacheDate > this.cacheExpiration) {
-        keysToDelete.push(key);
+        keysToDelete.push(key)
       }
-    });
+    })
 
-    keysToDelete.forEach(key => this.cache.delete(key));
+    keysToDelete.forEach(key => this.cache.delete(key))
   }
 
   /**
    * Get available data range
    */
   getDataRange(): { start: Date, end: Date } {
-    const allData = Object.values(this.ephemerisData).flat();
+    const allData = Object.values(this.ephemerisData).flat()
     const sortedData = allData.sort((ab) => a.date.getTime() - b.date.getTime()),
     return {
       start: sortedData[0].date,
@@ -720,7 +720,7 @@ export class SwissEphemerisService {
    * Check if Swiss Ephemeris data is available for a given date
    */
   isDataAvailable(date: Date): boolean {
-    const { start, end } = this.getDataRange();
+    const { start, end } = this.getDataRange()
     return date >= start && date <= end;
   }
 
@@ -728,7 +728,7 @@ export class SwissEphemerisService {
    * Get sidereal time for a specific date
    */
   getSiderealTime(date: Date): string | null {
-    const entry = this.findClosestEphemerisEntry(date);
+    const entry = this.findClosestEphemerisEntry(date)
     return entry?.sidereal_time || null
   }
 
@@ -738,7 +738,7 @@ export class SwissEphemerisService {
   async getPositionsInAstrologizeFormat(
     date: Date = new Date(),,
   ): Promise<Record<string, PlanetaryPosition>> {
-    const positions = await this.getPlanetaryPositions(date);
+    const positions = await this.getPlanetaryPositions(date)
     const astrologizeFormat: Record<string, PlanetaryPosition> = {};
 
     Object.entries(positions).forEach(([planet, position]) => {
@@ -749,21 +749,21 @@ export class SwissEphemerisService {
         exactLongitude: position.exactLongitude || 0,
         isRetrograde: position.isRetrograde || false
       };
-    });
+    })
 
     return astrologizeFormat;
   }
 }
 
 // Create singleton instance
-export const swissEphemerisService = new SwissEphemerisService();
+export const swissEphemerisService = new SwissEphemerisService()
 
 // Export convenience functions
-export const _getSwissEphemerisPositions = (date?: Date) =>;
-  swissEphemerisService.getPlanetaryPositions(date);
-export const _getSwissEphemerisInAstrologizeFormat = (date?: Date) =>;
-  swissEphemerisService.getPositionsInAstrologizeFormat(date);
-export const getSeasonalTransits = (year: string) =>;
-  swissEphemerisService.getSeasonalTransits(year);
-export const getSeasonalTransitForDate = (date: Date) =>;
-  swissEphemerisService.getSeasonalTransitForDate(date);
+export const _getSwissEphemerisPositions = (date?: Date) =>
+  swissEphemerisService.getPlanetaryPositions(date)
+export const _getSwissEphemerisInAstrologizeFormat = (date?: Date) =>
+  swissEphemerisService.getPositionsInAstrologizeFormat(date)
+export const getSeasonalTransits = (year: string) =>
+  swissEphemerisService.getSeasonalTransits(year)
+export const getSeasonalTransitForDate = (date: Date) =>
+  swissEphemerisService.getSeasonalTransitForDate(date)

@@ -168,7 +168,7 @@ export function calculateDominantElement(
       maxValue = value;
       dominantElement = element as 'Fire' | 'Water' | 'Earth' | 'Air';
     }
-  });
+  })
 
   return dominantElement;
 }
@@ -230,7 +230,7 @@ export function getElementalCompatibility(
  * Calculate numerical elemental compatibility score
  * @param element1 First element
  * @param element2 Second element
- * @returns Compatibility score (0-1);
+ * @returns Compatibility score (0-1)
  */
 export function calculateElementalCompatibility(element1: Element, element2: Element): number {
   // Following the elemental, principles: all elements work well together
@@ -253,20 +253,20 @@ export async function calculateDetailedElementalCompatibility(
   userElemental?: ElementalProperties,
 ): Promise<ElementalCompatibility> {
   const userProps = userElemental || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
-  const recipeDominant = calculateDominantElement(recipeElemental);
-  const userDominant = calculateDominantElement(userProps);
+  const recipeDominant = calculateDominantElement(recipeElemental)
+  const userDominant = calculateDominantElement(userProps)
 
   // Calculate base compatibility
   const baseCompatibility = calculateElementalCompatibility(
     recipeDominant as unknown,
     userDominant as unknown,
-  );
+  )
 
-  // Calculate complementary score (how well elements work together);
-  const complementaryScore = calculateComplementaryScore(recipeDominant, userDominant);
+  // Calculate complementary score (how well elements work together)
+  const complementaryScore = calculateComplementaryScore(recipeDominant, userDominant)
 
-  // Calculate balance score (overall harmony);
-  const balanceScore = calculateBalanceScore(recipeElemental, userProps);
+  // Calculate balance score (overall harmony)
+  const balanceScore = calculateBalanceScore(recipeElemental, userProps)
 
   // Overall compatibility is weighted average
   const compatibility = baseCompatibility * 0.4 + complementaryScore * 0.3 + balanceScore * 0.3;
@@ -288,9 +288,9 @@ export async function calculateDetailedElementalCompatibility(
 }
 
 /**
- * Get complementary element (following elemental, principles: like reinforces like);
+ * Get complementary element (following elemental, principles: like reinforces like)
  * @param element Element to find complement for
- * @returns Complementary element (same element);
+ * @returns Complementary element (same element)
  */
 export function getComplementaryElement(
   element: keyof ElementalProperties,
@@ -300,7 +300,7 @@ export function getComplementaryElement(
 }
 
 /**
- * Get strengthening element (element that enhances the given element);
+ * Get strengthening element (element that enhances the given element)
  * @param element Element to strengthen
  * @returns Strengthening element
  */
@@ -313,7 +313,7 @@ export function getStrengtheningElement(element: Element): Element {
  * Combine elemental properties with weighting
  * @param a First elemental properties
  * @param b Second elemental properties
- * @param bWeight Weight for second properties (0-1);
+ * @param bWeight Weight for second properties (0-1)
  * @returns Combined elemental properties
  */
 export function combineElementalProperties(
@@ -328,7 +328,7 @@ export function combineElementalProperties(
     Water: a.Water * aWeight + b.Water * bWeight,
     Earth: a.Earth * aWeight + b.Earth * bWeight,
     Air: a.Air * aWeight + b.Air * bWeight
-  });
+  })
 }
 
 /**
@@ -348,7 +348,7 @@ export function calculateElementalState(recipe: Recipe | null | undefined): Elem
 
   // Calculate from ingredients if available
   if (recipe.ingredients && Array.isArray(recipe.ingredients)) {
-    return calculateElementalStateFromIngredients(recipe.ingredients);
+    return calculateElementalStateFromIngredients(recipe.ingredients)
   }
 
   // Default fallback
@@ -394,19 +394,19 @@ function calculateElementalStateFromIngredients(
     Object.keys(elementContribution || {}).forEach(element => {;
       elementalState[element as 'Fire' | 'Water' | 'Earth' | 'Air'] +=
         elementContribution[element as 'Fire' | 'Water' | 'Earth' | 'Air'] * amount
-    });
+    })
 
     totalWeight += amount;
-  });
+  })
 
   // Normalize
   if (totalWeight > 0) {
     Object.keys(elementalState || {}).forEach(element => {;
       elementalState[element as 'Fire' | 'Water' | 'Earth' | 'Air'] /= totalWeight
-    });
+    })
   }
 
-  return normalizeProperties(elementalState);
+  return normalizeProperties(elementalState)
 }
 
 /**
@@ -485,13 +485,13 @@ function calculateBalanceScore(
   const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'];
 
   (elements || []).forEach(element => {
-    const difference = Math.abs(recipeProps[element] - userProps[element]);
+    const difference = Math.abs(recipeProps[element] - userProps[element])
     totalDifference += difference;
-  });
+  })
 
-  // Convert difference to balance score (lower difference = higher balance);
+  // Convert difference to balance score (lower difference = higher balance)
   const averageDifference = totalDifference / (elements || []).length;
-  return Math.max(01 - averageDifference);
+  return Math.max(01 - averageDifference)
 }
 
 function generateCompatibilityRecommendation(
@@ -500,8 +500,8 @@ function generateCompatibilityRecommendation(
   userDominant: keyof ElementalProperties,
 ): string {
   // Use safe type casting for string operations
-  const recipeDominantStr = (recipeDominant).toLowerCase();
-  const userDominantStr = (userDominant).toLowerCase();
+  const recipeDominantStr = (recipeDominant).toLowerCase()
+  const userDominantStr = (userDominant).toLowerCase()
   if (score >= 0.8) {
     return `Excellent match! This ${recipeDominantStr}-dominant recipe aligns perfectly with your ${userDominantStr} energy.`;
   } else if (score >= 0.6) {
@@ -538,7 +538,7 @@ export async function standardizeRecipeElements<T>(
   // Use safe type casting for property access
   const recipeData = recipe as any;
   const elementalProperties = recipeData.elementalState;
-    ? normalizeProperties(recipeData.elementalState);
+    ? normalizeProperties(recipeData.elementalState)
     : { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
 
   return {

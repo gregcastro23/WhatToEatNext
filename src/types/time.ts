@@ -55,10 +55,10 @@ const PLANETARY_HOUR_SEQUENCE: PlanetName[] = [
 ];
 
 export function getTimeFactors(): TimeFactors {
-  const now = new Date();
-  const month = now.getMonth();
-  const hour = now.getHours();
-  const dayOfWeek = now.getDay();
+  const now = new Date()
+  const month = now.getMonth()
+  const hour = now.getHours()
+  const dayOfWeek = now.getDay()
 
   // Determine season (Northern Hemisphere)
   let season: Season;
@@ -109,7 +109,7 @@ export function getTimeFactors(): TimeFactors {
   const _hoursPerPlanetaryHour = isDay ? 12 / 12 : 12 / 12; // 1 hour each
 
   // Starting planet for the day's first hour
-  const startingPlanetIndex = PLANETARY_HOUR_SEQUENCE.indexOf(DAY_RULERS[weekDay]);
+  const startingPlanetIndex = PLANETARY_HOUR_SEQUENCE.indexOf(DAY_RULERS[weekDay])
 
   // Calculate current planetary hour (0-23)
   const planetaryHourOfDay = isDay ? hour - 6 : hour < 6 ? hour + 18 : hour - 6;

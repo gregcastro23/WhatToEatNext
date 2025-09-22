@@ -64,7 +64,7 @@ function normalizeSign(sign: string): any {
     return normalized as any
   }
 
-  throw new Error(`Invalid zodiac sign: ${sign}`);
+  throw new Error(`Invalid zodiac sign: ${sign}`)
 }
 
 function getZodiacElement(_sign: string): string {
@@ -201,7 +201,7 @@ export function alchemize(
     const alchemy = planetaryAlchemy[planet];
     if (alchemy) {
       // Apply dignity modifier
-      const dignity = getPlanetaryDignity(planet, position.sign);
+      const dignity = getPlanetaryDignity(planet, position.sign)
       const dignityMultiplier = Math.max(0.11 + dignity * 0.2); // Dignity affects strength
 
       totals.Spirit += alchemy.Spirit * dignityMultiplier;
@@ -211,7 +211,7 @@ export function alchemize(
     }
 
     // Add elemental contribution from sign
-    const element = getZodiacElement(position.sign);
+    const element = getZodiacElement(position.sign)
     const elementWeight = 1.0; // Base weight for sign element
 
     if (element === 'Fire') totals.Fire += elementWeight;
@@ -224,15 +224,15 @@ export function alchemize(
   const { Spirit, Essence, Matter, Substance, Fire, Water, Air, Earth} = totals;
 
   // Heat
-  const heatNum = Math.pow(Spirit, 2) + Math.pow(Fire, 2);
-  const heatDen = Math.pow(Substance + Essence + Matter + Water + Air + Earth, 2);
+  const heatNum = Math.pow(Spirit, 2) + Math.pow(Fire, 2)
+  const heatDen = Math.pow(Substance + Essence + Matter + Water + Air + Earth, 2)
   const heat = heatNum / (heatDen || 1); // Avoid division by zero
 
   // Entropy
   const entropyNum =
-    Math.pow(Spirit, 2) + Math.pow(Substance, 2) + Math.pow(Fire, 2) + Math.pow(Air, 2);
-  const entropyDen = Math.pow(Essence + Matter + Earth + Water, 2);
-  const entropy = entropyNum / (entropyDen || 1);
+    Math.pow(Spirit, 2) + Math.pow(Substance, 2) + Math.pow(Fire, 2) + Math.pow(Air, 2)
+  const entropyDen = Math.pow(Essence + Matter + Earth + Water, 2)
+  const entropy = entropyNum / (entropyDen || 1)
 
   // Reactivity
   const reactivityNum =
@@ -241,9 +241,9 @@ export function alchemize(
     Math.pow(Essence, 2) +
     Math.pow(Fire, 2) +
     Math.pow(Air, 2) +
-    Math.pow(Water, 2);
-  const reactivityDen = Math.pow(Matter + Earth, 2);
-  const reactivity = reactivityNum / (reactivityDen || 1);
+    Math.pow(Water, 2)
+  const reactivityDen = Math.pow(Matter + Earth, 2)
+  const reactivity = reactivityNum / (reactivityDen || 1)
 
   // Greg's Energy
   const gregsEnergy = heat - entropy * reactivity;
@@ -251,14 +251,14 @@ export function alchemize(
   // Kalchm (K_alchm)
   const kalchm =
     (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /
-    (Math.pow(Matter, Matter) * Math.pow(Substance, Substance));
+    (Math.pow(Matter, Matter) * Math.pow(Substance, Substance))
 
   // Monica constant
   let monica = 1.0; // Default value
   if (kalchm > 0) {
-    const lnK = Math.log(kalchm);
+    const lnK = Math.log(kalchm)
     if (lnK !== 0) {
-      monica = -gregsEnergy / (reactivity * lnK);
+      monica = -gregsEnergy / (reactivity * lnK)
     }
   }
 
@@ -270,7 +270,7 @@ export function alchemize(
   const score = Math.min(
     1.0,
     Math.max(0.0, (Spirit + Essence + Matter + Substance + Fire + Water + Air + Earth) / 20)
-  );
+  )
 
   return {
     elementalProperties: {
@@ -313,8 +313,8 @@ export function loadPlanetaryPositions(): Record<string, PlanetaryPosition> {
     }
 
     // In Node.js environment, try to read the file
-    const rawData = fs.readFileSync('extracted-planetary-positions.json', 'utf8');
-    const positions = JSON.parse(rawData);
+    const rawData = fs.readFileSync('extracted-planetary-positions.json', 'utf8')
+    const positions = JSON.parse(rawData)
 
     // Convert to the format expected by alchemize
     const convertedPositions: Record<string, PlanetaryPosition> = {};
@@ -332,8 +332,8 @@ export function loadPlanetaryPositions(): Record<string, PlanetaryPosition> {
 
     return convertedPositions;
   } catch (error) {
-    console.warn('Error loading planetary positions from file, using fallback data:', error);
-    return getFallbackPlanetaryPositions();
+    console.warn('Error loading planetary positions from file, using fallback data:', error)
+    return getFallbackPlanetaryPositions()
   }
 }
 

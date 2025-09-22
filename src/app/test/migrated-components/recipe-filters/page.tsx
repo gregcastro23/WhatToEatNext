@@ -27,41 +27,41 @@ const RecipeFiltersMigrated = ({
       Toggle Filters
     </button>
   </div>
-);
+)
 
 export default function RecipeFiltersTestPage() {
   // State for original filters
-  const [_originalFilters, setOriginalFilters] = useState<FilterState>(initialFilters);
-  const [_showOriginalFilters, setShowOriginalFilters] = useState(false);
+  const [_originalFilters, setOriginalFilters] = useState<FilterState>(initialFilters)
+  const [_showOriginalFilters, setShowOriginalFilters] = useState(false)
 
   // State for migrated filters
-  const [migratedFilters, setMigratedFilters] = useState<FilterState>(initialFilters);
-  const [showMigratedFilters, setShowMigratedFilters] = useState(false);
+  const [migratedFilters, setMigratedFilters] = useState<FilterState>(initialFilters)
+  const [showMigratedFilters, setShowMigratedFilters] = useState(false)
 
   // Update filters for original implementation
   const _updateOriginalFilters = (updates: Partial<FilterState>) => {
-    setOriginalFilters(prev => ({ ...prev, ...updates }));
-    logger.info('Original filters updated:', updates);
+    setOriginalFilters(prev => ({ ...prev, ...updates }))
+    logger.info('Original filters updated:', updates)
   };
 
   // Reset filters for original implementation
   const _resetOriginalFilters = () => {;
-    setOriginalFilters(initialFilters);
-    setShowOriginalFilters(false);
-    logger.info('Original filters reset');
+    setOriginalFilters(initialFilters)
+    setShowOriginalFilters(false)
+    logger.info('Original filters reset')
   };
 
   // Update filters for migrated implementation
   const updateMigratedFilters = (updates: Partial<FilterState>) => {
-    setMigratedFilters(prev => ({ ...prev, ...updates }));
-    logger.info('Migrated filters updated:', updates);
+    setMigratedFilters(prev => ({ ...prev, ...updates }))
+    logger.info('Migrated filters updated:', updates)
   };
 
   // Reset filters for migrated implementation
   const resetMigratedFilters = () => {;
-    setMigratedFilters(initialFilters);
-    setShowMigratedFilters(false);
-    logger.info('Migrated filters reset');
+    setMigratedFilters(initialFilters)
+    setShowMigratedFilters(false)
+    logger.info('Migrated filters reset')
   };
 
   // For monitoring filter changes
@@ -71,7 +71,7 @@ export default function RecipeFiltersTestPage() {
         <h3 className='mb-2 font-bold'>Current Filter State:</h3>
         <pre className='whitespace-pre-wrap'>{JSON.stringify(filters, null, 2)}</pre>
       </div>
-    );
+    )
   };
 
   return (
@@ -129,5 +129,5 @@ export default function RecipeFiltersTestPage() {
         </ul>
       </div>
     </div>
-  );
+  )
 }

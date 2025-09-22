@@ -28,11 +28,11 @@ export class AlchmWebSocket {
 
   connect(): void {
     if (!this.url) return;
-    this.ws = new WebSocket(this.url);
+    this.ws = new WebSocket(this.url)
     this.ws.onmessage = (event) => {
       try {
-        const message: WSMessage = JSON.parse(event.data as string);
-        this.handleMessage(message);
+        const message: WSMessage = JSON.parse(event.data as string)
+        this.handleMessage(message)
       } catch {
         // ignore malformed messages
       }
@@ -42,13 +42,13 @@ export class AlchmWebSocket {
   private handleMessage(message: WSMessage): void {
     switch (message.channel) {
       case 'planetary_hours':
-        this.updatePlanetaryHour(message.data);
+        this.updatePlanetaryHour(message.data)
         break;
       case 'energy_updates':
-        this.updateEnergy(message.data);
+        this.updateEnergy(message.data)
         break;
       case 'celestial_events':
-        this.updateCelestial(message.data);
+        this.updateCelestial(message.data)
         break;
       default:
         break;
@@ -64,4 +64,4 @@ export class AlchmWebSocket {
   private updateCelestial(_data: CelestialEvent): void {}
 }
 
-export const alchmWs = new AlchmWebSocket();
+export const alchmWs = new AlchmWebSocket()

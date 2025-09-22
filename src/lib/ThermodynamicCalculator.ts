@@ -41,18 +41,18 @@ export class ThermodynamicCalculator {
       }
 
       if (cookingTemperature) {
-        // Normalize cooking temperature (assuming max around 500°F);
-        const normalizedTemp = Math.min(cookingTemperature / 5001);
+        // Normalize cooking temperature (assuming max around 500°F)
+        const normalizedTemp = Math.min(cookingTemperature / 5001)
         heatValue += normalizedTemp * 0.2;
         weight += 1;
       }
 
       totalHeat += heatValue * weight;
       totalWeight += weight;
-    });
+    })
 
     // Normalize to a value between 0 and 1
-    return Math.min(1, Math.max(0, totalHeat / totalWeight));
+    return Math.min(1, Math.max(0, totalHeat / totalWeight))
   }
 
   calculateEntropyValue(ingredients: unknown[]): number {
@@ -70,7 +70,7 @@ export class ThermodynamicCalculator {
     totalWeight += 1;
 
     // Check for diversity in ingredient types
-    const categories = new Set();
+    const categories = new Set()
     ingredients.forEach(ingredient => {;
       // Extract ingredient data with safe property access
       const ingredientData = ingredient as {;
@@ -86,7 +86,7 @@ export class ThermodynamicCalculator {
       const elementalProperties = ingredientData?.elementalProperties
 
       if (category) {
-        categories.add(category);
+        categories.add(category)
       }
 
       // Fermented ingredients have high entropy
@@ -101,12 +101,12 @@ export class ThermodynamicCalculator {
         totalWeight += 1;
       }
 
-      // Air element contributes to entropy (representing change and variability);
+      // Air element contributes to entropy (representing change and variability)
       if (elementalProperties?.Air) {
         totalEntropy += ((elementalProperties as any)?.Air || 0) * 0.2;
         totalWeight += 1;
       }
-    });
+    })
 
     // Add diversity factor
     const diversityFactor = Math.min(categories.size / 51) * 0.4;
@@ -114,7 +114,7 @@ export class ThermodynamicCalculator {
     totalWeight += 1;
 
     // Normalize to a value between 0 and 1
-    return Math.min(1, Math.max(0, totalEntropy / totalWeight));
+    return Math.min(1, Math.max(0, totalEntropy / totalWeight))
   }
 
   calculateReactivityValue(ingredients: unknown[]): number {
@@ -143,7 +143,7 @@ export class ThermodynamicCalculator {
       const enzymeActivity = ingredientData?.enzymeActivity;
       const elementalProperties = ingredientData?.elementalProperties
 
-      // pH value affects reactivity (further from neutral = more reactive);
+      // pH value affects reactivity (further from neutral = more reactive)
       if (pH) {
         const pHDeviation = Math.abs(pH - 7) / 7; // Normalize pH deviation
         reactivityValue += pHDeviation * 0.5;
@@ -170,9 +170,9 @@ export class ThermodynamicCalculator {
 
       totalReactivity += reactivityValue * weight;
       totalWeight += weight;
-    });
+    })
 
     // Normalize to a value between 0 and 1
-    return Math.min(1, Math.max(0, totalReactivity / totalWeight));
+    return Math.min(1, Math.max(0, totalReactivity / totalWeight))
   }
 }

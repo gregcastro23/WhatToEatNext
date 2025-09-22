@@ -38,7 +38,7 @@ export interface ChakraProperty {
 // Define chakra properties by position
 export type ChakraProperties = Record<ChakraPosition, ChakraProperty>;
 
-// Define a type for chakra energies (defined as interface below);
+// Define a type for chakra energies (defined as interface below)
 // Define chakra mapping for tarot/major arcana
 export interface KeyCardChakraMapping {
   cardName: string,
@@ -298,7 +298,7 @@ export const _SUIT_CHAKRA_MAPPINGS: SuitChakraMapping[]  = [
   }
 ];
 
-// Key card to chakra mappings (tarot cards and their planetary/chakra associations);
+// Key card to chakra mappings (tarot cards and their planetary/chakra associations)
 export const _KEY_CARD_CHAKRA_MAPPINGS: KeyCardChakraMapping[]  = [
   {
     cardName: 'The Fool',

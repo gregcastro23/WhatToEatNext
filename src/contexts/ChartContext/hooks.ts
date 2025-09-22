@@ -11,7 +11,7 @@ import type { ChartContextType } from './types';
  * @throws Error if used outside of ChartProvider
  */
 export const useChart = (): ChartContextType => {
-  const context = useContext(ChartContext);
+  const context = useContext(ChartContext)
 
   if (!context) {
     throw new Error('useChart must be used within a ChartProvider')

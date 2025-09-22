@@ -16,7 +16,7 @@ export function determineModalityFromElements(_elementalProperties: ElementalPro
   const { Fire, Water, Earth, Air} = elementalProperties;
 
   // Determine dominant element
-  const dominantElement = getDominantElement(elementalProperties);
+  const dominantElement = getDominantElement(elementalProperties)
 
   // Primary determination based on dominant element and its strength
   switch (dominantElement) {

@@ -32,15 +32,15 @@ export const _getMethodsForZodiacSign = (sign: any): Record<string, CookingMetho
     .filter(([_, method]) => {
       // Apply safe type casting for method property access
       const methodData = method
-      return methodData?.astrologicalInfluences?.favorableZodiac?.includes(sign);
+      return methodData?.astrologicalInfluences?.favorableZodiac?.includes(sign)
     })
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
 };
 
 /**
  * Get cooking methods that have a specific dominant element
- * @param element The element to check for (Fire, Water, Earth, Air);
- * @param threshold The minimum value for that element (0.0-1.0);
+ * @param element The element to check for (Fire, Water, Earth, Air)
+ * @param threshold The minimum value for that element (0.0-1.0)
  * @returns Object containing cooking methods with that elemental dominance
  */
 export const _getMethodsByElement = (
@@ -53,12 +53,12 @@ export const _getMethodsByElement = (
       const methodData = method
       return (methodData?.elementalEffect?.[element] || 0) >= threshold;
     })
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
 };
 
 /**
  * Get cooking methods suitable for a specific ingredient type
- * @param ingredientType The type of ingredient (e.g., 'meat', 'vegetables');
+ * @param ingredientType The type of ingredient (e.g., 'meat', 'vegetables')
  * @returns Object containing suitable cooking methods
  */
 export const _getMethodsForIngredientType = (
@@ -72,7 +72,7 @@ export const _getMethodsForIngredientType = (
         type?.toLowerCase()?.includes(ingredientType.toLowerCase())
       )
     })
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
 };
 
 /**
@@ -90,7 +90,7 @@ export const _getMethodsByPlanet = (planet: string): Record<string, CookingMetho
         methodData?.astrologicalInfluences?.rulingPlanets?.includes(planet)
       )
     })
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
 };
 
 // Export individual categories

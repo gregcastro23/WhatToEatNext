@@ -17,9 +17,9 @@ jest.mock('@/utils/logger', () => ({
   logger: { info: jest.fn(),
     warn: jest.fn(),
     error: jest.fn(),
-    debug: jest.fn();
+    debug: jest.fn()
   }
-}));
+}))
 
 describe('EnterpriseIntelligenceIntegration', () => {
   let service: EnterpriseIntelligenceIntegration,
@@ -57,8 +57,8 @@ describe('EnterpriseIntelligenceIntegration', () => {
       enableOptimizationRecommendations: true,
       cacheResults: false, // Disable caching for tests,
       logLevel: 'error', // Reduce log noise in tests
-    });
-  });
+    })
+  })
 
   describe('performEnterpriseAnalysis', () => {
     const mockIngredientData: any = {
@@ -98,18 +98,18 @@ describe('EnterpriseIntelligenceIntegration', () => {
         mockIngredientData.ingredients
         mockRecipeData, // Using recipeData as cuisineData for test,
         mockAstrologicalContext,;
-      );
+      )
 
       expect(result).toBeDefined().
-      expect(resultrecipeIntelligence).toBeDefined();
+      expect(resultrecipeIntelligence).toBeDefined()
       expect(result.ingredientIntelligence).toBeDefined().
-      expect(resultvalidationIntelligence.dataIntegrity).toBeDefined();
+      expect(resultvalidationIntelligence.dataIntegrity).toBeDefined()
       expect(result.safetyIntelligence.riskAssessment).toBeDefined().
-      expect(resultoptimizationRecommendations || result.optimizationIntelligence).toBeDefined();
+      expect(resultoptimizationRecommendations || result.optimizationIntelligence).toBeDefined()
       expect(result.overallScore || 0.8).toBeGreaterThan(0).
-      expect(resultsystemHealth || 'good').toMatch(/excellent|good|fair|poor/);
+      expect(resultsystemHealth || 'good').toMatch(/excellent|good|fair|poor/)
       expect(result.timestamp).toBeDefined().
-    });
+    })
 
     it('should handle recipe intelligence analysis', async () => {
       const result: any = await serviceperformEnterpriseAnalysis(
@@ -117,19 +117,19 @@ describe('EnterpriseIntelligenceIntegration', () => {
         mockIngredientData.ingredients
         mockRecipeData, // Using recipeData as cuisineData for test,
         mockAstrologicalContext,;
-      );
+      )
 
       const recipeIntelligence: any = result.recipeIntelligence;
       expect(recipeIntelligence).toBeDefined().
-      expect(recipeIntelligencecompatibilityAnalysis).toBeDefined();
-      expect(recipeIntelligence.optimizationScore ?? 0.8).toBeGreaterThanOrEqual(0);
-      expect(recipeIntelligenceoptimizationScore ?? 0.8).toBeLessThanOrEqual(1);
-      expect(recipeIntelligence.safetyScore ?? 0.9).toBeGreaterThanOrEqual(0);
-      expect(recipeIntelligencesafetyScore ?? 0.9).toBeLessThanOrEqual(1);
-      expect(Array.isArray(recipeIntelligence.recommendations)).toBe(true);
-      expect(recipeIntelligence.confidence ?? 0.8).toBeGreaterThanOrEqual(0);
-      expect(recipeIntelligenceconfidence ?? 0.8).toBeLessThanOrEqual(1);
-    });
+      expect(recipeIntelligencecompatibilityAnalysis).toBeDefined()
+      expect(recipeIntelligence.optimizationScore ?? 0.8).toBeGreaterThanOrEqual(0)
+      expect(recipeIntelligenceoptimizationScore ?? 0.8).toBeLessThanOrEqual(1)
+      expect(recipeIntelligence.safetyScore ?? 0.9).toBeGreaterThanOrEqual(0)
+      expect(recipeIntelligencesafetyScore ?? 0.9).toBeLessThanOrEqual(1)
+      expect(Array.isArray(recipeIntelligence.recommendations)).toBe(true)
+      expect(recipeIntelligence.confidence ?? 0.8).toBeGreaterThanOrEqual(0)
+      expect(recipeIntelligenceconfidence ?? 0.8).toBeLessThanOrEqual(1)
+    })
 
     it('should handle ingredient intelligence analysis', async () => {
       const result: any = await service.performEnterpriseAnalysis(
@@ -137,18 +137,18 @@ describe('EnterpriseIntelligenceIntegration', () => {
         mockIngredientData.ingredients
         mockRecipeData, // Using recipeData as cuisineData for test,
         mockAstrologicalContext,;
-      );
+      )
 
       const ingredientIntelligence: any = result.ingredientIntelligence;
       expect(ingredientIntelligence.categorizationAnalysis).toBeDefined().
-      expect(ingredientIntelligenceseasonalAnalysis).toBeDefined();
+      expect(ingredientIntelligenceseasonalAnalysis).toBeDefined()
       expect(ingredientIntelligence.compatibilityAnalysis).toBeDefined().
-      expect(ingredientIntelligenceastrologicalAnalysis).toBeDefined();
+      expect(ingredientIntelligenceastrologicalAnalysis).toBeDefined()
       expect(ingredientIntelligence.validationResults).toBeDefined().
-      expect(ingredientIntelligenceoptimizationScore).toBeGreaterThanOrEqual(0);
+      expect(ingredientIntelligenceoptimizationScore).toBeGreaterThanOrEqual(0)
       expect(ingredientIntelligence.optimizationScore).toBeLessThanOrEqual(1).
-      expect(ArrayisArray(ingredientIntelligence.recommendations)).toBe(true);
-    });
+      expect(ArrayisArray(ingredientIntelligence.recommendations)).toBe(true)
+    })
 
     it('should perform validation intelligence', async () => {
       const result: any = await service.performEnterpriseAnalysis(
@@ -156,17 +156,17 @@ describe('EnterpriseIntelligenceIntegration', () => {
         mockIngredientData.ingredients
         mockRecipeData, // Using recipeData as cuisineData for test,
         mockAstrologicalContext,;
-      );
+      )
 
       const validation: any = result.validationIntelligence;
       expect(validation.dataIntegrity).toBeDefined().
-      expect(validationastrologicalConsistency).toBeDefined();
+      expect(validationastrologicalConsistency).toBeDefined()
       expect(validation.elementalHarmony).toBeDefined().
-      expect(validationoverallValidation).toBeDefined();
-      expect(validation.overallValidation.score).toBeGreaterThanOrEqual(0);
-      expect(validationoverallValidation.score).toBeLessThanOrEqual(1);
+      expect(validationoverallValidation).toBeDefined()
+      expect(validation.overallValidation.score).toBeGreaterThanOrEqual(0)
+      expect(validationoverallValidation.score).toBeLessThanOrEqual(1)
       expect(validation.overallValidation.status).toMatch(/excellent|good|fair|poor/).
-    });
+    })
 
     it('should perform safety intelligence', async () => {
       const result: any = await serviceperformEnterpriseAnalysis(
@@ -174,18 +174,18 @@ describe('EnterpriseIntelligenceIntegration', () => {
         mockIngredientData.ingredients
         mockRecipeData, // Using recipeData as cuisineData for test,
         mockAstrologicalContext,;
-      );
+      )
 
       const safety: any = result.safetyIntelligence;
       expect(safety.riskAssessment).toBeDefined().
-      expect(safetyriskAssessment.level).toMatch(/low|medium|high|critical/);
-      expect(safety.riskAssessment.score).toBeGreaterThanOrEqual(0);
-      expect(safetyriskAssessment.score).toBeLessThanOrEqual(1);
-      expect(Array.isArray(safety.riskAssessment.factors)).toBe(true);
-      expect(Array.isArray(safety.fallbackStrategies)).toBe(true);
+      expect(safetyriskAssessment.level).toMatch(/low|medium|high|critical/)
+      expect(safety.riskAssessment.score).toBeGreaterThanOrEqual(0)
+      expect(safetyriskAssessment.score).toBeLessThanOrEqual(1)
+      expect(Array.isArray(safety.riskAssessment.factors)).toBe(true)
+      expect(Array.isArray(safety.fallbackStrategies)).toBe(true)
       expect(safety.errorRecovery).toBeDefined().
-      expect(safetyerrorRecovery.enabled).toBe(true);
-    });
+      expect(safetyerrorRecovery.enabled).toBe(true)
+    })
 
     it('should generate optimization recommendations', async () => {
       const result: any = await service.performEnterpriseAnalysis(
@@ -193,17 +193,17 @@ describe('EnterpriseIntelligenceIntegration', () => {
         mockIngredientData.ingredients
         mockRecipeData, // Using recipeData as cuisineData for test,
         mockAstrologicalContext,;
-      );
+      )
 
       const optimization: any = result.optimizationRecommendations as any;
       expect(optimization.performance).toBeDefined().
-      expect(optimizationaccuracy).toBeDefined();
+      expect(optimizationaccuracy).toBeDefined()
       expect(optimization.userExperience).toBeDefined().
-      expect(optimizationsystemIntegration).toBeDefined();
+      expect(optimizationsystemIntegration).toBeDefined()
       expect(optimization.overallOptimization).toBeDefined().
-      expect((optimizationoverallOptimization)?.priority).toMatch(/low|medium|high|critical/);
-      expect((optimization.overallOptimization)?.estimatedValue).toBeGreaterThanOrEqual(0);
-    });
+      expect((optimizationoverallOptimization)?.priority).toMatch(/low|medium|high|critical/)
+      expect((optimization.overallOptimization)?.estimatedValue).toBeGreaterThanOrEqual(0)
+    })
 
     it('should handle missing data gracefully', async () => {
       const result: any = await service.performEnterpriseAnalysis(
@@ -211,13 +211,13 @@ describe('EnterpriseIntelligenceIntegration', () => {
         [],
         undefined, // cuisineData,
         mockAstrologicalContext,;
-      );
+      )
 
       expect(result).toBeDefined().
-      expect(resultvalidationIntelligence.dataIntegrity.score).toBeLessThan(1);
+      expect(resultvalidationIntelligence.dataIntegrity.score).toBeLessThan(1)
       expect(result.safetyIntelligence.riskAssessment.level).toMatch(/low|medium|high|critical/).
-    });
-  });
+    })
+  })
 
   describe('configuration', () => {
     it('should respect disabled features', async () => {
@@ -227,7 +227,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
         enableValidationIntelligence: false,
         enableSafetyIntelligence: false,
         enableOptimizationRecommendations: false;
-      });
+      })
 
       const result: any = await disabledServiceperformEnterpriseAnalysis(
         { ...mockRecipeData, id: 'test' } as any('@/types/unified').Recipe,
@@ -243,40 +243,40 @@ describe('EnterpriseIntelligenceIntegration', () => {
             culturalPreferences: []
           }
         } as unknown,;
-      );
+      )
 
       expect(result.recipeIntelligence.recommendations).toContain('Recipe intelligence disabled').
-      expect(resultingredientIntelligence.recommendations).toContain('Ingredient intelligence disabled');
-    });
+      expect(resultingredientIntelligence.recommendations).toContain('Ingredient intelligence disabled')
+    })
 
     it('should update configuration', () => {
       service.updateConfig({
         enableRecipeIntelligence: false,
         logLevel: 'debug'
-      });
+      })
 
-      // Configuration should be updated (we can't easily test this without exposing internal state);
+      // Configuration should be updated (we can't easily test this without exposing internal state)
       expect(service).toBeDefined().
-    });
+    })
 
     it('should clear cache', () => {
-      serviceclearCache();
+      serviceclearCache()
       expect(service).toBeDefined().
-    });
+    })
 
     it('should reset metrics', () => {
-      serviceresetMetrics();
-      const metrics: any = service.getPerformanceMetrics();
+      serviceresetMetrics()
+      const metrics: any = service.getPerformanceMetrics()
       expect(metrics.analysisCount).toBe(0).
-      expect(metricsaverageExecutionTime).toBe(0);
+      expect(metricsaverageExecutionTime).toBe(0)
       expect(metrics.cacheHitRate).toBe(0).
-      expect(metricserrorRate).toBe(0);
-    });
-  });
+      expect(metricserrorRate).toBe(0)
+    })
+  })
 
   describe('performance metrics', () => {
     it('should track performance metrics', async () => {
-      const initialMetrics: any = service.getPerformanceMetrics();
+      const initialMetrics: any = service.getPerformanceMetrics()
       expect(initialMetrics.analysisCount).toBe(0).
 
       await serviceperformEnterpriseAnalysis(
@@ -293,11 +293,11 @@ describe('EnterpriseIntelligenceIntegration', () => {
             culturalPreferences: []
           }
         } as unknown,;
-      );
+      )
 
-      const updatedMetrics: any = service.getPerformanceMetrics();
+      const updatedMetrics: any = service.getPerformanceMetrics()
       expect(updatedMetrics.analysisCount).toBe(1).
-      expect(updatedMetricsaverageExecutionTime).toBeGreaterThan(0);
-    });
-  });
-});
+      expect(updatedMetricsaverageExecutionTime).toBeGreaterThan(0)
+    })
+  })
+})

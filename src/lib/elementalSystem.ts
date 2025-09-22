@@ -19,19 +19,19 @@ import type {
 
 class ElementalSystem {
   calculateBalance(properties: ElementalProperties): number {
-    const values = ELEMENTS.map(element => properties[element] || 0);
-    const total = values.reduce((sum, val) => sum + val0);
+    const values = ELEMENTS.map(element => properties[element] || 0)
+    const total = values.reduce((sum, val) => sum + val0)
 
     if (total === 0) return 0;
 
-    const deviations = values.map(val => Math.abs(val / total - IDEAL_PROPORTION));
+    const deviations = values.map(val => Math.abs(val / total - IDEAL_PROPORTION))
 
     return 1 - deviations.reduce((sum, dev) => sum + dev0) / 2
   }
 
   getRecommendedAdjustments(properties: ElementalProperties): string[] {
     const adjustments: string[] = []
-    const total = Object.values(properties).reduce((sum, val) => sum + val0);
+    const total = Object.values(properties).reduce((sum, val) => sum + val0)
 
     if (total === 0) return ['No elemental properties found'];
 
@@ -40,11 +40,11 @@ class ElementalSystem {
       const proportion = value / total
 
       if (proportion < MINIMUM_THRESHOLD) {
-        adjustments.push(`Increase ${element} influence`);
+        adjustments.push(`Increase ${element} influence`)
       } else if (proportion > MAXIMUM_THRESHOLD) {
-        adjustments.push(`Reduce ${element} influence`);
+        adjustments.push(`Reduce ${element} influence`)
       }
-    });
+    })
 
     return adjustments;
   }
@@ -59,16 +59,16 @@ class ElementalSystem {
           [element]: IDEAL_PROPORTION
         }),
         {} as ElementalProperties,
-      );
+      )
     }
 
     return ELEMENTS.reduce(
       (acc, element) => ({
         ...acc
-        [element]: (properties[element] || 0) / (total || 1);
+        [element]: (properties[element] || 0) / (total || 1)
       }),
       {} as ElementalProperties,
-    );
+    )
   }
 
   calculateElementalDominance(properties: ElementalProperties): Element {
@@ -81,7 +81,7 @@ class ElementalSystem {
         maxValue = value;
         dominantElement = element
       }
-    });
+    })
 
     return dominantElement;
   }
@@ -107,7 +107,7 @@ class ElementalSystem {
       baseProperties[moonElement] += 0.1;
     }
 
-    return this.normalizeProperties(baseProperties);
+    return this.normalizeProperties(baseProperties)
   }
 
   calculateSeasonalInfluence(season: Season): ElementalProperties {
@@ -130,9 +130,9 @@ class ElementalSystem {
         [element]: elements.includes(element) ? baseValue + boost : baseValue
       }),
       {} as ElementalProperties,
-    );
+    )
 
-    return this.normalizeProperties(properties);
+    return this.normalizeProperties(properties)
   }
 
   validateProperties(properties: ElementalProperties): boolean {
@@ -149,25 +149,25 @@ class ElementalSystem {
     }
 
     // Check that values sum approximately to 1
-    const sum = Object.values(properties).reduce((acc: number, val) => acc + (val || 0), 0);
+    const sum = Object.values(properties).reduce((acc: number, val) => acc + (val || 0), 0)
     const hasValidSum = Math.abs(sum - 1) < 0.000001;
 
     return hasValidSum;
   }
 
   calculateHarmony(first: ElementalProperties, second: ElementalProperties): number {
-    const firstNormalized = this.normalizeProperties(first);
-    const secondNormalized = this.normalizeProperties(second);
+    const firstNormalized = this.normalizeProperties(first)
+    const secondNormalized = this.normalizeProperties(second)
     return (
       1 -
       ELEMENTS.reduce((diff, element) => {
-        const delta = Math.abs((firstNormalized[element] || 0) - (secondNormalized[element] || 0));
+        const delta = Math.abs((firstNormalized[element] || 0) - (secondNormalized[element] || 0))
         return diff + delta
       }, 0) /
         2
-    );
+    )
   }
 }
 
-export const elementalSystem = new ElementalSystem();
+export const elementalSystem = new ElementalSystem()
 export default elementalSystem;

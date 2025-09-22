@@ -22,24 +22,24 @@ export const BackendStatus: React.FC = () => {
     { service: 'Alchemical Core', status: 'loading' },
     { service: 'Kitchen Intelligence', status: 'loading' },
     { service: 'Rune Agent', status: 'loading' }
-  ]);
+  ])
 
   const [demoResults, setDemoResults] = useState<{
     elements?: any;
     planetary?: any;
     recommendations?: any;
-  }>({});
+  }>({})
 
-  const { calculateElements, getPlanetaryData, getRecommendations } = useBackendCalculations();
+  const { calculateElements, getPlanetaryData, getRecommendations } = useBackendCalculations()
 
   // Check backend health
   const checkHealth = async () => {
     try {
-      const healthData = await alchemicalApi.checkHealth();
-      setServices(healthData);
+      const healthData = await alchemicalApi.checkHealth()
+      setServices(healthData)
     } catch (error) {
-      console.log('Backend services offline - using fallback mode');
-      setServices(services.map(s => ({ ...s, status: 'offline' as const })));
+      console.log('Backend services offline - using fallback mode')
+      setServices(services.map(s => ({ ...s, status: 'offline' as const })))
     }
   };
 
@@ -47,47 +47,47 @@ export const BackendStatus: React.FC = () => {
   const runDemoCalculations = async () => {
     try {
       // Demo elemental calculation with backend
-      const elementsStart = performance.now();
-      const elements = await calculateElements(['tomato', 'basil', 'mozzarella']);
+      const elementsStart = performance.now()
+      const elements = await calculateElements(['tomato', 'basil', 'mozzarella'])
       const elementsTime = performance.now() - elementsStart;
 
       // Demo planetary data
-      const planetaryStart = performance.now();
-      const planetary = await getPlanetaryData();
+      const planetaryStart = performance.now()
+      const planetary = await getPlanetaryData()
       const planetaryTime = performance.now() - planetaryStart;
 
       // Demo recipe recommendations
-      const recStart = performance.now();
+      const recStart = performance.now()
       const recommendations = await getRecommendations({
         currentElements: elements,
         cuisinePreferences: ['Italian'],
         limit: 3
-      });
+      })
       const recTime = performance.now() - recStart;
 
       setDemoResults({
         elements: { ...elements, responseTime: elementsTime },
         planetary: { ...planetary, responseTime: planetaryTime },
         recommendations: { ...recommendations, responseTime: recTime }
-      });
+      })
     } catch (error) {
-      console.log('Demo using fallback calculations');
+      console.log('Demo using fallback calculations')
       setDemoResults({
         elements: { Fire: 0.3, Water: 0.25, Earth: 0.25, Air: 0.2, responseTime: 5, fallback: true },
         planetary: { dominant_planet: 'Sun', influence_strength: 0.7, responseTime: 3, fallback: true },
         recommendations: { total_count: 0, responseTime: 2, fallback: true }
-      });
+      })
     }
   };
 
   useEffect(() => {
-    checkHealth();
-    runDemoCalculations();
+    checkHealth()
+    runDemoCalculations()
 
     // Periodic health checks
-    const interval = setInterval(checkHealth, 30000);
-    return () => clearInterval(interval);
-  }, []);
+    const interval = setInterval(checkHealth, 30000)
+    return () => clearInterval(interval)
+  }, [])
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -252,7 +252,7 @@ export const BackendStatus: React.FC = () => {
         </div>
       </div>
     </div>
-  );
+  )
 };
 
 export default BackendStatus;

@@ -937,4 +937,4 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
 
 // Fix the ingredient mappings to ensure they have all required properties
 export const _spiceBlends: Record<string, IngredientMapping> =
-  fixIngredientMappings(rawSpiceBlends);
+  fixIngredientMappings(rawSpiceBlends)

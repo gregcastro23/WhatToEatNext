@@ -269,4 +269,4 @@ const rawLegumes = {
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
 export const _legumes: Record<string, IngredientMapping> = fixIngredientMappings(
   rawLegumes as Record<string, Partial<IngredientMapping>>,
-);
+)

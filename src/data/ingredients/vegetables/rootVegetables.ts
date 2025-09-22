@@ -143,4 +143,4 @@ const rawRootVegetables = {
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
 export const _rootVegetables: Record<string, IngredientMapping> = fixIngredientMappings(
   rawRootVegetables as Record<string, Partial<IngredientMapping>>,
-);
+)

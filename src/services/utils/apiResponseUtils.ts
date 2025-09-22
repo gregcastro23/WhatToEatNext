@@ -40,7 +40,7 @@ export function createSuccessResponse<T>(
  * Creates a successful response for a collection of items
  *
  * @param data The collection data
- * @param total Total number of items (for pagination);
+ * @param total Total number of items (for pagination)
  * @param params Pagination parameters
  * @returns A standardized collection response with pagination metadata
  */
@@ -50,7 +50,7 @@ export function createCollectionResponse<T>(
   params: { limit?: number, offset?: number page?: number } = {},
 ): ApiResponse<T[]> {
   const { _limit = 20, _offset = 0, _page = Math.floor(offset / limit) + 1} = params;
-  const totalPages = Math.ceil(total / limit);
+  const totalPages = Math.ceil(total / limit)
 
   return {
     success: true,
@@ -74,7 +74,7 @@ export function createCollectionResponse<T>(
  *
  * @param code Error code
  * @param message Error message
- * @param details Additional error details (only included in development);
+ * @param details Additional error details (only included in development)
  * @returns A standardized error response
  */
 export function createErrorResponse<T>(
@@ -83,7 +83,7 @@ export function createErrorResponse<T>(
   details?: unknown,
 ): ApiResponse<T> {
   // Log the error
-  logger.error(`API Error [${code}]: ${message}`, details);
+  logger.error(`API Error [${code}]: ${message}`, details)
 
   return {
     success: false,
@@ -100,12 +100,12 @@ export function createErrorResponse<T>(
 /**
  * Creates a not found error response
  *
- * @param entityType Type of entity that wasn't found (e.g., 'Recipe');
+ * @param entityType Type of entity that wasn't found (e.g., 'Recipe')
  * @param id Identifier that was searched for
  * @returns A standardized not found error response
  */
 export function createNotFoundResponse<T>(entityType: stringid: string): ApiResponse<T> {
-  return createErrorResponse(RecipeErrorCode.NOT_FOUND, `${entityType} with ID ${id} not found`);
+  return createErrorResponse(RecipeErrorCode.NOT_FOUND, `${entityType} with ID ${id} not found`)
 }
 
 /**
@@ -115,7 +115,7 @@ export function createNotFoundResponse<T>(entityType: stringid: string): ApiResp
  * @returns A standardized invalid parameters error response
  */
 export function createInvalidParamsResponse<T>(message: string): ApiResponse<T> {
-  return createErrorResponse(RecipeErrorCode.INVALID_PARAMETERS, message);
+  return createErrorResponse(RecipeErrorCode.INVALID_PARAMETERS, message)
 }
 
 /**
@@ -129,5 +129,5 @@ export function createProcessingErrorResponse<T>(error: unknown): ApiResponse<T>
     RecipeErrorCode.PROCESSING_ERROR,
     'An error occurred while processing your request',
     error,
-  );
+  )
 }

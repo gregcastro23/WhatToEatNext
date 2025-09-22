@@ -196,14 +196,14 @@ export function calculateTokenizedValues(_date: Date = new Date()): {
   Substance: number
 } {
   // Convert date to days since epoch for cycle calculations
-  const daysSinceEpoch = date.getTime() / (24 * 60 * 60 * 1000);
+  const daysSinceEpoch = date.getTime() / (24 * 60 * 60 * 1000)
 
   // Calculate each token's value based on its cycles
   const values = {
     Spirit: calculateTokenValue('Spirit', daysSinceEpoch),
     Essence: calculateTokenValue('Essence', daysSinceEpoch),
     Matter: calculateTokenValue('Matter', daysSinceEpoch),
-    Substance: calculateTokenValue('Substance', daysSinceEpoch);
+    Substance: calculateTokenValue('Substance', daysSinceEpoch)
   };
 
   return values;
@@ -238,5 +238,5 @@ function calculateTokenValue(
   const rawValue = 0.5 + primaryInfluence + secondaryInfluence + tertiaryInfluence
 
   // Ensure value is within range 0.1 to 1
-  return Math.max(0.1, Math.min(1, rawValue));
+  return Math.max(0.1, Math.min(1, rawValue))
 }

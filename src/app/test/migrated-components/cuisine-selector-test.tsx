@@ -11,12 +11,12 @@ import { Recipe } from '@/types/recipe';
  */
 export default function CuisineSelectorTestPage() {
   // State for the original component
-  const [originalSelectedCuisine, setOriginalSelectedCuisine] = useState<string | null>(null);
-  const [originalRecipes, setOriginalRecipes] = useState<Recipe[]>([]);
+  const [originalSelectedCuisine, setOriginalSelectedCuisine] = useState<string | null>(null)
+  const [originalRecipes, setOriginalRecipes] = useState<Recipe[]>([])
 
   // State for the migrated component
-  const [migratedSelectedCuisine, setMigratedSelectedCuisine] = useState<string | null>(null);
-  const [migratedRecipes, setMigratedRecipes] = useState<Recipe[]>([]);
+  const [migratedSelectedCuisine, setMigratedSelectedCuisine] = useState<string | null>(null)
+  const [migratedRecipes, setMigratedRecipes] = useState<Recipe[]>([])
 
   return (
     <div className='p-4'>
@@ -109,5 +109,5 @@ export default function CuisineSelectorTestPage() {
         </ul>
       </div>
     </div>
-  );
+  )
 }

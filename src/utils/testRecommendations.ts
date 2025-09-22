@@ -59,15 +59,15 @@ export async function testCookingMethodRecommendations() {
   ];
 
   // Run the test
-  console.warn('TESTING COOKING METHOD RECOMMENDATIONS');
-  console.warn('=====================================');
-  console.warn('_Ingredient:', mockIngredient.name);
-  console.warn('_Element:', mockIngredient.element);
-  console.warn('Elemental _Character:', mockIngredient.elementalCharacter);
+  console.warn('TESTING COOKING METHOD RECOMMENDATIONS')
+  console.warn('=====================================')
+  console.warn('_Ingredient:', mockIngredient.name)
+  console.warn('_Element:', mockIngredient.element)
+  console.warn('Elemental _Character:', mockIngredient.elementalCharacter)
 
   // Test holistic recommendations directly
   try {
-    console.warn('\nTESTING HOLISTIC RECOMMENDATIONS _DIRECTLY: ');
+    console.warn('\nTESTING HOLISTIC RECOMMENDATIONS _DIRECTLY: ')
     const methods = mockCookingMethods.map(m => m.name)
     const holisticRecs = await getHolisticCookingRecommendations(
       mockIngredient,
@@ -76,16 +76,16 @@ export async function testCookingMethodRecommendations() {
       true,
       methods,
       5,
-    );
+    )
     holisticRecs.forEach((rec, index) => {
       console.warn(
         `${index + 1}. ${rec.method} - Compatibility: ${Math.round(rec.compatibility)}% - ${rec.reason}`,
-      );
-    });
+      )
+    })
   } catch (error) {
-    console.error('ERROR GETTING HOLISTIC RECOMMENDATIONS:', error);
+    console.error('ERROR GETTING HOLISTIC RECOMMENDATIONS:', error)
     if (error instanceof Error && error.stack) {
-      console.error(error.stack);
+      console.error(error.stack)
     }
   }
 
@@ -95,16 +95,16 @@ export async function testCookingMethodRecommendations() {
     const recommendations = await getRecommendedCookingMethodsForIngredient(
       mockIngredient,
       mockCookingMethods as any
-    );
+    )
     recommendations.forEach((rec, index) => {
       console.warn(
         `${index + 1}. ${rec.method} - Compatibility: ${Math.round(rec.compatibility)}%`,
-      );
-    });
+      )
+    })
   } catch (error) {
-    console.error('ERROR GETTING RECOMMENDATIONS:', error);
+    console.error('ERROR GETTING RECOMMENDATIONS:', error)
     if (error instanceof Error && error.stack) {
-      console.error(error.stack);
+      console.error(error.stack)
     }
   }
 
@@ -115,7 +115,7 @@ export async function testCookingMethodRecommendations() {
     true,
     mockCookingMethods.map(m => m.name),
     5
-  );
+  )
   const standardRecs = await getRecommendedCookingMethodsForIngredient(
     mockIngredient,
     mockCookingMethods as any

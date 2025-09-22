@@ -27,31 +27,31 @@ interface UnifiedState {
 }
 
 // Create the context with a default value
-const UnifiedContext = createContext<UnifiedState | undefined>(undefined);
+const UnifiedContext = createContext<UnifiedState | undefined>(undefined)
 
 // Create the provider component
 export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {;
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [astrologicalData, setAstrologicalData] = useState<Record<string, PlanetPosition> | null>(
     null,
-  );
-  const [alchemicalData, setAlchemicalData] = useState<StandardizedAlchemicalResult | null>(null);
+  )
+  const [alchemicalData, setAlchemicalData] = useState<StandardizedAlchemicalResult | null>(null)
   const [recommendationData, setRecommendationData] = useState<AlchemicalRecommendation | null>(
     null,
-  );
-  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  )
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null)
 
   const refreshData = useCallback(async () => {;
-    setIsLoading(true);
-    setError(null);
-    logger.info('UnifiedContext: Refreshing all data...');
+    setIsLoading(true)
+    setError(null)
+    logger.info('UnifiedContext: Refreshing all data...')
 
     try {
       // 1. Fetch Astrological Data
-      const astroData = await fetchPlanetaryPositions();
-      if (!astroData) throw new Error('Failed to fetch astrological data.');
-      setAstrologicalData(astroData);
+      const astroData = await fetchPlanetaryPositions()
+      if (!astroData) throw new Error('Failed to fetch astrological data.')
+      setAstrologicalData(astroData)
       logger.info('UnifiedContext: Fetched astrological data.', astroData),
 
       // 2. Perform Alchemical Calculation
@@ -83,17 +83,17 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
             isRetrograde: planetData.isRetrograde || false
           };
         }
-      });
+      })
 
-      logger.info('UnifiedContext: Planetary positions for alchemize:', planetaryPositions);
-      const alchemData = alchemize(planetaryPositions);
-      setAlchemicalData(alchemData);
-      logger.info('UnifiedContext: Calculated alchemical data.', alchemData);
+      logger.info('UnifiedContext: Planetary positions for alchemize:', planetaryPositions)
+      const alchemData = alchemize(planetaryPositions)
+      setAlchemicalData(alchemData)
+      logger.info('UnifiedContext: Calculated alchemical data.', alchemData)
 
       // 3. Generate Recommendations
-      const recommendationService = AlchemicalRecommendationService.getInstance();
-      const ingredientsArray = Object.values(ingredients);
-      const cookingMethodsArray = Object.values(cookingMethods);
+      const recommendationService = AlchemicalRecommendationService.getInstance()
+      const ingredientsArray = Object.values(ingredients)
+      const cookingMethodsArray = Object.values(cookingMethods)
 
       const positionsForRecs = {};
 
@@ -103,28 +103,28 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
         if (planetData && typeof planetData === 'object' && 'sign' in planetData) {;
           positionsForRecs[planetName] = planetData.sign;
         }
-      });
+      })
 
       const recData = await recommendationService.generateRecommendations(
         positionsForRecs,
         ingredientsArray as unknown as UnifiedIngredient[],
         cookingMethodsArray as unknown as CookingMethod[],
-      );
-      setRecommendationData(recData);
-      logger.info('UnifiedContext: Generated recommendations.', recData);
+      )
+      setRecommendationData(recData)
+      logger.info('UnifiedContext: Generated recommendations.', recData)
 
-      setLastUpdated(new Date());
+      setLastUpdated(new Date())
     } catch (e: unknown) {
-      logger.error('UnifiedContext: Failed to refresh data.', e);
-      setError(e.message || 'An unknown error occurred.');
+      logger.error('UnifiedContext: Failed to refresh data.', e)
+      setError(e.message || 'An unknown error occurred.')
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
-    void refreshData();
-  }, [refreshData]);
+    void refreshData()
+  }, [refreshData])
 
   const value = {
     isLoading,
@@ -141,9 +141,9 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
 
 // Create a custom hook for easy consumption
 export const useUnifiedState = () => {;
-  const context = useContext(UnifiedContext);
+  const context = useContext(UnifiedContext)
   if (context === undefined) {;
-    throw new Error('useUnifiedState must be used within a UnifiedStateProvider');
+    throw new Error('useUnifiedState must be used within a UnifiedStateProvider')
   }
   return context;
 };

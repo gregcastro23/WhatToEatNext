@@ -15,7 +15,7 @@ export const timingUtils = {
     cookingMethod: string,
     cuisine?: string,
   ): TimingResult {
-    const baseTiming = this.calculateBaseTiming(ingredients, cookingMethod);
+    const baseTiming = this.calculateBaseTiming(ingredients, cookingMethod)
 
     if (cuisine) {
       const cuisineProfile = culinaryTraditions[cuisine];
@@ -23,7 +23,7 @@ export const timingUtils = {
         ([, a], [, b]) => b - a,
       )[0][0],
 
-      return this.applyCuisineModifiers(baseTiming, cuisineElement);
+      return this.applyCuisineModifiers(baseTiming, cuisineElement)
     }
     return baseTiming;
   },
@@ -52,14 +52,14 @@ export const timingUtils = {
     const baseProperties = ingredients.reduce(
       (acc, curr) => elementalUtils.combineProperties(acc, curr),
       elementalUtils.DEFAULT_ELEMENTAL_PROPERTIES;
-    );
+    )
 
     // Implement getDominantElement directly
     const dominantElement = Object.entries(baseProperties).reduce((ab) =>,
       a[1] > b[1] ? a : b,
     )[0],
 
-    // Base timing by dominant element (in minutes);
+    // Base timing by dominant element (in minutes)
     const elementalTiming: Record<string, number> = {
       Fire: 15, // Quick cooking,
       Air: 20, // Medium-quick cooking,
@@ -108,7 +108,7 @@ export const timingUtils = {
       _autumn: 1.0, // Standard timing
     };
 
-    return baseTime * (seasonalModifiers[season.toLowerCase()] || 1.0);
+    return baseTime * (seasonalModifiers[season.toLowerCase()] || 1.0)
   }
 };
 

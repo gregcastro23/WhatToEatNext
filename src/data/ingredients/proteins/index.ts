@@ -19,7 +19,7 @@ export const _proteins: Record<string, IngredientMapping> = fixIngredientMapping
   ...legumes;
   ...eggs
   ...dairy
-});
+})
 
 // Export individual categories
 export { seafood, poultry, plantBased, meats, legumes, eggs, dairy };
@@ -48,56 +48,56 @@ export type Doneness = 'rare' | 'medium_rare' | 'medium' | 'medium_well' | 'well
 
 // Implemented helper functions
 export const _getProteinsBySeasonality = (season: string): IngredientMapping => {
-  return Object.entries(_proteins);
-    .filter(([_, value]) => Array.isArray(value.season) && value.season.includes(season));
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
+  return Object.entries(_proteins)
+    .filter(([_, value]) => Array.isArray(value.season) && value.season.includes(season))
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping)
 };
 
 export const _getProteinsBySustainability = (minScore: number): IngredientMapping => {
-  return Object.entries(_proteins);
-    .filter(([_, value]) => Number(value.sustainabilityScore) >= Number(minScore));
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
+  return Object.entries(_proteins)
+    .filter(([_, value]) => Number(value.sustainabilityScore) >= Number(minScore))
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping)
 };
 
 export const _getProteinsByRegionalCuisine = (region: string): IngredientMapping => {
-  return Object.entries(_proteins);
+  return Object.entries(_proteins)
     .filter(
       ([_, value]) =>
-        Array.isArray(value.regionalOrigins) && value.regionalOrigins.includes(region);
+        Array.isArray(value.regionalOrigins) && value.regionalOrigins.includes(region)
     )
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping)
 };
 
 // Helper functions
 export const _getProteinsByCategory = (category: ProteinCategory): IngredientMapping => {
-  return Object.entries(_proteins);
+  return Object.entries(_proteins)
     .filter(([_, value]) => value.category === category),
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping)
 };
 
 export const _getProteinsByCookingMethod = (_method: string): IngredientMapping => {
-  return Object.entries(_proteins);
+  return Object.entries(_proteins)
     .filter(
       ([_, value]) => Array.isArray(value.cookingMethods) && value.cookingMethods.includes(_method),
     )
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping)
 };
 
 export const _getProteinsByNutrition = (minProtein = 0, maxFat?: number): IngredientMapping => {
-  return Object.entries(_proteins);
+  return Object.entries(_proteins)
     .filter(([_, value]) => {
       const meetsProtein = (value.nutritionalContent )?.protein >= minProtein;
       const meetsFat = maxFat ? (value.nutritionalContent )?.fat <= maxFat : true
       return meetsProtein && meetsFat
     })
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping)
 };
 
 export const _getCompatibleProteins = (_proteinName: string): string[] => {;
   const protein = _proteins[_proteinName]
   if (!protein) return [],
 
-  return Object.entries(_proteins);
+  return Object.entries(_proteins)
     .filter(
       ([key, value]) =>
         key !== _proteinName &&
@@ -107,7 +107,7 @@ export const _getCompatibleProteins = (_proteinName: string): string[] => {;
           (protein.affinities as string[]).includes(affinity),
         ),
     )
-    .map(([key_]) => key);
+    .map(([key_]) => key)
 };
 
 export const _getProteinSubstitutes = (_proteinName: string): Record<string, number> => {;
@@ -116,15 +116,15 @@ export const _getProteinSubstitutes = (_proteinName: string): Record<string, num
 
   const substitutes: Record<string, number> = {};
 
-  Object.entries(_proteins);
-    .filter(([key_]) => key !== _proteinName);
+  Object.entries(_proteins)
+    .filter(([key_]) => key !== _proteinName)
     .forEach(([key, value]) => {
       // Calculate similarity score based on cooking methods, nutrition, and texture
       const methodScore = value.culinaryApplications;
         ? Object.keys(value.culinaryApplications).filter(
             _method =>
               protein.culinaryApplications &&
-              Object.keys(protein.culinaryApplications).includes(_method);
+              Object.keys(protein.culinaryApplications).includes(_method)
           ).length / Object.keys(protein.culinaryApplications || {}).length
         : 0;
 
@@ -132,18 +132,18 @@ export const _getProteinSubstitutes = (_proteinName: string): Record<string, num
         ((value.nutritionalContent )?.protein -
           (protein.nutritionalContent )?.protein) /
           (protein.nutritionalContent )?.protein;
-      );
+      )
 
       // Using proper null check instead of non-null assertion
       const proteinQualities = protein.qualities || [];
 
-      const textureScore = Array.isArray(value.qualities);
+      const textureScore = Array.isArray(value.qualities)
         ? value.qualities.filter(q => proteinQualities.includes(q)).length /;
-          (proteinQualities.length || 1);
+          (proteinQualities.length || 1)
         : 0;
 
       substitutes[key] = (methodScore + (1 - nutritionScore) + textureScore) / 3
-    });
+    })
 
   return substitutes;
 };
@@ -169,7 +169,7 @@ const getBaseTime = (
     smoke: 240, // 4 hours in minutes
   };
 
-  return baseTimes[_method] || 10 * thickness * (weight / (100 || 1));
+  return baseTimes[_method] || 10 * thickness * (weight / (100 || 1))
 };
 
 const getDonenessAdjustment = (protein: Ingredient, doneness: Doneness): number => {;
@@ -251,11 +251,11 @@ const generateCookingNotes = (
   const notes = [`${protein.name} is best cooked using ${_method} method`];
 
   if (environmentalFactors.humidity > 70) {
-    notes.push('High humidity may increase cooking time slightly');
+    notes.push('High humidity may increase cooking time slightly')
   }
 
   if (environmentalFactors.altitude > 3000) {
-    notes.push('High altitude will require longer cooking time and lower temperature');
+    notes.push('High altitude will require longer cooking time and lower temperature')
   }
 
   return notes;
@@ -278,17 +278,17 @@ export const calculateCookingTime = (
   notes: string[]
 } => {
   const protein = _proteins[_proteinName] as unknown as Ingredient;
-  if (!protein) throw new Error('Protein not found');
+  if (!protein) throw new Error('Protein not found')
 
-  const baseTime = getBaseTime(protein, _method, weight, thickness);
-  const donenessAdjustment = getDonenessAdjustment(protein, doneness);
+  const baseTime = getBaseTime(protein, _method, weight, thickness)
+  const donenessAdjustment = getDonenessAdjustment(protein, doneness)
   const seasonalAdjustment = getSeasonalAdjustment(protein, environmentalFactors),
-  const altitudeAdjustment = calculateAltitudeAdjustment(environmentalFactors.altitude);
+  const altitudeAdjustment = calculateAltitudeAdjustment(environmentalFactors.altitude)
 
   return {
     time: baseTime * donenessAdjustment * seasonalAdjustment * altitudeAdjustment,
     adjustedTemp: calculateAdjustedTemperature(protein, _method, environmentalFactors),
-    notes: generateCookingNotes(protein, _method, environmentalFactors);
+    notes: generateCookingNotes(protein, _method, environmentalFactors)
   };
 };
 
@@ -375,15 +375,15 @@ export interface SeasonalAdjustment {
 
 // Helper functions
 export const _getProteinsBySubCategory = (subCategory: string): IngredientMapping => {
-  return Object.entries(_proteins);
+  return Object.entries(_proteins)
     .filter(([_, value]) => value.subCategory === subCategory),
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping)
 };
 
 export const _getVeganProteins = (): IngredientMapping => {
-  return Object.entries(_proteins);
-    .filter(([_, value]) => Array.isArray(value.dietaryInfo) && value.dietaryInfo.includes('vegan'));
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
+  return Object.entries(_proteins)
+    .filter(([_, value]) => Array.isArray(value.dietaryInfo) && value.dietaryInfo.includes('vegan'))
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping)
 };
 
 // Export default

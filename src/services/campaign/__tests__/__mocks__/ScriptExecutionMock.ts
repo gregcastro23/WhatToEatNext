@@ -22,11 +22,11 @@ export interface MockScriptResult {
 }
 
 export class ScriptExecutionMock {
-  private, mockResults: Map<string, MockScriptResult> = new Map();
-  private, mockBuildSuccess: boolean = true;
-  private, mockTestSuccess: boolean = true;
-  private, shouldFailExecution: boolean = false
-  private, executionHistory: Array<{
+  private mockResults: Map<string, MockScriptResult> = new Map()
+  private mockBuildSuccess: boolean = true;
+  private mockTestSuccess: boolean = true;
+  private shouldFailExecution: boolean = false
+  private executionHistory: Array<{
     scriptPath: string,
     parameters: ScriptParameters,
     timestamp: Date
@@ -39,11 +39,11 @@ export class ScriptExecutionMock {
     this.executionHistory.push({
       scriptPath,
       parameters,
-      timestamp: new Date();
-    });
+      timestamp: new Date()
+    })
 
     if (this.shouldFailExecution) {
-      return Promise.reject(new Error('Mock script execution failed'));
+      return Promise.reject(new Error('Mock script execution failed'))
     }
 
     const mockResult = this.mockResults.get(scriptPath) || {;
@@ -62,7 +62,7 @@ export class ScriptExecutionMock {
       errors: mockResult.errors,
       warnings: mockResult.warnings,
       executionTime: mockResult.executionTime
-    });
+    })
   }
 
   /**
@@ -70,7 +70,7 @@ export class ScriptExecutionMock {
    */
   mockExecuteDryRun(scriptPath: string, parameters: ScriptParameters): Promise<DryRunResult> {
     if (this.shouldFailExecution) {
-      return Promise.reject(new Error('Mock dry run failed'));
+      return Promise.reject(new Error('Mock dry run failed'))
     }
 
     const mockResult = this.mockResults.get(scriptPath) || {;
@@ -87,7 +87,7 @@ export class ScriptExecutionMock {
       estimatedChanges: mockResult.changesApplied,
       potentialIssues: mockResult.warnings,
       safetyScore: mockResult.success ? 0.9 : 0.3
-    });
+    })
   }
 
   /**
@@ -95,10 +95,10 @@ export class ScriptExecutionMock {
    */
   mockProcessBatch(files: string[], maxFiles: number, scriptPath: string): Promise<BatchResult> {
     if (this.shouldFailExecution) {
-      return Promise.reject(new Error('Mock batch processing failed'));
+      return Promise.reject(new Error('Mock batch processing failed'))
     }
 
-    const processedFiles = files.slice(0, maxFiles);
+    const processedFiles = files.slice(0, maxFiles)
     const mockResult = this.mockResults.get(scriptPath) || {;
       success: true,
       filesProcessed: processedFiles,
@@ -119,10 +119,10 @@ export class ScriptExecutionMock {
           current: Math.max(086 - mockResult.changesApplied),
           target: 0,
           reduction: mockResult.changesApplied,
-          percentage: Math.round((mockResult.changesApplied / 86) * 100);
+          percentage: Math.round((mockResult.changesApplied / 86) * 100)
         }
       }
-    });
+    })
   }
 
   /**
@@ -130,7 +130,7 @@ export class ScriptExecutionMock {
    */
   mockValidateBuild(): Promise<BuildValidation> {
     if (this.shouldFailExecution) {
-      return Promise.reject(new Error('Mock build validation failed'));
+      return Promise.reject(new Error('Mock build validation failed'))
     }
 
     return Promise.resolve({
@@ -138,7 +138,7 @@ export class ScriptExecutionMock {
       buildTime: this.mockBuildSuccess ? 8.5 : -1,
       errors: this.mockBuildSuccess ? [] : ['Build compilation failed'],
       warnings: this.mockBuildSuccess ? [] : ['Build performance warning']
-    });
+    })
   }
 
   /**
@@ -146,7 +146,7 @@ export class ScriptExecutionMock {
    */
   mockValidateTests(): Promise<TestValidation> {
     if (this.shouldFailExecution) {
-      return Promise.reject(new Error('Mock test validation failed'));
+      return Promise.reject(new Error('Mock test validation failed'))
     }
 
     return Promise.resolve({
@@ -155,14 +155,14 @@ export class ScriptExecutionMock {
       testsPassed: this.mockTestSuccess ? 150 : 140,
       testsFailed: this.mockTestSuccess ? 0 : 10,
       errors: this.mockTestSuccess ? [] : ['Test suite failed']
-    });
+    })
   }
 
   /**
    * Set mock result for specific script
    */
   setMockResult(scriptPath: string, result: MockScriptResult): void {
-    this.mockResults.set(scriptPath, result);
+    this.mockResults.set(scriptPath, result)
   }
 
   /**
@@ -208,21 +208,21 @@ export class ScriptExecutionMock {
    * Get mock results
    */
   getMockResults(): Map<string, MockScriptResult> {
-    return new Map(this.mockResults);
+    return new Map(this.mockResults)
   }
 
   /**
    * Clear mock results
    */
   clearMockResults(): void {
-    this.mockResults.clear();
+    this.mockResults.clear()
   }
 
   /**
    * Check if script was executed
    */
   wasScriptExecuted(scriptPath: string): boolean {
-    return this.executionHistory.some(entry => entry.scriptPath === scriptPath);
+    return this.executionHistory.some(entry => entry.scriptPath === scriptPath)
   }
 
   /**
@@ -237,8 +237,8 @@ export class ScriptExecutionMock {
    */
   getLastExecutionParameters(scriptPath: string): ScriptParameters | undefined {
     const executions = this.executionHistory;
-      .filter(entry => entry.scriptPath === scriptPath);
-      .sort((ab) => b.timestamp.getTime() - a.timestamp.getTime());
+      .filter(entry => entry.scriptPath === scriptPath)
+      .sort((ab) => b.timestamp.getTime() - a.timestamp.getTime())
 
     return executions.length > 0 ? executions[0].parameters : undefined
   }
@@ -247,7 +247,7 @@ export class ScriptExecutionMock {
    * Reset all mock state
    */
   reset(): void {
-    this.mockResults.clear();
+    this.mockResults.clear()
     this.mockBuildSuccess = true;
     this.mockTestSuccess = true;
     this.shouldFailExecution = false;
@@ -266,7 +266,7 @@ export class ScriptExecutionMock {
       errors: [],
       warnings: ['Minor type inference warning'],
       executionTime: 3000
-    });
+    })
 
     // Explicit Any Systematic Fixer
     this.setMockResult('scripts/typescript-fixes/fix-explicit-any-systematic.js', {
@@ -276,7 +276,7 @@ export class ScriptExecutionMock {
       errors: [],
       warnings: [],
       executionTime: 2500
-    });
+    })
 
     // Unused Variables Enhanced Fixer
     this.setMockResult('scripts/typescript-fixes/fix-unused-variables-enhanced.js', {
@@ -286,7 +286,7 @@ export class ScriptExecutionMock {
       errors: [],
       warnings: ['Removed potentially important variable'],
       executionTime: 2000
-    });
+    })
 
     // Console Statement Fixer
     this.setMockResult('scripts/lint-fixes/fix-console-statements-only.js', {
@@ -296,9 +296,9 @@ export class ScriptExecutionMock {
       errors: [],
       warnings: [],
       executionTime: 1500
-    });
+    })
   }
 }
 
 // Singleton instance for tests
-export const _scriptExecutionMock = new ScriptExecutionMock();
+export const _scriptExecutionMock = new ScriptExecutionMock()

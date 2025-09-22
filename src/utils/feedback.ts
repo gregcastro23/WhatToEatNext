@@ -33,18 +33,18 @@ export async function collectFeedback(
       type: feedback.type,
       title: feedback.title,
       priority: feedback.priority || 'medium'
-    });
+    })
 
     // In a real application, you would send this to a server/API endpoint
     // For now, just simulate success
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise(resolve => setTimeout(resolve, 500))
 
     return {
       success: true,
       message: 'Thank you for your feedback! We will review it shortly.'
     };
   } catch (error) {
-    logger.error('Error processing feedback', error);
+    logger.error('Error processing feedback', error)
     return {
       success: false,
       message: 'Failed to process feedback. Please try again later.'

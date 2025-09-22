@@ -6,7 +6,7 @@ export class Logger {
   async log(level: LogLevel, message: string, data?: unknown): Promise<void> {
     if (process.env.NODE_ENV === 'development') {
       // eslint-disable-next-line no-console
-      console[level](`[${new Date().toISOString()}] ${message}`, data);
+      console[level](`[${new Date().toISOString()}] ${message}`, data)
     }
 
     if (this.analyticsEndpoint) {
@@ -15,7 +15,7 @@ export class Logger {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ level, message, data, timestamp: new Date().toISOString() }),
-        });
+        })
       } catch {
         // swallow logging errors
       }
@@ -23,26 +23,26 @@ export class Logger {
   }
 }
 
-export const logger = new Logger();
+export const logger = new Logger()
 
 import { log } from '@/services/LoggingService';
 export const _logger = {
   info: (message: string, data?: unknown) => {
     if (process.env.NODE_ENV !== 'production') {
-      log.info(`[INFO] ${message}`, data || '');
+      log.info(`[INFO] ${message}`, data || '')
     }
   },
   warn: (message: string, data?: unknown) => {
     if (process.env.NODE_ENV !== 'production') {
-      console.warn(`[WARN] ${message}`, data || '');
+      console.warn(`[WARN] ${message}`, data || '')
     }
   },
   error: (message: string, data?: unknown) => {
-    console.error(`[ERROR] ${message}`, data || '');
+    console.error(`[ERROR] ${message}`, data || '')
   },
   debug: (message: string, data?: unknown) => {
     if (process.env.NODE_ENV !== 'production') {
-      log.debug(`[DEBUG] ${message}`, data || '');
+      log.debug(`[DEBUG] ${message}`, data || '')
     }
   }
 };
@@ -52,19 +52,19 @@ export function logError(error: Error, context?: Record<string, unknown>) {
   const errorStack = error.stack || '';
   const contextString = context ? JSON.stringify(context, null, 2) : '';
 
-  console.error(`[ERROR] ${errorMessage}`);
+  console.error(`[ERROR] ${errorMessage}`)
 
   if (errorStack) {
-    console.error(`Stack trace: ${errorStack}`);
+    console.error(`Stack trace: ${errorStack}`)
   }
 
   if (contextString) {
-    console.error(`Context: ${contextString}`);
+    console.error(`Context: ${contextString}`)
   }
 
   // In a real production environment, this could also send to a logging service
   if (process.env.NODE_ENV === 'production') {
     // Example of potential production-specific logging
-    // sendToLoggingService({ message: errorMessage, stack: errorStack, context });
+    // sendToLoggingService({ message: errorMessage, stack: errorStack, context })
   }
 }

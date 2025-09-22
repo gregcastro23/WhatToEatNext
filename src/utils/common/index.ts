@@ -10,18 +10,18 @@ export interface ThemeData {
 
 export class ThemeManager {
   updateTheme(theme: string) {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
+    document.documentElement.setAttribute('data-theme', theme)
+    localStorage.setItem('theme', theme)
   }
 
   async initializeTheme() {
     try {
       const savedTheme = localStorage.getItem('theme') || 'light';
-      this.updateTheme(savedTheme);
+      this.updateTheme(savedTheme)
       return savedTheme;
     } catch (error) {
-      logger.error('Error initializing theme:', error);
-      this.updateTheme('light');
+      logger.error('Error initializing theme:', error)
+      this.updateTheme('light')
       return 'light';
     }
   }
@@ -36,13 +36,13 @@ export class ThemeManager {
         accent: savedAccent
       };
     } catch (error) {
-      logger.error('Error getting theme:', error);
+      logger.error('Error getting theme:', error)
       return { mode: 'light', accent: 'blue' };
     }
   }
 }
 
-export const themeManager = new ThemeManager();
+export const themeManager = new ThemeManager()
 
 // ===== ENVIRONMENT VALIDATION =====;
 
@@ -50,25 +50,25 @@ const envSchema = z.object({
   _NODE_ENV: z.enum(['development', 'production', 'test']),
   _NEXT_PUBLIC_API_URL: z.string().url().optional(),
   // Add other environment variables here
-});
+})
 
 export function validateEnv() {
   try {
-    return envSchema.parse(process.env);
+    return envSchema.parse(process.env)
   } catch (error) {
-    console.error('Invalid environment variables:', error);
-    process.exit(1);
+    console.error('Invalid environment variables:', error)
+    process.exit(1)
   }
 }
 
-export const env = validateEnv();
+export const env = validateEnv()
 
 export function validateAstrologyConfig() {
   const required = ['NEXT_PUBLIC_PROKERALA_CLIENT_ID', 'NEXT_PUBLIC_PROKERALA_CLIENT_SECRET'];
-  const missing = (required || []).filter(key => !process.env[key]);
+  const missing = (required || []).filter(key => !process.env[key])
 
   if ((missing || []).length > 0) {
-    console.warn('Missing required environment variables:', missing);
+    console.warn('Missing required environment variables:', missing)
   }
 }
 
@@ -105,18 +105,18 @@ export async function collectFeedback(
       type: feedback.type,
       title: feedback.title,
       priority: feedback.priority || 'medium'
-    });
+    })
 
     // In a real application, you would send this to a server/API endpoint
     // For now, just simulate success
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise(resolve => setTimeout(resolve, 500))
 
     return {
       success: true,
       message: 'Thank you for your feedback! We will review it shortly.'
     };
   } catch (error) {
-    logger.error('Error processing feedback', error);
+    logger.error('Error processing feedback', error)
     return {
       success: false,
       message: 'Failed to process feedback. Please try again later.'

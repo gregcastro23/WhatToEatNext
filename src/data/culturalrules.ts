@@ -244,14 +244,14 @@ export function getCulturalRecommendations(
   if (!rules) return { recommended: [], avoid: [] };
 
   const recommended = rules.preferredCombinations;
-    .filter(combo => currentDishes.some(dish => combo.foods.includes(dish)));
-    .map(combo => combo.foods.filter(food => !currentDishes.includes(food)));
-    .flat();
+    .filter(combo => currentDishes.some(dish => combo.foods.includes(dish)))
+    .map(combo => combo.foods.filter(food => !currentDishes.includes(food)))
+    .flat()
 
   const avoid = rules.avoidCombinations;
-    .filter(combo => currentDishes.some(dish => combo.foods.includes(dish)));
-    .map(combo => combo.foods.filter(food => !currentDishes.includes(food)));
-    .flat();
+    .filter(combo => currentDishes.some(dish => combo.foods.includes(dish)))
+    .map(combo => combo.foods.filter(food => !currentDishes.includes(food)))
+    .flat()
 
   return { recommended, avoid };
 }

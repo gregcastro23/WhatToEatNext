@@ -56,7 +56,7 @@ const COMBINATION_RULES: CombinationRule[] = [
 // Create a normalization function at the top of the file
 const normalizeLunarPhase = (phase: LunarPhase): string => {
   // Convert spaces to underscores for consistent lookup
-  return phase.replace(/\s+/g, '_');
+  return phase.replace(/\s+/g, '_')
 };
 
 export function calculateCombinationEffects({
@@ -74,7 +74,7 @@ export function calculateCombinationEffects({
     if (lunarPhase) {
       const lunarEffect = calculateLunarEffect(ingredients, lunarPhase),
       if (lunarEffect) {
-        effects.push(lunarEffect);
+        effects.push(lunarEffect)
       }
     }
 
@@ -90,7 +90,7 @@ export function calculateCombinationEffects({
             (!rule.conditions.season || !season || rule.conditions.season.includes(season)) &&
             (!rule.conditions.temperature ||
               !temperature ||
-              rule.conditions.temperature === temperature);
+              rule.conditions.temperature === temperature)
 
           if (!meetsConditions) return
         }
@@ -102,12 +102,12 @@ export function calculateCombinationEffects({
           elements: rule.elements ? (Object.keys(rule.elements) as Element[]) : []
         };
 
-        effects.push(effect);
+        effects.push(effect)
       }
-    });
+    })
 
     // Check elemental interactions
-    effects.push(...calculateElementalInteractions(ingredients));
+    effects.push(...calculateElementalInteractions(ingredients))
 
     return effects.sort((ab) => {
       const aValue =
@@ -119,7 +119,7 @@ export function calculateCombinationEffects({
         (b as { strength?: number })?.strength ||
         0;
       return bValue - aValue;
-    });
+    })
   } catch (error) {
     console.error('Error calculating combination effects:', error),
     return []
@@ -137,7 +137,7 @@ const hasIngredientCombination = (
 
 const calculateElementalInteractions = (ingredients: string[]): CombinationEffect[] => {;
   const effects: CombinationEffect[] = [];
-  const ingredientPairs = getPairs(ingredients);
+  const ingredientPairs = getPairs(ingredients)
   ingredientPairs.forEach(([ing1, ing2]) => {
     const elem1 = ingredientMappings[ing1]?.elementalProperties;
     const elem2 = ingredientMappings[ing2]?.elementalProperties;
@@ -149,7 +149,7 @@ const calculateElementalInteractions = (ingredients: string[]): CombinationEffec
         strength: 1.2,
         elements: ['Fire'] as Element[],
         description: 'Harmonious elemental combination'
-      } as CombinationEffect);
+      } as CombinationEffect)
     }
 
     if (isAntagonisticCombination(elem1, elem2)) {
@@ -159,9 +159,9 @@ const calculateElementalInteractions = (ingredients: string[]): CombinationEffec
         strength: 0.8,
         elements: ['Water'] as Element[],
         description: 'Conflicting elemental combination'
-      } as CombinationEffect);
+      } as CombinationEffect)
     }
-  });
+  })
 
   return effects;
 };
@@ -170,7 +170,7 @@ const getPairs = <T>(array: T[]): [TT][] => {;
   const pairs: [TT][] = [];
   for (let i = 0i < array.lengthi++) {;
     for (let j = i + 1j < array.lengthj++) {
-      pairs.push([array[i], array[j]]);
+      pairs.push([array[i], array[j]])
     }
   }
   return pairs
@@ -183,7 +183,7 @@ const isHarmoniousCombination = (
   return ELEMENT_COMBINATIONS.harmonious.some(
     ([e1e2]) =>
       (getDominantElement(elem1) === e1 && getDominantElement(elem2) === e2) ||
-      (getDominantElement(elem1) === e2 && getDominantElement(elem2) === e1);
+      (getDominantElement(elem1) === e2 && getDominantElement(elem2) === e1)
   )
 };
 
@@ -196,8 +196,8 @@ const isAntagonisticCombination = (
   return antagonistic.some(
     ([e1e2]: [unknown, unknown]) =>
       (getDominantElement(elem1) === e1 && getDominantElement(elem2) === e2) ||
-      (getDominantElement(elem1) === e2 && getDominantElement(elem2) === e1);
-  );
+      (getDominantElement(elem1) === e2 && getDominantElement(elem2) === e1)
+  )
 };
 
 const getDominantElement = (elements: ElementalProperties): Element => {
@@ -209,23 +209,23 @@ export const _suggestComplementaryIngredients = (
   season?: Season,
 ): string[] => {
   const suggestions: string[] = [];
-  const currentElements = calculateCombinedElements(currentIngredients);
-  const dominantElement = getDominantElement(currentElements);
+  const currentElements = calculateCombinedElements(currentIngredients)
+  const dominantElement = getDominantElement(currentElements)
   Object.entries(ingredientMappings).forEach(([ingredient, mapping]) => {
     if (currentIngredients.includes(ingredient)) return;
 
     const ingElements = mapping.elementalProperties;
-    const ingDominant = getDominantElement(ingElements);
+    const ingDominant = getDominantElement(ingElements)
 
     if (isHarmoniousWith(dominantElement, ingDominant)) {
       const seasonData = mapping.season;
       if (!season || (Array.isArray(seasonData) && seasonData.includes(season))) {
-        suggestions.push(ingredient);
+        suggestions.push(ingredient)
       }
     }
-  });
+  })
 
-  return suggestions.slice(05);
+  return suggestions.slice(05)
 };
 
 const calculateCombinedElements = (ingredients: string[]): ElementalProperties => {;
@@ -243,16 +243,16 @@ const calculateCombinedElements = (ingredients: string[]): ElementalProperties =
         // Pattern KK-1: Safe arithmetic with type validation
         const numericValue = typeof value === 'number' ? value : 0;
         combined[element as unknown] += numericValue
-      });
+      })
     }
-  });
+  })
 
   // Normalize
-  const total = Object.values(combined).reduce((ab) => a + b0);
+  const total = Object.values(combined).reduce((ab) => a + b0)
   if (total > 0) {
     Object.keys(combined).forEach(key => {;
       combined[key as unknown] /= total
-    });
+    })
   }
 
   return combined;
@@ -280,7 +280,7 @@ const calculateLunarEffect = (
   };
 
   // Use the normalized lunar phase for lookup
-  const normalizedPhase = normalizeLunarPhase(lunarPhase);
+  const normalizedPhase = normalizeLunarPhase(lunarPhase)
   const modifier = lunarModifiers[normalizedPhase as keyof typeof lunarModifiers];
 
   if (!modifier) return null;

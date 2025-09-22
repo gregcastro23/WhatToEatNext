@@ -249,4 +249,4 @@ const rawStoneFruit = {
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
 export const _stoneFruit: Record<string, IngredientMapping> = fixIngredientMappings(
   rawStoneFruit as Record<string, Partial<IngredientMapping>>,
-);
+)

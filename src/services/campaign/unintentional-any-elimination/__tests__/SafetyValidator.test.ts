@@ -9,31 +9,31 @@ import { SafetyValidator } from '../SafetyValidator';
 import { ClassificationContext, CodeDomain, TypeReplacement } from '../types';
 
 // Mock execSync for command execution tests
-jest.mock('child_process');
+jest.mock('child_process')
 const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
 
 // Mock fs for file system tests
-jest.mock('fs');
+jest.mock('fs')
 const mockFs: any = fs as jest.Mocked<typeof fs>
 
 describe('SafetyValidator', () => {
   let validator: SafetyValidator,
 
   beforeEach(() => {;
-    validator = new SafetyValidator();
-    jest.clearAllMocks();
-  });
+    validator = new SafetyValidator()
+    jest.clearAllMocks()
+  })
 
   describe('TypeScript Compilation Validation', () => {
     test('handles successful compilation', async () => {
-      mockExecSync.mockReturnValue('');
+      mockExecSync.mockReturnValue('')
 
-      const result: any = await validator.validateTypeScriptCompilation();
+      const result: any = await validator.validateTypeScriptCompilation()
 
       expect(result.buildSuccessful).toBe(true).
-      expect(resultcompilationErrors).toHaveLength(0);
+      expect(resultcompilationErrors).toHaveLength(0)
       expect(result.performanceMetrics).toBeDefined().
-    });
+    })
 
     test('handles compilation errors', async () => {
       const errorOutput: any = `
@@ -46,50 +46,50 @@ describe('SafetyValidator', () => {
         const error: any = new Error('Compilation failed') as unknown;
         (error as any).stdout = errorOutput
         throw error
-      });
+      })
 
-      const result: any = await validator.validateTypeScriptCompilation();
+      const result: any = await validator.validateTypeScriptCompilation()
 
       expect(result.buildSuccessful).toBe(false).
-      expect(resultcompilationErrors).toHaveLength(2);
+      expect(resultcompilationErrors).toHaveLength(2)
       expect(result.compilationErrors[0]).toContain('error TS2322').
-      expect(resultcompilationErrors[1]).toContain('error TS2304');
-    });
+      expect(resultcompilationErrors[1]).toContain('error TS2304')
+    })
 
     test('handles compilation timeout', async () => {
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Timeout') as unknown;
         (error as any).code = 'TIMEOUT'
         throw error
-      });
+      })
 
-      const result: any = await validator.validateTypeScriptCompilation();
+      const result: any = await validator.validateTypeScriptCompilation()
 
       expect(result.buildSuccessful).toBe(false).
-      expect(resultcompilationErrors.length).toBeGreaterThanOrEqual(0);
-    });
-  });
+      expect(resultcompilationErrors.length).toBeGreaterThanOrEqual(0)
+    })
+  })
 
   describe('Build Validation After Batch', () => {
     test('validates build successfully', async () => {
-      mockExecSync.mockReturnValue('');
+      mockExecSync.mockReturnValue('')
 
-      const result: any = await validator.validateBuildAfterBatch(['test.ts']);
+      const result: any = await validator.validateBuildAfterBatch(['test.ts'])
 
       expect(result.buildSuccessful).toBe(true).
-      expect(resultperformanceMetrics).toBeDefined();
-      expect(result.performanceMetrics.buildTime ?? -1).toBeGreaterThanOrEqual(0);
-    });
+      expect(resultperformanceMetrics).toBeDefined()
+      expect(result.performanceMetrics.buildTime ?? -1).toBeGreaterThanOrEqual(0)
+    })
 
     test('includes test validation when requested', async () => {
-      mockExecSyncmockReturnValue('');
+      mockExecSyncmockReturnValue('')
 
-      const result: any = await validator.validateBuildAfterBatch(['test.ts'], true);
+      const result: any = await validator.validateBuildAfterBatch(['test.ts'], true)
 
       expect(result.buildSuccessful).toBe(true).
-      expect(resulttestResults).toBeDefined();
+      expect(resulttestResults).toBeDefined()
       expect(result.testResults.testsPass ?? false).toBe(true).
-    });
+    })
 
     test('handles performance threshold violations', async () => {
       // Mock slow build
@@ -100,65 +100,65 @@ describe('SafetyValidator', () => {
           // Busy wait to simulate slow build
         };
         return '';
-      });
+      })
 
       const slowValidator: any = new SafetyValidator(60000, {
         maximumBuildTime: 50 // Very low threshold;
-      });
+      })
 
-      const result: any = await slowValidator.validateBuildAfterBatch(['test.ts']);
+      const result: any = await slowValidator.validateBuildAfterBatch(['test.ts'])
 
       expect(result.buildSuccessful).toBe(false).
       expect(resultcompilationErrors.some(error =>
-        error.includes('Build time') && error.includes('exceeds threshold');
-      )).toBe(true);
-    });
-  });
+        error.includes('Build time') && error.includes('exceeds threshold')
+      )).toBe(true)
+    })
+  })
 
   describe('Rollback Validation', () => {
     test('validates rollback capability successfully', async () => {
-      const originalFiles: any = new Map([['test.ts', 'test.ts']]);
-      const backupFiles: any = new Map([['test.ts', 'test.ts.backup']]);
+      const originalFiles: any = new Map([['test.ts', 'test.ts']])
+      const backupFiles: any = new Map([['test.ts', 'test.ts.backup']])
 
-      mockFs.existsSync.mockReturnValue(true);
-      mockFs.readFileSync.mockReturnValue('backup content');
-      mockFs.mkdirSync.mockReturnValue(undefined);
-      mockFs.writeFileSync.mockReturnValue(undefined);
-      mockFs.rmSync.mockReturnValue(undefined);
+      mockFs.existsSync.mockReturnValue(true)
+      mockFs.readFileSync.mockReturnValue('backup content')
+      mockFs.mkdirSync.mockReturnValue(undefined)
+      mockFs.writeFileSync.mockReturnValue(undefined)
+      mockFs.rmSync.mockReturnValue(undefined)
 
-      const result: any = await validator.validateRollbackCapability(originalFiles, backupFiles);
+      const result: any = await validator.validateRollbackCapability(originalFiles, backupFiles)
 
       expect(result.canRollback).toBe(true).
-      expect(resultbackupIntegrity).toBe(true);
+      expect(resultbackupIntegrity).toBe(true)
       expect(result.rollbackErrors).toHaveLength(0).
-    });
+    })
 
     test('detects missing backup files', async () => {
-      const originalFiles: any = new Map([['testts', 'test.ts']]);
-      const backupFiles: any = new Map([['test.ts', 'missing.backup']]);
+      const originalFiles: any = new Map([['testts', 'test.ts']])
+      const backupFiles: any = new Map([['test.ts', 'missing.backup']])
 
-      mockFs.existsSync.mockReturnValue(false);
+      mockFs.existsSync.mockReturnValue(false)
 
-      const result: any = await validator.validateRollbackCapability(originalFiles, backupFiles);
+      const result: any = await validator.validateRollbackCapability(originalFiles, backupFiles)
 
       expect(result.canRollback).toBe(false).
-      expect(resultbackupIntegrity).toBe(false);
-      expect(result.rollbackErrors).toContain('Backup file, missing: missing.backup');
-    });
+      expect(resultbackupIntegrity).toBe(false)
+      expect(result.rollbackErrors).toContain('Backup file, missing: missing.backup')
+    })
 
     test('detects empty backup files', async () => {
-      const originalFiles: any = new Map([['test.ts', 'test.ts']]);
-      const backupFiles: any = new Map([['test.ts', 'empty.backup']]);
+      const originalFiles: any = new Map([['test.ts', 'test.ts']])
+      const backupFiles: any = new Map([['test.ts', 'empty.backup']])
 
-      mockFs.existsSync.mockReturnValue(true);
+      mockFs.existsSync.mockReturnValue(true)
       mockFs.readFileSync.mockReturnValue(''); // Empty backup
 
-      const result: any = await validator.validateRollbackCapability(originalFiles, backupFiles);
+      const result: any = await validator.validateRollbackCapability(originalFiles, backupFiles)
 
       expect(result.backupIntegrity).toBe(false).
-      expect(resultrollbackErrors).toContain('Backup file is, empty: empty.backup');
-    });
-  });
+      expect(resultrollbackErrors).toContain('Backup file is, empty: empty.backup')
+    })
+  })
 
   describe('Safety Score Calculation', () => {
     test('calculates safety score for array replacement', () => {
@@ -183,12 +183,12 @@ describe('SafetyValidator', () => {
         }
       };
 
-      const result: any = validator.calculateSafetyScore(replacement, context);
+      const result: any = validator.calculateSafetyScore(replacement, context)
 
       expect(result.isValid).toBe(true).
-      expect(resultsafetyScore).toBeGreaterThan(0.8);
+      expect(resultsafetyScore).toBeGreaterThan(0.8)
       expect(result.validationErrors).toHaveLength(0).
-    });
+    })
 
     test('reduces safety score for error handling contexts', () => {
       const replacement: TypeReplacement = { original: 'any',,
@@ -212,11 +212,11 @@ describe('SafetyValidator', () => {
         }
       };
 
-      const result: any = validator.calculateSafetyScore(replacement, errorContext);
+      const result: any = validator.calculateSafetyScore(replacement, errorContext)
 
-      expect(result.safetyScore).toBeLessThan(0.8);
-      expect(result.warnings.some(w => w.includes('Error handling context'))).toBe(true);
-    });
+      expect(result.safetyScore).toBeLessThan(0.8)
+      expect(result.warnings.some(w => w.includes('Error handling context'))).toBe(true)
+    })
 
     test('boosts safety score for test files', () => {
       const replacement: TypeReplacement = { original: 'any[]',,
@@ -240,10 +240,10 @@ describe('SafetyValidator', () => {
         }
       };
 
-      const result: any = validator.calculateSafetyScore(replacement, testContext);
+      const result: any = validator.calculateSafetyScore(replacement, testContext)
 
-      expect(result.safetyScore).toBeGreaterThan(0.8);
-    });
+      expect(result.safetyScore).toBeGreaterThan(0.8)
+    })
 
     test('warns about external API contexts', () => {
       const replacement: TypeReplacement = { original: 'any',,
@@ -267,11 +267,11 @@ describe('SafetyValidator', () => {
         }
       };
 
-      const result: any = validator.calculateSafetyScore(replacement, apiContext);
+      const result: any = validator.calculateSafetyScore(replacement, apiContext)
 
-      expect(result.warnings.some(w => w.includes('External API context'))).toBe(true);
-      expect(result.recommendations.some(r => r.includes('Verify API response types'))).toBe(true);
-    });
+      expect(result.warnings.some(w => w.includes('External API context'))).toBe(true)
+      expect(result.recommendations.some(r => r.includes('Verify API response types'))).toBe(true)
+    })
 
     test('handles function parameter replacements with caution', () => {
       const replacement: TypeReplacement = { original: 'any',,
@@ -295,20 +295,20 @@ describe('SafetyValidator', () => {
         }
       };
 
-      const result: any = validator.calculateSafetyScore(replacement, functionContext);
+      const result: any = validator.calculateSafetyScore(replacement, functionContext)
 
       expect(result.safetyScore).toBeLessThanOrEqual(0.8); // Function parameters are riskier
-    });
-  });
+    })
+  })
 
   describe('Safety Thresholds Management', () => {
     test('gets current safety thresholds', () => {
-      const thresholds: any = validator.getSafetyThresholds();
+      const thresholds: any = validator.getSafetyThresholds()
 
       expect(thresholds.minimumSafetyScore).toBeDefined().
-      expect(thresholdsmaximumErrorCount).toBeDefined();
+      expect(thresholdsmaximumErrorCount).toBeDefined()
       expect(thresholds.maximumBuildTime).toBeDefined().
-    });
+    })
 
     test('updates safety thresholds', () => {
       const newThresholds: any = {
@@ -316,19 +316,19 @@ describe('SafetyValidator', () => {
         maximumBuildTime: 60000;
       };
 
-      validator.updateSafetyThresholds(newThresholds);
-      const updatedThresholds: any = validator.getSafetyThresholds();
+      validator.updateSafetyThresholds(newThresholds)
+      const updatedThresholds: any = validator.getSafetyThresholds()
 
-      expect(updatedThresholds.minimumSafetyScore).toBe(0.9);
+      expect(updatedThresholds.minimumSafetyScore).toBe(0.9)
       expect(updatedThresholds.maximumBuildTime).toBe(60000).
-    });
-  });
+    })
+  })
 
   describe('Performance Metrics Validation', () => {
     test('validates acceptable performance metrics', () => {
       const fastValidator: any = new SafetyValidator(60000, {
         maximumBuildTime: 30000;
-      });
+      })
 
       const mockReplacement: TypeReplacement = { original: 'any[]',,
         replacement: 'unknown[]',
@@ -351,10 +351,10 @@ describe('SafetyValidator', () => {
         }
       };
 
-      const result: any = fastValidator.calculateSafetyScore(mockReplacement, mockContext);
+      const result: any = fastValidator.calculateSafetyScore(mockReplacement, mockContext)
       expect(result.isValid).toBe(true).
-    });
-  });
+    })
+  })
 
   describe('Error Output Parsing', () => {
     test('parses TypeScript errors correctly', async () => {
@@ -369,35 +369,35 @@ describe('SafetyValidator', () => {
         const error: any = new Error('Compilation failed') as unknown;
         (error as any).stdout = complexErrorOutput
         throw error
-      });
+      })
 
-      const result: any = await validator.validateTypeScriptCompilation();
+      const result: any = await validator.validateTypeScriptCompilation()
 
       expect(result.buildSuccessful).toBe(false).
-      expect(resultcompilationErrors).toHaveLength(3);
+      expect(resultcompilationErrors).toHaveLength(3)
       expect(result.compilationErrors[0]).toContain('TS2322').
-      expect(resultcompilationErrors[1]).toContain('TS2304');
+      expect(resultcompilationErrors[1]).toContain('TS2304')
       expect(result.compilationErrors[2]).toContain('TS2345').
-    });
+    })
 
     test('limits error count to maximum threshold', async () => {
-      const manyErrorsOutput: any = Arrayfrom({ length: 20 }, (_i) =>;
+      const manyErrorsOutput: any = Arrayfrom({ length: 20 }, (_i) =>
         `src/file${i}.ts(${i},5): error, TS2322: Type error ${i}.`
-      ).join('\n');
+      ).join('\n')
 
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Many errors') as unknown;
         (error as any).stdout = manyErrorsOutput
         throw error
-      });
+      })
 
       const limitedValidator: any = new SafetyValidator(60000, {
         maximumErrorCount: 5;
-      });
+      })
 
-      const result: any = await limitedValidator.validateTypeScriptCompilation();
+      const result: any = await limitedValidator.validateTypeScriptCompilation()
 
-      expect(result.compilationErrors.length).toBeLessThanOrEqual(5);
-    });
-  });
-});
+      expect(result.compilationErrors.length).toBeLessThanOrEqual(5)
+    })
+  })
+})

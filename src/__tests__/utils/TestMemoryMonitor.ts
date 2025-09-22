@@ -32,8 +32,8 @@ interface MemorySummary {
 }
 
 export class TestMemoryMonitor {
-  private, snapshots: MemorySnapshot[] = [];
-  private, startTime: number
+  private snapshots: MemorySnapshot[] = [];
+  private startTime: number
   private memoryLimits: {
     heapUsed: number,
     heapTotal: number,
@@ -56,11 +56,11 @@ export class TestMemoryMonitor {
    * Create a memory monitor with default settings
    */
   static createDefault(): TestMemoryMonitor {
-    return new TestMemoryMonitor();
+    return new TestMemoryMonitor()
   }
 
   /**
-   * Create a memory monitor with CI-appropriate settings (more restrictive);
+   * Create a memory monitor with CI-appropriate settings (more restrictive)
    */
   static createForCI(): TestMemoryMonitor {
     return new TestMemoryMonitor({
@@ -68,14 +68,14 @@ export class TestMemoryMonitor {
       heapTotal: 200 * 1024 * 1024, // 200MB,
       external: 30 * 1024 * 1024, // 30MB,
       rss: 250 * 1024 * 1024, // 250MB
-    });
+    })
   }
 
   /**
    * Take a memory snapshot at a specific point in time
    */
   takeSnapshot(testName: string): MemorySnapshot {
-    const usage = process.memoryUsage();
+    const usage = process.memoryUsage()
     const snapshot: MemorySnapshot = {
       timestamp: new Date(),
       testName,
@@ -86,7 +86,7 @@ export class TestMemoryMonitor {
       rss: usage.rss
     };
 
-    this.snapshots.push(snapshot);
+    this.snapshots.push(snapshot)
     return snapshot;
   }
 
@@ -94,14 +94,14 @@ export class TestMemoryMonitor {
    * Get current memory usage
    */
   getCurrentMemoryUsage(): NodeJS.MemoryUsage {
-    return process.memoryUsage();
+    return process.memoryUsage()
   }
 
   /**
    * Check if current memory usage is within limits
    */
   checkMemoryUsage(_testName: string): MemoryCheck {
-    const currentUsage = this.getCurrentMemoryUsage();
+    const currentUsage = this.getCurrentMemoryUsage()
     const warnings: string[] = [];
     const errors: string[] = []
 
@@ -109,31 +109,31 @@ export class TestMemoryMonitor {
     if (currentUsage.heapUsed > ((this.memoryLimits as any)?.heapUsed || 0) * 0.2) {
       warnings.push(
         `Heap usage approaching limit: ${(currentUsage.heapUsed / 1024 / 1024).toFixed(2)}MB`,
-      );
+      )
     }
 
     if (currentUsage.heapUsed > this.memoryLimits.heapUsed) {
       errors.push(
         `Heap usage exceeded limit: ${(currentUsage.heapUsed / 1024 / 1024).toFixed(2)}MB > ${(this.memoryLimits.heapUsed / 1024 / 1024).toFixed(2)}MB`,
-      );
+      )
     }
 
     if (currentUsage.heapTotal > this.memoryLimits.heapTotal) {
       errors.push(
         `Heap total exceeded limit: ${(currentUsage.heapTotal / 1024 / 1024).toFixed(2)}MB > ${(this.memoryLimits.heapTotal / 1024 / 1024).toFixed(2)}MB`,
-      );
+      )
     }
 
     if (currentUsage.external > this.memoryLimits.external) {
       errors.push(
         `External memory exceeded limit: ${(currentUsage.external / 1024 / 1024).toFixed(2)}MB > ${(this.memoryLimits.external / 1024 / 1024).toFixed(2)}MB`,
-      );
+      )
     }
 
     if (currentUsage.rss > this.memoryLimits.rss) {
       errors.push(
         `RSS exceeded limit: ${(currentUsage.rss / 1024 / 1024).toFixed(2)}MB > ${(this.memoryLimits.rss / 1024 / 1024).toFixed(2)}MB`,
-      );
+      )
     }
 
     return {
@@ -149,7 +149,7 @@ export class TestMemoryMonitor {
    */
   getMemorySummary(): MemorySummary {
     if (this.snapshots.length === 0) {;
-      const current = this.getCurrentMemoryUsage();
+      const current = this.getCurrentMemoryUsage()
       return {
         initialMemory: current.heapUsed / 1024 / 1024,
         currentMemory: current.heapUsed / 1024 / 1024,
@@ -160,8 +160,8 @@ export class TestMemoryMonitor {
     }
 
     const initialSnapshot = this.snapshots[0];
-    const currentUsage = this.getCurrentMemoryUsage();
-    const peakMemory = Math.max(...this.snapshots.map(s => s.heapUsed), currentUsage.heapUsed);
+    const currentUsage = this.getCurrentMemoryUsage()
+    const peakMemory = Math.max(...this.snapshots.map(s => s.heapUsed), currentUsage.heapUsed)
 
     return {
       initialMemory: initialSnapshot.heapUsed / 1024 / 1024,
@@ -193,7 +193,7 @@ export class TestMemoryMonitor {
 
     for (let i = 1; i < recentSnapshots.length i++) {
       const increase = recentSnapshots[i].heapUsed - recentSnapshots[i - 1].heapUsed;
-      increases.push(increase);
+      increases.push(increase)
     }
 
     const averageIncrease = increases.reduce((sum, inc) => sum + inc0) / increases.length;
@@ -215,46 +215,46 @@ export class TestMemoryMonitor {
     freedMemory: string,
     actions: string[]
   } {
-    const beforeCleanup = this.getCurrentMemoryUsage();
+    const beforeCleanup = this.getCurrentMemoryUsage()
     const actions: string[] = [];
 
     try {
       // Clear any test-specific caches
       if (global.__TEST_CACHE__) {
         if (typeof global.__TEST_CACHE__.clear === 'function') {;
-          global.__TEST_CACHE__.clear();
-          actions.push('Cleared test cache');
+          global.__TEST_CACHE__.clear()
+          actions.push('Cleared test cache')
         }
       }
 
       // Clear test references
       if (global.__TEST_REFS__) {
         global.__TEST_REFS__.length = 0;
-        actions.push('Cleared test references');
+        actions.push('Cleared test references')
       }
 
       // Force garbage collection if available
       if (global.gc) {
-        global.gc();
-        actions.push('Forced garbage collection');
+        global.gc()
+        actions.push('Forced garbage collection')
       }
 
       // Clear Jest mocks and modules
       if (jest) {
-        jest.clearAllMocks();
-        actions.push('Cleared Jest mocks');
+        jest.clearAllMocks()
+        actions.push('Cleared Jest mocks')
 
         if (jest.resetModules) {
-          jest.resetModules();
-          actions.push('Reset Jest modules');
+          jest.resetModules()
+          actions.push('Reset Jest modules')
         }
       }
 
-      const afterCleanup = this.getCurrentMemoryUsage();
+      const afterCleanup = this.getCurrentMemoryUsage()
       const freedMemory = (beforeCleanup.heapUsed - afterCleanup.heapUsed) / 1024 / 1024;
 
       // Take snapshot after cleanup
-      this.takeSnapshot(`${testName}-cleanup`);
+      this.takeSnapshot(`${testName}-cleanup`)
 
       return {
         success: true,
@@ -262,7 +262,7 @@ export class TestMemoryMonitor {
         actions
       };
     } catch (error) {
-      console.error('Memory cleanup failed:', error);
+      console.error('Memory cleanup failed:', error)
       return {
         success: false,
         freedMemory: '0MB',
@@ -280,25 +280,25 @@ export class TestMemoryMonitor {
     snapshots: MemorySnapshot[],
     recommendations: string[]
   } {
-    const summary = this.getMemorySummary();
-    const trend = this.getMemoryTrend();
+    const summary = this.getMemorySummary()
+    const trend = this.getMemoryTrend()
     const recommendations: string[] = [];
 
     // Generate recommendations based on analysis
     if (summary.totalIncrease > 50) {
-      recommendations.push('Consider reducing test complexity or adding more cleanup');
+      recommendations.push('Consider reducing test complexity or adding more cleanup')
     }
 
     if (trend.concerningTrend) {
-      recommendations.push('Memory usage is increasing rapidly - investigate memory leaks');
+      recommendations.push('Memory usage is increasing rapidly - investigate memory leaks')
     }
 
     if (summary.peakMemory > 150) {
-      recommendations.push('Peak memory usage is high - consider splitting tests');
+      recommendations.push('Peak memory usage is high - consider splitting tests')
     }
 
     if (this.snapshots.length > 100) {
-      recommendations.push('Many snapshots taken - consider reducing monitoring frequency');
+      recommendations.push('Many snapshots taken - consider reducing monitoring frequency')
     }
 
     return {
@@ -338,7 +338,7 @@ export class TestMemoryMonitor {
         snapshotCount: this.snapshots.length
       },
       snapshots: this.snapshots,
-      summary: this.getMemorySummary();
+      summary: this.getMemorySummary()
     };
   }
 }

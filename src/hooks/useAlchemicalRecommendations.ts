@@ -63,22 +63,22 @@ export const _useAlchemicalRecommendations = ({;
   tarotPlanetaryBoosts,
   aspects = [],
 }: UseAlchemicalRecommendationsProps): AlchemicalRecommendationResults => {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
-  const [recommendations, setRecommendations] = useState<AlchemicalRecommendations | null>(null);
-  const [transformedIngredients, setTransformedIngredients] = useState<AlchemicalItem[]>([]);
-  const [transformedMethods, setTransformedMethods] = useState<AlchemicalItem[]>([]);
-  const [transformedCuisines, setTransformedCuisines] = useState<AlchemicalItem[]>([]);
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<Error | null>(null)
+  const [recommendations, setRecommendations] = useState<AlchemicalRecommendations | null>(null)
+  const [transformedIngredients, setTransformedIngredients] = useState<AlchemicalItem[]>([])
+  const [transformedMethods, setTransformedMethods] = useState<AlchemicalItem[]>([])
+  const [transformedCuisines, setTransformedCuisines] = useState<AlchemicalItem[]>([])
   const [energeticProfile, setEnergeticProfile] =
-    useState<AlchemicalRecommendationResults['energeticProfile']>();
+    useState<AlchemicalRecommendationResults['energeticProfile']>()
 
   useEffect(() => {
     const fetchRecommendations = async () => {;
       try {
-        setLoading(true);
+        setLoading(true)
 
         // Configure an adapter for alchemical transformations
-        const adapter = new RecommendationAdapter(ingredients, cookingMethods, cuisines);
+        const adapter = new RecommendationAdapter(ingredients, cookingMethods, cuisines)
 
         // Initialize with planetary data and context
         adapter.initialize(
@@ -90,7 +90,7 @@ export const _useAlchemicalRecommendations = ({;
           tarotElementBoosts,
           tarotPlanetaryBoosts,
           aspects || [],
-        );
+        )
 
         // Get recommendations
         const recs: AlchemicalRecommendations = {
@@ -107,7 +107,7 @@ export const _useAlchemicalRecommendations = ({;
         };
 
         // Store the recommendations with unified type conversion for cross-import compatibility
-        setRecommendations(recs);
+        setRecommendations(recs)
 
         // Apply deep type conversion to resolve cross-import conflicts
         const _convertToLocalAlchemicalItem = (items: unknown[]): AlchemicalItem[] => {;
@@ -152,12 +152,12 @@ export const _useAlchemicalRecommendations = ({;
               }
             };
             return convertedItem as AlchemicalItem;
-          });
+          })
         };
 
-        setTransformedIngredients(adapter.getAllTransformedIngredients() as AlchemicalItem[]);
-        setTransformedMethods(adapter.getAllTransformedMethods() as AlchemicalItem[]);
-        setTransformedCuisines(adapter.getAllTransformedCuisines() as AlchemicalItem[]);
+        setTransformedIngredients(adapter.getAllTransformedIngredients() as AlchemicalItem[])
+        setTransformedMethods(adapter.getAllTransformedMethods() as AlchemicalItem[])
+        setTransformedCuisines(adapter.getAllTransformedCuisines() as AlchemicalItem[])
 
         // Create an energetic profile for the current recommendations
         const profile = {
@@ -206,18 +206,18 @@ export const _useAlchemicalRecommendations = ({;
               profile.alchemicalProperties.Substance +=
                 (item.alchemicalProperties.Substance || 0) / recs.topIngredients.length;
             }
-          });
+          })
         }
 
-        setEnergeticProfile(profile);
+        setEnergeticProfile(profile)
       } catch (err) {
-        setError(err instanceof Error ? err : new Error('Unknown error occurred'));
+        setError(err instanceof Error ? err : new Error('Unknown error occurred'))
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
     };
 
-    void fetchRecommendations();
+    void fetchRecommendations()
   }, [
     ingredients,
     cookingMethods,
@@ -230,7 +230,7 @@ export const _useAlchemicalRecommendations = ({;
     tarotPlanetaryBoosts,
     aspects,
     count
-  ]);
+  ])
 
   return {
     recommendations: recommendations || {

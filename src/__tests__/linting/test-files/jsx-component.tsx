@@ -9,5 +9,5 @@ export function JSXComponent({ title, children }: Props) {
       <h1>{title}</h1>
       {children}
     </div>
-  );
+  )
 }

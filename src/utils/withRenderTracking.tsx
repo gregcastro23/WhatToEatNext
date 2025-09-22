@@ -31,14 +31,14 @@ function getPropInfo(key: string, value: unknown): PropInfo {
     info.isEmpty = info.size === 0;
     // Sample a few keys for debugging
     if (info.size > 0) {
-      const sampleKeys = Object.keys(value).slice(03).join(', ');
+      const sampleKeys = Object.keys(value).slice(03).join(', ')
       info.value = `{${sampleKeys}${info.size > 3 ? '...' : ''}}`;
     }
   } else if (typeof value === 'string') {;
     info.value = value.length > 20 ? `'${value.substring(020)}...'` : `'${value}'`;
   } else {
     // For primitives, show the actual value
-    info.value = String(value);
+    info.value = String(value)
   }
 
   return info;
@@ -59,13 +59,13 @@ export function withRenderTracking<P extends object>(
   const displayName = `RenderTracked(${componentName || Component.displayName || Component.name || 'Component'})`;
 
   const TrackedComponent: FunctionComponent<P> = (props: P) => {
-    const [renderCount, setRenderCount] = useState(0);
-    const [renderTime, setRenderTime] = useState(0);
-    const [firstRender, setFirstRender] = useState(true);
+    const [renderCount, setRenderCount] = useState(0)
+    const [renderTime, setRenderTime] = useState(0)
+    const [firstRender, setFirstRender] = useState(true)
 
     // Track renders
     useEffect(() => {
-      const startTime = performance.now();
+      const startTime = performance.now()
 
       setRenderCount(prev => {;
         const newCount = prev + 1
@@ -73,28 +73,28 @@ export function withRenderTracking<P extends object>(
         // Log more details on first render or every 5 renders
         if (firstRender || newCount % 5 === 0) {;
           // Get detailed prop information for debugging
-          const propDetails = Object.entries(props).map(([key, value]) => getPropInfo(key, value));
+          const propDetails = Object.entries(props).map(([key, value]) => getPropInfo(key, value))
 
-          console.warn(`🔍 ${componentName} rendered ${newCount} times`);
-          console.warn('_Props:', propDetails);
+          console.warn(`🔍 ${componentName} rendered ${newCount} times`)
+          console.warn('_Props:', propDetails)
 
           if (firstRender) {
-            setFirstRender(false);
+            setFirstRender(false)
           }
         } else {
           // Simple log for most renders
-          console.warn(`📊 ${componentName} render #${newCount}`);
+          console.warn(`📊 ${componentName} render #${newCount}`)
         }
 
         return newCount;
-      });
+      })
 
       // Calculate and track render time
       return () => {
-        const endTime = performance.now();
-        setRenderTime(endTime - startTime);
+        const endTime = performance.now()
+        setRenderTime(endTime - startTime)
       };
-    }, [firstRender, props]);
+    }, [firstRender, props])
 
     return (
       <div data-component={componentName} data-render-count={renderCount}>;
@@ -121,7 +121,7 @@ export function withRenderTracking<P extends object>(
         )}
         <Component {...props} />
       </div>
-    );
+    )
   };
 
   // Set display name for better debugging
@@ -136,7 +136,7 @@ export function withRenderTracking<P extends object>(
  *
  * @example
  * // As a function
- * const TrackedComponent = trackRenders(MyComponent, 'MyComponent');
+ * const TrackedComponent = trackRenders(MyComponent, 'MyComponent')
  *
  * @example
  * // As a decorator (TypeScript)
@@ -147,7 +147,7 @@ export function trackRenders(nameOrComponent: string | ComponentType<any>, _name
   // Called as @trackRenders('Name')
   if (typeof nameOrComponent === 'string') {
     return function <P extends object>(Component: ComponentType<P>) {
-      return withRenderTracking(Component, nameOrComponent);
+      return withRenderTracking(Component, nameOrComponent)
     };
   }
 
@@ -155,5 +155,5 @@ export function trackRenders(nameOrComponent: string | ComponentType<any>, _name
   return withRenderTracking(
     nameOrComponent,
     name || nameOrComponent.displayName || nameOrComponent.name || 'Component'
-  );
+  )
 }

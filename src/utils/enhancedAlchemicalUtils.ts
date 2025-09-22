@@ -42,7 +42,7 @@ export function getEnhancedFoodRecommendation(
   };
 
   // Original implementation commented out
-  // return generateEnhancedRecommendation(alchemicalResult, userPreferences, season);
+  // return generateEnhancedRecommendation(alchemicalResult, userPreferences, season)
 }
 
 /**
@@ -86,19 +86,19 @@ export function getUserFoodCompatibility(
     Air: 'gemini' as any, // Could also use libra or aquarius
   };
 
-  const foodSign = foodSignMap[foodElement] || ('aries' as any);
+  const foodSign = foodSignMap[foodElement] || ('aries' as any)
 
   // Get base astrological affinity
-  const baseAffinity = calculateAstrologicalAffinity(userSign, foodSign);
+  const baseAffinity = calculateAstrologicalAffinity(userSign, foodSign)
 
   // Get user's elemental profile based on zodiac sign
-  const userElementalProfile = getZodiacElementalInfluence(userSign);
+  const userElementalProfile = getZodiacElementalInfluence(userSign)
 
   // Calculate elemental compatibility
   const elementalCompatibility = calculateAlchemicalCompatibility(
     userElementalProfile,
     foodElementalProps,
-  );
+  )
 
   // Weight factors (favoring elemental compatibility over just sign compatibility)
   return baseAffinity * 0.4 + elementalCompatibility * 0.6;
@@ -139,7 +139,7 @@ export function generatePersonalizedMealPlan(
     alchemicalResult,
     userPreferences,
     season
-  );
+  )
 
   // Define meal structure
   const mealPlan = {
@@ -179,7 +179,7 @@ export function generatePersonalizedMealPlan(
   mealPlan.appetizer.explanation = `Complements your ${dominantElement} dominant energy with a suitable starter`;
 
   // Generate dessert based on balancing elements
-  const balancingElement = getBalancingElement(dominantElement);
+  const balancingElement = getBalancingElement(dominantElement)
   const desserts = {
     Fire: ['spiced fruit compote', 'warm berry crumble', 'cinnamon-infused chocolate'],
     Water: ['fruit sorbet', 'lemon mousse', 'poached pears'],
@@ -202,7 +202,7 @@ export function generatePersonalizedMealPlan(
   mealPlan.beverage.explanation = `Enhances the ${dominantElement} qualities of your meal`;
 
   // Calculate overall harmony
-  const userElementalProfile = getZodiacElementalInfluence(userSign);
+  const userElementalProfile = getZodiacElementalInfluence(userSign)
   const mealElements: ElementalProperties = {
     Fire: dominantElement === 'Fire' ? 0.6 : balancingElement === 'Fire' ? 0.3 : 0.1,
     Water: dominantElement === 'Water' ? 0.6 : balancingElement === 'Water' ? 0.3 : 0.1,
@@ -214,7 +214,7 @@ export function generatePersonalizedMealPlan(
     userElementalProfile,
     mealElements,
     userSign
-  );
+  )
 
   return mealPlan;
   */

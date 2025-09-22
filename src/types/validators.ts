@@ -30,7 +30,7 @@ export const _normalizeElementalProperties = (
   return Object.entries(properties).reduce((acc, [key, value]) => {
     acc[key as unknown] = value / sum;
     return acc
-  }, {} as ElementalProperties);
+  }, {} as ElementalProperties)
 };
 
 /**
@@ -44,7 +44,7 @@ export const validateElementalProperties = (properties: ElementalProperties): bo
   const requiredElements = ['Fire', 'Water', 'Earth', 'Air'];
   const hasAllElements = requiredElements.every(;
     element => typeof properties[element as any] === 'number'
-  );
+  )
 
   if (!hasAllElements) return false;
 
@@ -76,16 +76,16 @@ export const validateIngredient = (ingredient: RecipeIngredient | null | undefin
   // Elemental properties validation
   if (
     ingredient.elementalProperties &&
-    !validateElementalProperties(ingredient.elementalProperties);
+    !validateElementalProperties(ingredient.elementalProperties)
   ) {
     return false
   }
 
-  // Seasonality validation (optional);
+  // Seasonality validation (optional)
   if (ingredient.seasonality) {
     if (!Array.isArray(ingredient.seasonality)) return false;
-    const normalizedSeasons = ingredient.seasonality.map(s => s.toLowerCase());
-    const validSeasons = VALID_SEASONS.map(s => s.toLowerCase());
+    const normalizedSeasons = ingredient.seasonality.map(s => s.toLowerCase())
+    const validSeasons = VALID_SEASONS.map(s => s.toLowerCase())
     if (!normalizedSeasons.every(s => validSeasons.includes(s))) {;
       return false
     }
@@ -116,17 +116,17 @@ export const _validateRecipe = (recipe: Recipe | null | undefined): boolean => {
     return false
   }
 
-  // Validate seasonality (optional);
+  // Validate seasonality (optional)
   if (recipe.season) {
     if (!Array.isArray(recipe.season)) return false;
-    const normalizedSeasons = recipe.season.map(s => s.toLowerCase());
-    const validSeasons = VALID_SEASONS.map(s => s.toLowerCase());
+    const normalizedSeasons = recipe.season.map(s => s.toLowerCase())
+    const validSeasons = VALID_SEASONS.map(s => s.toLowerCase())
     if (!normalizedSeasons.every(s => validSeasons.includes(s))) {;
       return false
     }
   }
 
-  // Validate cuisine (optional);
+  // Validate cuisine (optional)
   if (recipe.cuisine && typeof recipe.cuisine !== 'string') {
     return false
   }

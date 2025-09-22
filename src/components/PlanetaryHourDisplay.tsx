@@ -30,26 +30,26 @@ const PLANET_SYMBOLS = {
 } as const;
 
 export function PlanetaryHourDisplay({ showDetails = true, className = '' }: PlanetaryHourProps) {
-  const { isConnected, lastPlanetaryHour } = useAlchmWebSocket();
-  const [currentTime, setCurrentTime] = React.useState(new Date());
+  const { isConnected, lastPlanetaryHour } = useAlchmWebSocket()
+  const [currentTime, setCurrentTime] = React.useState(new Date())
 
   React.useEffect(() => {
-    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
-    return () => clearInterval(timer);
-  }, []);
+    const timer = setInterval(() => setCurrentTime(new Date()), 1000)
+    return () => clearInterval(timer)
+  }, [])
 
   React.useEffect(() => {
     if (lastPlanetaryHour) {
-      logger.debug('PlanetaryHourDisplay received update', lastPlanetaryHour);
+      logger.debug('PlanetaryHourDisplay received update', lastPlanetaryHour)
     }
-  }, [lastPlanetaryHour]);
+  }, [lastPlanetaryHour])
 
   const formatTime = (dateString: string) => {
     try {
       return new Date(dateString).toLocaleTimeString([], {
         hour: '2-digit',
         minute: '2-digit'
-      });
+      })
     } catch {
       return dateString;
     }
@@ -59,13 +59,13 @@ export function PlanetaryHourDisplay({ showDetails = true, className = '' }: Pla
     if (!lastPlanetaryHour?.end) return null;
 
     try {
-      const endTime = new Date(lastPlanetaryHour.end);
-      const diff = endTime.getTime() - currentTime.getTime();
+      const endTime = new Date(lastPlanetaryHour.end)
+      const diff = endTime.getTime() - currentTime.getTime()
 
       if (diff <= 0) return 'Ended';
 
-      const minutes = Math.floor(diff / (1000 * 60));
-      const hours = Math.floor(minutes / 60);
+      const minutes = Math.floor(diff / (1000 * 60))
+      const hours = Math.floor(minutes / 60)
       const remainingMinutes = minutes % 60;
 
       if (hours > 0) {
@@ -148,5 +148,5 @@ export function PlanetaryHourDisplay({ showDetails = true, className = '' }: Pla
         </div>
       )}
     </div>
-  );
+  )
 }

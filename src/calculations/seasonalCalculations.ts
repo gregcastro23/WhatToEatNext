@@ -28,7 +28,7 @@ export function calculateSeasonalEffectiveness(
   };
 
   // Normalize season to lowercase for consistent lookup
-  const seasonLower = season.toLowerCase();
+  const seasonLower = season.toLowerCase()
 
   // 1. Calculate Elemental Alignment (50% of total)
   const elementalScore = Object.entries(recipe.elementalProperties || {}).reduce(
@@ -40,7 +40,7 @@ export function calculateSeasonalEffectiveness(
       return score + value * seasonalModifier;
     },
     0,
-  );
+  )
   breakdown.elementalAlignment = elementalScore * 50;
   totalScore += breakdown.elementalAlignment;
 
@@ -65,7 +65,7 @@ export function calculateSeasonalEffectiveness(
   // 3. Calculate Direct Season Match (20% of total)
   if (recipe.season) {
     const recipeSeasons = Array.isArray(recipe.season) ? recipe.season : [recipe.season];
-    const recipeSeasonLower = recipeSeasons.map((s: string) => s.toLowerCase());
+    const recipeSeasonLower = recipeSeasons.map((s: string) => s.toLowerCase())
 
     if (recipeSeasonLower.includes(seasonLower)) {
       breakdown.seasonalBonus = 20;
@@ -74,7 +74,7 @@ export function calculateSeasonalEffectiveness(
   }
 
   // Normalize score to 0-100 range
-  const normalizedScore = Math.round(Math.max(0, Math.min(100, totalScore)));
+  const normalizedScore = Math.round(Math.max(0, Math.min(100, totalScore)))
 
   // Determine rating based on score
   let rating = 'Poor';
@@ -99,7 +99,7 @@ export function calculateSeasonalElements(
 
   return Object.fromEntries(
     Object.entries(baseElements).map(([element, value]) => {
-      const adjusted = value + (modifier[element as any] || 0);
+      const adjusted = value + (modifier[element as any] || 0)
       return [element, Math.max(0, Math.min(1, adjusted))]
     }),
   ) as ElementalProperties;
@@ -113,13 +113,13 @@ export function calculateSeasonalScores(
   astrologicalInfluence: number
 } {
   // Get current zodiac sign if none provided
-  const currentZodiac = zodiacSign?.toLowerCase() || getCurrentZodiacSeason().toLowerCase();
+  const currentZodiac = zodiacSign?.toLowerCase() || getCurrentZodiacSeason().toLowerCase()
 
   // Use the zodiac sign directly with our new SEASONAL_MODIFIERS
   const _UNUSED_seasonMultiplier = 1.2; // Fixed multiplier
 
   // Calculate seasonal alignment - direct check with current zodiac
-  const isAlignedWithSeason = currentZodiac === zodiacSign?.toLowerCase();
+  const isAlignedWithSeason = currentZodiac === zodiacSign?.toLowerCase()
 
   const seasonalScore = isAlignedWithSeason ? 80 : 50;
   const astrologicalInfluence = isAlignedWithSeason ? 1.2 : 1.0

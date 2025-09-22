@@ -63,7 +63,7 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
         allowGuest = false
       } = options;
 
-      const token = extractTokenFromRequest(req);
+      const token = extractTokenFromRequest(req)
 
       // Handle missing token
       if (!token) {
@@ -74,45 +74,45 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
             method: req.method,
             required,
             allowGuest
-          });
-          return next();
+          })
+          return next()
         }
 
         logger.warn('Authentication required but no token provided', {
           path: req.path,
           method: req.method,
           ip: req.ip
-        });
+        })
 
         res.status(401).json({
           error: 'Authentication required',
           message: 'No authentication token provided',
           code: 'AUTH_TOKEN_MISSING'
-        });
+        })
         return;
       }
 
       // Validate token
-      const payload = await authService.validateToken(token);
+      const payload = await authService.validateToken(token)
 
       if (!payload) {
         logger.warn('Invalid or expired token', {
           path: req.path,
           method: req.method,
           ip: req.ip
-        });
+        })
 
         res.status(401).json({
           error: 'Invalid token',
           message: 'Authentication token is invalid or expired',
           code: 'AUTH_TOKEN_INVALID'
-        });
+        })
         return;
       }
 
       // Check role requirements
       if (roles.length > 0) {
-        const hasRequiredRole = roles.some(role => payload.roles.includes(role));
+        const hasRequiredRole = roles.some(role => payload.roles.includes(role))
 
         if (!hasRequiredRole) {
           logger.warn('Insufficient role permissions', {
@@ -121,7 +121,7 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
             requiredRoles: roles,
             path: req.path,
             method: req.method
-          });
+          })
 
           res.status(403).json({
             error: 'Insufficient permissions',
@@ -129,7 +129,7 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
             code: 'AUTH_INSUFFICIENT_ROLE',
             required: roles,
             current: payload.roles
-          });
+          })
           return;
         }
       }
@@ -138,7 +138,7 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
       if (permissions.length > 0) {
         const hasPermission = permissions.every(permission =>
           authService.hasPermission(payload.roles, permission)
-        );
+        )
 
         if (!hasPermission) {
           logger.warn('Insufficient permissions', {
@@ -147,7 +147,7 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
             requiredPermissions: permissions,
             path: req.path,
             method: req.method
-          });
+          })
 
           res.status(403).json({
             error: 'Insufficient permissions',
@@ -155,7 +155,7 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
             code: 'AUTH_INSUFFICIENT_PERMISSIONS',
             required: permissions,
             current: payload.scopes
-          });
+          })
           return;
         }
       }
@@ -169,22 +169,22 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
         roles: payload.roles,
         path: req.path,
         method: req.method
-      });
+      })
 
-      next();
+      next()
     } catch (error) {
       logger.error('Authentication middleware error', {
         error: error instanceof Error ? error.message : 'Unknown error',
         path: req.path,
         method: req.method,
         ip: req.ip
-      });
+      })
 
       res.status(500).json({
         error: 'Authentication service error',
         message: 'Internal authentication error occurred',
         code: 'AUTH_SERVICE_ERROR'
-      });
+      })
     }
   };
 }
@@ -195,7 +195,7 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
 export const requireAdmin = authenticate({
   required: true,
   roles: [UserRole.ADMIN]
-});
+})
 
 /**
  * Require authenticated user (any role except guest)
@@ -203,7 +203,7 @@ export const requireAdmin = authenticate({
 export const requireAuth = authenticate({
   required: true,
   roles: [UserRole.ADMIN, UserRole.USER, UserRole.SERVICE]
-});
+})
 
 /**
  * Allow guest access with optional authentication
@@ -211,7 +211,7 @@ export const requireAuth = authenticate({
 export const optionalAuth = authenticate({
   required: false,
   allowGuest: true
-});
+})
 
 /**
  * Require specific permissions
@@ -220,7 +220,7 @@ export function requirePermissions(...permissions: string[]) {
   return authenticate({
     required: true,
     permissions
-  });
+  })
 }
 
 /**
@@ -229,7 +229,7 @@ export function requirePermissions(...permissions: string[]) {
 export const requireService = authenticate({
   required: true,
   roles: [UserRole.SERVICE, UserRole.ADMIN]
-});
+})
 
 /**
  * Rate limiting based on authentication status
@@ -267,7 +267,7 @@ export const authStatus = (req: Request, res: Response): void => {
     res.json({
       authenticated: false,
       message: 'Not authenticated'
-    });
+    })
     return;
   }
 
@@ -284,7 +284,7 @@ export const authStatus = (req: Request, res: Response): void => {
       issuedAt: new Date(req.user.iat * 1000),
       expiresAt: new Date(req.user.exp * 1000)
     }
-  });
+  })
 };
 
 export default {

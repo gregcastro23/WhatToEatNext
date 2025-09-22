@@ -182,12 +182,12 @@ import { FoodAlchemySystem } from '@/services/FoodAlchemySystem';
 import { Planet, PlanetName, ZodiacSign, LunarPhase } from '@/types/celestial';
 
 // Example usage
-const foodSystem = new FoodAlchemySystem();
+const foodSystem = new FoodAlchemySystem()
 const _compatibility = foodSystem.calculateFoodCompatibility(
     foodItem,
     birthChart,
     currentPlanetaryHour
-); 
+)
 */
 
 // Export the LunarPhase type if not already defined in alchemy.ts

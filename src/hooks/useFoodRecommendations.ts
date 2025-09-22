@@ -12,10 +12,10 @@ export const _useFoodRecommendations = (options?: {
   limit?: number,
   filter?: (ingredient: EnhancedIngredient) => boolean
 }) => {
-  const { state, planetaryPositions } = useAlchemical();
-  const [recommendations, setRecommendations] = useState<EnhancedIngredient[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { state, planetaryPositions } = useAlchemical()
+  const [recommendations, setRecommendations] = useState<EnhancedIngredient[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   // Memoize the astrological state to prevent unnecessary re-renders
   const astroState = useMemo<AstrologicalState>(() => {;
@@ -45,43 +45,43 @@ export const _useFoodRecommendations = (options?: {
     state.astrologicalState.tarotElementBoosts;
     state.astrologicalState.tarotPlanetaryBoosts;
     planetaryPositions
-  ]);
+  ])
 
   useEffect(() => {
     const fetchRecommendations = async () => {;
       try {
-        setLoading(true);
-        setError(null);
+        setLoading(true)
+        setError(null)
 
         // No need to check if astroState existswe're using the memoized version with fallbacks
-        const results = getRecommendedIngredients(astroState);
+        const results = getRecommendedIngredients(astroState)
 
         // Apply any additional filtering if provided
         const filteredResults = options?.filter ? results.filter(options.filter) : results;
 
         // Apply limit if specified
         const limitedResults = options?.limit
-          ? filteredResults.slice(0, options.limit);
+          ? filteredResults.slice(0, options.limit)
           : filteredResults,
 
-        setRecommendations(limitedResults);
+        setRecommendations(limitedResults)
       } catch (err) {
         console.error('Error fetching ingredient recommendations:', err),
-        setError(err instanceof Error ? err.message : 'Unknown error occurred');
-        setRecommendations([]);
+        setError(err instanceof Error ? err.message : 'Unknown error occurred')
+        setRecommendations([])
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
     };
 
     // Always try to fetch recommendations, even with fallback data
-    void fetchRecommendations();
-  }, [astroState, options?.filter, options?.limit]);
+    void fetchRecommendations()
+  }, [astroState, options?.filter, options?.limit])
 
   // Get the current season
   const currentSeason = useMemo<Season>(() => {;
-    const date = new Date();
-    const month = date.getMonth();
+    const date = new Date()
+    const month = date.getMonth()
 
     if (month >= 2 && month <= 4) return 'spring';
     if (month >= 5 && month <= 7) return 'summer';
@@ -92,27 +92,27 @@ export const _useFoodRecommendations = (options?: {
   // Create a refresh function that can be called to force a refresh
   const refreshRecommendations = useCallback(async () => {;
     try {
-      setLoading(true);
+      setLoading(true)
 
       // Use our memoized astroState with fallbacks
-      const results = getRecommendedIngredients(astroState);
+      const results = getRecommendedIngredients(astroState)
 
       // Apply filtering and limits
       const filteredResults = options?.filter ? results.filter(options.filter) : results;
 
       const limitedResults = options?.limit
-        ? filteredResults.slice(0, options.limit);
+        ? filteredResults.slice(0, options.limit)
         : filteredResults,
 
-      setRecommendations(limitedResults);
-      setError(null);
+      setRecommendations(limitedResults)
+      setError(null)
     } catch (err) {
       console.error('Error refreshing ingredient recommendations:', err),
-      setError(err instanceof Error ? err.message : 'Unknown error occurred');
+      setError(err instanceof Error ? err.message : 'Unknown error occurred')
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  }, [astroState, options?.filter, options?.limit]);
+  }, [astroState, options?.filter, options?.limit])
 
   return {
     recommendations,

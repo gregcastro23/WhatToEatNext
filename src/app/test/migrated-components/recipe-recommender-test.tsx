@@ -11,12 +11,12 @@ export default function RecipeRecommendationsTestPage() {
     servingSize: '4',
     dietaryPreference: 'none',
     cookingTime: '60'
-  });
+  })
 
   // Handle filter changes
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFilters(prev => ({ ...prev, [name]: value }));
+    setFilters(prev => ({ ...prev, [name]: value }))
   };
 
   return (
@@ -108,5 +108,5 @@ export default function RecipeRecommendationsTestPage() {
         </ul>
       </div>
     </div>
-  );
+  )
 }

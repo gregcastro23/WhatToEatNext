@@ -41,14 +41,14 @@ import type { RecipeServiceInterface } from './interfaces/RecipeServiceInterface
  * Implements the RecipeServiceInterface and adds additional error handling
  */
 export class RecipeFinder implements RecipeServiceInterface {
-  private static, instance: RecipeFinder
-  private, recipeService: ConsolidatedRecipeService,
+  private static instance: RecipeFinder
+  private recipeService: ConsolidatedRecipeService,
 
   /**
    * Private constructor to enforce singleton pattern
    */
   private constructor() {
-    this.recipeService = ConsolidatedRecipeService.getInstance();
+    this.recipeService = ConsolidatedRecipeService.getInstance()
   }
 
   /**
@@ -56,7 +56,7 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   public static getInstance(): RecipeFinder {
     if (!RecipeFinder.instance) {
-      RecipeFinder.instance = new RecipeFinder();
+      RecipeFinder.instance = new RecipeFinder()
     }
     return RecipeFinder.instance;
   }
@@ -66,7 +66,7 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   async getAllRecipes(): Promise<ApiResponse<Recipe[]>> {
     try {
-      const recipes = await this.recipeService.getAllRecipes();
+      const recipes = await this.recipeService.getAllRecipes()
       return {
         success: true,
         data: recipes,
@@ -79,7 +79,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: { service: 'RecipeFinder', action: 'getAllRecipes', data: {} }
-      });
+      })
       return {
         success: false,
         error: {
@@ -109,7 +109,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: { service: 'RecipeFinder', action: 'searchRecipes', data: params.criteria }
-      });
+      })
       return {
         success: false,
         error: {
@@ -126,7 +126,7 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   async getRecipesByCuisine(params: GetRecipesByCuisineParams): Promise<ApiResponse<Recipe[]>> {
     try {
-      const recipes = await this.recipeService.getRecipesByCuisine(params.cuisine);
+      const recipes = await this.recipeService.getRecipesByCuisine(params.cuisine)
       return {
         success: true,
         data: recipes,
@@ -139,7 +139,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: { service: 'RecipeFinder', action: 'getRecipesByCuisine', data: params.cuisine }
-      });
+      })
       return {
         success: false,
         error: {
@@ -156,7 +156,7 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   async getRecipesByZodiac(params: GetRecipesByZodiacParams): Promise<ApiResponse<Recipe[]>> {
     try {
-      const recipes = await this.recipeService.getRecipesByZodiac(params.currentZodiacSign);
+      const recipes = await this.recipeService.getRecipesByZodiac(params.currentZodiacSign)
       return {
         success: true,
         data: recipes,
@@ -173,7 +173,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           action: 'getRecipesByZodiac',
           data: params.currentZodiacSign
         }
-      });
+      })
       return {
         success: false,
         error: {
@@ -190,7 +190,7 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   async getRecipesBySeason(params: GetRecipesBySeasonParams): Promise<ApiResponse<Recipe[]>> {
     try {
-      const recipes = await this.recipeService.getRecipesBySeason(params.season);
+      const recipes = await this.recipeService.getRecipesBySeason(params.season)
       return {
         success: true,
         data: recipes,
@@ -203,7 +203,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: { service: 'RecipeFinder', action: 'getRecipesBySeason', data: params.season }
-      });
+      })
       return {
         success: false,
         error: {
@@ -222,7 +222,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     params: GetRecipesByLunarPhaseParams,
   ): Promise<ApiResponse<Recipe[]>> {
     try {
-      const recipes = await this.recipeService.getRecipesByLunarPhase(params.lunarPhase);
+      const recipes = await this.recipeService.getRecipesByLunarPhase(params.lunarPhase)
       return {
         success: true,
         data: recipes,
@@ -239,7 +239,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           action: 'getRecipesByLunarPhase',
           data: params.lunarPhase
         }
-      });
+      })
       return {
         success: false,
         error: {
@@ -256,7 +256,7 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   async getRecipesByMealType(params: GetRecipesByMealTypeParams): Promise<ApiResponse<Recipe[]>> {
     try {
-      const recipes = await this.recipeService.getRecipesByMealType(params.mealType);
+      const recipes = await this.recipeService.getRecipesByMealType(params.mealType)
       return {
         success: true,
         data: recipes,
@@ -269,7 +269,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: { service: 'RecipeFinder', action: 'getRecipesByMealType', data: params.mealType }
-      });
+      })
       return {
         success: false,
         error: {
@@ -311,7 +311,7 @@ export class RecipeFinder implements RecipeServiceInterface {
             minMatchScore: params.minMatchScore
           }
         }
-      });
+      })
       return {
         success: false,
         error: {
@@ -350,7 +350,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           action: 'getRecipesForFlavorProfile',
           data: { flavorProfile: params.flavorProfile, minMatchScore: params.minMatchScore }
         }
-      });
+      })
       return {
         success: false,
         error: {
@@ -374,7 +374,7 @@ export class RecipeFinder implements RecipeServiceInterface {
       const scoredRecipes: ScoredRecipe[] = recipes.map((recipe, index) => ({
         ...recipe,
         score: recipe.score ?? 1 - index * 0.1, // Assign decreasing scores if not present
-      }));
+      }))
 
       return {
         success: true,
@@ -392,7 +392,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           action: 'getBestRecipeMatches',
           data: { criteria: params.criteria }
         }
-      });
+      })
       return {
         success: false,
         error: {
@@ -410,8 +410,8 @@ export class RecipeFinder implements RecipeServiceInterface {
   async getRecipeById(params: GetRecipeByIdParams): Promise<ApiResponse<Recipe>> {
     try {
       // Since ConsolidatedRecipeService doesn't have getRecipeById, we'll search for it
-      const allRecipes = await this.recipeService.getAllRecipes();
-      const recipe = allRecipes.find(r => r.id === params.id);
+      const allRecipes = await this.recipeService.getAllRecipes()
+      const recipe = allRecipes.find(r => r.id === params.id)
 
       if (!recipe) {
         return {
@@ -435,7 +435,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: { service: 'RecipeFinder', action: 'getRecipeById', data: { id: params.id } }
-      });
+      })
       return {
         success: false,
         error: {
@@ -452,7 +452,7 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   async generateRecipe(params: GenerateRecipeParams): Promise<ApiResponse<Recipe>> {
     try {
-      const recipe = await this.recipeService.generateRecipe(params.criteria);
+      const recipe = await this.recipeService.generateRecipe(params.criteria)
       return {
         success: true,
         data: recipe,
@@ -464,7 +464,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: { service: 'RecipeFinder', action: 'generateRecipe', data: params.criteria }
-      });
+      })
       return {
         success: false,
         data: {
@@ -508,7 +508,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           action: 'generateFusionRecipe',
           data: { cuisines: params.cuisines, criteria: params.criteria }
         }
-      });
+      })
       return {
         success: false,
         data: {
@@ -536,7 +536,7 @@ export class RecipeFinder implements RecipeServiceInterface {
       const recipe = await this.recipeService.adaptRecipeForSeason(
         { id: params.recipeId } as Recipe,
         params.season
-      );
+      )
       return {
         success: true,
         data: recipe,
@@ -552,7 +552,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           action: 'adaptRecipeForSeason',
           data: { recipeId: params.recipeId, season: params.season }
         }
-      });
+      })
       return {
         success: false,
         error: {
@@ -569,7 +569,7 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   calculateElementalProperties(recipe: Partial<Recipe>): ElementalProperties {
     try {
-      return this.recipeService.calculateElementalProperties(recipe);
+      return this.recipeService.calculateElementalProperties(recipe)
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: {
@@ -577,7 +577,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           action: 'calculateElementalProperties',
           data: { recipeId: recipe.id || 'unknown' }
         }
-      });
+      })
       // Return balanced elemental properties on error
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
@@ -588,7 +588,7 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   getDominantElement(recipe: Recipe): { element: keyof ElementalProperties, value: number } {
     try {
-      return this.recipeService.getDominantElement(recipe);
+      return this.recipeService.getDominantElement(recipe)
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: {
@@ -596,7 +596,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           action: 'getDominantElement',
           data: { recipeId: recipe.id || 'unknown' }
         }
-      });
+      })
       // Return a default element on error
       return { element: 'Fire', value: 0 };
     }
@@ -607,7 +607,7 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   calculateSimilarity(recipe1: Recipe, recipe2: Recipe): number {
     try {
-      return this.recipeService.calculateSimilarity(recipe1, recipe2);
+      return this.recipeService.calculateSimilarity(recipe1, recipe2)
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: {
@@ -615,7 +615,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           action: 'calculateSimilarity',
           data: { recipe1Id: recipe1.id || 'unknown', recipe2Id: recipe2.id || 'unknown' }
         }
-      });
+      })
       // Return zero similarity on error
       return 0;
     }
@@ -626,17 +626,17 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   clearCache(): void {
     try {
-      this.recipeService.clearCache();
+      this.recipeService.clearCache()
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: { service: 'RecipeFinder', action: 'clearCache' }
-      });
+      })
     }
   }
 }
 
 // Export standalone function for compatibility
 export const getAllRecipes = async (): Promise<Recipe[]> => {;
-  const response = await RecipeFinder.getInstance().getAllRecipes();
+  const response = await RecipeFinder.getInstance().getAllRecipes()
   return response.success ? response.data || [] : []
 };

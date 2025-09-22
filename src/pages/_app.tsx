@@ -18,7 +18,7 @@ declare global {
 
 export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
-    log.info('[App] Initializing with Chrome API protection');
+    log.info('[App] Initializing with Chrome API protection')
 
     // Setup global error handler for Chrome Extension API and lockdown errors
     const errorHandler = function (event: ErrorEvent) {
@@ -34,10 +34,10 @@ export default function App({ Component, pageProps }: AppProps) {
           event.message.includes('viewer.js') ||
           event.message.includes('Assignment to constant variable'))
       ) {
-        console.warn('[App] Intercepted API/lockdown error:', event.message);
+        console.warn('[App] Intercepted API/lockdown error:', event.message)
 
         // Load scripts for handling these specific errors if not loaded yet
-        loadErrorHandlingScripts();
+        loadErrorHandlingScripts()
 
         // Prevent default handling for extension-specific errors
         if (
@@ -47,7 +47,7 @@ export default function App({ Component, pageProps }: AppProps) {
           event.message.includes('popup') ||
           event.message.includes('Assignment to constant variable')
         ) {
-          event.preventDefault();
+          event.preventDefault()
           return true;
         }
       }
@@ -59,36 +59,36 @@ export default function App({ Component, pageProps }: AppProps) {
       // Force load the dummy-popup.js script
       if (!window.__reloadedDummyPopup) {
         window.__reloadedDummyPopup = true;
-        log.info('[App] Loading dummy-popup.js for Chrome API mocking');
+        log.info('[App] Loading dummy-popup.js for Chrome API mocking')
 
-        const script = document.createElement('script');
+        const script = document.createElement('script')
         script.src = '/dummy-popup.js';
         script.async = false; // Load synchronously to ensure it's loaded before other scripts
-        document.head.appendChild(script);
+        document.head.appendChild(script)
 
         // Load lockdown patch
         if (!window.__lockdownHandled) {
-          const lockdownScript = document.createElement('script');
+          const lockdownScript = document.createElement('script')
           lockdownScript.src = '/lockdown-patch.js';
           lockdownScript.async = false;
-          document.head.appendChild(lockdownScript);
+          document.head.appendChild(lockdownScript)
         }
 
         // Also load the alchemical engine patch
         if (!window.__alchemicalEnginePatchApplied) {
-          const alchemicalPatchScript = document.createElement('script');
+          const alchemicalPatchScript = document.createElement('script')
           alchemicalPatchScript.src = '/patchAlchemicalEngine.js';
           alchemicalPatchScript.async = false;
-          document.head.appendChild(alchemicalPatchScript);
+          document.head.appendChild(alchemicalPatchScript)
         }
 
         // Also reinitialize Chrome APIs
         if (!window.__chromeAPIsInitialized) {
           try {
-            initializeChromeApis();
+            initializeChromeApis()
             window.__chromeAPIsInitialized = true;
           } catch (e) {
-            console.warn('[App] Error initializing Chrome APIs:', e);
+            console.warn('[App] Error initializing Chrome APIs:', e)
           }
         }
       }
@@ -96,22 +96,22 @@ export default function App({ Component, pageProps }: AppProps) {
 
     // Initialize Chrome APIs immediately on component mount
     try {
-      initializeChromeApis();
+      initializeChromeApis()
       window.__chromeAPIsInitialized = true;
 
       // Pre-emptively load error handling scripts
-      loadErrorHandlingScripts();
+      loadErrorHandlingScripts()
     } catch (e) {
-      console.warn('[App] Error during initial Chrome API initialization:', e);
+      console.warn('[App] Error during initial Chrome API initialization:', e)
     }
 
-    window.addEventListener('error', errorHandler, true);
+    window.addEventListener('error', errorHandler, true)
 
     return () => {
-      log.info('[App] Removing Chrome API error handler');
-      window.removeEventListener('error', errorHandler, true);
+      log.info('[App] Removing Chrome API error handler')
+      window.removeEventListener('error', errorHandler, true)
     };
-  }, []);
+  }, [])
 
   return (
     <>
@@ -137,5 +137,5 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
       <Component {...pageProps} />
     </>
-  );
+  )
 }

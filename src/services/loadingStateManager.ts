@@ -8,7 +8,7 @@ type LoadingState = {
 };
 
 class LoadingStateManager {
-  private subscribers: Set<(state: LoadingState) => void> = new Set();
+  private subscribers: Set<(state: LoadingState) => void> = new Set()
   private currentState: LoadingState = {
     isLoading: true,
     message: 'Initializing...',
@@ -25,44 +25,44 @@ class LoadingStateManager {
   };
 
   subscribe(callback: (state: LoadingState) => void) {
-    this.subscribers.add(callback);
-    callback(this.currentState);
+    this.subscribers.add(callback)
+    callback(this.currentState)
     return () => this.subscribers.delete(callback)
   }
 
   private updateState(updates: Partial<LoadingState>) {
     this.currentState = { ...this.currentState, ...updates };
-    this.notifySubscribers();
+    this.notifySubscribers()
   }
 
   private notifySubscribers() {
-    this.subscribers.forEach(callback => callback(this.currentState));
+    this.subscribers.forEach(callback => callback(this.currentState))
   }
 
   startLoading(stage: keyof typeof this.STAGES) {
     const stageData = this.STAGES[stage]
-    logger.info(`Loading stage: ${stage}`, stageData);
+    logger.info(`Loading stage: ${stage}`, stageData)
     this.updateState({
       isLoading: true,
       ...stageData,
       stage
-    });
+    })
   }
 
   updateProgress(progress: number, message?: string) {
     this.updateState({
       progress,
       ...(message ? { message } : {})
-    });
+    })
   }
 
   setError(message: string) {
-    logger.error('Loading error:', message);
+    logger.error('Loading error:', message)
     this.updateState({
       isLoading: false,
       message,
       stage: 'error'
-    });
+    })
   }
 
   complete() {
@@ -70,7 +70,7 @@ class LoadingStateManager {
       isLoading: false,
       ...this.STAGES.complete,
       stage: 'complete'
-    });
+    })
   }
 
   reset() {
@@ -78,8 +78,8 @@ class LoadingStateManager {
       isLoading: true,
       ...this.STAGES.initial,
       stage: 'initial'
-    });
+    })
   }
 }
 
-export const _loadingStateManager = new LoadingStateManager();
+export const _loadingStateManager = new LoadingStateManager()

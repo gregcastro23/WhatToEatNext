@@ -31,7 +31,7 @@ import { unifiedIngredientService } from './UnifiedIngredientService';
  * Implements the RecommendationServiceInterface and follows the singleton pattern.
  */
 export class UnifiedRecommendationService implements RecommendationServiceInterface {
-  private static, instance: UnifiedRecommendationService,
+  private static instance: UnifiedRecommendationService,
 
   private constructor() {}
 
@@ -40,7 +40,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
    */
   public static getInstance(): UnifiedRecommendationService {
     if (!UnifiedRecommendationService.instance) {
-      UnifiedRecommendationService.instance = new UnifiedRecommendationService();
+      UnifiedRecommendationService.instance = new UnifiedRecommendationService()
     }
     return UnifiedRecommendationService.instance;
   }
@@ -51,10 +51,10 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
   async getRecommendedRecipes(
     criteria: RecipeRecommendationCriteria,
   ): Promise<RecommendationResult<Recipe>> {
-    const allRecipesResult = recipeDataService.getAllRecipes();
-    const allRecipes = Array.isArray(allRecipesResult);
+    const allRecipesResult = recipeDataService.getAllRecipes()
+    const allRecipes = Array.isArray(allRecipesResult)
       ? allRecipesResult
-      : await Promise.resolve(allRecipesResult);
+      : await Promise.resolve(allRecipesResult)
 
     // Score recipes based on criteria
     const scoredRecipes = (allRecipes || []).map(recipe => {
@@ -76,7 +76,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
 
       // Check for cooking method match
       if (criteria.cookingMethod && recipe.cookingMethods) {
-        const methods = Array.isArray(recipe.cookingMethods);
+        const methods = Array.isArray(recipe.cookingMethods)
           ? recipe.cookingMethods
           : [recipe.cookingMethods],
 
@@ -89,19 +89,19 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
 
       // Check for cuisine match
       if (criteria.cuisine && recipe.cuisine) {
-        const cuisineMatch = recipe.cuisine?.toLowerCase() === criteria.cuisine.toLowerCase();
+        const cuisineMatch = recipe.cuisine?.toLowerCase() === criteria.cuisine.toLowerCase()
         score += cuisineMatch ? 0.15 : 0
       }
 
       // Check for ingredient inclusion
       if (criteria.includeIngredients && criteria.includeIngredients.length > 0) {
         const recipeIngredients = (recipe.ingredients || ([] as Ingredient[])).map(ing =>
-          ing.name?.toLowerCase();
-        );
+          ing.name?.toLowerCase()
+        )
 
         const includedCount = criteria.includeIngredients.filter(ing =>
-          Array.isArray(recipeIngredients);
-            ? recipeIngredients.includes(ing.toLowerCase() || '');
+          Array.isArray(recipeIngredients)
+            ? recipeIngredients.includes(ing.toLowerCase() || '')
             : recipeIngredients === (ing.toLowerCase() || ''),
         ).length;
 
@@ -112,12 +112,12 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       // Check for ingredient exclusion
       if (criteria.excludeIngredients && criteria.excludeIngredients.length > 0) {
         const recipeIngredients = (recipe.ingredients || ([] as Ingredient[])).map(ing =>
-          ing.name?.toLowerCase();
-        );
+          ing.name?.toLowerCase()
+        )
 
         const excludedCount = criteria.excludeIngredients.filter(ing =>
-          Array.isArray(recipeIngredients);
-            ? recipeIngredients.includes(ing.toLowerCase() || '');
+          Array.isArray(recipeIngredients)
+            ? recipeIngredients.includes(ing.toLowerCase() || '')
             : recipeIngredients === (ing.toLowerCase() || ''),
         ).length;
 
@@ -130,24 +130,24 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         recipe,
         score
       };
-    });
+    })
 
     // Filter by minimum compatibility score
     const minScore = criteria.minCompatibility || 0.5;
-    const filteredRecipes = (scoredRecipes || []).filter(item => item.score >= minScore);
+    const filteredRecipes = (scoredRecipes || []).filter(item => item.score >= minScore)
 
     // Sort by score
-    filteredRecipes.sort((ab) => b.score - a.score);
+    filteredRecipes.sort((ab) => b.score - a.score)
 
     // Limit results
     const limit = criteria.limit || 10;
-    const limitedRecipes = filteredRecipes.slice(0, limit);
+    const limitedRecipes = filteredRecipes.slice(0, limit)
 
     // Build scores record
     const scores: { [key: string]: number } = {};
     (limitedRecipes || []).forEach(item => {
       scores[item.recipe.id] = item.score
-    });
+    })
 
     return {
       items: (limitedRecipes || []).map(item => item.recipe),,
@@ -166,7 +166,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
   async getRecommendedIngredients(
     criteria: IngredientRecommendationCriteria,
   ): Promise<RecommendationResult<Ingredient>> {
-    const allIngredients = unifiedIngredientService.getAllIngredientsFlat();
+    const allIngredients = unifiedIngredientService.getAllIngredientsFlat()
 
     // Score ingredients based on criteria
     const scoredIngredients = (allIngredients || []).map(ingredient => {
@@ -198,7 +198,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       // Check for planetary ruler match
       if (criteria.planetaryRuler && ingredient.astrologicalProperties?.planets) {
         const planets = (ingredient.astrologicalProperties as any)?.planets;
-        const planetMatch = Array.isArray(planets);
+        const planetMatch = Array.isArray(planets)
           ? planets.includes(
               criteria.planetaryRuler as unknown as Record<string, Record<string, string>>,
             )
@@ -232,24 +232,24 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         ingredient,
         score
       };
-    });
+    })
 
     // Filter by minimum compatibility score
     const minScore = criteria.minCompatibility || 0.5;
-    const filteredIngredients = (scoredIngredients || []).filter(item => item.score >= minScore);
+    const filteredIngredients = (scoredIngredients || []).filter(item => item.score >= minScore)
 
     // Sort by score
-    filteredIngredients.sort((ab) => b.score - a.score);
+    filteredIngredients.sort((ab) => b.score - a.score)
 
     // Limit results
     const limit = criteria.limit || 10;
-    const limitedIngredients = filteredIngredients.slice(0, limit);
+    const limitedIngredients = filteredIngredients.slice(0, limit)
 
     // Build scores record
     const scores: { [key: string]: number } = {};
     (limitedIngredients || []).forEach(item => {
       scores[item.ingredient.name] = item.score
-    });
+    })
 
     return {
       items: (limitedIngredients || []).map(item => item.ingredient) as unknown as Ingredient[], // TODO: Review this cast for type safety,
@@ -288,7 +288,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       'Mediterranean'
     ],
 
-    // Map cuisines to elemental properties (simplified);
+    // Map cuisines to elemental properties (simplified)
     const cuisineElements: { [key: string]: ElementalProperties } = {
       Italian: { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 },
       Chinese: { Fire: 0.4, Water: 0.2, Earth: 0.1, Air: 0.3 },
@@ -310,7 +310,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     // Filter out excluded cuisines
     let availableCuisines = cuisines;
     if (criteria.excludeCuisines && (criteria.excludeCuisines || []).length > 0) {
-      const excludedSet = new Set((criteria.excludeCuisines || []).map(c => c.toLowerCase()));
+      const excludedSet = new Set((criteria.excludeCuisines || []).map(c => c.toLowerCase()))
       availableCuisines = (cuisines || []).filter(
         cuisine => !excludedSet.has(cuisine.toLowerCase()),,
       )
@@ -338,24 +338,24 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         cuisine,
         score
       };
-    });
+    })
 
     // Filter by minimum compatibility score
     const minScore = criteria.minCompatibility || 0.5;
-    const filteredCuisines = (scoredCuisines || []).filter(item => item.score >= minScore);
+    const filteredCuisines = (scoredCuisines || []).filter(item => item.score >= minScore)
 
     // Sort by score
-    filteredCuisines.sort((ab) => b.score - a.score);
+    filteredCuisines.sort((ab) => b.score - a.score)
 
     // Limit results
     const limit = criteria.limit || 10;
-    const limitedCuisines = filteredCuisines.slice(0, limit);
+    const limitedCuisines = filteredCuisines.slice(0, limit)
 
     // Build scores record
     const scores: { [key: string]: number } = {};
     (limitedCuisines || []).forEach(item => {
       scores[item.cuisine] = item.score
-    });
+    })
 
     return {
       items: (limitedCuisines || []).map(item => item.cuisine),,
@@ -427,11 +427,11 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     // Filter out excluded methods
     let availableMethods = cookingMethods;
     if (criteria.excludeMethods && (criteria.excludeMethods || []).length > 0) {
-      const excludedSet = new Set((criteria.excludeMethods || []).map(m => m.toLowerCase()));
+      const excludedSet = new Set((criteria.excludeMethods || []).map(m => m.toLowerCase()))
       availableMethods = (cookingMethods || []).filter(method => {
         const methodData = method
-        return !excludedSet.has(methodData.name.toLowerCase() || '');
-      });
+        return !excludedSet.has(methodData.name.toLowerCase() || '')
+      })
     }
 
     // Score methods based on criteria
@@ -457,26 +457,26 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         method,
         score
       };
-    });
+    })
 
     // Filter by minimum compatibility score
     const minScore = criteria.minCompatibility || 0.5;
-    const filteredMethods = (scoredMethods || []).filter(item => item.score >= minScore);
+    const filteredMethods = (scoredMethods || []).filter(item => item.score >= minScore)
 
     // Sort by score
-    filteredMethods.sort((ab) => b.score - a.score);
+    filteredMethods.sort((ab) => b.score - a.score)
 
     // Limit results
     const limit = criteria.limit || 10;
-    const limitedMethods = filteredMethods.slice(0, limit);
+    const limitedMethods = filteredMethods.slice(0, limit)
 
     // Build scores record
     const scores: { [key: string]: number } = {};
     (limitedMethods || []).forEach(item => {
       const methodData = item.method as unknown as any
-      const methodId = String(methodData.name || 'unknown');
+      const methodId = String(methodData.name || 'unknown')
       scores[methodId] = item.score;
-    });
+    })
 
     return {
       items: (limitedMethods || []).map(item => item.method),,
@@ -504,16 +504,16 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
           source: ElementalProperties,
           target: ElementalProperties,
         ) => number
-      )(source, target);
+      )(source, target)
     }
 
     // Fallback calculation
     const elements = ['Fire', 'Water', 'Earth', 'Air'] as const;
     let compatibilityScore = 0;
     elements.forEach(element => {
-      const diff = Math.abs(source[element] - target[element]);
+      const diff = Math.abs(source[element] - target[element])
       compatibilityScore += 1 - diff;
-    });
+    })
     return compatibilityScore / elements.length;
   }
 
@@ -530,28 +530,28 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         return this.getRecommendedRecipes({
           elementalProperties,
           limit
-        });
+        })
 
       case 'ingredient':
         return this.getRecommendedIngredients({
           elementalProperties,
           limit
-        });
+        })
 
       case 'cuisine':
         return this.getRecommendedCuisines({
           elementalProperties,
           limit
-        });
+        })
 
       case 'cookingMethod':
         return this.getRecommendedCookingMethods({
           elementalProperties,
           limit
-        });
+        })
 
       default:
-        throw new Error(`Unsupported recommendation type: ${type}`);
+        throw new Error(`Unsupported recommendation type: ${type}`)
     }
   }
 
@@ -576,7 +576,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     // elemental properties based on planetary positions
 
     // Get recommendations based on elemental properties
-    return this.getRecommendationsForElements(elementalProperties, type, limit);
+    return this.getRecommendationsForElements(elementalProperties, type, limit)
   }
 
   /**
@@ -596,7 +596,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
 }
 
 // Export a singleton instance for use across the application
-export const unifiedRecommendationService = UnifiedRecommendationService.getInstance();
+export const unifiedRecommendationService = UnifiedRecommendationService.getInstance()
 
 // Export default for compatibility with existing code
 export default unifiedRecommendationService;

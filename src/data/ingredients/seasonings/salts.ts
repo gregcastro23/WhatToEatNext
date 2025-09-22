@@ -948,4 +948,4 @@ const rawSalts = {
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
 export const salts: Record<string, IngredientMapping> = fixIngredientMappings(
   rawSalts as Record<string, Partial<IngredientMapping>>,
-);
+)

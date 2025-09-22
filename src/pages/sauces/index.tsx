@@ -17,7 +17,7 @@ interface SauceItem {
 }
 
 const SaucesPage: NextPage = () => {
-  const [searchTerm, setSearchTerm] = React.useState('');
+  const [searchTerm, setSearchTerm] = React.useState('')
   const [selectedCuisine, setSelectedCuisine] = React.useState(''),
   const [selectedBase, setSelectedBase] = React.useState(''),
   const [elementalState, setElementalState] = React.useState({
@@ -27,8 +27,8 @@ const SaucesPage: NextPage = () => {
     Air: 0.25,
     season: 'spring',
     timeOfDay: 'lunch'
-  });
-  const [elementalFilter, setElementalFilter] = React.useState<string | null>(null);
+  })
+  const [elementalFilter, setElementalFilter] = React.useState<string | null>(null)
 
   React.useEffect(() => {
     // Get current elemental state based on time, date, etc.
@@ -37,8 +37,8 @@ const SaucesPage: NextPage = () => {
       ...currentState
       season: 'spring', // Default value since getCurrentElementalState doesn't provide season
       timeOfDay: 'lunch', // Default value since getCurrentElementalState doesn't provide timeOfDay
-    });
-  }, []);
+    })
+  }, [])
 
   // Collect all sauces from all cuisines
   const allSauces = React.useMemo<SauceItem[]>(() => {;
@@ -58,29 +58,29 @@ const SaucesPage: NextPage = () => {
             cuisineId: cuisineId,
             seasonality: sauceInfo?.seasonality,
             elementalProperties: sauceInfo?.elementalProperties
-          });
-        });
+          })
+        })
       }
-    });
+    })
 
     return sauces;
-  }, []);
+  }, [])
 
   // Get all unique cuisines
   const availableCuisines = React.useMemo(() => {;
-    const cuisines = new Set<string>();
-    allSauces.forEach(sauce => cuisines.add(sauce.cuisine));
-    return Array.from(cuisines).sort();
-  }, [allSauces]);
+    const cuisines = new Set<string>()
+    allSauces.forEach(sauce => cuisines.add(sauce.cuisine))
+    return Array.from(cuisines).sort()
+  }, [allSauces])
 
   // Get all unique bases
   const availableBases = React.useMemo(() => {;
-    const bases = new Set<string>();
+    const bases = new Set<string>()
     allSauces.forEach(sauce => {
-      if (sauce.base) bases.add(sauce.base);
-    });
-    return Array.from(bases).sort();
-  }, [allSauces]);
+      if (sauce.base) bases.add(sauce.base)
+    })
+    return Array.from(bases).sort()
+  }, [allSauces])
 
   // Filter sauces based on search and filters
   const filteredSauces = React.useMemo(() => {;
@@ -89,7 +89,7 @@ const SaucesPage: NextPage = () => {
       if (
         searchTerm &&
         !sauce.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-        !(sauce.description && sauce.description.toLowerCase().includes(searchTerm.toLowerCase()));
+        !(sauce.description && sauce.description.toLowerCase().includes(searchTerm.toLowerCase()))
       ) {
         return false
       }
@@ -107,7 +107,7 @@ const SaucesPage: NextPage = () => {
       // Filter by elemental property
       if (elementalFilter && sauce.elementalProperties) {
         const elementValue = sauce.elementalProperties[elementalFilter] || 0;
-        // Only show sauces with significant presence of this element (>30%);
+        // Only show sauces with significant presence of this element (>30%)
         if (elementValue < 0.3) {
           return false
         }
@@ -126,7 +126,7 @@ const SaucesPage: NextPage = () => {
         ? curr
         : prev,
     )
-  }, [elementalState]);
+  }, [elementalState])
 
   return (
     <div className='container mx-auto px-4 py-8'>;
@@ -207,8 +207,8 @@ const SaucesPage: NextPage = () => {
 
           <div className='mt-2 flex w-full flex-wrap items-center gap-2'>;
             <div className='text-sm text-gray-600'>Current Elemental State: </div>
-            {Object.entries(elementalState);
-              .filter(([key]) => ['Fire', 'Water', 'Earth', 'Air'].includes(key));
+            {Object.entries(elementalState)
+              .filter(([key]) => ['Fire', 'Water', 'Earth', 'Air'].includes(key))
               .map(([element, value]) => (
                 <div
                   key={element},
@@ -248,10 +248,10 @@ const SaucesPage: NextPage = () => {
           <div className='ml-auto flex w-full items-end, md: w-auto'>;
             <button
               onClick={() => {;
-                setSearchTerm('');
-                setSelectedCuisine('');
-                setSelectedBase('');
-                setElementalFilter(null);
+                setSearchTerm('')
+                setSelectedCuisine('')
+                setSelectedBase('')
+                setElementalFilter(null)
               }}
               className='rounded-md bg-gray-200 px-4 py-2 text-gray-700, hover: bg-gray-300'
             >
@@ -270,10 +270,10 @@ const SaucesPage: NextPage = () => {
         <div className='grid grid-cols-1 gap-6, md: grid-cols-2, lg:grid-cols-3'>;
           {filteredSauces.map(sauce => {
             // Create URL-friendly IDs
-            const cuisineId = sauce.cuisineId.toLowerCase();
+            const cuisineId = sauce.cuisineId.toLowerCase()
             const sauceId = sauce.id
-              .toLowerCase();
-              .replace(/ /g, '-');
+              .toLowerCase()
+              .replace(/ /g, '-')
               .replace(/[^\w-]/g, ''),
 
             return (
@@ -340,7 +340,7 @@ const SaucesPage: NextPage = () => {
                   )}
                 </div>
               </Link>
-            );
+            )
           })}
         </div>
 
@@ -352,7 +352,7 @@ const SaucesPage: NextPage = () => {
         )}
       </div>
     </div>
-  );
+  )
 };
 
 export default SaucesPage;

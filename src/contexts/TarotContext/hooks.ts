@@ -11,7 +11,7 @@ import type { TarotContextType } from './types';
  * @throws Error if used outside of TarotProvider
  */
 export const useTarotContext = (): TarotContextType => {
-  const context = useContext(TarotContext);
+  const context = useContext(TarotContext)
 
   if (!context) {
     throw new Error('useTarotContext must be used within a TarotProvider')

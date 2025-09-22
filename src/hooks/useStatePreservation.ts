@@ -17,125 +17,125 @@ import { ElementalProperties, useSteeringFileIntelligence } from '@/utils/steeri
  * Hook for preserving and restoring navigation state with performance optimizations
  */
 export function useNavigationState() {
-  const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   // Debounced save to prevent excessive storage writes
   const saveState = useCallback((state: Partial<NavigationState>) => {
     if (saveTimeoutRef.current) {
-      clearTimeout(saveTimeoutRef.current);
+      clearTimeout(saveTimeoutRef.current)
     }
 
     saveTimeoutRef.current = setTimeout(() => {
-      saveNavigationState(state);
+      saveNavigationState(state)
     }, 50); // 50ms debounce
-  }, []);
+  }, [])
 
   const getState = useCallback(() => {
-    return getNavigationState();
-  }, []);
+    return getNavigationState()
+  }, [])
 
   // Cleanup timeout on unmount
   useEffect(() => {
     return () => {
       if (saveTimeoutRef.current) {
-        clearTimeout(saveTimeoutRef.current);
+        clearTimeout(saveTimeoutRef.current)
       }
     };
-  }, []);
+  }, [])
 
-  return useMemo(() => ({ saveState, getState }), [saveState, getState]);
+  return useMemo(() => ({ saveState, getState }), [saveState, getState])
 }
 
 /**
  * Hook for preserving and restoring component state with performance optimizations
  */
 export function useComponentState<T = unknown>(componentId: string, initialState?: T) {
-  const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   // Debounced save to prevent excessive storage writes
   const saveState = useCallback(
     (state: T) => {
       if (saveTimeoutRef.current) {
-        clearTimeout(saveTimeoutRef.current);
+        clearTimeout(saveTimeoutRef.current)
       }
 
       saveTimeoutRef.current = setTimeout(() => {
-        saveComponentState(componentId, state);
+        saveComponentState(componentId, state)
       }, 100); // 100ms debounce for component state
     },
     [componentId],
-  );
+  )
 
   const getState = useCallback((): T | null => {
-    const stored = getComponentState(componentId);
+    const stored = getComponentState(componentId)
     return stored || initialState || null
-  }, [componentId, initialState]);
+  }, [componentId, initialState])
 
   const restoreState = useCallback((): T | null => {
-    return getState();
-  }, [getState]);
+    return getState()
+  }, [getState])
 
   // Cleanup timeout on unmount
   useEffect(() => {
     return () => {
       if (saveTimeoutRef.current) {
-        clearTimeout(saveTimeoutRef.current);
+        clearTimeout(saveTimeoutRef.current)
       }
     };
-  }, []);
+  }, [])
 
   return useMemo(
     () => ({ saveState, getState, restoreState }),
     [saveState, getState, restoreState],
-  );
+  )
 }
 
 /**
  * Hook for preserving and restoring scroll positions
  */
 export function useScrollPreservation(sectionId: string) {
-  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   const saveScrollPositionInternal = useCallback(
     (position?: number) => {
       const pos = position !== undefined ? position : window.scrollY
-      saveScrollPosition(sectionId, pos);
+      saveScrollPosition(sectionId, pos)
     },
     [sectionId],
-  );
+  )
 
   const restoreScrollPosition = useCallback(() => {
-    const position = getScrollPosition(sectionId);
+    const position = getScrollPosition(sectionId)
     if (position > 0) {
       // Use requestAnimationFrame to ensure DOM is ready
       requestAnimationFrame(() => {
-        window.scrollTo({ top: position, behavior: 'smooth' });
-      });
+        window.scrollTo({ top: position, behavior: 'smooth' })
+      })
     }
-  }, [sectionId]);
+  }, [sectionId])
 
   const handleScroll = useCallback(() => {
     // Debounce scroll saving to avoid excessive storage writes
     if (scrollTimeoutRef.current) {
-      clearTimeout(scrollTimeoutRef.current);
+      clearTimeout(scrollTimeoutRef.current)
     }
 
     scrollTimeoutRef.current = setTimeout(() => {
-      saveScrollPositionInternal();
-    }, 100);
-  }, [saveScrollPositionInternal]);
+      saveScrollPositionInternal()
+    }, 100)
+  }, [saveScrollPositionInternal])
 
   useEffect(() => {
     // Set up scroll listener
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('scroll', handleScroll, { passive: true })
 
     return () => {
-      window.removeEventListener('scroll', handleScroll),
+      window.removeEventListener('scroll', handleScroll);
       if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
+        clearTimeout(scrollTimeoutRef.current)
       }
     };
-  }, [handleScroll]);
+  }, [handleScroll])
 
   return { saveScrollPosition: saveScrollPositionInternal, restoreScrollPosition };
 }
@@ -145,9 +145,9 @@ export function useScrollPreservation(sectionId: string) {
  */
 export function useAutoStateCleanup() {
   useEffect(() => {
-    const cleanup = useStateCleanup();
+    const cleanup = useStateCleanup()
     return cleanup
-  }, []);
+  }, [])
 }
 
 /**
@@ -157,51 +157,51 @@ export function useFormStatePreservation<T extends Record<string, unknown>>(
   formId: string,
   initialValues: T,
 ) {
-  const { saveState, getState } = useComponentState(formId, initialValues);
+  const { saveState, getState } = useComponentState(formId, initialValues)
 
   const saveFormState = useCallback(
     (values: Partial<T>) => {
       const currentState = getState() || initialValues
       const updatedState = { ...currentState, ...values };
-      saveState(updatedState);
+      saveState(updatedState)
     },
     [saveState, getState, initialValues],
-  );
+  )
 
   const restoreFormState = useCallback((): T => {
-    const stored = getState();
+    const stored = getState()
     return stored ? { ...initialValues, ...stored } : initialValues
-  }, [getState, initialValues]);
+  }, [getState, initialValues])
 
   const clearFormState = useCallback(() => {
-    saveState(initialValues);
-  }, [saveState, initialValues]);
+    saveState(initialValues)
+  }, [saveState, initialValues])
 
   return { saveFormState, restoreFormState, clearFormState };
 }
 
 /**
- * Hook for preserving selection state (like selected items, active tabs, etc.);
+ * Hook for preserving selection state (like selected items, active tabs, etc.)
  */
 export function useSelectionState<T = unknown>(selectionId: string, initialSelection?: T) {
-  const { saveState, getState } = useComponentState(selectionId, initialSelection);
+  const { saveState, getState } = useComponentState(selectionId, initialSelection)
 
   const saveSelection = useCallback(
     (selection: T) => {
-      saveState(selection);
+      saveState(selection)
     },
     [saveState],
-  );
+  )
 
   const restoreSelection = useCallback((): T | null => {
-    return getState();
-  }, [getState]);
+    return getState()
+  }, [getState])
 
   const clearSelection = useCallback(() => {
     if (initialSelection !== undefined) {
-      saveState(initialSelection);
+      saveState(initialSelection)
     }
-  }, [saveState, initialSelection]);
+  }, [saveState, initialSelection])
 
   return { saveSelection, restoreSelection, clearSelection };
 }
@@ -210,7 +210,7 @@ export function useSelectionState<T = unknown>(selectionId: string, initialSelec
  * Hook for preserving navigation context when moving between pages
  */
 export function useNavigationContext() {
-  const { saveState, getState } = useNavigationState();
+  const { saveState, getState } = useNavigationState()
 
   const preserveContext = useCallback(
     (context: {
@@ -220,28 +220,28 @@ export function useNavigationContext() {
       scrollPosition?: number,
       timestamp?: number
     }) => {
-      const currentState = getState();
+      const currentState = getState()
       saveState({
-        ...currentState;
-        ...context
+        ...currentState,
+        ...context,
         navigationHistory: [
-          ...(currentState.navigationHistory || []);
+          ...(currentState.navigationHistory || []),
           context.fromPage || 'unknown'
-        ].slice(-10);
-      });
+        ].slice(-10)
+      })
     },
     [saveState, getState],
-  );
+  )
 
   const restoreContext = useCallback(() => {
-    return getState();
-  }, [getState]);
+    return getState()
+  }, [getState])
 
   const getLastPage = useCallback(() => {
-    const state = getState();
+    const state = getState()
     const history = state.navigationHistory || [];
     return history[history.length - 1] || null
-  }, [getState]);
+  }, [getState])
 
   return { preserveContext, restoreContext, getLastPage };
 }
@@ -250,7 +250,7 @@ export function useNavigationContext() {
  * Enhanced hook that leverages steering file intelligence for astrological component development
  */
 export function useAstrologicalStatePreservation(_componentId: string) {
-  const { saveState, getState} = useComponentState(componentId);
+  const { saveState, getState} = useComponentState(componentId)
 
   const saveAstrologicalState = useCallback(
     async (state: {
@@ -266,24 +266,24 @@ export function useAstrologicalStatePreservation(_componentId: string) {
           componentId
         };
 
-        saveState(enhancedState);
-        logger.debug(`Saved astrological state for ${componentId}`);
+        saveState(enhancedState)
+        logger.debug(`Saved astrological state for ${componentId}`)
       } catch (error) {
-        logger.error(`Error saving astrological state for ${componentId}:`, error);
+        logger.error(`Error saving astrological state for ${componentId}:`, error)
         // Fallback to basic state saving
-        saveState(state);
+        saveState(state)
       }
     },
     [componentId, saveState],
-  );
+  )
 
   const restoreAstrologicalState = useCallback(() => {
-    const stored = getState();
+    const stored = getState()
     if (stored) {
-      logger.debug(`Restored astrological state for ${componentId}`);
+      logger.debug(`Restored astrological state for ${componentId}`)
     }
     return stored;
-  }, [componentId, getState]);
+  }, [componentId, getState])
 
   const validateElementalCompatibility = useCallback(
     (sourceProps: ElementalProperties, targetProps: ElementalProperties) => {
@@ -298,7 +298,7 @@ export function useAstrologicalStatePreservation(_componentId: string) {
       };
     },
     [],
-  );
+  )
 
   const getArchitecturalGuidance = useCallback(() => {
     return {
@@ -308,14 +308,14 @@ export function useAstrologicalStatePreservation(_componentId: string) {
         'Implement proper error handling'
       ]
     };
-  }, []);
+  }, [])
 
   const getTechnologyStackGuidance = useCallback(() => {
     return {
       react: { version: '19.1.0', features: ['concurrent', 'suspense'] },
       typescript: { version: '5.1.6', strictMode: true }
     };
-  }, []);
+  }, [])
 
   return {
     saveAstrologicalState,
@@ -330,7 +330,7 @@ export function useAstrologicalStatePreservation(_componentId: string) {
  * Hook for cultural sensitivity guidance from steering files
  */
 export function useCulturalSensitivityGuidance() {
-  const intelligence = useSteeringFileIntelligence();
+  const intelligence = useSteeringFileIntelligence()
 
   const validateCulturalContent = useCallback(
     (content: {
@@ -353,10 +353,10 @@ export function useCulturalSensitivityGuidance() {
       if (content.ingredientNames) {
         content.ingredientNames.forEach(name => {
           if (name.includes('exotic') || name.includes('ethnic')) {
-            issues.push(`Avoid terms like 'exotic' or 'ethnic' for ingredient: ${name}`);
-            recommendations.push(`Use specific cultural origin or descriptive terms instead`);
+            issues.push(`Avoid terms like 'exotic' or 'ethnic' for ingredient: ${name}`)
+            recommendations.push(`Use specific cultural origin or descriptive terms instead`)
           }
-        });
+        })
       }
 
       // Check cuisine descriptions for respectful representation
@@ -367,7 +367,7 @@ export function useCulturalSensitivityGuidance() {
               `Consider using 'traditional' instead of 'authentic' to be more inclusive`,
             )
           }
-        });
+        })
       }
 
       return {
@@ -378,7 +378,7 @@ export function useCulturalSensitivityGuidance() {
       };
     },
     [intelligence],
-  );
+  )
 
   const getInclusiveLanguageGuidelines = useCallback(() => {
     return {
@@ -401,7 +401,7 @@ export function useCulturalSensitivityGuidance() {
         'Include screen reader compatible content'
       ]
     };
-  }, []);
+  }, [])
 
   return {
     validateCulturalContent,
@@ -413,12 +413,12 @@ export function useCulturalSensitivityGuidance() {
  * Hook for performance optimization guidance from steering files
  */
 export function usePerformanceOptimizationGuidance() {
-  const intelligence = useSteeringFileIntelligence();
+  const intelligence = useSteeringFileIntelligence()
 
   const getOptimizationRecommendations = useCallback(
     (componentType: string) => {
-      const techGuidance = intelligence.getTechnologyStackGuidance();
-      const archGuidance = intelligence.getArchitecturalGuidance();
+      const techGuidance = intelligence.getTechnologyStackGuidance()
+      const archGuidance = intelligence.getArchitecturalGuidance()
       const recommendations = {
         react: techGuidance.react,
         performance: archGuidance.performance,
@@ -462,7 +462,7 @@ export function usePerformanceOptimizationGuidance() {
       return recommendations;
     },
     [intelligence],
-  );
+  )
 
   const validatePerformanceMetrics = useCallback(
     (metrics: {
@@ -485,23 +485,23 @@ export function usePerformanceOptimizationGuidance() {
         if (value !== undefined && thresholds[metric as keyof typeof thresholds]) {
           const threshold = thresholds[metric as keyof typeof thresholds];
           if (value > threshold) {
-            issues.push(`${metric} (${value}) exceeds threshold (${threshold})`);
+            issues.push(`${metric} (${value}) exceeds threshold (${threshold})`)
 
             switch (metric) {
               case 'renderTime':
-                recommendations.push('Consider using React.memo, useMemo, or useCallback');
+                recommendations.push('Consider using React.memo, useMemo, or useCallback')
                 break;
-              case 'memoryUsage': recommendations.push('Check for memory leaks and optimize data structures');
+              case 'memoryUsage': recommendations.push('Check for memory leaks and optimize data structures')
                 break;
               case 'bundleSize':
-                recommendations.push('Implement code splitting and tree shaking');
+                recommendations.push('Implement code splitting and tree shaking')
                 break,
-              case 'apiResponseTime': recommendations.push('Implement caching and consider API optimization');
+              case 'apiResponseTime': recommendations.push('Implement caching and consider API optimization')
                 break
             }
           }
         }
-      });
+      })
 
       return {
         issues,
@@ -511,7 +511,7 @@ export function usePerformanceOptimizationGuidance() {
       };
     },
     [],
-  );
+  )
 
   return {
     getOptimizationRecommendations,

@@ -23,10 +23,10 @@ interface Sauce {
 }
 
 const SauceDetailsPage: NextPage = () => {;
-  const router = useRouter();
+  const router = useRouter()
   const { cuisine, id } = router.query;
-  const [sauce, setSauce] = React.useState<Sauce | null>(null);
-  const [loading, setLoading] = React.useState(true);
+  const [sauce, setSauce] = React.useState<Sauce | null>(null)
+  const [loading, setLoading] = React.useState(true)
   const [elementalState, setElementalState] = React.useState({
     Fire: 0.25,
     Water: 0.25,
@@ -34,7 +34,7 @@ const SauceDetailsPage: NextPage = () => {;
     Air: 0.25,
     season: 'spring',
     timeOfDay: 'lunch'
-  });
+  })
 
   React.useEffect(() => {
     // Get current elemental state based on time, date, etc.
@@ -43,8 +43,8 @@ const SauceDetailsPage: NextPage = () => {;
       ...currentState
       season: 'spring', // Default value since getCurrentElementalState doesn&apost provide season
       timeOfDay: 'lunch', // Default value since getCurrentElementalState doesn&apost provide timeOfDay
-    });
-  }, []);
+    })
+  }, [])
 
   React.useEffect(() => {
     if (cuisine && id) {
@@ -59,33 +59,33 @@ const SauceDetailsPage: NextPage = () => {;
           const sauceId = Object.keys(cuisinesMap[cuisineKey].traditionalSauces || {}).find(;
             sKey => {;
               const urlFriendlySauceId = sKey
-                .toLowerCase();
-                .replace(/ /g, '-');
+                .toLowerCase()
+                .replace(/ /g, '-')
                 .replace(/[^\w-]/g, ''),
               return urlFriendlySauceId === id;
             },
-          );
+          )
 
           if (sauceId) {
             const foundSauce = {
               id: sauceId,
               ...(cuisinesMap[cuisineKey].traditionalSauces as any)[sauceId]
             };
-            setSauce(foundSauce);
+            setSauce(foundSauce)
           } else {
-            setSauce(null);
+            setSauce(null)
           }
         } else {
-          setSauce(null);
+          setSauce(null)
         }
       } catch (error) {
         // console.error('Error finding sauce:', error),
-        setSauce(null);
+        setSauce(null)
       }
 
-      setLoading(false);
+      setLoading(false)
     }
-  }, [cuisine, id]);
+  }, [cuisine, id])
 
   // Loading state
   if (loading) {
@@ -115,7 +115,7 @@ const SauceDetailsPage: NextPage = () => {;
           Back to {cuisine} cuisine
         </Link>
       </div>
-    );
+    )
   }
 
   return (
@@ -264,7 +264,7 @@ const SauceDetailsPage: NextPage = () => {;
         )}
       </div>
     </div>
-  );
+  )
 };
 
 export default SauceDetailsPage;

@@ -4,9 +4,9 @@
  * Demonstrates the comprehensive Swiss Ephemeris integration
  */
 
-const SwissEphemerisDemo = () => (;
+const SwissEphemerisDemo = () => (
   <div className='rounded border p-4 text-gray-600'>SwissEphemerisDemo unavailable.</div>
-);
+)
 
 export default function SwissEphemerisDemoPage() {
   return (
@@ -194,5 +194,5 @@ export default function SwissEphemerisDemoPage() {
         </div>
       </div>
     </div>
-  );
+  )
 }

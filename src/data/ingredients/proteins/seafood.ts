@@ -12,7 +12,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     qualities: ['omega-rich', 'flaky', 'buttery', 'mild', 'versatile', 'nutrient-dense'],
     origin: ['Norway', 'Scotland', 'Chile', 'Canada', 'United States'],
 
-    // Nutritional information (standardized);
+    // Nutritional information (standardized)
     nutritionalProfile: {
       serving_size: '3 oz (85g)',
       calories: 206,
@@ -38,7 +38,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       source: 'USDA FoodData Central'
     },
 
-    // Sensory profile (standardized);
+    // Sensory profile (standardized)
     sensoryProfile: {
       taste: {
         sweet: 0.3,
@@ -66,7 +66,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       }
     },
 
-    // Storage information (standardized);
+    // Storage information (standardized)
     storage: {
       temperature: {
         fahrenheit: 32,
@@ -81,14 +81,14 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       ]
     },
 
-    // Preparation (standardized);
+    // Preparation (standardized)
     preparation: {
       methods: ['grill', 'bake', 'pan-sear', 'poach', 'steam', 'smoke', 'raw (sushi-grade)'],
       washing: false,
       notes: 'Leave skin on during cooking for easier handling and extra nutrients'
     },
 
-    // Health benefits (standardized);
+    // Health benefits (standardized)
     healthBenefits: [
       'Heart health (reduces blood pressure and inflammation)',
       'Brain function (enhances memory and cognitive performance)',
@@ -99,7 +99,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       'Mental well-being (omega-3s may help reduce depression symptoms)'
     ],
 
-    // Culinary applications (standardized);
+    // Culinary applications (standardized)
     culinaryApplications: {
       commonUses: ['entrees', 'salads', 'sushi', 'appetizers', 'sandwiches', 'breakfast dishes'],
       pairingRecommendations: {
@@ -134,7 +134,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       }
     },
 
-    // Varieties (standardized);
+    // Varieties (standardized)
     varieties: {
       'Farm Raised': {
         name: 'Farm Raised',
@@ -252,7 +252,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       }
     ],
 
-    // Astrology / (elemental || 1) connections (standardized);
+    // Astrology / (elemental || 1) connections (standardized)
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Neptune'],
       favorableZodiac: ['cancer', 'pisces'],
@@ -2124,9 +2124,9 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-export const seafood: Record<string, IngredientMapping> = fixIngredientMappings(rawSeafood);
+export const seafood: Record<string, IngredientMapping> = fixIngredientMappings(rawSeafood)
 
 // Create a collection of all herbs for export
-export const _allSeafood = Object.values(seafood);
+export const _allSeafood = Object.values(seafood)
 
 export default seafood;

@@ -52,8 +52,8 @@ export function CelestialEventNotifications({
   autoHideDelay = 10000,
   className = ''
 }: CelestialEventNotificationsProps) {
-  const { isConnected, lastCelestialEvent } = useAlchmWebSocket();
-  const [events, setEvents] = React.useState<CelestialEventWithId[]>([]);
+  const { isConnected, lastCelestialEvent } = useAlchmWebSocket()
+  const [events, setEvents] = React.useState<CelestialEventWithId[]>([])
 
   React.useEffect(() => {
     if (lastCelestialEvent) {
@@ -66,9 +66,9 @@ export function CelestialEventNotifications({
 
       setEvents(prev => {
         const updated = [eventWithId, ...prev.slice(0, maxNotifications - 1)];
-        logger.debug('CelestialEventNotifications added event', eventWithId);
+        logger.debug('CelestialEventNotifications added event', eventWithId)
         return updated;
-      });
+      })
 
       // Auto-hide after delay
       if (autoHide) {
@@ -77,37 +77,37 @@ export function CelestialEventNotifications({
             prev.map(event =>
               event.id === eventWithId.id ? { ...event, visible: false } : event
             )
-          );
-        }, autoHideDelay);
+          )
+        }, autoHideDelay)
 
         // Remove after animation
         setTimeout(() => {
-          setEvents(prev => prev.filter(event => event.id !== eventWithId.id));
-        }, autoHideDelay + 500);
+          setEvents(prev => prev.filter(event => event.id !== eventWithId.id))
+        }, autoHideDelay + 500)
       }
     }
-  }, [lastCelestialEvent, maxNotifications, autoHide, autoHideDelay]);
+  }, [lastCelestialEvent, maxNotifications, autoHide, autoHideDelay])
 
   const dismissEvent = (eventId: string) => {
     setEvents(prev =>
       prev.map(event =>
         event.id === eventId ? { ...event, visible: false } : event
       )
-    );
+    )
 
     setTimeout(() => {
-      setEvents(prev => prev.filter(event => event.id !== eventId));
-    }, 300);
+      setEvents(prev => prev.filter(event => event.id !== eventId))
+    }, 300)
   };
 
   const clearAllEvents = () => {
     setEvents(prev =>
       prev.map(event => ({ ...event, visible: false }))
-    );
+    )
 
     setTimeout(() => {
-      setEvents([]);
-    }, 300);
+      setEvents([])
+    }, 300)
   };
 
   const formatEventTime = (timestamp: string) => {
@@ -115,7 +115,7 @@ export function CelestialEventNotifications({
       return new Date(timestamp).toLocaleTimeString([], {
         hour: '2-digit',
         minute: '2-digit'
-      });
+      })
     } catch {
       return timestamp;
     }
@@ -132,7 +132,7 @@ export function CelestialEventNotifications({
   const formatEventType = (type: string) => {
     return type.split('_').map(word =>
       word.charAt(0).toUpperCase() + word.slice(1)
-    ).join(' ');
+    ).join(' ')
   };
 
   if (events.length === 0) {
@@ -151,7 +151,7 @@ export function CelestialEventNotifications({
           {isConnected ? 'Listening for celestial events...' : 'WebSocket disconnected'}
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -313,5 +313,5 @@ export function CelestialEventNotifications({
         }
       `}</style>
     </div>
-  );
+  )
 }

@@ -12,13 +12,13 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       success: true,
       data: testResults,
       message: 'Test completed successfully'
-    });
+    })
   } catch (error) {
-    // console.error('Error in test endpoint:', error);
+    // console.error('Error in test endpoint:', error)
     res.status(500).json({
       success: false,
       error: error instanceof Error ? error.message : 'Unknown error',
       message: 'Test failed'
-    });
+    })
   }
 }

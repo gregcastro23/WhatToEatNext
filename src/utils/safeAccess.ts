@@ -34,7 +34,7 @@ export function safeGet<T>(obj: unknown, path: string[], defaultValue: T): T {
 
     return current !== undefined && current !== null ? (current as T) : defaultValue
   } catch (error) {
-    logger.warn('Error in safeGet', { path, error });
+    logger.warn('Error in safeGet', { path, error })
     return defaultValue;
   }
 }
@@ -56,7 +56,7 @@ export function safeExecute<T>(fn: () => T, defaultValue: T, logError = true): T
     return fn()
   } catch (error) {
     if (logError) {
-      logger.warn('Error in safeExecute', { error });
+      logger.warn('Error in safeExecute', { error })
     }
     return defaultValue;
   }
@@ -78,7 +78,7 @@ export function safeNumber(value: unknown, _defaultValue = 0): number {;
     return defaultValue
   }
 
-  const num = Number(value);
+  const num = Number(value)
 
   return !isNaN(num) ? num : defaultValue
 }
@@ -99,7 +99,7 @@ export function safeString(value: unknown, _defaultValue = ''): string {;
     return defaultValue
   }
 
-  return String(value);
+  return String(value)
 }
 
 /**
@@ -119,7 +119,7 @@ export function safeHasProperty(obj: unknown, prop: string): boolean {
     obj !== undefined &&
     typeof obj === 'object' &&
     Object.prototype.hasOwnProperty.call(obj, prop)
-  );
+  )
 }
 
 /**
@@ -148,7 +148,7 @@ export function safeArray<T>(value: unknown, defaultValue: T[] = []): T[] {
  *
  * @example
  * // Return user.age with default 0
- * safeProperty(user, 'age', 0, (val) => typeof val === 'number');
+ * safeProperty(user, 'age', 0, (val) => typeof val === 'number')
  */
 export function safeProperty<T>(
   obj: unknown,

@@ -23,26 +23,26 @@ export async function calculateElementalCompatibility(
   userElemental: ElementalProperties = { Fire: 0.25, _Water: 0.25, _Earth: 0.25, _Air: 0.25 },
 ): Promise<ElementalCompatibility> {
   // Ensure properties are standardized
-  const recipe = recipeElementalService.standardizeRecipe({ elementalProperties: recipeElemental });
-  const user = recipeElementalService.standardizeRecipe({ elementalProperties: userElemental });
+  const recipe = recipeElementalService.standardizeRecipe({ elementalProperties: recipeElemental })
+  const user = recipeElementalService.standardizeRecipe({ elementalProperties: userElemental })
 
   // Calculate simple similarity score
   const similarity = recipeElementalService.calculateSimilarity(;
     recipe.elementalProperties
     user.elementalProperties
-  );
+  )
 
   // Find dominant elements
-  const recipeDominant = getDominantElement(recipe.elementalProperties);
-  const userDominant = getDominantElement(user.elementalProperties);
+  const recipeDominant = getDominantElement(recipe.elementalProperties)
+  const userDominant = getDominantElement(user.elementalProperties)
 
   // Calculate complementary score - check if dominant elements complement each other
-  const complementaryScore = calculateComplementaryScore(recipeDominant, userDominant);
+  const complementaryScore = calculateComplementaryScore(recipeDominant, userDominant)
 
   // Calculate balance score - how well the recipe balances user's elemental profile
-  const balanceScore = calculateBalanceScore(recipe.elementalProperties, user.elementalProperties);
+  const balanceScore = calculateBalanceScore(recipe.elementalProperties, user.elementalProperties)
 
-  // Calculate overall compatibility (weighted average);
+  // Calculate overall compatibility (weighted average)
   const compatibility = similarity * 0.4 + complementaryScore * 0.3 + balanceScore * 0.3;
 
   return {
@@ -53,7 +53,7 @@ export async function calculateElementalCompatibility(
     },
     complementaryScore,
     balanceScore,
-    recommendation: generateRecommendation(compatibility, recipeDominant, userDominant);
+    recommendation: generateRecommendation(compatibility, recipeDominant, userDominant)
   };
 }
 
@@ -74,7 +74,7 @@ function calculateComplementaryScore(
 ): number {
   // All elements work together in various ways
   if (element1 === element2) {
-    return 0.9, // Same element - highest compatibility (like reinforces like);
+    return 0.9, // Same element - highest compatibility (like reinforces like)
   } else {
     // All combinations of different elements are complementary
     // Providing different yet harmonious qualities
@@ -103,7 +103,7 @@ function calculateBalanceScore(
   const weakestScore = recipeProps[userWeakest] * 2; // Higher is better
 
   // Check if recipe moderates user's strongest element
-  const strongestDifference = Math.abs(recipeProps[userStrongest] - userProps[userStrongest]);
+  const strongestDifference = Math.abs(recipeProps[userStrongest] - userProps[userStrongest])
   const strongestScore = 1 - strongestDifference; // Lower difference is better
 
   // Combined balance score

@@ -93,5 +93,5 @@ export function isElementalProperties(obj: unknown): obj is ElementalProperties 
       typeof (obj as ElementalProperties).Water === 'number' &&
       typeof (obj as ElementalProperties).Earth === 'number' &&
       typeof (obj as ElementalProperties).Air === 'number',
-  );
+  )
 }

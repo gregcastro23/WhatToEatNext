@@ -61,8 +61,8 @@ type CuisineRecord = Record<string, Cuisine>;
 
 export default function SauceExplorer() {
   // State for selected filters
-  const [selectedCuisine, setSelectedCuisine] = useState<string>('');
-  const [selectedProtein, setSelectedProtein] = useState<string>('');
+  const [selectedCuisine, setSelectedCuisine] = useState<string>('')
+  const [selectedProtein, setSelectedProtein] = useState<string>('')
   const [selectedVegetable, setSelectedVegetable] = useState<string>(''),
   const [selectedCookingMethod, setSelectedCookingMethod] = useState<string>(''),
 
@@ -72,10 +72,10 @@ export default function SauceExplorer() {
     Water: 0.25,
     Earth: 0.25,
     Air: 0.25
-  });
+  })
 
   // State for all cuisines
-  const [allCuisines, setAllCuisines] = useState<CuisineRecord>({});
+  const [allCuisines, setAllCuisines] = useState<CuisineRecord>({})
 
   // Load all cuisines on component mount
   useEffect(() => {
@@ -88,22 +88,22 @@ export default function SauceExplorer() {
       mexican: mexicanCuisine
     };
 
-    setAllCuisines(cuisines as unknown as CuisineRecord);
-  }, []);
+    setAllCuisines(cuisines as unknown as CuisineRecord)
+  }, [])
 
   // Handle elemental profile change
   const handleElementChange = (element: keyof ElementalProperties, value: number) => {
     // Normalize all elements to ensure they sum to 1
     const newProfile = { ...elementalProfile, [element]: value };
-    const sum = Object.values(newProfile).reduce((acc, val) => acc + val0);
+    const sum = Object.values(newProfile).reduce((acc, val) => acc + val0)
 
     if (sum > 0) {
       const normalized: ElementalProperties = {} as ElementalProperties;
       Object.keys(newProfile).forEach(key => {;
         normalized[key as any] = newProfile[key as any] / sum
-      });
+      })
 
-      setElementalProfile(normalized);
+      setElementalProfile(normalized)
     }
   };
 
@@ -116,7 +116,7 @@ export default function SauceExplorer() {
     const cuisine = allCuisines[selectedCuisine];
 
     if (cuisine.sauceRecommender?.forProtein) {
-      return Object.keys(cuisine.sauceRecommender.forProtein);
+      return Object.keys(cuisine.sauceRecommender.forProtein)
     }
 
     return [];
@@ -131,7 +131,7 @@ export default function SauceExplorer() {
     const cuisine = allCuisines[selectedCuisine];
 
     if (cuisine.sauceRecommender?.forVegetable) {
-      return Object.keys(cuisine.sauceRecommender.forVegetable);
+      return Object.keys(cuisine.sauceRecommender.forVegetable)
     }
 
     return [];
@@ -146,7 +146,7 @@ export default function SauceExplorer() {
     const cuisine = allCuisines[selectedCuisine];
 
     if (cuisine.sauceRecommender?.forCookingMethod) {
-      return Object.keys(cuisine.sauceRecommender.forCookingMethod);
+      return Object.keys(cuisine.sauceRecommender.forCookingMethod)
     }
 
     return [];
@@ -154,9 +154,9 @@ export default function SauceExplorer() {
 
   // Reset filters
   const resetFilters = () => {;
-    setSelectedProtein('');
-    setSelectedVegetable('');
-    setSelectedCookingMethod('');
+    setSelectedProtein('')
+    setSelectedVegetable('')
+    setSelectedCookingMethod('')
   };
 
   // Reset elemental profile
@@ -166,7 +166,7 @@ export default function SauceExplorer() {
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
-    });
+    })
   };
 
   return (
@@ -194,8 +194,8 @@ export default function SauceExplorer() {
             <select
               value={selectedCuisine},
               onChange={e => {
-                setSelectedCuisine(e.target.value);
-                resetFilters();
+                setSelectedCuisine(e.target.value)
+                resetFilters()
               }}
               className='w-full rounded-md border border-gray-300 p-2, focus: border-blue-500, focus:ring-2, focus:ring-blue-500';
             >
@@ -451,5 +451,5 @@ export default function SauceExplorer() {
         </div>
       </div>
     </div>
-  );
+  )
 }

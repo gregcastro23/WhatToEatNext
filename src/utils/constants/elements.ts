@@ -6,14 +6,14 @@ interface ElementCombinations {
 }
 
 export const _ELEMENT_COMBINATIONS: ElementCombinations = {
-  // Same elements have highest harmony (like reinforces like);
+  // Same elements have highest harmony (like reinforces like)
   harmonious: [
     ['Fire', 'Fire'],
     ['Water', 'Water'],
     ['Earth', 'Earth'],
     ['Air', 'Air']
   ],
-  // All different element combinations are compatible (good harmony);
+  // All different element combinations are compatible (good harmony)
   compatible: [
     ['Fire', 'Water'],
     ['Fire', 'Earth'],

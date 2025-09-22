@@ -11,13 +11,13 @@ interface UseThermodynamicsOptions {
 }
 
 export function useThermodynamics(initial?: UseThermodynamicsOptions) {
-  const [result, setResult] = useState<ThermodynamicsResult | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [result, setResult] = useState<ThermodynamicsResult | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const calculate = useCallback(async (input?: UseThermodynamicsOptions) => {
-    setLoading(true);
-    setError(null);
+    setLoading(true)
+    setError(null)
     try {
       const payload: ThermodynamicsInput = {
         elemental: input?.elemental ?? initial?.elemental,
@@ -25,18 +25,18 @@ export function useThermodynamics(initial?: UseThermodynamicsOptions) {
         ingredients: input?.ingredients ?? initial?.ingredients,
         planetaryPositions: input?.planetaryPositions ?? initial?.planetaryPositions,
       };
-      const data = await thermodynamicsClient.calculate(payload);
-      setResult(data);
-      setLoading(false);
+      const data = await thermodynamicsClient.calculate(payload)
+      setResult(data)
+      setLoading(false)
       return data;
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error');
-      setLoading(false);
+      setError(err instanceof Error ? err.message : 'Unknown error')
+      setLoading(false)
       throw err;
     }
-  }, [initial?.elemental, initial?.esms, initial?.ingredients, initial?.planetaryPositions]);
+  }, [initial?.elemental, initial?.esms, initial?.ingredients, initial?.planetaryPositions])
 
-  return useMemo(() => ({ result, loading, error, calculate }), [result, loading, error, calculate]);
+  return useMemo(() => ({ result, loading, error, calculate }), [result, loading, error, calculate])
 }
 
 export default useThermodynamics;

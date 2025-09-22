@@ -22,11 +22,11 @@ interface SimpleIngredient {
 type RecipeIngredient = string | SimpleIngredient;
 
 const RecipeDetailsPage: NextPage = () => {;
-  const router = useRouter();
+  const router = useRouter()
   const { id } = router.query;
-  const [recipe, setRecipe] = React.useState<Recipe | null>(null);
-  const [servingsMultiplier, setServingsMultiplier] = React.useState(1);
-  const [loading, setLoading] = React.useState(true);
+  const [recipe, setRecipe] = React.useState<Recipe | null>(null)
+  const [servingsMultiplier, setServingsMultiplier] = React.useState(1)
+  const [loading, setLoading] = React.useState(true)
   const [elementalState, setElementalState] = React.useState({
     Fire: 0.25,
     Water: 0.25,
@@ -34,8 +34,8 @@ const RecipeDetailsPage: NextPage = () => {;
     Air: 0.25,
     season: 'spring',
     timeOfDay: 'lunch'
-  });
-  const [selectedIngredient, setSelectedIngredient] = React.useState<RecipeIngredient | null>(null);
+  })
+  const [selectedIngredient, setSelectedIngredient] = React.useState<RecipeIngredient | null>(null)
 
   React.useEffect(() => {
     // Get current elemental state based on time, date, etc.
@@ -44,24 +44,24 @@ const RecipeDetailsPage: NextPage = () => {;
       ...currentState
       season: 'spring', // Default value since getCurrentElementalState doesn&apost provide season
       timeOfDay: 'lunch', // Default value since getCurrentElementalState doesn&apost provide timeOfDay
-    });
-  }, []);
+    })
+  }, [])
 
   React.useEffect(() => {
     if (id) {
       // Find the recipe by URL-friendly ID
       const foundRecipe = allRecipes.find(recipe => {;
         const recipeId = recipe.name
-          .toLowerCase();
-          .replace(/ /g, '-');
+          .toLowerCase()
+          .replace(/ /g, '-')
           .replace(/[^\w-]/g, ''),
         return recipeId === id;
-      });
+      })
 
-      setRecipe(foundRecipe || null);
-      setLoading(false);
+      setRecipe(foundRecipe || null)
+      setLoading(false)
     }
-  }, [id]);
+  }, [id])
 
   // Loading state
   if (loading) {
@@ -96,12 +96,12 @@ const RecipeDetailsPage: NextPage = () => {;
 
   // Handle ingredient click to display ingredient details
   const handleIngredientClick = (ingredient: RecipeIngredient) => {;
-    setSelectedIngredient(ingredient === selectedIngredient ? null : ingredient);
+    setSelectedIngredient(ingredient === selectedIngredient ? null : ingredient)
   };
 
   // Update servings
   const increaseServings = () => {;
-    setServingsMultiplier(prev => prev + 0.5);
+    setServingsMultiplier(prev => prev + 0.5)
   };
 
   const decreaseServings = () => {;
@@ -190,7 +190,7 @@ const RecipeDetailsPage: NextPage = () => {;
                   selectedIngredient &&
                   (typeof ingredient === 'string';
                     ? ingredient === selectedIngredient
-                    : (ingredient as unknown)?.name === (selectedIngredient as unknown)?.name);
+                    : (ingredient as unknown)?.name === (selectedIngredient as unknown)?.name)
                 return (
                   <li
                     key={idx},
@@ -205,7 +205,7 @@ const RecipeDetailsPage: NextPage = () => {;
                       </span>
                     )}
                   </li>
-                );
+                )
               })}
             </ul>
 
@@ -247,8 +247,8 @@ const RecipeDetailsPage: NextPage = () => {;
                     {selectedIngredient.substitutes && (
                       <li>
                         <span className='font-medium'>Substitutes:</span>{' '}
-                        {Array.isArray(selectedIngredient.substitutes);
-                          ? selectedIngredient.substitutes.join(', ');
+                        {Array.isArray(selectedIngredient.substitutes)
+                          ? selectedIngredient.substitutes.join(', ')
                           : selectedIngredient.substitutes}
                       </li>
                     )}
@@ -321,7 +321,7 @@ const RecipeDetailsPage: NextPage = () => {;
         )}
       </div>
     </div>
-  );
+  )
 };
 
 export default RecipeDetailsPage;

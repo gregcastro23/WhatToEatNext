@@ -41,8 +41,8 @@ export { CuisineEnhancer, CuisineAnalyzer } from './cuisines';
 class UnifiedSeasonalSystem {}
 class UnifiedCuisineIntegrationSystem {}
 
-export const _unifiedSeasonalSystem = new UnifiedSeasonalSystem();
-export const _unifiedCuisineIntegrationSystem = new UnifiedCuisineIntegrationSystem();
+export const _unifiedSeasonalSystem = new UnifiedSeasonalSystem()
+export const _unifiedCuisineIntegrationSystem = new UnifiedCuisineIntegrationSystem()
 
 // Pattern OO-4: Integration Import Resolution - Export only existing functions
 export {

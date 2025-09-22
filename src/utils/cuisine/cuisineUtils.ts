@@ -47,17 +47,17 @@ export function getIngredientsForCuisine(
     Object.entries(grainCuisineMatrix || {}).forEach(([grain, data]) => {
       const grainDataEntry = data;
       if (grainDataEntry?.cuisines && (grainDataEntry as any)?.cuisines.includes(cuisineName)) {
-        result.grain.push(grain);
+        result.grain.push(grain)
       }
-    });
+    })
   }
 
   if (categories.includes('culinary_herb')) {
     Object.entries(herbCuisineMatrix || {}).forEach(([herb, cuisines]) => {
       if (Array.isArray(cuisines) && cuisines.includes(cuisineName)) {
-        result.culinary_herb.push(herb);
+        result.culinary_herb.push(herb)
       }
-    });
+    })
   }
 
   // Additional matrices can be processed here
@@ -73,7 +73,7 @@ export function isCuisineCompatibleWithIngredient(
   ingredientName: string,
   category: IngredientCategory,
 ): boolean {
-  const compatibleCuisines = getCuisinePAirings(ingredientName, category);
+  const compatibleCuisines = getCuisinePAirings(ingredientName, category)
   return Array.isArray(compatibleCuisines)
     ? compatibleCuisines.includes(cuisineName)
     : compatibleCuisines === cuisineName
@@ -87,8 +87,8 @@ export function getSharedIngredients(
   cuisine2: string,
   categories: IngredientCategory[] = ['grain', 'culinary_herb'],
 ): string[] {
-  const cuisine1Ingredients = getIngredientsForCuisine(cuisine1, categories);
-  const cuisine2Ingredients = getIngredientsForCuisine(cuisine2, categories);
+  const cuisine1Ingredients = getIngredientsForCuisine(cuisine1, categories)
+  const cuisine2Ingredients = getIngredientsForCuisine(cuisine2, categories)
 
   const shared: string[] = [];
 

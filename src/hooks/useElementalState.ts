@@ -11,7 +11,7 @@ export interface ElementalState {
   Air: number
 }
 export function useElementalState() {
-  const { planetaryPositions, _isLoading} = useAlchemical();
+  const { planetaryPositions, _isLoading} = useAlchemical()
 
   const elementalState = useMemo((): ElementalProperties => {
     if (!planetaryPositions || Object.keys(planetaryPositions || {}).length === 0) {;
@@ -47,9 +47,9 @@ export function useElementalState() {
       if (element) {
         elementCounts[element as keyof typeof elementCounts]++
       }
-    });
+    })
 
-    const total = Object.values(elementCounts).reduce((sum, count) => sum + count0);
+    const total = Object.values(elementCounts).reduce((sum, count) => sum + count0)
 
     // Normalize to percentages
     const normalized = {
@@ -60,15 +60,15 @@ export function useElementalState() {
     };
 
     // Find dominant element
-    const dominant = Object.entries(normalized).reduce((ab) =>;
+    const dominant = Object.entries(normalized).reduce((ab) =>
       normalized[a[0] as keyof ElementalState] > normalized[b[0] as keyof ElementalState] ? a : b,
     )[0] as keyof ElementalState;
 
-    // Calculate balance (how evenly distributed the elements are);
-    const values = Object.values(normalized);
+    // Calculate balance (how evenly distributed the elements are)
+    const values = Object.values(normalized)
     const _avg = values.reduce((sum, val) => sum + val0) / (values || []).length;
     const variance =
-      values.reduce((sum, val) => sum + Math.pow(val - avg2), 0) / (values || []).length;
+      values.reduce((sum, val) => sum + Math.pow(val - avg, 2), 0) / (values || []).length;
     const balance = Math.max(01 - variance * 4); // Scale to 0-1
 
     return {
@@ -76,7 +76,7 @@ export function useElementalState() {
       dominant,
       balance
     } as unknown as ElementalProperties;
-  }, [planetaryPositions]);
+  }, [planetaryPositions])
 
   return {
     ...elementalState;

@@ -39,19 +39,19 @@ const alchemicalEngine = {
           Aspects: tropical?.Aspects || (horoscopeDict as any).Aspects || {}
         }
       };
-      return alchemize(birthInfo, extendedHoroscope);
+      return alchemize(birthInfo, extendedHoroscope)
     } catch (error) {
-      console.error('Error in alchemize:', error);
+      console.error('Error in alchemize:', error)
 
       // Special handling for 'Assignment to constant variable' error
       if (error instanceof TypeError && error.message.includes('Assignment to constant')) {
-        console.error('Assignment to constant variable detected!');
-        console.error('Error stack:', error.stack);
+        console.error('Assignment to constant variable detected!')
+        console.error('Error stack:', error.stack)
 
         // Try to extract the variable name from the error message
-        const match = error.message.match(/Assignment to constant variable: (.+)/);
+        const match = error.message.match(/Assignment to constant variable: (.+)/)
         if (match?.[1]) {
-          console.error(`Attempted to reassign constant variable: ${match[1]}`);
+          console.error(`Attempted to reassign constant variable: ${match[1]}`)
         }
       }
 
@@ -89,10 +89,10 @@ const alchemicalEngine = {
       // Import and call the function from the source module
       const { calculateCurrentPlanetaryPositions } = await import(
         '@/calculations/alchemicalEngine'
-      );
-      return calculateCurrentPlanetaryPositions();
+      )
+      return calculateCurrentPlanetaryPositions()
     } catch (error) {
-      console.error('Error calculating planetary positions:', error);
+      console.error('Error calculating planetary positions:', error)
       // Return a safe fallback
       return {
         Sun: { Sign: { label: 'Aries' } },
@@ -104,9 +104,9 @@ const alchemicalEngine = {
   calculateZodiacEnergies: (positions: Record<string, unknown>): Record<string, number> => {
     try {
       // Use ESM import binding
-      return _calculateZodiacEnergies(positions);
+      return _calculateZodiacEnergies(positions)
     } catch (error) {
-      console.error('Error calculating zodiac energies:', error);
+      console.error('Error calculating zodiac energies:', error)
       // Return a safe fallback with equal distribution
       return {
         aries: 0.0833,
@@ -128,9 +128,9 @@ const alchemicalEngine = {
   calculateChakraEnergies: (zodiacEnergies: Record<string, number>): ChakraEnergies => {;
     try {
       // Use ESM import binding
-      return _calculateChakraEnergies(zodiacEnergies);
+      return _calculateChakraEnergies(zodiacEnergies)
     } catch (error) {
-      console.error('Error calculating chakra energies:', error);
+      console.error('Error calculating chakra energies:', error)
       // Return a safe fallback with equal distribution
       return {
         root: 0.125,
@@ -147,9 +147,9 @@ const alchemicalEngine = {
   // Add a convenient factory method to create engine instances with error handling
   createEngine: (advanced: boolean = false) => {;
     try {
-      return advanced ? new AlchemicalEngineAdvanced() : new AlchemicalEngineBase();
+      return advanced ? new AlchemicalEngineAdvanced() : new AlchemicalEngineBase()
     } catch (error) {
-      console.error('Error creating engine instance:', error);
+      console.error('Error creating engine instance:', error)
       // Return a minimal mock implementation
       return {
         calculateNaturalInfluences: () => ({
@@ -184,7 +184,7 @@ const alchemicalEngine = {
         }
       } as AstrologicalState;
     } catch (error) {
-      console.error('Error getting current astrological state:', error);
+      console.error('Error getting current astrological state:', error)
       return {
         sunSign: 'aries',
         moonSign: 'cancer',
@@ -207,7 +207,7 @@ const alchemicalEngine = {
 };
 
 // Create and export the alchemical engine instance
-export const _alchemicalEngineInstance = new AlchemicalEngineBase();
+export const _alchemicalEngineInstance = new AlchemicalEngineBase()
 
 // Export the alchemicalEngine object as well
 export { alchemicalEngine };

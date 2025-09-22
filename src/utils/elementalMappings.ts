@@ -1,7 +1,7 @@
 import { Element } from '@/types/celestial';
 
 export interface ElementalProperties {
-  [_key: string]: number, // Element: strength (0-1);
+  [_key: string]: number, // Element: strength (0-1)
 }
 
 export const elements: Record<Element, ElementalProperties> = {
@@ -97,7 +97,7 @@ export const elementalFunctions = {
    * Get element balance score
    */
   _getBalanceScore: (props: ElementalProperties): number => {;
-    const values = Object.values(props);
+    const values = Object.values(props)
     const average = values.reduce((a, b) => a + b, 0) / values.length;
     const variance = values.reduce((a, b) => a + Math.pow(b - average, 2), 0) / values.length;
     return 1 - Math.sqrt(variance); // 1 is perfect balance, 0 is complete imbalance
@@ -107,7 +107,7 @@ export const elementalFunctions = {
    * Suggest complementary elements
    */
   _suggestComplementaryElements: (props: ElementalProperties): Element[] => {
-    const dominant = elementalFunctions.getDominantElement(props);
+    const dominant = elementalFunctions.getDominantElement(props)
     return Object.keys(elementalInteractions).filter(
       element => elementalInteractions[element as Element][dominant] > 0.5 && !(element in props)
     ) as Element[]

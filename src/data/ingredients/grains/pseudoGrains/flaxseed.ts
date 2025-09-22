@@ -55,4 +55,4 @@ const rawFlaxseed = {
   }
 };
 
-export const flaxseed: Record<string, IngredientMapping> = fixIngredientMappings(rawFlaxseed);
+export const flaxseed: Record<string, IngredientMapping> = fixIngredientMappings(rawFlaxseed)

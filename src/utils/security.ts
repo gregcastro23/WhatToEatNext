@@ -15,11 +15,11 @@ export function enhanceSecurity() {
         if (target.tagName === 'A' && target.getAttribute('target') === '_blank') {;
           target.setAttribute('rel', 'noopener noreferrer')
         }
-      });
+      })
 
       // Sanitize inputs to prevent injection attacks
       const sanitizeInputs = () => {;
-        const inputs = document.querySelectorAll('input, textarea');
+        const inputs = document.querySelectorAll('input, textarea')
         inputs.forEach(input => {;
           input.addEventListener('input', e => {;
             const target = e.target as HTMLInputElement
@@ -30,24 +30,24 @@ export function enhanceSecurity() {
                 '',
               )
             }
-          });
-        });
+          })
+        })
       };
 
       // Run sanitization when DOM is loaded
       if (document.readyState === 'loading') {;
         document.addEventListener('DOMContentLoaded', sanitizeInputs)
       } else {
-        sanitizeInputs();
+        sanitizeInputs()
       }
     }
 
     // Log security initialization
-    logger.info('Security enhancements initialized');
+    logger.info('Security enhancements initialized')
 
     return true;
   } catch (error) {
-    logger.error('Failed to initialize security enhancements', error);
+    logger.error('Failed to initialize security enhancements', error)
     return false
   }
 }

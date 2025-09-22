@@ -9,36 +9,36 @@ interface PlanetaryHourUpdate {
 }
 
 export function usePlanetaryWebSocket(location?: { latitude: number, longitude: number }) {
-  const [connected, setConnected] = useState(false);
+  const [connected, setConnected] = useState(false)
   const [planetaryHour, setPlanetaryHour] = useState<{
     planet: Planet,
     isDaytime: boolean,
     start?: Date,
     end?: Date
-  } | null>(null);
+  } | null>(null)
 
-  const wsRef = useRef<WebSocket | null>(null);
+  const wsRef = useRef<WebSocket | null>(null)
 
   useEffect(() => {
     const wsUrl = process.env.NEXT_PUBLIC_WEBSOCKET_URL;
     if (!wsUrl) return;
 
-    const ws = new WebSocket(wsUrl);
+    const ws = new WebSocket(wsUrl)
     wsRef.current = ws;
 
     ws.onopen = () => {
-      setConnected(true);
+      setConnected(true)
       const payload = {
         type: 'subscribe',
         channel: 'planetary-hours',
         data: location ? { location } : {}
       };
-      ws.send(JSON.stringify(payload));
+      ws.send(JSON.stringify(payload))
     };
 
     ws.onmessage = (event) => {
       try {
-        const message = JSON.parse(event.data);
+        const message = JSON.parse(event.data)
         if (message?.type === 'update' && message?.channel === 'planetary-hours') {
           const data = message.data as PlanetaryHourUpdate;
           if (data && typeof data.planet === 'string' && typeof data.isDaytime === 'boolean') {
@@ -47,7 +47,7 @@ export function usePlanetaryWebSocket(location?: { latitude: number, longitude: 
               isDaytime: data.isDaytime,
               start: data.start ? new Date(data.start) : undefined,
               end: data.end ? new Date(data.end) : undefined
-            });
+            })
           }
         }
       } catch (_err) {
@@ -56,14 +56,14 @@ export function usePlanetaryWebSocket(location?: { latitude: number, longitude: 
     };
 
     ws.onclose = () => {
-      setConnected(false);
+      setConnected(false)
     };
 
     return () => {
-      ws.close();
+      ws.close()
       wsRef.current = null;
     };
-  }, [location?.latitude, location?.longitude]);
+  }, [location?.latitude, location?.longitude])
 
   return { connected, planetaryHour };
 }

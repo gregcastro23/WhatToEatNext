@@ -20,28 +20,28 @@ interface TarotCard {
 
 export async function getTarotCard(cardName: string): Promise<TarotCard | null> {
   try {
-    const response = await fetch(`${API_URL}/${cardName.toLowerCase().replace(/ /g, '-')}`);
+    const response = await fetch(`${API_URL}/${cardName.toLowerCase().replace(/ /g, '-')}`)
     if (!response.ok) {
-      throw new Error('Failed to fetch tarot card');
+      throw new Error('Failed to fetch tarot card')
     }
-    const data = await response.json();
+    const data = await response.json()
     return data.card;
   } catch (error) {
-    console.error('Error fetching tarot card:', error);
+    console.error('Error fetching tarot card:', error)
     return null;
   }
 }
 
 export async function getRandomTarotCard(): Promise<TarotCard | null> {
   try {
-    const response = await fetch(`${API_URL}/random`);
+    const response = await fetch(`${API_URL}/random`)
     if (!response.ok) {
-      throw new Error('Failed to fetch random tarot card');
+      throw new Error('Failed to fetch random tarot card')
     }
-    const data = await response.json();
+    const data = await response.json()
     return data.cards[0];
   } catch (error) {
-    console.error('Error fetching random tarot card:', error);
+    console.error('Error fetching random tarot card:', error)
     return null;
   }
 }

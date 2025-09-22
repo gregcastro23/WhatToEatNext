@@ -49,7 +49,7 @@ const normalizeZodiacSign = (sign: string): any => {;
 /**
  * Gets current zodiac sign for a planet based on transit dates
  * @param planet Planet name
- * @param date Current date (defaults to now);
+ * @param date Current date (defaults to now)
  * @returns Zodiac sign or null if no match found
  */
 export function getCurrentTransitSign(planet: string, _date: Date = new Date()): any | null {;
@@ -65,7 +65,7 @@ export function getCurrentTransitSign(planet: string, _date: Date = new Date()):
     if (!transit.Start || !transit.End) continue;
 
     if (currentDateString >= transit.Start && currentDateString <= transit.End) {
-      return normalizeZodiacSign(sign);
+      return normalizeZodiacSign(sign)
     }
   }
 
@@ -89,12 +89,12 @@ export function validatePlanetaryPositions(
   for (const [planet, position] of Object.entries(validatedPositions)) {
     if (!planetDataMap[planet]) continue;
 
-    const transitSign = getCurrentTransitSign(planet, date);
+    const transitSign = getCurrentTransitSign(planet, date)
     if (!transitSign) continue;
 
     // If the calculated sign doesn't match the transit sign, update it
     if (position.sign !== transitSign) {
-      log.info(`Correcting ${planet} sign from ${position.sign} to ${transitSign}`);
+      log.info(`Correcting ${planet} sign from ${position.sign} to ${transitSign}`)
 
       // Keep the original degree but update the sign and recalculate longitude
       validatedPositions[planet] = {
@@ -102,7 +102,7 @@ export function validatePlanetaryPositions(
         sign: transitSign,
         // Recalculate exact longitude based on new sign,
         exactLongitude:
-          getBaseSignLongitude(transitSign) + position.degree + (position.minute / 60 || 0);
+          getBaseSignLongitude(transitSign) + position.degree + (position.minute / 60 || 0)
       };
     }
   }
@@ -111,7 +111,7 @@ export function validatePlanetaryPositions(
 }
 
 /**
- * Gets the base longitude value for a sign (0 for Aries30 for Taurus, etc.);
+ * Gets the base longitude value for a sign (0 for Aries30 for Taurus, etc.)
  */
 function getBaseSignLongitude(sign: any): number {
   const signs: any[] = [
@@ -129,7 +129,7 @@ function getBaseSignLongitude(sign: any): number {
     'pisces'
   ];
 
-  const index = signs.indexOf(sign);
+  const index = signs.indexOf(sign)
   return index * 30;
 }
 
@@ -138,7 +138,7 @@ function getBaseSignLongitude(sign: any): number {
  * This is a more reliable fallback than fixed positions when astronomy calculations fail
  */
 export function getCurrentTransitPositions(): Record<string, PlanetPosition> {
-  const _currentDate = new Date();
+  const _currentDate = new Date()
   const positions: Record<string, PlanetPosition> = {};
 
   // Current planetary positions (May 16, 2024) from user input

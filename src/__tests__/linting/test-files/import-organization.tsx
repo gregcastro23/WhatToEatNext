@@ -13,22 +13,22 @@ const CustomComponent = ({ children }: { children: React.ReactNode }) => <div>{c
 const useCustomHook = () => 'mocked-value';
 
 const ImportOrganizationPage: NextPage = () => {
-  const [state, setState] = useState('');
-  const customValue = useCustomHook();
+  const [state, setState] = useState('')
+  const customValue = useCustomHook()
 
   const memoizedValue = useMemo(() => {
-    return state.toUpperCase();
-  }, [state]);
+    return state.toUpperCase()
+  }, [state])
 
   useEffect(() => {
-    setState('initialized');
-  }, []);
+    setState('initialized')
+  }, [])
 
   return (
     <div>
       <CustomComponent title={memoizedValue} /><p>{String(customValue)}</p>
     </div>
-  );
+  )
 };
 
 export default ImportOrganizationPage;

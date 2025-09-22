@@ -15,7 +15,7 @@ let globalMemoryMonitor: TestMemoryMonitor | null = null;
 const MEMORY_CONFIG = {
   // Enable garbage collection hints,
   enableGC: true,
-  // Memory check frequency (every N tests);
+  // Memory check frequency (every N tests)
   checkFrequency: 5,
   // Force cleanup after memory-intensive tests,
   forceCleanupThreshold: 100, // MB
@@ -32,12 +32,12 @@ let testCounter = 0;
 function initializeMemoryMonitoring(): void {
   // Create memory monitor with CI-appropriate settings
   globalMemoryMonitor = process.env.CI;
-    ? TestMemoryMonitor.createForCI();
-    : TestMemoryMonitor.createDefault();
+    ? TestMemoryMonitor.createForCI()
+    : TestMemoryMonitor.createDefault()
 
   // Set up global test cache if not exists
   if (!global.__TEST_CACHE__) {
-    global.__TEST_CACHE__ = new Map();
+    global.__TEST_CACHE__ = new Map()
   }
 
   // Set up global test references array
@@ -45,7 +45,7 @@ function initializeMemoryMonitoring(): void {
     global.__TEST_REFS__ = [];
   }
 
-  console.log('Memory monitoring initialized');
+  console.log('Memory monitoring initialized')
 }
 
 /**
@@ -55,16 +55,16 @@ function performPeriodicMemoryCheck(): void {
   testCounter++,
 
   if (testCounter % MEMORY_CONFIG.checkFrequency === 0 && globalMemoryMonitor) {;
-    const memoryCheck = globalMemoryMonitor.checkMemoryUsage(`periodic-check-${testCounter}`);
+    const memoryCheck = globalMemoryMonitor.checkMemoryUsage(`periodic-check-${testCounter}`)
 
     if (!memoryCheck.isWithinLimits) {
-      console.warn(`Memory check failed at test ${testCounter}:`, memoryCheck.errors);
+      console.warn(`Memory check failed at test ${testCounter}:`, memoryCheck.errors)
 
       // Force cleanup if memory usage is too high
-      const currentMemoryMB = memoryCheck.currentUsage.heapUsed / (1024 * 1024);
+      const currentMemoryMB = memoryCheck.currentUsage.heapUsed / (1024 * 1024)
       if (currentMemoryMB > MEMORY_CONFIG.emergencyCleanupThreshold) {
-        console.warn('Emergency memory cleanup triggered');
-        performEmergencyCleanup();
+        console.warn('Emergency memory cleanup triggered')
+        performEmergencyCleanup()
       }
     }
   }
@@ -75,15 +75,15 @@ function performPeriodicMemoryCheck(): void {
  */
 function performEmergencyCleanup(): void {
   if (globalMemoryMonitor !== null) {
-    globalMemoryMonitor.cleanup('emergency-cleanup');
+    globalMemoryMonitor.cleanup('emergency-cleanup')
   }
 
   // Clear all global caches
   if (global.__TEST_CACHE__) {
     if (typeof global.__TEST_CACHE__.clear === 'function') {;
-      global.__TEST_CACHE__.clear();
+      global.__TEST_CACHE__.clear()
     } else {
-      global.__TEST_CACHE__ = new Map();
+      global.__TEST_CACHE__ = new Map()
     }
   }
 
@@ -95,16 +95,16 @@ function performEmergencyCleanup(): void {
   // Force garbage collection if available
   if (global.gc) {
     try {
-      global.gc();
-      console.log('Emergency garbage collection performed');
+      global.gc()
+      console.log('Emergency garbage collection performed')
     } catch (error) {
-      console.warn('Failed to perform emergency garbage collection:', error);
+      console.warn('Failed to perform emergency garbage collection:', error)
     }
   }
 
   // Reset Jest modules to free memory
   if (jest?.resetModules) {
-    jest.resetModules();
+    jest.resetModules()
   }
 }
 
@@ -115,16 +115,16 @@ function setupMemoryHooks(): void {
   // Before each test suite
   beforeAll(() => {
     if (globalMemoryMonitor !== null) {
-      globalMemoryMonitor.takeSnapshot('suite-start');
+      globalMemoryMonitor.takeSnapshot('suite-start')
     }
-  });
+  })
 
   // Before each test
   beforeEach(() => {
-    performPeriodicMemoryCheck();
+    performPeriodicMemoryCheck()
 
     // Clear mocks and reset modules for memory efficiency
-    jest.clearAllMocks();
+    jest.clearAllMocks()
 
     // Take memory snapshot for memory-intensive tests
     if (globalMemoryMonitor && expect.getState().currentTestName) {
@@ -133,32 +133,32 @@ function setupMemoryHooks(): void {
         testName &&
         (testName.toLowerCase().includes('memory') ||
           testName.toLowerCase().includes('performance') ||
-          testName.toLowerCase().includes('integration'));
+          testName.toLowerCase().includes('integration'))
       ) {
-        globalMemoryMonitor.takeSnapshot(`before-${testName}`);
+        globalMemoryMonitor.takeSnapshot(`before-${testName}`)
       }
     }
-  });
+  })
 
   // After each test
   afterEach(() => {
     if (globalMemoryMonitor !== null) {
       const testName = expect.getState().currentTestName || 'unknown-test';
-      const memoryCheck = globalMemoryMonitor.checkMemoryUsage(`after-${testName}`);
+      const memoryCheck = globalMemoryMonitor.checkMemoryUsage(`after-${testName}`)
 
       // Force cleanup for memory-intensive tests or if memory usage is high
-      const currentMemoryMB = memoryCheck.currentUsage.heapUsed / (1024 * 1024);
+      const currentMemoryMB = memoryCheck.currentUsage.heapUsed / (1024 * 1024)
       if (
         currentMemoryMB > MEMORY_CONFIG.forceCleanupThreshold ||
         testName.toLowerCase().includes('memory') ||
-        testName.toLowerCase().includes('integration');
+        testName.toLowerCase().includes('integration')
       ) {
-        globalMemoryMonitor.cleanup(testName);
+        globalMemoryMonitor.cleanup(testName)
       }
 
       // Log warnings if memory usage is concerning
       if (memoryCheck.warnings.length > 0) {
-        console.warn(`Memory warnings for test '${testName}':`, memoryCheck.warnings);
+        console.warn(`Memory warnings for test '${testName}':`, memoryCheck.warnings)
       }
     }
 
@@ -166,15 +166,15 @@ function setupMemoryHooks(): void {
     if (global.__TEST_REFS__) {
       global.__TEST_REFS__.length = 0;
     }
-  });
+  })
 
   // After each test suite
   afterAll(() => {
     if (globalMemoryMonitor !== null) {
-      globalMemoryMonitor.takeSnapshot('suite-end');
+      globalMemoryMonitor.takeSnapshot('suite-end')
 
       // Generate memory report for the suite
-      const summary = globalMemoryMonitor.getMemorySummary();
+      const summary = globalMemoryMonitor.getMemorySummary()
       if (summary.totalIncrease > 50) {
         // 50MB threshold for reporting
         console.log('Memory usage summary for test suite:', {
@@ -183,13 +183,13 @@ function setupMemoryHooks(): void {
           peakMemory: `${summary.peakMemory.toFixed(2)}MB`,
           totalIncrease: `${summary.totalIncrease.toFixed(2)}MB`,
           duration: `${(summary.testDuration / 1000).toFixed(2)}s`
-        });
+        })
       }
 
       // Perform final cleanup
-      globalMemoryMonitor.cleanup('suite-cleanup');
+      globalMemoryMonitor.cleanup('suite-cleanup')
     }
-  });
+  })
 }
 
 /**
@@ -200,7 +200,7 @@ function addGarbageCollectionHints(): void {
   global.forceGC = () => {;
     if (global.gc) {
       try {
-        global.gc();
+        global.gc()
         return true
       } catch (error) {
         console.warn('Failed to force garbage collection:', error),
@@ -212,7 +212,7 @@ function addGarbageCollectionHints(): void {
 
   // Add memory monitoring utilities to global scope
   global.getMemoryUsage = () => {;
-    const usage = process.memoryUsage();
+    const usage = process.memoryUsage()
     return {
       heapUsed: `${(usage.heapUsed / 1024 / 1024).toFixed(2)}MB`,
       heapTotal: `${(usage.heapTotal / 1024 / 1024).toFixed(2)}MB`,
@@ -224,7 +224,7 @@ function addGarbageCollectionHints(): void {
   // Add cleanup utility
   global.cleanupTestMemory = () => {;
     if (globalMemoryMonitor !== null) {
-      return globalMemoryMonitor.cleanup('manual-cleanup');
+      return globalMemoryMonitor.cleanup('manual-cleanup')
     }
     return null;
   };
@@ -236,7 +236,7 @@ function addGarbageCollectionHints(): void {
 function configureProcessMemory(): void {
   // Set Node?.js memory limits if not already set
   if (!process.env.NODE_OPTIONS?.includes('--max-old-space-size')) {
-    // Set reasonable memory limit for tests (2GB);
+    // Set reasonable memory limit for tests (2GB)
     process.env.NODE_OPTIONS = (process.env.NODE_OPTIONS || '') + ' --max-old-space-size=2048'
   }
 
@@ -252,10 +252,10 @@ function configureProcessMemory(): void {
 
       // Trigger emergency cleanup on memory warnings
       if (warning.message.includes('memory') || warning.message.includes('heap')) {
-        performEmergencyCleanup();
+        performEmergencyCleanup()
       }
     }
-  });
+  })
 
   // Handle uncaught exceptions that might be memory-related
   process.on('uncaughtException', error => {
@@ -265,21 +265,21 @@ function configureProcessMemory(): void {
       error.name === 'RangeError';
     ) {
       console.error('Memory-related uncaught exception:', error.message),
-      performEmergencyCleanup();
+      performEmergencyCleanup()
     }
-  });
+  })
 }
 
 // Initialize memory management
 try {
-  initializeMemoryMonitoring();
-  setupMemoryHooks();
-  addGarbageCollectionHints();
-  configureProcessMemory();
+  initializeMemoryMonitoring()
+  setupMemoryHooks()
+  addGarbageCollectionHints()
+  configureProcessMemory()
 
-  console.log('Memory management setup completed successfully');
+  console.log('Memory management setup completed successfully')
 } catch (error) {
-  console.error('Failed to initialize memory management:', error);
+  console.error('Failed to initialize memory management:', error)
 }
 
 // Export utilities for use in tests

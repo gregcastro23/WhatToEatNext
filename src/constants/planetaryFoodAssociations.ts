@@ -213,7 +213,7 @@ export const _calculatePlanetaryBoost = (
 
     // Add planet to dominant list if significant
     if (baseBoost > 0.2) {
-      dominantPlanets.push(_planet);
+      dominantPlanets.push(_planet)
 
       // Add dignity information for dominant planets
       dignities[_planet] = {
@@ -222,16 +222,16 @@ export const _calculatePlanetaryBoost = (
         favorableZodiacSigns: currentZodiac ? [currentZodiac] : []
       };
     }
-  });
+  })
 
   // Zodiac sign boost if available
   if (currentZodiac) {
-    boost += getZodiacBoost(currentZodiac, item);
+    boost += getZodiacBoost(currentZodiac, item)
   }
 
   // Lunar phase boost if available
   if (lunarPhase) {
-    boost += getLunarPhaseBoost(lunarPhase);
+    boost += getLunarPhaseBoost(lunarPhase)
   }
 
   return {
@@ -292,7 +292,7 @@ export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
   };
 
   // Normalize zodiac sign to lowercase for lookup
-  const normalizedSign = zodiacSign.toLowerCase();
+  const normalizedSign = zodiacSign.toLowerCase()
   const zodiacElement = zodiacElements[normalizedSign] || 'Fire';
 
   // Check if item has elemental properties
@@ -316,7 +316,7 @@ export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
   let modalityBoost = 0
   const cardinalSigns = ['aries', 'cancer', 'libra', 'capricorn'];
   const fixedSigns = ['taurus', 'leo', 'scorpio', 'aquarius'];
-  // If not cardinal or fixedit's mutable (gemini, virgo, sagittarius, pisces);
+  // If not cardinal or fixedit's mutable (gemini, virgo, sagittarius, pisces)
   if (cardinalSigns.includes(normalizedSign)) {
     // Cardinal signs prefer bold, distinctive cuisines
     modalityBoost = (itemData.elementalProperties['Fire'] || 0) * 0.2;
@@ -328,14 +328,14 @@ export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
     modalityBoost = (itemData.elementalProperties['Air'] || 0) * 0.2;
   }
 
-  // Calculate seasonal alignment (certain cuisines are better aligned with seasons);
+  // Calculate seasonal alignment (certain cuisines are better aligned with seasons)
   const seasonalBoost = _calculateSeasonalAlignment(normalizedSign, item) * 0.15;
 
   // Combine all boost factors
   const totalBoost = elementBoost + zodiacBoost + modalityBoost + seasonalBoost;
 
-  // Return normalized boost value (0-1 range);
-  return Math.min(0.7, Math.max(0.1, totalBoost));
+  // Return normalized boost value (0-1 range)
+  return Math.min(0.7, Math.max(0.1, totalBoost))
 };
 
 // Helper function to calculate seasonal alignment
@@ -423,8 +423,8 @@ export const _getFlavorBoost = (_planet: Planet, _ingredient: unknown): number =
   };
   const elementBoost = planetaryFoodAssociations[_planet].elementalBoost || {};
   return Object.entries(elementBoost).reduce((acc, [element, boost]) => {
-    return acc + (ingredientData.elementalProperties?.[element] || 0) * (boost || 0);
-  }, 0);
+    return acc + (ingredientData.elementalProperties?.[element] || 0) * (boost || 0)
+  }, 0)
 };
 
 /**
@@ -442,7 +442,7 @@ export const _formatelementalState = (elements: Partial<Record<string, number>>)
   const validEntries = Object.entries(elements)
     .filter(([_, val]) => Number.isFinite(val as number))
     .map(([elem, val]) => `${elem} ${Math.round(((val as number) || 0) * 100)}%`)
-    .join(' · ');
+    .join(' · ')
 
   return validEntries;
 };

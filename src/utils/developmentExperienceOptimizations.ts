@@ -77,9 +77,9 @@ export class DevelopmentExperienceOptimizer {
   };
 
   private constructor() {
-    this.metrics = this.initializeMetrics();
-    this.optimizationConfig = this.getDefaultOptimizationConfig();
-    this.startPerformanceMonitoring();
+    this.metrics = this.initializeMetrics()
+    this.optimizationConfig = this.getDefaultOptimizationConfig()
+    this.startPerformanceMonitoring()
   }
 
   public static getInstance(): DevelopmentExperienceOptimizer {
@@ -285,7 +285,7 @@ export type {
       return sourceCode
     }
 
-    const lines = sourceCode.split('\n');
+    const lines = sourceCode.split('\n')
     const imports: string[] = [];
     const otherLines: string[] = [];
     let inImportSection = true;
@@ -295,17 +295,17 @@ export type {
         if (inImportSection) {
           imports.push(line)
         } else {
-          otherLines.push(line);
+          otherLines.push(line)
         }
       } else if (line.trim() === '') {
         if (inImportSection && imports.length > 0) {
-          imports.push(line);
+          imports.push(line)
         } else {
-          otherLines.push(line);
+          otherLines.push(line)
         }
       } else {
         inImportSection = false;
-        otherLines.push(line);
+        otherLines.push(line)
       }
     }
 
@@ -319,7 +319,7 @@ export type {
       ? this.sortImports(usedImports)
       : usedImports
 
-    return [...sortedImports, '', ...otherLines].join('\n');
+    return [...sortedImports, '', ...otherLines].join('\n')
   }
 
   /**
@@ -360,10 +360,10 @@ export type {
 
     commonFixes.forEach(fix => {
       if (fix.pattern.test(fixedCode)) {
-        fixedCode = fixedCode.replace(fix.pattern, fix.replacement);
-        fixes.push(fix.description);
+        fixedCode = fixedCode.replace(fix.pattern, fix.replacement)
+        fixes.push(fix.description)
       }
-    });
+    })
 
     // Detect remaining errors (simplified detection)
     const errorPatterns = [
@@ -373,11 +373,11 @@ export type {
     ];
 
     errorPatterns.forEach(pattern => {
-      const matches = fixedCode.match(pattern);
+      const matches = fixedCode.match(pattern)
       if (matches) {
-        matches.forEach(match => remainingErrors.push(match));
+        matches.forEach(match => remainingErrors.push(match))
       }
-    });
+    })
 
     return { fixedCode, fixes, remainingErrors };
   }
@@ -389,7 +389,7 @@ export type {
     this.metrics = { ...this.metrics, ...newMetrics, lastOptimization: Date.now() };
 
     if (this.optimizationConfig.performanceMonitoring.enableRealTimeErrorDetection) {
-      this.checkPerformanceThresholds();
+      this.checkPerformanceThresholds()
     }
   }
 
@@ -419,33 +419,33 @@ export type {
     // TypeScript recommendations
     if (this.metrics.compilationTime > 30000) {
       // 30 seconds
-      recommendations.typescript.push('Enable incremental compilation');
-      recommendations.typescript.push('Use project references for large codebases');
-      recommendations.typescript.push('Enable skipLibCheck for faster builds');
+      recommendations.typescript.push('Enable incremental compilation')
+      recommendations.typescript.push('Use project references for large codebases')
+      recommendations.typescript.push('Enable skipLibCheck for faster builds')
     }
 
     // Bundle size recommendations
     if (this.metrics.bundleSize > 500 * 1024) {
       // 500KB
-      recommendations.bundling.push('Implement code splitting');
-      recommendations.bundling.push('Enable tree shaking');
-      recommendations.bundling.push('Use dynamic imports for large components');
+      recommendations.bundling.push('Implement code splitting')
+      recommendations.bundling.push('Enable tree shaking')
+      recommendations.bundling.push('Use dynamic imports for large components')
     }
 
     // Runtime performance recommendations
     if (this.metrics.memoryUsage > 100) {
       // 100MB
-      recommendations.runtime.push('Optimize React component re-renders');
-      recommendations.runtime.push('Use React.memo for expensive components');
-      recommendations.runtime.push('Implement proper cleanup in useEffect');
+      recommendations.runtime.push('Optimize React component re-renders')
+      recommendations.runtime.push('Use React.memo for expensive components')
+      recommendations.runtime.push('Implement proper cleanup in useEffect')
     }
 
     // Development experience recommendations
     if (this.metrics.hotReloadTime > 5000) {
       // 5 seconds
-      recommendations.development.push('Optimize webpack configuration');
-      recommendations.development.push('Reduce the number of watched files');
-      recommendations.development.push('Use faster development server');
+      recommendations.development.push('Optimize webpack configuration')
+      recommendations.development.push('Reduce the number of watched files')
+      recommendations.development.push('Use faster development server')
     }
 
     return recommendations;
@@ -465,24 +465,24 @@ export type {
 
     try {
       // Generate optimized TypeScript config
-      const _tsConfig = this.generateOptimizedTypeScriptConfig();
-      applied.push('Generated optimized TypeScript configuration');
+      const _tsConfig = this.generateOptimizedTypeScriptConfig()
+      applied.push('Generated optimized TypeScript configuration')
 
       // Generate enhanced type definitions
-      const _typeDefinitions = this.generateAstrologicalTypeDefinitions();
-      applied.push('Generated enhanced astrological type definitions');
+      const _typeDefinitions = this.generateAstrologicalTypeDefinitions()
+      applied.push('Generated enhanced astrological type definitions')
 
       // Update performance monitoring
       if (this.optimizationConfig.performanceMonitoring.enableRealTimeErrorDetection) {
-        this.startRealTimeErrorDetection();
+        this.startRealTimeErrorDetection()
         applied.push('Started real-time error detection')
       }
 
-      logger.info('Automatic optimizations applied:', applied);
+      logger.info('Automatic optimizations applied:', applied)
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       errors.push(errorMessage)
-      logger.error('Error applying automatic optimizations:', error);
+      logger.error('Error applying automatic optimizations:', error)
     }
 
     return { applied, skipped, errors };
@@ -550,7 +550,7 @@ export type {
       const perfWithMemory = performance as { memory?: { usedJSHeapSize: number } };
       if (perfWithMemory.memory) {
         const memoryUsage = perfWithMemory.memory.usedJSHeapSize / 1024 / 1024;
-        this.updatePerformanceMetrics({ memoryUsage });
+        this.updatePerformanceMetrics({ memoryUsage })
       }
     }, 10000); // Every 10 seconds
   }
@@ -569,27 +569,27 @@ export type {
         logger.warn(`Performance threshold exceeded for ${metric}:`, {
           current: currentValue,
           threshold
-        });
+        })
       }
-    });
+    })
   }
 
   private removeUnusedImports(imports: string[], codeBody: string): string[] {
     return imports.filter(importLine => {
       // Extract imported names from the import statement
-      const importMatch = importLine.match(/import\s+(?:\{([^}]+)\}|\*\s+as\s+(\w+)|(\w+))/);
+      const importMatch = importLine.match(/import\s+(?:\{([^}]+)\}|\*\s+as\s+(\w+)|(\w+))/)
       if (!importMatch) return true;
 
       const importedNames = importMatch[1];
-        ? importMatch[1].split(',').map(name => name.trim().split(' as ')[0]);
+        ? importMatch[1].split(',').map(name => name.trim().split(' as ')[0])
         : [importMatch[2] || importMatch[3]]
 
       // Check if any imported name is used in the code
       return importedNames.some(name => {
-        const regex = new RegExp(`\\b${name}\\b`, 'g');
-        return regex.test(codeBody);
-      });
-    });
+        const regex = new RegExp(`\\b${name}\\b`, 'g')
+        return regex.test(codeBody)
+      })
+    })
   }
 
   private sortImports(imports: string[]): string[] {
@@ -600,9 +600,9 @@ export type {
       if (importLine.includes('@/') || importLine.includes('./') || importLine.includes('../')) {
         internalImports.push(importLine)
       } else if (importLine.trim().startsWith('import ')) {
-        externalImports.push(importLine);
+        externalImports.push(importLine)
       }
-    });
+    })
 
     return [
       ...externalImports.sort(),
@@ -616,8 +616,8 @@ export type {
     // For nowwe'll simulate real-time error detection
     setInterval(() => {
       // Simulate error detection
-      const errorCount = Math.floor(Math.random() * 5);
-      this.updatePerformanceMetrics({ errorCount });
+      const errorCount = Math.floor(Math.random() * 5)
+      this.updatePerformanceMetrics({ errorCount })
     }, 30000); // Every 30 seconds
   }
 }
@@ -633,7 +633,7 @@ export function getDevelopmentExperienceOptimizer(): DevelopmentExperienceOptimi
  * Hook for components to use development experience optimizations
  */
 export function useDevelopmentExperienceOptimizations() {
-  const optimizer = getDevelopmentExperienceOptimizer();
+  const optimizer = getDevelopmentExperienceOptimizer()
 
   return {
     generateOptimizedTypeScriptConfig: () => optimizer.generateOptimizedTypeScriptConfig(),

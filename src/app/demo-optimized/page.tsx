@@ -13,24 +13,24 @@ import type { Recipe } from '@/lib/api/alchm-client';
 import { logger } from '@/lib/logger';
 
 export default function DemoOptimizedPage() {
-  const [selectedRecipe, setSelectedRecipe] = React.useState<Recipe | null>(null);
+  const [selectedRecipe, setSelectedRecipe] = React.useState<Recipe | null>(null)
   const [visibleSections, setVisibleSections] = React.useState({
     planetary: true,
     energy: true,
     notifications: true,
     recommendations: true
-  });
+  })
 
   const handleRecipeSelect = (recipe: Recipe) => {
-    setSelectedRecipe(recipe);
-    logger.info('DemoOptimizedPage recipe selected', recipe);
+    setSelectedRecipe(recipe)
+    logger.info('DemoOptimizedPage recipe selected', recipe)
   };
 
   const toggleSection = (section: keyof typeof visibleSections) => {
     setVisibleSections(prev => ({
       ...prev,
       [section]: !prev[section]
-    }));
+    }))
   };
 
   return (
@@ -313,15 +313,15 @@ export default function DemoOptimizedPage() {
           @keyframes slideIn {
             from {
               opacity: 0;
-              transform: translateY(20px);
+              transform: translateY(20px)
             }
             to {
               opacity: 1;
-              transform: translateY(0);
+              transform: translateY(0)
             }
           }
         `}</style>
       </div>
     </div>
-  );
+  )
 }

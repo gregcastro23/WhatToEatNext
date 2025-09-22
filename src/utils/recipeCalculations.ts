@@ -25,12 +25,12 @@ export const _recipeCalculations = {
         return sum + value * cuisineElements[element as unknown]
       },
       0
-    );
+    )
 
     const recipeData = recipe as unknown;
     debugLog(
       `Cuisine alignment score for ${recipeData?.name || 'Unknown Recipe'}: ${alignmentScore.toFixed(2)}`,
-    );
+    )
     return alignmentScore;
   },
 
@@ -49,7 +49,7 @@ export const _recipeCalculations = {
     debugLog(
       `Optimal cooking windows for ${recipeWindowData?.name || 'Unknown Recipe'}:`,
       optimalTimes,
-    );
+    )
     return optimalTimes;
   },
 
@@ -75,7 +75,7 @@ export const _recipeCalculations = {
     const recipeBoostData = recipe as unknown;
     debugLog(
       `Elemental boost for ${recipeBoostData?.name || 'Unknown Recipe'}: ${boost.toFixed(2)} (dominant: ${dominantElement})`,
-    );
+    )
     return boost;
   }
 };

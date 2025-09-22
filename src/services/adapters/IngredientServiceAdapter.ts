@@ -19,7 +19,7 @@ import type { IngredientFilter } from '../interfaces/IngredientServiceInterface'
  * Enhanced food alchemy system that uses modern ingredient service
  */
 export class EnhancedIngredientSystem {
-  private static, instance: EnhancedIngredientSystem,
+  private static instance: EnhancedIngredientSystem,
 
   /**
    * Private constructor to enforce singleton pattern
@@ -31,7 +31,7 @@ export class EnhancedIngredientSystem {
    */
   public static getInstance(): EnhancedIngredientSystem {
     if (!EnhancedIngredientSystem.instance) {
-      EnhancedIngredientSystem.instance = new EnhancedIngredientSystem();
+      EnhancedIngredientSystem.instance = new EnhancedIngredientSystem()
     }
     return EnhancedIngredientSystem.instance;
   }
@@ -59,18 +59,18 @@ export class EnhancedIngredientSystem {
     } = {}
   ): UnifiedIngredient[] {
     try {
-      logger.info('Getting recommended ingredients', { state, options });
+      logger.info('Getting recommended ingredients', { state, options })
 
       // Create elemental properties from the state - safe property access
-      const elements = this.extractElementalProperties(state);
-      const elementalState = createElementalProperties(elements);
+      const elements = this.extractElementalProperties(state)
+      const elementalState = createElementalProperties(elements)
 
       // Get recommended ingredients
       const recommended = consolidatedIngredientService.getRecommendedIngredients(elementalState, {
         optimizeForSeason: true,
         maxResults: options.maxResults || 10,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-      } as any);
+      } as any)
 
       // Apply additional filters
       let filtered = recommended;
@@ -88,7 +88,7 @@ export class EnhancedIngredientSystem {
               s.toLowerCase() ===
                 (typeof currentSeason === 'string' ? currentSeason.toLowerCase() : ''),,
           )
-        });
+        })
       }
 
       // Filter by zodiac sign if specified
@@ -103,14 +103,14 @@ export class EnhancedIngredientSystem {
             z =>
               typeof z === 'string' && z.toLowerCase() === options.currentZodiacSign?.toLowerCase(),,
           )
-        });
+        })
       }
 
       // Filter by categories if specified
       if (options.categories && (options.categories || []).length > 0) {
         filtered = filtered.filter(ingredient =>
-          Array.isArray(options.categories);
-            ? options.categories.includes(ingredient.category);
+          Array.isArray(options.categories)
+            ? options.categories.includes(ingredient.category)
             : options.categories === ingredient.category,,
         )
       }
@@ -123,34 +123,34 @@ export class EnhancedIngredientSystem {
           filtered = filtered.filter(ingredient => {
             if (ingredient.category !== 'proteins') return true;
             const nonVegetarianCategories = ['meat', 'poultry', 'seafood'],
-            return !nonVegetarianCategories.includes(ingredient.subCategory || '');
-          });
+            return !nonVegetarianCategories.includes(ingredient.subCategory || '')
+          })
         }
 
         if (dietaryFilter.isVegan) {
           filtered = filtered.filter(ingredient => {
             if (ingredient.category !== 'proteins') return true;
             const nonVeganCategories = ['meat', 'poultry', 'seafood', 'dAiry', 'eggs'],
-            return !nonVeganCategories.includes(ingredient.subCategory || '');
-          });
+            return !nonVeganCategories.includes(ingredient.subCategory || '')
+          })
         }
 
         if (dietaryFilter.isGlutenFree) {
           filtered = filtered.filter(ingredient => {
             if (ingredient.category !== 'grains') return true;
             const glutenGrains = ['wheat', 'barley', 'rye', 'triticale'],
-            return !glutenGrains.some(g => ingredient.name.toLowerCase().includes(g));
-          });
+            return !glutenGrains.some(g => ingredient.name.toLowerCase().includes(g))
+          })
         }
 
         if (dietaryFilter.isDAiryFree) {
-          filtered = filtered.filter(ingredient => ingredient.subCategory !== 'dAiry');
+          filtered = filtered.filter(ingredient => ingredient.subCategory !== 'dAiry')
         }
       }
 
       // Return the filtered results, limited by maxResults
       const maxResults = options.maxResults || 10;
-      return filtered.slice(0, maxResults);
+      return filtered.slice(0, maxResults)
     } catch (error) {
       logger.error('Error getting recommended ingredients', error),
       return []
@@ -196,14 +196,14 @@ export class EnhancedIngredientSystem {
 
       // Get ingredients for each planet
       (planets || []).forEach(planet => {
-        const planetaryIngredients = consolidatedIngredientService.getIngredientsByPlanet(planet);
-        results.push(...planetaryIngredients);
-      });
+        const planetaryIngredients = consolidatedIngredientService.getIngredientsByPlanet(planet)
+        results.push(...planetaryIngredients)
+      })
 
       // Remove duplicates
       const uniqueIngredients = Array.from(
         new Map((results || []).map(item => [item.name, item])).values(),
-      );
+      )
 
       return uniqueIngredients;
     } catch (error) {
@@ -230,27 +230,27 @@ export class EnhancedIngredientSystem {
           maxResults * 2, // Get more than needed to allow for filtering
         ),
 
-        allComplementary.push(...complementary);
-      });
+        allComplementary.push(...complementary)
+      })
 
       // Filter out any ingredients already in the base list
-      const baseIngredientNames = (ingredients || []).map(name => name.toLowerCase());
+      const baseIngredientNames = (ingredients || []).map(name => name.toLowerCase())
       const filtered = (allComplementary || []).filter(
         ingredient => !baseIngredientNames.includes(ingredient.name.toLowerCase() || ''),
-      );
+      )
 
       // Remove duplicates and sort by calculated complementarity
-      const uniqueMap = new Map<string, UnifiedIngredient>();
+      const uniqueMap = new Map<string, UnifiedIngredient>()
       (filtered || []).forEach(ingredient => {
         if (!uniqueMap.has(ingredient.name)) {
-          uniqueMap.set(ingredient.name, ingredient);
+          uniqueMap.set(ingredient.name, ingredient)
         }
-      });
+      })
 
-      const unique = Array.from(uniqueMap.values());
+      const unique = Array.from(uniqueMap.values())
 
       // Return the top results
-      return unique.slice(0, maxResults);
+      return unique.slice(0, maxResults)
     } catch (error) {
       logger.error('Error finding complementary ingredients', error),
       return []
@@ -276,7 +276,7 @@ export class EnhancedIngredientSystem {
       };
 
       // Use the consolidated service to filter ingredients
-      return consolidatedIngredientService.filterIngredients(combinedFilter);
+      return consolidatedIngredientService.filterIngredients(combinedFilter)
     } catch (error) {
       logger.error('Error getting seasonal ingredients', error),
       return {};
@@ -285,7 +285,7 @@ export class EnhancedIngredientSystem {
 }
 
 // Export singleton instance
-export const _enhancedIngredientSystem = EnhancedIngredientSystem.getInstance();
+export const _enhancedIngredientSystem = EnhancedIngredientSystem.getInstance()
 
 // Default export
 export default EnhancedIngredientSystem;

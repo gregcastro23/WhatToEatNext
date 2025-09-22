@@ -23,16 +23,16 @@ export function calculateAlchemicalProperties(ingredient: Ingredient): Alchemica
   };
 
   // Base values derived from planetary influences in the alchemizer
-  // Sun (Spirit), Moon/Venus (Essence), Saturn/Mars (Matter), Mercury/Neptune (Substance);
+  // Sun (Spirit), Moon/Venus (Essence), Saturn/Mars (Matter), Mercury/Neptune (Substance)
   // The ratios below approximate the original alchemizer calculations
   const spirit = ((elementals as any)?.Fire || 0) * 0.2 + ((elementals as any)?.Air || 0) * 0.2;
   const essence =
-    ((elementals as any)?.Water || 0) * 0.2 +;
+    ((elementals as any)?.Water || 0) * 0.2 +
     ((elementals as any)?.Fire || 0) * 0.2 +
     ((elementals as any)?.Air || 0) * 0.2;
   const matter = ((elementals as any)?.Earth || 0) * 0.2 + ((elementals as any)?.Water || 0) * 0.2;
   const substance =
-    ((elementals as any)?.Earth || 0) * 0.2 +;
+    ((elementals as any)?.Earth || 0) * 0.2 +
     ((elementals as any)?.Water || 0) * 0.2 +
     ((elementals as any)?.Air || 0) * 0.2;
 
@@ -70,15 +70,15 @@ export function calculateThermodynamicProperties(
 
   // Using the exact formulas from the alchemizer engine
   const heat =
-    (spirit ** 2 + fire ** 2) / ((substance + essence + matter + water + air + earth) ** 2 || 1);
+    (spirit ** 2 + fire ** 2) / ((substance + essence + matter + water + air + earth) ** 2 || 1)
 
   const entropy =
     (spirit ** 2 + substance ** 2 + fire ** 2 + air ** 2) /;
-    ((essence + matter + earth + water) ** 2 || 1);
+    ((essence + matter + earth + water) ** 2 || 1)
 
   const reactivity =
     (spirit ** 2 + substance ** 2 + essence ** 2 + fire ** 2 + air ** 2 + water ** 2) /;
-    ((matter + earth) ** 2 || 1);
+    ((matter + earth) ** 2 || 1)
 
   const energy = heat - reactivity * entropy;
 
@@ -108,7 +108,7 @@ function _calculateSpiritValue(flavorProfile: FlavorProfile): number {
  *
  * @param qualities Array of quality descriptors
  * @param elementalProperties Optional elemental properties for more accurate determination
- * @returns The modality (Cardinal, Fixed, or Mutable);
+ * @returns The modality (Cardinal, Fixed, or Mutable)
  */
 export function determineIngredientModality(
   qualities: string[] = []
@@ -118,7 +118,7 @@ export function determineIngredientModality(
   const qualitiesArray = Array.isArray(qualities) ? qualities : [];
 
   // Create normalized arrays of qualities for easier matching
-  const normalizedQualities = qualitiesArray.map(q => q.toLowerCase());
+  const normalizedQualities = qualitiesArray.map(q => q.toLowerCase())
   // Look for explicit quality indicators in the ingredients
   const cardinalKeywords = [
     'initiating',
@@ -131,9 +131,9 @@ export function determineIngredientModality(
   const fixedKeywords = ['grounding', 'stabilizing', 'nourishing', 'sustaining', 'foundational'];
   const mutableKeywords = ['adaptable', 'flexible', 'versatile', 'balancing', 'harmonizing'];
 
-  const hasCardinalQuality = normalizedQualities.some(q => cardinalKeywords.includes(q));
-  const hasFixedQuality = normalizedQualities.some(q => fixedKeywords.includes(q));
-  const hasMutableQuality = normalizedQualities.some(q => mutableKeywords.includes(q));
+  const hasCardinalQuality = normalizedQualities.some(q => cardinalKeywords.includes(q))
+  const hasFixedQuality = normalizedQualities.some(q => fixedKeywords.includes(q))
+  const hasMutableQuality = normalizedQualities.some(q => mutableKeywords.includes(q))
 
   // If there's a clear quality indicator, use that
   if (hasCardinalQuality && !hasFixedQuality && !hasMutableQuality) {
@@ -151,7 +151,7 @@ export function determineIngredientModality(
     const { Fire, Water, Earth, Air } = elementalProperties;
 
     // Determine dominant element
-    const dominantElement = getDominantElement(elementalProperties);
+    const dominantElement = getDominantElement(elementalProperties)
 
     // Use hierarchical element-modality affinities
     switch (dominantElement) {
@@ -225,7 +225,7 @@ export function isFullIngredient(ingredient: unknown): ingredient is Ingredient 
       Array.isArray(ingredientData.qualities) &&
       ingredientData.storage &&
       typeof ingredientData.storage === 'object',
-  );
+  )
 }
 
 /**
@@ -244,34 +244,34 @@ export function validateIngredient(
 
   // Required fields
   if (!ingredient.name || typeof ingredient.name !== 'string') {
-    errors.push('Name is required and must be a string');
+    errors.push('Name is required and must be a string')
   }
 
   if (!ingredient.category) {
-    errors.push('Category is required');
+    errors.push('Category is required')
   }
 
   if (!ingredient.elementalProperties) {
-    errors.push('Elemental properties are required');
+    errors.push('Elemental properties are required')
   }
 
   // Optional validations
   if (ingredient.qualities && !Array.isArray(ingredient.qualities)) {
-    errors.push('Qualities must be an array');
+    errors.push('Qualities must be an array')
   }
 
   // Fix specific property access errors
   if (ingredient.qualities && Array.isArray(ingredient.qualities)) {
     // Check each quality is a string
-    const invalidQualities = ingredient.qualities.filter((q: unknown) => typeof q !== 'string');
+    const invalidQualities = ingredient.qualities.filter((q: unknown) => typeof q !== 'string')
     if (invalidQualities.length > 0) {
-      errors.push('All qualities must be strings');
+      errors.push('All qualities must be strings')
     }
   }
 
   // Storage validation
   if (ingredient.storage && typeof ingredient.storage !== 'object') {
-    errors.push('Storage must be an object');
+    errors.push('Storage must be an object')
   }
 
   if (ingredient.storage && typeof ingredient.storage === 'object') {
@@ -285,7 +285,7 @@ export function validateIngredient(
 
     for (const element of elements) {
       if (typeof props[element] !== 'number') {
-        errors.push(`Elemental property ${element} must be a number`);
+        errors.push(`Elemental property ${element} must be a number`)
       }
     }
   }
@@ -307,15 +307,15 @@ export function validateRecipeIngredient(_ingredient: Partial<RecipeIngredient>)
 
   // Check required fields
   if (!ingredient.name) {
-    errors.push('Name is required');
+    errors.push('Name is required')
   }
 
   if (typeof ingredient.amount !== 'number') {
-    errors.push('Amount must be a number');
+    errors.push('Amount must be a number')
   }
 
   if (!ingredient.unit) {
-    errors.push('Unit is required');
+    errors.push('Unit is required')
   }
 
   // If elemental properties are provided, validate them
@@ -323,16 +323,16 @@ export function validateRecipeIngredient(_ingredient: Partial<RecipeIngredient>)
     const { Fire, Water, Earth, Air} = ingredient.elementalProperties;
 
     if (typeof Fire !== 'number' || Fire < 0 || Fire > 1) {
-      errors.push('Fire elemental property must be a number between 0 and 1');
+      errors.push('Fire elemental property must be a number between 0 and 1')
     }
     if (typeof Water !== 'number' || Water < 0 || Water > 1) {
-      errors.push('Water elemental property must be a number between 0 and 1');
+      errors.push('Water elemental property must be a number between 0 and 1')
     }
     if (typeof Earth !== 'number' || Earth < 0 || Earth > 1) {
-      errors.push('Earth elemental property must be a number between 0 and 1');
+      errors.push('Earth elemental property must be a number between 0 and 1')
     }
     if (typeof Air !== 'number' || Air < 0 || Air > 1) {
-      errors.push('Air elemental property must be a number between 0 and 1');
+      errors.push('Air elemental property must be a number between 0 and 1')
     }
   }
 
@@ -363,7 +363,7 @@ export function mergeElementalProperties(
  */
 export function getDominantElement(_elementalProperties: ElementalProperties): string {
   const { Fire, Water, Earth, Air} = elementalProperties;
-  const max = Math.max(Fire, Water, Earth, Air);
+  const max = Math.max(Fire, Water, Earth, Air)
 
   if (max === Fire) return 'Fire';
   if (max === Water) return 'Water';

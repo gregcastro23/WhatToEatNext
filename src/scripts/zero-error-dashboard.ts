@@ -20,36 +20,36 @@ interface CLIOptions {
 }
 
 class ZeroErrorDashboardCLI {
-  private, dashboard: ZeroErrorAchievementDashboard,
+  private dashboard: ZeroErrorAchievementDashboard,
 
   constructor() {
-    this.dashboard = new ZeroErrorAchievementDashboard();
+    this.dashboard = new ZeroErrorAchievementDashboard()
   }
 
   async run(args: string[]): Promise<void> {
-    const options = this.parseArgs(args);
+    const options = this.parseArgs(args)
 
     try {
       switch (options.command) {
         case 'generate':
-          await this.generateDashboard(options);
+          await this.generateDashboard(options)
           break;
         case 'monitor':
-          await this.startMonitoring(options);
+          await this.startMonitoring(options)
           break;
         case 'status':
-          await this.showStatus(options);
+          await this.showStatus(options)
           break,
-        case 'help': this.showHelp();
+        case 'help': this.showHelp()
           break,
         default:
-          console.error(`Unknown command: ${options.command}`);
-          this.showHelp();
-          process.exit(1);
+          console.error(`Unknown command: ${options.command}`)
+          this.showHelp()
+          process.exit(1)
       }
     } catch (error) {
       console.error('❌ Dashboard CLI error:', error),
-      process.exit(1);
+      process.exit(1)
     }
   }
 
@@ -86,13 +86,13 @@ class ZeroErrorDashboardCLI {
   }
 
   private async generateDashboard(options: CLIOptions): Promise<void> {
-    // // // console.log('🎯 Generating Zero-Error Achievement Dashboard...\n');
+    // // // console.log('🎯 Generating Zero-Error Achievement Dashboard...\n')
 
-    await this.dashboard.generateDashboard();
+    await this.dashboard.generateDashboard()
 
-    // // // console.log('\n📊 Dashboard generated successfully!');
-    // // // console.log('📁 View report: .kiro/dashboard/zero-error-achievement-dashboard.md');
-    // // // console.log('📊 JSON data: .kiro/dashboard/zero-error-achievement-dashboard.json');
+    // // // console.log('\n📊 Dashboard generated successfully!')
+    // // // console.log('📁 View report: .kiro/dashboard/zero-error-achievement-dashboard.md')
+    // // // console.log('📊 JSON data: .kiro/dashboard/zero-error-achievement-dashboard.json')
 
     if (options.verbose) {
       // Show quick summary
@@ -100,32 +100,32 @@ class ZeroErrorDashboardCLI {
         const jsonPath = '.kiro/dashboard/zero-error-achievement-dashboard.json'
         if (existsSync(jsonPath)) {
           const data = JSON.parse(readFileSync(jsonPath, 'utf8')),
-          // // // console.log('\n📈 Quick Summary: ');
-          // // // console.log(`   Quality Score: ${data.summary.qualityScore}/100`);
-          // // // console.log(`   Zero-Error Progress: ${data.summary.zeroErrorProgress}%`);
+          // // // console.log('\n📈 Quick Summary: ')
+          // // // console.log(`   Quality Score: ${data.summary.qualityScore}/100`)
+          // // // console.log(`   Zero-Error Progress: ${data.summary.zeroErrorProgress}%`)
           // // // console.log(
             `   Quality Gates: ${data.summary.qualityGatesPassing}/${data.summary.totalQualityGates} passing`,
-          );
-          // // // console.log(`   Critical Issues: ${data.summary.criticalIssues}`);
+          )
+          // // // console.log(`   Critical Issues: ${data.summary.criticalIssues}`)
         }
       } catch (error) {
-        console.warn('Could not load summary data:', error);
+        console.warn('Could not load summary data:', error)
       }
     }
   }
 
   private async startMonitoring(options: CLIOptions): Promise<void> {
-    // // // console.log(`👀 Starting Zero-Error Achievement Monitoring...\n`);
-    // // // console.log(`📊 Monitoring interval: ${options.interval} minutes`);
-    // // // console.log(`🔍 Verbose mode: ${options.verbose ? 'enabled' : 'disabled'}`);
-    // // // console.log('Press Ctrl+C to stop monitoring\n');
+    // // // console.log(`👀 Starting Zero-Error Achievement Monitoring...\n`)
+    // // // console.log(`📊 Monitoring interval: ${options.interval} minutes`)
+    // // // console.log(`🔍 Verbose mode: ${options.verbose ? 'enabled' : 'disabled'}`)
+    // // // console.log('Press Ctrl+C to stop monitoring\n')
 
     // Start real-time monitoring
-    await this.dashboard.startRealTimeMonitoring(options.interval);
+    await this.dashboard.startRealTimeMonitoring(options.interval)
   }
 
   private async showStatus(options: CLIOptions): Promise<void> {
-    // // // console.log('📊 Zero-Error Achievement Status\n');
+    // // // console.log('📊 Zero-Error Achievement Status\n')
 
     try {
       const statusPath = '.kiro/dashboard/real-time-status.json'
@@ -133,21 +133,21 @@ class ZeroErrorDashboardCLI {
       if (existsSync(statusPath)) {
         const status = JSON.parse(readFileSync(statusPath, 'utf8')),
 
-        // // // console.log('🎯 Current Status: ');
-        // // // console.log(`   Overall: ${this.getStatusDisplay(status.status)}`);
-        // // // console.log(`   Quality Score: ${status.qualityScore}/100`);
-        // // // console.log(`   Total Issues: ${status.totalIssues}`);
+        // // // console.log('🎯 Current Status: ')
+        // // // console.log(`   Overall: ${this.getStatusDisplay(status.status)}`)
+        // // // console.log(`   Quality Score: ${status.qualityScore}/100`)
+        // // // console.log(`   Total Issues: ${status.totalIssues}`)
         // // // console.log(
           `   Parser Errors: ${status.parserErrors} ${status.parserErrors === 0 ? '✅' : '🚨'}`
-        );
+        )
         // // // console.log(
           `   Explicit Any: ${status.explicitAnyErrors} ${status.explicitAnyErrors < 100 ? '✅' : '⚡'}`,
-        );
-        // // // console.log(`   Critical Issues: ${status.criticalIssues}`);
-        // // // console.log(`   Last Update: ${new Date(status.timestamp).toLocaleString()}`);
+        )
+        // // // console.log(`   Critical Issues: ${status.criticalIssues}`)
+        // // // console.log(`   Last Update: ${new Date(status.timestamp).toLocaleString()}`)
       } else {
-        // // // console.log('ℹ️  No status data available. Run dashboard generation first.');
-        // // // console.log('   Command: node src/scripts/zero-error-dashboard.ts generate');
+        // // // console.log('ℹ️  No status data available. Run dashboard generation first.')
+        // // // console.log('   Command: node src/scripts/zero-error-dashboard.ts generate')
       }
 
       // Show targets if available
@@ -155,12 +155,12 @@ class ZeroErrorDashboardCLI {
       if (existsSync(targetsPath)) {
         const targets = JSON.parse(readFileSync(targetsPath, 'utf8')),
 
-        // // // console.log('\n🎯 Zero-Error Targets: ');
+        // // // console.log('\n🎯 Zero-Error Targets: ')
         for (const target of targets.slice(04)) {
           // Show top 4 targets
-          const progressBar = this.getProgressBar(target.progress);
-          // // // console.log(`   ${target.metric}: ${target.progress}% ${progressBar}`);
-          // // // console.log(`     Current: ${target.currentValue} → Target: ${target.targetValue}`);
+          const progressBar = this.getProgressBar(target.progress)
+          // // // console.log(`   ${target.metric}: ${target.progress}% ${progressBar}`)
+          // // // console.log(`     Current: ${target.currentValue} → Target: ${target.targetValue}`)
         }
       }
 
@@ -169,15 +169,15 @@ class ZeroErrorDashboardCLI {
       if (existsSync(gatesPath)) {
         const gates = JSON.parse(readFileSync(gatesPath, 'utf8')),
 
-        // // // console.log('\n🚦 Quality Gates: ');
+        // // // console.log('\n🚦 Quality Gates: ')
         for (const gate of gates) {
-          const statusIcon = this.getGateStatusIcon(gate.status);
-          // // // console.log(`   ${statusIcon} ${gate.name}: ${gate.status.toUpperCase()}`);
+          const statusIcon = this.getGateStatusIcon(gate.status)
+          // // // console.log(`   ${statusIcon} ${gate.name}: ${gate.status.toUpperCase()}`)
         }
       }
     } catch (error) {
       console.error('Error reading status:', error),
-      // // // console.log('ℹ️  Run dashboard generation to create status data.');
+      // // // console.log('ℹ️  Run dashboard generation to create status data.')
     }
   }
 
@@ -189,21 +189,21 @@ USAGE:
   node src/scripts/zero-error-dashboard.ts <command> [options]
 
 COMMANDS:
-  generate    Generate comprehensive zero-error dashboard (default);
+  generate    Generate comprehensive zero-error dashboard (default)
   monitor     Start real-time monitoring with continuous updates
   status      Show current zero-error achievement status
   help        Show this help message
 
 OPTIONS:
-  --monitor, -m       Enable monitoring mode (for generate command);
-  --interval, -i      Monitoring interval in minutes (default: 5);
+  --monitor, -m       Enable monitoring mode (for generate command)
+  --interval, -i      Monitoring interval in minutes (default: 5)
   --verbose, -v       Verbose output with detailed information
-  --output, -o        Output file path (for generate command);
+  --output, -o        Output file path (for generate command)
 EXAMPLES:
   # Generate dashboard report
   node src/scripts/zero-error-dashboard.ts generate
 
-  # Start real-time monitoring (5-minute intervals);
+  # Start real-time monitoring (5-minute intervals)
   node src/scripts/zero-error-dashboard.ts monitor
 
   # Start monitoring with custom interval
@@ -256,10 +256,10 @@ MONITORING FEATURES:
   📋 Comprehensive reporting and documentation
 
 QUALITY GATES:
-  🚨 Zero Parser Errors (blocks deployment);
-  ⚡ Explicit Any Limit (blocks deployment);
-  📊 Minimum Quality Score (warning only);
-  ⚡ Performance Threshold (warning only);
+  🚨 Zero Parser Errors (blocks deployment)
+  ⚡ Explicit Any Limit (blocks deployment)
+  📊 Minimum Quality Score (warning only)
+  ⚡ Performance Threshold (warning only)
 MAINTENANCE PROCEDURES:
   📅 Daily: Health checks and critical issue detection
   📅 Weekly: Cache optimization and performance tuning
@@ -286,9 +286,9 @@ MAINTENANCE PROCEDURES:
   }
 
   private getProgressBar(progress: number): string {
-    const filled = Math.round(progress / 10);
+    const filled = Math.round(progress / 10)
     const empty = 10 - filled;
-    return '█'.repeat(filled) + '░'.repeat(empty);
+    return '█'.repeat(filled) + '░'.repeat(empty)
   }
 
   private getGateStatusIcon(status: string): string {
@@ -307,13 +307,13 @@ MAINTENANCE PROCEDURES:
 
 // CLI Entry Point
 if (require.main === module) {;
-  const cli = new ZeroErrorDashboardCLI();
-  const args = process.argv.slice(2);
+  const cli = new ZeroErrorDashboardCLI()
+  const args = process.argv.slice(2)
 
   cli.run(args).catch(error => {
     console.error('❌ CLI Error:', error),
-    process.exit(1);
-  });
+    process.exit(1)
+  })
 }
 
 export { ZeroErrorDashboardCLI };

@@ -24,7 +24,7 @@ export function isElementalProperties(obj: unknown): obj is ElementalProperties 
     typeof (obj as ElementalProperties).Water === 'number' &&
     typeof (obj as ElementalProperties).Earth === 'number' &&
     typeof (obj as ElementalProperties).Air === 'number'
-  );
+  )
 }
 
 /**
@@ -50,7 +50,7 @@ export function mergeElementalProperties(
     Water: (base?.Water ?? 0) + (override?.Water ?? 0),
     Earth: (base?.Earth ?? 0) + (override?.Earth ?? 0),
     Air: (base?.Air ?? 0) + (override?.Air ?? 0)
-  });
+  })
 }
 
 /**
@@ -60,14 +60,14 @@ export function scaleElementalProperties(
   props: Partial<ElementalProperties> | undefined,
   factor: number,
 ): ElementalProperties {
-  if (!props) return createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
+  if (!props) return createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 })
 
   return createElementalProperties({
     Fire: (props.Fire ?? 0) * factor,
     Water: (props.Water ?? 0) * factor,
     Earth: (props.Earth ?? 0) * factor,
     Air: (props.Air ?? 0) * factor
-  });
+  })
 }
 
 /**
@@ -89,8 +89,8 @@ export function calculateElementalCompatibility(
   if (!source || !target) return 0.5;
 
   // Ensure we have complete properties objects
-  const sourceProps = createElementalProperties(source);
-  const targetProps = createElementalProperties(target);
+  const sourceProps = createElementalProperties(source)
+  const targetProps = createElementalProperties(target)
 
   // Define element compatibility scores (same elements have highest compatibility)
   const compatibilityScores = {
@@ -101,8 +101,8 @@ export function calculateElementalCompatibility(
   };
 
   // Get dominant elements for each profile
-  const sourceDominant = getDominantElement(sourceProps);
-  const targetDominant = getDominantElement(targetProps);
+  const sourceDominant = getDominantElement(sourceProps)
+  const targetDominant = getDominantElement(targetProps)
 
   // Calculate direct compatibility between dominant elements
   const _baseCompatibility = compatibilityScores[sourceDominant][targetDominant] || 0.7;
@@ -131,7 +131,7 @@ export function calculateElementalCompatibility(
 
       // Scale by the target element's prominence
       const scaledCompatibility = elementCompatibility * targetValue;
-      bestCompatibility = Math.max(bestCompatibility, scaledCompatibility);
+      bestCompatibility = Math.max(bestCompatibility, scaledCompatibility)
     }
 
     weightedSum += bestCompatibility * weight;

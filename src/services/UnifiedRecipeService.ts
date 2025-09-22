@@ -30,7 +30,7 @@ export class UnifiedRecipeService {
       // TODO: Implement recipe fetching logic
       return []
     } catch (error) {
-      errorHandler.log(error, { context: 'UnifiedRecipeService.getAllRecipes' });
+      errorHandler.log(error, { context: 'UnifiedRecipeService.getAllRecipes' })
       return [];
     }
   }
@@ -43,7 +43,7 @@ export class UnifiedRecipeService {
       // TODO: Implement recipe fetching by ID
       return null
     } catch (error) {
-      errorHandler.log(error, { context: 'UnifiedRecipeService.getRecipeById' });
+      errorHandler.log(error, { context: 'UnifiedRecipeService.getRecipeById' })
       return null;
     }
   }
@@ -56,7 +56,7 @@ export class UnifiedRecipeService {
       // TODO: Implement recipe search logic
       return []
     } catch (error) {
-      errorHandler.log(error, { context: 'UnifiedRecipeService.searchRecipes' });
+      errorHandler.log(error, { context: 'UnifiedRecipeService.searchRecipes' })
       return [];
     }
   }
@@ -65,7 +65,7 @@ export class UnifiedRecipeService {
    */
   async getRecipesForCuisine(cuisine: string): Promise<ExtendedRecipe[]> {
     try {
-      const allRecipes = await this.getAllRecipes();
+      const allRecipes = await this.getAllRecipes()
       const filtered = (allRecipes || []).filter(recipe => {;
         const recipeCuisine =
           recipe.cuisine && typeof recipe.cuisine === 'string'
@@ -74,7 +74,7 @@ export class UnifiedRecipeService {
         const targetCuisine =
           cuisine && typeof cuisine === 'string' ? cuisine.toLowerCase() : cuisine;
         return recipeCuisine === targetCuisine
-      });
+      })
       return filtered as unknown as ExtendedRecipe[];
     } catch (error) {
       console.error('Error getting recipes for cuisine:', error),
@@ -106,7 +106,7 @@ export class UnifiedRecipeService {
 }
 
 // Export singleton instance
-export const unifiedRecipeService = UnifiedRecipeService.getInstance();
+export const unifiedRecipeService = UnifiedRecipeService.getInstance()
 
 // Export default
 export default unifiedRecipeService;

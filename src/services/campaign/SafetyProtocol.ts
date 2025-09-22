@@ -21,14 +21,14 @@ import {
 } from '../../types/campaign';
 
 export class SafetyProtocol {
-  private, settings: SafetySettings
-  private, stashes: Map<string, GitStash> = new Map();
-  private, safetyEvents: SafetyEvent[] = [];
-  private, stashCounter: number = 0;
+  private settings: SafetySettings
+  private stashes: Map<string, GitStash> = new Map()
+  private safetyEvents: SafetyEvent[] = [];
+  private stashCounter: number = 0;
 
   constructor(settings: SafetySettings) {
     this.settings = settings;
-    this.initializeStashTracking();
+    this.initializeStashTracking()
   }
 
   /**
@@ -43,19 +43,19 @@ export class SafetyProtocol {
       const fullDescription = `${stashName}: ${description}`;
 
       // Validate git state before creating stash
-      const gitValidation = await this.validateGitState();
+      const gitValidation = await this.validateGitState()
       if (!gitValidation.success) {
-        throw new Error(`Git validation failed: ${gitValidation.errors.join(', ')}`);
+        throw new Error(`Git validation failed: ${gitValidation.errors.join(', ')}`)
       }
 
       // Create the git stash with all files including untracked
       execSync(`git stash push -u -m '${fullDescription}'`, {
         encoding: 'utf8',
         stdio: 'pipe'
-      });
+      })
 
       // Get the actual stash reference
-      const stashList = execSync('git stash list --oneline', { encoding: 'utf8' });
+      const stashList = execSync('git stash list --oneline', { encoding: 'utf8' })
       const stashRef = stashList.split('\n')[0]?.split(':')[0] || 'stash@{0}';
 
       // Store stash information
@@ -67,8 +67,8 @@ export class SafetyProtocol {
         ref: stashRef
       };
 
-      this.stashes.set(stashName, stash);
-      this.saveStashTracking();
+      this.stashes.set(stashName, stash)
+      this.saveStashTracking()
 
       this.addSafetyEvent({
         type: SafetyEventType.CHECKPOINT_CREATED,
@@ -76,11 +76,11 @@ export class SafetyProtocol {
         description: `Git stash created: ${stashName} (${stashRef})`,
         severity: SafetyEventSeverity.INFO,
         action: 'STASH_CREATE'
-      });
+      })
 
-      // // // console.log(`📦 Created git stash: ${stashName}`);
-      // // // console.log(`   Reference: ${stashRef}`);
-      // // // console.log(`   Rollback, with: git stash apply ${stashRef}`);
+      // // // console.log(`📦 Created git stash: ${stashName}`)
+      // // // console.log(`   Reference: ${stashRef}`)
+      // // // console.log(`   Rollback, with: git stash apply ${stashRef}`)
 
       return stashName;
     } catch (error) {
@@ -90,9 +90,9 @@ export class SafetyProtocol {
         description: `Failed to create git stash: ${(error as any).message || 'Unknown error'}`,
         severity: SafetyEventSeverity.ERROR,
         action: 'STASH_FAILED'
-      });
+      })
 
-      throw new Error(`Failed to create git stash: ${(error as any).message || 'Unknown error'}`);
+      throw new Error(`Failed to create git stash: ${(error as any).message || 'Unknown error'}`)
     }
   }
 
@@ -101,7 +101,7 @@ export class SafetyProtocol {
    */
   async createCheckpointStash(operation: string, phase: string): Promise<string> {
     const description = `Checkpoint before ${operation} in ${phase}`;
-    return this.createStash(description, phase);
+    return this.createStash(description, phase)
   }
 
   /**
@@ -109,30 +109,30 @@ export class SafetyProtocol {
    */
   async applyStash(stashId: string, validateAfter: boolean = true): Promise<void> {
     try {
-      const stash = this.stashes.get(stashId);
+      const stash = this.stashes.get(stashId)
       if (!stash) {
-        throw new Error(`Stash not found: ${stashId}`);
+        throw new Error(`Stash not found: ${stashId}`)
       }
 
       // Use the stored reference if available, otherwise try to find by message
       let stashRef = stash.ref;
       if (!stashRef) {
-        stashRef = await this.findStashByMessage(stash.description);
+        stashRef = await this.findStashByMessage(stash.description)
       }
 
       // Apply the stash
       execSync(`git stash apply ${stashRef}`, {
         encoding: 'utf8',
         stdio: 'pipe'
-      });
+      })
 
       // Validate after application if requested
       if (validateAfter) {
-        const validation = await this.validateGitState();
+        const validation = await this.validateGitState()
         if (!validation.success) {
           console.warn(
             `⚠️ Git state validation warnings after stash apply: ${validation.warnings.join(', ')}`,
-          );
+          )
         }
       }
 
@@ -142,10 +142,10 @@ export class SafetyProtocol {
         description: `Git stash applied: ${stashId} (${stashRef})`,
         severity: SafetyEventSeverity.WARNING,
         action: 'STASH_APPLY'
-      });
+      })
 
-      // // // console.log(`🔄 Applied git stash: ${stashId}`);
-      // // // console.log(`   Reference: ${stashRef}`);
+      // // // console.log(`🔄 Applied git stash: ${stashId}`)
+      // // // console.log(`   Reference: ${stashRef}`)
     } catch (error) {
       this.addSafetyEvent({
         type: SafetyEventType.EMERGENCY_RECOVERY,
@@ -153,11 +153,11 @@ export class SafetyProtocol {
         description: `Failed to apply git stash ${stashId}: ${(error as any).message || 'Unknown error'}`,
         severity: SafetyEventSeverity.ERROR,
         action: 'STASH_APPLY_FAILED'
-      });
+      })
 
       throw new Error(
         `Failed to apply git stash ${stashId}: ${(error as any).message || 'Unknown error'}`,
-      );
+      )
     }
   }
 
@@ -170,11 +170,11 @@ export class SafetyProtocol {
     ),
 
     if (stashes.length === 0) {
-      throw new Error('No stashes available for automatic rollback');
+      throw new Error('No stashes available for automatic rollback')
     }
 
     const latestStash = stashes[0];
-    await this.applyStash(latestStash.id);
+    await this.applyStash(latestStash.id)
     return latestStash.id;
   }
 
@@ -182,16 +182,16 @@ export class SafetyProtocol {
    * Apply stash by phase for targeted rollbacks
    */
   async applyStashByPhase(phase: string): Promise<string> {
-    const phaseStashes = Array.from(this.stashes.values());
-      .filter(stash => stash.id.includes(`-${phase}-`));
-      .sort((ab) => b.timestamp.getTime() - a.timestamp.getTime());
+    const phaseStashes = Array.from(this.stashes.values())
+      .filter(stash => stash.id.includes(`-${phase}-`))
+      .sort((ab) => b.timestamp.getTime() - a.timestamp.getTime())
 
     if (phaseStashes.length === 0) {
-      throw new Error(`No stashes found for phase: ${phase}`);
+      throw new Error(`No stashes found for phase: ${phase}`)
     }
 
     const latestPhaseStash = phaseStashes[0];
-    await this.applyStash(latestPhaseStash.id);
+    await this.applyStash(latestPhaseStash.id)
     return latestPhaseStash.id;
   }
 
@@ -199,7 +199,7 @@ export class SafetyProtocol {
    * List all campaign stashes
    */
   async listStashes(): Promise<GitStash[]> {
-    return Array.from(this.stashes.values());
+    return Array.from(this.stashes.values())
   }
 
   /**
@@ -210,25 +210,25 @@ export class SafetyProtocol {
     const corruptionPatterns: CorruptionPattern[] = [];
     let maxSeverity = CorruptionSeverity.LOW
 
-    // // // console.log(`🔍 Analyzing ${files.length} files for corruption patterns...`);
+    // // // console.log(`🔍 Analyzing ${files.length} files for corruption patterns...`)
 
     for (const filePath of files) {
       if (!fs.existsSync(filePath)) {
-        console.warn(`⚠️ File not found: ${filePath}`);
+        console.warn(`⚠️ File not found: ${filePath}`)
         continue;
       }
 
       try {
-        const content = fs.readFileSync(filePath, 'utf8');
-        const fileCorruption = this.analyzeFileCorruption(filePath, content);
+        const content = fs.readFileSync(filePath, 'utf8')
+        const fileCorruption = this.analyzeFileCorruption(filePath, content)
 
         if (fileCorruption.patterns.length > 0) {
-          detectedFiles.push(filePath);
-          corruptionPatterns.push(...fileCorruption.patterns);
+          detectedFiles.push(filePath)
+          corruptionPatterns.push(...fileCorruption.patterns)
 
           // // // console.log(
             `🚨 Corruption detected in ${filePath}: ${fileCorruption.patterns.length} patterns`,
-          );
+          )
 
           // Update max severity
           if (fileCorruption.severity === CorruptionSeverity.CRITICAL) {
@@ -247,20 +247,20 @@ export class SafetyProtocol {
         }
       } catch (error) {
         // File read error might indicate corruption
-        detectedFiles.push(filePath);
+        detectedFiles.push(filePath)
         corruptionPatterns.push({
           pattern: 'FILE_READ_ERROR',
           description: `Cannot read file: ${(error as any).message || 'Unknown error'}`,
           files: [filePath]
-        });
+        })
         maxSeverity = CorruptionSeverity.HIGH;
         console.error(
           `❌ File read error in ${filePath}: ${(error as any).message || 'Unknown error'}`,
-        );
+        )
       }
     }
 
-    const recommendedAction = this.determineRecoveryAction(maxSeverity, detectedFiles.length);
+    const recommendedAction = this.determineRecoveryAction(maxSeverity, detectedFiles.length)
 
     const report: CorruptionReport = {
       detectedFiles,
@@ -276,13 +276,13 @@ export class SafetyProtocol {
         description: `Corruption detected in ${detectedFiles.length} files (${maxSeverity} severity)`,
         severity: this.mapCorruptionToEventSeverity(maxSeverity),
         action: 'CORRUPTION_DETECTED'
-      });
+      })
 
       // // // console.log(
         `📊 Corruption analysis complete: ${detectedFiles.length} files affected, severity: ${maxSeverity}`,
-      );
+      )
     } else {
-      // // // console.log(`✅ No corruption detected in ${files.length} files`);
+      // // // console.log(`✅ No corruption detected in ${files.length} files`)
     }
 
     return report;
@@ -296,7 +296,7 @@ export class SafetyProtocol {
     const corruptionPatterns: CorruptionPattern[] = [];
     let maxSeverity = CorruptionSeverity.LOW
 
-    // // // console.log(`🔍 Analyzing import/export corruption in ${files.length} files...`);
+    // // // console.log(`🔍 Analyzing import/export corruption in ${files.length} files...`)
 
     for (const filePath of files) {
       if (!fs.existsSync(filePath) || !filePath.match(/\.(ts|tsx|js|jsx)$/)) {
@@ -304,12 +304,12 @@ export class SafetyProtocol {
       }
 
       try {
-        const content = fs.readFileSync(filePath, 'utf8');
-        const importExportCorruption = this.analyzeImportExportCorruption(filePath, content);
+        const content = fs.readFileSync(filePath, 'utf8')
+        const importExportCorruption = this.analyzeImportExportCorruption(filePath, content)
 
         if (importExportCorruption.patterns.length > 0) {
-          detectedFiles.push(filePath);
-          corruptionPatterns.push(...importExportCorruption.patterns);
+          detectedFiles.push(filePath)
+          corruptionPatterns.push(...importExportCorruption.patterns)
 
           if (importExportCorruption.severity === CorruptionSeverity.CRITICAL) {
             maxSeverity = CorruptionSeverity.CRITICAL;
@@ -328,11 +328,11 @@ export class SafetyProtocol {
       } catch (error) {
         console.error(
           `❌ Error analyzing import/export corruption in ${filePath}: ${(error as any).message || 'Unknown error'}`,
-        );
+        )
       }
     }
 
-    const recommendedAction = this.determineRecoveryAction(maxSeverity, detectedFiles.length);
+    const recommendedAction = this.determineRecoveryAction(maxSeverity, detectedFiles.length)
 
     return {
       detectedFiles,
@@ -346,17 +346,17 @@ export class SafetyProtocol {
    * Real-time monitoring during script execution
    */
   async startRealTimeMonitoring(files: string[], intervalMs: number = 5000): Promise<void> {
-    // // // console.log(`🔄 Starting real-time corruption monitoring for ${files.length} files...`);
+    // // // console.log(`🔄 Starting real-time corruption monitoring for ${files.length} files...`)
 
     const monitoringInterval = setInterval(() => {
       void (async () => {
         try {
-          const report = await this.detectCorruption(files);
+          const report = await this.detectCorruption(files)
 
           if (report.detectedFiles.length > 0) {
             console.warn(
               `⚠️ Real-time monitoring detected corruption in ${report.detectedFiles.length} files`,
-            );
+            )
 
             this.addSafetyEvent({
               type: SafetyEventType.CORRUPTION_DETECTED,
@@ -364,26 +364,26 @@ export class SafetyProtocol {
               description: `Real-time monitoring detected corruption: ${report.severity}`,
               severity: this.mapCorruptionToEventSeverity(report.severity),
               action: 'REALTIME_CORRUPTION_DETECTED'
-            });
+            })
 
             // If critical corruption is detected, trigger emergency rollback
             if (
               report.severity === CorruptionSeverity.CRITICAL &&
               this.settings.automaticRollbackEnabled
             ) {
-              console.error(`🚨 Critical corruption detected! Triggering emergency rollback...`);
-              clearInterval(monitoringInterval);
-              await this.emergencyRollback();
+              console.error(`🚨 Critical corruption detected! Triggering emergency rollback...`)
+              clearInterval(monitoringInterval)
+              await this.emergencyRollback()
               return
             }
           }
         } catch (error) {
           console.error(
             `❌ Error during real-time monitoring: ${(error as any).message || 'Unknown error'}`,
-          );
+          )
         }
-      })();
-    }, intervalMs);
+      })()
+    }, intervalMs)
 
     // Store the interval ID for cleanup
     (this as unknown).monitoringInterval = monitoringInterval;
@@ -394,9 +394,9 @@ export class SafetyProtocol {
    */
   stopRealTimeMonitoring(): void {
     if ((this as unknown).monitoringInterval) {
-      clearInterval((this as unknown).monitoringInterval);
+      clearInterval((this as unknown).monitoringInterval)
       (this as unknown).monitoringInterval = null;
-      // // // console.log(`⏹️ Real-time corruption monitoring stopped`);
+      // // // console.log(`⏹️ Real-time corruption monitoring stopped`)
     }
   }
 
@@ -408,11 +408,11 @@ export class SafetyProtocol {
     const corruptionPatterns: CorruptionPattern[] = [];
     let maxSeverity = CorruptionSeverity.LOW
 
-    // // // console.log(`🔍 Validating syntax with TypeScript compiler for ${files.length} files...`);
+    // // // console.log(`🔍 Validating syntax with TypeScript compiler for ${files.length} files...`)
 
     try {
       // Run TypeScript compiler to check for syntax errors
-      const tsFiles = files.filter(f => f.match(/\.(ts|tsx)$/));
+      const tsFiles = files.filter(f => f.match(/\.(ts|tsx)$/))
       if (tsFiles.length === 0) {
         return {
           detectedFiles,
@@ -425,25 +425,25 @@ export class SafetyProtocol {
       const tscOutput = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
         encoding: 'utf8',
         stdio: 'pipe'
-      });
+      })
 
       // Parse TypeScript compiler output for syntax errors
-      const lines = tscOutput.split('\n');
+      const lines = tscOutput.split('\n')
       for (const line of lines) {
         if (
           line.includes('error TS') &&
-          (line.includes('Unexpected token') || line.includes('Expression expected'));
+          (line.includes('Unexpected token') || line.includes('Expression expected'))
         ) {
-          const fileMatch = line.match(/^([^(]+)\(/);
+          const fileMatch = line.match(/^([^(]+)\(/)
           if (fileMatch) {
             const filePath = fileMatch[1];
             if (files.includes(filePath) && !detectedFiles.includes(filePath)) {
-              detectedFiles.push(filePath);
+              detectedFiles.push(filePath)
               corruptionPatterns.push({
                 pattern: 'TYPESCRIPT_SYNTAX_ERROR',
                 description: line.trim(),
                 files: [filePath]
-              });
+              })
               maxSeverity = CorruptionSeverity.HIGH;
             }
           }
@@ -458,11 +458,11 @@ export class SafetyProtocol {
           pattern: 'TYPESCRIPT_COMPILATION_ERROR',
           description: `TypeScript compilation failed: ${errorOutput}`,
           files: files.filter(f => f.match(/\.(ts|tsx)$/)),
-        });
+        })
       }
     }
 
-    const recommendedAction = this.determineRecoveryAction(maxSeverity, detectedFiles.length);
+    const recommendedAction = this.determineRecoveryAction(maxSeverity, detectedFiles.length)
 
     return {
       detectedFiles,
@@ -483,11 +483,11 @@ export class SafetyProtocol {
       ),
 
       if (stashes.length === 0) {
-        throw new Error('No stashes available for emergency rollback');
+        throw new Error('No stashes available for emergency rollback')
       }
 
       const latestStash = stashes[0];
-      await this.applyStash(latestStash.id);
+      await this.applyStash(latestStash.id)
 
       this.addSafetyEvent({
         type: SafetyEventType.EMERGENCY_RECOVERY,
@@ -495,9 +495,9 @@ export class SafetyProtocol {
         description: `Emergency rollback completed using stash: ${latestStash.id}`,
         severity: SafetyEventSeverity.WARNING,
         action: 'EMERGENCY_ROLLBACK'
-      });
+      })
 
-      // // // console.log(`🚨 Emergency rollback completed using stash: ${latestStash.id}`);
+      // // // console.log(`🚨 Emergency rollback completed using stash: ${latestStash.id}`)
     } catch (error) {
       this.addSafetyEvent({
         type: SafetyEventType.EMERGENCY_RECOVERY,
@@ -505,9 +505,9 @@ export class SafetyProtocol {
         description: `Emergency rollback failed: ${(error as any).message || 'Unknown error'}`,
         severity: SafetyEventSeverity.CRITICAL,
         action: 'EMERGENCY_ROLLBACK_FAILED'
-      });
+      })
 
-      throw new Error(`Emergency rollback failed: ${(error as any).message || 'Unknown error'}`);
+      throw new Error(`Emergency rollback failed: ${(error as any).message || 'Unknown error'}`)
     }
   }
 
@@ -526,12 +526,12 @@ export class SafetyProtocol {
       }
 
       // Check for uncommitted changes
-      const status = execSync('git status --porcelain', { encoding: 'utf8' });
+      const status = execSync('git status --porcelain', { encoding: 'utf8' })
       const hasUncommittedChanges = status.trim().length > 0;
 
       const warnings: string[] = [];
       if (hasUncommittedChanges && !this.settings.automaticRollbackEnabled) {
-        warnings.push('Uncommitted changes detected - consider creating a stash');
+        warnings.push('Uncommitted changes detected - consider creating a stash')
       }
 
       return {
@@ -552,41 +552,41 @@ export class SafetyProtocol {
    * Clean up old stashes based on configurable retention policy
    */
   async cleanupOldStashes(): Promise<void> {
-    const cutoffDate = new Date();
-    cutoffDate.setDate(cutoffDate.getDate() - this.settings.stashRetentionDays);
+    const cutoffDate = new Date()
+    cutoffDate.setDate(cutoffDate.getDate() - this.settings.stashRetentionDays)
 
     const stashesToRemove: string[] = [];
     let cleanedCount = 0
 
     for (const [stashId, stash] of this.stashes.entries()) {
       if (stash.timestamp < cutoffDate) {
-        stashesToRemove.push(stashId);
+        stashesToRemove.push(stashId)
       }
     }
 
     for (const stashId of stashesToRemove) {
       try {
-        const stash = this.stashes.get(stashId);
+        const stash = this.stashes.get(stashId)
         if (stash?.ref) {
           // Try to drop the actual git stash if we have the reference
           try {
             execSync(`git stash drop ${stash.ref}`, {
               encoding: 'utf8',
               stdio: 'pipe'
-            });
+            })
           } catch (gitError) {
             // Stash might already be gone, just log warning
             console.warn(
               `⚠️ Could not drop git stash ${stash.ref}: ${(gitError as any).message || 'Unknown error'}`,
-            );
+            )
           }
         }
 
         // Remove from our tracking
-        this.stashes.delete(stashId);
+        this.stashes.delete(stashId)
         cleanedCount++;
 
-        // // // console.log(`🧹 Cleaned up old stash: ${stashId}`);
+        // // // console.log(`🧹 Cleaned up old stash: ${stashId}`)
       } catch (error) {
         console.warn(
           `⚠️ Failed to cleanup stash ${stashId}: ${(error as any).message || 'Unknown error'}`,
@@ -595,14 +595,14 @@ export class SafetyProtocol {
     }
 
     if (cleanedCount > 0) {
-      this.saveStashTracking();
+      this.saveStashTracking()
       this.addSafetyEvent({
         type: SafetyEventType.CHECKPOINT_CREATED,
         timestamp: new Date(),
         description: `Cleaned up ${cleanedCount} old stashes`,
         severity: SafetyEventSeverity.INFO,
         action: 'STASH_CLEANUP'
-      });
+      })
     }
   }
 
@@ -610,9 +610,9 @@ export class SafetyProtocol {
    * Get stashes by phase for targeted operations
    */
   async getStashesByPhase(phase: string): Promise<GitStash[]> {
-    return Array.from(this.stashes.values());
-      .filter(stash => stash.id.includes(`-${phase}-`));
-      .sort((ab) => b.timestamp.getTime() - a.timestamp.getTime());
+    return Array.from(this.stashes.values())
+      .filter(stash => stash.id.includes(`-${phase}-`))
+      .sort((ab) => b.timestamp.getTime() - a.timestamp.getTime())
   }
 
   /**
@@ -624,19 +624,19 @@ export class SafetyProtocol {
     oldestStash?: Date,
     newestStash?: Date
   } {
-    const stashes = Array.from(this.stashes.values());
+    const stashes = Array.from(this.stashes.values())
     const byPhase: Record<string, number> = {};
 
     // Count stashes by phase
     for (const stash of stashes) {
-      const phaseMatch = stash.id.match(/campaign-([^-]+)-/);
+      const phaseMatch = stash.id.match(/campaign-([^-]+)-/)
       if (phaseMatch) {
         const phase = phaseMatch[1];
         byPhase[phase] = (byPhase[phase] || 0) + 1;
       }
     }
 
-    const timestamps = stashes.map(s => s.timestamp);
+    const timestamps = stashes.map(s => s.timestamp)
     const oldestStash =
       timestamps.length > 0 ? new Date(Math.min(...timestamps.map(t => t.getTime()))) : undefined;
     const newestStash =
@@ -669,7 +669,7 @@ export class SafetyProtocol {
     const patterns: CorruptionPattern[] = [];
     let severity = CorruptionSeverity.LOW
 
-    // Check for import corruption patterns (based on existing scripts);
+    // Check for import corruption patterns (based on existing scripts)
     const importCorruptionPatterns = [
       {
         regex: /import @\/types\s+from '[^']*'\s*,/g,
@@ -699,13 +699,13 @@ export class SafetyProtocol {
     ];
 
     for (const corruptionPattern of importCorruptionPatterns) {
-      const matches = content.match(corruptionPattern.regex);
+      const matches = content.match(corruptionPattern.regex)
       if (matches) {
         patterns.push({
           pattern: corruptionPattern.regex.source,
           description: corruptionPattern.description,
           files: [filePath]
-        });
+        })
 
         // Update severity to the highest found
         if (corruptionPattern.severity === CorruptionSeverity.CRITICAL) {
@@ -730,7 +730,7 @@ export class SafetyProtocol {
         pattern: 'SYNTAX_CORRUPTION',
         description: 'Syntax corruption detected',
         files: [filePath]
-      });
+      })
       severity = CorruptionSeverity.HIGH;
     }
 
@@ -738,7 +738,7 @@ export class SafetyProtocol {
   }
 
   private hasSyntaxCorruption(content: string): boolean {
-    // Check for unbalanced brackets (more lenient threshold);
+    // Check for unbalanced brackets (more lenient threshold)
     const openBrackets = (content.match(/\{/g) || []).length
     const closeBrackets = (content.match(/\}/g) || []).length;
     const openParens = (content.match(/\(/g) || []).length;
@@ -758,7 +758,7 @@ export class SafetyProtocol {
       /var\s*$/m
     ];
 
-    return incompletePatterns.some(pattern => pattern.test(content));
+    return incompletePatterns.some(pattern => pattern.test(content))
   }
 
   /**
@@ -849,13 +849,13 @@ export class SafetyProtocol {
     ];
 
     for (const corruptionPattern of importExportCorruptionPatterns) {
-      const matches = content.match(corruptionPattern.regex);
+      const matches = content.match(corruptionPattern.regex)
       if (matches) {
         patterns.push({
           pattern: corruptionPattern.regex.source,
           description: `${corruptionPattern.description} (${matches.length} occurrences)`,
           files: [filePath]
-        });
+        })
 
         // Update severity to the highest found
         if (corruptionPattern.severity === CorruptionSeverity.CRITICAL) {
@@ -883,13 +883,13 @@ export class SafetyProtocol {
     ];
 
     for (const pattern of malformedPatterns) {
-      const matches = content.match(pattern);
+      const matches = content.match(pattern)
       if (matches) {
         patterns.push({
           pattern: pattern.source,
           description: 'Malformed import/export statement syntax',
           files: [filePath]
-        });
+        })
         severity = CorruptionSeverity.HIGH;
       }
     }
@@ -929,18 +929,18 @@ export class SafetyProtocol {
 
   protected getCurrentBranch(): string {
     try {
-      return execSync('git branch --show-current', { encoding: 'utf8' }).trim();
+      return execSync('git branch --show-current', { encoding: 'utf8' }).trim()
     } catch {
       return 'unknown'
     }
   }
 
   private addSafetyEvent(event: SafetyEvent): void {
-    this.safetyEvents.push(event);
+    this.safetyEvents.push(event)
 
     // Keep only recent events to prevent memory issues
     if (this.safetyEvents.length > 1000) {
-      this.safetyEvents = this.safetyEvents.slice(-500);
+      this.safetyEvents = this.safetyEvents.slice(-500)
     }
   }
 
@@ -949,10 +949,10 @@ export class SafetyProtocol {
    */
   private initializeStashTracking(): void {
     try {
-      const stashTrackingPath = path.join('.kiro', 'campaign-stashes.json');
+      const stashTrackingPath = path.join('.kiro', 'campaign-stashes.json')
       if (fs.existsSync(stashTrackingPath)) {
         const data = fs.readFileSync(stashTrackingPath, 'utf8'),
-        const parsed = JSON.parse(data);
+        const parsed = JSON.parse(data)
 
         // Restore stashes with proper Date objects
         for (const [id, stashData] of Object.entries(parsed.stashes || {})) {
@@ -965,8 +965,8 @@ export class SafetyProtocol {
           };
           this.stashes.set(id, {
             ...stash,
-            timestamp: new Date(stash.timestamp);
-          });
+            timestamp: new Date(stash.timestamp)
+          })
         }
 
         this.stashCounter = parsed.counter || 0;
@@ -974,7 +974,7 @@ export class SafetyProtocol {
     } catch (error) {
       console.warn(
         `⚠️ Could not load stash tracking: ${(error as any).message || 'Unknown error'}`,
-      );
+      )
       this.stashCounter = 0;
     }
   }
@@ -987,22 +987,22 @@ export class SafetyProtocol {
       const stashTrackingPath = path.join('.kiro', 'campaign-stashes.json'),
 
       // Ensure .kiro directory exists
-      const kiroDir = path.dirname(stashTrackingPath);
+      const kiroDir = path.dirname(stashTrackingPath)
       if (!fs.existsSync(kiroDir)) {
-        fs.mkdirSync(kiroDir, { recursive: true });
+        fs.mkdirSync(kiroDir, { recursive: true })
       }
 
       const data = {
         counter: this.stashCounter,
         stashes: Object.fromEntries(this.stashes.entries()),
-        lastUpdated: new Date().toISOString();
+        lastUpdated: new Date().toISOString()
       };
 
-      fs.writeFileSync(stashTrackingPath, JSON.stringify(data, null, 2));
+      fs.writeFileSync(stashTrackingPath, JSON.stringify(data, null, 2))
     } catch (error) {
       console.warn(
         `⚠️ Could not save stash tracking: ${(error as any).message || 'Unknown error'}`,
-      );
+      )
     }
   }
 
@@ -1011,23 +1011,23 @@ export class SafetyProtocol {
    */
   private async findStashByMessage(message: string): Promise<string> {
     try {
-      const stashList = execSync('git stash list', { encoding: 'utf8' });
-      const lines = stashList.split('\n');
+      const stashList = execSync('git stash list', { encoding: 'utf8' })
+      const lines = stashList.split('\n')
 
       for (const line of lines) {
         if (line.includes(message)) {
-          const match = line.match(/^(stash@\{\d+\})/);
+          const match = line.match(/^(stash@\{\d+\})/)
           if (match) {
             return match[1]
           }
         }
       }
 
-      throw new Error(`Stash not found with message: ${message}`);
+      throw new Error(`Stash not found with message: ${message}`)
     } catch (error) {
       throw new Error(
         `Failed to find stash by message: ${(error as any).message || 'Unknown error'}`,
-      );
+      )
     }
   }
 }

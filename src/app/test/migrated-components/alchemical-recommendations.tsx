@@ -75,5 +75,5 @@ export default function AlchemicalRecommendationsTestPage() {
         </Grid>
       </Grid>
     </div>
-  );
+  )
 }

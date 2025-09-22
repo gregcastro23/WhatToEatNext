@@ -204,7 +204,7 @@ export class ClassificationError extends Error {
     public readonly, context: ClassificationContext,
     public readonly cause?: Error,
   ) {
-    super(message);
+    super(message)
     this.name = 'ClassificationError';
   }
 }
@@ -215,12 +215,12 @@ export class SafetyProtocolError extends Error {
     public readonly, rollbackPath: string,
     public readonly, affectedFiles: string[],
   ) {
-    super(message);
+    super(message)
     this.name = 'SafetyProtocolError';
   }
 }
 
-// Forward declarations for classes (to be implemented in separate files);
+// Forward declarations for classes (to be implemented in separate files)
 export interface AnyTypeClassifier {
   classify(context: ClassificationContext): Promise<AnyTypeClassification>
   classifyBatch(contexts: ClassificationContext[]): Promise<AnyTypeClassification[]>

@@ -645,4 +645,4 @@ const rawDairy = {
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-export const dairy: Record<string, IngredientMapping> = fixIngredientMappings(rawDairy);
+export const dairy: Record<string, IngredientMapping> = fixIngredientMappings(rawDairy)

@@ -19,5 +19,5 @@ export async function GET(_request: Request) {
         saturn: { sign: 'pisces', degree: 27 }
       }
     }
-  });
+  })
 }

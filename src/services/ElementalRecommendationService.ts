@@ -12,8 +12,8 @@ export class ElementalRecommendationService {
    * @returns A comprehensive recommendation object
    */
   public static generateRecommendation(properties: ElementalProperties): ElementalRecommendation {
-    const profile = elementalUtils.getElementalProfile(properties);
-    const dominantElement = this.getDominantElement(properties);
+    const profile = elementalUtils.getElementalProfile(properties)
+    const dominantElement = this.getDominantElement(properties)
 
     // Fix, TS2339: Property access on service object using safe type casting
     const utilsService = elementalUtils as any
@@ -63,7 +63,7 @@ export class ElementalRecommendationService {
       Air: element === 'Air' ? 0.6 : 0.1
     };
 
-    return this.generateRecommendation(elementalUtils.normalizeProperties(properties));
+    return this.generateRecommendation(elementalUtils.normalizeProperties(properties))
   }
 
   /**
@@ -91,7 +91,7 @@ export class ElementalRecommendationService {
       Air: lunarElementalMap[lunarPhase].Air || 0.25
     };
 
-    return this.generateRecommendation(elementalUtils.normalizeProperties(properties));
+    return this.generateRecommendation(elementalUtils.normalizeProperties(properties))
   }
 
   /**
@@ -100,8 +100,8 @@ export class ElementalRecommendationService {
    * @returns A recommendation tailored to the recipe
    */
   public static generateRecipeRecommendation(recipe: Recipe): ElementalRecommendation {
-    const properties = elementalUtils.calculateelementalState(recipe);
-    return this.generateRecommendation(properties);
+    const properties = elementalUtils.calculateelementalState(recipe)
+    return this.generateRecommendation(properties)
   }
 
   /**

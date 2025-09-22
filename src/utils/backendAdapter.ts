@@ -16,22 +16,22 @@ import { alchemicalApi } from '@/services/AlchemicalApiClient';
 import { ElementalProperties } from '@/types/alchemy';
 
 // Cache for frequently used calculations
-const calculationCache = new Map<string, { data: any; timestamp: number }>();
+const calculationCache = new Map<string, { data: any; timestamp: number }>()
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
 /**
  * Cached API call wrapper
  */
 function withCache<T>(key: string, apiCall: () => Promise<T>): Promise<T> {
-  const cached = calculationCache.get(key);
+  const cached = calculationCache.get(key)
   if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
-    return Promise.resolve(cached.data);
+    return Promise.resolve(cached.data)
   }
 
   return apiCall().then(data => {
-    calculationCache.set(key, { data, timestamp: Date.now() });
+    calculationCache.set(key, { data, timestamp: Date.now() })
     return data;
-  });
+  })
 }
 
 /**
@@ -43,7 +43,7 @@ export const calculateElementalBalance = async (
   weights?: number[]
 ): Promise<ElementalProperties> => {
   const cacheKey = `elemental_${JSON.stringify(ingredients)}_${JSON.stringify(weights)}`;
-  return withCache(cacheKey, () => alchemicalApi.calculateElementalBalance(ingredients, weights));
+  return withCache(cacheKey, () => alchemicalApi.calculateElementalBalance(ingredients, weights))
 };
 
 /**
@@ -52,7 +52,7 @@ export const calculateElementalBalance = async (
  */
 export const calculateKalchmMetrics = async (elements: ElementalProperties) => {
   const cacheKey = `kalchm_${JSON.stringify(elements)}`;
-  return withCache(cacheKey, () => alchemicalApi.calculateThermodynamics(elements));
+  return withCache(cacheKey, () => alchemicalApi.calculateThermodynamics(elements))
 };
 
 /**
@@ -66,9 +66,9 @@ export const calculateMonicaConstant = async (
 ): Promise<number> => {
   const cacheKey = `monica_${gregsEnergy}_${reactivity}_${kalchm}`;
   return withCache(cacheKey, async () => {
-    const esmsResult = await alchemicalApi.calculateESMS(kalchm, gregsEnergy, reactivity, 0.5);
+    const esmsResult = await alchemicalApi.calculateESMS(kalchm, gregsEnergy, reactivity, 0.5)
     return esmsResult.monica || gregsEnergy * reactivity * kalchm * 0.1;
-  });
+  })
 };
 
 /**
@@ -77,7 +77,7 @@ export const calculateMonicaConstant = async (
  */
 export const getCurrentPlanetaryInfluences = async () => {
   const cacheKey = `planetary_${Math.floor(Date.now() / 60000)}`; // 1-minute cache
-  return withCache(cacheKey, () => alchemicalApi.getCurrentPlanetaryHour());
+  return withCache(cacheKey, () => alchemicalApi.getCurrentPlanetaryHour())
 };
 
 /**
@@ -89,7 +89,7 @@ export const optimizeAlchemicalBalance = async (
   targetElements?: ElementalProperties
 ) => {
   const cacheKey = `optimize_${JSON.stringify(currentElements)}_${JSON.stringify(targetElements)}`;
-  return withCache(cacheKey, () => alchemicalApi.optimizeElementalBalance(currentElements, targetElements));
+  return withCache(cacheKey, () => alchemicalApi.optimizeElementalBalance(currentElements, targetElements))
 };
 
 /**
@@ -132,7 +132,7 @@ export const calculateGregsEnergy = (
 ): number => {
   return Math.max(0, Math.min(200,
     (heat * 0.4 + reactivity * 0.4 - entropy * 0.2) * 100
-  ));
+  ))
 };
 
 /**
@@ -175,7 +175,7 @@ export const getPersonalizedRecommendations = async (
   };
 
   const cacheKey = `recommendations_${JSON.stringify(request)}`;
-  return withCache(cacheKey, () => alchemicalApi.getRecipeRecommendations(request));
+  return withCache(cacheKey, () => alchemicalApi.getRecipeRecommendations(request))
 };
 
 /**
@@ -188,27 +188,27 @@ export const connectToRealtimeUpdates = (
 ) => {
   return alchemicalApi.createRealtimeConnection((planetaryData) => {
     if (onPlanetaryUpdate) {
-      onPlanetaryUpdate(planetaryData);
+      onPlanetaryUpdate(planetaryData)
     }
 
     if (onEnergyUpdate && planetaryData.gregsEnergy) {
-      onEnergyUpdate(planetaryData.gregsEnergy);
+      onEnergyUpdate(planetaryData.gregsEnergy)
     }
-  });
+  })
 };
 
 /**
  * HEALTH CHECK FOR BACKEND SERVICES
  */
 export const checkBackendHealth = async () => {
-  return alchemicalApi.checkHealth();
+  return alchemicalApi.checkHealth()
 };
 
 /**
  * CACHE MANAGEMENT
  */
 export const clearCalculationCache = () => {
-  calculationCache.clear();
+  calculationCache.clear()
 };
 
 export const getCacheStats = () => {

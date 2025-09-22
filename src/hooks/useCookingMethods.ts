@@ -33,8 +33,8 @@ interface CookingMethod {
 }
 
 export function useCookingMethods() {
-  const [methods, setMethods] = useState<CookingMethod[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [methods, setMethods] = useState<CookingMethod[]>([])
+  const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null),
 
   useEffect(() => {
@@ -69,7 +69,7 @@ export function useCookingMethods() {
             }
           };
         },
-      );
+      )
 
       // Also add methods from the cookingMethods object
       const additionalMethods: CookingMethod[] = Object.entries(cookingMethods).map(
@@ -101,25 +101,25 @@ export function useCookingMethods() {
             }
           };
         },
-      );
+      )
 
       // Combine and deduplicate methods
       const allMethods = [...convertedMethods, ...additionalMethods];
       const uniqueMethods = allMethods.filter(
         (method, index, self) => index === self.findIndex(m => m.id === method.id),
-      );
+      )
 
-      setMethods(uniqueMethods);
-      setIsLoading(false);
+      setMethods(uniqueMethods)
+      setIsLoading(false)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load cooking methods');
-      setIsLoading(false);
+      setError(err instanceof Error ? err.message : 'Failed to load cooking methods')
+      setIsLoading(false)
     }
-  }, []);
+  }, [])
 
   const selectMethod = (methodId: string) => {
     // This could be used to track selected methods or trigger other actions
-    log.info('Selected cooking method:', { methodId });
+    log.info('Selected cooking method:', { methodId })
   };
 
   return {

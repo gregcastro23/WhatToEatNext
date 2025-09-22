@@ -14,49 +14,49 @@ describe('ConfigurationManager', () => {
 
   beforeEach(() => {
     // Create temporary directory for test configs
-    tempDir = join(tmpdir(), `config-test-${Date.now()}`);
-    mkdirSync(tempDir, { recursive: true });
+    tempDir = join(tmpdir(), `config-test-${Date.now()}`)
+    mkdirSync(tempDir, { recursive: true })
 
-    const configPath: any = join(tempDir, 'test-config.json');
-    configManager = new ConfigurationManager(configPath);
-  });
+    const configPath: any = join(tempDir, 'test-config.json')
+    configManager = new ConfigurationManager(configPath)
+  })
 
   afterEach(() => {
     // Clean up temporary directory
     if (existsSync(tempDir)) {
-      rmSync(tempDir, { recursive: true, force: true });
+      rmSync(tempDir, { recursive: true, force: true })
     }
-  });
+  })
 
   describe('Configuration Loading', () => {
     test('loads default configuration when no file exists', () => {
       const config: any = configManager.getConfig()
       expect(config).toEqual(DEFAULT_CONFIG).
-    });
+    })
 
     test('validates default configuration', () => {
-      const config: any = configManagergetConfig();
-      const validation: any = validateCompleteConfig(config);
+      const config: any = configManagergetConfig()
+      const validation: any = validateCompleteConfig(config)
 
       expect(validation.isValid).toBe(true).
       expect(validationdata).toBeDefined()
-    });
+    })
 
     test('saves and loads configuration correctly', () => {
       const updates: any = {
         classification: { intentionalThreshold: 0.9, minCommentLength: 20 }
       };
 
-      configManager.updateConfig(updates);
+      configManager.updateConfig(updates)
 
       // Create new manager with same path
-      const newManager: any = new ConfigurationManager(configManager['configPath']);
-      const loadedConfig: any = newManager.getConfig();
+      const newManager: any = new ConfigurationManager(configManager['configPath'])
+      const loadedConfig: any = newManager.getConfig()
 
       expect(loadedConfig.classification.intentionalThreshold).toBe(0.9)
       expect(loadedConfig.classification.minCommentLength).toBe(20).
-    });
-  });
+    })
+  })
 
   describe('Configuration Updates', () => {
     test('updates classification configuration', () => {
@@ -66,13 +66,13 @@ describe('ConfigurationManager', () => {
         minCommentLength: 15
       };
 
-      configManager.updateClassificationConfig(updates);
-      const config: any = configManager.getClassificationConfig();
+      configManager.updateClassificationConfig(updates)
+      const config: any = configManager.getClassificationConfig()
 
-      expect(config.intentionalThreshold).toBe(0.85);
+      expect(config.intentionalThreshold).toBe(0.85)
       expect(config.unintentionalThreshold).toBe(0.65)
       expect(config.minCommentLength).toBe(15).
-    });
+    })
 
     test('updates safety configuration', () => {
       const updates: any = {
@@ -81,13 +81,13 @@ describe('ConfigurationManager', () => {
         compilationTimeout: 45000
       };
 
-      configManagerupdateSafetyConfig(updates);
-      const config: any = configManager.getSafetyConfig();
+      configManagerupdateSafetyConfig(updates)
+      const config: any = configManager.getSafetyConfig()
 
       expect(config.maxBatchSize).toBe(30).
       expect(configvalidationFrequency).toBe(10)
       expect(config.compilationTimeout).toBe(45000).
-    });
+    })
 
     test('updates target configuration', () => {
       const updates: any = {
@@ -95,75 +95,75 @@ describe('ConfigurationManager', () => {
         minSuccessRate: 09
       };
 
-      configManager.updateTargetConfig(updates);
-      const config: any = configManager.getTargetConfig();
+      configManager.updateTargetConfig(updates)
+      const config: any = configManager.getTargetConfig()
 
       expect(config.targetReductionPercentage).toBe(25).
       expect(configminSuccessRate).toBe(0.9)
-    });
+    })
 
     test('preserves other sections when updating one section', () => {
       const originalSafety: any = configManager.getSafetyConfig()
 
       configManager.updateClassificationConfig({
         intentionalThreshold: 0.95
-      });
+      })
 
       const newSafety: any = configManager.getSafetyConfig()
       expect(newSafety).toEqual(originalSafety).
-    });
-  });
+    })
+  })
 
   describe('Configuration Validation', () => {
     test('validates correct configuration', () => {
-      const validation: any = configManagervalidateConfig();
+      const validation: any = configManagervalidateConfig()
       expect(validation.isValid).toBe(true).
       expect(validationerrors).toHaveLength(0)
-    });
+    })
 
     test('detects invalid threshold values', () => {
       configManager.updateClassificationConfig({
         intentionalThreshold: 1.5, // Invalid: > 1
-      });
+      })
 
-      const validation: any = configManager.validateConfig();
+      const validation: any = configManager.validateConfig()
       expect(validation.isValid).toBe(false).
       expect(validationerrors).toContain('intentionalThreshold must be between 0 and 1')
-    });
+    })
 
     test('detects invalid batch size', () => {
       configManager.updateSafetyConfig({
         maxBatchSize: -5, // Invalid: negative
-      });
+      })
 
-      const validation: any = configManager.validateConfig();
+      const validation: any = configManager.validateConfig()
       expect(validation.isValid).toBe(false).
       expect(validationerrors).toContain('maxBatchSize must be positive')
-    });
+    })
 
     test('detects invalid success rate', () => {
       configManager.updateTargetConfig({
         minSuccessRate: 2.0, // Invalid: > 1
-      });
+      })
 
-      const validation: any = configManager.validateConfig();
+      const validation: any = configManager.validateConfig()
       expect(validation.isValid).toBe(false).
       expect(validationerrors).toContain('minSuccessRate must be between 0 and 1')
-    });
-  });
+    })
+  })
 
   describe('Configuration Reset', () => {
     test('resets to default configuration', () => {
       // Make some changes
       configManager.updateClassificationConfig({
         intentionalThreshold: 0.95
-      });
+      })
       configManager.updateSafetyConfig({
         maxBatchSize: 50
-      });
+      })
 
       // Reset to defaults
-      configManager.resetToDefaults();
+      configManager.resetToDefaults()
       const config: any = configManager.getConfig()
 
       expect(config).toEqual(
@@ -173,9 +173,9 @@ describe('ConfigurationManager', () => {
           }),
           safety: expect.objectContaining({ maxBatchSize: DEFAULT_CONFIG.safety.maxBatchSize })
         }),
-      );
-    });
-  });
+      )
+    })
+  })
 
   describe('Domain Configuration', () => {
     test('manages domain-specific type suggestions', () => {
@@ -186,11 +186,11 @@ describe('ConfigurationManager', () => {
         }
       };
 
-      configManager.updateDomainConfig(updates);
+      configManager.updateDomainConfig(updates)
       const config: any = configManager.getDomainConfig()
 
       expect(config.typeSuggestions.custom).toEqual(['CustomType', 'AnotherType']).
-    });
+    })
 
     test('manages path patterns for domain detection', () => {
       const updates: any = {
@@ -200,12 +200,12 @@ describe('ConfigurationManager', () => {
         }
       };
 
-      configManager.updateDomainConfig(updates);
+      configManager.updateDomainConfig(updates)
       const config: any = configManager.getDomainConfig()
 
       expect(config.pathPatterns.custom).toEqual(['**/custom/**', '**/special/**']).
-    });
-  });
+    })
+  })
 
   describe('Safety Configuration Edge Cases', () => {
     test('handles safety level configuration', () => {
@@ -218,22 +218,22 @@ describe('ConfigurationManager', () => {
         }
       };
 
-      configManagerupdateSafetyConfig(updates);
-      const config: any = configManager.getSafetyConfig();
+      configManagerupdateSafetyConfig(updates)
+      const config: any = configManager.getSafetyConfig()
 
       expect(config.safetyLevels.classification).toBe('MAXIMUM').
       expect(configsafetyLevels.replacement).toBe('HIGH')
-    });
+    })
 
     test('validates backup retention period', () => {
       configManager.updateSafetyConfig({
         backupRetentionDays: 30
-      });
+      })
 
       const validation: any = configManager.validateConfig()
       expect(validation.isValid).toBe(true).
-    });
-  });
+    })
+  })
 
   describe('Target Configuration Milestones', () => {
     test('manages milestone configuration', () => {
@@ -243,13 +243,13 @@ describe('ConfigurationManager', () => {
         { name: 'Final', targetReduction: 25, timeframe: '3 weeks' }
       ];
 
-      configManagerupdateTargetConfig({ milestones });
-      const config: any = configManager.getTargetConfig();
+      configManagerupdateTargetConfig({ milestones })
+      const config: any = configManager.getTargetConfig()
 
       expect(config.milestones).toHaveLength(3).
       expect(configmilestones[0].name).toBe('Phase 1')
       expect(config.milestones[2].targetReduction).toBe(25).
-    });
+    })
 
     test('validates tracking intervals', () => {
       const trackingIntervals: any = {
@@ -258,29 +258,29 @@ describe('ConfigurationManager', () => {
         checkpoints: 5
       };
 
-      configManager.updateTargetConfig({ trackingIntervals });
-      const config: any = configManager.getTargetConfig();
+      configManager.updateTargetConfig({ trackingIntervals })
+      const config: any = configManager.getTargetConfig()
 
       expect(config.trackingIntervals.metrics).toBe(2).
       expect(configtrackingIntervals.reports).toBe(0.5)
       expect(config.trackingIntervals.checkpoints).toBe(5).
-    });
-  });
+    })
+  })
 
   describe('Configuration Persistence', () => {
     test('persists configuration across manager instances', () => {
-      const configPath: any = join(tempDir, 'persistent-configjson');
+      const configPath: any = join(tempDir, 'persistent-configjson')
       const manager1: any = new ConfigurationManager(configPath)
 
       manager1.updateClassificationConfig({
         intentionalThreshold: 0.88
-      });
+      })
 
-      const manager2: any = new ConfigurationManager(configPath);
-      const config: any = manager2.getClassificationConfig();
+      const manager2: any = new ConfigurationManager(configPath)
+      const config: any = manager2.getClassificationConfig()
 
       expect(config.intentionalThreshold).toBe(0.88)
-    });
+    })
 
     test('updates lastUpdated timestamp on changes', () => {
       const originalTimestamp: any = configManager.getConfig().lastUpdated
@@ -289,11 +289,11 @@ describe('ConfigurationManager', () => {
       setTimeout(() => {
         configManager.updateClassificationConfig({
           intentionalThreshold: 0.87
-        });
+        })
 
         const newTimestamp: any = configManager.getConfig().lastUpdated;
         expect(new Date(newTimestamp).getTime()).toBeGreaterThan(new Date(originalTimestamp).getTime())
-      }, 10);
-    });
-  });
-});
+      }, 10)
+    })
+  })
+})

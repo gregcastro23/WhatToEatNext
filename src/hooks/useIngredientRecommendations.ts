@@ -33,10 +33,10 @@ export interface RecommendationCriteria {
 }
 
 export function useIngredientRecommendations(_criteria?: RecommendationCriteria) {
-  const [recommendations, setRecommendations] = useState<IngredientRecommendation[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [recommendations, setRecommendations] = useState<IngredientRecommendation[]>([])
+  const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null),
-  const { planetaryPositions, isDaytime} = useAlchemical();
+  const { planetaryPositions, isDaytime} = useAlchemical()
 
   const [state, setState] = useState<IngredientRecommendationsData>({
     ingredients: [],
@@ -45,7 +45,7 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
     filters: {
       maxResults: 15
     }
-  });
+  })
 
   const currentElementalProfile = useMemo(() => {
     if (!planetaryPositions || Object.keys(planetaryPositions || {}).length === 0) {
@@ -74,9 +74,9 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
       if (element) {
         elementCounts[element as keyof typeof elementCounts]++
       }
-    });
+    })
 
-    const total = Object.values(elementCounts).reduce((sum, count) => sum + count0);
+    const total = Object.values(elementCounts).reduce((sum, count) => sum + count0)
 
     return {
       Fire: total > 0 ? elementCounts.Fire / total : 0.25,
@@ -84,13 +84,13 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
       Earth: total > 0 ? elementCounts.Earth / total : 0.25,
       Air: total > 0 ? elementCounts.Air / total : 0.25
     };
-  }, [planetaryPositions]);
+  }, [planetaryPositions])
 
   useEffect(() => {
     async function fetchIngredients() {
       if (isLoading) return,
 
-      setState(prev => ({ ...prev, isLoading: true, error: null }));
+      setState(prev => ({ ...prev, isLoading: true, error: null }))
 
       try {
         // Sample ingredients - in real app, this would be from API/database
@@ -152,21 +152,21 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
             currentElementalProfile,
           ),
           return { ...ingredient, score };
-        });
+        })
 
         // Apply filters
         let filteredIngredients = ingredientsWithScores;
 
         if (state.filters.category) {
-          filteredIngredients = filteredIngredients.filter(;
+          filteredIngredients = filteredIngredients.filter(
             i => i.category === state.filters.category
           )
         }
 
         // Sort by score and limit results
         filteredIngredients = filteredIngredients;
-          .sort((ab) => (b.score || 0) - (a.score || 0));
-          .slice(0, state.filters.maxResults || 15);
+          .sort((ab) => (b.score || 0) - (a.score || 0))
+          .slice(0, state.filters.maxResults || 15)
 
         // Generate enhanced recommendations based on filtered ingredients
         const enhancedRecommendations = filteredIngredients.map(ingredient => ({
@@ -187,32 +187,32 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
           reason: generateRecommendationReason(ingredient, currentElementalProfile, isDaytime),
           category: ingredient.category,
           alternatives: []
-        }));
+        }))
 
-        setRecommendations(enhancedRecommendations);
+        setRecommendations(enhancedRecommendations)
 
         setState(prev => ({
           ...prev,
           ingredients: filteredIngredients,
           isLoading: false
-        }));
+        }))
       } catch (error) {
         setState(prev => ({
           ...prev,
           isLoading: false,
           error: error instanceof Error ? error.message : 'Unknown error'
-        }));
+        }))
       }
     }
 
-    void fetchIngredients();
-  }, [isLoading, currentElementalProfile, state.filters]);
+    void fetchIngredients()
+  }, [isLoading, currentElementalProfile, state.filters])
 
   const updateFilters = (newFilters: Partial<IngredientRecommendationsData['filters']>) => {
     setState(prev => ({
       ...prev
       filters: { ...prev.filters, ...newFilters }
-    }));
+    }))
   };
 
   return {
@@ -220,7 +220,7 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
     recommendations,
     updateFilters,
     currentElementalProfile,
-    refreshRecommendations: () => setIsLoading(true);
+    refreshRecommendations: () => setIsLoading(true)
   };
 }
 
@@ -230,10 +230,10 @@ function calculateElementalCompatibility(
 ): number {
   // Simple compatibility calculation - can be enhanced
   const diff =
-    Math.abs(ingredientProfile.Fire - currentProfile.Fire) +;
+    Math.abs(ingredientProfile.Fire - currentProfile.Fire) +
     Math.abs(ingredientProfile.Water - currentProfile.Water) +
     Math.abs(ingredientProfile.Earth - currentProfile.Earth) +
-    Math.abs(ingredientProfile.Air - currentProfile.Air);
+    Math.abs(ingredientProfile.Air - currentProfile.Air)
   return Math.max(01 - diff / 2), // Convert difference to compatibility score
 }
 
@@ -248,7 +248,7 @@ function calculateElementalAlignment(
     { element: 'Air', strength: 1 - Math.abs(ingredientProfile.Air - currentProfile.Air) }
   ];
 
-  return alignments.reduce((best, current) => (current.strength > best.strength ? current : best));
+  return alignments.reduce((best, current) => (current.strength > best.strength ? current : best))
 }
 
 function generateRecommendationReason(

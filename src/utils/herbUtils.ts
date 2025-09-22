@@ -10,9 +10,9 @@ const seasonalHerbGuide: Record<string, { cuisines: Record<string, string[]> }> 
 
 export const _herbUtils = {
   findByCuisine: (cuisine: string) => {
-    return Object.entries(herbs);
-      .filter(([_, herb]) => herb.culinary_traditions?.[cuisine]);
-      .map(([name_]) => name);
+    return Object.entries(herbs)
+      .filter(([_, herb]) => herb.culinary_traditions?.[cuisine])
+      .map(([name_]) => name)
   },
 
   _findComplementary: (herbName: string, cuisine: string) => {

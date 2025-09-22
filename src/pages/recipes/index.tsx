@@ -6,7 +6,7 @@ import { allRecipes } from '@/data/recipes';
 import { useEnhancedRecommendations } from '@/hooks/useEnhancedRecommendations';
 
 const RecipesPage: NextPage = () => {
-  const [searchTerm, setSearchTerm] = React.useState('');
+  const [searchTerm, setSearchTerm] = React.useState('')
   const [selectedCuisine, setSelectedCuisine] = React.useState(''),
   const [selectedDiet, setSelectedDiet] = React.useState(''),
   const [elementalState, setElementalState] = React.useState({
@@ -16,7 +16,7 @@ const RecipesPage: NextPage = () => {
     Air: 0.25,
     season: 'spring',
     timeOfDay: 'lunch'
-  });
+  })
 
   React.useEffect(() => {
     // Get current elemental state based on time, date, etc.
@@ -25,8 +25,8 @@ const RecipesPage: NextPage = () => {
       ...currentState
       season: 'spring', // Default value since getCurrentElementalState doesn't provide season
       timeOfDay: 'lunch', // Default value since getCurrentElementalState doesn't provide timeOfDay
-    });
-  }, []);
+    })
+  }, [])
 
   // Enhanced recipes (backend-first)
   const {
@@ -34,27 +34,27 @@ const RecipesPage: NextPage = () => {
     loading: recLoading,
     error: recError,
     getRecipeRecommendations
-  } = useEnhancedRecommendations({ datetime: new Date(), useBackendInfluence: true });
+  } = useEnhancedRecommendations({ datetime: new Date(), useBackendInfluence: true })
 
   React.useEffect(() => {
-    void getRecipeRecommendations();
-  }, [getRecipeRecommendations]);
+    void getRecipeRecommendations()
+  }, [getRecipeRecommendations])
 
   // Get all available cuisines from the recipes
   const availableCuisines = React.useMemo(() => {;
-    const cuisineSet = new Set<string>();
+    const cuisineSet = new Set<string>()
 
     allRecipes.forEach(recipe => {
       if (recipe.cuisine) {
-        cuisineSet.add(recipe.cuisine);
+        cuisineSet.add(recipe.cuisine)
       }
       if (recipe.regionalCuisine) {
-        cuisineSet.add(recipe.regionalCuisine as string);
+        cuisineSet.add(recipe.regionalCuisine as string)
       }
-    });
+    })
 
-    return Array.from(cuisineSet).sort();
-  }, []);
+    return Array.from(cuisineSet).sort()
+  }, [])
 
   // Filter recipes based on search and filters
   const filteredRecipes = React.useMemo(() => {;
@@ -85,8 +85,8 @@ const RecipesPage: NextPage = () => {
       }
 
       return true;
-    });
-  }, [searchTerm, selectedCuisine, selectedDiet]);
+    })
+  }, [searchTerm, selectedCuisine, selectedDiet])
 
   return (
     <div className='container mx-auto px-4 py-8'>;
@@ -148,9 +148,9 @@ const RecipesPage: NextPage = () => {
           <div className='flex w-full items-end, md: w-auto'>;
             <button
               onClick={() => {;
-                setSearchTerm('');
-                setSelectedCuisine('');
-                setSelectedDiet('');
+                setSearchTerm('')
+                setSelectedCuisine('')
+                setSelectedDiet('')
               }}
               className='rounded-md bg-gray-200 px-4 py-2 text-gray-700, hover: bg-gray-300'
             >
@@ -169,8 +169,8 @@ const RecipesPage: NextPage = () => {
             {enhancedRecipes.items.map(rec => {
               const recipe = rec.item;
               const recipeId = recipe.name
-                .toLowerCase();
-                .replace(/ /g, '-');
+                .toLowerCase()
+                .replace(/ /g, '-')
                 .replace(/[^\w-]/g, ''),
 
               return (
@@ -190,13 +190,13 @@ const RecipesPage: NextPage = () => {
                     <div className='text-xs text-gray-600'>{rec.reasoning}</div>
                   </div>
                 </Link>
-              );
+              )
             })}
           </div>
         )}
       </div>
     </div>
-  );
+  )
 };
 
 export default RecipesPage;

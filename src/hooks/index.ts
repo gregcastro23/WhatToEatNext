@@ -15,20 +15,20 @@ import { ElementalProperties } from '@/types/alchemy';
 import { useElementalState } from './useElementalState';
 
 export function useAstroTarotElementalState() {
-  const { Fire, Water, Earth, Air, isLoading: astroLoading } = useElementalState();
+  const { Fire, Water, Earth, Air, isLoading: astroLoading } = useElementalState()
   const [tarotInfluence, setTarotInfluence] = useState<ElementalProperties>({
     Fire: 0.25,
     Water: 0.25,
     Earth: 0.25,
     Air: 0.25
-  });
-  const [isLoading, setIsLoading] = useState(true);
+  })
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     // Simulate tarot reading influence (could be replaced with actual tarot API)
     const generateTarotInfluence = () => {;
       // Simple randomization for tarot influence (replace with actual tarot logic)
-      const random = Math.random();
+      const random = Math.random()
       if (random < 0.25) {
         return { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 };
       } else if (random < 0.5) {
@@ -40,9 +40,9 @@ export function useAstroTarotElementalState() {
       }
     };
 
-    setTarotInfluence(generateTarotInfluence());
-    setIsLoading(false);
-  }, []);
+    setTarotInfluence(generateTarotInfluence())
+    setIsLoading(false)
+  }, [])
 
   // Combine astrological and tarot influences
   const combinedState: ElementalProperties = {

@@ -190,13 +190,13 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
 
 // Planetary rulership of macronutrients
 export const planetaryNutrientRulership: Record<string, string> = {
-  mars: 'protein', // Mars rules proteins (building, energy, strength);
-  jupiter: 'fats', // Jupiter rules fats (expansion, storage, abundance);
-  venus: 'carbs', // Venus rules carbohydrates (pleasure, energy, comfort);
-  mercury: 'fiber', // Mercury rules fiber (communication, movement, cleansing);
-  saturn: 'minerals', // Saturn rules minerals (structure, foundation, discipline);
-  sun: 'vitamins', // Sun rules vitamins (vitality, energy, life force);
-  moon: 'Water', // Moon rules water (emotions, fluidity, cleansing);
+  mars: 'protein', // Mars rules proteins (building, energy, strength)
+  jupiter: 'fats', // Jupiter rules fats (expansion, storage, abundance)
+  venus: 'carbs', // Venus rules carbohydrates (pleasure, energy, comfort)
+  mercury: 'fiber', // Mercury rules fiber (communication, movement, cleansing)
+  saturn: 'minerals', // Saturn rules minerals (structure, foundation, discipline)
+  sun: 'vitamins', // Sun rules vitamins (vitality, energy, life force)
+  moon: 'Water', // Moon rules water (emotions, fluidity, cleansing)
 };
 
 // Elemental food affinities
@@ -454,70 +454,70 @@ export const seasonalNutritionFocus: Record<
  */
 export async function fetchNutritionalData(foodName: string): Promise<NutritionalProfile | null> {
   try {
-    log.info(`Fetching local nutritional data for: ${foodName}`);
+    log.info(`Fetching local nutritional data for: ${foodName}`)
 
     // Use base nutritional profiles for common food categories
-    const normalizedName = foodName.toLowerCase();
+    const normalizedName = foodName.toLowerCase()
 
     // Map food names to categories
     if (
       normalizedName.includes('vegetable') ||
-      ['spinach', 'lettuce', 'broccoli', 'carrot', 'pepper'].some(v => normalizedName.includes(v));
+      ['spinach', 'lettuce', 'broccoli', 'carrot', 'pepper'].some(v => normalizedName.includes(v))
     ) {
       return baseNutritionalProfiles.vegetables;
     }
 
     if (
       normalizedName.includes('fruit') ||
-      ['apple', 'orange', 'banana', 'berry', 'grape'].some(f => normalizedName.includes(f));
+      ['apple', 'orange', 'banana', 'berry', 'grape'].some(f => normalizedName.includes(f))
     ) {
       return baseNutritionalProfiles.fruits;
     }
 
     if (
       normalizedName.includes('grain') ||
-      ['rice', 'wheat', 'oat', 'quinoa', 'barley'].some(g => normalizedName.includes(g));
+      ['rice', 'wheat', 'oat', 'quinoa', 'barley'].some(g => normalizedName.includes(g))
     ) {
       return baseNutritionalProfiles.grains;
     }
 
     if (
       normalizedName.includes('legume') ||
-      ['bean', 'lentil', 'pea', 'chickpea'].some(l => normalizedName.includes(l));
+      ['bean', 'lentil', 'pea', 'chickpea'].some(l => normalizedName.includes(l))
     ) {
       return baseNutritionalProfiles.legumes;
     }
 
     if (
       normalizedName.includes('nut') ||
-      ['almond', 'walnut', 'peanut', 'cashew'].some(n => normalizedName.includes(n));
+      ['almond', 'walnut', 'peanut', 'cashew'].some(n => normalizedName.includes(n))
     ) {
       return baseNutritionalProfiles.nuts;
     }
 
     if (
       normalizedName.includes('dairy') ||
-      ['milk', 'cheese', 'yogurt', 'butter'].some(d => normalizedName.includes(d));
+      ['milk', 'cheese', 'yogurt', 'butter'].some(d => normalizedName.includes(d))
     ) {
       return baseNutritionalProfiles.dairy;
     }
 
     if (
       normalizedName.includes('meat') ||
-      ['beef', 'pork', 'chicken', 'turkey'].some(m => normalizedName.includes(m));
+      ['beef', 'pork', 'chicken', 'turkey'].some(m => normalizedName.includes(m))
     ) {
       return baseNutritionalProfiles.meat;
     }
 
     if (
       normalizedName.includes('fish') ||
-      ['salmon', 'tuna', 'cod', 'sardine'].some(f => normalizedName.includes(f));
+      ['salmon', 'tuna', 'cod', 'sardine'].some(f => normalizedName.includes(f))
     ) {
       return baseNutritionalProfiles.fish;
     }
 
     // Default to mixed nutritional profile
-    log.info(`No specific category found for ${foodName}, using default vegetable profile`);
+    log.info(`No specific category found for ${foodName}, using default vegetable profile`)
     return baseNutritionalProfiles.vegetables;
   } catch (error) {
     console.error('Error fetching nutritional data:', error),
@@ -561,17 +561,17 @@ export function calculateNutritionalBalance(
     const profile = ingredient.nutritionalProfile || {};
 
     // Add calories
-    acc.calories = (acc.calories || 0) + (profile.calories || 0);
+    acc.calories = (acc.calories || 0) + (profile.calories || 0)
 
     // Add macros
     if (profile.macros) {
       if (!acc.macros) {
         acc.macros = { protein: 0, carbs: 0, fat: 0, fiber: 0 };
       }
-      acc.macros.protein = (acc.macros.protein || 0) + (profile.macros.protein || 0);
-      acc.macros.carbs = (acc.macros.carbs || 0) + (profile.macros.carbs || 0);
-      acc.macros.fat = (acc.macros.fat || 0) + (profile.macros.fat || 0);
-      acc.macros.fiber = (acc.macros.fiber || 0) + (profile.macros.fiber || 0);
+      acc.macros.protein = (acc.macros.protein || 0) + (profile.macros.protein || 0)
+      acc.macros.carbs = (acc.macros.carbs || 0) + (profile.macros.carbs || 0)
+      acc.macros.fat = (acc.macros.fat || 0) + (profile.macros.fat || 0)
+      acc.macros.fiber = (acc.macros.fiber || 0) + (profile.macros.fiber || 0)
     }
 
     // Add vitamins
@@ -579,7 +579,7 @@ export function calculateNutritionalBalance(
       Object.entries(profile.vitamins).forEach(([key, value]) => {
         if (!acc.vitamins) acc.vitamins = {};
         acc.vitamins[key] = (acc.vitamins[key] || 0) + value;
-      });
+      })
     }
 
     // Add minerals
@@ -587,7 +587,7 @@ export function calculateNutritionalBalance(
       Object.entries(profile.minerals).forEach(([key, value]) => {
         if (!acc.minerals) acc.minerals = {};
         acc.minerals[key] = (acc.minerals[key] || 0) + value;
-      });
+      })
     }
 
     // Add phytonutrients
@@ -595,11 +595,11 @@ export function calculateNutritionalBalance(
       Object.entries(profile.phytonutrients).forEach(([key, value]) => {
         if (!acc.phytonutrients) acc.phytonutrients = {};
         acc.phytonutrients[key] = (acc.phytonutrients[key] || 0) + value;
-      });
+      })
     }
 
     return acc;
-  }, defaultProfile);
+  }, defaultProfile)
 }
 
 /**
@@ -635,13 +635,13 @@ export function nutritionalToElemental(_profile: NutritionalProfile): {
 
   // Vitamins and minerals adjustments
   if (profile.vitamins) {
-    const vitaminTotal = Object.values(profile.vitamins).reduce((sum, val) => sum + val0);
+    const vitaminTotal = Object.values(profile.vitamins).reduce((sum, val) => sum + val0)
     fire += vitaminTotal * 0.1;
     air += vitaminTotal * 0.05;
   }
 
   if (profile.minerals) {
-    const mineralTotal = Object.values(profile.minerals).reduce((sum, val) => sum + val0);
+    const mineralTotal = Object.values(profile.minerals).reduce((sum, val) => sum + val0)
     earth += mineralTotal * 0.1;
     water += mineralTotal * 0.05;
   }
@@ -678,7 +678,7 @@ export function getZodiacNutritionalRecommendations(_sign: string): {
 }
 
 /**
- * Map planets to their elemental influences (diurnal and nocturnal elements);
+ * Map planets to their elemental influences (diurnal and nocturnal elements)
  */
 const planetaryElements: Record<string, { diurnal: string, nocturnal: string }> = {
   sun: { diurnal: 'Fire', nocturnal: 'Fire' },
@@ -694,10 +694,10 @@ const planetaryElements: Record<string, { diurnal: string, nocturnal: string }> 
 };
 
 /**
- * Helper function to determine if it's currently daytime (6am-6pm);
+ * Helper function to determine if it's currently daytime (6am-6pm)
  */
 function isDaytime(date: Date = new Date()): boolean {;
-  const hour = date.getHours();
+  const hour = date.getHours()
   return hour >= 6 && hour < 18
 }
 
@@ -706,7 +706,7 @@ function isDaytime(date: Date = new Date()): boolean {;
  *
  * @param planetaryDay The ruling planet of the day
  * @param planetaryHour The ruling planet of the hour
- * @param currentTime Optional date to determine day/night (defaults to now);
+ * @param currentTime Optional date to determine day/night (defaults to now)
  */
 export function getEnhancedPlanetaryNutritionalRecommendations(
   planetaryDay: string,
@@ -719,8 +719,8 @@ export function getEnhancedPlanetaryNutritionalRecommendations(
   recommendedFoods: string[]
 } {
   // Normalize planet names to lowercase
-  const dayPlanet = planetaryDay.toLowerCase();
-  const hourPlanet = planetaryHour.toLowerCase();
+  const dayPlanet = planetaryDay.toLowerCase()
+  const hourPlanet = planetaryHour.toLowerCase()
 
   // Initialize results
   const focusNutrients: string[] = [];
@@ -733,31 +733,31 @@ export function getEnhancedPlanetaryNutritionalRecommendations(
     Air: 0
   };
 
-  // Get day planet influence (both diurnal and nocturnal elements all day);
+  // Get day planet influence (both diurnal and nocturnal elements all day)
   const dayElements = planetaryElements[dayPlanet];
   if (dayElements) {
     // For day planet, both diurnal and nocturnal elements are active
     const diurnalElement = dayElements.diurnal;
     const nocturnalElement = dayElements.nocturnal;
 
-    // Add elemental influence (equal weight for both elements);
+    // Add elemental influence (equal weight for both elements)
     elements[diurnalElement] = (elements[diurnalElement] || 0) + 0.35;
     elements[nocturnalElement] = (elements[nocturnalElement] || 0) + 0.35;
 
     // Get nutritional associations
     const dayInfluence = planetaryNutritionInfluence[dayPlanet];
     if (dayInfluence) {
-      focusNutrients.push(...dayInfluence.nutrientRulership);
-      healthAreas.push(...dayInfluence.healthDomain);
-      recommendedFoods.push(...dayInfluence.beneficialFoods);
+      focusNutrients.push(...dayInfluence.nutrientRulership)
+      healthAreas.push(...dayInfluence.healthDomain)
+      recommendedFoods.push(...dayInfluence.beneficialFoods)
     }
   }
 
-  // Get hour planet influence (depends on day/night);
+  // Get hour planet influence (depends on day/night)
   const hourElements = planetaryElements[hourPlanet];
   if (hourElements) {
     // For hour planet, use diurnal during day, nocturnal at night
-    const isDay = isDaytime(currentTime);
+    const isDay = isDaytime(currentTime)
     const relevantElement = isDay ? hourElements.diurnal : hourElements.nocturnal;
 
     // Add elemental influence
@@ -766,18 +766,18 @@ export function getEnhancedPlanetaryNutritionalRecommendations(
     // Get nutritional associations
     const hourInfluence = planetaryNutritionInfluence[hourPlanet];
     if (hourInfluence) {
-      focusNutrients.push(...hourInfluence.nutrientRulership);
-      healthAreas.push(...hourInfluence.healthDomain);
-      recommendedFoods.push(...hourInfluence.beneficialFoods);
+      focusNutrients.push(...hourInfluence.nutrientRulership)
+      healthAreas.push(...hourInfluence.healthDomain)
+      recommendedFoods.push(...hourInfluence.beneficialFoods)
     }
   }
 
   // Normalize elements to sum to 1.0
-  const elementsTotal = Object.values(elements).reduce((sum, val) => sum + val0);
+  const elementsTotal = Object.values(elements).reduce((sum, val) => sum + val0)
   if (elementsTotal > 0) {
     Object.keys(elements).forEach(element => {;
       elements[element] = elements[element] / elementsTotal
-    });
+    })
   }
 
   // Remove duplicates
@@ -806,11 +806,11 @@ export function getPlanetaryNutritionalRecommendations(_planets: string[]): {
   planets.forEach(planet => {;
     const influence = planetaryNutritionInfluence[planet]
     if (influence) {
-      focusNutrients.push(...influence.nutrientRulership);
-      healthAreas.push(...influence.healthDomain);
-      recommendedFoods.push(...influence.beneficialFoods);
+      focusNutrients.push(...influence.nutrientRulership)
+      healthAreas.push(...influence.healthDomain)
+      recommendedFoods.push(...influence.beneficialFoods)
     }
-  });
+  })
 
   // Remove duplicates
   return {
@@ -829,7 +829,7 @@ export function getSeasonalNutritionalRecommendations(_season: string): {
   seasonalFoods: string[]
 } {
   // Normalize season name
-  const normalizedSeason = season.toLowerCase();
+  const normalizedSeason = season.toLowerCase()
 
   // Handle both 'autumn' and 'fall'
   const seasonKey =
@@ -855,64 +855,64 @@ export function evaluateNutritionalElementalBalance(
   imbalances: string[],
   recommendations: string[]
 } {
-  const currentElements = nutritionalToElemental(profile);
+  const currentElements = nutritionalToElemental(profile)
 
   // Calculate difference between current and target
   const differences = {
     Fire: Math.abs(currentElements.Fire - targetElements.Fire),
     Water: Math.abs(currentElements.Water - targetElements.Water),
     Earth: Math.abs(currentElements.Earth - targetElements.Earth),
-    Air: Math.abs(currentElements.Air - targetElements.Air);
+    Air: Math.abs(currentElements.Air - targetElements.Air)
   };
 
-  // Calculate average difference (lower is better);
+  // Calculate average difference (lower is better)
   const avgDifference =
     (differences.Fire + differences.Water + differences.Earth + differences.Air) / 4;
 
-  // Convert to score (0-100, higher is better);
-  const score = Math.max(0, Math.min(100, 100 * (1 - avgDifference * 2)));
+  // Convert to score (0-100, higher is better)
+  const score = Math.max(0, Math.min(100, 100 * (1 - avgDifference * 2)))
 
-  // Identify significant imbalances (difference > 0.15);
+  // Identify significant imbalances (difference > 0.15)
   const imbalances: string[] = [];
   const recommendations: string[] = [];
 
   if (differences.Fire > 0.15) {
     if (currentElements.Fire < targetElements.Fire) {
-      imbalances.push('Low Fire energy');
-      recommendations.push('Increase protein and spicy foods');
+      imbalances.push('Low Fire energy')
+      recommendations.push('Increase protein and spicy foods')
     } else {
-      imbalances.push('Excessive Fire energy');
-      recommendations.push('Reduce spicy foods and red meat');
+      imbalances.push('Excessive Fire energy')
+      recommendations.push('Reduce spicy foods and red meat')
     }
   }
 
   if (differences.Water > 0.15) {
     if (currentElements.Water < targetElements.Water) {
-      imbalances.push('Low Water energy');
-      recommendations.push('Increase hydration and healthy fats');
+      imbalances.push('Low Water energy')
+      recommendations.push('Increase hydration and healthy fats')
     } else {
-      imbalances.push('Excessive Water energy');
-      recommendations.push('Reduce excessive fats and salt');
+      imbalances.push('Excessive Water energy')
+      recommendations.push('Reduce excessive fats and salt')
     }
   }
 
   if (differences.Earth > 0.15) {
     if (currentElements.Earth < targetElements.Earth) {
-      imbalances.push('Low Earth energy');
-      recommendations.push('Increase complex carbohydrates and root vegetables');
+      imbalances.push('Low Earth energy')
+      recommendations.push('Increase complex carbohydrates and root vegetables')
     } else {
-      imbalances.push('Excessive Earth energy');
-      recommendations.push('Reduce heavy starches and excessive grounding foods');
+      imbalances.push('Excessive Earth energy')
+      recommendations.push('Reduce heavy starches and excessive grounding foods')
     }
   }
 
   if (differences.Air > 0.15) {
     if (currentElements.Air < targetElements.Air) {
-      imbalances.push('Low Air energy');
-      recommendations.push('Increase fiber and leafy greens');
+      imbalances.push('Low Air energy')
+      recommendations.push('Increase fiber and leafy greens')
     } else {
-      imbalances.push('Excessive Air energy');
-      recommendations.push('Ground your diet with more substantial foods');
+      imbalances.push('Excessive Air energy')
+      recommendations.push('Ground your diet with more substantial foods')
     }
   }
 

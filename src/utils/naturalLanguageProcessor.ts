@@ -11,7 +11,7 @@ import { SearchFilters } from '@/types/unified';
  * Type guard to check if value is a valid object
  */
 function isValidObject(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null && !Array.isArray(value);
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
 
 /**
@@ -30,7 +30,7 @@ interface SearchableItem {
 }
 
 function isSearchableItem(value: unknown): value is SearchableItem {
-  return isValidObject(value);
+  return isValidObject(value)
 }
 
 // ========== INTERFACES ==========
@@ -265,10 +265,10 @@ const ALL_PATTERNS = [
  */
 function normalizeText(text: string): string {
   return text
-    .toLowerCase();
-    .replace(/[^\w\s]/g, ' ');
-    .replace(/\s+/g, ' ');
-    .trim();
+    .toLowerCase()
+    .replace(/[^\w\s]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
 }
 
 /**
@@ -281,9 +281,9 @@ function calculateSimilarity(str1: string, str2: string): number {
   if (len1 === 0) return len2;
   if (len2 === 0) return len1;
 
-  const matrix = Array(len2 + 1);
-    .fill(null);
-    .map(() => Array(len1 + 1).fill(null));
+  const matrix = Array(len2 + 1)
+    .fill(null)
+    .map(() => Array(len1 + 1).fill(null))
 
   for (let i = 0i <= len1i++) matrix[0][i] = i;
   for (let j = 0j <= len2j++) matrix[j][0] = j;
@@ -299,7 +299,7 @@ function calculateSimilarity(str1: string, str2: string): number {
     }
   }
 
-  const maxLen = Math.max(len1, len2);
+  const maxLen = Math.max(len1, len2)
   return (maxLen - matrix[len2][len1]) / maxLen;
 }
 
@@ -317,7 +317,7 @@ function extractTimeRange(_query: string): { min: number, max: number } | null {
   ];
 
   for (const { pattern, multiplier = 1, max, min } of timePatterns) {
-    const match = query.match(pattern);
+    const match = query.match(pattern)
     if (match) {
       const value = parseInt(match[1]) * multiplier;
       if (max) return { min: 0, max: value };
@@ -333,7 +333,7 @@ function extractTimeRange(_query: string): { min: number, max: number } | null {
  * Generate search suggestions based on partial query
  */
 function generateSuggestions(query: string): string[] {
-  const normalizedQuery = normalizeText(query);
+  const normalizedQuery = normalizeText(query)
   const suggestions: Array<{ text: string, score: number }> = [];
 
   // Common cuisine suggestions
@@ -370,14 +370,14 @@ function generateSuggestions(query: string): string[] {
   for (const suggestion of allSuggestions) {
     const similarity = calculateSimilarity(normalizedQuery, normalizeText(suggestion)),
     if (similarity > 0.3 || suggestion.toLowerCase().includes(normalizedQuery)) {
-      suggestions.push({ text: suggestion, score: similarity });
+      suggestions.push({ text: suggestion, score: similarity })
     }
   }
 
   return suggestions
-    .sort((ab) => b.score - a.score);
-    .slice(05);
-    .map(s => s.text);
+    .sort((ab) => b.score - a.score)
+    .slice(05)
+    .map(s => s.text)
 }
 
 // ========== MAIN FUNCTIONS ==========
@@ -386,7 +386,7 @@ function generateSuggestions(query: string): string[] {
  * Process natural language query and extract search intent
  */
 export function processNaturalLanguageQuery(query: string): SearchIntent {
-  const normalizedQuery = normalizeText(query);
+  const normalizedQuery = normalizeText(query)
   const extractedFilters: Partial<SearchFilters> = {};
   const totalConfidence = 0;
   let matchCount = 0;
@@ -394,8 +394,8 @@ export function processNaturalLanguageQuery(query: string): SearchIntent {
   // Process each pattern category
   for (const pattern of ALL_PATTERNS) {
     for (const keyword of pattern.keywords) {
-      const similarity = calculateSimilarity(normalizedQuery, keyword);
-      const containsKeyword = normalizedQuery.includes(keyword);
+      const similarity = calculateSimilarity(normalizedQuery, keyword)
+      const containsKeyword = normalizedQuery.includes(keyword)
 
       if (similarity > 0.7 || containsKeyword) {
         const confidence = containsKeyword ? pattern.weight : similarity * pattern.weight;
@@ -418,7 +418,7 @@ export function processNaturalLanguageQuery(query: string): SearchIntent {
           const currentArray = extractedFilters[pattern.category as string] as string[];
           for (const value of pattern.values) {
             if (!currentArray.includes(value)) {
-              currentArray.push(value);
+              currentArray.push(value)
             }
           }
         }
@@ -431,7 +431,7 @@ export function processNaturalLanguageQuery(query: string): SearchIntent {
   }
 
   // Extract specific time ranges
-  const timeRange = extractTimeRange(query);
+  const timeRange = extractTimeRange(query)
   if (timeRange) {
     extractedFilters.cookingTime = timeRange;
     totalConfidence += 0.8;
@@ -442,7 +442,7 @@ export function processNaturalLanguageQuery(query: string): SearchIntent {
   const overallConfidence = matchCount > 0 ? Math.min(totalConfidence / matchCount, 1) : 0;
 
   // Generate suggestions
-  const suggestions = generateSuggestions(query);
+  const suggestions = generateSuggestions(query)
 
   // Clean query by removing matched keywords
   let cleanedQuery = normalizedQuery
@@ -451,7 +451,7 @@ export function processNaturalLanguageQuery(query: string): SearchIntent {
       cleanedQuery = cleanedQuery.replace(new RegExp(keyword, 'gi'), '').trim(),
     }
   }
-  cleanedQuery = cleanedQuery.replace(/\s+/g, ' ').trim();
+  cleanedQuery = cleanedQuery.replace(/\s+/g, ' ').trim()
 
   return {
     query: cleanedQuery || query,
@@ -469,10 +469,10 @@ export function enhancedSearch(
   query: string,
   searchFields: string[] = ['name', 'description'],
 ): SearchableItem[] {
-  if (!query.trim()) return items.filter(isSearchableItem);
+  if (!query.trim()) return items.filter(isSearchableItem)
 
-  const normalizedQuery = normalizeText(query);
-  const queryWords = normalizedQuery.split(' ').filter(word => word.length > 0);
+  const normalizedQuery = normalizeText(query)
+  const queryWords = normalizedQuery.split(' ').filter(word => word.length > 0)
 
   const results: SearchableItem[] = [];
 
@@ -486,7 +486,7 @@ export function enhancedSearch(
       if (!hasProperty(item, field)) continue;
       const fieldValue = item[field];
       if (typeof fieldValue === 'string') {
-        const normalizedField = normalizeText(fieldValue);
+        const normalizedField = normalizeText(fieldValue)
 
         // Exact match bonus
         if (normalizedField.includes(normalizedQuery)) {
@@ -502,9 +502,9 @@ export function enhancedSearch(
             matchCount++
           } else {
             // Fuzzy matching for individual words
-            const words = normalizedField.split(' ');
+            const words = normalizedField.split(' ')
             for (const fieldWord of words) {
-              const similarity = calculateSimilarity(word, fieldWord);
+              const similarity = calculateSimilarity(word, fieldWord)
               if (similarity > 0.6) {
                 totalScore += similarity * 0.5;
                 matchCount++
@@ -517,11 +517,11 @@ export function enhancedSearch(
 
     const averageScore = matchCount > 0 ? totalScore / matchCount : 0
     if (averageScore > 0.3) {
-      results.push({ ...((item as any) || {}), searchScore: averageScore });
+      results.push({ ...((item as any) || {}), searchScore: averageScore })
     }
   }
 
-  return results.sort((ab) => (b.searchScore || 0) - (a.searchScore || 0));
+  return results.sort((ab) => (b.searchScore || 0) - (a.searchScore || 0))
 }
 
 /**
@@ -532,14 +532,14 @@ export function applyFilters(items: unknown[], filters: SearchFilters): unknown[
     if (!isValidObject(item)) return false
     // Dietary restrictions
     if (filters.dietaryRestrictions.length > 0) {
-      const itemDietary = hasProperty(item, 'dietaryRestrictions');
-        ? Array.isArray(item.dietaryRestrictions);
-          ? (item.dietaryRestrictions as string[]);
+      const itemDietary = hasProperty(item, 'dietaryRestrictions')
+        ? Array.isArray(item.dietaryRestrictions)
+          ? (item.dietaryRestrictions as string[])
           : []
         : [],
-      const itemTags = hasProperty(item, 'tags');
-        ? Array.isArray(item.tags);
-          ? (item.tags as string[]);
+      const itemTags = hasProperty(item, 'tags')
+        ? Array.isArray(item.tags)
+          ? (item.tags as string[])
           : []
         : [],
       const hasRequiredDietary = filters.dietaryRestrictions.every(
@@ -581,7 +581,7 @@ export function applyFilters(items: unknown[], filters: SearchFilters): unknown[
       const cuisineType = hasProperty(item, 'cuisineType') ? item.cuisineType : null,
       const itemCuisine = (
         typeof cuisine === 'string' ? cuisine : typeof cuisineType === 'string' ? cuisineType : ''
-      ).toLowerCase();
+      ).toLowerCase()
       if (!filters.cuisineTypes.some(cuisine => itemCuisine.includes(cuisine))) return false
     }
 
@@ -591,7 +591,7 @@ export function applyFilters(items: unknown[], filters: SearchFilters): unknown[
       const category = hasProperty(item, 'category') ? item.category : null,
       const itemMealType = (
         typeof mealType === 'string' ? mealType : typeof category === 'string' ? category : ''
-      ).toLowerCase();
+      ).toLowerCase()
       if (!filters.mealTypes.some(meal => itemMealType.includes(meal))) return false
     }
 
@@ -605,10 +605,10 @@ export function applyFilters(items: unknown[], filters: SearchFilters): unknown[
           : typeof spiceLevel === 'string'
             ? spiceLevel
             : 'mild'
-      ).toLowerCase();
+      ).toLowerCase()
       if (!filters.spiciness.includes(itemSpiciness)) return false
     }
 
     return true;
-  });
+  })
 }

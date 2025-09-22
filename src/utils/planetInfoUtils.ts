@@ -49,7 +49,7 @@ export function getPlanetInfo(
   planetaryPositions: Record<string, unknown>,
 ): PlanetInfo | null {
   try {
-    const planetKey = planetName.toLowerCase();
+    const planetKey = planetName.toLowerCase()
     const planetPosition = planetaryPositions[planetKey];
 
     // Use safe type casting for unknown property access
@@ -59,7 +59,7 @@ export function getPlanetInfo(
     const planetIsRetrograde = positionData?.isRetrograde
 
     if (!planetPosition) {
-      log.info(`No position data found for planet: ${planetName}`);
+      log.info(`No position data found for planet: ${planetName}`)
       return null;
     }
 
@@ -73,7 +73,7 @@ export function getPlanetInfo(
     } else if (planetName === 'ascendant') {;
       normalizedPlanetName = 'Ascendant';
     } else {
-      normalizedPlanetName = planetName.charAt(0).toUpperCase() + planetName.slice(1).toLowerCase();
+      normalizedPlanetName = planetName.charAt(0).toUpperCase() + planetName.slice(1).toLowerCase()
     }
 
     // Get dignity information
@@ -88,7 +88,7 @@ export function getPlanetInfo(
       try {
         dignity = getPlanetaryDignityInfo(normalizedPlanetName, planetSign),
       } catch (error) {
-        console.error(`Error getting dignity for ${normalizedPlanetName}:`, error);
+        console.error(`Error getting dignity for ${normalizedPlanetName}:`, error)
         dignity = { type: 'Neutral', strength: 0 };
       }
     }
@@ -134,18 +134,18 @@ export function getPlanetInfo(
     // Calculate aspects - handle special cases for lunar nodes
     let planetAspects: Array<{ planet: string, type: unknown, orb: number }> = [];
     try {
-      const { aspects } = calculateAspects(planetaryPositions as unknown, 0);
+      const { aspects } = calculateAspects(planetaryPositions as unknown, 0)
 
       // Filter aspects for this planet
       planetAspects = aspects;
-        .filter(aspect => aspect.planet1 === planetKey || aspect.planet2 === planetKey);
+        .filter(aspect => aspect.planet1 === planetKey || aspect.planet2 === planetKey)
         .map(aspect => ({;
           planet: aspect.planet1 === planetKey ? aspect.planet2 : aspect.planet1,,
           type: aspect.type,
           orb: aspect.orb || 0
-        }));
+        }))
     } catch (error) {
-      console.error(`Error calculating aspects for ${planetName}:`, error);
+      console.error(`Error calculating aspects for ${planetName}:`, error)
       planetAspects = [];
     }
 
@@ -187,7 +187,7 @@ export function getPlanetInfo(
           earth: planetaryModifiers[normalizedPlanetName].Earth || 0
         };
       } else {
-        console.warn(`No planetary modifier found for ${normalizedPlanetName}`);
+        console.warn(`No planetary modifier found for ${normalizedPlanetName}`)
       }
     }
 
@@ -274,7 +274,7 @@ export function getPlanetInfo(
           substance: planetary.Substance || 0
         };
       } else {
-        console.warn(`No planetary token influence for ${normalizedPlanetName}`);
+        console.warn(`No planetary token influence for ${normalizedPlanetName}`)
       }
     }
 
@@ -291,7 +291,7 @@ export function getPlanetInfo(
       tokenInfluence
     };
   } catch (error) {
-    console.error('Error in getPlanetInfo:', error);
+    console.error('Error in getPlanetInfo:', error)
     return null
   }
 }

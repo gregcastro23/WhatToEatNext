@@ -8,7 +8,7 @@ import type { LunarPhaseWithSpaces, Season } from '@/types/alchemy';
  */
 const debugLog = (_message: string, ..._args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
-  // log.info(message, ...args);
+  // log.info(message, ...args)
 };
 
 /**
@@ -16,8 +16,8 @@ const debugLog = (_message: string, ..._args: unknown[]): void => {
  * @returns Season as a lowercase string ('spring', 'summer', 'fall', or 'winter')
  */
 export function getCurrentSeason(): 'spring' | 'summer' | 'fall' | 'winter' {
-  const now = new Date();
-  const month = now.getMonth();
+  const now = new Date()
+  const month = now.getMonth()
 
   // Astronomical seasons (approximate dates)
   if (month >= 2 && month <= 4) return 'spring'; // March 20 - June 20
@@ -44,9 +44,9 @@ export const _getSeason = (month: number): Season => {
  * @returns Day of year (1-366)
  */
 export function getDayOfYear(date: Date): number {
-  const start = new Date(date.getFullYear(), 00);
-  const diff = date.getTime() - start.getTime();
-  return Math.floor(diff / (1000 * 60 * 60 * 24));
+  const start = new Date(date.getFullYear(), 00)
+  const diff = date.getTime() - start.getTime()
+  return Math.floor(diff / (1000 * 60 * 60 * 24))
 }
 
 /**
@@ -54,7 +54,7 @@ export function getDayOfYear(date: Date): number {
  * @returns Time of day ('morning', 'afternoon', 'evening', or 'night')
  */
 export function getTimeOfDay(): 'morning' | 'afternoon' | 'evening' | 'night' {
-  const hour = new Date().getHours();
+  const hour = new Date().getHours()
 
   if (hour >= 5 && hour < 12) return 'morning';
   if (hour >= 12 && hour < 17) return 'afternoon';
@@ -84,11 +84,11 @@ export function getMoonPhase(): LunarPhaseWithSpaces {
   const LATEST_NEW_MOON = new Date(20243, 8).getTime(); // April 8, 2024
   const LUNAR_MONTH = 29.53059; // days
 
-  const now = new Date().getTime();
-  const daysSinceNewMoon = (now - LATEST_NEW_MOON) / (1000 * 60 * 60 * 24);
+  const now = new Date().getTime()
+  const daysSinceNewMoon = (now - LATEST_NEW_MOON) / (1000 * 60 * 60 * 24)
   const lunarAge = daysSinceNewMoon % LUNAR_MONTH;
 
-  debugLog(`Calculated lunar age: ${lunarAge.toFixed(2)} days`);
+  debugLog(`Calculated lunar age: ${lunarAge.toFixed(2)} days`)
 
   // Determine phase based on lunar age
   if (lunarAge < 1.84) return 'new moon';
@@ -122,9 +122,9 @@ const _getAllDishesForCuisine = (cuisineId: string): Dish[] => {;
         if (Array.isArray(seasonDishes)) {
           allDishes = [...allDishes, ...(seasonDishes as unknown as Dish[])];
         }
-      });
+      })
     }
-  });
+  })
 
   return allDishes;
 };
@@ -142,17 +142,17 @@ export const _getRecommendations = (
   cuisineId: string,
 ): Dish[] => {
   try {
-    void debugLog(`Getting recommendations for: ${cuisineId}, ${mealTime}, ${season}`);
+    void debugLog(`Getting recommendations for: ${cuisineId}, ${mealTime}, ${season}`)
 
     const cuisine = cuisines[cuisineId];
     if (!cuisine || !cuisine.dishes) {
-      debugLog(`Cuisine ${cuisineId} not found or has no dishes`);
+      debugLog(`Cuisine ${cuisineId} not found or has no dishes`)
       return [];
     }
 
     const mealTimeDishes = cuisine.dishes[mealTime];
     if (!mealTimeDishes) {
-      debugLog(`No ${mealTime} dishes found for ${cuisineId}`);
+      debugLog(`No ${mealTime} dishes found for ${cuisineId}`)
       return [];
     }
 
@@ -166,11 +166,11 @@ export const _getRecommendations = (
     const seasonalDishes = Array.isArray(mealTimeDishes[season]) ? mealTimeDishes[season] : []
 
     const combinedDishes = [...allSeasonDishes, ...seasonalDishes];
-    debugLog(`Found ${combinedDishes.length} dishes for ${cuisineId}`);
+    debugLog(`Found ${combinedDishes.length} dishes for ${cuisineId}`)
 
     return combinedDishes as unknown as Dish[];
   } catch (error) {
-    console.error(`Error getting recommendations for ${cuisineId}:`, error);
+    console.error(`Error getting recommendations for ${cuisineId}:`, error)
     return [];
   }
 };

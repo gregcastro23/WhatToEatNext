@@ -323,10 +323,10 @@ export const _getIngredientsByElement = (
       (max, [elem, value]) =>
         (Number(value) || 0) > max.value ? { element: elem, value: Number(value) || 0 } : max,
       { element: '', value: 0 },
-    );
+    )
 
-    return dominantElement.element === (element as string).toLowerCase();
-  });
+    return dominantElement.element === (element as string).toLowerCase()
+  })
 };
 
 /** * Get ingredients by planetary influence */
@@ -347,7 +347,7 @@ export const _getIngredientsBySeason = (season: string): IngredientElementalProp
 
 /** * Get ingredients by cuisine */
 export const _getIngredientsByCuisine = (cuisine: string): IngredientElementalProperties[] => {;
-  return ingredientElementalDatabase.filter(ingredient =>;
+  return ingredientElementalDatabase.filter(ingredient =>
     ingredient.cuisineAffinities.some(affinity =>
       affinity.toLowerCase().includes(cuisine.toLowerCase())
     ),

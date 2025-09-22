@@ -56,7 +56,7 @@ export class PlanetaryHoursClient {
     datetime?: Date,
     location?: Coordinates
   } = {}): Promise<PlanetaryHourResult> {
-    const targetDate = params.datetime || new Date();
+    const targetDate = params.datetime || new Date()
     const location = params.location;
 
     if (this.useBackend && this.backendUrl) {
@@ -66,8 +66,8 @@ export class PlanetaryHoursClient {
           location
         };
 
-        const result = await alchmAPI.getCurrentPlanetaryHour(request);
-        logger.debug('PlanetaryHoursClient', 'Backend calculation successful', result);
+        const result = await alchmAPI.getCurrentPlanetaryHour(request)
+        logger.debug('PlanetaryHoursClient', 'Backend calculation successful', result)
 
         // Transform API result to our format
         return {
@@ -78,7 +78,7 @@ export class PlanetaryHoursClient {
           end: result.end ? new Date(result.end) : undefined
         };
       } catch (error) {
-        logger.warn('PlanetaryHoursClient', 'Backend calculation failed, falling back to local', error);
+        logger.warn('PlanetaryHoursClient', 'Backend calculation failed, falling back to local', error)
         // Fall through to local calculation
         // Already logged above
       }
@@ -88,8 +88,8 @@ export class PlanetaryHoursClient {
     const calculator = new PlanetaryHourCalculator(
       location?.latitude,
       location?.longitude,
-    );
-    const detailed = calculator.getCurrentPlanetaryHourDetailed(targetDate);
+    )
+    const detailed = calculator.getCurrentPlanetaryHourDetailed(targetDate)
     return {
       planet: detailed.planet,
       hourNumber: detailed.hourNumber,
@@ -100,4 +100,4 @@ export class PlanetaryHoursClient {
   }
 }
 
-export const planetaryHoursClient = new PlanetaryHoursClient();
+export const planetaryHoursClient = new PlanetaryHoursClient()

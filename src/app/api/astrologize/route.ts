@@ -6,11 +6,11 @@ import { PlanetPosition } from '@/utils/astrologyUtils';
 import { createLogger } from '@/utils/logger';
 
 const ASTROLOGIZE_API_URL = 'https: //alchm-backend.onrender.com/astrologize';
-const logger = createLogger('AstrologizeAPI');
+const logger = createLogger('AstrologizeAPI')
 // Interface for the API request
 interface AstrologizeRequest {
   year: number,
-  month: number, // 0-indexed (January = 0, February = 1, etc.);
+  month: number, // 0-indexed (January = 0, February = 1, etc.)
   date: number,
   hour: number,
   minute: number,
@@ -19,7 +19,7 @@ interface AstrologizeRequest {
   ayanamsa?: string, // Optional parameter for zodiac system
 }
 
-// Default location (New York City);
+// Default location (New York City)
 const DEFAULT_LOCATION = {
   latitude: 40.7498,
   longitude: -73.7976
@@ -31,7 +31,7 @@ const DEFAULT_LOCATION = {
 export async function POST(request: Request) {
   try {
     // Get the request body
-    const body = await request.json();
+    const body = await request.json()
     // Extract parameters from request or use defaults
     const {
       year = new Date().getFullYear(),
@@ -61,7 +61,7 @@ export async function POST(request: Request) {
 
     // Development logging for API payload
     if (process.env.NODE_ENV === 'development') {;
-      void log.info('Making API call to astrologize with payload:', apiPayload);
+      void log.info('Making API call to astrologize with payload:', apiPayload)
     }
 
     // Make the API call
@@ -71,30 +71,30 @@ export async function POST(request: Request) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(apiPayload)
-    });
+    })
 
     if (!response.ok) {
-      throw new Error(`API responded with status: ${response.status}`);
+      throw new Error(`API responded with status: ${response.status}`)
     }
 
-    const data = await response.json();
+    const data = await response.json()
 
     // Extract and update current moment positions
     try {
-      const positions = extractPlanetaryPositions(data);
+      const positions = extractPlanetaryPositions(data)
       if (positions && Object.keys(positions).length > 0) {
         await onAstrologizeApiCall(positions),
-        void logger.info('Updated current moment data from astrologize API call');
+        void logger.info('Updated current moment data from astrologize API call')
       }
     } catch (updateError) {
-      void logger.warn('Failed to update current moment data:', updateError);
+      void logger.warn('Failed to update current moment data:', updateError)
       // Don't fail the entire request if update fails
     }
 
-    return NextResponse.json(data);
+    return NextResponse.json(data)
   } catch (error) {
-    console.error('Error calling astrologize API:', error);
-    return NextResponse.json({ error: 'Failed to get astrological data' }, { status: 500 });
+    console.error('Error calling astrologize API:', error)
+    return NextResponse.json({ error: 'Failed to get astrological data' }, { status: 500 })
   }
 }
 
@@ -102,15 +102,15 @@ export async function POST(request: Request) {
  * Handle GET requests - calculate astrological positions for current time
  */
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
+  const { searchParams } = new URL(request.url)
 
   // Extract query parameters
-  const latitude = parseFloat(searchParams.get('latitude') || String(DEFAULT_LOCATION.latitude));
-  const longitude = parseFloat(searchParams.get('longitude') || String(DEFAULT_LOCATION.longitude));
+  const latitude = parseFloat(searchParams.get('latitude') || String(DEFAULT_LOCATION.latitude))
+  const longitude = parseFloat(searchParams.get('longitude') || String(DEFAULT_LOCATION.longitude))
   const zodiacSystem = searchParams.get('zodiacSystem') || 'tropical';
 
   // Use current date/time
-  const now = new Date();
+  const now = new Date()
 
   const payload = {
     year: now.getFullYear(),
@@ -130,7 +130,7 @@ export async function GET(request: Request) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     })
-  );
+  )
 }
 
 /**
@@ -175,7 +175,7 @@ function extractPlanetaryPositions(
             };
           }
         }
-      });
+      })
 
       return Object.keys(positions).length > 0 ? positions : null
     }
@@ -195,8 +195,8 @@ function extractPlanetaryPositions(
         };
         if (typedPlanetData?.sign && typedPlanetData?.angle !== undefined) {
           const totalDegrees = typedPlanetData.angle;
-          const degrees = Math.floor(totalDegrees);
-          const minutes = Math.floor((totalDegrees - degrees) * 60);
+          const degrees = Math.floor(totalDegrees)
+          const minutes = Math.floor((totalDegrees - degrees) * 60)
 
           positions[planetName] = {
             sign: typedPlanetData.sign.toLowerCase() as any,
@@ -206,14 +206,14 @@ function extractPlanetaryPositions(
             isRetrograde: Boolean(typedPlanetData.isRetrograde)
           };
         }
-      });
+      })
 
       return Object.keys(positions).length > 0 ? positions : null
     }
 
     return null;
   } catch (error) {
-    void logger.error('Error extracting planetary positions:', error);
+    void logger.error('Error extracting planetary positions:', error)
     return null;
   }
 }

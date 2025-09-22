@@ -89,11 +89,11 @@ export function calculateNutritionalBalance(_entries: FoodEntry[]): { [key: stri
         if (typeof value === 'number') {;
           acc[nutrient] = (acc[nutrient] || 0) + value * entry.portion;
         }
-      });
+      })
       return acc;
     },
     {} as { [key: string]: number },
-  );
+  )
 }
 
 // Helper to analyze food properties balance
@@ -104,16 +104,16 @@ export function analyzePropertyBalance(
     (acc, entry) => {
       entry.properties.forEach(prop => {
         acc[prop] = (acc[prop] || 0) + 1;
-      });
+      })
       return acc;
     },
     {} as Record<FoodProperty, number>,
-  );
+  )
 
   return Object.entries(propertyCount).map(([property, count]) => ({
     property: property as FoodProperty,
     count
-  }));
+  }))
 }
 
 // Helper to find complementary foods
@@ -123,7 +123,7 @@ export function findComplementaryDishes(
   targetProperties: FoodProperty[],
 ): Dish[] {
   // Get current nutritional totals
-  const currentNutrition = calculateNutritionalBalance(currentEntries);
+  const currentNutrition = calculateNutritionalBalance(currentEntries)
 
   // Find dishes that help balance nutrition and properties
   const recommendations: Dish[] = [];
@@ -150,24 +150,24 @@ export function findComplementaryDishes(
                   if (Array.isArray(dish.properties) && dish.properties.includes(prop)) {
                     score += 1;
                   }
-                });
+                })
 
                 if (score > 0) {
-                  recommendations.push(dish as unknown);
+                  recommendations.push(dish as unknown)
                 }
-              });
+              })
             }
-          });
+          })
         }
-      });
+      })
     }
-  });
+  })
 
   return recommendations.sort((ab) => {
     const bProtein = b.nutrition?.protein || 0;
     const aProtein = a.nutrition?.protein || 0;
     return bProtein - aProtein
-  });
+  })
 }
 
 export interface MealRecommendation {

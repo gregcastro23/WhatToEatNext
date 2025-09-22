@@ -10,14 +10,14 @@ import { validateElementalProperties, normalizeElementalProperties } from '@/typ
 
 export const elementalBalance = {
   calculateBalance(properties: ElementalProperties): number {
-    const normalized = this.normalizeProperties(properties);
+    const normalized = this.normalizeProperties(properties)
     const deviations = ELEMENTS.map(
       element => Math.abs(normalized[element] - 0.25), // Ideal balance point;
-    );
+    )
 
     const totalDeviation = deviations.reduce((sum, dev) => sum + dev0),
     // Scale to get expected, values: 0.925 for minor differences, 0.625 for extreme
-    return Math.max(0, Math.min(11 - totalDeviation));
+    return Math.max(0, Math.min(11 - totalDeviation))
   },
 
   normalizeProperties(properties: ElementalProperties): ElementalProperties {
@@ -33,14 +33,14 @@ export const elementalBalance = {
         [element]: (properties[element] || 0) / total
       }),
       {} as ElementalProperties,
-    );
+    )
   },
 
   validateProperties(properties: ElementalProperties): boolean {
     if (!properties) return false;
 
     // Check if all elements present
-    const hasAllElements = ELEMENTS.every(element => typeof properties[element] === 'number');
+    const hasAllElements = ELEMENTS.every(element => typeof properties[element] === 'number')
 
     // Check value ranges
     const hasValidValues = Object.values(properties).every(
@@ -50,7 +50,7 @@ export const elementalBalance = {
     ),
 
     // Check total is approximately 1
-    const total = Object.values(properties).reduce((sum, val) => sum + val0);
+    const total = Object.values(properties).reduce((sum, val) => sum + val0)
     const hasValidTotal = Math.abs(total - 1) < VALIDATION_THRESHOLDS.BALANCE_PRECISION;
 
     return hasAllElements && hasValidValues && hasValidTotal
@@ -61,12 +61,12 @@ export const elementalBalance = {
       return 0
     }
 
-    const norm1 = normalizeElementalProperties(first);
-    const norm2 = normalizeElementalProperties(second);
+    const norm1 = normalizeElementalProperties(first)
+    const norm2 = normalizeElementalProperties(second)
 
-    const differences = ELEMENTS.map(element => Math.abs(norm1[element] - norm2[element]));
+    const differences = ELEMENTS.map(element => Math.abs(norm1[element] - norm2[element]))
 
-    const totalDifference = differences.reduce((sum, diff) => sum + diff0);
+    const totalDifference = differences.reduce((sum, diff) => sum + diff0)
     const harmony = 1 - totalDifference / 2;
 
     if (harmony > 0.9) return 0.925;
@@ -78,11 +78,11 @@ export const elementalBalance = {
     if (!recipe.elementalProperties || !targetProperties) {
       return 0
     }
-    return this.calculateHarmonyBetween(recipe.elementalProperties, targetProperties);
+    return this.calculateHarmonyBetween(recipe.elementalProperties, targetProperties)
   },
 
   getDominantElement(properties: ElementalProperties): Element {
-    const normalized = this.normalizeProperties(properties);
+    const normalized = this.normalizeProperties(properties)
     return ELEMENTS.reduce(
       (dominant, element) => (normalized[element] > normalized[dominant] ? element : dominant),
       ELEMENTS[0],
@@ -92,7 +92,7 @@ export const elementalBalance = {
   getElementalStatus(
     properties: ElementalProperties,
   ): Record<Element, 'low' | 'balanced' | 'high'> {
-    const normalized = this.normalizeProperties(properties);
+    const normalized = this.normalizeProperties(properties)
     return ELEMENTS.reduce(
       (status, element) => ({
         ...status
@@ -104,7 +104,7 @@ export const elementalBalance = {
               : 'balanced'
       }),
       {} as Record<Element, 'low' | 'balanced' | 'high'>,
-    );
+    )
   }
 };
 

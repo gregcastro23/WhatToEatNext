@@ -23,7 +23,7 @@ export interface PreservationDecision {
   confidence: number, // 0..1
 }
 
-const ELEMENT_NAMES = new Set(['Fire', 'Water', 'Earth', 'Air']);
+const ELEMENT_NAMES = new Set(['Fire', 'Water', 'Earth', 'Air'])
 
 const ASTRO_VARIABLE_NAME_REGEX =
   /^(?: planet|planets|planetary|degree|longitude|latitude|sign|zodiac|position|coordinates?|house|asc|mc|dignit|retro|ephemer|utc|julian)/i;

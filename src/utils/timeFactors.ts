@@ -82,10 +82,10 @@ export function getPlanetaryHourRuler(dayOfWeek: number, hour: number): Planet {
   ];
 
   // Each day starts with its ruling planet
-  const dayPlanet = getPlanetaryDayRuler(dayOfWeek);
+  const dayPlanet = getPlanetaryDayRuler(dayOfWeek)
 
   // Find the position of the day's ruling planet in the Chaldean order
-  const startPosition = planetaryOrder.indexOf(dayPlanet);
+  const startPosition = planetaryOrder.indexOf(dayPlanet)
 
   // For planetary hourswe count from sunrise to sunset as 12 hours,
   // and sunset to sunrise as 12 hours. For simplicity, we use civil hours.
@@ -112,8 +112,8 @@ export function calculateSeasonalAppropriateness(
 
   // Adjacent seasons have some compatibility
   const seasonOrder = ['winter', 'spring', 'summer', 'fall'];
-  const currentIndex = seasonOrder.indexOf(currentSeason);
-  const recipeIndex = seasonOrder.indexOf(recipeSeason as unknown);
+  const currentIndex = seasonOrder.indexOf(currentSeason)
+  const recipeIndex = seasonOrder.indexOf(recipeSeason as unknown)
 
   // Check if it's an adjacent season (circular)
   if ((currentIndex + 1) % 4 === recipeIndex || (currentIndex - 1 + 4) % 4 === recipeIndex) {;

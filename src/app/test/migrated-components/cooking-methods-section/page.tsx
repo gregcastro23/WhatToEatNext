@@ -30,10 +30,10 @@ const CookingMethodsSection = ({
           <div className='font-semibold'>{String(method.name)}</div>
           <div className='text-sm text-gray-600'>{String(method.description)}</div>
         </button>
-      );
+      )
     })}
   </div>
-);
+)
 
 const CookingMethodsSectionMigrated = CookingMethodsSection;
 
@@ -144,17 +144,17 @@ const sampleMethods = [
 
 export default function CookingMethodsSectionTestPage() {
   // Component state
-  const [selectedMethodId, setSelectedMethodId] = useState<string | null>(null);
-  const [showToggle, setShowToggle] = useState<boolean>(true);
-  const [initiallyExpanded, setInitiallyExpanded] = useState<boolean>(false);
-  const [methods, _setMethods] = useState(sampleMethods);
+  const [selectedMethodId, setSelectedMethodId] = useState<string | null>(null)
+  const [showToggle, setShowToggle] = useState<boolean>(true)
+  const [initiallyExpanded, setInitiallyExpanded] = useState<boolean>(false)
+  const [methods, _setMethods] = useState(sampleMethods)
 
   // Get services
-  useServices();
+  useServices()
 
   const handleSelectMethod = (method: unknown) => {
     const methodObj = method as any;
-    setSelectedMethodId(String(methodObj.id));
+    setSelectedMethodId(String(methodObj.id))
   };
 
   return (
@@ -255,5 +255,5 @@ export default function CookingMethodsSectionTestPage() {
         </ul>
       </div>
     </div>
-  );
+  )
 }

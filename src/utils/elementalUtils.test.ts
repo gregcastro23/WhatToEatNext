@@ -15,20 +15,20 @@ describe('elementalUtils', () => {
 
   describe('validateProperties', () => {
     it('should validate correct elemental properties', () => {
-      expect(elementalUtils.validateProperties(validProps)).toBe(true);
-    });
+      expect(elementalUtils.validateProperties(validProps)).toBe(true)
+    })
 
     it('should reject invalid elemental properties', () => {
-      expect(elementalUtils.validateProperties(invalidProps)).toBe(false);
-    });
-  });
+      expect(elementalUtils.validateProperties(invalidProps)).toBe(false)
+    })
+  })
 
   describe('normalizeProperties', () => {
     it('should normalize properties to sum to 1', () => {
       const normalized: any = elementalUtils.normalizeProperties(invalidProps)
-      const sum: any = Object.values(normalized).reduce((acc: any, val: any) => acc + val0);
+      const sum: any = Object.values(normalized).reduce((acc: any, val: any) => acc + val0)
       expect(Math.abs(sum - 1)).toBeLessThan(0.000001)
-    });
+    })
 
     it('should handle empty or zero properties', () => {
       const emptyProps: any = {
@@ -37,11 +37,11 @@ describe('elementalUtils', () => {
         Air: 0,
         Earth: 0
       };
-      const normalized: any = elementalUtils.normalizeProperties(emptyProps);
-      expect(normalized.Fire).toBe(0.25);
-      expect(normalized.Water).toBe(0.25);
-      expect(normalized.Air).toBe(0.25);
+      const normalized: any = elementalUtils.normalizeProperties(emptyProps)
+      expect(normalized.Fire).toBe(0.25)
+      expect(normalized.Water).toBe(0.25)
+      expect(normalized.Air).toBe(0.25)
       expect(normalized.Earth).toBe(0.25)
-    });
-  });
-});
+    })
+  })
+})

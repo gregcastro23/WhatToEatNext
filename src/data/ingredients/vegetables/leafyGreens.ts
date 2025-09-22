@@ -3,9 +3,9 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 // Helper function for generating consistent numeric values
 const generateVegetableAttributes = (vegData: {;
-  water: number // water content percentage (0-100);
-  fiber: number; // fiber content (0-10 scale);
-  bitterness: number // bitterness level (0-10 scale);
+  water: number // water content percentage (0-100)
+  fiber: number; // fiber content (0-10 scale)
+  bitterness: number // bitterness level (0-10 scale)
   cooking_time: number // typical cooking time in minutes
 }) => {
   return {
@@ -13,7 +13,7 @@ const generateVegetableAttributes = (vegData: {;
     fiber_density: vegData.fiber,
     bitterness: vegData.bitterness,
     cooking_time_minutes: vegData.cooking_time,
-    volume_reduction: Math.round(((vegData as any)?.water || 0) * 0.2) / 10, // How much it shrinks when cooked (1-10 scale);
+    volume_reduction: Math.round(((vegData as any)?.water || 0) * 0.2) / 10, // How much it shrinks when cooked (1-10 scale)
     seasonal_peak_months: [], // Will be set individually,
     cell_wall_strength: Math.round(10 - vegData.water / (10 || 1) + vegData.fiber / (2 || 1)), // Structural integrity when cooked,
     nutrient_density: Math.round(
@@ -289,7 +289,7 @@ const rawLeafyGreens = {
     fiberContent: 9, // 1-10 scale,
     bitternessLevel: 7, // 1-10 scale,
     cookingTimeMinutes: 8,
-    volumeReduction: 6.7, // How much it shrinks when cooked (1-10 scale);
+    volumeReduction: 6.7, // How much it shrinks when cooked (1-10 scale)
     cellWallStrength: 9, // Structural integrity when cooked,
     nutrientDensity: 8.5, // 1-10 scale
     processingEffects: {

@@ -84,19 +84,19 @@ export class TokensClient {
           esms: input.esms
         };
 
-        const result = await alchmAPI.calculateTokenRates(request);
-        logger.debug('TokensClient', 'Backend calculation successful', result);
+        const result = await alchmAPI.calculateTokenRates(request)
+        logger.debug('TokensClient', 'Backend calculation successful', result)
         return result;
       } catch (error) {
-        logger.warn('TokensClient', 'Backend calculation failed, falling back to local', error);
+        logger.warn('TokensClient', 'Backend calculation failed, falling back to local', error)
         // Fall through to local
       }
     }
 
     // 2) Local fallback using RealAlchemizeService
-    const alchemicalResult = getCurrentAlchemicalState();
-    return computeTokensFromAlchemical(alchemicalResult);
+    const alchemicalResult = getCurrentAlchemicalState()
+    return computeTokensFromAlchemical(alchemicalResult)
   }
 }
 
-export const tokensClient = new TokensClient();
+export const tokensClient = new TokensClient()

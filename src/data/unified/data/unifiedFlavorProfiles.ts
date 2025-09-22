@@ -84,7 +84,7 @@ export function getFlavorProfilesByElement(
   element: keyof ElementalProperties,
 ): UnifiedFlavorProfile[] {
   return unifiedFlavorProfiles
-    .filter(profile => profile.elementalProperties[element] > 0.6);
+    .filter(profile => profile.elementalProperties[element] > 0.6)
     .sort((ab) => b.elementalProperties[element] - a.elementalProperties[element])
 }
 

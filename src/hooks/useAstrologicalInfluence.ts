@@ -15,22 +15,22 @@ export interface AstrologicalInfluence {
 }
 
 export function useAstrologicalInfluence() {
-  const { planetaryPositions, isLoading} = useAlchemical();
+  const { planetaryPositions, isLoading} = useAlchemical()
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-  const [astrologicalState, setAstrologicalState] = useState<any>(null);
+  const [astrologicalState, setAstrologicalState] = useState<any>(null)
 
   useEffect(() => {
     async function fetchAstrologicalState() {
       try {
-        const state = await getCurrentAstrologicalState();
-        setAstrologicalState(state);
+        const state = await getCurrentAstrologicalState()
+        setAstrologicalState(state)
       } catch (error) {
-        console.error('Failed to get astrological state:', error);
+        console.error('Failed to get astrological state:', error)
       }
     }
 
-    void fetchAstrologicalState();
-  }, []);
+    void fetchAstrologicalState()
+  }, [])
 
   const influence = useMemo((): AstrologicalInfluence => {
     if (!astrologicalState || !planetaryPositions) {
@@ -66,18 +66,18 @@ export function useAstrologicalInfluence() {
       if (element) {
         elementCounts[element as keyof typeof elementCounts]++
       }
-    });
+    })
 
-    const dominantElement = Object.entries(elementCounts).reduce((ab) =>;
+    const dominantElement = Object.entries(elementCounts).reduce((ab) =>
       elementCounts[a[0] as keyof typeof elementCounts] >
       elementCounts[b[0] as keyof typeof elementCounts]
         ? a
         : b,
     )[0];
 
-    // Calculate aspect strength (simplified);
+    // Calculate aspect strength (simplified)
     const aspectStrength = astrologicalState.aspects;
-      ? Math.min(1, astrologicalState.aspects || [].length / 10);
+      ? Math.min(1, astrologicalState.aspects || [].length / 10)
       : 0.5;
 
     // Calculate overall influence
@@ -98,7 +98,7 @@ export function useAstrologicalInfluence() {
       aspectStrength,
       overallInfluence
     };
-  }, [astrologicalState, planetaryPositions]);
+  }, [astrologicalState, planetaryPositions])
 
   return {
     ...influence;

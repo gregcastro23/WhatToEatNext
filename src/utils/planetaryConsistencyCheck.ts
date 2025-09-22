@@ -25,7 +25,7 @@ export function validatePlanetaryModifiers(): string[] {
   // Check if all required planets exist
   for (const planet of requiredPlanets) {
     if (!planetaryModifiers[planet]) {
-      issues.push(`Missing planetary modifier for ${planet}`);
+      issues.push(`Missing planetary modifier for ${planet}`)
     }
   }
 
@@ -44,7 +44,7 @@ export function validatePlanetaryModifiers(): string[] {
   for (const planet in planetaryModifiers) {
     for (const attr of requiredAttributes) {
       if (planetaryModifiers[planet][attr] === undefined) {
-        issues.push(`Missing ${attr} attribute for ${planet}`);
+        issues.push(`Missing ${attr} attribute for ${planet}`)
       }
     }
   }
@@ -54,7 +54,7 @@ export function validatePlanetaryModifiers(): string[] {
     for (const attr in planetaryModifiers[planet]) {
       const value = planetaryModifiers[planet][attr];
       if (value < -1 || value > 1) {
-        issues.push(`Value out of range for ${planet}.${attr}: ${value}`);
+        issues.push(`Value out of range for ${planet}.${attr}: ${value}`)
       }
     }
   }
@@ -66,7 +66,7 @@ export function validatePlanetaryModifiers(): string[] {
  * Logs the validation results to the console
  */
 export function logPlanetaryConsistencyCheck(): void {
-  const issues = validatePlanetaryModifiers();
+  const issues = validatePlanetaryModifiers()
 
   if (issues.length === 0) {
     if (typeof logger !== 'undefined' && logger.info) {
@@ -75,7 +75,7 @@ export function logPlanetaryConsistencyCheck(): void {
   } else {
     if (typeof logger !== 'undefined' && logger.error) {
       logger.error('❌ Planetary modifier consistency issues found: ')
-      issues.forEach(issue => logger.error(`- ${issue}`));
+      issues.forEach(issue => logger.error(`- ${issue}`))
     }
   }
 }

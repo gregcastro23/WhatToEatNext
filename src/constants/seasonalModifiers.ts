@@ -47,11 +47,11 @@ function createElementalModifiersForZodiac(dominantElement: string): ElementalPr
 // Build the modifiers for each zodiac sign
 export const ZODIAC_MODIFIERS: ZodiacElementModifiers = Object.entries(zodiacSeasons).reduce(
   (acc, [sign, data]) => {
-    acc[sign as any] = createElementalModifiersForZodiac(data.element);
+    acc[sign as any] = createElementalModifiersForZodiac(data.element)
     return acc
   },
   {} as ZodiacElementModifiers,
-);
+)
 
 // Define a type with string index signature for SEASONAL_MODIFIERS
 export interface SeasonalModifiers {
@@ -76,7 +76,7 @@ export const SEASONAL_MODIFIERS: SeasonalModifiers = {
 
 // Influence of seasonal factors on food preferences and energy levels
 export const _SEASONAL_INFLUENCE = {
-  // Each season's influence strength (0-1);
+  // Each season's influence strength (0-1)
   strength: {
     spring: 0.7,
     summer: 0.9,

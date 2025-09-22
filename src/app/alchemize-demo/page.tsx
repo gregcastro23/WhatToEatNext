@@ -10,32 +10,32 @@ import {
 export default function AlchemizeDemoPage() {
   const [alchemicalResult, setAlchemicalResult] = useState<StandardizedAlchemicalResult | null>(
     null,
-  );
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  )
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const loadAlchemicalData = async () => {;
       try {
-        setLoading(true);
-        const result = getCurrentAlchemicalState();
-        setAlchemicalResult(result);
+        setLoading(true)
+        const result = getCurrentAlchemicalState()
+        setAlchemicalResult(result)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load alchemical data')
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
     };
 
-    void loadAlchemicalData();
-  }, []);
+    void loadAlchemicalData()
+  }, [])
 
   if (loading) {
     return (
       <div className='flex min-h-screen items-center justify-center bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900'>
         <div className='text-xl text-white'>🔮 Loading alchemical calculations...</div>
       </div>
-    );
+    )
   }
 
   if (error) {
@@ -43,7 +43,7 @@ export default function AlchemizeDemoPage() {
       <div className='flex min-h-screen items-center justify-center bg-gradient-to-br from-red-900 via-purple-900 to-blue-900'>
         <div className='text-xl text-white'>❌ Error: {error}</div>
       </div>
-    );
+    )
   }
 
   if (!alchemicalResult) {
@@ -51,7 +51,7 @@ export default function AlchemizeDemoPage() {
       <div className='flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-900 via-purple-900 to-blue-900'>
         <div className='text-xl text-white'>⚠️ No alchemical data available</div>
       </div>
-    );
+    )
   }
 
   const { elementalProperties, thermodynamicProperties, _kalchm, _monica, _score, metadata} =
@@ -207,7 +207,7 @@ export default function AlchemizeDemoPage() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 function getElementColor(element: string): string {

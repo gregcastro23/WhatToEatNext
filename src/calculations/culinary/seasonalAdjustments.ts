@@ -38,7 +38,7 @@ export function applySeasonalAdjustments(
   baseProperties: ElementalProperties,
   season: string = 'spring',
 ): ElementalProperties {
-  const seasonKey = season.toLowerCase();
+  const seasonKey = season.toLowerCase()
   const modifier = SEASONAL_MODIFIERS[seasonKey] || SEASONAL_MODIFIERS.spring
 
   return {
@@ -56,7 +56,7 @@ export function applyLunarPhaseAdjustments(
   baseProperties: ElementalProperties,
   lunarPhase: string = 'full moon',
 ): ElementalProperties {
-  const phaseKey = lunarPhase.toLowerCase();
+  const phaseKey = lunarPhase.toLowerCase()
   const modifier = LUNAR_PHASE_MODIFIERS[phaseKey] || LUNAR_PHASE_MODIFIERS['full moon']
 
   return {
@@ -100,7 +100,7 @@ export function getSeasonalCookingRecommendations(_season: string): {
   flavors: string[],
   timing: string[]
 } {
-  const seasonKey = season.toLowerCase();
+  const seasonKey = season.toLowerCase()
 
   const recommendations = {
     spring: {
@@ -148,28 +148,28 @@ export function calculateSeasonalEffectiveness(
   };
   recommendations: string[]
 } {
-  const seasonKey = season.toLowerCase();
+  const seasonKey = season.toLowerCase()
   const seasonalModifier = SEASONAL_MODIFIERS[seasonKey] || SEASONAL_MODIFIERS.spring;
 
   // Calculate seasonal alignment
-  const seasonalAlignment = calculateElementalAlignment(recipeElements, seasonalModifier);
+  const seasonalAlignment = calculateElementalAlignment(recipeElements, seasonalModifier)
 
   // Calculate lunar alignment if phase provided
   let lunarAlignment = 0.5; // neutral if no phase
   if (lunarPhase) {
-    const phaseKey = lunarPhase.toLowerCase();
+    const phaseKey = lunarPhase.toLowerCase()
     const lunarModifier = LUNAR_PHASE_MODIFIERS[phaseKey] || LUNAR_PHASE_MODIFIERS['full moon'];
-    lunarAlignment = calculateElementalAlignment(recipeElements, lunarModifier);
+    lunarAlignment = calculateElementalAlignment(recipeElements, lunarModifier)
   }
 
   // Calculate overall harmony
-  const overallHarmony = calculateElementalHarmony(recipeElements);
+  const overallHarmony = calculateElementalHarmony(recipeElements)
 
   // Overall score (weighted average)
   const score = seasonalAlignment * 0.5 + lunarAlignment * 0.3 + overallHarmony * 0.2;
 
   // Generate recommendations
-  const recommendations = generateSeasonalRecommendations(score, seasonalAlignment, lunarAlignment);
+  const recommendations = generateSeasonalRecommendations(score, seasonalAlignment, lunarAlignment)
 
   return {
     score,
@@ -197,7 +197,7 @@ function calculateElementalAlignment(
   ];
 
   const averageDifference = differences.reduce((sum, diff) => sum + diff0) / 4;
-  return Math.max(01 - averageDifference);
+  return Math.max(01 - averageDifference)
 }
 
 /**
@@ -209,7 +209,7 @@ function calculateElementalHarmony(properties: ElementalProperties): number {
   const variance = values.reduce((sum, val) => sum + Math.pow(val - average, 2), 0) / 4;
 
   // Lower variance = higher harmony;
-  return Math.max(01 - variance * 4);
+  return Math.max(01 - variance * 4)
 }
 
 /**
@@ -225,19 +225,19 @@ function generateSeasonalRecommendations(
   if (overallScore >= 0.8) {
     recommendations.push('Excellent seasonal alignment - perfect timing for this recipe')
   } else if (overallScore >= 0.6) {
-    recommendations.push('Good seasonal match - recipe works well for this time');
+    recommendations.push('Good seasonal match - recipe works well for this time')
   } else if (overallScore >= 0.4) {
-    recommendations.push('Moderate seasonal fit - consider minor adjustments');
+    recommendations.push('Moderate seasonal fit - consider minor adjustments')
   } else {
-    recommendations.push('Low seasonal alignment - significant modifications recommended');
+    recommendations.push('Low seasonal alignment - significant modifications recommended')
   }
 
   if (seasonalAlignment < 0.5) {
-    recommendations.push('Adjust cooking method to better match seasonal energy');
+    recommendations.push('Adjust cooking method to better match seasonal energy')
   }
 
   if (lunarAlignment < 0.5) {
-    recommendations.push('Consider timing preparation with a more favorable lunar phase');
+    recommendations.push('Consider timing preparation with a more favorable lunar phase')
   }
 
   return recommendations;

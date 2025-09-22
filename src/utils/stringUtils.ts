@@ -17,17 +17,17 @@ export function formatToTitleCase(str: string): string {
   if (!str) return ''
 
   // Replace underscores and hyphens with spaces
-  const spacedStr = str.replace(/[_-]/g, ' ');
+  const spacedStr = str.replace(/[_-]/g, ' ')
 
   // Handle camelCase by adding spaces before capital letters
-  const withSpaces = spacedStr.replace(/([A-Z])/g, ' $1');
+  const withSpaces = spacedStr.replace(/([A-Z])/g, ' $1')
 
   // Capitalize first letter of each word and trim extra spaces
   return withSpaces
     .split(' ')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(' ')
-    .trim();
+    .trim()
 }
 
 /**
@@ -49,7 +49,7 @@ export function truncateString(str: string, length: number): string {
  */
 export function stripHtml(html: string): string {
   if (!html) return ''
-  return html.replace(/<[^>]*>?/gm, '');
+  return html.replace(/<[^>]*>?/gm, '')
 }
 
 /**
@@ -65,5 +65,5 @@ export function slugify(str: string): string {
     .replace(/[^\w-]+/g, '')
     .replace(/--+/g, '-')
     .replace(/^-+/, '')
-    .replace(/-+$/, '');
+    .replace(/-+$/, '')
 }

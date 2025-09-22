@@ -755,7 +755,7 @@ export function cloneDefault<T>(defaultObject: T): T {
   const cloned = {} as T;
   for (const key in defaultObject) {
     if (Object.prototype.hasOwnProperty.call(defaultObject, key)) {
-      cloned[key] = cloneDefault(defaultObject[key]);
+      cloned[key] = cloneDefault(defaultObject[key])
     }
   }
 
@@ -766,21 +766,21 @@ export function cloneDefault<T>(defaultObject: T): T {
  * Get default elemental properties
  */
 export function getDefaultElementalProperties(): ElementalProperties {
-  return cloneDefault(DEFAULT_ELEMENTAL_PROPERTIES);
+  return cloneDefault(DEFAULT_ELEMENTAL_PROPERTIES)
 }
 
 /**
  * Get default astrological state
  */
 export function getDefaultAstrologicalState(): AstrologicalState {
-  return cloneDefault(DEFAULT_ASTROLOGICAL_STATE);
+  return cloneDefault(DEFAULT_ASTROLOGICAL_STATE)
 }
 
 /**
  * Get default planetary positions
  */
 export function getDefaultPlanetaryPositions(): Record<string, CelestialPosition> {
-  return cloneDefault(DEFAULT_PLANETARY_POSITIONS);
+  return cloneDefault(DEFAULT_PLANETARY_POSITIONS)
 }
 
 /**
@@ -790,15 +790,15 @@ export function mergeWithDefaults<T extends Record<string, unknown>>(
   userValues: Partial<T>,
   defaults: T,
 ): T {
-  const result = cloneDefault(defaults);
+  const result = cloneDefault(defaults)
   for (const key in userValues) {
     if (Object.prototype.hasOwnProperty.call(userValues, key) && userValues[key] !== undefined) {
       if (
         typeof userValues[key] === 'object' &&
         typeof defaults[key] === 'object' &&
-        !Array.isArray(userValues[key]);
+        !Array.isArray(userValues[key])
       ) {
-        result[key] = mergeWithDefaults(userValues[key] as Record<string, unknown>, defaults[key]);
+        result[key] = mergeWithDefaults(userValues[key] as Record<string, unknown>, defaults[key])
       } else {
         result[key] = userValues[key] as T[Extract<keyof T, string>]
       }
@@ -820,7 +820,7 @@ export function validateAgainstDefaults<T extends object>(
   // Check for unknown keys
   for (const key in values) {
     if (!(key in defaults)) {
-      errors.push(`Unknown property: ${key}`);
+      errors.push(`Unknown property: ${key}`)
     }
   }
 
@@ -831,7 +831,7 @@ export function validateAgainstDefaults<T extends object>(
       const valueType = typeof values[key];
 
       if (defaultType !== valueType && values[key] !== null && values[key] !== undefined) {
-        errors.push(`Type mismatch for ${key}: expected ${defaultType}, got ${valueType}`);
+        errors.push(`Type mismatch for ${key}: expected ${defaultType}, got ${valueType}`)
       }
     }
   }

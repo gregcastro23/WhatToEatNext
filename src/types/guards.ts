@@ -47,7 +47,7 @@ export function hasAstrologicalProfile(
     typeof obj === 'object' &&
     'astrologicalProfile' in obj &&
     isAstrologicalProfile((obj as any).astrologicalProfile)
-  );
+  )
 }
 
 /** Dedicated guard for AstrologicalProfile itself. */

@@ -31,7 +31,7 @@ export function generateCuisineRecommendation(
       score: ((elementalProperties as any)?.Fire || 0) * 0.2,
       reasoning: 'High Fire element matches spicy Mexican cuisine',
       elementalMatch: elementalProperties.Fire
-    });
+    })
   }
 
   // Water-based cuisines
@@ -41,7 +41,7 @@ export function generateCuisineRecommendation(
       score: ((elementalProperties as any)?.Water || 0) * 0.2,
       reasoning: 'High Water element matches Mediterranean freshness',
       elementalMatch: elementalProperties.Water
-    });
+    })
   }
 
   // Earth-based cuisines
@@ -51,7 +51,7 @@ export function generateCuisineRecommendation(
       score: ((elementalProperties as any)?.Earth || 0) * 0.2,
       reasoning: 'High Earth element matches hearty Italian cuisine',
       elementalMatch: elementalProperties.Earth
-    });
+    })
   }
 
   // Air-based cuisines
@@ -61,10 +61,10 @@ export function generateCuisineRecommendation(
       score: ((elementalProperties as any)?.Air || 0) * 0.2,
       reasoning: 'High Air element matches light Asian cuisine',
       elementalMatch: elementalProperties.Air
-    });
+    })
   }
 
-  return recommendations.sort((ab) => b.score - a.score);
+  return recommendations.sort((ab) => b.score - a.score)
 }
 
 export function getCuisineElementalProfile(_cuisine: string): ElementalProperties {
@@ -120,7 +120,7 @@ export function calculateElementalProfileFromZodiac(_zodiacSign: string): Elemen
 
   return (
     zodiacProfiles[zodiacSign.toLowerCase()] || { Fire: 0.5, Water: 0.5, Earth: 0.5, Air: 0.5 }
-  );
+  )
 }
 
 export function calculateElementalContributionsFromPlanets(
@@ -148,7 +148,7 @@ export function calculateElementalContributionsFromPlanets(
       contributions.Earth += planetElements.Earth * strength;
       contributions.Air += planetElements.Air * strength
     }
-  });
+  })
 
   // Normalize
   const total = contributions.Fire + contributions.Water + contributions.Earth + contributions.Air;

@@ -20,11 +20,11 @@ import {
 } from './types';
 
 export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerator {
-  private, templates: Map<string, DocumentationTemplate> = new Map(),
-  private, processedFiles: Set<string> = new Set();
+  private templates: Map<string, DocumentationTemplate> = new Map(),
+  private processedFiles: Set<string> = new Set()
 
   constructor() {
-    this.initializeTemplates();
+    this.initializeTemplates()
   }
 
   /**
@@ -130,8 +130,8 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
 
     templates.forEach(template => {;
       const key = `${template.category}_${template.domain}`
-      this.templates.set(key, template);
-    });
+      this.templates.set(key, template)
+    })
   }
 
   /**
@@ -166,12 +166,12 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
         };
       }
 
-      const template = this.getTemplate(classification.category, context.domainContext.domain);
-      const fileContent = await fs.readFile(context.filePath, 'utf-8');
-      const lines = fileContent.split('\n');
+      const template = this.getTemplate(classification.category, context.domainContext.domain)
+      const fileContent = await fs.readFile(context.filePath, 'utf-8')
+      const lines = fileContent.split('\n')
 
       // Generate documentation comment
-      const documentationComment = this.generateComment(template, classification, context);
+      const documentationComment = this.generateComment(template, classification, context)
       const eslintDisableComment = template.eslintDisableComment;
 
       // Insert documentation
@@ -180,13 +180,13 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
         context.lineNumber
         documentationComment,
         eslintDisableComment,
-      );
+      )
 
       // Write updated file
-      const updatedContent = updatedLines.join('\n');
-      await fs.writeFile(context.filePath, updatedContent, 'utf-8');
+      const updatedContent = updatedLines.join('\n')
+      await fs.writeFile(context.filePath, updatedContent, 'utf-8')
 
-      this.processedFiles.add(context.filePath);
+      this.processedFiles.add(context.filePath)
 
       return {
         filePath: context.filePath,
@@ -218,16 +218,16 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
     const comment = context.existingComment || ''
 
     // Check for ESLint disable comment
-    const fileContent = await fs.readFile(context.filePath, 'utf-8');
-    const lines = fileContent.split('\n');
+    const fileContent = await fs.readFile(context.filePath, 'utf-8')
+    const lines = fileContent.split('\n')
     const lineIndex = context.lineNumber - 1;
 
-    const hasEslintDisable = this.hasEslintDisableComment(lines, lineIndex);
+    const hasEslintDisable = this.hasEslintDisableComment(lines, lineIndex)
     const eslintDisableHasExplanation =
-      hasEslintDisable && this.eslintDisableHasExplanation(lines, lineIndex);
+      hasEslintDisable && this.eslintDisableHasExplanation(lines, lineIndex)
 
     // Assess comment quality
-    const commentQuality = this.assessCommentQuality(comment);
+    const commentQuality = this.assessCommentQuality(comment)
 
     // Check completeness
     const isComplete =
@@ -285,7 +285,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
    */
   private getTemplate(category: AnyTypeCategory, domain: CodeDomain): DocumentationTemplate {
     const key = `${category}_${domain}`;
-    const template = this.templates.get(key);
+    const template = this.templates.get(key)
 
     if (template) {
       return template
@@ -293,7 +293,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
 
     // Try with default domain
     const defaultKey = `${category}_${CodeDomain.UTILITY}`;
-    const defaultTemplate = this.templates.get(defaultKey);
+    const defaultTemplate = this.templates.get(defaultKey)
 
     if (defaultTemplate) {
       return defaultTemplate
@@ -346,7 +346,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
   ): { updatedLines: string[], insertedComment: string } {
     const lineIndex = lineNumber - 1;
     const updatedLines = [...lines];
-    const indentation = this.getIndentation(lines[lineIndex] || '');
+    const indentation = this.getIndentation(lines[lineIndex] || '')
 
     let insertIndex = lineIndex;
     let insertedComment = comment;
@@ -357,13 +357,13 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       updatedLines[lineIndex - 1] = `${indentation}${comment}`;
     } else {
       // Insert new comment
-      updatedLines.splice(insertIndex, 0, `${indentation}${comment}`);
+      updatedLines.splice(insertIndex, 0, `${indentation}${comment}`)
       insertIndex++;
     }
 
     // Add ESLint disable comment if needed
     if (eslintDisable && !this.hasEslintDisableComment(lines, lineIndex)) {
-      updatedLines.splice(insertIndex, 0, `${indentation}${eslintDisable}`);
+      updatedLines.splice(insertIndex, 0, `${indentation}${eslintDisable}`)
       insertedComment += `\n${indentation}${eslintDisable}`;
     }
 
@@ -374,7 +374,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
    * Get indentation from a line
    */
   private getIndentation(line: string): string {
-    const match = line.match(/^(\s*)/);
+    const match = line.match(/^(\s*)/)
     return match ? match[1] : ''
   }
 
@@ -384,12 +384,12 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
   private isCommentAdequate(comment: string): boolean {
     if (!comment || comment.trim().length < 15) return false;
 
-    const lowerComment = comment.toLowerCase();
+    const lowerComment = comment.toLowerCase()
     return (
       lowerComment.includes('intentionally') ||
       lowerComment.includes('deliberately') ||
       lowerComment.includes('required for') ||
-      lowerComment.includes('needed for');
+      lowerComment.includes('needed for')
     )
   }
 
@@ -414,7 +414,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       const line = lines[i];
       if (line && line.includes('eslint-disable') && line.includes('no-explicit-any')) {
         // Check if it's just the disable comment or has explanation
-        const parts = line.split('eslint-disable-next-line');
+        const parts = line.split('eslint-disable-next-line')
         return (
           parts.length > 1 && parts[1].trim().length > '@typescript-eslint/no-explicit-any'.length
         )
@@ -431,22 +431,22 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       return 'poor'
     }
 
-    const lowerComment = comment.toLowerCase();
+    const lowerComment = comment.toLowerCase()
     let score = 0;
 
-    // Check for intentionality indicators (required for fair+);
+    // Check for intentionality indicators (required for fair+)
     const hasIntentionality =
-      lowerComment.includes('intentionally') || lowerComment.includes('deliberately');
+      lowerComment.includes('intentionally') || lowerComment.includes('deliberately')
     if (hasIntentionality) {
       score += 2;
     }
 
-    // Check for explanation (required for good+);
+    // Check for explanation (required for good+)
     const hasExplanation =
       lowerComment.includes('because') ||
       lowerComment.includes('for') ||
       lowerComment.includes('due to') ||
-      lowerComment.includes('requires');
+      lowerComment.includes('requires')
     if (hasExplanation) {
       score += 2;
     }
@@ -456,12 +456,12 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       lowerComment.includes('api') ||
       lowerComment.includes('external') ||
       lowerComment.includes('dynamic') ||
-      lowerComment.includes('flexible');
+      lowerComment.includes('flexible')
     if (hasDomainContext) {
       score += 1;
     }
 
-    // Check length and detail (required for excellent);
+    // Check length and detail (required for excellent)
     const hasDetail = comment.length > 80;
     if (hasDetail) {
       score += 1;
@@ -486,21 +486,21 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
     const suggestions: string[] = [];
 
     if (!hasComment) {
-      suggestions.push('Add explanatory comment indicating intentional use of any type');
+      suggestions.push('Add explanatory comment indicating intentional use of any type')
     } else if (commentQuality === 'poor') {;
-      suggestions.push('Improve comment quality with more detailed explanation');
+      suggestions.push('Improve comment quality with more detailed explanation')
     } else if (commentQuality === 'fair') {;
-      suggestions.push('Consider adding more context about why any type is necessary');
+      suggestions.push('Consider adding more context about why any type is necessary')
     }
 
     if (!hasEslintDisable) {
-      suggestions.push('Add ESLint disable comment to suppress warnings');
+      suggestions.push('Add ESLint disable comment to suppress warnings')
     } else if (!eslintDisableHasExplanation) {
-      suggestions.push('Add explanation to ESLint disable comment');
+      suggestions.push('Add explanation to ESLint disable comment')
     }
 
     if (suggestions.length === 0) {;
-      suggestions.push('Documentation is complete and well-structured');
+      suggestions.push('Documentation is complete and well-structured')
     }
 
     return suggestions;

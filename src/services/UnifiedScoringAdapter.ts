@@ -81,7 +81,7 @@ export class UnifiedScoringAdapter {
       }
     };
 
-    const result = await scoreRecommendation(context);
+    const result = await scoreRecommendation(context)
 
     return {
       item: ingredient,
@@ -147,7 +147,7 @@ export class UnifiedScoringAdapter {
       }
     };
 
-    const result = await scoreRecommendation(context);
+    const result = await scoreRecommendation(context)
 
     return {
       item: recipe,
@@ -196,7 +196,7 @@ export class UnifiedScoringAdapter {
       }
     };
 
-    const result = await scoreRecommendation(context);
+    const result = await scoreRecommendation(context)
 
     return {
       item: method,
@@ -240,7 +240,7 @@ export class UnifiedScoringAdapter {
       }
     };
 
-    const result = await scoreRecommendation(context);
+    const result = await scoreRecommendation(context)
 
     return {
       item: cuisineName,
@@ -278,10 +278,10 @@ export class UnifiedScoringAdapter {
   ): Promise<ScoredItem<Recipe>[]> {
     const scoredRecipes = await Promise.all(
       recipes.map(recipe => this.scoreRecipe(recipe, options)),
-    );
+    )
 
     return scoredRecipes
-      .filter(item => item.score >= minScore);
+      .filter(item => item.score >= minScore)
       .sort((ab) => b.score - a.score)
       .slice(0, limit)
   }
@@ -289,15 +289,15 @@ export class UnifiedScoringAdapter {
 
 // Export convenience functions
 export const scoreIngredient = (ingredient: UnifiedIngredient, options?: ScoringAdapterOptions) =>
-  UnifiedScoringAdapter.getInstance().scoreIngredient(ingredient, options);
+  UnifiedScoringAdapter.getInstance().scoreIngredient(ingredient, options)
 
 export const scoreIngredients = (
   ingredients: UnifiedIngredient[],
   options?: ScoringAdapterOptions,
-) => UnifiedScoringAdapter.getInstance().scoreIngredients(ingredients, options);
+) => UnifiedScoringAdapter.getInstance().scoreIngredients(ingredients, options)
 
 export const scoreRecipe = (recipe: Recipe, options?: ScoringAdapterOptions) =>
-  UnifiedScoringAdapter.getInstance().scoreRecipe(recipe, options);
+  UnifiedScoringAdapter.getInstance().scoreRecipe(recipe, options)
 
 export const getRecommendedIngredients = (
   ingredients: UnifiedIngredient[],
@@ -310,11 +310,11 @@ export const getRecommendedIngredients = (
     minScore,
     limit,
     options,
-  );
+  )
 
 export const getRecommendedRecipes = (
   recipes: Recipe[],
   minScore?: number,
   limit?: number,
   options?: ScoringAdapterOptions,
-) => UnifiedScoringAdapter.getInstance().getRecommendedRecipes(recipes, minScore, limit, options);
+) => UnifiedScoringAdapter.getInstance().getRecommendedRecipes(recipes, minScore, limit, options)

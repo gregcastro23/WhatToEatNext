@@ -751,4 +751,4 @@ const rawVinegars = {
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-export const vinegars: Record<string, IngredientMapping> = fixIngredientMappings(rawVinegars);
+export const vinegars: Record<string, IngredientMapping> = fixIngredientMappings(rawVinegars)

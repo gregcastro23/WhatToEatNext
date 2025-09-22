@@ -6,8 +6,8 @@ export const _dynamic = 'force-static';
 import React, { useEffect, useState } from 'react';
 
 export default function PlanetTestLayout({ children }: { children: React.ReactNode }) {
-  const [errors, setErrors] = useState<string[]>([]);
-  const [logs, setLogs] = useState<string[]>([]);
+  const [errors, setErrors] = useState<string[]>([])
+  const [logs, setLogs] = useState<string[]>([])
 
   // Capture errors and logs
   useEffect(() => {
@@ -15,20 +15,20 @@ export default function PlanetTestLayout({ children }: { children: React.ReactNo
     const originalLog = console.log;
 
     console.error = (...args) => {
-      setErrors(prev => [...prev, args.join(' ')]);
-      originalError(...args);
+      setErrors(prev => [...prev, args.join(' ')])
+      originalError(...args)
     };
 
     console.log = (...args) => {
-      setLogs(prev => [...prev, args.join(' ')]);
-      originalLog(...args);
+      setLogs(prev => [...prev, args.join(' ')])
+      originalLog(...args)
     };
 
     return () => {
       console.error = originalError;
       console.log = originalLog;
     };
-  }, []);
+  }, [])
 
   return (
     <div className='flex min-h-screen flex-col bg-gray-50'>
@@ -64,5 +64,5 @@ export default function PlanetTestLayout({ children }: { children: React.ReactNo
         </div>
       )}
     </div>
-  );
+  )
 }

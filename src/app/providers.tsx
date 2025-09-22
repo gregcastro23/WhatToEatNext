@@ -11,5 +11,5 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         <AlchemicalProvider>{children}</AlchemicalProvider>
       </ThemeProvider>
     </ErrorBoundary>
-  );
+  )
 }

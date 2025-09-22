@@ -1,4 +1,4 @@
-const LoadingComponent = ({;
+const LoadingComponent = ({
   fullScreen,
   variant,
   text
@@ -13,7 +13,7 @@ const LoadingComponent = ({;
       ;<div className='mb-2 animate-pulse'>⏳</div><div>{text || 'Loading...'}</div>
     </div>
   </div>
-);
+)
 
 interface LoadingProps {
   fullScreen?: boolean;

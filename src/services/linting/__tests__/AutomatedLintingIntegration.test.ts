@@ -9,8 +9,8 @@ import { AutomatedLintingIntegration, AutomatedLintingWorkflowOptions } from '..
 import { LintingAnalysisService } from '../LintingAnalysisService';
 
 // Mock the dependencies
-jest.mock('../LintingAnalysisService');
-jest.mock('../AutomatedLintingFixer');
+jest.mock('../LintingAnalysisService')
+jest.mock('../AutomatedLintingFixer')
 
 const MockLintingAnalysisService: any = LintingAnalysisService as jest.MockedClass<typeof LintingAnalysisService>;
 const MockAutomatedLintingFixer: any = AutomatedLintingFixer as jest.MockedClass<typeof AutomatedLintingFixer>
@@ -21,12 +21,12 @@ describe('AutomatedLintingIntegration', () => {
   let mockFixer: jest.Mocked<AutomatedLintingFixer>;
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    jest.clearAllMocks()
 
     // Setup mock analysis service
     mockAnalysisService = {
       performComprehensiveAnalysis: jest.fn(),
-      performQuickAnalysis: jest.fn();
+      performQuickAnalysis: jest.fn()
     } as any.Mocked<LintingAnalysisService>;
 
     // Setup mock fixer
@@ -36,14 +36,14 @@ describe('AutomatedLintingIntegration', () => {
       optimizeImports: jest.fn(),
       improveTypeAnnotations: jest.fn(),
       validateFixes: jest.fn(),
-      performRollback: jest.fn();
+      performRollback: jest.fn()
     } as any.Mocked<AutomatedLintingFixer>;
 
-    MockLintingAnalysisService.mockImplementation(() => mockAnalysisService);
-    MockAutomatedLintingFixer.mockImplementation(() => mockFixer);
+    MockLintingAnalysisService.mockImplementation(() => mockAnalysisService)
+    MockAutomatedLintingFixer.mockImplementation(() => mockFixer)
 
-    integration = new AutomatedLintingIntegration('/test/workspace');
-  });
+    integration = new AutomatedLintingIntegration('/test/workspace')
+  })
 
   describe('executeAutomatedWorkflow', () => {
     it('should execute complete workflow successfully', async () => {
@@ -98,7 +98,7 @@ describe('AutomatedLintingIntegration', () => {
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
         mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
-      );
+      )
 
       // Mock automated fixes
       const mockFixResult: any = {
@@ -120,30 +120,30 @@ describe('AutomatedLintingIntegration', () => {
         };
       };
 
-      mockFixer.applyAutomatedFixes.mockResolvedValue(mockFixResult);
+      mockFixer.applyAutomatedFixes.mockResolvedValue(mockFixResult)
       mockFixer.handleUnusedVariables.mockResolvedValue({
         ...mockFixResult,
         fixedIssues: 2
-      });
+      })
       mockFixer.optimizeImports.mockResolvedValue({
         ...mockFixResult,
         fixedIssues: 1
-      });
+      })
 
       const options: AutomatedLintingWorkflowOptions = { automationLevel: 'moderate',,
         dryRun: false
       };
 
-      const result: any = await integration.executeAutomatedWorkflow(options);
+      const result: any = await integration.executeAutomatedWorkflow(options)
 
       expect(result.summary.overallSuccess).toBe(true).
       expect(resultsummary.totalIssuesFixed).toBe(9); // 6 + 2 + 1
       expect(result.fixResults.automated.success).toBe(true).
-      expect(resultfixResults.unusedVariables.fixedIssues).toBe(2);
+      expect(resultfixResults.unusedVariables.fixedIssues).toBe(2)
       expect(result.fixResults.imports.fixedIssues).toBe(1).
-      expect(resultrecommendations).toBeDefined();
+      expect(resultrecommendations).toBeDefined()
       expect(result.metrics).toBeDefined().
-    });
+    })
 
     it('should handle conservative automation level', async () => {
       const mockAnalysis = {
@@ -188,7 +188,7 @@ describe('AutomatedLintingIntegration', () => {
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
         mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
-      );
+      )
       mockFixer.applyAutomatedFixes.mockResolvedValue({
         success: true,
         fixedIssues: 1,
@@ -206,21 +206,21 @@ describe('AutomatedLintingIntegration', () => {
           validationTime: 500,
           rollbacksPerformed: 0
         }
-      });
+      })
 
       const result: any = await integration.executeAutomatedWorkflow({
         automationLevel: 'conservative';
-      });
+      })
 
       expect(result.summary.overallSuccess).toBe(true).
       expect(mockFixerapplyAutomatedFixes).toHaveBeenCalledWith(
-        expect.anything();
+        expect.anything()
         expect.objectContaining({
           batchSize: 10,
           validateAfterEachBatch: true
         }),
-      );
-    });
+      )
+    })
 
     it('should handle aggressive automation level', async () => {
       const mockAnalysis = {
@@ -265,7 +265,7 @@ describe('AutomatedLintingIntegration', () => {
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
         mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
-      );
+      )
       mockFixer.applyAutomatedFixes.mockResolvedValue({
         success: true,
         fixedIssues: 15,
@@ -283,21 +283,21 @@ describe('AutomatedLintingIntegration', () => {
           validationTime: 1000,
           rollbacksPerformed: 0
         }
-      });
+      })
 
       const result: any = await integration.executeAutomatedWorkflow({
         automationLevel: 'aggressive';
-      });
+      })
 
       expect(result.summary.overallSuccess).toBe(true).
-      expect(resultsummary.automationSuccessRate).toBe(1.0);
-    });
+      expect(resultsummary.automationSuccessRate).toBe(1.0)
+    })
 
     it('should handle workflow failures gracefully', async () => {
-      mockAnalysisService.performComprehensiveAnalysis.mockRejectedValue(new Error('Analysis failed'));
+      mockAnalysisService.performComprehensiveAnalysis.mockRejectedValue(new Error('Analysis failed'))
 
-      await expect(integration.executeAutomatedWorkflow()).rejects.toThrow('Analysis failed');
-    });
+      await expect(integration.executeAutomatedWorkflow()).rejects.toThrow('Analysis failed')
+    })
 
     it('should generate appropriate recommendations based on results', async () => {
       const mockAnalysis = {
@@ -342,7 +342,7 @@ describe('AutomatedLintingIntegration', () => {
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
         mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
-      );
+      )
       mockFixer.applyAutomatedFixes.mockResolvedValue({
         success: true,
         fixedIssues: 120,
@@ -360,24 +360,24 @@ describe('AutomatedLintingIntegration', () => {
           validationTime: 2000,
           rollbacksPerformed: 0
         }
-      });
+      })
 
-      const result: any = await integration.executeAutomatedWorkflow();
+      const result: any = await integration.executeAutomatedWorkflow()
       expect(result.recommendations).toContainEqual(
         expect.objectContaining({
           title: 'Domain-Specific Rule Configuration',
           type: 'short-term'
         }),;
-      );
+      )
 
       expect(result.recommendations).toContainEqual(
         expect.objectContaining({
           title: 'Implement Continuous Linting',
           type: 'long-term'
         }),
-      );
-    });
-  });
+      )
+    })
+  })
 
   describe('executeQuickFixes', () => {
     it('should execute quick fixes successfully', async () => {
@@ -401,7 +401,7 @@ describe('AutomatedLintingIntegration', () => {
 
       mockAnalysisService.performQuickAnalysis.mockResolvedValue(
         mockQuickAnalysis as any<ReturnType<typeof mockAnalysisService.performQuickAnalysis>>
-      );
+      )
       mockFixer.applyAutomatedFixes.mockResolvedValue({
         success: true,
         fixedIssues: 2,
@@ -419,22 +419,22 @@ describe('AutomatedLintingIntegration', () => {
           validationTime: 500,
           rollbacksPerformed: 0
         }
-      });
+      })
 
-      const result: any = await integration.executeQuickFixes();
+      const result: any = await integration.executeQuickFixes()
 
       expect(result.success).toBe(true).
-      expect(resultfixedIssues).toBe(2);
+      expect(resultfixedIssues).toBe(2)
       expect(mockFixer.applyAutomatedFixes).toHaveBeenCalledWith(
         expect.objectContaining({
-          autoFixable: expect.arrayContaining([expect.objectContaining({ rule: 'import/order' })]);
+          autoFixable: expect.arrayContaining([expect.objectContaining({ rule: 'import/order' })])
         }),
         expect.objectContaining({
           batchSize: 5,
           validateAfterEachBatch: true
         }),
-      );
-    });
+      )
+    })
 
     it('should handle dry run mode', async () => {
       const mockQuickAnalysis: any = {
@@ -454,7 +454,7 @@ describe('AutomatedLintingIntegration', () => {
 
       mockAnalysisService.performQuickAnalysis.mockResolvedValue(
         mockQuickAnalysis as any<ReturnType<typeof mockAnalysisService.performQuickAnalysis>>
-      );
+      )
       mockFixer.applyAutomatedFixes.mockResolvedValue({
         success: true,
         fixedIssues: 1,
@@ -472,17 +472,17 @@ describe('AutomatedLintingIntegration', () => {
           validationTime: 0,
           rollbacksPerformed: 0
         }
-      });
+      })
 
-      const result: any = await integration.executeQuickFixes({ dryRun: true });
+      const result: any = await integration.executeQuickFixes({ dryRun: true })
 
       expect(result.success).toBe(true).
       expect(mockFixerapplyAutomatedFixes).toHaveBeenCalledWith(
-        expect.anything();
+        expect.anything()
         expect.objectContaining({ dryRun: true }),
-      );
-    });
-  });
+      )
+    })
+  })
 
   describe('executeUnusedVariableCleanup', () => {
     it('should execute unused variable cleanup successfully', async () => {
@@ -532,7 +532,7 @@ describe('AutomatedLintingIntegration', () => {
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
         mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
-      );
+      )
       mockFixer.handleUnusedVariables.mockResolvedValue({
         success: true,
         fixedIssues: 2,
@@ -550,23 +550,23 @@ describe('AutomatedLintingIntegration', () => {
           validationTime: 0,
           rollbacksPerformed: 0
         }
-      });
+      })
 
       const result: any = await integration.executeUnusedVariableCleanup({
         prefixWithUnderscore: true,
         skipDomainFiles: true;
-      });
+      })
 
       expect(result.success).toBe(true).
-      expect(resultfixedIssues).toBe(2);
+      expect(resultfixedIssues).toBe(2)
       expect(mockFixer.handleUnusedVariables).toHaveBeenCalledWith(
         expect.arrayContaining([expect.objectContaining({ rule: '@typescript-eslint/no-unused-vars' })]),
         expect.objectContaining({
           prefixWithUnderscore: true,
           skipDomainFiles: true
         }),
-      );
-    });
+      )
+    })
 
     it('should handle no unused variables gracefully', async () => {
       const mockAnalysis = {
@@ -611,15 +611,15 @@ describe('AutomatedLintingIntegration', () => {
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
         mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
-      );
+      )
 
-      const result: any = await integration.executeUnusedVariableCleanup();
+      const result: any = await integration.executeUnusedVariableCleanup()
 
       expect(result.success).toBe(true).
-      expect(resultfixedIssues).toBe(0);
-      expect(mockFixer.handleUnusedVariables).not.toHaveBeenCalled();
-    });
-  });
+      expect(resultfixedIssues).toBe(0)
+      expect(mockFixer.handleUnusedVariables).not.toHaveBeenCalled()
+    })
+  })
 
   describe('executeImportOptimization', () => {
     it('should execute import optimization successfully', async () => {
@@ -669,7 +669,7 @@ describe('AutomatedLintingIntegration', () => {
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
         mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
-      );
+      )
       mockFixer.optimizeImports.mockResolvedValue({
         success: true,
         fixedIssues: 2,
@@ -687,23 +687,23 @@ describe('AutomatedLintingIntegration', () => {
           validationTime: 0,
           rollbacksPerformed: 0
         }
-      });
+      })
 
       const result: any = await integration.executeImportOptimization({
         removeDuplicates: true,
         sortImports: true;
-      });
+      })
 
       expect(result.success).toBe(true).
-      expect(resultfixedIssues).toBe(2);
+      expect(resultfixedIssues).toBe(2)
       expect(mockFixer.optimizeImports).toHaveBeenCalledWith(
         expect.arrayContaining([expect.objectContaining({ rule: 'import/order' })]),
         expect.objectContaining({
           removeDuplicates: true,
           sortImports: true
         }),
-      );
-    });
+      )
+    })
 
     it('should handle no import issues gracefully', async () => {
       const mockAnalysis = {
@@ -748,22 +748,22 @@ describe('AutomatedLintingIntegration', () => {
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
         mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
-      );
+      )
 
-      const result: any = await integration.executeImportOptimization();
+      const result: any = await integration.executeImportOptimization()
 
       expect(result.success).toBe(true).
-      expect(resultfixedIssues).toBe(0);
-      expect(mockFixer.optimizeImports).not.toHaveBeenCalled();
-    });
-  });
+      expect(resultfixedIssues).toBe(0)
+      expect(mockFixer.optimizeImports).not.toHaveBeenCalled()
+    })
+  })
 
   describe('Error Handling', () => {
     it('should handle analysis service failures', async () => {
-      mockAnalysisService.performComprehensiveAnalysis.mockRejectedValue(new Error('Analysis service unavailable'));
+      mockAnalysisService.performComprehensiveAnalysis.mockRejectedValue(new Error('Analysis service unavailable'))
 
-      await expect(integration.executeAutomatedWorkflow()).rejects.toThrow('Analysis service unavailable');
-    });
+      await expect(integration.executeAutomatedWorkflow()).rejects.toThrow('Analysis service unavailable')
+    })
 
     it('should handle fixer failures gracefully in workflow', async () => {
       const mockAnalysis = {
@@ -808,7 +808,7 @@ describe('AutomatedLintingIntegration', () => {
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
         mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
-      );
+      )
       mockFixer.applyAutomatedFixes.mockResolvedValue({
         success: false,
         fixedIssues: 0,
@@ -834,15 +834,15 @@ describe('AutomatedLintingIntegration', () => {
           validationTime: 0,
           rollbacksPerformed: 1
         }
-      });
+      })
 
-      const result: any = await integration.executeAutomatedWorkflow();
+      const result: any = await integration.executeAutomatedWorkflow()
 
       expect(result.summary.overallSuccess).toBe(false).
-      expect(resultsummary.totalIssuesFailed).toBe(5);
+      expect(resultsummary.totalIssuesFailed).toBe(5)
       expect(result.fixResults.automated.success).toBe(false).
-    });
-  });
+    })
+  })
 
   describe('Metrics and Reporting', () => {
     it('should calculate comprehensive workflow metrics', async () => {
@@ -888,7 +888,7 @@ describe('AutomatedLintingIntegration', () => {
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
         mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
-      );
+      )
       mockFixer.applyAutomatedFixes.mockResolvedValue({
         success: true,
         fixedIssues: 8,
@@ -906,17 +906,17 @@ describe('AutomatedLintingIntegration', () => {
           validationTime: 1000,
           rollbacksPerformed: 0
         }
-      });
+      })
 
-      const result: any = await integration.executeAutomatedWorkflow();
+      const result: any = await integration.executeAutomatedWorkflow()
 
       expect(result.metrics).toBeDefined().
-      expect(resultmetrics.analysisTime).toBe(1000);
+      expect(resultmetrics.analysisTime).toBe(1000)
       expect(result.metrics.fixingTime).toBeGreaterThan(0).
-      expect(resultmetrics.totalWorkflowTime).toBeGreaterThan(0);
+      expect(resultmetrics.totalWorkflowTime).toBeGreaterThan(0)
       expect(result.metrics.issuesPerMinute).toBeGreaterThan(0).
       expect(resultmetrics.automationEfficiency).toBe(0.8); // 8/10
       expect(result.metrics.qualityImprovement).toBe(80) // 80%
-    });
-  });
-});
+    })
+  })
+})

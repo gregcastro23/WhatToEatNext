@@ -49,13 +49,13 @@ Object.defineProperty(window, 'matchMedia', {
     removeEventListener: jest.fn(),
     dispatchEvent: jest.fn()
   }))
-});
+})
 
 // Mock scrollTo
 Object.defineProperty(window, 'scrollTo', {
   value: jest.fn(),
   writable: true
-});
+})
 
 // Mock localStorage
 const localStorageMock = {
@@ -66,7 +66,7 @@ const localStorageMock = {
 };
 Object.defineProperty(window, 'localStorage', {
   value: localStorageMock
-});
+})
 
 // Mock sessionStorage
 const sessionStorageMock = {
@@ -77,11 +77,11 @@ const sessionStorageMock = {
 };
 Object.defineProperty(window, 'sessionStorage', {
   value: sessionStorageMock
-});
+})
 
 // Mock requestAnimationFrame
-global.requestAnimationFrame = jest.fn(cb => setTimeout(cb0));
-global.cancelAnimationFrame = jest.fn();
+global.requestAnimationFrame = jest.fn(cb => setTimeout(cb0))
+global.cancelAnimationFrame = jest.fn()
 
 // Mock performance.now
 Object.defineProperty(window, 'performance', {
@@ -93,7 +93,7 @@ Object.defineProperty(window, 'performance', {
     getEntriesByType: jest.fn(() => [])
   },
   writable: true
-});
+})
 
 // Suppress console warnings for tests
 const originalConsoleWarn = console.warn;
@@ -101,12 +101,12 @@ const originalConsoleError = console.error;
 
 beforeEach(() => {
   // Reset mocks before each test
-  jest.clearAllMocks();
-  localStorageMock.getItem.mockClear();
-  localStorageMock.setItem.mockClear();
-  sessionStorageMock.getItem.mockClear();
-  sessionStorageMock.setItem.mockClear();
-});
+  jest.clearAllMocks()
+  localStorageMock.getItem.mockClear()
+  localStorageMock.setItem.mockClear()
+  sessionStorageMock.getItem.mockClear()
+  sessionStorageMock.setItem.mockClear()
+})
 
 // Suppress specific warnings that are expected in tests
 console.warn = (...args: any[]) => {;
@@ -119,7 +119,7 @@ console.warn = (...args: any[]) => {;
   ) {
     return
   }
-  originalConsoleWarn.apply(console, args);
+  originalConsoleWarn.apply(console, args)
 };
 
 console.error = (...args: any[]) => {;
@@ -132,7 +132,7 @@ console.error = (...args: any[]) => {;
   ) {
     return
   }
-  originalConsoleError.apply(console, args);
+  originalConsoleError.apply(console, args)
 };
 
 // Mock implementations for git operations - comprehensive implementation
@@ -173,7 +173,7 @@ const gitMock = {
   }),
   getMockStashes: jest.fn(() => gitMock.mockStashes),
   simulateGitError: jest.fn((command: string, error: string) => {
-    console.warn(`Simulated git error for ${command}: ${error}`);
+    console.warn(`Simulated git error for ${command}: ${error}`)
   }),
   resetMocks: jest.fn(() => {
     gitMock.mockStashes = [];
@@ -222,10 +222,10 @@ const scriptMock = {
     scriptMock.mockExitCode = exitCode
   }),
   simulateScriptError: jest.fn((scriptPath: string, error: string) => {
-    console.warn(`Simulated script error for ${scriptPath}: ${error}`);
+    console.warn(`Simulated script error for ${scriptPath}: ${error}`)
   }),
   simulateTimeout: jest.fn((scriptPath: string, timeout: number) => {
-    console.warn(`Simulated timeout for ${scriptPath}: ${timeout}ms`);
+    console.warn(`Simulated timeout for ${scriptPath}: ${timeout}ms`)
   }),
   resetMocks: jest.fn(() => {
     scriptMock.mockResults = {};
@@ -373,21 +373,21 @@ campaignMock.isolation = {
 // Initialize resetAllMocks
 campaignMock.resetAllMocks = jest.fn(() => {;
   Object.values(campaignMock.controller).forEach(mock => {
-    if (jest.isMockFunction(mock)) mock.mockClear();
-  });
+    if (jest.isMockFunction(mock)) mock.mockClear()
+  })
   Object.values(campaignMock.tracker).forEach(mock => {
-    if (jest.isMockFunction(mock)) mock.mockClear();
-  });
+    if (jest.isMockFunction(mock)) mock.mockClear()
+  })
   Object.values(campaignMock.safety).forEach(mock => {
-    if (jest.isMockFunction(mock)) mock.mockClear();
-  });
+    if (jest.isMockFunction(mock)) mock.mockClear()
+  })
   Object.values(campaignMock.testController).forEach(mock => {
-    if (jest.isMockFunction(mock)) mock.mockClear();
-  });
+    if (jest.isMockFunction(mock)) mock.mockClear()
+  })
   Object.values(campaignMock.isolation).forEach(mock => {
-    if (jest.isMockFunction(mock)) mock.mockClear();
-  });
-});
+    if (jest.isMockFunction(mock)) mock.mockClear()
+  })
+})
 
 // Global test utilities with extended interface
 (global as unknown).testUtils = {
@@ -412,7 +412,7 @@ campaignMock.resetAllMocks = jest.fn(() => {;
       <div data-testid={testId || name.toLowerCase()} {...props}>;
         Mock {name}
       </div>
-    );
+    )
     MockComponent.displayName = `Mock${name}`;
     return MockComponent;
   },
@@ -422,7 +422,7 @@ campaignMock.resetAllMocks = jest.fn(() => {;
     if (global.getMemoryUsage) {
       return global.getMemoryUsage()
     }
-    const usage = process.memoryUsage();
+    const usage = process.memoryUsage()
     return {
       heapUsed: `${(usage.heapUsed / 1024 / 1024).toFixed(2)}MB`,
       heapTotal: `${(usage.heapTotal / 1024 / 1024).toFixed(2)}MB`,
@@ -438,11 +438,11 @@ campaignMock.resetAllMocks = jest.fn(() => {;
     }
 
     // Fallback cleanup
-    jest.clearAllMocks();
-    jest.resetModules();
+    jest.clearAllMocks()
+    jest.resetModules()
 
     if (global.forceGC) {
-      global.forceGC();
+      global.forceGC()
     }
 
     return null;
@@ -457,14 +457,14 @@ campaignMock.resetAllMocks = jest.fn(() => {;
     return Array.from(
       { length: count },
       (_i) => `error TS2339: Property 'test${i}' does not exist on type 'unknown'.`,
-    ).join('\n');
+    ).join('\n')
   },
 
   createMockLintingWarnings: (count: number) => {
     return Array.from(
       { length: count },
       (_i) => `warning: Unused variable 'test${i}' @typescript-eslint/no-unused-vars`,
-    ).join('\n');
+    ).join('\n')
   },
 
   createMockProgressMetrics: (overrides: any = {}) => ({
@@ -477,8 +477,8 @@ campaignMock.resetAllMocks = jest.fn(() => {;
 
   // Campaign test utilities
   setupCampaignTest: async (testName: string, config: any = {}) => {;
-    await campaignMock.testController.initializeForTest(testName, config);
-    await campaignMock.testController.pauseCampaignForTest(testName);
+    await campaignMock.testController.initializeForTest(testName, config)
+    await campaignMock.testController.pauseCampaignForTest(testName)
     return {
       controller: campaignMock.controller,
       tracker: campaignMock.tracker,
@@ -509,7 +509,7 @@ expect.extend({
       };
     }
   }
-});
+})
 
 // Declare custom matcher types
 declare global {

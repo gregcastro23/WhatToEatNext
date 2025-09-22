@@ -28,11 +28,11 @@ const STATE_KEYS = {
   SCROLL_POSITIONS: 'scrollPositions'
 } as const;
 
-// State expiration time (1 hour);
+// State expiration time (1 hour)
 const STATE_EXPIRATION_TIME = 60 * 60 * 1000;
 
 /**
- * Check if stored state is still valid (not expired);
+ * Check if stored state is still valid (not expired)
  */
 function isStateValid(timestamp: number): boolean {
   return Date.now() - timestamp < STATE_EXPIRATION_TIME
@@ -43,9 +43,9 @@ function isStateValid(timestamp: number): boolean {
  */
 function safeGetItem(key: string): string | null {
   try {
-    return sessionStorage.getItem(key);
+    return sessionStorage.getItem(key)
   } catch (error) {
-    console.warn(`Failed to get item from sessionStorage: ${key}`, error);
+    console.warn(`Failed to get item from sessionStorage: ${key}`, error)
     return null;
   }
 }
@@ -55,10 +55,10 @@ function safeGetItem(key: string): string | null {
  */
 function safeSetItem(key: string, value: string): boolean {
   try {
-    sessionStorage.setItem(key, value);
+    sessionStorage.setItem(key, value)
     return true;
   } catch (error) {
-    console.warn(`Failed to set item in sessionStorage: ${key}`, error);
+    console.warn(`Failed to set item in sessionStorage: ${key}`, error)
     return false;
   }
 }
@@ -67,7 +67,7 @@ function safeSetItem(key: string, value: string): boolean {
  * Save navigation state
  */
 export function saveNavigationState(state: Partial<NavigationState>): void {
-  const currentState = getNavigationState();
+  const currentState = getNavigationState()
   const updatedState: NavigationState = {
     ...currentState,
     ...state
@@ -78,7 +78,7 @@ export function saveNavigationState(state: Partial<NavigationState>): void {
     data: updatedState
   };
 
-  safeSetItem(STATE_KEYS.NAVIGATION_STATE, JSON.stringify(stateWithTimestamp));
+  safeSetItem(STATE_KEYS.NAVIGATION_STATE, JSON.stringify(stateWithTimestamp))
 }
 
 /**
@@ -98,18 +98,18 @@ export function getNavigationState(): NavigationState {
     scrollPosition: 0
   };
 
-  const stored = safeGetItem(STATE_KEYS.NAVIGATION_STATE);
+  const stored = safeGetItem(STATE_KEYS.NAVIGATION_STATE)
   if (!stored) return defaultState;
 
   try {
-    const parsed: ComponentState = JSON.parse(stored);
+    const parsed: ComponentState = JSON.parse(stored)
     if (!isStateValid(parsed.timestamp)) {
       return defaultState
     }
     const data = (parsed.data || {}) as Partial<NavigationState>;
     return { ...defaultState, ...data };
   } catch (error) {
-    console.warn('Failed to parse navigation state:', error);
+    console.warn('Failed to parse navigation state:', error)
     return defaultState;
   }
 }
@@ -118,20 +118,20 @@ export function getNavigationState(): NavigationState {
  * Save component-specific state
  */
 export function saveComponentState(componentId: string, state: unknown): void {
-  const allStates = getComponentStates();
+  const allStates = getComponentStates()
   allStates[componentId] = {
     timestamp: Date.now(),
     data: state
   };
 
-  safeSetItem(STATE_KEYS.COMPONENT_STATES, JSON.stringify(allStates));
+  safeSetItem(STATE_KEYS.COMPONENT_STATES, JSON.stringify(allStates))
 }
 
 /**
  * Get component-specific state
  */
 export function getComponentState(componentId: string): unknown {
-  const allStates = getComponentStates();
+  const allStates = getComponentStates()
   const componentState = allStates[componentId];
 
   if (!componentState || !isStateValid(componentState.timestamp)) {
@@ -145,13 +145,13 @@ export function getComponentState(componentId: string): unknown {
  * Get all component states
  */
 function getComponentStates(): Record<string, ComponentState> {
-  const stored = safeGetItem(STATE_KEYS.COMPONENT_STATES);
+  const stored = safeGetItem(STATE_KEYS.COMPONENT_STATES)
   if (!stored) return {};
 
   try {
-    return JSON.parse(stored);
+    return JSON.parse(stored)
   } catch (error) {
-    console.warn('Failed to parse component states:', error);
+    console.warn('Failed to parse component states:', error)
     return {};
   }
 }
@@ -160,20 +160,20 @@ function getComponentStates(): Record<string, ComponentState> {
  * Save scroll position for a specific section
  */
 export function saveScrollPosition(sectionId: string, position: number): void {
-  const positions = getScrollPositions();
+  const positions = getScrollPositions()
   positions[sectionId] = {
     timestamp: Date.now(),
     data: position
   };
 
-  safeSetItem(STATE_KEYS.SCROLL_POSITIONS, JSON.stringify(positions));
+  safeSetItem(STATE_KEYS.SCROLL_POSITIONS, JSON.stringify(positions))
 }
 
 /**
  * Get scroll position for a specific section
  */
 export function getScrollPosition(sectionId: string): number {
-  const positions = getScrollPositions();
+  const positions = getScrollPositions()
   const position = positions[sectionId];
 
   if (!position || !isStateValid(position.timestamp)) {
@@ -187,28 +187,28 @@ export function getScrollPosition(sectionId: string): number {
  * Get all scroll positions
  */
 function getScrollPositions(): Record<string, ComponentState> {
-  const stored = safeGetItem(STATE_KEYS.SCROLL_POSITIONS);
+  const stored = safeGetItem(STATE_KEYS.SCROLL_POSITIONS)
   if (!stored) return {};
 
   try {
-    return JSON.parse(stored);
+    return JSON.parse(stored)
   } catch (error) {
-    console.warn('Failed to parse scroll positions:', error);
+    console.warn('Failed to parse scroll positions:', error)
     return {};
   }
 }
 
 /**
- * Clear all stored state (useful for cleanup);
+ * Clear all stored state (useful for cleanup)
  */
 export function clearAllState(): void {
   Object.values(STATE_KEYS).forEach(key => {
     try {
-      sessionStorage.removeItem(key);
+      sessionStorage.removeItem(key)
     } catch (error) {
-      console.warn(`Failed to remove item from sessionStorage: ${key}`, error);
+      console.warn(`Failed to remove item from sessionStorage: ${key}`, error)
     }
-  });
+  })
 }
 
 /**
@@ -216,20 +216,20 @@ export function clearAllState(): void {
  */
 export function clearExpiredState(): void {
   // Clear expired navigation state
-  const navState = safeGetItem(STATE_KEYS.NAVIGATION_STATE);
+  const navState = safeGetItem(STATE_KEYS.NAVIGATION_STATE)
   if (navState) {
     try {
-      const parsed: ComponentState = JSON.parse(navState);
+      const parsed: ComponentState = JSON.parse(navState)
       if (!isStateValid(parsed.timestamp)) {
-        sessionStorage.removeItem(STATE_KEYS.NAVIGATION_STATE);
+        sessionStorage.removeItem(STATE_KEYS.NAVIGATION_STATE)
       }
     } catch (error) {
-      sessionStorage.removeItem(STATE_KEYS.NAVIGATION_STATE);
+      sessionStorage.removeItem(STATE_KEYS.NAVIGATION_STATE)
     }
   }
 
   // Clear expired component states
-  const componentStates = getComponentStates();
+  const componentStates = getComponentStates()
   const validStates: Record<string, ComponentState> = {};
   let hasChanges = false;
 
@@ -239,14 +239,14 @@ export function clearExpiredState(): void {
     } else {
       hasChanges = true;
     }
-  });
+  })
 
   if (hasChanges) {
-    safeSetItem(STATE_KEYS.COMPONENT_STATES, JSON.stringify(validStates));
+    safeSetItem(STATE_KEYS.COMPONENT_STATES, JSON.stringify(validStates))
   }
 
   // Clear expired scroll positions
-  const scrollPositions = getScrollPositions();
+  const scrollPositions = getScrollPositions()
   const validPositions: Record<string, ComponentState> = {};
   hasChanges = false;
 
@@ -256,10 +256,10 @@ export function clearExpiredState(): void {
     } else {
       hasChanges = true;
     }
-  });
+  })
 
   if (hasChanges) {
-    safeSetItem(STATE_KEYS.SCROLL_POSITIONS, JSON.stringify(validPositions));
+    safeSetItem(STATE_KEYS.SCROLL_POSITIONS, JSON.stringify(validPositions))
   }
 }
 
@@ -269,17 +269,17 @@ export function clearExpiredState(): void {
 export function useStateCleanup(): (() => void) | void {
   if (typeof window !== 'undefined') {
     // Clear expired state on page load
-    clearExpiredState();
-    // Set up periodic cleanup (every 10 minutes);
-    const interval = setInterval(clearExpiredState, 10 * 60 * 1000);
+    clearExpiredState()
+    // Set up periodic cleanup (every 10 minutes)
+    const interval = setInterval(clearExpiredState, 10 * 60 * 1000)
 
     // Cleanup on page unload
     const cleanup = () => {;
-      clearInterval(interval);
-      clearExpiredState();
+      clearInterval(interval)
+      clearExpiredState()
     };
 
-    window.addEventListener('beforeunload', cleanup);
+    window.addEventListener('beforeunload', cleanup)
 
     // Return cleanup function
     return cleanup;
@@ -294,9 +294,9 @@ export function createStatePreservationHook(componentId: string) {
     _saveState: (state: unknown) => saveComponentState(componentId, state),
     _getState: () => getComponentState(componentId),
     _clearState: () => {
-      const allStates = getComponentStates();
+      const allStates = getComponentStates()
       delete allStates[componentId]
-      safeSetItem(STATE_KEYS.COMPONENT_STATES, JSON.stringify(allStates));
+      safeSetItem(STATE_KEYS.COMPONENT_STATES, JSON.stringify(allStates))
     }
   };
 }

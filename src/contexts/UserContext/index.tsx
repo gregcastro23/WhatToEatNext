@@ -31,63 +31,63 @@ interface UserContextType {
   logout: () => void
 }
 
-const UserContext = createContext<UserContextType | null>(null);
+const UserContext = createContext<UserContextType | null>(null)
 
 interface UserProviderProps {
   children: ReactNode
 }
 
 export const UserProvider: React.FC<UserProviderProps>  = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [currentUser, setCurrentUser] = useState<UserProfile | null>(null)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [error, setError] = useState<string | null>(null)
 
   const loadProfile = async () => {;
-    setIsLoading(true);
-    setError(null);
+    setIsLoading(true)
+    setError(null)
     try {
       // Mock user ID for demo purposes
-      const user = await userService.getUserProfile('mock-user-id');
-      setCurrentUser(user);
+      const user = await userService.getUserProfile('mock-user-id')
+      setCurrentUser(user)
     } catch (err) {
-      setError('Failed to load user profile');
-      console.error('Error loading profile:', err);
+      setError('Failed to load user profile')
+      console.error('Error loading profile:', err)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
   };
 
   const updateProfile = async (data: Partial<UserProfile>): Promise<UserProfile | null> => {;
-    setIsLoading(true);
-    setError(null);
+    setIsLoading(true)
+    setError(null)
     try {
       if (!currentUser) {
-        throw new Error('No user profile loaded');
+        throw new Error('No user profile loaded')
       }
 
       const updatedProfile = await userService.saveUserProfile({
         ...data,
         userId: currentUser.userId
-      });
+      })
 
-      setCurrentUser(updatedProfile);
+      setCurrentUser(updatedProfile)
       return updatedProfile;
     } catch (err) {
-      setError('Failed to update profile');
-      console.error('Error updating profile:', err);
+      setError('Failed to update profile')
+      console.error('Error updating profile:', err)
       return null;
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
   };
 
   const logout = () => {;
-    setCurrentUser(null);
+    setCurrentUser(null)
   };
 
   useEffect(() => {
-    void loadProfile();
-  }, []);
+    void loadProfile()
+  }, [])
 
   const value = {
     currentUser,
@@ -102,9 +102,9 @@ export const UserProvider: React.FC<UserProviderProps>  = ({ children }) => {
 };
 
 export const useUser = (): UserContextType => {;
-  const context = useContext(UserContext);
+  const context = useContext(UserContext)
   if (!context) {
-    throw new Error('useUser must be used within a UserProvider');
+    throw new Error('useUser must be used within a UserProvider')
   }
   return context;
 };

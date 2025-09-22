@@ -1837,9 +1837,9 @@ const rawPoultry = {
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
 export const poultry: Record<string, IngredientMapping> = fixIngredientMappings(
   rawPoultry as Record<string, Partial<IngredientMapping>>,
-);
+)
 
 // Create a collection of all poultry items
-export const _allPoultry = Object.values(poultry);
+export const _allPoultry = Object.values(poultry)
 
 export default poultry;

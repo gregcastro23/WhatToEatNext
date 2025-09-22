@@ -33,11 +33,11 @@ const FlavorEngineContext = createContext<FlavorEngineContextType>({
   categories: {},
   getProfile: () => undefined,
   searchProfiles: () => [],
-  calculateCompatibility: () => ({});
-});
+  calculateCompatibility: () => ({})
+})
 
 // Hook to use the flavor engine context
-export const _useFlavorEngine = () => useContext(FlavorEngineContext);
+export const _useFlavorEngine = () => useContext(FlavorEngineContext)
 
 // Create a stable engine instance - we access it once here and never again
 const engine = unifiedFlavorEngine;
@@ -56,7 +56,7 @@ const globalInitState = {
 // The provider component
 export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
   // Use refs to track local component state
-  const isMountedRef = useRef(false);
+  const isMountedRef = useRef(false)
 
   // Create state that won't change during re-renders unless explicitly set
   const [state, setState] = useState({
@@ -65,7 +65,7 @@ export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
     error: globalInitState.error,
     profileCount: globalInitState.profileCount,
     categories: globalInitState.categories
-  });
+  })
 
   // Single initialization effect that runs only once
   useEffect(() => {
@@ -80,7 +80,7 @@ export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
           error: globalInitState.error,
           profileCount: globalInitState.profileCount,
           categories: globalInitState.categories
-        });
+        })
       }
       return;
     }
@@ -93,14 +93,14 @@ export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
       const checkEngineInit = () => {;
         try {
           // Get profiles
-          const profiles = engine.getAllProfiles();
+          const profiles = engine.getAllProfiles()
 
           if ((profiles || []).length > 0) {
             // Calculate categories
             const categoryMap: { [key: string]: number } = {};
             (profiles || []).forEach(profile => {
               categoryMap[profile.category] = (categoryMap[profile.category] || 0) + 1;
-            });
+            })
 
             // Update global state first
             globalInitState.profileCount = (profiles || []).length;
@@ -116,7 +116,7 @@ export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
                 error: null,
                 profileCount: (profiles || []).length,
                 categories: categoryMap
-              });
+              })
             }
           } else if (isMountedRef.current) {
             // Schedule another check if no profiles are loaded yet
@@ -124,8 +124,8 @@ export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
           }
         } catch (err) {
           const error =
-            err instanceof Error ? err : new Error('Unknown error initializing flavor engine');
-          console.error('Failed to initialize flavor engine:', err);
+            err instanceof Error ? err : new Error('Unknown error initializing flavor engine')
+          console.error('Failed to initialize flavor engine:', err)
 
           // Update global state
           globalInitState.error = error;
@@ -139,13 +139,13 @@ export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
               error,
               profileCount: 0,
               categories: {}
-            });
+            })
           }
         }
       };
 
       // Start the check process
-      checkEngineInit();
+      checkEngineInit()
     }
 
     // Cleanup function
@@ -154,20 +154,20 @@ export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
 
       // Clear any pending timers
       if (globalInitState.initTimer) {
-        clearTimeout(globalInitState.initTimer);
+        clearTimeout(globalInitState.initTimer)
         globalInitState.initTimer = null;
       }
     };
   }, []); // Empty dependency array - only run once on mount
 
   // Memoize wrapper functions to prevent unnecessary re-renders
-  const getProfile = useMemo(() => (id: string) => engine.getProfile(id), []);
-  const searchProfiles = useMemo(() => (criteria: {}) => engine.searchProfiles(criteria), []);
+  const getProfile = useMemo(() => (id: string) => engine.getProfile(id), [])
+  const searchProfiles = useMemo(() => (criteria: {}) => engine.searchProfiles(criteria), [])
   const calculateCompatibility = useMemo(
     () => (profile1: UnifiedFlavorProfile, profile2: UnifiedFlavorProfile) =>
       engine.calculateCompatibility(profile1, profile2),
     [],
-  );
+  )
 
   // Create the context value - memoize to prevent unnecessary rerenders
   const contextValue = useMemo(
@@ -191,11 +191,11 @@ export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
       searchProfiles,
       calculateCompatibility
     ],
-  );
+  )
 
   return (
     <FlavorEngineContext.Provider value={contextValue}>{children}</FlavorEngineContext.Provider>
-  );
+  )
 }
 
 export default FlavorEngineProvider;

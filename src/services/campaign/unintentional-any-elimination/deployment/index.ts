@@ -85,12 +85,12 @@ export interface ValidationResult {
  * Deployment Manager class
  */
 export class DeploymentManager {
-  private, config: UnintentionalAnyConfig
-  private, deploymentLog: string[],
+  private config: UnintentionalAnyConfig
+  private deploymentLog: string[],
   private currentPhase?: string,
 
   constructor(config?: UnintentionalAnyConfig) {
-    this.config = config || environmentConfigManager.getConfig();
+    this.config = config || environmentConfigManager.getConfig()
     this.deploymentLog = []
   }
 
@@ -100,23 +100,23 @@ export class DeploymentManager {
   async executeDeployment(phases: DeploymentPhase[]): Promise<DeploymentResult[]> {
     const results: DeploymentResult[] = [];
 
-    this.log('Starting deployment automation');
-    this.log(`Deploying ${phases.length} phases`);
+    this.log('Starting deployment automation')
+    this.log(`Deploying ${phases.length} phases`)
 
     for (const phase of phases) {
       try {
         this.currentPhase = phase.id;
-        const result = await this.executePhase(phase);
-        results.push(result);
+        const result = await this.executePhase(phase)
+        results.push(result)
 
         if (!result.success) {
-          this.log(`Phase ${phase.id} failed, stopping deployment`);
+          this.log(`Phase ${phase.id} failed, stopping deployment`)
           break;
         }
 
-        this.log(`Phase ${phase.id} completed successfully`);
+        this.log(`Phase ${phase.id} completed successfully`)
       } catch (error) {
-        this.log(`Phase ${phase.id} threw error: ${error}`);
+        this.log(`Phase ${phase.id} threw error: ${error}`)
         results.push({
           success: false,
           phase: phase.id,
@@ -130,12 +130,12 @@ export class DeploymentManager {
           errors: [String(error)],
           warnings: [],
           rollbackPerformed: false
-        });
+        })
         break;
       }
     }
 
-    this.log('Deployment automation completed');
+    this.log('Deployment automation completed')
     return results;
   }
 
@@ -143,7 +143,7 @@ export class DeploymentManager {
    * Execute single deployment phase
    */
   async executePhase(phase: DeploymentPhase): Promise<DeploymentResult> {
-    const startTime = new Date();
+    const startTime = new Date()
     const result: DeploymentResult = {
       success: false,
       phase: phase.id,
@@ -159,66 +159,66 @@ export class DeploymentManager {
       rollbackPerformed: false
     };
 
-    this.log(`Executing phase: ${phase.name}`);
+    this.log(`Executing phase: ${phase.name}`)
 
     try {
       // Check prerequisites
-      await this.checkPrerequisites(phase.prerequisites);
+      await this.checkPrerequisites(phase.prerequisites)
 
       // Execute tasks
       for (const task of phase.tasks) {
         result.tasksExecuted++;
 
         try {
-          await this.executeTask(task);
+          await this.executeTask(task)
           result.tasksSucceeded++;
-          this.log(`Task completed: ${task.name}`);
+          this.log(`Task completed: ${task.name}`)
         } catch (error) {
           result.tasksFailed++;
-          result.errors.push(`Task ${task.name} failed: ${error}`);
+          result.errors.push(`Task ${task.name} failed: ${error}`)
 
           if (task.critical) {
-            throw new Error(`Critical task failed: ${task.name}`);
+            throw new Error(`Critical task failed: ${task.name}`)
           } else {
-            result.warnings.push(`Non-critical task failed: ${task.name}`);
+            result.warnings.push(`Non-critical task failed: ${task.name}`)
           }
         }
       }
 
       // Run validation checks
-      result.validationResults = await this.runValidationChecks(phase.validationChecks);
+      result.validationResults = await this.runValidationChecks(phase.validationChecks)
 
       // Check success criteria
       const criteriaResult = await this.checkSuccessCriteria(;
         phase.successCriteria
         result.validationResults
-      );
+      )
       result.success = criteriaResult.success;
 
       if (!criteriaResult.success) {
-        result.errors.push(...criteriaResult.errors);
+        result.errors.push(...criteriaResult.errors)
       }
     } catch (error) {
       result.success = false;
-      result.errors.push(String(error));
+      result.errors.push(String(error))
 
       // Attempt rollback
       if (phase.rollbackTasks.length > 0) {
-        this.log(`Attempting rollback for phase: ${phase.name}`);
+        this.log(`Attempting rollback for phase: ${phase.name}`)
         try {
-          await this.executeRollback(phase.rollbackTasks);
+          await this.executeRollback(phase.rollbackTasks)
           result.rollbackPerformed = true;
-          this.log('Rollback completed successfully');
+          this.log('Rollback completed successfully')
         } catch (rollbackError) {
-          result.errors.push(`Rollback failed: ${rollbackError}`);
-          this.log(`Rollback failed: ${rollbackError}`);
+          result.errors.push(`Rollback failed: ${rollbackError}`)
+          this.log(`Rollback failed: ${rollbackError}`)
         }
       }
     }
 
-    const endTime = new Date();
+    const endTime = new Date()
     result.endTime = endTime;
-    result.duration = endTime.getTime() - startTime.getTime();
+    result.duration = endTime.getTime() - startTime.getTime()
 
     return result;
   }
@@ -231,39 +231,39 @@ export class DeploymentManager {
       const process = spawn(task.command, task.args, {
         env: { ...process.env, ...task.environment },
         stdio: 'pipe'
-      });
+      })
 
       let output = '';
       let errorOutput = '';
 
       process.stdout?.on('data', data => {
-        output += data.toString();
-      });
+        output += data.toString()
+      })
 
       process.stderr?.on('data', data => {
-        errorOutput += data.toString();
-      });
+        errorOutput += data.toString()
+      })
 
       const timeout = setTimeout(() => {;
-        process.kill();
-        reject(new Error(`Task ${task.name} timed out after ${task.timeout}ms`));
-      }, task.timeout);
+        process.kill()
+        reject(new Error(`Task ${task.name} timed out after ${task.timeout}ms`))
+      }, task.timeout)
 
       process.on('close', code => {
-        clearTimeout(timeout);
+        clearTimeout(timeout)
 
         if (code === 0) {;
-          resolve();
+          resolve()
         } else {
-          reject(new Error(`Task ${task.name} exited with code ${code}: ${errorOutput}`));
+          reject(new Error(`Task ${task.name} exited with code ${code}: ${errorOutput}`))
         }
-      });
+      })
 
       process.on('error', error => {
-        clearTimeout(timeout);
-        reject(error);
-      });
-    });
+        clearTimeout(timeout)
+        reject(error)
+      })
+    })
   }
 
   /**
@@ -283,16 +283,16 @@ export class DeploymentManager {
       };
 
       try {
-        const output = await this.executeValidationCheck(check);
+        const output = await this.executeValidationCheck(check)
         result.output = output;
         result.success = check.outputValidation ? check.outputValidation(output) : true
       } catch (error) {
-        result.error = String(error);
+        result.error = String(error)
         result.success = false;
       }
 
       result.duration = Date.now() - startTime;
-      results.push(result);
+      results.push(result)
     }
 
     return results;
@@ -305,41 +305,41 @@ export class DeploymentManager {
     return new Promise((resolve, reject) => {
       const process = spawn(check.command, check.args, {
         stdio: 'pipe'
-      });
+      })
 
       let output = '';
       let errorOutput = '';
 
       process.stdout?.on('data', data => {
-        output += data.toString();
-      });
+        output += data.toString()
+      })
 
       process.stderr?.on('data', data => {
-        errorOutput += data.toString();
-      });
+        errorOutput += data.toString()
+      })
 
       const timeout = setTimeout(() => {;
-        process.kill();
-        reject(new Error(`Validation check ${check.name} timed out`));
-      }, check.timeout);
+        process.kill()
+        reject(new Error(`Validation check ${check.name} timed out`))
+      }, check.timeout)
 
       process.on('close', code => {
-        clearTimeout(timeout);
+        clearTimeout(timeout)
 
         if (code === check.expectedExitCode) {;
-          resolve(output);
+          resolve(output)
         } else {
           reject(
-            new Error(`Validation check ${check.name} failed with code ${code}: ${errorOutput}`);
-          );
+            new Error(`Validation check ${check.name} failed with code ${code}: ${errorOutput}`)
+          )
         }
-      });
+      })
 
       process.on('error', error => {
-        clearTimeout(timeout);
-        reject(error);
-      });
-    });
+        clearTimeout(timeout)
+        reject(error)
+      })
+    })
   }
 
   /**
@@ -353,46 +353,46 @@ export class DeploymentManager {
 
     // Check build success
     if (criteria.buildSuccess) {
-      const buildCheck = validationResults.find(r => r.checkId.includes('build'));
+      const buildCheck = validationResults.find(r => r.checkId.includes('build'))
       if (!buildCheck?.success) {
-        errors.push('Build validation failed');
+        errors.push('Build validation failed')
       }
     }
 
     // Check tests pass
     if (criteria.testsPass) {
-      const testCheck = validationResults.find(r => r.checkId.includes('test'));
+      const testCheck = validationResults.find(r => r.checkId.includes('test'))
       if (!testCheck?.success) {
-        errors.push('Test validation failed');
+        errors.push('Test validation failed')
       }
     }
 
     // Check linting pass
     if (criteria.lintingPass) {
-      const lintCheck = validationResults.find(r => r.checkId.includes('lint'));
+      const lintCheck = validationResults.find(r => r.checkId.includes('lint'))
       if (!lintCheck?.success) {
-        errors.push('Linting validation failed');
+        errors.push('Linting validation failed')
       }
     }
 
     // Check configuration valid
     if (criteria.configurationValid) {
-      const configManager = new ConfigurationManager();
-      const validation = configManager.validateConfig();
+      const configManager = new ConfigurationManager()
+      const validation = configManager.validateConfig()
       if (!validation.isValid) {
-        errors.push(`Configuration validation failed: ${validation.errors.join(', ')}`);
+        errors.push(`Configuration validation failed: ${validation.errors.join(', ')}`)
       }
     }
 
     // Run custom checks
     for (const customCheck of criteria.customChecks) {
       try {
-        const result = await customCheck.validator();
+        const result = await customCheck.validator()
         if (!result) {
-          errors.push(`Custom check failed: ${customCheck.name}`);
+          errors.push(`Custom check failed: ${customCheck.name}`)
         }
       } catch (error) {
-        errors.push(`Custom check error: ${customCheck.name} - ${error}`);
+        errors.push(`Custom check error: ${customCheck.name} - ${error}`)
       }
     }
 
@@ -407,7 +407,7 @@ export class DeploymentManager {
    */
   private async executeRollback(rollbackTasks: DeploymentTask[]): Promise<void> {
     for (const task of rollbackTasks) {
-      await this.executeTask(task);
+      await this.executeTask(task)
     }
   }
 
@@ -417,7 +417,7 @@ export class DeploymentManager {
   private async checkPrerequisites(prerequisites: string[]): Promise<void> {
     for (const prerequisite of prerequisites) {
       if (!existsSync(prerequisite)) {
-        throw new Error(`Prerequisite not found: ${prerequisite}`);
+        throw new Error(`Prerequisite not found: ${prerequisite}`)
       }
     }
   }
@@ -426,10 +426,10 @@ export class DeploymentManager {
    * Log deployment message
    */
   private log(message: string): void {
-    const timestamp = new Date().toISOString();
+    const timestamp = new Date().toISOString()
     const logMessage = `[${timestamp}] ${message}`;
-    this.deploymentLog.push(logMessage);
-    // // // console.log(logMessage);
+    this.deploymentLog.push(logMessage)
+    // // // console.log(logMessage)
   }
 
   /**
@@ -443,8 +443,8 @@ export class DeploymentManager {
    * Save deployment log to file
    */
   saveDeploymentLog(filePath: string): void {
-    const logContent = this.deploymentLog.join('\n');
-    writeFileSync(filePath, logContent);
+    const logContent = this.deploymentLog.join('\n')
+    writeFileSync(filePath, logContent)
   }
 }
 
@@ -576,7 +576,7 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
           {
             name: 'Configuration File Exists',
             validator: async () =>
-              existsSync('.kiro/campaign-configs/unintentional-any-elimination.json');
+              existsSync('.kiro/campaign-configs/unintentional-any-elimination.json')
           }
         ]
       }
@@ -728,9 +728,9 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
             validator: async () => {
               // Check if all components are properly integrated
               try {
-                const configManager = new ConfigurationManager();
-                const config = configManager.getConfig();
-                const validation = configManager.validateConfig();
+                const configManager = new ConfigurationManager()
+                const config = configManager.getConfig()
+                const validation = configManager.validateConfig()
                 return validation.isValid
               } catch {
                 return false

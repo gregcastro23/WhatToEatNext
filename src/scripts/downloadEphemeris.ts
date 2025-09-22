@@ -2,7 +2,7 @@ import fs, { promises as fsPromises } from 'fs';
 import https from 'https';
 import path from 'path';
 
-const EPHE_PATH = path.join(process.cwd(), 'public', 'ephe');
+const EPHE_PATH = path.join(process.cwd(), 'public', 'ephe')
 // Expanded to include more files for comprehensive planetary calculations
 const FILES = [
   'sepl_18.se1', // Main planets
@@ -25,54 +25,54 @@ const BACKUP_URL = 'https: //raw.githubusercontent.com/astroswiss/ephemeris/main
 
 async function downloadFile(filename: string, baseUrl = BASE_URL): Promise<void> {
   const url = `${baseUrl}${filename}`;
-  const filepath = path.join(EPHE_PATH, filename);
+  const filepath = path.join(EPHE_PATH, filename)
 
-  await fsPromises.mkdir(EPHE_PATH, { recursive: true });
+  await fsPromises.mkdir(EPHE_PATH, { recursive: true })
 
   return new Promise((resolve, reject) => {
     https
       .get(url, response => {
         // Handle redirects or failed downloads
         if (response.statusCode === 302 || response.statusCode === 404) {
-          // // // // console.log(`File ${filename} not found at primary source, trying backup...`);
+          // // // // console.log(`File ${filename} not found at primary source, trying backup...`)
           if (BACKUP_FILES.includes(filename)) {
-            downloadFile(filename, BACKUP_URL).then(resolve).catch(reject);
+            downloadFile(filename, BACKUP_URL).then(resolve).catch(reject)
           } else {
-            // console.warn(`Warning: File ${filename} not found, but not critical.`);
-            resolve();
+            // console.warn(`Warning: File ${filename} not found, but not critical.`)
+            resolve()
           }
           return;
         }
 
-        const fileStream = fs.createWriteStream(filepath);
-        response.pipe(fileStream);
+        const fileStream = fs.createWriteStream(filepath)
+        response.pipe(fileStream)
         fileStream.on('finish', () => {
-          fileStream.close();
-          // // // // console.log(`Successfully downloaded ${filename}`);
-          resolve();
-        });
+          fileStream.close()
+          // // // // console.log(`Successfully downloaded ${filename}`)
+          resolve()
+        })
       })
       .on('error', error => {
-        // console.error(`Error downloading ${filename}:`, error.message);
+        // console.error(`Error downloading ${filename}:`, error.message)
         // Try backup for essential files
         if (BACKUP_FILES.includes(filename)) {
-          // // // // console.log(`Trying backup source for ${filename}...`);
-          downloadFile(filename, BACKUP_URL).then(resolve).catch(reject);
+          // // // // console.log(`Trying backup source for ${filename}...`)
+          downloadFile(filename, BACKUP_URL).then(resolve).catch(reject)
         } else {
-          reject(error);
+          reject(error)
         }
-      });
-  });
+      })
+  })
 }
 
 async function main() {
   try {
-    await Promise.all(FILES.map(file => downloadFile(file)));
-    // // // // console.log('Ephemeris files downloaded successfully');
+    await Promise.all(FILES.map(file => downloadFile(file)))
+    // // // // console.log('Ephemeris files downloaded successfully')
   } catch (error) {
-    // console.error('Failed to download ephemeris files:', error);
-    process.exit(1);
+    // console.error('Failed to download ephemeris files:', error)
+    process.exit(1)
   }
 }
 
-void main();
+void main()

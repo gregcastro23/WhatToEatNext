@@ -4,7 +4,7 @@ import { FoodDataCentral } from './apiClients';
 
 export class NutritionService {
   async getNutritionalProfile(fdcId: string): Promise<NutritionalProfile> {
-    const data = await FoodDataCentral.getFood(fdcId);
+    const data = await FoodDataCentral.getFood(fdcId)
 
     const foodData = data as unknown as FoodDataCentralFood
 
@@ -37,13 +37,13 @@ export class NutritionService {
 
   private extractPhytonutrients(data: FoodDataCentralFood): Record<string, number> {
     return data.foodNutrients
-      .filter(n => n.nutrientName?.includes('Phytonutrient'));
+      .filter(n => n.nutrientName?.includes('Phytonutrient'))
       .reduce(
         (acc: Record<string, number>, n) => ({
           ...acc,
           [n.nutrientName || '']: n.value || 0
         }),
         {},
-      );
+      )
   }
 }

@@ -22,53 +22,53 @@ const IngredientRecommender = ({
     {initialCategory && <div>Category: {initialCategory}</div>}
     {initialSelectedIngredient && <div>Ingredient: {initialSelectedIngredient}</div>}
   </div>
-);
+)
 
 export default function IngredientsPage() {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedIngredient, setSelectedIngredient] = useState<string | null>(null);
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
+  const [selectedIngredient, setSelectedIngredient] = useState<string | null>(null)
 
   // Use enhanced state preservation hooks
-  const { _preserveContext, restoreContext} = useNavigationContext();
-  const { restoreScrollPosition} = useScrollPreservation('ingredients-page');
+  const { preserveContext, restoreContext} = useNavigationContext()
+  const { restoreScrollPosition} = useScrollPreservation('ingredients-page')
 
   // Restore context from URL parameters or enhanced state preservation
   useEffect(() => {
     // Check URL parameters first
-    const categoryParam = searchParams?.get('category');
-    const ingredientParam = searchParams?.get('ingredient');
+    const categoryParam = searchParams?.get('category')
+    const ingredientParam = searchParams?.get('ingredient')
 
     if (categoryParam) {
-      setSelectedCategory(categoryParam);
+      setSelectedCategory(categoryParam)
     }
 
     if (ingredientParam) {
-      setSelectedIngredient(ingredientParam);
+      setSelectedIngredient(ingredientParam)
     }
 
     // If no URL params, try to restore from enhanced state preservation
     if (!categoryParam && !ingredientParam) {
-      const restoredContext = restoreContext();
+      const restoredContext = restoreContext()
       if (restoredContext) {
         if (restoredContext.selectedIngredientCategory) {
-          setSelectedCategory(restoredContext.selectedIngredientCategory);
+          setSelectedCategory(restoredContext.selectedIngredientCategory)
         }
         if (restoredContext.selectedIngredient) {
-          setSelectedIngredient(restoredContext.selectedIngredient);
+          setSelectedIngredient(restoredContext.selectedIngredient)
         }
       }
     }
 
     // Restore scroll position after a short delay
     setTimeout(() => {
-      restoreScrollPosition();
-    }, 100);
-  }, [searchParams, restoreContext, restoreScrollPosition]);
+      restoreScrollPosition()
+    }, 100)
+  }, [searchParams, restoreContext, restoreScrollPosition])
 
   // Handle navigation back to main page with enhanced context preservation
-  const handleBackToMain = () => {;
+  const handleBackToMain = () => {
     // Preserve current context using enhanced system
     preserveContext({
       fromPage: 'ingredients',
@@ -76,15 +76,15 @@ export default function IngredientsPage() {
       activeSection: 'ingredients',
       scrollPosition: window.scrollY,
       timestamp: Date.now()
-    });
+    })
 
     // Navigate with smooth transition
-    router.push('/#ingredients');
+    router.push('/#ingredients')
   };
 
   // Handle navigation to home
-  const handleGoHome = () => {;
-    router.push('/');
+  const handleGoHome = () => {
+    router.push('/')
   };
 
   // Enhanced ingredient recommendations context (rune/agent banner)
@@ -93,11 +93,11 @@ export default function IngredientsPage() {
     loading: recLoading,
     error: recError,
     getIngredientRecommendations
-  } = useEnhancedRecommendations({ datetime: new Date(), useBackendInfluence: true });
+  } = useEnhancedRecommendations({ datetime: new Date(), useBackendInfluence: true })
 
   useEffect(() => {
-    void getIngredientRecommendations();
-  }, [getIngredientRecommendations]);
+    void getIngredientRecommendations()
+  }, [getIngredientRecommendations])
 
   return (
     <div className='min-h-screen bg-gradient-to-b from-indigo-50 via-blue-50 to-gray-100'>
@@ -107,16 +107,16 @@ export default function IngredientsPage() {
           <div className='mb-4 flex items-center justify-between'>
             <div className='flex items-center gap-4'>
               <button
-                onClick={handleBackToMain},
-                className='flex items-center gap-2 rounded-lg px-3 py-2 font-medium text-indigo-600 transition-colors, hover: bg-indigo-50, hover:text-indigo-800'
+                onClick={handleBackToMain}
+                className='flex items-center gap-2 rounded-lg px-3 py-2 font-medium text-indigo-600 transition-colors hover:bg-indigo-50 hover:text-indigo-800'
               >
                 <ArrowLeft size={20} />
                 Back to Main
               </button>
 
               <button
-                onClick={handleGoHome};
-                className='flex items-center gap-2 rounded-lg px-3 py-2 font-medium text-gray-600 transition-colors, hover: bg-gray-50, hover:text-gray-800'
+                onClick={handleGoHome}
+                className='flex items-center gap-2 rounded-lg px-3 py-2 font-medium text-gray-600 transition-colors hover:bg-gray-50 hover:text-gray-800'
               >
                 <Home size={20} />
                 Home
@@ -125,7 +125,7 @@ export default function IngredientsPage() {
           </div>
 
           <div className='text-center'>
-            <h1 className='mb-2 text-3xl font-bold text-indigo-900, md: text-4xl'>
+            <h1 className='mb-2 text-3xl font-bold text-indigo-900 md:text-4xl'>
               Ingredient Recommendations
             </h1>
             <p className='mb-4 text-indigo-600'>
@@ -165,13 +165,13 @@ export default function IngredientsPage() {
               </div>
             )}
             <IngredientRecommender
-              initialCategory={selectedCategory};
-              initialSelectedIngredient={selectedIngredient};
-              isFullPageVersion={true};
+              initialCategory={selectedCategory}
+              initialSelectedIngredient={selectedIngredient}
+              isFullPageVersion={true}
             />
           </div>
         </main>
       </div>
     </div>
-  );
+  )
 }

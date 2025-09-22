@@ -10,8 +10,8 @@ import { z } from 'zod';
 import { AnyTypeCategory, SafetyLevel } from '../types';
 
 // Enum schemas
-const AnyTypeCategorySchema = z.nativeEnum(AnyTypeCategory);
-const SafetyLevelSchema = z.nativeEnum(SafetyLevel);
+const AnyTypeCategorySchema = z.nativeEnum(AnyTypeCategory)
+const SafetyLevelSchema = z.nativeEnum(SafetyLevel)
 
 // Classification configuration schema
 export const ClassificationConfigSchema = z;
@@ -21,9 +21,9 @@ export const ClassificationConfigSchema = z;
     minCommentLength: z.number().min(0),
     intentionalKeywords: z.array(z.string()),
     testFilePatterns: z.array(z.string()),
-    categoryDefaults: z.record(AnyTypeCategorySchema, z.number().min(0).max(1));
+    categoryDefaults: z.record(AnyTypeCategorySchema, z.number().min(0).max(1))
   })
-  .strict();
+  .strict()
 
 // Domain configuration schema
 export const DomainConfigSchema = z;
@@ -31,9 +31,9 @@ export const DomainConfigSchema = z;
     typeSuggestions: z.record(z.string(), z.array(z.string())),
     pathPatterns: z.record(z.string(), z.array(z.string())),
     contentPatterns: z.record(z.string(), z.array(z.string())),
-    elementalAssociations: z.record(z.string(), z.array(z.string()));
+    elementalAssociations: z.record(z.string(), z.array(z.string()))
   })
-  .strict();
+  .strict()
 
 // Safety configuration schema
 export const SafetyConfigSchema = z;
@@ -43,9 +43,9 @@ export const SafetyConfigSchema = z;
     compilationTimeout: z.number().min(1000),
     maxRollbackAttempts: z.number().min(1).max(10),
     safetyLevels: z.record(z.string(), SafetyLevelSchema),
-    backupRetentionDays: z.number().min(1).max(365);
+    backupRetentionDays: z.number().min(1).max(365)
   })
-  .strict();
+  .strict()
 
 // Target configuration schema
 export const TargetConfigSchema = z;
@@ -57,7 +57,7 @@ export const TargetConfigSchema = z;
       .object({
         metrics: z.number().min(1),
         reports: z.number().min(0.1),
-        checkpoints: z.number().min(1);
+        checkpoints: z.number().min(1)
       })
       .strict(),
     milestones: z.array(
@@ -65,12 +65,12 @@ export const TargetConfigSchema = z;
         .object({
           name: z.string().min(1),
           targetReduction: z.number().min(0).max(100),
-          timeframe: z.string().min(1);
+          timeframe: z.string().min(1)
         })
         .strict(),
     )
   })
-  .strict();
+  .strict()
 
 // Main configuration schema
 export const UnintentionalAnyConfigSchema = z;
@@ -80,16 +80,16 @@ export const UnintentionalAnyConfigSchema = z;
     safety: SafetyConfigSchema,
     targets: TargetConfigSchema,
     version: z.string().min(1),
-    lastUpdated: z.string().datetime();
+    lastUpdated: z.string().datetime()
   })
-  .strict();
+  .strict()
 
 // Partial schemas for updates
-export const _PartialClassificationConfigSchema = ClassificationConfigSchema.partial();
-export const _PartialDomainConfigSchema = DomainConfigSchema.partial();
-export const _PartialSafetyConfigSchema = SafetyConfigSchema.partial();
-export const _PartialTargetConfigSchema = TargetConfigSchema.partial();
-export const _PartialUnintentionalAnyConfigSchema = UnintentionalAnyConfigSchema.partial();
+export const _PartialClassificationConfigSchema = ClassificationConfigSchema.partial()
+export const _PartialDomainConfigSchema = DomainConfigSchema.partial()
+export const _PartialSafetyConfigSchema = SafetyConfigSchema.partial()
+export const _PartialTargetConfigSchema = TargetConfigSchema.partial()
+export const _PartialUnintentionalAnyConfigSchema = UnintentionalAnyConfigSchema.partial()
 
 /**
  * Validation functions
@@ -100,7 +100,7 @@ export function validateClassificationConfig(_config: unknown): {
   errors?: z.ZodError
 } {
   try {
-    const data = ClassificationConfigSchema.parse(config);
+    const data = ClassificationConfigSchema.parse(config)
     return { isValid: true, data };
   } catch (error) {
     return { isValid: false, errors: error as z.ZodError };
@@ -113,7 +113,7 @@ export function validateDomainConfig(_config: unknown): {
   errors?: z.ZodError
 } {
   try {
-    const data = DomainConfigSchema.parse(config);
+    const data = DomainConfigSchema.parse(config)
     return { isValid: true, data };
   } catch (error) {
     return { isValid: false, errors: error as z.ZodError };
@@ -126,7 +126,7 @@ export function validateSafetyConfig(_config: unknown): {
   errors?: z.ZodError
 } {
   try {
-    const data = SafetyConfigSchema.parse(config);
+    const data = SafetyConfigSchema.parse(config)
     return { isValid: true, data };
   } catch (error) {
     return { isValid: false, errors: error as z.ZodError };
@@ -139,7 +139,7 @@ export function validateTargetConfig(_config: unknown): {
   errors?: z.ZodError
 } {
   try {
-    const data = TargetConfigSchema.parse(config);
+    const data = TargetConfigSchema.parse(config)
     return { isValid: true, data };
   } catch (error) {
     return { isValid: false, errors: error as z.ZodError };
@@ -152,7 +152,7 @@ export function validateUnintentionalAnyConfig(_config: unknown): {
   errors?: z.ZodError
 } {
   try {
-    const data = UnintentionalAnyConfigSchema.parse(config);
+    const data = UnintentionalAnyConfigSchema.parse(config)
     return { isValid: true, data };
   } catch (error) {
     return { isValid: false, errors: error as z.ZodError };
@@ -172,38 +172,38 @@ export function validateBusinessRules(_config: z.infer<typeof UnintentionalAnyCo
 
   // Classification business rules
   if (config.classification.intentionalThreshold <= config.classification.unintentionalThreshold) {
-    errors.push('intentionalThreshold must be greater than unintentionalThreshold');
+    errors.push('intentionalThreshold must be greater than unintentionalThreshold')
   }
 
   if (config.classification.intentionalKeywords.length === 0) {;
-    warnings.push('No intentional keywords defined, classification may be less accurate');
+    warnings.push('No intentional keywords defined, classification may be less accurate')
   }
 
   // Safety business rules
   if (config.safety.maxBatchSize > 50) {
-    warnings.push('Large batch size may impact system stability');
+    warnings.push('Large batch size may impact system stability')
   }
 
   if (config.safety.validationFrequency > config.safety.maxBatchSize) {
-    warnings.push('Validation frequency is larger than batch size, consider reducing');
+    warnings.push('Validation frequency is larger than batch size, consider reducing')
   }
 
   if (config.safety.compilationTimeout < 10000) {
-    warnings.push('Compilation timeout is quite low, may cause false failures');
+    warnings.push('Compilation timeout is quite low, may cause false failures')
   }
 
   // Target business rules
   if (config.targets.targetReductionPercentage > 50) {
-    warnings.push('Very high target reduction percentage, may be unrealistic');
+    warnings.push('Very high target reduction percentage, may be unrealistic')
   }
 
   if (config.targets.minSuccessRate < 0.5) {
-    warnings.push('Low minimum success rate may lead to poor quality results');
+    warnings.push('Low minimum success rate may lead to poor quality results')
   }
 
   // Cross-section validation
   if (config.targets.trackingIntervals.checkpoints > config.safety.maxBatchSize) {
-    warnings.push('Checkpoint interval is larger than batch size');
+    warnings.push('Checkpoint interval is larger than batch size')
   }
 
   // Milestone validation
@@ -212,14 +212,14 @@ export function validateBusinessRules(_config: z.infer<typeof UnintentionalAnyCo
     if (milestones[i].targetReduction <= milestones[i - 1].targetReduction) {
       errors.push(
         `Milestone '${milestones[i].name}' has lower or equal target than previous milestone`,
-      );
+      )
     }
   }
 
   if (milestones.length > 0) {
     const finalMilestone = milestones[milestones.length - 1];
     if (finalMilestone.targetReduction !== config.targets.targetReductionPercentage) {
-      warnings.push('Final milestone target does not match overall target reduction percentage');
+      warnings.push('Final milestone target does not match overall target reduction percentage')
     }
   }
 
@@ -241,7 +241,7 @@ export function validateCompleteConfig(_config: unknown): {
   warnings?: string[]
 } {
   // First validate schema
-  const schemaValidation = validateUnintentionalAnyConfig(config);
+  const schemaValidation = validateUnintentionalAnyConfig(config)
   if (!schemaValidation.isValid) {
     return {
       isValid: false,
@@ -250,7 +250,7 @@ export function validateCompleteConfig(_config: unknown): {
   }
 
   // Then validate business rules
-  const businessValidation = validateBusinessRules(schemaValidation.data!);
+  const businessValidation = validateBusinessRules(schemaValidation.data!)
 
   return {
     isValid: businessValidation.isValid,

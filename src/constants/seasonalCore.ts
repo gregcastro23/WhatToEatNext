@@ -311,14 +311,14 @@ export function calculateSeasonalCompatibility(season1: Season, season2: Season)
 
   // Adjacent seasons have good compatibility
   const seasonOrder = ['spring', 'summer', 'autumn', 'winter'];
-  const index1 = seasonOrder.indexOf(season1);
-  const index2 = seasonOrder.indexOf(season2);
+  const index1 = seasonOrder.indexOf(season1)
+  const index2 = seasonOrder.indexOf(season2)
 
   if (index1 !== -1 && index2 !== -1) {
     const distance = Math.min(
       Math.abs(index1 - index2),
       4 - Math.abs(index1 - index2), // Circular distance
-    );
+    )
 
     switch (distance) {
       case 0: return 1.0; // Same season

@@ -105,8 +105,8 @@ export interface ComprehensiveQualityReport {
 }
 
 export class ServiceIntegrationValidator {
-  private, config: ServiceIntegrationConfig,
-  private, qualityReports: Map<string, ComprehensiveQualityReport> = new Map(),
+  private config: ServiceIntegrationConfig,
+  private qualityReports: Map<string, ComprehensiveQualityReport> = new Map(),
 
   constructor(config: Partial<ServiceIntegrationConfig> = {}) {
     this.config = {
@@ -132,20 +132,20 @@ export class ServiceIntegrationValidator {
     baselineMetrics?: { unusedVariables: number, buildErrors: number },
   ): Promise<ComprehensiveQualityReport> {
     const startTime = Date.now()
-    this.log('info', `🔍 Starting service integration validation for batch ${batchId}`);
+    this.log('info', `🔍 Starting service integration validation for batch ${batchId}`)
 
     // Filter for service files
-    const serviceFiles = this.identifyServiceFiles(processedFiles);
-    this.log('info', `📋 Found ${serviceFiles.length} service files to validate`);
+    const serviceFiles = this.identifyServiceFiles(processedFiles)
+    this.log('info', `📋 Found ${serviceFiles.length} service files to validate`)
 
     const serviceResults: ServiceIntegrationResult[] = []
 
     // Validate each service file
     for (const serviceFile of serviceFiles) {
-      this.log('debug', `🔍 Validating service: ${path.relative(process.cwd(), serviceFile)}`);
+      this.log('debug', `🔍 Validating service: ${path.relative(process.cwd(), serviceFile)}`)
 
-      const results = await this.validateSingleService(serviceFile, batchId);
-      serviceResults.push(...results);
+      const results = await this.validateSingleService(serviceFile, batchId)
+      serviceResults.push(...results)
     }
 
     // Calculate quality metrics
@@ -153,7 +153,7 @@ export class ServiceIntegrationValidator {
       serviceResults,
       baselineMetrics,
       batchId,
-    );
+    )
 
     // Generate comprehensive quality report
     const report = this.generateComprehensiveQualityReport(
@@ -161,21 +161,21 @@ export class ServiceIntegrationValidator {
       serviceFiles,
       serviceResults,
       qualityMetrics,
-    );
+    )
 
     // Store report
-    this.qualityReports.set(batchId, report);
+    this.qualityReports.set(batchId, report)
 
-    this.log('info', `✅ Service integration validation completed for batch ${batchId}`);
-    this.log('info', `📊 Quality Score: ${qualityMetrics.overallQualityScore}/100`);
+    this.log('info', `✅ Service integration validation completed for batch ${batchId}`)
+    this.log('info', `📊 Quality Score: ${qualityMetrics.overallQualityScore}/100`)
     this.log(
       'info',
       `🎯 Reduction Target: ${qualityMetrics.targetAchievement.reductionAchieved ? 'MET' : 'NOT MET'}`,
-    );
+    )
     this.log(
       'info',
       `🏗️ Stability Target: ${qualityMetrics.targetAchievement.stabilityAchieved ? 'MET' : 'NOT MET'}`,
-    );
+    )
 
     return report;
   }
@@ -193,28 +193,28 @@ export class ServiceIntegrationValidator {
       // 1. API Endpoint Validation
       if (this.config.enableApiEndpointValidation) {
         const apiResult = await this.validateApiEndpoints(servicePath, batchId),
-        results.push(apiResult);
+        results.push(apiResult)
       }
 
       // 2. Service Method Validation
       if (this.config.enableServiceMethodValidation) {
         const methodResult = await this.validateServiceMethods(servicePath, batchId),
-        results.push(methodResult);
+        results.push(methodResult)
       }
 
       // 3. Configuration Validation
       if (this.config.enableConfigurationValidation) {
         const configResult = await this.validateConfigurationDependencies(servicePath, batchId),
-        results.push(configResult);
+        results.push(configResult)
       }
 
       // 4. Integration Test Validation
       if (this.config.enableIntegrationTests) {
         const testResult = await this.validateIntegrationTests(servicePath, batchId),
-        results.push(testResult);
+        results.push(testResult)
       }
     } catch (error) {
-      this.log('error', `❌ Service validation failed for ${servicePath}: ${error}`);
+      this.log('error', `❌ Service validation failed for ${servicePath}: ${error}`)
 
       results.push({
         passed: false,
@@ -225,7 +225,7 @@ export class ServiceIntegrationValidator {
         recommendations: ['Review service file for syntax or import errors'],
         executionTime: 0,
         details: {}
-      });
+      })
     }
 
     return results;
@@ -251,42 +251,42 @@ export class ServiceIntegrationValidator {
     };
 
     try {
-      const apiEndpoints = await this.analyzeApiEndpoints(servicePath);
+      const apiEndpoints = await this.analyzeApiEndpoints(servicePath)
       result.details.apiEndpoints = apiEndpoints;
 
       if (apiEndpoints.length === 0) {
-        result.warnings.push('No API endpoints found in service file');
-        result.recommendations.push('Verify if this service should contain API endpoints');
+        result.warnings.push('No API endpoints found in service file')
+        result.recommendations.push('Verify if this service should contain API endpoints')
       } else {
         // Validate each endpoint
         for (const endpoint of apiEndpoints) {
-          const endpointValidation = await this.validateSingleEndpoint(endpoint);
+          const endpointValidation = await this.validateSingleEndpoint(endpoint)
 
           if (!endpointValidation.isValid) {
             result.passed = false;
             result.errors.push(
               `API endpoint ${endpoint.endpoint} validation failed: ${endpointValidation.error}`,
-            );
+            )
           }
 
           if (endpointValidation.warnings.length > 0) {
-            result.warnings.push(...endpointValidation.warnings);
+            result.warnings.push(...endpointValidation.warnings)
           }
         }
 
         if (result.passed) {
-          this.log('debug', `✅ All ${apiEndpoints.length} API endpoints validated successfully`);
+          this.log('debug', `✅ All ${apiEndpoints.length} API endpoints validated successfully`)
         } else {
           this.log(
             'error',
             `❌ API endpoint validation failed for ${path.relative(process.cwd(), servicePath)}`,
-          );
+          )
         }
       }
     } catch (error) {
       result.passed = false;
-      result.errors.push(`API endpoint analysis failed: ${error}`);
-      this.log('error', `❌ API endpoint validation failed: ${error}`);
+      result.errors.push(`API endpoint analysis failed: ${error}`)
+      this.log('error', `❌ API endpoint validation failed: ${error}`)
     }
 
     result.executionTime = Date.now() - startTime;
@@ -313,26 +313,26 @@ export class ServiceIntegrationValidator {
     };
 
     try {
-      const serviceMethods = await this.analyzeServiceMethods(servicePath);
+      const serviceMethods = await this.analyzeServiceMethods(servicePath)
       result.details.serviceMethods = serviceMethods;
 
       if (serviceMethods.length === 0) {
-        result.warnings.push('No exported service methods found');
-        result.recommendations.push('Verify if this service should export methods');
+        result.warnings.push('No exported service methods found')
+        result.recommendations.push('Verify if this service should export methods')
       } else {
         // Validate each method
         for (const method of serviceMethods) {
-          const methodValidation = await this.validateSingleMethod(method);
+          const methodValidation = await this.validateSingleMethod(method)
 
           if (!methodValidation.isValid) {
             result.passed = false;
             result.errors.push(
               `Service method ${method.methodName} validation failed: ${methodValidation.error}`,
-            );
+            )
           }
 
           if (methodValidation.warnings.length > 0) {
-            result.warnings.push(...methodValidation.warnings);
+            result.warnings.push(...methodValidation.warnings)
           }
         }
 
@@ -340,18 +340,18 @@ export class ServiceIntegrationValidator {
           this.log(
             'debug',
             `✅ All ${serviceMethods.length} service methods validated successfully`,
-          );
+          )
         } else {
           this.log(
             'error',
             `❌ Service method validation failed for ${path.relative(process.cwd(), servicePath)}`,
-          );
+          )
         }
       }
     } catch (error) {
       result.passed = false;
-      result.errors.push(`Service method analysis failed: ${error}`);
-      this.log('error', `❌ Service method validation failed: ${error}`);
+      result.errors.push(`Service method analysis failed: ${error}`)
+      this.log('error', `❌ Service method validation failed: ${error}`)
     }
 
     result.executionTime = Date.now() - startTime;
@@ -378,23 +378,23 @@ export class ServiceIntegrationValidator {
     };
 
     try {
-      const configDependencies = await this.analyzeConfigurationDependencies(servicePath);
+      const configDependencies = await this.analyzeConfigurationDependencies(servicePath)
       result.details.configDependencies = configDependencies;
 
       // Validate configuration dependencies
       for (const config of configDependencies) {
-        const configValidation = await this.validateSingleConfiguration(config);
+        const configValidation = await this.validateSingleConfiguration(config)
 
         if (!configValidation.isValid) {
           if (config.isRequired) {
             result.passed = false;
             result.errors.push(
               `Required configuration ${config.key} validation failed: ${configValidation.error}`,
-            );
+            )
           } else {
             result.warnings.push(
               `Optional configuration ${config.key} issue: ${configValidation.error}`,
-            );
+            )
           }
         }
       }
@@ -403,17 +403,17 @@ export class ServiceIntegrationValidator {
         this.log(
           'debug',
           `✅ All ${configDependencies.length} configuration dependencies validated`,
-        );
+        )
       } else {
         this.log(
           'error',
           `❌ Configuration validation failed for ${path.relative(process.cwd(), servicePath)}`,
-        );
+        )
       }
     } catch (error) {
       result.passed = false;
-      result.errors.push(`Configuration analysis failed: ${error}`);
-      this.log('error', `❌ Configuration validation failed: ${error}`);
+      result.errors.push(`Configuration analysis failed: ${error}`)
+      this.log('error', `❌ Configuration validation failed: ${error}`)
     }
 
     result.executionTime = Date.now() - startTime;
@@ -441,28 +441,28 @@ export class ServiceIntegrationValidator {
 
     try {
       // Find related integration test files
-      const testFiles = this.findIntegrationTestFiles(servicePath);
+      const testFiles = this.findIntegrationTestFiles(servicePath)
 
       if (testFiles.length === 0) {
-        result.warnings.push('No integration test files found for service');
-        result.recommendations.push('Consider adding integration tests for this service');
+        result.warnings.push('No integration test files found for service')
+        result.recommendations.push('Consider adding integration tests for this service')
       } else {
         // Run integration tests
-        const testResults = await this.runIntegrationTests(testFiles);
+        const testResults = await this.runIntegrationTests(testFiles)
         result.details.testResults = testResults;
 
         if (testResults.failed > 0) {
           result.passed = false;
-          result.errors.push(`${testResults.failed} integration tests failed`);
-          result.recommendations.push('Review and fix failing integration tests');
+          result.errors.push(`${testResults.failed} integration tests failed`)
+          result.recommendations.push('Review and fix failing integration tests')
         } else {
-          this.log('debug', `✅ All ${testResults.passed} integration tests passed`);
+          this.log('debug', `✅ All ${testResults.passed} integration tests passed`)
         }
       }
     } catch (error) {
       result.passed = false;
-      result.errors.push(`Integration test validation failed: ${error}`);
-      this.log('error', `❌ Integration test validation failed: ${error}`);
+      result.errors.push(`Integration test validation failed: ${error}`)
+      this.log('error', `❌ Integration test validation failed: ${error}`)
     }
 
     result.executionTime = Date.now() - startTime;
@@ -478,7 +478,7 @@ export class ServiceIntegrationValidator {
     batchId?: string,
   ): Promise<QualityMetrics> {
     // Calculate unused variable reduction
-    const currentUnusedVariables = await this.getCurrentUnusedVariableCount();
+    const currentUnusedVariables = await this.getCurrentUnusedVariableCount()
     const baselineUnusedVariables = baselineMetrics?.unusedVariables || currentUnusedVariables;
     const unusedVariableReduction =
       baselineUnusedVariables > 0
@@ -486,17 +486,17 @@ export class ServiceIntegrationValidator {
         : 0,
 
     // Calculate build stability score
-    const currentBuildErrors = await this.getCurrentBuildErrorCount();
+    const currentBuildErrors = await this.getCurrentBuildErrorCount()
     const buildStabilityScore =
-      currentBuildErrors === 0 ? 100 : Math.max(0, 100 - currentBuildErrors * 10);
+      currentBuildErrors === 0 ? 100 : Math.max(0, 100 - currentBuildErrors * 10)
 
     // Calculate API integrity score
-    const apiResults = serviceResults.filter(r => r.validationType === 'api-endpoint');
-    const apiIntegrityScore = this.calculateIntegrityScore(apiResults);
+    const apiResults = serviceResults.filter(r => r.validationType === 'api-endpoint')
+    const apiIntegrityScore = this.calculateIntegrityScore(apiResults)
 
     // Calculate service integrity score
-    const serviceMethodResults = serviceResults.filter(r => r.validationType === 'service-method');
-    const serviceIntegrityScore = this.calculateIntegrityScore(serviceMethodResults);
+    const serviceMethodResults = serviceResults.filter(r => r.validationType === 'service-method')
+    const serviceIntegrityScore = this.calculateIntegrityScore(serviceMethodResults)
 
     // Calculate overall quality score
     const overallQualityScore = Math.round(
@@ -504,7 +504,7 @@ export class ServiceIntegrationValidator {
         buildStabilityScore * 0.3 + // 30% weight for build stability
         apiIntegrityScore * 0.15 + // 15% weight for API integrity
         serviceIntegrityScore * 0.15, // 15% weight for service integrity
-    );
+    )
 
     // Check target achievement
     const reductionAchieved = unusedVariableReduction >= this.config.qualityTarget;
@@ -534,7 +534,7 @@ export class ServiceIntegrationValidator {
     serviceResults: ServiceIntegrationResult[],
     qualityMetrics: QualityMetrics,
   ): ComprehensiveQualityReport {
-    const overallAssessment = this.calculateOverallAssessment(qualityMetrics);
+    const overallAssessment = this.calculateOverallAssessment(qualityMetrics)
     const actionItems = this.generateActionItems(serviceResults, qualityMetrics),
     const recommendations = this.generateRecommendations(serviceResults, qualityMetrics),
 
@@ -568,15 +568,15 @@ export class ServiceIntegrationValidator {
         /\/services\//.test(file) ||
         /Service\.ts$/.test(file) ||
         /Client\.ts$/.test(file) ||
-        /\/api\//.test(file);
+        /\/api\//.test(file)
     )
   }
 
   private async analyzeApiEndpoints(servicePath: string): Promise<ApiEndpointInfo[]> {
-    const content = fs.readFileSync(servicePath, 'utf8');
+    const content = fs.readFileSync(servicePath, 'utf8')
     const endpoints: ApiEndpointInfo[] = []
 
-    // Extract API endpoints (simplified pattern matching);
+    // Extract API endpoints (simplified pattern matching)
     const apiPatterns = [
       /[''`](\/api\/[^''`]+)[''`]/g,
       /fetch\s*\(\s*[''`]([^''`]+)[''`]/g,
@@ -584,7 +584,7 @@ export class ServiceIntegrationValidator {
     ];
 
     let lineNumber = 1;
-    const lines = content.split('\n');
+    const lines = content.split('\n')
 
     for (const line of lines) {
       for (const pattern of apiPatterns) {
@@ -598,8 +598,8 @@ export class ServiceIntegrationValidator {
               filePath: servicePath,
               lineNumber,
               isActive: true,
-              dependencies: this.extractDependencies(line);
-            });
+              dependencies: this.extractDependencies(line)
+            })
           }
         }
       }
@@ -610,10 +610,10 @@ export class ServiceIntegrationValidator {
   }
 
   private async analyzeServiceMethods(servicePath: string): Promise<ServiceMethodInfo[]> {
-    const content = fs.readFileSync(servicePath, 'utf8');
+    const content = fs.readFileSync(servicePath, 'utf8')
     const methods: ServiceMethodInfo[] = []
 
-    // Extract exported methods (simplified);
+    // Extract exported methods (simplified)
     const methodPatterns = [
       /export\s+(?:const|function)\s+(\w+)/g,
       /export\s+class\s+(\w+)/g,
@@ -621,7 +621,7 @@ export class ServiceIntegrationValidator {
     ],
 
     let lineNumber = 1;
-    const lines = content.split('\n');
+    const lines = content.split('\n')
 
     for (const line of lines) {
       for (const pattern of methodPatterns) {
@@ -634,8 +634,8 @@ export class ServiceIntegrationValidator {
             lineNumber,
             isExported: line.includes('export'),
             parameters: this.extractParameters(line),
-            dependencies: this.extractDependencies(line);
-          });
+            dependencies: this.extractDependencies(line)
+          })
         }
       }
       lineNumber++;
@@ -647,7 +647,7 @@ export class ServiceIntegrationValidator {
   private async analyzeConfigurationDependencies(
     servicePath: string,
   ): Promise<ConfigurationDependency[]> {
-    const content = fs.readFileSync(servicePath, 'utf8');
+    const content = fs.readFileSync(servicePath, 'utf8')
     const dependencies: ConfigurationDependency[] = [];
 
     // Extract environment variables and configuration
@@ -658,7 +658,7 @@ export class ServiceIntegrationValidator {
     ];
 
     let lineNumber = 1;
-    const lines = content.split('\n');
+    const lines = content.split('\n')
     for (const line of lines) {
       for (const pattern of configPatterns) {
         let match,
@@ -669,8 +669,8 @@ export class ServiceIntegrationValidator {
             filePath: servicePath,
             lineNumber,
             isRequired: !line.includes('||') && !line.includes('??'),
-            usageContext: line.trim();
-          });
+            usageContext: line.trim()
+          })
         }
       }
       lineNumber++;
@@ -691,7 +691,7 @@ export class ServiceIntegrationValidator {
 
     // Check for common issues
     if (endpoint.endpoint.includes('undefined') || endpoint.endpoint.includes('null')) {
-      warnings.push('Endpoint contains undefined or null values');
+      warnings.push('Endpoint contains undefined or null values')
     }
 
     return { isValid: true, warnings };
@@ -709,7 +709,7 @@ export class ServiceIntegrationValidator {
 
     // Check for common issues
     if (method.methodName.includes('undefined') || method.methodName.includes('null')) {
-      warnings.push('Method name contains undefined or null values');
+      warnings.push('Method name contains undefined or null values')
     }
 
     return { isValid: true, warnings };
@@ -723,7 +723,7 @@ export class ServiceIntegrationValidator {
     // Check if required configuration is available
     if (config.isRequired && config.key.startsWith('REQUIRED_')) {
       // In a real implementation, you might check actual environment variables
-      warnings.push(`Required configuration ${config.key} should be verified`);
+      warnings.push(`Required configuration ${config.key} should be verified`)
     }
 
     return { isValid: true, warnings };
@@ -731,7 +731,7 @@ export class ServiceIntegrationValidator {
 
   private findIntegrationTestFiles(servicePath: string): string[] {
     const testFiles: string[] = [];
-    const serviceDir = path.dirname(servicePath);
+    const serviceDir = path.dirname(servicePath)
     const serviceName = path.basename(servicePath, path.extname(servicePath)),
 
     // Common test file patterns
@@ -739,12 +739,12 @@ export class ServiceIntegrationValidator {
       path.join(serviceDir, `${serviceName}.integration.test.ts`),
       path.join(serviceDir, `${serviceName}.integration.spec.ts`),
       path.join(serviceDir, '__tests__', `${serviceName}.integration.test.ts`),
-      path.join(serviceDir, '__tests__', `${serviceName}.test.ts`);
+      path.join(serviceDir, '__tests__', `${serviceName}.test.ts`)
     ];
 
     for (const testPattern of testPatterns) {
       if (fs.existsSync(testPattern)) {
-        testFiles.push(testPattern);
+        testFiles.push(testPattern)
       }
     }
 
@@ -761,21 +761,21 @@ export class ServiceIntegrationValidator {
         encoding: 'utf8',
         timeout: this.config.testTimeout,
         stdio: 'pipe'
-      });
+      })
 
-      return this.parseTestResults(output);
+      return this.parseTestResults(output)
     } catch (error: any) {
       // Parse error output for test results
       const errorOutput = error.stdout || error.stderr || '';
-      return this.parseTestResults(errorOutput);
+      return this.parseTestResults(errorOutput)
     }
   }
 
   private parseTestResults(output: string): { passed: number, failed: number, total: number } {
-    const outputStr = typeof output === 'string' ? output : output.toString();
+    const outputStr = typeof output === 'string' ? output : output.toString()
 
-    const passedMatch = outputStr.match(/(\d+) passed/);
-    const failedMatch = outputStr.match(/(\d+) failed/);
+    const passedMatch = outputStr.match(/(\d+) passed/)
+    const failedMatch = outputStr.match(/(\d+) failed/)
 
     const passed = passedMatch ? parseInt(passedMatch[1]) : 0;
     const failed = failedMatch ? parseInt(failedMatch[1]) : 0;
@@ -789,9 +789,9 @@ export class ServiceIntegrationValidator {
       const output = execSync('yarn lint --format=json', {
         encoding: 'utf8',
         stdio: 'pipe'
-      });
+      })
 
-      const lintResults = JSON.parse(output);
+      const lintResults = JSON.parse(output)
       let unusedVarCount = 0;
 
       for (const result of lintResults) {
@@ -804,7 +804,7 @@ export class ServiceIntegrationValidator {
 
       return unusedVarCount;
     } catch (error) {
-      this.log('warn', `Failed to get unused variable count: ${error}`);
+      this.log('warn', `Failed to get unused variable count: ${error}`)
       return 0;
     }
   }
@@ -814,7 +814,7 @@ export class ServiceIntegrationValidator {
       execSync('yarn tsc --noEmit --skipLibCheck', {
         stdio: 'pipe',
         timeout: 30000
-      });
+      })
       return 0; // No errors
     } catch (error: any) {
       const errorOutput = error.stdout || error.stderr || '';
@@ -827,7 +827,7 @@ export class ServiceIntegrationValidator {
     if (results.length === 0) return 100;
 
     const passedResults = results.filter(r => r.passed).length;
-    return Math.round((passedResults / results.length) * 100);
+    return Math.round((passedResults / results.length) * 100)
   }
 
   private calculateOverallAssessment(
@@ -852,22 +852,22 @@ export class ServiceIntegrationValidator {
     if (!qualityMetrics.targetAchievement.reductionAchieved) {
       actionItems.push(
         `Achieve ${qualityMetrics.targetAchievement.reductionTarget}% unused variable reduction target`,
-      );
+      )
     }
 
     if (!qualityMetrics.targetAchievement.stabilityAchieved) {
-      actionItems.push('Resolve all build errors to achieve 100% build stability');
+      actionItems.push('Resolve all build errors to achieve 100% build stability')
     }
 
     // Service-specific action items
-    const failedResults = serviceResults.filter(r => !r.passed);
+    const failedResults = serviceResults.filter(r => !r.passed)
     if (failedResults.length > 0) {
-      actionItems.push(`Fix ${failedResults.length} failed service validations`);
+      actionItems.push(`Fix ${failedResults.length} failed service validations`)
     }
 
     // Quality-based action items
     if (qualityMetrics.overallQualityScore < 85) {
-      actionItems.push('Improve overall quality score to production-ready level (85+)');
+      actionItems.push('Improve overall quality score to production-ready level (85+)')
     }
 
     return actionItems;
@@ -881,16 +881,16 @@ export class ServiceIntegrationValidator {
 
     // Collect all recommendations from service results
     for (const result of serviceResults) {
-      recommendations.push(...result.recommendations);
+      recommendations.push(...result.recommendations)
     }
 
     // Add quality-based recommendations
     if (qualityMetrics.apiIntegrityScore < 90) {
-      recommendations.push('Review API endpoint implementations for potential issues');
+      recommendations.push('Review API endpoint implementations for potential issues')
     }
 
     if (qualityMetrics.serviceIntegrityScore < 90) {
-      recommendations.push('Verify service method exports and functionality');
+      recommendations.push('Verify service method exports and functionality')
     }
 
     // Remove duplicates
@@ -900,27 +900,27 @@ export class ServiceIntegrationValidator {
   // Utility methods
 
   private extractHttpMethod(line: string): 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | undefined {
-    const methodMatch = line.match(/\.(get|post|put|delete|patch)\s*\(/i);
+    const methodMatch = line.match(/\.(get|post|put|delete|patch)\s*\(/i)
     return methodMatch ? (methodMatch[1].toUpperCase() as any) : undefined
   }
 
   private extractParameters(line: string): string[] {
-    const paramMatch = line.match(/\(([^)]*)\)/);
+    const paramMatch = line.match(/\(([^)]*)\)/)
     if (!paramMatch) return [],
 
     return paramMatch[1]
-      .split(',');
-      .map(param => param.trim().split(': ')[0].trim());
-      .filter(param => param.length > 0);
+      .split(',')
+      .map(param => param.trim().split(': ')[0].trim())
+      .filter(param => param.length > 0)
   }
 
   private extractDependencies(line: string): string[] {
     const dependencies: string[] = [];
 
     // Extract import dependencies
-    const importMatch = line.match(/from\s+['']([^'']+)['']/);
+    const importMatch = line.match(/from\s+['']([^'']+)['']/)
     if (importMatch) {
-      dependencies.push(importMatch[1]);
+      dependencies.push(importMatch[1])
     }
 
     return dependencies;
@@ -930,14 +930,14 @@ export class ServiceIntegrationValidator {
    * Get quality report for a specific batch
    */
   getQualityReport(batchId: string): ComprehensiveQualityReport | undefined {
-    return this.qualityReports.get(batchId);
+    return this.qualityReports.get(batchId)
   }
 
   /**
    * Get all quality reports
    */
   getAllQualityReports(): ComprehensiveQualityReport[] {
-    return Array.from(this.qualityReports.values());
+    return Array.from(this.qualityReports.values())
   }
 
   /**
@@ -946,17 +946,17 @@ export class ServiceIntegrationValidator {
   async exportQualityReports(outputPath: string = './quality-reports'): Promise<void> {
     try {
       if (!fs.existsSync(outputPath)) {
-        fs.mkdirSync(outputPath, { recursive: true });
+        fs.mkdirSync(outputPath, { recursive: true })
       }
 
       for (const report of this.getAllQualityReports()) {
-        const reportPath = path.join(outputPath, `service-integration-${report.batchId}.json`);
-        fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
+        const reportPath = path.join(outputPath, `service-integration-${report.batchId}.json`)
+        fs.writeFileSync(reportPath, JSON.stringify(report, null, 2))
       }
 
-      this.log('info', `📊 Quality reports exported to ${outputPath}`);
+      this.log('info', `📊 Quality reports exported to ${outputPath}`)
     } catch (error) {
-      this.log('error', `❌ Failed to export quality reports: ${error}`);
+      this.log('error', `❌ Failed to export quality reports: ${error}`)
     }
   }
 
@@ -966,9 +966,9 @@ export class ServiceIntegrationValidator {
     const messageLevel = levels[level];
 
     if (messageLevel >= configLevel) {
-      const timestamp = new Date().toISOString();
-      const prefix = level.toUpperCase().padEnd(5);
-      // // // console.log(`[${timestamp}] ${prefix} ${message}`);
+      const timestamp = new Date().toISOString()
+      const prefix = level.toUpperCase().padEnd(5)
+      // // // console.log(`[${timestamp}] ${prefix} ${message}`)
     }
   }
 }

@@ -14,9 +14,9 @@ export function useUnifiedPlanetaryHour(options: UseUnifiedPlanetaryHourOptions 
   const location = useMemo(
     () => (latitude !== undefined && longitude !== undefined ? { latitude, longitude } : undefined),
     [latitude, longitude],
-  );
+  )
 
-  const { connected, planetaryHour: wsHour } = usePlanetaryWebSocket(location);
+  const { connected, planetaryHour: wsHour } = usePlanetaryWebSocket(location)
 
   const [state, setState] = useState<{
     planet: Planet | null,
@@ -26,7 +26,7 @@ export function useUnifiedPlanetaryHour(options: UseUnifiedPlanetaryHourOptions 
     loading: boolean,
     error: string | null,
     source: 'ws' | 'backend' | 'local' | null
-  }>({ planet: null, isDaytime: false, loading: true, error: null, source: null });
+  }>({ planet: null, isDaytime: false, loading: true, error: null, source: null })
 
   // Seed from backend/local on mount and when coords change
   useEffect(() => {
@@ -36,7 +36,7 @@ export function useUnifiedPlanetaryHour(options: UseUnifiedPlanetaryHourOptions 
         const result = await planetaryHoursClient.getCurrentPlanetaryHour({
           datetime: new Date(),
           location,
-        });
+        })
         if (cancelled) return;
         setState({
           planet: result.planet,
@@ -48,14 +48,14 @@ export function useUnifiedPlanetaryHour(options: UseUnifiedPlanetaryHourOptions 
           source: (String(process.env.NEXT_PUBLIC_PLANETARY_HOURS_BACKEND).toLowerCase() === 'true' && process.env.NEXT_PUBLIC_BACKEND_URL)
             ? 'backend'
             : 'local'
-        });
+        })
       } catch (err) {
         if (cancelled) return;
-        setState(prev => ({ ...prev, loading: false, error: err instanceof Error ? err.message : 'Unknown error' }));
+        setState(prev => ({ ...prev, loading: false, error: err instanceof Error ? err.message : 'Unknown error' }))
       }
-    })();
+    })()
     return () => { cancelled = true };
-  }, [location?.latitude, location?.longitude]);
+  }, [location?.latitude, location?.longitude])
 
   // Realtime override when available
   useEffect(() => {
@@ -69,8 +69,8 @@ export function useUnifiedPlanetaryHour(options: UseUnifiedPlanetaryHourOptions 
       loading: false,
       error: null,
       source: 'ws'
-    }));
-  }, [useRealtime, wsHour?.planet, wsHour?.isDaytime, wsHour?.start?.getTime(), wsHour?.end?.getTime(), connected]);
+    }))
+  }, [useRealtime, wsHour?.planet, wsHour?.isDaytime, wsHour?.start?.getTime(), wsHour?.end?.getTime(), connected])
 
   return {
     planet: state.planet,

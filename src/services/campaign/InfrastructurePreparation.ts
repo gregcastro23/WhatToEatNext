@@ -88,8 +88,8 @@ export class InfrastructurePreparation {
 
   constructor(projectRoot: string = process.cwd()) {;
     this.projectRoot = projectRoot
-    this.backupDir = join(projectRoot, '.linting-infrastructure-backups');
-    this.metricsDir = join(projectRoot, '.kiro', 'metrics');
+    this.backupDir = join(projectRoot, '.linting-infrastructure-backups')
+    this.metricsDir = join(projectRoot, '.kiro', 'metrics')
   }
 
   /**
@@ -97,7 +97,7 @@ export class InfrastructurePreparation {
    * Validates and prepares all infrastructure components
    */
   async prepareInfrastructure(): Promise<InfrastructureStatus> {
-    // // // console.log('🚀 Starting Infrastructure Preparation and Safety Protocols...\n');
+    // // // console.log('🚀 Starting Infrastructure Preparation and Safety Protocols...\n')
 
     const status: InfrastructureStatus = {
       eslintConfig: await this.validateESLintConfiguration(),
@@ -111,24 +111,24 @@ export class InfrastructurePreparation {
     };
 
     // Calculate overall readiness
-    status.readinessScore = this.calculateReadinessScore(status);
+    status.readinessScore = this.calculateReadinessScore(status)
     status.overallReadiness = status.readinessScore >= 85;
 
     // Generate recommendations
-    status.recommendations = this.generateRecommendations(status);
+    status.recommendations = this.generateRecommendations(status)
 
     // Create infrastructure report
-    await this.generateInfrastructureReport(status);
+    await this.generateInfrastructureReport(status)
 
-    // // // console.log(`\n✅ Infrastructure Preparation Complete!`);
-    // // // console.log(`📊 Readiness Score: ${status.readinessScore}%`);
-    // // // console.log(`🎯 Overall Readiness: ${status.overallReadiness ? 'READY' : 'NEEDS ATTENTION'}`);
+    // // // console.log(`\n✅ Infrastructure Preparation Complete!`)
+    // // // console.log(`📊 Readiness Score: ${status.readinessScore}%`)
+    // // // console.log(`🎯 Overall Readiness: ${status.overallReadiness ? 'READY' : 'NEEDS ATTENTION'}`)
 
     if (status.recommendations.length > 0) {
-      // // // console.log('\n📋 Recommendations: ');
+      // // // console.log('\n📋 Recommendations: ')
       status.recommendations.forEach((reci) => {
-        // // // console.log(`   ${i + 1}. ${rec}`);
-      });
+        // // // console.log(`   ${i + 1}. ${rec}`)
+      })
     }
 
     return status;
@@ -138,11 +138,11 @@ export class InfrastructurePreparation {
    * Validate dual ESLint configuration strategy
    */
   private async validateESLintConfiguration(): Promise<ESLintConfigValidation> {
-    // // // console.log('🔧 Validating Dual ESLint Configuration Strategy...');
+    // // // console.log('🔧 Validating Dual ESLint Configuration Strategy...')
 
-    const fastConfigPath = join(this.projectRoot, 'eslint.config.fast.cjs');
-    const typeAwareConfigPath = join(this.projectRoot, 'eslint.config.type-aware.cjs');
-    const packageJsonPath = join(this.projectRoot, 'package.json');
+    const fastConfigPath = join(this.projectRoot, 'eslint.config.fast.cjs')
+    const typeAwareConfigPath = join(this.projectRoot, 'eslint.config.type-aware.cjs')
+    const packageJsonPath = join(this.projectRoot, 'package.json')
 
     const validation: ESLintConfigValidation = {
       fastConfig: {
@@ -173,13 +173,13 @@ export class InfrastructurePreparation {
           cwd: this.projectRoot,
           stdio: 'pipe',
           timeout: 30000
-        });
+        })
         validation.fastConfig.estimatedTime = Date.now() - startTime;
         validation.fastConfig.functional = true;
         validation.fastConfig.performanceOptimized = validation.fastConfig.estimatedTime < 5000;
-        // // // console.log(`   ✅ Fast config functional (${validation.fastConfig.estimatedTime}ms)`);
+        // // // console.log(`   ✅ Fast config functional (${validation.fastConfig.estimatedTime}ms)`)
       } catch (error) {
-        // // // console.log(`   ❌ Fast config test failed: ${error}`);
+        // // // console.log(`   ❌ Fast config test failed: ${error}`)
       }
     }
 
@@ -191,22 +191,22 @@ export class InfrastructurePreparation {
           cwd: this.projectRoot,
           stdio: 'pipe',
           timeout: 60000
-        });
+        })
         validation.typeAwareConfig.estimatedTime = Date.now() - startTime;
         validation.typeAwareConfig.functional = true;
 
         // Check if type checking is enabled by looking for type-aware rules
-        const configContent = readFileSync(typeAwareConfigPath, 'utf8');
-        validation.typeAwareConfig.typeCheckingEnabled = configContent.includes('project: ');
-        // // // console.log(`   ✅ Type-aware config functional (${validation.typeAwareConfig.estimatedTime}ms)`);
+        const configContent = readFileSync(typeAwareConfigPath, 'utf8')
+        validation.typeAwareConfig.typeCheckingEnabled = configContent.includes('project: ')
+        // // // console.log(`   ✅ Type-aware config functional (${validation.typeAwareConfig.estimatedTime}ms)`)
       } catch (error) {
-        // // // console.log(`   ❌ Type-aware config test failed: ${error}`);
+        // // // console.log(`   ❌ Type-aware config test failed: ${error}`)
       }
     }
 
     // Validate package.json scripts
     if (existsSync(packageJsonPath)) {
-      const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8'));
+      const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8'))
       const scripts = packageJson.scripts || {};
 
       validation.packageScripts.quickLint = !!scripts['lint: quick'];
@@ -214,7 +214,7 @@ export class InfrastructurePreparation {
       validation.packageScripts.incrementalLint = !!scripts['lint:incremental'];
       validation.packageScripts.ciLint = !!scripts['lint:ci'];
 
-      // // // console.log(`   ✅ Package scripts validated`);
+      // // // console.log(`   ✅ Package scripts validated`)
     }
 
     return validation;
@@ -224,7 +224,7 @@ export class InfrastructurePreparation {
    * Setup automated backup and rollback mechanisms
    */
   private async setupBackupSystem(): Promise<BackupSystem> {
-    // // // console.log('💾 Setting up Automated Backup and Rollback Mechanisms...');
+    // // // console.log('💾 Setting up Automated Backup and Rollback Mechanisms...')
 
     const backupSystem: BackupSystem = {
       gitStashAvailable: false,
@@ -239,36 +239,36 @@ export class InfrastructurePreparation {
 
     // Check git stash availability
     try {
-      execSync('git status', { cwd: this.projectRoot, stdio: 'pipe' });
-      execSync('git stash list', { cwd: this.projectRoot, stdio: 'pipe' });
+      execSync('git status', { cwd: this.projectRoot, stdio: 'pipe' })
+      execSync('git stash list', { cwd: this.projectRoot, stdio: 'pipe' })
       backupSystem.gitStashAvailable = true;
-      // // // console.log('   ✅ Git stash available');
+      // // // console.log('   ✅ Git stash available')
     } catch (error) {
-      // // // console.log('   ❌ Git stash not available');
+      // // // console.log('   ❌ Git stash not available')
     }
 
     // Create backup directory
     if (!existsSync(this.backupDir)) {
-      mkdirSync(this.backupDir, { recursive: true });
+      mkdirSync(this.backupDir, { recursive: true })
     }
-    backupSystem.backupDirectoryExists = existsSync(this.backupDir);
-    // // // console.log(`   ✅ Backup directory: ${this.backupDir}`);
+    backupSystem.backupDirectoryExists = existsSync(this.backupDir)
+    // // // console.log(`   ✅ Backup directory: ${this.backupDir}`)
 
     // Test rollback mechanism
     try {
-      const testFile = join(this.backupDir, 'rollback-test.txt');
-      writeFileSync(testFile, 'test backup content');
+      const testFile = join(this.backupDir, 'rollback-test.txt')
+      writeFileSync(testFile, 'test backup content')
 
       if (existsSync(testFile)) {
         backupSystem.rollbackMechanismTested = true;
-        // // // console.log('   ✅ Rollback mechanism tested');
+        // // // console.log('   ✅ Rollback mechanism tested')
       }
     } catch (error) {
-      // // // console.log('   ❌ Rollback mechanism test failed');
+      // // // console.log('   ❌ Rollback mechanism test failed')
     }
 
     // Setup automatic backup configuration
-    const backupConfigPath = join(this.backupDir, 'backup-config.json');
+    const backupConfigPath = join(this.backupDir, 'backup-config.json')
     const backupConfig = {
       enabled: true,
       retentionPolicy: backupSystem.retentionPolicy,
@@ -277,9 +277,9 @@ export class InfrastructurePreparation {
       timestampFormat: 'YYYY-MM-DD-HH-mm-ss'
     };
 
-    writeFileSync(backupConfigPath, JSON.stringify(backupConfig, null, 2));
+    writeFileSync(backupConfigPath, JSON.stringify(backupConfig, null, 2))
     backupSystem.automaticBackupEnabled = true;
-    // // // console.log('   ✅ Automatic backup configuration created');
+    // // // console.log('   ✅ Automatic backup configuration created')
 
     return backupSystem;
   }
@@ -288,7 +288,7 @@ export class InfrastructurePreparation {
    * Setup build stability monitoring and checkpoint systems
    */
   private async setupBuildMonitoring(): Promise<BuildMonitoring> {
-    // // // console.log('🏗️ Setting up Build Stability Monitoring and Checkpoint Systems...');
+    // // // console.log('🏗️ Setting up Build Stability Monitoring and Checkpoint Systems...')
 
     const buildMonitoring: BuildMonitoring = {
       buildStabilityChecks: false,
@@ -305,19 +305,19 @@ export class InfrastructurePreparation {
         cwd: this.projectRoot,
         stdio: 'pipe',
         timeout: 120000
-      });
+      })
       const buildTime = Date.now() - startTime;
       buildMonitoring.buildStabilityChecks = true;
       buildMonitoring.buildTimeTracking = true;
-      // // // console.log(`   ✅ Build stability verified (${buildTime}ms)`);
+      // // // console.log(`   ✅ Build stability verified (${buildTime}ms)`)
     } catch (error) {
-      // // // console.log('   ❌ Build stability check failed');
+      // // // console.log('   ❌ Build stability check failed')
     }
 
     // Setup checkpoint system
-    const checkpointDir = join(this.metricsDir, 'checkpoints');
+    const checkpointDir = join(this.metricsDir, 'checkpoints')
     if (!existsSync(checkpointDir)) {
-      mkdirSync(checkpointDir, { recursive: true });
+      mkdirSync(checkpointDir, { recursive: true })
     }
 
     const checkpointConfig = {
@@ -331,9 +331,9 @@ export class InfrastructurePreparation {
     writeFileSync(
       join(checkpointDir, 'checkpoint-config.json'),
       JSON.stringify(checkpointConfig, null, 2),
-    );
+    )
     buildMonitoring.checkpointSystemReady = true;
-    // // // console.log('   ✅ Checkpoint system configured');
+    // // // console.log('   ✅ Checkpoint system configured')
 
     // Setup performance monitoring
     const performanceConfig = {
@@ -357,9 +357,9 @@ export class InfrastructurePreparation {
     writeFileSync(
       join(this.metricsDir, 'performance-config.json'),
       JSON.stringify(performanceConfig, null, 2),
-    );
+    )
     buildMonitoring.performanceMonitoring = true;
-    // // // console.log('   ✅ Performance monitoring configured');
+    // // // console.log('   ✅ Performance monitoring configured')
 
     // Setup error threshold monitoring
     const errorThresholdConfig = {
@@ -386,9 +386,9 @@ export class InfrastructurePreparation {
     writeFileSync(
       join(this.metricsDir, 'error-threshold-config.json'),
       JSON.stringify(errorThresholdConfig, null, 2),
-    );
+    )
     buildMonitoring.errorThresholdMonitoring = true;
-    // // // console.log('   ✅ Error threshold monitoring configured');
+    // // // console.log('   ✅ Error threshold monitoring configured')
 
     return buildMonitoring;
   }
@@ -397,7 +397,7 @@ export class InfrastructurePreparation {
    * Setup batch processing infrastructure with safety validation
    */
   private async setupBatchProcessing(): Promise<BatchProcessingInfrastructure> {
-    // // // console.log('⚙️ Setting up Batch Processing Infrastructure with Safety Validation...');
+    // // // console.log('⚙️ Setting up Batch Processing Infrastructure with Safety Validation...')
 
     const batchProcessing: BatchProcessingInfrastructure = {
       safetyValidationEnabled: false,
@@ -411,9 +411,9 @@ export class InfrastructurePreparation {
     };
 
     // Create batch processing configuration
-    const batchConfigDir = join(this.metricsDir, 'batch-processing');
+    const batchConfigDir = join(this.metricsDir, 'batch-processing')
     if (!existsSync(batchConfigDir)) {
-      mkdirSync(batchConfigDir, { recursive: true });
+      mkdirSync(batchConfigDir, { recursive: true })
     }
 
     const batchConfig = {
@@ -442,9 +442,9 @@ export class InfrastructurePreparation {
       }
     };
 
-    writeFileSync(join(batchConfigDir, 'batch-config.json'), JSON.stringify(batchConfig, null, 2));
+    writeFileSync(join(batchConfigDir, 'batch-config.json'), JSON.stringify(batchConfig, null, 2))
     batchProcessing.safetyValidationEnabled = true;
-    // // // console.log('   ✅ Batch processing configuration created');
+    // // // console.log('   ✅ Batch processing configuration created')
 
     // Create safety validation script
     const safetyValidationScript = `#!/usr/bin/env node;
@@ -452,33 +452,33 @@ export class InfrastructurePreparation {
  * Safety Validation Script for Batch Processing
  */
 
-const { execSync } = require('child_process');
-const { existsSync } = require('fs');
+const { execSync } = require('child_process')
+const { existsSync } = require('fs')
 
 async function validateBatch(files) {
-  // // // console.log(\`🔍 Validating batch of \${files.length} files...\`);
+  // // // console.log(\`🔍 Validating batch of \${files.length} files...\`)
 
   try {
     // Syntax check
-    // // // console.log('   📝 Checking syntax...');
-    execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe' });
+    // // // console.log('   📝 Checking syntax...')
+    execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe' })
 
     // Type check
-    // // // console.log('   🔍 Type checking...');
-    execSync('yarn tsc --noEmit', { stdio: 'pipe' });
+    // // // console.log('   🔍 Type checking...')
+    execSync('yarn tsc --noEmit', { stdio: 'pipe' })
 
     // Build test
-    // // // console.log('   🏗️ Testing build...');
-    execSync('yarn build', { stdio: 'pipe' });
+    // // // console.log('   🏗️ Testing build...')
+    execSync('yarn build', { stdio: 'pipe' })
 
     // Lint check
-    // // // console.log('   ✨ Linting...');
-    execSync('yarn, lint:quick', { stdio: 'pipe' });
+    // // // console.log('   ✨ Linting...')
+    execSync('yarn, lint:quick', { stdio: 'pipe' })
 
-    // // // console.log('   ✅ Batch validation passed');
+    // // // console.log('   ✅ Batch validation passed')
     return true;
   } catch (error) {
-    // // // console.log(\`   ❌ Batch validation failed: \${error.message}\`);
+    // // // console.log(\`   ❌ Batch validation failed: \${error.message}\`)
     return false;
   }
 }
@@ -486,8 +486,8 @@ async function validateBatch(files) {
 module.exports = { validateBatch };
 `;
 
-    writeFileSync(join(batchConfigDir, 'safety-validation.js'), safetyValidationScript);
-    // // // console.log('   ✅ Safety validation script created');
+    writeFileSync(join(batchConfigDir, 'safety-validation.js'), safetyValidationScript)
+    // // // console.log('   ✅ Safety validation script created')
 
     return batchProcessing;
   }
@@ -496,7 +496,7 @@ module.exports = { validateBatch };
    * Setup progress tracking and metrics collection systems
    */
   private async setupProgressTracking(): Promise<ProgressTracking> {
-    // // // console.log('📊 Setting up Progress Tracking and Metrics Collection Systems...');
+    // // // console.log('📊 Setting up Progress Tracking and Metrics Collection Systems...')
 
     const progressTracking: ProgressTracking = {
       metricsCollectionEnabled: false,
@@ -549,9 +549,9 @@ module.exports = { validateBatch };
     writeFileSync(
       join(this.metricsDir, 'metrics-config.json'),
       JSON.stringify(metricsConfig, null, 2),
-    );
+    )
     progressTracking.metricsCollectionEnabled = true;
-    // // // console.log('   ✅ Metrics collection configured');
+    // // // console.log('   ✅ Metrics collection configured')
 
     // Create progress tracking script
     const progressTrackingScript = `#!/usr/bin/env node;
@@ -559,13 +559,13 @@ module.exports = { validateBatch };
  * Progress Tracking System
  */
 
-const { execSync } = require('child_process');
-const { writeFileSync, readFileSync, existsSync } = require('fs');
-const { join } = require('path');
+const { execSync } = require('child_process')
+const { writeFileSync, readFileSync, existsSync } = require('fs')
+const { join } = require('path')
 
 class ProgressTracker {
   constructor() {
-    this.metricsFile = join(__dirname, 'progress-metrics.json');
+    this.metricsFile = join(__dirname, 'progress-metrics.json')
     this.startTime = Date.now()
   }
 
@@ -576,10 +576,10 @@ class ProgressTracker {
       eslint: await this.getESLintWarnings(),
       buildTime: await this.getBuildTime(),
       processingSpeed: this.calculateProcessingSpeed(),
-      successRate: this.calculateSuccessRate();
+      successRate: this.calculateSuccessRate()
     };
 
-    this.saveMetrics(metrics);
+    this.saveMetrics(metrics)
     return metrics;
   }
 
@@ -588,7 +588,7 @@ class ProgressTracker {
       const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c 'error TS'', {
         encoding: 'utf8',
         stdio: 'pipe'
-      });
+      })
       return parseInt(output.trim()) || 0;
     } catch (error) {
       return error.status === 1 ? 0 : -1
@@ -600,9 +600,9 @@ class ProgressTracker {
       const output = execSync('yarn, lint:quick --format=json', {
         encoding: 'utf8',
         stdio: 'pipe'
-      });
-      const results = JSON.parse(output);
-      return results.reduce((total, file) => total + file.warningCount, 0);
+      })
+      const results = JSON.parse(output)
+      return results.reduce((total, file) => total + file.warningCount, 0)
     } catch (error) {
       return -1;
     }
@@ -611,7 +611,7 @@ class ProgressTracker {
   async getBuildTime() {
     try {
       const startTime = Date.now()
-      execSync('yarn build', { stdio: 'pipe' });
+      execSync('yarn build', { stdio: 'pipe' })
       return Date.now() - startTime;
     } catch (error) {
       return -1;
@@ -631,27 +631,27 @@ class ProgressTracker {
   saveMetrics(metrics) {
     let history = [];
     if (existsSync(this.metricsFile)) {
-      history = JSON.parse(readFileSync(this.metricsFile, 'utf8'));
+      history = JSON.parse(readFileSync(this.metricsFile, 'utf8'))
     }
 
-    history.push(metrics);
+    history.push(metrics)
 
     // Keep only last 100 entries
     if (history.length > 100) {
-      history = history.slice(-100);
+      history = history.slice(-100)
     }
 
-    writeFileSync(this.metricsFile, JSON.stringify(history, null, 2));
+    writeFileSync(this.metricsFile, JSON.stringify(history, null, 2))
   }
 }
 
 module.exports = { ProgressTracker };
 `;
 
-    writeFileSync(join(this.metricsDir, 'progress-tracker.js'), progressTrackingScript);
+    writeFileSync(join(this.metricsDir, 'progress-tracker.js'), progressTrackingScript)
     progressTracking.realTimeTracking = true;
     progressTracking.reportGeneration = true;
-    // // // console.log('   ✅ Progress tracking system created');
+    // // // console.log('   ✅ Progress tracking system created')
 
     // Create dashboard integration
     const dashboardScript = `#!/usr/bin/env node;
@@ -659,12 +659,12 @@ module.exports = { ProgressTracker };
  * Simple Dashboard for Infrastructure Monitoring
  */
 
-const { readFileSync, existsSync } = require('fs');
-const { join } = require('path');
+const { readFileSync, existsSync } = require('fs')
+const { join } = require('path')
 
 class InfrastructureDashboard {
   constructor() {
-    this.metricsFile = join(__dirname, 'progress-metrics.json');
+    this.metricsFile = join(__dirname, 'progress-metrics.json')
   }
 
   generateReport() {
@@ -672,7 +672,7 @@ class InfrastructureDashboard {
       return 'No metrics data available';
     }
 
-    const metrics = JSON.parse(readFileSync(this.metricsFile, 'utf8'));
+    const metrics = JSON.parse(readFileSync(this.metricsFile, 'utf8'))
     const latest = metrics[metrics.length - 1];
 
     return \`
@@ -695,25 +695,25 @@ class InfrastructureDashboard {
   getDataPeriod(metrics) {
     if (metrics.length < 2) return 'Insufficient data';
 
-    const first = new Date(metrics[0].timestamp);
-    const last = new Date(metrics[metrics.length - 1].timestamp);
-    const diffHours = Math.round((last - first) / (1000 * 60 * 60));
+    const first = new Date(metrics[0].timestamp)
+    const last = new Date(metrics[metrics.length - 1].timestamp)
+    const diffHours = Math.round((last - first) / (1000 * 60 * 60))
 
     return \`\${diffHours} hours\`;
   }
 }
 
 if (require.main === module) {;
-  const dashboard = new InfrastructureDashboard();
-  // // // console.log(dashboard.generateReport());
+  const dashboard = new InfrastructureDashboard()
+  // // // console.log(dashboard.generateReport())
 }
 
 module.exports = { InfrastructureDashboard };
 `;
 
-    writeFileSync(join(this.metricsDir, 'dashboard.js'), dashboardScript);
+    writeFileSync(join(this.metricsDir, 'dashboard.js'), dashboardScript)
     progressTracking.dashboardIntegration = true;
-    // // // console.log('   ✅ Dashboard integration created');
+    // // // console.log('   ✅ Dashboard integration created')
 
     // Setup alerting system
     const alertingConfig = {
@@ -734,9 +734,9 @@ module.exports = { InfrastructureDashboard };
     writeFileSync(
       join(this.metricsDir, 'alerting-config.json'),
       JSON.stringify(alertingConfig, null, 2),
-    );
+    )
     progressTracking.alertingSystem = true;
-    // // // console.log('   ✅ Alerting system configured');
+    // // // console.log('   ✅ Alerting system configured')
 
     return progressTracking;
   }
@@ -748,7 +748,7 @@ module.exports = { InfrastructureDashboard };
     let score = 0;
     let maxScore = 0;
 
-    // ESLint Configuration (25 points);
+    // ESLint Configuration (25 points)
     maxScore += 25;
     if (status.eslintConfig.fastConfig.exists) score += 5;
     if (status.eslintConfig.fastConfig.functional) score += 5;
@@ -756,14 +756,14 @@ module.exports = { InfrastructureDashboard };
     if (status.eslintConfig.typeAwareConfig.exists) score += 5;
     if (status.eslintConfig.typeAwareConfig.functional) score += 5;
 
-    // Backup System (20 points);
+    // Backup System (20 points)
     maxScore += 20;
     if (status.backupSystem.gitStashAvailable) score += 5;
     if (status.backupSystem.backupDirectoryExists) score += 5;
     if (status.backupSystem.rollbackMechanismTested) score += 5;
     if (status.backupSystem.automaticBackupEnabled) score += 5;
 
-    // Build Monitoring (25 points);
+    // Build Monitoring (25 points)
     maxScore += 25;
     if (status.buildMonitoring.buildStabilityChecks) score += 5;
     if (status.buildMonitoring.checkpointSystemReady) score += 5;
@@ -771,13 +771,13 @@ module.exports = { InfrastructureDashboard };
     if (status.buildMonitoring.errorThresholdMonitoring) score += 5;
     if (status.buildMonitoring.buildTimeTracking) score += 5;
 
-    // Batch Processing (15 points);
+    // Batch Processing (15 points)
     maxScore += 15;
     if (status.batchProcessing.safetyValidationEnabled) score += 5;
     if (status.batchProcessing.rollbackOnFailure) score += 5;
     if (status.batchProcessing.validationFrequency > 0) score += 5;
 
-    // Progress Tracking (15 points);
+    // Progress Tracking (15 points)
     maxScore += 15;
     if (status.progressTracking.metricsCollectionEnabled) score += 3;
     if (status.progressTracking.realTimeTracking) score += 3;
@@ -785,7 +785,7 @@ module.exports = { InfrastructureDashboard };
     if (status.progressTracking.dashboardIntegration) score += 3;
     if (status.progressTracking.alertingSystem) score += 3;
 
-    return Math.round((score / maxScore) * 100);
+    return Math.round((score / maxScore) * 100)
   }
 
   /**
@@ -796,41 +796,41 @@ module.exports = { InfrastructureDashboard };
 
     // ESLint Configuration recommendations
     if (!status.eslintConfig.fastConfig.functional) {
-      recommendations.push('Fix fast ESLint configuration - required for development workflow');
+      recommendations.push('Fix fast ESLint configuration - required for development workflow')
     }
     if (!status.eslintConfig.typeAwareConfig.functional) {
       recommendations.push(
         'Fix type-aware ESLint configuration - required for comprehensive validation',
-      );
+      )
     }
     if (!status.eslintConfig.fastConfig.performanceOptimized) {
       recommendations.push(
         'Optimize fast ESLint configuration for better performance (<5s target)',
-      );
+      )
     }
 
     // Backup System recommendations
     if (!status.backupSystem.gitStashAvailable) {
-      recommendations.push('Ensure git is properly configured for stash operations');
+      recommendations.push('Ensure git is properly configured for stash operations')
     }
     if (!status.backupSystem.rollbackMechanismTested) {
-      recommendations.push('Test rollback mechanism before starting campaigns');
+      recommendations.push('Test rollback mechanism before starting campaigns')
     }
 
     // Build Monitoring recommendations
     if (!status.buildMonitoring.buildStabilityChecks) {
-      recommendations.push('Fix build stability issues before proceeding with campaigns');
+      recommendations.push('Fix build stability issues before proceeding with campaigns')
     }
     if (!status.buildMonitoring.performanceMonitoring) {
-      recommendations.push('Enable performance monitoring for better campaign insights');
+      recommendations.push('Enable performance monitoring for better campaign insights')
     }
 
     // Progress Tracking recommendations
     if (!status.progressTracking.realTimeTracking) {
-      recommendations.push('Enable real-time tracking for better campaign monitoring');
+      recommendations.push('Enable real-time tracking for better campaign monitoring')
     }
     if (!status.progressTracking.alertingSystem) {
-      recommendations.push('Configure alerting system for proactive issue detection');
+      recommendations.push('Configure alerting system for proactive issue detection')
     }
 
     return recommendations;
@@ -840,8 +840,8 @@ module.exports = { InfrastructureDashboard };
    * Generate comprehensive infrastructure report
    */
   private async generateInfrastructureReport(status: InfrastructureStatus): Promise<void> {
-    const reportPath = join(this.metricsDir, 'infrastructure-report.json');
-    const htmlReportPath = join(this.metricsDir, 'infrastructure-report.html');
+    const reportPath = join(this.metricsDir, 'infrastructure-report.json')
+    const htmlReportPath = join(this.metricsDir, 'infrastructure-report.html')
 
     // JSON Report
     const jsonReport = {
@@ -855,7 +855,7 @@ module.exports = { InfrastructureDashboard };
       }
     };
 
-    writeFileSync(reportPath, JSON.stringify(jsonReport, null, 2));
+    writeFileSync(reportPath, JSON.stringify(jsonReport, null, 2))
 
     // HTML Report
     const htmlReport = `;
@@ -934,11 +934,11 @@ module.exports = { InfrastructureDashboard };
 </html>
     `;
 
-    writeFileSync(htmlReportPath, htmlReport);
+    writeFileSync(htmlReportPath, htmlReport)
 
-    // // // console.log(`\n📄 Reports generated: `);
-    // // // console.log(`   📊 JSON: ${reportPath}`);
-    // // // console.log(`   🌐 HTML: ${htmlReportPath}`);
+    // // // console.log(`\n📄 Reports generated: `)
+    // // // console.log(`   📊 JSON: ${reportPath}`)
+    // // // console.log(`   🌐 HTML: ${htmlReportPath}`)
   }
 }
 

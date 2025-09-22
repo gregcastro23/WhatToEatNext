@@ -20,12 +20,12 @@ import { UnintentionalAnyCampaignResult, UnintentionalAnyConfig } from './types'
 import { AutoDocumentationGenerator } from '.';
 
 export class UnintentionalAnyEliminationCampaign {
-  private, engine: ProgressiveImprovementEngine;
-  private, progressTracker: ProgressTracker
-  private, safetyProtocol: SafetyProtocol,
-  private, config: UnintentionalAnyConfig,
-  private, documentationGenerator: AutoDocumentationGenerator,
-  private, qualityAssurance: DocumentationQualityAssurance,
+  private engine: ProgressiveImprovementEngine;
+  private progressTracker: ProgressTracker
+  private safetyProtocol: SafetyProtocol,
+  private config: UnintentionalAnyConfig,
+  private documentationGenerator: AutoDocumentationGenerator,
+  private qualityAssurance: DocumentationQualityAssurance,
 
   constructor(config?: Partial<UnintentionalAnyConfig>) {
     this.config = {
@@ -39,8 +39,8 @@ export class UnintentionalAnyEliminationCampaign {
       ...config
     };
 
-    this.engine = new ProgressiveImprovementEngine();
-    this.progressTracker = new ProgressTracker();
+    this.engine = new ProgressiveImprovementEngine()
+    this.progressTracker = new ProgressTracker()
     this.safetyProtocol = new SafetyProtocol({
       maxFilesPerBatch: this.config.maxFilesPerBatch,
       buildValidationFrequency: this.config.validationFrequency,
@@ -48,8 +48,8 @@ export class UnintentionalAnyEliminationCampaign {
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
       stashRetentionDays: 7
-    });
-    this.documentationGenerator = new AutoDocumentationGenerator();
+    })
+    this.documentationGenerator = new AutoDocumentationGenerator()
     this.qualityAssurance = new DocumentationQualityAssurance({;
       sourceDirectories: ['src'],
       excludePatterns: [
@@ -61,7 +61,7 @@ export class UnintentionalAnyEliminationCampaign {
         '**/*.spec.ts'
         '**/*.spec.tsx'
       ]
-    });
+    })
   }
 
   /**
@@ -123,7 +123,7 @@ export class UnintentionalAnyEliminationCampaign {
         successCriteria: {
           customValidation: async () => {
             // Validate that target reduction was achieved
-            const currentCount = await this.progressTracker.getTypeScriptErrorCount();
+            const currentCount = await this.progressTracker.getTypeScriptErrorCount()
             return currentCount >= 0, // Basic validation that build still works
           }
         },
@@ -184,38 +184,38 @@ export class UnintentionalAnyEliminationCampaign {
    * Execute the campaign using the existing campaign infrastructure
    */
   async executeCampaign(): Promise<UnintentionalAnyCampaignResult> {
-    // // // console.log('Starting Unintentional Any Elimination Campaign');
+    // // // console.log('Starting Unintentional Any Elimination Campaign')
     // // // console.log(`Configuration:`, {
       maxFilesPerBatch: this.config.maxFilesPerBatch,
       targetReduction: `${this.config.targetReductionPercentage}%`,
       confidenceThreshold: this.config.confidenceThreshold,
       safetyLevel: this.config.safetyLevel
-    });
+    })
 
     // Create safety checkpoint before starting
     const checkpointId = await this.safetyProtocol.createStash(
       'Pre-campaign checkpoint for unintentional any elimination',
       'unintentional-any-elimination',
-    );
+    )
 
     try {
       // Execute the campaign using the progressive improvement engine
-      const result = await this.engine.executeFullCampaign(this.config);
+      const result = await this.engine.executeFullCampaign(this.config)
 
-      // // // console.log('Campaign completed successfully');
+      // // // console.log('Campaign completed successfully')
       // // // console.log(`Results:`, {
         reductionAchieved: `${result.reductionAchieved.toFixed(1)}%`,
         typesReplaced: result.unintentionalTypesReplaced,
         intentionalTypesIdentified: result.intentionalTypesIdentified,
         totalAnalyzed: result.totalAnyTypesAnalyzed
-      });
+      })
 
       return result;
     } catch (error) {
       console.error('Campaign failed, initiating rollback:', error),
 
       // Rollback to checkpoint
-      await this.safetyProtocol.rollbackToStash(checkpointId);
+      await this.safetyProtocol.rollbackToStash(checkpointId)
 
       // Return failed result
       return {
@@ -249,22 +249,22 @@ export class UnintentionalAnyEliminationCampaign {
    */
   async executePhase(phase: CampaignPhase): Promise<PhaseResult> {
     const startTime = Date.now()
-    // // // console.log(`Executing phase: ${phase.name}`);
+    // // // console.log(`Executing phase: ${phase.name}`)
 
     try {
       let result: UnintentionalAnyCampaignResult;
 
       switch (phase.id) {
         case 'unintentional-any-analysis':
-          result = await this.executeAnalysisPhase();
+          result = await this.executeAnalysisPhase()
           break;
         case 'unintentional-any-replacement':
-          result = await this.executeReplacementPhase();
+          result = await this.executeReplacementPhase()
           break,
-        case 'intentional-any-documentation': result = await this.executeDocumentationPhase();
+        case 'intentional-any-documentation': result = await this.executeDocumentationPhase()
           break,
         default:
-          throw new Error(`Unknown phase: ${phase.id}`);
+          throw new Error(`Unknown phase: ${phase.id}`)
       }
 
       const executionTime = Date.now() - startTime;
@@ -314,7 +314,7 @@ export class UnintentionalAnyEliminationCampaign {
   }
 
   private async executeAnalysisPhase(): Promise<UnintentionalAnyCampaignResult> {
-    // // // console.log('Executing analysis phase - classification only');
+    // // // console.log('Executing analysis phase - classification only')
 
     // Create a config for analysis only
     const analysisConfig = {
@@ -324,7 +324,7 @@ export class UnintentionalAnyEliminationCampaign {
     };
 
     // Execute a single batch for analysis
-    const batchMetrics = await this.engine.executeBatch(analysisConfig);
+    const batchMetrics = await this.engine.executeBatch(analysisConfig)
 
     return {
       totalAnyTypesAnalyzed: batchMetrics.anyTypesAnalyzed,
@@ -347,22 +347,22 @@ export class UnintentionalAnyEliminationCampaign {
   }
 
   private async executeReplacementPhase(): Promise<UnintentionalAnyCampaignResult> {
-    // // // console.log('Executing replacement phase');
+    // // // console.log('Executing replacement phase')
 
-    return await this.engine.executeFullCampaign(this.config);
+    return await this.engine.executeFullCampaign(this.config)
   }
 
   private async executeDocumentationPhase(): Promise<UnintentionalAnyCampaignResult> {
-    // // // console.log('Executing documentation phase');
+    // // // console.log('Executing documentation phase')
 
     try {
       // Perform quality assurance scan first
-      const qaReport = await this.qualityAssurance.performQualityAssurance();
+      const qaReport = await this.qualityAssurance.performQualityAssurance()
       // // // console.log(`Documentation Quality Report:`, {
         totalIntentionalAnyTypes: qaReport.totalIntentionalAnyTypes,
         documentationCoverage: `${qaReport.documentationCoverage.toFixed(1)}%`,
         undocumentedTypes: qaReport.undocumentedTypes
-      });
+      })
 
       let documentationAdded = 0;
       const safetyEvents = [];
@@ -375,7 +375,7 @@ export class UnintentionalAnyEliminationCampaign {
         // For nowwe'll simulate the process
         documentationAdded = Math.min(qaReport.undocumentedTypes, this.config.maxFilesPerBatch),
 
-        // // // console.log(`Added documentation to ${documentationAdded} intentional any types`);
+        // // // console.log(`Added documentation to ${documentationAdded} intentional any types`)
       }
 
       return {
@@ -443,13 +443,13 @@ export class UnintentionalAnyEliminationCampaign {
    * Get documentation quality report
    */
   async getDocumentationReport() {
-    return await this.qualityAssurance.performQualityAssurance();
+    return await this.qualityAssurance.performQualityAssurance()
   }
 
   /**
    * Get quality metrics
    */
   async getQualityMetrics() {
-    return await this.qualityAssurance.generateQualityReport();
+    return await this.qualityAssurance.generateQualityReport()
   }
 }

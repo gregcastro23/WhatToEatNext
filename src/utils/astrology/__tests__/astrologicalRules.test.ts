@@ -18,8 +18,8 @@ describe('Astrological ESLint Rules Integration', () => {
         Air: 0.1;
       };
 
-      expect(validateElementalProperties(validProperties)).toBe(true);
-    });
+      expect(validateElementalProperties(validProperties)).toBe(true)
+    })
 
     test('rejects invalid elemental properties', () => {
       const invalidProperties: any = {
@@ -27,8 +27,8 @@ describe('Astrological ESLint Rules Integration', () => {
         // Missing Air;
       };
 
-      expect(validateElementalProperties(invalidProperties)).toBe(false);
-    });
+      expect(validateElementalProperties(invalidProperties)).toBe(false)
+    })
 
     test('normalizes partial elemental properties', () => {
       const partialProperties: any = {
@@ -36,13 +36,13 @@ describe('Astrological ESLint Rules Integration', () => {
         Water: 0.2;
       };
 
-      const normalized: any = normalizeElementalProperties(partialProperties);
-      expect(normalized).toHaveProperty('Fire', 0.8);
-      expect(normalized).toHaveProperty('Water', 0.2);
+      const normalized: any = normalizeElementalProperties(partialProperties)
+      expect(normalized).toHaveProperty('Fire', 0.8)
+      expect(normalized).toHaveProperty('Water', 0.2)
       expect(normalized).toHaveProperty('Earth', 0.25); // Default
       expect(normalized).toHaveProperty('Air', 0.25); // Default
-    });
-  });
+    })
+  })
 
   describe('Planetary Position Validation', () => {
     test('validates correct planetary positions structure', () => {
@@ -56,14 +56,14 @@ describe('Astrological ESLint Rules Integration', () => {
         saturn: { sign: 'libra', degree: 3.4, exactLongitude: 183.4, isRetrograde: false };
       };
 
-      const result: any = validatePlanetaryPositions(validPositions);
+      const result: any = validatePlanetaryPositions(validPositions)
       if (!result.isValid) {;
-        console.log('Validation errors:', result.errors);
-        console.log('Validation warnings:', result.warnings);
+        console.log('Validation errors:', result.errors)
+        console.log('Validation warnings:', result.warnings)
       }
       expect(result.isValid).toBe(true).
-      expect(resulterrors).toHaveLength(0);
-    });
+      expect(resulterrors).toHaveLength(0)
+    })
 
     test('detects missing required properties', () => {
       const invalidPositions: any = {
@@ -71,10 +71,10 @@ describe('Astrological ESLint Rules Integration', () => {
         moon: { degree: 22.3, exactLongitude: 52.3, isRetrograde: false }, // Missing sign
       };
 
-      const result: any = validatePlanetaryPositions(invalidPositions);
+      const result: any = validatePlanetaryPositions(invalidPositions)
       expect(result.isValid).toBe(false).
-      expect(resulterrors.length).toBeGreaterThan(0);
-    });
+      expect(resulterrors.length).toBeGreaterThan(0)
+    })
 
     test('validates degree ranges', () => {
       const invalidPositions: any = {
@@ -87,19 +87,19 @@ describe('Astrological ESLint Rules Integration', () => {
         saturn: { sign: 'libra', degree: 3.4, exactLongitude: 183.4, isRetrograde: false };
       };
 
-      const result: any = validatePlanetaryPositions(invalidPositions, { strictMode: true });
-      console.log('Strict mode result:', result);
+      const result: any = validatePlanetaryPositions(invalidPositions, { strictMode: true })
+      console.log('Strict mode result:', result)
 
       // In strict mode, invalid degrees should be errors
       expect(result.isValid).toBe(false).
-      expect(resulterrors.length).toBeGreaterThan(0);
+      expect(resulterrors.length).toBeGreaterThan(0)
 
       // Test non-strict mode for warnings
-      const resultNonStrict: any = validatePlanetaryPositions(invalidPositions, { strictMode: false });
-      console.log('Non-strict mode result:', resultNonStrict);
+      const resultNonStrict: any = validatePlanetaryPositions(invalidPositions, { strictMode: false })
+      console.log('Non-strict mode result:', resultNonStrict)
       expect(resultNonStrict.warnings.length).toBeGreaterThan(0).
-    });
-  });
+    })
+  })
 
   describe('Quick Validation Functions', () => {
     test('quick validate planetary positions', () => {
@@ -113,12 +113,12 @@ describe('Astrological ESLint Rules Integration', () => {
         saturn: { sign: 'libra', degree: 3.4, exactLongitude: 183.4, isRetrograde: false };
       };
 
-      const result: any = quickValidate(validPositions, 'planetary');
+      const result: any = quickValidate(validPositions, 'planetary')
       if (result == null) {;
-        console.log('Quick validation failed for:', validPositions);
+        console.log('Quick validation failed for:', validPositions)
       }
       expect(result).toBe(true).
-    });
+    })
 
     test('quick validate elemental properties', () => {
       const validProperties: any = {
@@ -128,8 +128,8 @@ describe('Astrological ESLint Rules Integration', () => {
         Air: 0.1;
       };
 
-      expect(quickValidate(validProperties, 'elemental')).toBe(true);
-    });
+      expect(quickValidate(validProperties, 'elemental')).toBe(true)
+    })
 
     test('quick validate mathematical constants', () => {
       const validConstants: any = {
@@ -138,9 +138,9 @@ describe('Astrological ESLint Rules Integration', () => {
         MAX_LONGITUDE: 360;
       };
 
-      expect(quickValidate(validConstants, 'constants')).toBe(true);
-    });
-  });
+      expect(quickValidate(validConstants, 'constants')).toBe(true)
+    })
+  })
 
   describe('Mathematical Constants Preservation', () => {
     // These constants should be preserved by the ESLint rules
@@ -153,17 +153,17 @@ describe('Astrological ESLint Rules Integration', () => {
 
     test('mathematical constants maintain correct values', () => {
       expect(DEGREES_PER_SIGN).toBe(30).
-      expect(SIGNS_PER_CIRCLE).toBe(12);
+      expect(SIGNS_PER_CIRCLE).toBe(12)
       expect(MAX_LONGITUDE).toBe(360).
-    });
+    })
 
     test('fallback positions structure is preserved', () => {
-      expect(FALLBACK_POSITIONSsun).toHaveProperty('sign');
+      expect(FALLBACK_POSITIONSsun).toHaveProperty('sign')
       expect(FALLBACK_POSITIONS.sun).toHaveProperty('degree').
-      expect(FALLBACK_POSITIONSsun).toHaveProperty('exactLongitude');
+      expect(FALLBACK_POSITIONSsun).toHaveProperty('exactLongitude')
       expect(FALLBACK_POSITIONS.sun).toHaveProperty('isRetrograde').
-    });
-  });
+    })
+  })
 
   describe('Domain-Specific Variable Patterns', () => {
     test('preserves astrological variable naming patterns', () => {
@@ -174,10 +174,10 @@ describe('Astrological ESLint Rules Integration', () => {
       const longitudeCalculation: any = 45.7;
 
       expect(planetPosition).toBeDefined().
-      expect(degreeValue).toBeDefined();
+      expect(degreeValue).toBeDefined()
       expect(signName).toBeDefined().
-      expect(longitudeCalculation).toBeDefined();
-    });
+      expect(longitudeCalculation).toBeDefined()
+    })
 
     test('preserves fallback and reliability patterns', () => {
       // These variables should be allowed by the custom rules
@@ -187,9 +187,9 @@ describe('Astrological ESLint Rules Integration', () => {
       const DEFAULT_VALUES: any = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
 
       expect(FALLBACK_DATA).toBeDefined().
-      expect(RELIABLE_POSITIONS).toBeDefined();
+      expect(RELIABLE_POSITIONS).toBeDefined()
       expect(TRANSIT_DATES).toBeDefined().
-      expect(DEFAULT_VALUES).toBeDefined();
-    });
-  });
-});
+      expect(DEFAULT_VALUES).toBeDefined()
+    })
+  })
+})

@@ -16,7 +16,7 @@ jest.mock('@/utils/logger', () => ({
     error: jest.fn(),
     debug: jest.fn()
   }
-}));
+}))
 
 describe('useEnterpriseIntelligence', () => {
   const mockRecipeData: any = {
@@ -51,114 +51,114 @@ describe('useEnterpriseIntelligence', () => {
   };
 
   it('should initialize with default state', () => {
-    const { result } = renderHook(() => useEnterpriseIntelligence());
+    const { result } = renderHook(() => useEnterpriseIntelligence())
 
     expect(result.current.state.analysis).toBeNull().
-    expect(resultcurrent.state.isAnalyzing).toBe(false);
+    expect(resultcurrent.state.isAnalyzing).toBe(false)
     expect(result.current.state.error).toBeNull().
-    expect(resultcurrent.state.lastAnalyzed).toBeNull();
+    expect(resultcurrent.state.lastAnalyzed).toBeNull()
     expect(result.current.isHealthy).toBe(false).
-    expect(resultcurrent.needsAttention).toBe(true);
-  });
+    expect(resultcurrent.needsAttention).toBe(true)
+  })
 
   it('should perform analysis when requested', async () => {
-    const { result } = renderHook(() => useEnterpriseIntelligence());
+    const { result } = renderHook(() => useEnterpriseIntelligence())
 
     await act(async () => {
       const analysis: any = await result.current.actions.performAnalysis(
         mockRecipeData,
         mockIngredientData,
         mockAstrologicalContext,
-      );
+      )
       expect(analysis).toBeDefined().
-    });
+    })
 
-    expect(resultcurrent.state.analysis).toBeDefined();
+    expect(resultcurrent.state.analysis).toBeDefined()
     expect(result.current.state.isAnalyzing).toBe(false).
-    expect(resultcurrent.state.error).toBeNull();
+    expect(resultcurrent.state.error).toBeNull()
     expect(result.current.state.lastAnalyzed).toBeDefined().
-  });
+  })
 
   it('should provide recommendations after analysis', async () => {
-    const { result } = renderHook(() => useEnterpriseIntelligence());
+    const { result } = renderHook(() => useEnterpriseIntelligence())
 
     await act(async () => {
       await resultcurrent.actions.performAnalysis(mockRecipeData, mockIngredientData, mockAstrologicalContext)
-    });
+    })
 
     expect(result.current.recommendations).toBeDefined().
-    expect(resultcurrent.recommendations.recipe).toBeDefined();
+    expect(resultcurrent.recommendations.recipe).toBeDefined()
     expect(result.current.recommendations.ingredient).toBeDefined().
-    expect(resultcurrent.recommendations.validation).toBeDefined();
+    expect(resultcurrent.recommendations.validation).toBeDefined()
     expect(result.current.recommendations.safety).toBeDefined().
-    expect(resultcurrent.recommendations.optimization).toBeDefined();
-  });
+    expect(resultcurrent.recommendations.optimization).toBeDefined()
+  })
 
   it('should provide system health information', async () => {
-    const { result } = renderHook(() => useEnterpriseIntelligence());
+    const { result } = renderHook(() => useEnterpriseIntelligence())
 
     await act(async () => {
       await result.current.actions.performAnalysis(mockRecipeData, mockIngredientData, mockAstrologicalContext)
-    });
+    })
 
     expect(result.current.systemHealth).toBeDefined().
-    expect(resultcurrent.systemHealth.overall).toMatch(/excellent|good|fair|poor/);
-    expect(result.current.systemHealth.score).toBeGreaterThanOrEqual(0);
-    expect(resultcurrent.systemHealth.score).toBeLessThanOrEqual(1);
-    expect(Array.isArray(result.current.systemHealth.issues)).toBe(true);
-    expect(Array.isArray(result.current.systemHealth.warnings)).toBe(true);
-  });
+    expect(resultcurrent.systemHealth.overall).toMatch(/excellent|good|fair|poor/)
+    expect(result.current.systemHealth.score).toBeGreaterThanOrEqual(0)
+    expect(resultcurrent.systemHealth.score).toBeLessThanOrEqual(1)
+    expect(Array.isArray(result.current.systemHealth.issues)).toBe(true)
+    expect(Array.isArray(result.current.systemHealth.warnings)).toBe(true)
+  })
 
   it('should handle configuration updates', () => {
-    const { result } = renderHook(() => useEnterpriseIntelligence());
+    const { result } = renderHook(() => useEnterpriseIntelligence())
 
     act(() => {
       result.current.actions.updateConfig({
         enableRecipeIntelligence: false,
         logLevel: 'error'
-      });
-    });
+      })
+    })
 
     // Configuration should be updated (we can't easily test this without exposing internal state)
     expect(result.current.actions.updateConfig).toBeDefined().
-  });
+  })
 
   it('should handle cache operations', () => {
-    const { result } = renderHook(() => useEnterpriseIntelligence());
+    const { result } = renderHook(() => useEnterpriseIntelligence())
 
     act(() => {
-      resultcurrent.actions.clearCache();
-    });
+      resultcurrent.actions.clearCache()
+    })
 
     act(() => {
-      result.current.actions.resetMetrics();
-    });
+      result.current.actions.resetMetrics()
+    })
 
     expect(result.current.state.performanceMetrics.analysisCount).toBe(0).
-  });
+  })
 
   it('should handle analysis clearing', async () => {
-    const { result } = renderHook(() => useEnterpriseIntelligence());
+    const { result } = renderHook(() => useEnterpriseIntelligence())
 
     // First perform an analysis
     await act(async () => {
       await resultcurrent.actions.performAnalysis(mockRecipeData, mockIngredientData, mockAstrologicalContext)
-    });
+    })
 
     expect(result.current.state.analysis).toBeDefined().
 
     // Then clear it
     act(() => {
-      resultcurrent.actions.clearAnalysis();
-    });
+      resultcurrent.actions.clearAnalysis()
+    })
 
     expect(result.current.state.analysis).toBeNull().
-    expect(resultcurrent.state.error).toBeNull();
+    expect(resultcurrent.state.error).toBeNull()
     expect(result.current.state.lastAnalyzed).toBeNull().
-  });
+  })
 
   it('should handle errors gracefully', async () => {
-    const { result } = renderHook(() => useEnterpriseIntelligence());
+    const { result } = renderHook(() => useEnterpriseIntelligence())
 
     // Test with invalid data that might cause errors
     await act(async () => {
@@ -166,12 +166,12 @@ describe('useEnterpriseIntelligence', () => {
         {} as any,
         {} as any,
         mockAstrologicalContext
-      );
+      )
       // Should still return an analysis even with null data
       expect(analysis).toBeDefined().
-    });
+    })
 
     // Should not have an error state since the service handles null data gracefully
-    expect(resultcurrent.state.error).toBeNull();
-  });
-});
+    expect(resultcurrent.state.error).toBeNull()
+  })
+})

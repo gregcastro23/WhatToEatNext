@@ -30,11 +30,11 @@ export const mockLogger = {
   debug: jest.fn(),
   warn: jest.fn(),
   error: jest.fn(),
-  log: jest.fn();
+  log: jest.fn()
 };
 
 // Mock createLogger function
-export const mockCreateLogger = jest.fn(() => mockLogger);
+export const mockCreateLogger = jest.fn(() => mockLogger)
 
 // Mock Next.js router
 export const mockRouter = {
@@ -54,7 +54,7 @@ export const mockUseRouter = () => mockRouter;
 
 // Mock reliable astronomy utility
 export const mockReliableAstronomy = {
-  getReliablePlanetaryPositions: jest.fn(() => Promise.resolve(mockPlanetaryPositions));
+  getReliablePlanetaryPositions: jest.fn(() => Promise.resolve(mockPlanetaryPositions))
 };
 
 // Mock agent hooks
@@ -63,31 +63,31 @@ export const mockAgentHooks = {
     hookState: { isActive: false, lastRun: null, results: [] },
     startAgentHooks: jest.fn(),
     stopAgentHooks: jest.fn(),
-    triggerValidation: jest.fn();
+    triggerValidation: jest.fn()
   }),
   usePlanetaryDataValidationHook: () => ({
     isValid: true,
     validationResult: { isValid: true, issues: [] },
-    validatePlanetaryData: jest.fn();
+    validatePlanetaryData: jest.fn()
   }),
   useIngredientConsistencyHook: () => ({
     isConsistent: true,
     validationResult: { isValid: true, issues: [] },
-    validateIngredients: jest.fn();
+    validateIngredients: jest.fn()
   }),
   useTypeScriptCampaignHook: () => ({
     campaignActive: false,
     campaignTrigger: { triggered: false },
-    checkErrorThreshold: jest.fn();
+    checkErrorThreshold: jest.fn()
   }),
   useBuildQualityMonitoringHook: () => ({
     quality: 'good',
     qualityResult: { isValid: true, issues: [] },
-    monitorBuildQuality: jest.fn();
+    monitorBuildQuality: jest.fn()
   }),
   useQualityMetricsHook: () => ({
     metrics: {},
-    updateMetrics: jest.fn();
+    updateMetrics: jest.fn()
   })
 };
 
@@ -108,7 +108,7 @@ export const mockMCPServerIntegration = {
         recipes: { source: 'primary' }
       }),
     ),
-    getServerStatus: jest.fn(() => ({ connected: true, status: 'healthy' }));
+    getServerStatus: jest.fn(() => ({ connected: true, status: 'healthy' }))
   })
 };
 
@@ -120,7 +120,7 @@ export const mockDevelopmentExperienceOptimizations = {
     updatePerformanceMetrics: jest.fn(),
     getDevelopmentMetrics: jest.fn(() => ({})),
     getPerformanceOptimizationRecommendations: jest.fn(() => []),
-    applyAutomaticOptimizations: jest.fn(() => ({ applied: [], errors: [] }));
+    applyAutomaticOptimizations: jest.fn(() => ({ applied: [], errors: [] }))
   })
 };
 
@@ -128,10 +128,10 @@ export const mockDevelopmentExperienceOptimizations = {
 export const mockStatePreservationHooks = {
   useNavigationState: () => ({
     saveState: jest.fn(),
-    getState: jest.fn(() => null);
+    getState: jest.fn(() => null)
   }),
   useScrollPreservation: () => ({
-    restoreScrollPosition: jest.fn();
+    restoreScrollPosition: jest.fn()
   }),
   useAutoStateCleanup: jest.fn(),
   useAstrologicalStatePreservation: () => ({
@@ -139,15 +139,15 @@ export const mockStatePreservationHooks = {
     restoreAstrologicalState: jest.fn(),
     validateElementalCompatibility: jest.fn(),
     getArchitecturalGuidance: jest.fn(),
-    getTechnologyStackGuidance: jest.fn();
+    getTechnologyStackGuidance: jest.fn()
   }),
   useCulturalSensitivityGuidance: () => ({
     validateCulturalContent: jest.fn(),
-    getInclusiveLanguageGuidelines: jest.fn();
+    getInclusiveLanguageGuidelines: jest.fn()
   }),
   usePerformanceOptimizationGuidance: () => ({
     getOptimizationRecommendations: jest.fn(),
-    validatePerformanceMetrics: jest.fn();
+    validatePerformanceMetrics: jest.fn()
   })
 };
 
@@ -163,7 +163,7 @@ export const mockErrorHandler = {
 // Mock steering file intelligence
 export const mockSteeringFileIntelligence = {
   useSteeringFileIntelligence: () => ({
-    getGuidance: jest.fn(() => Promise.resolve({}));
+    getGuidance: jest.fn(() => Promise.resolve({}))
   })
 };
 

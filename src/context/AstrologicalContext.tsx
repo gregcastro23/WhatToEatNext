@@ -40,7 +40,7 @@ interface AstrologicalContextType {
 }
 
 // Create the context
-const AstrologicalContext = createContext<AstrologicalContextType | undefined>(undefined);
+const AstrologicalContext = createContext<AstrologicalContextType | undefined>(undefined)
 
 // AstrologicalProvider component
 interface AstrologicalProviderProps {
@@ -48,22 +48,22 @@ interface AstrologicalProviderProps {
 }
 
 export function AstrologicalProvider({ children }: AstrologicalProviderProps) {
-  const [currentZodiac, setCurrentZodiac] = useState<string>('aries');
-  const [astrologicalState, setAstrologicalState] = useState<AstrologicalState | null>(null);
-  const [chakraEnergies, setChakraEnergies] = useState<ChakraEnergies | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const [currentZodiac, setCurrentZodiac] = useState<string>('aries')
+  const [astrologicalState, setAstrologicalState] = useState<AstrologicalState | null>(null)
+  const [chakraEnergies, setChakraEnergies] = useState<ChakraEnergies | null>(null)
+  const [loading, setLoading] = useState<boolean>(false)
+  const [error, setError] = useState<string | null>(null)
 
   // Function to update zodiac and recalculate state
   const updateZodiac = (zodiac: string) => {
-    setCurrentZodiac(zodiac);
-    void calculateAstrologicalState(zodiac);
+    setCurrentZodiac(zodiac)
+    void calculateAstrologicalState(zodiac)
   };
 
   // Calculate astrological state based on zodiac
   const calculateAstrologicalState = useCallback(async (zodiac: string) => {
-    setLoading(true);
-    setError(null);
+    setLoading(true)
+    setError(null)
     try {
       // Mock calculation - in real implementation this would use actual astrological calculations
       const elementalProperties: SafeElementalProperties = {
@@ -81,8 +81,8 @@ export function AstrologicalProvider({ children }: AstrologicalProviderProps) {
         Substance: (elementalProperties.Earth + elementalProperties.Air) * 0.5
       };
 
-      // Get current planetary hour (simple mock based on time);
-      const currentHour = new Date().getHours();
+      // Get current planetary hour (simple mock based on time)
+      const currentHour = new Date().getHours()
       const planetaryHours = [
         'Sun',
         'Venus',
@@ -120,24 +120,24 @@ export function AstrologicalProvider({ children }: AstrologicalProviderProps) {
       // Calculate chakra energies using alchemical engine with safe property access
       const chakraResult = alchemicalEngine.calculateChakraEnergies(
         elementalProperties as unknown as Record<string, number>,
-      );
+      )
 
       if (isChakraEnergies(chakraResult)) {
-        setChakraEnergies(chakraResult);
+        setChakraEnergies(chakraResult)
       }
 
-      setAstrologicalState(mockState);
+      setAstrologicalState(mockState)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error occurred');
+      setError(err instanceof Error ? err.message : 'Unknown error occurred')
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
   }, []); // Empty dependency array since this function doesn't depend on any external values
 
   // Initialize with current zodiac on mount
   useEffect(() => {
-    void calculateAstrologicalState(currentZodiac);
-  }, [calculateAstrologicalState, currentZodiac]);
+    void calculateAstrologicalState(currentZodiac)
+  }, [calculateAstrologicalState, currentZodiac])
 
   const value: AstrologicalContextType = {
     currentZodiac,
@@ -151,12 +151,12 @@ export function AstrologicalProvider({ children }: AstrologicalProviderProps) {
   return <AstrologicalContext.Provider value={value}>{children}</AstrologicalContext.Provider>
 }
 
-// useAstrologicalState hook (existing but needs proper export);
+// useAstrologicalState hook (existing but needs proper export)
 export function useAstrologicalState() {
-  const context = useContext(AstrologicalContext);
+  const context = useContext(AstrologicalContext)
 
   if (context === undefined) {
-    throw new Error('useAstrologicalState must be used within an AstrologicalProvider');
+    throw new Error('useAstrologicalState must be used within an AstrologicalProvider')
   }
 
   return context;

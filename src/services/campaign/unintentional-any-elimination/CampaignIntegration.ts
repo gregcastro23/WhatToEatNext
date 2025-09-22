@@ -25,11 +25,11 @@ import { UnintentionalAnyEliminationCampaign } from './UnintentionalAnyEliminati
  * Extended Campaign Controller with Unintentional Any Elimination support
  */
 export class UnintentionalAnyCampaignController extends CampaignController {
-  private, unintentionalAnyCampaign: UnintentionalAnyEliminationCampaign,
-  private, unintentionalAnyConfig: UnintentionalAnyConfig,
+  private unintentionalAnyCampaign: UnintentionalAnyEliminationCampaign,
+  private unintentionalAnyConfig: UnintentionalAnyConfig,
 
   constructor(config: CampaignConfig, unintentionalAnyConfig?: Partial<UnintentionalAnyConfig>) {
-    super(config);
+    super(config)
 
     // Default configuration for unintentional any elimination
     this.unintentionalAnyConfig = {
@@ -45,31 +45,31 @@ export class UnintentionalAnyCampaignController extends CampaignController {
 
     this.unintentionalAnyCampaign = new UnintentionalAnyEliminationCampaign(
       this.unintentionalAnyConfig
-    );
+    )
   }
 
   /**
    * Execute unintentional any elimination phase with full campaign integration
    */
   async executeUnintentionalAnyPhase(phase: CampaignPhase): Promise<PhaseResult> {
-    // // // console.log(`🎯 Executing Unintentional Any Elimination Phase: ${phase.name}`);
+    // // // console.log(`🎯 Executing Unintentional Any Elimination Phase: ${phase.name}`)
 
     const startTime = Date.now()
 
     // Create safety checkpoint before phase execution
-    const checkpointId = await this.createSafetyCheckpoint(`Pre-phase checkpoint: ${phase.name}`);
+    const checkpointId = await this.createSafetyCheckpoint(`Pre-phase checkpoint: ${phase.name}`)
 
     try {
       // Get initial metrics for comparison
-      const _initialMetrics = await this.getCurrentMetrics();
-      const initialUnintentionalAnyMetrics = await this.getUnintentionalAnyMetrics();
+      const _initialMetrics = await this.getCurrentMetrics()
+      const initialUnintentionalAnyMetrics = await this.getUnintentionalAnyMetrics()
 
       // Execute the phase using the unintentional any campaign
-      const campaignResult = await this.unintentionalAnyCampaign.executePhase(phase);
+      const campaignResult = await this.unintentionalAnyCampaign.executePhase(phase)
 
       // Get final metrics and calculate improvement
-      const _finalMetrics = await this.getCurrentMetrics();
-      const finalUnintentionalAnyMetrics = await this.getUnintentionalAnyMetrics();
+      const _finalMetrics = await this.getCurrentMetrics()
+      const finalUnintentionalAnyMetrics = await this.getUnintentionalAnyMetrics()
 
       const metricsImprovement = this.calculateUnintentionalAnyImprovement(
         initialUnintentionalAnyMetrics,
@@ -83,9 +83,9 @@ export class UnintentionalAnyCampaignController extends CampaignController {
       ),
 
       if (!validation.success && this.config.safetySettings.automaticRollbackEnabled) {
-        console.warn(`⚠️ Phase validation failed, rolling back to checkpoint: ${checkpointId}`);
-        await this.rollbackToCheckpoint(checkpointId);
-        throw new Error(`Phase validation failed: ${validation.errors.join(', ')}`);
+        console.warn(`⚠️ Phase validation failed, rolling back to checkpoint: ${checkpointId}`)
+        await this.rollbackToCheckpoint(checkpointId)
+        throw new Error(`Phase validation failed: ${validation.errors.join(', ')}`)
       }
 
       const executionTime = Date.now() - startTime;
@@ -106,10 +106,10 @@ export class UnintentionalAnyCampaignController extends CampaignController {
         safetyEvents: campaignResult.safetyEvents
       };
 
-      // // // console.log(`✅ Unintentional Any Elimination Phase completed successfully`);
-      // // // console.log(`   Files processed: ${result.filesProcessed}`);
-      // // // console.log(`   Warnings fixed: ${result.warningsFixed}`);
-      // // // console.log(`   Execution time: ${(result.executionTime / 1000).toFixed(2)}s`);
+      // // // console.log(`✅ Unintentional Any Elimination Phase completed successfully`)
+      // // // console.log(`   Files processed: ${result.filesProcessed}`)
+      // // // console.log(`   Warnings fixed: ${result.warningsFixed}`)
+      // // // console.log(`   Execution time: ${(result.executionTime / 1000).toFixed(2)}s`)
 
       return result;
     } catch (error) {
@@ -153,7 +153,7 @@ export class UnintentionalAnyCampaignController extends CampaignController {
     const unintentionalAnyCampaign = new UnintentionalAnyEliminationCampaign(
       unintentionalAnyConfig,
     ),
-    const unintentionalAnyPhases = unintentionalAnyCampaign.createCampaignPhases();
+    const unintentionalAnyPhases = unintentionalAnyCampaign.createCampaignPhases()
 
     const defaultConfig: CampaignConfig = {
       phases: [
@@ -197,11 +197,11 @@ export class UnintentionalAnyCampaignController extends CampaignController {
   async getUnintentionalAnyMetrics(): Promise<UnintentionalAnyMetrics> {
     try {
       // Get current explicit-any warning count
-      const lintingOutput = await this.getLintingOutput();
-      const explicitAnyWarnings = this.countExplicitAnyWarnings(lintingOutput);
+      const lintingOutput = await this.getLintingOutput()
+      const explicitAnyWarnings = this.countExplicitAnyWarnings(lintingOutput)
 
       // Get documentation coverage
-      const documentationReport = await this.unintentionalAnyCampaign.getDocumentationReport();
+      const documentationReport = await this.unintentionalAnyCampaign.getDocumentationReport()
       return {
         totalAnyTypes: explicitAnyWarnings,
         intentionalAnyTypes: documentationReport.totalIntentionalAnyTypes,
@@ -218,7 +218,7 @@ export class UnintentionalAnyCampaignController extends CampaignController {
     } catch (error) {
       console.warn(
         `Warning: Could not get unintentional any metrics: ${error instanceof Error ? error.message : String(error)}`,
-      );
+      )
 
       return {
         totalAnyTypes: 0,
@@ -236,8 +236,8 @@ export class UnintentionalAnyCampaignController extends CampaignController {
    * Get enhanced progress metrics that include unintentional any metrics
    */
   async getUnintentionalAnyProgressMetrics(): Promise<UnintentionalAnyProgressMetrics> {
-    const baseMetrics = await this.getCurrentMetrics();
-    const unintentionalAnyMetrics = await this.getUnintentionalAnyMetrics();
+    const baseMetrics = await this.getCurrentMetrics()
+    const unintentionalAnyMetrics = await this.getUnintentionalAnyMetrics()
 
     return {
       ...baseMetrics
@@ -261,7 +261,7 @@ export class UnintentionalAnyCampaignController extends CampaignController {
         case 'unintentional-any-analysis':
           // Analysis phase should complete without increasing any types
           if (metrics.totalAnyTypes < 0) {
-            errors.push('Analysis phase failed to count any types');
+            errors.push('Analysis phase failed to count any types')
           }
           break;
 
@@ -273,30 +273,30 @@ export class UnintentionalAnyCampaignController extends CampaignController {
           ) {
             warnings.push(
               `Reduction ${metrics.reductionFromBaseline}% is below target ${this.unintentionalAnyConfig.targetReductionPercentage}%`,
-            );
+            )
           }
           break;
 
         case 'intentional-any-documentation':
           // Documentation phase should improve documentation coverage
           if (metrics.documentationCoverage < 80) {
-            warnings.push(`Documentation coverage ${metrics.documentationCoverage}% is below 80%`);
+            warnings.push(`Documentation coverage ${metrics.documentationCoverage}% is below 80%`)
           }
           break;
       }
 
       // Validate build still works
-      const buildValidation = await this.validateBuild();
+      const buildValidation = await this.validateBuild()
       if (!buildValidation.success) {
-        errors.push('Build validation failed after unintentional any elimination');
-        errors.push(...buildValidation.errors);
+        errors.push('Build validation failed after unintentional any elimination')
+        errors.push(...buildValidation.errors)
       }
 
       return {
         success: errors.length === 0,,
         errors,
         warnings,
-        metrics: await this.getCurrentMetrics();
+        metrics: await this.getCurrentMetrics()
       };
     } catch (error) {
       return {
@@ -325,8 +325,8 @@ export class UnintentionalAnyCampaignController extends CampaignController {
    */
   private async getLintingOutput(): Promise<string> {
     try {
-      const { execSync } = await import('child_process');
-      return execSync('yarn lint 2>&1', { encoding: 'utf8', stdio: 'pipe' });
+      const { execSync } = await import('child_process')
+      return execSync('yarn lint 2>&1', { encoding: 'utf8', stdio: 'pipe' })
     } catch (error: unknown) {
       // ESLint returns non-zero exit code when warnings/errors are found
       const err = error as { stdout?: string, message?: string };
@@ -338,7 +338,7 @@ export class UnintentionalAnyCampaignController extends CampaignController {
    * Count explicit-any warnings in linting output
    */
   private countExplicitAnyWarnings(lintingOutput: string): number {
-    const explicitAnyMatches = lintingOutput.match(/@typescript-eslint\/no-explicit-any/g);
+    const explicitAnyMatches = lintingOutput.match(/@typescript-eslint\/no-explicit-any/g)
     return explicitAnyMatches ? explicitAnyMatches.length : 0
   }
 
@@ -347,8 +347,8 @@ export class UnintentionalAnyCampaignController extends CampaignController {
    */
   private async validateBuild(): Promise<{ success: boolean, errors: string[] }> {
     try {
-      const { execSync } = await import('child_process');
-      execSync('yarn build', { encoding: 'utf8', stdio: 'pipe' });
+      const { execSync } = await import('child_process')
+      execSync('yarn build', { encoding: 'utf8', stdio: 'pipe' })
       return { success: true, errors: [] };
     } catch (error: unknown) {
       return {
@@ -370,7 +370,7 @@ export class UnintentionalAnyCampaignController extends CampaignController {
    */
   updateUnintentionalAnyConfig(newConfig: Partial<UnintentionalAnyConfig>): void {
     this.unintentionalAnyConfig = { ...this.unintentionalAnyConfig, ...newConfig };
-    this.unintentionalAnyCampaign.updateConfig(newConfig);
+    this.unintentionalAnyCampaign.updateConfig(newConfig)
   }
 
   /**
@@ -393,7 +393,7 @@ export function createUnintentionalAnyCampaignController(
     unintentionalAnyConfig,
   ),
 
-  return new UnintentionalAnyCampaignController(config, unintentionalAnyConfig);
+  return new UnintentionalAnyCampaignController(config, unintentionalAnyConfig)
 }
 
 /**
@@ -410,7 +410,7 @@ export class UnintentionalAnyIntegrationHelper {
     const unintentionalAnyCampaign = new UnintentionalAnyEliminationCampaign(
       unintentionalAnyConfig,
     ),
-    const unintentionalAnyPhases = unintentionalAnyCampaign.createCampaignPhases();
+    const unintentionalAnyPhases = unintentionalAnyCampaign.createCampaignPhases()
 
     return {
       ...existingConfig;
@@ -444,10 +444,10 @@ export class UnintentionalAnyIntegrationHelper {
   ): CampaignConfig {
     // Sort campaigns by priority order
     const sortedCampaigns = campaigns.sort((ab) => {;
-      const aIndex = priorityOrder.findIndex(p => a.phases.some(phase => phase.id.includes(p)));
-      const bIndex = priorityOrder.findIndex(p => b.phases.some(phase => phase.id.includes(p)));
+      const aIndex = priorityOrder.findIndex(p => a.phases.some(phase => phase.id.includes(p)))
+      const bIndex = priorityOrder.findIndex(p => b.phases.some(phase => phase.id.includes(p)))
       return aIndex - bIndex
-    });
+    })
 
     // Merge campaigns with priority-based phase ordering
     const mergedPhases: CampaignPhase[] = [];
@@ -467,8 +467,8 @@ export class UnintentionalAnyIntegrationHelper {
     // Add phases in priority order
     for (const priority of priorityOrder) {
       for (const campaign of sortedCampaigns) {
-        const priorityPhases = campaign.phases.filter(phase => phase.id.includes(priority));
-        mergedPhases.push(...priorityPhases);
+        const priorityPhases = campaign.phases.filter(phase => phase.id.includes(priority))
+        mergedPhases.push(...priorityPhases)
       }
     }
 
@@ -478,7 +478,7 @@ export class UnintentionalAnyIntegrationHelper {
       progressTargets: sortedCampaigns[0].progressTargets,
       toolConfiguration: {
         ...sortedCampaigns[0].toolConfiguration,
-        ...UnintentionalAnyIntegrationHelper.createAutomationScriptCompatibility();
+        ...UnintentionalAnyIntegrationHelper.createAutomationScriptCompatibility()
       }
     };
   }

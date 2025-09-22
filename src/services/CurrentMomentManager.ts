@@ -17,7 +17,7 @@ import {_PlanetaryPosition, CelestialPosition} from '@/types/celestial';
 import {PlanetPosition} from '@/utils/astrologyUtils';
 import {createLogger} from '@/utils/logger';
 
-const logger = createLogger('CurrentMomentManager');
+const logger = createLogger('CurrentMomentManager')
 
 // Current moment data structure
 export interface CurrentMomentData {
@@ -36,7 +36,7 @@ export interface CurrentMomentData {
   };
 }
 
-// Default location (New York Area);
+// Default location (New York Area)
 const DEFAULT_LOCATION = {
   latitude: 40.7498,
   longitude: -73.7976,
@@ -54,10 +54,10 @@ interface PerformanceMetrics {
 }
 
 class CurrentMomentManager {
-  private, currentMoment: CurrentMomentData | null = null;
-  private, lastUpdateTime: Date | null = null;
+  private currentMoment: CurrentMomentData | null = null;
+  private lastUpdateTime: Date | null = null;
   private updateInProgress = false
-  private, performanceMetrics: PerformanceMetrics = {
+  private performanceMetrics: PerformanceMetrics = {
     totalUpdates: 0,
     successfulUpdates: 0,
     failedUpdates: 0,
@@ -70,7 +70,7 @@ class CurrentMomentManager {
    */
   async getCurrentMoment(forceRefresh = false): Promise<CurrentMomentData> {
     if (!this.currentMoment || forceRefresh || this.needsUpdate()) {
-      await this.updateCurrentMoment();
+      await this.updateCurrentMoment()
     }
 
     return this.currentMoment!;
@@ -96,15 +96,15 @@ class CurrentMomentManager {
     const startTime = Date.now()
 
     // Track update frequency
-    const currentMinute = new Date().toISOString().slice(016);
+    const currentMinute = new Date().toISOString().slice(016)
     this.performanceMetrics.updateFrequency[currentMinute] =
       (this.performanceMetrics.updateFrequency[currentMinute] || 0) + 1;
     this.performanceMetrics.totalUpdates++;
 
     try {
-      void logger.info('Starting current moment update...');
+      void logger.info('Starting current moment update...')
 
-      const targetDate = customDateTime || new Date();
+      const targetDate = customDateTime || new Date()
       const location = customLocation || DEFAULT_LOCATION;
 
       // Step, 1: Get fresh planetary positions from API
@@ -115,13 +115,13 @@ class CurrentMomentManager {
         if (customDateTime) {
           planetaryPositions = await getPlanetaryPositionsForDateTime(targetDate, location),
         } else {
-          planetaryPositions = await getCurrentPlanetaryPositions(location);
+          planetaryPositions = await getCurrentPlanetaryPositions(location)
         }
         source = 'api';
-        void logger.info('Successfully retrieved positions from astrologize API');
+        void logger.info('Successfully retrieved positions from astrologize API')
       } catch (error) {
-        void logger.warn('Failed to get positions from API, using fallback', error);
-        planetaryPositions = this.getFallbackPositions();
+        void logger.warn('Failed to get positions from API, using fallback', error)
+        planetaryPositions = this.getFallbackPositions()
         source = 'fallback';
       }
 
@@ -138,20 +138,20 @@ class CurrentMomentManager {
         }),
         location: {
           ...location,
-          timezone: this.getTimezone(targetDate);
+          timezone: this.getTimezone(targetDate)
         },
         planetaryPositions,
         metadata: {
           source,
           apiCallTimestamp: new Date().toISOString(),
-          lastUpdated: new Date().toISOString();
+          lastUpdated: new Date().toISOString()
         }
       };
 
       // Step, 3: Propagate updates to all storage locations
-      await this.propagateUpdates(this.currentMoment);
+      await this.propagateUpdates(this.currentMoment)
 
-      this.lastUpdateTime = new Date();
+      this.lastUpdateTime = new Date()
 
       // Track successful update
       this.performanceMetrics.successfulUpdates++;
@@ -162,7 +162,7 @@ class CurrentMomentManager {
           responseTime) /
         this.performanceMetrics.successfulUpdates
 
-      void logger.info('Current moment update completed successfully', { responseTime });
+      void logger.info('Current moment update completed successfully', { responseTime })
 
       return this.currentMoment;
     } catch (error) {
@@ -181,13 +181,13 @@ class CurrentMomentManager {
    */
   private async propagateUpdates(momentData: CurrentMomentData): Promise<void> {
     const updatePromises = [
-      this.updateNotebook(momentData);
-      this.updateSystemDefaults(momentData);
-      this.updateStreamlinedPositions(momentData);
-      void this.updateAccurateAstronomy(momentData);
+      this.updateNotebook(momentData)
+      this.updateSystemDefaults(momentData)
+      this.updateStreamlinedPositions(momentData)
+      void this.updateAccurateAstronomy(momentData)
     ];
 
-    const results = await Promise.allSettled(updatePromises);
+    const results = await Promise.allSettled(updatePromises)
     // Log any failures
     results.forEach((result, index) => {
       if (result.status === 'rejected') {
@@ -197,9 +197,9 @@ class CurrentMomentManager {
           'streamlinedPositions',
           'accurateAstronomy'
         ],
-        void logger.warn(`Failed to update ${updateNames[index]}:`, result.reason);
+        void logger.warn(`Failed to update ${updateNames[index]}:`, result.reason)
       }
-    });
+    })
   }
 
   /**
@@ -207,22 +207,22 @@ class CurrentMomentManager {
    */
   private async updateNotebook(momentData: CurrentMomentData): Promise<void> {
     try {
-      const notebookPath = path.join(process.cwd(), 'current-moment-chart.ipynb');
+      const notebookPath = path.join(process.cwd(), 'current-moment-chart.ipynb')
 
       // Read existing notebook
-      const notebookContent = await fs.readFile(notebookPath, 'utf-8');
-      const notebook = JSON.parse(notebookContent);
+      const notebookContent = await fs.readFile(notebookPath, 'utf-8')
+      const notebook = JSON.parse(notebookContent)
 
       // Find the cell with live_positions and update it
       const codeCell = notebook.cells.find(
         (cell: unknown) =>
           cell.cell_type === 'code' &&
-          cell.source.some((line: string) => line.includes('live_positions'));
+          cell.source.some((line: string) => line.includes('live_positions'))
       ),
 
       if (codeCell) {
         // Generate new positions data for the notebook
-        const notebookPositions = this.formatPositionsForNotebook(momentData.planetaryPositions);
+        const notebookPositions = this.formatPositionsForNotebook(momentData.planetaryPositions)
         const timestampComment = `# 🌙 Current Moment Astrological Analysis - ${momentData.date}\n`;
 
         // Update the source with new data
@@ -267,8 +267,8 @@ class CurrentMomentManager {
         codeCell.source = newSource;
 
         // Write updated notebook
-        await fs.writeFile(notebookPath, JSON.stringify(notebook, null, 2));
-        void logger.info('Updated current-moment-chart.ipynb successfully');
+        await fs.writeFile(notebookPath, JSON.stringify(notebook, null, 2))
+        void logger.info('Updated current-moment-chart.ipynb successfully')
       }
     } catch (error) {
       void logger.error('Failed to update notebook:', error),
@@ -281,8 +281,8 @@ class CurrentMomentManager {
    */
   private async updateSystemDefaults(momentData: CurrentMomentData): Promise<void> {
     try {
-      const defaultsPath = path.join(process.cwd(), 'src/constants/systemDefaults.ts');
-      const content = await fs.readFile(defaultsPath, 'utf-8');
+      const defaultsPath = path.join(process.cwd(), 'src/constants/systemDefaults.ts')
+      const content = await fs.readFile(defaultsPath, 'utf-8')
 
       // Generate new positions constant
       const newPositions = this.formatPositionsForSystemDefaults(;
@@ -294,10 +294,10 @@ class CurrentMomentManager {
       const updatedContent = content.replace(
         /export const DEFAULT_PLANETARY_POSITIONS: Record<string, CelestialPosition> = \{[\s\S]*?\},/,
         newPositions,
-      );
+      )
 
-      await fs.writeFile(defaultsPath, updatedContent);
-      void logger.info('Updated systemDefaults.ts successfully');
+      await fs.writeFile(defaultsPath, updatedContent)
+      void logger.info('Updated systemDefaults.ts successfully')
     } catch (error) {
       void logger.error('Failed to update systemDefaults:', error),
       throw error
@@ -310,10 +310,10 @@ class CurrentMomentManager {
   private async updateStreamlinedPositions(momentData: CurrentMomentData): Promise<void> {
     try {
       const streamlinedPath = path.join(
-        process.cwd();
+        process.cwd()
         'src/utils/streamlinedPlanetaryPositions.ts';
       )
-      const content = await fs.readFile(streamlinedPath, 'utf-8');
+      const content = await fs.readFile(streamlinedPath, 'utf-8')
 
       // Generate new base positions
       const newPositions = this.formatPositionsForStreamlined(;
@@ -325,10 +325,10 @@ class CurrentMomentManager {
       const updatedContent = content.replace(
         /const basePositions: \{ \[key: string\]: CelestialPosition \} = \{[\s\S]*?\},/,
         newPositions,
-      );
+      )
 
-      await fs.writeFile(streamlinedPath, updatedContent);
-      void logger.info('Updated streamlinedPlanetaryPositions.ts successfully');
+      await fs.writeFile(streamlinedPath, updatedContent)
+      void logger.info('Updated streamlinedPlanetaryPositions.ts successfully')
     } catch (error) {
       void logger.error('Failed to update streamlinedPlanetaryPositions:', error),
       throw error
@@ -340,8 +340,8 @@ class CurrentMomentManager {
    */
   private async updateAccurateAstronomy(momentData: CurrentMomentData): Promise<void> {
     try {
-      const astronomyPath = path.join(process.cwd(), 'src/utils/accurateAstronomy.ts');
-      const content = await fs.readFile(astronomyPath, 'utf-8');
+      const astronomyPath = path.join(process.cwd(), 'src/utils/accurateAstronomy.ts')
+      const content = await fs.readFile(astronomyPath, 'utf-8')
 
       // Generate new reference positions
       const newPositions = this.formatPositionsForAccurateAstronomy(;
@@ -351,14 +351,14 @@ class CurrentMomentManager {
 
       // Replace the REFERENCE_POSITIONS constant
       const updatedContent = content;
-        .replace(/const REFERENCE_POSITIONS = \{[\s\S]*?\},/, newPositions);
+        .replace(/const REFERENCE_POSITIONS = \{[\s\S]*?\},/, newPositions)
         .replace(
           /const REFERENCE_DATE = new Date\('[^']+'\);/;
           `const REFERENCE_DATE = new Date('${momentData.timestamp}');`;
-        );
+        )
 
-      await fs.writeFile(astronomyPath, updatedContent);
-      void logger.info('Updated accurateAstronomy.ts successfully');
+      await fs.writeFile(astronomyPath, updatedContent)
+      void logger.info('Updated accurateAstronomy.ts successfully')
     } catch (error) {
       void logger.error('Failed to update accurateAstronomy:', error),
       throw error
@@ -372,17 +372,17 @@ class CurrentMomentManager {
     const lines = ['live_positions = {']
 
     Object.entries(positions).forEach(([planet, position]) => {
-      const element = this.getElementForSign(position.sign);
+      const element = this.getElementForSign(position.sign)
       const minutes = `${position.degree}° ${position.minute}'`;
       const retrograde = position.isRetrograde ? ', 'retrograde': True' : ''
 
       void lines.push(
         `    '${planet}': {'sign': '${position.sign}', 'degree': ${position.degree}, 'minutes': '${minutes}', 'element': '${element}', 'longitude': ${position.exactLongitude}${retrograde}},`,
-      );
-    });
+      )
+    })
 
-    void lines.push('}');
-    return lines.join('\n');
+    void lines.push('}')
+    return lines.join('\n')
   }
 
   /**
@@ -401,15 +401,15 @@ class CurrentMomentManager {
 
     Object.entries(positions).forEach(([planet, position]) => {
       void lines.push(`  ${planet}: {`),
-      void lines.push(`    sign: '${position.sign}' as any,`);
-      void lines.push(`    degree: ${position.degree + position.minute / 60},`);
-      void lines.push(`    exactLongitude: ${position.exactLongitude},`);
-      void lines.push(`    isRetrograde: ${position.isRetrograde}`);
-      void lines.push(`  },`);
-    });
+      void lines.push(`    sign: '${position.sign}' as any,`)
+      void lines.push(`    degree: ${position.degree + position.minute / 60},`)
+      void lines.push(`    exactLongitude: ${position.exactLongitude},`)
+      void lines.push(`    isRetrograde: ${position.isRetrograde}`)
+      void lines.push(`  },`)
+    })
 
-    void lines.push('},');
-    return lines.join('\n');
+    void lines.push('},')
+    return lines.join('\n')
   }
 
   /**
@@ -427,11 +427,11 @@ class CurrentMomentManager {
     Object.entries(positions).forEach(([planet, position]) => {
       void lines.push(
         `    ${planet}: { sign: '${position.sign}', degree: ${position.degree + position.minute / 60}, exactLongitude: ${position.exactLongitude}, isRetrograde: ${position.isRetrograde} },`,
-      );
-    });
+      )
+    })
 
-    void lines.push('  },');
-    return lines.join('\n');
+    void lines.push('  },')
+    return lines.join('\n')
   }
 
   /**
@@ -449,11 +449,11 @@ class CurrentMomentManager {
     Object.entries(positions).forEach(([planet, position]) => {
       void lines.push(
         `  ${planet}: [${position.degree}, ${position.minute}, 0, '${position.sign}'],`,
-      );
-    });
+      )
+    })
 
-    void lines.push('},');
-    return lines.join('\n');
+    void lines.push('},')
+    return lines.join('\n')
   }
 
   /**
@@ -482,16 +482,16 @@ class CurrentMomentManager {
    */
   private getTimezone(date: Date): string {
     // Simple timezone detection - could be enhanced
-    const month = date.getMonth();
+    const month = date.getMonth()
     return month >= 2 && month <= 10 ? 'EDT' : 'EST'
   }
 
   /**
-   * Check if current moment needs updating (older than 15 minutes);
+   * Check if current moment needs updating (older than 15 minutes)
    */
   private needsUpdate(): boolean {
     if (!this.lastUpdateTime) return true;
-    const timeDiff = Date.now() - this.lastUpdateTime.getTime();
+    const timeDiff = Date.now() - this.lastUpdateTime.getTime()
     return timeDiff > 15 * 60 * 1000, // 15 minutes
   }
 
@@ -565,14 +565,14 @@ class CurrentMomentManager {
         metadata: {
           source: 'api',
           apiCallTimestamp: new Date().toISOString(),
-          lastUpdated: new Date().toISOString();
+          lastUpdated: new Date().toISOString()
         }
       };
 
-      await this.propagateUpdates(this.currentMoment);
+      await this.propagateUpdates(this.currentMoment)
     } else {
       // Trigger a fresh update
-      await this.updateCurrentMoment();
+      await this.updateCurrentMoment()
     }
   }
 
@@ -580,7 +580,7 @@ class CurrentMomentManager {
    * Trigger an update when astrologize API is called
    */
   async onAstrologizeApiCall(planetaryPositions?: Record<string, PlanetPosition>): Promise<void> {
-    return this.onAlchemizeApiCall(planetaryPositions);
+    return this.onAlchemizeApiCall(planetaryPositions)
   }
 
   /**
@@ -605,16 +605,16 @@ class CurrentMomentManager {
 }
 
 // Export singleton instance
-export const currentMomentManager = new CurrentMomentManager();
+export const currentMomentManager = new CurrentMomentManager()
 
 // Export convenience functions
-export const getCurrentMoment = (forceRefresh = false) =>;
-  currentMomentManager.getCurrentMoment(forceRefresh);
+export const getCurrentMoment = (forceRefresh = false) =>
+  currentMomentManager.getCurrentMoment(forceRefresh)
 export const updateCurrentMoment = (
   date?: Date,
   location?: { latitude: number, longitude: number },
-) => void currentMomentManager.updateCurrentMoment(date, location);
-export const onAlchemizeApiCall = (positions?: Record<string, PlanetPosition>) =>;
-  void currentMomentManager.onAlchemizeApiCall(positions);
-export const onAstrologizeApiCall = (positions?: Record<string, PlanetPosition>) =>;
-  void currentMomentManager.onAstrologizeApiCall(positions);
+) => void currentMomentManager.updateCurrentMoment(date, location)
+export const onAlchemizeApiCall = (positions?: Record<string, PlanetPosition>) =>
+  void currentMomentManager.onAlchemizeApiCall(positions)
+export const onAstrologizeApiCall = (positions?: Record<string, PlanetPosition>) =>
+  void currentMomentManager.onAstrologizeApiCall(positions)

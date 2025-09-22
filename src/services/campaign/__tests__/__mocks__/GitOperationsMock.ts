@@ -6,7 +6,7 @@
 import { GitStash } from '../../../../types/campaign';
 
 export class GitOperationsMock {
-  private mockStashes: Map<string, GitStash> = new Map();
+  private mockStashes: Map<string, GitStash> = new Map()
   private mockBranch: string = 'main';
   private mockGitStatus: string = '';
   private shouldFailCommands: boolean = false
@@ -23,7 +23,7 @@ export class GitOperationsMock {
       ref: `stash@{${this.mockStashes.size}}`
     };
 
-    this.mockStashes.set(stashId, stash);
+    this.mockStashes.set(stashId, stash)
     return stash;
   }
 
@@ -35,7 +35,7 @@ export class GitOperationsMock {
       throw new Error('Mock git stash apply failed')
     }
 
-    return this.mockStashes.has(stashId);
+    return this.mockStashes.has(stashId)
   }
 
   /**
@@ -68,8 +68,8 @@ export class GitOperationsMock {
       throw new Error('Mock git stash list failed')
     }
 
-    const stashes = Array.from(this.mockStashes.values());
-    return stashes.map(stash => `${stash.ref}: ${stash.description}`).join('\n');
+    const stashes = Array.from(this.mockStashes.values())
+    return stashes.map(stash => `${stash.ref}: ${stash.description}`).join('\n')
   }
 
   /**
@@ -97,7 +97,7 @@ export class GitOperationsMock {
    * Get mock stashes
    */
   getMockStashes(): Map<string, GitStash> {
-    return new Map(this.mockStashes);
+    return new Map(this.mockStashes)
   }
 
   /**
@@ -111,7 +111,7 @@ export class GitOperationsMock {
    * Add mock stash directly
    */
   addMockStash(stash: GitStash): void {
-    this.mockStashes.set(stash.id, stash);
+    this.mockStashes.set(stash.id, stash)
   }
 
   /**
@@ -139,7 +139,7 @@ export class GitOperationsMock {
    * Reset all mock state
    */
   reset(): void {
-    this.mockStashes.clear();
+    this.mockStashes.clear()
     this.mockBranch = 'main';
     this.mockGitStatus = '';
     this.shouldFailCommands = false
@@ -147,4 +147,4 @@ export class GitOperationsMock {
 }
 
 // Singleton instance for tests
-export const _gitOperationsMock = new GitOperationsMock();
+export const _gitOperationsMock = new GitOperationsMock()

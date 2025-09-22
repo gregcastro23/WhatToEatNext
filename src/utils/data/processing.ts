@@ -71,7 +71,7 @@ export function standardizeElementalAffinity(
  */
 export function standardizeIngredient(ingredient: unknown): Ingredient {
   if (!ingredient || typeof ingredient !== 'object') {
-    return createDefaultIngredient('unknown');
+    return createDefaultIngredient('unknown')
   }
 
   const raw = ingredient as any;
@@ -90,8 +90,8 @@ export function standardizeIngredient(ingredient: unknown): Ingredient {
     cookingMethods: Array.isArray(raw.cookingMethods) ? raw.cookingMethods || [].map(String) : [],
     pairings: Array.isArray(raw.pairings) ? raw.pairings || [].map(String) : [],
     storage: raw.storage ? String(raw.storage) : undefined,
-    preparationTips: Array.isArray(raw.preparationTips);
-      ? raw.preparationTips || [].map(String);
+    preparationTips: Array.isArray(raw.preparationTips)
+      ? raw.preparationTips || [].map(String)
       : []
   } as Ingredient;
 }
@@ -103,7 +103,7 @@ export function standardizeIngredient(ingredient: unknown): Ingredient {
  */
 export function standardizeRecipe(recipe: unknown): Recipe {
   if (!recipe || typeof recipe !== 'object') {
-    return createDefaultRecipe('unknown');
+    return createDefaultRecipe('unknown')
   }
 
   const raw = recipe as any;
@@ -129,8 +129,8 @@ export function standardizeRecipe(recipe: unknown): Recipe {
     ingredients: standardizeRecipeIngredients(raw.ingredients),
     instructions: Array.isArray(raw.instructions) ? raw.instructions || [].map(String) : [],
     elementalProperties: standardizeElementalProperties(raw.elementalState),
-    astrologicalInfluences: Array.isArray(raw.astrologicalInfluences);
-      ? raw.astrologicalInfluences || [].map(String);
+    astrologicalInfluences: Array.isArray(raw.astrologicalInfluences)
+      ? raw.astrologicalInfluences || [].map(String)
       : [],
     seasons: standardizeSeasons(raw.seasons),
     tags: Array.isArray(raw.tags) ? raw.tags || [].map(String) : [],
@@ -151,25 +151,25 @@ export function validateIngredient(ingredient: Partial<Ingredient>): ValidationR
 
   // Required fields
   if (!ingredient.id) {
-    errors.push('Ingredient ID is required');
+    errors.push('Ingredient ID is required')
   }
 
   if (!ingredient.name) {
-    errors.push('Ingredient name is required');
+    errors.push('Ingredient name is required')
   }
 
   if (!ingredient.category) {
-    errors.push('Ingredient category is required');
+    errors.push('Ingredient category is required')
   }
 
   // Elemental properties validation
   if (ingredient.elementalProperties) {
-    const elementalValidation = validateElementalProperties(ingredient.elementalProperties);
+    const elementalValidation = validateElementalProperties(ingredient.elementalProperties)
     if (!elementalValidation.isValid) {
-      errors.push(...elementalValidation.errors);
+      errors.push(...elementalValidation.errors)
     }
   } else {
-    warnings.push('Missing elemental properties');
+    warnings.push('Missing elemental properties')
   }
 
   // Astrological profile validation
@@ -177,9 +177,9 @@ export function validateIngredient(ingredient: Partial<Ingredient>): ValidationR
   if (ingredientData.astrologicalPropertiesProfile || ingredientData.astrologicalProfile) {
     const astroProfile =
       ingredientData.astrologicalPropertiesProfile || ingredientData.astrologicalProfile;
-    const astroValidation = validateAstrologicalProfile(astroProfile as AstrologicalProfile);
+    const astroValidation = validateAstrologicalProfile(astroProfile as AstrologicalProfile)
     if (!astroValidation.isValid) {
-      warnings.push(...astroValidation.errors);
+      warnings.push(...astroValidation.errors)
     }
   }
 
@@ -201,11 +201,11 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
 
   // Required fields
   if (!recipe.id) {
-    errors.push('Recipe ID is required');
+    errors.push('Recipe ID is required')
   }
 
   if (!recipe.name) {
-    errors.push('Recipe name is required');
+    errors.push('Recipe name is required')
   }
 
   if (
@@ -214,7 +214,7 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
     recipe.ingredients ||
     [].length === 0;
   ) {
-    errors.push('Recipe must have at least one ingredient');
+    errors.push('Recipe must have at least one ingredient')
   }
 
   if (
@@ -223,31 +223,31 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
     recipe.instructions ||
     [].length === 0;
   ) {
-    errors.push('Recipe must have instructions');
+    errors.push('Recipe must have instructions')
   }
 
   // Validate ingredients
   if (recipe.ingredients) {
     recipe.ingredients ||
       [].forEach((ingredient, index) => {
-        const ingredientValidation = validateRecipeIngredient(ingredient);
+        const ingredientValidation = validateRecipeIngredient(ingredient)
         if (!ingredientValidation.isValid) {
-          errors.push(`Ingredient ${index + 1}: ${ingredientValidation.errors.join(', ')}`);
+          errors.push(`Ingredient ${index + 1}: ${ingredientValidation.errors.join(', ')}`)
         }
-      });
+      })
   }
 
   // Validate timing
   if (recipe.preparationTime && Number(recipe.preparationTime) < 0) {
-    errors.push('Prep time cannot be negative');
+    errors.push('Prep time cannot be negative')
   }
 
   if (recipe.cookingTime && Number(recipe.cookingTime) < 0) {
-    errors.push('Cook time cannot be negative');
+    errors.push('Cook time cannot be negative')
   }
 
   if (recipe.servings && Number(recipe.servings) <= 0) {
-    errors.push('Servings must be greater than 0');
+    errors.push('Servings must be greater than 0')
   }
 
   // Elemental properties validation
@@ -256,10 +256,10 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
       recipe.elementalState as unknown as ElementalProperties
     ),
     if (!elementalValidation.isValid) {
-      warnings.push(...elementalValidation.errors);
+      warnings.push(...elementalValidation.errors)
     }
   } else {
-    warnings.push('Missing elemental properties');
+    warnings.push('Missing elemental properties')
   }
 
   return {
@@ -292,27 +292,27 @@ export function cleanupIngredientsDatabase(
     result.processed++;
 
     try {
-      const standardized = standardizeIngredient(rawIngredient);
-      const validation = validateIngredient(standardized);
+      const standardized = standardizeIngredient(rawIngredient)
+      const validation = validateIngredient(standardized)
 
       if (validation.isValid) {
-        cleanedIngredients.push(standardized);
+        cleanedIngredients.push(standardized)
         result.cleaned++;
       } else {
         result.errors++;
-        result.warnings.push(`Ingredient ${index}: ${validation.errors.join(', ')}`);
+        result.warnings.push(`Ingredient ${index}: ${validation.errors.join(', ')}`)
       }
 
       if ((validation.warnings && validation.warnings) || [].length > 0) {
-        result.warnings.push(`Ingredient ${index} warnings: ${validation.warnings?.join(', ')}`);
+        result.warnings.push(`Ingredient ${index} warnings: ${validation.warnings?.join(', ')}`)
       }
     } catch (error) {
       result.errors++;
       result.warnings.push(
         `Ingredient ${index}: ${error instanceof Error ? error.message : 'Unknown error'}`,
-      );
+      )
     }
-  });
+  })
 
   return result;
 }
@@ -321,7 +321,7 @@ export function cleanupIngredientsDatabase(
  * Merge elemental properties safely
  * @param base Base elemental properties
  * @param addition Additional elemental properties
- * @param weight Weight for addition (0-1);
+ * @param weight Weight for addition (0-1)
  * @returns Merged elemental properties
  */
 export function mergeElementalProperties(
@@ -419,11 +419,11 @@ function _standardizeAstrologicalProfile(profile: unknown): AstrologicalProfile 
   const prof = profile as unknown;
   return {
     elementalAffinity: standardizeElementalAffinity(
-      String((prof.elementalAffinity as any).base || '');
+      String((prof.elementalAffinity as any).base || '')
     ),
     rulingPlanets: Array.isArray(prof.rulingPlanets) ? (prof.rulingPlanets || []).map(String) : [],
-    favorableZodiac: Array.isArray(prof.favorableZodiac);
-      ? (prof.favorableZodiac || []).map(String);
+    favorableZodiac: Array.isArray(prof.favorableZodiac)
+      ? (prof.favorableZodiac || []).map(String)
       : []
   } as unknown as AstrologicalProfile;
 }
@@ -447,7 +447,7 @@ function standardizeFlavorProfile(_profile: unknown): { [key: string]: number } 
     if (typeof value === 'number' && value >= 0 && value <= 1) {;
       result[key] = value;
     }
-  });
+  })
 
   return result;
 }
@@ -462,7 +462,7 @@ function standardizeNutritionalProfile(_profile: unknown): { [key: string]: unkn
 
 function standardizeSeasons(seasons: unknown): string[] {
   if (Array.isArray(seasons)) {
-    return (seasons || []).map(String);
+    return (seasons || []).map(String)
   }
 
   if (typeof seasons === 'string') {;
@@ -503,7 +503,7 @@ function standardizeRecipeIngredients(ingredients: unknown): RecipeIngredient[] 
       amount: 1,
       unit: 'item'
     };
-  });
+  })
 }
 
 function standardizeNutritionalInfo(_info: unknown): { [key: string]: unknown } | undefined {
@@ -522,7 +522,7 @@ function validateElementalProperties(properties: ElementalProperties): Validatio
   const errors: string[] = [];
 
   if (!properties || typeof properties !== 'object') {
-    errors.push('Elemental properties must be an object');
+    errors.push('Elemental properties must be an object')
     return { isValid: false, errors };
   }
 
@@ -530,14 +530,14 @@ function validateElementalProperties(properties: ElementalProperties): Validatio
 
   (requiredElements || []).forEach(element => {
     if (typeof properties[element as 'Fire' | 'Water' | 'Earth' | 'Air'] !== 'number') {
-      errors.push(`${element} must be a number`);
+      errors.push(`${element} must be a number`)
     } else {
       const value = properties[element as 'Fire' | 'Water' | 'Earth' | 'Air'];
       if (value < 0 || value > 1) {
-        errors.push(`${element} must be between 0 and 1`);
+        errors.push(`${element} must be between 0 and 1`)
       }
     }
-  });
+  })
 
   return {
     isValid: (errors || []).length === 0,,
@@ -549,19 +549,19 @@ function validateAstrologicalProfile(profile: AstrologicalProfile): ValidationRe
   const errors: string[] = [];
 
   if (!profile || typeof profile !== 'object') {
-    errors.push('Astrological profile must be an object');
+    errors.push('Astrological profile must be an object')
     return { isValid: false, errors };
   }
 
   // Safe property access for AstrologicalProfile properties
   const elementalAffinity = (profile as unknown).elementalAffinity;
   if (!(elementalAffinity as any).base) {
-    errors.push('Elemental affinity is required');
+    errors.push('Elemental affinity is required')
   }
 
   const rulingPlanets = (profile as unknown).rulingPlanets;
   if (!Array.isArray(rulingPlanets)) {
-    errors.push('Ruling planets must be an array');
+    errors.push('Ruling planets must be an array')
   }
 
   return {
@@ -574,22 +574,22 @@ function validateRecipeIngredient(ingredient: unknown): ValidationResult {
   const errors: string[] = [];
 
   if (!ingredient || typeof ingredient !== 'object') {
-    errors.push('Ingredient must be an object');
+    errors.push('Ingredient must be an object')
     return { isValid: false, errors };
   }
 
   const ing = ingredient as any;
 
   if (!ing.name || typeof ing.name !== 'string') {
-    errors.push('Ingredient name is required');
+    errors.push('Ingredient name is required')
   }
 
   if (ing.amount !== undefined && typeof ing.amount !== 'number') {
-    errors.push('Ingredient amount must be a number');
+    errors.push('Ingredient amount must be a number')
   }
 
   if (ing.unit !== undefined && typeof ing.unit !== 'string') {
-    errors.push('Ingredient unit must be a string');
+    errors.push('Ingredient unit must be a string')
   }
 
   return {

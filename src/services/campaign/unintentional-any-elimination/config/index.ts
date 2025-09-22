@@ -191,21 +191,21 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
     ]
   },
   version: '1.0.0',
-  lastUpdated: new Date().toISOString();
+  lastUpdated: new Date().toISOString()
 };
 
 /**
  * Configuration Manager class
  */
 export class ConfigurationManager {
-  private, config: UnintentionalAnyConfig;
-  private, configPath: string;
+  private config: UnintentionalAnyConfig;
+  private configPath: string;
 
   constructor(configPath?: string) {
     this.configPath =
       configPath ||
-      join(process.cwd(), '.kiro', 'campaign-configs', 'unintentional-any-elimination.json');
-    this.config = this.loadConfig();
+      join(process.cwd(), '.kiro', 'campaign-configs', 'unintentional-any-elimination.json')
+    this.config = this.loadConfig()
   }
 
   /**
@@ -214,13 +214,13 @@ export class ConfigurationManager {
   private loadConfig(): UnintentionalAnyConfig {
     if (existsSync(this.configPath)) {
       try {
-        const configData = readFileSync(this.configPath, 'utf8');
-        const loadedConfig = JSON.parse(configData);
+        const configData = readFileSync(this.configPath, 'utf8')
+        const loadedConfig = JSON.parse(configData)
 
         // Merge with defaults to ensure all properties exist
-        return this.mergeWithDefaults(loadedConfig);
+        return this.mergeWithDefaults(loadedConfig)
       } catch (error) {
-        console.warn(`Failed to load config from ${this.configPath}, using defaults:`, error);
+        console.warn(`Failed to load config from ${this.configPath}, using defaults:`, error)
         return DEFAULT_CONFIG;
       }
     }
@@ -247,15 +247,15 @@ export class ConfigurationManager {
    */
   saveConfig(): void {
     try {
-      const configDir = join(this.configPath, '..');
+      const configDir = join(this.configPath, '..')
       if (!existsSync(configDir)) {
-        mkdirSync(configDir, { recursive: true });
+        mkdirSync(configDir, { recursive: true })
       }
 
-      this.config.lastUpdated = new Date().toISOString();
-      writeFileSync(this.configPath, JSON.stringify(this.config, null, 2));
+      this.config.lastUpdated = new Date().toISOString()
+      writeFileSync(this.configPath, JSON.stringify(this.config, null, 2))
     } catch (error) {
-      throw new Error(`Failed to save config to ${this.configPath}: ${error}`);
+      throw new Error(`Failed to save config to ${this.configPath}: ${error}`)
     }
   }
 
@@ -270,8 +270,8 @@ export class ConfigurationManager {
    * Update configuration
    */
   updateConfig(updates: Partial<UnintentionalAnyConfig>): void {
-    this.config = this.mergeWithDefaults({ ...this.config, ...updates });
-    this.saveConfig();
+    this.config = this.mergeWithDefaults({ ...this.config, ...updates })
+    this.saveConfig()
   }
 
   /**
@@ -286,7 +286,7 @@ export class ConfigurationManager {
    */
   updateClassificationConfig(updates: Partial<ClassificationConfig>): void {
     this.config.classification = { ...this.config.classification, ...updates };
-    this.saveConfig();
+    this.saveConfig()
   }
 
   /**
@@ -301,7 +301,7 @@ export class ConfigurationManager {
    */
   updateDomainConfig(updates: Partial<DomainConfig>): void {
     this.config.domain = { ...this.config.domain, ...updates };
-    this.saveConfig();
+    this.saveConfig()
   }
 
   /**
@@ -316,7 +316,7 @@ export class ConfigurationManager {
    */
   updateSafetyConfig(updates: Partial<SafetyConfig>): void {
     this.config.safety = { ...this.config.safety, ...updates };
-    this.saveConfig();
+    this.saveConfig()
   }
 
   /**
@@ -331,7 +331,7 @@ export class ConfigurationManager {
    */
   updateTargetConfig(updates: Partial<TargetConfig>): void {
     this.config.targets = { ...this.config.targets, ...updates };
-    this.saveConfig();
+    this.saveConfig()
   }
 
   /**
@@ -339,7 +339,7 @@ export class ConfigurationManager {
    */
   resetToDefaults(): void {
     this.config = { ...DEFAULT_CONFIG };
-    this.saveConfig();
+    this.saveConfig()
   }
 
   /**
@@ -351,34 +351,34 @@ export class ConfigurationManager {
     // Validate classification config
     const { classification } = this.config;
     if (classification.intentionalThreshold < 0 || classification.intentionalThreshold > 1) {
-      errors.push('intentionalThreshold must be between 0 and 1');
+      errors.push('intentionalThreshold must be between 0 and 1')
     }
     if (classification.unintentionalThreshold < 0 || classification.unintentionalThreshold > 1) {
-      errors.push('unintentionalThreshold must be between 0 and 1');
+      errors.push('unintentionalThreshold must be between 0 and 1')
     }
     if (classification.minCommentLength < 0) {
-      errors.push('minCommentLength must be non-negative');
+      errors.push('minCommentLength must be non-negative')
     }
 
     // Validate safety config
     const { safety } = this.config;
     if (safety.maxBatchSize <= 0) {
-      errors.push('maxBatchSize must be positive');
+      errors.push('maxBatchSize must be positive')
     }
     if (safety.validationFrequency <= 0) {
-      errors.push('validationFrequency must be positive');
+      errors.push('validationFrequency must be positive')
     }
     if (safety.compilationTimeout <= 0) {
-      errors.push('compilationTimeout must be positive');
+      errors.push('compilationTimeout must be positive')
     }
 
     // Validate target config
     const { targets } = this.config;
     if (targets.targetReductionPercentage < 0 || targets.targetReductionPercentage > 100) {
-      errors.push('targetReductionPercentage must be between 0 and 100');
+      errors.push('targetReductionPercentage must be between 0 and 100')
     }
     if (targets.minSuccessRate < 0 || targets.minSuccessRate > 1) {
-      errors.push('minSuccessRate must be between 0 and 1');
+      errors.push('minSuccessRate must be between 0 and 1')
     }
 
     return {
@@ -391,12 +391,12 @@ export class ConfigurationManager {
 /**
  * Global configuration manager instance
  */
-export const configManager = new ConfigurationManager();
+export const configManager = new ConfigurationManager()
 
 /**
  * Convenience functions for accessing configuration
  */
-export const getClassificationConfig = () => configManager.getClassificationConfig();
-export const getDomainConfig = () => configManager.getDomainConfig();
-export const getSafetyConfig = () => configManager.getSafetyConfig();
-export const getTargetConfig = () => configManager.getTargetConfig();
+export const getClassificationConfig = () => configManager.getClassificationConfig()
+export const getDomainConfig = () => configManager.getDomainConfig()
+export const getSafetyConfig = () => configManager.getSafetyConfig()
+export const getTargetConfig = () => configManager.getTargetConfig()

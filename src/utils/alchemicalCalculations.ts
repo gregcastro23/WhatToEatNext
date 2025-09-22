@@ -53,7 +53,7 @@ export function calculateElementalValues(_positions: PlanetaryPositionsType) {
       return
     }
 
-    const signKey = data.sign.toLowerCase();
+    const signKey = data.sign.toLowerCase()
     const element = signElements[signKey] || 'balanced';
 
     // Only add to elements if it's a valid element key
@@ -65,7 +65,7 @@ export function calculateElementalValues(_positions: PlanetaryPositionsType) {
 
       elements[element] += weight;
     }
-  });
+  })
 
   // Calculate alchemical values from elements
   const total = elements.Fire + elements.Earth + elements.Air + elements.Water;
@@ -139,7 +139,7 @@ export function calculatePlanetaryAlchemicalValues(_positions: PlanetaryPosition
     alchemicalValues.Essence += properties.Essence * weight;
     alchemicalValues.Matter += properties.Matter * weight;
     alchemicalValues.Substance += properties.Substance * weight;
-  });
+  })
 
   // Normalize values
   if (totalWeight > 0) {
@@ -184,7 +184,7 @@ export function calculateElementalBalance(_positions: PlanetaryPositionsType) {
       return
     }
 
-    const signKey = data.sign.toLowerCase();
+    const signKey = data.sign.toLowerCase()
     const element = signElements[signKey];
 
     // Only proceed if it's a valid element
@@ -201,7 +201,7 @@ export function calculateElementalBalance(_positions: PlanetaryPositionsType) {
       totalWeight += weight;
       elementsFound = true;
     }
-  });
+  })
 
   // Normalize to ensure sum equals 1.0
   if (totalWeight > 0 && elementsFound) {
@@ -279,7 +279,7 @@ export function alchemize(
   Object.entries(planetaryPositions).forEach(([planetName, planetData]) => {
     if (!planetData.sign) return;
 
-    const sign = planetData.sign.toLowerCase();
+    const sign = planetData.sign.toLowerCase()
     let planetElement: string | null = null;
 
     // Get the element from the sign
@@ -349,7 +349,7 @@ export function alchemize(
         essence += 0.5 * planetWeight
         break
     }
-  });
+  })
 
   // Apply daytime/nighttime adjustment
   if (isDaytime) {
@@ -397,7 +397,7 @@ export function alchemize(
   }
 
   // Generate a recommendation based on the dominant element
-  const recommendation = generateRecommendation(dominantElement);
+  const recommendation = generateRecommendation(dominantElement)
 
   // Normalize the values
   const totalElemental =

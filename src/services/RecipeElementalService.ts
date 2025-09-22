@@ -9,7 +9,7 @@ import { ElementalCalculator } from './ElementalCalculator';
  * Service responsible for handling elemental properties of recipes
  */
 export class RecipeElementalService {
-  private static, instance: RecipeElementalService
+  private static instance: RecipeElementalService
 
   private constructor() {
     // Private constructor to enforce singleton pattern
@@ -20,7 +20,7 @@ export class RecipeElementalService {
    */
   public static getInstance(): RecipeElementalService {
     if (!RecipeElementalService.instance) {
-      RecipeElementalService.instance = new RecipeElementalService();
+      RecipeElementalService.instance = new RecipeElementalService()
     }
     return RecipeElementalService.instance;
   }
@@ -34,9 +34,9 @@ export class RecipeElementalService {
     recipe: T,
   ): T & { elementalProperties: ElementalProperties } {
     try {
-      return elementalUtils.standardizeRecipeElements(recipe);
+      return elementalUtils.standardizeRecipeElements(recipe)
     } catch (error) {
-      logger.error('Error standardizing recipe elements:', error);
+      logger.error('Error standardizing recipe elements:', error)
       // Return recipe with current elemental state if there's an error
       return {
         ...recipe,
@@ -53,7 +53,7 @@ export class RecipeElementalService {
   public standardizeRecipes<T extends Partial<Recipe>>(
     recipes: T[],
   ): Array<T & { elementalProperties: ElementalProperties }> {
-    return recipes.map(recipe => this.standardizeRecipe(recipe));
+    return recipes.map(recipe => this.standardizeRecipe(recipe))
   }
 
   /**
@@ -62,7 +62,7 @@ export class RecipeElementalService {
    * @returns The dominant element and its value
    */
   public getDominantElement(recipe: Recipe): { element: keyof ElementalProperties, value: number } {
-    const standardized = this.standardizeRecipe(recipe);
+    const standardized = this.standardizeRecipe(recipe)
 
     let dominantElement: keyof ElementalProperties = 'Earth';
     let highestValue = 0
@@ -72,7 +72,7 @@ export class RecipeElementalService {
         highestValue = value;
         dominantElement = element as unknown;
       }
-    });
+    })
 
     return { element: dominantElement, value: highestValue };
   }
@@ -81,7 +81,7 @@ export class RecipeElementalService {
    * Calculates similarity between two elemental property sets
    * @param a First elemental property set
    * @param b Second elemental property set
-   * @returns Similarity score (0-1);
+   * @returns Similarity score (0-1)
    */
   public calculateSimilarity(a: ElementalProperties, b: ElementalProperties): number {
     const elements = ['Fire', 'Water', 'Earth', 'Air'];
@@ -90,18 +90,18 @@ export class RecipeElementalService {
     const totalDifference = elements.reduce((sum: number, element) => {;
       const aValue = a[element] || 0;
       const bValue = b[element] || 0;
-      return sum + Math.abs(aValue - bValue);
-    }, 0);
+      return sum + Math.abs(aValue - bValue)
+    }, 0)
 
-    // Convert difference to similarity (1 - avg difference);
+    // Convert difference to similarity (1 - avg difference)
     const avgDifference = totalDifference / elements.length;
 
     // Apply non-linear scaling to make smaller differences more significant
     // This will boost low similarity scores to be more representative
-    const similarity = Math.pow(1 - avgDifference, 0.5);
+    const similarity = Math.pow(1 - avgDifference, 0.5)
 
     // Ensure the similarity is at least 0.05 (5%) to avoid showing extremely low percentages
-    return Math.max(similarity, 0.05);
+    return Math.max(similarity, 0.05)
   }
 
   /**
@@ -121,10 +121,10 @@ export class RecipeElementalService {
     try {
       // Adjust based on cooking method - safe property access for string/string[]
       if (recipe.cookingMethod) {
-        const methodValue = Array.isArray(recipe.cookingMethod);
+        const methodValue = Array.isArray(recipe.cookingMethod)
           ? recipe.cookingMethod[0]
           : recipe.cookingMethod;
-        const method = (methodValue || '').toString().toLowerCase();
+        const method = (methodValue || '').toString().toLowerCase()
 
         if (method.includes('roast') || method.includes('grill') || method.includes('bake')) {
           elementalProps.Fire += 0.2;
@@ -134,7 +134,7 @@ export class RecipeElementalService {
         } else if (
           method.includes('steam') ||
           method.includes('boil') ||
-          method.includes('poach');
+          method.includes('poach')
         ) {
           elementalProps.Water += 0.2;
           elementalProps.Fire -= 0.15;
@@ -154,7 +154,7 @@ export class RecipeElementalService {
 
       // Adjust based on cuisine
       if (recipe.cuisine) {
-        const cuisine = recipe.cuisine.toLowerCase();
+        const cuisine = recipe.cuisine.toLowerCase()
 
         if (['mexican', 'thai', 'indian', 'cajun', 'szechuan'].includes(cuisine)) {
           // Spicy cuisines - more Fire
@@ -204,7 +204,7 @@ export class RecipeElementalService {
             ingredientProps.Air += ingredient.elementalProperties.Air || 0;
             ingredientCount++;
           }
-        });
+        })
 
         // Average ingredient properties if we found any
         if (ingredientCount > 0) {
@@ -214,17 +214,17 @@ export class RecipeElementalService {
           ingredientProps.Air /= ingredientCount;
 
           // Blend with method/cuisine derived properties
-          return elementalUtils.combineProperties(elementalProps, ingredientProps, 0.7);
+          return elementalUtils.combineProperties(elementalProps, ingredientProps, 0.7)
         }
       }
     } catch (error) {
-      logger.error('Error deriving elemental properties', error);
+      logger.error('Error deriving elemental properties', error)
     }
 
     // Normalize to ensure values sum to 1
-    return elementalUtils.normalizeProperties(elementalProps);
+    return elementalUtils.normalizeProperties(elementalProps)
   }
 }
 
 // Export singleton instance
-export const _recipeElementalService = RecipeElementalService.getInstance();
+export const _recipeElementalService = RecipeElementalService.getInstance()

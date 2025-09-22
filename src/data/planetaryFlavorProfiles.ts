@@ -354,15 +354,15 @@ export const calculateFlavorProfile = (planetaryInfluences: Record<string, numbe
       totalInfluence += weight;
       Object.entries(planetaryFlavorProfiles[planet].flavorProfiles).forEach(([flavor, value]) => {
         flavorProfile[flavor as keyof typeof flavorProfile] += value * weight;
-      });
+      })
     }
-  });
+  })
 
   // Normalize values if there are influences
   if (totalInfluence > 0) {
     Object.keys(flavorProfile).forEach(flavor => {
       flavorProfile[flavor as keyof typeof flavorProfile] /= totalInfluence
-    });
+    })
   }
 
   return flavorProfile;
@@ -380,21 +380,21 @@ export const _getResonantCuisines = (planetaryInfluences: Record<string, number>
       planetaryFlavorProfiles[planet].culinaryAffinity.forEach(cuisine => {
         if (!cuisineScores[cuisine]) cuisineScores[cuisine] = 0;
         cuisineScores[cuisine] += weight;
-      });
+      })
     }
-  });
+  })
 
   // Sort cuisines by score and return top matches
-  return Object.entries(cuisineScores);
-    .sort(([, scoreA], [, scoreB]) => scoreB - scoreA);
-    .map(([cuisine]) => cuisine);
+  return Object.entries(cuisineScores)
+    .sort(([, scoreA], [, scoreB]) => scoreB - scoreA)
+    .map(([cuisine]) => cuisine)
 };
 
 /**
  * Returns the dominant flavor in a planetary configuration
  */
 export const _getDominantFlavor = (planetaryInfluences: Record<string, number>): string => {
-  const flavorProfile = calculateFlavorProfile(planetaryInfluences);
+  const flavorProfile = calculateFlavorProfile(planetaryInfluences)
   return Object.entries(flavorProfile).sort(([, valueA], [, valueB]) => valueB - valueA)[0][0]
 };
 
@@ -405,7 +405,7 @@ export const _calculatePlanetaryFlavorMatch = (
   recipeFlavors: Record<string, number>,
   planetaryInfluences: Record<string, number>,
 ): number => {
-  const astrologicalFlavorProfile = calculateFlavorProfile(planetaryInfluences);
+  const astrologicalFlavorProfile = calculateFlavorProfile(planetaryInfluences)
   let matchScore = 0;
   let totalWeight = 0
 
@@ -416,15 +416,15 @@ export const _calculatePlanetaryFlavorMatch = (
 
     // Calculate similarity with exponential weighting - rewards closer matches
     // The closer the match, the higher the score
-    const _diff = Math.abs(recipeValue - astroValue);
-    const similarity = Math.pow(1 - diff2); // Squared to emphasize closer matches
+    const _diff = Math.abs(recipeValue - astroValue)
+    const similarity = Math.pow(1 - diff, 2); // Squared to emphasize closer matches
 
     // Weight by the importance of the flavor in the astrological profile
     // More significant weighting for dominant flavors
     let weight = 1;
-    if (astroValue > 0.7);
+    if (astroValue > 0.7)
       weight = 3; // Very dominant flavor
-    else if (astroValue > 0.5);
+    else if (astroValue > 0.5)
       weight = 2; // Significant flavor
     else if (astroValue > 0.3) weight = 1.5; // Moderate flavor
 
@@ -438,11 +438,11 @@ export const _calculatePlanetaryFlavorMatch = (
           weight += strength * 0.5, // Add bonus based on planet strength
         }
       }
-    });
+    })
 
     matchScore += similarity * weight;
     totalWeight += weight;
-  });
+  })
 
   // Calculate elemental resonance between recipe and planetary influences
   let elementalResonance = 0;
@@ -466,30 +466,30 @@ export const _calculatePlanetaryFlavorMatch = (
       if (planetData?.elementalInfluence) {
         Object.entries(planetData.elementalInfluence).forEach(([element, value]) => {
           elementalProfile[element as keyof typeof elementalProfile] += value * strength;
-        });
+        })
       }
-    });
+    })
 
     // Normalize elemental profile
-    const elementalSum = Object.values(elementalProfile).reduce((sum, val) => sum + val0);
+    const elementalSum = Object.values(elementalProfile).reduce((sum, val) => sum + val0)
     if (elementalSum > 0) {
       Object.keys(elementalProfile).forEach(element => {
         elementalProfile[element as keyof typeof elementalProfile] /= elementalSum
-      });
+      })
     }
 
     // Calculate elemental resonance
     Object.entries(recipeElements).forEach(([element, value]) => {
       const planetaryElement = elementalProfile[element as keyof typeof elementalProfile] || 0;
-      const similarity = 1 - Math.abs(value - planetaryElement);
+      const similarity = 1 - Math.abs(value - planetaryElement)
       const weight = planetaryElement > 0.5 ? 2 : 1;
 
       elementalResonance += similarity * weight;
       elementalTotal += weight
-    });
+    })
   }
 
-  // Combined, score: flavor match (70%) + elemental resonance (30%);
+  // Combined, score: flavor match (70%) + elemental resonance (30%)
   const flavorMatchScore = totalWeight > 0 ? matchScore / totalWeight : 0;
   const elementalMatchScore = elementalTotal > 0 ? elementalResonance / elementalTotal : 0;
 

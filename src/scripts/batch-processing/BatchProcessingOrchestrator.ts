@@ -69,9 +69,9 @@ export interface CampaignReport {
 }
 
 export class BatchProcessingOrchestrator {
-  private, batchProcessor: SafeBatchProcessor,
-  private, safetyProtocols: EnhancedSafetyProtocols,
-  private, config: OrchestratorConfig,
+  private batchProcessor: SafeBatchProcessor,
+  private safetyProtocols: EnhancedSafetyProtocols,
+  private config: OrchestratorConfig,
   private currentCampaign?: CampaignReport,
 
   constructor(config: Partial<OrchestratorConfig> = {}) {
@@ -84,12 +84,12 @@ export class BatchProcessingOrchestrator {
       ...config
     };
 
-    this.batchProcessor = new SafeBatchProcessor(this.config.batchProcessing);
-    this.safetyProtocols = new EnhancedSafetyProtocols(this.config.safetyProtocols);
+    this.batchProcessor = new SafeBatchProcessor(this.config.batchProcessing)
+    this.safetyProtocols = new EnhancedSafetyProtocols(this.config.safetyProtocols)
 
     // Ensure output directory exists
     if (this.config.generateReports && !fs.existsSync(this.config.outputDirectory)) {
-      fs.mkdirSync(this.config.outputDirectory, { recursive: true });
+      fs.mkdirSync(this.config.outputDirectory, { recursive: true })
     }
   }
 
@@ -97,14 +97,14 @@ export class BatchProcessingOrchestrator {
    * Create a comprehensive processing plan
    */
   async createProcessingPlan(files: FileProcessingInfo[]): Promise<ProcessingPlan> {
-    // // // console.log('📋 Creating comprehensive processing plan...');
+    // // // console.log('📋 Creating comprehensive processing plan...')
 
     const assessments = files.map(file =>
       this.safetyProtocols.assessFileRisk(file.filePath, file.unusedVariableCount),
-    );
+    )
 
-    const automaticProcessing = assessments.filter(a => !a.requiresManualReview);
-    const manualReviewRequired = assessments.filter(a => a.requiresManualReview);
+    const automaticProcessing = assessments.filter(a => !a.requiresManualReview)
+    const manualReviewRequired = assessments.filter(a => a.requiresManualReview)
 
     // Calculate risk summary
     const riskSummary = {
@@ -115,11 +115,11 @@ export class BatchProcessingOrchestrator {
     };
 
     // Estimate number of batches
-    const estimatedBatches = this.estimateBatchCount(automaticProcessing);
+    const estimatedBatches = this.estimateBatchCount(automaticProcessing)
 
-    // Estimate duration (rough calculation);
+    // Estimate duration (rough calculation)
     const estimatedMinutes = estimatedBatches * 2 + manualReviewRequired.length * 5;
-    const estimatedDuration = this.formatDuration(estimatedMinutes);
+    const estimatedDuration = this.formatDuration(estimatedMinutes)
 
     const plan: ProcessingPlan = {
       totalFiles: files.length
@@ -130,15 +130,15 @@ export class BatchProcessingOrchestrator {
       riskSummary
     };
 
-    // // // console.log(`📊 Processing Plan Summary: `);
-    // // // console.log(`   Total Files: ${plan.totalFiles}`);
-    // // // console.log(`   Automatic Processing: ${plan.automaticProcessing.length}`);
-    // // // console.log(`   Manual Review Required: ${plan.manualReviewRequired.length}`);
-    // // // console.log(`   Estimated Batches: ${plan.estimatedBatches}`);
-    // // // console.log(`   Estimated Duration: ${plan.estimatedDuration}`);
+    // // // console.log(`📊 Processing Plan Summary: `)
+    // // // console.log(`   Total Files: ${plan.totalFiles}`)
+    // // // console.log(`   Automatic Processing: ${plan.automaticProcessing.length}`)
+    // // // console.log(`   Manual Review Required: ${plan.manualReviewRequired.length}`)
+    // // // console.log(`   Estimated Batches: ${plan.estimatedBatches}`)
+    // // // console.log(`   Estimated Duration: ${plan.estimatedDuration}`)
     // // // console.log(
       `   Risk, Distribution: Low(${riskSummary.low}) Medium(${riskSummary.medium}) High(${riskSummary.high}) Critical(${riskSummary.critical})`,
-    );
+    )
 
     return plan;
   }
@@ -148,10 +148,10 @@ export class BatchProcessingOrchestrator {
    */
   async executeCampaign(files: FileProcessingInfo[]): Promise<CampaignReport> {
     const campaignId = `unused-vars-campaign-${Date.now()}`;
-    // // // console.log(`🚀 Starting batch processing campaign: ${campaignId}`);
+    // // // console.log(`🚀 Starting batch processing campaign: ${campaignId}`)
 
     // Create processing plan
-    const processingPlan = await this.createProcessingPlan(files);
+    const processingPlan = await this.createProcessingPlan(files)
 
     // Initialize campaign report
     this.currentCampaign = {
@@ -174,39 +174,39 @@ export class BatchProcessingOrchestrator {
     try {
       // Handle manual reviews first if in interactive mode
       if (this.config.interactiveMode && processingPlan.manualReviewRequired.length > 0) {
-        await this.handleManualReviews(processingPlan.manualReviewRequired);
+        await this.handleManualReviews(processingPlan.manualReviewRequired)
       }
 
       // Execute automatic processing
       this.currentCampaign.status = 'executing';
-      const automaticFiles = this.convertAssessmentsToFileInfo(processingPlan.automaticProcessing);
+      const automaticFiles = this.convertAssessmentsToFileInfo(processingPlan.automaticProcessing)
 
       if (automaticFiles.length > 0) {
-        // // // console.log(`\n🔄 Processing ${automaticFiles.length} files automatically...`);
-        const batchResults = await this.batchProcessor.processBatches(automaticFiles);
+        // // // console.log(`\n🔄 Processing ${automaticFiles.length} files automatically...`)
+        const batchResults = await this.batchProcessor.processBatches(automaticFiles)
         this.currentCampaign.batchResults = batchResults;
       }
 
       // Calculate final statistics
-      this.calculateFinalStats();
+      this.calculateFinalStats()
 
       // Generate recommendations
-      this.generateRecommendations();
+      this.generateRecommendations()
 
       this.currentCampaign.status = 'completed';
-      this.currentCampaign.endTime = new Date();
+      this.currentCampaign.endTime = new Date()
 
-      // // // console.log(`\n✅ Campaign completed successfully: ${campaignId}`);
+      // // // console.log(`\n✅ Campaign completed successfully: ${campaignId}`)
     } catch (error) {
-      console.error(`❌ Campaign failed: ${error}`);
+      console.error(`❌ Campaign failed: ${error}`)
       this.currentCampaign.status = 'failed';
-      this.currentCampaign.endTime = new Date();
+      this.currentCampaign.endTime = new Date()
       throw error;
     }
 
     // Generate reports if enabled
     if (this.config.generateReports) {
-      await this.generateCampaignReport();
+      await this.generateCampaignReport()
     }
 
     return this.currentCampaign;
@@ -216,29 +216,29 @@ export class BatchProcessingOrchestrator {
    * Handle manual review workflow
    */
   private async handleManualReviews(assessments: FileRiskAssessment[]): Promise<void> {
-    // // // console.log(`\n👥 Manual Review Required for ${assessments.length} files: `);
+    // // // console.log(`\n👥 Manual Review Required for ${assessments.length} files: `)
 
     for (const assessment of assessments) {
-      const reviewRequest = this.safetyProtocols.createManualReviewRequest(assessment);
+      const reviewRequest = this.safetyProtocols.createManualReviewRequest(assessment)
       if (this.currentCampaign) {
-        this.currentCampaign.manualReviews.push(reviewRequest);
+        this.currentCampaign.manualReviews.push(reviewRequest)
       }
 
-      // // // console.log(`\n📋 Manual Review: ${assessment.relativePath}`);
-      // // // console.log(`   Risk Level: ${assessment.riskLevel.toUpperCase()}`);
-      // // // console.log(`   Unused Variables: ${assessment.unusedVariableCount}`);
-      // // // console.log(`   Risk Factors: `);
-      assessment.riskFactors.forEach(factor => // // // console.log(`     - ${factor}`));
-      // // // console.log(`   Review Instructions: `);
-      reviewRequest.reviewInstructions.forEach(instruction => // // // console.log(`     - ${instruction}`));
+      // // // console.log(`\n📋 Manual Review: ${assessment.relativePath}`)
+      // // // console.log(`   Risk Level: ${assessment.riskLevel.toUpperCase()}`)
+      // // // console.log(`   Unused Variables: ${assessment.unusedVariableCount}`)
+      // // // console.log(`   Risk Factors: `)
+      assessment.riskFactors.forEach(factor => // // // console.log(`     - ${factor}`))
+      // // // console.log(`   Review Instructions: `)
+      reviewRequest.reviewInstructions.forEach(instruction => // // // console.log(`     - ${instruction}`))
 
       if (this.config.interactiveMode) {
         // In a real implementation, this would prompt for user input
         // For nowwe'll simulate approval for non-critical files
         if (assessment.riskLevel !== 'critical') {
-          this.safetyProtocols.approveManualReview(assessment.filePath, 'Auto-approved for demo');
+          this.safetyProtocols.approveManualReview(assessment.filePath, 'Auto-approved for demo')
         } else {
-          // // // console.log(`   ⚠️  CRITICAL FILE - Manual approval required before processing`);
+          // // // console.log(`   ⚠️  CRITICAL FILE - Manual approval required before processing`)
         }
       }
     }
@@ -256,7 +256,7 @@ export class BatchProcessingOrchestrator {
       unusedVariableCount: assessment.unusedVariableCount,
       riskLevel: assessment.riskLevel,
       fileType: assessment.fileType
-    }));
+    }))
   }
 
   /**
@@ -297,7 +297,7 @@ export class BatchProcessingOrchestrator {
     if (minutes < 60) {
       return `${minutes} minutes`;
     }
-    const hours = Math.floor(minutes / 60);
+    const hours = Math.floor(minutes / 60)
     const remainingMinutes = minutes % 60;
     return `${hours}h ${remainingMinutes}m`;
   }
@@ -308,7 +308,7 @@ export class BatchProcessingOrchestrator {
   private calculateFinalStats(): void {
     if (!this.currentCampaign) return;
 
-    const stats = this.batchProcessor.getProcessingStats();
+    const stats = this.batchProcessor.getProcessingStats()
     const successfulBatches = this.currentCampaign.batchResults.filter(r => r.success).length;
     const totalBatches = this.currentCampaign.batchResults.length;
 
@@ -318,8 +318,8 @@ export class BatchProcessingOrchestrator {
       totalPreserved: stats.totalPreserved,
       successRate: totalBatches > 0 ? (successfulBatches / totalBatches) * 100 : 0,
       timeElapsed: this.currentCampaign.endTime
-        ? this.currentCampaign.endTime.getTime() - this.currentCampaign.startTime.getTime();
-        : Date.now() - this.currentCampaign.startTime.getTime();
+        ? this.currentCampaign.endTime.getTime() - this.currentCampaign.startTime.getTime()
+        : Date.now() - this.currentCampaign.startTime.getTime()
     };
   }
 
@@ -334,14 +334,14 @@ export class BatchProcessingOrchestrator {
 
     // Success rate recommendations
     if (stats.successRate < 90) {
-      recommendations.push('Consider reducing batch sizes for better success rate');
+      recommendations.push('Consider reducing batch sizes for better success rate')
     }
 
     // Manual review recommendations
     if (this.currentCampaign.manualReviews.length > 0) {
       recommendations.push(
         `Complete ${this.currentCampaign.manualReviews.length} pending manual reviews`,
-      );
+      )
     }
 
     // Processing efficiency recommendations
@@ -355,11 +355,11 @@ export class BatchProcessingOrchestrator {
     }
 
     // Failed batch recommendations
-    const failedBatches = this.currentCampaign.batchResults.filter(r => !r.success);
+    const failedBatches = this.currentCampaign.batchResults.filter(r => !r.success)
     if (failedBatches.length > 0) {
       recommendations.push(
         `Investigate ${failedBatches.length} failed batches for root cause analysis`,
-      );
+      )
     }
 
     this.currentCampaign.recommendations = recommendations;
@@ -374,22 +374,22 @@ export class BatchProcessingOrchestrator {
     const reportPath = path.join(
       this.config.outputDirectory
       `${this.currentCampaign.campaignId}-report.json`,
-    );
+    )
 
     const summaryPath = path.join(;
       this.config.outputDirectory
       `${this.currentCampaign.campaignId}-summary.md`,
-    );
+    )
 
     // Generate JSON report
-    fs.writeFileSync(reportPath, JSON.stringify(this.currentCampaign, null, 2));
+    fs.writeFileSync(reportPath, JSON.stringify(this.currentCampaign, null, 2))
 
     // Generate Markdown summary
-    const summary = this.generateMarkdownSummary();
-    fs.writeFileSync(summaryPath, summary);
+    const summary = this.generateMarkdownSummary()
+    fs.writeFileSync(summaryPath, summary)
 
-    // // // console.log(`📄 Campaign report saved to: ${reportPath}`);
-    // // // console.log(`📄 Campaign summary saved to: ${summaryPath}`);
+    // // // console.log(`📄 Campaign report saved to: ${reportPath}`)
+    // // // console.log(`📄 Campaign summary saved to: ${summaryPath}`)
   }
 
   /**
@@ -400,7 +400,7 @@ export class BatchProcessingOrchestrator {
 
     const campaign = this.currentCampaign;
     const duration = campaign.endTime
-      ? campaign.endTime.getTime() - campaign.startTime.getTime();
+      ? campaign.endTime.getTime() - campaign.startTime.getTime()
       : 0,
 
     return `# Batch Processing Campaign Report
@@ -461,7 +461,7 @@ ${
 - **Approval Required**: ${review.approvalRequired ? 'Yes' : 'No'}
 `,
         )
-        .join('');
+        .join('')
     : 'No manual reviews required.'
 }
 
@@ -470,7 +470,7 @@ ${campaign.recommendations.map(rec => `- ${rec}`).join('\n')};
 
 ## Safety Checkpoints
 ${this.batchProcessor
-  .getSafetyCheckpoints();
+  .getSafetyCheckpoints()
   .map(
     checkpoint => `
 ### ${checkpoint.id}
@@ -495,20 +495,20 @@ ${checkpoint.stashId ? `- **Stash ID**: ${checkpoint.stashId}` : ''}
    * Get pending manual reviews
    */
   getPendingManualReviews(): ManualReviewRequest[] {
-    return this.safetyProtocols.getPendingManualReviews();
+    return this.safetyProtocols.getPendingManualReviews()
   }
 
   /**
    * Approve a manual review
    */
   approveManualReview(filePath: string, reviewerNotes?: string): boolean {
-    return this.safetyProtocols.approveManualReview(filePath, reviewerNotes);
+    return this.safetyProtocols.approveManualReview(filePath, reviewerNotes)
   }
 
   /**
    * Reject a manual review
    */
   rejectManualReview(filePath: string, reason: string): boolean {
-    return this.safetyProtocols.rejectManualReview(filePath, reason);
+    return this.safetyProtocols.rejectManualReview(filePath, reason)
   }
 }

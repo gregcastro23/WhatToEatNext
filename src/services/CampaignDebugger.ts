@@ -294,14 +294,14 @@ export enum MaintenanceFrequency {
 // ========== CAMPAIGN DEBUGGER ==========;
 
 export class CampaignDebugger {
-  private, debugSessions: Map<string, CampaignDebugSession> = new Map();
-  private, healthReports: Map<string, CampaignHealthReport> = new Map();
-  private, campaignController: CampaignController,
-  private, progressTracker: ProgressTracker,
+  private debugSessions: Map<string, CampaignDebugSession> = new Map()
+  private healthReports: Map<string, CampaignHealthReport> = new Map()
+  private campaignController: CampaignController,
+  private progressTracker: ProgressTracker,
 
   constructor() {
-    this.campaignController = new CampaignController(this.getDefaultConfig());
-    this.progressTracker = new ProgressTracker();
+    this.campaignController = new CampaignController(this.getDefaultConfig())
+    this.progressTracker = new ProgressTracker()
   }
 
   // ========== DEBUG SESSION MANAGEMENT ==========;
@@ -322,8 +322,8 @@ export class CampaignDebugger {
       recommendations: []
     };
 
-    this.debugSessions.set(sessionId, session);
-    await this.initializeDebugSteps(session);
+    this.debugSessions.set(sessionId, session)
+    await this.initializeDebugSteps(session)
 
     return sessionId;
   }
@@ -332,31 +332,31 @@ export class CampaignDebugger {
    * Execute debug steps for a campaign
    */
   async executeDebugSteps(sessionId: string): Promise<DebugFinding[]> {
-    const session = this.debugSessions.get(sessionId);
+    const session = this.debugSessions.get(sessionId)
     if (!session) {
-      throw new Error(`Debug session ${sessionId} not found`);
+      throw new Error(`Debug session ${sessionId} not found`)
     }
 
     const findings: DebugFinding[] = [];
 
     for (const step of session.debugSteps) {
       step.status = DebugStepStatus.RUNNING;
-      step.startTime = new Date();
+      step.startTime = new Date()
       try {
-        const stepFindings = await this.executeDebugStep(step, session.campaignId);
-        findings.push(...stepFindings);
+        const stepFindings = await this.executeDebugStep(step, session.campaignId)
+        findings.push(...stepFindings)
 
         step.status = DebugStepStatus.COMPLETED;
-        step.endTime = new Date();
+        step.endTime = new Date()
       } catch (error) {
         step.status = DebugStepStatus.FAILED;
-        step.errors.push((error as Error).message);
-        step.endTime = new Date();
+        step.errors.push((error as Error).message)
+        step.endTime = new Date()
       }
     }
 
     session.findings = findings;
-    session.recommendations = await this.generateRecommendations(findings);
+    session.recommendations = await this.generateRecommendations(findings)
 
     return findings;
   }
@@ -365,12 +365,12 @@ export class CampaignDebugger {
    * Generate recovery plan based on debug findings
    */
   async generateRecoveryPlan(sessionId: string): Promise<RecoveryPlan> {
-    const session = this.debugSessions.get(sessionId);
+    const session = this.debugSessions.get(sessionId)
     if (!session) {
-      throw new Error(`Debug session ${sessionId} not found`);
+      throw new Error(`Debug session ${sessionId} not found`)
     }
 
-    const recoveryPlan = await this.createRecoveryPlan(session.campaignId, session.findings);
+    const recoveryPlan = await this.createRecoveryPlan(session.campaignId, session.findings)
     session.recoveryPlan = recoveryPlan;
 
     return recoveryPlan;
@@ -387,14 +387,14 @@ export class CampaignDebugger {
     impactAssessment: string,
     recommendations: DebugRecommendation[]
   }> {
-    const campaign = await this.getCampaignStatus(campaignId);
+    const campaign = await this.getCampaignStatus(campaignId)
     if (!campaign) {
-      throw new Error(`Campaign ${campaignId} not found`);
+      throw new Error(`Campaign ${campaignId} not found`)
     }
 
-    const failureEvents = campaign.safetyEvents.filter(;
+    const failureEvents = campaign.safetyEvents.filter(
       event => event.severity === 'ERROR' || event.severity === 'CRITICAL'
-    );
+    )
 
     const rootCauses: string[] = [];
     const contributingFactors: string[] = [];
@@ -402,22 +402,22 @@ export class CampaignDebugger {
     // Analyze error patterns
     for (const event of failureEvents) {
       if (event.type === 'BUILD_FAILURE') {;
-        rootCauses.push('Build system failure during campaign execution');
+        rootCauses.push('Build system failure during campaign execution')
       } else if (event.type === 'CORRUPTION_DETECTED') {;
-        rootCauses.push('Data corruption detected during file processing');
+        rootCauses.push('Data corruption detected during file processing')
       }
     }
 
     // Analyze metrics for performance issues
     if (campaign.metrics.buildPerformance.currentTime > 60) {
-      contributingFactors.push('Slow build performance may have contributed to failure');
+      contributingFactors.push('Slow build performance may have contributed to failure')
     }
 
-    const impactAssessment = this.assessFailureImpact(campaign);
+    const impactAssessment = this.assessFailureImpact(campaign)
     const recommendations = await this.generateFailureRecommendations(
       rootCauses,
       contributingFactors,
-    );
+    )
 
     return {
       rootCauses,
@@ -509,17 +509,17 @@ export class CampaignDebugger {
    * Perform comprehensive health check on a campaign
    */
   async performHealthCheck(campaignId: string): Promise<CampaignHealthReport> {
-    const campaign = await this.getCampaignStatus(campaignId);
+    const campaign = await this.getCampaignStatus(campaignId)
     if (!campaign) {
-      throw new Error(`Campaign ${campaignId} not found`);
+      throw new Error(`Campaign ${campaignId} not found`)
     }
 
-    const healthMetrics = await this.collectHealthMetrics(campaign);
-    const issues = await this.detectHealthIssues(campaign, healthMetrics);
-    const recommendations = await this.generateMaintenanceRecommendations(issues);
+    const healthMetrics = await this.collectHealthMetrics(campaign)
+    const issues = await this.detectHealthIssues(campaign, healthMetrics)
+    const recommendations = await this.generateMaintenanceRecommendations(issues)
 
-    const healthScore = this.calculateHealthScore(healthMetrics, issues);
-    const overallHealth = this.determineOverallHealth(healthScore);
+    const healthScore = this.calculateHealthScore(healthMetrics, issues)
+    const overallHealth = this.determineOverallHealth(healthScore)
 
     const healthReport: CampaignHealthReport = {
       campaignId,
@@ -531,7 +531,7 @@ export class CampaignDebugger {
       recommendations
     };
 
-    this.healthReports.set(campaignId, healthReport);
+    this.healthReports.set(campaignId, healthReport)
     return healthReport;
   }
 
@@ -582,12 +582,12 @@ export class CampaignDebugger {
 
     switch (step.type) {
       case DebugStepType.CONFIGURATION_CHECK:
-        findings.push(...(await this.checkConfiguration(campaignId)));
+        findings.push(...(await this.checkConfiguration(campaignId)))
         break;
       case DebugStepType.DEPENDENCY_ANALYSIS:
-        findings.push(...(await this.analyzeDependencies(campaignId)));
+        findings.push(...(await this.analyzeDependencies(campaignId)))
         break,
-      case DebugStepType.PERFORMANCE_ANALYSIS: findings.push(...(await this.analyzePerformance(campaignId)));
+      case DebugStepType.PERFORMANCE_ANALYSIS: findings.push(...(await this.analyzePerformance(campaignId)))
         break
     }
 
@@ -609,13 +609,13 @@ export class CampaignDebugger {
           type: EvidenceType.CONFIGURATION_FILE,
           source: 'campaign_config.json',
           content: '{'batchSize': 25}',
-          timestamp: new Date();
+          timestamp: new Date()
         }
       ],
       affectedComponents: ['batch_processor'],
       rootCause: 'Insufficient memory allocation for large batch processing',
-      detectedAt: new Date();
-    });
+      detectedAt: new Date()
+    })
 
     return findings;
   }
@@ -623,7 +623,7 @@ export class CampaignDebugger {
   private async analyzeDependencies(campaignId: string): Promise<DebugFinding[]> {
     const findings: DebugFinding[] = [];
 
-    const conflicts = await campaignConflictResolver.detectConflicts();
+    const conflicts = await campaignConflictResolver.detectConflicts()
     for (const conflict of conflicts) {
       if (conflict.involvedCampaigns.includes(campaignId)) {
         findings.push({
@@ -642,8 +642,8 @@ export class CampaignDebugger {
             }
           ],
           affectedComponents: conflict.involvedCampaigns,
-          detectedAt: new Date();
-        });
+          detectedAt: new Date()
+        })
       }
     }
 
@@ -653,7 +653,7 @@ export class CampaignDebugger {
   private async analyzePerformance(campaignId: string): Promise<DebugFinding[]> {
     const findings: DebugFinding[] = [];
 
-    const campaign = await this.getCampaignStatus(campaignId);
+    const campaign = await this.getCampaignStatus(campaignId)
     if (campaign && campaign.metrics.buildPerformance.currentTime > 30) {
       findings.push({
         id: `perf_finding_${Date.now()}`,
@@ -666,12 +666,12 @@ export class CampaignDebugger {
             type: EvidenceType.METRICS_DATA,
             source: 'performance_monitor',
             content: JSON.stringify(campaign.metrics.buildPerformance),
-            timestamp: new Date();
+            timestamp: new Date()
           }
         ],
         affectedComponents: ['build_system'],
-        detectedAt: new Date();
-      });
+        detectedAt: new Date()
+      })
     }
 
     return findings;
@@ -701,7 +701,7 @@ export class CampaignDebugger {
             estimatedEffort: 0.5,
             riskLevel: 'low',
             category: RecommendationCategory.CONFIGURATION_FIX
-          });
+          })
           break;
         case FindingCategory.PERFORMANCE_ISSUE:
           recommendations.push({
@@ -722,7 +722,7 @@ export class CampaignDebugger {
             estimatedEffort: 1,
             riskLevel: 'medium',
             category: RecommendationCategory.PERFORMANCE_TUNING
-          });
+          })
           break;
       }
     }
@@ -748,7 +748,7 @@ export class CampaignDebugger {
       criticalPath: false,
       rollbackable: false,
       validationRequired: false
-    });
+    })
 
     // Add corrective steps based on findings
     for (const finding of findings) {
@@ -767,7 +767,7 @@ export class CampaignDebugger {
           criticalPath: true,
           rollbackable: true,
           validationRequired: true
-        });
+        })
       }
     }
 
@@ -797,7 +797,7 @@ export class CampaignDebugger {
   }
 
   private async getCampaignStatus(campaignId: string): Promise<KiroCampaignStatus | null> {
-    return await kiroCampaignIntegration.getCampaignStatus(campaignId);
+    return await kiroCampaignIntegration.getCampaignStatus(campaignId)
   }
 
   private assessFailureImpact(campaign: KiroCampaignStatus): string {
@@ -838,7 +838,7 @@ export class CampaignDebugger {
         estimatedEffort: 2,
         riskLevel: 'low',
         category: RecommendationCategory.SAFETY_IMPROVEMENT
-      });
+      })
     }
 
     return recommendations;
@@ -886,7 +886,7 @@ export class CampaignDebugger {
           impact: 'May cause campaign failures and performance degradation',
           detectedAt: new Date(),
           resolved: false
-        });
+        })
       }
     }
 
@@ -909,8 +909,8 @@ export class CampaignDebugger {
           description: issue.description,
           frequency: MaintenanceFrequency.WEEKLY,
           estimatedDuration: 30,
-          nextDue: new Date(Date.now() + 24 * 60 * 60 * 1000);
-        });
+          nextDue: new Date(Date.now() + 24 * 60 * 60 * 1000)
+        })
       }
     }
 
@@ -938,7 +938,7 @@ export class CampaignDebugger {
       }
     }
 
-    return Math.max(0, score);
+    return Math.max(0, score)
   }
 
   private determineOverallHealth(healthScore: number): HealthStatus {
@@ -987,7 +987,7 @@ export class CampaignDebugger {
    * Get all debug sessions
    */
   getAllDebugSessions(): CampaignDebugSession[] {
-    return Array.from(this.debugSessions.values());
+    return Array.from(this.debugSessions.values())
   }
 
   /**
@@ -1001,9 +1001,9 @@ export class CampaignDebugger {
    * Get all health reports
    */
   getAllHealthReports(): CampaignHealthReport[] {
-    return Array.from(this.healthReports.values());
+    return Array.from(this.healthReports.values())
   }
 }
 
 // Export singleton instance
-export const _campaignDebugger = new CampaignDebugger();
+export const _campaignDebugger = new CampaignDebugger()

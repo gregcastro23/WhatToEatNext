@@ -18,7 +18,7 @@ export function getCurrentDecan(
   sunPosition?: { sign: string, degree: number },
 ): DecanKey {
   if (sunPosition?.sign && typeof sunPosition.degree === 'number') {
-    // Calculate the absolute degree in the zodiac (0-360);
+    // Calculate the absolute degree in the zodiac (0-360)
     const signToStartDegree: Record<string, number> = {
       aries: 0,
       taurus: 30,
@@ -40,7 +40,7 @@ export function getCurrentDecan(
     // Add the degree within the sign
     const absoluteDegree = signStartDegree + sunPosition.degree;
 
-    // Get the decan range (each has a 10 degree span);
+    // Get the decan range (each has a 10 degree span)
     const decanStart = Math.floor(absoluteDegree / 10) * 10;
     const decanEnd = decanStart + 10;
 
@@ -48,17 +48,17 @@ export function getCurrentDecan(
   }
 
   // Fallback to date-based calculation if no sun position is provided
-  // Calculate day of year (0-365);
-  const startOfYear = new Date(date.getFullYear(), 00);
-  const diff = date.getTime() - startOfYear.getTime();
+  // Calculate day of year (0-365)
+  const startOfYear = new Date(date.getFullYear(), 00)
+  const diff = date.getTime() - startOfYear.getTime()
   const oneDay = 1000 * 60 * 60 * 24;
-  const dayOfYear = Math.floor(diff / oneDay);
+  const dayOfYear = Math.floor(diff / oneDay)
 
-  // Convert day of year to approximate degree in the zodiac (0-360);
+  // Convert day of year to approximate degree in the zodiac (0-360)
   // Each day is roughly 360/365 ≈ 0.986 degrees
-  const approxDegree = Math.floor((dayOfYear * 360) / 365);
+  const approxDegree = Math.floor((dayOfYear * 360) / 365)
 
-  // Get the decan ranges (each has a 10 degree span);
+  // Get the decan ranges (each has a 10 degree span)
   const decanStart = Math.floor(approxDegree / 10) * 10;
   const decanEnd = decanStart + 10;
 
@@ -66,7 +66,7 @@ export function getCurrentDecan(
 }
 
 export function getTarotCardForDate(date: Date) {
-  const decan = getCurrentDecan(date);
+  const decan = getCurrentDecan(date)
   const cardKey = DECAN_TO_TAROT[decan] as TarotCardKey
   return TAROT_CARDS[cardKey] || TAROT_CARDS['10_of_cups']
 }
@@ -90,9 +90,9 @@ export function getMajorArcanaForDecan(decan: DecanKey) {
   return MAJOR_ARCANA[cardKey]
 }
 
-// Minor arcana cards (numbered cards + court cards);
+// Minor arcana cards (numbered cards + court cards)
 const minorArcana = [
-  // Wands (Fire);
+  // Wands (Fire)
   'Ace of Wands',
   'Two of Wands',
   'Three of Wands',
@@ -108,7 +108,7 @@ const minorArcana = [
   'Queen of Wands',
   'King of Wands',
 
-  // Cups (Water);
+  // Cups (Water)
   'Ace of Cups',
   'Two of Cups',
   'Three of Cups',
@@ -124,7 +124,7 @@ const minorArcana = [
   'Queen of Cups',
   'King of Cups',
 
-  // Pentacles (Earth);
+  // Pentacles (Earth)
   'Ace of Pentacles',
   'Two of Pentacles',
   'Three of Pentacles',
@@ -140,7 +140,7 @@ const minorArcana = [
   'Queen of Pentacles',
   'King of Pentacles',
 
-  // Swords (Air);
+  // Swords (Air)
   'Ace of Swords',
   'Two of Swords',
   'Three of Swords',
@@ -315,7 +315,7 @@ minorArcana.forEach(card => {
   } else if (card.includes('Swords')) {
     minorArcanaElements[card] = 'Air';
   }
-});
+})
 
 // Create a base interface for all tarot card types
 interface TarotCardBase {
@@ -359,7 +359,7 @@ export const getTarotCardsForDate = (
   const minorArcanaKey = DECAN_TO_TAROT[decan] as TarotCardKey;
 
   if (!minorArcanaKey) {
-    console.warn(`No tarot card found for decan ${decan}, using default`);
+    console.warn(`No tarot card found for decan ${decan}, using default`)
   }
 
   // Log the decan, sun position, and selected card for debugging
@@ -367,14 +367,14 @@ export const getTarotCardsForDate = (
     `Tarot Card Debug - Decan: ${decan}, Sun Position:`,
     sunPosition,
     `Selected Card: ${minorArcanaKey || '10_of_cups'}`,
-  );
+  )
 
   // Get the minor arcana card details
   const cardKey = minorArcanaKey || ('10_of_cups' as TarotCardKey); // Default if not found
   const tarotCard = TAROT_CARDS[cardKey];
 
   // Extract suit and number from the card name
-  const nameParts = tarotCard.name.split(' of ');
+  const nameParts = tarotCard.name.split(' of ')
   const suit = nameParts[1];
   const numberStr = nameParts[0];
 
@@ -488,14 +488,14 @@ export function getRecipeFiltersFromTarot(tarotCards: {
     }
 
     // Add keywords safely
-    filters.keywords.push(...(tarotCards.minorCard.keywords || []));
+    filters.keywords.push(...(tarotCards.minorCard.keywords || []))
 
     // Add associated recipes only if they exist
     if (
       tarotCards.minorCard.associatedRecipes &&
-      Array.isArray(tarotCards.minorCard.associatedRecipes);
+      Array.isArray(tarotCards.minorCard.associatedRecipes)
     ) {
-      filters.associatedRecipes.push(...tarotCards.minorCard.associatedRecipes);
+      filters.associatedRecipes.push(...tarotCards.minorCard.associatedRecipes)
     }
   }
 
@@ -523,8 +523,8 @@ export const _getTarotFoodRecommendations = (
   flavors: string[],
   insights: string
 } => {
-  const tarotCards = getTarotCardsForDate(date);
-  const decan = getCurrentDecan(date);
+  const tarotCards = getTarotCardsForDate(date)
+  const decan = getCurrentDecan(date)
   const decanRuler = DECAN_RULERS[decan] as PlanetKey;
 
   // Extract element from tarot cards
@@ -542,7 +542,7 @@ export const _getTarotFoodRecommendations = (
   if (planetaryInfluence === 'Sun') cookingApproach = 'vibrant and confident';
 
   // Get food element that complements the tarot element
-  const foodElement = complementaryElement(element);
+  const foodElement = complementaryElement(element)
 
   // Get card details for flavor insights
   const cardName = tarotCards.minorCard.name;
@@ -566,7 +566,7 @@ export const _getTarotFoodRecommendations = (
   const recommendedRecipes = tarotCard.associatedRecipes || [];
 
   // Generate flavor profiles based on elemental combinations
-  const flavors = getFlavorProfile(element, foodElement);
+  const flavors = getFlavorProfile(element, foodElement)
 
   // Generate insights
   const insights = `The ${tarotCards.minorCard.name} suggests a ${element.toLowerCase()} energy today, complemented by ${foodElement.toLowerCase()} foods. ${tarotCards.majorCard.name} adds ${planetaryInfluence} energy, best expressed through ${cookingApproach} cooking.`;

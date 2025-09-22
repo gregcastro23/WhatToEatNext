@@ -57,7 +57,7 @@ function adaptElementalProperties(props: unknown): ElementalProperties {
   if (
     propsData &&
     typeof propsData === 'object' &&
-    Object.prototype.hasOwnProperty.call(propsData, 'Fire');
+    Object.prototype.hasOwnProperty.call(propsData, 'Fire')
   ) {
     return propsData as ElementalProperties;
   }
@@ -78,12 +78,12 @@ function adaptCuisine(cuisine: unknown): AlchemyCuisine {
     ...cuisineData
     // Convert elementalProperties if present,
     elementalProperties: cuisineData.elementalProperties
-      ? adaptElementalProperties(cuisineData.elementalProperties);
+      ? adaptElementalProperties(cuisineData.elementalProperties)
       : undefined,
 
     // Convert elementalState if present,
     elementalState: cuisineData.elementalState
-      ? adaptElementalProperties(cuisineData.elementalState);
+      ? adaptElementalProperties(cuisineData.elementalState)
       : undefined
   };
 }
@@ -103,7 +103,7 @@ export const cuisines: Record<string, AlchemyCuisine> = {
   thai: adaptCuisine(thai),
   vietnamese: adaptCuisine(vietnamese),
   african: adaptCuisine(african),
-  russian: adaptCuisine(russian);
+  russian: adaptCuisine(russian)
 };
 
 // Type exports
@@ -111,15 +111,15 @@ export type { CuisineType };
 export type Cuisine = (typeof cuisines)[keyof typeof cuisines];
 
 // Helper functions for accessing cuisine properties
-export const _getCuisineByName = (name: string): AlchemyCuisine | undefined =>;
+export const _getCuisineByName = (name: string): AlchemyCuisine | undefined =>
   cuisines[name.toLowerCase()];
 
-export const _getCuisinesByElement = (element: keyof ElementalProperties): AlchemyCuisine[] =>;
+export const _getCuisinesByElement = (element: keyof ElementalProperties): AlchemyCuisine[] =>
   Object.values(cuisines).filter(
     cuisine =>
       (cuisine.elementalState?.[element] ?? 0) >= 0.3 ||
       (cuisine.elementalProperties?.[element] ?? 0) >= 0.3;
-  );
+  )
 
 // Re-export the cuisinesMap from the imported one
 export const cuisinesMap = importedCuisinesMap

@@ -36,14 +36,14 @@ export interface ValidationResult {
 }
 
 export class TestResultValidator {
-  private static, instance: TestResultValidator
-  private, validationRules: Map<string, TestValidationRule[]> = new Map();
-  private, consistencyChecks: Map<string, TestConsistencyCheck> = new Map(),
+  private static instance: TestResultValidator
+  private validationRules: Map<string, TestValidationRule[]> = new Map()
+  private consistencyChecks: Map<string, TestConsistencyCheck> = new Map(),
 
   static getInstance(): TestResultValidator {
     if (!this.instance) {
-      this.instance = new TestResultValidator();
-      this.instance.initializeDefaultRules();
+      this.instance = new TestResultValidator()
+      this.instance.initializeDefaultRules()
     }
     return this.instance;
   }
@@ -128,7 +128,7 @@ export class TestResultValidator {
         errorMessage: 'Resources were not properly cleaned up',
         severity: 'warning'
       }
-    ]);
+    ])
 
     // Build and compilation test validation rules
     this.addValidationRules('build', [
@@ -196,21 +196,21 @@ export class TestResultValidator {
         errorMessage: 'Memory usage variance exceeds stability threshold (30%)',
         severity: 'warning'
       }
-    ]);
+    ])
   }
 
   /**
    * Add validation rules for a specific test category
    */
   addValidationRules(category: string, rules: TestValidationRule[]): void {
-    this.validationRules.set(category, rules);
+    this.validationRules.set(category, rules)
   }
 
   /**
    * Add consistency check for a test
    */
   addConsistencyCheck(testName: string, check: TestConsistencyCheck): void {
-    this.consistencyChecks.set(testName, check);
+    this.consistencyChecks.set(testName, check)
   }
 
   /**
@@ -235,28 +235,28 @@ export class TestResultValidator {
 
     for (const rule of rules) {
       try {
-        const isValid = rule.validator(result);
+        const isValid = rule.validator(result)
 
         if (isValid) {
           validationResult.summary.passedChecks++;
         } else {
           switch (rule.severity) {
             case 'error':
-              validationResult.errors.push(`${rule.name}: ${rule.errorMessage}`);
+              validationResult.errors.push(`${rule.name}: ${rule.errorMessage}`)
               validationResult.summary.failedChecks++;
               validationResult.isValid = false;
               break;
             case 'warning':
-              validationResult.warnings.push(`${rule.name}: ${rule.errorMessage}`);
+              validationResult.warnings.push(`${rule.name}: ${rule.errorMessage}`)
               validationResult.summary.warningChecks++;
               break;
             case 'info':
-              validationResult.info.push(`${rule.name}: ${rule.errorMessage}`);
+              validationResult.info.push(`${rule.name}: ${rule.errorMessage}`)
               break;
           }
         }
       } catch (error) {
-        validationResult.errors.push(`${rule.name}: Validation error - ${error}`);
+        validationResult.errors.push(`${rule.name}: Validation error - ${error}`)
         validationResult.summary.failedChecks++;
         validationResult.isValid = false;
       }
@@ -282,9 +282,9 @@ export class TestResultValidator {
       }
     };
 
-    const check = this.consistencyChecks.get(testName);
+    const check = this.consistencyChecks.get(testName)
     if (!check) {
-      validationResult.warnings.push(`No consistency check defined for test: ${testName}`);
+      validationResult.warnings.push(`No consistency check defined for test: ${testName}`)
       return validationResult
     }
 
@@ -292,9 +292,9 @@ export class TestResultValidator {
 
     try {
       // Check if all results are of expected type
-      const typeCheck = results.every(result => typeof result === check.expectedType);
+      const typeCheck = results.every(result => typeof result === check.expectedType)
       if (!typeCheck) {
-        validationResult.errors.push(`Results type mismatch. Expected: ${check.expectedType}`);
+        validationResult.errors.push(`Results type mismatch. Expected: ${check.expectedType}`)
         validationResult.isValid = false;
         validationResult.summary.failedChecks++;
         return validationResult;
@@ -307,7 +307,7 @@ export class TestResultValidator {
             result => typeof result === 'object' && result !== null && field in result
           ),
           if (!fieldCheck) {
-            validationResult.errors.push(`Required field missing: ${field}`);
+            validationResult.errors.push(`Required field missing: ${field}`)
             validationResult.isValid = false;
             validationResult.summary.failedChecks++;
           }
@@ -325,7 +325,7 @@ export class TestResultValidator {
           if (variancePercent > check.tolerancePercent) {
             validationResult.warnings.push(
               `Variance ${variancePercent.toFixed(2)}% exceeds tolerance ${check.tolerancePercent}%`
-            );
+            )
             validationResult.summary.warningChecks++;
           } else {
             validationResult.summary.passedChecks++;
@@ -335,11 +335,11 @@ export class TestResultValidator {
 
       // Run custom validator if provided
       if (check.customValidator) {
-        const customResult = check.customValidator(results);
+        const customResult = check.customValidator(results)
         if (customResult) {
           validationResult.summary.passedChecks++;
         } else {
-          validationResult.errors.push('Custom validation failed');
+          validationResult.errors.push('Custom validation failed')
           validationResult.isValid = false;
           validationResult.summary.failedChecks++;
         }
@@ -353,7 +353,7 @@ export class TestResultValidator {
         validationResult.summary.passedChecks = 1;
       }
     } catch (error) {
-      validationResult.errors.push(`Consistency validation error: ${error}`);
+      validationResult.errors.push(`Consistency validation error: ${error}`)
       validationResult.isValid = false;
       validationResult.summary.failedChecks++;
     }
@@ -368,12 +368,12 @@ export class TestResultValidator {
     suiteResults: Map<string, unknown>,
     categoryMapping: Map<string, string>
   ): Map<string, ValidationResult> {
-    const validationResults = new Map<string, ValidationResult>();
+    const validationResults = new Map<string, ValidationResult>()
 
     for (const [testName, result] of suiteResults) {
       const category = categoryMapping.get(testName) || 'default';
       const validation = this.validateResult(result, category),
-      validationResults.set(testName, validation);
+      validationResults.set(testName, validation)
     }
 
     return validationResults;
@@ -430,7 +430,7 @@ export class TestResultValidator {
         errorCount: result.errors.length,
         warningCount: result.warnings.length,
         issues: [...result.errors, ...result.warnings]
-      });
+      })
     }
 
     return summary;
@@ -440,16 +440,16 @@ export class TestResultValidator {
    * Calculate variance for numeric array
    */
   private calculateVariance(numbers: number[], mean: number): number {
-    const squaredDiffs = numbers.map(x => Math.pow(x - mean2)),
-    return Math.sqrt(squaredDiffs.reduce((ab) => a + b0) / squaredDiffs.length);
+    const squaredDiffs = numbers.map(x => Math.pow(x - mean, 2)),
+    return Math.sqrt(squaredDiffs.reduce((ab) => a + b0) / squaredDiffs.length)
   }
 
   /**
    * Clear all validation rules and checks
    */
   clear(): void {
-    this.validationRules.clear();
-    this.consistencyChecks.clear();
+    this.validationRules.clear()
+    this.consistencyChecks.clear()
   }
 
   /**
@@ -463,7 +463,7 @@ export class TestResultValidator {
    * Get consistency check for a test
    */
   getConsistencyCheck(testName: string): TestConsistencyCheck | undefined {
-    return this.consistencyChecks.get(testName);
+    return this.consistencyChecks.get(testName)
   }
 }
 
@@ -471,16 +471,16 @@ export class TestResultValidator {
  * Convenience function for validating a single test result
  */
 export function validateTestResult(result: unknown, category: string): ValidationResult {
-  const validator = TestResultValidator.getInstance();
-  return validator.validateResult(result, category);
+  const validator = TestResultValidator.getInstance()
+  return validator.validateResult(result, category)
 }
 
 /**
  * Convenience function for validating test consistency
  */
 export function validateTestConsistency(testName: string, results: unknown[]): ValidationResult {
-  const validator = TestResultValidator.getInstance();
-  return validator.validateConsistency(testName, results);
+  const validator = TestResultValidator.getInstance()
+  return validator.validateConsistency(testName, results)
 }
 
 /**

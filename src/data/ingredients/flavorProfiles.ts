@@ -16,7 +16,7 @@ export function enrichIngredientsWithFlavorProfiles(ingredients: Ingredient[]): 
       (ingredient as unknown).flavorProfile = getFlavorProfileForIngredient(ingredient.name)
     }
     return ingredient;
-  });
+  })
 }
 
 // Mapping of common ingredient names to their flavor profiles
@@ -386,7 +386,7 @@ export function getFlavorProfileForIngredient(_ingredientName: string): Ingredie
   }
 
   // Try to find partial matches
-  const nameLower = ingredientName.toLowerCase();
+  const nameLower = ingredientName.toLowerCase()
   for (const [key, profile] of Object.entries(ingredientFlavorMap)) {
     if (nameLower.includes(key.toLowerCase()) || key.toLowerCase().includes(nameLower)) {
       // Extract only the flavor profile properties to match IngredientFlavorProfile interface

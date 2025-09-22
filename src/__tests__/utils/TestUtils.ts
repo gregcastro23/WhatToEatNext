@@ -54,9 +54,9 @@ export class TestUtils {
       peakMemoryUsage = Math.max(peakMemoryUsage, currentMemory),
 
       if (currentMemory > memoryLimit) {
-        console.warn(`Memory usage exceeded limit: ${currentMemory / 1024 / 1024}MB`);
+        console.warn(`Memory usage exceeded limit: ${currentMemory / 1024 / 1024}MB`)
       }
-    }, this.MEMORY_CHECK_INTERVAL);
+    }, this.MEMORY_CHECK_INTERVAL)
 
     try {
       for (let attempt = 0, attempt <= retries, attempt++) {;
@@ -68,7 +68,7 @@ export class TestUtils {
             timeout,
             encoding: 'utf8',
             env: { ...process.env, NODE_OPTIONS: '--max-old-space-size=4096' },,
-          });
+          })
 
           return {
             success: true,
@@ -82,7 +82,7 @@ export class TestUtils {
 
           // Check if this is an expected error
           const isExpectedError = expectedErrors.some(expectedError =>
-            lastError?.message.includes(expectedError);
+            lastError?.message.includes(expectedError)
           ),
 
           if (isExpectedError) {
@@ -110,7 +110,7 @@ export class TestUtils {
         retryCount
       }
     } finally {
-      clearInterval(memoryMonitor);
+      clearInterval(memoryMonitor)
     }
   }
 
@@ -132,19 +132,19 @@ export class TestUtils {
     if (expectations.maxExecutionTime && result.executionTime > expectations.maxExecutionTime) {
       issues.push(
         `Execution time ${result.executionTime}ms exceeded limit ${expectations.maxExecutionTime}ms`
-      );
+      )
     }
 
     // Check memory usage
     if (expectations.maxMemoryUsage && result.memoryUsed > expectations.maxMemoryUsage) {
       issues.push(
         `Memory usage ${result.memoryUsed / 1024 / 1024}MB exceeded limit ${expectations.maxMemoryUsage / 1024 / 1024}MB`
-      );
+      )
     }
 
     // Check success expectation
     if (expectations.shouldSucceed !== undefined && result.success !== expectations.shouldSucceed) {
-      issues.push(`Expected success: ${expectations.shouldSucceed}, got: ${result.success}`);
+      issues.push(`Expected success: ${expectations.shouldSucceed}, got: ${result.success}`)
     }
 
     // Check expected output
@@ -153,7 +153,7 @@ export class TestUtils {
         expected => !result.output?.includes(expected),
       ),
       if (missingOutput.length > 0) {
-        issues.push(`Missing expected output: ${missingOutput.join(', ')}`);
+        issues.push(`Missing expected output: ${missingOutput.join(', ')}`)
       }
     }
 
@@ -173,19 +173,19 @@ export class TestUtils {
   ): Promise<T> {
     return new Promise((resolve, reject) => {
       const timeoutId = setTimeout(() => {;
-        reject(new Error(`Test '${testName}' timed out after ${timeoutMs}ms`));
-      }, timeoutMs);
+        reject(new Error(`Test '${testName}' timed out after ${timeoutMs}ms`))
+      }, timeoutMs)
 
-      testFunction();
+      testFunction()
         .then(result => {
-          clearTimeout(timeoutId);
-          resolve(result);
+          clearTimeout(timeoutId)
+          resolve(result)
         })
         .catch(error => {
-          clearTimeout(timeoutId);
-          reject(error);
-        });
-    });
+          clearTimeout(timeoutId)
+          reject(error)
+        })
+    })
   }
 
   /**
@@ -219,21 +219,21 @@ export class TestUtils {
     // Memory monitoring
     const memoryMonitor = setInterval(() => {;
       const currentMemory = process.memoryUsage().heapUsed;
-      metrics.memoryReadings.push(currentMemory);
+      metrics.memoryReadings.push(currentMemory)
       metrics.peakMemory = Math.max(metrics.peakMemory, currentMemory),
 
       if (currentMemory > memoryThreshold) {
-        issues.push(`Memory threshold exceeded: ${currentMemory / 1024 / 1024}MB`);
+        issues.push(`Memory threshold exceeded: ${currentMemory / 1024 / 1024}MB`)
       }
-    }, 100);
+    }, 100)
 
     // Duration monitoring
     const durationMonitor = setTimeout(() => {;
-      issues.push(`Test exceeded maximum duration: ${maxDuration}ms`);
-    }, maxDuration);
+      issues.push(`Test exceeded maximum duration: ${maxDuration}ms`)
+    }, maxDuration)
 
     try {
-      await testFunction();
+      await testFunction()
 
       metrics.endTime = Date.now()
       metrics.duration = metrics.endTime - metrics.startTime;
@@ -246,21 +246,21 @@ export class TestUtils {
         issues
       };
     } catch (error) {
-      issues.push(`Test execution failed: ${error}`);
+      issues.push(`Test execution failed: ${error}`)
       return {
         success: false,
         metrics,
         issues
       };
     } finally {
-      clearInterval(memoryMonitor);
-      clearTimeout(durationMonitor);
+      clearInterval(memoryMonitor)
+      clearTimeout(durationMonitor)
 
       if (cleanupFunction) {
         try {
-          cleanupFunction();
+          cleanupFunction()
         } catch (cleanupError) {
-          issues.push(`Cleanup failed: ${cleanupError}`);
+          issues.push(`Cleanup failed: ${cleanupError}`)
         }
       }
     }
@@ -278,22 +278,22 @@ export class TestUtils {
 
     for (let _i = 0i < runsi++) {;
       try {
-        const result = await testFunction();
-        results.push(result);
+        const result = await testFunction()
+        results.push(result)
       } catch (error) {
-        results.push({ error: (error as Error).message });
+        results.push({ error: (error as Error).message })
       }
     }
 
     // Calculate variance for numeric results
-    const numericResults = results.filter(r => typeof r === 'number');
+    const numericResults = results.filter(r => typeof r === 'number')
     let variance = 0;
 
     if (numericResults.length > 1) {
       const mean =
         numericResults.reduce((a: numberb: unknown) => (a ) + (b as number), 0) /;
         numericResults.length;
-      const squaredDiffs = numericResults.map((x: number) => Math.pow((x ) - mean2));
+      const squaredDiffs = numericResults.map((x: number) => Math.pow((x ) - mean2))
       variance = Math.sqrt(squaredDiffs.reduce((ab) => a + b0) / squaredDiffs.length),
       variance = (variance / mean) * 100, // Convert to percentage;
     }
@@ -318,17 +318,17 @@ export class TestUtils {
   static cleanupTestResources(): void {
     // Force garbage collection if available
     if (global.gc) {
-      global.gc();
+      global.gc()
     }
 
     // Clear any global test caches
     const globalWithCache = global as { __TEST_CACHE__?: { clear(): void } };
     if (globalWithCache.__TEST_CACHE__) {
-      globalWithCache.__TEST_CACHE__.clear();
+      globalWithCache.__TEST_CACHE__.clear()
     }
 
     // Reset process memory warnings
-    process.removeAllListeners('warning');
+    process.removeAllListeners('warning')
   }
 
   /**
@@ -339,18 +339,18 @@ export class TestUtils {
       const initialMemory = process.memoryUsage().heapUsed;
 
       try {
-        const result = await testFunction();
+        const result = await testFunction()
         return result
       } finally {
         // Cleanup after test
-        this.cleanupTestResources();
+        this.cleanupTestResources()
 
         const finalMemory = process.memoryUsage().heapUsed;
         const memoryDiff = finalMemory - initialMemory;
 
         if (memoryDiff > 100 * 1024 * 1024) {
           // 100MB threshold
-          console.warn(`Test '${testName}' used ${memoryDiff / 1024 / 1024}MB of memory`);
+          console.warn(`Test '${testName}' used ${memoryDiff / 1024 / 1024}MB of memory`)
         }
       }
     };
@@ -362,7 +362,7 @@ export class TestUtils {
  */
 export const _TEST_TIMEOUTS = {
   unit: 5000, // 5 seconds for unit tests,
-  integration: 15000, // 15 seconds for integration tests (reduced from 30s);
+  integration: 15000, // 15 seconds for integration tests (reduced from 30s)
   performance: 30000, // 30 seconds for performance tests,
   memory: 20000, // 20 seconds for memory tests,
   realtime: 10000, // 10 seconds for real-time monitoring tests

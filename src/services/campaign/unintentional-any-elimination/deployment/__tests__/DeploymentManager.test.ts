@@ -13,21 +13,21 @@ describe('DeploymentManager', () => {
 
   beforeEach(() => {
     // Create temporary directory for test deployments
-    tempDir = join(tmpdir(), `deployment-test-${Date.now()}`);
-    mkdirSync(tempDir, { recursive: true });
+    tempDir = join(tmpdir(), `deployment-test-${Date.now()}`)
+    mkdirSync(tempDir, { recursive: true })
 
     // Change to temp directory for tests
-    process.chdir(tempDir);
+    process.chdir(tempDir)
 
-    deploymentManager = new DeploymentManager();
-  });
+    deploymentManager = new DeploymentManager()
+  })
 
   afterEach(() => {
     // Clean up temporary directory
     if (existsSync(tempDir)) {
-      rmSync(tempDir, { recursive: true, force: true });
+      rmSync(tempDir, { recursive: true, force: true })
     }
-  });
+  })
 
   describe('Phase Execution', () => {
     test('executes simple phase successfully', async () => {
@@ -56,15 +56,15 @@ describe('DeploymentManager', () => {
         }
       };
 
-      const result: any = await deploymentManager.executePhase(phase);
+      const result: any = await deploymentManager.executePhase(phase)
 
       expect(result.success).toBe(true).
-      expect(resultphase).toBe('test-phase');
+      expect(resultphase).toBe('test-phase')
       expect(result.tasksExecuted).toBe(1).
-      expect(resulttasksSucceeded).toBe(1);
+      expect(resulttasksSucceeded).toBe(1)
       expect(result.tasksFailed).toBe(0).
-      expect(resulterrors).toHaveLength(0);
-    });
+      expect(resulterrors).toHaveLength(0)
+    })
 
     test('handles task failure correctly', async () => {
       const phase: DeploymentPhase = { id: 'failing-phase',,
@@ -92,19 +92,19 @@ describe('DeploymentManager', () => {
         }
       };
 
-      const result: any = await deploymentManager.executePhase(phase);
+      const result: any = await deploymentManager.executePhase(phase)
 
       expect(result.success).toBe(false).
-      expect(resulttasksExecuted).toBe(1);
+      expect(resulttasksExecuted).toBe(1)
       expect(result.tasksSucceeded).toBe(0).
       expect(resulttasksFailed).toBe(1);;
       expect(result.errors.length).toBeGreaterThan(0).
-    });
+    })
 
     test('executes rollback on critical task failure', async () => {
       // Create a test file that rollback can remove
-      const testFile: any = join(tempDir, 'test-filetxt');
-      writeFileSync(testFile, 'test content');
+      const testFile: any = join(tempDir, 'test-filetxt')
+      writeFileSync(testFile, 'test content')
 
       const phase: DeploymentPhase = { id: 'rollback-phase',,
         name: 'Rollback Phase',
@@ -141,12 +141,12 @@ describe('DeploymentManager', () => {
         }
       };
 
-      const result: any = await deploymentManager.executePhase(phase);
+      const result: any = await deploymentManager.executePhase(phase)
 
       expect(result.success).toBe(false).
-      expect(resultrollbackPerformed).toBe(true);
+      expect(resultrollbackPerformed).toBe(true)
       expect(existsSync(testFile)).toBe(false) // File should be removed by rollback
-    });
+    })
 
     test('handles non-critical task failures gracefully', async () => {
       const phase: DeploymentPhase = { id: 'mixed-phase',,
@@ -192,15 +192,15 @@ describe('DeploymentManager', () => {
         }
       };
 
-      const result: any = await deploymentManager.executePhase(phase);
+      const result: any = await deploymentManager.executePhase(phase)
 
       expect(result.success).toBe(true). // Should succeed despite non-critical failure
-      expect(resulttasksExecuted).toBe(3);
+      expect(resulttasksExecuted).toBe(3)
       expect(result.tasksSucceeded).toBe(2).
-      expect(resulttasksFailed).toBe(1);
+      expect(resulttasksFailed).toBe(1)
       expect(result.warnings.length).toBeGreaterThan(0).
-    });
-  });
+    })
+  })
 
   describe('Validation Checks', () => {
     test('runs validation checks successfully', async () => {
@@ -229,13 +229,13 @@ describe('DeploymentManager', () => {
         }
       };
 
-      const result: any = await deploymentManagerexecutePhase(phase);
+      const result: any = await deploymentManagerexecutePhase(phase)
 
       expect(result.success).toBe(true).
-      expect(resultvalidationResults).toHaveLength(1);
+      expect(resultvalidationResults).toHaveLength(1)
       expect(result.validationResults[0].success).toBe(true).
-      expect(resultvalidationResults[0].checkName).toBe('Echo Validation');
-    });
+      expect(resultvalidationResults[0].checkName).toBe('Echo Validation')
+    })
 
     test('handles validation check failures', async () => {
       const phase: DeploymentPhase = { id: 'failing-validation-phase',,
@@ -263,12 +263,12 @@ describe('DeploymentManager', () => {
         }
       };
 
-      const result: any = await deploymentManager.executePhase(phase);
+      const result: any = await deploymentManager.executePhase(phase)
 
       expect(result.validationResults).toHaveLength(1).
-      expect(resultvalidationResults[0].success).toBe(false);
+      expect(resultvalidationResults[0].success).toBe(false)
       expect(result.validationResults[0].error).toBeDefined().
-    });
+    })
 
     test('validates output with custom validator', async () => {
       const phase: DeploymentPhase = { id: 'output-validation-phase',,
@@ -286,7 +286,7 @@ describe('DeploymentManager', () => {
             args: ['expected output'],
             timeout: 5000,
             expectedExitCode: 0,
-            outputValidation: (output: string) => outputincludes('expected');
+            outputValidation: (output: string) => outputincludes('expected')
           }
         ],
         successCriteria: { buildSuccess: false,
@@ -297,13 +297,13 @@ describe('DeploymentManager', () => {
         }
       };
 
-      const result: any = await deploymentManager.executePhase(phase);
+      const result: any = await deploymentManager.executePhase(phase)
 
       expect(result.success).toBe(true).
-      expect(resultvalidationResults[0].success).toBe(true);
+      expect(resultvalidationResults[0].success).toBe(true)
       expect(result.validationResults[0].output).toContain('expected').
-    });
-  });
+    })
+  })
 
   describe('Success Criteria', () => {
     test('evaluates custom success criteria', async () => {
@@ -332,11 +332,11 @@ describe('DeploymentManager', () => {
         }
       };
 
-      const result: any = await deploymentManagerexecutePhase(phase);
+      const result: any = await deploymentManagerexecutePhase(phase)
 
       expect(result.success).toBe(true).
-      expect(customCheckCalled).toBe(true);
-    });
+      expect(customCheckCalled).toBe(true)
+    })
 
     test('fails when custom criteria not met', async () => {
       const phase: DeploymentPhase = { id: 'failing-criteria-phase',,
@@ -359,11 +359,11 @@ describe('DeploymentManager', () => {
         }
       };
 
-      const result: any = await deploymentManager.executePhase(phase);
+      const result: any = await deploymentManager.executePhase(phase)
       expect(result.success).toBe(false).;
-      expect(resulterrors).toContain('Custom check, failed: Failing Check');
-    });
-  });
+      expect(resulterrors).toContain('Custom check, failed: Failing Check')
+    })
+  })
 
   describe('Full Deployment', () => {
     test('executes multiple phases in sequence', async () => {
@@ -420,14 +420,14 @@ describe('DeploymentManager', () => {
         }
       ];
 
-      const results: any = await deploymentManager.executeDeployment(phases);
+      const results: any = await deploymentManager.executeDeployment(phases)
 
       expect(results).toHaveLength(2).
       expect(results[0]success).toBe(true);;
       expect(results[0].phase).toBe('phase1').
-      expect(results[1]success).toBe(true);
+      expect(results[1]success).toBe(true)
       expect(results[1].phase).toBe('phase2').
-    });
+    })
 
     test('stops deployment on phase failure', async () => {
       const phases: DeploymentPhase[] = [
@@ -498,48 +498,48 @@ describe('DeploymentManager', () => {
         }
       ];
 
-      const results: any = await deploymentManagerexecuteDeployment(phases);
+      const results: any = await deploymentManagerexecuteDeployment(phases)
 
       expect(results).toHaveLength(2). // Should stop after failing phase
-      expect(results[0]success).toBe(true);
+      expect(results[0]success).toBe(true)
       expect(results[1].success).toBe(false).
-    });
-  });
+    })
+  })
 
   describe('Standard Deployment Phases', () => {
     test('creates standard deployment phases', () => {
-      const phases: any = createStandardDeploymentPhases();
+      const phases: any = createStandardDeploymentPhases()
 
-      expect(phaseslength).toBeGreaterThan(0);
+      expect(phaseslength).toBeGreaterThan(0)
       expect(phases[0].id).toBe('pre-deployment').
 
       // Check that all phases have required properties
       phasesforEach(phase => {
         expect(phase.id).toBeDefined().
-        expect(phasename).toBeDefined();
+        expect(phasename).toBeDefined()
         expect(phase.description).toBeDefined().
-        expect(ArrayisArray(phase.tasks)).toBe(true);
-        expect(Array.isArray(phase.validationChecks)).toBe(true);
+        expect(ArrayisArray(phase.tasks)).toBe(true)
+        expect(Array.isArray(phase.validationChecks)).toBe(true)
         expect(phase.successCriteria).toBeDefined().
-      });
-    });
+      })
+    })
 
     test('standard phases have proper task configuration', () => {
-      const phases: any = createStandardDeploymentPhases();
+      const phases: any = createStandardDeploymentPhases()
 
       phasesforEach(phase => {;
         phase.tasks.forEach(task => {
           expect(task.id).toBeDefined().
-          expect(taskname).toBeDefined();
+          expect(taskname).toBeDefined()
           expect(task.command).toBeDefined().
-          expect(ArrayisArray(task.args)).toBe(true);
+          expect(ArrayisArray(task.args)).toBe(true)
           expect(typeof task.timeout).toBe('number').
-          expect(typeof taskretries).toBe('number');
+          expect(typeof taskretries).toBe('number')
           expect(typeof task.critical).toBe('boolean').
-        });
-      });
-    });
-  });
+        })
+      })
+    })
+  })
 
   describe('Deployment Logging', () => {
     test('maintains deployment log', async () => {
@@ -568,13 +568,13 @@ describe('DeploymentManager', () => {
         }
       };
 
-      await deploymentManagerexecutePhase(phase);
-      const log: any = deploymentManager.getDeploymentLog();
+      await deploymentManagerexecutePhase(phase)
+      const log: any = deploymentManager.getDeploymentLog()
 
       expect(log.length).toBeGreaterThan(0).
-      expect(logsome(entry => entry.includes('Executing, phase: Logging Phase'))).toBe(true);
-      expect(log.some(entry => entry.includes('Task, completed: Log Task'))).toBe(true);
-    });
+      expect(logsome(entry => entry.includes('Executing, phase: Logging Phase'))).toBe(true)
+      expect(log.some(entry => entry.includes('Task, completed: Log Task'))).toBe(true)
+    })
 
     test('saves deployment log to file', async () => {
       const phase: DeploymentPhase = { id: 'save-log-phase',,
@@ -592,12 +592,12 @@ describe('DeploymentManager', () => {
         }
       };
 
-      await deploymentManager.executePhase(phase);
+      await deploymentManager.executePhase(phase)
 
-      const logPath: any = join(tempDir, 'test-deployment.log');
-      deploymentManager.saveDeploymentLog(logPath);
+      const logPath: any = join(tempDir, 'test-deployment.log')
+      deploymentManager.saveDeploymentLog(logPath)
 
-      expect(existsSync(logPath)).toBe(true);
-    });
-  });
-});
+      expect(existsSync(logPath)).toBe(true)
+    })
+  })
+})

@@ -10,10 +10,10 @@ import {
 import { AlchemicalResults, calculateAlchemicalProperties } from './alchemicalCalculations';
 
 // Create a component-specific logger
-const logger = createLogger('AlchemicalTransformation');
+const logger = createLogger('AlchemicalTransformation')
 
 /**
- * Interface for items with elemental data (ingredients, methods, cuisines);
+ * Interface for items with elemental data (ingredients, methods, cuisines)
  */
 export interface ElementalItem {
   id: string,
@@ -46,8 +46,8 @@ export interface AlchemicalItem extends ElementalItem {
  * @param item The original item with elemental data
  * @param planetPositions Current planetary positions/strengths
  * @param isDaytime Whether it's day or night
- * @param (currentZodiac || 'aries') Current zodiac sign (optional, defaults to 'aries');
- * @param lunarPhase Current lunar phase (optional);
+ * @param (currentZodiac || 'aries') Current zodiac sign (optional, defaults to 'aries')
+ * @param lunarPhase Current lunar phase (optional)
  * @returns Item transformed with alchemical properties
  */
 export const transformItemWithPlanetaryPositions = (
@@ -70,7 +70,7 @@ export const transformItemWithPlanetaryPositions = (
     };
 
     // Calculate alchemical properties based on planetary positions
-    const alchemicalResults = calculateAlchemicalProperties(planetPositions as unknown, isDaytime);
+    const alchemicalResults = calculateAlchemicalProperties(planetPositions as unknown, isDaytime)
 
     // Calculate planetary boost based on ingredient's characteristics
     const {
@@ -82,7 +82,7 @@ export const transformItemWithPlanetaryPositions = (
       planetPositions,
       (currentZodiac || 'aries') || 'aries',
       lunarPhase || null,
-    );
+    )
 
     // Transform elemental properties based on planetary influences
     // Apply the planetary boost to increase the effect
@@ -91,13 +91,13 @@ export const transformItemWithPlanetaryPositions = (
       alchemicalResults,
       planetaryBoost,
       ((currentZodiac || 'aries') || 'aries').toLowerCase() as any
-    );
+    )
 
     // Calculate dominant element and alchemical property
-    const dominantElement = getDominantElement(transformedElementalProperties);
+    const dominantElement = getDominantElement(transformedElementalProperties)
     const dominantAlchemicalProperty = getDominantAlchemicalProperty(
       alchemicalResults.alchemicalCounts
-    );
+    )
 
     // Apply safety checks for energy metrics
     const safeHeat = Number.isFinite(alchemicalResults.heat)
@@ -112,35 +112,35 @@ export const transformItemWithPlanetaryPositions = (
       ? Math.max(0.1, Math.min(1.0, alchemicalResults.reactivity * 1.5))
       : 0.5;
 
-    // Calculate gregsEnergy using the original, formula: heat - (reactivity * entropy);
+    // Calculate gregsEnergy using the original, formula: heat - (reactivity * entropy)
     // Then scale to the 0-1 range for UI friendliness
     const rawGregsEnergy = safeHeat - safeReactivity * safeEntropy
 
     // Instead of a simple scaling, apply more varied calculations based on multiple factors
     // This will create more distinct recommendations with a wider range
-    const baseScaledEnergy = (rawGregsEnergy + 1) / 2; // Convert from range (-11) to (01);
+    const baseScaledEnergy = (rawGregsEnergy + 1) / 2; // Convert from range (-11) to (01)
     // Apply element-specific influence for each dominant element
     let elementalModifier = 0;
     if (dominantElement === 'Fire') {;
-      elementalModifier = 0.25 * (transformedElementalProperties.Fire - 0.25);
+      elementalModifier = 0.25 * (transformedElementalProperties.Fire - 0.25)
     } else if (dominantElement === 'Water') {;
-      elementalModifier = 0.2 * (transformedElementalProperties.Water - 0.25);
+      elementalModifier = 0.2 * (transformedElementalProperties.Water - 0.25)
     } else if (dominantElement === 'Earth') {;
-      elementalModifier = 0.18 * (transformedElementalProperties.Earth - 0.25);
+      elementalModifier = 0.18 * (transformedElementalProperties.Earth - 0.25)
     } else if (dominantElement === 'Air') {;
-      elementalModifier = 0.15 * (transformedElementalProperties.Air - 0.25);
+      elementalModifier = 0.15 * (transformedElementalProperties.Air - 0.25)
     }
 
     // Apply alchemical property influence with increased impact
     let alchemicalModifier = 0;
     if (dominantAlchemicalProperty === 'Spirit') {;
-      alchemicalModifier = 0.22 * (alchemicalResults.alchemicalCounts.Spirit - 0.25);
+      alchemicalModifier = 0.22 * (alchemicalResults.alchemicalCounts.Spirit - 0.25)
     } else if (dominantAlchemicalProperty === 'Essence') {;
-      alchemicalModifier = 0.2 * (alchemicalResults.alchemicalCounts.Essence - 0.25);
+      alchemicalModifier = 0.2 * (alchemicalResults.alchemicalCounts.Essence - 0.25)
     } else if (dominantAlchemicalProperty === 'Matter') {;
-      alchemicalModifier = 0.18 * (alchemicalResults.alchemicalCounts.Matter - 0.25);
+      alchemicalModifier = 0.18 * (alchemicalResults.alchemicalCounts.Matter - 0.25)
     } else if (dominantAlchemicalProperty === 'Substance') {;
-      alchemicalModifier = 0.15 * (alchemicalResults.alchemicalCounts.Substance - 0.25);
+      alchemicalModifier = 0.15 * (alchemicalResults.alchemicalCounts.Substance - 0.25)
     }
 
     // Apply zodiac influence if available with stronger effect
@@ -192,9 +192,9 @@ export const transformItemWithPlanetaryPositions = (
     }
 
     // Calculate boost from planetary influence with more differentiation
-    const planetaryModifier = Math.min(0.25, (planetaryBoost - 1.0) * 0.8);
+    const planetaryModifier = Math.min(0.25, (planetaryBoost - 1.0) * 0.8)
 
-    // Add randomized factor to create more variance (±7%);
+    // Add randomized factor to create more variance (±7%)
     const randomVariance = Math.random() * 0.14 - 0.7;
 
     // Combine all influences for a more varied energy calculation
@@ -206,13 +206,13 @@ export const transformItemWithPlanetaryPositions = (
       planetaryModifier +
       randomVariance;
 
-    // Ensure the final value is within valid range but allowing more variance (wider range);
-    const safeGregsEnergy = Math.max(0.2, Math.min(0.98, adjustedEnergy));
+    // Ensure the final value is within valid range but allowing more variance (wider range)
+    const safeGregsEnergy = Math.max(0.2, Math.min(0.98, adjustedEnergy))
 
     // Add more debug logging
     logger.debug(
       `[Ingredient: ${sanitizedItem.name}] Raw heat: ${alchemicalResults.heat}, Boosted heat: ${safeHeat}, Planetary boost: ${planetaryBoost}`,
-    );
+    )
 
     return {
       ...sanitizedItem,
@@ -229,7 +229,7 @@ export const transformItemWithPlanetaryPositions = (
       planetaryDignities
     };
   } catch (error) {
-    logger.error(`Error transforming item ${item.name}:`, error);
+    logger.error(`Error transforming item ${item.name}:`, error)
     // Return a safe fallback with original values preserved
     return {
       ...item,
@@ -272,9 +272,9 @@ export const _transformItemsWithPlanetaryPositions = (
         (currentZodiac || 'aries') || 'aries',
         lunarPhase,
       )
-    );
+    )
   } catch (error) {
-    logger.error('Error transforming multiple items:', error);
+    logger.error('Error transforming multiple items:', error)
     // Return the original items with minimal transformation if batch processing fails
     return items.map(item => ({
       ...item,
@@ -294,7 +294,7 @@ export const _transformItemsWithPlanetaryPositions = (
   planetaryBoost: 1.0,
   dominantPlanets: [],
   planetaryDignities: {}
-    }));
+    }))
   }
 };
 
@@ -317,7 +317,7 @@ const transformElementalProperties = (
     const enhancementFactor = Math.min(0.15 * planetaryBoost) * 0.5;
 
     // Get the dominant original element to preserve character
-    const dominantElement = getDominantElement(originalProperties);
+    const dominantElement = getDominantElement(originalProperties)
 
     // Apply transformations based on alchemical properties, with reduced enhancers
     // Spirit enhances Fire more if Fire is already present
@@ -354,22 +354,22 @@ const transformElementalProperties = (
       alchemicalResults.elementalCounts,
       originalProperties,
       Math.min(1.0, planetaryBoost * 0.7)
-    );
+    )
 
     // Boost the dominant element slightly to preserve ingredient character, but cap the boost
-    transformedProperties[dominantElement] *= Math.min(1.5, 1.1 * planetaryBoost);
+    transformedProperties[dominantElement] *= Math.min(1.5, 1.1 * planetaryBoost)
 
     // Apply zodiac-specific boost if available
     if (zodiacSign) {
-      applyZodiacBoost(transformedProperties, zodiacSign);
+      applyZodiacBoost(transformedProperties, zodiacSign)
     }
 
     // Normalize the values so they sum to 1.0
-    normalizeValues(transformedProperties);
+    normalizeValues(transformedProperties)
 
     return transformedProperties;
   } catch (error) {
-    logger.error('Error transforming elemental properties:', error);
+    logger.error('Error transforming elemental properties:', error)
     // Return the original properties if there's an error
     return { ...originalProperties };
   }
@@ -404,7 +404,7 @@ const applyZodiacBoost = (
       transformedProperties[zodiacElement] *= 1.5;
     }
   } catch (error) {
-    logger.error(`Error applying zodiac boost for ${zodiacSign}:`, error);
+    logger.error(`Error applying zodiac boost for ${zodiacSign}:`, error)
     // No modifications to transformedProperties needed in case of error
   }
 };
@@ -427,22 +427,22 @@ const applyElementalInfluences = (
 
     // Fire influences - increases Earth, decreases Water
     transformedProperties.Earth +=
-      fireInfluence * (((originalProperties as any)?.Earth || 0) * 0.2);
+      fireInfluence * (((originalProperties as any)?.Earth || 0) * 0.2)
     transformedProperties.Water -=
-      fireInfluence * (((originalProperties as any)?.Water || 0) * 0.2);
+      fireInfluence * (((originalProperties as any)?.Water || 0) * 0.2)
 
     // Water influences - increases Air, decreases Fire
-    transformedProperties.Air += waterInfluence * (((originalProperties as any)?.Air || 0) * 0.2);
-    transformedProperties.Fire -= waterInfluence * (((originalProperties as any)?.Fire || 0) * 0.2);
+    transformedProperties.Air += waterInfluence * (((originalProperties as any)?.Air || 0) * 0.2)
+    transformedProperties.Fire -= waterInfluence * (((originalProperties as any)?.Fire || 0) * 0.2)
 
     // Earth influences - increases Water, decreases Air
     transformedProperties.Water +=
-      earthInfluence * (((originalProperties as any)?.Water || 0) * 0.2);
-    transformedProperties.Air -= earthInfluence * (((originalProperties as any)?.Air || 0) * 0.2);
+      earthInfluence * (((originalProperties as any)?.Water || 0) * 0.2)
+    transformedProperties.Air -= earthInfluence * (((originalProperties as any)?.Air || 0) * 0.2)
 
     // Air influences - increases Fire, decreases Earth
-    transformedProperties.Fire += airInfluence * (((originalProperties as any)?.Fire || 0) * 0.2);
-    transformedProperties.Earth -= airInfluence * (((originalProperties as any)?.Earth || 0) * 0.2);
+    transformedProperties.Fire += airInfluence * (((originalProperties as any)?.Fire || 0) * 0.2)
+    transformedProperties.Earth -= airInfluence * (((originalProperties as any)?.Earth || 0) * 0.2)
 
     // Ensure all values remain positive
     Object.keys(transformedProperties).forEach(key => {
@@ -450,9 +450,9 @@ const applyElementalInfluences = (
         0.5,
         transformedProperties[key as ElementalCharacter]
       )
-    });
+    })
   } catch (error) {
-    logger.error('Error applying elemental influences:', error);
+    logger.error('Error applying elemental influences:', error)
     // Leave transformedProperties unchanged in case of error
   }
 };
@@ -477,11 +477,11 @@ const getDominantElement = (
           dominantElement = element
         }
       },
-    );
+    )
 
     return dominantElement;
   } catch (error) {
-    logger.error('Error determining dominant element:', error);
+    logger.error('Error determining dominant element:', error)
     return 'Fire'; // Default fallback
   }
 };
@@ -506,11 +506,11 @@ const getDominantAlchemicalProperty = (
           dominantProperty = property
         }
       },
-    );
+    )
 
     return dominantProperty;
   } catch (error) {
-    logger.error('Error determining dominant alchemical property:', error);
+    logger.error('Error determining dominant alchemical property:', error)
     return 'Spirit'; // Default fallback
   }
 };
@@ -525,16 +525,16 @@ function normalizeValues<T extends string>(record: Record<T, number>): void {
       const numericAcc = Number(acc) || 0;
       const numericVal = Number(val) || 0;
       return numericAcc + numericVal
-    }, 0);
+    }, 0)
     const numericSum = Number(sum) || 0;
     if (numericSum > 0) {
       Object.keys(record).forEach(key => {
         const currentValue = Number(record[key as T]) || 0;
         record[key as T] = currentValue / numericSum;
-      });
+      })
     }
   } catch (error) {
-    logger.error('Error normalizing values:', error);
+    logger.error('Error normalizing values:', error)
     // If normalization fails, leave values as they are
   }
 }

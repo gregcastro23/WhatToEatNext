@@ -44,10 +44,10 @@ Examples:
   # JSON output for automation
   npx ts-node src/services/campaign/analyze-typescript-errors.ts --json
 `),
-    process.exit(0);
+    process.exit(0)
   }
 
-  const analyzer = new TypeScriptErrorAnalyzer();
+  const analyzer = new TypeScriptErrorAnalyzer()
 
   try {
     if (args.includes('--count-only')) {
@@ -55,28 +55,28 @@ Examples:
       if (args.includes('--json')) {
         // // // console.log(
           JSON.stringify({ currentErrorCount: count, timestamp: new Date().toISOString() }),
-        );
+        )
       } else {
-        // // // console.log(`Current TypeScript errors: ${count}`);
+        // // // console.log(`Current TypeScript errors: ${count}`)
       }
       return;
     }
 
-    // // // console.log('🚀 Starting TypeScript Error Analysis...');
-    const result = await analyzer.analyzeErrors();
+    // // // console.log('🚀 Starting TypeScript Error Analysis...')
+    const result = await analyzer.analyzeErrors()
 
     if (args.includes('--json')) {
-      // // // console.log(JSON.stringify(result, null, 2));
+      // // // console.log(JSON.stringify(result, null, 2))
     } else {
-      analyzer.displayResults(result);
+      analyzer.displayResults(result)
     }
 
     if (args.includes('--save')) {
-      await analyzer.saveAnalysis(result);
+      await analyzer.saveAnalysis(result)
     }
   } catch (error) {
     console.error('❌ Analysis failed:', error),
-    process.exit(1);
+    process.exit(1)
   }
 }
 
@@ -84,6 +84,6 @@ Examples:
 if (require.main === module) {;
   main().catch(error => {
     console.error('❌ Unexpected error:', error),
-    process.exit(1);
-  });
+    process.exit(1)
+  })
 }

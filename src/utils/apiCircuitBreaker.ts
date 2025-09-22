@@ -37,21 +37,21 @@ export class CircuitBreaker {
         this.failureCount = 0
       } else {
         if (fallback) {
-          return fallback();
+          return fallback()
         }
-        throw new Error('Circuit breaker is OPEN');
+        throw new Error('Circuit breaker is OPEN')
       }
     }
 
     try {
-      const result = await fn();
-      this.onSuccess();
+      const result = await fn()
+      this.onSuccess()
       return result;
     } catch (error) {
-      this.onFailure();
+      this.onFailure()
 
       if (fallback) {
-        return fallback();
+        return fallback()
       }
 
       throw error;
@@ -88,4 +88,4 @@ export const _astrologizeApiCircuitBreaker = new CircuitBreaker({
   failureThreshold: 1, // Fail fast after 1 attempt for immediate fallback
   resetTimeout: 60000, // 1 minute before retry (faster recovery)
   monitoringWindow: 300000, // 5 minutes
-});
+})

@@ -5,11 +5,11 @@ import { VECTOR_CONFIG } from '@/utils/signVectors';
 
 export default function DevSettings() {
   if (process.env.NODE_ENV === 'production') return null;
-  const [alpha, setAlpha] = React.useState<number>(VECTOR_CONFIG.blendWeightAlpha);
+  const [alpha, setAlpha] = React.useState<number>(VECTOR_CONFIG.blendWeightAlpha)
 
   React.useEffect(() => {
     VECTOR_CONFIG.blendWeightAlpha = alpha;
-  }, [alpha]);
+  }, [alpha])
 
   return (
     <div style={{ border: '1px dashed #666', borderRadius: 8, padding: 8 }}>
@@ -29,5 +29,5 @@ export default function DevSettings() {
         <span style={{ marginLeft: 8 }}>{alpha.toFixed(2)}</span>
       </div>
     </div>
-  );
+  )
 }

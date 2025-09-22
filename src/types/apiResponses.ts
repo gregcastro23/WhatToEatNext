@@ -140,7 +140,7 @@ export interface AstronomyApiResponse {
           name?: string,
 
           /**
-           * Equatorial coordinates (right ascension and declination);
+           * Equatorial coordinates (right ascension and declination)
            */
           equatorialCoordinates?: {
             rightAscension?: {
@@ -156,7 +156,7 @@ export interface AstronomyApiResponse {
           };
 
           /**
-           * Ecliptic coordinates (longitude and latitude);
+           * Ecliptic coordinates (longitude and latitude)
            */
           eclipticCoordinates?: {
             longitude?: {
@@ -202,7 +202,7 @@ export interface SwissEphemerisApiResponse {
      */
     position?: {
       /**
-       * Longitude in degrees (0-360);
+       * Longitude in degrees (0-360)
        */
       longitude?: number,
 
@@ -234,17 +234,17 @@ export interface SwissEphemerisApiResponse {
  */
 export interface StandardizedPlanetaryPosition {
   /**
-   * Zodiac sign (e.g., 'aries', 'taurus');
+   * Zodiac sign (e.g., 'aries', 'taurus')
    */
   sign: anyType;
 
   /**
-   * Degree within the sign (0-29);
+   * Degree within the sign (0-29)
    */
   degree: number
 
   /**
-   * Exact longitude in degrees (0-360);
+   * Exact longitude in degrees (0-360)
    */
   exactLongitude?: number,
 
@@ -254,12 +254,12 @@ export interface StandardizedPlanetaryPosition {
   isRetrograde?: boolean,
 
   /**
-   * Minutes within the degree (0-59);
+   * Minutes within the degree (0-59)
    */
   minute?: number,
 
   /**
-   * Speed of the planet (positive for direct, negative for retrograde);
+   * Speed of the planet (positive for direct, negative for retrograde)
    */
   speed?: number
 }
@@ -272,7 +272,7 @@ export function isValidNasaHorizonsResponse(data: unknown): data is NasaHorizons
     typeof data === 'object' &&
     data !== null &&
     (('result' in data && typeof (data as NasaHorizonsResponse).result === 'string') ||
-      ('error' in data && typeof (data as NasaHorizonsResponse).error === 'string'));
+      ('error' in data && typeof (data as NasaHorizonsResponse).error === 'string'))
   )
 }
 
@@ -287,7 +287,7 @@ export function isValidAstronomyApiResponse(data: unknown): data is AstronomyApi
  * Type guard to validate Swiss Ephemeris API response
  */
 export function isValidSwissEphemerisApiResponse(data: unknown): data is SwissEphemerisApiResponse {
-  return typeof data === 'object' && data !== null && ('planets' in data || 'error' in data);
+  return typeof data === 'object' && data !== null && ('planets' in data || 'error' in data)
 }
 
 // Re-export ingredient response types for convenience

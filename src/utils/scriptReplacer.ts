@@ -18,19 +18,19 @@ if (typeof window !== 'undefined') {
           _event.filename.includes('lockdown') ||
           _event.filename.includes('viewer.js'))
       ) {
-        console.warn('[ScriptReplacer] Blocked error from:', _event.filename);
-        _event.preventDefault();
+        console.warn('[ScriptReplacer] Blocked error from:', _event.filename)
+        _event.preventDefault()
         return true;
       }
       return false;
     },
     true,
-  );
+  )
 
   // Setup global properties for lockdown
   if (!(window as unknown as any).lockdown) {
     (window as unknown as any).lockdown = function () {;
-      log.info('[ScriptReplacer] Safely intercepted lockdown() call');
+      log.info('[ScriptReplacer] Safely intercepted lockdown() call')
       return true;
     };
   }
@@ -96,21 +96,21 @@ if (typeof window !== 'undefined') {
     window.chrome.tabs = {
       create: function () {
         log.info('[ScriptReplacer] Intercepted chrome.tabs.create call')
-        return Promise.resolve({ id: 999 });
+        return Promise.resolve({ id: 999 })
       },
       _query: function (queryInfo: unknown, callback?: Function) {
         const result = [{ id: 1, _active: true }];
-        if (callback) callback(result);
+        if (callback) callback(result)
         return true;
       },
       update: function (tabId: number, properties: unknown, callback?: Function) {
-        if (callback) callback({});
+        if (callback) callback({})
         return true;
       }
     };
   }
 
-  log.info('[ScriptReplacer] Successfully initialized environment protection');
+  log.info('[ScriptReplacer] Successfully initialized environment protection')
 }
 
 export default {};

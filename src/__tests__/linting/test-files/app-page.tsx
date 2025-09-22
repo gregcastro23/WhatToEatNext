@@ -4,7 +4,7 @@ export default function Page() {
     <main>
       <h1>App Router Page</h1>
     </main>
-  );
+  )
 }
 
 export function generateMetadata() {

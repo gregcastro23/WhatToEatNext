@@ -6,13 +6,13 @@ export const _dynamic = 'force-static';
 import { Suspense } from 'react';
 
 // Temporary lightweight fallbacks for missing components
-const PlanetaryHoursTest = () => (;
+const PlanetaryHoursTest = () => (
   <div className='text-gray-600'>PlanetaryHoursTest component unavailable.</div>
-);
+)
 
-const SimplePlanetaryDisplay = () => (;
+const SimplePlanetaryDisplay = () => (
   <div className='text-gray-600'>SimplePlanetaryDisplay component unavailable.</div>
-);
+)
 
 export default function PlanetaryTestPage() {
   return (
@@ -33,5 +33,5 @@ export default function PlanetaryTestPage() {
         </Suspense>
       </section>
     </div>
-  );
+  )
 }

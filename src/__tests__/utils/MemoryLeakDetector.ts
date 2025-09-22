@@ -45,7 +45,7 @@ export class MemoryLeakDetector {
           ) {
             const totalListeners = Object.values(
               (window as unknown as { _eventListeners: Record<string, unknown[]> })._eventListeners
-            ).reduce((sum: number, listeners: unknown[]) => sum + (listeners?.length || 0), 0);
+            ).reduce((sum: number, listeners: unknown[]) => sum + (listeners?.length || 0), 0)
             return totalListeners > 50;
           }
           return false;
@@ -140,12 +140,12 @@ export class MemoryLeakDetector {
       try {
         return pattern.detector()
       } catch (error) {
-        console.warn(`Error checking pattern ${pattern.name}:`, error);
+        console.warn(`Error checking pattern ${pattern.name}:`, error)
         return false;
       }
-    });
+    })
 
-    const recommendations = this.generateRecommendations(leaksDetected, memoryIncrease);
+    const recommendations = this.generateRecommendations(leaksDetected, memoryIncrease)
 
     return {
       leaksDetected,
@@ -163,35 +163,35 @@ export class MemoryLeakDetector {
     const recommendations: string[] = [];
 
     // Memory-specific recommendations
-    const memoryIncreaseMB = memoryIncrease / (1024 * 1024);
+    const memoryIncreaseMB = memoryIncrease / (1024 * 1024)
     if (memoryIncreaseMB > 100) {
       recommendations.push('Consider reducing test complexity or splitting large test suites')
     }
     if (memoryIncreaseMB > 200) {
-      recommendations.push('Implement more aggressive cleanup strategies');
+      recommendations.push('Implement more aggressive cleanup strategies')
     }
 
     // Pattern-specific recommendations
-    const criticalLeaks = leaks.filter(leak => leak.severity === 'critical');
-    const highLeaks = leaks.filter(leak => leak.severity === 'high');
+    const criticalLeaks = leaks.filter(leak => leak.severity === 'critical')
+    const highLeaks = leaks.filter(leak => leak.severity === 'high')
 
     if (criticalLeaks.length > 0) {
       recommendations.push('CRITICAL: Address critical memory leaks immediately')
-      criticalLeaks.forEach(leak => recommendations.push(`- ${leak.fix}`));
+      criticalLeaks.forEach(leak => recommendations.push(`- ${leak.fix}`))
     }
 
     if (highLeaks.length > 0) {
       recommendations.push('HIGH PRIORITY: Fix high-severity memory leaks')
-      highLeaks.forEach(leak => recommendations.push(`- ${leak.fix}`));
+      highLeaks.forEach(leak => recommendations.push(`- ${leak.fix}`))
     }
 
     // General recommendations
     if (leaks.length > 3) {
-      recommendations.push('Consider implementing a comprehensive test cleanup strategy');
+      recommendations.push('Consider implementing a comprehensive test cleanup strategy')
     }
 
     if (recommendations.length === 0) {
-      recommendations.push('No significant memory leaks detected');
+      recommendations.push('No significant memory leaks detected')
     }
 
     return recommendations;
@@ -223,27 +223,27 @@ export class MemoryLeakDetector {
             } catch (error) {
               // Ignore errors for already removed listeners
             }
-          });
-        });
+          })
+        })
         (window as unknown as { _eventListeners: Record<string, unknown[]> })._eventListeners = {};
-        fixed.push('Cleared excessive event listeners');
+        fixed.push('Cleared excessive event listeners')
       }
     } catch (error) {
-      failed.push('Failed to clear event listeners');
+      failed.push('Failed to clear event listeners')
     }
 
     try {
       // Fix 2: Clear test cache
       if (global.__TEST_CACHE__) {
         if (typeof (global.__TEST_CACHE__ as { clear?: () => void }).clear === 'function') {
-          (global.__TEST_CACHE__ as { clear: () => void }).clear();
+          (global.__TEST_CACHE__ as { clear: () => void }).clear()
         } else {
           global.__TEST_CACHE__ = new Map<unknown, unknown>(),
         }
-        fixed.push('Cleared test cache');
+        fixed.push('Cleared test cache')
       }
     } catch (error) {
-      failed.push('Failed to clear test cache');
+      failed.push('Failed to clear test cache')
     }
 
     try {
@@ -253,7 +253,7 @@ export class MemoryLeakDetector {
         fixed.push('Cleared DOM nodes')
       }
     } catch (error) {
-      failed.push('Failed to clear DOM nodes');
+      failed.push('Failed to clear DOM nodes')
     }
 
     try {
@@ -263,27 +263,27 @@ export class MemoryLeakDetector {
         fixed.push('Cleared global test references')
       }
     } catch (error) {
-      failed.push('Failed to clear global references');
+      failed.push('Failed to clear global references')
     }
 
     try {
       // Fix 5: Reset Jest modules
       if (jest?.resetModules) {
-        jest.resetModules();
+        jest.resetModules()
         fixed.push('Reset Jest modules')
       }
     } catch (error) {
-      failed.push('Failed to reset Jest modules');
+      failed.push('Failed to reset Jest modules')
     }
 
     try {
       // Fix 6: Force garbage collection
       if (global.gc) {
-        global.gc();
+        global.gc()
         fixed.push('Forced garbage collection')
       }
     } catch (error) {
-      failed.push('Failed to force garbage collection');
+      failed.push('Failed to force garbage collection')
     }
 
     return { fixed, failed };
@@ -293,7 +293,7 @@ export class MemoryLeakDetector {
    * Generate detailed memory leak report
    */
   generateDetailedReport(): string {
-    const report = this.scanForLeaks();
+    const report = this.scanForLeaks()
 
     let output = `
 Memory Leak Detection Report
@@ -313,7 +313,7 @@ Memory Usage:
         output += `${index + 1}. ${leak.name} (${leak.severity.toUpperCase()})\n`;
         output += `   Description: ${leak.description}\n`;
         output += `   Fix: ${leak.fix}\n\n`;
-      });
+      })
     } else {
       output += 'No memory leaks detected.\n\n';
     }
@@ -321,7 +321,7 @@ Memory Usage:
     output += 'Recommendations: \n'
     report.recommendations.forEach((rec, index) => {
       output += `${index + 1}. ${rec}\n`;
-    });
+    })
 
     return output;
   }
@@ -337,7 +337,7 @@ Memory Usage:
    * Static method to create detector and run quick scan
    */
   static quickScan(): MemoryLeakReport {
-    const detector = new MemoryLeakDetector();
+    const detector = new MemoryLeakDetector()
     return detector.scanForLeaks()
   }
 
@@ -345,8 +345,8 @@ Memory Usage:
    * Static method to apply emergency fixes
    */
   static emergencyCleanup(): { fixed: string[], failed: string[] } {
-    const detector = new MemoryLeakDetector();
-    return detector.applyAutomaticFixes();
+    const detector = new MemoryLeakDetector()
+    return detector.applyAutomaticFixes()
   }
 }
 

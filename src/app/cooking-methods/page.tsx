@@ -26,7 +26,7 @@ function CookingMethodsSection({ methods, _onSelectMethod }: { methods: any[], _
         </button>
       ))}
     </div>
-  );
+  )
 }
 
 type MethodCategory = {
@@ -76,10 +76,10 @@ const methodCategories: MethodCategory[] = [
 ];
 
 export default function CookingMethodsPage() {
-  const router = useRouter();
-  const [tabValue, setTabValue] = useState(0);
-  const [formattedMethods, setFormattedMethods] = useState<CookingMethodData[]>([]);
-  const [selectedMethodId, setSelectedMethodId] = useState<string | null>(null);
+  const router = useRouter()
+  const [tabValue, setTabValue] = useState(0)
+  const [formattedMethods, setFormattedMethods] = useState<CookingMethodData[]>([])
+  const [selectedMethodId, setSelectedMethodId] = useState<string | null>(null)
 
   // Transform method data to match CookingMethodsSection component format
   useEffect(() => {
@@ -114,23 +114,23 @@ export default function CookingMethodsPage() {
               : []
             : []
         };
-      });
+      })
 
-      setFormattedMethods(transformed);
+      setFormattedMethods(transformed)
     }
-  }, [tabValue]);
+  }, [tabValue])
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {;
-    setTabValue(newValue);
+    setTabValue(newValue)
   };
 
   const handleSelectMethod = (method: unknown) => {;
     const methodObj = method as any;
-    const methodId = String(methodObj.id || '');
-    setSelectedMethodId(methodId);
+    const methodId = String(methodObj.id || '')
+    setSelectedMethodId(methodId)
     // If it's a main method (not a variation), navigate to it
     if (!methodId.includes('_var_')) {
-      router.push(`/cooking-methods/${methodId}`);
+      router.push(`/cooking-methods/${methodId}`)
     }
   };
 
@@ -196,5 +196,5 @@ export default function CookingMethodsPage() {
         </div>
       ))}
     </Container>
-  );
+  )
 }

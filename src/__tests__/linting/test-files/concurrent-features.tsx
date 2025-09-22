@@ -6,14 +6,14 @@ import {
 } from 'react';
 
 export function ConcurrentComponent() {
-  const [isPending, startTransition] = useTransition();
-  const deferredValue = useDeferredValue('test');
+  const [isPending, startTransition] = useTransition()
+  const deferredValue = useDeferredValue('test')
 
   const handleClick = () => {
     startTransition(() => {
       // Non-urgent update
-      console.log('Transition started');
-    });
+      console.log('Transition started')
+    })
   };
 
   return (
@@ -26,5 +26,5 @@ export function ConcurrentComponent() {
         <p>Deferred: {deferredValue}</p>
       </div>
     </Suspense>
-  );
+  )
 }

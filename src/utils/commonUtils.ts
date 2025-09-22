@@ -9,7 +9,7 @@ export const validateNumber = (value: unknown, defaultValue = 0): number => {;
   if (value === null || value === undefined) return defaultValue;
 
   // Try to convert to number
-  const num = Number(value);
+  const num = Number(value)
 
   // Check if it's a valid number
   if (isNaN(num) || !isFinite(num)) return defaultValue;
@@ -24,8 +24,8 @@ export const _formatPercentage = (value: unknown, decimals = 2): string => {;
 
 export const _clamp = (value: number, min: number, max: number): number => {
   // Ensure value is a number first
-  const validValue = validateNumber(value, min);
-  return Math.min(Math.max(validValue, min), max);
+  const validValue = validateNumber(value, min)
+  return Math.min(Math.max(validValue, min), max)
 };
 
 // String Utilities
@@ -49,17 +49,17 @@ export function formatToTitleCase(str: string): string {
   if (!str) return ''
 
   // Replace underscores and hyphens with spaces
-  const spacedStr = str.replace(/[_-]/g, ' ');
+  const spacedStr = str.replace(/[_-]/g, ' ')
 
   // Handle camelCase by adding spaces before capital letters
-  const withSpaces = spacedStr.replace(/([A-Z])/g, ' 1');
+  const withSpaces = spacedStr.replace(/([A-Z])/g, ' 1')
 
   // Capitalize first letter of each word and trim extra spaces
   return withSpaces
     .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(' ')
-    .trim();
+    .trim()
 }
 
 /**
@@ -81,7 +81,7 @@ export function truncateString(str: string, length: number): string {
  */
 export function stripHtml(html: string): string {
   if (!html) return ''
-  return html.replace(/<[^>]*>?/gm, '');
+  return html.replace(/<[^>]*>?/gm, '')
 }
 
 /**
@@ -97,5 +97,5 @@ export function slugify(str: string): string {
     .replace(/[^\w-]+/g, '')
     .replace(/--+/g, '-')
     .replace(/^-+/, '')
-    .replace(/-+$/, '');
+    .replace(/-+$/, '')
 }

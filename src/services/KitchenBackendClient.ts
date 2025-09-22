@@ -31,13 +31,13 @@ export class KitchenBackendClient {
 
   private async post<T>(path: string, body: unknown): Promise<T | null> {
     if (!this.useBackend || !this.backendUrl) return null;
-    const url = new URL(path, this.backendUrl);
+    const url = new URL(path, this.backendUrl)
     const res = await fetch(url.toString(), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body)
-    });
-    if (!res.ok) throw new Error(`Kitchen backend error ${res.status}`);
+    })
+    if (!res.ok) throw new Error(`Kitchen backend error ${res.status}`)
     return (await res.json()) as T;
   }
 
@@ -49,7 +49,7 @@ export class KitchenBackendClient {
         datetime: ctx.datetime?.toISOString() || new Date().toISOString(),
         location: ctx.location,
         preferences: ctx.preferences
-      });
+      })
     } catch (_err) {
       return null;
     }
@@ -63,7 +63,7 @@ export class KitchenBackendClient {
         datetime: ctx.datetime?.toISOString() || new Date().toISOString(),
         location: ctx.location,
         preferences: ctx.preferences
-      });
+      })
     } catch (_err) {
       return null;
     }
@@ -81,8 +81,8 @@ export class KitchenBackendClient {
           cuisinePreferences: ctx.preferences.cuisineTypes
         };
 
-        const apiRecipes = await alchmAPI.getRecommendations(request);
-        logger.debug('KitchenBackendClient', 'Got recipes from API', { count: apiRecipes.length });
+        const apiRecipes = await alchmAPI.getRecommendations(request)
+        logger.debug('KitchenBackendClient', 'Got recipes from API', { count: apiRecipes.length })
 
         // Transform API recipes to match our Recipe type
         const recipes: Recipe[] = apiRecipes.map((r: APIRecipe) => ({
@@ -90,7 +90,7 @@ export class KitchenBackendClient {
           name: r.name,
           url: r.url || undefined,
           // Add any other required Recipe fields with defaults
-        } as Recipe));
+        } as Recipe))
 
         // Wrap in EnhancedRecommendationResult format
         return {
@@ -108,12 +108,12 @@ export class KitchenBackendClient {
         datetime: ctx.datetime?.toISOString() || new Date().toISOString(),
         location: ctx.location,
         preferences: ctx.preferences
-      });
+      })
     } catch (err) {
-      logger.warn('KitchenBackendClient', 'Failed to get recipe recommendations', err);
+      logger.warn('KitchenBackendClient', 'Failed to get recipe recommendations', err)
       return null;
     }
   }
 }
 
-export const kitchenBackendClient = new KitchenBackendClient();
+export const kitchenBackendClient = new KitchenBackendClient()

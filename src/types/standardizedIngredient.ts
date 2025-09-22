@@ -13,7 +13,7 @@ export type MineralData = string[] | Record<string, number>;
 
 // Standardized nutritional profile that handles all formats
 export interface StandardizedNutritionalProfile {
-  // Basic macros (always numbers);
+  // Basic macros (always numbers)
   calories?: number;
   protein_g?: number;
   carbs_g?: number;
@@ -354,13 +354,13 @@ export interface FruitSpecificProperties {
 
 // Main standardized ingredient interface
 export interface StandardizedIngredient {
-  // Core identification (always required);
+  // Core identification (always required)
   name: string;
   id?: string;
   category: string;
   subCategory?: string;
 
-  // Elemental properties (always required);
+  // Elemental properties (always required)
   elementalProperties: ElementalProperties;
 
   // Basic properties
@@ -368,10 +368,10 @@ export interface StandardizedIngredient {
   season?: Season | Season[];
   seasonality?: Season | Season[];
 
-  // Standardized nutritional profile (handles all formats);
+  // Standardized nutritional profile (handles all formats)
   nutritionalProfile?: StandardizedNutritionalProfile;
 
-  // Standardized culinary applications (flexible structure);
+  // Standardized culinary applications (flexible structure)
   culinaryApplications?: StandardizedCulinaryApplications
 
   // Standardized variety information
@@ -386,7 +386,7 @@ export interface StandardizedIngredient {
   // Standardized health properties
   healthProperties?: StandardizedHealthProperties;
 
-  // Category-specific properties (type-safe extensions);
+  // Category-specific properties (type-safe extensions)
   oilProperties?: OilSpecificProperties;
   spiceProperties?: SpiceSpecificProperties;
   fruitProperties?: FruitSpecificProperties;
@@ -427,7 +427,7 @@ export interface StandardizedIngredient {
 
 // Type guards for safe data access
 export function isVitaminArray(vitamins: VitaminData): vitamins is string[] {
-  return Array.isArray(vitamins);
+  return Array.isArray(vitamins)
 }
 
 export function isVitaminObject(vitamins: VitaminData): vitamins is Record<string, number> {
@@ -435,7 +435,7 @@ export function isVitaminObject(vitamins: VitaminData): vitamins is Record<strin
 }
 
 export function isMineralArray(minerals: MineralData): minerals is string[] {
-  return Array.isArray(minerals);
+  return Array.isArray(minerals)
 }
 
 export function isMineralObject(minerals: MineralData): minerals is Record<string, number> {
@@ -451,7 +451,7 @@ export function safeGetVitamins(profile?: StandardizedNutritionalProfile): strin
   }
 
   if (isVitaminObject(profile.vitamins)) {
-    return Object.keys(profile.vitamins);
+    return Object.keys(profile.vitamins)
   }
 
   return [];
@@ -465,7 +465,7 @@ export function safeGetMinerals(profile?: StandardizedNutritionalProfile): strin
   }
 
   if (isMineralObject(profile.minerals)) {
-    return Object.keys(profile.minerals);
+    return Object.keys(profile.minerals)
   }
 
   return [];
@@ -488,7 +488,7 @@ export function safeGetVitaminValues(
         return acc;
       },
       {} as Record<string, number>,
-    );
+    )
   }
 
   return {};
@@ -511,7 +511,7 @@ export function safeGetMineralValues(
         return acc;
       },
       {} as Record<string, number>,
-    );
+    )
   }
 
   return {};
@@ -536,7 +536,7 @@ export function assessDataCompleteness(ingredient: StandardizedIngredient): Data
   const missingFields: string[]  = [];
   const strengths: string[]  = [];
 
-  // Core properties (30 points);
+  // Core properties (30 points)
   maxScore += 30;
   if (ingredient.name) score += 5;
   if (ingredient.category) score += 5;
@@ -544,7 +544,7 @@ export function assessDataCompleteness(ingredient: StandardizedIngredient): Data
   if (ingredient.qualities?.length) score += 5;
   if (ingredient.season) score += 5;
 
-  // Nutritional data (25 points);
+  // Nutritional data (25 points)
   maxScore += 25;
   if (ingredient.nutritionalProfile) {
     score += 5;
@@ -554,69 +554,69 @@ export function assessDataCompleteness(ingredient: StandardizedIngredient): Data
     if (ingredient.nutritionalProfile.macros) score += 5;
     if (ingredient.nutritionalProfile.antioxidants?.length) score += 3;
     if (ingredient.nutritionalProfile.serving_size) score += 2;
-    strengths.push('Nutritional data');
+    strengths.push('Nutritional data')
   } else {
-    missingFields.push('nutritionalProfile');
+    missingFields.push('nutritionalProfile')
   }
 
-  // Culinary applications (20 points);
+  // Culinary applications (20 points)
   maxScore += 20;
   if (ingredient.culinaryApplications) {
     const methodCount = Object.keys(ingredient.culinaryApplications).length;
-    score += Math.min(20, methodCount * 3);
-    if (methodCount >= 3) strengths.push('Culinary versatility');
+    score += Math.min(20, methodCount * 3)
+    if (methodCount >= 3) strengths.push('Culinary versatility')
   } else {
-    missingFields.push('culinaryApplications');
+    missingFields.push('culinaryApplications')
   }
 
-  // Astrological data (10 points);
+  // Astrological data (10 points)
   maxScore += 10;
   if (ingredient.astrologicalProfile) {
     score += 3;
     if (ingredient.astrologicalProfile.rulingPlanets?.length) score += 2;
     if (ingredient.astrologicalProfile.favorableZodiac?.length) score += 2;
     if (ingredient.astrologicalProfile.lunarPhaseModifiers) score += 3;
-    strengths.push('Astrological correspondences');
+    strengths.push('Astrological correspondences')
   } else {
-    missingFields.push('astrologicalProfile');
+    missingFields.push('astrologicalProfile')
   }
 
-  // Varieties and storage (10 points);
+  // Varieties and storage (10 points)
   maxScore += 10;
   if (ingredient.varieties && Object.keys(ingredient.varieties).length > 0) {
     score += 5;
-    strengths.push('Variety information');
+    strengths.push('Variety information')
   }
   if (ingredient.storage) {
     score += 5;
-    strengths.push('Storage guidance');
+    strengths.push('Storage guidance')
   }
 
-  // Health properties (5 points);
+  // Health properties (5 points)
   maxScore += 5;
   if (ingredient.healthProperties?.benefits?.length) {
     score += 5;
-    strengths.push('Health benefits');
+    strengths.push('Health benefits')
   }
 
-  const overallScore = Math.round((score / maxScore) * 100);
+  const overallScore = Math.round((score / maxScore) * 100)
 
   return {
     overall: overallScore,
     nutrition: ingredient.nutritionalProfile
-      ? Math.round((Object.keys(ingredient.nutritionalProfile).length / 15) * 100);
+      ? Math.round((Object.keys(ingredient.nutritionalProfile).length / 15) * 100)
       : 0,
     culinary: ingredient.culinaryApplications
-      ? Math.round((Object.keys(ingredient.culinaryApplications).length / 10) * 100);
+      ? Math.round((Object.keys(ingredient.culinaryApplications).length / 10) * 100)
       : 0,
     astrology: ingredient.astrologicalProfile ? 85 : 0,
     varieties: ingredient.varieties
-      ? Math.min(100, Object.keys(ingredient.varieties).length * 25);
+      ? Math.min(100, Object.keys(ingredient.varieties).length * 25)
       : 0,
     storage: ingredient.storage ? 90 : 0,
     missingFields,
     strengths,
-    recommendations: generateRecommendations(missingFields, overallScore);
+    recommendations: generateRecommendations(missingFields, overallScore)
   };
 }
 
@@ -624,19 +624,19 @@ function generateRecommendations(_missingFields: string[], score: number): strin
   const recommendations: string[]  = [];
 
   if (score < 50) {
-    recommendations.push('Comprehensive data enhancement needed');
+    recommendations.push('Comprehensive data enhancement needed')
   }
 
   if (missingFields.includes('nutritionalProfile')) {
-    recommendations.push('Add nutritional data for better user guidance');
+    recommendations.push('Add nutritional data for better user guidance')
   }
 
   if (missingFields.includes('culinaryApplications')) {
-    recommendations.push('Add cooking methods and techniques');
+    recommendations.push('Add cooking methods and techniques')
   }
 
   if (missingFields.includes('astrologicalProfile')) {
-    recommendations.push('Add planetary correspondences and lunar phase modifiers');
+    recommendations.push('Add planetary correspondences and lunar phase modifiers')
   }
 
   return recommendations;

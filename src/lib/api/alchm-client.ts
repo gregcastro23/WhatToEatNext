@@ -89,10 +89,10 @@ export class AlchmAPIClient {
   } as const;
 
   private async request<TResponse>(url: string, init?: RequestInit): Promise<TResponse> {
-    const response = await fetch(url, init);
+    const response = await fetch(url, init)
     if (!response.ok) {
       const statusText = response.statusText || 'Unknown Error';
-      throw new Error(`API Error: ${response.status} ${statusText}`);
+      throw new Error(`API Error: ${response.status} ${statusText}`)
     }
     return response.json() as Promise<TResponse>;
   }
@@ -103,7 +103,7 @@ export class AlchmAPIClient {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ingredients }),
-    });
+    })
   }
 
   async calculateThermodynamics(ingredients: string[]): Promise<ThermodynamicsResult> {
@@ -112,7 +112,7 @@ export class AlchmAPIClient {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ingredients }),
-    });
+    })
   }
 
   async getRecommendations(request: RecommendationRequest): Promise<Recipe[]> {
@@ -121,7 +121,7 @@ export class AlchmAPIClient {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(request),
-    });
+    })
   }
 
   async calculateTokenRates(request: TokenRatesRequest): Promise<TokenRatesResult> {
@@ -130,7 +130,7 @@ export class AlchmAPIClient {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(request),
-    });
+    })
   }
 
   async getRuneGuidance(request: RuneAgentRequest): Promise<RuneResult> {
@@ -139,23 +139,23 @@ export class AlchmAPIClient {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(request),
-    });
+    })
   }
 
   async getCurrentPlanetaryHour(request: PlanetaryHourRequest): Promise<PlanetaryHourResult> {
     const url = `${this.endpoints.alchemical}/api/planetary/current`;
-    const params = new URLSearchParams();
-    if (request.datetime) params.set('timestamp', request.datetime);
+    const params = new URLSearchParams()
+    if (request.datetime) params.set('timestamp', request.datetime)
     if (request.location) {
-      params.set('lat', String(request.location.latitude));
-      params.set('lon', String(request.location.longitude));
+      params.set('lat', String(request.location.latitude))
+      params.set('lon', String(request.location.longitude))
     }
 
     return this.request<PlanetaryHourResult>(`${url}?${params.toString()}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
-    });
+    })
   }
 }
 
-export const alchmAPI = new AlchmAPIClient();
+export const alchmAPI = new AlchmAPIClient()

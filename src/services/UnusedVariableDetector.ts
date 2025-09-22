@@ -157,10 +157,10 @@ export interface DetectionOptions {
 // ========== UNUSED VARIABLE DETECTOR ==========
 
 export class UnusedVariableDetector extends EventEmitter {
-  private, detectionResults: Map<string, DetectionResult> = new Map();
-  private, globalSymbolTable: Map<string, Set<string>> = new Map();
-  private, crossFileReferences: Map<string, Set<string>> = new Map();
-  private, isAnalyzing: boolean = false;
+  private detectionResults: Map<string, DetectionResult> = new Map()
+  private globalSymbolTable: Map<string, Set<string>> = new Map()
+  private crossFileReferences: Map<string, Set<string>> = new Map()
+  private isAnalyzing: boolean = false;
   private readonly RESULTS_FILE = '.unused-variable-results.json'
   private readonly EXCLUSION_PATTERNS = [
     'node_modules',
@@ -191,8 +191,8 @@ export class UnusedVariableDetector extends EventEmitter {
   };
 
   constructor() {
-    super();
-    this.loadPersistedData();
+    super()
+    this.loadPersistedData()
   }
 
   // ========== MAIN DETECTION METHODS ==========
@@ -207,42 +207,42 @@ export class UnusedVariableDetector extends EventEmitter {
     const mergedOptions = { ...this.DEFAULT_OPTIONS, ...options };
 
     if (this.isAnalyzing) {
-      throw new Error('Detection already in progress');
+      throw new Error('Detection already in progress')
     }
 
     this.isAnalyzing = true;
-    log.info('🔍 Starting comprehensive unused variable detection...');
+    log.info('🔍 Starting comprehensive unused variable detection...')
 
     try {
       // Build file list
       const files = await this.buildFileList(targetPath, mergedOptions),
-      log.info(`📁 Analyzing ${files.length} files...`);
+      log.info(`📁 Analyzing ${files.length} files...`)
 
       // Build global symbol table
-      await this.buildGlobalSymbolTable(files);
+      await this.buildGlobalSymbolTable(files)
 
       // Detect unused variables in each file
       const results: DetectionResult[] = []
 
       for (const filePath of files) {
-        const result = await this.analyzeFile(filePath, mergedOptions);
+        const result = await this.analyzeFile(filePath, mergedOptions)
         if (result) {
-          results.push(result);
-          this.detectionResults.set(filePath, result);
+          results.push(result)
+          this.detectionResults.set(filePath, result)
         }
       }
 
       // Perform cross-file analysis
-      await this.performCrossFileAnalysis(results, mergedOptions);
+      await this.performCrossFileAnalysis(results, mergedOptions)
 
       // Generate comprehensive recommendations
-      this.generateComprehensiveRecommendations(results);
+      this.generateComprehensiveRecommendations(results)
 
       // Persist results
-      await this.persistResults();
+      await this.persistResults()
 
-      log.info(`✅ Detection completed. Found ${results.length} files with unused variables.`);
-      this.emit('detection-completed', results);
+      log.info(`✅ Detection completed. Found ${results.length} files with unused variables.`)
+      this.emit('detection-completed', results)
 
       return results;
     } catch (error) {
@@ -262,15 +262,15 @@ export class UnusedVariableDetector extends EventEmitter {
     try {
       // Use find command to get TypeScript files
       const excludePaths = options.excludeDirectories
-        .map(dir => `-not -path '*/${dir}/*'`);
-        .join(' ');
+        .map(dir => `-not -path '*/${dir}/*'`)
+        .join(' ')
       const findCommand = `find ${targetPath} -type f \\( -name '*.ts' -o -name '*.tsx' \\) ${excludePaths}`;
 
-      const output = execSync(findCommand, { encoding: 'utf8', timeout: 30000 });
+      const output = execSync(findCommand, { encoding: 'utf8', timeout: 30000 })
       const foundFiles = output;
-        .trim();
-        .split('\n');
-        .filter(f => f.trim());
+        .trim()
+        .split('\n')
+        .filter(f => f.trim())
 
       // Filter out excluded patterns
       for (const file of foundFiles) {
@@ -279,7 +279,7 @@ export class UnusedVariableDetector extends EventEmitter {
         ),
 
         if (!shouldExclude && fs.existsSync(file)) {
-          files.push(path.resolve(file));
+          files.push(path.resolve(file))
         }
       }
 
@@ -294,22 +294,22 @@ export class UnusedVariableDetector extends EventEmitter {
    * Build global symbol table for cross-file analysis
    */
   private async buildGlobalSymbolTable(files: string[]): Promise<void> {
-    log.info('🔍 Building global symbol table...');
+    log.info('🔍 Building global symbol table...')
 
-    this.globalSymbolTable.clear();
-    this.crossFileReferences.clear();
+    this.globalSymbolTable.clear()
+    this.crossFileReferences.clear()
     for (const filePath of files) {
       try {
-        const content = fs.readFileSync(filePath, 'utf8');
-        const symbols = this.extractSymbols(content, filePath);
+        const content = fs.readFileSync(filePath, 'utf8')
+        const symbols = this.extractSymbols(content, filePath)
 
-        this.globalSymbolTable.set(filePath, symbols);
+        this.globalSymbolTable.set(filePath, symbols)
 
         // Extract cross-file references
-        const references = this.extractCrossFileReferences(content);
-        this.crossFileReferences.set(filePath, references);
+        const references = this.extractCrossFileReferences(content)
+        this.crossFileReferences.set(filePath, references)
       } catch (error) {
-        console.warn(`⚠️  Failed to analyze ${filePath}:`, error);
+        console.warn(`⚠️  Failed to analyze ${filePath}:`, error)
       }
     }
   }
@@ -318,7 +318,7 @@ export class UnusedVariableDetector extends EventEmitter {
    * Extract symbols from file content
    */
   private extractSymbols(content: string, _filePath: string): Set<string> {
-    const symbols = new Set<string>();
+    const symbols = new Set<string>()
     // Extract variable declarations
     const variablePatterns = [
       /\b(?:const|let|var)\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/g,
@@ -332,7 +332,7 @@ export class UnusedVariableDetector extends EventEmitter {
     for (const pattern of variablePatterns) {
       let match,
       while ((match = pattern.exec(content)) !== null) {
-        symbols.add(match[1]);
+        symbols.add(match[1])
       }
     }
 
@@ -343,7 +343,7 @@ export class UnusedVariableDetector extends EventEmitter {
    * Extract cross-file references
    */
   private extractCrossFileReferences(content: string): Set<string> {
-    const references = new Set<string>();
+    const references = new Set<string>()
     // Extract import statements
     const importPatterns = [
       /import\s+[^''`]+[''`]([^''`]+)[''`]/g,
@@ -354,7 +354,7 @@ export class UnusedVariableDetector extends EventEmitter {
     for (const pattern of importPatterns) {
       let match,
       while ((match = pattern.exec(content)) !== null) {
-        references.add(match[1]);
+        references.add(match[1])
       }
     }
 
@@ -369,28 +369,28 @@ export class UnusedVariableDetector extends EventEmitter {
     options: DetectionOptions,
   ): Promise<DetectionResult | null> {
     try {
-      const content = fs.readFileSync(filePath, 'utf8');
+      const content = fs.readFileSync(filePath, 'utf8')
 
       const unusedVariables = options.includeVariables;
-        ? this.detectUnusedVariablesInFile(content, filePath);
+        ? this.detectUnusedVariablesInFile(content, filePath)
         : [];
 
       const unusedImports = options.includeImports
-        ? this.detectUnusedImportsInFile(content, filePath);
+        ? this.detectUnusedImportsInFile(content, filePath)
         : [];
 
       const unusedExports = options.includeExports
-        ? this.detectUnusedExportsInFile(content, filePath);
+        ? this.detectUnusedExportsInFile(content, filePath)
         : [],
 
       const deadCodeBlocks = options.includeDeadCode;
-        ? this.detectDeadCodeInFile(content, filePath);
+        ? this.detectDeadCodeInFile(content, filePath)
         : [],
 
       // Filter by confidence threshold
-      const filteredVariables = unusedVariables.filter(;
+      const filteredVariables = unusedVariables.filter(
         v => v.confidence >= options.confidenceThreshold
-      );
+      )
 
       // Generate recommendations
       const recommendations = this.generateRecommendations(
@@ -399,10 +399,10 @@ export class UnusedVariableDetector extends EventEmitter {
         unusedExports,
         deadCodeBlocks,
         options,
-      );
+      )
 
       const totalUnused =
-        filteredVariables.length +;
+        filteredVariables.length +
         unusedImports.length +
         unusedExports.length +
         deadCodeBlocks.length;
@@ -428,14 +428,14 @@ export class UnusedVariableDetector extends EventEmitter {
             deadCodeBlocks,
           ),
           riskLevel: this.calculateRiskLevel(filteredVariables, unusedImports, unusedExports),
-          automationPotential: this.calculateAutomationPotential(recommendations);
+          automationPotential: this.calculateAutomationPotential(recommendations)
         },
-        timestamp: new Date();
+        timestamp: new Date()
       };
 
       return result;
     } catch (error) {
-      console.warn(`⚠️  Failed to analyze ${filePath}:`, error);
+      console.warn(`⚠️  Failed to analyze ${filePath}:`, error)
       return null;
     }
   }
@@ -445,7 +445,7 @@ export class UnusedVariableDetector extends EventEmitter {
    */
   private detectUnusedVariablesInFile(content: string, filePath: string): UnusedVariable[] {
     const unusedVariables: UnusedVariable[] = [];
-    const lines = content.split('\n');
+    const lines = content.split('\n')
     // Find all variable declarations
     const declarations = this.findVariableDeclarations(content, filePath),
 
@@ -467,15 +467,15 @@ export class UnusedVariableDetector extends EventEmitter {
             nearbyCode: this.getNearbyCode(lines, declaration.line),
             containingFunction: this.getContainingFunction(declaration, content),
             containingClass: this.getContainingClass(declaration, content),
-            containingModule: path.basename(filePath);
+            containingModule: path.basename(filePath)
           },
           riskLevel: this.calculateVariableRisk(declaration, usage),
           confidence: this.calculateVariableConfidence(declaration, usage, content),
           estimatedImpact: this.calculateVariableImpact(declaration, usage),
-          lastModified: new Date();
+          lastModified: new Date()
         };
 
-        unusedVariables.push(unusedVar);
+        unusedVariables.push(unusedVar)
       }
     }
 
@@ -502,14 +502,14 @@ export class UnusedVariableDetector extends EventEmitter {
       column: number,
       declarationType: UnusedVariable['declarationType']
     }> = [];
-    const lines = content.split('\n');
+    const lines = content.split('\n')
 
     for (let i = 0i < lines.lengthi++) {
       const line = lines[i];
       const lineNumber = i + 1;
 
       // Variable declarations
-      const varMatches = line.matchAll(/\b(const|let|var)\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/g);
+      const varMatches = line.matchAll(/\b(const|let|var)\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/g)
       for (const match of varMatches) {
         declarations.push({
           name: match[2],
@@ -517,11 +517,11 @@ export class UnusedVariableDetector extends EventEmitter {
           line: lineNumber,
           column: (match.index ?? 0) + match[0].indexOf(match[2]),
           declarationType: match[1] as UnusedVariable['declarationType']
-        });
+        })
       }
 
       // Function declarations
-      const funcMatches = line.matchAll(/\bfunction\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/g);
+      const funcMatches = line.matchAll(/\bfunction\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/g)
       for (const match of funcMatches) {
         declarations.push({
           name: match[1],
@@ -529,11 +529,11 @@ export class UnusedVariableDetector extends EventEmitter {
           line: lineNumber,
           column: (match.index ?? 0) + match[0].indexOf(match[1]),
           declarationType: 'function'
-        });
+        })
       }
 
       // Class declarations
-      const classMatches = line.matchAll(/\bclass\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/g);
+      const classMatches = line.matchAll(/\bclass\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/g)
       for (const match of classMatches) {
         declarations.push({
           name: match[1],
@@ -541,11 +541,11 @@ export class UnusedVariableDetector extends EventEmitter {
           line: lineNumber,
           column: (match.index ?? 0) + match[0].indexOf(match[1]),
           declarationType: 'class'
-        });
+        })
       }
 
       // Interface declarations
-      const interfaceMatches = line.matchAll(/\binterface\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/g);
+      const interfaceMatches = line.matchAll(/\binterface\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/g)
       for (const match of interfaceMatches) {
         declarations.push({
           name: match[1],
@@ -553,7 +553,7 @@ export class UnusedVariableDetector extends EventEmitter {
           line: lineNumber,
           column: (match.index ?? 0) + match[0].indexOf(match[1]),
           declarationType: 'interface'
-        });
+        })
       }
     }
 
@@ -570,15 +570,15 @@ export class UnusedVariableDetector extends EventEmitter {
     const name = declaration.name;
 
     // Remove the declaration line to avoid false positives
-    const lines = content.split('\n');
+    const lines = content.split('\n')
     const contentWithoutDeclaration = lines
       .map((line, index) => (index === declaration.line - 1 ? '' : line)),
-      .join('\n');
+      .join('\n')
 
     // Check for different types of usage
-    const assigned = this.checkAssignment(name, contentWithoutDeclaration);
-    const read = this.checkRead(name, contentWithoutDeclaration);
-    const called = this.checkFunctionCall(name, contentWithoutDeclaration);
+    const assigned = this.checkAssignment(name, contentWithoutDeclaration)
+    const read = this.checkRead(name, contentWithoutDeclaration)
+    const called = this.checkFunctionCall(name, contentWithoutDeclaration)
     const exported = this.checkExported(name, content),
     const imported = this.checkImported(name, content),
 
@@ -605,10 +605,10 @@ export class UnusedVariableDetector extends EventEmitter {
       new RegExp(`\\b${name}\\+\\+`, 'g'),
       new RegExp(`\\+\\+${name}\\b`, 'g'),
       new RegExp(`\\b${name}--`, 'g'),
-      new RegExp(`--${name}\\b`, 'g');
+      new RegExp(`--${name}\\b`, 'g')
     ];
 
-    return assignmentPatterns.some(pattern => pattern.test(content));
+    return assignmentPatterns.some(pattern => pattern.test(content))
   }
 
   /**
@@ -633,7 +633,7 @@ export class UnusedVariableDetector extends EventEmitter {
       new RegExp(`\\bthrow\\s+[^,]*\\b${name}\\b`), // Throw statement
     ];
 
-    return readPatterns.some(pattern => pattern.test(content));
+    return readPatterns.some(pattern => pattern.test(content))
   }
 
   /**
@@ -648,7 +648,7 @@ export class UnusedVariableDetector extends EventEmitter {
       new RegExp(`new\\s+${name}\\s*\\(`, 'g'), // Constructor call
     ];
 
-    return callPatterns.some(pattern => pattern.test(content));
+    return callPatterns.some(pattern => pattern.test(content))
   }
 
   /**
@@ -661,10 +661,10 @@ export class UnusedVariableDetector extends EventEmitter {
       new RegExp(`export\\s+default\\s+${name}\\b`, 'g'),
       new RegExp(`module\\.exports\\s*=\\s*[^,]*\\b${name}\\b`, 'g'),
       new RegExp(`module\\.exports\\.${name}\\b`, 'g'),
-      new RegExp(`exports\\.${name}\\b`, 'g');
+      new RegExp(`exports\\.${name}\\b`, 'g')
     ];
 
-    return exportPatterns.some(pattern => pattern.test(content));
+    return exportPatterns.some(pattern => pattern.test(content))
   }
 
   /**
@@ -676,10 +676,10 @@ export class UnusedVariableDetector extends EventEmitter {
       new RegExp(`import\\s+${name}\\b`, 'g'),
       new RegExp(`import\\s+\\*\\s+as\\s+${name}\\b`, 'g'),
       new RegExp(`const\\s+${name}\\s*=\\s*require\\s*\\(`, 'g'),
-      new RegExp(`const\\s+\\{[^}]*\\b${name}\\b[^}]*\\}\\s*=\\s*require\\s*\\(`, 'g');
+      new RegExp(`const\\s+\\{[^}]*\\b${name}\\b[^}]*\\}\\s*=\\s*require\\s*\\(`, 'g')
     ];
 
-    return importPatterns.some(pattern => pattern.test(content));
+    return importPatterns.some(pattern => pattern.test(content))
   }
 
   /**
@@ -687,7 +687,7 @@ export class UnusedVariableDetector extends EventEmitter {
    */
   private detectUnusedImportsInFile(content: string, filePath: string): UnusedImport[] {
     const unusedImports: UnusedImport[] = [];
-    const lines = content.split('\n');
+    const lines = content.split('\n')
 
     for (let i = 0i < lines.lengthi++) {
       const line = lines[i];
@@ -718,7 +718,7 @@ export class UnusedVariableDetector extends EventEmitter {
 
         if (namedImports) {
           // Named imports
-          const imports = namedImports.split(',').map(imp => imp.trim());
+          const imports = namedImports.split(',').map(imp => imp.trim())
           for (const imp of imports) {
             const importName = imp.includes(' as ') ? imp.split(' as ')[1].trim() : imp
             const usageCount = this.countUsage(importName, content, lineNumber),
@@ -781,7 +781,7 @@ export class UnusedVariableDetector extends EventEmitter {
       isTypeOnly: this.isTypeOnlyImport(importName, importPath),
       isDevelopmentOnly: this.isDevelopmentOnlyImport(importPath),
       relatedExports: [],
-      estimatedSavings: this.calculateImportSavings(importPath);
+      estimatedSavings: this.calculateImportSavings(importPath)
     };
   }
 
@@ -789,13 +789,13 @@ export class UnusedVariableDetector extends EventEmitter {
    * Count usage of identifier
    */
   private countUsage(identifier: string, content: string, declarationLine: number): number {
-    const lines = content.split('\n');
+    const lines = content.split('\n')
     const contentWithoutDeclaration = lines
       .map((line, index) => (index === declarationLine - 1 ? '' : line)),
-      .join('\n');
+      .join('\n')
 
-    const usageRegex = new RegExp(`\\b${identifier}\\b`, 'g');
-    const matches = contentWithoutDeclaration.match(usageRegex);
+    const usageRegex = new RegExp(`\\b${identifier}\\b`, 'g')
+    const matches = contentWithoutDeclaration.match(usageRegex)
     return matches ? matches.length : 0
   }
 
@@ -804,7 +804,7 @@ export class UnusedVariableDetector extends EventEmitter {
    */
   private detectUnusedExportsInFile(content: string, filePath: string): UnusedExport[] {
     const unusedExports: UnusedExport[] = [];
-    const lines = content.split('\n');
+    const lines = content.split('\n')
 
     for (let i = 0i < lines.lengthi++) {
       const line = lines[i];
@@ -813,11 +813,11 @@ export class UnusedVariableDetector extends EventEmitter {
       // Match export statements
       const exportMatches = line.matchAll(
         /export\s+(?:default\s+)?(?:(?:const|let|var|function|class|interface|type)\s+)?(\w+)/g,
-      );
+      )
 
       for (const match of exportMatches) {
         const exportName = match[1];
-        const isDefault = line.includes('export default');
+        const isDefault = line.includes('export default')
 
         // Check if export is used elsewhere
         const usageCount = this.countExportUsage(exportName, filePath),
@@ -832,8 +832,8 @@ export class UnusedVariableDetector extends EventEmitter {
             isPublicAPI: this.isPublicAPI(exportName, filePath),
             usageCount,
             potentialUsers: [],
-            removalSafety: this.calculateRemovalSafety(exportName, filePath);
-          });
+            removalSafety: this.calculateRemovalSafety(exportName, filePath)
+          })
         }
       }
     }
@@ -854,7 +854,7 @@ export class UnusedVariableDetector extends EventEmitter {
         const content = fs.readFileSync(otherFilePath, 'utf8'),
         const importPattern = new RegExp(
           `import\\s+[^'']*\\b${exportName}\\b[^'']*[''][^'"]*${path.basename(filePath, path.extname(filePath))}`,
-        );
+        )
 
         if (importPattern.test(content)) {
           usageCount++
@@ -872,15 +872,15 @@ export class UnusedVariableDetector extends EventEmitter {
    */
   private detectDeadCodeInFile(content: string, filePath: string): DeadCodeBlock[] {
     const deadCodeBlocks: DeadCodeBlock[] = [];
-    const lines = content.split('\n');
+    const lines = content.split('\n')
 
     // Look for unreachable code patterns
     for (let i = 0i < lines.lengthi++) {
-      const line = lines[i].trim();
+      const line = lines[i].trim()
 
       // Code after return statements
       if (line.startsWith('return') && i < lines.length - 1) {
-        const nextLine = lines[i + 1].trim();
+        const nextLine = lines[i + 1].trim()
         if (nextLine && !nextLine.startsWith('}') && !nextLine.startsWith('//')) {
           deadCodeBlocks.push({
             blockId: `dead_${i + 1}`,
@@ -894,7 +894,7 @@ export class UnusedVariableDetector extends EventEmitter {
             dependencies: [],
             isReachable: false,
             estimatedRemovalBenefit: 0.3
-          });
+          })
         }
       }
 
@@ -913,7 +913,7 @@ export class UnusedVariableDetector extends EventEmitter {
           dependencies: [],
           isReachable: false,
           estimatedRemovalBenefit: 0.5
-        });
+        })
       }
     }
 
@@ -943,7 +943,7 @@ export class UnusedVariableDetector extends EventEmitter {
       }
     }
 
-    return Math.min(startIndex + 10, lines.length);
+    return Math.min(startIndex + 10, lines.length)
   }
 
   // ========== HELPER METHODS ==========
@@ -969,22 +969,22 @@ export class UnusedVariableDetector extends EventEmitter {
   }
 
   private getNearbyCode(lines: string[], lineNumber: number): string {
-    const start = Math.max(0, lineNumber - 3);
+    const start = Math.max(0, lineNumber - 3)
     const end = Math.min(lines.length, lineNumber + 2),
-    return lines.slice(start, end).join('\n');
+    return lines.slice(start, end).join('\n')
   }
 
   private getContainingFunction(
     declaration: { line: number, [key: string]: unknown },
     content: string,
   ): string | undefined {
-    const lines = content.split('\n');
+    const lines = content.split('\n')
     const declarationLine = declaration.line;
 
     // Look backwards for function declaration
     for (let i = declarationLine - 1i >= 0i--) {
       const line = lines[i];
-      const functionMatch = line.match(/function\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/);
+      const functionMatch = line.match(/function\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/)
       if (functionMatch) {
         return functionMatch[1]
       }
@@ -997,13 +997,13 @@ export class UnusedVariableDetector extends EventEmitter {
     declaration: { line: number, [key: string]: unknown },
     content: string,
   ): string | undefined {
-    const lines = content.split('\n');
+    const lines = content.split('\n')
     const declarationLine = declaration.line;
 
     // Look backwards for class declaration
     for (let i = declarationLine - 1i >= 0i--) {
       const line = lines[i];
-      const classMatch = line.match(/class\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/);
+      const classMatch = line.match(/class\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/)
       if (classMatch) {
         return classMatch[1]
       }
@@ -1053,7 +1053,7 @@ export class UnusedVariableDetector extends EventEmitter {
       confidence -= 0.2;
     }
 
-    return Math.max(0.1, Math.min(1.0, confidence));
+    return Math.max(0.1, Math.min(1.0, confidence))
   }
 
   private calculateVariableImpact(
@@ -1079,19 +1079,19 @@ export class UnusedVariableDetector extends EventEmitter {
     return (
       importPath.includes('@types/') ||
       importName.endsWith('Type') ||
-      importName.endsWith('Interface');
+      importName.endsWith('Interface')
     )
   }
 
   private isDevelopmentOnlyImport(importPath: string): boolean {
     const devPatterns = ['@types/', 'jest', 'test', 'spec', 'mock', 'debug', 'dev'],
-    return devPatterns.some(pattern => importPath.includes(pattern));
+    return devPatterns.some(pattern => importPath.includes(pattern))
   }
 
   private calculateImportSavings(importPath: string): UnusedImport['estimatedSavings'] {
     // Simple heuristic for import savings
     const isLargeLibrary = ['lodash', 'moment', 'rxjs', 'react'].some(lib =>,
-      importPath.includes(lib);
+      importPath.includes(lib)
     ),
 
     return {
@@ -1103,7 +1103,7 @@ export class UnusedVariableDetector extends EventEmitter {
 
   private isPublicAPI(exportName: string, filePath: string): boolean {
     return (
-      filePath.includes('index.ts') || filePath.includes('api/') || filePath.includes('public/');
+      filePath.includes('index.ts') || filePath.includes('api/') || filePath.includes('public/')
     )
   }
 
@@ -1129,7 +1129,7 @@ export class UnusedVariableDetector extends EventEmitter {
     blocks: DeadCodeBlock[],
   ): number {
     const variableSavings = variables.length * 50 // 50 bytes per variable
-    const importSavings = imports.reduce((sum, imp) => sum + imp.estimatedSavings.bundleSize, 0);
+    const importSavings = imports.reduce((sum, imp) => sum + imp.estimatedSavings.bundleSize, 0)
     const exportSavings = exports.length * 30; // 30 bytes per export
     const blockSavings = blocks.reduce(
       (sum, block) => sum + (block.endLine - block.startLine) * 200,
@@ -1144,7 +1144,7 @@ export class UnusedVariableDetector extends EventEmitter {
     exports: UnusedExport[],
   ): 'low' | 'medium' | 'high' {
     const highRiskCount =
-      variables.filter(v => v.riskLevel === 'high').length +;
+      variables.filter(v => v.riskLevel === 'high').length +
       exports.filter(e => e.removalSafety === 'dangerous').length;
 
     if (highRiskCount > 5) return 'high'
@@ -1190,7 +1190,7 @@ export class UnusedVariableDetector extends EventEmitter {
           automationPossible: variable.riskLevel === 'low' && variable.confidence > 0.9,
           dependencies: [],
           implementation: [`Remove line ${variable.line} in ${variable.filePath}`]
-        });
+        })
       }
     }
 
@@ -1213,7 +1213,7 @@ export class UnusedVariableDetector extends EventEmitter {
         automationPossible: true,
         dependencies: [],
         implementation: [`Remove import on line ${importItem.line} in ${importItem.filePath}`]
-      });
+      })
     }
 
     // Export recommendations
@@ -1237,7 +1237,7 @@ export class UnusedVariableDetector extends EventEmitter {
           automationPossible: exportItem.removalSafety === 'safe',,
           dependencies: [],
           implementation: [`Remove export on line ${exportItem.line} in ${exportItem.filePath}`]
-        });
+        })
       }
     }
 
@@ -1260,7 +1260,7 @@ export class UnusedVariableDetector extends EventEmitter {
         automationPossible: !block.isReachable,
         dependencies: block.dependencies,
         implementation: [`Remove lines ${block.startLine}-${block.endLine} in ${block.filePath}`]
-      });
+      })
     }
 
     // Sort by priority and estimated benefit
@@ -1271,16 +1271,16 @@ export class UnusedVariableDetector extends EventEmitter {
       if (priorityDiff !== 0) return priorityDiff;
 
       const totalBenefitA =
-        a.estimatedBenefit.bundleSize +;
+        a.estimatedBenefit.bundleSize +
         a.estimatedBenefit.performance +
         a.estimatedBenefit.maintainability;
       const totalBenefitB =
-        b.estimatedBenefit.bundleSize +;
+        b.estimatedBenefit.bundleSize +
         b.estimatedBenefit.performance +
         b.estimatedBenefit.maintainability;
 
       return totalBenefitB - totalBenefitA;
-    });
+    })
   }
 
   // ========== CROSS-FILE ANALYSIS ==========
@@ -1289,13 +1289,13 @@ export class UnusedVariableDetector extends EventEmitter {
     results: DetectionResult[],
     options: DetectionOptions,
   ): Promise<void> {
-    log.info('🔍 Performing cross-file analysis...');
+    log.info('🔍 Performing cross-file analysis...')
     // Update usage counts based on cross-file references
     for (const result of results) {
       for (const unusedVar of result.unusedVariables) {
         if (unusedVar.usage.exported) {
           // Check if this exported variable is used in other files
-          const actualUsage = this.countCrossFileUsage(unusedVar.name, result.filePath);
+          const actualUsage = this.countCrossFileUsage(unusedVar.name, result.filePath)
           if (actualUsage > 0) {
             unusedVar.usage.read = true;
             unusedVar.confidence *= 0.5, // Lower confidence if used elsewhere
@@ -1306,11 +1306,11 @@ export class UnusedVariableDetector extends EventEmitter {
   }
 
   private countCrossFileUsage(exportName: string, filePath: string): number {
-    return this.countExportUsage(exportName, filePath);
+    return this.countExportUsage(exportName, filePath)
   }
 
   private generateComprehensiveRecommendations(results: DetectionResult[]): void {
-    log.info('💡 Generating comprehensive recommendations...');
+    log.info('💡 Generating comprehensive recommendations...')
     // Could add cross-file recommendations here
     // For now, individual file recommendations are sufficient
   }
@@ -1324,35 +1324,35 @@ export class UnusedVariableDetector extends EventEmitter {
     filePath: string,
     options: { safeOnly: boolean, dryRun: boolean } = { safeOnly: true, dryRun: true },
   ): Promise<{ success: boolean, changes: string[], warnings: string[] }> {
-    const result = this.detectionResults.get(filePath);
+    const result = this.detectionResults.get(filePath)
     if (!result) {
-      throw new Error(`No detection results found for ${filePath}`);
+      throw new Error(`No detection results found for ${filePath}`)
     }
 
     const changes: string[] = [];
     const warnings: string[] = [];
 
     if (options.dryRun) {
-      log.info('🧪 Performing dry run cleanup...');
+      log.info('🧪 Performing dry run cleanup...')
     } else {
-      log.info('🔧 Performing automated cleanup...');
+      log.info('🔧 Performing automated cleanup...')
     }
 
     try {
-      const content = fs.readFileSync(filePath, 'utf8');
-      const lines = content.split('\n');
+      const content = fs.readFileSync(filePath, 'utf8')
+      const lines = content.split('\n')
 
       // Process recommendations in reverse order to avoid line number shifts
       const automatable = result.recommendations;
-        .filter(r => r.automationPossible && (!options.safeOnly || r.risks.length === 0));
+        .filter(r => r.automationPossible && (!options.safeOnly || r.risks.length === 0))
         .sort((ab) => {
-          const aLine = this.extractLineNumber(a.implementation[0]);
-          const bLine = this.extractLineNumber(b.implementation[0]);
+          const aLine = this.extractLineNumber(a.implementation[0])
+          const bLine = this.extractLineNumber(b.implementation[0])
           return bLine - aLine
-        });
+        })
 
       for (const recommendation of automatable) {
-        const lineNumber = this.extractLineNumber(recommendation.implementation[0]);
+        const lineNumber = this.extractLineNumber(recommendation.implementation[0])
         if (lineNumber > 0 && lineNumber <= lines.length) {
           if (!options.dryRun) {
             lines[lineNumber - 1] = '', // Remove the line
@@ -1360,14 +1360,14 @@ export class UnusedVariableDetector extends EventEmitter {
 
           changes.push(
             `Removed ${recommendation.type} '${recommendation.target}' on line ${lineNumber}`,
-          );
+          )
         }
       }
 
       if (!options.dryRun) {
         // Write modified content
         const cleanedContent = lines.join('\n').replace(/\n\s*\n\s*\n/g, '\n\n'), // Remove extra blank lines;
-        fs.writeFileSync(filePath, cleanedContent);
+        fs.writeFileSync(filePath, cleanedContent)
       }
 
       return { success: true, changes, warnings };
@@ -1383,7 +1383,7 @@ export class UnusedVariableDetector extends EventEmitter {
   }
 
   private extractLineNumber(implementation: string): number {
-    const match = implementation.match(/line (\d+)/);
+    const match = implementation.match(/line (\d+)/)
     return match ? parseInt(match[1]) : 0
   }
 
@@ -1395,33 +1395,33 @@ export class UnusedVariableDetector extends EventEmitter {
         results: Array.from(this.detectionResults.entries()),
         globalSymbolTable: Array.from(this.globalSymbolTable.entries()),
         crossFileReferences: Array.from(this.crossFileReferences.entries()),
-        timestamp: new Date().toISOString();
+        timestamp: new Date().toISOString()
       };
 
-      await fs.promises.writeFile(this.RESULTS_FILE, JSON.stringify(data, null, 2));
+      await fs.promises.writeFile(this.RESULTS_FILE, JSON.stringify(data, null, 2))
     } catch (error) {
-      console.error('❌ Failed to persist results:', error);
+      console.error('❌ Failed to persist results:', error)
     }
   }
 
   private loadPersistedData(): void {
     try {
       if (fs.existsSync(this.RESULTS_FILE)) {
-        const data = JSON.parse(fs.readFileSync(this.RESULTS_FILE, 'utf8'));
+        const data = JSON.parse(fs.readFileSync(this.RESULTS_FILE, 'utf8'))
 
-        this.detectionResults = new Map(data.results || []);
-        this.globalSymbolTable = new Map(data.globalSymbolTable || []);
-        this.crossFileReferences = new Map(data.crossFileReferences || []);
+        this.detectionResults = new Map(data.results || [])
+        this.globalSymbolTable = new Map(data.globalSymbolTable || [])
+        this.crossFileReferences = new Map(data.crossFileReferences || [])
       }
     } catch (error) {
-      console.error('⚠️  Failed to load persisted data:', error);
+      console.error('⚠️  Failed to load persisted data:', error)
     }
   }
 
   // ========== PUBLIC API ==========
 
   getDetectionResults(): DetectionResult[] {
-    return Array.from(this.detectionResults.values());
+    return Array.from(this.detectionResults.values())
   }
 
   getResultForFile(filePath: string): DetectionResult | null {
@@ -1437,7 +1437,7 @@ export class UnusedVariableDetector extends EventEmitter {
     estimatedSavings: number,
     automationPotential: number
   } {
-    const results = this.getDetectionResults();
+    const results = this.getDetectionResults()
 
     return {
       totalFiles: results.length,
@@ -1452,12 +1452,12 @@ export class UnusedVariableDetector extends EventEmitter {
   }
 
   clearResults(): void {
-    this.detectionResults.clear();
-    this.globalSymbolTable.clear();
-    this.crossFileReferences.clear();
+    this.detectionResults.clear()
+    this.globalSymbolTable.clear()
+    this.crossFileReferences.clear()
 
     if (fs.existsSync(this.RESULTS_FILE)) {
-      fs.unlinkSync(this.RESULTS_FILE);
+      fs.unlinkSync(this.RESULTS_FILE)
     }
   }
 
@@ -1466,10 +1466,10 @@ export class UnusedVariableDetector extends EventEmitter {
     resultsCount: number,
     lastAnalysis?: Date
   } {
-    const results = this.getDetectionResults();
+    const results = this.getDetectionResults()
     const lastAnalysis =
       results.length > 0;
-        ? new Date(Math.max(...results.map(r => r.timestamp.getTime())));
+        ? new Date(Math.max(...results.map(r => r.timestamp.getTime())))
         : undefined,
 
     return {
@@ -1482,8 +1482,8 @@ export class UnusedVariableDetector extends EventEmitter {
 
 // ========== SINGLETON INSTANCE ==========
 
-export const _unusedVariableDetector = new UnusedVariableDetector();
+export const _unusedVariableDetector = new UnusedVariableDetector()
 
 // ========== EXPORT FACTORY ==========
 
-export const _createUnusedVariableDetector = () => new UnusedVariableDetector();
+export const _createUnusedVariableDetector = () => new UnusedVariableDetector()

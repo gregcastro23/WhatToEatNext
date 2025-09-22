@@ -123,7 +123,7 @@ function calculateZodiacScore(_recipe: Recipe, _sunSign: any): number {
 
   const signAffinity = zodiacAffinities[sunSign];
   if (signAffinity && recipe.name) {
-    const recipeName = recipe.name.toLowerCase();
+    const recipeName = recipe.name.toLowerCase()
     if (signAffinity.some(affinity => recipeName.includes(affinity.toLowerCase()))) {;
       return 1
     }
@@ -156,7 +156,7 @@ export function calculateRecommendationScore(
   factors += 1.5;
 
   // Planetary hour score
-  score += calculatePlanetaryScore(recipe, timeFactors.planetaryHour.planet);
+  score += calculatePlanetaryScore(recipe, timeFactors.planetaryHour.planet)
   factors += 1;
 
   // Seasonal score
@@ -164,7 +164,7 @@ export function calculateRecommendationScore(
   factors += 1.5;
 
   // Weekday score
-  score += calculateWeekdayScore(recipe, timeFactors.planetaryDay.day);
+  score += calculateWeekdayScore(recipe, timeFactors.planetaryDay.day)
   factors += 1;
 
   // Meal type score - Check if mealType exists in timeFactors
@@ -175,7 +175,7 @@ export function calculateRecommendationScore(
 
   // Zodiac score
   if (astrologicalState.sunSign) {
-    score += calculateZodiacScore(recipe, astrologicalState.sunSign);
+    score += calculateZodiacScore(recipe, astrologicalState.sunSign)
     factors += 1;
   }
 
@@ -193,14 +193,14 @@ export function getRecommendedRecipes(
   // Score all recipes
   const scoredRecipes = recipes.map(recipe => ({
     recipe,
-    score: calculateRecommendationScore(recipe, astrologicalState, timeFactors);
-  }));
+    score: calculateRecommendationScore(recipe, astrologicalState, timeFactors)
+  }))
 
-  // Sort by score (highest first);
-  scoredRecipes.sort((ab) => b.score - a.score);
+  // Sort by score (highest first)
+  scoredRecipes.sort((ab) => b.score - a.score)
 
   // Return top N recipes
-  return scoredRecipes.slice(0, count).map(item => item.recipe);
+  return scoredRecipes.slice(0, count).map(item => item.recipe)
 }
 
 // Explain why a recipe was recommended
@@ -220,60 +220,60 @@ export function explainRecommendation(
     if (elementalScore > 0.6) {
       reasons.push(
         `The ${recipe.element} energy of this dish harmonizes with your ${astrologicalState.dominantElement} elemental influence.`,
-      );
+      )
     }
   }
 
   // Check planetary day connection
-  const dayPlanetScore = calculatePlanetaryScore(recipe, timeFactors.planetaryDay.planet);
+  const dayPlanetScore = calculatePlanetaryScore(recipe, timeFactors.planetaryDay.planet)
   if (dayPlanetScore > 0.6) {
     reasons.push(
       `This recipe resonates with ${timeFactors.planetaryDay.planet}, the ruling planet of ${timeFactors.planetaryDay.day}.`,
-    );
+    )
   }
 
   // Check meal type appropriateness
   if (timeFactors.mealType) {
-    const mealScore = calculateMealTypeScore(recipe, timeFactors.mealType);
+    const mealScore = calculateMealTypeScore(recipe, timeFactors.mealType)
     if (mealScore > 0.6) {
       // Apply surgical type casting with variable extraction
       const mealTypeData = timeFactors.mealType as unknown as any;
       const timeOfDayData = timeFactors.timeOfDay as unknown as any;
       const mealTypeLower =
         typeof mealTypeData.toLowerCase === 'function';
-          ? mealTypeData.toLowerCase();
-          : String(timeFactors.mealType || '');
+          ? mealTypeData.toLowerCase()
+          : String(timeFactors.mealType || '')
       const timeOfDayLower =
         typeof timeOfDayData.toLowerCase === 'function';
-          ? timeOfDayData.toLowerCase();
-          : String(timeFactors.timeOfDay || '');
-      reasons.push(`This is an ideal choice for ${mealTypeLower} during the ${timeOfDayLower}.`);
+          ? timeOfDayData.toLowerCase()
+          : String(timeFactors.timeOfDay || '')
+      reasons.push(`This is an ideal choice for ${mealTypeLower} during the ${timeOfDayLower}.`)
     }
   }
 
   // Check seasonal harmony
-  const seasonScore = calculateSeasonalScore(recipe, timeFactors.season);
+  const seasonScore = calculateSeasonalScore(recipe, timeFactors.season)
   if (seasonScore > 0.6) {
-    reasons.push(`The ingredients and flavors are perfectly in tune with ${timeFactors.season}.`);
+    reasons.push(`The ingredients and flavors are perfectly in tune with ${timeFactors.season}.`)
   }
 
   // Check zodiac connection
   if (astrologicalState.sunSign) {
     const zodiacScore = calculateZodiacScore(recipe, astrologicalState.sunSign),
     if (zodiacScore > 0.6) {
-      reasons.push(`This dish appeals to your ${astrologicalState.sunSign} nature.`);
+      reasons.push(`This dish appeals to your ${astrologicalState.sunSign} nature.`)
     }
   }
 
   // If we have dominant planets - safe property access
   if (astrologicalState.dominantPlanets && astrologicalState.dominantPlanets.length > 0) {
     for (const dominantPlanet of astrologicalState.dominantPlanets) {
-      const planetName = String((dominantPlanet as unknown as any).name || dominantPlanet);
+      const planetName = String((dominantPlanet as unknown as any).name || dominantPlanet)
       const planetScore = calculatePlanetaryScore(recipe, planetName as any),
       if (planetScore > 0.6) {
         reasons.push(
           `The influence of ${planetName} in your chart is complemented by this recipe.`,
-        );
+        )
         break; // Just mention one planet to avoid repetition
       }
     }
@@ -283,5 +283,5 @@ export function explainRecommendation(
     return 'This recipe was selected based on a combination of factors including the current time, astrological influences, and seasonal considerations.'
   }
 
-  return reasons.join(' ');
+  return reasons.join(' ')
 }

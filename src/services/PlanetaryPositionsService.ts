@@ -3,7 +3,7 @@ import {_getAccuratePlanetaryPositions as engGetAccurate} from '@/utils/astrolog
 import type { PlanetPosition } from '@/utils/astrologyUtils';
 import {createLogger} from '@/utils/logger';
 
-const logger = createLogger('PlanetaryPositionsService');
+const logger = createLogger('PlanetaryPositionsService')
 
 type PositionRecord = Record<string, PlanetPosition>;
 
@@ -22,7 +22,7 @@ function makeKey(date?: Date, lat?: number, lon?: number, system?: 'tropical' | 
     lat: typeof lat === 'number' ? Number(lat.toFixed(3)) : undefined,
     lon: typeof lon === 'number' ? Number(lon.toFixed(3)) : undefined,
     sys: system || 'tropical'
-  });
+  })
 }
 
 function isFresh(entry: CacheEntry | null, key: string): entry is CacheEntry {
@@ -39,7 +39,7 @@ function normalizeFromEngine(raw: Record<string, { sign: any; degree: number; ex
       exactLongitude: Number(p?.exactLongitude || 0),
       isRetrograde: !!p?.isRetrograde
     };
-  });
+  })
   return out;
 }
 
@@ -48,18 +48,18 @@ export class PlanetaryPositionsService {
     location?: { latitude: number, longitude: number },
     zodiacSystem: 'tropical' | 'sidereal' = 'tropical'
   ): Promise<PositionRecord> {
-    const key = makeKey(undefined, location?.latitude, location?.longitude, zodiacSystem);
+    const key = makeKey(undefined, location?.latitude, location?.longitude, zodiacSystem)
     if (isFresh(cache, key)) return cache.positions;
 
     try {
       // Primary: local astrologize API wrapper
-      const positions = await apiGetCurrent(location, zodiacSystem);
+      const positions = await apiGetCurrent(location, zodiacSystem)
       cache = { key, positions, timestamp: Date.now() };
       return positions;
     } catch (err) {
-      logger.warn('Primary current positions failed, falling back to engine', err);
-      const raw = engGetAccurate(new Date());
-      const norm = normalizeFromEngine(raw as any);
+      logger.warn('Primary current positions failed, falling back to engine', err)
+      const raw = engGetAccurate(new Date())
+      const norm = normalizeFromEngine(raw as any)
       cache = { key, positions: norm, timestamp: Date.now() };
       return norm;
     }
@@ -70,22 +70,22 @@ export class PlanetaryPositionsService {
     location?: { latitude: number, longitude: number },
     zodiacSystem: 'tropical' | 'sidereal' = 'tropical'
   ): Promise<PositionRecord> {
-    const key = makeKey(date, location?.latitude, location?.longitude, zodiacSystem);
+    const key = makeKey(date, location?.latitude, location?.longitude, zodiacSystem)
     if (isFresh(cache, key)) return cache.positions;
 
     try {
       // Primary: local astrologize API wrapper
-      const positions = await getPlanetaryPositionsForDateTime(date, location, zodiacSystem);
+      const positions = await getPlanetaryPositionsForDateTime(date, location, zodiacSystem)
       cache = { key, positions, timestamp: Date.now() };
       return positions;
     } catch (err) {
-      logger.warn('Primary dated positions failed, falling back to engine', err);
-      const raw = engGetAccurate(date);
-      const norm = normalizeFromEngine(raw as any);
+      logger.warn('Primary dated positions failed, falling back to engine', err)
+      const raw = engGetAccurate(date)
+      const norm = normalizeFromEngine(raw as any)
       cache = { key, positions: norm, timestamp: Date.now() };
       return norm;
     }
   }
 }
 
-export const _planetaryPositionsService = new PlanetaryPositionsService();
+export const _planetaryPositionsService = new PlanetaryPositionsService()

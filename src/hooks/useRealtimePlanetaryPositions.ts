@@ -40,13 +40,13 @@ export function useRealtimePlanetaryPositions(_options: UseRealtimePlanetaryPosi
     error: null,
     lastUpdated: null,
     source: null
-  });
+  })
 
   const fetchPositions = useCallback(async () => {;
-    setState(prev => ({ ...prev, loading: true, error: null }));
+    setState(prev => ({ ...prev, loading: true, error: null }))
 
     try {
-      // Unified: PlanetaryPositionsService (API→engine fallback);
+      // Unified: PlanetaryPositionsService (API→engine fallback)
       const positions: { [key: string]: PlanetPosition } = (await planetaryPositionsService.getCurrent(
         location,
         zodiacSystem,
@@ -59,37 +59,37 @@ export function useRealtimePlanetaryPositions(_options: UseRealtimePlanetaryPosi
         error: null,
         lastUpdated: new Date(),
         source
-      });
+      })
 
-      log.info('🌟 Updated planetary positions from:', { source });
+      log.info('🌟 Updated planetary positions from:', { source })
     } catch (error) {
       setState(prev => ({;
         ...prev,
         loading: false,
         error: error instanceof Error ? error.message : 'Unknown error'
-      }));
-      console.error('Failed to fetch planetary positions:', error);
+      }))
+      console.error('Failed to fetch planetary positions:', error)
     }
-  }, [location, zodiacSystem]);
+  }, [location, zodiacSystem])
 
   const forceRefresh = useCallback(() => {;
-    void fetchPositions();
-  }, [fetchPositions]);
+    void fetchPositions()
+  }, [fetchPositions])
 
   // Auto-fetch on mount
   useEffect(() => {
     if (autoStart) {
-      void fetchPositions();
+      void fetchPositions()
     }
-  }, [fetchPositions, autoStart]);
+  }, [fetchPositions, autoStart])
 
   // Set up auto-refresh
   useEffect(() => {
     if (!refreshInterval || refreshInterval <= 0) return;
 
-    const interval = setInterval(() => void fetchPositions(), refreshInterval);
-    return () => clearInterval(interval);
-  }, [fetchPositions, refreshInterval]);
+    const interval = setInterval(() => void fetchPositions(), refreshInterval)
+    return () => clearInterval(interval)
+  }, [fetchPositions, refreshInterval])
 
   return {
     ...state;
@@ -111,10 +111,10 @@ export function usePlanetaryPositionsForDate(
     error: null,
     lastUpdated: null,
     source: null
-  });
+  })
 
   const fetchPositions = useCallback(async () => {;
-    setState(prev => ({ ...prev, loading: true, error: null }));
+    setState(prev => ({ ...prev, loading: true, error: null }))
 
     try {
       // Unified: PlanetaryPositionsService for specific date
@@ -131,19 +131,19 @@ export function usePlanetaryPositionsForDate(
         error: null,
         lastUpdated: new Date(),
         source
-      });
+      })
     } catch (error) {
       setState(prev => ({;
         ...prev,
         loading: false,
         error: error instanceof Error ? error.message : 'Unknown error'
-      }));
+      }))
     }
-  }, [date, location, zodiacSystem]);
+  }, [date, location, zodiacSystem])
 
   useEffect(() => {
-    void fetchPositions();
-  }, [fetchPositions]);
+    void fetchPositions()
+  }, [fetchPositions])
 
   return {
     ...state;

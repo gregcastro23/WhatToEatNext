@@ -46,8 +46,8 @@ export class MakefileIntegration {
 
   constructor(makefilePath: string = 'Makefile') {
     this.makefilePath = makefilePath;
-    this.campaignTargets = new Map();
-    this.initializeCampaignTargets();
+    this.campaignTargets = new Map()
+    this.initializeCampaignTargets()
   }
 
   /**
@@ -65,7 +65,7 @@ export class MakefileIntegration {
         '@make campaign-validate-phase1'
       ],
       phony: true
-    });
+    })
 
     this.campaignTargets.set('campaign-phase2', {
       name: 'campaign-phase2',
@@ -78,7 +78,7 @@ export class MakefileIntegration {
         '@make campaign-validate-phase2'
       ],
       phony: true
-    });
+    })
 
     this.campaignTargets.set('campaign-phase3', {
       name: 'campaign-phase3',
@@ -91,7 +91,7 @@ export class MakefileIntegration {
         '@make campaign-validate-phase3'
       ],
       phony: true
-    });
+    })
 
     this.campaignTargets.set('campaign-phase4', {
       name: 'campaign-phase4',
@@ -121,7 +121,7 @@ export class MakefileIntegration {
         'fi'
       ],
       phony: true
-    });
+    })
 
     this.campaignTargets.set('campaign-validate-phase2', {
       name: 'campaign-validate-phase2',
@@ -137,7 +137,7 @@ export class MakefileIntegration {
         'fi'
       ],
       phony: true
-    });
+    })
 
     this.campaignTargets.set('campaign-validate-phase3', {
       name: 'campaign-validate-phase3',
@@ -153,7 +153,7 @@ export class MakefileIntegration {
         'fi'
       ],
       phony: true
-    });
+    })
 
     this.campaignTargets.set('campaign-validate-phase4', {
       name: 'campaign-validate-phase4',
@@ -195,7 +195,7 @@ export class MakefileIntegration {
         '@echo 'Run: make campaign-execute-next''
       ],
       phony: true
-    });
+    })
 
     this.campaignTargets.set('campaign-execute-next', {
       name: 'campaign-execute-next',
@@ -220,7 +220,7 @@ export class MakefileIntegration {
         'fi'
       ],
       phony: true
-    });
+    })
 
     this.campaignTargets.set('campaign-celebration', {
       name: 'campaign-celebration',
@@ -241,7 +241,7 @@ export class MakefileIntegration {
         '@echo '🚀 Ready for production deployment!''
       ],
       phony: true
-    });
+    })
 
     // Campaign Safety and Recovery Targets
     this.campaignTargets.set('campaign-safety-check', {
@@ -267,7 +267,7 @@ export class MakefileIntegration {
         '@echo '🎯 Safety, Status: Ready for campaign execution''
       ],
       phony: true
-    });
+    })
 
     this.campaignTargets.set('campaign-emergency-rollback', {
       name: 'campaign-emergency-rollback',
@@ -290,7 +290,7 @@ export class MakefileIntegration {
         '@echo 'After recovery, run: make campaign-safety-check''
       ],
       phony: true
-    });
+    })
 
     // Integration with existing make targets
     this.campaignTargets.set('campaign-errors-analysis', {
@@ -310,7 +310,7 @@ export class MakefileIntegration {
         '@make errors-by-file | head -10'
       ],
       phony: true
-    });
+    })
   }
 
   /**
@@ -326,10 +326,10 @@ export class MakefileIntegration {
   ): Promise<MakeExecutionResult> {
     const { _silent = false, _dryRun = false, _timeout = 300000} = options;
 
-    // // // console.log(`🔨 Executing make target: ${target}`);
+    // // // console.log(`🔨 Executing make target: ${target}`)
 
     if (dryRun) {
-      // // // console.log(`🔍 DRY, RUN: Would execute 'make ${target}'`);
+      // // // console.log(`🔍 DRY, RUN: Would execute 'make ${target}'`)
       return {
         success: true,
         exitCode: 0,
@@ -347,7 +347,7 @@ export class MakefileIntegration {
         stdio: silent ? 'pipe' : 'inherit',
         timeout,
         maxBuffer: 10 * 1024 * 1024, // 10MB buffer
-      });
+      })
 
       const executionTime = Date.now() - startTime;
 
@@ -377,26 +377,26 @@ export class MakefileIntegration {
   async getCampaignProgress(): Promise<CampaignProgress> {
     try {
       // Get TypeScript errors count
-      const tsErrorsResult = await this.executeMakeTarget('errors', { silent: true });
-      const tsErrors = this.parseErrorCount(tsErrorsResult.output);
+      const tsErrorsResult = await this.executeMakeTarget('errors', { silent: true })
+      const tsErrors = this.parseErrorCount(tsErrorsResult.output)
 
       // Get linting warnings count
       const lintResult = execSync('yarn lint 2>&1 | grep -c 'warning' || echo '0'', {
         encoding: 'utf8'
-      });
+      })
       const lintingWarnings = parseInt(lintResult.trim()) || 0;
 
       // Get enterprise systems count
       const systemsResult = execSync('grep -r 'INTELLIGENCE_SYSTEM' src/ | wc -l || echo '0'', {
         encoding: 'utf8'
-      });
+      })
       const enterpriseSystems = parseInt(systemsResult.trim()) || 0;
 
-      // Get build time (approximate);
+      // Get build time (approximate)
       let buildTime = 0;
       try {
         const buildStart = Date.now()
-        execSync('yarn build', { stdio: 'pipe', timeout: 60000 });
+        execSync('yarn build', { stdio: 'pipe', timeout: 60000 })
         buildTime = Date.now() - buildStart;
       } catch (error) {
         buildTime = -1, // Build failed;
@@ -424,7 +424,7 @@ export class MakefileIntegration {
         lintingWarnings,
         buildTime,
         enterpriseSystems,
-        lastUpdate: new Date();
+        lastUpdate: new Date()
       }
     } catch (error) {
       console.warn('⚠️ Could not get campaign progress:', error),
@@ -435,7 +435,7 @@ export class MakefileIntegration {
         lintingWarnings: -1,
         buildTime: -1,
         enterpriseSystems: -1,
-        lastUpdate: new Date();
+        lastUpdate: new Date()
       }
     }
   }
@@ -446,25 +446,25 @@ export class MakefileIntegration {
   async addCampaignTargetsToMakefile(): Promise<boolean> {
     try {
       if (!fs.existsSync(this.makefilePath)) {
-        console.warn(`⚠️ Makefile not found at ${this.makefilePath}`);
+        console.warn(`⚠️ Makefile not found at ${this.makefilePath}`)
         return false;
       }
 
-      let makefileContent = fs.readFileSync(this.makefilePath, 'utf8');
+      let makefileContent = fs.readFileSync(this.makefilePath, 'utf8')
 
       // Check if campaign targets already exist
       if (makefileContent.includes('# Campaign Execution Framework')) {
-        // // // console.log('✅ Campaign targets already exist in Makefile');
+        // // // console.log('✅ Campaign targets already exist in Makefile')
         return true
       }
 
       // Add campaign targets section
-      const campaignSection = this.generateCampaignMakefileSection();
+      const campaignSection = this.generateCampaignMakefileSection()
       makefileContent += '\n' + campaignSection;
 
       // Write updated Makefile
-      fs.writeFileSync(this.makefilePath, makefileContent, 'utf8');
-      // // // console.log('✅ Campaign targets added to Makefile');
+      fs.writeFileSync(this.makefilePath, makefileContent, 'utf8')
+      // // // console.log('✅ Campaign targets added to Makefile')
 
       return true;
     } catch (error) {
@@ -485,43 +485,43 @@ export class MakefileIntegration {
     ];
 
     // Add phony declaration
-    const phonyTargets = Array.from(this.campaignTargets.values());
-      .filter(target => target.phony);
-      .map(target => target.name);
+    const phonyTargets = Array.from(this.campaignTargets.values())
+      .filter(target => target.phony)
+      .map(target => target.name)
 
     if (phonyTargets.length > 0) {
-      lines.push(`.PHONY: ${phonyTargets.join(' ')}`);
-      lines.push('');
+      lines.push(`.PHONY: ${phonyTargets.join(' ')}`)
+      lines.push('')
     }
 
     // Add each target
     for (const target of this.campaignTargets.values()) {
-      lines.push(`# ${target.description}`);
+      lines.push(`# ${target.description}`)
 
       let targetLine = `${target.name}: `
       if (target.dependencies && target.dependencies.length > 0) {
         targetLine += ` ${target.dependencies.join(' ')}`;
       }
-      lines.push(targetLine);
+      lines.push(targetLine)
 
       for (const command of target.commands) {
-        lines.push(`\t${command}`);
+        lines.push(`\t${command}`)
       }
-      lines.push('');
+      lines.push('')
     }
 
-    return lines.join('\n');
+    return lines.join('\n')
   }
 
   /**
    * Parse error count from make output
    */
   private parseErrorCount(output: string): number {
-    const lines = output.split('\n');
+    const lines = output.split('\n')
     for (const line of lines) {
-      const match = line.match(/(\d+)/);
+      const match = line.match(/(\d+)/)
       if (match) {
-        return parseInt(match[1]);
+        return parseInt(match[1])
       }
     }
     return 0;
@@ -531,7 +531,7 @@ export class MakefileIntegration {
    * Get available campaign targets
    */
   getCampaignTargets(): MakeTarget[] {
-    return Array.from(this.campaignTargets.values());
+    return Array.from(this.campaignTargets.values())
   }
 
   /**
@@ -552,9 +552,9 @@ export class MakefileIntegration {
 
     for (const target of requiredTargets) {
       try {
-        await this.executeMakeTarget(target, { silent: true, timeout: 5000 });
+        await this.executeMakeTarget(target, { silent: true, timeout: 5000 })
       } catch (error) {
-        missing.push(target);
+        missing.push(target)
       }
     }
 

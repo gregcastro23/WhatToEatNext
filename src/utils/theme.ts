@@ -7,18 +7,18 @@ export interface ThemeData {
 
 export class ThemeManager {
   updateTheme(theme: string) {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
+    document.documentElement.setAttribute('data-theme', theme)
+    localStorage.setItem('theme', theme)
   }
 
   async initializeTheme() {
     try {
       const savedTheme = localStorage.getItem('theme') || 'light';
-      this.updateTheme(savedTheme);
+      this.updateTheme(savedTheme)
       return savedTheme;
     } catch (error) {
-      logger.error('Error initializing theme:', error);
-      this.updateTheme('light');
+      logger.error('Error initializing theme:', error)
+      this.updateTheme('light')
       return 'light';
     }
   }
@@ -33,12 +33,12 @@ export class ThemeManager {
         accent: savedAccent
       };
     } catch (error) {
-      logger.error('Error getting theme:', error);
+      logger.error('Error getting theme:', error)
       return { mode: 'light', accent: 'blue' };
     }
   }
 }
 
-export const themeManager = new ThemeManager();
+export const themeManager = new ThemeManager()
 
 export { themeManager as default };

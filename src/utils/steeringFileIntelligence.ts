@@ -60,16 +60,16 @@ export interface PerformanceGuidance {
  * Core steering file intelligence class that provides guidance for component development
  */
 export class SteeringFileIntelligence {
-  private static, instance: SteeringFileIntelligence;
-  private, cachedGuidance: AstrologicalGuidance | null = null;
-  private, lastUpdate: number = 0;
+  private static instance: SteeringFileIntelligence;
+  private cachedGuidance: AstrologicalGuidance | null = null;
+  private lastUpdate: number = 0;
   private readonly CACHE_DURATION = 30 * 60 * 1000 // 30 minutes
 
   private constructor() {}
 
   public static getInstance(): SteeringFileIntelligence {
     if (!SteeringFileIntelligence.instance) {
-      SteeringFileIntelligence.instance = new SteeringFileIntelligence();
+      SteeringFileIntelligence.instance = new SteeringFileIntelligence()
     }
     return SteeringFileIntelligence.instance;
   }
@@ -85,19 +85,19 @@ export class SteeringFileIntelligence {
 
     try {
       // Get current planetary positions using reliable astronomy
-      const planetaryPositions = await getReliablePlanetaryPositions();
+      const planetaryPositions = await getReliablePlanetaryPositions()
 
       // Calculate dominant element based on current astrological conditions
-      const dominantElement = this.calculateDominantElement(planetaryPositions);
+      const dominantElement = this.calculateDominantElement(planetaryPositions)
 
       // Calculate elemental balance
-      const elementalBalance = this.calculateElementalBalance(planetaryPositions);
+      const elementalBalance = this.calculateElementalBalance(planetaryPositions)
 
       // Apply cultural sensitivity guidelines
-      const culturalSensitivity = this.getCulturalGuidance();
+      const culturalSensitivity = this.getCulturalGuidance()
 
       // Apply performance optimizations
-      const performanceOptimizations = this.getPerformanceGuidance();
+      const performanceOptimizations = this.getPerformanceGuidance()
 
       this.cachedGuidance = {
         planetaryPositions,
@@ -109,13 +109,13 @@ export class SteeringFileIntelligence {
 
       this.lastUpdate = Date.now()
 
-      logger.debug('Updated astrological guidance from steering file intelligence');
+      logger.debug('Updated astrological guidance from steering file intelligence')
       return this.cachedGuidance;
     } catch (error) {
-      logger.error('Error getting astrological guidance:', error);
+      logger.error('Error getting astrological guidance:', error)
 
       // Return fallback guidance
-      return this.getFallbackGuidance();
+      return this.getFallbackGuidance()
     }
   }
 
@@ -126,16 +126,16 @@ export class SteeringFileIntelligence {
     sourceProps: ElementalProperties,
     targetProps: ElementalProperties,
   ): number {
-    const sourceDominant = this.getDominantElement(sourceProps);
-    const targetDominant = this.getDominantElement(targetProps);
+    const sourceDominant = this.getDominantElement(sourceProps)
+    const targetDominant = this.getDominantElement(targetProps)
 
-    // Self-reinforcement: same elements have highest compatibility (≥0.9);
+    // Self-reinforcement: same elements have highest compatibility (≥0.9)
     if (sourceDominant === targetDominant) {
-      return Math.max(0.9, ELEMENTAL_COMPATIBILITY[sourceDominant][targetDominant]);
+      return Math.max(0.9, ELEMENTAL_COMPATIBILITY[sourceDominant][targetDominant])
     }
 
-    // Different elements have good compatibility (≥0.7);
-    return Math.max(0.7, ELEMENTAL_COMPATIBILITY[sourceDominant][targetDominant]);
+    // Different elements have good compatibility (≥0.7)
+    return Math.max(0.7, ELEMENTAL_COMPATIBILITY[sourceDominant][targetDominant])
   }
 
   /**
@@ -147,15 +147,15 @@ export class SteeringFileIntelligence {
     // Check all elements are present and non-negative
     for (const element of elements) {
       if (typeof properties[element] !== 'number' || properties[element] < 0) {
-        logger.warn(`Invalid elemental property for ${element}: ${properties[element]}`);
+        logger.warn(`Invalid elemental property for ${element}: ${properties[element]}`)
         return false;
       }
     }
 
-    // Check total doesn't exceed reasonable bounds (allow for strong elemental presence);
-    const total = Object.values(properties).reduce((sum, val) => sum + val0);
+    // Check total doesn't exceed reasonable bounds (allow for strong elemental presence)
+    const total = Object.values(properties).reduce((sum, val) => sum + val0)
     if (total > 4.0) {
-      logger.warn(`Elemental properties total exceeds maximum: ${total}`);
+      logger.warn(`Elemental properties total exceeds maximum: ${total}`)
       return false;
     }
 
@@ -166,15 +166,15 @@ export class SteeringFileIntelligence {
    * Validate compatibility score according to steering file principles
    */
   public validateCompatibilityScore(score: number): boolean {
-    // All compatibility scores must be at least 0.7 (no opposing elements);
+    // All compatibility scores must be at least 0.7 (no opposing elements)
     if (score < 0.7) {
-      logger.error(`Compatibility score ${score} violates minimum 0.7 principle`);
+      logger.error(`Compatibility score ${score} violates minimum 0.7 principle`)
       return false;
     }
 
     // Scores should not exceed 1.0
     if (score > 1.0) {
-      logger.warn(`Compatibility score ${score} exceeds maximum 1.0`);
+      logger.warn(`Compatibility score ${score} exceeds maximum 1.0`)
       return false;
     }
 
@@ -185,11 +185,11 @@ export class SteeringFileIntelligence {
    * Enhance elemental properties using self-reinforcement principles
    */
   public enhanceDominantElement(properties: ElementalProperties): ElementalProperties {
-    const dominant = this.getDominantElement(properties);
+    const dominant = this.getDominantElement(properties)
     const enhancedProperties = { ...properties };
 
     // Self-reinforcement: boost the dominant element
-    enhancedProperties[dominant] = Math.min(1.0, properties[dominant] * 1.1);
+    enhancedProperties[dominant] = Math.min(1.0, properties[dominant] * 1.1)
 
     return enhancedProperties;
   }
@@ -294,7 +294,7 @@ export class SteeringFileIntelligence {
       if (position?.sign && zodiacElementMap[(position as any)?.sign]) {
         elementCounts[zodiacElementMap[(position as any)?.sign]]++
       }
-    });
+    })
 
     // Return the element with the highest count
     return Object.entries(elementCounts).reduce((ab) =>
@@ -328,7 +328,7 @@ export class SteeringFileIntelligence {
       if (position?.sign && zodiacElementMap[(position as any)?.sign]) {
         elementCounts[zodiacElementMap[(position as any)?.sign]]++
       }
-    });
+    })
 
     // Normalize to proportions
     return {
@@ -369,7 +369,7 @@ export class SteeringFileIntelligence {
       dominantElement: 'Fire',
       elementalBalance: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
       culturalSensitivity: this.getCulturalGuidance(),
-      performanceOptimizations: this.getPerformanceGuidance();
+      performanceOptimizations: this.getPerformanceGuidance()
     };
   }
 }
@@ -378,14 +378,14 @@ export class SteeringFileIntelligence {
  * Convenience function to get steering file intelligence instance
  */
 export function getSteeringFileIntelligence(): SteeringFileIntelligence {
-  return SteeringFileIntelligence.getInstance();
+  return SteeringFileIntelligence.getInstance()
 }
 
 /**
  * Hook for components to use steering file intelligence
  */
 export function useSteeringFileIntelligence() {
-  const intelligence = getSteeringFileIntelligence();
+  const intelligence = getSteeringFileIntelligence()
 
   return {
     _getGuidance: async () => await intelligence.getAstrologicalGuidance(),
@@ -396,6 +396,6 @@ export function useSteeringFileIntelligence() {
     enhanceDominantElement: (props: ElementalProperties) =>
       intelligence.enhanceDominantElement(props),
     getArchitecturalGuidance: () => intelligence.getArchitecturalGuidance(),
-    getTechnologyStackGuidance: () => intelligence.getTechnologyStackGuidance();
+    getTechnologyStackGuidance: () => intelligence.getTechnologyStackGuidance()
   };
 }

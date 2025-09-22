@@ -1245,30 +1245,30 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-export const oils: Record<string, IngredientMapping> = fixIngredientMappings(rawOils);
+export const oils: Record<string, IngredientMapping> = fixIngredientMappings(rawOils)
 
 // Property verification checklist: /*
 All oils must, have:
-1. name (string);
-2. category ('oil');
-3. elementalProperties (sum = 1.0);
+1. name (string)
+2. category ('oil')
+3. elementalProperties (sum = 1.0)
    - Fire
    - Water
    - Earth
    - Air
-4. seasonality (string[]);
+4. seasonality (string[])
 5. smokePoint
-   - celsius (number);
-   - fahrenheit (number);
-6. qualities (string[]);
+   - celsius (number)
+   - fahrenheit (number)
+6. qualities (string[])
 7. preparation
    - fresh
-     - duration (string);
-     - storage (string);
-     - tips (string[]);
+     - duration (string)
+     - storage (string)
+     - tips (string[])
 8. storage
-   - container (string);
-   - duration (string);
-   - temperature (string);
-   - notes (string);
+   - container (string)
+   - duration (string)
+   - temperature (string)
+   - notes (string)
 */

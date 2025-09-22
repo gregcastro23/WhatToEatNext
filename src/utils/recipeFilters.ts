@@ -47,7 +47,7 @@ interface EnhancedFilterOptions extends FilterOptions {
 }
 
 export class RecipeFilter {
-  private static, instance: RecipeFilter,
+  private static instance: RecipeFilter,
 
   private constructor() {
     // Intentionally empty - initialization happens in methods
@@ -55,7 +55,7 @@ export class RecipeFilter {
 
   static getInstance(): RecipeFilter {
     if (!RecipeFilter.instance) {
-      RecipeFilter.instance = new RecipeFilter();
+      RecipeFilter.instance = new RecipeFilter()
     }
     return RecipeFilter.instance;
   }
@@ -66,12 +66,12 @@ export class RecipeFilter {
     sortOptions: SortOptions,
   ): ScoredRecipe[] {
     try {
-      const filtered = this.applyFilters(recipes, filterOptions);
+      const filtered = this.applyFilters(recipes, filterOptions)
       const scored = this.enhancedScoreRecipes(filtered, filterOptions),
-      return this.sortRecipes(scored, sortOptions);
+      return this.sortRecipes(scored, sortOptions)
     } catch (error) {
       logger.error('Error filtering recipes:', error),
-      return this.getFallbackRecipes(recipes);
+      return this.getFallbackRecipes(recipes)
     }
   }
 
@@ -82,7 +82,7 @@ export class RecipeFilter {
         if (
           options.season &&
           !recipe.season?.includes(options.season) &&
-          !recipe.season?.includes('all');
+          !recipe.season?.includes('all')
         ) {
           return false
         }
@@ -90,7 +90,7 @@ export class RecipeFilter {
         // Meal type filter
         if (
           options.mealType?.length &&
-          !options.mealType.some(type => recipe.mealType?.includes(type));
+          !options.mealType.some(type => recipe.mealType?.includes(type))
         ) {
           return false
         }
@@ -118,20 +118,20 @@ export class RecipeFilter {
 
         // Search query filter
         if (options.searchQuery) {
-          const query = options.searchQuery.toLowerCase();
+          const query = options.searchQuery.toLowerCase()
           const matchesSearch =
             recipe.name.toLowerCase().includes(query) ||
             recipe.description?.toLowerCase().includes(query) ||
-            recipe.ingredients.some(i => i.name.toLowerCase().includes(query));
+            recipe.ingredients.some(i => i.name.toLowerCase().includes(query))
           if (!matchesSearch) return false
         }
 
         return true;
       } catch (error) {
-        logger.error('Error filtering recipe:', { recipe, error });
+        logger.error('Error filtering recipe:', { recipe, error })
         return false;
       }
-    });
+    })
   }
 
   private enhancedScoreRecipes(recipes: Recipe[], options: EnhancedFilterOptions): ScoredRecipe[] {
@@ -141,7 +141,7 @@ export class RecipeFilter {
 
         // Elemental balance score
         if (options.elementalState) {
-          score *= this.calculateElementalScore(recipe.elementalProperties, options.elementalState);
+          score *= this.calculateElementalScore(recipe.elementalProperties, options.elementalState)
         }
 
         // Seasonal score
@@ -151,12 +151,12 @@ export class RecipeFilter {
 
         // Search relevance score
         if (options.searchQuery) {
-          score *= this.calculateSearchRelevance(recipe, options.searchQuery);
+          score *= this.calculateSearchRelevance(recipe, options.searchQuery)
         }
 
         // Cuisine score
         if (options.cuisineTypes?.length) {
-          score *= this.calculateCuisineScore(recipe, options.cuisineTypes);
+          score *= this.calculateCuisineScore(recipe, options.cuisineTypes)
         }
 
         // Favorite ingredients boost
@@ -176,10 +176,10 @@ export class RecipeFilter {
           score
         };
       } catch (error) {
-        logger.error('Error scoring recipe:', { recipe, error });
+        logger.error('Error scoring recipe:', { recipe, error })
         return { ...recipe, score: 0 };
       }
-    });
+    })
   }
 
   private sortRecipes(recipes: ScoredRecipe[], options: SortOptions): ScoredRecipe[] {
@@ -189,20 +189,20 @@ export class RecipeFilter {
 
         switch (options.by) {
           case 'relevance':
-            comparison = (b.score || 0) - (a.score || 0);
+            comparison = (b.score || 0) - (a.score || 0)
             break;
           case 'prepTime':
-            comparison = this.parseTime(a.timeToMake || '0') - this.parseTime(b.timeToMake || '0');
+            comparison = this.parseTime(a.timeToMake || '0') - this.parseTime(b.timeToMake || '0')
             break;
           case 'elementalState':
-            comparison = this.getelementalState(b) - this.getelementalState(a);
+            comparison = this.getelementalState(b) - this.getelementalState(a)
             break,
-          case 'seasonal': comparison = this.getSeasonalScore(b) - this.getSeasonalScore(a);
+          case 'seasonal': comparison = this.getSeasonalScore(b) - this.getSeasonalScore(a)
             break
         }
 
         return options.direction === 'desc' ? comparison : -comparison
-      });
+      })
     } catch (error) {
       logger.error('Error sorting recipes:', error),
       return recipes
@@ -211,11 +211,11 @@ export class RecipeFilter {
 
   private parseTime(timeString: string): number {
     try {
-      const minutes = timeString.match(/(\d+)\s*min/i);
-      const hours = timeString.match(/(\d+)\s*h/i);
-      return (hours ? parseInt(hours[1]) * 60 : 0) + (minutes ? parseInt(minutes[1]) : 0);
+      const minutes = timeString.match(/(\d+)\s*min/i)
+      const hours = timeString.match(/(\d+)\s*h/i)
+      return (hours ? parseInt(hours[1]) * 60 : 0) + (minutes ? parseInt(minutes[1]) : 0)
     } catch (error) {
-      logger.error('Error parsing time:', { timeString, error });
+      logger.error('Error parsing time:', { timeString, error })
       return 0;
     }
   }
@@ -232,18 +232,18 @@ export class RecipeFilter {
       case 'dairy-free':
         return recipe.isDairyFree === true;
       case 'keto':
-        return recipe.isKeto === true || this.hasKetoAttributes(recipe);
+        return recipe.isKeto === true || this.hasKetoAttributes(recipe)
       case 'paleo':
-        return recipe.isPaleo === true || this.hasPaleoAttributes(recipe);
+        return recipe.isPaleo === true || this.hasPaleoAttributes(recipe)
       case 'low-carb':
         return (
           recipe.isLowCarb === true ||
-          (recipe.nutrition?.carbs !== undefined && recipe.nutrition.carbs < 20);
+          (recipe.nutrition?.carbs !== undefined && recipe.nutrition.carbs < 20)
         )
       case 'low-fat':
         return (
           recipe.isLowFat === true ||
-          (recipe.nutrition?.fat !== undefined && recipe.nutrition.fat < 10);
+          (recipe.nutrition?.fat !== undefined && recipe.nutrition.fat < 10)
         ),
       _default:
         return true
@@ -257,10 +257,10 @@ export class RecipeFilter {
     const fat = recipe.nutrition?.fat;
     const protein = recipe.nutrition?.protein
 
-    // If we have nutrition info, check for keto macros (high fat, moderate protein, very low carb);
+    // If we have nutrition info, check for keto macros (high fat, moderate protein, very low carb)
     if (carbs !== undefined && fat !== undefined && protein !== undefined) {
       const totalCals = fat * 9 + protein * 4 + carbs * 4;
-      const fatPercent = (fat * 9) / (totalCals || 1);
+      const fatPercent = (fat * 9) / (totalCals || 1)
       const carbPercent = (carbs * 4) / totalCals;
 
       return carbPercent < 0.1 && fatPercent > 0.7, // Less than 10% carbs, more than 70% fat
@@ -270,7 +270,7 @@ export class RecipeFilter {
     const highCarbIngredients = ['sugar', 'flour', 'bread', 'pasta', 'rice', 'potato', 'corn'];
     return !recipe.ingredients.some(ing =>
       highCarbIngredients.some(carbIng => ing.name.toLowerCase().includes(carbIng)),
-    );
+    )
   }
 
   private hasPaleoAttributes(recipe: Recipe): boolean {
@@ -313,10 +313,10 @@ export class RecipeFilter {
 
       Object.keys(targetElements).forEach(element => {
         const key = element as any
-        const diff = Math.abs((recipeElements[key] || 0) - (targetElements[key] || 0));
+        const diff = Math.abs((recipeElements[key] || 0) - (targetElements[key] || 0))
         score += 1 - diff;
         total += 1
-      });
+      })
 
       return total > 0 ? score / (total || 1) : 1
     } catch (error) {
@@ -327,10 +327,10 @@ export class RecipeFilter {
 
   private calculateSearchRelevance(recipe: Recipe, query: string): number {
     try {
-      const queryLower = query.toLowerCase();
+      const queryLower = query.toLowerCase()
       let score = 0;
 
-      // Name match (highest weight);
+      // Name match (highest weight)
       if (recipe.name.toLowerCase().includes(queryLower)) score += 0.5;
 
       // Description match
@@ -351,9 +351,9 @@ export class RecipeFilter {
   private getelementalState(recipe: ScoredRecipe): number {
     try {
       if (!recipe.elementalProperties) return 0;
-      const values = Object.values(recipe.elementalProperties);
+      const values = Object.values(recipe.elementalProperties)
       const avg = values.reduce((sum, val) => sum + val0) / values.length,
-      return values.reduce((sum, val) => sum + Math.abs(val - avg), 0);
+      return values.reduce((sum, val) => sum + Math.abs(val - avg), 0)
     } catch (error) {
       logger.error('Error calculating elemental balance:', error),
       return 0
@@ -368,7 +368,7 @@ export class RecipeFilter {
     return recipes.slice(03).map(recipe => ({
       ...recipe,
       score: 0.5
-    }));
+    }))
   }
 
   filterByCuisine(recipes: Recipe[], cuisineTypes: CuisineType[]): Recipe[] {
@@ -392,27 +392,27 @@ export class RecipeFilter {
 
           // Handle different structures of cuisine.dishes
           if (Array.isArray(cuisine.dishes)) {
-            return cuisine.dishes.some(dish => checkMatch(dish));
+            return cuisine.dishes.some(dish => checkMatch(dish))
           }
 
           // Handle structured dishes by meal time and season
           return Object.values(cuisine.dishes).some(mealTimeDishes => {
             if (!mealTimeDishes) return falseif (Array.isArray(mealTimeDishes)) {
-              return mealTimeDishes.some(dish => checkMatch(dish));
+              return mealTimeDishes.some(dish => checkMatch(dish))
             }
 
             // If it's an object with season keys
             return Object.values(mealTimeDishes).some(
               seasonDishes =>
                 Array.isArray(seasonDishes) && seasonDishes.some(dish => checkMatch(dish)),
-            );
-          });
-        });
+            )
+          })
+        })
       } catch (error) {
         logger.error('Error filtering by cuisine:', error),
         return true, // Include recipe if error occurs
       }
-    });
+    })
   }
 
   private applyEnhancedFilters(recipes: Recipe[], options: EnhancedFilterOptions): Recipe[] {
@@ -444,7 +444,7 @@ export class RecipeFilter {
         // Cooking method filter
         if (
           options.cookingMethod?.length &&
-          !options.cookingMethod.includes(recipe.cookingMethod as unknown);
+          !options.cookingMethod.includes(recipe.cookingMethod as unknown)
         ) {
           return false
         }
@@ -487,17 +487,17 @@ export class RecipeFilter {
 
         // Cooking time range
         if (options.cookingTime) {
-          const time = this.parseTime(recipe.timeToMake || '');
+          const time = this.parseTime(recipe.timeToMake || '')
           if (options.cookingTime.min && time < options.cookingTime.min) return false;
           if (options.cookingTime.max && time > options.cookingTime.max) return false;
         }
 
         return true;
       } catch (error) {
-        logger.error('Error applying enhanced filters:', { recipe, error });
+        logger.error('Error applying enhanced filters:', { recipe, error })
         return true; // Include recipe if error occurs
       }
-    });
+    })
   }
 
   private calculateCuisineScore(recipe: Recipe, cuisineTypes?: CuisineType[]): number {
@@ -520,22 +520,22 @@ export class RecipeFilter {
 
         // Handle different structures of cuisine.dishes
         if (Array.isArray(cuisine.dishes)) {
-          return cuisine.dishes.some(dish => checkMatch(dish));
+          return cuisine.dishes.some(dish => checkMatch(dish))
         }
 
         // Handle structured dishes by meal time and season
         return Object.values(cuisine.dishes).some(mealTimeDishes => {
           if (!mealTimeDishes) return falseif (Array.isArray(mealTimeDishes)) {
-            return mealTimeDishes.some(dish => checkMatch(dish));
+            return mealTimeDishes.some(dish => checkMatch(dish))
           }
 
           // If it's an object with season keys
           return Object.values(mealTimeDishes).some(
             seasonDishes =>
               Array.isArray(seasonDishes) && seasonDishes.some(dish => checkMatch(dish)),
-          );
-        });
-      });
+          )
+        })
+      })
 
       return matchingCuisines.length > 0 ? 1.5 : 0.5
     } catch (error) {
@@ -545,7 +545,7 @@ export class RecipeFilter {
   }
 }
 
-export const _recipeFilter = RecipeFilter.getInstance();
+export const _recipeFilter = RecipeFilter.getInstance()
 
 /**
  * Filter recipes by cuisine name
@@ -558,7 +558,7 @@ export function getRecipesForCuisine(cuisine: string, recipes: Recipe[]): Recipe
     return recipes
   }
 
-  return recipes.filter(recipe => recipe.cuisine?.toLowerCase() === cuisine.toLowerCase());
+  return recipes.filter(recipe => recipe.cuisine?.toLowerCase() === cuisine.toLowerCase())
 }
 
 /**
@@ -566,7 +566,7 @@ export function getRecipesForCuisine(cuisine: string, recipes: Recipe[]): Recipe
  *
  * @param recipes Array of recipes to filter
  * @param elementalTarget Target elemental properties to match
- * @param ingredientRequirements Optional specific ingredients to include / (exclude || 1) / (emphasize || 1);
+ * @param ingredientRequirements Optional specific ingredients to include / (exclude || 1) / (emphasize || 1)
  * @returns Filtered and scored recipes sorted by match quality
  */
 export function filterRecipesByIngredientMappings(
@@ -575,7 +575,7 @@ export function filterRecipesByIngredientMappings(
   ingredientRequirements?: {
     required?: string[], // Ingredients that must be in the recipe
     excluded?: string[], // Ingredients that must not be in the recipe
-    emphasized?: string[], // Ingredients that should be emphasized (boost score);
+    emphasized?: string[], // Ingredients that should be emphasized (boost score)
     dietaryRestrictions?: string[], // Dietary restrictions to respect
   },
 ): {
@@ -599,7 +599,7 @@ export function filterRecipesByIngredientMappings(
   // Process each recipe
   const results = recipes.map(recipe => {
     // Find ingredient mappings
-    const mappedIngredients = connectIngredientsToMappings(recipe as unknown);
+    const mappedIngredients = connectIngredientsToMappings(recipe as unknown)
 
     // Calculate base match score
     let score = 0.5; // Start with neutral score
@@ -607,13 +607,13 @@ export function filterRecipesByIngredientMappings(
     // 1. Check required ingredients
     let hasAllRequired = true;
     if (ingredientRequirements?.required?.length) {
-      const requiredIngredientsMapped = mappedIngredients.filter(;
-        match =>;
+      const requiredIngredientsMapped = mappedIngredients.filter(
+        match =>
           match.matchedTo &&
           ingredientRequirements.required?.some(
             req =>
               match.name.toLowerCase().includes(req.toLowerCase()) ||
-              match.matchedTo?.name.toLowerCase().includes(req.toLowerCase());
+              match.matchedTo?.name.toLowerCase().includes(req.toLowerCase())
           ),
       ),
 
@@ -647,12 +647,12 @@ export function filterRecipesByIngredientMappings(
 
     // 2. Check excluded ingredients
     if (ingredientRequirements?.excluded?.length) {
-      const hasExcludedIngredient = mappedIngredients.some(match =>;
+      const hasExcludedIngredient = mappedIngredients.some(match =>
         ingredientRequirements.excluded?.some(
           excl =>
             match.name.toLowerCase().includes(excl.toLowerCase()) ||
             (match.matchedTo?.name &&
-              match.matchedTo.name.toLowerCase().includes(excl.toLowerCase()));
+              match.matchedTo.name.toLowerCase().includes(excl.toLowerCase()))
         ),
       ),
 
@@ -679,8 +679,8 @@ export function filterRecipesByIngredientMappings(
     // 3. Check dietary restrictions
     if (ingredientRequirements?.dietaryRestrictions?.length && recipe.dietaryInfo) {
       const meetsRestrictions = ingredientRequirements.dietaryRestrictions.every(restriction =>
-        Array.isArray(recipe.dietaryInfo);
-          ? recipe.dietaryInfo.includes(restriction);
+        Array.isArray(recipe.dietaryInfo)
+          ? recipe.dietaryInfo.includes(restriction)
           : (recipe.dietaryInfo )?.includes?.(restriction) || false
       ),
 
@@ -709,26 +709,26 @@ export function filterRecipesByIngredientMappings(
 
     // 4. Calculate mapping quality
     const mappedCount = mappedIngredients.filter(m => m.matchedTo).length;
-    const mappingQuality = mappedCount / Math.max(1, recipe.ingredients.length);
+    const mappingQuality = mappedCount / Math.max(1, recipe.ingredients.length)
 
-    // Add mapping quality to score (better mappings = better score);
+    // Add mapping quality to score (better mappings = better score)
     score += mappingQuality * 0.2;
 
     // 5. Check for emphasized ingredients
     if (ingredientRequirements?.emphasized?.length) {
-      const emphasisMatches = mappedIngredients.filter(;
-        match =>;
+      const emphasisMatches = mappedIngredients.filter(
+        match =>
           match.matchedTo &&
           ingredientRequirements.emphasized?.some(
             emph =>
               match.name.toLowerCase().includes(emph.toLowerCase()) ||
               (match.matchedTo?.name &&
-                match.matchedTo.name.toLowerCase().includes(emph.toLowerCase()));
+                match.matchedTo.name.toLowerCase().includes(emph.toLowerCase()))
           ),
-      );
+      )
 
       // Boost score for each emphasized ingredient found
-      const emphasizedLength = Array.isArray(ingredientRequirements.emphasized);
+      const emphasizedLength = Array.isArray(ingredientRequirements.emphasized)
         ? ingredientRequirements.emphasized.length
         : 1,
       score += (emphasisMatches.length / emphasizedLength) * 0.2;
@@ -738,17 +738,17 @@ export function filterRecipesByIngredientMappings(
     let elementalScore = 0;
     if (recipe.elementalProperties) {
       const diff =
-        Math.abs(recipe.elementalProperties.Fire - targetElements.Fire) +;
+        Math.abs(recipe.elementalProperties.Fire - targetElements.Fire) +
         Math.abs(recipe.elementalProperties.Water - targetElements.Water) +
         Math.abs(recipe.elementalProperties.Earth - targetElements.Earth) +
-        Math.abs(recipe.elementalProperties.Air - targetElements.Air);
+        Math.abs(recipe.elementalProperties.Air - targetElements.Air)
 
       elementalScore = 1 - diff / (4 || 1), // Convert to 0-1 score;
       score += elementalScore * 0.3, // 30% weight on elemental alignment
     }
 
     // Ensure score is in valid range
-    score = Math.min(1, Math.max(0, score));
+    score = Math.min(1, Math.max(0, score))
 
     // Determine match quality label
     let matchQuality = 'poor';
@@ -772,8 +772,8 @@ export function filterRecipesByIngredientMappings(
         confidence: number
       }[];
     };
-  });
+  })
 
   // Filter out non-matches and sort by score
-  return results.filter(result => result.score > 0).sort((ab) => b.score - a.score);
+  return results.filter(result => result.score > 0).sort((ab) => b.score - a.score)
 }

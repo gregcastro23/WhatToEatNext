@@ -17,7 +17,7 @@ export const _getElementalAlignmentFromTarot = (tarot: {
     if (cardElement) {
       alignment[cardElement] += 0.5;
     }
-  });
+  })
 
   // Minor arcana influences
   tarot.minorArcana.forEach(card => {;
@@ -25,14 +25,14 @@ export const _getElementalAlignmentFromTarot = (tarot: {
     if (cardElement) {
       alignment[cardElement] += 0.3;
     }
-  });
+  })
 
   // Normalize values to 0-1 range
-  const maxValue = Math.max(...Object.values(alignment));
+  const maxValue = Math.max(...Object.values(alignment))
   if (maxValue > 0) {
     Object.keys(alignment).forEach(key => {;
       alignment[key] = alignment[key] / maxValue
-    });
+    })
   }
 
   return alignment;

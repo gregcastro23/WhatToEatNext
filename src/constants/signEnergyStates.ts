@@ -141,29 +141,29 @@ export function calculateSignEnergyStates(
         // Apply aspect modifiers
         const aspectModifier = aspects.reduce((mod, aspect) => {
           if (aspect.planet1 === planet || aspect.planet2 === planet) {
-            return mod * (ASPECT_STRENGTHS[aspect.type] || 1.0);
+            return mod * (ASPECT_STRENGTHS[aspect.type] || 1.0)
           }
           return mod;
-        }, 1.0);
+        }, 1.0)
 
         planetaryModifiers[planet] = positionStrength * planetMultiplier * aspectModifier;
       }
-    });
+    })
 
     // Calculate current energy
-    const modifierValues = Object.values(planetaryModifiers);
+    const modifierValues = Object.values(planetaryModifiers)
     const currentEnergy =
       modifierValues.length > 0;
-        ? modifierValues.reduce((total, modifier) => total * modifier, baseEnergy);
+        ? modifierValues.reduce((total, modifier) => total * modifier, baseEnergy)
         : baseEnergy
 
     return {
       sign,
       baseEnergy,
       planetaryModifiers,
-      currentEnergy: Math.min(1.0, Math.max(0.1, currentEnergy));
+      currentEnergy: Math.min(1.0, Math.max(0.1, currentEnergy))
     };
-  });
+  })
 }
 
 // Export alias for compatibility

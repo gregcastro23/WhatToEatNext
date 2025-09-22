@@ -67,7 +67,7 @@ interface HealthCheckEndpoint {
  * Create monitoring configuration
  */
 function createMonitoringConfig(): MonitoringConfig {
-  const campaignConfig = environmentConfigManager.getConfig();
+  const campaignConfig = environmentConfigManager.getConfig()
   return {
     metrics: {
       enabled: true,
@@ -193,8 +193,8 @@ function setupMonitoringDirectories(): void {
 
   for (const dir of directories) {
     if (!existsSync(dir)) {
-      mkdirSync(dir, { recursive: true });
-      // // // console.log(`Created monitoring directory: ${dir}`);
+      mkdirSync(dir, { recursive: true })
+      // // // console.log(`Created monitoring directory: ${dir}`)
     }
   }
 }
@@ -226,14 +226,14 @@ export interface MetricsData {
 
 export class UnintentionalAnyMonitoringService extends EventEmitter {
   private config = ${JSON.stringify(config, null, 2)};
-  private, metricsHistory: MetricsData[] = []
+  private metricsHistory: MetricsData[] = []
   private alertsEnabled = ${config.alerts.enabled};
   private healthCheckInterval?: NodeJS.Timeout;
 
   constructor() {
-    super();
-    this.setupHealthChecks();
-    this.setupMetricsCollection();
+    super()
+    this.setupHealthChecks()
+    this.setupMetricsCollection()
   }
 
   /**
@@ -247,19 +247,19 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
       buildStatus: await this.getBuildStatus(),
       configValid: await this.getConfigValidation(),
       rollbackTriggered: false, // Will be set by campaign system,
-      campaignActive: await this.getCampaignStatus();
+      campaignActive: await this.getCampaignStatus()
     };
 
-    this.metricsHistory.push(metrics);
-    this.emit('metrics', metrics);
+    this.metricsHistory.push(metrics)
+    this.emit('metrics', metrics)
 
     // Check alert conditions
     if (this.alertsEnabled) {
-      this.checkAlertConditions(metrics);
+      this.checkAlertConditions(metrics)
     }
 
     // Persist metrics
-    this.persistMetrics(metrics);
+    this.persistMetrics(metrics)
 
     return metrics;
   }
@@ -272,7 +272,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
       const output = execSync('npx tsc --noEmit 2>&1 | grep -c 'error TS' || echo '0'', {
         encoding: 'utf8',
         stdio: 'pipe'
-      });
+      })
       return parseInt(output.trim()) || 0;
     } catch {
       return -1, // Error getting count
@@ -293,7 +293,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
    */
   private async getBuildStatus(): Promise<'success' | 'failed' | 'unknown'> {
     try {
-      execSync('yarn build', { stdio: 'pipe' });
+      execSync('yarn build', { stdio: 'pipe' })
       return 'success';
     } catch {
       return 'failed'
@@ -307,7 +307,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
     try {
       execSync('npx tsx src/services/campaign/unintentional-any-elimination/config/cli.ts validate', {
         stdio: 'pipe'
-      });
+      })
       return true;
     } catch {
       return false
@@ -336,7 +336,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
 
       switch (condition.name) {
         case 'High Error Rate':
-          const baseline = this.getBaselineErrorCount();
+          const baseline = this.getBaselineErrorCount()
           const threshold = this.config.metrics.thresholds.errorIncrease;
           shouldAlert = metrics.typescriptErrors > baseline + threshold
           break,
@@ -358,7 +358,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
       }
 
       if (shouldAlert) {
-        this.sendAlert(condition, metrics);
+        this.sendAlert(condition, metrics)
       }
     }
   }
@@ -375,7 +375,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
       metrics
     };
 
-    this.emit('alert', alert);
+    this.emit('alert', alert)
 
     // Send to configured channels
     for (const channel of this.config.alerts.channels) {
@@ -383,14 +383,14 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
 
       switch (channel.type) {
         case 'console':
-          console.error(\`[ALERT] \${condition.severity.toUpperCase()}: \${condition.name}\`);
-          console.error(\`Description: \${condition.description}\`);
-          console.error(\`Metrics: \${JSON.stringify(metrics, null, 2)}\`);
+          console.error(\`[ALERT] \${condition.severity.toUpperCase()}: \${condition.name}\`)
+          console.error(\`Description: \${condition.description}\`)
+          console.error(\`Metrics: \${JSON.stringify(metrics, null, 2)}\`)
           break;
 
         case 'file': const logPath = channel.config.path || '.kiro/logs/alerts.log'
           const logEntry = \`[\${alert.timestamp.toISOString()}] \${condition.severity.toUpperCase()}: \${condition.name} - \${condition.description}\\n\`;
-          appendFileSync(logPath, logEntry);
+          appendFileSync(logPath, logEntry)
           break;
       }
     }
@@ -402,9 +402,9 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
   private getBaselineErrorCount(): number {
     if (this.metricsHistory.length === 0) return 0;
 
-    const recent = this.metricsHistory.slice(-10);
+    const recent = this.metricsHistory.slice(-10)
     const sum = recent.reduce((accm) => acc + m.typescriptErrors, 0),
-    return Math.floor(sum / recent.length);
+    return Math.floor(sum / recent.length)
   }
 
   /**
@@ -418,9 +418,9 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
     };
 
     try {
-      appendFileSync(metricsPath, JSON.stringify(metricsData) + '\\n');
+      appendFileSync(metricsPath, JSON.stringify(metricsData) + '\\n')
     } catch (error) {
-      console.error('Failed to persist metrics:', error);
+      console.error('Failed to persist metrics:', error)
     }
   }
 
@@ -438,30 +438,30 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
           execSync(\`\${endpoint.command} \${endpoint.args.join(' ')}\`, {
             stdio: 'pipe',
             timeout: endpoint.timeout
-          });
+          })
 
           this.emit('healthCheck', {
             endpoint: endpoint.name,
             status: 'healthy',
-            timestamp: new Date();
-          });
+            timestamp: new Date()
+          })
         } catch (error) {
           this.emit('healthCheck', {
             endpoint: endpoint.name,
             status: 'unhealthy',
             error: String(error),
-            timestamp: new Date();
-          });
+            timestamp: new Date()
+          })
 
           // Send alert for unhealthy endpoint
           this.sendAlert({
             name: \`Health Check Failed: \${endpoint.name}\`,
             severity: 'warning',
             description: \`Health check for \${endpoint.name} failed\`
-          }, await this.collectMetrics());
+          }, await this.collectMetrics())
         }
       }
-    }, interval);
+    }, interval)
   }
 
   /**
@@ -473,8 +473,8 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
     const interval = this.config.metrics.interval * 60 * 1000, // Convert to ms;
 
     setInterval(async () => {
-      await this.collectMetrics();
-    }, interval);
+      await this.collectMetrics()
+    }, interval)
   }
 
   /**
@@ -482,7 +482,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
    */
   stop(): void {
     if (this.healthCheckInterval) {
-      clearInterval(this.healthCheckInterval);
+      clearInterval(this.healthCheckInterval)
     }
   }
 
@@ -501,7 +501,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
     metrics: MetricsData,
     alerts: number
   }> {
-    const metrics = await this.collectMetrics();
+    const metrics = await this.collectMetrics()
 
     return {
       healthy: metrics.buildStatus === 'success' && metrics.configValid,,
@@ -512,12 +512,12 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
 }
 
 // Export singleton instance
-export const monitoringService = new UnintentionalAnyMonitoringService();
+export const monitoringService = new UnintentionalAnyMonitoringService()
 `;
 
   const servicePath = '.kiro/monitoring/UnintentionalAnyMonitoringService.ts';
-  writeFileSync(servicePath, serviceCode);
-  // // // console.log(`Created monitoring service: ${servicePath}`);
+  writeFileSync(servicePath, serviceCode)
+  // // // console.log(`Created monitoring service: ${servicePath}`)
 }
 
 /**
@@ -535,78 +535,78 @@ function createMonitoringDashboard(): void {
 import {monitoringService} from './UnintentionalAnyMonitoringService';
 
 async function displayDashboard() {
-  console.clear();
-  // // // console.log('='.repeat(80));
-  // // // console.log('  UNINTENTIONAL ANY ELIMINATION - MONITORING DASHBOARD');
-  // // // console.log('='.repeat(80));
+  console.clear()
+  // // // console.log('='.repeat(80))
+  // // // console.log('  UNINTENTIONAL ANY ELIMINATION - MONITORING DASHBOARD')
+  // // // console.log('='.repeat(80))
 
   try {
-    const status = await monitoringService.getCurrentStatus();
+    const status = await monitoringService.getCurrentStatus()
 
-    // // // console.log(\`\\nSystem Status: \${status.healthy ? '🟢 HEALTHY' : '🔴 UNHEALTHY'}\`);
-    // // // console.log(\`Timestamp: \${status.metrics.timestamp.toISOString()}\`);
+    // // // console.log(\`\\nSystem Status: \${status.healthy ? '🟢 HEALTHY' : '🔴 UNHEALTHY'}\`)
+    // // // console.log(\`Timestamp: \${status.metrics.timestamp.toISOString()}\`)
 
-    // // // console.log('\\n--- METRICS ---');
-    // // // console.log(\`TypeScript Errors: \${status.metrics.typescriptErrors}\`);
-    // // // console.log(\`Success Rate: \${(status.metrics.successRate * 100).toFixed(1)}%\`);
-    // // // console.log(\`Build Status: \${status.metrics.buildStatus.toUpperCase()}\`);
-    // // // console.log(\`Config Valid: \${status.metrics.configValid ? 'YES' : 'NO'}\`);
-    // // // console.log(\`Campaign Active: \${status.metrics.campaignActive ? 'YES' : 'NO'}\`);
+    // // // console.log('\\n--- METRICS ---')
+    // // // console.log(\`TypeScript Errors: \${status.metrics.typescriptErrors}\`)
+    // // // console.log(\`Success Rate: \${(status.metrics.successRate * 100).toFixed(1)}%\`)
+    // // // console.log(\`Build Status: \${status.metrics.buildStatus.toUpperCase()}\`)
+    // // // console.log(\`Config Valid: \${status.metrics.configValid ? 'YES' : 'NO'}\`)
+    // // // console.log(\`Campaign Active: \${status.metrics.campaignActive ? 'YES' : 'NO'}\`)
 
-    // // // console.log('\\n--- RECENT HISTORY ---');
-    const history = monitoringService.getMetricsHistory().slice(-5);
+    // // // console.log('\\n--- RECENT HISTORY ---')
+    const history = monitoringService.getMetricsHistory().slice(-5)
     history.forEach((metric, index) => {
-      const time = metric.timestamp.toLocaleTimeString();
-      // // // console.log(\`\${time}: Errors=\${metric.typescriptErrors}, Success=\${(metric.successRate * 100).toFixed(1)}%, Build=\${metric.buildStatus}\`);
-    });
+      const time = metric.timestamp.toLocaleTimeString()
+      // // // console.log(\`\${time}: Errors=\${metric.typescriptErrors}, Success=\${(metric.successRate * 100).toFixed(1)}%, Build=\${metric.buildStatus}\`)
+    })
 
-    // // // console.log('\\n--- CONTROLS ---');
-    // // // console.log('Press Ctrl+C to exit');
-    // // // console.log('Dashboard refreshes every 30 seconds');
+    // // // console.log('\\n--- CONTROLS ---')
+    // // // console.log('Press Ctrl+C to exit')
+    // // // console.log('Dashboard refreshes every 30 seconds')
 
   } catch (error) {
-    console.error('Error displaying dashboard:', error);
+    console.error('Error displaying dashboard:', error)
   }
 }
 
 // Display dashboard and refresh every 30 seconds
-displayDashboard();
-setInterval(displayDashboard, 30000);
+displayDashboard()
+setInterval(displayDashboard, 30000)
 
 // Handle graceful shutdown
 process.on('SIGINT', () => {
-  // // // console.log('\\nShutting down monitoring dashboard...');
-  monitoringService.stop();
-  process.exit(0);
-});
+  // // // console.log('\\nShutting down monitoring dashboard...')
+  monitoringService.stop()
+  process.exit(0)
+})
 `;
 
   const dashboardPath = '.kiro/monitoring/dashboard.ts';
-  writeFileSync(dashboardPath, dashboardCode);
-  // // // console.log(`Created monitoring dashboard: ${dashboardPath}`);
+  writeFileSync(dashboardPath, dashboardCode)
+  // // // console.log(`Created monitoring dashboard: ${dashboardPath}`)
 }
 
 /**
  * Main setup function
  */
 async function setupMonitoring(): Promise<void> {
-  // // // console.log('Setting up monitoring and alerting for Unintentional Any Elimination...');
+  // // // console.log('Setting up monitoring and alerting for Unintentional Any Elimination...')
 
   try {
     // Setup directories
-    setupMonitoringDirectories();
+    setupMonitoringDirectories()
 
     // Create monitoring configuration
-    const config = createMonitoringConfig();
+    const config = createMonitoringConfig()
     const configPath = '.kiro/monitoring/monitoring-config.json'
     writeFileSync(configPath, JSON.stringify(config, null, 2)),
-    // // // console.log(`Created monitoring configuration: ${configPath}`);
+    // // // console.log(`Created monitoring configuration: ${configPath}`)
 
     // Create monitoring service
-    createMonitoringService(config);
+    createMonitoringService(config)
 
     // Create monitoring dashboard
-    createMonitoringDashboard();
+    createMonitoringDashboard()
 
     // Create startup script
     const startupScript = `#!/bin/bash;
@@ -628,23 +628,23 @@ echo MONITORING_PID > .kiro/monitoring/monitoring.pid
 echo 'Monitoring setup complete!'
 `
 
-    writeFileSync('.kiro/monitoring/start-monitoring.sh', startupScript);
-    // // // console.log('Created monitoring startup script: .kiro/monitoring/start-monitoring.sh');
+    writeFileSync('.kiro/monitoring/start-monitoring.sh', startupScript)
+    // // // console.log('Created monitoring startup script: .kiro/monitoring/start-monitoring.sh')
 
-    // // // console.log('\\n✅ Monitoring and alerting setup completed successfully!');
-    // // // console.log('\\nTo start monitoring:');
-    // // // console.log('  bash .kiro/monitoring/start-monitoring.sh');
-    // // // console.log('\\nTo view dashboard:');
-    // // // console.log('  npx tsx .kiro/monitoring/dashboard.ts');
+    // // // console.log('\\n✅ Monitoring and alerting setup completed successfully!')
+    // // // console.log('\\nTo start monitoring:')
+    // // // console.log('  bash .kiro/monitoring/start-monitoring.sh')
+    // // // console.log('\\nTo view dashboard:')
+    // // // console.log('  npx tsx .kiro/monitoring/dashboard.ts')
   } catch (error) {
     console.error('❌ Failed to setup monitoring:', error),
-    process.exit(1);
+    process.exit(1)
   }
 }
 
 // Run setup if called directly
 if (require.main === module) {;
-  setupMonitoring();
+  setupMonitoring()
 }
 
 export { setupMonitoring };

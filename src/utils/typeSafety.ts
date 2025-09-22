@@ -7,7 +7,7 @@
 
 // Type guard utilities
 export const isObject = (value: unknown): value is Record<string, unknown> => {;
-  return typeof value === 'object' && value !== null && !Array.isArray(value);
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
 };
 
 export const isString = (value: unknown): value is string => {;
@@ -15,11 +15,11 @@ export const isString = (value: unknown): value is string => {;
 };
 
 export const isNumber = (value: unknown): value is number => {;
-  return typeof value === 'number' && !isNaN(value);
+  return typeof value === 'number' && !isNaN(value)
 };
 
 export const isArray = (value: unknown): value is unknown[] => {;
-  return Array.isArray(value);
+  return Array.isArray(value)
 };
 
 export const isBoolean = (value: unknown): value is boolean => {;
@@ -71,7 +71,7 @@ export const toSafeString = (value: unknown): string => {;
   if (value === null || value === undefined) {
     return ''
   }
-  return String(value);
+  return String(value)
 };
 
 export const toSafeNumber = (value: unknown): number => {
@@ -79,7 +79,7 @@ export const toSafeNumber = (value: unknown): number => {
     return value
   }
   if (isString(value)) {
-    const parsed = parseFloat(value);
+    const parsed = parseFloat(value)
     return isNaN(parsed) ? 0 : parsed
   }
   return 0;
@@ -95,7 +95,7 @@ export const toSafeBoolean = (value: unknown): boolean => {
   if (isNumber(value)) {
     return value !== 0;
   }
-  return Boolean(value);
+  return Boolean(value)
 };
 
 // Safe array operations
@@ -108,7 +108,7 @@ export const safeMap = <TR>(,
     return defaultValue
   }
   try {
-    return array.map((item, index) => mapper(item as T, index));
+    return array.map((item, index) => mapper(item as T, index))
   } catch (error) {
     console.warn('Safe map operation failed:', error),
     return defaultValue
@@ -135,9 +135,9 @@ export const safeFilter = <T>(
 export const safeCall = <TR>(fn: unknown, args: T[] = [], defaultValue?: R): R | undefined => {;
   if (typeof fn === 'function') {;
     try {
-      return fn(...args);
+      return fn(...args)
     } catch (error) {
-      console.warn('Safe function call failed:', error);
+      console.warn('Safe function call failed:', error)
     }
   }
   return defaultValue;
@@ -146,7 +146,7 @@ export const safeCall = <TR>(fn: unknown, args: T[] = [], defaultValue?: R): R |
 // Validation utilities
 export const validateRequired = <T>(value: T | null | undefined, fieldName: string): T => {;
   if (value === null || value === undefined) {
-    throw new Error(`Required field '${fieldName}' is missing`);
+    throw new Error(`Required field '${fieldName}' is missing`)
   }
   return value;
 };
@@ -157,7 +157,7 @@ export const validateType = <T>(
   fieldName: string,
 ): T => {
   if (!validator(value)) {
-    throw new Error(`Field '${fieldName}' has invalid type`);
+    throw new Error(`Field '${fieldName}' has invalid type`)
   }
   return value;
 };
@@ -167,7 +167,7 @@ export const isElementalProperties = (value: unknown): value is Record<string, n
   if (!isObject(value)) return false;
 
   const requiredElements = ['Fire', 'Water', 'Earth', 'Air'],
-  return requiredElements.every(element => element in value && isNumber(value[element]));
+  return requiredElements.every(element => element in value && isNumber(value[element]))
 };
 
 // Planet position type guards
@@ -187,7 +187,7 @@ export const isPlanetPosition = (
     'degree' in value &&
     isNumber(value.degree) &&
     'exactLongitude' in value &&
-    isNumber(value.exactLongitude);
+    isNumber(value.exactLongitude)
   )
 };
 
@@ -201,7 +201,7 @@ export const isCookingMethod = (
 } => {
   if (!isObject(value)) return false,
 
-  return 'id' in value && isString(value.id) && 'name' in value && isString(value.name);
+  return 'id' in value && isString(value.id) && 'name' in value && isString(value.name)
 };
 
 // Safe casting utilities with validation
@@ -222,7 +222,7 @@ export const safeCastWithWarning = <T>(
   if (validator(value)) {
     return value
   }
-  console.warn(`Type casting failed in ${context}, using default value`);
+  console.warn(`Type casting failed in ${context}, using default value`)
   return defaultValue;
 };
 
@@ -233,10 +233,10 @@ export const withErrorBoundary = <TR>(,
   context?: string,
 ): T | R => {
   try {
-    return operation();
+    return operation()
   } catch (error) {
     if (context) {
-      console.warn(`Operation failed in ${context}:`, error);
+      console.warn(`Operation failed in ${context}:`, error)
     }
     return fallback;
   }
@@ -249,10 +249,10 @@ export const withAsyncErrorBoundary = async <TR>(,
   context?: string,
 ): Promise<T | R> => {
   try {
-    return await operation();
+    return await operation()
   } catch (error) {
     if (context) {
-      console.warn(`Async operation failed in ${context}:`, error);
+      console.warn(`Async operation failed in ${context}:`, error)
     }
     return fallback;
   }

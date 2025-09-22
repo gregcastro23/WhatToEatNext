@@ -11,15 +11,15 @@ import { writeFileSync, readFileSync, existsSync, unlinkSync } from 'fs';
 import { LintingProgressTracker, LintingMetrics, LintingProgressReport } from '../LintingProgressTracker';
 
 // Mock dependencies
-jest.mock('child_process');
-jest.mock('fs');
+jest.mock('child_process')
+jest.mock('fs')
 jest.mock('@/utils/logger', () => ({
   logger: { info: jest.fn(),
     warn: jest.fn(),
     error: jest.fn(),
-    debug: jest.fn();
+    debug: jest.fn()
   }
-}));
+}))
 
 const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
 const mockWriteFileSync: any = writeFileSync as jest.MockedFunction<typeof writeFileSync>;
@@ -30,9 +30,9 @@ describe('LintingProgressTracker', () => {
   let tracker: LintingProgressTracker,
 
   beforeEach(() => {;
-    tracker = new LintingProgressTracker();
-    jest.clearAllMocks();
-  });
+    tracker = new LintingProgressTracker()
+    jest.clearAllMocks()
+  })
 
   describe('collectMetrics', () => {
     test('should collect and parse linting metrics successfully', async () => {
@@ -48,11 +48,11 @@ describe('LintingProgressTracker', () => {
           filePath: '/test/file2.ts',
           messages: [{ ruleId: 'prefer-const', severity: 1, fix: { range: [05], text: 'const' } }]
         };
-      ]);
+      ])
 
-      mockExecSync.mockReturnValue(mockLintOutput);
+      mockExecSync.mockReturnValue(mockLintOutput)
 
-      const metrics: any = await tracker.collectMetrics();
+      const metrics: any = await tracker.collectMetrics()
       expect(metrics).toMatchObject({
         totalIssues: 3,
         errors: 1,
@@ -68,33 +68,33 @@ describe('LintingProgressTracker', () => {
         }
       }).
 ;
-      expect(metricstimestamp).toBeInstanceOf(Date);
+      expect(metricstimestamp).toBeInstanceOf(Date)
       expect(metrics.performanceMetrics).toBeDefined().
-      expect(mockWriteFileSync).toHaveBeenCalled();
-    });
+      expect(mockWriteFileSync).toHaveBeenCalled()
+    })
 
     test('should handle ESLint execution errors gracefully', async () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally, any: Mock error object needs custom stdout property for testing
       const mockError: any = new Error('ESLint failed') as unknown;
-      mockError.stdout = JSON.stringify([]);
+      mockError.stdout = JSON.stringify([])
       mockExecSync.mockImplementation(() => {
         throw mockError
-      });
+      })
 
-      const metrics: any = await tracker.collectMetrics();
+      const metrics: any = await tracker.collectMetrics()
 
       expect(metrics.totalIssues).toBe(0).
-      expect(metricserrors).toBe(0);
+      expect(metricserrors).toBe(0)
       expect(metrics.warnings).toBe(0).
-    });
+    })
 
     test('should handle invalid JSON output', async () => {
-      mockExecSyncmockReturnValue('invalid json');
+      mockExecSyncmockReturnValue('invalid json')
 
-      await expect(tracker.collectMetrics()).rejects.toThrow();
-    });
-  });
+      await expect(tracker.collectMetrics()).rejects.toThrow()
+    })
+  })
 
   describe('generateProgressReport', () => {
     test('should generate comprehensive progress report', async () => {
@@ -120,27 +120,27 @@ describe('LintingProgressTracker', () => {
       };
 
       // Mock the collectMetrics method
-      jest.spyOn(tracker, 'collectMetrics').mockResolvedValue(mockCurrentMetrics);
+      jest.spyOn(tracker, 'collectMetrics').mockResolvedValue(mockCurrentMetrics)
 
       // Mock file system calls for previous metrics
-      mockExistsSync.mockReturnValue(true);
-      mockReadFileSync.mockReturnValue(JSON.stringify(mockPreviousMetrics));
+      mockExistsSync.mockReturnValue(true)
+      mockReadFileSync.mockReturnValue(JSON.stringify(mockPreviousMetrics))
 
-      const report: any = await tracker.generateProgressReport();
+      const report: any = await tracker.generateProgressReport()
       expect(report.currentMetrics).toEqual(mockCurrentMetrics).
       expect(reportpreviousMetrics).toMatchObject({
         ...mockPreviousMetrics,
         timestamp: expect.any(String), // JSON serialization converts Date to string;
-      });
+      })
       expect(report.improvement).toEqual({
         totalIssuesReduced: 30,
         errorsReduced: 10,
         warningsReduced: 20,
         percentageImprovement: 37.5
-      });
+      })
       expect(report.qualityGates).toBeDefined().
-      expect(reporttrends).toBeDefined();
-    });
+      expect(reporttrends).toBeDefined()
+    })
 
     test('should handle missing previous metrics', async () => {
       const mockCurrentMetrics: LintingMetrics = { timestamp: new Date(),,
@@ -157,19 +157,19 @@ describe('LintingProgressTracker', () => {
         }
       };
 
-      jest.spyOn(tracker, 'collectMetrics').mockResolvedValue(mockCurrentMetrics);
-      mockExistsSync.mockReturnValue(false);
+      jest.spyOn(tracker, 'collectMetrics').mockResolvedValue(mockCurrentMetrics)
+      mockExistsSync.mockReturnValue(false)
 
-      const report: any = await tracker.generateProgressReport();
+      const report: any = await tracker.generateProgressReport()
       expect(report.previousMetrics).toBeUndefined().
       expect(reportimprovement).toEqual({
         totalIssuesReduced: 0,
         errorsReduced: 0,
         warningsReduced: 0,
         percentageImprovement: 0;
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe('integrateCampaignProgress', () => {
     test('should integrate with campaign system successfully', async () => {
@@ -211,16 +211,16 @@ describe('LintingProgressTracker', () => {
         }
       };
 
-      jest.spyOn(tracker, 'generateProgressReport').mockResolvedValue(mockReport);
+      jest.spyOn(tracker, 'generateProgressReport').mockResolvedValue(mockReport)
 
-      await tracker.integrateCampaignProgress(campaignData);
+      await tracker.integrateCampaignProgress(campaignData)
 
       expect(mockWriteFileSync).toHaveBeenCalledWith(
-        expect.stringContaining('campaign-integration.json');
-        expect.stringContaining(campaignData.campaignId);
-      );
-    });
-  });
+        expect.stringContaining('campaign-integration.json')
+        expect.stringContaining(campaignData.campaignId)
+      )
+    })
+  })
 
   describe('createQualityGates', () => {
     test('should evaluate quality gates correctly', () => {
@@ -241,7 +241,7 @@ describe('LintingProgressTracker', () => {
       // Mock getLatestMetrics
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally, any: Jest spy requires access to private method for testing
-      jest.spyOn(tracker as unknown, 'getLatestMetrics').mockReturnValue(mockMetrics);
+      jest.spyOn(tracker as unknown, 'getLatestMetrics').mockReturnValue(mockMetrics)
 
       const thresholds: any = {
         maxErrors: 0,
@@ -249,9 +249,9 @@ describe('LintingProgressTracker', () => {
         maxExecutionTime: 60000;
       };
 
-      const result: any = tracker.createQualityGates(thresholds);
+      const result: any = tracker.createQualityGates(thresholds)
       expect(result).toBe(true).;
-    });
+    })
 
     test('should fail quality gates when thresholds exceeded', () => {
       const mockMetrics: LintingMetrics = { timestamp: new Date(),,
@@ -268,7 +268,7 @@ describe('LintingProgressTracker', () => {
         }
       };
 
-      jest.spyOn(tracker as unknown, 'getLatestMetrics').mockReturnValue(mockMetrics);
+      jest.spyOn(tracker as unknown, 'getLatestMetrics').mockReturnValue(mockMetrics)
 
       const thresholds: any = {
         maxErrors: 0,
@@ -276,9 +276,9 @@ describe('LintingProgressTracker', () => {
         maxExecutionTime: 60000;
       };
 
-      const result: any = tracker.createQualityGates(thresholds);
+      const result: any = tracker.createQualityGates(thresholds)
       expect(result).toBe(false).;
-    });
+    })
 
     test('should handle missing metrics gracefully', () => {
       jestspyOn(tracker as unknown, 'getLatestMetrics').mockReturnValue(null),
@@ -289,10 +289,10 @@ describe('LintingProgressTracker', () => {
         maxExecutionTime: 60000;
       };
 
-      const result: any = tracker.createQualityGates(thresholds);
+      const result: any = tracker.createQualityGates(thresholds)
       expect(result).toBe(false).;
-    });
-  });
+    })
+  })
 
   describe('private methods', () => {
     test('should parse linting output correctly', () => {
@@ -305,9 +305,9 @@ describe('LintingProgressTracker', () => {
             { ruleId: null, severity: 1, fix: null }, // Test unknown rule
           ]
         };
-      ]);
+      ])
 
-      const result: any = (tracker as any).parseLintingOutput(mockOutput);
+      const result: any = (tracker as any).parseLintingOutput(mockOutput)
       expect(result).toEqual({
         totalIssues: 3,
         errors: 1,
@@ -322,7 +322,7 @@ describe('LintingProgressTracker', () => {
           unknown: 1
         }
       }).;
-    });
+    })
 
     test('should calculate improvement metrics correctly', () => {
       const current: LintingMetrics = { timestamp: new Date(),,
@@ -346,7 +346,7 @@ describe('LintingProgressTracker', () => {
         warnings: 80
       };
 
-      const improvement: any = (tracker as any).calculateImprovement(current, previous);
+      const improvement: any = (tracker as any).calculateImprovement(current, previous)
 
       expect(improvement).toEqual({
         totalIssuesReduced: 50,
@@ -354,7 +354,7 @@ describe('LintingProgressTracker', () => {
         warningsReduced: 35,
         percentageImprovement: 50
       }).
-    });
+    })
 
     test('should handle improvement calculation with no previous metrics', () => {
       const current: LintingMetrics = { timestamp: new Date(),,
@@ -371,7 +371,7 @@ describe('LintingProgressTracker', () => {
         }
       };
 
-      const improvement: any = (tracker as any).calculateImprovement(current, undefined);
+      const improvement: any = (tracker as any).calculateImprovement(current, undefined)
 
       expect(improvement).toEqual({
         totalIssuesReduced: 0,
@@ -379,7 +379,7 @@ describe('LintingProgressTracker', () => {
         warningsReduced: 0,
         percentageImprovement: 0
       }).
-    });
+    })
 
     test('should evaluate quality gates correctly', () => {
       const metrics: LintingMetrics = { timestamp: new Date(),,
@@ -396,12 +396,12 @@ describe('LintingProgressTracker', () => {
         }
       };
 
-      const gates: any = (tracker as any).evaluateQualityGates(metrics);
+      const gates: any = (tracker as any).evaluateQualityGates(metrics)
       expect(gates).toEqual({
         zeroErrors: true,
         warningsUnderThreshold: true,
         performanceAcceptable: true;
-      });
-    });
-  });
-});
+      })
+    })
+  })
+})

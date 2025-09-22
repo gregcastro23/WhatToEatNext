@@ -4,7 +4,7 @@ export class AppError extends Error {
     public readonly code?: string,
     public readonly context?: Record<string, unknown>,
   ) {
-    super(message);
+    super(message)
     this.name = 'AppError';
   }
 }
@@ -19,8 +19,8 @@ export function handleError(error: unknown): AppError {
   }
 
   if (error instanceof Error) {
-    return new AppError(error.message);
+    return new AppError(error.message)
   }
 
-  return new AppError('An unexpected error occurred');
+  return new AppError('An unexpected error occurred')
 }

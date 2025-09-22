@@ -7,20 +7,20 @@ import {
 } from '@/services/CurrentMomentManager';
 import { createLogger } from '@/utils/logger';
 
-const logger = createLogger('CurrentMomentAPI');
+const logger = createLogger('CurrentMomentAPI')
 
 /**
  * Handle GET requests - get current moment status and data
  */
 export async function GET(request: Request) {
   try {
-    const { _searchParams} = new URL(request.url);
+    const { _searchParams} = new URL(request.url)
     const forceRefresh = searchParams.get('refresh') === 'true';
 
-    logger.info(`Getting current moment data (forceRefresh: ${forceRefresh})`);
+    logger.info(`Getting current moment data (forceRefresh: ${forceRefresh})`)
 
-    const currentMoment = await getCurrentMoment(forceRefresh);
-    const performanceMetrics = currentMomentManager.getPerformanceMetrics();
+    const currentMoment = await getCurrentMoment(forceRefresh)
+    const performanceMetrics = currentMomentManager.getPerformanceMetrics()
 
     const response = {
       success: true,
@@ -48,9 +48,9 @@ export async function GET(request: Request) {
       }
     };
 
-    return NextResponse.json(response);
+    return NextResponse.json(response)
   } catch (error) {
-    logger.error('Error getting current moment:', error);
+    logger.error('Error getting current moment:', error)
 
     return NextResponse.json(
       {
@@ -60,7 +60,7 @@ export async function GET(request: Request) {
         timestamp: new Date().toISOString()
       },
       { status: 500 },
-    );
+    )
   }
 }
 
@@ -69,10 +69,10 @@ export async function GET(request: Request) {
  */
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    const body = await request.json()
     const { customDateTime, latitude, longitude, _action = 'update'} = body;
 
-    logger.info(`Current moment ${action} requested`);
+    logger.info(`Current moment ${action} requested`)
 
     let result;
 
@@ -80,7 +80,7 @@ export async function POST(request: Request) {
       case 'update': const customDate = customDateTime ? new Date(customDateTime) : undefined
         const customLocation = latitude && longitude ? { latitude, longitude } : undefined
 
-        result = await updateCurrentMoment(customDate, customLocation);
+        result = await updateCurrentMoment(customDate, customLocation)
 
         return NextResponse.json({
           success: true,
@@ -94,9 +94,9 @@ export async function POST(request: Request) {
             'src/utils/streamlinedPlanetaryPositions.ts',
             'src/utils/accurateAstronomy.ts'
           ]
-        });
+        })
 
-      case 'status': const currentMoment = await getCurrentMoment();
+      case 'status': const currentMoment = await getCurrentMoment()
         return NextResponse.json({
           success: true,
           action: 'status',
@@ -109,7 +109,7 @@ export async function POST(request: Request) {
             dataIntegrity:
               Object.keys(currentMoment.planetaryPositions).length >= 10 ? 'good' : 'incomplete'
           }
-        });
+        })
 
       default:
         return NextResponse.json(
@@ -120,10 +120,10 @@ export async function POST(request: Request) {
             timestamp: new Date().toISOString()
           },
           { status: 400 },
-        );
+        )
     }
   } catch (error) {
-    logger.error('Error in current moment POST:', error);
+    logger.error('Error in current moment POST:', error)
 
     return NextResponse.json(
       {
@@ -133,7 +133,7 @@ export async function POST(request: Request) {
         timestamp: new Date().toISOString()
       },
       { status: 500 },
-    );
+    )
   }
 }
 
@@ -142,16 +142,16 @@ export async function POST(request: Request) {
  */
 export async function PUT(request: Request) {
   try {
-    const body = await request.json();
+    const body = await request.json()
     const { _targets = ['all'], customDateTime, latitude, longitude} = body;
 
-    logger.info(`Selective update requested for targets: ${targets.join(', ')}`);
+    logger.info(`Selective update requested for targets: ${targets.join(', ')}`)
 
     // Get current moment first
     const customDate = customDateTime ? new Date(customDateTime) : undefined
     const customLocation = latitude && longitude ? { latitude, longitude } : undefined
 
-    const currentMoment = await updateCurrentMoment(customDate, customLocation);
+    const currentMoment = await updateCurrentMoment(customDate, customLocation)
 
     const updateResults = {
       notebook: false,
@@ -183,9 +183,9 @@ export async function PUT(request: Request) {
       targets,
       updateResults,
       currentMoment
-    });
+    })
   } catch (error) {
-    logger.error('Error in current moment PUT:', error);
+    logger.error('Error in current moment PUT:', error)
 
     return NextResponse.json(
       {
@@ -195,6 +195,6 @@ export async function PUT(request: Request) {
         timestamp: new Date().toISOString()
       },
       { status: 500 },
-    );
+    )
   }
 }

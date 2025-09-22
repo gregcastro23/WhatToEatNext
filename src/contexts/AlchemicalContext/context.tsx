@@ -74,7 +74,7 @@ export const _AlchemicalContext = createContext<AlchemicalContextType>({
   refreshPlanetaryPositions: async () => ({}),
   setDaytime: () => {},
   updateState: () => {}
-});
+})
 
 // Export the AlchemicalContextType for direct imports
 export type { AlchemicalContextType } from './types';

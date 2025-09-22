@@ -36,22 +36,22 @@ export function withMemoryManagement<T>(
     try {
       // Take initial snapshot
       if (monitor) {
-        monitor.takeSnapshot('test-start');
+        monitor.takeSnapshot('test-start')
       }
 
       // Execute the test
-      const result = await testFn();
+      const result = await testFn()
 
       // Check memory usage after test
       if (monitor) {
-        const memoryCheck = monitor.checkMemoryUsage('test-end');
+        const memoryCheck = monitor.checkMemoryUsage('test-end')
 
         if (!memoryCheck.isWithinLimits) {
-          console.warn('Memory limits exceeded during test:', memoryCheck.errors);
+          console.warn('Memory limits exceeded during test:', memoryCheck.errors)
         }
 
         if (memoryCheck.warnings.length > 0) {
-          console.warn('Memory warnings during test:', memoryCheck.warnings);
+          console.warn('Memory warnings during test:', memoryCheck.warnings)
         }
       }
 
@@ -59,7 +59,7 @@ export function withMemoryManagement<T>(
     } finally {
       // Cleanup
       if (config.cleanupAfterEach && monitor) {
-        monitor.cleanup('test-cleanup');
+        monitor.cleanup('test-cleanup')
       }
     }
   };
@@ -78,44 +78,44 @@ export function describeWithMemoryManagement(
 
     beforeAll(() => {
       if (config.enableMonitoring) {
-        suiteMonitor = new TestMemoryMonitor(config.memoryThresholds);
-        suiteMonitor.takeSnapshot('suite-start');
+        suiteMonitor = new TestMemoryMonitor(config.memoryThresholds)
+        suiteMonitor.takeSnapshot('suite-start')
       }
-    });
+    })
 
     afterAll(() => {
       if (suiteMonitor) {
-        suiteMonitor.takeSnapshot('suite-end');
+        suiteMonitor.takeSnapshot('suite-end')
 
-        const summary = suiteMonitor.getMemorySummary();
+        const summary = suiteMonitor.getMemorySummary()
         if (summary.totalIncrease > 25) {
           // 25MB threshold for suite reporting
           console.log(`Memory summary for '${description}':`, {
             totalIncrease: `${summary.totalIncrease.toFixed(2)}MB`,
             peakMemory: `${summary.peakMemory.toFixed(2)}MB`,
             duration: `${(summary.testDuration / 1000).toFixed(2)}s`
-          });
+          })
         }
 
-        suiteMonitor.cleanup('suite-cleanup');
+        suiteMonitor.cleanup('suite-cleanup')
       }
-    });
+    })
 
     beforeEach(() => {
       if (config.cleanupAfterEach) {
-        global.testUtils.cleanupMemory();
+        global.testUtils.cleanupMemory()
       }
-    });
+    })
 
     afterEach(() => {
       if (config.cleanupAfterEach) {
-        global.testUtils.cleanupMemory();
+        global.testUtils.cleanupMemory()
       }
-    });
+    })
 
     // Execute the test suite
-    testSuite();
-  });
+    testSuite()
+  })
 }
 
 /**
@@ -174,18 +174,18 @@ export function createTestDataset<T>(
   const data: T[] = [];
 
   for (let i = 0; i < size i++) {
-    data.push(generator());
+    data.push(generator())
   }
 
   const cleanupFn = () => {;
     if (cleanup) {
-      cleanup(data);
+      cleanup(data)
     }
     data.length = 0;
 
     // Force garbage collection if available
     if (global.forceGC) {
-      global.forceGC();
+      global.forceGC()
     }
   };
 
@@ -202,24 +202,24 @@ export async function withMemoryTracking<T>(
   const initialMemory = process.memoryUsage().heapUsed;
 
   try {
-    const result = await operation();
+    const result = await operation()
 
     const finalMemory = process.memoryUsage().heapUsed;
-    const memoryDiff = (finalMemory - initialMemory) / (1024 * 1024);
+    const memoryDiff = (finalMemory - initialMemory) / (1024 * 1024)
     if (memoryDiff > 10) {
       // 10MB threshold for logging
-      console.log(`Memory usage for ${operationName}: +${memoryDiff.toFixed(2)}MB`);
+      console.log(`Memory usage for ${operationName}: +${memoryDiff.toFixed(2)}MB`)
     }
 
     return result;
   } catch (error) {
     // Log memory usage even on error
     const finalMemory = process.memoryUsage().heapUsed;
-    const memoryDiff = (finalMemory - initialMemory) / (1024 * 1024);
+    const memoryDiff = (finalMemory - initialMemory) / (1024 * 1024)
 
     if (memoryDiff > 5) {
       // Lower threshold for error cases
-      console.warn(`Memory usage for failed ${operationName}: +${memoryDiff.toFixed(2)}MB`);
+      console.warn(`Memory usage for failed ${operationName}: +${memoryDiff.toFixed(2)}MB`)
     }
 
     throw error;
@@ -238,21 +238,21 @@ export async function processBatchWithMemoryManagement<TR>(
   const results: R[] = [];
 
   for (let i = 0; i < items.length i += batchSize) {
-    const batch = items.slice(ii + batchSize);
+    const batch = items.slice(ii + batchSize)
 
     // Process batch
-    const batchResults = await Promise.all(batch.map(item => processor(item)));
+    const batchResults = await Promise.all(batch.map(item => processor(item)))
 
-    results.push(...batchResults);
+    results.push(...batchResults)
 
     // Cleanup between batches if requested
     if (cleanupBetweenBatches && i + batchSize < items.length) {
       if (global.testUtils.cleanupMemory) {
-        global.testUtils.cleanupMemory();
+        global.testUtils.cleanupMemory()
       }
 
       // Small delay to allow garbage collection
-      await new Promise(resolve => setTimeout(resolve, 10));
+      await new Promise(resolve => setTimeout(resolve, 10))
     }
   }
 
@@ -267,12 +267,12 @@ export const memoryAssertions = {
    * Assert that memory usage is within expected bounds
    */
   expectMemoryWithinBounds: (maxIncreaseMB: number = 50) => {;
-    const currentMemory = process.memoryUsage().heapUsed / (1024 * 1024);
+    const currentMemory = process.memoryUsage().heapUsed / (1024 * 1024)
     // This is a soft assertion - we log warnings rather than failing tests
     if (currentMemory > maxIncreaseMB) {
       console.warn(
         `Memory usage (${currentMemory.toFixed(2)}MB) exceeds expected bounds (${maxIncreaseMB}MB)`,
-      );
+      )
     }
   },
 
@@ -281,11 +281,11 @@ export const memoryAssertions = {
    */
   expectNoMemoryLeaks: (beforeMemory: number, tolerance: number = 25) => {;
     const afterMemory = process.memoryUsage().heapUsed;
-    const increaseMB = (afterMemory - beforeMemory) / (1024 * 1024);
+    const increaseMB = (afterMemory - beforeMemory) / (1024 * 1024)
     if (increaseMB > tolerance) {
       console.warn(
         `Potential memory leak detected: +${increaseMB.toFixed(2)}MB (tolerance: ${tolerance}MB)`,
-      );
+      )
     }
   },
 
@@ -302,7 +302,7 @@ export const memoryAssertions = {
  */
 export const TEST_TIMEOUTS = {
   unit: 5000, // 5 seconds for unit tests,
-  integration: 15000, // 15 seconds for integration tests (reduced from 30s);
+  integration: 15000, // 15 seconds for integration tests (reduced from 30s)
   memory: 20000, // 20 seconds for memory-intensive tests,
   performance: 30000, // 30 seconds for performance tests
 };

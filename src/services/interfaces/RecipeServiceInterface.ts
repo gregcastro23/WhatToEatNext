@@ -197,7 +197,7 @@ export interface RecipeServiceInterface {
    * Calculate the similarity between two recipes based on their elemental properties
    * @param recipe1 First recipe
    * @param recipe2 Second recipe
-   * @returns Similarity score (0-1);
+   * @returns Similarity score (0-1)
    */
   calculateSimilarity(recipe1: Recipe, recipe2: Recipe): number;
 

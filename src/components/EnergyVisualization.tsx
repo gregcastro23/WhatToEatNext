@@ -37,9 +37,9 @@ export function EnergyVisualization({
   showHistory = false,
   className = ''
 }: EnergyVisualizationProps) {
-  const { isConnected, lastEnergyUpdate } = useAlchmWebSocket();
-  const [energyHistory, setEnergyHistory] = React.useState<EnergyReading[]>([]);
-  const [maxHistoryLength] = React.useState(20);
+  const { isConnected, lastEnergyUpdate } = useAlchmWebSocket()
+  const [energyHistory, setEnergyHistory] = React.useState<EnergyReading[]>([])
+  const [maxHistoryLength] = React.useState(20)
 
   React.useEffect(() => {
     if (lastEnergyUpdate) {
@@ -50,15 +50,15 @@ export function EnergyVisualization({
 
       setEnergyHistory(prev => {
         const updated = [...prev, newReading];
-        return updated.slice(-maxHistoryLength);
-      });
+        return updated.slice(-maxHistoryLength)
+      })
 
-      logger.debug('EnergyVisualization received update', lastEnergyUpdate);
+      logger.debug('EnergyVisualization received update', lastEnergyUpdate)
     }
-  }, [lastEnergyUpdate, maxHistoryLength]);
+  }, [lastEnergyUpdate, maxHistoryLength])
 
   const currentEnergy = lastEnergyUpdate || { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 };
-  const totalEnergy = Object.values(currentEnergy).reduce((sum, val) => sum + val, 0);
+  const totalEnergy = Object.values(currentEnergy).reduce((sum, val) => sum + val, 0)
 
   const renderEnergyBar = (element: keyof typeof ELEMENT_COLORS, value: number) => {
     const percentage = totalEnergy > 0 ? (value / totalEnergy) * 100 : 25;
@@ -106,7 +106,7 @@ export function EnergyVisualization({
           }} />
         </div>
       </div>
-    );
+    )
   };
 
   const renderCircularVisualization = () => {
@@ -125,10 +125,10 @@ export function EnergyVisualization({
           const startAngle = currentAngle;
           const endAngle = currentAngle + angle;
 
-          const startX = centerX + radius * Math.cos((startAngle * Math.PI) / 180);
-          const startY = centerY + radius * Math.sin((startAngle * Math.PI) / 180);
-          const endX = centerX + radius * Math.cos((endAngle * Math.PI) / 180);
-          const endY = centerY + radius * Math.sin((endAngle * Math.PI) / 180);
+          const startX = centerX + radius * Math.cos((startAngle * Math.PI) / 180)
+          const startY = centerY + radius * Math.sin((startAngle * Math.PI) / 180)
+          const endX = centerX + radius * Math.cos((endAngle * Math.PI) / 180)
+          const endY = centerY + radius * Math.sin((endAngle * Math.PI) / 180)
 
           const largeArcFlag = angle > 180 ? 1 : 0;
 
@@ -137,7 +137,7 @@ export function EnergyVisualization({
             `L ${startX} ${startY}`,
             `A ${radius} ${radius} 0 ${largeArcFlag} 1 ${endX} ${endY}`,
             'Z'
-          ].join(' ');
+          ].join(' ')
 
           currentAngle += angle;
 
@@ -150,7 +150,7 @@ export function EnergyVisualization({
               strokeWidth="1"
               opacity="0.8"
             />
-          );
+          )
         })}
 
         {/* Center circle */}
@@ -171,7 +171,7 @@ export function EnergyVisualization({
           fill={isConnected ? '#28a745' : '#dc3545'}
         />
       </svg>
-    );
+    )
   };
 
   const renderMiniChart = () => {
@@ -181,7 +181,7 @@ export function EnergyVisualization({
     const chartWidth = 200;
     const maxValue = Math.max(
       ...energyHistory.flatMap(reading => [reading.Fire, reading.Water, reading.Air, reading.Earth])
-    );
+    )
 
     return (
       <div style={{ marginTop: '16px' }}>
@@ -200,9 +200,9 @@ export function EnergyVisualization({
           {Object.keys(ELEMENT_COLORS).map(element => {
             const points = energyHistory.map((reading, index) => {
               const x = (index / (energyHistory.length - 1)) * (chartWidth - 20) + 10;
-              const y = chartHeight - 10 - ((reading[element as keyof EnergyReading] as number / maxValue) * (chartHeight - 20));
+              const y = chartHeight - 10 - ((reading[element as keyof EnergyReading] as number / maxValue) * (chartHeight - 20))
               return `${x},${y}`;
-            }).join(' ');
+            }).join(' ')
 
             return (
               <polyline
@@ -213,11 +213,11 @@ export function EnergyVisualization({
                 strokeWidth="2"
                 opacity="0.8"
               />
-            );
+            )
           })}
         </svg>
       </div>
-    );
+    )
   };
 
   return (
@@ -306,5 +306,5 @@ export function EnergyVisualization({
         </div>
       )}
     </div>
-  );
+  )
 }

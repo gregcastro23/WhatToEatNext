@@ -11,15 +11,15 @@ import AlchmKitchenTab from '../../../docs/Alchm Kitchen/AlchmKitchenTab';
 import DevSettings from './DevSettings';
 import SignVectorPanel from './SignVectorPanel';
 
-const logger = createLogger('AlchmKitchenPage');
+const logger = createLogger('AlchmKitchenPage')
 
 function ClientOnly({ children }: { children: React.ReactNode }) {
-  const [hasMounted, setHasMounted] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false)
 
   useEffect(() => {
-    setHasMounted(true);
-    logger.debug('AlchmKitchen page client-side mount complete');
-  }, []);
+    setHasMounted(true)
+    logger.debug('AlchmKitchen page client-side mount complete')
+  }, [])
 
   if (!hasMounted) {
     return (

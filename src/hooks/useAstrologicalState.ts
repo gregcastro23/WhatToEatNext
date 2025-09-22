@@ -42,7 +42,7 @@ function _createCelestialPosition(
     'capricorn',
     'aquarius',
     'pisces'
-  ].indexOf(sign);
+  ].indexOf(sign)
 
   const baseLongitude = signIndex * 30 + longOffset;
 
@@ -73,21 +73,21 @@ function _createCelestialPosition(
     exactLongitude: baseLongitude,
     isRetrograde: false,
     minutes: Math.floor((longOffset % 1) * 60),
-    speed: getPlanetSpeed(options?.planetName);
+    speed: getPlanetSpeed(options?.planetName)
   };
 }
 
 export function useAstrologicalState(): AstrologyHookData {
-  const { planetaryPositions, isDaytime} = useAlchemical();
-  const [isReady, setIsReady] = useState<boolean>(false);
-  const [renderCount, setRenderCount] = useState<number>(0);
+  const { planetaryPositions, isDaytime} = useAlchemical()
+  const [isReady, setIsReady] = useState<boolean>(false)
+  const [renderCount, setRenderCount] = useState<number>(0)
 
   // Track renders for debugging - add empty dependency array to run only once
   useEffect(() => {
     // We don't want to increment renderCount in every render cycle
     if (renderCount === 0) {
-      setRenderCount(1);
-      logger.debug(`Hook initialized`);
+      setRenderCount(1)
+      logger.debug(`Hook initialized`)
     }
   }, [renderCount]); // Added renderCount to deps
 
@@ -106,7 +106,7 @@ export function useAstrologicalState(): AstrologyHookData {
     activePlanets: [] as string[],
     domElements: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
     loading: true
-  });
+  })
 
   // Calculate active planets based on their positions and dignities
   const getActivePlanets = useCallback(
@@ -114,7 +114,7 @@ export function useAstrologicalState(): AstrologyHookData {
       positions: Record<string, { sign?: string, degree?: number, exactLongitude?: number }>,
     ): string[] => {
       if (!positions || typeof positions !== 'object') {
-        logger.warn('Invalid planetary positions for calculating active planets');
+        logger.warn('Invalid planetary positions for calculating active planets')
         return []
       }
 
@@ -135,7 +135,7 @@ export function useAstrologicalState(): AstrologyHookData {
 
       try {
         // Add ruling planet of current sun sign
-        const sunSign = positions.sun.sign?.toLowerCase();
+        const sunSign = positions.sun.sign?.toLowerCase()
         if (sunSign) {
           // Map signs to their ruling planets
           const signRulers: Record<string, string> = {
@@ -155,7 +155,7 @@ export function useAstrologicalState(): AstrologyHookData {
 
           // Add the ruler of the current sun sign
           if (signRulers[sunSign] && !activePlanets.includes(signRulers[sunSign])) {
-            activePlanets.push(signRulers[sunSign]);
+            activePlanets.push(signRulers[sunSign])
           }
         }
 
@@ -164,8 +164,8 @@ export function useAstrologicalState(): AstrologyHookData {
             return
           }
 
-          const planetLower = planet.toLowerCase();
-          const signLower = position.sign.toLowerCase();
+          const planetLower = planet.toLowerCase()
+          const signLower = position.sign.toLowerCase()
 
           // Simple planet-sign dignity mapping
           const dignities: Record<string, string[]> = {
@@ -183,7 +183,7 @@ export function useAstrologicalState(): AstrologyHookData {
 
           // Check if planet is in a powerful sign position
           if (dignities[planetLower].includes(signLower)) {
-            activePlanets.push(planetLower);
+            activePlanets.push(planetLower)
           }
 
           // Add special rulerships based on degree
@@ -191,12 +191,12 @@ export function useAstrologicalState(): AstrologyHookData {
           if (degree >= 0 && degree <= 15) {
             // Planets in early degrees are more powerful
             if (!activePlanets.includes(planetLower)) {
-              activePlanets.push(planetLower);
+              activePlanets.push(planetLower)
             }
           }
-        });
+        })
       } catch (error) {
-        logger.error('Error calculating active planets', error);
+        logger.error('Error calculating active planets', error)
       }
 
       // Ensure uniqueness
@@ -206,27 +206,27 @@ export function useAstrologicalState(): AstrologyHookData {
   ),
 
   // Extract stringified positions to avoid complex expression in dependency array
-  const planetaryPositionsString = JSON.stringify(planetaryPositions);
+  const planetaryPositionsString = JSON.stringify(planetaryPositions)
 
   // Memoize key values to prevent unnecessary updates
   const memoizedPlanetaryPositions = useMemo(() => {
     return planetaryPositions
-  }, [planetaryPositionsString]);
+  }, [planetaryPositionsString])
 
   // Track changes to planetary positions and update state
   useEffect(() => {
     try {
       if (Object.keys(memoizedPlanetaryPositions).length > 0) {
-        const activePlanets = getActivePlanets(memoizedPlanetaryPositions as unknown);
+        const activePlanets = getActivePlanets(memoizedPlanetaryPositions as unknown)
         const currentZodiac = (
           (memoizedPlanetaryPositions.sun )?.sign || ''
-        ).toLowerCase();
+        ).toLowerCase()
 
         logger.debug('Updating astrological state:', {
           currentZodiac,
           activePlanets,
-          time: new Date().toISOString();
-        });
+          time: new Date().toISOString()
+        })
 
         setAstroState((prev: unknown) => {
           // Skip update if nothing changed to prevent unnecessary re-renders
@@ -234,9 +234,9 @@ export function useAstrologicalState(): AstrologyHookData {
             prev.currentZodiac === currentZodiac &&
             JSON.stringify(prev.activePlanets) === JSON.stringify(activePlanets) &&
             JSON.stringify(prev.currentPlanetaryAlignment) ===
-              JSON.stringify(memoizedPlanetaryPositions);
+              JSON.stringify(memoizedPlanetaryPositions)
           ) {
-            logger.debug('Skipping astro state update as nothing changed');
+            logger.debug('Skipping astro state update as nothing changed')
             return prev
           }
 
@@ -247,42 +247,42 @@ export function useAstrologicalState(): AstrologyHookData {
             activePlanets,
             loading: false
           };
-        });
-        setIsReady(true);
+        })
+        setIsReady(true)
       }
     } catch (error) {
-      logger.error('Failed to update astrological state', error);
+      logger.error('Failed to update astrological state', error)
     }
-  }, [memoizedPlanetaryPositions, getActivePlanets]);
+  }, [memoizedPlanetaryPositions, getActivePlanets])
 
   // Memoize the current planetary alignment to prevent unnecessary recalculations
   const currentPlanetaryAlignment = useMemo(() => {
     return astroState.currentPlanetaryAlignment;
-  }, [astroState.currentPlanetaryAlignment]);
+  }, [astroState.currentPlanetaryAlignment])
 
-  const [currentPlanetaryHour, setCurrentPlanetaryHour] = useState<string | null>(null);
+  const [currentPlanetaryHour, setCurrentPlanetaryHour] = useState<string | null>(null)
 
   useEffect(() => {
     try {
-      const calculator = new PlanetaryHourCalculator();
-      const hourInfo = calculator.getCurrentPlanetaryHour();
-      setCurrentPlanetaryHour(hourInfo.planet);
+      const calculator = new PlanetaryHourCalculator()
+      const hourInfo = calculator.getCurrentPlanetaryHour()
+      setCurrentPlanetaryHour(hourInfo.planet)
 
       // Add a refresh interval if needed
       const intervalId = setInterval(() => {
-        const hourInfo = calculator.getCurrentPlanetaryHour();
-        setCurrentPlanetaryHour(hourInfo.planet);
+        const hourInfo = calculator.getCurrentPlanetaryHour()
+        setCurrentPlanetaryHour(hourInfo.planet)
       }, 60000); // Update every minute
 
-      return () => clearInterval(intervalId);
+      return () => clearInterval(intervalId)
     } catch (error) {
       logger.error('Failed to calculate planetary hour', error),
-      setCurrentPlanetaryHour(null);
+      setCurrentPlanetaryHour(null)
       return () => {
         // Intentionally empty - no cleanup needed in error case
       };
     }
-  }, []);
+  }, [])
 
   // Return the astro state with isReady flag
   return {

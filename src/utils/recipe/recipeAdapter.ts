@@ -15,7 +15,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   // Convert ingredients to the correct format with type safety
   const ingredients: RecipeIngredient[] = adaptIngredients(
     (recipeData.ingredients || []) as unknown as Recipe[],
-  );
+  )
 
   // Create a base recipe with required properties
   const recipe: Recipe = {
@@ -47,7 +47,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   // Handle time-related properties
   const recipeDataAny = recipeData as unknown as any;
   if (recipeDataAny.timeToMake !== undefined) {
-    recipe.timeToMake = String(recipeDataAny.timeToMake);
+    recipe.timeToMake = String(recipeDataAny.timeToMake)
   }
 
   // Handle serving-related properties
@@ -65,15 +65,15 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
-    });
+    })
   }
 
   // Handle season
   const energyProfile = recipeDataAny.energyProfile ;
   if (energyProfile && energyProfile.season) {
-    const seasonVal = Array.isArray(energyProfile.season);
-      ? String((energyProfile.season as unknown[])[0] ?? '');
-      : String(energyProfile.season);
+    const seasonVal = Array.isArray(energyProfile.season)
+      ? String((energyProfile.season as unknown[])[0] ?? '')
+      : String(energyProfile.season)
     recipe.currentSeason = seasonVal
   }
 
@@ -81,20 +81,20 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   if (energyProfile) {
     if (energyProfile.zodiac) {
       // Coerce to lowercase zodiac union strings
-      const zodiacRaw = Array.isArray(energyProfile.zodiac);
+      const zodiacRaw = Array.isArray(energyProfile.zodiac)
         ? energyProfile.zodiac
         : [energyProfile.zodiac];
       recipe.zodiacInfluences = zodiacRaw;
-        .map(z => String(z).toLowerCase());
+        .map(z => String(z).toLowerCase())
         .filter(Boolean) as unknown as import('@/types/alchemy').ZodiacSign[]
     }
 
     if (energyProfile.lunar) {
-      const lunarRaw = Array.isArray(energyProfile.lunar);
+      const lunarRaw = Array.isArray(energyProfile.lunar)
         ? energyProfile.lunar
         : [energyProfile.lunar];
       recipe.lunarPhaseInfluences = lunarRaw;
-        .map(l => String(l).toLowerCase());
+        .map(l => String(l).toLowerCase())
         .filter(Boolean) as unknown as import('@/types/alchemy').LunarPhase[]
     }
 
@@ -122,8 +122,8 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
       'low-carb',
       'keto',
       'paleo'
-    ].includes(tag.toLowerCase());
-  );
+    ].includes(tag.toLowerCase())
+  )
 
   if (dietaryTags.includes('vegetarian')) {
     recipe.isVegetarian = true;
@@ -145,8 +145,8 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   if (recipeData.tags) {
     const mealTypeValues = ['breakfast', 'lunch', 'dinner', 'snack', 'dessert', 'appetizer'];
     const mealTypes = (recipeData.tags || []).filter(tag =>
-      mealTypeValues.includes(tag.toLowerCase());
-    );
+      mealTypeValues.includes(tag.toLowerCase())
+    )
     if (mealTypes.length > 0) {
       recipe.mealType = mealTypes;
     }
@@ -184,7 +184,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
 
   // Handle preparation notes
   if (recipeDataAny.preparationNotes) {
-    recipe.preparationNotes = String(recipeDataAny.preparationNotes);
+    recipe.preparationNotes = String(recipeDataAny.preparationNotes)
   }
 
   // Handle technical tips
@@ -215,7 +215,7 @@ function adaptIngredients(ingredients: Recipe[]): RecipeIngredient[] {
     };
 
     if (ingredient.optional !== undefined) {
-      recipeIngredient.optional = Boolean(ingredient.optional);
+      recipeIngredient.optional = Boolean(ingredient.optional)
     }
 
     if (ingredient.preparation) {
@@ -223,18 +223,18 @@ function adaptIngredients(ingredients: Recipe[]): RecipeIngredient[] {
     }
 
     if (ingredient.category) {
-      recipeIngredient.category = String(ingredient.category);
+      recipeIngredient.category = String(ingredient.category)
     }
 
     return recipeIngredient;
-  });
+  })
 }
 
 /**
  * Creates a ScoredRecipe from a Recipe and matchScore
  *
  * @param recipe The recipe to convert
- * @param matchScore The match score (0-1);
+ * @param matchScore The match score (0-1)
  * @returns A type-safe ScoredRecipe object
  */
 export function createScoredRecipe(recipe: Recipe, matchScore: number): ScoredRecipe {
@@ -242,7 +242,7 @@ export function createScoredRecipe(recipe: Recipe, matchScore: number): ScoredRe
   const adaptedRecipe = isRecipeData(recipe) ? adaptRecipeData(recipe) : recipe;
 
   // Convert the match score to a 0-100 scale
-  const score = Math.round(matchScore * 100);
+  const score = Math.round(matchScore * 100)
 
   // Create the scored recipe
   const scoredRecipe: ScoredRecipe = {
@@ -270,7 +270,7 @@ export function isRecipeData(obj: unknown): obj is RecipeData {
   return (
     typeof recipeData.id === 'string' &&
     typeof recipeData.name === 'string' &&
-    Array.isArray(recipeData.ingredients);
+    Array.isArray(recipeData.ingredients)
   )
 }
 
@@ -281,7 +281,7 @@ export function isRecipeData(obj: unknown): obj is RecipeData {
  * @returns Array of type-safe Recipe objects
  */
 export function adaptAllRecipes(recipeDataArray: RecipeData[]): Recipe[] {
-  return recipeDataArray.map(recipeData => adaptRecipeData(recipeData));
+  return recipeDataArray.map(recipeData => adaptRecipeData(recipeData))
 }
 
 /**
@@ -296,7 +296,7 @@ export function extractElementalProperties(recipeData: RecipeData): ElementalPro
     return recipeDataAny.elementalState as ElementalProperties
   }
 
-  return createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
+  return createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 })
 }
 
 /**
@@ -336,7 +336,7 @@ export function getCookingMethodsFromRecipe(recipeData: RecipeData): string[] {
 
     const methods = (recipeData.tags || []).filter(tag =>
       cookingMethodKeywords.some(method => tag.toLowerCase().includes(method)),
-    );
+    )
 
     if (methods.length > 0) {
       return methods;

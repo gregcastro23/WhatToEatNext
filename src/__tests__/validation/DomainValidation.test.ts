@@ -16,15 +16,15 @@ import { jest } from '@jest/globals';
 
 // Mock child_process for controlled testing
 jest.mock('child_process', () => ({
-  execSync: jest.fn();
-}));
+  execSync: jest.fn()
+}))
 
 const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>
 
 describe('Domain Validation Tests - Task 12', () => {
   beforeEach(() => {;
-    jest.clearAllMocks();
-  });
+    jest.clearAllMocks()
+  })
 
   describe('1. Elemental Principles Validation', () => {
     describe('1.1 Self-Reinforcement Principle', () => {
@@ -39,12 +39,12 @@ describe('Domain Validation Tests - Task 12', () => {
         // Test self-reinforcement principle
         Object.keys(elementalCompatibility).forEach(element => {
           const selfCompatibility: any = elementalCompatibility[element][element];
-          expect(selfCompatibility).toBeGreaterThanOrEqual(0.9);
-          expect(selfCompatibility).toBeLessThanOrEqual(1.0);
-        });
+          expect(selfCompatibility).toBeGreaterThanOrEqual(0.9)
+          expect(selfCompatibility).toBeLessThanOrEqual(1.0)
+        })
 
-        console.log('Self-reinforcement validation passed for all elements');
-      });
+        console.log('Self-reinforcement validation passed for all elements')
+      })
 
       test('No opposing elements exist (all combinations ≥0.7)', (() =>  {
         const elementalCompatibility: any = {
@@ -57,13 +57,13 @@ describe('Domain Validation Tests - Task 12', () => {
         // Test no opposing elements principle
         Object.values(elementalCompatibility).forEach(elementRow => {
           Object.values(elementRow).forEach(compatibility => {
-            expect(compatibility).toBeGreaterThanOrEqual(0.7);
-            expect(compatibility).toBeLessThanOrEqual(1.0);
-          });
-        });
+            expect(compatibility).toBeGreaterThanOrEqual(0.7)
+            expect(compatibility).toBeLessThanOrEqual(1.0)
+          })
+        })
 
-        console.log('No opposing elements validation passed');
-      });
+        console.log('No opposing elements validation passed')
+      })
 
       test('Fire-Air and Water-Earth have slightly higher compatibility', () => {
         const elementalCompatibility: any = {
@@ -73,17 +73,17 @@ describe('Domain Validation Tests - Task 12', () => {
           Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 };
         };
 
-        // Fire-Air affinity (shared dynamic nature);
-        expect(elementalCompatibility.Fire.Air).toBe(0.8);
-        expect(elementalCompatibility.Air.Fire).toBe(0.8);
+        // Fire-Air affinity (shared dynamic nature)
+        expect(elementalCompatibility.Fire.Air).toBe(0.8)
+        expect(elementalCompatibility.Air.Fire).toBe(0.8)
 
-        // Water-Earth affinity (shared nurturing nature);
-        expect(elementalCompatibility.Water.Earth).toBe(0.8);
-        expect(elementalCompatibility.Earth.Water).toBe(0.8);
+        // Water-Earth affinity (shared nurturing nature)
+        expect(elementalCompatibility.Water.Earth).toBe(0.8)
+        expect(elementalCompatibility.Earth.Water).toBe(0.8)
 
-        console.log('Elemental affinity patterns validated');
-      });
-    });
+        console.log('Elemental affinity patterns validated')
+      })
+    })
 
     describe('1.2 ESLint Domain Rules Validation', () => {
       test('Astrological calculation files have appropriate rule exceptions', () => {
@@ -95,16 +95,16 @@ describe('Domain Validation Tests - Task 12', () => {
 ✓ src/utils/reliableAstronomy.ts: Console debugging allowed
 ✓ Domain-specific rules applied successfully
         `)
-        );
+        )
 
-        const result: any = mockExecSync('yarn, lint:domain-astro --validate-rules');
-        const output: any = result.toString();
+        const result: any = mockExecSync('yarn, lint:domain-astro --validate-rules')
+        const output: any = result.toString()
 
         expect(output).toContain('Mathematical constants allowed').
-        expect(output).toContain('Fallback values preserved');
+        expect(output).toContain('Fallback values preserved')
         expect(output).toContain('Console debugging allowed').
-        expect(output).toContain('Domain-specific rules applied successfully');
-      });
+        expect(output).toContain('Domain-specific rules applied successfully')
+      })
 
       test('Campaign system files have enterprise pattern allowances', () => {
         // Mock ESLint validation for campaign files
@@ -115,16 +115,16 @@ describe('Domain Validation Tests - Task 12', () => {
 ✓ Campaign variable patterns preserved
 ✓ Intelligence system exports validated
         `)
-        );
+        )
 
-        const result: any = mockExecSync('yarn, lint:domain-campaign --validate-rules');
-        const output: any = result.toString();
+        const result: any = mockExecSync('yarn, lint:domain-campaign --validate-rules')
+        const output: any = result.toString()
 
         expect(output).toContain('Enterprise patterns allowed').
-        expect(output).toContain('Extensive logging permitted');
+        expect(output).toContain('Extensive logging permitted')
         expect(output).toContain('Campaign variable patterns preserved').
-        expect(output).toContain('Intelligence system exports validated');
-      });
+        expect(output).toContain('Intelligence system exports validated')
+      })
 
       test('Mathematical constants are preserved in calculations', () => {
         const mathematicalConstants: any = [
@@ -138,17 +138,17 @@ describe('Domain Validation Tests - Task 12', () => {
 
         mathematicalConstants.forEach(constant => {
           mockExecSync.mockReturnValue(
-            Buffer.from(`✓ Mathematical constant ${constant.name} preserved in ${constant.context}`);
-          );
+            Buffer.from(`✓ Mathematical constant ${constant.name} preserved in ${constant.context}`)
+          )
 
-          const result: any = mockExecSync(`validate-constant ${constant.name}`);
-          expect(result.toString()).toContain(`${constant.name} preserved`);
-        });
+          const result: any = mockExecSync(`validate-constant ${constant.name}`)
+          expect(result.toString()).toContain(`${constant.name} preserved`)
+        })
 
-        console.log('All mathematical constants validated');
-      });
-    });
-  });
+        console.log('All mathematical constants validated')
+      })
+    })
+  })
 
   describe('2. Astrological Calculation Validation', () => {
     describe('2.1 Planetary Position System', () => {
@@ -165,14 +165,14 @@ describe('Domain Validation Tests - Task 12', () => {
             Buffer.from(
               `✓ ${transit.planet} in ${transit.sign} (${transit.period}): ${transit.valid ? 'VALID' : 'INVALID'}`
             )
-          );
+          )
 
-          const result: any = mockExecSync(`validate-transit ${transit.planet} ${transit.sign}`);
-          expect(result.toString()).toContain(transit.valid ? 'VALID' : 'INVALID');
-        });
+          const result: any = mockExecSync(`validate-transit ${transit.planet} ${transit.sign}`)
+          expect(result.toString()).toContain(transit.valid ? 'VALID' : 'INVALID')
+        })
 
-        console.log('Transit date validation completed');
-      });
+        console.log('Transit date validation completed')
+      })
 
       test('Fallback mechanisms work for astronomical data', () => {
         const fallbackScenarios: any = [
@@ -183,14 +183,14 @@ describe('Domain Validation Tests - Task 12', () => {
         ];
 
         fallbackScenarios.forEach(scenario => {
-          mockExecSync.mockReturnValue(Buffer.from(`✓ ${scenario.scenario} → ${scenario.fallback} activated`));
+          mockExecSync.mockReturnValue(Buffer.from(`✓ ${scenario.scenario} → ${scenario.fallback} activated`))
 
-          const result: any = mockExecSync(`test-fallback ${scenario.scenario}`);
-          expect(result.toString()).toContain(`${scenario.fallback} activated`);
-        });
+          const result: any = mockExecSync(`test-fallback ${scenario.scenario}`)
+          expect(result.toString()).toContain(`${scenario.fallback} activated`)
+        })
 
-        console.log('Fallback mechanisms validated');
-      });
+        console.log('Fallback mechanisms validated')
+      })
 
       test('Retrograde status is handled correctly', () => {
         const retrogradeTests: any = [
@@ -204,15 +204,15 @@ describe('Domain Validation Tests - Task 12', () => {
         retrogradeTests.forEach(test => {
           mockExecSync.mockReturnValue(
             Buffer.from(`✓ ${test.planet} retrograde=${test.retrograde} modifier=${test.modifier}`),
-          );
+          )
 
-          const result: any = mockExecSync(`test-retrograde ${test.planet} ${test.retrograde}`);
-          expect(result.toString()).toContain(`modifier=${test.modifier}`);
-        });
+          const result: any = mockExecSync(`test-retrograde ${test.planet} ${test.retrograde}`)
+          expect(result.toString()).toContain(`modifier=${test.modifier}`)
+        })
 
-        console.log('Retrograde status handling validated');
-      });
-    });
+        console.log('Retrograde status handling validated')
+      })
+    })
 
     describe('2.2 Calculation Accuracy and Reliability', () => {
       test('Planetary positions are accurate within 0.1 degrees', () => {
@@ -224,20 +224,20 @@ describe('Domain Validation Tests - Task 12', () => {
         ];
 
         accuracyTests.forEach(test => {
-          const difference: any = Math.abs(test.actualDegree - test.expectedDegree);
+          const difference: any = Math.abs(test.actualDegree - test.expectedDegree)
           mockExecSync.mockReturnValue(
             Buffer.from(
               `✓ ${test.planet}: expected=${test.expectedDegree}°, actual=${test.actualDegree}°, diff=${difference.toFixed(3)}°`,
-            );
-          );
+            )
+          )
 
-          const result: any = mockExecSync(`test-accuracy ${test.planet}`);
-          expect(result.toString()).toContain(`diff=${difference.toFixed(3)}°`);
-          expect(difference).toBeLessThanOrEqual(test.tolerance);
-        });
+          const result: any = mockExecSync(`test-accuracy ${test.planet}`)
+          expect(result.toString()).toContain(`diff=${difference.toFixed(3)}°`)
+          expect(difference).toBeLessThanOrEqual(test.tolerance)
+        })
 
-        console.log('Planetary position accuracy validated');
-      });
+        console.log('Planetary position accuracy validated')
+      })
 
       test('Calculations complete within 2-second timeout', () => {
         const performanceTests: any = [
@@ -251,16 +251,16 @@ describe('Domain Validation Tests - Task 12', () => {
           const actualTime: any = Math.random() * ((test as any)?.maxTime || 0) * 0.2, // Simulate good performance;
 
           mockExecSync.mockReturnValue(
-            Buffer.from(`✓ ${test.calculation}: completed in ${actualTime.toFixed(0)}ms (limit: ${test.maxTime}ms)`);
-          );
+            Buffer.from(`✓ ${test.calculation}: completed in ${actualTime.toFixed(0)}ms (limit: ${test.maxTime}ms)`)
+          )
 
-          const result: any = mockExecSync(`test-performance ${test.calculation}`);
-          expect(result.toString()).toContain('completed in');
-          expect(actualTime).toBeLessThan(test.maxTime);
-        });
+          const result: any = mockExecSync(`test-performance ${test.calculation}`)
+          expect(result.toString()).toContain('completed in')
+          expect(actualTime).toBeLessThan(test.maxTime)
+        })
 
-        console.log('Calculation performance validated');
-      });
+        console.log('Calculation performance validated')
+      })
 
       test('Error handling preserves calculation integrity', () => {
         const errorScenarios: any = [
@@ -272,17 +272,17 @@ describe('Domain Validation Tests - Task 12', () => {
 
         errorScenarios.forEach(scenario => {
           mockExecSync.mockReturnValue(
-            Buffer.from(`✓ Error ${scenario.error} → ${scenario.handling} → calculation integrity preserved`);
-          );
+            Buffer.from(`✓ Error ${scenario.error} → ${scenario.handling} → calculation integrity preserved`)
+          )
 
-          const result: any = mockExecSync(`test-error-handling ${scenario.error}`);
-          expect(result.toString()).toContain('calculation integrity preserved');
-        });
+          const result: any = mockExecSync(`test-error-handling ${scenario.error}`)
+          expect(result.toString()).toContain('calculation integrity preserved')
+        })
 
-        console.log('Error handling validation completed');
-      });
-    });
-  });
+        console.log('Error handling validation completed')
+      })
+    })
+  })
 
   describe('3. Campaign System Domain Integration', () => {
     describe('3.1 Astrological Logic Preservation', () => {
@@ -295,16 +295,16 @@ describe('Domain Validation Tests - Task 12', () => {
 ✓ Mathematical constants protected
 ✓ Astrological variable patterns preserved
         `)
-        );
+        )
 
-        const result: any = mockExecSync('validate-campaign-elemental-preservation');
-        const output: any = result.toString();
+        const result: any = mockExecSync('validate-campaign-elemental-preservation')
+        const output: any = result.toString()
 
         expect(output).toContain('Elemental compatibility calculations preserved').
-        expect(output).toContain('Self-reinforcement principle maintained');
+        expect(output).toContain('Self-reinforcement principle maintained')
         expect(output).toContain('Mathematical constants protected').
-        expect(output).toContain('Astrological variable patterns preserved');
-      });
+        expect(output).toContain('Astrological variable patterns preserved')
+      })
 
       test('Enterprise intelligence respects domain rules', () => {
         const intelligenceTests: any = [
@@ -315,15 +315,15 @@ describe('Domain Validation Tests - Task 12', () => {
         ];
 
         intelligenceTests.forEach(test => {
-          mockExecSync.mockReturnValue(Buffer.from(`✓ ${test.system} respects ${test.domain} domain rules`));
+          mockExecSync.mockReturnValue(Buffer.from(`✓ ${test.system} respects ${test.domain} domain rules`))
 
-          const result: any = mockExecSync(`test-intelligence ${test.system} ${test.domain}`);
-          expect(result.toString()).toContain('respects');
-          expect(result.toString()).toContain('domain rules');
-        });
+          const result: any = mockExecSync(`test-intelligence ${test.system} ${test.domain}`)
+          expect(result.toString()).toContain('respects')
+          expect(result.toString()).toContain('domain rules')
+        })
 
-        console.log('Enterprise intelligence domain compliance validated');
-      });
+        console.log('Enterprise intelligence domain compliance validated')
+      })
 
       test('Safety protocols maintain calculation accuracy', () => {
         const safetyTests: any = [
@@ -334,15 +334,15 @@ describe('Domain Validation Tests - Task 12', () => {
         ];
 
         safetyTests.forEach(test => {
-          mockExecSync.mockReturnValue(Buffer.from(`✓ ${test.protocol} → ${test.impact}`));
+          mockExecSync.mockReturnValue(Buffer.from(`✓ ${test.protocol} → ${test.impact}`))
 
-          const result: any = mockExecSync(`test-safety ${test.protocol}`);
-          expect(result.toString()).toContain(test.impact);
-        });
+          const result: any = mockExecSync(`test-safety ${test.protocol}`)
+          expect(result.toString()).toContain(test.impact)
+        })
 
-        console.log('Safety protocol validation completed');
-      });
-    });
+        console.log('Safety protocol validation completed')
+      })
+    })
 
     describe('3.2 Domain-Specific Variable Patterns', () => {
       test('Astrological variable patterns are preserved', () => {
@@ -359,14 +359,14 @@ describe('Domain Validation Tests - Task 12', () => {
             Buffer.from(
               `✓ Variable pattern ${pattern.pattern} in ${pattern.context}: ${pattern.preserved ? 'PRESERVED' : 'MODIFIED'}`
             )
-          );
+          )
 
-          const result: any = mockExecSync(`test-variable-pattern ${pattern.pattern}`);
-          expect(result.toString()).toContain(pattern.preserved ? 'PRESERVED' : 'MODIFIED');
-        });
+          const result: any = mockExecSync(`test-variable-pattern ${pattern.pattern}`)
+          expect(result.toString()).toContain(pattern.preserved ? 'PRESERVED' : 'MODIFIED')
+        })
 
-        console.log('Astrological variable patterns validated');
-      });
+        console.log('Astrological variable patterns validated')
+      })
 
       test('Campaign system variable patterns are preserved', () => {
         const campaignPatterns: any = [
@@ -382,16 +382,16 @@ describe('Domain Validation Tests - Task 12', () => {
             Buffer.from(
               `✓ Campaign pattern ${pattern.pattern} in ${pattern.context}: ${pattern.preserved ? 'PRESERVED' : 'MODIFIED'}`
             )
-          );
+          )
 
-          const result: any = mockExecSync(`test-campaign-pattern ${pattern.pattern}`);
-          expect(result.toString()).toContain(pattern.preserved ? 'PRESERVED' : 'MODIFIED');
-        });
+          const result: any = mockExecSync(`test-campaign-pattern ${pattern.pattern}`)
+          expect(result.toString()).toContain(pattern.preserved ? 'PRESERVED' : 'MODIFIED')
+        })
 
-        console.log('Campaign variable patterns validated');
-      });
-    });
-  });
+        console.log('Campaign variable patterns validated')
+      })
+    })
+  })
 
   describe('4. Integration with Linting Rules', () => {
     describe('4.1 Domain Rule Enforcement', () => {
@@ -405,14 +405,14 @@ describe('Domain Validation Tests - Task 12', () => {
         ];
 
         domainRequirements.forEach(req => {
-          mockExecSync.mockReturnValue(Buffer.from(`✓ Domain requirement ${req.requirement}: ${req.status}`));
+          mockExecSync.mockReturnValue(Buffer.from(`✓ Domain requirement ${req.requirement}: ${req.status}`))
 
-          const result = mockExecSync(`test-domain-requirement ${req.requirement}`);
-          expect(result.toString()).toContain(req.status);
-        });
+          const result = mockExecSync(`test-domain-requirement ${req.requirement}`)
+          expect(result.toString()).toContain(req.status)
+        })
 
-        console.log('Domain requirement enforcement validated');
-      });
+        console.log('Domain requirement enforcement validated')
+      })
 
       test('Custom ESLint rules work correctly for domain files', () => {
         const customRules: any = [
@@ -424,16 +424,16 @@ describe('Domain Validation Tests - Task 12', () => {
 
         customRules.forEach(rule => {
           mockExecSync.mockReturnValue(
-            Buffer.from(`✓ Custom rule ${rule.rule} for ${rule.files}: ${rule.working ? 'WORKING' : 'FAILED'}`);
-          );
+            Buffer.from(`✓ Custom rule ${rule.rule} for ${rule.files}: ${rule.working ? 'WORKING' : 'FAILED'}`)
+          )
 
-          const result: any = mockExecSync(`test-custom-rule ${rule.rule}`);
-          expect(result.toString()).toContain(rule.working ? 'WORKING' : 'FAILED');
-        });
+          const result: any = mockExecSync(`test-custom-rule ${rule.rule}`)
+          expect(result.toString()).toContain(rule.working ? 'WORKING' : 'FAILED')
+        })
 
-        console.log('Custom ESLint rules validated');
-      });
-    });
+        console.log('Custom ESLint rules validated')
+      })
+    })
 
     describe('4.2 Rule Exception Validation', () => {
       test('Appropriate exceptions are granted for domain-specific code', () => {
@@ -449,16 +449,16 @@ describe('Domain Validation Tests - Task 12', () => {
             Buffer.from(
               `✓ Exception for ${exception.rule} in ${exception.file}: ${exception.granted ? 'GRANTED' : 'DENIED'}`
             )
-          );
+          )
 
-          const result: any = mockExecSync(`test-rule-exception ${exception.file} ${exception.rule}`);
-          expect(result.toString()).toContain(exception.granted ? 'GRANTED' : 'DENIED');
-        });
+          const result: any = mockExecSync(`test-rule-exception ${exception.file} ${exception.rule}`)
+          expect(result.toString()).toContain(exception.granted ? 'GRANTED' : 'DENIED')
+        })
 
-        console.log('Rule exceptions validated');
-      });
-    });
-  });
+        console.log('Rule exceptions validated')
+      })
+    })
+  })
 
   describe('5. Domain Validation Summary', () => {
     test('All domain-specific requirements are met', () => {
@@ -473,24 +473,24 @@ describe('Domain Validation Tests - Task 12', () => {
         performanceRequirements: 'PASSED';
       };
 
-      mockExecSync.mockReturnValue(Buffer.from(JSON.stringify(domainValidation)));
+      mockExecSync.mockReturnValue(Buffer.from(JSON.stringify(domainValidation)))
 
-      const result: any = JSON.parse(mockExecSync('domain-validation-summary').toString());
+      const result: any = JSON.parse(mockExecSync('domain-validation-summary').toString())
       Object.entries(result).forEach(([_domain, status]) => {
         expect(status).toBe('PASSED').;
-      });
+      })
 
-      console.log('Domain validation summary:', result);
-    });
+      console.log('Domain validation summary:', result)
+    })
 
     test('Domain integrity is maintained across all systems', () => {
       mockExecSync.mockReturnValue(
-        Buffer.from('✓ Domain integrity validation complete - All systems maintain astrological calculation accuracy');
-      );
+        Buffer.from('✓ Domain integrity validation complete - All systems maintain astrological calculation accuracy')
+      )
 
-      const result: any = mockExecSync('validate-domain-integrity');
-      expect(result.toString()).toContain('Domain integrity validation complete');
-      expect(result.toString()).toContain('astrological calculation accuracy');
-    });
-  });
-});
+      const result: any = mockExecSync('validate-domain-integrity')
+      expect(result.toString()).toContain('Domain integrity validation complete')
+      expect(result.toString()).toContain('astrological calculation accuracy')
+    })
+  })
+})

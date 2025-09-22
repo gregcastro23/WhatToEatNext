@@ -39,7 +39,7 @@ import { getZodiacElementalInfluence } from '@/utils/zodiacUtils';
  */
 const debugLog = (_message: string, ..._args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
-  // log.info(message, ...args);
+  // log.info(message, ...args)
 };
 
 // Silent mode flag for debugging
@@ -117,13 +117,13 @@ function safeGetElementValue(
       return DEFAULT_ELEMENT_VALUE
     }
 
-    // Ensure the value is within the valid range (0-1);
-    return Math.max(0, Math.min(1, value));
+    // Ensure the value is within the valid range (0-1)
+    return Math.max(0, Math.min(1, value))
   } catch (error) {
     logger.error('Error in safeGetElementValue:', error, {
       context: 'alchemicalEngine:safeGetElementValue',
       data: { element, props }
-    });
+    })
     return DEFAULT_ELEMENT_VALUE;
   }
 }
@@ -261,7 +261,7 @@ export class AlchemicalEngineAdvanced {
 
     // Safely access the seasonalPatterns by ensuring the season is a valid key
     const defaultSeason: Season = 'winter';
-    const normalizedSeason = season?.toLowerCase();
+    const normalizedSeason = season?.toLowerCase()
     const validSeason =
       normalizedSeason === 'spring' ||
       normalizedSeason === 'summer' ||
@@ -275,7 +275,7 @@ export class AlchemicalEngineAdvanced {
 
     // Function to check if string is a valid RulingPlanet
     const isRulingPlanet = (planet: string): planet is RulingPlanet => {
-      return Object.keys(PLANETARY_MODIFIERS).includes(planet);
+      return Object.keys(PLANETARY_MODIFIERS).includes(planet)
     };
 
     // Simple matching score based on astrological state only
@@ -331,12 +331,12 @@ export class AlchemicalEngineAdvanced {
     season?: string,
   ): number {
     try {
-      debugLog('Getting cuisine compatibility for', cuisine, season);
+      debugLog('Getting cuisine compatibility for', cuisine, season)
 
       // Get cuisine data from culinaryTraditions
       const cuisineData = culinaryTraditions[cuisine];
       if (!cuisineData) {
-        debugLog('No cuisine data found for', cuisine);
+        debugLog('No cuisine data found for', cuisine)
         return 0.5; // Neutral compatibility
       }
 
@@ -361,16 +361,16 @@ export class AlchemicalEngineAdvanced {
           ? (cuisineData as any).elementalProperties
           : null;
       if (astroState && elementalProperties) {
-        const astroElements = this.calculateAstrologicalInfluence(astroState);
+        const astroElements = this.calculateAstrologicalInfluence(astroState)
         const elementCompatibility = this.calculateElementCompatibility(
           astroElements,
           elementalProperties as ElementalProperties,
-        );
+        )
         compatibilityScore += (elementCompatibility - 0.5) * 0.3; // Scale the impact
       }
 
       // Ensure score is within valid range
-      return Math.max(0, Math.min(1, compatibilityScore));
+      return Math.max(0, Math.min(1, compatibilityScore))
     } catch (error) {
       ErrorHandler.log(
         error as Error,
@@ -378,7 +378,7 @@ export class AlchemicalEngineAdvanced {
           context: 'alchemicalEngine:getCuisineCompatibility',
           data: { cuisine, season }
         } as any,
-      );
+      )
       return 0.5;
     }
   }
@@ -396,13 +396,13 @@ export class AlchemicalEngineAdvanced {
     let totalWeight = 0;
 
     for (const element of elements) {
-      const value1 = safeGetElementValue(elements1, element);
-      const value2 = safeGetElementValue(elements2, element);
+      const value1 = safeGetElementValue(elements1, element)
+      const value2 = safeGetElementValue(elements2, element)
 
-      // Calculate similarity (1 - absolute difference);
-      const similarity = 1 - Math.abs(value1 - value2);
+      // Calculate similarity (1 - absolute difference)
+      const similarity = 1 - Math.abs(value1 - value2)
 
-      // Weight by the sum of both values (more important when both are high);
+      // Weight by the sum of both values (more important when both are high)
       const weight = value1 + value2;
 
       totalCompatibility += similarity * weight;
@@ -435,9 +435,9 @@ export class AlchemicalEngineAdvanced {
         return 0.9; // Same element has high compatibility
       }
 
-      const affinity = this.getElementalAffinity(recipeElement, userElement);
+      const affinity = this.getElementalAffinity(recipeElement, userElement)
 
-      // Convert affinity strength to a power score (0.5-0.9);
+      // Convert affinity strength to a power score (0.5-0.9)
       if (affinity.strength >= 0.8) {
         return 0.8; // strong affinity
       } else if (affinity.strength >= 0.6) {
@@ -451,7 +451,7 @@ export class AlchemicalEngineAdvanced {
       logger.error('Error in calculateAstrologicalPower:', error, {
         context: 'AlchemicalEngineAdvanced:calculateAstrologicalPower',
         data: { recipeSunSign, astrologicalState }
-      });
+      })
       return 0.5; // Default compatibility on error
     }
   }
@@ -503,20 +503,20 @@ export class AlchemicalEngineAdvanced {
    * Calculate natural influences based on season, moon phase, and other parameters
    */
   calculateNaturalInfluences(params: NaturalInfluenceParams): ElementalProperties {
-    const result = this.getBaseNaturalInfluences(params.season, params.moonPhase, params.timeOfDay);
+    const result = this.getBaseNaturalInfluences(params.season, params.moonPhase, params.timeOfDay)
 
     if (params.sunSign) {
-      const currentDecan = this.getCurrentDecan(params.sunSign, params.degreesInSign);
+      const currentDecan = this.getCurrentDecan(params.sunSign, params.degreesInSign)
       if (currentDecan) {
         const decanInfluence = this.decanModifiers[currentDecan.ruler];
         result[currentDecan.element] *= 1 + decanInfluence;
       }
     }
 
-    const total = Object.values(result).reduce((sum, val) => sum + val0);
+    const total = Object.values(result).reduce((sum, val) => sum + val0)
     Object.keys(result).forEach(element => {
       result[element as unknown] /= total
-    });
+    })
 
     return result;
   }
@@ -557,7 +557,7 @@ export class AlchemicalEngineAdvanced {
     Object.keys(result).forEach(element => {
       const key = element as any
       result[key] = (seasonBase[key] + lunarBase[key]) / 2;
-    });
+    })
 
     switch (timeOfDay.toLowerCase()) {
       case 'morning': result.Fire *= 1.2;
@@ -608,9 +608,9 @@ export class AlchemicalEngineAdvanced {
       astroState,
       currentSeason,
       cuisineName,
-    );
+    )
 
-    const cuisineAlignment = recipeCalculations.calculateCuisineAlignment(recipe);
+    const cuisineAlignment = recipeCalculations.calculateCuisineAlignment(recipe)
 
     // Since AstrologicalState doesn't have an 'aspects' property, we'll use a fallback
     const aspectBonus =
@@ -636,8 +636,8 @@ export class AlchemicalEngineAdvanced {
     // Updated to use correct properties from AstrologicalState
     const sunInfluence = getZodiacElementalInfluence(
       (astrologicalState.currentZodiac || 'aries') ?? 'aries'
-    );
-    const moonInfluence = getZodiacElementalInfluence(astrologicalState.zodiacSign ?? 'aries');
+    )
+    const moonInfluence = getZodiacElementalInfluence(astrologicalState.zodiacSign ?? 'aries')
     return {
       Fire: (sunInfluence.Fire + moonInfluence.Fire) / 2,
       Water: (sunInfluence.Water + moonInfluence.Water) / 2,
@@ -660,7 +660,7 @@ export class AlchemicalEngineAdvanced {
     }
 
     // Use Type Harmony approach for safe property access
-    const _bridge = createAstrologicalBridge();
+    const _bridge = createAstrologicalBridge()
     const currentZodiac = astrologicalState.currentZodiac || 'aries';
     const currentZodiacElement = this.zodiacElements[currentZodiac] || 'Fire';
     const moonSignElement = astrologicalState.zodiacSign
@@ -692,12 +692,12 @@ export class AlchemicalEngineAdvanced {
 
     Object.entries(lunarModifiers).forEach(([element, value]) => {
       baseModifiers[element as unknown] *= value;
-    });
+    })
 
-    const total = Object.values(baseModifiers).reduce((sum, val) => sum + val0);
+    const total = Object.values(baseModifiers).reduce((sum, val) => sum + val0)
     Object.keys(baseModifiers).forEach(element => {
       baseModifiers[element as unknown] /= total
-    });
+    })
 
     return baseModifiers;
   }
@@ -756,11 +756,11 @@ export class AlchemicalEngineAdvanced {
 
       // Safely extract elements and values
       Object.keys(elementObject).forEach(element => {
-        elemPairs.push([element, elementObject[element] || 0]);
-      });
+        elemPairs.push([element, elementObject[element] || 0])
+      })
 
       // Sort by value in descending order
-      elemPairs.sort((ab) => b[1] - a[1]);
+      elemPairs.sort((ab) => b[1] - a[1])
 
       // Create result object using the sorted array
       // This approach never reassigns any variables
@@ -770,7 +770,7 @@ export class AlchemicalEngineAdvanced {
       elemPairs.forEach((pair, index) => {
         const rank = index + 1;
         result[rank] = pair[0];
-      });
+      })
 
       // If we have fewer than 4 elements, fill in defaults
       const defaults = ['Fire', 'Water', 'Earth', 'Air'];
@@ -778,12 +778,12 @@ export class AlchemicalEngineAdvanced {
         if (!result[rank]) {
           result[rank] = defaults[rank - 1];
         }
-      });
+      })
 
       return result;
     } catch (error) {
       // Provide a safe fallback if any error occurs
-      log.error('Error in getElementRanking', { error });
+      log.error('Error in getElementRanking', { error })
       return {
         1: 'Fire',
         2: 'Water',
@@ -799,7 +799,7 @@ export class AlchemicalEngineAdvanced {
    * @returns Sum of all element values
    */
   getAbsoluteElementValue(elementObject: Record<string, number>): number {
-    return Object.values(elementObject).reduce((sum, value) => sum + value0);
+    return Object.values(elementObject).reduce((sum, value) => sum + value0)
   }
 
   /**
@@ -809,7 +809,7 @@ export class AlchemicalEngineAdvanced {
    */
   capitalize(str: string): string {
     if (!str || typeof str !== 'string') return '';
-    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
   }
 }
 
@@ -852,7 +852,7 @@ function getElementRanking(elementObject: Record<string, _number>): Record<numbe
     ];
 
     // Sort by value in descending order
-    elementValues.sort((ab) => b[1] - a[1]);
+    elementValues.sort((ab) => b[1] - a[1])
 
     // Assign ranks safely without modifying any existing values
     for (let i = 0; i < elementValues.length; i++) {
@@ -862,7 +862,7 @@ function getElementRanking(elementObject: Record<string, _number>): Record<numbe
     return rankingObject
   } catch (error) {
     // Provide a safe fallback if any error occurs
-    log.error('Error in getElementRanking', { error });
+    log.error('Error in getElementRanking', { error })
     return {
       1: 'Fire',
       2: 'Water',
@@ -883,9 +883,9 @@ function getAbsoluteElementValue(elementObject: Record<string, _number>): number
     if (!elementObject || typeof elementObject !== 'object') {
       return 0
     }
-    return Object.values(elementObject).reduce((sum, value) => sum + value0);
+    return Object.values(elementObject).reduce((sum, value) => sum + value0)
   } catch (error) {
-    log.error('Error in getAbsoluteElementValue:', error);
+    log.error('Error in getAbsoluteElementValue:', error)
     return 0;
   }
 }
@@ -913,8 +913,8 @@ function combineElementObjects(
       Earth: (obj1.Earth || 0) + (obj2.Earth || 0)
     };
   } catch (error) {
-    log.error('Error in combineElementObjects:', error);
-    return createElementObject();
+    log.error('Error in combineElementObjects:', error)
+    return createElementObject()
   }
 }
 
@@ -928,11 +928,11 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
   try {
     // Validate inputs
     if (!birthInfo || typeof birthInfo !== 'object') {
-      throw new TypeError('Invalid birth, info: expected an object');
+      throw new TypeError('Invalid birth, info: expected an object')
     }
 
     if (!horoscopeDict || typeof horoscopeDict !== 'object' || !horoscopeDict.tropical) {
-      throw new TypeError('Invalid horoscope, data: missing tropical data');
+      throw new TypeError('Invalid horoscope, data: missing tropical data')
     }
 
     // Use let for all variables that might be reassigned
@@ -941,7 +941,7 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
 
     // Validate horoscope has required data
     if (!horoscope.CelestialBodies || typeof horoscope.CelestialBodies !== 'object') {
-      throw new TypeError('Invalid horoscope, data: missing CelestialBodies');
+      throw new TypeError('Invalid horoscope, data: missing CelestialBodies')
     }
 
     // Safely access celestial bodies
@@ -949,7 +949,7 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
 
     // Determine if it's day or night based on birth hour
     let _diurnalOrNocturnal = 'Diurnal';
-    const birthHour = birthInfo.date.getHours();
+    const birthHour = birthInfo.date.getHours()
     if (birthHour < 5 || birthHour > 17) {
       _diurnalOrNocturnal = 'Nocturnal';
     }
@@ -1060,7 +1060,7 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
           signInfo[String(_risingSign)]?.['Major Tarot Card'] || '';
       }
     } catch (error) {
-      log.error('Error processing Ascendant:', error);
+      log.error('Error processing Ascendant:', error)
       // Use defaults if error occurs
     }
 
@@ -1086,7 +1086,7 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
             planet = (entryData.label) || '';
           }
         } catch (error) {
-          log.error(`Error getting planet at index ${celestialBodiesIndex}:`, error);
+          log.error(`Error getting planet at index ${celestialBodiesIndex}:`, error)
           celestialBodiesIndex++;
           continue; // Skip this iteration if error
         }
@@ -1094,10 +1094,10 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
         // SAFELY initialize planet's total effect
         try {
           if (planet && alchmInfo['Planets'] && alchmInfo['Planets'][planet]) {
-            alchmInfo['Planets'][planet]['Total Effect'] = createElementObject();
+            alchmInfo['Planets'][planet]['Total Effect'] = createElementObject()
           }
         } catch (error) {
-          log.error(`Error initializing Total Effect for ${planet}:`, error);
+          log.error(`Error initializing Total Effect for ${planet}:`, error)
         }
 
         // Skip if planet name is not available
@@ -1108,8 +1108,8 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
 
         // Log for debugging
         if (!silent_mode) {
-          log.info('');
-          log.info(`Processing planet ${celestialBodiesIndex}: ${planet}`);
+          log.info('')
+          log.info(`Processing planet ${celestialBodiesIndex}: ${planet}`)
         }
 
         // Get the sign
@@ -1138,7 +1138,7 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
             }
           }
         } catch (error) {
-          log.error(`Error processing sign for ${planet}:`, error);
+          log.error(`Error processing sign for ${planet}:`, error)
           sign = 'Aries'; // Default fallback
         }
 
@@ -1158,7 +1158,7 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
             }
           }
         } catch (error) {
-          log.error(`Error processing modality for ${planet} in ${sign}:`, error);
+          log.error(`Error processing modality for ${planet} in ${sign}:`, error)
         }
 
         // Safely process diurnal and nocturnal elements
@@ -1171,7 +1171,7 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
               `${signInfo[sign]?.element || 'Air'} in ${alchmInfo['Planets'][planet]?.['Nocturnal Element'] || 'Air'}`;
           }
         } catch (error) {
-          log.error(`Error processing elements for ${planet}:`, error);
+          log.error(`Error processing elements for ${planet}:`, error)
         }
 
         // Process remaining data for all planets except Ascendant
@@ -1187,7 +1187,7 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
                 alchmInfo['Planets'][planet]['House'] = house;
               }
             } catch (error) {
-              log.error(`Error processing house for ${planet}:`, error);
+              log.error(`Error processing house for ${planet}:`, error)
               house = '1'; // Default fallback
             }
 
@@ -1218,12 +1218,12 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
                 alchmInfo['Planets'][planet]['Decan'] = decanString;
               }
             } catch (error) {
-              log.error(`Error processing degree for ${planet}:`, error);
+              log.error(`Error processing degree for ${planet}:`, error)
             }
 
             // Process dignity effect
             try {
-              const dignity_effect = createElementObject();
+              const dignity_effect = createElementObject()
 
               if (
                 alchmInfo['Planets'] &&
@@ -1247,7 +1247,7 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
                     Math.abs(Number(dignity_effect_value)) === 3
                   ) {
                     dignity_effect[signInfo[sign]?.element || 'Air'] =
-                      1 * (Number(dignity_effect_value) / Math.abs(Number(dignity_effect_value)));
+                      1 * (Number(dignity_effect_value) / Math.abs(Number(dignity_effect_value)))
                   }
 
                   if (Math.abs(Number(dignity_effect_value)) > 1) {
@@ -1259,7 +1259,7 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
                       )['Diurnal Element'];
                       dignity_effect[String(diurnalElement)] =
                         (dignity_effect[String(diurnalElement)] || 0) +
-                        1 * (Number(dignity_effect_value) / Math.abs(Number(dignity_effect_value)));
+                        1 * (Number(dignity_effect_value) / Math.abs(Number(dignity_effect_value)))
                     }
 
                     if (
@@ -1270,7 +1270,7 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
                       )['Nocturnal Element'];
                       dignity_effect[String(nocturnalElement)] =
                         (dignity_effect[String(nocturnalElement)] || 0) +
-                        1 * (Number(dignity_effect_value) / Math.abs(Number(dignity_effect_value)));
+                        1 * (Number(dignity_effect_value) / Math.abs(Number(dignity_effect_value)))
                     }
                   }
                 }
@@ -1291,16 +1291,16 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
               alchmInfo['Total Dignity Effect'] = combineElementObjects(
                 alchmInfo['Total Dignity Effect'],
                 dignity_effect,
-              );
+              )
             } catch (error) {
-              log.error(`Error processing dignity effect for ${planet}:`, error);
+              log.error(`Error processing dignity effect for ${planet}:`, error)
             }
 
             // Continue with the rest of the calculations...
             // (I'm not showing all the calculations for brevity, but each one should be
             // wrapped in a try-catch block following the same pattern)
           } catch (error) {
-            log.error(`Error processing data for ${planet}:`, error);
+            log.error(`Error processing data for ${planet}:`, error)
           }
         }
 
@@ -1308,7 +1308,7 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
         celestialBodiesIndex++;
       }
     } catch (error) {
-      log.error('Error in planet processing:', error);
+      log.error('Error in planet processing:', error)
     }
 
     // Safely calculate final results
@@ -1317,36 +1317,36 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
       alchmInfo['Total Effect Value'] = combineElementObjects(
         alchmInfo['Total Effect Value'],
         alchmInfo['Total Dignity Effect'],
-      );
+      )
 
       alchmInfo['Total Effect Value'] = combineElementObjects(
         alchmInfo['Total Effect Value'],
         alchmInfo['Total Decan Effect'],
-      );
+      )
 
       alchmInfo['Total Effect Value'] = combineElementObjects(
         alchmInfo['Total Effect Value'],
         alchmInfo['Total Degree Effect'],
-      );
+      )
 
       alchmInfo['Total Effect Value'] = combineElementObjects(
         alchmInfo['Total Effect Value'],
         alchmInfo['Total Aspect Effect'],
-      );
+      )
 
       alchmInfo['Total Effect Value'] = combineElementObjects(
         alchmInfo['Total Effect Value'],
         alchmInfo['Total Elemental Effect'],
-      );
+      )
 
       // Get the dominant element
-      const elementRanking = getElementRanking(alchmInfo['Total Effect Value']);
+      const elementRanking = getElementRanking(alchmInfo['Total Effect Value'])
       alchmInfo['Dominant Element'] = elementRanking[1] || 'Fire';
 
       // Calculate the total chart absolute effect
       alchmInfo['Total Chart Absolute Effect'] = getAbsoluteElementValue(
         alchmInfo['Total Effect Value'],
-      );
+      )
 
       // Calculate alchemy effects total
       alchmInfo['Alchemy Effects']['A #'] =
@@ -1389,28 +1389,28 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
       const denominator2 = essence + matter + earth + water || 1;
       const denominator3 = matter + earth || 1;
 
-      alchmInfo['Heat'] = (Math.pow(spirit2) + Math.pow(fire2)) / Math.pow(denominator1, 2);
+      alchmInfo['Heat'] = (Math.pow(spirit, 2) + Math.pow(fire, 2)) / Math.pow(denominator1, 2)
       alchmInfo['Entropy'] =
-        (Math.pow(spirit2) + Math.pow(substance, 2) + Math.pow(fire2) + Math.pow(air2)) /
-        Math.pow(denominator2, 2);
+        (Math.pow(spirit, 2) + Math.pow(substance, 2) + Math.pow(fire, 2) + Math.pow(air, 2)) /
+        Math.pow(denominator2, 2)
       alchmInfo['Reactivity'] =
-        (Math.pow(spirit2) +
+        (Math.pow(spirit, 2) +
           Math.pow(substance, 2) +
           Math.pow(essence, 2) +
-          Math.pow(fire2) +
-          Math.pow(air2) +
-          Math.pow(water2)) /
-        Math.pow(denominator3, 2);
+          Math.pow(fire, 2) +
+          Math.pow(air, 2) +
+          Math.pow(water, 2)) /
+        Math.pow(denominator3, 2)
 
       alchmInfo['Energy'] = alchmInfo['Heat'] - alchmInfo['Reactivity'] * alchmInfo['Entropy'];
     } catch (error) {
-      log.error('Error calculating final results:', error);
+      log.error('Error calculating final results:', error)
     }
 
     // Return the results
     return alchmInfo as unknown as AlchemicalResult;
   } catch (error) {
-    log.error('Error in alchemize function:', error);
+    log.error('Error in alchemize function:', error)
 
     // Provide a properly structured fallback result that matches StandardizedAlchemicalResult
     const heat = 0.5;
@@ -1474,7 +1474,7 @@ function getSeasonFromSunSign(sunSign: any): Season {
       {
         context: 'getSeasonFromSunSign' as any
       } as any,
-    );
+    )
     return 'spring'; // Default on error
   }
 }
@@ -1527,11 +1527,11 @@ function _getSeasonsPrimaryElement(season: string): keyof ElementalProperties {
  */
 function getElementFromSign(sign: string | null | undefined): string | null {
   if (!sign || typeof sign !== 'string') {
-    logger.warn('Invalid sign passed to getElementFromSign', { sign });
+    logger.warn('Invalid sign passed to getElementFromSign', { sign })
     return null;
   }
 
-  const normalizedSign = sign.trim().toLowerCase();
+  const normalizedSign = sign.trim().toLowerCase()
 
   const fireigns = ['aries', 'leo', 'sagittarius'];
   const earthSigns = ['taurus', 'virgo', 'capricorn'];
@@ -1543,7 +1543,7 @@ function getElementFromSign(sign: string | null | undefined): string | null {
   if (airSigns.includes(normalizedSign)) return 'air';
   if (waterSigns.includes(normalizedSign)) return 'water';
 
-  logger.warn('Unknown sign in getElementFromSign', { sign: normalizedSign });
+  logger.warn('Unknown sign in getElementFromSign', { sign: normalizedSign })
   return null;
 }
 
@@ -1553,12 +1553,12 @@ function getElementFromSign(sign: string | null | undefined): string | null {
  */
 async function calculateCurrentPlanetaryPositions(): Promise<Record<string, unknown>> {
   try {
-    logger.info('Calculating current planetary positions');
+    logger.info('Calculating current planetary positions')
 
     // **PRIMARY**: Try to use the astrologize API for maximum accuracy
     try {
-      const { fetchPlanetaryPositions} = await import('@/services/astrologizeApi');
-      const astrologizePositions = await fetchPlanetaryPositions();
+      const { fetchPlanetaryPositions} = await import('@/services/astrologizeApi')
+      const astrologizePositions = await fetchPlanetaryPositions()
 
       // Convert astrologize positions to our expected format
       if (
@@ -1582,46 +1582,46 @@ async function calculateCurrentPlanetaryPositions(): Promise<Record<string, unkn
             exactLongitude: pos.exactLongitude,
             isRetrograde: pos.isRetrograde || false
           };
-        });
+        })
 
         // Verify that at least the sun and moon positions are present
         if (convertedPositions.Sun && convertedPositions.Moon) {
-          logger.info('Successfully calculated positions using astrologize API');
+          logger.info('Successfully calculated positions using astrologize API')
           return convertedPositions
         }
       }
 
-      logger.warn('Astrologize API returned incomplete positions, trying fallback');
+      logger.warn('Astrologize API returned incomplete positions, trying fallback')
     } catch (astrologizeError) {
       logger.warn('Error using astrologize API', {
         error: astrologizeError instanceof Error ? astrologizeError.message : 'Unknown error'
-      });
+      })
       ErrorHandler.log(astrologizeError as Error, {
         context: { source: 'alchemicalEngine:calculateCurrentPlanetaryPositions:astrologize' }
-      });
+      })
     }
 
     // SECONDARY: Try to use the accurate astronomy utility
     try {
-      const positions = await getAccuratePlanetaryPositions();
+      const positions = await getAccuratePlanetaryPositions()
 
       // Validate the returned positions
       if (positions && typeof positions === 'object' && Object.keys(positions).length > 0) {
         // Verify that at least the sun and moon positions are present
         if (positions.Sun && positions.Moon) {
-          logger.info('Successfully calculated positions using accurate astronomy');
+          logger.info('Successfully calculated positions using accurate astronomy')
           return positions
         }
       }
 
-      logger.warn('Accurate astronomy returned incomplete positions, trying fallback');
+      logger.warn('Accurate astronomy returned incomplete positions, trying fallback')
     } catch (accurateError) {
       logger.warn('Error using accurate astronomy calculator', {
         error: accurateError instanceof Error ? accurateError.message : 'Unknown error'
-      });
+      })
       ErrorHandler.log(accurateError as Error, {
         context: { source: 'alchemicalEngine:calculateCurrentPlanetaryPositions:accurate' }
-      });
+      })
     }
 
     // astronomia calculator removed - using fallback positions
@@ -1629,24 +1629,24 @@ async function calculateCurrentPlanetaryPositions(): Promise<Record<string, unkn
     // If both methods fail, use the fallback positions
     // Import the fallback calculator dynamically
     try {
-      const astrologyUtils = await import('@/utils/astrologyUtils');
+      const astrologyUtils = await import('@/utils/astrologyUtils')
       const fallbackCalculator = astrologyUtils as any;
       const _calculateFallbackPositions = fallbackCalculator._calculateFallbackPositions;
 
       // Generate current date to pass to the fallback calculator
-      const now = new Date();
+      const now = new Date()
 
       // Check for local fallback calculation
       if (typeof _calculateFallbackPositions === 'function') {
         try {
-          const fallbackPositions = _calculateFallbackPositions(now);
+          const fallbackPositions = _calculateFallbackPositions(now)
 
           if (fallbackPositions && Object.keys(fallbackPositions).length > 0) {
-            log.warn('Using fallback planetary positions');
+            log.warn('Using fallback planetary positions')
             return fallbackPositions
           }
         } catch (fallbackError) {
-          log.error('Error in fallback calculation:', fallbackError);
+          log.error('Error in fallback calculation:', fallbackError)
         }
       }
 
@@ -1676,7 +1676,7 @@ async function calculateCurrentPlanetaryPositions(): Promise<Record<string, unkn
 
         // Validate longitude is a number
         if (typeof exactLongitude !== 'number' || isNaN(exactLongitude)) {
-          logger.warn(`Invalid longitude for planet ${planet}`, { longitude: exactLongitude });
+          logger.warn(`Invalid longitude for planet ${planet}`, { longitude: exactLongitude })
           return; // Skip this planet
         }
 
@@ -1689,7 +1689,7 @@ async function calculateCurrentPlanetaryPositions(): Promise<Record<string, unkn
           logger.warn(`Invalid sign index for planet ${planet}`, {
             signIndex,
             longitude: exactLongitude
-          });
+          })
           return; // Skip this planet
         }
 
@@ -1703,26 +1703,26 @@ async function calculateCurrentPlanetaryPositions(): Promise<Record<string, unkn
           },
           exactLongitude: exactLongitude
         };
-      });
+      })
 
       // Verify that at least the sun and moon positions are present
       if (formattedPositions.Sun && formattedPositions.Moon) {
-        logger.info('Successfully created positions using fallback calculator');
+        logger.info('Successfully created positions using fallback calculator')
         return formattedPositions
       }
 
-      logger.warn('Fallback position calculator returned incomplete data');
+      logger.warn('Fallback position calculator returned incomplete data')
     } catch (fallbackError) {
       logger.warn('Error using fallback position calculator', {
         error: fallbackError instanceof Error ? fallbackError.message : 'Unknown error'
-      });
+      })
       ErrorHandler.log(fallbackError as Error, {
         context: { source: 'alchemicalEngine:calculateCurrentPlanetaryPositions:fallback' }
-      });
+      })
     }
 
     // Last resort - return hardcoded minimal positions
-    logger.warn('Using hardcoded fallback planetary positions');
+    logger.warn('Using hardcoded fallback planetary positions')
 
     return {
       Sun: {
@@ -1771,11 +1771,11 @@ async function calculateCurrentPlanetaryPositions(): Promise<Record<string, unkn
   } catch (error) {
     logger.error('Critical error calculating planetary positions', {
       error: error instanceof Error ? error.message : 'Unknown error'
-    });
+    })
 
     ErrorHandler.log(error as Error, {
       context: { source: 'alchemicalEngine:calculateCurrentPlanetaryPositions', isFatal: true }
-    });
+    })
 
     // Return minimal fallback as last resort
     return {
@@ -1819,7 +1819,7 @@ export function calculateZodiacEnergies(
 
   // Guard against undefined or null positions
   if (!positions || typeof positions !== 'object') {
-    logger.warn('Invalid positions passed to calculateZodiacEnergies', { positions });
+    logger.warn('Invalid positions passed to calculateZodiacEnergies', { positions })
     return zodiacEnergies;
   }
 
@@ -1841,7 +1841,7 @@ export function calculateZodiacEnergies(
     // For each planet in the positions
     Object.entries(positions).forEach(([planet, data]) => {
       if (!data || typeof data !== 'object') {
-        logger.debug(`Skipping invalid data for planet ${planet}`, { data });
+        logger.debug(`Skipping invalid data for planet ${planet}`, { data })
         return;
       }
 
@@ -1855,12 +1855,12 @@ export function calculateZodiacEnergies(
       ) {
         const signLabel = (data as any).Sign.label;
         if (typeof signLabel === 'string') {
-          sign = signLabel.toLowerCase();
+          sign = signLabel.toLowerCase()
         }
       }
       // Check for data in the format returned by astronomiaCalculator
       else if ('sign' in data && typeof data.sign === 'string') {
-        sign = data.sign.toLowerCase();
+        sign = data.sign.toLowerCase()
       }
 
       // Only process if we found a valid sign
@@ -1869,41 +1869,41 @@ export function calculateZodiacEnergies(
         const planetModifier = planetaryWeights[planet] || 0.05;
         zodiacEnergies[sign] += planetModifier;
       } else {
-        logger.debug(`Unknown sign for planet ${planet}`, { sign, data });
+        logger.debug(`Unknown sign for planet ${planet}`, { sign, data })
       }
-    });
+    })
 
     // Normalize energies to sum to 1
-    const totalEnergy = Object.values(zodiacEnergies).reduce((sum, energy) => sum + energy, 0);
+    const totalEnergy = Object.values(zodiacEnergies).reduce((sum, energy) => sum + energy, 0)
 
     if (totalEnergy > 0) {
       Object.keys(zodiacEnergies).forEach(sign => {
         zodiacEnergies[sign] = zodiacEnergies[sign] / totalEnergy
-      });
+      })
     } else {
       // If no energy was calculated (all zeros), set to equal distribution
-      logger.warn('No zodiac energies calculated, using equal distribution');
+      logger.warn('No zodiac energies calculated, using equal distribution')
       const equalValue = 1 / Object.keys(zodiacEnergies).length;
       Object.keys(zodiacEnergies).forEach(sign => {
         zodiacEnergies[sign] = equalValue
-      });
+      })
     }
 
     return zodiacEnergies;
   } catch (error) {
     logger.error('Error calculating zodiac energies', {
       error: error instanceof Error ? error.message : 'Unknown error'
-    });
+    })
 
     ErrorHandler.log(error as Error, {
       context: 'alchemicalEngine:calculateZodiacEnergies' as any
-    });
+    })
 
     // Return equal distribution on error
     const equalValue = 1 / Object.keys(zodiacEnergies).length;
     Object.keys(zodiacEnergies).forEach(sign => {
       zodiacEnergies[sign] = equalValue
-    });
+    })
 
     return zodiacEnergies;
   }
@@ -1930,7 +1930,7 @@ export function calculateChakraEnergies(_zodiacEnergies: Record<string, _number>
 
     // Handle invalid zodiacEnergies
     if (!zodiacEnergies || typeof zodiacEnergies !== 'object') {
-      logger.warn('Invalid zodiacEnergies provided to calculateChakraEnergies', { zodiacEnergies });
+      logger.warn('Invalid zodiacEnergies provided to calculateChakraEnergies', { zodiacEnergies })
       return chakraEnergies;
     }
 
@@ -1959,19 +1959,19 @@ export function calculateChakraEnergies(_zodiacEnergies: Record<string, _number>
       gemini: ['throat']
     };
 
-    // Reset chakra energies to 0 before calculating (keeps default values for missing ones);
+    // Reset chakra energies to 0 before calculating (keeps default values for missing ones)
     Object.keys(chakraEnergies).forEach(chakra => {
       chakraEnergies[chakra as keyof ChakraEnergies] = 0
-    });
+    })
 
     // Track which chakras received energy for normalization
-    const affectedChakras = new Set<ChakraPosition>();
+    const affectedChakras = new Set<ChakraPosition>()
 
     // Calculate chakra energies based on zodiac energies
     Object.entries(zodiacEnergies).forEach(([sign, energy]) => {
       // Validate sign and energy
       if (typeof energy !== 'number' || isNaN(energy)) {
-        logger.debug(`Skipping invalid energy value for sign ${sign}`, { energy });
+        logger.debug(`Skipping invalid energy value for sign ${sign}`, { energy })
         return;
       }
 
@@ -1984,49 +1984,49 @@ export function calculateChakraEnergies(_zodiacEnergies: Record<string, _number>
           // Ensure we're using a valid chakra key
           if (chakra in chakraEnergies) {
             chakraEnergies[chakra] += energyPerChakra;
-            affectedChakras.add(chakra);
+            affectedChakras.add(chakra)
           }
-        });
+        })
       }
-    });
+    })
 
     // Sync thirdEye and brow for compatibility
     // Use safe type casting for chakraEnergies access
     const chakraData = chakraEnergies as any;
     if (affectedChakras.has('brow') && !affectedChakras.has('thirdEye')) {
       chakraData.thirdEye = chakraEnergies.brow;
-      affectedChakras.add('thirdEye');
+      affectedChakras.add('thirdEye')
     } else if (affectedChakras.has('thirdEye') && !affectedChakras.has('brow')) {
       chakraEnergies.brow = (chakraData.thirdEye) || 0;
-      affectedChakras.add('brow');
+      affectedChakras.add('brow')
     }
 
     // Normalize chakra energies to sum to 1
-    const totalEnergy = Object.values(chakraEnergies).reduce((sum, energy) => sum + energy0);
+    const totalEnergy = Object.values(chakraEnergies).reduce((sum, energy) => sum + energy0)
 
     if (totalEnergy > 0) {
       Object.keys(chakraEnergies).forEach(chakra => {
         chakraEnergies[chakra as keyof ChakraEnergies] =
           chakraEnergies[chakra as keyof ChakraEnergies] / totalEnergy
-      });
+      })
     } else {
       // If no energies were calculated, use equal distribution
-      logger.warn('No chakra energies calculated, using equal distribution');
+      logger.warn('No chakra energies calculated, using equal distribution')
       const equalValue = 1 / Object.keys(chakraEnergies).length;
       Object.keys(chakraEnergies).forEach(chakra => {
         chakraEnergies[chakra as keyof ChakraEnergies] = equalValue
-      });
+      })
     }
 
     return chakraEnergies;
   } catch (error) {
     logger.error('Error calculating chakra energies', {
       error: error instanceof Error ? error.message : 'Unknown error'
-    });
+    })
 
     ErrorHandler.log(error as Error, {
       context: 'alchemicalEngine:calculateChakraEnergies' as any
-    });
+    })
 
     // Return equal distribution on error
     const defaultEnergies = {
@@ -2053,9 +2053,9 @@ export function calculateChakraEnergies(_zodiacEnergies: Record<string, _number>
 async function getCurrentAstrologicalState(): Promise<AstrologicalState> {
   try {
     // Get current planetary positions
-    const positions = await calculateCurrentPlanetaryPositions();
+    const positions = await calculateCurrentPlanetaryPositions()
 
-    // Extract zodiac sign from planetary positions (sun sign);
+    // Extract zodiac sign from planetary positions (sun sign)
     const sunPosition = positions.sun as PlanetPosition;
     const sunSign = (sunPosition.sign.toLowerCase() ) || 'aries';
 
@@ -2072,7 +2072,7 @@ async function getCurrentAstrologicalState(): Promise<AstrologicalState> {
       'full moon';
 
     // Get current season based on sun sign
-    const season = getSeasonFromSunSign(sunSign);
+    const season = getSeasonFromSunSign(sunSign)
 
     // Extract active planets based on their angular position
     const activePlanets = Object.entries(positions)
@@ -2081,7 +2081,7 @@ async function getCurrentAstrologicalState(): Promise<AstrologicalState> {
         // Consider a planet active if it has a position and is not retrograde
         return (data as any).sign && !(data as any).isRetrograde;
       })
-      .map(([planet]) => planet);
+      .map(([planet]) => planet)
 
     // Calculate elemental properties based on planetary positions
     const elementalProperties: ElementalProperties = {
@@ -2092,14 +2092,14 @@ async function getCurrentAstrologicalState(): Promise<AstrologicalState> {
     };
 
     // Enhance the elemental properties based on sun sign
-    const sunSignElement = getElementFromSign(sunSign);
+    const sunSignElement = getElementFromSign(sunSign)
     if (sunSignElement) {
       elementalProperties[sunSignElement as any] += 0.1;
       // Normalize the values
-      const total = Object.values(elementalProperties).reduce((sum, val) => sum + val0);
+      const total = Object.values(elementalProperties).reduce((sum, val) => sum + val0)
       Object.keys(elementalProperties).forEach(key => {
         elementalProperties[key as unknown] /= total
-      });
+      })
     }
 
     // Return the astrological state
@@ -2119,7 +2119,7 @@ async function getCurrentAstrologicalState(): Promise<AstrologicalState> {
   } catch (error) {
     ErrorHandler.log(error as Error, {
       context: { source: 'alchemicalEngine:getCurrentAstrologicalState' }
-    });
+    })
 
     // Return default state on error
     return {
@@ -2149,7 +2149,7 @@ export default {
     try {
       try {
         // First try the regular alchemize function
-        return alchemize(birthInfo, horoscopeDict);
+        return alchemize(birthInfo, horoscopeDict)
       } catch (error) {
         // If it's an assignment to constant error, try the safe version
         if (
@@ -2157,14 +2157,14 @@ export default {
           (error.message.includes('Assignment to constant variable') ||
             error.message.includes('invalid assignment'))
         ) {
-          log.warn('Caught assignment error, using safe version:', error.message);
-          return safeAlchemize(birthInfo, horoscopeDict);
+          log.warn('Caught assignment error, using safe version:', error.message)
+          return safeAlchemize(birthInfo, horoscopeDict)
         }
         // Other errors should be re-thrown
         throw error;
       }
     } catch (error) {
-      log.error('Critical error in alchemize, returning fallback:', error);
+      log.error('Critical error in alchemize, returning fallback:', error)
 
       // Return a minimal fallback result that won't break the application
       return {
@@ -2202,9 +2202,9 @@ function safeAlchemize(_birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): Al
     };
 
     // Call the original alchemize with safety wrapper
-    return alchemizeWithSafety(birthInfo, horoscopeDict, _safetyWrapper);
+    return alchemizeWithSafety(birthInfo, horoscopeDict, _safetyWrapper)
   } catch (error) {
-    log.error('Error in safeAlchemize:', error);
+    log.error('Error in safeAlchemize:', error)
 
     // Return fallback result
     const heat = 0.5;
@@ -2258,7 +2258,7 @@ function alchemizeWithSafety(
 
     // In a production systemwe would implement a full version of alchemize
     // that uses safetyWrapper.planetInfo, safetyWrapper.signInfo, etc.
-    log.info('Using safe alchemize with cloned constants');
+    log.info('Using safe alchemize with cloned constants')
 
     // Return simplified, but useful result that won't cause errors
     const horoscopeData = horoscopeDict as any;
@@ -2298,7 +2298,7 @@ function alchemizeWithSafety(
       }
     } as StandardizedAlchemicalResult;
   } catch (error) {
-    log.error('Error in alchemizeWithSafety:', error);
+    log.error('Error in alchemizeWithSafety:', error)
 
     // Return fallback result
     const heat = 0.5;

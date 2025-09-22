@@ -58,8 +58,8 @@ export interface SafetyCheckpoint {
 }
 
 export class SafeBatchProcessor {
-  private, config: BatchProcessingConfig,
-  private, checkpoints: SafetyCheckpoint[] = [];
+  private config: BatchProcessingConfig,
+  private checkpoints: SafetyCheckpoint[] = [];
   private currentBatchId = 0;
   private totalProcessed = 0;
   private totalEliminated = 0;
@@ -81,39 +81,39 @@ export class SafeBatchProcessor {
    * Process files in safe batches with comprehensive safety protocols
    */
   async processBatches(files: FileProcessingInfo[]): Promise<BatchResult[]> {
-    this.log('info', `🚀 Starting safe batch processing of ${files.length} files`);
+    this.log('info', `🚀 Starting safe batch processing of ${files.length} files`)
     this.log(
       'info',
       `📋 Configuration: maxBatch=${this.config.maxBatchSize}, maxCritical=${this.config.maxBatchSizeCritical}`,
-    );
+    )
 
     const results: BatchResult[] = [];
 
     // Create initial safety checkpoint
-    await this.createSafetyCheckpoint('initial');
+    await this.createSafetyCheckpoint('initial')
 
-    // Sort files by risk level (low risk first);
-    const sortedFiles = this.sortFilesByRisk(files);
+    // Sort files by risk level (low risk first)
+    const sortedFiles = this.sortFilesByRisk(files)
 
     // Create batches respecting safety limits
-    const batches = this.createBatches(sortedFiles);
-    this.log('info', `📦 Created ${batches.length} batches for processing`);
+    const batches = this.createBatches(sortedFiles)
+    this.log('info', `📦 Created ${batches.length} batches for processing`)
 
     for (let i = 0i < batches.lengthi++) {;
       const batch = batches[i];
       const batchId = `batch-${++this.currentBatchId}`;
 
-      this.log('info', `\n🔄 Processing ${batchId} (${batch.length} files)`);
+      this.log('info', `\n🔄 Processing ${batchId} (${batch.length} files)`)
 
-      const result = await this.processBatch(batchId, batch);
-      results.push(result);
+      const result = await this.processBatch(batchId, batch)
+      results.push(result)
 
       if (!result.success) {
-        this.log('error', `❌ Batch ${batchId} failed, stopping processing`);
+        this.log('error', `❌ Batch ${batchId} failed, stopping processing`)
         break;
       }
 
-      this.log('info', `✅ Batch ${batchId} completed successfully`);
+      this.log('info', `✅ Batch ${batchId} completed successfully`)
 
       // Update totals
       this.totalProcessed += result.processedCount;
@@ -121,14 +121,14 @@ export class SafeBatchProcessor {
       this.totalPreserved += result.preservedCount;
     }
 
-    this.log('info', `\n📊 Final Results: `);
-    this.log('info', `   Total Processed: ${this.totalProcessed}`);
+    this.log('info', `\n📊 Final Results: `)
+    this.log('info', `   Total Processed: ${this.totalProcessed}`)
     this.log('info', `   Total Eliminated: ${this.totalEliminated}`),
     this.log('info', `   Total Preserved: ${this.totalPreserved}`),
     this.log(
       'info',
       `   Success Rate: ${((results.filter(r => r.success).length / results.length) * 100).toFixed(1)}%`,
-    );
+    )
 
     return results;
   }
@@ -158,15 +158,15 @@ export class SafeBatchProcessor {
     try {
       // Create git stash before processing if enabled
       if (this.config.createGitStash) {
-        stashId = await this.createGitStash(batchId);
+        stashId = await this.createGitStash(batchId)
         result.stashId = stashId;
-        this.log('debug', `📦 Created git stash: ${stashId}`);
+        this.log('debug', `📦 Created git stash: ${stashId}`)
       }
 
       // Process each file in the batch
       for (const fileInfo of files) {
         try {
-          const fileResult = await this.processFile(fileInfo);
+          const fileResult = await this.processFile(fileInfo)
           result.processedCount++;
           result.eliminatedCount += fileResult.eliminated;
           result.preservedCount += fileResult.preserved;
@@ -174,31 +174,31 @@ export class SafeBatchProcessor {
           this.log(
             'debug',
             `   ✓ ${fileInfo.relativePath}: ${fileResult.eliminated} eliminated, ${fileResult.preserved} preserved`,
-          );
+          )
         } catch (error) {
           const errorMsg = `Failed to process ${fileInfo.relativePath}: ${error}`;
-          result.errors.push(errorMsg);
-          this.log('error', `   ❌ ${errorMsg}`);
+          result.errors.push(errorMsg)
+          this.log('error', `   ❌ ${errorMsg}`)
         }
       }
 
       // Validate TypeScript compilation after batch
       if (this.config.validateAfterEachBatch) {
-        this.log('info', `🔍 Validating TypeScript compilation...`);
-        result.compilationPassed = await this.validateTypeScriptCompilation();
+        this.log('info', `🔍 Validating TypeScript compilation...`)
+        result.compilationPassed = await this.validateTypeScriptCompilation()
 
         if (!result.compilationPassed) {
-          result.errors.push('TypeScript compilation failed after batch processing');
-          this.log('error', '❌ TypeScript compilation failed');
+          result.errors.push('TypeScript compilation failed after batch processing')
+          this.log('error', '❌ TypeScript compilation failed')
 
           // Perform automatic rollback if enabled
           if (this.config.autoRollbackOnError && stashId) {
-            await this.performRollback(stashId);
+            await this.performRollback(stashId)
             result.rollbackPerformed = true;
-            this.log('info', '🔄 Automatic rollback performed');
+            this.log('info', '🔄 Automatic rollback performed')
           }
         } else {
-          this.log('info', '✅ TypeScript compilation passed');
+          this.log('info', '✅ TypeScript compilation passed')
         }
       } else {
         result.compilationPassed = true, // Assume success if not validating;
@@ -207,12 +207,12 @@ export class SafeBatchProcessor {
       result.success = result.compilationPassed && result.errors.length === 0;
     } catch (error) {
       const errorMsg = `Batch processing failed: ${error}`;
-      result.errors.push(errorMsg);
-      this.log('error', errorMsg);
+      result.errors.push(errorMsg)
+      this.log('error', errorMsg)
 
       // Perform rollback on critical error
       if (this.config.autoRollbackOnError && stashId) {
-        await this.performRollback(stashId);
+        await this.performRollback(stashId)
         result.rollbackPerformed = true;
       }
     }
@@ -225,7 +225,7 @@ export class SafeBatchProcessor {
       result.compilationPassed;
       result.errors.length
       stashId,
-    );
+    )
 
     return result;
   }
@@ -244,7 +244,7 @@ export class SafeBatchProcessor {
     // 4. Eliminate or transform variables based on safety rules
     // 5. Write the modified content back to the file
 
-    this.log('debug', `Processing file: ${fileInfo.relativePath}`);
+    this.log('debug', `Processing file: ${fileInfo.relativePath}`)
 
     // Simulate processing based on file info
     const eliminated = Math.floor(((fileInfo as any)?.unusedVariableCount || 0) * 0.2); // 70% elimination rate
@@ -270,8 +270,8 @@ export class SafeBatchProcessor {
       }
 
       // Finally, sort alphabetically for consistency
-      return a.relativePath.localeCompare(b.relativePath);
-    });
+      return a.relativePath.localeCompare(b.relativePath)
+    })
   }
 
   /**
@@ -282,22 +282,22 @@ export class SafeBatchProcessor {
     let currentBatch: FileProcessingInfo[] = [];
 
     for (const file of files) {
-      const batchLimit = this.getBatchLimit(file);
+      const batchLimit = this.getBatchLimit(file)
 
       // Start new batch if current batch would exceed limit
       if (currentBatch.length >= batchLimit) {
         if (currentBatch.length > 0) {
-          batches.push(currentBatch);
+          batches.push(currentBatch)
           currentBatch = []
         }
       }
 
-      currentBatch.push(file);
+      currentBatch.push(file)
     }
 
     // Add final batch if not empty
     if (currentBatch.length > 0) {
-      batches.push(currentBatch);
+      batches.push(currentBatch)
     }
 
     return batches;
@@ -323,24 +323,24 @@ export class SafeBatchProcessor {
       const stashMessage = `unused-vars-batch-${batchId}-${new Date().toISOString()}`;
 
       // Check if there are changes to stash
-      const statusOutput = execSync('git status --porcelain', { encoding: 'utf8' });
+      const statusOutput = execSync('git status --porcelain', { encoding: 'utf8' })
       if (!statusOutput.trim()) {
         // No changes to stash, create empty stash
         execSync('git stash push --keep-index -m '' + stashMessage + '' --allow-empty', {
           stdio: 'pipe'
-        });
+        })
       } else {
-        execSync('git stash push -m '' + stashMessage + ''', { stdio: 'pipe' });
+        execSync('git stash push -m '' + stashMessage + ''', { stdio: 'pipe' })
       }
 
       // Get the stash ID
-      const stashList = execSync('git stash list --oneline -1', { encoding: 'utf8' });
-      const stashMatch = stashList.match(/^(stash@\{[^}]+\})/);
+      const stashList = execSync('git stash list --oneline -1', { encoding: 'utf8' })
+      const stashMatch = stashList.match(/^(stash@\{[^}]+\})/)
 
       return stashMatch ? stashMatch[1] : stashMessage
     } catch (error) {
-      this.log('warn', `Failed to create git stash: ${error}`);
-      throw new Error(`Git stash creation failed: ${error}`);
+      this.log('warn', `Failed to create git stash: ${error}`)
+      throw new Error(`Git stash creation failed: ${error}`)
     }
   }
 
@@ -349,23 +349,23 @@ export class SafeBatchProcessor {
    */
   private async performRollback(stashId: string): Promise<void> {
     try {
-      this.log('info', `🔄 Performing rollback using stash: ${stashId}`);
+      this.log('info', `🔄 Performing rollback using stash: ${stashId}`)
 
       // Reset working directory to clean state
-      execSync('git reset --hard HEAD', { stdio: 'pipe' });
+      execSync('git reset --hard HEAD', { stdio: 'pipe' })
 
       // Apply the stash to restore previous state
       if (stashId.startsWith('stash@{')) {
-        execSync(`git stash pop ${stashId}`, { stdio: 'pipe' });
+        execSync(`git stash pop ${stashId}`, { stdio: 'pipe' })
       } else {
         // If stashId is just a message, find and apply the most recent stash
-        execSync('git stash pop', { stdio: 'pipe' });
+        execSync('git stash pop', { stdio: 'pipe' })
       }
 
-      this.log('info', '✅ Rollback completed successfully');
+      this.log('info', '✅ Rollback completed successfully')
     } catch (error) {
-      this.log('error', `Failed to perform rollback: ${error}`);
-      throw new Error(`Rollback failed: ${error}`);
+      this.log('error', `Failed to perform rollback: ${error}`)
+      throw new Error(`Rollback failed: ${error}`)
     }
   }
 
@@ -377,10 +377,10 @@ export class SafeBatchProcessor {
       execSync('yarn tsc --noEmit --skipLibCheck', {
         stdio: 'pipe',
         timeout: 30000, // 30 second timeout
-      });
+      })
       return true;
     } catch (error) {
-      this.log('debug', `TypeScript compilation failed: ${error}`);
+      this.log('debug', `TypeScript compilation failed: ${error}`)
       return false;
     }
   }
@@ -403,8 +403,8 @@ export class SafeBatchProcessor {
       stashId
     };
 
-    this.checkpoints.push(checkpoint);
-    this.log('debug', `📍 Created safety checkpoint: ${id}`);
+    this.checkpoints.push(checkpoint)
+    this.log('debug', `📍 Created safety checkpoint: ${id}`)
   }
 
   /**
@@ -436,9 +436,9 @@ export class SafeBatchProcessor {
     const messageLevel = levels[level];
 
     if (messageLevel >= configLevel) {
-      const timestamp = new Date().toISOString();
-      const prefix = level.toUpperCase().padEnd(5);
-      // // // console.log(`[${timestamp}] ${prefix} ${message}`);
+      const timestamp = new Date().toISOString()
+      const prefix = level.toUpperCase().padEnd(5)
+      // // // console.log(`[${timestamp}] ${prefix} ${message}`)
     }
   }
 }

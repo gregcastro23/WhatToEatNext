@@ -29,9 +29,9 @@ export function handleApiError(error: unknown): NextResponse {
 
   // Log the error (with different levels based on severity)
   if (statusCode >= 500) {
-    logger.error(`API Error (${statusCode}): ${message}`, error);
+    logger.error(`API Error (${statusCode}): ${message}`, error)
   } else if (statusCode >= 400) {
-    logger.warn(`API Error (${statusCode}): ${message}`);
+    logger.warn(`API Error (${statusCode}): ${message}`)
   }
 
   // Return the error response
@@ -41,7 +41,7 @@ export function handleApiError(error: unknown): NextResponse {
       ...(details ? { details } : {})
     },
     { status: statusCode },
-  );
+  )
 }
 
 /**
@@ -51,7 +51,7 @@ export function handleApiError(error: unknown): NextResponse {
  * @returns NextResponse with 400 status
  */
 export function validationError(message: string, details?: unknown): NextResponse {
-  return handleApiError(new ValidationError(message, details));
+  return handleApiError(new ValidationError(message, details))
 }
 
 /**
@@ -64,7 +64,7 @@ export function notFoundError(message: string): NextResponse {
 }
 
 export function handleServerError(error: unknown) {
-  console.error('Server error:', error);
+  console.error('Server error:', error)
   return new NextResponse(
     JSON.stringify({
       error: 'Internal Server Error',
@@ -76,5 +76,5 @@ export function handleServerError(error: unknown) {
         'Content-Type': 'application/json'
       }
     },
-  );
+  )
 }

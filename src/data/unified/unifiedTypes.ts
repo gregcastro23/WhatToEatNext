@@ -37,7 +37,7 @@ export interface UnifiedIngredient {
   alchemicalProperties: AlchemicalProperties;
 
   // Kalchm Value (Intrinsic Alchemical Equilibrium)
-  kalchm?: number; // K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance);
+  kalchm?: number; // K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance)
   monica?: number
 
   // Enhanced Properties

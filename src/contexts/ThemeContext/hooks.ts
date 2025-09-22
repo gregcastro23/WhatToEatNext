@@ -11,7 +11,7 @@ import type { ThemeContextType } from './types';
  * @throws Error if used outside of ThemeProvider
  */
 export function useTheme(): ThemeContextType {
-  const context = useContext(ThemeContext);
+  const context = useContext(ThemeContext)
 
   if (context === undefined) {
     throw new Error('useTheme must be used within a ThemeProvider')

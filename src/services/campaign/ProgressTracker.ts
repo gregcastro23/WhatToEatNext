@@ -18,8 +18,8 @@ import {
 } from '../../types/campaign';
 
 export class ProgressTracker {
-  private, metricsHistory: ProgressMetrics[] = [];
-  private, lastMetricsUpdate: Date = new Date();
+  private metricsHistory: ProgressMetrics[] = [];
+  private lastMetricsUpdate: Date = new Date()
   /**
    * Get current TypeScript error count using proven command pattern
    */
@@ -29,7 +29,7 @@ export class ProgressTracker {
       const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c 'error TS'', {
         encoding: 'utf8',
         stdio: 'pipe'
-      });
+      })
 
       const count = parseInt(output.trim()) || 0;
       return count;
@@ -44,7 +44,7 @@ export class ProgressTracker {
       // Apply Pattern GG-6: Safe property access for error message
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error'
-      console.warn(`Warning: Could not get TypeScript error count: ${errorMessage}`);
+      console.warn(`Warning: Could not get TypeScript error count: ${errorMessage}`)
       return -1; // Indicates measurement failure
     }
   }
@@ -60,19 +60,19 @@ export class ProgressTracker {
           encoding: 'utf8',
           stdio: 'pipe'
         },
-      );
+      )
 
       const breakdown: Record<string, number> = {};
       const lines = output;
-        .trim();
-        .split('\n');
-        .filter(line => line.trim());
+        .trim()
+        .split('\n')
+        .filter(line => line.trim())
 
       for (const line of lines) {
-        const match = line.trim().match(/^\s*(\d+)\s+(.+)$/);
+        const match = line.trim().match(/^\s*(\d+)\s+(.+)$/)
         if (match) {
-          const count = parseInt(match[1]);
-          const errorType = match[2].trim();
+          const count = parseInt(match[1])
+          const errorType = match[2].trim()
           breakdown[errorType] = count;
         }
       }
@@ -83,7 +83,7 @@ export class ProgressTracker {
       const errorData = error as any;
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error'
-      console.warn(`Warning: Could not get TypeScript error breakdown: ${errorMessage}`);
+      console.warn(`Warning: Could not get TypeScript error breakdown: ${errorMessage}`)
       return {};
     }
   }
@@ -97,7 +97,7 @@ export class ProgressTracker {
       const output = execSync('yarn lint 2>&1 | grep -c 'warning'', {
         encoding: 'utf8',
         stdio: 'pipe'
-      });
+      })
 
       const count = parseInt(output.trim()) || 0;
       return count;
@@ -112,7 +112,7 @@ export class ProgressTracker {
       // Apply Pattern GG-6: Safe property access for error message
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error'
-      console.warn(`Warning: Could not get linting warning count: ${errorMessage}`);
+      console.warn(`Warning: Could not get linting warning count: ${errorMessage}`)
       return -1; // Indicates measurement failure
     }
   }
@@ -125,14 +125,14 @@ export class ProgressTracker {
       const output = execSync('yarn lint 2>&1', {
         encoding: 'utf8',
         stdio: 'pipe'
-      });
+      })
 
       const breakdown: Record<string, number> = {};
-      const lines = output.split('\n');
+      const lines = output.split('\n')
 
       for (const line of lines) {
         // Look for ESLint warning patterns
-        const warningMatch = line.match(/warning\s+(.+?)\s+(@typescript-eslint\/[\w-]+|[\w-]+)/);
+        const warningMatch = line.match(/warning\s+(.+?)\s+(@typescript-eslint\/[\w-]+|[\w-]+)/)
         if (warningMatch) {
           const ruleType = warningMatch[2];
           breakdown[ruleType] = (breakdown[ruleType] || 0) + 1;
@@ -145,7 +145,7 @@ export class ProgressTracker {
       const errorData = error as any;
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error'
-      console.warn(`Warning: Could not get linting warning breakdown: ${errorMessage}`);
+      console.warn(`Warning: Could not get linting warning breakdown: ${errorMessage}`)
       return {};
     }
   }
@@ -160,7 +160,7 @@ export class ProgressTracker {
       execSync('yarn build', {
         encoding: 'utf8',
         stdio: 'pipe'
-      });
+      })
 
       const endTime = Date.now()
       const buildTimeSeconds = (endTime - startTime) / 1000;
@@ -171,7 +171,7 @@ export class ProgressTracker {
       const errorData = error as any;
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error'
-      console.warn(`Warning: Build failed during timing: ${errorMessage}`);
+      console.warn(`Warning: Build failed during timing: ${errorMessage}`)
       return -1; // Indicates build failure
     }
   }
@@ -185,7 +185,7 @@ export class ProgressTracker {
       const output = execSync('grep -r 'INTELLIGENCE_SYSTEM' src/ | wc -l', {
         encoding: 'utf8',
         stdio: 'pipe'
-      });
+      })
 
       const count = parseInt(output.trim()) || 0;
       return count;
@@ -194,7 +194,7 @@ export class ProgressTracker {
       const errorData = error as any;
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error'
-      console.warn(`Warning: Could not count enterprise systems: ${errorMessage}`);
+      console.warn(`Warning: Could not count enterprise systems: ${errorMessage}`)
       return 0;
     }
   }
@@ -212,7 +212,7 @@ export class ProgressTracker {
       const errorData = error as any;
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error'
-      console.warn(`Warning: Could not measure cache hit rate: ${errorMessage}`);
+      console.warn(`Warning: Could not measure cache hit rate: ${errorMessage}`)
       return 0;
     }
   }
@@ -223,16 +223,16 @@ export class ProgressTracker {
   async getMemoryUsage(): Promise<number> {
     try {
       // Get Node.js process memory usage
-      const memUsage = process.memoryUsage();
+      const memUsage = process.memoryUsage()
       const memoryMB = memUsage.heapUsed / 1024 / 1024;
 
-      return Math.round(memoryMB);
+      return Math.round(memoryMB)
     } catch (error) {
       // Apply Pattern GG-6: Safe property access for error message
       const errorData = error as any;
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error'
-      console.warn(`Warning: Could not measure memory usage: ${errorMessage}`);
+      console.warn(`Warning: Could not measure memory usage: ${errorMessage}`)
       return 0;
     }
   }
@@ -251,7 +251,7 @@ export class ProgressTracker {
           const output = execSync(`du -sk ${dir} | cut -f1`, {
             encoding: 'utf8',
             stdio: 'pipe'
-          });
+          })
 
           const sizeKB = parseInt(output.trim()) || 0;
           totalSize += sizeKB;
@@ -264,7 +264,7 @@ export class ProgressTracker {
       const errorData = error as any;
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error'
-      console.warn(`Warning: Could not measure bundle size: ${errorMessage}`);
+      console.warn(`Warning: Could not measure bundle size: ${errorMessage}`)
       return 0;
     }
   }
@@ -273,12 +273,12 @@ export class ProgressTracker {
    * Get comprehensive progress metrics
    */
   async getProgressMetrics(): Promise<ProgressMetrics> {
-    const typeScriptErrorCount = await this.getTypeScriptErrorCount();
-    const lintingWarningCount = await this.getLintingWarningCount();
-    const buildTime = await this.getBuildTime();
-    const enterpriseSystemCount = await this.getEnterpriseSystemCount();
-    const cacheHitRate = await this.getCacheHitRate();
-    const memoryUsage = await this.getMemoryUsage();
+    const typeScriptErrorCount = await this.getTypeScriptErrorCount()
+    const lintingWarningCount = await this.getLintingWarningCount()
+    const buildTime = await this.getBuildTime()
+    const enterpriseSystemCount = await this.getEnterpriseSystemCount()
+    const cacheHitRate = await this.getCacheHitRate()
+    const memoryUsage = await this.getMemoryUsage()
 
     const metrics: ProgressMetrics = {
       typeScriptErrors: {
@@ -309,12 +309,12 @@ export class ProgressTracker {
     };
 
     // Store metrics in history
-    this.metricsHistory.push(metrics);
-    this.lastMetricsUpdate = new Date();
+    this.metricsHistory.push(metrics)
+    this.lastMetricsUpdate = new Date()
 
     // Keep only recent history to prevent memory issues
     if (this.metricsHistory.length > 100) {
-      this.metricsHistory = this.metricsHistory.slice(-50);
+      this.metricsHistory = this.metricsHistory.slice(-50)
     }
 
     return metrics;
@@ -324,7 +324,7 @@ export class ProgressTracker {
    * Validate milestone achievement
    */
   async validateMilestone(milestone: Milestone): Promise<boolean> {
-    const metrics = await this.getProgressMetrics();
+    const metrics = await this.getProgressMetrics()
 
     switch (milestone) {
       case 'zero-typescript-errors':
@@ -365,7 +365,7 @@ export class ProgressTracker {
    * Generate comprehensive progress report
    */
   async generateProgressReport(): Promise<ProgressReport> {
-    const currentMetrics = await this.getProgressMetrics();
+    const currentMetrics = await this.getProgressMetrics()
     const targetMetrics: ProgressMetrics = {
       typeScriptErrors: {
         current: 0,
@@ -446,9 +446,9 @@ export class ProgressTracker {
     ];
 
     // Estimate completion time based on current progress rate
-    const estimatedCompletion = new Date();
+    const estimatedCompletion = new Date()
     estimatedCompletion.setDate(
-      estimatedCompletion.getDate() + Math.ceil((100 - overallProgress) / 10);
+      estimatedCompletion.getDate() + Math.ceil((100 - overallProgress) / 10)
     ); // Rough estimate
 
     return {
@@ -502,27 +502,27 @@ export class ProgressTracker {
    */
   async exportMetrics(filePath: string): Promise<void> {
     try {
-      const report = await this.generateProgressReport();
+      const report = await this.generateProgressReport()
       const exportData = {
-        timestamp: new Date().toISOString();
+        timestamp: new Date().toISOString()
         report,
         history: this.metricsHistory,
-        improvement: this.getMetricsImprovement();
+        improvement: this.getMetricsImprovement()
       };
 
-      fs.writeFileSync(filePath, JSON.stringify(exportData, null, 2));
-      // // // console.log(`📊 Metrics exported to: ${filePath}`);
+      fs.writeFileSync(filePath, JSON.stringify(exportData, null, 2))
+      // // // console.log(`📊 Metrics exported to: ${filePath}`)
     } catch (error) {
-      throw new Error(`Failed to export metrics: ${(error as Error).message}`);
+      throw new Error(`Failed to export metrics: ${(error as Error).message}`)
     }
   }
 
   /**
-   * Reset metrics history (for testing or fresh start);
+   * Reset metrics history (for testing or fresh start)
    */
   resetMetricsHistory(): void {
     this.metricsHistory = [];
-    this.lastMetricsUpdate = new Date();
-    // // // console.log('📊 Metrics history reset');
+    this.lastMetricsUpdate = new Date()
+    // // // console.log('📊 Metrics history reset')
   }
 }

@@ -59,15 +59,15 @@ export class AlchemicalApiClient {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ingredients, weights })
-      });
+      })
 
       if (!response.ok) {
-        throw new Error(`Backend calculation failed: ${response.statusText}`);
+        throw new Error(`Backend calculation failed: ${response.statusText}`)
       }
 
-      return await response.json();
+      return await response.json()
     } catch (error) {
-      console.error('Elemental calculation error:', error);
+      console.error('Elemental calculation error:', error)
       // Fallback to simple balanced elements
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
@@ -83,15 +83,15 @@ export class AlchemicalApiClient {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(elements)
-      });
+      })
 
       if (!response.ok) {
-        throw new Error(`Thermodynamics calculation failed: ${response.statusText}`);
+        throw new Error(`Thermodynamics calculation failed: ${response.statusText}`)
       }
 
-      return await response.json();
+      return await response.json()
     } catch (error) {
-      console.error('Thermodynamics calculation error:', error);
+      console.error('Thermodynamics calculation error:', error)
       // Fallback values
       return {
         heat: 0.5,
@@ -109,15 +109,15 @@ export class AlchemicalApiClient {
    */
   async getCurrentPlanetaryHour(): Promise<PlanetaryInfluenceResponse> {
     try {
-      const response = await fetch(`${this.baseUrls.alchemical}/planetary/current-hour`);
+      const response = await fetch(`${this.baseUrls.alchemical}/planetary/current-hour`)
 
       if (!response.ok) {
-        throw new Error(`Planetary data fetch failed: ${response.statusText}`);
+        throw new Error(`Planetary data fetch failed: ${response.statusText}`)
       }
 
-      return await response.json();
+      return await response.json()
     } catch (error) {
-      console.error('Planetary data error:', error);
+      console.error('Planetary data error:', error)
       // Fallback planetary data
       return {
         current_time: new Date().toISOString(),
@@ -146,15 +146,15 @@ export class AlchemicalApiClient {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(request)
-      });
+      })
 
       if (!response.ok) {
-        throw new Error(`Recipe recommendations failed: ${response.statusText}`);
+        throw new Error(`Recipe recommendations failed: ${response.statusText}`)
       }
 
-      return await response.json();
+      return await response.json()
     } catch (error) {
-      console.error('Recipe recommendation error:', error);
+      console.error('Recipe recommendation error:', error)
       // Fallback empty recommendations
       return {
         recommendations: [],
@@ -177,11 +177,11 @@ export class AlchemicalApiClient {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ spirit, essence, matter, substance })
-      });
+      })
 
-      return await response.json();
+      return await response.json()
     } catch (error) {
-      console.error('ESMS calculation error:', error);
+      console.error('ESMS calculation error:', error)
       return {
         Spirit: spirit,
         Essence: essence,
@@ -201,11 +201,11 @@ export class AlchemicalApiClient {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ current: currentElements, target: targetElements })
-      });
+      })
 
-      return await response.json();
+      return await response.json()
     } catch (error) {
-      console.error('Balance optimization error:', error);
+      console.error('Balance optimization error:', error)
       return { optimization: 'balanced', recommendations: [] };
     }
   }
@@ -216,31 +216,31 @@ export class AlchemicalApiClient {
    */
   createRealtimeConnection(onPlanetaryUpdate?: (data: any) => void): WebSocket | null {
     try {
-      const ws = new WebSocket(this.baseUrls.websocket);
+      const ws = new WebSocket(this.baseUrls.websocket)
 
       ws.onopen = () => {
-        console.log('🔮 Connected to alchm.kitchen real-time service');
+        console.log('🔮 Connected to alchm.kitchen real-time service')
         // Subscribe to planetary hours
         ws.send(JSON.stringify({
           action: 'subscribe',
           channel: 'planetary_hours'
-        }));
+        }))
       };
 
       ws.onmessage = (event) => {
-        const data = JSON.parse(event.data);
+        const data = JSON.parse(event.data)
         if (data.channel === 'planetary_hours' && onPlanetaryUpdate) {
-          onPlanetaryUpdate(data.current_hour);
+          onPlanetaryUpdate(data.current_hour)
         }
       };
 
       ws.onerror = (error) => {
-        console.error('WebSocket connection error:', error);
+        console.error('WebSocket connection error:', error)
       };
 
       return ws;
     } catch (error) {
-      console.error('Failed to create WebSocket connection:', error);
+      console.error('Failed to create WebSocket connection:', error)
       return null;
     }
   }
@@ -261,7 +261,7 @@ export class AlchemicalApiClient {
           const response = await fetch(service.url, {
             method: 'GET',
             timeout: 5000
-          } as any);
+          } as any)
           return {
             service: service.name,
             status: response.ok ? 'healthy' : 'unhealthy'
@@ -273,16 +273,16 @@ export class AlchemicalApiClient {
           };
         }
       })
-    );
+    )
 
     return results.map(result =>
       result.status === 'fulfilled' ? result.value : { service: 'unknown', status: 'error' }
-    );
+    )
   }
 }
 
 // Singleton instance for application use
-export const alchemicalApi = new AlchemicalApiClient();
+export const alchemicalApi = new AlchemicalApiClient()
 
 // Utility function for easy integration
 export const useBackendCalculations = () => {

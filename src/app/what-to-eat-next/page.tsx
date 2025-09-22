@@ -3,16 +3,16 @@ import { useEnhancedRecommendations } from '@/hooks/useEnhancedRecommendations';
 
 const KalchmRecommender = ({ maxRecommendations }: { maxRecommendations?: number }) => (;
   <div className='p-6 text-gray-600'>KalchmRecommender unavailable.</div>
-);
+)
 
 export default function WhatToEatNextPage() {
-  const { cuisines, loading, error, getCuisineRecommendations } = useEnhancedRecommendations({ datetime: new Date(), useBackendInfluence: true });
+  const { cuisines, loading, error, getCuisineRecommendations } = useEnhancedRecommendations({ datetime: new Date(), useBackendInfluence: true })
 
   // Fetch enhanced cuisines on mount
   // eslint-disable-next-line react-hooks/rules-of-hooks
   (function init() {
-    void getCuisineRecommendations();
-  })();
+    void getCuisineRecommendations()
+  })()
   return (
     <div className='container mx-auto px-4 py-8'>
       <header className='mb-8 text-center'>

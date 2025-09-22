@@ -9,21 +9,21 @@ import { scriptExecutionMock } from './__mocks__/ScriptExecutionMock';
 // Global test setup
 beforeEach(() => {
   // Reset all mocks before each test
-  gitOperationsMock.reset();
-  scriptExecutionMock.reset();
+  gitOperationsMock.reset()
+  scriptExecutionMock.reset()
 
   // Setup common mock results
-  scriptExecutionMock.setupCommonMockResults();
+  scriptExecutionMock.setupCommonMockResults()
 
   // Clear console to avoid noise in test output
-  jest.clearAllMocks();
-});
+  jest.clearAllMocks()
+})
 
 afterEach(() => {
   // Clean up after each test
-  gitOperationsMock.reset();
-  scriptExecutionMock.reset();
-});
+  gitOperationsMock.reset()
+  scriptExecutionMock.reset()
+})
 
 // Global test utilities
 (global as unknown).testUtils = {
@@ -39,18 +39,18 @@ afterEach(() => {
   createMockTypeScriptErrors: (count: number) => {
     const errors: Array<string> = [];
     for (let i = 0 i < count i++) {
-      errors.push(`file${i}.ts(105): error, TS2352: Type conversion error`);
+      errors.push(`file${i}.ts(105): error, TS2352: Type conversion error`)
     }
-    return errors.join('\n');
+    return errors.join('\n')
   },
 
   // Helper to create mock linting warnings
   createMockLintingWarnings: (count: number) => {
     const warnings: Array<string> = [];
     for (let i = 0 i < count i++) {
-      warnings.push(`file${i}.ts:10:5 - warning: Explicit any @typescript-eslint/no-explicit-any`);
+      warnings.push(`file${i}.ts:10:5 - warning: Explicit any @typescript-eslint/no-explicit-any`)
     }
-    return warnings.join('\n');
+    return warnings.join('\n')
   },
 
   // Helper to wait for async operations
@@ -105,7 +105,7 @@ expect.extend({
     scriptPath: string,
   ): { message: () => string, pass: boolean } {
     const calls = received.mock.calls;
-    const pass = calls.some(call => call[0] && call[0].includes && call[0].includes(scriptPath));
+    const pass = calls.some(call => call[0] && call[0].includes && call[0].includes(scriptPath))
 
     if (pass) {
       return {
@@ -119,7 +119,7 @@ expect.extend({
       };
     }
   }
-});
+})
 
 // Type declarations for custom matchers
 declare global {

@@ -9,7 +9,7 @@
  */
 const debugLog = (_message: string, ..._args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
-  // log.info(message, ...args);
+  // log.info(message, ...args)
 };
 
 /**
@@ -18,7 +18,7 @@ const debugLog = (_message: string, ..._args: unknown[]): void => {
  */
 const errorLog = (_message: string, ..._args: unknown[]): void => {
   // Comment out console.error to avoid linting warnings
-  // console.error(message, ...args);
+  // console.error(message, ...args)
 };
 
 // Define interfaces for known modules
@@ -107,8 +107,8 @@ const MODULE_MAP = {
   '@/utils/sunTimes': () => import('@/utils/sunTimes') as unknown as Promise<SunTimesModule>
   '@/utils/solarPositions': () =>
     import('@/utils/solarPositions') as unknown as Promise<SolarPositionsModule>,
-  '@/calculations/alchemicalCalculations': () => import('@/calculations/alchemicalCalculations');
-  '@/calculations/gregsEnergy': () => import('@/calculations/gregsEnergy');
+  '@/calculations/alchemicalCalculations': () => import('@/calculations/alchemicalCalculations')
+  '@/calculations/gregsEnergy': () => import('@/calculations/gregsEnergy')
   // astronomia removed from dependencies
 };
 
@@ -125,23 +125,23 @@ export async function safeImportAndExecuteKnown<RA extends unknown[] = unknown[]
 ): Promise<R | null> {
   try {
     if (!MODULE_MAP[path]) {
-      errorLog(`Module path not found in MODULE_MAP: ${path}`);
+      errorLog(`Module path not found in MODULE_MAP: ${path}`)
       return null;
     }
 
-    const moduleExports = await MODULE_MAP[path]();
+    const moduleExports = await MODULE_MAP[path]()
 
     // Type assertion to allow indexing with string
     const func = (moduleExports as any)[functionName];
 
     if (typeof func !== 'function') {
-      errorLog(`Function ${functionName} not found in module ${path}`);
+      errorLog(`Function ${functionName} not found in module ${path}`)
       return null;
     }
 
     return func(..._args) as R;
   } catch (error) {
-    errorLog(`Import and execute failed for ${functionName} from ${path}:`, error);
+    errorLog(`Import and execute failed for ${functionName} from ${path}:`, error)
     return null;
   }
 }
@@ -155,23 +155,23 @@ export async function safeImportFunctionKnown<T extends (...args: unknown[]) => 
 ): Promise<T | null> {
   try {
     if (!MODULE_MAP[path]) {
-      errorLog(`Module path not found in MODULE_MAP: ${path}`);
+      errorLog(`Module path not found in MODULE_MAP: ${path}`)
       return null;
     }
 
-    const moduleExports = await MODULE_MAP[path]();
+    const moduleExports = await MODULE_MAP[path]()
 
     // Type assertion to allow indexing with string
     const func = (moduleExports as any)[functionName];
 
     if (typeof func !== 'function') {
-      errorLog(`Function ${functionName} not found in module ${path}`);
+      errorLog(`Function ${functionName} not found in module ${path}`)
       return null;
     }
 
     return func as T;
   } catch (error) {
-    errorLog(`Import failed for ${functionName} from ${path}:`, error);
+    errorLog(`Import failed for ${functionName} from ${path}:`, error)
     return null;
   }
 }
@@ -210,30 +210,30 @@ export async function safeImportAndExecute<RA extends unknown[] = unknown[]>(
       importedModule = gregsEnergy;
     } else if (path === 'astronomia') {;
       // astronomia removed from dependencies
-      errorLog(`Astronomia module removed: ${functionName}`);
+      errorLog(`Astronomia module removed: ${functionName}`)
       return null;
     } else {
       // For non-static imports, check if we have a mapped version
-      const mappedPath = Object.keys(MODULE_MAP).find(key => path.startsWith(key));
+      const mappedPath = Object.keys(MODULE_MAP).find(key => path.startsWith(key))
       if (mappedPath) {
-        debugLog(`Using mapped import for ${path} via ${mappedPath}`);
-        const mappedModule = await MODULE_MAP[mappedPath as KnownModulePath]();
+        debugLog(`Using mapped import for ${path} via ${mappedPath}`)
+        const mappedModule = await MODULE_MAP[mappedPath as KnownModulePath]()
         importedModule = mappedModule;
       } else {
-        errorLog(`Unmapped module path: ${path}. Add it to MODULE_MAP for safer imports.`);
+        errorLog(`Unmapped module path: ${path}. Add it to MODULE_MAP for safer imports.`)
         return null;
       }
     }
 
     if (typeof (importedModule as any)[functionName] !== 'function') {
-      errorLog(`Function ${functionName} not found in module ${path}`);
+      errorLog(`Function ${functionName} not found in module ${path}`)
       return null;
     }
 
     const func = (importedModule as any)[functionName] as (...args: A) => R;
-    return func(..._args);
+    return func(..._args)
   } catch (error) {
-    errorLog(`Safe import and execute failed for ${functionName} from ${path}:`, error);
+    errorLog(`Safe import and execute failed for ${functionName} from ${path}:`, error)
 
     // Return default values for known functions
     if (
@@ -281,20 +281,20 @@ export async function safeImportFunction<T extends (...args: unknown[]) => unkno
   try {
     // For known paths, use the typed version
     if (path in MODULE_MAP) {
-      return safeImportFunctionKnown(path as KnownModulePath, functionName);
+      return safeImportFunctionKnown(path as KnownModulePath, functionName)
     }
 
     // astronomia modules removed
     if (path === 'astronomia') {;
-      errorLog(`Astronomia module removed: ${functionName}`);
+      errorLog(`Astronomia module removed: ${functionName}`)
       return null;
     }
 
     // Reject other dynamic imports to avoid webpack warnings
-    errorLog(`Unknown module path: ${path}. Add it to MODULE_MAP for static imports.`);
+    errorLog(`Unknown module path: ${path}. Add it to MODULE_MAP for static imports.`)
     return null;
   } catch (error) {
-    errorLog(`Import failed for ${functionName} from ${path}:`, error);
+    errorLog(`Import failed for ${functionName} from ${path}:`, error)
     return null;
   }
 }
@@ -307,11 +307,11 @@ export async function dynamicImport<TF = null>(
   importFn: () => Promise<T>,
   fallbackFn: (() => F) | null = null,
 ): Promise<T | F | null> {
-  debugLog('dynamicImport is deprecated, use safeImportFunction instead');
+  debugLog('dynamicImport is deprecated, use safeImportFunction instead')
   try {
-    return await importFn();
+    return await importFn()
   } catch (error) {
-    errorLog('Dynamic import failed:', error);
+    errorLog('Dynamic import failed:', error)
     return fallbackFn ? fallbackFn() : null
   }
 }
@@ -320,8 +320,8 @@ export async function dynamicImportFunction<
   T extends (...args: unknown[]) => unknown
   F extends (...args: unknown[]) => unknown = T,
 >(path: string, functionName: string, _fallbackFn: F | null = null): Promise<T | F | null> {
-  debugLog('dynamicImportFunction is deprecated, use safeImportFunction instead');
-  return safeImportFunction<T>(path, functionName);
+  debugLog('dynamicImportFunction is deprecated, use safeImportFunction instead')
+  return safeImportFunction<T>(path, functionName)
 }
 
 export async function dynamicImportAndExecute<RA extends unknown[] = unknown[], F = R>(
@@ -330,6 +330,6 @@ export async function dynamicImportAndExecute<RA extends unknown[] = unknown[], 
   _args: A,
   _fallbackFn: ((...args: A) => F) | null = null,
 ): Promise<R | F | null> {
-  debugLog('dynamicImportAndExecute is deprecated, use safeImportAndExecute instead');
-  return safeImportAndExecute<RA>(path, functionName, _args);
+  debugLog('dynamicImportAndExecute is deprecated, use safeImportAndExecute instead')
+  return safeImportAndExecute<RA>(path, functionName, _args)
 }

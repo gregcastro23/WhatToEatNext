@@ -31,11 +31,11 @@ export interface PerformanceAlert {
 }
 
 class PerformanceMonitoringService {
-  private, componentMetrics: Map<string, ComponentMetrics> = new Map();
-  private, systemMetrics: SystemMetrics;
-  private, alerts: PerformanceAlert[] = [];
-  private, startTime: number = Date.now()
-  private, subscribers: Set<(data: unknown) => void> = new Set();
+  private componentMetrics: Map<string, ComponentMetrics> = new Map()
+  private systemMetrics: SystemMetrics;
+  private alerts: PerformanceAlert[] = [];
+  private startTime: number = Date.now()
+  private subscribers: Set<(data: unknown) => void> = new Set()
 
   // Performance thresholds
   private readonly RENDER_TIME_WARNING = 16; // 60fps threshold
@@ -51,19 +51,19 @@ class PerformanceMonitoringService {
       totalErrors: 0,
       activeComponents: 0,
       systemUptime: 0,
-      lastUpdated: new Date();
+      lastUpdated: new Date()
     };
 
-    this.startMonitoring();
+    this.startMonitoring()
   }
 
   private startMonitoring() {
     // Update system metrics every 5 seconds
     setInterval(() => {
-      this.updateSystemMetrics();
-      this.checkThresholds();
-      this.notifySubscribers();
-    }, 5000);
+      this.updateSystemMetrics()
+      this.checkThresholds()
+      this.notifySubscribers()
+    }, 5000)
   }
 
   private updateSystemMetrics() {
@@ -83,7 +83,7 @@ class PerformanceMonitoringService {
       peakMemoryUsage: Math.max(this.systemMetrics.peakMemoryUsage, totalMemory),
       activeComponents: this.componentMetrics.size,
       systemUptime: now - this.startTime,
-      lastUpdated: new Date();
+      lastUpdated: new Date()
     };
   }
 
@@ -100,7 +100,7 @@ class PerformanceMonitoringService {
           metric: 'renderTime',
           value: metrics.averageRenderTime,
           threshold: this.RENDER_TIME_ERROR
-        });
+        })
       } else if (metrics.averageRenderTime > this.RENDER_TIME_WARNING) {
         this.addAlert({
           type: 'warning',
@@ -110,11 +110,11 @@ class PerformanceMonitoringService {
           metric: 'renderTime',
           value: metrics.averageRenderTime,
           threshold: this.RENDER_TIME_WARNING
-        });
+        })
       }
 
       // Check error rate
-      const errorRate = metrics.errorCount / Math.max(metrics.renderCount, 1);
+      const errorRate = metrics.errorCount / Math.max(metrics.renderCount, 1)
       if (errorRate > this.ERROR_RATE_WARNING) {
         this.addAlert({
           type: 'warning',
@@ -124,9 +124,9 @@ class PerformanceMonitoringService {
           metric: 'errorRate',
           value: errorRate,
           threshold: this.ERROR_RATE_WARNING
-        });
+        })
       }
-    });
+    })
 
     // Check system memory
     if (this.systemMetrics.totalMemoryUsage > this.MEMORY_ERROR) {
@@ -137,7 +137,7 @@ class PerformanceMonitoringService {
         metric: 'memoryUsage',
         value: this.systemMetrics.totalMemoryUsage,
         threshold: this.MEMORY_ERROR
-      });
+      })
     } else if (this.systemMetrics.totalMemoryUsage > this.MEMORY_WARNING) {
       this.addAlert({
         type: 'warning',
@@ -146,23 +146,23 @@ class PerformanceMonitoringService {
         metric: 'memoryUsage',
         value: this.systemMetrics.totalMemoryUsage,
         threshold: this.MEMORY_WARNING
-      });
+      })
     }
   }
 
   private addAlert(alert: PerformanceAlert) {
-    this.alerts.push(alert);
+    this.alerts.push(alert)
 
     // Keep only last 50 alerts
     if (this.alerts.length > 50) {
-      this.alerts = this.alerts.slice(-50);
+      this.alerts = this.alerts.slice(-50)
     }
 
     // Log critical alerts
     if (alert.type === 'error') {;
-      console.error('[Performance Monitor]', alert.message, alert);
+      console.error('[Performance Monitor]', alert.message, alert)
     } else if (alert.type === 'warning') {;
-      console.warn('[Performance Monitor]', alert.message, alert);
+      console.warn('[Performance Monitor]', alert.message, alert)
     }
   }
 
@@ -171,21 +171,21 @@ class PerformanceMonitoringService {
       componentMetrics: Array.from(this.componentMetrics.entries()),
       systemMetrics: this.systemMetrics,
       alerts: this.alerts.slice(-10), // Last 10 alerts,
-      summary: this.getPerformanceSummary();
+      summary: this.getPerformanceSummary()
     };
 
     this.subscribers.forEach(callback => {
       try {
-        callback(data);
+        callback(data)
       } catch (error) {
-        console.error('[Performance Monitor] Subscriber error:', error);
+        console.error('[Performance Monitor] Subscriber error:', error)
       }
-    });
+    })
   }
 
   // Public methods
   public trackComponentRender(componentName: string, renderTime: number) {
-    const existing = this.componentMetrics.get(componentName);
+    const existing = this.componentMetrics.get(componentName)
 
     if (existing) {
       const newRenderCount = existing.renderCount + 1;
@@ -197,8 +197,8 @@ class PerformanceMonitoringService {
         totalRenderTime: newTotalTime,
         averageRenderTime: newTotalTime / newRenderCount,
         lastRenderTime: renderTime,
-        lastUpdated: new Date();
-      });
+        lastUpdated: new Date()
+      })
     } else {
       this.componentMetrics.set(componentName, {
         name: componentName,
@@ -208,19 +208,19 @@ class PerformanceMonitoringService {
         lastRenderTime: renderTime,
         errorCount: 0,
         memoryUsage: 0,
-        lastUpdated: new Date();
-      });
+        lastUpdated: new Date()
+      })
     }
   }
 
   public trackComponentError(componentName: string, error: Error | string) {
-    const existing = this.componentMetrics.get(componentName);
+    const existing = this.componentMetrics.get(componentName)
     if (existing) {
       this.componentMetrics.set(componentName, {
         ...existing,
         errorCount: existing.errorCount + 1,
-        lastUpdated: new Date();
-      });
+        lastUpdated: new Date()
+      })
     } else {
       this.componentMetrics.set(componentName, {
         name: componentName,
@@ -230,27 +230,27 @@ class PerformanceMonitoringService {
         lastRenderTime: 0,
         errorCount: 1,
         memoryUsage: 0,
-        lastUpdated: new Date();
-      });
+        lastUpdated: new Date()
+      })
     }
 
     this.systemMetrics.totalErrors += 1;
   }
 
   public subscribe(callback: (data: unknown) => void) {
-    this.subscribers.add(callback);
+    this.subscribers.add(callback)
 
     // Return unsubscribe function
     return () => {
-      this.subscribers.delete(callback);
+      this.subscribers.delete(callback)
     };
   }
 
   public getComponentMetrics(componentName?: string) {
     if (componentName) {
-      return this.componentMetrics.get(componentName);
+      return this.componentMetrics.get(componentName)
     }
-    return Array.from(this.componentMetrics.entries());
+    return Array.from(this.componentMetrics.entries())
   }
 
   public getSystemMetrics() {
@@ -259,7 +259,7 @@ class PerformanceMonitoringService {
 
   public getAlerts(type?: 'warning' | 'error' | 'info') {
     if (type) {
-      return this.alerts.filter(alert => alert.type === type);
+      return this.alerts.filter(alert => alert.type === type)
     }
     return this.alerts;
   }
@@ -269,8 +269,8 @@ class PerformanceMonitoringService {
   }
 
   public getPerformanceSummary() {
-    const components = Array.from(this.componentMetrics.values());
-    const slowComponents = components.filter(c => c.averageRenderTime > this.RENDER_TIME_WARNING);
+    const components = Array.from(this.componentMetrics.values())
+    const slowComponents = components.filter(c => c.averageRenderTime > this.RENDER_TIME_WARNING)
     const errorProneComponents = components.filter(
       c => c.errorCount / Math.max(c.renderCount, 1) > this.ERROR_RATE_WARNING,,
     ),
@@ -285,7 +285,7 @@ class PerformanceMonitoringService {
       totalErrors: this.systemMetrics.totalErrors,
       memoryUsage: this.systemMetrics.totalMemoryUsage,
       uptime: this.systemMetrics.systemUptime,
-      healthScore: this.calculateHealthScore();
+      healthScore: this.calculateHealthScore()
     };
   }
 
@@ -293,13 +293,13 @@ class PerformanceMonitoringService {
     let score = 100;
 
     // Deduct for slow components
-    const components = Array.from(this.componentMetrics.values());
-    const slowComponents = components.filter(c => c.averageRenderTime > this.RENDER_TIME_WARNING);
+    const components = Array.from(this.componentMetrics.values())
+    const slowComponents = components.filter(c => c.averageRenderTime > this.RENDER_TIME_WARNING)
     score -= (slowComponents.length / Math.max(components.length1)) * 30
 
     // Deduct for errors
-    const totalRenders = components.reduce((sumc) => sum + c.renderCount, 0);
-    const errorRate = this.systemMetrics.totalErrors / Math.max(totalRenders, 1);
+    const totalRenders = components.reduce((sumc) => sum + c.renderCount, 0)
+    const errorRate = this.systemMetrics.totalErrors / Math.max(totalRenders, 1)
     score -= errorRate * 40;
 
     // Deduct for memory usage
@@ -307,11 +307,11 @@ class PerformanceMonitoringService {
       score -= 20;
     }
 
-    return Math.max(0, Math.min(100, score));
+    return Math.max(0, Math.min(100, score))
   }
 
   public reset() {
-    this.componentMetrics.clear();
+    this.componentMetrics.clear()
     this.alerts = [];
     this.systemMetrics = {
       totalMemoryUsage: 0,
@@ -319,12 +319,12 @@ class PerformanceMonitoringService {
       totalErrors: 0,
       activeComponents: 0,
       systemUptime: 0,
-      lastUpdated: new Date();
+      lastUpdated: new Date()
     };
     this.startTime = Date.now()
   }
 }
 
 // Export singleton instance
-export const _performanceMonitor = new PerformanceMonitoringService();
+export const _performanceMonitor = new PerformanceMonitoringService()
 export default PerformanceMonitoringService;

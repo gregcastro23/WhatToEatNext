@@ -33,14 +33,14 @@ const CookingMethodsSection = ({
           <div className='font-semibold'>{String(method.name)}</div>
           <div className='text-sm text-gray-600'>{String(method.description)}</div>
         </button>
-      );
+      )
     })}
   </div>
-);
+)
 
 export default function CookingMethodsDemoPage() {
-  const [methods, setMethods] = useState<CookingMethodData[]>([]);
-  const [selectedMethod, setSelectedMethod] = useState<CookingMethodData | null>(null);
+  const [methods, setMethods] = useState<CookingMethodData[]>([])
+  const [selectedMethod, setSelectedMethod] = useState<CookingMethodData | null>(null)
 
   useEffect(() => {
     // Prepare demo data by formatting methods from different categories
@@ -51,11 +51,11 @@ export default function CookingMethodsDemoPage() {
     ];
 
     // Sort by score for a more realistic demo
-    demoMethods.sort((a, b) => (b.score || 0) - (a.score || 0));
+    demoMethods.sort((a, b) => (b.score || 0) - (a.score || 0))
 
     // Limit to 12 methods for the demo
-    setMethods(demoMethods.slice(0, 12) as CookingMethodData[]);
-  }, []);
+    setMethods(demoMethods.slice(0, 12) as CookingMethodData[])
+  }, [])
 
   const _formatMethodsForComponent = (methodsObj: Record<string, unknown>, prefix: string) => {
     return Object.entries(methodsObj).map(([key, method]) => {
@@ -63,7 +63,7 @@ export default function CookingMethodsDemoPage() {
       const name = key
         .split('_')
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ');
+        .join(' ')
 
       // Generate a realistic score between 0.4 and 1.0
       const score = 0.4 + Math.random() * 0.6;
@@ -101,11 +101,11 @@ export default function CookingMethodsDemoPage() {
             : []
           : []
       };
-    });
+    })
   };
 
   const handleSelectMethod = (method: unknown) => {
-    setSelectedMethod(method as CookingMethodData);
+    setSelectedMethod(method as CookingMethodData)
   };
 
   return (
@@ -164,5 +164,5 @@ export default function CookingMethodsDemoPage() {
         </Box>
       )}
     </Container>
-  );
+  )
 }

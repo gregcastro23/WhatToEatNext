@@ -24,7 +24,7 @@ export function standardizeIngredient(ingredient: unknown): unknown {
     ...ingredientData,
     astrologicalProfile: {
       ...astrologicalProfile,
-      elementalAffinity: standardizeElementalAffinity(astrologicalProfile.elementalAffinity);
+      elementalAffinity: standardizeElementalAffinity(astrologicalProfile.elementalAffinity)
     }
   };
 }

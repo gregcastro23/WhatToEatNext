@@ -2,7 +2,7 @@ import { Ingredient, ElementalProperties } from './index';
 
 /**
  * Recipe ingredient interface that extends the base Ingredient
- * with recipe-specific properties (amount, units, etc.);
+ * with recipe-specific properties (amount, units, etc.)
  */
 export interface RecipeIngredient {
   // Core ingredient identification
@@ -19,7 +19,7 @@ export interface RecipeIngredient {
   cookingPoint?: string;
   substitutes?: string[];
 
-  // Ingredient properties (optional in recipe context);
+  // Ingredient properties (optional in recipe context)
   category?: string;
   elementalProperties?: ElementalProperties;
   qualities?: string[];
@@ -34,7 +34,7 @@ export interface RecipeIngredient {
     zodiacAffinity?: string[]
   };
 
-  // Nutritional properties (optional);
+  // Nutritional properties (optional)
   calories?: number;
   macronutrients?: {
     carbs?: number;
@@ -85,7 +85,7 @@ export function validateIngredient(obj: unknown): obj is RecipeIngredient {
       typeof (obj as any).name === 'string' &&
       typeof (obj as any).amount === 'number' &&
       typeof (obj as any).unit === 'string',
-  );
+  )
 }
 
 /**

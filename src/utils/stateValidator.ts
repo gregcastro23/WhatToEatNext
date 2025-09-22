@@ -41,17 +41,17 @@ class StateValidator {
 
       // Validate recipes array if it exists
       if (state.recipes !== undefined && !Array.isArray(state.recipes)) {
-        throw new Error('Recipes must be an array');
+        throw new Error('Recipes must be an array')
       }
 
       // Validate filtered recipes if it exists
       if (state.filteredRecipes !== undefined && !Array.isArray(state.filteredRecipes)) {
-        throw new Error('Filtered recipes must be an array');
+        throw new Error('Filtered recipes must be an array')
       }
 
       // Validate favorites if it exists
       if (state.favorites !== undefined && !Array.isArray(state.favorites)) {
-        throw new Error('Favorites must be an array');
+        throw new Error('Favorites must be an array')
       }
 
       // Validate celestial positions
@@ -60,17 +60,17 @@ class StateValidator {
       const celestialPositions = stateData?.celestialPositions;
 
       if (!celestialPositions || typeof celestialPositions !== 'object') {
-        throw new Error('Invalid celestial positions');
+        throw new Error('Invalid celestial positions')
       }
 
       // Validate elemental balance
       if (!this.validateElementalProperties(state.elementalState)) {
-        throw new Error('Invalid elemental balance');
+        throw new Error('Invalid elemental balance')
       }
 
       // Validate season if it exists
       if (state.season !== undefined && typeof state.season !== 'string') {
-        throw new Error('Season must be a string');
+        throw new Error('Season must be a string')
       }
 
       // Only log details if the properties exist
@@ -79,7 +79,7 @@ class StateValidator {
       if (state.filteredRecipes) logInfo.filteredCount = state.filteredRecipes.length;
       if (state.favorites) logInfo.favoritesCount = state.favorites.length;
 
-      logger.info('State validation passed', logInfo);
+      logger.info('State validation passed', logInfo)
 
       return true;
     } catch (error) {
@@ -87,7 +87,7 @@ class StateValidator {
         context: 'StateValidator',
         action: 'validateState',
         state: JSON.stringify(state)
-      });
+      })
       return false;
     }
   }
@@ -104,7 +104,7 @@ class StateValidator {
     }
     return requiredElements.every(
       element => typeof props[element] === 'number' && props[element] >= 0 && props[element] <= 1
-    );
+    )
   }
 
   validateRecipe(recipe: Record<string, unknown>): boolean {
@@ -114,7 +114,7 @@ class StateValidator {
       const requiredFields = ['id', 'name', 'elementalProperties'];
       const hasRequiredFields = requiredFields.every(field =>
         Object.prototype.hasOwnProperty.call(recipe, field),
-      );
+      )
 
       if (!hasRequiredFields) return false;
 
@@ -127,16 +127,16 @@ class StateValidator {
           return false;
         }
       }
-      return this.validateElementalProperties(elemProps as ElementalProperties);
+      return this.validateElementalProperties(elemProps as ElementalProperties)
     } catch (error) {
       errorHandler.handleError(error, {
         context: 'StateValidator',
         action: 'validateRecipe',
         recipe: JSON.stringify(recipe)
-      });
+      })
       return false;
     }
   }
 }
 
-export const _stateValidator = new StateValidator();
+export const _stateValidator = new StateValidator()

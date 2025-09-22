@@ -49,4 +49,4 @@ const rawAmaranth = {
   }
 };
 
-export const amaranth: Record<string, IngredientMapping> = fixIngredientMappings(rawAmaranth);
+export const amaranth: Record<string, IngredientMapping> = fixIngredientMappings(rawAmaranth)

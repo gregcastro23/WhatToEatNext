@@ -24,22 +24,22 @@ async function validateMonitoring(): Promise<ValidationResult[]> {
   const results: ValidationResult[] = [];
 
   // Check monitoring directories
-  results.push(validateDirectories());
+  results.push(validateDirectories())
 
   // Check configuration files
-  results.push(validateConfiguration());
+  results.push(validateConfiguration())
 
   // Check monitoring service
-  results.push(validateMonitoringService());
+  results.push(validateMonitoringService())
 
   // Check dashboard
-  results.push(validateDashboard());
+  results.push(validateDashboard())
 
   // Check startup scripts
-  results.push(validateStartupScripts());
+  results.push(validateStartupScripts())
 
   // Check health check endpoints
-  results.push(...(await validateHealthChecks()));
+  results.push(...(await validateHealthChecks()))
 
   return results
 }
@@ -50,7 +50,7 @@ async function validateMonitoring(): Promise<ValidationResult[]> {
 function validateDirectories(): ValidationResult {
   const requiredDirs = ['.kiro/logs', '.kiro/metrics', '.kiro/monitoring', '.kiro/alerts'];
 
-  const missingDirs = requiredDirs.filter(dir => !existsSync(dir));
+  const missingDirs = requiredDirs.filter(dir => !existsSync(dir))
 
   if (missingDirs.length === 0) {
     return {
@@ -84,12 +84,12 @@ function validateConfiguration(): ValidationResult {
   }
 
   try {
-    const configContent = readFileSync(configPath, 'utf8');
-    const config = JSON.parse(configContent);
+    const configContent = readFileSync(configPath, 'utf8')
+    const config = JSON.parse(configContent)
 
     // Validate required sections
     const requiredSections = ['metrics', 'alerts', 'logging', 'healthChecks'];
-    const missingSections = requiredSections.filter(section => !config[section]);
+    const missingSections = requiredSections.filter(section => !config[section])
 
     if (missingSections.length > 0) {
       return {
@@ -149,7 +149,7 @@ function validateMonitoringService(): ValidationResult {
 
   try {
     // Try to compile the service (basic syntax check)
-    execSync(`npx tsc --noEmit ${servicePath}`, { stdio: 'pipe' });
+    execSync(`npx tsc --noEmit ${servicePath}`, { stdio: 'pipe' })
 
     return {
       component: 'Monitoring Service',
@@ -183,7 +183,7 @@ function validateDashboard(): ValidationResult {
 
   try {
     // Try to compile the dashboard (basic syntax check)
-    execSync(`npx tsc --noEmit ${dashboardPath}`, { stdio: 'pipe' });
+    execSync(`npx tsc --noEmit ${dashboardPath}`, { stdio: 'pipe' })
 
     return {
       component: 'Dashboard',
@@ -217,7 +217,7 @@ function validateStartupScripts(): ValidationResult {
 
   try {
     // Check if script is accessible (basic check)
-    const _stats = statSync(startupScript);
+    const _stats = statSync(startupScript)
     // Note: This is a basic check, actual executable permission checking is platform-specific
 
     return {
@@ -254,7 +254,7 @@ async function validateHealthChecks(): Promise<ValidationResult[]> {
   }
 
   try {
-    const config = JSON.parse(readFileSync(configPath, 'utf8'));
+    const config = JSON.parse(readFileSync(configPath, 'utf8'))
     const healthChecks = config.healthChecks?.endpoints || [];
 
     if (healthChecks.length === 0) {
@@ -274,20 +274,20 @@ async function validateHealthChecks(): Promise<ValidationResult[]> {
         execSync(command, {
           stdio: 'pipe',
           timeout: Math.min(endpoint.timeout, 30000), // Cap at 30 seconds for validation
-        });
+        })
 
         results.push({
           component: `Health Check: ${endpoint.name}`,
           status: 'pass',
           message: `Health check endpoint is responding`
-        });
+        })
       } catch (error) {
         results.push({
           component: `Health Check: ${endpoint.name}`,
           status: 'fail',
           message: `Health check endpoint failed`,
           details: String(error)
-        });
+        })
       }
     }
   } catch (error) {
@@ -296,7 +296,7 @@ async function validateHealthChecks(): Promise<ValidationResult[]> {
       status: 'fail',
       message: 'Error validating health checks',
       details: String(error)
-    });
+    })
   }
 
   return results;
@@ -306,9 +306,9 @@ async function validateHealthChecks(): Promise<ValidationResult[]> {
  * Display validation results
  */
 function displayResults(results: ValidationResult[]): void {
-  // // // console.log('='.repeat(80));
-  // // // console.log('  MONITORING VALIDATION RESULTS');
-  // // // console.log('='.repeat(80));
+  // // // console.log('='.repeat(80))
+  // // // console.log('  MONITORING VALIDATION RESULTS')
+  // // // console.log('='.repeat(80))
 
   let passCount = 0;
   let failCount = 0;
@@ -317,10 +317,10 @@ function displayResults(results: ValidationResult[]): void {
   for (const result of results) {
     const icon = result.status === 'pass' ? '✅' : result.status === 'fail' ? '❌' : '⚠️'
 
-    // // // console.log(`\n${icon} ${result.component}: ${result.message}`);
+    // // // console.log(`\n${icon} ${result.component}: ${result.message}`)
 
     if (result.details) {
-      // // // console.log(`   Details: ${result.details}`);
+      // // // console.log(`   Details: ${result.details}`)
     }
 
     switch (result.status) {
@@ -335,19 +335,19 @@ function displayResults(results: ValidationResult[]): void {
     }
   }
 
-  // // // console.log('\n' + '='.repeat(80));
-  // // // console.log(`SUMMARY: ${passCount} passed, ${failCount} failed, ${warningCount} warnings`);
+  // // // console.log('\n' + '='.repeat(80))
+  // // // console.log(`SUMMARY: ${passCount} passed, ${failCount} failed, ${warningCount} warnings`)
 
   if (failCount > 0) {
-    // // // console.log('\n❌ Monitoring validation FAILED');
-    // // // console.log('Please fix the issues above before proceeding with deployment.');
-    process.exit(1);
+    // // // console.log('\n❌ Monitoring validation FAILED')
+    // // // console.log('Please fix the issues above before proceeding with deployment.')
+    process.exit(1)
   } else if (warningCount > 0) {
-    // // // console.log('\n⚠️  Monitoring validation passed with WARNINGS');
-    // // // console.log('Consider addressing the warnings for optimal monitoring.');
+    // // // console.log('\n⚠️  Monitoring validation passed with WARNINGS')
+    // // // console.log('Consider addressing the warnings for optimal monitoring.')
   } else {
-    // // // console.log('\n✅ Monitoring validation PASSED');
-    // // // console.log('All monitoring components are properly configured.');
+    // // // console.log('\n✅ Monitoring validation PASSED')
+    // // // console.log('All monitoring components are properly configured.')
   }
 }
 
@@ -355,20 +355,20 @@ function displayResults(results: ValidationResult[]): void {
  * Main validation function
  */
 async function main(): Promise<void> {
-  // // // console.log('Validating monitoring and alerting setup...\n');
+  // // // console.log('Validating monitoring and alerting setup...\n')
 
   try {
-    const results = await validateMonitoring();
+    const results = await validateMonitoring()
     displayResults(results)
   } catch (error) {
-    console.error('❌ Validation failed with error:', error);
-    process.exit(1);
+    console.error('❌ Validation failed with error:', error)
+    process.exit(1)
   }
 }
 
 // Run validation if called directly
 if (require.main === module) {
-  main();
+  main()
 }
 
 export { validateMonitoring };

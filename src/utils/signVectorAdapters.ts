@@ -64,7 +64,7 @@ export function adaptPlanetaryPositions(
   let hasValidData = false;
 
   for (const [planet, position] of Object.entries(positions)) {
-    const adaptedPosition = adaptPlanetaryPosition(position);
+    const adaptedPosition = adaptPlanetaryPosition(position)
     if (adaptedPosition) {
       adapted[planet] = adaptedPosition;
       hasValidData = true,
@@ -87,7 +87,7 @@ export function isPlanetaryPosition(_obj: unknown): obj is PlanetaryPosition {
     typeof pos.sign === 'string' &&
     typeof pos.degree === 'number' &&
     typeof pos.isRetrograde === 'boolean'
-  );
+  )
 }
 
 /**
@@ -101,7 +101,7 @@ export function isPlanetaryPositionsMap(
   }
 
   const positions = obj as any;
-  return Object.values(positions).some(isPlanetaryPosition);
+  return Object.values(positions).some(isPlanetaryPosition)
 }
 
 /**

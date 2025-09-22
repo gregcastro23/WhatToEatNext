@@ -73,8 +73,8 @@ export class ScriptIntegrationSystem {
 
   constructor(scriptsBasePath: string = 'scripts') {;
     this.scriptsBasePath = scriptsBasePath;
-    this.scriptConfigs = new Map();
-    this.initializeScriptConfigs();
+    this.scriptConfigs = new Map()
+    this.initializeScriptConfigs()
   }
 
   /**
@@ -95,7 +95,7 @@ export class ScriptIntegrationSystem {
       maxBatchSize: 25,
       requiresGitClean: true,
       supportsJsonOutput: true
-    });
+    })
 
     // Explicit-Any Systematic Fixer
     this.scriptConfigs.set('explicit-any-systematic', {
@@ -111,7 +111,7 @@ export class ScriptIntegrationSystem {
       maxBatchSize: 50,
       requiresGitClean: true,
       supportsJsonOutput: true
-    });
+    })
 
     // Unused Variables Enhanced Fixer
     this.scriptConfigs.set('unused-variables-enhanced', {
@@ -127,7 +127,7 @@ export class ScriptIntegrationSystem {
       maxBatchSize: 100,
       requiresGitClean: true,
       supportsJsonOutput: true
-    });
+    })
 
     // Console Statement Removal System
     this.scriptConfigs.set('console-statements', {
@@ -140,7 +140,7 @@ export class ScriptIntegrationSystem {
       maxBatchSize: 50,
       requiresGitClean: false,
       supportsJsonOutput: false
-    });
+    })
   }
 
   /**
@@ -150,15 +150,15 @@ export class ScriptIntegrationSystem {
     scriptId: string,
     options: ScriptExecutionOptions = {},
   ): Promise<ScriptExecutionResult> {
-    const config = this.scriptConfigs.get(scriptId);
+    const config = this.scriptConfigs.get(scriptId)
     if (!config) {
-      throw new Error(`Unknown script ID: ${scriptId}`);
+      throw new Error(`Unknown script ID: ${scriptId}`)
     }
 
     // Validate script exists
-    const scriptPath = path.resolve(config.scriptPath);
+    const scriptPath = path.resolve(config.scriptPath)
     if (!fs.existsSync(scriptPath)) {
-      throw new Error(`Script not found: ${scriptPath}`);
+      throw new Error(`Script not found: ${scriptPath}`)
     }
 
     // Merge options with defaults
@@ -166,15 +166,15 @@ export class ScriptIntegrationSystem {
 
     // Validate safety requirements
     if (config.requiresGitClean && !options.dryRun) {
-      await this.validateGitStatus();
+      await this.validateGitStatus()
     }
 
     // Build command arguments
-    const args = this.buildCommandArguments(mergedOptions);
+    const args = this.buildCommandArguments(mergedOptions)
     const command = `node ${scriptPath} ${args.join(' ')}`;
 
-    // // // console.log(`🚀 Executing script: ${scriptId}`);
-    // // // console.log(`📝 Command: ${command}`);
+    // // // console.log(`🚀 Executing script: ${scriptId}`)
+    // // // console.log(`📝 Command: ${command}`)
 
     const startTime = Date.now()
     let result: ScriptExecutionResult
@@ -184,20 +184,20 @@ export class ScriptIntegrationSystem {
         encoding: 'utf8',
         timeout: 300000, // 5 minute timeout,
         maxBuffer: 10 * 1024 * 1024, // 10MB buffer
-      });
+      })
 
       const executionTime = Date.now() - startTime;
-      result = this.parseExecutionOutput(output, executionTime, true0);
+      result = this.parseExecutionOutput(output, executionTime, true0)
     } catch (error: unknown) {
       const executionTime = Date.now() - startTime;
       const stdout = error.stdout || '';
       const stderr = error.stderr || error.message || ''
 
-      result = this.parseExecutionOutput(stdout + stderr, executionTime, false, error.status || 1);
+      result = this.parseExecutionOutput(stdout + stderr, executionTime, false, error.status || 1)
     }
 
     // Log execution summary
-    this.logExecutionSummary(scriptId, result);
+    this.logExecutionSummary(scriptId, result)
 
     return result;
   }
@@ -206,7 +206,7 @@ export class ScriptIntegrationSystem {
    * Get script metrics for safety validation
    */
   async getScriptMetrics(scriptId: string): Promise<ScriptMetrics | null> {
-    const config = this.scriptConfigs.get(scriptId);
+    const config = this.scriptConfigs.get(scriptId)
     if (!config) {
       return null
     }
@@ -216,16 +216,16 @@ export class ScriptIntegrationSystem {
         showMetrics: true,
         json: true,
         silent: true
-      });
+      })
 
       if (result.metrics) {
         return result.metrics;
       }
 
       // Fallback: try to read metrics file directly
-      const metricsFile = this.getMetricsFilePath(scriptId);
+      const metricsFile = this.getMetricsFilePath(scriptId)
       if (fs.existsSync(metricsFile)) {
-        const metricsData = JSON.parse(fs.readFileSync(metricsFile, 'utf8'));
+        const metricsData = JSON.parse(fs.readFileSync(metricsFile, 'utf8'))
         return {
           totalRuns: metricsData.totalRuns || 0,
           successfulRuns: metricsData.successfulRuns || 0,
@@ -239,7 +239,7 @@ export class ScriptIntegrationSystem {
 
       return null;
     } catch (error) {
-      console.warn(`⚠️ Could not retrieve metrics for ${scriptId}:`, error);
+      console.warn(`⚠️ Could not retrieve metrics for ${scriptId}:`, error)
       return null;
     }
   }
@@ -252,7 +252,7 @@ export class ScriptIntegrationSystem {
     issues: string[],
     recommendedBatchSize: number
   }> {
-    const config = this.scriptConfigs.get(scriptId);
+    const config = this.scriptConfigs.get(scriptId)
     if (!config) {
       return { safe: false, issues: ['Unknown script'], recommendedBatchSize: 1 };
     }
@@ -262,11 +262,11 @@ export class ScriptIntegrationSystem {
         validateSafety: true,
         json: true,
         silent: true
-      });
+      })
 
       // Parse safety validation from output
       if (result.stdout.includes('safetyValidation')) {
-        const safetyData = JSON.parse(result.stdout);
+        const safetyData = JSON.parse(result.stdout)
         return {
           safe: safetyData.safe || false,
           issues: safetyData.issues || [],
@@ -275,14 +275,14 @@ export class ScriptIntegrationSystem {
       }
 
       // Fallback: basic safety check
-      const metrics = await this.getScriptMetrics(scriptId);
+      const metrics = await this.getScriptMetrics(scriptId)
       if (metrics) {
         const issues: string[] = [];
         if (metrics.safetyScore < 0.5) {
-          issues.push('Low safety score detected');
+          issues.push('Low safety score detected')
         }
         if (metrics.totalRuns < 2) {
-          issues.push('Insufficient run history');
+          issues.push('Insufficient run history')
         }
 
         return {
@@ -310,10 +310,10 @@ export class ScriptIntegrationSystem {
       await this.executeScript(scriptId, {
         resetMetrics: true,
         silent: true
-      });
+      })
       return true;
     } catch (error) {
-      console.warn(`⚠️ Could not reset metrics for ${scriptId}:`, error);
+      console.warn(`⚠️ Could not reset metrics for ${scriptId}:`, error)
       return false;
     }
   }
@@ -325,7 +325,7 @@ export class ScriptIntegrationSystem {
     return Array.from(this.scriptConfigs.entries()).map(([id, config]) => ({
       id,
       config
-    }));
+    }))
   }
 
   /**
@@ -335,34 +335,34 @@ export class ScriptIntegrationSystem {
     const args: string[] = []
 
     if (options.maxFiles !== undefined) {
-      args.push(`--max-files=${options.maxFiles}`);
+      args.push(`--max-files=${options.maxFiles}`)
     }
     if (options.autoFix) {
-      args.push('--auto-fix');
+      args.push('--auto-fix')
     }
     if (options.validateSafety) {
-      args.push('--validate-safety');
+      args.push('--validate-safety')
     }
     if (options.dryRun) {
-      args.push('--dry-run');
+      args.push('--dry-run')
     }
     if (options.interactive) {
-      args.push('--interactive');
+      args.push('--interactive')
     }
     if (options.aggressive) {
-      args.push('--aggressive');
+      args.push('--aggressive')
     }
     if (options.showMetrics) {
-      args.push('--show-metrics');
+      args.push('--show-metrics')
     }
     if (options.json) {
-      args.push('--json');
+      args.push('--json')
     }
     if (options.silent) {
-      args.push('--silent');
+      args.push('--silent')
     }
     if (options.resetMetrics) {
-      args.push('--reset-metrics');
+      args.push('--reset-metrics')
     }
 
     return args;
@@ -392,7 +392,7 @@ export class ScriptIntegrationSystem {
     // Try to parse JSON output first
     try {
       if (output.trim().startsWith('{')) {
-        const jsonData = JSON.parse(output);
+        const jsonData = JSON.parse(output)
         if (jsonData.safetyMetrics) {
           result.metrics = {
             totalRuns: jsonData.safetyMetrics.totalRuns || 0,
@@ -411,25 +411,25 @@ export class ScriptIntegrationSystem {
     }
 
     // Parse text output for metrics
-    const lines = output.split('\n');
+    const lines = output.split('\n')
 
     for (const line of lines) {
       // Parse files processed
-      const filesMatch = line.match(/(\d+)\s+files?\s+processed/i);
+      const filesMatch = line.match(/(\d+)\s+files?\s+processed/i)
       if (filesMatch) {
-        result.filesProcessed = parseInt(filesMatch[1]);
+        result.filesProcessed = parseInt(filesMatch[1])
       }
 
       // Parse errors fixed
-      const errorsMatch = line.match(/(\d+)\s+errors?\s+fixed/i);
+      const errorsMatch = line.match(/(\d+)\s+errors?\s+fixed/i)
       if (errorsMatch) {
-        result.errorsFixed = parseInt(errorsMatch[1]);
+        result.errorsFixed = parseInt(errorsMatch[1])
       }
 
       // Parse warnings fixed
-      const warningsMatch = line.match(/(\d+)\s+warnings?\s+fixed/i);
+      const warningsMatch = line.match(/(\d+)\s+warnings?\s+fixed/i)
       if (warningsMatch) {
-        result.warningsFixed = parseInt(warningsMatch[1]);
+        result.warningsFixed = parseInt(warningsMatch[1])
       }
 
       // Parse safety events
@@ -439,7 +439,7 @@ export class ScriptIntegrationSystem {
           timestamp: new Date(),
           description: line.trim(),
           severity: 'high'
-        });
+        })
       }
 
       if (line.includes('Build validation failed')) {
@@ -448,7 +448,7 @@ export class ScriptIntegrationSystem {
           timestamp: new Date(),
           description: line.trim(),
           severity: 'critical'
-        });
+        })
       }
 
       if (line.includes('git stash')) {
@@ -457,7 +457,7 @@ export class ScriptIntegrationSystem {
           timestamp: new Date(),
           description: line.trim(),
           severity: 'low'
-        });
+        })
       }
     }
 
@@ -469,18 +469,18 @@ export class ScriptIntegrationSystem {
    */
   private async validateGitStatus(): Promise<void> {
     try {
-      const status = execSync('git status --porcelain', { encoding: 'utf8' });
+      const status = execSync('git status --porcelain', { encoding: 'utf8' })
       if (status.trim().length > 0) {
         throw new Error(
           'Git working directory has uncommitted changes. Commit or stash changes first.',
-        );
+        )
       }
     } catch (error: unknown) {
       if (error.message.includes('uncommitted changes')) {
         throw error
       }
       // Git not available or other error - warn but continue
-      console.warn('⚠️ Could not check git status:', error.message);
+      console.warn('⚠️ Could not check git status:', error.message)
     }
   }
 
@@ -494,30 +494,30 @@ export class ScriptIntegrationSystem {
       'unused-variables-enhanced': '.unused-variables-metrics.json'
     };
 
-    return path.resolve(metricsFiles[scriptId] || `.${scriptId}-metrics.json`);
+    return path.resolve(metricsFiles[scriptId] || `.${scriptId}-metrics.json`)
   }
 
   /**
    * Log execution summary
    */
   private logExecutionSummary(scriptId: string, result: ScriptExecutionResult): void {
-    // // // console.log(`\n📊 Script Execution Summary: ${scriptId}`);
-    // // // console.log(`✅ Success: ${result.success}`);
-    // // // console.log(`⏱️ Execution Time: ${result.executionTime}ms`);
-    // // // console.log(`📁 Files Processed: ${result.filesProcessed}`);
-    // // // console.log(`🔧 Errors Fixed: ${result.errorsFixed}`);
-    // // // console.log(`⚠️ Warnings Fixed: ${result.warningsFixed}`);
+    // // // console.log(`\n📊 Script Execution Summary: ${scriptId}`)
+    // // // console.log(`✅ Success: ${result.success}`)
+    // // // console.log(`⏱️ Execution Time: ${result.executionTime}ms`)
+    // // // console.log(`📁 Files Processed: ${result.filesProcessed}`)
+    // // // console.log(`🔧 Errors Fixed: ${result.errorsFixed}`)
+    // // // console.log(`⚠️ Warnings Fixed: ${result.warningsFixed}`)
 
     if (result.safetyEvents.length > 0) {
-      // // // console.log(`🚨 Safety Events: ${result.safetyEvents.length}`);
+      // // // console.log(`🚨 Safety Events: ${result.safetyEvents.length}`)
       result.safetyEvents.forEach(event => {
-        // // // console.log(`   ${event.type}: ${event.description}`);
-      });
+        // // // console.log(`   ${event.type}: ${event.description}`)
+      })
     }
 
     if (result.metrics) {
-      // // // console.log(`📈 Safety Score: ${(result.metrics.safetyScore * 100).toFixed(1)}%`);
-      // // // console.log(`🎯 Recommended Batch Size: ${result.metrics.recommendedBatchSize}`);
+      // // // console.log(`📈 Safety Score: ${(result.metrics.safetyScore * 100).toFixed(1)}%`)
+      // // // console.log(`🎯 Recommended Batch Size: ${result.metrics.recommendedBatchSize}`)
     }
   }
 }

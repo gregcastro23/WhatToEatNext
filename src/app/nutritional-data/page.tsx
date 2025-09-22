@@ -1,4 +1,4 @@
-const NutritionalDisplay = ({;
+const NutritionalDisplay = ({
   ingredientName,
   compact,
   showSearch
@@ -10,7 +10,7 @@ const NutritionalDisplay = ({;
   <div className='rounded border p-4 text-gray-600'>
      NutritionalDisplay unavailable{ingredientName ? ` for ${ingredientName}` : ''}.
   </div>
-);
+)
 
 export default function NutritionalDataPage() {
   return (
@@ -41,5 +41,5 @@ export default function NutritionalDataPage() {
         </div>
       </div>
     </div>
-  );
+  )
 }

@@ -27,7 +27,7 @@ export const MockMainPageLayout: React.FC<MainPageLayoutProps> = ({
       <div data-testid='loading-state'>{loading ? 'loading' : 'loaded'}</div>
       {children}
     </div>
-  );
+  )
 };
 
 // Type-safe component wrapper for testing
@@ -53,7 +53,7 @@ export const _renderWithProviders = (
           {component}
         </MockMainPageLayout>
       </MockAlchemicalProvider>
-    );
+    )
   }
 
   return component;
@@ -70,7 +70,7 @@ export const _createMockComponent = <P extends object>(name: string, defaultProp
           {JSON.stringify(mergedProps, null, 2)}
         </pre>
       </div>
-    );
+    )
   };
 
   MockComponent.displayName = `Mock${name}`;
@@ -83,7 +83,7 @@ export class TestErrorBoundary extends React.Component<
   { hasError: boolean, error?: Error }
 > {
   constructor(props: { children: React.ReactNode, onError?: (error: Error) => void }) {
-    super(props);
+    super(props)
     this.state = { hasError: false };
   }
 
@@ -102,7 +102,7 @@ export class TestErrorBoundary extends React.Component<
           <h2>Test Error Boundary</h2>
           <p>Error: {this.state.error?.message}</p>
         </div>
-      );
+      )
     }
 
     return this.props.children;
@@ -118,5 +118,5 @@ export const _AsyncTestWrapper: React.FC<{
     <React.Suspense fallback={fallback}>
       <TestErrorBoundary>{children}</TestErrorBoundary>
     </React.Suspense>
-  );
+  )
 };

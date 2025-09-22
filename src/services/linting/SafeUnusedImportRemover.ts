@@ -73,7 +73,7 @@ export class SafeUnusedImportRemover {
    * Analyze and remove unused imports safely
    */
   public async processUnusedImports(dryRun: boolean = true): Promise<ImportRemovalResult> {
-    log.info('🔍 Starting Safe Unused Import Analysis...\n');
+    log.info('🔍 Starting Safe Unused Import Analysis...\n')
     const result: ImportRemovalResult = {
       totalAnalyzed: 0,
       safeToRemove: 0,
@@ -87,49 +87,49 @@ export class SafeUnusedImportRemover {
 
     try {
       // Step, 1: Analyze unused imports
-      const unusedImports = await this.analyzeUnusedImports();
+      const unusedImports = await this.analyzeUnusedImports()
       result.totalAnalyzed = unusedImports.length;
 
       if (unusedImports.length === 0) {
-        log.info('✅ No unused imports found!');
+        log.info('✅ No unused imports found!')
         result.buildValid = true
         return result
       }
 
       // Step, 2: Categorize imports
-      const categorized = this.categorizeImports(unusedImports);
+      const categorized = this.categorizeImports(unusedImports)
       result.safeToRemove = categorized.safe.length;
       result.requiresReview = categorized.review.length;
       result.preserved = categorized.preserve.length;
 
       // Step, 3: Display analysis results
-      this.displayAnalysisResults(categorized);
+      this.displayAnalysisResults(categorized)
 
       if (dryRun) {
-        log.info('\n🔍 DRY RUN MODE - No changes will be made');
-        log.info('Use processUnusedImports(false) to execute removal');
+        log.info('\n🔍 DRY RUN MODE - No changes will be made')
+        log.info('Use processUnusedImports(false) to execute removal')
         return result
       }
 
       // Step, 4: Remove safe imports
       if (categorized.safe.length > 0) {
-        const removalSuccess = await this.removeSafeImports(categorized.safe);
+        const removalSuccess = await this.removeSafeImports(categorized.safe)
         result.actuallyRemoved = removalSuccess ? categorized.safe.length : 0
       }
 
       // Step, 5: Validate changes
-      result.buildValid = await this.validateChanges();
+      result.buildValid = await this.validateChanges()
 
       if (result.buildValid) {
-        log.info('\n🎉 Safe unused import removal completed successfully!');
-        log.info(`✅ Removed ${result.actuallyRemoved} unused imports`);
-        log.info(`🛡️  Preserved ${result.preserved} critical imports`);
+        log.info('\n🎉 Safe unused import removal completed successfully!')
+        log.info(`✅ Removed ${result.actuallyRemoved} unused imports`)
+        log.info(`🛡️  Preserved ${result.preserved} critical imports`)
       } else {
-        result.errors.push('Build validation failed after import removal');
+        result.errors.push('Build validation failed after import removal')
       }
     } catch (error) {
-      result.errors.push(`Import removal failed: ${error}`);
-      console.error('❌ Import removal failed:', error);
+      result.errors.push(`Import removal failed: ${error}`)
+      console.error('❌ Import removal failed:', error)
     }
 
     return result;
@@ -139,21 +139,21 @@ export class SafeUnusedImportRemover {
    * Analyze unused imports from ESLint output
    */
   private async analyzeUnusedImports(): Promise<UnusedImport[]> {
-    log.info('🔍 Analyzing unused imports from ESLint...');
+    log.info('🔍 Analyzing unused imports from ESLint...')
     try {
       const lintOutput = execSync('yarn lint --format=compact 2>&1', {
         encoding: 'utf8',
         maxBuffer: 20 * 1024 * 1024
-      });
+      })
 
       const unusedImports: UnusedImport[] = [];
-      const lines = lintOutput.split('\n');
+      const lines = lintOutput.split('\n')
 
       for (const line of lines) {
         if (
           line.includes('@typescript-eslint/no-unused-vars') &&
           (line.includes('is defined but never used') ||
-            line.includes('is imported but never used'));
+            line.includes('is imported but never used'))
         ) {
           const match = line.match(
             /^(.+):(\d+):(\d+):\s+(warning|error)\s+(.+?)\s+@typescript-eslint\/no-unused-vars/;
@@ -161,7 +161,7 @@ export class SafeUnusedImportRemover {
           if (match) {
             const [, filePath, lineNum, colNum, severity, message] = match;
 
-            const importNameMatch = message.match(/'([^']+)'/);
+            const importNameMatch = message.match(/'([^']+)'/)
             const importName = importNameMatch ? importNameMatch[1] : ''
 
             unusedImports.push({
@@ -175,12 +175,12 @@ export class SafeUnusedImportRemover {
               isNamespaceImport: message.includes('* as'),
               severity: 'review',
               reason: ''
-            });
+            })
           }
         }
       }
 
-      log.info(`📊 Found ${unusedImports.length} unused imports`);
+      log.info(`📊 Found ${unusedImports.length} unused imports`)
       return unusedImports;
     } catch (error) {
       console.error('❌ Failed to analyze unused imports:', error),
@@ -196,7 +196,7 @@ export class SafeUnusedImportRemover {
     review: UnusedImport[],
     preserve: UnusedImport[]
   } {
-    log.info('📋 Categorizing imports by safety level...');
+    log.info('📋 Categorizing imports by safety level...')
 
     const categorized = {
       safe: [] as UnusedImport[],
@@ -205,17 +205,17 @@ export class SafeUnusedImportRemover {
     };
 
     for (const unusedImport of unusedImports) {
-      const category = this.determineImportSafety(unusedImport);
+      const category = this.determineImportSafety(unusedImport)
       unusedImport.severity = category.severity;
       unusedImport.reason = category.reason;
 
       switch (category.severity) {
-        case 'safe': categorized.safe.push(unusedImport);
+        case 'safe': categorized.safe.push(unusedImport)
           break;
         case 'review':
-          categorized.review.push(unusedImport);
+          categorized.review.push(unusedImport)
           break,
-        case 'preserve': categorized.preserve.push(unusedImport);
+        case 'preserve': categorized.preserve.push(unusedImport)
           break
       }
     }
@@ -256,7 +256,7 @@ export class SafeUnusedImportRemover {
       };
     }
 
-    // Preserve type imports (might be used in type annotations);
+    // Preserve type imports (might be used in type annotations)
     if (isTypeImport) {
       return {
         severity: 'preserve',
@@ -277,7 +277,7 @@ export class SafeUnusedImportRemover {
     if (
       safePatterns.some(pattern => pattern.test(importName)) &&
       message.includes('is defined but never used') &&
-      !file.includes('.d.ts');
+      !file.includes('.d.ts')
     ) {
       return {
         severity: 'safe',
@@ -300,29 +300,29 @@ export class SafeUnusedImportRemover {
     review: UnusedImport[],
     preserve: UnusedImport[]
   }): void {
-    log.info('\n📊 Import Analysis Results:');
-    log.info(`✅ Safe to remove: ${categorized.safe.length}`);
-    log.info(`⚠️  Requires review: ${categorized.review.length}`);
-    log.info(`🛡️  Preserved (critical): ${categorized.preserve.length}\n`);
+    log.info('\n📊 Import Analysis Results:')
+    log.info(`✅ Safe to remove: ${categorized.safe.length}`)
+    log.info(`⚠️  Requires review: ${categorized.review.length}`)
+    log.info(`🛡️  Preserved (critical): ${categorized.preserve.length}\n`)
 
     if (categorized.safe.length > 0) {
-      log.info('✅ Safe to Remove: ');
-      this.displayImportsByFile(categorized.safe);
+      log.info('✅ Safe to Remove: ')
+      this.displayImportsByFile(categorized.safe)
     }
 
     if (categorized.preserve.length > 0) {
-      log.info('\n🛡️  Preserved (Critical): ');
+      log.info('\n🛡️  Preserved (Critical): ')
       this.displayImportsByFile(categorized.preserve.slice(010)), // Show first 10
       if (categorized.preserve.length > 10) {
-        log.info(`   ... and ${categorized.preserve.length - 10} more`);
+        log.info(`   ... and ${categorized.preserve.length - 10} more`)
       }
     }
 
     if (categorized.review.length > 0) {
-      log.info('\n⚠️  Requires Manual Review: ');
+      log.info('\n⚠️  Requires Manual Review: ')
       this.displayImportsByFile(categorized.review.slice(05)), // Show first 5
       if (categorized.review.length > 5) {
-        log.info(`   ... and ${categorized.review.length - 5} more`);
+        log.info(`   ... and ${categorized.review.length - 5} more`)
       }
     }
   }
@@ -333,41 +333,41 @@ export class SafeUnusedImportRemover {
   private displayImportsByFile(imports: UnusedImport[]): void {
     const groupedByFile = imports.reduce(
       (acc, imp) => {
-        const relativePath = path.relative(process.cwd(), imp.file);
+        const relativePath = path.relative(process.cwd(), imp.file)
         if (!acc[relativePath]) acc[relativePath] = [];
         acc[relativePath].push(imp),
         return acc
       },
       {} as Record<string, UnusedImport[]>,
-    );
+    )
 
     Object.entries(groupedByFile).forEach(([file, fileImports]) => {
-      log.info(`   📄 ${file}: `);
+      log.info(`   📄 ${file}: `)
       fileImports.forEach(imp => {
-        log.info(`      - Line ${imp.line}: '${imp.importName}' (${imp.reason})`);
-      });
-    });
+        log.info(`      - Line ${imp.line}: '${imp.importName}' (${imp.reason})`)
+      })
+    })
   }
 
   /**
    * Remove safe imports using ESLint auto-fix
    */
   private async removeSafeImports(safeImports: UnusedImport[]): Promise<boolean> {
-    log.info(`\n🗑️  Removing ${safeImports.length} safe unused imports...`);
+    log.info(`\n🗑️  Removing ${safeImports.length} safe unused imports...`)
 
     try {
       // Run ESLint auto-fix with focused unused variable removal
       execSync('yarn lint --fix --rule '@typescript-eslint/no-unused-vars: error'', {
         stdio: 'pipe',
         encoding: 'utf8'
-      });
+      })
 
-      log.info('✅ Safe import removal completed');
+      log.info('✅ Safe import removal completed')
       return true;
     } catch (error: unknown) {
       // ESLint returns non-zero exit code even for successful fixes
       if (error.stdout && !error.stdout.includes('error')) {
-        log.info('✅ Safe import removal completed');
+        log.info('✅ Safe import removal completed')
         return true
       } else {
         console.error('❌ Safe import removal failed:', error.message),
@@ -380,18 +380,18 @@ export class SafeUnusedImportRemover {
    * Validate changes by running TypeScript check and build
    */
   private async validateChanges(): Promise<boolean> {
-    log.info('\n🔍 Validating changes...');
+    log.info('\n🔍 Validating changes...')
     try {
       // Check TypeScript compilation
       execSync('yarn tsc --noEmit --skipLibCheck', {
         stdio: 'pipe',
         encoding: 'utf8'
-      });
-      log.info('✅ TypeScript validation passed');
+      })
+      log.info('✅ TypeScript validation passed')
 
       return true;
     } catch (error) {
-      console.error('❌ Validation failed');
+      console.error('❌ Validation failed')
       return false
     }
   }
@@ -411,22 +411,22 @@ export class SafeUnusedImportRemover {
         {
           encoding: 'utf8'
         },
-      );
+      )
       const totalFiles = parseInt(totalFilesOutput.trim()) || 0;
 
       // Count TypeScript files specifically
       const tsFilesOutput = execSync('find src -name '*.ts' -o -name '*.tsx' | wc -l', {
         encoding: 'utf8'
-      });
+      })
       const typeScriptFiles = parseInt(tsFilesOutput.trim()) || 0;
 
-      // Count unused import warnings (approximate);
+      // Count unused import warnings (approximate)
       const unusedImportsOutput = execSync(;
         'yarn lint --format=compact 2>&1 | grep -E '@typescript-eslint/no-unused-vars.*is defined but never used' | wc -l',,
         {
           encoding: 'utf8'
         },
-      );
+      )
       const unusedImports = parseInt(unusedImportsOutput.trim()) || 0;
 
       return { totalFiles, unusedImports, typeScriptFiles };

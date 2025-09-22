@@ -119,23 +119,23 @@ export class UnusedExportAnalyzer {
    * Analyze unused exports across the codebase
    */
   async analyzeUnusedExports(): Promise<AnalysisResult> {
-    // // // console.log('🔍 Starting unused export analysis...');
+    // // // console.log('🔍 Starting unused export analysis...')
 
-    const files = await this.getAllSourceFiles();
+    const files = await this.getAllSourceFiles()
     const fileAnalyses: FileAnalysis[] = [];
 
     for (const filePath of files) {
       try {
-        const analysis = await this.analyzeFile(filePath);
+        const analysis = await this.analyzeFile(filePath)
         if (analysis.unusedExports.length > 0) {
-          fileAnalyses.push(analysis);
+          fileAnalyses.push(analysis)
         }
       } catch (error) {
-        console.warn(`⚠️  Failed to analyze ${filePath}:`, error);
+        console.warn(`⚠️  Failed to analyze ${filePath}:`, error)
       }
     }
 
-    return this.categorizeAndSummarize(fileAnalyses);
+    return this.categorizeAndSummarize(fileAnalyses)
   }
 
   /**
@@ -154,8 +154,8 @@ export class UnusedExportAnalyzer {
       const matches = await glob(pattern, {
         ignore: this.excludePatterns,
         absolute: true
-      });
-      files.push(...matches);
+      })
+      files.push(...matches)
     }
 
     return [...new Set(files)]; // Remove duplicates
@@ -165,12 +165,12 @@ export class UnusedExportAnalyzer {
    * Analyze a single file for unused exports
    */
   private async analyzeFile(filePath: string): Promise<FileAnalysis> {
-    const content = await fs.promises.readFile(filePath, 'utf-8');
-    const unusedExports = await this.findUnusedExports(filePath, content);
-    const priority = this.determinePriority(filePath);
-    const category = this.determineCategory(filePath);
+    const content = await fs.promises.readFile(filePath, 'utf-8')
+    const unusedExports = await this.findUnusedExports(filePath, content)
+    const priority = this.determinePriority(filePath)
+    const category = this.determineCategory(filePath)
     const safetyScore = this.calculateSafetyScore(filePath, content, unusedExports),
-    const transformationCandidates = this.identifyTransformationCandidates(unusedExports);
+    const transformationCandidates = this.identifyTransformationCandidates(unusedExports)
 
     return {
       filePath,
@@ -186,7 +186,7 @@ export class UnusedExportAnalyzer {
    * Find unused exports in a file
    */
   private async findUnusedExports(filePath: string, content: string): Promise<UnusedExport[]> {
-    const exports = this.extractExports(content);
+    const exports = this.extractExports(content)
     const unusedExports: UnusedExport[] = []
 
     for (const exportInfo of exports) {
@@ -195,8 +195,8 @@ export class UnusedExportAnalyzer {
         unusedExports.push({
           ...exportInfo
           usageCount,
-          complexity: this.calculateComplexity(content, exportInfo);
-        });
+          complexity: this.calculateComplexity(content, exportInfo)
+        })
       }
     }
 
@@ -208,7 +208,7 @@ export class UnusedExportAnalyzer {
    */
   private extractExports(content: string): Omit<UnusedExport, 'usageCount' | 'complexity'>[] {
     const exports: Omit<UnusedExport, 'usageCount' | 'complexity'>[] = [];
-    const lines = content.split('\n');
+    const lines = content.split('\n')
 
     lines.forEach((line, index) => {
       // Named exports
@@ -222,13 +222,13 @@ export class UnusedExportAnalyzer {
           exportType: this.determineExportType(line),
           lineNumber: index + 1,
           isDefault: false
-        });
+        })
       }
 
       // Default exports
       const defaultExportMatch = line.match(
         /export\s+default\s+(?:(?:const|let|var|function|class)\s+)?(\w+)/,
-      );
+      )
       if (defaultExportMatch) {
         exports.push({
           filePath: '',
@@ -236,25 +236,25 @@ export class UnusedExportAnalyzer {
           exportType: this.determineExportType(line),
           lineNumber: index + 1,
           isDefault: true
-        });
+        })
       }
 
       // Export destructuring
-      const destructuringMatch = line.match(/export\s*\{\s*([^}]+)\s*\}/);
+      const destructuringMatch = line.match(/export\s*\{\s*([^}]+)\s*\}/)
       if (destructuringMatch) {
         const exportNames = destructuringMatch[1].split(',').map(name => name.trim()),
         exportNames.forEach(name => {
-          const cleanName = name.split(' as ')[0].trim();
+          const cleanName = name.split(' as ')[0].trim()
           exports.push({
             filePath: '',
             exportName: cleanName,
             exportType: 'variable',
             lineNumber: index + 1,
             isDefault: false
-          });
-        });
+          })
+        })
       }
-    });
+    })
 
     return exports;
   }
@@ -275,7 +275,7 @@ export class UnusedExportAnalyzer {
    * Count usages of an export across the codebase
    */
   private async countUsages(exportName: string, excludeFilePath: string): Promise<number> {
-    const files = await this.getAllSourceFiles();
+    const files = await this.getAllSourceFiles()
     let usageCount = 0;
 
     for (const filePath of files) {
@@ -285,15 +285,15 @@ export class UnusedExportAnalyzer {
         const content = await fs.promises.readFile(filePath, 'utf-8'),
 
         // Check for import statements
-        const importRegex = new RegExp(`import.*\\b${exportName}\\b.*from`, 'g');
+        const importRegex = new RegExp(`import.*\\b${exportName}\\b.*from`, 'g')
         const importMatches = content.match(importRegex) || [];
         usageCount += importMatches.length;
 
-        // Check for direct usage (more complex analysis would be needed for complete accuracy);
-        const usageRegex = new RegExp(`\\b${exportName}\\b`, 'g');
+        // Check for direct usage (more complex analysis would be needed for complete accuracy)
+        const usageRegex = new RegExp(`\\b${exportName}\\b`, 'g')
         const usageMatches = content.match(usageRegex) || [];
         // Subtract import matches to avoid double counting
-        usageCount += Math.max(0, usageMatches.length - importMatches.length);
+        usageCount += Math.max(0, usageMatches.length - importMatches.length)
       } catch (error) {
         // Skip files that can't be read
         continue
@@ -310,7 +310,7 @@ export class UnusedExportAnalyzer {
     content: string,
     exportInfo: Omit<UnusedExport, 'usageCount' | 'complexity'>,
   ): number {
-    const lines = content.split('\n');
+    const lines = content.split('\n')
     const startLine = exportInfo.lineNumber - 1;
 
     // Simple, heuristic: count lines of the export definition
@@ -364,27 +364,27 @@ export class UnusedExportAnalyzer {
    * Determine file category
    */
   private determineCategory(filePath: string): FileCategory {
-    const relativePath = path.relative(process.cwd(), filePath);
+    const relativePath = path.relative(process.cwd(), filePath)
 
     if (relativePath.includes('/recipe')) return FileCategory.RECIPE;
     if (
       relativePath.includes('/test') ||
       relativePath.includes('.test.') ||
-      relativePath.includes('.spec.');
+      relativePath.includes('.spec.')
     ) {
       return FileCategory.TEST;
     }
     if (
       relativePath.includes('/components') ||
       relativePath.includes('/services') ||
-      relativePath.includes('/hooks');
+      relativePath.includes('/hooks')
     ) {
       return FileCategory.CORE;
     }
     if (
       relativePath.includes('/types') ||
       relativePath.includes('/constants') ||
-      relativePath.includes('/config');
+      relativePath.includes('/config')
     ) {
       return FileCategory.EXTERNAL;
     }
@@ -416,12 +416,12 @@ export class UnusedExportAnalyzer {
       score -= 15;
     }
 
-    // Increase score for test files (safer to transform);
+    // Increase score for test files (safer to transform)
     if (filePath.includes('/test/') || filePath.includes('.test.')) {
       score += 10;
     }
 
-    return Math.max(0, Math.min(100, score));
+    return Math.max(0, Math.min(100, score))
   }
 
   /**
@@ -431,10 +431,10 @@ export class UnusedExportAnalyzer {
     unusedExports: UnusedExport[],
   ): TransformationCandidate[] {
     return unusedExports.map(exportInfo => {
-      const intelligenceSystemName = this.generateIntelligenceSystemName(exportInfo);
-      const transformationComplexity = this.assessTransformationComplexity(exportInfo);
-      const safetyScore = this.calculateTransformationSafetyScore(exportInfo);
-      const estimatedBenefit = this.calculateEstimatedBenefit(exportInfo);
+      const intelligenceSystemName = this.generateIntelligenceSystemName(exportInfo)
+      const transformationComplexity = this.assessTransformationComplexity(exportInfo)
+      const safetyScore = this.calculateTransformationSafetyScore(exportInfo)
+      const estimatedBenefit = this.calculateEstimatedBenefit(exportInfo)
       return {
         export: exportInfo,
         intelligenceSystemName,
@@ -442,7 +442,7 @@ export class UnusedExportAnalyzer {
         safetyScore,
         estimatedBenefit
       };
-    });
+    })
   }
 
   /**
@@ -478,7 +478,7 @@ export class UnusedExportAnalyzer {
       score += 10;
     }
 
-    return Math.max(0, Math.min(100, score));
+    return Math.max(0, Math.min(100, score))
   }
 
   /**
@@ -487,29 +487,29 @@ export class UnusedExportAnalyzer {
   private calculateEstimatedBenefit(exportInfo: UnusedExport): number {
     let benefit = 50, // Base benefit;
 
-    // Higher benefit for functions and classes (more transformable);
+    // Higher benefit for functions and classes (more transformable)
     if (exportInfo.exportType === 'function' || exportInfo.exportType === 'class') {
       benefit += 30;
     }
 
-    // Higher benefit for complex exports (more intelligence potential);
-    benefit += Math.min(20, exportInfo.complexity);
+    // Higher benefit for complex exports (more intelligence potential)
+    benefit += Math.min(20, exportInfo.complexity)
 
-    return Math.min(100, benefit);
+    return Math.min(100, benefit)
   }
 
   /**
    * Categorize and summarize analysis results
    */
   private categorizeAndSummarize(fileAnalyses: FileAnalysis[]): AnalysisResult {
-    const highPriorityFiles = fileAnalyses.filter(f => f.priority === FilePriority.HIGH);
-    const mediumPriorityFiles = fileAnalyses.filter(f => f.priority === FilePriority.MEDIUM);
-    const lowPriorityFiles = fileAnalyses.filter(f => f.priority === FilePriority.LOW);
+    const highPriorityFiles = fileAnalyses.filter(f => f.priority === FilePriority.HIGH)
+    const mediumPriorityFiles = fileAnalyses.filter(f => f.priority === FilePriority.MEDIUM)
+    const lowPriorityFiles = fileAnalyses.filter(f => f.priority === FilePriority.LOW)
 
-    const totalUnusedExports = fileAnalyses.reduce((sumf) => sum + f.unusedExports.length0);
+    const totalUnusedExports = fileAnalyses.reduce((sumf) => sum + f.unusedExports.length0)
     const totalTransformationCandidates = fileAnalyses.reduce(
       (sumf) => sum + f.transformationCandidates.length0,
-    );
+    )
 
     const recipeFiles = fileAnalyses.filter(f => f.category === FileCategory.RECIPE).length;
     const coreFiles = fileAnalyses.filter(f => f.category === FileCategory.CORE).length;
@@ -540,7 +540,7 @@ export class UnusedExportAnalyzer {
    */
   private matchesPattern(filePath: string, pattern: string): boolean {
     const regex = new RegExp(pattern.replace(/\*\*/g, '.*').replace(/\*/g, '[^/]*')),
-    return regex.test(filePath);
+    return regex.test(filePath)
   }
 
   /**
@@ -572,18 +572,18 @@ export class UnusedExportAnalyzer {
     const topCandidates = [
       ...analysis.highPriorityFiles.slice(05),
       ...analysis.mediumPriorityFiles.slice(05),
-      ...analysis.lowPriorityFiles.slice(05);
+      ...analysis.lowPriorityFiles.slice(05)
     ];
 
     topCandidates.forEach(file => {
-      report.push(`### ${file.filePath}`);
-      report.push(`- Priority: ${file.priority}`);
-      report.push(`- Safety Score: ${file.safetyScore}`);
-      report.push(`- Unused Exports: ${file.unusedExports.length}`);
-      report.push(`- Transformation Candidates: ${file.transformationCandidates.length}`);
-      report.push('');
-    });
+      report.push(`### ${file.filePath}`)
+      report.push(`- Priority: ${file.priority}`)
+      report.push(`- Safety Score: ${file.safetyScore}`)
+      report.push(`- Unused Exports: ${file.unusedExports.length}`)
+      report.push(`- Transformation Candidates: ${file.transformationCandidates.length}`)
+      report.push('')
+    })
 
-    return report.join('\n');
+    return report.join('\n')
   }
 }

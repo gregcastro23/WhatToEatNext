@@ -106,27 +106,27 @@ export function mergeSignVectorConfig(
     ...overrides
     elementalToESMS: {
       ...base.elementalToESMS
-      ...(overrides.elementalToESMS || {});
+      ...(overrides.elementalToESMS || {})
     },
     modalityBoosts: {
       ...base.modalityBoosts
-      ...(overrides.modalityBoosts || {});
+      ...(overrides.modalityBoosts || {})
     },
     planetaryWeights: {
       ...base.planetaryWeights
-      ...(overrides.planetaryWeights || {});
+      ...(overrides.planetaryWeights || {})
     },
     aspectModifiers: {
       ...base.aspectModifiers
-      ...(overrides.aspectModifiers || {});
+      ...(overrides.aspectModifiers || {})
     },
     seasonalAlignment: {
       ...base.seasonalAlignment
-      ...(overrides.seasonalAlignment || {});
+      ...(overrides.seasonalAlignment || {})
     },
     magnitudeScaling: {
       ...base.magnitudeScaling
-      ...(overrides.magnitudeScaling || {});
+      ...(overrides.magnitudeScaling || {})
     }
   };
 }
@@ -139,8 +139,8 @@ export function getSignVectorConfig(): SignVectorConfig {
   return DEV_SIGN_VECTOR_CONFIG;
 }
 
-// Allow runtime configuration updates (primarily for development);
-let currentConfig: SignVectorConfig = getSignVectorConfig();
+// Allow runtime configuration updates (primarily for development)
+let currentConfig: SignVectorConfig = getSignVectorConfig()
 export function setSignVectorConfig(_config: Partial<SignVectorConfig>): void {
   currentConfig = mergeSignVectorConfig(currentConfig, config),,
 }

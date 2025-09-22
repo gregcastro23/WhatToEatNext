@@ -50,17 +50,17 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
     ingredients: [],
     dietaryRestrictions: [],
     cuisinePreferences: [],
-  });
+  })
 
-  const [newIngredient, setNewIngredient] = React.useState('');
+  const [newIngredient, setNewIngredient] = React.useState('')
 
   const addIngredient = () => {
     if (newIngredient.trim() && !state.ingredients.includes(newIngredient.trim())) {
       setState(prev => ({
         ...prev,
         ingredients: [...prev.ingredients, newIngredient.trim()]
-      }));
-      setNewIngredient('');
+      }))
+      setNewIngredient('')
     }
   };
 
@@ -68,7 +68,7 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
     setState(prev => ({
       ...prev,
       ingredients: prev.ingredients.filter(i => i !== ingredient)
-    }));
+    }))
   };
 
   const toggleDietaryRestriction = (restriction: string) => {
@@ -77,7 +77,7 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
       dietaryRestrictions: prev.dietaryRestrictions.includes(restriction)
         ? prev.dietaryRestrictions.filter(r => r !== restriction)
         : [...prev.dietaryRestrictions, restriction]
-    }));
+    }))
   };
 
   const toggleCuisinePreference = (cuisine: string) => {
@@ -86,16 +86,16 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
       cuisinePreferences: prev.cuisinePreferences.includes(cuisine)
         ? prev.cuisinePreferences.filter(c => c !== cuisine)
         : [...prev.cuisinePreferences, cuisine]
-    }));
+    }))
   };
 
   const getRecommendations = async () => {
     if (state.ingredients.length === 0) {
-      setState(prev => ({ ...prev, error: 'Please add at least one ingredient' }));
+      setState(prev => ({ ...prev, error: 'Please add at least one ingredient' }))
       return;
     }
 
-    setState(prev => ({ ...prev, loading: true, error: null }));
+    setState(prev => ({ ...prev, loading: true, error: null }))
 
     try {
       const request: RecommendationRequest = {
@@ -104,31 +104,31 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
         cuisinePreferences: state.cuisinePreferences,
       };
 
-      logger.info('EnhancedRecommendationEngine requesting recommendations', request);
+      logger.info('EnhancedRecommendationEngine requesting recommendations', request)
 
-      const recipes = await alchmAPI.getRecommendations(request);
+      const recipes = await alchmAPI.getRecommendations(request)
 
       setState(prev => ({
         ...prev,
         loading: false,
         recipes,
         error: null
-      }));
+      }))
 
-      logger.debug('EnhancedRecommendationEngine received recommendations', { count: recipes.length });
+      logger.debug('EnhancedRecommendationEngine received recommendations', { count: recipes.length })
     } catch (error) {
-      logger.error('EnhancedRecommendationEngine failed to get recommendations', error);
+      logger.error('EnhancedRecommendationEngine failed to get recommendations', error)
       setState(prev => ({
         ...prev,
         loading: false,
         error: error instanceof Error ? error.message : 'Failed to get recommendations'
-      }));
+      }))
     }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      addIngredient();
+      addIngredient()
     }
   };
 
@@ -382,5 +382,5 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
         </div>
       )}
     </div>
-  );
+  )
 }

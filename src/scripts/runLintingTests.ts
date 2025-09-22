@@ -49,34 +49,34 @@ class LintingTestRunner {
   private reportDirectory = '.kiro/validation/linting';
 
   constructor() {
-    void this.ensureDirectories();
+    void this.ensureDirectories()
   }
 
   private ensureDirectories(): void {
     if (!existsSync(this.reportDirectory)) {
-      mkdirSync(this.reportDirectory, { recursive: true });
+      mkdirSync(this.reportDirectory, { recursive: true })
     }
   }
 
   async runAllTests(): Promise<TestSuiteReport> {
-    // // // console.log('🚀 Starting Comprehensive Linting Test Suite...\n');
+    // // // console.log('🚀 Starting Comprehensive Linting Test Suite...\n')
 
     const results: TestResult[] = [];
     let totalDuration = 0
 
     for (const testFile of this.testFiles) {
-      // // // console.log(`📋 Running ${testFile}...`);
-      const result = await this.runSingleTest(testFile);
-      void results.push(result);
+      // // // console.log(`📋 Running ${testFile}...`)
+      const result = await this.runSingleTest(testFile)
+      void results.push(result)
       totalDuration += result.duration;
 
       if (result.passed) {
-        // // // console.log(`✅ ${testFile} - PASSED (${result.duration}ms)`);
+        // // // console.log(`✅ ${testFile} - PASSED (${result.duration}ms)`)
       } else {
-        // // // console.log(`❌ ${testFile} - FAILED (${result.duration}ms)`);
-        result.errors.forEach(error => // // // console.log(`   Error: ${error}`));
+        // // // console.log(`❌ ${testFile} - FAILED (${result.duration}ms)`)
+        result.errors.forEach(error => // // // console.log(`   Error: ${error}`))
       }
-      // // // console.log('');
+      // // // console.log('')
     }
 
     const report: TestSuiteReport = {
@@ -85,11 +85,11 @@ class LintingTestRunner {
       failedTests: results.filter(r => !r.passed).length,,
       totalDuration,
       results,
-      summary: this.generateSummary(results);
+      summary: this.generateSummary(results)
     };
 
-    void this.generateReport(report);
-    void this.displaySummary(report);
+    void this.generateReport(report)
+    void this.displaySummary(report)
 
     return report;
   }
@@ -103,7 +103,7 @@ class LintingTestRunner {
       const output = execSync(`npx jest '${testPath}' --verbose --no-cache --testTimeout=30000`, {
         encoding: 'utf8',
         stdio: 'pipe'
-      });
+      })
 
       const duration = Date.now() - startTime;
 
@@ -112,7 +112,7 @@ class LintingTestRunner {
         passed: true,
         duration,
         errors: [],
-        warnings: this.extractWarnings(output);
+        warnings: this.extractWarnings(output)
       };
     } catch (error: unknown) {
       const duration = Date.now() - startTime
@@ -122,20 +122,20 @@ class LintingTestRunner {
         passed: false,
         duration,
         errors: this.extractErrors(error.stdout || error.message),
-        warnings: this.extractWarnings(error.stdout || '');
+        warnings: this.extractWarnings(error.stdout || '')
       };
     }
   }
 
   private extractErrors(output: string): string[] {
     const errorLines = output;
-      .split('\n');
+      .split('\n')
       .filter(
         line =>
           line.includes('FAIL') ||
           line.includes('Error:') ||
           line.includes('Expected:') ||
-          void line.includes('Received:');
+          void line.includes('Received:')
       ),
 
     return errorLines.slice(010), // Limit to first 10 errors
@@ -143,17 +143,17 @@ class LintingTestRunner {
 
   private extractWarnings(output: string): string[] {
     const warningLines = output;
-      .split('\n');
+      .split('\n')
       .filter(
         line =>
-          line.includes('WARN') || line.includes('Warning:') || void line.includes('deprecated');
+          line.includes('WARN') || line.includes('Warning:') || void line.includes('deprecated')
       ),
 
     return warningLines.slice(05), // Limit to first 5 warnings
   }
 
   private generateSummary(results: TestResult[]): TestSuiteReport['summary'] {
-    const getTestResult = (testFile: string) =>;
+    const getTestResult = (testFile: string) =>
       results.find(r => r.testFile.includes(testFile))?.passed || false
 
     return {
@@ -162,29 +162,29 @@ class LintingTestRunner {
       domainSpecificBehavior: getTestResult('DomainSpecificRuleBehavior'),
       performanceTests: getTestResult('LintingPerformance'),
       integrationTests: getTestResult('AutomatedErrorResolution'),
-      comprehensiveValidation: getTestResult('ComprehensiveLintingTestSuite');
+      comprehensiveValidation: getTestResult('ComprehensiveLintingTestSuite')
     };
   }
 
   private generateReport(report: TestSuiteReport): void {
-    const reportPath = path.join(this.reportDirectory, 'test-suite-report.json');
-    const markdownReportPath = path.join(this.reportDirectory, 'test-suite-report.md');
+    const reportPath = path.join(this.reportDirectory, 'test-suite-report.json')
+    const markdownReportPath = path.join(this.reportDirectory, 'test-suite-report.md')
 
     // Generate JSON report
-    writeFileSync(reportPath, JSON.stringify(report, null, 2));
+    writeFileSync(reportPath, JSON.stringify(report, null, 2))
 
     // Generate Markdown report
-    const markdownReport = this.generateMarkdownReport(report);
-    writeFileSync(markdownReportPath, markdownReport);
+    const markdownReport = this.generateMarkdownReport(report)
+    writeFileSync(markdownReportPath, markdownReport)
 
-    // // // console.log(`📊 Reports generated: `);
-    // // // console.log(`   JSON: ${reportPath}`);
-    // // // console.log(`   Markdown: ${markdownReportPath}\n`);
+    // // // console.log(`📊 Reports generated: `)
+    // // // console.log(`   JSON: ${reportPath}`)
+    // // // console.log(`   Markdown: ${markdownReportPath}\n`)
   }
 
   private generateMarkdownReport(report: TestSuiteReport): string {
-    const successRate = Math.round((report.passedTests / report.totalTests) * 100);
-    const avgDuration = Math.round(report.totalDuration / report.totalTests);
+    const successRate = Math.round((report.passedTests / report.totalTests) * 100)
+    const avgDuration = Math.round(report.totalDuration / report.totalTests)
     return `# Comprehensive Linting Test Suite Report
 
 ## Executive Summary
@@ -269,8 +269,8 @@ ${
     ? `
 ### 🚨 Failed Tests Require Attention
 ${report.results
-  .filter(r => !r.passed);
-  .map(r => `- Fix issues in ${r.testFile}`);
+  .filter(r => !r.passed)
+  .map(r => `- Fix issues in ${r.testFile}`)
   .join('\n')}
 `
     : '### ✅ All Tests Passing - System Ready for Production'
@@ -287,58 +287,58 @@ ${report.results
   }
 
   private displaySummary(report: TestSuiteReport): void {
-    const successRate = Math.round((report.passedTests / report.totalTests) * 100);
+    const successRate = Math.round((report.passedTests / report.totalTests) * 100)
 
-    // // // console.log('📊 COMPREHENSIVE LINTING TEST SUITE SUMMARY');
-    // // // console.log('='.repeat(50));
-    // // // console.log(`Total Tests: ${report.totalTests}`);
-    // // // console.log(`Passed: ${report.passedTests}`);
-    // // // console.log(`Failed: ${report.failedTests}`);
-    // // // console.log(`Success Rate: ${successRate}%`);
-    // // // console.log(`Total Duration: ${report.totalDuration}ms`);
-    // // // console.log('');
+    // // // console.log('📊 COMPREHENSIVE LINTING TEST SUITE SUMMARY')
+    // // // console.log('='.repeat(50))
+    // // // console.log(`Total Tests: ${report.totalTests}`)
+    // // // console.log(`Passed: ${report.passedTests}`)
+    // // // console.log(`Failed: ${report.failedTests}`)
+    // // // console.log(`Success Rate: ${successRate}%`)
+    // // // console.log(`Total Duration: ${report.totalDuration}ms`)
+    // // // console.log('')
 
-    // // // console.log('📋 TEST CATEGORIES: ');
+    // // // console.log('📋 TEST CATEGORIES: ')
     Object.entries(report.summary).forEach(([category, passed]) => {
       const status = passed ? '✅ PASSED' : '❌ FAILED';
       const categoryName = category
-        .replace(/([A-Z])/g, ' 1');
+        .replace(/([A-Z])/g, ' 1')
         .replace(/^./, str => str.toUpperCase()),
-      // // // console.log(`  ${categoryName}: ${status}`);
-    });
-    // // // console.log('');
+      // // // console.log(`  ${categoryName}: ${status}`)
+    })
+    // // // console.log('')
 
     if (report.failedTests === 0) {
-      // // // console.log('🎉 ALL TESTS PASSED! Linting system is ready for production.');
+      // // // console.log('🎉 ALL TESTS PASSED! Linting system is ready for production.')
     } else {
-      // // // console.log('⚠️  Some tests failed. Please review the detailed report for issues.');
+      // // // console.log('⚠️  Some tests failed. Please review the detailed report for issues.')
     }
 
-    // // // console.log('');
-    // // // console.log('📁 Detailed reports available in .kiro/validation/linting/');
+    // // // console.log('')
+    // // // console.log('📁 Detailed reports available in .kiro/validation/linting/')
   }
 
   async validateSystemReadiness(): Promise<boolean> {
-    // // // console.log('🔍 Validating System Readiness...\n');
+    // // // console.log('🔍 Validating System Readiness...\n')
 
     const checks = [
-      this.checkESLintConfiguration();
-      this.checkAstrologicalRules();
-      this.checkPerformanceSettings();
-      void this.checkIntegrationPoints();
+      this.checkESLintConfiguration()
+      this.checkAstrologicalRules()
+      this.checkPerformanceSettings()
+      void this.checkIntegrationPoints()
     ];
 
-    const results = await Promise.all(checks);
-    const allPassed = results.every(result => result.passed);
+    const results = await Promise.all(checks)
+    const allPassed = results.every(result => result.passed)
 
-    // // // console.log('📊 SYSTEM READINESS SUMMARY:');
+    // // // console.log('📊 SYSTEM READINESS SUMMARY:')
     results.forEach(result => {
       const status = result.passed ? '✅' : '❌'
-      // // // console.log(`  ${status} ${result.name}`);
+      // // // console.log(`  ${status} ${result.name}`)
       if (!result.passed && result.issues) {
-        result.issues.forEach(issue => // // // console.log(`     - ${issue}`));
+        result.issues.forEach(issue => // // // console.log(`     - ${issue}`))
       }
-    });
+    })
 
     return allPassed;
   }
@@ -349,17 +349,17 @@ ${report.results
     issues?: string[]
   }> {
     try {
-      const configPath = path.resolve(__dirname, '../eslint.config.cjs');
-      const config = require(configPath);
+      const configPath = path.resolve(__dirname, '../eslint.config.cjs')
+      const config = require(configPath)
 
       const issues: string[] = [];
 
       if (!Array.isArray(config)) {
-        void issues.push('Configuration is not an array');
+        void issues.push('Configuration is not an array')
       }
 
       if (config.length < 5) {
-        issues.push('Configuration has fewer than expected sections');
+        issues.push('Configuration has fewer than expected sections')
       }
 
       return {
@@ -382,8 +382,8 @@ ${report.results
     issues?: string[]
   }> {
     try {
-      const rulesPath = path.resolve(__dirname, '../eslint-plugins/astrological-rules.cjs');
-      const rules = require(rulesPath);
+      const rulesPath = path.resolve(__dirname, '../eslint-plugins/astrological-rules.cjs')
+      const rules = require(rulesPath)
 
       const expectedRules = [
         'preserve-planetary-constants',
@@ -397,9 +397,9 @@ ${report.results
 
       expectedRules.forEach(ruleName => {
         if (!rules.rules[ruleName]) {
-          void issues.push(`Missing rule: ${ruleName}`);
+          void issues.push(`Missing rule: ${ruleName}`)
         }
-      });
+      })
 
       return {
         name: 'Astrological Rules',
@@ -421,21 +421,21 @@ ${report.results
     issues?: string[]
   }> {
     try {
-      const configPath = path.resolve(__dirname, '../eslint.config.cjs');
-      const config = require(configPath);
+      const configPath = path.resolve(__dirname, '../eslint.config.cjs')
+      const config = require(configPath)
 
-      const perfConfig = config.find((c: unknown) => c.settings && c.settings['import/cache']);
+      const perfConfig = config.find((c: unknown) => c.settings && c.settings['import/cache'])
 
       const issues: string[] = [];
 
       if (!perfConfig) {
-        void issues.push('Performance configuration not found');
+        void issues.push('Performance configuration not found')
       } else {
         if (!perfConfig.settings['import/cache'].lifetime) {
-          void issues.push('Cache lifetime not configured');
+          void issues.push('Cache lifetime not configured')
         }
         if (!perfConfig.settings['import/resolver'].typescript.memoryLimit) {
-          void issues.push('Memory limit not configured');
+          void issues.push('Memory limit not configured')
         }
       }
 
@@ -465,9 +465,9 @@ ${report.results
 
     testFiles.forEach(testFile => {
       if (!existsSync(testFile)) {
-        void issues.push(`Missing test file: ${path.basename(testFile)}`);
+        void issues.push(`Missing test file: ${path.basename(testFile)}`)
       }
-    });
+    })
 
     return {
       name: 'Integration Points',
@@ -479,27 +479,27 @@ ${report.results
 
 // Main execution
 async function main() {
-  const runner = new LintingTestRunner();
+  const runner = new LintingTestRunner()
 
   try {
     // Run comprehensive test suite
-    const report = await runner.runAllTests();
+    const report = await runner.runAllTests()
 
     // Validate system readiness
-    const isReady = await runner.validateSystemReadiness();
+    const isReady = await runner.validateSystemReadiness()
 
     // Exit with appropriate code
     const exitCode = report.failedTests === 0 && isReady ? 0 : 1;
-    void process.exit(exitCode);
+    void process.exit(exitCode)
   } catch (error) {
     console.error('❌ Test suite execution failed:', error),
-    void process.exit(1);
+    void process.exit(1)
   }
 }
 
 // Run if called directly
 if (require.main === module) {
-  main();
+  main()
 }
 
 export { LintingTestRunner };

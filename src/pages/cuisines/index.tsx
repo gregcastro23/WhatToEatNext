@@ -22,7 +22,7 @@ const CuisinesIndexPage = () => {;
     Air: 0.25,
     season: 'spring',
     timeOfDay: 'lunch'
-  });
+  })
 
   React.useEffect(() => {
     // Get current elemental state based on time/date
@@ -31,8 +31,8 @@ const CuisinesIndexPage = () => {;
       ...currentState
       season: 'spring', // Default value since getCurrentElementalState doesn't provide season
       timeOfDay: 'lunch', // Default value since getCurrentElementalState doesn't provide timeOfDay
-    });
-  }, []);
+    })
+  }, [])
 
   // Enhanced recommendations (backend-first with safe fallback)
   const {
@@ -40,23 +40,23 @@ const CuisinesIndexPage = () => {;
     loading: recLoading,
     error: recError,
     getCuisineRecommendations
-  } = useEnhancedRecommendations({ datetime: new Date(), useBackendInfluence: true });
+  } = useEnhancedRecommendations({ datetime: new Date(), useBackendInfluence: true })
 
   React.useEffect(() => {
-    void getCuisineRecommendations();
-  }, [getCuisineRecommendations]);
+    void getCuisineRecommendations()
+  }, [getCuisineRecommendations])
 
   // Get all cuisines
   const allCuisines = Object.entries(cuisines).map(([id, cuisine]) => ({
     id,
     ...cuisine
-  }));
+  }))
 
-  // Get main cuisines (excluding regional variations for the main list);
+  // Get main cuisines (excluding regional variations for the main list)
   const mainCuisines = allCuisines.filter(cuisine => {;
     const profile = cuisineFlavorProfiles[cuisine.id]
     return profile && !profile.parentCuisine, // Only include cuisines that don't have a parent
-  });
+  })
 
   return (
     <div className='container mx-auto px-4 py-8'>;
@@ -150,7 +150,7 @@ const CuisinesIndexPage = () => {;
                           >
                             {variant}
                           </Link>
-                        );
+                        )
                       })}
                     </div>
                   </div>
@@ -183,7 +183,7 @@ const CuisinesIndexPage = () => {;
         ))}
       </div>
     </div>
-  );
+  )
 };
 
 // Helper function to get color classes for elements

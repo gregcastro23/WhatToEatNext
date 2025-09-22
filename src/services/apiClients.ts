@@ -29,7 +29,7 @@ export class FoodDataCentral {
         params: {
           api_key: this.apiKey
         }
-      });
+      })
 
       return response.data;
     } catch (error) {
@@ -60,7 +60,7 @@ export class FoodDataCentral {
             api_key: this.apiKey
           }
         },
-      );
+      )
 
       return response.data.foods || [];
     } catch (error) {

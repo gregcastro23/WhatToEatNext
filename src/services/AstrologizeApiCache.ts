@@ -28,10 +28,10 @@ interface CachedAstrologicalData {
     air: number
   };
   elementalRelatives: {
-    fire: number; // fire/(water+earth+air);
-    water: number; // water/(fire+earth+air);
-    earth: number // earth/(fire+water+air);
-    air: number // air/(fire+water+earth);
+    fire: number; // fire/(water+earth+air)
+    water: number; // water/(fire+earth+air)
+    earth: number // earth/(fire+water+air)
+    air: number // air/(fire+water+earth)
   };
   thermodynamics: {
     heat: number,
@@ -52,12 +52,12 @@ interface TransitPrediction {
 }
 
 class AstrologizeApiCache {
-  private, cache: Map<string, CachedAstrologicalData> = new Map();
+  private cache: Map<string, CachedAstrologicalData> = new Map()
   private maxCacheSize = 1000; // Store up to 1000 calculations
   private readonly STORAGE_KEY = 'astrologize_cache';
 
   constructor() {
-    this.loadFromStorage();
+    this.loadFromStorage()
   }
 
   /**
@@ -81,7 +81,7 @@ class AstrologizeApiCache {
     const Earth = Number(elementalBalance.Earth) || 0;
     const Air = Number(elementalBalance.Air) || 0;
 
-    // Absolute values (direct from alchemical result);
+    // Absolute values (direct from alchemical result)
     const elementalAbsolutes = {
       fire: Fire,
       water: Water,
@@ -94,7 +94,7 @@ class AstrologizeApiCache {
       fire: Fire / (Water + Earth + Air || 1),
       water: Water / (Fire + Earth + Air || 1),
       earth: Earth / (Fire + Water + Air || 1),
-      air: Air / (Fire + Water + Earth || 1);
+      air: Air / (Fire + Water + Earth || 1)
     };
 
     return { elementalAbsolutes, elementalRelatives };
@@ -111,10 +111,10 @@ class AstrologizeApiCache {
     alchemicalResult: StandardizedAlchemicalResult,
     planetaryPositions: Record<string, PlanetaryPosition>,
   ): void {
-    const key = this.generateKey(lat, lng, date);
+    const key = this.generateKey(lat, lng, date)
 
     const { elementalAbsolutes, elementalRelatives } =
-      this.calculateElementalValues(alchemicalResult);
+      this.calculateElementalValues(alchemicalResult)
 
     // Safe access to alchemical result properties
     const resultData = alchemicalResult as unknown as any;
@@ -136,24 +136,24 @@ class AstrologizeApiCache {
         kalchm: Number(resultData.kalchm) || 1,
         monica: Number(resultData.monica) || 1
       },
-      quality: this.assessDataQuality(alchemicalResult);
+      quality: this.assessDataQuality(alchemicalResult)
     };
 
-    this.cache.set(key, cachedData);
+    this.cache.set(key, cachedData)
 
     // Manage cache size
     if (this.cache.size > this.maxCacheSize) {
-      this.evictOldestEntries();
+      this.evictOldestEntries()
     }
 
-    this.saveToStorage();
+    this.saveToStorage()
   }
 
   /**
    * Get cached data for specific coordinates and date
    */
   public get(lat: number, lng: number, date: Date): CachedAstrologicalData | null {
-    const key = this.generateKey(lat, lng, date);
+    const key = this.generateKey(lat, lng, date)
     return this.cache.get(key) || null;
   }
 
@@ -168,33 +168,33 @@ class AstrologizeApiCache {
     maxDaysDiff: number = 7
   ): CachedAstrologicalData[] {
     const results: CachedAstrologicalData[] = [];
-    const targetTime = date.getTime();
+    const targetTime = date.getTime()
     for (const [key, data] of this.cache.entries()) {
       // Check distance
-      const distance = this.calculateDistance(lat, lng, data.coordinates.lat, data.coordinates.lng);
+      const distance = this.calculateDistance(lat, lng, data.coordinates.lat, data.coordinates.lng)
       if (distance > maxDistanceKm) continue;
 
       // Check time difference
-      const timeDiff = Math.abs(targetTime - data.date.getTime());
-      const daysDiff = timeDiff / (1000 * 60 * 60 * 24);
+      const timeDiff = Math.abs(targetTime - data.date.getTime())
+      const daysDiff = timeDiff / (1000 * 60 * 60 * 24)
       if (daysDiff > maxDaysDiff) continue;
 
-      results.push(data);
+      results.push(data)
     }
 
-    // Sort by relevance (closer in time and space is better);
+    // Sort by relevance (closer in time and space is better)
     return results.sort((ab) => {
-      const distA = this.calculateDistance(lat, lng, a.coordinates.lata.coordinates.lng);
-      const distB = this.calculateDistance(lat, lng, b.coordinates.latb.coordinates.lng);
-      const timeA = Math.abs(targetTime - a.date.getTime());
-      const timeB = Math.abs(targetTime - b.date.getTime());
+      const distA = this.calculateDistance(lat, lng, a.coordinates.lata.coordinates.lng)
+      const distB = this.calculateDistance(lat, lng, b.coordinates.latb.coordinates.lng)
+      const timeA = Math.abs(targetTime - a.date.getTime())
+      const timeB = Math.abs(targetTime - b.date.getTime())
 
-      // Combined, score: distance + time (normalized);
-      const scoreA = distA / maxDistanceKm + timeA / (maxDaysDiff * 24 * 60 * 60 * 1000);
-      const scoreB = distB / maxDistanceKm + timeB / (maxDaysDiff * 24 * 60 * 60 * 1000);
+      // Combined, score: distance + time (normalized)
+      const scoreA = distA / maxDistanceKm + timeA / (maxDaysDiff * 24 * 60 * 60 * 1000)
+      const scoreB = distB / maxDistanceKm + timeB / (maxDaysDiff * 24 * 60 * 60 * 1000)
 
       return scoreA - scoreB
-    });
+    })
   }
 
   /**
@@ -220,7 +220,7 @@ class AstrologizeApiCache {
         degree: Number(planetData.degree) || 0,
         isRetrograde: Boolean(planetData.isRetrograde) || false
       };
-      sources.push(`${planet}:${baseData.date.toISOString()}`);
+      sources.push(`${planet}:${baseData.date.toISOString()}`)
     }
 
     // Calculate confidence based on how much data we have and how recent it is
@@ -228,8 +228,8 @@ class AstrologizeApiCache {
       Math.min(1, nearbyData.length / 5) *
       Math.max(
         0.3
-        1 - Math.abs(targetDate.getTime() - baseData.date.getTime()) / (30 * 24 * 60 * 60 * 1000);
-      );
+        1 - Math.abs(targetDate.getTime() - baseData.date.getTime()) / (30 * 24 * 60 * 60 * 1000)
+      )
 
     return {
       date: targetDate,
@@ -259,7 +259,7 @@ class AstrologizeApiCache {
     };
     quality: 'high' | 'medium' | 'low'
   } | null {
-    const cached = this.get(lat, lng, date);
+    const cached = this.get(lat, lng, date)
     if (cached) {
       return {
         elementalAbsolutes: cached.elementalAbsolutes,
@@ -302,16 +302,16 @@ class AstrologizeApiCache {
     // Assess based on completeness and reasonableness of data
     const hasAllElements =
       resultData.elementalBalance &&
-      Object.values(resultData.elementalBalance).every(v => typeof v === 'number' && v >= 0);
+      Object.values(resultData.elementalBalance).every(v => typeof v === 'number' && v >= 0)
     const hasThermodynamics =
       typeof resultData.heat === 'number' &&
       typeof resultData.entropy === 'number' &&
-      typeof resultData.reactivity === 'number';
+      typeof resultData.reactivity === 'number'
     const hasAlchemical =
       typeof resultData.Spirit === 'number' &&
       typeof resultData.Essence === 'number' &&
       typeof resultData.Matter === 'number' &&
-      typeof resultData.Substance === 'number';
+      typeof resultData.Substance === 'number'
     if (hasAllElements && hasThermodynamics && hasAlchemical) {
       return 'high';
     } else if (hasAllElements && (hasThermodynamics || hasAlchemical)) {
@@ -326,12 +326,12 @@ class AstrologizeApiCache {
     const dLat = ((lat2 - lat1) * Math.PI) / 180;
     const dLng = ((lng2 - lng1) * Math.PI) / 180;
     const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +;
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
       Math.cos((lat1 * Math.PI) / 180) *
         Math.cos((lat2 * Math.PI) / 180) *
         Math.sin(dLng / 2) *
-        Math.sin(dLng / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        Math.sin(dLng / 2)
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
     return R * c;
   }
 
@@ -354,34 +354,34 @@ class AstrologizeApiCache {
   }
 
   private evictOldestEntries(): void {
-    const entries = Array.from(this.cache.entries());
-    entries.sort((ab) => a[1].timestamp - b[1].timestamp);
+    const entries = Array.from(this.cache.entries())
+    entries.sort((ab) => a[1].timestamp - b[1].timestamp)
 
     // Remove oldest 10% of entries
-    const toRemove = Math.floor(((entries as any)?.length || 0) * 0.2);
+    const toRemove = Math.floor(((entries as any)?.length || 0) * 0.2)
     for (let i = 0; i < toRemove i++) {
-      this.cache.delete(entries[i][0]);
+      this.cache.delete(entries[i][0])
     }
   }
 
   private saveToStorage(): void {
     try {
-      const data = Array.from(this.cache.entries());
-      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
+      const data = Array.from(this.cache.entries())
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data))
     } catch (error) {
-      console.warn('Failed to save astrologize cache to localStorage:', error);
+      console.warn('Failed to save astrologize cache to localStorage:', error)
     }
   }
 
   private loadFromStorage(): void {
     try {
-      const stored = localStorage.getItem(this.STORAGE_KEY);
+      const stored = localStorage.getItem(this.STORAGE_KEY)
       if (stored) {
-        const data = JSON.parse(stored);
-        this.cache = new Map(data);
+        const data = JSON.parse(stored)
+        this.cache = new Map(data)
       }
     } catch (error) {
-      console.warn('Failed to load astrologize cache from localStorage:', error);
+      console.warn('Failed to load astrologize cache from localStorage:', error)
     }
   }
 
@@ -403,9 +403,9 @@ class AstrologizeApiCache {
   }
 
   public clearCache(): void {
-    this.cache.clear();
-    localStorage.removeItem(this.STORAGE_KEY);
+    this.cache.clear()
+    localStorage.removeItem(this.STORAGE_KEY)
   }
 }
 
-export default new AstrologizeApiCache();
+export default new AstrologizeApiCache()

@@ -219,4 +219,4 @@ const rawVinegars = {
 // Fix the ingredient mappings to ensure they have all required properties
 export const _vinegars: Record<string, IngredientMapping> = fixIngredientMappings(
   rawVinegars as unknown as Record<string, Partial<IngredientMapping>>,
-);
+)

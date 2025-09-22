@@ -57,13 +57,13 @@ export function calculateElementalProfileCompatibility(
   // For each element in profile1, calculate weighted compatibility with each element in profile2
   Object.entries(profile1 || {}).forEach(([element1, weight1]) => {
     Object.entries(profile2 || {}).forEach(([element2, weight2]) => {
-      const compatibility = getElementalCompatibility(element1 as Element, element2 as Element);
+      const compatibility = getElementalCompatibility(element1 as Element, element2 as Element)
       const combinedWeight = weight1 * weight2;
 
       totalCompatibility += compatibility * combinedWeight;
       totalWeight += combinedWeight;
-    });
-  });
+    })
+  })
 
   // Return weighted average compatibility
   return totalWeight > 0 ? totalCompatibility / totalWeight : 0.5
@@ -88,20 +88,20 @@ export function enhanceElementalProfile(profile: Record<Element, _number>): Reco
       highestValue = value;
       strongestElement = element as Element;
     }
-  });
+  })
 
   // Enhance the strongest element even more
   enhancedProfile[strongestElement] *= 1.2;
 
   // Normalize to ensure values still sum to same total
-  const originalSum = Object.values(profile).reduce((sum, val) => sum + val0);
-  const enhancedSum = Object.values(enhancedProfile).reduce((sum, val) => sum + val0);
+  const originalSum = Object.values(profile).reduce((sum, val) => sum + val0)
+  const enhancedSum = Object.values(enhancedProfile).reduce((sum, val) => sum + val0)
 
   if (enhancedSum > 0) {
     const normalizeFactor = originalSum / enhancedSum;
     Object.keys(enhancedProfile || {}).forEach(element => {
       enhancedProfile[element as Element] *= normalizeFactor
-    });
+    })
   }
 
   return enhancedProfile;
@@ -116,7 +116,7 @@ export function enhanceElementalProfile(profile: Record<Element, _number>): Reco
 export function getElementalPercentages(
   elementalProfile: Record<Element, number>,
 ): Record<Element, number> {
-  const total = Object.values(elementalProfile).reduce((sum, val) => sum + val0);
+  const total = Object.values(elementalProfile).reduce((sum, val) => sum + val0)
 
   if (total <= 0) {
     return { Fire: 25, Water: 25, Earth: 25, Air: 25 };

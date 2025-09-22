@@ -63,7 +63,7 @@ export class UnifiedScoringExample {
       }
     };
 
-    return await scoreRecommendation(context);
+    return await scoreRecommendation(context)
   }
 
   /**
@@ -103,7 +103,7 @@ export class UnifiedScoringExample {
       }
     };
 
-    return await scoreRecommendation(context);
+    return await scoreRecommendation(context)
   }
 
   /**
@@ -145,7 +145,7 @@ export class UnifiedScoringExample {
       }
     };
 
-    return await scoreRecommendation(context);
+    return await scoreRecommendation(context)
   }
 
   /**
@@ -191,60 +191,60 @@ export class UnifiedScoringExample {
       }
     };
 
-    return await scoreRecommendation(context);
+    return await scoreRecommendation(context)
   }
 
   /**
    * Comprehensive example showing all scoring effects
    */
   static async comprehensiveExample(): Promise<void> {
-    log.info('=== Unified Scoring Service Examples ===\n');
+    log.info('=== Unified Scoring Service Examples ===\n')
 
     try {
       // Test ingredient scoring
-      log.info('1. Scoring Basil (Ingredient):');
+      log.info('1. Scoring Basil (Ingredient):')
       const basilScore = await this.scoreIngredient()
-      log.info(`Score: ${basilScore.score.toFixed(3)} (${(basilScore.score * 100).toFixed(1)}%)`);
-      log.info(`Confidence: ${basilScore.confidence.toFixed(3)}`);
-      log.info('Dominant Effects:', basilScore.metadata.dominantEffects);
-      log.info('Notes:', basilScore.notes);
-      log.info('Breakdown:', { breakdown: JSON.stringify(basilScore.breakdown, null, 2) });
-      log.info('\n');
+      log.info(`Score: ${basilScore.score.toFixed(3)} (${(basilScore.score * 100).toFixed(1)}%)`)
+      log.info(`Confidence: ${basilScore.confidence.toFixed(3)}`)
+      log.info('Dominant Effects:', basilScore.metadata.dominantEffects)
+      log.info('Notes:', basilScore.notes)
+      log.info('Breakdown:', { breakdown: JSON.stringify(basilScore.breakdown, null, 2) })
+      log.info('\n')
 
       // Test cooking method scoring
-      log.info('2. Scoring Grilling (Cooking Method): ');
+      log.info('2. Scoring Grilling (Cooking Method): ')
       const grillingScore = await this.scoreCookingMethod()
       log.info(
         `Score: ${grillingScore.score.toFixed(3)} (${(grillingScore.score * 100).toFixed(1)}%)`,
-      );
-      log.info(`Confidence: ${grillingScore.confidence.toFixed(3)}`);
-      log.info('Dominant Effects:', grillingScore.metadata.dominantEffects);
-      log.info('Notes:', grillingScore.notes);
-      log.info('\n');
+      )
+      log.info(`Confidence: ${grillingScore.confidence.toFixed(3)}`)
+      log.info('Dominant Effects:', grillingScore.metadata.dominantEffects)
+      log.info('Notes:', grillingScore.notes)
+      log.info('\n')
 
       // Test recipe scoring
-      log.info('3. Scoring Mushroom Risotto (Recipe): ');
+      log.info('3. Scoring Mushroom Risotto (Recipe): ')
       const risottoScore = await this.scoreRecipe()
       log.info(
         `Score: ${risottoScore.score.toFixed(3)} (${(risottoScore.score * 100).toFixed(1)}%)`,
-      );
-      log.info(`Confidence: ${risottoScore.confidence.toFixed(3)}`);
-      log.info('Dominant Effects:', risottoScore.metadata.dominantEffects);
-      log.info('Notes:', risottoScore.notes);
-      log.info('\n');
+      )
+      log.info(`Confidence: ${risottoScore.confidence.toFixed(3)}`)
+      log.info('Dominant Effects:', risottoScore.metadata.dominantEffects)
+      log.info('Notes:', risottoScore.notes)
+      log.info('\n')
 
       // Test cuisine scoring
-      log.info('4. Scoring Japanese Cuisine: ');
+      log.info('4. Scoring Japanese Cuisine: ')
       const japaneseScore = await this.scoreCuisine()
       log.info(
         `Score: ${japaneseScore.score.toFixed(3)} (${(japaneseScore.score * 100).toFixed(1)}%)`,
-      );
-      log.info(`Confidence: ${japaneseScore.confidence.toFixed(3)}`);
-      log.info('Dominant Effects:', japaneseScore.metadata.dominantEffects);
-      log.info('Notes:', japaneseScore.notes);
-      log.info('\n');
+      )
+      log.info(`Confidence: ${japaneseScore.confidence.toFixed(3)}`)
+      log.info('Dominant Effects:', japaneseScore.metadata.dominantEffects)
+      log.info('Notes:', japaneseScore.notes)
+      log.info('\n')
     } catch (error) {
-      console.error('Error in comprehensive example:', error);
+      console.error('Error in comprehensive example:', error)
     }
   }
 
@@ -265,8 +265,8 @@ export class UnifiedScoringExample {
       }
     };
 
-    const result = await scoringService.scoreRecommendation(context);
-    log.info('Singleton Example - Sage Score:', { score: result.score });
+    const result = await scoringService.scoreRecommendation(context)
+    log.info('Singleton Example - Sage Score:', { score: result.score })
   }
 
   /**
@@ -312,7 +312,7 @@ export class UnifiedScoringExample {
       } as unknown
     ];
 
-    log.info('=== Comparing Herbs ===');
+    log.info('=== Comparing Herbs ===')
 
     for (const item of items) {
       const context: ScoringContext = {
@@ -320,10 +320,10 @@ export class UnifiedScoringExample {
         item
       };
 
-      const result = await scoreRecommendation(context);
+      const result = await scoreRecommendation(context)
       log.info(
         `${item.name}: ${result.score.toFixed(3)} (${result.metadata.dominantEffects.join(', ')})`,
-      );
+      )
     }
   }
 }

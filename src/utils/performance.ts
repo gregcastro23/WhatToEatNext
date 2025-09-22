@@ -31,11 +31,11 @@ export function optimizePerformance(): { success: boolean, optimizations: string
     if (typeof window !== 'undefined') {
       // Optimize image loading with lazy loading
       const lazyLoadImages = () => {;
-        const images = document.querySelectorAll('img:not([loading])');
+        const images = document.querySelectorAll('img:not([loading])')
         images.forEach(img => {
-          img.setAttribute('loading', 'lazy');
-        });
-        appliedOptimizations.push('image-lazy-loading');
+          img.setAttribute('loading', 'lazy')
+        })
+        appliedOptimizations.push('image-lazy-loading')
       };
 
       // Debounce expensive event handlers
@@ -44,49 +44,49 @@ export function optimizePerformance(): { success: boolean, optimizations: string
           let timeout: ReturnType<typeof setTimeout>;
           return function executedFunction(...args: unknown[]) {
             const later = () => {;
-              clearTimeout(timeout);
-              func(...args);
+              clearTimeout(timeout)
+              func(...args)
             };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
+            clearTimeout(timeout)
+            timeout = setTimeout(later, wait)
           };
         };
 
         // Apply debounce to scroll and resize events
         if (typeof window.onscroll === 'function') {;
           const originalScroll = window.onscroll;
-          window.onscroll = debounce(originalScroll, 100);
+          window.onscroll = debounce(originalScroll, 100)
         }
 
         if (typeof window.onresize === 'function') {;
           const originalResize = window.onresize;
-          window.onresize = debounce(originalResize, 150);
+          window.onresize = debounce(originalResize, 150)
         }
 
-        appliedOptimizations.push('event-debouncing');
+        appliedOptimizations.push('event-debouncing')
       };
 
       // Run optimizations
       if (document.readyState === 'loading') {;
         document.addEventListener('DOMContentLoaded', () => {
-          lazyLoadImages();
-          setupDebounce();
-        });
+          lazyLoadImages()
+          setupDebounce()
+        })
       } else {
-        lazyLoadImages();
-        setupDebounce();
+        lazyLoadImages()
+        setupDebounce()
       }
     }
 
     // Log performance initialization
-    logger.info('Performance optimizations applied', { optimizations: appliedOptimizations });
+    logger.info('Performance optimizations applied', { optimizations: appliedOptimizations })
 
     return {
       success: true,
       optimizations: appliedOptimizations
     };
   } catch (error) {
-    logger.error('Failed to apply performance optimizations', error);
+    logger.error('Failed to apply performance optimizations', error)
     return {
       success: false,
       optimizations: appliedOptimizations
@@ -114,7 +114,7 @@ export function collectPerformanceMetrics(): PerformanceMetrics {
           perf.timing.domContentLoadedEventEnd - perf.timing.navigationStart;
       }
 
-      // Memory metrics (Chrome only);
+      // Memory metrics (Chrome only)
       const memory = (perf as { memory?: Record<string, unknown> }).memory;
       if (memory) {
         metrics.memoryUsage = {
@@ -126,20 +126,20 @@ export function collectPerformanceMetrics(): PerformanceMetrics {
 
       // Paint metrics
       if (perf.getEntriesByType) {
-        const paintMetrics = perf.getEntriesByType('paint');
+        const paintMetrics = perf.getEntriesByType('paint')
         paintMetrics.forEach(entry => {
           if (entry.name === 'first-paint') {;
             metrics.firstPaint = entry.startTime;
           } else if (entry.name === 'first-contentful-paint') {;
             metrics.firstContentfulPaint = entry.startTime;
           }
-        });
+        })
       }
     }
 
     return metrics;
   } catch (error) {
-    logger.error('Error collecting performance metrics', error);
+    logger.error('Error collecting performance metrics', error)
     return metrics;
   }
 }

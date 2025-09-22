@@ -111,11 +111,11 @@ export const CHAKRA_ZODIAC_MAPPINGS: Record<Chakra, ZodiacSign[]> = {
 // Zodiac Sign to Chakra mappings (reverse of above)
 export const _ZODIAC_CHAKRA_MAPPINGS: Record<ZodiacSign, Chakra[]> = ZODIAC_SIGNS.reduce(
   (mappings, sign) => {
-    mappings[sign] = CHAKRAS.filter(chakra => CHAKRA_ZODIAC_MAPPINGS[chakra].includes(sign));
+    mappings[sign] = CHAKRAS.filter(chakra => CHAKRA_ZODIAC_MAPPINGS[chakra].includes(sign))
     return mappings
   },
   {} as Record<ZodiacSign, Chakra[]>,
-);
+)
 
 // Chakra energy calculation based on sign energy states
 export function calculateChakraEnergies(
@@ -132,12 +132,12 @@ export function calculateChakraEnergies(
       const totalEnergy = relatedSigns.reduce(
         (sum, sign) => sum + (signEnergyStates[sign] || 0),
         0,
-      );
+      )
       chakraEnergies[chakra] = totalEnergy / relatedSigns.length;
     } else {
       chakraEnergies[chakra] = 0.5, // Default balanced energy
     }
-  });
+  })
 
   return chakraEnergies;
 }
@@ -201,7 +201,7 @@ export function recommendFoodsForChakraBalance(
     if (energy < 0.4) {
       recommendations[chakraName] = CHAKRA_BALANCING_FOODS[chakraName];
     }
-  });
+  })
 
   return recommendations;
 }

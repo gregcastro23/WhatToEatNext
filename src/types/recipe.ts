@@ -243,7 +243,7 @@ export const validateRecipe = (recipe: Partial<Recipe>): boolean => {
 
 export const validateSeason = (season: string): boolean => {
   const validSeasons = ['spring', 'summer', 'autumn', 'winter'];
-  return validSeasons.includes(season.toLowerCase());
+  return validSeasons.includes(season.toLowerCase())
 };
 
 export const validateSeasonality = (seasonality: string[]): boolean => {

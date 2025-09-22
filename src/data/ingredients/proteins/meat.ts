@@ -103,5 +103,5 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
   }
 };
 
-export const _meats: Record<string, IngredientMapping> = fixIngredientMappings(rawMeats);
-export const _meatNames = Object.keys(rawMeats);
+export const _meats: Record<string, IngredientMapping> = fixIngredientMappings(rawMeats)
+export const _meatNames = Object.keys(rawMeats)

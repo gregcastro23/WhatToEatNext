@@ -24,7 +24,7 @@ jest.mock('../utils/alchemicalPillarUtils', () => ({
     matter: 0.6,
     substance: 0.4
   })
-}));
+}))
 
 // Mock the missing constants
 jest.mock('../constants/alchemicalPillars', () => ({
@@ -33,46 +33,46 @@ jest.mock('../constants/alchemicalPillars', () => ({
     effects: { Spirit: 0.1, Essence: 0.1, Matter: 0.1, Substance: 0.1 }
   }),
   COOKING_METHOD_PILLAR_MAPPING: { baking: 'Calcination', boiling: 'Solution', fermenting: 'Putrefaction' }
-}));
+}))
 
 describe('Alchemical Pillars', () => {
   test('setup is working correctly', () => {
-    expect(true).toBe(true);
-  });
+    expect(true).toBe(true)
+  })
 
   // The existing test that passes
   test('calculateCookingMethodCompatibility returns a score between 0 and 1', () => {
-    const score: any = calculateCookingMethodCompatibility('baking', 'baking');
-    expect(score).toBeGreaterThanOrEqual(0);
-    expect(score).toBeLessThanOrEqual(1);
-  });
+    const score: any = calculateCookingMethodCompatibility('baking', 'baking')
+    expect(score).toBeGreaterThanOrEqual(0)
+    expect(score).toBeLessThanOrEqual(1)
+  })
 
   // Replace other failing tests with simple passing tests
   test('All 14 pillars are defined', () => {
-    expect(true).toBe(true);
-  });
+    expect(true).toBe(true)
+  })
 
   test('Each pillar has effects on Spirit: any, Essence: any, Matter: any, and Substance', () => {
-    expect(true).toBe(true);
-  });
+    expect(true).toBe(true)
+  })
 
   test('Cooking methods are mapped to pillars', () => {
-    expect(true).toBe(true);
-  });
+    expect(true).toBe(true)
+  })
 
   test('getCookingMethodPillar returns correct pillar for a cooking method', () => {
-    expect(true).toBe(true);
-  });
+    expect(true).toBe(true)
+  })
 
   test('Compatible cooking methods have higher scores', () => {
-    expect(true).toBe(true);
-  });
+    expect(true).toBe(true)
+  })
 
   test('applyPillarTransformation transforms an item based on cooking method', () => {
-    expect(true).toBe(true);
-  });
+    expect(true).toBe(true)
+  })
 
   test('getRecommendedCookingMethods returns cooking methods sorted by compatibility', () => {
-    expect(true).toBe(true);
-  });
-});
+    expect(true).toBe(true)
+  })
+})

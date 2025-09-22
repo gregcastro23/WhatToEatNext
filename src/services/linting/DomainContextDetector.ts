@@ -1,7 +1,7 @@
 /**
  * DomainContextDetector - Advanced domain context detection for specialized file handling
  *
- * This system detects domain-specific contexts (astrological calculations, campaign systems);
+ * This system detects domain-specific contexts (astrological calculations, campaign systems)
  * and provides specialized handling recommendations for linting issues.
  */
 
@@ -70,29 +70,29 @@ export interface PreservationRequirement {
  * Main DomainContextDetector class
  */
 export class DomainContextDetector {
-  private, workspaceRoot: string,
-  private, domainPatterns: Map<string, ContextIndicator[]>;
+  private workspaceRoot: string,
+  private domainPatterns: Map<string, ContextIndicator[]>;
    
    
-  private, contentAnalysisCache: Map<string, unknown>;
+  private contentAnalysisCache: Map<string, unknown>;
 
   constructor(workspaceRoot: string = process.cwd()) {
     this.workspaceRoot = workspaceRoot;
-    this.contentAnalysisCache = new Map();
-    this.initializeDomainPatterns();
+    this.contentAnalysisCache = new Map()
+    this.initializeDomainPatterns()
   }
 
   /**
    * Analyze file and detect domain context
    */
   async analyzeFile(filePath: string): Promise<FileAnalysis> {
-    const absolutePath = path.isAbsolute(filePath);
+    const absolutePath = path.isAbsolute(filePath)
       ? filePath
-      : path.join(this.workspaceRoot, filePath);
-    const relativePath = path.relative(this.workspaceRoot, absolutePath);
+      : path.join(this.workspaceRoot, filePath)
+    const relativePath = path.relative(this.workspaceRoot, absolutePath)
 
     // Detect domain context
-    const domainContext = await this.detectDomainContext(relativePath, absolutePath);
+    const domainContext = await this.detectDomainContext(relativePath, absolutePath)
 
     // Analyze risk factors
     const riskFactors = this.analyzeRiskFactors(domainContext, relativePath),
@@ -119,10 +119,10 @@ export class DomainContextDetector {
 
     for (const filePath of filePaths) {
       try {
-        const analysis = await this.analyzeFile(filePath);
-        analyses.push(analysis);
+        const analysis = await this.analyzeFile(filePath)
+        analyses.push(analysis)
       } catch (error) {
-        console.warn(`Failed to analyze ${filePath}:`, error);
+        console.warn(`Failed to analyze ${filePath}:`, error)
       }
     }
 
@@ -144,19 +144,19 @@ export class DomainContextDetector {
     for (const specialRule of domainContext.specialRules) {
       switch (specialRule.action) {
         case 'disable':
-          rulesToDisable.push(specialRule.rule);
+          rulesToDisable.push(specialRule.rule)
           break,
         case 'modify':
           rulesToModify.push({
             rule: specialRule.rule,
             modification: specialRule.reason
-          });
+          })
           break;
         case 'enhance':
-          additionalValidation.push(`Enhanced ${specialRule.rule}: ${specialRule.reason}`);
+          additionalValidation.push(`Enhanced ${specialRule.rule}: ${specialRule.reason}`)
           break;
         case 'monitor':
-          additionalValidation.push(`Monitor ${specialRule.rule}: ${specialRule.reason}`);
+          additionalValidation.push(`Monitor ${specialRule.rule}: ${specialRule.reason}`)
           break;
       }
     }
@@ -180,7 +180,7 @@ export class DomainContextDetector {
     for (const [domain, patterns] of this.domainPatterns.entries()) {
       for (const pattern of patterns) {
         if (pattern.type === 'path' && new RegExp(pattern.pattern).test(relativePath)) {
-          indicators.push(pattern);
+          indicators.push(pattern)
           confidence += pattern.weight;
 
           if (pattern.weight > 0.7) {
@@ -190,9 +190,9 @@ export class DomainContextDetector {
 
         if (
           pattern.type === 'filename' &&
-          new RegExp(pattern.pattern).test(path.basename(relativePath));
+          new RegExp(pattern.pattern).test(path.basename(relativePath))
         ) {
-          indicators.push(pattern);
+          indicators.push(pattern)
           confidence += pattern.weight;
         }
       }
@@ -201,8 +201,8 @@ export class DomainContextDetector {
     // Analyze file content if accessible
     try {
       if (fs.existsSync(absolutePath)) {
-        const contentAnalysis = await this.analyzeFileContent(absolutePath);
-        indicators.push(...contentAnalysis.indicators);
+        const contentAnalysis = await this.analyzeFileContent(absolutePath)
+        indicators.push(...contentAnalysis.indicators)
         confidence += contentAnalysis.confidenceBoost;
 
         if (contentAnalysis.detectedType && contentAnalysis.confidenceBoost > 0.5) {
@@ -215,11 +215,11 @@ export class DomainContextDetector {
     }
 
     // Normalize confidence
-    confidence = Math.min(1, confidence);
+    confidence = Math.min(1, confidence)
 
     // Generate special rules and recommendations
-    const specialRules = this.generateSpecialRules(primaryType, subtype, relativePath);
-    const handlingRecommendations = this.generateHandlingRecommendations(primaryType, confidence);
+    const specialRules = this.generateSpecialRules(primaryType, subtype, relativePath)
+    const handlingRecommendations = this.generateHandlingRecommendations(primaryType, confidence)
 
     return {
       type: primaryType,
@@ -243,10 +243,10 @@ export class DomainContextDetector {
     // Check cache first
     const cacheKey = `${absolutePath}:${fs.statSync(absolutePath).mtime.getTime()}`;
     if (this.contentAnalysisCache.has(cacheKey)) {
-      return this.contentAnalysisCache.get(cacheKey);
+      return this.contentAnalysisCache.get(cacheKey)
     }
 
-    const content = fs.readFileSync(absolutePath, 'utf8');
+    const content = fs.readFileSync(absolutePath, 'utf8')
     const indicators: ContextIndicator[] = [];
     let confidenceBoost = 0;
     let detectedType: DomainContext['type'] | undefined;
@@ -274,7 +274,7 @@ export class DomainContextDetector {
           pattern: pattern.source,
           weight,
           description: 'Astrological content detected'
-        });
+        })
         confidenceBoost += weight;
         detectedType = 'astrological';
       }
@@ -291,7 +291,7 @@ export class DomainContextDetector {
     ];
 
     for (const { pattern, weight } of campaignPatterns) {
-      const matches = content.match(pattern);
+      const matches = content.match(pattern)
       if (matches && matches.length > 2) {
         // Multiple occurrences
         indicators.push({
@@ -299,7 +299,7 @@ export class DomainContextDetector {
           pattern: pattern.source,
           weight,
           description: 'Campaign system content detected'
-        });
+        })
         confidenceBoost += weight;
         if (!detectedType || detectedType === 'utility') {
           detectedType = 'campaign';
@@ -314,7 +314,7 @@ export class DomainContextDetector {
         pattern: 'test-framework',
         weight: 0.8,
         description: 'Test framework usage detected'
-      });
+      })
       confidenceBoost += 0.8;
       detectedType = 'test';
     }
@@ -326,7 +326,7 @@ export class DomainContextDetector {
         pattern: 'react-component',
         weight: 0.6,
         description: 'React component detected'
-      });
+      })
       if (!detectedType || detectedType === 'utility') {
         detectedType = 'component';
       }
@@ -339,7 +339,7 @@ export class DomainContextDetector {
         pattern: 'service-layer',
         weight: 0.4,
         description: 'Service layer detected'
-      });
+      })
       if (!detectedType || detectedType === 'utility') {
         detectedType = 'service';
       }
@@ -365,7 +365,7 @@ export class DomainContextDetector {
     }
 
     const result = { indicators, confidenceBoost, detectedType, subtype };
-    this.contentAnalysisCache.set(cacheKey, result);
+    this.contentAnalysisCache.set(cacheKey, result)
 
     return result;
   }
@@ -406,7 +406,7 @@ export class DomainContextDetector {
             reason: 'Allow console.info for astronomical debugging',
             conditions: ['allow: ['warn', 'error', 'info']']
           },
-        );
+        )
 
         if (subtype === 'calculation') {
           rules.push(
@@ -420,7 +420,7 @@ export class DomainContextDetector {
               action: 'disable',
               reason: 'Complex astronomical algorithms may require longer functions'
             },
-          );
+          )
         }
         break;
 
@@ -449,14 +449,14 @@ export class DomainContextDetector {
             reason: 'Preserve campaign system variables',
             conditions: ['varsIgnorePattern: '^(_|campaign|progress|metrics|safety|CAMPAIGN)'']
           },
-        );
+        )
 
         if (subtype === 'safety') {
           rules.push({
             rule: 'no-process-exit',
             action: 'disable',
             reason: 'Safety protocols may need to exit process in emergency situations'
-          });
+          })
         }
         break;
 
@@ -483,7 +483,7 @@ export class DomainContextDetector {
             reason: 'Allow unused variables in test setup',
             conditions: ['varsIgnorePattern: '^(_|mock|stub|test)'']
           },
-        );
+        )
         break;
 
       case 'script':
@@ -503,7 +503,7 @@ export class DomainContextDetector {
             action: 'disable',
             reason: 'Scripts may need to exit with specific codes'
           },
-        );
+        )
         break;
     }
 
@@ -525,14 +525,14 @@ export class DomainContextDetector {
         recommendation: 'Apply domain-specific linting rules with high confidence',
         priority: 'high',
         rationale: `High confidence (${Math.round(confidence * 100)}%) domain detection`
-      });
+      })
     } else if (confidence > 0.5) {
       recommendations.push({
         category: 'linting',
         recommendation: 'Apply domain-specific rules with validation',
         priority: 'medium',
         rationale: `Medium confidence (${Math.round(confidence * 100)}%) domain detection`
-      });
+      })
     }
 
     switch (type) {
@@ -550,7 +550,7 @@ export class DomainContextDetector {
             priority: 'high',
             rationale: 'Changes could affect calculation precision'
           },
-        );
+        )
         break;
 
       case 'campaign':
@@ -567,7 +567,7 @@ export class DomainContextDetector {
             priority: 'medium',
             rationale: 'Campaign system is critical for code quality automation'
           },
-        );
+        )
         break;
 
       case 'test':
@@ -576,7 +576,7 @@ export class DomainContextDetector {
           recommendation: 'Use relaxed linting rules appropriate for test files',
           priority: 'medium',
           rationale: 'Test files have different quality requirements'
-        });
+        })
         break;
     }
 
@@ -604,7 +604,7 @@ export class DomainContextDetector {
             severity: 'high',
             mitigation: 'Cross-reference with multiple astronomical sources'
           },
-        );
+        )
 
         if (filePath.includes('fallback') || filePath.includes('reliable')) {
           riskFactors.push({
@@ -612,7 +612,7 @@ export class DomainContextDetector {
             description: 'Fallback data is critical for system reliability',
             severity: 'critical',
             mitigation: 'Never modify fallback astronomical data without expert validation'
-          });
+          })
         }
         break;
 
@@ -622,7 +622,7 @@ export class DomainContextDetector {
           description: 'Campaign system performance affects development workflow',
           severity: 'medium',
           mitigation: 'Monitor execution time and memory usage'
-        });
+        })
 
         if (filePath.includes('safety') || filePath.includes('protocol')) {
           riskFactors.push({
@@ -630,7 +630,7 @@ export class DomainContextDetector {
             description: 'Safety protocols protect against code corruption',
             severity: 'high',
             mitigation: 'Thoroughly test all safety mechanisms'
-          });
+          })
         }
         break;
     }
@@ -668,7 +668,7 @@ export class DomainContextDetector {
             reason: 'Core astronomical functions must be preserved',
             strictness: 'high'
           },
-        );
+        )
         break;
 
       case 'campaign':
@@ -685,7 +685,7 @@ export class DomainContextDetector {
             reason: 'Safety and tracking functions are critical',
             strictness: 'high'
           },
-        );
+        )
         break;
     }
 
@@ -696,7 +696,7 @@ export class DomainContextDetector {
    * Initialize domain pattern recognition
    */
   private initializeDomainPatterns(): void {
-    this.domainPatterns = new Map();
+    this.domainPatterns = new Map()
     // Astrological patterns
     this.domainPatterns.set('astrological', [
       {
@@ -723,7 +723,7 @@ export class DomainContextDetector {
         weight: 0.8,
         description: 'Astrological service files'
       }
-    ]);
+    ])
 
     // Campaign system patterns
     this.domainPatterns.set('campaign', [
@@ -745,7 +745,7 @@ export class DomainContextDetector {
         weight: 0.9,
         description: 'Campaign type definitions'
       }
-    ]);
+    ])
 
     // Test patterns
     this.domainPatterns.set('test', [
@@ -761,7 +761,7 @@ export class DomainContextDetector {
         weight: 0.9,
         description: 'Test directory'
       }
-    ]);
+    ])
 
     // Script patterns
     this.domainPatterns.set('script', [
@@ -777,6 +777,6 @@ export class DomainContextDetector {
         weight: 0.8,
         description: 'Configuration and setup files'
       }
-    ]);
+    ])
   }
 }

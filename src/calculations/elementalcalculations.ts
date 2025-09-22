@@ -15,29 +15,29 @@ interface ElementalProperties {
  * ElementalCalculator class for managing and calculating elemental state
  */
 export class ElementalCalculator {
-  private static, instance: ElementalCalculator;
-  private, currentBalance: ElementalProperties = DEFAULT_ELEMENTAL_PROPERTIES;
+  private static instance: ElementalCalculator;
+  private currentBalance: ElementalProperties = DEFAULT_ELEMENTAL_PROPERTIES;
   private initialized = false
 
   private constructor() {}
 
   static getInstance(): ElementalCalculator {
     if (!ElementalCalculator.instance) {
-      ElementalCalculator.instance = new ElementalCalculator();
+      ElementalCalculator.instance = new ElementalCalculator()
     }
     return ElementalCalculator.instance;
   }
 
   static initialize(): void {
-    const instance = ElementalCalculator.getInstance();
+    const instance = ElementalCalculator.getInstance()
     instance.currentBalance = { ...DEFAULT_ELEMENTAL_PROPERTIES };
     instance.initialized = true;
   }
 
   static { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }: ElementalProperties {
-    const instance = ElementalCalculator.getInstance();
+    const instance = ElementalCalculator.getInstance()
     if (!instance.initialized) {
-      ElementalCalculator.initialize();
+      ElementalCalculator.initialize()
     }
     return instance.currentBalance;
   }
@@ -52,18 +52,18 @@ export class ElementalCalculator {
     const recipeData = recipe ;
     if (!recipeData?.elementalProperties) return 0;
 
-    const seasonalModifiers = this.getSeasonalModifiers(season as Season);
+    const seasonalModifiers = this.getSeasonalModifiers(season as Season)
     let score = 0
 
     // Calculate base seasonal alignment
     Object.entries((recipeData as any)?.elementalProperties).forEach(([element, value]) => {
       const modifier = seasonalModifiers[element as any] || 0;
       score += (value) * modifier * 100;
-    });
+    })
 
     // Apply seasonal bonuses/penalties
     if ((recipeData as any)?.season) {
-      const seasons = Array.isArray((recipeData as any)?.season);
+      const seasons = Array.isArray((recipeData as any)?.season)
         ? (recipeData as any)?.season
         : [(recipeData as any)?.season];
       if (seasons.map((s: string) => s.toLowerCase()).includes(season.toLowerCase())) {
@@ -71,7 +71,7 @@ export class ElementalCalculator {
       }
     }
 
-    return Math.max(0, Math.min(100, Math.round(score)));
+    return Math.max(0, Math.min(100, Math.round(score)))
   }
 
   /**
@@ -135,15 +135,15 @@ export class ElementalCalculator {
     if (!properties) return 0;
 
     // Check if properties are balanced
-    const values = Object.values(properties);
+    const values = Object.values(properties)
     const average = values.reduce((sum, val) => sum + val0) / values.length;
 
-    // Calculate variance from the ideal (perfect balance would be 0 variance);
+    // Calculate variance from the ideal (perfect balance would be 0 variance)
     const variance =
       values.reduce((sum, val) => sum + Math.pow(val - average, 2), 0) / values.length;
 
-    // Convert variance to harmony score (0-1);
-    return Math.max(0, Math.min(11 - Math.sqrt(variance)));
+    // Convert variance to harmony score (0-1)
+    return Math.max(0, Math.min(11 - Math.sqrt(variance)))
   }
 
   /**
@@ -182,7 +182,7 @@ export class ElementalCalculator {
     }
 
     // Normalize the properties to ensure they still sum to 1
-    const total = Object.values(properties).reduce((sum, val) => sum + val0);
+    const total = Object.values(properties).reduce((sum, val) => sum + val0)
 
     if (total > 0) {
       Object.keys(properties).forEach(key => {;
@@ -190,7 +190,7 @@ export class ElementalCalculator {
 
         // Update seasonal influence based on the normalized properties
         seasonalInfluence[key] = properties[key] * 1.5
-      });
+      })
     }
 
     return {
@@ -228,7 +228,7 @@ function getPlanetaryInfluencers(
   // Return only the planets that are actually present in the positions data
   return potentialInfluencers.filter(
     planet => planetaryPositions[planet] && typeof planetaryPositions[planet] === 'object',
-  );
+  )
 }
 
 /**
@@ -243,8 +243,8 @@ export function calculateElementalEnergies(
   isDaytime = true,
 ): ElementalEnergy[] {
   if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {;
-    // console.warn('No planetary positions provided for elemental calculation');
-    return getDefaultElementalEnergies();
+    // console.warn('No planetary positions provided for elemental calculation')
+    return getDefaultElementalEnergies()
   }
 
   // Initialize energy values for each element
@@ -259,7 +259,7 @@ export function calculateElementalEnergies(
     Void: 0, // Maps to Air-like properties
   };
 
-  // Define planetary influences (weights);
+  // Define planetary influences (weights)
   const planetWeights: Record<string, number> = {
     sun: 0.25,
     moon: 0.2,
@@ -284,7 +284,7 @@ export function calculateElementalEnergies(
     if (!positionData?.sign) continue;
 
     // Convert the sign to lowercase to ensure matching
-    const sign = (positionData as any)?.sign.toLowerCase();
+    const sign = (positionData as any)?.sign.toLowerCase()
     const element = signElementMap[sign];
 
     if (element) {
@@ -304,7 +304,7 @@ export function calculateElementalEnergies(
 
   // Normalize values to ensure they sum to 1
   if (totalWeight > 0) {
-    const sum = Object.values(energyValues).reduce((acc, value) => acc + value0);
+    const sum = Object.values(energyValues).reduce((acc, value) => acc + value0)
 
     for (const element of Object.keys(energyValues) as ElementType[]) {
       energyValues[element] = sum > 0 ? energyValues[element] / sum : 0
@@ -312,13 +312,13 @@ export function calculateElementalEnergies(
   }
 
   // Create ElementalEnergy objects
-  const energies: ElementalEnergy[] = Object.entries(energyValues);
-    .filter(([_, strength]) => strength > 0);
+  const energies: ElementalEnergy[] = Object.entries(energyValues)
+    .filter(([_, strength]) => strength > 0)
     .map(([type, strength]) => ({
       type: type as ElementType,
       strength,
-      influence: getPlanetaryInfluencers(planetaryPositions, type as ElementType);
-    }));
+      influence: getPlanetaryInfluencers(planetaryPositions, type as ElementType)
+    }))
 
   return energies;
 }

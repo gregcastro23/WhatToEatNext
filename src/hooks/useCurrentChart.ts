@@ -30,12 +30,12 @@ export interface ChartData {
  * Standalone hook to access current astrological chart data
  */
 export function useCurrentChart() {
-  const { planetaryPositions } = useAlchemical();
+  const { planetaryPositions } = useAlchemical()
   const [chartData, setChartData] = useState<ChartData>({
     planets: {}
-  });
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  })
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     if (Object.keys(planetaryPositions).length > 0) {
@@ -50,7 +50,7 @@ export function useCurrentChart() {
           }
 
           // Format each planet entry with proper capitalization
-          let planetName = key.charAt(0).toUpperCase() + key.slice(1);
+          let planetName = key.charAt(0).toUpperCase() + key.slice(1)
 
           // Special handling for nodes to ensure consistent casing
           if (key === 'northnode') {;
@@ -65,7 +65,7 @@ export function useCurrentChart() {
             isRetrograde: (data )?.isRetrograde || false,
             exactLongitude: (data )?.exactLongitude || 0
           };
-        });
+        })
 
         // Set ascendant if available
         const newChartData: ChartData = {
@@ -79,15 +79,15 @@ export function useCurrentChart() {
           newChartData.ascendant = (planetaryPositions.ascendant as unknown)?.sign;
         }
 
-        setChartData(newChartData);
+        setChartData(newChartData)
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Error processing chart data');
-        console.error('Chart processing error:', err);
+        setError(err instanceof Error ? err.message : 'Error processing chart data')
+        console.error('Chart processing error:', err)
       } finally {
-        setIsLoading(false);
+        setIsLoading(false)
       }
     }
-  }, [planetaryPositions]);
+  }, [planetaryPositions])
 
   const createChartSvg = () => {;
     // Map of planet names to their astronomical symbols
@@ -170,7 +170,7 @@ export function useCurrentChart() {
         y: 150 - 100 * Math.cos(angle), // Use negative cosine for y,
         color: planetColors[planet] || '#555555'
       };
-    });
+    })
 
     // Create a more attractive circular chart with signs in the outer ring
     return {
@@ -198,18 +198,18 @@ export function useCurrentChart() {
         
         <!-- Zodiac ring -->
         <g class='zodiac-ring'>
-          ${Array.from({ length: 12 });
+          ${Array.from({ length: 12 })
             .map((_i) => {
-              const angle = ((i * 30 - 90) * Math.PI) / 180; // Start from top (270 deg or -90 deg);
+              const angle = ((i * 30 - 90) * Math.PI) / 180; // Start from top (270 deg or -90 deg)
               const sign = Object.keys(zodiacSymbols)[i];
               const color = signColors[sign] || '#999';
               const startAngle = ((i * 30 - 90) * Math.PI) / 180;
               const endAngle = (((i + 1) * 30 - 90) * Math.PI) / 180;
 
-              const startX = 160 + 145 * Math.cos(startAngle);
-              const startY = 160 + 145 * Math.sin(startAngle);
-              const endX = 160 + 145 * Math.cos(endAngle);
-              const endY = 160 + 145 * Math.sin(endAngle);
+              const startX = 160 + 145 * Math.cos(startAngle)
+              const startY = 160 + 145 * Math.sin(startAngle)
+              const endX = 160 + 145 * Math.cos(endAngle)
+              const endY = 160 + 145 * Math.sin(endAngle)
 
               // Use arc paths for the zodiac segments
               const largeArcFlag = 0, // 0 for arcs less than 180 degrees;
@@ -240,10 +240,10 @@ export function useCurrentChart() {
                 // Get the sign index
                 const signIndex = Object.keys(zodiacSymbols).findIndex(;
                   sign => sign === chartData.ascendant
-                );
+                )
                 const ascAngle = ((signIndex * 30 - 90) * Math.PI) / 180; // Start from top
-                const ascX = 160 + 155 * Math.cos(ascAngle);
-                const ascY = 160 + 155 * Math.sin(ascAngle);
+                const ascX = 160 + 155 * Math.cos(ascAngle)
+                const ascY = 160 + 155 * Math.sin(ascAngle)
 
                 return `
             <line x1='160' y1='160' x2='${ascX}' y2='${ascY}' ;
@@ -255,7 +255,7 @@ export function useCurrentChart() {
               ASC
             </text>
           `;
-              })();
+              })()
             : ''
         }
         
@@ -337,8 +337,8 @@ export function useCurrentChart() {
     isLoading,
     error,
     refreshChart: async () => {
-      setIsLoading(true);
-      setTimeout(() => setIsLoading(false), 500);
+      setIsLoading(true)
+      setTimeout(() => setIsLoading(false), 500)
     },
     // Add the chart property for CookingMethods.tsx,
     chart: chartObj

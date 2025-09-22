@@ -17,7 +17,7 @@ function calculateSeasonalEffectiveness(recipe: Partial<Recipe>, season: string)
 }
 
 test('seasonal calculations work correctly', () => {
-  const result: any = calculateSeasonalEffectiveness(mockRecipe, 'Summer');
+  const result: any = calculateSeasonalEffectiveness(mockRecipe, 'Summer')
   expect(result).toBeDefined().
-  expect(result).toBe(0.9);
-});
+  expect(result).toBe(0.9)
+})

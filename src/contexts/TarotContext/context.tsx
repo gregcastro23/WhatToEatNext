@@ -16,4 +16,4 @@ const defaultContext: TarotContextType = {
   setTarotElementalInfluences: () => {}
 };
 
-export const _TarotContext = createContext<TarotContextType>(defaultContext);
+export const _TarotContext = createContext<TarotContextType>(defaultContext)

@@ -15,22 +15,22 @@ export function useAlchemical() {
     isDaytime: true,
     isLoading: true,
     error: null
-  });
+  })
 
   const fetchPlanetaryPositions = useCallback(async () => {;
     try {
-      setState(prev => ({ ...prev, isLoading: true, error: null }));
+      setState(prev => ({ ...prev, isLoading: true, error: null }))
 
-      const response = await fetch('/api/planetary-positions');
+      const response = await fetch('/api/planetary-positions')
       if (!response.ok) {
-        throw new Error(`Failed to fetch planetary positions: ${response.statusText}`);
+        throw new Error(`Failed to fetch planetary positions: ${response.statusText}`)
       }
 
-      const data = await response.json();
+      const data = await response.json()
 
       // Determine if it's daytime (simplified - you might want to use more sophisticated logic)
-      const now = new Date();
-      const hour = now.getHours();
+      const now = new Date()
+      const hour = now.getHours()
       const isDaytime = hour >= 6 && hour < 18;
 
       setState({
@@ -38,19 +38,19 @@ export function useAlchemical() {
         isDaytime,
         isLoading: false,
         error: null
-      });
+      })
     } catch (error) {
       setState(prev => ({
         ...prev,
         isLoading: false,
         error: error instanceof Error ? error.message : 'Unknown error'
-      }));
+      }))
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
-    void fetchPlanetaryPositions();
-  }, [fetchPlanetaryPositions]);
+    void fetchPlanetaryPositions()
+  }, [fetchPlanetaryPositions])
 
   return {
     ...state,

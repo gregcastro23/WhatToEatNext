@@ -740,4 +740,4 @@ const rawPome = {
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
 export const pome: Record<string, IngredientMapping> = fixIngredientMappings(
   rawPome as Record<string, Partial<IngredientMapping>>,
-);
+)

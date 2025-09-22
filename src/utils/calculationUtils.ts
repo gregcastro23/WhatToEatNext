@@ -20,7 +20,7 @@ export const calculationUtils = {
       baseEffect.Air = temp / 200;
     }
 
-    return elementalUtils.normalizeProperties(baseEffect);
+    return elementalUtils.normalizeProperties(baseEffect)
   },
 
   calculateTimeEffect(minutes: number): number {
@@ -43,7 +43,7 @@ export const calculationUtils = {
     const modifier = seasonalModifiers[season.toLowerCase()];
     if (!modifier) return props;
 
-    return elementalUtils.combineProperties(props, modifier);
+    return elementalUtils.combineProperties(props, modifier)
   }
 };
 

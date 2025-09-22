@@ -123,4 +123,4 @@ export const CUISINES: Record<string, CuisineProperties> = {
   }
 };
 
-export const _CUISINE_CATEGORIES = Object.keys(CUISINES);
+export const _CUISINE_CATEGORIES = Object.keys(CUISINES)

@@ -1,7 +1,7 @@
 type Season = 'spring' | 'summer' | 'fall' | 'winter';
 
 export const _getCurrentSeason = (): Season => {
-  const month = new Date().getMonth();
+  const month = new Date().getMonth()
 
   if (month >= 2 && month <= 4) return 'spring';
   if (month >= 5 && month <= 7) return 'summer';

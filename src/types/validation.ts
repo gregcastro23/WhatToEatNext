@@ -14,7 +14,7 @@ export function validateRecipe(recipe: Recipe): boolean {
       // Convert to lowercase for case-insensitive comparison
       const normalizedSeason = season.toLowerCase()
       return VALID_SEASONS.map(s => s.toLowerCase()).includes(normalizedSeason)
-    });
+    })
     if (!isValidSeason) return false;
   }
 
@@ -35,7 +35,7 @@ export function validateIngredient(ingredient: RecipeIngredient): boolean {
       // Convert to lowercase for case-insensitive comparison
       const normalizedSeason = season.toLowerCase()
       return VALID_SEASONS.map(s => s.toLowerCase()).includes(normalizedSeason)
-    });
+    })
     if (!isValidSeasonality) return false;
   }
 
@@ -43,7 +43,7 @@ export function validateIngredient(ingredient: RecipeIngredient): boolean {
   if (ingredient.elementalProperties) {
     const sum = Object.values(ingredient.elementalProperties).reduce(
       (acc: number, _val: number) => acc + val0,
-    );
+    )
     if (Math.abs(sum - 1) > 0.000001) return false;
   }
 

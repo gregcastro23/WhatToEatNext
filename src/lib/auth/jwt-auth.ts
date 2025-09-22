@@ -85,11 +85,11 @@ export const ROLE_PERMISSIONS: RolePermissions = {
 
 export class JWTAuthService {
   private config: AuthConfig;
-  private users: Map<string, User> = new Map();
+  private users: Map<string, User> = new Map()
 
   constructor(config: AuthConfig) {
     this.config = config;
-    this.initializeDefaultUsers();
+    this.initializeDefaultUsers()
   }
 
   /**
@@ -125,10 +125,10 @@ export class JWTAuthService {
         ...userData,
         id: `user_${index + 1}`
       };
-      this.users.set(user.email, user);
-    });
+      this.users.set(user.email, user)
+    })
 
-    logger.info('Default users initialized for authentication service');
+    logger.info('Default users initialized for authentication service')
   }
 
   /**
@@ -136,34 +136,34 @@ export class JWTAuthService {
    */
   async authenticate(email: string, password: string): Promise<AuthTokens | null> {
     try {
-      const user = this.users.get(email);
+      const user = this.users.get(email)
 
       if (!user || !user.isActive) {
-        logger.warn('Authentication failed: user not found or inactive', { email });
+        logger.warn('Authentication failed: user not found or inactive', { email })
         return null;
       }
 
-      const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
+      const isPasswordValid = await bcrypt.compare(password, user.passwordHash)
       if (!isPasswordValid) {
-        logger.warn('Authentication failed: invalid password', { email });
+        logger.warn('Authentication failed: invalid password', { email })
         return null;
       }
 
       // Update last login
-      user.lastLoginAt = new Date();
+      user.lastLoginAt = new Date()
 
       // Generate tokens
-      const tokens = await this.generateTokens(user);
+      const tokens = await this.generateTokens(user)
 
       logger.info('User authenticated successfully', {
         userId: user.id,
         email: user.email,
         roles: user.roles
-      });
+      })
 
       return tokens;
     } catch (error) {
-      logger.error('Authentication error', { email, error });
+      logger.error('Authentication error', { email, error })
       return null;
     }
   }
@@ -172,7 +172,7 @@ export class JWTAuthService {
    * Generate access and refresh tokens for user
    */
   async generateTokens(user: User): Promise<AuthTokens> {
-    const scopes = this.getRoleScopes(user.roles);
+    const scopes = this.getRoleScopes(user.roles)
 
     const payload: Omit<TokenPayload, 'iat' | 'exp' | 'iss'> = {
       userId: user.id,
@@ -185,7 +185,7 @@ export class JWTAuthService {
       expiresIn: this.config.tokenExpiry,
       issuer: this.config.issuer,
       audience: 'alchm.kitchen'
-    });
+    })
 
     const refreshToken = jwt.sign(
       { userId: user.id, type: 'refresh' },
@@ -195,7 +195,7 @@ export class JWTAuthService {
         issuer: this.config.issuer,
         audience: 'alchm.kitchen'
       }
-    );
+    )
 
     return {
       accessToken,
@@ -215,15 +215,15 @@ export class JWTAuthService {
       }) as TokenPayload;
 
       // Verify user still exists and is active
-      const user = Array.from(this.users.values()).find(u => u.id === decoded.userId);
+      const user = Array.from(this.users.values()).find(u => u.id === decoded.userId)
       if (!user || !user.isActive) {
-        logger.warn('Token validation failed: user inactive or deleted', { userId: decoded.userId });
+        logger.warn('Token validation failed: user inactive or deleted', { userId: decoded.userId })
         return null;
       }
 
       return decoded;
     } catch (error) {
-      logger.warn('Token validation failed', { error: error instanceof Error ? error.message : 'Unknown error' });
+      logger.warn('Token validation failed', { error: error instanceof Error ? error.message : 'Unknown error' })
       return null;
     }
   }
@@ -239,19 +239,19 @@ export class JWTAuthService {
       }) as any;
 
       if (decoded.type !== 'refresh') {
-        logger.warn('Invalid refresh token type');
+        logger.warn('Invalid refresh token type')
         return null;
       }
 
-      const user = Array.from(this.users.values()).find(u => u.id === decoded.userId);
+      const user = Array.from(this.users.values()).find(u => u.id === decoded.userId)
       if (!user || !user.isActive) {
-        logger.warn('Refresh token validation failed: user inactive or deleted', { userId: decoded.userId });
+        logger.warn('Refresh token validation failed: user inactive or deleted', { userId: decoded.userId })
         return null;
       }
 
-      return await this.generateTokens(user);
+      return await this.generateTokens(user)
     } catch (error) {
-      logger.warn('Refresh token validation failed', { error: error instanceof Error ? error.message : 'Unknown error' });
+      logger.warn('Refresh token validation failed', { error: error instanceof Error ? error.message : 'Unknown error' })
       return null;
     }
   }
@@ -260,7 +260,7 @@ export class JWTAuthService {
    * Check if user has required permission
    */
   hasPermission(userRoles: UserRole[], requiredPermission: string): boolean {
-    const userScopes = this.getRoleScopes(userRoles);
+    const userScopes = this.getRoleScopes(userRoles)
 
     return userScopes.some(scope => {
       // Exact match
@@ -269,36 +269,36 @@ export class JWTAuthService {
       // Wildcard match (e.g., 'alchemical:*' matches 'alchemical:calculate')
       if (scope.endsWith(':*')) {
         const prefix = scope.slice(0, -1); // Remove '*'
-        return requiredPermission.startsWith(prefix);
+        return requiredPermission.startsWith(prefix)
       }
 
       return false;
-    });
+    })
   }
 
   /**
    * Get all scopes for given roles
    */
   private getRoleScopes(roles: UserRole[]): string[] {
-    const scopes = new Set<string>();
+    const scopes = new Set<string>()
 
     roles.forEach(role => {
       ROLE_PERMISSIONS[role]?.forEach(permission => {
-        scopes.add(permission);
-      });
-    });
+        scopes.add(permission)
+      })
+    })
 
-    return Array.from(scopes);
+    return Array.from(scopes)
   }
 
   /**
    * Parse expiry string to seconds
    */
   private parseExpiry(expiry: string): number {
-    const match = expiry.match(/^(\d+)([smhd])$/);
+    const match = expiry.match(/^(\d+)([smhd])$/)
     if (!match) return 3600; // Default 1 hour
 
-    const value = parseInt(match[1]);
+    const value = parseInt(match[1])
     const unit = match[2];
 
     switch (unit) {
@@ -316,11 +316,11 @@ export class JWTAuthService {
   async createUser(email: string, password: string, roles: UserRole[]): Promise<User | null> {
     try {
       if (this.users.has(email)) {
-        logger.warn('User creation failed: email already exists', { email });
+        logger.warn('User creation failed: email already exists', { email })
         return null;
       }
 
-      const passwordHash = await bcrypt.hash(password, 10);
+      const passwordHash = await bcrypt.hash(password, 10)
       const user: User = {
         id: `user_${Date.now()}`,
         email,
@@ -330,17 +330,17 @@ export class JWTAuthService {
         createdAt: new Date()
       };
 
-      this.users.set(email, user);
+      this.users.set(email, user)
 
       logger.info('User created successfully', {
         userId: user.id,
         email: user.email,
         roles: user.roles
-      });
+      })
 
       return user;
     } catch (error) {
-      logger.error('User creation error', { email, error });
+      logger.error('User creation error', { email, error })
       return null;
     }
   }
@@ -350,18 +350,18 @@ export class JWTAuthService {
    */
   async deactivateUser(userId: string): Promise<boolean> {
     try {
-      const user = Array.from(this.users.values()).find(u => u.id === userId);
+      const user = Array.from(this.users.values()).find(u => u.id === userId)
       if (!user) {
-        logger.warn('User deactivation failed: user not found', { userId });
+        logger.warn('User deactivation failed: user not found', { userId })
         return false;
       }
 
       user.isActive = false;
 
-      logger.info('User deactivated successfully', { userId, email: user.email });
+      logger.info('User deactivated successfully', { userId, email: user.email })
       return true;
     } catch (error) {
-      logger.error('User deactivation error', { userId, error });
+      logger.error('User deactivation error', { userId, error })
       return false;
     }
   }
@@ -387,6 +387,6 @@ export const authService = new JWTAuthService({
   tokenExpiry: '1h',
   refreshTokenExpiry: '7d',
   issuer: 'alchm.kitchen'
-});
+})
 
 export default authService;

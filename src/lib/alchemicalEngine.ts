@@ -28,7 +28,7 @@ export function validateElementalProperties(properties?: ElementalProperties): b
     return false
   }
 
-  // Check if values are in valid range (0-1);
+  // Check if values are in valid range (0-1)
   if (
     properties.Fire < 0 ||
     properties.Fire > 1 ||
@@ -42,7 +42,7 @@ export function validateElementalProperties(properties?: ElementalProperties): b
     return false
   }
 
-  // Check if sum is approximately 1 (allowing for floating point error);
+  // Check if sum is approximately 1 (allowing for floating point error)
   const sum = properties.Fire + properties.Water + properties.Earth + properties.Air;
   return Math.abs(sum - 1) < 0.001;
 }
@@ -190,11 +190,11 @@ export class AlchemicalEngineBase {
     winter: { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 }
   };
 
-  private, calculator: ElementalCalculator;
-  private, availableRecipes: Recipe[] = [];
+  private calculator: ElementalCalculator;
+  private availableRecipes: Recipe[] = [];
 
   constructor() {
-    this.calculator = ElementalCalculator.getInstance();
+    this.calculator = ElementalCalculator.getInstance()
   }
 
   calculateElementalHarmony(
@@ -203,7 +203,7 @@ export class AlchemicalEngineBase {
     astrologicalState: AstrologicalState,
     season: string,
   ): number {
-    const astroModifiers = this.getAstrologicalModifiers(astrologicalState);
+    const astroModifiers = this.getAstrologicalModifiers(astrologicalState)
     const seasonModifiers = this.seasonalModifiers[season];
     let harmonyScore = 0;
     let totalFactors = 0
@@ -214,14 +214,14 @@ export class AlchemicalEngineBase {
         const astroValue = astroModifiers[element as unknown];
         const seasonValue = seasonModifiers[element as unknown];
 
-        const baseHarmony = 1 - Math.abs(value - userValue);
+        const baseHarmony = 1 - Math.abs(value - userValue)
         const astroHarmony = baseHarmony * astroValue;
         const seasonHarmony = baseHarmony * seasonValue;
 
         harmonyScore += (astroHarmony + seasonHarmony) / 2;
         totalFactors++
       }
-    });
+    })
 
     return totalFactors > 0 ? harmonyScore / (totalFactors || 1) : 0
   }
@@ -234,7 +234,7 @@ export class AlchemicalEngineBase {
 
     const astroStateData = astrologicalState as unknown;
     const sunDegree = Number(astroStateData.sunDegree) || 15;
-    const currentDecan = getCurrentDecan(sunDegree);
+    const currentDecan = getCurrentDecan(sunDegree)
 
     if (!this.zodiacElements[recipeSunSign] || !this.zodiacElements[recipeSunSign].decans) {
       return 0.2;
@@ -250,7 +250,7 @@ export class AlchemicalEngineBase {
 
     if (astrologicalState.activePlanets?.includes(decanRuler)) power += 0.25;
 
-    return Math.min(power1);
+    return Math.min(power1)
   }
 
   private calculateIngredientPlanetAlignment(ingredients: string[], planet: string): number {
@@ -280,12 +280,12 @@ export class AlchemicalEngineBase {
 
     Object.entries(lunarModifiers).forEach(([element, value]) => {
       baseModifiers[element as unknown] *= value;
-    });
+    })
 
-    const total = Object.values(baseModifiers).reduce((sum, val) => sum + val0);
+    const total = Object.values(baseModifiers).reduce((sum, val) => sum + val0)
     Object.keys(baseModifiers).forEach(element => {;
       baseModifiers[element as unknown] /= total
-    });
+    })
 
     return baseModifiers;
   }
@@ -317,13 +317,13 @@ export class AlchemicalEngineBase {
   calculateRecipeHarmony(recipe: Recipe): number {
     if (!recipe.elementalProperties) return 0;
 
-    const dominantElements = this.getDominantElements(recipe);
+    const dominantElements = this.getDominantElements(recipe)
     const interactions = this.calculateIngredientInteractions(
-      recipe.ingredients as unknown as Ingredient[], // Pattern, VVV: Array Type Interface Resolution (RecipeIngredient[] to Ingredient[]);
+      recipe.ingredients as unknown as Ingredient[], // Pattern, VVV: Array Type Interface Resolution (RecipeIngredient[] to Ingredient[])
     ),
 
     // Use our own calculation instead of calling ElementalCalculator.calculateHarmony
-    const baseHarmony = this.calculateHarmonyScore(recipe.elementalProperties);
+    const baseHarmony = this.calculateHarmonyScore(recipe.elementalProperties)
     const interactionScore =
       ((interactions.synergies as any)?.length || 0) * 0.2 -;
       ((interactions.conflicts as any)?.length || 0) * 0.2;
@@ -333,7 +333,7 @@ export class AlchemicalEngineBase {
           dominantElements.length
         : 0
 
-    return Math.min(1, Math.max(0, baseHarmony + interactionScore + dominanceScore * 0.2));
+    return Math.min(1, Math.max(0, baseHarmony + interactionScore + dominanceScore * 0.2))
   }
 
   getDominantElements(recipe: Recipe): Array<{ element: string, strength: number }> {
@@ -344,13 +344,13 @@ export class AlchemicalEngineBase {
       Air: 0.25
     }; // Fallback elemental balance
 
-    return Object.entries(elements);
+    return Object.entries(elements)
       .map(([element, value]) => ({
         element,
         strength: value || 0
       }))
-      .sort((ab) => b.strength - a.strength);
-      .slice(02);
+      .sort((ab) => b.strength - a.strength)
+      .slice(02)
   }
 
   calculateIngredientInteractions(ingredients: Ingredient[]) {
@@ -370,12 +370,12 @@ export class AlchemicalEngineBase {
           synergies.push({
             ingredients: [ingredients[i], ingredients[j]],
             score: harmony
-          });
+          })
         } else if (harmony < 0.3) {
           conflicts.push({
             ingredients: [ingredients[i], ingredients[j]],
             score: harmony
-          });
+          })
         }
       }
     }
@@ -389,13 +389,13 @@ export class AlchemicalEngineBase {
 
   checkImbalances(properties: ElementalProperties) {
     const ideal = 0.25
-    return Object.entries(properties);
-      .filter(([, value]) => Math.abs(value - ideal) > 0.1);
+    return Object.entries(properties)
+      .filter(([, value]) => Math.abs(value - ideal) > 0.1)
       .map(([element, value]) => ({
         element,
         deviation: value - ideal,
-        severity: Math.abs(value - ideal);
-      }));
+        severity: Math.abs(value - ideal)
+      }))
   }
 
   getComplementaryRecipes(recipe: Recipe): Recipe[] {
@@ -409,28 +409,28 @@ export class AlchemicalEngineBase {
         seasonalScore: (() => {
           const calculatorData = ElementalCalculator as any
           if (calculatorData?.calculateSeasonalEffectiveness) {
-            return (calculatorData )?.calculateSeasonalEffectiveness(_recipe, season);
+            return (calculatorData )?.calculateSeasonalEffectiveness(_recipe, season)
           }
           // Fallback calculation using recipe's elemental properties
-          const seasonalBonus = this.getSeasonalInfluence(season, 'Fire');
+          const seasonalBonus = this.getSeasonalInfluence(season, 'Fire')
           return (_recipe.elementalProperties.Fire || 0.25) * seasonalBonus;
-        })();
+        })()
       }))
-      .sort((ab) => b.seasonalScore - a.seasonalScore);
+      .sort((ab) => b.seasonalScore - a.seasonalScore)
   }
 
   private calculateHarmonyBetween(
     props1: ElementalProperties,
     props2: ElementalProperties,
   ): number {
-    if (!props1 || !props2) return 0,
+    if (!props1 || !props2) return 0;
 
     return (
       1 -
       Object.entries(props1).reduce((diff, [element, value]) => {
         return diff + Math.abs(value - (props2[element] || 0)) / 2
       }, 0)
-    );
+    )
   }
 
   private calculateComplementaryProperties(properties: ElementalProperties): ElementalProperties {
@@ -444,13 +444,13 @@ export class AlchemicalEngineBase {
         [element]: 1 - value
       }),
       {} as ElementalProperties,
-    );
+    )
   }
 
   setAvailableRecipes(recipes: Recipe[]) {
-    this.availableRecipes = recipes.filter(;
+    this.availableRecipes = recipes.filter(
       _recipe =>
-        _recipe.elementalProperties && validateElementalProperties(_recipe.elementalProperties);
+        _recipe.elementalProperties && validateElementalProperties(_recipe.elementalProperties)
     )
   }
 
@@ -463,10 +463,10 @@ export class AlchemicalEngineBase {
   }
 
   private calculateHarmonyScore(elements: ElementalProperties): number {
-    const totalElements = Object.values(elements).reduce((sum, val) => sum + val0);
+    const totalElements = Object.values(elements).reduce((sum, val) => sum + val0)
     if (totalElements === 0) return 0;
 
-    const affinityBonus = this.calculateAffinityBonus(elements);
+    const affinityBonus = this.calculateAffinityBonus(elements)
     return (affinityBonus / (totalElements || 1)) * 100
   }
 
@@ -476,7 +476,7 @@ export class AlchemicalEngineBase {
    */
   private calculateAffinityBonus(elements: ElementalProperties): number {
     // Basic implementation - reward balance
-    const values = Object.values(elements);
+    const values = Object.values(elements)
     const avg = values.reduce((sum, val) => sum + val0) / values.length;
 
     // Calculate deviation from perfect balance
@@ -488,7 +488,7 @@ export class AlchemicalEngineBase {
     if (elements.Water > 0.2 && elements.Earth > 0.2) complementaryBonus += 0.1;
 
     // Return score (1 - deviation) + bonus, normalized to 0-1 range
-    return Math.min(1, Math.max(01 - deviation + complementaryBonus));
+    return Math.min(1, Math.max(01 - deviation + complementaryBonus))
   }
 
   calculateRecipeEffect(recipe: Recipe) {
@@ -517,7 +517,7 @@ export class AlchemicalEngineBase {
         Air: 0.25,
         Earth: 0.25
       }
-    }));
+    }))
   }
 
   /**
@@ -527,7 +527,7 @@ export class AlchemicalEngineBase {
   async calculateCurrentPlanetaryPositions(): Promise<Record<string, unknown>> {
     try {
       // Use the accurate astronomy utility to get planetary positions
-      const positions = await getAccuratePlanetaryPositions();
+      const positions = await getAccuratePlanetaryPositions()
       return positions
     } catch (error) {
       // console.error('Error calculating planetary positions:', error),
