@@ -380,14 +380,14 @@ export function calculateKalchmResults(planetaryPositions: {
       const monicaConstant = calculateMonicaConstant(gregsEnergy, reactivity, kalchm);
 
       // Determine dominant element and property
-      const dominantElement = Object.entries(elementalValues).reduce((ab) =>;
+      const dominantElement = Object.entries(elementalValues).reduce((a, b) =>
         elementalValues[a[0] as keyof ElementalValues] >
         elementalValues[b[0] as keyof ElementalValues]
           ? a
           : b,
       )[0] as keyof ElementalValues;
 
-      const dominantProperty = Object.entries(alchemicalProperties).reduce((ab) =>;
+      const dominantProperty = Object.entries(alchemicalProperties).reduce((a, b) =>
         alchemicalProperties[a[0] as keyof AlchemicalProperties] >
         alchemicalProperties[b[0] as keyof AlchemicalProperties]
           ? a
@@ -407,7 +407,7 @@ export function calculateKalchmResults(planetaryPositions: {
         },
         dominantElement,
         dominantProperty,
-        timestamp: new Date().toISOString();
+        timestamp: new Date().toISOString()
       };
     },
     300000, // 5 minute cache

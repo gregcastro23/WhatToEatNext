@@ -32,9 +32,9 @@ import { allCookingMethods } from '@/data/cooking/methods';
 import { CookingMethodInfo } from '@/types/cooking';
 
 // Fallback placeholders for missing components to keep page functional
-const MethodImage = ({ method }: { method: string }) => (;
+const MethodImage = ({ method }: { method: string }) => (
   <div
-    style={{;
+    style={{
       width: '100%',
       height: '100%',
       display: 'flex',
@@ -47,7 +47,7 @@ const MethodImage = ({ method }: { method: string }) => (;
   </div>
 );
 
-const ZodiacSign = ({;
+const ZodiacSign = ({
   sign,
   size = 'medium',
 }: {
@@ -107,11 +107,11 @@ export default function CookingMethodPage() {
   }
 
   return (
-    <Container maxWidth='lg' sx={{ py: 6 }}>;
-      <Link href='/cooking-methods' passHref>;
+    <Container maxWidth='lg' sx={{ py: 6 }}>
+      <Link href='/cooking-methods' passHref>
         <Typography
-          component='a';
-          sx={{;
+          component='a'
+          sx={{
             display: 'block',
             mb: 2,
             color: theme.palette.primary.main,
@@ -124,7 +124,7 @@ export default function CookingMethodPage() {
       </Link>
 
       <Paper
-        elevation={3};
+        elevation={3}
         sx={{
           p: 4,
           mb: 4,
@@ -292,7 +292,7 @@ export default function CookingMethodPage() {
                   <Typography
                     variant='h5';
                     gutterBottom
-                    sx={{ display: 'flex', alignItems: 'center' }};
+                    sx={{ display: 'flex', alignItems: 'center' }}
                   >
                     <Science sx={{ mr: 1 }} /> Scientific Principles
                   </Typography>
@@ -524,7 +524,7 @@ export default function CookingMethodPage() {
                   <Typography
                     variant='h5';
                     gutterBottom
-                    sx={{ display: 'flex', alignItems: 'center' }};
+                    sx={{ display: 'flex', alignItems: 'center' }}
                   >
                     <LocalFireDepartment sx={{ mr: 1 }} /> Health Benefits
                   </Typography>
@@ -544,7 +544,7 @@ export default function CookingMethodPage() {
                   <Typography
                     variant='h6';
                     gutterBottom
-                    sx={{ mt: 3, display: 'flex', alignItems: 'center' }};
+                    sx={{ mt: 3, display: 'flex', alignItems: 'center' }}
                   >
                     <Warning sx={{ mr: 1 }} /> Health Considerations
                   </Typography>
@@ -578,8 +578,8 @@ export default function CookingMethodPage() {
                   )}
 
                   {method.zodiacResonance && method.zodiacResonance.length > 0 && (
-                    <Box sx={{ mt: 3 }}>;
-                      <Typography variant='subtitle1' gutterBottom>;
+                    <Box sx={{ mt: 3 }}>
+                      <Typography variant='subtitle1' gutterBottom>
                         Zodiac Resonance:
                       </Typography>
                       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
@@ -591,8 +591,8 @@ export default function CookingMethodPage() {
                   )}
 
                   {method.planetaryInfluences && method.planetaryInfluences.length > 0 && (
-                    <Box sx={{ mt: 3 }}>;
-                      <Typography variant='subtitle1' gutterBottom>;
+                    <Box sx={{ mt: 3 }}>
+                      <Typography variant='subtitle1' gutterBottom>
                         Planetary Influences:
                       </Typography>
                       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>

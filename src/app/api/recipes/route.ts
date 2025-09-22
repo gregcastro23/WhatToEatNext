@@ -91,7 +91,7 @@ export async function POST(request: Request) {
       },
       cuisine: body.cuisine || 'international',
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString();
+      updatedAt: new Date().toISOString()
     };
 
     return NextResponse.json({

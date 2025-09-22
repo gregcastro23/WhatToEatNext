@@ -93,10 +93,10 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
     };
 
     const elementalMultipliers =
-      contextElementalMultipliers[context as keyof typeof contextElementalMultipliers] ||;
+      contextElementalMultipliers[context as keyof typeof contextElementalMultipliers] ||
       contextElementalMultipliers.general;
     const preferenceMultiplier =
-      hasProperty(preferences, 'intensity') && typeof preferences.intensity === 'number';
+      hasProperty(preferences, 'intensity') && typeof preferences.intensity === 'number'
         ? preferences.intensity
         : 1.0;
 
@@ -111,7 +111,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
         1.0,
         baseProperties.Earth * elementalMultipliers.Earth * preferenceMultiplier
       ),
-      Air: Math.min(1.0, baseProperties.Air * elementalMultipliers.Air * preferenceMultiplier);
+      Air: Math.min(1.0, baseProperties.Air * elementalMultipliers.Air * preferenceMultiplier)
     };
 
     // Normalize adjusted properties
@@ -192,19 +192,19 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
         Fire: properties.Fire * (1 + (Math.random() * 0.1 - 0.05)),
         Water: properties.Water * (1 + (Math.random() * 0.08 - 0.04)),
         Earth: properties.Earth * (1 + (Math.random() * 0.12 - 0.06)),
-        Air: properties.Air * (1 + (Math.random() * 0.09 - 0.045));
+        Air: properties.Air * (1 + (Math.random() * 0.09 - 0.045))
       },
       mediumTerm: {
         Fire: properties.Fire * (1 + (Math.random() * 0.15 - 0.075)),
         Water: properties.Water * (1 + (Math.random() * 0.12 - 0.06)),
         Earth: properties.Earth * (1 + (Math.random() * 0.18 - 0.09)),
-        Air: properties.Air * (1 + (Math.random() * 0.14 - 0.07));
+        Air: properties.Air * (1 + (Math.random() * 0.14 - 0.07))
       },
       longTerm: {
         Fire: properties.Fire * (1 + (Math.random() * 0.2 - 0.1)),
         Water: properties.Water * (1 + (Math.random() * 0.16 - 0.08)),
         Earth: properties.Earth * (1 + (Math.random() * 0.24 - 0.12)),
-        Air: properties.Air * (1 + (Math.random() * 0.18 - 0.09));
+        Air: properties.Air * (1 + (Math.random() * 0.18 - 0.09))
       }
     };
 
@@ -218,7 +218,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
       factors: {
         seasonal: ELEMENTAL_ANALYSIS_INTELLIGENCE.calculateSeasonalInfluence(context),
         contextual: ELEMENTAL_ANALYSIS_INTELLIGENCE.calculateContextualInfluence(context),
-        elemental: ELEMENTAL_ANALYSIS_INTELLIGENCE.calculateElementalInfluence(properties, balance);
+        elemental: ELEMENTAL_ANALYSIS_INTELLIGENCE.calculateElementalInfluence(properties, balance)
       }
     };
   },
@@ -234,22 +234,22 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
     preferences: Record<string, unknown>,
   ) => {
     const fireOptimization =
-      hasProperty(preferences, 'fireOptimization') &&;
-      typeof preferences.fireOptimization === 'number';
+      hasProperty(preferences, 'fireOptimization') &&
+      typeof preferences.fireOptimization === 'number'
         ? preferences.fireOptimization
         : 1.1
     const waterOptimization =
-      hasProperty(preferences, 'waterOptimization') &&;
-      typeof preferences.waterOptimization === 'number';
+      hasProperty(preferences, 'waterOptimization') &&
+      typeof preferences.waterOptimization === 'number'
         ? preferences.waterOptimization
         : 1.05
     const earthOptimization =
-      hasProperty(preferences, 'earthOptimization') &&;
-      typeof preferences.earthOptimization === 'number';
+      hasProperty(preferences, 'earthOptimization') &&
+      typeof preferences.earthOptimization === 'number'
         ? preferences.earthOptimization
         : 1.0
     const airOptimization =
-      hasProperty(preferences, 'airOptimization') && typeof preferences.airOptimization === 'number';
+      hasProperty(preferences, 'airOptimization') && typeof preferences.airOptimization === 'number'
         ? preferences.airOptimization
         : 1.1;
 
@@ -419,11 +419,11 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
     const adjustments = Object.values(optimizations).map((opt: unknown) => {
       return isValidObject(opt) &&
         hasProperty(opt, 'adjustment') &&
-        typeof opt.adjustment === 'number';
+        typeof opt.adjustment === 'number'
         ? opt.adjustment
         : 0
     });
-    return adjustments.reduce((sum, adj) => sum + adj0) / adjustments.length;
+    return adjustments.reduce((sum, adj) => sum + adj) / adjustments.length;
   },
 
   generateOptimizationImplementation: (optimizations: unknown, context: string): string[] => {
@@ -457,7 +457,7 @@ export const SEASONAL_ELEMENTAL_INTELLIGENCE = {
     const baseSeasonalModifiers = SEASONAL_MODIFIERS;
     const normalizedSeason = season.toLowerCase();
     const baseModifier =
-      baseSeasonalModifiers[normalizedSeason as keyof typeof baseSeasonalModifiers] ||;
+      baseSeasonalModifiers[normalizedSeason as keyof typeof baseSeasonalModifiers] ||
       baseSeasonalModifiers.spring;
 
     // Context-specific seasonal adjustments
@@ -485,7 +485,7 @@ export const SEASONAL_ELEMENTAL_INTELLIGENCE = {
     };
 
     const contextMod =
-      contextSeasonalMultipliers[context as keyof typeof contextSeasonalMultipliers] ||;
+      contextSeasonalMultipliers[context as keyof typeof contextSeasonalMultipliers] ||
       contextSeasonalMultipliers.food;
 
     // User preference adjustments

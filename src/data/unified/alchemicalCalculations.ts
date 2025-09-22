@@ -82,13 +82,13 @@ export function calculateThermodynamics(
 
   // Reactivity calculation
   const reactivityNum =
-    Math.pow(Spirit2) +;
+    Math.pow(Spirit, 2) +
     Math.pow(Substance, 2) +
     Math.pow(Essence, 2) +
-    Math.pow(Fire2) +
-    Math.pow(Air2) +
-    Math.pow(Water2);
-  const reactivityDen = Math.pow(Matter + Earth2);
+    Math.pow(Fire, 2) +
+    Math.pow(Air, 2) +
+    Math.pow(Water, 2);
+  const reactivityDen = Math.pow(Matter + Earth, 2);
   const reactivity = reactivityNum / Math.max(reactivityDen, 0.01);
 
   // Greg's Energy
@@ -206,7 +206,7 @@ export function calculateCuisineKalchm(
   let weightedKalchmSum = 0;
   let totalWeight = 0;
 
-  for (let i = 0 i < (ingredients || []).length; i++) {
+  for (let i = 0; i < (ingredients || []).length; i++) {
     const weight = effectiveWeights[i] || 0;
     weightedKalchmSum += ingredients[i].kalchm * weight;
     totalWeight += weight

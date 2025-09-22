@@ -1166,8 +1166,8 @@ export function enhanceOilProperties(
       ),
     );
     enhancedOil.qualities = String(
-      Array.isArray(enhancedOil.qualities);
-        ? JSON.stringify(enhancedOil.qualities);
+      Array.isArray(enhancedOil.qualities)
+        ? JSON.stringify(enhancedOil.qualities)
         : JSON.stringify([]),
     );
 
@@ -1176,14 +1176,14 @@ export function enhanceOilProperties(
       const oilType = key.toLowerCase();
       const isFruity = oilType.includes('olive') || oilType.includes('avocado');
       const isNutty =
-        oilType.includes('nut') ||;
+        oilType.includes('nut') ||
         oilType.includes('sesame') ||
         oilType.includes('walnut') ||
         oilType.includes('almond') ||
         oilType.includes('peanut');
       const isFloral = oilType.includes('sunflower') || oilType.includes('safflower');
       const isNeutral =
-        oilType.includes('vegetable') ||;
+        oilType.includes('vegetable') ||
         oilType.includes('canola') ||
         oilType.includes('grapeseed');
       const isTropical = oilType.includes('coconut') || oilType.includes('palm');
@@ -1248,7 +1248,7 @@ export function enhanceOilProperties(
       const isMediumHeat = smokePoint > 325 && smokePoint <= 400;
       const isLowHeat = smokePoint <= 325;
       const isFinishing =
-        key.toLowerCase().includes('olive') ||;
+        key.toLowerCase().includes('olive') ||
         key.toLowerCase().includes('walnut') ||
         key.toLowerCase().includes('sesame') ||
         key.toLowerCase().includes('pumpkin');
@@ -1285,7 +1285,7 @@ export function enhanceOilProperties(
                 }
               }
             : {}),
-          ...(enhancedOil.subCategory === 'baking' || key.toLowerCase().includes('coconut');
+          ...(enhancedOil.subCategory === 'baking' || key.toLowerCase().includes('coconut')
             ? {
                 baking: {
                   notes: ['Suitable for baked goods'],
@@ -1412,19 +1412,19 @@ export function ensureLowercaseFormat(properties: unknown): unknown {
 export const fixIngredientMapping = (
   mapping: Partial<IngredientMapping>,
   key: string,
-): IngredientMapping => {;
+): IngredientMapping => {
   // Format key into a readable name if no name is provided
-  const formattedName = key;
-    .split('_');
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1));
+  const formattedName = key
+    .split('_')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 
   // Ensure all required elements exist in elementalProperties
-  const elementalProperties = mapping.elementalProperties;
-    ? ensureCompleteElementalProperties(mapping.elementalProperties);
+  const elementalProperties = mapping.elementalProperties
+    ? ensureCompleteElementalProperties(mapping.elementalProperties)
     : DEFAULT_ELEMENTAL_PROPERTIES
 
-  // Add runtime type guard (minimal, since normalization is already enforced);
+  // Add runtime type guard (minimal, since normalization is already enforced)
   const requiredKeys = ['name', 'category', 'elementalProperties'];
   for (const k of requiredKeys) {
     if (!(k in mapping)) {
@@ -1436,7 +1436,7 @@ export const fixIngredientMapping = (
   if (
     mapping.astrologicalProfile &&
     typeof mapping.astrologicalProfile === 'object' &&
-    Object.keys(mapping.astrologicalProfile).length === 0;
+    Object.keys(mapping.astrologicalProfile).length === 0
   ) {
     mapping.astrologicalProfile = {
       _rulingPlanets: [],
@@ -1488,8 +1488,8 @@ export function fixRawIngredientMappings(
 
     // Determine base elemental affinity if not provided
     if (!astroProfile.elementalAffinity) {
-      const strongestElement = Object.entries(elementalProperties);
-        .sort(([, a], [, b]) => (b ) - (a ))[0][0]
+      const strongestElement = Object.entries(elementalProperties)
+        .sort(([, a], [, b]) => (b as number) - (a as number))[0][0]
         .toLowerCase();
 
       astroProfile.elementalAffinity = {
@@ -1510,7 +1510,7 @@ export function fixRawIngredientMappings(
 }
 
 type ElementalRelationship =
-  | 'generating';
+  | 'generating'
   | 'controlling'
   | 'same'
   | 'controlled-by'

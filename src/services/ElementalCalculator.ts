@@ -4,7 +4,7 @@ import { createLogger } from '@/utils/logger';
 import { DEFAULT_ELEMENTAL_PROPERTIES } from '../constants/elementalConstants';
 import { planetInfo, signInfo } from '../data/astrology';
 import { ElementalProperties, Recipe, Season, ZodiacSign } from '../types/alchemy';
-import { normalizeProperties } from '../utils/elementalUtils';
+import { backendCalculations, getElementalProperties, getSeasonalModifier } from '../utils/backendAdapter';
 
 interface ElementalSummary {
   totalFire: number,
@@ -594,6 +594,46 @@ export class ElementalCalculator {
 
     // Default score if no elemental properties
     return 50;
+  }
+
+  /**
+   * Calculate elemental balance using backend service
+   * Replaces heavy frontend calculations with optimized backend calls
+   */
+  public static async calculateElementalBalanceBackend(ingredients: string[]): Promise<ElementalProperties> {
+    try {
+      return await backendCalculations.elements(ingredients);
+    } catch (error) {
+      logger.warn('Backend calculation failed, using fallback', error);
+      return this.calculateElementalBalanceFallback(ingredients);
+    }
+  }
+
+  /**
+   * Fallback elemental calculation for offline mode
+   */
+  public static calculateElementalBalanceFallback(ingredients: string[]): ElementalProperties {
+    if (!ingredients.length) {
+      return DEFAULT_ELEMENTAL_PROPERTIES;
+    }
+
+    // Use lightweight elemental properties lookup
+    const elementalProps = ingredients.map(ingredient => getElementalProperties(ingredient));
+
+    // Calculate weighted average
+    const fire = elementalProps.reduce((sum, props) => sum + props.Fire, 0) / elementalProps.length;
+    const water = elementalProps.reduce((sum, props) => sum + props.Water, 0) / elementalProps.length;
+    const earth = elementalProps.reduce((sum, props) => sum + props.Earth, 0) / elementalProps.length;
+    const air = elementalProps.reduce((sum, props) => sum + props.Air, 0) / elementalProps.length;
+
+    // Normalize to ensure sum equals 1
+    const total = fire + water + earth + air;
+    return total > 0 ? {
+      Fire: fire / total,
+      Water: water / total,
+      Earth: earth / total,
+      Air: air / total
+    } : DEFAULT_ELEMENTAL_PROPERTIES;
   }
 
   public static calculateElementalBalance(elementalProperties: ElementalProperties): number {

@@ -271,21 +271,21 @@ export function getCurrentSeason(date: Date = new Date()): Season {;
     const { startMonth, startDay, endMonth, endDay } = range;
 
     // Handle winter which spans year boundary
-    if (season === 'winter') {;
+    if (season === 'winter') {
       if (
-        (month === startMonth && day >= startDay) ||;
+        (month === startMonth && day >= startDay) ||
         month > startMonth ||
         month < endMonth ||
-        (month === endMonth && day <= endDay);
+        (month === endMonth && day <= endDay)
       ) {
         return season as Season;
       }
     } else {
       // Handle other seasons
       if (
-        (month === startMonth && day >= startDay) ||;
+        (month === startMonth && day >= startDay) ||
         (month > startMonth && month < endMonth) ||
-        (month === endMonth && day <= endDay);
+        (month === endMonth && day <= endDay)
       ) {
         return season as Season;
       }

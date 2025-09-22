@@ -2,6 +2,12 @@
 
 import { Box, Container, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
+import {
+    dryCookingMethods,
+    molecularCookingMethods,
+    wetCookingMethods
+} from '@/data/cooking/methods';
+import type { CookingMethodData } from '@/types/cookingMethod';
 
 // Inline temporary CookingMethodsSection to avoid test component dependencies
 const CookingMethodsSection = ({
@@ -15,28 +21,22 @@ const CookingMethodsSection = ({
   selectedMethodId?: string | null,
   initiallyExpanded?: boolean
 }) => (
-  <div className='space-y-2'>;
+  <div className='space-y-2'>
     {methods.map(m => {
       const method = m as any
       return (
         <button
-          key={String(method.id)};
-          onClick={() => onSelectMethod(m)};
-          className={`w-full rounded border p-3 text-left ${selectedMethodId === method.id ? 'bg-blue-50' : 'bg-white'}`};
+          key={String(method.id)}
+          onClick={() => onSelectMethod(m)}
+          className={`w-full rounded border p-3 text-left ${selectedMethodId === method.id ? 'bg-blue-50' : 'bg-white'}`}
         >
-          <div className='font-semibold'>{String(method.name)}</div>;
-          <div className='text-sm text-gray-600'>{String(method.description)}</div>;
+          <div className='font-semibold'>{String(method.name)}</div>
+          <div className='text-sm text-gray-600'>{String(method.description)}</div>
         </button>
       );
     })}
   </div>
 );
-import {
-    dryCookingMethods,
-    molecularCookingMethods,
-    wetCookingMethods
-} from '@/data/cooking/methods';
-import type { CookingMethodData } from '@/types/cookingMethod';
 
 export default function CookingMethodsDemoPage() {
   const [methods, setMethods] = useState<CookingMethodData[]>([]);
@@ -47,7 +47,7 @@ export default function CookingMethodsDemoPage() {
     const demoMethods = [
       ..._formatMethodsForComponent(dryCookingMethods as any, 'dry'),
       ..._formatMethodsForComponent(wetCookingMethods as any, 'wet'),
-      ..._formatMethodsForComponent(molecularCookingMethods as unknown, 'molecular');
+      ..._formatMethodsForComponent(molecularCookingMethods as unknown, 'molecular')
     ];
 
     // Sort by score for a more realistic demo
@@ -60,9 +60,9 @@ export default function CookingMethodsDemoPage() {
   const _formatMethodsForComponent = (methodsObj: Record<string, unknown>, prefix: string) => {
     return Object.entries(methodsObj).map(([key, method]) => {
       // Format method name
-      const name = key;
-        .split('_');
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1));
+      const name = key
+        .split('_')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
         .join(' ');
 
       // Generate a realistic score between 0.4 and 1.0
@@ -77,7 +77,7 @@ export default function CookingMethodsDemoPage() {
             Fire: Math.random(),
             Water: Math.random(),
             Earth: Math.random(),
-            Air: Math.random();
+            Air: Math.random()
           },
         score,
         duration: (method as any).time_range || (method as any).duration || { min: 10, max: 30 },
@@ -85,7 +85,7 @@ export default function CookingMethodsDemoPage() {
         benefits: (method as any).benefits || [],
         // Create variations if they exist
         variations: (method as any).variations
-          ? Array.isArray((method as any).variations);
+          ? Array.isArray((method as any).variations)
             ? ((method as any).variations as string[]).map((v: string, i: number) => ({
                 id: `${prefix}_${key}_var_${i}`,
                 name: v,

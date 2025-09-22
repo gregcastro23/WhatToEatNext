@@ -66,7 +66,7 @@ export async function POST(request: Request) {
     return NextResponse.json({
       positions,
       aspects,
-      timestamp: new Date().toISOString();
+      timestamp: new Date().toISOString()
     });
   } catch (error) {
     console.error('Error calculating planetary positions:', error);

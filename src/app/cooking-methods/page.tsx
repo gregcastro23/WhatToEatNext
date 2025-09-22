@@ -16,13 +16,13 @@ import type { CookingMethodData } from '@/types/cookingMethod';
 import { capitalizeFirstLetter } from '@/utils/stringUtils';
 
 // Local fallback component to avoid importing test file during build
-function CookingMethodsSection(_{ methods, _onSelectMethod }: { methods: any[], _onSelectMethod: (m: any) => void }) {
+function CookingMethodsSection({ methods, _onSelectMethod }: { methods: any[], _onSelectMethod: (m: any) => void }) {
   return (
     <div className='space-y-2'>
       {methods.map((m, idx) => (
-        <button key={String(m.id || idx)} onClick={() => onSelectMethod(m)} className='w-full rounded border p-3 text-left'>;
-          <div className='font-semibold'>{String(m.name || 'Method')}</div>;
-          <div className='text-sm text-gray-600'>{String(m.description || '')}</div>;
+        <button key={String(m.id || idx)} onClick={() => onSelectMethod(m)} className='w-full rounded border p-3 text-left'>
+          <div className='font-semibold'>{String(m.name || 'Method')}</div>
+          <div className='text-sm text-gray-600'>{String(m.description || '')}</div>
         </button>
       ))}
     </div>
@@ -103,7 +103,7 @@ export default function CookingMethodsPage() {
           benefits: (method as any).benefits || [],
           // Create variations if they exist
           variations: (method as any).variations
-            ? Array.isArray((method as any).variations);
+            ? Array.isArray((method as any).variations)
               ? ((method as any).variations as string[]).map((v: string, i: number) => ({
                   id: `${key}_var_${i}`,
                   name: v,
@@ -135,30 +135,30 @@ export default function CookingMethodsPage() {
   };
 
   return (
-    <Container maxWidth='lg' sx={{ py: 6 }}>;
-      <Typography variant='h2' component='h1' align='center' gutterBottom>;
+    <Container maxWidth='lg' sx={{ py: 6 }}>
+      <Typography variant='h2' component='h1' align='center' gutterBottom>
         Cooking Methods
       </Typography>
 
-      <Typography variant='h5' align='center' color='text.secondary' paragraph>;
+      <Typography variant='h5' align='center' color='text.secondary' paragraph>
         Explore various techniques for transforming ingredients into delicious dishes
       </Typography>
 
-      <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 4 }}>;
+      <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 4 }}>
         <Tabs
-          value={tabValue};
-          onChange={handleTabChange};
-          variant='scrollable';
-          scrollButtons='auto';
+          value={tabValue}
+          onChange={handleTabChange}
+          variant='scrollable'
+          scrollButtons='auto'
           allowScrollButtonsMobile
-          aria-label='cooking method categories';
+          aria-label='cooking method categories'
           sx={{ mb: 2 }}
         >
           {methodCategories.map((category, index) => (
             <Tab
-              key={category.name};
-              label={`${category.icon} ${category.name}`};
-              id={`method-tab-${index}`};
+              key={category.name}
+              label={`${category.icon} ${category.name}`}
+              id={`method-tab-${index}`}
               aria-controls={`method-tabpanel-${index}`}
             />
           ))}
@@ -186,9 +186,9 @@ export default function CookingMethodsPage() {
 
               {/* Use our custom component here */}
               <CookingMethodsSection
-                methods={formattedMethods};
-                onSelectMethod={handleSelectMethod};
-                selectedMethodId={selectedMethodId};
+                methods={formattedMethods}
+                onSelectMethod={handleSelectMethod}
+                selectedMethodId={selectedMethodId}
                 initiallyExpanded={true}
               />
             </>
