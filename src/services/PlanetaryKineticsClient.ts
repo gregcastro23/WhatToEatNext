@@ -25,10 +25,18 @@ import type {
 class PlanetaryKineticsClient {
   private readonly config: KineticsClientConfig;
   private readonly cache = new Map<string, KineticsCacheEntry>();
+  private readonly isConfigured: boolean;
+  private requestQueue: Map<string, Promise<any>> = new Map();
 
   constructor(config?: Partial<KineticsClientConfig>) {
+    const apiUrl = process.env.NEXT_PUBLIC_PLANETARY_KINETICS_URL;
+
+    if (!apiUrl) {
+      _logger.warn('PlanetaryKineticsClient', 'No API URL configured, using fallback mode');
+    }
+
     this.config = {
-      baseUrl: process.env.NEXT_PUBLIC_PLANETARY_KINETICS_URL ||
+      baseUrl: apiUrl ||
                process.env.NEXT_PUBLIC_BACKEND_URL ||
                'https://your-planetary-agents-backend.onrender.com',
       cacheTTL: Number(process.env.NEXT_PUBLIC_KINETICS_CACHE_TTL) || 300000, // 5 minutes
@@ -36,6 +44,8 @@ class PlanetaryKineticsClient {
       retryAttempts: 2,
       ...config
     };
+
+    this.isConfigured = !!apiUrl;
   }
 
   /**
@@ -45,6 +55,12 @@ class PlanetaryKineticsClient {
     location: KineticsLocation,
     options: KineticsOptions = {}
   ): Promise<KineticsResponse> {
+    // If not properly configured, return fallback immediately
+    if (!this.isConfigured) {
+      _logger.debug('PlanetaryKineticsClient: Using fallback due to missing configuration');
+      return this.createFallbackResponse(location);
+    }
+
     const cacheKey = this.generateCacheKey('enhanced', location, options);
 
     // Check cache first
@@ -54,6 +70,27 @@ class PlanetaryKineticsClient {
       return { ...cached, cacheHit: true };
     }
 
+    // Check if request is already in flight
+    const existingRequest = this.requestQueue.get(cacheKey);
+    if (existingRequest) {
+      _logger.debug('PlanetaryKineticsClient: Request already in flight, waiting...');
+      return existingRequest;
+    }
+
+    // Create new request
+    const requestPromise = this.executeKineticsRequest(location, options, cacheKey);
+    this.requestQueue.set(cacheKey, requestPromise);
+
+    return requestPromise.finally(() => {
+      this.requestQueue.delete(cacheKey);
+    });
+  }
+
+  private async executeKineticsRequest(
+    location: KineticsLocation,
+    options: KineticsOptions,
+    cacheKey: string
+  ): Promise<KineticsResponse> {
     const request: KineticsRequest = {
       location,
       options: {

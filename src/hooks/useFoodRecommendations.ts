@@ -3,7 +3,9 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { usePlanetaryKinetics } from '@/hooks/usePlanetaryKinetics';
 import { _logger } from '@/lib/logger';
-import type { ZodiacSign, Season, AstrologicalState, LunarPhase, Planet } from '@/types/alchemy';
+import type { ZodiacSign, LunarPhase, Planet } from '@/types/alchemy';
+import type { AstrologicalState, CelestialPosition, PlanetaryAspect } from '@/types/celestial';
+import type { Season } from '@/types/common';
 import type { KineticsEnhancedRecommendation } from '@/types/kinetics';
 import { getRecommendedIngredients, EnhancedIngredient } from '@/utils/foodRecommender';
 import { calculateKineticAlignment } from '@/utils/kineticsFoodMatcher';
@@ -49,19 +51,18 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
     // Provide fallback values to ensure the object is always complete
     return {
       // Required fields from the type definition
-      currentZodiac: (state.astrologicalState.zodiacSign as any) || 'aries',
-      moonPhase: (state.astrologicalState.lunarPhase as LunarPhase) || 'NEW_MOON',
+      currentZodiac: (state.astrologicalState.zodiacSign as ZodiacSign) || 'aries',
+      moonPhase: (state.astrologicalState.lunarPhase as LunarPhase) || 'new moon',
       currentPlanetaryAlignment: state.astrologicalState.currentPlanetaryAlignment || {},
       activePlanets: state.astrologicalState.activePlanets || ['sun', 'moon'],
-      planetaryPositions: planetaryPositions || {},
-      lunarPhase: (state.astrologicalState.lunarPhase as LunarPhase) || 'NEW_MOON',
-      zodiacSign: (state.astrologicalState.zodiacSign as any) || 'aries',
-      planetaryHours: (state.astrologicalState.planetaryHour as Planet) || 'sun',
-      aspects: state.astrologicalState.aspects || [],
-      tarotElementBoosts: state.astrologicalState.tarotElementBoosts || {},
-      tarotPlanetaryBoosts: state.astrologicalState.tarotPlanetaryBoosts || {},
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-    } as any;
+      planetaryPositions: (planetaryPositions || {}) as Record<string, CelestialPosition>,
+      lunarPhase: (state.astrologicalState.lunarPhase as LunarPhase) || 'new moon',
+      zodiacSign: (state.astrologicalState.zodiacSign as ZodiacSign) || 'aries',
+      planetaryHours: (state.astrologicalState.planetaryHour as Planet) || 'Sun',
+      aspects: (state.astrologicalState.aspects || []) as PlanetaryAspect[],
+      tarotElementBoosts: (state.astrologicalState.tarotElementBoosts || {}) as Record<string, number>,
+      tarotPlanetaryBoosts: (state.astrologicalState.tarotPlanetaryBoosts || {}) as Record<string, number>,
+    };
   }, [
     state.astrologicalState.zodiacSign,
     state.astrologicalState.lunarPhase,
@@ -91,10 +92,10 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
               {
                 id: ingredient.name,
                 name: ingredient.name,
-                tags: ingredient.tags || [],
+                tags: (ingredient.tags as string[]) || [],
                 elementalProfile: ingredient.elementalProperties || { Fire: 0, Water: 0, Air: 0, Earth: 0 },
                 basePortionSize: 1,
-                nutritionalDensity: ingredient.nutritionalScore || 0.5
+                nutritionalDensity: (ingredient.nutritionalScore as number) || 0.5
               },
               kinetics
             );
@@ -111,7 +112,7 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
           });
 
           // Sort by kinetic alignment for temporal optimization
-          enhancedResults.sort((a, b) => (b.kineticScore || 0) - (a.kineticScore || 0));
+          enhancedResults.sort((a, b) => ((b.kineticScore as number) || 0) - ((a.kineticScore as number) || 0));
         }
 
         // Apply any additional filtering if provided
@@ -181,7 +182,7 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
           };
         });
 
-        enhancedResults.sort((a, b) => (b.kineticScore || 0) - (a.kineticScore || 0));
+        enhancedResults.sort((a, b) => ((b.kineticScore as number) || 0) - ((a.kineticScore as number) || 0));
       }
 
       const filteredResults = options?.filter ? enhancedResults.filter(options.filter) : enhancedResults;
