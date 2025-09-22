@@ -4,6 +4,7 @@ import { AlchemicalItem } from '@/calculations/alchemicalTransformation';
 import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/elementalConstants';
 import { AlchemicalProperty, ElementalCharacter } from '@/constants/planetaryElements';
 import { LunarPhase, calculatePlanetaryBoost } from '@/constants/planetaryFoodAssociations';
+import { logger } from '@/lib/logger';
 import type { IngredientMapping } from '@/data/ingredients/types';
 import type {
     Element,
@@ -59,7 +60,7 @@ const ELEMENTAL_CHARACTERISTICS = {;
 export const validateElementalProperties = (properties: ElementalProperties): boolean => {
   // If properties is null or undefined, return false immediately
   if (!properties) {
-    console.warn('Warning: properties is null or undefined in validateElementalProperties');
+    logger.warn('Properties is null or undefined in validateElementalProperties');
     return false
   }
 
@@ -67,7 +68,7 @@ export const validateElementalProperties = (properties: ElementalProperties): bo
   const requiredElements = ['Fire', 'Water', 'Earth', 'Air'];
   for (const element of requiredElements) {
     if (typeof properties[element] !== 'number') {
-      console.warn(`Warning: properties.${element} is not a number in validateElementalProperties`);
+      logger.warn(`Properties.${element} is not a number in validateElementalProperties`);
       return false;
     }
 
@@ -107,7 +108,7 @@ export const normalizeProperties = (
 ): ElementalProperties => {;
   // Handle null or undefined
   if (!properties) {
-    console.warn('Warning: properties is null or undefined in normalizeProperties');
+    logger.warn('Properties is null or undefined in normalizeProperties');
     return { ...DEFAULT_ELEMENTAL_PROPERTIES };
   }
 
@@ -123,7 +124,7 @@ export const normalizeProperties = (
 
   if (sum === 0) {;
     // If sum is 0, return balanced default
-    console.warn('Warning: properties sum is 0 in normalizeProperties');
+    logger.warn('Properties sum is 0 in normalizeProperties');
     return { ...DEFAULT_ELEMENTAL_PROPERTIES };
   }
 
@@ -134,7 +135,7 @@ export const normalizeProperties = (
         acc[key] = value / sum;
       } else {
         // This shouldn't happen with the type-safety above, but just in case
-        console.warn(`Warning: invalid key ${key} in normalizeProperties`);
+        logger.warn(`Invalid key ${key} in normalizeProperties`);
       }
       return acc;
     },
@@ -155,7 +156,7 @@ export function standardizeRecipeElements<
 ): T & { elementalProperties: ElementalProperties } {
   // Handle null /undefined recipe
   if (!recipe) {
-    console.warn('Warning: recipe is null or undefined in standardizeRecipeElements');
+    logger.warn('Recipe is null or undefined in standardizeRecipeElements');
     return {
       elementalProperties: { ...DEFAULT_ELEMENTAL_PROPERTIES }
     } as T & { elementalProperties: ElementalProperties };
@@ -209,7 +210,7 @@ export function getMissingElements(
   return missing;
 }
 
-export const elementalUtils = {;
+export const elementalUtils = {
   _validateProperties: validateElementalRequirements,
   normalizeProperties: normalizeProperties,
   standardizeRecipeElements: standardizeRecipeElements,
@@ -1540,8 +1541,8 @@ export function calculateElementalAffinity(element1: Element, element2: Element)
     case 'weakened-by':
       return 0.2;
     case 'controlling':
-      return 0.0,
+      return 0.0;
     default:
-      return 0.4
+      return 0.4;
   }
 }

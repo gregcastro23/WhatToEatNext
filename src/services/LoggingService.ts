@@ -11,7 +11,7 @@ export enum LogLevel {
   INFO = 1,
   WARN = 2,
   ERROR = 3,
-  SILENT = 4;
+  SILENT = 4
 }
 
 export interface LogContext {
@@ -20,11 +20,11 @@ export interface LogContext {
   function?: string;
   userId?: string;
   sessionId?: string;
-  requestId?: string
-   
-  // Intentionally, any: Logging context needs flexibility for various metadata
+  requestId?: string;
+
+  // Intentionally any: Logging context needs flexibility for various metadata
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-  [key: string]: any
+  [key: string]: any;
 }
 
 export interface LogEntry {
@@ -40,10 +40,10 @@ export interface LogEntry {
 }
 
 class LoggingService {
-  private static, instance: LoggingService;
-  private, logLevel: LogLevel = LogLevel.INFO;
-  private, isDevelopment: boolean;
-  private, logBuffer: LogEntry[] = [];
+  private static instance: LoggingService;
+  private logLevel: LogLevel = LogLevel.INFO;
+  private isDevelopment: boolean;
+  private logBuffer: LogEntry[] = [];
   private maxBufferSize = 1000;
 
   private constructor() {
@@ -102,7 +102,7 @@ class LoggingService {
       return
     }
 
-    const, logEntry: LogEntry = {
+    const logEntry: LogEntry = {
       timestamp: new Date(),
       level,
       message,
@@ -156,7 +156,7 @@ class LoggingService {
   }
 
   private formatContext(context: LogContext): string {
-    const, parts: string[] = []
+    const parts: string[] = [];
 
     if (context.component) parts.push(`component=${context.component}`);
     if (context.service) parts.push(`service=${context.service}`);

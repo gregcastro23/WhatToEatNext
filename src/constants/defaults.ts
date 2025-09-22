@@ -3,7 +3,6 @@ import type {
   AstrologicalState,
   ChakraEnergies,
   LunarPhase,
-  ZodiacSign,
   PlanetaryAlignment,
   AlchemicalValues,
   _PlanetaryPosition,
