@@ -4,7 +4,7 @@ import { Planet } from '@/types/celestial';
 
 export class PlanetaryHourCalculator {
   // Planetary hour configuration according to traditional planetary rulers
-  private static, planetaryHours: Record<string, Planet[]> = {
+  private static planetaryHours: Record<string, Planet[]> = {
     Sunday: ['Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars'],
     Monday: ['Moon', 'Saturn', 'Jupiter', 'Mars', 'Sun', 'Venus', 'Mercury'],
     Tuesday: ['Mars', 'Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter'],
@@ -14,7 +14,7 @@ export class PlanetaryHourCalculator {
     Saturday: ['Saturn', 'Jupiter', 'Mars', 'Sun', 'Venus', 'Mercury', 'Moon']
   };
 
-  private static, dayNames: string[] = [
+  private static dayNames: string[] = [
     'Sunday',
     'Monday',
     'Tuesday',
@@ -25,7 +25,7 @@ export class PlanetaryHourCalculator {
   ];
 
   // Planetary rulers for each day of the week (0 = Sunday);
-  private static, dayRulers: Planet[] = [
+  private static dayRulers: Planet[] = [
     'Sun',
     'Moon',
     'Mars',
@@ -36,7 +36,7 @@ export class PlanetaryHourCalculator {
   ];
 
   // Minute rulers - each planet rules approximately 8.57 minutes in sequence
-  private static, minuteRulers: Planet[] = [
+  private static minuteRulers: Planet[] = [
     'Sun',
     'Venus',
     'Mercury',
@@ -182,8 +182,8 @@ export class PlanetaryHourCalculator {
     const hourLength = isDaytime ? dayLength / 12 : nightLength / 12;
 
     // Time since start of day/night period
-    const timeSinceStart = isDaytime;
-      ? date.getTime() - sunrise.getTime();
+    const timeSinceStart = isDaytime
+      ? date.getTime() - sunrise.getTime()
       : date.getTime() - sunset.getTime();
 
     // Calculate hour index (0-11);
@@ -238,30 +238,30 @@ export class PlanetaryHourCalculator {
     // Each planetary hour spans approximately 1.714 clock hours
 
     // Day hours (6am to 6pm);
-    for (let i = 0; i < 7 i++) {
+    for (let i = 0; i < 7; i++) {
       const startHour = Math.floor(6 + i * 1.714);
       const endHour = Math.floor(6 + (i + 1) * 1.714) - 1;
 
-      for (let hour = startHour; hour <= endHour hour++) {
+      for (let hour = startHour; hour <= endHour; hour++) {
         result.set(hour, rulers[i]);
       }
     }
 
     // Night hours (6pm to 6am);
-    for (let i = 0; i < 7 i++) {
+    for (let i = 0; i < 7; i++) {
       const startHour = Math.floor(18 + i * 1.714) % 24;
       const endHour = (Math.floor(18 + (i + 1) * 1.714) % 24) - 1;
 
       if (endHour < startHour) {
         // Handle hours that cross midnight
-        for (let hour = startHour; hour < 24 hour++) {
+        for (let hour = startHour; hour < 24; hour++) {
           result.set(hour, rulers[i]);
         }
-        for (let hour = 0; hour <= endHour hour++) {
+        for (let hour = 0; hour <= endHour; hour++) {
           result.set(hour, rulers[i]);
         }
       } else {
-        for (let hour = startHour; hour <= endHour hour++) {
+        for (let hour = startHour; hour <= endHour; hour++) {
           result.set(hour, rulers[i]);
         }
       }
@@ -309,7 +309,7 @@ export class PlanetaryHourCalculator {
           dayRulerIndex
         ],
       hourNumber: hourIndex,
-      isDaytime: this.isDaytime(date);
+      isDaytime: this.isDaytime(date)
     };
   }
 }

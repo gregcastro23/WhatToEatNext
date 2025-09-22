@@ -28,7 +28,7 @@ export async function GET() {
       {
         status: 'unhealthy',
         error: error instanceof Error ? error.message : 'Unknown error',
-        timestamp: new Date().toISOString();
+        timestamp: new Date().toISOString()
       },
       { status: 500 },
     );

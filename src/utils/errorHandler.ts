@@ -12,14 +12,14 @@ export enum ErrorType {
   DATA = 'DATA',
   NETWORK = 'NETWORK',
   ASTROLOGY = 'ASTROLOGY',
-  UNKNOWN = 'UNKNOWN';
+  UNKNOWN = 'UNKNOWN'
 }
 
 export enum ErrorSeverity {
   INFO = 'INFO',
   WARNING = 'WARNING',
   ERROR = 'ERROR',
-  CRITICAL = 'CRITICAL';
+  CRITICAL = 'CRITICAL'
 }
 
 interface ErrorContext {
@@ -47,7 +47,7 @@ export const ErrorHandler = {
       severity = ErrorSeverity.ERROR,
       component = 'unknown',
       context = {},
-      silent = false;
+      silent = false
     } = options;
 
     // Log to console
@@ -62,7 +62,7 @@ export const ErrorHandler = {
       error,
       type,
       severity,
-      _timestamp: new Date().toISOString();
+      _timestamp: new Date().toISOString()
     };
   },
 

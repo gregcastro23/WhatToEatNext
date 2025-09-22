@@ -26,26 +26,26 @@ export class ElementalRecommendationService {
       complementaryIngredients: [elementalUtils.getComplementaryElement(dominantElement) as string],
       flavorProfiles: utilsService.getFlavorProfileRecommendations &&
         typeof utilsService.getFlavorProfileRecommendations === 'function'
-          ? utilsService.getFlavorProfileRecommendations(properties);
+          ? utilsService.getFlavorProfileRecommendations(properties)
           : [],
       healthBenefits: utilsService.getHealthBenefits && typeof utilsService.getHealthBenefits === 'function'
-          ? utilsService.getHealthBenefits(properties);
+          ? utilsService.getHealthBenefits(properties)
           : [],
       timeOfDay: elementalUtils.getRecommendedTimeOfDay(properties),
       seasonalBest: this.getSeasonalRecommendations(dominantElement),
       // Fix, TS2339: Property access on array type using safe type casting
       moodEffects: (() => {
         const characteristics = profile.characteristics as unknown as any
-        return Array.isArray(characteristics.moodEffects);
-          ? (characteristics.moodEffects as string[]);
+        return Array.isArray(characteristics.moodEffects)
+          ? (characteristics.moodEffects as string[])
           : []
       })(),
       culinaryHerbs: (() => {
         const characteristics = profile.characteristics as unknown as any
-        return Array.isArray(characteristics.culinaryHerbs);
-          ? (characteristics.culinaryHerbs as string[]);
+        return Array.isArray(characteristics.culinaryHerbs)
+          ? (characteristics.culinaryHerbs as string[])
           : []
-      })();
+      })()
     };
   }
 

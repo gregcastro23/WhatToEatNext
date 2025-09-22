@@ -448,7 +448,7 @@ export async function getAccuratePlanetaryPositions(
     positionsCache = {
       positions,
       timestamp: Date.now(),
-      date: new Date(date);
+      date: new Date(date)
     };
 
     return positions;

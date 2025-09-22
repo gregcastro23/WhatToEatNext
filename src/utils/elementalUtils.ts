@@ -283,7 +283,7 @@ export const elementalUtils = {
 
     const combinedProperties = recipe.ingredients.reduce(
       (acc, ingredient) => {
-        const props = ingredient.elementalProperties || {;
+        const props = ingredient.elementalProperties || {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
@@ -395,25 +395,25 @@ export const elementalUtils = {
 
     // Add times based on the elemental balance, weighted by their values
     if (properties.Fire > threshold) {
-      for (let i = 0 i < Math.ceil(properties.Fire * 10); i++) {
+      for (let i = 0; i < Math.ceil(properties.Fire * 10); i++) {
         weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Fire.timeOfDay);
       }
     }
 
     if (properties.Water > threshold) {
-      for (let i = 0 i < Math.ceil(properties.Water * 10); i++) {
+      for (let i = 0; i < Math.ceil(properties.Water * 10); i++) {
         weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Water.timeOfDay);
       }
     }
 
     if (properties.Earth > threshold) {
-      for (let i = 0 i < Math.ceil(properties.Earth * 10); i++) {
+      for (let i = 0; i < Math.ceil(properties.Earth * 10); i++) {
         weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Earth.timeOfDay);
       }
     }
 
     if (properties.Air > threshold) {
-      for (let i = 0 i < Math.ceil(properties.Air * 10); i++) {
+      for (let i = 0; i < Math.ceil(properties.Air * 10); i++) {
         weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Air.timeOfDay);
       }
     }
@@ -517,7 +517,7 @@ export function transformItemsWithPlanetaryPositions(
     const scaledElements = Object.fromEntries(
       Object.entries(item.elementalProperties).map(([element, value]) => [
         element,
-        value * (1 + (planetaryInfluence || 0));
+        value * (1 + (planetaryInfluence || 0))
       ])
     ) as Record<ElementalCharacter, number>;
 
@@ -552,7 +552,7 @@ export function transformItemsWithPlanetaryPositions(
 
     // Heat formula: (spirit^2 + fire^2) / ((substance || 1) + essence + matter + water + air + earth)^2
     const heat =
-      (Math.pow(safeValueForHeat(boostedSpirit), 2) + Math.pow(safeValueForHeat(fire), 2)) /;
+      (Math.pow(safeValueForHeat(boostedSpirit), 2) + Math.pow(safeValueForHeat(fire), 2)) /
       Math.pow(
         safeValueForHeat(boostedSubstance + boostedEssence + boostedMatter + water + air + earth),
         2
@@ -560,7 +560,7 @@ export function transformItemsWithPlanetaryPositions(
 
     // Entropy formula: (spirit^2 + substance^2 + fire^2 + air^2) / ((essence || 1) + matter + earth + water)^2
     const entropy =
-      (Math.pow(safeValueForHeat(boostedSpirit), 2) +;
+      (Math.pow(safeValueForHeat(boostedSpirit), 2) +
         Math.pow(safeValueForHeat(boostedSubstance), 2) +
         Math.pow(safeValueForHeat(fire), 2) +
         Math.pow(safeValueForHeat(air), 2)) /
@@ -568,7 +568,7 @@ export function transformItemsWithPlanetaryPositions(
 
     // Reactivity formula: (spirit^2 + substance^2 + essence^2 + fire^2 + air^2 + water^2) / ((matter || 1) + earth)^2
     const reactivity =
-      (Math.pow(safeValueForHeat(boostedSpirit), 2) +;
+      (Math.pow(safeValueForHeat(boostedSpirit), 2) +
         Math.pow(safeValueForHeat(boostedSubstance), 2) +
         Math.pow(safeValueForHeat(boostedEssence), 2) +
         Math.pow(safeValueForHeat(fire), 2) +
@@ -611,10 +611,10 @@ export function transformItemsWithPlanetaryPositions(
       );
 
       // Handle different position data formats
-      dominantPlanets = planetEntries;
+      dominantPlanets = planetEntries
         .sort(([_, valA], [__, valB]) => {
           // Sort by strength /dignity if available
-          if (typeof valA === 'object' && typeof valB === 'object') {;
+          if (typeof valA === 'object' && typeof valB === 'object') {
             const dataA = valA as unknown;
             const dataB = valB as any;
             const strengthA = Number(dataA.strength) || 0;
@@ -624,7 +624,7 @@ export function transformItemsWithPlanetaryPositions(
           // Default sort for simple numeric values
           return Number(valB) - Number(valA);
         })
-        .slice(0, 3);
+        .slice(0, 3)
         .map(([planet_]) => planet_);
     }
 
@@ -639,9 +639,9 @@ export function transformItemsWithPlanetaryPositions(
 
     // Apply safe arithmetic operations with proper type checking
     const safeValueForArithmetic = (val: number) => Math.max(val, 0.01);
-    const _safeAdd = (a: number, b: number) =>;
+    const _safeAdd = (a: number, b: number) =>
       safeValueForArithmetic(a) + safeValueForArithmetic(b);
-    const _safeMultiply = (a: number, b: number) =>;
+    const _safeMultiply = (a: number, b: number) =>
       safeValueForArithmetic(a) * safeValueForArithmetic(b);
     return {
       id: item.id,
@@ -672,7 +672,7 @@ const _applyNonLinearScaling = (props: ElementalProperties): ElementalProperties
   Fire: Math.tanh(props.Fire * 2),
   Water: 1 - Math.exp(-props.Water * 3),
   Earth: props.Earth ** 1.5,
-  Air: Math.sin((props.Air * Math.PI) / 2);
+  Air: Math.sin((props.Air * Math.PI) / 2)
 });
 
 const _calculateUniquenessScore = (item: ElementalItem): number => {
@@ -821,7 +821,7 @@ export function enhanceVegetableTransformations(
     // Create transformation if it doesn't exist
     if (!enhanced.elementalTransformation) {
       // Get the dominant element
-      const elementalProps = enhanced.elementalProperties || {;
+      const elementalProps = enhanced.elementalProperties || {
         Earth: 0.3,
         Water: 0.3,
         Air: 0.2,
@@ -879,7 +879,7 @@ export function enhanceVegetableTransformations(
 
     // Add elementalSignature if it doesn't exist
     if (!enhanced.elementalSignature && enhanced.elementalProperties) {
-      enhanced.elementalSignature = Object.entries(enhanced.elementalProperties);
+      enhanced.elementalSignature = Object.entries(enhanced.elementalProperties)
         .sort((a, b) => {
           // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
           const valueA = Number(a[1]) || 0;
@@ -1106,7 +1106,7 @@ export function enhanceVegetableTransformations(
       };
 
       // Select appropriate profile or use default
-      const profile = profiles[String(subCategory)] || {;
+      const profile = profiles[String(subCategory)] || {
         taste: {
           sweet: 0.25,
           bitter: 0.25,

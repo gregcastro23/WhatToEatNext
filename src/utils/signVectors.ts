@@ -170,7 +170,7 @@ export function calculateSignVectors(_input: SignVectorCalculationInput): SignVe
     const magnitude = normalize(0.7 * scaledMagnitude + 0.3 * components.seasonal);
 
     // _Direction: dominant modality component
-    const modalityTriplet: Array<{ key: 'cardinal' | 'fixed' | 'mutable' value: number }> = [
+    const modalityTriplet: Array<{ key: 'cardinal' | 'fixed' | 'mutable', value: number }> = [
       { key: 'cardinal', value: components.cardinal },
       { key: 'fixed', value: components.fixed },
       { key: 'mutable', value: components.mutable }
@@ -194,7 +194,7 @@ export function cosineSimilarity(a: number[], b: number[]): number {
   const dot = 0;
   let magA = 0;
   let magB = 0;
-  for (const i = 0; i < minLen i += 1) {
+  for (let i = 0; i < minLen; i += 1) {
     dot += a[i] * b[i];
     magA += a[i] * a[i];
     magB += b[i] * b[i]
@@ -218,17 +218,17 @@ export function compareSignVectors(a: SignVector, b: SignVector): SignVectorComp
 
   // Determine dominant shared axis by maximum product of corresponding components
   const modalityScore =
-    a.components.cardinal * b.components.cardinal +;
+    a.components.cardinal * b.components.cardinal +
     a.components.fixed * b.components.fixed +
     a.components.mutable * b.components.mutable;
   const elementalScore =
-    a.components.Fire * b.components.Fire +;
+    a.components.Fire * b.components.Fire +
     a.components.Water * b.components.Water +
     a.components.Earth * b.components.Earth +
     a.components.Air * b.components.Air;
   const seasonalScore = a.components.seasonal * b.components.seasonal;
 
-  const axisScores: Array<{ axis: 'modality' | 'elemental' | 'seasonal' score: number }> = [
+  const axisScores: Array<{ axis: 'modality' | 'elemental' | 'seasonal', score: number }> = [
     { axis: 'modality', score: modalityScore },
     { axis: 'elemental', score: elementalScore },
     { axis: 'seasonal', score: seasonalScore }
@@ -277,19 +277,19 @@ export function signVectorToESMS(_v: SignVector): AlchemicalProperties {
   const modality = VECTOR_CONFIG.modalityBoosts[direction];
 
   const Spirit =
-    (elemental.Fire * (e2.Spirit.Fire || 0) + elemental.Air * (e2.Spirit.Air || 0)) *;
+    (elemental.Fire * (e2.Spirit.Fire || 0) + elemental.Air * (e2.Spirit.Air || 0)) *
     modality.Spirit *
     magnitude;
   const Essence =
-    (elemental.Water * (e2.Essence.Water || 0) + elemental.Fire * (e2.Essence.Fire || 0)) *;
+    (elemental.Water * (e2.Essence.Water || 0) + elemental.Fire * (e2.Essence.Fire || 0)) *
     modality.Essence *
     magnitude;
   const Matter =
-    (elemental.Earth * (e2.Matter.Earth || 0) + elemental.Water * (e2.Matter.Water || 0)) *;
+    (elemental.Earth * (e2.Matter.Earth || 0) + elemental.Water * (e2.Matter.Water || 0)) *
     modality.Matter *
     magnitude;
   const Substance =
-    (elemental.Earth * (e2.Substance.Earth || 0) + elemental.Air * (e2.Substance.Air || 0)) *;
+    (elemental.Earth * (e2.Substance.Earth || 0) + elemental.Air * (e2.Substance.Air || 0)) *
     modality.Substance *
     magnitude;
 

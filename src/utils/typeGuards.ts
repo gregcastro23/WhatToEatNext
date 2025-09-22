@@ -149,7 +149,7 @@ export function safeJsonParse<T = unknown>(json: string, defaultValue?: T): T | 
 export function isError(value: unknown): value is Error {
   return (
     value instanceof Error ||
-    (isObject(value) && 'message' in value && typeof value.message === 'string');
+    (isObject(value) && 'message' in value && typeof value.message === 'string')
   )
 }
 

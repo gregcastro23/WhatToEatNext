@@ -53,7 +53,7 @@ export async function POST(request: Request) {
     }
 
     // Check for valid position structure
-    const hasValidPositions = Object.values(positions).every(;
+    const hasValidPositions = Object.values(positions).every(
       position => position && typeof position === 'object' && 'sign' in position
     );
 

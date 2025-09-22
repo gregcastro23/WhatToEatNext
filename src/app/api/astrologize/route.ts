@@ -70,7 +70,7 @@ export async function POST(request: Request) {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(apiPayload);
+      body: JSON.stringify(apiPayload)
     });
 
     if (!response.ok) {
@@ -128,7 +128,7 @@ export async function GET(request: Request) {
     new Request(request.url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload);
+      body: JSON.stringify(payload)
     })
   );
 }
@@ -188,7 +188,7 @@ function extractPlanetaryPositions(
       const positions: Record<string, PlanetPosition> = {};
 
       Object.entries(astrologyInfo).forEach(([planetName, planetData]: [string, unknown]) => {
-        const typedPlanetData = planetData as {;
+        const typedPlanetData = planetData as {
           sign?: string,
           angle?: number,
           isRetrograde?: boolean
@@ -203,7 +203,7 @@ function extractPlanetaryPositions(
             degree: degrees,
             minute: minutes,
             exactLongitude: ((totalDegrees % 360) + 360) % 360,
-            isRetrograde: Boolean(typedPlanetData.isRetrograde);
+            isRetrograde: Boolean(typedPlanetData.isRetrograde)
           };
         }
       });

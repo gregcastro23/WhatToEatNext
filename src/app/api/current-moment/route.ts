@@ -117,7 +117,7 @@ export async function POST(request: Request) {
             success: false,
             error: 'Invalid action',
             validActions: ['update', 'status'],
-            timestamp: new Date().toISOString();
+            timestamp: new Date().toISOString()
           },
           { status: 400 },
         );
@@ -130,7 +130,7 @@ export async function POST(request: Request) {
         success: false,
         error: 'Failed to process current moment request',
         details: error instanceof Error ? error.message : 'Unknown error',
-        timestamp: new Date().toISOString();
+        timestamp: new Date().toISOString()
       },
       { status: 500 },
     );
@@ -192,7 +192,7 @@ export async function PUT(request: Request) {
         success: false,
         error: 'Failed to process selective update',
         details: error instanceof Error ? error.message : 'Unknown error',
-        timestamp: new Date().toISOString();
+        timestamp: new Date().toISOString()
       },
       { status: 500 },
     );

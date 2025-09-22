@@ -179,7 +179,7 @@ export function calculateZodiacAffinityFromElements(
     result[sign as any] = elementalProperties[element] * 0.7;
 
     // Add smaller contributions from other elements based on compatibility
-    const otherElements = Object.keys(elementalProperties).filter(e => e !== element) as Array<;
+    const otherElements = Object.keys(elementalProperties).filter(e => e !== element) as Array<
       keyof ElementalProperties
     >;
 

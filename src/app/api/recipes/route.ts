@@ -56,7 +56,7 @@ export async function GET() {
       meta: {
         total: recipes.length,
         celestialInfluence: basicCelestialInfluence,
-        timestamp: Date.now();
+        timestamp: Date.now()
       }
     });
   } catch (error) {

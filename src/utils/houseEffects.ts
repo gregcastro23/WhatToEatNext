@@ -223,7 +223,7 @@ export function calculateHouseEffect(
  * @returns Combined elemental effects from all house placements
  */
 export function calculateAllHouseEffects(
-  planetPositions: Record<string, { sign: any house?: number }>,
+  planetPositions: Record<string, { sign: any, house?: number }>,
   _houses: Record<number, ZodiacSign>,
 ): Record<ElementalCharacter, number> {
   const totalEffects: Record<ElementalCharacter, number> = {

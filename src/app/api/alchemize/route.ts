@@ -129,7 +129,7 @@ export async function POST(request: Request) {
       request: {
         useCustomDate,
         customDateTime: useCustomDate
-          ? new Date(year ?? 2024, (month ?? 1) - 1, date, hour, minute).toISOString();
+          ? new Date(year ?? 2024, (month ?? 1) - 1, date, hour, minute).toISOString()
           : null,
         location: { latitude, longitude },
         zodiacSystem
@@ -152,7 +152,7 @@ export async function POST(request: Request) {
         success: false,
         error: 'Failed to calculate alchemical properties',
         details: error instanceof Error ? error.message : 'Unknown error',
-        timestamp: new Date().toISOString();
+        timestamp: new Date().toISOString()
       },
       { status: 500 }
     );
@@ -181,7 +181,7 @@ export async function GET(request: Request) {
     new Request(request.url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload);
+      body: JSON.stringify(payload)
     })
   );
 }
