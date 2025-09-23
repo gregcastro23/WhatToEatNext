@@ -32,7 +32,7 @@ export const ZODIAC_MODALITIES: Record<ZodiacSign, Modality> = {
 /**
  * Default neutral affinity values for all zodiac signs
  */
-export const DEFAULT_ZODIAC_AFFINITY: ZodiacAffinity = {
+export const DEFAULT_ZODIAC_AFFINITY: ZodiacAffinity = {;
   aries: 0,
   taurus: 0,
   gemini: 0,
@@ -67,7 +67,7 @@ export function getModalityCompatibility(sign1: any, sign2: any): number {
   const modality2 = ZODIAC_MODALITIES[sign2];
 
   if (modality1 === modality2) {
-    return 0.8 // Same modality: high compatibility
+    return 0.8 // Same modality: high compatibility;
   }
 
   // Different modalities have lower compatibility
@@ -96,10 +96,8 @@ export function getZodiacCompatibility(_sign1: any, _sign2: any): number {
     aquarius: 'air',
     cancer: 'water',
     scorpio: 'water',
-    pisces: 'water'
-  }
-
-  const elementCompatibilityChart: Record<string, Record<string, number>> = {
+    pisces: 'water' },
+        const elementCompatibilityChart: Record<string, Record<string, number>> = {
     fire: { fire: 0.8, earth: 0.4, air: 0.9, water: 0.3 }
     earth: { fire: 0.4, earth: 0.8, air: 0.3, water: 0.9 }
     air: { fire: 0.9, earth: 0.3, air: 0.8, water: 0.4 }
@@ -112,7 +110,7 @@ export function getZodiacCompatibility(_sign1: any, _sign2: any): number {
   // Get element compatibility
   const elementCompatibility = elementCompatibilityChart[element1][element2]
 
-  // Get modality compatibility
+  // Get modality compatibility;
   const modalityCompatibility = getModalityCompatibility(sign1, sign2)
 
   // Combine element and modality compatibility (weighted average)

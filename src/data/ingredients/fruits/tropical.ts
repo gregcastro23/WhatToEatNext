@@ -12,9 +12,9 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Sun' }
-          second: { element: 'Earth', planet: 'Venus' }
-          third: { element: 'Air', planet: 'Mercury' }
+          first: { element: 'Fire', planet: 'Sun' },
+        second: { element: 'Earth', planet: 'Venus' },
+        third: { element: 'Air', planet: 'Mercury' }
         }
       }
     }
@@ -41,24 +41,18 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       peeling: 'required',
       cutting: 'slice along pit',
       ripeness: 'slight give when pressed',
-      notes: 'Can be ripened in paper bag'
-    }
-
-    storage: {
+      notes: 'Can be ripened in paper bag' },
+        storage: {
       temperature: 'room temp until ripe',
       duration: '5-7 days',
       ripening: 'room temperature',
-      notes: 'Refrigerate when ripe'
-    }
-
-    sensoryProfile: {
+      notes: 'Refrigerate when ripe' },
+        sensoryProfile: {
       taste: ['Mild'],
       aroma: ['Fresh'],
       texture: ['Standard'],
-      notes: 'Characteristic mango profile'
-    }
-
-    culinaryProfile: {
+      notes: 'Characteristic mango profile' },
+        culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       }
@@ -81,9 +75,9 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Sun' }
-          second: { element: 'Earth', planet: 'Mars' }
-          third: { element: 'Air', planet: 'Jupiter' }
+          first: { element: 'Fire', planet: 'Sun' },
+        second: { element: 'Earth', planet: 'Mars' },
+        third: { element: 'Air', planet: 'Jupiter' }
         }
       }
     }
@@ -109,23 +103,17 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       washing: true,
       cutting: 'remove crown and base',
       peeling: 'remove eyes',
-      notes: 'Cut into spears or rings'
-    }
-
-    storage: {
+      notes: 'Cut into spears or rings' },
+        storage: {
       temperature: 'refrigerated',
       duration: '5-7 days',
-      notes: 'Store upside down for even sweetness'
-    }
-
-    sensoryProfile: {
+      notes: 'Store upside down for even sweetness' },
+        sensoryProfile: {
       taste: ['Mild'],
       aroma: ['Fresh'],
       texture: ['Standard'],
-      notes: 'Characteristic pineapple profile'
-    }
-
-    culinaryProfile: {
+      notes: 'Characteristic pineapple profile' },
+        culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       }
@@ -163,10 +151,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       peeling: 'when ripe',
       seeding: 'scoop out seeds',
       ripeness: 'yields to gentle pressure',
-      notes: 'Seeds are edible but peppery'
-    }
-
-    storage: {
+      notes: 'Seeds are edible but peppery' },
+        storage: {
       temperature: 'room temp until ripe',
       duration: '5-7 days',
       ripening: 'room temperature',
@@ -222,10 +208,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       washing: true,
       ripeness: 'wrinkled skin indicates ripeness',
       cutting: 'halve and scoop',
-      notes: 'Seeds are edible and nutritious'
-    }
-
-    storage: {
+      notes: 'Seeds are edible and nutritious' },
+        storage: {
       temperature: 'room temp until ripe',
       duration: '7-10 days',
       ripening: 'room temperature',
@@ -281,10 +265,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       washing: true,
       cutting: 'halve lengthwise',
       scooping: 'flesh easily separates from skin',
-      notes: 'Can be eaten with spoon directly from skin'
-    }
-
-    storage: {
+      notes: 'Can be eaten with spoon directly from skin' },
+        storage: {
       temperature: 'refrigerated',
       duration: '5-7 days',
       humidity: 'moderate',
@@ -340,10 +322,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       washing: true,
       peeling: 'remove rough skin',
       pitting: 'remove brown seed',
-      notes: 'Eat fresh or use in desserts'
-    }
-
-    storage: {
+      notes: 'Eat fresh or use in desserts' },
+        storage: {
       temperature: 'refrigerated',
       duration: '5-7 days',
       humidity: 'high',
@@ -399,10 +379,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       washing: true,
       ripeness: 'yields slightly to pressure',
       cutting: 'quarter or slice',
-      notes: 'Seeds are edible but often removed'
-    }
-
-    storage: {
+      notes: 'Seeds are edible but often removed' },
+        storage: {
       temperature: 'room temp until ripe',
       duration: '3-4 days',
       ripening: 'room temperature',
@@ -458,10 +436,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       washing: true,
       peeling: 'cut through hairy skin',
       pitting: 'remove seed',
-      notes: 'Similar preparation to lychee'
-    }
-
-    storage: {
+      notes: 'Similar preparation to lychee' },
+        storage: {
       temperature: 'refrigerated',
       duration: '3-5 days',
       humidity: 'high',
@@ -517,10 +493,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       washing: true,
       cutting: 'score around middle',
       opening: 'twist to separate',
-      notes: 'Purple stains easily - handle with care'
-    }
-
-    storage: {
+      notes: 'Purple stains easily - handle with care' },
+        storage: {
       temperature: 'refrigerated',
       duration: '5-7 days',
       humidity: 'moderate',
@@ -576,10 +550,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       washing: true,
       ripeness: 'yields to gentle pressure',
       cutting: 'halve and scoop',
-      notes: 'Remove seeds before consuming'
-    }
-
-    storage: {
+      notes: 'Remove seeds before consuming' },
+        storage: {
       temperature: 'room temp until ripe',
       duration: '4-5 days',
       ripening: 'room temperature',
@@ -635,10 +607,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       washing: true,
       cutting: 'requires skill and oil on hands',
       seeding: 'remove seeds and pods',
-      notes: 'Can be used as meat substitute when young'
-    }
-
-    storage: {
+      notes: 'Can be used as meat substitute when young' },
+        storage: {
       temperature: 'refrigerated',
       duration: '5-7 days',
       humidity: 'moderate',
@@ -694,10 +664,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       cutting: 'careful handling required',
       opening: 'cut along seams',
       scooping: 'remove flesh from pods',
-      notes: 'Strong aroma - often restricted in public places'
-    }
-
-    storage: {
+      notes: 'Strong aroma - often restricted in public places' },
+        storage: {
       temperature: 'refrigerated',
       duration: '3-5 days',
       humidity: 'moderate',
@@ -752,10 +720,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       washing: true,
       cutting: 'slice crosswise for star shape',
-      notes: 'Remove brown edges before serving'
-    }
-
-    storage: {
+      notes: 'Remove brown edges before serving' },
+        storage: {
       temperature: 'refrigerated',
       duration: '5-7 days',
       humidity: 'moderate',
@@ -811,10 +777,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       washing: true,
       peeling: 'optional - skin is edible',
       cutting: 'halve and scoop or slice with skin',
-      notes: 'Can be eaten whole like an apple'
-    }
-
-    storage: {
+      notes: 'Can be eaten whole like an apple' },
+        storage: {
       temperature: 'refrigerated',
       duration: '1-2 weeks',
       humidity: 'moderate',
@@ -870,10 +834,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       opening: 'pierce eyes and drain water',
       cracking: 'careful splitting required',
       extraction: 'separate flesh from shell',
-      notes: 'Young coconuts are best for water'
-    }
-
-    storage: {
+      notes: 'Young coconuts are best for water' },
+        storage: {
       temperature: 'room temperature whole',
       duration: '2-3 months whole',
       processed: 'refrigerate once opened',
@@ -929,10 +891,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       washing: true,
       peeling: 'remove thick rind and pith',
       segmenting: 'separate membrane carefully',
-      notes: 'Less bitter than grapefruit'
-    }
-
-    storage: {
+      notes: 'Less bitter than grapefruit' },
+        storage: {
       temperature: 'refrigerated',
       duration: '1-2 weeks',
       humidity: 'moderate',
@@ -988,10 +948,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       washing: true,
       peeling: 'crack and remove thin shell',
       pitting: 'remove black seed',
-      notes: 'Similar to lychee but milder'
-    }
-
-    storage: {
+      notes: 'Similar to lychee but milder' },
+        storage: {
       temperature: 'refrigerated',
       duration: '3-5 days',
       humidity: 'high',
@@ -1047,10 +1005,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       washing: true,
       ripeness: 'yields to gentle pressure',
       eating: 'split and spoon out flesh',
-      notes: 'Avoid black seeds'
-    }
-
-    storage: {
+      notes: 'Avoid black seeds' },
+        storage: {
       temperature: 'room temp until ripe',
       duration: '2-3 days',
       ripening: 'room temperature',

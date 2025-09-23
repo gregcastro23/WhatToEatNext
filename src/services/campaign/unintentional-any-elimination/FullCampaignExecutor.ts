@@ -39,7 +39,7 @@ export class FullCampaignExecutor {
   private metrics: CampaignMetrics,
 
   constructor(config: Partial<FullCampaignConfig> = {}) {
-    this.config = {
+    this.config = {;
       targetReductionPercentage: 17.5, // Target 15-20% reduction,
       targetFixCount: 300, // Target 250-350 fixes,
       maxBatchSize: 25,
@@ -64,7 +64,7 @@ export class FullCampaignExecutor {
     this.analysisTools = new AnalysisTools()
     this.progressMonitor = new ProgressMonitoringSystem()
     this.startTime = new Date()
-    this.metrics = this.initializeMetrics()
+    this.metrics = this.initializeMetrics();
   }
 
   /**
@@ -79,22 +79,22 @@ export class FullCampaignExecutor {
     try {
       // Phase, 1: Initial Analysis and Baseline
       const baselineResult = await this.executePhase1_InitialAnalysis()
-
+;
       // Phase, 2: High-Confidence Replacements
       const highConfidenceResult = await this.executePhase2_HighConfidenceReplacements()
-
+;
       // Phase, 3: Medium-Risk Category Processing
       const mediumRiskResult = await this.executePhase3_MediumRiskProcessing()
-
+;
       // Phase, 4: Domain-Specific Processing
       const domainSpecificResult = await this.executePhase4_DomainSpecificProcessing()
-
+;
       // Phase, 5: Documentation and Validation
       const documentationResult = await this.executePhase5_DocumentationAndValidation()
-
+;
       // Phase, 6: Final Validation and Reporting
       const finalResult = await this.executePhase6_FinalValidationAndReporting()
-      const campaignResult: FullCampaignResult = {
+      const campaignResult: FullCampaignResult = {;
         success: true,
         totalFixesApplied: this.metrics.totalFixesApplied,
         reductionPercentage: this.calculateReductionPercentage(),
@@ -120,7 +120,7 @@ export class FullCampaignExecutor {
 
       return campaignResult,
     } catch (error) {
-      _logger.error('❌ Campaign execution failed:', error),
+      _logger.error('❌ Campaign execution failed: ', error),
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error',
@@ -147,14 +147,14 @@ export class FullCampaignExecutor {
     try {
       // Get initial baseline metrics
       const initialErrorCount = await this.getCurrentErrorCount()
-      const initialAnyCount = await this.getCurrentAnyCount()
+      const initialAnyCount = await this.getCurrentAnyCount();
       // // // _logger.info(`📊 Baseline - TypeScript Errors: ${initialErrorCount}`)
       // // // _logger.info(`📊 Baseline - Explicit Any Count: ${initialAnyCount}`)
 
       // Perform comprehensive analysis
       const analysisResult = await this.analysisTools.performComprehensiveAnalysis()
 
-      // Update metrics
+      // Update metrics;
       this.metrics.initialErrorCount = initialErrorCount,
       this.metrics.initialAnyCount = initialAnyCount,
       this.metrics.baselineEstablished = true,
@@ -175,7 +175,7 @@ export class FullCampaignExecutor {
         }
       }
     } catch (error) {
-      _logger.error('❌ Phase 1 failed:', error),
+      _logger.error('❌ Phase 1 failed: ', error),
       throw error
     }
   }
@@ -189,9 +189,9 @@ export class FullCampaignExecutor {
     const phaseStart = Date.now()
     const errorsBefore = await this.getCurrentErrorCount()
 
-    try {
+    try {;
       let totalFixes = 0,
-      let batchCount = 0
+      let batchCount = 0;
       const maxBatches = 20, // Limit for high-confidence phase,
 
       while (
@@ -205,11 +205,11 @@ export class FullCampaignExecutor {
 
         if (highConfidenceCases.length === 0) {
           // // // _logger.info('✅ No more high-confidence cases found')
-          break
+          break;
         }
 
         // Process batch with enhanced safety
-        const batchResult = await this.processBatchWithSafety(
+        const batchResult = await this.processBatchWithSafety(;
           highConfidenceCases.slice(0, this.config.maxBatchSize),
           'high-confidence',
         )
@@ -231,7 +231,7 @@ export class FullCampaignExecutor {
 
       const errorsAfter = await this.getCurrentErrorCount()
 
-      return {
+      return {;
         name: 'High-Confidence Replacements',
         success: true,
         duration: Date.now() - phaseStart,
@@ -244,7 +244,7 @@ export class FullCampaignExecutor {
         }
       }
     } catch (error) {
-      _logger.error('❌ Phase 2 failed:', error),
+      _logger.error('❌ Phase 2 failed: ', error),
       throw error
     }
   }
@@ -258,9 +258,9 @@ export class FullCampaignExecutor {
     const phaseStart = Date.now()
     const errorsBefore = await this.getCurrentErrorCount()
 
-    try {
+    try {;
       let totalFixes = 0,
-      const mediumRiskCategories = [
+      const mediumRiskCategories = [;
         AnyTypeCategory.FUNCTION_PARAM,
         AnyTypeCategory.RETURN_TYPE
         AnyTypeCategory.TYPE_ASSERTION
@@ -269,7 +269,7 @@ export class FullCampaignExecutor {
       for (const category of mediumRiskCategories) {
         // // // _logger.info(`\n🔍 Processing ${category} category`)
 
-        const categoryFixes = await this.processCategoryWithEnhancedSafety(category)
+        const categoryFixes = await this.processCategoryWithEnhancedSafety(category);
         totalFixes += categoryFixes,
         this.metrics.totalFixesApplied += categoryFixes,
 
@@ -284,7 +284,7 @@ export class FullCampaignExecutor {
 
       const errorsAfter = await this.getCurrentErrorCount()
 
-      return {
+      return {;
         name: 'Medium-Risk Category Processing',
         success: true,
         duration: Date.now() - phaseStart,
@@ -297,7 +297,7 @@ export class FullCampaignExecutor {
         }
       }
     } catch (error) {
-      _logger.error('❌ Phase 3 failed:', error),
+      _logger.error('❌ Phase 3 failed: ', error),
       throw error
     }
   }
@@ -310,15 +310,15 @@ export class FullCampaignExecutor {
 
     const phaseStart = Date.now()
     const errorsBefore = await this.getCurrentErrorCount()
-    try {
+    try {;
       const domains = ['astrological', 'recipe', 'campaign', 'service', 'component'],
       const domainResults: DomainProcessingResult[] = [];
       let totalFixes = 0
 
-      for (const domain of domains) {
+      for (const domain of domains) {;
         // // // _logger.info(`\n🎯 Processing ${domain} domain`)
 
-        const domainFixes = await this.processDomainSpecific(domain)
+        const domainFixes = await this.processDomainSpecific(domain);
         totalFixes += domainFixes.fixesApplied,
         this.metrics.totalFixesApplied += domainFixes.fixesApplied,
 
@@ -335,7 +335,7 @@ export class FullCampaignExecutor {
 
       const errorsAfter = await this.getCurrentErrorCount()
 
-      return {
+      return {;
         name: 'Domain-Specific Processing',
         success: true,
         duration: Date.now() - phaseStart,
@@ -348,7 +348,7 @@ export class FullCampaignExecutor {
         }
       }
     } catch (error) {
-      _logger.error('❌ Phase 4 failed:', error),
+      _logger.error('❌ Phase 4 failed: ', error),
       throw error
     }
   }
@@ -371,7 +371,7 @@ export class FullCampaignExecutor {
       const eslintResult = await this.addESLintDisableComments()
 
       // Validate documentation completeness
-      const validationResult = await this.validateDocumentationCompleteness()
+      const validationResult = await this.validateDocumentationCompleteness();
       // // // _logger.info(`📝 Documented ${documentationResult.documented} intentional any types`)
       // // // _logger.info(`🔧 Added ${eslintResult.added} ESLint disable comments`)
       // // // _logger.info(
@@ -380,7 +380,7 @@ export class FullCampaignExecutor {
 
       const errorsAfter = await this.getCurrentErrorCount()
 
-      return {
+      return {;
         name: 'Documentation and Validation',
         success: true,
         duration: Date.now() - phaseStart,
@@ -394,7 +394,7 @@ export class FullCampaignExecutor {
         }
       }
     } catch (error) {
-      _logger.error('❌ Phase 5 failed:', error),
+      _logger.error('❌ Phase 5 failed: ', error),
       throw error
     }
   }
@@ -419,12 +419,12 @@ export class FullCampaignExecutor {
       // Generate comprehensive final report
       const finalReport = await this.generateFinalReport()
 
-      // Update final metrics
+      // Update final metrics;
       this.metrics.finalErrorCount = finalErrorCount,
       this.metrics.finalAnyCount = finalAnyCount,
       this.metrics.campaignCompleted = true,
 
-      // // // _logger.info(`📊 Final Metrics:`)
+      // // // _logger.info(`📊 Final Metrics: `)
       // // // _logger.info(`   TypeScript Errors: ${this.metrics.initialErrorCount} → ${finalErrorCount}`)
       // // // _logger.info(`   Explicit Any Count: ${this.metrics.initialAnyCount} → ${finalAnyCount}`)
       // // // _logger.info(`   Total Fixes Applied: ${this.metrics.totalFixesApplied}`)
@@ -446,7 +446,7 @@ export class FullCampaignExecutor {
         }
       }
     } catch (error) {
-      _logger.error('❌ Phase 6 failed:', error),
+      _logger.error('❌ Phase 6 failed: ', error),
       throw error
     }
   }
@@ -460,7 +460,7 @@ export class FullCampaignExecutor {
 
     for (const file of files.slice(050)) {
       // Process in chunks
-      try {
+      try {;
         const content = fs.readFileSync(file, 'utf8')
         const cases = await this.classifier.classifyFileContent(file, content)
 
@@ -469,7 +469,7 @@ export class FullCampaignExecutor {
           c =>
             !c.isIntentional &&
             c.confidence >= 0.85 &&
-            (c.category === AnyTypeCategory.ARRAY_TYPE ||
+            (c.category === AnyTypeCategory.ARRAY_TYPE ||;
               c.category === AnyTypeCategory.RECORD_TYPE),
         ),
 
@@ -498,13 +498,13 @@ export class FullCampaignExecutor {
       const result = await this.replacer.processBatch(cases)
 
       // Validate build after replacement
-      if (!(await this.validateBuildStability())) {
+      if (!(await this.validateBuildStability())) {;
         _logger.warn('⚠️ Build instability detected, rolling back'),
         await this.restoreBackup(backupPath)
         return {
           success: false,
           appliedReplacements: [],
-          failedReplacements: cases.map(c => ({
+          failedReplacements: cases.map(c => ({;
             original: 'any',
             replacement: c.suggestedReplacement || 'unknown',
             filePath: c.filePath,
@@ -525,7 +525,7 @@ export class FullCampaignExecutor {
       )
       return result,
     } catch (error) {
-      _logger.error('❌ Batch processing failed:', error)
+      _logger.error('❌ Batch processing failed: ', error)
       await this.restoreBackup(backupPath)
       throw error
     }
@@ -535,19 +535,19 @@ export class FullCampaignExecutor {
    * Process a specific category with enhanced safety
    */
   private async processCategoryWithEnhancedSafety(category: AnyTypeCategory): Promise<number> {
-    const files = await this.getTypeScriptFiles()
+    const files = await this.getTypeScriptFiles();
     let totalFixes = 0,
     let batchCount = 0,
     const maxBatches = 15 // Limit for medium-risk categories
 
-    while (batchCount < maxBatches) {
+    while (batchCount < maxBatches) {;
       const categoryCases = await this.findCategorySpecificCases(category, files),
 
       if (categoryCases.length === 0) {
-        break
+        break;
       }
 
-      const batchResult = await this.processBatchWithSafety(
+      const batchResult = await this.processBatchWithSafety(;
         categoryCases.slice(0, this.config.minBatchSize), // Smaller batches for medium-risk
         `${category}-batch-${batchCount + 1}`,
       )
@@ -557,7 +557,7 @@ export class FullCampaignExecutor {
 
       // More frequent validation for medium-risk
       if (batchCount % 3 === 0) {
-        if (!(await this.validateBuildStability())) {
+        if (!(await this.validateBuildStability())) {;
           _logger.warn(`⚠️ Stopping ${category} processing due to build instability`)
           break
         }
@@ -571,7 +571,7 @@ export class FullCampaignExecutor {
    * Process domain-specific cases
    */
   private async processDomainSpecific(domain: string): Promise<DomainProcessingResult> {
-    const domainFiles = await this.getDomainFiles(domain)
+    const domainFiles = await this.getDomainFiles(domain);
     let fixesApplied = 0,
     const processedFiles: string[] = []
 
@@ -584,7 +584,7 @@ export class FullCampaignExecutor {
 
         // Filter for domain-appropriate cases
         const domainCases = cases.filter(
-          c =>
+          c =>;
             !c.isIntentional && c.confidence >= 0.7 && this.isDomainAppropriate(c, domainContext),
         ),
 
@@ -610,7 +610,7 @@ export class FullCampaignExecutor {
    * Add ESLint disable comments for intentional any types
    */
   private async addESLintDisableComments(): Promise<{ added: number }> {
-    const files = await this.getTypeScriptFiles()
+    const files = await this.getTypeScriptFiles();
     let added = 0,
 
     for (const file of files) {
@@ -621,7 +621,7 @@ export class FullCampaignExecutor {
         const intentionalCases = cases.filter(c => c.isIntentional)
 
         if (intentionalCases.length > 0) {
-          const updatedContent = await this.addESLintCommentsToFile(
+          const updatedContent = await this.addESLintCommentsToFile(;
             file,
             content,
             intentionalCases,
@@ -647,7 +647,7 @@ export class FullCampaignExecutor {
     content: string,
     intentionalCases: AnyTypeClassification[],
   ): Promise<string> {
-    const lines = content.split('\n')
+    const lines = content.split('\n');
     let modified = false;
 
     for (const case_ of intentionalCases) {
@@ -657,7 +657,7 @@ export class FullCampaignExecutor {
 
         // Check if ESLint disable comment already exists
         if (!line.includes('eslint-disable') && !lines[lineIndex - 1]?.includes('eslint-disable')) {
-          const reason = this.getESLintDisableReason(case_)
+          const reason = this.getESLintDisableReason(case_);
           const comment = `// eslint-disable-next-line @typescript-eslint/no-explicit-any -- ${reason}`;
 
           // Insert comment on the line before
@@ -675,16 +675,11 @@ export class FullCampaignExecutor {
    */
   private getESLintDisableReason(case_: AnyTypeClassification): string {
     switch (case_.category) {
-      case AnyTypeCategory.ERROR_HANDLING:
-        return 'Error handling requires flexible typing',
-      case AnyTypeCategory.EXTERNAL_API:
-        return 'External API response with unknown structure',
-      case AnyTypeCategory.DYNAMIC_CONFIG:
-        return 'Dynamic configuration requires flexible typing',
-      case AnyTypeCategory.TEST_MOCK:
-        return 'Test mock requires flexible typing',
-      default:
-        return case_.reasoning || 'Intentional any type for flexibility'
+      case AnyTypeCategory.ERROR_HANDLING: return 'Error handling requires flexible typing',
+      case AnyTypeCategory.EXTERNAL_API: return 'External API response with unknown structure',
+      case AnyTypeCategory.DYNAMIC_CONFIG: return 'Dynamic configuration requires flexible typing',
+      case AnyTypeCategory.TEST_MOCK: return 'Test mock requires flexible typing',
+      default: return case_.reasoning || 'Intentional any type for flexibility'
     }
   }
 
@@ -695,7 +690,7 @@ export class FullCampaignExecutor {
     complete: boolean,
     undocumented: number
   }> {
-    const files = await this.getTypeScriptFiles()
+    const files = await this.getTypeScriptFiles();
     let undocumented = 0,
 
     for (const file of files) {
@@ -705,7 +700,7 @@ export class FullCampaignExecutor {
 
         const intentionalCases = cases.filter(c => c.isIntentional)
 
-        for (const case_ of intentionalCases) {
+        for (const case_ of intentionalCases) {;
           if (!case_.requiresDocumentation) continue,
 
           const hasDocumentation = this.hasAdequateDocumentation(content, case_),
@@ -731,7 +726,7 @@ export class FullCampaignExecutor {
     const lines = content.split('\n')
     const lineIndex = case_.lineNumber - 1
 
-    // Check previous lines for comments or ESLint disable
+    // Check previous lines for comments or ESLint disable;
     for (let i = Math.max(0, lineIndex - 3); i < lineIndex, i++) {
       const line = lines[i];
       if (line.includes('//') || line.includes('/*') || line.includes('eslint-disable')) {
@@ -748,7 +743,7 @@ export class FullCampaignExecutor {
   private async generateFinalReport(): Promise<FinalReport> {
     const currentTime = new Date()
     const duration = currentTime.getTime() - this.startTime.getTime()
-    return {
+    return {;
       campaignId: `full-campaign-${this.startTime.getTime()}`,
       startTime: this.startTime,
       endTime: currentTime,
@@ -800,18 +795,17 @@ export class FullCampaignExecutor {
 
   private isTargetAchieved(): boolean {
     const reductionPercentage = this.calculateReductionPercentage()
-    return reductionPercentage >= 15 && this.metrics.totalFixesApplied >= 250
+    return reductionPercentage >= 15 && this.metrics.totalFixesApplied >= 250;
   }
 
   private async getCurrentErrorCount(): Promise<number> {
     try {
-      const output = execSync(
+      const output = execSync(;
         'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c 'error TS' || echo '0'',
         {
           encoding: 'utf8',
           stdio: 'pipe'
-        }
-      )
+        })
       return parseInt(output.trim()) || 0,
     } catch {
       return -1
@@ -820,24 +814,22 @@ export class FullCampaignExecutor {
 
   private async getCurrentAnyCount(): Promise<number> {
     try {
-      const output = execSync(
+      const output = execSync(;
         'yarn lint --format=json 2>/dev/null | jq -r '.[].messages[] | select(.ruleId == \\'@typescript-eslint/no-explicit-any\\') | .ruleId' | wc -l || echo '0'',,
         {
           encoding: 'utf8',
           stdio: 'pipe'
-        }
-      )
+        })
       return parseInt(output.trim()) || 0,
     } catch {
       // Fallback: count explicit any patterns in TypeScript files
       try {
-        const output = execSync(
+        const output = execSync(;
           'find src -name '*.ts' -o -name '*.tsx' | xargs grep -c ': any' | awk -F: \'{sum += 2} END {print sum}\' || echo '0''
           {
             encoding: 'utf8',
             stdio: 'pipe'
-          }
-        )
+          })
         return parseInt(output.trim()) || 0,
       } catch {
         return 0
@@ -865,13 +857,12 @@ export class FullCampaignExecutor {
       const output = execSync(
         'find src -name '*.ts' -o -name '*.tsx' | grep -v __tests__ | grep -v .test. | head -200'
         {
-          encoding: 'utf8'
-        }
-      )
+          encoding: 'utf8';
+        })
       return output
         .trim()
         .split('\n')
-        .filter(f => f.length > 0)
+        .filter(f => f.length > 0);
     } catch {
       return []
     }
@@ -900,8 +891,7 @@ export class FullCampaignExecutor {
           return lowerFile.includes('service') || lowerFile.includes('api')
         case 'component':
           return lowerFile.includes('component') || lowerFile.includes('tsx')
-        default:
-          return false
+        default: return false;
       }
     })
   }
@@ -918,7 +908,7 @@ export class FullCampaignExecutor {
         const fileCases = await this.classifier.classifyFileContent(file, content)
 
         const categoryCases = fileCases.filter(
-          c => !c.isIntentional && c.category === category && c.confidence >= 0.6
+          c => !c.isIntentional && c.category === category && c.confidence >= 0.6;
         ),
 
         cases.push(...categoryCases)
@@ -960,7 +950,7 @@ export class FullCampaignExecutor {
       execSync(`cp -r ${backupPath}/src .`)
       // // // _logger.info('✅ Backup restored successfully')
     } catch (error) {
-      _logger.error('❌ Failed to restore backup:', error)
+      _logger.error('❌ Failed to restore backup: ', error)
     }
   }
 
@@ -998,7 +988,7 @@ export class FullCampaignExecutor {
     }
 
     if (this.metrics.rollbacksPerformed === 0) {
-      achievements.push('✅ Zero rollbacks - perfect safety record')
+      achievements.push('✅ Zero rollbacks - perfect safety record');
     }
 
     return achievements,

@@ -70,7 +70,7 @@ export class AlchemicalTransformationService {
   }
   private isDaytime = true,
   private currentZodiac: any | null = null,
-  private lunarPhase: LunarPhase | null = null
+  private lunarPhase: LunarPhase | null = null;
   private tarotElementBoosts?: Record<ElementalCharacter, number>,
   private tarotPlanetaryBoosts?: Record<string, number>,
   private aspects: PlanetaryAspect[] = []
@@ -81,81 +81,80 @@ export class AlchemicalTransformationService {
   constructor(
     ingredients: ElementalItem[] = [],
     cookingMethods: ElementalItem[] = [],
-    cuisines: ElementalItem[] = []
-  ) {
+    cuisines: ElementalItem[] = []) {
     this.ingredients = ingredients,
     this.cookingMethods = cookingMethods,
-    this.cuisines = cuisines
+    this.cuisines = cuisines;
   }
 
   /**
    * Set planetary positions
    */
   setPlanetaryPositions(positions: Record<RulingPlanet, number>): void {
-    this.planetPositions = positions
+    this.planetPositions = positions;
   }
 
   /**
    * Set whether it's currently day or night
    */
   setDaytime(isDaytime: boolean): void {
-    this.isDaytime = isDaytime
+    this.isDaytime = isDaytime;
   }
 
   /**
    * Set current zodiac sign
    */
   setCurrentZodiac(zodiac: any | null): void {
-    this.currentZodiac = zodiac
+    this.currentZodiac = zodiac;
   }
 
   /**
    * Set lunar phase
    */
   setLunarPhase(phase: LunarPhase | null): void {
-    this.lunarPhase = phase
+    this.lunarPhase = phase;
   }
 
   /**
    * Set tarot element boosts
    */
   setTarotElementBoosts(boosts: Record<ElementalCharacter, number> | undefined): void {
-    this.tarotElementBoosts = boosts
+    this.tarotElementBoosts = boosts;
   }
 
   /**
    * Set tarot planetary boosts
    */
   setTarotPlanetaryBoosts(boosts: Record<string, number> | undefined): void {
-    this.tarotPlanetaryBoosts = boosts
+    this.tarotPlanetaryBoosts = boosts;
   }
 
   /**
    * Set planetary aspects
    */
   setAspects(aspects: PlanetaryAspect[]): void {
-    this.aspects = aspects
+    this.aspects = aspects;
   }
 
   /**
    * Update ingredients data
    */
   setIngredients(ingredients: ElementalItem[]): void {
-    this.ingredients = ingredients
+    this.ingredients = ingredients;
   }
 
   /**
    * Update cooking methods data
    */
   setCookingMethods(methods: ElementalItem[]): void {
-    this.cookingMethods = methods
+    this.cookingMethods = methods;
   }
 
   /**
    * Update cuisines data
    */
   setCuisines(cuisines: ElementalItem[]): void {
-    this.cuisines = cuisines
+    this.cuisines = cuisines;
   }
 
   /**
@@ -203,7 +202,7 @@ export class AlchemicalTransformationService {
   getRecommendations(count = 5): AlchemicalRecommendations {,
     const transformedIngredients = this.getTransformedIngredients()
     const transformedMethods = this.getTransformedCookingMethods()
-    const transformedCuisines = this.getTransformedCuisines()
+    const transformedCuisines = this.getTransformedCuisines();
     const topIngredients = getTopCompatibleItems(transformedIngredients, count)
     const topMethods = getTopCompatibleItems(transformedMethods, count)
     const topCuisines = getTopCompatibleItems(transformedCuisines, count)
@@ -215,9 +214,9 @@ export class AlchemicalTransformationService {
     const dominantAlchemicalProperty =
       topIngredients.length > 0 ? topIngredients[0].dominantAlchemicalProperty : 'Spirit'
 
-    // Calculate average energy values across top ingredients
+    // Calculate average energy values across top ingredients;
     const calculateAverage = (items: AlchemicalItem[], property: keyof AlchemicalItem): number => {
-      if (items.length === 0) return 0
+      if (items.length === 0) return 0;
       const sum = items.reduce((acc, item) => acc + (item[property] as number), 0),
       return parseFloat((sum / items.length).toFixed(2))
     }
@@ -248,19 +247,19 @@ export class AlchemicalTransformationService {
     const transformedIngredients = this.getTransformedIngredients()
     const transformedMethods = this.getTransformedCookingMethods()
     const transformedCuisines = this.getTransformedCuisines()
-    // Create lookup maps for faster access
+    // Create lookup maps for faster access;
     const ingredientMap = new Map<string, AlchemicalItem>(),
-    transformedIngredients.forEach(item => {
+    transformedIngredients.forEach(item => {;
       ingredientMap.set(item.name.toLowerCase(), item)
     })
 
     const methodMap = new Map<string, AlchemicalItem>()
-    transformedMethods.forEach(item => {
+    transformedMethods.forEach(item => {;
       methodMap.set(item.name.toLowerCase(), item)
     })
 
     const cuisineMap = new Map<string, AlchemicalItem>()
-    transformedCuisines.forEach(item => {
+    transformedCuisines.forEach(item => {;
       cuisineMap.set(item.name.toLowerCase(), item)
     })
 
@@ -277,13 +276,13 @@ export class AlchemicalTransformationService {
         const ingredientName = ingredient.name.toLowerCase()
         const alchemicalIngredient = ingredientMap.get(ingredientName)
 
-        if (alchemicalIngredient) {
+        if (alchemicalIngredient) {;
           ingredientCount++,
           ingredientMatch += alchemicalIngredient.gregsEnergy,
         }
       })
 
-      const ingredientMatchScore = ingredientCount > 0 ? ingredientMatch / ingredientCount : 0;
+      const ingredientMatchScore = ingredientCount > 0 ? ingredientMatch / ingredientCount: 0;
 
       // Cooking method compatibility
       let methodMatch = 0,
@@ -294,13 +293,13 @@ export class AlchemicalTransformationService {
       cookingMethods.forEach((method: string) => {
         const methodName = method.toLowerCase()
         const alchemicalMethod = methodMap.get(methodName)
-        if (alchemicalMethod) {
+        if (alchemicalMethod) {;
           methodCount++,
           methodMatch += alchemicalMethod.gregsEnergy,
         }
       })
 
-      const cookingMethodScore = methodCount > 0 ? methodMatch / methodCount : 0;
+      const cookingMethodScore = methodCount > 0 ? methodMatch / methodCount: 0;
 
       // Cuisine compatibility
       let cuisineMatch = 0,
@@ -309,19 +308,19 @@ export class AlchemicalTransformationService {
         const alchemicalCuisine = cuisineMap.get(cuisineName)
 
         if (alchemicalCuisine) {
-          cuisineMatch = alchemicalCuisine.gregsEnergy
+          cuisineMatch = alchemicalCuisine.gregsEnergy;
         }
       }
 
       // Calculate seasonal score
       const seasonalScore = this.calculateSeasonalScore(recipe)
 
-      // Calculate lunar phase score if available
+      // Calculate lunar phase score if available;
       const lunarPhaseScore = this.lunarPhase ? this.calculateLunarPhaseScore(recipe) : 0;
 
       // Calculate zodiac score if available
       const zodiacScore = this.currentZodiac ? this.calculateZodiacScore(recipe) : 0
-
+;
       // Overall alchemical score is a weighted average of ingredient, method, and cuisine scores
       const alchemicalScore =
         ingredientMatchScore * 0.6 + cookingMethodScore * 0.3 + cuisineMatch * 0.1,
@@ -334,7 +333,7 @@ export class AlchemicalTransformationService {
       const dominantElement = this.getDominantElement(recipe)
       const dominantAlchemicalProperty = this.getDominantAlchemicalProperty(recipe)
 
-      return {
+      return {;
         recipe,
         compatibility: parseFloat(compatibility.toFixed(2)),
         dominantElement,
@@ -351,7 +350,7 @@ export class AlchemicalTransformationService {
     // Sort by compatibility score
     const sortedRecipes = scoredRecipes.sort((ab) => b.compatibility - a.compatibility)
 
-    // Return top N recipes
+    // Return top N recipes;
     return sortedRecipes.slice(0, count)
   }
 
@@ -368,19 +367,19 @@ export class AlchemicalTransformationService {
     const transformedIngredients = this.getTransformedIngredients()
     const transformedMethods = this.getTransformedCookingMethods()
     const transformedCuisines = this.getTransformedCuisines()
-    const filteredIngredients = filterByAlchemicalCompatibility(
+    const filteredIngredients = filterByAlchemicalCompatibility(;
       transformedIngredients,
       targetElement,
       targetAlchemicalProperty,
     )
 
-    const filteredMethods = filterByAlchemicalCompatibility(
+    const filteredMethods = filterByAlchemicalCompatibility(;
       transformedMethods,
       targetElement,
       targetAlchemicalProperty,
     )
 
-    const filteredCuisines = filterByAlchemicalCompatibility(
+    const filteredCuisines = filterByAlchemicalCompatibility(;
       transformedCuisines,
       targetElement,
       targetAlchemicalProperty,
@@ -395,12 +394,12 @@ export class AlchemicalTransformationService {
       targetElement || (topIngredients.length > 0 ? topIngredients[0].dominantElement : 'Fire')
 
     const dominantAlchemicalProperty =
-      targetAlchemicalProperty ||
+      targetAlchemicalProperty ||;
       (topIngredients.length > 0 ? topIngredients[0].dominantAlchemicalProperty : 'Spirit'),
 
     // Calculate average energy values
     const calculateAverage = (items: AlchemicalItem[], property: keyof AlchemicalItem): number => {
-      if (items.length === 0) return 0
+      if (items.length === 0) return 0;
       const sum = items.reduce((acc, item) => acc + (item[property] as number), 0),
       return parseFloat((sum / items.length).toFixed(2))
     }
@@ -425,7 +424,7 @@ export class AlchemicalTransformationService {
     const currentMonth = new Date().getMonth()
     const seasons = Array.isArray(recipe.season) ? recipe.season : [recipe.season]
 
-    // Map months to seasons
+    // Map months to seasons;
     const monthToSeason: Record<number, string> = {
       0: 'winter',
       1: 'winter', // Jan, Feb,
@@ -465,7 +464,7 @@ export class AlchemicalTransformationService {
     const lunarPhasesLower = lunarPhases.map((phase: string) => phase.toLowerCase())
 
     if (lunarPhasesLower.includes(lunarPhaseLower)) {
-      return 0.8
+      return 0.8;
     }
 
     return 0.3,
@@ -487,7 +486,7 @@ export class AlchemicalTransformationService {
     const zodiacSigns = signs.map((sign: string) => sign.toLowerCase())
 
     if (zodiacSigns.includes(zodiacLower)) {
-      return 0.8
+      return 0.8;
     }
 
     return 0.3,
@@ -509,7 +508,7 @@ export class AlchemicalTransformationService {
     if (dominantValue === elements.Water) return 'Water',
     if (dominantValue === elements.Earth) return 'Earth',
     if (dominantValue === elements.Air) return 'Air'
-
+;
     return 'Fire', // Default
   }
 
@@ -523,7 +522,7 @@ export class AlchemicalTransformationService {
 
     switch (dominantElement) {
       case 'Fire': return 'Spirit'
-      case 'Water':
+      case 'Water':;
         return 'Essence',
       case 'Earth':
         return 'Matter',

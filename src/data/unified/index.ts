@@ -45,7 +45,7 @@ export const _unifiedSeasonalSystem = new UnifiedSeasonalSystem()
 export const _unifiedCuisineIntegrationSystem = new UnifiedCuisineIntegrationSystem()
 
 // Pattern OO-4: Integration Import Resolution - Export only existing functions
-export {
+export {;
   getIngredientById,
   getIngredientsByCategory,
   getIngredientsBySubcategory,

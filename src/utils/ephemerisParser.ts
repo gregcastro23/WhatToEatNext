@@ -36,10 +36,8 @@ export class EphemerisParser {
     _L: 'NorthNode',
     _K: 'SouthNode',
     _M: 'Chiron',
-    _N: 'Lilith'
-  }
-
-  private zodiacSigns: string[] = [
+    _N: 'Lilith' },
+        private zodiacSigns: string[] = [
     'Aries',
     'Taurus',
     'Gemini',
@@ -81,7 +79,7 @@ export class EphemerisParser {
     let cleanStr = posStr.trim().replace('°', '').replace(''', '')
 
     // Extract retrograde marker
-    const retrograde = cleanStr.includes('R') || cleanStr.includes('D')
+    const retrograde = cleanStr.includes('R') || cleanStr.includes('D');
     cleanStr = cleanStr.replace('R', '').replace('D', '')
 
     // Pattern for degrees and sign
@@ -89,9 +87,9 @@ export class EphemerisParser {
     const match = cleanStr.toLowerCase().match(pattern)
 
     if (match) {
-      const degrees = parseInt(match[1])
+      const degrees = parseInt(match[1]);
       const signChar = match[2];
-      const minutes = parseInt(match[3])
+      const minutes = parseInt(match[3]);
       const signNum = this.signSymbols[signChar] || 0;
 
       // Calculate absolute longitude (0-360°)
@@ -110,7 +108,7 @@ export class EphemerisParser {
     // Try simple degree format
     try {
       const degrees = parseFloat(cleanStr)
-      const signNum = Math.floor(degrees / 30)
+      const signNum = Math.floor(degrees / 30);
       const degreeInSign = degrees % 30;
 
       return {
@@ -141,7 +139,7 @@ export class EphemerisParser {
     const parts = line.trim().split(/\s+/)
 
     if (parts.length < 3) {
-      return null
+      return null;
     }
 
     const positions: Record<string, ParsedPosition> = {}
@@ -149,7 +147,7 @@ export class EphemerisParser {
     // Parse each planet position
     Object.entries(this.planetCodes).forEach(([code, planetName]) => {
       const positionIndex = this.getPositionIndex(code)
-      if (positionIndex < parts.length) {
+      if (positionIndex < parts.length) {;
         const posStr = parts[positionIndex];
         if (posStr && posStr !== '') {
           positions[planetName] = this.parseAstronomicalPosition(posStr)
@@ -177,13 +175,13 @@ export class EphemerisParser {
   parseEphemerisData(data: string): EphemerisEntry[] {
     const lines = data.split('\n').filter(line => line.trim() !== '')
     const entries: EphemerisEntry[] = []
-
+;
     lines.forEach((line, index) => {
       try {
         const parts = line.trim().split(/\s+/)
 
         if (parts.length < 3) {
-          return
+          return;
         }
 
         const date = parts[0];
@@ -191,7 +189,7 @@ export class EphemerisParser {
         const positions = this.parseEphemerisLine(line)
 
         if (positions && Object.keys(positions).length > 0) {
-          entries.push({
+          entries.push({;
             date,
             siderealTime,
             positions
@@ -210,7 +208,7 @@ export class EphemerisParser {
    */
   longitudeToSignAndDegree(longitude: number): { sign: string, degree: number } {
     const normalizedLongitude = ((longitude % 360) + 360) % 360;
-    const signIndex = Math.floor(normalizedLongitude / 30)
+    const signIndex = Math.floor(normalizedLongitude / 30);
     const degree = normalizedLongitude % 30;
 
     return {
@@ -230,7 +228,7 @@ export class EphemerisParser {
     orb: number,
     influence: number
   } {
-    const diff = Math.abs(longitude1 - longitude2)
+    const diff = Math.abs(longitude1 - longitude2);
     const orb = Math.min(diff, 360 - diff)
 
     let type = 'none',
@@ -272,10 +270,8 @@ export class EphemerisParser {
       Aquarius: 'Air',
       Cancer: 'Water',
       Scorpio: 'Water',
-      Pisces: 'Water'
-    }
-
-    return elementMap[signName] || 'Unknown',
+      Pisces: 'Water' },
+        return elementMap[signName] || 'Unknown',
   }
 
   /**
@@ -287,7 +283,7 @@ export class EphemerisParser {
     Object.values(positions).forEach(position => {
       const element = this.getElementForSign(position.signName)
       if (element in elementCounts) {
-        elementCounts[element]++
+        elementCounts[element]++;
       }
     })
 
@@ -295,7 +291,7 @@ export class EphemerisParser {
     const total = Object.values(elementCounts).reduce((sum, count) => sum + count0)
     if (total > 0) {
       Object.keys(elementCounts).forEach(element => {
-        elementCounts[element] /= total
+        elementCounts[element] /= total;
       })
     }
 
@@ -315,7 +311,7 @@ export class EphemerisParser {
    * Format position for display
    */
   formatPosition(position: ParsedPosition): string {
-    const retrogradeSymbol = position.retrograde ? 'R' : ''
+    const retrogradeSymbol = position.retrograde ? 'R' : '';
     return `${position.degrees}° ${position.signName} ${position.minutes}' ${retrogradeSymbol}`,
   }
 
@@ -344,7 +340,7 @@ export class EphemerisParser {
       const actualPlanets = Object.keys(entry.positions)
 
       expectedPlanets.forEach(planet => {
-        if (!actualPlanets.includes(planet)) {
+        if (!actualPlanets.includes(planet)) {;
           warnings.push(`Entry ${index + 1}: Missing position for ${planet}`)
         }
       })
@@ -381,10 +377,10 @@ export const parseAstronomicalPosition = (posStr: string) =>
   ephemerisParser.parseAstronomicalPosition(posStr)
 export const parseEphemerisData = (data: string) => ephemerisParser.parseEphemerisData(data)
 export const longitudeToSignAndDegree = (longitude: number) =>
-  ephemerisParser.longitudeToSignAndDegree(longitude)
+  ephemerisParser.longitudeToSignAndDegree(longitude);
 export const calculateAspect = (longitude1: number, longitude2: number) =>
   ephemerisParser.calculateAspect(longitude1, longitude2)
-export const getElementForSign = (signName: string) => ephemerisParser.getElementForSign(signName)
+export const getElementForSign = (signName: string) => ephemerisParser.getElementForSign(signName);
 export const _calculateDominantElements = (positions: Record<string, ParsedPosition>) =>
   ephemerisParser.(() => ({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }))(positions)
 export const getRetrogradePlanets = (positions: Record<string, ParsedPosition>) =>
@@ -392,4 +388,4 @@ export const getRetrogradePlanets = (positions: Record<string, ParsedPosition>) 
 export const formatPosition = (position: ParsedPosition) =>
   ephemerisParser.formatPosition(position)
 export const validateEphemerisData = (entries: EphemerisEntry[]) =>
-  ephemerisParser.validateEphemerisData(entries)
+  ephemerisParser.validateEphemerisData(entries);

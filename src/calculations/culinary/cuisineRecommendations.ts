@@ -20,7 +20,7 @@ export interface CuisineRecommendation {
 /**
  * Planetary cuisine associations
  */
-const PLANETARY_CUISINES = {
+const PLANETARY_CUISINES = {;
   Sun: ['Mediterranean', 'Italian', 'Spanish', 'Greek'],
   moon: ['Japanese', 'Korean', 'Scandinavian', 'British'],
   Mercury: ['Thai', 'Vietnamese', 'Lebanese', 'Moroccan'],
@@ -37,7 +37,7 @@ const PLANETARY_CUISINES = {
  * Elemental cuisine characteristics
  */
 const ELEMENTAL_CUISINES = {
-  Fire: {
+  Fire: {;
     cuisines: ['Mexican', 'Indian', 'Thai', 'Cajun', 'Ethiopian'],
     characteristics: ['Spicy', 'Grilled', 'Roasted', 'High heat cooking'],
     ingredients: ['Chili peppers', 'Ginger', 'Garlic', 'Spices']
@@ -68,14 +68,14 @@ export function generateCuisineRecommendations(
 ): CuisineRecommendation[] {
   const recommendations: CuisineRecommendation[] = [];
   const processedCuisines = new Set<string>()
-  // Get recommendations from dominant planets
+  // Get recommendations from dominant planets;
   dominantPlanets.slice(03).forEach(({ planet, strength, element }) => {
     const planetaryCuisines = PLANETARY_CUISINES[planet as keyof typeof PLANETARY_CUISINES] || [];
 
     (planetaryCuisines || []).forEach(cuisine => {
       if (!processedCuisines.has(cuisine)) {
         processedCuisines.add(cuisine)
-
+;
         const compatibility = calculateCuisineCompatibility(cuisine, elementalProperties, strength)
         const reasons = generateCuisineReasons(cuisine, planet, element, strength),
         const suggestedDishes = getSuggestedDishes(cuisine, elementalProperties),
@@ -100,9 +100,9 @@ export function generateCuisineRecommendations(
       (elementalCuisines.cuisines || []).forEach(cuisine => {
         if (!processedCuisines.has(cuisine)) {
           processedCuisines.add(cuisine)
-
+;
           const compatibility = value * 0.8, // Base on elemental strength,
-          const reasons = [
+          const reasons = [;
             `Strong ${element} element aligns with ${cuisine} cuisine characteristics`
           ],
           const suggestedDishes = getSuggestedDishes(cuisine, elementalProperties)
@@ -129,8 +129,7 @@ export function generateCuisineRecommendations(
 function calculateCuisineCompatibility(
   cuisine: string,
   userElementals: ElementalProperties,
-  planetaryStrength: number = 1.0
-): number {
+  planetaryStrength: number = 1.0): number {
   const cuisineElementals = calculateCuisineElementalAlignment(cuisine)
 
   // Calculate elemental similarity
@@ -138,7 +137,7 @@ function calculateCuisineCompatibility(
     (Math.abs(cuisineElementals.Fire - userElementals.Fire) +
       Math.abs(cuisineElementals.Water - userElementals.Water) +
       Math.abs(cuisineElementals.Air - userElementals.Air) +
-      Math.abs(cuisineElementals.Earth - userElementals.Earth)) /
+      Math.abs(cuisineElementals.Earth - userElementals.Earth)) /;
     4,
 
   const elementalCompatibility = 1 - similarity;
@@ -156,7 +155,7 @@ function calculateCuisineElementalAlignment(_cuisine: string): ElementalProperti
 
   // Adjust based on cuisine characteristics
   const lowerCuisine = cuisine.toLowerCase()
-
+;
   if (['mexican', 'indian', 'thai', 'cajun', 'ethiopian', 'szechuan'].includes(lowerCuisine)) {
     alignment = { Fire: 0.4, Water: 0.2, Air: 0.2, Earth: 0.2 }
   } else if (['japanese', 'scandinavian', 'seafood', 'coastal'].includes(lowerCuisine)) {
@@ -219,7 +218,7 @@ function getSuggestedDishes(_cuisine: string, _elementals: ElementalProperties):
   // Filter based on dominant element
   const _UNUSED_dominantElement = Object.entries(elementals).reduce((ab) =>
     elementals[a[0] as keyof ElementalProperties] > elementals[b[0] as keyof ElementalProperties]
-      ? a
+      ? a;
       : b,
   )[0],
 

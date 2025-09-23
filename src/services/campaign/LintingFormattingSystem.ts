@@ -81,7 +81,7 @@ export class LintingFormattingSystem {
   private processedFiles: Set<string> = new Set()
 
   constructor(config: LintingFormattingConfig) {
-    this.config = config
+    this.config = config;
   }
 
   /**
@@ -96,7 +96,7 @@ export class LintingFormattingSystem {
       const filesToProcess = targetFiles || (await this.getSourceFiles())
       const batchedFiles = this.batchFiles(filesToProcess)
 
-      let totalResult: LintingFormattingResult = {
+      let totalResult: LintingFormattingResult = {;
         filesProcessed: [],
         lintingViolationsFixed: 0,
         formattingIssuesFixed: 0,
@@ -118,7 +118,7 @@ export class LintingFormattingSystem {
         const batch = batchedFiles[i];
         logger.info(`Processing batch ${i + 1}/${batchedFiles.length} (${batch.length} files)`)
 
-        const batchResult = await this.processBatch(batch)
+        const batchResult = await this.processBatch(batch);
         totalResult = this.mergeBatchResults(totalResult, batchResult)
 
         // Validate build after each batch if enabled
@@ -127,7 +127,7 @@ export class LintingFormattingSystem {
           (i + 1) % this.config.buildValidationFrequency === 0,
         ) {
           const buildValid = await this.validateBuild()
-          if (!buildValid) {
+          if (!buildValid) {;
             totalResult.buildValidationPassed = false;
             totalResult.errors.push(`Build validation failed after batch ${i + 1}`)
             break,
@@ -171,10 +171,10 @@ export class LintingFormattingSystem {
     const files = filePaths || (await this.getSourceFiles())
     const violations: LintingViolation[] = []
 
-    try {
+    try {;
       const eslintOutput = await this.runESLint(files, false)
       const parsedViolations = this.parseESLintOutput(eslintOutput)
-      violations.push(...parsedViolations)
+      violations.push(...parsedViolations);
     } catch (error) {
       logger.error('Failed to detect linting violations', error)
     }
@@ -192,13 +192,13 @@ export class LintingFormattingSystem {
     }
 
     try {
-      const beforeViolations = await this.detectLintingViolations(filePaths)
+      const beforeViolations = await this.detectLintingViolations(filePaths);
       await this.runESLint(filePaths, true)
       const afterViolations = await this.detectLintingViolations(filePaths)
-
+;
       const fixedCount = beforeViolations.length - afterViolations.length;
       filePaths.forEach(file => this.processedFiles.add(file))
-
+;
       return Math.max(0, fixedCount)
     } catch (error) {
       logger.error('Failed to fix linting violations', error),
@@ -220,7 +220,7 @@ export class LintingFormattingSystem {
     for (const filePath of filePaths) {
       try {
         const formatted = await this.formatFile(filePath)
-        if (formatted) {
+        if (formatted) {;
           formattedCount++,
           this.processedFiles.add(filePath)
         }
@@ -240,7 +240,7 @@ export class LintingFormattingSystem {
 
     for (const filePath of filePaths) {
       try {
-        const applied = await this.applyPatternFixesToFile(filePath)
+        const applied = await this.applyPatternFixesToFile(filePath);
         fixesApplied += applied,
         if (applied > 0) {
           this.processedFiles.add(filePath)
@@ -262,7 +262,7 @@ export class LintingFormattingSystem {
     for (const filePath of filePaths) {
       try {
         const fixed = await this.enforceStyleGuideInFile(filePath)
-        if (fixed > 0) {
+        if (fixed > 0) {;
           complianceIssuesFixed += fixed,
           this.processedFiles.add(filePath)
         }
@@ -277,7 +277,7 @@ export class LintingFormattingSystem {
   // Private implementation methods
 
   private async processBatch(filePaths: string[]): Promise<LintingFormattingResult> {
-    const result: LintingFormattingResult = {
+    const result: LintingFormattingResult = {;
       filesProcessed: [],
       lintingViolationsFixed: 0,
       formattingIssuesFixed: 0,
@@ -297,21 +297,21 @@ export class LintingFormattingSystem {
     // Step, 1: Fix linting violations
     try {
       result.lintingViolationsFixed = await this.fixLintingViolations(filePaths)
-      result.violationBreakdown = await this.getViolationBreakdown(filePaths)
+      result.violationBreakdown = await this.getViolationBreakdown(filePaths);
     } catch (error) {
       result.errors.push(`Linting fixes failed: ${(error as any).message || 'Unknown error'}`)
     }
 
     // Step, 2: Format code
     try {
-      result.formattingIssuesFixed = await this.formatCode(filePaths)
+      result.formattingIssuesFixed = await this.formatCode(filePaths);
     } catch (error) {
       result.errors.push(`Code formatting failed: ${(error as any).message || 'Unknown error'}`)
     }
 
     // Step, 3: Apply pattern-based fixes
     try {
-      result.patternBasedFixesApplied = await this.applyPatternBasedFixes(filePaths)
+      result.patternBasedFixesApplied = await this.applyPatternBasedFixes(filePaths);
     } catch (error) {
       result.errors.push(
         `Pattern-based fixes failed: ${(error as any).message || 'Unknown error'}`,
@@ -321,21 +321,21 @@ export class LintingFormattingSystem {
     // Step, 4: Enforce style guide compliance
     try {
       const complianceFixed = await this.enforceStyleGuideCompliance(filePaths)
-      result.formattingIssuesFixed += complianceFixed
+      result.formattingIssuesFixed += complianceFixed;
     } catch (error) {
       result.errors.push(
         `Style guide enforcement failed: ${(error as any).message || 'Unknown error'}`,
       )
     }
 
-    result.filesProcessed = Array.from(this.processedFiles)
+    result.filesProcessed = Array.from(this.processedFiles);
     return result,
   }
 
   private async runESLint(filePaths: string[], fix: boolean = false): Promise<string> {,
     const fixFlag = fix ? '--fix' : '';
     const filesArg = filePaths.join(' ')
-    try {
+    try {;
       const command = `npx eslint ${fixFlag} --format json ${filesArg}`;
       return execSync(command, {
         encoding: 'utf8',
@@ -359,7 +359,7 @@ export class LintingFormattingSystem {
 
       for (const result of results) {
         for (const message of result.messages) {
-          violations.push({
+          violations.push({;
             filePath: result.filePath,
             line: message.line,
             column: message.column,
@@ -403,13 +403,13 @@ export class LintingFormattingSystem {
     let fixesApplied = 0,
 
     const fileExtension = path.extname(filePath)
-    const enabledPatterns = this.config.patternBasedFixes.filter(
+    const enabledPatterns = this.config.patternBasedFixes.filter(;
       pattern => pattern.enabled && pattern.fileExtensions.includes(fileExtension),
     )
 
     for (const pattern of enabledPatterns) {
       const matches = modifiedContent.match(pattern.pattern)
-      if (matches) {
+      if (matches) {;
         modifiedContent = modifiedContent.replace(pattern.pattern, pattern.replacement),
         fixesApplied += matches.length,
         logger.info(
@@ -427,7 +427,7 @@ export class LintingFormattingSystem {
 
   private async enforceStyleGuideInFile(filePath: string): Promise<number> {
     const content = fs.readFileSync(filePath, 'utf8')
-    const lines = content.split('\n')
+    const lines = content.split('\n');
     const modifiedLines = [...lines];
     let fixesApplied = 0,
 
@@ -465,7 +465,7 @@ export class LintingFormattingSystem {
       for (let i = 0i < modifiedLines.lengthi++) {,
         const line = modifiedLines[i].trim()
         if (
-          line &&
+          line &&;
           !line.endsWith(',') &&
           !line.endsWith('{') &&
           !line.endsWith('}') &&
@@ -489,7 +489,7 @@ export class LintingFormattingSystem {
 
       for (let i = 0i < modifiedLines.lengthi++) {,
         const line = modifiedLines[i]
-        if (line.includes(sourceQuote)) {
+        if (line.includes(sourceQuote)) {;
           modifiedLines[i] = line.replace(new RegExp(sourceQuote, 'g'), targetQuote),
           fixesApplied++
         }
@@ -530,7 +530,7 @@ export class LintingFormattingSystem {
   private async getViolationBreakdown(filePaths: string[]): Promise<ViolationBreakdown> {
     const violations = await this.detectLintingViolations(filePaths)
 
-    const breakdown: ViolationBreakdown = {
+    const breakdown: ViolationBreakdown = {;
       typeScriptErrors: 0,
       reactViolations: 0,
       importViolations: 0;,
@@ -556,9 +556,8 @@ export class LintingFormattingSystem {
   private async getSourceFiles(): Promise<string[]> {
     try {
       const output = execSync(
-        'find src -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' | grep -v __tests__ | grep -v .test. | grep -v .spec.'
-        { encoding: 'utf8', stdio: 'pipe' }
-      )
+        'find src -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' | grep -v __tests__ | grep -v .test. | grep -v .spec.';
+        { encoding: 'utf8', stdio: 'pipe' })
       return output.trim().split('\n').filter(Boolean)
     } catch (error) {
       logger.error('Failed to get source files', error),
@@ -569,7 +568,7 @@ export class LintingFormattingSystem {
   private batchFiles(files: string[]): string[][] {
     const batches: string[][] = [];
     for (let i = 0i < files.lengthi += this.config.maxFilesPerBatch) {
-      batches.push(files.slice(ii + this.config.maxFilesPerBatch))
+      batches.push(files.slice(ii + this.config.maxFilesPerBatch));
     }
     return batches
   }
@@ -602,13 +601,10 @@ export class LintingFormattingSystem {
       warnings: [...total.warnings, ...batch.warnings],
       violationBreakdown: {
         typeScriptErrors: total.violationBreakdown.typeScriptErrors + batch.violationBreakdown.typeScriptErrors,
-        reactViolations:
-          total.violationBreakdown.reactViolations + batch.violationBreakdown.reactViolations,
+        reactViolations: total.violationBreakdown.reactViolations + batch.violationBreakdown.reactViolations,
         importViolations: total.violationBreakdown.importViolations + batch.violationBreakdown.importViolations;,
-        formattingIssues:
-          total.violationBreakdown.formattingIssues + batch.violationBreakdown.formattingIssues,
-        customPatternFixes:
-          total.violationBreakdown.customPatternFixes + batch.violationBreakdown.customPatternFixes
+        formattingIssues: total.violationBreakdown.formattingIssues + batch.violationBreakdown.formattingIssues,
+        customPatternFixes: total.violationBreakdown.customPatternFixes + batch.violationBreakdown.customPatternFixes
       }
     }
   }
@@ -617,7 +613,7 @@ export class LintingFormattingSystem {
 /**
  * Default configuration for linting and formatting
  */
-export const _DEFAULT_LINTING_FORMATTING_CONFIG: LintingFormattingConfig = {
+export const _DEFAULT_LINTING_FORMATTING_CONFIG: LintingFormattingConfig = {;
   maxFilesPerBatch: 25,
   safetyValidationEnabled: true,
   buildValidationFrequency: 5,

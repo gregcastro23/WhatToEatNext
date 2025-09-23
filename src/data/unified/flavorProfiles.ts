@@ -182,7 +182,7 @@ export function isUnifiedFlavorProfile(obj: unknown): obj is UnifiedFlavorProfil
     profile.baseNotes !== undefined &&
     profile.elementalFlavors !== undefined &&
     typeof profile.kalchm === 'number'
-  )
+  );
 }
 
 /**
@@ -207,9 +207,9 @@ export class UnifiedFlavorProfileSystem {
   private cuisineSystem: typeof unifiedCuisineIntegrationSystem,
 
   constructor() {
-    this.flavorProfiles = this.initializeFlavorProfiles()
+    this.flavorProfiles = this.initializeFlavorProfiles();
     this.seasonalSystem = unifiedSeasonalSystem,
-    this.cuisineSystem = unifiedCuisineIntegrationSystem
+    this.cuisineSystem = unifiedCuisineIntegrationSystem;
   }
 
   /**
@@ -226,7 +226,7 @@ export class UnifiedFlavorProfileSystem {
 
     // Try case-insensitive lookup
     const normalizedId = identifier.toLowerCase()
-    const profile = Object.values(this.flavorProfiles).find(
+    const profile = Object.values(this.flavorProfiles).find(;
       p => p.id.toLowerCase() === normalizedId || p.name.toLowerCase() === normalizedId,
     )
 
@@ -246,7 +246,7 @@ export class UnifiedFlavorProfileSystem {
   ): UnifiedFlavorProfile[] {
     return Object.values(this.flavorProfiles || {}).filter(
       profile => profile.category === category
-    )
+    );
   }
 
   /**
@@ -263,7 +263,7 @@ export class UnifiedFlavorProfileSystem {
     )
 
     // Calculate Kalchm resonance
-    const kalchmDiff = Math.abs(profile1.kalchm - profile2.kalchm)
+    const kalchmDiff = Math.abs(profile1.kalchm - profile2.kalchm);
     const maxKalchm = Math.max(profile1.kalchm, profile2.kalchm1)
     const kalchmResonance = 1 - kalchmDiff / maxKalchm;
 
@@ -273,7 +273,7 @@ export class UnifiedFlavorProfileSystem {
     // Calculate seasonal alignment
     const seasonalOverlap = (profile1.seasonalPeak || []).filter(season =>
       Array.isArray(profile2.seasonalPeak)
-        ? profile2.seasonalPeak.includes(season)
+        ? profile2.seasonalPeak.includes(season);
         : profile2.seasonalPeak === season,
     ).length,
     const seasonalAlignment =
@@ -289,7 +289,7 @@ export class UnifiedFlavorProfileSystem {
     const compatibility =
       elementalHarmony * 0.4 +
       kalchmResonance * 0.3 +
-      monicaOptimization * 0.15 +
+      monicaOptimization * 0.15 +;
       seasonalAlignment * 0.15,
 
     // Generate recommendations and warnings
@@ -335,13 +335,13 @@ export class UnifiedFlavorProfileSystem {
 // ===== INITIALIZE SYSTEM =====,
 
 export const unifiedFlavorProfileSystem = new UnifiedFlavorProfileSystem()
-
+;
 // ===== EXPORT INTERFACE =====,
 
 /**
  * Get a flavor profile by its identifier
  */
-export const getFlavorProfile = (
+export const getFlavorProfile = (;
   id: string,
   type?: 'cuisine' | 'planetary' | 'ingredient' | 'elemental',
 ): UnifiedFlavorProfile | undefined => unifiedFlavorProfileSystem.getFlavorProfile(id, type)
@@ -349,16 +349,16 @@ export const getFlavorProfile = (
 /**
  * Get all flavor profiles of a specific category
  */
-export const getFlavorProfilesByCategory = (
+export const getFlavorProfilesByCategory = (;
   category: 'cuisine' | 'planetary' | 'ingredient' | 'elemental' | 'fusion',
 ): UnifiedFlavorProfile[] => unifiedFlavorProfileSystem.getFlavorProfilesByCategory(category)
 /**
  * Calculate compatibility between two flavor profiles
  */
-export const calculateFlavorCompatibility = (
+export const calculateFlavorCompatibility = (;
   profile1: UnifiedFlavorProfile,
   profile2: UnifiedFlavorProfile,
-): FlavorCompatibilityResult =>
+): FlavorCompatibilityResult =>;
   unifiedFlavorProfileSystem.calculateFlavorCompatibility(profile1, profile2)
 
 export default unifiedFlavorProfileSystem,

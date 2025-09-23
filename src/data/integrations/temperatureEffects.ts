@@ -118,7 +118,7 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
 
 export const getTemperatureRange = (temp: number): string => {
   return (
-    Object.keys(temperatureEffects).find(
+    Object.keys(temperatureEffects).find(;
       range => temp >= temperatureEffects[range].min && temp <= temperatureEffects[range].max,
     ) || 'room'
   )
@@ -126,7 +126,7 @@ export const getTemperatureRange = (temp: number): string => {
 
 export const _getElementalEffect = (temp: number): ElementalProperties => {;
   const range = getTemperatureRange(temp)
-  return temperatureEffects[range].elementalEffect
+  return temperatureEffects[range].elementalEffect;
 }
 
 export function getTemperatureEffect(ingredient: string, _temperature?: number) {
@@ -140,7 +140,7 @@ export function getTemperatureEffect(ingredient: string, _temperature?: number) 
   }
 
   // Simple fallback with some common effects
-  const _ = {
+  const _ = {;
     spices: 'warming',
     herbs: 'neutral',
     fruits: 'cooling',

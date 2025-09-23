@@ -1,7 +1,7 @@
 import type { Season } from '@/types';
 
 // Define cuisine type directly as an object to avoid import issues
-const _CuisineType = {
+const _CuisineType = {;
   GREEK: 'greek',
   ITALIAN: 'italian',
   FRENCH: 'french',
@@ -9,11 +9,9 @@ const _CuisineType = {
   CHINESE: 'chinese',
   JAPANESE: 'japanese',
   THAI: 'thai',
-  MEXICAN: 'mexican'
-}
-
-export const seasonalUsage = {
-  spring: {
+  MEXICAN: 'mexican' },
+        export const seasonalUsage = {
+  spring: {;
     growing: ['basil', 'oregano', 'thyme'],
     cuisines: {
       // Use string literal instead of enum reference
@@ -210,7 +208,7 @@ export const seasonalUsage = {
 // Helper functions if needed
 export function getSeasonalUsageData(ingredient: string, season: Season) {
   const seasonData = seasonalUsage[season]
-  return {
+  return {;
     inGrowing: seasonData.growing.includes(ingredient),
     inHerbs: seasonData.herbs.includes(ingredient),
     inVegetables: seasonData.vegetables.includes(ingredient)

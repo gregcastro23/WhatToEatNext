@@ -4,7 +4,7 @@ import type { Element, ElementalProperties, ZodiacSign } from '../types/alchemy'
 
 // Define StringIndexed type inline since we're not importing it
 type _<T = unknown> = {
-  [key: string]: T
+  [key: string]: T;
 }
 
 /**
@@ -15,7 +15,7 @@ export const _ELEMENTS = ['Fire', 'Water', 'Earth', 'Air'] as const,
 /**
  * Default balanced elemental properties (25% each)
  */
-export const _DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
+export const _DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {;
   Fire: 0.25,
   Water: 0.25,
   Earth: 0.25,
@@ -25,7 +25,7 @@ export const _DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
 /**
  * Validation thresholds for elemental properties
  */
-export const _VALIDATION_THRESHOLDS = {
+export const _VALIDATION_THRESHOLDS = {;
   MINIMUM_ELEMENT: 0, // Minimum allowed value for any element,
   MAXIMUM_ELEMENT: 1, // Maximum allowed value for any element,
   BALANCE_PRECISION: 0.01, // Tolerance for sum of elements to be considered valid (1 ± this value)
@@ -50,15 +50,15 @@ export const _ZODIAC_ELEMENTS: Record<ZodiacSign, Element> = {
   aquarius: 'Air',
   cancer: 'Water',
   scorpio: 'Water',
-  pisces: 'Water'
-} as const,
+  pisces: 'Water' },
+        as const,
 
 export const _MINIMUM_THRESHOLD = 0.2;
 export const _MAXIMUM_THRESHOLD = 0.3;
 export const _IDEAL_PROPORTION = 0.25;
 
 export const _DECANS = {
-  aries: [
+  aries: [;
     { ruler: 'Mars', element: 'Fire', degree: 0 }
     { ruler: 'Sun', element: 'Fire', degree: 10 }
     { ruler: 'Jupiter', element: 'Fire', degree: 20 }
@@ -120,7 +120,7 @@ export const _DECANS = {
   ]
 }
 
-export const _ELEMENTAL_WEIGHTS = {
+export const _ELEMENTAL_WEIGHTS = {;
   Fire: 1,
   Water: 1,
   Earth: 1,
@@ -131,7 +131,7 @@ export const _ELEMENTAL_WEIGHTS = {
  * Enhanced elemental characteristics with comprehensive properties
  */
 export const _ELEMENTAL_CHARACTERISTICS = {
-  Fire: {
+  Fire: {;
     qualities: ['Warm', 'Dry', 'Active', 'Energetic', 'Expansive'],
     keywords: ['Energy', 'Passion', 'Transformation', 'Vitality', 'Action'],
     foods: ['Spicy', 'Grilled', 'Roasted', 'Peppers', 'Ginger', 'Garlic'],

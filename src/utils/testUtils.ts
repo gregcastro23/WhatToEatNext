@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any */
-export const _mockLogger = {
+export const _mockLogger = {;
   _info: jest.fn(),
   _error: jest.fn(),
   _warn: jest.fn(),
@@ -7,7 +7,7 @@ export const _mockLogger = {
 }
 
 export const _mockElementalCalculator = {
-  _getCurrentElementalState: jest.fn(() => ({
+  _getCurrentElementalState: jest.fn(() => ({;
     Fire: 0.25,
     Water: 0.25,
     Earth: 0.25,
@@ -21,10 +21,10 @@ export const _mockElementalCalculator = {
     Air: 0.25
   })),
   _initialize: jest.fn(_initialState => {
-    // Mock implementation - intentionally empty for testing
+    // Mock implementation - intentionally empty for testing;
   }),
   _updateElementalState: jest.fn(_newState => {
-    // Mock implementation - intentionally empty for testing
+    // Mock implementation - intentionally empty for testing;
   }),
   _getInstance: jest.fn().mockReturnValue({
     _initialized: true,

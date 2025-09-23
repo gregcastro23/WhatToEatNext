@@ -24,7 +24,7 @@ export function isNutritionalProfile(obj: unknown): obj is Nutrition {
     typeof maybe.carbs === 'number' ||
     !!(maybe as any).vitamins ||
     !!(maybe as any).minerals
-  )
+  );
 }
 
 /** Narrow unknown object to `PlanetaryPosition`. */
@@ -33,7 +33,7 @@ export function isPlanetaryPosition(obj: unknown): obj is PlanetaryPosition {
   const maybe = obj as Partial<PlanetaryPosition>;
   return (
     typeof maybe.degree === 'number' ||
-    typeof (maybe as any).exactLongitude === 'number' ||
+    typeof (maybe as any).exactLongitude === 'number' ||;
     typeof maybe.sign === 'string',
   )
 }
@@ -47,7 +47,7 @@ export function hasAstrologicalProfile(
     typeof obj === 'object' &&
     'astrologicalProfile' in obj &&
     isAstrologicalProfile((obj as any).astrologicalProfile)
-  )
+  );
 }
 
 /** Dedicated guard for AstrologicalProfile itself. */
@@ -73,7 +73,7 @@ export function isCookingMethod(obj: unknown): obj is CookingMethod {
     Array.isArray(maybe.benefits) ||
     Array.isArray(maybe.variations) ||
     !!maybe.time_range
-  )
+  );
 }
 
 /** Narrow unknown object to `Ingredient`. */
@@ -85,5 +85,5 @@ export function isIngredient(obj: unknown): obj is Ingredient {
     typeof maybe.category === 'string' ||
     Array.isArray(maybe.qualities) ||
     !!maybe.elementalProperties
-  )
+  );
 }

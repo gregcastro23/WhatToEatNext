@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 
 // Mock useAlchemical hook since the import is missing
-const useAlchemical = () => ({
+const useAlchemical = () => ({;
   planetaryPositions: {}
   isLoading: false
 })
@@ -50,7 +50,7 @@ export function useRecipeRecommendations(
 
     // Calculate elemental distribution from planetary positions
     const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 }
-    const elementMap = {
+    const elementMap = {;
       aries: 'Fire',
       leo: 'Fire',
       sagittarius: 'Fire',
@@ -62,13 +62,11 @@ export function useRecipeRecommendations(
       aquarius: 'Air',
       cancer: 'Water',
       scorpio: 'Water',
-      pisces: 'Water'
-    }
-
-    Object.values(planetaryPositions || {}).forEach(position => {
-      // Safe property access with type checking
+      pisces: 'Water' },
+        Object.values(planetaryPositions || {}).forEach(position => {
+      // Safe property access with type checking;
       const positionData = position ;
-      const sign = positionData?.sign || positionData?.Sign || ''
+      const sign = positionData?.sign || positionData?.Sign || '';
       const element = elementMap[sign.toLowerCase() as keyof typeof elementMap];
       if (element) {
         elementCounts[element as keyof typeof elementCounts]++
@@ -136,13 +134,13 @@ export function useRecipeRecommendations(
         let filteredRecipes = recipesWithScores,
 
         if (state.filters.cuisine) {
-          filteredRecipes = filteredRecipes.filter(r => r.cuisine === state.filters.cuisine)
+          filteredRecipes = filteredRecipes.filter(r => r.cuisine === state.filters.cuisine);
         }
 
         if (state.filters.cookingMethod) {
           filteredRecipes = filteredRecipes.filter(
             r => r.cookingMethod === state.filters.cookingMethod
-          )
+          );
         }
 
         // Sort by score and limit results
@@ -169,7 +167,7 @@ export function useRecipeRecommendations(
 
   const updateFilters = (newFilters: Partial<RecipeRecommendationsData['filters']>) => {;
     setState(prev => ({
-      ...prev
+      ...prev;
       filters: { ...prev.filters, ...newFilters }
     }))
   }
@@ -183,13 +181,12 @@ export function useRecipeRecommendations(
 
 function calculateElementalCompatibility(
   recipeProfile: { Fire: number, Water: number, Earth: number, Air: number }
-  currentProfile: { Fire: number, Water: number, Earth: number, Air: number }
-): number {
+  currentProfile: { Fire: number, Water: number, Earth: number, Air: number }): number {
   // Simple compatibility calculation - can be enhanced
   const diff =
     Math.abs(recipeProfile.Fire - currentProfile.Fire) +
     Math.abs(recipeProfile.Water - currentProfile.Water) +
     Math.abs(recipeProfile.Earth - currentProfile.Earth) +
-    Math.abs(recipeProfile.Air - currentProfile.Air)
+    Math.abs(recipeProfile.Air - currentProfile.Air);
   return Math.max(01 - diff / 2), // Convert difference to compatibility score
 }

@@ -6,10 +6,9 @@ import type { CookingMethodData } from '@/types/cookingMethod';
  *
  * Cooking food by surrounding it with hot water vapor, allowing gentle, moisture-rich heat transfer
  */
-export const steaming: CookingMethodData = {
+export const steaming: CookingMethodData = {;
   name: 'steaming',
-  description:
-    'Cooking food by suspending it above simmering water where rising vapor gently cooks the food, preserving nutrients and moisture',
+  description: 'Cooking food by suspending it above simmering water where rising vapor gently cooks the food, preserving nutrients and moisture',
   elementalEffect: {
     Water: 0.6,
     Air: 0.3,
@@ -197,8 +196,7 @@ export const steaming: CookingMethodData = {
   } as ThermodynamicProperties,
 
   // Additional metadata
-  history:
-    'Steaming dates back to ancient Chinese cooking techniques from at least 5000 BCE, where bamboo steamers were developed for rice and dumplings. Archaeological evidence shows pottery steamers from the Banpo Neolithic settlement (4800-4200 BCE) in China\'s Yellow River Valley. The technique spread throughout Asia and eventually worldwide. In 18th century Europe, \'bain-marie\' steaming became fashionable in French cuisine. Modern pressure steamers were developed in the early 20th century, while contemporary high-tech combi-ovens with precision steam control represent the latest evolution.',
+  history: 'Steaming dates back to ancient Chinese cooking techniques from at least 5000 BCE, where bamboo steamers were developed for rice and dumplings. Archaeological evidence shows pottery steamers from the Banpo Neolithic settlement (4800-4200 BCE) in China\'s Yellow River Valley. The technique spread throughout Asia and eventually worldwide. In 18th century Europe, \'bain-marie\' steaming became fashionable in French cuisine. Modern pressure steamers were developed in the early 20th century, while contemporary high-tech combi-ovens with precision steam control represent the latest evolution.',
 
   scientificPrinciples: [
     'Latent heat of vaporization releases 540 cal/g of energy when steam condenses on food surface',
@@ -263,27 +261,19 @@ export const steaming: CookingMethodData = {
     vegetables:
       'Clean thoroughly cut into uniform sizes (smaller for dense vegetables, larger for tender ones); arrange with space between pieces for steam circulation',
     fish_fillets: 'Pat dry; season lightly; place on heat-proof plate that fits in steamer; add aromatics score thicker portions for even cooking',
-    whole_fish:
-      'Scale, clean and gut; score sides at 1-inch intervals to ensure even cooking; stuff cavity with aromatics; place on heat-proof plate',
+    whole_fish: 'Scale, clean and gut; score sides at 1-inch intervals to ensure even cooking; stuff cavity with aromatics; place on heat-proof plate',
     dumplings: 'Arrange with 1/2 inch space between line steamer with parchment, cabbage leaves or cloth to prevent sticking; avoid overcrowding',
     rice: 'Rinse until water runs clear to remove excess starch; soak glutinous rice for 1-4 hours before steaming use 1:1 ratio of rice to water',
-    custards:
-      'Strain mixture to remove lumps, cover with foil to prevent condensation dripping; place in water bath for gentle heating',
+    custards: 'Strain mixture to remove lumps, cover with foil to prevent condensation dripping; place in water bath for gentle heating',
     chicken: 'Cut joints and score thick portions for even cooking; marinate prior to steaming for flavor penetration arrange in single layer',
     eggs: 'For whole eggs, prick wider end with pin to prevent cracking; for custards, filter mixture through fine mesh',
-    layered_dishes:
-      'Place longer-cooking ingredients at bottom, delicate ingredients at top; consider flavor migration between layers',
-    roots_tubers:
-      'Peel if necessary, cut to uniform sizes (1-2 inch pieces), pre-soak very dense vegetables for 10-15 minutes',
-    greens:
-      'Wash thoroughly, remove tough stems, leave whole for easy removal or chop for inclusion in dishes'
-  }
-
-  timingConsiderations: {
+    layered_dishes: 'Place longer-cooking ingredients at bottom, delicate ingredients at top; consider flavor migration between layers',
+    roots_tubers: 'Peel if necessary, cut to uniform sizes (1-2 inch pieces), pre-soak very dense vegetables for 10-15 minutes',
+    greens: 'Wash thoroughly, remove tough stems, leave whole for easy removal or chop for inclusion in dishes' },
+        timingConsiderations: {
     preheating:
       'Always preheat the steamer with lid on until vigorous steam appears before adding food (usually 5-8 minutes)',
-    leafy_greens:
-      'Steam for 1-3 minutes until bright green and just wilted, immediately remove to prevent overcooking',
+    leafy_greens: 'Steam for 1-3 minutes until bright green and just wilted, immediately remove to prevent overcooking',
     root_vegetables: 'Small pieces (1-inch): 10-15 minutes; medium pieces (2-inch): 15-20 minutes test with knife for tenderness',
     fish_fillets: 'Thin fillets (1/2 inch): 5-7 minutes; medium (1 inch): 8-10 minutes thick (1 1/2+ inches): 12-15 minutes',
     whole_fish: '10 minutes per inch of thickness measured at thickest point check for flaky texture',
@@ -292,11 +282,8 @@ export const steaming: CookingMethodData = {
     shellfish: 'Shrimp: 3-5 minutes; clams/mussels: 5-7 minutes (until shells open) crab: 12-15 minutes (per pound)',
     eggs: 'Soft-cooked: 6-7 minutes, medium: 8-9 minutes; hard-cooked: 10-12 minutes custards: 30-35 minutes',
     rice: 'White rice: 30-35 minutes, glutinous/sticky rice: 25-30 minutes, brown rice: 45-50 minutes',
-    rest_after:
-      'Fish: 2-3 minutes, chicken: 5-10 minutes, vegetables: serve immediately, rice: 5-10 minutes'
-  }
-
-  doneness_indicators: {
+    rest_after: 'Fish: 2-3 minutes, chicken: 5-10 minutes, vegetables: serve immediately, rice: 5-10 minutes' },
+        doneness_indicators: {
     fish: 'Flesh turns from translucent to opaque; flakes easily with fork internal temperature 145°F',
     chicken: 'No pink remains; juices run clear internal temperature 165°F at thickest part',
     eggs_soft: 'Whites set firm but yolks remain runny whites not translucent',
@@ -305,29 +292,19 @@ export const steaming: CookingMethodData = {
     green_vegetables: 'Bright vibrant color; crisp-tender texture slight resistance when bitten',
     root_vegetables: 'Knife or skewer penetrates with slight resistance maintains shape but not crunchy',
     rice: 'All water absorbed; grains separate easily tender without hardness in center',
-    dumplings:
-      'Wrappers become translucent, filling reaches appropriate temperature (meat 165°F), dough not sticky',
-    bao_buns:
-      'Dough springs back when touched lightly, increase in size by 50%, no raw dough in center'
-  }
-
-  ingredientInteractions: {
+    dumplings: 'Wrappers become translucent, filling reaches appropriate temperature (meat 165°F), dough not sticky',
+    bao_buns: 'Dough springs back when touched lightly, increase in size by 50%, no raw dough in center' },
+        ingredientInteractions: {
     stacking_effects:
       'Flavors from upper layers can drip onto lower items arrange complementary flavors together or use barriers',
-    aromatics_infusion:
-      'Fresh herbs, spices, and citrus in steaming water infuse subtle flavors; stronger in closed systems',
-    color_transfers:
-      'Strongly colored ingredients (beets, turmeric) can tint adjacent foods; separate for visual appeal',
+    aromatics_infusion: 'Fresh herbs, spices, and citrus in steaming water infuse subtle flavors; stronger in closed systems',
+    color_transfers: 'Strongly colored ingredients (beets, turmeric) can tint adjacent foods; separate for visual appeal',
     moisture_management: 'Drier ingredients placed below moister ones benefit from natural basting leafy greens below can wilt from dripping',
     condensation_control: 'Covering custards prevents water spots some items benefit from direct condensation (bao buns)',
     salt_timing: 'Salt draws moisture from vegetables; better added after steaming for crisp texture fish benefits from light pre-salting',
-    acid_effects:
-      'Acidic marinades partially cook proteins before steaming, reduce steaming time accordingly',
-    sugar_interactions:
-      'Sugar in marinades accelerates browning in post-steam finishing techniques, enhances caramelization',
-    oil_applications:
-      'Light oil on food surface prevents sticking and carries fat-soluble flavors, apply before steaming',
-    alcohol_evaporation:
-      'Alcohol in steaming liquid (wine, sake) imparts flavor but alcohol largely evaporates, use in well-ventilated area'
+    acid_effects: 'Acidic marinades partially cook proteins before steaming, reduce steaming time accordingly',
+    sugar_interactions: 'Sugar in marinades accelerates browning in post-steam finishing techniques, enhances caramelization',
+    oil_applications: 'Light oil on food surface prevents sticking and carries fat-soluble flavors, apply before steaming',
+    alcohol_evaporation: 'Alcohol in steaming liquid (wine, sake) imparts flavor but alcohol largely evaporates, use in well-ventilated area'
   }
 }

@@ -1,11 +1,10 @@
 // src/data/cuisines/korean.ts
 import type { Cuisine } from '@/types/cuisine';
 
-export const korean: Cuisine = {
+export const korean: Cuisine = {;
   id: 'korean',
   name: 'Korean',
-  description:
-    'Traditional Korean cuisine emphasizing fermented foods, communal dining, and balanced flavors with rice, banchan, and grilled meats',
+  description: 'Traditional Korean cuisine emphasizing fermented foods, communal dining, and balanced flavors with rice, banchan, and grilled meats',
   dishes: {
     breakfast: {
       all: [
@@ -46,8 +45,7 @@ export const korean: Cuisine = {
           allergens: ['egg', 'soy'],
           prepTime: '5 minutes',
           cookTime: '10 minutes',
-          culturalNotes:
-            'A popular comfort food in Korean households, especially for breakfast or quick meals. The dish showcases the Korean love for eggs and rice combinations',
+          culturalNotes: 'A popular comfort food in Korean households, especially for breakfast or quick meals. The dish showcases the Korean love for eggs and rice combinations',
           pairingSuggestions: ['kimchi', 'doenjang soup', 'pickled radish'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -105,8 +103,7 @@ export const korean: Cuisine = {
           allergens: ['none'],
           prepTime: '10 minutes',
           cookTime: '30 minutes',
-          culturalNotes:
-            'A traditional Korean comfort food often served to the sick or elderly. Different versions exist for various occasions and seasons',
+          culturalNotes: 'A traditional Korean comfort food often served to the sick or elderly. Different versions exist for various occasions and seasons',
           pairingSuggestions: ['kimchi', 'pickled vegetables', 'side dishes'],
           dietaryInfo: ['vegetarian', 'vegan'],
           spiceLevel: 'none',
@@ -159,8 +156,7 @@ export const korean: Cuisine = {
           allergens: ['soy', 'wheat'],
           prepTime: 'overnight soaking + 15 minutes',
           cookTime: '30 minutes',
-          culturalNotes:
-            'A refreshing summer dish that showcases the versatility of soybeans in Korean cuisine. Popular during hot summer months',
+          culturalNotes: 'A refreshing summer dish that showcases the versatility of soybeans in Korean cuisine. Popular during hot summer months',
           pairingSuggestions: ['kimchi', 'pickled radish', 'side dishes'],
           dietaryInfo: ['vegetarian', 'vegan'],
           spiceLevel: 'none',
@@ -225,8 +221,7 @@ export const korean: Cuisine = {
           allergens: ['egg', 'soy'],
           prepTime: '30 minutes',
           cookTime: '20 minutes',
-          culturalNotes:
-            'Originally served to royalty, bibimbap represents the Korean principle of balanced eating with its colorful array of vegetables. The dish name means 'mixed rice'',
+          culturalNotes: 'Originally served to royalty, bibimbap represents the Korean principle of balanced eating with its colorful array of vegetables. The dish name means 'mixed rice'',
           pairingSuggestions: ['kimchi', 'doenjang soup', 'korean tea'],
           dietaryInfo: ['adaptable to vegetarian/vegan'],
           spiceLevel: 'adjustable',
@@ -277,8 +272,7 @@ export const korean: Cuisine = {
           allergens: ['soy'],
           prepTime: '15 minutes',
           cookTime: '30 minutes',
-          culturalNotes:
-            'A quintessential Korean comfort food that makes use of aged kimchi. The dish exemplifies the Korean philosophy of not wasting food',
+          culturalNotes: 'A quintessential Korean comfort food that makes use of aged kimchi. The dish exemplifies the Korean philosophy of not wasting food',
           pairingSuggestions: ['steamed rice', 'fried egg', 'side dishes'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'medium to hot',
@@ -339,8 +333,7 @@ export const korean: Cuisine = {
           allergens: ['wheat', 'egg'],
           prepTime: '20 minutes',
           cookTime: '15 minutes plus chilling time',
-          culturalNotes:
-            'A refreshing summer dish that originated in North Korea. The cold temperature and chewy noodles are essential characteristics',
+          culturalNotes: 'A refreshing summer dish that originated in North Korea. The cold temperature and chewy noodles are essential characteristics',
           pairingSuggestions: ['kimchi', 'dongchimi', 'soju'],
           dietaryInfo: ['adaptable to vegetarian/vegan'],
           spiceLevel: 'mild',
@@ -393,8 +386,7 @@ export const korean: Cuisine = {
           allergens: ['egg'],
           prepTime: '20 minutes',
           cookTime: '40 minutes',
-          culturalNotes:
-            'Eating tteokguk on New Year's Day is said to add a year to one's age. The white rice cakes symbolize purity and a fresh start',
+          culturalNotes: 'Eating tteokguk on New Year's Day is said to add a year to one's age. The white rice cakes symbolize purity and a fresh start',
           pairingSuggestions: ['kimchi', 'japchae', 'Korean tea'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'none',
@@ -444,8 +436,7 @@ export const korean: Cuisine = {
           allergens: ['soy'],
           prepTime: '15 minutes',
           cookTime: '30 minutes',
-          culturalNotes:
-            'A popular Korean BBQ dish that emphasizes communal dining. The ritual of grilling and wrapping meat is an essential part of Korean food culture',
+          culturalNotes: 'A popular Korean BBQ dish that emphasizes communal dining. The ritual of grilling and wrapping meat is an essential part of Korean food culture',
           pairingSuggestions: ['soju', 'beer', 'steamed rice', 'doenjang soup'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'adjustable',
@@ -491,8 +482,7 @@ export const korean: Cuisine = {
           allergens: ['shellfish', 'soy', 'egg'],
           prepTime: '15 minutes',
           cookTime: '20 minutes',
-          culturalNotes:
-            'A comforting stew that showcases the silky texture of fresh soft tofu. Popular in both restaurants and homes',
+          culturalNotes: 'A comforting stew that showcases the silky texture of fresh soft tofu. Popular in both restaurants and homes',
           pairingSuggestions: ['rice', 'kimchi', 'side dishes'],
           dietaryInfo: ['adaptable to vegetarian/vegan'],
           spiceLevel: 'adjustable',
@@ -538,8 +528,7 @@ export const korean: Cuisine = {
           allergens: ['soy'],
           prepTime: '1 hour',
           cookTime: '15 minutes',
-          culturalNotes:
-            'A beloved Korean dish that exemplifies the balance of sweet and savory flavors. The fruit in the marinade helps tenderize the meat',
+          culturalNotes: 'A beloved Korean dish that exemplifies the balance of sweet and savory flavors. The fruit in the marinade helps tenderize the meat',
           pairingSuggestions: ['lettuce leaves', 'rice', 'ssamjang', 'kimchi'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'none',
@@ -592,8 +581,7 @@ export const korean: Cuisine = {
           allergens: ['soy', 'wheat'],
           prepTime: '25 minutes',
           cookTime: '30 minutes',
-          culturalNotes:
-            'Originally from Chuncheon city, this communal dish is popular among young people and is often eaten while sharing soju',
+          culturalNotes: 'Originally from Chuncheon city, this communal dish is popular among young people and is often eaten while sharing soju',
           pairingSuggestions: ['soju', 'beer', 'corn cheese', 'steamed rice'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'medium to hot',
@@ -646,8 +634,7 @@ export const korean: Cuisine = {
           allergens: ['wheat', 'shellfish', 'egg'],
           prepTime: '20 minutes',
           cookTime: '15 minutes',
-          culturalNotes:
-            'A popular rainy day food in Korea, often enjoyed with makgeolli (rice wine). The sound of sizzling pajeon matches the sound of rain',
+          culturalNotes: 'A popular rainy day food in Korea, often enjoyed with makgeolli (rice wine). The sound of sizzling pajeon matches the sound of rain',
           pairingSuggestions: ['makgeolli', 'soju', 'dipping sauce'],
           dietaryInfo: ['contains seafood'],
           spiceLevel: 'mild',
@@ -693,8 +680,7 @@ export const korean: Cuisine = {
           allergens: ['none'],
           prepTime: '30 minutes',
           cookTime: '2 hours',
-          culturalNotes:
-            'A hearty soup that became popular during the Korean War as a way to use affordable cuts of meat. Now it's a beloved hangover cure',
+          culturalNotes: 'A hearty soup that became popular during the Korean War as a way to use affordable cuts of meat. Now it's a beloved hangover cure',
           pairingSuggestions: ['rice', 'kimchi', 'soju'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'medium to hot',
@@ -740,8 +726,7 @@ export const korean: Cuisine = {
           allergens: ['fish', 'shellfish'],
           prepTime: '20 minutes',
           cookTime: '1.5 hours',
-          culturalNotes:
-            'Originally a winter dish when kimchi was made. The boiled pork complemented fresh kimchi perfectly',
+          culturalNotes: 'Originally a winter dish when kimchi was made. The boiled pork complemented fresh kimchi perfectly',
           pairingSuggestions: ['soju', 'beer', 'rice', 'kimchi'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'adjustable',
@@ -940,8 +925,7 @@ export const korean: Cuisine = {
           allergens: ['soy', 'egg'],
           prepTime: '30 minutes',
           cookTime: '25 minutes',
-          culturalNotes:
-            'Originally a royal dish, japchae is now a popular celebration food served at holidays and special occasions',
+          culturalNotes: 'Originally a royal dish, japchae is now a popular celebration food served at holidays and special occasions',
           pairingSuggestions: ['rice', 'kimchi', 'Korean tea'],
           dietaryInfo: ['adaptable to vegetarian/vegan'],
           spiceLevel: 'none',
@@ -976,9 +960,8 @@ export const korean: Cuisine = {
       astrologicalInfluences: ['Mars', 'Aries', 'Leo'],
       seasonality: 'all',
       preparationNotes: 'Traditionally fermented for months in earthenware pots called onggi',
-      technicalTips: 'Balance with sweeteners like honey or sugar to mellow its intensity'
-    },
-    doenjang: {
+      technicalTips: 'Balance with sweeteners like honey or sugar to mellow its intensity' },
+        doenjang: {
       name: 'Doenjang',
       description: 'Fermented soybean paste with rich umami flavor and earthy notes',
       base: 'fermented soybean',
@@ -999,9 +982,8 @@ export const korean: Cuisine = {
       astrologicalInfluences: ['Saturn', 'Taurus', 'Capricorn'],
       seasonality: 'all',
       preparationNotes: 'Traditionally separated from soy sauce during fermentation of meju',
-      technicalTips: 'Add at the beginning of cooking to develop depth of flavor'
-    },
-    ssamjang: {
+      technicalTips: 'Add at the beginning of cooking to develop depth of flavor' },
+        ssamjang: {
       name: 'Ssamjang',
       description: 'Thick, spicy dipping sauce for wrapped meat and vegetables',
       base: 'doenjang and gochujang',
@@ -1017,12 +999,10 @@ export const korean: Cuisine = {
       astrologicalInfluences: ['Mars', 'Saturn', 'Scorpio'],
       seasonality: 'all',
       preparationNotes: 'Mix ingredients fresh before serving for best flavor',
-      technicalTips: 'Balance sweet, savory, and spicy elements to complement the main dish'
-    },
-    ganjang: {
+      technicalTips: 'Balance sweet, savory, and spicy elements to complement the main dish' },
+        ganjang: {
       name: 'Ganjang (Korean Soy Sauce)',
-      description:
-        'Traditional Korean soy sauce, often more complex than Chinese or Japanese varieties',
+      description: 'Traditional Korean soy sauce, often more complex than Chinese or Japanese varieties',
       base: 'fermented soybean',
       keyIngredients: ['fermented soybeans', 'salt', 'water'],
       culinaryUses: ['seasoning', 'dipping sauce', 'marinade base', 'soup flavoring'],
@@ -1036,9 +1016,8 @@ export const korean: Cuisine = {
       astrologicalInfluences: ['Neptune', 'Pisces', 'Cancer'],
       seasonality: 'all',
       preparationNotes: 'Traditionally separated from doenjang during fermentation',
-      technicalTips: 'Use premium varieties for dipping sauces and everyday ones for cooking'
-    },
-    chogochujang: {
+      technicalTips: 'Use premium varieties for dipping sauces and everyday ones for cooking' },
+        chogochujang: {
       name: 'Chogochujang',
       description: 'Sweet and sour chili sauce with vinegar',
       base: 'gochujang and vinegar',
@@ -1059,9 +1038,8 @@ export const korean: Cuisine = {
       astrologicalInfluences: ['Mercury', 'Gemini', 'Sagittarius'],
       seasonality: 'summer',
       preparationNotes: 'Best made fresh rather than stored long-term',
-      technicalTips: 'Adjust vinegar and sugar ratio to complement the dish being served'
-    },
-    yangnyeom: {
+      technicalTips: 'Adjust vinegar and sugar ratio to complement the dish being served' },
+        yangnyeom: {
       name: 'Yangnyeom Sauce',
       description: 'Sweet and spicy sauce used for Korean fried chicken and other dishes',
       base: 'gochujang and corn syrup',
@@ -1077,9 +1055,8 @@ export const korean: Cuisine = {
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
       seasonality: 'all',
       preparationNotes: 'Mix thoroughly and cook briefly to develop flavors',
-      technicalTips: 'The sauce should coat the back of a spoon but still be pourable'
-    },
-    bulgogi: {
+      technicalTips: 'The sauce should coat the back of a spoon but still be pourable' },
+        bulgogi: {
       name: 'Bulgogi Marinade',
       description: 'Sweet and savory marinade for grilled beef and other meats',
       base: 'soy sauce and fruit',
@@ -1095,10 +1072,8 @@ export const korean: Cuisine = {
       astrologicalInfluences: ['Venus', 'Taurus', 'Libra'],
       seasonality: 'all',
       preparationNotes: 'Asian pear helps tenderize meat while adding subtle sweetness',
-      technicalTips:
-        'Marinate beef for at least 2 hours, preferably overnight for best flavor penetration'
-    },
-    sesameOil: {
+      technicalTips: 'Marinate beef for at least 2 hours, preferably overnight for best flavor penetration' },
+        sesameOil: {
       name: 'Chamgireum (Sesame Oil Dressing)',
       description: 'Aromatic oil-based dressing used for many Korean dishes',
       base: 'toasted sesame oil',
@@ -1285,26 +1260,22 @@ export const korean: Cuisine = {
       signature: ['royal court dishes', 'japchae', 'bulgogi', 'refined banchan'],
       elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 }
       astrologicalInfluences: ['Jupiter', 'Mercury', 'Libra'],
-      seasonality: 'moderately seasonal'
-    },
-    jeonju: {
+      seasonality: 'moderately seasonal' },
+        jeonju: {
       name: 'Jeonju (Southwest) Cuisine',
-      description:
-        'Known as Korea's food capital, with emphasis on quality ingredients and tradition',
+      description: 'Known as Korea's food capital, with emphasis on quality ingredients and tradition',
       signature: ['bibimbap', 'kongnamul gukbap', 'makgeolli', 'traditional banchan'],
       elementalProperties: { Earth: 0.5, Water: 0.2, Fire: 0.2, Air: 0.1 }
       astrologicalInfluences: ['Moon', 'Venus', 'Taurus'],
-      seasonality: 'highly seasonal'
-    },
-    gyeongsang: {
+      seasonality: 'highly seasonal' },
+        gyeongsang: {
       name: 'Gyeongsang (Southeast) Cuisine',
       description: 'Bold, spicy flavors with substantial seafood influence',
       signature: ['dwaeji gukbap', 'milmyeon', 'agujjim', 'spicy seafood soups'],
       elementalProperties: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1 }
       astrologicalInfluences: ['Mars', 'Pluto', 'Scorpio'],
-      seasonality: 'coastal seasonal'
-    },
-    jeju: {
+      seasonality: 'coastal seasonal' },
+        jeju: {
       name: 'Jeju Island Cuisine',
       description: 'Unique island cuisine with distinctive ingredients like black pork and abalone',
       signature: ['black pork', 'haemul dishes', 'abalone porridge', 'hallabong citrus'],

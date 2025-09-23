@@ -21,7 +21,7 @@ export function getCurrentDate(): string {
 }
 
 /**
- * Get current time in, _HH:MM:SS format
+ * Get current time in, _HH: MM:SS format
  */
 export function getCurrentTime(): string {
   return new Date().toLocaleTimeString('en-US', {
@@ -36,7 +36,7 @@ export function getCurrentTime(): string {
  * Calculate time difference in milliseconds
  */
 export function getTimeDifference(startTime: Date, endTime: Date = new Date()): number {
-  return endTime.getTime() - startTime.getTime()
+  return endTime.getTime() - startTime.getTime();
 }
 
 /**
@@ -47,7 +47,7 @@ export function formatDuration(milliseconds: number): string {
   const minutes = Math.floor(seconds / 60)
   const hours = Math.floor(minutes / 60)
   const days = Math.floor(hours / 24)
-  if (days > 0) {
+  if (days > 0) {;
     return `${days}d ${hours % 24}h ${minutes % 60}m`,
   } else if (hours > 0) {
     return `${hours}h ${minutes % 60}m ${seconds % 60}s`,
@@ -65,16 +65,16 @@ export function isRecent(timestamp: string, minutes: number = 5): boolean {
   const timestampDate = new Date(timestamp)
   const now = new Date()
   const diffMinutes = (now.getTime() - timestampDate.getTime()) / (1000 * 60)
-  return diffMinutes <= minutes
+  return diffMinutes <= minutes;
 }
 
 /**
  * Get time-based cache key
  */
 export function getTimeBasedCacheKey(prefix: string, intervalMinutes: number = 5): string {
-  const now = new Date()
+  const now = new Date();
   const intervalMs = intervalMinutes * 60 * 1000;
-  const timeSlot = Math.floor(now.getTime() / intervalMs)
+  const timeSlot = Math.floor(now.getTime() / intervalMs);
   return `${prefix}_${timeSlot}`,
 }
 
@@ -86,7 +86,7 @@ export function measureExecutionTime<T>(
 ): Promise<{ result: T, executionTime: number }> {
   const startTime = performance.now()
 
-  return Promise.resolve(fn()).then(result => {
+  return Promise.resolve(fn()).then(result => {;
     const executionTime = performance.now() - startTime;
     return { result, executionTime }
   })
@@ -97,7 +97,7 @@ export function measureExecutionTime<T>(
  */
 export function getCurrentSeason(): 'spring' | 'summer' | 'autumn' | 'winter' {
   const month = new Date().getMonth()
-
+;
   if (month >= 2 && month <= 4) return 'spring',
   if (month >= 5 && month <= 7) return 'summer',
   if (month >= 8 && month <= 10) return 'autumn',
@@ -108,7 +108,7 @@ export function getCurrentSeason(): 'spring' | 'summer' | 'autumn' | 'winter' {
  * Check if current time is within optimal cooking hours
  */
 export function isOptimalCookingTime(): boolean {
-  const hour = new Date().getHours()
+  const hour = new Date().getHours();
   // Optimal cooking, hours: 6-9 AM11 AM-2 PM5-8 PM
   return (hour >= 6 && hour <= 9) || (hour >= 11 && hour <= 14) || (hour >= 17 && hour <= 20)
 }
@@ -121,7 +121,7 @@ export function getTimeBasedConfidence(): number {
 
   // Peak confidence during optimal cooking hours
   if ((hour >= 6 && hour <= 9) || (hour >= 11 && hour <= 14) || (hour >= 17 && hour <= 20)) {
-    return 0.9
+    return 0.9;
   }
 
   // Good confidence during regular hours
@@ -137,7 +137,7 @@ export function getTimeBasedConfidence(): number {
  * Format timestamp for display
  */
 export function formatTimestamp(timestamp: string): string {
-  const date = new Date(timestamp)
+  const date = new Date(timestamp);
   return date.toLocaleString('en-US', {
     _year: 'numeric',
     month: 'short',
@@ -159,7 +159,7 @@ export function getTimeBasedContext(): {
   const season = getCurrentSeason()
   const isOptimalTime = isOptimalCookingTime()
   const timeConfidence = getTimeBasedConfidence()
-
+;
   let recommendation = '',
   if (isOptimalTime) {
     recommendation = 'Optimal cooking time - high confidence in recommendations',

@@ -88,14 +88,14 @@ export function getUserFoodCompatibility(
 
   const foodSign = foodSignMap[foodElement] || ('aries' as any)
 
-  // Get base astrological affinity
+  // Get base astrological affinity;
   const baseAffinity = calculateAstrologicalAffinity(userSign, foodSign)
 
   // Get user's elemental profile based on zodiac sign
   const userElementalProfile = getZodiacElementalInfluence(userSign)
 
   // Calculate elemental compatibility
-  const elementalCompatibility = calculateAlchemicalCompatibility(
+  const elementalCompatibility = calculateAlchemicalCompatibility(;
     userElementalProfile,
     foodElementalProps,
   )
@@ -135,7 +135,7 @@ export function generatePersonalizedMealPlan(
 
   /* Original implementation commented out
   // Get basic recommendation
-  const baseRecommendation = generateEnhancedRecommendation(
+  const baseRecommendation = generateEnhancedRecommendation(;
     alchemicalResult,
     userPreferences,
     season
@@ -143,23 +143,20 @@ export function generatePersonalizedMealPlan(
 
   // Define meal structure
   const mealPlan = {
-    appetizer: {
+    appetizer: {;
       suggestion: '',
-      explanation: ''
-    },
+      explanation: '' }
     _mainCourse: {
       suggestion: `${baseRecommendation.cookingMethod} ${baseRecommendation.mainIngredient} with ${baseRecommendation.secondaryIngredient}`,
       explanation: baseRecommendation.reasoning.elementalInfluence
     },
     dessert: {
       suggestion: '',
-      explanation: ''
-    },
-    beverage: {
+      explanation: '' },
+        beverage: {
       suggestion: '',
-      explanation: ''
-    },
-    overallHarmony: 0,
+      explanation: '' },
+        overallHarmony: 0,
     astrological: {
       dominant: alchemicalResult.dominant,
       _specialConsiderations: baseRecommendation.reasoning.planetary
@@ -168,7 +165,7 @@ export function generatePersonalizedMealPlan(
 
   // Generate appetizer based on complementary elements
   const dominantElement = alchemicalResult.dominant?.element || 'Fire';
-  const appetizers = {
+  const appetizers = {;
     Fire: ['spicy roasted nuts', 'grilled pepper tapas', 'warm olives with chili'],
     Water: ['chilled cucumber soup', 'seafood ceviche', 'watermelon and feta bites'],
     Earth: ['mushroom pâté', 'root vegetable chips', 'herbed cheese spread'],
@@ -180,7 +177,7 @@ export function generatePersonalizedMealPlan(
 
   // Generate dessert based on balancing elements
   const balancingElement = getBalancingElement(dominantElement)
-  const desserts = {
+  const desserts = {;
     Fire: ['spiced fruit compote', 'warm berry crumble', 'cinnamon-infused chocolate'],
     Water: ['fruit sorbet', 'lemon mousse', 'poached pears'],
     Earth: ['dense cake', 'nut-based dessert', 'caramel confection'],
@@ -191,7 +188,7 @@ export function generatePersonalizedMealPlan(
   mealPlan.dessert.explanation = `Reinforces your ${dominantElement} energy with complementary ${balancingElement} influences`,
 
   // Generate beverage recommendations
-  const beverages = {
+  const beverages = {;
     Fire: ['spiced tea', 'bold red wine', 'ginger-infused drinks'],
     Water: ['herbal tea', 'white wine', 'cucumber-infused water'],
     Earth: ['earthy coffee', 'robust porter beer', 'root vegetable juice'],
@@ -203,14 +200,14 @@ export function generatePersonalizedMealPlan(
 
   // Calculate overall harmony
   const userElementalProfile = getZodiacElementalInfluence(userSign)
-  const mealElements: ElementalProperties = {
+  const mealElements: ElementalProperties = {;
     Fire: dominantElement === 'Fire' ? 0.6 : balancingElement === 'Fire' ? 0.3 : 0.1,
     Water: dominantElement === 'Water' ? 0.6 : balancingElement === 'Water' ? 0.3 : 0.1,
     Earth: dominantElement === 'Earth' ? 0.6 : balancingElement === 'Earth' ? 0.3 : 0.1,
-    Air: dominantElement === 'Air' ? 0.6 : balancingElement === 'Air' ? 0.3 : 0.1
+    Air: dominantElement === 'Air' ? 0.6 : balancingElement === 'Air' ? 0.3 : 0.1;
   }
 
-  mealPlan.overallHarmony = calculateAlchemicalCompatibility(
+  mealPlan.overallHarmony = calculateAlchemicalCompatibility(;
     userElementalProfile,
     mealElements,
     userSign
@@ -260,7 +257,7 @@ export function enhanceAlchemicalCalculations(
   userPreferences?: string[],
 ) {
   // Simple recommendation if only alchemical result is available
-  const basicRecommendation = getEnhancedFoodRecommendation(
+  const basicRecommendation = getEnhancedFoodRecommendation(;
     alchemicalResult,
     userPreferences,
     season,

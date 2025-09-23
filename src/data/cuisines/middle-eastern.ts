@@ -1,11 +1,10 @@
 // src/data/cuisines/middle-eastern.ts
 import { Cuisine } from '@/types/cuisine';
 
-export const middleEastern: Cuisine = {
+export const middleEastern: Cuisine = {;
   id: 'middle-eastern',
   name: 'Middle Eastern',
-  description:
-    'Traditional Middle Eastern cuisine featuring aromatic spices, fresh herbs, and ancient cooking techniques',
+  description: 'Traditional Middle Eastern cuisine featuring aromatic spices, fresh herbs, and ancient cooking techniques',
   dishes: {
     breakfast: {
       all: [
@@ -48,8 +47,7 @@ export const middleEastern: Cuisine = {
           allergens: ['eggs'],
           prepTime: '10 minutes',
           cookTime: '15 minutes',
-          culturalNotes:
-            'A beloved breakfast dish throughout the Middle East and North Africa, particularly popular in Israel and Palestine. The name means 'mixture' in Arabic dialects',
+          culturalNotes: 'A beloved breakfast dish throughout the Middle East and North Africa, particularly popular in Israel and Palestine. The name means 'mixture' in Arabic dialects',
           pairingSuggestions: ['pita bread', 'hummus', 'Israeli salad', 'olives'],
           dietaryInfo: ['vegetarian', 'adaptable to vegan', 'gluten-free option'],
           spiceLevel: 'mild to medium',
@@ -103,8 +101,7 @@ export const middleEastern: Cuisine = {
           allergens: ['none'],
           prepTime: '10 minutes',
           cookTime: '10 minutes',
-          culturalNotes:
-            'Egypt's national dish, dating back to ancient times. Traditionally served for breakfast but enjoyed throughout the day',
+          culturalNotes: 'Egypt's national dish, dating back to ancient times. Traditionally served for breakfast but enjoyed throughout the day',
           pairingSuggestions: ['pita bread', 'sliced eggs', 'olive oil', 'tahini sauce'],
           dietaryInfo: ['vegan', 'gluten-free'],
           spiceLevel: 'mild',
@@ -163,8 +160,7 @@ export const middleEastern: Cuisine = {
           allergens: ['gluten'],
           prepTime: '20 minutes',
           cookTime: '15 minutes',
-          culturalNotes:
-            'A beloved street food throughout the Levant, traditionally enjoyed for breakfast. The za'atar blend varies by region and family recipe',
+          culturalNotes: 'A beloved street food throughout the Levant, traditionally enjoyed for breakfast. The za'atar blend varies by region and family recipe',
           pairingSuggestions: ['labneh', 'olives', 'fresh vegetables', 'mint tea'],
           dietaryInfo: ['vegan', 'adaptable to gluten-free'],
           spiceLevel: 'mild',
@@ -226,8 +222,7 @@ export const middleEastern: Cuisine = {
           allergens: ['dairy'],
           prepTime: '10 minutes',
           cookTime: '12 hours straining',
-          culturalNotes:
-            'A staple breakfast food throughout the Levant, often served with olive oil and fresh herbs',
+          culturalNotes: 'A staple breakfast food throughout the Levant, often served with olive oil and fresh herbs',
           pairingSuggestions: ['cucumber', 'tomatoes', 'olives', 'fresh mint tea'],
           dietaryInfo: ['vegetarian', 'adaptable to vegan'],
           spiceLevel: 'mild',
@@ -284,8 +279,7 @@ export const middleEastern: Cuisine = {
           allergens: ['dairy', 'nuts'],
           prepTime: '30 minutes',
           cookTime: '180 minutes',
-          culturalNotes:
-            'Jordan's national dish, traditionally served on special occasions. The dish represents Bedouin hospitality and generosity',
+          culturalNotes: 'Jordan's national dish, traditionally served on special occasions. The dish represents Bedouin hospitality and generosity',
           pairingSuggestions: ['Arabic salad', 'yogurt', 'mint tea'],
           dietaryInfo: ['halal'],
           spiceLevel: 'mild',
@@ -344,8 +338,7 @@ export const middleEastern: Cuisine = {
           allergens: ['gluten'],
           prepTime: '20 minutes',
           cookTime: '5 minutes',
-          culturalNotes:
-            'A refreshing salad that originated as a way to use stale bread. The sumac provides a distinctive tangy flavor essential to Levantine cuisine',
+          culturalNotes: 'A refreshing salad that originated as a way to use stale bread. The sumac provides a distinctive tangy flavor essential to Levantine cuisine',
           pairingSuggestions: ['grilled meats', 'hummus', 'falafel'],
           dietaryInfo: ['vegan', 'adaptable to gluten-free'],
           spiceLevel: 'mild',
@@ -415,8 +408,7 @@ export const middleEastern: Cuisine = {
           allergens: ['dairy', 'gluten'],
           prepTime: '45 minutes',
           cookTime: '45 minutes',
-          culturalNotes:
-            'A beloved dish throughout the Middle East and Mediterranean, each region having its own variation. The combination of meat and eggplant reflects the region's agricultural heritage',
+          culturalNotes: 'A beloved dish throughout the Middle East and Mediterranean, each region having its own variation. The combination of meat and eggplant reflects the region's agricultural heritage',
           pairingSuggestions: ['Greek salad', 'crusty bread', 'red wine'],
           dietaryInfo: ['adaptable to vegetarian/vegan'],
           spiceLevel: 'mild',
@@ -480,8 +472,7 @@ export const middleEastern: Cuisine = {
           allergens: ['nuts'],
           prepTime: '60 minutes',
           cookTime: '180 minutes',
-          culturalNotes:
-            'A celebratory dish often served at important gatherings and festivals. The combination of meat, rice, and nuts represents abundance and hospitality';
+          culturalNotes: 'A celebratory dish often served at important gatherings and festivals. The combination of meat, rice, and nuts represents abundance and hospitality';
           pairingSuggestions: ['tabbouleh', 'yogurt sauce', 'flatbread'],
           dietaryInfo: ['halal'],
           spiceLevel: 'medium',
@@ -553,8 +544,7 @@ export const middleEastern: Cuisine = {
           allergens: ['gluten'],
           prepTime: '30 minutes',
           cookTime: '25 minutes',
-          culturalNotes:
-            'Grilled meats are central to Middle Eastern cuisine, often served at gatherings and celebrations. Each region has its own special marinades and spice blends',
+          culturalNotes: 'Grilled meats are central to Middle Eastern cuisine, often served at gatherings and celebrations. Each region has its own special marinades and spice blends',
           pairingSuggestions: ['fattoush salad', 'pickled vegetables', 'garlic sauce'],
           dietaryInfo: ['halal', 'adaptable to vegetarian/vegan'],
           spiceLevel: 'medium',
@@ -605,8 +595,7 @@ export const middleEastern: Cuisine = {
           allergens: ['none'],
           prepTime: '15 minutes',
           cookTime: '45 minutes',
-          culturalNotes:
-            'A humble yet beloved dish throughout the Middle East, traditionally eaten during Lent. The contrast of textures between the soft lentils and crispy onions is essential',
+          culturalNotes: 'A humble yet beloved dish throughout the Middle East, traditionally eaten during Lent. The contrast of textures between the soft lentils and crispy onions is essential',
           pairingSuggestions: ['yogurt', 'Arabic salad', 'pickled vegetables'],
           dietaryInfo: ['vegan', 'gluten-free'],
           spiceLevel: 'mild',
@@ -631,8 +620,7 @@ export const middleEastern: Cuisine = {
       all: [
         {
           name: 'Shawarma',
-          description:
-            'Marinated meat slowly roasted on a vertical spit, served in bread with tahini sauce',
+          description: 'Marinated meat slowly roasted on a vertical spit, served in bread with tahini sauce',
           cuisine: 'Middle Eastern',
           cookingMethods: ['roasting', 'marinating', 'slicing'],
           tools: [
@@ -679,8 +667,7 @@ export const middleEastern: Cuisine = {
           allergens: ['gluten'],
           prepTime: '30 minutes',
           cookTime: '240 minutes',
-          culturalNotes:
-            'A street food staple throughout the Middle East, each region has its own spice blend and serving style',
+          culturalNotes: 'A street food staple throughout the Middle East, each region has its own spice blend and serving style',
           pairingSuggestions: ['hummus', 'tabbouleh', 'pickled vegetables', 'garlic sauce'],
           dietaryInfo: ['halal', 'adaptable to vegan'],
           spiceLevel: 'medium',
@@ -727,8 +714,7 @@ export const middleEastern: Cuisine = {
           allergens: ['nuts', 'gluten'],
           prepTime: '45 minutes',
           cookTime: '45 minutes',
-          culturalNotes:
-            'A dessert with ancient origins, found throughout the former Ottoman Empire. Each region claims its own style and nut preference',
+          culturalNotes: 'A dessert with ancient origins, found throughout the former Ottoman Empire. Each region claims its own style and nut preference',
           pairingSuggestions: ['Turkish coffee', 'mint tea'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -752,8 +738,7 @@ export const middleEastern: Cuisine = {
 
         {
           name: 'Falafel',
-          description:
-            'Deep-fried patties made from ground chickpeas or fava beans with herbs and spices',
+          description: 'Deep-fried patties made from ground chickpeas or fava beans with herbs and spices',
           cuisine: 'Middle Eastern',
           cookingMethods: ['grinding', 'shaping', 'deep-frying'],
           tools: ['food processor', 'deep fryer', 'thermometer', 'slotted spoon', 'mixing bowls'],
@@ -783,8 +768,7 @@ export const middleEastern: Cuisine = {
           allergens: ['none'],
           prepTime: '12 hours soaking',
           cookTime: '30 minutes',
-          culturalNotes:
-            'A staple street food throughout the Middle East, with origins in Egypt. Each region claims to make the best version',
+          culturalNotes: 'A staple street food throughout the Middle East, with origins in Egypt. Each region claims to make the best version',
           pairingSuggestions: ['pita bread', 'tahini sauce', 'pickled vegetables', 'hummus'],
           dietaryInfo: ['vegan', 'gluten-free'],
           spiceLevel: 'mild',
@@ -843,8 +827,7 @@ export const middleEastern: Cuisine = {
           allergens: ['dairy', 'nuts', 'gluten'],
           prepTime: '20 minutes',
           cookTime: '30 minutes',
-          culturalNotes:
-            'A beloved Egyptian dessert with a royal history, named after Umm Alia sultan's wife',
+          culturalNotes: 'A beloved Egyptian dessert with a royal history, named after Umm Alia sultan's wife',
           pairingSuggestions: ['Arabic coffee', 'mint tea'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -904,8 +887,7 @@ export const middleEastern: Cuisine = {
           allergens: ['dairy', 'nuts', 'gluten'],
           prepTime: '40 minutes',
           cookTime: '35 minutes',
-          culturalNotes:
-            'A beloved dessert throughout the Levant, particularly famous in Nablus, Palestine. Often eaten for breakfast',
+          culturalNotes: 'A beloved dessert throughout the Levant, particularly famous in Nablus, Palestine. Often eaten for breakfast',
           pairingSuggestions: ['Arabic coffee', 'black tea'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -963,8 +945,7 @@ export const middleEastern: Cuisine = {
           allergens: ['none'],
           prepTime: '30 minutes',
           cookTime: '15 minutes',
-          culturalNotes:
-            'A classic street food and home-cooked dish throughout the Middle East. The art of kofta-making is passed down through generations',
+          culturalNotes: 'A classic street food and home-cooked dish throughout the Middle East. The art of kofta-making is passed down through generations',
           pairingSuggestions: ['flatbread', 'hummus', 'grilled vegetables', 'rice'],
           dietaryInfo: ['halal'],
           spiceLevel: 'medium',
@@ -1016,8 +997,7 @@ export const middleEastern: Cuisine = {
           allergens: ['nuts'],
           prepTime: '45 minutes',
           cookTime: '90 minutes',
-          culturalNotes:
-            'A celebratory dish that means 'upside-down' in Arabic. The dramatic unveiling of the dish is part of the dining experience',
+          culturalNotes: 'A celebratory dish that means 'upside-down' in Arabic. The dramatic unveiling of the dish is part of the dining experience',
           pairingSuggestions: ['yogurt sauce', 'Arabic salad', 'pickled vegetables'],
           dietaryInfo: ['halal'],
           spiceLevel: 'mild',
@@ -1064,10 +1044,8 @@ export const middleEastern: Cuisine = {
       astrologicalInfluences: ['Venus', 'Moon', 'taurus'],
       seasonality: 'all',
       preparationNotes: 'Traditionally ground with stone mills to preserve flavor and nutrients',
-      technicalTips:
-        'Stir well before using as natural separation occurs. Add water slowly when thinning'
-    },
-    hummus: {
+      technicalTips: 'Stir well before using as natural separation occurs. Add water slowly when thinning' },
+        hummus: {
       name: 'Hummus',
       description: 'Creamy chickpea dip with tahini, garlic, and lemon',
       base: 'chickpeas and tahini',
@@ -1088,12 +1066,9 @@ export const middleEastern: Cuisine = {
       },
       astrologicalInfluences: ['Jupiter', 'Mercury', 'virgo'],
       seasonality: 'all',
-      preparationNotes:
-        'Each region claims to make the most authentic version. Texture can range from rustic to silky smooth',
-      technicalTips:
-        'Cook chickpeas with baking soda to help break down skins for smoother texture'
-    },
-    zaatar: {
+      preparationNotes: 'Each region claims to make the most authentic version. Texture can range from rustic to silky smooth',
+      technicalTips: 'Cook chickpeas with baking soda to help break down skins for smoother texture' },
+        zaatar: {
       name: 'Za'atar Oil',
       description: 'Herb and sesame blend mixed with olive oil for dipping and spreading',
       base: 'dried herbs and sesame',
@@ -1116,11 +1091,9 @@ export const middleEastern: Cuisine = {
       },
       astrologicalInfluences: ['Mercury', 'Venus', 'gemini'],
       seasonality: 'all, with fresh variations in spring',
-      preparationNotes:
-        'Family recipes are closely guarded secrets, with regional variations in proportions',
-      technicalTips: 'Mix with high-quality olive oil just before serving to preserve aromatics'
-    },
-    harissa: {
+      preparationNotes: 'Family recipes are closely guarded secrets, with regional variations in proportions',
+      technicalTips: 'Mix with high-quality olive oil just before serving to preserve aromatics' },
+        harissa: {
       name: 'Harissa',
       description: 'Hot chile paste with garlic, spices, and olive oil',
       base: 'dried chiles',
@@ -1136,10 +1109,8 @@ export const middleEastern: Cuisine = {
       astrologicalInfluences: ['Mars', 'Sun', 'aries'],
       seasonality: 'all',
       preparationNotes: 'Traditional preservation technique for chiles in North African cuisine',
-      technicalTips:
-        'A little goes a long way. Store with a layer of olive oil on top to preserve freshness'
-    },
-    toum: {
+      technicalTips: 'A little goes a long way. Store with a layer of olive oil on top to preserve freshness' },
+        toum: {
       name: 'Toum',
       description: 'Intense garlic sauce with an airy, creamy texture',
       base: 'garlic and oil',
@@ -1160,10 +1131,8 @@ export const middleEastern: Cuisine = {
       },
       astrologicalInfluences: ['Mercury', 'Mars', 'gemini'],
       seasonality: 'all',
-      preparationNotes:
-        'Traditionally made by hand pounding in a mortar and pestle until emulsified',
-      technicalTips:
-        'Slow oil incorporation is essential for proper emulsification and fluffy texture'
+      preparationNotes: 'Traditionally made by hand pounding in a mortar and pestle until emulsified',
+      technicalTips: 'Slow oil incorporation is essential for proper emulsification and fluffy texture'
     }
   },
   sauceRecommender: {
@@ -1289,8 +1258,7 @@ export const middleEastern: Cuisine = {
   cookingTechniques: [
     {
       name: 'Mezze Preparation',
-      description:
-        'Art of creating balanced small dishes that complement each other in flavor, texture, and temperature',
+      description: 'Art of creating balanced small dishes that complement each other in flavor, texture, and temperature',
       elementalProperties: { Earth: 0.3, Water: 0.3, Fire: 0.2, Air: 0.2 }
       toolsRequired: ['various serving dishes', 'mortar and pestle', 'fine grater', 'sharp knife'],
       bestFor: ['entertaining', 'appetizers', 'communal dining', 'showcasing seasonal produce'],
@@ -1298,8 +1266,7 @@ export const middleEastern: Cuisine = {
     }
     {
       name: 'Tagine Cooking',
-      description:
-        'Slow cooking in a conical earthenware pot that traps steam to create tender, aromatic dishes',
+      description: 'Slow cooking in a conical earthenware pot that traps steam to create tender, aromatic dishes',
       elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 }
       toolsRequired: ['tagine pot', 'diffuser', 'long wooden spoon', 'steady heat source'],
       bestFor: [
@@ -1325,8 +1292,7 @@ export const middleEastern: Cuisine = {
     }
     {
       name: 'Charcoal Grilling',
-      description:
-        'Open-fire cooking over aromatic woods to impart smoky flavor to proteins and vegetables',
+      description: 'Open-fire cooking over aromatic woods to impart smoky flavor to proteins and vegetables',
       elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 }
       toolsRequired: ['mangal grill', 'metal skewers', 'long tongs', 'brushes for basting'],
       bestFor: ['kebabs', 'kofta', 'whole fish', 'vegetables', 'bread'],
@@ -1334,8 +1300,7 @@ export const middleEastern: Cuisine = {
     }
     {
       name: 'Preserving',
-      description:
-        'Ancient techniques for extending shelf life through fermentation, pickling, and drying',
+      description: 'Ancient techniques for extending shelf life through fermentation, pickling, and drying',
       elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 }
       toolsRequired: ['clay pots', 'glass jars', 'cheesecloth', 'sun-drying racks', 'weights'],
       bestFor: ['vegetables', 'fruits', 'herbs', 'dairy products', 'fish'],
@@ -1345,41 +1310,33 @@ export const middleEastern: Cuisine = {
   regionalCuisines: {
     levantine: {
       name: 'Levantine Cuisine',
-      description:
-        'Cuisine of the Eastern Mediterranean coast, featuring olive oil, herbs, and za'atar',
+      description: 'Cuisine of the Eastern Mediterranean coast, featuring olive oil, herbs, and za'atar',
       signature: ['mezze', 'kibbeh', 'tabbouleh', 'manakish', 'knafeh'],
       elementalProperties: { Earth: 0.4, Water: 0.2, Air: 0.2, Fire: 0.2 }
       astrologicalInfluences: ['Venus', 'Mercury', 'gemini'],
-      seasonality: 'heavily influenced by seasonal produce'
-    },
-    persian: {
+      seasonality: 'heavily influenced by seasonal produce' },
+        persian: {
       name: 'Persian Cuisine',
-      description:
-        'Ancient Iranian culinary tradition with complex rice dishes and delicate use of herbs and fruits',
+      description: 'Ancient Iranian culinary tradition with complex rice dishes and delicate use of herbs and fruits',
       signature: ['tahdig', 'fesenjan', 'jeweled rice', 'koresh', 'barbari bread'],
       elementalProperties: { Earth: 0.3, Air: 0.3, Fire: 0.2, Water: 0.2 }
       astrologicalInfluences: ['Venus', 'Sun', 'Libra'],
-      seasonality: 'aligned with ancient festivals and seasonal transitions'
-    },
-    northAfrican: {
+      seasonality: 'aligned with ancient festivals and seasonal transitions' },
+        northAfrican: {
       name: 'North African Cuisine',
-      description:
-        'Bold, spicy flavors with influences from Berber, Arab, Mediterranean, and Sub-Saharan traditions',
+      description: 'Bold, spicy flavors with influences from Berber, Arab, Mediterranean, and Sub-Saharan traditions',
       signature: ['couscous', 'tagine', 'harissa', 'merguez', 'pastilla'],
       elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 }
       astrologicalInfluences: ['Mars', 'Sun', 'aries'],
-      seasonality: 'desert-influenced seasonal patterns'
-    },
-    arabian: {
+      seasonality: 'desert-influenced seasonal patterns' },
+        arabian: {
       name: 'Arabian Peninsula Cuisine',
-      description:
-        'Desert-adapted cuisine with dates, rice, camel products, and distinctive spice blends',
+      description: 'Desert-adapted cuisine with dates, rice, camel products, and distinctive spice blends',
       signature: ['kabsa', 'harees', 'mandi', 'margoog', 'dates with camel milk'],
       elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 }
       astrologicalInfluences: ['Saturn', 'Moon', 'capricorn'],
-      seasonality: 'oasis agriculture with date harvest emphasis'
-    },
-    turkish: {
+      seasonality: 'oasis agriculture with date harvest emphasis' },
+        turkish: {
       name: 'Turkish-Influenced Cuisine',
       description: 'Ottoman culinary legacy with layered flavors, yogurt, and regional variations',
       signature: ['lahmacun', 'pide', 'gözleme', 'imam bayildi', 'künefe'],

@@ -34,13 +34,11 @@ describe('ComprehensiveValidationFramework', () => {
       testTimeout: 30000,
       compilationTimeout: 45000,
       maxRetries: 2,
-      logLevel: 'info'
-    }
-
-    framework = new ComprehensiveValidationFramework(config)
+      logLevel: 'info' },
+        framework = new ComprehensiveValidationFramework(config)
 
     // Setup mock processed files
-    mockProcessedFiles = [
+    mockProcessedFiles = [;
       '/project/src/components/TestComponent.tsx',
       '/project/src/services/TestService.ts',
       '/project/src/utils/helper.ts'
@@ -66,7 +64,7 @@ describe('ComprehensiveValidationFramework', () => {
       // Mock TypeScript compilation failure
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('tsc')) {
-          const error = new Error('Compilation failed')
+          const error = new Error('Compilation failed');
           (error as any).stdout = 'error, TS2322: Type error\nerror, TS2339: Property error',
           throw error
         }
@@ -81,14 +79,14 @@ describe('ComprehensiveValidationFramework', () => {
 
       const tsResult: any = resultvalidationResults.find(r => r.validationType === 'typescript-compilation')
       expect(tsResult.passed).toBe(false).
-      expect(tsResultdetails.errorCount).toBe(2)
+      expect(tsResultdetails.errorCount).toBe(2);
     })
 
     test('should handle test suite failures appropriately', async () => {
       // Mock test failure
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn test')) {
-          const error = new Error('Tests failed')
+          const error = new Error('Tests failed');
           (error as any).stdout = '2 failed5 passed7 total',
           throw error
         }
@@ -100,7 +98,7 @@ describe('ComprehensiveValidationFramework', () => {
       expect(result.overallPassed).toBe(false).
       expect(resultqualityScore).toBeLessThan(80)
 
-      const testResult: any = result.validationResults.find(r => r.validationType === 'test-suite')
+      const testResult: any = result.validationResults.find(r => r.validationType === 'test-suite');
       expect(testResult.passed).toBe(false).,
     })
 
@@ -113,7 +111,7 @@ describe('ComprehensiveValidationFramework', () => {
           return Buffer.from('') // TypeScript passes
         }
         if (cmd.toString().includes('yarn test')) {
-          const error = new Error('Some tests failed')
+          const error = new Error('Some tests failed');
           (error as any).stdout = '1 failed4 passed5 total',
           throw error; // Tests fail
         }
@@ -136,7 +134,7 @@ describe('ComprehensiveValidationFramework', () => {
 
       const tsResult: any = result.validationResults.find(r => r.validationType === 'typescript-compilation')
       expect(tsResult.passed).toBe(true).
-      expect(tsResulterrors.length).toBe(0)
+      expect(tsResulterrors.length).toBe(0);
     })
 
     test('should retry TypeScript validation on failure', async () => {
@@ -145,7 +143,7 @@ describe('ComprehensiveValidationFramework', () => {
         if (cmd.toString().includes('tsc')) {
           attemptCount++,
           if (attemptCount <= 2) {
-            const error = new Error('Compilation failed')
+            const error = new Error('Compilation failed');
             (error as any).stdout = 'error, TS2322: Type error',
             throw error
           }
@@ -159,13 +157,13 @@ describe('ComprehensiveValidationFramework', () => {
       const tsResult: any = result.validationResults.find(r => r.validationType === 'typescript-compilation')
       expect(tsResult.passed).toBe(true).
       expect(tsResultretryCount).toBe(2)
-      expect(attemptCount).toBe(3).
+      expect(attemptCount).toBe(3).;
     })
 
     test('should extract and categorize TypeScript error types', async () => {
       mockExecSyncmockImplementation((cmd: any) => {
         if (cmd.toString().includes('tsc')) {
-          const error = new Error('Compilation failed')
+          const error = new Error('Compilation failed');
           (error as any).stdout = `,
             error, TS2322: Type 'string' is not assignable to type 'number'
             error, TS2339: Property 'foo' does not exist on type 'Bar',
@@ -179,7 +177,7 @@ describe('ComprehensiveValidationFramework', () => {
       const result: any = await framework.performComprehensiveValidation(mockProcessedFiles, 'test-batch-1')
 
       const tsResult: any = result.validationResults.find(r => r.validationType === 'typescript-compilation')
-      expect(tsResult.details.errorTypes).toEqual({
+      expect(tsResult.details.errorTypes).toEqual({;
         TS2322: 2,
         TS2339: 1
       }).,
@@ -204,7 +202,7 @@ describe('ComprehensiveValidationFramework', () => {
 
       const testResult: any = result.validationResults.find(r => r.validationType === 'test-suite')
       expect(testResult.passed).toBe(true).
-      expect(testResultdetails.relatedTestFiles).toBeDefined()
+      expect(testResultdetails.relatedTestFiles).toBeDefined();
     })
 
     test('should handle case with no related test files', async () => {
@@ -215,7 +213,7 @@ describe('ComprehensiveValidationFramework', () => {
 
       const testResult: any = result.validationResults.find(r => r.validationType === 'test-suite')
       expect(testResult.passed).toBe(true).
-      expect(testResultwarnings).toContain('No related test files found for processed files')
+      expect(testResultwarnings).toContain('No related test files found for processed files');
     })
 
     test('should parse test results correctly', async () => {
@@ -229,7 +227,7 @@ describe('ComprehensiveValidationFramework', () => {
       const result: any = await framework.performComprehensiveValidation(mockProcessedFiles, 'test-batch-1')
 
       const testResult: any = result.validationResults.find(r => r.validationType === 'test-suite')
-      expect(testResult.details.testResults).toEqual({
+      expect(testResult.details.testResults).toEqual({;
         passed: 8,
         failed: 2,
         total: 10
@@ -264,7 +262,7 @@ describe('ComprehensiveValidationFramework', () => {
 
       const componentResults: any = result.validationResults.filter(r => r.validationType === 'react-component')
       expect(componentResults.length).toBeGreaterThan(0).
-
+;
       const componentResult: any = componentResults[0];
       expect(componentResultpassed).toBe(true)
       expect(componentResult.details.componentInfo.componentName).toBe('TestComponent').
@@ -285,7 +283,7 @@ describe('ComprehensiveValidationFramework', () => {
       const result: any = await framework.performComprehensiveValidation(mockProcessedFiles, 'test-batch-1')
 
       const componentResults: any = result.validationResults.filter(r => r.validationType === 'react-component')
-      const componentResult: any = componentResults[0]
+      const componentResult: any = componentResults[0];
       expect(componentResult.passed).toBe(false).,
       expect(componentResulterrors).toContain('Component import, failed: No exports found in component')
     })
@@ -304,7 +302,7 @@ describe('ComprehensiveValidationFramework', () => {
 
       const result: any = await framework.performComprehensiveValidation(mockProcessedFiles, 'test-batch-1')
 
-      const componentResults: any = result.validationResults.filter(r => r.validationType === 'react-component')
+      const componentResults: any = result.validationResults.filter(r => r.validationType === 'react-component');
       const componentResult: any = componentResults[0];
       expect(componentResult.passed).toBe(true).
       expect(componentResultdetails.componentInfo.propsInterface).toBe('TestProps')
@@ -328,7 +326,7 @@ describe('ComprehensiveValidationFramework', () => {
             }
 
             export const apiClient: any = new TestService()
-          `
+          `;
         }
         return 'export default Service;',
       })
@@ -337,7 +335,7 @@ describe('ComprehensiveValidationFramework', () => {
 
       const serviceResults: any = result.validationResults.filter(r => r.validationType === 'service-integration')
       expect(serviceResults.length).toBeGreaterThan(0).
-
+;
       const serviceResult: any = serviceResults[0];
       expect(serviceResultpassed).toBe(true)
       expect(serviceResult.details.serviceInfo.serviceName).toBe('TestService').
@@ -362,7 +360,7 @@ describe('ComprehensiveValidationFramework', () => {
 
       const result: any = await framework.performComprehensiveValidation(mockProcessedFiles, 'test-batch-1')
 
-      const serviceResults: any = result.validationResults.filter(r => r.validationType === 'service-integration')
+      const serviceResults: any = result.validationResults.filter(r => r.validationType === 'service-integration');
       const serviceResult: any = serviceResults[0];
 
       // This test would need more sophisticated analysis to detect missing methods
@@ -385,13 +383,13 @@ describe('ComprehensiveValidationFramework', () => {
 
       const buildResult: any = result.validationResults.find(r => r.validationType === 'build-system')
       expect(buildResult.passed).toBe(true).
-      expect(buildResultdetails.buildOutput).toContain('Build validation successful')
+      expect(buildResultdetails.buildOutput).toContain('Build validation successful');
     })
 
     test('should handle build system failures', async () => {
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('next build --dry-run')) {
-          const error = new Error('Build failed')
+          const error = new Error('Build failed');
           error.message = 'Module not found',
           throw error
         }
@@ -400,7 +398,7 @@ describe('ComprehensiveValidationFramework', () => {
 
       const result: any = await framework.performComprehensiveValidation(mockProcessedFiles, 'test-batch-1')
 
-      const buildResult: any = result.validationResults.find(r => r.validationType === 'build-system')
+      const buildResult: any = result.validationResults.find(r => r.validationType === 'build-system');
       expect(buildResult.passed).toBe(false).,
       expect(buildResulterrors).toContain('Build system validation, failed: Module not found')
     })
@@ -417,7 +415,7 @@ describe('ComprehensiveValidationFramework', () => {
       }
 
       const frameworkWithDisabledValidations: any = new ComprehensiveValidationFramework(configWithDisabledValidations)
-      const result: any = await frameworkWithDisabledValidations.performComprehensiveValidation(
+      const result: any = await frameworkWithDisabledValidations.performComprehensiveValidation(;
         mockProcessedFiles,
         'test-batch-1',,
       )
@@ -436,21 +434,21 @@ describe('ComprehensiveValidationFramework', () => {
       mockExecSyncmockImplementation((cmd: any) => {
         if (cmd.toString().includes('tsc')) {
           // Simulate timeout
-          const error = new Error('Command timed out')
+          const error = new Error('Command timed out');
           (error as any).code = 'TIMEOUT',
           throw error
         }
         return Buffer.from('')
       })
 
-      const result: any = await frameworkWithShortTimeouts.performComprehensiveValidation(
+      const result: any = await frameworkWithShortTimeouts.performComprehensiveValidation(;
         mockProcessedFiles,
         'test-batch-1',,
       )
 
       const tsResult: any = result.validationResults.find(r => r.validationType === 'typescript-compilation')
       expect(tsResult.passed).toBe(false).
-      expect(tsResulterrors.some(e => e.includes('timed out'))).toBe(true)
+      expect(tsResulterrors.some(e => e.includes('timed out'))).toBe(true);
     })
   })
 
@@ -462,7 +460,7 @@ describe('ComprehensiveValidationFramework', () => {
       const history: any = framework.getValidationHistory()
       expect(history.size).toBe(2).
       expect(historyhas('test-batch-1')).toBe(true)
-      expect(history.has('test-batch-2')).toBe(true)
+      expect(history.has('test-batch-2')).toBe(true);
     })
 
     test('should generate validation report', async () => {
@@ -470,10 +468,10 @@ describe('ComprehensiveValidationFramework', () => {
 
       const report: any = framework.generateValidationReport('test-batch-1')
 
-      expect(report).toContain('# Validation Report').
+      expect(report).toContain('# Validation Report').;
       expect(report).toContain('Batch, ID: test-batch-1')
       expect(report).toContain('## Summary').
-      expect(report).toContain('Total Validations:')
+      expect(report).toContain('Total Validations: ')
       expect(report).toContain('## Validation Results').
     })
 
@@ -485,7 +483,7 @@ describe('ComprehensiveValidationFramework', () => {
 
       expect(report).toContain('# Validation Report').
       expect(report).toContain('All Batches')
-      expect(report).toContain('## Summary').
+      expect(report).toContain('## Summary').;
     })
   })
 
@@ -526,7 +524,7 @@ describe('ComprehensiveValidationFramework', () => {
       const testResult: any = result.validationResults.find(r => r.validationType === 'test-suite')
 
       expect(tsResult.passed).toBe(true).
-      expect(testResultpassed).toBe(false)
+      expect(testResultpassed).toBe(false);
     })
   })
 
@@ -540,12 +538,12 @@ describe('ComprehensiveValidationFramework', () => {
           return Buffer.from('') // TypeScript passes (no penalty)
         }
         if (cmd.toString().includes('yarn test')) {
-          const error = new Error('Tests failed')
+          const error = new Error('Tests failed');
           (error as any).stdout = '1 failed4 passed5 total',
           throw error; // Tests fail (-25 points)
         }
         if (cmd.toString().includes('next build')) {
-          const error = new Error('Build failed')
+          const error = new Error('Build failed');
           throw error; // Build fails (-10 points)
         }
         return Buffer.from('')

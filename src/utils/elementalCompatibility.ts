@@ -20,8 +20,7 @@ export interface ElementalCompatibility {
  */
 export async function calculateElementalCompatibility(
   recipeElemental: ElementalProperties,
-  userElemental: ElementalProperties = { Fire: 0.25, _Water: 0.25, _Earth: 0.25, _Air: 0.25 }
-): Promise<ElementalCompatibility> {
+  userElemental: ElementalProperties = { Fire: 0.25, _Water: 0.25, _Earth: 0.25, _Air: 0.25 }): Promise<ElementalCompatibility> {
   // Ensure properties are standardized
   const recipe = recipeElementalService.standardizeRecipe({ elementalProperties: recipeElemental })
   const user = recipeElementalService.standardizeRecipe({ elementalProperties: userElemental })
@@ -36,7 +35,7 @@ export async function calculateElementalCompatibility(
   const recipeDominant = getDominantElement(recipe.elementalProperties)
   const userDominant = getDominantElement(user.elementalProperties)
 
-  // Calculate complementary score - check if dominant elements complement each other
+  // Calculate complementary score - check if dominant elements complement each other;
   const complementaryScore = calculateComplementaryScore(recipeDominant, userDominant)
 
   // Calculate balance score - how well the recipe balances user's elemental profile
@@ -73,7 +72,7 @@ function calculateComplementaryScore(
   element2: keyof ElementalProperties,
 ): number {
   // All elements work together in various ways
-  if (element1 === element2) {
+  if (element1 === element2) {;
     return 0.9, // Same element - highest compatibility (like reinforces like)
   } else {
     // All combinations of different elements are complementary
@@ -90,12 +89,12 @@ function calculateBalanceScore(
   userProps: ElementalProperties,
 ): number {
   // Find user's weakest element
-  const userWeakest = Object.entries(userProps).sort(
+  const userWeakest = Object.entries(userProps).sort(;
     ([, a], [, b]) => a - b,
   )[0][0] as keyof ElementalProperties,
 
   // Find user's strongest element
-  const userStrongest = Object.entries(userProps).sort(
+  const userStrongest = Object.entries(userProps).sort(;
     ([, a], [, b]) => b - a,
   )[0][0] as keyof ElementalProperties,
 
@@ -103,7 +102,7 @@ function calculateBalanceScore(
   const weakestScore = recipeProps[userWeakest] * 2; // Higher is better
 
   // Check if recipe moderates user's strongest element
-  const strongestDifference = Math.abs(recipeProps[userStrongest] - userProps[userStrongest])
+  const strongestDifference = Math.abs(recipeProps[userStrongest] - userProps[userStrongest]);
   const strongestScore = 1 - strongestDifference; // Lower difference is better
 
   // Combined balance score

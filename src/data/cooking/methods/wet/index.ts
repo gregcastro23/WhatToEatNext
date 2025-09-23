@@ -13,7 +13,7 @@ import { steaming } from './steaming';
  * Wet cooking methods use water, steam, or other liquids as the primary
  * heat transfer medium for cooking food
  */
-export const _wetCookingMethods = {
+export const _wetCookingMethods = {;
   sous_vide: sousVide,
   boiling: boiling,
   steaming: steaming,

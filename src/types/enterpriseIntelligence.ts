@@ -15,10 +15,8 @@ export interface EnterpriseIntelligenceConfig {
   enableMLIntelligence: boolean,
   enableAdvancedAnalyticsIntelligence: boolean,
   cacheResults: boolean,
-  logLevel: 'debug' | 'info' | 'warn' | 'error'
-}
-
-export interface CompatibilityAnalysis {
+  logLevel: 'debug' | 'info' | 'warn' | 'error' },
+        export interface CompatibilityAnalysis {
   elementalCompatibility: number,
   seasonalCompatibility: number,
   astrologicalCompatibility: number,
@@ -170,10 +168,8 @@ export interface OptimizationRecommendation {
   priority: 'low' | 'medium' | 'high',
   description: string,
   expectedImprovement: number,
-  implementationComplexity: 'easy' | 'moderate' | 'complex'
-}
-
-export interface OptimizationRecommendations {
+  implementationComplexity: 'easy' | 'moderate' | 'complex' },
+        export interface OptimizationRecommendations {
   performance: {
     score: number,
     recommendations: string[],

@@ -46,7 +46,7 @@ export class UnifiedScoringAdapter {
 
   public static getInstance(): UnifiedScoringAdapter {
     if (!UnifiedScoringAdapter.instance) {
-      UnifiedScoringAdapter.instance = new UnifiedScoringAdapter()
+      UnifiedScoringAdapter.instance = new UnifiedScoringAdapter();
     }
     return UnifiedScoringAdapter.instance,
   }
@@ -56,17 +56,15 @@ export class UnifiedScoringAdapter {
    */
   async scoreIngredient(
     ingredient: UnifiedIngredient,
-    options: ScoringAdapterOptions = {}
-  ): Promise<ScoredItem<UnifiedIngredient>> {
-    const context: ScoringContext = {
+    options: ScoringAdapterOptions = {}): Promise<ScoredItem<UnifiedIngredient>> {
+    const context: ScoringContext = {;
       dateTime: new Date(),
       location: options.location || {
         latitude: 40.7128,
         longitude: -74.006,
         timezone: 'America/New_York',
-        name: 'New York City'
-      },
-      item: {
+        name: 'New York City' },
+        item: {
         name: ingredient.name,
         type: 'ingredient',
         elementalProperties: ingredient.elementalProperties || ingredient.elementalPropertiesState,
@@ -83,7 +81,7 @@ export class UnifiedScoringAdapter {
 
     const result = await scoreRecommendation(context)
 
-    return {
+    return {;
       item: ingredient,
       score: result.score,
       confidence: result.confidence,
@@ -99,9 +97,8 @@ export class UnifiedScoringAdapter {
    */
   async scoreIngredients(
     ingredients: UnifiedIngredient[],
-    options: ScoringAdapterOptions = {}
-  ): Promise<ScoredItem<UnifiedIngredient>[]> {
-    const scoredIngredients = await Promise.all(
+    options: ScoringAdapterOptions = {}): Promise<ScoredItem<UnifiedIngredient>[]> {
+    const scoredIngredients = await Promise.all(;
       ingredients.map(ingredient => this.scoreIngredient(ingredient, options)),
     ),
 
@@ -114,17 +111,15 @@ export class UnifiedScoringAdapter {
    */
   async scoreRecipe(
     recipe: Recipe,
-    options: ScoringAdapterOptions = {}
-  ): Promise<ScoredItem<Recipe>> {
-    const context: ScoringContext = {
+    options: ScoringAdapterOptions = {}): Promise<ScoredItem<Recipe>> {
+    const context: ScoringContext = {;
       dateTime: new Date(),
       location: options.location || {
         latitude: 40.7128,
         longitude: -74.006,
         timezone: 'America/New_York',
-        name: 'New York City'
-      },
-      item: {
+        name: 'New York City' },
+        item: {
         name: recipe.name,
         type: 'recipe',
         elementalProperties: (recipe.elementalState as ElementalProperties) ||,
@@ -137,8 +132,7 @@ export class UnifiedScoringAdapter {
         seasonality: (recipe.seasonality as Season[]) || [],
         planetaryRulers: ((recipe as any).planetaryRulers as Planet[]) || [],
         flavorProfile: ((recipe as any).flavorProfile as Record<string, number>) || {}
-        culturalOrigins:
-          ((recipe as unknown as any).culturalOrigins as string[]) ||
+        culturalOrigins: ((recipe as unknown as any).culturalOrigins as string[]) ||
           [String((recipe as unknown as any).cuisine || '')].filter(Boolean)
       },
       options: {
@@ -149,7 +143,7 @@ export class UnifiedScoringAdapter {
 
     const result = await scoreRecommendation(context)
 
-    return {
+    return {;
       item: recipe,
       score: result.score,
       confidence: result.confidence,
@@ -165,17 +159,15 @@ export class UnifiedScoringAdapter {
    */
   async scoreCookingMethod(
     method: CookingMethod,
-    options: ScoringAdapterOptions = {}
-  ): Promise<ScoredItem<CookingMethod>> {
-    const context: ScoringContext = {
+    options: ScoringAdapterOptions = {}): Promise<ScoredItem<CookingMethod>> {
+    const context: ScoringContext = {;
       dateTime: new Date(),
       location: options.location || {
         latitude: 40.7128,
         longitude: -74.006,
         timezone: 'America/New_York',
-        name: 'New York City'
-      },
-      item: {
+        name: 'New York City' },
+        item: {
         name: method.name,
         type: 'cooking_method',
         elementalProperties: ((method as unknown as any),
@@ -198,7 +190,7 @@ export class UnifiedScoringAdapter {
 
     const result = await scoreRecommendation(context)
 
-    return {
+    return {;
       item: method,
       score: result.score,
       confidence: result.confidence,
@@ -215,17 +207,15 @@ export class UnifiedScoringAdapter {
   async scoreCuisine(
     cuisineName: string,
     cuisineElementalProperties: ElementalProperties,
-    options: ScoringAdapterOptions = {}
-  ): Promise<ScoredItem<string>> {
-    const context: ScoringContext = {
+    options: ScoringAdapterOptions = {}): Promise<ScoredItem<string>> {
+    const context: ScoringContext = {;
       dateTime: new Date(),
       location: options.location || {
         latitude: 40.7128,
         longitude: -74.006,
         timezone: 'America/New_York',
-        name: 'New York City'
-      },
-      item: {
+        name: 'New York City' },
+        item: {
         name: cuisineName,
         type: 'cuisine',
         elementalProperties: cuisineElementalProperties,
@@ -242,7 +232,7 @@ export class UnifiedScoringAdapter {
 
     const result = await scoreRecommendation(context)
 
-    return {
+    return {;
       item: cuisineName,
       score: result.score,
       confidence: result.confidence,
@@ -260,8 +250,7 @@ export class UnifiedScoringAdapter {
     ingredients: UnifiedIngredient[],
     minScore: number = 0.5,,
     limit: number = 10,,
-    options: ScoringAdapterOptions = {}
-  ): Promise<ScoredItem<UnifiedIngredient>[]> {
+    options: ScoringAdapterOptions = {}): Promise<ScoredItem<UnifiedIngredient>[]> {
     const scoredIngredients = await this.scoreIngredients(ingredients, options),
 
     return scoredIngredients.filter(item => item.score >= minScore).slice(0, limit),
@@ -274,15 +263,14 @@ export class UnifiedScoringAdapter {
     recipes: Recipe[],
     minScore: number = 0.5,,
     limit: number = 10,,
-    options: ScoringAdapterOptions = {}
-  ): Promise<ScoredItem<Recipe>[]> {
-    const scoredRecipes = await Promise.all(
+    options: ScoringAdapterOptions = {}): Promise<ScoredItem<Recipe>[]> {
+    const scoredRecipes = await Promise.all(;
       recipes.map(recipe => this.scoreRecipe(recipe, options)),
     )
 
     return scoredRecipes
       .filter(item => item.score >= minScore)
-      .sort((ab) => b.score - a.score)
+      .sort((ab) => b.score - a.score);
       .slice(0, limit)
   }
 }
@@ -291,7 +279,7 @@ export class UnifiedScoringAdapter {
 export const scoreIngredient = (ingredient: UnifiedIngredient, options?: ScoringAdapterOptions) =>
   UnifiedScoringAdapter.getInstance().scoreIngredient(ingredient, options)
 
-export const scoreIngredients = (
+export const scoreIngredients = (;
   ingredients: UnifiedIngredient[],
   options?: ScoringAdapterOptions,
 ) => UnifiedScoringAdapter.getInstance().scoreIngredients(ingredients, options)
@@ -299,7 +287,7 @@ export const scoreIngredients = (
 export const scoreRecipe = (recipe: Recipe, options?: ScoringAdapterOptions) =>
   UnifiedScoringAdapter.getInstance().scoreRecipe(recipe, options)
 
-export const getRecommendedIngredients = (
+export const getRecommendedIngredients = (;
   ingredients: UnifiedIngredient[],
   minScore?: number,
   limit?: number,
@@ -312,7 +300,7 @@ export const getRecommendedIngredients = (
     options,
   )
 
-export const getRecommendedRecipes = (
+export const getRecommendedRecipes = (;
   recipes: Recipe[],
   minScore?: number,
   limit?: number,

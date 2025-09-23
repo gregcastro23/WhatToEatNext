@@ -23,7 +23,7 @@ export function initializeChromeApis(): void {
             e.message.includes('extension') ||
             e.message.includes('Cannot read properties of undefined (reading'))
         ) {
-          _logger.warn('[ChromeAPI] Safely suppressed error:', e.message)
+          _logger.warn('[ChromeAPI] Safely suppressed error: ', e.message)
           return true; // Prevent default error handling
         }
         return false; // Let other errors propagate normally
@@ -40,9 +40,9 @@ export function initializeChromeApis(): void {
     // Apply Pattern GG-6: Enhanced property access with type guards
     const chromeObj = (window as unknown as any).chrome ;
     if (!chromeObj.tabs) {
-      chromeObj.tabs = {
+      chromeObj.tabs = {;
         create: function (options: { url?: string }) {
-          log.info('[ChromeAPI] Mocked chrome.tabs.create called with:', options)
+          log.info('[ChromeAPI] Mocked chrome.tabs.create called with: ', options)
 
           // Safely handle URL opening
           if (options?.url) {
@@ -55,7 +55,7 @@ export function initializeChromeApis(): void {
                 }
               }, 10)
             } catch (e) {
-              _logger.warn('[ChromeAPI] Error opening URL:', e)
+              _logger.warn('[ChromeAPI] Error opening URL: ', e)
             }
           }
 
@@ -73,13 +73,13 @@ export function initializeChromeApis(): void {
     // Initialize runtime API
     // Apply Pattern GG-6: Enhanced property access with type guards
     if (!chromeObj.runtime) {
-      chromeObj.runtime = {
+      chromeObj.runtime = {;
         _lastError: null,
         getURL: function (path: string) {
           return window.location.origin + '/' + path
         },
         sendMessage: function (message: unknown) {
-          log.info('[ChromeAPI] Mocked chrome.runtime.sendMessage called:', message)
+          log.info('[ChromeAPI] Mocked chrome.runtime.sendMessage called: ', message)
           return Promise.resolve({ _success: true })
         },
         _onMessage: {
@@ -94,7 +94,7 @@ export function initializeChromeApis(): void {
     if (!chromeObj.extension) {
       chromeObj.extension = {
         getURL: function (path: string) {
-          return window.location.origin + '/' + path
+          return window.location.origin + '/' + path;
         },
         _getBackgroundPage: function () {
           return window
@@ -108,7 +108,7 @@ export function initializeChromeApis(): void {
       const mockStorage: Record<string, Record<string, string>> = {}
 
       chromeObj.storage = {
-        _local: {
+        _local: {;
           get: function (,
             keys: string | string[] | null,
             callback?: (items: Record<string, string[]>) => void,
@@ -119,7 +119,7 @@ export function initializeChromeApis(): void {
               result = { ...mockStorage }
             } else if (Array.isArray(keys)) {
               keys.forEach(key => {
-                if (mockStorage[key] !== undefined) {
+                if (mockStorage[key] !== undefined) {;
                   result[key] = mockStorage[key],
                 }
               })
@@ -143,7 +143,7 @@ export function initializeChromeApis(): void {
           },
           _remove: function (keys: string | string[], callback?: () => void) {
             if (Array.isArray(keys)) {
-              keys.forEach(key => delete mockStorage[key])
+              keys.forEach(key => delete mockStorage[key]);
             } else {
               delete mockStorage[keys],
             }
@@ -168,7 +168,7 @@ export function initializeChromeApis(): void {
 
     log.info('[ChromeAPI] Successfully initialized Chrome extension API mocks')
   } catch (error) {
-    _logger.warn('[ChromeAPI] Error initializing Chrome APIs:', error)
+    _logger.warn('[ChromeAPI] Error initializing Chrome APIs: ', error)
   }
 }
 

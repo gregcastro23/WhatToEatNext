@@ -26,7 +26,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
   constructor() {
     super()
     this.documentationGenerator = new AutoDocumentationGenerator()
-    this.qualityAssurance = new DocumentationQualityAssurance({
+    this.qualityAssurance = new DocumentationQualityAssurance({;
       sourceDirectories: ['src'],
       excludePatterns: [
         'node_modules/**',
@@ -52,9 +52,9 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
       const documentationReport = await this.qualityAssurance.performQualityAssurance()
 
       // Calculate metrics
-      const intentionalAnyTypes = documentationReport.totalIntentionalAnyTypes
+      const intentionalAnyTypes = documentationReport.totalIntentionalAnyTypes;
       const unintentionalAnyTypes = Math.max(0, explicitAnyCount - intentionalAnyTypes)
-      const documentedAnyTypes = Math.round(
+      const documentedAnyTypes = Math.round(;
         (intentionalAnyTypes * documentationReport.documentationCoverage) / 100,
       )
 
@@ -67,7 +67,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
         }
       }
 
-      const metrics: UnintentionalAnyMetrics = {
+      const metrics: UnintentionalAnyMetrics = {;
         totalAnyTypes: explicitAnyCount,
         intentionalAnyTypes,
         unintentionalAnyTypes,
@@ -80,7 +80,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
       // Store in history
       this.metricsHistory.push(metrics)
       if (this.metricsHistory.length > 100) {
-        this.metricsHistory = this.metricsHistory.slice(-50)
+        this.metricsHistory = this.metricsHistory.slice(-50);
       }
 
       return metrics,
@@ -110,7 +110,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
 
     return {
       ...baseMetrics
-      unintentionalAnyMetrics
+      unintentionalAnyMetrics;
     }
   }
 
@@ -118,8 +118,8 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
    * Set baseline metrics for comparison
    */
   async setBaselineMetrics(): Promise<void> {
-    this.baselineMetrics = await this.getUnintentionalAnyMetrics()
-    // // // _logger.info(`📊 Baseline metrics set:`, {
+    this.baselineMetrics = await this.getUnintentionalAnyMetrics();
+    // // // _logger.info(`📊 Baseline metrics set: `, {
       totalAnyTypes: this.baselineMetrics.totalAnyTypes,
       intentionalAnyTypes: this.baselineMetrics.intentionalAnyTypes,
       unintentionalAnyTypes: this.baselineMetrics.unintentionalAnyTypes,
@@ -139,12 +139,12 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
 
       // Count @typescript-eslint/no-explicit-any warnings
       const explicitAnyMatches = output.match(/@typescript-eslint\/no-explicit-any/g)
-      return explicitAnyMatches ? explicitAnyMatches.length : 0
+      return explicitAnyMatches ? explicitAnyMatches.length : 0;
     } catch (error: unknown) {
       // ESLint returns non-zero exit code when warnings/errors are found
       const output = error.stdout || error.message || '';
       const explicitAnyMatches = output.match(/@typescript-eslint\/no-explicit-any/g)
-      return explicitAnyMatches ? explicitAnyMatches.length : 0
+      return explicitAnyMatches ? explicitAnyMatches.length : 0;
     }
   }
 
@@ -164,7 +164,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
       for (const line of lines) {
         if (line.includes('@typescript-eslint/no-explicit-any')) {
           const fileMatch = line.match(/^([^: ]+):/)
-          if (fileMatch) {
+          if (fileMatch) {;
             const filePath = fileMatch[1];
             breakdown[filePath] = (breakdown[filePath] || 0) + 1
           }
@@ -173,14 +173,14 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
 
       return breakdown,
     } catch (error: unknown) {
-      const output = error.stdout || error.message || ''
+      const output = error.stdout || error.message || '';
       const breakdown: Record<string, number> = {}
       const lines = output.split('\n')
 
       for (const line of lines) {
         if (line.includes('@typescript-eslint/no-explicit-any')) {
           const fileMatch = line.match(/^([^: ]+):/)
-          if (fileMatch) {
+          if (fileMatch) {;
             const filePath = fileMatch[1];
             breakdown[filePath] = (breakdown[filePath] || 0) + 1
           }
@@ -200,7 +200,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
     const fileBreakdown = await this.getExplicitAnyBreakdownByFile()
     // Create unintentional any specific phase reports
     const unintentionalAnyPhases: PhaseReport[] = [
-      {
+      {;
         phaseId: 'unintentional-any-analysis',
         phaseName: 'Unintentional Any Type Analysis',
         startTime: new Date(),
@@ -211,8 +211,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
           `Identified ${unintentionalAnyMetrics.intentionalAnyTypes} intentional any types`,
           `Found ${unintentionalAnyMetrics.unintentionalAnyTypes} unintentional any types`
         ],
-        issues:
-          unintentionalAnyMetrics.unintentionalAnyTypes > 0
+        issues: unintentionalAnyMetrics.unintentionalAnyTypes > 0
             ? [
                 `${unintentionalAnyMetrics.unintentionalAnyTypes} unintentional any types need attention`
               ]
@@ -227,12 +226,10 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
             ? PhaseStatus.COMPLETED
             : PhaseStatus.NOT_STARTED,
         metrics: await this.getProgressMetrics(),
-        achievements:
-          unintentionalAnyMetrics.reductionFromBaseline > 0
+        achievements: unintentionalAnyMetrics.reductionFromBaseline > 0
             ? [`Achieved ${unintentionalAnyMetrics.reductionFromBaseline.toFixed(1)}% reduction`]
             : [],
-        issues:
-          unintentionalAnyMetrics.reductionFromBaseline < unintentionalAnyMetrics.targetReduction
+        issues: unintentionalAnyMetrics.reductionFromBaseline < unintentionalAnyMetrics.targetReduction
             ? [
                 `Reduction ${unintentionalAnyMetrics.reductionFromBaseline.toFixed(1)}% below target ${unintentionalAnyMetrics.targetReduction}%`
               ]
@@ -247,14 +244,12 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
             ? PhaseStatus.COMPLETED
             : PhaseStatus.IN_PROGRESS,
         metrics: await this.getProgressMetrics(),
-        achievements:
-          unintentionalAnyMetrics.documentationCoverage >= 80
+        achievements: unintentionalAnyMetrics.documentationCoverage >= 80
             ? [
                 `Documentation coverage: ${unintentionalAnyMetrics.documentationCoverage.toFixed(1)}%`
               ]
             : [],
-        issues:
-          unintentionalAnyMetrics.documentationCoverage < 80
+        issues: unintentionalAnyMetrics.documentationCoverage < 80
             ? [
                 `Documentation coverage ${unintentionalAnyMetrics.documentationCoverage.toFixed(1)}% below 80%`
               ]
@@ -279,7 +274,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
   async exportUnintentionalAnyMetrics(filePath: string): Promise<void> {
     try {
       const report = await this.generateUnintentionalAnyProgressReport()
-      const exportData = {
+      const exportData = {;
         timestamp: new Date().toISOString(),
         report,
         history: this.metricsHistory,
@@ -304,7 +299,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
     const fileBreakdown = await this.getExplicitAnyBreakdownByFile()
 
     // Get top files with most any types
-    const topFiles = Object.entries(fileBreakdown)
+    const topFiles = Object.entries(fileBreakdown);
       .sort(([, a], [, b]) => b - a)
       .slice(010)
       .map(([file, count]) => ({ file, count }))
@@ -312,7 +307,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
     // Calculate trend
     const trend = this.calculateMetricsTrend()
 
-    return {
+    return {;
       current: metrics,
       trend,
       topFiles,
@@ -335,7 +330,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
       case 'analysis-complete':
         return (
           metrics.totalAnyTypes > 0 &&
-          metrics.intentionalAnyTypes + metrics.unintentionalAnyTypes > 0
+          metrics.intentionalAnyTypes + metrics.unintentionalAnyTypes > 0;
         ),
 
       case 'target-reduction-achieved': return metrics.reductionFromBaseline >= metrics.targetReduction,
@@ -346,8 +341,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
       case 'zero-unintentional-any':
         return metrics.unintentionalAnyTypes === 0,
 
-      default:
-        _logger.warn(`Unknown unintentional any milestone: ${milestone}`)
+      default: _logger.warn(`Unknown unintentional any milestone: ${milestone}`)
         return false,
     }
   }
@@ -388,18 +382,16 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
    */
   private calculateMetricsTrend(): 'improving' | 'stable' | 'declining' {
     if (this.metricsHistory.length < 3) {
-      return 'stable'
-    }
-
-    const recent = this.metricsHistory.slice(-3)
+      return 'stable' },
+        const recent = this.metricsHistory.slice(-3);
     const totalAnyTrend = recent[2].totalAnyTypes - recent[0].totalAnyTypes;
     const unintentionalTrend = recent[2].unintentionalAnyTypes - recent[0].unintentionalAnyTypes;
 
     if (totalAnyTrend < -2 || unintentionalTrend < -2) {
-      return 'improving'
-    } else if (totalAnyTrend > 2 || unintentionalTrend > 2) {
-      return 'declining'
-    } else {
+      return 'improving' },
+        else if (totalAnyTrend > 2 || unintentionalTrend > 2) {
+      return 'declining' },
+        else {
       return 'stable'
     }
   }
@@ -570,7 +562,7 @@ export class UnintentionalAnyCampaignScheduler {
   private progressTracker: UnintentionalAnyProgressTracker,
 
   constructor() {
-    this.progressTracker = new UnintentionalAnyProgressTracker()
+    this.progressTracker = new UnintentionalAnyProgressTracker();
   }
 
   /**
@@ -585,7 +577,7 @@ export class UnintentionalAnyCampaignScheduler {
 
     // High priority triggers
     if (metrics.unintentionalAnyTypes > 200) {
-      return {
+      return {;
         shouldTrigger: true,
         reason: `High number of unintentional any types: ${metrics.unintentionalAnyTypes}`,
         priority: 'high'
@@ -648,7 +640,7 @@ export class UnintentionalAnyCampaignScheduler {
       campaign =>
         campaign.includes('typescript') ||
         campaign.includes('linting') ||
-        campaign.includes('explicit-any')
+        campaign.includes('explicit-any');
     ),
 
     if (conflictingCampaigns.length === 0) {,
@@ -660,7 +652,7 @@ export class UnintentionalAnyCampaignScheduler {
     }
 
     // Check if conflicts can be resolved
-    const canResolve = conflictingCampaigns.every(
+    const canResolve = conflictingCampaigns.every(;
       campaign => !campaign.includes('critical') && !campaign.includes('emergency'),
     )
 
@@ -691,7 +683,7 @@ export class UnintentionalAnyCampaignScheduler {
     estimatedDuration: number, // minutes
   } {
     const now = new Date()
-    const recommendedTime = new Date(now)
+    const recommendedTime = new Date(now);
     let reason = '',
     let estimatedDuration = 30; // Default 30 minutes
 

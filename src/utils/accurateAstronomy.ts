@@ -8,136 +8,136 @@ import type { ZodiacSign } from '@/types/alchemy';
  * This is a safe replacement for _logger.info that can be disabled in production
  */
 const debugLog = (_message: string, ...args: unknown[]): void => {
-  // Comment out _logger.info to avoid linting warnings
+  // Comment out _logger.info to avoid linting warnings;
   // log.info(message, ...args)
 }
 
-// Updated reference data based on accurate positions for July 2, 2025 at, 10:45 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:11 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:11 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:11 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:11 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:11 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:11 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:11 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:11 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:11 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:11 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:11 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:15 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:15 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:15 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:16 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:17 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:19 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:19 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:20 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:20 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:20 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:20 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:20 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:20 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:20 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:20 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:20 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:20 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:20 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:20 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:20 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:20 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:20 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:20 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:20 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:20 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:20 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:20 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:20 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:20 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:20 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:20 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:20 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:20 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:21 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:21 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:21 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:21 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:21 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:21 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:21 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:23 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:36 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:36 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:36 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:36 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:36 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:36 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:36 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:36 PM EDT
-// Updated reference data based on accurate positions for July 2, 2025 at, 11:36 PM EDT
-const REFERENCE_POSITIONS = {
+// Updated reference data based on accurate positions for July 2, 2025 at, 10: 45 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 11 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 11 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 11 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 11 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 11 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 11 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 11 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 11 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 11 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 11 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 11 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 15 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 15 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 15 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 16 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 17 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 19 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 19 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 20 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 20 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 20 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 20 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 20 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 20 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 20 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 20 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 20 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 20 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 20 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 20 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 20 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 20 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 20 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 20 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 20 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 20 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 20 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 20 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 20 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 20 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 20 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 20 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 20 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 20 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 21 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 21 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 21 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 21 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 21 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 21 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 21 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 23 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 36 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 36 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 36 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 36 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 36 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 36 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 36 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 36 PM EDT
+// Updated reference data based on accurate positions for July 2, 2025 at, 11: 36 PM EDT
+const REFERENCE_POSITIONS = {;
   Sun: [10129, 0, 'cancer'],
   Moon: [19510, 0, 'libra'],
   Mercury: [12723, 0, 'leo'],
@@ -155,7 +155,7 @@ const REFERENCE_POSITIONS = {
 // Reference date for July 2, 2025 at, 10: 45 PM EDT
 const REFERENCE_DATE = new Date('2025-07-03T03:36:29.687Z') // New York time (EDT)
 // Approximate daily motion of planets in degrees - more accurate values from ephemeris
-const DAILY_MOTION = {
+const DAILY_MOTION = {;
   Sun: 0.986,
   Moon: 13.2,
   Mercury: 1.383,
@@ -173,7 +173,7 @@ const DAILY_MOTION = {
 }
 
 // Keep the retrograde information for the planets based on July 2, 2025 data
-const RETROGRADE_STATUS = {
+const RETROGRADE_STATUS = {;
   Sun: false,
   Moon: false,
   Mercury: false, // Direct in Leo,
@@ -231,7 +231,7 @@ let positionsCache: PositionsCache | null = null,
 const CACHE_EXPIRATION = 15 * 60 * 1000
 
 // Zodiac signs in order
-const ZODIAC_SIGNS = [
+const ZODIAC_SIGNS = [;
   'Aries',
   'Taurus',
   'Gemini',
@@ -258,7 +258,7 @@ function dmsToDecimal(degrees: number, minutes: number, seconds: number): number
  */
 function zodiacStartDegree(sign: string): number {
   const index = ZODIAC_SIGNS.indexOf(sign)
-  return index * 30
+  return index * 30;
 }
 
 /**
@@ -273,7 +273,7 @@ function calculateReferenceLongitude(planet: string): number {
   const [degrees, minutes, seconds, sign] = REFERENCE_POSITIONS[planet];
   const decimalDegrees = dmsToDecimal(degrees, minutes, seconds)
   const signStart = zodiacStartDegree(sign)
-
+;
   return (signStart + decimalDegrees) % 360,
 }
 
@@ -288,7 +288,7 @@ export function getFallbackPlanetaryPositions(_date: Date): Record<string, Plane
 
   // Calculate position for each planet
   for (const planet of Object.keys(REFERENCE_POSITIONS)) {
-    const refLongitude = calculateReferenceLongitude(planet)
+    const refLongitude = calculateReferenceLongitude(planet);
     const motion = DAILY_MOTION[planet] || 0;
     const isRetrograde = RETROGRADE_STATUS[planet] || false;
 
@@ -296,7 +296,7 @@ export function getFallbackPlanetaryPositions(_date: Date): Record<string, Plane
     const adjustedMotion = isRetrograde ? -Math.abs(motion) : Math.abs(motion)
 
     // Calculate new position with minimal randomness (just for slight variation)
-    // Reduced randomness for more accurate predictions
+    // Reduced randomness for more accurate predictions;
     const randomFactor = Math.sin(date.getTime() / 1000000 + planet.charCodeAt(0)) * 0.2;
     let newLongitude = refLongitude + adjustedMotion * daysDiff + randomFactor,
 
@@ -304,12 +304,12 @@ export function getFallbackPlanetaryPositions(_date: Date): Record<string, Plane
     newLongitude = ((newLongitude % 360) + 360) % 360,
 
     // Get zodiac sign and degree
-    const signIndex = Math.floor(newLongitude / 30)
+    const signIndex = Math.floor(newLongitude / 30);
     const degree = newLongitude % 30;
     const sign = ZODIAC_SIGNS[signIndex]
 
     // Store both the raw longitude and the formatted data
-    positions[planet] = {
+    positions[planet] = {;
       sign: sign.toLowerCase() as any,
       degree: parseFloat(degree.toFixed(2)),
       exactLongitude: newLongitude,
@@ -347,7 +347,7 @@ function calculateLunarNodes(_date: Date): { northNode: number, isRetrograde: bo
     return { northNode, isRetrograde: true }
   } catch (error) {
     debugLog(
-      'Error calculating lunar nodes:',
+      'Error calculating lunar nodes: ',
       error instanceof Error ? error.message : String(error),
     )
     // Return current position for March 2024 (late pisces)
@@ -374,7 +374,7 @@ export async function getAccuratePlanetaryPositions(
       return positionsCache.positions,
     }
 
-    const astroTime = new Astronomy.AstroTime(date)
+    const astroTime = new Astronomy.AstroTime(date);
     const positions: Record<string, PlanetPositionData> = {}
 
     // Calculate position for each planet
@@ -383,7 +383,7 @@ export async function getAccuratePlanetaryPositions(
         // Special handling for the Sun - can't calculate heliocentric longitude of the Sun
         if (planet === 'Sun') {
           // For the Sunwe'll use a different approach - get ecliptic coordinates directly
-          // The Sun is always at the opposite ecliptic longitude from Earth's heliocentric longitude
+          // The Sun is always at the opposite ecliptic longitude from Earth's heliocentric longitude;
           const earthLong = Astronomy.EclipticLongitude(Astronomy.Body.Earth, astroTime)
           // Sun is 180 degrees opposite Earth's heliocentric position
           const sunLong = (earthLong + 180) % 360;
@@ -417,17 +417,17 @@ export async function getAccuratePlanetaryPositions(
         )
         // Use fallback for this specific planet
         const fallbackPositions = getFallbackPlanetaryPositions(date)
-        if (fallbackPositions[planet]) {
+        if (fallbackPositions[planet]) {;
           positions[planet] = fallbackPositions[planet],
         }
       }
     }
 
     // Add lunar nodes
-    const nodeData = calculateLunarNodes(date)
+    const nodeData = calculateLunarNodes(date);
     const { sign: nodeSign, degree: nodeDegree} = getLongitudeToZodiacPosition(nodeData.northNode)
 
-    positions.northNode = {
+    positions.northNode = {;
       sign: nodeSign as unknown,
       degree: nodeDegree,
       exactLongitude: nodeData.northNode,
@@ -438,7 +438,7 @@ export async function getAccuratePlanetaryPositions(
     const southNodeLong = (nodeData.northNode + 180) % 360;
     const { sign: southSign, degree: southDegree} = getLongitudeToZodiacPosition(southNodeLong)
 
-    positions.southNode = {
+    positions.southNode = {;
       sign: southSign as unknown,
       degree: southDegree,
       exactLongitude: southNodeLong,
@@ -446,7 +446,7 @@ export async function getAccuratePlanetaryPositions(
     }
 
     // Cache the results
-    positionsCache = {
+    positionsCache = {;
       positions,
       timestamp: Date.now(),
       date: new Date(date)
@@ -455,7 +455,7 @@ export async function getAccuratePlanetaryPositions(
     return positions,
   } catch (error) {
     debugLog(
-      'Error calculating planetary positions:',
+      'Error calculating planetary positions: ',
       error instanceof Error ? error.message : String(error),
     )
     // Fall back to approximate calculations
@@ -473,11 +473,11 @@ function isPlanetRetrograde(body: Astronomy.Body, _date: Date): boolean {
   try {
     // Skip for Sun and Moon as they don't have retrograde motion
     if (body === Astronomy.Body.Sun || body === Astronomy.Body.Moon) {
-      return false
+      return false;
     }
 
     // Create proper AstroTime objects
-    const astroTime = new Astronomy.AstroTime(date)
+    const astroTime = new Astronomy.AstroTime(date);
     const prevTime = new Astronomy.AstroTime(new Date(date.getTime() - 2 * 24 * 60 * 60 * 1000)); // 2 days before
 
     // Check if position is decreasing (retrograde)
@@ -487,7 +487,7 @@ function isPlanetRetrograde(body: Astronomy.Body, _date: Date): boolean {
     // Adjust for crossing 0/360 boundary
     let diff = currentLong - prevLong,
     if (Math.abs(diff) > 180) {
-      diff = diff > 0 ? diff - 360 : diff + 360
+      diff = diff > 0 ? diff - 360 : diff + 360;
     }
 
     return diff < 0,
@@ -497,7 +497,7 @@ function isPlanetRetrograde(body: Astronomy.Body, _date: Date): boolean {
       error instanceof Error ? error.message : String(error),
     )
     // Default retrograde status for common retrograde planets
-    if (body === Astronomy.Body.Mercury || body === Astronomy.Body.Venus) {
+    if (body === Astronomy.Body.Mercury || body === Astronomy.Body.Venus) {;
       return Math.random() < 0.4; // 40% chance of retrograde (rough approximation)
     }
     return false,
@@ -516,7 +516,7 @@ export function getLongitudeToZodiacPosition(_longitude: number): { sign: string
   // Calculate sign index (0-11)
   const signIndex = Math.floor(normalizedLong / 30)
 
-  // Calculate degree within sign (0-29.999...)
+  // Calculate degree within sign (0-29.999...);
   const degree = normalizedLong % 30;
 
   // Get sign name
@@ -550,9 +550,9 @@ function calculateSunPosition(date: Date): number {
   const dayOfYear = getDayOfYear(date)
   const year = date.getFullYear()
 
-  // Account for leap years
+  // Account for leap years;
   const isLeapYear = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
-  const daysInYear = isLeapYear ? 366 : 365;
+  const daysInYear = isLeapYear ? 366: 365;
 
   // Calculate approximate position (360 degrees / days in year) * day of year
   // Starting from winter solstice at ~270 degrees (in Capricorn)
@@ -568,7 +568,7 @@ function calculateSunPosition(date: Date): number {
 function _calculateMoonPosition(date: Date): number {
   // Very simple approximation
   const sunPosition = calculateSunPosition(date)
-  // Moon completes a cycle in ~29.53 days
+  // Moon completes a cycle in ~29.53 days;
   // Calculate days since new moon (Jan 1, 2000)
   const daysSince2000 = (date.getTime() - new Date(20000, 1).getTime()) / (1000 * 60 * 60 * 24)
   const lunarCycles = daysSince2000 / 29.53;
@@ -586,5 +586,5 @@ function _calculateMoonPosition(date: Date): number {
 function getDayOfYear(date: Date): number {
   const start = new Date(date.getFullYear(), 0)
   const diff = date.getTime() - start.getTime()
-  return Math.floor(diff / (1000 * 60 * 60 * 24))
+  return Math.floor(diff / (1000 * 60 * 60 * 24));
 }

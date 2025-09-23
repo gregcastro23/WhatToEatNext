@@ -20,7 +20,7 @@ import { ErrorCategory } from './TypeScriptErrorAnalyzer';
 describe('Campaign Intelligence System', () => {
   describe('ERROR_PATTERN_INTELLIGENCE', () => {
     it('should analyze error patterns correctly', () => {
-      const sampleErrors: any = [
+      const sampleErrors: any = [;
         { code: 'TS2352', category: ErrorCategory.TS2352_TYPE_CONVERSION, priority: 20 }
         { code: 'TS2352', category: ErrorCategory.TS2352_TYPE_CONVERSION, priority: 18 }
         { code: 'TS2345', category: ErrorCategory.TS2345_ARGUMENT_MISMATCH, priority: 15 }
@@ -42,7 +42,7 @@ describe('Campaign Intelligence System', () => {
 
       expect(patterns.predictiveAnalytics.errorReductionPotential).toBeGreaterThan(0).
       expect(patternspredictiveAnalytics.campaignDurationEstimate).toBeGreaterThan(0)
-      expect(patterns.predictiveAnalytics.buildStabilityPrediction).toBeGreaterThan(0.6)
+      expect(patterns.predictiveAnalytics.buildStabilityPrediction).toBeGreaterThan(0.6);
     })
 
     it('should generate error intelligence report', () => {
@@ -64,7 +64,7 @@ describe('Campaign Intelligence System', () => {
       }
 
       const report: any = ERROR_PATTERN_INTELLIGENCE.generateErrorIntelligenceReport(patterns)
-
+;
       expect(report).toContain('Dominant error, pattern: TS2352_TYPE_CONVERSION (10 occurrences)').
       expect(report).toContain('High-success fix patterns, identified: TS2352_TYPE_CONVERSION')
       expect(report).toContain('Projected error reduction, potential: 85.0%')
@@ -107,7 +107,7 @@ describe('Campaign Intelligence System', () => {
         isTargetMet: true
       }
 
-      const progress: any = CAMPAIGN_PROGRESS_INTELLIGENCE.analyzeCampaignProgress(
+      const progress: any = CAMPAIGN_PROGRESS_INTELLIGENCE.analyzeCampaignProgress(;
         2420,
         2500,
         sampleFixerResults,
@@ -130,7 +130,7 @@ describe('Campaign Intelligence System', () => {
     })
 
     it('should generate progress intelligence report', () => {
-      const progress: CampaignProgressIntelligence = { velocityAnalysis: {
+      const progress: CampaignProgressIntelligence = { velocityAnalysis: {;
           currentVelocity: 15,
           projectedCompletion: new Date('2025-02-01'),
           efficiencyTrends: [1.21.51.8],
@@ -149,7 +149,7 @@ describe('Campaign Intelligence System', () => {
       }
 
       const report: any = CAMPAIGN_PROGRESS_INTELLIGENCE.generateProgressIntelligenceReport(progress)
-
+;
       expect(report).toContain('Current, velocity: 1.50 errors/minute')
       expect(report).toContain('Projected, completion: 2/1/2025').
       expect(report).toContain('Code health, score: 85.0%')
@@ -163,7 +163,7 @@ describe('Campaign Intelligence System', () => {
     it('should generate comprehensive intelligence', async () => {
       // Mock the analyzer methods to avoid actual system calls
       const mockErrorAnalyzer = {
-        analyzeErrors: jest.fn().mockResolvedValue({ distribution: {
+        analyzeErrors: jest.fn().mockResolvedValue({ distribution: {;
             totalErrors: 2500,
             priorityRanking: [{ code: 'TS2352', category: ErrorCategory.TS2352_TYPE_CONVERSION, priority: 20 }]
           }
@@ -173,7 +173,7 @@ describe('Campaign Intelligence System', () => {
 
       const mockFixerIntegration: any = {}
 
-      const mockAnyElimination = {
+      const mockAnyElimination = {;
         showCampaignProgress: jest.fn().mockResolvedValue({ totalExplicitAnyStart: 1000,
           totalExplicitAnyRemaining: 250,
           reductionAchieved: 750,
@@ -183,7 +183,7 @@ describe('Campaign Intelligence System', () => {
         })
       }
 
-      const intelligence: any = await CAMPAIGN_ENTERPRISE_INTELLIGENCE.generateComprehensiveIntelligence(
+      const intelligence: any = await CAMPAIGN_ENTERPRISE_INTELLIGENCE.generateComprehensiveIntelligence(;
         mockErrorAnalyzer as unknown,
         mockFixerIntegration as unknown,
         mockAnyElimination as unknown,,
@@ -212,7 +212,7 @@ describe('Campaign Intelligence System', () => {
     })
 
     it('should display enterprise intelligence correctly', () => {
-      const mockIntelligence: any = {
+      const mockIntelligence: any = {;
         campaignMetrics: { errorReductionVelocity: 1.5,
           codeQualityImprovement: 0.85,
           buildStabilityScore: 0.95,
@@ -288,7 +288,7 @@ describe('Campaign Intelligence System', () => {
       expect(demointegrationMetrics.overallIntelligenceIntegration).toBeGreaterThan(0.9)
       expect(demo.integrationMetrics.errorPatternIntegration).toBeGreaterThan(0.9)
       expect(demo.integrationMetrics.progressAnalysisIntegration).toBeGreaterThan(0.9)
-      expect(demo.integrationMetrics.enterpriseIntelligenceIntegration).toBeGreaterThan(0.9)
+      expect(demo.integrationMetrics.enterpriseIntelligenceIntegration).toBeGreaterThan(0.9);
     })
   })
 })

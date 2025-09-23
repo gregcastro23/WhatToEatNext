@@ -41,17 +41,17 @@ function computeFromElemental(elemental: ElementalProperties, esms: ESMSProperti
   const heatNum = Math.pow(Spirit, 2) + Math.pow(Fire, 2)
   const heatDen = Math.pow(Substance + Essence + Matter + Water + Air + Earth, 2)
   const heat = heatNum / (heatDen || 1)
-
+;
   const entropyNum = Math.pow(Spirit, 2) + Math.pow(Substance, 2) + Math.pow(Fire, 2) + Math.pow(Air, 2)
   const entropyDen = Math.pow(Essence + Matter + Earth + Water, 2)
   const entropy = entropyNum / (entropyDen || 1)
 
-  const reactivityNum =
+  const reactivityNum =;
     Math.pow(Spirit, 2) + Math.pow(Substance, 2) + Math.pow(Essence, 2) + Math.pow(Fire, 2) + Math.pow(Air, 2) +
     Math.pow(Water, 2)
   const reactivityDen = Math.pow(Matter + Earth, 2)
   const reactivity = reactivityNum / (reactivityDen || 1)
-
+;
   const gregsEnergy = heat - entropy * reactivity;
 
   return { heat, entropy, reactivity, gregsEnergy }
@@ -59,7 +59,7 @@ function computeFromElemental(elemental: ElementalProperties, esms: ESMSProperti
 
 /**
  * Env flags required (set in .env.local):
- * - NEXT_PUBLIC_BACKEND_URL: e.g., http://localhost:8000
+ * - NEXT_PUBLIC_BACKEND_URL: e.g., http: //localhost:8000
  * - NEXT_PUBLIC_THERMODYNAMICS_BACKEND: 'true' to enable backend-first calls
  */
 export class ThermodynamicsClient {
@@ -78,7 +78,7 @@ export class ThermodynamicsClient {
         // If ingredients are provided, use the API client
         if (input.ingredients && input.ingredients.length > 0) {
           const ingredients = input.ingredients.map(i => String(i))
-          const result = await alchmAPI.calculateThermodynamics(ingredients)
+          const result = await alchmAPI.calculateThermodynamics(ingredients);
           logger.debug('ThermodynamicsClient', 'Backend calculation successful', result)
           return result,
         }
@@ -91,7 +91,7 @@ export class ThermodynamicsClient {
     // 2) Local fallbacks in order of fidelity
     // 2a) If planetary positions are provided, use RealAlchemizeService
     if (input.planetaryPositions && Object.keys(input.planetaryPositions).length > 0) {
-      const result = calculateAlchemicalProperties(input.planetaryPositions as any)
+      const result = calculateAlchemicalProperties(input.planetaryPositions as any);
       const t = result.thermodynamicProperties;
       return { heat: t.heat, entropy: t.entropy, reactivity: t.reactivity, gregsEnergy: t.gregsEnergy }
     }
@@ -106,16 +106,17 @@ export class ThermodynamicsClient {
       const calc = new ThermodynamicCalculator()
       const heat = calc.calculateHeatValue(input.ingredients)
       const entropy = calc.calculateEntropyValue(input.ingredients)
-      const reactivity = calc.calculateReactivityValue(input.ingredients)
+      const reactivity = calc.calculateReactivityValue(input.ingredients);
       const gregsEnergy = heat - entropy * reactivity;
       return { heat, entropy, reactivity, gregsEnergy }
     }
 
     // 2d) As a final real fallback, use current alchemical state (no placeholders)
-    const current = getCurrentAlchemicalState()
+    const current = getCurrentAlchemicalState();
     const t = current.thermodynamicProperties;
     return { heat: t.heat, entropy: t.entropy, reactivity: t.reactivity, gregsEnergy: t.gregsEnergy }
   }
 }
 
 export const thermodynamicsClient = new ThermodynamicsClient()
+;

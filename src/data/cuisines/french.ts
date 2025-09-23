@@ -2,11 +2,10 @@
 import type { _, _ZodiacSign } from '@/types/alchemy';
 import type { Cuisine } from '@/types/cuisine';
 
-export const french: Cuisine = {
+export const french: Cuisine = {;
   id: 'french',
   name: 'French',
-  description:
-    'Classical French cuisine emphasizing technique, tradition, and refined flavors. From rustic provincial dishes to haute cuisine, French cooking is the foundation of culinary arts.',
+  description: 'Classical French cuisine emphasizing technique, tradition, and refined flavors. From rustic provincial dishes to haute cuisine, French cooking is the foundation of culinary arts.',
   motherSauces: {
     bechamel: {
       name: 'Béchamel',
@@ -24,15 +23,12 @@ export const french: Cuisine = {
       },
       astrologicalInfluences: ['Moon', 'Cancer', 'Venus'],
       seasonality: 'all',
-      preparationNotes:
-        'Heat should be gentle to prevent scorching. Whisk constantly when adding milk to prevent lumps.',
+      preparationNotes: 'Heat should be gentle to prevent scorching. Whisk constantly when adding milk to prevent lumps.',
       technicalTips: 'For a smoother sauce, heat the milk before adding it to the roux.',
       difficulty: 'medium',
-      storageInstructions:
-        'Refrigerate up to 3 days, cover surface with plastic wrap to prevent skin formation',
-      yield: '2 cups'
-    },
-    veloute: {
+      storageInstructions: 'Refrigerate up to 3 days, cover surface with plastic wrap to prevent skin formation',
+      yield: '2 cups' },
+        veloute: {
       name: 'Velouté',
       description: 'A light stock-based sauce thickened with a blonde roux',
       base: 'light stock (chicken, fish, or veal)',
@@ -52,9 +48,8 @@ export const french: Cuisine = {
       technicalTips: 'Choose the stock type based on the protein it will accompany.',
       difficulty: 'medium',
       storageInstructions: 'Refrigerate up to 2 days, reheat gently while whisking',
-      yield: '2 cups'
-    },
-    espagnole: {
+      yield: '2 cups' },
+        espagnole: {
       name: 'Espagnole (Brown Sauce)',
       description: 'A brown stock-based sauce thickened with a brown roux',
       base: 'brown stock (traditionally veal)',
@@ -74,9 +69,8 @@ export const french: Cuisine = {
       technicalTips: 'Skim regularly during simmering to achieve clarity.',
       difficulty: 'hard',
       storageInstructions: 'Refrigerate up to 4 days, freeze up to 3 months',
-      yield: '3 cups'
-    },
-    hollandaise: {
+      yield: '3 cups' },
+        hollandaise: {
       name: 'Hollandaise',
       description: 'An emulsion of butter and lemon juice using egg yolks as the emulsifier',
       base: 'clarified butter',
@@ -96,9 +90,8 @@ export const french: Cuisine = {
       technicalTips: 'Use a double boiler or bain-marie and add butter gradually.',
       difficulty: 'hard',
       storageInstructions: 'Best served immediately, can hold warm for up to 1 hour in bain-marie',
-      yield: '1 cup'
-    },
-    tomato: {
+      yield: '1 cup' },
+        tomato: {
       name: 'Tomato Sauce',
       description: 'A sauce based on tomatoes, with aromatic vegetables and stock',
       base: 'tomatoes',
@@ -167,8 +160,7 @@ export const french: Cuisine = {
         {
           id: 'parisian-breakfast',
           name: 'Parisian Breakfast',
-          description:
-            'Traditional Parisian breakfast with croissant, café au lait, and strawberry preserves',
+          description: 'Traditional Parisian breakfast with croissant, café au lait, and strawberry preserves',
           cuisine: 'french',
           cookingMethods: ['warming', 'brewing'],
           tools: ['coffee maker', 'milk frother', 'small plates', 'butter knife', 'serving tray'],
@@ -197,8 +189,7 @@ export const french: Cuisine = {
           allergens: ['dairy', 'gluten'],
           prepTime: '5 minutes',
           cookTime: '10 minutes',
-          culturalNotes:
-            'The quintessential Parisian breakfast, traditionally enjoyed at a café or home',
+          culturalNotes: 'The quintessential Parisian breakfast, traditionally enjoyed at a café or home',
           pairingSuggestions: ['fresh orange juice', 'fresh fruit', 'yogurt'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -242,8 +233,7 @@ export const french: Cuisine = {
         {
           id: 'eggs-en-cocotte',
           name: 'Eggs en Cocotte with Cream and Herbs',
-          description:
-            'Baked eggs in ramekins with cream and fine herbs - a refined French breakfast',
+          description: 'Baked eggs in ramekins with cream and fine herbs - a refined French breakfast',
           cuisine: 'french',
           cookingMethods: ['baking', 'water bath'],
           tools: ['ramekins', 'baking dish', 'kettle', 'measuring spoons', 'serving plates'],
@@ -353,8 +343,7 @@ export const french: Cuisine = {
           allergens: ['eggs', 'dairy', 'gluten'],
           prepTime: '10 minutes',
           cookTime: '15 minutes',
-          culturalNotes:
-            'While called 'French toast' in English, in France it's known as 'pain perdu' (lost bread), as it was originally a way to use stale bread',
+          culturalNotes: 'While called 'French toast' in English, in France it's known as 'pain perdu' (lost bread), as it was originally a way to use stale bread',
           pairingSuggestions: ['fresh berries', 'crème fraîche', 'maple syrup'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -404,8 +393,7 @@ export const french: Cuisine = {
         {
           id: 'croque-monsieur',
           name: 'Classic Croque Monsieur',
-          description:
-            'The quintessential French grilled ham and cheese sandwich, elevated with creamy béchamel sauce',
+          description: 'The quintessential French grilled ham and cheese sandwich, elevated with creamy béchamel sauce',
           cuisine: 'french',
           cookingMethods: ['sautéing', 'broiling', 'sauce-making'],
           tools: ['saucepan', 'whisk', 'baking sheet', 'grater', 'pastry brush'],
@@ -436,8 +424,7 @@ export const french: Cuisine = {
           allergens: ['dairy', 'gluten', 'eggs'],
           prepTime: '15 minutes',
           cookTime: '10 minutes',
-          culturalNotes:
-            'A café classic that emerged in Paris in the early 1900s. Add a fried egg on top and it becomes a 'Croque Madame'',
+          culturalNotes: 'A café classic that emerged in Paris in the early 1900s. Add a fried egg on top and it becomes a 'Croque Madame'',
           pairingSuggestions: ['green salad', 'cornichons', 'Dijon mustard'],
           dietaryInfo: ['contains pork'],
           spiceLevel: 'none',
@@ -513,8 +500,7 @@ export const french: Cuisine = {
           allergens: ['eggs', 'fish'],
           prepTime: '20 minutes',
           cookTime: '15 minutes',
-          culturalNotes:
-            'Originally from Nice, this salad represents the essence of Provençal cuisine',
+          culturalNotes: 'Originally from Nice, this salad represents the essence of Provençal cuisine',
           pairingSuggestions: ['crusty baguette', 'rosé wine', 'aioli'],
           dietaryInfo: ['gluten-free'],
           spiceLevel: 'none',
@@ -593,8 +579,7 @@ export const french: Cuisine = {
           allergens: ['dairy', 'gluten'],
           prepTime: '20 minutes',
           cookTime: '70 minutes',
-          culturalNotes:
-            'Originally a peasant dish, this soup became a French classic. Traditional Parisian versions use beef stock and lots of sweet onions',
+          culturalNotes: 'Originally a peasant dish, this soup became a French classic. Traditional Parisian versions use beef stock and lots of sweet onions',
           pairingSuggestions: ['red wine', 'crusty bread', 'green salad'],
           dietaryInfo: ['vegetarian option'],
           spiceLevel: 'none',
@@ -681,8 +666,7 @@ export const french: Cuisine = {
           allergens: ['alcohol'],
           prepTime: '30 minutes',
           cookTime: '90 minutes',
-          culturalNotes:
-            'A rustic dish from Burgundy that has been elevated to haute cuisine. Julia Child helped popularize it in America',
+          culturalNotes: 'A rustic dish from Burgundy that has been elevated to haute cuisine. Julia Child helped popularize it in America',
           pairingSuggestions: ['Burgundy wine', 'crusty bread', 'mashed potatoes'],
           dietaryInfo: ['contains alcohol', 'contains pork'],
           spiceLevel: 'none',
@@ -766,8 +750,7 @@ export const french: Cuisine = {
           allergens: ['fish', 'dairy', 'gluten'],
           prepTime: '10 minutes',
           cookTime: '15 minutes',
-          culturalNotes:
-            'This dish famously converted Julia Child to French cuisine when she first tasted it in Rouen',
+          culturalNotes: 'This dish famously converted Julia Child to French cuisine when she first tasted it in Rouen',
           pairingSuggestions: ['white Burgundy wine', 'steamed vegetables', 'boiled potatoes'],
           dietaryInfo: ['contains fish'],
           spiceLevel: 'none',
@@ -813,8 +796,7 @@ export const french: Cuisine = {
         {
           id: 'beef-bourguignon',
           name: 'Beef Bourguignon',
-          description:
-            'Classic Burgundian beef stew braised in red wine with pearl onions and mushrooms',
+          description: 'Classic Burgundian beef stew braised in red wine with pearl onions and mushrooms',
           cuisine: 'french',
           cookingMethods: ['braising', 'sautéing', 'reducing'],
           tools: ['Dutch oven', 'strainer', 'kitchen twine', 'cheesecloth', 'wooden spoon'],
@@ -864,8 +846,7 @@ export const french: Cuisine = {
           allergens: ['alcohol'],
           prepTime: '45 minutes',
           cookTime: '3 hours',
-          culturalNotes:
-            'The epitome of French country cooking, this dish represents the marriage of wine and food culture in Burgundy',
+          culturalNotes: 'The epitome of French country cooking, this dish represents the marriage of wine and food culture in Burgundy',
           pairingSuggestions: ['Burgundy red wine', 'crusty bread', 'mashed potatoes'],
           dietaryInfo: ['contains alcohol', 'contains pork'],
           spiceLevel: 'none',
@@ -930,8 +911,7 @@ export const french: Cuisine = {
           allergens: ['dairy', 'eggs'],
           prepTime: '20 minutes',
           cookTime: '35 minutes',
-          culturalNotes:
-            'A classic French dessert dating back to the 17th century, the name means 'burnt cream'',
+          culturalNotes: 'A classic French dessert dating back to the 17th century, the name means 'burnt cream'',
           pairingSuggestions: ['fresh berries', 'dessert wine', 'coffee'],
           dietaryInfo: ['vegetarian', 'gluten-free'],
           spiceLevel: 'none',
@@ -1021,8 +1001,7 @@ export const french: Cuisine = {
           allergens: ['dairy', 'gluten'],
           prepTime: '45 minutes',
           cookTime: '45 minutes',
-          culturalNotes:
-            'Created accidentally at Hotel Tatin in Lamotte-Beuvron when Stéphanie Tatin tried to rescue an overcooked apple pie by putting the pastry on top',
+          culturalNotes: 'Created accidentally at Hotel Tatin in Lamotte-Beuvron when Stéphanie Tatin tried to rescue an overcooked apple pie by putting the pastry on top',
           pairingSuggestions: ['crème fraîche', 'vanilla ice cream', 'Sauternes wine', 'Calvados'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -1068,8 +1047,7 @@ export const french: Cuisine = {
         {
           id: 'chocolate-profiteroles',
           name: 'Chocolate Profiteroles',
-          description:
-            'Choux pastry puffs filled with vanilla ice cream and topped with warm chocolate sauce',
+          description: 'Choux pastry puffs filled with vanilla ice cream and topped with warm chocolate sauce',
           cuisine: 'french',
           cookingMethods: ['baking', 'piping', 'sauce-making'],
           tools: ['saucepan', 'piping bags', 'baking sheets', 'whisk', 'double boiler'],
@@ -1091,8 +1069,7 @@ export const french: Cuisine = {
           allergens: ['dairy', 'eggs', 'gluten'],
           prepTime: '45 minutes',
           cookTime: '30 minutes',
-          culturalNotes:
-            'A classic French dessert that showcases three distinct pastry, techniques: choux, ice cream making, and sauce preparation',
+          culturalNotes: 'A classic French dessert that showcases three distinct pastry, techniques: choux, ice cream making, and sauce preparation',
           pairingSuggestions: ['espresso', 'vanilla ice cream', 'fresh berries'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -1190,31 +1167,26 @@ export const french: Cuisine = {
   regionalCuisines: {
     provence: {
       name: 'Provençal Cuisine',
-      description:
-        'Mediterranean-influenced cuisine from Southern France, featuring olive oil, herbs, tomatoes, and seafood',
+      description: 'Mediterranean-influenced cuisine from Southern France, featuring olive oil, herbs, tomatoes, and seafood',
       signature: ['bouillabaisse', 'ratatouille', 'tapenade', 'aioli'],
       elementalProperties: { Fire: 0.3, Earth: 0.3, Water: 0.3, Air: 0.1 }
       astrologicalInfluences: ['Sun', 'Mercury', 'Venus'],
-      seasonality: 'summer'
-    },
-    normandy: {
+      seasonality: 'summer' },
+        normandy: {
       name: 'Norman Cuisine',
-      description:
-        'Butter and cream-based cuisine from Northern France, featuring apples, dairy, and seafood',
+      description: 'Butter and cream-based cuisine from Northern France, featuring apples, dairy, and seafood',
       signature: ['calvados', 'camembert', 'tarte aux pommes', 'tripes à la mode de Caen'],
       elementalProperties: { Water: 0.4, Earth: 0.4, Fire: 0.1, Air: 0.1 }
       astrologicalInfluences: ['Moon', 'Venus', 'Neptune'],
-      seasonality: 'autumn'
-    },
-    burgundy: {
+      seasonality: 'autumn' },
+        burgundy: {
       name: 'Burgundian Cuisine',
       description: 'Wine-centric cuisine known for slow-cooked dishes, mustard, and escargot',
       signature: ['beef bourguignon', 'coq au vin', 'escargots de Bourgogne', 'jambon persillé'],
       elementalProperties: { Earth: 0.5, Fire: 0.2, Water: 0.2, Air: 0.1 }
       astrologicalInfluences: ['Saturn', 'Mars', 'Pluto'],
-      seasonality: 'winter'
-    },
-    alsace: {
+      seasonality: 'winter' },
+        alsace: {
       name: 'Alsatian Cuisine',
       description: 'German-influenced cuisine featuring charcuterie, sauerkraut, and white wines',
       signature: ['choucroute garnie', 'tarte flambée', 'baeckeoffe', 'kugelhopf'],

@@ -38,7 +38,7 @@ function extractTokenFromRequest(req: Request): string | null {
   }
 
   // Check for token in query parameters (for WebSocket connections)
-  if (req.query.token && typeof req.query.token === 'string') {
+  if (req.query.token && typeof req.query.token === 'string') {;
     return req.query.token,
   }
 
@@ -60,7 +60,7 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
         required = true,
         roles = [],
         permissions = [],
-        allowGuest = false
+        allowGuest = false;
       } = options,
 
       const token = extractTokenFromRequest(req)
@@ -68,7 +68,7 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
       // Handle missing token
       if (!token) {
         if (!required || allowGuest) {
-          // Allow anonymous access for optional authentication
+          // Allow anonymous access for optional authentication;
           logger.debug('Anonymous access granted', {
             path: req.path,
             method: req.method,
@@ -95,7 +95,7 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
       // Validate token
       const payload = await authService.validateToken(token)
 
-      if (!payload) {
+      if (!payload) {;
         logger.warn('Invalid or expired token', {
           path: req.path,
           method: req.method,
@@ -114,7 +114,7 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
       if (roles.length > 0) {
         const hasRequiredRole = roles.some(role => payload.roles.includes(role))
 
-        if (!hasRequiredRole) {
+        if (!hasRequiredRole) {;
           logger.warn('Insufficient role permissions', {
             userId: payload.userId,
             userRoles: payload.roles,
@@ -136,7 +136,7 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
 
       // Check specific permission requirements
       if (permissions.length > 0) {
-        const hasPermission = permissions.every(permission =>
+        const hasPermission = permissions.every(permission =>;
           authService.hasPermission(payload.roles, permission)
         )
 
@@ -192,7 +192,7 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
 /**
  * Require admin role
  */
-export const requireAdmin = authenticate({
+export const requireAdmin = authenticate({;
   required: true,
   roles: [UserRole.ADMIN]
 })
@@ -200,7 +200,7 @@ export const requireAdmin = authenticate({
 /**
  * Require authenticated user (any role except guest)
  */
-export const requireAuth = authenticate({
+export const requireAuth = authenticate({;
   required: true,
   roles: [UserRole.ADMIN, UserRole.USER, UserRole.SERVICE]
 })
@@ -208,7 +208,7 @@ export const requireAuth = authenticate({
 /**
  * Allow guest access with optional authentication
  */
-export const optionalAuth = authenticate({
+export const optionalAuth = authenticate({;
   required: false,
   allowGuest: true
 })
@@ -226,7 +226,7 @@ export function requirePermissions(...permissions: string[]) {
 /**
  * Service-to-service authentication
  */
-export const requireService = authenticate({
+export const requireService = authenticate({;
   required: true,
   roles: [UserRole.SERVICE, UserRole.ADMIN]
 })
@@ -264,7 +264,7 @@ export function getUserScopes(req: Request): string[] {
  */
 export const authStatus = (req: Request, res: Response): void => {
   if (!req.user) {
-    res.json({
+    res.json({;
       authenticated: false,
       message: 'Not authenticated'
     })

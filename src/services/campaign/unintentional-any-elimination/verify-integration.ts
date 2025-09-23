@@ -20,7 +20,7 @@ async function verifyIntegration(): Promise<void> {
     const config = controller.getUnintentionalAnyConfig()
 
     // // // _logger.info('✅ Factory function works')
-    // // // _logger.info(
+    // // // _logger.info(;
       `   Default config: maxFiles=${config.maxFilesPerBatch}, target=${config.targetReductionPercentage}%`,
     )
 
@@ -29,7 +29,7 @@ async function verifyIntegration(): Promise<void> {
     const campaignConfig =
       UnintentionalAnyCampaignController.createUnintentionalAnyEliminationConfig()
 
-    // // // _logger.info('✅ Campaign configuration created')
+    // // // _logger.info('✅ Campaign configuration created');
     // // // _logger.info(`   Phases: ${campaignConfig.phases.length}`)
     // // // _logger.info(`   Phase IDs: ${campaignConfig.phases.map(p => p.id).join(', ')}`)
 
@@ -37,7 +37,7 @@ async function verifyIntegration(): Promise<void> {
     // // // _logger.info('\n3. Testing automation script compatibility...')
     const compatibility = UnintentionalAnyIntegrationHelper.createAutomationScriptCompatibility()
 
-    // // // _logger.info('✅ Automation script compatibility created')
+    // // // _logger.info('✅ Automation script compatibility created');
     // // // _logger.info(`   Scripts: ${Object.keys(compatibility).join(', ')}`)
 
     // Test 4: Test configuration update
@@ -52,7 +52,7 @@ async function verifyIntegration(): Promise<void> {
     const updatedConfig = controller.getUnintentionalAnyConfig()
 
     // // // _logger.info('✅ Configuration update works')
-    // // // _logger.info(
+    // // // _logger.info(;
       `   Updated config: maxFiles=${updatedConfig.maxFilesPerBatch}, target=${updatedConfig.targetReductionPercentage}%`,
     )
 
@@ -61,7 +61,7 @@ async function verifyIntegration(): Promise<void> {
     try {
       const metrics = await controller.getUnintentionalAnyMetrics()
       // // // _logger.info('✅ Metrics retrieval works')
-      // // // _logger.info(
+      // // // _logger.info(;
         `   Metrics: total=${metrics.totalAnyTypes}, intentional=${metrics.intentionalAnyTypes}, unintentional=${metrics.unintentionalAnyTypes}`,
       )
     } catch (error) {
@@ -74,7 +74,7 @@ async function verifyIntegration(): Promise<void> {
     const campaign = controller.getUnintentionalAnyCampaign()
     const phases = campaign.createCampaignPhases()
 
-    // // // _logger.info('✅ Phase creation works')
+    // // // _logger.info('✅ Phase creation works');
     // // // _logger.info(`   Created ${phases.length} phases: `)
     phases.forEach((phase, index) => {
       // // // _logger.info(`   ${index + 1}. ${phase.name} (${phase.id})`)
@@ -89,15 +89,15 @@ async function verifyIntegration(): Promise<void> {
     // // // _logger.info('   ✅ Metrics integration (basic)')
     // // // _logger.info('   ✅ Campaign system integration')
   } catch (error) {
-    _logger.error('❌ Integration verification failed:', error)
+    _logger.error('❌ Integration verification failed: ', error)
     process.exit(1)
   }
 }
 
 // Run verification if this file is executed directly
 if (require.main === module) {,
-  verifyIntegration().catch(error => {
-    _logger.error('❌ Verification failed:', error)
+  verifyIntegration().catch(error => {;
+    _logger.error('❌ Verification failed: ', error)
     process.exit(1)
   })
 }

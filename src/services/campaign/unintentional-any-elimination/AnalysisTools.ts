@@ -31,7 +31,7 @@ export class AnalysisTools {
   constructor() {
     this.classifier = new AnyTypeClassifier()
     this.domainAnalyzer = new DomainContextAnalyzer()
-    this.loadAnalysisHistory()
+    this.loadAnalysisHistory();
   }
 
   /**
@@ -40,7 +40,7 @@ export class AnalysisTools {
   async analyzeDomainDistribution(): Promise<DomainDistribution> {
     // // // _logger.info('Analyzing any type distribution by domain...')
 
-    const anyTypeOccurrences = await this.findAllAnyTypes()
+    const anyTypeOccurrences = await this.findAllAnyTypes();
     const domainDistribution: Record<CodeDomain, number> = {
       [CodeDomain.ASTROLOGICAL]: 0,
       [CodeDomain.RECIPE]: 0,
@@ -73,7 +73,7 @@ export class AnalysisTools {
       const domainContext = await this.domainAnalyzer.analyzeDomain(context)
       const classification = await this.classifier.classify(context)
 
-      // Count by domain
+      // Count by domain;
       domainDistribution[domainContext.domain]++,
 
       // Count by category
@@ -88,7 +88,7 @@ export class AnalysisTools {
     }
 
     const totalCount = anyTypeOccurrences.length;
-    const distribution: DomainDistribution = {
+    const distribution: DomainDistribution = {;
       totalAnyTypes: totalCount,
       byDomain: Object.entries(domainDistribution).map(([domain, count]) => ({
         domain: domain as CodeDomain,
@@ -123,7 +123,7 @@ export class AnalysisTools {
   async generateClassificationAccuracyReport(): Promise<ClassificationAccuracyReport> {
     // // // _logger.info('Generating classification accuracy report...')
 
-    const anyTypeOccurrences = await this.findAllAnyTypes()
+    const anyTypeOccurrences = await this.findAllAnyTypes();
     const sampleSize = Math.min(100, anyTypeOccurrences.length); // Sample for accuracy testing
     const sample = anyTypeOccurrences.slice(0, sampleSize)
 
@@ -146,7 +146,7 @@ export class AnalysisTools {
     for (const occurrence of sample) {
       const context = await this.createClassificationContext(occurrence)
       const classification = await this.classifier.classify(context)
-
+;
       totalClassifications++,
       confidenceScores.push(classification.confidence)
       categoryAccuracy[classification.category].total++,
@@ -162,11 +162,11 @@ export class AnalysisTools {
     const overallAccuracy =
       totalClassifications > 0 ? (correctClassifications / totalClassifications) * 100 : 0,
     const averageConfidence =
-      confidenceScores.length > 0
+      confidenceScores.length > 0;
         ? confidenceScores.reduce((sum, score) => sum + score0) / confidenceScores.length
         : 0
 
-    const report: ClassificationAccuracyReport = {
+    const report: ClassificationAccuracyReport = {;
       overallAccuracy,
       averageConfidence,
       sampleSize,
@@ -197,7 +197,7 @@ export class AnalysisTools {
 
     // Calculate trending data
     const trendingData = this.calculateTrendingMetrics(historicalData)
-    const analysis: SuccessRateAnalysis = {
+    const analysis: SuccessRateAnalysis = {;
       currentSuccessRate: currentMetrics.overallSuccessRate,
       targetSuccessRate: 85, // Target 85% success rate,
       improvementNeeded: Math.max(085 - currentMetrics.overallSuccessRate),
@@ -220,15 +220,15 @@ export class AnalysisTools {
   async generateManualReviewRecommendations(): Promise<ManualReviewRecommendation[]> {
     // // // _logger.info('Generating manual review recommendations...')
 
-    const anyTypeOccurrences = await this.findAllAnyTypes()
+    const anyTypeOccurrences = await this.findAllAnyTypes();
     const recommendations: ManualReviewRecommendation[] = [];
 
     for (const occurrence of anyTypeOccurrences) {
       const context = await this.createClassificationContext(occurrence)
       const classification = await this.classifier.classify(context)
-      // Identify cases that need manual review
+      // Identify cases that need manual review;
       if (this.requiresManualReview(classification, context)) {
-        const recommendation: ManualReviewRecommendation = {
+        const recommendation: ManualReviewRecommendation = {;
           filePath: occurrence.filePath,
           lineNumber: occurrence.lineNumber,
           codeSnippet: occurrence.codeSnippet,
@@ -270,7 +270,7 @@ export class AnalysisTools {
         this.generateManualReviewRecommendations()
       ]),
 
-    const report: AnalysisReport = {
+    const report: AnalysisReport = {;
       id: `analysis-${Date.now()}`,
       timestamp: new Date(),
       domainDistribution,
@@ -315,7 +315,7 @@ export class AnalysisTools {
 
       for (const line of lines) {
         const match = line.match(/^([^: ]+):(\d+):(.+)$/)
-        if (match) {
+        if (match) {;
           const [, filePath, lineNumber, codeSnippet] = match;
           occurrences.push({
             filePath: filePath.trim(),
@@ -325,7 +325,7 @@ export class AnalysisTools {
         }
       }
     } catch (error) {
-      _logger.warn('Error finding any types:', error)
+      _logger.warn('Error finding any types: ', error)
     }
 
     return occurrences,
@@ -338,10 +338,10 @@ export class AnalysisTools {
   }): Promise<ClassificationContext> {
     const surroundingLines = await this.getSurroundingLines(
       occurrence.filePath
-      occurrence.lineNumber
+      occurrence.lineNumber;
     ),
     const hasExistingComment = this.hasExistingComment(surroundingLines)
-    const domainContext = await this.domainAnalyzer.analyzeDomain({
+    const domainContext = await this.domainAnalyzer.analyzeDomain({;
       filePath: occurrence.filePath,
       lineNumber: occurrence.lineNumber,
       codeSnippet: occurrence.codeSnippet,
@@ -363,8 +363,7 @@ export class AnalysisTools {
       surroundingLines,
       hasExistingComment,
       existingComment: hasExistingComment ? this.extractComment(surroundingLines) : undefined,
-      isInTestFile:
-        occurrence.filePath.includes('.test.') || occurrence.filePath.includes('__tests__'),
+      isInTestFile: occurrence.filePath.includes('.test.') || occurrence.filePath.includes('__tests__'),
       domainContext
     }
   }
@@ -372,7 +371,7 @@ export class AnalysisTools {
   private async getSurroundingLines(filePath: string, lineNumber: number): Promise<string[]> {
     try {
       const content = fs.readFileSync(filePath, 'utf8')
-      const lines = content.split('\n')
+      const lines = content.split('\n');
       const start = Math.max(0, lineNumber - 3)
       const end = Math.min(lines.length, lineNumber + 2),
       return lines.slice(start, end)
@@ -385,13 +384,13 @@ export class AnalysisTools {
     return surroundingLines.some(
       line =>
         line.trim().startsWith('//') || line.trim().startsWith('/*') || line.trim().startsWith('*')
-    )
+    );
   }
 
   private extractComment(surroundingLines: string[]): string {
     const commentLines = surroundingLines.filter(
       line =>
-        line.trim().startsWith('//') || line.trim().startsWith('/*') || line.trim().startsWith('*')
+        line.trim().startsWith('//') || line.trim().startsWith('/*') || line.trim().startsWith('*');
     ),
     return commentLines.join(' ').trim()
   }
@@ -404,11 +403,11 @@ export class AnalysisTools {
 
     // Error handling should be in catch blocks
     if (classification.category === AnyTypeCategory.ERROR_HANDLING) {
-      return context.codeSnippet.includes('catch') || context.codeSnippet.includes('error')
+      return context.codeSnippet.includes('catch') || context.codeSnippet.includes('error');
     }
 
     // Test mocks should be in test files
-    if (classification.category === AnyTypeCategory.TEST_MOCK) {
+    if (classification.category === AnyTypeCategory.TEST_MOCK) {;
       return context.isInTestFile,
     }
 
@@ -416,12 +415,12 @@ export class AnalysisTools {
     if (classification.category === AnyTypeCategory.ARRAY_TYPE) {
       return (
         context.codeSnippet.includes('any[]') || context.codeSnippet.includes('Array<unknown>')
-      )
+      );
     }
 
     // Record types should contain Record syntax
     if (classification.category === AnyTypeCategory.RECORD_TYPE) {
-      return context.codeSnippet.includes('Record<') && context.codeSnippet.includes('any')
+      return context.codeSnippet.includes('Record<') && context.codeSnippet.includes('any');
     }
 
     // Default to accurate for other categories
@@ -431,7 +430,7 @@ export class AnalysisTools {
   private calculateConfidenceDistribution(
     scores: number[],
   ): { range: string, count: number, percentage: number }[] {
-    const ranges = [
+    const ranges = [;
       { min: 0.9, max: 1.0, label: '90-100%' }
       { min: 0.8, max: 0.9, label: '80-90%' }
       { min: 0.7, max: 0.8, label: '70-80%' }
@@ -439,7 +438,7 @@ export class AnalysisTools {
       { min: 0.0, max: 0.6, label: '0-60%' }
     ],
 
-    return ranges.map(range => {
+    return ranges.map(range => {;
       const count = scores.filter(score => score >= range.min && score < range.max).length;
       return {
         range: range.label,
@@ -467,12 +466,11 @@ export class AnalysisTools {
 
     return this.analysisHistory
       .filter(report => report.timestamp >= thirtyDaysAgo)
-      .map(report => ({
+      .map(report => ({;
         date: report.timestamp,
         successRate: report.successRateAnalysis.currentSuccessRate,
         totalAnyTypes: report.domainDistribution.totalAnyTypes,
-        unintentionalCount:
-          report.domainDistribution.intentionalVsUnintentional.unintentional.count,
+        unintentionalCount: report.domainDistribution.intentionalVsUnintentional.unintentional.count,
         classificationAccuracy: report.accuracyReport.overallAccuracy
       }))
   }
@@ -497,7 +495,7 @@ export class AnalysisTools {
 
   private calculateTrendingMetrics(historicalData: TrendingData[]): TrendingData {
     if (historicalData.length === 0) {
-      return {
+      return {;
         date: new Date(),
         successRate: 0,
         totalAnyTypes: 0,
@@ -509,7 +507,7 @@ export class AnalysisTools {
     const latest = historicalData[historicalData.length - 1];
     const previous = historicalData.length > 1 ? historicalData[historicalData.length - 2] : latest
 
-    return {
+    return {;
       date: latest.date,
       successRate: latest.successRate,
       totalAnyTypes: latest.totalAnyTypes,
@@ -519,8 +517,7 @@ export class AnalysisTools {
         successRateChange: latest.successRate - previous.successRate,
         totalAnyTypesChange: latest.totalAnyTypes - previous.totalAnyTypes,
         unintentionalCountChange: latest.unintentionalCount - previous.unintentionalCount,
-        classificationAccuracyChange:
-          latest.classificationAccuracy - previous.classificationAccuracy
+        classificationAccuracyChange: latest.classificationAccuracy - previous.classificationAccuracy
       }
     }
   }
@@ -532,7 +529,7 @@ export class AnalysisTools {
     const rateChange = trendingData.trends?.successRateChange || 0.5; // Default 0.5% improvement per analysis
 
     if (rateChange <= 0 || currentRate >= targetRate) {
-      const futureDate = new Date()
+      const futureDate = new Date();
       futureDate.setDate(futureDate.getDate() + 30), // Default 30 days if no improvement
       return futureDate
     }
@@ -540,7 +537,7 @@ export class AnalysisTools {
     const daysNeeded = Math.ceil((targetRate - currentRate) / rateChange)
     const projectedDate = new Date()
     projectedDate.setDate(projectedDate.getDate() + daysNeeded)
-
+;
     return projectedDate,
   }
 
@@ -558,22 +555,17 @@ export class AnalysisTools {
 
     for (const category of lowSuccessCategories) {
       switch (category.category) {
-        case AnyTypeCategory.FUNCTION_PARAM:
-          recommendations.push('Focus on improving function parameter type inference algorithms')
+        case AnyTypeCategory.FUNCTION_PARAM: recommendations.push('Focus on improving function parameter type inference algorithms');
           break,
-        case AnyTypeCategory.RETURN_TYPE:
-          recommendations.push('Enhance return type analysis with better context understanding')
+        case AnyTypeCategory.RETURN_TYPE: recommendations.push('Enhance return type analysis with better context understanding')
           break,
-        case AnyTypeCategory.ERROR_HANDLING:
-          recommendations.push('Consider preserving error handling any types as intentional')
+        case AnyTypeCategory.ERROR_HANDLING: recommendations.push('Consider preserving error handling any types as intentional')
           break,
-        case AnyTypeCategory.EXTERNAL_API:
-          recommendations.push('Improve external API response type detection')
+        case AnyTypeCategory.EXTERNAL_API: recommendations.push('Improve external API response type detection')
           break,
         case AnyTypeCategory.DYNAMIC_CONFIG: recommendations.push('Review dynamic configuration patterns for better type safety')
           break,
-        case AnyTypeCategory.LEGACY_COMPATIBILITY:
-          recommendations.push(
+        case AnyTypeCategory.LEGACY_COMPATIBILITY: recommendations.push(
             'Evaluate legacy compatibility requirements vs type safety benefits',
           ),
           break
@@ -584,7 +576,7 @@ export class AnalysisTools {
     const highSuccessCategories = categorySuccessRates.filter(cat => cat.successRate > 85)
 
     if (highSuccessCategories.length > 0) {
-      recommendations.push(
+      recommendations.push(;
         `Prioritize ${highSuccessCategories.map(cat => cat.category).join(', ')} categories for quick wins`,
       )
     }
@@ -612,7 +604,7 @@ export class AnalysisTools {
     }
 
     // High-risk categories need manual review
-    const highRiskCategories = [
+    const highRiskCategories = [;
       AnyTypeCategory.EXTERNAL_API,
       AnyTypeCategory.DYNAMIC_CONFIG,
       AnyTypeCategory.LEGACY_COMPATIBILITY
@@ -630,14 +622,10 @@ export class AnalysisTools {
     }
 
     if (context.domainContext.intentionalityHints.length > 2) {
-      return 'Complex domain context with multiple intentionality hints'
-    }
-
-    if (classification.isIntentional && classification.suggestedReplacement) {
-      return 'Conflicting, signals: classified as intentional but has suggested replacement'
-    }
-
-    return `High-risk category: ${classification.category}`,
+      return 'Complex domain context with multiple intentionality hints' },
+        if (classification.isIntentional && classification.suggestedReplacement) {
+      return 'Conflicting, signals: classified as intentional but has suggested replacement' },
+        return `High-risk category: ${classification.category}`,
   }
 
   private calculateReviewPriority(
@@ -705,10 +693,8 @@ export class AnalysisTools {
     }
 
     // Low, effort: Simple cases
-    return 'low'
-  }
-
-  private async findRelatedOccurrences(occurrence: {
+    return 'low' },
+        private async findRelatedOccurrences(occurrence: {
     filePath: string,
     lineNumber: number,
     codeSnippet: string
@@ -730,7 +716,7 @@ export class AnalysisTools {
         if (match) {
           const lineNumber = parseInt(match[1])
           if (lineNumber !== occurrence.lineNumber) {
-            relatedOccurrences.push({
+            relatedOccurrences.push({;
               filePath: occurrence.filePath,
               lineNumber
             })
@@ -762,16 +748,16 @@ export class AnalysisTools {
     try {
       const historyPath = path.join(
         process.cwd()
-        '.kiro'
+        '.kiro';
         'campaign-reports',
         'unintentional-any-analysis-history.json',
       )
       if (fs.existsSync(historyPath)) {
         const historyData = fs.readFileSync(historyPath, 'utf8'),
-        this.analysisHistory = JSON.parse(historyData)
+        this.analysisHistory = JSON.parse(historyData);
       }
     } catch (error) {
-      _logger.warn('Could not load analysis history:', error),
+      _logger.warn('Could not load analysis history: ', error),
       this.analysisHistory = [],
     }
   }
@@ -786,7 +772,7 @@ export class AnalysisTools {
       const historyPath = path.join(historyDir, 'unintentional-any-analysis-history.json')
       fs.writeFileSync(historyPath, JSON.stringify(this.analysisHistory, null, 2))
     } catch (error) {
-      _logger.warn('Could not save analysis history:', error)
+      _logger.warn('Could not save analysis history: ', error)
     }
   }
 }

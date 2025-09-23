@@ -14,7 +14,7 @@ import { useServices } from './useServices';
 export function useAlchemicalBridge() {
   // Get data from both legacy context and new services
   const { planetaryPositions: contextPositions, state: contextState } = useAlchemical()
-  const serviceData = useServices()
+  const serviceData = useServices();
   const { isLoading, error, astrologyService } = serviceData;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
@@ -37,9 +37,9 @@ export function useAlchemicalBridge() {
 
           // Get daytime information
           const isDaytime = await astrologyService.isDaytime()
-          setDaytime(isDaytime)
+          setDaytime(isDaytime);
         } catch (err) {
-          _logger.error('Error in useAlchemicalBridge:', err)
+          _logger.error('Error in useAlchemicalBridge: ', err)
         }
       }
 
@@ -48,7 +48,7 @@ export function useAlchemicalBridge() {
   }, [isLoading, error, astrologyService])
 
   // Merge data from both sources, prioritizing services when available
-  const mergedPositions = {
+  const mergedPositions = {;
     ...contextPositions,
     ...servicePositions
   }
@@ -83,7 +83,7 @@ export function useAlchemicalBridge() {
  */
 export function useChakraBridge() {
   // Get services
-  const chakraServiceData = useServices()
+  const chakraServiceData = useServices();
   const { isLoading, error } = chakraServiceData;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
@@ -99,13 +99,13 @@ export function useChakraBridge() {
       const fetchChakraData = async () => {;
         try {
           const allChakras = await chakraService.getAllChakras()
-          // ✅ Pattern MM-1: Ensure object type for setChakras state setter
+          // ✅ Pattern MM-1: Ensure object type for setChakras state setter;
           setChakras(typeof allChakras === 'object' && allChakras !== null ? allChakras : {})
 
           const active = await chakraService.getActiveChakra()
-          setActiveChakra(active)
+          setActiveChakra(active);
         } catch (err) {
-          _logger.error('Error in useChakraBridge:', err)
+          _logger.error('Error in useChakraBridge: ', err)
         }
       }
 
@@ -141,20 +141,19 @@ export function usePlanetaryHoursBridge() {
         try {
           const hourInfo = await astrologyService.getCurrentPlanetaryHour()
           // ✅ Pattern MM-1: Ensure object type for setCurrentHour state setter
-          setCurrentHour(
-            typeof hourInfo === 'object' && hourInfo !== null ? hourInfo : { value: hourInfo }
-          )
+          setCurrentHour(;
+            typeof hourInfo === 'object' && hourInfo !== null ? hourInfo : { value: hourInfo })
 
           const dayPlanet = await astrologyService.getCurrentPlanetaryDay()
           // ✅ Pattern MM-1: Ensure string type for setCurrentDay
           setCurrentDay(typeof dayPlanet === 'string' ? dayPlanet : String(dayPlanet))
 
-          const hours = await astrologyService.getDailyPlanetaryHours(new Date())
+          const hours = await astrologyService.getDailyPlanetaryHours(new Date());
           // ✅ Pattern MM-1: Convert Planet[] to Map<number, string> for setDailyHours
           if (Array.isArray(hours)) {
             const hoursMap = new Map<number, string>()
             hours.forEach((planet, index) => {
-              hoursMap.set(index, typeof planet === 'string' ? planet : String(planet))
+              hoursMap.set(index, typeof planet === 'string' ? planet : String(planet));
             })
             setDailyHours(hoursMap)
           } else if (Array.isArray(hours)) {
@@ -163,7 +162,7 @@ export function usePlanetaryHoursBridge() {
             setDailyHours(new Map())
           }
         } catch (err) {
-          _logger.error('Error in usePlanetaryHoursBridge:', err)
+          _logger.error('Error in usePlanetaryHoursBridge: ', err)
         }
       }
 
@@ -209,7 +208,7 @@ export function createServiceBridge<TS>(
         const fetchData = async () => {;
           try {
             const result = await fetchFunction(service)
-            setData(result)
+            setData(result);
           } catch (err) {
             _logger.error(`Error in custom bridge for ${serviceName}:`, err)
             setFetchError(err instanceof Error ? err : new Error(String(err)))

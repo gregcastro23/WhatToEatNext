@@ -40,7 +40,7 @@ export interface TokenRatesResult {
 }
 
 function computeTokensFromAlchemical(alchemicalResult: any): TokenRatesResult {
-  const esms = (alchemicalResult && typeof alchemicalResult === 'object')
+  const esms = (alchemicalResult && typeof alchemicalResult === 'object');
     ? (alchemicalResult as Record<string, any>).esms
     : undefined,
 
@@ -55,13 +55,13 @@ function computeTokensFromAlchemical(alchemicalResult: any): TokenRatesResult {
     Matter,
     Substance,
     kalchm: typeof alchemicalResult?.kalchm === 'number' ? alchemicalResult.kalchm : 1.0,
-    monica: typeof alchemicalResult?.monica === 'number' ? alchemicalResult.monica : 1.0
+    monica: typeof alchemicalResult?.monica === 'number' ? alchemicalResult.monica : 1.0;
   }
 }
 
 /**
  * Env flags required (set in .env.local):
- * - NEXT_PUBLIC_BACKEND_URL: e.g., http://localhost:8000
+ * - NEXT_PUBLIC_BACKEND_URL: e.g., http: //localhost:8000
  * - NEXT_PUBLIC_TOKENS_BACKEND: 'true' to enable backend-first calls
  */
 export class TokensClient {
@@ -77,14 +77,14 @@ export class TokensClient {
     // 1) Backend-first using centralized API client
     if (this.useBackend && this.backendUrl) {
       try {
-        const request: TokenRatesRequest = {
+        const request: TokenRatesRequest = {;
           datetime: input.datetime?.toISOString(),
           location: input.location,
           elemental: input.elemental,
           esms: input.esms
         }
 
-        const result = await alchmAPI.calculateTokenRates(request)
+        const result = await alchmAPI.calculateTokenRates(request);
         logger.debug('TokensClient', 'Backend calculation successful', result)
         return result,
       } catch (error) {
@@ -95,8 +95,9 @@ export class TokensClient {
 
     // 2) Local fallback using RealAlchemizeService
     const alchemicalResult = getCurrentAlchemicalState()
-    return computeTokensFromAlchemical(alchemicalResult)
+    return computeTokensFromAlchemical(alchemicalResult);
   }
 }
 
 export const tokensClient = new TokensClient()
+;

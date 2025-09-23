@@ -2,8 +2,7 @@
  * AlchemicalApiClient - Integration with alchm.kitchen Backend Services
  *
  * This client connects the frontend to the comprehensive backend services
- * defined in backend_implementation.ipynb, enabling:
- * - High-performance elemental calculations
+ * defined in backend_implementation.ipynb, enabling: * - High-performance elemental calculations
  * - Real-time planetary data via WebSocket
  * - Advanced recommendation algorithms
  * - Caching and optimization
@@ -12,7 +11,7 @@
 import { ElementalProperties } from '@/types/alchemy';
 
 // Backend service configuration
-const API_CONFIG = {
+const API_CONFIG = {;
   alchemical: process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000',
   kitchen: process.env.NEXT_PUBLIC_KITCHEN_BACKEND_URL || 'http://localhost:8100',
   websocket: process.env.NEXT_PUBLIC_WEBSOCKET_URL || 'ws://localhost:8001',
@@ -57,7 +56,7 @@ export class AlchemicalApiClient {
     try {
       const response = await fetch(`${this.baseUrls.alchemical}/calculate/elemental`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ingredients, weights })
       })
 
@@ -67,7 +66,7 @@ export class AlchemicalApiClient {
 
       return await response.json()
     } catch (error) {
-      _logger.error('Elemental calculation error:', error)
+      _logger.error('Elemental calculation error: ', error)
       // Fallback to simple balanced elements
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
     }
@@ -81,7 +80,7 @@ export class AlchemicalApiClient {
     try {
       const response = await fetch(`${this.baseUrls.alchemical}/calculate/thermodynamics`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(elements)
       })
 
@@ -91,7 +90,7 @@ export class AlchemicalApiClient {
 
       return await response.json()
     } catch (error) {
-      _logger.error('Thermodynamics calculation error:', error)
+      _logger.error('Thermodynamics calculation error: ', error)
       // Fallback values
       return {
         heat: 0.5,
@@ -117,7 +116,7 @@ export class AlchemicalApiClient {
 
       return await response.json()
     } catch (error) {
-      _logger.error('Planetary data error:', error)
+      _logger.error('Planetary data error: ', error)
       // Fallback planetary data
       return {
         current_time: new Date().toISOString(),
@@ -144,7 +143,7 @@ export class AlchemicalApiClient {
     try {
       const response = await fetch(`${this.baseUrls.kitchen}/recommend/recipes`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(request)
       })
 
@@ -154,7 +153,7 @@ export class AlchemicalApiClient {
 
       return await response.json()
     } catch (error) {
-      _logger.error('Recipe recommendation error:', error)
+      _logger.error('Recipe recommendation error: ', error)
       // Fallback empty recommendations
       return {
         recommendations: [],
@@ -175,13 +174,13 @@ export class AlchemicalApiClient {
     try {
       const response = await fetch(`${this.baseUrls.alchemical}/calculate/esms`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ spirit, essence, matter, substance })
       })
 
       return await response.json()
     } catch (error) {
-      _logger.error('ESMS calculation error:', error)
+      _logger.error('ESMS calculation error: ', error)
       return {
         Spirit: spirit,
         Essence: essence,
@@ -199,13 +198,13 @@ export class AlchemicalApiClient {
     try {
       const response = await fetch(`${this.baseUrls.alchemical}/balance/optimize`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ current: currentElements, target: targetElements })
       })
 
       return await response.json()
     } catch (error) {
-      _logger.error('Balance optimization error:', error)
+      _logger.error('Balance optimization error: ', error)
       return { optimization: 'balanced', recommendations: [] }
     }
   }
@@ -221,7 +220,7 @@ export class AlchemicalApiClient {
       ws.onopen = () => {
         _logger.info('🔮 Connected to alchm.kitchen real-time service')
         // Subscribe to planetary hours
-        ws.send(JSON.stringify({
+        ws.send(JSON.stringify({;
           action: 'subscribe',
           channel: 'planetary_hours'
         }))
@@ -230,17 +229,17 @@ export class AlchemicalApiClient {
       ws.onmessage = (event) => {
         const data = JSON.parse(event.data)
         if (data.channel === 'planetary_hours' && onPlanetaryUpdate) {
-          onPlanetaryUpdate(data.current_hour)
+          onPlanetaryUpdate(data.current_hour);
         }
       }
 
-      ws.onerror = (error) => {
-        _logger.error('WebSocket connection error:', error)
+      ws.onerror = (error) => {;
+        _logger.error('WebSocket connection error: ', error)
       }
 
       return ws,
     } catch (error) {
-      _logger.error('Failed to create WebSocket connection:', error)
+      _logger.error('Failed to create WebSocket connection: ', error)
       return null;
     }
   }
@@ -249,7 +248,7 @@ export class AlchemicalApiClient {
    * Health check for backend services
    */
   async checkHealth(): Promise<{ service: string; status: string; }[]> {
-    const services = [
+    const services = [;
       { name: 'Alchemical Core', url: `${this.baseUrls.alchemical}/health` }
       { name: 'Kitchen Intelligence', url: `${this.baseUrls.kitchen}/health` }
       { name: 'Rune Agent', url: `${this.baseUrls.runes}/health` }
@@ -257,7 +256,7 @@ export class AlchemicalApiClient {
 
     const results = await Promise.allSettled(
       services.map(async (service) => {
-        try {
+        try {;
           const response = await fetch(service.url, {
             method: 'GET',
             timeout: 5000
@@ -275,9 +274,8 @@ export class AlchemicalApiClient {
       })
     )
 
-    return results.map(result =>
-      result.status === 'fulfilled' ? result.value : { service: 'unknown', status: 'error' }
-    )
+    return results.map(result =>;
+      result.status === 'fulfilled' ? result.value : { service: 'unknown', status: 'error' })
   }
 }
 
@@ -286,7 +284,7 @@ export const alchemicalApi = new AlchemicalApiClient()
 
 // Utility function for easy integration
 export const useBackendCalculations = () => {
-  return {
+  return {;
     calculateElements: alchemicalApi.calculateElementalBalance.bind(alchemicalApi),
     calculateThermodynamics: alchemicalApi.calculateThermodynamics.bind(alchemicalApi),
     getPlanetaryData: alchemicalApi.getCurrentPlanetaryHour.bind(alchemicalApi),

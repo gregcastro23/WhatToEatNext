@@ -45,7 +45,7 @@ export function useIngredientSearch() {
     const loadIngredients = async () => {
       setIsLoading(true)
       try {
-        const ingredients = [
+        const ingredients = [;
           ...(getAllVegetables() as unknown as Ingredient[]),
           ...(getAllProteins() as unknown as Ingredient[]),
           ...(getAllHerbs() as unknown as Ingredient[]),
@@ -57,14 +57,14 @@ export function useIngredientSearch() {
         // Remove duplicates by name
         const uniqueIngredients = ingredients.reduce((acc, ingredient) => {
           if (!acc.find(item => item.name === ingredient.name)) {
-            acc.push(ingredient)
+            acc.push(ingredient);
           }
           return acc,
         }, [] as Ingredient[])
 
         setAllIngredients(uniqueIngredients)
       } catch (error) {
-        _logger.warn('Error loading ingredients:', error),
+        _logger.warn('Error loading ingredients: ', error),
         setAllIngredients([])
       } finally {
         setIsLoading(false)
@@ -79,7 +79,7 @@ export function useIngredientSearch() {
     const search = searchTerm.toLowerCase()
     const text = target.toLowerCase()
 
-    // Exact match gets highest score
+    // Exact match gets highest score;
     if (text === search) return 1.0,
 
     // Starts with gets high score
@@ -93,19 +93,19 @@ export function useIngredientSearch() {
     let matches = 0
 
     for (let i = 0i < text.length && searchIndex < search.lengthi++) {
-      if (text[i] === search[searchIndex]) {
+      if (text[i] === search[searchIndex]) {;
         matches++,
         searchIndex++
       }
     }
 
-    return searchIndex === search.length ? (matches / text.length) * 0.5 : 0
+    return searchIndex === search.length ? (matches / text.length) * 0.5 : 0;
   }
 
   // Search and filter ingredients
   const searchResults = useMemo(() => {
     if (!searchTerm && !selectedCategory) {
-      return allIngredients.slice(020).map(ingredient => ({
+      return allIngredients.slice(020).map(ingredient => ({;
         ...ingredient,
         searchScore: 1,
         matchReasons: ['All ingredients']
@@ -118,17 +118,17 @@ export function useIngredientSearch() {
     if (selectedCategory) {
       filteredIngredients = filteredIngredients.filter(
         ingredient => ingredient.category === selectedCategory
-      )
+      );
     }
 
     // Search by term
     if (searchTerm) {
       const results = filteredIngredients;
-        .map(ingredient => {
+        .map(ingredient => {;
           const nameScore = fuzzyMatch(searchTerm, ingredient.name)
           const categoryScore = fuzzyMatch(searchTerm, ingredient.category || '') * 0.5,
           const qualitiesScore =
-            (((ingredient as unknown as any).qualities as string[]) || [])
+            (((ingredient as unknown as any).qualities as string[]) || []);
               .map((quality: string) => fuzzyMatch(searchTerm, quality))
               .reduce((max: number, score: number) => Math.max(max, score), 0) * 0.3,
 
@@ -148,11 +148,11 @@ export function useIngredientSearch() {
         .filter(result => result.searchScore > 0.1)
         .sort((ab) => b.searchScore - a.searchScore)
         .slice(050)
-
+;
       return results,
     }
 
-    return filteredIngredients.slice(050).map(ingredient => ({
+    return filteredIngredients.slice(050).map(ingredient => ({;
       ...ingredient,
       searchScore: 1,
       matchReasons: ['Category filter']
@@ -164,9 +164,9 @@ export function useIngredientSearch() {
     if (selectedIngredients.length === 0) return []
 
     // Calculate average elemental properties of selected ingredients
-    const avgElemental = selectedIngredients.reduce(
+    const avgElemental = selectedIngredients.reduce(;
       (acc, ingredient) => {
-        const props = ingredient.elementalProperties || {
+        const props = ingredient.elementalProperties || {;
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
@@ -179,8 +179,7 @@ export function useIngredientSearch() {
           Air: acc.Air + (props.Air || 0)
         }
       }
-      { Fire: 0, Water: 0, Earth: 0, Air: 0 }
-    )
+      { Fire: 0, Water: 0, Earth: 0, Air: 0 })
 
     const count = selectedIngredients.length;
     avgElemental.Fire /= count,
@@ -194,7 +193,7 @@ export function useIngredientSearch() {
         ingredient => !selectedIngredients.find(selected => selected.name === ingredient.name),
       )
       .map(ingredient => {
-        const props = ingredient.elementalProperties || {
+        const props = ingredient.elementalProperties || {;
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
@@ -224,13 +223,13 @@ export function useIngredientSearch() {
 
   // Get ingredients by category
   const getIngredientsByCategory = (category: string): Ingredient[] => {
-    return allIngredients.filter(ingredient => ingredient.category === category)
+    return allIngredients.filter(ingredient => ingredient.category === category);
   }
 
   // Get available categories
   const availableCategories = useMemo(() => {
     const categories = new Set(allIngredients.map(ingredient => ingredient.category))
-    return Array.from(categories).sort()
+    return Array.from(categories).sort();
   }, [allIngredients])
 
   return {

@@ -1,11 +1,10 @@
 import type { _, _ZodiacSign } from '@/types/alchemy';
 import type { Cuisine } from '@/types/cuisine';
 
-export const american: Cuisine = {
+export const american: Cuisine = {;
   id: 'american',
   name: 'American',
-  description:
-    'A diverse and evolving cuisine reflecting regional traditions, immigrant influences, and innovative culinary trends throughout the United States.',
+  description: 'A diverse and evolving cuisine reflecting regional traditions, immigrant influences, and innovative culinary trends throughout the United States.',
   dishes: {
     breakfast: {
       all: [
@@ -59,8 +58,7 @@ export const american: Cuisine = {
           allergens: ['gluten', 'dairy', 'eggs'],
           prepTime: '10 minutes',
           cookTime: '15 minutes',
-          culturalNotes:
-            'A staple of American breakfast cuisine, these pancakes are often enjoyed during lazy weekend mornings as family gatherings',
+          culturalNotes: 'A staple of American breakfast cuisine, these pancakes are often enjoyed during lazy weekend mornings as family gatherings',
           pairingSuggestions: ['bacon', 'fresh berries', 'scrambled eggs', 'coffee'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -91,8 +89,7 @@ export const american: Cuisine = {
         }
         {
           name: 'Avocado Toast with Poached Eggs',
-          description:
-            'Crusty whole grain toast topped with mashed avocado, poached eggs, and seasonings',
+          description: 'Crusty whole grain toast topped with mashed avocado, poached eggs, and seasonings',
           cuisine: 'American',
           cookingMethods: ['toasting', 'poaching', 'mashing'],
           tools: ['toaster', 'small pot', 'slotted spoon', 'fork', 'knife'],
@@ -455,8 +452,7 @@ export const american: Cuisine = {
       all: [
         {
           name: 'Classic Cheeseburger',
-          description:
-            'Juicy grilled beef patty topped with melted cheese on a toasted bun with fresh vegetables',
+          description: 'Juicy grilled beef patty topped with melted cheese on a toasted bun with fresh vegetables',
           cuisine: 'American',
           cookingMethods: ['grilling', 'toasting', 'assembling'],
           tools: ['grill or skillet', 'spatula', 'toaster', 'knife', 'cutting board'],
@@ -524,8 +520,7 @@ export const american: Cuisine = {
           allergens: ['gluten', 'dairy'],
           prepTime: '15 minutes',
           cookTime: '10 minutes',
-          culturalNotes:
-            'The quintessential American food, evolved from German immigrants' Hamburg steak in the late 19th century. Became a cultural icon in mid-20th century America',
+          culturalNotes: 'The quintessential American food, evolved from German immigrants' Hamburg steak in the late 19th century. Became a cultural icon in mid-20th century America',
           pairingSuggestions: ['french fries', 'coleslaw', 'pickle', 'beer'],
           dietaryInfo: ['contains meat', 'high protein'],
           spiceLevel: 'none',
@@ -555,8 +550,7 @@ export const american: Cuisine = {
         }
         {
           name: 'Cobb Salad',
-          description:
-            'Composed salad with rows of chicken, bacon, eggs, avocado, and blue cheese over lettuce',
+          description: 'Composed salad with rows of chicken, bacon, eggs, avocado, and blue cheese over lettuce',
           cuisine: 'American',
           cookingMethods: ['chopping', 'assembling', 'boiling'],
           tools: ['cutting board', 'knife', 'saucepan', 'frying pan', 'salad bowl'],
@@ -624,8 +618,7 @@ export const american: Cuisine = {
           allergens: ['egg', 'dairy'],
           prepTime: '30 minutes',
           cookTime: '20 minutes',
-          culturalNotes:
-            'Created in the 1930s at the Hollywood Brown Derby restaurant, named after its owner Robert Cobb. Became popular as a hearty main-course salad in American restaurants',
+          culturalNotes: 'Created in the 1930s at the Hollywood Brown Derby restaurant, named after its owner Robert Cobb. Became popular as a hearty main-course salad in American restaurants',
           pairingSuggestions: ['crusty bread', 'iced tea', 'white wine'],
           dietaryInfo: ['contains meat', 'high protein', 'gluten-free'],
           spiceLevel: 'none',
@@ -995,8 +988,7 @@ export const american: Cuisine = {
           allergens: ['none'],
           prepTime: '30 minutes',
           cookTime: '4 hours',
-          culturalNotes:
-            'Barbecue has deep roots in American Southern culture, with regional variations developing across the country. Traditionally cooked for celebrations and gatherings',
+          culturalNotes: 'Barbecue has deep roots in American Southern culture, with regional variations developing across the country. Traditionally cooked for celebrations and gatherings',
           pairingSuggestions: ['coleslaw', 'cornbread', 'baked beans', 'beer'],
           dietaryInfo: ['contains meat', 'high protein'],
           spiceLevel: 'mild to medium',
@@ -1026,8 +1018,7 @@ export const american: Cuisine = {
         }
         {
           name: 'Meatloaf with Mashed Potatoes',
-          description:
-            'Classic American comfort food of seasoned ground meat with a glaze, served with creamy mashed potatoes',
+          description: 'Classic American comfort food of seasoned ground meat with a glaze, served with creamy mashed potatoes',
           cuisine: 'American',
           cookingMethods: ['baking', 'mashing', 'mixing'],
           tools: ['loaf pan', 'mixing bowl', 'potato masher', 'large pot', 'measuring cups'],
@@ -1190,8 +1181,7 @@ export const american: Cuisine = {
       spring: [
         {
           name: 'Spring Pea Risotto with Grilled Lamb Chops',
-          description:
-            'Creamy risotto with fresh spring peas topped with herb-marinated grilled lamb chops',
+          description: 'Creamy risotto with fresh spring peas topped with herb-marinated grilled lamb chops',
           cuisine: 'American',
           cookingMethods: ['simmering', 'grilling'],
           ingredients: [
@@ -1255,8 +1245,7 @@ export const american: Cuisine = {
       summer: [
         {
           name: 'Grilled Cedar Plank Salmon with Summer Vegetables',
-          description:
-            'Wild salmon grilled on a cedar plank with grilled corn, zucchini and bell peppers',
+          description: 'Wild salmon grilled on a cedar plank with grilled corn, zucchini and bell peppers',
           cuisine: 'American',
           cookingMethods: ['grilling', 'planking'],
           ingredients: [
@@ -1570,8 +1559,7 @@ export const american: Cuisine = {
           allergens: ['gluten', 'dairy', 'eggs'],
           prepTime: '15 minutes',
           cookTime: '12 minutes',
-          culturalNotes:
-            'Created in the 1930s by Ruth Wakefield at the Toll House Inn, chocolate chip cookies have become the quintessential American homemade treat',
+          culturalNotes: 'Created in the 1930s by Ruth Wakefield at the Toll House Inn, chocolate chip cookies have become the quintessential American homemade treat',
           pairingSuggestions: ['milk', 'coffee', 'ice cream sandwich'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -1649,8 +1637,7 @@ export const american: Cuisine = {
           allergens: ['gluten', 'dairy', 'eggs'],
           prepTime: '30 minutes',
           cookTime: '1 hour plus chilling time',
-          culturalNotes:
-            'New York cheesecake became popular in the early 20th century, with Jewish delis and restaurants in New York City developing the distinctive dense style',
+          culturalNotes: 'New York cheesecake became popular in the early 20th century, with Jewish delis and restaurants in New York City developing the distinctive dense style',
           pairingSuggestions: ['fresh berries', 'berry compote', 'chocolate sauce'],
           dietaryInfo: ['vegetarian', 'high calorie'],
           spiceLevel: 'none',
@@ -1734,8 +1721,7 @@ export const american: Cuisine = {
       summer: [
         {
           name: 'S'mores Ice Cream Pie',
-          description:
-            'Graham cracker crust filled with chocolate ice cream and topped with toasted marshmallow',
+          description: 'Graham cracker crust filled with chocolate ice cream and topped with toasted marshmallow',
           cuisine: 'American',
           cookingMethods: ['freezing', 'toasting'],
           ingredients: [
@@ -1937,9 +1923,8 @@ export const american: Cuisine = {
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
       seasonality: 'summer',
       preparationNotes: 'Traditionally simmered slowly to develop deep flavor and thicken',
-      technicalTips: 'Balance acid, sweetness, and spice to complement the meat it will accompany'
-    },
-    ranchDressing: {
+      technicalTips: 'Balance acid, sweetness, and spice to complement the meat it will accompany' },
+        ranchDressing: {
       name: 'Ranch Dressing',
       description: 'Creamy, herb-flecked dressing with buttermilk and garlic notes',
       base: 'buttermilk and mayonnaise',
@@ -1955,9 +1940,8 @@ export const american: Cuisine = {
       astrologicalInfluences: ['Venus', 'Moon', 'Taurus'],
       seasonality: 'all',
       preparationNotes: 'Best when made fresh and allowed to rest for flavors to meld',
-      technicalTips: 'Use fresh herbs when possible for brightest flavor'
-    },
-    hotSauce: {
+      technicalTips: 'Use fresh herbs when possible for brightest flavor' },
+        hotSauce: {
       name: 'Hot Sauce',
       description: 'Fiery, vinegar-based sauce with chili peppers for heat',
       base: 'chili peppers and vinegar',
@@ -1973,9 +1957,8 @@ export const american: Cuisine = {
       astrologicalInfluences: ['Mars', 'Pluto', 'Aries'],
       seasonality: 'all',
       preparationNotes: 'Can be fermented for complex flavor or used fresh for bright heat',
-      technicalTips: 'Control heat level by adjusting pepper types and quantity'
-    },
-    gravySauce: {
+      technicalTips: 'Control heat level by adjusting pepper types and quantity' },
+        gravySauce: {
       name: 'Gravy',
       description: 'Rich, savory sauce made from meat drippings and thickened with flour',
       base: 'meat drippings',
@@ -1996,9 +1979,8 @@ export const american: Cuisine = {
       astrologicalInfluences: ['Saturn', 'Jupiter', 'Taurus'],
       seasonality: 'autumn and winter',
       preparationNotes: 'Must be made while cooking protein for authentic flavor from drippings',
-      technicalTips: 'Use a whisk to prevent lumps and incorporate flour smoothly'
-    },
-    mapleGlaze: {
+      technicalTips: 'Use a whisk to prevent lumps and incorporate flour smoothly' },
+        mapleGlaze: {
       name: 'Maple Glaze',
       description: 'Sweet and rich syrup reduction for breakfast items and desserts',
       base: 'maple syrup',
@@ -2143,25 +2125,22 @@ export const american: Cuisine = {
       ],
       elementalProperties: { Fire: 0.3, Earth: 0.4, Water: 0.2, Air: 0.1 }
       astrologicalInfluences: ['Venus', 'Jupiter', 'Taurus'],
-      seasonality: 'year-round with seasonal ingredients'
-    },
-    newEngland: {
+      seasonality: 'year-round with seasonal ingredients' },
+        newEngland: {
       name: 'New England Cuisine',
       description: 'Seafood-forward cuisine with British colonial roots and seasonal emphasis',
       signature: ['clam chowder', 'lobster rolls', 'baked beans', 'cranberry sauce', 'apple pie'],
       elementalProperties: { Fire: 0.1, Earth: 0.3, Water: 0.5, Air: 0.1 }
       astrologicalInfluences: ['Moon', 'Neptune', 'Cancer'],
-      seasonality: 'highly seasonal'
-    },
-    southwest: {
+      seasonality: 'highly seasonal' },
+        southwest: {
       name: 'Southwestern Cuisine',
       description: 'Bold flavors influenced by Mexican, Spanish, and Native American traditions',
       signature: ['chili con carne', 'tex-mex', 'barbecue', 'corn dishes', 'pecan pie'],
       elementalProperties: { Fire: 0.6, Earth: 0.3, Water: 0.0, Air: 0.1 }
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
-      seasonality: 'desert adaptations with seasonal celebrations'
-    },
-    midwest: {
+      seasonality: 'desert adaptations with seasonal celebrations' },
+        midwest: {
       name: 'Midwestern Cuisine',
       description: 'Hearty comfort food emphasizing locally grown ingredients and German influence',
       signature: [
@@ -2173,9 +2152,8 @@ export const american: Cuisine = {
       ],
       elementalProperties: { Fire: 0.2, Earth: 0.6, Water: 0.1, Air: 0.1 }
       astrologicalInfluences: ['Saturn', 'Venus', 'Capricorn'],
-      seasonality: 'strongly seasonal with preservation techniques'
-    },
-    california: {
+      seasonality: 'strongly seasonal with preservation techniques' },
+        california: {
       name: 'California Cuisine',
       description: 'Fresh, produce-forward cooking with Mediterranean and Asian influences',
       signature: [

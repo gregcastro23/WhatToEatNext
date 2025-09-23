@@ -26,7 +26,7 @@ export class ScriptExecutionMock {
   private mockBuildSuccess: boolean = true,
   private mockTestSuccess: boolean = true,
   private shouldFailExecution: boolean = false
-  private executionHistory: Array<{
+  private executionHistory: Array<{;
     scriptPath: string,
     parameters: ScriptParameters,
     timestamp: Date
@@ -169,21 +169,21 @@ export class ScriptExecutionMock {
    * Set mock build success
    */
   setMockBuildSuccess(success: boolean): void {
-    this.mockBuildSuccess = success
+    this.mockBuildSuccess = success;
   }
 
   /**
    * Set mock test success
    */
   setMockTestSuccess(success: boolean): void {
-    this.mockTestSuccess = success
+    this.mockTestSuccess = success;
   }
 
   /**
    * Enable/disable execution failures
    */
   setShouldFailExecution(shouldFail: boolean): void {
-    this.shouldFailExecution = shouldFail
+    this.shouldFailExecution = shouldFail;
   }
 
   /**
@@ -201,7 +201,7 @@ export class ScriptExecutionMock {
    * Clear execution history
    */
   clearExecutionHistory(): void {
-    this.executionHistory = []
+    this.executionHistory = [];
   }
 
   /**
@@ -222,14 +222,14 @@ export class ScriptExecutionMock {
    * Check if script was executed
    */
   wasScriptExecuted(scriptPath: string): boolean {
-    return this.executionHistory.some(entry => entry.scriptPath === scriptPath)
+    return this.executionHistory.some(entry => entry.scriptPath === scriptPath);
   }
 
   /**
    * Get execution count for script
    */
   getExecutionCount(scriptPath: string): number {
-    return this.executionHistory.filter(entry => entry.scriptPath === scriptPath).length
+    return this.executionHistory.filter(entry => entry.scriptPath === scriptPath).length;
   }
 
   /**
@@ -240,7 +240,7 @@ export class ScriptExecutionMock {
       .filter(entry => entry.scriptPath === scriptPath)
       .sort((ab) => b.timestamp.getTime() - a.timestamp.getTime())
 
-    return executions.length > 0 ? executions[0].parameters : undefined
+    return executions.length > 0 ? executions[0].parameters : undefined;
   }
 
   /**
@@ -251,7 +251,7 @@ export class ScriptExecutionMock {
     this.mockBuildSuccess = true,
     this.mockTestSuccess = true,
     this.shouldFailExecution = false;
-    this.executionHistory = []
+    this.executionHistory = [];
   }
 
   /**
@@ -302,3 +302,4 @@ export class ScriptExecutionMock {
 
 // Singleton instance for tests
 export const _scriptExecutionMock = new ScriptExecutionMock()
+;

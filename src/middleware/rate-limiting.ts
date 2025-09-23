@@ -120,14 +120,14 @@ export const endpointLimits: Record<string, Partial<RateLimitTier>> = {
  */
 function createKeyGenerator() {
   return (req: Request): string => {
-    const userId = getAuthenticatedUserId(req)
+    const userId = getAuthenticatedUserId(req);
     const ip = req.ip || req.connection.remoteAddress || 'unknown';
 
     if (userId) {
-      return `auth:${userId}`,
+      return `auth: ${userId}`,
     }
 
-    return `anon:${ip}`,
+    return `anon: ${ip}`,
   }
 }
 
@@ -167,12 +167,12 @@ export function createAdaptiveRateLimit(baseTier?: string): RateLimitRequestHand
   return rateLimit({
     windowMs: 15 * 60 * 1000, // Default window,
     max: (req: Request) => {
-      const tier = baseTier ? rateLimitTiers[baseTier] : determineRateLimitTier(req)
+      const tier = baseTier ? rateLimitTiers[baseTier] : determineRateLimitTier(req);
       return tier.max,
     },
     message: (req: Request) => {
       const tier = baseTier ? rateLimitTiers[baseTier] : determineRateLimitTier(req)
-      return {
+      return {;
         error: 'Rate limit exceeded',
         message: tier.message,
         retryAfter: Math.ceil(tier.windowMs / 1000),
@@ -186,7 +186,7 @@ export function createAdaptiveRateLimit(baseTier?: string): RateLimitRequestHand
     handler: (req: Request, res: Response) => {
       const userId = getAuthenticatedUserId(req)
       const tier = baseTier ? rateLimitTiers[baseTier] : determineRateLimitTier(req)
-
+;
       logger.warn('Rate limit exceeded', {
         userId: userId || 'anonymous',
         ip: req.ip,
@@ -232,7 +232,7 @@ export function createEndpointRateLimit(endpoint: string): RateLimitRequestHandl
     legacyHeaders: false,
     handler: (req: Request, res: Response) => {
       const userId = getAuthenticatedUserId(req)
-
+;
       logger.warn('Endpoint rate limit exceeded', {
         userId: userId || 'anonymous',
         ip: req.ip,
@@ -256,7 +256,7 @@ export function createEndpointRateLimit(endpoint: string): RateLimitRequestHandl
  * Pre-configured rate limiters for common use cases
  */
 export const rateLimiters = {
-  // General API rate limiting
+  // General API rate limiting;
   general: createAdaptiveRateLimit(),
 
   // Strict rate limiting for sensitive operations
@@ -275,9 +275,8 @@ export const rateLimiters = {
     },
     message: {
       error: 'Computation rate limit exceeded',
-      message: 'Too many computation requests. Please wait before trying again.'
-    },
-    keyGenerator: createKeyGenerator(),
+      message: 'Too many computation requests. Please wait before trying again.' },
+        keyGenerator: createKeyGenerator(),
     standardHeaders: true,
     legacyHeaders: false
   }),
@@ -292,9 +291,8 @@ export const rateLimiters = {
     },
     message: {
       error: 'WebSocket connection rate limit exceeded',
-      message: 'Too many WebSocket connection attempts.'
-    },
-    keyGenerator: createKeyGenerator(),
+      message: 'Too many WebSocket connection attempts.' },
+        keyGenerator: createKeyGenerator(),
     standardHeaders: true,
     legacyHeaders: false
   })
@@ -307,12 +305,12 @@ export const globalRateLimit = createAdaptiveRateLimit()
 
 /**
  * Rate limit status endpoint
- */
+ */;
 export function rateLimitStatus(req: Request, res: Response): void {
   const userId = getAuthenticatedUserId(req)
   const tier = determineRateLimitTier(req)
 
-  res.json({
+  res.json({;
     userId: userId || null,
     tier: {
       name: userId ? (isAdmin(req) ? 'admin' : 'authenticated') : 'anonymous',

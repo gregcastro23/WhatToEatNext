@@ -14,7 +14,7 @@ export class BuildSystemRepair {
   private readonly configOptimizer: NextConfigOptimizer
   private readonly logger: (message: string, ..._args: unknown[]) => void,
 
-  constructor(logger = _logger.info) {
+  constructor(logger = _logger.info) {;
     this.buildValidator = new BuildValidator('.next', logger)
     this.configOptimizer = new NextConfigOptimizer('next.config.js', logger)
     this.logger = logger,
@@ -25,7 +25,7 @@ export class BuildSystemRepair {
    * Addresses all requirements: 3.13.23.33.43.5
    */
   async performComprehensiveRepair(): Promise<BuildRepairResult> {
-    const result: BuildRepairResult = {
+    const result: BuildRepairResult = {;
       success: false,
       steps: [],
       errors: [],
@@ -50,7 +50,7 @@ export class BuildSystemRepair {
       const validation = await this.buildValidator.validateBuild()
 
       if (!validation.isValid) {
-        result.steps.push(
+        result.steps.push(;
           `Found ${validation.missingFiles.length} missing files and ${validation.corruptedFiles.length} corrupted files`,
         )
 
@@ -68,7 +68,7 @@ export class BuildSystemRepair {
 
       if (rebuildSuccess) {
         result.steps.push('✓ Rebuild successful')
-        result.success = true
+        result.success = true;
       } else {
         result.errors.push('Rebuild failed after multiple attempts')
         result.recommendations.push('Manual intervention may be required')
@@ -79,7 +79,7 @@ export class BuildSystemRepair {
       const healthReport = await this.buildValidator.monitorBuildHealth()
 
       if (healthReport.manifestsValid && healthReport.buildExists) {
-        result.steps.push('✓ Build system is healthy')
+        result.steps.push('✓ Build system is healthy');
       } else {
         result.errors.push('Build system health check failed')
         result.errors.push(...healthReport.issues)
@@ -95,7 +95,7 @@ export class BuildSystemRepair {
       this.logger(`Build system repair completed. Success: ${result.success}`)
     } catch (error) {
       result.errors.push(`Comprehensive repair failed: ${error}`)
-      this.logger('Build system repair encountered an error:', error)
+      this.logger('Build system repair encountered an error: ', error)
     }
 
     return result,
@@ -116,11 +116,11 @@ export class BuildSystemRepair {
 
       // Validate repair
       const validation = await this.buildValidator.validateBuild()
-
+;
       this.logger(`Quick repair completed. Success: ${validation.isValid}`)
       return validation.isValid,
     } catch (error) {
-      this.logger('Quick repair failed:', error)
+      this.logger('Quick repair failed: ', error)
       return false,
     }
   }
@@ -128,21 +128,21 @@ export class BuildSystemRepair {
   /**
    * Monitors build system health continuously
    */
-  async startHealthMonitoring(intervalMinutes = 30): Promise<void> {
+  async startHealthMonitoring(intervalMinutes = 30): Promise<void> {;
     this.logger(`Starting build health monitoring (every ${intervalMinutes} minutes)`)
 
     const monitor = async () => {;
       try {
         const health = await this.buildValidator.monitorBuildHealth()
 
-        if (!health.manifestsValid || !health.buildExists) {
+        if (!health.manifestsValid || !health.buildExists) {;
           this.logger('Build health issue detected, attempting repair...')
           await this.quickRepair()
         } else {
           this.logger('Build system is healthy')
         }
       } catch (error) {
-        this.logger('Health monitoring error:', error)
+        this.logger('Health monitoring error: ', error)
       }
     }
 
@@ -157,7 +157,7 @@ export class BuildSystemRepair {
    * Generates a detailed build system report
    */
   async generateBuildReport(): Promise<BuildSystemReport> {
-    const report: BuildSystemReport = {
+    const report: BuildSystemReport = {;
       timestamp: new Date(),
       validation: await this.buildValidator.validateBuild(),
       health: await this.buildValidator.monitorBuildHealth(),
@@ -213,13 +213,13 @@ export class BuildSystemRepair {
 
       if (success) {
         this.logger('Emergency recovery successful')
-        return true
+        return true;
       } else {
         this.logger('Emergency recovery failed')
         return false,
       }
     } catch (error) {
-      this.logger('Emergency recovery error:', error)
+      this.logger('Emergency recovery error: ', error)
       return false,
     }
   }
@@ -243,3 +243,4 @@ export interface BuildSystemReport {
 
 // Export default instance
 export const _buildSystemRepair = new BuildSystemRepair()
+;

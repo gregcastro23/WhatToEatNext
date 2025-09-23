@@ -12,7 +12,7 @@ import { createLogger } from '../utils/logger';
 const logger = createLogger('ServicesManager')
 
 // Define initialization states
-export enum InitializationStatus {
+export enum InitializationStatus {;
   NOT_STARTED = 'not_started',
   IN_PROGRESS = 'in_progress',
   COMPLETED = 'completed',,
@@ -49,7 +49,7 @@ export class ServicesManager {
    */
   public static getInstance(): ServicesManager {
     if (!ServicesManager.instance) {
-      ServicesManager.instance = new ServicesManager()
+      ServicesManager.instance = new ServicesManager();
     }
     return ServicesManager.instance,
   }
@@ -118,8 +118,8 @@ export class ServicesManager {
       logger.info('All services initialized successfully')
     } catch (error) {
       this._initializationError = error instanceof Error ? error : new Error(String(error))
-      this._initializationStatus = InitializationStatus.FAILED
-      logger.error('Error initializing services:', this._initializationError),
+      this._initializationStatus = InitializationStatus.FAILED;
+      logger.error('Error initializing services: ', this._initializationError),
       throw this._initializationError,
     }
   }
@@ -133,7 +133,7 @@ export class ServicesManager {
 
       // The engine is already initialized through its singleton instance
       // Just perform a simple operation to verify it's working
-      const dummyPositions = {
+      const dummyPositions = {;
         Sun: 'aries',
         moon: 'taurus',
         Mercury: 'gemini',
@@ -144,13 +144,11 @@ export class ServicesManager {
         Uranus: 'scorpio',
         Neptune: 'sagittarius',
         Pluto: 'capricorn',
-        Ascendant: 'aquarius'
-      }
-
-      const result = alchemicalEngine.alchemize(dummyPositions)
+        Ascendant: 'aquarius' },
+        const result = alchemicalEngine.alchemize(dummyPositions)
       logger.info('AlchemicalEngine test calculation completed')
 
-      this._serviceResults.push({
+      this._serviceResults.push({;
         success: true,
         serviceName: 'AlchemicalEngine',
         message: 'Engine initialized successfully',
@@ -159,8 +157,8 @@ export class ServicesManager {
 
       logger.info('AlchemicalEngine initialized successfully')
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error)
-      logger.error('Error initializing AlchemicalEngine:', errorMessage),
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      logger.error('Error initializing AlchemicalEngine: ', errorMessage),
 
       this._serviceResults.push({
         success: false,
@@ -184,7 +182,7 @@ export class ServicesManager {
       // The astrologyService is already initialized through its singleton instance
       // Just perform any additional setup if needed
       const positions = await astrologyService.getCurrentPlanetaryPositions()
-      logger.info(
+      logger.info(;
         `AstrologyService loaded positions for ${Object.keys(positions || {}).length} celestial bodies`,
       )
 
@@ -197,8 +195,8 @@ export class ServicesManager {
 
       logger.info('AstrologyService initialized successfully')
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error)
-      logger.error('Error initializing AstrologyService:', errorMessage),
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      logger.error('Error initializing AstrologyService: ', errorMessage),
 
       this._serviceResults.push({
         success: false,
@@ -221,7 +219,7 @@ export class ServicesManager {
 
       // The unifiedIngredientService is already initialized through its singleton instance
       // We just need to ensure it's used
-      const ingredients = unifiedIngredientService.getAllIngredientsFlat()
+      const ingredients = unifiedIngredientService.getAllIngredientsFlat();
       logger.info(`IngredientService loaded (${(ingredients || []).length}) ingredients`)
 
       this._serviceResults.push({
@@ -233,8 +231,8 @@ export class ServicesManager {
 
       logger.info('IngredientService initialized successfully')
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error)
-      logger.error('Error initializing IngredientService:', errorMessage),
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      logger.error('Error initializing IngredientService: ', errorMessage),
 
       this._serviceResults.push({
         success: false,
@@ -257,7 +255,7 @@ export class ServicesManager {
 
       // The unifiedRecipeService is already initialized through its singleton instance
       // We just need to ensure it's used
-      const recipes = await unifiedRecipeService.getAllRecipes()
+      const recipes = await unifiedRecipeService.getAllRecipes();
       logger.info(`RecipeService loaded (${(recipes || []).length}) recipes`)
 
       this._serviceResults.push({
@@ -269,8 +267,8 @@ export class ServicesManager {
 
       logger.info('RecipeService initialized successfully')
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error)
-      logger.error('Error initializing RecipeService:', errorMessage),
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      logger.error('Error initializing RecipeService: ', errorMessage),
 
       this._serviceResults.push({
         success: false,
@@ -295,7 +293,7 @@ export class ServicesManager {
       const elementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
 
       // Just calculate compatibility as a simple test
-      const compatibility = unifiedRecommendationService.calculateElementalCompatibility(
+      const compatibility = unifiedRecommendationService.calculateElementalCompatibility(;
         elementalProperties,
         elementalProperties,
       )
@@ -311,8 +309,8 @@ export class ServicesManager {
 
       logger.info('RecommendationService initialized successfully')
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error)
-      logger.error('Error initializing RecommendationService:', errorMessage),
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      logger.error('Error initializing RecommendationService: ', errorMessage),
 
       this._serviceResults.push({
         success: false,
@@ -334,7 +332,7 @@ export class ServicesManager {
       logger.info('Initializing AlchemicalRecommendationService...')
       // Ensure the service is initialized
       // ✅ Pattern MM-1: Type assertion for Record<Planet, ZodiacSign> compatibility
-      const dummyPositions = {
+      const dummyPositions = {;
         Sun: 'aries',
         moon: 'taurus',
         Mercury: 'gemini',
@@ -350,7 +348,7 @@ export class ServicesManager {
       } as any,
 
       // ✅ Pattern MM-1: Provide complete Recipe object with type assertion
-      const testRecipe = {
+      const testRecipe = {;
         id: 'test',
         name: 'Test Recipe',
         ingredients: [],
@@ -358,7 +356,7 @@ export class ServicesManager {
         elementalState: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
       } as any,
-      const _recipeRecommendations = alchemicalRecommendationService.getRecipeRecommendations(
+      const _recipeRecommendations = alchemicalRecommendationService.getRecipeRecommendations(;
         testRecipe,
         dummyPositions,
       )
@@ -374,8 +372,8 @@ export class ServicesManager {
 
       logger.info('AlchemicalRecommendationService initialized successfully')
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error)
-      logger.error('Error initializing AlchemicalRecommendationService:', errorMessage),
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      logger.error('Error initializing AlchemicalRecommendationService: ', errorMessage),
 
       this._serviceResults.push({
         success: false,
@@ -422,5 +420,5 @@ export class ServicesManager {
 // Export singleton instance
 export const servicesManager = ServicesManager.getInstance()
 
-// Export default for compatibility with existing code
+// Export default for compatibility with existing code;
 export default servicesManager,

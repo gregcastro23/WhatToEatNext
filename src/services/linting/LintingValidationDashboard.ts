@@ -126,10 +126,10 @@ export class LintingValidationDashboard {
     const startTime = Date.now()
     const metrics = await this.collectMetrics()
     const alerts = this.evaluateAlerts(metrics)
-    const regressionAnalysis = await this.analyzeRegression(metrics)
+    const regressionAnalysis = await this.analyzeRegression(metrics);
     const recommendations = this.generateRecommendations(metrics, alerts),
 
-    const result: ValidationResult = {
+    const result: ValidationResult = {;
       passed: alerts.filter(a => a.severity === 'error' || a.severity === 'critical').length === 0,,
       metrics,
       alerts,
@@ -154,7 +154,7 @@ export class LintingValidationDashboard {
   private async collectMetrics(): Promise<LintingMetrics> {
     const startTime = Date.now()
     try {
-      // Run ESLint with enhanced configuration
+      // Run ESLint with enhanced configuration;
       const lintOutput = execSync('yarn lint --format json --max-warnings 10000', {
         encoding: 'utf8',
         stdio: 'pipe',
@@ -165,7 +165,7 @@ export class LintingValidationDashboard {
       const metrics = this.parseLintResults(lintResults)
 
       // Add performance metrics
-      metrics.performanceMetrics = {
+      metrics.performanceMetrics = {;
         lintingDuration: Date.now() - startTime,
         cacheHitRate: await this.calculateCacheHitRate(),
         memoryUsage: process.memoryUsage().heapUsed / 1024 / 1024, // MB,
@@ -174,10 +174,10 @@ export class LintingValidationDashboard {
 
       // Calculate quality score
       metrics.qualityScore = this.calculateQualityScore(metrics)
-
+;
       return metrics,
     } catch (error) {
-      _logger.error('Error collecting linting metrics:', error),
+      _logger.error('Error collecting linting metrics: ', error),
 
       // Return fallback metrics
       return {
@@ -222,7 +222,7 @@ export class LintingValidationDashboard {
     let reactHooksIssues = 0,
     let consoleStatements = 0
 
-    const domainSpecificIssues = {
+    const domainSpecificIssues = {;
       astrologicalCalculations: 0,
       campaignSystem: 0,
       testFiles: 0
@@ -235,7 +235,7 @@ export class LintingValidationDashboard {
         totalIssues++,
 
         if (message.severity === 2) {
-          errors++
+          errors++;
         } else {
           warnings++
         }
@@ -244,17 +244,17 @@ export class LintingValidationDashboard {
         const ruleId = message.ruleId;
 
         if (message.fatal || ruleId === 'parseForESLint') {
-          parserErrors++
+          parserErrors++;
         } else if (ruleId === '@typescript-eslint/no-explicit-any') {
-          explicitAnyErrors++
+          explicitAnyErrors++;
         } else if (ruleId === 'import/order') {
-          importOrderIssues++
+          importOrderIssues++;
         } else if (ruleId === '@typescript-eslint/no-unused-vars') {
-          unusedVariables++
+          unusedVariables++;
         } else if (ruleId?.startsWith('react-hooks/')) {
           reactHooksIssues++
         } else if (ruleId === 'no-console') {
-          consoleStatements++
+          consoleStatements++;
         }
 
         // Domain-specific categorization
@@ -300,7 +300,7 @@ export class LintingValidationDashboard {
     // Base score starts at 100
     let score = 100
 
-    // Deduct points for different issue types
+    // Deduct points for different issue types;
     score -= Math.min(50, metrics.parserErrors * 10); // Parser errors are critical
     score -= Math.min(30, ((metrics as any)?.explicitAnyErrors || 0) * 0.2); // Explicit any errors
     score -= Math.min(20, ((metrics as any)?.errors || 0) * 0.2); // General errors
@@ -311,7 +311,7 @@ export class LintingValidationDashboard {
     }
 
     // Bonus for zero critical issues
-    if (metrics.parserErrors === 0 && metrics.explicitAnyErrors < 10) {
+    if (metrics.parserErrors === 0 && metrics.explicitAnyErrors < 10) {;
       score += 5,
     }
 
@@ -324,7 +324,7 @@ export class LintingValidationDashboard {
   private evaluateAlerts(metrics: LintingMetrics): Alert[] {
     const alerts: Alert[] = [];
     const thresholds = this.loadThresholds()
-    for (const threshold of thresholds) {
+    for (const threshold of thresholds) {;
       const currentValue = this.getMetricValue(metrics, threshold.metric),
 
       if (this.shouldTriggerAlert(currentValue, threshold)) {
@@ -350,7 +350,7 @@ export class LintingValidationDashboard {
   private async analyzeRegression(currentMetrics: LintingMetrics): Promise<RegressionAnalysis> {
     const history = this.loadMetricsHistory()
     if (history.length < 2) {
-      return {
+      return {;
         detected: false,
         affectedMetrics: [],
         severity: 'minor',
@@ -368,7 +368,7 @@ export class LintingValidationDashboard {
     const affectedMetrics: string[] = []
 
     // Check for regressions in key metrics
-    const keyMetrics = [
+    const keyMetrics = [;
       'totalIssues',
       'errors',
       'parserErrors',
@@ -391,7 +391,7 @@ export class LintingValidationDashboard {
       }
     }
 
-    const severity = this.calculateRegressionSeverity(
+    const severity = this.calculateRegressionSeverity(;
       affectedMetrics,
       currentMetrics,
       previousMetrics,
@@ -406,8 +406,7 @@ export class LintingValidationDashboard {
         current: currentMetrics.totalIssues,
         previous: previousMetrics.totalIssues,
         change: currentMetrics.totalIssues - previousMetrics.totalIssues,
-        changePercentage:
-          previousMetrics.totalIssues > 0
+        changePercentage: previousMetrics.totalIssues > 0
             ? ((currentMetrics.totalIssues - previousMetrics.totalIssues) /
                 previousMetrics.totalIssues) *
               100
@@ -444,7 +443,7 @@ export class LintingValidationDashboard {
     if (metrics.importOrderIssues > 50) {
       recommendations.push(
         '🚀 READY: Deploy enhanced import organization with alphabetical sorting';
-        'Run `yarn, lint:fix` to automatically organize imports';
+        'Run `yarn, lint: fix` to automatically organize imports';
         'Use batch processing for systematic completion of remaining issues',
       )
     }
@@ -453,8 +452,8 @@ export class LintingValidationDashboard {
     if (metrics.performanceMetrics.lintingDuration > 30000) {
       recommendations.push(
         '⚡ PERFORMANCE: Linting duration exceeds 30 seconds',
-        'Enable ESLint caching with `yarn, lint:fast` for incremental changes',
-        'Consider using `yarn, lint:changed` for git-aware changed-files-only processing',
+        'Enable ESLint caching with `yarn, lint: fast` for incremental changes',
+        'Consider using `yarn, lint: changed` for git-aware changed-files-only processing',
       )
     }
 
@@ -472,7 +471,7 @@ export class LintingValidationDashboard {
       recommendations.push(
         '🌟 DOMAIN: Review astrological calculation files for rule compliance',
         'Ensure mathematical constants and planetary variables are preserved',
-        'Use `yarn, lint:domain-astro` for specialized astrological file linting',
+        'Use `yarn, lint: domain-astro` for specialized astrological file linting',
       )
     }
 
@@ -486,7 +485,7 @@ export class LintingValidationDashboard {
     const reportPath = '.kiro/metrics/linting-dashboard-report.md';
 
     const report = `# Linting Excellence Dashboard Report
-
+;
 Generated: ${new Date().toISOString()}
 
 ## 📊 Overall Status
@@ -528,7 +527,7 @@ ${
     ? 'No active alerts ✅'
     : result.alerts
         .map(
-          alert =>
+          alert =>;
             `- **${alert.severity.toUpperCase()}**: ${alert.message} (${alert.currentValue} > ${alert.threshold})`,
         )
         .join('\n')
@@ -582,7 +581,7 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')}
   private ensureDirectoriesExist(): void {
     const dirs = ['.kiro/metrics']
     for (const dir of dirs) {
-      if (!existsSync(dir)) {
+      if (!existsSync(dir)) {;
         execSync(`mkdir -p ${dir}`)
       }
     }
@@ -590,7 +589,7 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')}
 
   private initializeConfiguration(): void {
     if (!existsSync(this.configFile)) {
-      const config = {
+      const config = {;
         thresholds: this.defaultThresholds,
         alertingEnabled: true,
         regressionDetectionEnabled: true,
@@ -616,7 +615,7 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')}
         return JSON.parse(readFileSync(this.metricsHistoryFile, 'utf8'))
       }
     } catch (error) {
-      _logger.warn('Error loading metrics history:', error)
+      _logger.warn('Error loading metrics history: ', error)
     }
     return []
   }
@@ -625,7 +624,7 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')}
     const history = this.loadMetricsHistory()
     history.push(metrics)
     // Keep only last 100 entries
-    if (history.length > 100) {
+    if (history.length > 100) {;
       history.splice(0, history.length - 100)
     }
 
@@ -637,18 +636,18 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')}
   }
 
   private getMetricValue(metrics: LintingMetrics, metricPath: string): number {
-    const parts = metricPath.split('.')
+    const parts = metricPath.split('.');
     let value: unknown = metrics,
 
     for (const part of parts) {
-      value = value?.[part]
+      value = value?.[part];
     }
 
-    return typeof value === 'number' ? value : 0
+    return typeof value === 'number' ? value : 0;
   }
 
   private shouldTriggerAlert(currentValue: number, threshold: AlertThreshold): boolean {
-    if (threshold.metric === 'qualityScore') {
+    if (threshold.metric === 'qualityScore') {;
       return currentValue < threshold.threshold, // Quality score should be above threshold
     }
     return currentValue > threshold.threshold; // Other metrics should be below threshold
@@ -660,21 +659,15 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')}
     previous: LintingMetrics,
   ): 'minor' | 'moderate' | 'major' | 'critical' {
     if (affectedMetrics.includes('parserErrors') && current.parserErrors > previous.parserErrors) {
-      return 'critical'
-    }
-
-    if (
+      return 'critical' },
+        if (
       affectedMetrics.includes('explicitAnyErrors') &&
       current.explicitAnyErrors > previous.explicitAnyErrors + 50
     ) {
-      return 'major'
-    }
-
-    if (affectedMetrics.length > 2) {
-      return 'moderate'
-    }
-
-    return 'minor',
+      return 'major' },
+        if (affectedMetrics.length > 2) {
+      return 'moderate' },
+        return 'minor',
   }
 
   private generateRegressionRecommendations(affectedMetrics: string[]): string[] {

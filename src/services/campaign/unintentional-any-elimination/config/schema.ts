@@ -13,7 +13,7 @@ import { AnyTypeCategory, SafetyLevel } from '../types';
 const AnyTypeCategorySchema = z.nativeEnum(AnyTypeCategory)
 const SafetyLevelSchema = z.nativeEnum(SafetyLevel)
 
-// Classification configuration schema
+// Classification configuration schema;
 export const ClassificationConfigSchema = z;
   .object({
     intentionalThreshold: z.number().min(0).max(1),
@@ -94,13 +94,13 @@ export const _PartialUnintentionalAnyConfigSchema = UnintentionalAnyConfigSchema
 /**
  * Validation functions
  */
-export function validateClassificationConfig(_config: unknown): {
+export function validateClassificationConfig(_config: unknown): {;
   isValid: boolean,
   data?: z.infer<typeof ClassificationConfigSchema>
   errors?: z.ZodError
 } {
   try {
-    const data = ClassificationConfigSchema.parse(config)
+    const data = ClassificationConfigSchema.parse(config);
     return { isValid: true, data }
   } catch (error) {
     return { isValid: false, errors: error as z.ZodError }
@@ -113,7 +113,7 @@ export function validateDomainConfig(_config: unknown): {
   errors?: z.ZodError
 } {
   try {
-    const data = DomainConfigSchema.parse(config)
+    const data = DomainConfigSchema.parse(config);
     return { isValid: true, data }
   } catch (error) {
     return { isValid: false, errors: error as z.ZodError }
@@ -126,7 +126,7 @@ export function validateSafetyConfig(_config: unknown): {
   errors?: z.ZodError
 } {
   try {
-    const data = SafetyConfigSchema.parse(config)
+    const data = SafetyConfigSchema.parse(config);
     return { isValid: true, data }
   } catch (error) {
     return { isValid: false, errors: error as z.ZodError }
@@ -139,7 +139,7 @@ export function validateTargetConfig(_config: unknown): {
   errors?: z.ZodError
 } {
   try {
-    const data = TargetConfigSchema.parse(config)
+    const data = TargetConfigSchema.parse(config);
     return { isValid: true, data }
   } catch (error) {
     return { isValid: false, errors: error as z.ZodError }
@@ -152,7 +152,7 @@ export function validateUnintentionalAnyConfig(_config: unknown): {
   errors?: z.ZodError
 } {
   try {
-    const data = UnintentionalAnyConfigSchema.parse(config)
+    const data = UnintentionalAnyConfigSchema.parse(config);
     return { isValid: true, data }
   } catch (error) {
     return { isValid: false, errors: error as z.ZodError }
@@ -243,7 +243,7 @@ export function validateCompleteConfig(_config: unknown): {
   // First validate schema
   const schemaValidation = validateUnintentionalAnyConfig(config)
   if (!schemaValidation.isValid) {
-    return {
+    return {;
       isValid: false,
       schemaErrors: schemaValidation.errors
     }
@@ -252,7 +252,7 @@ export function validateCompleteConfig(_config: unknown): {
   // Then validate business rules
   const businessValidation = validateBusinessRules(schemaValidation.data!)
 
-  return {
+  return {;
     isValid: businessValidation.isValid,
     data: schemaValidation.data,
     businessErrors: businessValidation.errors,

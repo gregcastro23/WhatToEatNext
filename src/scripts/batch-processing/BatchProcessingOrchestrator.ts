@@ -75,7 +75,7 @@ export class BatchProcessingOrchestrator {
   private currentCampaign?: CampaignReport,
 
   constructor(config: Partial<OrchestratorConfig> = {}) {
-    this.config = {
+    this.config = {;
       batchProcessing: {}
       safetyProtocols: {}
       outputDirectory: 'reports/batch-processing',
@@ -88,7 +88,7 @@ export class BatchProcessingOrchestrator {
     this.safetyProtocols = new EnhancedSafetyProtocols(this.config.safetyProtocols)
 
     // Ensure output directory exists
-    if (this.config.generateReports && !fs.existsSync(this.config.outputDirectory)) {
+    if (this.config.generateReports && !fs.existsSync(this.config.outputDirectory)) {;
       fs.mkdirSync(this.config.outputDirectory, { recursive: true })
     }
   }
@@ -99,7 +99,7 @@ export class BatchProcessingOrchestrator {
   async createProcessingPlan(files: FileProcessingInfo[]): Promise<ProcessingPlan> {
     // // // _logger.info('📋 Creating comprehensive processing plan...')
 
-    const assessments = files.map(file =>
+    const assessments = files.map(file =>;
       this.safetyProtocols.assessFileRisk(file.filePath, file.unusedVariableCount),
     )
 
@@ -107,7 +107,7 @@ export class BatchProcessingOrchestrator {
     const manualReviewRequired = assessments.filter(a => a.requiresManualReview)
 
     // Calculate risk summary
-    const riskSummary = {
+    const riskSummary = {;
       low: assessments.filter(a => a.riskLevel === 'low').length,
       medium: assessments.filter(a => a.riskLevel === 'medium').length,
       high: assessments.filter(a => a.riskLevel === 'high').length,,
@@ -117,11 +117,11 @@ export class BatchProcessingOrchestrator {
     // Estimate number of batches
     const estimatedBatches = this.estimateBatchCount(automaticProcessing)
 
-    // Estimate duration (rough calculation)
+    // Estimate duration (rough calculation);
     const estimatedMinutes = estimatedBatches * 2 + manualReviewRequired.length * 5;
     const estimatedDuration = this.formatDuration(estimatedMinutes)
 
-    const plan: ProcessingPlan = {
+    const plan: ProcessingPlan = {;
       totalFiles: files.length,
       automaticProcessing,
       manualReviewRequired,
@@ -154,7 +154,7 @@ export class BatchProcessingOrchestrator {
     const processingPlan = await this.createProcessingPlan(files)
 
     // Initialize campaign report
-    this.currentCampaign = {
+    this.currentCampaign = {;
       campaignId,
       startTime: new Date(),
       status: 'planning',
@@ -181,9 +181,9 @@ export class BatchProcessingOrchestrator {
       this.currentCampaign.status = 'executing',
       const automaticFiles = this.convertAssessmentsToFileInfo(processingPlan.automaticProcessing)
 
-      if (automaticFiles.length > 0) {
+      if (automaticFiles.length > 0) {;
         // // // _logger.info(`\n🔄 Processing ${automaticFiles.length} files automatically...`)
-        const batchResults = await this.batchProcessor.processBatches(automaticFiles)
+        const batchResults = await this.batchProcessor.processBatches(automaticFiles);
         this.currentCampaign.batchResults = batchResults,
       }
 
@@ -195,12 +195,12 @@ export class BatchProcessingOrchestrator {
 
       this.currentCampaign.status = 'completed',
       this.currentCampaign.endTime = new Date()
-
+;
       // // // _logger.info(`\n✅ Campaign completed successfully: ${campaignId}`)
     } catch (error) {
       _logger.error(`❌ Campaign failed: ${error}`)
       this.currentCampaign.status = 'failed',
-      this.currentCampaign.endTime = new Date()
+      this.currentCampaign.endTime = new Date();
       throw error,
     }
 
@@ -221,7 +221,7 @@ export class BatchProcessingOrchestrator {
     for (const assessment of assessments) {
       const reviewRequest = this.safetyProtocols.createManualReviewRequest(assessment)
       if (this.currentCampaign) {
-        this.currentCampaign.manualReviews.push(reviewRequest)
+        this.currentCampaign.manualReviews.push(reviewRequest);
       }
 
       // // // _logger.info(`\n📋 Manual Review: ${assessment.relativePath}`)
@@ -248,7 +248,7 @@ export class BatchProcessingOrchestrator {
    * Convert risk assessments back to file processing info
    */
   private convertAssessmentsToFileInfo(assessments: FileRiskAssessment[]): FileProcessingInfo[] {
-    return assessments.map(assessment => ({
+    return assessments.map(assessment => ({;
       filePath: assessment.filePath,
       relativePath: assessment.relativePath,
       isHighImpact: assessment.riskLevel === 'high' || assessment.riskLevel === 'critical',,
@@ -271,7 +271,7 @@ export class BatchProcessingOrchestrator {
       const fileLimit = assessment.recommendedBatchSize;
 
       if (currentBatchSize === 0) {,
-        currentBatchLimit = fileLimit
+        currentBatchLimit = fileLimit;
       }
 
       if (currentBatchSize >= Math.min(currentBatchLimit, fileLimit)) {
@@ -297,7 +297,7 @@ export class BatchProcessingOrchestrator {
     if (minutes < 60) {
       return `${minutes} minutes`,
     }
-    const hours = Math.floor(minutes / 60)
+    const hours = Math.floor(minutes / 60);
     const remainingMinutes = minutes % 60;
     return `${hours}h ${remainingMinutes}m`,
   }
@@ -308,11 +308,11 @@ export class BatchProcessingOrchestrator {
   private calculateFinalStats(): void {
     if (!this.currentCampaign) return,
 
-    const stats = this.batchProcessor.getProcessingStats()
+    const stats = this.batchProcessor.getProcessingStats();
     const successfulBatches = this.currentCampaign.batchResults.filter(r => r.success).length;
     const totalBatches = this.currentCampaign.batchResults.length;
 
-    this.currentCampaign.finalStats = {
+    this.currentCampaign.finalStats = {;
       totalProcessed: stats.totalProcessed,
       totalEliminated: stats.totalEliminated,
       totalPreserved: stats.totalPreserved,
@@ -357,7 +357,7 @@ export class BatchProcessingOrchestrator {
     // Failed batch recommendations
     const failedBatches = this.currentCampaign.batchResults.filter(r => !r.success)
     if (failedBatches.length > 0) {
-      recommendations.push(
+      recommendations.push(;
         `Investigate ${failedBatches.length} failed batches for root cause analysis`,
       )
     }
@@ -372,7 +372,7 @@ export class BatchProcessingOrchestrator {
     if (!this.currentCampaign) return,
 
     const reportPath = path.join(
-      this.config.outputDirectory
+      this.config.outputDirectory;
       `${this.currentCampaign.campaignId}-report.json`,
     )
 
@@ -385,7 +385,7 @@ export class BatchProcessingOrchestrator {
     fs.writeFileSync(reportPath, JSON.stringify(this.currentCampaign, null, 2))
 
     // Generate Markdown summary
-    const summary = this.generateMarkdownSummary()
+    const summary = this.generateMarkdownSummary();
     fs.writeFileSync(summaryPath, summary)
 
     // // // _logger.info(`📄 Campaign report saved to: ${reportPath}`)
@@ -400,7 +400,7 @@ export class BatchProcessingOrchestrator {
 
     const campaign = this.currentCampaign;
     const duration = campaign.endTime
-      ? campaign.endTime.getTime() - campaign.startTime.getTime()
+      ? campaign.endTime.getTime() - campaign.startTime.getTime();
       : 0,
 
     return `# Batch Processing Campaign Report
@@ -454,7 +454,7 @@ ${
   campaign.manualReviews.length > 0
     ? campaign.manualReviews
         .map(
-          review => `
+          review => `;
 ### ${path.relative(process.cwd(), review.filePath)}
 - **Unused Variables**: ${review.unusedVariableCount}
 - **Risk Factors**: ${review.riskFactors.join(', ')}
@@ -472,7 +472,7 @@ ${campaign.recommendations.map(rec => `- ${rec}`).join('\n')}
 ${this.batchProcessor
   .getSafetyCheckpoints()
   .map(
-    checkpoint => `
+    checkpoint => `;
 ### ${checkpoint.id}
 - **Timestamp**: ${checkpoint.timestamp.toISOString()}
 - **Compilation Status**: ${checkpoint.compilationStatus ? '✅' : '❌'}

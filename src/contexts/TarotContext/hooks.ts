@@ -14,7 +14,7 @@ export const useTarotContext = (): TarotContextType => {
   const context = useContext(TarotContext)
 
   if (!context) {
-    throw new Error('useTarotContext must be used within a TarotProvider')
+    throw new Error('useTarotContext must be used within a TarotProvider');
   }
 
   return context,

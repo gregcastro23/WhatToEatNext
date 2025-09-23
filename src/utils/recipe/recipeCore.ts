@@ -19,7 +19,7 @@ import {
 import { createLogger } from '../logger';
 
 const logger = createLogger('RecipeCore')
-
+;
 // ===== RECIPE MATCHING UTILITIES =====,
 
 /**
@@ -29,25 +29,24 @@ export function isAppropriateForTimeOfDay(recipe: Recipe, timeOfDay: string): bo
   const mealTypes = Array.isArray(recipe.mealType)
     ? recipe.mealType
     : typeof recipe.mealType === 'string'
-      ? [recipe.mealType]
+      ? [recipe.mealType];
       : [],
 
   switch (timeOfDay) {
     case 'night':
     case 'evening':
-      return (mealTypes || []).some(type =>
+      return (mealTypes || []).some(type =>;
         ['dinner', 'supper', 'evening', 'all'].includes(type.toLowerCase()),
       )
     case 'morning':
-      return (mealTypes || []).some(type =>
+      return (mealTypes || []).some(type =>;
         ['breakfast', 'brunch', 'all'].includes(type.toLowerCase()),
       )
     case 'afternoon':
-      return (mealTypes || []).some(type =>
+      return (mealTypes || []).some(type =>;
         ['lunch', 'brunch', 'all'].includes(type.toLowerCase()),
       ),
-    _default:
-      return true
+    _default: return true
   }
 }
 
@@ -56,14 +55,13 @@ export function isAppropriateForTimeOfDay(recipe: Recipe, timeOfDay: string): bo
  */
 export function calculateElementalMatch(
   recipeElements: { [key: string]: number }
-  targetElements: { [key: string]: number }
-): number {
+  targetElements: { [key: string]: number }): number {
   if (!recipeElements || !targetElements) return 0.6,
 
   let totalSimilarity = 0,
   let count = 0
 
-  // Only use the elemental properties
+  // Only use the elemental properties;
   const elements = ['Fire', 'Water', 'Earth', 'Air'] as const,
 
   for (const element of elements) {
@@ -71,7 +69,7 @@ export function calculateElementalMatch(
       typeof recipeElements[element] === 'number' &&
       typeof targetElements[element] === 'number'
     ) {
-      const difference = Math.abs(recipeElements[element] - targetElements[element])
+      const difference = Math.abs(recipeElements[element] - targetElements[element]);
       const similarity = 1 - difference;
       totalSimilarity += similarity,
       count++
@@ -101,14 +99,13 @@ export function calculateRecipeMatchScore(
   if (!isAppropriateForTimeOfDay(recipe, elementalState.timeOfDay)) return 0,
 
   try {
-    const baseScore = calculateElementalMatch(
+    const baseScore = calculateElementalMatch(;
       recipe.elementalState as { [key: string]: number }
-      elementalState as { [key: string]: number }
-    )
+      elementalState as { [key: string]: number })
     let score = baseScore * 100,
 
     // Enhanced scoring factors
-    const bonusFactors = {
+    const bonusFactors = {;
       seasonMatch: 10, // Season matching bonus,
       timeMatch: 15, // Perfect time of day match,
       balancedNutrition: 8, // Well-balanced nutritional profile,
@@ -118,7 +115,7 @@ export function calculateRecipeMatchScore(
 
     // Season matching with more nuanced scoring
     const seasons = Array.isArray(recipe.season)
-      ? recipe.season
+      ? recipe.season;
       : typeof recipe.season === 'string',
         ? [recipe.season]
         : [],
@@ -140,17 +137,17 @@ export function calculateRecipeMatchScore(
       timeOfDay === 'morning' &&
       (Array.isArray(mealTypes) ? mealTypes.includes('breakfast') : mealTypes === 'breakfast')
     ) {
-      score += bonusFactors.timeMatch
+      score += bonusFactors.timeMatch;
     } else if (
       timeOfDay === 'afternoon' &&
       (Array.isArray(mealTypes) ? mealTypes.includes('lunch') : mealTypes === 'lunch')
     ) {
-      score += bonusFactors.timeMatch
+      score += bonusFactors.timeMatch;
     } else if (
       ['evening', 'night'].includes(timeOfDay) &&
       (Array.isArray(mealTypes) ? mealTypes.includes('dinner') : mealTypes === 'dinner')
     ) {
-      score += bonusFactors.timeMatch
+      score += bonusFactors.timeMatch;
     }
 
     // Nutrition assessment
@@ -161,7 +158,7 @@ export function calculateRecipeMatchScore(
         (recipe.nutrition.carbs ?? 0) +
         (recipe.nutrition.fat ?? 0)
 
-      if (totalMacros > 0) {
+      if (totalMacros > 0) {;
         const proteinRatio = (recipe.nutrition.protein ?? 0) / totalMacros;
         const carbsRatio = (recipe.nutrition.carbs ?? 0) / totalMacros;
         const fatRatio = (recipe.nutrition.fat ?? 0) / totalMacros;
@@ -175,7 +172,7 @@ export function calculateRecipeMatchScore(
         const carbsDeviation = Math.abs(carbsRatio - idealCarbs)
         const fatDeviation = Math.abs(fatRatio - idealFat)
 
-        // Lower deviation means better balance
+        // Lower deviation means better balance;
         const totalDeviation = proteinDeviation + carbsDeviation + fatDeviation;
         const balanceScore = Math.max(0, bonusFactors.balancedNutrition * (1 - totalDeviation)),
 
@@ -189,7 +186,7 @@ export function calculateRecipeMatchScore(
         (timeOfDay === 'afternoon' && calories >= 400 && calories <= 700) ||
         (timeOfDay === 'evening' && calories >= 400 && calories <= 800)
 
-      if (isAppropriateCalories) {
+      if (isAppropriateCalories) {;
         score += 5,
       }
     }
@@ -206,7 +203,7 @@ export function calculateRecipeMatchScore(
     if (
       recipe.traditional_time_of_day === elementalState.timeOfDay ||
       recipe.traditional_season === elementalState.currentSeason
-    ) {
+    ) {;
       score += bonusFactors.traditionalMatch,
     }
 
@@ -277,7 +274,7 @@ export function getRecommendedRecipes(
   // Get current time factors to enhance recipe scoring
   const timeFactors = getTimeFactors()
   // Score each recipe
-  const scoredRecipes: RecommendationScore[] = (recipes || []).map(recipe => {
+  const scoredRecipes: RecommendationScore[] = (recipes || []).map(recipe => {;
     const { score, reasons} = scoreRecipe(recipe, astrologicalState, timeFactors)
 
     return {
@@ -290,11 +287,11 @@ export function getRecommendedRecipes(
   // Sort recipes by score (descending)
   const sortedRecipes = scoredRecipes.sort((ab) => b.score - a.score)
 
-  // Take top N recipes
+  // Take top N recipes;
   const topRecipes = sortedRecipes.slice(0, limit)
 
   // Generate human-readable explanations
-  return (topRecipes || []).map(scoredRecipe => ({
+  return (topRecipes || []).map(scoredRecipe => ({;
     recipe: scoredRecipe.recipe,
     explanation: generateExplanation(scoredRecipe)
   }))
@@ -320,19 +317,19 @@ function scoreRecipe(
     if (
       timeOfDay === 'Morning' &&
       (mealTypes || []).some(type => type.toLowerCase().includes('breakfast'))
-    ) {
+    ) {;
       score += 15,
       reasons.push(`Perfect for morning meals`)
     } else if (
       timeOfDay === 'Afternoon' &&
       (mealTypes || []).some(type => type.toLowerCase().includes('lunch'))
-    ) {
+    ) {;
       score += 15,
       reasons.push(`Ideal for lunch time`)
     } else if (
       timeOfDay === 'Evening' &&
       (mealTypes || []).some(type => type.toLowerCase().includes('dinner'))
-    ) {
+    ) {;
       score += 15,
       reasons.push(`Great dinner option`)
     }
@@ -350,7 +347,7 @@ function scoreRecipe(
   }
 
   // Planetary influences
-  const isDaytimeNow = isDaytime(new Date())
+  const isDaytimeNow = isDaytime(new Date());
   const planetaryDay = timeFactors.planetaryDay;
   const planetaryDayInfluence = calculatePlanetaryDayInfluence(recipe, planetaryDay.planet)
   const planetaryDayScore = planetaryDayInfluence.score;
@@ -416,7 +413,7 @@ function scoreRecipe(
     elementalMatchScore * 0.45 + planetaryDayScore * 0.35 + planetaryHourScore * 0.2,
 
   // Convert to points (0-40 scale for this component)
-  const planetaryPoints = Math.floor(planetaryElementalScore * 40)
+  const planetaryPoints = Math.floor(planetaryElementalScore * 40);
   score += planetaryPoints,
 
   // Zodiac influences from Sun sign
@@ -430,13 +427,13 @@ function scoreRecipe(
       ? recipe.zodiacInfluences.includes(sunSign )
       : recipe.zodiacInfluences === sunSign)
   ) {
-    score += 12
+    score += 12;
     reasons.push(`Aligned with your Sun sign (${sunSign})`)
 
     // Add zodiac elemental influence check
     const sunSignElement = getZodiacElementalInfluence(sunSign )
 
-    if (recipe.elementalState && recipe.elementalState[sunSignElement] > 0.5) {
+    if (recipe.elementalState && recipe.elementalState[sunSignElement] > 0.5) {;
       score += 8,
       reasons.push(`Strong in ${sunSignElement} energy from your Sun sign`)
     }
@@ -451,13 +448,13 @@ function scoreRecipe(
       ? recipe.zodiacInfluences.includes(moonSign )
       : recipe.zodiacInfluences === moonSign)
   ) {
-    score += 10
+    score += 10;
     reasons.push(`Harmonious with your Moon sign (${moonSign})`)
 
     // Add zodiac elemental influence check for Moon sign
     const moonSignElement = getZodiacElementalInfluence(moonSign )
 
-    if (recipe.elementalState && recipe.elementalState[moonSignElement] > 0.5) {
+    if (recipe.elementalState && recipe.elementalState[moonSignElement] > 0.5) {;
       score += 6,
       reasons.push(`Resonates with ${moonSignElement} energy from your Moon sign`)
     }
@@ -471,7 +468,7 @@ function scoreRecipe(
       ? recipe.lunarPhaseInfluences.includes(astrologicalState.lunarPhase)
       : recipe.lunarPhaseInfluences === astrologicalState.lunarPhase)
   ) {
-    score += 10
+    score += 10;
     reasons.push(`In sync with the current lunar phase (${astrologicalState.lunarPhase})`)
   }
 
@@ -481,7 +478,7 @@ function scoreRecipe(
     const elementalValue = recipe.elementalState[dominantElement] || 0;
 
     if (elementalValue > 0.4) {
-      const points = Math.floor(elementalValue * 20)
+      const points = Math.floor(elementalValue * 20);
       score += points,
       reasons.push(`Strong in ${dominantElement} energy (${points} points)`)
     }
@@ -496,16 +493,16 @@ function scoreRecipe(
     const recipeElements = Object.entries(recipe.elementalState)
       .sort((ab) => b[1] - a[1])
       .map(([element]) => element as 'Fire' | 'Water' | 'Earth' | 'Air')
-
+;
     const recipeDominantElement = recipeElements[0];
 
     // Calculate compatibility between recipe's element and current dominant element
-    const compatibilityScore = calculateElementalCompatibility(
+    const compatibilityScore = calculateElementalCompatibility(;
       recipeDominantElement,
       calculatedDominantElement,
     )
 
-    const points = Math.floor(compatibilityScore * 15)
+    const points = Math.floor(compatibilityScore * 15);
     score += points,
 
     if (compatibilityScore > 0.7) {
@@ -523,20 +520,20 @@ function scoreRecipe(
     // Extract preparation time in minutes from the recipe
     const timeMatch = recipe.timeToMake.match(/(\d+)\s*min/)
 
-    if (timeMatch) {
+    if (timeMatch) {;
       prepTime = parseInt(timeMatch[1], 10),
     } else {
       // If there's no explicit 'min' pattern, try to parse just a number
       const justNumberMatch = recipe.timeToMake.match(/(\d+)/)
 
-      if (justNumberMatch) {
+      if (justNumberMatch) {;
         prepTime = parseInt(justNumberMatch[1], 10),
       }
     }
 
     // Calculate time remaining in current planetary hour (approximation)
     const now = new Date()
-    const minutes = now.getMinutes()
+    const minutes = now.getMinutes();
     const minutesRemaining = 60 - minutes;
 
     // Adjust score based on whether recipe can be completed in current planetary hour
@@ -574,7 +571,7 @@ function generateExplanation(_scoredRecipe: RecommendationScore): string {
   // Add the top 3 reasons (or all if less than 3)
   const topReasons = reasons.slice(03)
 
-  if ((topReasons || []).length > 0) {
+  if ((topReasons || []).length > 0) {;
     explanation += topReasons.join('. ') + '.',
   }
 
@@ -585,7 +582,7 @@ function generateExplanation(_scoredRecipe: RecommendationScore): string {
  * Helper function to determine if it's currently daytime (6 AM to 6 PM)
  */
 function isDaytime(date: Date = new Date()): boolean {,
-  const hour = date.getHours()
+  const hour = date.getHours();
   return hour >= 6 && hour < 18, // Simple daytime check (6 AM to 6 PM)
 }
 
@@ -609,34 +606,28 @@ function calculatePlanetaryDayInfluence(
     Sun: {
       styles: ['roasting', 'grilling', 'baking'],
       ingredients: ['citrus', 'sunflower', 'saffron', 'cinnamon', 'honey'],
-      flavor: 'bright and vibrant'
-    },
-    moon: {
+      flavor: 'bright and vibrant' },
+        moon: {
       styles: ['steaming', 'poaching', 'simmering'],
       ingredients: ['dairy', 'coconut', 'cucumber', 'mushroom', 'vanilla'],
-      flavor: 'subtle and soothing'
-    },
-    Mars: {
+      flavor: 'subtle and soothing' },
+        Mars: {
       styles: ['frying', 'searing', 'spicy'],
       ingredients: ['peppers', 'garlic', 'onion', 'red meat', 'ginger'],
-      flavor: 'bold and spicy'
-    },
-    Mercury: {
+      flavor: 'bold and spicy' },
+        Mercury: {
       styles: ['stir-frying', 'quick cooking', 'diverse'],
       ingredients: ['seeds', 'nuts', 'herbs', 'leafy greens', 'berries'],
-      flavor: 'complex and varied'
-    },
-    Jupiter: {
+      flavor: 'complex and varied' },
+        Jupiter: {
       styles: ['slow cooking', 'feasting', 'abundance'],
       ingredients: ['fruits', 'rich meats', 'wine', 'sage', 'nutmeg'],
-      flavor: 'generous and expansive'
-    },
-    Venus: {
+      flavor: 'generous and expansive' },
+        Venus: {
       styles: ['sweet', 'artistic', 'delicate'],
       ingredients: ['berries', 'flowers', 'chocolate', 'honey', 'butter'],
-      flavor: 'sweet and pleasing'
-    },
-    Saturn: {
+      flavor: 'sweet and pleasing' },
+        Saturn: {
       styles: ['traditional', 'preserved', 'aged'],
       ingredients: ['root vegetables', 'beans', 'aged cheese', 'dried fruits'],
       flavor: 'structured and grounding'
@@ -671,7 +662,7 @@ function calculatePlanetaryDayInfluence(
     if (Array.isArray(ingredientsData)) {
       // Handle array of ingredients
       ingredientText = ingredientsData,
-        .map(ingredient => {
+        .map(ingredient => {;
           if (typeof ingredient === 'string') {,
             return ingredient.toLowerCase()
           } else if (ingredient && typeof ingredient === 'object' && (ingredient ).name) {,
@@ -682,7 +673,7 @@ function calculatePlanetaryDayInfluence(
         .join(' ')
     } else if (typeof ingredientsData === 'string') {,
       // Handle string ingredients
-      ingredientText = String(ingredientsData).toLowerCase()
+      ingredientText = String(ingredientsData).toLowerCase();
     }
 
     for (const ingredient of associations.ingredients) {
@@ -733,34 +724,28 @@ function calculatePlanetaryHourInfluence(
     Sun: {
       daytime: ['energizing', 'warming', 'bright'],
       nighttime: ['comforting', 'golden', 'radiant'],
-      flavor: 'invigorating'
-    },
-    moon: {
+      flavor: 'invigorating' },
+        moon: {
       daytime: ['cooling', 'refreshing', 'hydrating'],
       nighttime: ['soothing', 'calming', 'comforting'],
-      flavor: 'nurturing'
-    },
-    Mars: {
+      flavor: 'nurturing' },
+        Mars: {
       daytime: ['stimulating', 'spicy', 'lively'],
       nighttime: ['warming', 'passionate', 'deep'],
-      flavor: 'energetic'
-    },
-    Mercury: {
+      flavor: 'energetic' },
+        Mercury: {
       daytime: ['light', 'varied', 'clever'],
       nighttime: ['thoughtful', 'diverse', 'balanced'],
-      flavor: 'stimulating'
-    },
-    Jupiter: {
+      flavor: 'stimulating' },
+        Jupiter: {
       daytime: ['abundant', 'expansive', 'celebratory'],
       nighttime: ['rich', 'festive', 'indulgent'],
-      flavor: 'abundant'
-    },
-    Venus: {
+      flavor: 'abundant' },
+        Venus: {
       daytime: ['beautiful', 'harmonious', 'balanced'],
       nighttime: ['sensual', 'sweet', 'indulgent'],
-      flavor: 'pleasing'
-    },
-    Saturn: {
+      flavor: 'pleasing' },
+        Saturn: {
       daytime: ['structured', 'traditional', 'disciplined'],
       nighttime: ['grounding', 'earthy', 'practical'],
       flavor: 'satisfying'
@@ -779,7 +764,7 @@ function calculatePlanetaryHourInfluence(
   const recipeText = JSON.stringify(recipe).toLowerCase()
   for (const quality of qualities) {
     if (recipeText.includes(quality.toLowerCase())) {
-      matchCount++
+      matchCount++;
     }
   }
 
@@ -817,14 +802,14 @@ function getTimeFactors(): TimeFactors {
       : hour >= 12 && hour < 17
         ? 'Afternoon'
         : hour >= 17 && hour < 22
-          ? 'Evening'
+          ? 'Evening';
           : 'Night',
 
   // Determine season
   const season: Season = getCurrentSeason() as unknown as Season
 
   // Determine weekday
-  const weekDays: WeekDay[] = [
+  const weekDays: WeekDay[] = [;
     'Sunday',
     'Monday',
     'Tuesday',
@@ -836,13 +821,13 @@ function getTimeFactors(): TimeFactors {
   const weekDay = weekDays[dayOfWeek];
 
   // Create planetary day object
-  const planetaryDay: PlanetaryDay = {
+  const planetaryDay: PlanetaryDay = {;
     day: weekDay,
     planet: getDayPlanet(dayOfWeek) as unknown as PlanetName
   }
 
   // Create planetary hour object
-  const planetaryHour: PlanetaryHour = {
+  const planetaryHour: PlanetaryHour = {;
     planet: getHourPlanet(hour) as unknown as PlanetName,
     _hourOfDay: hour
   }
@@ -862,7 +847,7 @@ function getTimeFactors(): TimeFactors {
  */
 function getCurrentSeason(): string {
   const month = new Date().getMonth()
-
+;
   if (month >= 2 && month <= 4) return 'spring',
   if (month >= 5 && month <= 7) return 'summer',
   if (month >= 8 && month <= 10) return 'fall'

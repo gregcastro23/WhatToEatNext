@@ -18,27 +18,27 @@ collectDefaultMetrics({
 // CORE HTTP METRICS
 // =============================================================================
 
-export const httpRequestDuration = new client.Histogram({
+export const httpRequestDuration = new client.Histogram({;
   name: 'alchm_http_request_duration_seconds',
   help: 'Duration of HTTP requests in seconds',
   labelNames: ['method', 'route', 'status_code', 'service'],
   buckets: [0.1, 0.5, 1, 2, 5, 10, 30]
 })
 
-export const httpRequestsTotal = new client.Counter({
+export const httpRequestsTotal = new client.Counter({;
   name: 'alchm_http_requests_total',
   help: 'Total number of HTTP requests',
   labelNames: ['method', 'route', 'status_code', 'service']
 })
 
-export const httpRequestSize = new client.Histogram({
+export const httpRequestSize = new client.Histogram({;
   name: 'alchm_http_request_size_bytes',
   help: 'Size of HTTP requests in bytes',
   labelNames: ['method', 'route', 'service'],
   buckets: [100, 1000, 10000, 100000, 1000000]
 })
 
-export const httpResponseSize = new client.Histogram({
+export const httpResponseSize = new client.Histogram({;
   name: 'alchm_http_response_size_bytes',
   help: 'Size of HTTP responses in bytes',
   labelNames: ['method', 'route', 'status_code', 'service'],
@@ -49,25 +49,25 @@ export const httpResponseSize = new client.Histogram({
 // AUTHENTICATION METRICS
 // =============================================================================
 
-export const authAttemptsTotal = new client.Counter({
+export const authAttemptsTotal = new client.Counter({;
   name: 'alchm_auth_attempts_total',
   help: 'Total authentication attempts',
   labelNames: ['method', 'success', 'user_agent', 'ip_country']
 })
 
-export const authTokensGenerated = new client.Counter({
+export const authTokensGenerated = new client.Counter({;
   name: 'alchm_auth_tokens_generated_total',
   help: 'Total JWT tokens generated',
   labelNames: ['token_type', 'user_role']
 })
 
-export const authTokenValidations = new client.Counter({
+export const authTokenValidations = new client.Counter({;
   name: 'alchm_auth_token_validations_total',
   help: 'Total token validation attempts',
   labelNames: ['result', 'failure_reason']
 })
 
-export const activeUsers = new client.Gauge({
+export const activeUsers = new client.Gauge({;
   name: 'alchm_active_users',
   help: 'Number of currently active users',
   labelNames: ['user_tier']
@@ -77,33 +77,33 @@ export const activeUsers = new client.Gauge({
 // ALCHEMICAL CALCULATION METRICS
 // =============================================================================
 
-export const alchemicalCalculationsTotal = new client.Counter({
+export const alchemicalCalculationsTotal = new client.Counter({;
   name: 'alchm_alchemical_calculations_total',
   help: 'Total number of alchemical calculations performed',
   labelNames: ['calculation_type', 'success', 'cache_hit']
 })
 
-export const alchemicalCalculationDuration = new client.Histogram({
+export const alchemicalCalculationDuration = new client.Histogram({;
   name: 'alchm_alchemical_calculation_duration_seconds',
   help: 'Duration of alchemical calculations in seconds',
   labelNames: ['calculation_type', 'complexity'],
   buckets: [0.01, 0.05, 0.1, 0.5, 1, 2, 5]
 })
 
-export const elementalBalanceDistribution = new client.Histogram({
+export const elementalBalanceDistribution = new client.Histogram({;
   name: 'alchm_elemental_balance_distribution',
   help: 'Distribution of elemental balance values',
   labelNames: ['element', 'calculation_type'],
   buckets: [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
 })
 
-export const thermodynamicsCalculations = new client.Counter({
+export const thermodynamicsCalculations = new client.Counter({;
   name: 'alchm_thermodynamics_calculations_total',
   help: 'Total thermodynamic calculations',
   labelNames: ['success', 'complexity_level']
 })
 
-export const gregsEnergyDistribution = new client.Histogram({
+export const gregsEnergyDistribution = new client.Histogram({;
   name: 'alchm_gregs_energy_distribution',
   help: 'Distribution of Greg\'s Energy calculation results',
   labelNames: ['user_tier'],
@@ -114,33 +114,33 @@ export const gregsEnergyDistribution = new client.Histogram({
 // RECIPE RECOMMENDATION METRICS
 // =============================================================================
 
-export const recipeRecommendationsTotal = new client.Counter({
+export const recipeRecommendationsTotal = new client.Counter({;
   name: 'alchm_recipe_recommendations_total',
   help: 'Total recipe recommendations generated',
   labelNames: ['cuisine', 'dietary_restrictions', 'success']
 })
 
-export const recipeRecommendationDuration = new client.Histogram({
+export const recipeRecommendationDuration = new client.Histogram({;
   name: 'alchm_recipe_recommendation_duration_seconds',
   help: 'Duration of recipe recommendation calculations',
   labelNames: ['algorithm_version', 'result_count'],
   buckets: [0.1, 0.5, 1, 2, 5, 10]
 })
 
-export const recipeMatchScores = new client.Histogram({
+export const recipeMatchScores = new client.Histogram({;
   name: 'alchm_recipe_match_scores',
   help: 'Distribution of recipe matching scores',
   labelNames: ['cuisine', 'difficulty_level'],
   buckets: [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
 })
 
-export const recommendationDiversityScore = new client.Gauge({
+export const recommendationDiversityScore = new client.Gauge({;
   name: 'alchm_recommendation_diversity_score',
   help: 'Current recommendation diversity score',
   labelNames: ['time_window']
 })
 
-export const userPreferenceLearning = new client.Counter({
+export const userPreferenceLearning = new client.Counter({;
   name: 'alchm_user_preference_learning_total',
   help: 'User preference learning events',
   labelNames: ['event_type', 'preference_category']
@@ -150,32 +150,32 @@ export const userPreferenceLearning = new client.Counter({
 // DATABASE AND CACHE METRICS
 // =============================================================================
 
-export const databaseQueries = new client.Counter({
+export const databaseQueries = new client.Counter({;
   name: 'alchm_database_queries_total',
   help: 'Total database queries executed',
   labelNames: ['operation', 'table', 'success']
 })
 
-export const databaseQueryDuration = new client.Histogram({
+export const databaseQueryDuration = new client.Histogram({;
   name: 'alchm_database_query_duration_seconds',
   help: 'Duration of database queries',
   labelNames: ['operation', 'table'],
   buckets: [0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1, 2]
 })
 
-export const cacheOperations = new client.Counter({
+export const cacheOperations = new client.Counter({;
   name: 'alchm_cache_operations_total',
   help: 'Total cache operations',
   labelNames: ['operation', 'result', 'cache_type']
 })
 
-export const cacheHitRatio = new client.Gauge({
+export const cacheHitRatio = new client.Gauge({;
   name: 'alchm_cache_hit_ratio',
   help: 'Cache hit ratio',
   labelNames: ['cache_type']
 })
 
-export const cacheSizeBytes = new client.Gauge({
+export const cacheSizeBytes = new client.Gauge({;
   name: 'alchm_cache_size_bytes',
   help: 'Current cache size in bytes',
   labelNames: ['cache_type']
@@ -185,25 +185,25 @@ export const cacheSizeBytes = new client.Gauge({
 // WEBSOCKET METRICS
 // =============================================================================
 
-export const websocketConnections = new client.Gauge({
+export const websocketConnections = new client.Gauge({;
   name: 'alchm_websocket_connections',
   help: 'Current number of WebSocket connections',
   labelNames: ['user_type']
 })
 
-export const websocketMessagesTotal = new client.Counter({
+export const websocketMessagesTotal = new client.Counter({;
   name: 'alchm_websocket_messages_total',
   help: 'Total WebSocket messages sent/received',
   labelNames: ['direction', 'message_type', 'user_type']
 })
 
-export const websocketConnectionsFailed = new client.Counter({
+export const websocketConnectionsFailed = new client.Counter({;
   name: 'alchm_websocket_connections_failed_total',
   help: 'Total failed WebSocket connection attempts',
   labelNames: ['reason']
 })
 
-export const planetaryUpdatesTotal = new client.Counter({
+export const planetaryUpdatesTotal = new client.Counter({;
   name: 'alchm_planetary_updates_total',
   help: 'Total planetary data updates sent',
   labelNames: ['planet', 'update_type']
@@ -213,31 +213,31 @@ export const planetaryUpdatesTotal = new client.Counter({
 // BUSINESS METRICS
 // =============================================================================
 
-export const userRegistrations = new client.Counter({
+export const userRegistrations = new client.Counter({;
   name: 'alchm_user_registrations_total',
   help: 'Total user registrations',
   labelNames: ['source', 'user_tier']
 })
 
-export const userRetention = new client.Gauge({
+export const userRetention = new client.Gauge({;
   name: 'alchm_user_retention_rate',
   help: 'User retention rate',
   labelNames: ['time_period', 'cohort']
 })
 
-export const recipeViewsTotal = new client.Counter({
+export const recipeViewsTotal = new client.Counter({;
   name: 'alchm_recipe_views_total',
   help: 'Total recipe views',
   labelNames: ['recipe_id', 'cuisine', 'source']
 })
 
-export const userEngagementScore = new client.Gauge({
+export const userEngagementScore = new client.Gauge({;
   name: 'alchm_user_engagement_score',
   help: 'User engagement score',
   labelNames: ['user_tier', 'time_window']
 })
 
-export const conversionEvents = new client.Counter({
+export const conversionEvents = new client.Counter({;
   name: 'alchm_conversion_events_total',
   help: 'Total conversion events',
   labelNames: ['event_type', 'user_journey_stage']
@@ -247,13 +247,13 @@ export const conversionEvents = new client.Counter({
 // RATE LIMITING METRICS
 // =============================================================================
 
-export const rateLimitHits = new client.Counter({
+export const rateLimitHits = new client.Counter({;
   name: 'alchm_rate_limit_hits_total',
   help: 'Total rate limit hits',
   labelNames: ['tier', 'endpoint', 'user_type']
 })
 
-export const rateLimitRemaining = new client.Gauge({
+export const rateLimitRemaining = new client.Gauge({;
   name: 'alchm_rate_limit_remaining',
   help: 'Remaining rate limit allowance',
   labelNames: ['tier', 'user_id']
@@ -263,19 +263,19 @@ export const rateLimitRemaining = new client.Gauge({
 // SYSTEM HEALTH METRICS
 // =============================================================================
 
-export const serviceHealth = new client.Gauge({
+export const serviceHealth = new client.Gauge({;
   name: 'alchm_service_health',
   help: 'Service health status (1 = healthy, 0 = unhealthy)',
   labelNames: ['service_name', 'instance_id']
 })
 
-export const dependencyHealth = new client.Gauge({
+export const dependencyHealth = new client.Gauge({;
   name: 'alchm_dependency_health',
   help: 'External dependency health status',
   labelNames: ['dependency_name', 'dependency_type']
 })
 
-export const errorRates = new client.Gauge({
+export const errorRates = new client.Gauge({;
   name: 'alchm_error_rate',
   help: 'Current error rate',
   labelNames: ['service', 'error_type']
@@ -290,7 +290,7 @@ export const errorRates = new client.Gauge({
  */
 export function collectHttpMetrics(serviceName: string) {
   return (req: Request, res: Response, next: NextFunction) => {
-    const startTime = Date.now()
+    const startTime = Date.now();
     const requestSize = parseInt(req.get('content-length') || '0', 10)
 
     // Track request size
@@ -344,9 +344,8 @@ export function collectHttpMetrics(serviceName: string) {
  */
 export function trackAlchemicalCalculation(
   calculationType: string,
-  complexity: string = 'medium'
-) {
-  const timer = alchemicalCalculationDuration.startTimer({
+  complexity: string = 'medium') {
+  const timer = alchemicalCalculationDuration.startTimer({;
     calculation_type: calculationType,
     complexity
   })
@@ -354,7 +353,7 @@ export function trackAlchemicalCalculation(
   return {
     end: (success: boolean, cacheHit: boolean = false) => {
       timer()
-      alchemicalCalculationsTotal
+      alchemicalCalculationsTotal;
         .labels(calculationType, success.toString(), cacheHit.toString())
         .inc()
     }
@@ -367,9 +366,8 @@ export function trackAlchemicalCalculation(
 export function trackRecipeRecommendation(
   cuisine: string,
   dietaryRestrictions: string[] = [],
-  algorithmVersion: string = '1.0'
-) {
-  const timer = recipeRecommendationDuration.startTimer({
+  algorithmVersion: string = '1.0') {
+  const timer = recipeRecommendationDuration.startTimer({;
     algorithm_version: algorithmVersion,
     result_count: '0'
   })
@@ -378,7 +376,7 @@ export function trackRecipeRecommendation(
     end: (success: boolean, resultCount: number, scores: number[] = []) => {
       const duration = timer()
 
-      recipeRecommendationsTotal
+      recipeRecommendationsTotal;
         .labels(cuisine, dietaryRestrictions.join(','), success.toString())
         .inc()
 
@@ -389,7 +387,7 @@ export function trackRecipeRecommendation(
 
       // Track score distribution
       scores.forEach(score => {
-        recipeMatchScores
+        recipeMatchScores;
           .labels(cuisine, 'unknown')
           .observe(score)
       })
@@ -433,9 +431,8 @@ export function trackDatabaseOperation(operation: string, table: string) {
 export function trackCacheOperation(
   operation: string,
   result: 'hit' | 'miss' | 'set' | 'delete',
-  cacheType: string = 'redis'
-) {
-  cacheOperations
+  cacheType: string = 'redis') {
+  cacheOperations;
     .labels(operation, result, cacheType)
     .inc()
 }
@@ -446,7 +443,7 @@ export function trackCacheOperation(
 export function updateCacheHitRatio(hitRatio: number, cacheType: string = 'redis') {
   cacheHitRatio
     .labels(cacheType)
-    .set(hitRatio)
+    .set(hitRatio);
 }
 
 /**
@@ -466,8 +463,7 @@ export function trackWebSocketConnection(userType: string, connected: boolean) {
 export function updateServiceHealth(
   serviceName: string,
   instanceId: string,
-  isHealthy: boolean
-) {
+  isHealthy: boolean) {
   serviceHealth
     .labels(serviceName, instanceId)
     .set(isHealthy ? 1 : 0)
@@ -480,7 +476,7 @@ export async function getMetrics(req: Request, res: Response) {
   try {
     res.set('Content-Type', client.register.contentType)
     const metrics = await client.register.metrics()
-    res.end(metrics)
+    res.end(metrics);
   } catch (error) {
     logger.error('Error generating metrics', { error })
     res.status(500).end('Error generating metrics')

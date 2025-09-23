@@ -2,11 +2,10 @@
 import type { _, _ZodiacSign } from '@/types/alchemy';
 import type { Cuisine } from '@/types/cuisine';
 
-export const japanese: Cuisine = {
+export const japanese: Cuisine = {;
   id: 'japanese',
   name: 'Japanese',
-  description:
-    'Traditional Japanese cuisine emphasizing seasonal ingredients, harmony of flavors, and meticulous preparation techniques',
+  description: 'Traditional Japanese cuisine emphasizing seasonal ingredients, harmony of flavors, and meticulous preparation techniques',
   motherSauces: {
     dashi: {
       name: 'Dashi',
@@ -28,9 +27,8 @@ export const japanese: Cuisine = {
       technicalTips: 'Remove kombu before water boils, then add katsuobushi off heat',
       difficulty: 'easy',
       storageInstructions: 'Store refrigerated up to 3 days or freeze up to 1 month',
-      yield: '1 liter'
-    },
-    tare: {
+      yield: '1 liter' },
+        tare: {
       name: 'Tare',
       description: 'Concentrated seasoning sauce used as a flavoring base for many Japanese dishes',
       base: 'soy sauce',
@@ -106,8 +104,7 @@ export const japanese: Cuisine = {
           allergens: ['fish', 'egg', 'soy'],
           prepTime: '10 minutes',
           cookTime: '15 minutes',
-          culturalNotes:
-            'The traditional Japanese breakfast emphasizes balance and variety, with each component serving a specific nutritional and cultural purpose',
+          culturalNotes: 'The traditional Japanese breakfast emphasizes balance and variety, with each component serving a specific nutritional and cultural purpose',
           pairingSuggestions: ['green tea', 'miso soup', 'umeboshi'],
           dietaryInfo: ['pescatarian'],
           spiceLevel: 'mild',
@@ -433,8 +430,7 @@ export const japanese: Cuisine = {
           allergens: ['wheat', 'soy', 'sesame'],
           prepTime: '10 minutes',
           cookTime: '10 minutes',
-          culturalNotes:
-            'A modern take on traditional soba, popular in summer. The nutty flavor of buckwheat pairs well with fresh vegetables',
+          culturalNotes: 'A modern take on traditional soba, popular in summer. The nutty flavor of buckwheat pairs well with fresh vegetables',
           pairingSuggestions: ['cold tea', 'edamame', 'pickled vegetables'],
           dietaryInfo: ['vegetarian', 'vegan'],
           spiceLevel: 'none',
@@ -704,8 +700,7 @@ export const japanese: Cuisine = {
           allergens: ['egg', 'soy'],
           prepTime: '15 minutes',
           cookTime: '20 minutes',
-          culturalNotes:
-            'Oyakodon means 'parent-and-child bowl', referring to the chicken and egg combination. A beloved comfort food in Japan',
+          culturalNotes: 'Oyakodon means 'parent-and-child bowl', referring to the chicken and egg combination. A beloved comfort food in Japan',
           pairingSuggestions: ['miso soup', 'pickled vegetables', 'green tea'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'none',
@@ -764,8 +759,7 @@ export const japanese: Cuisine = {
           allergens: ['wheat', 'egg', 'fish', 'soy'],
           prepTime: '20 minutes',
           cookTime: '15 minutes',
-          culturalNotes:
-            'A popular street food from Osaka. The name means 'grilled as you like it', reflecting its customizable nature',
+          culturalNotes: 'A popular street food from Osaka. The name means 'grilled as you like it', reflecting its customizable nature',
           pairingSuggestions: ['beer', 'sake', 'green tea'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'mild',
@@ -830,8 +824,7 @@ export const japanese: Cuisine = {
           allergens: ['wheat', 'shellfish'],
           prepTime: '20 minutes',
           cookTime: '30 minutes',
-          culturalNotes:
-            'Originally introduced by Portuguese missionaries, tempura has become a refined Japanese art form emphasizing lightness and crispiness',
+          culturalNotes: 'Originally introduced by Portuguese missionaries, tempura has become a refined Japanese art form emphasizing lightness and crispiness',
           pairingSuggestions: ['tentsuyu sauce', 'green tea', 'rice'],
           dietaryInfo: ['pescatarian'],
           spiceLevel: 'none',
@@ -1041,8 +1034,7 @@ export const japanese: Cuisine = {
           allergens: ['soy'],
           prepTime: '30 minutes',
           cookTime: '20 minutes',
-          culturalNotes:
-            'A popular izakaya dish, yakitori represents the Japanese art of grilling. Each part of the chicken is traditionally used',
+          culturalNotes: 'A popular izakaya dish, yakitori represents the Japanese art of grilling. Each part of the chicken is traditionally used',
           pairingSuggestions: ['beer', 'sake', 'shishito peppers', 'rice'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'mild',
@@ -1101,8 +1093,7 @@ export const japanese: Cuisine = {
           allergens: ['wheat', 'soy', 'dairy'],
           prepTime: '20 minutes',
           cookTime: '30 minutes',
-          culturalNotes:
-            'Miso ramen originated in Hokkaido, where the hearty, warming soup helped people endure cold winters',
+          culturalNotes: 'Miso ramen originated in Hokkaido, where the hearty, warming soup helped people endure cold winters',
           pairingSuggestions: ['gyoza', 'edamame', 'beer'],
           dietaryInfo: ['contains meat', 'contains dairy'],
           spiceLevel: 'mild to medium',
@@ -1220,8 +1211,7 @@ export const japanese: Cuisine = {
           allergens: ['wheat', 'soy'],
           prepTime: '45 minutes',
           cookTime: '15 minutes',
-          culturalNotes:
-            'Adapted from Chinese jiaozi, gyoza became a Japanese favorite after WWII. The crispy bottom is a distinctive Japanese touch',
+          culturalNotes: 'Adapted from Chinese jiaozi, gyoza became a Japanese favorite after WWII. The crispy bottom is a distinctive Japanese touch',
           pairingSuggestions: ['ramen', 'rice', 'beer', 'green tea'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'mild',
@@ -1267,8 +1257,7 @@ export const japanese: Cuisine = {
           allergens: ['soy'],
           prepTime: '30 minutes',
           cookTime: '20 minutes',
-          culturalNotes:
-            'A popular izakaya dish that showcases the Japanese approach to fried foods - light, crispy, and well-seasoned',
+          culturalNotes: 'A popular izakaya dish that showcases the Japanese approach to fried foods - light, crispy, and well-seasoned',
           pairingSuggestions: ['beer', 'rice', 'shredded cabbage', 'lemon wedges'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'mild',
@@ -1303,10 +1292,8 @@ export const japanese: Cuisine = {
       astrologicalInfluences: ['Saturn', 'Pluto', 'Scorpio'],
       seasonality: 'all',
       preparationNotes: 'Traditional brewing takes months of fermentation',
-      technicalTips:
-        'Different shoyu types are suited for different applications, usukuchi is lighter and saltier'
-    },
-    miso: {
+      technicalTips: 'Different shoyu types are suited for different applications, usukuchi is lighter and saltier' },
+        miso: {
       name: 'Miso',
       description: 'Fermented soybean paste with complex umami flavor',
       base: 'soybean',
@@ -1322,9 +1309,8 @@ export const japanese: Cuisine = {
       astrologicalInfluences: ['Jupiter', 'Moon', 'Taurus'],
       seasonality: 'all',
       preparationNotes: 'Fermentation period determines color and flavor intensity',
-      technicalTips: 'Never boil miso to preserve live cultures and flavor complexity'
-    },
-    ponzu: {
+      technicalTips: 'Never boil miso to preserve live cultures and flavor complexity' },
+        ponzu: {
       name: 'Ponzu',
       description: 'Tangy citrus-based sauce with soy and dashi',
       base: 'citrus juice',
@@ -1334,9 +1320,8 @@ export const japanese: Cuisine = {
       elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 }
       seasonality: 'all',
       preparationNotes: 'Best when aged for several days to develop flavor',
-      yield: '500ml'
-    },
-    mentsuyu: {
+      yield: '500ml' },
+        mentsuyu: {
       name: 'Mentsuyu',
       description: 'Multipurpose noodle soup base and seasoning sauce',
       base: 'soy sauce and dashi',
@@ -1346,9 +1331,8 @@ export const japanese: Cuisine = {
       elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 }
       seasonality: 'all',
       preparationNotes: 'Can be prepared concentrated and diluted as needed',
-      yield: '750ml'
-    },
-    teriyaki: {
+      yield: '750ml' },
+        teriyaki: {
       name: 'Teriyaki',
       description: 'Sweet-savory glaze with soy sauce, mirin, and sugar',
       base: 'soy sauce',
@@ -1429,8 +1413,7 @@ export const japanese: Cuisine = {
   regionalCuisines: {
     kansai: {
       name: 'Kansai/Kyoto Cuisine',
-      description:
-        'Refined, delicate flavors emphasizing natural taste of ingredients with minimal seasoning',
+      description: 'Refined, delicate flavors emphasizing natural taste of ingredients with minimal seasoning',
       signature: ['kaiseki ryori', 'yudofu', 'obanzai', 'kyogashi'],
       elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 }
       astrologicalInfluences: ['Moon', 'Venus', 'Cancer'],

@@ -1,5 +1,5 @@
 export const _TAROT_CARDS = {
-  '10_of_cups': {
+  '10_of_cups': {;
     name: '10 of Cups',
     element: 'Water',
     keywords: ['fulfillment', 'harmony', 'joy'],
@@ -221,8 +221,7 @@ export const _TAROT_CARDS = {
     element: 'Fire',
     energyState: 'Spirit',
     quantum: 1.0,
-    description:
-      'Represents the pure essence of Spirit energy - creativity, inspiration, and new beginnings'
+    description: 'Represents the pure essence of Spirit energy - creativity, inspiration, and new beginnings'
   }
   'Page of Wands': {
     name: 'Page of Wands',
@@ -248,8 +247,7 @@ export const _TAROT_CARDS = {
     element: 'Water',
     energyState: 'Essence',
     quantum: 1.0,
-    description:
-      'Represents the pure essence of Essence energy - emotions, intuition, and relationships'
+    description: 'Represents the pure essence of Essence energy - emotions, intuition, and relationships'
   }
   'Page of Cups': {
     name: 'Page of Cups',
@@ -301,8 +299,7 @@ export const _TAROT_CARDS = {
     element: 'Earth',
     energyState: 'Substance',
     quantum: 1.0,
-    description:
-      'Represents the pure essence of Substance energy - material wealth, stability, and practicality'
+    description: 'Represents the pure essence of Substance energy - material wealth, stability, and practicality'
   }
   'Page of Pentacles': {
     name: 'Page of Pentacles',
@@ -325,7 +322,7 @@ export const _TAROT_CARDS = {
 }
 
 export const _DECAN_TO_TAROT = {
-  // aries Decans (March 21 - April 19)
+  // aries Decans (March 21 - April 19);
   '0-10': '2_of_wands', // First decan of aries: Mars
   '10-20': '3_of_wands', // Second decan of aries: Sun
   '20-30': '4_of_wands', // Third decan of aries: Jupiter
@@ -387,7 +384,7 @@ export const _DECAN_TO_TAROT = {
 }
 
 export const _DECAN_RULERS = {
-  // aries Decans (0-30)
+  // aries Decans (0-30);
   '0-10': 'Mars',
   '10-20': 'Sun',
   '20-30': 'Jupiter',
@@ -445,10 +442,8 @@ export const _DECAN_RULERS = {
   // pisces Decans (330-360)
   '330-340': 'Neptune',
   '340-350': 'Moon',
-  '350-360': 'Pluto'
-}
-
-export const _MAJOR_ARCANA = {
+  '350-360': 'Pluto' },
+        export const _MAJOR_ARCANA = {;
   'The Fool': { planet: 'Uranus', element: 'Air' }
   'The Magician': { planet: 'Mercury', element: 'Air' }
   'The High Priestess': { planet: 'Moon', element: 'Water' }
@@ -456,24 +451,24 @@ export const _MAJOR_ARCANA = {
   'The Emperor': { planet: 'Mars', element: 'Fire' }
   'The Hierophant': { planet: 'Jupiter', element: 'Earth' }
   'The Lovers': { planet: 'Venus', element: 'Air' }
-  'The Chariot': { planet: 'Moon', element: 'Water' }
-  Strength: { planet: 'Sun', element: 'Fire' }
+  'The Chariot': { planet: 'Moon', element: 'Water' },
+        Strength: { planet: 'Sun', element: 'Fire' }
   'The Hermit': { planet: 'Mercury', element: 'Earth' }
-  'Wheel of Fortune': { planet: 'Jupiter', element: 'Fire' }
-  Justice: { planet: 'Venus', element: 'Air' }
-  'The Hanged Man': { planet: 'Neptune', element: 'Water' }
-  Death: { planet: 'Pluto', element: 'Water' }
-  Temperance: { planet: 'Saturn', element: 'Fire' }
+  'Wheel of Fortune': { planet: 'Jupiter', element: 'Fire' },
+        Justice: { planet: 'Venus', element: 'Air' }
+  'The Hanged Man': { planet: 'Neptune', element: 'Water' },
+        Death: { planet: 'Pluto', element: 'Water' },
+        Temperance: { planet: 'Saturn', element: 'Fire' }
   'The Devil': { planet: 'Saturn', element: 'Earth' }
   'The Tower': { planet: 'Mars', element: 'Fire' }
   'The Star': { planet: 'Uranus', element: 'Air' }
   'The Moon': { planet: 'Moon', element: 'Water' }
-  'The Sun': { planet: 'Sun', element: 'Fire' }
-  Judgement: { planet: 'Pluto', element: 'Water' }
+  'The Sun': { planet: 'Sun', element: 'Fire' },
+        Judgement: { planet: 'Pluto', element: 'Water' }
   'The World': { planet: 'Saturn', element: 'Earth' }
 }
 
-export const _PLANET_TO_MAJOR_ARCANA = {
+export const _PLANET_TO_MAJOR_ARCANA = {;
   Sun: 'The Sun',
   Moon: 'The Moon',
   Mercury: 'The Magician',

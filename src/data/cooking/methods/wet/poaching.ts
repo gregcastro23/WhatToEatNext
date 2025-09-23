@@ -8,10 +8,9 @@ import type { CookingMethodData } from '@/types/cookingMethod';
  * Associated with the alchemical pillar of Coagulation - transforming delicate substances
  * with minimal disruption while preserving their essence.
  */
-export const poaching: CookingMethodData = {
+export const poaching: CookingMethodData = {;
   name: 'poaching',
-  description:
-    'Gentle cooking method where food is submerged in liquid heated to just below simmering point (160°F-180°F/71°C-82°C), characterized by small bubbles forming on the bottom of the pan without breaking the surface. This technique delicately cooks food while preserving moisture, texture, and shape, ideal for proteins that might toughen at higher temperatures and delicate ingredients that require subtle flavor infusion.',
+  description: 'Gentle cooking method where food is submerged in liquid heated to just below simmering point (160°F-180°F/71°C-82°C), characterized by small bubbles forming on the bottom of the pan without breaking the surface. This technique delicately cooks food while preserving moisture, texture, and shape, ideal for proteins that might toughen at higher temperatures and delicate ingredients that require subtle flavor infusion.',
   elementalEffect: {
     Water: 0.8, // Primary element - gentle, submersive cooking medium,
     Air: 0.1, // Minor element - subtle convection currents,
@@ -248,8 +247,7 @@ export const poaching: CookingMethodData = {
   } as unknown as ThermodynamicProperties,
 
   // Additional metadata
-  history:
-    'Poaching dates back to ancient times, with written records of gentle liquid cooking in Roman texts from the 1st century AD. The technique was refined in medieval European courts, particularly in France where it became a cornerstone of delicate fish cookery by the 15th century. The 17th century saw the development of court bouillon (short broth) specifically for poaching. In 19th century France, Chef Marie-Antoine Carême standardized poaching techniques and elevated them in haute cuisine, creating elaborate presentations like poached salmon in aspic. In Asian traditions, particularly Chinese cuisine, gentle poaching techniques developed independently with a focus on delicate flavors and textures, as seen in white-cut chicken (bai qie ji). Modern professional kitchens still rely on poaching as the preferred method for delicate ingredients and precision cooking.',
+  history: 'Poaching dates back to ancient times, with written records of gentle liquid cooking in Roman texts from the 1st century AD. The technique was refined in medieval European courts, particularly in France where it became a cornerstone of delicate fish cookery by the 15th century. The 17th century saw the development of court bouillon (short broth) specifically for poaching. In 19th century France, Chef Marie-Antoine Carême standardized poaching techniques and elevated them in haute cuisine, creating elaborate presentations like poached salmon in aspic. In Asian traditions, particularly Chinese cuisine, gentle poaching techniques developed independently with a focus on delicate flavors and textures, as seen in white-cut chicken (bai qie ji). Modern professional kitchens still rely on poaching as the preferred method for delicate ingredients and precision cooking.',
 
   scientificPrinciples: [
     'Heat transfer primarily through convection in liquid medium',
@@ -330,8 +328,7 @@ export const poaching: CookingMethodData = {
       matter: 0, // Neutral effect on material properties,
       substance: 0, // Neutral effect on substantive qualities
     },
-    symbolicMeaning:
-      'Represents the nurturing transformation of ingredients through gentle care and patience, preserving their essential nature while refining their form',
+    symbolicMeaning: 'Represents the nurturing transformation of ingredients through gentle care and patience, preserving their essential nature while refining their form',
     associatedElements: {
       primary: 'Water', // Fluidity, emotion, nourishment,
       secondary: 'Air', // Subtlety, refinement, delicacy
@@ -369,22 +366,17 @@ export const poaching: CookingMethodData = {
     whole_fish: '8-10 minutes per pound at 170°F',
     rest_period: 'Fish: 2-3 minutes in liquid, Chicken: 5-10 minutes in liquid',
     custards: '25-35 minutes at 170°F (verify with jiggle test or thermometer)',
-    vegetables: 'Asparagus: 3-5 minutes, Artichokes: 20-30 minutes, test with knife'
-  }
-
-  doneness_indicators: {
+    vegetables: 'Asparagus: 3-5 minutes, Artichokes: 20-30 minutes, test with knife' },
+        doneness_indicators: {
     fish: 'Turns from translucent to opaque flesh flakes easily with fork but remains moist',
     chicken: 'No pink remains, internal temperature of 165°F juices run clear',
     eggs: 'Whites fully set but yolk remains soft and runny (or to preference)',
-    shellfish:
-      'Shrimp turn pink and curl into C-shape (not tight O), scallops turn opaque but remain tender',
+    shellfish: 'Shrimp turn pink and curl into C-shape (not tight O), scallops turn opaque but remain tender',
     pears: 'Knife pierces easily without resistance but fruit maintains shape',
     delicate_vegetables: 'Bright color, tender-crisp texture, slight resistance when bitten',
     custards: 'Set around edges but slight jiggle in center, knife inserted comes out clean',
-    meat: 'Reaches target internal temperature but remains juicy and tender'
-  }
-
-  poaching_liquids: {
+    meat: 'Reaches target internal temperature but remains juicy and tender' },
+        poaching_liquids: {
     court_bouillon: 'Classic aromatic liquid with wine/vinegar, mirepoix, herbs, and spices',
     milk: 'Rich, mild poaching medium that adds creaminess to fish and chicken',
     stock: 'Adds depth of flavor while maintaining clean taste profile',
@@ -394,10 +386,8 @@ export const poaching: CookingMethodData = {
     tea: 'Adds tannins and aromatics, excellent for fish and fruit',
     infused_water: 'Simple water base enhanced with aromatics (herbs, citrus, spices)',
     coconut_milk: 'Rich tropical medium for seafood and fruit',
-    oil: 'Low-temperature poaching in oil (confit method) for rich results'
-  }
-
-  presentation_techniques: {
+    oil: 'Low-temperature poaching in oil (confit method) for rich results' },
+        presentation_techniques: {
     chilled_presentation:
       'Poached items served cold with complementary sauces (fish, poultry, eggs)',
     natural_sauce: 'Reduced poaching liquid served as sauce or jus',

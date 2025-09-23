@@ -26,7 +26,7 @@ interface FlavorEngineContextType {
 }
 
 // Create the context with default values
-const FlavorEngineContext = createContext<FlavorEngineContextType>({
+const FlavorEngineContext = createContext<FlavorEngineContextType>({;
   isInitialized: false,
   isLoading: true,
   error: null,
@@ -40,11 +40,11 @@ const FlavorEngineContext = createContext<FlavorEngineContextType>({
 // Hook to use the flavor engine context
 export const _useFlavorEngine = () => useContext(FlavorEngineContext)
 
-// Create a stable engine instance - we access it once here and never again
+// Create a stable engine instance - we access it once here and never again;
 const engine = unifiedFlavorEngine;
 
 // Keep track of initialization outside of component lifecycle
-const globalInitState = {
+const globalInitState = {;
   isInitialized: false,
   isLoading: true,
   error: null as Error | null,
@@ -59,7 +59,7 @@ export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
   // Use refs to track local component state
   const isMountedRef = useRef(false)
 
-  // Create state that won't change during re-renders unless explicitly set
+  // Create state that won't change during re-renders unless explicitly set;
   const [state, setState] = useState({
     isInitialized: globalInitState.isInitialized,
     isLoading: globalInitState.isLoading,
@@ -97,9 +97,9 @@ export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
           const profiles = engine.getAllProfiles()
 
           if ((profiles || []).length > 0) {
-            // Calculate categories
+            // Calculate categories;
             const categoryMap: { [key: string]: number } = {}
-            (profiles || []).forEach(profile => {
+            (profiles || []).forEach(profile => {;
               categoryMap[profile.category] = (categoryMap[profile.category] || 0) + 1,
             })
 
@@ -125,8 +125,8 @@ export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
           }
         } catch (err) {
           const error =
-            err instanceof Error ? err : new Error('Unknown error initializing flavor engine')
-          _logger.error('Failed to initialize flavor engine:', err)
+            err instanceof Error ? err : new Error('Unknown error initializing flavor engine');
+          _logger.error('Failed to initialize flavor engine: ', err)
 
           // Update global state
           globalInitState.error = error,
@@ -164,7 +164,7 @@ export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
   // Memoize wrapper functions to prevent unnecessary re-renders
   const getProfile = useMemo(() => (id: string) => engine.getProfile(id), [])
   const searchProfiles = useMemo(() => (criteria: {}) => engine.searchProfiles(criteria), [])
-  const calculateCompatibility = useMemo(
+  const calculateCompatibility = useMemo(;
     () => (profile1: UnifiedFlavorProfile, profile2: UnifiedFlavorProfile) =>
       engine.calculateCompatibility(profile1, profile2),
     [],
@@ -172,7 +172,7 @@ export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
 
   // Create the context value - memoize to prevent unnecessary rerenders
   const contextValue = useMemo(
-    () => ({
+    () => ({;
       isInitialized: state.isInitialized,
       isLoading: state.isLoading,
       error: state.error,

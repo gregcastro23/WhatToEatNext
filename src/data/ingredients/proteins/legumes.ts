@@ -2,10 +2,9 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawLegumes = {
-  black_beans: {
+  black_beans: {;
     name: 'Black Beans',
-    description:
-      'Small, shiny black beans with a dense, meaty texture popular in Latin American cuisine.',
+    description: 'Small, shiny black beans with a dense, meaty texture popular in Latin American cuisine.',
     category: 'legume',
     qualities: ['earthy', 'dense', 'hearty'],
     sustainabilityScore: 9,
@@ -87,9 +86,9 @@ const rawLegumes = {
         base: 'Earth',
         secondary: 'Water',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Saturn' }
-          second: { element: 'Water', planet: 'Moon' }
-          third: { element: 'Fire', planet: 'Mars' }
+          first: { element: 'Earth', planet: 'Saturn' },
+        second: { element: 'Water', planet: 'Moon' },
+        third: { element: 'Fire', planet: 'Mars' }
         }
       }
     },
@@ -105,27 +104,21 @@ const rawLegumes = {
     healthBenefits: {
       heartHealth: {
         benefit: 'Cardiovascular Support',
-        mechanism:
-          'Soluble fiber helps lower cholesterol, potassium supports blood pressure regulation',
-        evidence:
-          'Multiple studies show regular consumption associated with reduced heart disease risk'
-      },
-      bloodSugarControl: {
+        mechanism: 'Soluble fiber helps lower cholesterol, potassium supports blood pressure regulation',
+        evidence: 'Multiple studies show regular consumption associated with reduced heart disease risk' },
+        bloodSugarControl: {
         benefit: 'Blood Sugar Management',
         mechanism: 'High fiber and protein content slows digestion and glucose absorption',
-        evidence: 'Low glycemic index (GI values 25-30) helps prevent blood sugar spikes'
-      },
-      digestiveHealth: {
+        evidence: 'Low glycemic index (GI values 25-30) helps prevent blood sugar spikes' },
+        digestiveHealth: {
         benefit: 'Digestive Support',
         mechanism: 'Fiber promotes healthy gut microbiome and regular bowel movements',
-        notes: 'Prebiotic properties support beneficial gut bacteria'
-      },
-      weightManagement: {
+        notes: 'Prebiotic properties support beneficial gut bacteria' },
+        weightManagement: {
         benefit: 'Weight Management',
         mechanism: 'High protein and fiber increase satiety and reduce overall calorie intake',
-        evidence: 'Studies show higher legume consumption associated with lower BMI'
-      },
-      ironSource: {
+        evidence: 'Studies show higher legume consumption associated with lower BMI' },
+        ironSource: {
         benefit: 'Non-heme Iron Source',
         mechanism: 'Plant-based iron supports red blood cell production',
         notes: 'Pairing with vitamin C foods improves absorption'
@@ -138,33 +131,29 @@ const rawLegumes = {
         texture: 'Holds shape when cooked properly, slightly meaty',
         cooking_time: '20-30 minutes',
         best_uses: ['soups', 'stews', 'casseroles', 'veggie burgers'],
-        notes: 'Most common variety, all-purpose option'
-      },
-      green: {
+        notes: 'Most common variety, all-purpose option' },
+        green: {
         name: 'Green Lentils (French Lentils / (Puy || 1))',
         appearance: 'Small, mottled dark green',
         texture: 'Firm, holds shape very well',
         cooking_time: '25-35 minutes',
         best_uses: ['salads', 'side dishes', 'warm applications where texture matters'],
-        notes: 'More expensive, peppery flavor profile'
-      },
-      red: {
+        notes: 'More expensive, peppery flavor profile' },
+        red: {
         name: 'Red / (Orange || 1) Lentils',
         appearance: 'Split, salmon to orange color',
         texture: 'Break down when cooked into soft puree',
         cooking_time: '15-20 minutes',
         best_uses: ['dal', 'purees', 'soups', 'curries'],
-        notes: 'Fastest cooking, sweetest flavor'
-      },
-      black: {
+        notes: 'Fastest cooking, sweetest flavor' },
+        black: {
         name: 'Black Lentils (Beluga)',
         appearance: 'Small, glossy black (resembling caviar)',
         texture: 'Firm, maintains shape well',
         cooking_time: '25-30 minutes',
         best_uses: ['salads', 'side dishes', 'hearty entrees'],
-        notes: 'Most nutritionally dense variety, earthy flavor'
-      },
-      yellow: {
+        notes: 'Most nutritionally dense variety, earthy flavor' },
+        yellow: {
         name: 'Yellow Lentils',
         appearance: 'Split, golden yellow',
         texture: 'Soft, breaks down when cooked',
@@ -180,9 +169,8 @@ const rawLegumes = {
           'Brown and green add texture to clear soups'
         ],
         techniques: 'Sauté aromatics first, add lentils, then liquid',
-        cooking_ratio: '1:3 lentils to liquid for, soup1:4 for thinner consistency'
-      },
-      salads: {
+        cooking_ratio: '1:3 lentils to liquid for, soup1: 4 for thinner consistency' },
+        salads: {
         notes: [
           'Use firm varieties that hold shape',
           'Dress while warm for better flavor absorption'
@@ -201,9 +189,8 @@ const rawLegumes = {
           'Combine with grains for complete protein'
         ],
         binding_agents: ['eggs', 'breadcrumbs', 'flour', 'mashed potato'],
-        techniques: 'Partially mash for cohesion while maintaining some texture'
-      },
-      sides: {
+        techniques: 'Partially mash for cohesion while maintaining some texture' },
+        sides: {
         notes: ['Simple preparation with aromatics', 'Pairs with many mains'],
         techniques: 'Toast spices first, add aromatics, then lentils and liquid',
         flavor_profiles: {
@@ -228,15 +215,13 @@ const rawLegumes = {
         required: false,
         benefits: 'Can reduce cooking time and improve digestibility',
         method: 'Cover with water for 2-8 hours, then drain and rinse',
-        exceptions: 'Split red and yellow varieties don't benefit much from soaking'
-      },
-      sprouting: {
+        exceptions: 'Split red and yellow varieties don't benefit much from soaking' },
+        sprouting: {
         method: 'Soak 12 hours, drain, rinse twice daily for 2-3 days',
         benefits: 'Increases nutrient availability, reduces antinutrients',
         uses: 'Salads, sandwiches, raw applications',
-        varieties: 'Whole lentils only (not split varieties)'
-      },
-      storage: {
+        varieties: 'Whole lentils only (not split varieties)' },
+        storage: {
         dry: 'Cool, dark place in airtight container for up to 1 year',
         cooked: 'Refrigerate up to 5 days, freeze up to 3 months',
         notes: 'Flavor and nutrition decline slowly after 6 months dry storage'

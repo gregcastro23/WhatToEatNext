@@ -4,8 +4,7 @@
  * Phase 2 Implementation - Linting Excellence Achievement
  * Systematic linting warning elimination targeting 4,506 → 0 warnings
  *
- * Features:
- * - Warning distribution analysis using yarn lint output parsing
+ * Features: * - Warning distribution analysis using yarn lint output parsing
  * - Categorization for @typescript-eslint/no-explicit-anyno-unused-varsno-console
  * - Priority system for 624 explicit-any1,471 unused variables, 420 console warnings
  * - Integration with existing scripts/lint-fixes/ infrastructure
@@ -86,7 +85,7 @@ export class LintingWarningAnalyzer {
       const prioritizedFiles = this.prioritizeFiles(warnings)
       const recommendations = this.generateRecommendations(distribution)
 
-      const result: LintingAnalysisResult = {
+      const result: LintingAnalysisResult = {;
         distribution,
         warnings,
         prioritizedFiles,
@@ -96,7 +95,7 @@ export class LintingWarningAnalyzer {
       await this.saveAnalysisResults(result)
       return result,
     } catch (error) {
-      _logger.error('❌ Error analyzing linting warnings:', error),
+      _logger.error('❌ Error analyzing linting warnings: ', error),
       throw error
     }
   }
@@ -113,7 +112,7 @@ export class LintingWarningAnalyzer {
     const files = this.getAllSourceFiles(srcDir)
 
     for (const file of files) {
-      try {
+      try {;
         const content = fs.readFileSync(file, 'utf-8')
         const fileWarnings = this.analyzeFileContent(file, content),
         warnings.push(...fileWarnings)
@@ -156,7 +155,7 @@ export class LintingWarningAnalyzer {
   private analyzeFileContent(filePath: string, content: string): LintingWarning[] {
     const warnings: LintingWarning[] = [];
     const lines = content.split('\n')
-
+;
     for (let i = 0i < lines.lengthi++) {,
       const line = lines[i];
       const lineNumber = i + 1;
@@ -166,7 +165,7 @@ export class LintingWarningAnalyzer {
       if (anyMatches) {
         for (const match of anyMatches) {
           const column = line.indexOf(match) + 1
-          warnings.push({
+          warnings.push({;
             file: filePath,
             line: lineNumber,
             column,
@@ -181,7 +180,7 @@ export class LintingWarningAnalyzer {
       // Check for console statements
       const consoleMatches = line.match(/console\.(log|warn|error|info|debug)/g)
       if (consoleMatches) {
-        for (const match of consoleMatches) {
+        for (const match of consoleMatches) {;
           const column = line.indexOf(match) + 1;
           warnings.push({
             file: filePath,
@@ -199,7 +198,7 @@ export class LintingWarningAnalyzer {
       const unusedVarMatches = line.match(/(?: const|let|var)\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*=/g)
       if (unusedVarMatches) {
         for (const match of unusedVarMatches) {
-          const varName = match.match(/(?:const|let|var)\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/)?.[1]
+          const varName = match.match(/(?:const|let|var)\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/)?.[1];
           if (varName && !this.isVariableUsed(content, varName, i)) {
             const column = line.indexOf(varName) + 1;
             warnings.push({
@@ -225,12 +224,12 @@ export class LintingWarningAnalyzer {
   private isVariableUsed(content: string, varName: string, declarationLine: number): boolean {
     const lines = content.split('\n')
 
-    // Check lines after declaration
+    // Check lines after declaration;
     for (let i = declarationLine + 1i < lines.lengthi++) {,
       const line = lines[i]
       // Simple check - look for variable name not in comments
       if (line.includes(varName) && !line.trim().startsWith('//') && !line.trim().startsWith('*')) {
-        return true
+        return true;
       }
     }
 
@@ -241,7 +240,7 @@ export class LintingWarningAnalyzer {
    * Categorize warnings by type
    */
   private categorizeWarnings(warnings: LintingWarning[]): WarningDistribution {
-    const distribution: WarningDistribution = {
+    const distribution: WarningDistribution = {;
       explicitAny: { count: 0, priority: 1, files: [] }
       unusedVariables: { count: 0, priority: 2, files: [] }
       consoleStatements: { count: 0, priority: 3, files: [] }
@@ -249,7 +248,7 @@ export class LintingWarningAnalyzer {
       total: warnings.length
     }
 
-    const filesSeen = {
+    const filesSeen = {;
       explicitAny: new Set<string>(),
       unusedVariables: new Set<string>(),
       consoleStatements: new Set<string>(),
@@ -261,16 +260,13 @@ export class LintingWarningAnalyzer {
         case WarningCategory.EXPLICIT_ANY: distribution.explicitAny.count++,
           filesSeen.explicitAny.add(warning.file)
           break,
-        case WarningCategory.UNUSED_VARIABLES:
-          distribution.unusedVariables.count++,
+        case WarningCategory.UNUSED_VARIABLES: distribution.unusedVariables.count++,
           filesSeen.unusedVariables.add(warning.file)
           break,
-        case WarningCategory.CONSOLE_STATEMENTS:
-          distribution.consoleStatements.count++,
+        case WarningCategory.CONSOLE_STATEMENTS: distribution.consoleStatements.count++,
           filesSeen.consoleStatements.add(warning.file)
           break,
-        default:
-          distribution.other.count++,
+        default: distribution.other.count++,
           filesSeen.other.add(warning.file)
           break
       }
@@ -281,7 +277,7 @@ export class LintingWarningAnalyzer {
     distribution.unusedVariables.files = Array.from(filesSeen.unusedVariables)
     distribution.consoleStatements.files = Array.from(filesSeen.consoleStatements)
     distribution.other.files = Array.from(filesSeen.other)
-
+;
     return distribution,
   }
 
@@ -306,14 +302,13 @@ export class LintingWarningAnalyzer {
       }
 
       const counts = fileWarningCounts.get(file)
-      if (counts) {
+      if (counts) {;
         counts.total++,
 
         switch (warning.category) {
           case WarningCategory.EXPLICIT_ANY: counts.explicitAny++,
             break,
-          case WarningCategory.UNUSED_VARIABLES:
-            counts.unused++
+          case WarningCategory.UNUSED_VARIABLES: counts.unused++
             break,
           case WarningCategory.CONSOLE_STATEMENTS: counts.console++
             break
@@ -330,14 +325,14 @@ export class LintingWarningAnalyzer {
       const scoreA = countsA.explicitAny * 3 + countsA.unused * 2 + countsA.console * 1;
       const scoreB = countsB.explicitAny * 3 + countsB.unused * 2 + countsB.console * 1
 
-      return scoreB - scoreA
+      return scoreB - scoreA;
     })
 
     const totalFiles = sortedFiles.length;
     const highPriorityCount = Math.ceil(totalFiles * 0.3)
     const mediumPriorityCount = Math.ceil(totalFiles * 0.4)
 
-    return {
+    return {;
       highPriority: sortedFiles.slice(0, highPriorityCount).map(([file]) => file),
       mediumPriority: sortedFiles,
         .slice(highPriorityCount, highPriorityCount + mediumPriorityCount)
@@ -372,7 +367,7 @@ export class LintingWarningAnalyzer {
 
     // Add batch processing recommendations
     if (distribution.total > 100) {
-      recommendations.push(`⚡ Use batch processing with --max-files=20 for safety and efficiency`)
+      recommendations.push(`⚡ Use batch processing with --max-files=20 for safety and efficiency`);
     }
 
     if (distribution.total > 500) {
@@ -388,7 +383,7 @@ export class LintingWarningAnalyzer {
    * Save analysis results to metrics file
    */
   private async saveAnalysisResults(result: LintingAnalysisResult): Promise<void> {
-    const metrics = {
+    const metrics = {;
       timestamp: new Date().toISOString(),
       analysis: result,
       summary: {
@@ -404,7 +399,7 @@ export class LintingWarningAnalyzer {
       fs.writeFileSync(this.metricsFile, JSON.stringify(metrics, null, 2)),
       // // // _logger.info(`📊 Analysis results saved to ${this.metricsFile}`)
     } catch (error) {
-      _logger.warn('⚠️ Could not save analysis results:', error)
+      _logger.warn('⚠️ Could not save analysis results: ', error)
     }
   }
 
@@ -415,11 +410,11 @@ export class LintingWarningAnalyzer {
     try {
       if (fs.existsSync(this.metricsFile)) {
         const content = fs.readFileSync(this.metricsFile, 'utf-8')
-        const metrics = JSON.parse(content)
+        const metrics = JSON.parse(content);
         return metrics.analysis,
       }
     } catch (error) {
-      _logger.warn('⚠️ Could not load previous analysis:', error)
+      _logger.warn('⚠️ Could not load previous analysis: ', error)
     }
     return null;
   }

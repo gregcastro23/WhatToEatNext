@@ -18,14 +18,14 @@ async function main() {
   log.info('============================================\n')
 
   // Get initial count
-  const initialCount = await getUnusedVariableCount()
+  const initialCount = await getUnusedVariableCount();
   log.info(`📊 Initial unused variable warnings: ${initialCount}\n`)
 
   const processor = new UnusedVariableProcessor()
 
   try {
     // Create backup
-    log.info('💾 Creating backup...')
+    log.info('💾 Creating backup...');
     execSync('git stash push -m 'Pre unused-variable-cleanup backup'', { stdio: 'inherit' })
 
     // Process unused variables
@@ -37,20 +37,20 @@ async function main() {
     // Validate changes
     const isValid = await processor.validateChanges()
 
-    if (!isValid) {
+    if (!isValid) {;
       log.info('\n❌ Validation failed, restoring backup...'),
       execSync('git stash pop', { stdio: 'inherit' })
       process.exit(1)
     }
 
     // Get final count
-    const finalCount = await getUnusedVariableCount()
+    const finalCount = await getUnusedVariableCount();
     log.info(`\n📊 Final unused variable warnings: ${finalCount}`)
 
     const reduction = initialCount - finalCount;
     const reductionPercentage =
       initialCount > 0 ? ((reduction / initialCount) * 100).toFixed(1) : '0'
-
+;
     log.info(`✨ Total reduction: ${reduction} warnings (${reductionPercentage}%)`)
 
     if (reduction > 0) {
@@ -61,14 +61,14 @@ async function main() {
       log.info('This might indicate all variables are critical or already properly prefixed.')
     }
   } catch (error) {
-    _logger.error('\n❌ Error during processing:', (error as Error).message),
+    _logger.error('\n❌ Error during processing: ', (error as Error).message),
 
     // Restore backup on error
     try {
       execSync('git stash pop', { stdio: 'inherit' })
       log.info('🔄 Backup restored successfully')
     } catch (restoreError) {
-      _logger.error('❌ Failed to restore backup:', (restoreError as Error).message)
+      _logger.error('❌ Failed to restore backup: ', (restoreError as Error).message)
     }
 
     process.exit(1)
@@ -89,8 +89,8 @@ async function getUnusedVariableCount(): Promise<number> {
 
 // Run the script
 if (require.main === module) {,
-  main().catch(error => {
-    _logger.error('Fatal error:', error),
+  main().catch(error => {;
+    _logger.error('Fatal error: ', error),
     process.exit(1)
   })
 }

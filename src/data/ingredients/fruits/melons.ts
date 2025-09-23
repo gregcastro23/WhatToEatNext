@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawMelons = {
-  watermelon: {
+  watermelon: {;
     name: 'Watermelon',
     elementalProperties: {
       Water: 0.8,
@@ -16,9 +16,9 @@ const rawMelons = {
       elementalAffinity: {
         base: 'Water',
         decanModifiers: {
-          first: { element: 'Water', planet: 'Moon' }
-          second: { element: 'Water', planet: 'Jupiter' }
-          third: { element: 'Earth', planet: 'Saturn' }
+          first: { element: 'Water', planet: 'Moon' },
+        second: { element: 'Water', planet: 'Jupiter' },
+        third: { element: 'Earth', planet: 'Saturn' }
         }
       }
     },
@@ -48,9 +48,8 @@ const rawMelons = {
         size: 'small (8-10 lbs)',
         flavor: 'very sweet, intense flavor',
         seeds: 'small black seeds',
-        notes: 'good for small gardens and personal consumption'
-      },
-      Seedless: {
+        notes: 'good for small gardens and personal consumption' },
+        Seedless: {
         appearance: 'oval, light green striped exterior, red flesh',
         size: 'medium (15-20 lbs)',
         flavor: 'milder sweetness than seeded varieties',
@@ -116,9 +115,9 @@ const rawMelons = {
       elementalAffinity: {
         base: 'Water',
         decanModifiers: {
-          first: { element: 'Water', planet: 'Venus' }
-          second: { element: 'Earth', planet: 'Moon' }
-          third: { element: 'Air', planet: 'Mercury' }
+          first: { element: 'Water', planet: 'Venus' },
+        second: { element: 'Earth', planet: 'Moon' },
+        third: { element: 'Air', planet: 'Mercury' }
         }
       }
     },
@@ -140,16 +139,13 @@ const rawMelons = {
         appearance: 'tan-green ribbed rind, orange flesh',
         size: 'medium (5-8 lbs)',
         flavor: 'sweet, characteristic musky aroma',
-        notes: 'common grocery store variety'
-      }
-
-      Galia: {
+        notes: 'common grocery store variety' },
+        Galia: {
         appearance: 'netted rind like cantaloupe, green flesh like honeydew',
         size: 'medium-small (3-5 lbs)',
         flavor: 'complex honey sweetness with tropical notes',
-        notes: 'hybrid variety developed in Israel'
-      },
-      Crenshaw: {
+        notes: 'hybrid variety developed in Israel' },
+        Crenshaw: {
         appearance: 'yellow-green skin, pale orange flesh',
         size: 'large (8-10 lbs)',
         flavor: 'very sweet, spicy undertones',
@@ -207,9 +203,9 @@ const rawMelons = {
       elementalAffinity: {
         base: 'Water',
         decanModifiers: {
-          first: { element: 'Water', planet: 'Venus' }
-          second: { element: 'Air', planet: 'Mercury' }
-          third: { element: 'Earth', planet: 'Moon' }
+          first: { element: 'Water', planet: 'Venus' },
+        second: { element: 'Air', planet: 'Mercury' },
+        third: { element: 'Earth', planet: 'Moon' }
         }
       }
     },

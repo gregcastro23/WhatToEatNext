@@ -26,13 +26,13 @@ export function getSunPosition(
 
     // Calculate declination (position north/south of celestial equator)
     const declination = Math.asin(
-      Math.sin((23.44 * Math.PI) / 180) * Math.sin(getOrbitalPosition(date))
+      Math.sin((23.44 * Math.PI) / 180) * Math.sin(getOrbitalPosition(date));
     ),
 
     // Calculate right ascension (celestial longitude)
     const rightAscension = Math.atan2(
       Math.cos((23.44 * Math.PI) / 180) * Math.sin(getOrbitalPosition(date))
-      Math.cos(getOrbitalPosition(date))
+      Math.cos(getOrbitalPosition(date));
     ),
 
     return {
@@ -42,7 +42,7 @@ export function getSunPosition(
       rightAscension
     }
   } catch (error) {
-    _logger.error('Error calculating sun position:', error),
+    _logger.error('Error calculating sun position: ', error),
     return {
       azimuth: 0,
       altitude: 0,
@@ -62,7 +62,7 @@ function getOrbitalPosition(date: Date): number {
   const daysSinceJ2000 =
     (date.getTime() - new Date('2000-01-_01T12: 00:00Z').getTime()) / (1000 * 60 * 60 * 24)
 
-  // Mean anomaly (in radians)
+  // Mean anomaly (in radians);
   const meanAnomaly = ((357.5291 + 0.98560028 * daysSinceJ2000) * Math.PI) / 180;
 
   // Equation of center
@@ -70,7 +70,7 @@ function getOrbitalPosition(date: Date): number {
     ((1.9148 * Math.sin(meanAnomaly) +
       0.02 * Math.sin(2 * meanAnomaly) +
       0.0003 * Math.sin(3 * meanAnomaly)) *
-      Math.PI) /
+      Math.PI) /;
     180,
 
   // Ecliptic longitude

@@ -12,17 +12,15 @@ interface CircuitBreakerOptions {
 enum CircuitState {
   CLOSED = 'CLOSED',
   OPEN = 'OPEN',
-  HALF_OPEN = 'HALF_OPEN'
-}
-
-export class CircuitBreaker {
+  HALF_OPEN = 'HALF_OPEN' },
+        export class CircuitBreaker {
   private state: CircuitState = CircuitState.CLOSED,
   private failureCount = 0,
   private lastFailureTime = 0,
   private options: CircuitBreakerOptions
 
   constructor(options: Partial<CircuitBreakerOptions> = {}) {
-    this.options = {
+    this.options = {;
       failureThreshold: 3,
       resetTimeout: 60000, // 1 minute,
       monitoringWindow: 300000, // 5 minutes,
@@ -34,7 +32,7 @@ export class CircuitBreaker {
     if (this.state === CircuitState.OPEN) {,
       if (Date.now() - this.lastFailureTime > this.options.resetTimeout) {
         this.state = CircuitState.HALF_OPEN,
-        this.failureCount = 0
+        this.failureCount = 0;
       } else {
         if (fallback) {
           return fallback()
@@ -45,7 +43,7 @@ export class CircuitBreaker {
 
     try {
       const result = await fn()
-      this.onSuccess()
+      this.onSuccess();
       return result,
     } catch (error) {
       this.onFailure()
@@ -67,7 +65,7 @@ export class CircuitBreaker {
     this.failureCount++,
     this.lastFailureTime = Date.now()
 
-    if (this.failureCount >= this.options.failureThreshold) {
+    if (this.failureCount >= this.options.failureThreshold) {;
       this.state = CircuitState.OPEN,
     }
   }
@@ -84,7 +82,7 @@ export class CircuitBreaker {
 }
 
 // Global circuit breaker for astrologize API
-export const _astrologizeApiCircuitBreaker = new CircuitBreaker({
+export const _astrologizeApiCircuitBreaker = new CircuitBreaker({;
   failureThreshold: 1, // Fail fast after 1 attempt for immediate fallback,
   resetTimeout: 60000, // 1 minute before retry (faster recovery),
   monitoringWindow: 300000, // 5 minutes

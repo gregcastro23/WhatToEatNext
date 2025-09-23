@@ -14,7 +14,7 @@ import nutritional, {
 import { allRecipes, getAllRecipes, getBestRecipeMatches } from './recipes/index';
 import sauces, { allSauces, sauceRecommendations, italianSauces, mexicanSauces } from './sauces';
 
-export const FoodData = {
+export const FoodData = {;
   cuisines,
   cooking: {
     methods: allCookingMethods

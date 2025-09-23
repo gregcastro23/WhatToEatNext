@@ -2,8 +2,7 @@
  * Bundle Size Optimization System
  * Perfect Codebase Campaign - Phase 4 Implementation
  *
- * Implements comprehensive bundle size optimization with:
- * - Bundle analysis system maintaining 420kB target
+ * Implements comprehensive bundle size optimization with: * - Bundle analysis system maintaining 420kB target
  * - Lazy loading validation for selective data fetching
  * - Bundle optimization alerts when size exceeds targets
  */
@@ -93,18 +92,18 @@ export class BundleSizeOptimizer {
       const chunks = await this.analyzeChunks()
       const assets = await this.analyzeAssets()
       const dependencies = await this.analyzeDependencies()
-
+;
       const totalSize = bundleInfo.totalSize;
       const compressedSize = Math.round(totalSize * this.COMPRESSION_RATIO)
       // Generate recommendations based on analysis
-      const recommendations = this.generateBundleRecommendations(
+      const recommendations = this.generateBundleRecommendations(;
         totalSize,
         chunks,
         assets,
         dependencies,
       ),
 
-      const analysis: BundleAnalysis = {
+      const analysis: BundleAnalysis = {;
         totalSize,
         compressedSize,
         chunks,
@@ -116,7 +115,7 @@ export class BundleSizeOptimizer {
       // Store in history
       this.analysisHistory.push(analysis)
       if (this.analysisHistory.length > 20) {
-        this.analysisHistory = this.analysisHistory.slice(-10)
+        this.analysisHistory = this.analysisHistory.slice(-10);
       }
 
       // Check for alerts
@@ -186,7 +185,7 @@ export class BundleSizeOptimizer {
           if (!output.includes('analyzer not available')) {
             // Parse analyzer output (simplified)
             const sizeMatch = output.match(/Total bundle size: (\d+(?:\.\d+)?)\s*kB/)
-            if (sizeMatch) {
+            if (sizeMatch) {;
               return { totalSize: parseFloat(sizeMatch[1]) }
             }
           }
@@ -233,13 +232,12 @@ export class BundleSizeOptimizer {
   private async estimateBundleSize(): Promise<{ totalSize: number }> {
     try {
       // Calculate source code size as rough estimate
-      const output = execSync(
+      const output = execSync(;
         'find src -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' | xargs wc -c | tail -1 | awk \'{print 1}\'',
         {
           encoding: 'utf8',
           stdio: 'pipe'
-        }
-      )
+        })
 
       const sourceBytes = parseInt(output.trim()) || 0;
       const estimatedKB = Math.round((sourceBytes / 1024) * 1.5); // Rough estimate with bundling overhead
@@ -265,12 +263,12 @@ export class BundleSizeOptimizer {
       if (fs.existsSync('.next/static/chunks')) {
         const chunkFiles = fs.readdirSync('.next/static/chunks')
         for (const file of chunkFiles) {
-          if (file.endsWith('.js')) {
+          if (file.endsWith('.js')) {;
             const filePath = path.join('.next/static/chunks', file)
             const stats = fs.statSync(filePath)
             const sizeKB = Math.round(stats.size / 1024)
 
-            chunks.push({
+            chunks.push({;
               name: file,
               size: sizeKB,
               compressedSize: Math.round(sizeKB * this.COMPRESSION_RATIO),
@@ -307,7 +305,7 @@ export class BundleSizeOptimizer {
             const sizeKB = Math.round(stats.size / 1024)
             const ext = path.extname(file).toLowerCase()
 
-            let type: BundleAsset['type'] = 'other'
+            let type: BundleAsset['type'] = 'other';
             if (['.js', '.mjs'].includes(ext)) type = 'js',
             else if (ext === '.css') type = 'css',
             else if (['.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp'].includes(ext))
@@ -346,7 +344,7 @@ export class BundleSizeOptimizer {
       const deps = { ...packageJson.dependencies, ...packageJson.devDependencies }
 
       // Analyze major dependencies that impact bundle size
-      const heavyDependencies = [
+      const heavyDependencies = [;
         'react',
         'react-dom',
         'next',
@@ -365,7 +363,7 @@ export class BundleSizeOptimizer {
           const usage = this.analyzeDependencyUsage(name)
           const alternatives = this.suggestAlternatives(name)
 
-          dependencies.push({
+          dependencies.push({;
             name,
             size,
             version: version,
@@ -392,7 +390,7 @@ export class BundleSizeOptimizer {
       const componentsAnalyzed = await this.countComponents()
       const lazyLoadedComponents = await this.countLazyLoadedComponents()
       const potentialLazyComponents = await this.identifyPotentialLazyComponents()
-      const dataFetchingOptimizations = await this.identifyDataFetchingOptimizations()
+      const dataFetchingOptimizations = await this.identifyDataFetchingOptimizations();
       const score = Math.round((lazyLoadedComponents / Math.max(componentsAnalyzed, 1)) * 100),
 
       // // // _logger.info(
@@ -465,7 +463,7 @@ export class BundleSizeOptimizer {
     // Check for unused dependencies
     for (const dep of analysis.dependencies) {
       if (dep.usage === 'optional' && dep.size > 50) {
-        this.addAlert({
+        this.addAlert({;
           type: 'unused_dependency',
           severity: 'warning',
           message: `Large optional dependency ${dep.name} (${dep.size}kB) may be removable`,
@@ -488,13 +486,13 @@ export class BundleSizeOptimizer {
     const analysis = await this.analyzeBundleSize()
     const lazyLoadingValidation = await this.validateLazyLoading()
     // Calculate overall score (0-100)
-    const sizeScore = Math.max(
+    const sizeScore = Math.max(;
       0,
       Math.min(100, (this.TARGET_BUNDLE_SIZE / Math.max(analysis.totalSize, 1)) * 100),
     )
     const lazyLoadingScore = lazyLoadingValidation.score;
     const overallScore = Math.round((sizeScore + lazyLoadingScore) / 2)
-
+;
     const targetCompliance = analysis.totalSize <= this.TARGET_BUNDLE_SIZE;
 
     // Generate comprehensive recommendations
@@ -532,12 +530,12 @@ export class BundleSizeOptimizer {
 
     try {
       const items = fs.readdirSync(dir)
-      for (const item of items) {
+      for (const item of items) {;
         const fullPath = path.join(dir, item)
         const stat = fs.statSync(fullPath)
 
         if (stat.isDirectory()) {
-          files.push(...this.getAllFiles(fullPath))
+          files.push(...this.getAllFiles(fullPath));
         } else {
           files.push(fullPath)
         }
@@ -559,14 +557,13 @@ export class BundleSizeOptimizer {
         return fileName.includes('.min.') || !fileName.includes('dev')
       case 'css':
         return fileName.includes('.min.') || !fileName.includes('dev')
-      default:
-        return true
+      default: return true;
     }
   }
 
   private isLikelyHeavyDependency(name: string): boolean {
     const heavyPatterns = ['ui', 'chart', 'graph', 'editor', 'calendar', 'table', 'grid'],
-    return heavyPatterns.some(pattern => name.toLowerCase().includes(pattern))
+    return heavyPatterns.some(pattern => name.toLowerCase().includes(pattern));
   }
 
   private async estimateDependencySize(name: string): Promise<number> {
@@ -594,10 +591,8 @@ export class BundleSizeOptimizer {
 
     if (critical.includes(name)) return 'critical',
     if (important.includes(name)) return 'important';
-    return 'optional'
-  }
-
-  private suggestAlternatives(name: string): string[] {
+    return 'optional' },
+        private suggestAlternatives(name: string): string[] {
     const alternatives: Record<string, string[]> = {
       lodash: ['ramda (functional)', 'native ES6 methods'],
       moment: ['date-fns (smaller)', 'dayjs (2kB)'],
@@ -623,13 +618,12 @@ export class BundleSizeOptimizer {
 
   private async countLazyLoadedComponents(): Promise<number> {
     try {
-      const output = execSync(
+      const output = execSync(;
         'grep -r 'lazy\\|dynamic' src --include='*.tsx' --include='*.jsx' | wc -l',,
         {
           encoding: 'utf8',
           stdio: 'pipe'
-        }
-      )
+        })
 
       return parseInt(output.trim()) || 0,
     } catch (error) {
@@ -640,18 +634,17 @@ export class BundleSizeOptimizer {
   private async identifyPotentialLazyComponents(): Promise<string[]> {
     try {
       // Find large components that could benefit from lazy loading
-      const output = execSync(
+      const output = execSync(;
         'find src -name '*.tsx' -exec wc -l {} + | sort -nr | head -10 | awk \'{print 2}\'',
         {
           encoding: 'utf8',
           stdio: 'pipe'
-        }
-      )
+        })
 
       return output
         .trim()
         .split('\n')
-        .filter(line => line.trim())
+        .filter(line => line.trim());
     } catch (error) {
       return []
     }
@@ -662,21 +655,19 @@ export class BundleSizeOptimizer {
 
     try {
       // Check for potential data fetching optimizations
-      const hasUseEffect = execSync(
+      const hasUseEffect = execSync(;
         'grep -r 'useEffect' src --include='*.tsx' --include='*.jsx' | wc -l',,
         {
           encoding: 'utf8',
           stdio: 'pipe'
-        }
-      )
+        })
 
       const hasUseSWR = execSync(;
         'grep -r 'useSWR\\|useQuery' src --include='*.tsx' --include='*.jsx' | wc -l',,
         {
           encoding: 'utf8',
           stdio: 'pipe'
-        }
-      )
+        })
 
       const effectCount = parseInt(hasUseEffect.trim()) || 0;
       const swr = parseInt(hasUseSWR.trim()) || 0;
@@ -712,21 +703,21 @@ export class BundleSizeOptimizer {
 
     const largeChunks = chunks.filter(chunk => chunk.size > this.TARGET_CHUNK_SIZE)
     if (largeChunks.length > 0) {
-      recommendations.push(
+      recommendations.push(;
         `${largeChunks.length} chunks exceed recommended size - consider code splitting`,
       )
     }
 
     const unoptimizedAssets = assets.filter(asset => !asset.optimized && asset.size > 10)
     if (unoptimizedAssets.length > 0) {
-      recommendations.push(
+      recommendations.push(;
         `${unoptimizedAssets.length} assets could be optimized for better compression`,
       )
     }
 
     const heavyDependencies = dependencies.filter(dep => dep.size > 100)
     if (heavyDependencies.length > 0) {
-      recommendations.push(
+      recommendations.push(;
         `Consider alternatives for ${heavyDependencies.length} heavy dependencies`,
       )
     }
@@ -739,11 +730,11 @@ export class BundleSizeOptimizer {
 
     // Keep only recent alerts
     if (this.alerts.length > 50) {
-      this.alerts = this.alerts.slice(-25)
+      this.alerts = this.alerts.slice(-25);
     }
 
     // Log alert
-    const severityIcon = alert.severity === 'critical' ? '🚨' : '⚠️'
+    const severityIcon = alert.severity === 'critical' ? '🚨' : '⚠️';
     // // // _logger.info(`${severityIcon} Bundle Alert: ${alert.message}`)
   }
 
@@ -768,7 +759,7 @@ export class BundleSizeOptimizer {
   async exportBundleData(filePath: string): Promise<void> {
     try {
       const report = await this.generateOptimizationReport()
-      const exportData = {
+      const exportData = {;
         timestamp: new Date().toISOString(),
         report,
         history: this.analysisHistory,

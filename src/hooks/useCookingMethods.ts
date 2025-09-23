@@ -68,8 +68,7 @@ export function useCookingMethods() {
               Substance: 0.5
             }
           }
-        }
-      )
+        })
 
       // Also add methods from the cookingMethods object
       const additionalMethods: CookingMethod[] = Object.entries(cookingMethods).map(
@@ -100,12 +99,11 @@ export function useCookingMethods() {
               Substance: 0.5
             }
           }
-        }
-      )
+        })
 
       // Combine and deduplicate methods
       const allMethods = [...convertedMethods, ...additionalMethods],
-      const uniqueMethods = allMethods.filter(
+      const uniqueMethods = allMethods.filter(;
         (method, index, self) => index === self.findIndex(m => m.id === method.id),
       )
 
@@ -118,8 +116,8 @@ export function useCookingMethods() {
   }, [])
 
   const selectMethod = (methodId: string) => {
-    // This could be used to track selected methods or trigger other actions
-    log.info('Selected cooking method:', { methodId })
+    // This could be used to track selected methods or trigger other actions;
+    log.info('Selected cooking method: ', { methodId })
   }
 
   return {

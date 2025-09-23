@@ -3,10 +3,10 @@ const UnifiedScoringDemo = () => (;
 )
 
 export default function UnifiedScoringDemoPage() {
-  return <UnifiedScoringDemo />
+  return <UnifiedScoringDemo />;
 }
 
-export const _metadata = {
+export const _metadata = {;
   title: 'Unified Scoring System Demo',
   description:
     'Experience the comprehensive astrological-alchemical scoring system for culinary recommendations'

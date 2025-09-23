@@ -53,7 +53,7 @@ function validateDirectories(): ValidationResult {
   const missingDirs = requiredDirs.filter(dir => !existsSync(dir))
 
   if (missingDirs.length === 0) {
-    return {
+    return {;
       component: 'Directories',
       status: 'pass',
       message: 'All monitoring directories exist'
@@ -75,7 +75,7 @@ function validateConfiguration(): ValidationResult {
   const configPath = '.kiro/monitoring/monitoring-config.json'
 
   if (!existsSync(configPath)) {
-    return {
+    return {;
       component: 'Configuration',
       status: 'fail',
       message: 'Monitoring configuration file not found',
@@ -87,12 +87,12 @@ function validateConfiguration(): ValidationResult {
     const configContent = readFileSync(configPath, 'utf8')
     const config = JSON.parse(configContent)
 
-    // Validate required sections
+    // Validate required sections;
     const requiredSections = ['metrics', 'alerts', 'logging', 'healthChecks'],
     const missingSections = requiredSections.filter(section => !config[section])
 
     if (missingSections.length > 0) {
-      return {
+      return {;
         component: 'Configuration',
         status: 'fail',
         message: `Missing configuration sections: ${missingSections.join(', ')}`
@@ -139,7 +139,7 @@ function validateMonitoringService(): ValidationResult {
   const servicePath = '.kiro/monitoring/UnintentionalAnyMonitoringService.ts'
 
   if (!existsSync(servicePath)) {
-    return {
+    return {;
       component: 'Monitoring Service',
       status: 'fail',
       message: 'Monitoring service file not found',
@@ -173,7 +173,7 @@ function validateDashboard(): ValidationResult {
   const dashboardPath = '.kiro/monitoring/dashboard.ts'
 
   if (!existsSync(dashboardPath)) {
-    return {
+    return {;
       component: 'Dashboard',
       status: 'fail',
       message: 'Monitoring dashboard not found',
@@ -207,7 +207,7 @@ function validateStartupScripts(): ValidationResult {
   const startupScript = '.kiro/monitoring/start-monitoring.sh'
 
   if (!existsSync(startupScript)) {
-    return {
+    return {;
       component: 'Startup Scripts',
       status: 'fail',
       message: 'Monitoring startup script not found',
@@ -217,7 +217,7 @@ function validateStartupScripts(): ValidationResult {
 
   try {
     // Check if script is accessible (basic check)
-    const _stats = statSync(startupScript)
+    const _stats = statSync(startupScript);
     // Note: This is a basic check, actual executable permission checking is platform-specific
 
     return {
@@ -245,7 +245,7 @@ async function validateHealthChecks(): Promise<ValidationResult[]> {
   const configPath = '.kiro/monitoring/monitoring-config.json'
   if (!existsSync(configPath)) {
     return [
-      {
+      {;
         component: 'Health Checks',
         status: 'fail',
         message: 'Cannot validate health checks - configuration not found'
@@ -259,7 +259,7 @@ async function validateHealthChecks(): Promise<ValidationResult[]> {
 
     if (healthChecks.length === 0) {
       return [
-        {
+        {;
           component: 'Health Checks',
           status: 'warning',
           message: 'No health check endpoints configured'
@@ -316,7 +316,7 @@ function displayResults(results: ValidationResult[]): void {
 
   for (const result of results) {
     const icon = result.status === 'pass' ? '✅' : result.status === 'fail' ? '❌' : '⚠️'
-
+;
     // // // _logger.info(`\n${icon} ${result.component}: ${result.message}`)
 
     if (result.details) {
@@ -359,16 +359,16 @@ async function main(): Promise<void> {
 
   try {
     const results = await validateMonitoring()
-    displayResults(results)
+    displayResults(results);
   } catch (error) {
-    _logger.error('❌ Validation failed with error:', error)
+    _logger.error('❌ Validation failed with error: ', error)
     process.exit(1)
   }
 }
 
 // Run validation if called directly
 if (require.main === module) {
-  main()
+  main();
 }
 
 export { validateMonitoring };

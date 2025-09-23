@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawAromaticHerbs = {
-  thyme: {
+  thyme: {;
     name: 'Thyme',
     category: 'herb',
     subCategory: 'aromatic',
@@ -22,9 +22,9 @@ const rawAromaticHerbs = {
       elementalAffinity: {
         base: 'Air',
         decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' }
-          second: { element: 'Fire', planet: 'Sun' }
-          third: { element: 'Earth', planet: 'Saturn' }
+          first: { element: 'Air', planet: 'Mercury' },
+        second: { element: 'Fire', planet: 'Sun' },
+        third: { element: 'Earth', planet: 'Saturn' }
         }
       }
     },
@@ -67,9 +67,9 @@ const rawAromaticHerbs = {
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Sun' }
-          second: { element: 'Air', planet: 'Jupiter' }
-          third: { element: 'Earth', planet: 'Pluto' }
+          first: { element: 'Fire', planet: 'Sun' },
+        second: { element: 'Air', planet: 'Jupiter' },
+        third: { element: 'Earth', planet: 'Pluto' }
         }
       }
     },
@@ -128,9 +128,9 @@ const rawAromaticHerbs = {
       elementalAffinity: {
         base: 'Air',
         decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' }
-          second: { element: 'Fire', planet: 'Moon' }
-          third: { element: 'Earth', planet: 'Venus' }
+          first: { element: 'Air', planet: 'Mercury' },
+        second: { element: 'Fire', planet: 'Moon' },
+        third: { element: 'Earth', planet: 'Venus' }
         }
       },
       lunarPhaseModifiers: {
@@ -157,9 +157,9 @@ const rawAromaticHerbs = {
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Mercury' }
-          second: { element: 'Fire', planet: 'Jupiter' }
-          third: { element: 'Air', planet: 'Saturn' }
+          first: { element: 'Earth', planet: 'Mercury' },
+        second: { element: 'Fire', planet: 'Jupiter' },
+        third: { element: 'Air', planet: 'Saturn' }
         }
       }
     },
@@ -211,9 +211,9 @@ const rawAromaticHerbs = {
       elementalAffinity: {
         base: 'Air',
         decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' }
-          second: { element: 'Venus', planet: 'Venus' }
-          third: { element: 'Air', planet: 'Uranus' }
+          first: { element: 'Air', planet: 'Mercury' },
+        second: { element: 'Venus', planet: 'Venus' },
+        third: { element: 'Air', planet: 'Uranus' }
         }
       }
     },
@@ -246,10 +246,8 @@ const rawAromaticHerbs = {
         techniques: ['steep in hot water', 'infuse in cream or sugar']
       }
     },
-    modality: 'Mutable'
-  }
-
-  savory: {
+    modality: 'Mutable' },
+        savory: {
     name: 'Savory',
     elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 }
     nutritionalProfile: {
@@ -268,9 +266,9 @@ const rawAromaticHerbs = {
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Mars' }
-          second: { element: 'Earth', planet: 'Saturn' }
-          third: { element: 'Water', planet: 'Pluto' }
+          first: { element: 'Fire', planet: 'Mars' },
+        second: { element: 'Earth', planet: 'Saturn' },
+        third: { element: 'Water', planet: 'Pluto' }
         }
       }
     },
@@ -332,9 +330,9 @@ const rawAromaticHerbs = {
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Mars' }
-          second: { element: 'Earth', planet: 'Jupiter' }
-          third: { element: 'Water', planet: 'Pluto' }
+          first: { element: 'Fire', planet: 'Mars' },
+        second: { element: 'Earth', planet: 'Jupiter' },
+        third: { element: 'Water', planet: 'Pluto' }
         }
       }
     },
@@ -369,10 +367,8 @@ const rawAromaticHerbs = {
         techniques: ['tempered in hot ghee or oil']
       }
     },
-    modality: 'Cardinal'
-  }
-
-  chervil: {
+    modality: 'Cardinal' },
+        chervil: {
     name: 'Chervil',
     elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 }
     nutritionalProfile: {
@@ -391,9 +387,9 @@ const rawAromaticHerbs = {
       elementalAffinity: {
         base: 'Air',
         decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' }
-          second: { element: 'Water', planet: 'Moon' }
-          third: { element: 'Earth', planet: 'Venus' }
+          first: { element: 'Air', planet: 'Mercury' },
+        second: { element: 'Water', planet: 'Moon' },
+        third: { element: 'Earth', planet: 'Venus' }
         }
       }
     },
@@ -423,10 +419,8 @@ const rawAromaticHerbs = {
       }
     },
     traditionalUses: {}
-    modality: 'Mutable'
-  }
-
-  dill: {
+    modality: 'Mutable' },
+        dill: {
     name: 'Dill',
     elementalProperties: {
       Air: 0.4,

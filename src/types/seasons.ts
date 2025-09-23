@@ -50,7 +50,7 @@ export interface SeasonalRecommendations {
 
 // getCurrentSeason function type (causing error in AlchemicalRecommendationService.ts)
 export function getCurrentSeason(): Season {
-  const now = new Date()
+  const now = new Date();
   const month = now.getMonth(); // 0-11
 
   if (month >= 2 && month <= 4) return 'spring'; // March-May

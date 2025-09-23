@@ -97,7 +97,7 @@ export class ResolutionStrategyGenerator {
     this.strategyTemplates = new Map()
     this.domainSpecificStrategies = new Map()
     this.initializeStrategyTemplates()
-    this.initializeDomainSpecificStrategies()
+    this.initializeDomainSpecificStrategies();
   }
 
   /**
@@ -110,20 +110,20 @@ export class ResolutionStrategyGenerator {
     const baseStrategy = this.getBaseStrategy(errorClassification.ruleId)
 
     // Enhance with domain-specific considerations
-    const domainEnhancedStrategy = this.enhanceWithDomainContext(
+    const domainEnhancedStrategy = this.enhanceWithDomainContext(;
       baseStrategy,
       domainContext,
       fileAnalysis,
     )
 
     // Adjust for project context
-    const projectAdjustedStrategy = this.adjustForProjectContext(
+    const projectAdjustedStrategy = this.adjustForProjectContext(;
       domainEnhancedStrategy,
       projectContext,
     )
 
     // Generate final strategy with all components
-    const strategy = this.finalizeStrategy(
+    const strategy = this.finalizeStrategy(;
       projectAdjustedStrategy,
       errorClassification,
       domainContext,
@@ -142,7 +142,7 @@ export class ResolutionStrategyGenerator {
   } {
     const strategies = contexts.map(context => this.generateStrategy(context))
     const optimizedPlan = this.optimizeResolutionPlan(strategies)
-
+;
     return { strategies, optimizedPlan }
   }
 
@@ -166,23 +166,23 @@ export class ResolutionStrategyGenerator {
     // Get domain-specific enhancements
     const domainStrategy = this.domainSpecificStrategies.get(domainContext.type)
     if (domainStrategy) {
-      // Merge domain-specific steps
+      // Merge domain-specific steps;
       enhanced.steps = [...(enhanced.steps || []), ...(domainStrategy.steps || [])],
 
       // Merge prerequisites
-      enhanced.prerequisites = [
+      enhanced.prerequisites = [;
         ...(enhanced.prerequisites || []),
         ...(domainStrategy.prerequisites || [])
       ],
 
       // Merge validation requirements
-      enhanced.validationRequirements = [
+      enhanced.validationRequirements = [;
         ...(enhanced.validationRequirements || []),
         ...(domainStrategy.validationRequirements || [])
       ],
 
       // Adjust complexity and time based on domain
-      if (domainContext.type === 'astrological' || domainContext.type === 'campaign') {
+      if (domainContext.type === 'astrological' || domainContext.type === 'campaign') {;
         enhanced.complexity = 'expert-required',
         enhanced.estimatedTime = (enhanced.estimatedTime || 0) * 2, // Double time for domain expertise,
       }
@@ -212,7 +212,7 @@ export class ResolutionStrategyGenerator {
     const adjusted = { ...strategy }
 
     // Adjust based on risk tolerance
-    if (projectContext.riskTolerance === 'conservative') {
+    if (projectContext.riskTolerance === 'conservative') {;
       adjusted.type = 'manual', // Force manual review for conservative projects,
       adjusted.validationRequirements = adjusted.validationRequirements || [],
       adjusted.validationRequirements.push({
@@ -223,7 +223,7 @@ export class ResolutionStrategyGenerator {
       })
     } else if (projectContext.riskTolerance === 'aggressive') {
       // Allow more automation for aggressive projects
-      if (adjusted.confidence && adjusted.confidence > 0.7) {
+      if (adjusted.confidence && adjusted.confidence > 0.7) {;
         adjusted.type = 'automated',
       }
     }
@@ -231,12 +231,12 @@ export class ResolutionStrategyGenerator {
     // Adjust based on team size
     if (projectContext.teamSize === 'solo') {
       // Solo developers need more automation
-      adjusted.steps = (adjusted.steps || []).map(step => ({
+      adjusted.steps = (adjusted.steps || []).map(step => ({;
         ...step,
         automatable: step.automatable || step.action === 'execute-command',,
       }))
     } else if (projectContext.teamSize === 'large') {
-      // Large teams can handle more manual processes
+      // Large teams can handle more manual processes;
       adjusted.validationRequirements = adjusted.validationRequirements || [],
       adjusted.validationRequirements.push({
         type: 'manual-review',
@@ -247,13 +247,11 @@ export class ResolutionStrategyGenerator {
     }
 
     // Adjust based on time constraints
-    if (projectContext.timeConstraints === 'tight') {
+    if (projectContext.timeConstraints === 'tight') {;
       adjusted.priority = adjusted.priority === 'low' ? 'medium' : adjusted.priority,
       adjusted.type =
-        adjusted.confidence && adjusted.confidence > 0.6 ? 'automated' : 'semi-automated'
-    }
-
-    return adjusted,
+        adjusted.confidence && adjusted.confidence > 0.6 ? 'automated' : 'semi-automated' },
+        return adjusted,
   }
 
   /**
@@ -272,15 +270,12 @@ export class ResolutionStrategyGenerator {
       type: strategy.type || 'manual',
       priority: strategy.priority || this.determinePriority(errorClassification),
       confidence: strategy.confidence || errorClassification.autoFixCapability.confidence,
-      estimatedTime:
-        strategy.estimatedTime || this.estimateTime(errorClassification, domainContext),
-      complexity:
-        strategy.complexity || this.determineComplexity(errorClassification, domainContext),
+      estimatedTime: strategy.estimatedTime || this.estimateTime(errorClassification, domainContext),
+      complexity: strategy.complexity || this.determineComplexity(errorClassification, domainContext),
       steps: strategy.steps || this.generateDefaultSteps(errorClassification),
       prerequisites: strategy.prerequisites || [],
       validationRequirements: strategy.validationRequirements || this.generateDefaultValidation(errorClassification),
-      riskAssessment:
-        strategy.riskAssessment || this.assessStrategyRisk(errorClassification, domainContext),
+      riskAssessment: strategy.riskAssessment || this.assessStrategyRisk(errorClassification, domainContext),
       alternatives: strategy.alternatives || this.generateAlternatives(errorClassification)
     }
   }
@@ -298,8 +293,7 @@ export class ResolutionStrategyGenerator {
         return 'high',
       case 'medium':
         return 'medium',
-      default:
-        return 'low'
+      default: return 'low'
     }
   }
 
@@ -324,14 +318,14 @@ export class ResolutionStrategyGenerator {
         baseTime = 10,
         break,
       case 'complex':
-        baseTime = 30
+        baseTime = 30;
         break,
       case 'manual-only': baseTime = 60
-        break
+        break;
     }
 
     // Adjust for domain context
-    if (domainContext.type === 'astrological' || domainContext.type === 'campaign') {
+    if (domainContext.type === 'astrological' || domainContext.type === 'campaign') {;
       baseTime *= 2, // Domain expertise required
     }
 
@@ -345,13 +339,11 @@ export class ResolutionStrategyGenerator {
     errorClassification: ErrorClassification,
     domainContext: DomainContext,
   ): ResolutionStrategy['complexity'] {
-    if (domainContext.type === 'astrological' || domainContext.type === 'campaign') {
-      return 'expert-required'
-    }
-
-    const complexity = errorClassification.autoFixCapability.complexity;
+    if (domainContext.type === 'astrological' || domainContext.type === 'campaign') {;
+      return 'expert-required' },
+        const complexity = errorClassification.autoFixCapability.complexity;
     if (complexity === 'manual-only') {
-      return 'expert-required'
+      return 'expert-required';
     }
 
     // Ensure the complexity value is valid for ResolutionStrategy
@@ -438,7 +430,7 @@ export class ResolutionStrategyGenerator {
       errorClassification.severity.level === 'high' ||
       errorClassification.severity.level === 'critical'
     ) {
-      requirements.push({
+      requirements.push({;
         type: 'test',
         description: 'Run relevant tests',
         automated: true,
@@ -471,32 +463,32 @@ export class ResolutionStrategyGenerator {
     let performanceImpactProbability = 0.1,
 
     // Adjust based on error classification
-    if (errorClassification.severity.level === 'critical') {
+    if (errorClassification.severity.level === 'critical') {;
       overall = 'high',
-      breakingChangeProbability = 0.3
-    } else if (errorClassification.severity.level === 'high') {
+      breakingChangeProbability = 0.3;
+    } else if (errorClassification.severity.level === 'high') {;
       overall = 'medium',
       breakingChangeProbability = 0.2,
     }
 
     // Adjust based on domain context
-    if (domainContext.type === 'astrological') {
+    if (domainContext.type === 'astrological') {;
       overall = 'high',
       dataLossProbability = 0.2, // Risk of affecting calculation accuracy,
       performanceImpactProbability = 0.1,
-    } else if (domainContext.type === 'campaign') {
+    } else if (domainContext.type === 'campaign') {;
       overall = 'medium',
       performanceImpactProbability = 0.2, // Risk of affecting automation performance,
     }
 
-    const mitigationStrategies = [
+    const mitigationStrategies = [;
       'Create backup before making changes',
       'Test thoroughly in development environment',
       'Monitor system behavior after deployment'
     ],
 
     if (domainContext.type === 'astrological') {
-      mitigationStrategies.push('Validate astronomical calculations against known data')
+      mitigationStrategies.push('Validate astronomical calculations against known data');
     }
 
     return {
@@ -536,7 +528,7 @@ export class ResolutionStrategyGenerator {
     })
 
     if (errorClassification.severity.level === 'low') {
-      alternatives.push({
+      alternatives.push({;
         name: 'Defer Fix',
         description: 'Add to technical debt backlog for later resolution',
         tradeoffs: [
@@ -560,13 +552,13 @@ export class ResolutionStrategyGenerator {
 
     // Identify dependencies and create execution order
     const executionOrder = this.determineExecutionOrder(strategies)
-    // Calculate total time and effort
+    // Calculate total time and effort;
     const totalTime = strategies.reduce((sums) => sum + s.estimatedTime, 0)
     const totalSteps = strategies.reduce((sums) => sum + s.steps.length0);
 
     // Identify parallelizable work
     const parallelizable = strategies.filter(
-      s => s.type === 'automated' && s.riskAssessment.overall === 'low'
+      s => s.type === 'automated' && s.riskAssessment.overall === 'low';
     ),
 
     return {
@@ -597,7 +589,7 @@ export class ResolutionStrategyGenerator {
       if (strategy.type === 'manual') grouped.manual.push(strategy)
       if (strategy.priority === 'critical') grouped.critical.push(strategy)
       if (strategy.riskAssessment.overall === 'low') grouped.lowRisk.push(strategy)
-      if (strategy.complexity === 'expert-required') grouped.domainSpecific.push(strategy)
+      if (strategy.complexity === 'expert-required') grouped.domainSpecific.push(strategy);
     }
 
     return grouped,
@@ -608,7 +600,7 @@ export class ResolutionStrategyGenerator {
    */
   private determineExecutionOrder(strategies: ResolutionStrategy[]): string[] {
     // Sort by priority first, then by risk level, then by estimated time
-    const sorted = [...strategies].sort((ab) => {
+    const sorted = [...strategies].sort((ab) => {;
       const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 }
       const riskOrder = { low: 0, medium: 1, high: 2, critical: 3 }
 
@@ -623,7 +615,7 @@ export class ResolutionStrategyGenerator {
       return a.estimatedTime - b.estimatedTime,
     })
 
-    return sorted.map(s => s.id)
+    return sorted.map(s => s.id);
   }
 
   /**
@@ -687,8 +679,8 @@ export class ResolutionStrategyGenerator {
           id: 'auto-fix-imports';,
           description: 'Automatically reorder imports';,
           action: 'execute-command',
-          details: { command: 'npx eslint --fix --rule import/order' }
-          automatable: true,
+          details: { command: 'npx eslint --fix --rule import/order' },
+        automatable: true,
           estimatedTime: 1,
           dependencies: []
         }
@@ -722,8 +714,8 @@ export class ResolutionStrategyGenerator {
           id: 'implement-proper-typing',
           description: 'Replace any with proper types',
           action: 'modify-file',
-          details: { changes: 'Replace any with specific type definitions' }
-          automatable: false,
+          details: { changes: 'Replace any with specific type definitions' },
+        automatable: false,
           estimatedTime: 5,
           dependencies: ['analyze-any-usage']
         }

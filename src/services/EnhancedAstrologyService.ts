@@ -1,8 +1,7 @@
 /**
  * Enhanced Astrology Service
  *
- * Provides the most accurate astronomical data by combining multiple sources:
- * 1. Astrologize API (primary)
+ * Provides the most accurate astronomical data by combining multiple sources: * 1. Astrologize API (primary)
  * 2. Swiss Ephemeris data (high accuracy fallback)
  * 3. Comprehensive transit database (seasonal analysis)
  * 4. Existing fallback calculations (final fallback)
@@ -22,7 +21,7 @@ import { swissEphemerisService } from './SwissEphemerisService';
 
 const logger = createLogger('EnhancedAstrologyService')
 
-export interface EnhancedAstrologicalData {
+export interface EnhancedAstrologicalData {;
   planetaryPositions: Record<string, CelestialPosition>,
   dataSource: 'astrologize' | 'swiss-ephemeris' | 'fallback' | 'composite',
   confidence: number,
@@ -68,19 +67,19 @@ export class EnhancedAstrologyService {
       const cached = this.cache.get(cacheKey)
       if (cached && Date.now() - cached.lastUpdated.getTime() < this.cacheExpiration) {
         logger.debug('Using cached enhanced astrological data')
-        return cached
+        return cached;
       }
     }
 
     try {
-      const enhancedData = await this.calculateEnhancedPositions(date)
+      const enhancedData = await this.calculateEnhancedPositions(date);
       this.cache.set(cacheKey, enhancedData)
       this.cleanCache()
 
       logger.info(`Enhanced astrological data calculated for ${date.toDateString()}`)
       return enhancedData,
     } catch (error) {
-      logger.error('Error getting enhanced planetary positions:', error)
+      logger.error('Error getting enhanced planetary positions: ', error)
       throw error,
     }
   }
@@ -95,12 +94,12 @@ export class EnhancedAstrologyService {
 
     // Get seasonal analysis for the next 3 months
     const endDate = new Date(date)
-    endDate.setMonth(endDate.getMonth() + 3)
+    endDate.setMonth(endDate.getMonth() + 3);
     const seasonalAnalysis = getSeasonalAnalysis(date, endDate)
 
     // Get upcoming transits (next 30 days)
     const upcomingEndDate = new Date(date)
-    upcomingEndDate.setDate(upcomingEndDate.getDate() + 30)
+    upcomingEndDate.setDate(upcomingEndDate.getDate() + 30);
     const upcomingAnalysis = getSeasonalAnalysis(date, upcomingEndDate)
 
     return {
@@ -117,7 +116,7 @@ export class EnhancedAstrologyService {
   /**
    * Get seasonal recommendations based on current transits
    */
-  async getSeasonalRecommendations(date: Date = new Date()): Promise<{
+  async getSeasonalRecommendations(date: Date = new Date()): Promise<{;
     seasonalThemes: string[],
     culinaryInfluences: string[],
     dominantElements: Record<string, number>,
@@ -125,14 +124,14 @@ export class EnhancedAstrologyService {
     recommendedCookingMethods: string[],
     alchemicalProperties: Record<string, number>,
   }> {
-    const transitAnalysis = await this.getTransitAnalysis(date)
+    const transitAnalysis = await this.getTransitAnalysis(date);
     const currentSeason = transitAnalysis.currentSeason;
 
     if (!currentSeason) {
       // Fallback to basic seasonal analysis
       const month = date.getMonth()
       const basicSeasonalData = this.getBasicSeasonalData(month)
-      return {
+      return {;
         seasonalThemes: basicSeasonalData.themes,
         culinaryInfluences: basicSeasonalData.culinaryInfluences,
         dominantElements: basicSeasonalData.dominantElements,
@@ -145,16 +144,14 @@ export class EnhancedAstrologyService {
     return {
       seasonalThemes: ((currentSeason as unknown as any).seasonalThemes as string[]) || [],
       culinaryInfluences: ((currentSeason as unknown as any).culinaryInfluences as string[]) || [],
-      dominantElements:
-        ((currentSeason as unknown as any).dominantElements as Record<string, number>) || {}
+      dominantElements: ((currentSeason as unknown as any).dominantElements as Record<string, number>) || {}
       recommendedCuisines: this.getRecommendedCuisines(,
         ((currentSeason as unknown as any).dominantElements as Record<string, number>) || {}
       ),
       recommendedCookingMethods: this.getRecommendedCookingMethods(,
         ((currentSeason as unknown as any).dominantElements as Record<string, number>) || {}
       ),
-      alchemicalProperties:
-        ((currentSeason as unknown as any).alchemicalProperties as Record<string, number>) || {}
+      alchemicalProperties: ((currentSeason as unknown as any).alchemicalProperties as Record<string, number>) || {}
     }
   }
 
@@ -167,9 +164,9 @@ export class EnhancedAstrologyService {
     let confidence = 0.5
 
     // Unified positions service
-    try {
+    try {;
       const { planetaryPositionsService } = await import('@/services/PlanetaryPositionsService')
-      const servicePositions = await planetaryPositionsService.getForDate(date)
+      const servicePositions = await planetaryPositionsService.getForDate(date);
       primaryPositions = servicePositions as unknown as Record<string, CelestialPosition>,
       dataSource = 'positions-service',
       confidence = 0.95,
@@ -177,11 +174,11 @@ export class EnhancedAstrologyService {
       logger.warn('Positions service failed, falling back to Swiss/fallback chain')
       // Try Swiss Ephemeris then fallback
       try {
-        primaryPositions = await swissEphemerisService.getPlanetaryPositions(date)
+        primaryPositions = await swissEphemerisService.getPlanetaryPositions(date);
         dataSource = 'swiss-ephemeris',
         confidence = 0.9,
       } catch (_e) {
-        primaryPositions = getFallbackPlanetaryPositions(date)
+        primaryPositions = getFallbackPlanetaryPositions(date);
         dataSource = 'fallback',
         confidence = 0.7,
       }
@@ -193,11 +190,11 @@ export class EnhancedAstrologyService {
     // Get sidereal time
     const siderealTime = swissEphemerisService.getSiderealTime(date)
 
-    // Calculate dominant elements from positions
+    // Calculate dominant elements from positions;
     const dominantElements = this.(() => ({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }))(primaryPositions)
 
     // Get retrograde planets
-    const retrogradePlanets = Object.entries(primaryPositions)
+    const retrogradePlanets = Object.entries(primaryPositions);
       .filter(([_, position]) => position.isRetrograde)
       .map(([planet_]) => planet)
 
@@ -228,7 +225,7 @@ export class EnhancedAstrologyService {
     try {
       const astrologizePositions = await getCurrentPlanetaryPositions()
 
-      // Convert to CelestialPosition format
+      // Convert to CelestialPosition format;
       const celestialPositions: Record<string, CelestialPosition> = {}
 
       Object.entries(astrologizePositions).forEach(([planet, position]) => {
@@ -243,7 +240,7 @@ export class EnhancedAstrologyService {
 
       return celestialPositions,
     } catch (error) {
-      logger.error('Error fetching Astrologize positions:', error)
+      logger.error('Error fetching Astrologize positions: ', error)
       throw error,
     }
   }
@@ -268,12 +265,10 @@ export class EnhancedAstrologyService {
       aquarius: 'Air',
       cancer: 'Water',
       scorpio: 'Water',
-      pisces: 'Water'
-    }
-
-    Object.values(positions).forEach(position => {
+      pisces: 'Water' },
+        Object.values(positions).forEach(position => {
       const element = signElements[position.sign || 'aries']
-      if (element) {
+      if (element) {;
         elementCounts[element]++,
       }
     })
@@ -282,7 +277,7 @@ export class EnhancedAstrologyService {
     const total = Object.values(elementCounts).reduce((sum, count) => sum + count0)
     if (total > 0) {
       Object.keys(elementCounts).forEach(element => {
-        elementCounts[element] /= total
+        elementCounts[element] /= total;
       })
     }
 
@@ -348,7 +343,7 @@ export class EnhancedAstrologyService {
   } {
     const seasonalData = {
       0: {
-        // January
+        // January;
         themes: ['New beginnings', 'Comfort', 'Warmth'],
         culinaryInfluences: ['Hearty dishes', 'Slow cooking', 'Warm spices'],
         dominantElements: { Fire: 0.3, Earth: 0.4, Air: 0.2, Water: 0.1 }
@@ -386,14 +381,14 @@ export class EnhancedAstrologyService {
   private cleanCache(): void {
     const now = Date.now()
     const keysToDelete: string[] = []
-
+;
     this.cache.forEach((value, key) => {
       if (now - value.lastUpdated.getTime() > this.cacheExpiration) {
         keysToDelete.push(key)
       }
     })
 
-    keysToDelete.forEach(key => this.cache.delete(key))
+    keysToDelete.forEach(key => this.cache.delete(key));
   }
 
   /**
@@ -434,4 +429,4 @@ export const getTransitAnalysis = (_date?: Date) =>
 export const getSeasonalRecommendations = (_date?: Date) =>
   enhancedAstrologyService.getSeasonalRecommendations(_date)
 export const getDataSourceInfo = () => enhancedAstrologyService.getDataSourceInfo()
-export const forceRefreshAstrologize = () => enhancedAstrologyService.forceRefreshAstrologize()
+export const forceRefreshAstrologize = () => enhancedAstrologyService.forceRefreshAstrologize();

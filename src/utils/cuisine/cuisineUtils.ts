@@ -76,7 +76,7 @@ export function isCuisineCompatibleWithIngredient(
   const compatibleCuisines = getCuisinePAirings(ingredientName, category)
   return Array.isArray(compatibleCuisines)
     ? compatibleCuisines.includes(cuisineName)
-    : compatibleCuisines === cuisineName
+    : compatibleCuisines === cuisineName;
 }
 
 /**

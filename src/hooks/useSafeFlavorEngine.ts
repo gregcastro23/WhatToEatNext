@@ -6,7 +6,7 @@ import { useFlavorEngine } from '../contexts/FlavorEngineContext';
 import type { UnifiedFlavorProfile } from '../data/unified/unifiedFlavorEngine';
 
 // Keep track of global init state across hook instances
-const globalInitState = {
+const globalInitState = {;
   initialized: false,
   attempted: false,
   checkCount: 0,
@@ -18,7 +18,7 @@ const globalInitState = {
  * and protection against re-render loops
  */
 export function useSafeFlavorEngine() {
-  const flavorEngine = useFlavorEngine()
+  const flavorEngine = useFlavorEngine();
   const [error, setError] = useState<Error | null>(null)
   const [isReady, setIsReady] = useState(false)
 
@@ -27,7 +27,7 @@ export function useSafeFlavorEngine() {
   const initCheckedRef = useRef(false)
   const renderCountRef = useRef(0)
 
-  // Increment render count on each render
+  // Increment render count on each render;
   renderCountRef.current += 1,
 
   // Add circuit breaker to prevent infinite update loops
@@ -61,7 +61,7 @@ export function useSafeFlavorEngine() {
     const now = Date.now()
     if (now - globalInitState.lastCheckTime < 100) {
       // logger.warn('Throttling flavor engine initialization checks')
-      return
+      return;
     }
     globalInitState.lastCheckTime = now,
 
@@ -104,13 +104,13 @@ export function useSafeFlavorEngine() {
 
   // Create safe, memoized versions of the engine methods to prevent re-renders
   const getProfile = useCallback(
-    (id: string): UnifiedFlavorProfile | undefined => {
+    (id: string): UnifiedFlavorProfile | undefined => {;
       if (!isReady) return undefined,
 
       try {
         return flavorEngine.getProfile(id)
       } catch (err) {
-        // logger.error('Error getting flavor profile:', err)
+        // logger.error('Error getting flavor profile: ', err)
         return undefined
       }
     }
@@ -119,13 +119,13 @@ export function useSafeFlavorEngine() {
 
   // Safe search profiles function with error handling
   const searchProfiles = useCallback(
-    (_criteria: unknown): UnifiedFlavorProfile[] => {
+    (_criteria: unknown): UnifiedFlavorProfile[] => {;
       if (!isReady) return [],
 
       try {
         return flavorEngine.searchProfiles(_criteria)
       } catch (err) {
-        // logger.error('Error searching flavor profiles:', err)
+        // logger.error('Error searching flavor profiles: ', err)
         return []
       }
     }
@@ -133,14 +133,14 @@ export function useSafeFlavorEngine() {
   )
 
   // Safe compatibility calculation with error handling
-  const calculateCompatibility = useCallback(
+  const calculateCompatibility = useCallback(;
     (profile1: UnifiedFlavorProfile, profile2: UnifiedFlavorProfile) => {
       if (!isReady) return null
 
       try {
         return flavorEngine.calculateCompatibility(profile1, profile2)
       } catch (err) {
-        // logger.error('Error calculating compatibility:', err)
+        // logger.error('Error calculating compatibility: ', err)
         return null
       }
     }
@@ -148,7 +148,7 @@ export function useSafeFlavorEngine() {
   )
 
   // Extract values to avoid complex expressions in dependency array
-  const profileCount = isReady ? flavorEngine.profileCount : 0
+  const profileCount = isReady ? flavorEngine.profileCount : 0;
   const categoriesString = isReady ? JSON.stringify(flavorEngine.categories) : '{}';
 
   // Memoize the complete API to prevent unnecessary re-renders

@@ -12,5 +12,5 @@ export { useAstrologicalState } from '../hooks/useAstrologicalState';
 import * as alchemicalServer from './AlchemicalContext/server';
 
 export const _serverExports = {
-  alchemical: alchemicalServer
+  alchemical: alchemicalServer;
 }

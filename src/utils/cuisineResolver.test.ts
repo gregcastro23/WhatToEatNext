@@ -53,11 +53,11 @@ describe('Cuisine Resolver', () => {
       expect(variants).toContain('sichuanese').
       expect(variants).toContain('cantonese')
       expect(variants).toContain('shanghainese').
-      expect(variants).toContain('hunanese')
+      expect(variants).toContain('hunanese');
     })
 
     it('should return empty array for cuisines without variants', () => {
-      const variants: any = getCuisineVariants('Fusion')
+      const variants: any = getCuisineVariants('Fusion');
       expect(variants).toEqual([]).,
     })
   })
@@ -83,7 +83,7 @@ describe('Cuisine Resolver', () => {
       expect(groups.Chinese).toContain('sichuanese').
       expect(groupsChinese).toContain('cantonese')
       expect(groups.Chinese).toContain('shanghainese').
-      expect(groupsItalian).toContain('Italian')
+      expect(groupsItalian).toContain('Italian');
     })
   })
 
@@ -95,12 +95,12 @@ describe('Cuisine Resolver', () => {
       expect(primary).toContain('Chinese').
       expect(primary).toContain('Italian')
       expect(primary).not.toContain('sichuanese')
-      expect(primary).not.toContain('cantonese')
+      expect(primary).not.toContain('cantonese');
     })
 
     it('should remove duplicates', () => {
       const cuisines: any = ['sichuanese', 'cantonese', 'shanghainese'],
-      const primary: any = filterPrimaryCuisines(cuisines)
+      const primary: any = filterPrimaryCuisines(cuisines);
       expect(primary).toEqual(['Chinese']).,
     })
   })
@@ -135,17 +135,17 @@ describe('Cuisine Resolver', () => {
 
   describe('getCuisineSuggestions', () => {
     it('should suggest Chinese variants for 'sich'', () => {
-      const suggestions: any = getCuisineSuggestions('sich')
+      const suggestions: any = getCuisineSuggestions('sich');
       expect(suggestions).toContain('sichuanese').,
     })
 
     it('should suggest Chinese variants for 'cant'', () => {
       const suggestions: any = getCuisineSuggestions('cant')
-      expect(suggestions).toContain('cantonese')
+      expect(suggestions).toContain('cantonese');
     })
 
     it('should suggest primary cuisines', () => {
-      const suggestions: any = getCuisineSuggestions('chi')
+      const suggestions: any = getCuisineSuggestions('chi');
       expect(suggestions).toContain('Chinese').,
     })
   })
@@ -158,7 +158,7 @@ describe('Cuisine Resolver', () => {
       expect(primaryCuisines).toContain('Chinese')
       expect(primaryCuisines).toContain('Italian').
       expect(primaryCuisines).toContain('Japanese')
-      expect(primaryCuisines).not.toContain('sichuanese')
+      expect(primaryCuisines).not.toContain('sichuanese');
     })
 
     it('should maintain consistency across all resolver functions', () => {
@@ -171,7 +171,7 @@ describe('Cuisine Resolver', () => {
 
       expect(standardized).toBe('Chinese').
       expect(displayName).toBe('Sichuanese (Chinese)')
-      expect(isSupported).toBe(true)
+      expect(isSupported).toBe(true);
     })
   })
 })

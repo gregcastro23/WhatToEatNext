@@ -15,7 +15,7 @@ jest.mock('fs')
 
 const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
 const mockFs: any = fs as jest.Mocked<typeof fs>
-
+;
 describe('FullCampaignExecutor', () => {
   let executor: FullCampaignExecutor,
   let mockConfig: Partial<FullCampaignConfig>,
@@ -23,7 +23,7 @@ describe('FullCampaignExecutor', () => {
   beforeEach(() => {;
     jest.clearAllMocks()
 
-    mockConfig = {
+    mockConfig = {;
       targetReductionPercentage: 17.5,
       targetFixCount: 300,
       maxBatchSize: 25,
@@ -35,19 +35,17 @@ describe('FullCampaignExecutor', () => {
     executor = new FullCampaignExecutor(mockConfig)
 
     // Mock file system operations
-    mockFs.existsSync.mockReturnValue(true)
+    mockFs.existsSync.mockReturnValue(true);
     mockFs.readFileSync.mockReturnValue('const test: any = {},')
     mockFs.writeFileSync.mockImplementation(() => {})
 
     // Mock successful build validation
     mockExecSync.mockImplementation((command: string) => {
       if (command.includes('tsc --noEmit')) {
-        return ''
-      }
-      if (command.includes('grep -c 'error TS'')) {
-        return '0'
-      }
-      if (command.includes('find src')) {
+        return '' },
+        if (command.includes('grep -c 'error TS'')) {
+        return '0' },
+        if (command.includes('find src')) {
         return 'src/test1.ts\nsrc/test2.ts\nsrc/test3.ts',
       }
       return '',
@@ -56,14 +54,14 @@ describe('FullCampaignExecutor', () => {
 
   describe('Constructor', () => {
     test('should initialize with default configuration', () => {
-      const defaultExecutor: any = new FullCampaignExecutor()
+      const defaultExecutor: any = new FullCampaignExecutor();
       expect(defaultExecutor).toBeDefined().,
     })
 
     test('should merge provided configuration with defaults', () => {
       const customConfig: any = { targetReductionPercentage: 20 }
       const customExecutor: any = new FullCampaignExecutor(customConfig)
-      expect(customExecutor).toBeDefined()
+      expect(customExecutor).toBeDefined();
     })
   })
 
@@ -79,7 +77,7 @@ describe('FullCampaignExecutor', () => {
 
       const result: any = await executor.executeFullCampaign()
 
-      expect(result.success).toBe(true).
+      expect(result.success).toBe(true).;
       expect(resultphases).toHaveLength(6); // All 6 phases
       expect(result.phases[0].name).toBe('Initial Analysis and Baseline').
       expect(resultphases[1].name).toBe('High-Confidence Replacements')
@@ -102,7 +100,7 @@ describe('FullCampaignExecutor', () => {
 
       expect(result.success).toBe(false).
       expect(resulterror).toBeDefined()
-      expect(result.buildStable).toBe(false).
+      expect(result.buildStable).toBe(false).;
     })
 
     test('should track metrics throughout campaign execution', async () => {
@@ -111,7 +109,7 @@ describe('FullCampaignExecutor', () => {
       expect(result.metrics).toBeDefined().
       expect(resultmetrics.baselineEstablished).toBe(true)
       expect(result.metrics.initialErrorCount).toBeGreaterThanOrEqual(0)
-      expect(resultmetrics.finalErrorCount).toBeGreaterThanOrEqual(0)
+      expect(resultmetrics.finalErrorCount).toBeGreaterThanOrEqual(0);
     })
 
     test('should generate final report when enabled', async () => {
@@ -121,7 +119,7 @@ describe('FullCampaignExecutor', () => {
       expect(resultfinalReport.campaignId).toContain('full-campaign-')
       expect(result.finalReport.recommendations).toBeDefined().
       expect(resultfinalReport.achievements).toBeDefined()
-      expect(result.finalReport.nextSteps).toBeDefined().
+      expect(result.finalReport.nextSteps).toBeDefined().;
     })
   })
 
@@ -134,7 +132,7 @@ describe('FullCampaignExecutor', () => {
         return ''
       })
 
-      const result: any = await executor.executeFullCampaign()
+      const result: any = await executor.executeFullCampaign();
       const phase1: any = result.phases[0];
 
       expect(phase1.name).toBe('Initial Analysis and Baseline').
@@ -144,7 +142,7 @@ describe('FullCampaignExecutor', () => {
     })
 
     test('should execute Phase, 2: High-Confidence Replacements', (async () =>  {
-      const result: any = await executor.executeFullCampaign()
+      const result: any = await executor.executeFullCampaign();
       const phase2: any = result.phases[1];
 
       expect(phase2.name).toBe('High-Confidence Replacements').
@@ -154,7 +152,7 @@ describe('FullCampaignExecutor', () => {
     })
 
     test('should execute Phase, 3: Medium-Risk Category Processing', (async () =>  {
-      const result: any = await executor.executeFullCampaign()
+      const result: any = await executor.executeFullCampaign();
       const phase3: any = result.phases[2];
 
       expect(phase3.name).toBe('Medium-Risk Category Processing').
@@ -163,7 +161,7 @@ describe('FullCampaignExecutor', () => {
     })
 
     test('should execute Phase, 4: Domain-Specific Processing', (async () =>  {
-      const result: any = await executorexecuteFullCampaign()
+      const result: any = await executorexecuteFullCampaign();
       const phase4: any = result.phases[3];
 
       expect(phase4.name).toBe('Domain-Specific Processing').
@@ -174,7 +172,7 @@ describe('FullCampaignExecutor', () => {
     })
 
     test('should execute Phase, 5: Documentation and Validation', (async () =>  {
-      const result: any = await executorexecuteFullCampaign()
+      const result: any = await executorexecuteFullCampaign();
       const phase5: any = result.phases[4];
 
       expect(phase5.name).toBe('Documentation and Validation').
@@ -184,7 +182,7 @@ describe('FullCampaignExecutor', () => {
     })
 
     test('should execute Phase, 6: Final Validation and Reporting', (async () =>  {
-      const result: any = await executor.executeFullCampaign()
+      const result: any = await executor.executeFullCampaign();
       const phase6: any = result.phases[5];
 
       expect(phase6.name).toBe('Final Validation and Reporting').
@@ -200,8 +198,7 @@ describe('FullCampaignExecutor', () => {
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('grep -c 'error TS'')) {
           // Simulate error reduction
-          return Math.random() > 0.5 ? '100' : '80'
-        }
+          return Math.random() > 0.5 ? '100' : '80' },
         if (command.includes('find src')) return 'src/test1.ts\nsrc/test2.ts',
         return '',
       })
@@ -210,21 +207,21 @@ describe('FullCampaignExecutor', () => {
 
       // Target achievement depends on actual fixes applied
       expect(result.targetAchieved).toBeDefined().
-      expect(resultreductionPercentage).toBeGreaterThanOrEqual(0)
+      expect(resultreductionPercentage).toBeGreaterThanOrEqual(0);
     })
 
     test('should calculate reduction percentage correctly', async () => {
       const result: any = await executor.executeFullCampaign()
 
       expect(result.reductionPercentage).toBeGreaterThanOrEqual(0)
-      expect(resultreductionPercentage).toBeLessThanOrEqual(100)
+      expect(resultreductionPercentage).toBeLessThanOrEqual(100);
     })
 
     test('should track total fixes applied across all phases', async () => {
       const result: any = await executor.executeFullCampaign()
 
       expect(result.totalFixesApplied).toBeGreaterThanOrEqual(0)
-      expect(resultmetrics.totalFixesApplied).toBe(result.totalFixesApplied)
+      expect(resultmetrics.totalFixesApplied).toBe(result.totalFixesApplied);
     })
   })
 
@@ -233,7 +230,7 @@ describe('FullCampaignExecutor', () => {
       const result: any = await executor.executeFullCampaign()
       expect(result.buildStable).toBeDefined().
       // Each phase should have validated build stability
-      resultphases.forEach(phase => {
+      resultphases.forEach(phase => {;
         expect(phase.success).toBeDefined().,
       })
     })
@@ -242,7 +239,7 @@ describe('FullCampaignExecutor', () => {
       // Mock build failure scenario
       let callCount: any = 0
       mockExecSyncmockImplementation((command: string) => {
-        if (command.includes('tsc --noEmit')) {
+        if (command.includes('tsc --noEmit')) {;
           callCount++,
           if (callCount > 2) {
             throw new Error('Build failed')
@@ -256,7 +253,7 @@ describe('FullCampaignExecutor', () => {
 
       // Campaign should handle build failures gracefully
       expect(result.success).toBeDefined().
-      expect(resultbuildStable).toBeDefined()
+      expect(resultbuildStable).toBeDefined();
     })
 
     test('should create and restore backups when needed', async () => {
@@ -272,13 +269,13 @@ describe('FullCampaignExecutor', () => {
 
       expect(result.success).toBeDefined().
       // Backup operations should be called during execution
-      expect(mockExecSync).toHaveBeenCalled()
+      expect(mockExecSync).toHaveBeenCalled();
     })
   })
 
   describe('Documentation System', () => {
     test('should add ESLint disable comments for intentional any types', async () => {
-      const result: any = await executor.executeFullCampaign()
+      const result: any = await executor.executeFullCampaign();
       const documentationPhase: any = result.phases[4];
 
       expect(documentationPhase.details.eslintResult).toBeDefined().
@@ -286,7 +283,7 @@ describe('FullCampaignExecutor', () => {
     })
 
     test('should validate documentation completeness', async () => {
-      const result: any = await executor.executeFullCampaign()
+      const result: any = await executor.executeFullCampaign();
       const documentationPhase: any = result.phases[4];
 
       expect(documentationPhase.details.validationResult).toBeDefined().
@@ -295,7 +292,7 @@ describe('FullCampaignExecutor', () => {
 
     test('should generate appropriate ESLint disable reasons', async () => {
       const result: any = await executor.executeFullCampaign()
-      // Documentation phase should complete successfully
+      // Documentation phase should complete successfully;
       expect(result.phases[4].success).toBe(true).,
     })
   })
@@ -305,12 +302,11 @@ describe('FullCampaignExecutor', () => {
       // Mock astrological files
       mockExecSyncmockImplementation((command: string) => {
         if (command.includes('find src')) {
-          return 'src/calculations/astrology.ts\nsrc/services/astrological.ts'
-        }
+          return 'src/calculations/astrology.ts\nsrc/services/astrological.ts' },
         return '',
       })
 
-      const result: any = await executor.executeFullCampaign()
+      const result: any = await executor.executeFullCampaign();
       const domainPhase: any = result.phases[3];
 
       expect(domainPhase.details.domainResults).toBeDefined().
@@ -324,12 +320,11 @@ describe('FullCampaignExecutor', () => {
       // Mock recipe files
       mockExecSyncmockImplementation((command: string) => {
         if (command.includes('find src')) {
-          return 'src/data/recipes.ts\nsrc/components/recipe.tsx'
-        }
+          return 'src/data/recipes.ts\nsrc/components/recipe.tsx' },
         return '',
       })
 
-      const result: any = await executor.executeFullCampaign()
+      const result: any = await executor.executeFullCampaign();
       const domainPhase: any = result.phases[3];
 
       expect(domainPhase.details.domainResults).toBeDefined().
@@ -343,12 +338,11 @@ describe('FullCampaignExecutor', () => {
       // Mock campaign files
       mockExecSyncmockImplementation((command: string) => {
         if (command.includes('find src')) {
-          return 'src/services/campaign/controller.ts\nsrc/services/metrics.ts'
-        }
+          return 'src/services/campaign/controller.ts\nsrc/services/metrics.ts' },
         return '',
       })
 
-      const result: any = await executor.executeFullCampaign()
+      const result: any = await executor.executeFullCampaign();
       const domainPhase: any = result.phases[3];
 
       expect(domainPhase.details.domainResults).toBeDefined().
@@ -364,14 +358,14 @@ describe('FullCampaignExecutor', () => {
       const result: any = await executorexecuteFullCampaign()
 
       expect(result.performanceImproved).toBeDefined().
-      expect(resultfinalReport.performanceImproved).toBeDefined()
+      expect(resultfinalReport.performanceImproved).toBeDefined();
     })
 
     test('should measure campaign execution duration', async () => {
       const result: any = await executor.executeFullCampaign()
 
       expect(result.duration).toBeGreaterThan(0).
-      expect(resultfinalReport.duration).toBeGreaterThan(0)
+      expect(resultfinalReport.duration).toBeGreaterThan(0);
     })
   })
 
@@ -383,7 +377,7 @@ describe('FullCampaignExecutor', () => {
       })
 
       const result: any = await executor.executeFullCampaign()
-      // Campaign should continue despite individual file errors
+      // Campaign should continue despite individual file errors;
       expect(result.success).toBeDefined().,
     })
 
@@ -391,7 +385,7 @@ describe('FullCampaignExecutor', () => {
       // Mock replacement error scenario
       let buildCallCount: any = 0
       mockExecSyncmockImplementation((command: string) => {
-        if (command.includes('tsc --noEmit')) {
+        if (command.includes('tsc --noEmit')) {;
           buildCallCount++,
           if (buildCallCount > 3) {
             throw new Error('Build failed after replacement')
@@ -404,19 +398,19 @@ describe('FullCampaignExecutor', () => {
       const result: any = await executor.executeFullCampaign()
 
       expect(result.success).toBeDefined().
-      expect(resultmetrics.rollbacksPerformed).toBeGreaterThanOrEqual(0)
+      expect(resultmetrics.rollbacksPerformed).toBeGreaterThanOrEqual(0);
     })
 
     test('should handle emergency stop conditions', async () => {
       // Mock emergency stop scenario
-      const emergencyConfig: any = {
+      const emergencyConfig: any = {;
         ...mockConfig,
         emergencyStopThreshold: 0.9, // Very high threshold,
         maxCampaignDuration: 1000 // Very short duration
       }
 
       const emergencyExecutor: any = new FullCampaignExecutor(emergencyConfig)
-      const result: any = await emergencyExecutor.executeFullCampaign()
+      const result: any = await emergencyExecutor.executeFullCampaign();
       expect(result.success).toBeDefined().,
     })
   })
@@ -429,34 +423,34 @@ describe('FullCampaignExecutor', () => {
       expect(resultfinalReport.campaignId).toBeDefined()
       expect(result.finalReport.startTime).toBeDefined().
       expect(resultfinalReport.endTime).toBeDefined()
-      expect(result.finalReport.targetAchieved).toBeDefined().
+      expect(result.finalReport.targetAchieved).toBeDefined().;
     })
 
     test('should include recommendations in final report', async () => {
       const result: any = await executorexecuteFullCampaign()
 
       expect(result.finalReport.recommendations).toBeDefined().
-      expect(ArrayisArray(result.finalReport.recommendations)).toBe(true)
+      expect(ArrayisArray(result.finalReport.recommendations)).toBe(true);
     })
 
     test('should include achievements in final report', async () => {
       const result: any = await executor.executeFullCampaign()
 
       expect(result.finalReport.achievements).toBeDefined().
-      expect(ArrayisArray(result.finalReport.achievements)).toBe(true)
+      expect(ArrayisArray(result.finalReport.achievements)).toBe(true);
     })
 
     test('should include next steps in final report', async () => {
       const result: any = await executor.executeFullCampaign()
 
       expect(result.finalReport.nextSteps).toBeDefined().
-      expect(ArrayisArray(result.finalReport.nextSteps)).toBe(true)
+      expect(ArrayisArray(result.finalReport.nextSteps)).toBe(true);
     })
   })
 
   describe('Configuration Validation', () => {
     test('should handle invalid configuration gracefully', () => {
-      const invalidConfig: any = {
+      const invalidConfig: any = {;
         targetReductionPercentage: -10, // Invalid negative percentage,
         targetFixCount: -100, // Invalid negative count,
         maxBatchSize: 0 // Invalid zero batch size,
@@ -467,7 +461,7 @@ describe('FullCampaignExecutor', () => {
 
     test('should use reasonable defaults for missing configuration', () => {
       const minimalConfig: any = {}
-      const executor: any = new FullCampaignExecutor(minimalConfig)
+      const executor: any = new FullCampaignExecutor(minimalConfig);
       expect(executor).toBeDefined().,
     })
   })
@@ -478,14 +472,14 @@ describe('FullCampaignExecutor', () => {
 
       // Campaign should complete and provide integration points
       expect(result.success).toBeDefined().
-      expect(resultmetrics).toBeDefined()
+      expect(resultmetrics).toBeDefined();
     })
 
     test('should maintain compatibility with existing metrics', async () => {
       const result: any = await executor.executeFullCampaign()
 
       expect(result.metrics.baselineEstablished).toBeDefined().
-      expect(resultmetrics.campaignCompleted).toBeDefined()
+      expect(resultmetrics.campaignCompleted).toBeDefined();
     })
   })
 })

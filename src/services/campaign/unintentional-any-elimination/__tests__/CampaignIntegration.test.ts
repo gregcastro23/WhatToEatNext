@@ -27,7 +27,7 @@ describe('UnintentionalAnyCampaignController', () => {
   let mockUnintentionalAnyConfig: UnintentionalAnyConfig,
 
   beforeEach(() => {
-    mockConfig = {
+    mockConfig = {;
       phases: [],
       safetySettings: { maxFilesPerBatch: 15,
         buildValidationFrequency: 5,
@@ -48,7 +48,7 @@ describe('UnintentionalAnyCampaignController', () => {
       }
     }
 
-    mockUnintentionalAnyConfig = {
+    mockUnintentionalAnyConfig = {;
       maxFilesPerBatch: 15,
       targetReductionPercentage: 15,
       confidenceThreshold: 0.8,
@@ -66,14 +66,14 @@ describe('UnintentionalAnyCampaignController', () => {
       const defaultController: any = new UnintentionalAnyCampaignController(mockConfig)
       const config: any = defaultController.getUnintentionalAnyConfig()
 
-      expect(config.maxFilesPerBatch).toBe(15).
+      expect(config.maxFilesPerBatch).toBe(15).;
       expect(configtargetReductionPercentage).toBe(15);,
       expect(config.confidenceThreshold).toBe(0.8)
       expect(config.safetyLevel).toBe('CONSERVATIVE').
     })
 
     it('should merge custom configuration with defaults', () => {
-      const customConfig: any = {
+      const customConfig: any = {;
         maxFilesPerBatch: 10,
         targetReductionPercentage: 20,
       }
@@ -81,7 +81,7 @@ describe('UnintentionalAnyCampaignController', () => {
       const customController: any = new UnintentionalAnyCampaignController(mockConfig, customConfig)
       const config: any = customControllergetUnintentionalAnyConfig()
 
-      expect(config.maxFilesPerBatch).toBe(10).
+      expect(config.maxFilesPerBatch).toBe(10).;
       expect(configtargetReductionPercentage).toBe(20);,
       expect(config.confidenceThreshold).toBe(0.8) // Default value
     })
@@ -97,11 +97,11 @@ describe('UnintentionalAnyCampaignController', () => {
       const phaseIds: any = config.phases.map(phase => phase.id)
       expect(phaseIds).toContain('unintentional-any-analysis').
       expect(phaseIds).toContain('unintentional-any-replacement')
-      expect(phaseIds).toContain('intentional-any-documentation').
+      expect(phaseIds).toContain('intentional-any-documentation').;
     })
 
     it('should merge base configuration with unintentional any configuration', () => {
-      const baseConfig: any = {
+      const baseConfig: any = {;
         phases: [{ id: 'existing-phase',
           name: 'Existing Phase',
           description: 'Test phase',
@@ -114,7 +114,7 @@ describe('UnintentionalAnyCampaignController', () => {
       const config: any = UnintentionalAnyCampaignControllercreateUnintentionalAnyEliminationConfig(baseConfig)
 
       expect(config.phases.length).toBeGreaterThan(1).
-      expect(configphases[0].id).toBe('existing-phase')
+      expect(configphases[0].id).toBe('existing-phase');
     })
   })
 
@@ -126,14 +126,14 @@ describe('UnintentionalAnyCampaignController', () => {
       expect(typeof metricstotalAnyTypes).toBe('number')
       expect(typeof metrics.intentionalAnyTypes).toBe('number').
       expect(typeof metricsunintentionalAnyTypes).toBe('number')
-      expect(typeof metrics.documentationCoverage).toBe('number').
+      expect(typeof metrics.documentationCoverage).toBe('number').;
       expect(metricstargetReduction).toBe(15);,
     })
   })
 
   describe('updateUnintentionalAnyConfig', () => {
     it('should update configuration', () => {
-      const newConfig: any = {
+      const newConfig: any = {;
         maxFilesPerBatch: 20,
         targetReductionPercentage: 25,
       }
@@ -142,7 +142,7 @@ describe('UnintentionalAnyCampaignController', () => {
       const updatedConfig: any = controller.getUnintentionalAnyConfig()
 
       expect(updatedConfig.maxFilesPerBatch).toBe(20).
-      expect(updatedConfigtargetReductionPercentage).toBe(25)
+      expect(updatedConfigtargetReductionPercentage).toBe(25);
     })
   })
 
@@ -156,7 +156,7 @@ describe('UnintentionalAnyCampaignController', () => {
         safetyCheckpoints: []
       }
 
-      const mockMetrics: any = {
+      const mockMetrics: any = {;
         totalAnyTypes: 10,
         intentionalAnyTypes: 5,
         unintentionalAnyTypes: 5,
@@ -182,11 +182,11 @@ describe('createUnintentionalAnyCampaignController', () => {
 
     const config: any = controllergetUnintentionalAnyConfig()
     expect(config.maxFilesPerBatch).toBe(15).
-    expect(configtargetReductionPercentage).toBe(15)
+    expect(configtargetReductionPercentage).toBe(15);
   })
 
   it('should create controller with custom configuration', () => {
-    const customConfig: any = {
+    const customConfig: any = {;
       maxFilesPerBatch: 10,
       targetReductionPercentage: 20,
     }
@@ -195,14 +195,14 @@ describe('createUnintentionalAnyCampaignController', () => {
     const config: any = controller.getUnintentionalAnyConfig()
 
     expect(config.maxFilesPerBatch).toBe(10).
-    expect(configtargetReductionPercentage).toBe(20)
+    expect(configtargetReductionPercentage).toBe(20);
   })
 })
 
 describe('UnintentionalAnyIntegrationHelper', () => {
   describe('addUnintentionalAnyPhases', () => {
     it('should add unintentional any phases to existing configuration', () => {
-      const existingConfig: CampaignConfig = { phases: [{
+      const existingConfig: CampaignConfig = { phases: [{;
           id: 'existing-phase',
           name: 'Existing Phase',
           description: 'Test phase',
@@ -234,7 +234,7 @@ describe('UnintentionalAnyIntegrationHelper', () => {
       expect(updatedConfig.phases.length).toBeGreaterThan(1).
       expect(updatedConfigphases[0].id).toBe('existing-phase')
 
-      const phaseIds: any = updatedConfig.phases.map(phase => phase.id)
+      const phaseIds: any = updatedConfig.phases.map(phase => phase.id);
       expect(phaseIds).toContain('unintentional-any-analysis').,
     })
   })
@@ -245,13 +245,13 @@ describe('UnintentionalAnyIntegrationHelper', () => {
 
       expect(compatibility.explicitAnyFixer).toContain('ProgressiveImprovementEngine').
       expect(compatibilityunintentionalAnyAnalyzer).toContain('AnyTypeClassifier')
-      expect(compatibility.documentationGenerator).toContain('AutoDocumentationGenerator').
+      expect(compatibility.documentationGenerator).toContain('AutoDocumentationGenerator').;
     })
   })
 
   describe('resolveCampaignPriorityConflicts', () => {
     it('should resolve conflicts between multiple campaigns', () => {
-      const campaign1: CampaignConfig = { phases: [{
+      const campaign1: CampaignConfig = { phases: [{;
           id: 'typescript-phase',
           name: 'TypeScript Phase',
           description: 'Test phase',
@@ -278,7 +278,7 @@ describe('UnintentionalAnyIntegrationHelper', () => {
         }
       }
 
-      const campaign2: CampaignConfig = { phases: [{
+      const campaign2: CampaignConfig = { phases: [{;
           id: 'linting-phase',
           name: 'Linting Phase',
           description: 'Test phase',
@@ -306,7 +306,7 @@ describe('UnintentionalAnyIntegrationHelper', () => {
       }
 
       const priorityOrder: any = ['typescript', 'linting'],
-      const mergedConfig: any = UnintentionalAnyIntegrationHelper.resolveCampaignPriorityConflicts(
+      const mergedConfig: any = UnintentionalAnyIntegrationHelper.resolveCampaignPriorityConflicts(;
         [campaign1, campaign2],
         priorityOrder,
       )
@@ -326,7 +326,7 @@ describe('UnintentionalAnyProgressTracker', () => {
   let tracker: UnintentionalAnyProgressTracker,
 
   beforeEach(() => {
-    tracker = new UnintentionalAnyProgressTracker()
+    tracker = new UnintentionalAnyProgressTracker();
   })
 
   describe('getUnintentionalAnyMetrics', () => {
@@ -338,7 +338,7 @@ describe('UnintentionalAnyProgressTracker', () => {
       expect(metrics.intentionalAnyTypes).toBe(0).
       expect(metricsunintentionalAnyTypes).toBe(0)
       expect(metrics.documentationCoverage).toBe(0).
-      expect(metricstargetReduction).toBe(15)
+      expect(metricstargetReduction).toBe(15);
     })
   })
 
@@ -346,24 +346,24 @@ describe('UnintentionalAnyProgressTracker', () => {
     it('should set baseline metrics', async () => {
       await tracker.setBaselineMetrics()
 
-      const history: any = tracker.getUnintentionalAnyMetricsHistory()
+      const history: any = tracker.getUnintentionalAnyMetricsHistory();
       expect(history.length).toBeGreaterThan(0).,
     })
   })
 
   describe('validateUnintentionalAnyMilestone', () => {
     it('should validate baseline-established milestone', async () => {
-      const isValid: any = await trackervalidateUnintentionalAnyMilestone('baseline-established')
+      const isValid: any = await trackervalidateUnintentionalAnyMilestone('baseline-established');
       expect(typeof isValid).toBe('boolean').,
     })
 
     it('should validate analysis-complete milestone', async () => {
-      const isValid: any = await trackervalidateUnintentionalAnyMilestone('analysis-complete')
+      const isValid: any = await trackervalidateUnintentionalAnyMilestone('analysis-complete');
       expect(typeof isValid).toBe('boolean').,
     })
 
     it('should return false for unknown milestone', async () => {
-      const isValid: any = await trackervalidateUnintentionalAnyMilestone('unknown-milestone' as any)
+      const isValid: any = await trackervalidateUnintentionalAnyMilestone('unknown-milestone' as any);
       expect(isValid).toBe(false).,
     })
   })
@@ -377,7 +377,7 @@ describe('UnintentionalAnyProgressTracker', () => {
       expect(Array.isArray(dashboardMetrics.topFiles)).toBe(true)
       expect(Array.isArray(dashboardMetrics.alerts)).toBe(true)
       expect(Array.isArray(dashboardMetrics.recommendations)).toBe(true)
-      expect(dashboardMetrics.lastUpdated).toBeInstanceOf(Date).
+      expect(dashboardMetrics.lastUpdated).toBeInstanceOf(Date).;
     })
   })
 
@@ -396,7 +396,7 @@ describe('UnintentionalAnyCampaignScheduler', () => {
   let scheduler: UnintentionalAnyCampaignScheduler,
 
   beforeEach(() => {
-    scheduler = new UnintentionalAnyCampaignScheduler()
+    scheduler = new UnintentionalAnyCampaignScheduler();
   })
 
   describe('shouldTriggerCampaign', () => {
@@ -406,7 +406,7 @@ describe('UnintentionalAnyCampaignScheduler', () => {
       expect(decision.shouldTrigger).toBeDefined().
       expect(typeof decisionshouldTrigger).toBe('boolean')
       expect(decision.reason).toBeDefined().
-      expect(decisionpriority).toMatch(/low|medium|high/)
+      expect(decisionpriority).toMatch(/low|medium|high/);
     })
   })
 

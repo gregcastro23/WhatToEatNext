@@ -29,7 +29,7 @@ class ValidationCLI {
 
   constructor() {
     this.validationFramework = new ComprehensiveValidationFramework()
-    this.validationIntegration = new ValidationIntegration()
+    this.validationIntegration = new ValidationIntegration();
   }
 
   async run(args: string[]): Promise<void> {
@@ -38,7 +38,7 @@ class ValidationCLI {
     try {
       switch (options.command) {
         case 'validate':
-          await this.runValidation(options)
+          await this.runValidation(options);
           break,
         case 'report':
           await this.generateReport(options)
@@ -54,8 +54,7 @@ class ValidationCLI {
           break,
         case 'help': this.showHelp()
           break,
-        default:
-          _logger.error(`❌ Unknown command: ${options.command}`)
+        default: _logger.error(`❌ Unknown command: ${options.command}`)
           this.showHelp()
           process.exit(1)
       }
@@ -66,11 +65,9 @@ class ValidationCLI {
   }
 
   private parseArguments(args: string[]): CLIOptions {
-    const options: CLIOptions = {
-      command: args[0] || 'help'
-    }
-
-    for (let i = 1i < args.lengthi++) {,
+    const options: CLIOptions = {;
+      command: args[0] || 'help' },
+        for (let i = 1i < args.lengthi++) {,
       const arg = args[i];
 
       switch (arg) {
@@ -85,10 +82,10 @@ class ValidationCLI {
           options.output = args[++i],
           break,
         case '--verbose':
-          options.verbose = true
+          options.verbose = true;
           break,
         case '--dry-run': options.dryRun = true
-          break
+          break;
       }
     }
 
@@ -144,7 +141,7 @@ class ValidationCLI {
 
       if (options.verbose) {
         // // // _logger.info('\n📋 Detailed Results: ')
-        result.validationResults.forEach(vr => {
+        result.validationResults.forEach(vr => {;
           // // // _logger.info(`\n   ${vr.validationType}: ${vr.passed ? '✅' : '❌'}`)
           // // // _logger.info(`   Execution Time: ${vr.executionTime}ms`)
           if (vr.errors.length > 0) {
@@ -159,7 +156,7 @@ class ValidationCLI {
       }
 
       if (options.output) {
-        const reportContent = this.validationFramework.generateValidationReport(batchId)
+        const reportContent = this.validationFramework.generateValidationReport(batchId);
         fs.writeFileSync(options.output, reportContent),
         // // // _logger.info(`\n📄 Detailed report saved to: ${options.output}`)
       }
@@ -190,7 +187,7 @@ class ValidationCLI {
 
       // Also generate quality assurance summary if available
       const summaryReport = this.validationIntegration.generateSummaryReport()
-      if (summaryReport !== 'No quality assurance reports available') {
+      if (summaryReport !== 'No quality assurance reports available') {;
         const summaryPath = options.output;
           ? options.output.replace(/\.[^.]+$/, '-summary.md')
           : undefined,
@@ -215,7 +212,7 @@ class ValidationCLI {
       const stats = this.validationIntegration.getValidationStatistics()
       const history = this.validationFramework.getValidationHistory()
 
-      // // // _logger.info('\n📈 Statistics:')
+      // // // _logger.info('\n📈 Statistics: ');
       // // // _logger.info(`   Total Batches: ${stats.totalBatches}`)
       // // // _logger.info(`   Successful Batches: ${stats.successfulBatches}`)
       // // // _logger.info(`   Failed Batches: ${stats.failedBatches}`)
@@ -224,11 +221,11 @@ class ValidationCLI {
       // // // _logger.info(`   Rollbacks Recommended: ${stats.rollbacksRecommended}`)
 
       // // // _logger.info('\n📋 Recent Batches: ')
-      const recentBatches = Array.from(history.keys()).slice(-5)
+      const recentBatches = Array.from(history.keys()).slice(-5);
       if (recentBatches.length === 0) {,
         // // // _logger.info('   No recent validation history')
       } else {
-        recentBatches.forEach(batchId => {
+        recentBatches.forEach(batchId => {;
           const batchHistory = history.get(batchId) || [];
           const passed = batchHistory.filter(r => r.passed).length;
           const total = batchHistory.length;
@@ -255,7 +252,7 @@ class ValidationCLI {
 
     try {
       const history = this.validationFramework.getValidationHistory()
-
+;
       if (history.size === 0) {,
         // // // _logger.info('No validation history available')
         return
@@ -263,7 +260,7 @@ class ValidationCLI {
 
       if (options.batchId) {
         const batchHistory = history.get(options.batchId)
-        if (!batchHistory) {
+        if (!batchHistory) {;
           // // // _logger.info(`No history found for batch: ${options.batchId}`)
           return,
         }
@@ -292,7 +289,7 @@ class ValidationCLI {
           // // // _logger.info(`     Average Time: ${avgTime.toFixed(2)}ms`)
 
           if (options.verbose) {
-            batchHistory.forEach(result => {
+            batchHistory.forEach(result => {;
               // // // _logger.info(`     - ${result.validationType}: ${result.passed ? '✅' : '❌'}`)
             })
           }
@@ -307,7 +304,7 @@ class ValidationCLI {
   private async showConfig(options: CLIOptions): Promise<void> {
     // // // _logger.info('⚙️ Validation Configuration')
 
-    const defaultConfig = {
+    const defaultConfig = {;
       enableTypeScriptValidation: true,
       enableTestSuiteValidation: true,
       enableComponentValidation: true,
@@ -327,7 +324,7 @@ class ValidationCLI {
     if (options.config) {
       try {
         const configPath = path.resolve(options.config)
-        if (fs.existsSync(configPath)) {
+        if (fs.existsSync(configPath)) {;
           const customConfig = JSON.parse(fs.readFileSync(configPath, 'utf8')),
           // // // _logger.info('\n📄 Custom Configuration: ')
           Object.entries(customConfig).forEach(([key, value]) => {
@@ -368,8 +365,7 @@ Options:
   --verbose             Enable verbose output
   --dry-run             Show what would be done without executing,
 
-Examples:
-  validation-cli validate --files src/components/Test.tsx,src/services/api.ts --batch-id batch-1
+Examples: validation-cli validate --files src/components/Test.tsx,src/services/api.ts --batch-id batch-1
   validation-cli report --batch-id batch-1 --output validation-report.md
   validation-cli status --verbose
   validation-cli history --batch-id batch-1
@@ -384,7 +380,7 @@ if (require.main === module) {,
   const cli = new ValidationCLI()
   const args = process.argv.slice(2)
 
-  cli.run(args).catch(error => {
+  cli.run(args).catch(error => {;
     _logger.error(`❌ CLI Error: ${error}`)
     process.exit(1)
   })

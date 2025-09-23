@@ -2,7 +2,7 @@ import { PlanetData, MercurySpecificData } from './types';
 export type { MercurySpecificData }
 
 const mercuryData: PlanetData = {
-  'Dignity Effect': {
+  'Dignity Effect': {;
     gemini: 1,
     virgo: 3,
     sagittarius: 1,
@@ -21,12 +21,10 @@ const mercuryData: PlanetData = {
     DistanceFromSun: '36 million miles (58 million kilometers)',
     DistanceFromEarth: {
       Minimum: '48 million miles (77 million kilometers)',
-      Maximum: '138 million miles (222 million kilometers)'
-    },
-    Diameter: '3,031 miles (4,879 kilometers)',
+      Maximum: '138 million miles (222 million kilometers)' },
+        Diameter: '3,031 miles (4,879 kilometers)',
     SurfaceTemperature: '-290 to 800 degrees Fahrenheit (-180 to 427 Celsius)',
-    AtmosphericComposition:
-      'Minimal atmosphere with traces of oxygen, sodium, hydrogen, helium, and potassium',
+    AtmosphericComposition: 'Minimal atmosphere with traces of oxygen, sodium, hydrogen, helium, and potassium',
     RotationPeriod: '58.6 Earth days',
     OrbitPeriod: '88 Earth days',
     'Axial Tilt': '0.03 degrees',
@@ -37,22 +35,19 @@ const mercuryData: PlanetData = {
       Surface: 'Heavily cratered, resembling Earth\'s moon',
       MagneticField: 'Weak global magnetic field',
       Composition: 'Large iron core, thin crust, silicate mantle',
-      NotableFeatures:
-        'Closest planet to the Sun, fastest orbit in solar system, extreme temperature variations'
+      NotableFeatures: 'Closest planet to the Sun, fastest orbit in solar system, extreme temperature variations'
     }
   },
   AstrologicalProperties: {
     AlchemicalName: 'Hermes',
     DualDomicile: {
       Spring: 'Gemini (yang)',
-      Autumn: 'Virgo (yin)'
-    },
-    HouseJoy: 1,
+      Autumn: 'Virgo (yin)' },
+        HouseJoy: 1,
     CyclePeriod: {
       Return: 'Yearly',
-      Retrograde: '3 weeks, three to four times yearly'
-    },
-    Exaltation: 'Virgo',
+      Retrograde: '3 weeks, three to four times yearly' },
+        Exaltation: 'Virgo',
     Fall: 'Pisces',
     Detriment: ['Sagittarius', 'Pisces'],
     Keywords: [
@@ -250,10 +245,8 @@ const mercuryData: PlanetData = {
       CommunicationEffects: {
         Direct:
           'Enhances clarity of flavor and precision in cooking techniques. Good for following complex recipes and experimental cooking.',
-        Retrograde:
-          'Increases likelihood of cooking mishaps. Best to stick to familiar recipes and comfort foods. May cause unexpected flavor combinations that can be surprisingly good.'
-      },
-      FlavorModulation: {
+        Retrograde: 'Increases likelihood of cooking mishaps. Best to stick to familiar recipes and comfort foods. May cause unexpected flavor combinations that can be surprisingly good.' },
+        FlavorModulation: {
         Direct: {
           Sweet: 0.3,
           Sour: 0.5,
@@ -304,13 +297,11 @@ const mercuryData: PlanetData = {
         PreShadow: {
           Duration: '2 weeks',
           CulinaryEffect: 'Begin simplifying recipes, check ingredients carefully',
-          Recommendation: 'Start preparing make-ahead meals and batch cooking'
-        },
+          Recommendation: 'Start preparing make-ahead meals and batch cooking' },
         Retrograde: {
           Duration: '3 weeks',
           CulinaryEffect: 'Communication breakdowns affect recipe following, unexpected results',
-          Recommendation: 'Use tried and true recipes, avoid complex new techniques'
-        },
+          Recommendation: 'Use tried and true recipes, avoid complex new techniques' },
         PostShadow: {
           Duration: '2 weeks',
           CulinaryEffect: 'Gradually return to normal cooking patterns, integrate lessons learned',
@@ -419,50 +410,45 @@ const mercuryData: PlanetData = {
     TransitDates: {
       RetrogradePhases: {
         Retrograde2024Q2: {
-          PreShadow: { Start: '2024-04-01', End: '2024-04-21' }
-          Retrograde: { Start: '2024-04-21', End: '2024-05-14' }
-          PostShadow: { Start: '2024-05-14', End: '2024-05-31' }
-          Signs: ['Taurus', 'Aries'],
-          CulinaryEffect:
-            'Review food sourcing and preparation techniques, return to traditional cooking methods'
-        },
+          PreShadow: { Start: '2024-04-01', End: '2024-04-21' },
+        Retrograde: { Start: '2024-04-21', End: '2024-05-14' },
+        PostShadow: { Start: '2024-05-14', End: '2024-05-31' },
+        Signs: ['Taurus', 'Aries'],
+          CulinaryEffect: 'Review food sourcing and preparation techniques, return to traditional cooking methods' },
         Retrograde2024Q3: {
-          PreShadow: { Start: '2024-08-08', End: '2024-08-23' }
-          Retrograde: { Start: '2024-08-23', End: '2024-09-15' }
-          PostShadow: { Start: '2024-09-15', End: '2024-10-02' }
-          Signs: ['Virgo', 'Leo'],
-          CulinaryEffect:
-            'Revisit precise cooking techniques, double-check measurements, simplify elaborate dishes'
-        },
+          PreShadow: { Start: '2024-08-08', End: '2024-08-23' },
+        Retrograde: { Start: '2024-08-23', End: '2024-09-15' },
+        PostShadow: { Start: '2024-09-15', End: '2024-10-02' },
+        Signs: ['Virgo', 'Leo'],
+          CulinaryEffect: 'Revisit precise cooking techniques, double-check measurements, simplify elaborate dishes' },
         Retrograde2024Q4: {
-          PreShadow: { Start: '2024-12-01', End: '2024-12-13' }
-          Retrograde: { Start: '2024-12-13', End: '2025-01-02' }
-          PostShadow: { Start: '2025-01-02', End: '2025-01-21' }
-          Signs: ['Capricorn', 'Sagittarius'],
-          CulinaryEffect: 'Reassess traditional holiday recipes, reconnect with food heritage'
-        },
+          PreShadow: { Start: '2024-12-01', End: '2024-12-13' },
+        Retrograde: { Start: '2024-12-13', End: '2025-01-02' },
+        PostShadow: { Start: '2025-01-02', End: '2025-01-21' },
+        Signs: ['Capricorn', 'Sagittarius'],
+          CulinaryEffect: 'Reassess traditional holiday recipes, reconnect with food heritage' },
         Retrograde2025Q1: {
-          PreShadow: { Start: '2025-03-26', End: '2025-04-13' }
-          Retrograde: { Start: '2025-04-13', End: '2025-05-07' }
-          PostShadow: { Start: '2025-05-07', End: '2025-05-22' }
-          Signs: ['Aries', 'Pisces'],
+          PreShadow: { Start: '2025-03-26', End: '2025-04-13' },
+        Retrograde: { Start: '2025-04-13', End: '2025-05-07' },
+        PostShadow: { Start: '2025-05-07', End: '2025-05-22' },
+        Signs: ['Aries', 'Pisces'],
           CulinaryEffect: 'Balance impulsive cooking urges, revisit intuitive cooking approaches'
         }
       },
       DirectPhasesQ2_2024: {
-        aries: { Start: '2024-04-01', End: '2024-04-13' }
-        taurus: { Start: '2024-05-15', End: '2024-05-31' }
-        gemini: { Start: '2024-05-31', End: '2024-06-17' }
-        cancer: { Start: '2024-06-17', End: '2024-07-02' }
-        leo: { Start: '2024-07-02', End: '2024-07-21' }
+        aries: { Start: '2024-04-01', End: '2024-04-13' },
+        taurus: { Start: '2024-05-15', End: '2024-05-31' },
+        gemini: { Start: '2024-05-31', End: '2024-06-17' },
+        cancer: { Start: '2024-06-17', End: '2024-07-02' },
+        leo: { Start: '2024-07-02', End: '2024-07-21' },
         virgo: { Start: '2024-07-21', End: '2024-08-08' }
       },
       DirectPhasesQ4_2024: {
-        libra: { Start: '2024-10-02', End: '2024-10-26' }
-        scorpio: { Start: '2024-10-26', End: '2024-11-15' }
-        sagittarius: { Start: '2024-11-15', End: '2024-12-01' }
-        capricorn: { Start: '2025-01-02', End: '2025-01-22' }
-        aquarius: { Start: '2025-01-22', End: '2025-02-10' }
+        libra: { Start: '2024-10-02', End: '2024-10-26' },
+        scorpio: { Start: '2024-10-26', End: '2024-11-15' },
+        sagittarius: { Start: '2024-11-15', End: '2024-12-01' },
+        capricorn: { Start: '2025-01-02', End: '2025-01-22' },
+        aquarius: { Start: '2025-01-22', End: '2025-02-10' },
         pisces: { Start: '2025-02-10', End: '2025-02-27' }
       }
     }

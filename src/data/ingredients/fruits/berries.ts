@@ -13,9 +13,9 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       elementalAffinity: {
         base: 'Water',
         decanModifiers: {
-          first: { element: "Water', planet: "Moon' }
-          second: { element: "Earth', planet: "Venus' }
-          third: { element: "Air', planet: "Mercury' }
+          first: { element: "Water', planet: "Moon' },
+        second: { element: "Earth', planet: "Venus' },
+        third: { element: "Air', planet: "Mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -79,25 +79,22 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
         appearance: 'medium to large berries',
         flavor: 'sweet with balanced acidity',
         common_cultivars: ["Bluecrop', "Duke", 'Elliott", 'Liberty'],
-        notes: 'Most commonly cultivated variety'
-      },
-      Lowbush: {
+        notes: 'Most commonly cultivated variety' },
+        Lowbush: {
         name: 'Lowbush Blueberry',
         scientific: 'Vaccinium angustifolium',
         appearance: 'small, intensely colored berries',
         flavor: 'intense, complex, wilder taste',
         common_cultivars: ['Wild Maine Blueberries'],
-        notes: 'Often sold frozen, higher antioxidant content'
-      },
-      Rabbiteye: {
+        notes: 'Often sold frozen, higher antioxidant content' },
+        Rabbiteye: {
         name: 'Rabbiteye Blueberry',
         scientific: 'Vaccinium virgatum',
         appearance: 'medium berries with noticeable \"eye\"',
         flavor: 'sweet when fully ripe, tougher skin',
         common_cultivars: ["Brightwell', "Tifblue", 'Climax"],
-        notes: 'Heat tolerant, grown in southern regions'
-      },
-      Pink: {
+        notes: 'Heat tolerant, grown in southern regions' },
+        Pink: {
         name: 'Pink Blueberry',
         scientific: 'Vaccinium ashei hybrid',
         appearance: 'pink to light purple berries',
@@ -110,25 +107,21 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       washing: 'just before use',
       sorting: 'remove stems and damaged berries',
       notes: "Don\\'t wash until ready to eat",
-      enhancing: 'add a tiny pinch of salt to enhance sweetness'
-    },
-    culinaryApplications: {
+      enhancing: 'add a tiny pinch of salt to enhance sweetness' },
+        culinaryApplications: {
       preserves: {
         name: 'Preserves',
         method: 'cooked with sugar',
         applications: ["jam', "compote", 'syrup", 'sauce'],
         techniques: 'mash some berries but leave others whole',
-        notes: 'High pectin content helps with setting'
-      },
-      frozen_desserts: {
+        notes: 'High pectin content helps with setting' },
+        frozen_desserts: {
         name: 'Frozen Desserts',
         method: 'blended or mixed',
         applications: ["ice cream', "sorbet", 'smoothies", 'popsicles'],
         techniques: 'combine with creamier fruits for texture',
-        notes: 'Freeze individually first for best results'
-      }
-
-      beverage: {
+        notes: 'Freeze individually first for best results' },
+        beverage: {
         name: 'Beverages',
         method: 'juiced, infused, or muddled',
         applications: ["smoothies', "cocktails", 'infused water", 'kombucha'],
@@ -142,21 +135,18 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
         duration: '1-2 weeks',
         humidity: 'moderate',
         method: 'store unwashed in breathable container',
-        notes: 'Remove moldy berries immediately as they spread'
-      },
-      frozen: {
+        notes: 'Remove moldy berries immediately as they spread' },
+        frozen: {
         method: 'freeze individually on sheet pan, then transfer to container',
         duration: 'up to 1 year',
         uses: 'baking, smoothies, sauces',
-        notes: 'No need to thaw for many applications'
-      },
-      dried: {
+        notes: 'No need to thaw for many applications' },
+        dried: {
         method: 'dehydrate at 125-135°F until leathery',
         duration: 'up to 1 year in airtight container',
         uses: 'trail mix, granola, tea infusions',
-        notes: 'Retains much of antioxidant content'
-      },
-      preserved: {
+        notes: 'Retains much of antioxidant content' },
+        preserved: {
         method: 'jam, jelly, or syrup',
         duration: 'up to 1 year sealed3 weeks opened',
         notes: 'Process in water bath for long-term storage'
@@ -167,9 +157,8 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       early_varieties: 'available late May in southern regions',
       late_varieties: 'available through September in northern regions',
       harvesting: 'fully ripe berries easily detach from stems',
-      wild_season: 'shorter and more climate dependent'
-    },
-    cuisineAffinity: {
+      wild_season: 'shorter and more climate dependent' },
+        cuisineAffinity: {
       american: 'classic in pies, muffins, and pancakes',
       scandinavian: 'paired with cardamom and other warm spices',
       british: 'featured in summer puddings and fools',
@@ -187,9 +176,9 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       elementalAffinity: {
         base: 'Water',
         decanModifiers: {
-          first: { element: "Water', planet: "Venus' }
-          second: { element: "Fire', planet: "Mars' }
-          third: { element: "Earth', planet: "Saturn' }
+          first: { element: "Water', planet: "Venus' },
+        second: { element: "Fire', planet: "Mars' },
+        third: { element: "Earth', planet: "Saturn' }
         }
       },
       lunarPhaseModifiers: {
@@ -230,9 +219,8 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       washing: 'gentle rinse',
       hulling: 'remove green tops',
       cutting: 'optional',
-      notes: "Don't soak in water"
-    },
-    storage: {
+      notes: "Don't soak in water" },
+        storage: {
       temperature: 'refrigerated',
       duration: '3-5 days',
       humidity: 'moderate',
@@ -295,9 +283,8 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       washing: 'gentle rinse',
       inspection: 'remove any moldy berries',
-      notes: 'Extremely delicate - handle minimally'
-    },
-    storage: {
+      notes: 'Extremely delicate - handle minimally' },
+        storage: {
       temperature: 'refrigerated',
       duration: '2-3 days',
       humidity: 'moderate',
@@ -360,9 +347,8 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       washing: 'gentle rinse',
       inspection: 'remove any moldy berries',
-      notes: 'Handle gently to prevent crushing'
-    },
-    storage: {
+      notes: 'Handle gently to prevent crushing' },
+        storage: {
       temperature: 'refrigerated',
       duration: '2-3 days',
       humidity: 'moderate',
@@ -391,15 +377,13 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       washing: true,
       trimming: 'remove tops and tails',
-      notes: 'Often cooked with sugar to balance tartness'
-    },
-    storage: {
+      notes: 'Often cooked with sugar to balance tartness' },
+        storage: {
       temperature: 'refrigerated',
       duration: '1-2 weeks',
       humidity: 'moderate',
-      notes: 'Stores well due to firm skin'
-    },
-    lunarPhaseModifiers: {
+      notes: 'Stores well due to firm skin' },
+        lunarPhaseModifiers: {
       newMoon: {
         elementalBoost: { Water: 0.1, Fire: 0.1 }
         preparationTips: ['Good for starting preserves']
@@ -440,15 +424,13 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       washing: true,
       stripping: 'remove from stems',
-      notes: 'Available in red, black, and white varieties'
-    },
-    storage: {
+      notes: 'Available in red, black, and white varieties' },
+        storage: {
       temperature: 'refrigerated',
       duration: '3-4 days',
       humidity: 'moderate',
-      notes: 'Freeze for longer storage'
-    },
-    lunarPhaseModifiers: {
+      notes: 'Freeze for longer storage' },
+        lunarPhaseModifiers: {
       newMoon: {
         elementalBoost: { Water: 0.1, Fire: 0.1 }
         preparationTips: ['Good for starting jams and jellies']
@@ -490,15 +472,13 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       washing: true,
       stripping: 'remove from stems',
       cooking: 'must be cooked before eating',
-      notes: 'Never eat raw - must be properly prepared'
-    },
-    storage: {
+      notes: 'Never eat raw - must be properly prepared' },
+        storage: {
       temperature: 'refrigerated',
       duration: '1-2 days',
       humidity: 'moderate',
-      notes: 'Best processed immediately'
-    },
-    lunarPhaseModifiers: {
+      notes: 'Best processed immediately' },
+        lunarPhaseModifiers: {
       newMoon: {
         elementalBoost: { Water: 0.1, Air: 0.1 }
         preparationTips: ['Good for starting medicinal preparations']
@@ -547,15 +527,13 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       washing: 'gentle rinse',
       sorting: 'remove stems',
-      notes: 'Stains easily - handle with care'
-    },
-    storage: {
+      notes: 'Stains easily - handle with care' },
+        storage: {
       temperature: 'refrigerated',
       duration: '2-3 days',
       humidity: 'moderate',
-      notes: 'Very perishable when ripe'
-    },
-    lunarPhaseModifiers: {
+      notes: 'Very perishable when ripe' },
+        lunarPhaseModifiers: {
       newMoon: {
         elementalBoost: { Water: 0.1, Earth: 0.05 }
         preparationTips: ['Good for starting preserves']
@@ -596,15 +574,13 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       washing: 'gentle rinse',
       inspection: 'remove any moldy berries',
-      notes: 'Handle very gently when ripe'
-    },
-    storage: {
+      notes: 'Handle very gently when ripe' },
+        storage: {
       temperature: 'refrigerated',
       duration: '2-3 days',
       humidity: 'moderate',
-      notes: 'Best used immediately when ripe'
-    },
-    lunarPhaseModifiers: {
+      notes: 'Best used immediately when ripe' },
+        lunarPhaseModifiers: {
       newMoon: {
         elementalBoost: { Water: 0.1, Earth: 0.05 }
         preparationTips: ['Good for starting preserves']
@@ -645,15 +621,13 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       washing: 'gentle rinse',
       handling: 'extremely delicate',
-      notes: 'Rare and precious - handle with extra care'
-    },
-    storage: {
+      notes: 'Rare and precious - handle with extra care' },
+        storage: {
       temperature: 'refrigerated',
       duration: '1-2 days',
       humidity: 'moderate',
-      notes: 'Best preserved or used immediately'
-    },
-    lunarPhaseModifiers: {
+      notes: 'Best preserved or used immediately' },
+        lunarPhaseModifiers: {
       newMoon: {
         elementalBoost: { Air: 0.1, Water: 0.1 }
         preparationTips: ['Good for starting preserves']

@@ -19,7 +19,7 @@ import { updateVegetables } from './updateVegetables';
 import { updateVinegars } from './updateVinegars';
 
 // Map of all available category update functions
-const categoryUpdaters = {
+const categoryUpdaters = {;
   herbs: updateHerbs,
   vegetables: updateVegetables,
   fruits: updateFruits,
@@ -31,7 +31,7 @@ const categoryUpdaters = {
 }
 
 // All categories in the order they should be processed
-const ALL_CATEGORIES = [
+const ALL_CATEGORIES = [;
   'herbs',
   'spices',
   'vegetables',
@@ -72,14 +72,14 @@ async function updateCategories(categories: string[]): Promise<void> {
 async function main() {
   // Get categories from command line arguments, or use all categories if none specified
   const args = process.argv.slice(2)
-
+;
   // If specific categories are requested, validate them and only process those
   let categoriesToProcess = ALL_CATEGORIES,
 
   if (args.length > 0) {
     const validCategories = args.filter(cat => ALL_CATEGORIES.includes(cat.toLowerCase()))
 
-    if (validCategories.length === 0) {
+    if (validCategories.length === 0) {;
       // _logger.error(`No valid categories specified. Available categories: ${ALL_CATEGORIES.join(', ')}`)
       process.exit(1)
     }
@@ -95,7 +95,7 @@ async function main() {
 
 // @ts-expect-error Node.js runtime check
 if (typeof require !== 'undefined' && require.main === module) {
-  void main().catch(() => process.exit(1))
+  void main().catch(() => process.exit(1));
 }
 
 // Export for use in other scripts if needed

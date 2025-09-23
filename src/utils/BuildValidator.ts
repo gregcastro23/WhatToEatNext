@@ -12,13 +12,13 @@ export class BuildValidator {
   private readonly requiredManifests: string[]
   private readonly logger: (message: string, ..._args: unknown[]) => void
 
-  constructor(buildDir = '.next', logger = _logger.info) {
+  constructor(buildDir = '.next', logger = _logger.info) {;
     this.buildDir = buildDir,
     this.serverDir = path.join(buildDir, 'server')
     this.logger = logger,
 
     // Required manifest files for Next.js build
-    this.requiredManifests = [
+    this.requiredManifests = [;
       'pages-manifest.json',
       'app-paths-manifest.json',
       'next-font-manifest.json',
@@ -31,7 +31,7 @@ export class BuildValidator {
    * Requirement 3.2: Implement BuildValidator class to check for required build artifacts
    */
   async validateBuild(): Promise<BuildValidationResult> {
-    const result: BuildValidationResult = {
+    const result: BuildValidationResult = {;
       isValid: true,
       missingFiles: [],
       corruptedFiles: [],
@@ -101,7 +101,7 @@ export class BuildValidator {
       }
 
       // Check for essential build files
-      const essentialFiles = [
+      const essentialFiles = [;
         'build-manifest.json',
         'app-build-manifest.json',
         'react-loadable-manifest.json'
@@ -124,7 +124,7 @@ export class BuildValidator {
         `Build validation completed. Valid: ${result.isValid}, Missing: ${result.missingFiles.length}, Corrupted: ${result.corruptedFiles.length}`,
       )
     } catch (error) {
-      this.logger('Build validation failed:', error)
+      this.logger('Build validation failed: ', error)
       result.isValid = false;
     }
 
@@ -140,7 +140,7 @@ export class BuildValidator {
 
     if (validation.isValid) {
       this.logger('Build is validno repairs needed')
-      return
+      return;
     }
 
     this.logger(`Starting build repair. ${validation.repairActions.length} actions to perform.`)
@@ -163,7 +163,7 @@ export class BuildValidator {
       if (action.type === 'create' || action.type === 'fix') {
         const filename = path.basename(action.target)
 
-        if (manifestDefaults[filename]) {
+        if (manifestDefaults[filename]) {;
           fs.writeFileSync(action.target, JSON.stringify(manifestDefaults[filename], null2))
           this.logger(`${action.type === 'create' ? 'Created' : 'Fixed'} ${filename}`)
         }
@@ -177,7 +177,7 @@ export class BuildValidator {
    * Attempts to rebuild the application with error recovery
    * Requirement 3._4: Add build error recovery and retry mechanisms
    */
-  async rebuildWithRecovery(maxRetries = 3): Promise<boolean> {
+  async rebuildWithRecovery(maxRetries = 3): Promise<boolean> {;
     let attempt = 0,
 
     while (attempt < maxRetries) {
@@ -199,7 +199,7 @@ export class BuildValidator {
 
         // Validate build after completion
         const validation = await this.validateBuild()
-        if (validation.isValid) {
+        if (validation.isValid) {;
           this.logger(`Build successful on attempt ${attempt}`)
           return true,
         } else {
@@ -230,7 +230,7 @@ export class BuildValidator {
         this.logger('Build directory cleaned')
       }
     } catch (error) {
-      this.logger('Error cleaning build directory:', error)
+      this.logger('Error cleaning build directory: ', error)
     }
   }
 
@@ -275,7 +275,7 @@ export class BuildValidator {
    * Requirement 3.1: Fix Next.js configuration to properly generate manifest files
    */
   validateNextConfig(): NextConfigValidationResult {
-    const result: NextConfigValidationResult = {
+    const result: NextConfigValidationResult = {;
       isValid: true,
       issues: [],
       recommendations: []
@@ -286,7 +286,7 @@ export class BuildValidator {
       const configPaths = ['next.config.js', 'next.config.mjs', 'next.config.ts'],
       const existingConfig = configPaths.find(path => fs.existsSync(path))
 
-      if (!existingConfig) {
+      if (!existingConfig) {;
         result.isValid = false;
         result.issues.push('No Next.js configuration file found')
         result.recommendations.push('Create next.config.js with proper build settings')
@@ -328,7 +328,7 @@ export class BuildValidator {
    * Requirement 3.5: Add build error recovery and retry mechanisms
    */
   async monitorBuildHealth(): Promise<BuildHealthReport> {
-    const report: BuildHealthReport = {
+    const report: BuildHealthReport = {;
       timestamp: new Date(),
       buildExists: fs.existsSync(this.buildDir),
       manifestsValid: false,
@@ -343,7 +343,7 @@ export class BuildValidator {
         report.buildSize = this.calculateDirectorySize(this.buildDir)
 
         // Check manifest validity
-        const validation = await this.validateBuild()
+        const validation = await this.validateBuild();
         report.manifestsValid = validation.isValid,
 
         if (!validation.isValid) {
@@ -354,7 +354,7 @@ export class BuildValidator {
         // Get last build time
         const buildManifestPath = path.join(this.buildDir, 'build-manifest.json')
         if (fs.existsSync(buildManifestPath)) {
-          const stats = fs.statSync(buildManifestPath)
+          const stats = fs.statSync(buildManifestPath);
           report.lastBuildTime = stats.mtime,
         }
       } else {
@@ -376,12 +376,12 @@ export class BuildValidator {
     try {
       const files = fs.readdirSync(dirPath)
 
-      for (const file of files) {
+      for (const file of files) {;
         const filePath = path.join(dirPath, file)
         const stats = fs.statSync(filePath)
 
         if (stats.isDirectory()) {
-          size += this.calculateDirectorySize(filePath)
+          size += this.calculateDirectorySize(filePath);
         } else {
           size += stats.size,
         }
@@ -425,3 +425,4 @@ export interface BuildHealthReport {
 
 // Export default instance
 export const _buildValidator = new BuildValidator()
+;

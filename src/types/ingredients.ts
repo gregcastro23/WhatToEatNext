@@ -12,7 +12,7 @@ import type { Season } from './shared';
 /**
  * Standardized Elemental Properties
  * Using the project-wide standardized elemental properties type
- */
+ */;
 export type ElementalProperties = ElementalPropertiesType,
 
 /**
@@ -30,7 +30,7 @@ export type IngredientMapping = IngredientMappingType
 /**
  * Ingredient Collection Type
  * Collection of ingredients indexed by name/id
- */
+ */;
 export type IngredientCollection = Record<string, IngredientMapping>,
 
 /**
@@ -69,7 +69,7 @@ export interface IngredientRecommendation {
  * Ingredient Search Criteria Type
  * Comprehensive search parameters for ingredient filtering
  */
-export type IngredientSearchCriteria = {
+export type IngredientSearchCriteria = {;
   elements?: ('Fire' | 'Water' | 'Earth' | 'Air')[],
   seasons?: Season[],
   categories?: string[],
@@ -88,7 +88,7 @@ export type IngredientSearchCriteria = {
  * Ingredient Compatibility Result
  * Result of ingredient compatibility analysis
  */
-export type IngredientCompatibilityResult = {
+export type IngredientCompatibilityResult = {;
   primaryIngredient: string,
   compatibleIngredients: string[],
   incompatibleIngredients: string[],
@@ -101,7 +101,7 @@ export type IngredientCompatibilityResult = {
  * Ingredient Substitution Recommendation
  * Suggested ingredient substitutions with ratios and notes
  */
-export type IngredientSubstitution = {
+export type IngredientSubstitution = {;
   originalIngredient: string,
   substitute: string,
   substitutionRatio: number, // e.g., 1.5 means use 1.5x the amount,
@@ -115,7 +115,7 @@ export type IngredientSubstitution = {
  * Ingredient Recommendation Response
  * Standardized service response for ingredient recommendations
  */
-export type IngredientRecommendationResponse = ServiceResponseType<{
+export type IngredientRecommendationResponse = ServiceResponseType<{;
   recommendations: IngredientRecommendation[],
   total: number,
   criteria: IngredientSearchCriteria,
@@ -127,7 +127,7 @@ export type IngredientRecommendationResponse = ServiceResponseType<{
  * Ingredient Analysis Response
  * Standardized service response for ingredient analysis
  */
-export type IngredientAnalysisResponse = ServiceResponseType<{
+export type IngredientAnalysisResponse = ServiceResponseType<{;
   ingredient: IngredientMapping,
   elementalProfile: ElementalProperties,
   nutritionalAnalysis: NutritionalContent,

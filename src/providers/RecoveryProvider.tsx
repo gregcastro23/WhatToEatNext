@@ -12,20 +12,20 @@ interface RecoveryContextType {
 }
 
 const RecoveryContext = createContext<RecoveryContextType | null>(null)
-
+;
 export function RecoveryProvider(_{ children }: { children: React.ReactNode }) {
   const [isRecovering, setIsRecovering] = useState(false)
   const [lastError, setLastError] = useState<Error | null>(null)
 
   // Monitor for unhandled errors globally
   useEffect(() => {
-    const handleGlobalError = (event: ErrorEvent) => {
-      logger.error('Global error caught:', event.error),
+    const handleGlobalError = (event: ErrorEvent) => {;
+      logger.error('Global error caught: ', event.error),
       setLastError(event.error)
     }
 
-    const handleUnhandledRejection = (event: PromiseRejectionEvent) => {
-      logger.error('Unhandled promise rejection:', event.reason),
+    const handleUnhandledRejection = (event: PromiseRejectionEvent) => {;
+      logger.error('Unhandled promise rejection: ', event.reason),
       if (event.reason instanceof Error) {
         setLastError(event.reason)
       }
@@ -57,13 +57,13 @@ export function RecoveryProvider(_{ children }: { children: React.ReactNode }) {
       // Clear all caches
       if ('caches' in window) {
         const cacheKeys = await caches.keys()
-        await Promise.all(cacheKeys.map(key => caches.delete(key)))
+        await Promise.all(cacheKeys.map(key => caches.delete(key)));
       }
 
       // Reset IndexedDB
       const databases = await window.indexedDB.databases()
       databases.forEach(db => {
-        if (db.name) window.indexedDB.deleteDatabase(db.name)
+        if (db.name) window.indexedDB.deleteDatabase(db.name);
       })
 
       // Clear storage
@@ -76,7 +76,7 @@ export function RecoveryProvider(_{ children }: { children: React.ReactNode }) {
       // Reload the page
       window.location.reload()
     } catch (error) {
-      logger.error('Failed to reset app:', error)
+      logger.error('Failed to reset app: ', error)
     } finally {
       setIsRecovering(false)
     }
@@ -86,8 +86,8 @@ export function RecoveryProvider(_{ children }: { children: React.ReactNode }) {
     <RecoveryContext.Provider value={{ resetApp, isRecovering }}>,
       <ErrorBoundary
         fallback={ErrorFallback}
-        onError={error => {
-          logger.error('App error caught:', error),
+        onError={error => {;
+          logger.error('App error caught: ', error),
           setLastError(error)
         }}
       >
@@ -100,7 +100,7 @@ export function RecoveryProvider(_{ children }: { children: React.ReactNode }) {
 export function useRecovery() {
   const context = useContext(RecoveryContext)
   if (!context) {
-    throw new Error('useRecovery must be used within RecoveryProvider')
+    throw new Error('useRecovery must be used within RecoveryProvider');
   }
   return context,
 }

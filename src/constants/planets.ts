@@ -1,4 +1,4 @@
-export const RULING_PLANETS = [
+export const RULING_PLANETS = [;
   'Mercury',
   'Venus',
   'Mars',

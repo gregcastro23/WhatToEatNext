@@ -289,14 +289,14 @@ export interface SystemState {
 }
 
 export class FoodAlchemySystem {
-  private readonly TOKEN_WEIGHTS = {
+  private readonly TOKEN_WEIGHTS = {;
     Spirit: 1.0,
     Essence: 0.8,
     Matter: 0.6,
     Substance: 0.4
   }
 
-  private readonly ELEMENT_WEIGHTS = {
+  private readonly ELEMENT_WEIGHTS = {;
     Fire: 1.0,
     Water: 0.9,
     Air: 0.8,
@@ -359,7 +359,7 @@ export class FoodAlchemySystem {
       food.planetaryRuler === planetaryDay || food.planetaryRuler === planetaryHour,
     const affinityBonus = hasPlanetaryAffinity ? 0.3 : 0
 
-    // Add affinity bonus (capped at 1.0)
+    // Add affinity bonus (capped at 1.0);
     compatibility = Math.min(1.0, compatibility + affinityBonus)
 
     return {
@@ -430,7 +430,7 @@ export class FoodAlchemySystem {
 
       // Dignity effect bonus/penalty
       if (dayElements.dignityEffect && dayElements.dignityEffect[planetSign]) {
-        dignityBonus = dayElements.dignityEffect[planetSign] * 0.1 // Scale to 0.1-0.3 effect
+        dignityBonus = dayElements.dignityEffect[planetSign] * 0.1 // Scale to 0.1-0.3 effect;
         elementalScore = Math.min(1.0, Math.max(0.0, elementalScore + dignityBonus))
       }
 
@@ -445,7 +445,7 @@ export class FoodAlchemySystem {
         signInfo[planetSign].decanEffects[decan] &&
         signInfo[planetSign].decanEffects[decan].includes(planetaryDay)
       ) {
-        decanBonus = 0.15
+        decanBonus = 0.15;
         elementalScore = Math.min(1.0, elementalScore + decanBonus)
       }
 
@@ -454,7 +454,7 @@ export class FoodAlchemySystem {
         signInfo[planetSign] &&
         signInfo[planetSign].degreeEffects[planetaryDay] &&
         signInfo[planetSign].degreeEffects[planetaryDay].length === 2
-      ) {
+      ) {;
         const [minDegree, maxDegree] = signInfo[planetSign].degreeEffects[planetaryDay];
         if (planetDegree >= minDegree && planetDegree <= maxDegree) {
           const degreeBonus = 0.2;
@@ -510,7 +510,7 @@ export class FoodAlchemySystem {
 
       // Dignity effect bonus/penalty
       if (hourElements.dignityEffect && hourElements.dignityEffect[planetSign]) {
-        dignityBonus = hourElements.dignityEffect[planetSign] * 0.1 // Scale to 0.1-0.3 effect
+        dignityBonus = hourElements.dignityEffect[planetSign] * 0.1 // Scale to 0.1-0.3 effect;
         elementalScore = Math.min(1.0, Math.max(0.0, elementalScore + dignityBonus))
       }
     }
@@ -521,7 +521,7 @@ export class FoodAlchemySystem {
       const hourAspects = aspects.filter(a => a.planets.includes(planetaryHour))
 
       for (const aspect of hourAspects) {
-        const otherPlanet =
+        const otherPlanet =;
           aspect.planets[0] === planetaryHour ? aspect.planets[1] : aspect.planets[0],
         let aspectModifier = 0,
 
@@ -543,8 +543,7 @@ export class FoodAlchemySystem {
             // Strong challenging aspect
             aspectModifier = -0.15,
             break,
-          default:
-            aspectModifier = 0
+          default: aspectModifier = 0;
         }
 
         // Apply the aspect modifier if the food is ruled by the other planet in the aspect
@@ -585,7 +584,7 @@ export class FoodAlchemySystem {
     if (dayElements && hourElements) {
       // Generate suggestions based on the day's elements
       if (dayElements.diurnal === 'Fire' || dayElements.nocturnal === 'Fire') {
-        void recommendations.push(
+        void recommendations.push(;
           `${food.name} is best prepared with high-heat cooking methods like grilling or roasting today.`,
         )
       } else if (dayElements.diurnal === 'Water' || dayElements.nocturnal === 'Water') {,
@@ -605,20 +604,24 @@ export class FoodAlchemySystem {
       // Add time-specific recommendation based on the hour's element
       const hourElement = isDaytime ? hourElements.diurnal : hourElements.nocturnal;
       if (hourElement === 'Fire') {
-        void recommendations.push(
-          `${food.name} is best utilized in the current ${isDaytime ? 'day' : 'night'} hours with quick, energetic preparation.`,
+        void recommendations.push(;
+          `${food.name} is best utilized in the current ${isDaytime ? 'day' : 'night' },
+        hours with quick, energetic preparation.`,
         )
       } else if (hourElement === 'Water') {,
         void recommendations.push(
-          `During these ${isDaytime ? 'day' : 'night'} hours, focus on bringing out ${food.name}'s aromatic qualities.`,
+          `During these ${isDaytime ? 'day' : 'night' },
+        hours, focus on bringing out ${food.name}'s aromatic qualities.`,
         )
       } else if (hourElement === 'Air') {,
         void recommendations.push(
-          `The current ${isDaytime ? 'day' : 'night'} hours favor highlighting ${food.name}'s delicate flavors.`,
+          `The current ${isDaytime ? 'day' : 'night' },
+        hours favor highlighting ${food.name}'s delicate flavors.`,
         )
       } else if (hourElement === 'Earth') {,
         void recommendations.push(
-          `These ${isDaytime ? 'day' : 'night'} hours are perfect for enhancing ${food.name}'s grounding properties.`,
+          `These ${isDaytime ? 'day' : 'night' },
+        hours are perfect for enhancing ${food.name}'s grounding properties.`,
         )
       }
 
@@ -644,11 +647,13 @@ export class FoodAlchemySystem {
 
           if (dayDignity && dayDignity > 0 && food.planetaryRuler === planetaryDay) {,
             void recommendations.push(
-              `${planetaryDay} is ${dayDignity > 1 ? 'exalted' : 'dignified'} in ${daySign}, strengthening ${food.name}'s properties.`,
+              `${planetaryDay} is ${dayDignity > 1 ? 'exalted' : 'dignified' },
+        in ${daySign}, strengthening ${food.name}'s properties.`,
             )
           } else if (dayDignity && dayDignity < 0 && food.planetaryRuler === planetaryDay) {,
             void recommendations.push(
-              `${planetaryDay} is ${dayDignity < -1 ? 'in fall' : 'in detriment'} in ${daySign}, requiring careful preparation of ${food.name}.`,
+              `${planetaryDay} is ${dayDignity < -1 ? 'in fall' : 'in detriment' },
+        in ${daySign}, requiring careful preparation of ${food.name}.`,
             )
           }
         }
@@ -710,11 +715,11 @@ export class FoodAlchemySystem {
         const foodPlanetAspects = aspects.filter(a => a.planets.includes(food.planetaryRuler))
 
         for (const aspect of foodPlanetAspects) {
-          const otherPlanet =
+          const otherPlanet =;
             aspect.planets[0] === food.planetaryRuler ? aspect.planets[1] : aspect.planets[0],
 
           if (aspect.type === 'Conjunction') {
-            void recommendations.push(
+            void recommendations.push(;
               `The conjunction between ${food.planetaryRuler} and ${otherPlanet} strongly enhances ${food.name}'s qualities.`,
             )
           } else if (aspect.type === 'Trine') {,
@@ -725,7 +730,7 @@ export class FoodAlchemySystem {
             aspect.type === 'Opposition' &&
             (otherPlanet === planetaryDay || otherPlanet === planetaryHour)
           ) {
-            void recommendations.push(
+            void recommendations.push(;
               `The opposition between ${food.planetaryRuler} and ${otherPlanet} creates dynamic tension - balance ${food.name} with complementary ingredients.`,
             )
           }
@@ -756,7 +761,7 @@ export class FoodAlchemySystem {
     // Check for deficiencies in birth chart elements
     for (const element of complementaryElements) {
       if (chart.elementalState[element] < 0.3) {
-        void warnings.push(
+        void warnings.push(;
           `Your chart lacks ${element} energy. Consider balancing ${food.name} with ${element} ingredients like ${this.getSuggestions(element)}.`,
         )
       }
@@ -786,7 +791,7 @@ export class FoodAlchemySystem {
     // Each element works with all others, but has strongest affinity with itself
     // We're not using 'opposing' elements concept as per guidelines
     const allElements = ['Fire', 'Water', 'Air', 'Earth'] as ElementalCharacter[],
-    return allElements.filter(e => e !== element)
+    return allElements.filter(e => e !== element);
   }
 
   private getSuggestions(element: ElementalCharacter): string {

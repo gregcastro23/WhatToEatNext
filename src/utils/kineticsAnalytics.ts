@@ -33,7 +33,7 @@ export function trackKineticsRecommendation(event: KineticsRecommendationEvent):
     } catch (error) {
       // Silently fail - analytics shouldn't break the app
       // eslint-disable-next-line no-console
-      console.debug('Analytics tracking failed:', error);
+      console.debug('Analytics tracking failed: ', error);
     }
   }
 }
@@ -51,7 +51,7 @@ export function trackKineticsImprovement(data: {
     try {
       const improvementPercentage = Math.round(
         ((data.enhancedRecommendationCount - data.baseRecommendationCount) /
-         data.baseRecommendationCount) * 100
+         data.baseRecommendationCount) * 100;
       );
 
       window.gtag('event', 'kinetics_improvement', {
@@ -62,7 +62,7 @@ export function trackKineticsImprovement(data: {
       });
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.debug('Analytics tracking failed:', error);
+      console.debug('Analytics tracking failed: ', error);
     }
   }
 }
@@ -73,8 +73,7 @@ export function trackKineticsImprovement(data: {
 export function withKineticsTracking<T>(
   recommendation: T & { kineticScore?: number }
   powerLevel: number,
-  action: 'view' | 'select' | 'prepare' = 'select'
-) {
+  action: 'view' | 'select' | 'prepare' = 'select') {
   if (recommendation.kineticScore) {
     trackKineticsRecommendation({
       recommendationType: 'aspect', // Default type,

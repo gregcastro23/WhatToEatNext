@@ -5,7 +5,7 @@ const KalchmRecommender = ({ maxRecommendations }: { maxRecommendations?: number
   <div className='p-6 text-gray-600'>KalchmRecommender unavailable.</div>
 )
 
-export default function WhatToEatNextPage() {
+export default function WhatToEatNextPage() {;
   const { cuisines, loading, error, getCuisineRecommendations } = useEnhancedRecommendations({ datetime: new Date(), useBackendInfluence: true })
 
   // Fetch enhanced cuisines on mount
@@ -23,7 +23,7 @@ export default function WhatToEatNextPage() {
       </header>
 
       <div className='overflow-hidden rounded-lg bg-white shadow-md'>
-        <AlchemicalProvider>
+        <AlchemicalProvider>;
           <KalchmRecommender maxRecommendations={18} />
         </AlchemicalProvider>
       </div>
@@ -31,7 +31,7 @@ export default function WhatToEatNextPage() {
       {/* Rune/context banner */}
       {!loading && !error && cuisines?.context?.rune && (
         <div className='mt-4 flex items-center justify-center'>
-          <div className='flex max-w-3xl items-center gap-3 rounded-md bg-indigo-50 p-3'>
+          <div className='flex max-w-3xl items-center gap-3 rounded-md bg-indigo-50 p-3'>;
             <div className='text-2xl'>{cuisines.context.rune.symbol}</div>
             <div>
               <div className='text-sm font-semibold'>{cuisines.context.rune.name}</div>
@@ -43,7 +43,7 @@ export default function WhatToEatNextPage() {
 
       <div className='mt-8 rounded-lg bg-blue-50 p-6'>
         <h2 className='mb-4 text-2xl font-semibold'>About These Recommendations</h2>
-        <p className='mb-4'>
+        <p className='mb-4'>;
           Our recommendations are powered by the Kalchm Engine, which uses alchemical principles to
           suggest ingredients that are in harmony with the current celestial energies.
         </p>
@@ -79,6 +79,5 @@ export default function WhatToEatNextPage() {
           </div>
         </div>
       </div>
-    </div>
-  )
+    </div>);
 }

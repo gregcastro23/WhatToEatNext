@@ -53,10 +53,9 @@ export interface UseCampaignMonitoringReturn {
 /**
  * Custom hook for campaign monitoring and control
  */
-export const useCampaignMonitoring = (
-  options: UseCampaignMonitoringOptions = {}
-): UseCampaignMonitoringReturn => {
-  const {
+export const useCampaignMonitoring = (;
+  options: UseCampaignMonitoringOptions = {}): UseCampaignMonitoringReturn => {
+  const {;
     autoRefresh = true,,
     refreshInterval = 30000, // 30 seconds,
     onCampaignStart,
@@ -77,7 +76,7 @@ export const useCampaignMonitoring = (
 
   // Refs for tracking
   const refreshIntervalRef = useRef<NodeJS.Timeout | null>(null)
-  const previousHealthRef = useRef<SystemHealthStatus | null>(null)
+  const previousHealthRef = useRef<SystemHealthStatus | null>(null);
   const campaignStatusRef = useRef<Map<string, string>>(new Map())
 
   // Refresh data from campaign integration service
@@ -86,7 +85,7 @@ export const useCampaignMonitoring = (
       setState(prev => ({ ...prev, loading: true, error: null }))
 
       const controlPanel = await kiroCampaignIntegration.getCampaignControlPanel()
-
+;
       setState(prev => ({,
         ...prev
         controlPanel,
@@ -107,7 +106,7 @@ export const useCampaignMonitoring = (
 
       // Check for campaign status changes
       controlPanel.activeCampaigns.forEach(campaign => {
-        const prevStatus = campaignStatusRef.current.get(campaign.campaignId)
+        const prevStatus = campaignStatusRef.current.get(campaign.campaignId);
         const currentStatus = campaign.status;
 
         if (prevStatus && prevStatus !== currentStatus) {
@@ -117,7 +116,7 @@ export const useCampaignMonitoring = (
             const errorMessage =
               campaign.safetyEvents,
                 .filter(e => e.severity === 'ERROR')
-                .map(e => e.description)
+                .map(e => e.description);
                 .join(', ') || 'Campaign failed',
             onCampaignFailed?.(campaign.campaignId, errorMessage)
           }
@@ -128,7 +127,7 @@ export const useCampaignMonitoring = (
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : 'Failed to refresh campaign data',
-      setState(prev => ({
+      setState(prev => ({;
         ...prev,
         loading: false,
         error: errorMessage
@@ -146,9 +145,9 @@ export const useCampaignMonitoring = (
         await refreshData()
 
         onCampaignStart?.(campaignId)
-        return campaignId
+        return campaignId;
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Failed to start campaign'
+        const errorMessage = error instanceof Error ? error.message : 'Failed to start campaign';
         setState(prev => ({ ...prev, error: errorMessage }))
         throw error,
       }
@@ -162,11 +161,11 @@ export const useCampaignMonitoring = (
       try {
         const success = await kiroCampaignIntegration.pauseCampaign(campaignId)
         if (success) {
-          await refreshData()
+          await refreshData();
         }
         return success,
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Failed to pause campaign'
+        const errorMessage = error instanceof Error ? error.message : 'Failed to pause campaign';
         setState(prev => ({ ...prev, error: errorMessage }))
         return false,
       }
@@ -180,11 +179,11 @@ export const useCampaignMonitoring = (
       try {
         const success = await kiroCampaignIntegration.resumeCampaign(campaignId)
         if (success) {
-          await refreshData()
+          await refreshData();
         }
         return success,
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Failed to resume campaign'
+        const errorMessage = error instanceof Error ? error.message : 'Failed to resume campaign';
         setState(prev => ({ ...prev, error: errorMessage }))
         return false,
       }
@@ -197,13 +196,13 @@ export const useCampaignMonitoring = (
     async (campaignId: string): Promise<boolean> => {
       try {
         const success = await kiroCampaignIntegration.stopCampaign(campaignId)
-        if (success) {
+        if (success) {;
           await refreshData(),
           onCampaignComplete?.(campaignId)
         }
         return success,
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Failed to stop campaign'
+        const errorMessage = error instanceof Error ? error.message : 'Failed to stop campaign';
         setState(prev => ({ ...prev, error: errorMessage }))
         return false,
       }
@@ -215,10 +214,10 @@ export const useCampaignMonitoring = (
   const getCampaignStatus = useCallback(
     async (campaignId: string): Promise<KiroCampaignStatus | null> => {
       try {
-        return await kiroCampaignIntegration.getCampaignStatus(campaignId)
+        return await kiroCampaignIntegration.getCampaignStatus(campaignId);
       } catch (error) {
         const errorMessage =
-          error instanceof Error ? error.message : 'Failed to get campaign status'
+          error instanceof Error ? error.message : 'Failed to get campaign status';
         setState(prev => ({ ...prev, error: errorMessage }))
         return null;
       }
@@ -227,12 +226,12 @@ export const useCampaignMonitoring = (
   )
 
   // Schedule a campaign
-  const scheduleCampaign = useCallback(
+  const scheduleCampaign = useCallback(;
     async (schedule: Omit<CampaignSchedule, 'id'>): Promise<string> => {
       try {
         return await kiroCampaignIntegration.scheduleCampaign(schedule)
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Failed to schedule campaign'
+        const errorMessage = error instanceof Error ? error.message : 'Failed to schedule campaign';
         setState(prev => ({ ...prev, error: errorMessage }))
         throw error,
       }
@@ -273,7 +272,7 @@ export const useCampaignMonitoring = (
   }, [])
 
   // Actions object
-  const actions: CampaignMonitoringActions = {
+  const actions: CampaignMonitoringActions = {;
     refreshData,
     startCampaign,
     pauseCampaign,
@@ -290,7 +289,7 @@ export const useCampaignMonitoring = (
 /**
  * Hook for monitoring a specific campaign
  */
-export const _useCampaignStatus = (campaignId: string) => {
+export const _useCampaignStatus = (campaignId: string) => {;
   const [status, setStatus] = useState<KiroCampaignStatus | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -300,7 +299,7 @@ export const _useCampaignStatus = (campaignId: string) => {
       setLoading(true)
       setError(null)
       const campaignStatus = await kiroCampaignIntegration.getCampaignStatus(campaignId)
-      setStatus(campaignStatus)
+      setStatus(campaignStatus);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to get campaign status')
     } finally {
@@ -332,7 +331,7 @@ export const _useSystemHealth = () => {;
       setLoading(true)
       setError(null)
       const controlPanel = await kiroCampaignIntegration.getCampaignControlPanel()
-      setHealth(controlPanel.systemHealth)
+      setHealth(controlPanel.systemHealth);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to get system health')
     } finally {

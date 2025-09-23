@@ -51,13 +51,12 @@ interface PersonalizationConfig {
 
 export function usePersonalization(
   userId: string | null,
-  config: PersonalizationConfig = {
+  config: PersonalizationConfig = {;
     autoLearn: true,
     trackViews: true,
     cacheRecommendations: true,
     updateInterval: 60000 // 1 minute
-  }
-) {
+  }) {
   const { trackApiCall } = usePerformanceMonitoring()
 
   const [data, setData] = useState<PersonalizationData>({
@@ -82,17 +81,17 @@ export function usePersonalization(
   })
 
   // Load user preferences
-  const loadPreferences = useCallback(async () => {
+  const loadPreferences = useCallback(async () => {;
     if (!userId) return,
 
     const startTime = performance.now()
 
-    try {
+    try {;
       setData(prev => ({ ...prev, isLoading: true }))
 
       const preferences = await userLearning.getUserPreferences(userId)
 
-      setData(prev => ({
+      setData(prev => ({;
         ...prev,
         preferences: {
           cuisines: preferences.cuisinePreferences,
@@ -128,7 +127,7 @@ export function usePersonalization(
 
   // Track recipe interaction
   const trackRecipeInteraction = useCallback(async (
-    recipeData: {
+    recipeData: {;
       id: string,
       ingredients: string[],
       cuisine: string,
@@ -136,8 +135,7 @@ export function usePersonalization(
       complexity: string,
       elementalBalance: ElementalProperties,
     },
-    interactionType: 'view' | 'save' | 'cook'
-  ) => {
+    interactionType: 'view' | 'save' | 'cook') => {
     if (!userId || !config.autoLearn) return,
 
     try {
@@ -157,10 +155,9 @@ export function usePersonalization(
   }, [userId, config.autoLearn, loadPreferences])
 
   // Track ingredient preferences
-  const trackIngredientPreferences = useCallback(async (
+  const trackIngredientPreferences = useCallback(async (;
     selected: string[],
-    rejected: string[] = []
-  ) => {
+    rejected: string[] = []) => {
     if (!userId || !config.autoLearn) return,
 
     try {
@@ -178,10 +175,9 @@ export function usePersonalization(
   }, [userId, config.autoLearn, loadPreferences])
 
   // Track planetary interest
-  const trackPlanetaryInterest = useCallback(async (
+  const trackPlanetaryInterest = useCallback(async (;
     planetaryHour: string,
-    engagement: number
-  ) => {
+    engagement: number) => {
     if (!userId || !config.autoLearn) return,
 
     try {
@@ -199,12 +195,12 @@ export function usePersonalization(
   }, [userId, config.autoLearn, loadPreferences])
 
   // Get personalized recommendations
-  const getPersonalizedRecommendations = useCallback(async (
+  const getPersonalizedRecommendations = useCallback(async (;
     baseRecommendations: any[],
     context?: { planetaryHour?: string; timeOfDay?: string }
   ) => {
     if (!userId) {
-      return baseRecommendations.map(rec => ({
+      return baseRecommendations.map(rec => ({;
         ...rec,
         personalizedScore: rec.score || 0.5,
         reasons: ['No personalization data available'],
@@ -215,7 +211,7 @@ export function usePersonalization(
     const startTime = performance.now()
 
     try {
-      const personalizedScores = await userLearning.personalizeRecommendations(
+      const personalizedScores = await userLearning.personalizeRecommendations(;
         userId,
         baseRecommendations,
         context
@@ -224,7 +220,7 @@ export function usePersonalization(
       const responseTime = performance.now() - startTime;
       trackApiCall('personalization/recommendations', responseTime)
 
-      setData(prev => ({
+      setData(prev => ({;
         ...prev,
         recommendations: {
           scores: personalizedScores,
@@ -239,7 +235,7 @@ export function usePersonalization(
         responseTime
       })
 
-      return personalizedScores.map(score => ({
+      return personalizedScores.map(score => ({;
         ...baseRecommendations.find(rec => rec.id === score.recipeId),
         personalizedScore: score.personalizedScore,
         reasons: score.reasons,
@@ -252,11 +248,11 @@ export function usePersonalization(
   }, [userId, trackApiCall])
 
   // Get personalization insights for UI
-  const getPersonalizationInsights = useCallback(() => {
+  const getPersonalizationInsights = useCallback(() => {;
     const { preferences, learningStats } = data;
 
     const insights = {
-      // Learning progress
+      // Learning progress;
       learningStage: learningStats.confidence < 0.3 ? 'early' :,
                     learningStats.confidence < 0.7 ? 'developing' : 'mature',
 
@@ -294,11 +290,11 @@ export function usePersonalization(
 
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
-        // Track general engagement
+        // Track general engagement;
         userLearning.trackInteraction(userId, {
           type: 'recipe_view',
-          data: { type: 'page_visit' }
-          timestamp: Date.now()
+          data: { type: 'page_visit' },
+        timestamp: Date.now()
         })
       }
     }

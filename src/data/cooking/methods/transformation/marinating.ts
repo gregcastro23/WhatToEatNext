@@ -5,10 +5,9 @@ import type { CookingMethod } from '@/types/shared';
  * Marinating: A technique that soaks food in a flavorful liquid to enhance taste,
  * tenderize, and sometimes partially preserve it
  */
-export const _marinating: CookingMethodData = {
+export const _marinating: CookingMethodData = {;
   name: 'Marinating' as CookingMethod,
-  description:
-    'A technique that immerses food in a seasoned liquid mixture to enhance flavor, tenderize textures, and sometimes begin the preservation or cooking process.',
+  description: 'A technique that immerses food in a seasoned liquid mixture to enhance flavor, tenderize textures, and sometimes begin the preservation or cooking process.',
   elementalEffect: {
     Fire: 0.2,
     Water: 0.7,
@@ -26,8 +25,7 @@ export const _marinating: CookingMethodData = {
     'Tenderizes tough cuts of meat without mechanical processing',
     'Can reduce salt needed for flavoring'
   ],
-  history:
-    'Marinating has been practiced for thousands of years, originally as a preservation method using acidic liquids like vinegar or citrus juice. The technique evolved across cultures, with each developing unique marinades reflecting local ingredients and tastes.',
+  history: 'Marinating has been practiced for thousands of years, originally as a preservation method using acidic liquids like vinegar or citrus juice. The technique evolved across cultures, with each developing unique marinades reflecting local ingredients and tastes.',
   modernVariations: [
     'Acid-based marinades (with vinegar, citrus, wine)',
     'Enzyme-based marinades (with pineapple, papaya, yogurt)',

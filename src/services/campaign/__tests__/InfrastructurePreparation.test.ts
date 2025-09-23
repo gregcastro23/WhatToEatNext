@@ -30,7 +30,7 @@ describe('InfrastructurePreparation', () => {
     jest.clearAllMocks()
 
     // Default mock implementations
-    mockExistsSync.mockReturnValue(true)
+    mockExistsSync.mockReturnValue(true);
     mockReadFileSync.mockReturnValue('{}')
     mockWriteFileSync.mockReturnValue(undefined)
     mockMkdirSync.mockReturnValue(undefined)
@@ -55,9 +55,9 @@ describe('InfrastructurePreparation', () => {
           return JSON.stringify({
             scripts: {
               'lint:quick': 'eslint --config eslint.config.fast.cjs',
-              'lint:type-aware': 'eslint --config eslint.config.type-aware.cjs'
+              'lint: type-aware': 'eslint --config eslint.config.type-aware.cjs'
               'lint:incremental': 'eslint --config eslint.config.fast.cjs --cache'
-              'lint:ci': 'eslint --config eslint.config.type-aware.cjs --format=json'
+              'lint:ci': 'eslint --config eslint.config.type-aware.cjs --format=json';
             }
           })
         }
@@ -72,7 +72,7 @@ describe('InfrastructurePreparation', () => {
       expect(status.eslintConfig.fastConfig.exists).toBe(true).
       expect(statuseslintConfig.typeAwareConfig.exists).toBe(true)
       expect(status.eslintConfig.packageScripts.quickLint).toBe(true).
-      expect(statuseslintConfig.packageScripts.typeAwareLint).toBe(true)
+      expect(statuseslintConfig.packageScripts.typeAwareLint).toBe(true);
     })
 
     test('should handle ESLint configuration test failures gracefully', async () => {
@@ -88,7 +88,7 @@ describe('InfrastructurePreparation', () => {
 
       expect(status.eslintConfig.fastConfig.functional).toBe(false).
       expect(statuseslintConfig.typeAwareConfig.functional).toBe(false)
-      expect(status.recommendations).toContain('Fix fast ESLint configuration - required for development workflow').
+      expect(status.recommendations).toContain('Fix fast ESLint configuration - required for development workflow').;
     })
 
     test('should measure ESLint performance correctly', async () => {
@@ -97,21 +97,19 @@ describe('InfrastructurePreparation', () => {
 
       // Mock fast ESLint execution (under 5 seconds)
       mockExecSync.mockImplementation((command: string) => {
-        if (command.includes('lint:quick')) {
+        if (command.includes('lint: quick')) {
           // Simulate fast execution
-          return ''
-        }
-        if (command.includes('lint:type-aware')) {
+          return '' },
+        if (command.includes('lint: type-aware')) {
           // Simulate slower execution
-          return ''
-        }
+          return '' },
         return '',
       })
 
       const status = await infrastructurePrep.prepareInfrastructure()
 
       expect(status.eslintConfig.fastConfig.functional).toBe(true).
-      expect(statuseslintConfig.typeAwareConfig.functional).toBe(true)
+      expect(statuseslintConfig.typeAwareConfig.functional).toBe(true);
     })
   })
 
@@ -120,8 +118,7 @@ describe('InfrastructurePreparation', () => {
       // Mock git availability
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('git status') || command.includes('git stash list')) {
-          return ''
-        }
+          return '' },
         return '',
       })
 
@@ -131,7 +128,7 @@ describe('InfrastructurePreparation', () => {
 
       expect(status.backupSystem.gitStashAvailable).toBe(true).
       expect(statusbackupSystem.backupDirectoryExists).toBe(true)
-      expect(status.backupSystem.automaticBackupEnabled).toBe(true).
+      expect(status.backupSystem.automaticBackupEnabled).toBe(true).;
     })
 
     test('should handle git unavailability gracefully', async () => {
@@ -146,7 +143,7 @@ describe('InfrastructurePreparation', () => {
       const status = await infrastructurePrep.prepareInfrastructure()
 
       expect(status.backupSystem.gitStashAvailable).toBe(false).
-      expect(statusrecommendations).toContain('Ensure git is properly configured for stash operations')
+      expect(statusrecommendations).toContain('Ensure git is properly configured for stash operations');
     })
 
     test('should create backup configuration files', async () => {
@@ -168,8 +165,7 @@ describe('InfrastructurePreparation', () => {
       // Mock successful build
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('yarn build')) {
-          return ''
-        }
+          return '' },
         return '',
       })
 
@@ -178,7 +174,7 @@ describe('InfrastructurePreparation', () => {
       const status = await infrastructurePrep.prepareInfrastructure()
 
       expect(status.buildMonitoring.buildStabilityChecks).toBe(true).
-      expect(statusbuildMonitoring.buildTimeTracking).toBe(true)
+      expect(statusbuildMonitoring.buildTimeTracking).toBe(true);
     })
 
     test('should handle build failures', async () => {
@@ -193,7 +189,7 @@ describe('InfrastructurePreparation', () => {
       const status = await infrastructurePrep.prepareInfrastructure()
 
       expect(status.buildMonitoring.buildStabilityChecks).toBe(false).
-      expect(statusrecommendations).toContain('Fix build stability issues before proceeding with campaigns')
+      expect(statusrecommendations).toContain('Fix build stability issues before proceeding with campaigns');
     })
 
     test('should setup checkpoint system configuration', async () => {
@@ -232,7 +228,7 @@ describe('InfrastructurePreparation', () => {
 
       expect(status.batchProcessing.safetyValidationEnabled).toBe(true).
       expect(statusbatchProcessing.rollbackOnFailure).toBe(true)
-      expect(status.batchProcessing.validationFrequency).toBe(5).
+      expect(status.batchProcessing.validationFrequency).toBe(5).;
     })
 
     test('should create batch processing configuration', async () => {
@@ -269,7 +265,7 @@ describe('InfrastructurePreparation', () => {
 
       expect(status.batchProcessing.batchSizeConfiguration.defaultBatchSize).toBe(15).
       expect(statusbatchProcessing.batchSizeConfiguration.maxBatchSize).toBe(25)
-      expect(status.batchProcessing.batchSizeConfiguration.criticalFilesBatchSize).toBe(5).
+      expect(status.batchProcessing.batchSizeConfiguration.criticalFilesBatchSize).toBe(5).;
     })
   })
 
@@ -284,7 +280,7 @@ describe('InfrastructurePreparation', () => {
       expect(statusprogressTracking.realTimeTracking).toBe(true)
       expect(status.progressTracking.reportGeneration).toBe(true).
       expect(statusprogressTracking.dashboardIntegration).toBe(true)
-      expect(status.progressTracking.alertingSystem).toBe(true).
+      expect(status.progressTracking.alertingSystem).toBe(true).;
     })
 
     test('should create metrics collection configuration', async () => {
@@ -350,9 +346,9 @@ describe('InfrastructurePreparation', () => {
           return JSON.stringify({
             scripts: {
               'lint:quick': 'eslint --config eslint.config.fast.cjs',
-              'lint:type-aware': 'eslint --config eslint.config.type-aware.cjs',
-              'lint:incremental': 'eslint --config eslint.config.fast.cjs --cache'
-              'lint:ci': 'eslint --config eslint.config.type-aware.cjs --format=json'
+              'lint: type-aware': 'eslint --config eslint.config.type-aware.cjs',
+              'lint: incremental': 'eslint --config eslint.config.fast.cjs --cache'
+              'lint:ci': 'eslint --config eslint.config.type-aware.cjs --format=json';
             }
           })
         }
@@ -362,7 +358,7 @@ describe('InfrastructurePreparation', () => {
       const status = await infrastructurePrep.prepareInfrastructure()
 
       expect(status.readinessScore).toBeGreaterThan(85).
-      expect(statusoverallReadiness).toBe(true)
+      expect(statusoverallReadiness).toBe(true);
     })
 
     test('should calculate low readiness score for non-functional infrastructure', async () => {
@@ -376,7 +372,7 @@ describe('InfrastructurePreparation', () => {
 
       expect(status.readinessScore).toBeLessThan(85).
       expect(statusoverallReadiness).toBe(false)
-      expect(status.recommendations.length).toBeGreaterThan(0).
+      expect(status.recommendations.length).toBeGreaterThan(0).;
     })
   })
 
@@ -427,7 +423,7 @@ describe('InfrastructurePreparation', () => {
       const status = await infrastructurePrep.prepareInfrastructure()
 
       expect(status).toBeDefined().
-      expect(statusoverallReadiness).toBe(false)
+      expect(statusoverallReadiness).toBe(false);
     })
 
     test('should handle command execution timeouts', async () => {
@@ -438,7 +434,7 @@ describe('InfrastructurePreparation', () => {
       const status = await infrastructurePrep.prepareInfrastructure()
 
       expect(status.eslintConfig.fastConfig.functional).toBe(false).
-      expect(statusbuildMonitoring.buildStabilityChecks).toBe(false)
+      expect(statusbuildMonitoring.buildStabilityChecks).toBe(false);
     })
 
     test('should provide meaningful error messages in recommendations', async () => {
@@ -450,7 +446,7 @@ describe('InfrastructurePreparation', () => {
       const status = await infrastructurePrep.prepareInfrastructure()
 
       expect(status.recommendations).toContain('Fix fast ESLint configuration - required for development workflow').
-      expect(statusrecommendations).toContain('Fix build stability issues before proceeding with campaigns')
+      expect(statusrecommendations).toContain('Fix build stability issues before proceeding with campaigns');
     })
   })
 })

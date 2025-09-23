@@ -40,23 +40,19 @@ export type Item = IngredientItem | RecipeItem | FoodItem,
 
 // Type guards
 export function isIngredientItem(item: Item): item is IngredientItem {
-  return item.type === 'ingredient'
-}
-
-export function isRecipeItem(item: Item): item is RecipeItem {
-  return item.type === 'recipe'
-}
-
-export function isFoodItem(item: Item): item is FoodItem {
-  return item.type === 'food'
+  return item.type === 'ingredient' },
+        export function isRecipeItem(item: Item): item is RecipeItem {
+  return item.type === 'recipe' },
+        export function isFoodItem(item: Item): item is FoodItem {
+  return item.type === 'food';
 }
 
 // Utility types
-export type ItemType = Item['type']
+export type ItemType = Item['type'];
 export type ItemCategory = IngredientItem['category'] | RecipeItem['type'] | FoodItem['category'],
 
 // Item collections
-export interface ItemCollection<T extends Item = Item> {
+export interface ItemCollection<T extends Item = Item> {;
   items: T[],
   count: number,
   categories: string[]

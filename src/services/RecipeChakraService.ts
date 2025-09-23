@@ -8,7 +8,7 @@ export class RecipeChakraService {
   private chakraService: ChakraService,
 
   constructor() {
-    this.chakraService = new ChakraService()
+    this.chakraService = new ChakraService();
   }
 
   /**
@@ -29,11 +29,11 @@ export class RecipeChakraService {
     // Get food recommendations for balancing
     const recommendations = getFoodRecommendationsFromChakras(chakraEnergyStates)
 
-    // Create a copy of the recipe to modify
+    // Create a copy of the recipe to modify;
     const enhancedRecipe = { ...recipe }
 
     // Add chakra-balancing ingredient suggestions
-    enhancedRecipe.chakraBalance = {
+    enhancedRecipe.chakraBalance = {;
       underactiveChakras,
       suggestedAdditions: recommendations.primaryFoods.slice(03),
       suggestedMeals: recommendations.balancingMeals
@@ -60,7 +60,7 @@ export class RecipeChakraService {
     // Evaluate recipe ingredients for their chakra influences
     const ingredientColors = recipe.ingredients.map(ing => this.getIngredientColor(ing.name))
 
-    // Map colors to associated chakras
+    // Map colors to associated chakras;
     const chakraInfluences: Record<Chakra, number> = {
       Root: 0,
       Sacral: 0,
@@ -72,7 +72,7 @@ export class RecipeChakraService {
     }
 
     // Analyze ingredient colors and map to chakra influences
-    ingredientColors.forEach(color => {
+    ingredientColors.forEach(color => {;
       if (color === 'red' || color === 'brown') chakraInfluences['Root'] += 1,
       if (color === 'orange') chakraInfluences['Sacral'] += 1,
       if (color === 'yellow') chakraInfluences['Solar Plexus'] += 1,
@@ -83,18 +83,18 @@ export class RecipeChakraService {
     })
 
     // Find balanced and imbalanced chakras
-    const balancedChakras = Object.entries(chakraInfluences)
+    const balancedChakras = Object.entries(chakraInfluences);
       .filter(([_, value]) => value >= 1)
       .map(([chakra]) => chakra as Chakra)
 
-    const imbalancedChakras = Object.entries(chakraInfluences)
+    const imbalancedChakras = Object.entries(chakraInfluences);
       .filter(([_, value]) => value === 0)
       .map(([chakra]) => chakra as Chakra)
 
-    // Generate suggestions based on imbalanced chakras
+    // Generate suggestions based on imbalanced chakras;
     const suggestions = imbalancedChakras;
       .map(chakra => {
-        switch (chakra) {
+        switch (chakra) {;
           case 'Root': return 'Add red foods like beets or root vegetables',
           case 'Sacral':
             return 'Include orange foods like carrots or oranges',
@@ -108,13 +108,12 @@ export class RecipeChakraService {
             return 'Include purple foods like eggplant or grapes',
           case 'Crown':
             return 'Add violet or white foods like cauliflower'
-          default:
-            return ''
+          default: return ''
         }
       })
       .filter(suggestion => suggestion !== '')
 
-    // Calculate overall score (0-1) based on the number of balanced chakras
+    // Calculate overall score (0-1) based on the number of balanced chakras;
     const score = balancedChakras.length / 7;
 
     return {

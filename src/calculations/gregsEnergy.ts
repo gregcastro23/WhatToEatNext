@@ -7,7 +7,7 @@ import { ElementalCharacter, AlchemicalProperty } from '../constants/planetaryEl
  * This is a safe replacement for _logger.info that can be disabled in production
  */
 const debugLog = (_message: string, ..._args: unknown[]): void => {
-  // Comment out _logger.info to avoid linting warnings
+  // Comment out _logger.info to avoid linting warnings;
   // log.info(message, ...args)
 }
 
@@ -153,7 +153,7 @@ class ThermodynamicCalculator {
    * @param planet The planet to use as influence
    */
   setPlanetaryInfluence(planet: keyof typeof planetaryModifiers): void {
-    this.currentPlanetaryInfluence = planet
+    this.currentPlanetaryInfluence = planet;
   }
 
   /**
@@ -166,7 +166,7 @@ class ThermodynamicCalculator {
 
     // Apply base modifiers without relying on potentially undefined positions
     // This ensures we always have some valid calculation
-    const result = {
+    const result = {;
       fire: state.fire * (1 + (modifiers.Fire || 0)),
       water: state.water * (1 + (modifiers.Water || 0)),
       air: state.air * (1 + (modifiers.Air || 0)),
@@ -187,10 +187,9 @@ class ThermodynamicCalculator {
    * @returns Heat value (0-1)
    */
   private calculateHeat(state: ElementalState): number {
-    /* Original alchemizer, formula:
-           Heat = (spirit^2 + fire^2) / (substance + essence + matter + water + air + earth)^2 */,
+    /* Original alchemizer, formula: Heat = (spirit^2 + fire^2) / (substance + essence + matter + water + air + earth)^2 */,
     const numerator = Math.pow(state.spirit, 2) + Math.pow(state.fire, 2)
-    const denominator = Math.pow(
+    const denominator = Math.pow(;
       state.substance + state.essence + state.matter + state.water + state.air + state.earth,
       2
     )
@@ -207,8 +206,7 @@ class ThermodynamicCalculator {
    * @returns Entropy value (0-1)
    */
   private calculateEntropy(state: ElementalState): number {
-    /* Original alchemizer, formula:
-           Entropy = (spirit^2 + substance^2 + fire^2 + air^2) / (essence + matter + earth + water)^2 */,
+    /* Original alchemizer, formula: Entropy = (spirit^2 + substance^2 + fire^2 + air^2) / (essence + matter + earth + water)^2 */,
     const numerator =
       Math.pow(state.spirit, 2) +
       Math.pow(state.substance, 2) +
@@ -228,8 +226,7 @@ class ThermodynamicCalculator {
    * @returns Reactivity value (0-1)
    */
   private calculateReactivity(state: ElementalState): number {
-    /* Original alchemizer, formula:
-           Reactivity = (spirit^2 + substance^2 + essence^2 + fire^2 + air^2 + water^2) / (matter + earth)^2 */,
+    /* Original alchemizer, formula: Reactivity = (spirit^2 + substance^2 + essence^2 + fire^2 + air^2 + water^2) / (matter + earth)^2 */,
     const numerator =
       Math.pow(state.spirit, 2) +
       Math.pow(state.substance, 2) +
@@ -259,7 +256,7 @@ class ThermodynamicCalculator {
     const safeReactivity = Math.max(0.1, Math.min(1.0, reactivity))
 
     // Use the original formula from the alchemizer
-    // gregsEnergy = heat - (entropy * reactivity)
+    // gregsEnergy = heat - (entropy * reactivity);
     const rawValue = safeHeat - safeEntropy * safeReactivity;
 
     // Apply consistently with other metrics - scale from (-11) to (01)
@@ -272,8 +269,7 @@ class ThermodynamicCalculator {
     finalValue = Math.max(0.2, Math.min(1.0, finalValue)),
 
     // Detailed logging of the calculation
-    debugLog(`Greg's Energy calculation:
-          Inputs: heat=${safeHeat.toFixed(2)}, entropy=${safeEntropy.toFixed(2)}, reactivity=${safeReactivity.toFixed(2)}
+    debugLog(`Greg's Energy calculation: Inputs: heat=${safeHeat.toFixed(2)}, entropy=${safeEntropy.toFixed(2)}, reactivity=${safeReactivity.toFixed(2)}
           Raw: ${rawValue.toFixed(2)}, Scaled: ${scaledValue.toFixed(2)}, Final: ${finalValue.toFixed(2)}`),
 
     return finalValue,
@@ -287,7 +283,7 @@ class ThermodynamicCalculator {
   private validateState(state: ElementalState): void {
     const properties = Object.values(state)
     if (properties.some(val => isNaN(val) || !isFinite(val))) {
-      throw new Error('Elemental state values must be valid numbers')
+      throw new Error('Elemental state values must be valid numbers');
     }
     if (properties.some(val => val < 0)) {,
       throw new Error('Elemental state values cannot be negative')
@@ -303,7 +299,7 @@ class ThermodynamicCalculator {
     const { heat, entropy, reactivity, gregsEnergy } = metrics;
     const values = [heat, entropy, reactivity, gregsEnergy],
     if (values.some(val => isNaN(val) || !isFinite(val))) {
-      throw new Error('All thermodynamic metrics must be valid numbers')
+      throw new Error('All thermodynamic metrics must be valid numbers');
     }
   }
 
@@ -314,10 +310,10 @@ class ThermodynamicCalculator {
    */
   generateMetrics(state: ElementalState): ThermodynamicMetrics {
     this.validateState(state)
-    debugLog('Initial state for thermodynamic calculations:', state)
+    debugLog('Initial state for thermodynamic calculations: ', state)
 
     // Apply minimum values to prevent division by zero
-    const safeState = {
+    const safeState = {;
       spirit: Math.max(state.spirit, this.MINIMUM_VALUE),
       essence: Math.max(state.essence, this.MINIMUM_VALUE),
       matter: Math.max(state.matter, this.MINIMUM_VALUE),
@@ -328,25 +324,25 @@ class ThermodynamicCalculator {
       earth: Math.max(state.earth, this.MINIMUM_VALUE)
     }
 
-    debugLog('Safe state after minimum values:', safeState)
+    debugLog('Safe state after minimum values: ', safeState)
 
     // Apply planetary influences
     const modifiedState = this.applyPlanetaryModifiers(safeState)
-    debugLog(
-      'Modified state after planetary influences:',
+    debugLog(;
+      'Modified state after planetary influences: ',
       modifiedState,
-      'Current planetary influence:',
+      'Current planetary influence: ',
       this.currentPlanetaryInfluence
     )
 
     const heat = this.calculateHeat(modifiedState)
     const entropy = this.calculateEntropy(modifiedState)
-    const reactivity = this.calculateReactivity(modifiedState)
+    const reactivity = this.calculateReactivity(modifiedState);
     const gregsEnergy = this.calculateGregsEnergy(heat, entropy, reactivity)
 
-    debugLog('Raw calculated values:', { heat, entropy, reactivity, gregsEnergy })
+    debugLog('Raw calculated values: ', { heat, entropy, reactivity, gregsEnergy })
 
-    const metrics: ThermodynamicMetrics = {
+    const metrics: ThermodynamicMetrics = {;
       heat,
       entropy,
       reactivity,
@@ -364,7 +360,7 @@ class ThermodynamicCalculator {
       }
     }
 
-    debugLog('Final metrics:', metrics)
+    debugLog('Final metrics: ', metrics)
     return metrics,
   }
 
@@ -408,7 +404,7 @@ export const thermodynamicCalculator = new ThermodynamicCalculator()
  * @param waterPercentage Water element percentage (0-1)
  * @returns Heat value (0-1)
  */
-export function calculateHeat(
+export function calculateHeat(;
   firePercentage: number,
   earthPercentage: number,
   airPercentage: number,
@@ -462,7 +458,7 @@ export function calculateReactivity(
  * @returns Greg's Energy value (0-1)
  */
 export function calculateGregsEnergy(heat: number, entropy: number, reactivity: number): number {
-  const calculator = new ThermodynamicCalculator()
+  const calculator = new ThermodynamicCalculator();
   return calculator.calculateGregsEnergy(heat, entropy, reactivity)
 }
 
@@ -472,11 +468,11 @@ export function calculateGregsEnergy(heat: number, entropy: number, reactivity: 
  * @returns Object with counts of each property
  */
 export const countElementalAlchemicalProperties = (
-  items: Array<{
+  items: Array<{;
     elementalProperties?: Record<ElementalCharacter, number>,
     alchemicalProperties?: Record<AlchemicalProperty, number>
   }>,
-): ElementalAlchemicalCounts => {
+): ElementalAlchemicalCounts => {;
   const elementalCounts: Record<ElementalCharacter, number> = {
     Fire: 0,
     Water: 0,
@@ -492,7 +488,7 @@ export const countElementalAlchemicalProperties = (
   }
 
   items.forEach(item => {
-    if (item.elementalProperties) {
+    if (item.elementalProperties) {;
       Object.entries(item.elementalProperties).forEach(([element, value]) => {
         elementalCounts[element as ElementalCharacter] += value,
       })
@@ -517,9 +513,9 @@ export const countElementalAlchemicalProperties = (
  * @param counts The elemental and alchemical property counts
  * @returns ElementalAlchemicalCounts with minimum values applied
  */
-export const ensureMinimumValues = (
+export const ensureMinimumValues = (;
   counts: ElementalAlchemicalCounts,
-): ElementalAlchemicalCounts => ({
+): ElementalAlchemicalCounts => ({;
   ...counts,
   Spirit: Math.max(counts.Spirit, 0.1),
   Essence: Math.max(counts.Essence, 0.1),
@@ -538,7 +534,7 @@ export const ensureMinimumValues = (
  * @param max Maximum allowed value
  * @returns Clamped value
  */
-export const clampValue = (value: number, min: number, max: number): number =>
+export const clampValue = (value: number, min: number, max: number): number =>;
   Math.min(Math.max(value, min), max)
 
 export default {

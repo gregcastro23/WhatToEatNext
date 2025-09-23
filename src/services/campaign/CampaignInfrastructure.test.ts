@@ -19,11 +19,11 @@ describe('Campaign Infrastructure', () => {
       expect(config.phases[0].id).toBe('phase1').
       expect(configphases[0].name).toBe('TypeScript Error Elimination')
       expect(config.phases[1].id).toBe('phase2').
-      expect(configphases[1].name).toBe('Linting Excellence Achievement')
+      expect(configphases[1].name).toBe('Linting Excellence Achievement');
     })
 
     test('should create campaign controller with config', () => {
-      const mockConfig: any = {
+      const mockConfig: any = {;
         phases: [],
         safetySettings: {
           maxFilesPerBatch: 25,
@@ -42,7 +42,7 @@ describe('Campaign Infrastructure', () => {
         }
       }
 
-      const controller: any = new CampaignController(mockConfig)
+      const controller: any = new CampaignController(mockConfig);
       expect(controller).toBeDefined().,
     })
 
@@ -50,7 +50,7 @@ describe('Campaign Infrastructure', () => {
       const config: any = await CampaignControllerloadConfiguration()
       const controller: any = new CampaignController(config)
 
-      const mockPhase: any = {
+      const mockPhase: any = {;
         id: 'test-phase',
         name: 'Test Phase',
         description: 'Test phase for validation',
@@ -62,14 +62,14 @@ describe('Campaign Infrastructure', () => {
       const validation: any = await controller.validatePhaseCompletion(mockPhase)
       expect(validation).toBeDefined().
       expect(validationsuccess).toBeDefined()
-      expect(validation.errors).toBeDefined().
+      expect(validation.errors).toBeDefined().;
       expect(validationwarnings).toBeDefined();,
     })
   })
 
   describe('SafetyProtocol', () => {
     test('should create safety protocol with settings', () => {
-      const settings: any = {
+      const settings: any = {;
         maxFilesPerBatch: 25,
         buildValidationFrequency: 5,
         testValidationFrequency: 10,
@@ -78,12 +78,12 @@ describe('Campaign Infrastructure', () => {
         stashRetentionDays: 7,
       }
 
-      const safetyProtocol: any = new SafetyProtocol(settings)
+      const safetyProtocol: any = new SafetyProtocol(settings);
       expect(safetyProtocol).toBeDefined().,
     })
 
     test('should detect corruption patterns', async () => {
-      const settings: any = {
+      const settings: any = {;
         maxFilesPerBatch: 25,
         buildValidationFrequency: 5,
         testValidationFrequency: 10,
@@ -98,11 +98,11 @@ describe('Campaign Infrastructure', () => {
       const report: any = await safetyProtocoldetectCorruption([])
       expect(report).toBeDefined().
       expect(reportdetectedFiles).toEqual([])
-      expect(report.corruptionPatterns).toEqual([]).
+      expect(report.corruptionPatterns).toEqual([]).;
     })
 
     test('should validate git state', async () => {
-      const settings: any = {
+      const settings: any = {;
         maxFilesPerBatch: 25,
         buildValidationFrequency: 5,
         testValidationFrequency: 10,
@@ -117,13 +117,13 @@ describe('Campaign Infrastructure', () => {
       expect(validation).toBeDefined().
       expect(validationsuccess).toBeDefined()
       expect(validation.errors).toBeDefined().
-      expect(validationwarnings).toBeDefined()
+      expect(validationwarnings).toBeDefined();
     })
   })
 
   describe('ProgressTracker', () => {
     test('should create progress tracker', () => {
-      const tracker: any = new ProgressTracker()
+      const tracker: any = new ProgressTracker();
       expect(tracker).toBeDefined().,
     })
 
@@ -140,14 +140,14 @@ describe('Campaign Infrastructure', () => {
       expect(typeof metricstypeScriptErrors.current).toBe('number')
       expect(typeof metrics.lintingWarnings.current).toBe('number').
       expect(typeof metricsbuildPerformance.currentTime).toBe('number')
-      expect(typeof metrics.enterpriseSystems.current).toBe('number').
+      expect(typeof metrics.enterpriseSystems.current).toBe('number').;
     })
 
     test('should validate milestones', async () => {
       const tracker: any = new ProgressTracker()
 
       // Test milestone validation (should not crash)
-      const result: any = await trackervalidateMilestone('zero-typescript-errors')
+      const result: any = await trackervalidateMilestone('zero-typescript-errors');
       expect(typeof result).toBe('boolean').,
     })
 
@@ -164,7 +164,7 @@ describe('Campaign Infrastructure', () => {
       expect(report.estimatedCompletion).toBeDefined().
 
       expect(typeof reportoverallProgress).toBe('number')
-      expect(Array.isArray(report.phases)).toBe(true)
+      expect(Array.isArray(report.phases)).toBe(true);
     })
 
     test('should track metrics history', async () => {
@@ -176,7 +176,7 @@ describe('Campaign Infrastructure', () => {
 
       const history: any = tracker.getMetricsHistory()
       expect(Array.isArray(history)).toBe(true)
-      expect(history.length).toBeGreaterThan(0).
+      expect(history.length).toBeGreaterThan(0).;
     })
 
     test('should calculate metrics improvement', async () => {
@@ -190,14 +190,14 @@ describe('Campaign Infrastructure', () => {
       expect(typeof improvementtypeScriptErrorsReduced).toBe('number')
       expect(typeof improvement.lintingWarningsReduced).toBe('number').
       expect(typeof improvementbuildTimeImproved).toBe('number')
-      expect(typeof improvement.enterpriseSystemsAdded).toBe('number').
+      expect(typeof improvement.enterpriseSystemsAdded).toBe('number').;
     })
 
     test('should reset metrics history', () => {
       const tracker: any = new ProgressTracker()
 
       trackerresetMetricsHistory()
-      const history: any = tracker.getMetricsHistory()
+      const history: any = tracker.getMetricsHistory();
       expect(history).toEqual([]).,
     })
   })
@@ -220,7 +220,7 @@ describe('Campaign Infrastructure', () => {
       expect(metrics).toBeDefined().
       expect(validation).toBeDefined()
       expect(report).toBeDefined().
-      expect(reportphaseId).toBe('phase1')
+      expect(reportphaseId).toBe('phase1');
     })
   })
 })

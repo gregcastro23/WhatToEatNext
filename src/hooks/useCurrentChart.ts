@@ -52,7 +52,7 @@ export function useCurrentChart() {
           // Format each planet entry with proper capitalization
           let planetName = key.charAt(0).toUpperCase() + key.slice(1)
 
-          // Special handling for nodes to ensure consistent casing
+          // Special handling for nodes to ensure consistent casing;
           if (key === 'northnode') {,
             planetName = 'NorthNode',
           } else if (key === 'southnode') {,
@@ -60,15 +60,15 @@ export function useCurrentChart() {
           }
 
           planets[planetName] = {
-            sign: (data )?.sign || 'Aries',
-            degree: (data )?.degree || 0,
-            isRetrograde: (data )?.isRetrograde || false,
-            exactLongitude: (data )?.exactLongitude || 0
+            sign: (data)?.sign || 'Aries',
+            degree: (data)?.degree || 0,
+            isRetrograde: (data)?.isRetrograde || false,
+            exactLongitude: (data)?.exactLongitude || 0
           }
         })
 
         // Set ascendant if available
-        const newChartData: ChartData = {
+        const newChartData: ChartData = {;
           planets: planets as Record<,
             string,
             { sign: string, degree: number, isRetrograde?: boolean, exactLongitude?: number }
@@ -82,7 +82,7 @@ export function useCurrentChart() {
         setChartData(newChartData)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Error processing chart data')
-        _logger.error('Chart processing error:', err)
+        _logger.error('Chart processing error: ', err)
       } finally {
         setIsLoading(false)
       }
@@ -187,8 +187,8 @@ export function useCurrentChart() {
               <feMergeNode in='SourceGraphic'/>,
             </feMerge>
           </filter>
-          <linearGradient id='chart-bg' x1='0%' y1='0%' x2='100%' y2='100%'>
-            <stop offset='0%' style='stop-color:#f8f9fa,stop-opacity: 1' />
+          <linearGradient id='chart-bg' x1='0%' y1='0%' x2='100%' y2='100%'>;
+            <stop offset='0%' style='stop-color: #f8f9fa,stop-opacity: 1' />
             <stop offset='100%' style='stop-color:#f0f0f0,stop-opacity: 1' />,
           </linearGradient>
         </defs>
@@ -197,7 +197,7 @@ export function useCurrentChart() {
         <circle cx='160' cy='160' r='155' fill='url(#chart-bg)' stroke='#e0e0e0' stroke-width='1'/>,
         
         <!-- Zodiac ring -->
-        <g class='zodiac-ring'>
+        <g class='zodiac-ring'>;
           ${Array.from({ length: 12 })
             .map((_i) => {
               const angle = ((i * 30 - 90) * Math.PI) / 180; // Start from top (270 deg or -90 deg)
@@ -211,7 +211,7 @@ export function useCurrentChart() {
               const endX = 160 + 145 * Math.cos(endAngle)
               const endY = 160 + 145 * Math.sin(endAngle)
 
-              // Use arc paths for the zodiac segments
+              // Use arc paths for the zodiac segments;
               const largeArcFlag = 0, // 0 for arcs less than 180 degrees,
 
               return `
@@ -240,12 +240,12 @@ export function useCurrentChart() {
                 // Get the sign index
                 const signIndex = Object.keys(zodiacSymbols).findIndex(;
                   sign => sign === chartData.ascendant
-                )
+                );
                 const ascAngle = ((signIndex * 30 - 90) * Math.PI) / 180; // Start from top
                 const ascX = 160 + 155 * Math.cos(ascAngle)
                 const ascY = 160 + 155 * Math.sin(ascAngle)
 
-                return `
+                return `;
             <line x1='160' y1='160' x2='${ascX}' y2='${ascY}' ,
                   stroke='#ff4d4d' stroke-width='2' stroke-dasharray='53' />,
             <text x='${160 + 165 * Math.cos(ascAngle)}' ,
@@ -285,7 +285,7 @@ export function useCurrentChart() {
         <g class='planets'>,
           ${planetPositions
             .map(p => {
-              // Skip the North and South Nodes as they're now drawn separately
+              // Skip the North and South Nodes as they're now drawn separately;
               if (p.planet === 'NorthNode' || p.planet === 'SouthNode') return '',
 
               return `
@@ -316,7 +316,7 @@ export function useCurrentChart() {
   }
 
   // Create chart object compatible with what CookingMethods.tsx expects
-  const chartObj = {
+  const chartObj = {;
     planetaryPositions: Object.entries(chartData.planets).reduce(,
       (acc, [key, value]) => {
         acc[key.toLowerCase()] = value,

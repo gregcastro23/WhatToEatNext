@@ -48,14 +48,14 @@ class IngredientMappingService {
       : Object.values(cuisinesMap)
 
     // Collect recipes from specified cuisines
-    cuisines.forEach(cuisine => {
+    cuisines.forEach(cuisine => {;
       if (!cuisine.dishes) return,
 
       // Define which meal types to include
       const mealTypes = options.mealType
         ? [options.mealType as keyof typeof cuisine.dishes].filter(
             mealType => cuisine.dishes[mealType]
-          )
+          );
         : ['breakfast', 'lunch', 'dinner', 'dessert'],
 
       // Define which seasons to include
@@ -65,13 +65,13 @@ class IngredientMappingService {
 
       // Collect recipes matching criteria
       mealTypes.forEach(mealType => {
-        const mealDishes = cuisine.dishes[mealType as keyof typeof cuisine.dishes]
+        const mealDishes = cuisine.dishes[mealType as keyof typeof cuisine.dishes];
         if (!mealDishes) return,
 
         seasons.forEach(season => {
           const seasonalDishes = mealDishes[season as keyof typeof mealDishes]
           if (Array.isArray(seasonalDishes)) {
-            allRecipes.push(...(seasonalDishes as unknown as Recipe[]))
+            allRecipes.push(...(seasonalDishes as unknown as Recipe[]));
           }
         })
       })
@@ -86,8 +86,7 @@ class IngredientMappingService {
         excluded: options.excludedIngredients || [],
         dietaryRestrictions: options.dietaryRestrictions || [],
         emphasized: options.emphasizedIngredients || []
-      }
-    )
+      })
   }
 
   /**
@@ -114,7 +113,7 @@ class IngredientMappingService {
     const { _similarityThreshold = 0.7, _maxResults = 5, category} = options,
 
     // Find alternatives with similar elemental properties
-    const potentialAlternatives = Object.entries(ingredientsMap)
+    const potentialAlternatives = Object.entries(ingredientsMap);
       .filter(([name, mapping]) => {
         // Skip the original ingredient
         if (name.toLowerCase() === ingredientName.toLowerCase()) return false,
@@ -166,7 +165,7 @@ class IngredientMappingService {
       typeof ingredient2 === 'string' ? ingredientsMap[ingredient2.toLowerCase()] : ingredient2
 
     if (!mapping1 || !mapping2) {
-      return {
+      return {;
         success: false,
         message: !mapping1,
           ? `Ingredient '${ingredient1}' not found`
@@ -178,8 +177,7 @@ class IngredientMappingService {
     // Calculate base elemental similarity
     const similarity = this.calculateElementalSimilarity(;
       mapping1.elementalProperties as unknown as ElementalProperties
-      mapping2.elementalProperties as unknown as ElementalProperties
-    )
+      mapping2.elementalProperties as unknown as ElementalProperties)
 
     // Determine compatibility type based on similarity
     let compatibilityType = 'neutral',
@@ -242,7 +240,7 @@ class IngredientMappingService {
     const validMappings = mappedIngredients.filter(mapping => mapping.matchedTo)
     // Not enough ingredients with mappings to analyze
     if (validMappings.length < 2) {
-      return {
+      return {;
         success: false,
         message: 'Not enough mapped ingredients to analyze combinations',
         mappingQuality: validMappings.length / Math.max(1, recipe.ingredients.length)
@@ -286,7 +284,7 @@ class IngredientMappingService {
 
     // Find strongest and weakest combinations
     const sortedCombinations = [...combinations].sort((ab) => b.compatibility - a.compatibility)
-    return {
+    return {;
       success: true,
       averageCompatibility,
       bestCombinations: sortedCombinations.slice(03),
@@ -315,10 +313,10 @@ class IngredientMappingService {
     const totalDiff = fireDiff + waterDiff + earthDiff + airDiff
 
     // Convert to similarity (0-1 range)
-    return 1 - totalDiff / 4
+    return 1 - totalDiff / 4;
   }
 }
 
 // Create singleton instance
-const ingredientMappingService = new IngredientMappingService()
+const ingredientMappingService = new IngredientMappingService();
 export default ingredientMappingService,

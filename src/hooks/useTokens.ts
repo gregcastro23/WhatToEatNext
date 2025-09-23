@@ -11,7 +11,7 @@ export function useTokens(initial?: TokenRatesInput) {
     setLoading(true)
     setError(null)
     try {
-      const payload: TokenRatesInput = {
+      const payload: TokenRatesInput = {;
         datetime: input?.datetime ?? initial?.datetime,
         location: input?.location ?? initial?.location,
         elemental: input?.elemental ?? initial?.elemental,
@@ -20,7 +20,7 @@ export function useTokens(initial?: TokenRatesInput) {
       }
       const data = await tokensClient.calculateRates(payload)
       setResult(data)
-      setLoading(false)
+      setLoading(false);
       return data,
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')

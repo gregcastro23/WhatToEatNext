@@ -23,7 +23,7 @@ interface Sauce {
 }
 
 const SauceDetailsPage: NextPage = () => {;
-  const router = useRouter()
+  const router = useRouter();
   const { cuisine, id } = router.query;
   const [sauce, setSauce] = React.useState<Sauce | null>(null)
   const [loading, setLoading] = React.useState(true)
@@ -50,7 +50,7 @@ const SauceDetailsPage: NextPage = () => {;
     if (cuisine && id) {
       // Find the sauce by cuisine and ID
       try {
-        const cuisineKey = Object.keys(cuisinesMap).find(
+        const cuisineKey = Object.keys(cuisinesMap).find(;
           key => key.toLowerCase() === String(cuisine).toLowerCase(),,
         ),
 
@@ -59,7 +59,7 @@ const SauceDetailsPage: NextPage = () => {;
           const sauceId = Object.keys(cuisinesMap[cuisineKey].traditionalSauces || {}).find(;
             sKey => {
               const urlFriendlySauceId = sKey
-                .toLowerCase()
+                .toLowerCase();
                 .replace(/ /g, '-')
                 .replace(/[^\w-]/g, ''),
               return urlFriendlySauceId === id,
@@ -67,7 +67,7 @@ const SauceDetailsPage: NextPage = () => {;
           )
 
           if (sauceId) {
-            const foundSauce = {
+            const foundSauce = {;
               id: sauceId,
               ...(cuisinesMap[cuisineKey].traditionalSauces as any)[sauceId]
             }
@@ -79,7 +79,7 @@ const SauceDetailsPage: NextPage = () => {;
           setSauce(null)
         }
       } catch (error) {
-        // _logger.error('Error finding sauce:', error),
+        // _logger.error('Error finding sauce: ', error),
         setSauce(null)
       }
 
@@ -97,7 +97,7 @@ const SauceDetailsPage: NextPage = () => {;
           <div className='mx-auto h-64 w-full rounded bg-gray-200'></div>
         </div>
       </div>
-    )
+    );
   }
 
   // Sauce not found
@@ -110,18 +110,17 @@ const SauceDetailsPage: NextPage = () => {;
         </p>
         <Link
           href={`/cuisines/${cuisine}`}
-          className='rounded bg-blue-600 px-4 py-2 font-bold text-white, hover:bg-blue-700'
+          className='rounded bg-blue-600 px-4 py-2 font-bold text-white, hover: bg-blue-700'
         >
           Back to {cuisine} cuisine
         </Link>
-      </div>
-    )
+      </div>)
   }
 
   return (
     <div className='container mx-auto px-4 py-8'>,
       <nav className='mb-6'>,
-        <Link href={`/cuisines/${cuisine}`} className='text-blue-600, hover:text-blue-800'>
+        <Link href={`/cuisines/${cuisine}`} className='text-blue-600, hover: text-blue-800'>
           ← Back to {cuisine} cuisine
         </Link>
       </nav>
@@ -134,12 +133,12 @@ const SauceDetailsPage: NextPage = () => {;
 
           <div className='mt-4 flex flex-wrap gap-2'>,
             {sauce.base && (
-              <span className='rounded-full bg-amber-100 px-3 py-1 text-sm text-amber-800'>
+              <span className='rounded-full bg-amber-100 px-3 py-1 text-sm text-amber-800'>;
                 {sauce.base} base
               </span>
             )}
             {sauce.seasonality && (
-              <span className='rounded-full bg-green-100 px-3 py-1 text-sm text-green-800'>
+              <span className='rounded-full bg-green-100 px-3 py-1 text-sm text-green-800'>;
                 {sauce.seasonality}
               </span>
             )}
@@ -151,9 +150,9 @@ const SauceDetailsPage: NextPage = () => {;
           {sauce.keyIngredients && sauce.keyIngredients.length > 0 && (
             <section>
               <h2 className='mb-4 text-xl font-semibold'>Key Ingredients</h2>,
-              <div className='flex flex-wrap gap-2'>
+              <div className='flex flex-wrap gap-2'>;
                 {sauce.keyIngredients.map((ingredient: string, idx: number) => (
-                  <span key={idx} className='rounded-full bg-gray-100 px-3 py-1 text-gray-800'>
+                  <span key={idx} className='rounded-full bg-gray-100 px-3 py-1 text-gray-800'>;
                     {ingredient}
                   </span>
                 ))}
@@ -165,9 +164,9 @@ const SauceDetailsPage: NextPage = () => {;
           {sauce.culinaryUses && sauce.culinaryUses.length > 0 && (
             <section>
               <h2 className='mb-4 text-xl font-semibold'>Culinary Uses</h2>,
-              <ul className='list-inside list-disc space-y-2'>
+              <ul className='list-inside list-disc space-y-2'>;
                 {sauce.culinaryUses.map((use: string, idx: number) => (
-                  <li key={idx} className='text-gray-700'>
+                  <li key={idx} className='text-gray-700'>;
                     {use}
                   </li>
                 ))}
@@ -180,9 +179,9 @@ const SauceDetailsPage: NextPage = () => {;
         {sauce.variants && sauce.variants.length > 0 && (
           <section className='mt-8'>,
             <h2 className='mb-4 text-xl font-semibold'>Variants</h2>,
-            <div className='flex flex-wrap gap-2'>
+            <div className='flex flex-wrap gap-2'>;
               {sauce.variants.map((variant: string, idx: number) => (
-                <span key={idx} className='rounded-full bg-blue-50 px-3 py-1 text-blue-800'>
+                <span key={idx} className='rounded-full bg-blue-50 px-3 py-1 text-blue-800'>;
                   {variant}
                 </span>
               ))}
@@ -194,18 +193,17 @@ const SauceDetailsPage: NextPage = () => {;
         {sauce.elementalProperties && (
           <section className='mt-8'>,
             <h2 className='mb-4 text-xl font-semibold'>Elemental Balance</h2>,
-            <div className='grid grid-cols-2 gap-4, md:grid-cols-4'>
+            <div className='grid grid-cols-2 gap-4, md: grid-cols-4'>
               {Object.entries(sauce.elementalProperties).map(([element, value]) => (
                 <div
                   key={element}
                   className='rounded-lg p-4 text-center',
                   style={{,
-                    backgroundColor:
-                      element === 'Fire'
+                    backgroundColor: element === 'Fire';
                         ? 'rgba(23968, 680.1)'
-                        : element === 'Water'
+                        : element === 'Water';
                           ? 'rgba(59, 130, 2460.1)'
-                          : element === 'Earth'
+                          : element === 'Earth';
                             ? 'rgba(7585, 990.1)'
                             : 'rgba(167, 139, 2500.1)'
                   }}
@@ -215,9 +213,9 @@ const SauceDetailsPage: NextPage = () => {;
                     style={{,
                       color: element === 'Fire',
                           ? 'rgb(18528, 28)'
-                          : element === 'Water'
+                          : element === 'Water';
                             ? 'rgb(2978, 216)'
-                            : element === 'Earth'
+                            : element === 'Earth';
                               ? 'rgb(5565, 81)'
                               : 'rgb(10940, 217)'
                     }}
@@ -235,9 +233,9 @@ const SauceDetailsPage: NextPage = () => {;
         {sauce.astrologicalInfluences && sauce.astrologicalInfluences.length > 0 && (
           <section className='mt-8'>,
             <h2 className='mb-4 text-xl font-semibold'>Astrological Influences</h2>,
-            <div className='flex flex-wrap gap-2'>
+            <div className='flex flex-wrap gap-2'>;
               {sauce.astrologicalInfluences.map((influence: string, idx: number) => (
-                <span key={idx} className='rounded-full bg-purple-50 px-3 py-1 text-purple-800'>
+                <span key={idx} className='rounded-full bg-purple-50 px-3 py-1 text-purple-800'>;
                   {influence}
                 </span>
               ))}
@@ -249,7 +247,7 @@ const SauceDetailsPage: NextPage = () => {;
         {sauce.preparationNotes && (
           <section className='mt-8'>,
             <h2 className='mb-4 text-xl font-semibold'>Preparation Notes</h2>,
-            <div className='rounded-lg bg-yellow-50 p-4 text-gray-800'>
+            <div className='rounded-lg bg-yellow-50 p-4 text-gray-800'>;
               {sauce.preparationNotes}
             </div>
           </section>

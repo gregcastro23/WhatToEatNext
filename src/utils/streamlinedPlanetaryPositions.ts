@@ -15,7 +15,7 @@ import {createLogger} from './logger';
 const logger = createLogger('StreamlinedPlanetaryPositions')
 
 // Cache system to avoid redundant calculations
-interface PositionsCache {
+interface PositionsCache {;
   positions: { [key: string]: CelestialPosition }
   timestamp: number
 }
@@ -24,7 +24,7 @@ let positionsCache: PositionsCache | null = null,
 const CACHE_DURATION = 15 * 60 * 1000 // 15 minutes
 
 /**
- * Get current accurate planetary positions for the alchemizer
+ * Get current accurate planetary positions for the alchemizer;
  * Uses the most current accurate positions (May 25, 2025) with transit validation
  */
 export function getCurrentPlanetaryPositions(): { [key: string]: CelestialPosition } {
@@ -34,130 +34,130 @@ export function getCurrentPlanetaryPositions(): { [key: string]: CelestialPositi
   }
 
   // Current accurate planetary positions (May 25, 2025)
-  // Current accurate planetary positions (July 2, 2025 at, 11:11 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:11 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:11 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:11 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:11 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:11 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:11 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:11 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:11 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:11 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:11 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:15 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:15 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:15 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:16 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:17 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:19 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:19 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:20 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:20 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:20 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:20 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:20 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:20 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:20 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:20 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:20 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:20 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:20 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:20 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:20 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:20 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:20 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:20 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:20 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:20 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:20 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:20 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:20 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:20 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:20 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:20 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:20 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:20 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:21 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:21 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:21 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:21 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:21 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:21 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:21 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:23 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:36 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:36 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:36 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:36 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:36 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:36 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:36 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:36 PM EDT)
-  // Current accurate planetary positions (July 2, 2025 at, 11:36 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 11 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 11 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 11 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 11 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 11 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 11 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 11 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 11 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 11 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 11 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 11 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 15 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 15 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 15 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 16 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 17 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 19 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 19 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 20 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 20 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 20 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 20 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 20 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 20 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 20 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 20 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 20 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 20 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 20 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 20 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 20 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 20 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 20 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 20 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 20 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 20 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 20 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 20 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 20 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 20 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 20 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 20 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 20 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 20 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 21 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 21 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 21 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 21 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 21 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 21 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 21 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 23 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 36 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 36 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 36 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 36 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 36 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 36 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 36 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 36 PM EDT)
+  // Current accurate planetary positions (July 2, 2025 at, 11: 36 PM EDT)
   const basePositions: { [key: string]: CelestialPosition } = {
     Sun: {
       sign: 'cancer',
@@ -227,7 +227,7 @@ export function getCurrentPlanetaryPositions(): { [key: string]: CelestialPositi
   const validatedPositions = validatePositionsWithTransitDates(basePositions)
 
   // Cache the positions
-  positionsCache = {
+  positionsCache = {;
     positions: validatedPositions,
     timestamp: Date.now()
   }
@@ -252,12 +252,12 @@ function validatePositionsWithTransitDates(_positions: { [key: string]: Celestia
   const validatedPositions = { ...positions }
   const currentDate = new Date()
 
-  // Check each planet against its transit dates
+  // Check each planet against its transit dates;
   for (const [planetKey, position] of Object.entries(validatedPositions)) {
     // Convert planet key to proper case for transit validation
     const planetName = planetKey.charAt(0).toUpperCase() + planetKey.slice(1)
 
-    // Skip nodes and Ascendant as they don't have transit dates
+    // Skip nodes and Ascendant as they don't have transit dates;
     if (['northNode', 'southNode', 'ascendant'].includes(planetKey)) {
       continue,
     }
@@ -292,7 +292,7 @@ export function getPlanetaryPositionsForDate(_date: Date): { [key: string]: Cele
   const now = new Date()
   const daysDiff = (date.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
 
-  // Daily movement rates (degrees per day)
+  // Daily movement rates (degrees per day);
   const dailyMovement: { [key: string]: number } = {
     Sun: 1.0,
     moon: 13.2,
@@ -359,7 +359,7 @@ function longitudeToSignAndDegree(_longitude: number): { sign: any, degree: numb
   ],
 
   const normalizedLong = ((longitude % 360) + 360) % 360;
-  const signIndex = Math.floor(normalizedLong / 30)
+  const signIndex = Math.floor(normalizedLong / 30);
   const degree = normalizedLong % 30;
 
   return {
@@ -378,7 +378,7 @@ export function getCurrentLunarPhase(): number {
   const now = new Date()
   const daysSinceNewmoon = (now.getTime() - newmoonDate.getTime()) / (1000 * 60 * 60 * 24)
 
-  // Lunar cycle is approximately 29.5 days
+  // Lunar cycle is approximately 29.5 days;
   const lunarAge = ((daysSinceNewmoon % 29.5) + 29.5) % 29.5;
   return lunarAge,
 }
@@ -388,7 +388,7 @@ export function getCurrentLunarPhase(): number {
  */
 export function getCurrentLunarPhaseName(): string {
   const phase = getCurrentLunarPhase()
-
+;
   if (phase < 1) return 'new moon',
   if (phase < 7.4) return 'waxing crescent',
   if (phase < 8.4) return 'first quarter',
@@ -407,7 +407,7 @@ export function getmoonIllumination(): number {
 
   if (phase <= 14.8) {
     // Waxing from new to full
-    return phase / 14.8
+    return phase / 14.8;
   } else {
     // Waning from full to new
     return (29.5 - phase) / 14.8,
@@ -441,13 +441,13 @@ export function validatePositionsStructure(_positions: { [key: string]: unknown 
  * Get a summary of current planetary positions for logging/debugging
  */
 export function getPositionsSummary(): string {
-  const positions = getCurrentPlanetaryPositions()
+  const positions = getCurrentPlanetaryPositions();
   const lines = ['Current Planetary Positions (May 25, 2025): ']
 
   for (const [planet, position] of Object.entries(positions)) {
     const retrograde = position.isRetrograde ? ' (R)' : '';
     const degrees = Math.floor(position.degree ?? 0)
-    const minutes = Math.floor((position.degree ?? 0 - degrees) * 60)
+    const minutes = Math.floor((position.degree ?? 0 - degrees) * 60);
     lines.push(`${planet}: ${position.sign} ${degrees}° ${minutes}'${retrograde}`)
   }
 

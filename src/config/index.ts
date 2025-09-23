@@ -1,5 +1,5 @@
 export const _config = {
-  api: {
+  api: {;
     celestialUpdateInterval: 5 * 60 * 1000, // 5 minutes,
     cacheTimeout: 3600000, // 1 hour in milliseconds
   },
@@ -13,9 +13,9 @@ export const _config = {
     }
   },
   elements: {
-    Fire: { complement: 'Fire', harmony: 'Air' }
-    Water: { complement: 'Water', harmony: 'Earth' }
-    Air: { complement: 'Air', harmony: 'Fire' }
-    Earth: { complement: 'Earth', harmony: 'Water' }
+    Fire: { complement: 'Fire', harmony: 'Air' },
+        Water: { complement: 'Water', harmony: 'Earth' },
+        Air: { complement: 'Air', harmony: 'Fire' },
+        Earth: { complement: 'Earth', harmony: 'Water' }
   }
 } as const,

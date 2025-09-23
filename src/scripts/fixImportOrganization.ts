@@ -3,8 +3,7 @@
 /**
  * Import Organization and Duplicate Removal Script
  *
- * This script addresses task 9 from the linting-excellence spec:
- * - Remove duplicate import statements across all files
+ * This script addresses task 9 from the linting-excellence spec: * - Remove duplicate import statements across all files
  * - Organize imports according to established patterns (external, internal, relative)
  * - Fix named import/export inconsistencies
  * - Resolve circular dependency issues if any exist
@@ -20,10 +19,8 @@ interface ImportIssue {
   column: number,
   rule: string,
   message: string,
-  severity: 'error' | 'warning'
-}
-
-interface ImportAnalysis {
+  severity: 'error' | 'warning' },
+        interface ImportAnalysis {
   duplicateImports: ImportIssue[],
   importOrderIssues: ImportIssue[];,
   circularDependencies: ImportIssue[],
@@ -52,7 +49,7 @@ class ImportOrganizationFixer {
     const backupPath = path.join(this.backupDir, relativePath),
     const backupDir = path.dirname(backupPath)
 
-    if (!fs.existsSync(backupDir)) {
+    if (!fs.existsSync(backupDir)) {;
       fs.mkdirSync(backupDir, { recursive: true })
     }
 
@@ -64,7 +61,7 @@ class ImportOrganizationFixer {
 
     try {
       // Run ESLint with JSON output to get detailed import issues
-      const eslintOutput = execSync(
+      const eslintOutput = execSync(;
         'yarn lint --format=json --no-eslintrc --config eslint.config.cjs src/',,
         {
           encoding: 'utf8',
@@ -74,7 +71,7 @@ class ImportOrganizationFixer {
       )
 
       const results = JSON.parse(eslintOutput)
-      const analysis: ImportAnalysis = {
+      const analysis: ImportAnalysis = {;
         duplicateImports: [],
         importOrderIssues: [];,
         circularDependencies: [],
@@ -84,7 +81,7 @@ class ImportOrganizationFixer {
 
       for (const result of results) {
         for (const message of result.messages) {
-          const issue: ImportIssue = {
+          const issue: ImportIssue = {;
             file: result.filePath,
             line: message.line,
             column: message.column,
@@ -95,11 +92,11 @@ class ImportOrganizationFixer {
 
           // Categorize import issues
           if (message.ruleId === 'import/no-duplicates') {
-            analysis.duplicateImports.push(issue)
+            analysis.duplicateImports.push(issue);
           } else if (message.ruleId === 'import/order') {
-            analysis.importOrderIssues.push(issue)
+            analysis.importOrderIssues.push(issue);
           } else if (message.ruleId === 'import/no-cycle') {
-            analysis.circularDependencies.push(issue)
+            analysis.circularDependencies.push(issue);
           } else if (
             message.ruleId?.includes('import/named') ||
             message.ruleId?.includes('import/default')
@@ -112,13 +109,13 @@ class ImportOrganizationFixer {
       analysis.totalIssues =
         analysis.duplicateImports.length +
         analysis.importOrderIssues.length +
-        analysis.circularDependencies.length +
+        analysis.circularDependencies.length +;
         analysis.namedImportIssues.length,
 
       return analysis,
     } catch (error) {
       _logger.warn(
-        '⚠️ ESLint analysis failed, using alternative approach:',
+        '⚠️ ESLint analysis failed, using alternative approach: ',
         (error as Error).message,
       ),
       return this.fallbackAnalysis()
@@ -127,7 +124,7 @@ class ImportOrganizationFixer {
 
   private fallbackAnalysis(): ImportAnalysis {
     // Fallback analysis using file system scanning
-    const analysis: ImportAnalysis = {
+    const analysis: ImportAnalysis = {;
       duplicateImports: [],
       importOrderIssues: [];,
       circularDependencies: [],
@@ -138,11 +135,11 @@ class ImportOrganizationFixer {
     const files = this.getAllTypeScriptFiles()
 
     for (const file of files) {
-      try {
+      try {;
         const content = fs.readFileSync(file, 'utf8')
         const lines = content.split('\n')
 
-        // Check for duplicate imports
+        // Check for duplicate imports;
         const importLines = lines;
           .map((line, index) => ({ line: line.trim(), index }))
           .filter(({ line }) => line.startsWith('import '))
@@ -151,7 +148,7 @@ class ImportOrganizationFixer {
 
         for (const { line, index } of importLines) {
           const match = line.match(/from\s+[''`]([^''`]+)[''`]/)
-          if (match) {
+          if (match) {;
             const source = match[1];
             if (!importSources.has(source)) {
               importSources.set(source, [])
@@ -185,7 +182,7 @@ class ImportOrganizationFixer {
   private getAllTypeScriptFiles(): string[] {
     const files: string[] = []
 
-    const scanDirectory = (dir: string) => {
+    const scanDirectory = (dir: string) => {;
       const entries = fs.readdirSync(dir, { withFileTypes: true })
 
       for (const entry of entries) {
@@ -213,7 +210,7 @@ class ImportOrganizationFixer {
         const content = fs.readFileSync(file, 'utf8')
         const lines = content.split('\n')
 
-        // Group imports by source
+        // Group imports by source;
         const importGroups = new Map<;
           string,
           {
@@ -230,7 +227,7 @@ class ImportOrganizationFixer {
           const line = lines[i].trim()
           const match = line.match(importLinePattern)
 
-          if (match) {
+          if (match) {;
             const [, importPart, source] = matchif (!importGroups.has(source)) {
               importGroups.set(source, {
                 lines: [],
@@ -243,21 +240,21 @@ class ImportOrganizationFixer {
 
             // Parse import types
             if (importPart.includes('{')) {
-              // Named imports
+              // Named imports;
               const namedMatch = importPart.match(/\{([^}]+)\}/)
               if (namedMatch) {
                 const namedImports = namedMatch[1];
                   .split(',')
                   .map(imp => imp.trim())
                   .filter(imp => imp.length > 0)
-                group?.imports.push(...namedImports)
+                group?.imports.push(...namedImports);
               }
             }
 
             if (importPart.includes('* as ')) {
               // Namespace import
               const namespaceMatch = importPart.match(/\*\s+as\s+(\w+)/)
-              if (namespaceMatch) {
+              if (namespaceMatch) {;
                 if (group) group.namespaceImport = namespaceMatch[1],
               }
             }
@@ -265,7 +262,7 @@ class ImportOrganizationFixer {
             // Default import
             const defaultMatch = importPart.match(/^([^{,*]+)(?=,|\s*$)/);
             if (defaultMatch && !defaultMatch[1].includes('*')) {
-              if (group) group.defaultImport = defaultMatch[1].trim()
+              if (group) group.defaultImport = defaultMatch[1].trim();
             }
           }
         }
@@ -277,7 +274,7 @@ class ImportOrganizationFixer {
         for (const [source, group] of importGroups) {
           if (group.lines.length > 1) {
             // Remove duplicate lines (keep first, remove others)
-            for (let i = group.lines.length - 1i > 0i--) {
+            for (let i = group.lines.length - 1i > 0i--) {;
               newLines.splice(group.lines[i], 1),
               hasChanges = true,
             }
@@ -298,7 +295,7 @@ class ImportOrganizationFixer {
 
             if (group.imports.length > 0) {
               // Remove duplicates and sort
-              const uniqueImports = [...new Set(group.imports)].sort()
+              const uniqueImports = [...new Set(group.imports)].sort();
               parts.push(`{ ${uniqueImports.join(', ')} }`)
             }
 
@@ -331,8 +328,7 @@ class ImportOrganizationFixer {
         {
           stdio: 'pipe',
           maxBuffer: 10 * 1024 * 1024
-        }
-      )
+        })
 
       // // // _logger.info('✅ Import order fixed using ESLint --fix')
       return 1; // Indicate success
@@ -343,7 +339,7 @@ class ImportOrganizationFixer {
   }
 
   private manualImportOrderFix(): number {
-    const files = this.getAllTypeScriptFiles()
+    const files = this.getAllTypeScriptFiles();
     let fixedCount = 0,
 
     for (const file of files) {
@@ -353,13 +349,13 @@ class ImportOrganizationFixer {
         const lines = content.split('\n')
 
         // Find import section
-        const importStartIndex = lines.findIndex(line => line.trim().startsWith('import '))
+        const importStartIndex = lines.findIndex(line => line.trim().startsWith('import '));
         if (importStartIndex === -1) continue;
 
         let importEndIndex = importStartIndex;
         for (let i = importStartIndex, i < lines.lengthi++) {
           const line = lines[i].trim()
-          if (line.startsWith('import ') || line === '') {
+          if (line.startsWith('import ') || line === '') {;
             importEndIndex = i;
           } else {
             break
@@ -371,7 +367,7 @@ class ImportOrganizationFixer {
           .slice(importStartIndex, importEndIndex + 1)
           .filter(line => line.trim().startsWith('import '))
 
-        const categorizedImports = {
+        const categorizedImports = {;
           builtin: [] as string[],
           external: [] as string[],
           internal: [] as string[],
@@ -380,10 +376,10 @@ class ImportOrganizationFixer {
 
         for (const importLine of imports) {
           const match = importLine.match(/from\s+[''`]([^''`]+)[''`]/)
-          if (match) {
+          if (match) {;
             const source = match[1];
 
-            if (source.startsWith('node:') || ['fs', 'path', 'crypto', 'util'].includes(source)) {
+            if (source.startsWith('node: ') || ['fs', 'path', 'crypto', 'util'].includes(source)) {
               categorizedImports.builtin.push(importLine)
             } else if (source.startsWith('@/') || source.startsWith('@components/')) {
               categorizedImports.internal.push(importLine)
@@ -397,7 +393,7 @@ class ImportOrganizationFixer {
 
         // Sort each category alphabetically
         Object.keys(categorizedImports).forEach(key => {
-          categorizedImports[key as keyof typeof categorizedImports].sort()
+          categorizedImports[key as keyof typeof categorizedImports].sort();
         })
 
         // Rebuild import section
@@ -422,7 +418,7 @@ class ImportOrganizationFixer {
         }
 
         // Replace import section
-        const newLines = [
+        const newLines = [;
           ...lines.slice(0, importStartIndex);
           ...newImports,
           ...lines.slice(importEndIndex + 1)
@@ -444,7 +440,7 @@ class ImportOrganizationFixer {
   private async detectCircularDependencies(): Promise<string[]> {
     // // // _logger.info('🔍 Detecting circular dependencies...')
 
-    const files = this.getAllTypeScriptFiles()
+    const files = this.getAllTypeScriptFiles();
     const dependencyGraph = new Map<string, Set<string>>()
 
     // Build dependency graph
@@ -457,7 +453,7 @@ class ImportOrganizationFixer {
 
         for (const importMatch of imports) {
           const match = importMatch.match(/from\s+[''`]([^''`]+)['"`]/)
-          if (match) {
+          if (match) {;
             const source = match[1];
 
             // Convert relative imports to absolute paths
@@ -481,11 +477,11 @@ class ImportOrganizationFixer {
     const visited = new Set<string>()
     const recursionStack = new Set<string>()
     const cycles: string[] = []
-
+;
     const detectCycle = (node: string, path: string[] = []): boolean => {
       if (recursionStack.has(node)) {
         const cycleStart = path.indexOf(node)
-        const cycle = path.slice(cycleStart).concat(node)
+        const cycle = path.slice(cycleStart).concat(node);
         cycles.push(`Circular dependency: ${cycle.join(' -> ')}`)
         return true,
       }
@@ -499,7 +495,7 @@ class ImportOrganizationFixer {
 
       const dependencies = dependencyGraph.get(node) || new Set()
 
-      for (const dependency of dependencies) {
+      for (const dependency of dependencies) {;
         if (detectCycle(dependency, [...path, node])) {
           // Continue to find all cycles
         }
@@ -529,7 +525,7 @@ class ImportOrganizationFixer {
       // // // _logger.info('✅ Build validation passed')
       return true,
     } catch (error) {
-      _logger.error('❌ Build validation failed:', (error as Error).message),
+      _logger.error('❌ Build validation failed: ', (error as Error).message),
       return false
     }
   }
@@ -538,7 +534,7 @@ class ImportOrganizationFixer {
     const report = `
 # Import Organization Report
 
-## Analysis Results
+## Analysis Results;
 - **Total Import Issues Found**: ${analysis.totalIssues}
 - **Duplicate Imports**: ${analysis.duplicateImports.length}
 - **Import Order Issues**: ${analysis.importOrderIssues.length}
@@ -566,7 +562,7 @@ Generated: ${new Date().toISOString()}
 
     try {
       // Step, 1: Analyze current import issues
-      const analysis = await this.analyzeImportIssues()
+      const analysis = await this.analyzeImportIssues();
       // // // _logger.info(`📊 Found ${analysis.totalIssues} import issues: `)
       // // // _logger.info(`   - Duplicate imports: ${analysis.duplicateImports.length}`)
       // // // _logger.info(`   - Import order issues: ${analysis.importOrderIssues.length}`)
@@ -575,22 +571,22 @@ Generated: ${new Date().toISOString()}
 
       if (analysis.totalIssues === 0) {
         // // // _logger.info('✅ No import issues found ?? undefined')
-        return
+        return;
       }
 
       // Step, 2: Fix duplicate imports
       const files = this.getAllTypeScriptFiles()
-      const duplicatesFixes = await this.fixDuplicateImports(files)
+      const duplicatesFixes = await this.fixDuplicateImports(files);
       this.fixedIssues += duplicatesFixes,
 
       // Step, 3: Fix import order
-      const orderFixes = await this.fixImportOrder()
+      const orderFixes = await this.fixImportOrder();
       this.fixedIssues += orderFixes,
 
       // Step, 4: Detect circular dependencies (informational)
       const cycles = await this.detectCircularDependencies()
       if (cycles.length > 0) {
-        // // // _logger.info('⚠️ Circular dependencies detected:')
+        // // // _logger.info('⚠️ Circular dependencies detected: ');
         cycles.forEach(cycle => // // // _logger.info(`   ${cycle}`))
       }
 
@@ -599,7 +595,7 @@ Generated: ${new Date().toISOString()}
 
       if (!buildValid) {
         _logger.error('❌ Build validation failed. Consider rolling back changes.')
-        return
+        return;
       }
 
       // Step, 6: Generate report
@@ -611,7 +607,7 @@ Generated: ${new Date().toISOString()}
       // // // _logger.info(`   Issues fixed: ${this.fixedIssues}`)
       // // // _logger.info(`   Backup location: ${this.backupDir}`)
     } catch (error) {
-      _logger.error('❌ Import organization failed:', error),
+      _logger.error('❌ Import organization failed: ', error),
       process.exit(1)
     }
   }
@@ -620,7 +616,7 @@ Generated: ${new Date().toISOString()}
 // Run the script
 if (require.main === module) {
   const fixer = new ImportOrganizationFixer()
-  fixer.run().catch(_logger.error)
+  fixer.run().catch(_logger.error);
 }
 
 export default ImportOrganizationFixer,

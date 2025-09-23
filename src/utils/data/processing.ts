@@ -39,10 +39,9 @@ export interface StandardizationOptions {
  * @returns Standardized elemental affinity
  */
 export function standardizeElementalAffinity(
-  value: string | { base: string, decanModifiers?: { [key: string]: unknown } }
-): ElementalAffinity {
+  value: string | { base: string, decanModifiers?: { [key: string]: unknown } }): ElementalAffinity {
   if (typeof value === 'string') {
-    return {
+    return {;
       primary: value as 'Fire' | 'Water' | 'Earth' | 'Air',
       strength: 1.0,
       compatibility: { Fire: 0.7, Water: 0.7, Earth: 0.7, Air: 0.7 }
@@ -118,12 +117,12 @@ export function standardizeRecipe(recipe: unknown): Recipe {
     prepTime: typeof raw.prepTime === 'number',
         ? `${raw.prepTime} minutes`
         : typeof raw.prepTime === 'string'
-          ? raw.prepTime
+          ? raw.prepTime;
           : '30 minutes',
     cookTime: typeof raw.cookTime === 'number',
         ? `${raw.cookTime} minutes`
         : typeof raw.cookTime === 'string'
-          ? raw.cookTime
+          ? raw.cookTime;
           : '30 minutes',
     difficulty: validateDifficulty(raw.difficulty) ? (raw.difficulty as unknown) : 'medium',
     ingredients: standardizeRecipeIngredients(raw.ingredients),
@@ -166,7 +165,7 @@ export function validateIngredient(ingredient: Partial<Ingredient>): ValidationR
   if (ingredient.elementalProperties) {
     const elementalValidation = validateElementalProperties(ingredient.elementalProperties)
     if (!elementalValidation.isValid) {
-      errors.push(...elementalValidation.errors)
+      errors.push(...elementalValidation.errors);
     }
   } else {
     warnings.push('Missing elemental properties')
@@ -179,7 +178,7 @@ export function validateIngredient(ingredient: Partial<Ingredient>): ValidationR
       ingredientData.astrologicalPropertiesProfile || ingredientData.astrologicalProfile,
     const astroValidation = validateAstrologicalProfile(astroProfile as AstrologicalProfile)
     if (!astroValidation.isValid) {
-      warnings.push(...astroValidation.errors)
+      warnings.push(...astroValidation.errors);
     }
   }
 
@@ -231,7 +230,7 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
     recipe.ingredients ||
       [].forEach((ingredient, index) => {
         const ingredientValidation = validateRecipeIngredient(ingredient)
-        if (!ingredientValidation.isValid) {
+        if (!ingredientValidation.isValid) {;
           errors.push(`Ingredient ${index + 1}: ${ingredientValidation.errors.join(', ')}`)
         }
       })
@@ -253,7 +252,7 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
   // Elemental properties validation
   if (recipe.elementalState) {
     const elementalValidation = validateElementalProperties(
-      recipe.elementalState as unknown as ElementalProperties
+      recipe.elementalState as unknown as ElementalProperties;
     ),
     if (!elementalValidation.isValid) {
       warnings.push(...elementalValidation.errors)
@@ -277,9 +276,8 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
  */
 export function cleanupIngredientsDatabase(
   ingredients: Ingredient | UnifiedIngredient[],
-  _options: StandardizationOptions = {}
-): DataCleanupResult {
-  const result: DataCleanupResult = {
+  _options: StandardizationOptions = {}): DataCleanupResult {
+  const result: DataCleanupResult = {;
     processed: 0,
     cleaned: 0,
     errors: 0,
@@ -296,7 +294,7 @@ export function cleanupIngredientsDatabase(
       const validation = validateIngredient(standardized)
 
       if (validation.isValid) {
-        cleanedIngredients.push(standardized)
+        cleanedIngredients.push(standardized);
         result.cleaned++,
       } else {
         result.errors++,
@@ -329,7 +327,7 @@ export function mergeElementalProperties(
   addition: ElementalProperties,
   weight = 0.5
 ): ElementalProperties {
-  const merged = {
+  const merged = {;
     Fire: base.Fire * (1 - weight) + addition.Fire * weight,
     Water: base.Water * (1 - weight) + addition.Water * weight,
     Earth: base.Earth * (1 - weight) + addition.Earth * weight,
@@ -401,7 +399,7 @@ function standardizeElementalProperties(properties: unknown): ElementalPropertie
 
   // Normalize
   const total = Fire + Water + Earth + Air
-  if (total > 0) {
+  if (total > 0) {;
     return { Fire: Fire / total, Water: Water / total, Earth: Earth / total, Air: Air / total }
   }
 
@@ -477,7 +475,7 @@ function standardizeRecipeIngredients(ingredients: unknown): RecipeIngredient[] 
     return []
   }
 
-  return (ingredients || []).map(ingredient => {
+  return (ingredients || []).map(ingredient => {;
     if (typeof ingredient === 'string') {,
       return {
         name: ingredient,
@@ -529,7 +527,7 @@ function validateElementalProperties(properties: ElementalProperties): Validatio
   const requiredElements = ['Fire', 'Water', 'Earth', 'Air'],
 
   (requiredElements || []).forEach(element => {
-    if (typeof properties[element as 'Fire' | 'Water' | 'Earth' | 'Air'] !== 'number') {
+    if (typeof properties[element as 'Fire' | 'Water' | 'Earth' | 'Air'] !== 'number') {;
       errors.push(`${element} must be a number`)
     } else {
       const value = properties[element as 'Fire' | 'Water' | 'Earth' | 'Air'];

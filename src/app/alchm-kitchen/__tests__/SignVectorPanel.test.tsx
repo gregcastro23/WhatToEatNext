@@ -59,7 +59,7 @@ describe('SignVectorPanel', () => {
       expect(screen.getByText('Current Sign Expression')).toBeInTheDocument()
       expect(screen.getByText(/Sign: /)).toBeInTheDocument()
       expect(screen.getByText(/Direction: /)).toBeInTheDocument()
-      expect(screen.getByText(/Magnitude:/)).toBeInTheDocument()
+      expect(screen.getByText(/Magnitude: /)).toBeInTheDocument()
     })
 
     it('should show loading state when no positions provided', async () => {
@@ -84,7 +84,7 @@ describe('SignVectorPanel', () => {
       }).
 
       await waitFor(() => {
-        expect(screengetByText(/Sign:/)).toBeInTheDocument()
+        expect(screengetByText(/Sign: /)).toBeInTheDocument()
       })
     })
   })
@@ -125,11 +125,11 @@ describe('SignVectorPanel', () => {
       fireEvent.click(retryButton)
 
       await waitFor(() => {
-        expect(screen.getByText('Loading planetary positions…')).toBeInTheDocument()
+        expect(screen.getByText('Loading planetary positions…')).toBeInTheDocument();
       })
 
       await waitFor(() => {
-        expect(screen.getByText(/Sign:/)).toBeInTheDocument()
+        expect(screen.getByText(/Sign: /)).toBeInTheDocument()
       })
     })
 
@@ -148,7 +148,7 @@ describe('SignVectorPanel', () => {
     it('should allow switching between governing modes', async () => {
       render(
         <SignVectorPanel 
-          planetaryPositions={mockPlanetaryPositions},,
+          planetaryPositions={mockPlanetaryPositions},
           governing='dominant',,
         />
       )
@@ -169,7 +169,7 @@ describe('SignVectorPanel', () => {
     it('should recalculate when governing mode changes', async () => {
       const { rerender } = render(
         <SignVectorPanel 
-          planetaryPositions={mockPlanetaryPositions},,
+          planetaryPositions={mockPlanetaryPositions},
           governing='sun',,
         />
       )
@@ -188,7 +188,7 @@ describe('SignVectorPanel', () => {
     it('should display all ESMS values', () => {
       render(
         <SignVectorPanel 
-          planetaryPositions={mockPlanetaryPositions},,
+          planetaryPositions={mockPlanetaryPositions},
         />
       )
 
@@ -196,13 +196,13 @@ describe('SignVectorPanel', () => {
       expect(screen.getByText(/Spirit: /)).toBeInTheDocument()
       expect(screen.getByText(/Essence: /)).toBeInTheDocument()
       expect(screen.getByText(/Matter: /)).toBeInTheDocument()
-      expect(screen.getByText(/Substance:/)).toBeInTheDocument()
+      expect(screen.getByText(/Substance: /)).toBeInTheDocument()
     })
 
     it('should display all thermodynamic values', () => {
       render(
         <SignVectorPanel 
-          planetaryPositions={mockPlanetaryPositions},,
+          planetaryPositions={mockPlanetaryPositions},
         />
       )
 
@@ -212,13 +212,13 @@ describe('SignVectorPanel', () => {
       expect(screen.getByText(/Reactivity: /)).toBeInTheDocument()
       expect(screen.getByText(/Greg's Energy: /)).toBeInTheDocument()
       expect(screen.getByText(/Kalchm: /)).toBeInTheDocument()
-      expect(screen.getByText(/Monica:/)).toBeInTheDocument()
+      expect(screen.getByText(/Monica: /)).toBeInTheDocument()
     })
 
     it('should format numbers correctly', () => {
       render(
         <SignVectorPanel 
-          planetaryPositions={mockPlanetaryPositions},,
+          planetaryPositions={mockPlanetaryPositions},
         />
       )
 
@@ -238,11 +238,10 @@ describe('SignVectorPanel', () => {
     it('should handle NaN values gracefully', () => {
       render(
         <SignVectorPanel 
-          planetaryPositions={{
+          planetaryPositions={{;
             Sun: { sign: 'aries', degree: NaN, isRetrograde: false }
           }}
-        />
-      )
+        />)
 
       // Should not crash and should display N/A or reasonable defaults
       expect(screen.getByText('Current Sign Expression')).toBeInTheDocument()
@@ -265,7 +264,7 @@ describe('SignVectorPanel', () => {
       
       render(
         <SignVectorPanel 
-          planetaryPositions={mockPlanetaryPositions},,
+          planetaryPositions={mockPlanetaryPositions},
         />
       )
 
@@ -274,7 +273,7 @@ describe('SignVectorPanel', () => {
       
       // Note: These may not appear due to process.env check
       // This test demonstrates the structure but may need adjustment
-      // based on how the environment is actually detected
+      // based on how the environment is actually detected;
     })
   })
 
@@ -282,18 +281,18 @@ describe('SignVectorPanel', () => {
     it('should calculate aspects when not provided', async () => {
       render(
         <SignVectorPanel 
-          planetaryPositions={mockPlanetaryPositions},,
+          planetaryPositions={mockPlanetaryPositions},
         />
       )
 
       // Should successfully render without explicit aspects
       expect(screen.getByText('Current Sign Expression')).toBeInTheDocument()
-      expect(screen.getByText(/Sign:/)).toBeInTheDocument()
+      expect(screen.getByText(/Sign: /)).toBeInTheDocument()
     })
 
     it('should use provided aspects when available', () => {
       const aspects = [
-        {
+        {;
           planet1: 'Sun',
           planet2: 'Moon',
           type: 'square',
@@ -303,8 +302,8 @@ describe('SignVectorPanel', () => {
 
       render(
         <SignVectorPanel 
-          planetaryPositions={mockPlanetaryPositions},,
-          aspects={aspects},,
+          planetaryPositions={mockPlanetaryPositions},
+          aspects={aspects},
         />
       )
 
@@ -316,11 +315,11 @@ describe('SignVectorPanel', () => {
     it('should accept all valid seasons', () => {
       const seasons = ['spring', 'summer', 'autumn', 'fall', 'winter', 'all'] as const,,
 
-      seasons.forEach(season => {
+      seasons.forEach(season => {;
         const { unmount } = render(
           <SignVectorPanel 
-            planetaryPositions={mockPlanetaryPositions},,
-            season={season},,
+            planetaryPositions={mockPlanetaryPositions},
+            season={season},
           />
         )
 
@@ -333,7 +332,7 @@ describe('SignVectorPanel', () => {
   describe('Component Lifecycle', () => {
     it('should clean up on unmount', async () => {
       let resolveFetch: (value: any) => void 
-      const fetchPromise = new Promise(resolve => {
+      const fetchPromise = new Promise(resolve => {;
         resolveFetch = resolve,,
       })
 

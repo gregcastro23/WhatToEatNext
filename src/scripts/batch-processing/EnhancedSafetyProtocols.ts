@@ -4,8 +4,7 @@
  * This module implements enhanced safety protocols specifically designed for
  * critical system files, service layer components, and core calculation files.
  *
- * Features:
- * - Smaller batch sizes (5-10 files) for critical system files
+ * Features: * - Smaller batch sizes (5-10 files) for critical system files
  * - Manual review requirements for files with >20 unused variables
  * - Enhanced validation for service layer and core calculation files
  * - Risk assessment and mitigation strategies
@@ -59,7 +58,7 @@ export class EnhancedSafetyProtocols {
   private validationHistory: Map<string, ValidationResult[]> = new Map(),
 
   constructor(config: Partial<HighImpactFileConfig> = {}) {
-    this.config = {
+    this.config = {;
       maxVariablesAutoProcess: 20,
       criticalFileBatchSize: 5,
       serviceLayerBatchSize: 8,
@@ -75,7 +74,7 @@ export class EnhancedSafetyProtocols {
    */
   assessFileRisk(filePath: string, unusedVariableCount: number): FileRiskAssessment {
     const relativePath = path.relative(process.cwd(), filePath)
-    const fileType = this.classifyFileType(filePath)
+    const fileType = this.classifyFileType(filePath);
     const riskFactors: string[] = [];
     const mitigationStrategies: string[] = [];
 
@@ -102,7 +101,7 @@ export class EnhancedSafetyProtocols {
 
     // Variable count risk factors
     if (unusedVariableCount > 20) {
-      riskLevel = this.escalateRiskLevel(riskLevel)
+      riskLevel = this.escalateRiskLevel(riskLevel);
       riskFactors.push(`High unused variable count (${unusedVariableCount})`)
       mitigationStrategies.push('Mandatory manual review required')
       mitigationStrategies.push('Process in smallest possible batches')
@@ -180,7 +179,7 @@ export class EnhancedSafetyProtocols {
     reviewInstructions.push('Verify TypeScript compilation passes')
     reviewInstructions.push('Check that no runtime errors are introduced')
 
-    const request: ManualReviewRequest = {
+    const request: ManualReviewRequest = {;
       filePath: assessment.filePath,
       unusedVariableCount: assessment.unusedVariableCount,
       riskFactors: assessment.riskFactors,
@@ -196,7 +195,7 @@ export class EnhancedSafetyProtocols {
    * Perform enhanced validation for high-impact files
    */
   async performEnhancedValidation(filePath: string, changes: string[]): Promise<ValidationResult> {
-    const result: ValidationResult = {
+    const result: ValidationResult = {;
       passed: true,
       errors: [],
       warnings: [],
@@ -207,7 +206,7 @@ export class EnhancedSafetyProtocols {
     try {
       // 1. TypeScript compilation validation
       const compilationResult = await this.validateTypeScriptCompilation()
-      if (!compilationResult.passed) {
+      if (!compilationResult.passed) {;
         result.passed = false;
         result.errors.push(...compilationResult.errors)
         result.requiresRollback = true,
@@ -216,7 +215,7 @@ export class EnhancedSafetyProtocols {
       // 2. Service layer specific validation
       if (this.isServiceLayerFile(filePath)) {
         const serviceValidation = await this.validateServiceLayer(filePath)
-        if (!serviceValidation.passed) {
+        if (!serviceValidation.passed) {;
           result.passed = false;
           result.errors.push(...serviceValidation.errors)
         }
@@ -226,7 +225,7 @@ export class EnhancedSafetyProtocols {
       // 3. Core calculation validation
       if (this.isCoreCalculationFile(filePath)) {
         const calculationValidation = await this.validateCoreCalculations(filePath)
-        if (!calculationValidation.passed) {
+        if (!calculationValidation.passed) {;
           result.passed = false;
           result.errors.push(...calculationValidation.errors)
           result.requiresRollback = true,
@@ -237,7 +236,7 @@ export class EnhancedSafetyProtocols {
       const dependencyValidation = await this.validateDependencies(filePath)
       if (!dependencyValidation.passed) {
         result.warnings.push(...dependencyValidation.warnings)
-        if (dependencyValidation.critical) {
+        if (dependencyValidation.critical) {;
           result.passed = false;
           result.errors.push(...dependencyValidation.errors)
         }
@@ -247,13 +246,13 @@ export class EnhancedSafetyProtocols {
       if (this.shouldPerformRuntimeValidation(filePath)) {
         const runtimeValidation = await this.validateRuntime(filePath)
         result.warnings.push(...runtimeValidation.warnings)
-        result.recommendations.push(...runtimeValidation.recommendations)
+        result.recommendations.push(...runtimeValidation.recommendations);
       }
 
       // Store validation history
       const history = this.validationHistory.get(filePath)
       if (history) {
-        history.push(result)
+        history.push(result);
       } else {
         this.validationHistory.set(filePath, [result])
       }
@@ -279,7 +278,7 @@ export class EnhancedSafetyProtocols {
   approveManualReview(filePath: string, reviewerNotes?: string): boolean {
     const index = this.manualReviewQueue.findIndex(req => req.filePath === filePath)
     if (index === -1) {
-      return false
+      return false;
     }
 
     this.manualReviewQueue.splice(index1)
@@ -296,7 +295,7 @@ export class EnhancedSafetyProtocols {
   rejectManualReview(filePath: string, reason: string): boolean {
     const index = this.manualReviewQueue.findIndex(req => req.filePath === filePath)
     if (index === -1) {
-      return false
+      return false;
     }
 
     this.manualReviewQueue.splice(index1)
@@ -313,10 +312,8 @@ export class EnhancedSafetyProtocols {
     if (/\/components\//.test(filePath)) return 'component',
     if (/\/utils\//.test(filePath)) return 'utility',
     if (/\.(test|spec)\./.test(filePath)) return 'test'
-    return 'other'
-  }
-
-  private isCoreCalculationFile(filePath: string): boolean {
+    return 'other' },
+        private isCoreCalculationFile(filePath: string): boolean {
     return (
       /\/src\/calculations\//.test(filePath) ||
       /\/src\/utils\/.*(?:astrology|astronomy|planetary|elemental)/.test(filePath)
@@ -370,10 +367,9 @@ export class EnhancedSafetyProtocols {
 
   private escalateRiskLevel(
     currentLevel: FileRiskAssessment['riskLevel'],
-    steps: number = 2
-  ): FileRiskAssessment['riskLevel'] {
+    steps: number = 2): FileRiskAssessment['riskLevel'] {;
     const levels: FileRiskAssessment['riskLevel'][] = ['low', 'medium', 'high', 'critical'],
-    const currentIndex = levels.indexOf(currentLevel)
+    const currentIndex = levels.indexOf(currentLevel);
     const newIndex = Math.min(levels.length - 1, currentIndex + steps),
     return levels[newIndex]
   }
@@ -387,7 +383,7 @@ export class EnhancedSafetyProtocols {
       unusedVariableCount > this.config.maxVariablesAutoProcess ||
       riskLevel === 'critical' ||
       riskLevel === 'high'
-    )
+    );
   }
 
   private shouldRequireEnhancedValidation(
@@ -400,7 +396,7 @@ export class EnhancedSafetyProtocols {
       riskLevel === 'high' ||
       fileType === 'service' ||
       fileType === 'calculation'
-    )
+    );
   }
 
   private getRecommendedBatchSize(
@@ -470,7 +466,7 @@ export class EnhancedSafetyProtocols {
       // Check for elemental properties
       const elementalProps = ['Fire', 'Water', 'Earth', 'Air'],
       const missingElements = elementalProps.filter(element => !content.includes(element))
-      if (missingElements.length > 0) {
+      if (missingElements.length > 0) {;
         errors.push(`Missing elemental properties: ${missingElements.join(', ')}`)
       }
 
@@ -497,7 +493,7 @@ export class EnhancedSafetyProtocols {
     const critical = false
 
     try {
-      // Check if the file can still be imported/required
+      // Check if the file can still be imported/required;
       const relativePath = path.relative(process.cwd(), filePath)
 
       // This is a simplified check - in a real implementation, you might want to

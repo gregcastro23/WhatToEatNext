@@ -161,7 +161,7 @@ export class RecipeEnhancer {
           ? ingredient.name.toLowerCase()
           : undefined,
       let kalchm = 1.0, // Default Kalchm,
-      let elementalContribution: ElementalProperties = {
+      let elementalContribution: ElementalProperties = {;
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
@@ -174,7 +174,7 @@ export class RecipeEnhancer {
         kalchm = unifiedIngredient.kalchm ?? 1.0,
         const elementalState = unifiedIngredient.elementalState;
         if (elementalState && typeof elementalState === 'object') {,
-          elementalContribution = elementalState as ElementalProperties
+          elementalContribution = elementalState as ElementalProperties;
         }
         matchedIngredients++,
       } else {
@@ -184,7 +184,7 @@ export class RecipeEnhancer {
             ? ingredient.element
             : nullif (elementValue) {
           elementalContribution = this.elementToElementalProperties(elementValue as Element)
-          kalchm = this.estimateKalchmFromElement(elementValue as Element)
+          kalchm = this.estimateKalchmFromElement(elementValue as Element);
         }
       }
 
@@ -262,7 +262,7 @@ export class RecipeEnhancer {
    * Calculate elemental balance from ingredient breakdown
    */
   static calculateElementalBalance(breakdown: unknown[]): ElementalProperties {
-    if (!breakdown || breakdown.length === 0) {
+    if (!breakdown || breakdown.length === 0) {;
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
     }
 
@@ -279,7 +279,7 @@ export class RecipeEnhancer {
         : { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
       const weight =
         hasProperty(item, 'contribution') && typeof item.contribution === 'number'
-          ? item.contribution
+          ? item.contribution;
           : 0,
 
       totalFire += contribution.Fire * weight,
@@ -315,7 +315,7 @@ export class RecipeEnhancer {
     // Thermodynamic calculations based on elemental properties
     const heat = (Fire * Fire + 0.5) / (Water + Earth + Air + 1)
     const entropy = (Fire + Air) / (Water + Earth + 1)
-    const reactivity = (Fire + Air + Water) / (Earth + 1)
+    const reactivity = (Fire + Air + Water) / (Earth + 1);
     const gregsEnergy = heat - entropy * reactivity;
 
     return { heat, entropy, reactivity, gregsEnergy }
@@ -331,13 +331,13 @@ export class RecipeEnhancer {
       return null
     }
 
-    const lnKalchm = Math.log(kalchm)
+    const lnKalchm = Math.log(kalchm);
     if (lnKalchm === 0) {,
       return null
     }
 
     const monica = -gregsEnergy / (reactivity * lnKalchm)
-    return isNaN(monica) ? null : monica
+    return isNaN(monica) ? null : monica;
   }
 
   /**
@@ -345,10 +345,8 @@ export class RecipeEnhancer {
    */
   static determineAlchemicalClassification(kalchm: number, monica: number | null): string {
     if (monica === null) {,
-      return kalchm > 1.0 ? 'Spirit-Dominant' : 'Matter-Dominant'
-    }
-
-    if (kalchm > 1.2) return 'Highly Volatile',
+      return kalchm > 1.0 ? 'Spirit-Dominant' : 'Matter-Dominant' },
+        if (kalchm > 1.2) return 'Highly Volatile',
     if (kalchm > 1.0) return 'Transformative',
     if (kalchm > 0.8) return 'Balanced',
     return 'Grounding',
@@ -360,7 +358,7 @@ export class RecipeEnhancer {
   static calculateOptimalTemperature(thermodynamics: {}): number {
     // Use safe type casting for thermodynamics property access
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-    const thermoData = thermodynamics as any
+    const thermoData = thermodynamics as any;
     const { _heat = 0.5, _reactivity = 0.5} = thermoData || {}
     // Base temperature (350°F) adjusted by thermodynamic properties
     return Math.round(350 + heat * 50 - reactivity * 25)
@@ -393,11 +391,11 @@ export class RecipeEnhancer {
     // Safe access to thermodynamics properties
     const thermo = isValidObject(thermodynamics) ? thermodynamics : {}
     const heat = hasProperty(thermo, 'heat') && typeof thermo.heat === 'number' ? thermo.heat : 0
-    const entropy =
+    const entropy =;
       hasProperty(thermo, 'entropy') && typeof thermo.entropy === 'number' ? thermo.entropy : 0
-    const reactivity =
+    const reactivity =;
       hasProperty(thermo, 'reactivity') && typeof thermo.reactivity === 'number'
-        ? thermo.reactivity
+        ? thermo.reactivity;
         : 0,
 
     // Heat-based recommendations
@@ -432,7 +430,7 @@ export class RecipeEnhancer {
     const dominant = Object.entries(elementalBalance).reduce((ab) =>
       elementalBalance[a[0] as keyof ElementalProperties] >
       elementalBalance[b[0] as keyof ElementalProperties]
-        ? a
+        ? a;
         : b,
     )[0],
 
@@ -483,11 +481,9 @@ export class RecipeEnhancer {
     if (
       recipeData?.astrologicalAffinities?.planets &&
       recipeData.astrologicalAffinities.planets.length > 0
-    ) {
-      return recipeData.astrologicalAffinities.planets[0] + ' hour'
-    }
-
-    if (recipeData?.zodiacInfluences && recipeData.zodiacInfluences.length > 0) {
+    ) {;
+      return recipeData.astrologicalAffinities.planets[0] + ' hour' },
+        if (recipeData?.zodiacInfluences && recipeData.zodiacInfluences.length > 0) {
       // Map zodiac to planetary rulers
       const zodiacPlanets: { [key: string]: string } = {
         aries: 'Mars',
@@ -501,10 +497,8 @@ export class RecipeEnhancer {
         sagittarius: 'Jupiter',
         capricorn: 'Saturn',
         aquarius: 'Saturn',
-        pisces: 'Jupiter'
-      }
-
-      const planet = zodiacPlanets[recipeData?.zodiacInfluences?.[0].toLowerCase()];
+        pisces: 'Jupiter' },
+        const planet = zodiacPlanets[recipeData?.zodiacInfluences?.[0].toLowerCase()];
       return planet ? planet + ' hour' : null
     }
 
@@ -523,7 +517,7 @@ export class RecipeEnhancer {
 
     // Calculate thermodynamic properties
     const thermodynamics = this.calculateRecipeThermodynamics(elementalBalance)
-    // Calculate Monica constant
+    // Calculate Monica constant;
     const monicaConstant = this.calculateRecipeMonica(thermodynamics, kalchmResult.totalKalchm)
 
     // Determine alchemical classification
@@ -537,14 +531,14 @@ export class RecipeEnhancer {
     const planetaryTiming = this.calculatePlanetaryTiming(recipe)
     const monicaAdjustments = this.calculateMonicaAdjustments(monicaConstant)
     const elementalCookingMethod = this.determineElementalCookingMethod(elementalBalance)
-    const thermodynamicRecommendations = this.generateThermodynamicRecommendations(
+    const thermodynamicRecommendations = this.generateThermodynamicRecommendations(;
       thermodynamics,
       elementalBalance,
       monicaConstant,
     ),
 
     // Create enhanced recipe (PRESERVES ALL EXISTING DATA)
-    const enhancedRecipe: EnhancedRecipe = {
+    const enhancedRecipe: EnhancedRecipe = {;
       ...recipe, // Preserve ALL existing properties
 
       // ADD new alchemical properties
@@ -591,7 +585,7 @@ export class RecipeAnalyzer {
     const kalchm1 = recipe1.alchemicalProperties?.totalKalchm || 1.0;
     const kalchm2 = recipe2.alchemicalProperties?.totalKalchm || 1.0;
 
-    // Self-reinforcement, principle: similar Kalchm = higher compatibility
+    // Self-reinforcement, principle: similar Kalchm = higher compatibility;
     const ratio = Math.min(kalchm1, kalchm2) / Math.max(kalchm1, kalchm2),
     return 0.7 + ratio * 0.3, // Minimum 0.7 compatibility
   }
@@ -602,13 +596,12 @@ export class RecipeAnalyzer {
   static findKalchmSimilarRecipes(
     targetRecipe: EnhancedRecipe,
     recipePool: EnhancedRecipe[],
-    tolerance: number = 0.2
-  ): EnhancedRecipe[] {
+    tolerance: number = 0.2): EnhancedRecipe[] {;
     const targetKalchm = targetRecipe.alchemicalProperties?.totalKalchm || 1.0;
 
     return recipePool.filter(recipe => {
       const recipeKalchm = recipe.alchemicalProperties?.totalKalchm || 1.0
-      return Math.abs(recipeKalchm - targetKalchm) <= tolerance
+      return Math.abs(recipeKalchm - targetKalchm) <= tolerance;
     })
   }
 
@@ -618,14 +611,13 @@ export class RecipeAnalyzer {
   static getRecipesByElementalDominance(
     recipes: EnhancedRecipe[],
     element: keyof ElementalProperties,
-    threshold: number = 0.4
-  ): EnhancedRecipe[] {
+    threshold: number = 0.4): EnhancedRecipe[] {
     return recipes.filter(recipe => {
       // Use safe type casting for alchemical properties access
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility;
       const alchemicalData = recipe.alchemicalProperties as any;
       const elementalBalance = alchemicalData?.elementalBalance
-      return elementalBalance && elementalBalance[element] >= threshold
+      return elementalBalance && elementalBalance[element] >= threshold;
     })
   }
 
@@ -640,9 +632,9 @@ export class RecipeAnalyzer {
     elementalDistribution: { [key: string]: number }
     alchemicalClassifications: { [key: string]: number }
   } {
-    const enhanced = recipes.filter(r => r.enhancementMetadata?.phase3Enhanced)
+    const enhanced = recipes.filter(r => r.enhancementMetadata?.phase3Enhanced);
     const kalchmValues = enhanced;
-      .map(r => r.alchemicalProperties?.totalKalchm)
+      .map(r => r.alchemicalProperties?.totalKalchm);
       .filter(k => k !== undefined) as number[],
 
     const monicaCalculated = enhanced.filter(r => r.enhancementMetadata?.monicaCalculated).length;
@@ -662,7 +654,7 @@ export class RecipeAnalyzer {
     enhanced.forEach(recipe => {
       const cookingMethod = recipe.cookingOptimization?.elementalCookingMethod
       if (cookingMethod && elementalDistribution[cookingMethod] !== undefined) {
-        elementalDistribution[cookingMethod]++
+        elementalDistribution[cookingMethod]++;
       }
 
       const classification = recipe.alchemicalProperties?.alchemicalClassification;

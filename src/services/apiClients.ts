@@ -24,7 +24,7 @@ export class FoodDataCentral {
    * Get detailed food information by FDC ID
    */
   static async getFood(fdcId: string): Promise<FoodData> {
-    try {
+    try {;
       const response = await axios.get(`${this.baseUrl}/food/${fdcId}`, {
         params: {
           api_key: this.apiKey
@@ -33,7 +33,7 @@ export class FoodDataCentral {
 
       return response.data,
     } catch (error) {
-      _logger.error('Error fetching food data:', error),
+      _logger.error('Error fetching food data: ', error),
       // Return a minimal valid structure if the API call fails
       return {
         fdcId,
@@ -48,7 +48,7 @@ export class FoodDataCentral {
    */
   static async searchFoods(query: string, pageSize = 10): Promise<FoodData[]> {
     try {
-      const response = await axios.post(
+      const response = await axios.post(;
         `${this.baseUrl}/foods/search`,
         {
           query,
@@ -59,12 +59,11 @@ export class FoodDataCentral {
           params: {
             api_key: this.apiKey
           }
-        }
-      )
+        })
 
       return response.data.foods || [],
     } catch (error) {
-      _logger.error('Error searching foods:', error),
+      _logger.error('Error searching foods: ', error),
       return []
     }
   }

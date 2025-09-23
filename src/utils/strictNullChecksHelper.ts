@@ -72,8 +72,7 @@ export function assertNotNull<T>(
  */
 export function safeCall<T extends (...args: unknown[]) => unknown>(
   fn: T | null | undefined,
-  ...args: Parameters<T>
-): ReturnType<T> | undefined {
+  ...args: Parameters<T>): ReturnType<T> | undefined {
   return fn?.(...args)
 }
 

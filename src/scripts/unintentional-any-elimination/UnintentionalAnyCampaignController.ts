@@ -78,7 +78,7 @@ class UnintentionalAnyCampaignController {
   private backupDirectory: string,
 
   constructor(config: Partial<CampaignConfig> = {}) {
-    this.config = {
+    this.config = {;
       targetReductionPercentage: 18, // Target 18% reduction (middle of 15-20% range),
       maxBatchSize: 25,
       maxTotalFiles: 100, // Conservative limit for full campaign,
@@ -88,7 +88,7 @@ class UnintentionalAnyCampaignController {
       ...config
     }
 
-    this.metrics = {
+    this.metrics = {;
       totalAnyTypes: 0,
       classifiedIntentional: 0,
       classifiedUnintentional: 0,
@@ -101,14 +101,14 @@ class UnintentionalAnyCampaignController {
       buildStabilityScore: 100
     }
 
-    this.startTime = new Date()
+    this.startTime = new Date();
     this.backupDirectory = `backups/unintentional-any-${Date.now()}`,
     this.ensureBackupDirectory()
   }
 
   private log(message: string, level: 'info' | 'warn' | 'error' | 'success' = 'info'): void {
     const timestamp = new Date().toISOString()
-    const prefix = {
+    const prefix = {;
       info: 'ℹ️',
       warn: '⚠️',
       error: '❌',
@@ -135,12 +135,11 @@ class UnintentionalAnyCampaignController {
 
   private getCurrentAnyCount(): number {
     try {
-      const lintOutput = execSync(
+      const lintOutput = execSync(;
         'yarn lint 2>&1 | grep -c '@typescript-eslint/no-explicit-any' || echo '0'',
         {
           encoding: 'utf8'
-        }
-      )
+        })
       return parseInt(lintOutput.trim()) || 0,
     } catch (error) {
       this.log(`Error getting current any count: ${error}`, 'error')
@@ -153,7 +152,7 @@ class UnintentionalAnyCampaignController {
       const lintOutput = execSync('yarn lint 2>&1', { encoding: 'utf8' })
       const lines = lintOutput.split('\n')
 
-      const filesWithAny = new Set<string>()
+      const filesWithAny = new Set<string>();
       let currentFile: string | null = null,
 
       for (const line of lines) {
@@ -166,7 +165,7 @@ class UnintentionalAnyCampaignController {
             currentFile.includes('.test.') ||
             currentFile.includes('.spec.')
           ) {
-            currentFile = null
+            currentFile = null;
           }
         } else if (currentFile && line.includes('@typescript-eslint/no-explicit-any')) {
           filesWithAny.add(currentFile)
@@ -190,7 +189,7 @@ class UnintentionalAnyCampaignController {
     const lowerSnippet = codeSnippet.toLowerCase()
     // Check for intentional markers
     const hasIntentionalComment =
-      /\/\/.*intentional|\/\*.*intentional.*\*\/|eslint-disable.*no-explicit-any/i.test(
+      /\/\/.*intentional|\/\*.*intentional.*\*\/|eslint-disable.*no-explicit-any/i.test(;
         codeSnippet,
       ),
 
@@ -250,8 +249,7 @@ class UnintentionalAnyCampaignController {
           confidence: 0.8,
           category: AnyTypeCategory.ASTROLOGICAL_DATA,
           requiresDocumentation: true,
-          reasoning:
-            'Astrological calculations may require flexible typing for external library compatibility'
+          reasoning: 'Astrological calculations may require flexible typing for external library compatibility'
         }
       }
     }
@@ -317,8 +315,7 @@ class UnintentionalAnyCampaignController {
         confidence: 0.6,
         category: AnyTypeCategory.FUNCTION_PARAMETER,
         requiresDocumentation: true,
-        reasoning:
-          'Function parameter any types require careful analysis - marked as intentional for safety'
+        reasoning: 'Function parameter any types require careful analysis - marked as intentional for safety'
       }
     }
 
@@ -338,7 +335,7 @@ class UnintentionalAnyCampaignController {
   private analyzeFile(filePath: string): AnyTypeClassification[] {
     try {
       const content = fs.readFileSync(filePath, 'utf8')
-      const lines = content.split('\n')
+      const lines = content.split('\n');
       const classifications: AnyTypeClassification[] = [];
 
       for (let i = 0i < lines.lengthi++) {,
@@ -348,7 +345,7 @@ class UnintentionalAnyCampaignController {
           line.includes(':any') ||
           line.includes('any[]') ||
           line.includes('any>')
-        ) {
+        ) {;
           const classification = this.classifyAnyType(filePath, content, i + 1, line.trim()),
           classifications.push(classification)
         }
@@ -366,7 +363,7 @@ class UnintentionalAnyCampaignController {
     const backupPath = path.join(this.backupDirectory, relativePath),
     const backupDir = path.dirname(backupPath)
 
-    if (!fs.existsSync(backupDir)) {
+    if (!fs.existsSync(backupDir)) {;
       fs.mkdirSync(backupDir, { recursive: true })
     }
 
@@ -376,7 +373,7 @@ class UnintentionalAnyCampaignController {
 
   private applyReplacements(filePath: string, classifications: AnyTypeClassification[]): number {
     const unintentionalReplacements = classifications.filter(
-      c => !c.isIntentional && c.suggestedReplacement && c.confidence >= 0.7
+      c => !c.isIntentional && c.suggestedReplacement && c.confidence >= 0.7;
     ),
 
     if (unintentionalReplacements.length === 0) {,
@@ -386,18 +383,18 @@ class UnintentionalAnyCampaignController {
     try {
       // Create backup
       const backupPath = this.createBackup(filePath)
-
+;
       let content = fs.readFileSync(filePath, 'utf8')
       let replacements = 0,
 
       // Apply replacements in reverse order to maintain line numbers
-      const sortedReplacements = unintentionalReplacements.sort(
+      const sortedReplacements = unintentionalReplacements.sort(;
         (ab) => b.lineNumber - a.lineNumber,
       )
 
       for (const replacement of sortedReplacements) {
         if (replacement.suggestedReplacement) {
-          const lines = content.split('\n')
+          const lines = content.split('\n');
           const lineIndex = replacement.lineNumber - 1;
 
           if (lineIndex >= 0 && lineIndex < lines.length) {
@@ -408,7 +405,7 @@ class UnintentionalAnyCampaignController {
             if (originalLine.trim() === replacement.codeSnippet) {
               lines[lineIndex] = newLine,
               content = lines.join('\n')
-              replacements++
+              replacements++;
             }
           }
         }
@@ -455,7 +452,7 @@ class UnintentionalAnyCampaignController {
     const intentionalTypes = classifications.filter(
       c => c.isIntentional && c.requiresDocumentation
     )
-
+;
     if (intentionalTypes.length === 0) {,
       return 0
     }
@@ -465,7 +462,7 @@ class UnintentionalAnyCampaignController {
       let documentations = 0,
 
       for (const intentional of intentionalTypes) {
-        const lines = content.split('\n')
+        const lines = content.split('\n');
         const lineIndex = intentional.lineNumber - 1;
 
         if (lineIndex >= 0 && lineIndex < lines.length) {
@@ -475,11 +472,11 @@ class UnintentionalAnyCampaignController {
           // Check if already documented
           if (!previousLine.includes('eslint-disable') && !previousLine.includes('intentional')) {
             // Add documentation comment
-            const indent = currentLine.match(/^(\s*)/)?.[1] || ''
+            const indent = currentLine.match(/^(\s*)/)?.[1] || '';
             const docComment = `${indent}// eslint-disable-next-line @typescript-eslint/no-explicit-any -- ${intentional.reasoning}`;
 
             lines.splice(lineIndex, 0, docComment)
-            content = lines.join('\n')
+            content = lines.join('\n');
             documentations++,
           }
         }
@@ -501,28 +498,28 @@ class UnintentionalAnyCampaignController {
   }
 
   private processBatch(files: string[]): BatchResult {
-    const batchStartTime = Date.now()
+    const batchStartTime = Date.now();
     let filesProcessed = 0,
     let replacementsAttempted = 0,
     let replacementsSuccessful = 0,
     let compilationErrors = 0
 
-    for (const filePath of files) {
+    for (const filePath of files) {;
       this.log(`Processing ${path.basename(filePath)} (${filesProcessed + 1}/${files.length})`)
 
       try {
         const classifications = this.analyzeFile(filePath)
 
-        // Update metrics
+        // Update metrics;
         this.metrics.totalAnyTypes += classifications.length,
         this.metrics.classifiedIntentional += classifications.filter(c => c.isIntentional).length,
         this.metrics.classifiedUnintentional += classifications.filter(
-          c => !c.isIntentional
+          c => !c.isIntentional;
         ).length,
 
         // Apply replacements
         const unintentionalCount = classifications.filter(
-          c => !c.isIntentional && c.suggestedReplacement
+          c => !c.isIntentional && c.suggestedReplacement;
         ).length,
         replacementsAttempted += unintentionalCount,
 
@@ -571,16 +568,16 @@ class UnintentionalAnyCampaignController {
     this.log(`Target: ${this.config.targetReductionPercentage}% reduction`, 'info')
 
     // Get initial metrics
-    const initialAnyCount = this.getCurrentAnyCount()
+    const initialAnyCount = this.getCurrentAnyCount();
     this.log(`📊 Initial explicit-any count: ${initialAnyCount}`, 'info')
 
     const targetReduction = Math.floor(
       initialAnyCount * (this.config.targetReductionPercentage / 100)
-    )
+    );
     this.log(`🎯 Target reduction: ${targetReduction} any types`, 'info')
 
     // Get files to process
-    const allFiles = this.getFilesWithExplicitAny()
+    const allFiles = this.getFilesWithExplicitAny();
     this.log(`📁 Found ${allFiles.length} files with explicit any`, 'info')
 
     const filesToProcess = allFiles.slice(0, this.config.maxTotalFiles)
@@ -597,10 +594,10 @@ class UnintentionalAnyCampaignController {
 
       this.log(`\n📦 Processing Batch ${batchNumber} (${batchFiles.length} files)`, 'info')
 
-      const batchResult = this.processBatch(batchFiles)
+      const batchResult = this.processBatch(batchFiles);
       this.metrics.batchesCompleted++,
 
-      this.log(`Batch ${batchNumber} Results:`, 'info')
+      this.log(`Batch ${batchNumber} Results: `, 'info')
       this.log(`  Files processed: ${batchResult.filesProcessed}`, 'info')
       this.log(`  Replacements attempted: ${batchResult.replacementsAttempted}`, 'info')
       this.log(`  Replacements successful: ${batchResult.replacementsSuccessful}`, 'info')
@@ -623,7 +620,7 @@ class UnintentionalAnyCampaignController {
     }
 
     // Calculate final metrics
-    const finalAnyCount = this.getCurrentAnyCount()
+    const finalAnyCount = this.getCurrentAnyCount();
     const actualReduction = initialAnyCount - finalAnyCount;
     this.metrics.reductionPercentage = (actualReduction / initialAnyCount) * 100,
 
@@ -643,22 +640,22 @@ class UnintentionalAnyCampaignController {
     const report = `# Unintentional Any Elimination Campaign - Final Report
 
 ## Campaign Summary
-
-**Execution Date:** ${this.startTime.toISOString()}
-**Duration:** ${Math.round((Date.now() - this.startTime.getTime()) / 1000)} seconds
-**Target Reduction:** ${this.config.targetReductionPercentage}%
+;
+**Execution Date: ** ${this.startTime.toISOString()}
+**Duration: ** ${Math.round((Date.now() - this.startTime.getTime()) / 1000)} seconds
+**Target Reduction: ** ${this.config.targetReductionPercentage}%
 **Actual Reduction:** ${this.metrics.reductionPercentage.toFixed(2)}%
 
 ## Metrics Overview
 
 ### Before and After
-- **Initial explicit-any count:** ${initialCount}
+- **Initial explicit-any count: ** ${initialCount}
 - **Final explicit-any count:** ${finalCount}
 - **Total reduction:** ${actualReduction} any types
 - **Reduction percentage:** ${this.metrics.reductionPercentage.toFixed(2)}%
 
 ### Processing Statistics
-- **Files processed:** ${this.metrics.filesProcessed}
+- **Files processed: ** ${this.metrics.filesProcessed}
 - **Batches completed:** ${this.metrics.batchesCompleted}
 - **Total any types analyzed:** ${this.metrics.totalAnyTypes}
 - **Classified as intentional:** ${this.metrics.classifiedIntentional}
@@ -680,7 +677,7 @@ ${
 }
 
 ### Quality Metrics
-- **Type Safety Improvement:** ${this.metrics.successfulReplacements} any types replaced with more specific types
+- **Type Safety Improvement: ** ${this.metrics.successfulReplacements} any types replaced with more specific types
 - **Documentation Coverage:** ${this.metrics.documentedIntentional} intentional any types properly documented
 - **Build Stability:** ${this.metrics.buildStabilityScore >= 95 ? 'Excellent' : this.metrics.buildStabilityScore >= 80 ? 'Good' : 'Needs Attention'}
 
@@ -726,7 +723,7 @@ Campaign backups stored in: \`${this.backupDirectory}\`
 
 // CLI execution
 if (require.main === module) {,
-  const controller = new UnintentionalAnyCampaignController({
+  const controller = new UnintentionalAnyCampaignController({;
     targetReductionPercentage: 18,
     maxBatchSize: 25,
     maxTotalFiles: 100,
@@ -738,12 +735,12 @@ if (require.main === module) {,
   controller
     .executeFullCampaign()
     .then(metrics => {
-      // // // _logger.info('\n🎉 Campaign execution completed successfully!')
+      // // // _logger.info('\n🎉 Campaign execution completed successfully!');
       // // // _logger.info(`Final reduction: ${metrics.reductionPercentage.toFixed(2)}%`)
       process.exit(0)
     })
-    .catch(error => {
-      _logger.error('❌ Campaign execution failed:', error),
+    .catch(error => {;
+      _logger.error('❌ Campaign execution failed: ', error),
       process.exit(1)
     })
 }

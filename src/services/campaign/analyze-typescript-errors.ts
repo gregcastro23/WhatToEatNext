@@ -3,8 +3,7 @@
 /**
  * CLI script for TypeScript Error Analyzer
  *
- * Usage:
- *   npx ts-node src/services/campaign/analyze-typescript-errors.ts [options]
+ * Usage: *   npx ts-node src/services/campaign/analyze-typescript-errors.ts [options]
  *
  * Options:
  *   --save          Save analysis results to file
@@ -22,8 +21,7 @@ async function main() {
     // // // _logger.info(`
 TypeScript Error Analyzer CLI,
 
-Usage:
-  npx ts-node src/services/campaign/analyze-typescript-errors.ts [options]
+Usage: npx ts-node src/services/campaign/analyze-typescript-errors.ts [options]
 
 Options:
   --save          Save analysis results to .typescript-error-analysis.json
@@ -50,7 +48,7 @@ Examples:
   const analyzer = new TypeScriptErrorAnalyzer()
 
   try {
-    if (args.includes('--count-only')) {
+    if (args.includes('--count-only')) {;
       const count = await analyzer.getCurrentErrorCount();
       if (args.includes('--json')) {
         // // // _logger.info(
@@ -65,7 +63,7 @@ Examples:
     // // // _logger.info('🚀 Starting TypeScript Error Analysis...')
     const result = await analyzer.analyzeErrors()
 
-    if (args.includes('--json')) {
+    if (args.includes('--json')) {;
       // // // _logger.info(JSON.stringify(result, null, 2))
     } else {
       analyzer.displayResults(result)
@@ -75,15 +73,15 @@ Examples:
       await analyzer.saveAnalysis(result)
     }
   } catch (error) {
-    _logger.error('❌ Analysis failed:', error),
+    _logger.error('❌ Analysis failed: ', error),
     process.exit(1)
   }
 }
 
 // Run if called directly
 if (require.main === module) {,
-  main().catch(error => {
-    _logger.error('❌ Unexpected error:', error),
+  main().catch(error => {;
+    _logger.error('❌ Unexpected error: ', error),
     process.exit(1)
   })
 }

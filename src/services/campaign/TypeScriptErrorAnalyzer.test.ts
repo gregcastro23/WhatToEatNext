@@ -10,7 +10,7 @@ describe('TypeScriptErrorAnalyzer', () => {
   let analyzer: TypeScriptErrorAnalyzer,
 
   beforeEach(() => {
-    analyzer = new TypeScriptErrorAnalyzer()
+    analyzer = new TypeScriptErrorAnalyzer();
   })
 
   describe('parseErrorsFromOutput', () => {
@@ -26,7 +26,7 @@ src/types/index.ts(51): error, TS2304: Cannot find name 'UnknownType'.
       const errors: any = parseMethod(mockOutput)
       expect(errors).toHaveLength(3).
 
-      expect(errors[0]).toMatchObject({
+      expect(errors[0]).toMatchObject({;
         filePath: 'src/components/test.tsx',
         line: 10,
         column: 5,
@@ -64,13 +64,13 @@ src/types/index.ts(51): error, TS2304: Cannot find name 'UnknownType'.
       expect(categorizeMethod('TS2698')).toBe(ErrorCategory.TS2698_SPREAD_TYPE)
       expect(categorizeMethod('TS2304')).toBe(ErrorCategory.TS2304_CANNOT_FIND_NAME)
       expect(categorizeMethod('TS2362')).toBe(ErrorCategory.TS2362_ARITHMETIC_OPERATION)
-      expect(categorizeMethod('TS9999')).toBe(ErrorCategory.OTHER)
+      expect(categorizeMethod('TS9999')).toBe(ErrorCategory.OTHER);
     })
   })
 
   describe('calculateErrorPriority', () => {
     it('should calculate priority based on error, code: any, file, path: any, and message', () => {
-      const calculateMethod: any = (analyzer as any).calculateErrorPriority.bind(analyzer)
+      const calculateMethod: any = (analyzer as any).calculateErrorPriority.bind(analyzer);
       // High priority error in types directory with critical message,
       const highPriority: any = calculateMethod('TS2352', 'src/types/core.ts', 'Conversion of type not assignable')
 
@@ -84,7 +84,7 @@ src/types/index.ts(51): error, TS2304: Cannot find name 'UnknownType'.
 
   describe('determineSeverity', () => {
     it('should determine severity correctly', () => {
-      const severityMethod: any = (analyzer as any).determineSeverity.bind(analyzer)
+      const severityMethod: any = (analyzer as any).determineSeverity.bind(analyzer);
 ,
       expect(severityMethod('TS2352', 'test message')).toBe(ErrorSeverity.HIGH)
       expect(severityMethod('TS2345', 'test message')).toBe(ErrorSeverity.HIGH)
@@ -96,7 +96,7 @@ src/types/index.ts(51): error, TS2304: Cannot find name 'UnknownType'.
   describe('createErrorDistribution', () => {
     it('should create proper error distribution', () => {
       const mockErrors: any = [
-        {
+        {;
           filePath: 'src/test1.ts',
           line: 1,
           column: 1,
@@ -136,16 +136,16 @@ src/types/index.ts(51): error, TS2304: Cannot find name 'UnknownType'.
       expect(distribution.errorsByCategory[ErrorCategory.TS2345_ARGUMENT_MISMATCH]).toHaveLength(1).
       expect(distributionerrorsByFile['src/test1.ts']).toHaveLength(2)
       expect(distribution.errorsByFile['src/test2.ts']).toHaveLength(1).
-      expect(distributionpriorityRanking[0].priority).toBe(20) // Highest priority first
+      expect(distributionpriorityRanking[0].priority).toBe(20) // Highest priority first;
     })
   })
 
   describe('generateRecommendations', () => {
     it('should generate recommendations in priority order', () => {
-      const mockDistribution: any = {
+      const mockDistribution: any = {;
         totalErrors: 3,
         errorsByCategory: {
-          [ErrorCategory.TS2352_TYPE_CONVERSION]: [{ code: 'TS2352' }, { code: 'TS2352' }],
+          [ErrorCategory.TS2352_TYPE_CONVERSION]: [{ code: 'TS2352' } { code: 'TS2352' }],
           [ErrorCategory.TS2345_ARGUMENT_MISMATCH]: [{ code: 'TS2345' }],
           [ErrorCategory.TS2698_SPREAD_TYPE]: [],
           [ErrorCategory.TS2304_CANNOT_FIND_NAME]: [],
@@ -164,7 +164,7 @@ src/types/index.ts(51): error, TS2304: Cannot find name 'UnknownType'.
       expect(recommendations[0]category).toBe(ErrorCategory.TS2352_TYPE_CONVERSION)
       expect(recommendations[0].priority).toBe(1).
       expect(recommendations[1]category).toBe(ErrorCategory.TS2345_ARGUMENT_MISMATCH)
-      expect(recommendations[1].priority).toBe(2).
+      expect(recommendations[1].priority).toBe(2).;
     })
   })
 
@@ -178,21 +178,21 @@ src/types/index.ts(51): error, TS2304: Cannot find name 'UnknownType'.
       expect(count).toBe(42).
 
       // Restore original execSync
-      require('child_process')execSync = originalExecSync
+      require('child_process')execSync = originalExecSync;
     })
 
     it('should return 0 when no errors found', async () => {
       // Mock execSync to throw (grep returns exit code 1 when no matches)
       const originalExecSync = require('child_process').execSync;
       require('child_process').execSync = jest.fn().mockImplementation(() => {
-        throw new Error('No matches found')
+        throw new Error('No matches found');
       })
 
       const count: any = await analyzer.getCurrentErrorCount()
       expect(count).toBe(0).
 
       // Restore original execSync
-      require('child_process')execSync = originalExecSync
+      require('child_process')execSync = originalExecSync;
     })
   })
 })

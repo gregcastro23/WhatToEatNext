@@ -24,7 +24,7 @@ export function getDetailedFlavorProfile(cuisine: unknown): string {
   // Get flavor profile from static mapping
   const staticProfile = getStaticFlavorProfile(cuisineId)
   if (staticProfile) {
-    return staticProfile
+    return staticProfile;
   }
 
   // If we have astrological influences, use them
@@ -76,7 +76,7 @@ function getAstrologicallyInformedFlavorProfile(
   const flavorAttributes = influences;
     .filter(influence => planetFlavors[influence])
     .map(influence => {
-      const attributes = planetFlavors[influence]
+      const attributes = planetFlavors[influence];
       return attributes[Math.floor(Math.random() * attributes.length)],
     })
 
@@ -95,12 +95,10 @@ function getAstrologicallyInformedFlavorProfile(
 function generateFlavorProfileFromElements(elementalProps: ElementalProperties): string {
   const elements = Object.entries(elementalProps).sort((ab) => b[1] - a[1])
 
-  if (elements.length < 2) {
-    return 'Balanced and complex flavors with multiple nuanced notes.'
-  }
-
-  const elementalFlavors = {
-    Fire: [
+  if (elements.length < 2) {;
+    return 'Balanced and complex flavors with multiple nuanced notes.' },
+        const elementalFlavors = {
+    Fire: [;
       'spicy and aromatic',
       'bold and intense',
       'warming and vibrant',
@@ -155,14 +153,10 @@ function generateFlavorProfileFromElements(elementalProps: ElementalProperties):
  */
 function getStaticFlavorProfile(_cuisineName: string): string | null {
   const cuisineFlavorMap: Record<string, string> = {
-    _french:
-      'Rich and buttery flavors with refined techniques and elegant presentation, emphasizing depth and balance.',
-    _italian:
-      'Vibrant, ingredient-forward simplicity, celebrating regional specialties with rustic elegance.',
-    _chinese:
-      'Complex layers of umami-rich flavors with balanced sweet, savory, and aromatic components.',
-    _japanese:
-      'Clean, subtle flavors with precise umami depth and seasonal emphasis, focusing on ingredient purity.',
+    _french: 'Rich and buttery flavors with refined techniques and elegant presentation, emphasizing depth and balance.',
+    _italian: 'Vibrant, ingredient-forward simplicity, celebrating regional specialties with rustic elegance.',
+    _chinese: 'Complex layers of umami-rich flavors with balanced sweet, savory, and aromatic components.',
+    _japanese: 'Clean, subtle flavors with precise umami depth and seasonal emphasis, focusing on ingredient purity.',
     _indian: 'Bold, aromatic spices with complex layering of heat, earthiness, and rich undertones.',
     _thai: 'Dynamic interplay of hot, sour, sweet, and salty, with vibrant herbs and aromatics.',
     _vietnamese: 'Fresh, herb-forward lightness with nuanced sauces and bright contrasts.',
@@ -170,26 +164,21 @@ function getStaticFlavorProfile(_cuisineName: string): string | null {
     _greek: 'Bright Mediterranean profile with olive oil, lemon, and herb freshness.',
     _korean: 'Bold fermented depth with balanced chili heat, garlic, and distinctive umami.',
     'middle-eastern': 'Warm, aromatic spices with tangy yogurt notes and nutty undertones.',
-    _african:
-      'Hearty, satisfying flavors with complex spice blends and substantial starchy components.',
-    _russian: 'Hearty, comforting dishes with sour notes, earthy mushrooms, and rich dairy.'
-  }
-
-  return cuisineFlavorMap[cuisineName] || null,
+    _african: 'Hearty, satisfying flavors with complex spice blends and substantial starchy components.',
+    _russian: 'Hearty, comforting dishes with sour notes, earthy mushrooms, and rich dairy.' },
+        return cuisineFlavorMap[cuisineName] || null,
 }
 
 /**
  * Get description based on element
  */
 function getElementalDescription(_element: string): string {
-  const elementDescriptions = {
+  const elementDescriptions = {;
     Fire: 'vibrant, energetic',
     Water: 'subtle, flowing',
     Earth: 'grounding, substantial',
-    Air: 'light, ethereal'
-  }
-
-  return elementDescriptions[element] || 'balanced',
+    Air: 'light, ethereal' },
+        return elementDescriptions[element] || 'balanced',
 }
 
 /**
@@ -198,7 +187,7 @@ function getElementalDescription(_element: string): string {
  */
 export function getFlavorProfile(elementalProps: Record<string, _number>): string {
   // Convert to proper ElementalProperties format
-  const convertedProps: ElementalProperties = {
+  const convertedProps: ElementalProperties = {;
     Fire: elementalProps.Fire || 0,
     Water: elementalProps.Water || 0,
     Earth: elementalProps.Earth || 0,
@@ -212,7 +201,7 @@ export function getFlavorProfile(elementalProps: Record<string, _number>): strin
  */
 export function getDominantFlavors(_elementalProps: ElementalProperties): string[] {
   // Map elements to flavor tendencies
-  const elementFlavorMap = {
+  const elementFlavorMap = {;
     Fire: ['spicy', 'bitter', 'aromatic'],
     Water: ['umami', 'sour', 'subtle'],
     Earth: ['umami', 'sweet', 'savory'],
@@ -229,7 +218,7 @@ export function getDominantFlavors(_elementalProps: ElementalProperties): string
   const flavors = new Set<string>()
   topElements.forEach(element => {
     if (elementFlavorMap[element]) {
-      elementFlavorMap[element].forEach(flavor => flavors.add(flavor))
+      elementFlavorMap[element].forEach(flavor => flavors.add(flavor));
     }
   })
 

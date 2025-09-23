@@ -1,11 +1,10 @@
 // src/data/cuisines/russian.ts
 import { Cuisine } from '@/types/cuisine';
 
-export const russian: Cuisine = {
+export const russian: Cuisine = {;
   id: 'russian',
   name: 'Russian',
-  description:
-    'Traditional Russian cuisine emphasizing hearty dishes, fermented foods, and preserved ingredients',
+  description: 'Traditional Russian cuisine emphasizing hearty dishes, fermented foods, and preserved ingredients',
   dishes: {
     breakfast: {
       all: [
@@ -52,8 +51,7 @@ export const russian: Cuisine = {
           allergens: ['dairy', 'eggs', 'gluten'],
           prepTime: '15 minutes',
           cookTime: '15 minutes',
-          culturalNotes:
-            'A beloved breakfast dish that transforms humble farmer's cheese into delicate pancakes. Often served during traditional Russian celebrations',
+          culturalNotes: 'A beloved breakfast dish that transforms humble farmer's cheese into delicate pancakes. Often served during traditional Russian celebrations',
           pairingSuggestions: ['berry jam', 'honey', 'fresh berries', 'sour cream'],
           dietaryInfo: ['vegetarian', 'adaptable to gluten-free'],
           spiceLevel: 'none',
@@ -103,8 +101,7 @@ export const russian: Cuisine = {
           allergens: ['dairy'],
           prepTime: '5 minutes',
           cookTime: '20 minutes',
-          culturalNotes:
-            'A fundamental Russian breakfast dish that symbolizes prosperity and health. The word 'kasha' is so central to Russian cuisine that it's used as a general term for all grain porridges',
+          culturalNotes: 'A fundamental Russian breakfast dish that symbolizes prosperity and health. The word 'kasha' is so central to Russian cuisine that it's used as a general term for all grain porridges',
           pairingSuggestions: [
             'fried mushrooms',
             'soft-boiled egg',
@@ -182,8 +179,7 @@ export const russian: Cuisine = {
           prepTime: '15 minutes',
           cookTime: '45 minutes',
           fermentationTime: '30 minutes',
-          culturalNotes:
-            'Traditional for Maslenitsa festival, symbolizing the sun and the end of winter. Blini are essential for both celebrations and everyday meals',
+          culturalNotes: 'Traditional for Maslenitsa festival, symbolizing the sun and the end of winter. Blini are essential for both celebrations and everyday meals',
           pairingSuggestions: [
             'caviar',
             'smoked salmon',
@@ -252,8 +248,7 @@ export const russian: Cuisine = {
           prepTime: '10 minutes',
           restTime: '15 minutes',
           cookTime: '20 minutes',
-          culturalNotes:
-            'A beloved breakfast dish often served on weekends. The slight tanginess from buttermilk makes these distinct from regular pancakes',
+          culturalNotes: 'A beloved breakfast dish often served on weekends. The slight tanginess from buttermilk makes these distinct from regular pancakes',
           pairingSuggestions: ['sour cream', 'jam', 'honey', 'fresh berries'],
           dietaryInfo: ['vegetarian', 'adaptable to vegan'],
           spiceLevel: 'none',
@@ -318,8 +313,7 @@ export const russian: Cuisine = {
           allergens: ['dairy'],
           prepTime: '30 minutes',
           cookTime: '120 minutes',
-          culturalNotes:
-            'A quintessential Slavic soup that varies by region and season. The deep red color from beets is iconic, and the soup often tastes better the next day',
+          culturalNotes: 'A quintessential Slavic soup that varies by region and season. The deep red color from beets is iconic, and the soup often tastes better the next day',
           pairingSuggestions: ['black bread', 'garlic cloves', 'salo', 'vodka'],
           dietaryInfo: ['adaptable to vegetarian/vegan'],
           spiceLevel: 'mild',
@@ -390,8 +384,7 @@ export const russian: Cuisine = {
           allergens: ['gluten', 'eggs', 'dairy'],
           prepTime: '60 minutes',
           cookTime: '15 minutes',
-          culturalNotes:
-            'A staple of Siberian cuisine, traditionally made in large batches during winter and stored frozen. Making pelmeni is often a family activity',
+          culturalNotes: 'A staple of Siberian cuisine, traditionally made in large batches during winter and stored frozen. Making pelmeni is often a family activity',
           pairingSuggestions: ['vinegar', 'black pepper', 'dill', 'russian mustard'],
           dietaryInfo: ['adaptable to vegetarian/vegan'],
           spiceLevel: 'mild',
@@ -457,8 +450,7 @@ export const russian: Cuisine = {
           allergens: ['dairy'],
           prepTime: '25 minutes',
           cookTime: '90 minutes',
-          culturalNotes:
-            'One of the oldest Russian soups, dating back to the 9th century. Available in both fresh and sour (fermented) cabbage versions',
+          culturalNotes: 'One of the oldest Russian soups, dating back to the 9th century. Available in both fresh and sour (fermented) cabbage versions',
           pairingSuggestions: ['rye bread', 'garlic', 'green onions', 'kvass'],
           dietaryInfo: ['adaptable to vegetarian/vegan'],
           spiceLevel: 'mild',
@@ -510,8 +502,7 @@ export const russian: Cuisine = {
           allergens: ['fish'],
           prepTime: '20 minutes',
           cookTime: '40 minutes',
-          culturalNotes:
-            'A traditional clear fish soup that dates back to ancient Russia. Originally made by fishermen using freshwater fish',
+          culturalNotes: 'A traditional clear fish soup that dates back to ancient Russia. Originally made by fishermen using freshwater fish',
           pairingSuggestions: ['rye bread', 'vodka', 'pickled vegetables'],
           dietaryInfo: ['dairy-free', 'gluten-free'],
           spiceLevel: 'mild',
@@ -629,8 +620,7 @@ export const russian: Cuisine = {
           allergens: ['dairy', 'gluten', 'eggs'],
           prepTime: '20 minutes',
           cookTime: '25 minutes',
-          culturalNotes:
-            'Created in the 19th century and named after Count Stroganoff, this dish represents the refinement of Russian aristocratic cuisine',
+          culturalNotes: 'Created in the 19th century and named after Count Stroganoff, this dish represents the refinement of Russian aristocratic cuisine',
           pairingSuggestions: [
             'buckwheat kasha',
             'pickled vegetables',
@@ -699,8 +689,7 @@ export const russian: Cuisine = {
           allergens: ['dairy'],
           prepTime: '45 minutes',
           cookTime: '75 minutes',
-          culturalNotes:
-            'A comfort food that showcases the Russian tradition of preserving cabbage. Often made in large batches and shared with family',
+          culturalNotes: 'A comfort food that showcases the Russian tradition of preserving cabbage. Often made in large batches and shared with family',
           pairingSuggestions: [
             'mashed potatoes',
             'fresh herbs',
@@ -774,8 +763,7 @@ export const russian: Cuisine = {
           allergens: ['dairy', 'gluten'],
           prepTime: '20 minutes',
           cookTime: '20 minutes',
-          culturalNotes:
-            'A staple of Russian home cooking, these tender patties are often considered the ultimate comfort food. The addition of soaked bread makes them distinctly different from regular meatballs',
+          culturalNotes: 'A staple of Russian home cooking, these tender patties are often considered the ultimate comfort food. The addition of soaked bread makes them distinctly different from regular meatballs',
           pairingSuggestions: [
             'mashed potatoes',
             'buckwheat',
@@ -840,8 +828,7 @@ export const russian: Cuisine = {
           prepTime: '40 minutes',
           cookTime: '30 minutes',
           chillTime: '60 minutes',
-          culturalNotes:
-            'Also known as 'Russian Salad' internationally, this is a must-have dish at New Year's celebrations and other festive occasions',
+          culturalNotes: 'Also known as 'Russian Salad' internationally, this is a must-have dish at New Year's celebrations and other festive occasions',
           pairingSuggestions: ['black bread', 'cold cuts', 'pickled vegetables'],
           dietaryInfo: ['adaptable to vegetarian/vegan'],
           spiceLevel: 'none',
@@ -895,8 +882,7 @@ export const russian: Cuisine = {
           allergens: ['none'],
           prepTime: '30 minutes',
           cookTime: '120 minutes',
-          culturalNotes:
-            'A hearty winter dish that exemplifies Russian cooking's focus on simple, filling ingredients. Traditionally cooked in a clay pot in a Russian oven',
+          culturalNotes: 'A hearty winter dish that exemplifies Russian cooking's focus on simple, filling ingredients. Traditionally cooked in a clay pot in a Russian oven',
           pairingSuggestions: ['rye bread', 'sauerkraut', 'pickled vegetables', 'kvass'],
           dietaryInfo: ['gluten-free', 'adaptable to vegetarian/vegan'],
           spiceLevel: 'mild',
@@ -963,8 +949,7 @@ export const russian: Cuisine = {
           allergens: ['dairy', 'nuts'],
           prepTime: '30 minutes',
           chillTime: '24 hours',
-          culturalNotes:
-            'A traditional Easter dessert symbolizing the Paschal pyramid. The mold often has the letters XB, meaning 'Christ is Risen' in Church Slavonic',
+          culturalNotes: 'A traditional Easter dessert symbolizing the Paschal pyramid. The mold often has the letters XB, meaning 'Christ is Risen' in Church Slavonic',
           pairingSuggestions: ['kulich', 'Easter bread', 'tea'],
           dietaryInfo: ['vegetarian', 'adaptable to vegan'],
           spiceLevel: 'none',
@@ -1033,8 +1018,7 @@ export const russian: Cuisine = {
           allergens: ['dairy', 'eggs', 'gluten'],
           prepTime: '30 minutes',
           cookTime: '25 minutes',
-          culturalNotes:
-            'A traditional Russian pastry that combines a flaky crust with sweet cheese filling. Popular as a tea-time treat',
+          culturalNotes: 'A traditional Russian pastry that combines a flaky crust with sweet cheese filling. Popular as a tea-time treat',
           pairingSuggestions: ['black tea', 'coffee', 'fresh berries'],
           dietaryInfo: ['vegetarian', 'adaptable to vegan'],
           spiceLevel: 'none',
@@ -1105,8 +1089,7 @@ export const russian: Cuisine = {
           allergens: ['gluten', 'eggs', 'dairy'],
           prepTime: '45 minutes',
           cookTime: '15 minutes',
-          culturalNotes:
-            'A beloved summer dessert that makes use of fresh cherries. The tradition of making vareniki often brings families together',
+          culturalNotes: 'A beloved summer dessert that makes use of fresh cherries. The tradition of making vareniki often brings families together',
           pairingSuggestions: ['sour cream', 'cherry sauce', 'powdered sugar', 'honey'],
           dietaryInfo: ['vegetarian', 'adaptable to vegan'],
           spiceLevel: 'none',
@@ -1177,8 +1160,7 @@ export const russian: Cuisine = {
           prepTime: '30 minutes',
           chillTime: '60 minutes',
           cookTime: '15 minutes',
-          culturalNotes:
-            'Traditional Russian spice cookies with a history dating back centuries. Often given as gifts during holidays and traditionally dunked in tea',
+          culturalNotes: 'Traditional Russian spice cookies with a history dating back centuries. Often given as gifts during holidays and traditionally dunked in tea',
           pairingSuggestions: ['black tea', 'coffee', 'milk', 'jam'],
           dietaryInfo: ['vegetarian', 'adaptable to vegan'],
           spiceLevel: 'mild',
@@ -1266,12 +1248,9 @@ export const russian: Cuisine = {
       },
       astrologicalInfluences: ['Moon', 'Venus', 'Cancer'],
       seasonality: 'all',
-      preparationNotes:
-        'Traditionally fermented at room temperature for 24-48 hours to develop flavor and texture',
-      technicalTips:
-        'Use as a finishing touch, adding after cooking to preserve its probiotic properties'
-    },
-    adjika: {
+      preparationNotes: 'Traditionally fermented at room temperature for 24-48 hours to develop flavor and texture',
+      technicalTips: 'Use as a finishing touch, adding after cooking to preserve its probiotic properties' },
+        adjika: {
       name: 'Adjika',
       description: 'Spicy pepper and herb paste from the Caucasus region',
       base: 'hot peppers',
@@ -1292,11 +1271,9 @@ export const russian: Cuisine = {
       },
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
       seasonality: 'summer preparation, year-round use',
-      preparationNotes:
-        'Traditionally ground with stone mortar and pestle, then fermented in clay pots',
-      technicalTips: 'Can be used raw or cooked intensity mellows with cooking'
-    },
-    khrenovina: {
+      preparationNotes: 'Traditionally ground with stone mortar and pestle, then fermented in clay pots',
+      technicalTips: 'Can be used raw or cooked intensity mellows with cooking' },
+        khrenovina: {
       name: 'Khrenovina',
       description: 'Fiery horseradish and tomato sauce',
       base: 'horseradish root',
@@ -1317,12 +1294,9 @@ export const russian: Cuisine = {
       },
       astrologicalInfluences: ['Mars', 'Saturn', 'Scorpio'],
       seasonality: 'made in autumn, consumed year-round',
-      preparationNotes:
-        'Often prepared during harvest season when horseradish is at its most pungent',
-      technicalTips:
-        'Grate horseradish in well-ventilated area or underwater to prevent eye irritation'
-    },
-    gribnoj_soys: {
+      preparationNotes: 'Often prepared during harvest season when horseradish is at its most pungent',
+      technicalTips: 'Grate horseradish in well-ventilated area or underwater to prevent eye irritation' },
+        gribnoj_soys: {
       name: 'Gribnoj Sous',
       description: 'Rich mushroom sauce with sour cream base',
       base: 'mushrooms',
@@ -1344,10 +1318,8 @@ export const russian: Cuisine = {
       astrologicalInfluences: ['Saturn', 'Neptune', 'Virgo'],
       seasonality: 'autumn mushroom harvest, preserved for year-round use',
       preparationNotes: 'Traditionally made with foraged wild mushrooms dried mushrooms are reconstituted in winter',
-      technicalTips:
-        'Brown mushrooms thoroughly to develop full umami flavor before adding liquids'
-    },
-    ikra: {
+      technicalTips: 'Brown mushrooms thoroughly to develop full umami flavor before adding liquids' },
+        ikra: {
       name: 'Ikra Baklazhanaya',
       description: 'Smoky eggplant caviar spread',
       base: 'eggplant',
@@ -1362,8 +1334,7 @@ export const russian: Cuisine = {
       },
       astrologicalInfluences: ['Venus', 'Mars', 'Taurus'],
       seasonality: 'summer preparation, preserved for winter use',
-      preparationNotes:
-        'Traditional preparation involves roasting eggplants over open flame for smoky flavor',
+      preparationNotes: 'Traditional preparation involves roasting eggplants over open flame for smoky flavor',
       technicalTips: 'Let flavors marry overnight for best taste, serve at room temperature'
     }
   },
@@ -1490,8 +1461,7 @@ export const russian: Cuisine = {
   cookingTechniques: [
     {
       name: 'Souring (Zakvaski)',
-      description:
-        'Traditional fermentation techniques for preserving vegetables, dairy, and grains',
+      description: 'Traditional fermentation techniques for preserving vegetables, dairy, and grains',
       elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 }
       toolsRequired: ['clay pots', 'wooden tools', 'brine', 'glass jars', 'weights'],
       bestFor: ['cabbage', 'cucumbers', 'beets', 'milk', 'bread starter'],
@@ -1499,8 +1469,7 @@ export const russian: Cuisine = {
     }
     {
       name: 'Russian Oven Cooking',
-      description:
-        'Slow cooking in traditional masonry stove that retains heat for extended periods',
+      description: 'Slow cooking in traditional masonry stove that retains heat for extended periods',
       elementalProperties: { Fire: 0.4, Earth: 0.3, Water: 0.2, Air: 0.1 }
       toolsRequired: ['pech (Russian oven)', 'clay pots', 'long wooden paddles', 'cast iron pots'],
       bestFor: ['stews', 'porridges', 'breads', 'slow-roasted meats', 'pies'],
@@ -1508,8 +1477,7 @@ export const russian: Cuisine = {
     }
     {
       name: 'Solenije',
-      description:
-        'Salt preservation technique creating distinctive flavors different from fermentation',
+      description: 'Salt preservation technique creating distinctive flavors different from fermentation',
       elementalProperties: { Earth: 0.5, Water: 0.3, Fire: 0.1, Air: 0.1 }
       toolsRequired: ['wooden barrels', 'salt', 'heavy weights', 'herbs', 'glass jars'],
       bestFor: ['mushrooms', 'vegetables', 'fish', 'pork fat', 'herbs'],
@@ -1535,8 +1503,7 @@ export const russian: Cuisine = {
   regionalCuisines: {
     northern: {
       name: 'Northern Russian Cuisine',
-      description:
-        'Fish-forward cuisine with berries, mushrooms, and hearty grains adapted to cold climate',
+      description: 'Fish-forward cuisine with berries, mushrooms, and hearty grains adapted to cold climate',
       signature: [
         'ukha',
         'pies with fish',
@@ -1546,29 +1513,24 @@ export const russian: Cuisine = {
       ],
       elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 }
       astrologicalInfluences: ['Moon', 'Saturn', 'Pisces'],
-      seasonality: 'strongly seasonal with emphasis on preservation'
-    },
-    central: {
+      seasonality: 'strongly seasonal with emphasis on preservation' },
+        central: {
       name: 'Central Russian Cuisine',
       description: 'Classic Russian dishes with simple ingredients and traditional cooking methods',
       signature: ['shchi', 'kasha', 'olivier salad', 'kotlety', 'black bread'],
       elementalProperties: { Earth: 0.5, Water: 0.2, Fire: 0.2, Air: 0.1 }
       astrologicalInfluences: ['Saturn', 'Venus', 'Taurus'],
-      seasonality: 'four distinct seasonal variations with preservation techniques'
-    },
-    siberian: {
+      seasonality: 'four distinct seasonal variations with preservation techniques' },
+        siberian: {
       name: 'Siberian Cuisine',
-      description:
-        'Hearty, calorie-rich food designed for extreme cold, featuring game and wild plants',
+      description: 'Hearty, calorie-rich food designed for extreme cold, featuring game and wild plants',
       signature: ['pelmeni', 'stroganina', 'cedar nuts', 'game meats', 'fish pie'],
       elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 }
       astrologicalInfluences: ['Saturn', 'Jupiter', 'Capricorn'],
-      seasonality: 'short growing season with extensive preservation'
-    },
-    caucasian: {
+      seasonality: 'short growing season with extensive preservation' },
+        caucasian: {
       name: 'Caucasian-Influenced Russian Cuisine',
-      description:
-        'Southern Russian cooking with strong influences from Georgia, Armenia, and Azerbaijan',
+      description: 'Southern Russian cooking with strong influences from Georgia, Armenia, and Azerbaijan',
       signature: [
         'shashlik',
         'adjika',
@@ -1578,12 +1540,10 @@ export const russian: Cuisine = {
       ],
       elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 }
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
-      seasonality: 'longer growing season with more fresh produce'
-    },
-    volga: {
+      seasonality: 'longer growing season with more fresh produce' },
+        volga: {
       name: 'Volga Region Cuisine',
-      description:
-        'Diverse cuisine reflecting the multicultural Volga river basin with Tatar influences',
+      description: 'Diverse cuisine reflecting the multicultural Volga river basin with Tatar influences',
       signature: ['belish', 'ukha', 'river fish dishes', 'pastries', 'honey-based desserts'],
       elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 }
       astrologicalInfluences: ['Jupiter', 'Moon', 'Cancer'],

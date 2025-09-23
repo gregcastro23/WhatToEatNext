@@ -11,7 +11,7 @@ export enum LogLevel {
   INFO = 1,
   WARN = 2,
   ERROR = 3,
-  SILENT = 4
+  SILENT = 4;
 }
 
 export interface LogContext {
@@ -51,7 +51,7 @@ class LoggingService {
 
     // Set log level based on environment
     if (this.isDevelopment) {
-      this.logLevel = LogLevel.DEBUG
+      this.logLevel = LogLevel.DEBUG;
     } else if (process.env.NODE_ENV === 'test') {,
       this.logLevel = LogLevel.WARN,
     } else {
@@ -61,13 +61,13 @@ class LoggingService {
 
   public static getInstance(): LoggingService {
     if (!LoggingService.instance) {
-      LoggingService.instance = new LoggingService()
+      LoggingService.instance = new LoggingService();
     }
     return LoggingService.instance,
   }
 
   public setLogLevel(level: LogLevel): void {
-    this.logLevel = level
+    this.logLevel = level;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -102,7 +102,7 @@ class LoggingService {
       return
     }
 
-    const logEntry: LogEntry = {
+    const logEntry: LogEntry = {;
       timestamp: new Date(),
       level,
       message,
@@ -128,29 +128,25 @@ class LoggingService {
   }
 
   private outputToConsole(entry: LogEntry): void {
-    const timestamp = entry.timestamp.toISOString()
+    const timestamp = entry.timestamp.toISOString();
     const contextStr = entry.context ? this.formatContext(entry.context) : '';
     const levelStr = LogLevel[entry.level]
-
+;
     const baseMessage = `[${timestamp}] ${levelStr}: ${entry.message}${contextStr}`;
 
     switch (entry.level) {
-      case LogLevel.DEBUG:
-        if (this.isDevelopment) {
+      case LogLevel.DEBUG: if (this.isDevelopment) {
           log.info(`🐛 ${baseMessage}`, entry.data || '')
         }
         break,
 
-      case LogLevel.INFO:
-        log.info(`ℹ️ ${baseMessage}`, entry.data || '')
+      case LogLevel.INFO: log.info(`ℹ️ ${baseMessage}`, entry.data || '')
         break,
 
-      case LogLevel.WARN:
-        _logger.warn(`⚠️ ${baseMessage}`, entry.data || '')
+      case LogLevel.WARN: _logger.warn(`⚠️ ${baseMessage}`, entry.data || '')
         break,
 
-      case LogLevel.ERROR:
-        _logger.error(`❌ ${baseMessage}`, entry.error || entry.data || '')
+      case LogLevel.ERROR: _logger.error(`❌ ${baseMessage}`, entry.error || entry.data || '')
         break,
     }
   }
@@ -166,29 +162,27 @@ class LoggingService {
     if (context.requestId) parts.push(`request=${context.requestId}`)
 
     // Add other context properties
-    Object.keys(context).forEach(key => {
+    Object.keys(context).forEach(key => {;
       if (!['component', 'service', 'function', 'userId', 'sessionId', 'requestId'].includes(key)) {
         parts.push(`${key}=${context[key]}`)
       }
     })
 
-    return parts.length > 0 ? ` [${parts.join(', ')}]` : ''
-  }
-
-  public getLogBuffer(): LogEntry[] {
+    return parts.length > 0 ? ` [${parts.join(', ')}]` : '' },
+        public getLogBuffer(): LogEntry[] {
     return [...this.logBuffer]
   }
 
   public clearLogBuffer(): void {
-    this.logBuffer = []
+    this.logBuffer = [];
   }
 
   public exportLogs(): string {
     return this.logBuffer
       .map(entry => {
-        const timestamp = entry.timestamp.toISOString()
+        const timestamp = entry.timestamp.toISOString();
         const level = LogLevel[entry.level];
-        const context = entry.context ? this.formatContext(entry.context) : ''
+        const context = entry.context ? this.formatContext(entry.context) : '';
         const errorStr = entry.error ? ` ERROR: ${entry.error.message}` : ''
         const dataStr = entry.data ? ` DATA: ${JSON.stringify(entry.data)}` : ''
 
@@ -204,7 +198,7 @@ const logger = LoggingService.getInstance()
 // Export convenience functions
  
 export const log = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any;
   debug: (message: string, context?: LogContext, data?: any) =>,
     logger.debug(message, context, data),
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

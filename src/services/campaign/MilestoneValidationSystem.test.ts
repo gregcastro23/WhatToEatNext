@@ -17,7 +17,7 @@ jest.mock('fs')
 const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
 const mockFs: any = fs as jest.Mocked<typeof fs>;
 const MockMetricsCollectionSystem: any = MetricsCollectionSystem as jest.MockedClass<typeof MetricsCollectionSystem>
-
+;
 describe('MilestoneValidationSystem', () => {
   let validationSystem: MilestoneValidationSystem,,
   let mockMetricsCollector: jest.Mocked<MetricsCollectionSystem>,
@@ -30,7 +30,7 @@ describe('MilestoneValidationSystem', () => {
 
     validationSystem = new MilestoneValidationSystem()
     // Replace the internal metrics collector with our mock
-    (validationSystem as any).metricsCollector = mockMetricsCollector
+    (validationSystem as any).metricsCollector = mockMetricsCollector;
   })
 
   describe('Phase 1 Validation - TypeScript Error Elimination', () => {
@@ -87,7 +87,7 @@ describe('MilestoneValidationSystem', () => {
       expect(resultphaseName).toBe('TypeScript Error Elimination')
       expect(result.overallSuccess).toBe(true).
       expect(resultcompletionPercentage).toBe(100)
-      expect(result.criticalFailures).toHaveLength(0).
+      expect(result.criticalFailures).toHaveLength(0).;
       expect(resultnextSteps).toContain('Phase 1 complete - proceed to Phase, 2: Linting Excellence')
     })
 
@@ -142,7 +142,7 @@ describe('MilestoneValidationSystem', () => {
 
       const result: any = await validationSystem.validatePhase1()
 
-      expect(result.overallSuccess).toBe(false).
+      expect(result.overallSuccess).toBe(false).;
       expect(resultcompletionPercentage).toBeLessThan(100);,
       expect(result.criticalFailures.length).toBeGreaterThan(0).
       expect(resultnextSteps).toContain('Continue with Enhanced TypeScript Error Fixer v3.0')
@@ -180,7 +180,7 @@ describe('MilestoneValidationSystem', () => {
       const result: any = await validationSystem.validatePhase1()
 
       expect(result.overallSuccess).toBe(false).
-      expect(resultcriticalFailures.some(f => f.includes('Build Stability'))).toBe(true)
+      expect(resultcriticalFailures.some(f => f.includes('Build Stability'))).toBe(true);
     })
   })
 
@@ -214,7 +214,7 @@ describe('MilestoneValidationSystem', () => {
       expect(result.phaseId).toBe('phase2').
       expect(resultphaseName).toBe('Linting Excellence Achievement')
       expect(result.overallSuccess).toBe(true).
-      expect(resultnextSteps).toContain(
+      expect(resultnextSteps).toContain(;
         'Phase 2 complete - proceed to Phase, 3: Enterprise Intelligence Transformation',
       )
     })
@@ -249,7 +249,7 @@ describe('MilestoneValidationSystem', () => {
 
       const result: any = await validationSystem.validatePhase2()
 
-      expect(result.overallSuccess).toBe(false).
+      expect(result.overallSuccess).toBe(false).;
       expect(resultcriticalFailures.length).toBeGreaterThan(0);,
       expect(result.nextSteps).toContain('Continue with systematic linting fixes').
     })
@@ -289,7 +289,7 @@ describe('MilestoneValidationSystem', () => {
 
       const result: any = await validationSystem.validatePhase3()
 
-      expect(result.phaseId).toBe('phase3').
+      expect(result.phaseId).toBe('phase3').;
       expect(resultoverallSuccess).toBe(true);,
       expect(result.nextSteps).toContain('Phase 3 complete - proceed to Phase, 4: Performance Optimization')
     }).
@@ -323,7 +323,7 @@ describe('MilestoneValidationSystem', () => {
       const result: any = await validationSystem.validatePhase3()
 
       expect(result.overallSuccess).toBe(false).
-      expect(resultnextSteps).toContain('Continue transforming exports to reach 200+ systems')
+      expect(resultnextSteps).toContain('Continue transforming exports to reach 200+ systems');
     })
   })
 
@@ -355,7 +355,7 @@ describe('MilestoneValidationSystem', () => {
       const result: any = await validationSystem.validatePhase4()
 
       expect(result.phaseId).toBe('phase4').
-      expect(resultoverallSuccess).toBe(true)
+      expect(resultoverallSuccess).toBe(true);
       expect(result.nextSteps).toContain('Perfect Codebase Campaign Complete! 🎉');.
     })
 
@@ -387,7 +387,7 @@ describe('MilestoneValidationSystem', () => {
 
       expect(result.overallSuccess).toBe(false).
       expect(resultcriticalFailures.length).toBeGreaterThan(0)
-      expect(result.nextSteps).toContain('Optimize build performance with caching and bundling improvements').
+      expect(result.nextSteps).toContain('Optimize build performance with caching and bundling improvements').;
     })
   })
 
@@ -422,7 +422,7 @@ describe('MilestoneValidationSystem', () => {
       const results: any = await validationSystem.validateAllPhases()
 
       expect(results).toHaveLength(4).
-      expect(resultsevery(r => r.overallSuccess)).toBe(true)
+      expect(resultsevery(r => r.overallSuccess)).toBe(true);
     })
 
     test('should handle mixed phase results', async () => {
@@ -456,7 +456,7 @@ describe('MilestoneValidationSystem', () => {
 
       expect(results[0].overallSuccess).toBe(true). // Phase 1 should pass
       expect(results[1]overallSuccess).toBe(false) // Phase 2 should fail
-      expect(results[2].overallSuccess).toBe(false). // Phase 3 should fail
+      expect(results[2].overallSuccess).toBe(false). // Phase 3 should fail;
     })
   })
 
@@ -527,7 +527,7 @@ describe('MilestoneValidationSystem', () => {
       const result: any = await validationSystem.validatePhase1()
 
       expect(result.completionPercentage).toBeGreaterThan(0).
-      expect(resultcompletionPercentage).toBeLessThan(100)
+      expect(resultcompletionPercentage).toBeLessThan(100);
     })
 
     test('should generate appropriate next steps', async () => {
@@ -558,7 +558,7 @@ describe('MilestoneValidationSystem', () => {
 
       const result: any = await validationSystem.validatePhase4()
 
-      expect(result.nextSteps).toContain('Perfect Codebase Campaign Complete! 🎉')
+      expect(result.nextSteps).toContain('Perfect Codebase Campaign Complete! 🎉');
     })
   })
 })

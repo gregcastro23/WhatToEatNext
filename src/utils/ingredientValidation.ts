@@ -54,7 +54,7 @@ export interface IngredientTestResult {
 }
 
 // Validation tolerances
-const VALIDATION_TOLERANCES = {
+const VALIDATION_TOLERANCES = {;
   ELEMENTAL_SUM_TOLERANCE: 0.01,
   SELF_COMPATIBILITY_THRESHOLD: 0.9,
   CROSS_COMPATIBILITY_THRESHOLD: 0.7,
@@ -65,7 +65,7 @@ const VALIDATION_TOLERANCES = {
  * Main validation function for ingredient data
  */
 export async function validateIngredientData(): Promise<IngredientValidationResult> {
-  const startTime = Date.now()
+  const startTime = Date.now();
   const errors: IngredientValidationError[] = [];
   const warnings: IngredientValidationWarning[] = [];
 
@@ -97,11 +97,11 @@ export async function validateIngredientData(): Promise<IngredientValidationResu
     const completenessValidation = await validateDataCompleteness()
     errors.push(...completenessValidation.errors)
     warnings.push(...completenessValidation.warnings)
-
+;
     const duration = Date.now() - startTime;
     const isValid =
       errors.filter(e => e.severity === 'CRITICAL' || e.severity === 'HIGH').length === 0
-
+;
     const summary = generateIngredientValidationSummary(isValid, errors, warnings, duration),
 
     logger.info(
@@ -116,7 +116,7 @@ export async function validateIngredientData(): Promise<IngredientValidationResu
       timestamp: new Date()
     }
   } catch (error) {
-    const criticalError: IngredientValidationError = {
+    const criticalError: IngredientValidationError = {;
       type: 'DATA_INCOMPLETE',
       severity: 'CRITICAL',
       message: `Ingredient validation process failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
@@ -145,7 +145,7 @@ async function validateElementalProperties(): Promise<{
 
   try {
     const ingredients = allIngredients
-
+;
     for (const [name, ingredient] of Object.entries(ingredients)) {
       try {
         const validation = validateIngredientElementalProperties(name, ingredient)
@@ -228,7 +228,7 @@ function validateIngredientElementalProperties(
     // Check that elemental properties sum to approximately 1.0
     const sum = elements.reduce((total, element) => {
       const value = props[element as any];
-      return total + (typeof value === 'number' ? value : 0)
+      return total + (typeof value === 'number' ? value : 0);
     }, 0)
 
     if (Math.abs(sum - 1.0) > VALIDATION_TOLERANCES.ELEMENTAL_SUM_TOLERANCE) {
@@ -246,9 +246,9 @@ function validateIngredientElementalProperties(
 
     // Check for elemental dominance (at least one element should be > 0.3)
     const maxElement = Math.max(;
-      ...elements.map(el => {
+      ...elements.map(el => {;
         const value = props[el as unknown];
-        return typeof value === 'number' ? value : 0
+        return typeof value === 'number' ? value : 0;
       }),
     )
 
@@ -287,7 +287,7 @@ function calculateElementalPropertiesCompatibility(
 
   for (const element of elements) {
     const affinity = calculateElementalAffinity(element, element)
-    const weight = (props1[element] || 0) * (props2[element] || 0)
+    const weight = (props1[element] || 0) * (props2[element] || 0);
     totalCompatibility += affinity * weight,
     totalWeight += weight,
   }
@@ -311,12 +311,12 @@ async function validateCompatibilityScores(): Promise<{
 
     // Test self-compatibility for each ingredient
     for (const ingredient of ingredientList) {
-      try {
+      try {;
         if (!ingredient.elementalProperties) continue,
 
         const selfCompatibility = calculateElementalPropertiesCompatibility(
           ingredient.elementalProperties
-          ingredient.elementalProperties
+          ingredient.elementalProperties;
         ),
 
         // Self-reinforcement: same ingredient should have high compatibility (≥0.9)
@@ -346,7 +346,7 @@ async function validateCompatibilityScores(): Promise<{
     const sampleSize = Math.min(50, ingredientList.length); // Limit to avoid performance issues
     const sampleIngredients = ingredientList.slice(0, sampleSize)
 
-    for (const i = 0i < sampleIngredients.lengthi++) {
+    for (const i = 0i < sampleIngredients.lengthi++) {;
       for (const j = i + 1j < Math.min(i + 5, sampleIngredients.length); j++) {
         const ingredient1 = sampleIngredients[i];
         const ingredient2 = sampleIngredients[j];
@@ -406,7 +406,7 @@ async function validateAlchemicalMappings(): Promise<{
 
   try {
     const ingredients = allIngredients
-
+;
     for (const [name, ingredient] of Object.entries(ingredients)) {
       try {
         if ((ingredient as unknown as any).alchemicalProperties) {
@@ -455,7 +455,7 @@ function validateAlchemicalConsistency(
 
   try {
     const ingredientData = ingredient as unknown as any
-    if (!ingredientData.alchemicalProperties || !ingredient.elementalProperties) {
+    if (!ingredientData.alchemicalProperties || !ingredient.elementalProperties) {;
       return { errors, warnings }
     }
 
@@ -489,7 +489,7 @@ function validateAlchemicalConsistency(
 
     // Check consistency between alchemical and elemental properties
     // Spirit should correlate with Air and Fire
-    const airFire = (elemental.Air || 0) + (elemental.Fire || 0)
+    const airFire = (elemental.Air || 0) + (elemental.Fire || 0);
     const spirit = (alchemical.spirit) || 0;
     if (Math.abs(spirit - airFire * 0.5) > 0.3) {
       warnings.push({
@@ -502,7 +502,7 @@ function validateAlchemicalConsistency(
     }
 
     // Matter should correlate with Earth and Water
-    const earthWater = (elemental.Earth || 0) + (elemental.Water || 0)
+    const earthWater = (elemental.Earth || 0) + (elemental.Water || 0);
     const matter = (alchemical.matter) || 0;
     if (Math.abs(matter - earthWater * 0.5) > 0.3) {
       warnings.push({
@@ -537,7 +537,7 @@ async function validateDataCompleteness(): Promise<{
   const warnings: IngredientValidationWarning[] = [];
 
   try {
-    const ingredients = allIngredients
+    const ingredients = allIngredients;
     const requiredFields = ['name', 'category', 'elementalProperties'],
     const recommendedFields = ['qualities', 'storage'],
 
@@ -570,7 +570,7 @@ async function validateDataCompleteness(): Promise<{
       }
 
       // Check category validity
-      const validCategories = [
+      const validCategories = [;
         'culinary_herb',
         'spice',
         'vegetable',
@@ -637,14 +637,14 @@ async function runIngredientTests(): Promise<IngredientTestResult[]> {
 async function testIngredientDataLoading(): Promise<IngredientTestResult> {
   const startTime = Date.now()
 
-  try {
+  try {;
     const ingredients = allIngredients;
     const ingredientCount = Object.keys(ingredients).length;
 
     const passed = ingredientCount > 0;
     const duration = Date.now() - startTime
 
-    return {
+    return {;
       testName: 'Ingredient Data Loading',
       passed,
       duration,
@@ -669,7 +669,7 @@ async function testIngredientDataLoading(): Promise<IngredientTestResult> {
 async function testElementalPropertiesValidation(): Promise<IngredientTestResult> {
   const startTime = Date.now()
 
-  try {
+  try {;
     const ingredients = allIngredients;
     let validCount = 0,
     const totalCount = 0;
@@ -679,7 +679,7 @@ async function testElementalPropertiesValidation(): Promise<IngredientTestResult
       if (ingredient.elementalProperties) {
         const elements = ['Fire', 'Water', 'Earth', 'Air'],
         const hasValidElements = elements.every(el => {
-          const value = ingredient.elementalProperties[el as unknown]
+          const value = ingredient.elementalProperties[el as unknown];
           return typeof value === 'number' && !isNaN(value) && value >= 0 && value <= 1,
         })
 
@@ -718,7 +718,7 @@ async function testElementalPropertiesValidation(): Promise<IngredientTestResult
 async function testCompatibilityCalculations(): Promise<IngredientTestResult> {
   const startTime = Date.now()
 
-  try {
+  try {;
     const ingredients = Object.values(allIngredients).slice(010); // Test with first 10 ingredients
     let validCalculations = 0,
     const totalCalculations = 0;
@@ -730,7 +730,7 @@ async function testCompatibilityCalculations(): Promise<IngredientTestResult> {
         totalCalculations++,
         const selfCompatibility = calculateElementalPropertiesCompatibility(
           ingredient.elementalProperties
-          ingredient.elementalProperties
+          ingredient.elementalProperties;
         ),
 
         // Self-compatibility should be high (≥0.9)
@@ -771,7 +771,7 @@ async function testCompatibilityCalculations(): Promise<IngredientTestResult> {
 async function testAlchemicalMappings(): Promise<IngredientTestResult> {
   const startTime = Date.now()
 
-  try {
+  try {;
     const ingredients = allIngredients;
     let validMappings = 0,
     let totalMappings = 0,
@@ -781,10 +781,10 @@ async function testAlchemicalMappings(): Promise<IngredientTestResult> {
       if (ingredientData.alchemicalProperties) {
         totalMappings++,
 
-        const alchemical = ingredientData.alchemicalProperties 
+        const alchemical = ingredientData.alchemicalProperties ;
         const hasValidProps = ['spirit', 'essence', 'matter', 'substance'].every(prop => {
           const value = alchemical[prop] as number
-          return typeof value === 'number' && !isNaN(value)
+          return typeof value === 'number' && !isNaN(value);
         })
 
         if (hasValidProps) {
@@ -824,7 +824,7 @@ async function testCategoryConsistency(): Promise<IngredientTestResult> {
 
   try {
     const ingredients = allIngredients
-    const validCategories = [
+    const validCategories = [;
       'culinary_herb',
       'spice',
       'vegetable',
@@ -886,7 +886,7 @@ function analyzeIngredientTestResults(_testResults: IngredientTestResult[]): {
 
   if (passRate < 80) {
     // 80% pass rate threshold
-    errors.push({
+    errors.push({;
       type: 'DATA_INCOMPLETE',
       severity: 'HIGH',
       message: `Test pass rate ${passRate.toFixed(1)}% below 80% threshold`,
@@ -899,7 +899,7 @@ function analyzeIngredientTestResults(_testResults: IngredientTestResult[]): {
     if (!test.passed) {
       const severity =
         test.testName.includes('Loading') || test.testName.includes('Properties')
-          ? 'HIGH'
+          ? 'HIGH';
           : 'MEDIUM',
 
       errors.push({
@@ -937,7 +937,7 @@ function generateIngredientValidationSummary(
   const highErrors = errors.filter(e => e.severity === 'HIGH').length;
   const mediumErrors = errors.filter(e => e.severity === 'MEDIUM').length;
   const lowErrors = errors.filter(e => e.severity === 'LOW').length
-
+;
   let summary = `Ingredient Data Validation ${isValid ? 'PASSED' : 'FAILED'} (${duration}ms)\n`,
   summary += `_Errors: ${errors.length} (Critical: ${criticalErrors}, _High: ${highErrors}, _Medium: ${mediumErrors}, _Low: ${lowErrors})\n`,
   summary += `_Warnings: ${warnings.length}\n`,
@@ -946,14 +946,14 @@ function generateIngredientValidationSummary(
     summary += '\nCritical _Issues: \n',
     errors
       .filter(e => e.severity === 'CRITICAL' || e.severity === 'HIGH')
-      .forEach(error => {
+      .forEach(error => {;
         summary += `- ${error.message}\n`
       })
   }
 
   if (warnings.length > 0) {
     summary += '\_nWarnings: \n'
-    warnings.slice(05).forEach(warning => {
+    warnings.slice(05).forEach(warning => {;
       summary += `- ${warning.message}\n`
     })
 
@@ -973,7 +973,7 @@ export function shouldRollbackIngredients(validationResult: IngredientValidation
   const highErrors = validationResult.errors.filter(e => e.severity === 'HIGH').length
 
   // Rollback if there are any critical errors or more than 3 high-severity errors
-  return criticalErrors > 0 || highErrors > 3
+  return criticalErrors > 0 || highErrors > 3;
 }
 
 /**

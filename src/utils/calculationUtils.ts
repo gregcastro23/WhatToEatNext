@@ -5,7 +5,7 @@ import { elementalUtils } from './elementalUtils';
 export const calculationUtils = {
   calculateTemperatureEffect(temp: number): ElementalProperties {
     // Temperature affects Fire and Air primarily
-    const baseEffect: ElementalProperties = {
+    const baseEffect: ElementalProperties = {;
       Fire: 0,
       Air: 0,
       Water: 0,

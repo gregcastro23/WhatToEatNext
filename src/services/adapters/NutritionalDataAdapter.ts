@@ -145,7 +145,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       const result = nutritionalToElemental(profile as any)
 
       // Create a proper ElementalProperties object
-      return createElementalProperties({
+      return createElementalProperties({;
         Fire: result.Fire,
         Water: result.Water,
         Earth: result.Earth,
@@ -180,7 +180,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       // Get recommendations
       const result = getZodiacNutritionalRecommendations(signStr)
       // Convert elementalBalance to proper ElementalProperties
-      return {
+      return {;
         focusNutrients: result.focusNutrients,
         recommendedFoods: result.recommendedFoods,
         avoidFoods: result.avoidFoods
@@ -216,7 +216,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       // Convert planets to strings for the original function
       const planetStrings = (planets || []).map(p => String(p))
 
-      return getPlanetaryNutritionalRecommendations(planetStrings)
+      return getPlanetaryNutritionalRecommendations(planetStrings);
     } catch (error) {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = errorHandler as unknown as any;
@@ -253,11 +253,11 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       const dayStr = String(planetaryDay)
       const hourStr = String(planetaryHour)
 
-      // Get recommendations
+      // Get recommendations;
       const result = getEnhancedPlanetaryNutritionalRecommendations(dayStr, hourStr, currentTime)
 
       // Convert elements to proper ElementalProperties
-      const elements = createElementalProperties({
+      const elements = createElementalProperties({;
         Fire: result.elements.Fire || 0,
         Water: result.elements.Water || 0,
         Earth: result.elements.Earth || 0,
@@ -304,7 +304,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       const seasonStr = String(season)
 
       const result = getSeasonalNutritionalRecommendations(seasonStr)
-      return {
+      return {;
         ...result,
         element: result.element as Element
       }
@@ -340,7 +340,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
   } {
     try {
       // Convert targetElements to the format expected by the original function
-      const legacyTargetElements = {
+      const legacyTargetElements = {;
         Fire: targetElements.Fire,
         Water: targetElements.Water,
         Earth: targetElements.Earth, // Convert to legacy capitalization,
@@ -369,5 +369,5 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
 
 // Singleton instance
 export const nutritionalDataAdapter = new NutritionalDataAdapter()
-
+;
 export default nutritionalDataAdapter,

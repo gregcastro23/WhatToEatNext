@@ -78,7 +78,7 @@ export class LintingCampaignIntegration {
 
   constructor() {
     this.progressTracker = new LintingProgressTracker()
-    this.ensureDirectoryExists()
+    this.ensureDirectoryExists();
   }
 
   /**
@@ -92,7 +92,7 @@ export class LintingCampaignIntegration {
       const baselineReport = await this.progressTracker.generateProgressReport()
 
       // Save campaign configuration
-      this.saveCampaignConfig(config)
+      this.saveCampaignConfig(config);
       this.setActiveCampaign(config.campaignId, baselineReport)
 
       // Execute campaign phases
@@ -101,10 +101,10 @@ export class LintingCampaignIntegration {
       }
 
       // Generate final report
-      const finalReport = await this.generateCampaignReport(config.campaignId)
-      logger.info('Linting campaign completed:', finalReport)
+      const finalReport = await this.generateCampaignReport(config.campaignId);
+      logger.info('Linting campaign completed: ', finalReport)
     } catch (error) {
-      logger.error('Error executing linting campaign:', error)
+      logger.error('Error executing linting campaign: ', error)
       throw error,
     }
   }
@@ -117,7 +117,7 @@ export class LintingCampaignIntegration {
     phase: LintingCampaignPhase,
   ): Promise<CampaignExecutionResult> {
     const startTime = Date.now()
-    try {
+    try {;
       logger.info(`Executing campaign phase: ${phase.name}`)
 
       // Collect pre-phase metrics
@@ -129,10 +129,10 @@ export class LintingCampaignIntegration {
       // Collect post-phase metrics
       const postPhaseReport = await this.progressTracker.generateProgressReport()
 
-      // Evaluate success criteria
+      // Evaluate success criteria;
       const success = this.evaluatePhaseSuccess(phase, prePhaseReport, postPhaseReport)
 
-      const result: CampaignExecutionResult = {
+      const result: CampaignExecutionResult = {;
         campaignId: config.campaignId,
         phase: phase.id,
         success,
@@ -156,7 +156,7 @@ export class LintingCampaignIntegration {
         await this.sendProgressNotification(config, result)
       }
 
-      logger.info(`Phase ${phase.name} completed:`, {
+      logger.info(`Phase ${phase.name} completed: `, {
         success,
         improvement: result.metricsImprovement.improvementPercentage
       })
@@ -181,7 +181,7 @@ export class LintingCampaignIntegration {
       try {
         const result = await this.executeTool(tool)
         issues.push(...result.issues)
-        recommendations.push(...result.recommendations)
+        recommendations.push(...result.recommendations);
       } catch (error) {
         issues.push(
           `Tool ${tool} failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
@@ -228,8 +228,7 @@ export class LintingCampaignIntegration {
           recommendations.push('Cleaned up console statements')
           break,
 
-        default:
-          issues.push(`Unknown tool: ${tool}`)
+        default: issues.push(`Unknown tool: ${tool}`)
       }
     } catch (error) {
       issues.push(
@@ -245,7 +244,7 @@ export class LintingCampaignIntegration {
    */
   private async executeESLintFix(): Promise<void> {
     try {
-      execSync('yarn, lint:fix', { stdio: 'pipe' })
+      execSync('yarn, lint: fix', { stdio: 'pipe' })
     } catch (error) {
       // ESLint fix may return non-zero exit code but still apply fixes
       logger.debug('ESLint fix completed with warnings')
@@ -257,9 +256,9 @@ export class LintingCampaignIntegration {
       // Use the existing SafeUnusedImportRemover
       const { SafeUnusedImportRemover } = await import('./SafeUnusedImportRemover')
       const remover = new SafeUnusedImportRemover()
-      await remover.processUnusedImports()
+      await remover.processUnusedImports();
     } catch (error) {
-      logger.warn('Unused import removal failed:', error)
+      logger.warn('Unused import removal failed: ', error)
     }
   }
 
@@ -276,7 +275,7 @@ export class LintingCampaignIntegration {
       // This would integrate with existing explicit any elimination tools
       logger.info('Explicit any elimination would be executed here')
     } catch (error) {
-      logger.warn('Explicit any elimination failed:', error)
+      logger.warn('Explicit any elimination failed: ', error)
     }
   }
 
@@ -285,7 +284,7 @@ export class LintingCampaignIntegration {
       // This would integrate with existing console cleanup tools
       logger.info('Console cleanup would be executed here')
     } catch (error) {
-      logger.warn('Console cleanup failed:', error)
+      logger.warn('Console cleanup failed: ', error)
     }
   }
 
@@ -321,10 +320,10 @@ export class LintingCampaignIntegration {
       const currentReport = await this.progressTracker.generateProgressReport()
 
       if (!config || !activeCampaign) {
-        throw new Error('Campaign data not found')
+        throw new Error('Campaign data not found');
       }
 
-      const report = {
+      const report = {;
         campaignId,
         name: config.name,
         startTime: (activeCampaign as any)?.startTime,
@@ -333,15 +332,13 @@ export class LintingCampaignIntegration {
         finalMetrics: currentReport.currentMetrics,
         totalImprovement: {
           errorReduction: (activeCampaign as any)?.baselineMetrics.errors - currentReport.currentMetrics.errors,
-          warningReduction:
-            (activeCampaign as any)?.baselineMetrics.warnings -
+          warningReduction: (activeCampaign as any)?.baselineMetrics.warnings -
             currentReport.currentMetrics.warnings,
           percentageImprovement: currentReport.improvement.percentageImprovement
         },
         phasesExecuted: (activeCampaign as any)?.phasesExecuted || [],
         qualityGatesStatus: currentReport.qualityGates,
-        recommendations:
-          currentReport.improvement.percentageImprovement > 0
+        recommendations: currentReport.improvement.percentageImprovement > 0
             ? ['Continue monitoring for regressions', 'Consider additional optimization phases']
             : ['Investigate why improvements were not achieved', 'Review tool configurations']
       }
@@ -351,7 +348,7 @@ export class LintingCampaignIntegration {
 
       return report,
     } catch (error) {
-      logger.error('Error generating campaign report:', error)
+      logger.error('Error generating campaign report: ', error)
       throw error,
     }
   }
@@ -444,19 +441,19 @@ export class LintingCampaignIntegration {
   private saveCampaignConfig(config: LintingCampaignConfig): void {
     try {
       const configs = this.getAllCampaignConfigs()
-      configs[config.campaignId] = config
+      configs[config.campaignId] = config;
       writeFileSync(this.campaignConfigFile, JSON.stringify(configs, null, 2))
     } catch (error) {
-      logger.error('Error saving campaign config:', error)
+      logger.error('Error saving campaign config: ', error)
     }
   }
 
   private getCampaignConfig(campaignId: string): LintingCampaignConfig | undefined {
     try {
       const configs = this.getAllCampaignConfigs()
-      return configs[campaignId]
+      return configs[campaignId];
     } catch (error) {
-      logger.error('Error reading campaign config:', error)
+      logger.error('Error reading campaign config: ', error)
       return undefined,
     }
   }
@@ -468,14 +465,14 @@ export class LintingCampaignIntegration {
         return JSON.parse(data)
       }
     } catch (error) {
-      logger.warn('Error reading campaign configs:', error)
+      logger.warn('Error reading campaign configs: ', error)
     }
     return {}
   }
 
   private setActiveCampaign(campaignId: string, baselineReport: LintingProgressReport): void {
     try {
-      const activeCampaign = {
+      const activeCampaign = {;
         campaignId,
         startTime: new Date(),
         baselineMetrics: baselineReport.currentMetrics,
@@ -483,7 +480,7 @@ export class LintingCampaignIntegration {
       }
       writeFileSync(this.activeConfigFile, JSON.stringify(activeCampaign, null, 2))
     } catch (error) {
-      logger.error('Error setting active campaign:', error)
+      logger.error('Error setting active campaign: ', error)
     }
   }
 
@@ -494,7 +491,7 @@ export class LintingCampaignIntegration {
         return JSON.parse(data)
       }
     } catch (error) {
-      logger.warn('Error reading active campaign:', error)
+      logger.warn('Error reading active campaign: ', error)
     }
     return null;
   }
@@ -505,10 +502,10 @@ export class LintingCampaignIntegration {
     result: CampaignExecutionResult,
   ): Promise<void> {
     try {
-      const activeCampaign = this.getActiveCampaign()
+      const activeCampaign = this.getActiveCampaign();
       if (activeCampaign && (activeCampaign as any)?.campaignId === campaignId) {,
         (activeCampaign as any)?.phasesExecuted = (activeCampaign as any)?.phasesExecuted || []
-        (activeCampaign as any)?.phasesExecuted.push({
+        (activeCampaign as any)?.phasesExecuted.push({;
           phaseId,
           result,
           timestamp: new Date()
@@ -516,7 +513,7 @@ export class LintingCampaignIntegration {
         writeFileSync(this.activeConfigFile, JSON.stringify(activeCampaign, null, 2))
       }
     } catch (error) {
-      logger.error('Error updating campaign progress:', error)
+      logger.error('Error updating campaign progress: ', error)
     }
   }
 
@@ -525,7 +522,7 @@ export class LintingCampaignIntegration {
     result: CampaignExecutionResult,
   ): Promise<void> {
     // This would integrate with notification systems
-    logger.info(`Campaign ${config.name} progress notification:`, {
+    logger.info(`Campaign ${config.name} progress notification: `, {
       phase: result.phase,
       success: result.success,
       improvement: result.metricsImprovement.improvementPercentage
@@ -534,11 +531,11 @@ export class LintingCampaignIntegration {
 
   private saveCampaignReport(report: Record<string, unknown>): void {
     try {
-      const id = typeof report.campaignId === 'string' ? (report.campaignId) : 'unknown'
+      const id = typeof report.campaignId === 'string' ? (report.campaignId) : 'unknown';
       const reportFile = `.kiro/campaigns/report-${id}-${Date.now()}.json`;
       writeFileSync(reportFile, JSON.stringify(report, null, 2))
     } catch (error) {
-      logger.error('Error saving campaign report:', error)
+      logger.error('Error saving campaign report: ', error)
     }
   }
 }

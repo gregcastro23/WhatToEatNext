@@ -18,7 +18,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   )
 
   // Create a base recipe with required properties
-  const recipe: Recipe = {
+  const recipe: Recipe = {;
     id: recipeData.id || `recipe-${Date.now()}`,
     name: recipeData.name || 'Unnamed Recipe',
     ingredients,
@@ -47,7 +47,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   // Handle time-related properties
   const recipeDataAny = recipeData as unknown as any;
   if (recipeDataAny.timeToMake !== undefined) {
-    recipe.timeToMake = String(recipeDataAny.timeToMake)
+    recipe.timeToMake = String(recipeDataAny.timeToMake);
   }
 
   // Handle serving-related properties
@@ -60,7 +60,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
     recipe.elementalState = recipeDataAny.elementalState as ElementalProperties,
   } else {
     // Create default elemental properties
-    recipe.elementalState = createElementalProperties({
+    recipe.elementalState = createElementalProperties({;
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
@@ -74,7 +74,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
     const seasonVal = Array.isArray(energyProfile.season)
       ? String((energyProfile.season as unknown[])[0] ?? '')
       : String(energyProfile.season)
-    recipe.currentSeason = seasonVal
+    recipe.currentSeason = seasonVal;
   }
 
   // Handle astrological properties
@@ -82,24 +82,24 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
     if (energyProfile.zodiac) {
       // Coerce to lowercase zodiac union strings
       const zodiacRaw = Array.isArray(energyProfile.zodiac)
-        ? energyProfile.zodiac
+        ? energyProfile.zodiac;
         : [energyProfile.zodiac],
       recipe.zodiacInfluences = zodiacRaw,
         .map(z => String(z).toLowerCase())
-        .filter(Boolean) as unknown as import('@/types/alchemy').ZodiacSign[]
+        .filter(Boolean) as unknown as import('@/types/alchemy').ZodiacSign[];
     }
 
     if (energyProfile.lunar) {
       const lunarRaw = Array.isArray(energyProfile.lunar)
-        ? energyProfile.lunar
+        ? energyProfile.lunar;
         : [energyProfile.lunar],
       recipe.lunarPhaseInfluences = lunarRaw,
         .map(l => String(l).toLowerCase())
-        .filter(Boolean) as unknown as import('@/types/alchemy').LunarPhase[]
+        .filter(Boolean) as unknown as import('@/types/alchemy').LunarPhase[];
     }
 
     if (energyProfile.planetary) {
-      recipe.planetaryInfluences = {
+      recipe.planetaryInfluences = {;
         _favorable: energyProfile.planetary as string[],
         unfavorable: [], // ← Pattern GG-_6: Added missing unfavorable property
       }
@@ -113,7 +113,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
 
   // Handle dietary properties
   const dietaryTags = (recipeData.tags || []).filter(tag =>
-    [
+    [;
       'vegetarian',
       'vegan',
       'gluten-free',
@@ -147,7 +147,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
     const mealTypes = (recipeData.tags || []).filter(tag =>
       mealTypeValues.includes(tag.toLowerCase())
     )
-    if (mealTypes.length > 0) {
+    if (mealTypes.length > 0) {;
       recipe.mealType = mealTypes,
     }
   }
@@ -157,7 +157,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
     const nutritionData = recipeData.nutrition as any;
     const macronutrients = (nutritionData.macronutrients as unknown) || {}
     const micronutrients = (nutritionData.micronutrients ) || {}
-    recipe.nutrition = {
+    recipe.nutrition = {;
       calories: Number(nutritionData.calories) || 0,
       protein: Number(nutritionData.protein) || Number(macronutrients.protein) || 0,
       carbs: Number(nutritionData.carbs) || Number(macronutrients.carbs) || 0,
@@ -184,7 +184,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
 
   // Handle preparation notes
   if (recipeDataAny.preparationNotes) {
-    recipe.preparationNotes = String(recipeDataAny.preparationNotes)
+    recipe.preparationNotes = String(recipeDataAny.preparationNotes);
   }
 
   // Handle technical tips
@@ -208,14 +208,12 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
  */
 function adaptIngredients(ingredients: Recipe[]): RecipeIngredient[] {
   return (ingredients || []).map(ingredient => {
-    const recipeIngredient: RecipeIngredient = {
+    const recipeIngredient: RecipeIngredient = {;
       name: String(ingredient.name) || 'Unknown Ingredient',
       amount: Number(ingredient.amount),
-      unit: String(ingredient.unit) || ''
-    }
-
-    if (ingredient.optional !== undefined) {
-      recipeIngredient.optional = Boolean(ingredient.optional)
+      unit: String(ingredient.unit) || '' },
+        if (ingredient.optional !== undefined) {
+      recipeIngredient.optional = Boolean(ingredient.optional);
     }
 
     if (ingredient.preparation) {
@@ -223,7 +221,7 @@ function adaptIngredients(ingredients: Recipe[]): RecipeIngredient[] {
     }
 
     if (ingredient.category) {
-      recipeIngredient.category = String(ingredient.category)
+      recipeIngredient.category = String(ingredient.category);
     }
 
     return recipeIngredient,
@@ -246,7 +244,7 @@ export function createScoredRecipe(recipe: Recipe, matchScore: number): ScoredRe
 
   // Create the scored recipe
   const scoredRecipe: ScoredRecipe = {
-    ...adaptedRecipe
+    ...adaptedRecipe;
     score,
     _alchemicalScores: {
       elementalScore: 0,
@@ -271,7 +269,7 @@ export function isRecipeData(obj: unknown): obj is RecipeData {
     typeof recipeData.id === 'string' &&
     typeof recipeData.name === 'string' &&
     Array.isArray(recipeData.ingredients)
-  )
+  );
 }
 
 /**
@@ -281,7 +279,7 @@ export function isRecipeData(obj: unknown): obj is RecipeData {
  * @returns Array of type-safe Recipe objects
  */
 export function adaptAllRecipes(recipeDataArray: RecipeData[]): Recipe[] {
-  return recipeDataArray.map(recipeData => adaptRecipeData(recipeData))
+  return recipeDataArray.map(recipeData => adaptRecipeData(recipeData));
 }
 
 /**
@@ -308,7 +306,7 @@ export function extractElementalProperties(recipeData: RecipeData): ElementalPro
 export function getCookingMethodsFromRecipe(recipeData: RecipeData): string[] {
   // Try to derive cooking methods from tags if they exist
   if (recipeData.tags && Array.isArray(recipeData.tags)) {
-    const cookingMethodKeywords = [
+    const cookingMethodKeywords = [;
       'baking',
       'roasting',
       'grilling',
@@ -334,7 +332,7 @@ export function getCookingMethodsFromRecipe(recipeData: RecipeData): string[] {
       'dehydrating'
     ],
 
-    const methods = (recipeData.tags || []).filter(tag =>
+    const methods = (recipeData.tags || []).filter(tag =>;
       cookingMethodKeywords.some(method => tag.toLowerCase().includes(method)),
     )
 

@@ -48,6 +48,25 @@ def fix_file_syntax(filepath):
         # Fix 5: Trailing commas in exports
         content = re.sub(r'export\s*{\s*([^}]*)\s*},\s*$', r'export { \1 };', content, flags=re.MULTILINE)
 
+        # Fix 6: Object property spacing issues
+        content = re.sub(r'(\w+):\s*{\s*,', r'\1: {', content)
+
+        # Fix 7: Remove double commas
+        content = re.sub(r'},\s*,', r'},', content)
+
+        # Fix 8: Fix type annotation spacing
+        content = re.sub(r'(\w+\??)\s*:\s+(\w+)\s*;', r'\1: \2;', content)
+
+        # Fix 9: More aggressive object brace comma fixing
+        content = re.sub(r'(["\'])\s*}\s*,', r'\1 }', content, flags=re.MULTILINE)
+        content = re.sub(r'(["\'])\s*}\s*([a-zA-Z])', r'\1 },\n        \2', content)
+
+        # Fix 10: Function parameter comma issues
+        content = re.sub(r'(\w+):\s*([^,)]+)\s*([,)])', lambda m: f"{m.group(1)}: {m.group(2).strip()}{m.group(3)}", content)
+
+        # Fix 11: Fix missing semicolons after statements
+        content = re.sub(r'(\w+\s*=\s*[^;,}]+)\s*$', r'\1;', content, flags=re.MULTILINE)
+
         # Only write if content changed
         if content != original_content:
             with open(filepath, 'w', encoding='utf-8') as f:

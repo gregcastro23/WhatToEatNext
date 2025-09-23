@@ -12,7 +12,7 @@ import DevSettings from './DevSettings';
 import SignVectorPanel from './SignVectorPanel';
 
 const logger = createLogger('AlchmKitchenPage')
-
+;
 function ClientOnly({ children }: { children: React.ReactNode }) {
   const [hasMounted, setHasMounted] = useState(false)
 
@@ -30,8 +30,7 @@ function ClientOnly({ children }: { children: React.ReactNode }) {
           <p>Mounted: false</p>
           <p>Renders: 0</p>
         </div>
-      </div>
-    )
+      </div>);
   }
 
   return <>{children}</>
@@ -41,11 +40,10 @@ export default function AlchmKitchenPage() {
   return (
     <AlchemicalProvider>
       <AstrologicalProvider>
-        <main className='min-h-screen p-4, md: p-8'>
-          ,
+        <main className='min-h-screen p-4, md: p-8'>,
           <ClientOnly>
             <AlchmKitchenTab />
-            <div className='mt-6'>
+            <div className='mt-6'>;
               ,
               <SignVectorPanel governing='dominant' />
             </div>
@@ -57,5 +55,5 @@ export default function AlchmKitchenPage() {
         </main>
       </AstrologicalProvider>
     </AlchemicalProvider>
-  )
+  );
 }

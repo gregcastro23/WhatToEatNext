@@ -1,6 +1,6 @@
 import { logger } from '../utils/logger';
 
-type LoadingState = {
+type LoadingState = {;
   isLoading: boolean,
   message: string,
   progress?: number,
@@ -9,19 +9,17 @@ type LoadingState = {
 
 class LoadingStateManager {
   private subscribers: Set<(state: LoadingState) => void> = new Set()
-  private currentState: LoadingState = {
+  private currentState: LoadingState = {;
     isLoading: true,
     message: 'Initializing...',
     progress: 0,
-    stage: 'initial'
-  }
-
-  private readonly STAGES = {
-    initial: { progress: 0, message: 'Initializing...' }
-    recipes: { progress: 25, message: 'Loading recipes...' }
-    celestial: { progress: 50, message: 'Calculating celestial alignments...' }
-    processing: { progress: 75, message: 'Processing data...' }
-    complete: { progress: 100, message: 'Complete' }
+    stage: 'initial' },
+        private readonly STAGES = {;
+    initial: { progress: 0, message: 'Initializing...' },
+        recipes: { progress: 25, message: 'Loading recipes...' },
+        celestial: { progress: 50, message: 'Calculating celestial alignments...' },
+        processing: { progress: 75, message: 'Processing data...' },
+        complete: { progress: 100, message: 'Complete' }
   }
 
   subscribe(callback: (state: LoadingState) => void) {
@@ -36,11 +34,11 @@ class LoadingStateManager {
   }
 
   private notifySubscribers() {
-    this.subscribers.forEach(callback => callback(this.currentState))
+    this.subscribers.forEach(callback => callback(this.currentState));
   }
 
   startLoading(stage: keyof typeof this.STAGES) {
-    const stageData = this.STAGES[stage]
+    const stageData = this.STAGES[stage];
     logger.info(`Loading stage: ${stage}`, stageData)
     this.updateState({
       isLoading: true,
@@ -57,7 +55,7 @@ class LoadingStateManager {
   }
 
   setError(message: string) {
-    logger.error('Loading error:', message)
+    logger.error('Loading error: ', message)
     this.updateState({
       isLoading: false,
       message,
@@ -83,3 +81,4 @@ class LoadingStateManager {
 }
 
 export const _loadingStateManager = new LoadingStateManager()
+;

@@ -25,9 +25,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       omega_9_g: 9.9,
       vitamins: ['e', 'k'],
       antioxidants: ['oleocanthal', 'oleuropein', 'hydroxytyrosol'],
-      notes: 'Rich in monounsaturated fats and antioxidants'
-    },
-    preparation: {
+      notes: 'Rich in monounsaturated fats and antioxidants' },
+        preparation: {
       fresh: {
         duration: '2 years',
         storage: 'cool, dark place',
@@ -38,17 +37,16 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '24 months',
       temperature: 'room temperature',
-      notes: 'keep away from heat sources'
-    },
-    astrologicalProfile: {
+      notes: 'keep away from heat sources' },
+        astrologicalProfile: {
       rulingPlanets: ['Venus', 'Sun'],
       favorableZodiac: ['taurus', 'leo'],
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Sun' }
-          second: { element: 'Earth', planet: 'Venus' }
-          third: { element: 'Air', planet: 'Mercury' }
+          first: { element: 'Fire', planet: 'Sun' },
+        second: { element: 'Earth', planet: 'Venus' },
+        third: { element: 'Air', planet: 'Mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -104,10 +102,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       lauric_acid_g: 6,
       vitamins: ['e', 'k'],
       antioxidants: ['polyphenols', 'tocopherols', 'tocotrienols'],
-      notes:
-        'Contains medium-chain triglycerides (MCTs) which are metabolized differently than other fats, providing a quick source of energy'
-    },
-    preparation: {
+      notes: 'Contains medium-chain triglycerides (MCTs) which are metabolized differently than other fats, providing a quick source of energy' },
+        preparation: {
       fresh: {
         duration: '18-24 months',
         storage: 'cool, dark place',
@@ -121,17 +117,16 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'glass jar',
       duration: '2 years',
       temperature: 'room temperature',
-      notes: 'Highly resistant to rancidity due to high saturated fat content'
-    },
-    astrologicalProfile: {
+      notes: 'Highly resistant to rancidity due to high saturated fat content' },
+        astrologicalProfile: {
       rulingPlanets: ['Moon', 'Venus'],
       favorableZodiac: ['cancer', 'taurus', 'pisces'],
       elementalAffinity: {
         base: 'Water',
         decanModifiers: {
-          first: { element: 'Water', planet: 'Moon' }
-          second: { element: 'Earth', planet: 'Venus' }
-          third: { element: 'Water', planet: 'Neptune' }
+          first: { element: 'Water', planet: 'Moon' },
+        second: { element: 'Earth', planet: 'Venus' },
+        third: { element: 'Water', planet: 'Neptune' }
         }
       },
       lunarPhaseModifiers: {
@@ -151,7 +146,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
           'Adds a subtle coconut flavor to baked goods',
           'Good solid fat substitute for butter in vegan recipes'
         ],
-        techniques: ['Melt before using in recipes', 'Substitute, 1:1 for butter'],
+        techniques: ['Melt before using in recipes', 'Substitute, 1: 1 for butter'],
         dishes: ['Cookies', 'Cakes', 'Pie crusts', 'Vegan desserts']
       },
       cooking: {
@@ -267,9 +262,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
         'Contains equal amounts of saturated and unsaturated fats with beneficial fatty acid composition at the sn-2 position',
       immunity: 'Rich in tocotrienols and carotenoids that have antioxidant properties',
       digestion: 'Easily absorbed when used in cooking',
-      energy: 'Provides sustained energy due to balanced fatty acid profile'
-    },
-    magicalProperties: {
+      energy: 'Provides sustained energy due to balanced fatty acid profile' },
+        magicalProperties: {
       correspondence: ['Sun', 'Jupiter', 'Venus'],
       intentions: ['Abundance', 'Protection', 'Strength', 'Purification', 'Healing'],
       deities: ['Solar deities', 'Prosperity deities'],
@@ -280,20 +274,15 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       elements: ['Fire', 'Earth'],
       signs: ['Leo', 'Taurus']
     },
-    history:
-      'Native to West Africa but now widely cultivated in Southeast Asia, particularly Malaysia and Indonesia. Has been used for cooking and medicinal purposes for thousands of years.',
-    description:
-      'Semi-solid at room temperature, red palm oil has a natural deep orange-red color from carotenoids, while refined palm oil is pale yellow. Contains balanced amounts of saturated and unsaturated fatty acids, with palmitic acid and oleic acid being predominant.',
-    cautions:
-      'Sustainable sourcing is important. Look for RSPO-certified (Roundtable on Sustainable Palm Oil) sources to ensure environmental and social responsibility.';
+    history: 'Native to West Africa but now widely cultivated in Southeast Asia, particularly Malaysia and Indonesia. Has been used for cooking and medicinal purposes for thousands of years.',
+    description: 'Semi-solid at room temperature, red palm oil has a natural deep orange-red color from carotenoids, while refined palm oil is pale yellow. Contains balanced amounts of saturated and unsaturated fatty acids, with palmitic acid and oleic acid being predominant.',
+    cautions: 'Sustainable sourcing is important. Look for RSPO-certified (Roundtable on Sustainable Palm Oil) sources to ensure environmental and social responsibility.';
     psychoactiveProperties: null,
     medicalProperties: {
       inflammation: 'Tocotrienols have anti-inflammatory properties',
       antioxidant: 'Rich in vitamin E and carotenoids that protect cells from oxidative damage',
-      heart:
-        'Studies show neutral to beneficial effects on blood lipid profiles when used in balanced diets'
-    },
-    pharmaceuticalProperties: null,
+      heart: 'Studies show neutral to beneficial effects on blood lipid profiles when used in balanced diets' },
+        pharmaceuticalProperties: null,
     substitutes: ['Coconut oil', 'Butter', 'Vegetable shortening']
   },
   sesame_oil: {
@@ -317,9 +306,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       vitamins: ['e', 'k', 'b6'],
       minerals: ['calcium', 'iron', 'zinc'],
       antioxidants: ['sesamol', 'sesamin', 'sesamolin'],
-      notes: 'Distinctive nutty flavor, common in Asian cuisine'
-    },
-    preparation: {
+      notes: 'Distinctive nutty flavor, common in Asian cuisine' },
+        preparation: {
       fresh: {
         duration: '1 month',
         storage: 'refrigerated after opening',
@@ -330,17 +318,16 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '12 months',
       temperature: 'cool, dark place',
-      notes: 'Refrigerate after opening'
-    },
-    astrologicalProfile: {
+      notes: 'Refrigerate after opening' },
+        astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Moon'],
       favorableZodiac: ['gemini', 'cancer'],
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Mercury' }
-          second: { element: 'Earth', planet: 'Moon' }
-          third: { element: 'Air', planet: 'Venus' }
+          first: { element: 'Fire', planet: 'Mercury' },
+        second: { element: 'Earth', planet: 'Moon' },
+        third: { element: 'Air', planet: 'Venus' }
         }
       },
       lunarPhaseModifiers: {
@@ -393,10 +380,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       vitamins: ['e', 'k', 'd', 'a'],
       minerals: ['potassium', 'magnesium', 'phosphorus'],
       antioxidants: ['lutein', 'zeaxanthin', 'beta-sitosterol', 'carotenoids'],
-      notes:
-        'One of the highest monounsaturated fat content of any oil, with exceptional heat stability'
-    },
-    preparation: {
+      notes: 'One of the highest monounsaturated fat content of any oil, with exceptional heat stability' },
+        preparation: {
       fresh: {
         duration: '12-18 months',
         storage: 'cool, dark place',
@@ -407,17 +392,16 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '18 months',
       temperature: 'room temperature or refrigerated',
-      notes: 'Highly resistant to oxidation compared to other oils'
-    },
-    astrologicalProfile: {
+      notes: 'Highly resistant to oxidation compared to other oils' },
+        astrologicalProfile: {
       rulingPlanets: ['Venus', 'Jupiter', 'Moon'],
       favorableZodiac: ['taurus', 'libra', 'cancer'],
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Venus' }
-          second: { element: 'Water', planet: 'Moon' }
-          third: { element: 'Fire', planet: 'Jupiter' }
+          first: { element: 'Earth', planet: 'Venus' },
+        second: { element: 'Water', planet: 'Moon' },
+        third: { element: 'Fire', planet: 'Jupiter' }
         }
       },
       lunarPhaseModifiers: {
@@ -454,7 +438,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       },
       baking: {
         notes: ['Excellent butter substitute in baking', 'Adds moisture to baked goods'],
-        techniques: ['Substitute, 1:1 for butter or other oils in recipes'],
+        techniques: ['Substitute, 1: 1 for butter or other oils in recipes'],
         dishes: ['Cakes', 'Brownies', 'Muffins', 'Quick breads']
       }
     },
@@ -515,9 +499,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       vitamins: ['e', 'k', 'b1', 'b6'],
       minerals: ['magnesium', 'phosphorus', 'zinc'],
       antioxidants: ['ellagic acid', 'tocopherols', 'melatonin'],
-      notes: 'Rich nutty flavor ideal for finishing dishes'
-    },
-    preparation: {
+      notes: 'Rich nutty flavor ideal for finishing dishes' },
+        preparation: {
       fresh: {
         duration: '2-3 months',
         storage: 'refrigerated',
@@ -528,17 +511,16 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '6 months',
       temperature: 'refrigerated',
-      notes: 'High polyunsaturated fat content makes it prone to rancidity'
-    },
-    astrologicalProfile: {
+      notes: 'High polyunsaturated fat content makes it prone to rancidity' },
+        astrologicalProfile: {
       rulingPlanets: ['Jupiter', 'Mercury'],
       favorableZodiac: ['sagittarius', 'gemini', 'virgo'],
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Jupiter' }
-          second: { element: 'Air', planet: 'Mercury' }
-          third: { element: 'Fire', planet: 'Mars' }
+          first: { element: 'Earth', planet: 'Jupiter' },
+        second: { element: 'Air', planet: 'Mercury' },
+        third: { element: 'Fire', planet: 'Mars' }
         }
       }
     },
@@ -596,9 +578,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       vitamins: ['e', 'k'],
       minerals: ['magnesium', 'phosphorus', 'calcium'],
       antioxidants: ['tocopherols', 'phytosterols', 'polyphenols'],
-      notes: 'Rich in vitamin E, with subtle sweet almond flavor'
-    },
-    preparation: {
+      notes: 'Rich in vitamin E, with subtle sweet almond flavor' },
+        preparation: {
       fresh: {
         duration: '12 months',
         storage: 'cool, dark place',
@@ -609,9 +590,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '12 months',
       temperature: 'room temperature or refrigerated',
-      notes: 'Relatively stable compared to other nut oils'
-    },
-    culinaryApplications: {
+      notes: 'Relatively stable compared to other nut oils' },
+        culinaryApplications: {
       baking: {
         notes: ['Enhances almond-flavored baked goods', 'Adds moisture and subtle flavor'],
         techniques: ['Use in small quantities', 'Pairs well with sweet flavors'],
@@ -661,9 +641,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       vitamins: ['e', 'k'],
       minerals: ['selenium', 'zinc', 'copper'],
       antioxidants: ['tocopherols', 'phenolic acids', 'sesamol'],
-      notes: 'High-oleic varieties have more monounsaturated fats and greater stability'
-    },
-    preparation: {
+      notes: 'High-oleic varieties have more monounsaturated fats and greater stability' },
+        preparation: {
       fresh: {
         duration: '12 months',
         storage: 'cool, dark place',
@@ -674,17 +653,16 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark plastic or glass bottle',
       duration: '12 months',
       temperature: 'room temperature',
-      notes: 'High-oleic varieties have longer shelf life'
-    },
-    astrologicalProfile: {
+      notes: 'High-oleic varieties have longer shelf life' },
+        astrologicalProfile: {
       rulingPlanets: ['Sun', 'Jupiter'],
       favorableZodiac: ['leo', 'sagittarius'],
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Sun' }
-          second: { element: 'Air', planet: 'Jupiter' }
-          third: { element: 'Air', planet: 'Mercury' }
+          first: { element: 'Fire', planet: 'Sun' },
+        second: { element: 'Air', planet: 'Jupiter' },
+        third: { element: 'Air', planet: 'Mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -759,9 +737,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       vitamins: ['e', 'k'],
       minerals: ['copper', 'selenium'],
       antioxidants: ['resveratrol', 'phytosterols'],
-      notes: 'Popular in Asian cuisine, refined versions have a high smoke point'
-    },
-    preparation: {
+      notes: 'Popular in Asian cuisine, refined versions have a high smoke point' },
+        preparation: {
       fresh: {
         duration: '12 months',
         storage: 'cool, dark place',
@@ -772,17 +749,16 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '12 months',
       temperature: 'room temperature',
-      notes: 'Relatively stable due to balanced fat composition'
-    },
-    astrologicalProfile: {
+      notes: 'Relatively stable due to balanced fat composition' },
+        astrologicalProfile: {
       rulingPlanets: ['Saturn', 'Mars'],
       favorableZodiac: ['capricorn', 'aries', 'scorpio'],
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Saturn' }
-          second: { element: 'Fire', planet: 'Mars' }
-          third: { element: 'Water', planet: 'Pluto' }
+          first: { element: 'Earth', planet: 'Saturn' },
+        second: { element: 'Fire', planet: 'Mars' },
+        third: { element: 'Water', planet: 'Pluto' }
         }
       }
     },
@@ -841,9 +817,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       vitamins: ['e', 'k'],
       minerals: ['iron', 'magnesium', 'phosphorus'],
       antioxidants: ['gamma-oryzanol', 'tocotrienols', 'phytosterols', 'tocopherols'],
-      notes: 'Contains unique antioxidant gamma-oryzanol not found in other oils'
-    },
-    preparation: {
+      notes: 'Contains unique antioxidant gamma-oryzanol not found in other oils' },
+        preparation: {
       fresh: {
         duration: '12 months',
         storage: 'cool, dark place',
@@ -854,17 +829,16 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'glass or plastic bottle',
       duration: '12-18 months',
       temperature: 'room temperature',
-      notes: 'High oxidative stability due to balanced fat composition and antioxidants'
-    },
-    astrologicalProfile: {
+      notes: 'High oxidative stability due to balanced fat composition and antioxidants' },
+        astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Moon'],
       favorableZodiac: ['gemini', 'virgo', 'cancer'],
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Mercury' }
-          second: { element: 'Water', planet: 'Moon' }
-          third: { element: 'Air', planet: 'Venus' }
+          first: { element: 'Earth', planet: 'Mercury' },
+        second: { element: 'Water', planet: 'Moon' },
+        third: { element: 'Air', planet: 'Venus' }
         }
       }
     },
@@ -922,9 +896,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       vitamins: ['e', 'a', 'k'],
       minerals: ['selenium', 'calcium', 'manganese', 'copper', 'zinc'],
       antioxidants: ['tocopherols', 'carotenoids', 'isothiocyanates', 'phenolic compounds'],
-      notes: 'Contains erucic acid and allyl isothiocyanate (responsible for pungency)'
-    },
-    preparation: {
+      notes: 'Contains erucic acid and allyl isothiocyanate (responsible for pungency)' },
+        preparation: {
       fresh: {
         duration: '12 months',
         storage: 'cool, dark place',
@@ -935,17 +908,16 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '12 months',
       temperature: 'room temperature',
-      notes: 'Stable oil with natural antimicrobial properties'
-    },
-    astrologicalProfile: {
+      notes: 'Stable oil with natural antimicrobial properties' },
+        astrologicalProfile: {
       rulingPlanets: ['Mars', 'Pluto'],
       favorableZodiac: ['aries', 'scorpio'],
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Mars' }
-          second: { element: 'Earth', planet: 'Saturn' }
-          third: { element: 'Water', planet: 'Pluto' }
+          first: { element: 'Fire', planet: 'Mars' },
+        second: { element: 'Earth', planet: 'Saturn' },
+        third: { element: 'Water', planet: 'Pluto' }
         }
       }
     },
@@ -1006,10 +978,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       vitamins: ['e', 'b1'],
       minerals: ['manganese', 'copper', 'magnesium'],
       antioxidants: ['tocopherols', 'squalene', 'phytosterols'],
-      notes:
-        'One of the highest monounsaturated fat contents of any oil, including rare palmitoleic acid (omega-7)'
-    },
-    preparation: {
+      notes: 'One of the highest monounsaturated fat contents of any oil, including rare palmitoleic acid (omega-7)' },
+        preparation: {
       fresh: {
         duration: '12 months',
         storage: 'cool, dark place',
@@ -1020,17 +990,16 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '24 months',
       temperature: 'room temperature',
-      notes: 'Highly resistant to oxidation due to very high monounsaturated fat content'
-    },
-    astrologicalProfile: {
+      notes: 'Highly resistant to oxidation due to very high monounsaturated fat content' },
+        astrologicalProfile: {
       rulingPlanets: ['Venus', 'Jupiter'],
       favorableZodiac: ['taurus', 'libra', 'sagittarius'],
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Venus' }
-          second: { element: 'Air', planet: 'Jupiter' }
-          third: { element: 'Water', planet: 'Neptune' }
+          first: { element: 'Earth', planet: 'Venus' },
+        second: { element: 'Air', planet: 'Jupiter' },
+        third: { element: 'Water', planet: 'Neptune' }
         }
       }
     },

@@ -40,7 +40,7 @@ export interface UnifiedIngredient {
   kalchm?: number; // K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance)
   monica?: number
 
-  // Enhanced Properties
+  // Enhanced Properties;
   flavorProfile?: { [key: string]: number }
   nutritionalProfile?: NutritionalProfile,
   astrologicalProfile?: {
@@ -124,5 +124,5 @@ export function isUnifiedIngredient(obj: unknown): obj is UnifiedIngredient {
     typeof ingredient.elementalPropertiesState === 'object' &&
     ingredient.alchemicalProperties !== undefined &&
     typeof ingredient.alchemicalProperties === 'object'
-  )
+  );
 }

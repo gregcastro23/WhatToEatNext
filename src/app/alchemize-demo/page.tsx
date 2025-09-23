@@ -19,7 +19,7 @@ export default function AlchemizeDemoPage() {
       try {
         setLoading(true)
         const result = getCurrentAlchemicalState()
-        setAlchemicalResult(result)
+        setAlchemicalResult(result);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load alchemical data')
       } finally {
@@ -35,15 +35,14 @@ export default function AlchemizeDemoPage() {
       <div className='flex min-h-screen items-center justify-center bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900'>
         <div className='text-xl text-white'>🔮 Loading alchemical calculations...</div>
       </div>
-    )
+    );
   }
 
   if (error) {
     return (
       <div className='flex min-h-screen items-center justify-center bg-gradient-to-br from-red-900 via-purple-900 to-blue-900'>
         <div className='text-xl text-white'>❌ Error: {error}</div>
-      </div>
-    )
+      </div>)
   }
 
   if (!alchemicalResult) {
@@ -51,7 +50,7 @@ export default function AlchemizeDemoPage() {
       <div className='flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-900 via-purple-900 to-blue-900'>
         <div className='text-xl text-white'>⚠️ No alchemical data available</div>
       </div>
-    )
+    );
   }
 
   const { elementalProperties, thermodynamicProperties, _kalchm, _monica, _score, metadata} =
@@ -62,7 +61,7 @@ export default function AlchemizeDemoPage() {
       <div className='mx-auto max-w-6xl'>
         <h1 className='mb-8 text-center text-4xl font-bold text-white'>🔮 Real Alchemize Demo</h1>
 
-        <div className='grid grid-cols-1 gap-8 lg: grid-cols-2'>
+        <div className='grid grid-cols-1 gap-8 lg:grid-cols-2'>
           {/* Elemental Properties */}
           <div className='rounded-lg border border-white/20 bg-white/10 p-6 backdrop-blur-sm'>
             <h2 className='mb-4 text-2xl font-semibold text-white'>🌪️ Elemental Properties</h2>
@@ -170,12 +169,12 @@ export default function AlchemizeDemoPage() {
           </h2>
           <div className='space-y-2 text-white'>
             <p>
-              <strong>Dominant Element:</strong> {metadata.dominantElement} - This indicates a
+              <strong>Dominant Element: </strong> {metadata.dominantElement} - This indicates a
               strong influence of {metadata.dominantElement.toLowerCase()} energy in the current
               planetary configuration.
             </p>
             <p>
-              <strong>Energy Level:</strong>{' '}
+              <strong>Energy Level: </strong>{' '}
               {thermodynamicProperties.gregsEnergy > 0.5
                 ? 'High Energy - Strong transformative potential'
                 : thermodynamicProperties.gregsEnergy > 0.2
@@ -183,7 +182,7 @@ export default function AlchemizeDemoPage() {
                   : 'Low Energy - Gentle, stabilizing influence'}
             </p>
             <p>
-              <strong>Reactivity:</strong>{' '}
+              <strong>Reactivity: </strong>{' '}
               {thermodynamicProperties.reactivity > 0.7
                 ? 'High Reactivity - Dynamic, change-oriented'
                 : thermodynamicProperties.reactivity > 0.3
@@ -191,7 +190,7 @@ export default function AlchemizeDemoPage() {
                   : 'Low Reactivity - Stable, grounding influence'}
             </p>
             <p>
-              <strong>Source:</strong> Real planetary positions from live astronomical data,
+              <strong>Source: </strong> Real planetary positions from live astronomical data,
               processed through the alchemize engine.
             </p>
           </div>

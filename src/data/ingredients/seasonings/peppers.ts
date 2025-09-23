@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawPeppers = {
-  black_pepper: {
+  black_pepper: {;
     name: 'Black Pepper',
     elementalProperties: { Fire: 0.7, Air: 0.2, Earth: 0.1, Water: 0 }
     astrologicalProfile: {
@@ -11,9 +11,9 @@ const rawPeppers = {
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Mars' }
-          second: { element: 'Air', planet: 'Sun' }
-          third: { element: 'Earth', planet: 'Saturn' }
+          first: { element: 'Fire', planet: 'Mars' },
+        second: { element: 'Air', planet: 'Sun' },
+        third: { element: 'Earth', planet: 'Saturn' }
         }
       },
       lunarPhaseModifiers: {
@@ -37,16 +37,14 @@ const rawPeppers = {
         appearance: 'large, dark berries',
         flavor: 'complex, citrusy undertones',
         heat: 'moderate',
-        uses: 'premium applications'
-      },
-      Malabar: {
+        uses: 'premium applications' },
+        Malabar: {
         name: 'Malabar',
         appearance: 'medium-sized berries',
         flavor: 'balanced, standard profile',
         heat: 'moderate',
-        uses: 'all-purpose'
-      },
-      Lampong: {
+        uses: 'all-purpose' },
+        Lampong: {
         name: 'Lampong',
         appearance: 'small berries',
         flavor: 'sharp, intense',
@@ -62,15 +60,13 @@ const rawPeppers = {
         applications: {
           proteins: 'after cooking',
           pasta: 'finish with pepper and cheese',
-          vegetables: 'light dusting'
-        },
+          vegetables: 'light dusting' },
         techniques: {
           cracked: {
             name: 'Cracked',
             method: 'coarse grind or mortar',
-            applications: 'crusts, rustic dishes'
-          },
-          fine_ground: {
+            applications: 'crusts, rustic dishes' },
+        fine_ground: {
             name: 'Fine Ground',
             method: 'fine pepper mill',
             applications: 'sauces, delicate dishes'
@@ -83,8 +79,7 @@ const rawPeppers = {
         timing: {
           early: 'for infused flavor',
           middle: 'for balanced heat',
-          end: 'for pronounced aroma'
-        },
+          end: 'for pronounced aroma' },
         pairings: ['cream', 'lemon', 'tomato', 'beef', 'cheese']
       }
     },
@@ -117,9 +112,8 @@ const rawPeppers = {
         appearance: 'off-white to beige',
         flavor: 'earthy, complex',
         heat: 'medium-high',
-        uses: 'light-colored sauces, Asian cuisine'
-      },
-      Sarawak: {
+        uses: 'light-colored sauces, Asian cuisine' },
+        Sarawak: {
         name: 'Sarawak',
         appearance: 'cream colored',
         flavor: 'delicate, less fermented',
@@ -175,9 +169,8 @@ const rawPeppers = {
     botanical: {
       family: 'Anacardiaceae',
       genus: 'Schinus',
-      notes: 'Not true pepper, related to cashews'
-    },
-    culinaryApplications: {
+      notes: 'Not true pepper, related to cashews' },
+        culinaryApplications: {
       visual_accent: {
         name: 'Visual Accent',
         method: 'whole berries',
@@ -202,9 +195,8 @@ const rawPeppers = {
       humidity: 'low',
       container: 'airtight',
       duration: '6-12 months',
-      notes: 'Loses color and aroma faster than true peppercorns'
-    },
-    allergies: {
+      notes: 'Loses color and aroma faster than true peppercorns' },
+        allergies: {
       warning: 'May cause reaction in people with tree nut allergies',
       related_to: 'cashews and mangoes'
     }
@@ -227,17 +219,15 @@ const rawPeppers = {
     botanical: {
       family: 'Rutaceae',
       genus: 'Zanthoxylum',
-      notes: 'Not related to black pepper'
-    },
-    culinaryApplications: {
+      notes: 'Not related to black pepper' },
+        culinaryApplications: {
       mala_flavor: {
         name: 'Mala Flavor',
         method: 'toasted and ground',
         applications: {
           stir_fry: 'with chili for numbing-spicy effect',
           braises: 'in five-spice blend',
-          oil_infusion: 'for numbing oil'
-        },
+          oil_infusion: 'for numbing oil' },
         pairings: ['chili', 'garlic', 'star anise', 'beef', 'tofu']
       }
     },
@@ -266,9 +256,8 @@ const rawPeppers = {
     subCategory: 'true peppercorn',
     botanical: {
       species: 'Piper longum',
-      notes: 'Ancient pepper variety'
-    },
-    culinaryApplications: {
+      notes: 'Ancient pepper variety' },
+        culinaryApplications: {
       spice_blends: {
         name: 'Spice Blends',
         method: 'ground',

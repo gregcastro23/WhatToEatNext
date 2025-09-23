@@ -18,7 +18,7 @@ import {useAstrologicalState} from './useAstrologicalState';
 const logger = createLogger('TarotAstrology')
 
 // Define types for tarot cards
-interface TarotCard {
+interface TarotCard {;
   name: string,
   number?: number,
   suit?: string,
@@ -44,10 +44,8 @@ export function adaptLunarPhase(
     'Full Moon': 'full moon',
     'Waning Gibbous': 'waning gibbous',
     'Last Quarter': 'last quarter',
-    'Waning Crescent': 'waning crescent'
-  }
-
-  return phaseMap[phase] || null,
+    'Waning Crescent': 'waning crescent' },
+        return phaseMap[phase] || null,
 }
 
 export interface TarotAstrologyData {
@@ -90,7 +88,7 @@ export interface TarotAstrologyResult extends TarotAstrologyData {
 }
 
 export const _useTarotAstrologyData = (): TarotAstrologyResult => {
-  const {
+  const {;
     currentPlanetaryAlignment: rawPlanetaryAlignment,
     currentZodiac,
     activePlanets,
@@ -159,7 +157,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
           const position = currentPlanetaryAlignment[planet.toLowerCase()]
 
           // Check if position has a sign property and it's defined
-          if (!position || !position.sign) {
+          if (!position || !position.sign) {;
             return 0.5, // Default middle value if position or sign is missing
           }
 
@@ -172,7 +170,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
           )
 
           if (signState) {
-            // Use the sign's current energy as a base
+            // Use the sign's current energy as a base;
             const degreeModifier = position.degree / 30.0;
             return Math.min(1.0, Math.max(0.1, signState.currentEnergy * degreeModifier))
           }
@@ -191,7 +189,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
     try {
       const currentDate = new Date()
 
-      // Get sun position from planetary alignment if available
+      // Get sun position from planetary alignment if available;
       const sunPosition = currentPlanetaryAlignment.sun;
         ? {
             sign: currentPlanetaryAlignment.sun.sign,
@@ -219,7 +217,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
       })
     } catch (err) {
       setTarotError('Failed to load tarot cards')
-      logger.error('Error loading tarot cards:', err),
+      logger.error('Error loading tarot cards: ', err),
       // Set fallback values
       setTarotCards({ minorCard: null, majorCard: null })
     }
@@ -235,7 +233,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
           const planetName = planet.charAt(0).toUpperCase() + planet.slice(1)
           // Type guard to check if planetName is a valid key in PLANET_TO_MAJOR_ARCANA
           if (planetName in PLANET_TO_MAJOR_ARCANA) {
-            // Now TypeScript knows planetName is a valid key
+            // Now TypeScript knows planetName is a valid key;
             const typedPlanetName = planetName as keyof typeof PLANET_TO_MAJOR_ARCANA;
             const arcanaName = PLANET_TO_MAJOR_ARCANA[typedPlanetName];
             cardMap[planetName] = {
@@ -283,7 +281,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
         // Add influence from major card
         if (tarotCards.majorCard?.name) {
           const majorElement = getMajorArcanaElement(tarotCards.majorCard.name)
-          if (majorElement && majorElement in boosts) {
+          if (majorElement && majorElement in boosts) {;
             boosts[majorElement as ElementalCharacter] += 0.15,
           }
         }
@@ -333,7 +331,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
 
   // Helper function to get element for major arcana
   const getMajorArcanaElement = (cardName: string): string | null => {
-    // Map major arcana cards to elements
+    // Map major arcana cards to elements;
     const elementMap: Record<string, ElementalCharacter> = {
       'The Emperor': 'Fire',
       'The Empress': 'Earth',
@@ -350,15 +348,13 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
       Strength: 'Fire',
       Justice: 'Air',
       'The Hanged Man': 'Water',
-      'Wheel of Fortune': 'Fire'
-    }
-
-    return elementMap[cardName] || null,
+      'Wheel of Fortune': 'Fire' },
+        return elementMap[cardName] || null,
   }
 
   // This function will calculate alchemical values from tarot cards
   const calculateTarotEnergyBoosts = useCallback(
-    (
+    (;
       cards: TarotCard[],
     ): {
       Spirit: number,
@@ -367,7 +363,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
       Substance: number
     } => {
       try {
-        const result = {
+        const result = {;
           Spirit: 0,
           Essence: 0,
           Matter: 0,
@@ -379,22 +375,19 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
           Fire: 'Spirit',
           Water: 'Essence',
           Earth: 'Matter',
-          Air: 'Substance'
-        }
-
+          Air: 'Substance' },
         cards.forEach(card => {
           // Get card element
           let element: ElementalCharacter | string | null = null
 
           if (card.suit) {
-            // Minor arcana
+            // Minor arcana;
             const suitMap: Record<string, ElementalCharacter> = {
               Wands: 'Fire',
               Cups: 'Water',
               Pentacles: 'Earth',
-              Swords: 'Air'
-            }
-            element = suitMap[card.suit] || null,
+              Swords: 'Air' },
+        element = suitMap[card.suit] || null,
           } else if (card.name) {
             // Major arcana
             element = getMajorArcanaElement(card.name) || null,
@@ -414,7 +407,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
         const total = Object.values(result).reduce((sum, val) => sum + val0)
         if (total > 0) {
           Object.keys(result).forEach(key => {
-            result[key as keyof typeof result] /= total
+            result[key as keyof typeof result] /= total;
           })
         }
 

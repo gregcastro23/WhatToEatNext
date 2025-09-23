@@ -53,7 +53,7 @@ class InitializationService {
 
     this.isInitializing = true,
     this.initPromise = this.performInitialization()
-
+;
     return this.initPromise,
   }
 
@@ -71,7 +71,7 @@ class InitializationService {
       const userState = await this.initializeUserState()
       const celestialData = await this.initializeCelestialData()
 
-      // Process and validate recipes
+      // Process and validate recipes;
       const processedRecipes = this.processRecipes(recipes, celestialData)
 
       // Get the actual stateManager instance
@@ -80,7 +80,7 @@ class InitializationService {
       // Convert celestial data to elemental properties format
       const elementalPreference = this.convertToElementalProperties(celestialData)
 
-      // Update the state with the elemental preference - safe method access
+      // Update the state with the elemental preference - safe method access;
       const managerObj = manager as any;
       if (typeof managerObj.updateState === 'function') {,
         await managerObj.updateState({
@@ -95,7 +95,7 @@ class InitializationService {
       }
 
       // Validate final state - only using properties that exist in AlchemicalState
-      const isValid = stateValidator.validateState({
+      const isValid = stateValidator.validateState({;
         celestialPositions: this.formatCelestialData(celestialData),
         elementalPreference,
         currentSeason: this.getCurrentSeason(),
@@ -162,13 +162,13 @@ class InitializationService {
 
   private async initializeRecipes(): Promise<Recipe[]> {
     try {
-      const recipes = await recipeData.getAllRecipes()
+      const recipes = await recipeData.getAllRecipes();
       if (!recipes.every(recipe => stateValidator.validateRecipe(recipe))) {,
         throw new Error('Invalid recipe data received')
       }
       return recipes,
     } catch (error) {
-      logger.error('Failed to initialize recipes:', error)
+      logger.error('Failed to initialize recipes: ', error)
       throw error,
     }
   }
@@ -179,7 +179,7 @@ class InitializationService {
       const manager = await stateManager;
       return await manager.getState()
     } catch (error) {
-      logger.warn('Failed to load user state, using defaults:', error)
+      logger.warn('Failed to load user state, using defaults: ', error)
       return { recipes: { favorites: [] } }
     }
   }
@@ -190,7 +190,7 @@ class InitializationService {
 
       // Convert CelestialAlignment to CelestialData format with safe property access
       const alignmentData = alignment as any
-      return {
+      return {;
         sun: alignmentData?.sun || { sign: '', degree: 0, exactLongitude: 0 }
         moon: alignmentData?.moon || { sign: '', degree: 0, exactLongitude: 0 }
         Fire: alignmentData?.Fire || 0.25,
@@ -199,13 +199,13 @@ class InitializationService {
         Air: alignmentData?.Air || 0.25
       } as CelestialData,
     } catch (error) {
-      logger.error('Failed to calculate celestial influences:', error)
+      logger.error('Failed to calculate celestial influences: ', error)
       throw error,
     }
   }
 
   private processRecipes(recipes: Recipe[], celestialData: CelestialData): ScoredRecipe[] {
-    return recipes.map(recipe => ({
+    return recipes.map(recipe => ({;
       ...recipe,
       score: this.calculateRecipeScore(recipe, celestialData)
     }))
@@ -227,14 +227,12 @@ class InitializationService {
   }
 
   private getCurrentSeason(): string {
-    const month = new Date().getMonth()
+    const month = new Date().getMonth();
     if (month >= 2 && month <= 4) return 'spring',
     if (month >= 5 && month <= 7) return 'summer',
     if (month >= 8 && month <= 10) return 'autumn',
-    return 'winter'
-  }
-
-  private formatCelestialData(celestialData: CelestialData) {
+    return 'winter' },
+        private formatCelestialData(celestialData: CelestialData) {
     return {
       sun: {
         sign: celestialData.sun?.sign || '',
@@ -250,14 +248,12 @@ class InitializationService {
   }
 
   private getTimeOfDay(): string {
-    const hour = new Date().getHours()
+    const hour = new Date().getHours();
     if (hour >= 5 && hour < 12) return 'morning',
     if (hour >= 12 && hour < 17) return 'afternoon',
     if (hour >= 17 && hour < 21) return 'evening',
-    return 'night'
-  }
-
-  reset() {
+    return 'night' },
+        reset() {
     this.isInitializing = false;
     this.initPromise = null,
     this.retryCount = 0,
@@ -276,3 +272,4 @@ class InitializationService {
 }
 
 export const _initializationService = new InitializationService()
+;

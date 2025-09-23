@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawAromatics = {
-  onion: {
+  onion: {;
     name: 'Onion',
     elementalProperties: { Fire: 0.4, Earth: 0.3, Water: 0.2, Air: 0.1 }
     astrologicalProfile: {
@@ -11,9 +11,9 @@ const rawAromatics = {
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Mars' }
-          second: { element: 'Earth', planet: 'Saturn' }
-          third: { element: 'Water', planet: 'Neptune' }
+          first: { element: 'Fire', planet: 'Mars' },
+        second: { element: 'Earth', planet: 'Saturn' },
+        third: { element: 'Water', planet: 'Neptune' }
         }
       }
     },
@@ -52,9 +52,9 @@ const rawAromatics = {
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Mars' }
-          second: { element: 'Earth', planet: 'Pluto' }
-          third: { element: 'Air', planet: 'Uranus' }
+          first: { element: 'Fire', planet: 'Mars' },
+        second: { element: 'Earth', planet: 'Pluto' },
+        third: { element: 'Air', planet: 'Uranus' }
         }
       }
     },
@@ -93,9 +93,9 @@ const rawAromatics = {
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Mars' }
-          second: { element: 'Air', planet: 'Sun' }
-          third: { element: 'Earth', planet: 'Saturn' }
+          first: { element: 'Fire', planet: 'Mars' },
+        second: { element: 'Air', planet: 'Sun' },
+        third: { element: 'Earth', planet: 'Saturn' }
         }
       }
     },
@@ -108,15 +108,13 @@ const rawAromatics = {
         name: 'Young',
         appearance: 'thin skin, juicy flesh',
         flavor: 'mild, less fibrous',
-        uses: 'fresh applications, pickling'
-      },
-      Mature: {
+        uses: 'fresh applications, pickling' },
+        Mature: {
         name: 'Mature',
         appearance: 'thick skin, fibrous',
         flavor: 'strong, spicy',
-        uses: 'cooking, powdering'
-      },
-      Galangal: {
+        uses: 'cooking, powdering' },
+        Galangal: {
         name: 'Galangal',
         appearance: 'harder, white flesh',
         flavor: 'citrusy, pine-like',
@@ -268,9 +266,9 @@ const rawAromatics = {
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Sun' }
-          second: { element: 'Earth', planet: 'Mars' }
-          third: { element: 'Air', planet: 'Venus' }
+          first: { element: 'Fire', planet: 'Sun' },
+        second: { element: 'Earth', planet: 'Mars' },
+        third: { element: 'Air', planet: 'Venus' }
         }
       }
     },

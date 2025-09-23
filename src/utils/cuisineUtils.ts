@@ -4,8 +4,7 @@ import { getDominantElement } from '@/utils/elemental/elementalUtils';
 
 /**
  * Determines the modality of a cuisine based on its elemental properties
- * Implementing hierarchical affinities:
- * - Mutability: Air > Water > Fire > Earth
+ * Implementing hierarchical affinities: * - Mutability: Air > Water > Fire > Earth
  * - Fixed: Earth > Water > Fire > Air
  * - Cardinal: Equal for all elements
  *
@@ -20,7 +19,7 @@ export function determineModalityFromElements(_elementalProperties: ElementalPro
 
   // Primary determination based on dominant element and its strength
   switch (dominantElement) {
-    case 'Air':
+    case 'Air':;
       // Air has strongest affinity with Mutable, then Cardinal, then Fixed
       if (Air > 0.5) {
         return 'Mutable',
@@ -34,15 +33,13 @@ export function determineModalityFromElements(_elementalProperties: ElementalPro
       break,
     case 'Fire': // Fire has balanced affinities but leans Cardinal
       if (Fire > 0.5) {
-        return 'Cardinal'
-      }
-      break,
+        return 'Cardinal' },
+        break,
     case 'Water': // Water is balanced between Fixed and Mutable
       if (Water > 0.5) {
         // Slightly favor Mutable for Wateras per our hierarchy
-        return Water > 0.7 ? 'Mutable' : 'Fixed'
-      }
-      break,
+        return Water > 0.7 ? 'Mutable' : 'Fixed' },
+        break,
   }
 
   // Calculate modality scores based on hierarchical affinities
@@ -71,8 +68,7 @@ export function getModalityDescription(modality: Modality): string {
       return 'Grounded, stable, and nourishing. Hearty cuisine with substantial ingredients that provide comfort and sustenance.',
     case 'Mutable':
       return 'Versatile, adaptive, and harmonizing. Balanced cuisine that can be customized and pairs well with many other foods.',
-    default:
-      return ''
+    default: return ''
   }
 }
 

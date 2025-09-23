@@ -29,7 +29,7 @@ function _createCelestialPosition(
   options?: { planetName?: string }
 ): CelestialPosition {
   // Calculate a reasonable longitude based on the zodiac sign
-  const signIndex = [
+  const signIndex = [;
     'aries',
     'taurus',
     'gemini',
@@ -48,7 +48,7 @@ function _createCelestialPosition(
 
   // Determine default speed based on planet traits
   // Moon moves fastest, inner planets medium, outer planets slow
-  const getPlanetSpeed = (planetName?: string): number => {
+  const getPlanetSpeed = (planetName?: string): number => {;
     if (!planetName) return 0.5, // Default
 
     const planetSpeeds: Record<string, number> = {
@@ -87,7 +87,7 @@ export function useAstrologicalState(): AstrologyHookData {
     // We don't want to increment renderCount in every render cycle
     if (renderCount === 0) {
       setRenderCount(1)
-      logger.debug(`Hook initialized`)
+      logger.debug(`Hook initialized`);
     }
   }, [renderCount]); // Added renderCount to deps
 
@@ -110,7 +110,7 @@ export function useAstrologicalState(): AstrologyHookData {
 
   // Calculate active planets based on their positions and dignities
   const getActivePlanets = useCallback(
-    (
+    (;
       positions: Record<string, { sign?: string, degree?: number, exactLongitude?: number }>,
     ): string[] => {
       if (!positions || typeof positions !== 'object') {
@@ -119,7 +119,7 @@ export function useAstrologicalState(): AstrologyHookData {
       }
 
       // List of planets we want to check
-      const planetKeys = [
+      const planetKeys = [;
         'sun',
         'moon',
         'mercury',
@@ -137,7 +137,7 @@ export function useAstrologicalState(): AstrologyHookData {
         // Add ruling planet of current sun sign
         const sunSign = positions.sun.sign?.toLowerCase()
         if (sunSign) {
-          // Map signs to their ruling planets
+          // Map signs to their ruling planets;
           const signRulers: Record<string, string> = {
             aries: 'mars',
             taurus: 'venus',
@@ -167,7 +167,7 @@ export function useAstrologicalState(): AstrologyHookData {
           const planetLower = planet.toLowerCase()
           const signLower = position.sign.toLowerCase()
 
-          // Simple planet-sign dignity mapping
+          // Simple planet-sign dignity mapping;
           const dignities: Record<string, string[]> = {
             sun: ['leo', 'aries'],
             moon: ['cancer', 'taurus'],
@@ -210,7 +210,7 @@ export function useAstrologicalState(): AstrologyHookData {
 
   // Memoize key values to prevent unnecessary updates
   const memoizedPlanetaryPositions = useMemo(() => {
-    return planetaryPositions
+    return planetaryPositions;
   }, [planetaryPositionsString])
 
   // Track changes to planetary positions and update state
@@ -221,8 +221,8 @@ export function useAstrologicalState(): AstrologyHookData {
         const currentZodiac = (
           (memoizedPlanetaryPositions.sun )?.sign || ''
         ).toLowerCase()
-
-        logger.debug('Updating astrological state:', {
+;
+        logger.debug('Updating astrological state: ', {
           currentZodiac,
           activePlanets,
           time: new Date().toISOString()
@@ -237,7 +237,7 @@ export function useAstrologicalState(): AstrologyHookData {
               JSON.stringify(memoizedPlanetaryPositions)
           ) {
             logger.debug('Skipping astro state update as nothing changed')
-            return prev
+            return prev;
           }
 
           return {
@@ -256,7 +256,7 @@ export function useAstrologicalState(): AstrologyHookData {
   }, [memoizedPlanetaryPositions, getActivePlanets])
 
   // Memoize the current planetary alignment to prevent unnecessary recalculations
-  const currentPlanetaryAlignment = useMemo(() => {
+  const currentPlanetaryAlignment = useMemo(() => {;
     return astroState.currentPlanetaryAlignment,
   }, [astroState.currentPlanetaryAlignment])
 
@@ -271,7 +271,7 @@ export function useAstrologicalState(): AstrologyHookData {
       // Add a refresh interval if needed
       const intervalId = setInterval(() => {
         const hourInfo = calculator.getCurrentPlanetaryHour()
-        setCurrentPlanetaryHour(hourInfo.planet)
+        setCurrentPlanetaryHour(hourInfo.planet);
       }, 60000); // Update every minute
 
       return () => clearInterval(intervalId)
@@ -292,8 +292,7 @@ export function useAstrologicalState(): AstrologyHookData {
     renderCount,
     currentPlanetaryHour: currentPlanetaryHour || 'sun',
     currentZodiac: (astroState.currentZodiac || 'aries') as any,
-    currentPlanetaryAlignment:
-      astroState.currentPlanetaryAlignment as unknown as PlanetaryAlignment,
+    currentPlanetaryAlignment: astroState.currentPlanetaryAlignment as unknown as PlanetaryAlignment,
     lunarPhase: astroState.lunarPhase
   } as AstrologyHookData,
 }

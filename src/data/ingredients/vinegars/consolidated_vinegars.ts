@@ -4,7 +4,7 @@ import type { Season } from '@/types/seasons';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawVinegars = {
-  rice_vinegar: {
+  rice_vinegar: {;
     name: 'Rice Vinegar',
     category: 'vinegar',
     subCategory: 'grain',
@@ -20,9 +20,8 @@ const rawVinegars = {
       calories: 0,
       carbs_g: 0,
       acidity: '4-5%',
-      notes: 'Very mild and versatile'
-    },
-    astrologicalProfile: {
+      notes: 'Very mild and versatile' },
+        astrologicalProfile: {
       rulingPlanets: ['Moon', 'Mercury'],
       favorableZodiac: ['cancer', 'virgo', 'pisces'] as any[],
       elementalAffinity: {
@@ -35,9 +34,8 @@ const rawVinegars = {
       flavorProfile: {
         primary: ['balanced'],
         secondary: ['versatile'],
-        notes: 'Versatile rice vinegar for various uses'
-      },
-      uses: ['sushi', 'salad dressing', 'marinades', 'pickling'],
+        notes: 'Versatile rice vinegar for various uses' },
+        uses: ['sushi', 'salad dressing', 'marinades', 'pickling'],
       pairings: ['sesame oil', 'ginger', 'soy sauce']
     },
     storage: {
@@ -62,9 +60,8 @@ const rawVinegars = {
       calories: 3,
       carbs_g: 0.1,
       acidity: '5-6%',
-      notes: 'Contains beneficial enzymes when unfiltered'
-    },
-    astrologicalProfile: {
+      notes: 'Contains beneficial enzymes when unfiltered' },
+        astrologicalProfile: {
       rulingPlanets: ['Venus', 'Sun'],
       favorableZodiac: ['taurus', 'leo', 'libra'] as any[],
       elementalAffinity: {
@@ -77,9 +74,8 @@ const rawVinegars = {
       flavorProfile: {
         primary: ['tangy'],
         secondary: ['fruity'],
-        notes: 'Apple-forward with pleasant acidity'
-      },
-      uses: ['salad dressing', 'marinades', 'health tonic', 'baking'],
+        notes: 'Apple-forward with pleasant acidity' },
+        uses: ['salad dressing', 'marinades', 'health tonic', 'baking'],
       pairings: ['honey', 'dijon mustard', 'olive oil']
     },
     storage: {
@@ -104,9 +100,8 @@ const rawVinegars = {
       calories: 5,
       carbs_g: 1,
       acidity: '6%',
-      notes: 'Contains natural sugars from grape must'
-    },
-    astrologicalProfile: {
+      notes: 'Contains natural sugars from grape must' },
+        astrologicalProfile: {
       rulingPlanets: ['Venus', 'Jupiter'],
       favorableZodiac: ['taurus', 'libra', 'sagittarius'] as any[],
       elementalAffinity: {
@@ -119,9 +114,8 @@ const rawVinegars = {
       flavorProfile: {
         primary: ['sweet'],
         secondary: ['complex'],
-        notes: 'Rich, sweet-tart flavor from aging'
-      },
-      uses: ['salad dressing', 'reduction sauce', 'cheese pairing', 'fruit'],
+        notes: 'Rich, sweet-tart flavor from aging' },
+        uses: ['salad dressing', 'reduction sauce', 'cheese pairing', 'fruit'],
       pairings: ['olive oil', 'strawberries', 'mozzarella', 'arugula']
     },
     storage: {
@@ -146,9 +140,8 @@ const rawVinegars = {
       calories: 2,
       carbs_g: 0.4,
       acidity: '6-7%',
-      notes: 'Contains antioxidants from red wine'
-    },
-    astrologicalProfile: {
+      notes: 'Contains antioxidants from red wine' },
+        astrologicalProfile: {
       rulingPlanets: ['Mars', 'Venus'],
       favorableZodiac: ['aries', 'taurus', 'scorpio'] as any[],
       elementalAffinity: {
@@ -161,9 +154,8 @@ const rawVinegars = {
       flavorProfile: {
         primary: ['tangy'],
         secondary: ['robust'],
-        notes: 'Bold, wine-forward flavor'
-      },
-      uses: ['vinaigrettes', 'marinades', 'sauces', 'braising'],
+        notes: 'Bold, wine-forward flavor' },
+        uses: ['vinaigrettes', 'marinades', 'sauces', 'braising'],
       pairings: ['olive oil', 'shallots', 'herbs', 'red meat']
     },
     storage: {
@@ -188,9 +180,8 @@ const rawVinegars = {
       calories: 1,
       carbs_g: 0.3,
       acidity: '6%',
-      notes: 'Light and clean flavor'
-    },
-    astrologicalProfile: {
+      notes: 'Light and clean flavor' },
+        astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Venus'],
       favorableZodiac: ['gemini', 'libra', 'aquarius'] as any[],
       elementalAffinity: {
@@ -203,9 +194,8 @@ const rawVinegars = {
       flavorProfile: {
         primary: ['crisp'],
         secondary: ['clean'],
-        notes: 'Light, clean acidity perfect for delicate dishes'
-      },
-      uses: ['light vinaigrettes', 'white sauces', 'fish marinades', 'herb infusions'],
+        notes: 'Light, clean acidity perfect for delicate dishes' },
+        uses: ['light vinaigrettes', 'white sauces', 'fish marinades', 'herb infusions'],
       pairings: ['herbs', 'shallots', 'white wine', 'light oils']
     },
     storage: {

@@ -18,7 +18,7 @@ if (typeof window !== 'undefined') {
           _event.filename.includes('lockdown') ||
           _event.filename.includes('viewer.js'))
       ) {
-        _logger.warn('[ScriptReplacer] Blocked error from:', _event.filename)
+        _logger.warn('[ScriptReplacer] Blocked error from: ', _event.filename)
         _event.preventDefault()
         return true,
       }
@@ -52,7 +52,7 @@ if (typeof window !== 'undefined') {
       create: function (_options?: unknown) {
         return {
           show: function () {
-            return this
+            return this;
           },
           hide: function () {
             return this
@@ -95,7 +95,7 @@ if (typeof window !== 'undefined') {
   if (!window.chrome.tabs) {
     window.chrome.tabs = {
       create: function () {
-        log.info('[ScriptReplacer] Intercepted chrome.tabs.create call')
+        log.info('[ScriptReplacer] Intercepted chrome.tabs.create call');
         return Promise.resolve({ id: 999 })
       },
       _query: function (queryInfo: unknown, callback?: Function) {

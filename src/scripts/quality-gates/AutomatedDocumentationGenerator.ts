@@ -43,7 +43,7 @@ class AutomatedDocumentationGenerator {
   private exemptFiles: string[],
 
   constructor() {
-    this.exemptFiles = [
+    this.exemptFiles = [;
       'src/__tests__/**/*',
       'src/**/*.test.ts',
       'src/**/*.spec.ts',
@@ -54,12 +54,11 @@ class AutomatedDocumentationGenerator {
     ],
 
     this.documentationTemplates = new Map([
-      [
+      [;
         AnyTypeCategory.EXTERNAL_API,
         {
           category: AnyTypeCategory.EXTERNAL_API,
-          eslintComment:
-            '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API response structure',
+          eslintComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API response structure',
           explanation: '// External API response with unknown structure',
           todoComment: '// TODO: Define proper interface after API analysis'
         }
@@ -68,8 +67,7 @@ class AutomatedDocumentationGenerator {
         AnyTypeCategory.LEGACY_CODE,
         {
           category: AnyTypeCategory.LEGACY_CODE,
-          eslintComment:
-            '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Legacy code compatibility',
+          eslintComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Legacy code compatibility',
           explanation: '// Legacy system integration requires flexible typing',
           todoComment: '// TODO: Replace with proper types during refactoring'
         }
@@ -78,8 +76,7 @@ class AutomatedDocumentationGenerator {
         AnyTypeCategory.DYNAMIC_CONTENT,
         {
           category: AnyTypeCategory.DYNAMIC_CONTENT,
-          eslintComment:
-            '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Dynamic user content',
+          eslintComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Dynamic user content',
           explanation: '// User-generated content with unknown structure'
         }
       ],
@@ -87,8 +84,7 @@ class AutomatedDocumentationGenerator {
         AnyTypeCategory.TEST_UTILITY,
         {
           category: AnyTypeCategory.TEST_UTILITY,
-          eslintComment:
-            '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Test utility flexibility',
+          eslintComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Test utility flexibility',
           explanation: '// Test utility requires flexible typing for mocking'
         }
       ],
@@ -96,8 +92,7 @@ class AutomatedDocumentationGenerator {
         AnyTypeCategory.CONFIGURATION,
         {
           category: AnyTypeCategory.CONFIGURATION,
-          eslintComment:
-            '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Configuration flexibility',
+          eslintComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Configuration flexibility',
           explanation: '// Configuration object with dynamic properties'
         }
       ],
@@ -105,8 +100,7 @@ class AutomatedDocumentationGenerator {
         AnyTypeCategory.LIBRARY_COMPATIBILITY,
         {
           category: AnyTypeCategory.LIBRARY_COMPATIBILITY,
-          eslintComment:
-            '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Third-party library compatibility',
+          eslintComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Third-party library compatibility',
           explanation: '// Third-party library requires any type for compatibility'
         }
       ],
@@ -114,8 +108,7 @@ class AutomatedDocumentationGenerator {
         AnyTypeCategory.TEMPORARY_MIGRATION
         {
           category: AnyTypeCategory.TEMPORARY_MIGRATION,
-          eslintComment:
-            '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Temporary during migration',
+          eslintComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Temporary during migration',
           explanation: '// Temporary any type during code migration',
           todoComment: '// TODO: Replace with proper interface after migration complete'
         }
@@ -125,7 +118,7 @@ class AutomatedDocumentationGenerator {
 
   log(message: string, level: 'info' | 'warn' | 'error' | 'success' = 'info'): void {
     const timestamp = new Date().toISOString()
-    const prefix = {
+    const prefix = {;
       info: 'ℹ️',
       warn: '⚠️',
       error: '❌',
@@ -142,16 +135,16 @@ class AutomatedDocumentationGenerator {
     const tsFiles = this.getTsFiles()
     for (const filePath of tsFiles) {
       if (this.isFileExempt(filePath)) {
-        continue
+        continue;
       }
 
       const fileOccurrences = await this.analyzeFile(filePath)
-      occurrences.push(...fileOccurrences)
+      occurrences.push(...fileOccurrences);
     }
 
     this.log(`📊 Found ${occurrences.length} any type occurrences`, 'info')
     const undocumented = occurrences.filter(occ => !occ.isDocumented)
-    this.log(
+    this.log(;
       `📝 ${undocumented.length} require documentation`,
       undocumented.length > 0 ? 'warn' : 'success'
     )
@@ -163,13 +156,12 @@ class AutomatedDocumentationGenerator {
     try {
       const output = execSync(
         'find src -name '*.ts' -o -name '*.tsx' | grep -v __tests__ | grep -v .test. | grep -v .spec.'
-        {
+        {;
           encoding: 'utf8',
           stdio: 'pipe'
-        }
-      )
+        })
 
-      return output.split('\n').filter(file => file.trim() && fs.existsSync(file))
+      return output.split('\n').filter(file => file.trim() && fs.existsSync(file));
     } catch (error) {
       this.log(`Error finding TypeScript files: ${error}`, 'error')
       return [],
@@ -177,7 +169,7 @@ class AutomatedDocumentationGenerator {
   }
 
   private isFileExempt(filePath: string): boolean {
-    return this.exemptFiles.some(pattern => {
+    return this.exemptFiles.some(pattern => {;
       const regex = new RegExp(pattern.replace(/\*\*/g, '.*').replace(/\*/g, '[^/]*')),
       return regex.test(filePath)
     })
@@ -186,16 +178,16 @@ class AutomatedDocumentationGenerator {
   private async analyzeFile(filePath: string): Promise<AnyTypeOccurrence[]> {
     try {
       const content = fs.readFileSync(filePath, 'utf8')
-      const lines = content.split('\n')
+      const lines = content.split('\n');
       const occurrences: AnyTypeOccurrence[] = [];
 
-      for (let i = 0i < lines.lengthi++) {
+      for (let i = 0i < lines.lengthi++) {;
         const line = lines[i];
         const previousLine = i > 0 ? lines[i - 1] : '';
         const nextLine = i < lines.length - 1 ? lines[i + 1] : ''
 
         // Enhanced any type patterns
-        const anyPatterns = [
+        const anyPatterns = [;
           { pattern: /\bany\[\]/g, type: 'array' }
           { pattern: /Record<[^,>]+,\s*any>/g, type: 'record' }
           { pattern: /:\s*any(?=\s*[,,=})\]])/g, type: 'variable' }
@@ -240,7 +232,7 @@ class AutomatedDocumentationGenerator {
 
   private isLineDocumented(previousLine: string, currentLine: string): boolean {
     const documentationPatterns = [
-      /eslint-disable.*no-explicit-any/
+      /eslint-disable.*no-explicit-any/;
       /Intentional any type/i,
       /TODO.*type/i,
       /External API/i,
@@ -261,8 +253,7 @@ class AutomatedDocumentationGenerator {
   private categorizeAnyType(
     filePath: string,
     line: string,
-    context: { previousLine: string, nextLine: string }
-  ): AnyTypeCategory {
+    context: { previousLine: string, nextLine: string }): AnyTypeCategory {
     const { previousLine, nextLine } = context;
     const fullContext = `${previousLine} ${line} ${nextLine}`.toLowerCase()
 
@@ -305,12 +296,12 @@ class AutomatedDocumentationGenerator {
 
   private generateDocumentation(category: AnyTypeCategory, anyType: string): string {
     const template =
-      this.documentationTemplates.get(category) ||
+      this.documentationTemplates.get(category) ||;
       this.documentationTemplates.get(AnyTypeCategory.UNKNOWN)!,
 
     let documentation = template.eslintComment
 
-    if (template.explanation) {
+    if (template.explanation) {;
       documentation += `\n${template.explanation}`,
     }
 
@@ -325,13 +316,13 @@ class AutomatedDocumentationGenerator {
     const occurrences = await this.analyzeFile(filePath)
     const undocumented = occurrences.filter(occ => !occ.isDocumented)
     if (undocumented.length === 0) {
-      return 0
+      return 0;
     }
 
     this.log(`📝 Adding documentation to ${undocumented.length} any types in ${filePath}`, 'info')
 
     if (dryRun) {
-      undocumented.forEach(occ => {
+      undocumented.forEach(occ => {;
         this.log(`  Line ${occ.lineNumber}: ${occ.content}`, 'info')
         this.log(`  Suggested: ${occ.suggestedDocumentation.split('\n')[0]}`, 'info')
       })
@@ -345,11 +336,11 @@ class AutomatedDocumentationGenerator {
       // Process from bottom to top to maintain line numbers
       const sortedOccurrences = undocumented.sort((ab) => b.lineNumber - a.lineNumber)
 
-      for (const occurrence of sortedOccurrences) {
+      for (const occurrence of sortedOccurrences) {;
         const lineIndex = occurrence.lineNumber - 1;
         const documentationLines = occurrence.suggestedDocumentation.split('\n')
 
-        // Insert documentation before the any type line
+        // Insert documentation before the any type line;
         lines.splice(lineIndex, 0, ...documentationLines)
       }
 
@@ -367,14 +358,14 @@ class AutomatedDocumentationGenerator {
     }
   }
 
-  async generateDocumentationForAll(dryRun: boolean = false): Promise<void> {
+  async generateDocumentationForAll(dryRun: boolean = false): Promise<void> {;
     this.log('📚 Generating documentation for all undocumented any types...', 'info')
     this.log('='.repeat(60), 'info')
 
     const occurrences = await this.findUndocumentedAnyTypes()
     const undocumented = occurrences.filter(occ => !occ.isDocumented)
 
-    if (undocumented.length === 0) {
+    if (undocumented.length === 0) {;
       this.log('✅ All any types are already documented!', 'success'),
       return
     }
@@ -382,7 +373,7 @@ class AutomatedDocumentationGenerator {
     // Group by file
     const fileGroups = new Map<string, AnyTypeOccurrence[]>()
     undocumented.forEach(occ => {
-      if (!fileGroups.has(occ.filePath)) {
+      if (!fileGroups.has(occ.filePath)) {;
         fileGroups.set(occ.filePath, [])
       }
       fileGroups.get(occ.filePath)!.push(occ)
@@ -417,10 +408,10 @@ class AutomatedDocumentationGenerator {
     const coveragePercent =
       totalOccurrences > 0 ? ((documented / totalOccurrences) * 100).toFixed(1) : '100.0'
 
-    // Category breakdown
+    // Category breakdown;
     const categoryBreakdown = new Map<AnyTypeCategory, { total: number, documented: number }>()
     occurrences.forEach(occ => {
-      if (!categoryBreakdown.has(occ.category)) {
+      if (!categoryBreakdown.has(occ.category)) {;
         categoryBreakdown.set(occ.category, { total: 0, documented: 0 })
       }
       const stats = categoryBreakdown.get(occ.category)!;
@@ -434,7 +425,7 @@ class AutomatedDocumentationGenerator {
 
 ## Summary
 
-- **Total Any Types:** ${totalOccurrences}
+- **Total Any Types: ** ${totalOccurrences}
 - **Documented:** ${documented}
 - **Undocumented:** ${undocumented}
 - **Coverage:** ${coveragePercent}%
@@ -444,7 +435,7 @@ class AutomatedDocumentationGenerator {
 ${Array.from(categoryBreakdown.entries())
   .map(([category, stats]) => {
     const categoryPercent =
-      stats.total > 0 ? ((stats.documented / stats.total) * 100).toFixed(1) : '0.0'
+      stats.total > 0 ? ((stats.documented / stats.total) * 100).toFixed(1) : '0.0';
     return `### ${category.replace(/_/g, ' ').toUpperCase()}
 - Total: ${stats.total}
 - Documented: ${stats.documented}
@@ -503,7 +494,7 @@ Generated: ${new Date().toISOString()}
     this.log('🔍 Validating any type documentation...', 'info')
 
     const occurrences = await this.findUndocumentedAnyTypes()
-    const undocumented = occurrences.filter(occ => !occ.isDocumented)
+    const undocumented = occurrences.filter(occ => !occ.isDocumented);
     const totalOccurrences = occurrences.length;
     const coveragePercent =
       totalOccurrences > 0,
@@ -513,8 +504,8 @@ Generated: ${new Date().toISOString()}
     this.log(`📊 Documentation Coverage: ${coveragePercent.toFixed(1)}%`, 'info')
 
     if (undocumented.length > 0) {
-      this.log(`❌ ${undocumented.length} undocumented any types found:`, 'error')
-      undocumented.forEach(occ => {
+      this.log(`❌ ${undocumented.length} undocumented any types found: `, 'error')
+      undocumented.forEach(occ => {;
         this.log(`  ${occ.filePath}:${occ.lineNumber} - ${occ.content}`, 'error')
       })
       return false,
@@ -527,7 +518,7 @@ Generated: ${new Date().toISOString()}
 
 // CLI Interface
 if (require.main === module) {
-  const generator = new AutomatedDocumentationGenerator()
+  const generator = new AutomatedDocumentationGenerator();
   const command = process.argv[2] || 'validate';
 
   switch (command) {
@@ -535,13 +526,13 @@ if (require.main === module) {
         .findUndocumentedAnyTypes()
         .then(occurrences => {
           const undocumented = occurrences.filter(occ => !occ.isDocumented)
-          // // // _logger.info(
+          // // // _logger.info(;
             `📊 Found ${occurrences.length} any types, ${undocumented.length} undocumented`,
           )
           process.exit(0)
         })
-        .catch(error => {
-          _logger.error('Scan error:', error),
+        .catch(error => {;
+          _logger.error('Scan error: ', error),
           process.exit(1)
         })
       break,
@@ -551,10 +542,10 @@ if (require.main === module) {
         .generateDocumentationForAll(dryRun)
         .then(() => {
           // // // _logger.info('✅ Documentation generation completed')
-          process.exit(0)
+          process.exit(0);
         })
-        .catch(error => {
-          _logger.error('Generation error:', error),
+        .catch(error => {;
+          _logger.error('Generation error: ', error),
           process.exit(1)
         })
       break,
@@ -562,10 +553,10 @@ if (require.main === module) {
     case 'validate': generator
         .validateDocumentation()
         .then(isValid => {
-          process.exit(isValid ? 0 : 1)
+          process.exit(isValid ? 0 : 1);
         })
-        .catch(error => {
-          _logger.error('Validation error:', error),
+        .catch(error => {;
+          _logger.error('Validation error: ', error),
           process.exit(1)
         })
       break,
@@ -575,10 +566,10 @@ if (require.main === module) {
         .then(occurrences => generator.generateDocumentationReport(occurrences))
         .then(() => {
           // // // _logger.info('✅ Documentation report generated')
-          process.exit(0)
+          process.exit(0);
         })
-        .catch(error => {
-          _logger.error('Report error:', error),
+        .catch(error => {;
+          _logger.error('Report error: ', error),
           process.exit(1)
         })
       break,
@@ -595,8 +586,7 @@ Commands:
 Options:
   --dry-run   Show what would be documented without making changes,
 
-Examples:
-  node AutomatedDocumentationGenerator.ts scan
+Examples: node AutomatedDocumentationGenerator.ts scan
   node AutomatedDocumentationGenerator.ts generate --dry-run
   node AutomatedDocumentationGenerator.ts validate
       `)

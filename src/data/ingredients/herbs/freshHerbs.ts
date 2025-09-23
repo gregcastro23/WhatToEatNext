@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawFreshHerbs = {
-  basil: {
+  basil: {;
     name: 'Basil',
     category: 'culinary_herb',
     subCategory: 'fresh_herb',
@@ -35,9 +35,8 @@ const rawFreshHerbs = {
       antioxidants: {
         phenolics: 'high',
         flavonoids: 'high',
-        carotenoids: 'moderate'
-      },
-      source: 'USDA FoodData Central'
+        carotenoids: 'moderate' },
+        source: 'USDA FoodData Central'
     }
 
     // Sensory profile (standardized)
@@ -89,9 +88,8 @@ const rawFreshHerbs = {
         washing: 'gentle rinse, pat dry with paper towels',
         drying: 'air-dry or use lowest setting on dehydrator',
         chopping: 'tear by hand or cut with sharp knife just before using',
-        preserving: 'freeze in oil, infuse in vinegar or oil, dry'
-      },
-      notes: 'Turns black when cut with dull knife or exposed to acid for too long add at end of cooking to preserve flavor'
+        preserving: 'freeze in oil, infuse in vinegar or oil, dry' },
+        notes: 'Turns black when cut with dull knife or exposed to acid for too long add at end of cooking to preserve flavor'
     }
 
     // Culinary applications (standardized)
@@ -124,8 +122,7 @@ const rawFreshHerbs = {
         pesto: {
           method: 'food processor or mortar and pestle',
           ingredients: ['olive oil', 'pine nuts', 'parmesan', 'garlic', 'salt'],
-          notes: 'Use only the leaves, adjust garlic to taste'
-        },
+          notes: 'Use only the leaves, adjust garlic to taste' },
         caprese: {
           method: 'layered or arranged',
           ingredients: ['tomato', 'mozzarella', 'olive oil', 'balsamic'],
@@ -199,9 +196,8 @@ const rawFreshHerbs = {
     timing: {
       addEarly: false,
       addLate: true,
-      notes: 'Add in last few minutes of cooking or after removing from heat'
-    },
-    substitutions: ['oregano', 'thyme', 'tarragon', 'mint'],
+      notes: 'Add in last few minutes of cooking or after removing from heat' },
+        substitutions: ['oregano', 'thyme', 'tarragon', 'mint'],
 
     // Herb-specific properties
     essentialOilContent: 0.5, // percentage,
@@ -257,9 +253,9 @@ const rawFreshHerbs = {
         base: 'Air',
         secondary: 'Fire',
         decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' }
-          second: { element: 'Fire', planet: 'Venus' }
-          third: { element: 'Water', planet: 'Jupiter' }
+          first: { element: 'Air', planet: 'Mercury' },
+        second: { element: 'Fire', planet: 'Venus' },
+        third: { element: 'Water', planet: 'Jupiter' }
         }
       },
       lunarPhaseModifiers: {

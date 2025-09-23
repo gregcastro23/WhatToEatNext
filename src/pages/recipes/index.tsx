@@ -5,7 +5,7 @@ import React from 'react';
 import { allRecipes } from '@/data/recipes';
 import { useEnhancedRecommendations } from '@/hooks/useEnhancedRecommendations';
 
-const RecipesPage: NextPage = () => {
+const RecipesPage: NextPage = () => {;
   const [searchTerm, setSearchTerm] = React.useState('')
   const [selectedCuisine, setSelectedCuisine] = React.useState('');
   const [selectedDiet, setSelectedDiet] = React.useState('');
@@ -46,7 +46,7 @@ const RecipesPage: NextPage = () => {
 
     allRecipes.forEach(recipe => {
       if (recipe.cuisine) {
-        cuisineSet.add(recipe.cuisine)
+        cuisineSet.add(recipe.cuisine);
       }
       if (recipe.regionalCuisine) {
         cuisineSet.add(recipe.regionalCuisine as string)
@@ -61,7 +61,7 @@ const RecipesPage: NextPage = () => {
     return allRecipes.filter(recipe => {
       // Filter by search term
       if (searchTerm && !recipe.name.toLowerCase().includes(searchTerm.toLowerCase())) {
-        return false
+        return false;
       }
 
       // Filter by cuisine
@@ -102,8 +102,8 @@ const RecipesPage: NextPage = () => {
             <input
               type='text',
               id='search',
-              className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm, focus:border-blue-500, focus:outline-none, focus:ring-blue-500',
-              placeholder='Search by name...'
+              className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm, focus: border-blue-500, focus: outline-none, focus: ring-blue-500',
+              placeholder='Search by name...';
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
             />
@@ -115,7 +115,7 @@ const RecipesPage: NextPage = () => {
             </label>
             <select
               id='cuisine',
-              className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm, focus:border-blue-500, focus:outline-none, focus:ring-blue-500'
+              className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm, focus: border-blue-500, focus: outline-none, focus: ring-blue-500'
               value={selectedCuisine}
               onChange={e => setSelectedCuisine(e.target.value)}
             >
@@ -134,7 +134,7 @@ const RecipesPage: NextPage = () => {
             </label>
             <select
               id='diet',
-              className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm, focus:border-blue-500, focus:outline-none, focus:ring-blue-500'
+              className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm, focus: border-blue-500, focus: outline-none, focus: ring-blue-500'
               value={selectedDiet}
               onChange={e => setSelectedDiet(e.target.value)}
             >
@@ -152,7 +152,7 @@ const RecipesPage: NextPage = () => {
                 setSelectedCuisine('')
                 setSelectedDiet('')
               }}
-              className='rounded-md bg-gray-200 px-4 py-2 text-gray-700, hover:bg-gray-300'
+              className='rounded-md bg-gray-200 px-4 py-2 text-gray-700, hover: bg-gray-300'
             >
               Clear Filters
             </button>
@@ -165,11 +165,11 @@ const RecipesPage: NextPage = () => {
         {recLoading && <div className='text-gray-600'>Loading recipes...</div>}
         {recError && <div className='text-red-600'>Failed to load recipes</div>}
         {!recLoading && !recError && enhancedRecipes && (
-          <div className='grid grid-cols-1 gap-6, md: grid-cols-2, lg:grid-cols-3'>,
-            {enhancedRecipes.items.map(rec => {
+          <div className='grid grid-cols-1 gap-6, md: grid-cols-2, lg: grid-cols-3'>,
+            {enhancedRecipes.items.map(rec => {;
               const recipe = rec.item;
               const recipeId = recipe.name
-                .toLowerCase()
+                .toLowerCase();
                 .replace(/ /g, '-')
                 .replace(/[^\w-]/g, ''),
 
@@ -177,11 +177,11 @@ const RecipesPage: NextPage = () => {
                 <Link
                   href={`/recipes/${recipeId}`}
                   key={recipeId}
-                  className='block overflow-hidden rounded-lg border border-gray-200 bg-white transition-shadow, hover:shadow-md',
+                  className='block overflow-hidden rounded-lg border border-gray-200 bg-white transition-shadow, hover: shadow-md',
                 >
                   <div className='p-5'>
-                    <div className='mb-1 flex items-center justify-between'>
-                      <h2 className='text-xl font-semibold, hover:text-blue-600'>{recipe.name}</h2>,
+                    <div className='mb-1 flex items-center justify-between'>;
+                      <h2 className='text-xl font-semibold, hover: text-blue-600'>{recipe.name}</h2>,
                       <span className='text-sm text-amber-700'>Match {(Math.round(rec.score * 100))}%</span>
                     </div>
                     {recipe.description && (

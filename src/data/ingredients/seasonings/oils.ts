@@ -24,9 +24,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       omega_9_g: 9.9,
       vitamins: ['e', 'k'],
       antioxidants: ['oleocanthal', 'oleuropein', 'hydroxytyrosol'],
-      notes: 'Rich in monounsaturated fats and antioxidants'
-    },
-    preparation: {
+      notes: 'Rich in monounsaturated fats and antioxidants' },
+        preparation: {
       fresh: {
         duration: '2 years',
         storage: 'cool, dark place',
@@ -37,17 +36,16 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '24 months',
       temperature: 'room temperature',
-      notes: 'keep away from heat sources'
-    },
-    astrologicalProfile: {
+      notes: 'keep away from heat sources' },
+        astrologicalProfile: {
       rulingPlanets: ['Venus', 'Sun'],
       favorableZodiac: ['taurus', 'leo'],
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Sun' }
-          second: { element: 'Earth', planet: 'Venus' }
-          third: { element: 'Air', planet: 'Mercury' }
+          first: { element: 'Fire', planet: 'Sun' },
+        second: { element: 'Earth', planet: 'Venus' },
+        third: { element: 'Air', planet: 'Mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -87,9 +85,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       omega_6_g: 0.2,
       omega_9_g: 0.8,
       vitamins: [],
-      notes: 'High in medium-chain triglycerides (MCTs)'
-    },
-    preparation: {
+      notes: 'High in medium-chain triglycerides (MCTs)' },
+        preparation: {
       fresh: {
         duration: '6 months',
         storage: 'room temperature',
@@ -123,9 +120,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       vitamins: ['e', 'k', 'b6'],
       minerals: ['calcium', 'iron', 'zinc'],
       antioxidants: ['sesamol', 'sesamin', 'sesamolin'],
-      notes: 'Distinctive nutty flavor, common in Asian cuisine'
-    },
-    preparation: {
+      notes: 'Distinctive nutty flavor, common in Asian cuisine' },
+        preparation: {
       fresh: {
         duration: '1 month',
         storage: 'refrigerated after opening',
@@ -136,17 +132,16 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '12 months',
       temperature: 'cool, dark place',
-      notes: 'Refrigerate after opening'
-    },
-    astrologicalProfile: {
+      notes: 'Refrigerate after opening' },
+        astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Moon'],
       favorableZodiac: ['gemini', 'cancer'],
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Mercury' }
-          second: { element: 'Earth', planet: 'Moon' }
-          third: { element: 'Air', planet: 'Venus' }
+          first: { element: 'Fire', planet: 'Mercury' },
+        second: { element: 'Earth', planet: 'Moon' },
+        third: { element: 'Air', planet: 'Venus' }
         }
       },
       lunarPhaseModifiers: {
@@ -179,9 +174,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       omega_6_g: 0.4,
       omega_9_g: 3.7,
       vitamins: ['a', 'd', 'e', 'k'],
-      notes: 'Clarified butter with high smoke point'
-    },
-    preparation: {
+      notes: 'Clarified butter with high smoke point' },
+        preparation: {
       fresh: {
         duration: '3 months',
         storage: 'room temperature',
@@ -214,9 +208,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       omega_9_g: 9.9,
       vitamins: ['e'],
       antioxidants: ['lutein'],
-      notes: 'High smoke point and neutral flavor'
-    },
-    preparation: {
+      notes: 'High smoke point and neutral flavor' },
+        preparation: {
       fresh: {
         duration: '6 months',
         storage: 'cool, dark place',
@@ -255,9 +248,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       omega_6_g: 4.3,
       omega_9_g: 6.2,
       vitamins: ['e'],
-      notes: 'High smoke point, good for frying'
-    },
-    preparation: {
+      notes: 'High smoke point, good for frying' },
+        preparation: {
       fresh: {
         duration: '6 months',
         storage: 'cool, dark place',
@@ -325,9 +317,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       omega_6_g: 7.3,
       omega_9_g: 3.1,
       vitamins: ['e', 'k'],
-      notes: 'Excellent omega-3 to omega-6 ratio, rich nutty flavor'
-    },
-    preparation: {
+      notes: 'Excellent omega-3 to omega-6 ratio, rich nutty flavor' },
+        preparation: {
       fresh: {
         duration: '2 months',
         storage: 'refrigerated',
@@ -483,9 +474,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       omega_9_g: 2.2,
       vitamins: ['e'],
       antioxidants: ['proanthocyanidins'],
-      notes: 'Light flavor and high smoke point'
-    },
-    preparation: {
+      notes: 'Light flavor and high smoke point' },
+        preparation: {
       fresh: {
         duration: '3 months',
         storage: 'cool, dark place',
@@ -786,9 +776,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       omega_9_g: 9.7,
       vitamins: ['e'],
       minerals: ['magnesium', 'phosphorus'],
-      notes: 'Rich in vitamin E and monounsaturated fats'
-    },
-    preparation: {
+      notes: 'Rich in vitamin E and monounsaturated fats' },
+        preparation: {
       fresh: {
         duration: '2 months',
         storage: 'refrigerated',
@@ -827,9 +816,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       omega_6_g: 9.2,
       omega_9_g: 2.7,
       vitamins: ['e'],
-      notes: 'High in vitamin E and polyunsaturated fats'
-    },
-    preparation: {
+      notes: 'High in vitamin E and polyunsaturated fats' },
+        preparation: {
       fresh: {
         duration: '4 months',
         storage: 'cool, dark place',
@@ -926,9 +914,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       omega_6_g: 1.9,
       omega_9_g: 2.5,
       vitamins: ['e', 'k'],
-      notes: 'Highest plant source of omega-3 fatty acids, never heat this oil'
-    },
-    preparation: {
+      notes: 'Highest plant source of omega-3 fatty acids, never heat this oil' },
+        preparation: {
       fresh: {
         duration: '1 month',
         storage: 'refrigerated',
@@ -1113,9 +1100,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       omega_9_g: 2.2,
       vitamins: ['e'],
       antioxidants: ['proanthocyanidins'],
-      notes: 'Light flavor and high smoke point'
-    },
-    preparation: {
+      notes: 'Light flavor and high smoke point' },
+        preparation: {
       fresh: {
         duration: '3 months',
         storage: 'cool, dark place',
@@ -1147,9 +1133,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       omega_6_g: 3.0,
       omega_9_g: 8.8,
       vitamins: ['e', 'k'],
-      notes: 'Low in saturated fats, good source of omega-3 fatty acids'
-    },
-    preparation: {
+      notes: 'Low in saturated fats, good source of omega-3 fatty acids' },
+        preparation: {
       fresh: {
         duration: '6 months',
         storage: 'cool, dark place',
@@ -1160,17 +1145,16 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '12 months',
       temperature: 'room temperature',
-      notes: 'Store away from direct light and heat'
-    },
-    astrologicalProfile: {
+      notes: 'Store away from direct light and heat' },
+        astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Jupiter'],
       favorableZodiac: ['gemini', 'sagittarius'],
       elementalAffinity: {
         base: 'Air',
         decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' }
-          second: { element: 'Fire', planet: 'Jupiter' }
-          third: { element: 'Air', planet: 'Saturn' }
+          first: { element: 'Air', planet: 'Mercury' },
+        second: { element: 'Fire', planet: 'Jupiter' },
+        third: { element: 'Air', planet: 'Saturn' }
         }
       },
       lunarPhaseModifiers: {
@@ -1200,9 +1184,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       monounsaturated_fat_g: 0,
       polyunsaturated_fat_g: 0,
       medium_chain_triglycerides_g: 14,
-      notes: 'Contains only medium-chain triglycerides, rapidly metabolized by the body'
-    },
-    preparation: {
+      notes: 'Contains only medium-chain triglycerides, rapidly metabolized by the body' },
+        preparation: {
       fresh: {
         duration: '12 months',
         storage: 'cool, dark place',
@@ -1217,17 +1200,16 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '24 months',
       temperature: 'room temperature',
-      notes: 'Does not require refrigeration'
-    },
-    astrologicalProfile: {
+      notes: 'Does not require refrigeration' },
+        astrologicalProfile: {
       rulingPlanets: ['Mars', 'Sun'],
       favorableZodiac: ['aries', 'leo'],
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Mars' }
-          second: { element: 'Fire', planet: 'Sun' }
-          third: { element: 'Air', planet: 'Jupiter' }
+          first: { element: 'Fire', planet: 'Mars' },
+        second: { element: 'Fire', planet: 'Sun' },
+        third: { element: 'Air', planet: 'Jupiter' }
         }
       },
       lunarPhaseModifiers: {
@@ -1248,8 +1230,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 export const oils: Record<string, IngredientMapping> = fixIngredientMappings(rawOils)
 
 // Property verification checklist: /*
-All oils must, have:
-1. name (string)
+All oils must, have: 1. name (string)
 2. category ('oil')
 3. elementalProperties (sum = 1.0)
    - Fire
@@ -1272,3 +1253,4 @@ All oils must, have:
    - temperature (string)
    - notes (string)
 */
+;

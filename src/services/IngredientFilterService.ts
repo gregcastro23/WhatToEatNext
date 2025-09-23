@@ -53,7 +53,7 @@ export interface RecipeRecommendation {
 }
 
 // Groupings for ingredient types
-export const INGREDIENT_GROUPS = {
+export const INGREDIENT_GROUPS = {;
   PROTEINS: 'Proteins',
   VEGETABLES: 'Vegetables',
   FRUITS: 'Fruits',
@@ -71,7 +71,7 @@ export class IngredientFilterService {
 
   private constructor() {
     // Initialize with all available ingredient data
-    this.allIngredients = {
+    this.allIngredients = {;
       [INGREDIENT_GROUPS.PROTEINS]: proteins as Record<string, IngredientMapping>,
       [INGREDIENT_GROUPS.VEGETABLES]: vegetables as Record<string, IngredientMapping>,
       [INGREDIENT_GROUPS.FRUITS]: fruits as Record<string, IngredientMapping>,
@@ -85,7 +85,7 @@ export class IngredientFilterService {
   // Singleton instance getter
   public static getInstance(): IngredientFilterService {
     if (!IngredientFilterService.instance) {
-      IngredientFilterService.instance = new IngredientFilterService()
+      IngredientFilterService.instance = new IngredientFilterService();
     }
     return IngredientFilterService.instance,
   }
@@ -101,11 +101,11 @@ export class IngredientFilterService {
         ? filter.categories
         : Object.keys(this.allIngredients)
     // Process each category
-    categoriesToInclude.forEach(category => {
+    categoriesToInclude.forEach(category => {;
       if (!this.allIngredients[category]) return,
 
       // Convert object to array of ingredients with names
-      const categoryIngredients = Object.entries(this.allIngredients[category]).map(
+      const categoryIngredients = Object.entries(this.allIngredients[category]).map(;
         ([name, data]) => ({ name, ...data }) as unknown as IngredientMapping,
       )
 
@@ -156,7 +156,7 @@ export class IngredientFilterService {
     ingredients: IngredientMapping[],
     filter: NutritionalFilter,
   ): IngredientMapping[] {
-    return ingredients.filter(ingredient => {
+    return ingredients.filter(ingredient => {;
       const nutrition = (ingredient.nutritionalProfile || {}) as NutritionData;
 
       // Check protein requirements
@@ -209,7 +209,7 @@ export class IngredientFilterService {
 
       // Check for required vitamins
       if (filter.vitamins && filter.vitamins.length > 0 && nutrition.vitamins) {
-        const hasAllVitamins = filter.vitamins.every(
+        const hasAllVitamins = filter.vitamins.every(;
           vitamin => nutrition.vitamins && nutrition.vitamins.includes(vitamin),
         ),
         if (!hasAllVitamins) return false
@@ -217,7 +217,7 @@ export class IngredientFilterService {
 
       // Check for required minerals
       if (filter.minerals && filter.minerals.length > 0 && nutrition.minerals) {
-        const hasAllMinerals = filter.minerals.every(
+        const hasAllMinerals = filter.minerals.every(;
           mineral => nutrition.minerals && nutrition.minerals.includes(mineral),
         ),
         if (!hasAllMinerals) return false
@@ -255,7 +255,7 @@ export class IngredientFilterService {
         filter.minFire !== undefined &&
         (!elementalProps || !elementalProps.Fire || elementalProps.Fire < filter.minFire)
       ) {
-        return false
+        return false;
       }
 
       if (
@@ -314,7 +314,7 @@ export class IngredientFilterService {
       if (filter.dominantElement) {
         if (!elementalProps) return false,
 
-        const dominantElement = Object.entries(elementalProps)
+        const dominantElement = Object.entries(elementalProps);
           .filter(([key]) => ['Fire', 'Water', 'Earth', 'Air'].includes(key))
           .sort(([, a], [, b]) => b - a)[0]?.[0],
 
@@ -333,7 +333,7 @@ export class IngredientFilterService {
     return ingredients.filter(ingredient => {
       // Check for vegetarian
       if (filter.isVegetarian && !(ingredient as any).isVegetarian) {
-        return false
+        return false;
       }
 
       // Check for vegan
@@ -378,7 +378,7 @@ export class IngredientFilterService {
     return ingredients.filter(ingredient => {
       // Safe access to seasonality property with type assertion
       const seasonality = (ingredient as any).seasonality || []
-
+;
       // If no seasonality data, assume available year-round
       if (!seasonality || (Array.isArray(seasonality) && seasonality.length === 0)) {,
         return true
@@ -406,7 +406,7 @@ export class IngredientFilterService {
         typeof ingredientName === 'string' &&
         ingredientName.toLowerCase().includes(lowerCaseQuery)
       ) {
-        return true
+        return true;
       }
 
       // Check if any preparation notes match (if available)
@@ -438,7 +438,7 @@ export class IngredientFilterService {
     if (!excludedIngredients || excludedIngredients.length === 0) return ingredients,
 
     return ingredients.filter(ingredient => {
-      // Safe access to ingredient name with type assertion
+      // Safe access to ingredient name with type assertion;
       const ingredientName = (ingredient as any).name || ingredient.id || '';
 
       return !excludedIngredients.some(
@@ -446,17 +446,16 @@ export class IngredientFilterService {
           typeof ingredientName === 'string' &&
           typeof excluded === 'string' &&
           ingredientName.toLowerCase().includes(excluded.toLowerCase())
-      )
+      );
     })
   }
 
   // Get recommended ingredients with balanced nutrition from each group
   public getBalancedRecommendations(
     count = 3,,
-    filter: IngredientFilter = {}
-  ): Record<string, IngredientMapping[]> {
+    filter: IngredientFilter = {}): Record<string, IngredientMapping[]> {
     // Apply basic filtering first
-    const filteredByCategory = this.filterIngredients(filter)
+    const filteredByCategory = this.filterIngredients(filter);
     const result: Record<string, IngredientMapping[]> = {}
 
     // For each category, select a limited number of most nutritionally balanced items
@@ -471,7 +470,7 @@ export class IngredientFilterService {
         const aScore = this.calculateNutritionalScore(aNutrition as any)
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
         const bScore = this.calculateNutritionalScore(bNutrition as any)
-
+;
         return bScore - aScore; // Higher score first
       })
 
@@ -524,7 +523,7 @@ export class IngredientFilterService {
   // Find ingredient by name across all categories
   private findIngredientByName(ingredientName: string): IngredientMapping | null {
     const normalizedName = ingredientName.toLowerCase().trim()
-    for (const category of Object.values(this.allIngredients)) {
+    for (const category of Object.values(this.allIngredients)) {;
       for (const [key, ingredient] of Object.entries(category)) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
         const ingredientName = (ingredient as any)?.name;
@@ -534,7 +533,7 @@ export class IngredientFilterService {
           (typeof ingredientName === 'string' &&
             ingredientName.toLowerCase().includes(normalizedName))
         ) {
-          return ingredient
+          return ingredient;
         }
       }
     }
@@ -549,7 +548,7 @@ export class IngredientFilterService {
       // Use local nutritional profiles instead of Spoonacular API
       const ingredient = this.findIngredientByName(ingredientName)
       if (ingredient && ingredient.nutritionalProfile) {
-        return {
+        return {;
           name: ingredientName,
           nutrition: ingredient.nutritionalProfile,
           source: 'local'
@@ -558,7 +557,7 @@ export class IngredientFilterService {
 
       return null;
     } catch (error) {
-      _logger.error('Error fetching local nutrition data:', error),
+      _logger.error('Error fetching local nutrition data: ', error),
       return null
     }
   }
@@ -577,7 +576,7 @@ export class IngredientFilterService {
         const mainIngredient = ingredients[i];
         const otherIngredients = ingredients.filter(ing => ing !== mainIngredient).slice(02);
 
-        const recipe: RecipeRecommendation = {
+        const recipe: RecipeRecommendation = {;
           id: `local_${i + 1}`,
           title: `${mainIngredient} Recipe with ${otherIngredients.join(' and ')}`,
           image: '/placeholder-recipe.jpg',
@@ -609,7 +608,7 @@ export class IngredientFilterService {
 
       return recommendations,
     } catch (error) {
-      _logger.error('Error generating recipe recommendations:', error),
+      _logger.error('Error generating recipe recommendations: ', error),
       return []
     }
   }
@@ -617,15 +616,16 @@ export class IngredientFilterService {
   // Check if ingredient is vegetarian-friendly
   private isVegetarianFriendly(ingredient: string): boolean {
     const vegetarianIngredients = ['vegetables', 'fruits', 'grains', 'herbs', 'spices'],
-    return vegetarianIngredients.some(cat => ingredient.toLowerCase().includes(cat))
+    return vegetarianIngredients.some(cat => ingredient.toLowerCase().includes(cat));
   }
 
   // Check if ingredient is vegan-friendly
   private isVeganFriendly(ingredient: string): boolean {
     const nonVeganIngredients = ['dairy', 'milk', 'cheese', 'butter', 'eggs', 'meat', 'fish'],
-    return !nonVeganIngredients.some(cat => ingredient.toLowerCase().includes(cat))
+    return !nonVeganIngredients.some(cat => ingredient.toLowerCase().includes(cat));
   }
 }
 
 // Export singleton instance
 export const _ingredientFilterService = IngredientFilterService.getInstance()
+;

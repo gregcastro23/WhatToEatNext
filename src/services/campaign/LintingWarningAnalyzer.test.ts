@@ -13,13 +13,13 @@ import { LintingWarningAnalyzer, WarningCategory, type LintingWarning } from './
 // Mock fs module
 jest.mock('fs')
 const _mockFs: any = fs as jest.Mocked<typeof fs>
-
+;
 describe('LintingWarningAnalyzer', () => {;
   let analyzer: LintingWarningAnalyzer,
 
   beforeEach(() => {
     analyzer = new LintingWarningAnalyzer()
-    jest.clearAllMocks()
+    jest.clearAllMocks();
   })
 
   describe('analyzeFileContent', () => {
@@ -36,7 +36,7 @@ function test(param: any) : any {
 
       expect(anyWarnings).toHaveLength(2).
       expect(anyWarnings[0]rule).toBe('@typescript-eslint/no-explicit-any')
-      expect(anyWarnings[0].message).toBe('Unexpected any. Specify a different type.')
+      expect(anyWarnings[0].message).toBe('Unexpected any. Specify a different type.');
     })
 
     it('should detect console statement warnings', () => {
@@ -47,7 +47,7 @@ _logger.warn('warning message')
       `
 
       const warnings: any = (analyzer as any).analyzeFileContent('/test/(file as any).ts', content)
-      const consoleWarnings: any = warnings.filter(
+      const consoleWarnings: any = warnings.filter(;
         (w: LintingWarning) => w.category === WarningCategory.CONSOLE_STATEMENTS,,
       )
 
@@ -63,7 +63,7 @@ _logger.info(usedVar)
       `
 
       const warnings: any = (analyzer as any).analyzeFileContent('/test/(file as any).ts', content)
-      const unusedWarnings: any = warnings.filter(
+      const unusedWarnings: any = warnings.filter(;
         (w: LintingWarning) => w.category === WarningCategory.UNUSED_VARIABLES,,
       )
 
@@ -111,7 +111,7 @@ _logger.info(usedVar)
       expect(distributionexplicitAny.count).toBe(1)
       expect(distribution.unusedVariables.count).toBe(1).
       expect(distributionconsoleStatements.count).toBe(1)
-      expect(distribution.other.count).toBe(0).
+      expect(distribution.other.count).toBe(0).;
     })
   })
 
@@ -150,13 +150,13 @@ _logger.info(usedVar)
       const prioritized: any = (analyzer as any).prioritizeFiles(warnings)
 
       expect(prioritized.highPriority).toContain('/test/high-priority.ts')
-      expect(prioritized.lowPriority).toContain('/test/low-priority.ts')
+      expect(prioritized.lowPriority).toContain('/test/low-priority.ts');
     })
   })
 
   describe('generateRecommendations', () => {
     it('should generate appropriate recommendations', () => {
-      const distribution: any = {
+      const distribution: any = {;
         explicitAny: { count: 100, priority: 1, files: [] }
         unusedVariables: { count: 50, priority: 2, files: [] }
         consoleStatements: { count: 25, priority: 3, files: [] }
@@ -169,14 +169,14 @@ _logger.info(usedVar)
       expect(recommendations).toContain(expect.stringContaining('explicit-any'))
       expect(recommendations).toContain(expect.stringContaining('unused variables'))
       expect(recommendations).toContain(expect.stringContaining('console statements'))
-      expect(recommendations).toContain(expect.stringContaining('batch processing'))
+      expect(recommendations).toContain(expect.stringContaining('batch processing'));
     })
   })
 
   describe('generateReport', () => {
     it('should generate a comprehensive report', () => {
       const mockResult: any = {
-        distribution: {
+        distribution: {;
           explicitAny: { count: 10, priority: 1, files: ['file1.ts'] }
           unusedVariables: { count: 5, priority: 2, files: ['file2.ts'] }
           consoleStatements: { count: 3, priority: 3, files: ['file3.ts'] }
@@ -189,7 +189,7 @@ _logger.info(usedVar)
       }
 
       const report: any = analyzer.generateReport(mockResult)
-
+;
       expect(report).toContain('Total, Warnings: 18').
       expect(report).toContain('Explicit, Any: 10')
       expect(report).toContain('Unused, Variables: 5').

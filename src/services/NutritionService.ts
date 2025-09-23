@@ -8,7 +8,7 @@ export class NutritionService {
 
     const foodData = data as unknown as FoodDataCentralFood
 
-    return {
+    return {;
       calories: foodData.foodNutrients.find(n => n.nutrientNumber === '208')?.value || 0,
       macros: {
         protein: this.getNutrientValue(foodData, '203'),
@@ -32,13 +32,13 @@ export class NutritionService {
   }
 
   private getNutrientValue(data: FoodDataCentralFood, nutrientId: string): number {
-    return data.foodNutrients.find(n => n.nutrientNumber === nutrientId)?.value || 0
+    return data.foodNutrients.find(n => n.nutrientNumber === nutrientId)?.value || 0;
   }
 
   private extractPhytonutrients(data: FoodDataCentralFood): Record<string, number> {
     return data.foodNutrients
       .filter(n => n.nutrientName?.includes('Phytonutrient'))
-      .reduce(
+      .reduce(;
         (acc: Record<string, number>, n) => ({
           ...acc,
           [n.nutrientName || '']: n.value || 0

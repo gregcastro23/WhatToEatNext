@@ -26,8 +26,8 @@ const configManager = new ConfigurationManager()
 
 /**
  * Display configuration in a readable format
- */
-function displayConfig(_config: unknown, title: string = 'Configuration'): void {
+ */;
+function displayConfig(_config: unknown, title: string = 'Configuration'): void {;
   // // // _logger.info(`\n=== ${title} ===`)
   // // // _logger.info(JSON.stringify(config, null, 2))
 }
@@ -68,12 +68,12 @@ program
   .action(options => {
     try {
       if (options.environment !== getCurrentEnvironment()) {
-        const envConfig = getEnvironmentConfig(options.environment as Environment)
+        const envConfig = getEnvironmentConfig(options.environment as Environment);
         displayConfig(envConfig, `${options.environment} Configuration`)
       } else {
         const config = configManager.getConfig()
 
-        if (options.section) {
+        if (options.section) {;
           const section = config[options.section as keyof typeof config];
           if (section) {
             displayConfig(section, `${options.section} Configuration`)
@@ -86,7 +86,7 @@ program
         }
       }
     } catch (error) {
-      _logger.error('Error displaying configuration:', error)
+      _logger.error('Error displaying configuration: ', error)
       process.exit(1)
     }
   })
@@ -99,16 +99,16 @@ program
   .action(options => {
     try {
       if (options.environment) {
-        const validation = validateEnvironmentConfig(options.environment as Environment)
+        const validation = validateEnvironmentConfig(options.environment as Environment);
         // // // _logger.info(`\nValidating ${options.environment} configuration: `)
         displayValidation(validation)
       } else {
         const validation = configManager.validateConfig()
         // // // _logger.info('\nValidating current configuration: ')
-        displayValidation(validation)
+        displayValidation(validation);
       }
     } catch (error) {
-      _logger.error('Error validating configuration:', error)
+      _logger.error('Error validating configuration: ', error)
       process.exit(1)
     }
   })
@@ -125,7 +125,7 @@ program
       const pathParts = path.split('.')
       if (pathParts.length !== 2) {
         _logger.error('Path must be in format: section.property')
-        process.exit(1)
+        process.exit(1);
       }
 
       const [section, property] = pathParts;
@@ -137,14 +137,14 @@ program
           parsedValue = parseFloat(value)
           if (isNaN(parsedValue)) {
             _logger.error('Invalid number value')
-            process.exit(1)
+            process.exit(1);
           }
           break,
         case 'boolean': parsedValue = value.toLowerCase() === 'true',
           break,
         case 'json':
           try {
-            parsedValue = JSON.parse(value)
+            parsedValue = JSON.parse(value);
           } catch {
             _logger.error('Invalid JSON value')
             process.exit(1)
@@ -154,7 +154,7 @@ program
 
       // Update configuration
       const config = configManager.getConfig()
-      if (!config[section as keyof typeof config]) {
+      if (!config[section as keyof typeof config]) {;
         _logger.error(`Unknown section: ${section}`)
         process.exit(1)
       }
@@ -175,10 +175,10 @@ program
       const validation = configManager.validateConfig()
       if (!validation.isValid) {
         // // // _logger.info('\n⚠️  Configuration validation failed after update: ')
-        displayValidation(validation)
+        displayValidation(validation);
       }
     } catch (error) {
-      _logger.error('Error updating configuration:', error)
+      _logger.error('Error updating configuration: ', error)
       process.exit(1)
     }
   })
@@ -192,14 +192,14 @@ program
     try {
       if (!options.confirm) {
         // // // _logger.info('This will reset all configuration to defaults.')
-        // // // _logger.info('Use --confirm to proceed without this prompt.')
+        // // // _logger.info('Use --confirm to proceed without this prompt.');
         return,
       }
 
       configManager.resetToDefaults()
       // // // _logger.info('✅ Configuration reset to defaults')
     } catch (error) {
-      _logger.error('Error resetting configuration:', error)
+      _logger.error('Error resetting configuration: ', error)
       process.exit(1)
     }
   })
@@ -246,15 +246,15 @@ program
       let config,
 
       if (options.environment) {
-        config = getEnvironmentConfig(options.environment as Environment)
+        config = getEnvironmentConfig(options.environment as Environment);
       } else {
-        config = configManager.getConfig()
+        config = configManager.getConfig();
       }
 
       writeFileSync(file, JSON.stringify(config, null, 2))
       // // // _logger.info(`✅ Configuration exported to ${file}`)
     } catch (error) {
-      _logger.error('Error exporting configuration:', error)
+      _logger.error('Error exporting configuration: ', error)
       process.exit(1)
     }
   })
@@ -286,14 +286,14 @@ program
         if (!validation.isValid) {
           _logger.error('❌ Imported configuration is invalid: ')
           displayValidation(validation)
-          process.exit(1)
+          process.exit(1);
         }
 
         configManager.updateConfig(importedConfig)
         // // // _logger.info('✅ Configuration imported from file')
       }
     } catch (error) {
-      _logger.error('Error importing configuration:', error)
+      _logger.error('Error importing configuration: ', error)
       process.exit(1)
     }
   })

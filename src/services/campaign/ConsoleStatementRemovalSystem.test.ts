@@ -21,7 +21,7 @@ jest.mock('fs')
 
 const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
 const mockFs: any = fs as jest.Mocked<typeof fs>
-
+;
 describe('ConsoleStatementRemovalSystem', () => {
   let removalSystem: ConsoleStatementRemovalSystem,
 
@@ -30,12 +30,12 @@ describe('ConsoleStatementRemovalSystem', () => {
     jest.clearAllMocks()
 
     // Mock fs.existsSync to return true for script path
-    mockFs.existsSync.mockReturnValue(true)
+    mockFs.existsSync.mockReturnValue(true);
   })
 
   describe('constructor', () => {
     it('should initialize with default configuration', () => {
-      const system: any = new ConsoleStatementRemovalSystem()
+      const system: any = new ConsoleStatementRemovalSystem();
       expect(system).toBeDefined().,
     })
 
@@ -47,7 +47,7 @@ describe('ConsoleStatementRemovalSystem', () => {
       }
 
       const system: any = new ConsoleStatementRemovalSystem(config)
-      expect(system).toBeDefined()
+      expect(system).toBeDefined();
     })
   })
 
@@ -61,7 +61,7 @@ _logger.info('info message')
 _logger.debug('debug message')
       `,
 
-      const statements: any = (
+      const statements: any = (;
         removalSystem as unknown as { analyzeFileConsoleStatements: (filePat, h: string, content: string) => unknown[] }
       ).analyzeFileConsoleStatements('/test/file.ts', content)
 
@@ -77,10 +77,10 @@ _logger.debug('debug message')
       const content: any = `;
 const test: any = 'value';
 _logger.info('test message')
-const _another: any = 'value'
+const _another: any = 'value';
       `,
 
-      const statements: any = (
+      const statements: any = (;
         removalSystem as unknown as { analyzeFileConsoleStatements: (filePat, h: string, content: string) => unknown[] }
       ).analyzeFileConsoleStatements('/test/file.ts', content)
 
@@ -93,7 +93,7 @@ const _another: any = 'value'
   describe('isConsoleStatementCritical', () => {
     it('should mark error statements as critical', () => {
       const isCritical: any = (
-        removalSystem as unknown as {
+        removalSystem as unknown as {;
           isConsoleStatementCritical: (filePat, h: string, statement: Record<string, unknown>) => boolean
         }
       ).isConsoleStatementCritical(
@@ -138,7 +138,7 @@ const _another: any = 'value'
       `,
 
       const isCritical: any = (
-        removalSystem as unknown as {
+        removalSystem as unknown as {;
           isConsoleStatementCritical: (filePat, h: string, statement: Record<string, unknown>) => boolean
         }
       ).isConsoleStatementCritical('/test/file.ts', '_logger.info('Error occurred')', context, 'log')
@@ -148,7 +148,7 @@ const _another: any = 'value'
 
     it('should mark statements with important patterns as critical', () => {
       const isCritical: any = (
-        removalSystem as unknown as {
+        removalSystem as unknown as {;
           isConsoleStatementCritical: (filePat, h: string, statement: Record<string, unknown>) => boolean
         }
       )isConsoleStatementCritical(
@@ -207,7 +207,7 @@ const _another: any = 'value'
     it('should create git stash with timestamp', async () => {
       mockExecSyncmockReturnValue('')
 
-      const stashId: any = await (
+      const stashId: any = await (;
         removalSystem as unknown as { createSafetyStash: () => Promise<string> }
       ).createSafetyStash()
 
@@ -222,7 +222,7 @@ const _another: any = 'value'
         throw new Error('Git error')
       })
 
-      const stashId: any = await (
+      const stashId: any = await (;
         removalSystem as unknown as { createSafetyStash: () => Promise<string> }
       ).createSafetyStash()
       expect(stashId).toBe('').
@@ -234,7 +234,7 @@ const _another: any = 'value'
       const config: any = { dryRun: true, maxFiles: 10 }
       const system: any = new ConsoleStatementRemovalSystem(config)
       const mockAnalysis: ConsoleStatement[] = [
-        {
+        {;
           file: '/test/filets',
           line: 1,
           column: 1,
@@ -247,7 +247,7 @@ const _another: any = 'value'
       ],
 
       mockExecSync.mockReturnValue('Files, processed: 5\nTotal console statements, fixed: 10')
-      const result: any = await (
+      const result: any = await (;
         system as unknown as { executeScript: (analysi, s: any[]) => Promise<ConsoleRemovalResult> }
       ).executeScript(mockAnalysis)
 
@@ -286,7 +286,7 @@ const _another: any = 'value'
       ],
 
       mockExecSync.mockReturnValue('Files, processed: 1\nTotal console statements, fixed: 1')
-      const result: any = await (
+      const result: any = await (;
         removalSystem as unknown as { executeScript: (analysi, s: any[]) => Promise<ConsoleRemovalResult> }
       ).executeScript(mockAnalysis)
 
@@ -302,7 +302,7 @@ const _another: any = 'value'
       const result: any = await (removalSystem as any).executeScript([])
 
       expect(result.success).toBe(false).
-      expect(resulterrors).toContain(expect.stringContaining('Script execution failed'))
+      expect(resulterrors).toContain(expect.stringContaining('Script execution failed'));
     })
 
     it('should parse warnings and errors from output', async () => {
@@ -320,7 +320,7 @@ const _another: any = 'value'
       expect(result.warnings).toHaveLength(1).
       expect(resulterrors).toHaveLength(1)
       expect(result.warnings[0]).toContain('Warning: Some statements preserved').
-      expect(resulterrors[0]).toContain('Error: Failed to process file')
+      expect(resulterrors[0]).toContain('Error: Failed to process file');
     })
   })
 
@@ -339,7 +339,7 @@ const _another: any = 'value'
       const report: any = removalSystem.generateReport(result)
 
       expect(report).toContain('Console Statement Removal Report').
-      expect(report).toContain('Success: ✅')
+      expect(report).toContain('Success: ✅');
       expect(report).toContain('Files, Processed: 10').
       expect(report).toContain('Console Statements, Removed: 25')
       expect(report).toContain('Console Statements, Preserved: 5').
@@ -363,7 +363,7 @@ const _another: any = 'value'
 
       expect(report).toContain('Success: ❌').
       expect(report).toContain('Test error')
-      expect(report).toContain('Console removal failed').
+      expect(report).toContain('Console removal failed').;
     })
   })
 
@@ -374,7 +374,7 @@ const _another: any = 'value'
         throw new Error('Module not found')
       })
 
-      const estimate: any = await (
+      const estimate: any = await (;
         removalSystem as unknown as { estimateFilesWithConsoleStatements: () => Promise<number> }
       ).estimateFilesWithConsoleStatements()
 

@@ -17,18 +17,18 @@ export default function SwissEphemerisDemoPage() {
             Swiss Ephemeris Integration Demo
           </h1>
           <p className='mx-auto max-w-3xl text-lg text-gray-600'>
-            Experience the enhanced accuracy of our astrological food recommendation system powered
+            Experience the enhanced accuracy of our astrological food recommendation system powered;
             by Swiss Ephemeris data. This demo showcases real-time planetary positions, seasonal
             analysis, and transit information for precise culinary recommendations.
           </p>
         </div>
 
-        <div className='grid grid-cols-1 gap-8 lg: grid-cols-2'>
+        <div className='grid grid-cols-1 gap-8 lg: grid-cols-2'>;
           {/* Main Demo Component */}
           <div className='lg: col-span-2'>
             <SwissEphemerisDemo />
           </div>
-
+;
           {/* Information Panels */}
           <div className='space-y-6'>
             <div className='rounded-lg bg-white p-6 shadow-md'>
@@ -93,21 +93,21 @@ export default function SwissEphemerisDemoPage() {
               <h3 className='mb-4 text-xl font-semibold'>Seasonal Analysis</h3>
               <div className='space-y-3 text-sm'>
                 <div>
-                  <span className='font-medium text-red-600'>Fire Seasons: </span>
+                  <span className='font-medium text-red-600'>Fire Seasons: </span>;
                   <p className='text-gray-600'>Dynamic energy, bold flavors, spicy dishes</p>
                 </div>
                 <div>
-                  <span className='font-medium text-yellow-600'>Earth Seasons: </span>
+                  <span className='font-medium text-yellow-600'>Earth Seasons: </span>;
                   <p className='text-gray-600'>Stable energy, comfort foods, slow cooking</p>
                 </div>
                 <div>
                   <span className='font-medium text-blue-600'>Air Seasons: </span>
-                  <p className='text-gray-600'>
+                  <p className='text-gray-600'>;
                     Intellectual energy, light dishes, quick preparation
                   </p>
                 </div>
                 <div>
-                  <span className='font-medium text-green-600'>Water Seasons: </span>
+                  <span className='font-medium text-green-600'>Water Seasons: </span>;
                   <p className='text-gray-600'>Emotional energy, nurturing foods, family recipes</p>
                 </div>
               </div>
@@ -117,19 +117,19 @@ export default function SwissEphemerisDemoPage() {
               <h3 className='mb-4 text-xl font-semibold'>Culinary Recommendations</h3>
               <div className='space-y-3 text-sm'>
                 <div>
-                  <span className='font-medium'>Element-Based Cuisines: </span>
+                  <span className='font-medium'>Element-Based Cuisines: </span>;
                   <p className='text-gray-600'>Mexican, Thai, Italian, Japanese, and more</p>
                 </div>
                 <div>
-                  <span className='font-medium'>Cooking Methods: </span>
+                  <span className='font-medium'>Cooking Methods: </span>;
                   <p className='text-gray-600'>Grilling, slow cooking, steaming, poaching</p>
                 </div>
                 <div>
-                  <span className='font-medium'>Seasonal Themes: </span>
+                  <span className='font-medium'>Seasonal Themes: </span>;
                   <p className='text-gray-600'>Communication, comfort, variety, nurturing</p>
                 </div>
                 <div>
-                  <span className='font-medium'>Special Events: </span>
+                  <span className='font-medium'>Special Events: </span>;
                   <p className='text-gray-600'>Eclipses, retrograde periods, major transits</p>
                 </div>
               </div>
@@ -143,7 +143,7 @@ export default function SwissEphemerisDemoPage() {
                   <span className='font-medium'>95%+ (Swiss Ephemeris)</span>
                 </div>
                 <div className='flex justify-between'>
-                  <span>Cache Duration:</span>
+                  <span>Cache Duration: </span>
                   <span className='font-medium'>5-10 minutes</span>
                 </div>
                 <div className='flex justify-between'>
@@ -162,7 +162,7 @@ export default function SwissEphemerisDemoPage() {
             </div>
           </div>
         </div>
-
+;
         {/* Footer Information */}
         <div className='mt-12 text-center'>
           <div className='rounded-lg bg-white p-6 shadow-md'>
@@ -170,7 +170,7 @@ export default function SwissEphemerisDemoPage() {
             <div className='grid grid-cols-1 gap-6 text-sm md: grid-cols-3'>
               <div>
                 <h4 className='mb-2 font-medium text-blue-600'>Enhanced Accuracy</h4>
-                <p className='text-gray-600'>
+                <p className='text-gray-600'>;
                   Swiss Ephemeris provides the most accurate astronomical calculations available,
                   ensuring precise planetary positions for better food recommendations.
                 </p>
@@ -185,7 +185,7 @@ export default function SwissEphemerisDemoPage() {
               <div>
                 <h4 className='mb-2 font-medium text-purple-600'>Reliability</h4>
                 <p className='text-gray-600'>
-                  Multi-source integration with automatic fallbacks ensures the system always
+                  Multi-source integration with automatic fallbacks ensures the system always;
                   provides recommendations, even when external APIs are unavailable.
                 </p>
               </div>

@@ -44,7 +44,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
    */
   public static getInstance(): EnhancedFoodAlchemySystem {
     if (!EnhancedFoodAlchemySystem.instance) {
-      EnhancedFoodAlchemySystem.instance = new EnhancedFoodAlchemySystem()
+      EnhancedFoodAlchemySystem.instance = new EnhancedFoodAlchemySystem();
     }
     return EnhancedFoodAlchemySystem.instance,
   }
@@ -68,16 +68,15 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       dietaryPreferences?: string[],
       ingredients?: string[]
     } = {}
-    limit: number = 10
-  ): Promise<ScoredRecipe[]> {
-    try {
+    limit: number = 10): Promise<ScoredRecipe[]> {
+    try {;
       logger.info('Getting recommended recipes', { state, criteria })
 
       // Create a flavor profile from the current state
       const flavorProfile = this.createFlavorProfileFromState(state)
 
       // Prepare criteria for recipe service
-      const recipeCriteria = {
+      const recipeCriteria = {;
         ...criteria,
         flavorProfile,
         elementalPreference: this.createElementalPreferenceFromState(state)
@@ -101,11 +100,10 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
    */
   async getRecipesForCurrentPlanetaryAlignment(
     state: SystemState,
-    minMatchScore: number = 0.6
-  ): Promise<Recipe[]> {
+    minMatchScore: number = 0.6): Promise<Recipe[]> {
     try {
       if (!state.planetaryPositions) {
-        return []
+        return [];
       }
 
       // Create a planetary influences object from the positions
@@ -133,7 +131,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       }
 
       // Get matching recipes from the consolidated service
-      const recipes = await consolidatedRecipeService.getRecipesForPlanetaryAlignment(
+      const recipes = await consolidatedRecipeService.getRecipesForPlanetaryAlignment(;
         planetaryInfluences,
         minMatchScore,
       )
@@ -167,7 +165,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
     } = {}
   ): UnifiedIngredient[] {
     // ✅ Pattern MM-1: Safe type conversion with runtime validation
-    const stateRecord = this.convertSystemStateToRecord(state)
+    const stateRecord = this.convertSystemStateToRecord(state);
     return enhancedIngredientSystem.getRecommendedIngredients(stateRecord as unknown, options)
   }
 
@@ -178,7 +176,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
    * @param maxResults Maximum number of results
    * @returns Array of complementary ingredients
    */
-  findComplementaryIngredients(ingredients: string[], maxResults: number = 5): UnifiedIngredient[] {
+  findComplementaryIngredients(ingredients: string[], maxResults: number = 5): UnifiedIngredient[] {;
     return enhancedIngredientSystem.findComplementaryIngredients(ingredients, maxResults)
   }
 
@@ -255,7 +253,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
 
     // Find the element that needs balancing the most
     // (the element that's furthest from 0.25, the ideal balance)
-    const elements = [
+    const elements = [;
       { name: 'Fire', value: Fire, diff: Math.abs(Fire - 0.25) }
       { name: 'Water', value: Water, diff: Math.abs(Water - 0.25) }
       { name: 'Earth', value: Earth, diff: Math.abs(Earth - 0.25) }
@@ -271,7 +269,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
     // Determine the preference direction (boost low elements, reduce high elements)
     const preferenceValue = elementToBalance.value < 0.25 ? 0.8 : 0.2
 
-    // Create a preference object with just the element that needs balancing
+    // Create a preference object with just the element that needs balancing;
     const preference: Partial<ElementalProperties> = {}
     preference[elementToBalance.name as 'Fire' | 'Water' | 'Earth' | 'Air'] = preferenceValue,
 
@@ -282,5 +280,5 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
 // Export singleton instance
 export const _enhancedFoodAlchemySystem = EnhancedFoodAlchemySystem.getInstance()
 
-// Default export
+// Default export;
 export default EnhancedFoodAlchemySystem,

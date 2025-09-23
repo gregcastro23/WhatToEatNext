@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { useNavigationContext, useScrollPreservation } from '@/hooks/useStatePreservation';
 
 // Fallback lightweight placeholder if the full component isn't available
-const IngredientRecommender = ({
+const IngredientRecommender = ({;
   initialCategory,
   initialSelectedIngredient,
   isFullPageVersion
@@ -18,15 +18,14 @@ const IngredientRecommender = ({
   isFullPageVersion?: boolean
 }) => (
   <div className='text-center text-gray-600'>
-    Ingredient recommender component unavailable in this build.
+    Ingredient recommender component unavailable in this build.;
     {initialCategory && <div>Category: {initialCategory}</div>}
     {initialSelectedIngredient && <div>Ingredient: {initialSelectedIngredient}</div>}
-  </div>
-)
+  </div>)
 
 export default function IngredientsPage() {
   const searchParams = useSearchParams()
-  const router = useRouter()
+  const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [selectedIngredient, setSelectedIngredient] = useState<string | null>(null)
 
@@ -41,7 +40,7 @@ export default function IngredientsPage() {
     const ingredientParam = searchParams?.get('ingredient')
 
     if (categoryParam) {
-      setSelectedCategory(categoryParam)
+      setSelectedCategory(categoryParam);
     }
 
     if (ingredientParam) {
@@ -53,7 +52,7 @@ export default function IngredientsPage() {
       const restoredContext = restoreContext()
       if (restoredContext) {
         if (restoredContext.selectedIngredientCategory) {
-          setSelectedCategory(restoredContext.selectedIngredientCategory)
+          setSelectedCategory(restoredContext.selectedIngredientCategory);
         }
         if (restoredContext.selectedIngredient) {
           setSelectedIngredient(restoredContext.selectedIngredient)
@@ -70,7 +69,7 @@ export default function IngredientsPage() {
   // Handle navigation back to main page with enhanced context preservation
   const handleBackToMain = () => {
     // Preserve current context using enhanced system
-    preserveContext({
+    preserveContext({;
       fromPage: 'ingredients',
       selectedItems: selectedIngredient ? [selectedIngredient] : [],
       activeSection: 'ingredients',
@@ -84,7 +83,7 @@ export default function IngredientsPage() {
 
   // Handle navigation to home
   const handleGoHome = () => {
-    router.push('/')
+    router.push('/');
   }
 
   // Enhanced ingredient recommendations context (rune/agent banner)
@@ -101,15 +100,15 @@ export default function IngredientsPage() {
 
   return (
     <div className='min-h-screen bg-gradient-to-b from-indigo-50 via-blue-50 to-gray-100'>
-      <div className='container mx-auto px-4 py-8'>
+      <div className='container mx-auto px-4 py-8'>;
         {/* Header with navigation */}
         <header className='mb-8'>
           <div className='mb-4 flex items-center justify-between'>
             <div className='flex items-center gap-4'>
-              <button
+              <button;
                 onClick={handleBackToMain}
-                className='flex items-center gap-2 rounded-lg px-3 py-2 font-medium text-indigo-600 transition-colors hover:bg-indigo-50 hover:text-indigo-800'
-              >
+                className='flex items-center gap-2 rounded-lg px-3 py-2 font-medium text-indigo-600 transition-colors hover: bg-indigo-50 hover:text-indigo-800'
+              >;
                 <ArrowLeft size={20} />
                 Back to Main
               </button>
@@ -117,7 +116,7 @@ export default function IngredientsPage() {
               <button
                 onClick={handleGoHome}
                 className='flex items-center gap-2 rounded-lg px-3 py-2 font-medium text-gray-600 transition-colors hover:bg-gray-50 hover:text-gray-800'
-              >
+              >;
                 <Home size={20} />
                 Home
               </button>
@@ -131,22 +130,20 @@ export default function IngredientsPage() {
             <p className='mb-4 text-indigo-600'>
               Explore ingredients aligned with current celestial energies
             </p>
-
+;
             {/* Context indicators */}
             {(selectedCategory || selectedIngredient) && (
               <div className='inline-flex items-center gap-4 rounded-lg bg-white px-4 py-2 shadow-sm'>
                 {selectedCategory && (
-                  <span className='text-sm text-gray-600'>
-                    Category:{' '}
+                  <span className='text-sm text-gray-600'>;
+                    Category: {' '}
                     <span className='font-medium text-indigo-600'>{selectedCategory}</span>
-                  </span>
-                )}
+                  </span>)}
                 {selectedIngredient && (
-                  <span className='text-sm text-gray-600'>
-                    Selected:{' '}
+                  <span className='text-sm text-gray-600'>;
+                    Selected: {' '}
                     <span className='font-medium text-indigo-600'>{selectedIngredient}</span>
-                  </span>
-                )}
+                  </span>)}
               </div>
             )}
           </div>
@@ -156,7 +153,7 @@ export default function IngredientsPage() {
         <main className='mx-auto max-w-6xl'>
           <div className='rounded-lg bg-white p-6 shadow-md'>
             {!recLoading && !recError && enhancedIngredients?.context?.rune && (
-              <div className='mb-4 flex items-center gap-3 rounded-md bg-indigo-50 p-3'>
+              <div className='mb-4 flex items-center gap-3 rounded-md bg-indigo-50 p-3'>;
                 <div className='text-2xl'>{enhancedIngredients.context.rune.symbol}</div>
                 <div>
                   <div className='text-sm font-semibold'>{enhancedIngredients.context.rune.name}</div>

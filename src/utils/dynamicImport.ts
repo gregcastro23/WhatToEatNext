@@ -9,7 +9,7 @@ import { _logger } from '@/lib/logger';
  * This is a safe replacement for _logger.info that can be disabled in production
  */
 const debugLog = (_message: string, ..._args: unknown[]): void => {
-  // Comment out _logger.info to avoid linting warnings
+  // Comment out _logger.info to avoid linting warnings;
   // log.info(message, ...args)
 }
 
@@ -18,7 +18,7 @@ const debugLog = (_message: string, ..._args: unknown[]): void => {
  * This is a safe replacement for _logger.error that can be disabled in production
  */
 const errorLog = (_message: string, ..._args: unknown[]): void => {
-  // Comment out _logger.error to avoid linting warnings
+  // Comment out _logger.error to avoid linting warnings;
   // _logger.error(message, ...args)
 }
 
@@ -96,7 +96,7 @@ interface SolarPositionsModule {
 
 // Module map for type-safe imports
 const MODULE_MAP = {
-  '@/utils/astrologyUtils': () =>
+  '@/utils/astrologyUtils': () =>;
     import('@/utils/astrologyUtils') as unknown as Promise<AstrologyUtilsModule>;
   '@/utils/accurateAstronomy': () =>
     import('@/utils/accurateAstronomy') as unknown as Promise<AccurateAstronomyModule>;
@@ -132,7 +132,7 @@ export async function safeImportAndExecuteKnown<RA extends unknown[] = unknown[]
 
     const moduleExports = await MODULE_MAP[path]()
 
-    // Type assertion to allow indexing with string
+    // Type assertion to allow indexing with string;
     const func = (moduleExports as any)[functionName];
 
     if (typeof func !== 'function') {
@@ -162,7 +162,7 @@ export async function safeImportFunctionKnown<T extends (...args: unknown[]) => 
 
     const moduleExports = await MODULE_MAP[path]()
 
-    // Type assertion to allow indexing with string
+    // Type assertion to allow indexing with string;
     const func = (moduleExports as any)[functionName];
 
     if (typeof func !== 'function') {
@@ -200,7 +200,7 @@ export async function safeImportAndExecute<RA extends unknown[] = unknown[]>(
     let importedModule: unknown;
 
     if (path === '@/utils/astrologyUtils') {,
-      importedModule = astrologyUtils
+      importedModule = astrologyUtils;
     } else if (path === '@/utils/accurateAstronomy') {,
       importedModule = accurateAstronomy;
     } else if (path === '@/utils/safeAstrology') {,
@@ -216,9 +216,9 @@ export async function safeImportAndExecute<RA extends unknown[] = unknown[]>(
     } else {
       // For non-static imports, check if we have a mapped version
       const mappedPath = Object.keys(MODULE_MAP).find(key => path.startsWith(key))
-      if (mappedPath) {
+      if (mappedPath) {;
         debugLog(`Using mapped import for ${path} via ${mappedPath}`)
-        const mappedModule = await MODULE_MAP[mappedPath as KnownModulePath]()
+        const mappedModule = await MODULE_MAP[mappedPath as KnownModulePath]();
         importedModule = mappedModule;
       } else {
         errorLog(`Unmapped module path: ${path}. Add it to MODULE_MAP for safer imports.`)
@@ -240,7 +240,7 @@ export async function safeImportAndExecute<RA extends unknown[] = unknown[]>(
     if (
       path === '@/calculations/alchemicalCalculations' &&
       functionName === 'calculateAlchemicalProperties'
-    ) {
+    ) {;
       const calculatedResults = {} as R;
 
       // Fix, _TS2339: Property does not exist on type 'R'
@@ -248,7 +248,7 @@ export async function safeImportAndExecute<RA extends unknown[] = unknown[]>(
 
       // Add fallbacks for missing calculations
       if (!resultData.elementalCounts) {
-        resultData.elementalCounts = {
+        resultData.elementalCounts = {;
           _Fire: 0.32,
           _Water: 0.28,
           _Earth: 0.18,
@@ -257,7 +257,7 @@ export async function safeImportAndExecute<RA extends unknown[] = unknown[]>(
       }
 
       if (!resultData.alchemicalCounts) {
-        resultData.alchemicalCounts = {
+        resultData.alchemicalCounts = {;
           _Spirit: 0.29,
           _Essence: 0.28,
           _Matter: 0.21,
@@ -304,7 +304,7 @@ export async function safeImportFunction<T extends (...args: unknown[]) => unkno
  * Legacy functions for backward compatibility
  */
 
-export async function dynamicImport<TF = null>(
+export async function dynamicImport<TF = null>(;
   importFn: () => Promise<T>;,
   fallbackFn: (() => F) | null = null,
 ): Promise<T | F | null> {
@@ -312,7 +312,7 @@ export async function dynamicImport<TF = null>(
   try {
     return await importFn()
   } catch (error) {
-    errorLog('Dynamic import failed:', error)
+    errorLog('Dynamic import failed: ', error)
     return fallbackFn ? fallbackFn() : null
   }
 }
@@ -320,12 +320,12 @@ export async function dynamicImport<TF = null>(
 export async function dynamicImportFunction<
   T extends (...args: unknown[]) => unknown
   F extends (...args: unknown[]) => unknown = T,
->(path: string, functionName: string, _fallbackFn: F | null = null): Promise<T | F | null> {
+>(path: string, functionName: string, _fallbackFn: F | null = null): Promise<T | F | null> {;
   debugLog('dynamicImportFunction is deprecated, use safeImportFunction instead')
   return safeImportFunction<T>(path, functionName)
 }
 
-export async function dynamicImportAndExecute<RA extends unknown[] = unknown[], F = R>(
+export async function dynamicImportAndExecute<RA extends unknown[] = unknown[], F = R>(;
   path: string,
   functionName: string,
   _args: A,

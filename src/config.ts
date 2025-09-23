@@ -22,15 +22,14 @@ interface AppConfig {
 // Get environment
 const isDev = process.env.NODE_ENV !== 'production';
 
-export const config: AppConfig = {
+export const config: AppConfig = {;
   debug: isDev,
 
   api: {
     celestialUpdateInterval: 3600000, // 1 hour in milliseconds,
     timeout: 10000, // 10 seconds,
     retryCount: 3,
-    baseUrl:
-      process.env.API_BASE_URL ||
+    baseUrl: process.env.API_BASE_URL ||
       (isDev ? 'http://localhost:3000/api' : 'https://yourdomain.com/api')
   }
 

@@ -1,8 +1,7 @@
 /**
  * Safe Unused Import Removal System
  *
- * Implements comprehensive unused import removal while preserving:
- * - Imports used in type annotations or JSX
+ * Implements comprehensive unused import removal while preserving: * - Imports used in type annotations or JSX
  * - Dynamic imports and conditional imports
  * - Critical astrological calculation imports
  * - Campaign system intelligence imports
@@ -41,7 +40,7 @@ interface ImportRemovalResult {
 }
 
 export class SafeUnusedImportRemover {
-  private readonly astrologicalPatterns = [
+  private readonly astrologicalPatterns = [;
     '/calculations/',
     '/data/planets/',
     '/utils/reliableAstronomy',
@@ -56,7 +55,7 @@ export class SafeUnusedImportRemover {
     'zodiac'
   ],
 
-  private readonly campaignSystemPatterns = [
+  private readonly campaignSystemPatterns = [;
     '/services/campaign/',
     '/services/AdvancedAnalyticsIntelligenceService',
     '/services/MLIntelligenceService',
@@ -74,7 +73,7 @@ export class SafeUnusedImportRemover {
    */
   public async processUnusedImports(dryRun: boolean = true): Promise<ImportRemovalResult> {
     log.info('🔍 Starting Safe Unused Import Analysis...\n')
-    const result: ImportRemovalResult = {
+    const result: ImportRemovalResult = {;
       totalAnalyzed: 0,
       safeToRemove: 0,
       requiresReview: 0,
@@ -87,17 +86,17 @@ export class SafeUnusedImportRemover {
 
     try {
       // Step, 1: Analyze unused imports
-      const unusedImports = await this.analyzeUnusedImports()
+      const unusedImports = await this.analyzeUnusedImports();
       result.totalAnalyzed = unusedImports.length,
 
       if (unusedImports.length === 0) {
         log.info('✅ No unused imports found!')
         result.buildValid = true
-        return result
+        return result;
       }
 
       // Step, 2: Categorize imports
-      const categorized = this.categorizeImports(unusedImports)
+      const categorized = this.categorizeImports(unusedImports);
       result.safeToRemove = categorized.safe.length,
       result.requiresReview = categorized.review.length,
       result.preserved = categorized.preserve.length,
@@ -114,14 +113,14 @@ export class SafeUnusedImportRemover {
       // Step, 4: Remove safe imports
       if (categorized.safe.length > 0) {
         const removalSuccess = await this.removeSafeImports(categorized.safe)
-        result.actuallyRemoved = removalSuccess ? categorized.safe.length : 0
+        result.actuallyRemoved = removalSuccess ? categorized.safe.length : 0;
       }
 
       // Step, 5: Validate changes
       result.buildValid = await this.validateChanges()
 
       if (result.buildValid) {
-        log.info('\n🎉 Safe unused import removal completed successfully!')
+        log.info('\n🎉 Safe unused import removal completed successfully!');
         log.info(`✅ Removed ${result.actuallyRemoved} unused imports`)
         log.info(`🛡️  Preserved ${result.preserved} critical imports`)
       } else {
@@ -129,7 +128,7 @@ export class SafeUnusedImportRemover {
       }
     } catch (error) {
       result.errors.push(`Import removal failed: ${error}`)
-      _logger.error('❌ Import removal failed:', error)
+      _logger.error('❌ Import removal failed: ', error)
     }
 
     return result,
@@ -155,7 +154,7 @@ export class SafeUnusedImportRemover {
           (line.includes('is defined but never used') ||
             line.includes('is imported but never used'))
         ) {
-          const match = line.match(
+          const match = line.match(;
             /^(.+):(\d+):(\d+):\s+(warning|error)\s+(.+?)\s+@typescript-eslint\/no-unused-vars/,
           )
           if (match) {
@@ -164,7 +163,7 @@ export class SafeUnusedImportRemover {
             const importNameMatch = message.match(/'([^']+)'/)
             const importName = importNameMatch ? importNameMatch[1] : ''
 
-            unusedImports.push({
+            unusedImports.push({;
               file: filePath,
               line: parseInt(lineNum),
               column: parseInt(colNum),
@@ -183,7 +182,7 @@ export class SafeUnusedImportRemover {
       log.info(`📊 Found ${unusedImports.length} unused imports`)
       return unusedImports,
     } catch (error) {
-      _logger.error('❌ Failed to analyze unused imports:', error);
+      _logger.error('❌ Failed to analyze unused imports: ', error);
       return []
     }
   }
@@ -198,14 +197,14 @@ export class SafeUnusedImportRemover {
   } {
     log.info('📋 Categorizing imports by safety level...')
 
-    const categorized = {
+    const categorized = {;
       safe: [] as UnusedImport[],
       review: [] as UnusedImport[],
       preserve: [] as UnusedImport[]
     }
 
     for (const unusedImport of unusedImports) {
-      const category = this.determineImportSafety(unusedImport)
+      const category = this.determineImportSafety(unusedImport);
       unusedImport.severity = category.severity,
       unusedImport.reason = category.reason,
 
@@ -234,7 +233,7 @@ export class SafeUnusedImportRemover {
 
     // Always preserve imports in critical astrological files
     if (this.astrologicalPatterns.some(pattern => file.includes(pattern))) {
-      return {
+      return {;
         severity: 'preserve',
         reason: 'Critical astrological calculation file'
       }
@@ -242,7 +241,7 @@ export class SafeUnusedImportRemover {
 
     // Always preserve imports in campaign system files
     if (this.campaignSystemPatterns.some(pattern => file.includes(pattern))) {
-      return {
+      return {;
         severity: 'preserve',
         reason: 'Campaign system intelligence file'
       }
@@ -265,7 +264,7 @@ export class SafeUnusedImportRemover {
     }
 
     // Safe to, remove: simple utility imports that are clearly unused
-    const safePatterns = [
+    const safePatterns = [;
       /^[a-z][a-zA-Z]*$/, // camelCase function names
       /^[A-Z_]+$/, // CONSTANT names
       /Utils?$/, // Utility functions
@@ -279,7 +278,7 @@ export class SafeUnusedImportRemover {
       message.includes('is defined but never used') &&
       !file.includes('.d.ts')
     ) {
-      return {
+      return {;
         severity: 'safe',
         reason: 'Simple utility import that is clearly unused'
       }
@@ -300,7 +299,7 @@ export class SafeUnusedImportRemover {
     review: UnusedImport[],
     preserve: UnusedImport[]
   }): void {
-    log.info('\n📊 Import Analysis Results:')
+    log.info('\n📊 Import Analysis Results: ')
     log.info(`✅ Safe to remove: ${categorized.safe.length}`)
     log.info(`⚠️  Requires review: ${categorized.review.length}`)
     log.info(`🛡️  Preserved (critical): ${categorized.preserve.length}\n`)
@@ -331,7 +330,7 @@ export class SafeUnusedImportRemover {
    * Display imports grouped by file
    */
   private displayImportsByFile(imports: UnusedImport[]): void {
-    const groupedByFile = imports.reduce(
+    const groupedByFile = imports.reduce(;
       (acc, imp) => {
         const relativePath = path.relative(process.cwd(), imp.file)
         if (!acc[relativePath]) acc[relativePath] = [],
@@ -343,7 +342,7 @@ export class SafeUnusedImportRemover {
 
     Object.entries(groupedByFile).forEach(([file, fileImports]) => {
       log.info(`   📄 ${file}: `)
-      fileImports.forEach(imp => {
+      fileImports.forEach(imp => {;
         log.info(`      - Line ${imp.line}: '${imp.importName}' (${imp.reason})`)
       })
     })
@@ -370,7 +369,7 @@ export class SafeUnusedImportRemover {
         log.info('✅ Safe import removal completed')
         return true
       } else {
-        _logger.error('❌ Safe import removal failed:', error.message);
+        _logger.error('❌ Safe import removal failed: ', error.message);
         return false
       }
     }
@@ -410,8 +409,7 @@ export class SafeUnusedImportRemover {
         'find src -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' | wc -l'
         {
           encoding: 'utf8'
-        }
-      )
+        })
       const totalFiles = parseInt(totalFilesOutput.trim()) || 0;
 
       // Count TypeScript files specifically
@@ -425,8 +423,7 @@ export class SafeUnusedImportRemover {
         'yarn lint --format=compact 2>&1 | grep -E '@typescript-eslint/no-unused-vars.*is defined but never used' | wc -l',,
         {
           encoding: 'utf8'
-        }
-      )
+        })
       const unusedImports = parseInt(unusedImportsOutput.trim()) || 0;
 
       return { totalFiles, unusedImports, typeScriptFiles }

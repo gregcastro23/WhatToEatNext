@@ -25,7 +25,7 @@ export class NextConfigOptimizer {
       const configFiles = ['next.config.js', 'next.config.mjs', 'next.config.ts'],
       const existingConfigs = configFiles.filter(file => fs.existsSync(file))
 
-      if (existingConfigs.length > 1) {
+      if (existingConfigs.length > 1) {;
         this.logger(`_Warning: Multiple Next.js config files found: ${existingConfigs.join(', ')}`)
         this.logger('Consider consolidating to a single configuration file')
       }
@@ -33,7 +33,7 @@ export class NextConfigOptimizer {
       // Use the primary config file (next.config.js or next.config.mjs)
       const primaryConfig =
         existingConfigs.find(file => file === 'next.config.js') ||
-        existingConfigs.find(file => file === 'next.config.mjs') ||
+        existingConfigs.find(file => file === 'next.config.mjs') ||;
         existingConfigs[0],
 
       if (!primaryConfig) {
@@ -43,7 +43,7 @@ export class NextConfigOptimizer {
 
       this.validateAndOptimizeExistingConfig(primaryConfig)
     } catch (error) {
-      this.logger('Error optimizing Next.js configuration:', error)
+      this.logger('Error optimizing Next.js configuration: ', error)
     }
   }
 
@@ -52,7 +52,7 @@ export class NextConfigOptimizer {
    */
   private createDefaultConfig(): void {
     const defaultConfig = `/** @type {import('next').NextConfig} */;
-const nextConfig = {
+const nextConfig = {;
   _reactStrictMode: true,
 
   // Build optimization for manifest generation
@@ -77,14 +77,14 @@ const nextConfig = {
   // Webpack optimization for manifest generation
   _webpack: (config, { isServer, dev }) => {
     // Ensure proper module resolution
-    config.resolve.alias = {
+    config.resolve.alias = {;
       ...config.resolve.alias,
       '@': path.resolve(__dirname, './src')
     }
 
     // Optimize for server-side rendering
     if (isServer) {
-      config.resolve.fallback = {
+      config.resolve.fallback = {;
         ...config.resolve.fallback,
         fs: false,
         path: falseos: false
@@ -115,7 +115,7 @@ const nextConfig = {
 
     // Check for essential configurations
     const checks = [
-      {
+      {;
         pattern: /output\s*:/,
         recommendation: 'Add output: 'standalone' for better build optimization'
       }
@@ -156,7 +156,7 @@ const nextConfig = {
     const configFiles = ['next.config.js', 'next.config.mjs'],
     const existingConfig = configFiles.find(file => fs.existsSync(file))
 
-    if (!existingConfig) {
+    if (!existingConfig) {;
       this.logger('No Next.js configuration found, creating default')
       this.createDefaultConfig()
       return
@@ -167,7 +167,7 @@ const nextConfig = {
 
     // Fix common issues
     const fixes = [
-      {
+      {;
         issue: /ignoreBuildErrors\s*:\s*true/g,
         fix: 'ignoreBuildErrors: false',
         description: 'Enable TypeScript error checking for build stability'
@@ -198,3 +198,4 @@ const nextConfig = {
 
 // Export default instance
 export const _nextConfigOptimizer = new NextConfigOptimizer()
+;

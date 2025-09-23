@@ -12,13 +12,12 @@ export type IngredientCategory =
   | 'grain'
   | 'dairy'
   | 'oil'
-  | 'vinegar'
+  | 'vinegar';
   | 'seasoning',
 
 // New interface for sensory profiles
 export interface SensoryProfile {
-  taste:
-    | {
+  taste: | {
         sweet: number,
         salty: number,
         sour: number,
@@ -27,8 +26,7 @@ export interface SensoryProfile {
         spicy: number
       }
     | Record<string, number>,
-  aroma:
-    | {
+  aroma: | {
         floral: number,
         fruity: number,
         herbal: number,
@@ -37,8 +35,7 @@ export interface SensoryProfile {
         woody: number
       }
     | Record<string, number>,
-  texture:
-    | {
+  texture: | {
         crisp: number,
         tender: number,
         creamy: number,
@@ -61,9 +58,8 @@ export interface CookingMethod {
   temperatures?: {
     min: number,
     max: number,
-    unit: 'celsius' | 'fahrenheit'
-  },
-  description: string
+    unit: 'celsius' | 'fahrenheit' },
+        description: string
 }
 
 export interface BaseIngredient {

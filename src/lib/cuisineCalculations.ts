@@ -57,12 +57,11 @@ export async function getCuisineRecommendations(): Promise<CuisineRecommendation
             Air: 0.25
           }
         }
-      }
-    )
+      })
 
     return recommendations,
   } catch (error) {
-    _logger.error('Error getting cuisine recommendations:', error)
+    _logger.error('Error getting cuisine recommendations: ', error)
     return [],
   }
 }
@@ -93,7 +92,7 @@ function deriveAstrologicalInfluences(tradition: unknown): string[] {
 
   // Collect influences from regional cuisines if available
   const influences = new Set<string>()
-
+;
   const regionalCuisines = traditionData?.regionalCuisines;
   if (regionalCuisines) {
     Object.values(regionalCuisines).forEach((region: unknown) => {

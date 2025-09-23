@@ -13,7 +13,7 @@ import type { Recipe } from './recipe';
 // ========== PREDICTIVE INTELLIGENCE TYPES ==========
 
 export interface PredictiveIntelligenceResult {
-  recipePrediction: {
+  recipePrediction: {;
     successProbability: number,
     userSatisfactionPrediction: number,
     optimalTimingPrediction: string,
@@ -130,7 +130,7 @@ export interface PredictiveAstrologicalAnalysis {
 // ========== MACHINE LEARNING INTELLIGENCE TYPES ==========
 
 export interface MLIntelligenceResult {
-  recipeOptimization: {
+  recipeOptimization: {;
     mlOptimizedScore: number,
     ingredientSubstitutionRecommendations: string[],
     cookingMethodOptimization: string[],
@@ -217,9 +217,8 @@ export interface MLCuisineFusionAnalysis {
       lunarPhase: LunarPhase,
       elementalProperties: ElementalProperties
     },
-    innovationLevel: 'conservative' | 'moderate' | 'experimental'
-  },
-  fusionFactors: {
+    innovationLevel: 'conservative' | 'moderate' | 'experimental' },
+        fusionFactors: {
     culturalCompatibility: number,
     techniqueSynergy: number,
     flavorHarmony: number,
@@ -255,7 +254,7 @@ export interface MLAstrologicalPredictionAnalysis {
 // ========== ADVANCED ANALYTICS INTELLIGENCE TYPES ==========
 
 export interface AdvancedAnalyticsIntelligenceResult {
-  recipeAnalytics: {
+  recipeAnalytics: {;
     multiDimensionalScore: number,
     complexityAnalysis: {
       ingredientComplexity: number,
@@ -481,7 +480,7 @@ export interface AdvancedAstrologicalAnalyticsAnalysis {
 
 // ========== INTEGRATED ADVANCED INTELLIGENCE TYPES ==========
 
-export interface IntegratedAdvancedIntelligenceResult {
+export interface IntegratedAdvancedIntelligenceResult {;
   predictiveIntelligence: PredictiveIntelligenceResult,
   mlIntelligence: MLIntelligenceResult,
   advancedAnalyticsIntelligence: AdvancedAnalyticsIntelligenceResult,
@@ -514,7 +513,7 @@ export interface AdvancedIntelligenceMetrics {
 }
 
 // ========== UTILITY TYPES ==========
-
+;
 export type IntelligenceType = 'predictive' | 'ml' | 'advanced-analytics',
 export type ConfidenceLevel = 'low' | 'medium' | 'high' | 'excellent',
 export type SystemHealth = 'excellent' | 'good' | 'fair' | 'poor',

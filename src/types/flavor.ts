@@ -4,7 +4,7 @@
 /**
  * Enum for categorizing flavor profiles in various cuisines and ingredients
  */
-export enum FlavorProfileType {
+export enum FlavorProfileType {;
   SAVORY = 'SAVORY',
   SWEET = 'SWEET',
   BITTER = 'BITTER',

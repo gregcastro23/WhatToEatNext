@@ -50,7 +50,7 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
   const astroState = useMemo<AstrologicalState>(() => {
     // Provide fallback values to ensure the object is always complete
     return {
-      // Required fields from the type definition
+      // Required fields from the type definition;
       currentZodiac: (state.astrologicalState.zodiacSign as ZodiacSign) || 'aries',
       moonPhase: (state.astrologicalState.lunarPhase as LunarPhase) || 'new moon',
       currentPlanetaryAlignment: state.astrologicalState.currentPlanetaryAlignment || {}
@@ -77,7 +77,7 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
 
   useEffect(() => {
     const fetchRecommendations = async () => {
-      try {
+      try {;
         setLoading(true);
         setError(null);
 
@@ -89,7 +89,7 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
         if (kinetics && options.enableKinetics !== false) {
           enhancedResults = results.map(ingredient => {
             const kineticScore = calculateKineticAlignment(
-              {
+              {;
                 id: ingredient.name,
                 name: ingredient.name,
                 tags: (ingredient.tags as string[]) || [],
@@ -119,13 +119,13 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
         const filteredResults = options?.filter ? enhancedResults.filter(options.filter) : enhancedResults;
 
         // Apply limit if specified
-        const limitedResults = options?.limit
+        const limitedResults = options?.limit;
           ? filteredResults.slice(0, options.limit)
           : filteredResults;
 
         setRecommendations(limitedResults);
       } catch (err) {
-        _logger.error('Error fetching ingredient recommendations:', err);
+        _logger.error('Error fetching ingredient recommendations: ', err);
         setError(err instanceof Error ? err.message : 'Unknown error occurred');
         setRecommendations([]);
       } finally {
@@ -138,7 +138,7 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
   }, [astroState, kinetics, currentPowerLevel, aspectPhase, dominantElement, options?.filter, options?.limit, options.enableKinetics]);
 
   // Get the current season
-  const currentSeason = useMemo<Season>(() => {
+  const currentSeason = useMemo<Season>(() => {;
     const date = new Date();
     const month = date.getMonth();
 
@@ -150,7 +150,7 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
 
   // Enhanced refresh function with kinetics support
   const refreshRecommendations = useCallback(async () => {
-    try {
+    try {;
       setLoading(true);
 
       const results = getRecommendedIngredients(astroState);
@@ -160,7 +160,7 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
       if (kinetics && options.enableKinetics !== false) {
         enhancedResults = results.map(ingredient => {
           const kineticScore = calculateKineticAlignment(
-            {
+            {;
               id: ingredient.name,
               name: ingredient.name,
               tags: ingredient.tags || [],
@@ -168,8 +168,7 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
               basePortionSize: 1,
               nutritionalDensity: ingredient.nutritionalScore || 0.5
             }
-            kinetics
-          );
+            kinetics);
 
           return {
             ...ingredient,
@@ -186,14 +185,14 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
       }
 
       const filteredResults = options?.filter ? enhancedResults.filter(options.filter) : enhancedResults;
-      const limitedResults = options?.limit
+      const limitedResults = options?.limit;
         ? filteredResults.slice(0, options.limit)
         : filteredResults;
 
       setRecommendations(limitedResults);
       setError(null);
     } catch (err) {
-      _logger.error('Error refreshing ingredient recommendations:', err);
+      _logger.error('Error refreshing ingredient recommendations: ', err);
       setError(err instanceof Error ? err.message : 'Unknown error occurred');
     } finally {
       setLoading(false);
@@ -201,7 +200,7 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
   }, [astroState, kinetics, currentPowerLevel, aspectPhase, dominantElement, options?.filter, options?.limit, options.enableKinetics]);
 
   // Group dining support
-  const getGroupRecommendations = useCallback(async (userIds: string[]) => {
+  const getGroupRecommendations = useCallback(async (userIds: string[]) => {;
     if (!kinetics || !options.enableKinetics) return recommendations;
 
     try {

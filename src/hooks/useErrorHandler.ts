@@ -7,7 +7,7 @@ import { createLogger } from '../utils/logger';
 const logger = createLogger('useErrorHandler')
 // Component props
 interface UseErrorHandlerProps {
-  componentName: string
+  componentName: string;
 }
 
 // Return type
@@ -46,12 +46,12 @@ export default function useErrorHandler({
   const captureError = useCallback(
      
      
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Error handling context requires flexibility
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Error handling context requires flexibility;
     (error: Error | string, context: any = {}) => {;
       // Create error object if string was passed
       const errorObj = typeof error === 'string' ? new Error(error) : error
 
-      // Log the error
+      // Log the error;
       logger.error(`Error in ${componentName}:`, {
         error: errorObj.message,
         stack: errorObj.stack,

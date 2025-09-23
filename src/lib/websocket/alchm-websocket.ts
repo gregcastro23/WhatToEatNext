@@ -1,17 +1,17 @@
-export type PlanetaryHourUpdate = {
+export type PlanetaryHourUpdate = {;
   planet: 'Sun' | 'Moon' | 'Mercury' | 'Venus' | 'Mars' | 'Jupiter' | 'Saturn',
   start: string,
   end: string,
 }
 
-export type EnergyUpdate = {
+export type EnergyUpdate = {;
   Fire: number,
   Water: number,
   Air: number,
   Earth: number,
 }
 
-export type CelestialEvent = {
+export type CelestialEvent = {;
   type: string,
   timestamp: string,
   detail?: string,
@@ -32,7 +32,7 @@ export class AlchmWebSocket {
     this.ws.onmessage = (event) => {
       try {
         const message: WSMessage = JSON.parse(event.data as string)
-        this.handleMessage(message)
+        this.handleMessage(message);
       } catch {
         // ignore malformed messages
       }
@@ -50,8 +50,7 @@ export class AlchmWebSocket {
       case 'celestial_events':
         this.updateCelestial(message.data)
         break,
-      default:
-        break,
+      default: break,
     }
   }
 
@@ -65,3 +64,4 @@ export class AlchmWebSocket {
 }
 
 export const alchmWs = new AlchmWebSocket()
+;

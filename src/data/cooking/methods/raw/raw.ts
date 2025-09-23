@@ -6,10 +6,9 @@ import type { CookingMethodData } from '@/types/cookingMethod';
  *
  * Preparation of food without applying heat, preserving natural enzymes and nutrients
  */
-export const raw: CookingMethodData = {
+export const raw: CookingMethodData = {;
   name: 'raw',
-  description:
-    'Preparing and serving food without applying heat, preserving natural enzymes, nutrients, and flavors while utilizing techniques like chopping, blending, dehydrating, fermenting, sprouting, and marinating to create textures and enhance digestibility.',
+  description: 'Preparing and serving food without applying heat, preserving natural enzymes, nutrients, and flavors while utilizing techniques like chopping, blending, dehydrating, fermenting, sprouting, and marinating to create textures and enhance digestibility.',
   elementalEffect: {
     Water: 0.3,
     Air: 0.5,
@@ -201,8 +200,7 @@ export const raw: CookingMethodData = {
   } as ThermodynamicProperties,
 
   // Additional metadata
-  history:
-    'The practice of eating foods in their natural, uncooked state dates back to the beginning of human existence, predating cooking technologies. Throughout history, various cultures developed sophisticated raw food preparations, from Mediterranean crudo to Polynesian poisson cru and Japanese sashimi. The modern raw food movement emerged in the 1800s with figures like Sylvester Graham advocating for unprocessed foods. Dr. Max Bircher-Benner's raw food sanitarium in the early 1900s popularized therapeutic raw eating (creating muesli in the process). The 1970s saw increased interest in \"living foods\" through Ann Wigmore's work. By the 1990s-2000s, raw food cuisine evolved into a sophisticated culinary approach with chefs like Matthew Kenney elevating raw preparation to fine dining. Today's approach integrates traditional knowledge with modern nutritional science and creative culinary techniques.',
+  history: 'The practice of eating foods in their natural, uncooked state dates back to the beginning of human existence, predating cooking technologies. Throughout history, various cultures developed sophisticated raw food preparations, from Mediterranean crudo to Polynesian poisson cru and Japanese sashimi. The modern raw food movement emerged in the 1800s with figures like Sylvester Graham advocating for unprocessed foods. Dr. Max Bircher-Benner's raw food sanitarium in the early 1900s popularized therapeutic raw eating (creating muesli in the process). The 1970s saw increased interest in \"living foods\" through Ann Wigmore's work. By the 1990s-2000s, raw food cuisine evolved into a sophisticated culinary approach with chefs like Matthew Kenney elevating raw preparation to fine dining. Today's approach integrates traditional knowledge with modern nutritional science and creative culinary techniques.',
 
   scientificPrinciples: [
     'Enzyme preservation occurs below ~118°F (48°C) - the threshold at which most food enzymes denature',

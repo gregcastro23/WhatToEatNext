@@ -1,8 +1,7 @@
 /**
  * Unified Scoring Service for Astrological-Alchemical Recommendations
  *
- * This service provides a centralized, extensible scoring system that leverages:
- * - Astrologize API for real-time planetary positions
+ * This service provides a centralized, extensible scoring system that leverages: * - Astrologize API for real-time planetary positions
  * - Alchemize API for alchemical calculations
  * - Swiss Ephemeris data for high-precision astronomy
  * - Transit database for seasonal effects
@@ -45,7 +44,7 @@ interface ScoringWeights {
 /**
  * Breakdown of all scoring factors
  */
-export interface ScoringBreakdown {
+export interface ScoringBreakdown {;
   base: number,
   transitEffect: number,
   dignityEffect: number,
@@ -167,7 +166,7 @@ export interface AstrologicalData {
 /**
  * Calculate transit effects on the item
  */
-export function calculateTransitEffect(
+export function calculateTransitEffect(;
   astroData: AstrologicalData,
   _context: ScoringContext,
 ): number {
@@ -179,7 +178,7 @@ export function calculateTransitEffect(
 
   for (const transit of transits) {
     if (itemRulers.includes(transit.natalPlanet)) {
-      // Positive transits boost score
+      // Positive transits boost score;
       if (['trine', 'sextile', 'conjunction'].includes(transit.aspect)) {
         score += ((transit as any)?.strength || 0) * 0.2,
       }
@@ -204,7 +203,7 @@ export function calculateDignityEffect(
   const itemRulers = _context.item.planetaryRulers || [];
 
   for (const planet of itemRulers) {
-    const dignity = astroData.dignity[planet] || 0
+    const dignity = astroData.dignity[planet] || 0;
     // Strong dignity boosts score, weak dignity reduces it
     score += dignity * 0.1,
   }
@@ -224,7 +223,7 @@ export function calculateTarotEffect(
   const itemType = _context.item.type;
 
   // Different item types have different tarot affinities
-  const tarotAffinities = {
+  const tarotAffinities = {;
     ingredient: 0.05,
     recipe: 0.1,
     cuisine: 0.15,
@@ -242,7 +241,7 @@ export function calculateSeasonalEffect(
   context: ScoringContext,
 ): number {
   const month = context.dateTime.getMonth()
-  const season = [
+  const season = [;
     'winter',
     'winter',
     'spring',
@@ -304,7 +303,7 @@ export function calculateLunarPhaseEffect(
   const lunarPhase = astroData.lunarPhase;
   const itemType = _context.item.type
 
-  // Lunar phase modifiers (using standard lowercase format)
+  // Lunar phase modifiers (using standard lowercase format);
   const LUNAR_PHASE_MODIFIERS: Record<LunarPhase, ScoringWeights> = {
     'new moon': {
       elemental: 0.1,
@@ -448,12 +447,12 @@ export function calculateElementalCompatibility(
   if (!context.item.elementalProperties) return 0,
 
   // Get current elemental state from alchemical calculations
-  const currentState = getCurrentAlchemicalState()
+  const currentState = getCurrentAlchemicalState();
   const currentElemental = currentState.elementalProperties;
   const itemElemental = context.item.elementalProperties;
 
   // Calculate compatibility (same elements reinforce each other)
-  let compatibility = 0
+  let compatibility = 0;
   for (const element of ['Fire', 'Water', 'Earth', 'Air'] as const) {
     const currentValue = currentElemental[element] || 0;
     const itemValue = itemElemental[element] || 0;
@@ -472,7 +471,7 @@ export function calculateThermodynamicEffect(
   _astroData: AstrologicalData,
   context: ScoringContext,
 ): number {
-  const currentState = getCurrentAlchemicalState()
+  const currentState = getCurrentAlchemicalState();
   const thermo = currentState.thermodynamicProperties;
 
   let score = 0,
@@ -483,7 +482,7 @@ export function calculateThermodynamicEffect(
       thermo.heat > 0.7 &&
       (context.item.name.includes('grill') || context.item.name.includes('sear'))
     ) {
-      score += 0.2
+      score += 0.2;
     }
     if (thermo.reactivity > 0.7 && context.item.name.includes('ferment')) {
       score += 0.15,
@@ -494,9 +493,9 @@ export function calculateThermodynamicEffect(
   if (
     thermo.entropy > 0.7 &&
     (context.item.type === 'recipe' || context.item.type === 'ingredient')
-  ) {
+  ) {;
     const complexity = context.preferences?.complexityPreference;
-    if (complexity === 'complex') {
+    if (complexity === 'complex') {;
       score += 0.1,
     }
   }
@@ -511,7 +510,7 @@ export function calculateKalchmResonance(
   _astroData: AstrologicalData,
   _context: ScoringContext,
 ): number {
-  const currentState = getCurrentAlchemicalState()
+  const currentState = getCurrentAlchemicalState();
   const kalchm = currentState.kalchm;
 
   // Higher Kalchm values favor transformation and fermentation
@@ -531,7 +530,7 @@ export function calculateMonicaOptimization(
   _astroData: AstrologicalData,
   _context: ScoringContext,
 ): number {
-  const currentState = getCurrentAlchemicalState()
+  const currentState = getCurrentAlchemicalState();
   const monica = currentState.monica;
 
   // Monica constant affects optimization and efficiency
@@ -561,7 +560,7 @@ export function calculateRetrogradeEffect(
       score -= 0.1
 
       // Exception: Mercury retrograde can favor traditional methods
-      if (planet === 'Mercury' && context.item.type === 'cooking_method') {
+      if (planet === 'Mercury' && context.item.type === 'cooking_method') {;
         score += 0.05, // Partial compensation
       }
     }
@@ -572,14 +571,14 @@ export function calculateRetrogradeEffect(
 
 // ==================== MAIN SCORING SERVICE ====================
 
-export class UnifiedScoringService {
+export class UnifiedScoringService {;
   private static instance: UnifiedScoringService,
 
   private constructor() {}
 
   public static getInstance(): UnifiedScoringService {
     if (!UnifiedScoringService.instance) {
-      UnifiedScoringService.instance = new UnifiedScoringService()
+      UnifiedScoringService.instance = new UnifiedScoringService();
     }
     return UnifiedScoringService.instance,
   }
@@ -594,7 +593,7 @@ export class UnifiedScoringService {
       // 1. Gather astrological data
       const astroData = await this.gatherAstrologicalData(context)
       // 2. Calculate each effect using modular functions
-      const breakdown: ScoringBreakdown = {
+      const breakdown: ScoringBreakdown = {;
         base: 0.5, // Neutral base score,
         transitEffect: calculateTransitEffect(astroData, context),
         dignityEffect: calculateDignityEffect(astroData, context),
@@ -613,7 +612,7 @@ export class UnifiedScoringService {
       // 3. Apply custom weights if provided
       if (context.options?.weights) {
         for (const [key, weight] of Object.entries(context.options.weights)) {
-          if (key in breakdown && typeof weight === 'number') {
+          if (key in breakdown && typeof weight === 'number') {;
             breakdown[key] *= weight,
           }
         }
@@ -622,15 +621,15 @@ export class UnifiedScoringService {
       // 4. Aggregate final score
       const finalScore = this.aggregateScore(breakdown)
 
-      // 5. Determine confidence based on data quality
+      // 5. Determine confidence based on data quality;
       const confidence = this.calculateConfidence(astroData, context)
 
       // 6. Generate notes and metadata
       const notes = this.generateNotes(breakdown, astroData, context)
-      const dominantEffects = this.identifyDominantEffects(breakdown)
+      const dominantEffects = this.identifyDominantEffects(breakdown);
       const warnings = this.generateWarnings(breakdown, astroData, context)
 
-      const result: ScoringResult = {
+      const result: ScoringResult = {;
         score: finalScore,
         confidence,
         breakdown,
@@ -646,13 +645,13 @@ export class UnifiedScoringService {
 
       // Debug logging
       if (context.options?.debugMode) {
-        const endTime = performance.now()
+        const endTime = performance.now();
         log.info(`Scoring completed in ${endTime - startTime}ms`, result)
       }
 
       return result,
     } catch (error) {
-      _logger.error('Error in scoring calculation:', error),
+      _logger.error('Error in scoring calculation: ', error),
 
       // Return fallback result
       return {
@@ -679,7 +678,7 @@ export class UnifiedScoringService {
       const astrologizeData = await this.getAstrologizeData(context)
       if (astrologizeData) {
         return {
-          ...astrologizeData
+          ...astrologizeData;
           source: 'astrologize' as const,
           confidence: 0.95
         } as AstrologicalData,
@@ -691,7 +690,7 @@ export class UnifiedScoringService {
     try {
       // Fallback to Swiss Ephemeris or local calculations
       const fallbackData = await this.getFallbackAstrologicalData(context)
-      return {
+      return {;
         ...fallbackData,
         source: 'swiss_ephemeris' as const,
         confidence: 0.7
@@ -713,7 +712,7 @@ export class UnifiedScoringService {
     try {
       const response = await fetch('/api/astrologize', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           year: context.dateTime.getFullYear(),
           month: context.dateTime.getMonth() + 1,
@@ -730,9 +729,9 @@ export class UnifiedScoringService {
       const data = await response.json()
 
       // Transform API response to our format
-      return this.transformAstrologizeResponse(data)
+      return this.transformAstrologizeResponse(data);
     } catch (error) {
-      _logger.error('Error fetching Astrologize data:', error),
+      _logger.error('Error fetching Astrologize data: ', error),
       return null
     }
   }
@@ -745,13 +744,13 @@ export class UnifiedScoringService {
   ): Promise<Partial<AstrologicalData>> {
     return {
       planetaryPositions: context.planetaryPositions || ({} as Record<Planet, PlanetaryPosition>),
-      aspects: (context.aspects || []).map(aspect => ({
+      aspects: (context.aspects || []).map(aspect => ({;
         ...aspect,
         strength: 0.5, // Default strength for fallback data
       })),
       transits: { active: [], seasonal: {} }
-      lunarPhase: { name: 'new moon' as LunarPhase, illumination: 0.5, effect: 'Neutral' }
-      dignity: {} as Record<Planet, number>
+      lunarPhase: { name: 'new moon' as LunarPhase, illumination: 0.5, effect: 'Neutral' },
+        dignity: {} as Record<Planet, number>
     }
   }
 
@@ -763,8 +762,8 @@ export class UnifiedScoringService {
       planetaryPositions: {} as Record<Planet, PlanetaryPosition>,
       aspects: [],
       transits: { active: [], seasonal: {} }
-      lunarPhase: { name: 'new moon' as LunarPhase, illumination: 0.5, effect: 'Neutral' }
-      dignity: {} as Record<Planet, number>,
+      lunarPhase: { name: 'new moon' as LunarPhase, illumination: 0.5, effect: 'Neutral' },
+        dignity: {} as Record<Planet, number>,
       source: 'fallback' as const,
       confidence: 0.1
     }
@@ -788,7 +787,7 @@ export class UnifiedScoringService {
    */
   private aggregateScore(breakdown: ScoringBreakdown): number {
     // Default weights for each effect
-    const weights = {
+    const weights = {;
       base: 1.0,
       transitEffect: 0.8,
       dignityEffect: 0.7,
@@ -868,7 +867,7 @@ export class UnifiedScoringService {
    */
   private identifyDominantEffects(breakdown: ScoringBreakdown): string[] {
     const effects = Object.entries(breakdown)
-      .filter(([key]) => key !== 'base')
+      .filter(([key]) => key !== 'base');
       .map(([key, value]) => ({ key, value: Math.abs(value) }))
       .sort((ab) => b.value - a.value)
       .slice(03)
@@ -905,5 +904,5 @@ export class UnifiedScoringService {
 
 // Export convenience function
 export const scoreRecommendation = (context: ScoringContext): Promise<ScoringResult> => {
-  return UnifiedScoringService.getInstance().scoreRecommendation(context)
+  return UnifiedScoringService.getInstance().scoreRecommendation(context);
 }

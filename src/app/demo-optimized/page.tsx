@@ -22,33 +22,33 @@ export default function DemoOptimizedPage() {
   })
 
   const handleRecipeSelect = (recipe: Recipe) => {
-    setSelectedRecipe(recipe)
+    setSelectedRecipe(recipe);
     logger.info('DemoOptimizedPage recipe selected', recipe)
   }
 
   const toggleSection = (section: keyof typeof visibleSections) => {
-    setVisibleSections(prev => ({
+    setVisibleSections(prev => ({;
       ...prev,
       [section]: !prev[section]
     }))
   }
 
   return (
-    <div style={{
+    <div style={{;
       minHeight: '100vh',
       backgroundColor: '#f8f9fa',
       padding: '20px'
     }}>
-      <div style={{
+      <div style={{;
         maxWidth: '1200px',
         margin: '0 auto'
       }}>
         {/* Header */}
-        <div style={{
+        <div style={{;
           textAlign: 'center',
           marginBottom: '40px'
         }}>
-          <h1 style={{
+          <h1 style={{;
             fontSize: '32px',
             fontWeight: '700',
             color: '#333',
@@ -56,7 +56,7 @@ export default function DemoOptimizedPage() {
           }}>
             ⚡ Optimized Features Demo
           </h1>
-          <p style={{
+          <p style={{;
             fontSize: '16px',
             color: '#666',
             margin: '0 0 20px 0'
@@ -65,7 +65,7 @@ export default function DemoOptimizedPage() {
           </p>
 
           {/* Section Toggles */}
-          <div style={{
+          <div style={{;
             display: 'flex',
             justifyContent: 'center',
             gap: '12px',
@@ -75,7 +75,7 @@ export default function DemoOptimizedPage() {
               <button
                 key={key}
                 onClick={() => toggleSection(key as keyof typeof visibleSections)}
-                style={{
+                style={{;
                   padding: '6px 12px',
                   backgroundColor: visible ? '#007bff' : '#6c757d',
                   color: 'white',
@@ -87,15 +87,14 @@ export default function DemoOptimizedPage() {
                 }}
               >
                 {visible ? '👁️' : '👁️‍🗨️'} {key}
-              </button>
-            ))}
+              </button>))}
           </div>
         </div>
 
         {/* Planetary Hour Display */}
         {visibleSections.planetary && (
           <div style={{ marginBottom: '30px' }}>
-            <h2 style={{
+            <h2 style={{;
               fontSize: '20px',
               fontWeight: '600',
               color: '#333',
@@ -111,13 +110,12 @@ export default function DemoOptimizedPage() {
                 </Suspense>
               </LazyComponentErrorBoundary>
             </div>
-          </div>
-        )}
+          </div>)}
 
         {/* Energy Visualization */}
         {visibleSections.energy && (
           <div style={{ marginBottom: '30px' }}>
-            <h2 style={{
+            <h2 style={{;
               fontSize: '20px',
               fontWeight: '600',
               color: '#333',
@@ -133,13 +131,12 @@ export default function DemoOptimizedPage() {
                 </Suspense>
               </LazyComponentErrorBoundary>
             </div>
-          </div>
-        )}
+          </div>)}
 
         {/* Celestial Notifications */}
         {visibleSections.notifications && (
           <div style={{ marginBottom: '30px' }}>
-            <h2 style={{
+            <h2 style={{;
               fontSize: '20px',
               fontWeight: '600',
               color: '#333',
@@ -159,13 +156,12 @@ export default function DemoOptimizedPage() {
                 </Suspense>
               </LazyComponentErrorBoundary>
             </div>
-          </div>
-        )}
+          </div>)}
 
         {/* Recommendation Engine */}
         {visibleSections.recommendations && (
           <div style={{ marginBottom: '30px' }}>
-            <h2 style={{
+            <h2 style={{;
               fontSize: '20px',
               fontWeight: '600',
               color: '#333',
@@ -183,12 +179,11 @@ export default function DemoOptimizedPage() {
                 </Suspense>
               </LazyComponentErrorBoundary>
             </div>
-          </div>
-        )}
+          </div>)}
 
         {/* Selected Recipe Display */}
         {selectedRecipe && (
-          <div style={{
+          <div style={{;
             border: '2px solid #28a745',
             borderRadius: '12px',
             padding: '20px',
@@ -198,7 +193,7 @@ export default function DemoOptimizedPage() {
             boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
             animation: 'slideIn 0.3s ease'
           }}>
-            <h3 style={{
+            <h3 style={{;
               margin: '0 0 16px 0',
               fontSize: '20px',
               fontWeight: '600',
@@ -207,14 +202,14 @@ export default function DemoOptimizedPage() {
               ✨ Selected Recipe
             </h3>
             <div>
-              <h4 style={{
+              <h4 style={{;
                 margin: '0 0 8px 0',
                 fontSize: '18px',
                 color: '#333'
               }}>
                 {selectedRecipe.name}
               </h4>
-              <p style={{
+              <p style={{;
                 margin: '0 0 12px 0',
                 fontSize: '14px',
                 color: '#666'
@@ -227,7 +222,7 @@ export default function DemoOptimizedPage() {
                     href={selectedRecipe.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    style={{
+                    style={{;
                       display: 'inline-block',
                       padding: '8px 16px',
                       backgroundColor: '#28a745',
@@ -239,11 +234,10 @@ export default function DemoOptimizedPage() {
                     }}
                   >
                     View Recipe →
-                  </a>
-                )}
+                  </a>)}
                 <button
                   onClick={() => setSelectedRecipe(null)}
-                  style={{
+                  style={{;
                     padding: '8px 16px',
                     backgroundColor: '#6c757d',
                     color: 'white',
@@ -258,32 +252,31 @@ export default function DemoOptimizedPage() {
                 </button>
               </div>
             </div>
-          </div>
-        )}
+          </div>)}
 
         {/* Performance Info */}
-        <div style={{
+        <div style={{;
           marginTop: '40px',
           padding: '20px',
           backgroundColor: '#d1ecf1',
           borderRadius: '8px',
           border: '1px solid #bee5eb'
         }}>
-          <h3 style={{
+          <h3 style={{;
             margin: '0 0 12px 0',
             fontSize: '18px',
             color: '#0c5460'
           }}>
             ⚡ Performance Optimizations
           </h3>
-          <ul style={{
+          <ul style={{;
             margin: 0,
             paddingLeft: '20px',
             color: '#0c5460'
           }}>
             <li><strong>Code Splitting:</strong> Each component loads only when needed</li>
             <li><strong>Lazy Loading:</strong> React.lazy() with Suspense for async loading</li>
-            <li><strong>Error Boundaries:</strong> Graceful fallbacks for component failures</li>
+            <li><strong>Error Boundaries: </strong> Graceful fallbacks for component failures</li>
             <li><strong>Toggle Sections:</strong> Load/unload components dynamically</li>
             <li><strong>Loading States:</strong> User feedback during component loading</li>
             <li><strong>Bundle Optimization:</strong> Smaller initial bundle size</li>
@@ -291,7 +284,7 @@ export default function DemoOptimizedPage() {
         </div>
 
         {/* Bundle Size Info */}
-        <div style={{
+        <div style={{;
           marginTop: '20px',
           padding: '16px',
           backgroundColor: '#f8f9fa',

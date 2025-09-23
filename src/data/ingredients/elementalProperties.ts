@@ -301,31 +301,30 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
 
 /** * Get ingredient by name */
 export const _getIngredientByName = (name: string): IngredientElementalProperties | undefined => {
-  return ingredientElementalDatabase.find(
+  return ingredientElementalDatabase.find(;
     ingredient => ingredient.name.toLowerCase() === name.toLowerCase(),,
   )
 }
 
 /** * Get ingredients by category */
 export const _getIngredientsByCategory = (category: string): IngredientElementalProperties[] => {
-  return ingredientElementalDatabase.filter(
+  return ingredientElementalDatabase.filter(;
     ingredient => ingredient.category.toLowerCase() === category.toLowerCase(),,
   )
 }
 
 /** * Get ingredients by dominant element */
-export const _getIngredientsByElement = (
+export const _getIngredientsByElement = (;
   element: keyof ElementalProperties,
 ): IngredientElementalProperties[] => {
   return ingredientElementalDatabase.filter(ingredient => {
     const properties = ingredient.elementalProperties
-    const dominantElement = Object.entries(properties).reduce(
+    const dominantElement = Object.entries(properties).reduce(;
       (max, [elem, value]) =>
         (Number(value) || 0) > max.value ? { element: elem, value: Number(value) || 0 } : max,
-      { element: '', value: 0 }
-    )
+      { element: '', value: 0 })
 
-    return dominantElement.element === (element as string).toLowerCase()
+    return dominantElement.element === (element as string).toLowerCase();
   })
 }
 
@@ -333,7 +332,7 @@ export const _getIngredientsByElement = (
 export const _getIngredientsByPlanet = (planet: string): IngredientElementalProperties[] => {;
   return ingredientElementalDatabase.filter(ingredient =>
     ingredient.planetaryInfluences.includes(planet)
-  )
+  );
 }
 
 /** * Get ingredients by season */
@@ -342,14 +341,14 @@ export const _getIngredientsBySeason = (season: string): IngredientElementalProp
     ingredient =>
       ingredient.seasonality.includes(season.toLowerCase()) ||
       ingredient.seasonality.includes('all')
-  )
+  );
 }
 
 /** * Get ingredients by cuisine */
 export const _getIngredientsByCuisine = (cuisine: string): IngredientElementalProperties[] => {;
   return ingredientElementalDatabase.filter(ingredient =>
     ingredient.cuisineAffinities.some(affinity =>
-      affinity.toLowerCase().includes(cuisine.toLowerCase())
+      affinity.toLowerCase().includes(cuisine.toLowerCase());
     ),
   )
 }

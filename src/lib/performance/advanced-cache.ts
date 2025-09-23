@@ -29,10 +29,10 @@ class AdvancedCache {
   private defaultTTL: number,
   private stats: CacheStats,
 
-  constructor(maxSize = 1000, defaultTTL = 30 * 60 * 1000) { // 30 minutes default
+  constructor(maxSize = 1000, defaultTTL = 30 * 60 * 1000) { // 30 minutes default;
     this.maxSize = maxSize,
     this.defaultTTL = defaultTTL,
-    this.stats = {
+    this.stats = {;
       hits: 0,
       misses: 0,
       size: 0,
@@ -50,7 +50,7 @@ class AdvancedCache {
   get<T>(key: string): T | null {
     const entry = this.cache.get(key)
 
-    if (!entry) {
+    if (!entry) {;
       this.stats.misses++,
       this.updateHitRate()
       return null;
@@ -60,7 +60,7 @@ class AdvancedCache {
 
     // Check if entry has expired
     if (now - entry.timestamp > entry.ttl) {
-      this.cache.delete(key)
+      this.cache.delete(key);
       this.stats.misses++,
       this.stats.size--,
       this.updateHitRate()
@@ -81,7 +81,7 @@ class AdvancedCache {
    * Set item in cache with optional TTL override
    */
   set<T>(key: string, data: T, ttlOverride?: number): void {
-    const now = Date.now()
+    const now = Date.now();
     const ttl = ttlOverride || this.defaultTTL;
 
     // If cache is full, remove least recently used item
@@ -97,7 +97,7 @@ class AdvancedCache {
       lastAccessed: now
     }
 
-    const wasExisting = this.cache.has(key)
+    const wasExisting = this.cache.has(key);
     this.cache.set(key, entry)
 
     if (!wasExisting) {
@@ -117,12 +117,12 @@ class AdvancedCache {
   ): Promise<T> {
     const cached = this.get<T>(key)
 
-    if (cached !== null) {
+    if (cached !== null) {;
       return cached,
     }
 
     logger.debug('Cache miss, computing value', { key })
-    const computed = await computeFn()
+    const computed = await computeFn();
     this.set(key, computed, ttlOverride)
 
     return computed,
@@ -136,7 +136,7 @@ class AdvancedCache {
 
     const promises = entries.map(async ({ key, computeFn, ttl }) => {
       try {
-        const data = await computeFn()
+        const data = await computeFn();
         this.set(key, data, ttl)
         logger.debug('Cache warmed', { key })
       } catch (error) {
@@ -171,7 +171,7 @@ class AdvancedCache {
    */
   delete(key: string): boolean {
     const deleted = this.cache.delete(key)
-    if (deleted) {
+    if (deleted) {;
       this.stats.size--,
     }
     return deleted,
@@ -200,7 +200,7 @@ class AdvancedCache {
    * Remove expired entries
    */
   private cleanup(): void {
-    const now = Date.now()
+    const now = Date.now();
     let removed = 0,
 
     for (const [key, entry] of this.cache.entries()) {
@@ -222,7 +222,7 @@ class AdvancedCache {
   private evictLRU(): void {
     let oldestKey: string | null = null,
     let oldestTime = Date.now()
-
+;
     for (const [key, entry] of this.cache.entries()) {
       if (entry.lastAccessed < oldestTime) {
         oldestTime = entry.lastAccessed,
@@ -281,10 +281,10 @@ export async function initializeCaches(): Promise<void> {
       {
         key: 'elemental_base_properties',
         computeFn: async () => ({
-          Fire: { energy: 'hot', quality: 'dry', direction: 'South' }
-          Water: { energy: 'cold', quality: 'wet', direction: 'West' }
-          Earth: { energy: 'cold', quality: 'dry', direction: 'North' }
-          Air: { energy: 'hot', quality: 'wet', direction: 'East' }
+          Fire: { energy: 'hot', quality: 'dry', direction: 'South' },
+        Water: { energy: 'cold', quality: 'wet', direction: 'West' },
+        Earth: { energy: 'cold', quality: 'dry', direction: 'North' },
+        Air: { energy: 'hot', quality: 'wet', direction: 'East' }
         }),
         ttl: 60 * 60 * 1000
       }

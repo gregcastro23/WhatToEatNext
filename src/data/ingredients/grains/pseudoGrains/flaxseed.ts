@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawFlaxseed = {
-  flaxseed: {
+  flaxseed: {;
     name: 'Flaxseed',
     elementalProperties: { Water: 0.3, Earth: 0.3, Air: 0.3, Fire: 0.1 }
     astrologicalProfile: {
@@ -20,9 +20,8 @@ const rawFlaxseed = {
         appearance: 'Small yellow seeds',
         texture: 'Similar to brown',
         flavor: 'Milder, lighter flavor than brown',
-        uses: 'Visually appealing in lighter dishes, often more expensive'
-      },
-      meal: {
+        uses: 'Visually appealing in lighter dishes, often more expensive' },
+        meal: {
         appearance: 'Ground powder',
         texture: 'Fine to coarse depending on grind',
         flavor: 'Nutty, can become rancid quickly',
@@ -35,7 +34,7 @@ const rawFlaxseed = {
         storage: 'Refrigerate ground flaxseed for up to 2 weeks',
         tips: [
           'Grind whole seeds for best nutrition absorption',
-          'Mix with water (1:3 ratio) for egg substitute',
+          'Mix with water (1: 3 ratio) for egg substitute',
           'Add to dishes after cooking to preserve nutrients'
         ]
       },
@@ -45,9 +44,8 @@ const rawFlaxseed = {
       container: 'Airtight container',
       duration: 'Up to 1 year (whole seeds), 1-2 weeks (ground)',
       temperature: 'Cool, dark place (whole), refrigerated or frozen (ground)',
-      notes: 'High oil content means ground flaxseed spoils quickly'
-    },
-    pairingRecommendations: {
+      notes: 'High oil content means ground flaxseed spoils quickly' },
+        pairingRecommendations: {
       complementary: ['oats', 'yogurt', 'smoothies', 'breads', 'muffins', 'granola'],
       contrasting: ['fruits', 'honey', 'maple syrup'],
       toAvoid: ['dishes requiring long cooking that might damage omega oils']

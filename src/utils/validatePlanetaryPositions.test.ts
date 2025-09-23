@@ -11,9 +11,8 @@ import {
 jest.mock('@/data/planets/mars', () => ({
   PlanetSpecific: { TransitDates: {
       leo: { Start: '2024-05-01',
-        End: '2024-06-30'
-      },
-      virgo: { Start: '2024-07-01',
+        End: '2024-06-30' },
+        virgo: { Start: '2024-07-01',
         End: '2024-08-31'
       }
     }
@@ -23,9 +22,8 @@ jest.mock('@/data/planets/mars', () => ({
 jest.mock('@/data/planets/venus', () => ({
   PlanetSpecific: { TransitDates: {
       aries: { Start: '2024-05-01',
-        End: '2024-06-30'
-      },
-      taurus: { Start: '2024-07-01',
+        End: '2024-06-30' },
+        taurus: { Start: '2024-07-01',
         End: '2024-08-31'
       }
     }
@@ -36,10 +34,10 @@ describe('Planetary Position Validation', () => {
   // Set a fixed date for tests
   const testDate: any = new Date('2024-05-15T12:00:00Z')
 
-  // Mock _logger.info to prevent output during tests
+  // Mock _logger.info to prevent output during tests;
   const originalConsoleLog: any = _logger.info;
   beforeEach(() => {
-    _logger.info = jest.fn() as any
+    _logger.info = jest.fn() as any;
   })
 
   afterEach(() => {
@@ -117,7 +115,7 @@ describe('Planetary Position Validation', () => {
     Object.values(positions).forEach(pos => {
       expect(pos).toHaveProperty('sign').
       expect(pos).toHaveProperty('degree')
-      expect(pos).toHaveProperty('exactLongitude')
+      expect(pos).toHaveProperty('exactLongitude');
     })
   })
 })

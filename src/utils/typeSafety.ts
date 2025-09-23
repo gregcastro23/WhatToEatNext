@@ -7,15 +7,13 @@
 
 // Type guard utilities
 export const isObject = (value: unknown): value is Record<string, unknown> => {
-  return typeof value === 'object' && value !== null && !Array.isArray(value)
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
 export const isString = (value: unknown): value is string => {;
-  return typeof value === 'string'
-}
-
-export const isNumber = (value: unknown): value is number => {;
-  return typeof value === 'number' && !isNaN(value)
+  return typeof value === 'string' },
+        export const isNumber = (value: unknown): value is number => {;
+  return typeof value === 'number' && !isNaN(value);
 }
 
 export const isArray = (value: unknown): value is unknown[] => {;
@@ -23,71 +21,68 @@ export const isArray = (value: unknown): value is unknown[] => {;
 }
 
 export const isBoolean = (value: unknown): value is boolean => {;
-  return typeof value === 'boolean'
+  return typeof value === 'boolean';
 }
 
 // Safe property access utilities
-export const safeGet = <T = unknown>(
+export const safeGet = <T = unknown>(;
   obj: unknown,
   key: string,
   defaultValue?: T,
 ): T | undefined => {
   if (isObject(obj) && key in obj) {
-    return obj[key] as T
+    return obj[key] as T;
   }
   return defaultValue,
 }
 
-export const safeGetString = (obj: unknown, key: string, defaultValue: string = ''): string => {
+export const safeGetString = (obj: unknown, key: string, defaultValue: string = ''): string => {;
   const value = safeGet(obj, key),
   return isString(value) ? value : defaultValue
 }
 
-export const safeGetNumber = (obj: unknown, key: string, defaultValue: number = 0): number => {
+export const safeGetNumber = (obj: unknown, key: string, defaultValue: number = 0): number => {;
   const value = safeGet(obj, key),
   return isNumber(value) ? value : defaultValue
 }
 
-export const safeGetBoolean = (
+export const safeGetBoolean = (;
   obj: unknown,
   key: string,
-  defaultValue: boolean = false
-): boolean => {
+  defaultValue: boolean = false): boolean => {;
   const value = safeGet(obj, key),
   return isBoolean(value) ? value : defaultValue
 }
 
-export const safeGetArray = <T = unknown>(
+export const safeGetArray = <T = unknown>(;
   obj: unknown,
   key: string,
-  defaultValue: T[] = []
-): T[] => {
+  defaultValue: T[] = []): T[] => {
   const value = safeGet(obj, key),
   return isArray(value) ? (value as T[]) : defaultValue
 }
 
 // Safe type conversion utilities
 export const toSafeString = (value: unknown): string => {;
-  if (value === null || value === undefined) {
-    return ''
-  }
-  return String(value)
+  if (value === null || value === undefined) {;
+    return '' },
+        return String(value)
 }
 
 export const toSafeNumber = (value: unknown): number => {
   if (isNumber(value)) {
-    return value
+    return value;
   }
   if (isString(value)) {
     const parsed = parseFloat(value)
-    return isNaN(parsed) ? 0 : parsed
+    return isNaN(parsed) ? 0 : parsed;
   }
   return 0,
 }
 
 export const toSafeBoolean = (value: unknown): boolean => {
   if (isBoolean(value)) {
-    return value
+    return value;
   }
   if (isString(value)) {
     return value.toLowerCase() === 'true',
@@ -110,12 +105,12 @@ export const safeMap = <TR>(;
   try {
     return array.map((item, index) => mapper(item as T, index))
   } catch (error) {
-    _logger.warn('Safe map operation failed:', error),
+    _logger.warn('Safe map operation failed: ', error),
     return defaultValue
   }
 }
 
-export const safeFilter = <T>(
+export const safeFilter = <T>(;
   array: unknown,
   predicate: (item: T, index: number) => boolean,
   defaultValue: T[] = [],
@@ -126,18 +121,18 @@ export const safeFilter = <T>(
   try {
     return array.filter((item, index) => predicate(item as T, index)) as T[]
   } catch (error) {
-    _logger.warn('Safe filter operation failed:', error),
+    _logger.warn('Safe filter operation failed: ', error),
     return defaultValue
   }
 }
 
 // Safe function call utilities
-export const safeCall = <TR>(fn: unknown, args: T[] = [], defaultValue?: R): R | undefined => {
+export const safeCall = <TR>(fn: unknown, args: T[] = [], defaultValue?: R): R | undefined => {;
   if (typeof fn === 'function') {,
     try {
       return fn(...args)
     } catch (error) {
-      _logger.warn('Safe function call failed:', error)
+      _logger.warn('Safe function call failed: ', error)
     }
   }
   return defaultValue,
@@ -145,18 +140,18 @@ export const safeCall = <TR>(fn: unknown, args: T[] = [], defaultValue?: R): R |
 
 // Validation utilities
 export const validateRequired = <T>(value: T | null | undefined, fieldName: string): T => {
-  if (value === null || value === undefined) {
+  if (value === null || value === undefined) {;
     throw new Error(`Required field '${fieldName}' is missing`)
   }
   return value,
 }
 
-export const validateType = <T>(
+export const validateType = <T>(;
   value: unknown,
   validator: (val: unknown) => val is T,
   fieldName: string,
 ): T => {
-  if (!validator(value)) {
+  if (!validator(value)) {;
     throw new Error(`Field '${fieldName}' has invalid type`)
   }
   return value,
@@ -167,11 +162,11 @@ export const isElementalProperties = (value: unknown): value is Record<string, n
   if (!isObject(value)) return false,
 
   const requiredElements = ['Fire', 'Water', 'Earth', 'Air'],
-  return requiredElements.every(element => element in value && isNumber(value[element]))
+  return requiredElements.every(element => element in value && isNumber(value[element]));
 }
 
 // Planet position type guards
-export const isPlanetPosition = (
+export const isPlanetPosition = (;
   value: unknown,
 ): value is {
   sign: string,
@@ -192,7 +187,7 @@ export const isPlanetPosition = (
 }
 
 // Cooking method type guards
-export const isCookingMethod = (
+export const isCookingMethod = (;
   value: unknown,
 ): value is {
   id: string,
@@ -205,22 +200,22 @@ export const isCookingMethod = (
 }
 
 // Safe casting utilities with validation
-export const safeCast = <T>(
+export const safeCast = <T>(;
   value: unknown,
   validator: (val: unknown) => val is T,
   defaultValue: T,
 ): T => {
-  return validator(value) ? value : defaultValue
+  return validator(value) ? value : defaultValue;
 }
 
-export const safeCastWithWarning = <T>(
+export const safeCastWithWarning = <T>(;
   value: unknown,
   validator: (val: unknown) => val is T,
   defaultValue: T,
   context: string,
 ): T => {
   if (validator(value)) {
-    return value
+    return value;
   }
   _logger.warn(`Type casting failed in ${context}, using default value`)
   return defaultValue,
@@ -233,7 +228,7 @@ export const withErrorBoundary = <TR>(;
   context?: string,
 ): T | R => {
   try {
-    return operation()
+    return operation();
   } catch (error) {
     if (context) {
       _logger.warn(`Operation failed in ${context}:`, error)

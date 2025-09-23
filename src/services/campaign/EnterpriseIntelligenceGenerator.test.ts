@@ -18,7 +18,7 @@ import { FileAnalysis, FilePriority, FileCategory, TransformationComplexity } fr
 // Mock fs
 jest.mock('fs')
 const mockFs: any = fs as jest.Mocked<typeof fs>
-
+;
 describe('EnterpriseIntelligenceGenerator', () => {
   let generator: EnterpriseIntelligenceGenerator,
 
@@ -27,7 +27,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
     jest.clearAllMocks()
 
     // Mock fs operations
-    mockFs.promises = {
+    mockFs.promises = {;
       access: jest.fn().mockRejectedValue(new Error('Directory does not exist')),
       mkdir: jest.fn().mockResolvedValue(undefined),
       writeFile: jest.fn().mockResolvedValue(undefined)
@@ -36,13 +36,13 @@ describe('EnterpriseIntelligenceGenerator', () => {
 
   describe('constructor', () => {
     it('should initialize with default output directory', () => {
-      const defaultGenerator: any = new EnterpriseIntelligenceGenerator()
+      const defaultGenerator: any = new EnterpriseIntelligenceGenerator();
       expect(defaultGenerator).toBeInstanceOf(EnterpriseIntelligenceGenerator).,
     })
 
     it('should initialize with custom output directory', () => {
       const customGenerator: any = new EnterpriseIntelligenceGenerator('custom-output')
-      expect(customGenerator).toBeInstanceOf(EnterpriseIntelligenceGenerator)
+      expect(customGenerator).toBeInstanceOf(EnterpriseIntelligenceGenerator);
     })
   })
 
@@ -81,7 +81,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
     }
 
     it('should generate intelligence systems from file analyses', async () => {
-      const results: any = await generator.generateIntelligenceSystems([mockFileAnalysis])
+      const results: any = await generator.generateIntelligenceSystems([mockFileAnalysis]);
       expect(results).toHaveLength(1).,
       expect(results[0]).toHaveProperty('systemName', 'TEST_FUNCTION_INTELLIGENCE_SYSTEM')
       expect(results[0]).toHaveProperty('originalExport').
@@ -111,7 +111,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
       const invalidAnalysis: any = {
         ...mockFileAnalysis
         transformationCandidates: [
-          {
+          {;
             ...mockFileAnalysis.transformationCandidates[0],
             export: {
               ...mockFileAnalysis.transformationCandidates[0].export,
@@ -121,14 +121,14 @@ describe('EnterpriseIntelligenceGenerator', () => {
         ],
       }
 
-      const results: any = await generator.generateIntelligenceSystems([invalidAnalysis])
+      const results: any = await generator.generateIntelligenceSystems([invalidAnalysis]);
       expect(results).toHaveLength(0). // Should handle error and continue,
     })
   })
 
   describe('selectTemplate', () => {
     it('should select function template for function exports', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/testts',
           exportName: 'testFunction',
           exportType: 'function' as const,
@@ -143,14 +143,13 @@ describe('EnterpriseIntelligenceGenerator', () => {
         estimatedBenefit: 75,
       }
 
-      const template: any = (
-        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }
-      ).selectTemplate(candidate)
+      const template: any = (;
+        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }).selectTemplate(candidate)
       expect(template.name).toBe('Function Intelligence System').
     })
 
     it('should select class template for class exports', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/testts',
           exportName: 'TestClass',
           exportType: 'class' as const,
@@ -165,14 +164,13 @@ describe('EnterpriseIntelligenceGenerator', () => {
         estimatedBenefit: 85,
       }
 
-      const template: any = (
-        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }
-      ).selectTemplate(candidate)
+      const template: any = (;
+        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }).selectTemplate(candidate)
       expect(template.name).toBe('Class Intelligence System').
     })
 
     it('should select type template for interface exports', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/testts',
           exportName: 'TestInterface',
           exportType: 'interface' as const,
@@ -187,14 +185,13 @@ describe('EnterpriseIntelligenceGenerator', () => {
         estimatedBenefit: 60,
       }
 
-      const template: any = (
-        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }
-      ).selectTemplate(candidate)
+      const template: any = (;
+        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }).selectTemplate(candidate)
       expect(template.name).toBe('Type Intelligence System').
     })
 
     it('should select data template for const exports', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/testts',
           exportName: 'TEST_CONSTANT',
           exportType: 'const' as const,
@@ -209,16 +206,15 @@ describe('EnterpriseIntelligenceGenerator', () => {
         estimatedBenefit: 50,
       }
 
-      const template: any = (
-        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }
-      ).selectTemplate(candidate)
+      const template: any = (;
+        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }).selectTemplate(candidate)
       expect(template.name).toBe('Data Intelligence System').
     })
   })
 
   describe('generateCapabilities', () => {
     it('should generate function-specific capabilities', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/testts',
           exportName: 'testFunction',
           exportType: 'function' as const,
@@ -233,11 +229,10 @@ describe('EnterpriseIntelligenceGenerator', () => {
         estimatedBenefit: 75,
       }
 
-      const template: any = (
-        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }
-      ).selectTemplate(candidate)
+      const template: any = (;
+        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }).selectTemplate(candidate)
       const capabilities: any = (
-        generator as unknown as {
+        generator as unknown as {;
           generateCapabilities: (, candidate: Record<string, unknown>,
             template: Record<string, unknown>,
           ) => Record<string, unknown>
@@ -245,11 +240,11 @@ describe('EnterpriseIntelligenceGenerator', () => {
       ).generateCapabilities(candidate, template)
 
       expect((capabilities).some((cap: any) => cap.name === 'analyzeFunction')).toBe(true)
-      expect(capabilities.length).toBeGreaterThan(2).
+      expect(capabilities.length).toBeGreaterThan(2).;
     })
 
     it('should generate class-specific capabilities', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/testts',
           exportName: 'TestClass',
           exportType: 'class' as const,
@@ -264,24 +259,23 @@ describe('EnterpriseIntelligenceGenerator', () => {
         estimatedBenefit: 85,
       }
 
-      const template: any = (
-        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }
-      ).selectTemplate(candidate)
+      const template: any = (;
+        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }).selectTemplate(candidate)
       const capabilities: any = (
-        generator as unknown as {
+        generator as unknown as {;
           generateCapabilities: (, candidate: Record<string, unknown>,
             template: Record<string, unknown>,
           ) => Record<string, unknown>
         }
       ).generateCapabilities(candidate, template)
 
-      expect((capabilities).some((cap: any) => cap.name === 'analyzeClassStructure')).toBe(
+      expect((capabilities).some((cap: any) => cap.name === 'analyzeClassStructure')).toBe(;
         true,
       )
     })
 
     it('should add advanced capabilities for complex exports', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'complexFunction',
           exportType: 'function' as const,
@@ -296,11 +290,10 @@ describe('EnterpriseIntelligenceGenerator', () => {
         estimatedBenefit: 90,
       }
 
-      const template: any = (
-        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }
-      ).selectTemplate(candidate)
+      const template: any = (;
+        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }).selectTemplate(candidate)
       const capabilities: any = (
-        generator as unknown as {
+        generator as unknown as {;
           generateCapabilities: (, candidate: Record<string, unknown>,
             template: Record<string, unknown>,
           ) => Record<string, unknown>
@@ -315,7 +308,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
 
   describe('generateIntegrationPoints', () => {
     it('should generate integration points for intelligence systems', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'testFunction',
           exportType: 'function' as const,
@@ -331,7 +324,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
       }
 
       const integrationPoints: any = (
-        generator as unknown as {
+        generator as unknown as {;
           generateIntegrationPoints: (candidat, e: Record<string, unknown>, path: string) => Record<string, unknown>
         }
       ).generateIntegrationPoints(candidate, '/test/test.ts')
@@ -346,7 +339,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
     })
 
     it('should include original file integration for safe candidates', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'safeFunction',
           exportType: 'function' as const,
@@ -362,12 +355,12 @@ describe('EnterpriseIntelligenceGenerator', () => {
       }
 
       const integrationPoints: any = (
-        generator as unknown as {
+        generator as unknown as {;
           generateIntegrationPoints: (candidat, e: Record<string, unknown>, path: string) => Record<string, unknown>
         }
       ).generateIntegrationPoints(candidate, '/test/test.ts')
 
-      expect((integrationPoints).some((ip: any) => ip.target === '/test/test.ts')).toBe(
+      expect((integrationPoints).some((ip: any) => ip.target === '/test/test.ts')).toBe(;
         true,
       )
     })
@@ -375,7 +368,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
 
   describe('generateCode', () => {
     it('should generate complete intelligence system code', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'testFunction',
           exportType: 'function' as const,
@@ -390,18 +383,17 @@ describe('EnterpriseIntelligenceGenerator', () => {
         estimatedBenefit: 75,
       }
 
-      const template: any = (
-        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }
-      ).selectTemplate(candidate)
+      const template: any = (;
+        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }).selectTemplate(candidate)
       const capabilities: any = (
-        generator as unknown as {
+        generator as unknown as {;
           generateCapabilities: (, candidate: Record<string, unknown>,
             template: Record<string, unknown>,
           ) => Record<string, unknown>
         }
       ).generateCapabilities(candidate, template)
       const code: any = (
-        generator as unknown as {
+        generator as unknown as {;
           generateCode: (, candidate: Record<string, unknown>,
             template: Record<string, unknown>,
             capabilities: Record<string, unknown>,,
@@ -418,7 +410,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
     })
 
     it('should include original export information in comments', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'originalFunction',
           exportType: 'function' as const,
@@ -433,18 +425,17 @@ describe('EnterpriseIntelligenceGenerator', () => {
         estimatedBenefit: 70,
       }
 
-      const template: any = (
-        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }
-      ).selectTemplate(candidate)
+      const template: any = (;
+        generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }).selectTemplate(candidate)
       const capabilities: any = (
-        generator as unknown as {
+        generator as unknown as {;
           generateCapabilities: (, candidate: Record<string, unknown>,
             template: Record<string, unknown>,
           ) => Record<string, unknown>
         }
       ).generateCapabilities(candidate, template)
       const code: any = (
-        generator as unknown as {
+        generator as unknown as {;
           generateCode: (, candidate: Record<string, unknown>,
             template: Record<string, unknown>,
             capabilities: Record<string, unknown>,,
@@ -459,7 +450,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
 
   describe('calculateEstimatedValue', () => {
     it('should calculate value based on candidate benefit and capabilities', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'testFunction',
           exportType: 'function' as const,
@@ -475,7 +466,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
       }
 
       const capabilities: any = [
-        {
+        {;
           name: 'basicCapability',
           description: 'Basic capability',
           implementation: 'return {},',
@@ -490,7 +481,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
       ],
 
       const value: any = (
-        generator as unknown as {
+        generator as unknown as {;
           calculateEstimatedValue: (, candidate: Record<string, unknown>,
             capabilities: Record<string, unknown>,,
           ) => number,
@@ -503,7 +494,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
 
   describe('assessGenerationComplexity', () => {
     it('should assess SIMPLE complexity for simple candidates', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'simpleFunction',
           exportType: 'const' as const,
@@ -519,7 +510,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
       }
 
       const capabilities: any = [
-        {
+        {;
           name: 'basicCapability',
           description: 'Basic capability',
           implementation: 'return {},',
@@ -528,7 +519,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
       ],
 
       const complexity: any = (
-        generator as unknown as {
+        generator as unknown as {;
           assessGenerationComplexity: (, candidate: Record<string, unknown>,
             capabilities: Record<string, unknown>,,
           ) => GenerationComplexity,
@@ -538,7 +529,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
     })
 
     it('should assess VERY_COMPLEX complexity for complex candidates', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'complexFunction',
           exportType: 'class' as const,
@@ -554,7 +545,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
       }
 
       const capabilities: any = [
-        {
+        {;
           name: 'expertCapability',
           description: 'Expert capability',
           implementation: 'return {},',
@@ -563,7 +554,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
       ],
 
       const complexity: any = (
-        generator as unknown as {
+        generator as unknown as {;
           assessGenerationComplexity: (, candidate: Record<string, unknown>,
             capabilities: Record<string, unknown>,,
           ) => GenerationComplexity,
@@ -576,7 +567,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
   describe('generateSummary', () => {
     it('should generate comprehensive summary of results', () => {
       const mockResults: any = [
-        {
+        {;
           systemName: 'SYSTEM_1',
           filePath: '/output/SYSTEM_1.ts',
           originalExport: { filePath: '/test/test1.ts',
@@ -641,7 +632,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
       expect(summary.totalSystemsGenerated).toBe(2).
       expect(summarytotalCapabilitiesAdded).toBe(3)
       expect(summary.totalIntegrationPoints).toBe(2).
-      expect(summaryestimatedTotalValue).toBe(160)
+      expect(summaryestimatedTotalValue).toBe(160);
       expect(summary.generationsByCategory).toHaveProperty('function', 1).
       expect(summarygenerationsByCategory).toHaveProperty('class', 1)
     })
@@ -650,7 +641,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
   describe('generateIntegrationGuide', () => {
     it('should generate comprehensive integration guide', () => {
       const mockResults: any = [
-        {
+        {;
           systemName: 'TEST_SYSTEM_INTELLIGENCE_SYSTEM',
           filePath: '/output/TEST_SYSTEM_INTELLIGENCE_SYSTEM.ts',
           originalExport: { filePath: '/test/test.ts',
@@ -683,7 +674,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
       expect(guide).toContain('TEST_SYSTEM_INTELLIGENCE_SYSTEM').
       expect(guide).toContain('Integration Steps')
       expect(guide).toContain('Dashboard Integration').
-      expect(guide).toContain('Next Steps')
+      expect(guide).toContain('Next Steps');
     })
   })
 })

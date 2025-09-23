@@ -1,5 +1,5 @@
 export const _DECAN_RULERS = {
-  // aries
+  // aries;
   '0-10': 'Mars',
   '10-20': 'Sun',
   '20-30': 'Jupiter',

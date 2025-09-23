@@ -1,8 +1,7 @@
 // src/data/cuisines/chinese.ts
-export const chinese = {
+export const chinese = {;
   name: 'Chinese',
-  description:
-    'Traditional Chinese cuisine with balanced flavors, varied techniques, and regional specialties. Known for harmony in taste, color, and nutrition.',
+  description: 'Traditional Chinese cuisine with balanced flavors, varied techniques, and regional specialties. Known for harmony in taste, color, and nutrition.',
   traditionalSauces: {
     soy: {
       name: 'Soy Sauce',
@@ -20,9 +19,8 @@ export const chinese = {
       astrologicalInfluences: ['Saturn', 'Neptune', 'capricorn'],
       seasonality: 'all',
       preparationNotes: 'Traditionally fermented for months or years to develop complexity',
-      technicalTips: 'Use light soy for flavor, dark soy for color and deeper notes'
-    },
-    hoisin: {
+      technicalTips: 'Use light soy for flavor, dark soy for color and deeper notes' },
+        hoisin: {
       name: 'Hoisin Sauce',
       description: 'Sweet and savory sauce with a thick consistency',
       base: 'fermented soybeans',
@@ -38,9 +36,8 @@ export const chinese = {
       astrologicalInfluences: ['Venus', 'Jupiter', 'taurus'],
       seasonality: 'all',
       preparationNotes: 'Balance of sweet and savory can vary by region and brand',
-      technicalTips: 'Thin with water or rice wine for a lighter glaze'
-    },
-    xo: {
+      technicalTips: 'Thin with water or rice wine for a lighter glaze' },
+        xo: {
       name: 'XO Sauce',
       description: 'Luxury seafood sauce with deep umami flavors',
       base: 'dried seafood',
@@ -62,11 +59,9 @@ export const chinese = {
       },
       astrologicalInfluences: ['Neptune', 'Mars', 'scorpio'],
       seasonality: 'all',
-      preparationNotes:
-        'Traditionally requires expensive ingredients and significant preparation time',
-      technicalTips: 'A little goes a long way - use sparingly to add depth'
-    },
-    black_bean: {
+      preparationNotes: 'Traditionally requires expensive ingredients and significant preparation time',
+      technicalTips: 'A little goes a long way - use sparingly to add depth' },
+        black_bean: {
       name: 'Black Bean Sauce',
       description: 'Savory sauce made from fermented black soybeans',
       base: 'fermented black soybeans',
@@ -82,9 +77,8 @@ export const chinese = {
       astrologicalInfluences: ['Pluto', 'Saturn', 'capricorn'],
       seasonality: 'all',
       preparationNotes: 'Beans are typically rinsed before use to moderate saltiness',
-      technicalTips: 'Mash beans slightly to release more flavor when cooking'
-    },
-    oyster: {
+      technicalTips: 'Mash beans slightly to release more flavor when cooking' },
+        oyster: {
       name: 'Oyster Sauce',
       description: 'Rich, savory sauce with sweet undertones made from oyster extracts',
       base: 'oyster extract',
@@ -150,8 +144,7 @@ export const chinese = {
       all: [
         {
           name: 'Congee (Rice Porridge)',
-          description:
-            'Comforting rice porridge, slow-cooked to a silky consistency and served with various toppings',
+          description: 'Comforting rice porridge, slow-cooked to a silky consistency and served with various toppings',
           cuisine: 'chinese',
           cookingMethods: ['simmering', 'slow-cooking'],
           ingredients: [
@@ -204,8 +197,7 @@ export const chinese = {
         }
         {
           name: 'Youtiao (Chinese Fried Dough)',
-          description:
-            'Light and crispy deep-fried dough strips, perfect for dipping in congee or soy milk',
+          description: 'Light and crispy deep-fried dough strips, perfect for dipping in congee or soy milk',
           cuisine: 'chinese',
           cookingMethods: ['deep-frying', 'dough preparation'],
           ingredients: [
@@ -251,8 +243,7 @@ export const chinese = {
         }
         {
           name: 'Soy Milk Soup with Fried Dough',
-          description:
-            'Fresh, warm soy milk served with crispy fried dough and optional sweet or savory toppings',
+          description: 'Fresh, warm soy milk served with crispy fried dough and optional sweet or savory toppings',
           cuisine: 'chinese',
           cookingMethods: ['blending', 'straining', 'simmering'],
           ingredients: [
@@ -306,8 +297,7 @@ export const chinese = {
       all: [
         {
           name: 'Dan Dan Noodles',
-          description:
-            'Spicy Sichuan noodles with ground pork, preserved vegetables, and numbing chili oil',
+          description: 'Spicy Sichuan noodles with ground pork, preserved vegetables, and numbing chili oil',
           cuisine: 'chinese',
           cookingMethods: ['stir-frying', 'boiling', 'sauce-mixing'],
           ingredients: [
@@ -373,8 +363,7 @@ export const chinese = {
         }
         {
           name: 'Mapo Tofu',
-          description:
-            'Spicy Sichuan dish of soft tofu in a fiery sauce with minced meat and Sichuan pepper',
+          description: 'Spicy Sichuan dish of soft tofu in a fiery sauce with minced meat and Sichuan pepper',
           cuisine: 'chinese',
           cookingMethods: ['stir-frying', 'simmering'],
           ingredients: [
@@ -428,8 +417,7 @@ export const chinese = {
         }
         {
           name: 'Dim Sum Platter',
-          description:
-            'Assortment of bite-sized portions of steamed and fried Cantonese delicacies',
+          description: 'Assortment of bite-sized portions of steamed and fried Cantonese delicacies',
           cuisine: 'chinese',
           cookingMethods: ['steaming', 'frying', 'wrapping'],
           ingredients: [
@@ -488,8 +476,7 @@ export const chinese = {
       all: [
         {
           name: 'Peking Duck',
-          description:
-            'Famous Beijing dish of roasted duck known for its thin, crispy skin, served with pancakes and condiments',
+          description: 'Famous Beijing dish of roasted duck known for its thin, crispy skin, served with pancakes and condiments',
           cuisine: 'chinese',
           cookingMethods: ['air-drying', 'roasting', 'glazing'],
           ingredients: [
@@ -532,8 +519,7 @@ export const chinese = {
         }
         {
           name: 'Kung Pao Chicken',
-          description:
-            'Spicy stir-fried dish from Sichuan featuring chicken, peanuts, vegetables, and chilis',
+          description: 'Spicy stir-fried dish from Sichuan featuring chicken, peanuts, vegetables, and chilis',
           cuisine: 'chinese',
           cookingMethods: ['stir-frying', 'velveting'],
           ingredients: [
@@ -646,8 +632,7 @@ export const chinese = {
       all: [
         {
           name: 'Egg Custard Tarts',
-          description:
-            'Flaky pastry shells filled with silky smooth egg custard, popular in Canton and Hong Kong',
+          description: 'Flaky pastry shells filled with silky smooth egg custard, popular in Canton and Hong Kong',
           cuisine: 'chinese',
           cookingMethods: ['baking', 'pastry-making'],
           ingredients: [
@@ -687,8 +672,7 @@ export const chinese = {
         }
         {
           name: 'Eight Treasure Rice Pudding',
-          description:
-            'Glutinous rice dessert filled with sweet red bean paste and topped with dried fruits and nuts',
+          description: 'Glutinous rice dessert filled with sweet red bean paste and topped with dried fruits and nuts',
           cuisine: 'chinese',
           cookingMethods: ['steaming', 'layering'],
           ingredients: [
@@ -742,8 +726,7 @@ export const chinese = {
         }
         {
           name: 'Mango Pomelo Sago',
-          description:
-            'Refreshing Hong Kong dessert with fresh mangoes, pomelo segments, and tapioca pearls in sweetened coconut milk',
+          description: 'Refreshing Hong Kong dessert with fresh mangoes, pomelo segments, and tapioca pearls in sweetened coconut milk',
           cuisine: 'chinese',
           cookingMethods: ['chilling', 'boiling'],
           ingredients: [
@@ -848,35 +831,28 @@ export const chinese = {
   regionalCuisines: {
     cantonese: {
       name: 'Cantonese Cuisine',
-      description:
-        'Light, fresh flavors that highlight natural tastes of ingredients, with an emphasis on steaming and stir-frying',
+      description: 'Light, fresh flavors that highlight natural tastes of ingredients, with an emphasis on steaming and stir-frying',
       signature: ['dim sum', 'steamed fish', 'char siu', 'wonton noodles'],
       elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 }
       astrologicalInfluences: ['Venus', 'Moon', 'Libra'],
-      seasonality: 'all'
-    },
-    sichuan: {
+      seasonality: 'all' },
+        sichuan: {
       name: 'Sichuan Cuisine',
-      description:
-        'Bold, spicy flavors featuring Sichuan peppercorns' numbing sensation (málà) and complex layering of flavors',
+      description: 'Bold, spicy flavors featuring Sichuan peppercorns' numbing sensation (málà) and complex layering of flavors',
       signature: ['mapo tofu', 'kung pao chicken', 'dan dan noodles', 'hot pot'],
       elementalProperties: { Fire: 0.7, Earth: 0.2, Water: 0.1, Air: 0.0 }
       astrologicalInfluences: ['Mars', 'Pluto', 'Scorpio'],
-      seasonality: 'all'
-    },
-    shandong: {
+      seasonality: 'all' },
+        shandong: {
       name: 'Shandong Cuisine',
-      description:
-        'One of China's oldest cuisines, featuring fresh seafood, quick frying, and clear soups',
+      description: 'One of China's oldest cuisines, featuring fresh seafood, quick frying, and clear soups',
       signature: ['braised sea cucumber', 'sweet and sour carp', 'Dezhou chicken'],
       elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 }
       astrologicalInfluences: ['Jupiter', 'Saturn', 'Capricorn'],
-      seasonality: 'all'
-    },
-    jiangsu: {
+      seasonality: 'all' },
+        jiangsu: {
       name: 'Jiangsu Cuisine',
-      description:
-        'Refined, artistically presented cuisine emphasizing seasonal ingredients and precise cutting techniques',
+      description: 'Refined, artistically presented cuisine emphasizing seasonal ingredients and precise cutting techniques',
       signature: ['Nanjing salted duck', 'sweet and sour mandarin fish', 'beggar's chicken'],
       elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 }
       astrologicalInfluences: ['Mercury', 'Venus', 'Gemini'],

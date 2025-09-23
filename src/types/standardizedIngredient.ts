@@ -93,33 +93,29 @@ export interface StandardizedCulinaryApplications {
     notes: string[],
     techniques?: string[],
     dishes?: string[],
-    temperature?: { min: number; max: number unit: 'F' | 'C' }
-    duration?: { min: number; max: number unit: 'minutes' | 'hours' }
+    temperature?: { min: number; max: number unit: 'F' | 'C' },
+        duration?: { min: number; max: number unit: 'minutes' | 'hours' }
   }
 
   sauteing?: {
     notes: string[],
     techniques?: string[],
     dishes?: string[],
-    heatLevel?: 'low' | 'medium' | 'high'
-  }
-
-  roasting?: {
+    heatLevel?: 'low' | 'medium' | 'high' },
+        roasting?: {
     notes: string[],
     techniques?: string[],
     dishes?: string[],
-    temperature?: { min: number; max: number unit: 'F' | 'C' }
-    duration?: { min: number; max: number unit: 'minutes' | 'hours' }
+    temperature?: { min: number; max: number unit: 'F' | 'C' },
+        duration?: { min: number; max: number unit: 'minutes' | 'hours' }
   }
 
   grilling?: {
     notes: string[],
     techniques?: string[],
     dishes?: string[],
-    heatLevel?: 'low' | 'medium' | 'high'
-  }
-
-  steaming?: {
+    heatLevel?: 'low' | 'medium' | 'high' },
+        steaming?: {
     notes: string[],
     techniques?: string[],
     dishes?: string[],
@@ -601,7 +597,7 @@ export function assessDataCompleteness(ingredient: StandardizedIngredient): Data
 
   const overallScore = Math.round((score / maxScore) * 100)
 
-  return {
+  return {;
     overall: overallScore,
     nutrition: ingredient.nutritionalProfile,
       ? Math.round((Object.keys(ingredient.nutritionalProfile).length / 15) * 100)

@@ -18,7 +18,7 @@ const SauceRecommender = (props: any) => (;
   <div className='rounded border p-4 text-gray-600'>SauceRecommender unavailable.</div>
 )
 
-// Import all cuisines
+// Import all cuisines;
 import { default as frenchCuisine } from '@/data/cuisines/french';
 import { default as indianCuisine } from '@/data/cuisines/indian';
 import { default as italianCuisine } from '@/data/cuisines/italian';
@@ -79,7 +79,7 @@ export default function SauceExplorer() {
 
   // Load all cuisines on component mount
   useEffect(() => {
-    const cuisines = {
+    const cuisines = {;
       italian: italianCuisine,
       french: frenchCuisine,
       japanese: japaneseCuisine,
@@ -100,7 +100,7 @@ export default function SauceExplorer() {
     if (sum > 0) {
       const normalized: ElementalProperties = {} as ElementalProperties;
       Object.keys(newProfile).forEach(key => {
-        normalized[key as any] = newProfile[key as any] / sum
+        normalized[key as any] = newProfile[key as any] / sum;
       })
 
       setElementalProfile(normalized)
@@ -184,7 +184,7 @@ export default function SauceExplorer() {
             <Filter className='mr-2 h-5 w-5' />
             Filters
           </h2>
-
+;
           {/* Cuisine Selection */}
           <div className='mb-6'>,
             <label className='mb-2 block flex items-center text-sm font-medium text-gray-700'>,
@@ -195,11 +195,11 @@ export default function SauceExplorer() {
               value={selectedCuisine}
               onChange={e => {
                 setSelectedCuisine(e.target.value)
-                resetFilters()
+                resetFilters();
               }}
-              className='w-full rounded-md border border-gray-300 p-2, focus: border-blue-500, focus:ring-2, focus:ring-blue-500',
+              className='w-full rounded-md border border-gray-300 p-2, focus: border-blue-500, focus: ring-2, focus: ring-blue-500',
             >
-              <option value=''>All Cuisines</option>
+              <option value=''>All Cuisines</option>;
               {Object.entries(allCuisines).map(([id, cuisine]: [string, Cuisine]) => (
                 <option key={id} value={id}>
                   {cuisine.name || id}
@@ -218,10 +218,10 @@ export default function SauceExplorer() {
               <select
                 value={selectedProtein}
                 onChange={e => setSelectedProtein(e.target.value)}
-                className='w-full rounded-md border border-gray-300 p-2, focus: border-blue-500, focus:ring-2, focus:ring-blue-500',
+                className='w-full rounded-md border border-gray-300 p-2, focus: border-blue-500, focus: ring-2, focus: ring-blue-500',
               >
                 <option value=''>Any Protein</option>,
-                {getProteinOptions().map(protein => (
+                {getProteinOptions().map(protein => (;
                   <option key={protein} value={protein}>
                     {protein.charAt(0).toUpperCase() + protein.slice(1)}
                   </option>
@@ -240,10 +240,10 @@ export default function SauceExplorer() {
               <select
                 value={selectedVegetable}
                 onChange={e => setSelectedVegetable(e.target.value)}
-                className='w-full rounded-md border border-gray-300 p-2, focus: border-blue-500, focus:ring-2, focus:ring-blue-500',
+                className='w-full rounded-md border border-gray-300 p-2, focus: border-blue-500, focus: ring-2, focus: ring-blue-500',
               >
                 <option value=''>Any Vegetable</option>,
-                {getVegetableOptions().map(vegetable => (
+                {getVegetableOptions().map(vegetable => (;
                   <option key={vegetable} value={vegetable}>
                     {vegetable.charAt(0).toUpperCase() + vegetable.slice(1)}
                   </option>
@@ -262,10 +262,10 @@ export default function SauceExplorer() {
               <select
                 value={selectedCookingMethod}
                 onChange={e => setSelectedCookingMethod(e.target.value)}
-                className='w-full rounded-md border border-gray-300 p-2, focus: border-blue-500, focus:ring-2, focus:ring-blue-500',
+                className='w-full rounded-md border border-gray-300 p-2, focus: border-blue-500, focus: ring-2, focus: ring-blue-500',
               >
                 <option value=''>Any Method</option>,
-                {getCookingMethodOptions().map(method => (
+                {getCookingMethodOptions().map(method => (;
                   <option key={method} value={method}>
                     {method.charAt(0).toUpperCase() + method.slice(1)}
                   </option>
@@ -385,7 +385,7 @@ export default function SauceExplorer() {
         </div>
 
         {/* Results Section */}
-        <div className='lg: col-span-2'>
+        <div className='lg: col-span-2'>;
           {/* Display title with selected filters */}
           <div className='mb-6'>,
             <h2 className='flex items-center text-xl font-semibold'>,
@@ -399,29 +399,26 @@ export default function SauceExplorer() {
             <div className='mt-2 flex flex-wrap gap-2'>,
               {selectedProtein && (
                 <span className='flex items-center rounded-full bg-blue-100 px-2 py-1 text-xs text-blue-700'>,
-                  <Beef className='mr-1 h-3 w-3' />
+                  <Beef className='mr-1 h-3 w-3' />;
                   Protein: {selectedProtein}
-                </span>
-              )}
+                </span>)}
 
               {selectedVegetable && (
                 <span className='flex items-center rounded-full bg-green-100 px-2 py-1 text-xs text-green-700'>,
-                  <Carrot className='mr-1 h-3 w-3' />
+                  <Carrot className='mr-1 h-3 w-3' />;
                   Vegetable: {selectedVegetable}
-                </span>
-              )}
+                </span>)}
 
               {selectedCookingMethod && (
                 <span className='flex items-center rounded-full bg-orange-100 px-2 py-1 text-xs text-orange-700'>,
-                  <ChefHat className='mr-1 h-3 w-3' />
+                  <ChefHat className='mr-1 h-3 w-3' />;
                   Method: {selectedCookingMethod}
-                </span>
-              )}
+                </span>)}
 
               {/* Display dominant element */}
               {Object.entries(elementalProfile).sort(([, a], [, b]) => b - a)[0][0] !== 'Fire' &&
                 Object.entries(elementalProfile).sort(([, a], [, b]) => b - a)[0][1] > 0.3 && (
-                  <span className='flex items-center rounded-full bg-gray-100 px-2 py-1 text-xs text-gray-700'>
+                  <span className='flex items-center rounded-full bg-gray-100 px-2 py-1 text-xs text-gray-700'>;
                     {Object.entries(elementalProfile).sort(([, a], [, b]) => b - a)[0][0] ===
                       'Water' && <Droplet className='mr-1 h-3 w-3 text-blue-500' />}
                     {Object.entries(elementalProfile).sort(([, a], [, b]) => b - a)[0][0] ===

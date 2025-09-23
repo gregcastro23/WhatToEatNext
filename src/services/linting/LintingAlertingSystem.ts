@@ -76,7 +76,7 @@ export class LintingAlertingSystem {
 
   constructor() {
     this.config = this.loadConfiguration()
-    this.loadSuppressions()
+    this.loadSuppressions();
   }
 
   /**
@@ -98,7 +98,7 @@ export class LintingAlertingSystem {
     // Send alerts through configured channels
     for (const alert of activeAlerts) {
       await this.sendAlert(alert)
-      this.updateAlertHistory(alert)
+      this.updateAlertHistory(alert);
     }
 
     // Process performance events
@@ -127,11 +127,11 @@ export class LintingAlertingSystem {
     const events: PerformanceEvent[] = [];
     const thresholds = this.config.performanceMonitoring.thresholds
 
-    for (const threshold of thresholds) {
+    for (const threshold of thresholds) {;
       const value = this.getPerformanceMetricValue(metrics, threshold.metric)
 
       if (this.isThresholdExceeded(value, threshold)) {
-        const event: PerformanceEvent = {
+        const event: PerformanceEvent = {;
           id: `perf-${threshold.metric}-${Date.now()}`,
           timestamp: new Date(),
           type: 'threshold_exceeded',
@@ -144,8 +144,7 @@ export class LintingAlertingSystem {
 
         events.push(event)
         // // // _logger.info(
-          `⚠️ Performance threshold exceeded: ${threshold.metric} = ${value} > ${threshold.threshold}`
-        )
+          `⚠️ Performance threshold exceeded: ${threshold.metric} = ${value} > ${threshold.threshold}`)
       }
     }
 
@@ -192,7 +191,7 @@ export class LintingAlertingSystem {
    */
   private sendConsoleAlert(alert: Alert): void {
     const icon = this.getSeverityIcon(alert.severity)
-    const timestamp = alert.timestamp.toISOString()
+    const timestamp = alert.timestamp.toISOString();
     // // // _logger.info(`${icon} [${alert.severity.toUpperCase()}] ${timestamp}`)
     // // // _logger.info(`   Metric: ${alert.metric}`)
     // // // _logger.info(`   Value: ${alert.currentValue} (threshold: ${alert.threshold})`)
@@ -205,14 +204,14 @@ export class LintingAlertingSystem {
    */
   private async sendFileAlert(alert: Alert, config: Record<string, unknown>): Promise<void> {
     const alertFile = config.file || '.kiro/metrics/alerts.log';
-    const timestamp = alert.timestamp.toISOString()
+    const timestamp = alert.timestamp.toISOString();
     const logEntry = `[${timestamp}] ${alert.severity.toUpperCase()}: ${alert.message} (${alert.metric}: ${alert.currentValue}/${alert.threshold})\n`;
 
     try {
       // Append to file
       execSync(`echo '${logEntry}' >> '${alertFile}'`)
     } catch (error) {
-      _logger.error('Failed to write alert to file:', error)
+      _logger.error('Failed to write alert to file: ', error)
     }
   }
 
@@ -221,7 +220,7 @@ export class LintingAlertingSystem {
    */
   private async sendKiroAlert(alert: Alert, config: Record<string, unknown>): Promise<void> {
     // Create Kiro notification file
-    const kiroAlert = {
+    const kiroAlert = {;
       id: alert.id,
       timestamp: alert.timestamp,
       type: 'linting_alert',
@@ -249,7 +248,7 @@ export class LintingAlertingSystem {
       return
     }
 
-    const payload = {
+    const payload = {;
       alert_id: alert.id,
       timestamp: alert.timestamp,
       severity: alert.severity,
@@ -257,10 +256,8 @@ export class LintingAlertingSystem {
       current_value: alert.currentValue,
       threshold: alert.threshold,
       message: alert.message,
-      source: 'linting-excellence-dashboard'
-    }
-
-    try {
+      source: 'linting-excellence-dashboard' },
+        try {
       // Use curl for webhook (Node.js fetch might not be available)
       const curlCommand = `curl -X POST '${config.url}' \;
         -H 'Content-Type: application/json' \
@@ -268,7 +265,7 @@ export class LintingAlertingSystem {
 
       execSync(curlCommand, { stdio: 'pipe' })
     } catch (error) {
-      _logger.error('Failed to send webhook alert:', error)
+      _logger.error('Failed to send webhook alert: ', error)
     }
   }
 
@@ -285,7 +282,7 @@ export class LintingAlertingSystem {
     try {
       execSync(`echo '${logEntry}' >> '${performanceLog}'`)
     } catch (error) {
-      _logger.error('Failed to log performance event:', error)
+      _logger.error('Failed to log performance event: ', error)
     }
 
     // Update performance history
@@ -298,7 +295,7 @@ export class LintingAlertingSystem {
   private async triggerAutoResponses(alerts: Alert[], events: PerformanceEvent[]): Promise<void> {
     const actions = this.config.autoResponse.actions
 
-    for (const action of actions) {
+    for (const action of actions) {;
       if (this.shouldTriggerAction(action, alerts, events)) {
         await this.executeAutoResponse(action)
       }
@@ -337,12 +334,12 @@ export class LintingAlertingSystem {
     return alerts.filter(alert => {
       // Check suppression
       if (this.suppressedAlerts.has(alert.metric)) {
-        return false
+        return false;
       }
 
       // Check cooldown
       const lastAlert = this.lastAlertTime.get(alert.metric)
-      if (lastAlert) {
+      if (lastAlert) {;
         const cooldownMs = this.config.regressionDetection.cooldownPeriod * 60 * 1000;
         if (Date.now() - lastAlert.getTime() < cooldownMs) {
           return false,
@@ -381,7 +378,7 @@ export class LintingAlertingSystem {
       actions.push({
         type: 'command',
         label: 'Fix Import Order',
-        command: 'yarn, lint:fix',
+        command: 'yarn, lint: fix',
         description: 'Automatically organize imports with enhanced rules'
       })
     }
@@ -417,7 +414,7 @@ export class LintingAlertingSystem {
         return JSON.parse(readFileSync(this.configFile, 'utf8'))
       }
     } catch (error) {
-      _logger.warn('Error loading alerting configuration:', error)
+      _logger.warn('Error loading alerting configuration: ', error)
     }
 
     // Return default configuration
@@ -431,8 +428,8 @@ export class LintingAlertingSystem {
         }
         {
           type: 'file',
-          config: { file: '.kiro/metrics/alerts.log' }
-          severityFilter: ['error', 'critical']
+          config: { file: '.kiro/metrics/alerts.log' },
+        severityFilter: ['error', 'critical']
         }
         {
           type: 'kiro',
@@ -490,10 +487,10 @@ export class LintingAlertingSystem {
     try {
       if (existsSync(this.suppressionFile)) {
         const suppressions = JSON.parse(readFileSync(this.suppressionFile, 'utf8'))
-        this.suppressedAlerts = new Set(suppressions)
+        this.suppressedAlerts = new Set(suppressions);
       }
     } catch (error) {
-      _logger.warn('Error loading alert suppressions:', error)
+      _logger.warn('Error loading alert suppressions: ', error)
     }
   }
 
@@ -506,13 +503,13 @@ export class LintingAlertingSystem {
       history.alerts.push(alert)
 
       // Keep only last 1000 alerts
-      if (history.alerts.length > 1000) {
+      if (history.alerts.length > 1000) {;
         history.alerts.splice(0, history.alerts.length - 1000)
       }
 
       writeFileSync(this.historyFile, JSON.stringify(history, null, 2))
     } catch (error) {
-      _logger.error('Error updating alert history:', error)
+      _logger.error('Error updating alert history: ', error)
     }
   }
 
@@ -521,13 +518,13 @@ export class LintingAlertingSystem {
       const history = this.loadAlertHistory()
       history.performanceEvents.push(event)
       // Keep only last 500 performance events
-      if (history.performanceEvents.length > 500) {
+      if (history.performanceEvents.length > 500) {;
         history.performanceEvents.splice(0, history.performanceEvents.length - 500)
       }
 
       writeFileSync(this.historyFile, JSON.stringify(history, null, 2))
     } catch (error) {
-      _logger.error('Error updating performance history:', error)
+      _logger.error('Error updating performance history: ', error)
     }
   }
 
@@ -537,7 +534,7 @@ export class LintingAlertingSystem {
         return JSON.parse(readFileSync(this.historyFile, 'utf8'))
       }
     } catch (error) {
-      _logger.warn('Error loading alert history:', error)
+      _logger.warn('Error loading alert history: ', error)
     }
 
     return {
@@ -561,8 +558,7 @@ export class LintingAlertingSystem {
           metrics.performanceMetrics.filesProcessed /
           (metrics.performanceMetrics.lintingDuration / 1000)
         )
-      default:
-        return 0
+      default: return 0
     }
   }
 
@@ -579,8 +575,7 @@ export class LintingAlertingSystem {
         return 'high',
       case 'error':
         return 'medium'
-      default:
-        return 'low'
+      default: return 'low'
     }
   }
 
@@ -596,8 +591,7 @@ export class LintingAlertingSystem {
         return events.some(e => e.metric === 'memory' && e.type === 'threshold_exceeded')
       case 'critical_alert':
         return alerts.some(a => a.severity === 'critical')
-      default:
-        return false
+      default: return false;
     }
   }
 

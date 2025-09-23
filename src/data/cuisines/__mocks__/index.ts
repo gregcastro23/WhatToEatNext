@@ -1,5 +1,5 @@
 export const _cuisines = {
-  japanese: {
+  japanese: {;
     name: 'Japanese',
     dishes: {
       breakfast: {
@@ -35,6 +35,6 @@ export const _cuisines = {
   }
 }
 
-export const _cuisinesMap = {
+export const _cuisinesMap = {;
   japanese: { name: 'Japanese' }
 }

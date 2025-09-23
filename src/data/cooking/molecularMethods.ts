@@ -18,12 +18,9 @@ export const molecularCookingMethods: Record<
 > = {
   spherification: {
     name: 'Spherification',
-    description:
-      'A technique that encapsulates liquids in a thin gel membrane, creating caviar-like spheres that burst in the mouth.',
-    chemicalProcess:
-      'Sodium alginate and calcium chloride reaction creates a gel membrane around liquid droplets.',
-    precisionRequirements:
-      'Precise measurement of chemicals, careful pH control, and controlled dropping technique.',
+    description: 'A technique that encapsulates liquids in a thin gel membrane, creating caviar-like spheres that burst in the mouth.',
+    chemicalProcess: 'Sodium alginate and calcium chloride reaction creates a gel membrane around liquid droplets.',
+    precisionRequirements: 'Precise measurement of chemicals, careful pH control, and controlled dropping technique.',
     commonErrors: [
       'Incorrect chemical ratios causing improper gelation',
       'pH imbalance preventing proper spherification',
@@ -49,12 +46,9 @@ export const molecularCookingMethods: Record<
   },
   gelification: {
     name: 'Gelification',
-    description:
-      'The process of transforming liquids into gels or jellies using various hydrocolloids.',
-    chemicalProcess:
-      'Hydrocolloids (agar, gelatin, carrageenan) trap water molecules in a network structure.',
-    precisionRequirements:
-      'Exact temperature control, precise hydrocolloid measurement, and careful cooling procedure.',
+    description: 'The process of transforming liquids into gels or jellies using various hydrocolloids.',
+    chemicalProcess: 'Hydrocolloids (agar, gelatin, carrageenan) trap water molecules in a network structure.',
+    precisionRequirements: 'Exact temperature control, precise hydrocolloid measurement, and careful cooling procedure.',
     commonErrors: [
       'Overheating causing hydrocolloid degradation',
       'Improper hydration of gelling agents',
@@ -76,12 +70,9 @@ export const molecularCookingMethods: Record<
   },
   emulsification: {
     name: 'Emulsification',
-    description:
-      'Creating stable mixtures of typically immiscible liquids through advanced stabilization techniques.',
-    chemicalProcess:
-      'Lecithin or other emulsifiers reduce surface tension between oil and water molecules.',
-    precisionRequirements:
-      'Specific emulsifier ratios, controlled blending speeds, and temperature management.',
+    description: 'Creating stable mixtures of typically immiscible liquids through advanced stabilization techniques.',
+    chemicalProcess: 'Lecithin or other emulsifiers reduce surface tension between oil and water molecules.',
+    precisionRequirements: 'Specific emulsifier ratios, controlled blending speeds, and temperature management.',
     commonErrors: [
       'Insufficient emulsifier causing separation',
       'Overblending breaking emulsion',
@@ -103,12 +94,9 @@ export const molecularCookingMethods: Record<
   },
   cryo_cooking: {
     name: 'Cryo-Cooking',
-    description:
-      'Using extreme cold (typically liquid nitrogen) to flash-freeze ingredients, creating unique textures.',
-    chemicalProcess:
-      'Rapid freezing forms microcrystals that minimize cellular damage while creating unusual textures.',
-    precisionRequirements:
-      'Safety protocols, appropriate dipping time, and controlled liquid nitrogen handling.',
+    description: 'Using extreme cold (typically liquid nitrogen) to flash-freeze ingredients, creating unique textures.',
+    chemicalProcess: 'Rapid freezing forms microcrystals that minimize cellular damage while creating unusual textures.',
+    precisionRequirements: 'Safety protocols, appropriate dipping time, and controlled liquid nitrogen handling.',
     commonErrors: [
       'Overexposure causing excessive freezing and texture damage',
       'Safety hazards from improper handling',

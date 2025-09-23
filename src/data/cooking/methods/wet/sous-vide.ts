@@ -8,10 +8,9 @@ import type { CookingMethodData } from '@/types/cookingMethod';
  * Associated with the alchemical pillar of Fixation - stabilizing volatile substances,
  * increasing Matter and Substance while decreasing Essence and Spirit.
  */
-export const _sousVide: CookingMethodData = {
+export const _sousVide: CookingMethodData = {;
   name: 'sous_vide',
-  description:
-    'Precision cooking method where food is vacuum-sealed and immersed in a temperature-controlled water bath for perfect doneness. The method ensures exact temperature control, allowing proteins to be cooked to precise levels of doneness while preserving moisture and enhancing texture.',
+  description: 'Precision cooking method where food is vacuum-sealed and immersed in a temperature-controlled water bath for perfect doneness. The method ensures exact temperature control, allowing proteins to be cooked to precise levels of doneness while preserving moisture and enhancing texture.',
   elementalEffect: {
     Water: 0.5, // Primary element - the cooking medium,
     Earth: 0.3, // Secondary element - reflects stability and structure,
@@ -156,8 +155,7 @@ export const _sousVide: CookingMethodData = {
   } as unknown as ThermodynamicProperties,
 
   // Additional metadata
-  history:
-    'Sous vide (French for \'under vacuum\') was developed in France in the 1970s by chef Georges Pralus to minimize shrinkage in foie gras. However, low-temperature cooking was first described by Benjamin Thompson (Count Rumford) in 1799. The modern technique was refined and popularized by Bruno Goussault, who established time-temperature guidelines for various foods. Sous vide remained primarily in professional kitchens until the 2010s, when affordable immersion circulators made the technique accessible to home cooks.',
+  history: 'Sous vide (French for \'under vacuum\') was developed in France in the 1970s by chef Georges Pralus to minimize shrinkage in foie gras. However, low-temperature cooking was first described by Benjamin Thompson (Count Rumford) in 1799. The modern technique was refined and popularized by Bruno Goussault, who established time-temperature guidelines for various foods. Sous vide remained primarily in professional kitchens until the 2010s, when affordable immersion circulators made the technique accessible to home cooks.',
 
   scientificPrinciples: [
     'Thermal equilibrium - food cannot exceed water bath temperature',
@@ -224,8 +222,7 @@ export const _sousVide: CookingMethodData = {
       matter: 1, // Increases material stability and structure,
       substance: 1, // Enhances substantive qualities and preservation
     },
-    symbolicMeaning:
-      'Represents the perfect balance between technical precision and natural processes, bringing stability to the chaotic elements of cooking',
+    symbolicMeaning: 'Represents the perfect balance between technical precision and natural processes, bringing stability to the chaotic elements of cooking',
     associatedElements: {
       primary: 'Earth', // Stability, structure, material reality,
       secondary: 'Air', // Intellectual precision, technological approach

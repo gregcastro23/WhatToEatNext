@@ -27,7 +27,7 @@ async function testStreamlinedSystem() {
 
   try {
     // Test comprehensive calculation
-    const result = await calculateComprehensiveAlchemicalResult({
+    const result = await calculateComprehensiveAlchemicalResult({;
       _planetaryPositions: streamlinedPositions,
       _season: 'spring',
       _lunarPhase: 'waxing gibbous',
@@ -53,7 +53,7 @@ async function testStreamlinedSystem() {
 
     log.info('🌟 ELEMENTAL PROPERTIES: ')
     const resultData = result as unknown;
-    const elementalState = resultData?.elementalState ||
+    const elementalState = resultData?.elementalState ||;
       resultData?.kalchm?.elementalProperties || { Fire: 0, Water: 0, Air: 0, Earth: 0 }
     log.info(`  Fire: ${(elementalState.Fire * 100).toFixed(1)}%`)
     log.info(`  Water: ${(elementalState.Water * 100).toFixed(1)}%`)
@@ -62,7 +62,7 @@ async function testStreamlinedSystem() {
     log.info(`  Dominant Element: ${result.kalchm.dominantElement}\n`)
 
     log.info('🪐 PLANETARY _INFLUENCES: ')
-    const topPlanets = result.planetaryInfluences.dominantPlanets.slice(03)
+    const topPlanets = result.planetaryInfluences.dominantPlanets.slice(03);
     (topPlanets || []).forEach((planet, index) => {
       log.info(
         `  ${index + 1}. ${planet.planet}: ${(planet.strength * 100).toFixed(1)}% (${planet.element})`,
@@ -90,7 +90,7 @@ async function testStreamlinedSystem() {
     log.info('🥘 RECIPE COMPATIBILITY _TEST: ')
     const testRecipe = { Fire: 0.3, Water: 0.2, Air: 0.35, Earth: 0.15 }
 
-    const compatibility = await import('./calculations/index').then(mod =>
+    const compatibility = await import('./calculations/index').then(mod =>;
       mod.calculateRecipeCompatibility(testRecipe, result),
     )
 
@@ -104,7 +104,7 @@ async function testStreamlinedSystem() {
     log.info(`📝 Cache _Key: ${result.cacheKey}`)
     log.info(`⏰ _Timestamp: ${result.timestamp}`)
   } catch (error) {
-    _logger.error('❌ Error in streamlined system test:', error)
+    _logger.error('❌ Error in streamlined system test: ', error)
   }
 }
 

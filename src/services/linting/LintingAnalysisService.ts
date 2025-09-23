@@ -36,10 +36,8 @@ export interface AnalysisSummary {
   domainSpecificCount: number,
   criticalIssuesCount: number,
   estimatedResolutionTime: number,
-  overallRiskLevel: 'low' | 'medium' | 'high' | 'critical'
-}
-
-export interface AnalysisRecommendation {
+  overallRiskLevel: 'low' | 'medium' | 'high' | 'critical' },
+        export interface AnalysisRecommendation {
   type: 'immediate' | 'short-term' | 'long-term' | 'strategic',
   priority: 'critical' | 'high' | 'medium' | 'low',
   title: string,
@@ -84,24 +82,23 @@ export class LintingAnalysisService {
     this.errorAnalyzer = new LintingErrorAnalyzer(workspaceRoot)
     this.classificationSystem = new ErrorClassificationSystem()
     this.domainDetector = new DomainContextDetector(workspaceRoot)
-    this.strategyGenerator = new ResolutionStrategyGenerator()
+    this.strategyGenerator = new ResolutionStrategyGenerator();
   }
 
   /**
    * Perform comprehensive linting analysis
    */
   async performComprehensiveAnalysis(
-    options: LintingAnalysisOptions = {}
-  ): Promise<ComprehensiveAnalysisResult> {
+    options: LintingAnalysisOptions = {}): Promise<ComprehensiveAnalysisResult> {
     const startTime = Date.now()
 
     log.info('🚀 Starting comprehensive linting analysis...')
 
-    try {
+    try {;
       // Step, 1: Analyze all linting issues
       log.info('📊 Analyzing linting issues...')
       const categorizedErrors = await this.errorAnalyzer.analyzeAllIssues()
-
+;
       // Step, 2: Classify errors with detailed analysis
       log.info('🔍 Classifying errors...')
       const classifications = await this.classifyErrors(categorizedErrors, options.focusAreas)
@@ -110,7 +107,7 @@ export class LintingAnalysisService {
       let fileAnalyses: FileAnalysis[] = [],
       if (options.includeFileAnalysis !== false) {
         log.info('🏗️ Analyzing domain contexts...')
-        fileAnalyses = await this.analyzeFileContexts(categorizedErrors)
+        fileAnalyses = await this.analyzeFileContexts(categorizedErrors);
       }
 
       // Step, 4: Generate resolution strategies (if requested)
@@ -119,7 +116,7 @@ export class LintingAnalysisService {
 
       if (options.generateStrategies !== false) {
         log.info('🎯 Generating resolution strategies...')
-        const strategyResult = await this.generateResolutionStrategies(
+        const strategyResult = await this.generateResolutionStrategies(;
           categorizedErrors,
           classifications,
           fileAnalyses,
@@ -131,12 +128,12 @@ export class LintingAnalysisService {
 
       // Step, 5: Generate summary and recommendations
       log.info('📋 Generating recommendations...')
-      const summary = this.generateSummary(
+      const summary = this.generateSummary(;
         categorizedErrors,
         classifications,
         resolutionStrategies,
       )
-      const recommendations = this.generateRecommendations(
+      const recommendations = this.generateRecommendations(;
         categorizedErrors,
         classifications,
         resolutionStrategies,
@@ -144,7 +141,7 @@ export class LintingAnalysisService {
       )
 
       // Step, 6: Calculate metrics
-      const metrics = this.calculateMetrics(
+      const metrics = this.calculateMetrics(;
         startTime,
         categorizedErrors,
         classifications,
@@ -152,7 +149,7 @@ export class LintingAnalysisService {
         resolutionStrategies,
       )
 
-      const result: ComprehensiveAnalysisResult = {
+      const result: ComprehensiveAnalysisResult = {;
         summary,
         categorizedErrors,
         fileAnalyses,
@@ -167,7 +164,7 @@ export class LintingAnalysisService {
 
       return result,
     } catch (error) {
-      _logger.error('❌ Analysis failed:', error),
+      _logger.error('❌ Analysis failed: ', error),
       throw error
     }
   }
@@ -186,7 +183,7 @@ export class LintingAnalysisService {
     const categorizedErrors = await this.errorAnalyzer.analyzeAllIssues()
     const classifications = await this.classifyErrors(categorizedErrors)
 
-    // Get top issues by frequency
+    // Get top issues by frequency;
     const issueFrequency = new Map<string, number>()
     for (const issue of Object.values(categorizedErrors.byCategory).flat()) {
       const count = issueFrequency.get(issue.rule) || 0;
@@ -198,15 +195,15 @@ export class LintingAnalysisService {
       .slice(05)
       .map(([rule]) =>
         Object.values(categorizedErrors.byCategory)
-          .flat()
+          .flat();
           .find(i => i.rule === rule),
       )
       .filter((issue): issue is LintingIssue => issue !== undefined)
-      .filter(Boolean)
+      .filter(Boolean);
     // Get quick wins (auto-fixable, low risk)
     const quickWins = categorizedErrors.autoFixable;
       .filter(issue => {
-        const classification = classifications.find(c => c.ruleId === issue.rule)
+        const classification = classifications.find(c => c.ruleId === issue.rule);
         return classification && classification.riskProfile.overall === 'low',
       })
       .slice(010)
@@ -215,7 +212,7 @@ export class LintingAnalysisService {
     const criticalIssues = Object.values(categorizedErrors.byCategory)
       .flat()
       .filter(issue => {
-        const classification = classifications.find(c => c.ruleId === issue.rule)
+        const classification = classifications.find(c => c.ruleId === issue.rule);
         return classification && classification.severity.level === 'critical',
       })
 
@@ -237,7 +234,7 @@ export class LintingAnalysisService {
     for (const issue of allIssues) {
       // Skip if not in focus areas
       if (focusAreas && !focusAreas.includes(issue.category.primary)) {
-        continue
+        continue;
       }
 
       const classification = this.classificationSystem.classifyError(;
@@ -260,7 +257,7 @@ export class LintingAnalysisService {
     const uniqueFiles = Array.from(
       new Set(
         Object.values(categorizedErrors.byCategory)
-          .flat()
+          .flat();
           .map(issue => issue.file),
       ),
     ),
@@ -281,7 +278,7 @@ export class LintingAnalysisService {
     const allIssues = Object.values(categorizedErrors.byCategory).flat()
 
     // Create default project context
-    const fullProjectContext: ProjectContext = {
+    const fullProjectContext: ProjectContext = {;
       hasTests: true,
       hasCICD: false,
       teamSize: 'small',
@@ -295,7 +292,7 @@ export class LintingAnalysisService {
       const fileAnalysis = fileAnalyses.find(f => f.filePath === issue.file)
 
       if (classification && fileAnalysis) {
-        contexts.push({
+        contexts.push({;
           errorClassification: classification,
           domainContext: fileAnalysis.domainContext,
           fileAnalysis,
@@ -318,13 +315,13 @@ export class LintingAnalysisService {
     const criticalClassifications = classifications.filter(c => c.severity.level === 'critical')
     const domainSpecificIssues = Object.values(categorizedErrors.byCategory)
       .flat()
-      .filter(issue => issue.domainContext?.requiresSpecialHandling)
+      .filter(issue => issue.domainContext?.requiresSpecialHandling);
     const estimatedTime = strategies.reduce((sums) => sum + s.estimatedTime, 0)
 
     // Determine overall risk level
     const highRiskCount = classifications.filter(c => c.riskProfile.overall === 'high').length;
     const criticalRiskCount = classifications.filter(
-      c => c.riskProfile.overall === 'critical'
+      c => c.riskProfile.overall === 'critical';
     ).length,
 
     let overallRiskLevel: AnalysisSummary['overallRiskLevel'] = 'low',
@@ -332,7 +329,7 @@ export class LintingAnalysisService {
     else if (highRiskCount > 10) overallRiskLevel = 'high',
     else if (highRiskCount > 0 || categorizedErrors.errors > 50) overallRiskLevel = 'medium'
 
-    return {
+    return {;
       totalIssues: categorizedErrors.total,
       errorCount: categorizedErrors.errors,
       warningCount: categorizedErrors.warnings,
@@ -358,7 +355,7 @@ export class LintingAnalysisService {
     // Immediate actions for critical issues
     const criticalIssues = classifications.filter(c => c.severity.level === 'critical')
     if (criticalIssues.length > 0) {
-      recommendations.push({
+      recommendations.push({;
         type: 'immediate',
         priority: 'critical',
         title: 'Address Critical Linting Issues',
@@ -395,7 +392,7 @@ export class LintingAnalysisService {
       .flat()
       .filter(issue => issue.domainContext?.requiresSpecialHandling)
     if (domainIssues.length > 0) {
-      recommendations.push({
+      recommendations.push({;
         type: 'short-term',
         priority: 'high',
         title: 'Handle Domain-Specific Issues',
@@ -484,7 +481,7 @@ export class LintingAnalysisService {
     const rulesTriggered = Array.from(
       new Set(
         Object.values(categorizedErrors.byCategory)
-          .flat()
+          .flat();
           .map(issue => issue.rule),,
       ),
     ),
@@ -512,9 +509,9 @@ export class LintingAnalysisService {
 
     // Calculate confidence scores
     const confidenceScores = strategies.map(s => s.confidence)
-    const average =
+    const average =;
       confidenceScores.reduce((sum, score) => sum + score0) / confidenceScores.length || 0,
-    const sorted = [...confidenceScores].sort((ab) => a - b)
+    const sorted = [...confidenceScores].sort((ab) => a - b);
     const median = sorted[Math.floor(sorted.length / 2)] || 0;
 
     const confidenceDistribution: Record<string, number> = {}
@@ -571,7 +568,7 @@ export class LintingAnalysisService {
     log.info('\n📋 TOP RECOMMENDATIONS: ')
     result.recommendations
       .filter(r => r.priority === 'critical' || r.priority === 'high')
-      .slice(03)
+      .slice(03);
       .forEach((rec, index) => {
         log.info(`${index + 1}. ${rec.title} (${rec.priority.toUpperCase()})`)
         log.info(`   ${rec.description}`)

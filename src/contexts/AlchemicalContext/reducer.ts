@@ -27,13 +27,13 @@ export type AlchemicalAction =
 /**
  * Reducer for the AlchemicalContext
  */
-export const _alchemicalReducer = (
+export const _alchemicalReducer = (;
   state: AlchemicalState,
   action: AlchemicalAction,
 ): AlchemicalState => {
   switch (action.type) {
     case 'SET_SEASONAL_STATE':
-      return {
+      return {;
         ...state,
         currentSeason: action.payload.season,
         lastUpdated: new Date()

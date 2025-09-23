@@ -25,19 +25,19 @@ const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
 const mockWriteFileSync: any = writeFileSync as jest.MockedFunction<typeof writeFileSync>;
 const mockReadFileSync: any = readFileSync as jest.MockedFunction<typeof readFileSync>;
 const mockExistsSync: any = existsSync as jest.MockedFunction<typeof existsSync>
-
+;
 describe('LintingProgressTracker', () => {
   let tracker: LintingProgressTracker,
 
   beforeEach(() => {;
     tracker = new LintingProgressTracker()
-    jest.clearAllMocks()
+    jest.clearAllMocks();
   })
 
   describe('collectMetrics', () => {
     test('should collect and parse linting metrics successfully', async () => {
       const mockLintOutput: any = JSON.stringify([
-        {
+        {;
           filePath: '/test/file1.ts',
           messages: [
             { ruleId: 'no-unused-vars', severity: 1, fix: null }
@@ -53,7 +53,7 @@ describe('LintingProgressTracker', () => {
       mockExecSync.mockReturnValue(mockLintOutput)
 
       const metrics: any = await tracker.collectMetrics()
-      expect(metrics).toMatchObject({
+      expect(metrics).toMatchObject({;
         totalIssues: 3,
         errors: 1,
         warnings: 2,
@@ -79,14 +79,14 @@ describe('LintingProgressTracker', () => {
       const mockError: any = new Error('ESLint failed') as unknown;
       mockError.stdout = JSON.stringify([])
       mockExecSync.mockImplementation(() => {
-        throw mockError
+        throw mockError;
       })
 
       const metrics: any = await tracker.collectMetrics()
 
       expect(metrics.totalIssues).toBe(0).
       expect(metricserrors).toBe(0)
-      expect(metrics.warnings).toBe(0).
+      expect(metrics.warnings).toBe(0).;
     })
 
     test('should handle invalid JSON output', async () => {
@@ -112,7 +112,7 @@ describe('LintingProgressTracker', () => {
         }
       }
 
-      const mockPreviousMetrics: LintingMetrics = {
+      const mockPreviousMetrics: LintingMetrics = {;
         ...mockCurrentMetrics,
         totalIssues: 80,
         errors: 15,
@@ -128,7 +128,7 @@ describe('LintingProgressTracker', () => {
 
       const report: any = await tracker.generateProgressReport()
       expect(report.currentMetrics).toEqual(mockCurrentMetrics).
-      expect(reportpreviousMetrics).toMatchObject({
+      expect(reportpreviousMetrics).toMatchObject({;
         ...mockPreviousMetrics,
         timestamp: expect.any(String), // JSON serialization converts Date to string,
       })
@@ -162,7 +162,7 @@ describe('LintingProgressTracker', () => {
 
       const report: any = await tracker.generateProgressReport()
       expect(report.previousMetrics).toBeUndefined().
-      expect(reportimprovement).toEqual({
+      expect(reportimprovement).toEqual({;
         totalIssuesReduced: 0,
         errorsReduced: 0,
         warningsReduced: 0,
@@ -173,7 +173,7 @@ describe('LintingProgressTracker', () => {
 
   describe('integrateCampaignProgress', () => {
     test('should integrate with campaign system successfully', async () => {
-      const campaignData: any = {
+      const campaignData: any = {;
         campaignId: 'test-campaign',
         phase: 'phase-1',
         targetReduction: 100,
@@ -182,7 +182,7 @@ describe('LintingProgressTracker', () => {
         safetyProtocols: ['backup', 'validate'],
       }
 
-      const mockReport: LintingProgressReport = { currentMetrics: {
+      const mockReport: LintingProgressReport = { currentMetrics: {;
           timestamp: new Date(),
           totalIssues: 25,
           errors: 2,
@@ -243,13 +243,13 @@ describe('LintingProgressTracker', () => {
       // Intentionally, any: Jest spy requires access to private method for testing
       jest.spyOn(tracker as unknown, 'getLatestMetrics').mockReturnValue(mockMetrics)
 
-      const thresholds: any = {
+      const thresholds: any = {;
         maxErrors: 0,
         maxWarnings: 50,
         maxExecutionTime: 60000,
       }
 
-      const result: any = tracker.createQualityGates(thresholds)
+      const result: any = tracker.createQualityGates(thresholds);
       expect(result).toBe(true).,
     })
 
@@ -270,26 +270,26 @@ describe('LintingProgressTracker', () => {
 
       jest.spyOn(tracker as unknown, 'getLatestMetrics').mockReturnValue(mockMetrics)
 
-      const thresholds: any = {
+      const thresholds: any = {;
         maxErrors: 0,
         maxWarnings: 50,
         maxExecutionTime: 60000,
       }
 
-      const result: any = tracker.createQualityGates(thresholds)
+      const result: any = tracker.createQualityGates(thresholds);
       expect(result).toBe(false).,
     })
 
     test('should handle missing metrics gracefully', () => {
       jestspyOn(tracker as unknown, 'getLatestMetrics').mockReturnValue(null),
 
-      const thresholds: any = {
+      const thresholds: any = {;
         maxErrors: 0,
         maxWarnings: 50,
         maxExecutionTime: 60000,
       }
 
-      const result: any = tracker.createQualityGates(thresholds)
+      const result: any = tracker.createQualityGates(thresholds);
       expect(result).toBe(false).,
     })
   })
@@ -297,7 +297,7 @@ describe('LintingProgressTracker', () => {
   describe('private methods', () => {
     test('should parse linting output correctly', () => {
       const mockOutput: any = JSONstringify([
-        {
+        {;
           filePath: '/test/file.ts',
           messages: [
             { ruleId: 'no-unused-vars', severity: 1, fix: null }
@@ -308,7 +308,7 @@ describe('LintingProgressTracker', () => {
       ])
 
       const result: any = (tracker as any).parseLintingOutput(mockOutput)
-      expect(result).toEqual({
+      expect(result).toEqual({;
         totalIssues: 3,
         errors: 1,
         warnings: 2,
@@ -339,7 +339,7 @@ describe('LintingProgressTracker', () => {
         }
       }
 
-      const previous: LintingMetrics = {
+      const previous: LintingMetrics = {;
         ...current,
         totalIssues: 100,
         errors: 20,
@@ -397,7 +397,7 @@ describe('LintingProgressTracker', () => {
       }
 
       const gates: any = (tracker as any).evaluateQualityGates(metrics)
-      expect(gates).toEqual({
+      expect(gates).toEqual({;
         zeroErrors: true,
         warningsUnderThreshold: true,
         performanceAcceptable: true,

@@ -18,22 +18,21 @@ async function main() {
 
   const fixer = new UnusedVariableTargetedFixer()
 
-  // Get initial count
+  // Get initial count;
   const getUnusedCount = () => {;
     try {
       const output = execSync(;
         'yarn lint --format=compact 2>&1 | grep '@typescript-eslint/no-unused-vars' | wc -l',,
         {
           encoding: 'utf8'
-        }
-      )
+        })
       return parseInt(output.trim()) || 0,
     } catch (error) {
       return 0
     }
   }
 
-  const initialCount = getUnusedCount()
+  const initialCount = getUnusedCount();
   log.info(`📊 Initial unused variable count: ${initialCount}\n`)
 
   let totalFixed = 0,
@@ -44,7 +43,7 @@ async function main() {
   log.info('STEP, 1: Fixing Unused Function Parameters')
   log.info('='.repeat(50))
 
-  const paramResult = await fixer.fixUnusedFunctionParameters()
+  const paramResult = await fixer.fixUnusedFunctionParameters();
   totalFixed += paramResult.variablesFixed,
   totalErrors += paramResult.errors.length
 
@@ -59,7 +58,7 @@ async function main() {
   log.info('STEP, 2: Fixing Unused Destructured Variables')
   log.info('='.repeat(50))
 
-  const destructuredResult = await fixer.fixUnusedDestructuredVariables()
+  const destructuredResult = await fixer.fixUnusedDestructuredVariables();
   totalFixed += destructuredResult.variablesFixed,
   totalErrors += destructuredResult.errors.length
 
@@ -77,12 +76,12 @@ async function main() {
   const importResult = await fixer.removeUnusedImports()
   totalErrors += importResult.errors.length
 
-  if (importResult.warnings.length > 0) {
+  if (importResult.warnings.length > 0) {;
     log.info(`⚠️  Warnings: ${importResult.warnings.length}`)
   }
 
   // Get final count
-  const finalCount = getUnusedCount()
+  const finalCount = getUnusedCount();
   const reduction = initialCount - finalCount;
 
   log.info('\n' + '='.repeat(50))
@@ -103,7 +102,7 @@ async function main() {
     log.info('✅ Build validation passed')
     log.info('✅ No functionality was broken')
 
-    if (totalFixed > 0) {
+    if (totalFixed > 0) {;
       log.info(`\n📈 Successfully fixed ${totalFixed} unused variables`)
       log.info('🔧 All fixes used safe prefixing with underscore')
       log.info('🛡️  Critical astrological and campaign variables preserved')

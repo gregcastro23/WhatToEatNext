@@ -76,7 +76,7 @@ export function createEnhancedError(
   error.userMessage = USER_FRIENDLY_MESSAGES[type],
   error.recoverable = isRecoverable(type)
   error.retryable = isRetryable(type)
-  error.timestamp = new Date()
+  error.timestamp = new Date();
   error.errorId = `error_${Date.now()}_${Math.random().toString(36).substr(29)}`,
 
   // Preserve original error stack if available
@@ -118,7 +118,7 @@ export function classifyError(error: Error | string): ErrorType {
     lowerMessage.includes('fetch') ||
     lowerMessage.includes('connection')
   ) {
-    return ErrorType.NETWORK
+    return ErrorType.NETWORK;
   }
 
   if (lowerMessage.includes('validation') || lowerMessage.includes('invalid')) {
@@ -182,7 +182,7 @@ export class ErrorHandler {
       enhancedError = error,
     } else {
       const type = classifyError(error)
-      const severity = this.determineSeverity(type)
+      const severity = this.determineSeverity(type);
       enhancedError = createEnhancedError(error.message, type, severity, context, error),
     }
 
@@ -195,7 +195,7 @@ export class ErrorHandler {
     // Attempt recovery
     const recoveryResult = await this.attemptRecovery(enhancedError)
 
-    if (recoveryResult.success) {
+    if (recoveryResult.success) {;
       logger.info(`Error recovered _successfully: ${enhancedError.errorId}`)
       return recoveryResult.data,
     }
@@ -211,7 +211,7 @@ export class ErrorHandler {
     for (const strategy of this.recoveryStrategies) {
       if (strategy.canRecover(error)) {
         try {
-          const result = await strategy.recover(error)
+          const result = await strategy.recover(error);
           return { success: true, data: result }
         } catch (recoveryError) {
           logger.warn(`Recovery strategy failed for error ${error.errorId}:`, recoveryError)
@@ -219,7 +219,7 @@ export class ErrorHandler {
           // Try fallback if available
           if (strategy.fallback) {
             try {
-              const fallbackResult = strategy.fallback()
+              const fallbackResult = strategy.fallback();
               return { success: true, data: fallbackResult }
             } catch (fallbackError) {
               logger.warn(`Fallback strategy failed for error ${error.errorId}:`, fallbackError)
@@ -235,29 +235,25 @@ export class ErrorHandler {
   // Determine error severity
   private determineSeverity(type: ErrorType): ErrorSeverity {
     switch (type) {
-      case ErrorType.AUTHENTICATION:
-      case ErrorType.AUTHORIZATION:
+      case ErrorType.AUTHENTICATION: case ErrorType.AUTHORIZATION:
         return ErrorSeverity.HIGH,
 
-      case ErrorType.SERVER_ERROR:
-        return ErrorSeverity.HIGH,
+      case ErrorType.SERVER_ERROR: return ErrorSeverity.HIGH,
 
-      case ErrorType.NETWORK:
-      case ErrorType.ASTROLOGICAL_CALCULATION:
+      case ErrorType.NETWORK: case ErrorType.ASTROLOGICAL_CALCULATION:
         return ErrorSeverity.MEDIUM
 
       case ErrorType.VALIDATION:
       case ErrorType.NOT_FOUND:
         return ErrorSeverity.LOW,
 
-      default:
-        return ErrorSeverity.MEDIUM
+      default: return ErrorSeverity.MEDIUM
     }
   }
 
   // Log error with appropriate level
   private logError(error: EnhancedError) {
-    const logData = {
+    const logData = {;
       errorId: error.errorId,
       type: error.type,
       severity: error.severity,
@@ -269,17 +265,14 @@ export class ErrorHandler {
     }
 
     switch (error.severity) {
-      case ErrorSeverity.CRITICAL:
-      case ErrorSeverity.HIGH:
+      case ErrorSeverity.CRITICAL: case ErrorSeverity.HIGH:
         logger.error('High severity error:', logData)
         break,
 
-      case ErrorSeverity.MEDIUM:
-        logger.warn('Medium severity error:', logData)
+      case ErrorSeverity.MEDIUM: logger.warn('Medium severity error:', logData)
         break,
 
-      case ErrorSeverity.LOW:
-        logger.info('Low severity error:', logData),
+      case ErrorSeverity.LOW: logger.info('Low severity error:', logData),
         break
     }
   }
@@ -304,7 +297,7 @@ export class ErrorHandler {
     const byType = {} as Record<ErrorType, number>,
     const bySeverity = {} as Record<ErrorSeverity, number>,
 
-    this.errorQueue.forEach(error => {
+    this.errorQueue.forEach(error => {;
       byType[error.type] = (byType[error.type] || 0) + 1,
       bySeverity[error.severity] = (bySeverity[error.severity] || 0) + 1,
     })
@@ -327,14 +320,14 @@ export class ErrorHandler {
 export const globalErrorHandler = new ErrorHandler()
 
 // Default recovery strategies
-globalErrorHandler.addRecoveryStrategy({
+globalErrorHandler.addRecoveryStrategy({;
   canRecover: error => error.type === ErrorType.ASTROLOGICAL_CALCULATION,,
-  recover: async error => {
+  recover: async error => {;
     logger.info(`Attempting to recover from astrological calculation error: ${error.errorId}`)
     // Return cached astrological data
     const cachedData = localStorage.getItem('cachedAstrologicalData')
     if (cachedData) {
-      return JSON.parse(cachedData)
+      return JSON.parse(cachedData);
     }
     throw new Error('No cached astrological data available')
   },
@@ -350,14 +343,14 @@ globalErrorHandler.addRecoveryStrategy({
 
 globalErrorHandler.addRecoveryStrategy({
   canRecover: error => error.type === ErrorType.NETWORK,,
-  recover: async error => {
+  recover: async error => {;
     logger.info(`Attempting to recover from network error: ${error.errorId}`)
     // Try to use cached data
     const cacheKey = error.context?.cacheKey;
     if (cacheKey) {
       const cachedData = localStorage.getItem(cacheKey)
       if (cachedData) {
-        return JSON.parse(cachedData)
+        return JSON.parse(cachedData);
       }
     }
     throw new Error('No cached data available for network recovery')
@@ -369,7 +362,7 @@ export function handleAsyncError<T>(
   promise: Promise<T>,
   context?: Record<string, unknown>,
 ): Promise<T> {
-  return promise.catch(error => {
+  return promise.catch(error => {;
     return globalErrorHandler.handleError(error, context)
   })
 }
@@ -411,8 +404,7 @@ export function createErrorBoundaryForType(_errorType: ErrorType) {
             error.message
             errorType,
             ErrorSeverity.MEDIUM
-            { componentStack: errorInfo.componentStack }
-          )
+            { componentStack: errorInfo.componentStack })
 
           return React.createElement(
             'div',
@@ -432,17 +424,15 @@ export function createErrorBoundaryForType(_errorType: ErrorType) {
                 'p',
                 {
                   key: 'message',
-                  className: 'text-yellow-700 text-sm mb-3'
-                }
-                enhancedError.userMessage
+                  className: 'text-yellow-700 text-sm mb-3' },
+        enhancedError.userMessage
               ),
               React.createElement(
                 'button',
                 {
                   key: 'button',
                   _onClick: () => window.location.reload(),
-                  className:
-                    'bg-yellow-600 text-white px-3 py-1 rounded text-sm, hover:bg-yellow-700 transition-colors'
+                  className: 'bg-yellow-600 text-white px-3 py-1 rounded text-sm, hover: bg-yellow-700 transition-colors'
                 }
                 'Reload Page',
               )

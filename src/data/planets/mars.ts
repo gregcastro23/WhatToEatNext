@@ -1,7 +1,7 @@
 import { PlanetData } from './types';
 
 const marsData: PlanetData = {
-  'Dignity Effect': {
+  'Dignity Effect': {;
     aries: 1,
     scorpio: 1,
     capricorn: 2,
@@ -22,9 +22,8 @@ const marsData: PlanetData = {
     DistanceFromSun: '142 million miles (228 million kilometers)',
     DistanceFromEarth: {
       Minimum: '34 million miles (55 million kilometers)',
-      Maximum: '249 million miles (401 million kilometers)'
-    },
-    Diameter: '4,220 miles (6,792 kilometers)',
+      Maximum: '249 million miles (401 million kilometers)' },
+        Diameter: '4,220 miles (6,792 kilometers)',
     SurfaceTemperature: '-195 to 70 degrees Fahrenheit (-125 to 20 Celsius)',
     AtmosphericComposition: 'Primarily carbon dioxide with nitrogen and argon',
     RotationPeriod: '24.6 Earth hours',
@@ -36,8 +35,7 @@ const marsData: PlanetData = {
       Surface: 'Rocky, desert-like with volcanoes, canyons, and polar ice caps',
       MagneticField: 'No global magnetic field, but localized crustal fields',
       Composition: 'Iron-rich core, silicate mantle, iron oxide surface',
-      NotableFeatures:
-        'Olympus Mons (largest volcano), Valles Marineris (largest canyon), red color from iron oxide dust'
+      NotableFeatures: 'Olympus Mons (largest volcano), Valles Marineris (largest canyon), red color from iron oxide dust'
     }
   },
   AstrologicalProperties: {
@@ -45,14 +43,12 @@ const marsData: PlanetData = {
     MaleficType: 'Lesser malefic',
     DualDomicile: {
       Spring: 'aries (yang)',
-      Autumn: 'scorpio (yin)'
-    },
-    HouseJoy: 6,
+      Autumn: 'scorpio (yin)' },
+        HouseJoy: 6,
     CyclePeriod: {
       Return: '2 years',
-      Retrograde: '2-2.5 months every 2 years'
-    },
-    Exaltation: 'capricorn',
+      Retrograde: '2-2.5 months every 2 years' },
+        Exaltation: 'capricorn',
     Fall: 'cancer',
     Detriment: ['libra', 'taurus'],
     Keywords: ['Action', 'Aggression', 'Drive', 'Desire', 'Courage', 'Combat', 'Energy', 'Passion'],
@@ -439,23 +435,21 @@ const marsData: PlanetData = {
         Matter: 0.7,
         Substance: 0.3
       },
-      FoodFocus:
-        'Internalizing heat, revisiting traditional spices, return to primal cooking methods',
-      HerbalShift: 'Emphasis on dried herbs and spices, concentrated extracts, intensified flavors'
-    },
-    TransitDates: {
-      aries: { Start: '2024-06-09', End: '2024-07-20' }
-      taurus: { Start: '2024-07-20', End: '2024-08-27' }
-      gemini: { Start: '2024-08-27', End: '2024-10-04' }
-      cancer: { Start: '2024-10-04', End: '2024-11-11' }
-      leo: { Start: '2024-11-11', End: '2024-12-20' }
-      virgo: { Start: '2024-12-20', End: '2025-01-29' }
-      libra: { Start: '2025-01-29', End: '2025-03-10' }
-      scorpio: { Start: '2025-03-10', End: '2025-04-20' }
-      sagittarius: { Start: '2025-04-20', End: '2025-05-31' }
-      capricorn: { Start: '2025-05-31', End: '2025-07-11' }
-      aquarius: { Start: '2025-07-11', End: '2025-08-22' }
-      pisces: { Start: '2025-08-22', End: '2025-10-03' }
+      FoodFocus: 'Internalizing heat, revisiting traditional spices, return to primal cooking methods',
+      HerbalShift: 'Emphasis on dried herbs and spices, concentrated extracts, intensified flavors' },
+        TransitDates: {
+      aries: { Start: '2024-06-09', End: '2024-07-20' },
+        taurus: { Start: '2024-07-20', End: '2024-08-27' },
+        gemini: { Start: '2024-08-27', End: '2024-10-04' },
+        cancer: { Start: '2024-10-04', End: '2024-11-11' },
+        leo: { Start: '2024-11-11', End: '2024-12-20' },
+        virgo: { Start: '2024-12-20', End: '2025-01-29' },
+        libra: { Start: '2025-01-29', End: '2025-03-10' },
+        scorpio: { Start: '2025-03-10', End: '2025-04-20' },
+        sagittarius: { Start: '2025-04-20', End: '2025-05-31' },
+        capricorn: { Start: '2025-05-31', End: '2025-07-11' },
+        aquarius: { Start: '2025-07-11', End: '2025-08-22' },
+        pisces: { Start: '2025-08-22', End: '2025-10-03' }
     },
     CulinaryTechniques: {
       'High Heat Cooking': 0.9,

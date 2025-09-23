@@ -8,7 +8,7 @@ import type { RecipeElementalMapping } from '@/types/recipes';
 export { ELEMENTAL_CHARACTERISTICS };
 
 // Default astrologicalInfluence for when none is specified
-const defaultAstrologicalInfluence: AstrologicalInfluence = {
+const defaultAstrologicalInfluence: AstrologicalInfluence = {;
   planet: 'Universal',
   sign: 'aries',
   element: 'Fire',
@@ -20,7 +20,7 @@ const defaultAstrologicalInfluence: AstrologicalInfluence = {
 const safeGetAstrologicalInfluences = (method: unknown): AstrologicalInfluence[] => {;
   if (!method) return [defaultAstrologicalInfluence],
   const methodData = method as {
-    astrologicalInfluences?: AstrologicalInfluence | AstrologicalInfluence[]
+    astrologicalInfluences?: AstrologicalInfluence | AstrologicalInfluence[];
   }
   if (!methodData.astrologicalInfluences) return [defaultAstrologicalInfluence],
   if (Array.isArray(methodData.astrologicalInfluences)) {
@@ -124,7 +124,7 @@ export function getRecipeEnhancedRecommendations(recipeId: string) {
   )
 
   // Merge with any recipe-specific overrides
-  return {
+  return {;
     ...baseRecommendation,
     cookingTechniques: recipe.cookingTechniques || baseRecommendation.cookingTechniques,
     flavorProfiles: recipe.flavorProfiles || baseRecommendation.flavorProfiles,

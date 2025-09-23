@@ -3,8 +3,7 @@
 /**
  * Safe Unused Import Removal System
  *
- * This script safely removes unused import statements while preserving:
- * - Imports used in type annotations or JSX
+ * This script safely removes unused import statements while preserving: * - Imports used in type annotations or JSX
  * - Dynamic imports and conditional imports
  * - Imports that may be used in complex expressions
  *
@@ -34,7 +33,7 @@ interface ImportAnalysis {
 }
 
 class SafeUnusedImportRemover {
-  private astrologicalFiles = [
+  private astrologicalFiles = [;
     '/calculations/',
     '/data/planets/',
     '/utils/reliableAstronomy',
@@ -45,7 +44,7 @@ class SafeUnusedImportRemover {
     'elemental'
   ],
 
-  private campaignSystemFiles = [
+  private campaignSystemFiles = [;
     '/services/campaign/',
     '/services/AdvancedAnalyticsIntelligenceService',
     '/services/MLIntelligenceService',
@@ -55,7 +54,7 @@ class SafeUnusedImportRemover {
   ],
 
   private preservePatterns = [
-    // Type-only imports that might be used in annotations
+    // Type-only imports that might be used in annotations;
     /import\s+type\s+/;
     // React imports (often used in JSX)
     /from\s+['']react['']/,
@@ -76,7 +75,7 @@ class SafeUnusedImportRemover {
     // Get ESLint output for unused imports
     const lintOutput = this.getLintOutput()
     const unusedImports = this.extractUnusedImports(lintOutput)
-    const analysis: ImportAnalysis = {
+    const analysis: ImportAnalysis = {;
       totalUnusedImports: unusedImports.length,
       safeToRemove: [],
       requiresManualReview: [],
@@ -103,7 +102,7 @@ class SafeUnusedImportRemover {
   public removeSafeUnusedImports(dryRun: boolean = true): void {
     const analysis = this.analyzeUnusedImports()
 
-    // // // _logger.info(`📊 Import Analysis Results:`)
+    // // // _logger.info(`📊 Import Analysis Results: `);
     // // // _logger.info(`Total unused imports: ${analysis.totalUnusedImports}`)
     // // // _logger.info(`Safe to remove: ${analysis.safeToRemove.length}`)
     // // // _logger.info(`Requires manual review: ${analysis.requiresManualReview.length}`)
@@ -111,7 +110,7 @@ class SafeUnusedImportRemover {
 
     if (analysis.safeToRemove.length === 0) {
       // // // _logger.info('✅ No safe unused imports to remove.')
-      return
+      return;
     }
 
     if (dryRun) {
@@ -156,7 +155,7 @@ class SafeUnusedImportRemover {
         line.includes('@typescript-eslint/no-unused-vars') &&
         (line.includes('is defined but never used') || line.includes('is imported but never used'))
       ) {
-        const match = line.match(
+        const match = line.match(;
           /^(.+):(\d+):(\d+):\s+warning\s+(.+?)\s+@typescript-eslint\/no-unused-vars/,
         )
         if (match) {
@@ -166,7 +165,7 @@ class SafeUnusedImportRemover {
           const importNameMatch = message.match(/'([^']+)'/)
           const importName = importNameMatch ? importNameMatch[1] : ''
 
-          unusedImports.push({
+          unusedImports.push({;
             file: filePath,
             line: parseInt(lineNum),
             column: parseInt(colNum),
@@ -191,18 +190,18 @@ class SafeUnusedImportRemover {
 
     // Preserve imports in critical astrological files
     if (this.astrologicalFiles.some(pattern => file.includes(pattern))) {
-      return true
+      return true;
     }
 
     // Preserve imports in campaign system files
     if (this.campaignSystemFiles.some(pattern => file.includes(pattern))) {
-      return true
+      return true;
     }
 
     // Preserve imports that match preserve patterns
     const fileContent = this.getFileContent(file)
     if (this.preservePatterns.some(pattern => pattern.test(fileContent))) {
-      return true
+      return true;
     }
 
     // Preserve React component imports (might be used in JSX)
@@ -216,7 +215,7 @@ class SafeUnusedImportRemover {
     }
 
     // Preserve imports with specific patterns
-    const preserveNames = [
+    const preserveNames = [;
       'React',
       'Component',
       'useState',
@@ -230,7 +229,7 @@ class SafeUnusedImportRemover {
     ],
 
     if (preserveNames.some(name => importName.toLowerCase().includes(name.toLowerCase()))) {
-      return true
+      return true;
     }
 
     return false,
@@ -254,7 +253,7 @@ class SafeUnusedImportRemover {
       !file.includes('.d.ts')
     ) {
       // Check if it's a simple utility import
-      const utilityPatterns = [
+      const utilityPatterns = [;
         /^[a-z][a-zA-Z]*$/, // camelCase function names
         /^[A-Z_]+$/, // CONSTANT names
         /Utils?$/, // Utility functions
@@ -263,7 +262,7 @@ class SafeUnusedImportRemover {
       ],
 
       if (utilityPatterns.some(pattern => pattern.test(importName))) {
-        return true
+        return true;
       }
     }
 
@@ -285,7 +284,7 @@ class SafeUnusedImportRemover {
    * Display imports that would be removed
    */
   private displayImportsToRemove(imports: UnusedImport[]): void {
-    const groupedByFile = imports.reduce(
+    const groupedByFile = imports.reduce(;
       (acc, imp) => {
         if (!acc[imp.file]) acc[imp.file] = [],
         acc[imp.file].push(imp),
@@ -296,7 +295,7 @@ class SafeUnusedImportRemover {
 
     Object.entries(groupedByFile).forEach(([file, fileImports]) => {
       // // // _logger.info(`📄 ${file.replace(process.cwd(), '')}: `)
-      fileImports.forEach(imp => {
+      fileImports.forEach(imp => {;
         // // // _logger.info(`  - Line ${imp.line}: ${imp.importName}`)
       })
       // // // _logger.info('')
@@ -308,7 +307,7 @@ class SafeUnusedImportRemover {
    */
   private performImportRemoval(imports: UnusedImport[]): void {
     // Group by file for efficient processing
-    const groupedByFile = imports.reduce(
+    const groupedByFile = imports.reduce(;
       (acc, imp) => {
         if (!acc[imp.file]) acc[imp.file] = [],
         acc[imp.file].push(imp),
@@ -327,7 +326,7 @@ class SafeUnusedImportRemover {
         // Sort by line number in descending order to avoid index shifting
         const sortedImports = fileImports.sort((ab) => b.line - a.line)
 
-        for (const imp of sortedImports) {
+        for (const imp of sortedImports) {;
           const lineIndex = imp.line - 1;
           if (lineIndex >= 0 && lineIndex < lines.length) {
             const line = lines[lineIndex];
@@ -388,10 +387,8 @@ class SafeUnusedImportRemover {
 
     // Namespace, import: import * as ImportName from 'module'
     if (line.includes(`* as ${importName}`)) {
-      return ''
-    }
-
-    return line,
+      return '' },
+        return line,
   }
 
   /**
@@ -432,14 +429,14 @@ class SafeUnusedImportRemover {
 }
 
 // CLI interface
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file: //${process.argv[1]}`) {
   const remover = new SafeUnusedImportRemover()
 
   const args = process.argv.slice(2)
   const dryRun = !args.includes('--execute')
 
   if (dryRun) {
-    // // // _logger.info('🔍 Running in DRY RUN mode. Use --execute to actually remove imports.\n')
+    // // // _logger.info('🔍 Running in DRY RUN mode. Use --execute to actually remove imports.\n');
   }
 
   remover.removeSafeUnusedImports(dryRun)
@@ -448,7 +445,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     const isValid = remover.validateChanges()
     if (!isValid) {
       // // // _logger.info('\n⚠️  Build validation failed. Please review changes manually.')
-      process.exit(1)
+      process.exit(1);
     }
   }
 }

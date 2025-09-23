@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawDairy = {
-  greek_yogurt: {
+  greek_yogurt: {;
     name: 'Greek Yogurt',
     description: 'Strained yogurt with higher protein content and thick texture.',
     category: 'dairy',
@@ -56,9 +56,8 @@ const rawDairy = {
       'protein source': 'High-quality complete protein for muscle maintenance',
       'bone strength': 'Rich calcium content supports skeletal structure',
       satiety: 'High protein content increases feeling of fullness',
-      'blood sugar': 'Lower glycemic impact than regular yogurt'
-    },
-    varieties: {
+      'blood sugar': 'Lower glycemic impact than regular yogurt' },
+        varieties: {
       'non-fat': {
         texture: 'Less creamy, slightly more tangy',
         moisture: 'Lower',
@@ -78,9 +77,8 @@ const rawDairy = {
         moisture: 'Medium-high',
         protein: 'Moderate',
         uses: 'Rich applications, cooking stability',
-        notes: 'Best for cooking as less likely to separate'
-      },
-      strained: {
+        notes: 'Best for cooking as less likely to separate' },
+        strained: {
         texture: 'Extra thick, almost cheese-like',
         moisture: 'Low',
         protein: 'Very high',
@@ -137,9 +135,8 @@ const rawDairy = {
         fahrenheit: 38,
         celsius: 3.3
       },
-      notes: 'May continue to increase in tanginess over time'
-    },
-    culturalSignificance: {
+      notes: 'May continue to increase in tanginess over time' },
+        culturalSignificance: {
       middle_eastern: {
         role: 'Traditional breakfast component and sauce base',
         pairings: 'Olive oilza'atar, honey, nuts',
@@ -216,9 +213,8 @@ const rawDairy = {
       'bone health': 'Excellent calcium source for skeletal maintenance',
       satiety: 'High protein and moderate fat content increases fullness',
       metabolism: 'Contains conjugated linoleic acid (CLA) in full-fat versions',
-      recovery: 'Popular among athletes for post-workout recovery'
-    },
-    varieties: {
+      recovery: 'Popular among athletes for post-workout recovery' },
+        varieties: {
       'small curd': {
         texture: 'Smaller, more uniform pieces',
         moisture: 'Medium',
@@ -238,9 +234,8 @@ const rawDairy = {
         moisture: 'Low',
         protein: 'High',
         uses: 'Baking, lactose-sensitive diets',
-        notes: 'Lowest lactose content, least smooth'
-      },
-      whipped: {
+        notes: 'Lowest lactose content, least smooth' },
+        whipped: {
         texture: 'Smoother, more blended consistency',
         moisture: 'Medium-high',
         protein: 'Standard',
@@ -298,15 +293,13 @@ const rawDairy = {
         fahrenheit: 38,
         celsius: 3.3
       },
-      notes: 'Texture and flavor best when fresh, tends to sour rather than spoil'
-    },
-    culturalSignificance: {
+      notes: 'Texture and flavor best when fresh, tends to sour rather than spoil' },
+        culturalSignificance: {
       european: {
         role: 'Traditional fresh cheese in many cuisines',
         pairings: 'Fresh herbs, black pepper, fruit preserves',
-        dishes: 'Blintzes, pierogi filling, breakfast dishes'
-      },
-      american: {
+        dishes: 'Blintzes, pierogi filling, breakfast dishes' },
+        american: {
         role: 'Diet food popularized in mid-20th century',
         pairings: 'Canned fruit, gelatin salads, crackers',
         dishes: '1950s 'diet plates', retro salads'
@@ -329,8 +322,7 @@ const rawDairy = {
   },
   ricotta: {
     name: 'Ricotta',
-    description:
-      'Soft, mild Italian whey cheese with small, fluffy curds and versatile applications.',
+    description: 'Soft, mild Italian whey cheese with small, fluffy curds and versatile applications.',
     category: 'dairy',
     qualities: ['mild', 'creamy', 'sweet', 'delicate', 'versatile'],
     sustainabilityScore: 6,
@@ -382,9 +374,8 @@ const rawDairy = {
       'bone health': 'High calcium content supports skeletal strength',
       digestibility: 'Easier to digest than aged cheeses',
       'muscle recovery': 'Provides branched-chain amino acids',
-      satiety: 'Balance of protein and fat increases fullness'
-    },
-    varieties: {
+      satiety: 'Balance of protein and fat increases fullness' },
+        varieties: {
       'whole milk': {
         texture: 'Richest, creamiest',
         moisture: 'High',
@@ -461,15 +452,13 @@ const rawDairy = {
         fahrenheit: 38,
         celsius: 3.3
       },
-      notes: 'Best used fresh, texture deteriorates over time'
-    },
-    culturalSignificance: {
+      notes: 'Best used fresh, texture deteriorates over time' },
+        culturalSignificance: {
       sicilian: {
         role: 'Key ingredient in traditional desserts',
         pairings: 'Chocolate, pistachios, candied fruit, cinnamon',
-        dishes: 'Cassata, cannoli, Sicilian cheesecake'
-      },
-      modern: {
+        dishes: 'Cassata, cannoli, Sicilian cheesecake' },
+        modern: {
         role: 'Versatile low-sodium cheese in contemporary cooking',
         adaptations: 'Protein-rich breakfast component, sandwich spread, dip base'
       }
@@ -538,9 +527,8 @@ const rawDairy = {
       'energy dense': 'Provides concentrated calories from fat',
       'fat-soluble vitamins': 'Contains vitamins A and D',
       'calcium source': 'Contributes to daily calcium needs',
-      satiety: 'High fat content increases feeling of fullness'
-    },
-    varieties: {
+      satiety: 'High fat content increases feeling of fullness' },
+        varieties: {
       'full-fat': {
         texture: 'Richest, creamiest',
         moisture: 'Medium-high',
@@ -553,16 +541,14 @@ const rawDairy = {
         moisture: 'High',
         fat: 'Medium',
         uses: 'Everyday spreading, lighter applications',
-        notes: 'Common supermarket variety'
-      },
-      whipped: {
+        notes: 'Common supermarket variety' },
+        whipped: {
         texture: 'Lighter, fluffier',
         moisture: 'Medium',
         fat: 'Medium-high',
         uses: 'Spreading, dipping, when lighter texture desired',
-        notes: 'Incorporates air, easier to spread cold'
-      },
-      cultured: {
+        notes: 'Incorporates air, easier to spread cold' },
+        cultured: {
         texture: 'Traditional, more complex',
         moisture: 'Medium',
         fat: 'High',
@@ -613,20 +599,17 @@ const rawDairy = {
         fahrenheit: 38,
         celsius: 3.3
       },
-      notes: 'Can be frozen for up to 2 months but texture may change'
-    },
-    culturalSignificance: {
+      notes: 'Can be frozen for up to 2 months but texture may change' },
+        culturalSignificance: {
       american: {
         role: 'Iconic breakfast spread popularized in New York',
         pairings: 'Bagels, lox, capers, red onion, tomato',
-        dishes: 'Cheesecake, cream cheese frosting, dips'
-      },
-      european: {
+        dishes: 'Cheesecake, cream cheese frosting, dips' },
+        european: {
         role: 'Traditional fresh cheese in many regional varieties',
         pairings: 'Herbs, fruits, honey, nuts',
-        dishes: 'Pastries, tarts, savory spreads'
-      },
-      modern: {
+        dishes: 'Pastries, tarts, savory spreads' },
+        modern: {
         role: 'Versatile ingredient in contemporary cooking and baking',
         adaptations: 'Vegan alternatives, flavored varieties, as cooking ingredient'
       }

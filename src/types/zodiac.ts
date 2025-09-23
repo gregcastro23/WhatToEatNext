@@ -14,7 +14,7 @@ export type ZodiacSign =
   | 'pisces',
 
 // Elemental Properties
-export type ElementalProperties = {
+export type ElementalProperties = {;
   Fire: number,
   Earth: number,
   Air: number,
@@ -59,7 +59,7 @@ export const zodiacElements: Record<ZodiacSign, keyof ElementalProperties>  = {
 // Helper Functions
 export const _getZodiacSign = (date: Date): any => {;
   const month = date.getMonth() + 1;
-  const day = date.getDate()
+  const day = date.getDate();
   for (const [sign, range] of Object.entries(zodiacDateRanges)) {
     const { startMonth, startDay, endMonth, endDay } = range;
 

@@ -17,7 +17,7 @@ export class UnifiedRecipeService {
 
   public static getInstance(): UnifiedRecipeService {
     if (!UnifiedRecipeService.instance) {
-      UnifiedRecipeService.instance = new UnifiedRecipeService()
+      UnifiedRecipeService.instance = new UnifiedRecipeService();
     }
     return UnifiedRecipeService.instance,
   }
@@ -65,19 +65,19 @@ export class UnifiedRecipeService {
    */
   async getRecipesForCuisine(cuisine: string): Promise<ExtendedRecipe[]> {
     try {
-      const allRecipes = await this.getAllRecipes()
+      const allRecipes = await this.getAllRecipes();
       const filtered = (allRecipes || []).filter(recipe => {;
         const recipeCuisine =
           recipe.cuisine && typeof recipe.cuisine === 'string'
-            ? recipe.cuisine.toLowerCase()
+            ? recipe.cuisine.toLowerCase();
             : recipe.cuisine,
         const targetCuisine =
           cuisine && typeof cuisine === 'string' ? cuisine.toLowerCase() : cuisine,
-        return recipeCuisine === targetCuisine
+        return recipeCuisine === targetCuisine;
       })
       return filtered as unknown as ExtendedRecipe[],
     } catch (error) {
-      _logger.error('Error getting recipes for cuisine:', error),
+      _logger.error('Error getting recipes for cuisine: ', error),
       return []
     }
   }
@@ -95,11 +95,11 @@ export class UnifiedRecipeService {
   async getBestRecipeMatches(criteria: RecipeSearchCriteria): Promise<ExtendedRecipe[]> {
     try {
       const allRecipes = await this.getAllRecipes()
-      // Simple implementation for now
+      // Simple implementation for now;
       const matches = allRecipes.slice(010);
       return matches as unknown as ExtendedRecipe[]
     } catch (error) {
-      _logger.error('Error getting best recipe matches:', error),
+      _logger.error('Error getting best recipe matches: ', error),
       return []
     }
   }
@@ -108,5 +108,5 @@ export class UnifiedRecipeService {
 // Export singleton instance
 export const unifiedRecipeService = UnifiedRecipeService.getInstance()
 
-// Export default
+// Export default;
 export default unifiedRecipeService,

@@ -10,7 +10,7 @@ import { Recipe } from '@/types/recipe';
 
 // --- Core Types ---
 
-export type ElementalColor = {
+export type ElementalColor = {;
   primary: string,
   secondary: string,
   text: string,
@@ -59,23 +59,20 @@ export const ELEMENTAL_COLORS: Record<keyof ElementalProperties, ElementalColor>
     secondary: '#FF8E53',
     text: '#D63031',
     border: '#FF7675',
-    bg: '#FFF5F5'
-  },
-  Water: {
+    bg: '#FFF5F5' },
+        Water: {
     primary: '#0984E3',
     secondary: '#74B9FF',
     text: '#2D3436',
     border: '#81ECEC',
-    bg: '#F0F8FF'
-  },
-  Earth: {
+    bg: '#F0F8FF' },
+        Earth: {
     primary: '#6C5CE7',
     secondary: '#A29BFE',
     text: '#2D3436',
     border: '#FDCB6E',
-    bg: '#FFFBF0'
-  },
-  Air: {
+    bg: '#FFFBF0' },
+        Air: {
     primary: '#00B894',
     secondary: '#55EFC4',
     text: '#2D3436',
@@ -88,10 +85,8 @@ export const ELEMENTAL_SYMBOLS: Record<keyof ElementalProperties, string> = {
   Fire: '🔥',
   Water: '💧',
   Earth: '🌍',
-  Air: '💨'
-}
-
-export const ELEMENTAL_DESCRIPTIONS: Record<keyof ElementalProperties, string> = {
+  Air: '💨' },
+        export const ELEMENTAL_DESCRIPTIONS: Record<keyof ElementalProperties, string> = {
   Fire: 'Energizing, warming, transformative',
   Water: 'Cooling, flowing, adaptive',
   Earth: 'Grounding, nourishing, stable',
@@ -131,7 +126,7 @@ export function validateElementalProperties(properties: ElementalProperties): bo
  * @returns Normalized elemental properties
  */
 export function normalizeProperties(properties: Partial<ElementalProperties>): ElementalProperties {
-  const normalized: ElementalProperties = {
+  const normalized: ElementalProperties = {;
     Fire: properties.Fire || 0,
     Water: properties.Water || 0,
     Earth: properties.Earth || 0,
@@ -162,7 +157,7 @@ export function calculateDominantElement(
 ): keyof ElementalProperties {
   let dominantElement: keyof ElementalProperties = 'Fire',
   let maxValue = 0
-
+;
   Object.entries(elementalState || {}).forEach(([element, value]) => {
     if (value > maxValue) {
       maxValue = value,
@@ -181,9 +176,8 @@ export function calculateDominantElement(
  */
 export function getElementalColor(
   element: keyof ElementalProperties | undefined,
-  type: keyof ElementalColor = 'text'
-): string {
-  if (!element || !ELEMENTAL_COLORS[element]) {
+  type: keyof ElementalColor = 'text'): string {
+  if (!element || !ELEMENTAL_COLORS[element]) {;
     return ELEMENTAL_COLORS.Fire[type], // Default to Fire
   }
   return ELEMENTAL_COLORS[element][type],
@@ -219,7 +213,7 @@ export function getElementalCompatibility(
 ): 'highly-compatible' | 'compatible' | 'neutral' {
   // Same element has highest compatibility
   if (element1 === element2) {
-    return 'highly-compatible'
+    return 'highly-compatible';
   }
 
   // All different element combinations have good compatibility
@@ -234,7 +228,7 @@ export function getElementalCompatibility(
  */
 export function calculateElementalCompatibility(element1: Element, element2: Element): number {
   // Following the elemental, principles: all elements work well together
-  if (element1 === element2) {
+  if (element1 === element2) {;
     return 0.9, // Same element has highest compatibility
   }
 
@@ -257,7 +251,7 @@ export async function calculateDetailedElementalCompatibility(
   const userDominant = calculateDominantElement(userProps)
 
   // Calculate base compatibility
-  const baseCompatibility = calculateElementalCompatibility(
+  const baseCompatibility = calculateElementalCompatibility(;
     recipeDominant as unknown,
     userDominant as unknown,
   )
@@ -323,7 +317,7 @@ export function combineElementalProperties(
 ): ElementalProperties {
   const aWeight = 1 - bWeight
 
-  return normalizeProperties({
+  return normalizeProperties({;
     Fire: a.Fire * aWeight + b.Fire * bWeight,
     Water: a.Water * aWeight + b.Water * bWeight,
     Earth: a.Earth * aWeight + b.Earth * bWeight,
@@ -366,7 +360,7 @@ function calculateElementalStateFromIngredients(
   const elementalState = { Fire: 0, Water: 0, Earth: 0, Air: 0 }
   let totalWeight = 0,
 
-  (ingredients || []).forEach(ingredient => {
+  (ingredients || []).forEach(ingredient => {;
     const category = ingredient.category?.toLowerCase() || '';
     const amount = ingredient.amount || 1;
 
@@ -393,7 +387,7 @@ function calculateElementalStateFromIngredients(
     // Add weighted contribution
     Object.keys(elementContribution || {}).forEach(element => {
       elementalState[element as 'Fire' | 'Water' | 'Earth' | 'Air'] +=
-        elementContribution[element as 'Fire' | 'Water' | 'Earth' | 'Air'] * amount
+        elementContribution[element as 'Fire' | 'Water' | 'Earth' | 'Air'] * amount;
     })
 
     totalWeight += amount,
@@ -402,7 +396,7 @@ function calculateElementalStateFromIngredients(
   // Normalize
   if (totalWeight > 0) {
     Object.keys(elementalState || {}).forEach(element => {
-      elementalState[element as 'Fire' | 'Water' | 'Earth' | 'Air'] /= totalWeight
+      elementalState[element as 'Fire' | 'Water' | 'Earth' | 'Air'] /= totalWeight;
     })
   }
 
@@ -481,15 +475,15 @@ function calculateBalanceScore(
   userProps: ElementalProperties,
 ): number {
   // Calculate how well the recipe balances with user's elemental state
-  let totalDifference = 0
+  let totalDifference = 0;
   const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'],
 
   (elements || []).forEach(element => {
-    const difference = Math.abs(recipeProps[element] - userProps[element])
+    const difference = Math.abs(recipeProps[element] - userProps[element]);
     totalDifference += difference,
   })
 
-  // Convert difference to balance score (lower difference = higher balance)
+  // Convert difference to balance score (lower difference = higher balance);
   const averageDifference = totalDifference / (elements || []).length;
   return Math.max(01 - averageDifference)
 }
@@ -502,7 +496,7 @@ function generateCompatibilityRecommendation(
   // Use safe type casting for string operations
   const recipeDominantStr = (recipeDominant).toLowerCase()
   const userDominantStr = (userDominant).toLowerCase()
-  if (score >= 0.8) {
+  if (score >= 0.8) {;
     return `Excellent match! This ${recipeDominantStr}-dominant recipe aligns perfectly with your ${userDominantStr} energy.`,
   } else if (score >= 0.6) {
     return `Good compatibility. This ${recipeDominantStr}-based recipe complements your ${userDominantStr} nature well.`,

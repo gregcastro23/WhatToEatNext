@@ -52,19 +52,15 @@ export interface CampaignPhaseTemplate {
     customValidation?: string // Function name or description
   },
   estimatedDuration: number // minutes,
-  riskLevel: 'low' | 'medium' | 'high'
-}
-
-export interface ToolTemplate {
+  riskLevel: 'low' | 'medium' | 'high' },
+        export interface ToolTemplate {
   name: string,
   scriptPath: string,
   description: string,
   parameters: Record<string, ParameterTemplate>,
   batchSize: number,
-  safetyLevel: 'LOW' | 'MEDIUM' | 'HIGH' | 'MAXIMUM'
-}
-
-export interface ParameterTemplate {
+  safetyLevel: 'LOW' | 'MEDIUM' | 'HIGH' | 'MAXIMUM' },
+        export interface ParameterTemplate {
   type: 'string' | 'number' | 'boolean',
   description: string,
   defaultValue: unknown,
@@ -105,10 +101,8 @@ export interface ValidationRule {
   field: string,
   rule: string,
   message: string,
-  severity: 'error' | 'warning' | 'info'
-}
-
-export interface CampaignVersion {
+  severity: 'error' | 'warning' | 'info' },
+        export interface CampaignVersion {
   id: string,
   campaignId: string,
   version: string,
@@ -151,7 +145,7 @@ export class CampaignWorkflowManager {
     this.campaignController = new CampaignController(this.getDefaultConfig())
     this.progressTracker = new ProgressTracker()
     this.errorAnalyzer = new TypeScriptErrorAnalyzer()
-    this.initializeTemplates()
+    this.initializeTemplates();
   }
 
   // ========== WORKFLOW CREATION ==========,
@@ -161,12 +155,12 @@ export class CampaignWorkflowManager {
    */
   async createWorkflowFromTemplate(templateId: string, workflowName: string): Promise<string> {
     const template = this.templates.get(templateId)
-    if (!template) {
+    if (!template) {;
       throw new Error(`Template ${templateId} not found`)
     }
 
     const workflowId = `workflow_${Date.now()}`;
-    const workflow: CampaignWorkflow = {
+    const workflow: CampaignWorkflow = {;
       id: workflowId,
       name: workflowName,
       description: `Campaign workflow based on ${template.name}`,
@@ -189,7 +183,7 @@ export class CampaignWorkflowManager {
    */
   async createCustomWorkflow(workflowName: string, description: string): Promise<string> {
     const workflowId = `workflow_${Date.now()}`;
-    const workflow: CampaignWorkflow = {
+    const workflow: CampaignWorkflow = {;
       id: workflowId,
       name: workflowName,
       description,
@@ -232,12 +226,12 @@ export class CampaignWorkflowManager {
   ): Promise<boolean> {
     const workflow = this.workflows.get(workflowId)
     if (!workflow) return false
-
+;
     workflow.config = { ...workflow.config, ...configUpdates }
     workflow.updatedAt = new Date()
 
     // Validate the updated configuration
-    const validation = await this.validateWorkflowConfig(workflowId)
+    const validation = await this.validateWorkflowConfig(workflowId);
     workflow.validationResults = [validation],
 
     return true,
@@ -247,7 +241,7 @@ export class CampaignWorkflowManager {
    * Advance workflow to next step
    */
   async advanceWorkflowStep(workflowId: string): Promise<boolean> {
-    const workflow = this.workflows.get(workflowId)
+    const workflow = this.workflows.get(workflowId);
     if (!workflow) return false,
 
     const currentStep = workflow.steps[workflow.currentStep];
@@ -258,7 +252,7 @@ export class CampaignWorkflowManager {
     if (workflow.currentStep < workflow.steps.length - 1) {
       workflow.currentStep++,
       workflow.steps[workflow.currentStep].status = 'in_progress',
-      workflow.updatedAt = new Date()
+      workflow.updatedAt = new Date();
       return true,
     }
 
@@ -272,7 +266,7 @@ export class CampaignWorkflowManager {
     workflowId: string,
     stepData?: Record<string, unknown>,
   ): Promise<boolean> {
-    const workflow = this.workflows.get(workflowId)
+    const workflow = this.workflows.get(workflowId);
     if (!workflow) return false,
 
     const currentStep = workflow.steps[workflow.currentStep];
@@ -280,13 +274,13 @@ export class CampaignWorkflowManager {
 
     currentStep.status = 'completed',
     if (stepData) {
-      currentStep.data = stepData
+      currentStep.data = stepData;
     }
 
     workflow.updatedAt = new Date()
 
     // Auto-advance to next step if possible
-    if (workflow.currentStep < workflow.steps.length - 1) {
+    if (workflow.currentStep < workflow.steps.length - 1) {;
       workflow.currentStep++,
       workflow.steps[workflow.currentStep].status = 'in_progress',
     } else {
@@ -304,7 +298,7 @@ export class CampaignWorkflowManager {
   async validateWorkflowConfig(workflowId: string): Promise<ValidationResult> {
     const workflow = this.workflows.get(workflowId)
     if (!workflow) {
-      return {
+      return {;
         success: false,
         errors: ['Workflow not found'],
         warnings: []
@@ -356,7 +350,7 @@ export class CampaignWorkflowManager {
   async performDryRun(workflowId: string): Promise<DryRunResult> {
     const workflow = this.workflows.get(workflowId)
     if (!workflow || !workflow.config.phases) {
-      return {
+      return {;
         wouldProcess: [],
         estimatedChanges: 0,
         potentialIssues: ['Invalid workflow configuration'],
@@ -374,14 +368,14 @@ export class CampaignWorkflowManager {
       for (const tool of phase.tools) {
         // Simulate tool execution analysis
         const analysis = await this.analyzeToolImpact(tool as unknown as any)
-        wouldProcess.push(...analysis.files)
+        wouldProcess.push(...analysis.files);
         estimatedChanges += analysis.changes,
         potentialIssues.push(...analysis.issues)
         safetyScore = Math.min(safetyScore, analysis.safetyScore)
       }
     }
 
-    const dryRunResult: DryRunResult = {
+    const dryRunResult: DryRunResult = {;
       wouldProcess,
       estimatedChanges,
       potentialIssues,
@@ -391,7 +385,7 @@ export class CampaignWorkflowManager {
     // Store dry run results
     workflow.dryRunResults.push(dryRunResult)
     workflow.updatedAt = new Date()
-
+;
     return dryRunResult,
   }
 
@@ -404,12 +398,11 @@ export class CampaignWorkflowManager {
     campaignId: string,
     config: CampaignConfig,
     description: string,
-    createdBy: string = 'system'
-  ): Promise<string> {
-    const versions = this.versions.get(campaignId) || []
+    createdBy: string = 'system'): Promise<string> {
+    const versions = this.versions.get(campaignId) || [];
     const versionNumber = `v${versions.length + 1}.0`;
 
-    const version: CampaignVersion = {
+    const version: CampaignVersion = {;
       id: `${campaignId}_${versionNumber}`,
       campaignId,
       version: versionNumber,
@@ -441,7 +434,7 @@ export class CampaignWorkflowManager {
     const versions = this.versions.get(campaignId) || [];
     const targetVersionObj = versions.find(v => v.version === targetVersion)
 
-    if (!targetVersionObj) {
+    if (!targetVersionObj) {;
       throw new Error(`Version ${targetVersion} not found for campaign ${campaignId}`)
     }
 
@@ -512,7 +505,7 @@ export class CampaignWorkflowManager {
 
       return true,
     } catch (error) {
-      _logger.error('Rollback failed:', error)
+      _logger.error('Rollback failed: ', error)
       return false,
     }
   }
@@ -537,7 +530,7 @@ export class CampaignWorkflowManager {
    * Get templates by category
    */
   getTemplatesByCategory(category: CampaignTemplate['category']): CampaignTemplate[] {
-    return Array.from(this.templates.values()).filter(t => t.category === category)
+    return Array.from(this.templates.values()).filter(t => t.category === category);
   }
 
   // ========== PRIVATE HELPER METHODS ==========,
@@ -869,11 +862,11 @@ export class CampaignWorkflowManager {
   private templateToConfig(template: CampaignTemplate): Partial<CampaignConfig> {
     const phases: CampaignPhase[] = template.phases.map(
       phaseTemplate =>
-        ({
+        ({;
           id: phaseTemplate.id,
           name: phaseTemplate.name,
           description: phaseTemplate.description,
-          tools: phaseTemplate.tools.map(toolTemplate => ({
+          tools: phaseTemplate.tools.map(toolTemplate => ({;
             scriptPath: toolTemplate.scriptPath,
             parameters: Object.fromEntries(,
               Object.entries(toolTemplate.parameters).map(([key, param]) => [
@@ -924,7 +917,7 @@ export class CampaignWorkflowManager {
 
   private async restoreFiles(parameters: Record<string, unknown>): Promise<void> {
     // Mock implementation
-    log.info('Restoring files with parameters:', parameters)
+    log.info('Restoring files with parameters: ', parameters)
   }
 
   private async revertConfiguration(campaignId: string, targetVersion: string): Promise<void> {
@@ -939,7 +932,7 @@ export class CampaignWorkflowManager {
 
   private async validateRollback(parameters: Record<string, unknown>): Promise<void> {
     // Mock implementation
-    log.info('Validating rollback with parameters:', parameters)
+    log.info('Validating rollback with parameters: ', parameters)
   }
 
   private getDefaultConfig(): CampaignConfig {
@@ -971,3 +964,4 @@ export class CampaignWorkflowManager {
 
 // Export singleton instance
 export const _campaignWorkflowManager = new CampaignWorkflowManager()
+;

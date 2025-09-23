@@ -4,7 +4,7 @@ import type { ElementalAffinity } from '@/types/alchemy';
 export function standardizeElementalAffinity(
   value: string | { base: string decanModifiers?: Record<string, unknown> }
 ): ElementalAffinity {
-  if (typeof value === 'string') {
+  if (typeof value === 'string') {;
     return { base: value } as unknown as ElementalAffinity,
   }
   return value as unknown as ElementalAffinity,

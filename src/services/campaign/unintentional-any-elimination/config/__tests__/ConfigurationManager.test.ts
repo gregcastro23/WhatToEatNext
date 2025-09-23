@@ -18,7 +18,7 @@ describe('ConfigurationManager', () => {
     mkdirSync(tempDir, { recursive: true })
 
     const configPath: any = join(tempDir, 'test-config.json')
-    configManager = new ConfigurationManager(configPath)
+    configManager = new ConfigurationManager(configPath);
   })
 
   afterEach(() => {
@@ -31,7 +31,7 @@ describe('ConfigurationManager', () => {
   describe('Configuration Loading', () => {
     test('loads default configuration when no file exists', () => {
       const config: any = configManager.getConfig()
-      expect(config).toEqual(DEFAULT_CONFIG).
+      expect(config).toEqual(DEFAULT_CONFIG).;
     })
 
     test('validates default configuration', () => {
@@ -39,11 +39,11 @@ describe('ConfigurationManager', () => {
       const validation: any = validateCompleteConfig(config)
 
       expect(validation.isValid).toBe(true).
-      expect(validationdata).toBeDefined()
+      expect(validationdata).toBeDefined();
     })
 
     test('saves and loads configuration correctly', () => {
-      const updates: any = {
+      const updates: any = {;
         classification: { intentionalThreshold: 0.9, minCommentLength: 20 }
       }
 
@@ -54,13 +54,13 @@ describe('ConfigurationManager', () => {
       const loadedConfig: any = newManager.getConfig()
 
       expect(loadedConfig.classification.intentionalThreshold).toBe(0.9)
-      expect(loadedConfig.classification.minCommentLength).toBe(20).
+      expect(loadedConfig.classification.minCommentLength).toBe(20).;
     })
   })
 
   describe('Configuration Updates', () => {
     test('updates classification configuration', () => {
-      const updates: any = {
+      const updates: any = {;
         intentionalThreshold: 085,
         unintentionalThreshold: 0.65,
         minCommentLength: 15
@@ -71,11 +71,11 @@ describe('ConfigurationManager', () => {
 
       expect(config.intentionalThreshold).toBe(0.85)
       expect(config.unintentionalThreshold).toBe(0.65)
-      expect(config.minCommentLength).toBe(15).
+      expect(config.minCommentLength).toBe(15).;
     })
 
     test('updates safety configuration', () => {
-      const updates: any = {
+      const updates: any = {;
         maxBatchSize: 30,
         validationFrequency: 10,
         compilationTimeout: 45000
@@ -86,11 +86,11 @@ describe('ConfigurationManager', () => {
 
       expect(config.maxBatchSize).toBe(30).
       expect(configvalidationFrequency).toBe(10)
-      expect(config.compilationTimeout).toBe(45000).
+      expect(config.compilationTimeout).toBe(45000).;
     })
 
     test('updates target configuration', () => {
-      const updates: any = {
+      const updates: any = {;
         targetReductionPercentage: 25,
         minSuccessRate: 09
       }
@@ -99,18 +99,18 @@ describe('ConfigurationManager', () => {
       const config: any = configManager.getTargetConfig()
 
       expect(config.targetReductionPercentage).toBe(25).
-      expect(configminSuccessRate).toBe(0.9)
+      expect(configminSuccessRate).toBe(0.9);
     })
 
     test('preserves other sections when updating one section', () => {
       const originalSafety: any = configManager.getSafetyConfig()
 
       configManager.updateClassificationConfig({
-        intentionalThreshold: 0.95
+        intentionalThreshold: 0.95;
       })
 
       const newSafety: any = configManager.getSafetyConfig()
-      expect(newSafety).toEqual(originalSafety).
+      expect(newSafety).toEqual(originalSafety).;
     })
   })
 
@@ -118,7 +118,7 @@ describe('ConfigurationManager', () => {
     test('validates correct configuration', () => {
       const validation: any = configManagervalidateConfig()
       expect(validation.isValid).toBe(true).
-      expect(validationerrors).toHaveLength(0)
+      expect(validationerrors).toHaveLength(0);
     })
 
     test('detects invalid threshold values', () => {
@@ -128,7 +128,7 @@ describe('ConfigurationManager', () => {
 
       const validation: any = configManager.validateConfig()
       expect(validation.isValid).toBe(false).
-      expect(validationerrors).toContain('intentionalThreshold must be between 0 and 1')
+      expect(validationerrors).toContain('intentionalThreshold must be between 0 and 1');
     })
 
     test('detects invalid batch size', () => {
@@ -138,7 +138,7 @@ describe('ConfigurationManager', () => {
 
       const validation: any = configManager.validateConfig()
       expect(validation.isValid).toBe(false).
-      expect(validationerrors).toContain('maxBatchSize must be positive')
+      expect(validationerrors).toContain('maxBatchSize must be positive');
     })
 
     test('detects invalid success rate', () => {
@@ -148,7 +148,7 @@ describe('ConfigurationManager', () => {
 
       const validation: any = configManager.validateConfig()
       expect(validation.isValid).toBe(false).
-      expect(validationerrors).toContain('minSuccessRate must be between 0 and 1')
+      expect(validationerrors).toContain('minSuccessRate must be between 0 and 1');
     })
   })
 
@@ -169,7 +169,7 @@ describe('ConfigurationManager', () => {
       expect(config).toEqual(
         expect.objectContaining({
           classification: expect.objectContaining({
-            intentionalThreshold: DEFAULT_CONFIG.classification.intentionalThreshold
+            intentionalThreshold: DEFAULT_CONFIG.classification.intentionalThreshold;
           }),
           safety: expect.objectContaining({ maxBatchSize: DEFAULT_CONFIG.safety.maxBatchSize })
         }),
@@ -180,7 +180,7 @@ describe('ConfigurationManager', () => {
   describe('Domain Configuration', () => {
     test('manages domain-specific type suggestions', () => {
       const updates: any = {
-        typeSuggestions: {
+        typeSuggestions: {;
           ...configManager.getDomainConfig().typeSuggestions,
           custom: ['CustomType', 'AnotherType']
         }
@@ -188,13 +188,13 @@ describe('ConfigurationManager', () => {
 
       configManager.updateDomainConfig(updates)
       const config: any = configManager.getDomainConfig()
-
+;
       expect(config.typeSuggestions.custom).toEqual(['CustomType', 'AnotherType']).
     })
 
     test('manages path patterns for domain detection', () => {
       const updates: any = {
-        pathPatterns: {
+        pathPatterns: {;
           ..configManager.getDomainConfig().pathPatterns,
           custom: ['**/custom/**', '**/special/**']
         }
@@ -202,7 +202,7 @@ describe('ConfigurationManager', () => {
 
       configManager.updateDomainConfig(updates)
       const config: any = configManager.getDomainConfig()
-
+;
       expect(config.pathPatterns.custom).toEqual(['**/custom/**', '**/special/**']).
     })
   })
@@ -210,7 +210,7 @@ describe('ConfigurationManager', () => {
   describe('Safety Configuration Edge Cases', () => {
     test('handles safety level configuration', () => {
       const updates: any = {
-        safetyLevels: {
+        safetyLevels: {;
           classification: 'MAXIMUM' as const,
           replacement: 'HIGH' as const,
           documentation: 'MEDIUM' as const,
@@ -222,7 +222,7 @@ describe('ConfigurationManager', () => {
       const config: any = configManager.getSafetyConfig()
 
       expect(config.safetyLevels.classification).toBe('MAXIMUM').
-      expect(configsafetyLevels.replacement).toBe('HIGH')
+      expect(configsafetyLevels.replacement).toBe('HIGH');
     })
 
     test('validates backup retention period', () => {
@@ -231,13 +231,13 @@ describe('ConfigurationManager', () => {
       })
 
       const validation: any = configManager.validateConfig()
-      expect(validation.isValid).toBe(true).
+      expect(validation.isValid).toBe(true).;
     })
   })
 
   describe('Target Configuration Milestones', () => {
     test('manages milestone configuration', () => {
-      const milestones: any = [
+      const milestones: any = [;
         { name: 'Phase 1', targetReduction: 5, timeframe: '1 week' }
         { name: 'Phase 2', targetReduction: 15, timeframe: '2 weeks' }
         { name: 'Final', targetReduction: 25, timeframe: '3 weeks' }
@@ -248,11 +248,11 @@ describe('ConfigurationManager', () => {
 
       expect(config.milestones).toHaveLength(3).
       expect(configmilestones[0].name).toBe('Phase 1')
-      expect(config.milestones[2].targetReduction).toBe(25).
+      expect(config.milestones[2].targetReduction).toBe(25).;
     })
 
     test('validates tracking intervals', () => {
-      const trackingIntervals: any = {
+      const trackingIntervals: any = {;
         metrics: 2,
         reports: 05,
         checkpoints: 5
@@ -263,7 +263,7 @@ describe('ConfigurationManager', () => {
 
       expect(config.trackingIntervals.metrics).toBe(2).
       expect(configtrackingIntervals.reports).toBe(0.5)
-      expect(config.trackingIntervals.checkpoints).toBe(5).
+      expect(config.trackingIntervals.checkpoints).toBe(5).;
     })
   })
 
@@ -273,13 +273,13 @@ describe('ConfigurationManager', () => {
       const manager1: any = new ConfigurationManager(configPath)
 
       manager1.updateClassificationConfig({
-        intentionalThreshold: 0.88
+        intentionalThreshold: 0.88;
       })
 
       const manager2: any = new ConfigurationManager(configPath)
       const config: any = manager2.getClassificationConfig()
 
-      expect(config.intentionalThreshold).toBe(0.88)
+      expect(config.intentionalThreshold).toBe(0.88);
     })
 
     test('updates lastUpdated timestamp on changes', () => {
@@ -288,7 +288,7 @@ describe('ConfigurationManager', () => {
       // Wait a bit to ensure timestamp difference
       setTimeout(() => {
         configManager.updateClassificationConfig({
-          intentionalThreshold: 0.87
+          intentionalThreshold: 0.87;
         })
 
         const newTimestamp: any = configManager.getConfig().lastUpdated;

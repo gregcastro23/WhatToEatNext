@@ -2,8 +2,7 @@
  * 🍽️ Kinetics-Enhanced Food Matching
  * Temporal food intelligence using planetary kinetics data
  *
- * Features:
- * - Power-based energy categorization
+ * Features: * - Power-based energy categorization
  * - Elemental food pairing from kinetic totals
  * - Aspect-enhanced recommendations (applying/separating)
  * - Dynamic portion sizing
@@ -40,8 +39,7 @@ export interface UserPreferences {
  */
 export function getTemporalFoodRecommendations(
   kinetics: KineticsResponse,
-  userPreferences: UserPreferences
-): TemporalFoodRecommendation {
+  userPreferences: UserPreferences): TemporalFoodRecommendation {
   const currentHour = new Date().getHours();
   const powerData = kinetics.data.base.power.find(p => p.hour === currentHour);
   const currentPower = powerData?.power || 0.5;
@@ -66,11 +64,10 @@ export function getTemporalFoodRecommendations(
  * Get elemental food recommendations based on kinetic elemental totals
  */
 export function getElementalFoodRecommendations(
-  elementalTotals: KineticsElementalTotals
-): string[] {
+  elementalTotals: KineticsElementalTotals): string[] {
   const dominantElement = getDominantElement(elementalTotals);
 
-  const foodMappings = {
+  const foodMappings = {;
     Fire: ['spicy', 'grilled', 'citrus', 'ginger', 'warming_spices', 'chili', 'garlic'],
     Water: ['hydrating', 'cooling', 'soups', 'herbal_teas', 'fruits', 'cucumber', 'watermelon'],
     Air: ['light', 'airy', 'fermented', 'herbs', 'green_vegetables', 'salads', 'sprouts'],
@@ -85,17 +82,16 @@ export function getElementalFoodRecommendations(
  */
 export function calculateOptimalPortions<T extends { amount: number }>(
   basePortions: T[],
-  kinetics: KineticsResponse
-): T[] {
+  kinetics: KineticsResponse): T[] {
   const currentHour = new Date().getHours();
   const powerLevel = kinetics.data.base.power.find(p => p.hour === currentHour)?.power || 0.5;
   const powerMultiplier = kinetics.data.agentOptimization?.powerAmplification || 1.0;
 
   // Higher power = larger portions for energy utilization
-  // Lower power = smaller portions for easier digestion
+  // Lower power = smaller portions for easier digestion;
   const portionModifier = (powerLevel * powerMultiplier - 0.5) * 0.3 + 1.0;
 
-  return basePortions.map(portion => ({
+  return basePortions.map(portion => ({;
     ...portion,
     amount: Math.round(portion.amount * portionModifier * 100) / 100
   }));
@@ -106,9 +102,8 @@ export function calculateOptimalPortions<T extends { amount: number }>(
  */
 export function getSeasonalMenuRecommendations<T extends { tags: string[] }>(
   seasonalInfluence: string,
-  baseMenu: T[]
-): T[] {
-  const seasonalPreferences = {
+  baseMenu: T[]): T[] {
+  const seasonalPreferences = {;
     Winter: ['warming', 'hearty', 'comfort_foods', 'hot_beverages', 'stews', 'roasted'],
     Spring: ['fresh', 'cleansing', 'light', 'green_vegetables', 'sprouts', 'detox'],
     Summer: ['cooling', 'hydrating', 'raw', 'fresh_fruits', 'salads', 'cold_soups'],
@@ -118,7 +113,7 @@ export function getSeasonalMenuRecommendations<T extends { tags: string[] }>(
   const seasonalTags = seasonalPreferences[seasonalInfluence as keyof typeof seasonalPreferences] || [];
 
   return baseMenu.filter(item =>
-    item.tags.some(tag => seasonalTags.includes(tag))
+    item.tags.some(tag => seasonalTags.includes(tag));
   );
 }
 
@@ -127,8 +122,7 @@ export function getSeasonalMenuRecommendations<T extends { tags: string[] }>(
  */
 export function getAspectEnhancedRecommendations(
   kinetics: KineticsResponse,
-  userPreferences: UserPreferences
-): KineticsEnhancedRecommendation {
+  userPreferences: UserPreferences): KineticsEnhancedRecommendation {
   const currentHour = new Date().getHours();
   const currentPower = kinetics.data.base.power.find(p => p.hour === currentHour)?.power || 0.5;
   const trend = kinetics.data.powerPrediction?.trend;
@@ -149,8 +143,7 @@ export function getAspectEnhancedRecommendations(
  */
 export function calculateKineticAlignment(
   foodItem: FoodItem,
-  kinetics: KineticsResponse
-): number {
+  kinetics: KineticsResponse): number {
   const currentHour = new Date().getHours();
   const powerLevel = kinetics.data.base.power.find(p => p.hour === currentHour)?.power || 0.5;
   const elementalTotals = kinetics.data.base.elemental.totals;
@@ -163,7 +156,7 @@ export function calculateKineticAlignment(
   const elementalScore = calculateElementalAlignment(foodItem.elementalProfile, elementalTotals);
 
   // Seasonal alignment score (0-1)
-  const seasonalScore = calculateSeasonalAlignment(
+  const seasonalScore = calculateSeasonalAlignment(;
     foodItem.tags,
     kinetics.data.base.timing.seasonalInfluence
   );
@@ -189,14 +182,14 @@ function getAspectPhase(powerLevel: number, trend?: string) {
   if (!trend) return undefined;
 
   if (trend === 'ascending' && powerLevel > 0.8) {
-    return {
+    return {;
       type: 'applying' as const,
       description: 'Building energy - enhanced creativity',
       velocityBoost: 0.15,
       powerBoost: 0.25
     };
   } else if (trend === 'stable' && powerLevel > 0.6) {
-    return {
+    return {;
       type: 'exact' as const,
       description: 'Peak energy - maximum transformation potential',
       powerBoost: 0.25
@@ -210,7 +203,7 @@ function getAspectPhase(powerLevel: number, trend?: string) {
 }
 
 function getFoodCategoriesForEnergy(energyCategory: FoodEnergyCategory, aspectPhase: any): string[] {
-  const baseCategories = {
+  const baseCategories = {;
     energizing: ['stimulating', 'warming', 'protein_rich', 'complex_carbs'],
     grounding: ['comforting', 'easy_digest', 'warm', 'nourishing'],
     balanced: ['moderate', 'well_rounded', 'seasonal', 'fresh']
@@ -219,11 +212,11 @@ function getFoodCategoriesForEnergy(energyCategory: FoodEnergyCategory, aspectPh
   const categories = baseCategories[energyCategory];
 
   // Enhance based on aspect phase
-  if (aspectPhase?.type === 'applying') {
+  if (aspectPhase?.type === 'applying') {;
     categories.push('creative_boost', 'brain_foods', 'innovative');
-  } else if (aspectPhase?.type === 'exact') {
+  } else if (aspectPhase?.type === 'exact') {;
     categories.push('harmonious', 'balanced', 'transformative');
-  } else if (aspectPhase?.type === 'separating') {
+  } else if (aspectPhase?.type === 'separating') {;
     categories.push('integrative', 'digestive_support', 'calming');
   }
 
@@ -231,11 +224,11 @@ function getFoodCategoriesForEnergy(energyCategory: FoodEnergyCategory, aspectPh
 }
 
 function getOptimalTimingDescription(aspectPhase: any, powerLevel: number): string {
-  if (aspectPhase?.type === 'applying') {
+  if (aspectPhase?.type === 'applying') {;
     return 'optimal_for_new_experiences';
-  } else if (aspectPhase?.type === 'exact') {
+  } else if (aspectPhase?.type === 'exact') {;
     return 'ideal_for_mindful_eating';
-  } else if (aspectPhase?.type === 'separating') {
+  } else if (aspectPhase?.type === 'separating') {;
     return 'focus_on_integration';
   }
 
@@ -245,17 +238,16 @@ function getOptimalTimingDescription(aspectPhase: any, powerLevel: number): stri
 function generateRecommendationNote(
   energyCategory: FoodEnergyCategory,
   aspectPhase: any,
-  powerLevel: number
-): string {
-  if (aspectPhase?.type === 'applying' && powerLevel > 0.8) {
+  powerLevel: number): string {
+  if (aspectPhase?.type === 'applying' && powerLevel > 0.8) {;
     return 'Perfect time to try new cuisines or complex flavors!';
-  } else if (aspectPhase?.type === 'exact' && powerLevel > 0.6) {
+  } else if (aspectPhase?.type === 'exact' && powerLevel > 0.6) {;
     return 'Great time for balanced, nourishing meals.';
-  } else if (aspectPhase?.type === 'separating') {
+  } else if (aspectPhase?.type === 'separating') {;
     return 'Time for simple, comforting foods that support integration.';
   }
 
-  const notes = {
+  const notes = {;
     energizing: 'High energy phase - choose stimulating, warming foods.',
     grounding: 'Low energy phase - focus on comforting, easy-to-digest foods.',
     balanced: 'Balanced energy - enjoy moderate, well-rounded meals.'
@@ -270,7 +262,7 @@ function calculatePortionModifier(powerLevel: number, powerAmplification?: numbe
 }
 
 function getSeasonalTags(seasonalInfluence: string): string[] {
-  const seasonalMappings = {
+  const seasonalMappings = {;
     Winter: ['warming', 'hearty', 'comfort'],
     Spring: ['fresh', 'cleansing', 'light'],
     Summer: ['cooling', 'hydrating', 'raw'],
@@ -281,7 +273,7 @@ function getSeasonalTags(seasonalInfluence: string): string[] {
 }
 
 function calculatePowerAlignment(foodItem: FoodItem, energyCategory: FoodEnergyCategory): number {
-  const energyTags = {
+  const energyTags = {;
     energizing: ['spicy', 'protein_rich', 'stimulating', 'warming'],
     grounding: ['comforting', 'easy_digest', 'warm', 'nourishing'],
     balanced: ['moderate', 'fresh', 'seasonal']
@@ -295,14 +287,13 @@ function calculatePowerAlignment(foodItem: FoodItem, energyCategory: FoodEnergyC
 
 function calculateElementalAlignment(
   foodElemental: ElementalProperties,
-  kineticElemental: KineticsElementalTotals
-): number {
+  kineticElemental: KineticsElementalTotals): number {
   const elements = ['Fire', 'Water', 'Air', 'Earth'] as const;
 
   let totalAlignment = 0;
   let totalWeight = 0;
 
-  elements.forEach(element => {
+  elements.forEach(element => {;
     const foodValue = foodElemental[element] || 0;
     const kineticValue = kineticElemental[element] || 0;
     const weight = kineticValue; // Weight by kinetic strength

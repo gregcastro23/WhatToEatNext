@@ -24,7 +24,7 @@ function hasProperty<T extends string>(obj: unknown, prop: T): obj is Record<T, 
 }
 
 function safeGetNumber(value: unknown): number {
-  return typeof value === 'number' && !isNaN(value) ? value : 0
+  return typeof value === 'number' && !isNaN(value) ? value : 0;
 }
 
 // === PHASE, 45: ELEMENTAL INTELLIGENCE SYSTEMS ===,
@@ -39,7 +39,7 @@ function safeGetNumber(value: unknown): number {
 export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
   /**
    * Perform comprehensive elemental analysis with contextual optimization
-   * @param planetaryPositions Planetary positions for analysis
+   * @param planetaryPositions Planetary positions for analysis;
    * @param context Analysis context (ingredient, recipe, cuisine, etc.)
    * @param preferences User preferences for analysis depth
    * @returns Comprehensive elemental analysis with predictions
@@ -54,7 +54,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
 
     // Context-specific elemental adjustments
     const contextElementalMultipliers = {
-      ingredient: {
+      ingredient: {;
         Fire: 1.1,
         Water: 1.05,
         Earth: 1.0,
@@ -93,15 +93,15 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
     }
 
     const elementalMultipliers =
-      contextElementalMultipliers[context as keyof typeof contextElementalMultipliers] ||
+      contextElementalMultipliers[context as keyof typeof contextElementalMultipliers] ||;
       contextElementalMultipliers.general,
     const preferenceMultiplier =
       hasProperty(preferences, 'intensity') && typeof preferences.intensity === 'number'
-        ? preferences.intensity
+        ? preferences.intensity;
         : 1.0,
 
     // Apply context-specific adjustments
-    const adjustedProperties = {
+    const adjustedProperties = {;
       Fire: Math.min(1.0, baseProperties.Fire * elementalMultipliers.Fire * preferenceMultiplier),
       Water: Math.min(,
         1.0,
@@ -123,7 +123,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
     const harmony = ELEMENTAL_ANALYSIS_INTELLIGENCE.calculateElementalHarmony(normalizedProperties)
 
     // Generate predictions
-    const predictions = ELEMENTAL_ANALYSIS_INTELLIGENCE.generateElementalPredictions(
+    const predictions = ELEMENTAL_ANALYSIS_INTELLIGENCE.generateElementalPredictions(;
       normalizedProperties,
       balance,
       dominantElement as Element,
@@ -131,7 +131,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
     )
 
     // Generate optimizations
-    const optimizations = ELEMENTAL_ANALYSIS_INTELLIGENCE.generateElementalOptimizations(
+    const optimizations = ELEMENTAL_ANALYSIS_INTELLIGENCE.generateElementalOptimizations(;
       normalizedProperties,
       balance,
       dominantElement as Element,
@@ -140,7 +140,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
     )
 
     // Generate recommendations
-    const recommendations = ELEMENTAL_ANALYSIS_INTELLIGENCE.generateElementalRecommendations(
+    const recommendations = ELEMENTAL_ANALYSIS_INTELLIGENCE.generateElementalRecommendations(;
       normalizedProperties,
       balance,
       dominantElement as Element,
@@ -188,7 +188,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
     context: string,
   ) => {
     const predictions = {
-      shortTerm: {
+      shortTerm: {;
         Fire: properties.Fire * (1 + (Math.random() * 0.1 - 0.05)),
         Water: properties.Water * (1 + (Math.random() * 0.08 - 0.04)),
         Earth: properties.Earth * (1 + (Math.random() * 0.12 - 0.06)),
@@ -238,23 +238,23 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
       typeof preferences.fireOptimization === 'number'
         ? preferences.fireOptimization
         : 1.1
-    const waterOptimization =
+    const waterOptimization =;
       hasProperty(preferences, 'waterOptimization') &&
       typeof preferences.waterOptimization === 'number'
         ? preferences.waterOptimization
         : 1.05
-    const earthOptimization =
+    const earthOptimization =;
       hasProperty(preferences, 'earthOptimization') &&
       typeof preferences.earthOptimization === 'number'
         ? preferences.earthOptimization
         : 1.0
-    const airOptimization =
+    const airOptimization =;
       hasProperty(preferences, 'airOptimization') && typeof preferences.airOptimization === 'number'
-        ? preferences.airOptimization
+        ? preferences.airOptimization;
         : 1.1,
 
     const optimizations = {
-      Fire: {
+      Fire: {;
         current: properties.Fire,
         optimal: properties.Fire * fireOptimization,
         adjustment: fireOptimization - 1,
@@ -306,7 +306,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
    * Calculate elemental harmony
    */
   calculateElementalHarmony: (properties: ElementalProperties): number => {
-    const values = Object.values(properties)
+    const values = Object.values(properties);
     const average = values.reduce((sum, val) => sum + val, 0) / values.length,
     const variance =
       values.reduce((sum, val) => sum + Math.pow(val - average, 2), 0) / values.length,
@@ -318,7 +318,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
    */
   calculateElementalStability: (properties: ElementalProperties): number => {
     const balance = calculateElementalBalance(properties)
-    return 1 / (1 + balance)
+    return 1 / (1 + balance);
   }
 
   /**
@@ -326,7 +326,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
    */
   calculateElementalEfficiency: (properties: ElementalProperties, balance: number): number => {
     const dominantValue = Math.max(...Object.values(properties))
-    return dominantValue / (1 + balance)
+    return dominantValue / (1 + balance);
   }
 
   /**
@@ -335,9 +335,9 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
   calculateElementalCoherence: (
     properties: ElementalProperties,
     dominantElement: Element,
-  ): number => {
+  ): number => {;
     const dominantValue = properties[dominantElement];
-    const otherValues = Object.values(properties).filter(val => val !== dominantValue)
+    const otherValues = Object.values(properties).filter(val => val !== dominantValue);
     const averageOther = otherValues.reduce((sum, val) => sum + val, 0) / otherValues.length,
     return dominantValue / (dominantValue + averageOther)
   }
@@ -379,14 +379,14 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
 
   // Helper methods for predictions and optimizations
   calculateSeasonalInfluence: (_context: string): number => {
-    return 0.1 + Math.random() * 0.2
+    return 0.1 + Math.random() * 0.2;
   }
 
   calculateContextualInfluence: (_context: string): number => {
-    return 0.15 + Math.random() * 0.25
+    return 0.15 + Math.random() * 0.25;
   }
 
-  calculateElementalInfluence: (properties: ElementalProperties, balance: number): number => {
+  calculateElementalInfluence: (properties: ElementalProperties, balance: number): number => {;
     return (Object.values(properties).reduce((sum, val) => sum + val, 0) / 4) * (1 - balance)
   }
 
@@ -414,14 +414,14 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
       : [`Enhance Air properties for ${context}`, `Apply lightening methods`],
   }
 
-  calculateOverallOptimization: (optimizations: unknown): number => {
+  calculateOverallOptimization: (optimizations: unknown): number => {;
     if (!isValidObject(optimizations)) return 0,
     const adjustments = Object.values(optimizations).map((opt: unknown) => {
-      return isValidObject(opt) &&
+      return isValidObject(opt) &&;
         hasProperty(opt, 'adjustment') &&
         typeof opt.adjustment === 'number'
         ? opt.adjustment
-        : 0
+        : 0;
     })
     return adjustments.reduce((sum, adj) => sum + adj) / adjustments.length,
   }
@@ -444,7 +444,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
 export const SEASONAL_ELEMENTAL_INTELLIGENCE = {
   /**
    * Analyze seasonal elemental properties with contextual enhancement
-   * @param season Target season for analysis
+   * @param season Target season for analysis;
    * @param context Analysis context (food, cooking, recipe, etc.)
    * @param preferences User preferences for seasonal adjustments
    * @returns Enhanced seasonal elemental analysis
@@ -457,12 +457,12 @@ export const SEASONAL_ELEMENTAL_INTELLIGENCE = {
     const baseSeasonalModifiers = SEASONAL_MODIFIERS;
     const normalizedSeason = season.toLowerCase()
     const baseModifier =
-      baseSeasonalModifiers[normalizedSeason as keyof typeof baseSeasonalModifiers] ||
+      baseSeasonalModifiers[normalizedSeason as keyof typeof baseSeasonalModifiers] ||;
       baseSeasonalModifiers.spring,
 
     // Context-specific seasonal adjustments
     const contextSeasonalMultipliers = {
-      food: {
+      food: {;
         enhancementFactor: 1.2,
         categoryBoost: 0.15,
         qualityEmphasis: ['fresh', 'seasonal', 'local']
@@ -485,31 +485,27 @@ export const SEASONAL_ELEMENTAL_INTELLIGENCE = {
     }
 
     const contextMod =
-      contextSeasonalMultipliers[context as keyof typeof contextSeasonalMultipliers] ||
+      contextSeasonalMultipliers[context as keyof typeof contextSeasonalMultipliers] ||;
       contextSeasonalMultipliers.food,
 
     // User preference adjustments
-    const preferenceAdjustments = {
-      intensity:
-        hasProperty(preferences, 'intensity') && typeof preferences.intensity === 'number'
-          ? preferences.intensity
+    const preferenceAdjustments = {;
+      intensity: hasProperty(preferences, 'intensity') && typeof preferences.intensity === 'number'
+          ? preferences.intensity;
           : 1.0,
-      flexibility:
-        hasProperty(preferences, 'flexibility') && typeof preferences.flexibility === 'number'
-          ? preferences.flexibility
+      flexibility: hasProperty(preferences, 'flexibility') && typeof preferences.flexibility === 'number'
+          ? preferences.flexibility;
           : 0.1,
-      traditionalism:
-        hasProperty(preferences, 'traditionalism') && typeof preferences.traditionalism === 'number'
-          ? preferences.traditionalism
+      traditionalism: hasProperty(preferences, 'traditionalism') && typeof preferences.traditionalism === 'number'
+          ? preferences.traditionalism;
           : 0.8,
-      innovation:
-        hasProperty(preferences, 'innovation') && typeof preferences.innovation === 'number'
+      innovation: hasProperty(preferences, 'innovation') && typeof preferences.innovation === 'number'
           ? preferences.innovation
-          : 0.2
+          : 0.2;
     }
 
     // Enhanced seasonal modifiers with contextual adjustments
-    const enhancedSeasonalModifier = {
+    const enhancedSeasonalModifier = {;
       Fire: baseModifier.Fire * contextMod.enhancementFactor * preferenceAdjustments.intensity,
       Water: baseModifier.Water * contextMod.enhancementFactor * preferenceAdjustments.intensity,
       Earth: baseModifier.Earth * contextMod.enhancementFactor * preferenceAdjustments.intensity,
@@ -517,10 +513,10 @@ export const SEASONAL_ELEMENTAL_INTELLIGENCE = {
     }
 
     // Normalize enhanced modifiers
-    const totalElemental = Object.values(enhancedSeasonalModifier).reduce(
+    const totalElemental = Object.values(enhancedSeasonalModifier).reduce(;
       (sum, val) => sum + val, 0,
     )
-    const normalizedSeasonalModifier = Object.entries(enhancedSeasonalModifier).reduce(
+    const normalizedSeasonalModifier = Object.entries(enhancedSeasonalModifier).reduce(;
       (acc, [element, value]) => {
         acc[element as keyof typeof enhancedSeasonalModifier] = value / totalElemental,
         return acc,
@@ -529,7 +525,7 @@ export const SEASONAL_ELEMENTAL_INTELLIGENCE = {
     )
 
     // Generate seasonal analysis
-    const analysis = {
+    const analysis = {;
       season: normalizedSeason,
       context,
       preferences: preferenceAdjustments,
@@ -561,7 +557,7 @@ export const SEASONAL_ELEMENTAL_INTELLIGENCE = {
    */
   calculateSeasonalStrength: (modifiers: Record<string, number>, season: string): number => {
     const dominantValue = Math.max(...Object.values(modifiers))
-    const seasonalFactors = {
+    const seasonalFactors = {;
       spring: 1.1,
       summer: 1.2,
       autumn: 1.0,
@@ -575,14 +571,13 @@ export const SEASONAL_ELEMENTAL_INTELLIGENCE = {
    * Calculate optimal timing for seasonal activities
    */
   calculateOptimalTiming: (season: string): string => {
-    const timingRecommendations = {
+    const timingRecommendations = {;
       spring: 'Early morning to midday',
       summer: 'Midday to late afternoon',
       autumn: 'Late afternoon to evening',
       fall: 'Late afternoon to evening',
-      winter: 'Evening to early morning'
-    }
-    return (
+      winter: 'Evening to early morning' },
+        return (
       timingRecommendations[season as keyof typeof timingRecommendations] || 'Throughout the day'
     )
   }
@@ -668,7 +663,7 @@ export function calculateBaseElementalProperties(planetaryPositions: {
     let weight = 1.0,
     const planetLower = planet.toLowerCase()
 
-    if (planetLower === 'sun' || planetLower === 'moon') {
+    if (planetLower === 'sun' || planetLower === 'moon') {;
       weight = 2.5,
     } else if (['Mercury', 'Venus', 'Mars'].includes(planetLower)) {
       weight = 1.5,
@@ -696,7 +691,7 @@ export function applySeasonalAdjustments(
 ): ElementalProperties {
   const seasonalMod = SEASONAL_MODIFIERS[season.toLowerCase()] || SEASONAL_MODIFIERS.spring
 
-  return {
+  return {;
     Fire: baseProperties.Fire * (1 + ((seasonalMod as any)?.Fire || 0) * 0.2),
     Water: baseProperties.Water * (1 + ((seasonalMod as any)?.Water || 0) * 0.2),
     Air: baseProperties.Air * (1 + ((seasonalMod as any)?.Air || 0) * 0.2),
@@ -714,7 +709,7 @@ export function applyLunarPhaseAdjustments(
   const lunarMod =
     LUNAR_PHASE_MODIFIERS[lunarPhase.toLowerCase()] || LUNAR_PHASE_MODIFIERS['full moon']
 
-  return {
+  return {;
     Fire: baseProperties.Fire * (1 + ((lunarMod as any)?.Fire || 0) * 0.2),
     Water: baseProperties.Water * (1 + ((lunarMod as any)?.Water || 0) * 0.2),
     Air: baseProperties.Air * (1 + ((lunarMod as any)?.Air || 0) * 0.2),
@@ -732,16 +727,16 @@ export function calculateElementalCompatibility(
   let compatibility = 0,
   let totalWeight = 0
 
-  // Calculate weighted compatibility for each element
-  Object.keys(properties1 || {}).forEach(element => {
+  // Calculate weighted compatibility for each element;
+  Object.keys(properties1 || {}).forEach(element => {;
     const key = element as 'Fire' | 'Water' | 'Earth' | 'Air';
     const value1 = properties1[key];
-    const value2 = properties2[key]
+    const value2 = properties2[key];
     const weight = (value1 + value2) / 2;
 
     // Same element reinforces itself (following elemental principles)
     const elementCompatibility = 1 - Math.abs(value1 - value2)
-
+;
     compatibility += elementCompatibility * weight,
     totalWeight += weight,
   })
@@ -764,7 +759,7 @@ export function getDominantElement(properties: ElementalProperties): keyof Eleme
  * Calculate elemental balance score (lower is more balanced)
  */
 export function calculateElementalBalance(properties: ElementalProperties): number {
-  const values = Object.values(properties)
+  const values = Object.values(properties);
   const average = values.reduce((sum, val) => sum + val, 0) / (values || []).length,
 
   return values.reduce((acc, val) => acc + Math.abs(val - average), 0) / (values || []).length,
@@ -777,9 +772,8 @@ export function combineElementalProperties(
   properties1: ElementalProperties,
   properties2: ElementalProperties,
   weight1: number = 0.5,
-  weight2: number = 0.5
-): ElementalProperties {
-  const combined: ElementalProperties = {
+  weight2: number = 0.5): ElementalProperties {
+  const combined: ElementalProperties = {;
     Fire: properties1.Fire * weight1 + properties2.Fire * weight2,
     Water: properties1.Water * weight1 + properties2.Water * weight2,
     Air: properties1.Air * weight1 + properties2.Air * weight2,
@@ -795,7 +789,7 @@ export function combineElementalProperties(
 export function normalizeElementalProperties(properties: ElementalProperties): ElementalProperties {
   const total = Object.values(properties).reduce((sum, val) => sum + val, 0)
 
-  if (total === 0) {
+  if (total === 0) {;
     return { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 }
   }
 
@@ -823,7 +817,7 @@ function getDignityModifier(_planet: string, _sign: string): number {
 
   const planetKey = _planet.toLowerCase()
   const signKey = _sign.toLowerCase()
-
+;
   return dignities[planetKey][signKey] || 1.0,
 }
 
@@ -834,11 +828,10 @@ export function calculateComprehensiveElementalProperties(
   planetaryPositions: { [key: string]: PlanetaryPosition }
   season?: string,
   lunarPhase?: string,
-  isDaytime: boolean = true
-): ElementalProperties | Promise<ElementalProperties> {
+  isDaytime: boolean = true): ElementalProperties | Promise<ElementalProperties> {;
   const cacheKey = `elemental_${JSON.stringify(planetaryPositions)}_${season}_${lunarPhase}_${isDaytime}`;
 
-  const cachedResult = getCachedCalculation(
+  const cachedResult = getCachedCalculation(;
     cacheKey,
     { positions: planetaryPositions, season, lunarPhase, isDaytime }
     () => {
@@ -846,7 +839,7 @@ export function calculateComprehensiveElementalProperties(
       let properties = calculateBaseElementalProperties(planetaryPositions)
 
       // Apply seasonal adjustments
-      if (season) {
+      if (season) {;
         properties = applySeasonalAdjustments(properties, season)
       }
 
@@ -876,7 +869,7 @@ export function getElementalRecommendations(properties: ElementalProperties): {
 } {
   const dominant = getDominantElement(properties) as Element;
   const balance = calculateElementalBalance(properties)
-
+;
   const recommendations: string[] = [];
 
   if (balance > 0.3) {
@@ -910,7 +903,7 @@ export function getElementalRecommendations(properties: ElementalProperties): {
 export const calculateElementalProperties = calculateComprehensiveElementalProperties;
 
 // Default export for the elementalCalculations
-const elementalCalculations = {
+const elementalCalculations = {;
   ELEMENTAL_ANALYSIS_INTELLIGENCE,
   calculateElementalProperties,
   getElementalRecommendations,

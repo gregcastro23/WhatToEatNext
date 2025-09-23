@@ -13,10 +13,8 @@ interface AstrologizeOptions {
   minute?: number,
   latitude?: number,
   longitude?: number,
-  zodiacSystem?: 'tropical' | 'sidereal'
-}
-
-interface AstrologizeResult {
+  zodiacSystem?: 'tropical' | 'sidereal' },
+        interface AstrologizeResult {
   loading: boolean,
   error: Error | null,
   data: unknown,
@@ -56,13 +54,13 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
         try {
           const coords = await (AstrologicalService as unknown)?.requestLocation?.()
           if (coords) {
-            setLocation({
+            setLocation({;
               latitude: coords.latitude,
               longitude: coords.longitude
             })
           }
         } catch (locationError) {
-          _logger.warn('Failed to get location, using default:', locationError)
+          _logger.warn('Failed to get location, using default: ', locationError)
           // Use default location (coordinates will be provided by the API)
           setLocation(null)
         }
@@ -89,7 +87,7 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
       if (!useCurrentTime && year && month && date) {
         // Use POST with custom date/time
         method = 'POST'
-        body = JSON.stringify({
+        body = JSON.stringify({;
           year,
           month,
           date,
@@ -101,7 +99,7 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
       } else {
         // Use GET with query params for current time
         const params = new URLSearchParams()
-        if (location) {
+        if (location) {;
           params.append('latitude', location.latitude.toString())
           params.append('longitude', location.longitude.toString())
         }
@@ -112,7 +110,7 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
         }
       }
 
-      log.info(`🌟 Making ${method} request to astrologize API:`, {
+      log.info(`🌟 Making ${method} request to astrologize API: `, {
         url,
         body: body ? JSON.parse(body) : 'GET params'
       })
@@ -121,8 +119,7 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
       const response = await fetch(url, {
         method,
         headers: {
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json' },
         body
       })
 
@@ -130,13 +127,13 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
         throw new Error(`API request failed: ${response.status} ${response.statusText}`)
       }
 
-      const result = await response.json()
-      log.info('✅ Astrologize API response received:', {
+      const result = await response.json();
+      log.info('✅ Astrologize API response received: ', {
         dataType: result._celestialBodies ? 'Valid celestial data' : 'Unknown format'
       })
       setData(result)
     } catch (fetchError) {
-      _logger.error('Error fetching from Astrologize API:', fetchError)
+      _logger.error('Error fetching from Astrologize API: ', fetchError)
       setError(fetchError instanceof Error ? fetchError : new Error('Unknown error'))
     } finally {
       setLoading(false)

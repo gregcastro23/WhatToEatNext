@@ -2,7 +2,7 @@
  * A type that allows any string-keyed object
  */
 export type StringIndexed<T = unknown> = {
-  [key: string]: T
+  [key: string]: T;
 }
 
 /**
@@ -21,7 +21,7 @@ export type DeepStringIndexed<T> = {
  * A utility type for objects that have element properties (Fire, Water, Earth, Air)
  * but may also have other string keys
  */
-export type ElementalRecord = {
+export type ElementalRecord = {;
   Fire: number,
   Water: number,
   Earth: number,

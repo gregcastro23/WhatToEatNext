@@ -16,7 +16,7 @@ const logger = createLogger('useServices')
 /**
  * A hook that provides access to application services with proper initialization
  */
-export function useServices() {
+export function useServices() {;
   const [isInitialized, setIsInitialized] = useState(servicesManager.isInitialized)
   const [error, setError] = useState<Error | null>(null)
   const [isLoading, setIsLoading] = useState(!servicesManager.isInitialized)
@@ -44,11 +44,11 @@ export function useServices() {
           setIsInitialized(true)
           setIsLoading(false)
           setStatus(InitializationStatus.COMPLETED)
-          logger.info('Services initialized successfully')
+          logger.info('Services initialized successfully');
         }
       } catch (err) {
-        const error = err instanceof Error ? err : new Error(String(err))
-        logger.error('Error initializing services:', error)
+        const error = err instanceof Error ? err : new Error(String(err));
+        logger.error('Error initializing services: ', error)
 
         if (isMounted) {
           setError(error)
@@ -69,7 +69,7 @@ export function useServices() {
   // Get all services from the manager
   const services = servicesManager.isInitialized ? servicesManager.getServices() : null
 
-  return {
+  return {;
     isInitialized,
     isLoading,
     error,

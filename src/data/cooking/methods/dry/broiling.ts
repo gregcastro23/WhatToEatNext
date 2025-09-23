@@ -6,10 +6,9 @@ import type { ZodiacSign, ThermodynamicProperties } from '@/types/shared';
  *
  * Cooking food with intense heat from above, typically in an oven broiler
  */
-export const broiling: CookingMethodData = {
+export const broiling: CookingMethodData = {;
   name: 'broiling',
-  description:
-    'Cooking food by exposing it to direct radiant heat from above, typically in an oven broiler, creating a browned exterior while maintaining moisture inside',
+  description: 'Cooking food by exposing it to direct radiant heat from above, typically in an oven broiler, creating a browned exterior while maintaining moisture inside',
   elementalEffect: {
     Fire: 0.8,
     Air: 0.1,
@@ -132,8 +131,7 @@ export const broiling: CookingMethodData = {
   } as ThermodynamicProperties,
 
   // Additional metadata
-  history:
-    'Broiling evolved from ancient cooking methods where food was placed near open fires, but as a distinct technique with overhead heatit became refined with the development of modern ovens in the 19th century. It gained particular popularity in American steakhouses in the 20th century as a way to quickly prepare steaks with a charred exterior while maintaining a juicy interior.',
+  history: 'Broiling evolved from ancient cooking methods where food was placed near open fires, but as a distinct technique with overhead heatit became refined with the development of modern ovens in the 19th century. It gained particular popularity in American steakhouses in the 20th century as a way to quickly prepare steaks with a charred exterior while maintaining a juicy interior.',
 
   scientificPrinciples: [
     'Radiant heat transfer from element directly to food surface',
@@ -185,43 +183,33 @@ export const broiling: CookingMethodData = {
     meats:
       'Bring to room temperature for 30 minutes before broiling. Season generously. Pat dry for better browning.',
     fish: 'Ensure fish is completely dry on surface. Brush with oil. Season just before broiling to prevent moisture release.',
-    vegetables:
-      'Cut to uniform thickness. Toss with olive oil and seasonings. Arrange in single layer.',
+    vegetables: 'Cut to uniform thickness. Toss with olive oil and seasonings. Arrange in single layer.',
     'cheese dishes':
       'Apply cheese in final minutes of cooking. Use cheeses with good melting properties.',
     fruits: 'Sprinkle with sugar for better caramelization. Cut to uniform sizes for even cooking.',
-    bread:
-      'Slightly dry bread works better than very fresh. Apply thin layer of fat to prevent burning.'
-  }
-
-  timingConsiderations: {
+    bread: 'Slightly dry bread works better than very fresh. Apply thin layer of fat to prevent burning.' },
+        timingConsiderations: {
     'thin cuts': 'About 3-5 minutes per side. Look for sizzling and browning before flipping.',
     'thick cuts': '5-8 minutes per side. Use thermometer to check doneness rather than time alone.',
     vegetables: '2-4 minutes per side, looking for slight char and tenderness.',
     'finishing dishes': '1-3 minutes total, watching constantly for desired browning level.',
-    'delicate items': 'As little as 1-2 minutes total. Position further from heat element.'
-  }
-
-  doneness_indicators: {
+    'delicate items': 'As little as 1-2 minutes total. Position further from heat element.' },
+        doneness_indicators: {
     'visual cues': 'Surface browning, bubbling, caramelization, or slight charring on edges.',
     'textural signs': 'Firm exterior with give when pressed. Visible juices for meats.',
     'aroma markers': 'Rich, toasted smell without acrid burning odors.',
     'temperature readings':
       'For meats, follow standard temperature guidelines (e.g., 135°F for medium-rare steak).',
     'timing benchmarks':
-      'Thin items (≤1/2 inch): 2-4 minutes total, Medium items (1 inch): 8-10 minutes total, Thick items (>1 inch): 12-15 minutes total.'
-  }
-
-  ingredientInteractions: {
+      'Thin items (≤1/2 inch): 2-4 minutes total, Medium items (1 inch): 8-10 minutes total, Thick items (>1 inch): 12-15 minutes total.' },
+        ingredientInteractions: {
     sugars: 'Caramelize quickly and can burn easily add sweet glazes in final minutes only.',
     proteins: 'Form a protective barrier when heated quickly, sealing moisture inside.',
     fats: 'Render out and may cause flare-ups, trim excess fat or score fat cap on meats.',
     marinades: 'High sugar content marinades can burn, wipe excess marinade before broiling.',
     herbs: 'Fresh herbs may burn, use in compound butters or apply after cooking.',
-    acids: 'Can denature proteins before cooking, limit marinating time for acidic marinades.'
-  }
-
-  technicalNotes: {
+    acids: 'Can denature proteins before cooking, limit marinating time for acidic marinades.' },
+        technicalNotes: {
     'equipment variations': {
       'gas broilers': 'More consistent heat distribution but typically less intense than electric.',
       'electric broilers': 'More intense heat, may have hot spots that require repositioning food.',

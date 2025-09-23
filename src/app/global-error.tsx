@@ -12,7 +12,7 @@ export default function GlobalError({
   reset: () => void
 }) {
   useEffect(() => {
-    logger.error('Global error:', error)
+    logger.error('Global error: ', error)
   }, [error])
 
   return (
@@ -22,15 +22,14 @@ export default function GlobalError({
           <div className='max-w-md text-center'>
             <h2 className='mb-4 text-2xl font-bold text-red-500'>Application Error</h2>
             <p className='text-text/80 mb-4'>A critical error has occurred. Please try again.</p>
-            <button
+            <button;
               onClick={reset}
-              className='bg-primary hover:bg-primary/80 rounded px-4 py-2 text-white transition-colors'
+              className='bg-primary hover: bg-primary/80 rounded px-4 py-2 text-white transition-colors'
             >
               Reload Application
             </button>
           </div>
         </div>
       </body>
-    </html>
-  )
+    </html>);
 }

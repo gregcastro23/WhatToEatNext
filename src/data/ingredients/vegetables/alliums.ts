@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawAlliums = {
-  garlic: {
+  garlic: {;
     name: 'Garlic',
     elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 }
     astrologicalProfile: {
@@ -11,9 +11,9 @@ const rawAlliums = {
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Mars' }
-          second: { element: 'Earth', planet: 'Pluto' }
-          third: { element: 'Air', planet: 'Mercury' }
+          first: { element: 'Fire', planet: 'Mars' },
+        second: { element: 'Earth', planet: 'Pluto' },
+        third: { element: 'Air', planet: 'Mercury' }
         },
         lunarPhaseModifiers: {
           newMoon: {
@@ -50,18 +50,16 @@ const rawAlliums = {
       medicinalProperties: ['allicin', 'antioxidants', 'organosulfur compounds'],
       immune_support: 'very high',
       heart_health: 'supportive',
-      antimicrobial: 'potent'
-    },
-    preparation: {
+      antimicrobial: 'potent' },
+        preparation: {
       peeling: true,
       crushing: 'releases more compounds',
       resting: '10-15 minutes after cutting for maximum allicin development',
       notes: 'Different cutting methods alter flavor intensity',
       microplaning: 'creates paste-like consistency',
       pressing: 'more gentle than crushing',
-      pre_roasting: 'leave head intact, cut top, drizzle with oil'
-    },
-    varieties: {
+      pre_roasting: 'leave head intact, cut top, drizzle with oil' },
+        varieties: {
       hardneck: {
         characteristics: 'harder central stem, fewer but larger cloves',
         flavor: 'complex, often spicier, better for raw applications',
@@ -126,9 +124,8 @@ const rawAlliums = {
                   flavorProfile: {
                     primary: ['balanced'],
                     secondary: ['versatile'],
-                    notes: 'Versatile flavorProfile for various uses'
-                  },
-                  cookingMethods: ['sautéing', 'steaming', 'roasting'],
+                    notes: 'Versatile flavorProfile for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
                   cuisineAffinity: ['Global', 'International'],
                   preparationTips: ['Use as needed', 'Season to taste']
                 },
@@ -138,9 +135,8 @@ const rawAlliums = {
                 flavorProfile: {
                   primary: ['balanced'],
                   secondary: ['versatile'],
-                  notes: 'Versatile flavorProfile for various uses'
-                },
-                cookingMethods: ['sautéing', 'steaming', 'roasting'],
+                  notes: 'Versatile flavorProfile for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
                 cuisineAffinity: ['Global', 'International'],
                 preparationTips: ['Use as needed', 'Season to taste']
               },
@@ -161,9 +157,8 @@ const rawAlliums = {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
-            notes: 'Versatile hardneck for various uses'
-          },
-          cookingMethods: ['sautéing', 'steaming', 'roasting'],
+            notes: 'Versatile hardneck for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
         },
@@ -200,9 +195,8 @@ const rawAlliums = {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
-            notes: 'Versatile softneck for various uses'
-          },
-          cookingMethods: ['sautéing', 'steaming', 'roasting'],
+            notes: 'Versatile softneck for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
         },
@@ -239,9 +233,8 @@ const rawAlliums = {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
-            notes: 'Versatile black for various uses'
-          },
-          cookingMethods: ['sautéing', 'steaming', 'roasting'],
+            notes: 'Versatile black for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
         },
@@ -278,9 +271,8 @@ const rawAlliums = {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
-            notes: 'Versatile elephant for various uses'
-          },
-          cookingMethods: ['sautéing', 'steaming', 'roasting'],
+            notes: 'Versatile elephant for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
         },
@@ -320,9 +312,8 @@ const rawAlliums = {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
-            notes: 'Versatile roasted for various uses'
-          },
-          cookingMethods: ['sautéing', 'steaming', 'roasting'],
+            notes: 'Versatile roasted for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
         },
@@ -344,9 +335,8 @@ const rawAlliums = {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
-            notes: 'Versatile confit for various uses'
-          },
-          cookingMethods: ['sautéing', 'steaming', 'roasting'],
+            notes: 'Versatile confit for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
         },
@@ -367,9 +357,8 @@ const rawAlliums = {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
-            notes: 'Versatile fermented for various uses'
-          },
-          cookingMethods: ['sautéing', 'steaming', 'roasting'],
+            notes: 'Versatile fermented for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
         },
@@ -392,9 +381,8 @@ const rawAlliums = {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
-            notes: 'Versatile black garlic for various uses'
-          },
-          cookingMethods: ['sautéing', 'steaming', 'roasting'],
+            notes: 'Versatile black garlic for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
         },
@@ -422,9 +410,9 @@ const rawAlliums = {
         base: 'Fire',
         secondary: 'Water',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Mars' }
-          second: { element: 'Water', planet: 'Moon' }
-          third: { element: 'Earth', planet: 'Saturn' }
+          first: { element: 'Fire', planet: 'Mars' },
+        second: { element: 'Water', planet: 'Moon' },
+        third: { element: 'Earth', planet: 'Saturn' }
         },
         lunarPhaseModifiers: {
           newMoon: {
@@ -457,25 +445,21 @@ const rawAlliums = {
       fiber_g: 1.7,
       antioxidants: ['quercetin', 'sulfur compounds', 'anthocyanins'],
       anti_inflammatory: 'moderate',
-      blood_sugar_regulation: 'supportive'
-    },
-    preparation: {
+      blood_sugar_regulation: 'supportive' },
+        preparation: {
       peeling: true,
       cutting: 'along grain for cooking, against for raw',
       notes: 'Chill before cutting to reduce tears or cut under running water',
       dicing: 'radial cuts first, then cross-cuts for even pieces',
       slicing: 'pole-to-pole for cooking, across equator for rings',
-      burn_prevention: 'medium heat, stir frequently, add small amount of liquid if needed'
-    },
-    varieties: {
+      burn_prevention: 'medium heat, stir frequently, add small amount of liquid if needed' },
+        varieties: {
       yellow: {
         characteristics: 'all-purpose, golden skin, white flesh',
         flavor: 'balanced sweetness and pungency',
         best_uses: ['caramelizing', 'all cooking methods'],
-        storage: 'longest shelf life of common varieties'
-      }
-
-      sweet: {
+        storage: 'longest shelf life of common varieties' },
+        sweet: {
         characteristics: 'larger, flatter shape, thinner skin',
         flavor: 'notably sweeter, milder',
         best_uses: ['raw eating', 'grilling', 'roasting'],
@@ -495,16 +479,14 @@ const rawAlliums = {
         temperature: 'low to medium-low',
         uses: ['toppings', 'flavor base', 'enriching dishes'],
         notes: 'add pinch of baking soda to speed process',
-        key_factors: 'patience, occasional stirring, proper monitoring'
-      },
-      french_onion_soup: {
+        key_factors: 'patience, occasional stirring, proper monitoring' },
+        french_onion_soup: {
         method: 'deeply caramelize, then simmer in broth',
         timing: '1 hour caramelizing, 30 minutes simmering',
         additions: ['beef stock', 'thyme', 'bay', 'wine'],
         finishing: 'toasted bread and melted cheese',
-        notes: 'darker caramelization creates richer soup'
-      },
-      pickled: {
+        notes: 'darker caramelization creates richer soup' },
+        pickled: {
         method: 'quick pickle in vinegar solution',
         varieties: ['red onions for color', 'shallots for delicacy'],
         timing: '30 minutes to 24 hours',
@@ -543,9 +525,9 @@ const rawAlliums = {
         base: 'Earth',
         secondary: 'Water',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Saturn' }
-          second: { element: 'Water', planet: 'Moon' }
-          third: { element: 'Air', planet: 'Mercury' }
+          first: { element: 'Earth', planet: 'Saturn' },
+        second: { element: 'Water', planet: 'Moon' },
+        third: { element: 'Air', planet: 'Mercury' }
         },
         lunarPhaseModifiers: {
           firstQuarter: {
@@ -583,36 +565,31 @@ const rawAlliums = {
       fiber_g: 1.8,
       antioxidants: ['kaempferol', 'polyphenols'],
       heart_health: 'supportive',
-      anti_inflammatory: 'moderate'
-    },
-    preparation: {
+      anti_inflammatory: 'moderate' },
+        preparation: {
       washing: 'thoroughly between layers to remove sand / (grit || 1)',
       trimming: 'remove dark green tops (save for stock) and root end',
       cutting: 'halve lengthwise first, then slice as needed',
       notes: 'Soak in cold water to remove sand, drain thoroughly',
       white_to_green: 'white and light green parts are tender, dark green is tough',
-      cleaning_technique: 'fan out layers under running water'
-    },
-    varieties: {
+      cleaning_technique: 'fan out layers under running water' },
+        varieties: {
       common: {
         characteristics: 'long white shaft with fan of green leaves',
         flavor: 'mild onion flavor, subtle sweetness',
         best_uses: ['all-purpose cooking', 'soups', 'braising'],
-        notes: 'most widely available variety'
-      },
-      wild: {
+        notes: 'most widely available variety' },
+        wild: {
         characteristics: 'thinner, stronger flavor',
         flavor: 'more intense, complex',
         best_uses: ['specialty dishes', 'foraged cuisine'],
-        notes: 'seasonal availability'
-      },
-      baby: {
+        notes: 'seasonal availability' },
+        baby: {
         characteristics: 'small, tender, harvested young',
         flavor: 'delicate, sweet',
         best_uses: ['whole preparation', 'showcase dishes'],
-        notes: 'minimal cleaning needed'
-      },
-      elephant: {
+        notes: 'minimal cleaning needed' },
+        elephant: {
         characteristics: 'very large, can be up to 6 inches in diameter',
         flavor: 'milder than standard leeks',
         best_uses: ['stuffing', 'roasting whole', 'large presentations'],
@@ -625,23 +602,20 @@ const rawAlliums = {
         timing: '30-40 minutes total',
         variations: ['vichyssoise (chilled)', 'cream-based', 'broth-based'],
         finishing: 'puree smooth or leave chunky',
-        notes: 'classic combination highlighting leeks' subtle flavor'
-      },
-      braised: {
+        notes: 'classic combination highlighting leeks' subtle flavor' },
+        braised: {
         method: 'brown lightly, add liquid, cover and cook until tender',
         timing: '20-30 minutes',
         liquid: ['chicken stock', 'white wine', 'water'],
         seasonings: ['thyme', 'bay leaf', 'black pepper', 'mustard'],
-        notes: 'excellent side dish or bed for protein'
-      },
-      gratin: {
+        notes: 'excellent side dish or bed for protein' },
+        gratin: {
         method: 'layer blanched leeks with sauce, top with cheese and breadcrumbs',
         timing: '25-30 minutes baking',
         sauce: 'béchamel or cream',
         cheese: ['gruyère', 'parmesan', 'comté'],
-        notes: 'elegant side dish showcasing leeks' sweetness'
-      },
-      grilled: {
+        notes: 'elegant side dish showcasing leeks' sweetness' },
+        grilled: {
         method: 'halve lengthwise, brush with oil, grill until tender',
         timing: '8-10 minutes',
         pre_treatment: 'blanch briefly to ensure even cooking',
@@ -673,9 +647,9 @@ const rawAlliums = {
         base: 'Air',
         secondary: 'Fire',
         decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' }
-          second: { element: 'Fire', planet: 'Mars' }
-          third: { element: 'Earth', planet: 'Venus' }
+          first: { element: 'Air', planet: 'Mercury' },
+        second: { element: 'Fire', planet: 'Mars' },
+        third: { element: 'Earth', planet: 'Venus' }
         },
         lunarPhaseModifiers: {
           waxingCrescent: {
@@ -713,29 +687,25 @@ const rawAlliums = {
       fiber_g: 3.2,
       antioxidants: ['flavonoids', 'phenolic compounds'],
       immune_support: 'moderate',
-      heart_health: 'supportive'
-    },
-    preparation: {
+      heart_health: 'supportive' },
+        preparation: {
       peeling: 'remove papery outer layers',
       cutting: 'halve lengthwise, then slice or mince',
       notes: 'Smaller dice for raw applications',
       special_technique: 'brunoise (fine dice) for classic French cuisine',
-      shallot_vs_clove: 'recipes typically call for whole shallots, not individual cloves'
-    },
-    varieties: {
+      shallot_vs_clove: 'recipes typically call for whole shallots, not individual cloves' },
+        varieties: {
       gray: {
         characteristics: 'gray outer skin, multiple cloves like garlic',
         flavor: 'stronger, more assertive than French',
         best_uses: ['cooking applications', 'where robust flavor is desired'],
-        notes: 'less common in US markets'
-      },
-      asian: {
+        notes: 'less common in US markets' },
+        asian: {
         characteristics: 'small, deep red to purple',
         flavor: 'sharper, more pungent',
         best_uses: ['Asian cuisine', 'raw applications', 'quick pickles'],
-        notes: 'common in Southeast Asian markets'
-      },
-      banana: {
+        notes: 'common in Southeast Asian markets' },
+        banana: {
         characteristics: 'elongated, larger than other types',
         flavor: 'milder, sweeter',
         best_uses: ['roasting whole', 'when larger pieces are desired'],
@@ -748,15 +718,13 @@ const rawAlliums = {
         temperature: { fahrenheit: 325, celsius: 165 }
         timing: '2-3 minutes until golden brown',
         uses: ['garnish for soups', 'salads', 'steaks', 'Asian dishes'],
-        notes: 'drain well on paper towels, salt immediately'
-      },
-      sauce_base: {
+        notes: 'drain well on paper towels, salt immediately' },
+        sauce_base: {
         method: 'sauté until softened but not browned',
         timing: '2-3 minutes over medium heat',
         uses: ['beurre blanc', 'red wine reductions', 'cream sauces'],
-        notes: 'provides aromatic foundation without dominating'
-      },
-      roasted: {
+        notes: 'provides aromatic foundation without dominating' },
+        roasted: {
         method: 'halve and roast with olive oil',
         temperature: { fahrenheit: 400, celsius: 200 }
         timing: '20-25 minutes until soft and caramelized',
@@ -788,9 +756,9 @@ const rawAlliums = {
         base: 'Air',
         secondary: 'Water',
         decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' }
-          second: { element: 'Fire', planet: 'Mars' }
-          third: { element: 'Water', planet: 'Moon' }
+          first: { element: 'Air', planet: 'Mercury' },
+        second: { element: 'Fire', planet: 'Mars' },
+        third: { element: 'Water', planet: 'Moon' }
         },
         lunarPhaseModifiers: {
           newMoon: {
@@ -819,35 +787,30 @@ const rawAlliums = {
       fiber_g: 2.6,
       antioxidants: ['quercetin', 'flavonoids', 'sulfur compounds'],
       immune_support: 'high',
-      blood_health: 'supportive'
-    },
-    preparation: {
+      blood_health: 'supportive' },
+        preparation: {
       washing: 'thoroughly to remove grit',
       trimming: 'remove root end and any wilted green tops',
       cutting: 'bias cuts for stir-fry, fine chop for garnish',
       notes: 'Both white and green parts are edible',
-      separating: 'white parts cook longer than green parts'
-    },
-    varieties: {
+      separating: 'white parts cook longer than green parts' },
+        varieties: {
       green_onion: {
         characteristics: 'thin, straight green stalks with small white bulbs',
         flavor: 'mild, fresh, slightly sweet',
         best_uses: ['garnishes', 'Asian cuisine', 'raw applications'],
-        notes: 'most common type in US markets'
-      },
-      scallion: {
+        notes: 'most common type in US markets' },
+        scallion: {
         characteristics: 'very little bulb development',
         flavor: 'milder than green onions',
         best_uses: ['delicate dishes', 'raw garnishes'],
-        notes: 'terms often used interchangeably with green onion'
-      },
-      spring_onion_true: {
+        notes: 'terms often used interchangeably with green onion' },
+        spring_onion_true: {
         characteristics: 'more developed bulb than scallions',
         flavor: 'stronger than scallions, harvested young',
         best_uses: ['grilling', 'roasting whole', 'featured vegetable'],
-        notes: 'true spring onions are immature regular onions'
-      },
-      red_scallion: {
+        notes: 'true spring onions are immature regular onions' },
+        red_scallion: {
         characteristics: 'purple-red bases, green tops',
         flavor: 'similar to regular scallions with slight color difference',
         best_uses: ['colorful garnishes', 'Asian cuisine'],
@@ -859,23 +822,20 @@ const rawAlliums = {
         method: 'finely slice or chop',
         cutting_techniques: ['thin bias cuts', 'fine dice', 'chiffonade', 'curled scallions'],
         uses: ['soups', 'stir-fries', 'noodle dishes', 'tacos', 'salads'],
-        notes: 'add at last minute to preserve color and texture'
-      },
-      stir_fry: {
+        notes: 'add at last minute to preserve color and texture' },
+        stir_fry: {
         method: 'separate white and green parts',
         timing: 'whites: 1-2 minutes, greens: 30 seconds at end',
         cutting: 'bias cut 1-2 inch pieces',
         pairs_with: ['ginger', 'garlic', 'soy sauce', 'sesame oil'],
-        notes: 'quick cooking preserves color and texture'
-      },
-      grilled: {
+        notes: 'quick cooking preserves color and texture' },
+        grilled: {
         method: 'brush with oil, grill whole',
         timing: '2-3 minutes, turning once',
         preparation: 'trim roots but keep intact',
         serving: 'drizzle with olive oil, salt, lemon',
-        notes: 'classic Spanish preparation (calçots)'
-      },
-      infused_oil: {
+        notes: 'classic Spanish preparation (calçots)' },
+        infused_oil: {
         method: 'steep chopped green parts in warm oil',
         temperature: 'warm, not hot',
         timing: '30 minutes to 1 hour',
@@ -892,9 +852,8 @@ const rawAlliums = {
       frozen: {
         preparation: 'chop and freeze in ice cube trays',
         duration: 'up to 3 months',
-        best_uses: 'cooked applications only'
-      },
-      regrowth: 'can be regrown from roots in water or soil'
+        best_uses: 'cooked applications only' },
+        regrowth: 'can be regrown from roots in water or soil'
     }
   }
 
@@ -908,9 +867,9 @@ const rawAlliums = {
         base: 'Air',
         secondary: 'Fire',
         decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' }
-          second: { element: 'Fire', planet: 'Mars' }
-          third: { element: 'Air', planet: 'Uranus' }
+          first: { element: 'Air', planet: 'Mercury' },
+        second: { element: 'Fire', planet: 'Mars' },
+        third: { element: 'Air', planet: 'Uranus' }
         },
         lunarPhaseModifiers: {
           newMoon: {
@@ -944,36 +903,31 @@ const rawAlliums = {
       fiber_g: 2.5,
       antioxidants: ['allicin', 'flavonoids', 'vitamin K'],
       digestive_aid: 'mild',
-      anti_inflammatory: 'moderate'
-    },
-    preparation: {
+      anti_inflammatory: 'moderate' },
+        preparation: {
       washing: 'gently under cold water',
       drying: 'thoroughly with towels or salad spinner',
       cutting: 'snip with scissors rather than knife',
       notes: 'Cut just before using for best flavor',
       techniques: 'cut crosswise into small pieces, never mince',
-      height: 'leave at least 2 inches when harvesting from plant'
-    },
-    varieties: {
+      height: 'leave at least 2 inches when harvesting from plant' },
+        varieties: {
       common: {
         characteristics: 'slender, hollow, tubular leaves',
         flavor: 'mild onion, delicate',
         best_uses: ['garnishes', 'finishing', 'dairy applications'],
-        notes: 'most widely available variety'
-      },
-      garlic_chives: {
+        notes: 'most widely available variety' },
+        garlic_chives: {
         characteristics: 'flat, solid leaves, white star-shaped flowers',
         flavor: 'distinct garlic notes, stronger than common',
         best_uses: ['Asian cuisine', 'stir-fries', 'dumplings'],
-        notes: 'also called Chinese chives or kuchai'
-      },
-      giant_siberian: {
+        notes: 'also called Chinese chives or kuchai' },
+        giant_siberian: {
         characteristics: 'larger, more robust leaves',
         flavor: 'stronger than common chives',
         best_uses: ['cooking applications', 'where more flavor is needed'],
-        notes: 'better suited to cooking than common chives'
-      },
-      flowering: {
+        notes: 'better suited to cooking than common chives' },
+        flowering: {
         characteristics: 'purple pom-pom flowers in summer',
         flavor: 'mild, edible flowers have similar flavor to leaves',
         best_uses: ['edible garnish', 'chive blossom vinegar', 'salads'],
@@ -985,21 +939,18 @@ const rawAlliums = {
         method: 'snip fresh over finished dishes',
         timing: 'at the very last moment before serving',
         uses: ['soups', 'potatoes', 'eggs', 'seafood', 'canapés'],
-        notes: 'heat destroys delicate flavor and bright color'
-      },
-      compound_butter: {
+        notes: 'heat destroys delicate flavor and bright color' },
+        compound_butter: {
         method: 'mix finely snipped chives into softened butter',
         ratio: '2-3 tablespoons per stick of butter',
         uses: ['finishing steaks', 'melting over fish', 'bread spread'],
-        notes: 'can be formed into logs and frozen for later use'
-      },
-      infused_cream: {
+        notes: 'can be formed into logs and frozen for later use' },
+        infused_cream: {
         method: 'steep chives in warm cream',
         timing: '20-30 minutes',
         uses: ['sauce base', 'scrambled eggs', 'mashed potatoes'],
-        notes: 'strain before using or leave small pieces for visual appeal'
-      },
-      chive_oil: {
+        notes: 'strain before using or leave small pieces for visual appeal' },
+        chive_oil: {
         method: 'blanch briefly, blend with oil, strain',
         timing: 'blanch 10 seconds, shock in ice water',
         uses: ['drizzling', 'plating', 'finishing'],
@@ -1013,14 +964,12 @@ const rawAlliums = {
       methods: {
         jar: 'upright in jar with water, change water every few days',
         wrap: 'wrapped in damp paper towel, then plastic bag',
-        herb_keeper: 'specialized container with water reservoir'
-      },
-      frozen: {
+        herb_keeper: 'specialized container with water reservoir' },
+        frozen: {
         preparation: 'snip, freeze in ice cube trays with water or oil',
         duration: 'up to 6 months',
-        best_uses: 'cooking applications only, flavor diminishes'
-      },
-      dried: 'not recommended, loses most flavor and texture'
+        best_uses: 'cooking applications only, flavor diminishes' },
+        dried: 'not recommended, loses most flavor and texture'
     }
   }
 
@@ -1039,9 +988,9 @@ const rawAlliums = {
         base: 'Air',
         secondary: 'Fire',
         decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' }
-          second: { element: 'Fire', planet: 'Mars' }
-          third: { element: 'Earth', planet: 'Venus' }
+          first: { element: 'Air', planet: 'Mercury' },
+        second: { element: 'Fire', planet: 'Mars' },
+        third: { element: 'Earth', planet: 'Venus' }
         }
       }
     },
@@ -1064,38 +1013,32 @@ const rawAlliums = {
       washing: 'thoroughly between layers to remove sand / (grit || 1)',
       trimming: 'remove dark green tops (save for stock) and root end',
       cutting: 'slice thinly on bias or chop',
-      whites_greens:
-        'separate white / (light || 1) green parts from dark green for different applications',
-      special_technique: 'curl by soaking thin slices in ice water'
-    },
-    culinaryApplications: {
+      whites_greens: 'separate white / (light || 1) green parts from dark green for different applications',
+      special_technique: 'curl by soaking thin slices in ice water' },
+        culinaryApplications: {
       garnish: {
         method: 'finely slice or chop',
         cutting_techniques: ['thin bias cuts', 'fine dice', 'chiffonade', 'curled scallions'],
         uses: ['soups', 'stir-fries', 'noodle dishes', 'tacos', 'salads'],
-        notes: 'add at last minute to preserve color and texture'
-      },
-      stir_fry: {
+        notes: 'add at last minute to preserve color and texture' },
+        stir_fry: {
         method: 'separate white and green parts',
         timing: 'whites: 1-2 minutes, greens: 30 seconds at end',
         cutting: 'bias cut 1-2 inch pieces',
         pairs_with: ['ginger', 'garlic', 'soy sauce', 'sesame oil'],
-        notes: 'quick cooking preserves color and texture'
-      },
-      grilled: {
+        notes: 'quick cooking preserves color and texture' },
+        grilled: {
         method: 'brush with oil, grill whole',
         timing: '2-3 minutes, turning once',
         preparation: 'trim roots but keep intact',
         serving: 'drizzle with olive oil, salt, lemon',
-        notes: 'classic Spanish preparation (calçots)'
-      },
-      asian_applications: {
+        notes: 'classic Spanish preparation (calçots)' },
+        asian_applications: {
         scallion_oil: {
           method: 'steep chopped green parts in warm oil',
           timing: '30-60 minutes',
           uses: ['drizzling', 'dressings', 'finishing'],
-          notes: 'strain and refrigerate, use within 1 week'
-        },
+          notes: 'strain and refrigerate, use within 1 week' },
         scallion_pancakes: {
           method: 'incorporate chopped scallions into dough',
           uses: ['traditional Chinese appetizer'],
@@ -1110,9 +1053,8 @@ const rawAlliums = {
       humidity: 'high',
       method: 'store upright in jar with 1 inch of water, loosely covered',
       alternative: 'wrap in damp paper towel in perforated plastic bag',
-      regrowth: 'can be regrown from roots in water or soil'
-    },
-    regionalUses: {
+      regrowth: 'can be regrown from roots in water or soil' },
+        regionalUses: {
       'East Asian': ['stir-fries', 'dumplings', 'noodle dishes', 'dipping sauces'],
       Mexican: ['salsas', 'guacamole', 'tacos', 'grilled as side'],
       American: ['loaded potatoes', 'dips', 'garnish']
@@ -1146,9 +1088,8 @@ const rawAlliums = {
     preparation: {
       washing: 'as needed',
       cutting: 'as specified',
-      notes: 'Regional preparation methods vary'
-    },
-    regionalUses: {
+      notes: 'Regional preparation methods vary' },
+        regionalUses: {
       Indian: ['curries', 'side dishes', 'raitas'],
       French: ['soups', 'stews', 'gratins'],
       American: ['loaded potatoes', 'dips', 'garnish']

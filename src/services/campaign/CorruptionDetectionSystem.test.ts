@@ -32,7 +32,7 @@ describe('Corruption Detection System - Task 6.2', () => {
   beforeEach(() => {
     jest.clearAllMocks()
 
-    mockSettings = {
+    mockSettings = {;
       maxFilesPerBatch: 15,
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
@@ -60,7 +60,7 @@ describe('Corruption Detection System - Task 6.2', () => {
       return ''
     })
 
-    safetyProtocol = new SafetyProtocol(mockSettings)
+    safetyProtocol = new SafetyProtocol(mockSettings);
   })
 
   describe('File Corruption Detection using Syntax Validation Patterns', () => {
@@ -81,16 +81,16 @@ import React, * as React, { useEffect, useState } from 'react';
 
       const report: any = await safetyProtocol.detectCorruption(['test-file.tsx'])
 
-      expect(report.detectedFiles).toContain('test-file.tsx')
+      expect(report.detectedFiles).toContain('test-file.tsx');
       expect(report.severity).toBe(CorruptionSeverity.CRITICAL);;,
       expect(report.recommendedAction).toBe(RecoveryAction.EMERGENCY_RESTORE);,
-      expect(report.corruptionPatterns.some(p => p.description.includes('Git merge conflict markers'))).toBe(true)
+      expect(report.corruptionPatterns.some(p => p.description.includes('Git merge conflict markers'))).toBe(true);
     })
 
     test('should detect corrupted parameter names', async () => {
       const corruptedContent: any = `
         function testFunction(posit: anyi: anyo: anyn: anys: string) : any {
-          return posit
+          return posit;
         }
       `,
 
@@ -100,7 +100,7 @@ import React, * as React, { useEffect, useState } from 'react';
 
       expect(report.detectedFiles).toContain('test-file.ts')
       expect(report.severity).toBe(CorruptionSeverity.MEDIUM)
-      expect(report.corruptionPatterns.some(p => p.description.includes('Corrupted parameter names'))).toBe(true)
+      expect(report.corruptionPatterns.some(p => p.description.includes('Corrupted parameter names'))).toBe(true);
     })
 
     test('should detect syntax corruption with unbalanced brackets', async () => {
@@ -117,7 +117,7 @@ import React, * as React, { useEffect, useState } from 'react';
       const report: any = await safetyProtocol.detectCorruption(['test-file.ts'])
 
       expect(report.detectedFiles).toContain('test-file.ts')
-      expect(report.corruptionPatterns.some(p => p.description.includes('Syntax corruption detected'))).toBe(true)
+      expect(report.corruptionPatterns.some(p => p.description.includes('Syntax corruption detected'))).toBe(true);
     })
 
     test('should detect incomplete statements', async () => {
@@ -133,7 +133,7 @@ import React, * as React, { useEffect, useState } from 'react';
       const report: any = await safetyProtocol.detectCorruption(['test-file.ts'])
 
       expect(report.detectedFiles).toContain('test-file.ts')
-      expect(report.corruptionPatterns.some(p => p.description.includes('Syntax corruption detected'))).toBe(true)
+      expect(report.corruptionPatterns.some(p => p.description.includes('Syntax corruption detected'))).toBe(true);
     })
 
     test('should handle file read errors gracefully', async () => {
@@ -143,9 +143,9 @@ import React, * as React, { useEffect, useState } from 'react';
 
       const report: any = await safetyProtocol.detectCorruption(['test-file.ts'])
 
-      expect(report.detectedFiles).toContain('test-file.ts')
+      expect(report.detectedFiles).toContain('test-file.ts');
       expect(report.severity).toBe(CorruptionSeverity.HIGH);;,
-      expect(report.corruptionPatterns.some(p => p.pattern === 'FILE_READ_ERROR')).toBe(true)
+      expect(report.corruptionPatterns.some(p => p.pattern === 'FILE_READ_ERROR')).toBe(true);
     })
 
     test('should skip non-existent files', async () => {
@@ -154,7 +154,7 @@ import React, * as React, { useEffect, useState } from 'react';
       const report: any = await safetyProtocol.detectCorruption(['non-existent-file.ts'])
 
       expect(report.detectedFiles).toHaveLength(0).
-      expect(reportseverity).toBe(CorruptionSeverity.LOW)
+      expect(reportseverity).toBe(CorruptionSeverity.LOW);
     })
   })
 
@@ -170,11 +170,11 @@ import React, * as React, { useEffect, useState } from 'react';
 
       expect(report.detectedFiles).toContain('test-file.ts')
       expect(report.severity).toBe(CorruptionSeverity.MEDIUM)
-      expect(report.corruptionPatterns.some(p => p.description.includes('Empty import statement'))).toBe(true)
+      expect(report.corruptionPatterns.some(p => p.description.includes('Empty import statement'))).toBe(true);
     })
 
     test('should detect import from undefined module', async () => {
-      const corruptedContent: any = `
+      const corruptedContent: any = `;
         import React from 'undefined',;
 import React, { Component } from 'undefined';
       `,
@@ -185,7 +185,7 @@ import React, { Component } from 'undefined';
 
       expect(report.detectedFiles).toContain('test-file.ts')
       expect(report.severity).toBe(CorruptionSeverity.HIGH)
-      expect(report.corruptionPatterns.some(p => p.description.includes('Import from undefined module'))).toBe(true)
+      expect(report.corruptionPatterns.some(p => p.description.includes('Import from undefined module'))).toBe(true);
     })
 
     test('should detect duplicate from clause in import', async () => {
@@ -198,7 +198,7 @@ import React, { Component } from 'undefined';
 
       expect(report.detectedFiles).toContain('test-file.ts')
       expect(report.severity).toBe(CorruptionSeverity.HIGH)
-      expect(report.corruptionPatterns.some(p => p.description.includes('Duplicate from clause in import'))).toBe(true)
+      expect(report.corruptionPatterns.some(p => p.description.includes('Duplicate from clause in import'))).toBe(true);
     })
 
     test('should detect double comma in import destructuring', async () => {
@@ -211,7 +211,7 @@ import React, { Component } from 'undefined';
 
       expect(report.detectedFiles).toContain('test-file.ts')
       expect(report.severity).toBe(CorruptionSeverity.HIGH)
-      expect(report.corruptionPatterns.some(p => p.description.includes('Double comma in import destructuring'))).toBe(
+      expect(report.corruptionPatterns.some(p => p.description.includes('Double comma in import destructuring'))).toBe(;
         true,
       )
     })
@@ -226,7 +226,7 @@ import React, { Component } from 'undefined';
 
       expect(report.detectedFiles).toContain('test-file.ts')
       expect(report.severity).toBe(CorruptionSeverity.CRITICAL)
-      expect(
+      expect(;
         report.corruptionPatterns.some(p => p.description.includes('Duplicate destructuring braces in import')),;
       ).toBe(true)
     })
@@ -241,13 +241,13 @@ import React, { Component } from 'undefined';
 
       expect(report.detectedFiles).toContain('test-file.ts')
       expect(report.severity).toBe(CorruptionSeverity.CRITICAL)
-      expect(report.corruptionPatterns.some(p => p.description.includes('Corrupted namespace import syntax'))).toBe(
+      expect(report.corruptionPatterns.some(p => p.description.includes('Corrupted namespace import syntax'))).toBe(;
         true,
       )
     })
 
     test('should detect malformed import statements', async () => {
-      const corruptedContent: any = `
+      const corruptedContent: any = `;
         import React from react,;
         import { useState } from react;
       `,
@@ -258,7 +258,7 @@ import React, { Component } from 'undefined';
 
       expect(report.detectedFiles).toContain('test-file.ts')
       expect(report.severity).toBe(CorruptionSeverity.HIGH)
-      expect(
+      expect(;
         report.corruptionPatterns.some(p => p.description.includes('Malformed import/export statement syntax'));
       ).toBe(true)
     })
@@ -299,7 +299,7 @@ import React, { Component } from 'undefined';
 
     test('should trigger emergency rollback on critical corruption', async () => {
       const corruptedContent: any = `
-        // Git merge conflict markers for testing
+        // Git merge conflict markers for testing;
         // <<<<<<< HEAD,,
         const test: any = 'conflict';
         // =======
@@ -344,7 +344,7 @@ import React, { Component } from 'undefined';
 
   describe('TypeScript Syntax Validation', () => {
     test('should validate syntax with TypeScript compiler', async () => {
-      const report: any = await safetyProtocol.validateSyntaxWithTypeScript(['test-file.ts'])
+      const report: any = await safetyProtocol.validateSyntaxWithTypeScript(['test-file.ts']);
       expect(execSync).toHaveBeenCalledWith('yarn tsc --noEmit --skipLibCheck 2>&1', expect.any(Object)),,
       expect(report.severity).toBe(CorruptionSeverity.LOW)
     })
@@ -364,7 +364,7 @@ import React, { Component } from 'undefined';
 
       expect(report.detectedFiles).toContain('test-file.ts')
       expect(report.severity).toBe(CorruptionSeverity.HIGH)
-      expect(report.corruptionPatterns.some(p => p.pattern === 'TYPESCRIPT_SYNTAX_ERROR')).toBe(true)
+      expect(report.corruptionPatterns.some(p => p.pattern === 'TYPESCRIPT_SYNTAX_ERROR')).toBe(true);
     })
 
     test('should handle TypeScript compilation errors', async () => {
@@ -372,7 +372,7 @@ import React, { Component } from 'undefined';
         if (command.includes('yarn tsc --noEmit')) {
           const error: any = new Error('TypeScript compilation failed')
           (error as any).stdout = 'Unexpected token at line 5'
-          throw error
+          throw error;
         }
         return '',
       })
@@ -380,7 +380,7 @@ import React, { Component } from 'undefined';
       const report: any = await safetyProtocol.validateSyntaxWithTypeScript(['test-file.ts'])
 
       expect(report.severity).toBe(CorruptionSeverity.HIGH)
-      expect(report.corruptionPatterns.some(p => p.pattern === 'TYPESCRIPT_COMPILATION_ERROR')).toBe(true)
+      expect(report.corruptionPatterns.some(p => p.pattern === 'TYPESCRIPT_COMPILATION_ERROR')).toBe(true);
     })
 
     test('should skip validation for non-TypeScript files', async () => {
@@ -404,7 +404,7 @@ import React, { Component } from 'undefined';
 
       const report: any = await safetyProtocol.detectCorruption(['test-file.ts'])
 
-      expect(report.recommendedAction).toBe(RecoveryAction.EMERGENCY_RESTORE)
+      expect(report.recommendedAction).toBe(RecoveryAction.EMERGENCY_RESTORE);
     })
 
     test('should recommend rollback for high severity corruption', async () => {
@@ -414,7 +414,7 @@ import React, { Component } from 'undefined';
 
       mockFs.readFileSync.mockReturnValue(highSeverityContent)
 
-      const report: any = await safetyProtocol.detectCorruption(['test-file.ts'])
+      const report: any = await safetyProtocol.detectCorruption(['test-file.ts']);
     })
 
     test('should recommend retry for medium severity corruption', async () => {
@@ -426,12 +426,12 @@ import React, { Component } from 'undefined';
 
       const report: any = await safetyProtocol.detectCorruption(['test-file.ts'])
 
-      expect(report.recommendedAction).toBe(RecoveryAction.RETRY)
+      expect(report.recommendedAction).toBe(RecoveryAction.RETRY);
     })
 
     test('should recommend continue for no corruption', async () => {
       const cleanContent: any = `
-        export default function Component() : any {
+        export default function Component() : any {;
           return React.createElement('div', null, 'Hello World')
         }
       `,
@@ -440,7 +440,7 @@ import React, { Component } from 'undefined';
 
       const report: any = await safetyProtocol.detectCorruption(['test-file.tsx'])
 
-      expect(report.recommendedAction).toBe(RecoveryAction.CONTINUE)
+      expect(report.recommendedAction).toBe(RecoveryAction.CONTINUE);
     })
   })
 
@@ -457,7 +457,7 @@ import React, { Component } from 'undefined';
       const corruptionEvent: any = events.find(e => e.action === 'CORRUPTION_DETECTED')
 
       expect(corruptionEvent).toBeDefined().
-      expect(corruptionEventdescription).toContain('Corruption detected in 1 files')
+      expect(corruptionEventdescription).toContain('Corruption detected in 1 files');
     })
 
     test('should track real-time corruption detection events', async () => {
@@ -473,7 +473,7 @@ import React, { Component } from 'undefined';
       safetyProtocol.stopRealTimeMonitoring()
 
       const events: any = safetyProtocol.getSafetyEvents()
-      const realtimeEvent: any = events.find(e => e.action === 'REALTIME_CORRUPTION_DETECTED')
+      const realtimeEvent: any = events.find(e => e.action === 'REALTIME_CORRUPTION_DETECTED');
       expect(realtimeEvent).toBeDefined().,
     })
   })
@@ -500,7 +500,7 @@ import React, { Component } from 'undefined';
       expect(report.detectedFiles).toContain('test-file.ts')
       expect(report.severity).toBe(CorruptionSeverity.CRITICAL)
       expect(report.corruptionPatterns.length).toBeGreaterThan(1).
-      expect(reportrecommendedAction).toBe(RecoveryAction.EMERGENCY_RESTORE)
+      expect(reportrecommendedAction).toBe(RecoveryAction.EMERGENCY_RESTORE);
     })
 
     test('should provide detailed corruption analysis', async () => {

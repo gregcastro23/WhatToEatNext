@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawLegumes = {
-  'green beans': {
+  'green beans': {;
     name: 'Green beans',
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 }
     astrologicalProfile: {
@@ -11,9 +11,9 @@ const rawLegumes = {
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Venus' }
-          second: { element: 'Water', planet: 'Mercury' }
-          third: { element: 'Air', planet: 'Saturn' }
+          first: { element: 'Earth', planet: 'Venus' },
+        second: { element: 'Water', planet: 'Mercury' },
+        third: { element: 'Air', planet: 'Saturn' }
         },
         lunarPhaseModifiers: {
           newMoon: {
@@ -48,16 +48,14 @@ const rawLegumes = {
       trimming: 'remove stem ends',
       cutting: 'trim into uniform lengths',
       blanching: '2-3 minutes for bright color and crisp texture',
-      notes: 'Can be prepared ahead and refrigerated'
-    },
-    varieties: {
+      notes: 'Can be prepared ahead and refrigerated' },
+        varieties: {
       'haricot vert': {
         characteristics: 'thin, French-style bean',
         texture: 'tender, delicate',
         cooking: 'quick cooking, less than standard green beans',
-        uses: 'elegant dishes, quick sautés'
-      },
-      romano: {
+        uses: 'elegant dishes, quick sautés' },
+        romano: {
         characteristics: 'flat, wide beans',
         texture: 'meaty, substantial',
         cooking: 'longer cooking time than standard varieties',
@@ -67,9 +65,8 @@ const rawLegumes = {
         characteristics: 'golden yellow color',
         texture: 'crisp, similar to green beans',
         cooking: 'same methods as green beans',
-        uses: 'visual contrast, all standard green bean preparations'
-      },
-      purple: {
+        uses: 'visual contrast, all standard green bean preparations' },
+        purple: {
         characteristics: 'deep purple color that turns green when cooked',
         texture: 'similar to standard green beans',
         cooking: 'best used raw or lightly cooked to preserve color',
@@ -94,9 +91,9 @@ const rawLegumes = {
       elementalAffinity: {
         base: 'Water',
         decanModifiers: {
-          first: { element: 'Water', planet: 'Venus' }
-          second: { element: 'Air', planet: 'Moon' }
-          third: { element: 'Earth', planet: 'Mercury' }
+          first: { element: 'Water', planet: 'Venus' },
+        second: { element: 'Air', planet: 'Moon' },
+        third: { element: 'Earth', planet: 'Mercury' }
         }
       }
     },
@@ -118,9 +115,8 @@ const rawLegumes = {
     preparation: {
       washing: true,
       trimming: 'remove stem end and string if tough',
-      notes: 'Best used fresh, can be eaten whole with pod'
-    },
-    storage: {
+      notes: 'Best used fresh, can be eaten whole with pod' },
+        storage: {
       temperature: 'refrigerated',
       duration: '3-5 days',
       humidity: 'high',
@@ -139,9 +135,9 @@ const rawLegumes = {
         base: 'Air',
         secondary: 'Water',
         decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' }
-          second: { element: 'Water', planet: 'Moon' }
-          third: { element: 'Earth', planet: 'Venus' }
+          first: { element: 'Air', planet: 'Mercury' },
+        second: { element: 'Water', planet: 'Moon' },
+        third: { element: 'Earth', planet: 'Venus' }
         }
       }
     },
@@ -163,9 +159,8 @@ const rawLegumes = {
     preparation: {
       washing: true,
       trimming: 'remove stem end and string along the seam',
-      notes: 'Flat pods with visible peas inside'
-    },
-    storage: {
+      notes: 'Flat pods with visible peas inside' },
+        storage: {
       temperature: 'refrigerated',
       duration: '2-3 days',
       humidity: 'high',
@@ -183,9 +178,9 @@ const rawLegumes = {
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Jupiter' }
-          second: { element: 'Water', planet: 'Venus' }
-          third: { element: 'Fire', planet: 'Mars' }
+          first: { element: 'Earth', planet: 'Jupiter' },
+        second: { element: 'Water', planet: 'Venus' },
+        third: { element: 'Fire', planet: 'Mars' }
         }
       }
     },
@@ -209,9 +204,8 @@ const rawLegumes = {
       washing: true,
       cooking: 'simmer in salted water 3-5 minutes',
       shelling: 'typically eaten by squeezing beans from pods',
-      notes: 'Do not eat the pods, just the beans inside'
-    },
-    storage: {
+      notes: 'Do not eat the pods, just the beans inside' },
+        storage: {
       temperature: 'refrigerated or frozen',
       fresh_duration: '1-2 days',
       frozen_duration: '6-12 months',
@@ -228,9 +222,9 @@ const rawLegumes = {
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Saturn' }
-          second: { element: 'Water', planet: 'Moon' }
-          third: { element: 'Fire', planet: 'Mars' }
+          first: { element: 'Earth', planet: 'Saturn' },
+        second: { element: 'Water', planet: 'Moon' },
+        third: { element: 'Fire', planet: 'Mars' }
         }
       }
     },
@@ -253,9 +247,8 @@ const rawLegumes = {
       shelling: 'remove from pods if fresh',
       soaking: 'overnight if using dried',
       cooking: 'simmer until tender, typically 45-60 minutes for dried',
-      notes: 'Available fresh, frozen, driedor canned'
-    },
-    storage: {
+      notes: 'Available fresh, frozen, driedor canned' },
+        storage: {
       fresh_unshelled: '3-5 days refrigerated',
       fresh_shelled: '2-3 days refrigerated',
       dried: '1-2 years in airtight container',

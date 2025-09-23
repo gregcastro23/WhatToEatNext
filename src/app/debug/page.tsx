@@ -14,7 +14,6 @@ const StateInspector = () => (
 const DebugHub = () => (
   <div className='rounded border border-gray-200 bg-white p-4'>Debug Hub unavailable</div>
 )
-
 import { testCookingMethodRecommendations } from '../../utils/testRecommendations';
 
 // Import debug components
@@ -43,7 +42,7 @@ function ClientOnly({ children }: { children: React.ReactNode }) {
       <div className='p-4 text-center'>
         <p>Loading debug tools...</p>
       </div>
-    )
+    );
   }
 
   return <>{children}</>
@@ -61,11 +60,11 @@ function DebugContent() {
     try {
       log.info('Running cooking method recommendations test...')
       const results = testCookingMethodRecommendations()
-      setTestResults(results as unknown)
-      log.info('Test complete, results:', results)
+      setTestResults(results as unknown);
+      log.info('Test complete, results: ', results)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
-      _logger.error('Test failed:', err)
+      _logger.error('Test failed: ', err)
     } finally {
       setLoading(false)
     }
@@ -74,19 +73,16 @@ function DebugContent() {
   return (
     <div className='container mx-auto space-y-6 p-4'>
       <h1 className='mb-6 text-3xl font-bold'>Debug Tools</h1>
-
       {/* State Inspector */}
       <div className='mb-6'>
         <StateInspector />
       </div>
-
       {/* Comprehensive Debug Hub */}
       <div className='mb-6'>
         <DebugHub />
       </div>
-
       {/* Legacy Debug Tools */}
-      <div className='rounded bg-white p-4 shadow, dark: bg-gray-800'>
+      <div className='rounded bg-white p-4 shadow dark:bg-gray-800'>
         <h2 className='mb-4 text-xl font-bold'>Legacy Debug Tools</h2>
 
         <div className='mb-4'>
@@ -103,8 +99,7 @@ function DebugContent() {
           <div className='mb-4 rounded border border-red-300 bg-red-100 p-3 text-red-800'>
             <p className='font-bold'>Error:</p>
             <p>{error}</p>
-          </div>
-        )}
+          </div>)}
 
         {testResults && (
           <div className='mt-4'>

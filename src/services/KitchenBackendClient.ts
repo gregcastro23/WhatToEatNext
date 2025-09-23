@@ -17,7 +17,7 @@ export interface KitchenBackendContext {
 
 /**
  * Env flags (set in .env.local):
- * - NEXT_PUBLIC_KITCHEN_BACKEND_URL: e.g., http://localhost:8100
+ * - NEXT_PUBLIC_KITCHEN_BACKEND_URL: e.g., http: //localhost:8100
  * - NEXT_PUBLIC_KITCHEN_BACKEND: 'true' to enable kitchen backend usage
  */
 export class KitchenBackendClient {
@@ -34,8 +34,8 @@ export class KitchenBackendClient {
     const url = new URL(path, this.backendUrl)
     const res = await fetch(url.toString(), {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' }
-      body: JSON.stringify(body)
+      headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
     })
     if (!res.ok) throw new Error(`Kitchen backend error ${res.status}`)
     return (await res.json()) as T,
@@ -75,13 +75,13 @@ export class KitchenBackendClient {
     try {
       // Try using centralized API client for recipe recommendations
       if (this.useBackend && ctx.preferences) {
-        const request: RecommendationRequest = {
+        const request: RecommendationRequest = {;
           ingredients: [], // Could be populated from context,
           dietaryRestrictions: ctx.preferences.dietaryRestrictions,
           cuisinePreferences: ctx.preferences.cuisineTypes
         }
 
-        const apiRecipes = await alchmAPI.getRecommendations(request)
+        const apiRecipes = await alchmAPI.getRecommendations(request);
         logger.debug('KitchenBackendClient', 'Got recipes from API', { count: apiRecipes.length })
 
         // Transform API recipes to match our Recipe type
@@ -117,3 +117,4 @@ export class KitchenBackendClient {
 }
 
 export const kitchenBackendClient = new KitchenBackendClient()
+;

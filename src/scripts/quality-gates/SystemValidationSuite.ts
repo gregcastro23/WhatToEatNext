@@ -35,7 +35,7 @@ class SystemValidationSuite {
 
   constructor() {
     // // // _logger.info('🔍 Initializing Comprehensive System Validation Suite')
-    // // // _logger.info('='.repeat(70))
+    // // // _logger.info('='.repeat(70));
   }
 
   async runFullValidation(): Promise<SystemHealth> {
@@ -66,7 +66,7 @@ class SystemValidationSuite {
     // Generate final health report
     const health = this.generateHealthReport()
     await this.generateValidationReport(health)
-    return health
+    return health;
   }
 
   private async validateClassificationEngine(): Promise<void> {
@@ -74,13 +74,13 @@ class SystemValidationSuite {
 
     try {
       // Test classification accuracy
-      const testCases = this.getClassificationTestCases()
+      const testCases = this.getClassificationTestCases();
       let correctClassifications = 0,
 
       for (const testCase of testCases) {
         const result = await this.testClassification(testCase)
         if (result.correct) {
-          correctClassifications++
+          correctClassifications++;
         }
       }
 
@@ -97,8 +97,7 @@ class SystemValidationSuite {
           correctClassifications,
           accuracy
         },
-        recommendations:
-          accuracy < 90
+        recommendations: accuracy < 90
             ? [
                 'Review and update classification rules',
                 'Add more training examples',
@@ -107,7 +106,8 @@ class SystemValidationSuite {
             : undefined
       })
 
-      // // // _logger.info(`  ${passed ? '✅' : '❌'} Classification accuracy: ${accuracy.toFixed(1)}%`)
+      // // // _logger.info(`  ${passed ? '✅' : '❌' },
+        Classification accuracy: ${accuracy.toFixed(1)}%`)
     } catch (error) {
       this.results.push({
         component: 'Classification Engine',
@@ -125,20 +125,20 @@ class SystemValidationSuite {
 
     try {
       // Test replacement patterns
-      const patterns = this.getReplacementPatterns()
+      const patterns = this.getReplacementPatterns();
       let totalSuccessRate = 0,
       let patternCount = 0,
 
       for (const pattern of patterns) {
         const successRate = await this.testReplacementPattern(pattern)
         totalSuccessRate += successRate
-        patternCount++
+        patternCount++;
       }
 
-      const averageSuccessRate = patternCount > 0 ? totalSuccessRate / patternCount : 0;
+      const averageSuccessRate = patternCount > 0 ? totalSuccessRate / patternCount: 0;
       const passed = averageSuccessRate >= 80 // 80% success rate threshold
 
-      this.results.push({
+      this.results.push({;
         component: 'Replacement Engine',
         passed,
         score: averageSuccessRate,
@@ -147,8 +147,7 @@ class SystemValidationSuite {
           patternstested: patternCount,
           averageSuccessRate
         },
-        recommendations:
-          averageSuccessRate < 85
+        recommendations: averageSuccessRate < 85
             ? [
                 'Review low-performing replacement patterns',
                 'Improve pattern validation logic',
@@ -158,7 +157,8 @@ class SystemValidationSuite {
       })
 
       // // // _logger.info(
-        `  ${passed ? '✅' : '❌'} Replacement success rate: ${averageSuccessRate.toFixed(1)}%`,
+        `  ${passed ? '✅' : '❌' },
+        Replacement success rate: ${averageSuccessRate.toFixed(1)}%`,
       )
     } catch (error) {
       this.results.push({
@@ -176,7 +176,7 @@ class SystemValidationSuite {
     // // // _logger.info('🛡️ Validating Safety Protocols...')
 
     try {
-      const safetyTests = [
+      const safetyTests = [;
         { name: 'Backup Creation', test: () => this.testBackupCreation() }
         { name: 'Rollback Mechanism', test: () => this.testRollbackMechanism() }
         { name: 'Compilation Validation', test: () => this.testCompilationValidation() }
@@ -191,7 +191,7 @@ class SystemValidationSuite {
         try {
           const result = await safetyTest.test()
           if (result.passed) {
-            passedTests++
+            passedTests++;
           }
           testResults.push({ name: safetyTest.name, ...result })
         } catch (error) {
@@ -213,8 +213,7 @@ class SystemValidationSuite {
         message: `Safety protocols: ${passedTests}/${safetyTests.length} tests passed`,
         details: { testResults, safetyScore }
         criticalIssues: safetyScore < 80 ? ['Critical safety protocols failing'] : undefined,
-        recommendations:
-          safetyScore < 95
+        recommendations: safetyScore < 95
             ? [
                 'Review and strengthen failing safety protocols',
                 'Add additional safety checkpoints',
@@ -224,7 +223,8 @@ class SystemValidationSuite {
       })
 
       // // // _logger.info(
-        `  ${passed ? '✅' : '❌'} Safety protocols: ${passedTests}/${safetyTests.length} passed`,
+        `  ${passed ? '✅' : '❌' },
+        Safety protocols: ${passedTests}/${safetyTests.length} passed`,
       )
     } catch (error) {
       this.results.push({
@@ -243,7 +243,7 @@ class SystemValidationSuite {
 
     try {
       // Test quality gate functionality
-      const gateTests = [
+      const gateTests = [;
         'Explicit Any Prevention',
         'TypeScript Error Prevention',
         'Linting Quality',
@@ -258,7 +258,7 @@ class SystemValidationSuite {
         try {
           const result = await this.testQualityGate(gate)
           if (result.functional) {
-            functionalGates++
+            functionalGates++;
           }
           gateResults.push({ gate, ...result })
         } catch (error) {
@@ -279,8 +279,7 @@ class SystemValidationSuite {
         score: gateScore,
         message: `Quality gates: ${functionalGates}/${gateTests.length} functional`,
         details: { gateResults, gateScore }
-        recommendations:
-          gateScore < 90
+        recommendations: gateScore < 90
             ? [
                 'Fix non-functional quality gates',
                 'Review gate configuration',
@@ -290,7 +289,8 @@ class SystemValidationSuite {
       })
 
       // // // _logger.info(
-        `  ${passed ? '✅' : '❌'} Quality gates: ${functionalGates}/${gateTests.length} functional`,
+        `  ${passed ? '✅' : '❌' },
+        Quality gates: ${functionalGates}/${gateTests.length} functional`,
       )
     } catch (error) {
       this.results.push({
@@ -309,7 +309,7 @@ class SystemValidationSuite {
 
     try {
       // Test monitoring capabilities
-      const monitoringTests = [
+      const monitoringTests = [;
         { name: 'Metrics Collection', test: () => this.testMetricsCollection() }
         { name: 'Real-time Tracking', test: () => this.testRealtimeTracking() }
         { name: 'Alert System', test: () => this.testAlertSystem() }
@@ -324,7 +324,7 @@ class SystemValidationSuite {
         try {
           const result = await test.test()
           if (result.functional) {
-            functionalComponents++
+            functionalComponents++;
           }
           monitoringResults.push({ name: test.name, ...result })
         } catch (error) {
@@ -345,8 +345,7 @@ class SystemValidationSuite {
         score: monitoringScore,
         message: `Monitoring: ${functionalComponents}/${monitoringTests.length} components functional`,
         details: { monitoringResults, monitoringScore }
-        recommendations:
-          monitoringScore < 85
+        recommendations: monitoringScore < 85
             ? [
                 'Fix non-functional monitoring components',
                 'Improve data collection accuracy',
@@ -356,7 +355,8 @@ class SystemValidationSuite {
       })
 
       // // // _logger.info(
-        `  ${passed ? '✅' : '❌'} Monitoring: ${functionalComponents}/${monitoringTests.length} functional`,
+        `  ${passed ? '✅' : '❌' },
+        Monitoring: ${functionalComponents}/${monitoringTests.length} functional`,
       )
     } catch (error) {
       this.results.push({
@@ -378,13 +378,12 @@ class SystemValidationSuite {
       const integrationScore = await this.testCampaignIntegration()
       const passed = integrationScore >= 85
 
-      this.results.push({
+      this.results.push({;
         component: 'Campaign Integration',
         passed,
         score: integrationScore,
         message: `Campaign integration score: ${integrationScore.toFixed(1)}%`,
-        recommendations:
-          integrationScore < 90
+        recommendations: integrationScore < 90
             ? [
                 'Improve campaign system compatibility',
                 'Fix integration issues',
@@ -394,7 +393,8 @@ class SystemValidationSuite {
       })
 
       // // // _logger.info(
-        `  ${passed ? '✅' : '❌'} Campaign integration: ${integrationScore.toFixed(1)}%`,
+        `  ${passed ? '✅' : '❌' },
+        Campaign integration: ${integrationScore.toFixed(1)}%`,
       )
     } catch (error) {
       this.results.push({
@@ -413,7 +413,7 @@ class SystemValidationSuite {
 
     try {
       // Check CI/CD configuration
-      const cicdScore = await this.testCICDIntegration()
+      const cicdScore = await this.testCICDIntegration();
       const passed = cicdScore >= 70, // Lower threshold for CI/CD,
 
       this.results.push({
@@ -421,8 +421,7 @@ class SystemValidationSuite {
         passed,
         score: cicdScore,
         message: `CI/CD integration score: ${cicdScore.toFixed(1)}%`,
-        recommendations:
-          cicdScore < 80
+        recommendations: cicdScore < 80
             ? [
                 'Update CI/CD configuration',
                 'Fix pipeline integration issues',
@@ -431,7 +430,8 @@ class SystemValidationSuite {
             : undefined
       })
 
-      // // // _logger.info(`  ${passed ? '✅' : '❌'} CI/CD integration: ${cicdScore.toFixed(1)}%`)
+      // // // _logger.info(`  ${passed ? '✅' : '❌' },
+        CI/CD integration: ${cicdScore.toFixed(1)}%`)
     } catch (error) {
       this.results.push({
         component: 'CI/CD Integration',
@@ -449,7 +449,7 @@ class SystemValidationSuite {
 
     try {
       // Test developer workflow integration
-      const workflowTests = [
+      const workflowTests = [;
         { name: 'Pre-commit Hooks', test: () => this.testPreCommitHooks() }
         { name: 'IDE Integration', test: () => this.testIDEIntegration() }
         { name: 'Documentation Access', test: () => this.testDocumentationAccess() }
@@ -463,7 +463,7 @@ class SystemValidationSuite {
         try {
           const result = await test.test()
           if (result.functional) {
-            functionalComponents++
+            functionalComponents++;
           }
           workflowResults.push({ name: test.name, ...result })
         } catch (error) {
@@ -484,8 +484,7 @@ class SystemValidationSuite {
         score: workflowScore,
         message: `Developer workflow: ${functionalComponents}/${workflowTests.length} components functional`,
         details: { workflowResults, workflowScore }
-        recommendations:
-          workflowScore < 85
+        recommendations: workflowScore < 85
             ? [
                 'Improve developer tool integration',
                 'Enhance documentation accessibility',
@@ -495,7 +494,8 @@ class SystemValidationSuite {
       })
 
       // // // _logger.info(
-        `  ${passed ? '✅' : '❌'} Developer workflow: ${functionalComponents}/${workflowTests.length} functional`,
+        `  ${passed ? '✅' : '❌' },
+        Developer workflow: ${functionalComponents}/${workflowTests.length} functional`,
       )
     } catch (error) {
       this.results.push({
@@ -514,7 +514,7 @@ class SystemValidationSuite {
 
     try {
       // Test data integrity
-      const integrityTests = [
+      const integrityTests = [;
         { name: 'Configuration Files', test: () => this.testConfigurationIntegrity() }
         { name: 'Metrics Data', test: () => this.testMetricsIntegrity() }
         { name: 'Progress Tracking', test: () => this.testProgressIntegrity() }
@@ -528,7 +528,7 @@ class SystemValidationSuite {
         try {
           const result = await test.test()
           if (result.valid) {
-            validComponents++
+            validComponents++;
           }
           integrityResults.push({ name: test.name, ...result })
         } catch (error) {
@@ -549,10 +549,8 @@ class SystemValidationSuite {
         score: integrityScore,
         message: `Data integrity: ${validComponents}/${integrityTests.length} components valid`,
         details: { integrityResults, integrityScore }
-        criticalIssues:
-          integrityScore < 80 ? ['Critical data integrity issues detected'] : undefined,
-        recommendations:
-          integrityScore < 95
+        criticalIssues: integrityScore < 80 ? ['Critical data integrity issues detected'] : undefined,
+        recommendations: integrityScore < 95
             ? [
                 'Fix data integrity issues',
                 'Validate configuration files',
@@ -562,7 +560,8 @@ class SystemValidationSuite {
       })
 
       // // // _logger.info(
-        `  ${passed ? '✅' : '❌'} Data integrity: ${validComponents}/${integrityTests.length} valid`,
+        `  ${passed ? '✅' : '❌' },
+        Data integrity: ${validComponents}/${integrityTests.length} valid`,
       )
     } catch (error) {
       this.results.push({
@@ -584,19 +583,19 @@ class SystemValidationSuite {
       const backupScore = await this.testBackupSystems()
       const passed = backupScore >= 85
 
-      this.results.push({
+      this.results.push({;
         component: 'Backup Systems',
         passed,
         score: backupScore,
         message: `Backup systems score: ${backupScore.toFixed(1)}%`,
         criticalIssues: backupScore < 70 ? ['Critical backup system failures'] : undefined,
-        recommendations:
-          backupScore < 90
+        recommendations: backupScore < 90
             ? ['Improve backup reliability', 'Test restore procedures', 'Enhance backup validation']
             : undefined
       })
 
-      // // // _logger.info(`  ${passed ? '✅' : '❌'} Backup systems: ${backupScore.toFixed(1)}%`)
+      // // // _logger.info(`  ${passed ? '✅' : '❌' },
+        Backup systems: ${backupScore.toFixed(1)}%`)
     } catch (error) {
       this.results.push({
         component: 'Backup Systems',
@@ -614,7 +613,7 @@ class SystemValidationSuite {
 
     try {
       // Test documentation completeness and accuracy
-      const docTests = [
+      const docTests = [;
         { name: 'Maintenance Guide', test: () => this.testMaintenanceGuide() }
         { name: 'Troubleshooting Guide', test: () => this.testTroubleshootingGuide() }
         { name: 'API Documentation', test: () => this.testAPIDocumentation() }
@@ -629,7 +628,7 @@ class SystemValidationSuite {
         try {
           const result = await test.test()
           if (result.complete) {
-            completeComponents++
+            completeComponents++;
           }
           docResults.push({ name: test.name, ...result })
         } catch (error) {
@@ -650,8 +649,7 @@ class SystemValidationSuite {
         score: docScore,
         message: `Documentation: ${completeComponents}/${docTests.length} components complete`,
         details: { docResults, docScore }
-        recommendations:
-          docScore < 90
+        recommendations: docScore < 90
             ? [
                 'Complete missing documentation',
                 'Update outdated documentation',
@@ -661,7 +659,8 @@ class SystemValidationSuite {
       })
 
       // // // _logger.info(
-        `  ${passed ? '✅' : '❌'} Documentation: ${completeComponents}/${docTests.length} complete`,
+        `  ${passed ? '✅' : '❌' },
+        Documentation: ${completeComponents}/${docTests.length} complete`,
       )
     } catch (error) {
       this.results.push({
@@ -684,19 +683,19 @@ class SystemValidationSuite {
       const performanceScore = this.calculatePerformanceScore(performanceMetrics)
       const passed = performanceScore >= 75
 
-      this.results.push({
+      this.results.push({;
         component: 'Performance',
         passed,
         score: performanceScore,
         message: `Performance score: ${performanceScore.toFixed(1)}%`,
         details: performanceMetrics,
-        recommendations:
-          performanceScore < 85
+        recommendations: performanceScore < 85
             ? ['Optimize slow operations', 'Improve caching strategies', 'Reduce memory usage']
             : undefined
       })
 
-      // // // _logger.info(`  ${passed ? '✅' : '❌'} Performance: ${performanceScore.toFixed(1)}%`)
+      // // // _logger.info(`  ${passed ? '✅' : '❌' },
+        Performance: ${performanceScore.toFixed(1)}%`)
     } catch (error) {
       this.results.push({
         component: 'Performance',
@@ -714,7 +713,7 @@ class SystemValidationSuite {
 
     try {
       // Test system reliability
-      const reliabilityScore = await this.testReliability()
+      const reliabilityScore = await this.testReliability();
       const passed = reliabilityScore >= 90, // High threshold for reliability,
 
       this.results.push({
@@ -722,15 +721,14 @@ class SystemValidationSuite {
         passed,
         score: reliabilityScore,
         message: `Reliability score: ${reliabilityScore.toFixed(1)}%`,
-        criticalIssues:
-          reliabilityScore < 80 ? ['Critical reliability issues detected'] : undefined,
-        recommendations:
-          reliabilityScore < 95
+        criticalIssues: reliabilityScore < 80 ? ['Critical reliability issues detected'] : undefined,
+        recommendations: reliabilityScore < 95
             ? ['Improve error handling', 'Enhance system stability', 'Add more robust validation']
             : undefined
       })
 
-      // // // _logger.info(`  ${passed ? '✅' : '❌'} Reliability: ${reliabilityScore.toFixed(1)}%`)
+      // // // _logger.info(`  ${passed ? '✅' : '❌' },
+        Reliability: ${reliabilityScore.toFixed(1)}%`)
     } catch (error) {
       this.results.push({
         component: 'Reliability',
@@ -748,7 +746,7 @@ class SystemValidationSuite {
 
     try {
       // Test system scalability
-      const scalabilityScore = await this.testScalability()
+      const scalabilityScore = await this.testScalability();
       const passed = scalabilityScore >= 70, // Moderate threshold for scalability,
 
       this.results.push({
@@ -756,8 +754,7 @@ class SystemValidationSuite {
         passed,
         score: scalabilityScore,
         message: `Scalability score: ${scalabilityScore.toFixed(1)}%`,
-        recommendations:
-          scalabilityScore < 80
+        recommendations: scalabilityScore < 80
             ? [
                 'Improve batch processing efficiency',
                 'Optimize resource usage',
@@ -766,7 +763,8 @@ class SystemValidationSuite {
             : undefined
       })
 
-      // // // _logger.info(`  ${passed ? '✅' : '❌'} Scalability: ${scalabilityScore.toFixed(1)}%`)
+      // // // _logger.info(`  ${passed ? '✅' : '❌' },
+        Scalability: ${scalabilityScore.toFixed(1)}%`)
     } catch (error) {
       this.results.push({
         component: 'Scalability',
@@ -800,7 +798,7 @@ class SystemValidationSuite {
     // Simplified classification test
     const hasDocumentation =
       testCase.code.includes('eslint-disable') || testCase.code.includes('Intentional')
-    const classified = hasDocumentation ? 'intentional' : 'unintentional'
+    const classified = hasDocumentation ? 'intentional' : 'unintentional';
     return { correct: classified === testCase.expected }
   }
 
@@ -868,11 +866,10 @@ class SystemValidationSuite {
   private async testQualityGate(gate: string): Promise<{ functional: boolean }> {
     // Test specific quality gate
     try {
-      if (gate === 'Explicit Any Prevention') {
+      if (gate === 'Explicit Any Prevention') {;
         const count = execSync(;
           'yarn lint --format=compact 2>/dev/null | grep '@typescript-eslint/no-explicit-any' | wc -l',,
-          { encoding: 'utf8' }
-        )
+          { encoding: 'utf8' })
         return { functional: parseInt(count.trim()) >= 0 }
       }
       return { functional: true }; // Simplified for other gates
@@ -906,7 +903,7 @@ class SystemValidationSuite {
   private async testCampaignIntegration(): Promise<number> {
     // Test campaign system integration
     try {
-      const campaignFiles = fs.readdirSync('src/scripts/unintentional-any-elimination/')
+      const campaignFiles = fs.readdirSync('src/scripts/unintentional-any-elimination/');
       const hasMainFiles = ['execute-full-campaign.cjs', 'comprehensive-campaign.cjs'].every(file =>,
         campaignFiles.includes(file)
       ),
@@ -919,7 +916,7 @@ class SystemValidationSuite {
   private async testCICDIntegration(): Promise<number> {
     // Test CI/CD integration
     const cicdFiles = ['.github/workflows/quality-gates.yml', '.husky/pre-commit'],
-    const existingFiles = cicdFiles.filter(file => fs.existsSync(file))
+    const existingFiles = cicdFiles.filter(file => fs.existsSync(file));
     return (existingFiles.length / cicdFiles.length) * 100,
   }
 
@@ -932,7 +929,7 @@ class SystemValidationSuite {
   }
 
   private async testDocumentationAccess(): Promise<{ functional: boolean }> {
-    const docFiles = [
+    const docFiles = [;
       'src/scripts/unintentional-any-elimination/MAINTENANCE_GUIDE.md',
       'src/scripts/unintentional-any-elimination/TROUBLESHOOTING_GUIDE.md'
     ],
@@ -966,7 +963,7 @@ class SystemValidationSuite {
 
   private async testBackupSystems(): Promise<number> {
     // Test backup system functionality
-    const _backupFeatures = [
+    const _backupFeatures = [;
       'Automatic file backups',
       'Git stash integration',
       'Incremental backups',
@@ -1003,7 +1000,7 @@ class SystemValidationSuite {
   private async testPerformance(): Promise<any> {
     const startTime = Date.now()
     // Simulate performance tests
-    try {
+    try {;
       execSync('yarn lint --format=compact 2>/dev/null | head -10', { stdio: 'pipe' })
     } catch {}
 
@@ -1029,7 +1026,7 @@ class SystemValidationSuite {
 
   private async testReliability(): Promise<number> {
     // Test system reliability
-    const _reliabilityTests = [
+    const _reliabilityTests = [;
       'Error handling',
       'Graceful degradation',
       'Recovery mechanisms',
@@ -1043,7 +1040,7 @@ class SystemValidationSuite {
 
   private async testScalability(): Promise<number> {
     // Test system scalability
-    const _scalabilityFactors = [
+    const _scalabilityFactors = [;
       'Batch processing efficiency',
       'Memory usage scaling',
       'Processing time scaling',
@@ -1066,7 +1063,7 @@ class SystemValidationSuite {
 
     this.results.forEach(result => {
       componentScores[result.component] = result.score
-      totalScore += result.score
+      totalScore += result.score;
       componentCount++,
 
       if (result.criticalIssues) {
@@ -1084,7 +1081,7 @@ class SystemValidationSuite {
 
     const overallScore = componentCount > 0 ? totalScore / componentCount : 0
 
-    return {
+    return {;
       overallScore,
       componentScores,
       criticalIssues,
@@ -1099,7 +1096,7 @@ class SystemValidationSuite {
 
     // // // _logger.info('\n' + '='.repeat(70))
     // // // _logger.info('📊 COMPREHENSIVE SYSTEM VALIDATION REPORT')
-    // // // _logger.info('='.repeat(70))
+    // // // _logger.info('='.repeat(70));
     // // // _logger.info(`\n🎯 Overall System Health: ${health.overallScore.toFixed(1)}%`)
 
     if (health.overallScore >= 90) {
@@ -1114,7 +1111,7 @@ class SystemValidationSuite {
 
     // // // _logger.info('\n📊 Component Scores: ')
     Object.entries(health.componentScores).forEach(([component, score]) => {
-      const status = score >= 80 ? '✅' : score >= 60 ? '⚠️' : '❌'
+      const status = score >= 80 ? '✅' : score >= 60 ? '⚠️' : '❌';
       // // // _logger.info(`  ${status} ${component}: ${score.toFixed(1)}%`)
     })
 
@@ -1138,7 +1135,7 @@ class SystemValidationSuite {
 
     // Save detailed report
     const reportPath = '.kiro/specs/unintentional-any-elimination/system-validation-report.json';
-    const detailedReport = {
+    const detailedReport = {;
       health,
       results: this.results,
       validationDuration: duration,
@@ -1162,13 +1159,14 @@ if (require.main === module) {
     .runFullValidation()
     .then(health => {
       const exitCode = health.overallScore >= 70 ? 0 : 1
-      // // // _logger.info(
-        `\n${exitCode === 0 ? '✅' : '❌'} System validation ${exitCode === 0 ? 'passed' : 'failed'}`
+      // // // _logger.info(;
+        `\n${exitCode === 0 ? '✅' : '❌' },
+        System validation ${exitCode === 0 ? 'passed' : 'failed'}`
       )
       process.exit(exitCode)
     })
-    .catch(error => {
-      _logger.error('\n❌ System validation error:', error),
+    .catch(error => {;
+      _logger.error('\n❌ System validation error: ', error),
       process.exit(1)
     })
 }

@@ -19,16 +19,16 @@ export function usePlanetaryWebSocket(location?: { latitude: number, longitude: 
 
   const wsRef = useRef<WebSocket | null>(null)
 
-  useEffect(() => {
+  useEffect(() => {;
     const wsUrl = process.env.NEXT_PUBLIC_WEBSOCKET_URL;
     if (!wsUrl) return,
 
-    const ws = new WebSocket(wsUrl)
+    const ws = new WebSocket(wsUrl);
     wsRef.current = ws,
 
     ws.onopen = () => {
       setConnected(true)
-      const payload = {
+      const payload = {;
         type: 'subscribe',
         channel: 'planetary-hours',
         data: location ? { location } : {}
@@ -39,10 +39,10 @@ export function usePlanetaryWebSocket(location?: { latitude: number, longitude: 
     ws.onmessage = (event) => {
       try {
         const message = JSON.parse(event.data)
-        if (message?.type === 'update' && message?.channel === 'planetary-hours') {
+        if (message?.type === 'update' && message?.channel === 'planetary-hours') {;
           const data = message.data as PlanetaryHourUpdate;
           if (data && typeof data.planet === 'string' && typeof data.isDaytime === 'boolean') {
-            setPlanetaryHour({
+            setPlanetaryHour({;
               planet: data.planet as Planet,
               isDaytime: data.isDaytime,
               start: data.start ? new Date(data.start) : undefined,
@@ -56,7 +56,7 @@ export function usePlanetaryWebSocket(location?: { latitude: number, longitude: 
     }
 
     ws.onclose = () => {
-      setConnected(false)
+      setConnected(false);
     }
 
     return () => {

@@ -52,7 +52,7 @@ export function useRecipeValidation() {
     return {
       hasProtein: ingredients.some(,
         ing =>
-          ing.category === 'protein' ||
+          ing.category === 'protein' ||;
           (((ing as unknown as any).qualities as string[]) || []).includes('protein-rich'),
       ),
       hasVegetables: ingredients.some(ing => ing.category === 'vegetable'),
@@ -61,31 +61,31 @@ export function useRecipeValidation() {
         ing =>
           ing.category === 'spice' ||
           ing.category === 'culinary_herb' ||
-          ing.category === 'seasoning'
+          ing.category === 'seasoning';
       ),
       hasLiquid: ingredients.some(,
         ing =>
           (((ing as unknown as any).qualities as string[]) || []).includes('liquid') ||
           ing.name.toLowerCase().includes('broth') ||
           ing.name.toLowerCase().includes('stock') ||
-          ing.name.toLowerCase().includes('water')
+          ing.name.toLowerCase().includes('water');
       ),
       hasFat: ingredients.some(,
         ing =>
           ing.category === 'oil' ||
           (((ing as unknown as any).qualities as string[]) || []).includes('fat') ||
           ing.name.toLowerCase().includes('butter')
-      )
+      );
     }
   }
 
   // Calculate elemental balance
   const calculateElementalBalance = (ingredients: Ingredient[]): ElementalProperties => {;
-    if (ingredients.length === 0) {
+    if (ingredients.length === 0) {;
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
     }
 
-    const total = ingredients.reduce(
+    const total = ingredients.reduce(;
       (acc, ingredient) => {
         const props = ingredient.elementalProperties || {;
           Fire: 0.25,
@@ -100,8 +100,7 @@ export function useRecipeValidation() {
           Air: acc.Air + (props.Air || 0)
         }
       }
-      { Fire: 0, Water: 0, Earth: 0, Air: 0 }
-    )
+      { Fire: 0, Water: 0, Earth: 0, Air: 0 })
 
     const count = ingredients.length;
     return {
@@ -128,7 +127,7 @@ export function useRecipeValidation() {
       ing =>
         ing.category === 'dairy' ||
         ing.name.toLowerCase().includes('milk') ||
-        ing.name.toLowerCase().includes('cream')
+        ing.name.toLowerCase().includes('cream');
     ),
 
     if (acidic.length > 0 && dairy.length > 0) {
@@ -144,7 +143,7 @@ export function useRecipeValidation() {
   }
 
   // Generate smart suggestions
-  const generateSuggestions = (
+  const generateSuggestions = (;
     ingredients: Ingredient[],
     components: RecipeComponents,
     elementalBalance: ElementalProperties,
@@ -169,23 +168,21 @@ export function useRecipeValidation() {
     }
 
     // Elemental balance suggestions
-    const dominantElement = Object.entries(elementalBalance).sort(
+    const dominantElement = Object.entries(elementalBalance).sort(;
       ([, a], [, b]) => b - a,
     )[0][0] as keyof ElementalProperties,
 
-    const _weakestElement = Object.entries(elementalBalance).sort(
+    const _weakestElement = Object.entries(elementalBalance).sort(;
       ([, a], [, b]) => a - b,
     )[0][0] as keyof ElementalProperties,
 
     if (elementalBalance[dominantElement] > 0.5) {
-      const balancingElements = {
+      const balancingElements = {;
         Fire: 'Water',
         Water: 'Fire',
         Earth: 'Air',
-        Air: 'Earth'
-      }
-
-      suggestions.push({
+        Air: 'Earth' },
+        suggestions.push({
         type: 'elemental_balance',
         message: `Recipe is ${dominantElement}-heavy. Consider adding ${balancingElements[dominantElement as keyof typeof balancingElements]} element ingredients`,
         action: {
@@ -198,15 +195,14 @@ export function useRecipeValidation() {
     // Cooking method suggestions based on ingredients
     const hasDelicateIngredients = ingredients.some(;
       ing =>
-        (((ing as unknown as any).qualities as string[]) || []).includes('delicate') ||
+        (((ing as unknown as any).qualities as string[]) || []).includes('delicate') ||;
         ing.category === 'culinary_herb',
     )
 
     if (hasDelicateIngredients) {
       suggestions.push({
         type: 'cooking_method',
-        message:
-          'Delicate ingredients detected. Consider gentle cooking methods like steaming or light sautéing'
+        message: 'Delicate ingredients detected. Consider gentle cooking methods like steaming or light sautéing'
       })
     }
 
@@ -214,16 +210,16 @@ export function useRecipeValidation() {
   }
 
   // Main validation function
-  const validateRecipe = (
+  const validateRecipe = (;
     ingredients: Ingredient[],
     cookingMethods?: string[],
-  ): ValidationResult => {
+  ): ValidationResult => {;
     const errors: ValidationError[] = [];
     const warnings: ValidationWarning[] = [];
 
     // Basic validation
     if (ingredients.length === 0) {
-      errors.push({
+      errors.push({;
         type: 'missing_component',
         message: 'Recipe must have at least one ingredient',
         severity: 'high'
@@ -236,7 +232,7 @@ export function useRecipeValidation() {
 
     // Check for missing essential components
     if (ingredients.length > 0 && !components.hasSeasonings) {
-      warnings.push({
+      warnings.push({;
         type: 'preparation',
         message: 'Recipe may lack flavor without seasonings',
         recommendation: 'Add herbs, spices, or salt'
@@ -248,7 +244,7 @@ export function useRecipeValidation() {
     const minElemental = Math.min(...Object.values(elementalBalance))
 
     if (maxElemental - minElemental > 0.4) {
-      warnings.push({
+      warnings.push({;
         type: 'preparation',
         message: 'Recipe has significant elemental imbalance',
         recommendation: 'Consider adding balancing ingredients'
@@ -286,7 +282,7 @@ export function useRecipeValidation() {
 
   // Get nutritional analysis
   const getNutritionalAnalysis = (ingredients: Ingredient[]) => {
-    const categories = ingredients.reduce(
+    const categories = ingredients.reduce(;
       (acc, ingredient) => {
         const category = ingredient.category || 'other';
         acc[category] = (acc[category] || 0) + 1,
@@ -297,7 +293,7 @@ export function useRecipeValidation() {
 
     const elementalBalance = calculateElementalBalance(ingredients)
 
-    return {
+    return {;
       categories,
       elementalBalance,
       diversity: Object.keys(categories).length,

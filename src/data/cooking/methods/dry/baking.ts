@@ -6,10 +6,9 @@ import type { ThermodynamicProperties } from '@/types/shared';
  *
  * Cooking by surrounding food with dry heat in an enclosed oven or similar environment
  */
-export const baking: CookingMethodData = {
+export const baking: CookingMethodData = {;
   name: 'baking',
-  description:
-    'Cooking food by exposing it to dry heat in an enclosed space, typically in an oven, producing even heat distribution and caramelization',
+  description: 'Cooking food by exposing it to dry heat in an enclosed space, typically in an oven, producing even heat distribution and caramelization',
   elementalEffect: {
     Fire: 0.4,
     Air: 0.3,
@@ -137,8 +136,7 @@ export const baking: CookingMethodData = {
   } as ThermodynamicProperties,
 
   // Additional metadata
-  history:
-    'Baking is one of the oldest cooking methods, dating back to ancient civilizations that used hot stones and primitive ovens. Egyptian tomb paintings depict bakeries from 2600-2100 BCE, and the Romans elevated bread baking to a sophisticated craft with professional baker guilds (pistores) by 168 BCE. The Industrial Revolution transformed baking with standardized ovens and mechanized mixing. Modern innovations like convection, steam-injection, and computer-controlled ovens have refined the technique further, while artisanal baking has experienced a renaissance, returning to traditional methods and natural fermentation.',
+  history: 'Baking is one of the oldest cooking methods, dating back to ancient civilizations that used hot stones and primitive ovens. Egyptian tomb paintings depict bakeries from 2600-2100 BCE, and the Romans elevated bread baking to a sophisticated craft with professional baker guilds (pistores) by 168 BCE. The Industrial Revolution transformed baking with standardized ovens and mechanized mixing. Modern innovations like convection, steam-injection, and computer-controlled ovens have refined the technique further, while artisanal baking has experienced a renaissance, returning to traditional methods and natural fermentation.',
 
   scientificPrinciples: [
     'Convection heat transfer through air (primary method in conventional ovens)',
@@ -206,107 +204,71 @@ export const baking: CookingMethodData = {
   ingredientPreparation: {
     flour:
       'Sift to aerate and remove lumps proper measuring by weight is critical (1 cup ≈ 120-130g). For bread, high protein content (12%+). For pastry, low protein content (8-10%). For enriched doughs, bread flour.',
-    butter:
-      'For pastry, keep cold (35-40°F) for flakiness; for creaming, soften to 65-68°F. European butter (higher butterfat content) preferred for laminated doughs. Use unsalted for precision control of salt content.',
+    butter: 'For pastry, keep cold (35-40°F) for flakiness; for creaming, soften to 65-68°F. European butter (higher butterfat content) preferred for laminated doughs. Use unsalted for precision control of salt content.',
     eggs: 'Bring to room temperature (65-70°F) for better volume and incorporation. Size matters - recipes typically assume large eggs (about 50g). Separate while cold, whip whites at room temperature for greater volume.',
     meat: 'Pat dry thoroughly before roasting season 1-24 hours in advance for better penetration. Bring to room temperature before baking. Truss or tie roasts for even cooking. Consider dry brining 24-48 hours for improved moisture retention.',
     vegetables: 'Cut to uniform sizes toss with oil to promote even browning. Consider parcooking dense vegetables. Higher water content vegetables benefit from salting to remove excess moisture. Roast on preheated sheet pans for better browning.',
-    fruits:
-      'For pies, macerate with sugar and drain excess juice to prevent soggy bottoms. Toss with acid (lemon juice) to prevent oxidation. For roasting, choose firmer varieties that hold shape. Spices intensify sweetness without added sugar.',
+    fruits: 'For pies, macerate with sugar and drain excess juice to prevent soggy bottoms. Toss with acid (lemon juice) to prevent oxidation. For roasting, choose firmer varieties that hold shape. Spices intensify sweetness without added sugar.',
     'leavening agents': 'Test baking powder for activity in warm water replace every 6 months. Baking soda requires acid to activate. Yeast proofing shows viability - bubbles should form within 10 minutes in warm water with sugar. Store yeast in freezer for extended life.',
     salt: 'Diamond Crystal kosher salt is half as dense as table salt adjust measurements accordingly. Salt inhibits yeast activity in direct contact add after initial fermentation begins for better rise. Fine sea salt distributes evenly in doughs.',
-    sugar:
-      'Granulated for creaming, superfine for meringues, brown for moisture and molasses flavor. Hygroscopic properties affect texture and moisture retention. Invert sugar (honey, corn syrup) improves browning and extends shelf life.'
-  }
-
-  timingConsiderations: {
+    sugar: 'Granulated for creaming, superfine for meringues, brown for moisture and molasses flavor. Hygroscopic properties affect texture and moisture retention. Invert sugar (honey, corn syrup) improves browning and extends shelf life.' },
+        timingConsiderations: {
     rest_before:
       'Allow meat to come to room temperature for 30-60 minutes before baking. Rest dough for gluten relaxation: 30 minutes for cookies, 1 hour for pie dough8-24 hours for bread dough. Autolyse flour and water 20-30 minutes before adding salt and yeast.',
-    rest_after:
-      'Rest most proteins for 5-15 minutes after baking to reabsorb juices. Carryover cooking raises internal temperature 5-15°F. For large roasts, tent with foil and rest 30-45 minutes. Bread requires cooling for 1-2 hours before slicing to complete starch gelatinization and prevent gumminess.',
-    cooling_periods:
-      'Cool cakes in pan for 10 minutes, then on rack; breads until internal temp reaches 90-95°F. Cookies firm up on sheet pan for 2-3 minutes before transferring to rack. Quick breads benefit from aging overnight for flavor development.',
-    carryover_cooking:
-      'Large roasts temperature will rise 5-15°F after removal from oven. For medium-rare beef, remove at 125-130°F to achieve 135-140°F final temperature. Poultry may rise 5-10°F. Custards continue setting as they cool.',
-    resting_dough: 'Refrigerate cookie dough 24-36 hours for deeper flavor pizza dough 2-5 days. Sourdough bread benefits from 12-24 hour cold fermentation. Enriched doughs require 8-12 hours refrigeration for flavor development. Pâte feuilletée (puff pastry) requires 30-minute rests between folds.'
-  }
-
-  doneness_indicators: {
+    rest_after: 'Rest most proteins for 5-15 minutes after baking to reabsorb juices. Carryover cooking raises internal temperature 5-15°F. For large roasts, tent with foil and rest 30-45 minutes. Bread requires cooling for 1-2 hours before slicing to complete starch gelatinization and prevent gumminess.',
+    cooling_periods: 'Cool cakes in pan for 10 minutes, then on rack; breads until internal temp reaches 90-95°F. Cookies firm up on sheet pan for 2-3 minutes before transferring to rack. Quick breads benefit from aging overnight for flavor development.',
+    carryover_cooking: 'Large roasts temperature will rise 5-15°F after removal from oven. For medium-rare beef, remove at 125-130°F to achieve 135-140°F final temperature. Poultry may rise 5-10°F. Custards continue setting as they cool.',
+    resting_dough: 'Refrigerate cookie dough 24-36 hours for deeper flavor pizza dough 2-5 days. Sourdough bread benefits from 12-24 hour cold fermentation. Enriched doughs require 8-12 hours refrigeration for flavor development. Pâte feuilletée (puff pastry) requires 30-minute rests between folds.' },
+        doneness_indicators: {
     bread:
       'Internal temperature of 190-210°F hollow sound when tapped on bottom. For enriched breads, 185-190°F. For crusty artisan loaves, 205-210°F. Golden brown crust, with visible spring and open crumb structure.',
-    cakes:
-      'Toothpick inserted in center comes out clean or with a few moist crumbs. Sides begin to pull away from pan. Springs back when lightly pressed. Internal temperature 200-205°F for butter cakes, 190-195°F for oil-based cakes.',
+    cakes: 'Toothpick inserted in center comes out clean or with a few moist crumbs. Sides begin to pull away from pan. Springs back when lightly pressed. Internal temperature 200-205°F for butter cakes, 190-195°F for oil-based cakes.',
     cookies: 'Edges set but centers slightly soft will firm upon cooling. Color indicates doneness - golden for shortbread, medium brown for chocolate chip. For chewy cookies, they should look slightly underdone in center when removed.',
-    meats:
-      'Use digital thermometer: beef medium-rare 130-135°F, chicken 165°F, pork 145°F. Visual cues include color change, juice clarity, and firmness to touch. Beef rare: 120-125°F, medium: 135-145°F, well-done: 150°F+.',
-    vegetables:
-      'Fork should pierce easily, light caramelization on edges. Visible wrinkling of skin on roasted peppers. Root vegetables should yield easily to knife with slight resistance. Green vegetables remain vibrant with slight darkening.',
-    pastry:
-      'Puff pastry should have visible layers and golden color. Pie crust golden brown with no translucent areas. Shortcrust pale golden with firm texture. Enriched doughs deep golden with hollow sound when tapped.',
-    custards:
-      'Slight wobble in center but set edges. Will firm further upon cooling. Should reach internal temperature of 170-175°F for food safety. Visible thickening and coating the back of a spoon when using as sauce base.'
-  }
-
-  ingredientInteractions: {
+    meats: 'Use digital thermometer: beef medium-rare 130-135°F, chicken 165°F, pork 145°F. Visual cues include color change, juice clarity, and firmness to touch. Beef rare: 120-125°F, medium: 135-145°F, well-done: 150°F+.',
+    vegetables: 'Fork should pierce easily, light caramelization on edges. Visible wrinkling of skin on roasted peppers. Root vegetables should yield easily to knife with slight resistance. Green vegetables remain vibrant with slight darkening.',
+    pastry: 'Puff pastry should have visible layers and golden color. Pie crust golden brown with no translucent areas. Shortcrust pale golden with firm texture. Enriched doughs deep golden with hollow sound when tapped.',
+    custards: 'Slight wobble in center but set edges. Will firm further upon cooling. Should reach internal temperature of 170-175°F for food safety. Visible thickening and coating the back of a spoon when using as sauce base.' },
+        ingredientInteractions: {
     acids_and_bases:
       'Acids inhibit browning baking soda neutralizes acid and promotes browning. Buttermilk, yogurt, and sour cream provide both moisture and acidity, requiring baking soda for leavening. Citric acid prevents oxidation in fruit fillings.',
     sugars: 'Increase tenderness and browning liquid sugar (honey, maple) increases moisture. Competes with flour for liquid, affecting structure. Hygroscopic properties extend shelf life by retaining moisture. Invert sugars (honey, corn syrup) inhibit crystallization.',
     fats: 'Create flakiness in pastry; enhance mouthfeel delay gluten formation. Solid fats create distinct layers in laminated doughs. Liquid oils produce more tender crumb but less structure. Fat coats flour particles, limiting gluten development for tenderness.',
     proteins: 'Set structure when heated create browning reactions with sugars. Egg proteins coagulate at different temperatures: yolks 149-158°F, whites 140-149°F. Gluten development provides structure and chew, particularly in bread. Milk proteins contribute to browning.',
     starches: 'Absorb moisture; provide structure gelatinize when heated with moisture. Different starches gelatinize at different temperatures: wheat 140-158°F, cornstarch 155-158°F. Pre-gelatinized starches (modified) thicken without heat. Starch retrogradation causes staling.',
-    salt: 'Strengthens gluten; enhances flavor; controls yeast activity affects browning. Salt tightens gluten structure for better gas retention in bread. Inhibits yeast activity when in direct contact. Contributes to flavor perception of sweetness without adding sugars.'
-  }
-
-  technicalNotes: {
+    salt: 'Strengthens gluten; enhances flavor; controls yeast activity affects browning. Salt tightens gluten structure for better gas retention in bread. Inhibits yeast activity when in direct contact. Contributes to flavor perception of sweetness without adding sugars.' },
+        technicalNotes: {
     oven_types: {
       conventional:
         'Heat from bottom and/or top elements with natural air circulation. Hot spots common, requiring rotation of baked goods.',
-      convection:
-        'Forced air circulation with fan, producing even heat distribution. Reduces cooking time by 25% and temperature by 25°F from conventional recipes.',
+      convection: 'Forced air circulation with fan, producing even heat distribution. Reduces cooking time by 25% and temperature by 25°F from conventional recipes.',
       gas: 'More humid environment than electric, affecting crust development. Temperature fluctuations common with thermostat cycling.',
-      electric:
-        'More consistent heat with less moisture than gas. Better for precision baking of delicate items.',
-      combi:
-        'Combines convection with steam injection for precise humidity control. Professional standard for bread baking.',
-      wood_fired:
-        'Thermal mass provides heat retention. Temperature gradient from back (hottest) to front. Radiant heat from dome produces rapid surface cooking.',
-      steam_injected:
-        'Introduces humidity during initial baking phase. Critical for proper expansion and crust development in artisan breads.'
-    },
-    flour_types: {
+      electric: 'More consistent heat with less moisture than gas. Better for precision baking of delicate items.',
+      combi: 'Combines convection with steam injection for precise humidity control. Professional standard for bread baking.',
+      wood_fired: 'Thermal mass provides heat retention. Temperature gradient from back (hottest) to front. Radiant heat from dome produces rapid surface cooking.',
+      steam_injected: 'Introduces humidity during initial baking phase. Critical for proper expansion and crust development in artisan breads.' },
+        flour_types: {
       bread_flour: '12-14% protein content. High gluten formation for structure in yeasted breads.',
       all_purpose: '10-12% protein. Versatile for most baking applications.',
       cake_flour: '7-9% protein. Low gluten, high starch for tender cakes and pastries.',
       pastry_flour: '8-10% protein. Intermediate between cake and all-purpose flour.',
-      whole_wheat:
-        'Contains entire wheat kernel. Higher protein but bran particles interrupt gluten development.',
+      whole_wheat: 'Contains entire wheat kernel. Higher protein but bran particles interrupt gluten development.',
       '00_flour':
         'Italian classification for finely ground flour. Variable protein content depending on type.',
-      gluten_free_blends:
-        'Combinations of rice, tapioca, potato, and other non-wheat flours with stabilizers.'
-    },
-    leavening_agents: {
+      gluten_free_blends: 'Combinations of rice, tapioca, potato, and other non-wheat flours with stabilizers.' },
+        leavening_agents: {
       baking_soda:
         'Sodium bicarbonate (NaHCO3). Requires acid to activate. Acts immediately upon mixing and exposure to heat.',
-      baking_powder:
-        'Combination of sodium bicarbonate and acid salts. Double-acting reacts at room temperature and again with heat.',
-      yeast:
-        'Living organism producing CO2 through fermentation. Contributes flavor through fermentation byproducts. Requires proofing time.',
-      steam:
-        'Physical leavening from water expanding as it converts to gas. Primary agent in puff pastry, choux paste, and popovers.',
-      eggs: 'Mechanical leavening from incorporated air, particularly in whipped whites or whole eggs.'
-    },
-    mixing_methods: {
+      baking_powder: 'Combination of sodium bicarbonate and acid salts. Double-acting reacts at room temperature and again with heat.',
+      yeast: 'Living organism producing CO2 through fermentation. Contributes flavor through fermentation byproducts. Requires proofing time.',
+      steam: 'Physical leavening from water expanding as it converts to gas. Primary agent in puff pastry, choux paste, and popovers.',
+      eggs: 'Mechanical leavening from incorporated air, particularly in whipped whites or whole eggs.' },
+        mixing_methods: {
       creaming:
         'Beating fat and sugar to incorporate air before adding remaining ingredients. Creates fine, tender crumb in cakes and cookies.',
-      rubbing:
-        'Incorporating fat into flour by hand until crumbly. Used for biscuits, scones, and shortcrust pastry.',
-      muffin_method:
-        'Combining wet and dry ingredients separately, then mixing minimally. Produces coarser crumb with tunnels.',
-      reverse_creaming:
-        'Coating flour particles with fat before adding liquid. Creates fine, velvety texture with structural strength.',
-      lamination:
-        'Folding fat between dough layers. Creates distinct, flaky layers in puff pastry, croissants, and Danish pastries.'
+      rubbing: 'Incorporating fat into flour by hand until crumbly. Used for biscuits, scones, and shortcrust pastry.',
+      muffin_method: 'Combining wet and dry ingredients separately, then mixing minimally. Produces coarser crumb with tunnels.',
+      reverse_creaming: 'Coating flour particles with fat before adding liquid. Creates fine, velvety texture with structural strength.',
+      lamination: 'Folding fat between dough layers. Creates distinct, flaky layers in puff pastry, croissants, and Danish pastries.'
     }
   }
 }

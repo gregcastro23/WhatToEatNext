@@ -20,7 +20,7 @@ function CookingMethodsSection({ methods, _onSelectMethod }: { methods: any[], _
   return (
     <div className='space-y-2'>
       {methods.map((m, idx) => (
-        <button key={String(m.id || idx)} onClick={() => onSelectMethod(m)} className='w-full rounded border p-3 text-left'>
+        <button key={String(m.id || idx)} onClick={() => _onSelectMethod(m)} className='w-full rounded border p-3 text-left'>
           <div className='font-semibold'>{String(m.name || 'Method')}</div>
           <div className='text-sm text-gray-600'>{String(m.description || '')}</div>
         </button>
@@ -42,41 +42,41 @@ const methodCategories: MethodCategory[] = [
     description: 'Cooking with hot air, radiation, or hot fat',
     methods: dryCookingMethods,
     icon: '🔥'
-  }
+  },
   {
     name: 'Wet',
     description: 'Cooking with water or steam',
     methods: wetCookingMethods,
     icon: '💧'
-  }
+  },
   {
     name: 'Molecular',
     description: 'Scientific techniques that transform ingredients',
     methods: molecularCookingMethods,
     icon: '🧪'
-  }
+  },
   {
     name: 'Traditional',
     description: 'Historical preservation and flavor development methods',
     methods: traditionalCookingMethods,
     icon: '🏺'
-  }
+  },
   {
     name: 'Raw',
     description: 'Preparation without applying heat',
     methods: rawCookingMethods,
     icon: '🥬'
-  }
+  },
   {
     name: 'Transformation',
     description: 'Methods that significantly alter food structure or preservation',
     methods: transformationMethods,
     icon: '⚗️'
   }
-],
+];
 
 export default function CookingMethodsPage() {
-  const router = useRouter()
+  const router = useRouter();
   const [tabValue, setTabValue] = useState(0)
   const [formattedMethods, setFormattedMethods] = useState<CookingMethodData[]>([])
   const [selectedMethodId, setSelectedMethodId] = useState<string | null>(null)
@@ -85,24 +85,24 @@ export default function CookingMethodsPage() {
   useEffect(() => {
     if (methodCategories[tabValue]) {
       const categoryMethods = methodCategories[tabValue].methods;
-      const transformed = Object.entries(categoryMethods).map(([key, method]) => {;
+      const transformed = Object.entries(categoryMethods).map(([key, method]) => {
         return {
           id: key,
           name: capitalizeFirstLetter(key.replace(/_/g, ' ')),
           description: (method as any).description || '',
-          elementalEffect: (method as any).elementalEffect ||,
+          elementalEffect: (method as any).elementalEffect ||
             (method as any).elementalProperties || {
               Fire: 0.5,
               Water: 0.5,
               Earth: 0.5,
               Air: 0.5
             },
-          score: Math.random() * 0.5 + 0.5, // Mock score between 0.5-1.0,
-          duration: (method as any).time_range || (method as any).duration || { min: 10, max: 30 }
+          score: Math.random() * 0.5 + 0.5, // Mock score between 0.5-1.0
+          duration: (method as any).time_range || (method as any).duration || { min: 10, max: 30 },
           suitable_for: (method as any).suitable_for || [],
           benefits: (method as any).benefits || [],
           // Create variations if they exist
-          variations: (method as any).variations,
+          variations: (method as any).variations
             ? Array.isArray((method as any).variations)
               ? ((method as any).variations as string[]).map((v: string, i: number) => ({
                   id: `${key}_var_${i}`,
@@ -120,14 +120,14 @@ export default function CookingMethodsPage() {
     }
   }, [tabValue])
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {;
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue)
   }
 
-  const handleSelectMethod = (method: unknown) => {;
+  const handleSelectMethod = (method: unknown) => {
     const methodObj = method as any;
     const methodId = String(methodObj.id || '')
-    setSelectedMethodId(methodId)
+    setSelectedMethodId(methodId);
     // If it's a main method (not a variation), navigate to it
     if (!methodId.includes('_var_')) {
       router.push(`/cooking-methods/${methodId}`)
@@ -143,7 +143,6 @@ export default function CookingMethodsPage() {
       <Typography variant='h5' align='center' color='text.secondary' paragraph>
         Explore various techniques for transforming ingredients into delicious dishes
       </Typography>
-
       <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 4 }}>
         <Tabs
           value={tabValue}
@@ -191,8 +190,7 @@ export default function CookingMethodsPage() {
                 selectedMethodId={selectedMethodId}
                 initiallyExpanded={true}
               />
-            </>
-          )}
+            </>)}
         </div>
       ))}
     </Container>

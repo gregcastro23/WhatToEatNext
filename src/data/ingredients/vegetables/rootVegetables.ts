@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawRootVegetables = {
-  'sweet potato': {
+  'sweet potato': {;
     name: 'Sweet potato',
     elementalProperties: { Earth: 0.5, Fire: 0.3, Water: 0.1, Air: 0.1 }
     astrologicalProfile: {
@@ -11,9 +11,9 @@ const rawRootVegetables = {
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Venus' }
-          second: { element: 'Water', planet: 'Moon' }
-          third: { element: 'Air', planet: 'Mercury' }
+          first: { element: 'Earth', planet: 'Venus' },
+        second: { element: 'Water', planet: 'Moon' },
+        third: { element: 'Air', planet: 'Mercury' }
         }
       }
     },
@@ -35,9 +35,8 @@ const rawRootVegetables = {
       washing: true,
       peeling: 'optional',
       cutting: 'uniform size for even cooking',
-      notes: 'Can be pre-cooked and reheated'
-    },
-    storage: {
+      notes: 'Can be pre-cooked and reheated' },
+        storage: {
       temperature: 'cool dark place',
       duration: '3-5 weeks',
       notes: 'Do not refrigerate raw'
@@ -65,9 +64,8 @@ const rawRootVegetables = {
       washing: true,
       peeling: 'recommended',
       cutting: 'uniform pieces',
-      notes: 'Smaller ones are more tender'
-    },
-    storage: {
+      notes: 'Smaller ones are more tender' },
+        storage: {
       temperature: 'refrigerated',
       duration: '2-3 weeks',
       humidity: 'high',
@@ -97,9 +95,8 @@ const rawRootVegetables = {
       washing: true,
       peeling: 'after cooking',
       roasting: 'wrap in foil with olive oil',
-      notes: 'Wear gloves to prevent staining'
-    },
-    storage: {
+      notes: 'Wear gloves to prevent staining' },
+        storage: {
       temperature: 'refrigerated',
       duration: '2-3 weeks',
       humidity: 'high',
@@ -128,9 +125,8 @@ const rawRootVegetables = {
       washing: true,
       peeling: 'recommended for larger ones',
       cutting: 'uniform pieces',
-      notes: 'Smaller ones are sweeter'
-    },
-    storage: {
+      notes: 'Smaller ones are sweeter' },
+        storage: {
       temperature: 'refrigerated',
       duration: '2-3 weeks',
       humidity: 'high',

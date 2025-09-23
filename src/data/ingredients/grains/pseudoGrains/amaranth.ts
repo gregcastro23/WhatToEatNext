@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawAmaranth = {
-  amaranth: {
+  amaranth: {;
     name: 'Amaranth',
     elementalProperties: { Earth: 0.3, Fire: 0.3, Air: 0.2, Water: 0.2 }
     astrologicalProfile: {
@@ -39,9 +39,8 @@ const rawAmaranth = {
       container: 'Airtight container',
       duration: 'Up to 6 months (dry), 2-3 days (cooked)',
       temperature: 'Cool, dark place (dry), refrigerated (cooked)',
-      notes: 'High oil content makes it spoil faster than other grains'
-    },
-    pairingRecommendations: {
+      notes: 'High oil content makes it spoil faster than other grains' },
+        pairingRecommendations: {
       complementary: ['cinnamon', 'honey', 'fruits', 'mild cheeses', 'vegetables'],
       contrasting: ['herbs', 'light citrus'],
       toAvoid: ['strong acidic ingredients that might prevent proper cooking']

@@ -1,8 +1,7 @@
 /**
  * Comprehensive Transit Database
  *
- * Provides detailed transit information for multiple years with:
- * - 12 seasons per year (monthly breakdowns)
+ * Provides detailed transit information for multiple years with: * - 12 seasons per year (monthly breakdowns)
  * - Planetary placements and aspects
  * - Seasonal themes and culinary influences
  * - Elemental dominance patterns
@@ -56,16 +55,16 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
             aspectType: 'conjunction' as AspectType,
             orb: 2.5,
             influence: 0.9,
-            description: 'Dynamic fire energy, perfect for bold culinary experiments'
-          } as PlanetaryAspect,
+            description: 'Dynamic fire energy, perfect for bold culinary experiments' },
+        as PlanetaryAspect,
           {
             planet1: 'Mercury',
             planet2: 'Venus',
             aspectType: 'conjunction' as AspectType,
             orb: 1.8,
             influence: 0.8,
-            description: 'Harmonious communication between air and earth elements'
-          } as PlanetaryAspect
+            description: 'Harmonious communication between air and earth elements' },
+        as PlanetaryAspect
         ],
         planetaryPlacements: {
           Sun: { sign: 'aries', degree: 15, exactLongitude: 15, isRetrograde: false }
@@ -112,16 +111,16 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
             aspectType: 'trine' as AspectType,
             orb: 1.2,
             influence: 0.8,
-            description: 'Harmonious earth energy, ideal for grounding comfort foods'
-          } as PlanetaryAspect,
+            description: 'Harmonious earth energy, ideal for grounding comfort foods' },
+        as PlanetaryAspect,
           {
             planet1: 'Sun',
             planet2: 'Uranus',
             aspectType: 'conjunction' as AspectType,
             orb: 3.1,
             influence: 0.7,
-            description: 'Innovative earth energy, perfect for experimental comfort cooking'
-          } as PlanetaryAspect
+            description: 'Innovative earth energy, perfect for experimental comfort cooking' },
+        as PlanetaryAspect
         ],
         planetaryPlacements: {
           Sun: { sign: 'taurus', degree: 12, exactLongitude: 42, isRetrograde: false }
@@ -168,16 +167,16 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
             aspectType: 'conjunction' as AspectType,
             orb: 2.8,
             influence: 0.85,
-            description: 'Intellectual air energy, perfect for experimental and varied cuisine'
-          } as PlanetaryAspect,
+            description: 'Intellectual air energy, perfect for experimental and varied cuisine' },
+        as PlanetaryAspect,
           {
             planet1: 'Sun',
             planet2: 'Venus',
             aspectType: 'trine' as AspectType,
             orb: 1.5,
             influence: 0.75,
-            description: 'Harmonious communication between fire and earth elements'
-          } as PlanetaryAspect
+            description: 'Harmonious communication between fire and earth elements' },
+        as PlanetaryAspect
         ],
         planetaryPlacements: {
           Sun: { sign: 'gemini', degree: 8, exactLongitude: 68, isRetrograde: false }
@@ -218,8 +217,8 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
         aspectType: 'square' as AspectType,
         orb: 1.8,
         influence: 0.9,
-        description: 'Major structural changes in spiritual and material realms'
-      } as PlanetaryAspect
+        description: 'Major structural changes in spiritual and material realms' },
+        as PlanetaryAspect
     ],
     eclipseSeasons: [
       new Date('2024-04-08'), // Solar Eclipse
@@ -256,24 +255,24 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
             aspectType: 'conjunction' as AspectType,
             orb: 3.1,
             influence: 0.85,
-            description: 'Intellectual air energy, perfect for experimental and varied cuisine'
-          } as PlanetaryAspect,
+            description: 'Intellectual air energy, perfect for experimental and varied cuisine' },
+        as PlanetaryAspect,
           {
             planet1: 'Sun',
             planet2: 'Venus',
             aspectType: 'trine' as AspectType,
             orb: 2.8,
             influence: 0.75,
-            description: 'Harmonious communication between fire and earth elements'
-          } as PlanetaryAspect,
+            description: 'Harmonious communication between fire and earth elements' },
+        as PlanetaryAspect,
           {
             planet1: 'Mars',
             planet2: 'Jupiter',
             aspectType: 'conjunction' as AspectType,
             orb: 1.2,
             influence: 0.9,
-            description: 'Dynamic fire expansion, ideal for bold culinary experiments'
-          } as PlanetaryAspect
+            description: 'Dynamic fire expansion, ideal for bold culinary experiments' },
+        as PlanetaryAspect
         ],
         planetaryPlacements: {
           Sun: { sign: 'gemini', degree: 15, exactLongitude: 75, isRetrograde: false }
@@ -320,16 +319,16 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
             aspectType: 'trine' as AspectType,
             orb: 2.1,
             influence: 0.8,
-            description: 'Intuitive water energy, perfect for nurturing comfort foods'
-          } as PlanetaryAspect,
+            description: 'Intuitive water energy, perfect for nurturing comfort foods' },
+        as PlanetaryAspect,
           {
             planet1: 'Sun',
             planet2: 'Saturn',
             aspectType: 'opposition' as AspectType,
             orb: 1.8,
             influence: 0.7,
-            description: 'Balancing structure with emotional nourishment'
-          } as PlanetaryAspect
+            description: 'Balancing structure with emotional nourishment' },
+        as PlanetaryAspect
         ],
         planetaryPlacements: {
           Sun: { sign: 'cancer', degree: 8, exactLongitude: 98, isRetrograde: false }
@@ -370,8 +369,8 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
         aspectType: 'square',
         orb: 2.1,
         influence: 0.8,
-        description: 'Expansion meets structure in food and culture'
-      } as PlanetaryAspect
+        description: 'Expansion meets structure in food and culture' },
+        as PlanetaryAspect
     ],
     eclipseSeasons: [
       new Date('2025-03-29'), // Solar Eclipse
@@ -400,14 +399,14 @@ export class TransitAnalysisService {
    * Get transit information for a specific date
    */
   static getTransitForDate(date: Date): TransitSeason | null {
-    const year = date.getFullYear().toString()
+    const year = date.getFullYear().toString();
     const yearData = COMPREHENSIVE_TRANSIT_DATABASE[year];
 
     if (!yearData) return null;
 
     return (
       yearData.seasons.find(season => date >= season.startDate && date <= season.endDate) || null
-    )
+    );
   }
 
   /**
@@ -442,7 +441,7 @@ export class TransitAnalysisService {
           if (season.startDate >= startDate && season.endDate <= endDate) {
             seasons.push(season)
 
-            // Aggregate dominant elements
+            // Aggregate dominant elements;
             Object.entries(season.dominantElements).forEach(([element, value]) => {
               dominantElements[element] += value,
             })
@@ -461,7 +460,7 @@ export class TransitAnalysisService {
     const total = Object.values(dominantElements).reduce((sum, val) => sum + val0)
     if (total > 0) {
       Object.keys(dominantElements).forEach(element => {
-        dominantElements[element] /= total
+        dominantElements[element] /= total;
       })
     }
 
@@ -486,7 +485,7 @@ export class TransitAnalysisService {
    */
   static getEclipseSeasons(year: string): Date[] {
     const yearData = COMPREHENSIVE_TRANSIT_DATABASE[year]
-    return yearData.eclipseSeasons || []
+    return yearData.eclipseSeasons || [];
   }
 
   /**
@@ -494,16 +493,17 @@ export class TransitAnalysisService {
    */
   static getMajorTransits(year: string): PlanetaryAspect[] {
     const yearData = COMPREHENSIVE_TRANSIT_DATABASE[year]
-    return yearData.majorTransits || []
+    return yearData.majorTransits || [];
   }
 }
 
 // Export convenience functions
 export const getTransitForDate = (date: Date) => TransitAnalysisService.getTransitForDate(date)
-export const getAvailableYears = () => TransitAnalysisService.getAvailableYears()
+export const getAvailableYears = () => TransitAnalysisService.getAvailableYears();
 export const getSeasonalAnalysis = (startDate: Date, endDate: Date) =>
   TransitAnalysisService.getSeasonalAnalysis(startDate, endDate)
 export const getRetrogradePeriods = (planet: string, year: string) =>
   TransitAnalysisService.getRetrogradePeriods(planet, year)
 export const getEclipseSeasons = (year: string) => TransitAnalysisService.getEclipseSeasons(year)
 export const getMajorTransits = (year: string) => TransitAnalysisService.getMajorTransits(year)
+;

@@ -3,31 +3,31 @@ import React, { lazy } from 'react';
 // Lazy-loaded components for code splitting
 export const LazyPlanetaryHourDisplay = lazy(() =>
   import('../PlanetaryHourDisplay').then(module => ({
-    default: module.PlanetaryHourDisplay
+    default: module.PlanetaryHourDisplay;
   }))
 )
 
 export const LazyEnhancedRecommendationEngine = lazy(() =>
   import('../EnhancedRecommendationEngine').then(module => ({
-    default: module.EnhancedRecommendationEngine
+    default: module.EnhancedRecommendationEngine;
   }))
 )
 
 export const LazyEnergyVisualization = lazy(() =>
   import('../EnergyVisualization').then(module => ({
-    default: module.EnergyVisualization
+    default: module.EnergyVisualization;
   }))
 )
 
 export const LazyCelestialEventNotifications = lazy(() =>
   import('../CelestialEventNotifications').then(module => ({
-    default: module.CelestialEventNotifications
+    default: module.CelestialEventNotifications;
   }))
 )
 
 // Loading component for Suspense fallbacks
 export const ComponentLoader: React.FC<{ message?: string }> = ({ message = 'Loading component...' }) => (
-  <div style={{
+  <div style={{;
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -36,11 +36,11 @@ export const ComponentLoader: React.FC<{ message?: string }> = ({ message = 'Loa
     borderRadius: '8px',
     border: '1px dashed #ddd'
   }}>
-    <div style={{
+    <div style={{;
       textAlign: 'center',
       color: '#666'
     }}>
-      <div style={{
+      <div style={{;
         fontSize: '24px',
         marginBottom: '8px',
         animation: 'pulse 1.5s ease-in-out infinite'
@@ -51,8 +51,7 @@ export const ComponentLoader: React.FC<{ message?: string }> = ({ message = 'Loa
         {message}
       </div>
     </div>
-  </div>
-)
+  </div>)
 
 // Error boundary for lazy components
 export class LazyComponentErrorBoundary extends React.Component<
@@ -69,13 +68,13 @@ export class LazyComponentErrorBoundary extends React.Component<
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    _logger.error('LazyComponent Error:', error, errorInfo)
+    _logger.error('LazyComponent Error: ', error, errorInfo)
   }
 
   render() {
     if (this.state.hasError) {
       return this.props.fallback || (
-        <div style={{
+        <div style={{;
           padding: '20px',
           backgroundColor: '#f8d7da',
           color: '#721c24',
@@ -90,8 +89,7 @@ export class LazyComponentErrorBoundary extends React.Component<
           <div style={{ fontSize: '14px' }}>
             {this.state.error?.message || 'An unexpected error occurred'}
           </div>
-        </div>
-      )
+        </div>)
     }
 
     return this.props.children,

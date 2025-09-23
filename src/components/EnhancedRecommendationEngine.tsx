@@ -18,7 +18,7 @@ interface RecommendationState {
   cuisinePreferences: string[],
 }
 
-const DIETARY_OPTIONS = [
+const DIETARY_OPTIONS = [;
   'vegetarian',
   'vegan',
   'gluten-free',
@@ -29,7 +29,7 @@ const DIETARY_OPTIONS = [
   'low-sodium',
 ] as const,
 
-const CUISINE_OPTIONS = [
+const CUISINE_OPTIONS = [;
   'italian',
   'chinese',
   'indian',
@@ -56,7 +56,7 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
 
   const addIngredient = () => {
     if (newIngredient.trim() && !state.ingredients.includes(newIngredient.trim())) {
-      setState(prev => ({
+      setState(prev => ({;
         ...prev,
         ingredients: [...prev.ingredients, newIngredient.trim()]
       }))
@@ -65,32 +65,32 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
   }
 
   const removeIngredient = (ingredient: string) => {
-    setState(prev => ({
+    setState(prev => ({;
       ...prev,
-      ingredients: prev.ingredients.filter(i => i !== ingredient)
+      ingredients: prev.ingredients.filter(i => i !== ingredient);
     }))
   }
 
   const toggleDietaryRestriction = (restriction: string) => {
-    setState(prev => ({
+    setState(prev => ({;
       ...prev,
       dietaryRestrictions: prev.dietaryRestrictions.includes(restriction),
-        ? prev.dietaryRestrictions.filter(r => r !== restriction)
+        ? prev.dietaryRestrictions.filter(r => r !== restriction);
         : [...prev.dietaryRestrictions, restriction]
     }))
   }
 
   const toggleCuisinePreference = (cuisine: string) => {
-    setState(prev => ({
+    setState(prev => ({;
       ...prev,
       cuisinePreferences: prev.cuisinePreferences.includes(cuisine),
-        ? prev.cuisinePreferences.filter(c => c !== cuisine)
+        ? prev.cuisinePreferences.filter(c => c !== cuisine);
         : [...prev.cuisinePreferences, cuisine]
     }))
   }
 
   const getRecommendations = async () => {
-    if (state.ingredients.length === 0) {
+    if (state.ingredients.length === 0) {;
       setState(prev => ({ ...prev, error: 'Please add at least one ingredient' }))
       return,
     }
@@ -98,7 +98,7 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
     setState(prev => ({ ...prev, loading: true, error: null }))
 
     try {
-      const request: RecommendationRequest = {
+      const request: RecommendationRequest = {;
         ingredients: state.ingredients,
         dietaryRestrictions: state.dietaryRestrictions,
         cuisinePreferences: state.cuisinePreferences,
@@ -108,7 +108,7 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
 
       const recipes = await alchmAPI.getRecommendations(request)
 
-      setState(prev => ({
+      setState(prev => ({;
         ...prev,
         loading: false,
         recipes,
@@ -118,7 +118,7 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
       logger.debug('EnhancedRecommendationEngine received recommendations', { count: recipes.length })
     } catch (error) {
       logger.error('EnhancedRecommendationEngine failed to get recommendations', error)
-      setState(prev => ({
+      setState(prev => ({;
         ...prev,
         loading: false,
         error: error instanceof Error ? error.message : 'Failed to get recommendations'
@@ -128,20 +128,20 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      addIngredient()
+      addIngredient();
     }
   }
 
   return (
     <div className={`enhanced-recommendation-engine ${className}`}
-         style={{
+         style={{;
            border: '1px solid #ddd',
            borderRadius: '8px',
            padding: '20px',
            maxWidth: '600px',
            backgroundColor: '#fff'
          }}>
-      <h2 style={{
+      <h2 style={{;
         margin: '0 0 20px 0',
         color: '#333',
         fontSize: '24px',
@@ -152,7 +152,7 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
 
       {/* Ingredients Input */}
       <div style={{ marginBottom: '20px' }}>
-        <label style={{
+        <label style={{;
           display: 'block',
           marginBottom: '8px',
           fontWeight: '500',
@@ -162,12 +162,12 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
         </label>
         <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
           <input
-            type="text"
+            type="text";
             value={newIngredient}
             onChange={(e) => setNewIngredient(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder="Enter an ingredient..."
-            style={{
+            style={{;
               flex: 1,
               padding: '8px 12px',
               border: '1px solid #ccc',
@@ -177,7 +177,7 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
           />
           <button
             onClick={addIngredient}
-            style={{
+            style={{;
               padding: '8px 16px',
               backgroundColor: '#007bff',
               color: 'white',
@@ -192,9 +192,9 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
         </div>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
           {state.ingredients.map(ingredient => (
-            <span
+            <span;
               key={ingredient}
-              style={{
+              style={{;
                 backgroundColor: '#e9ecef',
                 padding: '4px 8px',
                 borderRadius: '12px',
@@ -207,7 +207,7 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
               {ingredient}
               <button
                 onClick={() => removeIngredient(ingredient)}
-                style={{
+                style={{;
                   background: 'none',
                   border: 'none',
                   color: '#666',
@@ -218,14 +218,13 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
               >
                 ×
               </button>
-            </span>
-          ))}
+            </span>))}
         </div>
       </div>
 
       {/* Dietary Restrictions */}
       <div style={{ marginBottom: '20px' }}>
-        <label style={{
+        <label style={{;
           display: 'block',
           marginBottom: '8px',
           fontWeight: '500',
@@ -234,8 +233,8 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
           Dietary Restrictions:
         </label>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-          {DIETARY_OPTIONS.map(option => (
-            <label key={option} style={{
+          {DIETARY_OPTIONS.map(option => (;
+            <label key={option} style={{;
               display: 'flex',
               alignItems: 'center',
               gap: '4px',
@@ -243,7 +242,7 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
               cursor: 'pointer'
             }}>
               <input
-                type="checkbox"
+                type="checkbox";
                 checked={state.dietaryRestrictions.includes(option)}
                 onChange={() => toggleDietaryRestriction(option)}
               />
@@ -255,7 +254,7 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
 
       {/* Cuisine Preferences */}
       <div style={{ marginBottom: '20px' }}>
-        <label style={{
+        <label style={{;
           display: 'block',
           marginBottom: '8px',
           fontWeight: '500',
@@ -264,8 +263,8 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
           Cuisine Preferences:
         </label>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-          {CUISINE_OPTIONS.map(option => (
-            <label key={option} style={{
+          {CUISINE_OPTIONS.map(option => (;
+            <label key={option} style={{;
               display: 'flex',
               alignItems: 'center',
               gap: '4px',
@@ -273,7 +272,7 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
               cursor: 'pointer'
             }}>
               <input
-                type="checkbox"
+                type="checkbox";
                 checked={state.cuisinePreferences.includes(option)}
                 onChange={() => toggleCuisinePreference(option)}
               />
@@ -287,7 +286,7 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
       <button
         onClick={getRecommendations}
         disabled={state.loading || state.ingredients.length === 0}
-        style={{
+        style={{;
           width: '100%',
           padding: '12px',
           backgroundColor: state.loading ? '#6c757d' : '#28a745',
@@ -305,7 +304,7 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
 
       {/* Error Display */}
       {state.error && (
-        <div style={{
+        <div style={{;
           padding: '12px',
           backgroundColor: '#f8d7da',
           color: '#721c24',
@@ -315,13 +314,12 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
           fontSize: '14px'
         }}>
           {state.error}
-        </div>
-      )}
+        </div>)}
 
       {/* Recipes Display */}
       {state.recipes.length > 0 && (
         <div>
-          <h3 style={{
+          <h3 style={{;
             margin: '0 0 16px 0',
             color: '#333',
             fontSize: '18px',
@@ -333,7 +331,7 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
             {state.recipes.map((recipe, index) => (
               <div
                 key={recipe.id || index}
-                style={{
+                style={{;
                   border: '1px solid #e9ecef',
                   borderRadius: '6px',
                   padding: '16px',
@@ -342,7 +340,7 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
                 }}
                 onClick={() => onRecipeSelect?.(recipe)}
               >
-                <h4 style={{
+                <h4 style={{;
                   margin: '0 0 8px 0',
                   color: '#007bff',
                   fontSize: '16px',
@@ -355,7 +353,7 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
                     href={recipe.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    style={{
+                    style={{;
                       color: '#6c757d',
                       fontSize: '14px',
                       textDecoration: 'none'
@@ -372,15 +370,14 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
       )}
 
       {state.recipes.length === 0 && !state.loading && !state.error && state.ingredients.length > 0 && (
-        <div style={{
+        <div style={{;
           textAlign: 'center',
           color: '#6c757d',
           fontSize: '14px',
           fontStyle: 'italic'
         }}>
           No recommendations yet. Click "Get Alchemical Recommendations" to discover recipes!
-        </div>
-      )}
+        </div>)}
     </div>
   )
 }

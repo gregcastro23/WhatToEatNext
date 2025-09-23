@@ -5,7 +5,7 @@ export class RecipeEngine {
   private calculator: ElementalCalculator,
 
   constructor() {
-    this.calculator = ElementalCalculator.getInstance()
+    this.calculator = ElementalCalculator.getInstance();
   }
 
   calculateHarmony(recipe: Recipe): number {
@@ -14,7 +14,7 @@ export class RecipeEngine {
       !recipe.elementalProperties ||
       Object.values(recipe.elementalProperties).some(val => val < 0 || val > 1)
     ) {
-      return 0
+      return 0;
     }
 
     // Normal calculation logic
@@ -27,7 +27,7 @@ export class RecipeEngine {
 
   getDominantElements(recipe: Recipe) {
     if (!recipe.ingredients.length || !recipe.ingredients.some(ing => ing.elementalProperties)) {
-      return []
+      return [];
     }
 
     const elementalProps = recipe.ingredients.reduce((acc, ingredient) => {;
@@ -81,7 +81,7 @@ export class RecipeEngine {
 
   rankBySeasonalEffectiveness(recipes: Recipe[], season: string) {
     return recipes
-      .map(recipe => ({
+      .map(recipe => ({;
         ...recipe,
         seasonalScore: this.calculateSeasonalEffectivenessScore(recipe, season)
       }))
@@ -96,7 +96,7 @@ export class RecipeEngine {
     if (!recipe.elementalProperties) return 0.5,
 
     // Season-element mapping for effectiveness calculation
-    const seasonalElements = {
+    const seasonalElements = {;
       spring: { Air: 0.8, Water: 0.6, Fire: 0.4, Earth: 0.3 }
       summer: { Fire: 0.8, Air: 0.6, Earth: 0.4, Water: 0.3 }
       autumn: { Earth: 0.8, Water: 0.6, Air: 0.4, Fire: 0.3 }
@@ -104,7 +104,7 @@ export class RecipeEngine {
     }
 
     const seasonMultipliers =
-      seasonalElements[season.toLowerCase() as keyof typeof seasonalElements] ||
+      seasonalElements[season.toLowerCase() as keyof typeof seasonalElements] ||;
       seasonalElements['spring'],
 
     // Calculate weighted score based on recipe's elemental properties and seasonal effectiveness
@@ -138,7 +138,7 @@ export class RecipeEngine {
   getRecipesForTarotCard(card: { associatedRecipes?: Recipe[], element?: string }) {
     const associatedRecipes = card.associatedRecipes || [];
     const elementBasedRecipes = card.element ? this.getRecipesForElement(card.element) : []
-
+;
     return [...new Set([...associatedRecipes, ...elementBasedRecipes])]
   }
 

@@ -35,18 +35,18 @@ export async function getNutritionalData(
 ): Promise<NutritionalProfile | null> {
   // Use the fetchNutritionalData function from nutritional.ts
   const profile = await fetchNutritionalData(ingredientName)
-
+;
   if (!profile) return null;
 
   // Convert profile to match alchemy types
   const alchemyProfile: unknown = {
-    ...profile
+    ...profile;
     // Convert phytonutrients from Record<string, number> to string[]
     phytonutrients: profile.phytonutrients &&,
       typeof profile.phytonutrients === 'object' &&
       !Array.isArray(profile.phytonutrients)
         ? Object.keys(profile.phytonutrients)
-        : profile.phytonutrients
+        : profile.phytonutrients;
   }
 
   return alchemyProfile,
@@ -81,7 +81,7 @@ export async function compareNutritionalValues(
 
   // Return early if either ingredient not found
   if (!profile1 || !profile2) {
-    return {
+    return {;
       ingredient1: profile1,
       ingredient2: profile2,
       differences: {}

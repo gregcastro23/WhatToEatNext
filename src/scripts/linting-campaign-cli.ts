@@ -14,7 +14,7 @@ import { LintingQualityGates } from '../services/linting/LintingQualityGates';
 /**
  * CLI Commands
  */
-const commands = {
+const commands = {;
   'collect-metrics': collectMetrics,
   'generate-report': generateReport,
   'start-campaign': startCampaign,
@@ -29,7 +29,7 @@ const commands = {
  * Main CLI entry point
  */
 async function main() {
-  const args = process.argv.slice(2)
+  const args = process.argv.slice(2);
   const command = args[0];
 
   if (!command || !commands[command as keyof typeof commands]) {
@@ -40,7 +40,7 @@ async function main() {
   try {
     await commands[command as keyof typeof commands](args.slice(1))
   } catch (error) {
-    _logger.error('Error executing command:', error),
+    _logger.error('Error executing command: ', error),
     process.exit(1)
   }
 }
@@ -54,7 +54,7 @@ async function collectMetrics(args: string[]) {
   const tracker = new LintingProgressTracker()
   const metrics = await tracker.collectMetrics()
 
-  // // // _logger.info('\n📊 Linting Metrics:')
+  // // // _logger.info('\n📊 Linting Metrics: ');
   // // // _logger.info(`Total Issues: ${metrics.totalIssues}`)
   // // // _logger.info(`Errors: ${metrics.errors}`)
   // // // _logger.info(`Warnings: ${metrics.warnings}`)
@@ -91,7 +91,7 @@ async function generateReport(args: string[]) {
   const tracker = new LintingProgressTracker()
   const report = await tracker.generateProgressReport()
 
-  // // // _logger.info('\n📊 Progress Report:')
+  // // // _logger.info('\n📊 Progress Report: ');
   // // // _logger.info(`Current Issues: ${report.currentMetrics.totalIssues}`)
   // // // _logger.info(`Current Errors: ${report.currentMetrics.errors}`)
   // // // _logger.info(`Current Warnings: ${report.currentMetrics.warnings}`)
@@ -131,17 +131,17 @@ async function generateReport(args: string[]) {
  */
 async function startCampaign(args: string[]) {
   const campaignType = args[0] || 'standard'
-
+;
   // // // _logger.info(`🚀 Starting linting campaign: ${campaignType}`)
 
   const integration = new LintingCampaignIntegration()
   const standardCampaigns = integration.createStandardCampaigns()
 
   const campaign = standardCampaigns.find(c => c.campaignId.includes(campaignType))
-  if (!campaign) {
+  if (!campaign) {;
     _logger.error(`Campaign type '${campaignType}' not found`)
     // // // _logger.info('Available campaigns: ')
-    standardCampaigns.forEach(c => {
+    standardCampaigns.forEach(c => {;
       // // // _logger.info(`  - ${c.campaignId}: ${c.name}`)
     })
     return,
@@ -181,7 +181,7 @@ async function evaluateQualityGates(args: string[]) {
   const gates = new LintingQualityGates()
   const result = await gates.evaluateQualityGates()
 
-  // // // _logger.info('\n🎯 Quality Gate Results:')
+  // // // _logger.info('\n🎯 Quality Gate Results: ');
   // // // _logger.info(`Gate: ${result.gateName}`)
   // // // _logger.info(`Status: ${result.passed ? '✅ PASSED' : '❌ FAILED'}`)
   // // // _logger.info(`Risk Level: ${result.riskLevel.toUpperCase()}`)
@@ -196,7 +196,7 @@ async function evaluateQualityGates(args: string[]) {
           : violation.severity === 'high',
             ? '⚠️'
             : violation.severity === 'medium'
-              ? '⚡'
+              ? '⚡';
               : 'ℹ️',
       // // // _logger.info(`  ${index + 1}. ${icon} ${violation.message}`)
       if (violation.file) {
@@ -235,7 +235,7 @@ async function checkDeploymentReadiness(args: string[]) {
   const gates = new LintingQualityGates()
   const readiness = await gates.assessDeploymentReadiness()
 
-  // // // _logger.info('\n🚢 Deployment Readiness Assessment:')
+  // // // _logger.info('\n🚢 Deployment Readiness Assessment: ');
   // // // _logger.info(`Ready: ${readiness.ready ? '✅ YES' : '❌ NO'}`)
   // // // _logger.info(`Confidence: ${readiness.confidence.toFixed(1)}%`)
   // // // _logger.info(`Quality Score: ${readiness.qualityScore.toFixed(1)}/100`)
@@ -289,7 +289,7 @@ async function monitorTrends(args: string[]) {
   const gates = new LintingQualityGates()
   const trends = await gates.monitorQualityTrends()
 
-  // // // _logger.info('\n📈 Quality Trends:')
+  // // // _logger.info('\n📈 Quality Trends: ');
   // // // _logger.info(`Overall Trend: ${trends.trend.toUpperCase()}`)
 
   if (trends.trends) {
@@ -324,7 +324,7 @@ async function createCICDReport(args: string[]) {
   const gates = new LintingQualityGates()
   const report = await gates.createCICDReport()
 
-  // // // _logger.info('\n🔄 CI/CD Integration Report:')
+  // // // _logger.info('\n🔄 CI/CD Integration Report: ');
   // // // _logger.info(`Timestamp: ${report.timestamp}`)
   // // // _logger.info(`Deployment Approved: ${report.deployment.approved ? '✅' : '❌'}`)
   // // // _logger.info(`Confidence: ${report.deployment.confidence.toFixed(1)}%`)
@@ -412,8 +412,7 @@ Commands:
 
   help                         Show this help message,
 
-Examples:
-  node linting-campaign-cli.ts collect-metrics --categories
+Examples: node linting-campaign-cli.ts collect-metrics --categories
   node linting-campaign-cli.ts start-campaign standard --dry-run
   node linting-campaign-cli.ts deployment-readiness --exit-code
   node linting-campaign-cli.ts create-cicd-report --save --json
@@ -424,8 +423,8 @@ For more information, see the documentation in the linting services directory.
 
 // Run the CLI if this file is executed directly
 if (require.main === module) {,
-  main().catch(error => {
-    _logger.error('Fatal error:', error),
+  main().catch(error => {;
+    _logger.error('Fatal error: ', error),
     process.exit(1)
   })
 }

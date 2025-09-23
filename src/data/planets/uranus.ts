@@ -1,7 +1,7 @@
 import { PlanetData } from './types';
 
 const uranusData: PlanetData = {
-  'Dignity Effect': {
+  'Dignity Effect': {;
     aquarius: 1,
     scorpio: 2,
     taurus: -3
@@ -19,9 +19,8 @@ const uranusData: PlanetData = {
     DistanceFromSun: '1.8 billion miles (2.9 billion km)',
     DistanceFromEarth: {
       Minimum: '1.6 billion miles (2.57 billion km)',
-      Maximum: '1.98 billion miles (3.18 billion km)'
-    },
-    Diameter: '31,518 miles (50,724 km)',
+      Maximum: '1.98 billion miles (3.18 billion km)' },
+        Diameter: '31,518 miles (50,724 km)',
     SurfaceTemperature: '-357°F (-216°C)',
     AtmosphericComposition: 'Hydrogen (83%), Helium (15%), Methane (2%)',
     RotationPeriod: '17.24 hours (retrograde)',
@@ -31,8 +30,7 @@ const uranusData: PlanetData = {
     PhysicalCharacteristics: {
       Surface: 'Gas giant with no solid surface',
       MagneticField: 'Uniquely tilted magnetic field',
-      Composition:
-        'Ice giant composed primarily of a hot dense fluid of water, methane and ammonia',
+      Composition: 'Ice giant composed primarily of a hot dense fluid of water, methane and ammonia',
       NotableFeatures: 'Extreme axial tilt, complex ring system, unusual sideways rotation'
     }
   },
@@ -42,9 +40,8 @@ const uranusData: PlanetData = {
     HouseJoy: 11,
     CyclePeriod: {
       Return: '84 years',
-      Retrograde: 'Annual, approximately 150 days'
-    },
-    Exaltation: 'Scorpio',
+      Retrograde: 'Annual, approximately 150 days' },
+        Exaltation: 'Scorpio',
     Fall: 'Taurus',
     Detriment: ['Leo'],
     Keywords: [
@@ -229,10 +226,8 @@ const uranusData: PlanetData = {
           'aerated textures',
           'freeze-dried elements'
         ],
-        FlavorCombinations:
-          'Unexpected contrasts, electrically-charged sensations, synesthesia-inducing pairings'
-      },
-      scorpio: {
+        FlavorCombinations: 'Unexpected contrasts, electrically-charged sensations, synesthesia-inducing pairings' },
+        scorpio: {
         FoodFocus:
           'Transformative foods with unusual depth, unexpected flavor combinations with intensity',
         Elements: {
@@ -255,9 +250,8 @@ const uranusData: PlanetData = {
           'dramatic presentations',
           'color-changing elements'
         ],
-        FlavorCombinations: 'Intense contrasts, transformed flavors, deep unexpected harmonies'
-      },
-      gemini: {
+        FlavorCombinations: 'Intense contrasts, transformed flavors, deep unexpected harmonies' },
+        gemini: {
         FoodFocus:
           'Dual-natured preparations, foods that transform while eating, interactive dining',
         Elements: {
@@ -280,8 +274,7 @@ const uranusData: PlanetData = {
           'deconstructed classics',
           'dual temperature components'
         ],
-        FlavorCombinations:
-          'Playful contrasts, surprising element combinations, intellectual flavor constructs'
+        FlavorCombinations: 'Playful contrasts, surprising element combinations, intellectual flavor constructs'
       }
     },
     Retrograde: {
@@ -334,8 +327,7 @@ const uranusData: PlanetData = {
           TarotCard: '5 of Pentacles',
           TarotProperties: {
             Keywords: ['material challenge', 'financial strain', 'resourcefulness'],
-            CulinaryAssociation:
-              'Finding innovative ways to use humble ingredients, transforming scarcity into abundance'
+            CulinaryAssociation: 'Finding innovative ways to use humble ingredients, transforming scarcity into abundance'
           }
         }
         '2ndDecan': {
@@ -344,8 +336,7 @@ const uranusData: PlanetData = {
           TarotCard: '6 of Pentacles',
           TarotProperties: {
             Keywords: ['generosity', 'giving and receiving', 'balance of resources'],
-            CulinaryAssociation:
-              'Revolutionary approaches to food distribution, sharing economy in culinary spheres'
+            CulinaryAssociation: 'Revolutionary approaches to food distribution, sharing economy in culinary spheres'
           }
         }
         '3rdDecan': {
@@ -354,8 +345,7 @@ const uranusData: PlanetData = {
           TarotCard: '7 of Pentacles',
           TarotProperties: {
             Keywords: ['assessment', 'evaluation', 'patience for results'],
-            CulinaryAssociation:
-              'Long-term food projects, technological advances in food cultivation and preparation'
+            CulinaryAssociation: 'Long-term food projects, technological advances in food cultivation and preparation'
           }
         }
       },
@@ -366,8 +356,7 @@ const uranusData: PlanetData = {
           TarotCard: '8 of Swords',
           TarotProperties: {
             Keywords: ['restriction', 'mental traps', 'new perspectives'],
-            CulinaryAssociation:
-              'Breaking free from culinary conventions, overcoming limitations in cooking methods'
+            CulinaryAssociation: 'Breaking free from culinary conventions, overcoming limitations in cooking methods'
           }
         }
         '2ndDecan': {
@@ -376,8 +365,7 @@ const uranusData: PlanetData = {
           TarotCard: '9 of Swords',
           TarotProperties: {
             Keywords: ['anxiety', 'overthinking', 'mental clarity'],
-            CulinaryAssociation:
-              'Foods that calm mental agitation, cognitive enhancing ingredients, mindful eating'
+            CulinaryAssociation: 'Foods that calm mental agitation, cognitive enhancing ingredients, mindful eating'
           }
         }
         '3rdDecan': {
@@ -386,8 +374,7 @@ const uranusData: PlanetData = {
           TarotCard: '10 of Swords',
           TarotProperties: {
             Keywords: ['endings', 'transformation', 'rebirth'],
-            CulinaryAssociation:
-              'Complete reinvention of food paradigms, technological revolution in cooking'
+            CulinaryAssociation: 'Complete reinvention of food paradigms, technological revolution in cooking'
           }
         }
       }

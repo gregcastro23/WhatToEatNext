@@ -199,16 +199,12 @@ export interface CookingMethodExtended {
 export interface TimeRange {
   min: number,
   max: number,
-  unit: 'minutes' | 'hours'
-}
-
-export interface TemperatureRange {
+  unit: 'minutes' | 'hours' },
+        export interface TemperatureRange {
   min: number,
   max: number,
-  unit: 'celsius' | 'fahrenheit'
-}
-
-export interface ThermodynamicProperties {
+  unit: 'celsius' | 'fahrenheit' },
+        export interface ThermodynamicProperties {
   heat: number,
   _entropy: number,
   _reactivity: number,
@@ -262,10 +258,8 @@ export interface Recipe {
   // Optional metadata
   createdAt?: Date,
   updatedAt?: Date,
-  validationStatus?: 'validated' | 'pending' | 'error'
-}
-
-export interface RecipeIngredient {
+  validationStatus?: 'validated' | 'pending' | 'error' },
+        export interface RecipeIngredient {
   id?: string,
   ingredientId?: string,
   name: string,
@@ -355,10 +349,8 @@ export interface ValidationError {
   field: string,
   message: string,
   code: string,
-  _severity: 'error' | 'warning' | 'info'
-}
-
-export interface ValidationWarning {
+  _severity: 'error' | 'warning' | 'info' },
+        export interface ValidationWarning {
   field: string,
   message: string,
   suggestion?: string
@@ -456,14 +448,14 @@ export type NumberKeys<T> = {
 }[keyof T],
 
 // Default values and constants
-export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties  = {
+export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties  = {;
   Fire: 0.25,
   _Water: 0.25,
   _Earth: 0.25,
   _Air: 0.25
 }
 
-export const DEFAULT_NUTRITIONAL_DATA: NutritionalData  = {
+export const DEFAULT_NUTRITIONAL_DATA: NutritionalData  = {;
   calories: 0,
   protein: 0,
   carbohydrates: 0,
@@ -472,16 +464,12 @@ export const DEFAULT_NUTRITIONAL_DATA: NutritionalData  = {
   vitamins: {}
   minerals: {}
   servingSize: '1',
-  servingUnit: 'serving'
-}
-
-export const DEFAULT_TIME_RANGE: TimeRange  = {
+  servingUnit: 'serving' },
+        export const DEFAULT_TIME_RANGE: TimeRange  = {;
   min: 0,
   max: 60,
-  unit: 'minutes'
-}
-
-export const DEFAULT_TEMPERATURE_RANGE: TemperatureRange  = {
+  unit: 'minutes' },
+        export const DEFAULT_TEMPERATURE_RANGE: TemperatureRange  = {;
   min: 20,
   max: 200,
   unit: 'celsius'
@@ -495,7 +483,7 @@ export const isIngredient = (value: unknown): value is Ingredient => {;
     'id' in value &&
     'name' in value &&
     'elementalProperties' in value
-  )
+  );
 }
 
 export const isRecipe = (value: unknown): value is Recipe => {;
@@ -506,7 +494,7 @@ export const isRecipe = (value: unknown): value is Recipe => {;
     'name' in value &&
     'ingredients' in value &&
     'instructions' in value
-  )
+  );
 }
 
 export const isCookingMethodExtended = (value: unknown): value is CookingMethodExtended => {;
@@ -516,7 +504,7 @@ export const isCookingMethodExtended = (value: unknown): value is CookingMethodE
     'id' in value &&
     'name' in value &&
     'elementalEffect' in value
-  )
+  );
 }
 
 export default {

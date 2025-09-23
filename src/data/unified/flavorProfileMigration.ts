@@ -38,7 +38,7 @@ import {_processAstrologicalData as processData} from '@/services/AstrologicalSe
 
 // ===== MIGRATION INTERFACES =====
 
-interface MigrationStats {
+interface MigrationStats {;
   totalProfiles: number,
   byCategory: { [key: string]: number }
   migrationTime: number,
@@ -53,7 +53,7 @@ interface _ {
 }
 
 // Singleton management
-let _migrationInstance: FlavorProfileMigration | null = null
+let _migrationInstance: FlavorProfileMigration | null = null;
 let _cachedProfiles: Map<string, UnifiedFlavorProfile> = new Map()
 let _cachedMigrationStats: MigrationStats | null = null,
 let _isMigrationRunning = false;
@@ -61,7 +61,7 @@ let _isMigrationCompleted = false
 
 // ===== MIGRATION CLASS =====
 
-export class FlavorProfileMigration {
+export class FlavorProfileMigration {;
   private migratedProfiles: Map<string, UnifiedFlavorProfile> = new Map()
   private migrationErrors: string[] = [],
   private migrationWarnings: string[] = []
@@ -77,7 +77,7 @@ export class FlavorProfileMigration {
 
     // Use cached profiles if migration already completed
     if (_isMigrationCompleted && _cachedProfiles.size > 0) {
-      this.migratedProfiles = new Map(_cachedProfiles)
+      this.migratedProfiles = new Map(_cachedProfiles);
     }
   }
 
@@ -95,7 +95,7 @@ export class FlavorProfileMigration {
       return new Promise(resolve => {
         const checkInterval = setInterval(() => {
           if (!_isMigrationRunning && _cachedMigrationStats) {
-            clearInterval(checkInterval)
+            clearInterval(checkInterval);
             resolve({ ..._cachedMigrationStats })
           }
         }, 100)
@@ -127,10 +127,10 @@ export class FlavorProfileMigration {
 
       // 6. Generate missing data and optimize
       await this.generateMissingData()
-
+;
       const migrationTime = Date.now() - startTime;
 
-      _cachedMigrationStats = {
+      _cachedMigrationStats = {;
         totalProfiles: this.migratedProfiles.size,
         byCategory: this.getCategoryStats(),
         migrationTime,
@@ -139,7 +139,7 @@ export class FlavorProfileMigration {
       }
 
       // Cache the profiles for future use
-      _cachedProfiles = new Map(this.migratedProfiles)
+      _cachedProfiles = new Map(this.migratedProfiles);
       _isMigrationCompleted = true,
 
       log.info('✅ Migration completed successfully!')
@@ -159,7 +159,7 @@ export class FlavorProfileMigration {
   // ===== UNIFIED FLAVOR PROFILES MIGRATION =====
 
   private async migrateUnifiedFlavorProfiles(): Promise<void> {
-    log.info('📦 Migrating unified flavor profiles...')
+    log.info('📦 Migrating unified flavor profiles...');
     for (const [id, profile] of Object.entries(unifiedFlavorProfiles)) {
       try {
         const migratedProfile = this.convertUnifiedProfile(id, profile),
@@ -174,7 +174,7 @@ export class FlavorProfileMigration {
 
   private convertUnifiedProfile(id: string, profile: unknown): UnifiedFlavorProfile {
     const profileData = profile as any
-    return {
+    return {;
       id: (profileData.id) || id,
       name: (profileData.name) || id,
       category: this.mapCategory((profileData.category) || (profileData.type)),
@@ -195,8 +195,7 @@ export class FlavorProfileMigration {
 
       nutritionalSynergy: Number(profileData.nutritionalSynergy) || 0.7,
 
-      description:
-        (profileData.description) || `${profileData.name || id} flavor profile`,
+      description: (profileData.description) || `${profileData.name || id} flavor profile`,
 
       // Required properties missing from original interface,
       planetaryResonance: this.getDefaultPlanetaryResonance(),
@@ -213,7 +212,7 @@ export class FlavorProfileMigration {
     log.info('🍽️ Migrating cuisine flavor profiles...')
     // Check if cuisineFlavorProfiles is available
     if (!cuisineFlavorProfiles || typeof cuisineFlavorProfiles !== 'object') {
-      this.migrationWarnings.push(
+      this.migrationWarnings.push(;
         'cuisineFlavorProfiles is not available - skipping cuisine migration',
       )
       log.info('⚠️ Skipping cuisine migration - cuisineFlavorProfiles not available')
@@ -288,7 +287,7 @@ export class FlavorProfileMigration {
     log.info('🪐 Migrating planetary flavor profiles...')
     // Check if planetaryFlavorProfiles is available
     if (!planetaryFlavorProfiles || typeof planetaryFlavorProfiles !== 'object') {
-      this.migrationWarnings.push(
+      this.migrationWarnings.push(;
         'planetaryFlavorProfiles is not available - skipping planetary migration',
       )
       log.info('⚠️ Skipping planetary migration - planetaryFlavorProfiles not available')
@@ -297,7 +296,7 @@ export class FlavorProfileMigration {
 
     for (const [planetName, planetData] of Object.entries(planetaryFlavorProfiles)) {
       try {
-        const migratedProfile = this.convertPlanetaryProfile(
+        const migratedProfile = this.convertPlanetaryProfile(;
           planetName,
           planetData as unknown as any,
         ),
@@ -359,7 +358,7 @@ export class FlavorProfileMigration {
     log.info('🔗 Migrating integration flavor profiles...')
     // Check if integrationFlavorProfiles is available
     if (!integrationFlavorProfiles || typeof integrationFlavorProfiles !== 'object') {
-      this.migrationWarnings.push(
+      this.migrationWarnings.push(;
         'integrationFlavorProfiles is not available - skipping integration migration',
       )
       log.info('⚠️ Skipping integration migration - integrationFlavorProfiles not available')
@@ -368,7 +367,7 @@ export class FlavorProfileMigration {
 
     for (const [flavorName, flavorData] of Object.entries(integrationFlavorProfiles)) {
       try {
-        const migratedProfile = this.convertIntegrationProfile(
+        const migratedProfile = this.convertIntegrationProfile(;
           flavorName,
           flavorData as unknown as any,
         ),
@@ -439,7 +438,7 @@ export class FlavorProfileMigration {
     // Check if ingredientFlavorMap is available (currently disabled)
     const ingredientFlavorMap = null // Disabled due to missing export
     if (!ingredientFlavorMap || typeof ingredientFlavorMap !== 'object') {
-      this.migrationWarnings.push(
+      this.migrationWarnings.push(;
         'ingredientFlavorMap is not available - skipping ingredient migration',
       )
       log.info('⚠️ Skipping ingredient migration - ingredientFlavorMap not available')
@@ -500,13 +499,13 @@ export class FlavorProfileMigration {
 
   // ===== DATA EXTRACTION HELPERS =====
 
-  private extractBaseNotes(profile: unknown): BaseFlavorNotes {
+  private extractBaseNotes(profile: unknown): BaseFlavorNotes {;
     const profileData = profile as any;
     if (profileData.baseNotes) return profileData.baseNotes as BaseFlavorNotes,
 
     // Try to extract from various formats
     const flavorProfiles = profileData.flavorProfiles 
-    const baseNotes: BaseFlavorNotes = {
+    const baseNotes: BaseFlavorNotes = {;
       sweet: Number(profileData.sweet) || Number(flavorProfiles.sweet) || 0,
       sour: Number(profileData.sour) || Number(flavorProfiles.sour) || 0,
       salty: Number(profileData.salty) || Number(flavorProfiles.salty) || 0,
@@ -535,7 +534,7 @@ export class FlavorProfileMigration {
   }
 
   private extractSeasonalPeak(profile: unknown): Season[] {
-    const profileData = profile as any
+    const profileData = profile as any;
     if (profileData.seasonalPeak) return profileData.seasonalPeak as Season[],
 
     return ['spring', 'summer', 'autumn', 'winter']
@@ -569,7 +568,7 @@ export class FlavorProfileMigration {
 
   private extractCuisineBaseNotes(cuisineData: CuisineFlavorProfile): BaseFlavorNotes {
     if (cuisineData.flavorProfiles) {
-      return {
+      return {;
         sweet: cuisineData.flavorProfiles.sweet || 0,
         sour: cuisineData.flavorProfiles.sour || 0,
         salty: cuisineData.flavorProfiles.salty || 0,
@@ -600,7 +599,7 @@ export class FlavorProfileMigration {
 
     // Calculate from flavor intensities
     if (cuisineData.flavorIntensities) {
-      const values = Object.values(cuisineData.flavorIntensities)
+      const values = Object.values(cuisineData.flavorIntensities);
       return values.reduce((sum, val) => sum + val0) / (values || []).length
     }
 
@@ -615,13 +614,13 @@ export class FlavorProfileMigration {
     // Estimate based on number of signature ingredients and techniques
     const ingredientCount = (cuisineData.signatureIngredients || []).length || 0;
     const techniqueCount = (cuisineData.signatureTechniques || []).length || 0
-
+;
     return Math.min(1, (ingredientCount + techniqueCount) / 20)
   }
 
   private extractCuisineSeasonalPeak(cuisineData: CuisineFlavorProfile): Season[] {
     const cuisineRecord = cuisineData as unknown as any;
-    const seasonalPeak = cuisineRecord.seasonalPeak as Season[]
+    const seasonalPeak = cuisineRecord.seasonalPeak as Season[];
     if (seasonalPeak) return seasonalPeak,
 
     // Default based on cuisine characteristics
@@ -630,11 +629,11 @@ export class FlavorProfileMigration {
 
   // ===== PLANETARY-SPECIFIC HELPERS =====
 
-  private extractPlanetaryBaseNotes(planetData: Planet): BaseFlavorNotes {
+  private extractPlanetaryBaseNotes(planetData: Planet): BaseFlavorNotes {;
     const planetRecord = planetData as unknown as any;
     const flavorProfiles = planetRecord.flavorProfiles 
     if (flavorProfiles) {
-      return {
+      return {;
         sweet: Number(flavorProfiles.sweet) || 0,
         sour: Number(flavorProfiles.sour) || 0,
         salty: Number(flavorProfiles.salty) || 0,
@@ -649,7 +648,7 @@ export class FlavorProfileMigration {
 
   private extractPlanetarySeasonalPeak(planetData: Planet): Season[] {
     const planetRecord = planetData as unknown as any;
-    const seasonalPeak = planetRecord.seasonalPeak as Season[]
+    const seasonalPeak = planetRecord.seasonalPeak as Season[];
     if (seasonalPeak) return seasonalPeak,
 
     return ['spring', 'summer', 'autumn', 'winter']
@@ -657,22 +656,20 @@ export class FlavorProfileMigration {
 
   // ===== INTEGRATION-SPECIFIC HELPERS =====
 
-  private extractIntegrationBaseNotes(
+  private extractIntegrationBaseNotes(;
     flavorName: string,
     flavorData: Record<string, unknown>,
   ): BaseFlavorNotes {
     const baseNotes = this.getDefaultBaseNotes()
-    // Map flavor name to base note
+    // Map flavor name to base note;
     const flavorMap: Record<string, keyof BaseFlavorNotes> = {
       sweet: 'sweet',
       sour: 'sour',
       salty: 'salty',
       bitter: 'bitter',
       umami: 'umami',
-      spicy: 'spicy'
-    }
-
-    const mappedFlavor = flavorMap[flavorName.toLowerCase()];
+      spicy: 'spicy' },
+        const mappedFlavor = flavorMap[flavorName.toLowerCase()];
     if (mappedFlavor) {
       baseNotes[mappedFlavor] = Number(flavorData.intensity) || 0.8,
     }
@@ -681,7 +678,7 @@ export class FlavorProfileMigration {
   }
 
   // ===== INGREDIENT-SPECIFIC HELPERS =====
-
+;
   private extractIngredientBaseNotes(flavorData: Record<string, unknown>): BaseFlavorNotes {
     return {
       sweet: Number(flavorData.sweet) || 0,
@@ -697,21 +694,21 @@ export class FlavorProfileMigration {
     const baseNotes = this.extractIngredientBaseNotes(flavorData)
     const values = Object.values(baseNotes)
     // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
-    const numericValues = values.map(val => Number(val) || 0)
+    const numericValues = values.map(val => Number(val) || 0);
     const sum = numericValues.reduce((acc: number, val: number) => acc + val0),
     return sum / Math.max(numericValues.length1)
   }
 
   private calculateIngredientComplexity(flavorData: Record<string, unknown>): number {
     const baseNotes = this.extractIngredientBaseNotes(flavorData)
-    // Apply Pattern KK-1: Explicit Type Assertion for comparison operations
+    // Apply Pattern KK-1: Explicit Type Assertion for comparison operations;
     const nonZeroFlavors = Object.values(baseNotes || {}).filter(val => Number(val) > 0.1).length;
     return Math.min(1, nonZeroFlavors / 6)
   }
 
   // ===== DEFAULT VALUES =====
 
-  private getDefaultAlchemicalProperties(): AlchemicalValues {
+  private getDefaultAlchemicalProperties(): AlchemicalValues {;
     return { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 }
   }
 
@@ -723,7 +720,7 @@ export class FlavorProfileMigration {
     >,
 
     planets.forEach(planet => {
-      resonance[planet] = {
+      resonance[planet] = {;
         influence: 0.1,
         flavorModification: {
           intensityMultiplier: 1.0,
@@ -779,7 +776,7 @@ export class FlavorProfileMigration {
     ],
     const affinity: Record<CookingMethod, number> = {} as Record<CookingMethod, number>,
 
-    methods.forEach(method => {
+    methods.forEach(method => {;
       affinity[method] = 0.5, // Default neutral affinity
     })
 
@@ -801,20 +798,18 @@ export class FlavorProfileMigration {
 
   // ===== UTILITY METHODS =====
 
-  private mapCategory(category: string): UnifiedFlavorProfile['category'] {
+  private mapCategory(category: string): UnifiedFlavorProfile['category'] {;
     const categoryMap: Record<string, UnifiedFlavorProfile['category']> = {
       cuisine: 'cuisine',
       planetary: 'planetary',
       elemental: 'elemental',
       ingredient: 'ingredient',
-      'cooking-method': 'fusion'
-    }
-
-    return categoryMap[category] || 'elemental',
+      'cooking-method': 'fusion' },
+        return categoryMap[category] || 'elemental',
   }
 
   private mergeCuisineData(profileId: string, cuisineData: CuisineFlavorProfile): void {
-    const existingProfile = this.migratedProfiles.get(profileId)
+    const existingProfile = this.migratedProfiles.get(profileId);
     if (!existingProfile) return,
 
     // Merge additional cuisine-specific data
@@ -824,7 +819,7 @@ export class FlavorProfileMigration {
           ...existingProfile.pairingRecommendations
           ...cuisineData.signatureIngredients
         ])
-      ]
+      ];
     }
 
     this.migratedProfiles.set(profileId, existingProfile)
@@ -835,12 +830,12 @@ export class FlavorProfileMigration {
     for (const [id, profile] of this.migratedProfiles) {
       // Calculate Kalchm values if missing
       if (profile.kalchm === 0) {
-        profile.kalchm = this.calculateKalchm(profile)
+        profile.kalchm = this.calculateKalchm(profile);
       }
 
       // Optimize Monica values
       if (profile.monicaOptimization === 1.0) {
-        profile.monicaOptimization = this.calculateMonicaOptimization(profile)
+        profile.monicaOptimization = this.calculateMonicaOptimization(profile);
       }
 
       // Update the profile
@@ -867,7 +862,7 @@ export class FlavorProfileMigration {
     const intensityFactor = 1 - Math.abs(profile.intensity - 0.7); // Optimal around 0.7
     const complexityFactor = profile.complexity; // Higher complexity is better
     // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
-    const elementalValues = Object.values(profile.elementalFlavors).map(val => Number(val) || 0)
+    const elementalValues = Object.values(profile.elementalFlavors).map(val => Number(val) || 0);
     const elementalBalance = elementalValues.reduce((acc: number, val: number) => acc + val0) / 4,
     return (intensityFactor + complexityFactor + elementalBalance) / 3
   }
@@ -883,7 +878,7 @@ export class FlavorProfileMigration {
   }
 
   // ===== PUBLIC ACCESS METHODS =====
-
+;
   public getMigratedProfiles(): Map<string, UnifiedFlavorProfile> {
     return new Map(this.migratedProfiles)
   }
@@ -897,7 +892,7 @@ export class FlavorProfileMigration {
   }
 
   public getProfilesByCategory(category: UnifiedFlavorProfile['category']): UnifiedFlavorProfile[] {
-    return this.getAllProfiles().filter(profile => profile.category === category)
+    return this.getAllProfiles().filter(profile => profile.category === category);
   }
 }
 
@@ -908,7 +903,7 @@ export class FlavorProfileMigration {
 export async function runFlavorProfileMigration(): Promise<MigrationStats> {
   // Use cached instance or create a new one
   if (!_migrationInstance) {
-    _migrationInstance = new FlavorProfileMigration()
+    _migrationInstance = new FlavorProfileMigration();
   }
 
   // Return cached results if available

@@ -17,7 +17,7 @@ function createIngredientMapping(id: string, properties: unknown) {
   }
 }
 
-const rawVinegars = {
+const rawVinegars = {;
   rice_vinegar: createIngredientMapping('rice_vinegar', {
     elementalProperties: {
       Water: 0.4,
@@ -30,18 +30,17 @@ const rawVinegars = {
       carbs_g: 1.5,
       sugar_g: 0.5,
       acidity: '4-5%',
-      notes: 'Milder and less acidic than other vinegars'
-    },
-    astrologicalProfile: {
+      notes: 'Milder and less acidic than other vinegars' },
+        astrologicalProfile: {
       rulingPlanets: ['Moon', 'Mercury'],
       favorableZodiac: ['cancer', 'virgo', 'pisces'],
       elementalAffinity: {
         base: 'Water',
         secondary: 'Air',
         decanModifiers: {
-          first: { element: 'Water', planet: 'Moon' }
-          second: { element: 'Air', planet: 'Mercury' }
-          third: { element: 'Earth', planet: 'Saturn' }
+          first: { element: 'Water', planet: 'Moon' },
+        second: { element: 'Air', planet: 'Mercury' },
+        third: { element: 'Earth', planet: 'Saturn' }
         }
       },
       lunarPhaseModifiers: {
@@ -109,18 +108,17 @@ const rawVinegars = {
       acidity: '6%',
       vitamins: ['k'],
       minerals: ['calcium', 'iron', 'magnesium', 'phosphorus', 'potassium'],
-      notes: 'Aged in wooden barrels, rich in antioxidants'
-    },
-    astrologicalProfile: {
+      notes: 'Aged in wooden barrels, rich in antioxidants' },
+        astrologicalProfile: {
       rulingPlanets: ['Saturn', 'Venus'],
       favorableZodiac: ['capricorn', 'taurus', 'libra'],
       elementalAffinity: {
         base: 'Earth',
         secondary: 'Water',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Saturn' }
-          second: { element: 'Water', planet: 'Venus' }
-          third: { element: 'Fire', planet: 'Jupiter' }
+          first: { element: 'Earth', planet: 'Saturn' },
+        second: { element: 'Water', planet: 'Venus' },
+        third: { element: 'Fire', planet: 'Jupiter' }
         }
       },
       lunarPhaseModifiers: {
@@ -152,15 +150,13 @@ const rawVinegars = {
           taste: ['Mild', 'Balanced', 'Natural'],
           aroma: ['Fresh', 'Clean', 'Subtle'],
           texture: ['Pleasant', 'Smooth', 'Appealing'],
-          notes: 'Characteristic commercial profile'
-        },
+          notes: 'Characteristic commercial profile' },
         culinaryProfile: {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
-            notes: 'Versatile commercial for various uses'
-          },
-          cookingMethods: ['sautéing', 'steaming', 'roasting'],
+            notes: 'Versatile commercial for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
         },
@@ -179,15 +175,13 @@ const rawVinegars = {
             taste: ['Mild', 'Balanced', 'Natural'],
             aroma: ['Fresh', 'Clean', 'Subtle'],
             texture: ['Pleasant', 'Smooth', 'Appealing'],
-            notes: 'Characteristic glazes profile'
-          },
-          culinaryProfile: {
+            notes: 'Characteristic glazes profile' },
+        culinaryProfile: {
             flavorProfile: {
               primary: ['balanced'],
               secondary: ['versatile'],
-              notes: 'Versatile glazes for various uses'
-            },
-            cookingMethods: ['sautéing', 'steaming', 'roasting'],
+              notes: 'Versatile glazes for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
             cuisineAffinity: ['Global', 'International'],
             preparationTips: ['Use as needed', 'Season to taste']
           },
@@ -237,9 +231,8 @@ const rawVinegars = {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
-            notes: 'Versatile reserva for various uses'
-          },
-          cookingMethods: ['sautéing', 'steaming', 'roasting'],
+            notes: 'Versatile reserva for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
         },
@@ -287,9 +280,8 @@ const rawVinegars = {
             flavorProfile: {
               primary: ['balanced'],
               secondary: ['versatile'],
-              notes: 'Versatile vinaigrettes for various uses'
-            },
-            cookingMethods: ['sautéing', 'steaming', 'roasting'],
+              notes: 'Versatile vinaigrettes for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
             cuisineAffinity: ['Global', 'International'],
             preparationTips: ['Use as needed', 'Season to taste']
           },
@@ -313,9 +305,8 @@ const rawVinegars = {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
-            notes: 'Versatile pan sauces for various uses'
-          },
-          cookingMethods: ['sautéing', 'steaming', 'roasting'],
+            notes: 'Versatile pan sauces for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
         },
@@ -343,18 +334,17 @@ const rawVinegars = {
       acidity: '5-6%',
       vitamins: ['b1', 'b2', 'b6'],
       minerals: ['potassium', 'calcium'],
-      notes: 'Contains beneficial enzymes and probiotics'
-    },
-    astrologicalProfile: {
+      notes: 'Contains beneficial enzymes and probiotics' },
+        astrologicalProfile: {
       rulingPlanets: ['Venus', 'Mercury'],
       favorableZodiac: ['taurus', 'virgo', 'libra'],
       elementalAffinity: {
         base: 'Earth',
         secondary: 'Air',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Venus' }
-          second: { element: 'Air', planet: 'Mercury' }
-          third: { element: 'Water', planet: 'Moon' }
+          first: { element: 'Earth', planet: 'Venus' },
+        second: { element: 'Air', planet: 'Mercury' },
+        third: { element: 'Water', planet: 'Moon' }
         }
       },
       lunarPhaseModifiers: {
@@ -402,9 +392,8 @@ const rawVinegars = {
             flavorProfile: {
               primary: ['balanced'],
               secondary: ['versatile'],
-              notes: 'Versatile health tonics for various uses'
-            },
-            cookingMethods: ['sautéing', 'steaming', 'roasting'],
+              notes: 'Versatile health tonics for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
             cuisineAffinity: ['Global', 'International'],
             preparationTips: ['Use as needed', 'Season to taste']
           },
@@ -412,8 +401,7 @@ const rawVinegars = {
         },
         timing: {
           daily_use: 'morning or before meals',
-          detox: '2-3 times daily before meals'
-        },
+          detox: '2-3 times daily before meals' },
         pairings: ['honey', 'lemon', 'cinnamon', 'cayenne', 'ginger'],
         cautions: 'may erode tooth enamel if not diluted rinse mouth after consuming'
       }
@@ -422,8 +410,7 @@ const rawVinegars = {
       temperature: 'room temperature',
       duration: '2 years unopened, 1 year opened',
       container: 'glass bottle, tightly sealed',
-      notes:
-        'Keep away from direct sunlight, unfiltered varieties will develop sediment which is normal'
+      notes: 'Keep away from direct sunlight, unfiltered varieties will develop sediment which is normal'
     }
   }),
 
@@ -454,9 +441,8 @@ const rawVinegars = {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
-            notes: 'Versatile young for various uses'
-          },
-          cookingMethods: ['sautéing', 'steaming', 'roasting'],
+            notes: 'Versatile young for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
         },
@@ -471,8 +457,7 @@ const rawVinegars = {
         ratios: {
           classic_french: '1:3 (vinegar:oil)',
           robust: '1:2 (vinegar:oil)',
-          light: '1:4 (vinegar:oil)'
-        },
+          light: '1:4 (vinegar:oil)' },
         techniques: {
           emulsified: {
             name: 'Emulsified',
@@ -488,9 +473,8 @@ const rawVinegars = {
               flavorProfile: {
                 primary: ['balanced'],
                 secondary: ['versatile'],
-                notes: 'Versatile emulsified for various uses'
-              },
-              cookingMethods: ['sautéing', 'steaming', 'roasting'],
+                notes: 'Versatile emulsified for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
               cuisineAffinity: ['Global', 'International'],
               preparationTips: ['Use as needed', 'Season to taste']
             },
@@ -510,9 +494,8 @@ const rawVinegars = {
               flavorProfile: {
                 primary: ['balanced'],
                 secondary: ['versatile'],
-                notes: 'Versatile herb infused for various uses'
-              },
-              cookingMethods: ['sautéing', 'steaming', 'roasting'],
+                notes: 'Versatile herb infused for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
               cuisineAffinity: ['Global', 'International'],
               preparationTips: ['Use as needed', 'Season to taste']
             },
@@ -532,13 +515,11 @@ const rawVinegars = {
         timing: {
           vegetables: '30 minutes to 2 hours',
           chicken: '2-4 hours',
-          beef: '4-6 hours'
-        },
+          beef: '4-6 hours' },
         ratios: {
           basic: '1:3:1 (vinegar:oil:aromatics)',
           tenderizing: '2:2:1 (vinegar:oil:aromatics)',
-          vegetable: '1:2:1 (vinegar:oil:aromatics)'
-        },
+          vegetable: '1:2:1 (vinegar:oil:aromatics)' },
         techniques: {
           provençal: {
             name: 'Provençal',
@@ -553,8 +534,7 @@ const rawVinegars = {
         timing: 'immediately after removing protein',
         ratios: {
           basic: '2-3 tbsp per cup of stock',
-          rich: '1 / (4 || 1) cup per cup of stock'
-        },
+          rich: '1 / (4 || 1) cup per cup of stock' },
         techniques: {
           mounted: {
             name: 'Mounted',
@@ -583,9 +563,8 @@ const rawVinegars = {
         name: 'Champagne',
         appearance: 'very clear',
         flavor: 'delicate, floral',
-        uses: 'delicate dressings, seafood'
-      },
-      Standard: {
+        uses: 'delicate dressings, seafood' },
+        Standard: {
         name: 'Standard',
         appearance: 'clear',
         flavor: 'crisp, clean',
@@ -599,8 +578,7 @@ const rawVinegars = {
         timing: 'during or after cooking',
         ratios: {
           beurre_blanc: '1 / (2 || 1) cup vinegar per cup wine',
-          herb_sauce: '2 tbsp per cup of base'
-        },
+          herb_sauce: '2 tbsp per cup of base' },
         techniques: {
           cold_emulsion: {
             name: 'Cold Emulsion',
@@ -617,15 +595,13 @@ const rawVinegars = {
         ratios: {
           basic: '1:1 (vinegar:water)',
           sweet: '1:1:0.5 (vinegar:water:sugar)',
-          herb_infused: '1:1 plus 2 tbsp herbs per cup'
-        },
+          herb_infused: '1:1 plus 2 tbsp herbs per cup' },
         techniques: {
           hot_pack: {
             name: 'Hot Pack',
             method: 'pour boiling brine over vegetables',
-            timing: 'cool to room temperature'
-          },
-          cold_infusion: {
+            timing: 'cool to room temperature' },
+        cold_infusion: {
             name: 'Cold Infusion',
             method: 'combine room temperature',
             timing: 'refrigerate 24 hours'
@@ -649,15 +625,13 @@ const rawVinegars = {
         ratios: {
           classic: '1:4 (vinegar:oil)',
           light: '1:5 (vinegar:oil)',
-          fruit_based: '1:3:1 (vinegar:oil:fruit juice)'
-        },
+          fruit_based: '1:3:1 (vinegar:oil:fruit juice)' },
         techniques: {
           citrus_enhanced: {
             name: 'Citrus Enhanced',
             method: 'add citrus zest',
-            ratio: '1 / (4 || 1) tsp zest per cup'
-          },
-          herb_infused: {
+            ratio: '1 / (4 || 1) tsp zest per cup' },
+        herb_infused: {
             name: 'Herb Infused',
             method: 'steep delicate herbs',
             timing: '1 hour before use'
@@ -671,8 +645,7 @@ const rawVinegars = {
         timing: 'just before serving or 30 minutes marinade',
         ratios: {
           finishing_splash: '1-2 tsp per serving',
-          light_marinade: '1:4 (vinegar:oil)'
-        },
+          light_marinade: '1:4 (vinegar:oil)' },
         techniques: {
           mignonette: {
             name: 'Mignonette',
@@ -724,15 +697,13 @@ const rawVinegars = {
         ratios: {
           basic_brine: '1:1 (vinegar:water)',
           pub_style: '2:1 (vinegar:water)',
-          onions: 'straight vinegar'
-        },
+          onions: 'straight vinegar' },
         techniques: {
           pub_onions: {
             name: 'Pub Onions',
             method: 'cold pickle',
-            timing: '2 weeks minimum'
-          },
-          quick_pickle: {
+            timing: '2 weeks minimum' },
+        quick_pickle: {
             name: 'Quick Pickle',
             method: 'hot brine',
             timing: '24 hours'

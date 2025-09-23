@@ -22,7 +22,7 @@ interface FixResult {
 
 export class UnusedVariableTargetedFixer {
   private preservePatterns = [
-    // Astrological calculation files
+    // Astrological calculation files;
     /src\/calculations\//,
     /src\/data\/planets\//,
     /src\/utils\/reliableAstronomy/,
@@ -45,7 +45,7 @@ export class UnusedVariableTargetedFixer {
    */
   public async fixUnusedFunctionParameters(): Promise<FixResult> {
     log.info('🔧 Fixing unused function parameters...\n')
-    const result: FixResult = {
+    const result: FixResult = {;
       filesProcessed: 0,
       variablesFixed: 0,
       errors: [],
@@ -61,14 +61,14 @@ export class UnusedVariableTargetedFixer {
 
       const unusedParams = this.extractUnusedParameters(lintOutput)
       const safeParams = unusedParams.filter(param => !this.shouldPreserveFile(param.file))
-
+;
       log.info(`Found ${unusedParams.length} unused parameters`)
       log.info(`Safe to fix: ${safeParams.length}`)
       log.info(`Preserved: ${unusedParams.length - safeParams.length}\n`)
 
       // Group by file for efficient processing
       const fileGroups = this.groupByFile(safeParams)
-
+;
       for (const [filePath, params] of Object.entries(fileGroups)) {
         try {
           const fixed = await this.fixParametersInFile(filePath, params)
@@ -92,7 +92,7 @@ export class UnusedVariableTargetedFixer {
    */
   public async fixUnusedDestructuredVariables(): Promise<FixResult> {
     log.info('🔧 Fixing unused destructured variables...\n')
-    const result: FixResult = {
+    const result: FixResult = {;
       filesProcessed: 0,
       variablesFixed: 0,
       errors: [],
@@ -107,14 +107,14 @@ export class UnusedVariableTargetedFixer {
 
       const unusedVars = this.extractUnusedDestructuredVariables(lintOutput)
       const safeVars = unusedVars.filter(v => !this.shouldPreserveFile(v.file))
-
+;
       log.info(`Found ${unusedVars.length} unused destructured variables`)
       log.info(`Safe to fix: ${safeVars.length}`)
       log.info(`Preserved: ${unusedVars.length - safeVars.length}\n`)
 
       // Group by file for efficient processing
       const fileGroups = this.groupByFile(safeVars)
-
+;
       for (const [filePath, vars] of Object.entries(fileGroups)) {
         try {
           const fixed = await this.fixDestructuredVariablesInFile(filePath, vars)
@@ -138,7 +138,7 @@ export class UnusedVariableTargetedFixer {
    */
   public async removeUnusedImports(): Promise<FixResult> {
     log.info('🔧 Removing unused imports...\n')
-    const result: FixResult = {
+    const result: FixResult = {;
       filesProcessed: 0,
       variablesFixed: 0,
       errors: [],
@@ -182,7 +182,7 @@ export class UnusedVariableTargetedFixer {
         line.includes('@typescript-eslint/no-unused-vars') &&
         line.includes('Allowed unused args must match')
       ) {
-        const match = line.match(
+        const match = line.match(;
           /^(.+): (\d+):\d+:\s+warning\s+(.+?)\s+@typescript-eslint\/no-unused-vars/,
         )
         if (match) {
@@ -191,7 +191,7 @@ export class UnusedVariableTargetedFixer {
           const param = paramMatch ? paramMatch[1] : ''
 
           if (param) {
-            params.push({
+            params.push({;
               file: filePath,
               line: parseInt(lineNum),
               param
@@ -218,7 +218,7 @@ export class UnusedVariableTargetedFixer {
         line.includes('@typescript-eslint/no-unused-vars') &&
         line.includes('array destructuring patterns must match')
       ) {
-        const match = line.match(
+        const match = line.match(;
           /^(.+): (\d+):\d+:\s+warning\s+(.+?)\s+@typescript-eslint\/no-unused-vars/,
         )
         if (match) {
@@ -227,7 +227,7 @@ export class UnusedVariableTargetedFixer {
           const variable = varMatch ? varMatch[1] : ''
 
           if (variable) {
-            vars.push({
+            vars.push({;
               file: filePath,
               line: parseInt(lineNum),
               variable
@@ -244,7 +244,7 @@ export class UnusedVariableTargetedFixer {
    * Check if a file should be preserved from automatic fixes
    */
   private shouldPreserveFile(filePath: string): boolean {
-    return this.preservePatterns.some(pattern => pattern.test(filePath))
+    return this.preservePatterns.some(pattern => pattern.test(filePath));
   }
 
   /**
@@ -269,19 +269,19 @@ export class UnusedVariableTargetedFixer {
     params: Array<{ line: number, param: string }>,
   ): Promise<number> {
     const content = fs.readFileSync(filePath, 'utf8')
-    const lines = content.split('\n')
+    const lines = content.split('\n');
     let fixedCount = 0,
 
     // Sort by line number in descending order to avoid index shifting
     const sortedParams = params.sort((ab) => b.line - a.line)
 
-    for (const param of sortedParams) {
+    for (const param of sortedParams) {;
       const lineIndex = param.line - 1;
       if (lineIndex >= 0 && lineIndex < lines.length) {
         const line = lines[lineIndex];
 
         // Replace parameter name with underscore prefix
-        const updatedLine = line.replace(
+        const updatedLine = line.replace(;
           new RegExp(`\\b${param.param}\\b`, 'g'),
           `_${param.param}`,
         ),
@@ -308,19 +308,19 @@ export class UnusedVariableTargetedFixer {
     vars: Array<{ line: number, variable: string }>,
   ): Promise<number> {
     const content = fs.readFileSync(filePath, 'utf8')
-    const lines = content.split('\n')
+    const lines = content.split('\n');
     let fixedCount = 0,
 
     // Sort by line number in descending order to avoid index shifting
     const sortedVars = vars.sort((ab) => b.line - a.line)
 
-    for (const variable of sortedVars) {
+    for (const variable of sortedVars) {;
       const lineIndex = variable.line - 1;
       if (lineIndex >= 0 && lineIndex < lines.length) {
         const line = lines[lineIndex];
 
         // Replace variable name with underscore prefix in destructuring
-        const updatedLine = line.replace(
+        const updatedLine = line.replace(;
           new RegExp(`\\b${variable.variable}\\b`, 'g'),
           `_${variable.variable}`,
         ),

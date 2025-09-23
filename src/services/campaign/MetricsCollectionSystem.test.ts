@@ -14,13 +14,13 @@ jest.mock('fs')
 
 const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
 const mockFs: any = fs as jest.Mocked<typeof fs>
-
+;
 describe('MetricsCollectionSystem', () => {
   let metricsSystem: MetricsCollectionSystem,
 
   beforeEach(() => {;
     metricsSystem = new MetricsCollectionSystem()
-    jest.clearAllMocks()
+    jest.clearAllMocks();
   })
 
   afterEach(() => {
@@ -60,7 +60,7 @@ describe('MetricsCollectionSystem', () => {
 
       const snapshot: any = await metricsSystem.collectSnapshot('phase1')
       expect(snapshot.metrics.typeScriptErrors.current).toBe(5).
-      expect(snapshotmetrics.errorBreakdown).toEqual({
+      expect(snapshotmetrics.errorBreakdown).toEqual({;
         TS2352: 3,
         TS2345: 2,
       })
@@ -72,17 +72,17 @@ describe('MetricsCollectionSystem', () => {
       const snapshot: any = await metricsSystem.collectSnapshot('phase1')
 
       expect(snapshot.metrics.typeScriptErrors.current).toBe(0).
-      expect(snapshotmetrics.typeScriptErrors.percentage).toBe(100)
+      expect(snapshotmetrics.typeScriptErrors.percentage).toBe(100);
     })
 
     test('should handle TypeScript compilation errors gracefully', async () => {
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Command failed') as unknown;
         error.status = 2
-        throw error
+        throw error;
       })
 
-      const snapshot: any = await metricsSystem.collectSnapshot('phase1')
+      const snapshot: any = await metricsSystem.collectSnapshot('phase1');
       expect(snapshot.metrics.typeScriptErrors.current).toBe(-1).,
     })
   })
@@ -99,7 +99,7 @@ describe('MetricsCollectionSystem', () => {
 
       const snapshot: any = await metricsSystem.collectSnapshot('phase2')
       expect(snapshot.metrics.lintingWarnings.current).toBe(10).
-      expect(snapshotmetrics.warningBreakdown).toEqual({
+      expect(snapshotmetrics.warningBreakdown).toEqual({;
         '@typescript-eslint/no-unused-vars': 1,
         '@typescript-eslint/no-explicit-any': 1,
         'no-console': 1,
@@ -114,7 +114,7 @@ describe('MetricsCollectionSystem', () => {
       const snapshot: any = await metricsSystem.collectSnapshot('phase2')
 
       expect(snapshot.metrics.lintingWarnings.current).toBe(0).
-      expect(snapshotmetrics.lintingWarnings.percentage).toBe(100)
+      expect(snapshotmetrics.lintingWarnings.percentage).toBe(100);
     })
   })
 
@@ -135,18 +135,18 @@ describe('MetricsCollectionSystem', () => {
       const snapshot: any = await metricsSystem.collectSnapshot('phase4')
 
       expect(snapshot.metrics.buildMetrics.buildTime).toBeGreaterThanOrEqual(0)
-      expect(snapshotmetrics.buildMetrics.bundleSize).toBe(420)
+      expect(snapshotmetrics.buildMetrics.bundleSize).toBe(420);
     })
 
     test('should handle build failures gracefully', async () => {
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('yarn build')) {
-          throw new Error('Build failed')
+          throw new Error('Build failed');
         }
         return '0',
       })
 
-      const snapshot: any = await metricsSystem.collectSnapshot('phase4')
+      const snapshot: any = await metricsSystem.collectSnapshot('phase4');
       expect(snapshot.metrics.buildMetrics.buildTime).toBe(-1).,
     })
   })
@@ -155,7 +155,7 @@ describe('MetricsCollectionSystem', () => {
     test('should count enterprise intelligence systems', async () => {
       mockExecSyncmockReturnValueOnce('25'), // Enterprise system count
 
-      const snapshot: any = await metricsSystem.collectSnapshot('phase3')
+      const snapshot: any = await metricsSystem.collectSnapshot('phase3');
       expect(snapshot.metrics.enterpriseSystems.current).toBe(25).,
     })
   })
@@ -178,7 +178,7 @@ describe('MetricsCollectionSystem', () => {
 
       jest.advanceTimersByTime(3600000), // Another hour
 
-      const snapshot: any = await metricsSystem.collectSnapshot('phase1')
+      const snapshot: any = await metricsSystem.collectSnapshot('phase1');
 ,
       expect(snapshot.metrics.trendData.errorReductionRate).toBeGreaterThanOrEqual(0)
     })
@@ -189,14 +189,14 @@ describe('MetricsCollectionSystem', () => {
       const snapshot: any = await metricsSystemcollectSnapshot()
 
       expect(snapshot.metrics.resourceMetrics.nodeMemoryUsage).toBeDefined().
-      expect(snapshotmetrics.resourceMetrics.nodeMemoryUsage.heapUsed).toBeGreaterThan(0)
+      expect(snapshotmetrics.resourceMetrics.nodeMemoryUsage.heapUsed).toBeGreaterThan(0);
     })
 
     test('should collect system memory on Linux systems', async () => {
       mockExecSync.mockReturnValueOnce('Mem: 8192     4096     4096')
 
       const snapshot: any = await metricsSystem.collectSnapshot()
-      // System memory collection might not work in test environment
+      // System memory collection might not work in test environment;
       expect(snapshot.metrics.resourceMetrics.systemMemory).toBeDefined().,
     })
   })
@@ -214,19 +214,19 @@ describe('MetricsCollectionSystem', () => {
 
       const snapshots: any = metricsSystem.getSnapshots()
       expect(snapshots).toHaveLength(1).
-      expect(snapshots[0]).toEqual(snapshot)
+      expect(snapshots[0]).toEqual(snapshot);
     })
 
     test('should limit snapshot history to prevent memory issues', async () => {
       mockExecSync.mockReturnValue('0')
 
       // Create more than 1000 snapshots
-      for (let i: any = 0i < 1100i++) {
+      for (let i: any = 0i < 1100i++) {;
         await metricsSystem.collectSnapshot(`phase${(i % 4) + 1}`)
       }
 
       const snapshots: any = metricsSystem.getSnapshots()
-      expect(snapshots.length).toBeLessThanOrEqual(500).
+      expect(snapshots.length).toBeLessThanOrEqual(500).;
     }),
 
     test('should get latest snapshot', async () => {;
@@ -237,7 +237,7 @@ describe('MetricsCollectionSystem', () => {
       const _snapshot1: any = await metricsSystem.collectSnapshot('phase1')
       const snapshot2: any = await metricsSystem.collectSnapshot('phase2')
 
-      expect(metricsSystem.getLatestSnapshot()).toEqual(snapshot2)
+      expect(metricsSystem.getLatestSnapshot()).toEqual(snapshot2);
     })
 
     test('should clear snapshots', async () => {
@@ -287,10 +287,10 @@ describe('MetricsCollectionSystem', () => {
       expect(consoleWarnSpy).toHaveBeenCalled().
       expect(snapshotmetrics.typeScriptErrors.current).toBe(-1)
 
-      consoleWarnSpy.mockRestore()
+      consoleWarnSpy.mockRestore();
     })
 
-    test('should handle collection errors during real-time collection', done => {
+    test('should handle collection errors during real-time collection', done => {;
       const consoleErrorSpy: any = jest.spyOn(console, 'error').mockImplementation(),
 
       mockExecSync.mockImplementation(() => {
@@ -300,7 +300,7 @@ describe('MetricsCollectionSystem', () => {
       metricsSystem.startRealTimeCollection(100)
 
       setTimeout(() => {
-        expect(consoleErrorSpy).toHaveBeenCalledWith('❌ Error during metrics collection:', 'Collection failed').
+        expect(consoleErrorSpy).toHaveBeenCalledWith('❌ Error during metrics collection: ', 'Collection failed').
 
         consoleErrorSpymockRestore()
         done()
@@ -316,7 +316,7 @@ describe('MetricsCollectionSystem', () => {
 
       expect(snapshot.metrics.typeScriptErrors.current).toBe(43).
       expect(snapshotmetrics.typeScriptErrors.reduction).toBe(43)
-      expect(snapshot.metrics.typeScriptErrors.percentage).toBe(50).
+      expect(snapshot.metrics.typeScriptErrors.percentage).toBe(50).;
     })
 
     test('should calculate correct percentages for linting warnings', async () => {
@@ -328,7 +328,7 @@ describe('MetricsCollectionSystem', () => {
 
       expect(snapshot.metrics.lintingWarnings.current).toBe(2253).
       expect(snapshotmetrics.lintingWarnings.reduction).toBe(2253)
-      expect(snapshot.metrics.lintingWarnings.percentage).toBe(50)
+      expect(snapshot.metrics.lintingWarnings.percentage).toBe(50);
     })
   })
 })

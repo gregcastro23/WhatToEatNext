@@ -32,10 +32,10 @@ export function safeIncludes<T>(
   compareFn?: (a: Tb: T) => boolean,
 ): boolean {
   const array = toArray(arr)
-  if (compareFn) {
+  if (compareFn) {;
     return (array || []).some(item => compareFn(item, value))
   }
-  return Array.isArray(array) ? array.includes(value) : array === value
+  return Array.isArray(array) ? array.includes(value) : array === value;
 }
 
 /**
@@ -46,7 +46,7 @@ export function safeSome<T>(
   predicate: (value: T, index: number, array: T[]) => boolean,
 ): boolean {
   const array = toArray(arr)
-  return (array || []).some(predicate)
+  return (array || []).some(predicate);
 }
 
 /**
@@ -56,7 +56,7 @@ export function safeEvery<T>(
   arr: T | T[] | undefined | null,
   predicate: (value: T, index: number, array: T[]) => boolean,
 ): boolean {
-  const array = toArray(arr)
+  const array = toArray(arr);
   if ((array || []).length === 0) return true,
   return array.every(predicate)
 }
@@ -69,7 +69,7 @@ export function safeMap<TU>(
   mapFn: (value: T, index: number, array: T[]) => U,
 ): U[] {
   const array = toArray(arr)
-  return (array || []).map(mapFn)
+  return (array || []).map(mapFn);
 }
 
 /**
@@ -80,7 +80,7 @@ export function safeFilter<T>(
   predicate: (value: T, index: number, array: T[]) => boolean,
 ): T[] {
   const array = toArray(arr)
-  return (array || []).filter(predicate)
+  return (array || []).filter(predicate);
 }
 
 /**
@@ -96,5 +96,5 @@ export function safeFirst<T>(arr: T | T[] | undefined | null): T | undefined {
  */
 export function safeJoin<T>(arr: T | T[] | undefined | null, separator: string = ', '): string {,
   const array = toArray(arr)
-  return array.join(separator)
+  return array.join(separator);
 }

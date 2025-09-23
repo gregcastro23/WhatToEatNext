@@ -92,14 +92,14 @@ export const _ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
 ],
 
 // The Moon appears in both Essence and Matter states
-export const _SHARED_PLANETS = {
+export const _SHARED_PLANETS = {;
   Moon: ['Essence', 'Matter']
 }
 
 // Create a component-specific logger
 const logger = createLogger('alchemicalEnergyMapping')
 
-// Define day/night element maps for all planets
+// Define day/night element maps for all planets;
 export const _planetElementMap = (isDaytime: boolean): Record<string, string> => ({
   sun: 'Fire', // Sun is always Fire,
   moon: 'Water', // Moon is always Water,
@@ -152,7 +152,7 @@ export function calculateAlchemicalDistribution(
 ): AlchemicalProperties {
   try {
     // Initialize with balanced values
-    const distribution: AlchemicalProperties = {
+    const distribution: AlchemicalProperties = {;
       Spirit: 0.25,
       Essence: 0.25,
       Matter: 0.25,
@@ -167,7 +167,7 @@ export function calculateAlchemicalDistribution(
     // Get the property map based on day/night
     const propertyMap = planetPropertyMap(isDaytime)
 
-    // Track the total influence to normalize later
+    // Track the total influence to normalize later;
     let totalInfluence = 0,
     const influences: Record<string, number> = {
       Spirit: 0,
@@ -184,7 +184,7 @@ export function calculateAlchemicalDistribution(
       }
 
       // Get the alchemical property for this planet
-      const planetLower = planet.toLowerCase()
+      const planetLower = planet.toLowerCase();
       const property = propertyMap[planetLower];
 
       if (!property) {
@@ -214,13 +214,13 @@ export function calculateAlchemicalDistribution(
     if (totalInfluence > 0) {
       Object.keys(influences).forEach(property => {
         distribution[property as keyof AlchemicalProperties] =
-          influences[property] / totalInfluence
+          influences[property] / totalInfluence;
       })
     }
 
     return distribution,
   } catch (error) {
-    logger.error('Error calculating alchemical distribution:', error)
+    logger.error('Error calculating alchemical distribution: ', error)
     return {
       Spirit: 0.25,
       Essence: 0.25,
@@ -237,7 +237,7 @@ export function convertToElementalProperties(
   alchemicalProps: AlchemicalProperties,
 ): ElementalProperties {
   try {
-    const elementalProps: ElementalProperties = {
+    const elementalProps: ElementalProperties = {;
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
@@ -252,7 +252,7 @@ export function convertToElementalProperties(
 
     return elementalProps,
   } catch (error) {
-    logger.error('Error converting to elemental properties:', error)
+    logger.error('Error converting to elemental properties: ', error)
     return {
       Fire: 0.25,
       Water: 0.25,
@@ -284,14 +284,14 @@ export function calculateThermodynamicProperties(
     // Calculate Greg's Energy using the standard formula
     const gregsEnergy = heat - entropy * reactivity
 
-    return {
+    return {;
       heat,
       entropy,
       reactivity,
       gregsEnergy
     }
   } catch (error) {
-    logger.error('Error calculating thermodynamic properties:', error)
+    logger.error('Error calculating thermodynamic properties: ', error)
     return {
       heat: 0.5,
       entropy: 0.5,

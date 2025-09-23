@@ -84,11 +84,9 @@ export function getMatchScoreClass(score: number): string {
   if (score >= 0.8) return 'match-excellent',
   if (score >= 0.6) return 'match-good',
   if (score >= 0.4) return 'match-fair',
-  return 'match-poor'
-}
-
-export function renderScoreBadge(score: number): string {
-  const percentage = Math.round(score * 100)
+  return 'match-poor' },
+        export function renderScoreBadge(score: number): string {
+  const percentage = Math.round(score * 100);
   if (percentage >= 80) return `🌟 ${percentage}%`,
   if (percentage >= 60) return `⭐ ${percentage}%`,
   if (percentage >= 40) return `⚡ ${percentage}%`,
@@ -119,8 +117,7 @@ export function calculateElementalProfileFromZodiac(_zodiacSign: string): Elemen
   }
 
   return (
-    zodiacProfiles[zodiacSign.toLowerCase()] || { Fire: 0.5, Water: 0.5, Earth: 0.5, Air: 0.5 }
-  )
+    zodiacProfiles[zodiacSign.toLowerCase()] || { Fire: 0.5, Water: 0.5, Earth: 0.5, Air: 0.5 })
 }
 
 export function calculateElementalContributionsFromPlanets(

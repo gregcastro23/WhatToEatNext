@@ -31,26 +31,26 @@ export default function SignVectorPanel({
 }: Props) {
   const [positions, setPositions] = React.useState<Record<string, PlanetaryPosition> | null>(
     propPositions || null,
-  )
-  const [mode, setMode] = React.useState<'sun' | 'moon' | 'dominant' | 'ensemble'>(governing)
-  const [loading, setLoading] = React.useState<boolean>(!propPositions)
-  const [alpha, setAlpha] = React.useState<number>(VECTOR_CONFIG.blendWeightAlpha)
-  const logger = React.useMemo(() => createLogger('SignVectorPanel'), [])
+  );
+  const [mode, setMode] = React.useState<'sun' | 'moon' | 'dominant' | 'ensemble'>(governing);
+  const [loading, setLoading] = React.useState<boolean>(!propPositions);
+  const [alpha, setAlpha] = React.useState<number>(VECTOR_CONFIG.blendWeightAlpha);
+  const logger = React.useMemo(() => createLogger('SignVectorPanel'), []);
 
   React.useEffect(() => {
     let mounted = true;
     if (!propPositions) {
-      setLoading(true)
+      setLoading(true);
       planetaryPositionsService
         .getCurrent()
         .then(p => {
-          if (mounted) setPositions(p as unknown as Record<string, PlanetaryPosition>)
+          if (mounted) setPositions(p as unknown as Record<string, PlanetaryPosition>);
         })
         .finally(() => {
-          if (mounted) setLoading(false)
-        })
+          if (mounted) setLoading(false);
+        });
     } else {
-      setPositions(propPositions)
+      setPositions(propPositions);
     }
     return () => {
       mounted = false;
@@ -68,8 +68,8 @@ export default function SignVectorPanel({
             k,
             { sign: (v as any).sign, degree: (v as any).degree }
           ]),
-        ) as Record<string, { sign: string, degree: number }>
-        const { aspects: computed } = calculateAspects(minimal)
+        ) as Record<string, { sign: string, degree: number }>;
+        const { aspects: computed } = calculateAspects(minimal);
         realAspects = computed as any;
       }
     } catch (_e) {
@@ -84,7 +84,7 @@ export default function SignVectorPanel({
       aspects: realAspects,
       season,
       governing: mode
-    })
+    });
     // Dev, instrumentation: log deltas
     if (process.env.NODE_ENV !== 'production') {
       const base = res.base.alchemical;
@@ -94,16 +94,16 @@ export default function SignVectorPanel({
         Essence: Number((blended.Essence - base.Essence).toFixed(4)),
         Matter: Number((blended.Matter - base.Matter).toFixed(4)),
         Substance: Number((blended.Substance - base.Substance).toFixed(4))
-      }
+      };
       TelemetryDev.recordVectorBlend(
         res.selected.sign,
         alpha,
         deltas as any,
         res.thermodynamics as any,
-      )
+      );
     }
-    return res,
-  }, [positions, aspects, season, mode, alpha, logger])
+    return res;
+  }, [positions, aspects, season, mode, alpha, logger]);
 
   if (loading || !state) {
     return (
@@ -111,7 +111,7 @@ export default function SignVectorPanel({
         <div style={{ fontWeight: 600, marginBottom: 8 }}>Current Sign Expression</div>
         <div>Loading planetary positions…</div>
       </div>
-    )
+    );
   }
 
   const { selected, blendedAlchemical, thermodynamics } = state;
@@ -163,5 +163,5 @@ export default function SignVectorPanel({
         Monica: {Number.isFinite(thermodynamics.monica) ? thermodynamics.monica.toFixed(4) : 'NaN'}
       </div>
     </div>
-  )
+  );
 }

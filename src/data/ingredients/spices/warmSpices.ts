@@ -69,5 +69,5 @@ export const warmSpices: Record<string, IngredientMapping> = fixIngredientMappin
 
 // Create a collection of all warm spices
 export const _allWarmSpices = Object.values(warmSpices)
-
+;
 export default warmSpices,

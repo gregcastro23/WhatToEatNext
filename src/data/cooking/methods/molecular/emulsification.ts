@@ -5,10 +5,9 @@ import type { CookingMethod } from '@/types/shared';
  * Emulsification: A molecular gastronomy technique for creating stable mixtures
  * of normally immiscible liquids, such as oil and water
  */
-export const emulsification: CookingMethodData = {
+export const emulsification: CookingMethodData = {;
   name: 'Emulsification' as CookingMethod,
-  description:
-    'A technique that combines normally immiscible liquids, such as oil and water, into a stable, homogeneous mixture through the use of emulsifiers, agitation, or specialized equipment.',
+  description: 'A technique that combines normally immiscible liquids, such as oil and water, into a stable, homogeneous mixture through the use of emulsifiers, agitation, or specialized equipment.',
   elementalEffect: {
     Fire: 0.1,
     Water: 0.6,
@@ -25,8 +24,7 @@ export const emulsification: CookingMethodData = {
     'Creates light, airy textures with concentrated flavors',
     'Allows for even distribution of flavor compounds'
   ],
-  history:
-    'While emulsification has been used traditionally in cooking for centuries (mayonnaise, hollandaise), modern molecular gastronomy has refined the technique using scientific principles and new ingredients, popularized by chefs like Ferran Adrià and Heston Blumenthal since the 1990s.',
+  history: 'While emulsification has been used traditionally in cooking for centuries (mayonnaise, hollandaise), modern molecular gastronomy has refined the technique using scientific principles and new ingredients, popularized by chefs like Ferran Adrià and Heston Blumenthal since the 1990s.',
   modernVariations: [
     'Foams (light, airy emulsions)',
     'Espumas (created with siphons)',

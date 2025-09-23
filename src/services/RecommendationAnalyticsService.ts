@@ -1,8 +1,7 @@
 /**
  * Recommendation Analytics Service
  *
- * Provides comprehensive analytics for recommendation systems including:
- * - Performance metrics tracking (load time, API response time)
+ * Provides comprehensive analytics for recommendation systems including: * - Performance metrics tracking (load time, API response time)
  * - Recommendation confidence scoring
  * - User interaction analytics
  * - Intelligent caching for recommendations
@@ -37,10 +36,8 @@ export interface RecommendationConfidence {
   overallScore: number,
   factors: ConfidenceFactors,
   reasoning: string[],
-  reliability: 'high' | 'medium' | 'low'
-}
-
-export interface UserInteraction {
+  reliability: 'high' | 'medium' | 'low' },
+        export interface UserInteraction {
   type: 'view' | 'select' | 'expand' | 'filter' | 'search' | 'retry',
   target: string,
   timestamp: number,
@@ -72,10 +69,10 @@ class RecommendationAnalyticsService {
   private maxInteractionHistory: number = 500,
 
   constructor() {
-    this.performanceMonitor = new PerformanceMonitor()
+    this.performanceMonitor = new PerformanceMonitor();
     this.recommendationCache = new PerformanceCache<unknown>(1000, 600000); // 10 minutes TTL
     this.confidenceCache = new PerformanceCache<RecommendationConfidence>(500, 300000), // 5 minutes TTL,
-    this.sessionId = this.generateSessionId()
+    this.sessionId = this.generateSessionId();
   }
 
   // ========== PERFORMANCE TRACKING ==========,
@@ -89,7 +86,7 @@ class RecommendationAnalyticsService {
     return () => {
       const endTime = performance.now()
       const duration = endTime - startTime
-
+;
       this.performanceMonitor.recordMetric('calculationTime', duration),
 
       return duration
@@ -116,15 +113,16 @@ class RecommendationAnalyticsService {
    * Get cached recommendation with performance tracking
    */
   getCachedRecommendation<T>(key: string): T | null {
-    const startTime = performance.now()
+    const startTime = performance.now();
     const result = this.recommendationCache.get(key) as T | null;
     const duration = performance.now() - startTime;
 
     // Update cache hit rate
-    const stats = this.recommendationCache.getStats()
+    const stats = this.recommendationCache.getStats();
     this.performanceMonitor.recordMetric('cacheHitRate', stats.hitRate),
 
-    logger.debug(`Cache ${result ? 'hit' : 'miss'} for key: ${key} (${duration.toFixed(2)}ms)`)
+    logger.debug(`Cache ${result ? 'hit' : 'miss' },
+        for key: ${key} (${duration.toFixed(2)}ms)`)
 
     return result,
   }
@@ -163,11 +161,11 @@ class RecommendationAnalyticsService {
     const cached = this.confidenceCache.get(cacheKey)
 
     if (cached) {
-      return cached
+      return cached;
     }
 
     // Default factor values
-    const completedFactors: ConfidenceFactors = {
+    const completedFactors: ConfidenceFactors = {;
       astrologicalAlignment: factors.astrologicalAlignment ?? 0.8,
       elementalHarmony: factors.elementalHarmony ?? 0.8,
       culturalRelevance: factors.culturalRelevance ?? 0.7,
@@ -177,7 +175,7 @@ class RecommendationAnalyticsService {
     }
 
     // Weighted confidence calculation
-    const weights = {
+    const weights = {;
       astrologicalAlignment: 0.25,
       elementalHarmony: 0.2,
       culturalRelevance: 0.15,
@@ -217,14 +215,14 @@ class RecommendationAnalyticsService {
     // Determine reliability level
     let reliability: 'high' | 'medium' | 'low',
     if (overallScore >= 0.85) {
-      reliability = 'high'
-    } else if (overallScore >= 0.65) {
+      reliability = 'high' },
+        else if (overallScore >= 0.65) {
       reliability = 'medium',
     } else {
       reliability = 'low',
     }
 
-    const confidence: RecommendationConfidence = {
+    const confidence: RecommendationConfidence = {;
       overallScore,
       factors: completedFactors,
       reasoning,
@@ -243,7 +241,7 @@ class RecommendationAnalyticsService {
    * Track user interaction
    */
   trackInteraction(interaction: Omit<UserInteraction, 'timestamp'>): void {
-    const fullInteraction: UserInteraction = {
+    const fullInteraction: UserInteraction = {;
       ...interaction,
       timestamp: Date.now()
     }
@@ -252,7 +250,7 @@ class RecommendationAnalyticsService {
 
     // Keep only recent interactions
     if (this.userInteractions.length > this.maxInteractionHistory) {
-      this.userInteractions = this.userInteractions.slice(-this.maxInteractionHistory)
+      this.userInteractions = this.userInteractions.slice(-this.maxInteractionHistory);
     }
 
     logger.debug(`Tracked interaction: ${interaction.type} on ${interaction.target}`)
@@ -268,24 +266,23 @@ class RecommendationAnalyticsService {
     mostInteractedTargets: Array<{ target: string, count: number }>,
     averageSessionDuration: number
   } {
-    const now = Date.now()
-    const windowStart = timeWindow ? now - timeWindow : 0;
+    const now = Date.now();
+    const windowStart = timeWindow ? now - timeWindow: 0;
 
-    const relevantInteractions = this.userInteractions.filter(
-      interaction => interaction.timestamp >= windowStart
-    ),
+    const relevantInteractions = this.userInteractions.filter(;
+      interaction => interaction.timestamp >= windowStart),
 
     // Count interactions by type
     const interactionsByType: Record<string, number> = {}
     const targetCounts: Record<string, number> = {}
 
-    relevantInteractions.forEach(interaction => {
+    relevantInteractions.forEach(interaction => {;
       interactionsByType[interaction.type] = (interactionsByType[interaction.type] || 0) + 1,
       targetCounts[interaction.target] = (targetCounts[interaction.target] || 0) + 1,
     })
 
     // Get most interacted targets
-    const mostInteractedTargets = Object.entries(targetCounts)
+    const mostInteractedTargets = Object.entries(targetCounts);
       .map(([target, count]) => ({ target, count }))
       .sort((ab) => b.count - a.count)
       .slice(05)
@@ -294,7 +291,7 @@ class RecommendationAnalyticsService {
     const timeSpan = timeWindow || now - (this.userInteractions[0]?.timestamp || now)
     const interactionRate = relevantInteractions.length / (timeSpan / 60000)
 
-    // Calculate average session duration
+    // Calculate average session duration;
     const sessionStart = this.userInteractions[0]?.timestamp || now;
     const averageSessionDuration = (now - sessionStart) / 60000; // in minutes
 
@@ -314,10 +311,10 @@ class RecommendationAnalyticsService {
    */
   recordMetricsSnapshot(): RecommendationMetrics {
     const performanceStats = this.performanceMonitor.getStats()
-    const cacheStats = this.recommendationCache.getStats()
+    const cacheStats = this.recommendationCache.getStats();
     const interactionAnalytics = this.getInteractionAnalytics(300000), // Last 5 minutes,
 
-    const metrics: RecommendationMetrics = {
+    const metrics: RecommendationMetrics = {;
       loadTime: performanceStats.current.calculationTime,
       apiResponseTime: performanceStats.current.averageResponseTime,
       cacheHitRate: cacheStats.hitRate,
@@ -331,7 +328,7 @@ class RecommendationAnalyticsService {
 
     // Keep only recent metrics
     if (this.metricsHistory.length > this.maxHistorySize) {
-      this.metricsHistory = this.metricsHistory.slice(-this.maxHistorySize)
+      this.metricsHistory = this.metricsHistory.slice(-this.maxHistorySize);
     }
 
     return metrics,
@@ -342,7 +339,7 @@ class RecommendationAnalyticsService {
    */
   getAnalyticsSnapshot(): AnalyticsSnapshot {
     const metrics = this.recordMetricsSnapshot()
-    const cacheStats = this.recommendationCache.getStats()
+    const cacheStats = this.recommendationCache.getStats();
     const recentInteractions = this.userInteractions.slice(-20), // Last 20 interactions,
 
     return {
@@ -369,13 +366,13 @@ class RecommendationAnalyticsService {
     averageCacheHitRate: number,
     performanceScore: number
   } {
-    const now = Date.now()
-    const windowStart = timeWindow ? now - timeWindow : 0;
+    const now = Date.now();
+    const windowStart = timeWindow ? now - timeWindow: 0;
 
     const relevantMetrics = this.metricsHistory.filter(metric => metric.timestamp >= windowStart)
 
     if (relevantMetrics.length === 0) {
-      return {
+      return {;
         loadTimeTrend: [],
         cacheHitRateTrend: [],
         interactionRateTrend: [],
@@ -388,7 +385,7 @@ class RecommendationAnalyticsService {
     const loadTimeTrend = relevantMetrics.map(m => m.loadTime)
     const cacheHitRateTrend = relevantMetrics.map(m => m.cacheHitRate)
     const interactionRateTrend = relevantMetrics.map(m => m.userInteractionRate)
-
+;
     const averageLoadTime = loadTimeTrend.reduce((sum, val) => sum + val0) / loadTimeTrend.length,
     const averageCacheHitRate =
       cacheHitRateTrend.reduce((sum, val) => sum + val0) / cacheHitRateTrend.length,
@@ -428,7 +425,7 @@ class RecommendationAnalyticsService {
     this.performanceMonitor.clear()
     this.sessionId = this.generateSessionId()
 
-    logger.info('Analytics data cleared')
+    logger.info('Analytics data cleared');
   }
 
   /**
@@ -453,5 +450,5 @@ class RecommendationAnalyticsService {
 
 // ========== SINGLETON EXPORT ==========,
 
-export const _recommendationAnalytics = new RecommendationAnalyticsService()
+export const _recommendationAnalytics = new RecommendationAnalyticsService();
 export default RecommendationAnalyticsService,

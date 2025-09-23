@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawQuinoa = {
-  quinoa: {
+  quinoa: {;
     name: 'Quinoa',
     elementalProperties: { Earth: 0.3, Water: 0.2, Air: 0.3, Fire: 0.2 }
     astrologicalProfile: {
@@ -40,9 +40,8 @@ const rawQuinoa = {
       container: 'Airtight container',
       duration: 'Up to 2 years (dry), 3-5 days (cooked)',
       temperature: 'Cool, dark place (dry), refrigerated (cooked)',
-      notes: 'Can be frozen for up to 8 months when completely cooled'
-    },
-    pairingRecommendations: {
+      notes: 'Can be frozen for up to 8 months when completely cooled' },
+        pairingRecommendations: {
       complementary: [
         'lemon',
         'lime',

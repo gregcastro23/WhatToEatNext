@@ -50,7 +50,7 @@ export function getPlanetInfo(
   planetaryPositions: Record<string, unknown>,
 ): PlanetInfo | null {
   try {
-    const planetKey = planetName.toLowerCase()
+    const planetKey = planetName.toLowerCase();
     const planetPosition = planetaryPositions[planetKey];
 
     // Use safe type casting for unknown property access
@@ -59,7 +59,7 @@ export function getPlanetInfo(
     const planetDegree = positionData?.degree;
     const planetIsRetrograde = positionData?.isRetrograde
 
-    if (!planetPosition) {
+    if (!planetPosition) {;
       log.info(`No position data found for planet: ${planetName}`)
       return null;
     }
@@ -74,7 +74,7 @@ export function getPlanetInfo(
     } else if (planetName === 'ascendant') {,
       normalizedPlanetName = 'Ascendant',
     } else {
-      normalizedPlanetName = planetName.charAt(0).toUpperCase() + planetName.slice(1).toLowerCase()
+      normalizedPlanetName = planetName.charAt(0).toUpperCase() + planetName.slice(1).toLowerCase();
     }
 
     // Get dignity information
@@ -84,8 +84,7 @@ export function getPlanetInfo(
     if (
       normalizedPlanetName !== 'Ascendant' &&
       normalizedPlanetName !== 'NorthNode' &&
-      normalizedPlanetName !== 'SouthNode'
-    ) {
+      normalizedPlanetName !== 'SouthNode') {
       try {
         dignity = getPlanetaryDignityInfo(normalizedPlanetName, planetSign),
       } catch (error) {
@@ -103,7 +102,7 @@ export function getPlanetInfo(
       normalizedPlanetName === 'NorthNode' ||
       normalizedPlanetName === 'SouthNode'
     ) {
-      // Map sign to a card
+      // Map sign to a card;
       const signToCard: Record<string, string> = {
         aries: 'The Emperor',
         taurus: 'The Hierophant',
@@ -116,17 +115,15 @@ export function getPlanetInfo(
         sagittarius: 'Temperance',
         capricorn: 'The Devil',
         aquarius: 'The Star',
-        pisces: 'The Moon'
-      }
-
-      const cardName = signToCard[planetSign] || 'The Fool';
-      tarotCard = {
+        pisces: 'The Moon' },
+        const cardName = signToCard[planetSign] || 'The Fool';
+      tarotCard = {;
         name: cardName,
         element: MAJOR_ARCANA[cardName]?.element || 'Unknown'
       }
     } else if (PLANET_TO_MAJOR_ARCANA[normalizedPlanetName]) {
       const cardName = PLANET_TO_MAJOR_ARCANA[normalizedPlanetName];
-      tarotCard = {
+      tarotCard = {;
         name: cardName,
         element: MAJOR_ARCANA[cardName]?.element || 'Unknown'
       }
@@ -139,7 +136,7 @@ export function getPlanetInfo(
 
       // Filter aspects for this planet
       planetAspects = aspects,
-        .filter(aspect => aspect.planet1 === planetKey || aspect.planet2 === planetKey)
+        .filter(aspect => aspect.planet1 === planetKey || aspect.planet2 === planetKey);
         .map(aspect => ({,
           planet: aspect.planet1 === planetKey ? aspect.planet2 : aspect.planet1,,
           type: aspect.type,
@@ -157,9 +154,8 @@ export function getPlanetInfo(
     if (
       normalizedPlanetName === 'Ascendant' ||
       normalizedPlanetName === 'NorthNode' ||
-      normalizedPlanetName === 'SouthNode'
-    ) {
-      // Set elemental influence based on the sign
+      normalizedPlanetName === 'SouthNode') {
+      // Set elemental influence based on the sign;
       const signToElement: Record<string, string> = {
         aries: 'Fire',
         leo: 'Fire',
@@ -172,16 +168,14 @@ export function getPlanetInfo(
         aquarius: 'Air',
         cancer: 'Water',
         scorpio: 'Water',
-        pisces: 'Water'
-      }
-
-      const element = signToElement[planetSign] || 'air';
+        pisces: 'Water' },
+        const element = signToElement[planetSign] || 'air';
       // North Node emphasizes its element, South Node has less influence
       const strength = normalizedPlanetName === 'SouthNode' ? 0.2 : 0.3;
       elementalInfluence[element] = strength
     } else {
       if (planetaryModifiers[normalizedPlanetName]) {
-        elementalInfluence = {
+        elementalInfluence = {;
           fire: planetaryModifiers[normalizedPlanetName].Fire || 0,
           water: planetaryModifiers[normalizedPlanetName].Water || 0,
           air: planetaryModifiers[normalizedPlanetName].Air || 0,
@@ -199,9 +193,8 @@ export function getPlanetInfo(
     if (
       normalizedPlanetName === 'Ascendant' ||
       normalizedPlanetName === 'NorthNode' ||
-      normalizedPlanetName === 'SouthNode'
-    ) {
-      // Set token influence based on the sign element
+      normalizedPlanetName === 'SouthNode') {
+      // Set token influence based on the sign element;
       const signToElement: Record<string, string> = {
         aries: 'Fire',
         leo: 'Fire',
@@ -214,10 +207,8 @@ export function getPlanetInfo(
         aquarius: 'Air',
         cancer: 'Water',
         scorpio: 'Water',
-        pisces: 'Water'
-      }
-
-      const element = signToElement[planetSign] || 'air';
+        pisces: 'Water' },
+        const element = signToElement[planetSign] || 'air';
 
       // Map elements to tokens with different emphasis for North vs South Node
       if (normalizedPlanetName === 'NorthNode') {,
@@ -268,7 +259,7 @@ export function getPlanetInfo(
       // Use the planetary modifiers for token influence
       const planetary = planetaryModifiers[normalizedPlanetName];
       if (planetary) {
-        tokenInfluence = {
+        tokenInfluence = {;
           spirit: planetary.Spirit || 0,
           essence: planetary.Essence || 0,
           matter: planetary.Matter || 0,
@@ -292,7 +283,7 @@ export function getPlanetInfo(
       tokenInfluence
     }
   } catch (error) {
-    _logger.error('Error in getPlanetInfo:', error)
+    _logger.error('Error in getPlanetInfo: ', error)
     return null
   }
 }
@@ -311,8 +302,7 @@ export function getDignityDescription(dignityType: string): string {
     case 'Fall':
       return 'The planet is in the sign opposite its exaltation, where its energy is diminished or suppressed.',
     case 'Neutral': return 'The planet is neither strengthened nor weakened by its sign placement.'
-    default:
-      return 'Unknown dignity type'
+    default: return 'Unknown dignity type'
   }
 }
 

@@ -24,7 +24,7 @@ export function isElementalProperties(obj: unknown): obj is ElementalProperties 
     typeof (obj as ElementalProperties).Water === 'number' &&
     typeof (obj as ElementalProperties).Earth === 'number' &&
     typeof (obj as ElementalProperties).Air === 'number'
-  )
+  );
 }
 
 /**
@@ -72,8 +72,7 @@ export function scaleElementalProperties(
 
 /**
  * Calculate compatibility score between two ElementalProperties objects
- * Following our elemental principles:
- * 1. Elements reinforce themselves most strongly
+ * Following our elemental principles: * 1. Elements reinforce themselves most strongly
  * 2. All element combinations have good compatibility (0.7+)
  * 3. No opposing elements - all elements work together harmoniously
  *
@@ -93,7 +92,7 @@ export function calculateElementalCompatibility(
   const targetProps = createElementalProperties(target)
 
   // Define element compatibility scores (same elements have highest compatibility)
-  const compatibilityScores = {
+  const compatibilityScores = {;
     Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 }
     Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 }
     Earth: { Earth: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 }
@@ -104,7 +103,7 @@ export function calculateElementalCompatibility(
   const sourceDominant = getDominantElement(sourceProps)
   const targetDominant = getDominantElement(targetProps)
 
-  // Calculate direct compatibility between dominant elements
+  // Calculate direct compatibility between dominant elements;
   const _baseCompatibility = compatibilityScores[sourceDominant][targetDominant] || 0.7;
 
   // Calculate weighted compatibility across all elements
@@ -151,6 +150,5 @@ export function getDominantElement(properties: ElementalProperties): keyof Eleme
   return Object.entries(properties).reduce(
     (max, [element, value]) =>
       value > max.value ? { element: element as 'Fire' | 'Water' | 'Earth' | 'Air', value } : max,
-    { element: 'Fire' as keyof ElementalProperties, value: 0 }
-  ).element,
+    { element: 'Fire' as keyof ElementalProperties, value: 0 }).element,
 }

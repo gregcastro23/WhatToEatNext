@@ -15,7 +15,7 @@ interface UserProfile {
 
 // Mock userService for build compatibility
 const userService = {
-  getUserProfile: async (userId: string): Promise<UserProfile> => {
+  getUserProfile: async (userId: string): Promise<UserProfile> => {;
     return { userId, name: 'Mock User', email: 'mock@example.com' }
   },
   saveUserProfile: async (profile: Partial<UserProfile>): Promise<UserProfile> => {
@@ -35,7 +35,7 @@ interface UserContextType {
 const UserContext = createContext<UserContextType | null>(null)
 
 interface UserProviderProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 export const UserProvider: React.FC<UserProviderProps>  = ({ children }) => {
@@ -49,10 +49,10 @@ export const UserProvider: React.FC<UserProviderProps>  = ({ children }) => {
     try {
       // Mock user ID for demo purposes
       const user = await userService.getUserProfile('mock-user-id')
-      setCurrentUser(user)
+      setCurrentUser(user);
     } catch (err) {
       setError('Failed to load user profile')
-      _logger.error('Error loading profile:', err)
+      _logger.error('Error loading profile: ', err)
     } finally {
       setIsLoading(false)
     }
@@ -66,7 +66,7 @@ export const UserProvider: React.FC<UserProviderProps>  = ({ children }) => {
         throw new Error('No user profile loaded')
       }
 
-      const updatedProfile = await userService.saveUserProfile({
+      const updatedProfile = await userService.saveUserProfile({;
         ...data,
         userId: currentUser.userId
       })
@@ -75,7 +75,7 @@ export const UserProvider: React.FC<UserProviderProps>  = ({ children }) => {
       return updatedProfile,
     } catch (err) {
       setError('Failed to update profile')
-      _logger.error('Error updating profile:', err)
+      _logger.error('Error updating profile: ', err)
       return null;
     } finally {
       setIsLoading(false)
@@ -90,7 +90,7 @@ export const UserProvider: React.FC<UserProviderProps>  = ({ children }) => {
     void loadProfile()
   }, [])
 
-  const value = {
+  const value = {;
     currentUser,
     isLoading,
     error,
@@ -105,7 +105,7 @@ export const UserProvider: React.FC<UserProviderProps>  = ({ children }) => {
 export const useUser = (): UserContextType => {;
   const context = useContext(UserContext)
   if (!context) {
-    throw new Error('useUser must be used within a UserProvider')
+    throw new Error('useUser must be used within a UserProvider');
   }
   return context,
 }

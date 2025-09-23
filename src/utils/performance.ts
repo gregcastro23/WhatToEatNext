@@ -31,8 +31,8 @@ export function optimizePerformance(): { success: boolean, optimizations: string
     if (typeof window !== 'undefined') {
       // Optimize image loading with lazy loading
       const lazyLoadImages = () => {;
-        const images = document.querySelectorAll('img:not([loading])')
-        images.forEach(img => {
+        const images = document.querySelectorAll('img: not([loading])')
+        images.forEach(img => {;
           img.setAttribute('loading', 'lazy')
         })
         appliedOptimizations.push('image-lazy-loading')
@@ -117,7 +117,7 @@ export function collectPerformanceMetrics(): PerformanceMetrics {
       // Memory metrics (Chrome only)
       const memory = (perf as { memory?: Record<string, unknown> }).memory,
       if (memory) {
-        metrics.memoryUsage = {
+        metrics.memoryUsage = {;
           jsHeapSizeLimit: Number(memory.jsHeapSizeLimit) || undefined,
           totalJSHeapSize: Number(memory.totalJSHeapSize) || undefined,
           usedJSHeapSize: Number(memory.usedJSHeapSize) || undefined
@@ -127,7 +127,7 @@ export function collectPerformanceMetrics(): PerformanceMetrics {
       // Paint metrics
       if (perf.getEntriesByType) {
         const paintMetrics = perf.getEntriesByType('paint')
-        paintMetrics.forEach(entry => {
+        paintMetrics.forEach(entry => {;
           if (entry.name === 'first-paint') {,
             metrics.firstPaint = entry.startTime,
           } else if (entry.name === 'first-contentful-paint') {,

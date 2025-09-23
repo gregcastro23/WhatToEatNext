@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawEggs = {
-  chicken_egg: {
+  chicken_egg: {;
     name: 'Chicken Egg',
     description: 'A common protein source from chickens, versatile in cooking applications.',
     category: 'egg',

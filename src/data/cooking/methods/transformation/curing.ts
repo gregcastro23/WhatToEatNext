@@ -5,10 +5,9 @@ import type { CookingMethod } from '@/types/shared';
  * Curing: A food preservation method that removes moisture and enhances flavor
  * through the addition of salt, sugar, nitrates, or other compounds
  */
-export const curing: CookingMethodData = {
+export const curing: CookingMethodData = {;
   name: 'Curing' as CookingMethod,
-  description:
-    'A preservation technique that draws moisture out of food through the use of salt, sugar, nitrates, or other compounds, thereby inhibiting bacterial growth and enhancing flavor.',
+  description: 'A preservation technique that draws moisture out of food through the use of salt, sugar, nitrates, or other compounds, thereby inhibiting bacterial growth and enhancing flavor.',
   elementalEffect: {
     Fire: 0.1,
     Water: 0.2,
@@ -25,8 +24,7 @@ export const curing: CookingMethodData = {
     'Enhanced flavor development',
     'Some fermented cured products contain beneficial probiotics'
   ],
-  history:
-    'Curing dates back to ancient civilizations where salt was used to preserve meat and fish. It was essential for food preservation before refrigeration and allowed food to be stored and transported over long distances.',
+  history: 'Curing dates back to ancient civilizations where salt was used to preserve meat and fish. It was essential for food preservation before refrigeration and allowed food to be stored and transported over long distances.',
   modernVariations: [
     'Dry curing (with salt and spices)',
     'Wet curing/brining (submerged in salt solution)',

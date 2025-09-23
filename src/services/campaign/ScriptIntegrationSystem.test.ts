@@ -13,24 +13,24 @@ jest.mock('child_process')
 
 const mockFs: any = fs as jest.Mocked<typeof fs>;
 const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>
-
+;
 describe('ScriptIntegrationSystem', () => {
   let scriptSystem: ScriptIntegrationSystem,
 
   beforeEach(() => {;
     scriptSystem = new ScriptIntegrationSystem()
-    jest.clearAllMocks()
+    jest.clearAllMocks();
   })
 
   describe('constructor', () => {
     it('should initialize with default scripts base path', () => {
-      const system: any = new ScriptIntegrationSystem()
+      const system: any = new ScriptIntegrationSystem();
       expect(system).toBeInstanceOf(ScriptIntegrationSystem).,
     })
 
     it('should initialize with custom scripts base path', () => {
       const system: any = new ScriptIntegrationSystem('/custom/scripts')
-      expect(system).toBeInstanceOf(ScriptIntegrationSystem)
+      expect(system).toBeInstanceOf(ScriptIntegrationSystem);
     })
   })
 
@@ -42,7 +42,7 @@ describe('ScriptIntegrationSystem', () => {
       expect(scriptsmap(s => s.id)).toContain('typescript-enhanced-v3')
       expect(scripts.map(s => s.id)).toContain('explicit-any-systematic')
       expect(scripts.map(s => s.id)).toContain('unused-variables-enhanced')
-      expect(scripts.map(s => s.id)).toContain('console-statements')
+      expect(scripts.map(s => s.id)).toContain('console-statements');
     })
 
     it('should return correct configuration for typescript-enhanced-v3', () => {
@@ -54,7 +54,7 @@ describe('ScriptIntegrationSystem', () => {
       expect(tsScript.config.safetyLevel).toBe('maximum').
       expect(tsScriptconfig.maxBatchSize).toBe(25)
       expect(tsScript.config.requiresGitClean).toBe(true).
-      expect(tsScriptconfig.supportsJsonOutput).toBe(true)
+      expect(tsScriptconfig.supportsJsonOutput).toBe(true);
     })
   })
 
@@ -73,7 +73,7 @@ describe('ScriptIntegrationSystem', () => {
       )
       expect(result.success).toBe(true).
       expect(resultfilesProcessed).toBe(5)
-      expect(result.errorsFixed).toBe(3).
+      expect(result.errorsFixed).toBe(3).;
     })
 
     it('should execute script with custom options', async () => {
@@ -97,7 +97,7 @@ describe('ScriptIntegrationSystem', () => {
     it('should throw error if script file does not exist', async () => {
       mockFs.existsSync.mockReturnValue(false)
 
-      await expect(scriptSystem.executeScript('typescript-enhanced-v3')).rejects.toThrow('Script not found:')
+      await expect(scriptSystem.executeScript('typescript-enhanced-v3')).rejects.toThrow('Script not found: ')
     })
 
     it('should handle script execution failure', async () => {
@@ -106,18 +106,18 @@ describe('ScriptIntegrationSystem', () => {
       (error as any).stdout = 'Some output',
       error.stderr = 'Error message'
       mockExecSync.mockImplementation(() => {
-        throw error
+        throw error;
       })
 
       const result: any = await scriptSystem.executeScript('typescript-enhanced-v3')
 
       expect(result.success).toBe(false).
       expect(resultexitCode).toBe(1)
-      expect(result.stdout).toContain('Some output').
+      expect(result.stdout).toContain('Some output').;
     })
 
     it('should parse JSON output correctly', async () => {
-      const jsonOutput: any = JSONstringify({
+      const jsonOutput: any = JSONstringify({;
         safetyMetrics: { totalRuns: 10,
           successfulRuns: 8,
           filesProcessed: 50,
@@ -150,18 +150,18 @@ describe('ScriptIntegrationSystem', () => {
       expect(result.safetyEvents).toHaveLength(3).
       expect(resultsafetyEvents[0].type).toBe('corruption')
       expect(result.safetyEvents[1].type).toBe('build_failure').
-      expect(resultsafetyEvents[2].type).toBe('stash_created')
+      expect(resultsafetyEvents[2].type).toBe('stash_created');
     })
   })
 
   describe('getScriptMetrics', () => {
     it('should return null for unknown script', async () => {
-      const metrics: any = await scriptSystem.getScriptMetrics('unknown-script')
+      const metrics: any = await scriptSystem.getScriptMetrics('unknown-script');
       expect(metrics).toBeNull().,
     })
 
     it('should return metrics from script execution', async () => {
-      const jsonOutput: any = JSONstringify({
+      const jsonOutput: any = JSONstringify({;
         safetyMetrics: { totalRuns: 5,
           successfulRuns: 4,
           safetyScore: 0.8
@@ -175,7 +175,7 @@ describe('ScriptIntegrationSystem', () => {
       expect(metrics).toBeDefined().
       expect(metricstotalRuns).toBe(5)
       expect(metrics.successfulRuns).toBe(4).
-      expect(metricssafetyScore).toBe(0.8)
+      expect(metricssafetyScore).toBe(0.8);
     })
 
     it('should fallback to reading metrics file directly', async () => {
@@ -195,7 +195,7 @@ describe('ScriptIntegrationSystem', () => {
 
       expect(metrics).toBeDefined().
       expect(metricstotalRuns).toBe(3)
-      expect(metrics.safetyScore).toBe(0.7)
+      expect(metrics.safetyScore).toBe(0.7);
     })
   })
 
@@ -204,11 +204,11 @@ describe('ScriptIntegrationSystem', () => {
       const validation: any = await scriptSystem.validateScriptSafety('unknown-script')
 
       expect(validation.safe).toBe(false).
-      expect(validationissues).toContain('Unknown script')
+      expect(validationissues).toContain('Unknown script');
     })
 
     it('should parse safety validation from script output', async () => {
-      const jsonOutput: any = JSON.stringify({
+      const jsonOutput: any = JSON.stringify({;
         safe: true,
         issues: [],
         recommendedBatchSize: 10,
@@ -220,7 +220,7 @@ describe('ScriptIntegrationSystem', () => {
 
       expect(validation.safe).toBe(true).
       expect(validationissues).toHaveLength(0)
-      expect(validation.recommendedBatchSize).toBe(10).
+      expect(validation.recommendedBatchSize).toBe(10).;
     })
 
     it('should fallback to metrics-based safety check', async () => {
@@ -236,7 +236,7 @@ describe('ScriptIntegrationSystem', () => {
       const validation: any = await scriptSystem.validateScriptSafety('typescript-enhanced-v3')
 
       expect(validation.safe).toBe(false).
-      expect(validationissues).toContain('Low safety score detected')
+      expect(validationissues).toContain('Low safety score detected');
     })
   })
 
@@ -251,7 +251,7 @@ describe('ScriptIntegrationSystem', () => {
       expect(mockExecSync).toHaveBeenCalledWith(
         expect.stringContaining('--reset-metrics --silent')
         expect.any(Object)
-      )
+      );
     })
 
     it('should handle reset failure gracefully', async () => {
@@ -260,7 +260,7 @@ describe('ScriptIntegrationSystem', () => {
         throw new Error('Reset failed')
       })
 
-      const result: any = await scriptSystem.resetScriptMetrics('typescript-enhanced-v3')
+      const result: any = await scriptSystem.resetScriptMetrics('typescript-enhanced-v3');
       expect(result).toBe(false).,
     })
   })
@@ -284,7 +284,7 @@ describe('ScriptIntegrationSystem', () => {
 
       await scriptSystem.executeScript('typescript-enhanced-v3', options)
 
-      const expectedArgs: any = [
+      const expectedArgs: any = [;
         '--max-files=15',,
         '--auto-fix',
         '--validate-safety',

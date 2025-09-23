@@ -1,5 +1,5 @@
 // Basic astrology data for the ElementalCalculator
-export const zodiacSigns = [
+export const zodiacSigns = [;
   'Aries',
   'Taurus',
   'Gemini',
@@ -14,7 +14,7 @@ export const zodiacSigns = [
   'Pisces'
 ],
 
-export const elements = {
+export const elements = {;
   aries: 'Fire',
   leo: 'Fire',
   sagittarius: 'Fire',
@@ -26,10 +26,8 @@ export const elements = {
   aquarius: 'Air',
   cancer: 'Water',
   scorpio: 'Water',
-  pisces: 'Water'
-}
-
-export const planetaryRulers = {
+  pisces: 'Water' },
+        export const planetaryRulers = {;
   aries: 'Mars',
   taurus: 'Venus',
   gemini: 'Mercury',
@@ -46,42 +44,37 @@ export const planetaryRulers = {
 
 // Export planetInfo data structure needed by the calculations
 export const planetInfo = {
-  Sun: {
+  Sun: {;
     'Dignity Effect': { leo: 1, aries: 2, aquarius: -1, libra: -2 }
     Elements: ['Fire', 'Fire'],
     Alchemy: { Spirit: 1, Essence: 0, Matter: 0, Substance: 0 }
     'Diurnal Element': 'Fire',
-    'Nocturnal Element': 'Fire'
-  },
-  Moon: {
+    'Nocturnal Element': 'Fire' },
+        Moon: {
     'Dignity Effect': { cancer: 1, taurus: 2, capricorn: -1, scorpio: -2 }
     Elements: ['Water', 'Water'],
     Alchemy: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
     'Diurnal Element': 'Water',
-    'Nocturnal Element': 'Water'
-  },
-  Mercury: {
+    'Nocturnal Element': 'Water' },
+        Mercury: {
     'Dignity Effect': { gemini: 1, virgo: 3, sagittarius: 1, pisces: -3 }
     Elements: ['Air', 'Earth'],
     Alchemy: { Spirit: 1, Essence: 0, Matter: 0, Substance: 1 }
     'Diurnal Element': 'Air',
-    'Nocturnal Element': 'Earth'
-  },
-  Venus: {
+    'Nocturnal Element': 'Earth' },
+        Venus: {
     'Dignity Effect': { libra: 1, taurus: 1, pisces: 2, aries: -1, scorpio: -1, virgo: -2 }
     Elements: ['Water', 'Earth'],
     Alchemy: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
     'Diurnal Element': 'Water',
-    'Nocturnal Element': 'Earth'
-  },
-  Mars: {
+    'Nocturnal Element': 'Earth' },
+        Mars: {
     'Dignity Effect': { aries: 1, scorpio: 1, capricorn: 2, taurus: -1, libra: -1, cancer: -2 }
     Elements: ['Fire', 'Water'],
     Alchemy: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
     'Diurnal Element': 'Fire',
-    'Nocturnal Element': 'Water'
-  },
-  Jupiter: {
+    'Nocturnal Element': 'Water' },
+        Jupiter: {
     'Dignity Effect': {
       pisces: 1,
       sagittarius: 1,
@@ -93,37 +86,32 @@ export const planetInfo = {
     Elements: ['Air', 'Fire'],
     Alchemy: { Spirit: 1, Essence: 1, Matter: 0, Substance: 0 }
     'Diurnal Element': 'Air',
-    'Nocturnal Element': 'Fire'
-  },
-  Saturn: {
+    'Nocturnal Element': 'Fire' },
+        Saturn: {
     'Dignity Effect': { aquarius: 1, capricorn: 1, libra: 2, cancer: -1, leo: -1, aries: -2 }
     Elements: ['Air', 'Earth'],
     Alchemy: { Spirit: 1, Essence: 0, Matter: 1, Substance: 0 }
     'Diurnal Element': 'Air',
-    'Nocturnal Element': 'Earth'
-  },
-  Uranus: {
+    'Nocturnal Element': 'Earth' },
+        Uranus: {
     'Dignity Effect': { aquarius: 1, scorpio: 2, taurus: -3 }
     Elements: ['Water', 'Air'],
     Alchemy: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
     'Diurnal Element': 'Water',
-    'Nocturnal Element': 'Air'
-  },
-  Neptune: {
+    'Nocturnal Element': 'Air' },
+        Neptune: {
     'Dignity Effect': { pisces: 1, cancer: 2, virgo: -1, capricorn: -2 }
     Elements: ['Water', 'Water'],
     Alchemy: { Spirit: 0, Essence: 1, Matter: 0, Substance: 1 }
     'Diurnal Element': 'Water',
-    'Nocturnal Element': 'Water'
-  },
-  Pluto: {
+    'Nocturnal Element': 'Water' },
+        Pluto: {
     'Dignity Effect': { scorpio: 1, leo: 2, taurus: -1, aquarius: -2 }
     Elements: ['Earth', 'Water'],
     Alchemy: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
     'Diurnal Element': 'Earth',
-    'Nocturnal Element': 'Water'
-  },
-  Ascendant: {
+    'Nocturnal Element': 'Water' },
+        Ascendant: {
     'Diurnal Element': 'Earth',
     'Nocturnal Element': 'Earth'
   }
@@ -131,7 +119,7 @@ export const planetInfo = {
 
 // Export signInfo data structure needed by the calculations
 export const signInfo = {
-  aries: {
+  aries: {;
     Element: 'Fire',
     Start: { Day: 21, Month: 3, Year: 2022 }
     End: { Day: 19, Month: 4, Year: 2022 }
@@ -150,9 +138,8 @@ export const signInfo = {
       Saturn: [2730]
     },
     Ruler: 'Mars',
-    Modality: 'Cardinal'
-  },
-  taurus: {
+    Modality: 'Cardinal' },
+        taurus: {
     Element: 'Earth',
     Start: { Day: 20, Month: 4, Year: 2022 }
     End: { Day: 20, Month: 5, Year: 2022 }
@@ -171,9 +158,8 @@ export const signInfo = {
       Saturn: [2326]
     },
     Ruler: 'Venus',
-    Modality: 'Fixed'
-  },
-  gemini: {
+    Modality: 'Fixed' },
+        gemini: {
     Element: 'Air',
     Start: { Day: 21, Month: 5, Year: 2022 }
     End: { Day: 20, Month: 6, Year: 2022 }
@@ -196,9 +182,8 @@ export const signInfo = {
       Saturn: [2225]
     },
     Ruler: 'Mercury',
-    Modality: 'Mutable'
-  },
-  cancer: {
+    Modality: 'Mutable' },
+        cancer: {
     Element: 'Water',
     Start: { Day: 21, Month: 6, Year: 2022 }
     End: { Day: 22, Month: 7, Year: 2022 }
@@ -221,9 +206,8 @@ export const signInfo = {
       Saturn: [2830]
     },
     Ruler: 'Moon',
-    Modality: 'Cardinal'
-  },
-  leo: {
+    Modality: 'Cardinal' },
+        leo: {
     Element: 'Fire',
     Start: { Day: 23, Month: 7, Year: 2022 }
     End: { Day: 22, Month: 8, Year: 2022 }
@@ -242,9 +226,8 @@ export const signInfo = {
       Saturn: [16]
     },
     Ruler: 'Sun',
-    Modality: 'Fixed'
-  },
-  virgo: {
+    Modality: 'Fixed' },
+        virgo: {
     Element: 'Earth',
     Start: { Day: 23, Month: 8, Year: 2022 }
     End: { Day: 22, Month: 9, Year: 2022 }
@@ -267,9 +250,8 @@ export const signInfo = {
       Saturn: [1924]
     },
     Ruler: 'Mercury',
-    Modality: 'Mutable'
-  },
-  libra: {
+    Modality: 'Mutable' },
+        libra: {
     Element: 'Air',
     Start: { Day: 23, Month: 9, Year: 2022 }
     End: { Day: 22, Month: 10, Year: 2022 }
@@ -292,9 +274,8 @@ export const signInfo = {
       Saturn: [16]
     },
     Ruler: 'Venus',
-    Modality: 'Cardinal'
-  },
-  scorpio: {
+    Modality: 'Cardinal' },
+        scorpio: {
     Element: 'Water',
     Start: { Day: 23, Month: 10, Year: 2022 }
     End: { Day: 21, Month: 11, Year: 2022 }
@@ -317,9 +298,8 @@ export const signInfo = {
       Saturn: [2830]
     },
     Ruler: 'Mars',
-    Modality: 'Fixed'
-  },
-  sagittarius: {
+    Modality: 'Fixed' },
+        sagittarius: {
     Element: 'Fire',
     Start: { Day: 22, Month: 11, Year: 2022 }
     End: { Day: 21, Month: 12, Year: 2022 }
@@ -338,9 +318,8 @@ export const signInfo = {
       Saturn: [2125]
     },
     Ruler: 'Jupiter',
-    Modality: 'Mutable'
-  },
-  capricorn: {
+    Modality: 'Mutable' },
+        capricorn: {
     Element: 'Earth',
     Start: { Day: 22, Month: 12, Year: 2022 }
     End: { Day: 19, Month: 1, Year: 2023 }
@@ -359,9 +338,8 @@ export const signInfo = {
       Saturn: [2630]
     },
     Ruler: 'Saturn',
-    Modality: 'Cardinal'
-  },
-  aquarius: {
+    Modality: 'Cardinal' },
+        aquarius: {
     Element: 'Air',
     Start: { Day: 20, Month: 1, Year: 2023 }
     End: { Day: 18, Month: 2, Year: 2023 }
@@ -380,9 +358,8 @@ export const signInfo = {
       Saturn: [16]
     },
     Ruler: 'Saturn',
-    Modality: 'Fixed'
-  },
-  pisces: {
+    Modality: 'Fixed' },
+        pisces: {
     Element: 'Water',
     Start: { Day: 19, Month: 2, Year: 2023 }
     End: { Day: 20, Month: 3, Year: 2023 }

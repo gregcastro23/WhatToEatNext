@@ -42,12 +42,12 @@ const alchemicalEngine = {
       }
       return alchemize(birthInfo, extendedHoroscope)
     } catch (error) {
-      _logger.error('Error in alchemize:', error)
+      _logger.error('Error in alchemize: ', error)
 
       // Special handling for 'Assignment to constant variable' error
       if (error instanceof TypeError && error.message.includes('Assignment to constant')) {
         _logger.error('Assignment to constant variable detected!')
-        _logger.error('Error stack:', error.stack)
+        _logger.error('Error stack: ', error.stack)
 
         // Try to extract the variable name from the error message
         const match = error.message.match(/Assignment to constant variable: (.+)/)
@@ -93,7 +93,7 @@ const alchemicalEngine = {
       )
       return calculateCurrentPlanetaryPositions()
     } catch (error) {
-      _logger.error('Error calculating planetary positions:', error)
+      _logger.error('Error calculating planetary positions: ', error)
       // Return a safe fallback
       return {
         Sun: { Sign: { label: 'Aries' } },
@@ -107,7 +107,7 @@ const alchemicalEngine = {
       // Use ESM import binding
       return _calculateZodiacEnergies(positions)
     } catch (error) {
-      _logger.error('Error calculating zodiac energies:', error)
+      _logger.error('Error calculating zodiac energies: ', error)
       // Return a safe fallback with equal distribution
       return {
         aries: 0.0833,
@@ -129,9 +129,9 @@ const alchemicalEngine = {
   calculateChakraEnergies: (zodiacEnergies: Record<string, number>): ChakraEnergies => {
     try {
       // Use ESM import binding
-      return _calculateChakraEnergies(zodiacEnergies)
+      return _calculateChakraEnergies(zodiacEnergies);
     } catch (error) {
-      _logger.error('Error calculating chakra energies:', error)
+      _logger.error('Error calculating chakra energies: ', error)
       // Return a safe fallback with equal distribution
       return {
         root: 0.125,
@@ -148,9 +148,9 @@ const alchemicalEngine = {
   // Add a convenient factory method to create engine instances with error handling
   createEngine: (advanced: boolean = false) => {
     try {
-      return advanced ? new AlchemicalEngineAdvanced() : new AlchemicalEngineBase()
+      return advanced ? new AlchemicalEngineAdvanced() : new AlchemicalEngineBase();
     } catch (error) {
-      _logger.error('Error creating engine instance:', error)
+      _logger.error('Error creating engine instance: ', error)
       // Return a minimal mock implementation
       return {
         calculateNaturalInfluences: () => ({
@@ -185,7 +185,7 @@ const alchemicalEngine = {
         }
       } as AstrologicalState
     } catch (error) {
-      _logger.error('Error getting current astrological state:', error)
+      _logger.error('Error getting current astrological state: ', error)
       return {
         sunSign: 'aries',
         moonSign: 'cancer',

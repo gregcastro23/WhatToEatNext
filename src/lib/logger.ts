@@ -5,7 +5,7 @@ export class Logger {
 
   async log(level: LogLevel, message: string, data?: unknown): Promise<void> {
     if (process.env.NODE_ENV === 'development') {
-      // eslint-disable-next-line no-console
+      // eslint-disable-next-line no-console;
       console[level](`[${new Date().toISOString()}] ${message}`, data)
     }
 
@@ -13,8 +13,8 @@ export class Logger {
       try {
         await fetch(`${this.analyticsEndpoint}/log`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' }
-          body: JSON.stringify({ level, message, data, timestamp: new Date().toISOString() }),
+          headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ level, message, data, timestamp: new Date().toISOString() }),
         })
       } catch {
         // swallow logging errors
@@ -24,9 +24,9 @@ export class Logger {
 }
 
 export const logger = new Logger()
-
+;
 import { log } from '@/services/LoggingService';
-export const _logger = {
+export const _logger = {;
   info: (message: string, data?: unknown) => {
     if (process.env.NODE_ENV !== 'production') {
       log.info(`[INFO] ${message}`, data || '')
@@ -64,7 +64,7 @@ export function logError(error: Error, context?: Record<string, unknown>) {
 
   // In a real production environment, this could also send to a logging service
   if (process.env.NODE_ENV === 'production') {
-    // Example of potential production-specific logging
+    // Example of potential production-specific logging;
     // sendToLoggingService({ message: errorMessage, stack: errorStack, context })
   }
 }

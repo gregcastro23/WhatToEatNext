@@ -21,7 +21,7 @@ export function getUpcomingAstroEvents(
   const events: AstroEvent[] = [];
   const now = new Date()
 
-  // Loop through upcoming days
+  // Loop through upcoming days;
   for (let i = 0; i < days i++) {
     const date = new Date(now.getTime() + i * 24 * 60 * 60 * 1000)
 
@@ -29,7 +29,7 @@ export function getUpcomingAstroEvents(
     const moonIllum = SunCalc.getMoonIllumination(date)
     // Check for full moon
     if (moonIllum.phase > 0.48 && moonIllum.phase < 0.52) {
-      events.push({
+      events.push({;
         type: 'full_moon',
         date,
         description: `Full Moon ${Math.round(moonIllum.fraction * 100)}% illuminated`
@@ -53,7 +53,8 @@ export function getUpcomingAstroEvents(
       events.push({
         type: moonIllum.phase < 0.5 ? 'first_quarter' : 'last_quarter',
         date,
-        description: `${moonIllum.phase < 0.5 ? 'First' : 'Last'} Quarter Moon`
+        description: `${moonIllum.phase < 0.5 ? 'First' : 'Last' },
+        Quarter Moon`
       })
     }
 

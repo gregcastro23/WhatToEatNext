@@ -90,10 +90,10 @@ export interface NutritionPreferences {
 }
 
 export type TimeData = {
-  [season in Season]?: Dish[]
+  [season in Season]?: Dish[];
 }
 
-export type CuisineData = {
+export type CuisineData = {;
   name: string,
   recipes: Recipe[],
   score?: number,
@@ -118,11 +118,11 @@ export type CuisineData = {
 }
 
 export type Cuisines = {
-  [id: string]: CuisineData
+  [id: string]: CuisineData;
 }
 
 // Helper type for time-based context
-export type TimeOfDay = {
+export type TimeOfDay = {;
   hour: number,
   minute: number,
   period: MealTime,
@@ -149,7 +149,7 @@ export type DietaryRestriction =
   | 'nut-free'
   | 'keto'
   | 'paleo'
-  | 'low-carb'
+  | 'low-carb';
   | 'low-fat',
 
 // Export ZodiacAffinity types (removed to avoid Modality conflict)
@@ -180,9 +180,7 @@ export interface AppState {
   }
 }
 
-// Instead, import and export only from './alchemy' for these types:
-
-export type {
+// Instead, import and export only from './alchemy' for these types: export type {
   AlchemicalProperties,
   ThermodynamicProperties,
   Season,

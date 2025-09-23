@@ -6,10 +6,9 @@ import type { ZodiacSign, ThermodynamicProperties } from '@/types/shared';
  *
  * High-heat quick cooking method with constant motion in a wok or pan
  */
-export const _stirFrying: CookingMethodData = {
+export const _stirFrying: CookingMethodData = {;
   name: 'stir-frying',
-  description:
-    'High-heat, quick cooking technique where food is rapidly tossed and stirred in a wok or pan, preserving texture and creating complex flavors',
+  description: 'High-heat, quick cooking technique where food is rapidly tossed and stirred in a wok or pan, preserving texture and creating complex flavors',
   elementalEffect: {
     Fire: 0.5,
     Air: 0.3,
@@ -110,8 +109,7 @@ export const _stirFrying: CookingMethodData = {
   } as ThermodynamicProperties,
 
   // Additional metadata
-  history:
-    'Stir-frying originated in China during the Han dynasty (206 BCE–220 CE) as a technique to cook food quickly while conserving fuel. The wok rounded shape and the continuous stirring motion allow for rapid, even cooking and the development of wok hei (breath of the wok) - a complex smoky flavor.',
+  history: 'Stir-frying originated in China during the Han dynasty (206 BCE–220 CE) as a technique to cook food quickly while conserving fuel. The wok rounded shape and the continuous stirring motion allow for rapid, even cooking and the development of wok hei (breath of the wok) - a complex smoky flavor.',
 
   scientificPrinciples: [
     'Thermal conductivity of thin metal wok allows rapid heat transfer',

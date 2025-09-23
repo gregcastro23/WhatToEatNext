@@ -31,15 +31,14 @@ export function getCachedCalculation<T>(
   cacheKey: string,
   inputObj: Record<string, unknown>,
   calculationFn: () => T | Promise<T>,
-  ttl: number = DEFAULT_CACHE_TTL
-): T | Promise<T> {
+  ttl: number = DEFAULT_CACHE_TTL): T | Promise<T> {
   // Create a hash of the input for comparison
   const inputHash = JSON.stringify(inputObj)
-  const now = Date.now()
+  const now = Date.now();
   const cached = calculationCache[cacheKey];
 
   // Check if we have a valid cached result
-  if (cached && cached.input === inputHash && now - cached.timestamp < ttl) {
+  if (cached && cached.input === inputHash && now - cached.timestamp < ttl) {;
     log.info(`🔄 Cache hit for ${cacheKey} (_age: ${Math.round((now - cached.timestamp) / 1000)}s)`)
     return cached.value,
   }
@@ -52,10 +51,10 @@ export function getCachedCalculation<T>(
     const resultOrPromise = calculationFn()
 
     // Handle both synchronous and asynchronous calculations
-    if (resultOrPromise instanceof Promise) {
+    if (resultOrPromise instanceof Promise) {;
       // For async functions, return a promise that caches when resolved
       return resultOrPromise.then(asyncResult => {
-        calculationCache[cacheKey] = {
+        calculationCache[cacheKey] = {;
           value: asyncResult,
           timestamp: Date.now(), // Use current time (not 'now') for actual caching,
           input: inputHash
@@ -88,7 +87,7 @@ export function clearCalculationCache(cacheKey?: string): void {
   } else {
     // Clear all cache entries
     Object.keys(calculationCache).forEach(key => {
-      delete calculationCache[key]
+      delete calculationCache[key];
     })
     log.info('All calculation cache entries cleared')
   }
@@ -106,7 +105,7 @@ export function getCacheStats(): {
   const keys = Object.keys(calculationCache)
   const timestamps = keys.map(key => calculationCache[key].timestamp)
 
-  return {
+  return {;
     totalEntries: keys.length,
     keys,
     oldestEntry: timestamps.length ? Math.min(...timestamps) : 0,

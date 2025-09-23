@@ -17,7 +17,7 @@ export class ThemeManager {
       this.updateTheme(savedTheme)
       return savedTheme,
     } catch (error) {
-      logger.error('Error initializing theme:', error)
+      logger.error('Error initializing theme: ', error)
       this.updateTheme('light')
       return 'light',
     }
@@ -28,17 +28,17 @@ export class ThemeManager {
       const savedTheme = localStorage.getItem('theme') || 'light';
       const savedAccent = localStorage.getItem('accent-color') || 'blue'
 
-      return {
+      return {;
         mode: savedTheme as 'light' | 'dark' | 'system',
         accent: savedAccent
       }
     } catch (error) {
-      logger.error('Error getting theme:', error)
+      logger.error('Error getting theme: ', error)
       return { mode: 'light', accent: 'blue' }
     }
   }
 }
 
 export const themeManager = new ThemeManager()
-
+;
 export { themeManager as default };

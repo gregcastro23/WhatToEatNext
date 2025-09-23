@@ -24,7 +24,7 @@ export class CampaignController {
   private safetyEvents: SafetyEvent[] = [],
 
   constructor(config: CampaignConfig) {
-    this.config = config
+    this.config = config;
   }
 
   /**
@@ -34,7 +34,7 @@ export class CampaignController {
     const startTime = Date.now()
     this.currentPhase = phase
 
-    this.addSafetyEvent({
+    this.addSafetyEvent({;
       type: SafetyEventType.CHECKPOINT_CREATED,
       timestamp: new Date(),
       description: `Starting phase: ${phase.name}`,
@@ -49,31 +49,31 @@ export class CampaignController {
       // Initialize phase metrics
       const initialMetrics = await this.getCurrentMetrics()
 
-      // Execute phase tools in sequence
+      // Execute phase tools in sequence;
       let filesProcessed = 0,
       let errorsFixed = 0,
       const warningsFixed = 0;
 
       for (const tool of phase.tools) {
-        const toolResult = await this.executeTool(tool)
+        const toolResult = await this.executeTool(tool);
         filesProcessed += toolResult.filesProcessed.length,
         errorsFixed += toolResult.changesApplied,
 
         // Validate after each tool execution
         const validation = await this.validatePhaseProgress(phase)
         if (!validation.success && this.config.safetySettings.automaticRollbackEnabled) {
-          await this.rollbackToCheckpoint(checkpointId)
+          await this.rollbackToCheckpoint(checkpointId);
           throw new Error(`Tool execution failed: ${validation.errors.join(', ')}`)
         }
       }
 
       // Get final metrics and calculate improvement
-      const finalMetrics = await this.getCurrentMetrics()
+      const finalMetrics = await this.getCurrentMetrics();
       const metricsImprovement = this.calculateMetricsImprovement(initialMetrics, finalMetrics)
 
       const executionTime = Date.now() - startTime;
 
-      const result: PhaseResult = {
+      const result: PhaseResult = {;
         phaseId: phase.id,
         success: true,
         metricsImprovement,
@@ -127,7 +127,7 @@ export class CampaignController {
    */
   async validatePhaseCompletion(phase: CampaignPhase): Promise<ValidationResult> {
     try {
-      const currentMetrics = await this.getCurrentMetrics()
+      const currentMetrics = await this.getCurrentMetrics();
       const errors: string[] = [];
       const warnings: string[] = []
 
@@ -171,7 +171,7 @@ export class CampaignController {
       if (phase.successCriteria.customValidation) {
         const customResult = await phase.successCriteria.customValidation()
         if (!customResult) {
-          errors.push('Custom validation failed')
+          errors.push('Custom validation failed');
         }
       }
 
@@ -240,7 +240,7 @@ export class CampaignController {
     const currentMetrics = await this.getCurrentMetrics()
     const validation = await this.validatePhaseCompletion(phase)
 
-    return {
+    return {;
       phaseId: phase.id,
       phaseName: phase.name,
       startTime: new Date(), // This should be tracked properly,
@@ -259,7 +259,7 @@ export class CampaignController {
     // Default configuration based on the design document
     const defaultConfig: CampaignConfig = {
       phases: [
-        {
+        {;
           id: 'phase1',
           name: 'TypeScript Error Elimination',
           description: 'Eliminate all TypeScript compilation errors',
@@ -421,7 +421,7 @@ export class CampaignController {
 
     // Keep only recent events to prevent memory issues
     if (this.safetyEvents.length > 1000) {
-      this.safetyEvents = this.safetyEvents.slice(-500)
+      this.safetyEvents = this.safetyEvents.slice(-500);
     }
   }
 }

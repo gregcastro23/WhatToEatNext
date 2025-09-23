@@ -27,17 +27,13 @@ export interface UserPreferences {
   _preferredCuisines: string[],
   _dietaryRestrictions: string[],
   _spicePreference: 'mild' | 'medium' | 'hot',
-  _cookingSkillLevel: 'beginner' | 'intermediate' | 'advanced'
-}
-
-export interface PredictionResult {
+  _cookingSkillLevel: 'beginner' | 'intermediate' | 'advanced' },
+        export interface PredictionResult {
   prediction: unknown,
   confidence: number,
   factors: string[],
-  _timeframe: 'immediate' | 'short-term' | 'medium-term' | 'long-term'
-}
-
-export interface RecipePredictions {
+  _timeframe: 'immediate' | 'short-term' | 'medium-term' | 'long-term' },
+        export interface RecipePredictions {
   successProbability: PredictionResult,
   _popularityForecast: PredictionResult,
   _seasonalTrends: PredictionResult,

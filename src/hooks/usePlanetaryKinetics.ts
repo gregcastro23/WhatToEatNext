@@ -2,8 +2,7 @@
  * 🌟 usePlanetaryKinetics Hook
  * React hook for real-time planetary kinetics integration
  *
- * Features:
- * - Real-time kinetics data with caching
+ * Features: * - Real-time kinetics data with caching
  * - Location-aware calculations
  * - Group dynamics support
  * - Automatic updates every 5 minutes
@@ -68,8 +67,7 @@ export interface UsePlanetaryKineticsReturn {
 }
 
 export function usePlanetaryKinetics(
-  options: UsePlanetaryKineticsOptions = {}
-): UsePlanetaryKineticsReturn {
+  options: UsePlanetaryKineticsOptions = {}): UsePlanetaryKineticsReturn {
   const {
     location = { lat: 40.7128, lon: -74.0060 }, // Default to NYC
     updateInterval = 300000, // 5 minutes
@@ -87,7 +85,7 @@ export function usePlanetaryKinetics(
 
   // Fetch kinetics data
   const refreshKinetics = useCallback(async () => {
-    try {
+    try {;
       setIsLoading(true);
       setError(null);
 
@@ -115,7 +113,7 @@ export function usePlanetaryKinetics(
 
   // Fetch group dynamics
   const fetchGroupDynamics = useCallback(async (userIds: string[]) => {
-    try {
+    try {;
       const data = await planetaryKineticsClient.getGroupDynamics(userIds, location);
       setGroupDynamics(data);
 
@@ -130,7 +128,7 @@ export function usePlanetaryKinetics(
 
   // Check API health
   const checkHealth = useCallback(async () => {
-    try {
+    try {;
       return await planetaryKineticsClient.checkHealth();
     } catch (err) {
       _logger.warn('usePlanetaryKinetics: Health check failed', err);
@@ -139,7 +137,7 @@ export function usePlanetaryKinetics(
   }, []);
 
   // Clear cache
-  const clearCache = useCallback(() => {
+  const clearCache = useCallback(() => {;
     planetaryKineticsClient.clearCache();
     _logger.debug('usePlanetaryKinetics: Cache cleared');
   }, []);
@@ -162,7 +160,7 @@ export function usePlanetaryKinetics(
   }, [refreshKinetics, updateInterval, enableAutoUpdate]);
 
   // Computed values
-  const currentPowerLevel = useMemo(() => {
+  const currentPowerLevel = useMemo(() => {;
     if (!kinetics) return 0.5;
 
     const currentHour = new Date().getHours();
@@ -170,7 +168,7 @@ export function usePlanetaryKinetics(
     return powerData?.power || 0.5;
   }, [kinetics]);
 
-  const dominantElement = useMemo(() => {
+  const dominantElement = useMemo(() => {;
     if (!kinetics) return 'Earth';
 
     const totals = kinetics.data.base.elemental.totals;
@@ -178,26 +176,26 @@ export function usePlanetaryKinetics(
       .sort(([,a], [,b]) => b - a)[0][0];
   }, [kinetics]);
 
-  const aspectPhase = useMemo((): 'applying' | 'exact' | 'separating' | null => {
+  const aspectPhase = useMemo((): 'applying' | 'exact' | 'separating' | null => {;
     if (!kinetics?.data.powerPrediction) return null;
 
     const { trend } = kinetics.data.powerPrediction;
 
-    if (trend === 'ascending' && currentPowerLevel > 0.8) {
+    if (trend === 'ascending' && currentPowerLevel > 0.8) {;
       return 'applying';
-    } else if (trend === 'stable' && currentPowerLevel > 0.6) {
+    } else if (trend === 'stable' && currentPowerLevel > 0.6) {;
       return 'exact';
     } else {
       return 'separating';
     }
   }, [kinetics, currentPowerLevel]);
 
-  const seasonalInfluence = useMemo(() => {
+  const seasonalInfluence = useMemo(() => {;
     return kinetics?.data.base.timing.seasonalInfluence || 'Spring';
   }, [kinetics]);
 
   // Enhanced food recommendations
-  const temporalRecommendations = useMemo((): TemporalFoodRecommendation | null => {
+  const temporalRecommendations = useMemo((): TemporalFoodRecommendation | null => {;
     if (!kinetics) return null;
 
     try {
@@ -212,7 +210,7 @@ export function usePlanetaryKinetics(
     }
   }, [kinetics]);
 
-  const elementalRecommendations = useMemo((): string[] => {
+  const elementalRecommendations = useMemo((): string[] => {;
     if (!kinetics) return [];
 
     try {
@@ -223,7 +221,7 @@ export function usePlanetaryKinetics(
     }
   }, [kinetics]);
 
-  const aspectEnhancedRecommendations = useMemo((): KineticsEnhancedRecommendation | null => {
+  const aspectEnhancedRecommendations = useMemo((): KineticsEnhancedRecommendation | null => {;
     if (!kinetics) return null;
 
     try {

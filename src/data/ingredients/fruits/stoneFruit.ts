@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawStoneFruit = {
-  peach: {
+  peach: {;
     name: 'Peach',
     elementalProperties: { Water: 0.4, Fire: 0.2, Air: 0.2, Earth: 0.2 }
     astrologicalProfile: {
@@ -11,9 +11,9 @@ const rawStoneFruit = {
       elementalAffinity: {
         base: 'Water',
         decanModifiers: {
-          first: { element: 'Water', planet: 'Venus' }
-          second: { element: 'Earth', planet: 'Moon' }
-          third: { element: 'Air', planet: 'Mercury' }
+          first: { element: 'Water', planet: 'Venus' },
+        second: { element: 'Earth', planet: 'Moon' },
+        third: { element: 'Air', planet: 'Mercury' }
         }
       }
     },
@@ -36,9 +36,8 @@ const rawStoneFruit = {
       washing: true,
       ripeness: 'yields to gentle pressure',
       cutting: 'slice along natural seam',
-      notes: 'Can be peeled if desired'
-    },
-    storage: {
+      notes: 'Can be peeled if desired' },
+        storage: {
       temperature: 'room temp until ripe',
       duration: '3-5 days',
       ripening: 'room temperature',
@@ -54,9 +53,9 @@ const rawStoneFruit = {
       elementalAffinity: {
         base: 'Water',
         decanModifiers: {
-          first: { element: 'Water', planet: 'Venus' }
-          second: { element: 'Earth', planet: 'Pluto' }
-          third: { element: 'Air', planet: 'Uranus' }
+          first: { element: 'Water', planet: 'Venus' },
+        second: { element: 'Earth', planet: 'Pluto' },
+        third: { element: 'Air', planet: 'Uranus' }
         }
       }
     },
@@ -79,9 +78,8 @@ const rawStoneFruit = {
       washing: true,
       ripeness: 'slight give when pressed',
       cutting: 'slice around pit',
-      notes: 'Some varieties are better for cooking'
-    },
-    storage: {
+      notes: 'Some varieties are better for cooking' },
+        storage: {
       temperature: 'room temp until ripe',
       duration: '3-5 days',
       ripening: 'room temperature',
@@ -110,9 +108,8 @@ const rawStoneFruit = {
       washing: true,
       ripeness: 'gentle squeeze',
       cutting: 'halve and twist',
-      notes: 'Best eaten when fully ripe'
-    },
-    storage: {
+      notes: 'Best eaten when fully ripe' },
+        storage: {
       temperature: 'room temp until ripe',
       duration: '2-3 days',
       ripening: 'room temperature',
@@ -141,9 +138,8 @@ const rawStoneFruit = {
       washing: true,
       pitting: 'recommended',
       sorting: 'remove stems and damaged fruit',
-      notes: 'Can be used with or without pits'
-    },
-    storage: {
+      notes: 'Can be used with or without pits' },
+        storage: {
       temperature: 'refrigerated',
       duration: '4-7 days',
       humidity: 'moderate',
@@ -172,9 +168,8 @@ const rawStoneFruit = {
       washing: true,
       ripeness: 'yields to gentle pressure',
       cutting: 'slice along natural seam',
-      notes: 'No peeling required unlike peaches'
-    },
-    storage: {
+      notes: 'No peeling required unlike peaches' },
+        storage: {
       temperature: 'room temp until ripe',
       duration: '3-5 days',
       ripening: 'room temperature',
@@ -203,9 +198,8 @@ const rawStoneFruit = {
       washing: true,
       ripeness: 'should yield slightly',
       cutting: 'halve and twist',
-      notes: 'Best eaten when fully ripe'
-    },
-    storage: {
+      notes: 'Best eaten when fully ripe' },
+        storage: {
       temperature: 'room temp until ripe',
       duration: '3-4 days',
       ripening: 'room temperature',
@@ -234,9 +228,8 @@ const rawStoneFruit = {
       washing: true,
       ripeness: 'firm but yielding',
       cooking: 'usually cooked before eating',
-      notes: 'Too tart for most raw applications'
-    },
-    storage: {
+      notes: 'Too tart for most raw applications' },
+        storage: {
       temperature: 'refrigerated',
       duration: '5-7 days',
       humidity: 'moderate',

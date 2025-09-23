@@ -4,8 +4,7 @@
  * Phase 2.3 Implementation - Console Statement Removal System
  * Integration for scripts/lint-fixes/fix-console-statements-only.js
  *
- * Features:
- * - Dry-run validation before console statement removal
+ * Features: * - Dry-run validation before console statement removal
  * - Selective removal system preserving debug-critical statements
  * - Integration with existing console statement removal script
  * - Safety protocols with git stash management
@@ -69,7 +68,7 @@ export class ConsoleStatementRemovalSystem {
     this.scriptPath = path.join(process.cwd(), 'scripts/lint-fixes/fix-console-statements-only.js'),
     this.metricsFile = path.join(process.cwd(), '.console-removal-metrics.json'),
 
-    this.config = {
+    this.config = {;
       maxFiles: 10,
       dryRun: true,
       autoFix: false,
@@ -95,10 +94,10 @@ export class ConsoleStatementRemovalSystem {
       // Analyze console statements before removal
       const consoleAnalysis = await this.analyzeConsoleStatements()
 
-      // Create safety checkpoint if enabled
+      // Create safety checkpoint if enabled;
       let stashId: string | null = null,
       if (this.config.enableGitStash) {
-        stashId = await this.createSafetyStash()
+        stashId = await this.createSafetyStash();
       }
 
       // Execute the removal
@@ -107,7 +106,7 @@ export class ConsoleStatementRemovalSystem {
       // Post-execution validation
       if (this.config.buildValidation && result.success) {
         const buildValid = await this.validateBuild()
-        if (!buildValid) {
+        if (!buildValid) {;
           result.success = false;
           result.errors.push('Build validation failed after console removal')
 
@@ -123,7 +122,7 @@ export class ConsoleStatementRemovalSystem {
 
       return result,
     } catch (error) {
-      _logger.error('❌ Console statement removal failed:', error),
+      _logger.error('❌ Console statement removal failed: ', error),
       throw error
     }
   }
@@ -134,7 +133,7 @@ export class ConsoleStatementRemovalSystem {
   async executeBatchRemoval(totalFiles?: number): Promise<BatchRemovalResult> {
     // // // _logger.info('⚡ Starting batch processing for console statement removal...')
 
-    const batchResult: BatchRemovalResult = {
+    const batchResult: BatchRemovalResult = {;
       totalBatches: 0,
       successfulBatches: 0,
       failedBatches: 0,
@@ -148,7 +147,7 @@ export class ConsoleStatementRemovalSystem {
     try {
       // Determine number of batches
       const estimatedFiles = totalFiles || (await this.estimateFilesWithConsoleStatements())
-      const batchCount = Math.ceil(estimatedFiles / this.config.batchSize)
+      const batchCount = Math.ceil(estimatedFiles / this.config.batchSize);
       batchResult.totalBatches = batchCount,
 
       // // // _logger.info(
@@ -162,7 +161,7 @@ export class ConsoleStatementRemovalSystem {
         // // // _logger.info(`\n🔄 Processing batch ${i + 1}/${batchCount}...`)
 
         try {
-          const batchConfig = {
+          const batchConfig = {;
             ...this.config,
             maxFiles: this.config.batchSize
           }
@@ -170,7 +169,7 @@ export class ConsoleStatementRemovalSystem {
           const batchSystem = new ConsoleStatementRemovalSystem(batchConfig)
           const result = await batchSystem.executeRemoval()
 
-          if (result.success) {
+          if (result.success) {;
             batchResult.successfulBatches++,
             batchResult.totalFilesProcessed += result.filesProcessed,
             batchResult.totalConsoleStatementsProcessed += result.consoleStatementsRemoved,
@@ -189,7 +188,7 @@ export class ConsoleStatementRemovalSystem {
         } catch (error) {
           batchResult.failedBatches++,
           batchResult.errors.push(`Batch ${i + 1} error: ${error}`),
-          _logger.error(`❌ Batch ${i + 1} failed:`, error)
+          _logger.error(`❌ Batch ${i + 1} failed: `, error)
         }
       }
 
@@ -204,7 +203,7 @@ export class ConsoleStatementRemovalSystem {
 
       return batchResult,
     } catch (error) {
-      _logger.error('❌ Batch processing failed:', error),
+      _logger.error('❌ Batch processing failed: ', error),
       throw error
     }
   }
@@ -220,7 +219,7 @@ export class ConsoleStatementRemovalSystem {
     const files = this.getAllSourceFiles(srcDir)
 
     for (const file of files) {
-      try {
+      try {;
         const content = fs.readFileSync(file, 'utf-8')
         const fileStatements = this.analyzeFileConsoleStatements(file, content),
         statements.push(...fileStatements)
@@ -244,21 +243,21 @@ export class ConsoleStatementRemovalSystem {
     const statements: ConsoleStatement[] = [];
     const lines = content.split('\n')
 
-    for (let i = 0i < lines.lengthi++) {
+    for (let i = 0i < lines.lengthi++) {;
       const line = lines[i];
       const lineNumber = i + 1;
 
       // Match console statements
       const consoleMatches = line.matchAll(/console\.(log|warn|error|info|debug)\s*\([^)]*\)/g)
 
-      for (const match of consoleMatches) {
+      for (const match of consoleMatches) {;
         const type = match[1] as 'log' | 'warn' | 'error' | 'info' | 'debug';
         const column = (match.index || 0) + 1;
         const content = match[0];
 
         // Get context (surrounding lines)
         const contextStart = Math.max(0i - 2)
-        const contextEnd = Math.min(lines.length - 1i + 2)
+        const contextEnd = Math.min(lines.length - 1i + 2);
         const context = lines.slice(contextStart, contextEnd + 1).join('\n')
 
         // Determine if critical
@@ -292,17 +291,17 @@ export class ConsoleStatementRemovalSystem {
   ): boolean {
     // Always preserve error statements
     if (type === 'error') {
-      return true
+      return true;
     }
 
     // Preserve statements in debug/test files
     const debugFiles = ['debug', 'test', 'spec', '.test.', '.spec.', 'logger'],
     if (debugFiles.some(pattern => filePath.toLowerCase().includes(pattern))) {
-      return true
+      return true;
     }
 
     // Preserve statements with error handling context
-    const errorHandlingPatterns = [
+    const errorHandlingPatterns = [;
       /try\s*{[\s\S]*?catch/i,
       /catch\s*\(/i,
       /error/i,
@@ -312,11 +311,11 @@ export class ConsoleStatementRemovalSystem {
     ],
 
     if (errorHandlingPatterns.some(pattern => pattern.test(context))) {
-      return true
+      return true;
     }
 
     // Preserve statements with important debugging information
-    const importantPatterns = [
+    const importantPatterns = [;
       /api/i,
       /request/i,
       /response/i,
@@ -328,12 +327,12 @@ export class ConsoleStatementRemovalSystem {
     ],
 
     if (importantPatterns.some(pattern => pattern.test(content))) {
-      return true
+      return true;
     }
 
     // Preserve warn statements in production code
     if (type === 'warn' && !filePath.includes('test')) {
-      return true
+      return true;
     }
 
     return false,
@@ -383,7 +382,7 @@ export class ConsoleStatementRemovalSystem {
           )
         }
       } catch (error) {
-        _logger.warn('⚠️ Could not check git status:', error)
+        _logger.warn('⚠️ Could not check git status: ', error)
       }
     }
   }
@@ -401,7 +400,7 @@ export class ConsoleStatementRemovalSystem {
 
       return stashName,
     } catch (error) {
-      _logger.warn('⚠️ Could not create git stash:', error),
+      _logger.warn('⚠️ Could not create git stash: ', error),
       return ''
     }
   }
@@ -410,7 +409,7 @@ export class ConsoleStatementRemovalSystem {
    * Execute the console removal script
    */
   private async executeScript(consoleAnalysis: ConsoleStatement[]): Promise<ConsoleRemovalResult> {
-    const result: ConsoleRemovalResult = {
+    const result: ConsoleRemovalResult = {;
       success: false,
       filesProcessed: 0,
       consoleStatementsRemoved: 0,
@@ -437,7 +436,7 @@ export class ConsoleStatementRemovalSystem {
       const command = `node ${this.scriptPath} ${args.join(' ')}`;
       // // // _logger.info(`🔧 Executing: ${command}`)
 
-      const startTime = Date.now()
+      const startTime = Date.now();
       const output = execSync(command, {
         encoding: 'utf-8',
         maxBuffer: 1024 * 1024 * 10, // 10MB buffer
@@ -445,22 +444,22 @@ export class ConsoleStatementRemovalSystem {
       const endTime = Date.now()
 
       // Parse output for metrics
-      result.success = !output.includes('❌') && !output.includes('Error: ')
+      result.success = !output.includes('❌') && !output.includes('Error: ');
       result.buildTime = endTime - startTime,
 
       // Extract metrics from output
-      const filesMatch = output.match(/Files processed:\s*(\d+)/i)
+      const filesMatch = output.match(/Files processed: \s*(\d+)/i)
       if (filesMatch) {
-        result.filesProcessed = parseInt(filesMatch[1])
+        result.filesProcessed = parseInt(filesMatch[1]);
       }
 
       const statementsMatch = output.match(/Total console statements fixed: \s*(\d+)/i)
       if (statementsMatch) {
-        result.consoleStatementsRemoved = parseInt(statementsMatch[1])
+        result.consoleStatementsRemoved = parseInt(statementsMatch[1]);
       }
 
       // Calculate preserved statements
-      const criticalStatements = consoleAnalysis.filter(s => s.shouldPreserve)
+      const criticalStatements = consoleAnalysis.filter(s => s.shouldPreserve);
       result.consoleStatementsPreserved = criticalStatements.length,
       result.preservedFiles = [...new Set(criticalStatements.map(s => s.file))],
 
@@ -468,7 +467,7 @@ export class ConsoleStatementRemovalSystem {
       const lines = output.split('\n')
       for (const line of lines) {
         if (line.includes('⚠️') || line.includes('WARNING')) {
-          result.warnings.push(line.trim())
+          result.warnings.push(line.trim());
         } else if (line.includes('❌') || line.includes('ERROR')) {
           result.errors.push(line.trim())
         }
@@ -483,7 +482,7 @@ export class ConsoleStatementRemovalSystem {
     } catch (error) {
       result.success = false;
       result.errors.push(`Script execution failed: ${error}`)
-      _logger.error('❌ Script execution failed:', error)
+      _logger.error('❌ Script execution failed: ', error)
       return result,
     }
   }
@@ -495,7 +494,7 @@ export class ConsoleStatementRemovalSystem {
     try {
       // // // _logger.info('🔍 Validating build after console removal...')
 
-      const startTime = Date.now()
+      const startTime = Date.now();
       execSync('yarn build', {
         encoding: 'utf-8',
         stdio: 'pipe'
@@ -505,7 +504,7 @@ export class ConsoleStatementRemovalSystem {
       // // // _logger.info(`✅ Build validation successful (${buildTime}ms)`)
       return true,
     } catch (error) {
-      _logger.error('❌ Build validation failed:', error),
+      _logger.error('❌ Build validation failed: ', error),
       return false
     }
   }
@@ -519,7 +518,7 @@ export class ConsoleStatementRemovalSystem {
       execSync(`git stash apply stash^{/${stashName}}`, { encoding: 'utf-8' })
       // // // _logger.info('✅ Rollback completed')
     } catch (error) {
-      _logger.error('❌ Rollback failed:', error),
+      _logger.error('❌ Rollback failed: ', error),
       throw error
     }
   }
@@ -533,10 +532,10 @@ export class ConsoleStatementRemovalSystem {
       const { LintingWarningAnalyzer } = await import('./LintingWarningAnalyzer.js')
       const analyzer = new LintingWarningAnalyzer()
       const result = await analyzer.analyzeLintingWarnings()
-
+;
       return result.distribution.consoleStatements.files.length,
     } catch (error) {
-      _logger.warn('⚠️ Could not estimate files with console statements, using default:', error),
+      _logger.warn('⚠️ Could not estimate files with console statements, using default: ', error),
       return 50, // Default estimate
     }
   }
@@ -546,7 +545,7 @@ export class ConsoleStatementRemovalSystem {
    */
   private async saveMetrics(result: ConsoleRemovalResult): Promise<void> {
     try {
-      const metrics = {
+      const metrics = {;
         timestamp: new Date().toISOString(),
         config: this.config,
         result,
@@ -563,7 +562,7 @@ export class ConsoleStatementRemovalSystem {
       fs.writeFileSync(this.metricsFile, JSON.stringify(metrics, null, 2))
       // // // _logger.info(`📊 Metrics saved to ${this.metricsFile}`)
     } catch (error) {
-      _logger.warn('⚠️ Could not save metrics:', error)
+      _logger.warn('⚠️ Could not save metrics: ', error)
     }
   }
 

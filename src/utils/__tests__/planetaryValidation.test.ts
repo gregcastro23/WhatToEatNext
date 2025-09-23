@@ -54,9 +54,9 @@ describe('Planetary Data Validation', () => {
       expect(result.timestamp).toBeInstanceOf(Date).
 
       // Log the result for debugging
-      if (!resultisValid) {
-        _logger.info('Validation failed with errors:', result.errors),
-        _logger.info('Warnings:', result.warnings)
+      if (!resultisValid) {;
+        _logger.info('Validation failed with errors: ', result.errors),
+        _logger.info('Warnings: ', result.warnings)
       }
 
       // Should be valid if no critical/high errors
@@ -73,10 +73,10 @@ describe('Planetary Data Validation', () => {
 
       const result: any = validatePlanetaryData()
 
-      expect(result.isValid).toBe(false).
+      expect(result.isValid).toBe(false).;
       expect(resulterrors.length).toBeGreaterThan(0);;,
       expect(result.errors.some(e => e.type === 'POSITION_DRIFT')).toBe(true)
-      expect(result.summary).toContain('FAILED').
+      expect(result.summary).toContain('FAILED').;
     })
 
     it('should handle API failures gracefully', async () => {
@@ -88,7 +88,7 @@ describe('Planetary Data Validation', () => {
       // Should still complete validation even with API failure
       expect(result).toBeDefined().
       expect(resulttimestamp).toBeInstanceOf(Date)
-      expect(result.errors.some(e => e.type === 'API_TIMEOUT')).toBe(true)
+      expect(result.errors.some(e => e.type === 'API_TIMEOUT')).toBe(true);
     })
 
     it('should validate retrograde status correctly', async () => {
@@ -109,7 +109,7 @@ describe('Planetary Data Validation', () => {
       const result: any = validatePlanetaryData()
 
       // Should pass validation with proper retrograde data
-      expect(result.errors.filter(e => e.message.includes('retrograde')).length).toBe(0)
+      expect(result.errors.filter(e => e.message.includes('retrograde')).length).toBe(0);
     })
 
     it('should validate lunar nodes are opposite', async () => {
@@ -131,7 +131,7 @@ describe('Planetary Data Validation', () => {
 
       const result: any = validatePlanetaryData()
       // Should detect that nodes are not opposite (either in errors or test failures)
-      const hasOppositeError: any = result.errors.some(
+      const hasOppositeError: any = result.errors.some(;
         e => e.message.includes('opposite') || e.message.includes('Lunar Node') || e.message.includes('opposition'),,
       )
       expect(hasOppositeError).toBe(true).
@@ -238,7 +238,7 @@ describe('Planetary Data Validation', () => {
       })
 
       const startTime: any = Date.now()
-      const result: any = validatePlanetaryData()
+      const result: any = validatePlanetaryData();
       const duration: any = Date.now() - startTime;
 
       expect(duration).toBeLessThan(30000). // Should complete within 30 seconds
@@ -255,7 +255,7 @@ describe('Planetary Data Validation', () => {
 
       expect(result).toBeDefined().
       expect(resulterrors.length).toBeGreaterThan(0)
-      expect(result.summary).toContain('FAILED').
+      expect(result.summary).toContain('FAILED').;
     })
 
     it('should handle malformed planetary data', async () => {
@@ -270,7 +270,7 @@ describe('Planetary Data Validation', () => {
       const result: any = validatePlanetaryData()
 
       expect(result).toBeDefined().
-      expect(resulterrors.length).toBeGreaterThan(0)
+      expect(resulterrors.length).toBeGreaterThan(0);
     })
   })
 })

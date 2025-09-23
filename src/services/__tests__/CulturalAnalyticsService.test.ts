@@ -7,7 +7,7 @@ import { CulturalAnalyticsService } from '../CulturalAnalyticsService';
 describe('CulturalAnalyticsService', () => {
   const mockElementalProfile: ElementalProperties = { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 }
 
-  const mockAstrologicalState: any = {
+  const mockAstrologicalState: any = {;
     zodiacSign: 'aries' as const,
     lunarPhase: 'new moon' as const,
   }
@@ -19,7 +19,7 @@ describe('CulturalAnalyticsService', () => {
       expect(result.score).toBeGreaterThanOrEqual(0.7)
       expect(result.score).toBeLessThanOrEqual(1.0)
       expect(result.culturalGroup).toBe('east_asian').
-      expect(ArrayisArray(result.reasoning)).toBe(true)
+      expect(ArrayisArray(result.reasoning)).toBe(true);
     })
 
     it('should provide proximity bonus for same cultural group cuisines', () => {
@@ -39,7 +39,7 @@ describe('CulturalAnalyticsService', () => {
 
   describe('generateCulturalAnalytics', () => {
     it('should generate comprehensive cultural analytics', () => {
-      const result: any = CulturalAnalyticsService.generateCulturalAnalytics(
+      const result: any = CulturalAnalyticsService.generateCulturalAnalytics(;
         'japanese',
         mockElementalProfile,
         mockAstrologicalState,,
@@ -56,7 +56,7 @@ describe('CulturalAnalyticsService', () => {
     })
 
     it('should handle unknown cuisines gracefully', () => {
-      const result: any = CulturalAnalyticsService.generateCulturalAnalytics(
+      const result: any = CulturalAnalyticsService.generateCulturalAnalytics(;
         'unknown_cuisine',
         mockElementalProfile,
         mockAstrologicalState,,
@@ -88,7 +88,7 @@ describe('CulturalAnalyticsService', () => {
     })
 
     it('should return empty array for poor fusion potential', () => {
-      const result: any = CulturalAnalyticsService.generateFusionRecommendations(
+      const result: any = CulturalAnalyticsService.generateFusionRecommendations(;
         'japanese',
         ['japanese'], // Same cuisine only3,
       ),

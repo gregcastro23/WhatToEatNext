@@ -5,10 +5,9 @@ import type { CookingMethod } from '@/types/shared';
  * Cryo-Cooking: A molecular gastronomy technique that uses extreme cold for cooking,
  * freezing, and creating unique textures with liquid nitrogen or dry ice
  */
-export const _cryoCooking: CookingMethodData = {
+export const _cryoCooking: CookingMethodData = {;
   name: 'Cryo-Cooking' as CookingMethod,
-  description:
-    'A molecular gastronomy technique that utilizes extreme cold, typically from liquid nitrogen or dry ice to rapidly freeze foods, create unique textures, and prepare novel culinary creations.',
+  description: 'A molecular gastronomy technique that utilizes extreme cold, typically from liquid nitrogen or dry ice to rapidly freeze foods, create unique textures, and prepare novel culinary creations.',
   elementalEffect: {
     Fire: 0.0,
     Water: 0.3,
@@ -33,8 +32,7 @@ export const _cryoCooking: CookingMethodData = {
     'Creates novel textures without additional ingredients',
     'Can reduce need for additives in frozen desserts'
   ],
-  history:
-    'Though scientific uses of extreme cold have existed for centuries, cryo-cooking in gastronomy gained prominence in the early 2000s as part of the molecular gastronomy movement. Chefs like Heston Blumenthal and Ferran Adrià pioneered its culinary applications.',
+  history: 'Though scientific uses of extreme cold have existed for centuries, cryo-cooking in gastronomy gained prominence in the early 2000s as part of the molecular gastronomy movement. Chefs like Heston Blumenthal and Ferran Adrià pioneered its culinary applications.',
   modernVariations: [
     'Flash freezing (rapid freezing to preserve structure)',
     'Cryo-shattered foods (frozen brittle for unique textures)',

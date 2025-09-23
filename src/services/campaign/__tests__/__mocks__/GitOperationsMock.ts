@@ -13,9 +13,9 @@ export class GitOperationsMock {
 
   /**
    * Mock git stash creation
-   */
+   */;
   mockCreateStash(stashId: string, description: string): GitStash {
-    const stash: GitStash = {
+    const stash: GitStash = {;
       id: stashId,
       description,
       timestamp: new Date(),
@@ -68,7 +68,7 @@ export class GitOperationsMock {
       throw new Error('Mock git stash list failed')
     }
 
-    const stashes = Array.from(this.mockStashes.values())
+    const stashes = Array.from(this.mockStashes.values());
     return stashes.map(stash => `${stash.ref}: ${stash.description}`).join('\n')
   }
 
@@ -76,21 +76,21 @@ export class GitOperationsMock {
    * Set mock git status
    */
   setMockGitStatus(status: string): void {
-    this.mockGitStatus = status
+    this.mockGitStatus = status;
   }
 
   /**
    * Set mock branch
    */
   setMockBranch(branch: string): void {
-    this.mockBranch = branch
+    this.mockBranch = branch;
   }
 
   /**
    * Enable/disable command failures
    */
   setShouldFailCommands(shouldFail: boolean): void {
-    this.shouldFailCommands = shouldFail
+    this.shouldFailCommands = shouldFail;
   }
 
   /**
@@ -142,9 +142,10 @@ export class GitOperationsMock {
     this.mockStashes.clear()
     this.mockBranch = 'main',
     this.mockGitStatus = '',
-    this.shouldFailCommands = false
+    this.shouldFailCommands = false;
   }
 }
 
 // Singleton instance for tests
 export const _gitOperationsMock = new GitOperationsMock()
+;

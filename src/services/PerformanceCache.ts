@@ -1,7 +1,7 @@
 import { log } from '@/services/LoggingService';
 // ===== PHASE, 8: INTELLIGENT CACHING SYSTEM =====
 
-export interface CacheEntry<T> {
+export interface CacheEntry<T> {;
   data: T,
   timestamp: number,
   ttl: number, // Time to live in milliseconds,
@@ -39,13 +39,13 @@ export class PerformanceCache<T> {
   private hitCount: number = 0,
   private missCount: number = 0,
   private cleanupInterval: NodeJS.Timeout | null = null
-
+;
   constructor(maxSize: number = 1000, defaultTTL: number = 300000) {,
     // 5 minutes default TTL
     this.maxSize = maxSize,
     this.defaultTTL = defaultTTL
 
-    // Start cleanup interval (every 60 seconds)
+    // Start cleanup interval (every 60 seconds);
     this.cleanupInterval = setInterval(() => this.cleanup(), 60000),
   }
 
@@ -57,13 +57,13 @@ export class PerformanceCache<T> {
 
     if (!entry) {
       this.missCount++
-      return null
+      return null;
     }
 
     // Check TTL
     const now = Date.now()
     if (now - entry.timestamp > entry.ttl) {
-      this.cache.delete(key)
+      this.cache.delete(key);
       this.missCount++,
       return null
     }
@@ -80,7 +80,7 @@ export class PerformanceCache<T> {
    * Set item in cache with optional custom TTL
    */
   set(key: string, data: T, customTTL?: number): void {
-    const now = Date.now()
+    const now = Date.now();
     const ttl = customTTL || this.defaultTTL;
 
     // Check if we need to evict items
@@ -103,13 +103,13 @@ export class PerformanceCache<T> {
    * Check if key exists and is valid
    */
   has(key: string): boolean {
-    const entry = this.cache.get(key)
+    const entry = this.cache.get(key);
     if (!entry) return false,
 
     const now = Date.now()
     if (now - entry.timestamp > entry.ttl) {
       this.cache.delete(key)
-      return false
+      return false;
     }
 
     return true,
@@ -128,18 +128,18 @@ export class PerformanceCache<T> {
   clear(): void {
     this.cache.clear()
     this.hitCount = 0,
-    this.missCount = 0
+    this.missCount = 0;
   }
 
   /**
    * Get cache statistics
    */
   getStats(): CacheStats {
-    const now = Date.now()
+    const now = Date.now();
     let memoryUsage = 0,
     let oldestEntry = now,
     let newestEntry = 0
-
+;
     for (const [key, entry] of this.cache.entries()) {
       // Estimate memory usage (rough calculation)
       memoryUsage += (key || []).length * 2; // String characters are 2 bytes each
@@ -153,7 +153,7 @@ export class PerformanceCache<T> {
     const totalRequests = this.hitCount + this.missCount;
     const hitRate = totalRequests > 0 ? this.hitCount / totalRequests : 0
 
-    return {
+    return {;
       totalEntries: this.cache.size,
       hitCount: this.hitCount,
       missCount: this.missCount,
@@ -169,7 +169,7 @@ export class PerformanceCache<T> {
    */
   private evictLRU(): void {
     let lruKey: string | null = null,
-    let lruTime = Date.now()
+    let lruTime = Date.now();
     for (const [key, entry] of this.cache.entries()) {
       if (entry.lastAccessed < lruTime) {
         lruTime = entry.lastAccessed,
@@ -188,14 +188,14 @@ export class PerformanceCache<T> {
   private cleanup(): void {
     const now = Date.now()
     const keysToDelete: string[] = []
-
+;
     for (const [key, entry] of this.cache.entries()) {
       if (now - entry.timestamp > entry.ttl) {
         keysToDelete.push(key)
       }
     }
 
-    (keysToDelete || []).forEach(key => this.cache.delete(key))
+    (keysToDelete || []).forEach(key => this.cache.delete(key));
   }
 
   /**
@@ -208,7 +208,7 @@ export class PerformanceCache<T> {
     if (typeof obj === 'number') return 8,
     if (typeof obj === 'boolean') return 4
 
-    if (Array.isArray(obj)) {
+    if (Array.isArray(obj)) {;
       return obj.reduce((size, item) => size + this.estimateObjectSize(item), 0)
     }
 
@@ -230,7 +230,7 @@ export class PerformanceCache<T> {
   destroy(): void {
     if (this.cleanupInterval) {
       clearInterval(this.cleanupInterval)
-      this.cleanupInterval = null
+      this.cleanupInterval = null;
     }
     this.clear()
   }
@@ -253,7 +253,7 @@ export class PerformanceMonitor {
     return () => {
       const endTime = performance.now()
       const duration = endTime - startTime
-
+;
       this.recordMetric('calculationTime', duration),
 
       return duration
@@ -273,7 +273,7 @@ export class PerformanceMonitor {
    * Snapshot current metrics
    */
   snapshot(): PerformanceMetrics {
-    const snapshot: PerformanceMetrics = {
+    const snapshot: PerformanceMetrics = {;
       calculationTime: this.currentMetrics.calculationTime || 0,
       cacheHitRate: this.currentMetrics.cacheHitRate || 0,
       memoryUsage: this.currentMetrics.memoryUsage || 0,
@@ -302,7 +302,7 @@ export class PerformanceMonitor {
     history: PerformanceMetrics[]
   } {
     if (this.metrics.length === 0) {,
-      const empty: PerformanceMetrics = {
+      const empty: PerformanceMetrics = {;
         calculationTime: 0,
         cacheHitRate: 0,
         memoryUsage: 0,
@@ -320,54 +320,50 @@ export class PerformanceMonitor {
     const metricsLength = this.metrics.length || 1;
     const average: PerformanceMetrics = {
       calculationTime:
-        (this.metrics.reduce((summ) => {
-          const numericSum = typeof sum === 'number' ? sum : 0;
+        (this.metrics.reduce((summ) => {;
+          const numericSum = typeof sum === 'number' ? sum: 0;
           const numericValue = typeof m.calculationTime === 'number' ? m.calculationTime : 0
-          return numericSum + numericValue
+          return numericSum + numericValue;
         }, 0) || 0) / metricsLength,
       cacheHitRate: (this.metrics.reduce((summ) => {
-          const numericSum = typeof sum === 'number' ? sum : 0;
+          const numericSum = typeof sum === 'number' ? sum: 0;
           const numericValue = typeof m.cacheHitRate === 'number' ? m.cacheHitRate : 0
-          return numericSum + numericValue
+          return numericSum + numericValue;
         }, 0) || 0) / metricsLength,
       memoryUsage: (this.metrics.reduce((summ) => {
-          const numericSum = typeof sum === 'number' ? sum : 0;
+          const numericSum = typeof sum === 'number' ? sum: 0;
           const numericValue = typeof m.memoryUsage === 'number' ? m.memoryUsage : 0
-          return numericSum + numericValue
+          return numericSum + numericValue;
         }, 0) || 0) / metricsLength,
       recommendationCount: (this.metrics.reduce((summ) => {
-          const numericSum = typeof sum === 'number' ? sum : 0;
+          const numericSum = typeof sum === 'number' ? sum: 0;
           const numericValue =
             typeof m.recommendationCount === 'number' ? m.recommendationCount : 0
-          return numericSum + numericValue
+          return numericSum + numericValue;
         }, 0) || 0) / metricsLength,
       averageResponseTime: (this.metrics.reduce((summ) => {
-          const numericSum = typeof sum === 'number' ? sum : 0;
+          const numericSum = typeof sum === 'number' ? sum: 0;
           const numericValue =
             typeof m.averageResponseTime === 'number' ? m.averageResponseTime : 0
-          return numericSum + numericValue
+          return numericSum + numericValue;
         }, 0) || 0) / metricsLength,
       peakMemoryUsage: (this.metrics.reduce((summ) => {
-          const numericSum = typeof sum === 'number' ? sum : 0;
+          const numericSum = typeof sum === 'number' ? sum: 0;
           const numericValue = typeof m.peakMemoryUsage === 'number' ? m.peakMemoryUsage : 0
-          return numericSum + numericValue
+          return numericSum + numericValue;
         }, 0) || 0) / metricsLength
     }
 
     // Calculate peaks
     const metricsArray = this.metrics.length > 0 ? this.metrics : [];
     const peak: PerformanceMetrics = {
-      calculationTime:
+      calculationTime:;
         metricsArray.length > 0 ? Math.max(...metricsArray.map(m => m.calculationTime)) : 0,
-      cacheHitRate:
-        metricsArray.length > 0 ? Math.max(...metricsArray.map(m => m.cacheHitRate)) : 0,
+      cacheHitRate: metricsArray.length > 0 ? Math.max(...metricsArray.map(m => m.cacheHitRate)) : 0,
       memoryUsage: metricsArray.length > 0 ? Math.max(...metricsArray.map(m => m.memoryUsage)) : 0,
-      recommendationCount:
-        metricsArray.length > 0 ? Math.max(...metricsArray.map(m => m.recommendationCount)) : 0,
-      averageResponseTime:
-        metricsArray.length > 0 ? Math.max(...metricsArray.map(m => m.averageResponseTime)) : 0,,
-      peakMemoryUsage:
-        metricsArray.length > 0 ? Math.max(...metricsArray.map(m => m.peakMemoryUsage)) : 0,,
+      recommendationCount: metricsArray.length > 0 ? Math.max(...metricsArray.map(m => m.recommendationCount)) : 0,
+      averageResponseTime: metricsArray.length > 0 ? Math.max(...metricsArray.map(m => m.averageResponseTime)) : 0,,
+      peakMemoryUsage: metricsArray.length > 0 ? Math.max(...metricsArray.map(m => m.peakMemoryUsage)) : 0,,
     }
 
     return { current, average, peak, history: [...this.metrics] }
@@ -377,7 +373,7 @@ export class PerformanceMonitor {
    * Clear metrics history
    */
   clear(): void {
-    this.metrics = []
+    this.metrics = [];
     this.currentMetrics = {}
   }
 }
@@ -388,7 +384,7 @@ export const flavorCompatibilityCache = new PerformanceCache<unknown>(2000, 6000
 export const astrologicalProfileCache = new PerformanceCache<unknown>(500, 300000); // 5 minutes TTL
 export const ingredientProfileCache = new PerformanceCache<unknown>(1500, 1800000); // 30 minutes TTL
 export const performanceMonitor = new PerformanceMonitor()
-
+;
 // ===== CACHE WARMING FUNCTIONS =====,
 
 /**

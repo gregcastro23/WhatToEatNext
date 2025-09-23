@@ -18,14 +18,14 @@ interface EnergyReading {
   Earth: number,
 }
 
-const ELEMENT_COLORS = {
+const ELEMENT_COLORS = {;
   Fire: '#FF4500',
   Water: '#1E90FF',
   Air: '#87CEEB',
   Earth: '#8B4513',
 } as const,
 
-const ELEMENT_SYMBOLS = {
+const ELEMENT_SYMBOLS = {;
   Fire: '🔥',
   Water: '💧',
   Air: '💨',
@@ -35,7 +35,7 @@ const ELEMENT_SYMBOLS = {
 export function EnergyVisualization({
   showDetails = true,
   showHistory = false;
-  className = ''
+  className = '';
 }: EnergyVisualizationProps) {
   const { isConnected, lastEnergyUpdate } = useAlchmWebSocket()
   const [energyHistory, setEnergyHistory] = React.useState<EnergyReading[]>([])
@@ -43,12 +43,12 @@ export function EnergyVisualization({
 
   React.useEffect(() => {
     if (lastEnergyUpdate) {
-      const newReading: EnergyReading = {
+      const newReading: EnergyReading = {;
         timestamp: Date.now(),
         ...lastEnergyUpdate
       }
 
-      setEnergyHistory(prev => {
+      setEnergyHistory(prev => {;
         const updated = [...prev, newReading],
         return updated.slice(-maxHistoryLength)
       })
@@ -61,18 +61,18 @@ export function EnergyVisualization({
   const totalEnergy = Object.values(currentEnergy).reduce((sum, val) => sum + val, 0)
 
   const renderEnergyBar = (element: keyof typeof ELEMENT_COLORS, value: number) => {
-    const percentage = totalEnergy > 0 ? (value / totalEnergy) * 100 : 25;
+    const percentage = totalEnergy > 0 ? (value / totalEnergy) * 100: 25;
     const color = ELEMENT_COLORS[element];
 
     return (
       <div key={element} style={{ marginBottom: '12px' }}>
-        <div style={{
+        <div style={{;
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
           marginBottom: '4px'
         }}>
-          <span style={{
+          <span style={{;
             fontSize: '14px',
             fontWeight: '500',
             color: color,
@@ -82,7 +82,7 @@ export function EnergyVisualization({
           }}>
             {ELEMENT_SYMBOLS[element]} {element}
           </span>
-          <span style={{
+          <span style={{;
             fontSize: '12px',
             color: '#666',
             fontFamily: 'monospace'
@@ -90,14 +90,14 @@ export function EnergyVisualization({
             {value.toFixed(3)} ({percentage.toFixed(1)}%)
           </span>
         </div>
-        <div style={{
+        <div style={{;
           width: '100%',
           height: '8px',
           backgroundColor: '#e9ecef',
           borderRadius: '4px',
           overflow: 'hidden'
         }}>
-          <div style={{
+          <div style={{;
             width: `${percentage}%`,
             height: '100%',
             backgroundColor: color,
@@ -109,7 +109,7 @@ export function EnergyVisualization({
     )
   }
 
-  const renderCircularVisualization = () => {
+  const renderCircularVisualization = () => {;
     const radius = 60;
     const centerX = 80;
     const centerY = 80;
@@ -120,7 +120,7 @@ export function EnergyVisualization({
     return (
       <svg width="160" height="160" style={{ margin: '0 auto', display: 'block' }}>
         {Object.entries(currentEnergy).map(([element, value]) => {
-          const percentage = totalEnergy > 0 ? (value / totalEnergy) * 100 : 25;
+          const percentage = totalEnergy > 0 ? (value / totalEnergy) * 100: 25;
           const angle = (percentage / 100) * 360;
           const startAngle = currentAngle;
           const endAngle = currentAngle + angle;
@@ -129,10 +129,10 @@ export function EnergyVisualization({
           const startY = centerY + radius * Math.sin((startAngle * Math.PI) / 180)
           const endX = centerX + radius * Math.cos((endAngle * Math.PI) / 180)
           const endY = centerY + radius * Math.sin((endAngle * Math.PI) / 180)
+;
+          const largeArcFlag = angle > 180 ? 1: 0;
 
-          const largeArcFlag = angle > 180 ? 1 : 0;
-
-          const pathData = [
+          const pathData = [;
             `M ${centerX} ${centerY}`,
             `L ${startX} ${startY}`,
             `A ${radius} ${radius} 0 ${largeArcFlag} 1 ${endX} ${endY}`,
@@ -150,7 +150,7 @@ export function EnergyVisualization({
               strokeWidth="1"
               opacity="0.8"
             />
-          )
+          );
         })}
 
         {/* Center circle */}
@@ -162,45 +162,45 @@ export function EnergyVisualization({
           stroke="#ddd"
           strokeWidth="2"
         />
-
+;
         {/* Status indicator */}
         <circle
           cx={centerX}
           cy={centerY}
-          r="6"
+          r="6";
           fill={isConnected ? '#28a745' : '#dc3545'}
         />
       </svg>
     )
   }
 
-  const renderMiniChart = () => {
+  const renderMiniChart = () => {;
     if (energyHistory.length < 2) return null;
 
     const chartHeight = 60;
     const chartWidth = 200;
-    const maxValue = Math.max(
+    const maxValue = Math.max(;
       ...energyHistory.flatMap(reading => [reading.Fire, reading.Water, reading.Air, reading.Earth])
     )
 
     return (
       <div style={{ marginTop: '16px' }}>
-        <h4 style={{
+        <h4 style={{;
           margin: '0 0 8px 0',
           fontSize: '14px',
           color: '#666'
         }}>
           Energy History (Last {energyHistory.length} readings)
         </h4>
-        <svg width={chartWidth} height={chartHeight} style={{
+        <svg width={chartWidth} height={chartHeight} style={{;
           border: '1px solid #e9ecef',
           borderRadius: '4px',
           backgroundColor: '#f8f9fa'
         }}>
-          {Object.keys(ELEMENT_COLORS).map(element => {
+          {Object.keys(ELEMENT_COLORS).map(element => {;
             const points = energyHistory.map((reading, index) => {
               const x = (index / (energyHistory.length - 1)) * (chartWidth - 20) + 10;
-              const y = chartHeight - 10 - ((reading[element as keyof EnergyReading] as number / maxValue) * (chartHeight - 20))
+              const y = chartHeight - 10 - ((reading[element as keyof EnergyReading] as number / maxValue) * (chartHeight - 20));
               return `${x},${y}`,
             }).join(' ')
 
@@ -208,12 +208,12 @@ export function EnergyVisualization({
               <polyline
                 key={element}
                 points={points}
-                fill="none"
+                fill="none";
                 stroke={ELEMENT_COLORS[element as keyof typeof ELEMENT_COLORS]}
                 strokeWidth="2"
                 opacity="0.8"
               />
-            )
+            );
           })}
         </svg>
       </div>
@@ -222,20 +222,20 @@ export function EnergyVisualization({
 
   return (
     <div className={`energy-visualization ${className}`}
-         style={{
+         style={{;
            border: '1px solid #ddd',
            borderRadius: '8px',
            padding: '20px',
            backgroundColor: '#fff',
            minWidth: '300px'
          }}>
-      <div style={{
+      <div style={{;
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
         marginBottom: '16px'
       }}>
-        <h3 style={{
+        <h3 style={{;
           margin: 0,
           fontSize: '18px',
           fontWeight: '600',
@@ -243,7 +243,7 @@ export function EnergyVisualization({
         }}>
           ⚡ Elemental Energy
         </h3>
-        <div style={{
+        <div style={{;
           fontSize: '12px',
           color: isConnected ? '#28a745' : '#dc3545',
           fontWeight: '500'
@@ -267,21 +267,21 @@ export function EnergyVisualization({
       )}
 
       {/* Total energy display */}
-      <div style={{
+      <div style={{;
         padding: '12px',
         backgroundColor: '#f8f9fa',
         borderRadius: '6px',
         textAlign: 'center',
         marginBottom: '16px'
       }}>
-        <div style={{
+        <div style={{;
           fontSize: '12px',
           color: '#666',
           marginBottom: '4px'
         }}>
           Total Energy
         </div>
-        <div style={{
+        <div style={{;
           fontSize: '20px',
           fontWeight: '600',
           color: '#333',
@@ -296,15 +296,14 @@ export function EnergyVisualization({
 
       {/* Status message */}
       {!lastEnergyUpdate && (
-        <div style={{
+        <div style={{;
           fontSize: '14px',
           color: '#999',
           fontStyle: 'italic',
           textAlign: 'center'
         }}>
           {isConnected ? 'Waiting for energy data...' : 'WebSocket disconnected'}
-        </div>
-      )}
+        </div>)}
     </div>
   )
 }

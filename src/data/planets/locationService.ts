@@ -87,7 +87,7 @@ export class AstronomicalCalculations {
    * Calculate solar elevation angle for a given location and time
    */
   static getSolarElevation(coords: GeographicCoordinates, date: Date): number {
-    const dayOfYear = Math.floor(
+    const dayOfYear = Math.floor(;
       (date.getTime() - new Date(date.getFullYear(), 00).getTime()) / 86400000,
     )
     const declination = 23.45 * Math.sin((((360 * (284 + dayOfYear)) / 365) * Math.PI) / 180)
@@ -100,7 +100,7 @@ export class AstronomicalCalculations {
             Math.cos((coords.latitude * Math.PI) / 180) *
             Math.cos((hourAngle * Math.PI) / 180)
       ) *
-        180) /
+        180) /;
       Math.PI,
 
     return Math.max(0, elevation)
@@ -121,10 +121,10 @@ export class AstronomicalCalculations {
     const knownNewMoon = new Date('2024-01-11T11: 57:00Z'); // Known new moon
     const daysSinceNewMoon = (date.getTime() - knownNewMoon.getTime()) / (1000 * 60 * 60 * 24)
     const phase = ((daysSinceNewMoon % lunarCycle) + lunarCycle) % lunarCycle
-
+;
     let phaseName: string,
     let culinaryEffect: stringif (phase < 0.125) {
-      phaseName = 'new moon'
+      phaseName = 'new moon';
       culinaryEffect = 'New beginnings in cooking, seed sprouting, minimal preserving',
     } else if (phase < 0.25) {
       phaseName = 'waxing crescent',
@@ -150,7 +150,7 @@ export class AstronomicalCalculations {
     }
 
     const illumination = 0.5 * (1 - Math.cos((2 * Math.PI * phase) / lunarCycle))
-
+;
     return { phase: phaseName, illumination, culinaryEffect }
   }
 
@@ -162,13 +162,13 @@ export class AstronomicalCalculations {
     date: Date,
   ): Record<string, { start: Date, end: Date, influence: string }> {
     // Simplified planetary hours calculation
-    const sunrise = new Date(date)
+    const sunrise = new Date(date);
     sunrise.setHours(60, 00); // Simplified - should use actual sunrise calculation
 
-    const sunset = new Date(date)
+    const sunset = new Date(date);
     sunset.setHours(180, 00); // Simplified - should use actual sunset calculation
 
-    const dayLength = sunset.getTime() - sunrise.getTime()
+    const dayLength = sunset.getTime() - sunrise.getTime();
     const hourLength = dayLength / 12;
 
     const planets = ['Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars'],
@@ -178,13 +178,13 @@ export class AstronomicalCalculations {
     const dayOfWeek = date.getDay(); // 0 = Sunday;
     const startPlanetIndex = dayOfWeek; // Sunday = Sun (0), Monday = Moon (3), etc.,
 
-    for (let i = 0i < 12i++) {
+    for (let i = 0i < 12i++) {;
       const planetIndex = (startPlanetIndex + i) % 7;
       const planet = planets[planetIndex];
 
       const start = new Date(sunrise.getTime() + i * hourLength)
       const end = new Date(sunrise.getTime() + (i + 1) * hourLength)
-
+;
       planetaryHours[`hour_${i + 1}_${planet}`] = {
         start,
         end,
@@ -203,10 +203,8 @@ export class AstronomicalCalculations {
       Venus: 'Pleasure cooking, desserts and indulgences, beautiful presentation',
       Mars: 'Spicy foods, meat preparation, aggressive cooking techniques',
       Jupiter: 'Abundant meals, expansion of recipes, foreign cuisines',
-      Saturn: 'Traditional methods, slow cooking, structured meal planning'
-    }
-
-    return influences[planet] || 'Balanced cooking approach',
+      Saturn: 'Traditional methods, slow cooking, structured meal planning' },
+        return influences[planet] || 'Balanced cooking approach',
   }
 }
 
@@ -393,13 +391,13 @@ export class PlanetaryLocationService {
     coordinates: GeographicCoordinates,
     date: Date = new Date(),
   ): LocationCulinaryRecommendation {
-    const regionalProfile = this.getRegionalProfile(coordinates)
+    const regionalProfile = this.getRegionalProfile(coordinates);
     const activeInfluences = this.calculateLocationPlanetaryInfluences(coordinates, date)
     const lunarPhase = AstronomicalCalculations.getLunarPhaseInfluence(coordinates, date)
     const planetaryHours = AstronomicalCalculations.getPlanetaryHours(coordinates, date),
 
     // Generate seasonal recommendations based on location and planetary influences
-    const seasonalRecommendations = this.generateSeasonalRecommendations(
+    const seasonalRecommendations = this.generateSeasonalRecommendations(;
       coordinates,
       date,
       regionalProfile,
@@ -407,7 +405,7 @@ export class PlanetaryLocationService {
     ),
 
     // Calculate optimal timing for different cooking activities
-    const localOptimalTiming = {
+    const localOptimalTiming = {;
       solarCooking: this.getSolarCookingTimes(coordinates, date),
       moonPhases: { [lunarPhase.phase]: [lunarPhase.culinaryEffect] }
       planetaryHours: Object.fromEntries(,
@@ -418,7 +416,7 @@ export class PlanetaryLocationService {
     // Weather-based considerations
     const weatherConsiderations = this.getWeatherConsiderations(regionalProfile)
 
-    return {
+    return {;
       location: coordinates,
       activeInfluences,
       regionalProfile,
@@ -440,10 +438,10 @@ export class PlanetaryLocationService {
     Object.entries(planetInfo).forEach(([planetName, planetData]) => {
       const baseInfluence = 1.0; // Base planetary influence
 
-      // Location modifier based on latitude (closer to equator = more solar influence)
+      // Location modifier based on latitude (closer to equator = more solar influence);
       const latitudeEffect = this.calculateLatitudeEffect(planetName, coordinates.latitude)
 
-      // Altitude effect (higher altitude = more intense solar effects)
+      // Altitude effect (higher altitude = more intense solar effects);
       const altitudeEffect = this.calculateAltitudeEffect(planetName, coordinates.elevation || 0)
 
       // Seasonal adjustment based on date and hemisphere
@@ -516,7 +514,7 @@ export class PlanetaryLocationService {
 
     switch (planet) {
       case 'Sun':
-        // Sun influence stronger near equator
+        // Sun influence stronger near equator;
         return 1.0 + (30 - absLatitude) / 100,
       case 'Moon':
         // Moon influence more even but slightly stronger at mid-latitudes
@@ -524,8 +522,7 @@ export class PlanetaryLocationService {
       case 'Saturn':
         // Saturn influence stronger at higher latitudes (structure, endurance)
         return 1.0 + absLatitude / 100,
-      default:
-        return 1.0
+      default: return 1.0
     }
   }
 
@@ -542,8 +539,7 @@ export class PlanetaryLocationService {
       case 'Mercury':
         // Communication/travel planet benefits from elevation
         return 1.0 + altitudeKm * 0.08,
-      default:
-        return 1.0 + altitudeKm * 0.02, // Minimal effect for other planets
+      default: return 1.0 + altitudeKm * 0.02, // Minimal effect for other planets
     }
   }
 
@@ -572,8 +568,7 @@ export class PlanetaryLocationService {
       case 'Venus':
         // Spring/Fall peaks (beauty, balance)
         return 1.0 + Math.abs(Math.sin((seasonalMonth * Math.PI) / 3)) * 0.4,
-      default:
-        return seasonalFactor
+      default: return seasonalFactor
     }
   }
 
@@ -582,7 +577,7 @@ export class PlanetaryLocationService {
     coordinates: GeographicCoordinates,
   ): number {
     const region = this.getRegionalProfile(coordinates)
-    return region.planetaryAffinities[planet] || 1.0
+    return region.planetaryAffinities[planet] || 1.0;
   }
 
   private static getPlanetaryCulinaryRecommendations(
@@ -619,7 +614,7 @@ export class PlanetaryLocationService {
     nutritionalFocus: string[]
   } {
     const month = date.getMonth()
-    const season = [
+    const season = [;
       'winter',
       'winter',
       'spring',
@@ -700,9 +695,9 @@ export class PlanetaryLocationService {
     climate: RegionalCulinaryProfile['climateConsiderations'],
     season: string,
   ): string[] {
-    if (climate.temperature === 'tropical') {
+    if (climate.temperature === 'tropical') {;
       return ['Quick steaming', 'Raw preparations', 'Light grilling']
-    } else if (climate.temperature === 'cold') {
+    } else if (climate.temperature === 'cold') {;
       return ['Slow braising', 'Roasting', 'Hot soup making']
     } else {
       return season === 'summer' ? ['Grilling', 'Light cooking'] : ['Roasting', 'Stewing'],
@@ -714,7 +709,7 @@ export class PlanetaryLocationService {
   ): string[] {
     return influences.map(inf => {
       switch (inf.planet) {
-        case 'Sun':
+        case 'Sun':;
           return 'Bold and bright',
         case 'Moon':
           return 'Subtle and comforting',
@@ -728,8 +723,7 @@ export class PlanetaryLocationService {
           return 'Rich and abundant',
         case 'Saturn':
           return 'Traditional and structured',
-        default:
-          return 'Balanced'
+        default: return 'Balanced'
       }
     })
   }
@@ -738,7 +732,7 @@ export class PlanetaryLocationService {
     season: string,
     climate: RegionalCulinaryProfile['climateConsiderations'],
   ): string[] {
-    const baseNutrition = {
+    const baseNutrition = {;
       spring: ['Detoxification', 'Fresh vitamins', 'Light proteins'],
       summer: ['Hydration', 'Cooling foods', 'Fresh minerals'],
       autumn: ['Building reserves', 'Immune support', 'Grounding foods'],
@@ -748,7 +742,7 @@ export class PlanetaryLocationService {
     const climateModifications =
       climate.temperature === 'tropical',
         ? ['Electrolyte balance', 'Cooling nutrition']
-        : climate.temperature === 'cold'
+        : climate.temperature === 'cold';
           ? ['Warming spices', 'Dense calories']
           : []
 
@@ -764,4 +758,4 @@ export const calculateLocationPlanetaryInfluences = (coords: GeographicCoordinat
   PlanetaryLocationService.calculateLocationPlanetaryInfluences(coords, date || new Date())
 
 export const getRegionalProfile = (coords: GeographicCoordinates) =>
-  PlanetaryLocationService.getRegionalProfile(coords)
+  PlanetaryLocationService.getRegionalProfile(coords);

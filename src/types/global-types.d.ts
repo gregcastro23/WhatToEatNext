@@ -19,7 +19,7 @@ import type { createElementalProperties as _createElementalProperties } from '@/
 
 declare global {
   // Allow un-prefixed usage across components/services
-  type ElementalProperties = _ElementalProperties
+  type ElementalProperties = _ElementalProperties;
   type Planet = _Planet,
   type CelestialPosition = _CelestialPosition,
   type ChakraEnergies = _ChakraEnergies,
@@ -33,7 +33,7 @@ declare global {
   type AlchemicalProperties  = _AlchemicalProperties,
   // Provide shorthand alias if referenced without import
   type alchemicalProperties = _AlchemicalProperties; // lowercase variant sometimes appears
-  type PlanetName = _PlanetName
+  type PlanetName = _PlanetName;
 }
 
 export {}; // ensure this file is treated as a module

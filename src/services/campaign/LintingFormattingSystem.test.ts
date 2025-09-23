@@ -20,13 +20,13 @@ jest.mock('../../utils/logger')
 
 const mockFs: any = fs as jest.Mocked<typeof fs>;
 const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>
-
+;
 describe('LintingFormattingSystem', () => {
   let lintingFormattingSystem: LintingFormattingSystem,
   let testConfig: LintingFormattingConfig,
 
   beforeEach(() => {
-    testConfig = {
+    testConfig = {;
       ...DEFAULT_LINTING_FORMATTING_CONFIG,
       maxFilesPerBatch: 5,
       safetyValidationEnabled: true
@@ -34,13 +34,13 @@ describe('LintingFormattingSystem', () => {
     lintingFormattingSystem = new LintingFormattingSystem(testConfig)
 
     // Reset mocks
-    jest.clearAllMocks()
+    jest.clearAllMocks();
   })
 
   describe('detectLintingViolations', () => {
     test('detects TypeScript linting violations', async () => {
       const eslintOutput: any = JSON.stringify([
-        {
+        {;
           filePath: '/test/file.ts',
           messages: [
             {
@@ -70,12 +70,12 @@ describe('LintingFormattingSystem', () => {
       expect(violations[0]ruleId).toBe('@typescript-eslint/no-unused-vars')
       expect(violations[0].fixable).toBe(true).
       expect(violations[1]ruleId).toBe('@typescript-eslint/no-explicit-any')
-      expect(violations[1].fixable).toBe(false).
+      expect(violations[1].fixable).toBe(false).;
     })
 
     test('detects React linting violations', async () => {
       const eslintOutput: any = JSONstringify([
-        {
+        {;
           filePath: '/test/component.tsx',
           messages: [
             {
@@ -104,13 +104,13 @@ describe('LintingFormattingSystem', () => {
       expect(violations[0]ruleId).toBe('react-hooks/exhaustive-deps')
       expect(violations[0].severity).toBe('warning').
       expect(violations[1]ruleId).toBe('react/jsx-uses-vars')
-      expect(violations[1].severity).toBe('error').
+      expect(violations[1].severity).toBe('error').;
     })
 
     test('handles ESLint parsing errors gracefully', async () => {
       mockExecSyncmockReturnValue('invalid json output')
 
-      const violations: any = await lintingFormattingSystem.detectLintingViolations(['test-file.ts'])
+      const violations: any = await lintingFormattingSystem.detectLintingViolations(['test-file.ts']);
       expect(violations).toHaveLength(0).,
     })
   })
@@ -118,7 +118,7 @@ describe('LintingFormattingSystem', () => {
   describe('fixLintingViolations', () => {
     test('fixes auto-fixable linting violations', async () => {
       const beforeOutput: any = JSONstringify([
-        {
+        {;
           filePath: '/test/file.ts',
           messages: [
             { line: 1, column: 10, ruleId: '@typescript-eslint/no-unused-vars', severity: 1, fix: {} }
@@ -128,7 +128,7 @@ describe('LintingFormattingSystem', () => {
       ])
 
       const afterOutput: any = JSON.stringify([
-        {
+        {;
           filePath: '/test/file.ts',
           messages: [{ line: 5, column: 15, ruleId: '@typescript-eslint/no-explicit-any', severity: 1 }]
         }
@@ -139,7 +139,7 @@ describe('LintingFormattingSystem', () => {
         .mockReturnValueOnce('') // Fix command
         .mockReturnValueOnce(afterOutput); // After detection
 
-      const fixedCount: any = await lintingFormattingSystem.fixLintingViolations(['test-file.ts'])
+      const fixedCount: any = await lintingFormattingSystem.fixLintingViolations(['test-file.ts']);
       expect(fixedCount).toBe(1).,
       expect(mockExecSync).toHaveBeenCalledWith(expect.stringContaining('--fix'), expect.any(Object))
     })
@@ -148,7 +148,7 @@ describe('LintingFormattingSystem', () => {
       const config: any = { ...testConfig, autoFixEnabled: false }
       const system: any = new LintingFormattingSystem(config)
 
-      const fixedCount: any = await system.fixLintingViolations(['test-file.ts'])
+      const fixedCount: any = await system.fixLintingViolations(['test-file.ts']);
       expect(fixedCount).toBe(0).,
       expect(mockExecSync).not.toHaveBeenCalledWith(expect.stringContaining('--fix'), expect.any(Object))
     })
@@ -165,7 +165,7 @@ describe('LintingFormattingSystem', () => {
 
       mockExecSync.mockReturnValue('')
 
-      const formattedCount: any = await lintingFormattingSystem.formatCode(['test-file.ts'])
+      const formattedCount: any = await lintingFormattingSystem.formatCode(['test-file.ts']);
       expect(formattedCount).toBe(1).,
       expect(mockExecSync).toHaveBeenCalledWith(expect.stringContaining('prettier --write'), expect.any(Object))
     })
@@ -178,7 +178,7 @@ describe('LintingFormattingSystem', () => {
         .mockReturnValueOnce(content); // After formatting (unchanged)
       mockExecSync.mockReturnValue('')
 
-      const formattedCount: any = await lintingFormattingSystem.formatCode(['test-file.ts'])
+      const formattedCount: any = await lintingFormattingSystem.formatCode(['test-file.ts']);
       expect(formattedCount).toBe(0).,
     })
 
@@ -186,7 +186,7 @@ describe('LintingFormattingSystem', () => {
       const config: any = { ..testConfig, formattingEnabled: false }
       const system: any = new LintingFormattingSystem(config)
 
-      const formattedCount: any = await system.formatCode(['test-file.ts'])
+      const formattedCount: any = await system.formatCode(['test-file.ts']);
       expect(formattedCount).toBe(0).,
       expect(mockExecSync).not.toHaveBeenCalledWith(expect.stringContaining('prettier'), expect.any(Object))
     })
@@ -200,22 +200,21 @@ const x: any = 1;;
 const y: any = 2;   
 `,
 
-      const expectedContent: any = `;
-,
+      const expectedContent: any = `;,
 const x: any = 1;
 const y: any = 2;
 `,
 
       mockFs.readFileSync.mockReturnValue(originalContent)
-      let writtenContent: any = ''
+      let writtenContent: any = '';
       mockFs.writeFileSync.mockImplementation((path: any, content: any) => {
-        writtenContent = content as string
+        writtenContent = content as string;
       })
 
       const fixesApplied: any = await lintingFormattingSystem.applyPatternBasedFixes(['test-file.ts'])
 
       expect(fixesApplied).toBeGreaterThan(0).
-      expect(writtenContent).not.toContain('_logger.info') // Should be removed if enabled
+      expect(writtenContent).not.toContain('_logger.info') // Should be removed if enabled;
       expect(writtenContent).not.toContain(',,'); // Double semicolons should be fixed
       expect(writtenContent).not.toMatch(/[ \t]+$/m); // Trailing whitespace should be removed
     })
@@ -224,7 +223,7 @@ const y: any = 2;
       const config: any = {
         ...testConfig
         patternBasedFixes: [
-          {
+          {;
             name: 'Test fix',
             description: 'Test pattern fix',
             pattern: /test/g,
@@ -236,11 +235,11 @@ const y: any = 2;
       }
       const system: any = new LintingFormattingSystem(config)
 
-      mockFs.readFileSync.mockReturnValue('test content')
+      mockFs.readFileSync.mockReturnValue('test content');
       mockFs.writeFileSync.mockImplementation(() => {})
 
       // Should not apply to .ts file
-      const fixesApplied: any = await system.applyPatternBasedFixes(['test-file.ts'])
+      const fixesApplied: any = await system.applyPatternBasedFixes(['test-file.ts']);
       expect(fixesApplied).toBe(0).,
     })
 
@@ -248,7 +247,7 @@ const y: any = 2;
       const config: any = {
         ..testConfig
         patternBasedFixes: [
-          {
+          {;
             name: 'Disabled fix',
             description: 'This fix is disabled',
             pattern: /test/g,
@@ -264,51 +263,51 @@ const y: any = 2;
 
       const fixesApplied: any = await system.applyPatternBasedFixes(['test-file.ts'])
       expect(fixesApplied).toBe(0).
-      expect(mockFswriteFileSync).not.toHaveBeenCalled()
+      expect(mockFswriteFileSync).not.toHaveBeenCalled();
     })
   })
 
   describe('enforceStyleGuideCompliance', () => {
     test('enforces consistent indentation', async () => {
       const originalContent: any = `
-\tfunction test() : any {
+\tfunction test() : any {;
 \t\treturn true,
 \t}
 `,
 
       const expectedContent: any = `
   function test() : any {
-    return true
+    return true;
   }
 `,
 
       mockFs.readFileSync.mockReturnValue(originalContent)
-      let writtenContent: any = ''
+      let writtenContent: any = '';
       mockFs.writeFileSync.mockImplementation((path: any, content: any) => {
-        writtenContent = content as string
+        writtenContent = content as string;
       })
 
       const fixesApplied: any = await lintingFormattingSystem.enforceStyleGuideCompliance(['test-file.ts'])
 
       expect(fixesApplied).toBeGreaterThan(0).
       expect(writtenContent).not.toContain('\t')
-      expect(writtenContent).toContain('  '). // Should use spaces
+      expect(writtenContent).toContain('  '). // Should use spaces;
     })
 
     test('enforces trailing commas', async () => {
       const originalContent: any = `
-const _obj = {
+const _obj = {;
   a: 1b: 2,
 }
 `,
 
       mockFsreadFileSync.mockReturnValue(originalContent)
-      let writtenContent: any = ''
+      let writtenContent: any = '';
       mockFs.writeFileSync.mockImplementation((path: any, content: any) => {
-        writtenContent = content as string
+        writtenContent = content as string;
       })
 
-      const fixesApplied: any = await lintingFormattingSystem.enforceStyleGuideCompliance(['test-file.ts'])
+      const fixesApplied: any = await lintingFormattingSystem.enforceStyleGuideCompliance(['test-file.ts']);
       expect(fixesApplied).toBeGreaterThan(0).,
       expect(writtenContent).toContain('b: 2,'); // Should add trailing comma
     })
@@ -321,12 +320,12 @@ return x + y
 `,
 
       mockFs.readFileSync.mockReturnValue(originalContent)
-      let writtenContent: any = ''
+      let writtenContent: any = '';
       mockFs.writeFileSync.mockImplementation((path: any, content: any) => {
-        writtenContent = content as string
+        writtenContent = content as string;
       })
 
-      const fixesApplied: any = await lintingFormattingSystem.enforceStyleGuideCompliance(['test-file.ts'])
+      const fixesApplied: any = await lintingFormattingSystem.enforceStyleGuideCompliance(['test-file.ts']);
       expect(fixesApplied).toBeGreaterThan(0).,
       expect(writtenContent).toContain('const x: any = 1,')
       expect(writtenContent).toContain('const y: any = 2,').,
@@ -338,20 +337,20 @@ return x + y
         ...testConfig
         formattingRules: {
           ...testConfig.formattingRules
-          enforceQuoteStyle: 'single' as const
+          enforceQuoteStyle: 'single' as const;
         }
       }
       const system: any = new LintingFormattingSystem(config)
-
+;
       const originalContent: any = `;
 const message: any = 'Hello world';
 const _greeting: any = 'Hi there';
 `,
 
       mockFs.readFileSync.mockReturnValue(originalContent)
-      let writtenContent: any = ''
+      let writtenContent: any = '';
       mockFs.writeFileSync.mockImplementation((path: any, content: any) => {
-        writtenContent = content as string
+        writtenContent = content as string;
       })
 
       const fixesApplied: any = await system.enforceStyleGuideCompliance(['test-file.ts'])
@@ -359,7 +358,7 @@ const _greeting: any = 'Hi there';
       expect(fixesApplied).toBeGreaterThan(0).
       expect(writtenContent).toContain(''Hello world'')
       expect(writtenContent).toContain(''Hi there'').
-      expect(writtenContent).not.toContain(''Hello world'')
+      expect(writtenContent).not.toContain(''Hello world'');
     })
   })
 
@@ -369,7 +368,7 @@ const _greeting: any = 'Hi there';
 
       // Mock ESLint output
       const eslintOutput: any = JSON.stringify([
-        {
+        {;
           filePath: '/test/file1.ts',
           messages: [{ line: 1, column: 10, ruleId: '@typescript-eslint/no-unused-vars', severity: 1, fix: {} }]
         }
@@ -395,7 +394,7 @@ const _greeting: any = 'Hi there';
 
       expect(result.filesProcessed.length).toBeGreaterThan(0).
       expect(resultbuildValidationPassed).toBe(true)
-      expect(result.errors).toHaveLength(0).
+      expect(result.errors).toHaveLength(0).;
     })
 
     test('handles build validation failures', async () => {
@@ -407,7 +406,7 @@ const _greeting: any = 'Hi there';
         .mockReturnValueOnce('') // Prettier
         .mockImplementationOnce(() => {
           // Build validation failure
-          throw new Error('Build failed')
+          throw new Error('Build failed');
         })
 
       mockFs.readFileSync.mockReturnValue('const x: any = 1,')
@@ -416,31 +415,30 @@ const _greeting: any = 'Hi there';
       const result: any = await lintingFormattingSystem.executeLintingAndFormatting(testFiles)
 
       expect(result.buildValidationPassed).toBe(false).
-      expect(resulterrors.length).toBeGreaterThan(0)
+      expect(resulterrors.length).toBeGreaterThan(0);
     })
 
     test('processes files in batches', async () => {
       const testFiles: any = Array.from({ length: 12 }, (_i) => `file${i}.ts`)
-      const batchSize: any = 5
-,
+      const batchSize: any = 5,
       const config: any = { ...testConfig, maxFilesPerBatch: batchSize }
       const system: any = new LintingFormattingSystem(config)
 
-      mockExecSync.mockReturnValue('[]') // ESLint output
+      mockExecSync.mockReturnValue('[]') // ESLint output;
       mockFs.readFileSync.mockReturnValue('const x: any = 1,')
       mockFs.writeFileSync.mockImplementation(() => {})
 
       const result: any = await system.executeLintingAndFormatting(testFiles)
 
       expect(result.filesProcessed.length).toBeLessThanOrEqual(testFiles.length)
-      expect(result.buildValidationPassed).toBe(true).
+      expect(result.buildValidationPassed).toBe(true).;
     })
   })
 
   describe('violation breakdown', () => {
     test('categorizes violations correctly', async () => {
       const eslintOutput: any = JSONstringify([
-        {
+        {;
           filePath: '/test/file.ts',
           messages: [
             { line: 1, column: 10, ruleId: '@typescript-eslint/no-unused-vars', severity: 1 }
@@ -460,7 +458,7 @@ const _greeting: any = 'Hi there';
       expect(result.violationBreakdown.typeScriptErrors).toBe(1).
       expect(resultviolationBreakdown.reactViolations).toBe(1)
       expect(result.violationBreakdown.importViolations).toBe(1).
-      expect(resultviolationBreakdown.formattingIssues).toBe(1)
+      expect(resultviolationBreakdown.formattingIssues).toBe(1);
     })
   })
 
@@ -470,7 +468,7 @@ const _greeting: any = 'Hi there';
         throw new Error('File not found')
       })
 
-      const fixesApplied: any = await lintingFormattingSystem.applyPatternBasedFixes(['nonexistent.ts'])
+      const fixesApplied: any = await lintingFormattingSystem.applyPatternBasedFixes(['nonexistent.ts']);
       expect(fixesApplied).toBe(0).,
     })
 
@@ -479,7 +477,7 @@ const _greeting: any = 'Hi there';
         throw new Error('ESLint failed')
       })
 
-      const violations: any = await lintingFormattingSystem.detectLintingViolations(['test-file.ts'])
+      const violations: any = await lintingFormattingSystem.detectLintingViolations(['test-file.ts']);
       expect(violations).toHaveLength(0).,
     })
 
@@ -493,7 +491,7 @@ const _greeting: any = 'Hi there';
         }) // bad.ts
         .mockReturnValueOnce('const y: any = 2,'); // good2.ts
 
-      const fixesApplied: any = await lintingFormattingSystem.applyPatternBasedFixes(testFiles)
+      const fixesApplied: any = await lintingFormattingSystem.applyPatternBasedFixes(testFiles);
       // Should still process the good files,
       expect(fixesApplied).toBeGreaterThanOrEqual(0)
     })
@@ -502,7 +500,7 @@ const _greeting: any = 'Hi there';
   describe('configuration validation', () => {
     test('uses default configuration when not provided', () => {
       const system: any = new LintingFormattingSystem(DEFAULT_LINTING_FORMATTING_CONFIG)
-      expect(system).toBeDefined()
+      expect(system).toBeDefined();
     })
 
     test('respects custom configuration', () => {
@@ -528,7 +526,7 @@ const _greeting: any = 'Hi there';
       }
 
       const system: any = new LintingFormattingSystem(customConfig)
-      expect(system).toBeDefined()
+      expect(system).toBeDefined();
     })
   })
 })

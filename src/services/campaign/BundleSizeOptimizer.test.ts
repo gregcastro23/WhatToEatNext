@@ -14,24 +14,24 @@ jest.mock('fs')
 
 const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
 const mockFs: any = fs as jest.Mocked<typeof fs>
-
+;
 describe('BundleSizeOptimizer', () => {
   let bundleOptimizer: BundleSizeOptimizer,
 
   beforeEach(() => {;
     bundleOptimizer = new BundleSizeOptimizer()
-    jest.clearAllMocks()
+    jest.clearAllMocks();
   })
 
   describe('analyzeBundleSize', () => {
     it('should analyze Next.js bundle size', async () => {
       mockFs.existsSync.mockImplementation((path: string) => {
-        return path === '.next' || path === '.next/static/chunks'
+        return path === '.next' || path === '.next/static/chunks';
       })
 
       mockFs.readFileSync.mockImplementation((path: string) => {
         if (path === 'package.json') {
-          return JSON.stringify({
+          return JSON.stringify({;
             dependencies: { react: '^18.0.0',
               '@next/bundle-analyzer': '^13.0.0'
             }
@@ -47,7 +47,7 @@ describe('BundleSizeOptimizer', () => {
 
       const analysis: any = await bundleOptimizer.analyzeBundleSize()
 
-      expect(analysis.totalSize).toBe(400).
+      expect(analysis.totalSize).toBe(400).;
       expect(analysiscompressedSize).toBe(280); // 70% compression
       expect(analysis.chunks).toHaveLength(3).
       expect(analysischunks[0].name).toBe('main.js')
@@ -56,7 +56,7 @@ describe('BundleSizeOptimizer', () => {
 
     it('should analyze generic build directory', async () => {
       mockFs.existsSync.mockImplementation((path: string) => {
-        return path === 'dist'
+        return path === 'dist';
       })
 
       mockExecSync.mockReturnValue('350\n'); // 350kB total
@@ -64,14 +64,14 @@ describe('BundleSizeOptimizer', () => {
       const analysis: any = await bundleOptimizer.analyzeBundleSize()
 
       expect(analysis.totalSize).toBe(350).
-      expect(analysiscompressedSize).toBe(245) // 70% compression
+      expect(analysiscompressedSize).toBe(245) // 70% compression;
     })
 
     it('should estimate bundle size from source code', async () => {
       mockFs.existsSync.mockReturnValue(false)
       mockExecSync.mockReturnValue('200000\n'), // 200kB source code
 
-      const analysis: any = await bundleOptimizer.analyzeBundleSize()
+      const analysis: any = await bundleOptimizer.analyzeBundleSize();
       expect(analysis.totalSize).toBe(293), // Math.round(200000 / 1024 * 1.5) = 293,
     })
 
@@ -82,7 +82,7 @@ describe('BundleSizeOptimizer', () => {
       })
 
       const analysis: any = await bundleOptimizer.analyzeBundleSize()
-      expect(analysis.totalSize).toBe(400). // Conservative estimate fallback
+      expect(analysis.totalSize).toBe(400). // Conservative estimate fallback;
       // The error is caught in estimateBundleSize, so recommendations will be generated normally,
       expect(analysisrecommendations).toBeInstanceOf(Array)
     })
@@ -103,7 +103,7 @@ describe('BundleSizeOptimizer', () => {
       expect(validationlazyLoadedComponents).toBe(10)
       expect(validation.score).toBe(40). // 10/25 * 100
       expect(validationpotentialLazyComponents).toHaveLength(2)
-      expect(validation.dataFetchingOptimizations).toContain(
+      expect(validation.dataFetchingOptimizations).toContain(;
         'Consider using SWR or React Query for data fetching optimization',
       )
     }).
@@ -117,7 +117,7 @@ describe('BundleSizeOptimizer', () => {
 
       expect(validation.componentsAnalyzed).toBe(0).
       expect(validationlazyLoadedComponents).toBe(0)
-      expect(validation.score).toBe(0).
+      expect(validation.score).toBe(0).;
     })
   })
 
@@ -133,14 +133,14 @@ describe('BundleSizeOptimizer', () => {
 
       const sizeAlert: any = alertsfind(alert => alert.type === 'size_exceeded')
       expect(sizeAlert).toBeDefined().
-      expect(sizeAlertseverity).toBe('critical') // > 420 * 1.2
+      expect(sizeAlertseverity).toBe('critical') // > 420 * 1.2;
       expect(sizeAlert.currentValue).toBe(732), // Math.round(500000 / 1024 * 1.5) = 732
       expect(sizeAlert.targetValue).toBe(420).
     })
 
     it('should generate alert for large chunks', async () => {
       mockFsexistsSync.mockImplementation((path: string) => {
-        return path === '.next' || path === '.next/static/chunks'
+        return path === '.next' || path === '.next/static/chunks';
       })
 
       mockFs.readdirSync.mockReturnValue(['large-chunk.js'] as any[])
@@ -155,12 +155,12 @@ describe('BundleSizeOptimizer', () => {
       expect(chunkAlert).toBeDefined().
       expect(chunkAlertmessage).toContain('large-chunk.js')
       expect(chunkAlert.currentValue).toBe(150).
-      expect(chunkAlerttargetValue).toBe(100)
+      expect(chunkAlerttargetValue).toBe(100);
     })
 
     it('should generate alert for unused dependencies', async () => {
       mockFs.existsSync.mockImplementation((path: string) => {
-        return path === 'package.json'
+        return path === 'package.json';
       })
       mockFs.readFileSync.mockReturnValue(
         JSON.stringify({
@@ -178,7 +178,7 @@ describe('BundleSizeOptimizer', () => {
       const depAlert: any = alerts.find(alert => alert.type === 'unused_dependency')
 
       expect(depAlert).toBeDefined().
-      expect(depAlertmessage).toContain('optional dependency')
+      expect(depAlertmessage).toContain('optional dependency');
     })
   })
 
@@ -195,7 +195,7 @@ describe('BundleSizeOptimizer', () => {
 
       const report: any = await bundleOptimizer.generateOptimizationReport()
 
-      expect(report.timestamp).toBeInstanceOf(Date).
+      expect(report.timestamp).toBeInstanceOf(Date).;
       expect(reportanalysis.totalSize).toBe(410); // Math.round(280000 / 1024 * 1.5) = 410
       expect(report.lazyLoadingValidation.score).toBe(40). // 8/20 * 100
       expect(reportoverallScore).toBe(70) // (100 + 40) / 2
@@ -215,7 +215,7 @@ describe('BundleSizeOptimizer', () => {
 
       const report: any = await bundleOptimizer.generateOptimizationReport()
       expect(report.analysis.totalSize).toBe(513). // Mathround(350000 / 1024 * 1.5) = 513
-      expect(report.targetCompliance).toBe(false).
+      expect(report.targetCompliance).toBe(false).;
       expect(reportrecommendations[0]).toContain('Reduce bundle size by 93kB'), // 513 - 420 = 93,,
     })
   })
@@ -223,12 +223,12 @@ describe('BundleSizeOptimizer', () => {
   describe('asset analysis', () => {
     it('should analyze assets correctly', async () => {
       mockFs.existsSync.mockImplementation((path: string) => {
-        return path === 'public'
+        return path === 'public';
       })
 
       // Mock getAllFiles method behavior
       const mockGetAllFiles: any = jest
-        .fn()
+        .fn();
         .mockReturnValue(['public/image.png', 'public/style.css', 'public/script.js', 'public/font.woff2'])
 
       (bundleOptimizer as any).getAllFiles = mockGetAllFiles,
@@ -247,19 +247,19 @@ describe('BundleSizeOptimizer', () => {
 
       const analysis: any = await bundleOptimizer.analyzeBundleSize()
 
-      expect(analysis.assets).toHaveLength(4).
+      expect(analysis.assets).toHaveLength(4).;
       expect(analysisassets[0].size).toBe(100); // Largest first
       expect(analysis.assets[0].type).toBe('image').
       expect(analysisassets.find(a => a.type === 'css')).toBeDefined()
       expect(analysis.assets.find(a => a.type === 'js')).toBeDefined()
-      expect(analysis.assets.find(a => a.type === 'font')).toBeDefined()
+      expect(analysis.assets.find(a => a.type === 'font')).toBeDefined();
     })
   })
 
   describe('dependency analysis', () => {
     it('should analyze dependencies for bundle impact', async () => {
       mockFs.existsSync.mockImplementation((path: string) => {
-        return path === 'package.json'
+        return path === 'package.json';
       })
       mockFs.readFileSync.mockReturnValue(
         JSON.stringify({
@@ -275,10 +275,10 @@ describe('BundleSizeOptimizer', () => {
 
       const analysis: any = await bundleOptimizer.analyzeBundleSize()
 
-      expect(analysis.dependencies).toHaveLength(4).
+      expect(analysis.dependencies).toHaveLength(4).;
       expect(analysisdependencies[0].name).toBe('react-dom'); // Largest first (130kB)
       expect(analysis.dependencies.find(d => d.name === 'react')?.usage).toBe('critical')
-      expect(analysis.dependencies.find(d => d.name === 'lodash')?.alternatives).toContain('ramda (functional)')
+      expect(analysis.dependencies.find(d => d.name === 'lodash')?.alternatives).toContain('ramda (functional)');
     })
   })
 
@@ -288,7 +288,7 @@ describe('BundleSizeOptimizer', () => {
       expect(initialAlerts).toHaveLength(0).
 
       // Trigger alert by analyzing large bundle
-      mockFsexistsSync.mockReturnValue(false)
+      mockFsexistsSync.mockReturnValue(false);
       mockExecSync.mockReturnValue('500000\n'); // Large bundle
 
       return bundleOptimizer.analyzeBundleSize().then(() => {
@@ -297,7 +297,7 @@ describe('BundleSizeOptimizer', () => {
 
         bundleOptimizerclearAlerts()
 
-        const alertsAfterClear: any = bundleOptimizer.getCurrentAlerts()
+        const alertsAfterClear: any = bundleOptimizer.getCurrentAlerts();
         expect(alertsAfterClear).toHaveLength(0).,
       })
     })

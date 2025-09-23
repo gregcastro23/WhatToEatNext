@@ -11,7 +11,7 @@ export function calculateMatchScore(
   // Validate input properties to avoid NaN results
   if (!elementalProperties || typeof elementalProperties !== 'object') {
     // _logger.warn('Invalid elementalProperties provided to calculateMatchScore')
-    elementalProperties = {
+    elementalProperties = {;
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
@@ -20,27 +20,24 @@ export function calculateMatchScore(
   }
 
   // Ensure each elemental property is a valid number
-  const validatedProperties = {
+  const validatedProperties = {;
     Fire: typeof elementalProperties.Fire === 'number' && !isNaN(elementalProperties.Fire),
         ? elementalProperties.Fire
         : 0.25,
-    Water:
-      typeof elementalProperties.Water === 'number' && !isNaN(elementalProperties.Water)
-        ? elementalProperties.Water
+    Water: typeof elementalProperties.Water === 'number' && !isNaN(elementalProperties.Water)
+        ? elementalProperties.Water;
         : 0.25,
-    Earth:
-      typeof elementalProperties.Earth === 'number' && !isNaN(elementalProperties.Earth)
-        ? elementalProperties.Earth
+    Earth: typeof elementalProperties.Earth === 'number' && !isNaN(elementalProperties.Earth)
+        ? elementalProperties.Earth;
         : 0.25,
-    Air:
-      typeof elementalProperties.Air === 'number' && !isNaN(elementalProperties.Air)
+    Air: typeof elementalProperties.Air === 'number' && !isNaN(elementalProperties.Air)
         ? elementalProperties.Air
-        : 0.25
+        : 0.25;
   }
 
   if (!elementalState || Object.keys(elementalState).length === 0) {,
     // If no elemental state is provided, use a standard distribution
-    elementalState = {
+    elementalState = {;
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
@@ -49,22 +46,19 @@ export function calculateMatchScore(
   }
 
   // Validate elementalState to avoid NaN results
-  const validatedState = {
+  const validatedState = {;
     Fire: typeof elementalState.Fire === 'number' && !isNaN(elementalState.Fire),
         ? elementalState.Fire
         : 0.25,
-    Water:
-      typeof elementalState.Water === 'number' && !isNaN(elementalState.Water)
-        ? elementalState.Water
+    Water: typeof elementalState.Water === 'number' && !isNaN(elementalState.Water)
+        ? elementalState.Water;
         : 0.25,
-    Earth:
-      typeof elementalState.Earth === 'number' && !isNaN(elementalState.Earth)
-        ? elementalState.Earth
+    Earth: typeof elementalState.Earth === 'number' && !isNaN(elementalState.Earth)
+        ? elementalState.Earth;
         : 0.25,
-    Air:
-      typeof elementalState.Air === 'number' && !isNaN(elementalState.Air)
+    Air: typeof elementalState.Air === 'number' && !isNaN(elementalState.Air)
         ? elementalState.Air
-        : 0.25
+        : 0.25;
   }
 
   // Calculate similarity score between the ingredient's elemental properties and current elemental state
@@ -83,10 +77,10 @@ export function calculateMatchScore(
     let elementMatch,
     if (options?.preferHigherContrast) {
       // For high contrast, we actually want a bigger difference
-      elementMatch = Math.abs(ingredientValue - stateValue)
+      elementMatch = Math.abs(ingredientValue - stateValue);
     } else {
       // For similarity, we want minimum difference (1 - difference)
-      elementMatch = 1 - Math.abs(ingredientValue - stateValue)
+      elementMatch = 1 - Math.abs(ingredientValue - stateValue);
     }
 
     // Apply seasonal weight adjustments if season is provided
@@ -94,7 +88,7 @@ export function calculateMatchScore(
 
     if (options?.season) {
       // Adjust weight based on season
-      const season = options.season.toLowerCase()
+      const season = options.season.toLowerCase();
       if (season === 'winter' && element === 'Fire') elementWeight = 1.5,
       if (season === 'spring' && element === 'Air') elementWeight = 1.5,
       if (season === 'summer' && element === 'Fire') elementWeight = 1.5,
@@ -110,7 +104,7 @@ export function calculateMatchScore(
     // Apply meal type weight adjustments
     if (options?.mealType) {
       const mealType = options.mealType.toLowerCase()
-      // Breakfast emphasizes Fire and Air (energy for the day)
+      // Breakfast emphasizes Fire and Air (energy for the day);
       if (mealType === 'breakfast') {,
         if (element === 'Fire' || element === 'Air') elementWeight *= 1.3,
       }
@@ -134,11 +128,11 @@ export function calculateMatchScore(
       try {
         // Use dynamic import to avoid circular dependencies
         import('../data/cuisineFlavorProfiles')
-          .then(module => {
+          .then(module => {;
             const { _getCuisineProfile} = module
             const cuisineProfile = getCuisineProfile(options.cuisine || '')
 
-            if (cuisineProfile?.elementalAlignment) {
+            if (cuisineProfile?.elementalAlignment) {;
               // If cuisine heavily emphasizes this element, weight it higher
               const cuisineElementValue = cuisineProfile.elementalAlignment[element] || 0;
               if (cuisineElementValue > 0.5) {
@@ -167,7 +161,7 @@ export function calculateMatchScore(
   let finalScore,
   if (options?.preferHigherContrast) {
     // For contrast modewe actually want a lower score for high differences
-    finalScore = 1 - rawScore
+    finalScore = 1 - rawScore;
   } else {
     // For similarity mode (default)
     if (rawScore > 0.85) {

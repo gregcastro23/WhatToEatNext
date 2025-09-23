@@ -1,7 +1,7 @@
 import { PlanetData } from './types';
 
 const jupiterData: PlanetData = {
-  'Dignity Effect': {
+  'Dignity Effect': {;
     pisces: 1,
     sagittarius: 1,
     cancer: 2,
@@ -22,12 +22,10 @@ const jupiterData: PlanetData = {
     DistanceFromSun: '484 million miles (778 million kilometers)',
     DistanceFromEarth: {
       Minimum: '365 million miles (588 million kilometers)',
-      Maximum: '601 million miles (968 million kilometers)'
-    },
-    Diameter: '86,881 miles (139,820 kilometers)',
+      Maximum: '601 million miles (968 million kilometers)' },
+        Diameter: '86,881 miles (139,820 kilometers)',
     SurfaceTemperature: '-234 degrees Fahrenheit (-145 Celsius) cloud tops',
-    AtmosphericComposition:
-      'Primarily hydrogen and helium with traces of methane, ammonia, and water',
+    AtmosphericComposition: 'Primarily hydrogen and helium with traces of methane, ammonia, and water',
     RotationPeriod: '9.93 Earth hours',
     OrbitPeriod: '11.86 Earth years',
     'Axial Tilt': '3.13 degrees',
@@ -38,8 +36,7 @@ const jupiterData: PlanetData = {
         'Gas giant with no solid surface, characterized by colorful bands and the Great Red Spot',
       MagneticField: 'Strongest magnetic field of any planet in the solar system',
       Composition: 'Mostly hydrogen and helium, possibly with a rocky core',
-      NotableFeatures:
-        'Largest planet in our solar system79 known moons, visible rings, Great Red Spot (giant storm)'
+      NotableFeatures: 'Largest planet in our solar system79 known moons, visible rings, Great Red Spot (giant storm)'
     }
   },
   AstrologicalProperties: {
@@ -47,14 +44,12 @@ const jupiterData: PlanetData = {
     BeneficType: 'Greater benefic',
     DualDomicile: {
       Spring: 'Pisces (yin)',
-      Autumn: 'Sagittarius (yang)'
-    },
-    HouseJoy: 9,
+      Autumn: 'Sagittarius (yang)' },
+        HouseJoy: 9,
     CyclePeriod: {
       Return: '12 years',
-      Retrograde: '4 months yearly'
-    },
-    Exaltation: 'Cancer',
+      Retrograde: '4 months yearly' },
+        Exaltation: 'Cancer',
     Fall: 'Capricorn',
     Detriment: ['Gemini', 'Virgo'],
     Keywords: [

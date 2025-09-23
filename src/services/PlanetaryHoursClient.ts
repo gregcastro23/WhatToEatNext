@@ -30,7 +30,7 @@ function parseBackendResult(data: unknown): PlanetaryHourResult | null {
 
   if (typeof planet !== 'string' || typeof isDaytime !== 'boolean') return null;
 
-  const hourNumber = typeof obj.hourNumber === 'number' ? obj.hourNumber : undefined;
+  const hourNumber = typeof obj.hourNumber === 'number' ? obj.hourNumber: undefined;
   const start = typeof obj.start === 'string' ? new Date(obj.start) : undefined;
   const end = typeof obj.end === 'string' ? new Date(obj.end) : undefined;
 
@@ -39,8 +39,8 @@ function parseBackendResult(data: unknown): PlanetaryHourResult | null {
 
 /**
  * Env flags required (set in .env.local):
- * - NEXT_PUBLIC_BACKEND_URL: e.g., http://localhost:8000
- * - NEXT_PUBLIC_WEBSOCKET_URL: e.g., ws://localhost:8001 (used by usePlanetaryWebSocket)
+ * - NEXT_PUBLIC_BACKEND_URL: e.g., http: //localhost:8000
+ * - NEXT_PUBLIC_WEBSOCKET_URL: e.g., ws: //localhost:8001 (used by usePlanetaryWebSocket)
  * - NEXT_PUBLIC_PLANETARY_HOURS_BACKEND: 'true' to enable backend-first calls
  */
 export class PlanetaryHoursClient {
@@ -61,12 +61,12 @@ export class PlanetaryHoursClient {
 
     if (this.useBackend && this.backendUrl) {
       try {
-        const request: PlanetaryHourRequest = {
+        const request: PlanetaryHourRequest = {;
           datetime: targetDate.toISOString(),
           location
         };
 
-        const result = await alchmAPI.getCurrentPlanetaryHour(request)
+        const result = await alchmAPI.getCurrentPlanetaryHour(request);
         logger.debug('PlanetaryHoursClient', 'Backend calculation successful', result)
 
         // Transform API result to our format
@@ -85,12 +85,12 @@ export class PlanetaryHoursClient {
     }
 
     // Local fallback using PlanetaryHourCalculator
-    const calculator = new PlanetaryHourCalculator(
+    const calculator = new PlanetaryHourCalculator(;
       location?.latitude,
       location?.longitude,
     )
     const detailed = calculator.getCurrentPlanetaryHourDetailed(targetDate)
-    return {
+    return {;
       planet: detailed.planet,
       hourNumber: detailed.hourNumber,
       isDaytime: detailed.isDaytime,
@@ -101,3 +101,4 @@ export class PlanetaryHoursClient {
 }
 
 export const planetaryHoursClient = new PlanetaryHoursClient()
+;

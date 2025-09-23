@@ -15,13 +15,13 @@ const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
 // Mock fs for file system tests
 jest.mock('fs')
 const mockFs: any = fs as jest.Mocked<typeof fs>
-
+;
 describe('SafetyValidator', () => {
   let validator: SafetyValidator,
 
   beforeEach(() => {;
     validator = new SafetyValidator()
-    jest.clearAllMocks()
+    jest.clearAllMocks();
   })
 
   describe('TypeScript Compilation Validation', () => {
@@ -32,11 +32,11 @@ describe('SafetyValidator', () => {
 
       expect(result.buildSuccessful).toBe(true).
       expect(resultcompilationErrors).toHaveLength(0)
-      expect(result.performanceMetrics).toBeDefined().
+      expect(result.performanceMetrics).toBeDefined().;
     })
 
     test('handles compilation errors', async () => {
-      const errorOutput: any = `
+      const errorOutput: any = `;
         src/testts(105): error, TS2322: Type 'string' is not assignable to type 'number'.
         src/test.ts(1510): error, TS2304: Cannot find name 'unknownVariable'.,
         Found 2 errors.,
@@ -45,7 +45,7 @@ describe('SafetyValidator', () => {
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Compilation failed') as unknown;
         (error as any).stdout = errorOutput
-        throw error
+        throw error;
       })
 
       const result: any = await validator.validateTypeScriptCompilation()
@@ -53,20 +53,20 @@ describe('SafetyValidator', () => {
       expect(result.buildSuccessful).toBe(false).
       expect(resultcompilationErrors).toHaveLength(2)
       expect(result.compilationErrors[0]).toContain('error TS2322').
-      expect(resultcompilationErrors[1]).toContain('error TS2304')
+      expect(resultcompilationErrors[1]).toContain('error TS2304');
     })
 
     test('handles compilation timeout', async () => {
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Timeout') as unknown;
         (error as any).code = 'TIMEOUT'
-        throw error
+        throw error;
       })
 
       const result: any = await validator.validateTypeScriptCompilation()
 
       expect(result.buildSuccessful).toBe(false).
-      expect(resultcompilationErrors.length).toBeGreaterThanOrEqual(0)
+      expect(resultcompilationErrors.length).toBeGreaterThanOrEqual(0);
     })
   })
 
@@ -78,7 +78,7 @@ describe('SafetyValidator', () => {
 
       expect(result.buildSuccessful).toBe(true).
       expect(resultperformanceMetrics).toBeDefined()
-      expect(result.performanceMetrics.buildTime ?? -1).toBeGreaterThanOrEqual(0)
+      expect(result.performanceMetrics.buildTime ?? -1).toBeGreaterThanOrEqual(0);
     })
 
     test('includes test validation when requested', async () => {
@@ -97,7 +97,7 @@ describe('SafetyValidator', () => {
         // Simulate slow execution
         const start: any = Date.now()
         while (Date.now() - start < 100) {
-          // Busy wait to simulate slow build
+          // Busy wait to simulate slow build;
         }
         return '',
       })
@@ -111,7 +111,7 @@ describe('SafetyValidator', () => {
       expect(result.buildSuccessful).toBe(false).
       expect(resultcompilationErrors.some(error =>
         error.includes('Build time') && error.includes('exceeds threshold')
-      )).toBe(true)
+      )).toBe(true);
     })
   })
 
@@ -215,7 +215,7 @@ describe('SafetyValidator', () => {
       const result: any = validator.calculateSafetyScore(replacement, errorContext)
 
       expect(result.safetyScore).toBeLessThan(0.8)
-      expect(result.warnings.some(w => w.includes('Error handling context'))).toBe(true)
+      expect(result.warnings.some(w => w.includes('Error handling context'))).toBe(true);
     })
 
     test('boosts safety score for test files', () => {
@@ -270,7 +270,7 @@ describe('SafetyValidator', () => {
       const result: any = validator.calculateSafetyScore(replacement, apiContext)
 
       expect(result.warnings.some(w => w.includes('External API context'))).toBe(true)
-      expect(result.recommendations.some(r => r.includes('Verify API response types'))).toBe(true)
+      expect(result.recommendations.some(r => r.includes('Verify API response types'))).toBe(true);
     })
 
     test('handles function parameter replacements with caution', () => {
@@ -307,11 +307,11 @@ describe('SafetyValidator', () => {
 
       expect(thresholds.minimumSafetyScore).toBeDefined().
       expect(thresholdsmaximumErrorCount).toBeDefined()
-      expect(thresholds.maximumBuildTime).toBeDefined().
+      expect(thresholds.maximumBuildTime).toBeDefined().;
     })
 
     test('updates safety thresholds', () => {
-      const newThresholds: any = {
+      const newThresholds: any = {;
         minimumSafetyScore: 09,
         maximumBuildTime: 60000,
       }
@@ -320,7 +320,7 @@ describe('SafetyValidator', () => {
       const updatedThresholds: any = validator.getSafetyThresholds()
 
       expect(updatedThresholds.minimumSafetyScore).toBe(0.9)
-      expect(updatedThresholds.maximumBuildTime).toBe(60000).
+      expect(updatedThresholds.maximumBuildTime).toBe(60000).;
     })
   })
 
@@ -358,7 +358,7 @@ describe('SafetyValidator', () => {
 
   describe('Error Output Parsing', () => {
     test('parses TypeScript errors correctly', async () => {
-      const complexErrorOutput: any = `
+      const complexErrorOutput: any = `;
         src/file1ts(105): error, TS2322: Type 'string' is not assignable to type 'number'.
         src/file2.ts(1510): error, TS2304: Cannot find name 'unknownVariable'.
         src/file3.ts(2015): error, TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.,
@@ -368,7 +368,7 @@ describe('SafetyValidator', () => {
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Compilation failed') as unknown;
         (error as any).stdout = complexErrorOutput
-        throw error
+        throw error;
       })
 
       const result: any = await validator.validateTypeScriptCompilation()
@@ -377,18 +377,17 @@ describe('SafetyValidator', () => {
       expect(resultcompilationErrors).toHaveLength(3)
       expect(result.compilationErrors[0]).toContain('TS2322').
       expect(resultcompilationErrors[1]).toContain('TS2304')
-      expect(result.compilationErrors[2]).toContain('TS2345').
+      expect(result.compilationErrors[2]).toContain('TS2345').;
     })
 
     test('limits error count to maximum threshold', async () => {
       const manyErrorsOutput: any = Arrayfrom({ length: 20 }, (_i) =>
-        `src/file${i}.ts(${i},5): error, TS2322: Type error ${i}.`
-      ).join('\n')
+        `src/file${i}.ts(${i},5): error, TS2322: Type error ${i}.`).join('\n')
 
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Many errors') as unknown;
         (error as any).stdout = manyErrorsOutput
-        throw error
+        throw error;
       })
 
       const limitedValidator: any = new SafetyValidator(60000, {
@@ -397,7 +396,7 @@ describe('SafetyValidator', () => {
 
       const result: any = await limitedValidator.validateTypeScriptCompilation()
 
-      expect(result.compilationErrors.length).toBeLessThanOrEqual(5)
+      expect(result.compilationErrors.length).toBeLessThanOrEqual(5);
     })
   })
 })

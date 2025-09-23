@@ -6,7 +6,7 @@ export interface CustomHookResult {
   error: string | null
 }
 
-export function useCustomHook(initialValue: unknown = null): CustomHookResult {
+export function useCustomHook(initialValue: unknown = null): CustomHookResult {;
   const [data, setData] = useState<unknown>(initialValue)
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
@@ -16,7 +16,7 @@ export function useCustomHook(initialValue: unknown = null): CustomHookResult {
     setLoading(true)
     const timeout = setTimeout(() => {
       setData(initialValue)
-      setLoading(false)
+      setLoading(false);
     }, 1000)
 
     return () => clearTimeout(timeout)

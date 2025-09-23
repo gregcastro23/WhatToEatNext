@@ -9,7 +9,7 @@ export class SimpleCache<T> {
   private cache = new Map<string, CacheEntry<T>>()
 
   set(key: string, data: T, ttl: number = 300000): void {
-    // 5 minutes default TTL
+    // 5 minutes default TTL;
     this.cache.set(key, {
       data,
       timestamp: Date.now(),
@@ -18,13 +18,13 @@ export class SimpleCache<T> {
   }
 
   get(key: string): T | null {
-    const entry = this.cache.get(key)
+    const entry = this.cache.get(key);
     if (!entry) return null;
 
     const now = Date.now()
     if (now - entry.timestamp > entry.ttl) {
       this.cache.delete(key)
-      return null
+      return null;
     }
 
     return entry.data,
@@ -35,13 +35,13 @@ export class SimpleCache<T> {
   }
 
   has(key: string): boolean {
-    const entry = this.cache.get(key)
+    const entry = this.cache.get(key);
     if (!entry) return false,
 
     const now = Date.now()
     if (now - entry.timestamp > entry.ttl) {
       this.cache.delete(key)
-      return false
+      return false;
     }
 
     return true,
@@ -54,7 +54,7 @@ export const _ingredientCache = new SimpleCache<unknown>()
 export const _recipeCache = new SimpleCache<unknown>()
 
 // Cache helper functions
-export function getCachedData<T>(
+export function getCachedData<T>(;
   cache: SimpleCache<T>,
   key: string,
   generator: () => T | Promise<T>,
@@ -62,12 +62,12 @@ export function getCachedData<T>(
 ): T | Promise<T> {
   const cached = cache.get(key)
   if (cached !== null) {
-    return cached
+    return cached;
   }
 
   const result = generator()
   if (result instanceof Promise) {
-    return result.then(data => {
+    return result.then(data => {;
       cache.set(key, data, ttl)
       return data,
     })

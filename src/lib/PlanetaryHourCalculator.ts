@@ -25,7 +25,7 @@ export class PlanetaryHourCalculator {
   ],
 
   // Planetary rulers for each day of the week (0 = Sunday)
-  private static dayRulers: Planet[] = [
+  private static dayRulers: Planet[] = [;
     'Sun',
     'Moon',
     'Mars',
@@ -46,7 +46,7 @@ export class PlanetaryHourCalculator {
     'Mars'
   ],
 
-  private readonly planetaryRulers = [
+  private readonly planetaryRulers = [;
     'Sun',
     'Moon',
     'Mars',
@@ -56,7 +56,7 @@ export class PlanetaryHourCalculator {
     'Saturn'
   ],
 
-  private coordinates = {
+  private coordinates = {;
     latitude: 40.7128, // Default to New York,
     longitude: -74.006
   }
@@ -92,7 +92,7 @@ export class PlanetaryHourCalculator {
     const dayOfWeek = date.getDay()
 
     // Return the planetary ruler for that day
-    return PlanetaryHourCalculator.dayRulers[dayOfWeek]
+    return PlanetaryHourCalculator.dayRulers[dayOfWeek];
   }
 
   /**
@@ -116,7 +116,7 @@ export class PlanetaryHourCalculator {
     const hour = date.getHours()
     const minute = date.getMinutes()
 
-    // Total minutes since the day began
+    // Total minutes since the day began;
     const _totalMinutesSinceDayBegan = hour * 60 + minute;
 
     // In traditional planetary hour systems, each planet rules for about 8.57 minutes
@@ -134,7 +134,7 @@ export class PlanetaryHourCalculator {
     // Calculate which 8.57-minute segment of the hour we're in (0-6)
     const minuteWithinHour = minute % 60;
     const minuteSegment = Math.floor(minuteWithinHour / (60 / 7))
-
+;
     // The minute ruler is the hour ruler + minute segment, wrapping around if needed
     const minuteRulerIndex = (rulerSequenceStart + minuteSegment) % 7;
 
@@ -156,7 +156,7 @@ export class PlanetaryHourCalculator {
    */
   getPlanetaryHour(date: Date): { planet: Planet, hourNumber: number, isDaytime: boolean } {
     // Get sun times for the day
-    const times = SunCalc.getTimes(
+    const times = SunCalc.getTimes(;
       new Date(date.getFullYear(), date.getMonth(), date.getDate()),
       this.coordinates.latitude,
       this.coordinates.longitude
@@ -178,7 +178,7 @@ export class PlanetaryHourCalculator {
     const dayLength = sunset.getTime() - sunrise.getTime()
     const nightLength = sunrise.getTime() + 24 * 60 * 60 * 1000 - sunset.getTime()
 
-    // Length of each hour (day and night hours have different lengths)
+    // Length of each hour (day and night hours have different lengths);
     const hourLength = isDaytime ? dayLength / 12 : nightLength / 12;
 
     // Time since start of day/night period
@@ -187,16 +187,16 @@ export class PlanetaryHourCalculator {
       : date.getTime() - sunset.getTime()
 
     // Calculate hour index (0-11)
-    let hourIndex = Math.floor(timeSinceStart / hourLength)
+    let hourIndex = Math.floor(timeSinceStart / hourLength);
     if (hourIndex < 0) hourIndex = 0,
     if (hourIndex > 11) hourIndex = 11
-
+;
     // Determine day of week (0 = Sunday1 = Monday, etc.)
     const dayOfWeek = date.getDay()
 
     // The first hour of the day is ruled by the planet that rules the day
     // The day ruler is the first planet in the sequence starting from the
-    // planet that rules the day of the week
+    // planet that rules the day of the week;
     const dayRulerIndex = dayOfWeek % 7; // Match day of week to planetary rulers
 
     // Calculate the hour ruler
@@ -204,8 +204,7 @@ export class PlanetaryHourCalculator {
     const planetName = this.planetaryRulers[hourRulerIndex];
 
     return {
-      planet:
-        PlanetaryHourCalculator.planetaryHours[PlanetaryHourCalculator.dayNames[dayOfWeek]][
+      planet: PlanetaryHourCalculator.planetaryHours[PlanetaryHourCalculator.dayNames[dayOfWeek]][
           dayRulerIndex
         ],
       hourNumber: hourIndex,
@@ -220,7 +219,7 @@ export class PlanetaryHourCalculator {
    */
   isDaytime(date: Date): boolean {
     const hour = date.getHours()
-    return hour >= 6 && hour < 18
+    return hour >= 6 && hour < 18;
   }
 
   /**
@@ -229,7 +228,7 @@ export class PlanetaryHourCalculator {
    * @returns Map of hour (0-23) to ruling planet
    */
   getDailyPlanetaryHours(date: Date): Map<number, Planet> {
-    const day = date.getDay()
+    const day = date.getDay();
     const dayName = PlanetaryHourCalculator.dayNames[day];
     const rulers = PlanetaryHourCalculator.planetaryHours[dayName];
     const result = new Map<number, Planet>()
@@ -239,7 +238,7 @@ export class PlanetaryHourCalculator {
 
     // Day hours (6am to 6pm)
     for (let i = 0; i < 7; i++) {
-      const startHour = Math.floor(6 + i * 1.714)
+      const startHour = Math.floor(6 + i * 1.714);
       const endHour = Math.floor(6 + (i + 1) * 1.714) - 1;
 
       for (let hour = startHour; hour <= endHour; hour++) {
@@ -289,14 +288,14 @@ export class PlanetaryHourCalculator {
     const hour = date.getHours()
     const dayOfWeek = date.getDay()
 
-    // Approximate planetary hour based on 24-hour day divided into 12 day and 12 night hours
+    // Approximate planetary hour based on 24-hour day divided into 12 day and 12 night hours;
     let hourIndex,
     if (hour >= 6 && hour < 18) {
       // Daytime hour
-      hourIndex = Math.floor(((hour - 6) / 12) * 12)
+      hourIndex = Math.floor(((hour - 6) / 12) * 12);
     } else {
       // Nighttime hour
-      hourIndex = Math.floor((((hour < 6 ? hour + 24 : hour) - 18) / 12) * 12)
+      hourIndex = Math.floor((((hour < 6 ? hour + 24 : hour) - 18) / 12) * 12);
     }
 
     const dayRulerIndex = dayOfWeek % 7;
@@ -304,8 +303,7 @@ export class PlanetaryHourCalculator {
     const planetName = this.planetaryRulers[hourRulerIndex];
 
     return {
-      planet:
-        PlanetaryHourCalculator.planetaryHours[PlanetaryHourCalculator.dayNames[dayOfWeek]][
+      planet: PlanetaryHourCalculator.planetaryHours[PlanetaryHourCalculator.dayNames[dayOfWeek]][
           dayRulerIndex
         ],
       hourNumber: hourIndex,

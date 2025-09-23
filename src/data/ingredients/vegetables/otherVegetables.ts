@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawOtherVegetables = {
-  asparagus: {
+  asparagus: {;
     name: 'asparagus',
 
     elementalProperties: {
@@ -34,10 +34,8 @@ const rawOtherVegetables = {
       taste: ['Mild'],
       aroma: ['Fresh'],
       texture: ['Standard'],
-      notes: 'Characteristic asparagus profile'
-    }
-
-    culinaryProfile: {
+      notes: 'Characteristic asparagus profile' },
+        culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       }
@@ -51,16 +49,12 @@ const rawOtherVegetables = {
     preparation: {
       methods: ['Standard'],
       timing: 'As needed',
-      notes: 'Standard prep for asparagus'
-    }
-
-    storage: {
+      notes: 'Standard prep for asparagus' },
+        storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
-      container: 'Airtight'
-    }
-
-    varieties: {}
+      container: 'Airtight' },
+        varieties: {}
 
     astrologicalProfile: {
       rulingPlanets: [],
@@ -99,10 +93,8 @@ const rawOtherVegetables = {
       taste: ['Mild'],
       aroma: ['Fresh'],
       texture: ['Standard'],
-      notes: 'Characteristic artichoke profile'
-    }
-
-    culinaryProfile: {
+      notes: 'Characteristic artichoke profile' },
+        culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       }
@@ -116,16 +108,12 @@ const rawOtherVegetables = {
     preparation: {
       methods: ['Standard'],
       timing: 'As needed',
-      notes: 'Standard prep for artichoke'
-    }
-
-    storage: {
+      notes: 'Standard prep for artichoke' },
+        storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
-      container: 'Airtight'
-    }
-
-    varieties: {}
+      container: 'Airtight' },
+        varieties: {}
 
     astrologicalProfile: {
       rulingPlanets: [],
@@ -181,16 +169,12 @@ const rawOtherVegetables = {
     preparation: {
       methods: ['Standard'],
       timing: 'As needed',
-      notes: 'Standard prep for cucumber'
-    }
-
-    storage: {
+      notes: 'Standard prep for cucumber' },
+        storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
-      container: 'Airtight'
-    }
-
-    varieties: {}
+      container: 'Airtight' },
+        varieties: {}
 
     astrologicalProfile: {
       rulingPlanets: [],
@@ -246,16 +230,12 @@ const rawOtherVegetables = {
     preparation: {
       methods: ['Standard'],
       timing: 'As needed',
-      notes: 'Standard prep for okra'
-    }
-
-    storage: {
+      notes: 'Standard prep for okra' },
+        storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
-      container: 'Airtight'
-    }
-
-    varieties: {}
+      container: 'Airtight' },
+        varieties: {}
 
     astrologicalProfile: {
       rulingPlanets: [],
@@ -285,10 +265,8 @@ const rawOtherVegetables = {
       fat_g: 0.3,
       sugar_g: 2.5,
       glycemic_index: 15,
-      notes: 'Low calorie and nutrient-dense'
-    }
-
-    season: ['spring', 'summer', 'fall', 'winter'],
+      notes: 'Low calorie and nutrient-dense' },
+        season: ['spring', 'summer', 'fall', 'winter'],
 
     cookingMethods: ['roast', 'boil', 'steam', 'saute'],
 
@@ -315,16 +293,12 @@ const rawOtherVegetables = {
     preparation: {
       methods: ['Standard'],
       timing: 'As needed',
-      notes: 'Standard prep for zucchini'
-    }
-
-    storage: {
+      notes: 'Standard prep for zucchini' },
+        storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
-      container: 'Airtight'
-    }
-
-    varieties: {}
+      container: 'Airtight' },
+        varieties: {}
 
     astrologicalProfile: {
       rulingPlanets: [],
@@ -380,16 +354,12 @@ const rawOtherVegetables = {
     preparation: {
       methods: ['Standard'],
       timing: 'As needed',
-      notes: 'Standard prep for peas'
-    }
-
-    storage: {
+      notes: 'Standard prep for peas' },
+        storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
-      container: 'Airtight'
-    }
-
-    varieties: {}
+      container: 'Airtight' },
+        varieties: {}
 
     astrologicalProfile: {
       rulingPlanets: [],
@@ -445,16 +415,12 @@ const rawOtherVegetables = {
     preparation: {
       methods: ['Standard'],
       timing: 'As needed',
-      notes: 'Standard prep for green_beans'
-    }
-
-    storage: {
+      notes: 'Standard prep for green_beans' },
+        storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
-      container: 'Airtight'
-    }
-
-    varieties: {}
+      container: 'Airtight' },
+        varieties: {}
 
     astrologicalProfile: {
       rulingPlanets: [],
@@ -510,16 +476,12 @@ const rawOtherVegetables = {
     preparation: {
       methods: ['Standard'],
       timing: 'As needed',
-      notes: 'Standard prep for celery'
-    }
-
-    storage: {
+      notes: 'Standard prep for celery' },
+        storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
-      container: 'Airtight'
-    }
-
-    varieties: {}
+      container: 'Airtight' },
+        varieties: {}
 
     astrologicalProfile: {
       rulingPlanets: [],
@@ -575,16 +537,12 @@ const rawOtherVegetables = {
     preparation: {
       methods: ['Standard'],
       timing: 'As needed',
-      notes: 'Standard prep for fennel'
-    }
-
-    storage: {
+      notes: 'Standard prep for fennel' },
+        storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
-      container: 'Airtight'
-    }
-
-    varieties: {}
+      container: 'Airtight' },
+        varieties: {}
 
     astrologicalProfile: {
       rulingPlanets: [],
@@ -640,16 +598,12 @@ const rawOtherVegetables = {
     preparation: {
       methods: ['Standard'],
       timing: 'As needed',
-      notes: 'Standard prep for kohlrabi'
-    }
-
-    storage: {
+      notes: 'Standard prep for kohlrabi' },
+        storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
-      container: 'Airtight'
-    }
-
-    varieties: {}
+      container: 'Airtight' },
+        varieties: {}
 
     astrologicalProfile: {
       rulingPlanets: [],
@@ -705,16 +659,12 @@ const rawOtherVegetables = {
     preparation: {
       methods: ['Standard'],
       timing: 'As needed',
-      notes: 'Standard prep for bok_choy'
-    }
-
-    storage: {
+      notes: 'Standard prep for bok_choy' },
+        storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
-      container: 'Airtight'
-    }
-
-    varieties: {}
+      container: 'Airtight' },
+        varieties: {}
 
     astrologicalProfile: {
       rulingPlanets: [],
@@ -770,16 +720,12 @@ const rawOtherVegetables = {
     preparation: {
       methods: ['Standard'],
       timing: 'As needed',
-      notes: 'Standard prep for endive'
-    }
-
-    storage: {
+      notes: 'Standard prep for endive' },
+        storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
-      container: 'Airtight'
-    }
-
-    varieties: {}
+      container: 'Airtight' },
+        varieties: {}
 
     astrologicalProfile: {
       rulingPlanets: [],

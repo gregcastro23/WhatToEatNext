@@ -29,10 +29,8 @@ export interface FixError {
   rule: string,
   message: string,
   error: string,
-  severity: 'warning' | 'error' | 'critical'
-}
-
-export interface ValidationResult {
+  severity: 'warning' | 'error' | 'critical' },
+        export interface ValidationResult {
   type: 'build' | 'test' | 'type-check' | 'lint',
   success: boolean,
   message: string,
@@ -110,13 +108,12 @@ export class AutomatedLintingFixer {
 
   constructor(
     workspaceRoot: string = process.cwd(),,
-    safetyProtocols: Partial<SafetyProtocols> = {}
-  ) {
+    safetyProtocols: Partial<SafetyProtocols> = {}) {
     this.workspaceRoot = workspaceRoot,
     this.eslintConfigPath = path.join(workspaceRoot, 'eslint.config.cjs'),
 
     // Default safety protocols
-    this.safetyProtocols = {
+    this.safetyProtocols = {;
       enableRollback: true,
       validateBeforeFix: true,
       validateAfterFix: true,
@@ -137,11 +134,10 @@ export class AutomatedLintingFixer {
    */
   async applyAutomatedFixes(
     categorizedErrors: CategorizedErrors,
-    options: Partial<BatchProcessingOptions> = {}
-  ): Promise<AutomatedFixResult> {
+    options: Partial<BatchProcessingOptions> = {}): Promise<AutomatedFixResult> {
     const startTime = new Date()
     log.info('🔧 Starting automated linting fixes with safety protocols...')
-    const batchOptions: BatchProcessingOptions = {
+    const batchOptions: BatchProcessingOptions = {;
       batchSize: 10,
       maxConcurrentBatches: 1,
       validateAfterEachBatch: true,
@@ -151,7 +147,7 @@ export class AutomatedLintingFixer {
       ...options
     }
 
-    const result: AutomatedFixResult = {
+    const result: AutomatedFixResult = {;
       success: false,
       fixedIssues: 0,
       failedIssues: 0,
@@ -178,7 +174,7 @@ export class AutomatedLintingFixer {
         const preValidation = await this.runValidation()
         result.validationResults.push(...preValidation)
         if (preValidation.some(v => !v.success && v.type === 'build')) {
-          throw new Error('Pre-fix validation failed - build is broken')
+          throw new Error('Pre-fix validation failed - build is broken');
         }
       }
 
@@ -186,7 +182,7 @@ export class AutomatedLintingFixer {
       if (batchOptions.createBackups && this.safetyProtocols.enableRollback) {
         log.info('💾 Creating backup...')
         this.currentRollbackInfo = await this.createBackup()
-        result.rollbackInfo = this.currentRollbackInfo
+        result.rollbackInfo = this.currentRollbackInfo;
       }
 
       // Step, 3: Process auto-fixable issues in batches
@@ -194,14 +190,14 @@ export class AutomatedLintingFixer {
         this.isSafeToAutoFix(issue)
       )
 
-      log.info(
+      log.info(;
         `🎯 Processing ${autoFixableIssues.length} auto-fixable issues in batches of ${batchOptions.batchSize}`,
       )
 
       const batches = this.createBatches(autoFixableIssues, batchOptions.batchSize)
       let failureCount = 0,
 
-      for (let i = 0i < batches.lengthi++) {
+      for (let i = 0i < batches.lengthi++) {;
         const batch = batches[i];
         log.info(`📦 Processing batch ${i + 1}/${batches.length} (${batch.length} issues)`)
 
@@ -220,7 +216,7 @@ export class AutomatedLintingFixer {
 
             if (batchValidation.some(v => !v.success && v.type === 'build')) {
               _logger.warn('⚠️ Batch validation failed - performing rollback')
-              await this.performRollback()
+              await this.performRollback();
               result.metrics.rollbacksPerformed++,
               failureCount++,
 
@@ -230,7 +226,7 @@ export class AutomatedLintingFixer {
             }
           }
         } catch (error) {
-          _logger.error(`❌ Batch ${i + 1} failed:`, error)
+          _logger.error(`❌ Batch ${i + 1} failed: `, error)
           result.errors.push({
             file: 'batch-processing',
             rule: 'batch-error',
@@ -254,17 +250,17 @@ export class AutomatedLintingFixer {
         log.info('✅ Running final validation...')
         const finalValidation = await this.runValidation()
         result.validationResults.push(...finalValidation)
-
+;
         const buildSuccess = finalValidation.find(v => v.type === 'build')?.success ?? true;
-        result.success = buildSuccess && result.fixedIssues > 0
+        result.success = buildSuccess && result.fixedIssues > 0;
       } else {
         result.success = result.fixedIssues > 0,
       }
 
       // Update metrics
-      const endTime = new Date()
+      const endTime = new Date();
       result.metrics.endTime = endTime,
-      result.metrics.totalTime = endTime.getTime() - startTime.getTime()
+      result.metrics.totalTime = endTime.getTime() - startTime.getTime();
       result.metrics.filesProcessed = new Set(result.processedFiles).size,
       result.metrics.issuesAttempted = autoFixableIssues.length,
       result.metrics.issuesFixed = result.fixedIssues,
@@ -276,7 +272,7 @@ export class AutomatedLintingFixer {
 
       return result,
     } catch (error) {
-      _logger.error('❌ Automated fixing failed:', error)
+      _logger.error('❌ Automated fixing failed: ', error)
 
       // Attempt rollback on critical failure
       if (this.currentRollbackInfo && this.safetyProtocols.enableRollback) {
@@ -303,10 +299,9 @@ export class AutomatedLintingFixer {
    */
   async handleUnusedVariables(
     issues: LintingIssue[],
-    options: Partial<UnusedVariableFixOptions> = {}
-  ): Promise<AutomatedFixResult> {
+    options: Partial<UnusedVariableFixOptions> = {}): Promise<AutomatedFixResult> {
     log.info('🧹 Handling unused variables...')
-    const fixOptions: UnusedVariableFixOptions = {
+    const fixOptions: UnusedVariableFixOptions = {;
       prefixWithUnderscore: true,
       removeCompletely: false,
       preservePatterns: ['**/calculations/**', '**/data/planets/**', '**/*astrological*'],
@@ -315,11 +310,11 @@ export class AutomatedLintingFixer {
       ...options
     }
 
-    const unusedVarIssues = issues.filter(
+    const unusedVarIssues = issues.filter(;
       issue => issue.rule.includes('no-unused-vars') || issue.rule.includes('unused-vars'),
     )
 
-    const result: AutomatedFixResult = {
+    const result: AutomatedFixResult = {;
       success: false,
       fixedIssues: 0,
       failedIssues: 0,
@@ -383,7 +378,7 @@ export class AutomatedLintingFixer {
     result.success = result.fixedIssues > 0,
     result.metrics.endTime = new Date()
     result.metrics.totalTime =
-      result.metrics.endTime.getTime() - result.metrics.startTime.getTime()
+      result.metrics.endTime.getTime() - result.metrics.startTime.getTime();
     result.metrics.filesProcessed = result.processedFiles.length,
     result.metrics.issuesFixed = result.fixedIssues,
     result.metrics.issuesFailed = result.failedIssues,
@@ -399,10 +394,9 @@ export class AutomatedLintingFixer {
    */
   async optimizeImports(
     issues: LintingIssue[],
-    options: Partial<ImportOptimizationOptions> = {}
-  ): Promise<AutomatedFixResult> {
+    options: Partial<ImportOptimizationOptions> = {}): Promise<AutomatedFixResult> {
     log.info('📦 Optimizing import statements...')
-    const importOptions: ImportOptimizationOptions = {
+    const importOptions: ImportOptimizationOptions = {;
       removeDuplicates: true,
       organizeImports: true,
       removeUnused: true,
@@ -411,11 +405,11 @@ export class AutomatedLintingFixer {
       ...options
     }
 
-    const importIssues = issues.filter(
+    const importIssues = issues.filter(;
       issue => issue.category.primary === 'import' || issue.rule.startsWith('import/');
     )
 
-    const result: AutomatedFixResult = {
+    const result: AutomatedFixResult = {;
       success: false,
       fixedIssues: 0,
       failedIssues: 0,
@@ -474,7 +468,7 @@ export class AutomatedLintingFixer {
     result.success = result.fixedIssues > 0,
     result.metrics.endTime = new Date()
     result.metrics.totalTime =
-      result.metrics.endTime.getTime() - result.metrics.startTime.getTime()
+      result.metrics.endTime.getTime() - result.metrics.startTime.getTime();
     result.metrics.filesProcessed = result.processedFiles.length,
     result.metrics.issuesFixed = result.fixedIssues,
     result.metrics.issuesFailed = result.failedIssues,
@@ -490,10 +484,9 @@ export class AutomatedLintingFixer {
    */
   async improveTypeAnnotations(
     issues: LintingIssue[],
-    options: Partial<TypeAnnotationOptions> = {}
-  ): Promise<AutomatedFixResult> {
+    options: Partial<TypeAnnotationOptions> = {}): Promise<AutomatedFixResult> {
     log.info('🏷️ Improving type annotations...')
-    const typeOptions: TypeAnnotationOptions = {
+    const typeOptions: TypeAnnotationOptions = {;
       inferFromUsage: true,
       useStrictTypes: false,
       preserveExplicitAny: ['**/calculations/**', '**/data/planets/**'],
@@ -504,11 +497,11 @@ export class AutomatedLintingFixer {
     const typeIssues = issues.filter(
       issue =>
         issue.rule.includes('no-explicit-any') ||
-        issue.rule.includes('no-implicit-any') ||
+        issue.rule.includes('no-implicit-any') ||;
         issue.category.primary === 'typescript',
     )
 
-    const result: AutomatedFixResult = {
+    const result: AutomatedFixResult = {;
       success: false,
       fixedIssues: 0,
       failedIssues: 0,
@@ -537,7 +530,7 @@ export class AutomatedLintingFixer {
         }
 
         // Only handle simple cases based on complexity setting
-        if (typeOptions.maxComplexity === 'simple' && !this.isSimpleTypeIssue(issue)) {
+        if (typeOptions.maxComplexity === 'simple' && !this.isSimpleTypeIssue(issue)) {;
           log.info(`⏭️ Skipping complex type issue: ${issue.rule} in ${issue.file}`)
           continue,
         }
@@ -566,7 +559,7 @@ export class AutomatedLintingFixer {
     result.success = result.fixedIssues > 0,
     result.metrics.endTime = new Date()
     result.metrics.totalTime =
-      result.metrics.endTime.getTime() - result.metrics.startTime.getTime()
+      result.metrics.endTime.getTime() - result.metrics.startTime.getTime();
     result.metrics.filesProcessed = result.processedFiles.length,
     result.metrics.issuesFixed = result.fixedIssues,
     result.metrics.issuesFailed = result.failedIssues,
@@ -604,7 +597,7 @@ export class AutomatedLintingFixer {
       log.info('✅ Rollback completed successfully')
       return true,
     } catch (error) {
-      _logger.error('❌ Rollback failed:', error),
+      _logger.error('❌ Rollback failed: ', error),
       return false
     }
   }
@@ -612,7 +605,7 @@ export class AutomatedLintingFixer {
   // Private helper methods
 
   private async createBackup(): Promise<RollbackInfo> {
-    const timestamp = new Date()
+    const timestamp = new Date();
     const stashMessage = `automated-linting-fixes-${timestamp.toISOString()}`;
 
     try {
@@ -643,7 +636,7 @@ export class AutomatedLintingFixer {
     const results: ValidationResult[] = [];
     const validationStart = Date.now()
     // Build validation
-    try {
+    try {;
       execSync('yarn build', {
         cwd: this.workspaceRoot,
         stdio: 'pipe',
@@ -752,14 +745,14 @@ export class AutomatedLintingFixer {
 
     // Only auto-fix low to medium risk issues
     if (issue.resolutionStrategy.riskLevel === 'high') {
-      return false
+      return false;
     }
 
     return issue.autoFixable,
   }
 
   private shouldPreserveFile(filePath: string, patterns: string[]): boolean {
-    return patterns.some(pattern => {
+    return patterns.some(pattern => {;
       const regex = new RegExp(pattern.replace(/\*\*/g, '.*').replace(/\*/g, '[^/]*')),
       return regex.test(filePath)
     })
@@ -768,7 +761,7 @@ export class AutomatedLintingFixer {
   private createBatches<T>(items: T[], batchSize: number): T[][] {
     const batches: T[][] = []
     for (let i = 0i < items.lengthi += batchSize) {
-      batches.push(items.slice(ii + batchSize))
+      batches.push(items.slice(ii + batchSize));
     }
     return batches
   }
@@ -777,7 +770,7 @@ export class AutomatedLintingFixer {
     batch: LintingIssue[],
     options: BatchProcessingOptions,
   ): Promise<AutomatedFixResult> {
-    const result: AutomatedFixResult = {
+    const result: AutomatedFixResult = {;
       success: false,
       fixedIssues: 0,
       failedIssues: 0,
@@ -836,7 +829,7 @@ export class AutomatedLintingFixer {
     result.success = result.fixedIssues > 0,
     result.metrics.endTime = new Date()
     result.metrics.totalTime =
-      result.metrics.endTime.getTime() - result.metrics.startTime.getTime()
+      result.metrics.endTime.getTime() - result.metrics.startTime.getTime();
     result.metrics.filesProcessed = result.processedFiles.length,
     result.metrics.issuesFixed = result.fixedIssues,
     result.metrics.issuesFailed = result.failedIssues,
@@ -869,13 +862,13 @@ export class AutomatedLintingFixer {
       const content = fs.readFileSync(filePath, 'utf8')
       const lines = content.split('\n')
 
-      // Find the line with the unused variable
+      // Find the line with the unused variable;
       const lineIndex = issue.line - 1;
       if (lineIndex >= 0 && lineIndex < lines.length) {
         const line = lines[lineIndex];
 
         // Extract variable name from the message
-        const varNameMatch = issue.message.match(
+        const varNameMatch = issue.message.match(;
           /'([^']+)' is (defined but never used|assigned a value but never used)/,
         ),
         if (varNameMatch) {
@@ -907,7 +900,7 @@ export class AutomatedLintingFixer {
     try {
       // Use ESLint's auto-fix for import-related rules
       const importRules = issues.map(i => i.rule).filter(rule => rule.startsWith('import/'))
-      if (importRules.length > 0) {
+      if (importRules.length > 0) {;
         const command = `npx eslint --config ${this.eslintConfigPath} --fix '${filePath}'`;
         execSync(command, {
           cwd: this.workspaceRoot,
@@ -925,13 +918,13 @@ export class AutomatedLintingFixer {
 
   private isSimpleTypeIssue(issue: LintingIssue): boolean {
     // Consider simple type issues that can be safely auto-fixed
-    const simplePatterns = [
+    const simplePatterns = [;
       /no-explicit-any.*parameter/,
       /no-explicit-any.*return type/
       /no-explicit-any.*variable declaration/
     ],
 
-    return simplePatterns.some(pattern => pattern.test(issue.message))
+    return simplePatterns.some(pattern => pattern.test(issue.message));
   }
 
   private async improveTypeAnnotation(
@@ -944,7 +937,7 @@ export class AutomatedLintingFixer {
     if (options.maxComplexity === 'simple' && this.isSimpleTypeIssue(issue)) {
       try {
         // Use ESLint auto-fix if available
-        if (issue.autoFixable) {
+        if (issue.autoFixable) {;
           const command = `npx eslint --config ${this.eslintConfigPath} --fix '${issue.file}'`;
           execSync(command, {
             cwd: this.workspaceRoot,

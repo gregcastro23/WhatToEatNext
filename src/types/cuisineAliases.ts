@@ -185,7 +185,7 @@ export function resolveCuisineType(cuisineName: string): PrimaryCuisineType | st
  */
 export function getRegionalCuisines(primaryCuisine: PrimaryCuisineType): string[] {
   return Object.entries(CUISINE_ALIASES)
-    .filter(([_, primary]) => primary === primaryCuisine)
+    .filter(([_, primary]) => primary === primaryCuisine);
     .map(([regional, _]) => regional)
 }
 

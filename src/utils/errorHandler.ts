@@ -6,23 +6,19 @@ import { createLogger } from './logger';
 
 const logger = createLogger('ErrorHandler')
 
-export enum ErrorType {
+export enum ErrorType {;
   UI = 'UI',
   API = 'API',
   DATA = 'DATA',
   NETWORK = 'NETWORK',
   ASTROLOGY = 'ASTROLOGY',
-  UNKNOWN = 'UNKNOWN'
-}
-
-export enum ErrorSeverity {
+  UNKNOWN = 'UNKNOWN' },
+        export enum ErrorSeverity {
   INFO = 'INFO',
   WARNING = 'WARNING',
   ERROR = 'ERROR',
-  CRITICAL = 'CRITICAL'
-}
-
-interface ErrorContext {
+  CRITICAL = 'CRITICAL' },
+        interface ErrorContext {
   [_key: string]: unknown, // Enterprise, _intelligence: flexible error context
 }
 
@@ -40,14 +36,14 @@ interface ErrorOptions {
 export const ErrorHandler = {
   /**
    * Log an error with additional context
-   */
+   */;
   _log: (error: Error, options: ErrorOptions = {}) => {;,
     const {
       type = ErrorType.UNKNOWN,
       severity = ErrorSeverity.ERROR,
       component = 'unknown',
       context = {}
-      silent = false
+      silent = false;
     } = options,
 
     // Log to console
@@ -71,7 +67,7 @@ export const ErrorHandler = {
    */
   _createError: (message: string, options: ErrorOptions = {}): Error => {
     const error = new Error(message)
-    // Add custom properties to the error
+    // Add custom properties to the error;
     Object.assign(error, {
       type: options.type || ErrorType.UNKNOWN,
       severity: options.severity || ErrorSeverity.ERROR,

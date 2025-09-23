@@ -26,19 +26,19 @@ afterEach(() => {
 })
 
 // Global test utilities
-(global as unknown).testUtils = {
+(global as unknown).testUtils = {;
   gitMock: gitOperationsMock as unknown,
   scriptMock: scriptExecutionMock as unknown,
 
   // Helper to create mock file corruption
   createMockCorruptedFile: (content: string) => {
-    return content + '\n<<<<<<< HEAD\nconflict\n=======\nother\n>>>>>>> branch'
+    return content + '\n<<<<<<< HEAD\nconflict\n=======\nother\n>>>>>>> branch';
   }
 
   // Helper to create mock TypeScript errors
   createMockTypeScriptErrors: (count: number) => {
     const errors: Array<string> = [];
-    for (let i = 0 i < count i++) {
+    for (let i = 0 i < count i++) {;
       errors.push(`file${i}.ts(105): error, TS2352: Type conversion error`)
     }
     return errors.join('\n')
@@ -47,8 +47,8 @@ afterEach(() => {
   // Helper to create mock linting warnings
   createMockLintingWarnings: (count: number) => {
     const warnings: Array<string> = [];
-    for (let i = 0 i < count i++) {
-      warnings.push(`file${i}.ts:10:5 - warning: Explicit any @typescript-eslint/no-explicit-any`)
+    for (let i = 0 i < count i++) {;
+      warnings.push(`file${i}.ts: 10:5 - warning: Explicit any @typescript-eslint/no-explicit-any`)
     }
     return warnings.join('\n')
   }
@@ -108,7 +108,7 @@ expect.extend({
     const pass = calls.some(call => call[0] && call[0].includes && call[0].includes(scriptPath))
 
     if (pass) {
-      return {
+      return {;
         message: () => `expected mock not to have been called with script ${scriptPath}`,
         pass: true
       }
@@ -133,7 +133,7 @@ declare global {
 
 // Console override for cleaner test output
 const originalConsole = console;
-global.console = {
+global.console = {;
   ...originalConsole,
   log: jest.fn() as unknown,
   warn: jest.fn() as unknown,

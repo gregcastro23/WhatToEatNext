@@ -1,7 +1,7 @@
 import { PlanetData } from './types';
 
 const neptuneData: PlanetData = {
-  'Dignity Effect': {
+  'Dignity Effect': {;
     pisces: 1,
     cancer: 2,
     virgo: -1,
@@ -20,9 +20,8 @@ const neptuneData: PlanetData = {
     DistanceFromSun: '2.8 billion miles (4.5 billion km)',
     DistanceFromEarth: {
       Minimum: '2.7 billion miles (4.3 billion km)',
-      Maximum: '2.9 billion miles (4.7 billion km)'
-    },
-    Diameter: '30,599 miles (49,244 km)',
+      Maximum: '2.9 billion miles (4.7 billion km)' },
+        Diameter: '30,599 miles (49,244 km)',
     SurfaceTemperature: '-373°F (-225°C)',
     AtmosphericComposition: 'Hydrogen (80%), Helium (19%), Methane (1.5%)',
     RotationPeriod: '16.11 hours',
@@ -42,9 +41,8 @@ const neptuneData: PlanetData = {
     HouseJoy: 12,
     CyclePeriod: {
       Return: '165 years',
-      Retrograde: 'Annual, approximately 158 days'
-    },
-    Exaltation: 'Cancer',
+      Retrograde: 'Annual, approximately 158 days' },
+        Exaltation: 'Cancer',
     Fall: 'Capricorn',
     Detriment: ['Virgo'],
     Keywords: [
@@ -216,10 +214,8 @@ const neptuneData: PlanetData = {
           'iridescent garnishes',
           'misty foams'
         ],
-        FlavorCombinations:
-          'Subtle layering, barely perceptible transitions, ethereal flavor landscapes'
-      },
-      cancer: {
+        FlavorCombinations: 'Subtle layering, barely perceptible transitions, ethereal flavor landscapes' },
+        cancer: {
         FoodFocus:
           'Emotionally soothing foods with nostalgic qualities, nurturing dishes with gentle flavors',
         Elements: {
@@ -242,10 +238,8 @@ const neptuneData: PlanetData = {
           'moon-reflecting foods',
           'emotionally resonant dishes'
         ],
-        FlavorCombinations:
-          'Nurturing blends, emotionally evocative tastes, soothing progressive flavor profiles'
-      },
-      virgo: {
+        FlavorCombinations: 'Nurturing blends, emotionally evocative tastes, soothing progressive flavor profiles' },
+        virgo: {
         FoodFocus:
           'Precise ethereal presentations that bring clarity to subtlety, healing food experiences',
         Elements: {
@@ -268,8 +262,7 @@ const neptuneData: PlanetData = {
           'digestively balanced components',
           'subtle healing elements'
         ],
-        FlavorCombinations:
-          'Clarifying contrasts, purifying progressions, subtly medicinal combinations'
+        FlavorCombinations: 'Clarifying contrasts, purifying progressions, subtly medicinal combinations'
       }
     },
     Retrograde: {
@@ -323,8 +316,7 @@ const neptuneData: PlanetData = {
           TarotCard: '8 of Cups',
           TarotProperties: {
             Keywords: ['spiritual journey', 'seeking deeper meaning', 'transcendence'],
-            CulinaryAssociation:
-              'Exploration of spiritual dimensions in food, transcendent dining experiences'
+            CulinaryAssociation: 'Exploration of spiritual dimensions in food, transcendent dining experiences'
           }
         }
         '2ndDecan': {
@@ -333,8 +325,7 @@ const neptuneData: PlanetData = {
           TarotCard: '9 of Cups',
           TarotProperties: {
             Keywords: ['emotional fulfillment', 'wishes granted', 'satisfaction'],
-            CulinaryAssociation:
-              'Dishes that evoke profound emotional satisfaction, dream-like culinary experiences'
+            CulinaryAssociation: 'Dishes that evoke profound emotional satisfaction, dream-like culinary experiences'
           }
         }
         '3rdDecan': {
@@ -343,8 +334,7 @@ const neptuneData: PlanetData = {
           TarotCard: '10 of Cups',
           TarotProperties: {
             Keywords: ['harmony', 'shared bliss', 'spiritual connection'],
-            CulinaryAssociation:
-              'Foods that create shared emotional experiences, communal eating with spiritual dimensions'
+            CulinaryAssociation: 'Foods that create shared emotional experiences, communal eating with spiritual dimensions'
           }
         }
       },
@@ -355,8 +345,7 @@ const neptuneData: PlanetData = {
           TarotCard: '2 of Wands',
           TarotProperties: {
             Keywords: ['future planning', 'personal power', 'expanding horizons'],
-            CulinaryAssociation:
-              'Visionary food concepts, pioneering culinary approaches with spiritual underpinnings'
+            CulinaryAssociation: 'Visionary food concepts, pioneering culinary approaches with spiritual underpinnings'
           }
         }
         '2ndDecan': {
@@ -365,8 +354,7 @@ const neptuneData: PlanetData = {
           TarotCard: '3 of Wands',
           TarotProperties: {
             Keywords: ['exploration', 'foresight', 'leadership'],
-            CulinaryAssociation:
-              'Exploratory cuisine that transcends boundaries, food that connects to cosmic energies'
+            CulinaryAssociation: 'Exploratory cuisine that transcends boundaries, food that connects to cosmic energies'
           }
         }
         '3rdDecan': {
@@ -375,8 +363,7 @@ const neptuneData: PlanetData = {
           TarotCard: '4 of Wands',
           TarotProperties: {
             Keywords: ['celebration', 'harmony', 'community'],
-            CulinaryAssociation:
-              'Celebratory feasts with mystical qualities, transcendent community dining experiences'
+            CulinaryAssociation: 'Celebratory feasts with mystical qualities, transcendent community dining experiences'
           }
         }
       }

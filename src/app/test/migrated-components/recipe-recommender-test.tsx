@@ -14,7 +14,7 @@ export default function RecipeRecommendationsTestPage() {
   })
 
   // Handle filter changes
-  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {;
     const { name, value } = e.target;
     setFilters(prev => ({ ...prev, [name]: value }))
   }
@@ -24,12 +24,12 @@ export default function RecipeRecommendationsTestPage() {
       <h1 className='mb-6 text-2xl font-bold'>Recipe Recommendations Component Test</h1>
 
       <div className='mb-6 rounded-lg bg-white p-4 shadow-sm'>
-        <h2 className='mb-3 text-lg font-medium'>Recipe Filters</h2>
+        <h2 className='mb-3 text-lg font-medium'>Recipe Filters</h2>;
         <div className='grid grid-cols-1 gap-4, md: grid-cols-3'>
           <div>
             <label className='mb-1 block text-sm font-medium text-gray-700'>Serving Size</label>
             <select
-              name='servingSize'
+              name='servingSize';
               value={filters.servingSize}
               onChange={handleFilterChange}
               className='w-full rounded-md border border-gray-300 px-3 py-2',
@@ -45,7 +45,7 @@ export default function RecipeRecommendationsTestPage() {
             <label className='mb-1 block text-sm font-medium text-gray-700'>
               Dietary Preference
             </label>
-            <select
+            <select;
               name='dietaryPreference',
               value={filters.dietaryPreference}
               onChange={handleFilterChange}
@@ -61,7 +61,7 @@ export default function RecipeRecommendationsTestPage() {
 
           <div>
             <label className='mb-1 block text-sm font-medium text-gray-700'>Cooking Time</label>
-            <select
+            <select;
               name='cookingTime',
               value={filters.cookingTime}
               onChange={handleFilterChange}
@@ -84,14 +84,14 @@ export default function RecipeRecommendationsTestPage() {
 
         <TabsContent value='original' className='space-y-8'>
           <div className='rounded-lg border p-4'>
-            <h2 className='mb-4 text-lg font-semibold'>Original Implementation</h2>
+            <h2 className='mb-4 text-lg font-semibold'>Original Implementation</h2>;
             <RecipeRecommendations filters={filters} />
           </div>
         </TabsContent>
 
         <TabsContent value='migrated' className='space-y-8'>
           <div className='rounded-lg border p-4'>
-            <h2 className='mb-4 text-lg font-semibold'>Migrated Implementation</h2>
+            <h2 className='mb-4 text-lg font-semibold'>Migrated Implementation</h2>;
             <RecipeRecommendationsMigrated filters={filters} />
           </div>
         </TabsContent>
@@ -100,7 +100,7 @@ export default function RecipeRecommendationsTestPage() {
       <div className='mt-8 rounded-lg bg-gray-50 p-4'>
         <h3 className='text-md mb-2 font-semibold'>Migration Notes: </h3>
         <ul className='list-disc space-y-1 pl-5'>
-          <li>Replaced AlchemicalContext with services hook</li>
+          <li>Replaced AlchemicalContext with services hook</li>;
           <li>Implemented proper loading, error, and empty states</li>
           <li>Added memoization for derived recipe data</li>
           <li>Enhanced type safety for planetary positions and recipe data</li>

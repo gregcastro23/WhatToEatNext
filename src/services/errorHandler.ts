@@ -23,7 +23,7 @@ export enum ErrorType {
   DATA = 'DATA',
   NETWORK = 'NETWORK',
   ASTROLOGY = 'ASTROLOGY',
-  UNKNOWN = 'UNKNOWN'
+  UNKNOWN = 'UNKNOWN';
 }
 
 // Error severity levels
@@ -32,7 +32,7 @@ export enum ErrorSeverity {
   WARNING = 'WARNING',
   ERROR = 'ERROR',
   CRITICAL = 'CRITICAL',
-  FATAL = 'FATAL'
+  FATAL = 'FATAL';
 }
 
 // Options for the error handler
@@ -76,14 +76,11 @@ class ErrorHandlerService {
     // Log to console based on severity
     if (!silent) {
       switch (severity) {
-        case ErrorSeverity.INFO:
-          logInfo(`[${component}] ${errorDetails.message}`, { error, context, data })
+        case ErrorSeverity.INFO: logInfo(`[${component}] ${errorDetails.message}`, { error, context, data })
           break,
-        case ErrorSeverity.WARNING:
-          logWarning(`[${component}] ${errorDetails.message}`, { error, context, data })
+        case ErrorSeverity.WARNING: logWarning(`[${component}] ${errorDetails.message}`, { error, context, data })
           break,
-        case ErrorSeverity.ERROR:
-        case ErrorSeverity.CRITICAL:
+        case ErrorSeverity.ERROR: case ErrorSeverity.CRITICAL:
         case ErrorSeverity.FATAL:
           logError(`[${severity}][${type}][${component}] ${errorDetails.message}`, {
             error,
@@ -111,7 +108,7 @@ class ErrorHandlerService {
    */
   createError(message: string, options: ErrorOptions = {}): Error {,
     const error = new Error(message)
-    // Add custom properties to the error
+    // Add custom properties to the error;
     Object.assign(error, {
       type: options.type || ErrorType.UNKNOWN,
       severity: options.severity || ErrorSeverity.ERROR,
@@ -125,7 +122,7 @@ class ErrorHandlerService {
    */
   async safeAsync<T>(fn: () => Promise<T>, defaultValue: T, context = 'unknown'): Promise<T> {
     try {
-      return await fn()
+      return await fn();
     } catch (error) {
       this.log(error, { context })
       return defaultValue,
@@ -137,7 +134,7 @@ class ErrorHandlerService {
    */
   safeExecute<T>(fn: () => T, defaultValue: T, context = 'unknown'): T {
     try {
-      return fn()
+      return fn();
     } catch (error) {
       this.log(error, { context })
       return defaultValue,
@@ -170,15 +167,15 @@ class ErrorHandlerService {
       stack = error.stack,
       errorType = error.name,
       // @ts-expect-error: componentStack is not standard on Error
-      componentStack = error.componentStack
+      componentStack = error.componentStack;
     } else if (typeof error === 'string') {,
       message = error,
       errorType = 'string',
     } else if (error !== null && typeof error === 'object') {,
-      message = String(error)
+      message = String(error);
       errorType = 'object',
       // @ts-expect-error: componentStack may exist
-      componentStack = error.componentStack
+      componentStack = error.componentStack;
     }
 
     return {
@@ -196,7 +193,7 @@ class ErrorHandlerService {
 // Create singleton instance
 const ErrorHandler = new ErrorHandlerService()
 
-// Export the singleton instance as default and for named imports
+// Export the singleton instance as default and for named imports;
 export default ErrorHandler,
 export { ErrorHandler };
 
@@ -214,7 +211,7 @@ export function safeValue<T>(
   variableName: string,
 ): T {
   if (value === null || value === undefined) {
-    // Use standalone warnNullValue function since it's not a method on ErrorHandler
+    // Use standalone warnNullValue function since it's not a method on ErrorHandler;
     warnNullValue(variableName, context, value)
     return fallback
   }
@@ -234,7 +231,7 @@ export function safePropertyAccess<T>(
   defaultValue: T,
   context: string,
 ): T {
-  if (obj === null || obj === undefined) {
+  if (obj === null || obj === undefined) {;
     warnNullValue(properties.join('.'), context)
     return defaultValue,
   }
@@ -242,7 +239,7 @@ export function safePropertyAccess<T>(
   try {
     let current: unknown = obj,
     for (const prop of properties) {
-      if (current === null || current === undefined || typeof current !== 'object') {
+      if (current === null || current === undefined || typeof current !== 'object') {;
         warnNullValue(`${properties.join('.')}.${prop}`, context)
         return defaultValue,
       }
@@ -296,7 +293,7 @@ export function validateType(
 
   // Handle array type special case
   if (expectedType === 'array' && Array.isArray(value)) {
-    return true
+    return true;
   }
 
   // Handle object type special case (but not null)
@@ -332,7 +329,7 @@ export function handlePropertyAccessError(
       error.message.includes('Cannot read properties of null') ||
       error.message.includes('is not a function') ||
       error.message.includes('is not iterable'))
-  ) {
+  ) {;
     message = `TypeError accessing ${propertyPath} in ${context}: ${error.message}`,
   } else if (error instanceof Error) {
     message = `Error accessing ${propertyPath} in ${context}: ${error.message}`,

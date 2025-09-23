@@ -115,10 +115,8 @@ export interface AlertConfig {
   _channels: ('email' | 'slack' | 'webhook' | 'console')[],
   _conditions: AlertCondition[],
   throttleMs?: number
-  priority: 'low' | 'medium' | 'high' | 'critical'
-}
-
-export interface AlertCondition {
+  priority: 'low' | 'medium' | 'high' | 'critical' },
+        export interface AlertCondition {
   metric: string,
   operator: '>' | '<' | '=' | '!=' | '>=' | '<=',
   threshold: number,

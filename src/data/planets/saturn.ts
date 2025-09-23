@@ -1,7 +1,7 @@
 import { PlanetData } from './types';
 
 const saturnData: PlanetData = {
-  'Dignity Effect': {
+  'Dignity Effect': {;
     aquarius: 1,
     capricorn: 1,
     libra: 2,
@@ -22,12 +22,10 @@ const saturnData: PlanetData = {
     DistanceFromSun: '886 million miles (1.4 billion kilometers)',
     DistanceFromEarth: {
       Minimum: '746 million miles (1.2 billion kilometers)',
-      Maximum: '1 billion miles (1.7 billion kilometers)'
-    },
-    Diameter: '72,400 miles (116,500 kilometers)',
+      Maximum: '1 billion miles (1.7 billion kilometers)' },
+        Diameter: '72,400 miles (116,500 kilometers)',
     SurfaceTemperature: '-288 degrees Fahrenheit (-178 Celsius)',
-    AtmosphericComposition:
-      'Primarily hydrogen and helium with traces of ammonia, methane, and water ice',
+    AtmosphericComposition: 'Primarily hydrogen and helium with traces of ammonia, methane, and water ice',
     RotationPeriod: '10.7 Earth hours',
     OrbitPeriod: '29.5 Earth years',
     'Axial Tilt': '26.7 degrees',
@@ -37,8 +35,7 @@ const saturnData: PlanetData = {
       Surface: 'Gas giant with no solid surface, characterized by subtle bands and periodic storms',
       MagneticField: 'Strong magnetic field, about 578 times Earth\'s strength',
       Composition: 'Mostly hydrogen and helium with a rocky core',
-      NotableFeatures:
-        'Most prominent ring system in solar systemat least 82 moons, hexagonal storm at north pole'
+      NotableFeatures: 'Most prominent ring system in solar systemat least 82 moons, hexagonal storm at north pole'
     }
   },
   AstrologicalProperties: {
@@ -46,14 +43,12 @@ const saturnData: PlanetData = {
     BeneficType: 'Greater malefic',
     DualDomicile: {
       Spring: 'Aquarius (yang)',
-      Autumn: 'Capricorn (yin)'
-    },
-    HouseJoy: 12,
+      Autumn: 'Capricorn (yin)' },
+        HouseJoy: 12,
     CyclePeriod: {
       Return: '29.5 years',
-      Retrograde: '4.5 months yearly'
-    },
-    Exaltation: 'Libra',
+      Retrograde: '4.5 months yearly' },
+        Exaltation: 'Libra',
     Fall: 'Aries',
     Detriment: ['Cancer', 'Leo'],
     Keywords: [

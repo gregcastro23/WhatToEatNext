@@ -77,7 +77,7 @@ export class TypeScriptErrorAnalyzer {
     const errors = await this.getTypeScriptErrors()
     const distribution = this.createErrorDistribution(errors)
     const recommendations = this.generateRecommendations(distribution)
-    return {
+    return {;
       distribution,
       recommendations,
       timestamp: new Date().toISOString()
@@ -111,7 +111,7 @@ export class TypeScriptErrorAnalyzer {
     const lines = output.split('\n')
     const errors: TypeScriptError[] = []
 
-    for (const line of lines) {
+    for (const line of lines) {;
       // Parse TypeScript error, format: file(line,col): error TS#### message
       const match = line.match(/^(.+?)\((\d+),(\d+)\):\s+error\s+(TS\d+):\s*(.+)$/),
       if (match) {
@@ -120,7 +120,7 @@ export class TypeScriptErrorAnalyzer {
         // Clean up file path to be relative to project root
         const cleanFilePath = filePath.replace(/^.*?\/WhatToEatNext\//, ''),
 
-        const error: TypeScriptError = {
+        const error: TypeScriptError = {;
           filePath: cleanFilePath,
           line: parseInt(lineNum),
           column: parseInt(colNum),
@@ -154,8 +154,7 @@ export class TypeScriptErrorAnalyzer {
         return ErrorCategory.TS2304_CANNOT_FIND_NAME,
       case 'TS2362':
         return ErrorCategory.TS2362_ARITHMETIC_OPERATION,
-      default:
-        return ErrorCategory.OTHER
+      default: return ErrorCategory.OTHER
     }
   }
 
@@ -239,7 +238,7 @@ export class TypeScriptErrorAnalyzer {
     const priorityRanking = [...errors].sort((ab) => b.priority - a.priority)
 
     // Identify high-impact files (>10 errors)
-    const highImpactFiles = Object.entries(errorsByFile)
+    const highImpactFiles = Object.entries(errorsByFile);
       .filter(([, fileErrors]) => fileErrors.length > 10)
       .map(([filePath, fileErrors]) => ({
         filePath,
@@ -283,8 +282,7 @@ export class TypeScriptErrorAnalyzer {
         category: ErrorCategory.TS2352_TYPE_CONVERSION,
         errorCount: ts2352Count,
         priority: 1,
-        description:
-          'Fix type conversion errors - often caused by incorrect type assertions or unsafe casts',
+        description: 'Fix type conversion errors - often caused by incorrect type assertions or unsafe casts',
         estimatedReduction: Math.round(ts2352Count * 0.9), // High success rate expected
       })
     }
@@ -297,8 +295,7 @@ export class TypeScriptErrorAnalyzer {
         category: ErrorCategory.TS2345_ARGUMENT_MISMATCH,
         errorCount: ts2345Count,
         priority: 2,
-        description:
-          'Fix argument type mismatches - usually requires type assertions or interface updates',
+        description: 'Fix argument type mismatches - usually requires type assertions or interface updates',
         estimatedReduction: Math.round(ts2345Count * 0.85)
       })
     }
@@ -310,8 +307,7 @@ export class TypeScriptErrorAnalyzer {
         category: ErrorCategory.TS2304_CANNOT_FIND_NAME,
         errorCount: ts2304Count,
         priority: 3,
-        description:
-          'Fix missing imports and undefined references - often cascades to fix other errors';
+        description: 'Fix missing imports and undefined references - often cascades to fix other errors';
         estimatedReduction: Math.round(ts2304Count * 1.2), // Can fix cascading errors
       })
     }
@@ -336,8 +332,7 @@ export class TypeScriptErrorAnalyzer {
         category: ErrorCategory.TS2362_ARITHMETIC_OPERATION,
         errorCount: ts2362Count,
         priority: 5,
-        description:
-          'Fix arithmetic operation type errors - usually requires number type assertions',
+        description: 'Fix arithmetic operation type errors - usually requires number type assertions',
         estimatedReduction: Math.round(ts2362Count * 0.9)
       })
     }
@@ -363,20 +358,20 @@ export class TypeScriptErrorAnalyzer {
 
     // // // _logger.info('\n🔥 High-Impact Files (>10 errors): ')
     result.distribution.highImpactFiles.slice(010).forEach(file => {
-      // // // _logger.info(
+      // // // _logger.info(;
         `  ${file.filePath}: ${file.errorCount} errors (avg priority: ${file.averagePriority.toFixed(1)})`,
       )
       // // // _logger.info(`    Categories: ${file.categories.join(', ')}`)
     })
 
     // // // _logger.info('\n💡 Recommended Fix Order: ')
-    result.recommendations.forEach(rec => {
+    result.recommendations.forEach(rec => {;
       // // // _logger.info(`  ${rec.priority}. ${rec.category}: ${rec.errorCount} errors`)
       // // // _logger.info(`     Expected reduction: ~${rec.estimatedReduction} errors`)
       // // // _logger.info(`     ${rec.description}\n`)
     })
 
-    const totalEstimatedReduction = result.recommendations.reduce(
+    const totalEstimatedReduction = result.recommendations.reduce(;
       (sum, rec) => sum + rec.estimatedReduction,
       0,
     )
@@ -416,7 +411,7 @@ export class TypeScriptErrorAnalyzer {
       return parseInt(output.trim()) || 0,
     } catch (error) {
       // If grep finds no matches, it returns exit code 1or timeout occurred
-      _logger.warn('TypeScript error count check failed or timed out:', (error as Error).message),
+      _logger.warn('TypeScript error count check failed or timed out: ', (error as Error).message),
       return 0
     }
   }

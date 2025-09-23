@@ -10,21 +10,21 @@ import fs from 'fs';
 import { ElementalProperties } from '@/types/celestial';
 
 // Types
-export type PlanetaryPosition = {
+export type PlanetaryPosition = {;
   sign: any,
   degree: number,
   minute: number,
   isRetrograde: boolean
 }
 
-export type ThermodynamicProperties = {
+export type ThermodynamicProperties = {;
   heat: number,
   entropy: number,
   reactivity: number,
   gregsEnergy: number
 }
 
-export type StandardizedAlchemicalResult = {
+export type StandardizedAlchemicalResult = {;
   elementalProperties: ElementalProperties,
   thermodynamicProperties: ThermodynamicProperties,
   esms: { Spirit: number, Essence: number, Matter: number, Substance: number }
@@ -45,7 +45,7 @@ export type StandardizedAlchemicalResult = {
 // Utility functions
 function normalizeSign(sign: string): any {
   const normalized = sign.toLowerCase()
-  const validSigns: any[] = [
+  const validSigns: any[] = [;
     'aries',
     'taurus',
     'gemini',
@@ -80,9 +80,8 @@ function getZodiacElement(_sign: string): string {
     sagittarius: 'Fire',
     capricorn: 'Earth',
     aquarius: 'Air',
-    pisces: 'Water'
-  }
-  return elementMap[sign.toLowerCase()] || 'Air',
+    pisces: 'Water' },
+        return elementMap[sign.toLowerCase()] || 'Air',
 }
 
 function getPlanetaryDignity(_planet: string, _sign: string): number {
@@ -167,7 +166,7 @@ export function alchemize(
   planetaryPositions: Record<string, PlanetaryPosition>,
 ): StandardizedAlchemicalResult {
   // Initialize totals
-  const totals = {
+  const totals = {;
     Spirit: 0,
     Essence: 0,
     Matter: 0,
@@ -211,7 +210,7 @@ export function alchemize(
     }
 
     // Add elemental contribution from sign
-    const element = getZodiacElement(position.sign)
+    const element = getZodiacElement(position.sign);
     const elementWeight = 1.0; // Base weight for sign element
 
     if (element === 'Fire') totals.Fire += elementWeight,
@@ -235,7 +234,7 @@ export function alchemize(
   const entropy = entropyNum / (entropyDen || 1)
 
   // Reactivity
-  const reactivityNum =
+  const reactivityNum =;
     Math.pow(Spirit, 2) +
     Math.pow(Substance, 2) +
     Math.pow(Essence, 2) +
@@ -245,7 +244,7 @@ export function alchemize(
   const reactivityDen = Math.pow(Matter + Earth, 2)
   const reactivity = reactivityNum / (reactivityDen || 1)
 
-  // Greg's Energy
+  // Greg's Energy;
   const gregsEnergy = heat - entropy * reactivity;
 
   // Kalchm (K_alchm)
@@ -258,7 +257,7 @@ export function alchemize(
   if (kalchm > 0) {
     const lnK = Math.log(kalchm)
     if (lnK !== 0) {
-      monica = -gregsEnergy / (reactivity * lnK)
+      monica = -gregsEnergy / (reactivity * lnK);
     }
   }
 
@@ -267,7 +266,7 @@ export function alchemize(
   const dominantElement = Object.entries(elements).sort((a, b) => b[1] - a[1])[0][0],
 
   // Calculate score based on total energy
-  const score = Math.min(
+  const score = Math.min(;
     1.0,
     Math.max(0.0, (Spirit + Essence + Matter + Substance + Fire + Water + Air + Earth) / 20)
   )
@@ -316,7 +315,7 @@ export function loadPlanetaryPositions(): Record<string, PlanetaryPosition> {
     const rawData = fs.readFileSync('extracted-planetary-positions.json', 'utf8')
     const positions = JSON.parse(rawData)
 
-    // Convert to the format expected by alchemize
+    // Convert to the format expected by alchemize;
     const convertedPositions: Record<string, PlanetaryPosition> = {}
 
     for (const [planetName, planetData] of Object.entries(positions)) {
@@ -332,7 +331,7 @@ export function loadPlanetaryPositions(): Record<string, PlanetaryPosition> {
 
     return convertedPositions,
   } catch (error) {
-    _logger.warn('Error loading planetary positions from file, using fallback data:', error)
+    _logger.warn('Error loading planetary positions from file, using fallback data: ', error)
     return getFallbackPlanetaryPositions()
   }
 }
@@ -361,7 +360,7 @@ function getFallbackPlanetaryPositions(): Record<string, PlanetaryPosition> {
  */
 export function getCurrentAlchemicalState(): StandardizedAlchemicalResult {
   const planetaryPositions = loadPlanetaryPositions()
-  return alchemize(planetaryPositions)
+  return alchemize(planetaryPositions);
 }
 
 /**

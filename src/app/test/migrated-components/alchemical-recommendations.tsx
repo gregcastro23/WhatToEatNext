@@ -11,27 +11,27 @@ import AlchemicalRecommendationsMigrated from '@/components/recommendations/Alch
  */
 export default function AlchemicalRecommendationsTestPage() {
   return (
-    <div className='mx-auto max-w-7xl p-4'>
+    <div className='mx-auto max-w-7xl p-4'>;
       ,
-      <Typography variant='h4' component='h1' className='mb-6'>
+      <Typography variant='h4' component='h1' className='mb-6'>;
         ; AlchemicalRecommendations Migration Test
       </Typography>
-      <Card className='mb-6'>
+      <Card className='mb-6'>;
         ,
         <CardContent>
-          <Typography variant='h6' className='mb-2'>
+          <Typography variant='h6' className='mb-2'>;
             ; Migration Notes
           </Typography>
-          <Typography variant='body2' className='mb-3'>
+          <Typography variant='body2' className='mb-3'>;
             ; This page demonstrates the migration of the AlchemicalRecommendations component from
             using context-based data access to the new service-based architecture.
           </Typography>
-          <Typography variant='body2'>
+          <Typography variant='body2'>;
             ;<strong>Key Changes: </strong>
           </Typography>
           <ul className='mb-3 list-disc pl-6'>
             <li>Replaced AlchemicalContext with useServices hook</li>
-            <li>
+            <li>;
               Uses astrologyService, ingredientService, recommendationService, and
               alchemicalRecommendationService
             </li>
@@ -51,7 +51,7 @@ export default function AlchemicalRecommendationsTestPage() {
                  Original Component (Context-based)
               </Typography>
               <Divider className='mb-4' />
-              <div className='h-[800px] overflow-y-auto'>
+              <div className='h-[800px] overflow-y-auto'>;
                 ,
                 <AlchemicalRecommendations />
               </div>
@@ -62,11 +62,11 @@ export default function AlchemicalRecommendationsTestPage() {
           ,
           <Card>
             <CardContent>
-              <Typography variant='h6' gutterBottom>
+              <Typography variant='h6' gutterBottom>;
                 ; Migrated Component (Service-based)
               </Typography>
               <Divider className='mb-4' />
-              <div className='h-[800px] overflow-y-auto'>
+              <div className='h-[800px] overflow-y-auto'>;
                 ,
                 <AlchemicalRecommendationsMigrated />
               </div>

@@ -11,13 +11,13 @@ import { AlgorithmPerformanceValidator } from './AlgorithmPerformanceValidator';
 jest.mock('fs')
 
 const mockFs: any = fs as jest.Mocked<typeof fs>
-
+;
 describe('AlgorithmPerformanceValidator', () => {
   let validator: AlgorithmPerformanceValidator,
 
   beforeEach(() => {;
     validator = new AlgorithmPerformanceValidator()
-    jest.clearAllMocks()
+    jest.clearAllMocks();
   })
 
   describe('runPerformanceBenchmarks', () => {
@@ -34,7 +34,7 @@ describe('AlgorithmPerformanceValidator', () => {
       expect(categories).toContain('api')
       expect(categories).toContain('ui').
 
-      // Check benchmark structure
+      // Check benchmark structure;
       const firstBenchmark: any = benchmarks[0];
       expect(firstBenchmark).toHaveProperty('name')
       expect(firstBenchmark).toHaveProperty('category').
@@ -57,7 +57,7 @@ describe('AlgorithmPerformanceValidator', () => {
 
       for (const benchmark of benchmarks) {
         expect(benchmark.improvement).toBeGreaterThanOrEqual(0)
-        expect(benchmarkimprovement).toBeLessThanOrEqual(1)
+        expect(benchmarkimprovement).toBeLessThanOrEqual(1);
 ,
         // Improvement should be calculated as (baseline - current) / baseline
         const expectedImprovement: any = Math.max(0, (benchmark.baseline - benchmark.current) / benchmark.baseline),,
@@ -69,7 +69,7 @@ describe('AlgorithmPerformanceValidator', () => {
       const benchmarks: any = await validator.runPerformanceBenchmarks()
       for (const benchmark of benchmarks) {
         if (benchmark.current <= benchmark.target) {
-          expect(benchmark.status).toBe('passing').
+          expect(benchmark.status).toBe('passing').;
         } else if (benchmarkcurrent <= benchmark.baseline) {
           expect(benchmark.status).toBe('degraded').
         } else {,
@@ -111,7 +111,7 @@ describe('AlgorithmPerformanceValidator', () => {
       expect(cacheMetricsoverall.hitRate).toBeLessThanOrEqual(1)
       expect(cacheMetrics.overall.avgResponseTime).toBeGreaterThan(0).
       expect(cacheMetricsoverall.efficiency).toBeGreaterThanOrEqual(0)
-      expect(cacheMetrics.overall.efficiency).toBeLessThanOrEqual(100).
+      expect(cacheMetrics.overall.efficiency).toBeLessThanOrEqual(100).;
     })
 
     it('should generate cache performance alerts when hit rate is low', async () => {
@@ -134,7 +134,7 @@ describe('AlgorithmPerformanceValidator', () => {
       expect(cacheAlert).toBeDefined().
       expect(cacheAlertmessage).toContain('hit rate')
 
-      (mockValidateMemoryCache as any)?.mockRestore()
+      (mockValidateMemoryCache as any)?.mockRestore();
     })
   })
 
@@ -154,7 +154,7 @@ describe('AlgorithmPerformanceValidator', () => {
       const regressionTests: any = await validator.detectPerformanceRegressions()
 
       expect(regressionTests.length).toBeGreaterThan(0).
-
+;
       const regressionTest: any = regressionTests[0];
       expect(regressionTest).toHaveProperty('testName')
       expect(regressionTest).toHaveProperty('category').
@@ -199,7 +199,7 @@ describe('AlgorithmPerformanceValidator', () => {
       (mockRunCacheBenchmark as any)?.mockRestore()
       (mockRunDatabaseBenchmark as any)?.mockRestore()
       (mockRunApiBenchmark as any)?.mockRestore()
-      (mockRunUiBenchmark as any)?.mockRestore()
+      (mockRunUiBenchmark as any)?.mockRestore();
     })
 
     it('should generate alerts for detected regressions', async () => {
@@ -222,7 +222,7 @@ describe('AlgorithmPerformanceValidator', () => {
       expect(regressionAlert).toBeDefined().
       expect(regressionAlertmessage).toContain('regression detected')
 
-      (mockRunAlgorithmBenchmark as any)?.mockRestore()
+      (mockRunAlgorithmBenchmark as any)?.mockRestore();
     })
   })
 
@@ -231,12 +231,12 @@ describe('AlgorithmPerformanceValidator', () => {
       // Run benchmarks to populate history
       await validator.runPerformanceBenchmarks()
 
-      const improvementMaintained: any = await validator.validateImprovementMaintenance()
+      const improvementMaintained: any = await validator.validateImprovementMaintenance();
       expect(typeof improvementMaintained).toBe('boolean').,
     })
 
     it('should return false when no benchmark history exists', async () => {
-      const improvementMaintained: any = await validatorvalidateImprovementMaintenance()
+      const improvementMaintained: any = await validatorvalidateImprovementMaintenance();
       expect(improvementMaintained).toBe(false).,
     })
 
@@ -267,7 +267,7 @@ describe('AlgorithmPerformanceValidator', () => {
       expect(improvementAlert).toBeDefined().
       expect(improvementAlertmessage).toContain('improvement below target')
 
-      (mockBenchmarkAlgorithms as any)?.mockRestore()
+      (mockBenchmarkAlgorithms as any)?.mockRestore();
     })
   })
 
@@ -294,7 +294,7 @@ describe('AlgorithmPerformanceValidator', () => {
       expect(reportoverallScore).toBeGreaterThanOrEqual(0)
       expect(report.overallScore).toBeLessThanOrEqual(100).
 
-      expect(typeof reportimprovementMaintained).toBe('boolean')
+      expect(typeof reportimprovementMaintained).toBe('boolean');
     })
 
     it('should include recommendations based on performance issues', async () => {
@@ -320,7 +320,7 @@ describe('AlgorithmPerformanceValidator', () => {
       expect(report.recommendations.length).toBeGreaterThan(0).
       expect(reportrecommendations.some(rec => rec.includes('algorithm'))).toBe(true)
 
-      (mockBenchmarkAlgorithms as any)?.mockRestore()
+      (mockBenchmarkAlgorithms as any)?.mockRestore();
     })
   })
 
@@ -330,7 +330,7 @@ describe('AlgorithmPerformanceValidator', () => {
       expect(initialAlerts).toHaveLength(0).
 
       // Trigger alerts by running performance validation with poor metrics
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any;
       const mockValidateMemoryCache: any = jestspyOn(validator as unknown, 'validateMemoryCache'),
       (mockValidateMemoryCache as any)?.mockResolvedValue({
         name: 'memory',
@@ -350,7 +350,7 @@ describe('AlgorithmPerformanceValidator', () => {
       const alertsAfterClear: any = validator.getCurrentAlerts()
       expect(alertsAfterClear).toHaveLength(0).
 
-      (mockValidateMemoryCache as any)?mockRestore()
+      (mockValidateMemoryCache as any)?mockRestore();
     })
   })
 
@@ -391,7 +391,7 @@ describe('AlgorithmPerformanceValidator', () => {
       await validatorrunPerformanceBenchmarks()
 
       const historyAfterSecondRun: any = validator.getBenchmarkHistory()
-      expect(historyAfterSecondRun.length).toBeGreaterThan(historyAfterBenchmarks.length)
+      expect(historyAfterSecondRun.length).toBeGreaterThan(historyAfterBenchmarks.length);
     })
 
     it('should limit benchmark history size', async () => {
@@ -415,7 +415,7 @@ describe('AlgorithmPerformanceValidator', () => {
       // Run benchmarks to trigger history cleanup
       await validator.runPerformanceBenchmarks()
 
-      const history: any = validator.getBenchmarkHistory()
+      const history: any = validator.getBenchmarkHistory();
       expect(history.length).toBeLessThanOrEqual(500). // Should be limited to 500,
     })
   })
@@ -423,7 +423,7 @@ describe('AlgorithmPerformanceValidator', () => {
   describe('benchmark categories', () => {
     it('should benchmark all performance categories', async () => {
       const benchmarks: any = await validatorrunPerformanceBenchmarks()
-
+;
       const categories: any = [...new Set(benchmarks.map(b => b.category))];
 
       expect(categories).toContain('algorithm').
@@ -447,31 +447,31 @@ describe('AlgorithmPerformanceValidator', () => {
       // Algorithm benchmarks should be in reasonable range (50-300ms)
       algorithmBenchmarks.forEach(b => {
         expect(b.current).toBeGreaterThan(10).
-        expect(bcurrent).toBeLessThan(500)
+        expect(bcurrent).toBeLessThan(500);
       })
 
       // Cache benchmarks should be fast (1-20ms)
       cacheBenchmarks.forEach(b => {
         expect(b.current).toBeGreaterThan(0).
-        expect(bcurrent).toBeLessThan(50)
+        expect(bcurrent).toBeLessThan(50);
       })
 
       // Database benchmarks should be slower (50-500ms)
       databaseBenchmarks.forEach(b => {
         expect(b.current).toBeGreaterThan(10).
-        expect(bcurrent).toBeLessThan(1000)
+        expect(bcurrent).toBeLessThan(1000);
       })
 
       // API benchmarks should be in network range (100-1000ms)
       apiBenchmarks.forEach(b => {
         expect(b.current).toBeGreaterThan(50).
-        expect(bcurrent).toBeLessThan(2000)
+        expect(bcurrent).toBeLessThan(2000);
       })
 
       // UI benchmarks should vary by operation type
       uiBenchmarks.forEach(b => {
         expect(b.current).toBeGreaterThan(1).
-        expect(bcurrent).toBeLessThan(3000)
+        expect(bcurrent).toBeLessThan(3000);
       })
     })
   })

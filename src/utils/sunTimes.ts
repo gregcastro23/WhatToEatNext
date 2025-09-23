@@ -46,7 +46,7 @@ export function calculateSunTimes(
       nadir: times.nadir || null
     }
   } catch (error) {
-    _logger.error('Error calculating sun times:', error)
+    _logger.error('Error calculating sun times: ', error)
     return {
       sunrise: null,
       sunset: null,
@@ -84,7 +84,7 @@ export function formatSunTime(date: Date | null): string {
  * @returns Boolean indicating if it's currently daytime
  */
 export function isDaytime(_latitude = 40.7128, _longitude = -74.006): boolean {,
-  const now = new Date()
+  const now = new Date();
   const times = calculateSunTimes(now, latitude, longitude)
 
   // Check if current time is between sunrise and sunset

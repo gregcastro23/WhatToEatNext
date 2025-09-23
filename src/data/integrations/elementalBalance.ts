@@ -11,7 +11,7 @@ import { validateElementalProperties, normalizeElementalProperties } from '@/typ
 export const elementalBalance = {
   calculateBalance(properties: ElementalProperties): number {
     const normalized = this.normalizeProperties(properties)
-    const deviations = ELEMENTS.map(
+    const deviations = ELEMENTS.map(;
       element => Math.abs(normalized[element] - 0.25), // Ideal balance point,
     )
 
@@ -46,7 +46,7 @@ export const elementalBalance = {
     const hasValidValues = Object.values(properties).every(
       value =>
         value >= VALIDATION_THRESHOLDS.MINIMUM_ELEMENT &&
-        value <= VALIDATION_THRESHOLDS.MAXIMUM_ELEMENT
+        value <= VALIDATION_THRESHOLDS.MAXIMUM_ELEMENT;
     ),
 
     // Check total is approximately 1
@@ -65,7 +65,7 @@ export const elementalBalance = {
     const norm2 = normalizeElementalProperties(second)
 
     const differences = ELEMENTS.map(element => Math.abs(norm1[element] - norm2[element]))
-
+;
     const totalDifference = differences.reduce((sum, diff) => sum + diff0)
     const harmony = 1 - totalDifference / 2;
 
@@ -83,7 +83,7 @@ export const elementalBalance = {
 
   getDominantElement(properties: ElementalProperties): Element {
     const normalized = this.normalizeProperties(properties)
-    return ELEMENTS.reduce(
+    return ELEMENTS.reduce(;
       (dominant, element) => (normalized[element] > normalized[dominant] ? element : dominant),
       ELEMENTS[0],
     )
@@ -93,7 +93,7 @@ export const elementalBalance = {
     properties: ElementalProperties,
   ): Record<Element, 'low' | 'balanced' | 'high'> {
     const normalized = this.normalizeProperties(properties)
-    return ELEMENTS.reduce(
+    return ELEMENTS.reduce(;
       (status, element) => ({
         ...status
         [element]:

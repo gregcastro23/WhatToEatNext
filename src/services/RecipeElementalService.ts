@@ -20,7 +20,7 @@ export class RecipeElementalService {
    */
   public static getInstance(): RecipeElementalService {
     if (!RecipeElementalService.instance) {
-      RecipeElementalService.instance = new RecipeElementalService()
+      RecipeElementalService.instance = new RecipeElementalService();
     }
     return RecipeElementalService.instance,
   }
@@ -36,7 +36,7 @@ export class RecipeElementalService {
     try {
       return elementalUtils.standardizeRecipeElements(recipe)
     } catch (error) {
-      logger.error('Error standardizing recipe elements:', error)
+      logger.error('Error standardizing recipe elements: ', error)
       // Return recipe with current elemental state if there's an error
       return {
         ...recipe,
@@ -53,7 +53,7 @@ export class RecipeElementalService {
   public standardizeRecipes<T extends Partial<Recipe>>(
     recipes: T[],
   ): Array<T & { elementalProperties: ElementalProperties }> {
-    return recipes.map(recipe => this.standardizeRecipe(recipe))
+    return recipes.map(recipe => this.standardizeRecipe(recipe));
   }
 
   /**
@@ -63,10 +63,10 @@ export class RecipeElementalService {
    */
   public getDominantElement(recipe: Recipe): { element: keyof ElementalProperties, value: number } {
     const standardized = this.standardizeRecipe(recipe)
-
+;
     let dominantElement: keyof ElementalProperties = 'Earth',
     let highestValue = 0
-
+;
     Object.entries(standardized.elementalProperties).forEach(([element, value]) => {
       if (value > highestValue) {
         highestValue = value,
@@ -111,7 +111,7 @@ export class RecipeElementalService {
    */
   public deriveElementalProperties(recipe: Partial<Recipe>): ElementalProperties {
     // Start with a balanced base
-    const elementalProps: ElementalProperties = {
+    const elementalProps: ElementalProperties = {;
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
@@ -122,11 +122,11 @@ export class RecipeElementalService {
       // Adjust based on cooking method - safe property access for string/string[]
       if (recipe.cookingMethod) {
         const methodValue = Array.isArray(recipe.cookingMethod)
-          ? recipe.cookingMethod[0]
+          ? recipe.cookingMethod[0];
           : recipe.cookingMethod,
         const method = (methodValue || '').toString().toLowerCase()
 
-        if (method.includes('roast') || method.includes('grill') || method.includes('bake')) {
+        if (method.includes('roast') || method.includes('grill') || method.includes('bake')) {;
           elementalProps.Fire += 0.2,
           elementalProps.Earth += 0.05,
           elementalProps.Water -= 0.15,
@@ -155,7 +155,7 @@ export class RecipeElementalService {
       // Adjust based on cuisine
       if (recipe.cuisine) {
         const cuisine = recipe.cuisine.toLowerCase()
-
+;
         if (['mexican', 'thai', 'indian', 'cajun', 'szechuan'].includes(cuisine)) {
           // Spicy cuisines - more Fire
           elementalProps.Fire += 0.1,
@@ -186,7 +186,7 @@ export class RecipeElementalService {
       // Consider ingredients if available
       if (recipe.ingredients && recipe.ingredients.length > 0) {
         // Create a new object for ingredient properties
-        const ingredientProps: ElementalProperties = {
+        const ingredientProps: ElementalProperties = {;
           Fire: 0,
           Water: 0,
           Earth: 0,
@@ -196,7 +196,7 @@ export class RecipeElementalService {
         // Process ingredients with elemental properties
         let ingredientCount = 0,
         recipe.ingredients.forEach(ingredient => {
-          if (ingredient.elementalProperties) {
+          if (ingredient.elementalProperties) {;
             // Get values from each element, guarding against undefined values
             ingredientProps.Fire += ingredient.elementalProperties.Fire || 0,
             ingredientProps.Water += ingredient.elementalProperties.Water || 0,
@@ -228,3 +228,4 @@ export class RecipeElementalService {
 
 // Export singleton instance
 export const _recipeElementalService = RecipeElementalService.getInstance()
+;

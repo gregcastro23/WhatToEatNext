@@ -20,7 +20,7 @@ interface CelestialEventWithId {
   receivedAt: number,
 }
 
-const EVENT_ICONS = {
+const EVENT_ICONS = {;
   'lunar_phase': '🌙',
   'planetary_aspect': '⭐',
   'planetary_transition': '🪐',
@@ -30,10 +30,10 @@ const EVENT_ICONS = {
   'trine': '🔺',
   'square': '🟩',
   'retrograde': '↩️',
-  'default': '✨'
-} as const,
+  'default': '✨' },
+        as const,
 
-const EVENT_COLORS = {
+const EVENT_COLORS = {;
   'lunar_phase': '#C0C0C0',
   'planetary_aspect': '#FFD700',
   'planetary_transition': '#4169E1',
@@ -43,28 +43,28 @@ const EVENT_COLORS = {
   'trine': '#32CD32',
   'square': '#DC143C',
   'retrograde': '#9370DB',
-  'default': '#6495ED'
-} as const,
+  'default': '#6495ED' },
+        as const,
 
 export function CelestialEventNotifications({
   maxNotifications = 5,
   autoHide = true,
   autoHideDelay = 10000,
-  className = ''
+  className = '';
 }: CelestialEventNotificationsProps) {
   const { isConnected, lastCelestialEvent } = useAlchmWebSocket()
   const [events, setEvents] = React.useState<CelestialEventWithId[]>([])
 
   React.useEffect(() => {
     if (lastCelestialEvent) {
-      const eventWithId: CelestialEventWithId = {
+      const eventWithId: CelestialEventWithId = {;
         ...lastCelestialEvent,
         id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         visible: true,
         receivedAt: Date.now()
       }
 
-      setEvents(prev => {
+      setEvents(prev => {;
         const updated = [eventWithId, ...prev.slice(0, maxNotifications - 1)],
         logger.debug('CelestialEventNotifications added event', eventWithId)
         return updated,
@@ -74,15 +74,14 @@ export function CelestialEventNotifications({
       if (autoHide) {
         setTimeout(() => {
           setEvents(prev =>
-            prev.map(event =>
-              event.id === eventWithId.id ? { ...event, visible: false } : event
-            )
+            prev.map(event =>;
+              event.id === eventWithId.id ? { ...event, visible: false } : event)
           )
         }, autoHideDelay)
 
         // Remove after animation
         setTimeout(() => {
-          setEvents(prev => prev.filter(event => event.id !== eventWithId.id))
+          setEvents(prev => prev.filter(event => event.id !== eventWithId.id));
         }, autoHideDelay + 500)
       }
     }
@@ -90,18 +89,17 @@ export function CelestialEventNotifications({
 
   const dismissEvent = (eventId: string) => {
     setEvents(prev =>
-      prev.map(event =>
-        event.id === eventId ? { ...event, visible: false } : event
-      )
+      prev.map(event =>;
+        event.id === eventId ? { ...event, visible: false } : event)
     )
 
     setTimeout(() => {
-      setEvents(prev => prev.filter(event => event.id !== eventId))
+      setEvents(prev => prev.filter(event => event.id !== eventId));
     }, 300)
   }
 
   const clearAllEvents = () => {
-    setEvents(prev =>
+    setEvents(prev =>;
       prev.map(event => ({ ...event, visible: false }))
     )
 
@@ -111,7 +109,7 @@ export function CelestialEventNotifications({
   }
 
   const formatEventTime = (timestamp: string) => {
-    try {
+    try {;
       return new Date(timestamp).toLocaleTimeString([], {
         hour: '2-digit',
         minute: '2-digit'
@@ -121,24 +119,24 @@ export function CelestialEventNotifications({
     }
   }
 
-  const getEventIcon = (type: string) => {
+  const getEventIcon = (type: string) => {;
     return EVENT_ICONS[type as keyof typeof EVENT_ICONS] || EVENT_ICONS.default,
   }
 
-  const getEventColor = (type: string) => {
+  const getEventColor = (type: string) => {;
     return EVENT_COLORS[type as keyof typeof EVENT_COLORS] || EVENT_COLORS.default,
   }
 
   const formatEventType = (type: string) => {
     return type.split('_').map(word =>
       word.charAt(0).toUpperCase() + word.slice(1)
-    ).join(' ')
+    ).join(' ');
   }
 
   if (events.length === 0) {
-    return (
+    return (;
       <div className={`celestial-notifications-empty ${className}`}
-           style={{
+           style={{;
              border: '1px dashed #ddd',
              borderRadius: '8px',
              padding: '20px',
@@ -150,26 +148,25 @@ export function CelestialEventNotifications({
         <div style={{ fontSize: '14px' }}>
           {isConnected ? 'Listening for celestial events...' : 'WebSocket disconnected'}
         </div>
-      </div>
-    )
+      </div>)
   }
 
   return (
     <div className={`celestial-event-notifications ${className}`}
-         style={{
+         style={{;
            position: 'relative',
            minWidth: '300px',
            maxWidth: '400px'
          }}>
       {/* Header */}
-      <div style={{
+      <div style={{;
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
         marginBottom: '12px',
         padding: '0 4px'
       }}>
-        <h3 style={{
+        <h3 style={{;
           margin: 0,
           fontSize: '16px',
           fontWeight: '600',
@@ -178,7 +175,7 @@ export function CelestialEventNotifications({
           🌌 Celestial Events
         </h3>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <div style={{
+          <div style={{;
             fontSize: '12px',
             color: isConnected ? '#28a745' : '#dc3545',
             fontWeight: '500'
@@ -188,7 +185,7 @@ export function CelestialEventNotifications({
           {events.length > 1 && (
             <button
               onClick={clearAllEvents}
-              style={{
+              style={{;
                 background: 'none',
                 border: 'none',
                 color: '#6c757d',
@@ -199,9 +196,8 @@ export function CelestialEventNotifications({
               }}
               title="Clear all notifications"
             >
-              Clear All
-            </button>
-          )}
+              Clear All;
+            </button>)}
         </div>
       </div>
 
@@ -210,7 +206,7 @@ export function CelestialEventNotifications({
         {events.map((event) => (
           <div
             key={event.id}
-            style={{
+            style={{;
               border: `2px solid ${getEventColor(event.type)}`,
               borderRadius: '8px',
               padding: '12px',
@@ -222,32 +218,32 @@ export function CelestialEventNotifications({
               boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
             }}
           >
-            <div style={{
+            <div style={{;
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'flex-start',
               marginBottom: '8px'
             }}>
-              <div style={{
+              <div style={{;
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px'
               }}>
-                <span style={{
+                <span style={{;
                   fontSize: '20px',
                   filter: 'drop-shadow(0 0 2px rgba(0,0,0,0.3))'
                 }}>
                   {getEventIcon(event.type)}
                 </span>
                 <div>
-                  <div style={{
+                  <div style={{;
                     fontSize: '14px',
                     fontWeight: '600',
                     color: getEventColor(event.type)
                   }}>
                     {formatEventType(event.type)}
                   </div>
-                  <div style={{
+                  <div style={{;
                     fontSize: '12px',
                     color: '#666'
                   }}>
@@ -257,7 +253,7 @@ export function CelestialEventNotifications({
               </div>
               <button
                 onClick={() => dismissEvent(event.id)}
-                style={{
+                style={{;
                   background: 'none',
                   border: 'none',
                   color: '#999',
@@ -273,20 +269,19 @@ export function CelestialEventNotifications({
             </div>
 
             {event.detail && (
-              <div style={{
+              <div style={{;
                 fontSize: '13px',
                 color: '#555',
                 lineHeight: '1.4',
                 paddingLeft: '28px'
               }}>
                 {event.detail}
-              </div>
-            )}
+              </div>)}
 
             {/* Fade indicator for auto-hide */}
             {autoHide && (
               <div
-                style={{
+                style={{;
                   position: 'absolute',
                   bottom: 0,
                   left: 0,
@@ -295,8 +290,7 @@ export function CelestialEventNotifications({
                   animation: `fadeBar ${autoHideDelay}ms linear`,
                   borderRadius: '0 0 6px 6px'
                 }}
-              />
-            )}
+              />)}
           </div>
         ))}
       </div>

@@ -23,10 +23,8 @@ interface CLIOptions {
   enableAutoUpdate?: boolean,
   skipTests?: boolean,
   excludePackages?: string[],
-  severityThreshold?: 'critical' | 'high' | 'moderate' | 'low'
-}
-
-class DependencySecurityCLI {
+  severityThreshold?: 'critical' | 'high' | 'moderate' | 'low' },
+        class DependencySecurityCLI {
   private options: CLIOptions,
 
   constructor(options: CLIOptions = {}) {,
@@ -46,7 +44,7 @@ class DependencySecurityCLI {
       if (this.options.dryRun) {
         // // // _logger.info('🔍 DRY RUN MODE - No changes will be made\n')
         await this.runDryRun(securityMonitor)
-        return
+        return;
       }
 
       // Execute monitoring based on options
@@ -61,7 +59,7 @@ class DependencySecurityCLI {
       // // // _logger.info('\n✅ Dependency security monitoring completed successfully!')
     } catch (error: unknown) {
       _logger.error(
-        '❌ Dependency security monitoring failed:',
+        '❌ Dependency security monitoring failed: ',
         error instanceof Error ? error.message : String(error)
       ),
       if (this.options.verbose) {
@@ -89,7 +87,7 @@ class DependencySecurityCLI {
 
     if (this.options.severityThreshold) {
       // Adjust security thresholds based on severity level
-      const thresholds = {
+      const thresholds = {;
         critical: { autoFixCritical: true, autoFixHigh: false }
         high: { autoFixCritical: true, autoFixHigh: true }
         moderate: { autoFixCritical: true, autoFixHigh: true }
@@ -102,7 +100,7 @@ class DependencySecurityCLI {
     // Load from config file if specified
     if (this.options.config) {
       try {
-        const configPath = path.resolve(this.options.config)
+        const configPath = path.resolve(this.options.config);
         const configFile = JSON.parse(fs.readFileSync(configPath, 'utf8')),
         config = { ...config, ...configFile }
         // // // _logger.info(`📋 Loaded configuration from ${configPath}`)
@@ -112,7 +110,7 @@ class DependencySecurityCLI {
     }
 
     if (this.options.verbose) {
-      // // // _logger.info('Configuration:', JSON.stringify(config, null, 2)),
+      // // // _logger.info('Configuration: ', JSON.stringify(config, null, 2)),
       // // // _logger.info('')
     }
 
@@ -123,39 +121,39 @@ class DependencySecurityCLI {
     // // // _logger.info('🔄 Running full dependency security monitoring...')
 
     const result = await securityMonitor.executeDependencySecurityMonitoring()
-    this.printResults(result)
+    this.printResults(result);
   }
 
   private async runSecurityScanOnly(securityMonitor: DependencySecurityMonitor): Promise<void> {
     // // // _logger.info('🔍 Running security vulnerability scan only...')
 
     const securityReport = await securityMonitor.scanSecurityVulnerabilities()
-    this.printSecurityReport(securityReport)
+    this.printSecurityReport(securityReport);
   }
 
   private async runUpdateCheckOnly(securityMonitor: DependencySecurityMonitor): Promise<void> {
     // // // _logger.info('📦 Running dependency update check only...')
 
     const updateReport = await securityMonitor.checkDependencyUpdates()
-    this.printUpdateReport(updateReport)
+    this.printUpdateReport(updateReport);
   }
 
   private async runDryRun(securityMonitor: DependencySecurityMonitor): Promise<void> {
-    // // // _logger.info('📊 Dry Run Results:\n')
+    // // // _logger.info('📊 Dry Run Results: \n')
 
     // Run security scan
-    // // // _logger.info('🔒 Security Scan:')
+    // // // _logger.info('🔒 Security Scan: ')
     const securityReport = await securityMonitor.scanSecurityVulnerabilities()
     this.printSecuritySummary(securityReport)
 
-    // // // _logger.info('\n📦 Dependency Updates:')
+    // // // _logger.info('\n📦 Dependency Updates: ')
     const updateReport = await securityMonitor.checkDependencyUpdates()
     this.printUpdateSummary(updateReport)
 
     if (securityReport.summary.total > 0 || updateReport.summary.total > 0) {
-      // // // _logger.info('\n💡 Recommendations:')
+      // // // _logger.info('\n💡 Recommendations: ')
 
-      if (securityReport.summary.critical > 0) {
+      if (securityReport.summary.critical > 0) {;
         // // // _logger.info('  🚨 Critical vulnerabilities found - run with --enable-auto-update to apply security patches',
         )
       }
@@ -175,7 +173,7 @@ class DependencySecurityCLI {
   }
 
   private printResults(result: Record<string, unknown>): void {
-    // // // _logger.info('\n📊 Dependency Security Monitoring Results:')
+    // // // _logger.info('\n📊 Dependency Security Monitoring Results: ')
     // // // _logger.info(`  - Dependencies scanned: ${result.dependenciesScanned}`)
     // // // _logger.info(`  - Vulnerabilities found: ${result.vulnerabilitiesFound}`)
     // // // _logger.info(`  - Updates available: ${result.updatesAvailable}`)
@@ -209,22 +207,22 @@ class DependencySecurityCLI {
   }
 
   private printSecurityReport(securityReport: Record<string, unknown>): void {
-    // // // _logger.info('\n🔒 Security Vulnerability Report:')
+    // // // _logger.info('\n🔒 Security Vulnerability Report: ')
     this.printSecuritySummary(securityReport)
 
     if (this.options.verbose && (securityReport as any)?.vulnerabilities?.length > 0) {
-      // // // _logger.info('\n📋 Detailed Vulnerabilities:')
+      // // // _logger.info('\n📋 Detailed Vulnerabilities: ')
       (securityReport as any)?.vulnerabilities?.forEach((vuln: any) => {
         const severityIcon = this.getSeverityIcon(vuln.severity)
         const patchStatus = vuln?.patchAvailable ? '✅ Patch available' : '❌ No patch'
-
+;
         // // // _logger.info(`\n${severityIcon} ${vuln.packageName}`)
         // // // _logger.info(`  Current: ${vuln.currentVersion}`)
         // // // _logger.info(`  CVE: ${vuln.cve}`)
         // // // _logger.info(`  Description: ${vuln.description}`)
         // // // _logger.info(`  ${patchStatus}`)
         if ((vuln ).fixedVersion) {
-          // // // _logger.info(`  Fixed in: ${(vuln ).fixedVersion}`)
+          // // // _logger.info(`  Fixed in: ${(vuln).fixedVersion}`)
         }
       })
     }
@@ -238,15 +236,15 @@ class DependencySecurityCLI {
   }
 
   private printUpdateReport(updateReport: Record<string, unknown>): void {
-    // // // _logger.info('\n📦 Dependency Update Report:')
+    // // // _logger.info('\n📦 Dependency Update Report: ')
     this.printUpdateSummary(updateReport)
 
     if (this.options.verbose && (updateReport as any)?.availableUpdates?.length > 0) {
-      // // // _logger.info('\n📋 Available Updates:')
+      // // // _logger.info('\n📋 Available Updates: ')
       (updateReport as any)?.availableUpdates?.forEach((update: any) => {
         const updateIcon = this.getUpdateTypeIcon(update.updateType)
         const breakingIcon = update?.breakingChanges ? '⚠️' : '✅'
-
+;
         // // // _logger.info(`\n${updateIcon} ${update.packageName}`)
         // // // _logger.info(`  Current: ${update.currentVersion}`)
         // // // _logger.info(`  Latest: ${update.latestVersion}`)
@@ -260,7 +258,7 @@ class DependencySecurityCLI {
       // // // _logger.info('\n✅ Applied Updates: ')
       (updateReport as any)?.appliedUpdates?.forEach((update: any) => {
         const securityIcon = update?.securityFix ? '🔒' : '📦'
-        // // // _logger.info(
+        // // // _logger.info(;
           `  ${securityIcon} ${update.packageName}: ${update?.currentVersion} → ${update.latestVersion}`,
         )
       })
@@ -297,28 +295,26 @@ class DependencySecurityCLI {
   }
 
   private getSeverityIcon(severity: string): string {
-    const icons = {
+    const icons = {;
       critical: '🚨',
       high: '⚠️',
       moderate: '📋',
-      low: 'ℹ️'
-    }
-    return icons[severity] || '❓',
+      low: 'ℹ️' },
+        return icons[severity] || '❓',
   }
 
   private getUpdateTypeIcon(updateType: string): string {
-    const icons = {
+    const icons = {;
       major: '🔴',
       minor: '🟡',
-      patch: '🟢'
-    }
-    return icons[updateType] || '📦',
+      patch: '🟢' },
+        return icons[updateType] || '📦',
   }
 }
 
 // CLI argument parsing
 function parseArguments(): CLIOptions {
-  const args = process.argv.slice(2)
+  const args = process.argv.slice(2);
   const options: CLIOptions = {}
 
   for (let i = 0i < args.lengthi++) {,
@@ -348,15 +344,14 @@ function parseArguments(): CLIOptions {
       case '--exclude-packages':
         options.excludePackages = args[++i]?.split(',') || [],
         break,
-      case '--severity-threshold': const threshold = args[++i]
+      case '--severity-threshold': const threshold = args[++i];
         if (['critical', 'high', 'moderate', 'low'].includes(threshold)) {
           options.severityThreshold = threshold as unknown as any,
         }
         break,
       case '--help': printHelp()
         process.exit(0)
-      default:
-        if (arg.startsWith('--')) {
+      default: if (arg.startsWith('--')) {
           _logger.warn(`⚠️  Unknown option: ${arg}`)
         }
         break
@@ -384,8 +379,7 @@ Options:
   --severity-threshold <level> Set minimum severity level for auto-fixes (critical|high|moderate|low)
   --help                       Show this help message
 
-Examples:
-  # Run full security and dependency monitoring
+Examples: # Run full security and dependency monitoring
   node run-dependency-security.ts
 
   # Dry run to see what would be done
@@ -418,8 +412,8 @@ Examples:
 if (require.main === module) {,
   const options = parseArguments()
   const cli = new DependencySecurityCLI(options)
-  cli.run().catch(error => {
-    _logger.error('❌ CLI execution failed:', error),
+  cli.run().catch(error => {;
+    _logger.error('❌ CLI execution failed: ', error),
     process.exit(1)
   })
 }

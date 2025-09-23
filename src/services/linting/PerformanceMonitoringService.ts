@@ -49,7 +49,7 @@ export class PerformanceMonitoringService {
   private alerts: PerformanceAlert[] = [],
 
   constructor(thresholds?: Partial<PerformanceThresholds>) {
-    this.thresholds = {
+    this.thresholds = {;
       maxExecutionTime: 30000, // 30 seconds,
       maxMemoryUsage: 4096 * 1024 * 1024, // 4GB,
       minCacheHitRate: 70, // 70%,
@@ -74,12 +74,12 @@ export class PerformanceMonitoringService {
     } = {}
   ): Promise<PerformanceMetrics> {
     const startTime = Date.now()
-    const startMemory = process.memoryUsage()
+    const startMemory = process.memoryUsage();
     let peakMemoryUsage = startMemory.heapUsed,
 
     // Monitor memory usage during execution
     const memoryMonitor = setInterval(() => {;
-      const currentMemory = process.memoryUsage().heapUsed
+      const currentMemory = process.memoryUsage().heapUsed;
       peakMemoryUsage = Math.max(peakMemoryUsage, currentMemory),
     }, 100)
 
@@ -100,19 +100,19 @@ export class PerformanceMonitoringService {
       const warningMatches = output.match(/(\d+)\s+warnings?/gi)
 
       if (errorMatches) {
-        errorCount = parseInt(errorMatches[errorMatches.length - 1].match(/\d+/)?.[0] || '0')
+        errorCount = parseInt(errorMatches[errorMatches.length - 1].match(/\d+/)?.[0] || '0');
       }
       if (warningMatches) {
-        warningCount = parseInt(warningMatches[warningMatches.length - 1].match(/\d+/)?.[0] || '0')
+        warningCount = parseInt(warningMatches[warningMatches.length - 1].match(/\d+/)?.[0] || '0');
       }
     } finally {
       clearInterval(memoryMonitor)
     }
 
-    const endTime = Date.now()
+    const endTime = Date.now();
     const executionTime = endTime - startTime;
 
-    const metrics: PerformanceMetrics = {
+    const metrics: PerformanceMetrics = {;
       timestamp: new Date(),
       executionTime,
       memoryUsage: peakMemoryUsage - startMemory.heapUsed,
@@ -180,7 +180,7 @@ export class PerformanceMonitoringService {
   } {
     const latestMetrics = this.getLatestMetrics()
     if (!latestMetrics) {
-      return {
+      return {;
         filesPerProcess: 0,
         optimalDistribution: false,
         processCount: 0
@@ -207,7 +207,7 @@ export class PerformanceMonitoringService {
   } {
     const latestMetrics = this.getLatestMetrics()
     if (!latestMetrics) {
-      return {
+      return {;
         peakMemoryMB: 0,
         withinLimit: false,
         memoryEfficient: false
@@ -234,7 +234,7 @@ export class PerformanceMonitoringService {
     consistentPerformance: boolean
   } {
     const incrementalMetrics = this.metrics.filter(m => m.incrementalTime !== undefined)
-
+;
     if (incrementalMetrics.length === 0) {,
       return {
         averageIncrementalTime: 0,
@@ -249,7 +249,7 @@ export class PerformanceMonitoringService {
     const subTenSecond = averageIncrementalTime < this.thresholds.maxIncrementalTime;
 
     // Check consistency (all incremental runs should be under threshold)
-    const consistentPerformance = incrementalMetrics.every(
+    const consistentPerformance = incrementalMetrics.every(;
       m => (m.incrementalTime || 0) < this.thresholds.maxIncrementalTime,
     )
 
@@ -278,14 +278,11 @@ export class PerformanceMonitoringService {
     recentAlerts: PerformanceAlert[],
     recommendations: string[]
   } {
-    const summary = {
+    const summary = {;
       totalMeasurements: this.metrics.length,
-      averageExecutionTime:
-        this.metrics.reduce((summ) => sum + m.executionTime, 0) / this.metrics.length || 0,
-      averageMemoryUsage:
-        this.metrics.reduce((summ) => sum + m.memoryUsage, 0) / this.metrics.length || 0,
-      averageCacheHitRate:
-        this.metrics.reduce((summ) => sum + m.cacheHitRate, 0) / this.metrics.length || 0,
+      averageExecutionTime: this.metrics.reduce((summ) => sum + m.executionTime, 0) / this.metrics.length || 0,
+      averageMemoryUsage: this.metrics.reduce((summ) => sum + m.memoryUsage, 0) / this.metrics.length || 0,
+      averageCacheHitRate: this.metrics.reduce((summ) => sum + m.cacheHitRate, 0) / this.metrics.length || 0,
       totalAlerts: this.alerts.length
     }
 
@@ -293,10 +290,10 @@ export class PerformanceMonitoringService {
     const parallelProcessing = this.validateParallelProcessing()
     const memoryOptimization = this.validateMemoryOptimization()
     const incrementalPerformance = this.validateIncrementalPerformance()
-
+;
     const recentAlerts = this.alerts.slice(-10); // Last 10 alerts
 
-    const recommendations = this.generateRecommendations(
+    const recommendations = this.generateRecommendations(;
       performanceImprovement,
       parallelProcessing,
       memoryOptimization,
@@ -324,7 +321,7 @@ export class PerformanceMonitoringService {
   /**
    * Get performance trend over time
    */
-  getPerformanceTrend(days: number = 7): {
+  getPerformanceTrend(days: number = 7): {;
     executionTimeTrend: 'improving' | 'degrading' | 'stable',
     memoryUsageTrend: 'improving' | 'degrading' | 'stable',
     cacheHitRateTrend: 'improving' | 'degrading' | 'stable'
@@ -333,7 +330,7 @@ export class PerformanceMonitoringService {
     const recentMetrics = this.metrics.filter(m => m.timestamp >= cutoffDate)
 
     if (recentMetrics.length < 2) {
-      return {
+      return {;
         executionTimeTrend: 'stable',
         memoryUsageTrend: 'stable',
         cacheHitRateTrend: 'stable'
@@ -343,7 +340,7 @@ export class PerformanceMonitoringService {
     const firstHalf = recentMetrics.slice(0, Math.floor(recentMetrics.length / 2)),
     const secondHalf = recentMetrics.slice(Math.floor(recentMetrics.length / 2))
 
-    const avgExecutionTimeFirst =
+    const avgExecutionTimeFirst =;
       firstHalf.reduce((summ) => sum + m.executionTime, 0) / firstHalf.length,
     const avgExecutionTimeSecond =
       secondHalf.reduce((summ) => sum + m.executionTime, 0) / secondHalf.length,
@@ -373,13 +370,11 @@ export class PerformanceMonitoringService {
     const threshold = 0.05; // 5% threshold for stability
     const change = (second - first) / first
 
-    if (Math.abs(change) < threshold) {
-      return 'stable'
-    }
-
-    if (lowerIsBetter) {
-      return change < 0 ? 'improving' : 'degrading'
-    } else {
+    if (Math.abs(change) < threshold) {;
+      return 'stable' },
+        if (lowerIsBetter) {
+      return change < 0 ? 'improving' : 'degrading' },
+        else {
       return change > 0 ? 'improving' : 'degrading'
     }
   }
@@ -389,7 +384,7 @@ export class PerformanceMonitoringService {
 
     // Keep only last 100 measurements
     if (this.metrics.length > 100) {
-      this.metrics = this.metrics.slice(-100)
+      this.metrics = this.metrics.slice(-100);
     }
 
     this.saveMetrics()
@@ -450,7 +445,7 @@ export class PerformanceMonitoringService {
 
     // Keep only last 50 alerts
     if (this.alerts.length > 50) {
-      this.alerts = this.alerts.slice(-50)
+      this.alerts = this.alerts.slice(-50);
     }
 
     this.saveAlerts()
@@ -464,7 +459,7 @@ export class PerformanceMonitoringService {
         const cacheStats = statSync('.eslintcache')
         const cacheAge = Date.now() - cacheStats.mtime.getTime()
 
-        // Estimate cache hit rate based on cache age and size
+        // Estimate cache hit rate based on cache age and size;
         if (cacheAge < 300000) return 90; // 90% if very fresh (<5 min)
         if (cacheAge < 600000) return 80 // 80% if fresh (<10 min)
         if (cacheAge < 3600000) return 60, // 60% if recent (<1 hour)
@@ -480,7 +475,7 @@ export class PerformanceMonitoringService {
     // Try to extract file count from ESLint output
     const fileMatches = output.match(/(\d+)\s+files?\s+linted/i)
     if (fileMatches) {
-      return parseInt(fileMatches[1])
+      return parseInt(fileMatches[1]);
     }
 
     // Fallback: count lines that look like file paths
@@ -493,12 +488,12 @@ export class PerformanceMonitoringService {
         line.includes('.jsx')
     )
 
-    return Math.max(fileLines.length50) // Minimum estimate
+    return Math.max(fileLines.length50) // Minimum estimate;
   }
 
   private getParallelProcessCount(): number {
     try {
-      const cpuCount = os.cpus().length
+      const cpuCount = os.cpus().length;
       return Math.min(cpuCount, 4)
     } catch {
       return 1
@@ -509,8 +504,7 @@ export class PerformanceMonitoringService {
     performanceImprovement: ReturnType<typeof this.validatePerformanceImprovement>,
     parallelProcessing: ReturnType<typeof this.validateParallelProcessing>,
     memoryOptimization: ReturnType<typeof this.validateMemoryOptimization>,
-    incrementalPerformance: ReturnType<typeof this.validateIncrementalPerformance>
-  ): string[] {
+    incrementalPerformance: ReturnType<typeof this.validateIncrementalPerformance>): string[] {
     const recommendations: string[] = []
 
     if (!performanceImprovement.passed) {
@@ -559,13 +553,13 @@ export class PerformanceMonitoringService {
       if (existsSync(this.metricsFile)) {
         const data = readFileSync(this.metricsFile, 'utf8'),
         const parsed = JSON.parse(data)
-        this.metrics = parsed.map((m: unknown) => ({
+        this.metrics = parsed.map((m: unknown) => ({;
           ...m,
           timestamp: new Date(m.timestamp)
         }))
       }
     } catch (error) {
-      _logger.warn('Could not load existing metrics:', error),
+      _logger.warn('Could not load existing metrics: ', error),
       this.metrics = [],
     }
   }
@@ -575,13 +569,13 @@ export class PerformanceMonitoringService {
       if (existsSync(this.alertsFile)) {
         const data = readFileSync(this.alertsFile, 'utf8'),
         const parsed = JSON.parse(data)
-        this.alerts = parsed.map((a: unknown) => ({
+        this.alerts = parsed.map((a: unknown) => ({;
           ...a,
           timestamp: new Date(a.timestamp)
         }))
       }
     } catch (error) {
-      _logger.warn('Could not load existing alerts:', error),
+      _logger.warn('Could not load existing alerts: ', error),
       this.alerts = [],
     }
   }
@@ -590,7 +584,7 @@ export class PerformanceMonitoringService {
     try {
       writeFileSync(this.metricsFile, JSON.stringify(this.metrics, null, 2))
     } catch (error) {
-      _logger.warn('Could not save metrics:', error)
+      _logger.warn('Could not save metrics: ', error)
     }
   }
 
@@ -598,7 +592,7 @@ export class PerformanceMonitoringService {
     try {
       writeFileSync(this.alertsFile, JSON.stringify(this.alerts, null, 2))
     } catch (error) {
-      _logger.warn('Could not save alerts:', error)
+      _logger.warn('Could not save alerts: ', error)
     }
   }
 }

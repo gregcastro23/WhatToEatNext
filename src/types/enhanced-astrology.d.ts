@@ -98,8 +98,7 @@ declare global {
       /** Dominant element based on current positions */
       dominantElement: Element,
       /** Current lunar phase */
-      lunarPhase:
-        | 'new'
+      lunarPhase: | 'new'
         | 'waxing_crescent'
         | 'first_quarter'
         | 'waxing_gibbous'

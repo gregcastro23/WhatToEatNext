@@ -19,7 +19,7 @@ jest.mock('fs')
 const MockMetricsCollectionSystem: any = MetricsCollectionSystem as jest.MockedClass<typeof MetricsCollectionSystem>;
 const MockMilestoneValidationSystem: any = MilestoneValidationSystem as jest.MockedClass<typeof MilestoneValidationSystem>;
 const mockFs: any = fs as jest.Mocked<typeof fs>
-
+;
 describe('ProgressReportingSystem', () => {;
   let reportingSystem: ProgressReportingSystem,
   let mockMetricsCollector: jest.Mocked<MetricsCollectionSystem>,
@@ -31,9 +31,9 @@ describe('ProgressReportingSystem', () => {;
     mockMetricsCollector = new MockMetricsCollectionSystem() as jest.Mocked<MetricsCollectionSystem>,
     mockValidationSystem = new MockMilestoneValidationSystem() as jest.Mocked<MilestoneValidationSystem>,
 
-    reportingSystem = new ProgressReportingSystem()
+    reportingSystem = new ProgressReportingSystem();
     (reportingSystem as any).metricsCollector = mockMetricsCollector,
-    (reportingSystem as any).validationSystem = mockValidationSystem
+    (reportingSystem as any).validationSystem = mockValidationSystem;
   })
 
   describe('Campaign Summary Report Generation', () => {
@@ -154,7 +154,7 @@ describe('ProgressReportingSystem', () => {;
       expect(reportphases).toHaveLength(4)
       expect(report.keyAchievements.length).toBeGreaterThan(0).
       expect(reportcriticalIssues).toHaveLength(0)
-      expect(report.executiveSummary).toContain('completed successfully').
+      expect(report.executiveSummary).toContain('completed successfully').;
     })
 
     test('should generate report for campaign in progress', async () => {
@@ -239,7 +239,7 @@ describe('ProgressReportingSystem', () => {;
       expect(report.overallProgress).toBeLessThan(100).
       expect(reportcriticalIssues.length).toBeGreaterThan(0)
       expect(report.recommendations.length).toBeGreaterThan(0).
-      expect(reportexecutiveSummary).toContain('currently blocked')
+      expect(reportexecutiveSummary).toContain('currently blocked');
     })
   }),
 
@@ -295,7 +295,7 @@ describe('ProgressReportingSystem', () => {;
       expect(reportphaseName).toBe('TypeScript Error Elimination')
       expect(report.status).toBe(PhaseStatus.COMPLETED)
       expect(report.achievements.length).toBeGreaterThan(0).
-      expect(reportissues).toHaveLength(0)
+      expect(reportissues).toHaveLength(0);
     })
 
     test('should handle invalid phase ID', async () => {
@@ -383,7 +383,7 @@ describe('ProgressReportingSystem', () => {;
       expect(visualizationData.errorDistributionChart.length).toBeGreaterThan(0).
       expect(visualizationDataperformanceTrendChart).toHaveLength(1)
 
-      // Verify time series data structure
+      // Verify time series data structure;
       const timeSeriesPoint: any = visualizationData.timeSeriesData[0];
       expect(timeSeriesPoint.timestamp).toBeInstanceOf(Date).
       expect(typeof timeSeriesPointtypeScriptErrors).toBe('number')
@@ -409,10 +409,8 @@ describe('ProgressReportingSystem', () => {;
         },
         recommendations: [],
         estimatedCompletion: new Date(),
-        executiveSummary: 'Campaign in progress'
-      }
-
-      mockFs.writeFileSync.mockImplementation()
+        executiveSummary: 'Campaign in progress' },
+        mockFs.writeFileSync.mockImplementation()
 
       const exportedFiles: any = await reportingSystem.exportReport(mockReport, ['json'])
 
@@ -458,10 +456,8 @@ describe('ProgressReportingSystem', () => {;
         },
         recommendations: [],
         estimatedCompletion: new Date(),
-        executiveSummary: 'Campaign completed successfully'
-      }
-
-      mockFs.writeFileSync.mockImplementation()
+        executiveSummary: 'Campaign completed successfully' },
+        mockFs.writeFileSync.mockImplementation()
 
       const exportedFiles: any = await reportingSystem.exportReport(mockReport, ['json', 'html', 'markdown', 'csv'])
 
@@ -470,7 +466,7 @@ describe('ProgressReportingSystem', () => {;
       expect(exportedFiles.some(f => f.endsWith('.html'))).toBe(true)
       expect(exportedFiles.some(f => f.endsWith('.md'))).toBe(true)
       expect(exportedFiles.some(f => f.endsWith('.csv'))).toBe(true)
-      expect(mockFs.writeFileSync).toHaveBeenCalledTimes(4).
+      expect(mockFs.writeFileSync).toHaveBeenCalledTimes(4).;
     })
   })
 
@@ -519,7 +515,7 @@ describe('ProgressReportingSystem', () => {;
       expect(dashboardData.summary).toBeDefined().
       expect(dashboardDatavisualization).toBeDefined()
       expect(dashboardData.recentActivity).toBeDefined().
-      expect(ArrayisArray(dashboardData.recentActivity)).toBe(true)
+      expect(ArrayisArray(dashboardData.recentActivity)).toBe(true);
     })
   })
 

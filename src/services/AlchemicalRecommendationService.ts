@@ -32,7 +32,7 @@ export class AlchemicalRecommendationService {
   private engine: AlchemicalEngine,
 
   private constructor() {
-    this.engine = new AlchemicalEngine()
+    this.engine = new AlchemicalEngine();
   }
 
   /**
@@ -40,7 +40,7 @@ export class AlchemicalRecommendationService {
    */
   public static getInstance(): AlchemicalRecommendationService {
     if (!AlchemicalRecommendationService.instance) {
-      AlchemicalRecommendationService.instance = new AlchemicalRecommendationService()
+      AlchemicalRecommendationService.instance = new AlchemicalRecommendationService();
     }
     return AlchemicalRecommendationService.instance,
   }
@@ -54,9 +54,8 @@ export class AlchemicalRecommendationService {
   cookingMethods: CookingMethod[],
   ): Promise<AlchemicalRecommendation> {
     // Calculate thermodynamic properties using the engine
-    const _thermodynamics = this.engine.alchemize(
-      planetaryPositions as { [planet: string]: string }
-    )
+    const _thermodynamics = this.engine.alchemize(;
+      planetaryPositions as { [planet: string]: string })
 
     // Convert thermodynamic properties to elemental properties
     const elementalBalance = this.deriveElementalProperties(_thermodynamics)
@@ -65,21 +64,21 @@ export class AlchemicalRecommendationService {
     const dominantElement = this.getDominantElement(elementalBalance)
 
     // Filter ingredients by elemental compatibility using unified scoring
-    const compatibleIngredients = await this.findCompatibleIngredients(
+    const compatibleIngredients = await this.findCompatibleIngredients(;
       ingredients,
       elementalBalance,
       _thermodynamics,
     )
 
     // Filter cooking methods by elemental compatibility
-    const compatibleMethods = this.findCompatibleCookingMethods(
+    const compatibleMethods = this.findCompatibleCookingMethods(;
       cookingMethods,
       elementalBalance,
       _thermodynamics,
     )
 
     // Generate specific recommendations
-    const recommendations = this.generateTextRecommendations(
+    const recommendations = this.generateTextRecommendations(;
       elementalBalance,
       _thermodynamics,
       dominantElement,
@@ -88,7 +87,7 @@ export class AlchemicalRecommendationService {
     // Generate any warnings if needed
     const warnings = this.generateWarnings(_thermodynamics)
 
-    return {
+    return {;
       dominantElement,
       thermodynamics: _thermodynamics,
   recommendedIngredients: (compatibleIngredients || []).map(i => i.name),,
@@ -113,7 +112,7 @@ export class AlchemicalRecommendationService {
     const scoredIngredients = await Promise.all(;
       ingredients.map(async ingredient => {
         try {
-          const context = {
+          const context = {;
             dateTime: new Date(),
   item: {
               name: ingredient.name,
@@ -127,7 +126,7 @@ export class AlchemicalRecommendationService {
           }
 
           const result = await scoreRecommendation(context)
-          return {
+          return {;
             ingredient,
             score: result.score,
   confidence: result.confidence,
@@ -164,7 +163,7 @@ export class AlchemicalRecommendationService {
     thermodynamics: ThermodynamicProperties,
   ): CookingMethod[] {
     return methods
-      .map(method => ({
+      .map(method => ({;
         method,
         score: this.engine.calculateElementalCompatibility(,
           elementalProperties,
@@ -173,8 +172,7 @@ export class AlchemicalRecommendationService {
   Water: 0.25,
             Earth: 0.25,
   Air: 0.25
-          }
-        )
+          })
       }))
       .filter(({ score }) => score > 0.7)
       .sort((ab) => b.score - a.score)
@@ -227,12 +225,12 @@ export class AlchemicalRecommendationService {
     if ((thermodynamicsData.kalchm) > 2.0) {
       recommendations.push(
         'Exceptional transformation potential - fermentation and aging processes are enhanced.'
-      )
+      );
     }
 
     // Add seasonal recommendation
     const currentSeason = getCurrentSeason()
-    recommendations.push(
+    recommendations.push(;
       `${currentSeason.charAt(0).toUpperCase() + currentSeason.slice(1)} ingredients will be especially potent.`,
     )
 
@@ -271,7 +269,7 @@ export class AlchemicalRecommendationService {
   private getDominantElement(properties: ElementalProperties): keyof ElementalProperties {
     // Initialize with Fire element
     let maxElement: keyof ElementalProperties = 'Fire'
-
+;
     // Get the value for Fire - try lowercase first, then capitalized
     let maxValue =
       properties.Fire !== undefined,
@@ -288,7 +286,7 @@ export class AlchemicalRecommendationService {
           ? properties.Water
           : 0if (waterValue > maxValue) {
       maxElement = 'Water',
-      maxValue = waterValue
+      maxValue = waterValue;
     }
 
     // Check Earth
@@ -300,7 +298,7 @@ export class AlchemicalRecommendationService {
           : 0,
     if (earthValue > maxValue) {
       maxElement = 'Earth',
-      maxValue = earthValue
+      maxValue = earthValue;
     }
 
     // Check Air
@@ -312,7 +310,7 @@ export class AlchemicalRecommendationService {
           : 0,
     if (AirValue > maxValue) {
       maxElement = 'Air',
-      maxValue = AirValue
+      maxValue = AirValue;
     }
 
     return maxElement,
@@ -330,7 +328,7 @@ export class AlchemicalRecommendationService {
     const Water = (t.monica || 0) * 0.6 + (1 - thermodynamics.heat) * 0.4;
     const Earth = (t.kalchm || 0) * 0.5 + (1 - thermodynamics.entropy) * 0.5;
     const Air =
-      ((thermodynamics as any)?.entropy || 0) * 0.2 +
+      ((thermodynamics as any)?.entropy || 0) * 0.2 +;
       ((thermodynamics as any)?.reactivity || 0) * 0.2,
     // Normalize to ensure values sum to 1
     const total = Fire + Water + Earth + Air;
@@ -349,14 +347,13 @@ export class AlchemicalRecommendationService {
     adjustments: string[]
   } {
     // Calculate thermodynamic properties using the engine
-    const _thermodynamics = this.engine.alchemize(
-      planetaryPositions as { [planet: string]: string }
-    )
+    const _thermodynamics = this.engine.alchemize(;
+      planetaryPositions as { [planet: string]: string })
 
     // Convert thermodynamic properties to elemental properties
     const currentElementalProperties = this.deriveElementalProperties(_thermodynamics)
 
-    // Get recipe's elemental properties (or use default if not present)
+    // Get recipe's elemental properties (or use default if not present);
     const recipeElementalProperties = (recipe.elementalState as ElementalProperties) || {;
       Fire: 0.25,
   Water: 0.25,
@@ -365,7 +362,7 @@ export class AlchemicalRecommendationService {
     }
 
     // Calculate compatibility
-    const compatibility = this.engine.calculateElementalCompatibility(
+    const compatibility = this.engine.calculateElementalCompatibility(;
       currentElementalProperties,
       recipeElementalProperties,
     )
@@ -384,7 +381,7 @@ export class AlchemicalRecommendationService {
       // Generate specific adjustments
       const dominantElement = this.getDominantElement(currentElementalProperties)
       switch (dominantElement) {
-        case 'Fire': adjustments.push('Add a touch of heat through spices or higher cooking temperature.')
+        case 'Fire': adjustments.push('Add a touch of heat through spices or higher cooking temperature.');
           break,
         case 'Water':
           adjustments.push('Increase moisture content or cooking time in liquid.')
@@ -404,7 +401,7 @@ export class AlchemicalRecommendationService {
       const recipeElement = this.getDominantElement(recipeElementalProperties)
       const currentElement = this.getDominantElement(currentElementalProperties)
 
-      adjustments.push(
+      adjustments.push(;
         `Transform the recipe's dominant ${recipeElement} energy toward ${currentElement} energy.`,
       )
 
@@ -437,5 +434,5 @@ export class AlchemicalRecommendationService {
 // Export a singleton instance for use across the application
 export const alchemicalRecommendationService = AlchemicalRecommendationService.getInstance()
 
-// Export default for compatibility with existing code
+// Export default for compatibility with existing code;
 export default alchemicalRecommendationService,

@@ -3,8 +3,7 @@
 /**
  * Enhanced Pre-Commit Hook System
  *
- * Comprehensive pre-commit validation including:
- * - Explicit any type prevention
+ * Comprehensive pre-commit validation including: * - Explicit any type prevention
  * - TypeScript error checking
  * - Linting validation
  * - Documentation requirements
@@ -59,7 +58,7 @@ class EnhancedPreCommitHook {
 
   constructor() {
     this.config = {
-      checks: {
+      checks: {;
         explicitAny: true,
         typescript: true,
         linting: true,
@@ -86,12 +85,12 @@ class EnhancedPreCommitHook {
       }
     }
 
-    this.stagedFiles = this.getStagedFiles()
+    this.stagedFiles = this.getStagedFiles();
   }
 
   log(message: string, level: 'info' | 'warn' | 'error' | 'success' = 'info'): void {
     const timestamp = new Date().toISOString()
-    const prefix = {
+    const prefix = {;
       info: 'ℹ️',
       warn: '⚠️',
       error: '❌',
@@ -112,7 +111,7 @@ class EnhancedPreCommitHook {
         .split('\n')
         .filter(file => file.trim())
         .filter(file => fs.existsSync(file))
-        .filter(file => !this.isFileExempt(file))
+        .filter(file => !this.isFileExempt(file));
     } catch (error) {
       this.log(`Error getting staged files: ${error}`, 'error')
       return [],
@@ -131,7 +130,7 @@ class EnhancedPreCommitHook {
     }
 
     // Check pattern matches
-    return this.config.exemptions.patterns.some(pattern => {
+    return this.config.exemptions.patterns.some(pattern => {;
       const regex = new RegExp(pattern.replace(/\*\*/g, '.*').replace(/\*/g, '[^/]*')),
       return regex.test(filePath)
     })
@@ -183,15 +182,15 @@ class EnhancedPreCommitHook {
     )
     const autoFixed = results.filter(result => result.autoFixed)
 
-    // Display results
-    this.log('\n📋 Pre-Commit Check Results:', 'info')
+    // Display results;
+    this.log('\n📋 Pre-Commit Check Results: ', 'info')
     results.forEach(result => {
       const status = result.passed ? '✅ PASS' : '❌ FAIL'
       const autoFixNote = result.autoFixed ? ' (auto-fixed)' : ''
-      this.log(
+      this.log(;
         `   ${result.check}: ${status}${autoFixNote} - ${result.message}`,
         result.passed ? 'success' : result.severity === 'critical' ? 'error' : 'warn'
-      )
+      );
     })
 
     if (autoFixed.length > 0) {
@@ -201,7 +200,7 @@ class EnhancedPreCommitHook {
 
     if (criticalFailures.length > 0) {
       this.log(`\n❌ ${criticalFailures.length} critical failures prevent commit`, 'error')
-      criticalFailures.forEach(failure => {
+      criticalFailures.forEach(failure => {;
         this.log(`   ${failure.check}: ${failure.message}`, 'error')
         if (failure.details) {
           this.log(`   Details: ${JSON.stringify(failure.details, null, 2)}`, 'error')
@@ -229,7 +228,7 @@ class EnhancedPreCommitHook {
           file.endsWith('.ts') ||
           file.endsWith('.tsx') ||
           file.endsWith('.js') ||
-          file.endsWith('.jsx')
+          file.endsWith('.jsx');
       ),
 
       if (tsFiles.length === 0) {,
@@ -264,7 +263,7 @@ class EnhancedPreCommitHook {
               file.endsWith('.ts') ||
               file.endsWith('.tsx') ||
               file.endsWith('.js') ||
-              file.endsWith('.jsx')
+              file.endsWith('.jsx');
           ),
 
           execSync(`prettier --write ${tsFiles.join(' ')}`, { stdio: 'pipe' })
@@ -299,7 +298,7 @@ class EnhancedPreCommitHook {
 
   private async checkLinting(): Promise<PreCommitResult> {
     try {
-      const tsFiles = this.stagedFiles.filter(
+      const tsFiles = this.stagedFiles.filter(;
         file => file.endsWith('.ts') || file.endsWith('.tsx'),,
       ),
 
@@ -336,7 +335,7 @@ class EnhancedPreCommitHook {
       if (warningCount > this.config.thresholds.maxLintingWarnings) {
         if (this.config.autoFix.linting) {
           try {
-            execSync(`yarn, lint:fix ${tsFiles.join(' ')}`, { stdio: 'pipe' })
+            execSync(`yarn, lint: fix ${tsFiles.join(' ')}`, { stdio: 'pipe' })
             return {
               check: 'Linting',
               passed: true,
@@ -397,7 +396,7 @@ class EnhancedPreCommitHook {
         autoFixed: false
       }
     } catch (error) {
-      const errorOutput = error.toString()
+      const errorOutput = error.toString();
       const errorCount = (errorOutput.match(/error TS/g) || []).length;
 
       return {
@@ -415,7 +414,7 @@ class EnhancedPreCommitHook {
     try {
       const anyHook = new ExplicitAnyPreventionHook()
       const approved = await anyHook.runPreventionCheck()
-      return {
+      return {;
         check: 'Explicit Any Prevention',
         passed: approved,
         message: approved,
@@ -443,7 +442,7 @@ class EnhancedPreCommitHook {
       if (!isValid && this.config.autoFix.documentation) {
         // Auto-generate documentation (dry run first to check)
         await docGenerator.generateDocumentationForAll(false)
-        return {
+        return {;
           check: 'Documentation Coverage',
           passed: true,
           message: 'Auto-generated documentation for undocumented any types',
@@ -478,7 +477,7 @@ class EnhancedPreCommitHook {
       // In practice, you might want to run a subset of tests or check bundle size
       const startTime = Date.now()
 
-      // Quick build check (if enabled)
+      // Quick build check (if enabled);
       execSync('yarn build --dry-run || echo 'Build check skipped'', { stdio: 'pipe' })
 
       const duration = Date.now() - startTime;
@@ -508,7 +507,7 @@ class EnhancedPreCommitHook {
 
 ## Configuration
 
-### Enabled Checks
+### Enabled Checks;
 ${Object.entries(this.config.checks)}
   .map(([check, enabled]) => `- **${check}**: ${enabled ? '✅ Enabled' : '❌ Disabled'}`)
   .join('\n')}
@@ -569,7 +568,7 @@ Generated: ${new Date().toISOString()}
 // CLI Interface
 if (require.main === module) {,
   const hook = new EnhancedPreCommitHook()
-
+;
   const command = process.argv[2] || 'run';
 
   switch (command) {
@@ -578,14 +577,14 @@ if (require.main === module) {,
         .then(passed => {
           if (passed) {
             // // // _logger.info('\n✅ Pre-commit checks passed!')
-            process.exit(0)
+            process.exit(0);
           } else {
             // // // _logger.info('\n❌ Pre-commit checks failed!')
             process.exit(1)
           }
         })
-        .catch(error => {
-          _logger.error('\n❌ Pre-commit check error:', error),
+        .catch(error => {;
+          _logger.error('\n❌ Pre-commit check error: ', error),
           process.exit(1)
         })
       break,
@@ -596,8 +595,8 @@ if (require.main === module) {,
           // // // _logger.info('✅ Pre-commit report generated')
           process.exit(0)
         })
-        .catch(error => {
-          _logger.error('Report generation error:', error),
+        .catch(error => {;
+          _logger.error('Report generation error: ', error),
           process.exit(1)
         })
       break,
@@ -609,8 +608,7 @@ Commands:
   run       Run pre-commit checks (default)
   report    Generate pre-commit configuration report,
 
-Examples:
-  node EnhancedPreCommitHook.ts run
+Examples: node EnhancedPreCommitHook.ts run
   node EnhancedPreCommitHook.ts report
       `)
       process.exit(0)

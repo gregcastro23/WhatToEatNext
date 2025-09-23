@@ -2,16 +2,14 @@
 import type { _, _ZodiacSign } from '@/types/alchemy';
 import type { Cuisine } from '@/types/cuisine';
 
-export const african: Cuisine = {
+export const african: Cuisine = {;
   name: 'African',
   id: 'african',
-  description:
-    'Rich and diverse cuisine with bold flavors, hearty stews, and complex spice profiles. Spanning from North African tagines to West African peanut stews and East African injera-based dishes.',
+  description: 'Rich and diverse cuisine with bold flavors, hearty stews, and complex spice profiles. Spanning from North African tagines to West African peanut stews and East African injera-based dishes.',
   traditionalSauces: {
     berbere: {
       name: 'Berbere',
-      description:
-        'Ethiopian hot spice blend made from chili peppers, garlic, ginger and various spices',
+      description: 'Ethiopian hot spice blend made from chili peppers, garlic, ginger and various spices',
       base: 'dried chili peppers',
       keyIngredients: ['chili peppers', 'garlic', 'ginger', 'fenugreek', 'cardamom', 'coriander'],
       culinaryUses: ['stews', 'meat dishes', 'lentil dishes', 'vegetable preparations'],
@@ -24,11 +22,9 @@ export const african: Cuisine = {
       },
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
       seasonality: 'all',
-      preparationNotes:
-        'Traditionally dry-roasted and ground by hand, though now commercial versions are widely available.',
-      technicalTips: 'Toast the spices before grinding for maximum flavor development.'
-    },
-    harissa: {
+      preparationNotes: 'Traditionally dry-roasted and ground by hand, though now commercial versions are widely available.',
+      technicalTips: 'Toast the spices before grinding for maximum flavor development.' },
+        harissa: {
       name: 'Harissa',
       description: 'North African hot chili pepper paste with garlic, olive oil and spices',
       base: 'red chili peppers',
@@ -44,9 +40,8 @@ export const african: Cuisine = {
       astrologicalInfluences: ['Mars', 'Mercury', 'Aries'],
       seasonality: 'all',
       preparationNotes: 'Can be preserved in olive oil for months when refrigerated.',
-      technicalTips: 'For milder harissa, remove seeds from peppers before processing.'
-    },
-    duqqa: {
+      technicalTips: 'For milder harissa, remove seeds from peppers before processing.' },
+        duqqa: {
       name: 'Duqqa',
       description: 'Egyptian dry spice blend with nuts, herbs, and spices',
       base: 'toasted nuts',
@@ -62,12 +57,10 @@ export const african: Cuisine = {
       astrologicalInfluences: ['Mercury', 'Saturn', 'Virgo'],
       seasonality: 'all',
       preparationNotes: 'Each family has their own recipe - proportions vary significantly.',
-      technicalTips: 'Allow to cool completely before storing to maintain crunch.'
-    },
-    chermoula: {
+      technicalTips: 'Allow to cool completely before storing to maintain crunch.' },
+        chermoula: {
       name: 'Chermoula',
-      description:
-        'A vibrant Moroccan marinade and sauce made with fresh herbs, aromatic spices, lemon, and olive oil - widely used in North African cuisine',
+      description: 'A vibrant Moroccan marinade and sauce made with fresh herbs, aromatic spices, lemon, and olive oil - widely used in North African cuisine',
       base: 'fresh herbs',
       keyIngredients: [
         'cilantro',
@@ -100,12 +93,9 @@ export const african: Cuisine = {
       },
       astrologicalInfluences: ['Venus', 'Neptune', 'Pisces'],
       seasonality: 'spring, summer',
-      preparationNotes:
-        'Traditionally prepared by hand-grinding all ingredients in a mortar and pestle to release maximum flavor. Best made fresh, but can be stored for up to a week refrigerated.',
-      technicalTips:
-        'Balance acidity with enough olive oil for a smooth emulsion. For best results, allow flavors to marry for at least 30 minutes before using.'
-    },
-    peanut: {
+      preparationNotes: 'Traditionally prepared by hand-grinding all ingredients in a mortar and pestle to release maximum flavor. Best made fresh, but can be stored for up to a week refrigerated.',
+      technicalTips: 'Balance acidity with enough olive oil for a smooth emulsion. For best results, allow flavors to marry for at least 30 minutes before using.' },
+        peanut: {
       name: 'West African Peanut Sauce',
       description: 'Rich, creamy sauce made from ground peanuts, tomatoes, and spices',
       base: 'ground peanuts',
@@ -169,8 +159,7 @@ export const african: Cuisine = {
       all: [
         {
           name: 'Mandazi',
-          description:
-            'East African fried bread similar to doughnuts, lightly spiced with cardamom',
+          description: 'East African fried bread similar to doughnuts, lightly spiced with cardamom',
           cuisine: 'african',
           cookingMethods: ['frying', 'dough-kneading'],
           ingredients: [
@@ -324,8 +313,7 @@ export const african: Cuisine = {
       all: [
         {
           name: 'Jollof Rice',
-          description:
-            'One-pot West African rice dish with tomatoes and spices - a celebratory staple',
+          description: 'One-pot West African rice dish with tomatoes and spices - a celebratory staple',
           cuisine: 'african',
           cookingMethods: ['simmering', 'one-pot cooking'],
           ingredients: [
@@ -759,8 +747,7 @@ export const african: Cuisine = {
     }
     {
       name: 'Hand Pounding',
-      description:
-        'Traditional technique using mortar and pestle to create pastes and spice blends',
+      description: 'Traditional technique using mortar and pestle to create pastes and spice blends',
       elementalProperties: { Earth: 0.6, Fire: 0.2, Water: 0.1, Air: 0.1 }
       toolsRequired: ['mortar and pestle', 'sieve'],
       bestFor: ['spice blends', 'sauces', 'pounded yam', 'fufu'],
@@ -784,8 +771,7 @@ export const african: Cuisine = {
     }
     {
       name: 'Fermentation',
-      description:
-        'Traditional preservation technique that develops complex flavors and probiotics',
+      description: 'Traditional preservation technique that develops complex flavors and probiotics',
       elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 }
       toolsRequired: ['clay pots', 'wooden tools', 'weights'],
       bestFor: ['injera', 'ogi', 'garri', 'fermented locust beans'],
@@ -795,30 +781,26 @@ export const african: Cuisine = {
   regionalCuisines: {
     northAfrican: {
       name: 'North African Cuisine',
-      description:
-        'Mediterranean and Arabic influenced cuisine featuring tagines, couscous, and aromatic spices',
+      description: 'Mediterranean and Arabic influenced cuisine featuring tagines, couscous, and aromatic spices',
       signature: ['tagine', 'couscous', 'harissa', 'shakshuka'],
       elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 }
       astrologicalInfluences: ['Mars', 'Venus', 'Mercury'],
-      seasonality: 'all'
-    },
-    westAfrican: {
+      seasonality: 'all' },
+        westAfrican: {
       name: 'West African Cuisine',
       description: 'Bold, spicy cuisine with staples like rice, cassava, plantains and palm oil',
       signature: ['jollof rice', 'fufu', 'peanut stew', 'egusi soup'],
       elementalProperties: { Earth: 0.5, Fire: 0.3, Water: 0.1, Air: 0.1 }
       astrologicalInfluences: ['Jupiter', 'Saturn', 'Mars'],
-      seasonality: 'all'
-    },
-    eastAfrican: {
+      seasonality: 'all' },
+        eastAfrican: {
       name: 'East African Cuisine',
       description: 'Diverse cuisine influenced by Arabic, Indian and indigenous traditions',
       signature: ['injera with wat', 'ugali', 'pilau', 'berbere spice'],
       elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 }
       astrologicalInfluences: ['Sun', 'Mars', 'Saturn'],
-      seasonality: 'all'
-    },
-    southernAfrican: {
+      seasonality: 'all' },
+        southernAfrican: {
       name: 'Southern African Cuisine',
       description: 'Hearty cuisine combining indigenous, Dutch, Malaysian and British influences',
       signature: ['bobotie', 'biltong', 'pap', 'chakalaka'],

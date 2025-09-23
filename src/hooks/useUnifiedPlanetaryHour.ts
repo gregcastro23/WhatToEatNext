@@ -11,7 +11,7 @@ interface UseUnifiedPlanetaryHourOptions {
 
 export function useUnifiedPlanetaryHour(options: UseUnifiedPlanetaryHourOptions = {}) {
   const { latitude, longitude, useRealtime = true } = options;
-  const location = useMemo(
+  const location = useMemo(;
     () => (latitude !== undefined && longitude !== undefined ? { latitude, longitude } : undefined),
     [latitude, longitude],
   )
@@ -33,7 +33,7 @@ export function useUnifiedPlanetaryHour(options: UseUnifiedPlanetaryHourOptions 
     let cancelled = false;
     (async () => {
       try {
-        const result = await planetaryHoursClient.getCurrentPlanetaryHour({
+        const result = await planetaryHoursClient.getCurrentPlanetaryHour({;
           datetime: new Date(),
           location,
         })
@@ -61,7 +61,7 @@ export function useUnifiedPlanetaryHour(options: UseUnifiedPlanetaryHourOptions 
   useEffect(() => {
     if (!useRealtime) return,
     if (!wsHour) return,
-    setState(prev => ({
+    setState(prev => ({;
       planet: wsHour.planet,
       isDaytime: wsHour.isDaytime,
       start: wsHour.start,

@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawNightshades = {
-  tomato: {
+  tomato: {;
     name: 'Tomato',
     elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 }
     astrologicalProfile: {
@@ -11,9 +11,9 @@ const rawNightshades = {
       elementalAffinity: {
         base: 'Water',
         decanModifiers: {
-          first: { element: 'Water', planet: 'Venus' }
-          second: { element: 'Fire', planet: 'Sun' }
-          third: { element: 'Air', planet: 'Mercury' }
+          first: { element: 'Water', planet: 'Venus' },
+        second: { element: 'Fire', planet: 'Sun' },
+        third: { element: 'Air', planet: 'Mercury' }
         }
       }
     },
@@ -35,9 +35,8 @@ const rawNightshades = {
       washing: true,
       seeding: 'optional',
       peeling: 'optional',
-      notes: 'Store at room temperature for better flavor'
-    },
-    storage: {
+      notes: 'Store at room temperature for better flavor' },
+        storage: {
       temperature: 'room temperature until ripe',
       duration: '5-7 days',
       notes: 'Never refrigerate unless cut'
@@ -53,9 +52,9 @@ const rawNightshades = {
       elementalAffinity: {
         base: 'Water',
         decanModifiers: {
-          first: { element: 'Water', planet: 'Venus' }
-          second: { element: 'Earth', planet: 'Moon' }
-          third: { element: 'Air', planet: 'Mercury' }
+          first: { element: 'Water', planet: 'Venus' },
+        second: { element: 'Earth', planet: 'Moon' },
+        third: { element: 'Air', planet: 'Mercury' }
         }
       }
     },
@@ -77,9 +76,8 @@ const rawNightshades = {
       washing: true,
       salting: 'recommended to remove bitterness',
       cutting: 'uniform slices or cubes',
-      notes: 'Salt and drain before cooking'
-    },
-    storage: {
+      notes: 'Salt and drain before cooking' },
+        storage: {
       temperature: 'cool room temp or refrigerated',
       duration: '5-7 days',
       notes: 'Sensitive to ethylene gas'

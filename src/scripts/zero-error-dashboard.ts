@@ -23,7 +23,7 @@ class ZeroErrorDashboardCLI {
   private dashboard: ZeroErrorAchievementDashboard,
 
   constructor() {
-    this.dashboard = new ZeroErrorAchievementDashboard()
+    this.dashboard = new ZeroErrorAchievementDashboard();
   }
 
   async run(args: string[]): Promise<void> {
@@ -32,7 +32,7 @@ class ZeroErrorDashboardCLI {
     try {
       switch (options.command) {
         case 'generate':
-          await this.generateDashboard(options)
+          await this.generateDashboard(options);
           break,
         case 'monitor':
           await this.startMonitoring(options)
@@ -42,19 +42,18 @@ class ZeroErrorDashboardCLI {
           break,
         case 'help': this.showHelp()
           break,
-        default:
-          _logger.error(`Unknown command: ${options.command}`)
+        default: _logger.error(`Unknown command: ${options.command}`)
           this.showHelp()
           process.exit(1)
       }
     } catch (error) {
-      _logger.error('❌ Dashboard CLI error:', error),
+      _logger.error('❌ Dashboard CLI error: ', error),
       process.exit(1)
     }
   }
 
   private parseArgs(args: string[]): CLIOptions {
-    const options: CLIOptions = {
+    const options: CLIOptions = {;
       command: args[0] || 'generate',
       monitor: false,
       interval: 5,
@@ -74,11 +73,11 @@ class ZeroErrorDashboardCLI {
           break,
         case '--verbose':
         case '-v':
-          options.verbose = true
+          options.verbose = true;
           break,
         case '--output': case '-o':
           options.output = args[++i]
-          break
+          break;
       }
     }
 
@@ -98,7 +97,7 @@ class ZeroErrorDashboardCLI {
       // Show quick summary
       try {
         const jsonPath = '.kiro/dashboard/zero-error-achievement-dashboard.json'
-        if (existsSync(jsonPath)) {
+        if (existsSync(jsonPath)) {;
           const data = JSON.parse(readFileSync(jsonPath, 'utf8')),
           // // // _logger.info('\n📈 Quick Summary: ')
           // // // _logger.info(`   Quality Score: ${data.summary.qualityScore}/100`)
@@ -109,7 +108,7 @@ class ZeroErrorDashboardCLI {
           // // // _logger.info(`   Critical Issues: ${data.summary.criticalIssues}`)
         }
       } catch (error) {
-        _logger.warn('Could not load summary data:', error)
+        _logger.warn('Could not load summary data: ', error)
       }
     }
   }
@@ -130,7 +129,7 @@ class ZeroErrorDashboardCLI {
     try {
       const statusPath = '.kiro/dashboard/real-time-status.json'
 
-      if (existsSync(statusPath)) {
+      if (existsSync(statusPath)) {;
         const status = JSON.parse(readFileSync(statusPath, 'utf8')),
 
         // // // _logger.info('🎯 Current Status: ')
@@ -138,8 +137,7 @@ class ZeroErrorDashboardCLI {
         // // // _logger.info(`   Quality Score: ${status.qualityScore}/100`)
         // // // _logger.info(`   Total Issues: ${status.totalIssues}`)
         // // // _logger.info(
-          `   Parser Errors: ${status.parserErrors} ${status.parserErrors === 0 ? '✅' : '🚨'}`
-        )
+          `   Parser Errors: ${status.parserErrors} ${status.parserErrors === 0 ? '✅' : '🚨'}`)
         // // // _logger.info(
           `   Explicit Any: ${status.explicitAnyErrors} ${status.explicitAnyErrors < 100 ? '✅' : '⚡'}`,
         )
@@ -158,7 +156,7 @@ class ZeroErrorDashboardCLI {
         // // // _logger.info('\n🎯 Zero-Error Targets: ')
         for (const target of targets.slice(04)) {
           // Show top 4 targets
-          const progressBar = this.getProgressBar(target.progress)
+          const progressBar = this.getProgressBar(target.progress);
           // // // _logger.info(`   ${target.metric}: ${target.progress}% ${progressBar}`)
           // // // _logger.info(`     Current: ${target.currentValue} → Target: ${target.targetValue}`)
         }
@@ -171,12 +169,12 @@ class ZeroErrorDashboardCLI {
 
         // // // _logger.info('\n🚦 Quality Gates: ')
         for (const gate of gates) {
-          const statusIcon = this.getGateStatusIcon(gate.status)
+          const statusIcon = this.getGateStatusIcon(gate.status);
           // // // _logger.info(`   ${statusIcon} ${gate.name}: ${gate.status.toUpperCase()}`)
         }
       }
     } catch (error) {
-      _logger.error('Error reading status:', error),
+      _logger.error('Error reading status: ', error),
       // // // _logger.info('ℹ️  Run dashboard generation to create status data.')
     }
   }
@@ -185,8 +183,7 @@ class ZeroErrorDashboardCLI {
     // // // _logger.info(`
 🎯 Zero-Error Achievement Dashboard CLI,
 
-USAGE:
-  node src/scripts/zero-error-dashboard.ts <command> [options]
+USAGE: node src/scripts/zero-error-dashboard.ts <command> [options]
 
 COMMANDS:
   generate    Generate comprehensive zero-error dashboard (default)
@@ -194,13 +191,11 @@ COMMANDS:
   status      Show current zero-error achievement status
   help        Show this help message
 
-OPTIONS:
-  --monitor, -m       Enable monitoring mode (for generate command)
+OPTIONS: --monitor, -m       Enable monitoring mode (for generate command)
   --interval, -i      Monitoring interval in minutes (default: 5)
   --verbose, -v       Verbose output with detailed information
   --output, -o        Output file path (for generate command)
-EXAMPLES:
-  # Generate dashboard report
+EXAMPLES: # Generate dashboard report
   node src/scripts/zero-error-dashboard.ts generate
 
   # Start real-time monitoring (5-minute intervals)
@@ -215,8 +210,7 @@ EXAMPLES:
   # Generate with verbose output
   node src/scripts/zero-error-dashboard.ts generate --verbose
 
-DASHBOARD FEATURES:
-  ✅ Real-time metrics tracking and trending
+DASHBOARD FEATURES: ✅ Real-time metrics tracking and trending
   📊 Visual progress monitoring with quality gates
   🚨 Regression detection and automated alerting
   🔧 Automated maintenance procedures
@@ -239,8 +233,7 @@ INTEGRATION:
   'dashboard:monitor': 'node src/scripts/zero-error-dashboard.ts monitor'
   'dashboard:status': 'node src/scripts/zero-error-dashboard.ts status'
 
-  # Add to, Makefile:
-  dashboard:
+  # Add to, Makefile: dashboard:
   \tnode src/scripts/zero-error-dashboard.ts generate
 
   dashboard-monitor:
@@ -260,8 +253,7 @@ QUALITY GATES:
   ⚡ Explicit Any Limit (blocks deployment)
   📊 Minimum Quality Score (warning only)
   ⚡ Performance Threshold (warning only)
-MAINTENANCE PROCEDURES:
-  📅 Daily: Health checks and critical issue detection
+MAINTENANCE PROCEDURES: 📅 Daily: Health checks and critical issue detection
   📅 Weekly: Cache optimization and performance tuning
   📅 Monthly: Metrics cleanup and storage optimization
   📅 Quarterly: Configuration review and rule updates
@@ -280,13 +272,12 @@ MAINTENANCE PROCEDURES:
         return '⚠️ WARNING',
       case 'critical':
         return '🚨 CRITICAL',
-      default:
-        return '❓ UNKNOWN'
+      default: return '❓ UNKNOWN'
     }
   }
 
   private getProgressBar(progress: number): string {
-    const filled = Math.round(progress / 10)
+    const filled = Math.round(progress / 10);
     const empty = 10 - filled;
     return '█'.repeat(filled) + '░'.repeat(empty)
   }
@@ -299,8 +290,7 @@ MAINTENANCE PROCEDURES:
         return '⚠️',
       case 'failing':
         return '❌',
-      default:
-        return '❓'
+      default: return '❓'
     }
   }
 }
@@ -310,8 +300,8 @@ if (require.main === module) {,
   const cli = new ZeroErrorDashboardCLI()
   const args = process.argv.slice(2)
 
-  cli.run(args).catch(error => {
-    _logger.error('❌ CLI Error:', error),
+  cli.run(args).catch(error => {;
+    _logger.error('❌ CLI Error: ', error),
     process.exit(1)
   })
 }

@@ -23,7 +23,7 @@ export interface ComponentPerformanceData {
   memoryImpact: number
 }
 
-export const _usePerformanceMetrics = (componentName?: string) => {
+export const _usePerformanceMetrics = (componentName?: string) => {;
   const [metrics, setMetrics] = useState<PerformanceMetrics>({
     renderTime: 0,
     dataFetchTime: 0,
@@ -42,9 +42,9 @@ export const _usePerformanceMetrics = (componentName?: string) => {
   const errorCountRef = useRef(0)
   const peakMemoryRef = useRef(0)
 
-  // Track render performance
+  // Track render performance;
   const trackRenderStart = useCallback(() => {;
-    renderStartTime.current = performance.now()
+    renderStartTime.current = performance.now();
   }, [])
 
   const trackRenderEnd = useCallback(() => {;
@@ -70,15 +70,15 @@ export const _usePerformanceMetrics = (componentName?: string) => {
   }, [])
 
   // Track data fetch performance
-  const trackDataFetch = useCallback(
+  const trackDataFetch = useCallback(;
     async <T>(fetchFunction: () => Promise<T>, operationName?: string): Promise<T> => {
       const startTime = performance.now()
 
       try {
-        const result = await fetchFunction()
+        const result = await fetchFunction();
         const fetchTime = performance.now() - startTime;
 
-        setMetrics(prev => ({
+        setMetrics(prev => ({;
           ...prev,
           dataFetchTime: fetchTime,
           lastUpdated: new Date()
@@ -124,10 +124,10 @@ export const _usePerformanceMetrics = (componentName?: string) => {
 
   // Track errors
   const trackError = useCallback(
-    (error: Error | string) => {
+    (error: Error | string) => {;
       errorCountRef.current += 1,
 
-      setMetrics(prev => ({
+      setMetrics(prev => ({;
         ...prev,
         errorCount: errorCountRef.current,
         totalErrors: prev.totalErrors + 1,
@@ -135,7 +135,7 @@ export const _usePerformanceMetrics = (componentName?: string) => {
       }))
 
       // Log error for debugging
-      _logger.error(`[${componentName || 'Unknown Component'}] Performance Tracker Error:`, error)
+      _logger.error(`[${componentName || 'Unknown Component'}] Performance Tracker Error: `, error)
     }
     [componentName],
   )

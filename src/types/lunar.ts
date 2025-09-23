@@ -11,7 +11,7 @@ export type LunarPhase =
   | 'WAXING_GIBBOUS'
   | 'FULL_MOON'
   | 'WANING_GIBBOUS'
-  | 'LAST_QUARTER'
+  | 'LAST_QUARTER';
   | 'WANING_CRESCENT',
 
 export type LunarPhaseWithSpaces =

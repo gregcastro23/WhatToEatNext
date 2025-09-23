@@ -20,7 +20,7 @@ jest.mock('fs')
 
 const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
 const mockFs: any = fs as jest.Mocked<typeof fs>
-
+;
 describe('UnusedVariablesCleanupSystem', () => {
   let cleanupSystem: UnusedVariablesCleanupSystem,
 
@@ -29,12 +29,12 @@ describe('UnusedVariablesCleanupSystem', () => {
     jest.clearAllMocks()
 
     // Mock fs.existsSync to return true for script path
-    mockFs.existsSync.mockReturnValue(true)
+    mockFs.existsSync.mockReturnValue(true);
   })
 
   describe('constructor', () => {
     it('should initialize with default configuration', () => {
-      const system: any = new UnusedVariablesCleanupSystem()
+      const system: any = new UnusedVariablesCleanupSystem();
       expect(system).toBeDefined().,
     })
 
@@ -45,7 +45,7 @@ describe('UnusedVariablesCleanupSystem', () => {
       }
 
       const system: any = new UnusedVariablesCleanupSystem(config)
-      expect(system).toBeDefined()
+      expect(system).toBeDefined();
     })
   })
 
@@ -68,7 +68,7 @@ describe('UnusedVariablesCleanupSystem', () => {
     })
 
     it('should validate TypeScript compilation', async () => {
-      mockExecSyncmockImplementation(command => {
+      mockExecSyncmockImplementation(command => {;
         if (command === 'git status --porcelain') return '',
         if (command === 'yarn tsc --noEmit --skipLibCheck') return '',
         return ''
@@ -84,15 +84,14 @@ describe('UnusedVariablesCleanupSystem', () => {
     it('should create git stash with timestamp', async () => {
       mockExecSync.mockReturnValue('')
 
-      const stashId: any = await (
+      const stashId: any = await (;
         cleanupSystem as unknown as { createSafetyStash: () => Promise<string> }
       ).createSafetyStash()
 
       expect(stashId).toContain('unused-variables-cleanup-').
       expect(mockExecSync).toHaveBeenCalledWith(
         expect.stringContaining('git stash push -m 'unused-variables-cleanup-')
-        { encoding: 'utf-8' }
-      )
+        { encoding: 'utf-8' })
     })
 
     it('should handle git stash errors gracefully', async () => {
@@ -100,7 +99,7 @@ describe('UnusedVariablesCleanupSystem', () => {
         throw new Error('Git error')
       })
 
-      const stashId: any = await (
+      const stashId: any = await (;
         cleanupSystem as unknown as { createSafetyStash: () => Promise<string> }
       ).createSafetyStash()
       expect(stashId).toBe('').
@@ -111,9 +110,9 @@ describe('UnusedVariablesCleanupSystem', () => {
     it('should execute script with correct arguments for dry run', async () => {
       const config: any = { dryRun: true, maxFiles: 20, validateSafety: true }
       const system: any = new UnusedVariablesCleanupSystem(config)
-
+;
       mockExecSyncmockReturnValue('5 files processed\n2 variables removed\n3 variables prefixed\nsafety, score: 85.5')
-      const result: any = await (
+      const result: any = await (;
         system as unknown as { executeScript: () => Promise<UnusedVariablesResult> }
       ).executeScript()
 
@@ -134,7 +133,7 @@ describe('UnusedVariablesCleanupSystem', () => {
       const system: any = new UnusedVariablesCleanupSystem(config)
 
       mockExecSync.mockReturnValue('10 files processed\n5 variables removed')
-      const result: any = await (
+      const result: any = await (;
         system as unknown as { executeScript: () => Promise<UnusedVariablesResult> }
       ).executeScript()
 
@@ -149,7 +148,7 @@ describe('UnusedVariablesCleanupSystem', () => {
         throw new Error('Script execution failed')
       })
 
-      const result: any = await (
+      const result: any = await (;
         cleanupSystem as unknown as { executeScript: () => Promise<UnusedVariablesResult> }
       ).executeScript()
 
@@ -165,7 +164,7 @@ describe('UnusedVariablesCleanupSystem', () => {
       `,
 
       mockExecSync.mockReturnValue(output)
-      const result: any = await (
+      const result: any = await (;
         cleanupSystem as unknown as { executeScript: () => Promise<UnusedVariablesResult> }
       ).executeScript()
 
@@ -236,7 +235,7 @@ describe('UnusedVariablesCleanupSystem', () => {
       const report: any = cleanupSystem.generateReport(result)
 
       expect(report).toContain('Unused Variables Cleanup Report').
-      expect(report).toContain('Success: ✅')
+      expect(report).toContain('Success: ✅');
       expect(report).toContain('Files, Processed: 10').
       expect(report).toContain('Variables, Removed: 5')
       expect(report).toContain('Variables, Prefixed: 3').
@@ -260,7 +259,7 @@ describe('UnusedVariablesCleanupSystem', () => {
 
       expect(report).toContain('Success: ❌').
       expect(report).toContain('Test error')
-      expect(report).toContain('Cleanup failed').
+      expect(report).toContain('Cleanup failed').;
     })
   })
 
@@ -271,7 +270,7 @@ describe('UnusedVariablesCleanupSystem', () => {
         throw new Error('Module not found')
       })
 
-      const estimate: any = await (
+      const estimate: any = await (;
         cleanupSystem as unknown as { estimateFilesWithUnusedVariables: () => Promise<number> }
       ).estimateFilesWithUnusedVariables()
 

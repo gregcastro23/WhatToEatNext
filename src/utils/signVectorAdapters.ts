@@ -12,7 +12,7 @@ export function adaptPlanetaryPosition(_position: unknown): PlanetaryPosition | 
   const pos = position as any;
   
   // Extract and validate required fields
-  const sign = typeof pos.sign === 'string' ? pos.sign : null;
+  const sign = typeof pos.sign === 'string' ? pos.sign: null;
   const degree = typeof pos.degree === 'number' ? pos.degree :  ;
                  typeof pos.degree === 'string' ? parseFloat(pos.degree) : 0,
   if (!sign) {
@@ -20,7 +20,7 @@ export function adaptPlanetaryPosition(_position: unknown): PlanetaryPosition | 
   }
 
   // Build the adapted position object
-  const adapted: PlanetaryPosition = {
+  const adapted: PlanetaryPosition = {;
   sign: sign as 'aries' | 'taurus' | 'gemini' | 'cancer' | 'leo' | 'virgo' | 'libra' | 'scorpio' | 'sagittarius' | 'capricorn' | 'aquarius' | 'pisces',
     degree: Number.isFinite(degree) ? degree : 0,
     isRetrograde: Boolean(pos.isRetrograde)
@@ -54,8 +54,7 @@ export function adaptPlanetaryPosition(_position: unknown): PlanetaryPosition | 
  * Adapt a full planetary positions response from the service
  */
 export function adaptPlanetaryPositions(
-  positions: unknown
-): Record<string, PlanetaryPosition> | null {
+  positions: unknown): Record<string, PlanetaryPosition> | null {
   if (!positions || typeof positions !== 'object') {
     return null
   }
@@ -65,7 +64,7 @@ export function adaptPlanetaryPositions(
 
   for (const [planet, position] of Object.entries(positions)) {
     const adaptedPosition = adaptPlanetaryPosition(position)
-    if (adaptedPosition) {
+    if (adaptedPosition) {;
       adapted[planet] = adaptedPosition,
       hasValidData = true,
     }
@@ -87,15 +86,14 @@ export function isPlanetaryPosition(_obj: unknown): obj is PlanetaryPosition {
     typeof pos.sign === 'string' &&
     typeof pos.degree === 'number' &&
     typeof pos.isRetrograde === 'boolean'
-  )
+  );
 }
 
 /**
  * Type guard to check if an object is a valid planetary positions map
  */
 export function isPlanetaryPositionsMap(
-  obj: unknown
-): obj is Record<string, PlanetaryPosition> {
+  obj: unknown): obj is Record<string, PlanetaryPosition> {
   if (!obj || typeof obj !== 'object') {
     return false
   }

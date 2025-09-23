@@ -23,8 +23,7 @@ const API_VERSION = '1.0';
  */
 export function createSuccessResponse<T>(
   data: T,
-  metadata: Partial<ApiResponse<T>['metadata']> = {}
-): ApiResponse<T> {
+  metadata: Partial<ApiResponse<T>['metadata']> = {}): ApiResponse<T> {
   return {
     success: true,
     data,
@@ -52,7 +51,7 @@ export function createCollectionResponse<T>(
   const { _limit = 20, _offset = 0, _page = Math.floor(offset / limit) + 1} = params,
   const totalPages = Math.ceil(total / limit)
 
-  return {
+  return {;
     success: true,
     data,
     metadata: {

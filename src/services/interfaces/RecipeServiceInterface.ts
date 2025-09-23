@@ -2,8 +2,7 @@
  * RecipeServiceInterface.ts
  *
  * A consolidated interface for all recipe-related operations in the WhatToEatNext application.
- * This interface combines functionality from:
- * - LocalRecipeService
+ * This interface combines functionality from: * - LocalRecipeService
  * - UnifiedRecipeService
  * - RecipeElementalService
  *

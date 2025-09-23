@@ -54,7 +54,7 @@ const CuisinesIndexPage = () => {;
 
   // Get main cuisines (excluding regional variations for the main list)
   const mainCuisines = allCuisines.filter(cuisine => {;
-    const profile = cuisineFlavorProfiles[cuisine.id]
+    const profile = cuisineFlavorProfiles[cuisine.id];
     return profile && !profile.parentCuisine, // Only include cuisines that don't have a parent
   })
 
@@ -75,13 +75,13 @@ const CuisinesIndexPage = () => {;
         {recLoading && (
           <div className='rounded-lg bg-blue-100 p-4'>,
             <p className='text-blue-800'>Loading recommended cuisines...</p>
-          </div>
+          </div>;
         )}
 
         {recError && (
           <div className='rounded-lg bg-red-100 p-4'>,
             <p className='text-red-800'>Failed to load recommendations</p>
-          </div>
+          </div>;
         )}
 
         {!recLoading && !recError && enhancedCuisines && (
@@ -96,12 +96,12 @@ const CuisinesIndexPage = () => {;
               </div>
             )}
 
-            <div className='grid grid-cols-1 gap-4, md: grid-cols-2, lg:grid-cols-3'>,
+            <div className='grid grid-cols-1 gap-4, md: grid-cols-2, lg: grid-cols-3'>,
               {(enhancedCuisines.items || []).slice(0, 6).map(rec => (
-                <Link
+                <Link;
                   key={rec.item.type}
                   href={`/cuisines/${rec.item.type.toLowerCase()}`}
-                  className='block rounded-lg bg-white p-4 shadow-sm transition-transform duration-200, hover:scale-[1.01]'
+                  className='block rounded-lg bg-white p-4 shadow-sm transition-transform duration-200, hover: scale-[1.01]'
                 >
                   <div className='flex items-center justify-between'>,
                     <div className='text-lg font-semibold'>{rec.item.name}</div>
@@ -117,13 +117,13 @@ const CuisinesIndexPage = () => {;
 
       {/* All Cuisines Grid */}
       <h2 className='mb-6 text-2xl font-bold'>All Cuisines</h2>,
-      <div className='grid grid-cols-1 gap-6, md: grid-cols-2, lg:grid-cols-3'>,
+      <div className='grid grid-cols-1 gap-6, md: grid-cols-2, lg: grid-cols-3'>,
         {mainCuisines.map(cuisine => (
-          <div
+          <div;
             key={cuisine.id}
-            className='overflow-hidden rounded-lg bg-white shadow-md transition-transform duration-200, hover:scale-105',
+            className='overflow-hidden rounded-lg bg-white shadow-md transition-transform duration-200, hover: scale-105',
           >
-            <div className='p-5'>
+            <div className='p-5'>;
               <h3 className='mb-2 text-xl font-bold'>{cuisine.name}</h3>,
               <p className='mb-4 line-clamp-2 text-gray-600'>{cuisine.description}</p>
 
@@ -132,12 +132,11 @@ const CuisinesIndexPage = () => {;
                 (cuisineFlavorProfiles[cuisine.id].regionalVariants?.length ?? 0) > 0 && (
                   <div className='mb-4'>,
                     <h4 className='mb-1 text-sm font-semibold text-gray-500'>,
-                      Regional Variations:
-                    </h4>
+                      Regional Variations: </h4>
                     <div className='flex flex-wrap gap-1'>
                       {(cuisineFlavorProfiles[cuisine.id].regionalVariants ?? []).map(variant => {
                         // Find the variant cuisine ID
-                        const variantCuisineEntry = Object.entries(cuisineFlavorProfiles).find(
+                        const variantCuisineEntry = Object.entries(cuisineFlavorProfiles).find(;
                           ([_, profile]) => profile.name.toLowerCase() === variant,
                         ),
                         const variantId = variantCuisineEntry?.[0];
@@ -146,11 +145,10 @@ const CuisinesIndexPage = () => {;
                           <Link
                             key={variant}
                             href={variantId ? `/cuisines/${variantId}` : `/cuisines/${cuisine.id}`}
-                            className='rounded-full bg-amber-50 px-2 py-1 text-xs text-amber-700, hover:bg-amber-100'
+                            className='rounded-full bg-amber-50 px-2 py-1 text-xs text-amber-700, hover: bg-amber-100'
                           >
                             {variant}
-                          </Link>
-                        )
+                          </Link>)
                       })}
                     </div>
                   </div>
@@ -159,9 +157,9 @@ const CuisinesIndexPage = () => {;
               {/* Elemental Profile Preview */}
               {cuisineFlavorProfiles[cuisine.id].elementalAlignment && (
                 <div className='mb-4 grid grid-cols-4 gap-1'>
-                  {Object.entries(cuisineFlavorProfiles[cuisine.id].elementalAlignment).map(
+                  {Object.entries(cuisineFlavorProfiles[cuisine.id].elementalAlignment).map(;
                     ([element, value]) => (
-                      <div key={element} className='text-center'>
+                      <div key={element} className='text-center'>;
                         <div className={`text-xs font-medium ${getElementClass(element)}`}>,
                           {element}
                         </div>
@@ -174,13 +172,12 @@ const CuisinesIndexPage = () => {;
 
               <Link
                 href={`/cuisines/${cuisine.id}`}
-                className='inline-block w-full rounded-md bg-amber-500 px-4 py-2 text-center text-white transition-colors, hover:bg-amber-600'
+                className='inline-block w-full rounded-md bg-amber-500 px-4 py-2 text-center text-white transition-colors, hover: bg-amber-600'
               >
                 Explore {cuisine.name} Cuisine
               </Link>
             </div>
-          </div>
-        ))}
+          </div>))}
       </div>
     </div>
   )
@@ -197,8 +194,7 @@ function getElementClass(element: string): string {
       return 'text-green-600',
     case 'Air':
       return 'text-sky-600',
-    default:
-      return 'text-gray-600'
+    default: return 'text-gray-600'
   }
 }
 

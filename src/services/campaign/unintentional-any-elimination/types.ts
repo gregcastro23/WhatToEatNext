@@ -101,10 +101,8 @@ export interface AnyTypeRecord {
   domainContext: DomainContext,
   lastAnalyzed: Date,
   replacementHistory: ReplacementAttempt[],
-  currentStatus: 'pending' | 'replaced' | 'documented' | 'preserved'
-}
-
-export interface ReplacementAttempt {
+  currentStatus: 'pending' | 'replaced' | 'documented' | 'preserved' },
+        export interface ReplacementAttempt {
   timestamp: Date,
   originalType: string,
   attemptedReplacement: string,

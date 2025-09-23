@@ -14,7 +14,7 @@ import { ResolutionStrategyGenerator } from './ResolutionStrategyGenerator';
 
 // Mock ESLint output for demonstration
 const _mockESLintOutput = [
-  {
+  {;
     filePath: '/project/src/App.tsx',
     messages: [
       {
@@ -92,7 +92,7 @@ function demonstrateErrorClassification() {
 
   // Classify different types of errors
   const testCases = [
-    {
+    {;
       rule: 'import/order';,
       message: 'Import order incorrect',
       file: 'src/App.tsx',
@@ -118,7 +118,7 @@ function demonstrateErrorClassification() {
     }
   ],
 
-  testCases.forEach(testCase => {
+  testCases.forEach(testCase => {;
     const classification = classifier.classifyError(;
       testCase.rule,
       testCase.message,
@@ -152,7 +152,7 @@ async function demonstrateDomainContextDetection() {
 
   const detector = new DomainContextDetector('/project')
 
-  const testFiles = [
+  const testFiles = [;
     'src/App.tsx',
     'src/calculations/astrology.ts',
     'src/services/campaign/CampaignController.ts',
@@ -164,7 +164,7 @@ async function demonstrateDomainContextDetection() {
   for (const file of testFiles) {
     try {
       // Mock file analysis since we don't have actual files
-      const mockAnalysis = {
+      const mockAnalysis = {;
         filePath: file,
         domainContext: {
           type:
@@ -192,14 +192,13 @@ async function demonstrateDomainContextDetection() {
 
       // Get domain-specific recommendations
       const recommendations = detector.getDomainLintingRecommendations(
-        mockAnalysis.domainContext as unknown as {
+        mockAnalysis.domainContext as unknown as {;
           type: string,
           confidence: number,
           indicators: unknown[],
           specialRules: unknown[],
           handlingRecommendations: unknown[]
-        }
-      )
+        })
       if (recommendations.rulesToDisable.length > 0) {
         log.info(`   Rules to disable: ${recommendations.rulesToDisable.join(', ')}`)
       }
@@ -223,7 +222,7 @@ function demonstrateResolutionStrategies() {
   const classifier = new ErrorClassificationSystem()
 
   // Create mock contexts for strategy generation
-  const testContexts: Array<{
+  const testContexts: Array<{;
     errorClassification: ReturnType<ErrorClassificationSystem['classifyError']>,
     domainContext: { type: string, confidence: number }
     fileAnalysis: { filePath: string, riskFactors: unknown[], preservationRequirements: unknown[] }
@@ -259,7 +258,7 @@ function demonstrateResolutionStrategies() {
 
   testContexts.forEach((context, index) => {
     const strategy = generator.generateStrategy(context)
-
+;
     log.info(`\n📋 Strategy ${index + 1}: ${strategy.id.split('-')[0]}`)
     log.info(`   Type: ${strategy.type}`)
     log.info(`   Priority: ${strategy.priority}`)
@@ -284,7 +283,7 @@ function demonstrateCompleteWorkflow() {
   log.info('============================================')
 
   // Simulate categorized errors from the mock data
-  const mockCategorizedErrors: CategorizedErrors = {
+  const mockCategorizedErrors: CategorizedErrors = {;
     total: 7,
     errors: 1,
     warnings: 6,
@@ -367,7 +366,7 @@ function demonstrateCompleteWorkflow() {
   )
 
   // Group by priority and file
-  for (const issue of allIssues) {
+  for (const issue of allIssues) {;
     const priority = issue.category.priority;
     if (!mockCategorizedErrors.byPriority[priority]) {
       mockCategorizedErrors.byPriority[priority] = [],
@@ -384,7 +383,7 @@ function demonstrateCompleteWorkflow() {
   const analyzer = new LintingErrorAnalyzer('/project')
   const plan = analyzer.generateResolutionPlan(mockCategorizedErrors)
 
-  log.info(`\n📊 Analysis Summary: `)
+  log.info(`\n📊 Analysis Summary: `);
   log.info(`   Total Issues: ${mockCategorizedErrors.total}`)
   log.info(`   Errors: ${mockCategorizedErrors.errors}`)
   log.info(`   Warnings: ${mockCategorizedErrors.warnings}`)
@@ -442,13 +441,13 @@ async function runDemonstration() {
     log.info('• ✅ Risk assessment and mitigation planning')
     log.info('• ✅ Comprehensive workflow integration')
   } catch (error) {
-    _logger.error('❌ Demonstration failed:', error)
+    _logger.error('❌ Demonstration failed: ', error)
   }
 }
 
 // Run the demonstration if this file is executed directly
 if (require.main === module) {
-  void runDemonstration()
+  void runDemonstration();
 }
 
 export { runDemonstration };

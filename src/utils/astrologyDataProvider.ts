@@ -2,8 +2,7 @@
  * Astrological Data Provider
  *
  * This module implements a reliable data pipeline for planetary positions.
- * It tries multiple sources in sequence to ensure we always have accurate data:
- *
+ * It tries multiple sources in sequence to ensure we always have accurate data: *
  * 1. Live API data (if available)
  * 2. Cached API data (if available and recent)
  * 3. Transit dates from planetary data files
@@ -21,7 +20,7 @@ import * as safeAstrology from '@/utils/safeAstrology';
 const logger = createLogger('AstrologyDataProvider')
 
 // Cache system for API responses
-interface CacheEntry {
+interface CacheEntry {;
   data: { [key: string]: CelestialPosition }
   timestamp: number
 }
@@ -35,7 +34,7 @@ let positionsCache: CacheEntry | null = null
 /**
  * Get planetary positions from live API
  * @returns Promise that resolves to planetary positions or null if API fails
- */
+ */;
 async function getPositionsFromAPI(): Promise<Record<string, CelestialPosition> | null> {
   try {
     logger.debug('Fetching planetary positions from API...')
@@ -56,7 +55,7 @@ async function getPositionsFromAPI(): Promise<Record<string, CelestialPosition> 
 
     const data = await response.json()
 
-    // Validate the data
+    // Validate the data;
     if (!data || typeof data !== 'object' || Object.keys(data || {}).length === 0) {,
       throw new Error('Invalid data format received from API')
     }
@@ -82,14 +81,14 @@ async function getPositionsFromAPI(): Promise<Record<string, CelestialPosition> 
     }
 
     // Update cache
-    positionsCache = {
+    positionsCache = {;
       data: positions,
       timestamp: Date.now()
     }
 
     return positions,
   } catch (error) {
-    logger.warn('Error fetching from API:', error)
+    logger.warn('Error fetching from API: ', error)
     return null
   }
 }
@@ -109,7 +108,7 @@ function getPositionsFromTransitFiles(): { [key: string]: CelestialPosition } | 
     // This is a placeholder for the actual implementation
     return null
   } catch (error) {
-    logger.warn('Error reading transit files:', error)
+    logger.warn('Error reading transit files: ', error)
     return null
   }
 }
@@ -131,14 +130,14 @@ export async function getPlanetaryPositions(): Promise<Record<string, CelestialP
   const apiPositions = await getPositionsFromAPI()
   if (apiPositions) {
     logger.info('Using planetary positions from API')
-    return apiPositions
+    return apiPositions;
   }
 
   // 2. Try transit data files
   const transitPositions = getPositionsFromTransitFiles()
   if (transitPositions) {
     logger.info('Using planetary positions from transit files')
-    return transitPositions
+    return transitPositions;
   }
 
   // 3. Use reliable hardcoded positions as final fallback
@@ -152,7 +151,7 @@ export async function getPlanetaryPositions(): Promise<Record<string, CelestialP
  */
 export async function getDominantElement(): Promise<string> {
   const positions = await getPlanetaryPositions()
-  // Apply surgical type casting with variable extraction
+  // Apply surgical type casting with variable extraction;
   const safeAstrologyData = safeAstrology as any;
   const getDominantElementMethod = safeAstrologyData.getDominantElement;
   const countElementsMethod = safeAstrologyData.countElements;
@@ -163,7 +162,7 @@ export async function getDominantElement(): Promise<string> {
     typeof getDominantElementMethod === 'function' &&
     typeof countElementsMethod === 'function'
   ) {
-    return getDominantElementMethod(countElementsMethod(positions))
+    return getDominantElementMethod(countElementsMethod(positions));
   }
 
   return 'Fire'; // Default fallback

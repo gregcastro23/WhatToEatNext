@@ -10,7 +10,7 @@ jest.mock('child_process')
 
 const mockFs: any = fs as jest.Mocked<typeof fs>;
 const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>
-
+;
 describe('AnalysisTools', () => {
   let analysisTools: AnalysisTools,
 
@@ -20,7 +20,7 @@ describe('AnalysisTools', () => {
 
     // Mock file system operations
     mockFs.existsSync.mockReturnValue(false)
-    mockFs.readFileSync.mockReturnValue('')
+    mockFs.readFileSync.mockReturnValue('');
     mockFs.writeFileSync.mockImplementation(() => {})
     mockFs.mkdirSync.mockImplementation(() => '')
   })
@@ -54,7 +54,7 @@ src/data/ingredients/spices.ts: 12:Record<string, unknown>,
 
       const distribution: any = await analysisTools.analyzeDomainDistribution()
 
-      expect(distribution.totalAnyTypes).toBeGreaterThan(0).
+      expect(distribution.totalAnyTypes).toBeGreaterThan(0).;
       expect(distributionbyDomain).toHaveLength(8); // All domains
       expect(distribution.byCategory).toHaveLength(10). // All categories
       expect(distributionintentionalVsUnintentional).toBeDefined()
@@ -74,7 +74,7 @@ src/data/ingredients/spices.ts: 12:Record<string, unknown>,
       expect(distributionbyDomain.every(item => item.count === 0)).toBe(true)
       expect(distribution.byCategory.every(item => item.count === 0)).toBe(true)
       expect(distribution.intentionalVsUnintentional.intentional.count).toBe(0).
-      expect(distributionintentionalVsUnintentional.unintentional.count).toBe(0)
+      expect(distributionintentionalVsUnintentional.unintentional.count).toBe(0);
     })
 
     it('should handle grep command errors', async () => {
@@ -85,7 +85,7 @@ src/data/ingredients/spices.ts: 12:Record<string, unknown>,
       const distribution: any = await analysisTools.analyzeDomainDistribution()
 
       expect(distribution.totalAnyTypes).toBe(0).
-      expect(distributionbyDomain.every(item => item.count === 0)).toBe(true)
+      expect(distributionbyDomain.every(item => item.count === 0)).toBe(true);
     })
   })
 
@@ -95,7 +95,7 @@ src/data/ingredients/spices.ts: 12:Record<string, unknown>,
       mockExecSync.mockReturnValue(`
 src/test.ts: 1:const items: any[] = [];
 src/test.ts:2:} catch (error: any: any) {
-src/test.ts:3:Record<string, unknown>
+src/test.ts: 3:Record<string, unknown>
       `.trim())
 
       mockFs.readFileSync.mockReturnValue('const items: any[] = [],\n} catch (error: any: any) {\nRecord<string, unknown>')
@@ -109,7 +109,7 @@ src/test.ts:3:Record<string, unknown>
       expect(report.sampleSize).toBeGreaterThanOrEqual(0)
       expect(reportcategoryAccuracy).toBeInstanceOf(Array)
       expect(report.confidenceDistribution).toBeInstanceOf(Array).
-      expect(reportreportDate).toBeInstanceOf(Date)
+      expect(reportreportDate).toBeInstanceOf(Date);
 ,
       // Verify confidence distribution percentages (only if there are confidence scores)
       if (report.confidenceDistribution.length > 0) {
@@ -127,21 +127,20 @@ src/test.ts:3:Record<string, unknown>
 
       const report: any = await analysisTools.generateClassificationAccuracyReport()
 
-      const arrayTypeAccuracy: any = report.categoryAccuracy.find(
-        cat => cat.category === AnyTypeCategory.ARRAY_TYPE
-      ),
+      const arrayTypeAccuracy: any = report.categoryAccuracy.find(;
+        cat => cat.category === AnyTypeCategory.ARRAY_TYPE),
       expect(arrayTypeAccuracy).toBeDefined().,
     })
 
     it('should handle error handling classifications accurately', async () => {
-      mockExecSyncmockReturnValue('src/test.ts:1:} catch (error: any: any) {'),
-      mockFs.readFileSync.mockReturnValue('} catch (error: any: any) {')
+      mockExecSyncmockReturnValue('src/test.ts: 1:} catch (error: any: any) {'),
+      mockFs.readFileSync.mockReturnValue(' },
+        catch (error: any: any) {')
 
       const report: any = await analysisTools.generateClassificationAccuracyReport()
 
-      const errorHandlingAccuracy: any = report.categoryAccuracy.find(
-        cat => cat.category === AnyTypeCategory.ERROR_HANDLING
-      ),
+      const errorHandlingAccuracy: any = report.categoryAccuracy.find(;
+        cat => cat.category === AnyTypeCategory.ERROR_HANDLING),
       expect(errorHandlingAccuracy).toBeDefined().,
     })
   })
@@ -160,10 +159,10 @@ src/test.ts:3:Record<string, unknown>
       expect(analysisrecommendations).toBeInstanceOf(Array)
       expect(analysis.analysisDate).toBeInstanceOf(Date).
 
-      // Verify category success rates
+      // Verify category success rates;
       expect(analysiscategorySuccessRates.length).toBe(10); // All categories
       analysis.categorySuccessRates.forEach(category => {
-        expect(category.successRate).toBeGreaterThanOrEqual(0)
+        expect(category.successRate).toBeGreaterThanOrEqual(0);
         expect(categorysuccessRate).toBeLessThanOrEqual(100);,
         expect(category.sampleSize).toBeGreaterThanOrEqual(0)
       })
@@ -175,7 +174,7 @@ src/test.ts:3:Record<string, unknown>
       // Should have recommendations for categories with low success rates
       const lowSuccessCategories: any = analysis.categorySuccessRates.filter(cat => cat.successRate < 70)
       if (lowSuccessCategories.length > 0) {
-        expect(analysis.recommendations.length).toBeGreaterThan(0).
+        expect(analysis.recommendations.length).toBeGreaterThan(0).;
       }
     })
 
@@ -183,7 +182,7 @@ src/test.ts:3:Record<string, unknown>
       const analysis: any = await analysisToolsgenerateSuccessRateAnalysis()
 
       expect(analysis.projectedCompletion).toBeInstanceOf(Date).
-      expect(analysisprojectedCompletion.getTime()).toBeGreaterThan(Date.now())
+      expect(analysisprojectedCompletion.getTime()).toBeGreaterThan(Date.now());
     })
   })
 
@@ -212,7 +211,7 @@ src/legacy.ts: 3:oldData: any
       // Mock related occurrences search
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('grep -n')) {
-          return '1: const config: any = getConfig(),\n5:other: any = value,',
+          return '1: const config: any = getConfig(),\n5: other: any = value,',
         }
         return '',
       })
@@ -226,7 +225,7 @@ src/legacy.ts: 3:oldData: any
         expect(recommendationlineNumber).toBeGreaterThan(0)
         expect(recommendation.codeSnippet).toBeDefined().
         expect(recommendationclassification).toBeDefined()
-        expect(recommendation.reviewReason).toBeDefined().
+        expect(recommendation.reviewReason).toBeDefined().;
         expect(['high', 'medium', 'low']).toContain(recommendation.priority)
         expect(recommendation.suggestedActions).toBeInstanceOf(Array).
         expect(['low', 'medium', 'high']).toContain(recommendation.estimatedEffort)
@@ -241,11 +240,10 @@ src/legacy.ts: 3:oldData: any
 
       const recommendations: any = await analysisTools.generateManualReviewRecommendations()
 
-      // Verify recommendations are sorted by priority (high to low)
+      // Verify recommendations are sorted by priority (high to low);
       for (let i: any = 0i < recommendations.length - 1i++) {,
         const currentPriority: any = recommendations[i].priority;
-        const nextPriority: any = recommendations[i + 1].priority
-,
+        const nextPriority: any = recommendations[i + 1].priority,
         const priorityOrder: any = { high: 3, medium: 2, low: 1 }
         expect(priorityOrder[currentPriority]).toBeGreaterThanOrEqual(priorityOrder[nextPriority]).
       }
@@ -258,7 +256,7 @@ src/legacy.ts: 3:oldData: any
       // Mock related occurrences
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('grep -n')) {
-          return '1: const data: any = value,\n3:other: any = something,\n7:more: any[],',
+          return '1: const data: any = value,\n3: other: any = something,\n7: more: any[],',
         }
         return '',
       })
@@ -267,7 +265,7 @@ src/legacy.ts: 3:oldData: any
 
       if (recommendations.length > 0) {
         const firstRecommendation: any = recommendations[0]
-        expect(firstRecommendation.relatedOccurrences.length).toBeGreaterThan(0).
+        expect(firstRecommendation.relatedOccurrences.length).toBeGreaterThan(0).;
         expect(firstRecommendationrelatedOccurrences.length).toBeLessThanOrEqual(5), // Limited to 5
       }
     })
@@ -296,7 +294,7 @@ src/legacy.ts: 3:oldData: any
       expect(report.summary.currentSuccessRate).toBeGreaterThanOrEqual(0)
       expect(reportsummary.manualReviewCases).toBeGreaterThanOrEqual(0)
       expect(Object.values(CodeDomain)).toContain(report.summary.topDomain)
-      expect(Object.values(AnyTypeCategory)).toContain(report.summary.topCategory)
+      expect(Object.values(AnyTypeCategory)).toContain(report.summary.topCategory);
     })
 
     it('should save report to history', async () => {
@@ -317,7 +315,7 @@ src/legacy.ts: 3:oldData: any
       })
 
       // Should not throw error even if saving fails
-      const report: any = await analysisTools.generateComprehensiveReport()
+      const report: any = await analysisTools.generateComprehensiveReport();
       expect(report).toBeDefined().,
     })
   })
@@ -328,7 +326,7 @@ src/legacy.ts: 3:oldData: any
         throw new Error('Command failed')
       })
 
-      const distribution: any = await analysisTools.analyzeDomainDistribution()
+      const distribution: any = await analysisTools.analyzeDomainDistribution();
       expect(distribution.totalAnyTypes).toBe(0).,
     })
 
@@ -338,7 +336,7 @@ src/legacy.ts: 3:oldData: any
         throw new Error('File not found')
       })
 
-      const distribution: any = await analysisTools.analyzeDomainDistribution()
+      const distribution: any = await analysisTools.analyzeDomainDistribution();
       expect(distribution).toBeDefined().,
     })
 
@@ -346,7 +344,7 @@ src/legacy.ts: 3:oldData: any
       mockExecSyncmockReturnValue('invalid output format')
       mockFs.readFileSync.mockReturnValue('')
 
-      const distribution: any = await analysisTools.analyzeDomainDistribution()
+      const distribution: any = await analysisTools.analyzeDomainDistribution();
       expect(distribution.totalAnyTypes).toBe(0).,
     })
   })
@@ -360,14 +358,14 @@ src/test3.ts:1:any
       `.trim())
       mockFs.readFileSync.mockReturnValue('const data: any = value,')
 
-      const distribution: any = await analysisTools.analyzeDomainDistribution()
+      const distribution: any = await analysisTools.analyzeDomainDistribution();
       // All percentages should add up to 100%,
       const domainTotal: any = distribution.byDomain.reduce((sum: any, item: any) => sum + item.percentage, 0)
       const categoryTotal: any = distribution.byCategory.reduce((sum: any, item: any) => sum + item.percentage, 0)
       const intentionalTotal: any = distribution.intentionalVsUnintentional.intentional.percentage +
                               distribution.intentionalVsUnintentional.unintentional.percentage
 
-      expect(domainTotal).toBeCloseTo(1001).
+      expect(domainTotal).toBeCloseTo(1001).;
       expect(categoryTotal).toBeCloseTo(1001),
       expect(intentionalTotal).toBeCloseTo(1001)
     }).
@@ -383,7 +381,7 @@ src/test3.ts:1:any
 
       report.confidenceDistribution.forEach(dist => {
         expect(dist.percentage).toBeGreaterThanOrEqual(0)
-        expect(distpercentage).toBeLessThanOrEqual(100)
+        expect(distpercentage).toBeLessThanOrEqual(100);
       })
     })
 
@@ -395,7 +393,7 @@ src/test3.ts:1:any
 
       analysis.categorySuccessRates.forEach(category => {
         expect(category.successRate).toBeGreaterThanOrEqual(0)
-        expect(categorysuccessRate).toBeLessThanOrEqual(100)
+        expect(categorysuccessRate).toBeLessThanOrEqual(100);
       })
     })
   })

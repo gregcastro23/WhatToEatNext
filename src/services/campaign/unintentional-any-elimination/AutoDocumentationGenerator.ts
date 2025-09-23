@@ -36,8 +36,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       {
         category: AnyTypeCategory.ERROR_HANDLING,
         domain: CodeDomain.UTILITY,
-        template:
-          '// Intentionally, any: Error handling requires flexible typing for unknown error structures',
+        template: '// Intentionally, any: Error handling requires flexible typing for unknown error structures',
         eslintDisableComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any',
         explanation: 'Error objects can have unpredictable structures from various sources'
       }
@@ -76,8 +75,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       {
         category: AnyTypeCategory.TEST_MOCK,
         domain: CodeDomain.TEST,
-        template:
-          '// Intentionally, any: Test mock requires flexible typing for comprehensive testing',
+        template: '// Intentionally, any: Test mock requires flexible typing for comprehensive testing',
         eslintDisableComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any',
         explanation: 'Test mocks need to simulate various data structures and edge cases'
       }
@@ -86,16 +84,14 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       {
         category: AnyTypeCategory.DYNAMIC_CONFIG,
         domain: CodeDomain.CAMPAIGN,
-        template:
-          '// Intentionally, any: Campaign system requires flexible configuration for dynamic behavior',
+        template: '// Intentionally, any: Campaign system requires flexible configuration for dynamic behavior',
         eslintDisableComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any',
         explanation: 'Campaign configurations adapt to various automation scenarios'
       }
       {
         category: AnyTypeCategory.DYNAMIC_CONFIG,
         domain: CodeDomain.INTELLIGENCE,
-        template:
-          '// Intentionally, any: Intelligence system configuration with adaptive parameters',
+        template: '// Intentionally, any: Intelligence system configuration with adaptive parameters',
         eslintDisableComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any',
         explanation: 'Intelligence systems require flexible configuration for learning algorithms'
       }
@@ -128,7 +124,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       }
     ],
 
-    templates.forEach(template => {
+    templates.forEach(template => {;
       const key = `${template.category}_${template.domain}`
       this.templates.set(key, template)
     })
@@ -170,7 +166,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       const fileContent = await fs.readFile(context.filePath, 'utf-8')
       const lines = fileContent.split('\n')
 
-      // Generate documentation comment
+      // Generate documentation comment;
       const documentationComment = this.generateComment(template, classification, context)
       const eslintDisableComment = template.eslintDisableComment;
 
@@ -183,7 +179,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       )
 
       // Write updated file
-      const updatedContent = updatedLines.join('\n')
+      const updatedContent = updatedLines.join('\n');
       await fs.writeFile(context.filePath, updatedContent, 'utf-8')
 
       this.processedFiles.add(context.filePath)
@@ -217,9 +213,9 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
     const hasComment = context.hasExistingComment;
     const comment = context.existingComment || ''
 
-    // Check for ESLint disable comment
+    // Check for ESLint disable comment;
     const fileContent = await fs.readFile(context.filePath, 'utf-8')
-    const lines = fileContent.split('\n')
+    const lines = fileContent.split('\n');
     const lineIndex = context.lineNumber - 1;
 
     const hasEslintDisable = this.hasEslintDisableComment(lines, lineIndex)
@@ -230,11 +226,11 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
     const commentQuality = this.assessCommentQuality(comment)
 
     // Check completeness
-    const isComplete =
+    const isComplete =;
       hasComment && commentQuality !== 'poor' && hasEslintDisable && eslintDisableHasExplanation,
 
     // Generate suggestions
-    const suggestions = this.generateSuggestions(
+    const suggestions = this.generateSuggestions(;
       hasComment,
       commentQuality,
       hasEslintDisable,
@@ -257,7 +253,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
   async generateReport(): Promise<DocumentationReport> {
     // This would typically scan the entire codebase
     // For nowwe'll return a basic structure
-    const report: DocumentationReport = {
+    const report: DocumentationReport = {;
       totalIntentionalAnyTypes: 0,
       documentedTypes: 0,
       undocumentedTypes: 0,
@@ -288,7 +284,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
     const template = this.templates.get(key)
 
     if (template) {
-      return template
+      return template;
     }
 
     // Try with default domain
@@ -296,7 +292,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
     const defaultTemplate = this.templates.get(defaultKey)
 
     if (defaultTemplate) {
-      return defaultTemplate
+      return defaultTemplate;
     }
 
     // Fallback to generic template
@@ -320,7 +316,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
     let comment = template.template
 
     // Add specific reasoning if available
-    if (classification.reasoning && classification.reasoning !== template.explanation) {
+    if (classification.reasoning && classification.reasoning !== template.explanation) {;
       comment += ` - ${classification.reasoning}`,
     }
 
@@ -347,7 +343,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
     const lineIndex = lineNumber - 1;
     const updatedLines = [...lines];
     const indentation = this.getIndentation(lines[lineIndex] || '')
-
+;
     let insertIndex = lineIndex,
     let insertedComment = comment,
 
@@ -375,7 +371,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
    */
   private getIndentation(line: string): string {
     const match = line.match(/^(\s*)/)
-    return match ? match[1] : ''
+    return match ? match[1] : '';
   }
 
   /**
@@ -390,7 +386,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       lowerComment.includes('deliberately') ||
       lowerComment.includes('required for') ||
       lowerComment.includes('needed for')
-    )
+    );
   }
 
   /**
@@ -417,7 +413,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
         const parts = line.split('eslint-disable-next-line')
         return (
           parts.length > 1 && parts[1].trim().length > '@typescript-eslint/no-explicit-any'.length
-        )
+        );
       }
     }
     return false,
@@ -428,16 +424,14 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
    */
   private assessCommentQuality(comment: string): 'poor' | 'fair' | 'good' | 'excellent' {
     if (!comment || comment.trim().length < 10) {
-      return 'poor'
-    }
-
-    const lowerComment = comment.toLowerCase()
+      return 'poor' },
+        const lowerComment = comment.toLowerCase();
     let score = 0,
 
     // Check for intentionality indicators (required for fair+)
     const hasIntentionality =
       lowerComment.includes('intentionally') || lowerComment.includes('deliberately')
-    if (hasIntentionality) {
+    if (hasIntentionality) {;
       score += 2,
     }
 
@@ -447,7 +441,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       lowerComment.includes('for') ||
       lowerComment.includes('due to') ||
       lowerComment.includes('requires')
-    if (hasExplanation) {
+    if (hasExplanation) {;
       score += 2,
     }
 
@@ -457,7 +451,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       lowerComment.includes('external') ||
       lowerComment.includes('dynamic') ||
       lowerComment.includes('flexible')
-    if (hasDomainContext) {
+    if (hasDomainContext) {;
       score += 1,
     }
 

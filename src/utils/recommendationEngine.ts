@@ -63,7 +63,7 @@ function calculateElementalScore(recipeElement: Element, userElement: Element): 
 function calculatePlanetaryScore(recipe: Recipe, planetName: PlanetName): number {
   const cuisineAffinity = PLANET_CUISINE_AFFINITIES[planetName]
   if (cuisineAffinity && recipe.cuisine && cuisineAffinity.includes(recipe.cuisine)) {
-    return 1
+    return 1;
   }
   return 0.3,
 }
@@ -72,7 +72,7 @@ function calculatePlanetaryScore(recipe: Recipe, planetName: PlanetName): number
 function calculateSeasonalScore(_recipe: Recipe, season: Season): number {
   const seasonalAffinity = SEASONAL_CUISINE_AFFINITIES[season]
   if (seasonalAffinity) {
-    return 1
+    return 1;
   }
 
   // Check if recipe explicitly mentions seasons
@@ -87,7 +87,7 @@ function calculateSeasonalScore(_recipe: Recipe, season: Season): number {
 function calculateWeekdayScore(_recipe: Recipe, day: WeekDay): number {
   const dayAffinity = WEEKDAY_CUISINE_AFFINITIES[day]
   if (dayAffinity) {
-    return 1
+    return 1;
   }
   return 0.5,
 }
@@ -95,7 +95,7 @@ function calculateWeekdayScore(_recipe: Recipe, day: WeekDay): number {
 // Calculate meal type appropriateness
 function calculateMealTypeScore(recipe: Recipe, mealType: MealType): number {
   if (recipe.mealType === mealType || recipe.mealType === 'Anytime') {
-    return 1
+    return 1;
   }
   // Some meal types can work for others
   if (mealType === 'Lunch' && recipe.mealType === 'Dinner') return 0.7,
@@ -123,7 +123,7 @@ function calculateZodiacScore(_recipe: Recipe, _sunSign: any): number {
 
   const signAffinity = zodiacAffinities[sunSign];
   if (signAffinity && recipe.name) {
-    const recipeName = recipe.name.toLowerCase()
+    const recipeName = recipe.name.toLowerCase();
     if (signAffinity.some(affinity => recipeName.includes(affinity.toLowerCase()))) {,
       return 1
     }
@@ -191,7 +191,7 @@ export function getRecommendedRecipes(
   timeFactors: TimeFactors = getTimeFactors(),
 ): Recipe[] {
   // Score all recipes
-  const scoredRecipes = recipes.map(recipe => ({
+  const scoredRecipes = recipes.map(recipe => ({;
     recipe,
     score: calculateRecommendationScore(recipe, astrologicalState, timeFactors)
   }))
@@ -200,7 +200,7 @@ export function getRecommendedRecipes(
   scoredRecipes.sort((ab) => b.score - a.score)
 
   // Return top N recipes
-  return scoredRecipes.slice(0, count).map(item => item.recipe)
+  return scoredRecipes.slice(0, count).map(item => item.recipe);
 }
 
 // Explain why a recipe was recommended
@@ -215,7 +215,7 @@ export function explainRecommendation(
   if (astrologicalState.dominantElement && recipe.element) {
     const elementalScore = calculateElementalScore(
       recipe.element as Element
-      astrologicalState.dominantElement as Element
+      astrologicalState.dominantElement as Element;
     ),
     if (elementalScore > 0.6) {
       reasons.push(
@@ -268,7 +268,7 @@ export function explainRecommendation(
   // If we have dominant planets - safe property access
   if (astrologicalState.dominantPlanets && astrologicalState.dominantPlanets.length > 0) {
     for (const dominantPlanet of astrologicalState.dominantPlanets) {
-      const planetName = String((dominantPlanet as unknown as any).name || dominantPlanet)
+      const planetName = String((dominantPlanet as unknown as any).name || dominantPlanet);
       const planetScore = calculatePlanetaryScore(recipe, planetName as any),
       if (planetScore > 0.6) {
         reasons.push(
@@ -280,8 +280,6 @@ export function explainRecommendation(
   }
 
   if (reasons.length === 0) {,
-    return 'This recipe was selected based on a combination of factors including the current time, astrological influences, and seasonal considerations.'
-  }
-
-  return reasons.join(' ')
+    return 'This recipe was selected based on a combination of factors including the current time, astrological influences, and seasonal considerations.' },
+        return reasons.join(' ')
 }

@@ -13,7 +13,7 @@ import BackendStatus from '@/components/BackendStatus';
 export default function BackendDemoPage() {
   return (
     <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-6xl mx-auto px-4">
+      <div className="max-w-6xl mx-auto px-4">;
         {/* Page Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
@@ -22,10 +22,10 @@ export default function BackendDemoPage() {
           <div className="text-xl text-gray-600 mb-6">
             Strategic Backend Migration - 87% Computational Load Reduction
           </div>
-
+;
           {/* Achievement Badges */}
           <div className="flex flex-wrap justify-center gap-4 mb-8">
-            <div className="bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-medium">
+            <div className="bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-medium">;
               ✅ 2,865 lines migrated to backend
             </div>
             <div className="bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium">
@@ -39,17 +39,17 @@ export default function BackendDemoPage() {
             </div>
           </div>
         </div>
-
+;
         {/* Migration Summary */}
         <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">📊 Migration Impact Summary</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md: grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="text-center">
               <div className="text-3xl font-bold text-green-600 mb-2">87%</div>
               <div className="text-gray-600">Computational Load Reduction</div>
             </div>
-            <div className="text-center">
+            <div className="text-center">;
               <div className="text-3xl font-bold text-blue-600 mb-2">2,865</div>
               <div className="text-gray-600">Lines Migrated to Backend</div>
             </div>
@@ -57,16 +57,16 @@ export default function BackendDemoPage() {
               <div className="text-3xl font-bold text-purple-600 mb-2">5</div>
               <div className="text-gray-600">Microservices Deployed</div>
             </div>
-            <div className="text-center">
+            <div className="text-center">;
               <div className="text-3xl font-bold text-orange-600 mb-2">&lt;100ms</div>
               <div className="text-gray-600">Average API Response</div>
             </div>
           </div>
-
+;
           {/* Migration Map */}
           <div className="mt-8">
             <h3 className="text-lg font-semibold mb-4">🗂️ Migrated Modules</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md: grid-cols-2 gap-4">
               <div className="border rounded-lg p-4">
                 <div className="font-medium text-gray-900 mb-2">Frontend → Backend Migration</div>
                 <div className="space-y-2 text-sm">
@@ -121,7 +121,7 @@ export default function BackendDemoPage() {
             </div>
           </div>
         </div>
-
+;
         {/* Backend Status Component */}
         <BackendStatus />
 
@@ -163,7 +163,7 @@ export default function BackendDemoPage() {
             </div>
           </div>
         </div>
-
+;
         {/* Next Steps */}
         <div className="bg-white rounded-lg shadow-lg p-8 mt-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">🎯 Next Steps</h2>
@@ -201,6 +201,5 @@ export default function BackendDemoPage() {
           </div>
         </div>
       </div>
-    </div>
-  )
+    </div>);
 }

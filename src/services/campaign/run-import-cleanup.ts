@@ -46,7 +46,7 @@ class ImportCleanupCLI {
 
       // Get target files
       const targetFiles = this.options.files || (await this.getDefaultFiles())
-
+;
       if (targetFiles.length === 0) {,
         // // // _logger.info('❌ No TypeScript files found to process')
         return
@@ -73,7 +73,7 @@ class ImportCleanupCLI {
 
       // // // _logger.info('\n✅ Import cleanup completed successfully!')
     } catch (error) {
-      _logger.error('❌ Import cleanup failed:', (error as Error).message),
+      _logger.error('❌ Import cleanup failed: ', (error as Error).message),
       if (this.options.verbose) {
         _logger.error((error as Error).stack)
       }
@@ -96,7 +96,7 @@ class ImportCleanupCLI {
     // Load from config file if specified
     if (this.options.config) {
       try {
-        const configPath = path.resolve(this.options.config)
+        const configPath = path.resolve(this.options.config);
         const configFile = JSON.parse(fs.readFileSync(configPath, 'utf8')),
         config = { ...config, ...configFile }
         // // // _logger.info(`📋 Loaded configuration from ${configPath}`)
@@ -106,7 +106,7 @@ class ImportCleanupCLI {
     }
 
     if (this.options.verbose) {
-      // // // _logger.info('Configuration:', JSON.stringify(config, null, 2)),
+      // // // _logger.info('Configuration: ', JSON.stringify(config, null, 2)),
       // // // _logger.info('')
     }
 
@@ -116,9 +116,8 @@ class ImportCleanupCLI {
   private async getDefaultFiles(): Promise<string[]> {
     try {
       const output = execSync(
-        'find src -name '*.ts' -o -name '*.tsx' | grep -v __tests__ | grep -v .test. | grep -v .spec.'
-        { encoding: 'utf8', stdio: 'pipe' }
-      )
+        'find src -name '*.ts' -o -name '*.tsx' | grep -v __tests__ | grep -v .test. | grep -v .spec.';
+        { encoding: 'utf8', stdio: 'pipe' })
       return output.trim().split('\n').filter(Boolean)
     } catch (error) {
       _logger.warn('⚠️  Failed to find TypeScript files automatically')
@@ -139,7 +138,7 @@ class ImportCleanupCLI {
     }
 
     const result = await cleanupSystem.executeCleanup(targetFiles)
-    this.printResults(result)
+    this.printResults(result);
   }
 
   private async runUnusedImportCleanup(
@@ -149,20 +148,20 @@ class ImportCleanupCLI {
     // // // _logger.info('🗑️  Running unused import cleanup...')
 
     if (this.options.dryRun) {
-      const unusedImports = await cleanupSystem.detectUnusedImports(targetFiles)
+      const unusedImports = await cleanupSystem.detectUnusedImports(targetFiles);
       // // // _logger.info(`\n📊 Found ${unusedImports.length} unused imports: `)
 
-      const groupedByFile = this.groupUnusedImportsByFile(unusedImports)
+      const groupedByFile = this.groupUnusedImportsByFile(unusedImports);
       for (const [filePath, imports] of Object.entries(groupedByFile)) {
         // // // _logger.info(`\n📄 ${filePath}: `)
-        imports.forEach(imp => {
+        imports.forEach(imp => {;
           // // // _logger.info(`  - ${imp.importName} (line ${imp.importLine})`)
         })
       }
       return,
     }
 
-    const removedCount = await cleanupSystem.removeUnusedImports(targetFiles)
+    const removedCount = await cleanupSystem.removeUnusedImports(targetFiles);
     // // // _logger.info(`\n✅ Removed ${removedCount} unused imports`)
   }
 
@@ -177,7 +176,7 @@ class ImportCleanupCLI {
       return
     }
 
-    const organizedCount = await cleanupSystem.organizeImports(targetFiles)
+    const organizedCount = await cleanupSystem.organizeImports(targetFiles);
     // // // _logger.info(`\n✅ Organized imports in ${organizedCount} files`)
   }
 
@@ -192,7 +191,7 @@ class ImportCleanupCLI {
       return
     }
 
-    const fixedCount = await cleanupSystem.enforceImportStyle(targetFiles)
+    const fixedCount = await cleanupSystem.enforceImportStyle(targetFiles);
     // // // _logger.info(`\n✅ Fixed import styles in ${fixedCount} files`)
   }
 
@@ -203,17 +202,17 @@ class ImportCleanupCLI {
     // Detect unused imports
     const unusedImports = await cleanupSystem.detectUnusedImports(targetFiles)
 
-    // // // _logger.info('📊 Dry Run Results:')
+    // // // _logger.info('📊 Dry Run Results: ');
     // // // _logger.info(`  - Files to process: ${targetFiles.length}`)
     // // // _logger.info(`  - Unused imports found: ${unusedImports.length}`)
 
     if (unusedImports.length > 0) {
       // // // _logger.info('\n🗑️  Unused imports by file: ')
-      const groupedByFile = this.groupUnusedImportsByFile(unusedImports)
+      const groupedByFile = this.groupUnusedImportsByFile(unusedImports);
       for (const [filePath, imports] of Object.entries(groupedByFile)) {
         // // // _logger.info(`\n📄 ${filePath}: `)
         imports.forEach(imp => {
-          const typeLabel = imp.isTypeImport ? ' (type)' : ''
+          const typeLabel = imp.isTypeImport ? ' (type)' : '';
           // // // _logger.info(`  - ${imp.importName}${typeLabel} (line ${imp.importLine})`)
         })
       }
@@ -232,7 +231,7 @@ class ImportCleanupCLI {
   }
 
   private printResults(result: unknown): void {
-    // // // _logger.info('\n📊 Cleanup Results:')
+    // // // _logger.info('\n📊 Cleanup Results: ')
     // // // _logger.info(`  - Files processed: ${(result as any).filesProcessed.length}`)
     // // // _logger.info(`  - Unused imports removed: ${(result as any).unusedImportsRemoved}`)
     // // // _logger.info(`  - Files with organized imports: ${(result as any).importsOrganized}`)
@@ -255,7 +254,7 @@ class ImportCleanupCLI {
 
 // CLI argument parsing
 function parseArguments(): CLIOptions {
-  const args = process.argv.slice(2)
+  const args = process.argv.slice(2);
   const options: CLIOptions = {}
 
   for (let i = 0i < args.lengthi++) {,
@@ -292,8 +291,7 @@ function parseArguments(): CLIOptions {
         printHelp()
         process.exit(0)
         break,
-      default:
-        if (arg.startsWith('--')) {
+      default: if (arg.startsWith('--')) {
           _logger.warn(`⚠️  Unknown option: ${arg}`)
         }
         break
@@ -321,8 +319,7 @@ Options:
   --only-style                 Only enforce import styles
   --help                       Show this help message
 
-Examples:
-  # Run full cleanup on all TypeScript files
+Examples: # Run full cleanup on all TypeScript files
   node run-import-cleanup.ts
 
   # Dry run to see what would be changed
@@ -346,8 +343,8 @@ Examples:
 if (require.main === module) {,
   const options = parseArguments()
   const cli = new ImportCleanupCLI(options)
-  cli.run().catch(error => {
-    _logger.error('❌ CLI execution failed:', error),
+  cli.run().catch(error => {;
+    _logger.error('❌ CLI execution failed: ', error),
     process.exit(1)
   })
 }

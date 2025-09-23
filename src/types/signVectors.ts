@@ -42,10 +42,8 @@ export type SignVectorMap = Record<ZodiacSign, SignVector>,
 
 export interface SignVectorCompatibilityResult {
   similarity: number // 0-1 cosine similarity across components,
-  dominantSharedAxis: 'modality' | 'elemental' | 'seasonal' | 'none'
-}
-
-export function signVectorComponentsToArray(components: SignVectorComponents): number[] {
+  dominantSharedAxis: 'modality' | 'elemental' | 'seasonal' | 'none' },
+        export function signVectorComponentsToArray(components: SignVectorComponents): number[] {
   return [
     components.cardinal,
     components.fixed,

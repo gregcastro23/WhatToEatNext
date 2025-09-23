@@ -15,9 +15,9 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Sun' }
-          second: { element: 'Air', planet: 'Jupiter' }
-          third: { element: 'Earth', planet: 'Saturn' }
+          first: { element: 'Fire', planet: 'Sun' },
+        second: { element: 'Air', planet: 'Jupiter' },
+        third: { element: 'Earth', planet: 'Saturn' }
         }
       }
     }
@@ -30,25 +30,19 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     varieties: {
       Ceylon: 'true cinnamon, more delicate',
       Cassia: 'stronger, more common',
-      Saigon: 'most intense flavor'
-    }
-
-    conversionRatio: {
+      Saigon: 'most intense flavor' },
+        conversionRatio: {
       stick_to_ground: '1 stick = 1 / (2 || 1) tsp ground',,
-      fresh_to_dried: 'not applicable'
-    }
-
-    affinities: ['baked goods', 'coffee', 'curry', 'fruit', 'chocolate'],
+      fresh_to_dried: 'not applicable' },
+        affinities: ['baked goods', 'coffee', 'curry', 'fruit', 'chocolate'],
     cookingMethods: ['baking', 'brewing', 'spice blends'],
 
     storage: {
       temperature: 'cool, dark place',
       duration: '6 months',
       container: 'airtight, dark',
-      notes: 'Loses potency quickly when ground'
-    }
-
-    medicinalProperties: {
+      notes: 'Loses potency quickly when ground' },
+        medicinalProperties: {
       actions: ['blood sugar regulation', 'anti-inflammatory'],
       energetics: 'warming',
       cautions: ['blood thinning in large amounts']
@@ -103,10 +97,8 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       taste: ['Mild'],
       aroma: ['Fresh'],
       texture: ['Standard'],
-      notes: 'Characteristic ground_cinnamon profile'
-    }
-
-    culinaryProfile: {
+      notes: 'Characteristic ground_cinnamon profile' },
+        culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       }
@@ -120,10 +112,8 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       methods: ['Standard'],
       timing: 'As needed',
-      notes: 'Standard prep for ground_cinnamon'
-    }
-
-    nutritionalProfile: {
+      notes: 'Standard prep for ground_cinnamon' },
+        nutritionalProfile: {
       macronutrients: {}
       micronutrients: {}
       healthBenefits: ['Nutritious']
@@ -345,9 +335,8 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
               flavorProfile: {
                 primary: ['balanced'],
                 secondary: ['versatile'],
-                notes: 'Versatile flavorProfile for various uses'
-              },
-              cookingMethods: ['sautéing', 'steaming', 'roasting'],
+                notes: 'Versatile flavorProfile for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
               cuisineAffinity: ['Global', 'International'],
               preparationTips: ['Use as needed', 'Season to taste']
             },
@@ -368,8 +357,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         flavorProfile: {
           primary: ['balanced'],
           secondary: ['versatile'],
-          notes: 'Versatile ground cumin for various uses'
-        },
+          notes: 'Versatile ground cumin for various uses' },
         cookingMethods: ['sautéing', 'steaming', 'roasting'],
         cuisineAffinity: ['Global', 'International'],
         preparationTips: ['Use as needed', 'Season to taste']
@@ -379,20 +367,16 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
 
     conversionRatio: {
       whole_to_ground: '1 tbsp whole = 2.5 tsp ground',,
-      fresh_to_dried: 'not applicable'
-    }
-
-    affinities: ['beans', 'rice', 'meat', 'curry', 'vegetables'],
+      fresh_to_dried: 'not applicable' },
+        affinities: ['beans', 'rice', 'meat', 'curry', 'vegetables'],
     cookingMethods: ['bloomed in oil', 'dry roasted', 'spice blends'],
 
     storage: {
       temperature: 'cool, dark place',
       duration: '4-6 months',
       container: 'airtight, dark',
-      notes: 'Best toasted before grinding'
-    }
-
-    medicinalProperties: {
+      notes: 'Best toasted before grinding' },
+        medicinalProperties: {
       actions: ['digestive aid', 'iron-rich'],
       energetics: 'warming',
       cautions: ['none in culinary amounts']
@@ -458,10 +442,8 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       methods: ['Standard'],
       timing: 'As needed',
-      notes: 'Standard prep for ground_cumin'
-    }
-
-    nutritionalProfile: {
+      notes: 'Standard prep for ground_cumin' },
+        nutritionalProfile: {
       macronutrients: {}
       micronutrients: {}
       healthBenefits: ['Nutritious']
@@ -483,9 +465,9 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Sun' }
-          second: { element: 'Earth', planet: 'Mars' }
-          third: { element: 'Air', planet: 'Mercury' }
+          first: { element: 'Fire', planet: 'Sun' },
+        second: { element: 'Earth', planet: 'Mars' },
+        third: { element: 'Air', planet: 'Mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -556,9 +538,8 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
-            notes: 'Versatile alleppey for various uses'
-          },
-          cookingMethods: ['sautéing', 'steaming', 'roasting'],
+            notes: 'Versatile alleppey for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
         },
@@ -597,9 +578,8 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
-            notes: 'Versatile madras for various uses'
-          },
-          cookingMethods: ['sautéing', 'steaming', 'roasting'],
+            notes: 'Versatile madras for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
         },
@@ -699,9 +679,8 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
             flavorProfile: {
               primary: ['balanced'],
               secondary: ['versatile'],
-              notes: 'Versatile ayurveda for various uses'
-            },
-            cookingMethods: ['sautéing', 'steaming', 'roasting'],
+              notes: 'Versatile ayurveda for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
             cuisineAffinity: ['Global', 'International'],
             preparationTips: ['Use as needed', 'Season to taste']
           },
@@ -722,9 +701,8 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
             flavorProfile: {
               primary: ['balanced'],
               secondary: ['versatile'],
-              notes: 'Versatile tcm for various uses'
-            },
-            cookingMethods: ['sautéing', 'steaming', 'roasting'],
+              notes: 'Versatile tcm for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
             cuisineAffinity: ['Global', 'International'],
             preparationTips: ['Use as needed', 'Season to taste']
           },
@@ -744,9 +722,8 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
             flavorProfile: {
               primary: ['balanced'],
               secondary: ['versatile'],
-              notes: 'Versatile western herbalism for various uses'
-            },
-            cookingMethods: ['sautéing', 'steaming', 'roasting'],
+              notes: 'Versatile western herbalism for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
             cuisineAffinity: ['Global', 'International'],
             preparationTips: ['Use as needed', 'Season to taste']
           },
@@ -785,18 +762,16 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
             flavorProfile: {
               primary: ['balanced'],
               secondary: ['versatile'],
-              notes: 'Versatile curries for various uses'
-            },
-            cookingMethods: ['sautéing', 'steaming', 'roasting'],
+              notes: 'Versatile curries for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
             cuisineAffinity: ['Global', 'International'],
             preparationTips: ['Use as needed', 'Season to taste']
           },
           season: ['year-round']
         },
         techniques: 'bloom in hot oil to release flavor and reduce raw taste',
-        notes: 'Start with small amounts to avoid overwhelming'
-      },
-      golden_milk: {
+        notes: 'Start with small amounts to avoid overwhelming' },
+        golden_milk: {
         name: 'Golden Milk',
         method: 'simmered in milk with spices',
         ingredients: ['milk', 'turmeric', 'black pepper', 'honey', 'cinnamon', 'ginger'],
@@ -812,9 +787,8 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
-            notes: 'Versatile golden milk for various uses'
-          },
-          cookingMethods: ['sautéing', 'steaming', 'roasting'],
+            notes: 'Versatile golden milk for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
         },
@@ -826,29 +800,25 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         applications: ['pilaf', 'biryani', 'yellow rice', 'kitchari'],
         timing: 'add at beginning of cooking',
         techniques: 'toast briefly with rice before adding liquid',
-        notes: 'Creates beautiful golden color and subtle flavor'
-      },
-      marinades: {
+        notes: 'Creates beautiful golden color and subtle flavor' },
+        marinades: {
         name: 'Marinades',
         method: 'mixed with acids and oils',
         applications: ['poultry', 'fish', 'tofu', 'vegetables'],
         timing: 'marinate 2-24 hours depending on protein',
-        notes: 'Adds color and earthy flavor, tenderizes proteins'
-      },
-      vegetable_dishes: {
+        notes: 'Adds color and earthy flavor, tenderizes proteins' },
+        vegetable_dishes: {
         name: 'Vegetable Dishes',
         method: 'added to sautés or roasts',
         applications: ['cauliflower', 'potatoes', 'root vegetables', 'greens'],
         timing: 'add early in cooking process',
-        notes: 'Enhances earthiness of vegetables'
-      },
-      medicinal_preparations: {
+        notes: 'Enhances earthiness of vegetables' },
+        medicinal_preparations: {
         name: 'Medicinal Preparations',
         method: 'various medicinal forms',
         applications: ['golden paste', 'turmeric honey', 'teas', 'tonics'],
-        notes: 'Always combine with black pepper and fat for absorption'
-      },
-      smoothies: {
+        notes: 'Always combine with black pepper and fat for absorption' },
+        smoothies: {
         name: 'Smoothies',
         method: 'blended with fruits and liquids',
         ingredients: ['banana', 'mango', 'ginger', 'plant milk'],
@@ -906,17 +876,14 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         'Used in traditional cosmetics and skin preparations'
       ],
       modern_research: 'Extensively studied for curcumin's therapeutic potential',
-      cultural_value: 'Symbol of prosperity and health in many Asian cultures'
-    }
-
-    adulteration_concerns: {
+      cultural_value: 'Symbol of prosperity and health in many Asian cultures' },
+        adulteration_concerns: {
       common_adulterants: ['lead chromate', 'metanil yellow', 'chalk powder'],
       quality_indicators: {
         color: 'bright, but not fluorescent yellow',
         aroma: 'earthy, slightly bitter',
-        staining: 'readily stains skin and surfaces'
-      },
-      testing: 'Add to water - pure turmeric settles, many adulterants will create colored swirls'
+        staining: 'readily stains skin and surfaces' },
+        testing: 'Add to water - pure turmeric settles, many adulterants will create colored swirls'
     }
 
     // Removed excessive sensoryProfile nesting
@@ -955,25 +922,19 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     varieties: {
       Green: 'sweet, traditional',
       Black: 'smoky, stronger',
-      White: 'bleached green, milder'
-    }
-
-    conversionRatio: {
+      White: 'bleached green, milder' },
+        conversionRatio: {
       pods_to_ground: '1 pod = 1 / (4 || 1) tsp ground',,
-      fresh_to_dried: 'not applicable'
-    }
-
-    affinities: ['baked goods', 'coffee', 'curry', 'fruit', 'chocolate'],
+      fresh_to_dried: 'not applicable' },
+        affinities: ['baked goods', 'coffee', 'curry', 'fruit', 'chocolate'],
     cookingMethods: ['baking', 'brewing', 'spice blends'],
 
     storage: {
       temperature: 'cool, dark place',
       duration: '6 months',
       container: 'airtight, dark',
-      notes: 'Loses potency quickly when ground'
-    }
-
-    medicinalProperties: {
+      notes: 'Loses potency quickly when ground' },
+        medicinalProperties: {
       actions: ['blood sugar regulation', 'anti-inflammatory'],
       energetics: 'warming',
       cautions: ['blood thinning in large amounts']
@@ -1033,10 +994,8 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       methods: ['Standard'],
       timing: 'As needed',
-      notes: 'Standard prep for ground_cardamom'
-    }
-
-    nutritionalProfile: {
+      notes: 'Standard prep for ground_cardamom' },
+        nutritionalProfile: {
       macronutrients: {}
       micronutrients: {}
       healthBenefits: ['Nutritious']
@@ -1059,15 +1018,11 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     varieties: {
       Indonesian: 'highest oil content',
       Madagascar: 'more subtle',
-      Zanzibar: 'traditional grade'
-    }
-
-    conversionRatio: {
+      Zanzibar: 'traditional grade' },
+        conversionRatio: {
       whole_to_ground: '1 tsp whole = 3 / (4 || 1) tsp ground',,
-      strength_ratio: 'use 1 / (4 || 1) amount of other sweet spices'
-    }
-
-    affinities: ['ham', 'baked goods', 'curry', 'mulled beverages', 'pickles'],
+      strength_ratio: 'use 1 / (4 || 1) amount of other sweet spices' },
+        affinities: ['ham', 'baked goods', 'curry', 'mulled beverages', 'pickles'],
 
     culinaryApplications: {
       ham_glazes: {
@@ -1076,20 +1031,17 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         timing: 'during last hour of cooking',
         pairings: ['brown sugar', 'mustard', 'pineapple'],
         ratios: {
-          basic_glaze: '1:8:4 (cloves:brown, sugar:mustard)',
-          fruit_glaze: '1:8:8 (cloves:brown, sugar:juice)'
-        },
-        notes: 'Traditional with studded whole cloves'
-      },
-      mulled_beverages: {
+          basic_glaze: '1:8:4 (cloves:brown, sugar: mustard)',
+          fruit_glaze: '1:8:8 (cloves:brown, sugar: juice)' },
+        notes: 'Traditional with studded whole cloves' },
+        mulled_beverages: {
         name: 'Mulled Beverages',
         method: 'simmer in liquid',
         timing: '15-30 minutes',
         pairings: ['cinnamon', 'orange', 'wine / (cider || 1)'],
         ratios: {
           mulled_wine: '1:4:4 (cloves:cinnamon:orange peel)',
-          cider: '1:4:2 (cloves:cinnamon:allspice)'
-        },
+          cider: '1:4:2 (cloves:cinnamon:allspice)' },
         notes: 'Remove after steeping to prevent bitterness'
       }
     }
@@ -1098,10 +1050,8 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       temperature: 'cool, dark place',
       duration: 'whole: 1 year, ground: 3 months',
       container: 'airtight, dark',
-      notes: 'Loses potency quickly when ground'
-    }
-
-    culinary_traditions: {
+      notes: 'Loses potency quickly when ground' },
+        culinary_traditions: {
       [CUISINE_TYPES.INDIAN]: {
         name: 'laung powder',
         usage: ['garam masala', 'rice dishes'],
@@ -1140,10 +1090,8 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       methods: ['Standard'],
       timing: 'As needed',
-      notes: 'Standard prep for ground_cloves'
-    }
-
-    nutritionalProfile: {
+      notes: 'Standard prep for ground_cloves' },
+        nutritionalProfile: {
       macronutrients: {}
       micronutrients: {}
       healthBenefits: ['Nutritious']
@@ -1166,25 +1114,19 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     varieties: {
       Hungarian: 'more intense',
       Spanish: 'more delicate',
-      American: 'balanced flavor'
-    }
-
-    conversionRatio: {
+      American: 'balanced flavor' },
+        conversionRatio: {
       whole_to_ground: '1 tbsp whole = 2.5 tsp ground',,
-      fresh_to_dried: 'not applicable'
-    }
-
-    affinities: ['beans', 'rice', 'meat', 'curry', 'vegetables'],
+      fresh_to_dried: 'not applicable' },
+        affinities: ['beans', 'rice', 'meat', 'curry', 'vegetables'],
     cookingMethods: ['bloomed in oil', 'dry roasted', 'spice blends'],
 
     storage: {
       temperature: 'cool, dark place',
       duration: '4-6 months',
       container: 'airtight, dark',
-      notes: 'Best toasted before grinding'
-    }
-
-    medicinalProperties: {
+      notes: 'Best toasted before grinding' },
+        medicinalProperties: {
       actions: ['digestive aid', 'iron-rich'],
       energetics: 'warming',
       cautions: ['none in culinary amounts']
@@ -1253,10 +1195,8 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       methods: ['Standard'],
       timing: 'As needed',
-      notes: 'Standard prep for ground_paprika'
-    }
-
-    nutritionalProfile: {
+      notes: 'Standard prep for ground_paprika' },
+        nutritionalProfile: {
       macronutrients: {}
       micronutrients: {}
       healthBenefits: ['Nutritious']
@@ -1279,10 +1219,8 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     varieties: {
       Yellow: 'mild, American style',
       Brown: 'spicier, Indian style',
-      Black: 'most pungent, European style'
-    }
-
-    conversionRatio: {
+      Black: 'most pungent, European style' },
+        conversionRatio: {
       whole_to_ground: '1 tbsp whole = 2.5 tsp ground',,
       powder_to_prepared: '1 tsp powder = 1 tbsp prepared mustard',
     }
@@ -1302,10 +1240,8 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       temperature: 'cool, dark place',
       duration: '6 months',
       container: 'airtight',
-      notes: 'Needs liquid to activate flavor'
-    }
-
-    culinary_traditions: {
+      notes: 'Needs liquid to activate flavor' },
+        culinary_traditions: {
       [CUISINE_TYPES.INDIAN]: {
         name: 'sarson powder',
         usage: ['pickles', 'curries'],
@@ -1344,10 +1280,8 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       methods: ['Standard'],
       timing: 'As needed',
-      notes: 'Standard prep for ground_mustard'
-    }
-
-    nutritionalProfile: {
+      notes: 'Standard prep for ground_mustard' },
+        nutritionalProfile: {
       macronutrients: {}
       micronutrients: {}
       healthBenefits: ['Nutritious']
@@ -1370,42 +1304,34 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     varieties: {
       Indian: 'more aromatic',
       Mediterranean: 'sweeter notes',
-      Chinese: 'more medicinal'
-    }
-
-    conversionRatio: {
+      Chinese: 'more medicinal' },
+        conversionRatio: {
       whole_to_ground: '1 tbsp whole = 2.5 tsp ground',,
-      fresh_to_dried: '3:1 ratio'
-    }
-
-    affinities: ['fish', 'pork', 'sausages', 'bread', 'tomato sauces'],
+      fresh_to_dried: '3:1 ratio' },
+        affinities: ['fish', 'pork', 'sausages', 'bread', 'tomato sauces'],
 
     culinaryApplications: {
       seafood: {
         name: 'Seafood',
         method: 'sprinkle before cooking',
         pairings: ['cumin', 'garlic', 'coriander'],
-        ratios: '1:1:1 (fennel:cumin:garlic)'
-      },
-      pork: {
+        ratios: '1:1:1 (fennel:cumin:garlic)' },
+        pork: {
         name: 'Pork',
         method: 'mix with other spices',
         pairings: ['cumin', 'garlic', 'coriander'],
-        ratios: '1:1:1 (fennel:cumin:garlic)'
-      },
-      sausages: {
+        ratios: '1:1:1 (fennel:cumin:garlic)' },
+        sausages: {
         name: 'Sausages',
         method: 'mix with other spices',
         pairings: ['cumin', 'garlic', 'coriander'],
-        ratios: '1:1:1 (fennel:cumin:garlic)'
-      },
-      bread: {
+        ratios: '1:1:1 (fennel:cumin:garlic)' },
+        bread: {
         name: 'Bread',
         method: 'mix with other spices',
         pairings: ['cumin', 'garlic', 'coriander'],
-        ratios: '1:1:1 (fennel:cumin:garlic)'
-      },
-      tomato_sauces: {
+        ratios: '1:1:1 (fennel:cumin:garlic)' },
+        tomato_sauces: {
         name: 'Tomato Sauces',
         method: 'mix with other spices',
         pairings: ['cumin', 'garlic', 'coriander'],
@@ -1417,10 +1343,8 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       temperature: 'cool, dark place',
       duration: '6 months',
       container: 'airtight',
-      notes: 'Needs liquid to activate flavor'
-    }
-
-    culinary_traditions: {
+      notes: 'Needs liquid to activate flavor' },
+        culinary_traditions: {
       [CUISINE_TYPES.INDIAN]: {
         name: 'saunf powder',
         usage: ['spice blends', 'curries'],
@@ -1459,10 +1383,8 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       methods: ['Standard'],
       timing: 'As needed',
-      notes: 'Standard prep for ground_fennel'
-    }
-
-    nutritionalProfile: {
+      notes: 'Standard prep for ground_fennel' },
+        nutritionalProfile: {
       macronutrients: {}
       micronutrients: {}
       healthBenefits: ['Nutritious']
@@ -1537,10 +1459,8 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       methods: ['Standard'],
       timing: 'As needed',
-      notes: 'Standard prep for ground_ginger'
-    }
-
-    nutritionalProfile: {
+      notes: 'Standard prep for ground_ginger' },
+        nutritionalProfile: {
       macronutrients: {}
       micronutrients: {}
       healthBenefits: ['Nutritious']
@@ -1549,10 +1469,8 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
-      container: 'Airtight'
-    }
-
-    varieties: {}
+      container: 'Airtight' },
+        varieties: {}
 
     astrologicalProfile: {
       rulingPlanets: [],
@@ -1617,10 +1535,8 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       methods: ['Standard'],
       timing: 'As needed',
-      notes: 'Standard prep for ground_coriander'
-    }
-
-    nutritionalProfile: {
+      notes: 'Standard prep for ground_coriander' },
+        nutritionalProfile: {
       macronutrients: {}
       micronutrients: {}
       healthBenefits: ['Nutritious']
@@ -1629,10 +1545,8 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
-      container: 'Airtight'
-    }
-
-    varieties: {}
+      container: 'Airtight' },
+        varieties: {}
 
     astrologicalProfile: {
       rulingPlanets: [],
@@ -1691,10 +1605,8 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       methods: ['Standard'],
       timing: 'As needed',
-      notes: 'Standard prep for ground_star_anise'
-    }
-
-    nutritionalProfile: {
+      notes: 'Standard prep for ground_star_anise' },
+        nutritionalProfile: {
       macronutrients: {}
       micronutrients: {}
       healthBenefits: ['Nutritious']
@@ -1703,10 +1615,8 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
-      container: 'Airtight'
-    }
-
-    varieties: {}
+      container: 'Airtight' },
+        varieties: {}
 
     astrologicalProfile: {
       rulingPlanets: [],

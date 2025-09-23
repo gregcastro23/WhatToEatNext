@@ -8,7 +8,7 @@ import { AstrologicalState } from '@/types/celestial';
 
 // Mock planetary data for calculations
 const _mockPlanetaryData = {
-  flavorProfiles: {
+  flavorProfiles: {;
     sweet: 0.7,
     _sour: 0.4,
     _salty: 0.5,
@@ -42,7 +42,7 @@ export function generateTopSauceRecommendations(
   }
 
   // Get current date for planetary calculations
-  const now = new Date()
+  const now = new Date();
   const dayOfWeek = now.getDay() as 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
   // Get planetary day influence
@@ -61,11 +61,11 @@ export function generateTopSauceRecommendations(
   const saucesArray: Sauce[] = Object.values(allSauces || {})
 
   // Map all sauces with enhanced scoring
-  const scoredSauces = saucesArray.map(sauce => {
+  const scoredSauces = saucesArray.map(sauce => {;
     const { elementalProperties, _astrologicalInfluences: planetaryInfluences, name} = sauce;
 
     // 1. Elemental Match Score (50% weight)
-    const elementalMatchScore = calculateElementalMatch(
+    const elementalMatchScore = calculateElementalMatch(;
       elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
       userProfile,
     )
@@ -99,7 +99,7 @@ export function generateTopSauceRecommendations(
       if (planetaryFlavors.flavorProfiles) {
         const matchingIngredients = sauce.keyIngredients.filter(ingredient =>
           Object.keys(planetaryFlavors.flavorProfiles).some(flavor =>
-            ingredient.toLowerCase().includes(flavor)
+            ingredient.toLowerCase().includes(flavor);
           ),
         )
         flavorMatchScore = 0.7 + (matchingIngredients.length / sauce.keyIngredients.length) * 0.3,
@@ -167,7 +167,7 @@ export function getCuisineRecommendations(
     // Elemental Match Score (40% weight) - use default values if properties don't exist
     const elementalMatch = calculateElementalMatch(
       ((cuisine as any).elementalAlignment ||
-        (cuisine as any).elementalProperties || {
+        (cuisine as any).elementalProperties || {;
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
@@ -203,7 +203,7 @@ export function getCuisineRecommendations(
       // Planetary Influence Score (10% weight) - safe property access
       const planetaryRulers = (cuisine as any).planetaryRulers;
       if (planetaryRulers && astrologicalState.planetaryPositions) {
-        const planetScore = Object.entries(astrologicalState.planetaryPositions).reduce(
+        const planetScore = Object.entries(astrologicalState.planetaryPositions).reduce(;
           (acc, [planet]) => {
             if ((planetaryRulers as unknown as string[]).includes(planet)) {
               return acc + 0.05, // Small bonus for each ruling planet present
@@ -233,7 +233,7 @@ export function getCuisineRecommendations(
   // Filter out regional variants if not requested - safe property access
   const filteredCuisines = includeRegional;
     ? scoredCuisines
-    : scoredCuisines.filter(c => !(c as unknown as any).parentCuisine)
+    : scoredCuisines.filter(c => !(c as unknown as any).parentCuisine);
   return filteredCuisines.sort((ab) => b.score - a.score).slice(0, count)
 }
 
@@ -242,11 +242,11 @@ export function calculateElementalMatch(
   profile1: ElementalProperties,
   profile2: ElementalProperties,
 ): number {
-  let totalMatch = 0
+  let totalMatch = 0;
   const elements = ['Fire', 'Water', 'Earth', 'Air'] as const,
 
   elements.forEach(element => {
-    const diff = Math.abs((profile1[element] || 0) - (profile2[element] || 0))
+    const diff = Math.abs((profile1[element] || 0) - (profile2[element] || 0));
     const elementMatch = 1 - diff;
     totalMatch += elementMatch,
   })
@@ -257,7 +257,7 @@ export function calculateElementalMatch(
 // renderScoreBadge function (causing error in CuisineRecommender.tsx)
 export function renderScoreBadge(score: number): string {
   const scoreClass = getMatchScoreClass(score)
-  const percentage = Math.round(score * 100)
+  const percentage = Math.round(score * 100);
   return `<span class='score-badge ${scoreClass}'>${percentage}%</span>`,
 }
 
@@ -265,7 +265,7 @@ export function renderScoreBadge(score: number): string {
 export function calculateElementalContributionsFromPlanets(
   planetaryPositions: Record<string, unknown>,
 ): ElementalProperties {
-  const contributions: ElementalProperties = {
+  const contributions: ElementalProperties = {;
     Fire: 0,
     Water: 0,
     Earth: 0,
@@ -277,7 +277,7 @@ export function calculateElementalContributionsFromPlanets(
     const planetData = getPlanetaryElementalContribution(planet)
     const signData = getSignElementalContribution(position?.sign)
 
-    // Add weighted contributions
+    // Add weighted contributions;
     contributions.Fire += (planetData.Fire + signData.Fire) * 0.5,
     contributions.Water += (planetData.Water + signData.Water) * 0.5,
     contributions.Earth += (planetData.Earth + signData.Earth) * 0.5,

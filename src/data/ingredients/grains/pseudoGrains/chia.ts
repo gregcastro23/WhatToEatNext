@@ -32,9 +32,8 @@ const rawChia: Record<string, Partial<IngredientMapping>> = {
       container: 'Airtight container',
       duration: 'Up to 2 years (dry), 5-7 days (prepared)',
       temperature: 'Cool, dark place (dry), refrigerated (prepared)',
-      notes: 'High oil content, but surprisingly shelf-stable when kept dry'
-    },
-    pairingRecommendations: {
+      notes: 'High oil content, but surprisingly shelf-stable when kept dry' },
+        pairingRecommendations: {
       complementary: ['fruits', 'yogurt', 'oats', 'honey', 'cinnamon', 'almond milk', 'coconut'],
       contrasting: ['citrus', 'spices', 'chocolate'],
       toAvoid: ['high-acid marinades that might break down the gel structure']

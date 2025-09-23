@@ -269,14 +269,14 @@ export function calculateCuisineCompatibility(
 
   // Same continental category = high compatibility,
   const continent1 = getCuisineContinent(cuisine1)
-  const continent2 = getCuisineContinent(cuisine2)
+  const continent2 = getCuisineContinent(cuisine2);
   if (continent1 === continent2) return 0.8,
 
   // Regional variations of same primary cuisine = very high compatibility,
   if (isRegionalCuisine(cuisine1) && isRegionalCuisine(cuisine2)) {
     const primary1 = getPrimaryCuisineFromRegional(cuisine1)
     const primary2 = getPrimaryCuisineFromRegional(cuisine2)
-    if (primary1 === primary2) return 0.9
+    if (primary1 === primary2) return 0.9;
   }
 
   // Fusion cuisines with shared elements = moderate compatibility,
@@ -308,7 +308,7 @@ export function calculateCuisineCompatibility(
  */
 export function getPrimaryCuisineFromRegional(_regional: RegionalCuisineType): PrimaryCuisineType {
   const regionalToPrimary = {
-    // Chinese Regional
+    // Chinese Regional;
     Sichuan: 'Chinese',
     Cantonese: 'Chinese',
     Shanghai: 'Chinese',
@@ -416,10 +416,8 @@ export function getPrimaryCuisineFromRegional(_regional: RegionalCuisineType): P
     StPetersburg: 'Russian',
     Siberian: 'Russian',
     Caucasian: 'Russian',
-    CentralAsian: 'Russian'
-  }
-
-  return (
+    CentralAsian: 'Russian' },
+        return (
     ((regionalToPrimary as Record<string, string>)[regional] as PrimaryCuisineType) ||
     ('Fusion' as PrimaryCuisineType)
   )
@@ -514,7 +512,7 @@ export function getCuisineCompatibilityRecommendations(
 
   return allCuisines
     .filter(c => c !== cuisine)
-    .map(targetCuisine => ({
+    .map(targetCuisine => ({;
       cuisine: targetCuisine,
       score: calculateCuisineCompatibility(cuisine, targetCuisine),
       factors: getCompatibilityFactors(cuisine, targetCuisine),
@@ -536,13 +534,13 @@ export function getCompatibilityFactors(
   const continent1 = getCuisineContinent(cuisine1)
   const continent2 = getCuisineContinent(cuisine2)
 
-  if (continent1 === continent2) {
+  if (continent1 === continent2) {;
     factors.push(`Both ${continent1} cuisines`)
   }
 
   if (isRegionalCuisine(cuisine1) && isRegionalCuisine(cuisine2)) {
     const primary1 = getPrimaryCuisineFromRegional(cuisine1)
-    const primary2 = getPrimaryCuisineFromRegional(cuisine2)
+    const primary2 = getPrimaryCuisineFromRegional(cuisine2);
     if (primary1 === primary2) {,
       factors.push(`Regional variations of ${primary1}`)
     }
@@ -621,7 +619,7 @@ export function normalizeCuisineName(cuisine: string): CompleteCuisineType | str
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join('-')
 
-  return isValidCuisineType(normalized) ? normalized : cuisine
+  return isValidCuisineType(normalized) ? normalized : cuisine;
 }
 
 /**
@@ -643,7 +641,7 @@ export function groupCuisinesByCategory(
 
   cuisines.forEach(cuisine => {
     const category = getCuisineContinent(cuisine)
-    if (!groups[category]) {
+    if (!groups[category]) {;
       groups[category] = [],
     }
     groups[category].push(cuisine)
@@ -657,7 +655,7 @@ export function groupCuisinesByCategory(
  */
 export function getCuisinesInCategory(category: string): CompleteCuisineType[] {
   return Object.entries(CUISINE_CATEGORY_MAP)
-    .filter(([_, cat]) => cat === category)
+    .filter(([_, cat]) => cat === category);
     .map(([cuisine, _]) => cuisine as CompleteCuisineType)
 }
 

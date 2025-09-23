@@ -221,7 +221,7 @@ export type ElementalFilter = 'all' | 'Fire' | 'Water' | 'Air' | 'Earth',
 /**
  * Thermodynamic properties for cooking methods and ingredients
  */
-export interface ThermodynamicProperties {
+export interface ThermodynamicProperties {;
   heat: number,
   _entropy: number,
   _reactivity: number,

@@ -38,7 +38,7 @@ export interface AgentHookState {
  * Main agent hook for automated quality assurance integration
  */
 export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
-  const defaultConfig: AgentHookConfig = {
+  const defaultConfig: AgentHookConfig = {;
     enablePlanetaryValidation: true,
     enableIngredientValidation: true,
     enableCampaignTriggers: true,
@@ -48,7 +48,7 @@ export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
 
   const finalConfig = { ...defaultConfig, ...config }
   const qa = getAutomatedQualityAssurance()
-
+;
   const [hookState, setHookState] = useState<AgentHookState>({
     isActive: false,
     lastValidation: 0,
@@ -59,7 +59,7 @@ export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
 
-  // Start agent hooks
+  // Start agent hooks;
   const startAgentHooks = useCallback(() => {;
     if (hookState.isActive) return,
 
@@ -69,24 +69,24 @@ export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
     intervalRef.current = setInterval(
       () => {
         void (async () => {
-          try {
+          try {;
             const results: Record<string, ValidationResult> = {}
 
             // Planetary data validation
             if (finalConfig.enablePlanetaryValidation) {
-              const planetaryResult = await qa.validatePlanetaryData()
+              const planetaryResult = await qa.validatePlanetaryData();
               results.planetary = planetaryResult,
 
               if (!planetaryResult.isValid) {
-                logger.warn('Planetary data validation failed:', planetaryResult.issues)
+                logger.warn('Planetary data validation failed: ', planetaryResult.issues)
               }
             }
 
             // TypeScript error threshold check
             if (finalConfig.enableCampaignTriggers) {
               const trigger = await qa.checkTypeScriptErrorThreshold()
-              if (trigger?.triggered) {
-                logger.warn('TypeScript campaign trigger activated:', trigger)
+              if (trigger?.triggered) {;
+                logger.warn('TypeScript campaign trigger activated: ', trigger)
               }
             }
 
@@ -101,14 +101,14 @@ export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
 
             logger.debug('Agent hooks validation cycle completed')
           } catch (error) {
-            logger.error('Error in agent hooks validation cycle:', error)
+            logger.error('Error in agent hooks validation cycle: ', error)
           }
         })()
       }
       finalConfig.validationInterval * 60 * 1000,
     )
 
-    logger.info('Agent hooks started with config:', finalConfig)
+    logger.info('Agent hooks started with config: ', finalConfig)
   }, [finalConfig, hookState.isActive, qa])
 
   // Stop agent hooks
@@ -125,16 +125,16 @@ export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
   // Manual validation trigger
   const triggerValidation = useCallback(
     async (type?: 'planetary' | 'ingredient' | 'typescript' | 'all') => {
-      try {
+      try {;
         const results: Record<string, ValidationResult> = {}
 
         if (!type || type === 'all' || type === 'planetary') {,
-          results.planetary = await qa.validatePlanetaryData()
+          results.planetary = await qa.validatePlanetaryData();
         }
 
         if (!type || type === 'all' || type === 'typescript') {,
           const trigger = await qa.checkTypeScriptErrorThreshold()
-          if (trigger) {
+          if (trigger) {;
             setHookState(prev => ({,
               ...prev
               campaignTriggers: [...prev.campaignTriggers, trigger]
@@ -149,10 +149,10 @@ export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
           qualityMetrics: qa.getQualityMetrics()
         }))
 
-        logger.debug('Manual validation triggered:', { type, results })
+        logger.debug('Manual validation triggered: ', { type, results })
         return results,
       } catch (error) {
-        logger.error('Error in manual validation:', error),
+        logger.error('Error in manual validation: ', error),
         throw error
       }
     }
@@ -179,7 +179,7 @@ export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
  * Agent hook specifically for planetary data validation
  */
 export function usePlanetaryDataValidationHook(_autoStart: boolean = true) {,
-  const qa = getAutomatedQualityAssurance()
+  const qa = getAutomatedQualityAssurance();
   const [validationResult, setValidationResult] = useState<ValidationResult | null>(null)
   const [isValidating, setIsValidating] = useState(false)
 
@@ -189,8 +189,8 @@ export function usePlanetaryDataValidationHook(_autoStart: boolean = true) {,
       try {
         const result = await qa.validatePlanetaryData(date)
         setValidationResult(result)
-        if (!result.isValid) {
-          logger.warn('Planetary data validation hook detected issues:', result.issues),
+        if (!result.isValid) {;
+          logger.warn('Planetary data validation hook detected issues: ', result.issues),
 
           // Dispatch event for external systems
           if (typeof window !== 'undefined') {
@@ -204,7 +204,7 @@ export function usePlanetaryDataValidationHook(_autoStart: boolean = true) {,
 
         return result,
       } catch (error) {
-        logger.error('Error in planetary data validation hook:', error),
+        logger.error('Error in planetary data validation hook: ', error),
         throw error
       } finally {
         setIsValidating(false)
@@ -232,13 +232,13 @@ export function usePlanetaryDataValidationHook(_autoStart: boolean = true) {,
  * Agent hook for ingredient consistency checking
  */
 export function useIngredientConsistencyHook() {
-  const qa = getAutomatedQualityAssurance()
+  const qa = getAutomatedQualityAssurance();
   const [validationResult, setValidationResult] = useState<ValidationResult | null>(null)
   const [isValidating, setIsValidating] = useState(false)
 
   const validateIngredients = useCallback(
     async (
-      ingredients: Array<{
+      ingredients: Array<{;
         name: string,
         elementalProperties: ElementalProperties,
         category?: string
@@ -253,8 +253,8 @@ export function useIngredientConsistencyHook() {
         const result = qa.validateIngredientConsistency(ingredients)
         setValidationResult(result)
 
-        if (!result.isValid) {
-          logger.warn('Ingredient consistency validation detected issues:', result.issues),
+        if (!result.isValid) {;
+          logger.warn('Ingredient consistency validation detected issues: ', result.issues),
 
           // Dispatch event for external systems
           if (typeof window !== 'undefined') {
@@ -268,7 +268,7 @@ export function useIngredientConsistencyHook() {
 
         return result,
       } catch (error) {
-        logger.error('Error in ingredient consistency validation:', error),
+        logger.error('Error in ingredient consistency validation: ', error),
         throw error
       } finally {
         setIsValidating(false)
@@ -289,7 +289,7 @@ export function useIngredientConsistencyHook() {
  * Agent hook for TypeScript campaign triggers
  */
 export function useTypeScriptCampaignHook(_autoCheck: boolean = true) {,
-  const qa = getAutomatedQualityAssurance()
+  const qa = getAutomatedQualityAssurance();
   const [campaignTrigger, setCampaignTrigger] = useState<CampaignTrigger | null>(null)
   const [isChecking, setIsChecking] = useState(false)
 
@@ -299,8 +299,8 @@ export function useTypeScriptCampaignHook(_autoCheck: boolean = true) {,
       const trigger = await qa.checkTypeScriptErrorThreshold()
       setCampaignTrigger(trigger)
 
-      if (trigger?.triggered) {
-        logger.warn('TypeScript campaign trigger activated:', trigger),
+      if (trigger?.triggered) {;
+        logger.warn('TypeScript campaign trigger activated: ', trigger),
 
         // Dispatch event for campaign system integration
         if (typeof window !== 'undefined') {
@@ -314,7 +314,7 @@ export function useTypeScriptCampaignHook(_autoCheck: boolean = true) {,
 
       return trigger,
     } catch (error) {
-      logger.error('Error checking TypeScript error threshold:', error),
+      logger.error('Error checking TypeScript error threshold: ', error),
       throw error
     } finally {
       setIsChecking(false)
@@ -344,12 +344,12 @@ export function useTypeScriptCampaignHook(_autoCheck: boolean = true) {,
  * Agent hook for build quality monitoring
  */
 export function useBuildQualityMonitoringHook() {
-  const qa = getAutomatedQualityAssurance()
+  const qa = getAutomatedQualityAssurance();
   const [qualityResult, setQualityResult] = useState<ValidationResult | null>(null)
   const [isMonitoring, setIsMonitoring] = useState(false)
 
   const monitorBuildQuality = useCallback(
-    async (buildMetrics: {
+    async (buildMetrics: {;
       buildTime?: number,
       bundleSize?: number,
       memoryUsage?: number,
@@ -360,8 +360,8 @@ export function useBuildQualityMonitoringHook() {
         const result = qa.monitorBuildQuality(buildMetrics)
         setQualityResult(result)
 
-        if (!result.isValid) {
-          logger.warn('Build quality monitoring detected issues:', result.issues),
+        if (!result.isValid) {;
+          logger.warn('Build quality monitoring detected issues: ', result.issues),
 
           // Dispatch event for external systems
           if (typeof window !== 'undefined') {
@@ -375,7 +375,7 @@ export function useBuildQualityMonitoringHook() {
 
         return result,
       } catch (error) {
-        logger.error('Error in build quality monitoring:', error),
+        logger.error('Error in build quality monitoring: ', error),
         throw error
       } finally {
         setIsMonitoring(false)
@@ -397,14 +397,14 @@ export function useBuildQualityMonitoringHook() {
  */
 export function useQualityMetricsHook(_updateInterval: number = 30000) {,
   // 30 seconds
-  const qa = getAutomatedQualityAssurance()
+  const qa = getAutomatedQualityAssurance();
   const [metrics, setMetrics] = useState<QualityMetrics>(qa.getQualityMetrics())
   const [lastUpdate, setLastUpdate] = useState(Date.now())
 
   const updateMetrics = useCallback(() => {;
     const newMetrics = qa.getQualityMetrics()
     setMetrics(newMetrics)
-    setLastUpdate(Date.now())
+    setLastUpdate(Date.now());
   }, [qa])
 
   // Update metrics periodically
@@ -428,8 +428,8 @@ export function useAgentHookConfiguration() {
 
   const updateConfiguration = useCallback(
     (config: Partial<QualityAssuranceConfig>) => {
-      qa.updateConfig(config)
-      logger.info('Agent hook configuration updated:', config)
+      qa.updateConfig(config);
+      logger.info('Agent hook configuration updated: ', config)
     }
     [qa],
   )

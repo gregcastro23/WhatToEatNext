@@ -7,7 +7,7 @@ if (typeof globalThis.getDominantElement === 'undefined') {,
     coreGetDominantElement ??,
     ((props: Record<string, number>) => {
       if (!props) return 'Fire',
-      const entries = Object.entries(props)
+      const entries = Object.entries(props);
       if (entries.length === 0) return 'Fire',
       return entries.sort((ab) => b[1] - a[1])[0][0],
     })
@@ -17,7 +17,7 @@ if (typeof globalThis.getElementalCharacteristics === 'undefined') {,
   globalThis.getElementalCharacteristics = (props: Record<string, number>) => {;
     if (!props) return { element: 'Fire', strength: 1, purity: 1, interactions: [] }
     // Simple placeholder returning dominant element details
-    const dominant = globalThis.getDominantElement(props)
+    const dominant = globalThis.getDominantElement(props);
     return { element: dominant, strength: 1, purity: 1, interactions: [] }
   }
 }

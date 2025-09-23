@@ -55,4 +55,4 @@ export interface CookingMethodInfo {
 // Export a default empty object for now
 export const cookingMethods: Record<string, CookingMethodInfo> = {}
 
-export default cookingMethods,
+export default cookingMethods;

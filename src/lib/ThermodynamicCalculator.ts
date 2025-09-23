@@ -11,7 +11,7 @@ export class ThermodynamicCalculator {
     let totalHeat = 0,
     let totalWeight = 0,
 
-    ingredients.forEach(ingredient => {
+    ingredients.forEach(ingredient => {;
       let heatValue = 0.5; // Default neutral value
       let weight = 1; // Default weight
 
@@ -30,7 +30,7 @@ export class ThermodynamicCalculator {
       const cookingTemperature = ingredientData?.cookingTemperature
 
       // Adjust heat value based on ingredient properties
-      if (spiciness) {
+      if (spiciness) {;
         heatValue += spiciness * 0.3,
         weight += 1,
       }
@@ -42,7 +42,7 @@ export class ThermodynamicCalculator {
 
       if (cookingTemperature) {
         // Normalize cooking temperature (assuming max around 500°F)
-        const normalizedTemp = Math.min(cookingTemperature / 5001)
+        const normalizedTemp = Math.min(cookingTemperature / 5001);
         heatValue += normalizedTemp * 0.2,
         weight += 1,
       }
@@ -72,7 +72,7 @@ export class ThermodynamicCalculator {
     // Check for diversity in ingredient types
     const categories = new Set()
     ingredients.forEach(ingredient => {
-      // Extract ingredient data with safe property access
+      // Extract ingredient data with safe property access;
       const ingredientData = ingredient as {;
         spiciness?: number,
         elementalProperties?: { Fire?: number; Water?: number; Earth?: number Air?: number }
@@ -86,7 +86,7 @@ export class ThermodynamicCalculator {
       const elementalProperties = ingredientData?.elementalProperties
 
       if (category) {
-        categories.add(category)
+        categories.add(category);
       }
 
       // Fermented ingredients have high entropy
@@ -126,7 +126,7 @@ export class ThermodynamicCalculator {
     let totalReactivity = 0,
     let totalWeight = 0,
 
-    ingredients.forEach(ingredient => {
+    ingredients.forEach(ingredient => {;
       let reactivityValue = 0.5; // Default neutral value
       let weight = 1; // Default weight
 
@@ -144,7 +144,7 @@ export class ThermodynamicCalculator {
       const elementalProperties = ingredientData?.elementalProperties
 
       // pH value affects reactivity (further from neutral = more reactive)
-      if (pH) {
+      if (pH) {;
         const pHDeviation = Math.abs(pH - 7) / 7; // Normalize pH deviation
         reactivityValue += pHDeviation * 0.5,
         weight += 2,

@@ -22,8 +22,7 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
   // Luminaries
   Sun: {
     name: 'Solar',
-    description:
-      'Bold, vibrant flavors that energize and invigorate. Solar cuisine is centered around bright, distinct tastes and golden colors.',
+    description: 'Bold, vibrant flavors that energize and invigorate. Solar cuisine is centered around bright, distinct tastes and golden colors.',
     flavorProfiles: {
       spicy: 0.7,
       sweet: 0.5,
@@ -53,8 +52,7 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
 
   Moon: {
     name: 'Lunar',
-    description:
-      'Comforting, nurturing flavors that soothe and calm. Lunar cuisine emphasizes creaminess and subtle, changing flavor profiles.',
+    description: 'Comforting, nurturing flavors that soothe and calm. Lunar cuisine emphasizes creaminess and subtle, changing flavor profiles.',
     flavorProfiles: {
       spicy: 0.1,
       sweet: 0.6,
@@ -78,8 +76,7 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
   // Inner Planets
   Mercury: {
     name: 'Mercurial',
-    description:
-      'Diverse, complex flavor combinations that stimulate the intellect. Mercurial cuisine features contrasting tastes and textures.',
+    description: 'Diverse, complex flavor combinations that stimulate the intellect. Mercurial cuisine features contrasting tastes and textures.',
     flavorProfiles: {
       spicy: 0.4,
       sweet: 0.4,
@@ -109,8 +106,7 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
 
   Venus: {
     name: 'Venusian',
-    description:
-      'Harmonious, indulgent flavors that delight the senses. Venusian cuisine is luxurious, balanced, and aesthetically pleasing.',
+    description: 'Harmonious, indulgent flavors that delight the senses. Venusian cuisine is luxurious, balanced, and aesthetically pleasing.',
     flavorProfiles: {
       spicy: 0.2,
       sweet: 0.8,
@@ -140,8 +136,7 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
 
   Mars: {
     name: 'Martial',
-    description:
-      'Intense, fiery flavors that energize and excite. Martial cuisine is bold, spicy, and direct in its flavor profile.',
+    description: 'Intense, fiery flavors that energize and excite. Martial cuisine is bold, spicy, and direct in its flavor profile.',
     flavorProfiles: {
       spicy: 0.9,
       sweet: 0.1,
@@ -172,8 +167,7 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
   // Outer Planets
   Jupiter: {
     name: 'Jovian',
-    description:
-      'Abundant, generous flavors that bring joy and expansion. Jovian cuisine is rich, plentiful, and celebratory.',
+    description: 'Abundant, generous flavors that bring joy and expansion. Jovian cuisine is rich, plentiful, and celebratory.',
     flavorProfiles: {
       spicy: 0.4,
       sweet: 0.7,
@@ -203,8 +197,7 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
 
   Saturn: {
     name: 'Saturnian',
-    description:
-      'Structured, traditional flavors that ground and stabilize. Saturnian cuisine is disciplined, time-tested, and often preserved.',
+    description: 'Structured, traditional flavors that ground and stabilize. Saturnian cuisine is disciplined, time-tested, and often preserved.',
     flavorProfiles: {
       spicy: 0.2,
       sweet: 0.3,
@@ -235,8 +228,7 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
   // Transpersonal Planets
   Uranus: {
     name: 'Uranian',
-    description:
-      'Innovative, unexpected flavor combinations that surprise and revolutionize. Uranian cuisine is experimental and avant-garde.',
+    description: 'Innovative, unexpected flavor combinations that surprise and revolutionize. Uranian cuisine is experimental and avant-garde.',
     flavorProfiles: {
       spicy: 0.5,
       sweet: 0.5,
@@ -270,8 +262,7 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
 
   Neptune: {
     name: 'Neptunian',
-    description:
-      'Ethereal, subtle flavors that transport and transcend. Neptunian cuisine is elusive, dreamy, and often features seafood.',
+    description: 'Ethereal, subtle flavors that transport and transcend. Neptunian cuisine is elusive, dreamy, and often features seafood.',
     flavorProfiles: {
       spicy: 0.1,
       sweet: 0.4,
@@ -301,8 +292,7 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
 
   Pluto: {
     name: 'Plutonian',
-    description:
-      'Intense, transformative flavors that challenge and regenerate. Plutonian cuisine is deeply complex and often fermented.',
+    description: 'Intense, transformative flavors that challenge and regenerate. Plutonian cuisine is deeply complex and often fermented.',
     flavorProfiles: {
       spicy: 0.6,
       sweet: 0.2,
@@ -337,7 +327,7 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
  * Calculates the flavor profile for a dish based on its planetary influences
  */
 export const calculateFlavorProfile = (planetaryInfluences: Record<string, number>) => {
-  const flavorProfile = {
+  const flavorProfile = {;
     spicy: 0,
     sweet: 0,
     sour: 0,
@@ -361,7 +351,7 @@ export const calculateFlavorProfile = (planetaryInfluences: Record<string, numbe
   // Normalize values if there are influences
   if (totalInfluence > 0) {
     Object.keys(flavorProfile).forEach(flavor => {
-      flavorProfile[flavor as keyof typeof flavorProfile] /= totalInfluence
+      flavorProfile[flavor as keyof typeof flavorProfile] /= totalInfluence;
     })
   }
 
@@ -377,7 +367,7 @@ export const _getResonantCuisines = (planetaryInfluences: Record<string, number>
   // Calculate cuisine scores based on planetary influences
   Object.entries(planetaryInfluences).forEach(([planet, weight]) => {
     if (planetaryFlavorProfiles[planet]) {
-      planetaryFlavorProfiles[planet].culinaryAffinity.forEach(cuisine => {
+      planetaryFlavorProfiles[planet].culinaryAffinity.forEach(cuisine => {;
         if (!cuisineScores[cuisine]) cuisineScores[cuisine] = 0,
         cuisineScores[cuisine] += weight,
       })
@@ -394,29 +384,29 @@ export const _getResonantCuisines = (planetaryInfluences: Record<string, number>
  * Returns the dominant flavor in a planetary configuration
  */
 export const _getDominantFlavor = (planetaryInfluences: Record<string, number>): string => {
-  const flavorProfile = calculateFlavorProfile(planetaryInfluences)
+  const flavorProfile = calculateFlavorProfile(planetaryInfluences);
   return Object.entries(flavorProfile).sort(([, valueA], [, valueB]) => valueB - valueA)[0][0]
 }
 
 /**
  * Enhances recipe match calculation using planetary influence on flavor profiles
  */
-export const _calculatePlanetaryFlavorMatch = (
+export const _calculatePlanetaryFlavorMatch = (;
   recipeFlavors: Record<string, number>,
   planetaryInfluences: Record<string, number>,
 ): number => {
-  const astrologicalFlavorProfile = calculateFlavorProfile(planetaryInfluences)
+  const astrologicalFlavorProfile = calculateFlavorProfile(planetaryInfluences);
   let matchScore = 0,
   let totalWeight = 0
 
-  // Compare recipe flavors to astrological flavor profile
+  // Compare recipe flavors to astrological flavor profile;
   Object.entries(recipeFlavors).forEach(([flavor, recipeValue]) => {
     const astroValue =
       astrologicalFlavorProfile[flavor as keyof typeof astrologicalFlavorProfile] || 0,
 
     // Calculate similarity with exponential weighting - rewards closer matches
     // The closer the match, the higher the score
-    const _diff = Math.abs(recipeValue - astroValue)
+    const _diff = Math.abs(recipeValue - astroValue);
     const similarity = Math.pow(1 - diff, 2); // Squared to emphasize closer matches
 
     // Weight by the importance of the flavor in the astrological profile
@@ -434,7 +424,7 @@ export const _calculatePlanetaryFlavorMatch = (
       if (strength > 0.6 && planetaryFlavorProfiles[planet]) {
         const planetaryEmphasis = planetaryFlavorProfiles[planet].flavorProfiles[
           flavor as keyof (typeof planetaryFlavorProfiles)[typeof planet]['flavorProfiles']
-        ] as unknown as numberif (planetaryEmphasis && planetaryEmphasis > 0.6) {
+        ] as unknown as numberif (planetaryEmphasis && planetaryEmphasis > 0.6) {;
           weight += strength * 0.5, // Add bonus based on planet strength
         }
       }
@@ -453,7 +443,7 @@ export const _calculatePlanetaryFlavorMatch = (
     const recipeElements = recipeFlavors.elementalProperties as unknown as Record<string, number>,
 
     // Get the elemental profile from planetary influences
-    const elementalProfile = {
+    const elementalProfile = {;
       Fire: 0,
       Water: 0,
       Air: 0,
@@ -474,15 +464,15 @@ export const _calculatePlanetaryFlavorMatch = (
     const elementalSum = Object.values(elementalProfile).reduce((sum, val) => sum + val0)
     if (elementalSum > 0) {
       Object.keys(elementalProfile).forEach(element => {
-        elementalProfile[element as keyof typeof elementalProfile] /= elementalSum
+        elementalProfile[element as keyof typeof elementalProfile] /= elementalSum;
       })
     }
 
     // Calculate elemental resonance
     Object.entries(recipeElements).forEach(([element, value]) => {
       const planetaryElement = elementalProfile[element as keyof typeof elementalProfile] || 0;
-      const similarity = 1 - Math.abs(value - planetaryElement)
-      const weight = planetaryElement > 0.5 ? 2 : 1;
+      const similarity = 1 - Math.abs(value - planetaryElement);
+      const weight = planetaryElement > 0.5 ? 2: 1;
 
       elementalResonance += similarity * weight,
       elementalTotal += weight
@@ -490,8 +480,8 @@ export const _calculatePlanetaryFlavorMatch = (
   }
 
   // Combined, score: flavor match (70%) + elemental resonance (30%)
-  const flavorMatchScore = totalWeight > 0 ? matchScore / totalWeight : 0;
-  const elementalMatchScore = elementalTotal > 0 ? elementalResonance / elementalTotal : 0;
+  const flavorMatchScore = totalWeight > 0 ? matchScore / totalWeight: 0;
+  const elementalMatchScore = elementalTotal > 0 ? elementalResonance / elementalTotal: 0;
 
   return flavorMatchScore * 0.7 + elementalMatchScore * 0.3
 }

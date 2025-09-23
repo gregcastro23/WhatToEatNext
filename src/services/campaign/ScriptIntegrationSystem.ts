@@ -74,7 +74,7 @@ export class ScriptIntegrationSystem {
   constructor(scriptsBasePath: string = 'scripts') {,
     this.scriptsBasePath = scriptsBasePath,
     this.scriptConfigs = new Map()
-    this.initializeScriptConfigs()
+    this.initializeScriptConfigs();
   }
 
   /**
@@ -148,16 +148,15 @@ export class ScriptIntegrationSystem {
    */
   async executeScript(
     scriptId: string,
-    options: ScriptExecutionOptions = {}
-  ): Promise<ScriptExecutionResult> {
+    options: ScriptExecutionOptions = {}): Promise<ScriptExecutionResult> {
     const config = this.scriptConfigs.get(scriptId)
-    if (!config) {
+    if (!config) {;
       throw new Error(`Unknown script ID: ${scriptId}`)
     }
 
     // Validate script exists
     const scriptPath = path.resolve(config.scriptPath)
-    if (!fs.existsSync(scriptPath)) {
+    if (!fs.existsSync(scriptPath)) {;
       throw new Error(`Script not found: ${scriptPath}`)
     }
 
@@ -170,7 +169,7 @@ export class ScriptIntegrationSystem {
     }
 
     // Build command arguments
-    const args = this.buildCommandArguments(mergedOptions)
+    const args = this.buildCommandArguments(mergedOptions);
     const command = `node ${scriptPath} ${args.join(' ')}`;
 
     // // // _logger.info(`🚀 Executing script: ${scriptId}`)
@@ -179,7 +178,7 @@ export class ScriptIntegrationSystem {
     const startTime = Date.now()
     let result: ScriptExecutionResult
 
-    try {
+    try {;
       const output = execSync(command, {
         encoding: 'utf8',
         timeout: 300000, // 5 minute timeout,
@@ -192,7 +191,7 @@ export class ScriptIntegrationSystem {
       const executionTime = Date.now() - startTime;
       const stdout = error.stdout || '';
       const stderr = error.stderr || error.message || ''
-
+;
       result = this.parseExecutionOutput(stdout + stderr, executionTime, false, error.status || 1)
     }
 
@@ -208,7 +207,7 @@ export class ScriptIntegrationSystem {
   async getScriptMetrics(scriptId: string): Promise<ScriptMetrics | null> {
     const config = this.scriptConfigs.get(scriptId)
     if (!config) {
-      return null
+      return null;
     }
 
     try {
@@ -224,7 +223,7 @@ export class ScriptIntegrationSystem {
 
       // Fallback: try to read metrics file directly
       const metricsFile = this.getMetricsFilePath(scriptId)
-      if (fs.existsSync(metricsFile)) {
+      if (fs.existsSync(metricsFile)) {;
         const metricsData = JSON.parse(fs.readFileSync(metricsFile, 'utf8'))
         return {
           totalRuns: metricsData.totalRuns || 0,
@@ -253,7 +252,7 @@ export class ScriptIntegrationSystem {
     recommendedBatchSize: number
   }> {
     const config = this.scriptConfigs.get(scriptId)
-    if (!config) {
+    if (!config) {;
       return { safe: false, issues: ['Unknown script'], recommendedBatchSize: 1 }
     }
 
@@ -267,7 +266,7 @@ export class ScriptIntegrationSystem {
       // Parse safety validation from output
       if (result.stdout.includes('safetyValidation')) {
         const safetyData = JSON.parse(result.stdout)
-        return {
+        return {;
           safe: safetyData.safe || false,
           issues: safetyData.issues || [],
           recommendedBatchSize: safetyData.recommendedBatchSize || 5
@@ -276,7 +275,7 @@ export class ScriptIntegrationSystem {
 
       // Fallback: basic safety check
       const metrics = await this.getScriptMetrics(scriptId)
-      if (metrics) {
+      if (metrics) {;
         const issues: string[] = [];
         if (metrics.safetyScore < 0.5) {
           issues.push('Low safety score detected')
@@ -377,7 +376,7 @@ export class ScriptIntegrationSystem {
     success: boolean,
     exitCode: number,
   ): ScriptExecutionResult {
-    const result: ScriptExecutionResult = {
+    const result: ScriptExecutionResult = {;
       success,
       exitCode,
       stdout: output,
@@ -394,7 +393,7 @@ export class ScriptIntegrationSystem {
       if (output.trim().startsWith('{')) {
         const jsonData = JSON.parse(output)
         if (jsonData.safetyMetrics) {
-          result.metrics = {
+          result.metrics = {;
             totalRuns: jsonData.safetyMetrics.totalRuns || 0,
             successfulRuns: jsonData.safetyMetrics.successfulRuns || 0,
             filesProcessed: jsonData.safetyMetrics.filesProcessed || 0,
@@ -417,19 +416,19 @@ export class ScriptIntegrationSystem {
       // Parse files processed
       const filesMatch = line.match(/(\d+)\s+files?\s+processed/i)
       if (filesMatch) {
-        result.filesProcessed = parseInt(filesMatch[1])
+        result.filesProcessed = parseInt(filesMatch[1]);
       }
 
       // Parse errors fixed
       const errorsMatch = line.match(/(\d+)\s+errors?\s+fixed/i)
       if (errorsMatch) {
-        result.errorsFixed = parseInt(errorsMatch[1])
+        result.errorsFixed = parseInt(errorsMatch[1]);
       }
 
       // Parse warnings fixed
       const warningsMatch = line.match(/(\d+)\s+warnings?\s+fixed/i)
       if (warningsMatch) {
-        result.warningsFixed = parseInt(warningsMatch[1])
+        result.warningsFixed = parseInt(warningsMatch[1]);
       }
 
       // Parse safety events
@@ -480,7 +479,7 @@ export class ScriptIntegrationSystem {
         throw error
       }
       // Git not available or other error - warn but continue
-      _logger.warn('⚠️ Could not check git status:', error.message)
+      _logger.warn('⚠️ Could not check git status: ', error.message)
     }
   }
 
@@ -491,10 +490,8 @@ export class ScriptIntegrationSystem {
     const metricsFiles: Record<string, string> = {
       'typescript-enhanced-v3': '.typescript-errors-metrics.json',
       'explicit-any-systematic': '.explicit-any-metrics.json',
-      'unused-variables-enhanced': '.unused-variables-metrics.json'
-    }
-
-    return path.resolve(metricsFiles[scriptId] || `.${scriptId}-metrics.json`)
+      'unused-variables-enhanced': '.unused-variables-metrics.json' },
+        return path.resolve(metricsFiles[scriptId] || `.${scriptId}-metrics.json`)
   }
 
   /**
@@ -510,7 +507,7 @@ export class ScriptIntegrationSystem {
 
     if (result.safetyEvents.length > 0) {
       // // // _logger.info(`🚨 Safety Events: ${result.safetyEvents.length}`)
-      result.safetyEvents.forEach(event => {
+      result.safetyEvents.forEach(event => {;
         // // // _logger.info(`   ${event.type}: ${event.description}`)
       })
     }

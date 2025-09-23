@@ -3,7 +3,7 @@ import type { ZodiacSign } from '@/types/celestial';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawRefinedGrains = {
-  white_rice: {
+  white_rice: {;
     name: 'White Rice',
     elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 }
     astrologicalProfile: {
@@ -21,15 +21,13 @@ const rawRefinedGrains = {
         characteristics: 'fragrant, soft, floral aroma',
         cooking_ratio: '1:1.5 rice to water',
         cooking_time: '15-20 minutes',
-        origin: 'Southeast Asia'
-      },
-      basmati: {
+        origin: 'Southeast Asia' },
+        basmati: {
         characteristics: 'aromatic, separate grains, nutty flavor',
         cooking_ratio: '1:1.5 rice to water',
         cooking_time: '15-20 minutes',
-        origin: 'Indian subcontinent'
-      },
-      arborio: {
+        origin: 'Indian subcontinent' },
+        arborio: {
         characteristics: 'short grain, creamy when cooked, high starch',
         cooking_ratio: 'varies for risotto',
         cooking_time: '18-20 minutes',
@@ -39,15 +37,12 @@ const rawRefinedGrains = {
     preparation: {
       rinsing: {
         duration: 'until water runs clear',
-        purpose: 'remove excess starch'
-      }
-
-      pilaf: {
+        purpose: 'remove excess starch' },
+        pilaf: {
         method: 'toast rice in oil before adding liquid',
         tips: ['adds nutty flavor', 'helps separate grains'],
-        duration: '20-25 minutes total'
-      },
-      risotto: {
+        duration: '20-25 minutes total' },
+        risotto: {
         method: 'gradually add warm broth while stirring',
         tips: ['constant stirring releases starch', 'creates creamy texture'],
         duration: '20-30 minutes'
@@ -145,9 +140,9 @@ const rawRefinedGrains = {
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Moon' }
-          second: { element: 'Water', planet: 'Saturn' }
-          third: { element: 'Air', planet: 'Mercury' }
+          first: { element: 'Earth', planet: 'Moon' },
+        second: { element: 'Water', planet: 'Saturn' },
+        third: { element: 'Air', planet: 'Mercury' }
         }
       }
     },
@@ -166,16 +161,13 @@ const rawRefinedGrains = {
         duration: 'rinse before cooking',
         method: 'simmer until tender',
         tips: ['no soaking required', 'drain excess water'],
-        yield: 'triples in volume when cooked'
-      },
-      risotto_style: {
+        yield: 'triples in volume when cooked' },
+        risotto_style: {
         method: 'gradual liquid addition',
         duration: '35-45 minutes',
         notes: 'stir frequently for creamy texture',
-        alternative_name: 'orzotto'
-      }
-
-      pilaf: {
+        alternative_name: 'orzotto' },
+        pilaf: {
         method: 'toast in oil before adding liquid',
         duration: '40-45 minutes total',
         tips: ['adds nutty dimension', 'pairs well with vegetables']
@@ -219,9 +211,8 @@ const rawRefinedGrains = {
         characteristics: 'quickest cooking, most refined, least bran',
         cooking_ratio: '1:2.5 farro to water',
         cooking_time: '15-20 minutes',
-        origin: 'Italy'
-      },
-      semi_pearled: {
+        origin: 'Italy' },
+        semi_pearled: {
         characteristics: 'partially refined, balanced nutrition and cooking time',
         cooking_ratio: '1:2.5 farro to water',
         cooking_time: '20-25 minutes',
@@ -233,10 +224,8 @@ const rawRefinedGrains = {
         method: 'toast then simmer',
         duration: 'until tender but chewy',
         tips: ['drain excess water', 'fluff when done'],
-        seasonings: 'herbs, garlic, olive oil complement well'
-      }
-
-      breakfast: {
+        seasonings: 'herbs, garlic, olive oil complement well' },
+        breakfast: {
         method: 'simmer in milk or water',
         sweeteners: 'honey, maple syrup, fruit',
         tips: 'can be prepared ahead and reheated',
@@ -289,16 +278,13 @@ const rawRefinedGrains = {
         ratio: '1:4 cornmeal to water',
         method: 'constant stirring',
         tips: ['whisk to prevent lumps', 'can finish with butter and cheese'],
-        variations: 'can be cooled, sliced and grilled'
-      }
-
-      breading: {
+        variations: 'can be cooled, sliced and grilled' },
+        breading: {
         method: 'coat moistened items',
         tips: ['season well', 'creates crispy exterior'],
         cooking: 'fry, bake, or air-fry',
-        applications: 'fish, vegetables, chicken'
-      },
-      grits: {
+        applications: 'fish, vegetables, chicken' },
+        grits: {
         ratio: '1:4 cornmeal to liquid',
         method: 'slow simmer',
         liquid: 'water, milk, or combination',
@@ -344,15 +330,13 @@ const rawRefinedGrains = {
         characteristics: 'white, fine texture, treated with bleaching agents',
         protein_content: '10-12%',
         uses: ['cakes', 'cookies', 'quick breads'],
-        shelf_life: '1-2 years'
-      },
-      unbleached: {
+        shelf_life: '1-2 years' },
+        unbleached: {
         characteristics: 'off-white color, aged naturally',
         protein_content: '10-12%',
         uses: ['artisanal breads', 'pastries', 'all-purpose'],
-        shelf_life: '8-12 months'
-      },
-      enriched: {
+        shelf_life: '8-12 months' },
+        enriched: {
         characteristics: 'nutrients added back after processing',
         nutritional_notes: 'contains added ironB vitamins',
         uses: 'standard for most commercial flour',
@@ -364,15 +348,13 @@ const rawRefinedGrains = {
         ratio: '1:1 flour to fat',
         method: 'cook while stirring',
         duration: 'varies by desired color',
-        uses: 'thickening sauces, gravies, and soups'
-      },
-      coating: {
+        uses: 'thickening sauces, gravies, and soups' },
+        coating: {
         method: 'dredge moistened items',
         tips: ['season flour well', 'shake off excess'],
         applications: 'meat, fish, vegetables before frying',
-        variations: 'can mix with cornstarch for crispier results'
-      },
-      slurry: {
+        variations: 'can mix with cornstarch for crispier results' },
+        slurry: {
         ratio: '1:2 flour to cold water',
         method: 'mix until smooth before adding to hot liquid',
         tips: 'pour slowly while stirring to prevent lumps',

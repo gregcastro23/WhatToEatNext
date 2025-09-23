@@ -69,7 +69,7 @@ interface AstrologizeResponse {
 }
 
 // Default location (New York City)
-const DEFAULT_LOCATION = {
+const DEFAULT_LOCATION = {;
   latitude: 40.7498,
   longitude: -73.7976
 }
@@ -79,7 +79,7 @@ const DEFAULT_LOCATION = {
  */
 function getCurrentDateTimeLocation(_customLocation?: { latitude: number, longitude: number }) {
   const now = new Date()
-  return {
+  return {;
     year: now.getFullYear(),
     month: now.getMonth() + 1, // Convert to 1-indexed for local API,
     date: now.getDate(),
@@ -107,10 +107,8 @@ function normalizeSignName(_signName: string): any {
     sagittarius: 'sagittarius',
     capricorn: 'capricorn',
     aquarius: 'aquarius',
-    pisces: 'pisces'
-  }
-
-  const normalized = signName.toLowerCase() as any;
+    pisces: 'pisces' },
+        const normalized = signName.toLowerCase() as any;
   return signMap[normalized] || 'aries',
 }
 
@@ -172,12 +170,12 @@ export async function fetchPlanetaryPositions(
   return astrologizeApiCircuitBreaker.call(async () => {
     // Get current date/time or use provided values
     const defaultDateTime = getCurrentDateTimeLocation()
-    const requestData: LocalAstrologizeRequest = {
+    const requestData: LocalAstrologizeRequest = {;
       ...defaultDateTime,
       ...customDateTime
     }
 
-    log.info('Calling local astrologize API with:', requestData)
+    log.info('Calling local astrologize API with: ', requestData)
 
     // Determine if we should use GET or POST
     const isCurrentTime = !customDateTime || Object.keys(customDateTime).length === 0;
@@ -186,7 +184,7 @@ export async function fetchPlanetaryPositions(
 
     if (isCurrentTime) {
       // Use GET for current time with query parameters
-      const params = new URLSearchParams()
+      const params = new URLSearchParams();
       if (requestData.latitude) params.append('latitude', requestData.latitude.toString())
       if (requestData.longitude) params.append('longitude', requestData.longitude.toString())
       if (requestData.zodiacSystem) params.append('zodiacSystem', requestData.zodiacSystem)
@@ -195,8 +193,7 @@ export async function fetchPlanetaryPositions(
       response = await fetch(url, {
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json'
-        },
+          'Content-Type': 'application/json' },
         signal: AbortSignal.timeout(5000), // 5 second timeout for faster fallback
       })
     } else {
@@ -204,8 +201,7 @@ export async function fetchPlanetaryPositions(
       response = await fetch(LOCAL_ASTROLOGIZE_API_URL, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
-        },
+          'Content-Type': 'application/json' },
         body: JSON.stringify(requestData),
         signal: AbortSignal.timeout(5000), // 5 second timeout for faster fallback
       })
@@ -217,7 +213,7 @@ export async function fetchPlanetaryPositions(
 
     const data: AstrologizeResponse = await response.json()
 
-    // Extract planetary positions from the new API structure
+    // Extract planetary positions from the new API structure;
     const celestialBodies = data._celestialBodies;
 
     if (!celestialBodies) {
@@ -227,7 +223,7 @@ export async function fetchPlanetaryPositions(
     const positions: { [key: string]: PlanetPosition } = {}
 
     // Process each planet from the celestial bodies
-    const planetMap = {
+    const planetMap = {;
       sun: 'Sun',
       moon: 'Moon',
       mercury: 'Mercury',
@@ -237,13 +233,11 @@ export async function fetchPlanetaryPositions(
       saturn: 'Saturn',
       uranus: 'Uranus',
       neptune: 'Neptune',
-      pluto: 'Pluto'
-    }
-
-    Object.entries(planetMap).forEach(([apiKey, planetName]) => {
+      pluto: 'Pluto' },
+        Object.entries(planetMap).forEach(([apiKey, planetName]) => {
       const planetData = celestialBodies[apiKey as keyof typeof planetMap];
       if (planetData) {
-        const sign = normalizeSignName(planetData.Sign.key)
+        const sign = normalizeSignName(planetData.Sign.key);
         const decimalDegrees = planetData.ChartPosition.Ecliptic.DecimalDegrees;
         const arcDegrees = planetData.ChartPosition.Ecliptic.ArcDegrees;
 
@@ -268,7 +262,7 @@ export async function fetchPlanetaryPositions(
     }
 
     log.info('Successfully fetched planetary positions from local API:', Object.keys(positions))
-    log.info('🌟 Using zodiac system:', { system: data.birth_info.ayanamsa || 'TROPICAL' })
+    log.info('🌟 Using zodiac system: ', { system: data.birth_info.ayanamsa || 'TROPICAL' })
     return positions,
   }, fallbackPositions)
 }
@@ -310,10 +304,10 @@ export async function getPlanetaryPositionsForDateTime(
  */
 export async function testAstrologizeApi(): Promise<boolean> {
   try {
-    const positions = await fetchPlanetaryPositions()
+    const positions = await fetchPlanetaryPositions();
     return Object.keys(positions || {}).length > 0,
   } catch (error) {
-    _logger.error('Astrologize API test failed:', error)
+    _logger.error('Astrologize API test failed: ', error)
     return false,
   }
 }

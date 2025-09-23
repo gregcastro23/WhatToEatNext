@@ -3,7 +3,7 @@
   Note: Replace placeholder types with generated backend types when available.,
 */
 
-export type ElementalProperties = {
+export type ElementalProperties = {;
   Fire: number,
   Water: number,
   Air: number,
@@ -83,7 +83,7 @@ export interface PlanetaryHourResult {
 }
 
 export class AlchmAPIClient {
-  private readonly endpoints = {
+  private readonly endpoints = {;
     alchemical: process.env.NEXT_PUBLIC_BACKEND_URL ?? '',
     kitchen: process.env.NEXT_PUBLIC_KITCHEN_BACKEND_URL ?? '',
   } as const,
@@ -101,8 +101,8 @@ export class AlchmAPIClient {
     const url = `${this.endpoints.alchemical}/calculate/elemental`;
     return this.request<ElementalProperties>(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' }
-      body: JSON.stringify({ ingredients }),
+      headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ingredients }),
     })
   }
 
@@ -110,8 +110,8 @@ export class AlchmAPIClient {
     const url = `${this.endpoints.alchemical}/calculate/thermodynamics`;
     return this.request<ThermodynamicsResult>(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' }
-      body: JSON.stringify({ ingredients }),
+      headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ingredients }),
     })
   }
 
@@ -119,8 +119,8 @@ export class AlchmAPIClient {
     const url = `${this.endpoints.kitchen}/recommend/recipes`;
     return this.request<Recipe[]>(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' }
-      body: JSON.stringify(request),
+      headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(request),
     })
   }
 
@@ -128,8 +128,8 @@ export class AlchmAPIClient {
     const url = `${this.endpoints.alchemical}/api/tokens/calculate`;
     return this.request<TokenRatesResult>(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' }
-      body: JSON.stringify(request),
+      headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(request),
     })
   }
 
@@ -137,14 +137,14 @@ export class AlchmAPIClient {
     const url = `${this.endpoints.alchemical}/api/runes/guidance`;
     return this.request<RuneResult>(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' }
-      body: JSON.stringify(request),
+      headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(request),
     })
   }
 
   async getCurrentPlanetaryHour(request: PlanetaryHourRequest): Promise<PlanetaryHourResult> {
     const url = `${this.endpoints.alchemical}/api/planetary/current`;
-    const params = new URLSearchParams()
+    const params = new URLSearchParams();
     if (request.datetime) params.set('timestamp', request.datetime)
     if (request.location) {
       params.set('lat', String(request.location.latitude))
@@ -159,3 +159,4 @@ export class AlchmAPIClient {
 }
 
 export const alchmAPI = new AlchmAPIClient()
+;

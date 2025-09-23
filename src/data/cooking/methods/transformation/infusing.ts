@@ -5,10 +5,9 @@ import type { CookingMethod } from '@/types/shared';
  * Infusing: A technique that transfers flavors, colors, or medicinal properties
  * from one ingredient into a liquid or oil base
  */
-export const infusing: CookingMethodData = {
+export const infusing: CookingMethodData = {;
   name: 'Infusing' as CookingMethod,
-  description:
-    'A technique that transfers flavors, colors, aromasor medicinal properties from herbs, spices, fruitsor other ingredients into a liquid base such as oil, water, alcohol, or vinegar.',
+  description: 'A technique that transfers flavors, colors, aromasor medicinal properties from herbs, spices, fruitsor other ingredients into a liquid base such as oil, water, alcohol, or vinegar.',
   elementalEffect: {
     Fire: 0.1,
     Water: 0.7,
@@ -26,8 +25,7 @@ export const infusing: CookingMethodData = {
     'Preserves volatile compounds that might be lost in high-heat cooking',
     'Allows for creation of medicinal preparations'
   ],
-  history:
-    'Infusion has ancient roots in culinary and medicinal traditions around the world. It was widely used in traditional medicine for creating herbal remedies and in cuisine for imparting subtle flavors to foods and beverages.',
+  history: 'Infusion has ancient roots in culinary and medicinal traditions around the world. It was widely used in traditional medicine for creating herbal remedies and in cuisine for imparting subtle flavors to foods and beverages.',
   modernVariations: [
     'Hot infusion (using heat to speed extraction)',
     'Cold infusion (steeping ingredients at room temperature or refrigerated)',

@@ -38,8 +38,7 @@ const FeatureCard = ({
           {status && (
             <span className="inline-block px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full mt-1">
               {status}
-            </span>
-          )}
+            </span>)}
         </div>
       </div>
       <p className="text-gray-600 leading-relaxed">{description}</p>
@@ -47,17 +46,13 @@ const FeatureCard = ({
         Explore →
       </div>
     </div>
-  </Link>
-)
-
+  </Link>)
 const StatusIndicator = ({ label, status }: { label: string; status: 'active' | 'ready' | 'demo' }) => {
   const colors = {
     active: 'bg-green-100 text-green-800',
     ready: 'bg-blue-100 text-blue-800',
-    demo: 'bg-purple-100 text-purple-800'
-  }
-
-  return (
+    demo: 'bg-purple-100 text-purple-800' },
+        return (
     <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${colors[status]}`}>
       <div className={`w-2 h-2 rounded-full mr-2 ${
         status === 'active' ? 'bg-green-500' :
@@ -72,7 +67,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50">
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-12 sm:py-16 lg:py-20">
+      <section className="container mx-auto px-4 py-12 sm: py-16 lg:py-20">
         <div className="text-center max-w-4xl mx-auto">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
             🔮 <span className="bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
@@ -83,14 +78,12 @@ export default function Home() {
             Discover the perfect meal through ancient alchemical wisdom and modern AI.
             Real-time planetary influences guide your culinary journey.
           </p>
-
           {/* Status Indicators */}
           <div className="flex flex-wrap justify-center gap-3 mb-8">
             <StatusIndicator label="Production Ready" status="active" />
             <StatusIndicator label="Real-Time Features" status="active" />
             <StatusIndicator label="Phase 26 Complete" status="ready" />
           </div>
-
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
@@ -108,7 +101,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       {/* Features Grid */}
       <section className="container mx-auto px-4 py-12">
         <div className="text-center mb-12">
@@ -171,7 +163,6 @@ export default function Home() {
           />
         </div>
       </section>
-
       {/* Architecture Highlight */}
       <section className="bg-white py-12">
         <div className="container mx-auto px-4">
@@ -209,7 +200,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       {/* Footer */}
       <footer className="bg-gray-50 py-8 mt-12">
         <div className="container mx-auto px-4 text-center">

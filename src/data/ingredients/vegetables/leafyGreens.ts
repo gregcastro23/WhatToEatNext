@@ -25,7 +25,7 @@ const generateVegetableAttributes = (vegData: {;
 }
 
 const rawLeafyGreens = {
-  kale: {
+  kale: {;
     name: 'Kale',
     category: 'vegetable',
     subCategory: 'leafy_green',
@@ -97,9 +97,8 @@ const rawLeafyGreens = {
         lutein: 0.4,
         zeaxanthin: 0.38
       },
-      source: 'USDA FoodData Central'
-    },
-    sensoryProfile: {
+      source: 'USDA FoodData Central' },
+        sensoryProfile: {
       taste: {
         sweet: 0.1,
         salty: 0.1,
@@ -146,11 +145,9 @@ const rawLeafyGreens = {
       processing: {
         stemming: 'remove tough stems for raw applications',
         massage: 'massage with oil and salt to tenderize for raw use',
-        chopping: 'chop finely for smoother texture in soups and stews'
-      },
-      notes: 'Becomes sweeter after frost exposure or light cooking'
-    },
-    culinaryApplications: {
+        chopping: 'chop finely for smoother texture in soups and stews' },
+        notes: 'Becomes sweeter after frost exposure or light cooking' },
+        culinaryApplications: {
       commonUses: ['salads', 'smoothies', 'sautés', 'soups', 'chips', 'braises', 'stews'],
       pairingRecommendations: {
         complementary: [
@@ -171,15 +168,13 @@ const rawLeafyGreens = {
         salad: {
           method: 'raw, massaged with oil and salt',
           ingredients: ['lemon juice', 'olive oil', 'salt', 'garlic'],
-          notes: 'Massage 2-3 minutes to break down fibers'
-        },
+          notes: 'Massage 2-3 minutes to break down fibers' },
         chips: {
           method: 'baked or dehydrated',
           temperature: { fahrenheit: 300, celsius: 150 }
           timing: '10-15 minutes',
           ingredients: ['olive oil', 'salt', 'nutritional yeast'],
-          notes: 'Space evenly and watch carefully to prevent burning'
-        },
+          notes: 'Space evenly and watch carefully to prevent burning' },
         sauté: {
           method: 'quick cook in hot oil',
           timing: '5-7 minutes',
@@ -205,9 +200,8 @@ const rawLeafyGreens = {
         texture: 'sturdy, slightly tough',
         flavor: 'peppery, slightly bitter',
         uses: 'salads, chips, sautés',
-        nutritionalDifferences: 'Higher in fiber than other varieties'
-      },
-      Lacinato: {
+        nutritionalDifferences: 'Higher in fiber than other varieties' },
+        Lacinato: {
         name: 'Lacinato (Dinosaur) Kale',
         appearance: 'long, narrow, bumpy dark leaves',
         texture: 'more tender than curly',
@@ -221,9 +215,8 @@ const rawLeafyGreens = {
         texture: 'tender, delicate',
         flavor: 'mild, slightly sweet',
         uses: 'salads, quick cooking',
-        nutritionalDifferences: 'Higher in anthocyanins'
-      },
-      Redbor: {
+        nutritionalDifferences: 'Higher in anthocyanins' },
+        Redbor: {
         name: 'Redbor Kale',
         appearance: 'deep purple-red, curly',
         texture: 'hearty, crisp',
@@ -253,9 +246,8 @@ const rawLeafyGreens = {
         steam: '5 minutes',
         roast: '10-15 minutes',
         blanch: '2-3 minutes',
-        bake: '15-20 minutes'
-      },
-      doneness: [
+        bake: '15-20 minutes' },
+        doneness: [
         'Leaves become deeper green',
         'Texture softens but maintains some structure',
         'Stems are tender when pierced'
@@ -268,9 +260,9 @@ const rawLeafyGreens = {
         base: 'Air',
         secondary: 'Earth',
         decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' }
-          second: { element: 'Earth', planet: 'Saturn' }
-          third: { element: 'Water', planet: 'Moon' }
+          first: { element: 'Air', planet: 'Mercury' },
+        second: { element: 'Earth', planet: 'Saturn' },
+        third: { element: 'Water', planet: 'Moon' }
         }
       },
       lunarPhaseModifiers: {
@@ -296,14 +288,12 @@ const rawLeafyGreens = {
       cooking: {
         nutrientRetention: 0.7, // 70% retention,
         volumeChange: 0.4, // Reduces to 40% of original volume,
-        flavorChange: 'reduced bitterness, enhanced sweetness'
-      },
-      freezing: {
+        flavorChange: 'reduced bitterness, enhanced sweetness' },
+        freezing: {
         nutrientRetention: 0.9, // 90% retention,
         textureChange: 'softens cell structure',
-        bestPrepMethod: 'blanch before freezing'
-      },
-      drying: {
+        bestPrepMethod: 'blanch before freezing' },
+        drying: {
         nutrientRetention: 0.8,
         flavorConcentration: 1.8, // Concentrates by 1.8x,
         rehydrationMethod: 'soak in warm water for 20 minutes'
@@ -319,9 +309,9 @@ const rawLeafyGreens = {
       elementalAffinity: {
         base: 'Water',
         decanModifiers: {
-          first: { element: 'Water', planet: 'Moon' }
-          second: { element: 'Air', planet: 'Mercury' }
-          third: { element: 'Earth', planet: 'Venus' }
+          first: { element: 'Water', planet: 'Moon' },
+        second: { element: 'Air', planet: 'Mercury' },
+        third: { element: 'Earth', planet: 'Venus' }
         }
       },
       lunarPhaseModifiers: {
@@ -363,9 +353,8 @@ const rawLeafyGreens = {
     preparation: {
       washing: true,
       stemming: 'optional',
-      notes: 'Will reduce significantly when cooked'
-    },
-    storage: {
+      notes: 'Will reduce significantly when cooked' },
+        storage: {
       temperature: 'refrigerated',
       duration: '5-7 days',
       notes: 'Store in airtight container',
@@ -381,9 +370,9 @@ const rawLeafyGreens = {
       elementalAffinity: {
         base: 'Water',
         decanModifiers: {
-          first: { element: 'Water', planet: 'Venus' }
-          second: { element: 'Earth', planet: 'Saturn' }
-          third: { element: 'Air', planet: 'Jupiter' }
+          first: { element: 'Water', planet: 'Venus' },
+        second: { element: 'Earth', planet: 'Saturn' },
+        third: { element: 'Air', planet: 'Jupiter' }
         }
       },
       lunarPhaseModifiers: {
@@ -426,9 +415,8 @@ const rawLeafyGreens = {
     preparation: {
       washing: true,
       stemming: 'separate stems from leaves',
-      notes: 'Cook stems longer than leaves'
-    },
-    storage: {
+      notes: 'Cook stems longer than leaves' },
+        storage: {
       temperature: 'refrigerated',
       duration: '3-5 days',
       notes: 'Wrap in damp paper towel',

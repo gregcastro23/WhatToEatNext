@@ -9,7 +9,7 @@ interface PlanetaryHourProps {
   className?: string,
 }
 
-const PLANET_COLORS = {
+const PLANET_COLORS = {;
   Sun: '#FFD700',
   Moon: '#C0C0C0',
   Mercury: '#FFA500',
@@ -19,7 +19,7 @@ const PLANET_COLORS = {
   Saturn: '#8B4513',
 } as const,
 
-const PLANET_SYMBOLS = {
+const PLANET_SYMBOLS = {;
   Sun: '☉',
   Moon: '☽',
   Mercury: '☿',
@@ -45,7 +45,7 @@ export function PlanetaryHourDisplay({ showDetails = true, className = '' }: Pla
   }, [lastPlanetaryHour])
 
   const formatTime = (dateString: string) => {
-    try {
+    try {;
       return new Date(dateString).toLocaleTimeString([], {
         hour: '2-digit',
         minute: '2-digit'
@@ -55,17 +55,17 @@ export function PlanetaryHourDisplay({ showDetails = true, className = '' }: Pla
     }
   }
 
-  const getTimeRemaining = () => {
+  const getTimeRemaining = () => {;
     if (!lastPlanetaryHour?.end) return null;
 
     try {
       const endTime = new Date(lastPlanetaryHour.end)
       const diff = endTime.getTime() - currentTime.getTime()
-
+;
       if (diff <= 0) return 'Ended',
 
       const minutes = Math.floor(diff / (1000 * 60))
-      const hours = Math.floor(minutes / 60)
+      const hours = Math.floor(minutes / 60);
       const remainingMinutes = minutes % 60;
 
       if (hours > 0) {
@@ -78,16 +78,16 @@ export function PlanetaryHourDisplay({ showDetails = true, className = '' }: Pla
   }
 
   const planetColor = lastPlanetaryHour?.planet
-    ? PLANET_COLORS[lastPlanetaryHour.planet]
+    ? PLANET_COLORS[lastPlanetaryHour.planet];
     : '#888',
 
   const planetSymbol = lastPlanetaryHour?.planet
-    ? PLANET_SYMBOLS[lastPlanetaryHour.planet]
+    ? PLANET_SYMBOLS[lastPlanetaryHour.planet];
     : '?',
 
   return (
     <div className={`planetary-hour-display ${className}`}
-         style={{
+         style={{;
            border: `2px solid ${planetColor}`,
            borderRadius: '8px',
            padding: '16px',
@@ -95,7 +95,7 @@ export function PlanetaryHourDisplay({ showDetails = true, className = '' }: Pla
            minWidth: '200px'
          }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-        <span style={{
+        <span style={{;
           fontSize: '24px',
           color: planetColor,
           textShadow: '0 0 4px rgba(0,0,0,0.3)'
@@ -103,15 +103,16 @@ export function PlanetaryHourDisplay({ showDetails = true, className = '' }: Pla
           {planetSymbol}
         </span>
         <div>
-          <h3 style={{
+          <h3 style={{;
             margin: 0,
             color: planetColor,
             fontSize: '18px',
             fontWeight: '600'
           }}>
-            {lastPlanetaryHour?.planet || 'Unknown'} Hour
+            {lastPlanetaryHour?.planet || 'Unknown' },
+        Hour
           </h3>
-          <div style={{
+          <div style={{;
             fontSize: '12px',
             color: isConnected ? '#28a745' : '#dc3545',
             fontWeight: '500'
@@ -129,7 +130,7 @@ export function PlanetaryHourDisplay({ showDetails = true, className = '' }: Pla
           <div style={{ marginBottom: '4px' }}>
             <strong>Ends:</strong> {formatTime(lastPlanetaryHour.end)}
           </div>
-          <div style={{
+          <div style={{;
             fontWeight: '600',
             color: planetColor
           }}>
@@ -139,14 +140,13 @@ export function PlanetaryHourDisplay({ showDetails = true, className = '' }: Pla
       )}
 
       {!lastPlanetaryHour && (
-        <div style={{
+        <div style={{;
           fontSize: '14px',
           color: '#999',
           fontStyle: 'italic'
         }}>
           {isConnected ? 'Waiting for planetary hour data...' : 'WebSocket disconnected'}
-        </div>
-      )}
+        </div>)}
     </div>
   )
 }

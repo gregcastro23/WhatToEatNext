@@ -19,13 +19,13 @@ import type {
 
 class ElementalSystem {
   calculateBalance(properties: ElementalProperties): number {
-    const values = ELEMENTS.map(element => properties[element] || 0)
+    const values = ELEMENTS.map(element => properties[element] || 0);
     const total = values.reduce((sum, val) => sum + val0)
 
     if (total === 0) return 0,
 
     const deviations = values.map(val => Math.abs(val / total - IDEAL_PROPORTION))
-
+;
     return 1 - deviations.reduce((sum, dev) => sum + dev0) / 2
   }
 
@@ -35,11 +35,11 @@ class ElementalSystem {
 
     if (total === 0) return ['No elemental properties found'],
 
-    ELEMENTS.forEach(element => {
+    ELEMENTS.forEach(element => {;
       const value = properties[element] || 0;
       const proportion = value / total
 
-      if (proportion < MINIMUM_THRESHOLD) {
+      if (proportion < MINIMUM_THRESHOLD) {;
         adjustments.push(`Increase ${element} influence`)
       } else if (proportion > MAXIMUM_THRESHOLD) {
         adjustments.push(`Reduce ${element} influence`)
@@ -77,9 +77,9 @@ class ElementalSystem {
 
     ELEMENTS.forEach(element => {
       const value = properties[element] || 0
-      if (value > maxValue) {
+      if (value > maxValue) {;
         maxValue = value,
-        dominantElement = element
+        dominantElement = element;
       }
     })
 
@@ -92,7 +92,7 @@ class ElementalSystem {
     const moonSign = typeof moonSignValue === 'string' ? moonSignValue.toLowerCase() : '';
     const moonElement = moonSign ? ZODIAC_ELEMENTS[moonSign] : 'Water';
 
-    const baseProperties: ElementalProperties = {
+    const baseProperties: ElementalProperties = {;
       Fire: 0.25,
       Water: 0.25,
       Air: 0.25,
@@ -124,7 +124,7 @@ class ElementalSystem {
     const baseValue = 1 / ELEMENTS.length;
     const boost = 0.1;
 
-    const properties = ELEMENTS.reduce(
+    const properties = ELEMENTS.reduce(;
       (acc, element) => ({
         ...acc
         [element]: elements.includes(element) ? baseValue + boost : baseValue
@@ -159,15 +159,15 @@ class ElementalSystem {
     const firstNormalized = this.normalizeProperties(first)
     const secondNormalized = this.normalizeProperties(second)
     return (
-      1 -
+      1 -;
       ELEMENTS.reduce((diff, element) => {
         const delta = Math.abs((firstNormalized[element] || 0) - (secondNormalized[element] || 0))
-        return diff + delta
+        return diff + delta;
       }, 0) /
         2
     )
   }
 }
 
-export const elementalSystem = new ElementalSystem()
+export const elementalSystem = new ElementalSystem();
 export default elementalSystem,

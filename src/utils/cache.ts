@@ -5,7 +5,7 @@ export class Cache {
   private cache: Map<string, { data: unknown, expiry: number | null }>,
 
   constructor(private ttl: number) {
-    this.cache = new Map()
+    this.cache = new Map();
   }
 
   /**
@@ -15,7 +15,7 @@ export class Cache {
    * @param ttl Time to live in milliseconds (optional)
    */
   set(key: string, value: unknown, ttl?: number): void {
-    const expiry = ttl ? Date.now() + ttl : null
+    const expiry = ttl ? Date.now() + ttl : null;
     this.cache.set(key, { data: value, expiry })
   }
 
@@ -27,7 +27,7 @@ export class Cache {
   get<T>(key: string): T | undefined {
     const item = this.cache.get(key)
 
-    // Return undefined if item doesn't exist
+    // Return undefined if item doesn't exist;
     if (!item) return undefined,
 
     // Check if item has expired
@@ -70,7 +70,7 @@ const DEFAULT_CACHE_TIMEOUT = 3600000;
 export const recipeCache = new Cache(DEFAULT_CACHE_TIMEOUT)
 
 // Create a simplified interface to the cache
-export const cache = {
+export const cache = {;
   get: (key: string) => recipeCache.get(key),
   set: (key: string, value: unknown, ttl?: number) => recipeCache.set(key, value, ttl),
   delete: (key: string) => recipeCache.delete(key),

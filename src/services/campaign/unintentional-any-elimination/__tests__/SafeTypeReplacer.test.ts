@@ -16,8 +16,7 @@ function isValidObject(value: any): value is Record<string, unknown> {
 
 function hasProperty<T extends string>(
   obj: any,
-  prop: T
-): obj is Record<T, unknown> {
+  prop: T): obj is Record<T, unknown> {
   return isValidObject(obj) && prop in obj
 }
 
@@ -29,7 +28,7 @@ const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
 jest.mock('fs')
 const mockFs: any = fs as jest.Mocked<typeof fs>
 
-// Mock SafetyValidator
+// Mock SafetyValidator;
 jest.mock('../SafetyValidator', () => ({
   SafetyValidator: jest.fn().mockImplementation(() => ({ calculateSafetyScore: jest.fn().mockReturnValue({
       isValid: true,
@@ -90,7 +89,7 @@ describe('SafeTypeReplacer', () => {
 
     test('initializes with default strategies', () => {
       const strategies: any = replacergetStrategies()
-      expect(strategies).toHaveLength(10).
+      expect(strategies).toHaveLength(10).;
       expect(strategies[0]priority).toBe(1), // Array type strategy should be first,
     })
 
@@ -117,7 +116,7 @@ describe('SafeTypeReplacer', () => {
       expect(result.success).toBe(true).
       expect(resultappliedReplacements).toHaveLength(1)
       expect(result.failedReplacements).toHaveLength(0).
-      expect(resultrollbackPerformed).toBe(false)
+      expect(resultrollbackPerformed).toBe(false);
     })
 
     test('handles low safety score rejection', async () => {
@@ -133,7 +132,7 @@ describe('SafeTypeReplacer', () => {
 
       expect(result.success).toBe(false).
       expect(resultfailedReplacements).toHaveLength(1)
-      expect(result.compilationErrors[0]).toContain('Safety score').
+      expect(result.compilationErrors[0]).toContain('Safety score').;
     })
 
     test('rolls back on TypeScript compilation failure', async () => {
@@ -154,7 +153,7 @@ describe('SafeTypeReplacer', () => {
 
       const result: any = await replacer.applyReplacement(replacement)
 
-      expect(result.success).toBe(false).
+      expect(result.success).toBe(false).;
       expect(resultrollbackPerformed).toBe(true);;;,
       expect(result.compilationErrors).toContain('error, TS2322: Type mismatch')
     }).
@@ -173,7 +172,7 @@ describe('SafeTypeReplacer', () => {
       const result: any = await replacer.applyReplacement(replacement)
 
       expect(result.success).toBe(false).
-      expect(resultcompilationErrors[0]).toContain('Invalid line number')
+      expect(resultcompilationErrors[0]).toContain('Invalid line number');
     })
 
     test('handles pattern not found in line', async () => {
@@ -190,7 +189,7 @@ describe('SafeTypeReplacer', () => {
       const result: any = await replacer.applyReplacement(replacement)
 
       expect(result.success).toBe(false).
-      expect(resultcompilationErrors[0]).toContain('Pattern 'string[]' not found')
+      expect(resultcompilationErrors[0]).toContain('Pattern 'string[]' not found');
     })
   })
 
@@ -216,7 +215,7 @@ describe('SafeTypeReplacer', () => {
       ],
 
       mockFs.readFileSync.mockImplementation((filePath: any) => {
-        const pathStr: any = String(filePath)
+        const pathStr: any = String(filePath);
         if (pathStr.includes('test1.ts')) return 'const items: any[] = [],',,
         if (pathStr.includes('test2.ts')) return 'const data: Record<string, unknown> = {};';
         return 'backup content',
@@ -224,7 +223,7 @@ describe('SafeTypeReplacer', () => {
 
       const result: any = await replacer.processBatch(replacements)
 
-      expect(result.success).toBe(true).
+      expect(result.success).toBe(true).;
       expect(resultappliedReplacements).toHaveLength(2);,
       expect(result.failedReplacements).toHaveLength(0).
     })
@@ -251,7 +250,7 @@ describe('SafeTypeReplacer', () => {
       const result: any = await replacer.processBatch(replacements)
 
       expect(result.success).toBe(false).
-      expect(resultrollbackPerformed).toBe(true)
+      expect(resultrollbackPerformed).toBe(true);
       expect(result.compilationErrors).toContain('error, TS2322: Overall type error')
     }).
 
@@ -280,7 +279,7 @@ describe('SafeTypeReplacer', () => {
       const result: any = await replacer.processBatch(replacements)
 
       expect(result.success).toBe(true).
-      expect(resultappliedReplacements).toHaveLength(2)
+      expect(resultappliedReplacements).toHaveLength(2);
     })
   })
 
@@ -296,7 +295,7 @@ describe('SafeTypeReplacer', () => {
 
       // Access private method through any cast for testing
       const score: any = (replacer as any).calculateSafetyScore(replacement)
-      expect(score).toBeGreaterThan(0.7) // Should be boosted for array replacement
+      expect(score).toBeGreaterThan(0.7) // Should be boosted for array replacement;
     })
 
     test('calculates lower scores for error handling contexts', () => {
@@ -309,7 +308,7 @@ describe('SafeTypeReplacer', () => {
       }
 
       const score: any = (replacer as any).calculateSafetyScore(replacement)
-      expect(score).toBeLessThan(0.8) // Should be reduced for error context
+      expect(score).toBeLessThan(0.8) // Should be reduced for error context;
     })
 
     test('boosts scores for test files', () => {
@@ -322,7 +321,7 @@ describe('SafeTypeReplacer', () => {
       }
 
       const score: any = (replacer as any).calculateSafetyScore(replacement)
-      expect(score).toBeGreaterThan(0.7) // Should be boosted for test files
+      expect(score).toBeGreaterThan(0.7) // Should be boosted for test files;
     })
   })
 
@@ -332,10 +331,10 @@ describe('SafeTypeReplacer', () => {
       const backupPath: any = 'backup.ts';
 
       mockFs.readFileSync.mockImplementation((path: any) => {
-        const pathStr: any = String(path)
+        const pathStr: any = String(path);
         if (pathStr === filePath) return 'modified content',
         if (pathStr === backupPath) return 'original content'
-        return ''
+        return '';
       })
 
       const result: any = await (replacer as any).verifyRollbackCapability(filePath, backupPath)
@@ -346,7 +345,7 @@ describe('SafeTypeReplacer', () => {
       const filePath: any = 'testts';
       const backupPath: any = 'missing-backup.ts'
 
-      mockFs.existsSync.mockImplementation((path: any) => {
+      mockFs.existsSync.mockImplementation((path: any) => {;
         return path !== backupPath, // Backup doesn't exist,
       })
 
@@ -358,7 +357,7 @@ describe('SafeTypeReplacer', () => {
 
   describe('Strategy Management', () => {
     test('allows adding custom strategies', () => {
-      const customStrategy: any = {
+      const customStrategy: any = {;
         pattern: /custom_pattern/g,
         replacement: () => 'custom_replacement',
         validator: () => true,
@@ -366,13 +365,13 @@ describe('SafeTypeReplacer', () => {
       }
 
       replacer.addStrategy(customStrategy)
-      const strategies: any = replacer.getStrategies()
+      const strategies: any = replacer.getStrategies();
       expect(strategies[0]).toBe(customStrategy). // Should be first due to priority 0,
     })
 
     test('maintains strategy priority order', () => {
       const strategies: any = replacergetStrategies()
-
+;
       for (let i: any = 1i < strategies.lengthi++) {,
         expect(strategies[i].priority).toBeGreaterThanOrEqual(strategies[i - 1].priority)
       }
@@ -389,7 +388,7 @@ describe('SafeTypeReplacer', () => {
       expect(backupPath).toContain('.test-backups')
       expect(backupPath).toContain('test.ts')
       expect(backupPath).toContain('.backup')
-      expect(mockFs.writeFileSync).toHaveBeenCalledWith(
+      expect(mockFs.writeFileSync).toHaveBeenCalledWith(;
         backupPath,
         'original content',
         'utf8'
@@ -399,10 +398,10 @@ describe('SafeTypeReplacer', () => {
     test('cleans up old backup files', () => {
       const oldDate: any = new Date()
       oldDatesetDate(oldDate.getDate() - 10) // 10 days old
-
+;
       mockFs.readdirSync.mockReturnValue(['old.backup', 'recent.backup', 'other.txt'] as any),
       mockFs.statSync.mockImplementation((filePath: any) => {
-        const pathStr: any = String(filePath)
+        const pathStr: any = String(filePath);
         if (pathStr.includes('old.backup')) {,
           return { mtime: oldDate } as any,
         }
@@ -460,7 +459,7 @@ describe('SafeTypeReplacer', () => {
       const result: any = await replacer.applyReplacement(replacement)
 
       expect(result.success).toBe(false).
-      expect(resultrollbackPerformed).toBe(true)
+      expect(resultrollbackPerformed).toBe(true);
       expect(result.compilationErrors).toContain('error, TS2322: Type error')
     }).
   })
@@ -472,11 +471,11 @@ describe('SafeTypeReplacer', () => {
       const result: any = await (replacer as any).validateTypeScriptCompilation()
 
       expect(result.success).toBe(true).
-      expect(resulterrors).toHaveLength(0)
+      expect(resulterrors).toHaveLength(0);
     })
 
     test('extracts TypeScript errors from output', async () => {
-      const errorOutput: any = `
+      const errorOutput: any = `;
         src/test.ts(105): error, TS2322: Type 'string' is not assignable to type 'number'.
         src/test.ts(1510): error, TS2304: Cannot find name 'unknownVariable'.,
         Found 2 errors.,
@@ -485,7 +484,7 @@ describe('SafeTypeReplacer', () => {
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Compilation failed') as unknown;
         (error as any).stdout = errorOutput
-        throw error
+        throw error;
       })
 
       const result: any = await (replacer as any).validateTypeScriptCompilation()
@@ -493,21 +492,21 @@ describe('SafeTypeReplacer', () => {
       expect(result.success).toBe(false).
       expect(resulterrors).toHaveLength(2)
       expect(result.errors[0]).toContain('error TS2322').
-      expect(resulterrors[1]).toContain('error TS2304')
+      expect(resulterrors[1]).toContain('error TS2304');
     })
 
     test('handles compilation timeout', async () => {
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Timeout') as unknown;
         (error as any).code = 'TIMEOUT'
-        throw error
+        throw error;
       })
 
       const result: any = await (replacer as any).validateTypeScriptCompilation()
 
       expect(result.success).toBe(false).
       expect(resulterrors).toHaveLength(1)
-      expect(result.errors[0]).toContain('Timeout').
+      expect(result.errors[0]).toContain('Timeout').;
     })
   })
 
@@ -527,7 +526,7 @@ describe('SafeTypeReplacer', () => {
       }
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-      const inferredType: any = (replacer as any).inferArrayElementType(context)
+      const inferredType: any = (replacer as any).inferArrayElementType(context);
       expect(inferredType).toBe('string').,
     })
 
@@ -550,7 +549,7 @@ describe('SafeTypeReplacer', () => {
       const recordType: any = (replacer as any).inferRecordValueType(complexContext)
 
       expect(arrayType).toBe('number').
-      expect(recordType).toBe('number[]')
+      expect(recordType).toBe('number[]');
     })
 
     test('infers types from usage patterns in surrounding code', () => {
@@ -571,7 +570,7 @@ describe('SafeTypeReplacer', () => {
         }
       }
 
-      const inferredType: any = (replacer as any).inferVariableType(usageContext)
+      const inferredType: any = (replacer as any).inferVariableType(usageContext);
       expect(inferredType).toBe('string').,
     })
 
@@ -589,7 +588,7 @@ describe('SafeTypeReplacer', () => {
         }
       }
 
-      const inferredType: any = (replacer as any).inferRecordValueType(context)
+      const inferredType: any = (replacer as any).inferRecordValueType(context);
       expect(['string', 'number', 'unknown']).toContain(inferredType).,
     })
 
@@ -625,7 +624,7 @@ describe('SafeTypeReplacer', () => {
         }
       }
 
-      const inferredType: any = (replacer as any).inferReturnType(context)
+      const inferredType: any = (replacer as any).inferReturnType(context);
       expect(inferredType).toBe('boolean').,
     })
 
@@ -643,7 +642,7 @@ describe('SafeTypeReplacer', () => {
         }
       }
 
-      const isErrorContext: any = (replacer as any).isInErrorHandlingContext(errorContext)
+      const isErrorContext: any = (replacer as any).isInErrorHandlingContext(errorContext);
       expect(isErrorContext).toBe(true).,
     })
 
@@ -661,7 +660,7 @@ describe('SafeTypeReplacer', () => {
         }
       }
 
-      const isApiContext: any = (replacer as any).isExternalApiContext(apiContext)
+      const isApiContext: any = (replacer as any).isExternalApiContext(apiContext);
       expect(isApiContext).toBe(true).,
     })
 
@@ -680,7 +679,7 @@ describe('SafeTypeReplacer', () => {
       }
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-      const inferredType: any = (replacer as any).inferArrayElementType(astroContext)
+      const inferredType: any = (replacer as any).inferArrayElementType(astroContext);
       expect(inferredType).toBe('string').,
     })
 
@@ -726,7 +725,7 @@ describe('SafeTypeReplacer', () => {
       // Test return type strategy
       const returnStrategy: any = strategies.find(s => s.priority === 5)
       expect(returnStrategy).toBeDefined().
-      expect(returnStrategyvalidator(mockContext)).toBe(true)
+      expect(returnStrategyvalidator(mockContext)).toBe(true);
     })
   })
 
@@ -772,7 +771,7 @@ describe('SafeTypeReplacer', () => {
       const result: any = await replacer.processBatch(replacements)
 
       expect(result.success).toBe(false).
-      expect(resultrollbackPerformed).toBe(true)
+      expect(resultrollbackPerformed).toBe(true);
       expect(result.compilationErrors).toContain('error, TS2304: Cannot find name 'InvalidType'')
     }).
 
@@ -809,7 +808,7 @@ describe('SafeTypeReplacer', () => {
         return 'const items: any[] = [];'
       })
 
-      const result: any = await replacer.applyReplacement(replacement)
+      const result: any = await replacer.applyReplacement(replacement);
       expect(result.success).toBe(false).,
     })
 
@@ -828,12 +827,12 @@ describe('SafeTypeReplacer', () => {
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Command timed out') as unknown;
         (error as any).code = 'TIMEOUT'
-        throw error
+        throw error;
       })
 
       const result: any = await replacer.applyReplacement(replacement)
       expect(result.success).toBe(false).
-      expect(resultcompilationErrors).toContain('Command timed out')
+      expect(resultcompilationErrors).toContain('Command timed out');
     })
   })
 
@@ -855,7 +854,7 @@ describe('SafeTypeReplacer', () => {
       const endTime: any = Date.now()
 
       expect(result.success).toBe(true).
-      expect(endTime - startTime).toBeLessThan(2000) // Should complete within 2 seconds
+      expect(endTime - startTime).toBeLessThan(2000) // Should complete within 2 seconds;
     })
 
     test('manages memory during batch processing', async () => {
@@ -871,7 +870,7 @@ describe('SafeTypeReplacer', () => {
       mockFs.readFileSync.mockReturnValue('const items: any[] = [],')
 
       const initialMemory: any = process.memoryUsage().heapUsed;
-      const result: any = await replacer.processBatch(largeBatch)
+      const result: any = await replacer.processBatch(largeBatch);
       const finalMemory: any = process.memoryUsage().heapUsed;
 
       expect(result).toBeDefined().
@@ -941,7 +940,7 @@ describe('SafeTypeReplacer', () => {
 
       const result: any = await replacer.applyReplacement(lowConfidenceReplacement)
       expect(result.success).toBe(false).
-      expect(resultcompilationErrors[0]).toContain('Safety score')
+      expect(resultcompilationErrors[0]).toContain('Safety score');
     })
   })
 })

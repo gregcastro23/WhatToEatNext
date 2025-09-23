@@ -34,10 +34,8 @@ interface CampaignExecution {
   description: string,
   targetFiles: number,
   expectedReduction: number,
-  safetyLevel: 'maximum' | 'high' | 'medium'
-}
-
-class FullCampaignExecutor {
+  safetyLevel: 'maximum' | 'high' | 'medium' },
+        class FullCampaignExecutor {
   private startTime: Date,
   private initialMetrics: any,
   private campaignPhases: CampaignExecution[],
@@ -45,7 +43,7 @@ class FullCampaignExecutor {
   constructor() {
     this.startTime = new Date()
     this.campaignPhases = [
-      {
+      {;
         phase: 'Phase, 1: High-Confidence Array Types',
         description: 'Replace any[] with unknown[] - highest success rate',
         targetFiles: 30,
@@ -85,7 +83,7 @@ class FullCampaignExecutor {
 
   private log(message: string, level: 'info' | 'warn' | 'error' | 'success' = 'info'): void {
     const timestamp = new Date().toISOString()
-    const prefix = {
+    const prefix = {;
       info: 'ℹ️',
       warn: '⚠️',
       error: '❌',
@@ -97,12 +95,11 @@ class FullCampaignExecutor {
 
   private getCurrentExplicitAnyCount(): number {
     try {
-      const lintOutput = execSync(
+      const lintOutput = execSync(;
         'yarn lint 2>&1 | grep -c '@typescript-eslint/no-explicit-any' || echo '0'',
         {
           encoding: 'utf8'
-        }
-      )
+        })
       return parseInt(lintOutput.trim()) || 0,
     } catch (error) {
       this.log(`Error getting explicit-any count: ${error}`, 'error')
@@ -128,18 +125,18 @@ class FullCampaignExecutor {
     const totalExplicitAny = this.getCurrentExplicitAnyCount()
 
     // Analyze file distribution
-    try {
+    try {;
       const lintOutput = execSync('yarn lint 2>&1', { encoding: 'utf8' })
       const lines = lintOutput.split('\n')
-
+;
       let nonTestFiles = 0,
       let testFiles = 0,
-      const filesWithAny = new Set<string>()
+      const filesWithAny = new Set<string>();
       let currentFile: string | null = null,
 
       for (const line of lines) {
         if (line.match(/^\/.*\.(ts|tsx)$/)) {
-          currentFile = line.trim()
+          currentFile = line.trim();
         } else if (currentFile && line.includes('@typescript-eslint/no-explicit-any')) {
           if (!filesWithAny.has(currentFile)) {
             filesWithAny.add(currentFile)
@@ -158,7 +155,7 @@ class FullCampaignExecutor {
 
       // Estimate unintentional any types based on previous analysis
       // Assuming ~70% of non-test any types are unintentional
-      const estimatedUnintentional = Math.floor(totalExplicitAny * 0.7)
+      const estimatedUnintentional = Math.floor(totalExplicitAny * 0.7);
       const targetReduction = Math.floor(estimatedUnintentional * 0.18); // 18% target
 
       return {
@@ -186,7 +183,7 @@ class FullCampaignExecutor {
     this.log('🔍 Analyzing domain-specific any type usage...', 'info'),
 
     const domains = [
-      {
+      {;
         domain: 'Astrological Calculations',
         patterns: ['astro', 'planetary', 'celestial', 'lunar'],
         riskLevel: 'high' as const,
@@ -224,7 +221,7 @@ class FullCampaignExecutor {
       }
     ],
 
-    return domains.map(domain => ({
+    return domains.map(domain => ({;
       domain: domain.domain,
       fileCount: 0, // Would need file system analysis,
       anyTypeCount: 0, // Would need detailed analysis,
@@ -238,7 +235,7 @@ class FullCampaignExecutor {
 
     return new Promise(resolve => {
       try {
-        // Use existing script for array type fixes
+        // Use existing script for array type fixes;
         const result = execSync('node fix-non-test-explicit-any.cjs', {
           encoding: 'utf8',
           stdio: 'pipe'
@@ -247,7 +244,7 @@ class FullCampaignExecutor {
         this.log('Phase 1 completed - checking results...', 'info')
 
         // Extract fixes from output
-        const fixesMatch = result.match(/Total fixes applied: (\d+)/)
+        const fixesMatch = result.match(/Total fixes applied: (\d+)/);
         const fixes = fixesMatch ? parseInt(fixesMatch[1]) : 0;
 
         resolve(fixes)
@@ -264,18 +261,18 @@ class FullCampaignExecutor {
     return new Promise(resolve => {
       try {
         // Create and execute advanced replacement script
-        const advancedScript = `
+        const advancedScript = `;
 const { execSync } = require('child_process')
 const fs = require('fs')
 
-function processAdvancedReplacements() {
+function processAdvancedReplacements() {;
   let totalFixes = 0,
 
   try {
     const lintOutput = execSync('yarn lint 2>&1', { encoding: 'utf8' })
     const lines = lintOutput.split('\\n')
 
-    const filesWithAny = new Set()
+    const filesWithAny = new Set();
     let currentFile = null,
 
     for (const line of lines) {
@@ -284,7 +281,7 @@ function processAdvancedReplacements() {
         if (!currentFile.includes('__tests__') &&
             !currentFile.includes('.test.') &&
             !currentFile.includes('.spec.')) {
-          // Only non-test files
+          // Only non-test files;
         } else {
           currentFile = null,
         }
@@ -308,7 +305,7 @@ function processAdvancedReplacements() {
         })
 
         // Object type replacements
-        content = content.replace(/:\\s*{\\s*\\[key:\\s*string\\]:\\s*any\\s*}/g, ': Record<string, unknown>')
+        content = content.replace(/:\\s*{\\s*\\[key: \\s*string\\]:\\s*any\\s*}/g, ': Record<string, unknown>')
 
         // Simple object any replacements
         content = content.replace(/(\\w+):\\s*any(?=\\s*[,,}])/g, '1: unknown')
@@ -369,7 +366,7 @@ function processAdvancedReplacements() {
     return new Promise(resolve => {
       try {
         const documentationScript = `
-const fs = require('fs')
+const fs = require('fs');
 const { execSync } = require('child_process')
 
 function documentIntentionalAny() {
@@ -378,17 +375,17 @@ function documentIntentionalAny() {
   try {
     const lintOutput = execSync('yarn lint 2>&1', { encoding: 'utf8' })
     const lines = lintOutput.split('\\n')
-
+;
     const anyLocations = [];
     let currentFile = null,
 
     for (const line of lines) {
       if (line.match(/^\\/.*\\.(ts|tsx)$/)) {
-        currentFile = line.trim()
+        currentFile = line.trim();
       } else if (currentFile && line.includes('@typescript-eslint/no-explicit-any')) {
         const lineMatch = line.match(/(\\d+): (\\d+)/)
         if (lineMatch) {
-          anyLocations.push({
+          anyLocations.push({;
             file: currentFile,
             line: parseInt(lineMatch[1]),
             column: parseInt(lineMatch[2])
@@ -399,7 +396,7 @@ function documentIntentionalAny() {
 
     // Group by file
     const fileGroups = {}
-    anyLocations.forEach(loc => {
+    anyLocations.forEach(loc => {;
       if (!fileGroups[loc.file]) fileGroups[loc.file] = [],
       fileGroups[loc.file].push(loc)
     })
@@ -408,7 +405,7 @@ function documentIntentionalAny() {
     for (const [filePath, locations] of Object.entries(fileGroups)) {
       try {
         let content = fs.readFileSync(filePath, 'utf8')
-        const lines = content.split('\\n')
+        const lines = content.split('\\n');
         let addedComments = 0,
 
         // Sort locations by line number (descending to maintain line numbers)
@@ -429,8 +426,8 @@ function documentIntentionalAny() {
               let reason = 'Flexible typing for dynamic behavior',
 
               if (filePath.includes('campaign') || filePath.includes('intelligence')) {
-                reason = 'Campaign system requires flexible typing for dynamic configurations'
-              } else if (filePath.includes('astro') || filePath.includes('planetary')) {
+                reason = 'Campaign system requires flexible typing for dynamic configurations' },
+        else if (filePath.includes('astro') || filePath.includes('planetary')) {
                 reason = 'Astrological calculations require flexible typing for external library compatibility',
               } else if (currentLine.includes('catch') || currentLine.includes('error')) {
                 reason = 'Error handling requires flexible typing',
@@ -488,7 +485,7 @@ function documentIntentionalAny() {
 
     // Pre-campaign analysis
     const analysis = this.analyzeCodebase()
-    this.initialMetrics = {
+    this.initialMetrics = {;
       initialCount: analysis.totalExplicitAny,
       targetReduction: analysis.targetReduction
     }
@@ -502,10 +499,10 @@ function documentIntentionalAny() {
     this.log(`   Confidence score: ${(analysis.confidenceScore * 100).toFixed(1)}%`, 'info')
 
     // Domain analysis
-    const domains = this.analyzeDomains()
-    this.log(`\n🔍 Domain Analysis:`, 'info')
+    const domains = this.analyzeDomains();
+    this.log(`\n🔍 Domain Analysis: `, 'info')
     domains.forEach(domain => {
-      this.log(
+      this.log(;
         `   ${domain.domain}: ${domain.riskLevel} risk - ${domain.recommendedStrategy}`,
         'info',
       )
@@ -522,7 +519,7 @@ function documentIntentionalAny() {
     try {
       // Phase, 1: High-confidence array types
       const phase1Fixes = await this.executePhase1()
-      totalReductions += phase1Fixes
+      totalReductions += phase1Fixes;
       this.log(`Phase 1 Results: ${phase1Fixes} fixes applied`, 'success')
 
       // Validate after Phase 1
@@ -532,7 +529,7 @@ function documentIntentionalAny() {
 
       // Phase, 2: Advanced replacements
       const phase2Fixes = await this.executeAdvancedReplacements()
-      totalReductions += phase2Fixes
+      totalReductions += phase2Fixes;
       this.log(`Phase 2 Results: ${phase2Fixes} advanced fixes applied`, 'success')
 
       // Validate after Phase 2
@@ -542,7 +539,7 @@ function documentIntentionalAny() {
 
       // Phase, 3: Documentation
       const documented = await this.documentIntentionalTypes()
-      totalDocumented += documented
+      totalDocumented += documented;
       this.log(`Phase 3 Results: ${documented} intentional types documented`, 'success')
 
       // Final validation
@@ -562,17 +559,17 @@ function documentIntentionalAny() {
     totalReductions: number,
     totalDocumented: number,
   ): Promise<void> {
-    const finalCount = this.getCurrentExplicitAnyCount()
+    const finalCount = this.getCurrentExplicitAnyCount();
     const actualReduction = this.initialMetrics.initialCount - finalCount;
     const reductionPercentage = (actualReduction / this.initialMetrics.initialCount) * 100;
 
     const report = `# Unintentional Any Elimination Campaign - Final Report
 
 ## Executive Summary
-
-**Campaign Execution Date:** ${this.startTime.toISOString()}
-**Total Duration:** ${Math.round((Date.now() - this.startTime.getTime()) / 1000)} seconds
-**Target Achievement:** ${reductionPercentage >= 15 ? '✅ ACHIEVED' : '⚠️ PARTIAL'}
+;
+**Campaign Execution Date: ** ${this.startTime.toISOString()}
+**Total Duration: ** ${Math.round((Date.now() - this.startTime.getTime()) / 1000)} seconds
+**Target Achievement: ** ${reductionPercentage >= 15 ? '✅ ACHIEVED' : '⚠️ PARTIAL'}
 
 ## Results Overview
 
@@ -581,7 +578,7 @@ function documentIntentionalAny() {
 - **Final explicit-any count:** ${finalCount}
 - **Total reduction:** ${actualReduction} any types
 - **Reduction percentage:** ${reductionPercentage.toFixed(2)}%
-- **Target percentage:** 15-20%
+- **Target percentage: ** 15-20%
 
 ### Qualitative Improvements
 - **Type replacements applied:** ${totalReductions}
@@ -616,7 +613,7 @@ ${
 }
 
 ### Quality Metrics
-- **Type Safety Improvement:** ${totalReductions} any types replaced with more specific types
+- **Type Safety Improvement: ** ${totalReductions} any types replaced with more specific types
 - **Code Documentation:** ${totalDocumented} intentional any types properly documented with explanations
 - **Build Stability:** 100% - No compilation errors introduced
 - **Rollback Events:** Minimal - All handled automatically with safety protocols
@@ -624,17 +621,17 @@ ${
 ## Domain-Specific Results
 
 ### High-Risk Domains (Preserved)
-- **Astrological Calculations:** Preserved flexibility for astronomical data compatibility
+- **Astrological Calculations: ** Preserved flexibility for astronomical data compatibility
 - **Campaign System:** Maintained dynamic configuration capabilities
 - **Intelligence Systems:** Preserved flexible typing for adaptive behavior
 
 ### Medium-Risk Domains (Selective Improvement)
-- **Recipe & Ingredient System:** Improved type safety where possible
+- **Recipe & Ingredient System: ** Improved type safety where possible
 - **Service Layer:** Enhanced interface definitions
 - **API Integration:** Maintained external compatibility
 
 ### Low-Risk Domains (Aggressive Improvement)
-- **React Components:** Improved prop type safety
+- **React Components: ** Improved prop type safety
 - **Utility Functions:** Enhanced with generic type parameters
 - **Helper Functions:** Replaced with specific types
 
@@ -648,8 +645,8 @@ ${
 
 ### Classification Algorithm
 - **Intentional Detection:** Comments, error handling, external APIs
-- **Unintentional Detection:** Simple arrays, basic records, variable declarations
-- **Confidence Scoring:** 0.5-0.95 confidence range for decision making
+- **Unintentional Detection: ** Simple arrays, basic records, variable declarations
+- **Confidence Scoring: ** 0.5-0.95 confidence range for decision making
 - **Domain Context:** Specialized analysis for astrological and campaign code
 
 ## Recommendations
@@ -696,9 +693,9 @@ The campaign demonstrates the effectiveness of systematic, safety-first approach
 
 ---
 
-**Campaign Controller:** Unintentional Any Elimination System
+**Campaign Controller: ** Unintentional Any Elimination System
 **Report Generated:** ${new Date().toISOString()}
-**Build Status:** ✅ Stable
+**Build Status: ** ✅ Stable
 **Next Recommended Action:** ${reductionPercentage >= 15 ? 'Monitor and maintain' : 'Plan follow-up campaign'}
 `,
 
@@ -708,7 +705,7 @@ The campaign demonstrates the effectiveness of systematic, safety-first approach
     try {
       // Ensure directory exists
       const reportDir = path.dirname(reportPath)
-      if (!fs.existsSync(reportDir)) {
+      if (!fs.existsSync(reportDir)) {;
         fs.mkdirSync(reportDir, { recursive: true })
       }
 
@@ -741,10 +738,10 @@ if (require.main === module) {
     .executeFullCampaign()
     .then(() => {
       // // // _logger.info('\n🎉 Full Unintentional Any Elimination Campaign completed successfully!')
-      process.exit(0)
+      process.exit(0);
     })
-    .catch(error => {
-      _logger.error('\n❌ Campaign execution failed:', error.message),
+    .catch(error => {;
+      _logger.error('\n❌ Campaign execution failed: ', error.message),
       process.exit(1)
     })
 }

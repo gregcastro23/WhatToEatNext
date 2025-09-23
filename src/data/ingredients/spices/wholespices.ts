@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawWholeSpices = {
-  star_anise: {
+  star_anise: {;
     name: 'Star Anise',
     elementalProperties: { Fire: 0.4, Air: 0.2, Water: 0.1, Earth: 0.1 }
     qualities: ['sweet', 'licorice-like', 'warming'],
@@ -258,9 +258,8 @@ const rawWholeSpices = {
                 flavorProfile: {
                   primary: ['balanced'],
                   secondary: ['versatile'],
-                  notes: 'Versatile flavorProfile for various uses'
-                },
-                cookingMethods: ['sautéing', 'steaming', 'roasting'],
+                  notes: 'Versatile flavorProfile for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
                 cuisineAffinity: ['Global', 'International'],
                 preparationTips: ['Use as needed', 'Season to taste']
               },
@@ -270,9 +269,8 @@ const rawWholeSpices = {
               flavorProfile: {
                 primary: ['balanced'],
                 secondary: ['versatile'],
-                notes: 'Versatile flavorProfile for various uses'
-              },
-              cookingMethods: ['sautéing', 'steaming', 'roasting'],
+                notes: 'Versatile flavorProfile for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
               cuisineAffinity: ['Global', 'International'],
               preparationTips: ['Use as needed', 'Season to taste']
             },
@@ -293,8 +291,7 @@ const rawWholeSpices = {
         flavorProfile: {
           primary: ['balanced'],
           secondary: ['versatile'],
-          notes: 'Versatile star anise for various uses'
-        },
+          notes: 'Versatile star anise for various uses' },
         cookingMethods: ['sautéing', 'steaming', 'roasting'],
         cuisineAffinity: ['Global', 'International'],
         preparationTips: ['Use as needed', 'Season to taste']
@@ -305,9 +302,8 @@ const rawWholeSpices = {
       toasting: {
         method: 'dry toast until fragrant',
         duration: '2-3 minutes',
-        notes: 'Watch carefully to prevent burning'
-      },
-      grinding: 'grind as needed',
+        notes: 'Watch carefully to prevent burning' },
+        grinding: 'grind as needed',
       infusing: {
         method: 'add whole to liquids',
         duration: '10-20 minutes',
@@ -359,9 +355,8 @@ const rawWholeSpices = {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
-            notes: 'Versatile broths for various uses'
-          },
-          cookingMethods: ['sautéing', 'steaming', 'roasting'],
+            notes: 'Versatile broths for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
         },
@@ -416,9 +411,8 @@ const rawWholeSpices = {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
-            notes: 'Versatile tea blends for various uses'
-          },
-          cookingMethods: ['sautéing', 'steaming', 'roasting'],
+            notes: 'Versatile tea blends for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
         },
@@ -442,9 +436,9 @@ const rawWholeSpices = {
       elementalAffinity: {
         base: 'Air',
         decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' }
-          second: { element: 'Fire', planet: 'Venus' }
-          third: { element: 'Earth', planet: 'Saturn' }
+          first: { element: 'Air', planet: 'Mercury' },
+        second: { element: 'Fire', planet: 'Venus' },
+        third: { element: 'Earth', planet: 'Saturn' }
         }
       }
     },
@@ -457,13 +451,11 @@ const rawWholeSpices = {
       toasting: {
         method: 'light dry toast',
         duration: '1-2 minutes',
-        notes: 'Just until fragrant'
-      },
-      grinding: {
+        notes: 'Just until fragrant' },
+        grinding: {
         method: 'remove seeds from pods',
-        notes: 'Discard pods or use for infusing'
-      },
-      crushing: {
+        notes: 'Discard pods or use for infusing' },
+        crushing: {
         method: 'lightly crush to release oils',
         notes: 'For infusing liquids'
       }
@@ -501,9 +493,8 @@ const rawWholeSpices = {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
-            notes: 'Versatile rice dishes for various uses'
-          },
-          cookingMethods: ['sautéing', 'steaming', 'roasting'],
+            notes: 'Versatile rice dishes for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
         },
@@ -525,9 +516,8 @@ const rawWholeSpices = {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
-            notes: 'Versatile curries for various uses'
-          },
-          cookingMethods: ['sautéing', 'steaming', 'roasting'],
+            notes: 'Versatile curries for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
         },
@@ -588,9 +578,8 @@ const rawWholeSpices = {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
-            notes: 'Versatile mustard seeds for various uses'
-          },
-          cookingMethods: ['sautéing', 'steaming', 'roasting'],
+            notes: 'Versatile mustard seeds for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
         },
@@ -618,9 +607,8 @@ const rawWholeSpices = {
             flavorProfile: {
               primary: ['balanced'],
               secondary: ['versatile'],
-              notes: 'Versatile tempering for various uses'
-            },
-            cookingMethods: ['sautéing', 'steaming', 'roasting'],
+              notes: 'Versatile tempering for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
             cuisineAffinity: ['Global', 'International'],
             preparationTips: ['Use as needed', 'Season to taste']
           },
@@ -672,9 +660,8 @@ const rawWholeSpices = {
         name: 'Indian',
         appearance: 'greener, thinner',
         flavor: 'more aromatic',
-        uses: 'curries, digestive'
-      },
-      Mediterranean: {
+        uses: 'curries, digestive' },
+        Mediterranean: {
         name: 'Mediterranean',
         appearance: 'plumper, pale green',
         flavor: 'sweeter',
@@ -732,9 +719,8 @@ const rawWholeSpices = {
         name: 'Indian',
         appearance: 'larger, more round',
         flavor: 'more aromatic',
-        uses: 'curries, spice blends'
-      },
-      Mediterranean: {
+        uses: 'curries, spice blends' },
+        Mediterranean: {
         name: 'Mediterranean',
         appearance: 'smaller, more oval',
         flavor: 'more citrusy',
@@ -778,9 +764,9 @@ const rawWholeSpices = {
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Mercury' }
-          second: { element: 'Fire', planet: 'Saturn' }
-          third: { element: 'Air', planet: 'Uranus' }
+          first: { element: 'Earth', planet: 'Mercury' },
+        second: { element: 'Fire', planet: 'Saturn' },
+        third: { element: 'Air', planet: 'Uranus' }
         }
       }
     },
@@ -793,9 +779,8 @@ const rawWholeSpices = {
         name: 'Indian',
         appearance: 'small, dark',
         flavor: 'intense, earthy',
-        uses: 'curries, tempering'
-      },
-      Iranian: {
+        uses: 'curries, tempering' },
+        Iranian: {
         name: 'Iranian',
         appearance: 'longer seeds',
         flavor: 'more delicate',
@@ -842,9 +827,8 @@ const rawWholeSpices = {
         name: 'Dutch',
         appearance: 'curved, dark',
         flavor: 'traditional strength',
-        uses: 'bread, cheese'
-      },
-      Finnish: {
+        uses: 'bread, cheese' },
+        Finnish: {
         name: 'Finnish',
         appearance: 'slightly larger',
         flavor: 'more intense',

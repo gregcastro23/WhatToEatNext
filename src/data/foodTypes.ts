@@ -59,12 +59,12 @@ export interface FoodEntry {
 }
 
 // Daily nutrition targets
-export const nutritionTargets = {
-  calories: { min: 1800, max: 2400, unit: 'kcal' }
-  protein: { min: 50, max: 100, unit: 'g' }
-  carbs: { min: 225, max: 325, unit: 'g' }
-  fats: { min: 44, max: 78, unit: 'g' }
-  fiber: { min: 25, max: 35, unit: 'g' }
+export const nutritionTargets = {;
+  calories: { min: 1800, max: 2400, unit: 'kcal' },
+        protein: { min: 50, max: 100, unit: 'g' },
+        carbs: { min: 225, max: 325, unit: 'g' },
+        fats: { min: 44, max: 78, unit: 'g' },
+        fiber: { min: 25, max: 35, unit: 'g' }
 }
 
 // Cultural balance rules that extend existing cuisine data
@@ -92,17 +92,16 @@ export function calculateNutritionalBalance(_entries: FoodEntry[]): { [key: stri
       })
       return acc,
     }
-    {} as { [key: string]: number }
-  )
+    {} as { [key: string]: number })
 }
 
 // Helper to analyze food properties balance
 export function analyzePropertyBalance(
   entries: FoodEntry[],
 ): { property: FoodProperty, count: number }[] {
-  const propertyCount = entries.reduce(
+  const propertyCount = entries.reduce(;
     (acc, entry) => {
-      entry.properties.forEach(prop => {
+      entry.properties.forEach(prop => {;
         acc[prop] = (acc[prop] || 0) + 1,
       })
       return acc,
@@ -125,7 +124,7 @@ export function findComplementaryDishes(
   // Get current nutritional totals
   const currentNutrition = calculateNutritionalBalance(currentEntries)
 
-  // Find dishes that help balance nutrition and properties
+  // Find dishes that help balance nutrition and properties;
   const recommendations: Dish[] = [];
 
   Object.values(availableDishes).forEach(cuisine => {
@@ -137,7 +136,7 @@ export function findComplementaryDishes(
               seasonalDishes.forEach(dish => {
                 let score = 0
 
-                // Score based on needed nutrients
+                // Score based on needed nutrients;
                 Object.entries(nutritionTargets).forEach(([nutrient, target]) => {
                   const current = currentNutrition[nutrient] || 0;
                   if (current < target.min) {
@@ -147,7 +146,7 @@ export function findComplementaryDishes(
 
                 // Score based on desired properties
                 targetProperties.forEach(prop => {
-                  if (Array.isArray(dish.properties) && dish.properties.includes(prop)) {
+                  if (Array.isArray(dish.properties) && dish.properties.includes(prop)) {;
                     score += 1,
                   }
                 })
@@ -180,7 +179,7 @@ export interface MealRecommendation {
 
 // Export the main foodTypes object that components expect
 export const foodTypes = {
-  properties: [
+  properties: [;
     'hot',
     'cold',
     'wet',

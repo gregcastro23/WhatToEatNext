@@ -20,9 +20,8 @@ export const flavorProfiles: Record<string, FlavorProfile> = {
     taste: ['sweet', 'mellow', 'rich'],
     intensity: 0.6,
     pairings: ['salty', 'bitter', 'sour'],
-    description: 'Nurturing and grounding, builds essence'
-  },
-  salty: {
+    description: 'Nurturing and grounding, builds essence' },
+        salty: {
     elementalProperties: {
       Water: 0.4,
       Fire: 0.3,
@@ -32,9 +31,8 @@ export const flavorProfiles: Record<string, FlavorProfile> = {
     taste: ['salty', 'mineral', 'sharp'],
     intensity: 0.7,
     pairings: ['sweet', 'sour'],
-    description: 'Softening and penetrating, aids digestion'
-  },
-  sour: {
+    description: 'Softening and penetrating, aids digestion' },
+        sour: {
     elementalProperties: {
       Water: 0.4,
       Air: 0.3,
@@ -44,9 +42,8 @@ export const flavorProfiles: Record<string, FlavorProfile> = {
     taste: ['sour', 'tart', 'bright'],
     intensity: 0.8,
     pairings: ['sweet', 'salty', 'umami'],
-    description: 'Refreshing and cleansing, stimulates digestion'
-  },
-  bitter: {
+    description: 'Refreshing and cleansing, stimulates digestion' },
+        bitter: {
     elementalProperties: {
       Fire: 0.4,
       Air: 0.3,
@@ -56,9 +53,8 @@ export const flavorProfiles: Record<string, FlavorProfile> = {
     taste: ['bitter', 'astringent', 'complex'],
     intensity: 0.9,
     pairings: ['sweet', 'umami'],
-    description: 'Clearing and cooling, aids metabolism'
-  },
-  umami: {
+    description: 'Clearing and cooling, aids metabolism' },
+        umami: {
     elementalProperties: {
       Earth: 0.4,
       Fire: 0.3,
@@ -68,9 +64,8 @@ export const flavorProfiles: Record<string, FlavorProfile> = {
     taste: ['savory', 'meaty', 'rich'],
     intensity: 0.7,
     pairings: ['sour', 'salty'],
-    description: 'Satisfying and complex, builds substance'
-  },
-  spicy: {
+    description: 'Satisfying and complex, builds substance' },
+        spicy: {
     elementalProperties: {
       Fire: 0.6,
       Air: 0.2,
@@ -80,9 +75,8 @@ export const flavorProfiles: Record<string, FlavorProfile> = {
     taste: ['hot', 'pungent', 'sharp'],
     intensity: 0.9,
     pairings: ['sweet', 'umami', 'sour'],
-    description: 'Warming and stimulating, increases circulation'
-  },
-  aromatic: {
+    description: 'Warming and stimulating, increases circulation' },
+        aromatic: {
     elementalProperties: {
       Air: 0.5,
       Fire: 0.2,
@@ -92,9 +86,8 @@ export const flavorProfiles: Record<string, FlavorProfile> = {
     taste: ['fragrant', 'complex', 'ethereal'],
     intensity: 0.6,
     pairings: ['sweet', 'umami', 'bitter'],
-    description: 'Uplifting and dispersing, enhances other flavors'
-  },
-  cooling: {
+    description: 'Uplifting and dispersing, enhances other flavors' },
+        cooling: {
     elementalProperties: {
       Water: 0.5,
       Air: 0.3,
@@ -105,9 +98,8 @@ export const flavorProfiles: Record<string, FlavorProfile> = {
     intensity: 0.4,
     pairings: ['spicy', 'salty', 'sour'],
     seasonalPeak: ['summer'],
-    description: 'Refreshing and calming, reduces heat'
-  },
-  earthy: {
+    description: 'Refreshing and calming, reduces heat' },
+        earthy: {
     elementalProperties: {
       Earth: 0.6,
       Water: 0.2,
@@ -118,9 +110,8 @@ export const flavorProfiles: Record<string, FlavorProfile> = {
     intensity: 0.5,
     pairings: ['aromatic', 'salty', 'umami'],
     seasonalPeak: ['autumn', 'winter'],
-    description: 'Grounding and nourishing, builds stability'
-  },
-  pungent: {
+    description: 'Grounding and nourishing, builds stability' },
+        pungent: {
     elementalProperties: {
       Fire: 0.4,
       Air: 0.4,
@@ -136,7 +127,7 @@ export const flavorProfiles: Record<string, FlavorProfile> = {
 
 // Flavor Combinations for Reference
 export const _flavorCombinations = {
-  harmonious: [
+  harmonious: [;
     ['sweet', 'sour'],
     ['salty', 'umami'],
     ['bitter', 'aromatic'],

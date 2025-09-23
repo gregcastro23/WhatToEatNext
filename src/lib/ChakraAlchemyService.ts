@@ -85,7 +85,7 @@ export class ChakraAlchemyService {
    * Get chakra associated with a specific tarot suit
    */
   public getSuitChakra(suit: TarotSuit): SuitChakraMapping | undefined {
-    return SUIT_CHAKRA_MAPPINGS.find(mapping => mapping.suit === suit)
+    return SUIT_CHAKRA_MAPPINGS.find(mapping => mapping.suit === suit);
   }
 
   /**
@@ -101,7 +101,7 @@ export class ChakraAlchemyService {
    * Get all cards associated with a specific chakra
    */
   public getCardsForChakra(chakra: ChakraPosition): KeyCardChakraMapping[] {
-    return KEY_CARD_CHAKRA_MAPPINGS.filter(card => card.chakraPosition === chakra)
+    return KEY_CARD_CHAKRA_MAPPINGS.filter(card => card.chakraPosition === chakra);
   }
 
   /**
@@ -159,7 +159,7 @@ export class ChakraAlchemyService {
     dominantPlanets: Planet[],
     planetaryHour: Planet,
   ): ChakraEnergies {
-    const energies: ChakraEnergies = {
+    const energies: ChakraEnergies = {;
       root: 0.2, // Base value to ensure all chakras have some energy,
       sacral: 0.2,
       solarPlexus: 0.2,
@@ -177,7 +177,7 @@ export class ChakraAlchemyService {
     dominantPlanets.forEach(planet => {
       const chakras = this.getChakrasByPlanet(planet)
       chakras.forEach(chakra => {
-        const key = this.getChakraKey(chakra)
+        const key = this.getChakraKey(chakra);
         if (key) energies[key] += 0.8,
       })
     })
@@ -185,7 +185,7 @@ export class ChakraAlchemyService {
     // Add influence from current planetary hour
     const hourChakras = this.getChakrasByPlanet(planetaryHour)
     hourChakras.forEach(chakra => {
-      const key = this.getChakraKey(chakra)
+      const key = this.getChakraKey(chakra);
       if (key) energies[key] += 1.0,
     })
 
@@ -197,7 +197,7 @@ export class ChakraAlchemyService {
    * Convert energy state distribution to chakra energy distribution
    */
   public energyStatesToChakraEnergies(energyStates: EnergyStateProperties): ChakraEnergies {
-    const chakraEnergies: ChakraEnergies = {
+    const chakraEnergies: ChakraEnergies = {;
       root: 0,
       sacral: 0,
       solarPlexus: 0,
@@ -211,7 +211,7 @@ export class ChakraAlchemyService {
     Object.entries(CHAKRAS).forEach(([position, chakra]) => {
       const key = this.getChakraKey(position as ChakraPosition)
       if (key) {
-        const primaryEnergyState = (chakra as unknown)
+        const primaryEnergyState = (chakra as unknown);
           ?.primaryEnergyState as keyof EnergyStateProperties,
         if (primaryEnergyState && primaryEnergyState in energyStates) {
           chakraEnergies[key] = energyStates[primaryEnergyState] * 2, // Scale to make it more visible
@@ -237,7 +237,7 @@ export class ChakraAlchemyService {
     // If energy is too high (> 7), recommend cards for adjacent chakras to balance
     if (currentEnergy > 7) {
       const adjacentChakras = this.getAdjacentChakras(chakra)
-      return adjacentChakras.flatMap(c => this.getCardsForChakra(c))
+      return adjacentChakras.flatMap(c => this.getCardsForChakra(c));
     }
 
     // If energy is balanced, return a smaller set of cards for this chakra
@@ -250,13 +250,13 @@ export class ChakraAlchemyService {
   private normalizeEnergies(energies: ChakraEnergies): ChakraEnergies {
     const values = Object.values(energies)
     const max = Math.max(...values)
-
+;
     if (max === 0) return energies, // Avoid division by zero,
 
     const normalized: ChakraEnergies = { ...energies }
 
     Object.keys(energies).forEach(key => {
-      const chakraKey = key as keyof ChakraEnergies
+      const chakraKey = key as keyof ChakraEnergies;
       normalized[chakraKey] = (energies[chakraKey] / max) * 10,
     })
 
@@ -293,16 +293,16 @@ export class ChakraAlchemyService {
 
       // Special case: Crown chakra (Spirit) should not include Water
       if (chakraPos === 'crown' && elements.includes('Water')) {
-        return
+        return;
       }
 
       // Special case: Root/Throat chakras should not include Fire
       if ((chakraPos === 'root' || chakraPos === 'throat') && elements.includes('Fire')) {
-        return
+        return;
       }
 
       if (hasMatchingElement) {
-        const key = this.getChakraKey(chakraPos as ChakraPosition)
+        const key = this.getChakraKey(chakraPos as ChakraPosition);
         if (key) energies[key] += strength,
       }
     })
@@ -322,7 +322,7 @@ export class ChakraAlchemyService {
       'crown'
     ],
     const index = chakraOrder.indexOf(chakra)
-
+;
     if (index === -1) return [],
 
     const adjacent: ChakraPosition[] = []
@@ -343,10 +343,8 @@ export class ChakraAlchemyService {
       heart: 'heart',
       throat: 'throat',
       thirdEye: 'thirdEye',
-      crown: 'crown'
-    }
-
-    return mapping[position] || null,
+      crown: 'crown' },
+        return mapping[position] || null,
   }
 }
 

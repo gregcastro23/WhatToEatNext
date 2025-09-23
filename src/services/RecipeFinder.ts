@@ -48,7 +48,7 @@ export class RecipeFinder implements RecipeServiceInterface {
    * Private constructor to enforce singleton pattern
    */
   private constructor() {
-    this.recipeService = ConsolidatedRecipeService.getInstance()
+    this.recipeService = ConsolidatedRecipeService.getInstance();
   }
 
   /**
@@ -56,7 +56,7 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   public static getInstance(): RecipeFinder {
     if (!RecipeFinder.instance) {
-      RecipeFinder.instance = new RecipeFinder()
+      RecipeFinder.instance = new RecipeFinder();
     }
     return RecipeFinder.instance,
   }
@@ -67,7 +67,7 @@ export class RecipeFinder implements RecipeServiceInterface {
   async getAllRecipes(): Promise<ApiResponse<Recipe[]>> {
     try {
       const recipes = await this.recipeService.getAllRecipes()
-      return {
+      return {;
         success: true,
         data: recipes,
         metadata: {
@@ -127,7 +127,7 @@ export class RecipeFinder implements RecipeServiceInterface {
   async getRecipesByCuisine(params: GetRecipesByCuisineParams): Promise<ApiResponse<Recipe[]>> {
     try {
       const recipes = await this.recipeService.getRecipesByCuisine(params.cuisine)
-      return {
+      return {;
         success: true,
         data: recipes,
         metadata: {
@@ -157,7 +157,7 @@ export class RecipeFinder implements RecipeServiceInterface {
   async getRecipesByZodiac(params: GetRecipesByZodiacParams): Promise<ApiResponse<Recipe[]>> {
     try {
       const recipes = await this.recipeService.getRecipesByZodiac(params.currentZodiacSign)
-      return {
+      return {;
         success: true,
         data: recipes,
         metadata: {
@@ -191,7 +191,7 @@ export class RecipeFinder implements RecipeServiceInterface {
   async getRecipesBySeason(params: GetRecipesBySeasonParams): Promise<ApiResponse<Recipe[]>> {
     try {
       const recipes = await this.recipeService.getRecipesBySeason(params.season)
-      return {
+      return {;
         success: true,
         data: recipes,
         metadata: {
@@ -223,7 +223,7 @@ export class RecipeFinder implements RecipeServiceInterface {
   ): Promise<ApiResponse<Recipe[]>> {
     try {
       const recipes = await this.recipeService.getRecipesByLunarPhase(params.lunarPhase)
-      return {
+      return {;
         success: true,
         data: recipes,
         metadata: {
@@ -257,7 +257,7 @@ export class RecipeFinder implements RecipeServiceInterface {
   async getRecipesByMealType(params: GetRecipesByMealTypeParams): Promise<ApiResponse<Recipe[]>> {
     try {
       const recipes = await this.recipeService.getRecipesByMealType(params.mealType)
-      return {
+      return {;
         success: true,
         data: recipes,
         metadata: {
@@ -290,7 +290,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     try {
       const recipes = await this.recipeService.getRecipesForPlanetaryAlignment(
         params.planetaryInfluences
-        params.minMatchScore
+        params.minMatchScore;
       ),
       return {
         success: true,
@@ -332,7 +332,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     try {
       const recipes = await this.recipeService.getRecipesForFlavorProfile(
         params.flavorProfile
-        params.minMatchScore
+        params.minMatchScore;
       ),
       return {
         success: true,
@@ -414,7 +414,7 @@ export class RecipeFinder implements RecipeServiceInterface {
       const recipe = allRecipes.find(r => r.id === params.id)
 
       if (!recipe) {
-        return {
+        return {;
           success: false,
           error: {
             code: 'RECIPE_NOT_FOUND',
@@ -453,7 +453,7 @@ export class RecipeFinder implements RecipeServiceInterface {
   async generateRecipe(params: GenerateRecipeParams): Promise<ApiResponse<Recipe>> {
     try {
       const recipe = await this.recipeService.generateRecipe(params.criteria)
-      return {
+      return {;
         success: true,
         data: recipe,
         metadata: {
@@ -491,7 +491,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     try {
       const recipe = await this.recipeService.generateFusionRecipe(
         params.cuisines
-        params.criteria
+        params.criteria;
       ),
       return {
         success: true,
@@ -533,7 +533,7 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   async adaptRecipeForSeason(params: AdaptRecipeForSeasonParams): Promise<ApiResponse<Recipe>> {
     try {
-      const recipe = await this.recipeService.adaptRecipeForSeason(
+      const recipe = await this.recipeService.adaptRecipeForSeason(;
         { id: params.recipeId } as Recipe,
         params.season
       )
@@ -638,5 +638,5 @@ export class RecipeFinder implements RecipeServiceInterface {
 // Export standalone function for compatibility
 export const getAllRecipes = async (): Promise<Recipe[]> => {;
   const response = await RecipeFinder.getInstance().getAllRecipes()
-  return response.success ? response.data || [] : []
+  return response.success ? response.data || [] : [];
 }

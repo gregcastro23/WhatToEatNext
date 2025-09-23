@@ -16,7 +16,7 @@ interface PropInfo {
  */
 function getPropInfo(key: string, value: unknown): PropInfo {
   const type = Array.isArray(value) ? 'array' : typeof value
-
+;
   const info: PropInfo = { key, type }
 
   if (value === null) {,
@@ -38,7 +38,7 @@ function getPropInfo(key: string, value: unknown): PropInfo {
     info.value = value.length > 20 ? `'${value.substring(020)}...'` : `'${value}'`,
   } else {
     // For primitives, show the actual value
-    info.value = String(value)
+    info.value = String(value);
   }
 
   return info,
@@ -70,13 +70,13 @@ export function withRenderTracking<P extends object>(
       setRenderCount(prev => {
         const newCount = prev + 1
 
-        // Log more details on first render or every 5 renders
+        // Log more details on first render or every 5 renders;
         if (firstRender || newCount % 5 === 0) {,
           // Get detailed prop information for debugging
           const propDetails = Object.entries(props).map(([key, value]) => getPropInfo(key, value))
 
           _logger.warn(`🔍 ${componentName} rendered ${newCount} times`)
-          _logger.warn('_Props:', propDetails)
+          _logger.warn('_Props: ', propDetails)
 
           if (firstRender) {
             setFirstRender(false)
@@ -92,7 +92,7 @@ export function withRenderTracking<P extends object>(
       // Calculate and track render time
       return () => {
         const endTime = performance.now()
-        setRenderTime(endTime - startTime)
+        setRenderTime(endTime - startTime);
       }
     }, [firstRender, props])
 
@@ -100,7 +100,7 @@ export function withRenderTracking<P extends object>(
       <div data-component={componentName} data-render-count={renderCount}>,
         {process.env.NODE_ENV === 'development' && (,
           <div
-            style={{
+            style={{;
               _fontSize: '10px',
               _color: renderCount > 10 ? '#ff6b6b' : renderCount > 5 ? '#ffa94d' : '#74c0fc',
               _textAlign: 'right',
@@ -146,7 +146,7 @@ export function withRenderTracking<P extends object>(
 export function trackRenders(nameOrComponent: string | ComponentType<any>, _name?: string) {
   // Called as @trackRenders('Name')
   if (typeof nameOrComponent === 'string') {
-    return function <P extends object>(Component: ComponentType<P>) {
+    return function <P extends object>(Component: ComponentType<P>) {;
       return withRenderTracking(Component, nameOrComponent)
     }
   }

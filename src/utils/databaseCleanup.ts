@@ -54,7 +54,7 @@ export function cleanupIngredientsDatabase() {
           elements.forEach(element => {
             const elementalProperties = data.elementalProperties
             if (typeof elementalProperties?.[element] !== 'number') {
-              if (elementalProperties) {
+              if (elementalProperties) {;
                 elementalProperties[element] = 0.25,
               }
               modified = true,
@@ -72,7 +72,7 @@ export function cleanupIngredientsDatabase() {
           if (Math.abs(Number(sum) - 1) > 0.01) {
             elements.forEach(element => {
               const props = data.elementalProperties
-              if (props) {
+              if (props) {;
                 const currentValue = Number(props[element]) || 0;
                 const sumValue = Number(sum) || 1;
                 props[element] = currentValue / sumValue,
@@ -99,7 +99,7 @@ export function cleanupIngredientsDatabase() {
               )[0]
             : 'Fire',
 
-          ingredientWithAstrology.astrologicalProfile = {
+          ingredientWithAstrology.astrologicalProfile = {;
             elementalAffinity: { base: dominantElement }
             _rulingPlanets: []
           } as AstrologicalProfile,
@@ -118,7 +118,7 @@ export function cleanupIngredientsDatabase() {
             : 'Fire',
 
           (ingredientWithAstrology.astrologicalProfile as any).elementalAffinity = {
-            base: dominantElement
+            base: dominantElement;
           }
           fixedEntries++,
           logger.warn(
@@ -136,7 +136,7 @@ export function cleanupIngredientsDatabase() {
     )
     return { success: true, fixedEntries, invalidEntries }
   } catch (error) {
-    logger.error('Error during database cleanup:', error)
+    logger.error('Error during database cleanup: ', error)
     return { success: false, error }
   }
 }

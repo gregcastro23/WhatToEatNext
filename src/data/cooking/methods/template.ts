@@ -8,10 +8,9 @@ import type { ZodiacSign, ThermodynamicProperties } from '@/types/shared';
  * Copy this file, rename it to your method name (kebab-case), and fill in the data.
  */
 
-export const _methodName: CookingMethodData = {
+export const _methodName: CookingMethodData = {;
   name: 'method_name', // Use snake_case for the name property,
-  description:
-    'Description of the cooking method and how it works, including key characteristics and effects on food',
+  description: 'Description of the cooking method and how it works, including key characteristics and effects on food',
   elementalEffect: {
     Fire: 0.0, // Fire element (0.0-1.0),
     Water: 0.0, // Water element (0.0-1.0),
@@ -121,8 +120,7 @@ export const _methodName: CookingMethodData = {
   } as ThermodynamicProperties,
 
   // Additional metadata
-  history:
-    'Detailed history of the cooking method, including its origins, evolution through different time periods, significant cultural developments, and key innovations throughout history.',
+  history: 'Detailed history of the cooking method, including its origins, evolution through different time periods, significant cultural developments, and key innovations throughout history.',
 
   scientificPrinciples: [
     'principle1',
@@ -187,113 +185,66 @@ export const _methodName: CookingMethodData = {
   ingredientPreparation: {
     ingredient1:
       'Detailed preparation instructions for ingredient1, including specific techniques, measurements, and timing considerations.',
-    ingredient2:
-      'Detailed preparation instructions for ingredient2, including specific techniques, measurements, and timing considerations.',
-    ingredient3:
-      'Detailed preparation instructions for ingredient3, including specific techniques, measurements, and timing considerations.',
-    ingredient4:
-      'Detailed preparation instructions for ingredient4, including specific techniques, measurements, and timing considerations.',
-    ingredient5:
-      'Detailed preparation instructions for ingredient5, including specific techniques, measurements, and timing considerations.',
-    ingredient6:
-      'Detailed preparation instructions for ingredient6, including specific techniques, measurements, and timing considerations.'
-  }
-
-  timingConsiderations: {
+    ingredient2: 'Detailed preparation instructions for ingredient2, including specific techniques, measurements, and timing considerations.',
+    ingredient3: 'Detailed preparation instructions for ingredient3, including specific techniques, measurements, and timing considerations.',
+    ingredient4: 'Detailed preparation instructions for ingredient4, including specific techniques, measurements, and timing considerations.',
+    ingredient5: 'Detailed preparation instructions for ingredient5, including specific techniques, measurements, and timing considerations.',
+    ingredient6: 'Detailed preparation instructions for ingredient6, including specific techniques, measurements, and timing considerations.' },
+        timingConsiderations: {
     aspect1:
       'Detailed timing information for aspect1, including specific duration, indicators, and adjustments based on conditions.',
-    aspect2:
-      'Detailed timing information for aspect2, including specific duration, indicators, and adjustments based on conditions.',
-    aspect3:
-      'Detailed timing information for aspect3, including specific duration, indicators, and adjustments based on conditions.',
-    aspect4:
-      'Detailed timing information for aspect4, including specific duration, indicators, and adjustments based on conditions.',
-    aspect5:
-      'Detailed timing information for aspect5, including specific duration, indicators, and adjustments based on conditions.',
-    aspect6:
-      'Detailed timing information for aspect6, including specific duration, indicators, and adjustments based on conditions.'
-  }
-
-  doneness_indicators: {
+    aspect2: 'Detailed timing information for aspect2, including specific duration, indicators, and adjustments based on conditions.',
+    aspect3: 'Detailed timing information for aspect3, including specific duration, indicators, and adjustments based on conditions.',
+    aspect4: 'Detailed timing information for aspect4, including specific duration, indicators, and adjustments based on conditions.',
+    aspect5: 'Detailed timing information for aspect5, including specific duration, indicators, and adjustments based on conditions.',
+    aspect6: 'Detailed timing information for aspect6, including specific duration, indicators, and adjustments based on conditions.' },
+        doneness_indicators: {
     indicator1:
       'Detailed description of indicator1, including visual cues, textural changes, and objective measurements.',
-    indicator2:
-      'Detailed description of indicator2, including visual cues, textural changes, and objective measurements.',
-    indicator3:
-      'Detailed description of indicator3, including visual cues, textural changes, and objective measurements.',
-    indicator4:
-      'Detailed description of indicator4, including visual cues, textural changes, and objective measurements.',
-    indicator5:
-      'Detailed description of indicator5, including visual cues, textural changes, and objective measurements.',
-    indicator6:
-      'Detailed description of indicator6, including visual cues, textural changes, and objective measurements.'
-  }
-
-  ingredientInteractions: {
+    indicator2: 'Detailed description of indicator2, including visual cues, textural changes, and objective measurements.',
+    indicator3: 'Detailed description of indicator3, including visual cues, textural changes, and objective measurements.',
+    indicator4: 'Detailed description of indicator4, including visual cues, textural changes, and objective measurements.',
+    indicator5: 'Detailed description of indicator5, including visual cues, textural changes, and objective measurements.',
+    indicator6: 'Detailed description of indicator6, including visual cues, textural changes, and objective measurements.' },
+        ingredientInteractions: {
     interaction1:
       'Detailed explanation of interaction1, including chemical basis, practical implications, and tips for leveraging or avoiding.',
-    interaction2:
-      'Detailed explanation of interaction2, including chemical basis, practical implications, and tips for leveraging or avoiding.',
-    interaction3:
-      'Detailed explanation of interaction3, including chemical basis, practical implications, and tips for leveraging or avoiding.',
-    interaction4:
-      'Detailed explanation of interaction4, including chemical basis, practical implications, and tips for leveraging or avoiding.',
-    interaction5:
-      'Detailed explanation of interaction5, including chemical basis, practical implications, and tips for leveraging or avoiding.',
-    interaction6:
-      'Detailed explanation of interaction6, including chemical basis, practical implications, and tips for leveraging or avoiding.'
-  }
-
-  technicalNotes: {
+    interaction2: 'Detailed explanation of interaction2, including chemical basis, practical implications, and tips for leveraging or avoiding.',
+    interaction3: 'Detailed explanation of interaction3, including chemical basis, practical implications, and tips for leveraging or avoiding.',
+    interaction4: 'Detailed explanation of interaction4, including chemical basis, practical implications, and tips for leveraging or avoiding.',
+    interaction5: 'Detailed explanation of interaction5, including chemical basis, practical implications, and tips for leveraging or avoiding.',
+    interaction6: 'Detailed explanation of interaction6, including chemical basis, practical implications, and tips for leveraging or avoiding.' },
+        technicalNotes: {
     category1: {
       subcategory1:
         'Detailed technical information about subcategory1, including specific parameters, scientific principles, and practical applications.',
-      subcategory2:
-        'Detailed technical information about subcategory2, including specific parameters, scientific principles, and practical applications.',
-      subcategory3:
-        'Detailed technical information about subcategory3, including specific parameters, scientific principles, and practical applications.',
-      subcategory4:
-        'Detailed technical information about subcategory4, including specific parameters, scientific principles, and practical applications.'
-    },
-    category2: {
+      subcategory2: 'Detailed technical information about subcategory2, including specific parameters, scientific principles, and practical applications.',
+      subcategory3: 'Detailed technical information about subcategory3, including specific parameters, scientific principles, and practical applications.',
+      subcategory4: 'Detailed technical information about subcategory4, including specific parameters, scientific principles, and practical applications.' },
+        category2: {
       subcategory1:
         'Detailed technical information about subcategory1, including specific parameters, scientific principles, and practical applications.',
-      subcategory2:
-        'Detailed technical information about subcategory2, including specific parameters, scientific principles, and practical applications.',
-      subcategory3:
-        'Detailed technical information about subcategory3, including specific parameters, scientific principles, and practical applications.',
-      subcategory4:
-        'Detailed technical information about subcategory4, including specific parameters, scientific principles, and practical applications.'
-    },
-    category3: {
+      subcategory2: 'Detailed technical information about subcategory2, including specific parameters, scientific principles, and practical applications.',
+      subcategory3: 'Detailed technical information about subcategory3, including specific parameters, scientific principles, and practical applications.',
+      subcategory4: 'Detailed technical information about subcategory4, including specific parameters, scientific principles, and practical applications.' },
+        category3: {
       subcategory1:
         'Detailed technical information about subcategory1, including specific parameters, scientific principles, and practical applications.',
-      subcategory2:
-        'Detailed technical information about subcategory2, including specific parameters, scientific principles, and practical applications.',
-      subcategory3:
-        'Detailed technical information about subcategory3, including specific parameters, scientific principles, and practical applications.',
-      subcategory4:
-        'Detailed technical information about subcategory4, including specific parameters, scientific principles, and practical applications.'
-    },
-    category4: {
+      subcategory2: 'Detailed technical information about subcategory2, including specific parameters, scientific principles, and practical applications.',
+      subcategory3: 'Detailed technical information about subcategory3, including specific parameters, scientific principles, and practical applications.',
+      subcategory4: 'Detailed technical information about subcategory4, including specific parameters, scientific principles, and practical applications.' },
+        category4: {
       subcategory1:
         'Detailed technical information about subcategory1, including specific parameters, scientific principles, and practical applications.',
-      subcategory2:
-        'Detailed technical information about subcategory2, including specific parameters, scientific principles, and practical applications.',
-      subcategory3:
-        'Detailed technical information about subcategory3, including specific parameters, scientific principles, and practical applications.',
-      subcategory4:
-        'Detailed technical information about subcategory4, including specific parameters, scientific principles, and practical applications.'
-    },
-    category5: {
+      subcategory2: 'Detailed technical information about subcategory2, including specific parameters, scientific principles, and practical applications.',
+      subcategory3: 'Detailed technical information about subcategory3, including specific parameters, scientific principles, and practical applications.',
+      subcategory4: 'Detailed technical information about subcategory4, including specific parameters, scientific principles, and practical applications.' },
+        category5: {
       subcategory1:
         'Detailed technical information about subcategory1, including specific parameters, scientific principles, and practical applications.',
-      subcategory2:
-        'Detailed technical information about subcategory2, including specific parameters, scientific principles, and practical applications.',
-      subcategory3:
-        'Detailed technical information about subcategory3, including specific parameters, scientific principles, and practical applications.',
-      subcategory4:
-        'Detailed technical information about subcategory4, including specific parameters, scientific principles, and practical applications.'
+      subcategory2: 'Detailed technical information about subcategory2, including specific parameters, scientific principles, and practical applications.',
+      subcategory3: 'Detailed technical information about subcategory3, including specific parameters, scientific principles, and practical applications.',
+      subcategory4: 'Detailed technical information about subcategory4, including specific parameters, scientific principles, and practical applications.'
     }
   }
 }

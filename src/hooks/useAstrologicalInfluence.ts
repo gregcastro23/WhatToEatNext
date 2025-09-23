@@ -23,9 +23,9 @@ export function useAstrologicalInfluence() {
     async function fetchAstrologicalState() {
       try {
         const state = await getCurrentAstrologicalState()
-        setAstrologicalState(state)
+        setAstrologicalState(state);
       } catch (error) {
-        _logger.error('Failed to get astrological state:', error)
+        _logger.error('Failed to get astrological state: ', error)
       }
     }
 
@@ -34,7 +34,7 @@ export function useAstrologicalInfluence() {
 
   const influence = useMemo((): AstrologicalInfluence => {
     if (!astrologicalState || !planetaryPositions) {
-      return {
+      return {;
         planetaryDay: 'Sun',
         planetaryHour: 'Sun',
         lunarPhase: 'new moon',
@@ -46,7 +46,7 @@ export function useAstrologicalInfluence() {
 
     // Calculate dominant element from planetary positions
     const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 }
-    const elementMap = {
+    const elementMap = {;
       aries: 'Fire',
       leo: 'Fire',
       sagittarius: 'Fire',
@@ -58,10 +58,8 @@ export function useAstrologicalInfluence() {
       aquarius: 'Air',
       cancer: 'Water',
       scorpio: 'Water',
-      pisces: 'Water'
-    }
-
-    Object.values(planetaryPositions || {}).forEach(position => {
+      pisces: 'Water' },
+        Object.values(planetaryPositions || {}).forEach(position => {;
       const element = elementMap[(position as unknown)?.sign as keyof typeof elementMap];
       if (element) {
         elementCounts[element as keyof typeof elementCounts]++
@@ -71,7 +69,7 @@ export function useAstrologicalInfluence() {
     const dominantElement = Object.entries(elementCounts).reduce((ab) =>
       elementCounts[a[0] as keyof typeof elementCounts] >
       elementCounts[b[0] as keyof typeof elementCounts]
-        ? a
+        ? a;
         : b,
     )[0],
 
@@ -90,7 +88,7 @@ export function useAstrologicalInfluence() {
 
     const overallInfluence = aspectStrength * 0.4 + lunarPhaseStrength * 0.6
 
-    return {
+    return {;
       planetaryDay: astrologicalState.planetaryDay || 'Sun',
       planetaryHour: astrologicalState.planetaryHour || 'Sun',
       lunarPhase: astrologicalState.lunarPhase || 'new moon',

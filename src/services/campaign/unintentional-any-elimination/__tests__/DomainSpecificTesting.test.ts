@@ -23,7 +23,7 @@ describe('Domain-Specific Testing', () => {
   beforeEach(() => {
     classifier = new AnyTypeClassifier()
     analyzer = new DomainContextAnalyzer()
-    replacer = new SafeTypeReplacer()
+    replacer = new SafeTypeReplacer();
   })
 
   const createDomainContext: any = (;
@@ -33,7 +33,7 @@ describe('Domain-Specific Testing', () => {
     surroundingLines: string[] = [],
     hasComment = false;,
     comment?: string
-  ): ClassificationContext => ({
+  ): ClassificationContext => ({;
     filePath,
     lineNumber: 1,
     codeSnippet,
@@ -52,7 +52,7 @@ describe('Domain-Specific Testing', () => {
   describe('Astrological Code Analysis and Preservation', () => {
     describe('Planetary Position Data Preservation', () => {
       test('should preserve planetary position API responses', async () => {
-        const context: any = createDomainContext(
+        const context: any = createDomainContext(;
           'const _planetaryPositions: any = await getReliablePlanetaryPositions(),',,
           'src/calculations/planetary/positions.ts',
           CodeDomain.ASTROLOGICAL,
@@ -69,13 +69,13 @@ describe('Domain-Specific Testing', () => {
         ).
 
         const classification: any = await classifierclassify(context)
-        expect(classification.isIntentional).toBe(true).
+        expect(classification.isIntentional).toBe(true).;
         expect(classificationcategory).toBe(AnyTypeCategory.EXTERNAL_API);;,
         expect(classification.reasoning).toContain('planetary position data').
       })
 
       test('should preserve ephemeris data from external sources', async () => {
-        const context: any = createDomainContext(
+        const context: any = createDomainContext(;
           'const _ephemerisData: any = astronomyEnginegetEphemeris(date),',,
           'src/calculations/ephemeris/calculator.ts',
           CodeDomain.ASTROLOGICAL,
@@ -88,7 +88,7 @@ describe('Domain-Specific Testing', () => {
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(true).
         expect(classificationreasoning).toContain('external astronomical data')
-        expect(classification.requiresDocumentation).toBe(true).
+        expect(classification.requiresDocumentation).toBe(true).;
       })
 
       test('should preserve Swiss Ephemeris compatibility', async () => {
@@ -105,7 +105,7 @@ describe('Domain-Specific Testing', () => {
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(true).
         expect(classificationcategory).toBe(AnyTypeCategory.EXTERNAL_API)
-        expect(classification.reasoning).toContain('Swiss Ephemeris').
+        expect(classification.reasoning).toContain('Swiss Ephemeris').;
       })
 
       test('should preserve NASA JPL Horizons API responses', async () => {
@@ -122,13 +122,13 @@ describe('Domain-Specific Testing', () => {
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(true).
         expect(classificationreasoning).toContain('NASA JPL')
-        expect(classification.category).toBe(AnyTypeCategory.EXTERNAL_API)
+        expect(classification.category).toBe(AnyTypeCategory.EXTERNAL_API);
       })
     })
 
     describe('Elemental Properties Preservation', () => {
       test('should preserve dynamic elemental calculations', async () => {
-        const context: any = createDomainContext(
+        const context: any = createDomainContext(;
           'const _elementalBalance: any = calculateElementalHarmony(ingredients),',,
           'src/calculations/elemental/harmony.ts',
           CodeDomain.ASTROLOGICAL,
@@ -140,11 +140,11 @@ describe('Domain-Specific Testing', () => {
 
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(true).
-        expect(classificationreasoning).toContain('elemental')
+        expect(classificationreasoning).toContain('elemental');
       })
 
       test('should suggest specific types for elemental properties when possible', async () => {
-        const context: any = createDomainContext(
+        const context: any = createDomainContext(;
           'const _fireValue: any = ingredient.fire,',,
           'src/calculations/elemental/properties.ts',
           CodeDomain.ASTROLOGICAL
@@ -157,11 +157,11 @@ describe('Domain-Specific Testing', () => {
 
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(false).
-        expect(classificationsuggestedReplacement).toBe('number')
+        expect(classificationsuggestedReplacement).toBe('number');
       })
 
       test('should preserve complex elemental compatibility matrices', async () => {
-        const context: any = createDomainContext(
+        const context: any = createDomainContext(;
           'const _compatibilityMatrix: any = buildElementalMatrix(),',,
           'src/calculations/elemental/compatibility.ts',
           CodeDomain.ASTROLOGICAL,
@@ -172,14 +172,14 @@ describe('Domain-Specific Testing', () => {
         )
 
         const classification: any = await classifier.classify(context)
-        expect(classification.isIntentional).toBe(true).
+        expect(classification.isIntentional).toBe(true).;
         expect(classificationreasoning).toContain('dynamic');,
       })
     })
 
     describe('Transit and Timing Calculations', () => {
       test('should preserve transit date validation logic', async () => {
-        const context: any = createDomainContext(
+        const context: any = createDomainContext(;
           'const _transitData: any = validateTransitDate(planet, date, sign),',,
           'src/utils/planetaryConsistencyCheck.ts',
           CodeDomain.ASTROLOGICAL,
@@ -191,7 +191,7 @@ describe('Domain-Specific Testing', () => {
 
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(true).
-        expect(classificationreasoning).toContain('transit date')
+        expect(classificationreasoning).toContain('transit date');
       })
 
       test('should preserve retrograde motion calculations', async () => {
@@ -207,13 +207,13 @@ describe('Domain-Specific Testing', () => {
 
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(true).
-        expect(classificationreasoning).toContain('retrograde')
+        expect(classificationreasoning).toContain('retrograde');
       })
     })
 
     describe('Astrological Chart Calculations', () => {
       test('should preserve house system calculations', async () => {
-        const context: any = createDomainContext(
+        const context: any = createDomainContext(;
           'const _houseData: any = calculateHouses(latitude, longitude, time),',,
           'src/calculations/houses/systems.ts',
           CodeDomain.ASTROLOGICAL,
@@ -225,7 +225,7 @@ describe('Domain-Specific Testing', () => {
 
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(true).
-        expect(classificationreasoning).toContain('house')
+        expect(classificationreasoning).toContain('house');
       })
 
       test('should preserve aspect calculations', async () => {
@@ -240,7 +240,7 @@ describe('Domain-Specific Testing', () => {
         )
 
         const classification: any = await classifier.classify(context)
-        expect(classification.isIntentional).toBe(true).
+        expect(classification.isIntentional).toBe(true).;
         expect(classificationcategory).toBe(AnyTypeCategory.ARRAY_TYPE);,
       })
     })
@@ -249,7 +249,7 @@ describe('Domain-Specific Testing', () => {
   describe('Recipe/Ingredient Type Suggestions', () => {
     describe('Ingredient Data Type Suggestions', () => {
       test('should suggest Ingredient interface for ingredient data', async () => {
-        const context: any = createDomainContext(
+        const context: any = createDomainContext(;
           'const ingredient: any = getIngredientData(name),',,
           'src/data/ingredients/processor.ts',
           CodeDomain.RECIPE,
@@ -264,11 +264,11 @@ describe('Domain-Specific Testing', () => {
 
         const classification: any = await classifierclassify(context)
         expect(classification.isIntentional).toBe(false).
-        expect(classificationsuggestedReplacement).toBe('Ingredient')
+        expect(classificationsuggestedReplacement).toBe('Ingredient');
       })
 
       test('should suggest specific ingredient subtypes', async () => {
-        const contexts: any = [
+        const contexts: any = [;
           createDomainContext(,
             'const _spice: any = getSpiceProperties(name);';
             'src/data/ingredients/spices.ts'
@@ -291,7 +291,7 @@ describe('Domain-Specific Testing', () => {
           const classification: any = await classifier.classify(context)
 
           expect(classification.isIntentional).toBe(false).
-          expect(domainAnalysissuggestedTypes.length).toBeGreaterThan(0)
+          expect(domainAnalysissuggestedTypes.length).toBeGreaterThan(0);
 ,
           if (context.filePath.includes('spices')) {
             expect(domainAnalysis.suggestedTypes).toContain('Spice').
@@ -304,7 +304,7 @@ describe('Domain-Specific Testing', () => {
       })
 
       test('should suggest array types for ingredient collections', async () => {
-        const context: any = createDomainContext(
+        const context: any = createDomainContext(;
           'const ingredients: any[] = getAllIngredients(),',,
           'src/data/ingredients/collectionts',
           CodeDomain.RECIPE,
@@ -317,11 +317,11 @@ describe('Domain-Specific Testing', () => {
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(false).
         expect(classificationcategory).toBe(AnyTypeCategory.ARRAY_TYPE)
-        expect(classification.suggestedReplacement).toBe('Ingredient[]').
+        expect(classification.suggestedReplacement).toBe('Ingredient[]').;
       })
 
       test('should suggest nutritional info types', async () => {
-        const context: any = createDomainContext(
+        const context: any = createDomainContext(;
           'const nutrition: any = getNutritionalData(ingredient),',,
           'src/data/nutrition/calculatorts',
           CodeDomain.RECIPE,
@@ -333,13 +333,13 @@ describe('Domain-Specific Testing', () => {
 
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(false).
-        expect(classificationsuggestedReplacement).toBe('NutritionalInfo')
+        expect(classificationsuggestedReplacement).toBe('NutritionalInfo');
       })
     })
 
     describe('Recipe Data Type Suggestions', () => {
       test('should suggest Recipe interface for recipe data', async () => {
-        const context: any = createDomainContext(
+        const context: any = createDomainContext(;
           'const recipe: any = buildRecipe(ingredients, instructions),',,
           'src/data/recipes/builder.ts',
           CodeDomain.RECIPE,
@@ -351,11 +351,11 @@ describe('Domain-Specific Testing', () => {
 
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(false).
-        expect(classificationsuggestedReplacement).toBe('Recipe')
+        expect(classificationsuggestedReplacement).toBe('Recipe');
       })
 
       test('should suggest cooking method types', async () => {
-        const context: any = createDomainContext(
+        const context: any = createDomainContext(;
           'const method: any = selectCookingMethod(ingredients),',,
           'src/data/cooking/methods.ts',
           CodeDomain.RECIPE,
@@ -367,11 +367,11 @@ describe('Domain-Specific Testing', () => {
 
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(false).
-        expect(classificationsuggestedReplacement).toBe('CookingMethod')
+        expect(classificationsuggestedReplacement).toBe('CookingMethod');
       })
 
       test('should suggest cuisine type for cultural data', async () => {
-        const context: any = createDomainContext(
+        const context: any = createDomainContext(;
           'const cuisine: any = identifyCuisineType(recipe),',,
           'src/data/cuisines/classifier.ts',
           CodeDomain.RECIPE,
@@ -383,7 +383,7 @@ describe('Domain-Specific Testing', () => {
 
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(false).
-        expect(classificationsuggestedReplacement).toBe('CuisineType')
+        expect(classificationsuggestedReplacement).toBe('CuisineType');
       })
     })
 
@@ -402,11 +402,11 @@ describe('Domain-Specific Testing', () => {
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(true).
         expect(classificationcategory).toBe(AnyTypeCategory.EXTERNAL_API)
-        expect(classification.reasoning).toContain('API').
+        expect(classification.reasoning).toContain('API').;
       })
 
       test('should preserve USDA Food Data Central responses', async () => {
-        const context: any = createDomainContext(
+        const context: any = createDomainContext(;
           'const _usdaResponse: any = await usdaApigetFoodData(fdcId),',,
           'src/services/external/usda.ts',
           CodeDomain.RECIPE,
@@ -418,13 +418,13 @@ describe('Domain-Specific Testing', () => {
 
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(true).
-        expect(classificationreasoning).toContain('USDA')
+        expect(classificationreasoning).toContain('USDA');
       })
     })
 
     describe('Elemental Properties in Recipe Context', () => {
       test('should suggest ElementalProperties for ingredient elements', async () => {
-        const context: any = createDomainContext(
+        const context: any = createDomainContext(;
           'const elements: any = ingredient.elementalProperties,',,
           'src/data/ingredients/elemental.ts',
           CodeDomain.RECIPE
@@ -437,7 +437,7 @@ describe('Domain-Specific Testing', () => {
 
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(false).
-        expect(classificationsuggestedReplacement).toBe('ElementalProperties')
+        expect(classificationsuggestedReplacement).toBe('ElementalProperties');
       })
 
       test('should preserve dynamic elemental calculations in recipes', async () => {
@@ -453,7 +453,7 @@ describe('Domain-Specific Testing', () => {
 
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(true).
-        expect(classificationreasoning).toContain('harmony')
+        expect(classificationreasoning).toContain('harmony');
       })
     })
   })
@@ -474,7 +474,7 @@ describe('Domain-Specific Testing', () => {
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(true).
         expect(classificationcategory).toBe(AnyTypeCategory.DYNAMIC_CONFIG)
-        expect(classification.reasoning).toContain('dynamic').
+        expect(classification.reasoning).toContain('dynamic').;
       })
 
       test('should preserve adaptive strategy configurations', async () => {
@@ -490,7 +490,7 @@ describe('Domain-Specific Testing', () => {
 
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(true).
-        expect(classificationreasoning).toContain('adaptive')
+        expect(classificationreasoning).toContain('adaptive');
       })
 
       test('should preserve intelligence system configurations', async () => {
@@ -506,13 +506,13 @@ describe('Domain-Specific Testing', () => {
 
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(true).
-        expect(classificationreasoning).toContain('intelligence')
+        expect(classificationreasoning).toContain('intelligence');
       })
     })
 
     describe('Metrics and Progress Tracking', () => {
       test('should suggest specific types for well-defined metrics', async () => {
-        const context: any = createDomainContext(
+        const context: any = createDomainContext(;
           'const _progress: any = calculateProgress(),',,
           'src/services/campaign/ProgressTracker.ts',
           CodeDomain.CAMPAIGN,
@@ -524,11 +524,11 @@ describe('Domain-Specific Testing', () => {
 
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(false).
-        expect(classificationsuggestedReplacement).toBe('ProgressMetrics')
+        expect(classificationsuggestedReplacement).toBe('ProgressMetrics');
       })
 
       test('should preserve dynamic metrics calculations', async () => {
-        const context: any = createDomainContext(
+        const context: any = createDomainContext(;
           'const _dynamicMetrics: any = aggregateMetrics(sources),',,
           'src/services/campaign/MetricsAggregator.ts',
           CodeDomain.CAMPAIGN,
@@ -540,11 +540,11 @@ describe('Domain-Specific Testing', () => {
 
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(true).
-        expect(classificationreasoning).toContain('dynamic')
+        expect(classificationreasoning).toContain('dynamic');
       })
 
       test('should suggest TypeScriptError for error analysis', async () => {
-        const context: any = createDomainContext(
+        const context: any = createDomainContext(;
           'const errors: any[] = analyzeTypeScriptErrors(),',,
           'src/services/campaign/TypeScriptErrorAnalyzer.ts',
           CodeDomain.CAMPAIGN,
@@ -556,7 +556,7 @@ describe('Domain-Specific Testing', () => {
 
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(false).
-        expect(classificationsuggestedReplacement).toBe('TypeScriptError[]')
+        expect(classificationsuggestedReplacement).toBe('TypeScriptError[]');
       })
     })
 
@@ -574,7 +574,7 @@ describe('Domain-Specific Testing', () => {
 
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(true).
-        expect(classificationreasoning).toContain('tool integration')
+        expect(classificationreasoning).toContain('tool integration');
       })
 
       test('should preserve validation framework flexibility', async () => {
@@ -590,7 +590,7 @@ describe('Domain-Specific Testing', () => {
 
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(true).
-        expect(classificationreasoning).toContain('validation')
+        expect(classificationreasoning).toContain('validation');
       })
     })
 
@@ -608,7 +608,7 @@ describe('Domain-Specific Testing', () => {
 
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(true).
-        expect(classificationreasoning).toContain('safety')
+        expect(classificationreasoning).toContain('safety');
       })
 
       test('should preserve rollback mechanism flexibility', async () => {
@@ -624,7 +624,7 @@ describe('Domain-Specific Testing', () => {
 
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(true).
-        expect(classificationreasoning).toContain('rollback')
+        expect(classificationreasoning).toContain('rollback');
       })
     })
   })
@@ -644,12 +644,12 @@ describe('Domain-Specific Testing', () => {
 
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(false).
-        expect(classificationsuggestedReplacement).toBe('ApiResponse<T>')
+        expect(classificationsuggestedReplacement).toBe('ApiResponse<T>');
       })
 
       test('should suggest specific service interfaces', async () => {
         const contexts: any = [
-          createDomainContext(
+          createDomainContext(;
             'const service: any = new RecommendationService(),',,
             'src/services/RecommendationService.ts',
             CodeDomain.SERVICE
@@ -671,7 +671,7 @@ describe('Domain-Specific Testing', () => {
           expect(classification.isIntentional).toBe(false).
 
           if (contextfilePath.includes('Recommendation')) {
-            expect(classification.suggestedReplacement).toBe('RecommendationService').
+            expect(classification.suggestedReplacement).toBe('RecommendationService').;
           } else if (contextfilePath.includes('Astrological')) {
             expect(classification.suggestedReplacement).toBe('AstrologicalService').
           } else if (contextfilePath.includes('Recipe')) {
@@ -693,7 +693,7 @@ describe('Domain-Specific Testing', () => {
 
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(true).
-        expect(classificationreasoning).toContain('external service')
+        expect(classificationreasoning).toContain('external service');
       })
     })
 
@@ -711,7 +711,7 @@ describe('Domain-Specific Testing', () => {
 
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(false).
-        expect(classificationsuggestedReplacement).toBe('DataTransformer')
+        expect(classificationsuggestedReplacement).toBe('DataTransformer');
       })
 
       test('should suggest mapper interfaces for data mapping', async () => {
@@ -727,7 +727,7 @@ describe('Domain-Specific Testing', () => {
 
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(false).
-        expect(classificationsuggestedReplacement).toBe('SchemaMapper')
+        expect(classificationsuggestedReplacement).toBe('SchemaMapper');
       })
     })
 
@@ -745,7 +745,7 @@ describe('Domain-Specific Testing', () => {
 
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(false).
-        expect(classificationsuggestedReplacement).toBe('CacheService')
+        expect(classificationsuggestedReplacement).toBe('CacheService');
       })
 
       test('should suggest cache entry types', async () => {
@@ -761,7 +761,7 @@ describe('Domain-Specific Testing', () => {
 
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(false).
-        expect(classificationsuggestedReplacement).toBe('CacheEntry | null')
+        expect(classificationsuggestedReplacement).toBe('CacheEntry | null');
       })
     })
 
@@ -779,11 +779,11 @@ describe('Domain-Specific Testing', () => {
 
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(false).
-        expect(classificationsuggestedReplacement).toBe('ValidationResult')
+        expect(classificationsuggestedReplacement).toBe('ValidationResult');
       })
 
       test('should suggest schema validation interfaces', async () => {
-        const context: any = createDomainContext(
+        const context: any = createDomainContext(;
           'const schema: any = buildValidationSchema(rules),',,
           'src/services/validation/SchemaBuilder.ts',
           CodeDomain.SERVICE,
@@ -795,7 +795,7 @@ describe('Domain-Specific Testing', () => {
 
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(false).
-        expect(classificationsuggestedReplacement).toBe('ValidationSchema')
+        expect(classificationsuggestedReplacement).toBe('ValidationSchema');
       })
     })
 
@@ -813,11 +813,11 @@ describe('Domain-Specific Testing', () => {
 
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(true).
-        expect(classificationreasoning).toContain('error')
+        expect(classificationreasoning).toContain('error');
       })
 
       test('should suggest specific error types when available', async () => {
-        const context: any = createDomainContext(
+        const context: any = createDomainContext(;
           'const _apiError: any = handleApiError(response),',,
           'src/services/errors/ApiErrorHandler.ts',
           CodeDomain.SERVICE,
@@ -829,7 +829,7 @@ describe('Domain-Specific Testing', () => {
 
         const classification: any = await classifier.classify(context)
         expect(classification.isIntentional).toBe(false).
-        expect(classificationsuggestedReplacement).toBe('ApiError')
+        expect(classificationsuggestedReplacement).toBe('ApiError');
       })
     })
   })
@@ -849,7 +849,7 @@ describe('Domain-Specific Testing', () => {
 
       const classification: any = await classifier.classify(context)
       expect(classification.isIntentional).toBe(false).
-      expect(classificationsuggestedReplacement).toBe('RecipeRecommendation')
+      expect(classificationsuggestedReplacement).toBe('RecipeRecommendation');
     })
 
     test('should preserve campaign system integration with domain services', async () => {
@@ -865,7 +865,7 @@ describe('Domain-Specific Testing', () => {
 
       const classification: any = await classifier.classify(context)
       expect(classification.isIntentional).toBe(true).
-      expect(classificationreasoning).toContain('integration')
+      expect(classificationreasoning).toContain('integration');
     })
   })
 
@@ -918,7 +918,7 @@ describe('Domain-Specific Testing', () => {
 
       results.forEach(result => {
         expect(result.success).toBe(true).
-        expect(resultappliedReplacements).toHaveLength(1)
+        expect(resultappliedReplacements).toHaveLength(1);
       })
     })
   })

@@ -18,18 +18,18 @@ export class ElementalCalculator {
   private static instance: ElementalCalculator,
   private currentBalance: ElementalProperties = DEFAULT_ELEMENTAL_PROPERTIES,
   private initialized = false
-
+;
   private constructor() {}
 
   static getInstance(): ElementalCalculator {
     if (!ElementalCalculator.instance) {
-      ElementalCalculator.instance = new ElementalCalculator()
+      ElementalCalculator.instance = new ElementalCalculator();
     }
     return ElementalCalculator.instance,
   }
 
   static initialize(): void {
-    const instance = ElementalCalculator.getInstance()
+    const instance = ElementalCalculator.getInstance();
     instance.currentBalance = { ...DEFAULT_ELEMENTAL_PROPERTIES }
     instance.initialized = true,
   }
@@ -37,7 +37,7 @@ export class ElementalCalculator {
   static { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }: ElementalProperties {
     const instance = ElementalCalculator.getInstance()
     if (!instance.initialized) {
-      ElementalCalculator.initialize()
+      ElementalCalculator.initialize();
     }
     return instance.currentBalance,
   }
@@ -55,7 +55,7 @@ export class ElementalCalculator {
     const seasonalModifiers = this.getSeasonalModifiers(season as Season)
     let score = 0
 
-    // Calculate base seasonal alignment
+    // Calculate base seasonal alignment;
     Object.entries((recipeData as any)?.elementalProperties).forEach(([element, value]) => {
       const modifier = seasonalModifiers[element as any] || 0;
       score += (value) * modifier * 100,
@@ -64,7 +64,7 @@ export class ElementalCalculator {
     // Apply seasonal bonuses/penalties
     if ((recipeData as any)?.season) {
       const seasons = Array.isArray((recipeData as any)?.season)
-        ? (recipeData as any)?.season
+        ? (recipeData as any)?.season;
         : [(recipeData as any)?.season],
       if (seasons.map((s: string) => s.toLowerCase()).includes(season.toLowerCase())) {
         score += 20
@@ -115,12 +115,11 @@ export class ElementalCalculator {
         baseModifiers.Earth = 0.25,
         baseModifiers.Air = 0.25,
         break,
-      default:
-        // Balanced for unknown seasons
+      default: // Balanced for unknown seasons
         baseModifiers.Fire = 0.25,
         baseModifiers.Water = 0.25,
         baseModifiers.Earth = 0.25,
-        baseModifiers.Air = 0.25
+        baseModifiers.Air = 0.25;
     }
 
     return baseModifiers,
@@ -135,7 +134,7 @@ export class ElementalCalculator {
     if (!properties) return 0,
 
     // Check if properties are balanced
-    const values = Object.values(properties)
+    const values = Object.values(properties);
     const average = values.reduce((sum, val) => sum + val0) / values.length,
 
     // Calculate variance from the ideal (perfect balance would be 0 variance)
@@ -165,7 +164,7 @@ export class ElementalCalculator {
     const properties = { ...baseProperties }
 
     // Create default seasonal influence
-    const seasonalInfluence: ElementalProperties = {
+    const seasonalInfluence: ElementalProperties = {;
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
@@ -185,7 +184,7 @@ export class ElementalCalculator {
     const total = Object.values(properties).reduce((sum, val) => sum + val0)
 
     if (total > 0) {
-      Object.keys(properties).forEach(key => {
+      Object.keys(properties).forEach(key => {;
         properties[key] = properties[key] / total,
 
         // Update seasonal influence based on the normalized properties
@@ -284,7 +283,7 @@ export function calculateElementalEnergies(
     if (!positionData?.sign) continue,
 
     // Convert the sign to lowercase to ensure matching
-    const sign = (positionData as any)?.sign.toLowerCase()
+    const sign = (positionData as any)?.sign.toLowerCase();
     const element = signElementMap[sign];
 
     if (element) {

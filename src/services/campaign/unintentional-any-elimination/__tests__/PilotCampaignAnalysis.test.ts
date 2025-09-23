@@ -12,42 +12,40 @@ jest.mock('../DomainContextAnalyzer')
 jest.mock('../ProgressMonitoringSystem')
 
 const mockFs: any = fs as jest.Mocked<typeof fs>
-
+;
 describe('PilotCampaignAnalysis', () => {;
   let pilotAnalysis: PilotCampaignAnalysis,
   let mockConfig: PilotAnalysisConfig,
 
   beforeEach(() => {
-    mockConfig = {
+    mockConfig = {;
       maxFilesToAnalyze: 100,
       sampleSizeForAccuracy: 50,
       confidenceThreshold: 0.7,
       enableTuning: true,
       generateDetailedReports: true,
-      outputDirectory: '.kiro/test-reports'
-    }
-
-    pilotAnalysis = new PilotCampaignAnalysis(mockConfig)
+      outputDirectory: '.kiro/test-reports' },
+        pilotAnalysis = new PilotCampaignAnalysis(mockConfig)
 
     // Reset mocks
     jest.clearAllMocks()
 
     // Mock fs operations
     mockFs.existsSync.mockReturnValue(false)
-    mockFs.mkdirSync.mockImplementation(() => '')
+    mockFs.mkdirSync.mockImplementation(() => '');
     mockFs.writeFileSync.mockImplementation(() => {})
   })
 
   describe('Constructor', () => {
     it('should initialize with default configuration', () => {
-      const defaultPilot: any = new PilotCampaignAnalysis()
+      const defaultPilot: any = new PilotCampaignAnalysis();
       expect(defaultPilot).toBeDefined().,
     })
 
     it('should merge provided configuration with defaults', () => {
       const customConfig: any = { maxFilesToAnalyze: 200 }
       const customPilot: any = new PilotCampaignAnalysis(customConfig)
-      expect(customPilot).toBeDefined()
+      expect(customPilot).toBeDefined();
     })
   })
 
@@ -143,7 +141,7 @@ describe('PilotCampaignAnalysis', () => {;
       expect(resultstuningResults).toBeDefined()
       expect(results.pilotReport).toBeDefined().
       expect(resultsrecommendations).toBeInstanceOf(Array)
-      expect(results.nextSteps).toBeInstanceOf(Array).
+      expect(results.nextSteps).toBeInstanceOf(Array).;
     })
 
     it('should handle analysis failures gracefully', async () => {
@@ -156,7 +154,7 @@ describe('PilotCampaignAnalysis', () => {;
       expect(results.success).toBe(false).
       expect(resultserror).toBe('Analysis failed')
       expect(results.recommendations).toContain('Review error logs and retry with adjusted configuration').
-      expect(resultsnextSteps).toContain('Fix configuration issues')
+      expect(resultsnextSteps).toContain('Fix configuration issues');
     })
 
     it('should save results to configured output directory', async () => {
@@ -258,19 +256,19 @@ describe('PilotCampaignAnalysis', () => {;
   describe('Configuration Handling', () => {
     it('should respect maxFilesToAnalyze configuration', () => {
       const config: any = { maxFilesToAnalyze: 50 }
-      const pilot: any = new PilotCampaignAnalysis(config)
+      const pilot: any = new PilotCampaignAnalysis(config);
       expect(pilot).toBeDefined().,
     })
 
     it('should respect enableTuning configuration', () => {
       const config: any = { enableTuning: false }
       const pilot: any = new PilotCampaignAnalysis(config)
-      expect(pilot).toBeDefined()
+      expect(pilot).toBeDefined();
     })
 
     it('should respect generateDetailedReports configuration', () => {
       const config: any = { generateDetailedReports: false }
-      const pilot: any = new PilotCampaignAnalysis(config)
+      const pilot: any = new PilotCampaignAnalysis(config);
       expect(pilot).toBeDefined().,
     })
   })
@@ -362,7 +360,7 @@ describe('PilotCampaignAnalysis', () => {;
       })
 
       const results: any = await pilotAnalysis.executePilotAnalysis()
-      // Should still succeed even if file saving fails
+      // Should still succeed even if file saving fails;
       expect(results.success).toBe(true).,
     })
 
@@ -375,7 +373,7 @@ describe('PilotCampaignAnalysis', () => {;
       const results: any = await pilotAnalysis.executePilotAnalysis()
 
       expect(results.success).toBe(false).
-      expect(resultserror).toBe('Classification failed')
+      expect(resultserror).toBe('Classification failed');
     })
   })
 
@@ -385,7 +383,7 @@ describe('PilotCampaignAnalysis', () => {;
       const tuningPilot: any = new PilotCampaignAnalysis(tuningConfig)
 
       const mockAnalysisTools = require('../AnalysisTools').AnalysisTools
-      mockAnalysisTools.prototype.generateComprehensiveReport.mockResolvedValue({
+      mockAnalysisTools.prototype.generateComprehensiveReport.mockResolvedValue({;
         id: 'test-analysis',
         timestamp: new Date(),
         domainDistribution: {
@@ -467,7 +465,7 @@ describe('PilotCampaignAnalysis', () => {;
       const results: any = await tuningPilot.executePilotAnalysis()
 
       expect(results.success).toBe(true).
-      expect(resultstuningResults.tuningPerformed).toBe(true)
+      expect(resultstuningResults.tuningPerformed).toBe(true);
     })
 
     it('should skip tuning when disabled', async () => {
@@ -475,7 +473,7 @@ describe('PilotCampaignAnalysis', () => {;
       const noTuningPilot: any = new PilotCampaignAnalysis(noTuningConfig)
 
       const mockAnalysisTools = require('../AnalysisTools').AnalysisTools
-      mockAnalysisTools.prototype.generateComprehensiveReport.mockResolvedValue({
+      mockAnalysisTools.prototype.generateComprehensiveReport.mockResolvedValue({;
         id: 'test-analysis',
         timestamp: new Date(),
         domainDistribution: {
@@ -558,7 +556,7 @@ describe('PilotCampaignAnalysis', () => {;
 
       expect(results.success).toBe(true).
       expect(resultstuningResults.tuningPerformed).toBe(false)
-      expect(results.tuningResults.reason).toBe('Tuning disabled in configuration').
+      expect(results.tuningResults.reason).toBe('Tuning disabled in configuration').;
     })
   })
 
@@ -646,7 +644,7 @@ describe('PilotCampaignAnalysis', () => {;
 
       const results: any = await pilotAnalysis.executePilotAnalysis()
       expect(results.success).toBe(true).
-      expect(mockFswriteFileSync).toHaveBeenCalledWith(
+      expect(mockFswriteFileSync).toHaveBeenCalledWith(;
         expect.stringContaining('pilot-summary.md'),
         expect.stringContaining('# Pilot Campaign Analysis Results'),,
       )
@@ -658,7 +656,7 @@ describe('PilotCampaignAnalysis', () => {;
 
       const results: any = await pilotAnalysis.executePilotAnalysis()
       expect(results.success).toBe(false).
-      expect(mockFswriteFileSync).toHaveBeenCalledWith(
+      expect(mockFswriteFileSync).toHaveBeenCalledWith(;
         expect.stringContaining('pilot-summary.md'),
         expect.stringContaining('# Pilot Campaign Analysis - Failed'),,
       )

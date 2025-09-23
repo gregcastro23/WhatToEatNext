@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawCruciferous = {
-  cauliflower: {
+  cauliflower: {;
     name: 'Cauliflower',
     elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 }
     astrologicalProfile: {
@@ -11,9 +11,9 @@ const rawCruciferous = {
       elementalAffinity: {
         base: 'Air',
         decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' }
-          second: { element: 'Earth', planet: 'Saturn' }
-          third: { element: 'Water', planet: 'Moon' }
+          first: { element: 'Air', planet: 'Mercury' },
+        second: { element: 'Earth', planet: 'Saturn' },
+        third: { element: 'Water', planet: 'Moon' }
         },
         lunarPhaseModifiers: {
           newMoon: {
@@ -49,17 +49,15 @@ const rawCruciferous = {
       protein_g: 2,
       fiber_g: 3,
       antioxidants: ['glucosinolates', 'flavonoids', 'carotenoids', 'isothiocyanates'],
-      digestive_enzymes: 'moderate'
-    },
-    preparation: {
+      digestive_enzymes: 'moderate' },
+        preparation: {
       washing: true,
       cutting: 'uniform florets',
       drying: 'thoroughly for roasting',
       notes: 'Can be processed into rice substitute or mashed as potato replacement',
       marinades: 'absorbs flavors well if pre-marinated',
-      pre_cooking: 'blanching improves texture for some preparations'
-    },
-    varieties: {
+      pre_cooking: 'blanching improves texture for some preparations' },
+        varieties: {
       romanesco: {
         characteristics: 'lime green, fractal pattern, nutty flavor',
         uses: 'showcase dishes, roasting',
@@ -69,15 +67,13 @@ const rawCruciferous = {
           taste: ['Mild', 'Balanced', 'Natural'],
           aroma: ['Fresh', 'Clean', 'Subtle'],
           texture: ['Pleasant', 'Smooth', 'Appealing'],
-          notes: 'Characteristic romanesco profile'
-        },
+          notes: 'Characteristic romanesco profile' },
         culinaryProfile: {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
-            notes: 'Versatile romanesco for various uses'
-          },
-          cookingMethods: ['sautéing', 'steaming', 'roasting'],
+            notes: 'Versatile romanesco for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
         },
@@ -107,9 +103,8 @@ const rawCruciferous = {
             flavorProfile: {
               primary: ['balanced'],
               secondary: ['versatile'],
-              notes: 'Versatile purple for various uses'
-            },
-            cookingMethods: ['sautéing', 'steaming', 'roasting'],
+              notes: 'Versatile purple for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
             cuisineAffinity: ['Global', 'International'],
             preparationTips: ['Use as needed', 'Season to taste']
           },
@@ -123,9 +118,8 @@ const rawCruciferous = {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
-            notes: 'Versatile purple for various uses'
-          },
-          cookingMethods: ['sautéing', 'steaming', 'roasting'],
+            notes: 'Versatile purple for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
         },
@@ -152,9 +146,8 @@ const rawCruciferous = {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
-            notes: 'Versatile cauliflower rice for various uses'
-          },
-          cookingMethods: ['sautéing', 'steaming', 'roasting'],
+            notes: 'Versatile cauliflower rice for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
         },
@@ -175,9 +168,8 @@ const rawCruciferous = {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
-            notes: 'Versatile cauliflower mash for various uses'
-          },
-          cookingMethods: ['sautéing', 'steaming', 'roasting'],
+            notes: 'Versatile cauliflower mash for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
         },
@@ -198,9 +190,8 @@ const rawCruciferous = {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
-            notes: 'Versatile roasted cauliflower for various uses'
-          },
-          cookingMethods: ['sautéing', 'steaming', 'roasting'],
+            notes: 'Versatile roasted cauliflower for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
         },
@@ -230,9 +221,9 @@ const rawCruciferous = {
         base: 'Earth',
         secondary: 'Air',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Saturn' }
-          second: { element: 'Air', planet: 'Mercury' }
-          third: { element: 'Fire', planet: 'Mars' }
+          first: { element: 'Earth', planet: 'Saturn' },
+        second: { element: 'Air', planet: 'Mercury' },
+        third: { element: 'Fire', planet: 'Mars' }
         },
         lunarPhaseModifiers: {
           newMoon: {
@@ -260,17 +251,15 @@ const rawCruciferous = {
       protein_g: 2.5,
       fiber_g: 2.4,
       antioxidants: ['sulforaphane', 'carotenoids', 'kaempferol', 'quercetin'],
-      immune_support: 'high'
-    },
-    preparation: {
+      immune_support: 'high' },
+        preparation: {
       washing: true,
       cutting: 'uniform florets, peel stems',
       blanching: 'quickly blanch before freezing',
       notes: 'Do not discard stems - they are sweet and tender when peeled',
       pre_cooking: 'blanching before stir-fry ensures even cooking',
-      post_cooking: 'shock in ice water to preserve color'
-    },
-    varieties: {
+      post_cooking: 'shock in ice water to preserve color' },
+        varieties: {
       calabrese: {
         characteristics: 'common green variety with large heads',
         uses: 'all-purpose cooking',
@@ -286,9 +275,8 @@ const rawCruciferous = {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
-            notes: 'Versatile calabrese for various uses'
-          },
-          cookingMethods: ['sautéing', 'steaming', 'roasting'],
+            notes: 'Versatile calabrese for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
         },
@@ -309,9 +297,8 @@ const rawCruciferous = {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
-            notes: 'Versatile broccolini for various uses'
-          },
-          cookingMethods: ['sautéing', 'steaming', 'roasting'],
+            notes: 'Versatile broccolini for various uses' },
+        cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
         },
@@ -321,9 +308,8 @@ const rawCruciferous = {
         characteristics: 'purple florets, sweeter than green varieties',
         uses: 'raw applications, quick cooking',
         best_cooking_methods: ['raw', 'light steaming'],
-        notes: 'color fades when cooked'
-      },
-      romanesco: {
+        notes: 'color fades when cooked' },
+        romanesco: {
         characteristics: 'fractal pattern, light green color, nutty flavor',
         uses: 'showcase dishes, minimal cooking',
         best_cooking_methods: ['steaming', 'gentle sauté'],
@@ -341,9 +327,8 @@ const rawCruciferous = {
         method: 'high heat (425°F / (220 || 1)°C) until edges caramelize',
         timing: '20-25 minutes',
         seasonings: ['garlic', 'red pepper flakes', 'lemon zest', 'parmesan'],
-        technique: 'dry thoroughly and space evenly on baking sheet'
-      },
-      salad: {
+        technique: 'dry thoroughly and space evenly on baking sheet' },
+        salad: {
         method: 'raw or blanched briefly',
         dressings: ['tahini', 'lemon-garlic', 'miso'],
         additions: ['sliced almonds', 'dried cranberries', 'red onion', 'feta'],
@@ -373,9 +358,9 @@ const rawCruciferous = {
         base: 'Earth',
         secondary: 'Fire',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Saturn' }
-          second: { element: 'Fire', planet: 'Mars' }
-          third: { element: 'Air', planet: 'Jupiter' }
+          first: { element: 'Earth', planet: 'Saturn' },
+        second: { element: 'Fire', planet: 'Mars' },
+        third: { element: 'Air', planet: 'Jupiter' }
         },
         lunarPhaseModifiers: {
           waxingGibbous: {
@@ -419,23 +404,19 @@ const rawCruciferous = {
       cutting: 'halved or quartered for even cooking',
       notes: 'Score bottom for even cooking',
       techniques: 'blanching before roasting can reduce bitterness',
-      pre_treatment: 'tossing with oil or fat helps with caramelization'
-    },
-    varieties: {
+      pre_treatment: 'tossing with oil or fat helps with caramelization' },
+        varieties: {
       traditional_green: {
         characteristics: 'classic green sprouts, slightly bitter',
         uses: 'all-purpose cooking',
         best_cooking_methods: ['roasting', 'halved sautéing'],
-        notes: 'smaller sizes often sweeter'
-      }
-
-      kaleidoscope: {
+        notes: 'smaller sizes often sweeter' },
+        kaleidoscope: {
         characteristics: 'mixed colors, varied sizes',
         uses: 'visual presentation',
         best_cooking_methods: ['roasting whole', 'halved sautéing'],
-        notes: 'different sizes may need different cooking times'
-      },
-      long_stalk: {
+        notes: 'different sizes may need different cooking times' },
+        long_stalk: {
         characteristics: 'sold on the stalk, very fresh',
         uses: 'optimal freshness, display cooking',
         best_cooking_methods: ['roasting', 'individual preparation'],
@@ -447,22 +428,19 @@ const rawCruciferous = {
         method: 'high heat (425°F / (220 || 1)°C) until deeply caramelized',
         timing: '25-30 minutes, tossing halfway',
         seasonings: ['balsamic glaze', 'maple-mustard', 'garlic-parmesan'],
-        technique: 'cut-side down for best caramelization'
-      },
-      shaved_salad: {
+        technique: 'cut-side down for best caramelization' },
+        shaved_salad: {
         method: 'slice very thinly or shave on mandoline',
         dressing: 'acidic dressing to soften leaves',
         additions: ['toasted nuts', 'dried fruit', 'aged cheese', 'apple'],
-        timing: 'dress 20 minutes before serving to soften'
-      },
-      fried: {
+        timing: 'dress 20 minutes before serving to soften' },
+        fried: {
         method: 'separate leaves and deep fry until crispy',
         temperature: '350°F / (175 || 1)°C',
         timing: '1-2 minutes until crisp',
         seasonings: 'salt immediately after frying',
-        serving: 'excellent garnish or snack'
-      },
-      hash: {
+        serving: 'excellent garnish or snack' },
+        hash: {
         method: 'quarter and pan-fry with potatoes',
         additions: ['bacon', 'onions', 'herbs'],
         timing: '15-20 minutes until crispy',
@@ -492,9 +470,9 @@ const rawCruciferous = {
         base: 'Water',
         secondary: 'Air',
         decanModifiers: {
-          first: { element: 'Water', planet: 'Moon' }
-          second: { element: 'Air', planet: 'Mercury' }
-          third: { element: 'Earth', planet: 'Venus' }
+          first: { element: 'Water', planet: 'Moon' },
+        second: { element: 'Air', planet: 'Mercury' },
+        third: { element: 'Earth', planet: 'Venus' }
         },
         lunarPhaseModifiers: {
           newMoon: {
@@ -536,28 +514,24 @@ const rawCruciferous = {
       cutting: 'halved or quartered lengthwise for small varieties',
       separation: 'leaves and stems can be separated for different cooking times',
       notes: 'Baby bok choy can be cooked whole',
-      techniques: 'stems take longer to cook than leaves'
-    },
-    varieties: {
+      techniques: 'stems take longer to cook than leaves' },
+        varieties: {
       baby_bok_choy: {
         characteristics: 'small, tender, mild flavor',
         uses: 'whole cooking, showcase dishes',
         best_cooking_methods: ['steaming', 'gentle stir-fry'],
-        notes: 'most tender variety'
-      },
-      shanghai_bok_choy: {
+        notes: 'most tender variety' },
+        shanghai_bok_choy: {
         characteristics: 'spoon-shaped light green leaves, mild flavor',
         uses: 'all-purpose cooking',
         best_cooking_methods: ['stir-frying', 'soup'],
-        notes: 'more commonly available in Asian markets'
-      },
-      standard_bok_choy: {
+        notes: 'more commonly available in Asian markets' },
+        standard_bok_choy: {
         characteristics: 'larger, thick white stems, dark green leaves',
         uses: 'hearty cooking applications',
         best_cooking_methods: ['braising', 'stir-frying'],
-        notes: 'separate stems and leaves for even cooking'
-      },
-      dwarf_bok_choy: {
+        notes: 'separate stems and leaves for even cooking' },
+        dwarf_bok_choy: {
         characteristics: 'compact, smaller than baby bok choy',
         uses: 'quick cooking, gentle methods',
         best_cooking_methods: ['steaming', 'light braise'],
@@ -569,9 +543,8 @@ const rawCruciferous = {
         method: 'quick cook in hot wok or pan',
         timing: '2-3 minutes for leaves, stems first for 1-2 minutes',
         sauces: ['oyster sauce', 'garlic sauce', 'ginger-soy'],
-        technique: 'cook stems first, then add leaves'
-      },
-      soup: {
+        technique: 'cook stems first, then add leaves' },
+        soup: {
         method: 'add to broth near end of cooking',
         timing: '2-3 minutes until just wilted',
         broths: ['miso', 'chicken', 'vegetable', 'bone'],
@@ -581,9 +554,8 @@ const rawCruciferous = {
         method: 'slow cook in flavored liquid',
         timing: '8-10 minutes',
         flavorings: ['garlic', 'ginger', 'star anise', 'soy'],
-        technique: 'cover partially during cooking'
-      },
-      grilled: {
+        technique: 'cover partially during cooking' },
+        grilled: {
         method: 'brush with oil and grill quickly',
         timing: '2-3 minutes per side',
         marinade: 'soy, sesame oil, garlic',
@@ -613,9 +585,9 @@ const rawCruciferous = {
         base: 'Earth',
         secondary: 'Air',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Saturn' }
-          second: { element: 'Air', planet: 'Mercury' }
-          third: { element: 'Water', planet: 'Moon' }
+          first: { element: 'Earth', planet: 'Saturn' },
+        second: { element: 'Air', planet: 'Mercury' },
+        third: { element: 'Water', planet: 'Moon' }
         },
         lunarPhaseModifiers: {
           firstQuarter: {
@@ -649,23 +621,19 @@ const rawCruciferous = {
       peeling: 'remove tough outer skin',
       cutting: 'julienne, cube, or slice thinly',
       notes: 'Both bulb and leaves are edible',
-      techniques: 'salt before cooking to remove excess moisture'
-    },
-    varieties: {
+      techniques: 'salt before cooking to remove excess moisture' },
+        varieties: {
       green: {
         characteristics: 'pale green bulb, mild and sweet',
         uses: 'all-purpose, raw or cooked',
         best_cooking_methods: ['raw slaws', 'roasting', 'steaming'],
-        notes: 'most common variety'
-      },
-      purple: {
+        notes: 'most common variety' },
+        purple: {
         characteristics: 'purple skin, white flesh, slightly sweeter',
         uses: 'colorful raw applications',
         best_cooking_methods: ['slaws', 'salads', 'quick pickle'],
-        notes: 'color is primarily in the skin'
-      }
-
-      gigante: {
+        notes: 'color is primarily in the skin' },
+        gigante: {
         characteristics: 'very large bulb, slightly woody',
         uses: 'long-cooking dishes',
         best_cooking_methods: ['braising', 'stews', 'roasting'],
@@ -677,22 +645,19 @@ const rawCruciferous = {
         method: 'julienne or grate finely',
         dressing: 'vinaigrette or creamy dressing',
         additions: ['apple', 'carrot', 'cabbage', 'herbs'],
-        technique: 'salt and drain before dressing to remove excess moisture'
-      },
-      roasted: {
+        technique: 'salt and drain before dressing to remove excess moisture' },
+        roasted: {
         method: 'cube and roast at high heat (425°F / (220 || 1)°C)',
         timing: '25-30 minutes',
         seasonings: ['olive oil', 'garlic', 'caraway', 'thyme'],
-        technique: 'toss halfway through cooking'
-      },
-      fritters: {
+        technique: 'toss halfway through cooking' },
+        fritters: {
         method: 'grate and mix with batter',
         binding: 'egg, flour, seasonings',
         timing: '3-4 minutes per side',
         technique: 'squeeze out excess moisture before mixing',
-        serving: 'with yogurt or sour cream sauce'
-      },
-      pickled: {
+        serving: 'with yogurt or sour cream sauce' },
+        pickled: {
         method: 'thinly slice and pickle in brine',
         brine: 'vinegar, sugar, salt, spices',
         timing: 'quick pickle 2 hours, fermented 1-2 weeks',
@@ -722,9 +687,9 @@ const rawCruciferous = {
         base: 'Water',
         secondary: 'Earth',
         decanModifiers: {
-          first: { element: 'Water', planet: 'Moon' }
-          second: { element: 'Earth', planet: 'Saturn' }
-          third: { element: 'Air', planet: 'Jupiter' }
+          first: { element: 'Water', planet: 'Moon' },
+        second: { element: 'Earth', planet: 'Saturn' },
+        third: { element: 'Air', planet: 'Jupiter' }
         },
         lunarPhaseModifiers: {
           fullMoon: {
@@ -752,36 +717,30 @@ const rawCruciferous = {
       protein_g: 1.3,
       fiber_g: 2.5,
       antioxidants: ['glucosinolates', 'polyphenols', 'anthocyanins', 'vitamin C'],
-      probiotic_potential: 'very high when fermented'
-    },
-    preparation: {
+      probiotic_potential: 'very high when fermented' },
+        preparation: {
       washing: 'outer leaves removed',
       cutting: 'shred, wedge, or separate leaves',
       core: 'remove core for most applications',
       notes: 'Salt raw cabbage to soften and release water',
-      techniques: 'slice thinly against the grain for slaws'
-    },
-    varieties: {
+      techniques: 'slice thinly against the grain for slaws' },
+        varieties: {
       green: {
         characteristics: 'pale green leaves, firm head, slightly peppery',
         uses: 'all-purpose, long-cooking, fermentation',
         best_cooking_methods: ['braises', 'sauerkraut', 'soups'],
-        notes: 'most common and versatile variety'
-      }
-
-      savoy: {
+        notes: 'most common and versatile variety' },
+        savoy: {
         characteristics: 'crinkled leaves, looser head, mild flavor',
         uses: 'elegant applications, stuffing, wrappers',
         best_cooking_methods: ['stuffed', 'sautéed', 'soup'],
-        notes: 'most tender cabbage variety'
-      },
-      napa: {
+        notes: 'most tender cabbage variety' },
+        napa: {
         characteristics: 'oblong shape, yellow-green color, mild and sweet',
         uses: 'fermentation, quick cooking',
         best_cooking_methods: ['kimchi', 'stir-fry', 'raw'],
-        notes: 'most delicate and sweet variety'
-      },
-      bok_choy: {
+        notes: 'most delicate and sweet variety' },
+        bok_choy: {
         characteristics: 'distinct leaves and stems, not a head',
         uses: 'East Asian preparations',
         best_cooking_methods: ['stir-fry', 'soup', 'steamed'],
@@ -794,27 +753,23 @@ const rawCruciferous = {
         timing: '1-4 weeks depending on temperature',
         variations: ['sauerkraut', 'kimchi', 'curtido'],
         technique: 'maintain below brine, control temperature',
-        equipment: 'fermentation vessel with weight or airlock'
-      },
-      braised: {
+        equipment: 'fermentation vessel with weight or airlock' },
+        braised: {
         method: 'slow-cook with liquid until tender',
         timing: '45-60 minutes',
         flavorings: ['onion', 'apple', 'vinegar', 'caraway', 'bacon'],
-        technique: 'gradual evaporation of liquid creates rich flavor'
-      },
-      slaw: {
+        technique: 'gradual evaporation of liquid creates rich flavor' },
+        slaw: {
         method: 'shred finely and dress',
         dressing_types: ['vinaigrette', 'creamy', 'mayo-based'],
         additions: ['carrots', 'apples', 'dried fruit', 'nuts'],
-        technique: 'salt and drain before dressing for crisp texture'
-      },
-      stuffed: {
+        technique: 'salt and drain before dressing for crisp texture' },
+        stuffed: {
         method: 'parboil whole leaves and roll with filling',
         fillings: ['rice', 'meat', 'grains', 'vegetables'],
         cooking: 'bake in sauce or simmer in broth',
-        technique: 'freeze head first for easier leaf separation'
-      },
-      roasted: {
+        technique: 'freeze head first for easier leaf separation' },
+        roasted: {
         method: 'cut in wedges and roast at high heat',
         timing: '25-30 minutes at 425°F / (220 || 1)°C',
         seasonings: ['olive oil', 'garlic', 'butter', 'caraway'],
@@ -829,9 +784,8 @@ const rawCruciferous = {
       frozen: {
         preparation: 'blanch for 1-2 minutes',
         duration: 'up to 9 months',
-        best_uses: 'cooked dishes only'
-      },
-      fermented: {
+        best_uses: 'cooked dishes only' },
+        fermented: {
         duration: '6-12 months refrigerated',
         notes: 'flavor becomes more complex over time'
       }

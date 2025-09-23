@@ -5,10 +5,9 @@ import type { CookingMethod } from '@/types/shared';
  * Dehydrating: A preservation method that removes moisture from food,
  * concentrating flavors and extending shelf life
  */
-export const _dehydrating: CookingMethodData = {
+export const _dehydrating: CookingMethodData = {;
   name: 'Dehydrating' as CookingMethod,
-  description:
-    'A preservation method that removes moisture from food through controlled evaporation, concentrating flavors and nutrients while extending shelf life.',
+  description: 'A preservation method that removes moisture from food through controlled evaporation, concentrating flavors and nutrients while extending shelf life.',
   elementalEffect: {
     Fire: 0.4,
     Water: 0.1,
@@ -27,8 +26,7 @@ export const _dehydrating: CookingMethodData = {
     'Concentrates antioxidants and nutrients',
     'Reduces food waste'
   ],
-  history:
-    'Dehydration is one of humanity\'s oldest food preservation techniques, dating back to prehistoric times. Sun-drying fruits, vegetables, and meats was practiced across ancient civilizations including Egypt, China, and the Middle East.',
+  history: 'Dehydration is one of humanity\'s oldest food preservation techniques, dating back to prehistoric times. Sun-drying fruits, vegetables, and meats was practiced across ancient civilizations including Egypt, China, and the Middle East.',
   modernVariations: [
     'Sun drying (traditional method using solar heat)',
     'Air drying (hanging in a cool, dry place)',

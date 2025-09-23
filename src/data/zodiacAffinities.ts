@@ -54,9 +54,8 @@ export const _zodiacCulinaryPreferences: Record<
     cookingStyle: 'Impulsive, quick and energetic cooking with minimal preparation',
     diningStyle: 'Enthusiastic but impatient, may eat quickly and prefer casual settings',
     weakness: 'Rushing cooking process, not following recipes closely',
-    mealStructure: 'Protein-centered meals with immediate satisfaction'
-  },
-  taurus: {
+    mealStructure: 'Protein-centered meals with immediate satisfaction' },
+        taurus: {
     favoredCuisines: [
       'Italian',
       'French',
@@ -97,9 +96,8 @@ export const _zodiacCulinaryPreferences: Record<
     cookingStyle: 'Patient, traditional cooking with attention to quality ingredients',
     diningStyle: 'Appreciates fine dining, takes time to savor every bite',
     weakness: 'Overindulgence, richness, and portion control',
-    mealStructure: 'Complete traditional courses with emphasis on quality'
-  },
-  gemini: {
+    mealStructure: 'Complete traditional courses with emphasis on quality' },
+        gemini: {
     favoredCuisines: [
       'Fusion',
       'Vietnamese',
@@ -141,9 +139,8 @@ export const _zodiacCulinaryPreferences: Record<
     cookingStyle: 'Experimental and playful, often cooking multiple dishes at once',
     diningStyle: 'Enjoys conversation while eating, prefers variety like tapas or shared plates',
     weakness: 'Getting distracted while cooking, inconsistent results',
-    mealStructure: 'Multiple small plates with diverse flavors and textures'
-  },
-  cancer: {
+    mealStructure: 'Multiple small plates with diverse flavors and textures' },
+        cancer: {
     favoredCuisines: [
       'Japanese',
       'American',
@@ -177,9 +174,8 @@ export const _zodiacCulinaryPreferences: Record<
     cookingStyle: 'Intuitive, nurturing cooking often connected to memories and traditions',
     diningStyle: 'Values family-style dining and emotional connections through food',
     weakness: 'Emotional eating, overfeeding others, comfort-focused rather than nutrition',
-    mealStructure: 'Nourishing main dishes with sides that evoke memory and comfort'
-  },
-  leo: {
+    mealStructure: 'Nourishing main dishes with sides that evoke memory and comfort' },
+        leo: {
     favoredCuisines: [
       'Mediterranean',
       'Moroccan',
@@ -213,9 +209,8 @@ export const _zodiacCulinaryPreferences: Record<
     cookingStyle: 'Dramatic, impressive cooking with flair and presentation focus',
     diningStyle: 'Appreciates being the center of attention, enjoys dining as an event',
     weakness: 'Focusing too much on appearance over substance, extravagance',
-    mealStructure: 'Dramatic main course with theatrical elements and presentation'
-  },
-  virgo: {
+    mealStructure: 'Dramatic main course with theatrical elements and presentation' },
+        virgo: {
     favoredCuisines: [
       'Japanese',
       'Korean',
@@ -253,9 +248,8 @@ export const _zodiacCulinaryPreferences: Record<
     cookingStyle: 'Methodical, precise cooking following exact recipes and techniques',
     diningStyle: 'Appreciates quality, cleanliness and order in dining experiences',
     weakness: 'Overthinking recipes, perfectionism leading to stress',
-    mealStructure: 'Carefully balanced plate with proper nutritional proportions'
-  },
-  libra: {
+    mealStructure: 'Carefully balanced plate with proper nutritional proportions' },
+        libra: {
     favoredCuisines: [
       'French',
       'Thai',
@@ -293,9 +287,8 @@ export const _zodiacCulinaryPreferences: Record<
     cookingStyle: 'Aesthetic, balanced cooking with attention to presentation and harmony',
     diningStyle: 'Values beautiful environments and well-paired flavors',
     weakness: 'Indecision about what to cook, prioritizing appearance over flavor',
-    mealStructure: 'Perfectly balanced plate with complementary flavors and visual appeal'
-  },
-  scorpio: {
+    mealStructure: 'Perfectly balanced plate with complementary flavors and visual appeal' },
+        scorpio: {
     favoredCuisines: [
       'Mexican',
       'Korean',
@@ -338,9 +331,8 @@ export const _zodiacCulinaryPreferences: Record<
     cookingStyle: 'Intense, transformative cooking that changes ingredients significantly',
     diningStyle: 'Enjoys exploring unusual flavors and hidden food establishments',
     weakness: 'Making dishes too intense or complex for others to enjoy',
-    mealStructure: 'Deeply complex dishes with mysterious elements and surprising depth'
-  },
-  sagittarius: {
+    mealStructure: 'Deeply complex dishes with mysterious elements and surprising depth' },
+        sagittarius: {
     favoredCuisines: [
       'Indian',
       'Middle Eastern',
@@ -385,9 +377,8 @@ export const _zodiacCulinaryPreferences: Record<
     cookingStyle: 'Adventurous, spontaneous cooking often inspired by travels',
     diningStyle: 'Enjoys exploration of new cuisines and food traditions',
     weakness: 'Overambitious recipes, imprecise measurements, abandoned cooking projects',
-    mealStructure: 'Globally inspired plates with educational and philosophical elements'
-  },
-  capricorn: {
+    mealStructure: 'Globally inspired plates with educational and philosophical elements' },
+        capricorn: {
     favoredCuisines: [
       'Traditional French',
       'German',
@@ -428,9 +419,8 @@ export const _zodiacCulinaryPreferences: Record<
     cookingStyle: 'Traditional, disciplined cooking with respect for classic techniques',
     diningStyle: 'Appreciates quality establishments with history and reputation',
     weakness: 'Resistance to innovation, overreliance on tradition',
-    mealStructure: 'Traditional courses with proper progressions and heritage elements'
-  },
-  aquarius: {
+    mealStructure: 'Traditional courses with proper progressions and heritage elements' },
+        aquarius: {
     favoredCuisines: [
       'Modernist',
       'Fusion',
@@ -475,9 +465,8 @@ export const _zodiacCulinaryPreferences: Record<
     cookingStyle: 'Innovative, experimental cooking that breaks traditions',
     diningStyle: 'Values unique concepts and intellectual approaches to food',
     weakness: 'Creating dishes that are too conceptual or detached from enjoyment',
-    mealStructure: 'Unconventional progressions that challenge dining norms'
-  },
-  pisces: {
+    mealStructure: 'Unconventional progressions that challenge dining norms' },
+        pisces: {
     favoredCuisines: [
       'Coastal',
       'Nordic',
@@ -771,79 +760,68 @@ export const _zodiacMealTimingPreferences: Record<
     lunch: 0.6,
     dinner: 0.7,
     snacking: 0.4,
-    idealEatingHours: 'Early morning and midday when energy is highest'
-  },
-  taurus: {
+    idealEatingHours: 'Early morning and midday when energy is highest' },
+        taurus: {
     breakfast: 0.6,
     lunch: 0.7,
     dinner: 0.9,
     snacking: 0.8,
-    idealEatingHours: 'Leisurely evening meals, appreciating dinner fully'
-  },
-  gemini: {
+    idealEatingHours: 'Leisurely evening meals, appreciating dinner fully' },
+        gemini: {
     breakfast: 0.5,
     lunch: 0.7,
     dinner: 0.6,
     snacking: 0.9,
-    idealEatingHours: 'Multiple small meals throughout the day'
-  },
-  cancer: {
+    idealEatingHours: 'Multiple small meals throughout the day' },
+        cancer: {
     breakfast: 0.7,
     lunch: 0.6,
     dinner: 0.9,
     snacking: 0.7,
-    idealEatingHours: 'Evening family meals, breakfast comfort foods'
-  },
-  leo: {
+    idealEatingHours: 'Evening family meals, breakfast comfort foods' },
+        leo: {
     breakfast: 0.5,
     lunch: 0.7,
     dinner: 0.9,
     snacking: 0.6,
-    idealEatingHours: 'Prime dinner time when attention can be focused'
-  },
-  virgo: {
+    idealEatingHours: 'Prime dinner time when attention can be focused' },
+        virgo: {
     breakfast: 0.8,
     lunch: 0.7,
     dinner: 0.6,
     snacking: 0.5,
-    idealEatingHours: 'Regular, precisely timed meals throughout day'
-  },
-  libra: {
+    idealEatingHours: 'Regular, precisely timed meals throughout day' },
+        libra: {
     breakfast: 0.6,
     lunch: 0.8,
     dinner: 0.9,
     snacking: 0.5,
-    idealEatingHours: 'Social lunch and dinner times with company'
-  },
-  scorpio: {
+    idealEatingHours: 'Social lunch and dinner times with company' },
+        scorpio: {
     breakfast: 0.4,
     lunch: 0.6,
     dinner: 0.9,
     snacking: 0.7,
-    idealEatingHours: 'Evening and late night when atmosphere is intense'
-  },
-  sagittarius: {
+    idealEatingHours: 'Evening and late night when atmosphere is intense' },
+        sagittarius: {
     breakfast: 0.7,
     lunch: 0.8,
     dinner: 0.7,
     snacking: 0.8,
-    idealEatingHours: 'Varied meal times, adaptable to adventure'
-  },
-  capricorn: {
+    idealEatingHours: 'Varied meal times, adaptable to adventure' },
+        capricorn: {
     breakfast: 0.8,
     lunch: 0.7,
     dinner: 0.8,
     snacking: 0.3,
-    idealEatingHours: 'Traditional meal times adhered to strictly'
-  },
-  aquarius: {
+    idealEatingHours: 'Traditional meal times adhered to strictly' },
+        aquarius: {
     breakfast: 0.6,
     lunch: 0.5,
     dinner: 0.7,
     snacking: 0.8,
-    idealEatingHours: 'Unconventional eating schedule, meal timing experiments'
-  },
-  pisces: {
+    idealEatingHours: 'Unconventional eating schedule, meal timing experiments' },
+        pisces: {
     breakfast: 0.5,
     lunch: 0.6,
     dinner: 0.8,
@@ -876,7 +854,7 @@ export function calculateRecipeZodiacCompatibility(
   const ingredientModality = ZODIAC_MODALITIES[mainIngredientSign];
   const preparationModality = ZODIAC_MODALITIES[preparationMethodSign]
 
-  // Get elements (from zodiacUtils)
+  // Get elements (from zodiacUtils);
   const elementMap: Record<ZodiacSign, string> = {
     aries: 'Fire',
     leo: 'Fire',
@@ -889,10 +867,8 @@ export function calculateRecipeZodiacCompatibility(
     aquarius: 'Air',
     cancer: 'Water',
     scorpio: 'Water',
-    pisces: 'Water'
-  }
-
-  const ingredientElement = elementMap[mainIngredientSign];
+    pisces: 'Water' },
+        const ingredientElement = elementMap[mainIngredientSign];
   const preparationElement = elementMap[preparationMethodSign];
 
   // Calculate compatibility scores
@@ -902,7 +878,7 @@ export function calculateRecipeZodiacCompatibility(
   } else if (
     (ingredientModality === 'cardinal' && preparationModality === 'mutable') ||
     (ingredientModality === 'mutable' && preparationModality === 'cardinal')
-  ) {
+  ) {;
     modalityScore = 0.6; // Good match
   } else {
     modalityScore = 0.3; // Fair match
@@ -917,7 +893,7 @@ export function calculateRecipeZodiacCompatibility(
     (ingredientElement === 'air' && preparationElement === 'fire') ||
     (ingredientElement === 'earth' && preparationElement === 'water') ||
     (ingredientElement === 'water' && preparationElement === 'earth')
-  ) {
+  ) {;
     elementScore = 0.7; // Good match
   } else {
     elementScore = 0.4; // Fair match

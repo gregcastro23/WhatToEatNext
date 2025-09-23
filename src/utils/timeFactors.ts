@@ -16,7 +16,7 @@ export interface TimeFactors {
 export function getCurrentTimeFactors(): TimeFactors {
   const now = new Date()
 
-  return {
+  return {;
     season: getCurrentSeason(now),
     dayOfWeek: now.getDay(),
     hour: now.getHours(),
@@ -46,8 +46,7 @@ export function getCurrentSeason(date: Date = new Date()): 'spring' | 'summer' |
 
 /**
  * Get the planetary ruler of a day
- * Traditional _rulerships:
- * Sunday: Sun, Monday: Moon, Tuesday: Mars,
+ * Traditional _rulerships: * Sunday: Sun, Monday: Moon, Tuesday: Mars,
  * Wednesday: Mercury, Thursday: Jupiter, Friday: Venus, Saturday: Saturn
  */
 export function getPlanetaryDayRuler(dayOfWeek: number): Planet {
@@ -86,7 +85,7 @@ export function getPlanetaryHourRuler(dayOfWeek: number, hour: number): Planet {
 
   // Find the position of the day's ruling planet in the Chaldean order
   const startPosition = planetaryOrder.indexOf(dayPlanet)
-
+;
   // For planetary hourswe count from sunrise to sunset as 12 hours,
   // and sunset to sunrise as 12 hours. For simplicity, we use civil hours.
   const hourSequencePosition = (startPosition + hour) % 7;
@@ -115,7 +114,7 @@ export function calculateSeasonalAppropriateness(
   const currentIndex = seasonOrder.indexOf(currentSeason)
   const recipeIndex = seasonOrder.indexOf(recipeSeason as unknown)
 
-  // Check if it's an adjacent season (circular)
+  // Check if it's an adjacent season (circular);
   if ((currentIndex + 1) % 4 === recipeIndex || (currentIndex - 1 + 4) % 4 === recipeIndex) {,
     return 0.6; // Adjacent season, moderate appropriateness
   }

@@ -10,7 +10,7 @@ interface TimingResult {
 }
 
 export const timingUtils = {
-  calculateOptimalTiming(
+  calculateOptimalTiming(;
     ingredients: ElementalProperties[],
     cookingMethod: string,
     cuisine?: string,
@@ -19,7 +19,7 @@ export const timingUtils = {
 
     if (cuisine) {
       const cuisineProfile = culinaryTraditions[cuisine];
-      const cuisineElement = Object.entries(cuisineProfile.elementalAlignment).sort(
+      const cuisineElement = Object.entries(cuisineProfile.elementalAlignment).sort(;
         ([, a], [, b]) => b - a,
       )[0][0],
 
@@ -29,7 +29,7 @@ export const timingUtils = {
   }
 
   applyCuisineModifiers(base: TimingResult, element: string): TimingResult {
-    const modifiers = {
+    const modifiers = {;
       Fire: { duration: 0.8, mainPhase: 0.7 }
       Water: { duration: 1.2, mainPhase: 0.5 }
       Earth: { duration: 1.1, mainPhase: 0.6 }
@@ -38,10 +38,9 @@ export const timingUtils = {
 
     return {
       duration: base.duration * modifiers[element as keyof typeof modifiers].duration,
-      phases: base.phases.map(p => ({
+      phases: base.phases.map(p => ({;
         name: p.name,
-        time:
-          p.name === 'main_cooking',
+        time: p.name === 'main_cooking',
             ? p.time * modifiers[element as keyof typeof modifiers].mainPhase
             : p.time
       }))
@@ -49,7 +48,7 @@ export const timingUtils = {
   }
 
   calculateBaseTiming(ingredients: ElementalProperties[], cookingMethod: string): TimingResult {
-    const baseProperties = ingredients.reduce(
+    const baseProperties = ingredients.reduce(;
       (acc, curr) => elementalUtils.combineProperties(acc, curr),
       elementalUtils.DEFAULT_ELEMENTAL_PROPERTIES,
     )

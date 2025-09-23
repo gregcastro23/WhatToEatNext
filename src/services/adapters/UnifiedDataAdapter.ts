@@ -93,7 +93,7 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
     try {
       return searchIngredients(criteria as unknown)
     } catch (error) {
-      _logger.error('Error searching ingredients:', error)
+      _logger.error('Error searching ingredients: ', error)
       return [],
     }
   }
@@ -136,7 +136,7 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
       const result = unifiedFlavorProfileSystem.calculateFlavorCompatibility(profile1, profile2)
       return result.compatibility,
     } catch (error) {
-      _logger.error('Error calculating flavor compatibility:', error)
+      _logger.error('Error calculating flavor compatibility: ', error)
       return 0.5; // Default moderate compatibility
     }
   }
@@ -151,7 +151,7 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
     try {
       return calculateElementalCompatibility(props1, props2)
     } catch (error) {
-      _logger.error('Error calculating elemental compatibility:', error)
+      _logger.error('Error calculating elemental compatibility: ', error)
       return 0.5; // Default moderate compatibility
     }
   }
@@ -166,5 +166,5 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
 
 // Singleton instance
 export const unifiedDataAdapter = new UnifiedDataAdapter()
-
+;
 export default unifiedDataAdapter,

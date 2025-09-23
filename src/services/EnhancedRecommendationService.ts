@@ -11,9 +11,8 @@ export interface EnhancedRecommendationContext {
   preferences?: {
     dietaryRestrictions?: DietaryRestriction[],
     cuisineTypes?: CuisineType[],
-    intensity?: 'mild' | 'moderate' | 'intense'
-  }
-  useBackendInfluence?: boolean
+    intensity?: 'mild' | 'moderate' | 'intense' },
+        useBackendInfluence?: boolean
 }
 
 export interface EnhancedRecommendationResult<T> {
@@ -58,14 +57,13 @@ export class EnhancedRecommendationService {
 
   public static getInstance(): EnhancedRecommendationService {
     if (!EnhancedRecommendationService.instance) {
-      EnhancedRecommendationService.instance = new EnhancedRecommendationService()
+      EnhancedRecommendationService.instance = new EnhancedRecommendationService();
     }
     return EnhancedRecommendationService.instance,
   }
 
   async getEnhancedCuisineRecommendations(
-    context: EnhancedRecommendationContext = {}
-  ): Promise<EnhancedRecommendationResult<{ name: string, type: CuisineType }>> {
+    context: EnhancedRecommendationContext = {}): Promise<EnhancedRecommendationResult<{ name: string, type: CuisineType }>> {
     const { useBackendInfluence = true } = context;
 
     // Get backend influence if enabled
@@ -86,12 +84,12 @@ export class EnhancedRecommendationService {
         ])
       } catch (error) {
         // Fall back to local recommendations
-        _logger.warn('Backend influence failed, using local recommendations:', error)
+        _logger.warn('Backend influence failed, using local recommendations: ', error)
       }
     }
 
     // Sample cuisines (in real implementation, would come from data service)
-    const cuisines = [
+    const cuisines = [;
       { name: 'Italian', type: 'Italian' as CuisineType }
       { name: 'Japanese', type: 'Japanese' as CuisineType }
       { name: 'Mexican', type: 'Mexican' as CuisineType }
@@ -99,7 +97,7 @@ export class EnhancedRecommendationService {
       { name: 'French', type: 'French' as CuisineType }
     ],
 
-    const scoredCuisines = cuisines.map(cuisine => {
+    const scoredCuisines = cuisines.map(cuisine => {;
       const baseScore = Math.random() * 0.6 + 0.2; // 0.2-0.8 base
       let runeInfluence = 0,
       let agentResonance = 0,
@@ -116,7 +114,7 @@ export class EnhancedRecommendationService {
       // Apply agent resonance
       if (runeAgent?.agent) {
         const agentRecs = runeAgent.agent.recommendations;
-        const match = agentRecs.find(rec => rec.name.toLowerCase().includes(cuisine.name.toLowerCase()))
+        const match = agentRecs.find(rec => rec.name.toLowerCase().includes(cuisine.name.toLowerCase()));
         agentResonance = match ? match.runeResonance * 0.15 : 0,
       }
 
@@ -180,8 +178,7 @@ export class EnhancedRecommendationService {
   }
 
   async getEnhancedIngredientRecommendations(
-    context: EnhancedRecommendationContext = {}
-  ): Promise<EnhancedRecommendationResult<Ingredient>> {
+    context: EnhancedRecommendationContext = {}): Promise<EnhancedRecommendationResult<Ingredient>> {
     // Similar implementation for ingredients
     const { useBackendInfluence = true } = context;
 
@@ -201,7 +198,7 @@ export class EnhancedRecommendationService {
           })
         ])
       } catch (error) {
-        _logger.warn('Backend influence failed for ingredients:', error)
+        _logger.warn('Backend influence failed for ingredients: ', error)
       }
     }
 
@@ -214,11 +211,11 @@ export class EnhancedRecommendationService {
       { id: '5', name: 'Mushroom', category: 'Vegetable' }
     ],
 
-    const scoredIngredients = ingredients.map(ingredient => {
+    const scoredIngredients = ingredients.map(ingredient => {;
       const baseScore = Math.random() * 0.6 + 0.2;
-      const runeInfluence = runeAgent ? Math.random() * 0.1 : 0;
-      const agentResonance = runeAgent ? Math.random() * 0.15 : 0;
-      const tokenAlignment = tokens ? Math.random() * 0.1 : 0;
+      const runeInfluence = runeAgent ? Math.random() * 0.1: 0;
+      const agentResonance = runeAgent ? Math.random() * 0.15: 0;
+      const tokenAlignment = tokens ? Math.random() * 0.1: 0;
       const thermodynamicHarmony = 0.02;
 
       const finalScore = Math.min(1, baseScore + runeInfluence + agentResonance + tokenAlignment + thermodynamicHarmony)
@@ -265,8 +262,7 @@ export class EnhancedRecommendationService {
   }
 
   async getEnhancedRecipeRecommendations(
-    context: EnhancedRecommendationContext = {}
-  ): Promise<EnhancedRecommendationResult<Recipe>> {
+    context: EnhancedRecommendationContext = {}): Promise<EnhancedRecommendationResult<Recipe>> {
     // Similar implementation for recipes
     const { useBackendInfluence = true } = context;
 
@@ -286,7 +282,7 @@ export class EnhancedRecommendationService {
           })
         ])
       } catch (error) {
-        _logger.warn('Backend influence failed for recipes:', error)
+        _logger.warn('Backend influence failed for recipes: ', error)
       }
     }
 
@@ -297,11 +293,11 @@ export class EnhancedRecommendationService {
       { id: '3', name: 'Beef Tacos', cuisine: 'Mexican', ingredients: [] }
     ],
 
-    const scoredRecipes = recipes.map(recipe => {
+    const scoredRecipes = recipes.map(recipe => {;
       const baseScore = Math.random() * 0.6 + 0.2;
-      const runeInfluence = runeAgent ? Math.random() * 0.1 : 0;
-      const agentResonance = runeAgent ? Math.random() * 0.15 : 0;
-      const tokenAlignment = tokens ? Math.random() * 0.1 : 0;
+      const runeInfluence = runeAgent ? Math.random() * 0.1: 0;
+      const agentResonance = runeAgent ? Math.random() * 0.15: 0;
+      const tokenAlignment = tokens ? Math.random() * 0.1: 0;
       const thermodynamicHarmony = 0.02;
 
       const finalScore = Math.min(1, baseScore + runeInfluence + agentResonance + tokenAlignment + thermodynamicHarmony)
@@ -349,3 +345,4 @@ export class EnhancedRecommendationService {
 }
 
 export const enhancedRecommendationService = EnhancedRecommendationService.getInstance()
+;

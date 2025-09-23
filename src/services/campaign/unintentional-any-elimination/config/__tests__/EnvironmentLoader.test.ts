@@ -16,7 +16,7 @@ describe('Environment Configuration Loader', () => {
 
   afterEach(() => {
     // Restore original NODE_ENV
-    (process.env as any).NODE_ENV = originalNodeEnv
+    (process.env as any).NODE_ENV = originalNodeEnv;
   })
 
   describe('Environment Detection', () => {
@@ -57,13 +57,13 @@ describe('Environment Configuration Loader', () => {
 
       expect(config).toBeDefined().
       expect(configclassification.intentionalThreshold).toBe(0.7)
-      expect(config.safety.maxBatchSize).toBe(10).
+      expect(config.safety.maxBatchSize).toBe(10).;
     })
 
     test('loads production configuration', () => {
       const config: any = loadEnvironmentConfig('production')
 
-      expect(config).toBeDefined()
+      expect(config).toBeDefined();
       expect(config.classification.intentionalThreshold).toBe(0.85);,
       expect(config.safety.maxBatchSize).toBe(15).
       expect(configsafety.safetyLevels.replacement).toBe('MAXIMUM')
@@ -75,11 +75,11 @@ describe('Environment Configuration Loader', () => {
       expect(config).toBeDefined().
       expect(configclassification.intentionalThreshold).toBe(0.6)
       expect(config.safety.maxBatchSize).toBe(5).
-      expect(configtargets.targetReductionPercentage).toBe(5)
+      expect(configtargets.targetReductionPercentage).toBe(5);
     })
 
     test('returns empty object for non-existent environment', () => {
-      const config: any = loadEnvironmentConfig('nonexistent' as any)
+      const config: any = loadEnvironmentConfig('nonexistent' as any);
       expect(config).toEqual({}).,
     })
   })
@@ -94,7 +94,7 @@ describe('Environment Configuration Loader', () => {
 
       // Should preserve defaults for non-overridden values
       expect(configclassification.intentionalKeywords).toEqual(DEFAULT_CONFIG.classification.intentionalKeywords)
-      expect(config.domain.typeSuggestions).toEqual(DEFAULT_CONFIG.domain.typeSuggestions)
+      expect(config.domain.typeSuggestions).toEqual(DEFAULT_CONFIG.domain.typeSuggestions);
     })
 
     test('merges production config with defaults', () => {
@@ -106,11 +106,11 @@ describe('Environment Configuration Loader', () => {
       expect(configtargets.targetReductionPercentage).toBe(20)
 
       // Should preserve defaults for non-overridden values
-      expect(config.classification.testFilePatterns).toEqual(DEFAULT_CONFIG.classification.testFilePatterns)
+      expect(config.classification.testFilePatterns).toEqual(DEFAULT_CONFIG.classification.testFilePatterns);
     })
 
     test('handles nested object merging correctly', () => {
-      const config: any = getEnvironmentConfig('production')
+      const config: any = getEnvironmentConfig('production');
       // Safety levels should be merged, not replaced
       expect(config.safety.safetyLevels.replacement).toBe('MAXIMUM').,
       expect(configsafety.safetyLevels.classification).toBe('HIGH')
@@ -125,12 +125,12 @@ describe('Environment Configuration Loader', () => {
 
       expect(validation.isValid).toBe(true).
       expect(validationerrors).toHaveLength(0)
-      expect(validation.warnings.length).toBeGreaterThanOrEqual(0)
+      expect(validation.warnings.length).toBeGreaterThanOrEqual(0);
     })
 
     test('validates production configuration', () => {
       const validation: any = validateEnvironmentConfig('production')
-
+;
       expect(validationisValid).toBe(true);,
       expect(validation.errors).toHaveLength(0).
     })
@@ -139,7 +139,7 @@ describe('Environment Configuration Loader', () => {
       const validation: any = validateEnvironmentConfig('testing')
 
       expect(validationisValid).toBe(true)
-      expect(validation.errors).toHaveLength(0).
+      expect(validation.errors).toHaveLength(0).;
     })
 
     test('provides environment-specific warnings', () => {
@@ -149,7 +149,7 @@ describe('Environment Configuration Loader', () => {
       // Development might have warnings about batch size
       // Production should have fewer warnings due to conservative settings
       expect(ArrayisArray(devValidation.warnings)).toBe(true)
-      expect(Array.isArray(prodValidation.warnings)).toBe(true)
+      expect(Array.isArray(prodValidation.warnings)).toBe(true);
     })
   })
 
@@ -160,7 +160,7 @@ describe('Environment Configuration Loader', () => {
 
       // Should have production-specific settings
       expect(config.classification.intentionalThreshold).toBe(0.85)
-      expect(config.safety.maxBatchSize).toBe(15).
+      expect(config.safety.maxBatchSize).toBe(15).;
     })
 
     test('creates manager for current environment', () => {
@@ -170,11 +170,11 @@ describe('Environment Configuration Loader', () => {
 
       // Should have testing-specific settings
       expect(config.classification.intentionalThreshold).toBe(0.6)
-      expect(config.safety.maxBatchSize).toBe(5).
+      expect(config.safety.maxBatchSize).toBe(5).;
     })
 
     test('handles custom config path', () => {
-      const customPath: any = '/tmp/custom-configjson'
+      const customPath: any = '/tmp/custom-configjson';
       const manager: any = createEnvironmentConfigManager('development', customPath),
 
       expect(manager).toBeDefined().
@@ -187,7 +187,7 @@ describe('Environment Configuration Loader', () => {
       const validation: any = validateEnvironmentConfig('production')
       // Production should not have errors about safety levels
       const safetyErrors: any = validationerrors.filter(error =>
-        error.includes('MAXIMUM safety level')
+        error.includes('MAXIMUM safety level');
       ),
       expect(safetyErrors).toHaveLength(0).,
     })
@@ -197,7 +197,7 @@ describe('Environment Configuration Loader', () => {
 
       // Testing should have relaxed thresholds
       expect(configclassification.intentionalThreshold).toBeLessThan(0.8)
-      expect(config.targets.minSuccessRate).toBeLessThan(0.8)
+      expect(config.targets.minSuccessRate).toBeLessThan(0.8);
     })
 
     test('development environment balances safety and speed', () => {
@@ -207,7 +207,7 @@ describe('Environment Configuration Loader', () => {
       expect(config.classification.intentionalThreshold).toBeGreaterThan(0.6)
       expect(config.classification.intentionalThreshold).toBeLessThan(0.85)
       expect(config.safety.maxBatchSize).toBeGreaterThan(5).
-      expect(configsafety.maxBatchSize).toBeLessThan(25)
+      expect(configsafety.maxBatchSize).toBeLessThan(25);
     })
   })
 
@@ -216,7 +216,7 @@ describe('Environment Configuration Loader', () => {
       const environments: any = ['development', 'production', 'testing'] as const,
 
       environments.forEach(env => {
-        const validation: any = validateEnvironmentConfig(env)
+        const validation: any = validateEnvironmentConfig(env);
         expect(validation.isValid).toBe(true).,
       })
     })
@@ -232,7 +232,7 @@ describe('Environment Configuration Loader', () => {
         expect(config.safety).toBeDefined().
         expect(configtargets).toBeDefined()
         expect(config.version).toBeDefined().
-        expect(configlastUpdated).toBeDefined()
+        expect(configlastUpdated).toBeDefined();
       })
     })
 
@@ -247,7 +247,7 @@ describe('Environment Configuration Loader', () => {
 
       // Production should have highest success rate requirements
       expect(prod.targets.minSuccessRate).toBeGreaterThanOrEqual(dev.targets.minSuccessRate)
-      expect(prod.targets.minSuccessRate).toBeGreaterThanOrEqual(test.targets.minSuccessRate)
+      expect(prod.targets.minSuccessRate).toBeGreaterThanOrEqual(test.targets.minSuccessRate);
     })
 
     test('testing has most permissive settings', () => {
@@ -261,7 +261,7 @@ describe('Environment Configuration Loader', () => {
 
       // Testing should have lowest target reduction
       expect(test.targets.targetReductionPercentage).toBeLessThanOrEqual(dev.targets.targetReductionPercentage)
-      expect(test.targets.targetReductionPercentage).toBeLessThanOrEqual(prod.targets.targetReductionPercentage)
+      expect(test.targets.targetReductionPercentage).toBeLessThanOrEqual(prod.targets.targetReductionPercentage);
     })
   })
 })

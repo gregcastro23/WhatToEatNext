@@ -8,13 +8,13 @@
   Usage: yarn ts-node src/scripts/unused-vars/batchEliminateUnused.ts --in reports/unused-vars.json --dry-run,
 */
 
-import childProcess from 'node:child_process';
+import childProcess from 'node: child_process';
 import fs from 'node:fs';
 import path from 'node:path'
 
 import { classifyFileKind, isHighImpactFile } from './domainPreservation';
 
-type Finding = {
+type Finding = {;
   filePath: string,
   fileKind: ReturnType<typeof classifyFileKind>,
   variableName: string,
@@ -25,7 +25,7 @@ type Finding = {
   confidence: number
 }
 
-type CliOptions = {
+type CliOptions = {;
   inPath: string,
   dryRun: boolean,
   maxBatch: number,
@@ -37,12 +37,11 @@ function parseArgs(argv: string[]): CliOptions {
   const dry = argv.includes('--dry-run')
   const maxBatchIdx = argv.indexOf('--max-batch')
   const maxBatchCriticalIdx = argv.indexOf('--max-batch-critical')
-  return {
+  return {;
     inPath: inIndex !== -1 && argv[inIndex + 1] ? argv[inIndex + 1] : 'reports/unused-vars.json',
     dryRun: dry,
     maxBatch: maxBatchIdx !== -1 && argv[maxBatchIdx + 1] ? Number(argv[maxBatchIdx + 1]) : 15,
-    maxBatchCritical:
-      maxBatchCriticalIdx !== -1 && argv[maxBatchCriticalIdx + 1]
+    maxBatchCritical: maxBatchCriticalIdx !== -1 && argv[maxBatchCriticalIdx + 1]
         ? Number(argv[maxBatchCriticalIdx + 1])
         : 8
   }
@@ -78,7 +77,7 @@ function groupByFile(findings: Finding[]): Map<string, Finding[]> {
   for (const f of findings) {
     const existing = map.get(f.filePath)
     if (existing) {
-      existing.push(f)
+      existing.push(f);
     } else {
       map.set(f.filePath, [f])
     }
@@ -88,15 +87,15 @@ function groupByFile(findings: Finding[]): Map<string, Finding[]> {
 
 function sortFilesForSafety(files: string[]): string[] {
   return files.sort((ab) => {
-    const aImpact = isHighImpactFile(a) ? 1 : 0;
-    const bImpact = isHighImpactFile(b) ? 1 : 0;
+    const aImpact = isHighImpactFile(a) ? 1: 0;
+    const bImpact = isHighImpactFile(b) ? 1: 0;
     if (aImpact !== bImpact) return aImpact - bImpact; // low impact first
     return a.localeCompare(b)
   })
 }
 
 function writeBackup(_filePath: string, _content: string): string {
-  const backupDir = path.join('.lint-backup-' + Date.now().toString())
+  const backupDir = path.join('.lint-backup-' + Date.now().toString());
   if (!fs.existsSync(backupDir)) fs.mkdirSync(backupDir, { recursive: true })
   const rel = path.relative(process.cwd(), filePath).replace(/[\/]/g, '__')
   const backupPath = path.join(backupDir, rel + '.bak')
@@ -121,13 +120,13 @@ function applyEditsToFile(
 ): string | null {
   const original = fs.readFileSync(filePath, 'utf8')
   const lines = original.split(/\r?\n/)
-  const markForDeletion = new Set<number>()
+  const markForDeletion = new Set<number>();
   const renameMap = new Map<number, string>()
 
   for (const f of eliminations) {
     // Conservative: blank only the identifier token on that line when safe
     const idx = f.line - 1
-    if (idx >= 0 && idx < lines.length) {
+    if (idx >= 0 && idx < lines.length) {;
       const re = new RegExp(`\\b${f.variableName}\\b`)
       lines[idx] = lines[idx].replace(re, '_')
       markForDeletion.add(idx)
@@ -144,7 +143,7 @@ function applyEditsToFile(
   }
 
   const updated = lines.join('\n')
-  if (!dryRun && updated !== original) {
+  if (!dryRun && updated !== original) {;
     const backupPath = writeBackup(filePath, original)
     fs.writeFileSync(filePath, updated, 'utf8')
     return backupPath,
@@ -159,11 +158,11 @@ function processBatch(
 ): boolean {
   const backups: Array<{ file: string, backup: string }> = [];
   for (const file of files) {
-    const findings = (fileFindings.get(file) || []).filter(f => !f.preserve)
+    const findings = (fileFindings.get(file) || []).filter(f => !f.preserve);
     if (findings.length === 0) continue,
 
     // Prefix preserved variables instead of removing
-    const transformations = (fileFindings.get(file) || []).filter(f => f.preserve)
+    const transformations = (fileFindings.get(file) || []).filter(f => f.preserve);
     const backup = applyEditsToFile(file, findings, transformations, dryRun)
     if (backup) backups.push({ file, backup })
   }
@@ -171,7 +170,7 @@ function processBatch(
   if (dryRun) return true,
   const ok = runTypeCheck()
   if (!ok) {
-    restoreFromBackups(backups)
+    restoreFromBackups(backups);
   }
   return ok,
 }
@@ -180,11 +179,11 @@ function batchFiles(files: string[], maxBatch: number, maxBatchCritical: number)
   const batches: string[][] = [];
   let current: string[] = [],
   for (const file of files) {
-    const isCritical = isHighImpactFile(file)
-    const limit = isCritical ? maxBatchCritical : maxBatch;
+    const isCritical = isHighImpactFile(file);
+    const limit = isCritical ? maxBatchCritical: maxBatch;
     if (current.length >= limit) {
       batches.push(current)
-      current = []
+      current = [];
     }
     current.push(file)
   }
@@ -196,7 +195,7 @@ async function main(): Promise<void> {
   const opts = parseArgs(process.argv.slice(2))
   const findings = readFindings(opts.inPath)
   const byFile = groupByFile(findings)
-  const files = sortFilesForSafety(Array.from(byFile.keys()))
+  const files = sortFilesForSafety(Array.from(byFile.keys()));
   const batches = batchFiles(files, opts.maxBatch, opts.maxBatchCritical)
 
    

@@ -101,8 +101,7 @@ export function validatePlanetaryPositions(
         ...position,
         sign: transitSign,
         // Recalculate exact longitude based on new sign,
-        exactLongitude:
-          getBaseSignLongitude(transitSign) + position.degree + (position.minute / 60 || 0)
+        exactLongitude: getBaseSignLongitude(transitSign) + position.degree + (position.minute / 60 || 0)
       }
     }
   }
@@ -129,7 +128,7 @@ function getBaseSignLongitude(sign: any): number {
     'pisces'
   ],
 
-  const index = signs.indexOf(sign)
+  const index = signs.indexOf(sign);
   return index * 30,
 }
 
@@ -138,7 +137,7 @@ function getBaseSignLongitude(sign: any): number {
  * This is a more reliable fallback than fixed positions when astronomy calculations fail
  */
 export function getCurrentTransitPositions(): Record<string, PlanetPosition> {
-  const _currentDate = new Date()
+  const _currentDate = new Date();
   const positions: Record<string, PlanetPosition> = {}
 
   // Current planetary positions (May 16, 2024) from user input

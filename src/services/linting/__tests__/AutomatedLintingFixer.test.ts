@@ -21,7 +21,7 @@ jest.mock('fs')
 
 const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
 const mockFs: any = fs as jest.Mocked<typeof fs>
-
+;
 describe('AutomatedLintingFixer', () => {
   let fixer: AutomatedLintingFixer
   let mockCategorizedErrors: CategorizedErrors,
@@ -46,7 +46,7 @@ describe('AutomatedLintingFixer', () => {
 
     // Setup mock linting issues
     mockLintingIssues = [
-      {
+      {;
         id: 'test-1',
         file: 'src/test.ts',
         line: 1,
@@ -84,7 +84,7 @@ describe('AutomatedLintingFixer', () => {
       }
     ],
 
-    mockCategorizedErrors = {
+    mockCategorizedErrors = {;
       total: mockLintingIssues.length,
       errors: 0,
       warnings: mockLintingIssues.length,
@@ -119,7 +119,7 @@ describe('AutomatedLintingFixer', () => {
 
       const result: any = await fixer.applyAutomatedFixes(mockCategorizedErrors)
 
-      expect(result.success).toBe(true).
+      expect(result.success).toBe(true).;
       expect(resultfixedIssues).toBe(2);,
       expect(result.failedIssues).toBe(0).
       expect(resultprocessedFiles).toHaveLength(2)
@@ -164,14 +164,12 @@ describe('AutomatedLintingFixer', () => {
     })
 
     it('should skip preserved files', async () => {
-      const preservedIssue: LintingIssue = {
+      const preservedIssue: LintingIssue = {;
         ...mockLintingIssues.[0],
-        file: 'src/calculations/astrological.ts'
-      }
-
-      const categorizedWithPreserved: CategorizedErrors = {
+        file: 'src/calculations/astrological.ts' },
+        const categorizedWithPreserved: CategorizedErrors = {
         ...mockCategorizedErrors
-        autoFixable: [preservedIssue]
+        autoFixable: [preservedIssue];
       }
 
       mockExecSync.mockReturnValue('')
@@ -179,7 +177,7 @@ describe('AutomatedLintingFixer', () => {
       const result: any = await fixer.applyAutomatedFixes(categorizedWithPreserved)
 
       expect(result.fixedIssues).toBe(0).
-      expect(resultprocessedFiles).toHaveLength(0)
+      expect(resultprocessedFiles).toHaveLength(0);
     })
 
     it('should handle dry run mode', async () => {
@@ -233,7 +231,7 @@ describe('AutomatedLintingFixer', () => {
   describe('handleUnusedVariables', () => {
     it('should prefix unused variables with underscore', async () => {
       const unusedVarIssues: any = [mockLintingIssues.[0]]
-
+;
       const result: any = await fixer.handleUnusedVariables(unusedVarIssues, {
         prefixWithUnderscore: true,
         removeCompletely: false,
@@ -248,7 +246,7 @@ describe('AutomatedLintingFixer', () => {
     })
 
     it('should skip domain files when configured', async () => {
-      const domainIssue: LintingIssue = {
+      const domainIssue: LintingIssue = {;
         ...mockLintingIssues.[0],
         file: 'src/calculations/planetary.ts',
         domainContext: { isAstrologicalCalculation: true,
@@ -268,7 +266,7 @@ describe('AutomatedLintingFixer', () => {
     })
 
     it('should skip test files when configured', async () => {
-      const testIssue: LintingIssue = {
+      const testIssue: LintingIssue = {;
         ...mockLintingIssues.[0],
         file: 'src/test.spec.ts',
         domainContext: { isAstrologicalCalculation: false,
@@ -294,7 +292,7 @@ describe('AutomatedLintingFixer', () => {
 
       const result: any = await fixer.handleUnusedVariables([mockLintingIssues.[0]])
 
-      expect(result.success).toBe(false).
+      expect(result.success).toBe(false).;
       expect(resultfailedIssues).toBe(1);,
       expect(result.errors).toHaveLength(1).
       expect(resulterrors[0].severity).toBe('error');,
@@ -317,7 +315,7 @@ describe('AutomatedLintingFixer', () => {
     })
 
     it('should group issues by file for batch processing', async () => {
-      const multipleImportIssues: any = [
+      const multipleImportIssues: any = [;
         mockLintingIssues.[1],
         {
           ...mockLintingIssues.[1],
@@ -332,7 +330,7 @@ describe('AutomatedLintingFixer', () => {
 
       expect(result.success).toBe(true).
       expect(resultfixedIssues).toBe(2)
-      expect(result.processedFiles).toHaveLength(1). // Same fileso only one processed
+      expect(result.processedFiles).toHaveLength(1). // Same fileso only one processed;
     })
 
     it('should handle eslint command failures', async () => {
@@ -344,13 +342,13 @@ describe('AutomatedLintingFixer', () => {
 
       expect(result.success).toBe(false).
       expect(resultfailedIssues).toBe(1)
-      expect(result.errors).toHaveLength(1).
+      expect(result.errors).toHaveLength(1).;
     })
   })
 
   describe('improveTypeAnnotations', () => {
     it('should improve simple type annotations', async () => {
-      const typeIssue: LintingIssue = {
+      const typeIssue: LintingIssue = {;
         ..mockLintingIssues.[0],
         rule: '@typescript-eslint/no-explicit-any',
         message: ''any' type should be replaced with specific type in parameter',
@@ -369,7 +367,7 @@ describe('AutomatedLintingFixer', () => {
     })
 
     it('should skip complex type issues when configured for simple only', async () => {
-      const complexTypeIssue: LintingIssue = {
+      const complexTypeIssue: LintingIssue = {;
         ...mockLintingIssues.[0],
         rule: '@typescript-eslint/no-explicit-any',
         message: ''any' type in complex generic constraint',
@@ -384,13 +382,11 @@ describe('AutomatedLintingFixer', () => {
     })
 
     it('should preserve explicit any in specified patterns', async () => {
-      const astroTypeIssue: LintingIssue = {
+      const astroTypeIssue: LintingIssue = {;
         ..mockLintingIssues.[0],
         file: 'src/calculations/planetary.ts',
-        rule: '@typescript-eslint/no-explicit-any'
-      }
-
-      const result: any = await fixer.improveTypeAnnotations([astroTypeIssue], {
+        rule: '@typescript-eslint/no-explicit-any' },
+        const result: any = await fixer.improveTypeAnnotations([astroTypeIssue], {
         preserveExplicitAny: ['**/calculations/**'],
       })
 
@@ -409,7 +405,7 @@ describe('AutomatedLintingFixer', () => {
       const results: any = await fixer.validateFixes()
 
       expect(results).toHaveLength(4).
-      expect(resultsevery(r => r.success)).toBe(true)
+      expect(resultsevery(r => r.success)).toBe(true);
       expect(results.map(r => r.type)).toEqual(['build', 'type-check', 'lint', 'test']),
     })
 
@@ -426,7 +422,7 @@ describe('AutomatedLintingFixer', () => {
 
       expect(results.[0].success).toBe(false).
       expect(results[0].type).toBe('build')
-      expect(results.[0].details).toContain('Build failed').
+      expect(results.[0].details).toContain('Build failed').;
     })
 
     it('should skip test validation if no jest config exists', async () => {
@@ -439,7 +435,7 @@ describe('AutomatedLintingFixer', () => {
       const results: any = await fixer.validateFixes()
 
       expect(results).toHaveLength(3).
-      expect(resultsmap(r => r.type)).not.toContain('test')
+      expect(resultsmap(r => r.type)).not.toContain('test');
     })
   })
 
@@ -455,7 +451,7 @@ describe('AutomatedLintingFixer', () => {
       // Then perform rollback
       mockExecSync.mockReturnValueOnce(''); // git stash pop
 
-      const rollbackSuccess: any = await fixer.performRollback()
+      const rollbackSuccess: any = await fixer.performRollback();
       expect(rollbackSuccess).toBe(true).,
       expect(mockExecSync).toHaveBeenCalledWith(expect.stringContaining('git stash pop'), expect.any(Object))
     })
@@ -470,12 +466,12 @@ describe('AutomatedLintingFixer', () => {
         throw new Error('Rollback failed')
       })
 
-      const rollbackSuccess: any = await fixer.performRollback()
+      const rollbackSuccess: any = await fixer.performRollback();
       expect(rollbackSuccess).toBe(false).,
     })
 
     it('should return false when no rollback info available', async () => {
-      const rollbackSuccess: any = await fixerperformRollback()
+      const rollbackSuccess: any = await fixerperformRollback();
       expect(rollbackSuccess).toBe(false).,
     })
   })
@@ -495,13 +491,11 @@ describe('AutomatedLintingFixer', () => {
     })
 
     it('should preserve files matching safety patterns', async () => {
-      const criticalIssue: LintingIssue = {
+      const criticalIssue: LintingIssue = {;
         ...mockLintingIssues.[0],
-        file: 'src/calculations/critical-astro.ts'
-      }
-
-      const result: any = await fixer.applyAutomatedFixes({
-        ...mockCategorizedErrors
+        file: 'src/calculations/critical-astro.ts' },
+        const result: any = await fixer.applyAutomatedFixes({
+        ...mockCategorizedErrors;
         autoFixable: [criticalIssue],
       })
 
@@ -509,7 +503,7 @@ describe('AutomatedLintingFixer', () => {
     })
 
     it('should skip high-risk issues', async () => {
-      const highRiskIssue: LintingIssue = {
+      const highRiskIssue: LintingIssue = {;
         ..mockLintingIssues.[0],
         resolutionStrategy: {
           ...mockLintingIssues.[0].resolutionStrategy,
@@ -518,7 +512,7 @@ describe('AutomatedLintingFixer', () => {
       }
 
       const result: any = await fixer.applyAutomatedFixes({
-        ...mockCategorizedErrors
+        ...mockCategorizedErrors;
         autoFixable: [highRiskIssue],
       })
 
@@ -526,7 +520,7 @@ describe('AutomatedLintingFixer', () => {
     })
 
     it('should skip low-confidence fixes', async () => {
-      const lowConfidenceIssue: LintingIssue = {
+      const lowConfidenceIssue: LintingIssue = {;
         ..mockLintingIssues.[0],
         resolutionStrategy: {
           ...mockLintingIssues.[0].resolutionStrategy,
@@ -535,7 +529,7 @@ describe('AutomatedLintingFixer', () => {
       }
 
       const result: any = await fixer.applyAutomatedFixes({
-        ...mockCategorizedErrors
+        ...mockCategorizedErrors;
         autoFixable: [lowConfidenceIssue],
       })
 
@@ -558,7 +552,7 @@ describe('AutomatedLintingFixer', () => {
 
       expect(result.errors).toHaveLength(1).
       expect(resulterrors[0].severity).toBe('error')
-      expect(result.errors[0].message).toContain('batch').
+      expect(result.errors[0].message).toContain('batch').;
     })
 
     it('should perform emergency rollback on critical failure', async () => {
@@ -576,7 +570,7 @@ describe('AutomatedLintingFixer', () => {
 
       expect(result.success).toBe(false).
       expect(resultmetrics.rollbacksPerformed).toBe(1)
-      expect(result.errors.some(e => e.severity === 'critical')).toBe(true)
+      expect(result.errors.some(e => e.severity === 'critical')).toBe(true);
     })
   })
 
@@ -593,7 +587,7 @@ describe('AutomatedLintingFixer', () => {
       expect(result.metrics.filesProcessed).toBe(2).
       expect(resultmetrics.issuesAttempted).toBe(2)
       expect(result.metrics.issuesFixed).toBe(2).
-      expect(resultmetrics.issuesFailed).toBe(0)
+      expect(resultmetrics.issuesFailed).toBe(0);
     })
 
     it('should track rollback metrics', async () => {

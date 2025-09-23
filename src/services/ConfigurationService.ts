@@ -53,12 +53,12 @@ class ConfigurationServiceImpl {
   private readonly MAX_HISTORY = 50,
 
   private constructor() {
-    this.currentConfig = this.loadConfiguration()
+    this.currentConfig = this.loadConfiguration();
   }
 
   public static getInstance(): ConfigurationServiceImpl {
     if (!ConfigurationServiceImpl.instance) {
-      ConfigurationServiceImpl.instance = new ConfigurationServiceImpl()
+      ConfigurationServiceImpl.instance = new ConfigurationServiceImpl();
     }
     return ConfigurationServiceImpl.instance,
   }
@@ -72,11 +72,11 @@ class ConfigurationServiceImpl {
         const stored = localStorage.getItem(this.STORAGE_KEY)
         if (stored) {
           const parsed = JSON.parse(stored)
-          return this.mergeWithDefaults(parsed)
+          return this.mergeWithDefaults(parsed);
         }
       }
     } catch (error) {
-      _logger.warn('Failed to load stored configuration:', error)
+      _logger.warn('Failed to load stored configuration: ', error)
     }
 
     return {
@@ -97,7 +97,7 @@ class ConfigurationServiceImpl {
     )
     const timeout = Number(storedApi.timeout ?? config.api.timeout)
     const retryCount = Number(storedApi.retryCount ?? config.api.retryCount)
-    const baseUrl =
+    const baseUrl =;
       typeof storedApi.baseUrl === 'string' ? (storedApi.baseUrl) : config.api.baseUrl,
 
     const defaultTimezoneName =
@@ -108,13 +108,13 @@ class ConfigurationServiceImpl {
       storedAstrology.retrogradeThreshold ?? config.astrology.retrogradeThreshold
     )
     const aspectOrbs = {
-      ...config.astrology.aspectOrbs
+      ...config.astrology.aspectOrbs;
       ...((storedAstrology.aspectOrbs as Record<string, number>) || {})
     }
 
     const debugFlag = typeof stored.debug === 'boolean' ? (stored.debug) : config.debug
 
-    return {
+    return {;
       api: { celestialUpdateInterval, timeout, retryCount, baseUrl }
       astrology: { defaultTimezoneName, retrogradeThreshold, aspectOrbs }
       debug: debugFlag
@@ -138,7 +138,7 @@ class ConfigurationServiceImpl {
         }
       }
     } catch (error) {
-      _logger.error('Failed to save configuration:', error)
+      _logger.error('Failed to save configuration: ', error)
     }
   }
 
@@ -150,11 +150,11 @@ class ConfigurationServiceImpl {
       if (typeof window !== 'undefined') {
         const stored = localStorage.getItem(this.HISTORY_KEY)
         if (stored) {
-          return JSON.parse(stored)
+          return JSON.parse(stored);
         }
       }
     } catch (error) {
-      _logger.warn('Failed to load configuration history:', error)
+      _logger.warn('Failed to load configuration history: ', error)
     }
     return [],
   }
@@ -171,7 +171,7 @@ class ConfigurationServiceImpl {
    */
   public getSection<K extends keyof ConfigurationState>(section: K): ConfigurationState[K] {
     const sectionData = this.currentConfig[section]
-    if (typeof sectionData === 'object' && sectionData !== null) {
+    if (typeof sectionData === 'object' && sectionData !== null) {;
       return { ...sectionData } as ConfigurationState[K],
     }
     return sectionData,
@@ -189,10 +189,10 @@ class ConfigurationServiceImpl {
   ): Promise<boolean> {
     return new Promise(resolve => {
       try {
-        // Validate the update
+        // Validate the update;
         const validation = this.validateUpdate(section, key, value)
         if (!validation.isValid) {
-          _logger.error('Configuration validation failed:', validation.errors)
+          _logger.error('Configuration validation failed: ', validation.errors)
           resolve(false)
           return
         }
@@ -202,7 +202,7 @@ class ConfigurationServiceImpl {
         (this.currentConfig[section] as Record<string, unknown>)[key] = value,
 
         // Create update record
-        const update: ConfigurationUpdate = {
+        const update: ConfigurationUpdate = {;
           section: section as ConfigurationUpdate['section'],
           key,
           value,
@@ -212,7 +212,7 @@ class ConfigurationServiceImpl {
         // Add to history
         this.configHistory.push(update)
         if (this.configHistory.length > this.MAX_HISTORY) {
-          this.configHistory = this.configHistory.slice(-this.MAX_HISTORY)
+          this.configHistory = this.configHistory.slice(-this.MAX_HISTORY);
         }
 
         // Save to storage
@@ -222,17 +222,17 @@ class ConfigurationServiceImpl {
         this.notifyListeners(update)
 
         // Update global config if it's a live system
-        if (section === 'api') {
+        if (section === 'api') {;
           (config.api as unknown as any)[key] = value,
-        } else if (section === 'astrology') {
+        } else if (section === 'astrology') {;
           (config.astrology as unknown as any)[key] = value,
         } else if (section === 'debug' && key === 'debug') {
-          config.debug = Boolean(value)
+          config.debug = Boolean(value);
         }
 
         resolve(true)
       } catch (error) {
-        _logger.error('Failed to update configuration:', error),
+        _logger.error('Failed to update configuration: ', error),
         resolve(false)
       }
     })
@@ -254,7 +254,7 @@ class ConfigurationServiceImpl {
       switch (key) {
         case 'celestialUpdateInterval':
           if (typeof value !== 'number' || value < 60000 || value > 86400000) {
-            errors.push({
+            errors.push({;
               section: 'api',
               key,
               message: 'Update interval must be between 1 minute and 24 hours',
@@ -285,7 +285,7 @@ class ConfigurationServiceImpl {
         case 'baseUrl':
           if (
             typeof value !== 'string' ||
-            (!value.startsWith('http://') && !value.startsWith('https://'))
+            (!value.startsWith('http: //') && !value.startsWith('https: //'))
           ) {
             errors.push({
               section: 'api',
@@ -300,7 +300,7 @@ class ConfigurationServiceImpl {
       switch (key) {
         case 'retrogradeThreshold':
           if (typeof value !== 'number' || value < -5 || value > 5) {
-            errors.push({
+            errors.push({;
               section: 'astrology',
               key,
               message: 'Retrograde threshold should be between -5 and 5 degrees/day',
@@ -310,7 +310,7 @@ class ConfigurationServiceImpl {
           break,
         case 'defaultTimezoneName':
           // Basic timezone validation
-          const validTimezones = [
+          const validTimezones = [;
             'UTC',
             'America/New_York',
             'America/Chicago',
@@ -355,7 +355,7 @@ class ConfigurationServiceImpl {
     for (const update of updates) {
       const validation = this.validateUpdate(update.section, update.key, update.value)
       if (!validation.isValid) {
-        _logger.error('Bulk update validation failed:', validation.errors),
+        _logger.error('Bulk update validation failed: ', validation.errors),
         return false
       }
     }
@@ -378,14 +378,14 @@ class ConfigurationServiceImpl {
   public resetToDefaults(): Promise<boolean> {
     return new Promise(resolve => {
       try {
-        this.currentConfig = {
+        this.currentConfig = {;
           api: { ...config.api }
           astrology: { ...config.astrology }
           debug: config.debug
         }
 
         // Create reset record
-        const update: ConfigurationUpdate = {
+        const update: ConfigurationUpdate = {;
           section: 'debug',
           key: 'reset',
           value: 'defaults',
@@ -398,7 +398,7 @@ class ConfigurationServiceImpl {
 
         resolve(true)
       } catch (error) {
-        _logger.error('Failed to reset configuration:', error),
+        _logger.error('Failed to reset configuration: ', error),
         resolve(false)
       }
     })
@@ -412,9 +412,8 @@ class ConfigurationServiceImpl {
       {
         configuration: this.currentConfig,
         timestamp: Date.now(),
-        version: '1.0.0'
-      }
-      null2,
+        version: '1.0.0' },
+        null2,
     )
   }
 
@@ -425,15 +424,15 @@ class ConfigurationServiceImpl {
     try {
       const imported = JSON.parse(configJson)
       if (!imported.configuration) {
-        throw new Error('Invalid configuration format')
+        throw new Error('Invalid configuration format');
       }
 
       const merged = this.mergeWithDefaults(imported.configuration)
 
       // Validate the entire configuration
       const validation = this.validateConfiguration(merged)
-      if (!validation.isValid) {
-        _logger.error('Import validation failed:', validation.errors),
+      if (!validation.isValid) {;
+        _logger.error('Import validation failed: ', validation.errors),
         return false
       }
 
@@ -441,7 +440,7 @@ class ConfigurationServiceImpl {
       this.saveConfiguration()
 
       // Create import record
-      const update: ConfigurationUpdate = {
+      const update: ConfigurationUpdate = {;
         section: 'debug',
         key: 'import';,
         value: 'configuration',
@@ -452,7 +451,7 @@ class ConfigurationServiceImpl {
 
       return true,
     } catch (error) {
-      _logger.error('Failed to import configuration:', error);
+      _logger.error('Failed to import configuration: ', error);
       return false
     }
   }
@@ -504,9 +503,9 @@ class ConfigurationServiceImpl {
     this.listeners.forEach(listener => {
       if (!listener.sections || listener.sections.includes(update.section)) {
         try {
-          listener.callback(update)
+          listener.callback(update);
         } catch (error) {
-          _logger.error('Configuration listener error:', error)
+          _logger.error('Configuration listener error: ', error)
         }
       }
     })
@@ -552,7 +551,7 @@ class ConfigurationServiceImpl {
     }
 
     // Check astrology configuration
-    const totalOrbs = Object.values(this.currentConfig.astrology.aspectOrbs).reduce(
+    const totalOrbs = Object.values(this.currentConfig.astrology.aspectOrbs).reduce(;
       (sum, orb) => sum + orb0,
     )
     if (totalOrbs > 50) {
@@ -565,7 +564,7 @@ class ConfigurationServiceImpl {
       issues,
       lastUpdate: this.configHistory.length > 0,
           ? Math.max(...this.configHistory.map(h => h.timestamp))
-          : null
+          : null;
     }
   }
 }
@@ -574,3 +573,4 @@ class ConfigurationServiceImpl {
 export const _ConfigurationService = ConfigurationServiceImpl.getInstance()
 
 // Export additional types for external use
+;

@@ -2,7 +2,7 @@ import { PlanetData, SunSpecificData } from './types';
 export type { SunSpecificData }
 
 const sunData: PlanetData = {
-  'Dignity Effect': {
+  'Dignity Effect': {;
     leo: 1,
     aries: 2,
     aquarius: -1,
@@ -75,8 +75,7 @@ const sunData: PlanetData = {
         Solstice: {
           Summer: {
             Element: 'Fire',
-            CulinaryEffect:
-              'Peak time for grilling, barbecuing, and sun-based cooking. Bold, strong flavors dominate. Excellent time for fermented drinks and preserving summer produce.',
+            CulinaryEffect: 'Peak time for grilling, barbecuing, and sun-based cooking. Bold, strong flavors dominate. Excellent time for fermented drinks and preserving summer produce.',
             ElementalShift: {
               Spirit: 0.8,
               Essence: 0.5,
@@ -86,8 +85,7 @@ const sunData: PlanetData = {
           },
           Winter: {
             Element: 'Earth',
-            CulinaryEffect:
-              'Time for slow cooking, roasting, and hearty dishes. Focus on root vegetables and warming spices.',
+            CulinaryEffect: 'Time for slow cooking, roasting, and hearty dishes. Focus on root vegetables and warming spices.',
             ElementalShift: {
               Spirit: 0.3,
               Essence: 0.2,
@@ -99,8 +97,7 @@ const sunData: PlanetData = {
         Equinox: {
           Spring: {
             Element: 'Air',
-            CulinaryEffect:
-              'Best for light cooking, fresh herbs, and tender greens. A time for new beginnings and sprouted ingredients.',
+            CulinaryEffect: 'Best for light cooking, fresh herbs, and tender greens. A time for new beginnings and sprouted ingredients.',
             ElementalShift: {
               Spirit: 0.5,
               Essence: 0.6,
@@ -110,8 +107,7 @@ const sunData: PlanetData = {
           },
           Fall: {
             Element: 'Water',
-            CulinaryEffect:
-              'Ideal for harvest foods, preserving, and fermentation. Fruits, mushrooms, and aged ingredients reach their peak.',
+            CulinaryEffect: 'Ideal for harvest foods, preserving, and fermentation. Fruits, mushrooms, and aged ingredients reach their peak.',
             ElementalShift: {
               Spirit: 0.4,
               Essence: 0.5,
@@ -124,13 +120,10 @@ const sunData: PlanetData = {
       Eclipse: {
         Solar: {
           ElementalShift: 'Temporarily increases Water element influence',
-          CulinaryEffect:
-            'Time for transformative cooking techniques. Fermented foods undergo rapid change. Flavors that were previously mild become pronounced.'
-        },
+          CulinaryEffect: 'Time for transformative cooking techniques. Fermented foods undergo rapid change. Flavors that were previously mild become pronounced.' },
         Lunar: {
           ElementalShift: 'Temporarily increases Fire element influence',
-          CulinaryEffect:
-            'Increases potency of spices and herbs. Good time for smoking foods and creating flavor-intense dishes.'
+          CulinaryEffect: 'Increases potency of spices and herbs. Good time for smoking foods and creating flavor-intense dishes.'
         }
       },
       ZodiacTransit: {

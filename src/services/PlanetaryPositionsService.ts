@@ -4,7 +4,7 @@ import type { PlanetPosition } from '@/utils/astrologyUtils';
 import {createLogger} from '@/utils/logger';
 
 const logger = createLogger('PlanetaryPositionsService')
-
+;
 type PositionRecord = Record<string, PlanetPosition>,
 
 interface CacheEntry {
@@ -26,7 +26,7 @@ function makeKey(date?: Date, lat?: number, lon?: number, system?: 'tropical' | 
 }
 
 function isFresh(entry: CacheEntry | null, key: string): entry is CacheEntry {
-  return !!entry && entry.key === key && Date.now() - entry.timestamp < CACHE_TTL_MS
+  return !!entry && entry.key === key && Date.now() - entry.timestamp < CACHE_TTL_MS;
 }
 
 function normalizeFromEngine(raw: Record<string, { sign: any; degree: number; exactLongitude: number; isRetrograde: boolean }>): PositionRecord {
@@ -46,8 +46,7 @@ function normalizeFromEngine(raw: Record<string, { sign: any; degree: number; ex
 export class PlanetaryPositionsService {
   async getCurrent(
     location?: { latitude: number, longitude: number }
-    zodiacSystem: 'tropical' | 'sidereal' = 'tropical'
-  ): Promise<PositionRecord> {
+    zodiacSystem: 'tropical' | 'sidereal' = 'tropical'): Promise<PositionRecord> {
     const key = makeKey(undefined, location?.latitude, location?.longitude, zodiacSystem)
     if (isFresh(cache, key)) return cache.positions,
 
@@ -59,7 +58,7 @@ export class PlanetaryPositionsService {
     } catch (err) {
       logger.warn('Primary current positions failed, falling back to engine', err)
       const raw = engGetAccurate(new Date())
-      const norm = normalizeFromEngine(raw as any)
+      const norm = normalizeFromEngine(raw as any);
       cache = { key, positions: norm, timestamp: Date.now() }
       return norm,
     }
@@ -68,8 +67,7 @@ export class PlanetaryPositionsService {
   async getForDate(
     date: Date,
     location?: { latitude: number, longitude: number }
-    zodiacSystem: 'tropical' | 'sidereal' = 'tropical'
-  ): Promise<PositionRecord> {
+    zodiacSystem: 'tropical' | 'sidereal' = 'tropical'): Promise<PositionRecord> {
     const key = makeKey(date, location?.latitude, location?.longitude, zodiacSystem)
     if (isFresh(cache, key)) return cache.positions,
 
@@ -81,7 +79,7 @@ export class PlanetaryPositionsService {
     } catch (err) {
       logger.warn('Primary dated positions failed, falling back to engine', err)
       const raw = engGetAccurate(date)
-      const norm = normalizeFromEngine(raw as any)
+      const norm = normalizeFromEngine(raw as any);
       cache = { key, positions: norm, timestamp: Date.now() }
       return norm,
     }
@@ -89,3 +87,4 @@ export class PlanetaryPositionsService {
 }
 
 export const _planetaryPositionsService = new PlanetaryPositionsService()
+;

@@ -21,12 +21,12 @@ export interface NavigationState {
   scrollPosition: number
 }
 
-const STATE_KEYS = {
+const STATE_KEYS = {;
   MAIN_PAGE_STATE: 'mainPageState',
   NAVIGATION_STATE: 'navigationState',
   COMPONENT_STATES: 'componentStates',
-  SCROLL_POSITIONS: 'scrollPositions'
-} as const,
+  SCROLL_POSITIONS: 'scrollPositions' },
+        as const,
 
 // State expiration time (1 hour)
 const STATE_EXPIRATION_TIME = 60 * 60 * 1000;
@@ -68,12 +68,12 @@ function safeSetItem(key: string, value: string): boolean {
  */
 export function saveNavigationState(state: Partial<NavigationState>): void {
   const currentState = getNavigationState()
-  const updatedState: NavigationState = {
+  const updatedState: NavigationState = {;
     ...currentState,
     ...state
   }
 
-  const stateWithTimestamp: ComponentState = {
+  const stateWithTimestamp: ComponentState = {;
     timestamp: Date.now(),
     data: updatedState
   }
@@ -85,7 +85,7 @@ export function saveNavigationState(state: Partial<NavigationState>): void {
  * Get navigation state
  */
 export function getNavigationState(): NavigationState {
-  const defaultState: NavigationState = {
+  const defaultState: NavigationState = {;
     activeSection: null,
     navigationHistory: [],
     selectedIngredients: [],
@@ -98,18 +98,18 @@ export function getNavigationState(): NavigationState {
     scrollPosition: 0
   }
 
-  const stored = safeGetItem(STATE_KEYS.NAVIGATION_STATE)
+  const stored = safeGetItem(STATE_KEYS.NAVIGATION_STATE);
   if (!stored) return defaultState,
 
   try {
     const parsed: ComponentState = JSON.parse(stored)
     if (!isStateValid(parsed.timestamp)) {
-      return defaultState
+      return defaultState;
     }
     const data = (parsed.data || {}) as Partial<NavigationState>;
     return { ...defaultState, ...data }
   } catch (error) {
-    _logger.warn('Failed to parse navigation state:', error)
+    _logger.warn('Failed to parse navigation state: ', error)
     return defaultState,
   }
 }
@@ -119,7 +119,7 @@ export function getNavigationState(): NavigationState {
  */
 export function saveComponentState(componentId: string, state: unknown): void {
   const allStates = getComponentStates()
-  allStates[componentId] = {
+  allStates[componentId] = {;
     timestamp: Date.now(),
     data: state
   }
@@ -131,7 +131,7 @@ export function saveComponentState(componentId: string, state: unknown): void {
  * Get component-specific state
  */
 export function getComponentState(componentId: string): unknown {
-  const allStates = getComponentStates()
+  const allStates = getComponentStates();
   const componentState = allStates[componentId];
 
   if (!componentState || !isStateValid(componentState.timestamp)) {
@@ -145,13 +145,13 @@ export function getComponentState(componentId: string): unknown {
  * Get all component states
  */
 function getComponentStates(): Record<string, ComponentState> {
-  const stored = safeGetItem(STATE_KEYS.COMPONENT_STATES)
+  const stored = safeGetItem(STATE_KEYS.COMPONENT_STATES);
   if (!stored) return {}
 
   try {
     return JSON.parse(stored)
   } catch (error) {
-    _logger.warn('Failed to parse component states:', error)
+    _logger.warn('Failed to parse component states: ', error)
     return {}
   }
 }
@@ -161,7 +161,7 @@ function getComponentStates(): Record<string, ComponentState> {
  */
 export function saveScrollPosition(sectionId: string, position: number): void {
   const positions = getScrollPositions()
-  positions[sectionId] = {
+  positions[sectionId] = {;
     timestamp: Date.now(),
     data: position
   }
@@ -173,7 +173,7 @@ export function saveScrollPosition(sectionId: string, position: number): void {
  * Get scroll position for a specific section
  */
 export function getScrollPosition(sectionId: string): number {
-  const positions = getScrollPositions()
+  const positions = getScrollPositions();
   const position = positions[sectionId];
 
   if (!position || !isStateValid(position.timestamp)) {
@@ -187,13 +187,13 @@ export function getScrollPosition(sectionId: string): number {
  * Get all scroll positions
  */
 function getScrollPositions(): Record<string, ComponentState> {
-  const stored = safeGetItem(STATE_KEYS.SCROLL_POSITIONS)
+  const stored = safeGetItem(STATE_KEYS.SCROLL_POSITIONS);
   if (!stored) return {}
 
   try {
     return JSON.parse(stored)
   } catch (error) {
-    _logger.warn('Failed to parse scroll positions:', error)
+    _logger.warn('Failed to parse scroll positions: ', error)
     return {}
   }
 }
@@ -204,7 +204,7 @@ function getScrollPositions(): Record<string, ComponentState> {
 export function clearAllState(): void {
   Object.values(STATE_KEYS).forEach(key => {
     try {
-      sessionStorage.removeItem(key)
+      sessionStorage.removeItem(key);
     } catch (error) {
       _logger.warn(`Failed to remove item from sessionStorage: ${key}`, error)
     }
@@ -221,7 +221,7 @@ export function clearExpiredState(): void {
     try {
       const parsed: ComponentState = JSON.parse(navState)
       if (!isStateValid(parsed.timestamp)) {
-        sessionStorage.removeItem(STATE_KEYS.NAVIGATION_STATE)
+        sessionStorage.removeItem(STATE_KEYS.NAVIGATION_STATE);
       }
     } catch (error) {
       sessionStorage.removeItem(STATE_KEYS.NAVIGATION_STATE)
@@ -229,7 +229,7 @@ export function clearExpiredState(): void {
   }
 
   // Clear expired component states
-  const componentStates = getComponentStates()
+  const componentStates = getComponentStates();
   const validStates: Record<string, ComponentState> = {}
   let hasChanges = false;
 
@@ -246,7 +246,7 @@ export function clearExpiredState(): void {
   }
 
   // Clear expired scroll positions
-  const scrollPositions = getScrollPositions()
+  const scrollPositions = getScrollPositions();
   const validPositions: Record<string, ComponentState> = {}
   hasChanges = false;
 
@@ -295,7 +295,7 @@ export function createStatePreservationHook(componentId: string) {
     _getState: () => getComponentState(componentId),
     _clearState: () => {
       const allStates = getComponentStates()
-      delete allStates[componentId]
+      delete allStates[componentId];
       safeSetItem(STATE_KEYS.COMPONENT_STATES, JSON.stringify(allStates))
     }
   }

@@ -12,7 +12,7 @@ export default function RouteError({
   reset: () => void
 }) {
   useEffect(() => {
-    logger.error('Route error:', error)
+    logger.error('Route error: ', error)
   }, [error])
 
   return (
@@ -27,6 +27,5 @@ export default function RouteError({
           Try again
         </button>
       </div>
-    </div>
-  )
+    </div>);
 }

@@ -1,7 +1,7 @@
 import { PlanetData } from './types';
 
 const plutoData: PlanetData = {
-  'Dignity Effect': {
+  'Dignity Effect': {;
     scorpio: 1,
     leo: 2,
     taurus: -1,
@@ -20,9 +20,8 @@ const plutoData: PlanetData = {
     DistanceFromSun: '3.7 billion miles (5.9 billion km) average',
     DistanceFromEarth: {
       Minimum: '2.66 billion miles (4.28 billion km)',
-      Maximum: '4.67 billion miles (7.5 billion km)'
-    },
-    Diameter: '1,476 miles (2,376 km)',
+      Maximum: '4.67 billion miles (7.5 billion km)' },
+        Diameter: '1,476 miles (2,376 km)',
     SurfaceTemperature: '-387°F (-233°C)',
     AtmosphericComposition: 'Thin atmosphere of nitrogen, methane and carbon monoxide',
     RotationPeriod: '6.4 Earth days (retrograde)',
@@ -33,8 +32,7 @@ const plutoData: PlanetData = {
       Surface: 'Icy with mountains, glaciers and plains',
       MagneticField: 'Weak or nonexistent',
       Composition: 'Rocky core surrounded by water ice mantle',
-      NotableFeatures:
-        'Heart-shaped region (Tombaugh Regio), nitrogen ice glaciers, methane snow peaks'
+      NotableFeatures: 'Heart-shaped region (Tombaugh Regio), nitrogen ice glaciers, methane snow peaks'
     }
   },
   AstrologicalProperties: {
@@ -43,9 +41,8 @@ const plutoData: PlanetData = {
     HouseJoy: 8,
     CyclePeriod: {
       Return: '248 years',
-      Retrograde: 'Annual, approximately 160 days'
-    },
-    Exaltation: 'Leo',
+      Retrograde: 'Annual, approximately 160 days' },
+        Exaltation: 'Leo',
     Fall: 'Aquarius',
     Detriment: ['Taurus'],
     Keywords: [
@@ -217,10 +214,8 @@ const plutoData: PlanetData = {
           'blood-based dishes',
           'organ meats'
         ],
-        FlavorCombinations:
-          'Maximum depth and intensity, profound umami layers, transformative taste journeys'
-      },
-      leo: {
+        FlavorCombinations: 'Maximum depth and intensity, profound umami layers, transformative taste journeys' },
+        leo: {
         FoodFocus: 'Powerful showstopping dishes, dramatic presentations with hidden depths',
         Elements: {
           Fire: 0.8,
@@ -242,10 +237,8 @@ const plutoData: PlanetData = {
           'ancestral foods',
           'ingredients with history'
         ],
-        FlavorCombinations:
-          'Bold contrasts, magnetic flavor pairings, transformative heat progressions'
-      },
-      capricorn: {
+        FlavorCombinations: 'Bold contrasts, magnetic flavor pairings, transformative heat progressions' },
+        capricorn: {
         FoodFocus:
           'Deeply structured preparations with hidden transformative elements, ancient preservation techniques',
         Elements: {
@@ -269,8 +262,7 @@ const plutoData: PlanetData = {
           'ancient grains',
           'geological references'
         ],
-        FlavorCombinations:
-          'Gradual depth development, foundations that transform, slow-revealing complexity'
+        FlavorCombinations: 'Gradual depth development, foundations that transform, slow-revealing complexity'
       }
     },
     Retrograde: {
@@ -325,8 +317,7 @@ const plutoData: PlanetData = {
           TarotCard: '2 of Pentacles',
           TarotProperties: {
             Keywords: ['balance', 'adaptability', 'juggling priorities'],
-            CulinaryAssociation:
-              'Balancing intense and subtle flavors, transformative techniques with traditional methods'
+            CulinaryAssociation: 'Balancing intense and subtle flavors, transformative techniques with traditional methods'
           }
         }
         '2ndDecan': {
@@ -335,8 +326,7 @@ const plutoData: PlanetData = {
           TarotCard: '3 of Pentacles',
           TarotProperties: {
             Keywords: ['mastery', 'expertise', 'collaboration'],
-            CulinaryAssociation:
-              'Mastery of transformative cooking processes, collaboration between ancient and modern techniques'
+            CulinaryAssociation: 'Mastery of transformative cooking processes, collaboration between ancient and modern techniques'
           }
         }
         '3rdDecan': {
@@ -345,8 +335,7 @@ const plutoData: PlanetData = {
           TarotCard: '4 of Pentacles',
           TarotProperties: {
             Keywords: ['conservation', 'security', 'long-term perspective'],
-            CulinaryAssociation:
-              'Preservation techniques that transform ingredients at their core, substantial and grounding foods'
+            CulinaryAssociation: 'Preservation techniques that transform ingredients at their core, substantial and grounding foods'
           }
         }
       },
@@ -357,8 +346,7 @@ const plutoData: PlanetData = {
           TarotCard: '5 of Swords',
           TarotProperties: {
             Keywords: ['conflict', 'tension', 'strategic thinking'],
-            CulinaryAssociation:
-              'Revolutionary approaches to food that challenge established norms, intensity in innovation'
+            CulinaryAssociation: 'Revolutionary approaches to food that challenge established norms, intensity in innovation'
           }
         }
         '2ndDecan': {
@@ -367,8 +355,7 @@ const plutoData: PlanetData = {
           TarotCard: '6 of Swords',
           TarotProperties: {
             Keywords: ['transition', 'moving away', 'mental processing'],
-            CulinaryAssociation:
-              'Transition from familiar to unfamiliar taste experiences, intellectual approach to deep flavors'
+            CulinaryAssociation: 'Transition from familiar to unfamiliar taste experiences, intellectual approach to deep flavors'
           }
         }
         '3rdDecan': {
@@ -377,8 +364,7 @@ const plutoData: PlanetData = {
           TarotCard: '7 of Swords',
           TarotProperties: {
             Keywords: ['strategy', 'cunning', 'independent action'],
-            CulinaryAssociation:
-              'Strategic combinations of intense flavors, unconventional approaches to traditional ingredients'
+            CulinaryAssociation: 'Strategic combinations of intense flavors, unconventional approaches to traditional ingredients'
           }
         }
       }

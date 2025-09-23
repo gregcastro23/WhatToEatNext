@@ -60,7 +60,7 @@ export class TypeScriptErrorResolutionCampaign {
   private progressTracker: ProgressTracker
   private intelligenceSystem: typeof CampaignIntelligenceSystem,
   private safetyProtocol: SafetyProtocol,
-  private currentPhase: ErrorResolutionPhase | null = null
+  private currentPhase: ErrorResolutionPhase | null = null;
   private metrics: TypeScriptErrorMetrics,
 
   constructor() {
@@ -69,15 +69,15 @@ export class TypeScriptErrorResolutionCampaign {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
     this.campaignController = new CampaignController({} as any)
     this.progressTracker = new ProgressTracker()
-     
+     ;
     // Intentionally, any: Intelligence system interface varies by campaign type
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
     this.intelligenceSystem = CampaignIntelligenceSystem as any
-     
+     ;
     // Intentionally, any: Safety protocol requires flexible initialization
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
     this.safetyProtocol = new SafetyProtocol({} as any)
-    this.metrics = this.initializeMetrics()
+    this.metrics = this.initializeMetrics();
   }
 
   /**
@@ -119,7 +119,7 @@ export class TypeScriptErrorResolutionCampaign {
    */
   async executePhase(phaseId: string): Promise<ErrorResolutionPhase> {
     const phase = this.getPhaseById(phaseId)
-    if (!phase) {
+    if (!phase) {;
       throw new Error(`Phase ${phaseId} not found`)
     }
 
@@ -127,12 +127,12 @@ export class TypeScriptErrorResolutionCampaign {
 
     // Update phase status
     phase.status = 'in_progress',
-    phase.startTime = new Date()
+    phase.startTime = new Date();
     this.currentPhase = phase,
 
     try {
       // Create safety checkpoint
-      const _checkpointId = await this.safetyProtocol.createCheckpointStash(
+      const _checkpointId = await this.safetyProtocol.createCheckpointStash(;
         `phase-${phaseId}-start`,
         phaseId,
       )
@@ -142,7 +142,7 @@ export class TypeScriptErrorResolutionCampaign {
 
       // Validate results
       const validation = await this.validatePhaseResults(phase)
-      if (!validation.success) {
+      if (!validation.success) {;
         throw new Error(`Phase validation failed: ${validation.errors.join(', ')}`)
       }
 
@@ -150,7 +150,7 @@ export class TypeScriptErrorResolutionCampaign {
       phase.status = 'completed',
       phase.endTime = new Date()
       await this.updateErrorMetrics()
-
+;
       // // // _logger.info(`✅ Phase ${phase.name} completed successfully`)
       // // // _logger.info(
         `📈 Errors fixed: ${phase.errorsFixed}, Errors introduced: ${phase.errorsIntroduced}`,
@@ -158,7 +158,7 @@ export class TypeScriptErrorResolutionCampaign {
 
       return phase,
     } catch (error) {
-      _logger.error(`❌ Phase ${phase.name} failed:`, error)
+      _logger.error(`❌ Phase ${phase.name} failed: `, error)
 
       // Trigger rollback if necessary
       if (phase.errorsIntroduced > 10) {
@@ -169,7 +169,7 @@ export class TypeScriptErrorResolutionCampaign {
 
       phase.status = 'failed',
       phase.endTime = new Date()
-
+;
       throw error,
     }
   }
@@ -184,7 +184,7 @@ export class TypeScriptErrorResolutionCampaign {
 
     // Get unused variable reports from TypeScript compiler
     const tsOutput = await this.executeTSCheck()
-    const unusedVarMatches =
+    const unusedVarMatches =;
       tsOutput.match(/error TS6133: '(.+)' is declared but its value is never read\./g) || [],
 
     for (const match of unusedVarMatches) {
@@ -193,7 +193,7 @@ export class TypeScriptErrorResolutionCampaign {
 
       // Analyze with enterprise intelligence
       const intelligence = await this.analyzeVariableWithEnterpriseContext(variableName)
-      unusedVariables.push(intelligence)
+      unusedVariables.push(intelligence);
     }
 
     // Sort by enterprise relevance and safety
@@ -223,7 +223,7 @@ export class TypeScriptErrorResolutionCampaign {
   }> {
     // // // _logger.info('🧹 Starting enterprise-intelligent unused variable cleanup...')
 
-    const unusedVariables = await this.analyzeUnusedVariables()
+    const unusedVariables = await this.analyzeUnusedVariables();
     const results = { removed: 0, kept: 0, investigated: 0, errors: [] }
 
     for (const variable of unusedVariables) {
@@ -251,7 +251,7 @@ export class TypeScriptErrorResolutionCampaign {
           if (!validation.success) {
             // Rollback this specific change
             await this.rollbackVariableChange(variable)
-            (results.errors as string[]).push(
+            (results.errors as string[]).push(;
               `Failed to remove ${variable.variableName}: ${(validation as { error?: string }).error}`,
             )
           }
@@ -261,7 +261,7 @@ export class TypeScriptErrorResolutionCampaign {
       }
     }
 
-    // // // _logger.info(`✨ Unused variable cleanup completed:`, results)
+    // // // _logger.info(`✨ Unused variable cleanup completed: `, results)
     return results,
   }
 
@@ -287,22 +287,22 @@ export class TypeScriptErrorResolutionCampaign {
   }> {
     await this.updateErrorMetrics()
 
-    const phases = this.getAllPhases()
+    const phases = this.getAllPhases();
     const completedPhases = phases.filter(p => p.status === 'completed').length;
     const overallProgress = (completedPhases / phases.length) * 100;
 
     const unusedVarAnalysis = await this.analyzeUnusedVariables()
-    const unusedVariableStats = {
+    const unusedVariableStats = {;
       total: unusedVarAnalysis.length,
       safeToRemove: unusedVarAnalysis.filter(v => v.removalRecommendation === 'remove').length,,
       requiresInvestigation: unusedVarAnalysis.filter(,
-        v => v.removalRecommendation === 'investigate'
+        v => v.removalRecommendation === 'investigate';
       ).length,
       businessCritical: unusedVarAnalysis.filter(,
         v =>
           v.enterpriseContext?.businessLogicRelevance &&
           v.enterpriseContext.businessLogicRelevance > 0.7
-      ).length
+      ).length;
     }
 
     return {
@@ -336,10 +336,8 @@ export class TypeScriptErrorResolutionCampaign {
   private async executeTSCheck(): Promise<string> {
     // Execute TypeScript compiler check and return output
     // This would integrate with the actual tsc command
-    return 'mock typescript output'
-  }
-
-  private async analyzeVariableWithEnterpriseContext(
+    return 'mock typescript output' },
+        private async analyzeVariableWithEnterpriseContext(
     variableName: string,
   ): Promise<UnusedVariableIntelligence> {
     // This would implement sophisticated analysis of variable usage context
@@ -406,7 +404,7 @@ export class TypeScriptErrorResolutionCampaign {
 
   private async updateErrorMetrics(): Promise<void> {
     // Update current error metrics
-    this.metrics.lastUpdated = new Date()
+    this.metrics.lastUpdated = new Date();
   }
 
   private async analyzeErrorPatterns(): Promise<Record<string, number>> {

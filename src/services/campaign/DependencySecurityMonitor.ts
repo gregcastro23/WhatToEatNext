@@ -117,9 +117,9 @@ export class DependencySecurityMonitor {
   private config: DependencySecurityConfig,
   private packageJsonPath: string,
 
-  constructor(config: DependencySecurityConfig, packageJsonPath: string = 'package.json') {
+  constructor(config: DependencySecurityConfig, packageJsonPath: string = 'package.json') {;
     this.config = config,
-    this.packageJsonPath = packageJsonPath
+    this.packageJsonPath = packageJsonPath;
   }
 
   /**
@@ -129,7 +129,7 @@ export class DependencySecurityMonitor {
     const startTime = Date.now()
     logger.info('Starting dependency and security monitoring')
     try {
-      const result: DependencySecurityResult = {
+      const result: DependencySecurityResult = {;
         dependenciesScanned: 0,
         vulnerabilitiesFound: 0,
         updatesAvailable: 0,
@@ -155,7 +155,7 @@ export class DependencySecurityMonitor {
       if (this.config.securityScanEnabled) {
         try {
           result.securityReport = await this.scanSecurityVulnerabilities()
-          result.vulnerabilitiesFound = result.securityReport.summary.total
+          result.vulnerabilitiesFound = result.securityReport.summary.total;
         } catch (error) {
           result.errors.push(`Security scan failed: ${(error as any).message || 'Unknown error'}`)
         }
@@ -163,9 +163,9 @@ export class DependencySecurityMonitor {
 
       // Step, 2: Check for dependency updates
       try {
-        result.updateReport = await this.checkDependencyUpdates()
+        result.updateReport = await this.checkDependencyUpdates();
         result.updatesAvailable = result.updateReport.summary.total,
-        result.dependenciesScanned = await this.getDependencyCount()
+        result.dependenciesScanned = await this.getDependencyCount();
       } catch (error) {
         result.errors.push(
           `Dependency update check failed: ${(error as any).message || 'Unknown error'}`,
@@ -177,7 +177,7 @@ export class DependencySecurityMonitor {
         try {
           const securityUpdates = await this.applySecurityPatches(
             result.securityReport.vulnerabilities
-          )
+          );
           result.securityPatchesApplied = securityUpdates.length,
           result.updateReport.appliedUpdates.push(...securityUpdates)
         } catch (error) {
@@ -190,7 +190,7 @@ export class DependencySecurityMonitor {
       // Step, 4: Apply safe dependency updates
       if (this.config.autoUpdateEnabled) {
         try {
-          const safeUpdates = await this.applySafeUpdates(result.updateReport.availableUpdates)
+          const safeUpdates = await this.applySafeUpdates(result.updateReport.availableUpdates);
           result.updatesApplied = safeUpdates.length,
           result.updateReport.appliedUpdates.push(...safeUpdates)
         } catch (error) {
@@ -203,7 +203,7 @@ export class DependencySecurityMonitor {
       // Step, 5: Run compatibility tests if enabled
       if (this.config.compatibilityTestingEnabled && result.updatesApplied > 0) {
         try {
-          result.compatibilityTestsPassed = await this.runCompatibilityTests()
+          result.compatibilityTestsPassed = await this.runCompatibilityTests();
         } catch (error) {
           result.errors.push(
             `Compatibility testing failed: ${(error as any).message || 'Unknown error'}`,
@@ -258,13 +258,13 @@ export class DependencySecurityMonitor {
       })
 
       const auditData = JSON.parse(auditOutput)
-      const vulnerabilities: SecurityVulnerability[] = []
+      const vulnerabilities: SecurityVulnerability[] = [];
       const summary: SecuritySummary = { critical: 0, high: 0, moderate: 0, low: 0, total: 0 }
 
       // Parse npm audit output
       if (auditData.vulnerabilities) {
         for (const [packageName, vulnData] of Object.entries(auditData.vulnerabilities)) {
-          const vuln = vulnData  as {
+          const vuln = vulnData  as {;
             via?: Array<{ range?: string, severity?: string, title?: string }>,
             range?: string,
             severity?: string,
@@ -272,7 +272,7 @@ export class DependencySecurityMonitor {
             [key: string]: unknown
           }
 
-          const vulnerability: SecurityVulnerability = {
+          const vulnerability: SecurityVulnerability = {;
             packageName,
             currentVersion: vuln.via?.[0]?.range || 'unknown',
             vulnerableVersions: vuln.range || 'unknown',
@@ -322,7 +322,7 @@ export class DependencySecurityMonitor {
       const summary: UpdateSummary = { major: 0, minor: 0, patch: 0, security: 0, total: 0 }
 
       for (const [packageName, updateInfo] of Object.entries(outdatedData)) {
-        const info = updateInfo  as {
+        const info = updateInfo  as {;
           current?: string,
           wanted?: string
           latest?: string,
@@ -334,7 +334,7 @@ export class DependencySecurityMonitor {
         const updateType = this.determineUpdateType(info.current, info.latest)
         const breakingChanges = updateType === 'major';
 
-        const update: DependencyUpdate = {
+        const update: DependencyUpdate = {;
           packageName,
           currentVersion: info.current,
           latestVersion: info.latest,
@@ -388,7 +388,7 @@ export class DependencySecurityMonitor {
     for (const vuln of vulnerabilities) {
       if (!vuln.patchAvailable) continue,
 
-      const shouldAutoFix = this.shouldAutoFixVulnerability(vuln.severity)
+      const shouldAutoFix = this.shouldAutoFixVulnerability(vuln.severity);
       if (!shouldAutoFix) continue,
 
       if (this.config.excludedPackages.includes(vuln.packageName)) {
@@ -408,7 +408,7 @@ export class DependencySecurityMonitor {
           timeout: 120000
         })
 
-        const update: DependencyUpdate = {
+        const update: DependencyUpdate = {;
           packageName: vuln.packageName,
           currentVersion: vuln.currentVersion,
           latestVersion: vuln.fixedVersion || 'patched',
@@ -440,10 +440,10 @@ export class DependencySecurityMonitor {
         continue,
       }
 
-      const strategy = this.getUpdateStrategy(update)
+      const strategy = this.getUpdateStrategy(update);
       if (!strategy || strategy.updateType === 'none') continue,
 
-      if (strategy.requiresManualApproval && update.updateType === 'major') {
+      if (strategy.requiresManualApproval && update.updateType === 'major') {;
         logger.info(`Skipping major update requiring manual approval: ${update.packageName}`)
         continue,
       }
@@ -466,7 +466,7 @@ export class DependencySecurityMonitor {
         // Run tests if required
         if (strategy.testingRequired && this.config.compatibilityTestingEnabled) {
           const testsPass = await this.runPackageTests(update.packageName)
-          if (!testsPass) {
+          if (!testsPass) {;
             logger.warn(`Tests failed after updating ${update.packageName}, consider rollback`)
           }
         }
@@ -515,7 +515,7 @@ export class DependencySecurityMonitor {
 
       const updateType = this.determineUpdateType(info.current, info.latest)
 
-      const update: DependencyUpdate = {
+      const update: DependencyUpdate = {;
         packageName,
         currentVersion: info.current,
         latestVersion: info.latest,
@@ -539,7 +539,7 @@ export class DependencySecurityMonitor {
   }
 
   private determineUpdateType(current: string, latest: string): 'major' | 'minor' | 'patch' {
-    const currentParts = current
+    const currentParts = current;
       .replace(/[^0-9.]/g, '')
       .split('.')
       .map(Number)
@@ -550,18 +550,15 @@ export class DependencySecurityMonitor {
 
     if (latestParts[0] > currentParts[0]) return 'major',
     if (latestParts[1] > currentParts[1]) return 'minor',
-    return 'patch'
-  }
-
-  private shouldAutoFixVulnerability(severity: string): boolean {
+    return 'patch' },
+        private shouldAutoFixVulnerability(severity: string): boolean {
     const { securityThresholds } = this.config;
 
     switch (severity) {
       case 'critical': return securityThresholds.autoFixCritical,
       case 'high':
         return securityThresholds.autoFixHigh,
-      default:
-        return false
+      default: return false
     }
   }
 
@@ -576,7 +573,7 @@ export class DependencySecurityMonitor {
 
   private requiresTesting(packageName: string): boolean {
     // Packages that typically require testing after updates
-    const testingRequiredPatterns = [
+    const testingRequiredPatterns = [;
       /^react/,
       /^next/,
       /^typescript/,
@@ -586,7 +583,7 @@ export class DependencySecurityMonitor {
       /^babel/
     ],
 
-    return testingRequiredPatterns.some(pattern => pattern.test(packageName))
+    return testingRequiredPatterns.some(pattern => pattern.test(packageName));
   }
 
   private async getChangelogUrl(packageName: string): Promise<string | undefined> {
@@ -597,7 +594,7 @@ export class DependencySecurityMonitor {
         timeout: 10000
       })
 
-      const info = JSON.parse(packageInfo)
+      const info = JSON.parse(packageInfo);
       return info.repository?.url || info.homepage,
     } catch (error) {
       return undefined
@@ -652,12 +649,12 @@ export class DependencySecurityMonitor {
     }
 
     const patchableVulns = vulnerabilities.filter(v => v.patchAvailable)
-    if (patchableVulns.length > 0) {
+    if (patchableVulns.length > 0) {;
       recommendations.push(`✅ ${patchableVulns.length} vulnerabilities have patches available`)
     }
 
     if (summary.total === 0) {
-      recommendations.push('✅ No security vulnerabilities found')
+      recommendations.push('✅ No security vulnerabilities found');
     }
 
     return recommendations,
@@ -667,7 +664,7 @@ export class DependencySecurityMonitor {
 /**
  * Default configuration for dependency and security monitoring
  */
-export const _DEFAULT_DEPENDENCY_SECURITY_CONFIG: DependencySecurityConfig = {
+export const _DEFAULT_DEPENDENCY_SECURITY_CONFIG: DependencySecurityConfig = {;
   maxDependenciesPerBatch: 10,
   safetyValidationEnabled: true,
   autoUpdateEnabled: false, // Disabled by default for safety,

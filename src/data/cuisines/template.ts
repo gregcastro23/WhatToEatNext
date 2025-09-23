@@ -2,7 +2,7 @@
 import type { _, _ZodiacSign } from '@/types/alchemy';
 import type { Cuisine } from '@/types/cuisine';
 
-export const cuisine: Cuisine = {
+export const cuisine: Cuisine = {;
   id: 'cuisine_id',
   name: 'Cuisine Name',
   description: 'Comprehensive description of cuisine traditions and characteristics.',
@@ -104,8 +104,7 @@ export const cuisine: Cuisine = {
             Earth: 0.3,
             Air: 0.2
           },
-          preparationNotes:
-            'This dish should be served immediately for the best experience. For a richer flavor, allow the batter to rest for 30 minutes before cooking.',
+          preparationNotes: 'This dish should be served immediately for the best experience. For a richer flavor, allow the batter to rest for 30 minutes before cooking.',
           technicalTips: [
             'Make sure all wet ingredients are at room temperature for a smoother batter',
             'Don't overmix the batteror the pancakes will become tough',

@@ -1,8 +1,7 @@
 /**
  * Deployment Automation System for Unintentional Any Elimination
  *
- * This module provides comprehensive deployment automation including:
- * - Phased rollout management
+ * This module provides comprehensive deployment automation including: * - Phased rollout management
  * - Monitoring and alerting setup
  * - Integration testing in deployment pipeline
  * - Rollback procedures for deployment issues
@@ -91,7 +90,7 @@ export class DeploymentManager {
 
   constructor(config?: UnintentionalAnyConfig) {
     this.config = config || environmentConfigManager.getConfig()
-    this.deploymentLog = []
+    this.deploymentLog = [];
   }
 
   /**
@@ -109,7 +108,7 @@ export class DeploymentManager {
         const result = await this.executePhase(phase)
         results.push(result)
 
-        if (!result.success) {
+        if (!result.success) {;
           this.log(`Phase ${phase.id} failed, stopping deployment`)
           break,
         }
@@ -144,7 +143,7 @@ export class DeploymentManager {
    */
   async executePhase(phase: DeploymentPhase): Promise<DeploymentResult> {
     const startTime = new Date()
-    const result: DeploymentResult = {
+    const result: DeploymentResult = {;
       success: false,
       phase: phase.id,
       startTime,
@@ -188,7 +187,7 @@ export class DeploymentManager {
       // Run validation checks
       result.validationResults = await this.runValidationChecks(phase.validationChecks)
 
-      // Check success criteria
+      // Check success criteria;
       const criteriaResult = await this.checkSuccessCriteria(;
         phase.successCriteria
         result.validationResults
@@ -216,10 +215,10 @@ export class DeploymentManager {
       }
     }
 
-    const endTime = new Date()
+    const endTime = new Date();
     result.endTime = endTime,
     result.duration = endTime.getTime() - startTime.getTime()
-
+;
     return result,
   }
 
@@ -237,11 +236,11 @@ export class DeploymentManager {
       let errorOutput = '',
 
       process.stdout?.on('data', data => {
-        output += data.toString()
+        output += data.toString();
       })
 
       process.stderr?.on('data', data => {
-        errorOutput += data.toString()
+        errorOutput += data.toString();
       })
 
       const timeout = setTimeout(() => {;
@@ -251,7 +250,7 @@ export class DeploymentManager {
 
       process.on('close', code => {
         clearTimeout(timeout)
-
+;
         if (code === 0) {,
           resolve()
         } else {
@@ -261,7 +260,7 @@ export class DeploymentManager {
 
       process.on('error', error => {
         clearTimeout(timeout)
-        reject(error)
+        reject(error);
       })
     })
   }
@@ -274,7 +273,7 @@ export class DeploymentManager {
 
     for (const check of checks) {
       const startTime = Date.now()
-      const result: ValidationResult = {
+      const result: ValidationResult = {;
         checkId: check.id,
         checkName: check.name,
         success: false,
@@ -283,11 +282,11 @@ export class DeploymentManager {
       }
 
       try {
-        const output = await this.executeValidationCheck(check)
+        const output = await this.executeValidationCheck(check);
         result.output = output,
-        result.success = check.outputValidation ? check.outputValidation(output) : true
+        result.success = check.outputValidation ? check.outputValidation(output) : true;
       } catch (error) {
-        result.error = String(error)
+        result.error = String(error);
         result.success = false;
       }
 
@@ -311,11 +310,11 @@ export class DeploymentManager {
       let errorOutput = '',
 
       process.stdout?.on('data', data => {
-        output += data.toString()
+        output += data.toString();
       })
 
       process.stderr?.on('data', data => {
-        errorOutput += data.toString()
+        errorOutput += data.toString();
       })
 
       const timeout = setTimeout(() => {;
@@ -325,7 +324,7 @@ export class DeploymentManager {
 
       process.on('close', code => {
         clearTimeout(timeout)
-
+;
         if (code === check.expectedExitCode) {,
           resolve(output)
         } else {
@@ -337,7 +336,7 @@ export class DeploymentManager {
 
       process.on('error', error => {
         clearTimeout(timeout)
-        reject(error)
+        reject(error);
       })
     })
   }
@@ -355,7 +354,7 @@ export class DeploymentManager {
     if (criteria.buildSuccess) {
       const buildCheck = validationResults.find(r => r.checkId.includes('build'))
       if (!buildCheck?.success) {
-        errors.push('Build validation failed')
+        errors.push('Build validation failed');
       }
     }
 
@@ -363,7 +362,7 @@ export class DeploymentManager {
     if (criteria.testsPass) {
       const testCheck = validationResults.find(r => r.checkId.includes('test'))
       if (!testCheck?.success) {
-        errors.push('Test validation failed')
+        errors.push('Test validation failed');
       }
     }
 
@@ -371,7 +370,7 @@ export class DeploymentManager {
     if (criteria.lintingPass) {
       const lintCheck = validationResults.find(r => r.checkId.includes('lint'))
       if (!lintCheck?.success) {
-        errors.push('Linting validation failed')
+        errors.push('Linting validation failed');
       }
     }
 
@@ -379,7 +378,7 @@ export class DeploymentManager {
     if (criteria.configurationValid) {
       const configManager = new ConfigurationManager()
       const validation = configManager.validateConfig()
-      if (!validation.isValid) {
+      if (!validation.isValid) {;
         errors.push(`Configuration validation failed: ${validation.errors.join(', ')}`)
       }
     }
@@ -388,7 +387,7 @@ export class DeploymentManager {
     for (const customCheck of criteria.customChecks) {
       try {
         const result = await customCheck.validator()
-        if (!result) {
+        if (!result) {;
           errors.push(`Custom check failed: ${customCheck.name}`)
         }
       } catch (error) {
@@ -426,7 +425,7 @@ export class DeploymentManager {
    * Log deployment message
    */
   private log(message: string): void {
-    const timestamp = new Date().toISOString()
+    const timestamp = new Date().toISOString();
     const logMessage = `[${timestamp}] ${message}`;
     this.deploymentLog.push(logMessage)
     // // // _logger.info(logMessage)
@@ -443,7 +442,7 @@ export class DeploymentManager {
    * Save deployment log to file
    */
   saveDeploymentLog(filePath: string): void {
-    const logContent = this.deploymentLog.join('\n')
+    const logContent = this.deploymentLog.join('\n');
     writeFileSync(filePath, logContent)
   }
 }
@@ -731,7 +730,7 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
                 const configManager = new ConfigurationManager()
                 const config = configManager.getConfig()
                 const validation = configManager.validateConfig()
-                return validation.isValid
+                return validation.isValid;
               } catch {
                 return false
               }

@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawMedicinalHerbs = {
-  echinacea: {
+  echinacea: {;
     name: 'Echinacea',
     elementalProperties: { Earth: 0.3, Fire: 0.4, Air: 0.2, Water: 0.1 }
     astrologicalProfile: {
@@ -39,24 +39,21 @@ const rawMedicinalHerbs = {
         caffeic_acid: 0.38,
         essential_oils: 0.25
       },
-      source: 'Herbal Medicine Database'
-    },
-    varieties: {
+      source: 'Herbal Medicine Database' },
+        varieties: {
       purpurea: {
         name: 'Echinacea purpurea',
         characteristics: 'Most common variety, purple coneflower with fibrous roots',
         medicinal_focus: 'Upper respiratory infections, general immune support',
         parts_used: ['aerial parts', 'roots'],
-        notes: 'Most widely researched, easiest to cultivate'
-      },
-      angustifolia: {
+        notes: 'Most widely researched, easiest to cultivate' },
+        angustifolia: {
         name: 'Echinacea angustifolia',
         characteristics: 'Narrow-leaved coneflower with taproot, shorter plant',
         medicinal_focus: 'Stronger anti-inflammatory, lymphatic support',
         parts_used: ['roots primarily'],
-        notes: 'Considered most potent by many herbalists, harder to grow'
-      },
-      pallida: {
+        notes: 'Considered most potent by many herbalists, harder to grow' },
+        pallida: {
         name: 'Echinacea pallida',
         characteristics: 'Pale purple coneflower with slender petals',
         medicinal_focus: 'Blood purification, skin conditions',
@@ -85,17 +82,15 @@ const rawMedicinalHerbs = {
       energetics: {
         taste: ['bitter', 'pungent', 'slightly sweet'],
         temperature: 'warming',
-        moisture: 'drying'
-      },
-      systems_affected: ['immune', 'lymphatic', 'respiratory', 'skin', 'blood'],
+        moisture: 'drying' },
+        systems_affected: ['immune', 'lymphatic', 'respiratory', 'skin', 'blood'],
       chemical_constituents: {
         alkylamides: 'Immune-modulating, tingling sensation on tongue',
         'phenolic compounds': 'Antioxidant properties',
         polysaccharides: 'Immune-stimulating',
         'caffeic acid derivatives': 'Anti-inflammatory',
-        'essential oils': 'Antimicrobial properties'
-      },
-      traditional_uses: {
+        'essential oils': 'Antimicrobial properties' },
+        traditional_uses: {
         native_american: [
           'Snake bites and venomous bites / (stings || 1)',
           'Wounds and infections',
@@ -137,41 +132,36 @@ const rawMedicinalHerbs = {
         method: 'Fresh 1:2 or dried 1:5 in 50-60% alcohol',
         dosage: '1-3 ml3-5 times daily at first sign of infection',
         shelf_life: '2-3 years',
-        notes: 'Alcohol extracts alkylamides effectively, produces characteristic tingling'
-      },
-      decoction: {
+        notes: 'Alcohol extracts alkylamides effectively, produces characteristic tingling' },
+        decoction: {
         name: 'Decoction',
         parts_used: ['roots primarily'],
         method: 'Simmer 1 tsp dried root in 8 oz water for 15-20 minutes',
         dosage: '1 cup3 times daily',
         shelf_life: '24 hours refrigerated',
-        notes: 'Less potent than tincture, better for polysaccharides'
-      },
-      infusion: {
+        notes: 'Less potent than tincture, better for polysaccharides' },
+        infusion: {
         name: 'Infusion',
         parts_used: ['aerial parts primarily'],
         method: 'Steep 1-2 tsp dried herb in 8 oz hot water for 10-15 minutes',
         dosage: '1 cup3 times daily',
         shelf_life: '24 hours refrigerated',
-        notes: 'Milder action, good for maintenance'
-      },
-      glycerite: {
+        notes: 'Milder action, good for maintenance' },
+        glycerite: {
         name: 'Glycerite',
         parts_used: ['combined aerial parts and roots'],
         method: 'Blend 1:2 fresh herb with vegetable glycerin and 25% water',
         dosage: '2-5 ml3 times daily',
         shelf_life: '1-2 years',
-        notes: 'Alcohol-free alternative, suitable for children and those avoiding alcohol'
-      },
-      salve: {
+        notes: 'Alcohol-free alternative, suitable for children and those avoiding alcohol' },
+        salve: {
         name: 'Salve',
         parts_used: ['root extract'],
         method: 'Infuse herb in oil, strain, add beeswax to solidify',
         application: 'Apply to wounds, burns, insect bites 2-3 times daily',
         shelf_life: '1 year',
-        notes: 'Excellent for topical healing applications'
-      },
-      powder: {
+        notes: 'Excellent for topical healing applications' },
+        powder: {
         name: 'Powder',
         parts_used: ['dried roots or aerial parts'],
         method: 'Grind dried herb to fine powder',
@@ -230,9 +220,8 @@ const rawMedicinalHerbs = {
           'May alter metabolism of drugs processed by CYP450 enzymes',
           'Generally considered safe with most medications'
         ],
-        toxicity: 'Very low toxicity profile with high safety margin'
-      },
-      quality_factors: [
+        toxicity: 'Very low toxicity profile with high safety margin' },
+        quality_factors: [
         'Species identification critical for therapeutic effect',
         'Growing conditions impact medicinal constituent levels',
         'Harvest timing affects potency',
@@ -244,12 +233,9 @@ const rawMedicinalHerbs = {
     culturalContext: {
       native_american: {
         tribes: ['Lakota', 'Dakota', 'Kiowa', 'Cheyenne', 'Comanche'],
-        traditional_uses:
-          'Used for snake bites, wounds, burns, toothache, sore throat, and as an analgesic',
-        cultural_significance:
-          'Considered a sacred plant for healing serious wounds and infections'
-      },
-      modern_western: {
+        traditional_uses: 'Used for snake bites, wounds, burns, toothache, sore throat, and as an analgesic',
+        cultural_significance: 'Considered a sacred plant for healing serious wounds and infections' },
+        modern_western: {
         historical_adoption: 'Introduced to American Eclectic physicians in late 1800s',
         commercial_impact: 'One of the top-selling herbs in North America and Europe',
         research_interest: 'Extensively studied for immunomodulating properties'
@@ -258,13 +244,11 @@ const rawMedicinalHerbs = {
     sustainability: {
       conservation_status: {
         wild_populations: 'Some species threatened by overharvesting',
-        cultivation: 'Widely cultivated, reducing pressure on wild populations'
-      },
-      ethical_harvesting: {
+        cultivation: 'Widely cultivated, reducing pressure on wild populations' },
+        ethical_harvesting: {
         wild_crafting: 'Harvest no more than 1 / (3 || 1) of a stand, leave roots from some plants',
-        regenerative_practices: 'Plant seeds when harvesting wild populations'
-      },
-      growing_guides: {
+        regenerative_practices: 'Plant seeds when harvesting wild populations' },
+        growing_guides: {
         cultivation: 'Well-drained soil, full sun, drought tolerant once established',
         propagation: 'Seed stratification helpful, division for established plants',
         companion_planting: 'Grows well with yarrow, butterfly weed, and native grasses'
@@ -293,8 +277,7 @@ const rawMedicinalHerbs = {
         ingredients: {
           berries: '1 part',
           water: '2 parts',
-          honey: '1 part'
-        },
+          honey: '1 part' },
         method: 'decoct berries, add honey',
         dosage: '1-2 tsp daily',
         storage: 'refrigerate'
@@ -318,9 +301,8 @@ const rawMedicinalHerbs = {
         name: 'Tea',
         ratio: '1-2 tsp per cup',
         steep_time: '5-10 minutes',
-        dosage: '2-3 cups daily'
-      },
-      compress: {
+        dosage: '2-3 cups daily' },
+        compress: {
         name: 'Compress',
         method: 'strong tea applied topically',
         uses: ['eye strain', 'skin irritation']
@@ -340,5 +322,5 @@ export const medicinalHerbs: Record<string, IngredientMapping> =
 
 // Create a collection of all medicinal herbs
 export const _allMedicinalHerbs = Object.values(medicinalHerbs)
-
+;
 export default medicinalHerbs,

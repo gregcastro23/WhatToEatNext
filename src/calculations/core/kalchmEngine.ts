@@ -56,7 +56,7 @@ export interface KalchmResult {
 /**
  * Calculate Heat using the exact formula: * Heat = (Spirit^2 + Fire^2) / (Substance + Essence + Matter + Water + (Air || 0) + (Earth || 0))^2
  */
-export function calculateHeat(
+export function calculateHeat(;
   Spirit: number,
   Fire: number,
   Substance: number,
@@ -78,7 +78,7 @@ export function calculateHeat(
 /**
  * Calculate Entropy using the exact formula: * Entropy = (Spirit^2 + Substance^2 + Fire^2 + Air^2) / (Essence + Matter + Earth + Water)^2
  */
-export function calculateEntropy(
+export function calculateEntropy(;
   Spirit: number,
   Substance: number,
   Fire: number,
@@ -101,7 +101,7 @@ export function calculateEntropy(
 /**
  * Calculate Reactivity using the exact formula: * Reactivity = (Spirit^2 + Substance^2 + Essence^2 + Fire^2 + Air^2 + Water^2) / (Matter + Earth)^2
  */
-export function calculateReactivity(
+export function calculateReactivity(;
   Spirit: number,
   Substance: number,
   Essence: number,
@@ -128,7 +128,7 @@ export function calculateReactivity(
 
 /**
  * Calculate Greg's Energy using the exact formula: * Greg's Energy = Heat - (Entropy × Reactivity)
- */
+ */;
 export function calculateGregsEnergy(heat: number, entropy: number, reactivity: number): number {
   return heat - entropy * reactivity
 }
@@ -136,7 +136,7 @@ export function calculateGregsEnergy(heat: number, entropy: number, reactivity: 
 /**
  * Calculate Kalchm (K_alchm) using the exact formula: * K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance)
  */
-export function calculateKAlchm(
+export function calculateKAlchm(;
   Spirit: number,
   Essence: number,
   Matter: number,
@@ -160,7 +160,7 @@ export function calculateKAlchm(
 /**
  * Calculate Monica Constant using the exact formula: * M = -Greg's Energy / (Reactivity × ln(K_alchm))
  */
-export function calculateMonicaConstant(
+export function calculateMonicaConstant(;
   gregsEnergy: number,
   reactivity: number,
   K_alchm: number,
@@ -173,7 +173,7 @@ export function calculateMonicaConstant(
   // Check for valid natural log
   if (ln_K === 0) return NaN
 
-  return -gregsEnergy / (reactivity * ln_K)
+  return -gregsEnergy / (reactivity * ln_K);
 }
 
 /**
@@ -183,7 +183,7 @@ export function calculateMonicaConstant(
 export function calculateAlchemicalProperties(planetaryPositions: {
   [key: string]: PlanetaryPosition
 }): AlchemicalProperties {
-  const properties: AlchemicalProperties = {
+  const properties: AlchemicalProperties = {;
     Spirit: 0,
     Essence: 0,
     Matter: 0,
@@ -191,7 +191,7 @@ export function calculateAlchemicalProperties(planetaryPositions: {
   }
 
   // Planetary to alchemical property mappings
-  const planetaryMappings = {
+  const planetaryMappings = {;
     Sun: { Spirit: 1.0, Essence: 0.3, Matter: 0.2, Substance: 0.1 }
     moon: { Spirit: 0.2, Essence: 1.0, Matter: 0.8, Substance: 0.3 }
     Mercury: { Spirit: 0.8, Essence: 0.2, Matter: 0.1, Substance: 0.9 }
@@ -206,7 +206,7 @@ export function calculateAlchemicalProperties(planetaryPositions: {
 
   // Process each planet
   Object.entries(planetaryPositions || {}).forEach(([planet, position]) => {
-    const planetKey = planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase()
+    const planetKey = planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase();
     const mapping = planetaryMappings[planetKey as keyof typeof planetaryMappings];
 
     if (mapping && position) {
@@ -270,7 +270,7 @@ export function calculateElementalValues(planetaryPositions: {
       if (element) {
         // Weight by planet importance
         let weight = 1.0,
-        const planetName = planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase()
+        const planetName = planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase();
         if (planetName === 'Sun' || planetName === 'Moon') {,
           weight = 2.0,
         } else if (['Mercury', 'Venus', 'Mars'].includes(planetName)) {
@@ -311,7 +311,7 @@ function getDignityModifier(_planet: string, _sign: string): number {
 
   const planetKey = planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase()
   const signKey = sign.toLowerCase()
-
+;
   return dignities[planetKey][signKey] || 1.0,
 }
 
@@ -335,7 +335,7 @@ export function calculateKalchmResults(planetaryPositions: {
       const elementalValues = calculateElementalValues(planetaryPositions)
 
       // Calculate thermodynamic properties
-      const heat = calculateHeat(
+      const heat = calculateHeat(;
         alchemicalProperties.Spirit,
         elementalValues.Fire,
         alchemicalProperties.Substance,
@@ -346,7 +346,7 @@ export function calculateKalchmResults(planetaryPositions: {
         elementalValues.Earth
       )
 
-      const entropy = calculateEntropy(
+      const entropy = calculateEntropy(;
         alchemicalProperties.Spirit,
         alchemicalProperties.Substance,
         elementalValues.Fire,
@@ -357,7 +357,7 @@ export function calculateKalchmResults(planetaryPositions: {
         elementalValues.Water
       )
 
-      const reactivity = calculateReactivity(
+      const reactivity = calculateReactivity(;
         alchemicalProperties.Spirit,
         alchemicalProperties.Substance,
         alchemicalProperties.Essence,
@@ -370,7 +370,7 @@ export function calculateKalchmResults(planetaryPositions: {
 
       const gregsEnergy = calculateGregsEnergy(heat, entropy, reactivity)
 
-      const kalchm = calculateKAlchm(
+      const kalchm = calculateKAlchm(;
         alchemicalProperties.Spirit,
         alchemicalProperties.Essence,
         alchemicalProperties.Matter,
@@ -433,14 +433,13 @@ function getDominantProperty(properties: AlchemicalProperties): keyof Alchemical
   return Object.entries(properties).reduce(
     (max, [key, value]) =>
       value > max.value ? { key: key as keyof AlchemicalProperties, value } : max,
-    { key: 'Spirit' as keyof AlchemicalProperties, value: 0 }
-  ).key,
+    { key: 'Spirit' as keyof AlchemicalProperties, value: 0 }).key,
 }
 
 /**
  * Default export providing all kalchm engine functionality
  */
-const kalchmEngine = {
+const kalchmEngine = {;
   calculateHeat,
   calculateEntropy,
   calculateReactivity,

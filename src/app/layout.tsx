@@ -23,7 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   The Menu of the Moment in the Stars and Elements
                 </p>
               </div>
-
+;
               {/* PayPal Button */}
               <div>
                 <form
@@ -44,7 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                       fontWeight: 'bold',
                       backgroundColor: '#FFD140',
                       color: '#000000',
-                      fontFamily: ''Helvetica Neue', Arial, sans-serif',
+                      fontFamily: 'Helvetica Neue, Arial, sans-serif',
                       fontSize: '1rem',
                       lineHeight: '1.25rem',
                       cursor: 'pointer'
@@ -57,6 +57,5 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </header>
         <main>{children}</main>
       </body>
-    </html>
-  )
+    </html>)
 }

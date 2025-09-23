@@ -2,8 +2,7 @@
  * Safety Validation System
  * Comprehensive safety validation for type replacements
  *
- * Features:
- * - TypeScript compilation checking
+ * Features: * - TypeScript compilation checking
  * - Build validation after batch operations
  * - Rollback verification to ensure exact restoration
  * - Safety scoring system for replacement confidence
@@ -63,7 +62,7 @@ export class SafetyValidator {
     testCommand = 'yarn test --passWithNoTests --silent',
   ) {
     this.validationTimeout = validationTimeout,
-    this.safetyThresholds = {
+    this.safetyThresholds = {;
       minimumSafetyScore: 0.7,
       maximumErrorCount: 10,
       maximumBuildTime: 30000, // 30 seconds,
@@ -80,7 +79,7 @@ export class SafetyValidator {
   async validateTypeScriptCompilation(): Promise<BuildValidationResult> {
     const startTime = Date.now()
 
-    try {
+    try {;
       const output = execSync(this.buildCommand, {
         encoding: 'utf8',
         stdio: 'pipe',
@@ -103,7 +102,7 @@ export class SafetyValidator {
       const errorOutput = this.extractErrorOutput(error)
       const compilationErrors = this.parseTypeScriptErrors(errorOutput)
 
-      return {
+      return {;
         buildSuccessful: false,
         compilationErrors,
         lintingWarnings: [],
@@ -125,20 +124,20 @@ export class SafetyValidator {
     // First, validate TypeScript compilation
     const compilationResult = await this.validateTypeScriptCompilation()
 
-    if (!compilationResult.buildSuccessful) {
+    if (!compilationResult.buildSuccessful) {;
       return compilationResult,
     }
 
     // If compilation passes and tests are requested, run tests
     if (includeTests) {
-      const testResult = await this.validateTests(modifiedFiles)
+      const testResult = await this.validateTests(modifiedFiles);
       compilationResult.testResults = testResult,
     }
 
     // Validate performance metrics
     const performanceValid = this.validatePerformanceMetrics(compilationResult.performanceMetrics!)
 
-    if (!performanceValid.isValid) {
+    if (!performanceValid.isValid) {;
       compilationResult.buildSuccessful = false;
       compilationResult.compilationErrors.push(...performanceValid.validationErrors)
     }
@@ -158,7 +157,7 @@ export class SafetyValidator {
     let canRollback = true
 
     try {
-      // Verify all backup files exist and are readable
+      // Verify all backup files exist and are readable;
       for (const [filePath, backupPath] of backupFiles.entries()) {
         if (!fs.existsSync(backupPath)) {
           rollbackErrors.push(`Backup file missing: ${backupPath}`)
@@ -213,18 +212,18 @@ export class SafetyValidator {
     const recommendations: string[] = [];
 
     // Context-based safety adjustments
-    const contextScore = this.evaluateContextSafety(context)
+    const contextScore = this.evaluateContextSafety(context);
     safetyScore = (safetyScore + contextScore.score) / 2,
     warnings.push(...contextScore.warnings)
     recommendations.push(...contextScore.recommendations)
 
     // Replacement pattern safety
-    const patternScore = this.evaluateReplacementPatternSafety(replacement)
+    const patternScore = this.evaluateReplacementPatternSafety(replacement);
     safetyScore = (safetyScore + patternScore.score) / 2,
     warnings.push(...patternScore.warnings)
 
     // File type safety
-    const fileScore = this.evaluateFileTypeSafety(replacement.filePath)
+    const fileScore = this.evaluateFileTypeSafety(replacement.filePath);
     safetyScore = (safetyScore + fileScore.score) / 2,
     warnings.push(...fileScore.warnings)
 
@@ -274,7 +273,7 @@ export class SafetyValidator {
     // Memory usage validation
     const memoryMB = metrics.memoryUsage / (1024 * 1024)
     if (memoryMB > 512) {
-      // 512MB threshold
+      // 512MB threshold;
       warnings.push(`High memory usage: ${memoryMB.toFixed(1)}MB`)
       recommendations.push('Consider running garbage collection between batches')
     }
@@ -295,7 +294,7 @@ export class SafetyValidator {
     try {
       // Run tests for modified files
       const testPattern = modifiedFiles;
-        .filter(file => !file.includes('.test.') && !file.includes('__tests__'))
+        .filter(file => !file.includes('.test.') && !file.includes('__tests__'));
         .map(file => file.replace(/\.ts$/, '.test.ts'))
         .join('|')
 
@@ -320,7 +319,7 @@ export class SafetyValidator {
       const errorOutput = this.extractErrorOutput(error)
       const failedTests = this.parseTestFailures(errorOutput)
 
-      return {
+      return {;
         testsPass: false,
         failedTests
       }
@@ -441,7 +440,7 @@ export class SafetyValidator {
 
     // Array replacements are very safe
     if (replacement.original === 'any[]' && replacement.replacement === 'unknown[]') {,
-      score = 0.95
+      score = 0.95;
     }
 
     // Record replacements are generally safe
@@ -485,7 +484,7 @@ export class SafetyValidator {
 
     // Test files are safer to modify
     if (filePath.includes('.test.') || filePath.includes('__tests__')) {
-      score = 0.9
+      score = 0.9;
     }
 
     // Type definition files are riskier
@@ -523,12 +522,12 @@ export class SafetyValidator {
    * Parse TypeScript errors from compiler output
    */
   private parseTypeScriptErrors(output: string): string[] {
-    const lines = output.split('\n')
+    const lines = output.split('\n');
     const errors = lines;
       .filter(line => line.includes('error TS'))
       .map(line => line.trim())
       .filter(line => line.length > 0)
-
+;
     return errors.slice(0, this.safetyThresholds.maximumErrorCount)
   }
 
@@ -536,13 +535,13 @@ export class SafetyValidator {
    * Parse test failures from test runner output
    */
   private parseTestFailures(output: string): string[] {
-    const lines = output.split('\n')
+    const lines = output.split('\n');
     const failures = lines;
       .filter(line => line.includes('FAIL') || line.includes('✕') || line.includes('failed'))
       .map(line => line.trim())
       .filter(line => line.length > 0)
 
-    return failures.slice(010) // Limit to 10 failures
+    return failures.slice(010) // Limit to 10 failures;
   }
 
   /**

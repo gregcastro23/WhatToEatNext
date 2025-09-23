@@ -8,10 +8,9 @@ import type { CookingMethodData } from '@/types/cookingMethod';
  * Associated with the alchemical pillar of Dissolution - the breaking down of complex structures
  * into simpler forms through the action of liquid and gentle heat.
  */
-export const braising: CookingMethodData = {
+export const braising: CookingMethodData = {;
   name: 'braising',
-  description:
-    'Slow cooking method where food is first seared at high temperature, then finished in a covered pot with liquid at lower temperature. This dual-stage process transforms tough, collagen-rich ingredients into tender, flavorful dishes through the gradual breakdown of connective tissues and the concentration of flavors. The enclosed environment creates a cycle of evaporation and condensation that continuously bastes the food, while the liquid medium facilitates the exchange of flavors between ingredients.',
+  description: 'Slow cooking method where food is first seared at high temperature, then finished in a covered pot with liquid at lower temperature. This dual-stage process transforms tough, collagen-rich ingredients into tender, flavorful dishes through the gradual breakdown of connective tissues and the concentration of flavors. The enclosed environment creates a cycle of evaporation and condensation that continuously bastes the food, while the liquid medium facilitates the exchange of flavors between ingredients.',
   elementalEffect: {
     Water: 0.4, // Primary element - dissolving and transformative,
     Fire: 0.3, // Secondary element - initial sear and sustained heat,
@@ -210,8 +209,7 @@ export const braising: CookingMethodData = {
   } as unknown as ThermodynamicProperties,
 
   // Additional metadata
-  history:
-    'Braising has ancient origins across many cultures and was particularly refined in French cuisine with dishes like cassoulet and coq au vin. It evolved from the need to tenderize tough, less expensive cuts of meat, making it historically significant for working-class cooking. The technique appears in Roman cookbooks dating to the 1st century AD, with Apicius describing several braised dishes. Medieval European cooking featured braising in lidded clay vessels, while Chinese culture developed master-stock braising dating back to the Zhou dynasty. In colonial America, the \'New England boiled dinner\' emerged as a braised one-pot meal, while French culinary codification in the 18th and 19th centuries established braising among the grand techniques of classical cuisine.',
+  history: 'Braising has ancient origins across many cultures and was particularly refined in French cuisine with dishes like cassoulet and coq au vin. It evolved from the need to tenderize tough, less expensive cuts of meat, making it historically significant for working-class cooking. The technique appears in Roman cookbooks dating to the 1st century AD, with Apicius describing several braised dishes. Medieval European cooking featured braising in lidded clay vessels, while Chinese culture developed master-stock braising dating back to the Zhou dynasty. In colonial America, the \'New England boiled dinner\' emerged as a braised one-pot meal, while French culinary codification in the 18th and 19th centuries established braising among the grand techniques of classical cuisine.',
 
   scientificPrinciples: [
     'Initial Maillard reaction develops base flavors via high-heat searing',
@@ -280,16 +278,14 @@ export const braising: CookingMethodData = {
   alchemicalAspects: {
     pillarName: 'Dissolution',
     pillarNumber: 3,
-    alchemicalProcess:
-      'The breaking down of rigid structures into fluid, interconnected elements through immersion and gentle transformation',
+    alchemicalProcess: 'The breaking down of rigid structures into fluid, interconnected elements through immersion and gentle transformation',
     effects: {
       spirit: 1, // Increases spiritual essence through gentle transformation,
       essence: 1, // Increases essential qualities and concentrates flavors,
       matter: -1, // Decreases rigid material structure through softening,
       substance: -1, // Decreases original substance as it transforms
     },
-    symbolicMeaning:
-      'Represents the alchemical principle of solving et coagula (dissolve and recombine) where elements must be broken down before being reconstructed in more harmonious forms. In braising, tough ingredients are slowly dissolved and transformed into tender, flavorful substances with new properties.',
+    symbolicMeaning: 'Represents the alchemical principle of solving et coagula (dissolve and recombine) where elements must be broken down before being reconstructed in more harmonious forms. In braising, tough ingredients are slowly dissolved and transformed into tender, flavorful substances with new properties.',
     associatedElements: {
       primary: 'Water', // Dissolving and transformative,
       secondary: 'Fire', // Catalyst for change and transformation

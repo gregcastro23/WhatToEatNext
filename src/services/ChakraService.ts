@@ -45,7 +45,7 @@ export class ChakraService {
     }
 
     signEnergyStates.forEach(_state => {
-      if (_state.sign && _state.sign in signEnergyRecord) {
+      if (_state.sign && _state.sign in signEnergyRecord) {;
         signEnergyRecord[_state.sign] = _state.currentEnergy,
       }
     })
@@ -60,7 +60,7 @@ export class ChakraService {
     return CHAKRAS.map(chakra => {
       const energyLevel = chakraEnergies[chakra]
 
-      // Determine balance state
+      // Determine balance state;
       let balanceState: 'balanced' | 'underactive' | 'overactive',
       if (energyLevel < 0.4) {
         balanceState = 'underactive',
@@ -76,7 +76,7 @@ export class ChakraService {
       // Find related signs (signs that influence this chakra)
       const relatedSigns = signEnergyStates;
         .filter(_state => chakraEnergies[chakra] > 0)
-        .map(_state => _state.sign)
+        .map(_state => _state.sign);
         .slice(03); // Limit to top 3 related signs
 
       return {
@@ -103,7 +103,7 @@ export class ChakraService {
   public getFoodRecommendations(chakraEnergyStates: ChakraEnergyState[]): Record<Chakra, string[]> {
     const recommendations: Record<Chakra, string[]> = {} as Record<Chakra, string[]>,
 
-    chakraEnergyStates.forEach(state => {
+    chakraEnergyStates.forEach(state => {;
       if (state.balanceState === 'underactive') {,
         recommendations[state.chakra] = state.recommendedFoods,
       }
@@ -125,7 +125,7 @@ export class ChakraService {
     const suggestions: string[] = [];
 
     // Check for root chakra imbalance
-    const rootState = chakraEnergyStates.find(state => state.chakra === 'Root')
+    const rootState = chakraEnergyStates.find(state => state.chakra === 'Root');
     if (rootState && rootState.balanceState === 'underactive') {,
       suggestions.push('Increase grounding foods like root vegetables and proteins')
     } else if (rootState && rootState.balanceState === 'overactive') {,
@@ -133,19 +133,19 @@ export class ChakraService {
     }
 
     // Check for sacral chakra imbalance
-    const sacralState = chakraEnergyStates.find(state => state.chakra === 'Sacral')
+    const sacralState = chakraEnergyStates.find(state => state.chakra === 'Sacral');
     if (sacralState && sacralState.balanceState === 'underactive') {,
       suggestions.push('Add orange foods and sweet flavors to stimulate creativity')
     }
 
     // Check for solar plexus imbalance
-    const solarPlexusState = chakraEnergyStates.find(state => state.chakra === 'Solar Plexus')
+    const solarPlexusState = chakraEnergyStates.find(state => state.chakra === 'Solar Plexus');
     if (solarPlexusState && solarPlexusState.balanceState === 'underactive') {,
       suggestions.push('Include more complex carbohydrates and yellow foods for energy')
     }
 
     // Check for heart chakra imbalance
-    const heartState = chakraEnergyStates.find(state => state.chakra === 'Heart')
+    const heartState = chakraEnergyStates.find(state => state.chakra === 'Heart');
     if (heartState && heartState.balanceState === 'underactive') {,
       suggestions.push('Incorporate more leafy greens and heart-opening foods like rose tea')
     }
@@ -167,7 +167,7 @@ export class ChakraService {
         state.sunSign === 'scorpio' ||
         state.sunSign === 'pisces'
       ) {
-        suggestions.push('Water signs benefit from warming spices to energize and ground')
+        suggestions.push('Water signs benefit from warming spices to energize and ground');
       }
     }
 
@@ -176,7 +176,7 @@ export class ChakraService {
       state => state.balanceState === 'underactive'
     )
     if (underactiveChakras.length > 3) {
-      suggestions.push('Consider a rainbow diet with foods of all colors to balance all chakras')
+      suggestions.push('Consider a rainbow diet with foods of all colors to balance all chakras');
     }
 
     return suggestions,

@@ -3,7 +3,7 @@ import type { ZodiacSign } from '@/types/celestial';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawWholeGrains = {
-  brown_rice: {
+  brown_rice: {;
     name: 'Brown Rice',
     elementalProperties: { Earth: 0.5, Water: 0.3, Air: 0.1, Fire: 0.1 }
     astrologicalProfile: {
@@ -13,9 +13,9 @@ const rawWholeGrains = {
         base: 'Earth',
         secondary: 'Water',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Saturn' }
-          second: { element: 'Water', planet: 'Moon' }
-          third: { element: 'Air', planet: 'Mercury' }
+          first: { element: 'Earth', planet: 'Saturn' },
+        second: { element: 'Water', planet: 'Moon' },
+        third: { element: 'Air', planet: 'Mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -66,30 +66,25 @@ const rawWholeGrains = {
         iron: 0.1
       },
       glycemic_index: 68,
-      source: 'USDA FoodData Central'
-    },
-    healthBenefits: {
+      source: 'USDA FoodData Central' },
+        healthBenefits: {
       digestiveHealth: {
         benefit: 'Digestive Support',
         mechanism: 'Fiber content promotes healthy gut bacteria and regular bowel movements',
-        evidence: 'Studies show whole grains increase beneficial gut microbiota diversity'
-      },
-      heartHealth: {
+        evidence: 'Studies show whole grains increase beneficial gut microbiota diversity' },
+        heartHealth: {
         benefit: 'Cardiovascular Support',
         mechanism: 'Fiber, antioxidants, and minerals help manage cholesterol and blood pressure',
-        evidence: 'Regular whole grain consumption associated with reduced heart disease risk'
-      },
-      bloodSugarControl: {
+        evidence: 'Regular whole grain consumption associated with reduced heart disease risk' },
+        bloodSugarControl: {
         benefit: 'Blood Sugar Regulation',
         mechanism: 'Fiber and complex carbohydrates slow glucose absorption',
-        evidence: 'Lower glycemic impact compared to refined white rice'
-      },
-      weightManagement: {
+        evidence: 'Lower glycemic impact compared to refined white rice' },
+        weightManagement: {
         benefit: 'Weight Management',
         mechanism: 'Higher fiber content increases satiety and reduces overall calorie intake',
-        evidence: 'Associated with lower BMI in observational studies'
-      },
-      antioxidantEffects: {
+        evidence: 'Associated with lower BMI in observational studies' },
+        antioxidantEffects: {
         benefit: 'Antioxidant Activity',
         mechanism: 'Contains phenolic compounds that combat oxidative stress',
         compounds: ['ferulic acid', 'caffeic acid', 'sinapic acid'],
@@ -104,36 +99,32 @@ const rawWholeGrains = {
         flavor: 'nutty, slightly sweet',
         cooking_ratio: '1:2 rice to water',
         cooking_time: '45-50 minutes',
-        best_for: 'sushi, risotto, puddings, sticky preparations'
-      },
-      long_grain: {
+        best_for: 'sushi, risotto, puddings, sticky preparations' },
+        long_grain: {
         name: 'Long Grain Brown Rice',
         characteristics: 'fluffy, separate grains, drier texture',
         appearance: 'slender, elongated grains',
         flavor: 'mild nutty taste',
         cooking_ratio: '1:2.25 rice to water',
         cooking_time: '45-50 minutes',
-        best_for: 'pilafs, salads, stuffings, everyday use'
-      },
-      basmati: {
+        best_for: 'pilafs, salads, stuffings, everyday use' },
+        basmati: {
         name: 'Brown Basmati Rice',
         characteristics: 'aromatic, slender, distinctive fragrance',
         appearance: 'long, slender grains that elongate when cooked',
         flavor: 'nutty with distinctive aroma',
         cooking_ratio: '1:2 rice to water',
         cooking_time: '40-45 minutes',
-        best_for: 'Indian dishes, pilafs, biryanis'
-      },
-      jasmine: {
+        best_for: 'Indian dishes, pilafs, biryanis' },
+        jasmine: {
         name: 'Brown Jasmine Rice',
         characteristics: 'aromatic, slightly clinging, soft',
         appearance: 'medium to long grain',
         flavor: 'floral aroma, subtle sweetness',
         cooking_ratio: '1:1.75 rice to water',
         cooking_time: '40-45 minutes',
-        best_for: 'Southeast Asian cuisine, coconut-based dishes'
-      },
-      himalayan_red: {
+        best_for: 'Southeast Asian cuisine, coconut-based dishes' },
+        himalayan_red: {
         name: 'Himalayan Red Rice',
         characteristics: 'distinctive color, hearty texture',
         appearance: 'russet-colored, medium grain',
@@ -184,15 +175,13 @@ const rawWholeGrains = {
           'activates enzymes'
         ],
         method: 'room temperature water with optional splash of lemon juice or vinegar',
-        notes: 'Discard soaking water and rinse before cooking'
-      },
-      rinsing: {
+        notes: 'Discard soaking water and rinse before cooking' },
+        rinsing: {
         method: 'rinse in cool water until water runs clear',
         purpose: 'removes dust and excess starch',
         technique: 'swirl in bowl of water or use strainer',
-        notes: 'Some prefer to skip for maximum nutrition retention'
-      },
-      toasting: {
+        notes: 'Some prefer to skip for maximum nutrition retention' },
+        toasting: {
         method: 'dry toast in pan before cooking',
         benefits: 'enhances nutty flavor',
         timing: '3-5 minutes until fragrant',
@@ -239,11 +228,9 @@ const rawWholeGrains = {
         variations: {
           mushroom: 'incorporate dried or fresh mushrooms, thyme',
           herb: 'use abundant fresh herbs, lemon zest',
-          vegetable: 'add diced vegetables that hold up to long cooking'
-        },
-        notes: 'Excellent way to add depth of flavor'
-      },
-      grain_bowl: {
+          vegetable: 'add diced vegetables that hold up to long cooking' },
+        notes: 'Excellent way to add depth of flavor' },
+        grain_bowl: {
         name: 'Grain Bowl',
         components: {
           base: 'cooked brown rice',
@@ -256,11 +243,9 @@ const rawWholeGrains = {
         variations: {
           asian_inspired: 'edamame, pickled vegetables, sesame, tamari-based sauce',
           mediterranean: 'chickpeas, cucumber, tomato, feta, herb-lemon dressing',
-          mexican: 'black beans, corn, avocado, lime-cilantro dressing'
-        },
-        notes: 'Infinitely customizable to dietary preferences and what's on hand'
-      },
-      fried_rice: {
+          mexican: 'black beans, corn, avocado, lime-cilantro dressing' },
+        notes: 'Infinitely customizable to dietary preferences and what's on hand' },
+        fried_rice: {
         name: 'Brown Fried Rice',
         preparation: 'best with day-old refrigerated rice',
         key_technique: 'high heat, continuous stirring, cook ingredients separately',
@@ -268,19 +253,16 @@ const rawWholeGrains = {
         variations: {
           classic: 'with peas, carrots, scrambled egg, green onion',
           kimchi: 'incorporate kimchi, sesame oil, gochujang',
-          pineapple: 'with pineapple chunks, cashews, curry powder'
-        },
-        notes: 'Pre-cook and cool rice for best texture never use freshly cooked rice'
-      },
-      rice_pudding: {
+          pineapple: 'with pineapple chunks, cashews, curry powder' },
+        notes: 'Pre-cook and cool rice for best texture never use freshly cooked rice' },
+        rice_pudding: {
         name: 'Brown Rice Pudding',
         cooking_method: 'slow simmer with frequent stirring',
         key_ingredients: ['milk or plant milk', 'sweetener', 'spices', 'dried fruit'],
         variations: {
           classic: 'cinnamon, raisins, vanilla',
           coconut: 'coconut milk, cardamom, pistachios',
-          chocolate: 'cocoa powder, almond milk, cherries'
-        },
+          chocolate: 'cocoa powder, almond milk, cherries' },
         notes: 'Takes longer than white rice pudding but has nuttier flavor'
       }
     },
@@ -321,9 +303,9 @@ const rawWholeGrains = {
       elementalAffinity: {
         base: 'Air',
         decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' }
-          second: { element: 'Earth', planet: 'Moon' }
-          third: { element: 'Water', planet: 'Neptune' }
+          first: { element: 'Air', planet: 'Mercury' },
+        second: { element: 'Earth', planet: 'Moon' },
+        third: { element: 'Water', planet: 'Neptune' }
         }
       }
     },
@@ -347,9 +329,8 @@ const rawWholeGrains = {
       basic_cooking: {
         ratio: '1:3 kamut to water',
         cooking_time: '60-90 minutes',
-        method: 'simmer until tender'
-      },
-      soaked_method: {
+        method: 'simmer until tender' },
+        soaked_method: {
         soaking: '12-24 hours',
         cooking_time: '45-60 minutes',
         benefits: 'improved digestibility'
@@ -359,9 +340,8 @@ const rawWholeGrains = {
       grain_bowl: {
         method: 'cook until chewy',
         additions: ['roasted vegetables', 'herbs', 'dressing'],
-        service: 'warm or room temperature'
-      },
-      breakfast_porridge: {
+        service: 'warm or room temperature' },
+        breakfast_porridge: {
         method: 'cook longer for softer texture',
         additions: ['dried fruit', 'nuts', 'honey'],
         service: 'hot'
@@ -386,9 +366,8 @@ const rawWholeGrains = {
       basic_cooking: {
         ratio: '1:3 spelt to water',
         cooking_time: '45-60 minutes',
-        method: 'simmer until tender'
-      },
-      pressure_cooker: {
+        method: 'simmer until tender' },
+        pressure_cooker: {
         ratio: '1:2.5 spelt to water',
         cooking_time: '25-30 minutes',
         notes: 'natural release recommended'
@@ -398,9 +377,8 @@ const rawWholeGrains = {
       salads: {
         method: 'cook until al dente',
         additions: ['fresh vegetables', 'vinaigrette', 'herbs'],
-        service: 'room temperature'
-      },
-      soups: {
+        service: 'room temperature' },
+        soups: {
         method: 'add to broth',
         cooking_time: '30-40 minutes in soup',
         notes: 'adds hearty texture'
@@ -425,9 +403,8 @@ const rawWholeGrains = {
       basic_cooking: {
         ratio: '1:2 einkorn to water',
         cooking_time: '30-35 minutes',
-        method: 'simmer gently'
-      },
-      risotto_style: {
+        method: 'simmer gently' },
+        risotto_style: {
         method: 'gradual broth addition',
         cooking_time: '25-30 minutes',
         notes: 'stir frequently'
@@ -437,9 +414,8 @@ const rawWholeGrains = {
       pilaf: {
         method: 'toast then simmer',
         additions: ['mushrooms', 'onions', 'herbs'],
-        service: 'hot'
-      },
-      breakfast: {
+        service: 'hot' },
+        breakfast: {
         method: 'cook until creamy',
         additions: ['milk', 'honey', 'fruit'],
         service: 'hot'
@@ -464,9 +440,8 @@ const rawWholeGrains = {
       basic_cooking: {
         ratio: '1:3 rye to water',
         cooking_time: '60-75 minutes',
-        method: 'simmer until tender'
-      },
-      soaked_method: {
+        method: 'simmer until tender' },
+        soaked_method: {
         soaking: '8-12 hours',
         cooking_time: '45-60 minutes',
         benefits: 'improved texture and digestibility'
@@ -476,9 +451,8 @@ const rawWholeGrains = {
       bread_making: {
         method: 'grind fresh',
         fermentation: 'longer rise time needed',
-        notes: 'pairs well with sourdough'
-      },
-      hearty_salads: {
+        notes: 'pairs well with sourdough' },
+        hearty_salads: {
         method: 'cook until chewy',
         additions: ['root vegetables', 'hardy greens', 'vinaigrette'],
         service: 'room temperature'
@@ -503,9 +477,8 @@ const rawWholeGrains = {
       basic_cooking: {
         ratio: '1:3 rice to water',
         cooking_time: '45-55 minutes',
-        method: 'simmer until grains split'
-      },
-      pilaf_method: {
+        method: 'simmer until grains split' },
+        pilaf_method: {
         steps: ['toast in oil', 'add aromatics', 'simmer in broth', 'steam finish'],
         notes: 'enhances nutty flavor'
       }
@@ -536,9 +509,8 @@ const rawWholeGrains = {
       basic_cooking: {
         ratio: '1:3 triticale to water',
         cooking_time: '45-60 minutes',
-        method: 'simmer until tender'
-      },
-      overnight_method: {
+        method: 'simmer until tender' },
+        overnight_method: {
         soaking: '8-12 hours',
         cooking_time: '30-40 minutes',
         benefits: 'quicker cooking, better absorption'
@@ -548,9 +520,8 @@ const rawWholeGrains = {
       breakfast_cereal: {
         method: 'cook until soft',
         additions: ['dried fruits', 'seeds', 'milk'],
-        service: 'hot'
-      },
-      grain_salad: {
+        service: 'hot' },
+        grain_salad: {
         method: 'cook until chewy',
         additions: ['roasted vegetables', 'fresh herbs', 'citrus'],
         service: 'room temperature'
@@ -575,9 +546,9 @@ const rawWholeGrains = {
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Moon' }
-          second: { element: 'Water', planet: 'Venus' }
-          third: { element: 'Air', planet: 'Mercury' }
+          first: { element: 'Earth', planet: 'Moon' },
+        second: { element: 'Water', planet: 'Venus' },
+        third: { element: 'Air', planet: 'Mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -597,9 +568,8 @@ const rawWholeGrains = {
       short_grain: {
         characteristics: 'sticky, plump',
         cooking_ratio: '1:2 rice to water',
-        cooking_time: '45-50 minutes'
-      },
-      long_grain: {
+        cooking_time: '45-50 minutes' },
+        long_grain: {
         characteristics: 'fluffy, separate grains',
         cooking_ratio: '1:2.25 rice to water',
         cooking_time: '45-50 minutes'
@@ -626,9 +596,8 @@ const rawWholeGrains = {
       basic_cooking: {
         ratio: '1:3 barley to water',
         cooking_time: '60-75 minutes',
-        method: 'simmer until tender'
-      },
-      soaked_method: {
+        method: 'simmer until tender' },
+        soaked_method: {
         soaking: '8-12 hours',
         cooking_time: '45-60 minutes',
         benefits: 'improved texture and digestibility'
@@ -638,9 +607,8 @@ const rawWholeGrains = {
       bread_making: {
         method: 'grind fresh',
         fermentation: 'longer rise time needed',
-        notes: 'pairs well with sourdough'
-      },
-      hearty_salads: {
+        notes: 'pairs well with sourdough' },
+        hearty_salads: {
         method: 'cook until chewy',
         additions: ['root vegetables', 'hardy greens', 'vinaigrette'],
         service: 'room temperature'
@@ -663,5 +631,5 @@ export const wholeGrains: Record<string, IngredientMapping> = fixIngredientMappi
 
 // Create a collection of all whole grains
 export const _allWholeGrains = Object.values(wholeGrains)
-
+;
 export default wholeGrains,

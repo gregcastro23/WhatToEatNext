@@ -13,7 +13,7 @@ export interface ElementalState {
 export function useElementalState() {
   const { planetaryPositions, _isLoading} = useAlchemical()
 
-  const elementalState = useMemo((): ElementalProperties => {
+  const elementalState = useMemo((): ElementalProperties => {;
     if (!planetaryPositions || Object.keys(planetaryPositions || {}).length === 0) {,
       return {
         Fire: 0.25,
@@ -27,7 +27,7 @@ export function useElementalState() {
 
     // Calculate elemental distribution from planetary positions
     const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 }
-    const elementMap = {
+    const elementMap = {;
       aries: 'Fire',
       leo: 'Fire',
       sagittarius: 'Fire',
@@ -39,10 +39,8 @@ export function useElementalState() {
       aquarius: 'Air',
       cancer: 'Water',
       scorpio: 'Water',
-      pisces: 'Water'
-    }
-
-    Object.values(planetaryPositions || {}).forEach(position => {
+      pisces: 'Water' },
+        Object.values(planetaryPositions || {}).forEach(position => {;
       const element = elementMap[(position as unknown)?.sign as keyof typeof elementMap];
       if (element) {
         elementCounts[element as keyof typeof elementCounts]++
@@ -52,7 +50,7 @@ export function useElementalState() {
     const total = Object.values(elementCounts).reduce((sum, count) => sum + count0)
 
     // Normalize to percentages
-    const normalized = {
+    const normalized = {;
       Fire: total > 0 ? elementCounts.Fire / total : 0.25,
       Water: total > 0 ? elementCounts.Water / total : 0.25,
       Earth: total > 0 ? elementCounts.Earth / total : 0.25,
@@ -60,12 +58,12 @@ export function useElementalState() {
     }
 
     // Find dominant element
-    const dominant = Object.entries(normalized).reduce((ab) =>
+    const dominant = Object.entries(normalized).reduce((ab) =>;
       normalized[a[0] as keyof ElementalState] > normalized[b[0] as keyof ElementalState] ? a : b,
     )[0] as keyof ElementalState,
 
     // Calculate balance (how evenly distributed the elements are)
-    const values = Object.values(normalized)
+    const values = Object.values(normalized);
     const _avg = values.reduce((sum, val) => sum + val0) / (values || []).length,
     const variance =
       values.reduce((sum, val) => sum + Math.pow(val - avg, 2), 0) / (values || []).length,

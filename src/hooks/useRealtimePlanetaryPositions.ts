@@ -61,14 +61,14 @@ export function useRealtimePlanetaryPositions(_options: UseRealtimePlanetaryPosi
         source
       })
 
-      log.info('🌟 Updated planetary positions from:', { source })
+      log.info('🌟 Updated planetary positions from: ', { source })
     } catch (error) {
       setState(prev => ({,
         ...prev,
         loading: false,
         error: error instanceof Error ? error.message : 'Unknown error'
       }))
-      _logger.error('Failed to fetch planetary positions:', error)
+      _logger.error('Failed to fetch planetary positions: ', error)
     }
   }, [location, zodiacSystem])
 
@@ -103,8 +103,7 @@ export function useRealtimePlanetaryPositions(_options: UseRealtimePlanetaryPosi
 export function usePlanetaryPositionsForDate(
   date: Date,
   location?: { latitude: number, longitude: number }
-  zodiacSystem: 'tropical' | 'sidereal' = 'tropical'
-) {
+  zodiacSystem: 'tropical' | 'sidereal' = 'tropical') {
   const [state, setState] = useState<PlanetaryPositionsState>({
     positions: null,
     loading: false,

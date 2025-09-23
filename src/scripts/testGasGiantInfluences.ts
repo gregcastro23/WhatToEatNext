@@ -23,7 +23,7 @@ async function testGasGiantInfluences() {
   const _jupiter = influences.dominantPlanets?.find(p => p.name === 'Jupiter')
   const _saturn = influences.dominantPlanets?.find(p => p.name === 'Saturn')
 
-  _logger.info('Current Influences: ')
+  _logger.info('Current Influences: ');
   _logger.info(`Zodiac Sign: ${influences.zodiacSign || 'unknown'}`)
   _logger.info(`Lunar Phase: ${influences.lunarPhase || 'unknown'}`)
 
@@ -31,7 +31,7 @@ async function testGasGiantInfluences() {
   if (influences.dominantPlanets) {
     for (const planet of influences.dominantPlanets) {
       if (planet.name === 'Jupiter' || planet.name === 'Saturn') {
-        _logger.info(
+        _logger.info(;
           `${planet.name}: influence = ${planet.influence}, effect = ${planet.effect || 'balanced'}`,
         )
       }
@@ -46,7 +46,7 @@ async function testGasGiantInfluences() {
       (aspect.planet1 === 'Jupiter' || aspect.planet1 === 'Saturn') &&
       (aspect.planet2 === 'Jupiter' || aspect.planet2 === 'Saturn')
     ) {
-      _logger.info(
+      _logger.info(;
         `${aspect.planet1} ${aspect.type} ${aspect.planet2}, strength: ${aspect.strength || aspect.orb}`,
       )
     }
@@ -64,4 +64,4 @@ async function testGasGiantInfluences() {
 // Execute the test
 testGasGiantInfluences()
   .then(() => _logger.info('\nTest completed successfully!'))
-  .catch(error => _logger.error('Test failed:', error))
+  .catch(error => _logger.error('Test failed: ', error))

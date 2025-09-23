@@ -7,10 +7,9 @@ import type { ThermodynamicProperties } from '@/types/shared';
  * Cooking food in liquid at a temperature just below boiling point (185-200°F/85-93°C)
  * Gentler than boiling, with small bubbles occasionally breaking the surface
  */
-export const simmering: CookingMethodData = {
+export const simmering: CookingMethodData = {;
   name: 'simmering',
-  description:
-    'A gentle cooking technique where food is cooked in liquid maintained just below the boiling point. Small bubbles occasionally break the surface, creating a gentle agitation that slowly tenderizes food while maintaining its structural integrity. Ideal for delicate ingredients and long, slow cooking.',
+  description: 'A gentle cooking technique where food is cooked in liquid maintained just below the boiling point. Small bubbles occasionally break the surface, creating a gentle agitation that slowly tenderizes food while maintaining its structural integrity. Ideal for delicate ingredients and long, slow cooking.',
   elementalEffect: {
     Water: 0.8,
     Fire: 0.1,
@@ -208,8 +207,7 @@ export const simmering: CookingMethodData = {
   } as ThermodynamicProperties,
 
   // Additional metadata
-  history:
-    'Simmering is one of humanity\'s earliest refined cooking techniques, developed once humans mastered controlled fire and created vessels that could withstand heat. Archaeological evidence suggests controlled simmering dates back to at least 10,000 BCE. The technique was refined in ancient civilizations like China, where clay and bronze vessels were specifically designed for slow cooking. In medieval Europe, the cauldron suspended above a hearth allowed for precise simmering control. The technique gained scientific understanding during the 18th century with advancements in thermodynamics. Traditional cultures worldwide developed specialized simmering vessels, from the Moroccan tagine to the Japanese donabe, each designed to maintain ideal simmering conditions for regional cuisines.',
+  history: 'Simmering is one of humanity\'s earliest refined cooking techniques, developed once humans mastered controlled fire and created vessels that could withstand heat. Archaeological evidence suggests controlled simmering dates back to at least 10,000 BCE. The technique was refined in ancient civilizations like China, where clay and bronze vessels were specifically designed for slow cooking. In medieval Europe, the cauldron suspended above a hearth allowed for precise simmering control. The technique gained scientific understanding during the 18th century with advancements in thermodynamics. Traditional cultures worldwide developed specialized simmering vessels, from the Moroccan tagine to the Japanese donabe, each designed to maintain ideal simmering conditions for regional cuisines.',
 
   scientificPrinciples: [
     'Convection currents distribute heat throughout liquid without violent agitation',

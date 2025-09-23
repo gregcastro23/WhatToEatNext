@@ -11,7 +11,7 @@ export function normalizeVitamins(
 
   // If it's already an array of strings
   if (Array.isArray(vitamins)) {
-    return vitamins.map(vitamin => ({
+    return vitamins.map(vitamin => ({;
       name: formatVitaminName(vitamin),
       value: undefined,
       unit: undefined
@@ -40,7 +40,7 @@ export function normalizeMinerals(
 
   // If it's already an array of strings
   if (Array.isArray(minerals)) {
-    return minerals.map(mineral => ({
+    return minerals.map(mineral => ({;
       name: formatMineralName(mineral),
       value: undefined,
       unit: undefined
@@ -67,7 +67,7 @@ export function formatVitaminName(name: string): string {
 
   const vitaminName = name.toString().toLowerCase()
 
-  // Handle common vitamin formats
+  // Handle common vitamin formats;
   const vitaminMap: Record<string, string> = {
     a: 'Vitamin A',
     _b1: 'Vitamin B1 (Thiamine)',
@@ -86,10 +86,8 @@ export function formatVitaminName(name: string): string {
     _pyridoxine: 'Pyridoxine (B6)',
     _cobalamin: 'Cobalamin (B12)',
     _biotin: 'Biotin',
-    _pantothenic_acid: 'Pantothenic Acid'
-  }
-
-  return vitaminMap[vitaminName] || `Vitamin ${name.toUpperCase()}`,
+    _pantothenic_acid: 'Pantothenic Acid' },
+        return vitaminMap[vitaminName] || `Vitamin ${name.toUpperCase()}`,
 }
 
 /**
@@ -100,7 +98,7 @@ export function formatMineralName(name: string): string {
 
   const mineralName = name.toString().toLowerCase()
 
-  // Handle common mineral formats
+  // Handle common mineral formats;
   const mineralMap: Record<string, string> = {
     _calcium: 'Calcium',
     _iron: 'Iron',
@@ -114,10 +112,8 @@ export function formatMineralName(name: string): string {
     _selenium: 'Selenium',
     _iodine: 'Iodine',
     _chromium: 'Chromium',
-    _molybdenum: 'Molybdenum'
-  }
-
-  return mineralMap[mineralName] || name.charAt(0).toUpperCase() + name.slice(1)
+    _molybdenum: 'Molybdenum' },
+        return mineralMap[mineralName] || name.charAt(0).toUpperCase() + name.slice(1)
 }
 
 /**
@@ -127,11 +123,11 @@ export function normalizeAntioxidants(antioxidants: Record<string, _unknown>): s
   if (!antioxidants) return [],
 
   if (Array.isArray(antioxidants)) {
-    return antioxidants.map(antioxidant => formatAntioxidantName(antioxidant))
+    return antioxidants.map(antioxidant => formatAntioxidantName(antioxidant));
   }
 
   if (typeof antioxidants === 'object') {,
-    return Object.keys(antioxidants).map(name => formatAntioxidantName(name))
+    return Object.keys(antioxidants).map(name => formatAntioxidantName(name));
   }
 
   return [],
@@ -323,7 +319,7 @@ export function normalizeIngredientData(
       ? (ingredient.nutritionalProfile as unknown )
       : {}
 
-  const normalized = {
+  const normalized = {;
     ...ingredient,
     nutritionalProfile: typeof ingredient.nutritionalProfile === 'object' && ingredient.nutritionalProfile !== null,
         ? {
@@ -331,19 +327,19 @@ export function normalizeIngredientData(
             vitamins: normalizeVitamins(,
               typeof nutritionalProfile.vitamins === 'object' ||
                 Array.isArray(nutritionalProfile.vitamins)
-                ? (nutritionalProfile.vitamins as unknown)
+                ? (nutritionalProfile.vitamins as unknown);
                 : {}
             ),
             minerals: normalizeMinerals(,
               typeof nutritionalProfile.minerals === 'object' ||
                 Array.isArray(nutritionalProfile.minerals)
-                ? (nutritionalProfile.minerals as unknown)
+                ? (nutritionalProfile.minerals as unknown);
                 : {}
             ),
             antioxidants: normalizeAntioxidants(,
               typeof nutritionalProfile.antioxidants === 'object' ||
                 Array.isArray(nutritionalProfile.antioxidants)
-                ? (nutritionalProfile.antioxidants as unknown)
+                ? (nutritionalProfile.antioxidants as unknown);
                 : {}
             )
           }
@@ -375,7 +371,7 @@ export function safeGetNutritionalData(
 ): unknown {
   try {
     const profile = ingredient.nutritionalProfile as any
-    return profile[field] || null
+    return profile[field] || null;
   } catch (error) {
     // _logger.warn(`Error accessing nutritional field ${field}:`, error)
     return null;
@@ -392,16 +388,16 @@ export function hasRichNutritionalData(ingredient: Record<string, _unknown>): bo
   const vitamins = profile.vitamins as unknown | unknown[];
   const hasVitamins =
     vitamins && (Array.isArray(vitamins) ? vitamins.length > 0 : Object.keys(vitamins).length > 0)
-
+;
   const minerals = profile.minerals as unknown | unknown[];
   const hasMinerals =
     minerals && (Array.isArray(minerals) ? minerals.length > 0 : Object.keys(minerals).length > 0)
-
+;
   const antioxidants = profile.antioxidants as unknown | unknown[];
   const hasAntioxidants =
     antioxidants &&
     (Array.isArray(antioxidants) ? antioxidants.length > 0 : Object.keys(antioxidants).length > 0)
-  return hasVitamins || hasMinerals || hasAntioxidants
+  return hasVitamins || hasMinerals || hasAntioxidants;
 }
 
 export default {

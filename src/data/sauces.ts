@@ -36,8 +36,7 @@ export interface SauceRecommendation {
 export const italianSauces: Record<string, Sauce> = {
   marinara: {
     name: 'Marinara',
-    description:
-      'Simple tomato sauce with garlic, olive oil and herbs, perfect for pasta, pizza and dipping. Authentic marinara balances the acidity of tomatoes with the aromatics of herbs and garlic.',
+    description: 'Simple tomato sauce with garlic, olive oil and herbs, perfect for pasta, pizza and dipping. Authentic marinara balances the acidity of tomatoes with the aromatics of herbs and garlic.',
     base: 'tomato',
     keyIngredients: ['tomatoes', 'garlic', 'olive oil', 'basil', 'oregano'],
     culinaryUses: ['pasta sauce', 'pizza base', 'dipping sauce', 'casserole base'],
@@ -79,12 +78,10 @@ export const italianSauces: Record<string, Sauce> = {
     prepTime: '10 minutes',
     cookTime: '30 minutes',
     difficulty: 'Easy',
-    yield: 'Makes about 3 cups'
-  },
-  pesto: {
+    yield: 'Makes about 3 cups' },
+        pesto: {
     name: 'Pesto alla Genovese',
-    description:
-      'Fresh basil sauce with pine nuts, garlic, Parmesan and olive oil. A vibrant, uncooked sauce that brings bright, herbaceous flavors to any dish.',
+    description: 'Fresh basil sauce with pine nuts, garlic, Parmesan and olive oil. A vibrant, uncooked sauce that brings bright, herbaceous flavors to any dish.',
     base: 'herb',
     keyIngredients: [
       'basil leaves',
@@ -127,12 +124,10 @@ export const italianSauces: Record<string, Sauce> = {
     prepTime: '15 minutes',
     cookTime: '0 minutes',
     difficulty: 'Easy',
-    yield: 'Makes about 1 cup'
-  },
-  carbonara: {
+    yield: 'Makes about 1 cup' },
+        carbonara: {
     name: 'Carbonara',
-    description:
-      'Silky sauce of eggs, hard cheese, cured pork and black pepper. A rich, creamy sauce that relies on the emulsion of eggs and cheese with pasta cooking water rather than cream.',
+    description: 'Silky sauce of eggs, hard cheese, cured pork and black pepper. A rich, creamy sauce that relies on the emulsion of eggs and cheese with pasta cooking water rather than cream.',
     base: 'egg',
     keyIngredients: ['eggs', 'Pecorino Romano', 'guanciale', 'black pepper'],
     culinaryUses: ['pasta sauce', 'sauce for gnocchi', 'savory custard base'],
@@ -150,8 +145,7 @@ export const italianSauces: Record<string, Sauce> = {
     astrologicalInfluences: ['Jupiter', 'Mars', 'aries'],
     seasonality: 'all',
     preparationNotes: 'Never add cream - authentic carbonara is creamy from eggs alone',
-    technicalTips:
-      'Temper eggs carefully to prevent scrambling, use pasta water to adjust consistency',
+    technicalTips: 'Temper eggs carefully to prevent scrambling, use pasta water to adjust consistency',
     cuisine: 'Italian',
     ingredients: [
       '4 large egg yolksat room temperature',
@@ -178,12 +172,10 @@ export const italianSauces: Record<string, Sauce> = {
     prepTime: '15 minutes',
     cookTime: '15 minutes',
     difficulty: 'Medium',
-    yield: 'Serves 4'
-  },
-  ragu: {
+    yield: 'Serves 4' },
+        ragu: {
     name: 'Ragù alla Bolognese',
-    description:
-      'Rich, slow-cooked meat sauce from Bologna. A deep, complex sauce that develops flavor over hours of gentle simmering, with meat as the star ingredient rather than tomatoes.',
+    description: 'Rich, slow-cooked meat sauce from Bologna. A deep, complex sauce that develops flavor over hours of gentle simmering, with meat as the star ingredient rather than tomatoes.',
     base: 'meat',
     keyIngredients: ['beef', 'pork', 'soffritto', 'tomato paste', 'wine', 'milk'],
     culinaryUses: ['pasta sauce', 'lasagna filling', 'polenta topping', 'stuffed pasta filling'],
@@ -234,12 +226,10 @@ export const italianSauces: Record<string, Sauce> = {
     prepTime: '30 minutes',
     cookTime: '3-4 hours',
     difficulty: 'Medium',
-    yield: 'Makes about 6 cups (enough for 8-10 servings)'
-  },
-  bechamel: {
+    yield: 'Makes about 6 cups (enough for 8-10 servings)' },
+        bechamel: {
     name: 'Besciamella',
-    description:
-      'Classic white sauce made from roux and milk. A silky, versatile mother sauce that forms the base of countless dishes, from lasagna to gratins.',
+    description: 'Classic white sauce made from roux and milk. A silky, versatile mother sauce that forms the base of countless dishes, from lasagna to gratins.',
     base: 'dairy',
     keyIngredients: ['butter', 'flour', 'milk', 'nutmeg', 'bay leaf'],
     culinaryUses: [
@@ -258,8 +248,7 @@ export const italianSauces: Record<string, Sauce> = {
     astrologicalInfluences: ['Moon', 'Venus', 'cancer'],
     seasonality: 'all',
     preparationNotes: 'For silky texture, add hot milk to roux gradually while whisking constantly',
-    technicalTips:
-      'Infuse milk with bay leaf, onion, and clove before making sauce for depth of flavor',
+    technicalTips: 'Infuse milk with bay leaf, onion, and clove before making sauce for depth of flavor',
     cuisine: 'Italian',
     ingredients: [
       '5 tbsp (70g) unsalted butter',
@@ -282,17 +271,14 @@ export const italianSauces: Record<string, Sauce> = {
       'Add nutmeg, salt, and white pepper. Taste and adjust seasoning if needed.',
       'For a silkier texture, strain the finished sauce through a fine-mesh sieve.'
     ],
-    storageInstructions:
-      'Press plastic wrap directly onto the surface to prevent a skin from forming. Refrigerate for up to 3 days. Reheat gently, whisking to restore smooth consistency.',
+    storageInstructions: 'Press plastic wrap directly onto the surface to prevent a skin from forming. Refrigerate for up to 3 days. Reheat gently, whisking to restore smooth consistency.',
     prepTime: '5 minutes',
     cookTime: '25 minutes',
     difficulty: 'Medium',
-    yield: 'Makes about 4 cups'
-  },
-  arrabbiata: {
+    yield: 'Makes about 4 cups' },
+        arrabbiata: {
     name: 'Arrabbiata',
-    description:
-      'Spicy tomato sauce with garlic and chili peppers. The name means 'angry' in Italian, referring to the fiery heat that distinguishes this bold sauce.',
+    description: 'Spicy tomato sauce with garlic and chili peppers. The name means 'angry' in Italian, referring to the fiery heat that distinguishes this bold sauce.',
     base: 'tomato',
     keyIngredients: ['tomatoes', 'garlic', 'chili peppers', 'olive oil', 'parsley'],
     culinaryUses: ['pasta sauce', 'pizza topping', 'protein topping', 'dipping sauce'],
@@ -340,8 +326,7 @@ export const italianSauces: Record<string, Sauce> = {
 export const mexicanSauces: Record<string, Sauce> = {
   mole: {
     name: 'Mole Poblano',
-    description:
-      'Complex sauce combining chilis, chocolate, nuts, and spices. This iconic Mexican sauce balances heat, sweetness, and richness with dozens of ingredients meticulously blended together.',
+    description: 'Complex sauce combining chilis, chocolate, nuts, and spices. This iconic Mexican sauce balances heat, sweetness, and richness with dozens of ingredients meticulously blended together.',
     base: 'chili',
     keyIngredients: ['dried chilies', 'chocolate', 'nuts', 'seeds', 'spices'],
     culinaryUses: ['protein topping', 'enchilada sauce', 'tamale filling'],
@@ -394,12 +379,10 @@ export const mexicanSauces: Record<string, Sauce> = {
     prepTime: '45 minutes',
     cookTime: '1 hour',
     difficulty: 'Complex',
-    yield: 'Makes about 4 cups'
-  },
-  salsa: {
+    yield: 'Makes about 4 cups' },
+        salsa: {
     name: 'Salsa Roja',
-    description:
-      'Fresh or cooked tomato-based sauce with chilies and aromatics. A vibrant, versatile sauce that can range from mild to fiery depending on the chilies used.',
+    description: 'Fresh or cooked tomato-based sauce with chilies and aromatics. A vibrant, versatile sauce that can range from mild to fiery depending on the chilies used.',
     base: 'tomato',
     keyIngredients: ['tomatoes', 'chilies', 'onion', 'cilantro', 'lime'],
     culinaryUses: ['dip', 'topping', 'marinade', 'cooking sauce'],
@@ -425,7 +408,7 @@ export const mexicanSauces: Record<string, Sauce> = {
       '1 tbsp vegetable oil (for roasted version)'
     ],
     preparationSteps: [
-      'Fresh (Raw) Method:',
+      'Fresh (Raw) Method: ',
       'Roughly chop tomatoes, chilies, and onion.',
       'Place all ingredients except cilantro and lime juice in a food processor or blender.',
       'Pulse to desired consistency - chunky or smooth.',
@@ -433,7 +416,7 @@ export const mexicanSauces: Record<string, Sauce> = {
       'Adjust seasoning with salt to taste.',
       'Let sit for at least 30 minutes before serving to allow flavors to meld.',
       '',
-      'Roasted Method:',
+      'Roasted Method: ',
       'Preheat oven to 450°F (230°C) or heat a comal/cast-iron skillet over medium-high heat.',
       'Place whole tomatoes, chilies, onion quarters, and garlic on a baking sheet. Drizzle with oil.',
       'Roast for 15-20 minutes, turning once, until vegetables have charred spots and tomatoes are soft.',
@@ -454,8 +437,7 @@ export const mexicanSauces: Record<string, Sauce> = {
 export const asianSauces: Record<string, Sauce> = {
   thaiGreenCurry: {
     name: 'Thai Green Curry Paste',
-    description:
-      'Aromatic and vibrant curry paste made with fresh green chilies, lemongrass, galangal and aromatic herbs. The foundation of Thai green curry dishes.',
+    description: 'Aromatic and vibrant curry paste made with fresh green chilies, lemongrass, galangal and aromatic herbs. The foundation of Thai green curry dishes.',
     base: 'herb-chili',
     keyIngredients: ['green chilies', 'lemongrass', 'galangal', 'kaffir lime', 'coriander root'],
     culinaryUses: ['curry base', 'marinade', 'stir-fry seasoning', 'soup flavoring'],
@@ -510,7 +492,7 @@ export const allSauces: Record<string, Sauce> = {
 // Sauce recommendations
 export const sauceRecommendations: SauceRecommendation = {
   forProtein: {
-    beef: [
+    beef: [;
       'ragù alla Bolognese',
       'sugo di carne',
       'salsa alla pizzaiola',
@@ -564,7 +546,7 @@ export const sauceRecommendations: SauceRecommendation = {
 
 // Helper functions
 export function getSaucesByAstrologicalInfluence(influence: string): Sauce[] {
-  return Object.values(allSauces).filter(sauce =>
+  return Object.values(allSauces).filter(sauce =>;
     sauce.astrologicalInfluences.some(infl => infl.toLowerCase() === influence.toLowerCase()),,
   )
 }
@@ -572,7 +554,7 @@ export function getSaucesByAstrologicalInfluence(influence: string): Sauce[] {
 export function getSaucesByElement(element: keyof ElementalProperties): Sauce[] {
   return Object.values(allSauces).filter(sauce => {
     // Find the dominant element
-    const dominantElement = Object.entries(sauce.elementalProperties).sort(
+    const dominantElement = Object.entries(sauce.elementalProperties).sort(;
       ([, a], [, b]) => b - a,
     )[0][0],
     return dominantElement === element,
@@ -583,7 +565,7 @@ export function getMarsInfluencedSauces(): Sauce[] {
   return getSaucesByAstrologicalInfluence('Mars')
 }
 
-const saucesExport = {
+const saucesExport = {;
   italianSauces,
   mexicanSauces,
   asianSauces,

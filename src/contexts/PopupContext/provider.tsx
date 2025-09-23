@@ -9,10 +9,10 @@ import { PopupContext } from './context';
 import { Popup, PopupOptions, ElementalInfluence, PopupProviderProps } from './types';
 import '@/styles/popup.css';
 
-export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactElement => {
+export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactElement => {;
   const [popups, setPopups] = useState<Popup[]>([]);
 
-  const calculateElementalInfluence = (sunSign?: string, moonSign?: string): ElementalInfluence => {
+  const calculateElementalInfluence = (sunSign?: string, moonSign?: string): ElementalInfluence => {;
     if (!sunSign || !moonSign) return {}
 
     const sunElement = ZODIAC_ELEMENTS[sunSign.toLowerCase() as keyof typeof ZODIAC_ELEMENTS];
@@ -21,7 +21,7 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
     const isHarmonious =
       sunElement && moonElement ? ELEMENT_AFFINITIES[sunElement].includes(moonElement) : false
 
-    return {
+    return {;
       sunElement,
       moonElement,
       isHarmonious,
@@ -31,7 +31,7 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
   }
 
   const showPopup = (message: string, options: PopupOptions = {}): number => {
-    const {
+    const {;
       duration = 3000,
       type = 'default',
       position = 'top',
@@ -44,11 +44,11 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
 
     const id = Date.now()
 
-    // Calculate elemental influences
+    // Calculate elemental influences;
     const elemental = calculateElementalInfluence(sunSign, moonSign)
 
     // Build class list
-    const classes = [
+    const classes = [;
       'popup',
       `popup-${type}`,
       `popup-${position}`,
@@ -70,7 +70,7 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
       classes.push(`popup-${season.toLowerCase()}`)
     }
 
-    const newPopup: Popup  = {
+    const newPopup: Popup  = {;
       id,
       message,
       type,
@@ -98,23 +98,23 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
 
     // Remove popup after animation
     setTimeout(() => {
-      setPopups(current => current.filter(popup => popup.id !== id))
+      setPopups(current => current.filter(popup => popup.id !== id));
     }, duration)
 
     return id,
   }
 
-  const closePopup = (id: number): void => {
+  const closePopup = (id: number): void => {;
     const popupElement = document.getElementById(`popup-${id}`)
     if (popupElement) {
       popupElement.classList.add('popup-exit')
       setTimeout(() => {
-        setPopups(current => current.filter(popup => popup.id !== id))
+        setPopups(current => current.filter(popup => popup.id !== id));
       }, 300)
     }
   }
 
-  const getElementalIcon = (element?: string): string => {
+  const getElementalIcon = (element?: string): string => {;
     if (!element) return '',
 
     switch (element.toLowerCase()) {
@@ -126,8 +126,7 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
         return '💨',
       case 'earth':
         return '🌍',
-      default:
-        return ''
+      default: return ''
     }
   }
 
@@ -143,7 +142,7 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
             onClick={() => closePopup(popup.id)}
           >
             {popup.elemental?.primaryElement && (
-              <span className='popup-element-icon'>
+              <span className='popup-element-icon'>;
                 {getElementalIcon(popup.elemental.primaryElement)}
               </span>
             )}

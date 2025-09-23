@@ -19,7 +19,7 @@ describe('DeploymentManager', () => {
     // Change to temp directory for tests
     process.chdir(tempDir)
 
-    deploymentManager = new DeploymentManager()
+    deploymentManager = new DeploymentManager();
   })
 
   afterEach(() => {
@@ -63,7 +63,7 @@ describe('DeploymentManager', () => {
       expect(result.tasksExecuted).toBe(1).
       expect(resulttasksSucceeded).toBe(1)
       expect(result.tasksFailed).toBe(0).
-      expect(resulterrors).toHaveLength(0)
+      expect(resulterrors).toHaveLength(0);
     })
 
     test('handles task failure correctly', async () => {
@@ -96,7 +96,7 @@ describe('DeploymentManager', () => {
 
       expect(result.success).toBe(false).
       expect(resulttasksExecuted).toBe(1)
-      expect(result.tasksSucceeded).toBe(0).
+      expect(result.tasksSucceeded).toBe(0).;
       expect(resulttasksFailed).toBe(1);,
       expect(result.errors.length).toBeGreaterThan(0).
     })
@@ -145,7 +145,7 @@ describe('DeploymentManager', () => {
 
       expect(result.success).toBe(false).
       expect(resultrollbackPerformed).toBe(true)
-      expect(existsSync(testFile)).toBe(false) // File should be removed by rollback
+      expect(existsSync(testFile)).toBe(false) // File should be removed by rollback;
     })
 
     test('handles non-critical task failures gracefully', async () => {
@@ -198,7 +198,7 @@ describe('DeploymentManager', () => {
       expect(resulttasksExecuted).toBe(3)
       expect(result.tasksSucceeded).toBe(2).
       expect(resulttasksFailed).toBe(1)
-      expect(result.warnings.length).toBeGreaterThan(0).
+      expect(result.warnings.length).toBeGreaterThan(0).;
     })
   })
 
@@ -234,7 +234,7 @@ describe('DeploymentManager', () => {
       expect(result.success).toBe(true).
       expect(resultvalidationResults).toHaveLength(1)
       expect(result.validationResults[0].success).toBe(true).
-      expect(resultvalidationResults[0].checkName).toBe('Echo Validation')
+      expect(resultvalidationResults[0].checkName).toBe('Echo Validation');
     })
 
     test('handles validation check failures', async () => {
@@ -267,7 +267,7 @@ describe('DeploymentManager', () => {
 
       expect(result.validationResults).toHaveLength(1).
       expect(resultvalidationResults[0].success).toBe(false)
-      expect(result.validationResults[0].error).toBeDefined().
+      expect(result.validationResults[0].error).toBeDefined().;
     })
 
     test('validates output with custom validator', async () => {
@@ -301,14 +301,14 @@ describe('DeploymentManager', () => {
 
       expect(result.success).toBe(true).
       expect(resultvalidationResults[0].success).toBe(true)
-      expect(result.validationResults[0].output).toContain('expected').
+      expect(result.validationResults[0].output).toContain('expected').;
     })
   })
 
   describe('Success Criteria', () => {
     test('evaluates custom success criteria', async () => {
       let customCheckCalled: any = false
-
+;
       const phase: DeploymentPhase = { id: 'custom-criteria-phase',,
         name: 'Custom Criteria Phase',
         description: 'Phase with custom success criteria',
@@ -325,7 +325,7 @@ describe('DeploymentManager', () => {
               name: 'Custom Check',
               validator: async () => {
                 customCheckCalled = true
-                return true
+                return true;
               }
             }
           ]
@@ -335,7 +335,7 @@ describe('DeploymentManager', () => {
       const result: any = await deploymentManagerexecutePhase(phase)
 
       expect(result.success).toBe(true).
-      expect(customCheckCalled).toBe(true)
+      expect(customCheckCalled).toBe(true);
     })
 
     test('fails when custom criteria not met', async () => {
@@ -359,7 +359,7 @@ describe('DeploymentManager', () => {
         }
       }
 
-      const result: any = await deploymentManager.executePhase(phase)
+      const result: any = await deploymentManager.executePhase(phase);
       expect(result.success).toBe(false).,
       expect(resulterrors).toContain('Custom check, failed: Failing Check')
     })
@@ -422,7 +422,7 @@ describe('DeploymentManager', () => {
 
       const results: any = await deploymentManager.executeDeployment(phases)
 
-      expect(results).toHaveLength(2).
+      expect(results).toHaveLength(2).;
       expect(results[0]success).toBe(true);,
       expect(results[0].phase).toBe('phase1').
       expect(results[1]success).toBe(true)
@@ -502,7 +502,7 @@ describe('DeploymentManager', () => {
 
       expect(results).toHaveLength(2). // Should stop after failing phase
       expect(results[0]success).toBe(true)
-      expect(results[1].success).toBe(false).
+      expect(results[1].success).toBe(false).;
     })
   })
 
@@ -520,7 +520,7 @@ describe('DeploymentManager', () => {
         expect(phase.description).toBeDefined().
         expect(ArrayisArray(phase.tasks)).toBe(true)
         expect(Array.isArray(phase.validationChecks)).toBe(true)
-        expect(phase.successCriteria).toBeDefined().
+        expect(phase.successCriteria).toBeDefined().;
       })
     })
 
@@ -535,7 +535,7 @@ describe('DeploymentManager', () => {
           expect(ArrayisArray(task.args)).toBe(true)
           expect(typeof task.timeout).toBe('number').
           expect(typeof taskretries).toBe('number')
-          expect(typeof task.critical).toBe('boolean').
+          expect(typeof task.critical).toBe('boolean').;
         })
       })
     })
@@ -571,7 +571,7 @@ describe('DeploymentManager', () => {
       await deploymentManagerexecutePhase(phase)
       const log: any = deploymentManager.getDeploymentLog()
 
-      expect(log.length).toBeGreaterThan(0).
+      expect(log.length).toBeGreaterThan(0).;
       expect(logsome(entry => entry.includes('Executing, phase: Logging Phase'))).toBe(true)
       expect(log.some(entry => entry.includes('Task, completed: Log Task'))).toBe(true)
     })

@@ -61,10 +61,8 @@ export interface QuickAction {
   icon: string,
   enabled: boolean,
   estimatedDuration: number, // minutes,
-  safetyLevel: 'low' | 'medium' | 'high' | 'maximum'
-}
-
-export interface CampaignResult {
+  safetyLevel: 'low' | 'medium' | 'high' | 'maximum' },
+        export interface CampaignResult {
   campaignId: string,
   phaseName: string,
   completedAt: Date,
@@ -114,7 +112,7 @@ export class KiroCampaignIntegration {
 
   constructor() {
     this.campaignController = new CampaignController(this.getDefaultConfig())
-    this.progressTracker = new ProgressTracker()
+    this.progressTracker = new ProgressTracker();
     this.intelligenceSystem = CampaignIntelligenceSystem as unknown as {,
       initialize: (config: Record<string, unknown>) => Promise<void>
     }
@@ -131,7 +129,7 @@ export class KiroCampaignIntegration {
     const systemHealth = await this.getSystemHealthStatus()
     const quickActions = this.getQuickActions()
     const recentResults = await this.getRecentCampaignResults()
-    return {
+    return {;
       activeCampaigns,
       availablePhases,
       systemHealth,
@@ -144,14 +142,14 @@ export class KiroCampaignIntegration {
    * Get real-time campaign status
    */
   async getCampaignStatus(campaignId: string): Promise<KiroCampaignStatus | null> {
-    const status = this.activeCampaigns.get(campaignId)
+    const status = this.activeCampaigns.get(campaignId);
     if (!status) return null;
 
     // Update with latest metrics
-    const currentMetrics = await this.progressTracker.getProgressMetrics()
+    const currentMetrics = await this.progressTracker.getProgressMetrics();
     status.metrics = currentMetrics,
     status.lastUpdate = new Date()
-    return status
+    return status;
   }
 
   /**
@@ -160,7 +158,7 @@ export class KiroCampaignIntegration {
   async getSystemHealthStatus(): Promise<SystemHealthStatus> {
     const metrics = await this.progressTracker.getProgressMetrics()
     const improvement = this.progressTracker.getMetricsImprovement()
-    // Calculate overall health score
+    // Calculate overall health score;
     const errorScore = Math.max(0, 100 - metrics.typeScriptErrors.current / 10)
     const warningScore = Math.max(0, 100 - metrics.lintingWarnings.current / 100)
     const buildScore =
@@ -183,8 +181,7 @@ export class KiroCampaignIntegration {
     const healthTrends: HealthTrend[] = [
       {
         metric: 'TypeScript Errors',
-        trend:
-          improvement.typeScriptErrorsReduced > 0
+        trend: improvement.typeScriptErrorsReduced > 0
             ? 'improving'
             : improvement.typeScriptErrorsReduced < 0
               ? 'declining'
@@ -194,8 +191,7 @@ export class KiroCampaignIntegration {
       }
       {
         metric: 'Linting Warnings',
-        trend:
-          improvement.lintingWarningsReduced > 0
+        trend: improvement.lintingWarningsReduced > 0
             ? 'improving'
             : improvement.lintingWarningsReduced < 0
               ? 'declining'
@@ -205,8 +201,7 @@ export class KiroCampaignIntegration {
       }
       {
         metric: 'Build Performance',
-        trend:
-          improvement.buildTimeImproved > 0
+        trend: improvement.buildTimeImproved > 0
             ? 'improving'
             : improvement.buildTimeImproved < 0
               ? 'declining'
@@ -235,7 +230,7 @@ export class KiroCampaignIntegration {
     const campaignId = `campaign_${Date.now()}`;
 
     // Create campaign status
-    const status: KiroCampaignStatus = {
+    const status: KiroCampaignStatus = {;
       campaignId,
       status: 'running',
       currentPhase: request.phaseIds[0],
@@ -252,7 +247,7 @@ export class KiroCampaignIntegration {
       const config = await this.createCampaignConfig(request)
 
       for (const phaseId of request.phaseIds) {
-        const phase = config.phases.find(p => p.id === phaseId)
+        const phase = config.phases.find(p => p.id === phaseId);
         if (!phase) continue,
 
         status.currentPhase = phaseId,
@@ -260,12 +255,12 @@ export class KiroCampaignIntegration {
 
         const result = await this.campaignController.executePhase(phase)
 
-        // Update progress
+        // Update progress;
         status.progress = ((request.phaseIds.indexOf(phaseId) + 1) / request.phaseIds.length) * 100,
         status.metrics = await this.progressTracker.getProgressMetrics()
         status.safetyEvents.push(...result.safetyEvents)
 
-        if (!result.success) {
+        if (!result.success) {;
           status.status = 'failed',
           throw new Error(
             `Phase ${phaseId} failed: ${result.safetyEvents.map(e => e.description).join(', ')}`,
@@ -294,12 +289,12 @@ export class KiroCampaignIntegration {
    * Pause an active campaign
    */
   async pauseCampaign(campaignId: string): Promise<boolean> {
-    const status = this.activeCampaigns.get(campaignId)
+    const status = this.activeCampaigns.get(campaignId);
     if (!status || status.status !== 'running') return false,
 
     status.status = 'paused',
     status.lastUpdate = new Date()
-    status.safetyEvents.push({
+    status.safetyEvents.push({;
       type: 'CHECKPOINT_CREATED' as SafetyEvent['type'],
       timestamp: new Date(),
       description: 'Campaign paused by user',
@@ -314,12 +309,12 @@ export class KiroCampaignIntegration {
    * Resume a paused campaign
    */
   async resumeCampaign(campaignId: string): Promise<boolean> {
-    const status = this.activeCampaigns.get(campaignId)
+    const status = this.activeCampaigns.get(campaignId);
     if (!status || status.status !== 'paused') return false,
 
     status.status = 'running',
     status.lastUpdate = new Date()
-    status.safetyEvents.push({
+    status.safetyEvents.push({;
       type: 'CHECKPOINT_CREATED' as SafetyEvent['type'],
       timestamp: new Date(),
       description: 'Campaign resumed by user',
@@ -334,12 +329,12 @@ export class KiroCampaignIntegration {
    * Stop and cleanup a campaign
    */
   async stopCampaign(campaignId: string): Promise<boolean> {
-    const status = this.activeCampaigns.get(campaignId)
+    const status = this.activeCampaigns.get(campaignId);
     if (!status) return false,
 
     status.status = 'completed',
     status.lastUpdate = new Date()
-    status.safetyEvents.push({
+    status.safetyEvents.push({;
       type: 'CHECKPOINT_CREATED' as SafetyEvent['type'],
       timestamp: new Date(),
       description: 'Campaign stopped by user',
@@ -365,7 +360,7 @@ export class KiroCampaignIntegration {
    */
   async scheduleCampaign(schedule: Omit<CampaignSchedule, 'id'>): Promise<string> {
     const scheduleId = `schedule_${Date.now()}`;
-    const campaignSchedule: CampaignSchedule = {
+    const campaignSchedule: CampaignSchedule = {;
       id: scheduleId,
       ...schedule,
       nextRun: this.calculateNextRun(schedule.scheduledTime, schedule.recurrence)
@@ -391,7 +386,7 @@ export class KiroCampaignIntegration {
   ): Promise<boolean> {
     const schedule = this.campaignSchedules.get(scheduleId)
     if (!schedule) return false
-
+;
     Object.assign(schedule, updates),
 
     if (updates.scheduledTime || updates.recurrence) {
@@ -417,7 +412,7 @@ export class KiroCampaignIntegration {
     if (campaignId) {
       const status = this.activeCampaigns.get(campaignId)
       if (status) {
-        return {
+        return {;
           campaignId,
           overallProgress: status.progress,
           phases: [], // Would be populated with actual phase data,
@@ -441,7 +436,7 @@ export class KiroCampaignIntegration {
   }> {
     const intelligence = await (
       this.intelligenceSystem as unknown as {
-        generateComprehensiveIntelligence: (
+        generateComprehensiveIntelligence: (;
           controller: unknown,
           options: Record<string, unknown>,
           context: Record<string, unknown>,
@@ -452,7 +447,7 @@ export class KiroCampaignIntegration {
     const recommendations = intelligence.intelligenceRecommendations;
     const nextSteps = this.generateNextSteps(intelligence)
 
-    return {
+    return {;
       intelligence,
       recommendations,
       nextSteps
@@ -463,7 +458,7 @@ export class KiroCampaignIntegration {
 
   private async getAvailablePhases(): Promise<CampaignPhase[]> {
     const config = await CampaignController.loadConfiguration()
-    return config.phases
+    return config.phases;
   }
 
   private getQuickActions(): QuickAction[] {
@@ -519,7 +514,7 @@ export class KiroCampaignIntegration {
     const requestedPhases = baseConfig.phases.filter(phase => request.phaseIds.includes(phase.id))
 
     // Adjust safety settings based on request
-    const safetySettings = {
+    const safetySettings = {;
       ...baseConfig.safetySettings,
       maxFilesPerBatch: request.batchSize || baseConfig.safetySettings.maxFilesPerBatch
     }
@@ -541,7 +536,7 @@ export class KiroCampaignIntegration {
 
   private calculateNextRun(scheduledTime: Date, recurrence?: string): Date {
     const nextRun = new Date(scheduledTime)
-
+;
     if (recurrence === 'daily') {,
       nextRun.setDate(nextRun.getDate() + 1)
     } else if (recurrence === 'weekly') {,
@@ -611,3 +606,4 @@ export class KiroCampaignIntegration {
 
 // Export singleton instance for use across the application
 export const _kiroCampaignIntegration = new KiroCampaignIntegration()
+;

@@ -135,10 +135,8 @@ export interface HealthMetric {
   unit: string,
   status: MetricStatus,
   threshold: number,
-  trend: 'improving' | 'stable' | 'declining'
-}
-
-export interface HealthIssue {
+  trend: 'improving' | 'stable' | 'declining' },
+        export interface HealthIssue {
   id: string,
   severity: IssueSeverity,
   category: IssueCategory,
@@ -301,7 +299,7 @@ export class CampaignDebugger {
 
   constructor() {
     this.campaignController = new CampaignController(this.getDefaultConfig())
-    this.progressTracker = new ProgressTracker()
+    this.progressTracker = new ProgressTracker();
   }
 
   // ========== DEBUG SESSION MANAGEMENT ==========,
@@ -312,7 +310,7 @@ export class CampaignDebugger {
   async startDebugSession(campaignId: string): Promise<string> {
     const sessionId = `debug_${campaignId}_${Date.now()}`;
 
-    const session: CampaignDebugSession = {
+    const session: CampaignDebugSession = {;
       id: sessionId,
       campaignId,
       startTime: new Date(),
@@ -333,7 +331,7 @@ export class CampaignDebugger {
    */
   async executeDebugSteps(sessionId: string): Promise<DebugFinding[]> {
     const session = this.debugSessions.get(sessionId)
-    if (!session) {
+    if (!session) {;
       throw new Error(`Debug session ${sessionId} not found`)
     }
 
@@ -342,22 +340,22 @@ export class CampaignDebugger {
     for (const step of session.debugSteps) {
       step.status = DebugStepStatus.RUNNING,
       step.startTime = new Date()
-      try {
+      try {;
         const stepFindings = await this.executeDebugStep(step, session.campaignId)
         findings.push(...stepFindings)
 
         step.status = DebugStepStatus.COMPLETED,
-        step.endTime = new Date()
+        step.endTime = new Date();
       } catch (error) {
         step.status = DebugStepStatus.FAILED,
         step.errors.push((error as Error).message)
-        step.endTime = new Date()
+        step.endTime = new Date();
       }
     }
 
     session.findings = findings,
     session.recommendations = await this.generateRecommendations(findings)
-
+;
     return findings,
   }
 
@@ -366,7 +364,7 @@ export class CampaignDebugger {
    */
   async generateRecoveryPlan(sessionId: string): Promise<RecoveryPlan> {
     const session = this.debugSessions.get(sessionId)
-    if (!session) {
+    if (!session) {;
       throw new Error(`Debug session ${sessionId} not found`)
     }
 
@@ -388,14 +386,14 @@ export class CampaignDebugger {
     recommendations: DebugRecommendation[]
   }> {
     const campaign = await this.getCampaignStatus(campaignId)
-    if (!campaign) {
+    if (!campaign) {;
       throw new Error(`Campaign ${campaignId} not found`)
     }
 
     const failureEvents = campaign.safetyEvents.filter(
       event => event.severity === 'ERROR' || event.severity === 'CRITICAL'
     )
-
+;
     const rootCauses: string[] = [];
     const contributingFactors: string[] = [];
 
@@ -414,7 +412,7 @@ export class CampaignDebugger {
     }
 
     const impactAssessment = this.assessFailureImpact(campaign)
-    const recommendations = await this.generateFailureRecommendations(
+    const recommendations = await this.generateFailureRecommendations(;
       rootCauses,
       contributingFactors,
     )
@@ -510,18 +508,18 @@ export class CampaignDebugger {
    */
   async performHealthCheck(campaignId: string): Promise<CampaignHealthReport> {
     const campaign = await this.getCampaignStatus(campaignId)
-    if (!campaign) {
+    if (!campaign) {;
       throw new Error(`Campaign ${campaignId} not found`)
     }
 
-    const healthMetrics = await this.collectHealthMetrics(campaign)
+    const healthMetrics = await this.collectHealthMetrics(campaign);
     const issues = await this.detectHealthIssues(campaign, healthMetrics)
     const recommendations = await this.generateMaintenanceRecommendations(issues)
-
+;
     const healthScore = this.calculateHealthScore(healthMetrics, issues)
     const overallHealth = this.determineOverallHealth(healthScore)
 
-    const healthReport: CampaignHealthReport = {
+    const healthReport: CampaignHealthReport = {;
       campaignId,
       overallHealth,
       healthScore,
@@ -581,11 +579,9 @@ export class CampaignDebugger {
     const findings: DebugFinding[] = [];
 
     switch (step.type) {
-      case DebugStepType.CONFIGURATION_CHECK:
-        findings.push(...(await this.checkConfiguration(campaignId)))
+      case DebugStepType.CONFIGURATION_CHECK: findings.push(...(await this.checkConfiguration(campaignId)))
         break,
-      case DebugStepType.DEPENDENCY_ANALYSIS:
-        findings.push(...(await this.analyzeDependencies(campaignId)))
+      case DebugStepType.DEPENDENCY_ANALYSIS: findings.push(...(await this.analyzeDependencies(campaignId)))
         break,
       case DebugStepType.PERFORMANCE_ANALYSIS: findings.push(...(await this.analyzePerformance(campaignId)))
         break
@@ -626,11 +622,10 @@ export class CampaignDebugger {
     const conflicts = await campaignConflictResolver.detectConflicts()
     for (const conflict of conflicts) {
       if (conflict.involvedCampaigns.includes(campaignId)) {
-        findings.push({
+        findings.push({;
           id: `dependency_finding_${conflict.id}`,
           category: FindingCategory.DEPENDENCY_ISSUE,
-          severity:
-            conflict.severity === 'critical' ? FindingSeverity.CRITICAL : FindingSeverity.HIGH,,
+          severity: conflict.severity === 'critical' ? FindingSeverity.CRITICAL : FindingSeverity.HIGH,,
           title: 'Campaign dependency conflict detected',
           description: conflict.description,
           evidence: [
@@ -655,7 +650,7 @@ export class CampaignDebugger {
 
     const campaign = await this.getCampaignStatus(campaignId)
     if (campaign && campaign.metrics.buildPerformance.currentTime > 30) {
-      findings.push({
+      findings.push({;
         id: `perf_finding_${Date.now()}`,
         category: FindingCategory.PERFORMANCE_ISSUE,
         severity: FindingSeverity.HIGH,
@@ -682,8 +677,7 @@ export class CampaignDebugger {
 
     for (const finding of findings) {
       switch (finding.category) {
-        case FindingCategory.CONFIGURATION_ERROR:
-          recommendations.push({
+        case FindingCategory.CONFIGURATION_ERROR: recommendations.push({
             id: `rec_${finding.id}`,
             priority: RecommendationPriority.HIGH,
             title: 'Fix Configuration Issue',
@@ -693,8 +687,8 @@ export class CampaignDebugger {
                 id: 'update_config',
                 description: 'Update campaign configuration',
                 type: ActionType.UPDATE_CONFIG,
-                parameters: { configPath: 'campaign_config.json' }
-                estimatedDuration: 10,
+                parameters: { configPath: 'campaign_config.json' },
+        estimatedDuration: 10,
                 automated: true
               }
             ],
@@ -703,8 +697,7 @@ export class CampaignDebugger {
             category: RecommendationCategory.CONFIGURATION_FIX
           })
           break,
-        case FindingCategory.PERFORMANCE_ISSUE:
-          recommendations.push({
+        case FindingCategory.PERFORMANCE_ISSUE: recommendations.push({
             id: `rec_${finding.id}`,
             priority: RecommendationPriority.MEDIUM,
             title: 'Optimize Performance',
@@ -714,8 +707,8 @@ export class CampaignDebugger {
                 id: 'tune_performance',
                 description: 'Optimize performance settings',
                 type: ActionType.UPDATE_CONFIG,
-                parameters: { optimizeFor: 'performance' }
-                estimatedDuration: 30,
+                parameters: { optimizeFor: 'performance' },
+        estimatedDuration: 30,
                 automated: false
               }
             ],
@@ -756,7 +749,7 @@ export class CampaignDebugger {
         finding.severity === FindingSeverity.HIGH ||
         finding.severity === FindingSeverity.CRITICAL
       ) {
-        recoverySteps.push({
+        recoverySteps.push({;
           id: `fix_${finding.id}`,
           name: `Fix: ${finding.title}`,
           description: finding.description,
@@ -804,11 +797,11 @@ export class CampaignDebugger {
     const errorCount = campaign.metrics.typeScriptErrors.current;
     const warningCount = campaign.metrics.lintingWarnings.current
 
-    if (errorCount > 1000 || warningCount > 5000) {
-      return 'High impact - significant code quality degradation'
-    } else if (errorCount > 100 || warningCount > 1000) {
-      return 'Medium impact - moderate code quality issues'
-    } else {
+    if (errorCount > 1000 || warningCount > 5000) {;
+      return 'High impact - significant code quality degradation' },
+        else if (errorCount > 100 || warningCount > 1000) {
+      return 'Medium impact - moderate code quality issues' },
+        else {
       return 'Low impact - minimal code quality impact'
     }
   }
@@ -877,7 +870,7 @@ export class CampaignDebugger {
 
     for (const metric of metrics) {
       if (metric.status === MetricStatus.CRITICAL) {
-        issues.push({
+        issues.push({;
           id: `issue_${metric.name.toLowerCase().replace(' ', '_')}_${Date.now()}`,
           severity: IssueSeverity.HIGH,
           category: IssueCategory.PERFORMANCE,
@@ -900,7 +893,7 @@ export class CampaignDebugger {
 
     for (const issue of issues) {
       if (issue.severity === IssueSeverity.HIGH || issue.severity === IssueSeverity.CRITICAL) {
-        recommendations.push({
+        recommendations.push({;
           id: `maint_${issue.id}`,
           priority: issue.severity === IssueSeverity.CRITICAL,
               ? MaintenancePriority.CRITICAL
@@ -1007,3 +1000,4 @@ export class CampaignDebugger {
 
 // Export singleton instance
 export const _campaignDebugger = new CampaignDebugger()
+;

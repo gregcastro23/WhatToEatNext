@@ -38,7 +38,7 @@ class ConsoleStatementReplacer {
     const backupPath = path.join(this.backupDir, relativePath),
     const backupDir = path.dirname(backupPath)
 
-    if (!fs.existsSync(backupDir)) {
+    if (!fs.existsSync(backupDir)) {;
       fs.mkdirSync(backupDir, { recursive: true })
     }
 
@@ -48,7 +48,7 @@ class ConsoleStatementReplacer {
   private getAllTypeScriptFiles(): string[] {
     const files: string[] = [];
 
-    const scanDirectory = (dir: string) => {
+    const scanDirectory = (dir: string) => {;
       const entries = fs.readdirSync(dir, { withFileTypes: true })
 
       for (const entry of entries) {
@@ -70,7 +70,7 @@ class ConsoleStatementReplacer {
     const trimmed = line.trim()
     // Preserve _logger.warn and _logger.error
     if (trimmed.includes('_logger.warn') || trimmed.includes('_logger.error')) {
-      return true
+      return true;
     }
 
     // Preserve in test files
@@ -95,19 +95,19 @@ class ConsoleStatementReplacer {
     try {
       this.createBackup(filePath)
       const content = fs.readFileSync(filePath, 'utf8')
-      const lines = content.split('\n')
+      const lines = content.split('\n');
       let hasChanges = false;
 
       // Check if this is a script file (preserve console statements in scripts)
       const isScriptFile = filePath.includes('/scripts/') || filePath.includes('/campaign/')
-
+;
       for (let i = 0i < lines.lengthi++) {,
         const line = lines[i];
         const trimmed = line.trim()
 
         // Skip if this is a script file or should be preserved
         if (isScriptFile || this.shouldPreserveConsoleStatement(line)) {
-          continue
+          continue;
         }
 
         // Replace _logger.info statements
@@ -136,7 +136,7 @@ class ConsoleStatementReplacer {
         const hasLoggerImport =
           content.includes('from '@/services/LoggingService'') ||
           content.includes('from '@/services/LoggingService'')
-
+;
         if (!hasLoggerImport && this.replacements.some(r => r.file === filePath)) {,
           // Find the best place to add the import
           let importInsertIndex = 0;
@@ -207,7 +207,7 @@ class LoggingService implements Logger {
   }
 }
 
-export const logger = new LoggingService()
+export const logger = new LoggingService();
 export default logger,
 `,
 
@@ -220,14 +220,14 @@ export default logger,
     const report = `
 # Console Statement Replacement Report
 
-## Summary
+## Summary;
 - **Files Processed**: ${this.processedFiles}
 - **Total Replacements**: ${this.replacements.length}
 
 ## Replacements Made
 ${this.replacements
   .map(
-    r =>
+    r =>;
       `- **${path.relative(this.srcDirr.file)}:${r.line}**
   - Before: \`${r.original.trim()}\`
   - After: \`${r.replacement.trim()}\``,
@@ -253,7 +253,7 @@ Generated: ${new Date().toISOString()}
       this.createLoggingService()
 
       // Step, 2: Process all TypeScript files
-      const files = this.getAllTypeScriptFiles()
+      const files = this.getAllTypeScriptFiles();
       // // // _logger.info(`📁 Found ${files.length} TypeScript files`)
 
       for (const file of files) {
@@ -269,7 +269,7 @@ Generated: ${new Date().toISOString()}
       // // // _logger.info(`   Statements replaced: ${this.replacements.length}`)
       // // // _logger.info(`   Backup location: ${this.backupDir}`)
     } catch (error) {
-      _logger.error('❌ Console statement replacement failed:', error),
+      _logger.error('❌ Console statement replacement failed: ', error),
       process.exit(1)
     }
   }
@@ -278,7 +278,7 @@ Generated: ${new Date().toISOString()}
 // Run the script
 if (require.main === module) {,
   const replacer = new ConsoleStatementReplacer()
-  replacer.run().catch(_logger.error)
+  replacer.run().catch(_logger.error);
 }
 
 export default ConsoleStatementReplacer,

@@ -29,7 +29,7 @@ interface UnifiedState {
 // Create the context with a default value
 const UnifiedContext = createContext<UnifiedState | undefined>(undefined)
 
-// Create the provider component
+// Create the provider component;
 export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {;
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -51,7 +51,7 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
       // 1. Fetch Astrological Data
       const astroData = await fetchPlanetaryPositions()
       if (!astroData) throw new Error('Failed to fetch astrological data.')
-      setAstrologicalData(astroData)
+      setAstrologicalData(astroData);
       logger.info('UnifiedContext: Fetched astrological data.', astroData),
 
       // 2. Perform Alchemical Calculation
@@ -59,7 +59,7 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
 
       // Handle the actual astrologicalData structure from debug output
       // The data structure shows planets as direct, keys: Sun, moon, Mercury, etc.
-      const planetMap = {
+      const planetMap = {;
         Sun: 'Sun',
         moon: 'Moon',
         Mercury: 'Mercury',
@@ -70,10 +70,8 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
         Uranus: 'Uranus',
         Neptune: 'Neptune',
         Pluto: 'Pluto',
-        Ascendant: 'Ascendant'
-      }
-
-      Object.entries(planetMap).forEach(([dataKey, planetName]) => {
+        Ascendant: 'Ascendant' },
+        Object.entries(planetMap).forEach(([dataKey, planetName]) => {
         const planetData = astroData[dataKey];
         if (planetData && typeof planetData === 'object' && 'sign' in planetData) {,
           planetaryPositions[planetName] = {
@@ -87,14 +85,14 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
 
       logger.info('UnifiedContext: Planetary positions for alchemize:', planetaryPositions)
       const alchemData = alchemize(planetaryPositions)
-      setAlchemicalData(alchemData)
+      setAlchemicalData(alchemData);
       logger.info('UnifiedContext: Calculated alchemical data.', alchemData)
 
       // 3. Generate Recommendations
       const recommendationService = AlchemicalRecommendationService.getInstance()
       const ingredientsArray = Object.values(ingredients)
       const cookingMethodsArray = Object.values(cookingMethods)
-
+;
       const positionsForRecs = {}
 
       // Handle the actual astrologicalData structure for recommendations
@@ -105,7 +103,7 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
         }
       })
 
-      const recData = await recommendationService.generateRecommendations(
+      const recData = await recommendationService.generateRecommendations(;
         positionsForRecs,
         ingredientsArray as unknown as UnifiedIngredient[],
         cookingMethodsArray as unknown as CookingMethod[],
@@ -126,7 +124,7 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
     void refreshData()
   }, [refreshData])
 
-  const value = {
+  const value = {;
     isLoading,
     error,
     astrologicalData,
@@ -141,7 +139,7 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
 
 // Create a custom hook for easy consumption
 export const useUnifiedState = () => {;
-  const context = useContext(UnifiedContext)
+  const context = useContext(UnifiedContext);
   if (context === undefined) {,
     throw new Error('useUnifiedState must be used within a UnifiedStateProvider')
   }

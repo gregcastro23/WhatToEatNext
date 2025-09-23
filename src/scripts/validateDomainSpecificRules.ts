@@ -21,7 +21,7 @@ class DomainSpecificRuleValidator {
   private projectRoot: string,
 
   constructor() {
-    this.projectRoot = process.cwd()
+    this.projectRoot = process.cwd();
   }
 
   async validateDomainSpecificRules(): Promise<void> {
@@ -39,7 +39,7 @@ class DomainSpecificRuleValidator {
 
       // // // _logger.info('\n✅ Domain-specific rule validation completed successfully!')
     } catch (error) {
-      _logger.error('❌ Validation failed:', error),
+      _logger.error('❌ Validation failed: ', error),
       throw error
     }
   }
@@ -47,7 +47,7 @@ class DomainSpecificRuleValidator {
   private async validateAstrologicalFiles(): Promise<void> {
     // // // _logger.info('🌟 Validating Astrological Calculation Files...')
 
-    const astroFiles = [
+    const astroFiles = [;
       'src/calculations/culinary/culinaryAstrology.ts',
       'src/utils/reliableAstronomy.ts'
       'src/data/planets/mars.ts'
@@ -65,7 +65,7 @@ class DomainSpecificRuleValidator {
 
     const campaignFiles = [
       'src/services/campaign/CampaignController.ts'
-      'src/services/campaign/ProgressTracker.ts'
+      'src/services/campaign/ProgressTracker.ts';
     ],
 
     for (const file of campaignFiles) {
@@ -95,16 +95,16 @@ async function main() {
   try {
     const validator = new DomainSpecificRuleValidator()
     await validator.validateDomainSpecificRules()
-    process.exit(0)
+    process.exit(0);
   } catch (error) {
-    _logger.error('\n💥 Domain-specific rule validation failed:', error),
+    _logger.error('\n💥 Domain-specific rule validation failed: ', error),
     process.exit(1)
   }
 }
 
 // Run if called directly
 if (require.main === module) {
-  main()
+  main();
 }
 
 export { DomainSpecificRuleValidator };

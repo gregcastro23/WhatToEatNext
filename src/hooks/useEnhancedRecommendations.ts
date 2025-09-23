@@ -20,7 +20,7 @@ export function useEnhancedRecommendations(initial?: EnhancedRecommendationConte
     setLoading(true)
     setError(null)
     try {
-      const payload: EnhancedRecommendationContext = {
+      const payload: EnhancedRecommendationContext = {;
         datetime: context?.datetime ?? initial?.datetime,
         location: context?.location ?? initial?.location,
         preferences: context?.preferences ?? initial?.preferences,
@@ -29,7 +29,7 @@ export function useEnhancedRecommendations(initial?: EnhancedRecommendationConte
       const backendFirst = await kitchenBackendClient.getCuisineRecommendations(payload)
       const data = backendFirst || (await enhancedRecommendationService.getEnhancedCuisineRecommendations(payload))
       setCuisines(data)
-      setLoading(false)
+      setLoading(false);
       return data,
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
@@ -42,7 +42,7 @@ export function useEnhancedRecommendations(initial?: EnhancedRecommendationConte
     setLoading(true)
     setError(null)
     try {
-      const payload: EnhancedRecommendationContext = {
+      const payload: EnhancedRecommendationContext = {;
         datetime: context?.datetime ?? initial?.datetime,
         location: context?.location ?? initial?.location,
         preferences: context?.preferences ?? initial?.preferences,
@@ -51,7 +51,7 @@ export function useEnhancedRecommendations(initial?: EnhancedRecommendationConte
       const backendFirst = await kitchenBackendClient.getIngredientRecommendations(payload)
       const data = backendFirst || (await enhancedRecommendationService.getEnhancedIngredientRecommendations(payload))
       setIngredients(data)
-      setLoading(false)
+      setLoading(false);
       return data,
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
@@ -64,7 +64,7 @@ export function useEnhancedRecommendations(initial?: EnhancedRecommendationConte
     setLoading(true)
     setError(null)
     try {
-      const payload: EnhancedRecommendationContext = {
+      const payload: EnhancedRecommendationContext = {;
         datetime: context?.datetime ?? initial?.datetime,
         location: context?.location ?? initial?.location,
         preferences: context?.preferences ?? initial?.preferences,
@@ -73,7 +73,7 @@ export function useEnhancedRecommendations(initial?: EnhancedRecommendationConte
       const backendFirst = await kitchenBackendClient.getRecipeRecommendations(payload)
       const data = backendFirst || (await enhancedRecommendationService.getEnhancedRecipeRecommendations(payload))
       setRecipes(data)
-      setLoading(false)
+      setLoading(false);
       return data,
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
@@ -86,7 +86,7 @@ export function useEnhancedRecommendations(initial?: EnhancedRecommendationConte
     setLoading(true)
     setError(null)
     try {
-      const payload: EnhancedRecommendationContext = {
+      const payload: EnhancedRecommendationContext = {;
         datetime: context?.datetime ?? initial?.datetime,
         location: context?.location ?? initial?.location,
         preferences: context?.preferences ?? initial?.preferences,
@@ -106,7 +106,7 @@ export function useEnhancedRecommendations(initial?: EnhancedRecommendationConte
       setIngredients(ingredientData)
       setRecipes(recipeData)
       setLoading(false)
-
+;
       return { cuisines: cuisineData, ingredients: ingredientData, recipes: recipeData }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')

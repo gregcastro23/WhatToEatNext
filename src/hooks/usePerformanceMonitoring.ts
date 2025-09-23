@@ -43,7 +43,7 @@ interface PerformanceConfig {
   enableMemoryTracking: boolean,
 }
 
-export function usePerformanceMonitoring(config: PerformanceConfig = {
+export function usePerformanceMonitoring(config: PerformanceConfig = {;
   updateInterval: 5000,
   trackWebVitals: true,
   enableMemoryTracking: false
@@ -72,7 +72,7 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
   const measureRenderTime = useCallback(() => {
     const startTime = performance.now()
     return () => {
-      const endTime = performance.now()
+      const endTime = performance.now();
       const renderTime = endTime - startTime;
       setMetrics(prev => ({ ...prev, renderTime }))
       return renderTime,
@@ -81,7 +81,7 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
 
   // Track API response times
   const trackApiCall = useCallback((endpoint: string, responseTime: number) => {
-    setMetrics(prev => ({
+    setMetrics(prev => ({;
       ...prev,
       apiResponseTimes: {
         ...prev.apiResponseTimes,
@@ -91,17 +91,17 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
   }, [])
 
   // Get Web Vitals metrics
-  const getWebVitals = useCallback(() => {
+  const getWebVitals = useCallback(() => {;
     if (!config.trackWebVitals || typeof window === 'undefined') return,
 
     // Largest Contentful Paint
     if ('PerformanceObserver' in window) {
       try {
         const lcpObserver = new PerformanceObserver((list) => {
-          const entries = list.getEntries()
+          const entries = list.getEntries();
           const lastEntry = entries[entries.length - 1] as any;
           if (lastEntry) {
-            setMetrics(prev => ({
+            setMetrics(prev => ({;
               ...prev,
               largestContentfulPaint: lastEntry.startTime
             }))
@@ -113,9 +113,9 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
         const fidObserver = new PerformanceObserver((list) => {
           const entries = list.getEntries()
           entries.forEach((entry: any) => {
-            if (entry.processingStart && entry.startTime) {
+            if (entry.processingStart && entry.startTime) {;
               const fid = entry.processingStart - entry.startTime;
-              setMetrics(prev => ({
+              setMetrics(prev => ({;
                 ...prev,
                 firstInputDelay: fid
               }))
@@ -125,14 +125,14 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
         fidObserver.observe({ entryTypes: ['first-input'] })
 
         // Cumulative Layout Shift
-        const clsObserver = new PerformanceObserver((list) => {
+        const clsObserver = new PerformanceObserver((list) => {;
           let clsValue = 0,
           list.getEntries().forEach((entry: any) => {
             if (!entry.hadRecentInput) {
               clsValue += entry.value,
             }
           })
-          setMetrics(prev => ({
+          setMetrics(prev => ({;
             ...prev,
             cumulativeLayoutShift: clsValue
           }))
@@ -146,7 +146,7 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
   }, [config.trackWebVitals])
 
   // Get memory usage (if supported)
-  const getMemoryUsage = useCallback(() => {
+  const getMemoryUsage = useCallback(() => {;
     if (!config.enableMemoryTracking || typeof window === 'undefined') return,
 
     const performance = window.performance as any;
@@ -157,7 +157,7 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
   }, [config.enableMemoryTracking])
 
   // Generate performance recommendations
-  const generateRecommendations = useCallback((currentMetrics: PerformanceMetrics): string[] => {
+  const generateRecommendations = useCallback((currentMetrics: PerformanceMetrics): string[] => {;
     const recommendations: string[] = [];
 
     // Cache performance
@@ -200,13 +200,13 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
       const now = Date.now()
 
       setMetrics(prev => {
-        const updated = {
+        const updated = {;
           ...prev,
           cacheStats,
           lastUpdated: now
         }
 
-        const recommendations = generateRecommendations(updated)
+        const recommendations = generateRecommendations(updated);
         const isOptimal = recommendations.length === 0;
 
         return {
@@ -227,12 +227,12 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
     setIsTracking(true)
     updateMetrics()
     getWebVitals()
-    logger.info('Performance monitoring started')
+    logger.info('Performance monitoring started');
   }, [updateMetrics, getWebVitals])
 
   const stopTracking = useCallback(() => {
     setIsTracking(false)
-    logger.info('Performance monitoring stopped')
+    logger.info('Performance monitoring stopped');
   }, [])
 
   // Setup periodic updates

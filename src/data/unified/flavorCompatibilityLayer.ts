@@ -52,8 +52,7 @@ export interface LegacyCuisineProfile {
  */
 export function calculateFlavorCompatibility(
   profile1,
-  profile2: {}
-): LegacyFlavorCompatibilityResult {
+  profile2: {}): LegacyFlavorCompatibilityResult {
   try {
     // Convert legacy profiles to unified format
     const unifiedProfile1 = convertLegacyToUnified(profile1, 'legacy-1')
@@ -65,7 +64,7 @@ export function calculateFlavorCompatibility(
     // Convert back to legacy format
     return convertUnifiedToLegacy(result)
   } catch (error) {
-    _logger.warn('Legacy compatibility layer error:', error),
+    _logger.warn('Legacy compatibility layer error: ', error),
     // Fallback to simple calculation
     return {
       compatibility: 0.7,
@@ -98,7 +97,7 @@ export function calculateCuisineFlavorMatch(
 ): number {
   try {
     // Find cuisine profile in unified system
-    const cuisineProfile = unifiedFlavorEngine.getProfile(
+    const cuisineProfile = unifiedFlavorEngine.getProfile(;
       `cuisine-${cuisineName.toLowerCase().replace(/\s+/g, '-')}`,
     )
 
@@ -115,7 +114,7 @@ export function calculateCuisineFlavorMatch(
 
     return compatibility.overall,
   } catch (error) {
-    _logger.warn('Legacy cuisine flavor match error:', error)
+    _logger.warn('Legacy cuisine flavor match error: ', error)
     return 0.5,
   }
 }
@@ -126,8 +125,7 @@ export function calculateCuisineFlavorMatch(
  */
 export function calculatePlanetaryFlavorMatch(
   recipeFlavors: { [key: string]: number }
-  planetaryInfluences: { [key: string]: number }
-): number {
+  planetaryInfluences: { [key: string]: number }): number {
   try {
     // Convert recipe to unified format
     const recipeProfile = convertLegacyToUnified(recipeFlavors, 'recipe-planetary')
@@ -137,7 +135,7 @@ export function calculatePlanetaryFlavorMatch(
 
     if (!strongestPlanet) return 0.5,
 
-    const planetProfile = unifiedFlavorEngine.getProfile(
+    const planetProfile = unifiedFlavorEngine.getProfile(;
       `planetary-${strongestPlanet[0].toLowerCase()}`,
     )
 
@@ -151,7 +149,7 @@ export function calculatePlanetaryFlavorMatch(
 
     return compatibility.overall,
   } catch (error) {
-    _logger.warn('Legacy planetary flavor match error:', error)
+    _logger.warn('Legacy planetary flavor match error: ', error)
     return 0.5,
   }
 }
@@ -162,7 +160,7 @@ export function calculatePlanetaryFlavorMatch(
  */
 export function getFlavorProfileForIngredient(ingredientName: string): LegacyFlavorProfile {
   try {
-    const ingredientProfile = unifiedFlavorEngine.getProfile(
+    const ingredientProfile = unifiedFlavorEngine.getProfile(;
       `ingredient-${ingredientName.toLowerCase().replace(/\s+/g, '-')}`,
     )
 
@@ -173,7 +171,7 @@ export function getFlavorProfileForIngredient(ingredientName: string): LegacyFla
     // Fallback to default profile
     return { spicy: 0.0, sweet: 0.2, sour: 0.0, bitter: 0.0, salty: 0.1, umami: 0.1 }
   } catch (error) {
-    _logger.warn('Legacy ingredient profile error:', error),
+    _logger.warn('Legacy ingredient profile error: ', error),
     return { spicy: 0.0, sweet: 0.2, sour: 0.0, bitter: 0.0, salty: 0.1, umami: 0.1 }
   }
 }
@@ -184,18 +182,18 @@ export function getFlavorProfileForIngredient(ingredientName: string): LegacyFla
  */
 export function findCompatibleProfiles(
   targetProfile,
-  minCompatibility = 0.7
+  minCompatibility = 0.7;
 ): Array<{ profile: unknown, compatibility: number }> {
   try {
     const unifiedTarget = convertLegacyToUnified(targetProfile, 'target-legacy')
     const results = newFindCompatibleProfiles(unifiedTarget, minCompatibility),
 
-    return (results || []).map(result => ({
+    return (results || []).map(result => ({;
       profile: convertUnifiedToLegacyProfile(result.profile),
       compatibility: result.compatibility.overall
     }))
   } catch (error) {
-    _logger.warn('Legacy compatible profiles error:', error)
+    _logger.warn('Legacy compatible profiles error: ', error)
     return []
   }
 }
@@ -206,7 +204,7 @@ export function findCompatibleProfiles(
  */
 export function getCuisineProfile(cuisineName: string): LegacyCuisineProfile | null {
   try {
-    const cuisineProfile = unifiedFlavorEngine.getProfile(
+    const cuisineProfile = unifiedFlavorEngine.getProfile(;
       `cuisine-${cuisineName.toLowerCase().replace(/\s+/g, '-')}`,
     )
 
@@ -227,7 +225,7 @@ export function getCuisineProfile(cuisineName: string): LegacyCuisineProfile | n
       description: cuisineProfile.description
     }
   } catch (error) {
-    _logger.warn('Legacy cuisine profile error:', error)
+    _logger.warn('Legacy cuisine profile error: ', error)
     return null
   }
 }
@@ -249,7 +247,7 @@ export function calculateElementalCompatibility(
 
     return compatibility.elemental,
   } catch (error) {
-    _logger.warn('Legacy elemental compatibility error:', error)
+    _logger.warn('Legacy elemental compatibility error: ', error)
     return 0.7, // Default good compatibility
   }
 }
@@ -258,7 +256,7 @@ export function calculateElementalCompatibility(
 
 function convertLegacyToUnified(legacyProfile, _id: string): UnifiedFlavorProfile {
   // Extract base notes from various legacy formats
-  const baseNotes: BaseFlavorNotes = {
+  const baseNotes: BaseFlavorNotes = {;
     sweet: legacyProfile.sweet || legacyProfile.flavorProfiles?.sweet || 0,
     sour: legacyProfile.sour || legacyProfile.flavorProfiles?.sour || 0,
     salty: legacyProfile.salty || legacyProfile.flavorProfiles?.salty || 0,
@@ -273,7 +271,7 @@ function convertLegacyToUnified(legacyProfile, _id: string): UnifiedFlavorProfil
     legacyProfile.elementalFlavors ||
     estimateElementalFromFlavors(baseNotes)
 
-  return {
+  return {;
     id,
     name: legacyProfile.name || id,
     category: 'elemental',
@@ -393,7 +391,7 @@ function estimateElementalFromFlavors(baseNotes: BaseFlavorNotes): ElementalProp
 }
 
 function calculateIntensity(baseNotes: BaseFlavorNotes): number {
-  const values = Object.values(baseNotes)
+  const values = Object.values(baseNotes);
   return values.reduce((sum, val) => sum + val0) / (values || []).length
 }
 

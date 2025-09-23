@@ -11,9 +11,9 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       elementalAffinity: {
         base: 'Water',
         decanModifiers: {
-          first: { element: 'Water', planet: 'Mercury' }
-          second: { element: 'Air', planet: 'Moon' }
-          third: { element: 'Earth', planet: 'Saturn' }
+          first: { element: 'Water', planet: 'Mercury' },
+        second: { element: 'Air', planet: 'Moon' },
+        third: { element: 'Earth', planet: 'Saturn' }
         }
       }
     },
@@ -36,9 +36,8 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       washing: true,
       zesting: 'before juicing',
       juicing: 'room temperature yields more juice',
-      notes: 'Roll on counter before juicing'
-    },
-    storage: {
+      notes: 'Roll on counter before juicing' },
+        storage: {
       temperature: 'room temp or refrigerated',
       duration: '1-2 weeks',
       notes: 'Will continue to ripen at room temperature'
@@ -54,9 +53,9 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Sun' }
-          second: { element: 'Earth', planet: 'Venus' }
-          third: { element: 'Air', planet: 'Mercury' }
+          first: { element: 'Fire', planet: 'Sun' },
+        second: { element: 'Earth', planet: 'Venus' },
+        third: { element: 'Air', planet: 'Mercury' }
         }
       }
     },
@@ -79,9 +78,8 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       washing: true,
       peeling: 'remove white pith',
       sectioning: 'remove membranes if desired',
-      notes: 'Supreme for salads'
-    },
-    storage: {
+      notes: 'Supreme for salads' },
+        storage: {
       temperature: 'cool room temp or refrigerated',
       duration: '2-3 weeks',
       notes: 'Keep away from apples and bananas'
@@ -108,14 +106,12 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       washing: true,
       rolling: 'before juicing',
       zesting: 'before juicing',
-      notes: 'Warm slightly for more juice'
-    },
-    storage: {
+      notes: 'Warm slightly for more juice' },
+        storage: {
       temperature: 'room temp or refrigerated',
       duration: '1-2 weeks',
-      notes: 'Will continue to yellow over time'
-    },
-    astrologicalProfile: {
+      notes: 'Will continue to yellow over time' },
+        astrologicalProfile: {
       rulingPlanets: ['Moon', 'Mercury'],
       favorableZodiac: ['cancer', 'gemini', 'virgo'],
       elementalAffinity: {
@@ -151,15 +147,13 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       washing: true,
       peeling: 'remove pith if eating segments',
       sectioning: 'remove membranes for supreme',
-      notes: 'Pink varieties are sweeter than white'
-    },
-    storage: {
+      notes: 'Pink varieties are sweeter than white' },
+        storage: {
       temperature: 'refrigerated',
       duration: '2-3 weeks',
       humidity: 'moderate',
-      notes: 'Check for soft spots regularly'
-    },
-    astrologicalProfile: {
+      notes: 'Check for soft spots regularly' },
+        astrologicalProfile: {
       rulingPlanets: ['Sun', 'Jupiter'],
       favorableZodiac: ['leo', 'sagittarius', 'aries'],
       elementalAffinity: {
@@ -195,15 +189,13 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       washing: true,
       peeling: 'easy to peel by hand',
       segmenting: 'naturally separates',
-      notes: 'Remove any seeds before eating'
-    },
-    storage: {
+      notes: 'Remove any seeds before eating' },
+        storage: {
       temperature: 'cool room temp or refrigerated',
       duration: '1-2 weeks',
       humidity: 'moderate',
-      notes: 'Best eaten within a week'
-    },
-    astrologicalProfile: {
+      notes: 'Best eaten within a week' },
+        astrologicalProfile: {
       rulingPlanets: ['Sun', 'Venus'],
       favorableZodiac: ['leo', 'libra', 'taurus'],
       elementalAffinity: {
@@ -238,15 +230,13 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       washing: true,
       eating: 'whole with skin',
-      notes: 'Skin is sweet, flesh is tart'
-    },
-    storage: {
+      notes: 'Skin is sweet, flesh is tart' },
+        storage: {
       temperature: 'refrigerated',
       duration: '1-2 weeks',
       humidity: 'high',
-      notes: 'Store in sealed container'
-    },
-    astrologicalProfile: {
+      notes: 'Store in sealed container' },
+        astrologicalProfile: {
       rulingPlanets: ['Jupiter', 'Mercury'],
       favorableZodiac: ['sagittarius', 'gemini', 'virgo'],
       elementalAffinity: {
@@ -282,15 +272,13 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       washing: true,
       zesting: 'highly aromatic',
       juicing: 'use sparingly',
-      notes: 'Primarily used for zest and juice'
-    },
-    storage: {
+      notes: 'Primarily used for zest and juice' },
+        storage: {
       temperature: 'refrigerated',
       duration: '1-2 weeks',
       humidity: 'moderate',
-      notes: 'Freeze zest for longer storage'
-    },
-    astrologicalProfile: {
+      notes: 'Freeze zest for longer storage' },
+        astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Venus'],
       favorableZodiac: ['gemini', 'libra', 'aquarius'],
       elementalAffinity: {
@@ -325,15 +313,13 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       washing: true,
       zesting: 'prized for aromatic oils',
-      notes: 'Primarily used for oil and flavoring'
-    },
-    storage: {
+      notes: 'Primarily used for oil and flavoring' },
+        storage: {
       temperature: 'refrigerated',
       duration: '1-2 weeks',
       humidity: 'moderate',
-      notes: 'Preserve zest in sugar or dry'
-    },
-    astrologicalProfile: {
+      notes: 'Preserve zest in sugar or dry' },
+        astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Moon'],
       favorableZodiac: ['gemini', 'cancer', 'virgo'],
       elementalAffinity: {
@@ -368,15 +354,13 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       washing: true,
       juicing: 'use whole or halved',
-      notes: 'Can be used whole in drinks'
-    },
-    storage: {
+      notes: 'Can be used whole in drinks' },
+        storage: {
       temperature: 'refrigerated',
       duration: '1-2 weeks',
       humidity: 'moderate',
-      notes: 'Juice can be frozen in ice cube trays'
-    },
-    astrologicalProfile: {
+      notes: 'Juice can be frozen in ice cube trays' },
+        astrologicalProfile: {
       rulingPlanets: ['Mars', 'Sun'],
       favorableZodiac: ['aries', 'leo', 'scorpio'],
       elementalAffinity: {
@@ -412,15 +396,13 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       washing: true,
       zesting: 'entire fruit is zestable',
       cutting: 'separate fingers as needed',
-      notes: 'No juice or pulp, used for zest'
-    },
-    storage: {
+      notes: 'No juice or pulp, used for zest' },
+        storage: {
       temperature: 'refrigerated',
       duration: '2-3 weeks',
       humidity: 'moderate',
-      notes: 'Wrap loosely in plastic'
-    },
-    astrologicalProfile: {
+      notes: 'Wrap loosely in plastic' },
+        astrologicalProfile: {
       rulingPlanets: ['Jupiter', 'Venus'],
       favorableZodiac: ['sagittarius', 'pisces', 'libra'],
       elementalAffinity: {
@@ -456,15 +438,13 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       washing: true,
       peeling: 'easy to peel',
       segmenting: 'naturally separates',
-      notes: 'Juicier than regular oranges'
-    },
-    storage: {
+      notes: 'Juicier than regular oranges' },
+        storage: {
       temperature: 'refrigerated',
       duration: '1-2 weeks',
       humidity: 'moderate',
-      notes: 'Best eaten fresh'
-    },
-    astrologicalProfile: {
+      notes: 'Best eaten fresh' },
+        astrologicalProfile: {
       rulingPlanets: ['Sun', 'Jupiter'],
       favorableZodiac: ['leo', 'sagittarius', 'aries'],
       elementalAffinity: {
@@ -500,15 +480,13 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       washing: true,
       juicing: 'requires many fruits',
       zesting: 'before juicing',
-      notes: 'More aromatic than Persian limes'
-    },
-    storage: {
+      notes: 'More aromatic than Persian limes' },
+        storage: {
       temperature: 'refrigerated',
       duration: '1-2 weeks',
       humidity: 'moderate',
-      notes: 'Use quickly once ripe'
-    },
-    astrologicalProfile: {
+      notes: 'Use quickly once ripe' },
+        astrologicalProfile: {
       rulingPlanets: ['Moon', 'Mercury'],
       favorableZodiac: ['cancer', 'gemini', 'pisces'],
       elementalAffinity: {
@@ -544,15 +522,13 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       washing: true,
       peeling: 'very easy to peel',
       segmenting: 'naturally separates',
-      notes: 'Usually seedless'
-    },
-    storage: {
+      notes: 'Usually seedless' },
+        storage: {
       temperature: 'cool room temp or refrigerated',
       duration: '1-2 weeks',
       humidity: 'moderate',
-      notes: 'Store in mesh bag for airflow'
-    },
-    astrologicalProfile: {
+      notes: 'Store in mesh bag for airflow' },
+        astrologicalProfile: {
       rulingPlanets: ['Venus', 'Moon'],
       favorableZodiac: ['libra', 'cancer', 'taurus'],
       elementalAffinity: {

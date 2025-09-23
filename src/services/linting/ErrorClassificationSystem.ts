@@ -24,10 +24,8 @@ export interface ErrorSeverity {
   level: 'critical' | 'high' | 'medium' | 'low' | 'info',
   score: number, // 0-100,
   factors: SeverityFactor[],
-  businessImpact: 'blocking' | 'degrading' | 'cosmetic' | 'none'
-}
-
-export interface SeverityFactor {
+  businessImpact: 'blocking' | 'degrading' | 'cosmetic' | 'none' },
+        export interface SeverityFactor {
   factor: string,
   weight: number,
   description: string
@@ -74,7 +72,7 @@ export class ErrorClassificationSystem {
     this.initializeRuleClassifications()
 
     this.domainPatterns = {
-      astrological: [
+      astrological: [;
         /\/calculations\//,
         /\/data\/planets\//,
         /reliableAstronomy/,
@@ -93,12 +91,11 @@ export class ErrorClassificationSystem {
     ruleId: string,
     message: string,
     filePath: string,
-    hasAutoFix: boolean = false
-  ): ErrorClassification {
+    hasAutoFix: boolean = false): ErrorClassification {
     // Get base classification for the rule
     let classification =
       this.ruleClassifications.get(ruleId) || this.createDefaultClassification(ruleId)
-    // Enhance classification based on context
+    // Enhance classification based on context;
     classification = this.enhanceWithContext(classification, message, filePath, hasAutoFix)
 
     return classification
@@ -118,7 +115,7 @@ export class ErrorClassificationSystem {
     const mediumCount = classifications.filter(c => c.severity.level === 'medium').length;
 
     // Calculate overall severity
-    const totalScore = classifications.reduce((sumc) => sum + c.severity.score0)
+    const totalScore = classifications.reduce((sumc) => sum + c.severity.score0);
     const averageScore = totalScore / classifications.length;
 
     let overallLevel: ErrorSeverity['level'],
@@ -128,7 +125,7 @@ export class ErrorClassificationSystem {
     else if (averageScore > 40) overallLevel = 'medium',
     else overallLevel = 'low',
 
-    const overallSeverity: ErrorSeverity = {
+    const overallSeverity: ErrorSeverity = {;
       level: overallLevel,
       score: Math.round(averageScore),
       factors: [
@@ -148,8 +145,7 @@ export class ErrorClassificationSystem {
           description: `${mediumCount} medium priority issues found`
         }
       ],
-      businessImpact:
-        criticalCount > 0
+      businessImpact: criticalCount > 0
           ? 'blocking'
           : highCount > 5
             ? 'degrading'
@@ -188,13 +184,13 @@ export class ErrorClassificationSystem {
       c => c.autoFixCapability.confidence > 0.8 && c.riskProfile.overall === 'low'
     )
     const riskyAutoFixes = autoFixable.filter(
-      c => c.autoFixCapability.confidence <= 0.8 || c.riskProfile.overall !== 'low'
+      c => c.autoFixCapability.confidence <= 0.8 || c.riskProfile.overall !== 'low';
     ),
     const manualOnlyFixes = classifications.filter(c => !c.autoFixCapability.canAutoFix)
 
     const recommendations: string[] = []
 
-    if (safeAutoFixes.length > 0) {
+    if (safeAutoFixes.length > 0) {;
       recommendations.push(`${safeAutoFixes.length} issues can be safely auto-fixed`)
     }
     if (riskyAutoFixes.length > 0) {
@@ -223,17 +219,15 @@ export class ErrorClassificationSystem {
       category: {
         primary: 'style',
         secondary: 'import-organization';,
-        description: 'Import statements should be organized consistently'
-      },
-      severity: {
+        description: 'Import statements should be organized consistently' },
+        severity: {
         level: 'low',
         score: 20,
         factors: [
           { factor: 'Code Readability', weight: 0.8, description: 'Affects code organization' }
         ],
-        businessImpact: 'cosmetic'
-      },
-      autoFixCapability: {
+        businessImpact: 'cosmetic' },
+        autoFixCapability: {
         canAutoFix: true,
         confidence: 0.95,
         complexity: 'trivial',
@@ -259,18 +253,16 @@ export class ErrorClassificationSystem {
       category: {
         primary: 'logic',
         secondary: 'module-resolution',
-        description: 'Import paths must resolve to actual modules'
-      },
-      severity: {
+        description: 'Import paths must resolve to actual modules' },
+        severity: {
         level: 'high',
         score: 85,
         factors: [
           { factor: 'Build Breaking', weight: 1.0, description: 'Can break application build' }
           { factor: 'Runtime Errors', weight: 0.9, description: 'May cause runtime failures' }
         ],
-        businessImpact: 'blocking'
-      },
-      autoFixCapability: {
+        businessImpact: 'blocking' },
+        autoFixCapability: {
         canAutoFix: false,
         confidence: 0.3,
         complexity: 'complex',
@@ -304,18 +296,16 @@ export class ErrorClassificationSystem {
       category: {
         primary: 'maintainability',
         secondary: 'type-safety',
-        description: 'Explicit any types reduce type safety benefits'
-      },
-      severity: {
+        description: 'Explicit any types reduce type safety benefits' },
+        severity: {
         level: 'medium',
         score: 60,
         factors: [
           { factor: 'Type Safety', weight: 0.8, description: 'Reduces TypeScript benefits' }
           { factor: 'Code Quality', weight: 0.6, description: 'Makes code less maintainable' }
         ],
-        businessImpact: 'degrading'
-      },
-      autoFixCapability: {
+        businessImpact: 'degrading' },
+        autoFixCapability: {
         canAutoFix: false,
         confidence: 0.2,
         complexity: 'manual-only',
@@ -348,18 +338,16 @@ export class ErrorClassificationSystem {
       category: {
         primary: 'maintainability',
         secondary: 'code-cleanliness',
-        description: 'Unused variables clutter code and may indicate bugs'
-      },
-      severity: {
+        description: 'Unused variables clutter code and may indicate bugs' },
+        severity: {
         level: 'medium',
         score: 45,
         factors: [
           { factor: 'Code Cleanliness', weight: 0.7, description: 'Improves code readability' }
           { factor: 'Potential Bugs', weight: 0.5, description: 'May indicate incomplete logic' }
         ],
-        businessImpact: 'cosmetic'
-      },
-      autoFixCapability: {
+        businessImpact: 'cosmetic' },
+        autoFixCapability: {
         canAutoFix: true,
         confidence: 0.7,
         complexity: 'simple',
@@ -396,9 +384,8 @@ export class ErrorClassificationSystem {
       category: {
         primary: 'logic',
         secondary: 'react-hooks',
-        description: 'useEffect dependencies must be complete to avoid bugs'
-      },
-      severity: {
+        description: 'useEffect dependencies must be complete to avoid bugs' },
+        severity: {
         level: 'high',
         score: 80,
         factors: [
@@ -409,9 +396,8 @@ export class ErrorClassificationSystem {
           }
           { factor: 'Performance', weight: 0.7, description: 'May cause unnecessary re-renders' }
         ],
-        businessImpact: 'degrading'
-      },
-      autoFixCapability: {
+        businessImpact: 'degrading' },
+        autoFixCapability: {
         canAutoFix: true,
         confidence: 0.4,
         complexity: 'complex',
@@ -455,9 +441,8 @@ export class ErrorClassificationSystem {
       category: {
         primary: 'style',
         secondary: 'debugging',
-        description: 'Console statements should not be in production code'
-      },
-      severity: {
+        description: 'Console statements should not be in production code' },
+        severity: {
         level: 'low',
         score: 25,
         factors: [
@@ -467,9 +452,8 @@ export class ErrorClassificationSystem {
             description: 'Console logs in production'
           }
         ],
-        businessImpact: 'cosmetic'
-      },
-      autoFixCapability: {
+        businessImpact: 'cosmetic' },
+        autoFixCapability: {
         canAutoFix: true,
         confidence: 0.8,
         complexity: 'simple',
@@ -523,9 +507,8 @@ export class ErrorClassificationSystem {
         level: 'medium',
         score: 50,
         factors: [{ factor: 'Unknown Impact', weight: 0.5, description: 'Impact not analyzed' }],
-        businessImpact: 'cosmetic'
-      },
-      autoFixCapability: {
+        businessImpact: 'cosmetic' },
+        autoFixCapability: {
         canAutoFix: false,
         confidence: 0.1,
         complexity: 'manual-only',
@@ -576,7 +559,7 @@ export class ErrorClassificationSystem {
 
     // Enhance domain impact based on file path
     const isDomainFile = this.isDomainSpecificFile(filePath)
-    if (isDomainFile.isAstrological) {
+    if (isDomainFile.isAstrological) {;
       enhanced.domainImpact.affectsAstrology = true,
       enhanced.domainImpact.specialHandlingRequired = true,
       enhanced.domainImpact.expertiseRequired.push('Astrological calculations')
@@ -612,7 +595,7 @@ export class ErrorClassificationSystem {
   private isDomainSpecificFile(filePath: string): { isAstrological: boolean, isCampaign: boolean } {
     const isAstrological = this.domainPatterns.astrological.some(pattern => pattern.test(filePath))
     const isCampaign = this.domainPatterns.campaign.some(pattern => pattern.test(filePath))
-
+;
     return { isAstrological, isCampaign }
   }
 }

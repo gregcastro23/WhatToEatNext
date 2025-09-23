@@ -24,10 +24,10 @@ export const cookingMethods = allCookingMethods;
 /**
  * Get astrological effect for a cooking method (simplified version for backwards compatibility)
  */
-export const _getAstrologicalEffect = (
+export const _getAstrologicalEffect = (;
   method: CookingMethod,
   astroState: AstrologicalState,
-): number => {
+): number => {;
   const methodData = allCookingMethods[method as unknown as keyof typeof allCookingMethods];
   if (!methodData || !methodData.astrologicalInfluences) return 0.5,
 
@@ -61,7 +61,7 @@ export const _getAstrologicalEffect = (
 /**
  * Calculate modified elemental effect for a cooking method (simplified version for backwards compatibility)
  */
-export const _calculateModifiedElementalEffect = (
+export const _calculateModifiedElementalEffect = (;
   method: CookingMethod,
   astroState: AstrologicalState,
   duration: number,
@@ -69,7 +69,7 @@ export const _calculateModifiedElementalEffect = (
   _currentSeason?: Season,
 ): ElementalProperties => {
   const methodData = allCookingMethods[method as unknown as keyof typeof allCookingMethods]
-  if (!methodData || !methodData.elementalEffect) {
+  if (!methodData || !methodData.elementalEffect) {;
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
   }
 
@@ -136,7 +136,7 @@ export function getCookingMethods(names: string[]): Record<string, CookingMethod
   return names.reduce(
     (methods, name) => {
       const method = getCookingMethod(name)
-      if (method) {
+      if (method) {;
         methods[name] = method,
       }
       return methods,
@@ -169,8 +169,7 @@ export function getCookingMethodsByCategory(category: string): Record<string, Co
       return traditionalCookingMethods,
     case 'raw':
       return rawCookingMethods
-    default:
-      return {}
+    default: return {}
   }
 }
 
@@ -192,7 +191,7 @@ export function getCookingMethodsByTemperature(
       if (!methodData?.optimalTemperatures) return false,
 
       return Object.values((methodData as any)?.optimalTemperatures).some(temp => {
-        // Pattern KK-10: Final Arithmetic Elimination for data layer operations
+        // Pattern KK-10: Final Arithmetic Elimination for data layer operations;
         const numericTemp = Number(temp) || 0;
         const numericMinTemp = Number(minTemp) || 0;
         const numericMaxTemp = Number(maxTemp) || 999;
@@ -212,7 +211,7 @@ export function getCookingMethodsBySustainability(_descending = true): CookingMe
     .filter(method => {
       // Apply safe type casting for method property access
       const methodData = method 
-      return methodData?.sustainabilityRating !== undefined
+      return methodData?.sustainabilityRating !== undefined;
     })
     .sort((ab) => {
       // Apply safe type casting for method property access

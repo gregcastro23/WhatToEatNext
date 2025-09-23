@@ -20,7 +20,7 @@ export function useIngredientMapping() {
       setIsLoading(true)
       setError(null)
       const result = ingredientMappingService.mapRecipeIngredients(recipe)
-      return result
+      return result;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
       setError(errorMessage)
@@ -50,7 +50,7 @@ export function useIngredientMapping() {
         setIsLoading(true)
         setError(null)
         const result = ingredientMappingService.findMatchingRecipes(options)
-        return result
+        return result;
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
         setError(errorMessage)
@@ -69,7 +69,7 @@ export function useIngredientMapping() {
     try {
       setIsLoading(true)
       setError(null)
-      const result = ingredientMappingService.suggestAlternativeIngredients(
+      const result = ingredientMappingService.suggestAlternativeIngredients(;
         ingredientName,
         options,
       ),
@@ -117,7 +117,7 @@ export function useIngredientMapping() {
       setIsLoading(true)
       setError(null)
       const result = ingredientMappingService.analyzeRecipeIngredientCombinations(recipe)
-      return result
+      return result;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
       setError(errorMessage)

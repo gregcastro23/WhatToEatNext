@@ -76,7 +76,7 @@ export async function getRecipesForTarotCard(cards: TarotCardResult): Promise<Re
     // Get the element associated with the minor card
     const element =
       cards.minorCard.element ||
-      SUIT_TO_ELEMENT[cards.minorCard.suit as keyof typeof SUIT_TO_ELEMENT] ||
+      SUIT_TO_ELEMENT[cards.minorCard.suit as keyof typeof SUIT_TO_ELEMENT] ||;
       'Fire',
 
     // Get the recipes that match the element
@@ -85,7 +85,7 @@ export async function getRecipesForTarotCard(cards: TarotCardResult): Promise<Re
 
     return matchingRecipes
   } catch (error) {
-    _logger.error('Error getting recipes for tarot card:', error),
+    _logger.error('Error getting recipes for tarot card: ', error),
     return defaultRecipes
   }
 }

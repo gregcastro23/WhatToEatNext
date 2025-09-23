@@ -18,7 +18,7 @@ export interface ElementalCompatibilityMatrix {
 }
 
 // Self-reinforcement compatibility matrix from elemental-principles.md
-export const ELEMENTAL_COMPATIBILITY: ElementalCompatibilityMatrix = {
+export const ELEMENTAL_COMPATIBILITY: ElementalCompatibilityMatrix = {;
   Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 }
   Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 }
   Earth: { Earth: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 }
@@ -64,12 +64,12 @@ export class SteeringFileIntelligence {
   private cachedGuidance: AstrologicalGuidance | null = null,
   private lastUpdate: number = 0,
   private readonly CACHE_DURATION = 30 * 60 * 1000 // 30 minutes
-
+;
   private constructor() {}
 
   public static getInstance(): SteeringFileIntelligence {
     if (!SteeringFileIntelligence.instance) {
-      SteeringFileIntelligence.instance = new SteeringFileIntelligence()
+      SteeringFileIntelligence.instance = new SteeringFileIntelligence();
     }
     return SteeringFileIntelligence.instance,
   }
@@ -99,7 +99,7 @@ export class SteeringFileIntelligence {
       // Apply performance optimizations
       const performanceOptimizations = this.getPerformanceGuidance()
 
-      this.cachedGuidance = {
+      this.cachedGuidance = {;
         planetaryPositions,
         dominantElement,
         elementalBalance,
@@ -109,10 +109,10 @@ export class SteeringFileIntelligence {
 
       this.lastUpdate = Date.now()
 
-      logger.debug('Updated astrological guidance from steering file intelligence')
+      logger.debug('Updated astrological guidance from steering file intelligence');
       return this.cachedGuidance,
     } catch (error) {
-      logger.error('Error getting astrological guidance:', error)
+      logger.error('Error getting astrological guidance: ', error)
 
       // Return fallback guidance
       return this.getFallbackGuidance()
@@ -130,7 +130,7 @@ export class SteeringFileIntelligence {
     const targetDominant = this.getDominantElement(targetProps)
 
     // Self-reinforcement: same elements have highest compatibility (≥0.9)
-    if (sourceDominant === targetDominant) {
+    if (sourceDominant === targetDominant) {;
       return Math.max(0.9, ELEMENTAL_COMPATIBILITY[sourceDominant][targetDominant])
     }
 
@@ -185,7 +185,7 @@ export class SteeringFileIntelligence {
    * Enhance elemental properties using self-reinforcement principles
    */
   public enhanceDominantElement(properties: ElementalProperties): ElementalProperties {
-    const dominant = this.getDominantElement(properties)
+    const dominant = this.getDominantElement(properties);
     const enhancedProperties = { ...properties }
 
     // Self-reinforcement: boost the dominant element
@@ -387,7 +387,7 @@ export function getSteeringFileIntelligence(): SteeringFileIntelligence {
 export function useSteeringFileIntelligence() {
   const intelligence = getSteeringFileIntelligence()
 
-  return {
+  return {;
     _getGuidance: async () => await intelligence.getAstrologicalGuidance(),
     validateElementalProperties: (props: ElementalProperties) =>,
       intelligence.validateElementalProperties(props),

@@ -3,16 +3,15 @@ import type { _ } from '@/types/alchemy';
 export const _recipeBuilder = {
   baseTemplates: {
     soup: {
-      elementalBase: {
+      elementalBase: {;
         Water: 0.5,
         Earth: 0.2,
         Fire: 0.2,
         Air: 0.1
       },
       requiredComponents: ['liquid', 'aromatics', 'main_ingredient'],
-      cookingMethod: 'simmering'
-    },
-    stir_fry: {
+      cookingMethod: 'simmering' },
+        stir_fry: {
       elementalBase: {
         Fire: 0.4,
         Air: 0.3,
@@ -20,9 +19,8 @@ export const _recipeBuilder = {
         Water: 0.1
       },
       requiredComponents: ['protein', 'vegetables', 'aromatics'],
-      cookingMethod: 'high_heat'
-    },
-    salad: {
+      cookingMethod: 'high_heat' },
+        salad: {
       elementalBase: {
         Earth: 0.4,
         Water: 0.3,

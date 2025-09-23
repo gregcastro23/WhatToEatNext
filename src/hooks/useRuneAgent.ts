@@ -13,7 +13,7 @@ export function useRuneAgent(initial?: RuneAgentInput) {
     setLoading(true)
     setError(null)
     try {
-      const payload: RuneAgentInput = {
+      const payload: RuneAgentInput = {;
         datetime: input?.datetime ?? initial?.datetime,
         location: input?.location ?? initial?.location,
         context: input?.context ?? initial?.context,
@@ -23,7 +23,7 @@ export function useRuneAgent(initial?: RuneAgentInput) {
       setResult(data)
       setRune(data.rune)
       setAgent(data.agent)
-      setLoading(false)
+      setLoading(false);
       return data,
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
@@ -36,7 +36,7 @@ export function useRuneAgent(initial?: RuneAgentInput) {
     setLoading(true)
     setError(null)
     try {
-      const payload: RuneAgentInput = {
+      const payload: RuneAgentInput = {;
         datetime: input?.datetime ?? initial?.datetime,
         location: input?.location ?? initial?.location,
         context: input?.context ?? initial?.context,
@@ -44,7 +44,7 @@ export function useRuneAgent(initial?: RuneAgentInput) {
       }
       const data = await runeAgentClient.generateRuneOfMoment(payload)
       setRune(data)
-      setLoading(false)
+      setLoading(false);
       return data,
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
@@ -57,7 +57,7 @@ export function useRuneAgent(initial?: RuneAgentInput) {
     setLoading(true)
     setError(null)
     try {
-      const payload: RuneAgentInput = {
+      const payload: RuneAgentInput = {;
         datetime: input?.datetime ?? initial?.datetime,
         location: input?.location ?? initial?.location,
         context: input?.context ?? initial?.context,
@@ -65,7 +65,7 @@ export function useRuneAgent(initial?: RuneAgentInput) {
       }
       const data = await runeAgentClient.generateAgentRecommendations(payload)
       setAgent(data)
-      setLoading(false)
+      setLoading(false);
       return data,
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')

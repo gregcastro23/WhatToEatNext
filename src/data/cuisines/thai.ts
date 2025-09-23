@@ -1,11 +1,10 @@
 // src/data/cuisines/thai.ts
 import type { Cuisine } from '@/types/cuisine';
 
-export const thai: Cuisine = {
+export const thai: Cuisine = {;
   id: 'thai',
   name: 'Thai',
-  description:
-    'Traditional Thai cuisine featuring complex harmony of flavors including spicy, sweet, sour and salty elements',
+  description: 'Traditional Thai cuisine featuring complex harmony of flavors including spicy, sweet, sour and salty elements',
   dishes: {
     breakfast: {
       all: [
@@ -120,8 +119,7 @@ export const thai: Cuisine = {
           allergens: ['shellfish', 'fish', 'soy'],
           prepTime: '15 minutes',
           cookTime: '25 minutes',
-          culturalNotes:
-            'A gentle morning dish that exemplifies the Thai principle of 'khao tom' (boiled rice), often served to those feeling under the weather',
+          culturalNotes: 'A gentle morning dish that exemplifies the Thai principle of 'khao tom' (boiled rice), often served to those feeling under the weather',
           pairingSuggestions: ['pickled chilies', 'fried garlic', 'fresh lime', 'prik nam pla'],
           dietaryInfo: ['adaptable to vegetarian/vegan', 'gluten-free'],
           spiceLevel: 'mild',
@@ -180,8 +178,7 @@ export const thai: Cuisine = {
           prepTime: '20 minutes',
           restTime: '60 minutes',
           cookTime: '20 minutes',
-          culturalNotes:
-            'A Thai adaptation of Chinese youtiao, often enjoyed for breakfast with coffee or tea. The pandan custard adds a distinctly Southeast Asian twist',
+          culturalNotes: 'A Thai adaptation of Chinese youtiao, often enjoyed for breakfast with coffee or tea. The pandan custard adds a distinctly Southeast Asian twist',
           pairingSuggestions: ['Thai coffee', 'hot soy milk', 'condensed milk'],
           dietaryInfo: ['vegetarian', 'adaptable to vegan'],
           spiceLevel: 'none',
@@ -239,8 +236,7 @@ export const thai: Cuisine = {
           allergens: ['eggs', 'fish'],
           prepTime: '5 minutes',
           cookTime: '10 minutes',
-          culturalNotes:
-            'A quick, satisfying breakfast that showcases the Thai preference for rice-based meals at any time of day. The fluffy yet crispy texture is achieved through high heat and proper wok technique',
+          culturalNotes: 'A quick, satisfying breakfast that showcases the Thai preference for rice-based meals at any time of day. The fluffy yet crispy texture is achieved through high heat and proper wok technique',
           pairingSuggestions: ['nam prik pao', 'cucumber slices', 'Thai chili sauce'],
           dietaryInfo: ['gluten-free', 'adaptable to vegan'],
           spiceLevel: 'adjustable',
@@ -386,8 +382,7 @@ export const thai: Cuisine = {
           allergens: ['fish', 'shellfish', 'soy'],
           prepTime: '15 minutes',
           cookTime: '10 minutes',
-          culturalNotes:
-            'One of Thailand's most beloved street foods, this dish is known for its intense heat and aromatic holy basil. The name 'kra pao' refers to the holy basil that gives the dish its distinctive flavor',
+          culturalNotes: 'One of Thailand's most beloved street foods, this dish is known for its intense heat and aromatic holy basil. The name 'kra pao' refers to the holy basil that gives the dish its distinctive flavor',
           pairingSuggestions: ['jasmine rice', 'fried egg', 'cucumber slices', 'prik nam pla'],
           dietaryInfo: ['adaptable to vegetarian/vegan'],
           spiceLevel: 'hot',
@@ -505,8 +500,7 @@ export const thai: Cuisine = {
           allergens: ['fish', 'shellfish', 'peanuts'],
           prepTime: '20 minutes',
           cookTime: '0 minutes',
-          culturalNotes:
-            'Originally from Isaan (northeastern Thailand), this dish perfectly balances the four main Thai, tastes: sour, spicy, salty, and sweet. It's now popular throughout Thailand and internationally',
+          culturalNotes: 'Originally from Isaan (northeastern Thailand), this dish perfectly balances the four main Thai, tastes: sour, spicy, salty, and sweet. It's now popular throughout Thailand and internationally',
           pairingSuggestions: ['sticky rice', 'grilled chicken', 'cold beer'],
           dietaryInfo: ['raw', 'adaptable to vegan', 'gluten-free'],
           spiceLevel: 'very hot',
@@ -560,8 +554,7 @@ export const thai: Cuisine = {
           allergens: ['shellfish', 'fish'],
           prepTime: '15 minutes',
           cookTime: '25 minutes',
-          culturalNotes:
-            'Thailand's most famous soup, known worldwide for its complex blend of hot, sour, and aromatic flavors. The name 'tom yum' refers to the boiling process and sour taste',
+          culturalNotes: 'Thailand's most famous soup, known worldwide for its complex blend of hot, sour, and aromatic flavors. The name 'tom yum' refers to the boiling process and sour taste',
           pairingSuggestions: ['jasmine rice', 'stir-fried vegetables', 'coconut water'],
           dietaryInfo: ['gluten-free', 'adaptable to vegan'],
           spiceLevel: 'hot',
@@ -623,8 +616,7 @@ export const thai: Cuisine = {
           allergens: ['shellfish', 'fish', 'peanuts'],
           prepTime: '20 minutes',
           cookTime: '15 minutes',
-          culturalNotes:
-            'A popular Thai salad that showcases the balance of spicy, sour, and savory flavors. Glass noodles are used to absorb the flavorful dressing',
+          culturalNotes: 'A popular Thai salad that showcases the balance of spicy, sour, and savory flavors. Glass noodles are used to absorb the flavorful dressing',
           pairingSuggestions: ['sticky rice', 'grilled chicken', 'fresh vegetables'],
           dietaryInfo: ['adaptable to vegan', 'gluten-free'],
           spiceLevel: 'hot',
@@ -780,9 +772,8 @@ export const thai: Cuisine = {
           astrologicalProfile: {
             favorableZodiac: ['cancer', 'pisces'],
             rulingPlanets: ['moon', 'venus'],
-            elementalAffinity: 'Water'
-          },
-          astrologicalInfluences: ['neptune', 'mars', 'pisces']
+            elementalAffinity: 'Water' },
+        astrologicalInfluences: ['neptune', 'mars', 'pisces']
         }
         {
           name: 'Kuay Teow Reua',
@@ -879,8 +870,7 @@ export const thai: Cuisine = {
           allergens: ['peanuts', 'eggs', 'soy', 'fish'],
           prepTime: '30 minutes',
           cookTime: '15 minutes',
-          culturalNotes:
-            'Created in the 1930s as part of Thailand's nation-building efforts, Pad Thai has become the country's national dish and a global ambassador of Thai cuisine',
+          culturalNotes: 'Created in the 1930s as part of Thailand's nation-building efforts, Pad Thai has become the country's national dish and a global ambassador of Thai cuisine',
           pairingSuggestions: ['lime wedges', 'chili flakes', 'extra peanuts', 'bean sprouts'],
           dietaryInfo: ['adaptable to vegan', 'gluten-free'],
           spiceLevel: 'mild to adjustable',
@@ -996,8 +986,7 @@ export const thai: Cuisine = {
           allergens: ['fish'],
           prepTime: '20 minutes',
           cookTime: '15 minutes',
-          culturalNotes:
-            'A classic Thai seafood dish that exemplifies the use of fresh ingredients and the balance of spicy, sour, and savory flavors',
+          culturalNotes: 'A classic Thai seafood dish that exemplifies the use of fresh ingredients and the balance of spicy, sour, and savory flavors',
           pairingSuggestions: ['steamed rice', 'som tam', 'tom yum soup'],
           dietaryInfo: ['gluten-free', 'low-carb'],
           spiceLevel: 'medium to hot',
@@ -1164,8 +1153,7 @@ export const thai: Cuisine = {
           allergens: ['peanuts', 'tree nuts (coconut)'],
           prepTime: '30 minutes',
           cookTime: '120 minutes',
-          culturalNotes:
-            'A Thai adaptation of Persian cuisine, influenced by Muslim traders. The word 'massaman' is believed to refer to the Muslims who brought this style of curry to Thailand',
+          culturalNotes: 'A Thai adaptation of Persian cuisine, influenced by Muslim traders. The word 'massaman' is believed to refer to the Muslims who brought this style of curry to Thailand',
           pairingSuggestions: ['jasmine rice', 'roti', 'cucumber relish'],
           dietaryInfo: ['adaptable to vegan'],
           spiceLevel: 'mild',
@@ -1233,8 +1221,7 @@ export const thai: Cuisine = {
           allergens: ['shellfish', 'dairy'],
           prepTime: '20 minutes',
           cookTime: '45 minutes',
-          culturalNotes:
-            'A richer variation of the classic Tom Yum soup, made creamy with the addition of evaporated milk. Popular in central Thailand',
+          culturalNotes: 'A richer variation of the classic Tom Yum soup, made creamy with the addition of evaporated milk. Popular in central Thailand',
           pairingSuggestions: ['jasmine rice', 'seafood dipping sauce', 'fresh lime'],
           dietaryInfo: ['gluten-free', 'adaptable to vegan'],
           spiceLevel: 'hot',
@@ -1302,8 +1289,7 @@ export const thai: Cuisine = {
           allergens: ['peanuts', 'tree nuts (coconut)', 'fish'],
           prepTime: '20 minutes',
           cookTime: '40 minutes',
-          culturalNotes:
-            'Panang curry is known for its rich, thick consistency and slightly sweeter taste compared to other Thai curries. The name is believed to derive from Penang, Malaysia',
+          culturalNotes: 'Panang curry is known for its rich, thick consistency and slightly sweeter taste compared to other Thai curries. The name is believed to derive from Penang, Malaysia',
           pairingSuggestions: ['jasmine rice', 'roti', 'cucumber salad'],
           dietaryInfo: ['adaptable to vegan', 'gluten-free'],
           spiceLevel: 'medium',
@@ -1372,8 +1358,7 @@ export const thai: Cuisine = {
           allergens: ['eggs', 'wheat', 'tree nuts (coconut)'],
           prepTime: '30 minutes',
           cookTime: '45 minutes',
-          culturalNotes:
-            'A specialty of Northern Thailand, particularly Chiang Mai. The dish shows Burmese influence and was historically popular along trade routes',
+          culturalNotes: 'A specialty of Northern Thailand, particularly Chiang Mai. The dish shows Burmese influence and was historically popular along trade routes',
           pairingSuggestions: ['pickled vegetables', 'chili paste', 'fried shallots'],
           dietaryInfo: ['adaptable to vegan'],
           spiceLevel: 'medium to hot',
@@ -1447,8 +1432,7 @@ export const thai: Cuisine = {
           prepTime: '20 minutes',
           cookTime: '30 minutes',
           soakTime: '4 hours',
-          culturalNotes:
-            'Thailand's most famous dessert, traditionally eaten during mango season. The combination of sweet sticky rice and ripe mango represents the perfect harmony of flavors and textures',
+          culturalNotes: 'Thailand's most famous dessert, traditionally eaten during mango season. The combination of sweet sticky rice and ripe mango represents the perfect harmony of flavors and textures',
           pairingSuggestions: ['Thai iced tea', 'fresh coconut water'],
           dietaryInfo: ['vegetarian', 'vegan', 'gluten-free'],
           spiceLevel: 'none',
@@ -1508,8 +1492,7 @@ export const thai: Cuisine = {
           prepTime: '30 minutes',
           cookTime: '10 minutes',
           chillTime: '60 minutes',
-          culturalNotes:
-            'A refreshing dessert popular during hot season. The name 'tub tim' means ruby, referring to the red coloring of the water chestnuts',
+          culturalNotes: 'A refreshing dessert popular during hot season. The name 'tub tim' means ruby, referring to the red coloring of the water chestnuts',
           pairingSuggestions: ['Thai iced tea', 'fresh young coconut'],
           dietaryInfo: ['vegetarian', 'vegan', 'gluten-free'],
           spiceLevel: 'none',
@@ -1567,8 +1550,7 @@ export const thai: Cuisine = {
           allergens: ['tree nuts (coconut)'],
           prepTime: '25 minutes',
           cookTime: '15 minutes',
-          culturalNotes:
-            'A comforting dessert often served during festivals and special occasions. The name means 'floating lotus' in Thai, referring to the dumpling's shape',
+          culturalNotes: 'A comforting dessert often served during festivals and special occasions. The name means 'floating lotus' in Thai, referring to the dumpling's shape',
           pairingSuggestions: ['ginger tea', 'Chinese donuts'],
           dietaryInfo: ['vegetarian', 'vegan', 'gluten-free'],
           spiceLevel: 'none',
@@ -1739,8 +1721,7 @@ export const thai: Cuisine = {
           allergens: ['tree nuts (coconut)', 'sesame'],
           prepTime: '15 minutes',
           cookTime: '20 minutes',
-          culturalNotes:
-            'A popular street food snack, often sold by vendors in the afternoon. The crispy exterior and soft, sweet interior make it a beloved treat',
+          culturalNotes: 'A popular street food snack, often sold by vendors in the afternoon. The crispy exterior and soft, sweet interior make it a beloved treat',
           pairingSuggestions: ['Thai iced tea', 'honey dip', 'vanilla ice cream'],
           dietaryInfo: ['vegetarian', 'vegan'],
           spiceLevel: 'none',
@@ -1780,14 +1761,11 @@ export const thai: Cuisine = {
       },
       astrologicalInfluences: ['Neptune', 'Mars', 'Pisces'],
       seasonality: 'all',
-      preparationNotes:
-        'Balance is key - should achieve equal sweet, sour, and salty notes with heat according to preference',
-      technicalTips: 'Palm sugar can be melted with a little water to help it dissolve more easily'
-    },
-    namPhrik: {
+      preparationNotes: 'Balance is key - should achieve equal sweet, sour, and salty notes with heat according to preference',
+      technicalTips: 'Palm sugar can be melted with a little water to help it dissolve more easily' },
+        namPhrik: {
       name: 'Nam Phrik (Chili Paste)',
-      description:
-        'Foundation of Thai cuisine, a versatile chili-based paste with regional variations',
+      description: 'Foundation of Thai cuisine, a versatile chili-based paste with regional variations',
       base: 'chili peppers',
       keyIngredients: [
         'chili peppers',
@@ -1812,12 +1790,9 @@ export const thai: Cuisine = {
       },
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
       seasonality: 'all',
-      preparationNotes:
-        'Traditional preparation involves pounding in a mortar and pestle to develop complex flavors',
-      technicalTips:
-        'Roasting ingredients before pounding enhances aroma and reduces raw spiciness'
-    },
-    padThaiSauce: {
+      preparationNotes: 'Traditional preparation involves pounding in a mortar and pestle to develop complex flavors',
+      technicalTips: 'Roasting ingredients before pounding enhances aroma and reduces raw spiciness' },
+        padThaiSauce: {
       name: 'Pad Thai Sauce',
       description: 'Sweet-sour-salty sauce that defines Thailand's most famous noodle dish',
       base: 'tamarind paste',
@@ -1838,12 +1813,9 @@ export const thai: Cuisine = {
       },
       astrologicalInfluences: ['Venus', 'Mercury', 'Taurus'],
       seasonality: 'all',
-      preparationNotes:
-        'Balance of sour from tamarind, sweet from palm sugar, and salty from fish sauce is crucial',
-      technicalTips:
-        'Prepare in advance and reduce to concentrate flavors before adding to noodles'
-    },
-    currySauces: {
+      preparationNotes: 'Balance of sour from tamarind, sweet from palm sugar, and salty from fish sauce is crucial',
+      technicalTips: 'Prepare in advance and reduce to concentrate flavors before adding to noodles' },
+        currySauces: {
       name: 'Curry Pastes/Sauces',
       description: 'Aromatic spice and herb pastes that form the foundation of Thai curries',
       base: 'chilies and aromatics',
@@ -1872,15 +1844,11 @@ export const thai: Cuisine = {
       },
       astrologicalInfluences: ['Mars', 'Jupiter', 'Leo'],
       seasonality: 'all',
-      preparationNotes:
-        'Traditional preparation requires significant time pounding ingredients to release oils and flavor compounds',
-      technicalTips:
-        'Fry paste in coconut cream (the thick part that rises to the top of coconut milk) until aromatic and oil separates'
-    },
-    srirachaSauce: {
+      preparationNotes: 'Traditional preparation requires significant time pounding ingredients to release oils and flavor compounds',
+      technicalTips: 'Fry paste in coconut cream (the thick part that rises to the top of coconut milk) until aromatic and oil separates' },
+        srirachaSauce: {
       name: 'Sriracha Sauce',
-      description:
-        'Fermented chili sauce with garlic and vinegar that has gained worldwide popularity',
+      description: 'Fermented chili sauce with garlic and vinegar that has gained worldwide popularity',
       base: 'fermented chili peppers',
       keyIngredients: ['red chili peppers', 'garlic', 'vinegar', 'sugar', 'salt'],
       culinaryUses: [
@@ -1905,8 +1873,7 @@ export const thai: Cuisine = {
       },
       astrologicalInfluences: ['Mars', 'Mercury', 'Sagittarius'],
       seasonality: 'all',
-      preparationNotes:
-        'Traditional Thai version is tangier and thinner than the popular American version',
+      preparationNotes: 'Traditional Thai version is tangier and thinner than the popular American version',
       technicalTips: 'Fermentation develops depth of flavor beyond simple chili heat'
     }
   },
@@ -2062,8 +2029,7 @@ export const thai: Cuisine = {
   cookingTechniques: [
     {
       name: 'Wok Cooking (Pad)',
-      description:
-        'Fast high-heat stir-frying that preserves texture and creates 'wok hei' or breath of the wok',
+      description: 'Fast high-heat stir-frying that preserves texture and creates 'wok hei' or breath of the wok',
       elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 }
       toolsRequired: ['wok', 'wok spatula', 'high BTU burner', 'spider strainer', 'cleaver'],
       bestFor: ['stir-fries', 'noodle dishes', 'quick curries', 'fried rice', 'sautéed vegetables'],
@@ -2071,8 +2037,7 @@ export const thai: Cuisine = {
     }
     {
       name: 'Pounding (Tam/Dtam)',
-      description:
-        'Using mortar and pestle to crush ingredients, releasing essential oils and combining flavors',
+      description: 'Using mortar and pestle to crush ingredients, releasing essential oils and combining flavors',
       elementalProperties: { Earth: 0.5, Fire: 0.2, Water: 0.2, Air: 0.1 }
       toolsRequired: ['clay or stone mortar', 'wooden pestle', 'preparation bowls', 'strainer'],
       bestFor: ['curry pastes', 'som tam', 'nam prik', 'herb pastes', 'spice blends'],
@@ -2096,8 +2061,7 @@ export const thai: Cuisine = {
     }
     {
       name: 'Curry Making (Gaeng)',
-      description:
-        'Complex process of creating curry from scratch with paste-making and slow simmering',
+      description: 'Complex process of creating curry from scratch with paste-making and slow simmering',
       elementalProperties: { Water: 0.4, Fire: 0.3, Earth: 0.2, Air: 0.1 }
       toolsRequired: [
         'mortar and pestle',
@@ -2113,20 +2077,17 @@ export const thai: Cuisine = {
   regionalCuisines: [
     {
       name: 'Northern Thai (Lanna)',
-      description:
-        'More mild and less spicy cuisine with Burmese and Lao influences, featuring sticky rice and pork',
+      description: 'More mild and less spicy cuisine with Burmese and Lao influences, featuring sticky rice and pork',
       signatureDishes: ['Khao Soi', 'Nam Prik Ong', 'Sai Ua', 'Gaeng Hang Lay', 'Khao Lam'],
       keyIngredients: ['sticky rice', 'pork', 'tomatoes', 'ginger', 'turmeric', 'kaffir lime'],
       cookingTechniques: ['grilling', 'stewing', 'fermenting', 'steaming'],
       elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 }
       culturalInfluences: ['Lanna Kingdom', 'Burmese', 'Chinese Yunnan', 'Lao'],
-      philosophicalFoundations:
-        'Connected to Lanna traditions with an emphasis on communal dining and seasonal ingredients'
+      philosophicalFoundations: 'Connected to Lanna traditions with an emphasis on communal dining and seasonal ingredients'
     }
     {
       name: 'Northeastern Thai (Isaan)',
-      description:
-        'Intense flavors with Lao influence, featuring fermentation, spicy chilies, and sticky rice',
+      description: 'Intense flavors with Lao influence, featuring fermentation, spicy chilies, and sticky rice',
       signatureDishes: ['Som Tam', 'Larb', 'Gai Yang', 'Nam Tok', 'Moo Nam Tok'],
       keyIngredients: [
         'sticky rice',
@@ -2139,13 +2100,11 @@ export const thai: Cuisine = {
       cookingTechniques: ['grilling', 'pounding', 'fermenting', 'raw preparations'],
       elementalProperties: { Fire: 0.5, Earth: 0.3, Air: 0.1, Water: 0.1 }
       culturalInfluences: ['Lao', 'Khmer', 'Vietnamese'],
-      philosophicalFoundations:
-        'Emphasizes simple, straightforward preparations that highlight fresh ingredients'
+      philosophicalFoundations: 'Emphasizes simple, straightforward preparations that highlight fresh ingredients'
     }
     {
       name: 'Central Thai',
-      description:
-        'The royal court cuisine with balanced flavors combining sweet, sour, salty, and spicy elements',
+      description: 'The royal court cuisine with balanced flavors combining sweet, sour, salty, and spicy elements',
       signatureDishes: ['Pad Thai', 'Tom Yum Goong', 'Gaeng Keow Wan', 'Massaman Curry', 'Hoy Tod'],
       keyIngredients: [
         'jasmine rice',
@@ -2158,13 +2117,11 @@ export const thai: Cuisine = {
       cookingTechniques: ['stir-frying', 'curry making', 'deep-frying', 'slow simmering'],
       elementalProperties: { Water: 0.3, Fire: 0.3, Earth: 0.2, Air: 0.2 }
       culturalInfluences: ['Royal Thai Court', 'Chinese', 'Persian', 'Portuguese'],
-      philosophicalFoundations:
-        'Balance and refinement from royal court traditions, with elaborate preparations'
+      philosophicalFoundations: 'Balance and refinement from royal court traditions, with elaborate preparations'
     }
     {
       name: 'Southern Thai',
-      description:
-        'Intensely spicy and aromatic cuisine with Malaysian influences and abundant seafood',
+      description: 'Intensely spicy and aromatic cuisine with Malaysian influences and abundant seafood',
       signatureDishes: [
         'Gaeng Tai Pla',
         'Khua Kling',
@@ -2182,13 +2139,11 @@ export const thai: Cuisine = {
       cookingTechniques: ['slow cooking', 'dry currying', 'stewing', 'fermenting'],
       elementalProperties: { Fire: 0.6, Water: 0.2, Earth: 0.1, Air: 0.1 }
       culturalInfluences: ['Malay', 'Indonesian', 'Indian'],
-      philosophicalFoundations:
-        'Bold approach to flavor showcasing heat, pungency, and freshness of local ingredients'
+      philosophicalFoundations: 'Bold approach to flavor showcasing heat, pungency, and freshness of local ingredients'
     }
     {
       name: 'Royal Thai Cuisine',
-      description:
-        'Refined, artistic cuisine developed in the royal palace with intricate preparation techniques',
+      description: 'Refined, artistic cuisine developed in the royal palace with intricate preparation techniques',
       signatureDishes: ['Mee Krob', 'Pla Dook Foo', 'Chor Muang', 'Massaman Curry', 'Foi Thong'],
       keyIngredients: [
         'premium meats',
@@ -2200,8 +2155,7 @@ export const thai: Cuisine = {
       cookingTechniques: ['carving', 'intricate presentation', 'reduction', 'slow cooking'],
       elementalProperties: { Air: 0.3, Earth: 0.3, Water: 0.2, Fire: 0.2 }
       culturalInfluences: ['Thai Royal Court', 'Ayutthaya Kingdom', 'Persian', 'European'],
-      philosophicalFoundations:
-        'Emphasizes aesthetic beauty, balance of flavors, and sophisticated presentation'
+      philosophicalFoundations: 'Emphasizes aesthetic beauty, balance of flavors, and sophisticated presentation'
     }
   ],
   elementalProperties: {

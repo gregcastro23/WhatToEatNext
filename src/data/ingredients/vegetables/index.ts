@@ -41,7 +41,7 @@ export {
 }
 
 // Helper functions
-export const _getVegetablesBySubCategory = (
+export const _getVegetablesBySubCategory = (;
   subCategory: string,
 ): Record<string, IngredientMapping> => {
   return Object.entries(vegetables)

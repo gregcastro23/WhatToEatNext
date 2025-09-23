@@ -1,7 +1,7 @@
 import { planetInfo as planets } from './planets/index';
 
 // Astrological signs data with consistent lowercase for all signs
-export const signs = {
+export const signs = {;
   0: 'aries',
   1: 'taurus',
   2: 'gemini',
@@ -21,7 +21,7 @@ export const planetInfo = planets;
 
 // Complete sign information for all zodiac signs
 export const signInfo = {
-  aries: {
+  aries: {;
     Element: 'Fire',
     Start: { Day: 21, Month: 3, Year: 2022 }
     End: { Day: 19, Month: 4, Year: 2022 }
@@ -44,9 +44,8 @@ export const signInfo = {
       Saturn: [2730]
     },
     Ruler: 'Mars',
-    Modality: 'Cardinal'
-  },
-  taurus: {
+    Modality: 'Cardinal' },
+        taurus: {
     Element: 'Earth',
     Start: { Day: 20, Month: 4, Year: 2022 }
     End: { Day: 20, Month: 5, Year: 2022 }
@@ -69,9 +68,8 @@ export const signInfo = {
       Saturn: [2326]
     },
     Ruler: 'Venus',
-    Modality: 'Fixed'
-  },
-  gemini: {
+    Modality: 'Fixed' },
+        gemini: {
     Element: 'Air',
     Start: { Day: 21, Month: 5, Year: 2022 }
     End: { Day: 20, Month: 6, Year: 2022 }
@@ -94,9 +92,8 @@ export const signInfo = {
       Saturn: [2225]
     },
     Ruler: 'Mercury',
-    Modality: 'Mutable'
-  },
-  cancer: {
+    Modality: 'Mutable' },
+        cancer: {
     Element: 'Water',
     Start: { Day: 21, Month: 6, Year: 2022 }
     End: { Day: 22, Month: 7, Year: 2022 }
@@ -119,9 +116,8 @@ export const signInfo = {
       Saturn: [2830]
     },
     Ruler: 'Moon',
-    Modality: 'Cardinal'
-  },
-  leo: {
+    Modality: 'Cardinal' },
+        leo: {
     Element: 'Fire',
     Start: { Day: 23, Month: 7, Year: 2022 }
     End: { Day: 22, Month: 8, Year: 2022 }
@@ -144,9 +140,8 @@ export const signInfo = {
       Saturn: [16]
     },
     Ruler: 'Sun',
-    Modality: 'Fixed'
-  },
-  virgo: {
+    Modality: 'Fixed' },
+        virgo: {
     Element: 'Earth',
     Start: { Day: 23, Month: 8, Year: 2022 }
     End: { Day: 22, Month: 9, Year: 2022 }
@@ -169,9 +164,8 @@ export const signInfo = {
       Saturn: [1924]
     },
     Ruler: 'Mercury',
-    Modality: 'Mutable'
-  },
-  libra: {
+    Modality: 'Mutable' },
+        libra: {
     Element: 'Air',
     Start: { Day: 23, Month: 9, Year: 2022 }
     End: { Day: 22, Month: 10, Year: 2022 }
@@ -194,9 +188,8 @@ export const signInfo = {
       Saturn: [16]
     },
     Ruler: 'Venus',
-    Modality: 'Cardinal'
-  },
-  scorpio: {
+    Modality: 'Cardinal' },
+        scorpio: {
     Element: 'Water',
     Start: { Day: 23, Month: 10, Year: 2022 }
     End: { Day: 21, Month: 11, Year: 2022 }
@@ -219,9 +212,8 @@ export const signInfo = {
       Saturn: [2830]
     },
     Ruler: 'Mars',
-    Modality: 'Fixed'
-  },
-  sagittarius: {
+    Modality: 'Fixed' },
+        sagittarius: {
     Element: 'Fire',
     Start: { Day: 22, Month: 11, Year: 2022 }
     End: { Day: 21, Month: 12, Year: 2022 }
@@ -244,9 +236,8 @@ export const signInfo = {
       Saturn: [2125]
     },
     Ruler: 'Jupiter',
-    Modality: 'Mutable'
-  },
-  capricorn: {
+    Modality: 'Mutable' },
+        capricorn: {
     Element: 'Earth',
     Start: { Day: 22, Month: 12, Year: 2022 }
     End: { Day: 19, Month: 1, Year: 2023 }
@@ -269,9 +260,8 @@ export const signInfo = {
       Saturn: [2630]
     },
     Ruler: 'Saturn',
-    Modality: 'Cardinal'
-  },
-  aquarius: {
+    Modality: 'Cardinal' },
+        aquarius: {
     Element: 'Air',
     Start: { Day: 20, Month: 1, Year: 2023 }
     End: { Day: 18, Month: 2, Year: 2023 }
@@ -294,9 +284,8 @@ export const signInfo = {
       Saturn: [16]
     },
     Ruler: 'Saturn',
-    Modality: 'Fixed'
-  },
-  pisces: {
+    Modality: 'Fixed' },
+        pisces: {
     Element: 'Water',
     Start: { Day: 19, Month: 2, Year: 2023 }
     End: { Day: 20, Month: 3, Year: 2023 }

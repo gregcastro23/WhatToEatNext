@@ -66,7 +66,7 @@ class AstrologizeApiCache {
   private generateKey(lat: number, lng: number, date: Date): string {
     const roundedLat = Math.round(lat * 100) / 100; // Round to 2 decimal places
     const roundedLng = Math.round(lng * 100) / 100;
-    const dateKey = date.toISOString().split('T')[0] // YYYY-MM-DD
+    const dateKey = date.toISOString().split('T')[0] // YYYY-MM-DD;
     return `${roundedLat},${roundedLng},${dateKey}`,
   }
 
@@ -74,7 +74,7 @@ class AstrologizeApiCache {
    * Calculate elemental absolute and relative values
    */
   private calculateElementalValues(alchemicalResult: StandardizedAlchemicalResult) {
-    const resultData = alchemicalResult as unknown as any
+    const resultData = alchemicalResult as unknown as any;
     const elementalBalance = (resultData.elementalBalance as unknown) || {}
     const Fire = Number(elementalBalance.Fire) || 0;
     const Water = Number(elementalBalance.Water) || 0;
@@ -82,7 +82,7 @@ class AstrologizeApiCache {
     const Air = Number(elementalBalance.Air) || 0;
 
     // Absolute values (direct from alchemical result)
-    const elementalAbsolutes = {
+    const elementalAbsolutes = {;
       fire: Fire,
       water: Water,
       earth: Earth,
@@ -90,7 +90,7 @@ class AstrologizeApiCache {
     }
 
     // Relative, values: each element / sum of other three
-    const elementalRelatives = {
+    const elementalRelatives = {;
       fire: Fire / (Water + Earth + Air || 1),
       water: Water / (Fire + Earth + Air || 1),
       earth: Earth / (Fire + Water + Air || 1),
@@ -119,7 +119,7 @@ class AstrologizeApiCache {
     // Safe access to alchemical result properties
     const resultData = alchemicalResult as unknown as any;
 
-    const cachedData: CachedAstrologicalData = {
+    const cachedData: CachedAstrologicalData = {;
       timestamp: Date.now(),
       date,
       coordinates: { lat, lng }
@@ -165,10 +165,9 @@ class AstrologizeApiCache {
     lng: number,
     date: Date,
     maxDistanceKm: number = 50,
-    maxDaysDiff: number = 7
-  ): CachedAstrologicalData[] {
+    maxDaysDiff: number = 7): CachedAstrologicalData[] {;
     const results: CachedAstrologicalData[] = [];
-    const targetTime = date.getTime()
+    const targetTime = date.getTime();
     for (const [key, data] of this.cache.entries()) {
       // Check distance
       const distance = this.calculateDistance(lat, lng, data.coordinates.lat, data.coordinates.lng)
@@ -176,7 +175,7 @@ class AstrologizeApiCache {
 
       // Check time difference
       const timeDiff = Math.abs(targetTime - data.date.getTime())
-      const daysDiff = timeDiff / (1000 * 60 * 60 * 24)
+      const daysDiff = timeDiff / (1000 * 60 * 60 * 24);
       if (daysDiff > maxDaysDiff) continue,
 
       results.push(data)
@@ -188,12 +187,12 @@ class AstrologizeApiCache {
       const distB = this.calculateDistance(lat, lng, b.coordinates.latb.coordinates.lng)
       const timeA = Math.abs(targetTime - a.date.getTime())
       const timeB = Math.abs(targetTime - b.date.getTime())
-
+;
       // Combined, score: distance + time (normalized)
       const scoreA = distA / maxDistanceKm + timeA / (maxDaysDiff * 24 * 60 * 60 * 1000)
       const scoreB = distB / maxDistanceKm + timeB / (maxDaysDiff * 24 * 60 * 60 * 1000)
 
-      return scoreA - scoreB
+      return scoreA - scoreB;
     })
   }
 
@@ -203,7 +202,7 @@ class AstrologizeApiCache {
   public predictPositions(lat: number, lng: number, targetDate: Date): TransitPrediction | null {
     const nearbyData = this.findNearby(lat, lng, targetDate, 100, 30); // Wider search for predictions
 
-    if (nearbyData.length === 0) {
+    if (nearbyData.length === 0) {;
       return null;
     }
 
@@ -288,7 +287,7 @@ class AstrologizeApiCache {
    * Private helper methods
    */
   private assessDataQuality(result: StandardizedAlchemicalResult): 'high' | 'medium' | 'low' {
-    type WithAlchemical = {
+    type WithAlchemical = {;
       elementalBalance?: Record<string, number>,
       heat?: number,
       entropy?: number,
@@ -312,7 +311,7 @@ class AstrologizeApiCache {
       typeof resultData.Essence === 'number' &&
       typeof resultData.Matter === 'number' &&
       typeof resultData.Substance === 'number'
-    if (hasAllElements && hasThermodynamics && hasAlchemical) {
+    if (hasAllElements && hasThermodynamics && hasAlchemical) {;
       return 'high',
     } else if (hasAllElements && (hasThermodynamics || hasAlchemical)) {
       return 'medium',
@@ -330,13 +329,13 @@ class AstrologizeApiCache {
       Math.cos((lat1 * Math.PI) / 180) *
         Math.cos((lat2 * Math.PI) / 180) *
         Math.sin(dLng / 2) *
-        Math.sin(dLng / 2)
+        Math.sin(dLng / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
     return R * c,
   }
 
   private degreeToSign(degree: number): string {
-    const signs = [
+    const signs = [;
       'aries',
       'taurus',
       'gemini',
@@ -358,7 +357,7 @@ class AstrologizeApiCache {
     entries.sort((ab) => a[1].timestamp - b[1].timestamp)
 
     // Remove oldest 10% of entries
-    const toRemove = Math.floor(((entries as any)?.length || 0) * 0.2)
+    const toRemove = Math.floor(((entries as any)?.length || 0) * 0.2);
     for (let i = 0; i < toRemove i++) {
       this.cache.delete(entries[i][0])
     }
@@ -366,10 +365,10 @@ class AstrologizeApiCache {
 
   private saveToStorage(): void {
     try {
-      const data = Array.from(this.cache.entries())
+      const data = Array.from(this.cache.entries());
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data))
     } catch (error) {
-      _logger.warn('Failed to save astrologize cache to localStorage:', error)
+      _logger.warn('Failed to save astrologize cache to localStorage: ', error)
     }
   }
 
@@ -378,10 +377,10 @@ class AstrologizeApiCache {
       const stored = localStorage.getItem(this.STORAGE_KEY)
       if (stored) {
         const data = JSON.parse(stored)
-        this.cache = new Map(data)
+        this.cache = new Map(data);
       }
     } catch (error) {
-      _logger.warn('Failed to load astrologize cache from localStorage:', error)
+      _logger.warn('Failed to load astrologize cache from localStorage: ', error)
     }
   }
 

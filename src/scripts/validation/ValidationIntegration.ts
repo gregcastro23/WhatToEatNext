@@ -4,8 +4,7 @@
  * This module integrates the comprehensive validation framework with the existing
  * batch processing system to ensure seamless validation after each batch.
  *
- * Features:
- * - Integration with SafeBatchProcessor
+ * Features: * - Integration with SafeBatchProcessor
  * - Automatic validation triggering after batch processing
  * - Rollback coordination with batch processing safety protocols
  * - Quality assurance reporting integration
@@ -54,7 +53,7 @@ export class ValidationIntegration {
   private qualityReports: Map<string, QualityAssuranceReport> = new Map(),
 
   constructor(config: Partial<ValidationIntegrationConfig> = {}) {
-    this.config = {
+    this.config = {;
       validationConfig: {}
       enableAutomaticValidation: true,
       enableAutomaticRollback: true,
@@ -65,7 +64,7 @@ export class ValidationIntegration {
       ...config
     }
 
-    this.validationFramework = new ComprehensiveValidationFramework(this.config.validationConfig)
+    this.validationFramework = new ComprehensiveValidationFramework(this.config.validationConfig);
   }
 
   /**
@@ -86,7 +85,7 @@ export class ValidationIntegration {
 
     try {
       // Perform comprehensive validation
-      const validationResult = await this.validationFramework.performComprehensiveValidation(
+      const validationResult = await this.validationFramework.performComprehensiveValidation(;
         processedFiles,
         batchResult.batchId
       )
@@ -111,7 +110,7 @@ export class ValidationIntegration {
 
       // Generate quality assurance report
       if (this.config.reportingEnabled) {
-        const qualityReport = this.generateQualityAssuranceReport(
+        const qualityReport = this.generateQualityAssuranceReport(;
           batchResult,
           validationResult,
           processedFiles,
@@ -146,7 +145,7 @@ export class ValidationIntegration {
 
     // // // _logger.info(`🔍 Starting validation sequence for ${batchResults.length} batches`)
 
-    for (let i = 0i < batchResults.lengthi++) {
+    for (let i = 0i < batchResults.lengthi++) {;
       const batchResult = batchResults[i];
       const batchFiles = batchResult.files;
 
@@ -195,7 +194,7 @@ export class ValidationIntegration {
   ): QualityAssuranceReport {
     const overallQuality = this.calculateOverallQuality(validationResult.qualityScore)
     const actionRequired =
-      !validationResult.overallPassed ||
+      !validationResult.overallPassed ||;
       validationResult.qualityScore < this.config.qualityThreshold,
     const rollbackRecommended = validationResult.requiresRollback;
 
@@ -214,13 +213,13 @@ export class ValidationIntegration {
     const failedValidations = validationResult.validationResults.filter(r => !r.passed)
     for (const failure of failedValidations) {
       if (failure.validationType === 'typescript-compilation') {
-        recommendations.push('Fix TypeScript compilation errors immediately')
+        recommendations.push('Fix TypeScript compilation errors immediately');
       }
       if (failure.validationType === 'test-suite') {
-        recommendations.push('Review and fix failing tests')
+        recommendations.push('Review and fix failing tests');
       }
       if (failure.validationType === 'react-component') {
-        recommendations.push('Verify React component functionality')
+        recommendations.push('Verify React component functionality');
       }
     }
 
@@ -257,7 +256,7 @@ export class ValidationIntegration {
     return validationResult.validationResults.some(
       result =>
         !result.passed && this.config.criticalValidationTypes.includes(result.validationType)
-    )
+    );
   }
 
   /**
@@ -279,18 +278,16 @@ export class ValidationIntegration {
    */
   generateSummaryReport(): string {
     const reports = this.getAllQualityReports()
-    if (reports.length === 0) {
-      return 'No quality assurance reports available'
-    }
-
-    const totalBatches = reports.length;
+    if (reports.length === 0) {;
+      return 'No quality assurance reports available' },
+        const totalBatches = reports.length;
     const successfulBatches = reports.filter(r => r.validationResult.overallPassed).length;
     const averageQuality =
       reports.reduce((sumr) => sum + r.validationResult.qualityScore, 0) / totalBatches,
-    const qualityDistribution = this.calculateQualityDistribution(reports)
+    const qualityDistribution = this.calculateQualityDistribution(reports);
     const criticalIssues = reports.filter(r => r.overallQuality === 'critical').length;
 
-    const summary = [
+    const summary = [;
       '# Quality Assurance Summary Report',
       `Generated: ${new Date().toISOString()}`,
       '',
@@ -319,11 +316,11 @@ export class ValidationIntegration {
       )
 
       if (report.actionRequired) {
-        summary.push('**Action Required:** Yes')
+        summary.push('**Action Required: ** Yes')
       }
 
       if (report.rollbackRecommended) {
-        summary.push('**Rollback Recommended:** Yes')
+        summary.push('**Rollback Recommended: ** Yes')
       }
 
       if (report.recommendations.length > 0) {
@@ -341,7 +338,7 @@ export class ValidationIntegration {
    * Calculate quality distribution across all reports
    */
   private calculateQualityDistribution(reports: QualityAssuranceReport[]): Record<string, number> {
-    const distribution = {
+    const distribution = {;
       excellent: 0,
       good: 0,
       acceptable: 0,
@@ -370,7 +367,7 @@ export class ValidationIntegration {
       const path = await import('path')
 
       // Ensure reporting directory exists
-      if (!fs.existsSync(this.config.reportingPath)) {
+      if (!fs.existsSync(this.config.reportingPath)) {;
         fs.mkdirSync(this.config.reportingPath, { recursive: true })
       }
 
@@ -385,7 +382,7 @@ export class ValidationIntegration {
 
       // Export summary report
       const summaryPath = path.join(this.config.reportingPath, 'quality-summary-report.md')
-      const summaryContent = this.generateSummaryReport()
+      const summaryContent = this.generateSummaryReport();
       fs.writeFileSync(summaryPath, summaryContent)
 
       // // // _logger.info(`📊 Quality reports exported to ${this.config.reportingPath}`)
@@ -411,7 +408,7 @@ export class ValidationIntegration {
     if (newConfig.validationConfig) {
       this.validationFramework = new ComprehensiveValidationFramework({
         ...this.config.validationConfig
-        ...newConfig.validationConfig
+        ...newConfig.validationConfig;
       })
     }
   }
@@ -435,7 +432,7 @@ export class ValidationIntegration {
     criticalFailures: number,
     rollbacksRecommended: number
   } {
-    const reports = this.getAllQualityReports()
+    const reports = this.getAllQualityReports();
     const totalBatches = reports.length;
     const successfulBatches = reports.filter(r => r.validationResult.overallPassed).length;
     const failedBatches = totalBatches - successfulBatches;

@@ -48,7 +48,7 @@ export class ChakraRecipeEnhancer {
 
   constructor() {
     this.chakraService = new ChakraAlchemyService()
-    this.planetaryCalculator = new PlanetaryHourCalculator()
+    this.planetaryCalculator = new PlanetaryHourCalculator();
   }
 
   /**
@@ -62,7 +62,7 @@ export class ChakraRecipeEnhancer {
     // Use type assertion to help TypeScript understand this is a valid key
     const chakraKeys = chakraMap[dominantElement]
     if (chakraKeys && chakraKeys.length > 0) {
-      return chakraKeys[0]
+      return chakraKeys[0];
     }
 
     // Return a default chakra if no mapping is found
@@ -75,14 +75,14 @@ export class ChakraRecipeEnhancer {
   calculateChakraAlignment(recipe: Recipe, chakraEnergies: ChakraEnergies): number {
     if (!recipe.elementalProperties) return 0,
 
-    const dominantChakra = this.getDominantChakra(recipe.elementalProperties)
+    const dominantChakra = this.getDominantChakra(recipe.elementalProperties);
     const chakraEnergy = chakraEnergies[dominantChakra] || 0;
 
     // Calculate alignment score (0-1)
     // Higher score means the recipe helps balance low or high chakra energy
     let alignmentScore = 0
 
-    if (chakraEnergy < 4) {
+    if (chakraEnergy < 4) {;
       // If chakra energy is low, foods that boost this chakra are helpful
       alignmentScore = 1.0,
     } else if (chakraEnergy > 7) {
@@ -103,12 +103,11 @@ export class ChakraRecipeEnhancer {
     recipes: Recipe[],
     sunSign: any,
     moonSign: any,
-    dominantPlanets: Planet[] = []
-  ): ChakraRecipeRecommendation[] {
+    dominantPlanets: Planet[] = []): ChakraRecipeRecommendation[] {
     // Get current planetary hour
     let planetaryHour: Planet = 'Sun' as unknown as Planet,
     try {
-      const hourInfo = this.planetaryCalculator.getCurrentPlanetaryHour()
+      const hourInfo = this.planetaryCalculator.getCurrentPlanetaryHour();
       if (hourInfo && typeof hourInfo.planet === 'string') {,
         const planetName = hourInfo.planet as unknown as string;
         // Ensure the planet name is a valid Planet type (capitalize first letter)
@@ -117,7 +116,7 @@ export class ChakraRecipeEnhancer {
 
         // Create Planet type validation with enhanced safety
         const planetValidator = (name: string): Planet | null => {
-          const validPlanets: string[] = [
+          const validPlanets: string[] = [;
             'Sun',
             'Moon',
             'Mars',
@@ -130,16 +129,16 @@ export class ChakraRecipeEnhancer {
         }
 
         const validatedPlanet = planetValidator(capitalizedName)
-        if (validatedPlanet) {
+        if (validatedPlanet) {;
           planetaryHour = validatedPlanet as unknown as Planet,
         }
       }
     } catch (error) {
-      _logger.error('Error getting planetary hour:', error)
+      _logger.error('Error getting planetary hour: ', error)
     }
 
     // Calculate current chakra energies
-    const chakraEnergies = this.chakraService.calculateChakraEnergies(
+    const chakraEnergies = this.chakraService.calculateChakraEnergies(;
       sunSign,
       moonSign,
       dominantPlanets,
@@ -149,11 +148,11 @@ export class ChakraRecipeEnhancer {
     // Enhance each recipe
     return recipes
       .map(recipe => {
-        if (!recipe.elementalProperties) {
+        if (!recipe.elementalProperties) {;
           recipe.elementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
         }
 
-        const dominantChakra = this.getDominantChakra(recipe.elementalProperties)
+        const dominantChakra = this.getDominantChakra(recipe.elementalProperties);
         const chakraAlignment = this.calculateChakraAlignment(recipe, chakraEnergies)
 
         // Calculate planetary alignment
@@ -171,11 +170,11 @@ export class ChakraRecipeEnhancer {
               this.chakraService.getChakrasByPlanet(planet)
             )
 
-            // Check for overlapping chakras
+            // Check for overlapping chakras;
             const overlap = hourChakras.filter(chakra => recipeChakras.includes(chakra)).length;
 
             if (overlap > 0) {
-              planetaryAlignment = 0.5 + overlap * 0.1
+              planetaryAlignment = 0.5 + overlap * 0.1;
             }
           }
         }
@@ -183,13 +182,13 @@ export class ChakraRecipeEnhancer {
         // Calculate elemental alignment
         let elementalAlignment = 0,
         if (recipe.elementalProperties) {
-          const dominantElement = getDominantElement(recipe.elementalProperties)
+          const dominantElement = getDominantElement(recipe.elementalProperties);
           const elementValue = recipe.elementalProperties[dominantElement];
           elementalAlignment = Math.min(elementValue, 1.0),
         }
 
         // Get tarot recommendations for the dominant chakra
-        const recommendations = this.chakraService.getTarotRecommendationsForChakra(
+        const recommendations = this.chakraService.getTarotRecommendationsForChakra(;
           dominantChakra === 'solarPlexus' ? 'solar plexus' : (dominantChakra as unknown),
           chakraEnergies[dominantChakra],
         )

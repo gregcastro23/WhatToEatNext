@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawRootVegetables = {
-  heirloom_carrot: {
+  heirloom_carrot: {;
     name: 'Heirloom Carrot',
     elementalProperties: { Earth: 0.5, Fire: 0.3, Water: 0.1, Air: 0.1 }
     astrologicalProfile: {
@@ -11,9 +11,9 @@ const rawRootVegetables = {
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Venus' }
-          second: { element: 'Fire', planet: 'Sun' }
-          third: { element: 'Air', planet: 'Mercury' }
+          first: { element: 'Earth', planet: 'Venus' },
+        second: { element: 'Fire', planet: 'Sun' },
+        third: { element: 'Air', planet: 'Mercury' }
         }
       }
     },
@@ -35,9 +35,8 @@ const rawRootVegetables = {
     preparation: {
       washing: true,
       peeling: 'optional',
-      notes: 'Can be used whole for presentation'
-    },
-    storage: {
+      notes: 'Can be used whole for presentation' },
+        storage: {
       temperature: 'refrigerated',
       duration: '2-3 weeks',
       notes: 'Remove greens before storing'
@@ -52,9 +51,9 @@ const rawRootVegetables = {
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Mars' }
-          second: { element: 'Earth', planet: 'Saturn' }
-          third: { element: 'Air', planet: 'Uranus' }
+          first: { element: 'Fire', planet: 'Mars' },
+        second: { element: 'Earth', planet: 'Saturn' },
+        third: { element: 'Air', planet: 'Uranus' }
         }
       }
     },
@@ -75,9 +74,8 @@ const rawRootVegetables = {
     preparation: {
       washing: true,
       peeling: 'recommended for older radishes',
-      notes: 'Soak in cold water to reduce pungency'
-    },
-    storage: {
+      notes: 'Soak in cold water to reduce pungency' },
+        storage: {
       temperature: 'refrigerated',
       duration: '2-3 weeks',
       notes: 'Store in plastic bag with moisture'
@@ -92,9 +90,9 @@ const rawRootVegetables = {
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Venus' }
-          second: { element: 'Water', planet: 'Moon' }
-          third: { element: 'Air', planet: 'Mercury' }
+          first: { element: 'Earth', planet: 'Venus' },
+        second: { element: 'Water', planet: 'Moon' },
+        third: { element: 'Air', planet: 'Mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -125,9 +123,8 @@ const rawRootVegetables = {
     preparation: {
       washing: true,
       peeling: 'optional',
-      notes: 'Remove greens before storing'
-    },
-    storage: {
+      notes: 'Remove greens before storing' },
+        storage: {
       temperature: 'refrigerated',
       duration: '2-3 weeks',
       notes: 'Store in crisper drawer'
@@ -142,9 +139,9 @@ const rawRootVegetables = {
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Mars' }
-          second: { element: 'Fire', planet: 'Sun' }
-          third: { element: 'Earth', planet: 'Venus' }
+          first: { element: 'Fire', planet: 'Mars' },
+        second: { element: 'Fire', planet: 'Sun' },
+        third: { element: 'Earth', planet: 'Venus' }
         }
       }
     },
@@ -165,9 +162,8 @@ const rawRootVegetables = {
     preparation: {
       peeling: 'recommended',
       grating: 'for intense flavor',
-      notes: 'Can be frozen for longer storage'
-    },
-    storage: {
+      notes: 'Can be frozen for longer storage' },
+        storage: {
       temperature: 'room temperature or refrigerated',
       duration: '3-4 weeks',
       notes: 'Store in dry place or refrigerate in paper bag'
@@ -182,9 +178,9 @@ const rawRootVegetables = {
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Venus' }
-          second: { element: 'Water', planet: 'Moon' }
-          third: { element: 'Air', planet: 'Saturn' }
+          first: { element: 'Earth', planet: 'Venus' },
+        second: { element: 'Water', planet: 'Moon' },
+        third: { element: 'Air', planet: 'Saturn' }
         }
       }
     },
@@ -205,9 +201,8 @@ const rawRootVegetables = {
     preparation: {
       washing: true,
       peeling: 'optional',
-      notes: 'Soak in water with lemon juice to prevent browning'
-    },
-    storage: {
+      notes: 'Soak in water with lemon juice to prevent browning' },
+        storage: {
       temperature: 'refrigerated',
       duration: '1-2 weeks',
       notes: 'Store in paper bag in crisper drawer'

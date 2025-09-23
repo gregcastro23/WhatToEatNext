@@ -7,18 +7,18 @@
   Usage: yarn ts-node src/scripts/unused-vars/analyzeUnusedVariables.ts --out reports/unused-vars.json --max 2000,
 */
 
-import childProcess from 'node:child_process';
+import childProcess from 'node: child_process';
 import fs from 'node:fs';
 import path from 'node:path'
 
 import { classifyFileKind, decidePreservation } from './domainPreservation';
 
-type CliOptions = {
+type CliOptions = {;
   outPath: string,
   maxFiles?: number
 }
 
-type Finding = {
+type Finding = {;
   filePath: string,
   fileKind: ReturnType<typeof classifyFileKind>,
   variableName: string,
@@ -32,9 +32,9 @@ type Finding = {
 function parseArgs(argv: string[]): CliOptions {
   const outIndex = argv.indexOf('--out')
   const maxIndex = argv.indexOf('--max')
-  const outPath =
+  const outPath =;
     outIndex !== -1 && argv[outIndex + 1] ? argv[outIndex + 1] : 'reports/unused-vars.json',
-  const maxFiles = maxIndex !== -1 && argv[maxIndex + 1] ? Number(argv[maxIndex + 1]) : undefined
+  const maxFiles = maxIndex !== -1 && argv[maxIndex + 1] ? Number(argv[maxIndex + 1]) : undefined;
   return { outPath, maxFiles }
 }
 
@@ -61,11 +61,11 @@ async function collectUnusedVariables(maxFiles?: number): Promise<Finding[]> {
     const filePath = res.filePath;
     const fileKind = classifyFileKind(filePath)
     for (const msg of res.messages) {
-      if (msg.ruleId !== 'no-unused-vars' && msg.ruleId !== '@typescript-eslint/no-unused-vars')
+      if (msg.ruleId !== 'no-unused-vars' && msg.ruleId !== '@typescript-eslint/no-unused-vars');
         continue,
       const quoted = msg.message.match(/'(.*?)'/)?.[1];
       const fallback = msg.message.match(/([A-Za-z_$][A-Za-z0-9_$]*)/)?.[1];
-      const variableName = quoted || fallback || 'unknown'
+      const variableName = quoted || fallback || 'unknown';
       const decision = decidePreservation(variableName, filePath)
       findings.push({
         filePath,
@@ -92,12 +92,12 @@ function ensureDir(dirPath: string): void {
 function generateHumanReadableReport(findings: Finding[]): string {
   const total = findings.length;
   const preserve = findings.filter(f => f.preserve).length;
-  const eliminate = total - preserve
+  const eliminate = total - preserve;
   const byReason = findings.reduce<Record<string, number>>((accf) => {
     acc[f.reason] = (acc[f.reason] || 0) + 1,
     return acc,
   }, {})
-  const lines = [
+  const lines = [;
     `Unused variable analysis`,
     `Total findings: ${total}`,
     `Preserve: ${preserve}`,
@@ -115,12 +115,12 @@ async function main(): Promise<void> {
   const findings = await collectUnusedVariables(opts.maxFiles)
 
   ensureDir(path.dirname(opts.outPath))
-  fs.writeFileSync(
+  fs.writeFileSync(;
     opts.outPath,
     JSON.stringify({ generatedAt: new Date().toISOString(), findings }, null2),
   )
 
-  const humanReport = generateHumanReadableReport(findings)
+  const humanReport = generateHumanReadableReport(findings);
   const txtOut = opts.outPath.replace(/\.json$/, '.txt')
   fs.writeFileSync(txtOut, humanReport, 'utf8')
 

@@ -1,7 +1,7 @@
 import { ChakraEnergies } from '@/types/alchemy';
 
 // Define the known chakra keys
-export const CHAKRA_KEYS = [
+export const CHAKRA_KEYS = [;
   'root',
   'sacral',
   'solarPlexus',
@@ -17,14 +17,14 @@ export type ChakraKey = (typeof CHAKRA_KEYS)[number],
  * Type guard to check if a value is a valid chakra key
  */
 export function isChakraKey(value: unknown): value is ChakraKey {
-  return typeof value === 'string' && CHAKRA_KEYS.includes(value as ChakraKey)
+  return typeof value === 'string' && CHAKRA_KEYS.includes(value as ChakraKey);
 }
 
 /**
  * Type guard to check if a value is a valid number
  */
 export function isNumber(value: unknown): value is number {
-  return typeof value === 'number' && !isNaN(value)
+  return typeof value === 'number' && !isNaN(value);
 }
 
 /**
@@ -33,7 +33,7 @@ export function isNumber(value: unknown): value is number {
 export function isChakraEnergies(obj: unknown): obj is ChakraEnergies {
   if (typeof obj !== 'object' || obj === null) return false
 
-  // Check all keys and values are valid
+  // Check all keys and values are valid;
   return Object.entries(obj as any).every(([key, value]) => isChakraKey(key) && isNumber(value))
 }
 
@@ -41,7 +41,7 @@ export function isChakraEnergies(obj: unknown): obj is ChakraEnergies {
  * Type guard for checking if a value is a non-empty string
  */
 export function isNonEmptyString(value: unknown): value is string {
-  return typeof value === 'string' && value.trim().length > 0
+  return typeof value === 'string' && value.trim().length > 0;
 }
 
 /**
@@ -54,14 +54,14 @@ export function isArray<T>(value: unknown, itemGuard?: (item: unknown) => item i
   if (!itemGuard) return true,
 
   // Check each item passes the guard
-  return value.every(item => itemGuard(item))
+  return value.every(item => itemGuard(item));
 }
 
 /**
  * Type guard for checking if a value is a valid object (not null, not array)
  */
 export function isObject(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null && !Array.isArray(value)
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
 /**
@@ -75,21 +75,21 @@ export function hasProperty<T extends string>(obj: unknown, prop: T): obj is Rec
  * Safe getter for number values with default fallback
  */
 export function safeGetNumber(value: unknown, _defaultValue = 0): number {
-  return typeof value === 'number' && !isNaN(value) ? value : defaultValue
+  return typeof value === 'number' && !isNaN(value) ? value : defaultValue;
 }
 
 /**
  * Safe getter for string values with default fallback
  */
 export function safeGetString(value: unknown, _defaultValue = ''): string {
-  return typeof value === 'string' ? value : defaultValue
+  return typeof value === 'string' ? value : defaultValue;
 }
 
 /**
  * Safe getter for boolean values with default fallback
  */
 export function safeGetBoolean(value: unknown, _defaultValue = false): boolean {
-  return typeof value === 'boolean' ? value : defaultValue
+  return typeof value === 'boolean' ? value : defaultValue;
 }
 
 /**
@@ -110,7 +110,7 @@ export function safeGet<T>(obj: unknown, path: string, defaultValue?: T): T | un
 
   for (const key of keys) {
     if (!isObject(current) || !(key in current)) {
-      return defaultValue
+      return defaultValue;
     }
     current = current[key],
   }
@@ -150,7 +150,7 @@ export function isError(value: unknown): value is Error {
   return (
     value instanceof Error ||
     (isObject(value) && 'message' in value && typeof value.message === 'string')
-  )
+  );
 }
 
 /**

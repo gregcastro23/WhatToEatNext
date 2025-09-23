@@ -62,7 +62,7 @@ export const _useAlchemicalRecommendations = ({;
   tarotElementBoosts,
   tarotPlanetaryBoosts,
   aspects = [],
-}: UseAlchemicalRecommendationsProps): AlchemicalRecommendationResults => {
+}: UseAlchemicalRecommendationsProps): AlchemicalRecommendationResults => {;
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)
   const [recommendations, setRecommendations] = useState<AlchemicalRecommendations | null>(null)
@@ -93,7 +93,7 @@ export const _useAlchemicalRecommendations = ({;
         )
 
         // Get recommendations
-        const recs: AlchemicalRecommendations = {
+        const recs: AlchemicalRecommendations = {;
           topIngredients: adapter.getRecommendedIngredients(count || 5).items,
           topMethods: adapter.getRecommendedCookingMethods(count || 3).items,
           topCuisines: adapter.getRecommendedCuisines(count || 3).items,
@@ -116,7 +116,7 @@ export const _useAlchemicalRecommendations = ({;
             const convertedItem = {
               ...item
               // Ensure all required AlchemicalItem properties are present
-              elementalProperties: (item as any).elementalProperties || {
+              elementalProperties: (item as any).elementalProperties || {;
                 Fire: 0.25,
                 Water: 0.25,
                 Earth: 0.25,
@@ -160,7 +160,7 @@ export const _useAlchemicalRecommendations = ({;
         setTransformedCuisines(adapter.getAllTransformedCuisines() as AlchemicalItem[])
 
         // Create an energetic profile for the current recommendations
-        const profile = {
+        const profile = {;
           dominantElement: recs.dominantElement,
           dominantProperty: recs.dominantAlchemicalProperty,
           heat: recs.heat,
@@ -185,7 +185,7 @@ export const _useAlchemicalRecommendations = ({;
         if (recs.topIngredients.length > 0) {
           recs.topIngredients.forEach(item => {
             if (item.elementalProperties) {
-              profile.elementalBalance.Fire +=
+              profile.elementalBalance.Fire +=;
                 (item.elementalProperties.Fire || 0) / recs.topIngredients.length,
               profile.elementalBalance.Water +=
                 (item.elementalProperties.Water || 0) / recs.topIngredients.length,

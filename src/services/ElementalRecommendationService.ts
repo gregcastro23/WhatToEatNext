@@ -14,11 +14,11 @@ export class ElementalRecommendationService {
   public static generateRecommendation(properties: ElementalProperties): ElementalRecommendation {
     const profile = elementalUtils.getElementalProfile(properties)
     const dominantElement = this.getDominantElement(properties)
-
+;
     // Fix, TS2339: Property access on service object using safe type casting
     const utilsService = elementalUtils as any
 
-    return {
+    return {;
       elementalBalance: properties,
       dominantElement,
       cookingTechniques: elementalUtils.getSuggestedCookingTechniques(properties),
@@ -26,7 +26,7 @@ export class ElementalRecommendationService {
       complementaryIngredients: [elementalUtils.getComplementaryElement(dominantElement) as string],
       flavorProfiles: utilsService.getFlavorProfileRecommendations &&,
         typeof utilsService.getFlavorProfileRecommendations === 'function'
-          ? utilsService.getFlavorProfileRecommendations(properties)
+          ? utilsService.getFlavorProfileRecommendations(properties);
           : [],
       healthBenefits: utilsService.getHealthBenefits && typeof utilsService.getHealthBenefits === 'function',
           ? utilsService.getHealthBenefits(properties)
@@ -38,13 +38,13 @@ export class ElementalRecommendationService {
         const characteristics = profile.characteristics as unknown as any
         return Array.isArray(characteristics.moodEffects)
           ? (characteristics.moodEffects as string[])
-          : []
+          : [];
       })(),
       culinaryHerbs: (() => {
         const characteristics = profile.characteristics as unknown as any
         return Array.isArray(characteristics.culinaryHerbs)
           ? (characteristics.culinaryHerbs as string[])
-          : []
+          : [];
       })()
     }
   }
@@ -56,11 +56,11 @@ export class ElementalRecommendationService {
    */
   public static generateZodiacRecommendation(zodiacSign: any): ElementalRecommendation {
     const element = ZODIAC_ELEMENTS[zodiacSign];
-    const properties = {
+    const properties = {;
       Fire: element === 'Fire' ? 0.6 : 0.1,
       Water: element === 'Water' ? 0.6 : 0.1,
       Earth: element === 'Earth' ? 0.6 : 0.1,
-      Air: element === 'Air' ? 0.6 : 0.1
+      Air: element === 'Air' ? 0.6 : 0.1;
     }
 
     return this.generateRecommendation(elementalUtils.normalizeProperties(properties))
@@ -84,7 +84,7 @@ export class ElementalRecommendationService {
       'waning crescent': { Earth: 0.5, Air: 0.2 }
     }
 
-    const properties = {
+    const properties = {;
       Fire: lunarElementalMap[lunarPhase].Fire || 0.25,
       Water: lunarElementalMap[lunarPhase].Water || 0.25,
       Earth: lunarElementalMap[lunarPhase].Earth || 0.25,
@@ -101,7 +101,7 @@ export class ElementalRecommendationService {
    */
   public static generateRecipeRecommendation(recipe: Recipe): ElementalRecommendation {
     const properties = elementalUtils.calculateelementalState(recipe)
-    return this.generateRecommendation(properties)
+    return this.generateRecommendation(properties);
   }
 
   /**
@@ -112,8 +112,7 @@ export class ElementalRecommendationService {
   private static getDominantElement(properties: ElementalProperties): string {
     return Object.entries(properties).reduce(
       (max, [element, value]) => (value > max.value ? { element, value } : max),
-      { element: '', value: 0 }
-    ).element,
+      { element: '', value: 0 }).element,
   }
 
   /**

@@ -43,14 +43,12 @@ export interface CookingStep {
   description: string,
   duration?: {
     value: number,
-    unit: 'minutes' | 'hours'
-  }
-  method?: string
+    unit: 'minutes' | 'hours' },
+        method?: string
   temperature?: {
     value: number,
-    unit: 'C' | 'F'
-  }
-  notes?: string
+    unit: 'C' | 'F' },
+        notes?: string
 }
 
 export interface NutritionalInfo {

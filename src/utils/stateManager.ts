@@ -49,15 +49,13 @@ interface UserPreferences {
     restrictions: DietaryRestriction[],
     favorites: string[],
     excluded: string[],
-    spiciness: 'mild' | 'medium' | 'hot'
-  },
-  cooking: {
+    spiciness: 'mild' | 'medium' | 'hot' },
+        cooking: {
     preferredMethods: string[],
     maxPrepTime: number,
     servingSize: number,
-    complexity: 'simple' | 'moderate' | 'complex'
-  },
-  cuisines: {
+    complexity: 'simple' | 'moderate' | 'complex' },
+        cuisines: {
     preferred: CuisineType[],
     excluded: CuisineType[]
   }
@@ -115,13 +113,13 @@ class StateManager {
   private constructor() {
     this.listeners = new Map()
     this.state = this.loadInitialState()
-    this.initializeState()
+    this.initializeState();
   }
 
   public static async getInstance(): Promise<StateManager> {
     if (!StateManager.instance) {
       StateManager.instance = new StateManager()
-      await StateManager.instance.initializeState()
+      await StateManager.instance.initializeState();
     }
     return StateManager.instance,
   }
@@ -133,10 +131,10 @@ class StateManager {
       // Add type guard to ensure cached data has the right shape
       if (cached && this.isValidAppState(cached)) {
         // Ensure activeFilters is a Set after deserialization
-        if (cached.ui) {
+        if (cached.ui) {;
           const ui = cached.ui as any;
           if (Array.isArray(ui.activeFilters)) {
-            cached.ui.activeFilters = new Set(ui.activeFilters as string[])
+            cached.ui.activeFilters = new Set(ui.activeFilters as string[]);
           }
         }
         return cached,
@@ -148,7 +146,7 @@ class StateManager {
         const parsed = JSON.parse(stored)
         // Ensure activeFilters is a Set after deserialization
         if (parsed.ui && Array.isArray(parsed.ui.activeFilters)) {
-          parsed.ui.activeFilters = new Set(parsed.ui.activeFilters)
+          parsed.ui.activeFilters = new Set(parsed.ui.activeFilters);
         }
         if (this.isValidAppState(parsed)) {
           return parsed
@@ -156,7 +154,7 @@ class StateManager {
       }
       return this.getDefaultState()
     } catch (error) {
-      logger.error('Error loading state:', error)
+      logger.error('Error loading state: ', error)
       return this.getDefaultState()
     }
   }
@@ -202,15 +200,13 @@ class StateManager {
             restrictions: [],
             favorites: [],
             excluded: [],
-            spiciness: 'medium'
-          },
-          cooking: {
+            spiciness: 'medium' },
+        cooking: {
             preferredMethods: [],
             maxPrepTime: 60,
             servingSize: 2,
-            complexity: 'moderate'
-          },
-          cuisines: {
+            complexity: 'moderate' },
+        cuisines: {
             preferred: [],
             excluded: []
           }
@@ -247,7 +243,7 @@ class StateManager {
 
       this.saveState()
     } catch (error) {
-      _logger.error('Error initializing state:', error)
+      _logger.error('Error initializing state: ', error)
     }
   }
 
@@ -261,7 +257,7 @@ class StateManager {
     try {
       const influences = celestialCalculator.calculateCurrentInfluences()
       // Convert influences to proper ElementalProperties
-      const elementalState: ElementalProperties = {
+      const elementalState: ElementalProperties = {;
         Fire: influences.elementalBalance?.Fire || 0,
         Water: influences.elementalBalance?.Water || 0,
         Earth: influences.elementalBalance?.Earth || 0,
@@ -276,13 +272,13 @@ class StateManager {
         }
       })
     } catch (error) {
-      logger.error('Error updating celestial data:', error)
+      logger.error('Error updating celestial data: ', error)
     }
   }
 
   private saveState(): void {
     try {
-      const serializable = {
+      const serializable = {;
         ...this.state,
         ui: {
           ...this.state.ui
@@ -294,7 +290,7 @@ class StateManager {
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(serializable))
       cache.set(this.STORAGE_KEY, this.state)
     } catch (error) {
-      logger.error('Error saving state:', error)
+      logger.error('Error saving state: ', error)
     }
   }
 
@@ -316,13 +312,13 @@ class StateManager {
 
     const listenerSet = this.listeners.get(key)
     if (listenerSet) {
-      listenerSet.add(listener)
+      listenerSet.add(listener);
     }
 
     return () => {
       const listeners = this.listeners.get(key)
       if (listeners) {
-        listeners.delete(listener)
+        listeners.delete(listener);
         if (listeners.size === 0) {,
           this.listeners.delete(key)
         }
@@ -332,7 +328,7 @@ class StateManager {
 
   private notifyListeners(): void {
     this.listeners.forEach(listeners => {
-      listeners.forEach(listener => listener(this.state))
+      listeners.forEach(listener => listener(this.state));
     })
   }
 
@@ -341,7 +337,7 @@ class StateManager {
     const history = [...this.state.user.history[type]];
     const index = history.indexOf(recipeId)
     if (index > -1) {
-      history.splice(index1)
+      history.splice(index1);
     }
     history.unshift(recipeId)
 
@@ -377,7 +373,7 @@ class StateManager {
     const favorites = [...this.state.recipes.favorites];
     const index = favorites.indexOf(recipeId)
     if (index > -1) {
-      favorites.splice(index1)
+      favorites.splice(index1);
     } else {
       favorites.push(recipeId)
     }
@@ -391,7 +387,7 @@ class StateManager {
   }
 
   addNotification(type: 'success' | 'error' | 'info', message: string): void {
-    const notification = {
+    const notification = {;
       id: Date.now().toString(),
       type,
       message,
@@ -421,3 +417,4 @@ class StateManager {
 
 /** @see StateManager for usage */
 export const stateManager = StateManager.getInstance()
+;

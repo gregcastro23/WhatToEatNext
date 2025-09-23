@@ -60,7 +60,7 @@ export interface RuneAgentResult {
 
 function generateLocalRune(): RuneResult {
   // Simplified local fallback - would use more sophisticated logic
-  const runes = [
+  const runes = [;
     { symbol: '᚛', name: 'Fehu', meaning: 'Wealth, abundance, nourishment' }
     { symbol: '᚜', name: 'Uruz', meaning: 'Strength, vitality, primal energy' }
     { symbol: '᚝', name: 'Thurisaz', meaning: 'Transformation, protection, power' }
@@ -84,7 +84,7 @@ function generateLocalRune(): RuneResult {
 
 function generateLocalAgent(context: string = 'cuisine'): AgentRecommendation {
   const agents = {
-    cuisine: {
+    cuisine: {;
       name: 'Culinary Sage',
       archetype: 'Wise Cook',
       guidance: 'Balance flavors with elemental harmony',
@@ -123,7 +123,7 @@ function generateLocalAgent(context: string = 'cuisine'): AgentRecommendation {
 
 /**
  * Env flags required (set in .env.local):
- * - NEXT_PUBLIC_BACKEND_URL: e.g., http://localhost:8000
+ * - NEXT_PUBLIC_BACKEND_URL: e.g., http: //localhost:8000
  * - NEXT_PUBLIC_RUNE_AGENT_BACKEND: 'true' to enable backend-first calls
  */
 export class RuneAgentClient {
@@ -139,14 +139,14 @@ export class RuneAgentClient {
     // 1) Backend-first using centralized API client
     if (this.useBackend && this.backendUrl) {
       try {
-        const request: RuneAgentRequest = {
+        const request: RuneAgentRequest = {;
           datetime: input.datetime?.toISOString(),
           location: input.location,
           context: input.context,
           preferences: input.preferences
         }
 
-        const result = await alchmAPI.getRuneGuidance(request)
+        const result = await alchmAPI.getRuneGuidance(request);
         logger.debug('RuneAgentClient', 'Backend rune generation successful', result)
         return result,
       } catch (error) {
@@ -164,7 +164,7 @@ export class RuneAgentClient {
     if (this.useBackend && this.backendUrl) {
       try {
         const url = new URL('/api/consciousness/live', this.backendUrl)
-        const payload = {
+        const payload = {;
           datetime: input.datetime?.toISOString() || new Date().toISOString(),
           location: input.location,
           context: input.context || 'cuisine',
@@ -173,8 +173,8 @@ export class RuneAgentClient {
 
         const res = await fetch(url.toString(), {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' }
-          body: JSON.stringify(payload)
+          headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
         })
         if (!res.ok) throw new Error(`Backend error ${res.status}`)
 
@@ -200,7 +200,7 @@ export class RuneAgentClient {
     // Generate consciousness data (simplified local version)
     const alchemicalState = getCurrentAlchemicalState()
     const consciousness = {
-      mcValues: {
+      mcValues: {;
         creativity: alchemicalState.thermodynamicProperties.entropy,
         stability: 1 - alchemicalState.thermodynamicProperties.reactivity,
         transformation: alchemicalState.thermodynamicProperties.heat,
@@ -220,3 +220,4 @@ export class RuneAgentClient {
 }
 
 export const runeAgentClient = new RuneAgentClient()
+;

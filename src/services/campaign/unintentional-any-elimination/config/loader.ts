@@ -17,12 +17,10 @@ export type Environment = 'development' | 'production' | 'testing',
  */
 export function getCurrentEnvironment(): Environment {
   const env = process.env.NODE_ENV?.toLowerCase()
-
+;
   if (env === 'production' || env === 'prod') {,
-    return 'production'
-  }
-
-  if (env === 'test' || env === 'testing') {,
+    return 'production' },
+        if (env === 'test' || env === 'testing') {,
     return 'testing',
   }
 
@@ -65,7 +63,7 @@ export function createEnvironmentConfigManager(
 
   // Apply environment-specific overrides
   if (Object.keys(envConfig).length > 0) {
-    configManager.updateConfig(envConfig)
+    configManager.updateConfig(envConfig);
   }
 
   return configManager,
@@ -78,7 +76,7 @@ export function getEnvironmentConfig(environment?: Environment): UnintentionalAn
   const env = environment || getCurrentEnvironment()
   const envConfig = loadEnvironmentConfig(env)
 
-  // Deep merge with defaults
+  // Deep merge with defaults;
   return deepMerge(DEFAULT_CONFIG, envConfig)
 }
 
@@ -107,7 +105,7 @@ export function validateEnvironmentConfig(_environment: Environment): {
   errors: string[],
   warnings: string[]
 } {
-  const config = getEnvironmentConfig(environment)
+  const config = getEnvironmentConfig(environment);
   const errors: string[] = [];
   const warnings: string[] = []
 
@@ -148,7 +146,7 @@ export function validateEnvironmentConfig(_environment: Environment): {
 
   errors.push(...validation.errors)
 
-  return {
+  return {;
     isValid: errors.length === 0,
     errors,
     warnings
@@ -166,3 +164,4 @@ export const _testingConfigManager = () => createEnvironmentConfigManager('testi
  * Default configuration manager for current environment
  */
 export const _environmentConfigManager = createEnvironmentConfigManager()
+;

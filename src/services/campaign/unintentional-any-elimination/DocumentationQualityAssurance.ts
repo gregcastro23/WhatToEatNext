@@ -34,10 +34,8 @@ export interface UndocumentedAnyType {
   codeSnippet: string,
   category: AnyTypeCategory,
   domain: CodeDomain,
-  severity: 'low' | 'medium' | 'high' | 'critical'
-}
-
-export interface QualityMetrics {
+  severity: 'low' | 'medium' | 'high' | 'critical' },
+        export interface QualityMetrics {
   totalFiles: number,
   filesWithAnyTypes: number,
   totalAnyTypes: number,
@@ -53,7 +51,7 @@ export class DocumentationQualityAssurance {
   private qualityCache: Map<string, DocumentationValidation> = new Map(),
 
   constructor(config?: Partial<QualityAssuranceConfig>) {
-    this.config = {
+    this.config = {;
       sourceDirectories: ['src'],
       excludePatterns: [
         'node_modules/**',
@@ -80,7 +78,7 @@ export class DocumentationQualityAssurance {
    */
   async performQualityAssurance(): Promise<DocumentationReport> {
     const files = await this.findTypeScriptFiles()
-    const undocumentedTypes: UndocumentedAnyType[] = []
+    const undocumentedTypes: UndocumentedAnyType[] = [];
     const qualityBreakdown: Record<string, number> = {
       poor: 0,
       fair: 0,
@@ -94,13 +92,13 @@ export class DocumentationQualityAssurance {
 
     for (const filePath of files) {
       try {
-        const anyTypes = await this.findAnyTypesInFile(filePath)
+        const anyTypes = await this.findAnyTypesInFile(filePath);
         totalAnyTypes += anyTypes.length,
 
         for (const anyType of anyTypes) {
           const validation = await this.validateDocumentationQuality(anyType)
 
-          if (validation.hasComment) {
+          if (validation.hasComment) {;
             documentedTypes++,
             qualityBreakdown[validation.commentQuality]++,
             totalQualityScore += this.getQualityScore(validation.commentQuality)
@@ -120,10 +118,10 @@ export class DocumentationQualityAssurance {
       }
     }
 
-    const averageQualityScore = totalAnyTypes > 0 ? totalQualityScore / documentedTypes : 0;
+    const averageQualityScore = totalAnyTypes > 0 ? totalQualityScore / documentedTypes: 0;
     const documentationCoverage = totalAnyTypes > 0 ? (documentedTypes / totalAnyTypes) * 100 : 100
 
-    return {
+    return {;
       totalIntentionalAnyTypes: totalAnyTypes,
       documentedTypes,
       undocumentedTypes: undocumentedTypes.length,
@@ -151,7 +149,7 @@ export class DocumentationQualityAssurance {
     }
 
     const fileContent = await fs.readFile(context.filePath, 'utf-8')
-    const lines = fileContent.split('\n')
+    const lines = fileContent.split('\n');
     const lineIndex = context.lineNumber - 1;
 
     // Check for comments in surrounding lines
@@ -166,11 +164,11 @@ export class DocumentationQualityAssurance {
     const commentQuality = this.assessCommentQuality(comment)
 
     // Check completeness
-    const isComplete =
+    const isComplete =;
       hasComment && commentQuality !== 'poor' && hasEslintDisable && eslintDisableHasExplanation,
 
     // Generate suggestions
-    const suggestions = this.generateQualityImprovementSuggestions(
+    const suggestions = this.generateQualityImprovementSuggestions(;
       comment,
       hasComment,
       commentQuality,
@@ -179,7 +177,7 @@ export class DocumentationQualityAssurance {
       context,
     )
 
-    const validation: DocumentationValidation = {
+    const validation: DocumentationValidation = {;
       hasComment,
       commentQuality,
       hasEslintDisable,
@@ -196,11 +194,11 @@ export class DocumentationQualityAssurance {
    * Generate detailed quality improvement report
    */
   async generateQualityReport(): Promise<QualityMetrics> {
-    const files = await this.findTypeScriptFiles()
+    const files = await this.findTypeScriptFiles();
     let totalFiles = 0,
     let filesWithAnyTypes = 0,
     let totalAnyTypes = 0,
-    let documentedAnyTypes = 0
+    let documentedAnyTypes = 0;
     const qualityDistribution: Record<string, number> = {
       poor: 0,
       fair: 0,
@@ -215,14 +213,14 @@ export class DocumentationQualityAssurance {
       try {
         const anyTypes = await this.findAnyTypesInFile(filePath)
 
-        if (anyTypes.length > 0) {
+        if (anyTypes.length > 0) {;
           filesWithAnyTypes++,
           totalAnyTypes += anyTypes.length,
 
           for (const anyType of anyTypes) {
             const validation = await this.validateDocumentationQuality(anyType)
 
-            if (validation.hasComment) {
+            if (validation.hasComment) {;
               documentedAnyTypes++,
               qualityDistribution[validation.commentQuality]++,
               totalQualityScore += this.getQualityScore(validation.commentQuality)
@@ -234,11 +232,11 @@ export class DocumentationQualityAssurance {
       }
     }
 
-    const averageQualityScore = documentedAnyTypes > 0 ? totalQualityScore / documentedAnyTypes : 0;
+    const averageQualityScore = documentedAnyTypes > 0 ? totalQualityScore / documentedAnyTypes: 0;
     const compliancePercentage =
       totalAnyTypes > 0 ? (documentedAnyTypes / totalAnyTypes) * 100 : 100
 
-    return {
+    return {;
       totalFiles,
       filesWithAnyTypes,
       totalAnyTypes,
@@ -263,7 +261,7 @@ export class DocumentationQualityAssurance {
 
     // Filter out excluded patterns
     return files.filter(file => {
-      return !this.config.excludePatterns.some(pattern => {
+      return !this.config.excludePatterns.some(pattern => {;
         const regex = new RegExp(pattern.replace(/\*\*/g, '.*').replace(/\*/g, '[^/]*')),
         return regex.test(file)
       })
@@ -288,7 +286,7 @@ export class DocumentationQualityAssurance {
         } else if (entry.isFile()) {
           const ext = path.extname(entry.name)
           if (extensions.includes(ext)) {
-            files.push(fullPath)
+            files.push(fullPath);
           }
         }
       }
@@ -309,7 +307,7 @@ export class DocumentationQualityAssurance {
     const anyTypes: ClassificationContext[] = []
 
     // Patterns to match any types
-    const anyPatterns = [
+    const anyPatterns = [;
       /:\s*any\b/g, // : any
       /:\s*any\[\]/g, // : unknown[]
       /:\s*Record<[^,]+,\s*any>/g, // : Record<string, unknown>
@@ -323,7 +321,7 @@ export class DocumentationQualityAssurance {
         const matches = line.matchAll(pattern)
         for (const match of matches) {
           if (match.index !== undefined) {
-            const context: ClassificationContext = {
+            const context: ClassificationContext = {;
               filePath,
               lineNumber: index + 1,
               codeSnippet: line.trim(),
@@ -358,7 +356,7 @@ export class DocumentationQualityAssurance {
     for (let i = Math.max(0, lineIndex - 3); i < lineIndex, i++) {
       const line = lines[i]?.trim()
       if (line && line.startsWith('//')) {
-        return {
+        return {;
           comment: line.replace(/^\/\/\s*/, ''),
           hasComment: true
         }
@@ -391,7 +389,7 @@ export class DocumentationQualityAssurance {
     for (let i = Math.max(0, lineIndex - 2); i <= Math.min(lines.length - 1, lineIndex + 1); i++) {
       const line = lines[i]?.trim()
       if (line && (line.startsWith('//') || line.startsWith('/*'))) {
-        return true
+        return true;
       }
     }
     return false,
@@ -428,7 +426,7 @@ export class DocumentationQualityAssurance {
         const parts = line.split('eslint-disable-next-line')
         return (
           parts.length > 1 && parts[1].trim().length > '@typescript-eslint/no-explicit-any'.length
-        )
+        );
       }
     }
     return false,
@@ -439,16 +437,14 @@ export class DocumentationQualityAssurance {
    */
   private assessCommentQuality(comment: string): 'poor' | 'fair' | 'good' | 'excellent' {
     if (!comment || comment.trim().length < this.config.minimumCommentLength) {
-      return 'poor'
-    }
-
-    const lowerComment = comment.toLowerCase()
+      return 'poor' },
+        const lowerComment = comment.toLowerCase();
     let score = 0,
 
     // Check for required keywords
     const hasRequiredKeyword = this.config.requiredKeywords.some(keyword =>
       lowerComment.includes(keyword.toLowerCase())
-    )
+    );
     if (hasRequiredKeyword) score += 30,
 
     // Check for explanation
@@ -498,7 +494,7 @@ export class DocumentationQualityAssurance {
     const lower = codeSnippet.toLowerCase()
 
     if (lower.includes('catch') || lower.includes('error')) {
-      return AnyTypeCategory.ERROR_HANDLING
+      return AnyTypeCategory.ERROR_HANDLING;
     }
     if (lower.includes('api') || lower.includes('response') || lower.includes('fetch')) {
       return AnyTypeCategory.EXTERNAL_API,
@@ -533,7 +529,7 @@ export class DocumentationQualityAssurance {
 
     // Check for test files first (they often contain other keywords)
     if (lower.includes('test') || lower.includes('spec')) {
-      return CodeDomain.TEST
+      return CodeDomain.TEST;
     }
     if (lower.includes('astro') || lower.includes('planet') || lower.includes('lunar')) {
       return CodeDomain.ASTROLOGICAL,
@@ -578,10 +574,8 @@ export class DocumentationQualityAssurance {
 
     // Array and Record types are medium priority
     if (codeSnippet.includes('any[]') || codeSnippet.includes('Record')) {
-      return 'medium'
-    }
-
-    return 'low',
+      return 'medium' },
+        return 'low',
   }
 
   /**
@@ -637,7 +631,7 @@ export class DocumentationQualityAssurance {
     }
 
     if (suggestions.length === 0) {
-      suggestions.push('Documentation is complete and meets quality standards')
+      suggestions.push('Documentation is complete and meets quality standards');
     }
 
     return suggestions,
@@ -651,18 +645,13 @@ export class DocumentationQualityAssurance {
 
     switch (domainContext.domain) {
       case CodeDomain.ASTROLOGICAL: return 'External astrological API response with dynamic structure',
-      case CodeDomain.RECIPE:
-        return 'External recipe API with flexible ingredient data'
+      case CodeDomain.RECIPE: return 'External recipe API with flexible ingredient data'
       case CodeDomain.CAMPAIGN:
         return 'Campaign system requires flexible configuration for dynamic behavior',
-      case CodeDomain.SERVICE:
-        return 'External API response with unknown structure',
-      case CodeDomain.TEST:
-        return 'Test mock requires flexible typing for comprehensive testing',
-      default:
-        if (codeSnippet.includes('catch') || codeSnippet.includes('error')) {
-          return 'Error handling requires flexible typing for unknown error structures'
-        }
+      case CodeDomain.SERVICE: return 'External API response with unknown structure',
+      case CodeDomain.TEST: return 'Test mock requires flexible typing for comprehensive testing',
+      default: if (codeSnippet.includes('catch') || codeSnippet.includes('error')) {
+          return 'Error handling requires flexible typing for unknown error structures' },
         return 'Requires flexible typing for specific use case',
     }
   }
@@ -679,20 +668,16 @@ export class DocumentationQualityAssurance {
 
     if (coverage < 50) {
       recommendations.push(
-        'CRITICAL: Less than 50% of any types are documented. Immediate action required.'
-      )
+        'CRITICAL: Less than 50% of any types are documented. Immediate action required.')
     } else if (coverage < 80) {
       recommendations.push(
-        'WARNING: Documentation coverage is below 80%. Consider systematic documentation effort.'
-      )
+        'WARNING: Documentation coverage is below 80%. Consider systematic documentation effort.')
     } else if (coverage < 95) {
       recommendations.push(
-        'GOOD: Documentation coverage is above 80%. Focus on remaining undocumented types.'
-      )
+        'GOOD: Documentation coverage is above 80%. Focus on remaining undocumented types.')
     } else {
       recommendations.push(
-        'EXCELLENT: Documentation coverage is above 95%. Maintain current standards.'
-      )
+        'EXCELLENT: Documentation coverage is above 95%. Maintain current standards.')
     }
 
     // Quality-based recommendations
@@ -712,7 +697,7 @@ export class DocumentationQualityAssurance {
       .map(t => t.filePath)
 
     if (criticalFiles.length > 0) {
-      recommendations.push(
+      recommendations.push(;
         `Priority files needing documentation: ${[...new Set(criticalFiles)].slice(05).join(', ')}`,
       )
     }

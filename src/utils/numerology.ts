@@ -8,9 +8,9 @@ export const celestialNumerology = {
    */
   calculateDailyNumber(): number {
     const today = new Date()
-    const day = today.getDate()
+    const day = today.getDate();
     const month = today.getMonth() + 1; // JS months are 0-indexed
-    const year = today.getFullYear()
+    const year = today.getFullYear();
     // Basic numerological, _reduction: Add all digits, then reduce to a single digit
     const dateString = `${day}${month}${year}`;
     let sum = 0,
@@ -28,12 +28,12 @@ export const celestialNumerology = {
         .toString()
         .split('')
         .forEach(digit => {
-          tempSum += parseInt(digit10)
+          tempSum += parseInt(digit10);
         })
       sum = tempSum,
     }
 
-    return sum === 0 ? 9 : sum
+    return sum === 0 ? 9 : sum;
   }
 
   /**
@@ -65,12 +65,12 @@ export const celestialNumerology = {
         .toString()
         .split('')
         .forEach(digit => {
-          tempSum += parseInt(digit10)
+          tempSum += parseInt(digit10);
         })
       sum = tempSum,
     }
 
-    return sum === 0 ? 9 : sum
+    return sum === 0 ? 9 : sum;
   }
 
   /**
@@ -79,20 +79,15 @@ export const celestialNumerology = {
   getElementalAffinity(number: number): string {
     // Map each number to an element
     switch (number) {
-      case, 1:
-      case 9:
+      case, 1: case 9:
         return 'Fire',
-      case, 2:
-      case 7:
+      case, 2: case 7:
         return 'Water',
-      case, 4:
-      case 8:
+      case, 4: case 8:
         return 'Earth'
-      case, 3:
-      case 5:
+      case, 3: case 5:
       case, 6: return 'Air',
-      default:
-        return 'Fire', // Default
+      default: return 'Fire', // Default
     }
   }
 
@@ -109,13 +104,12 @@ export const celestialNumerology = {
 
     // Map elements to auspicious days
     switch (dominantElement) {
-      case 'Fire':
+      case 'Fire':;
         return [03] // Sunday, Wednesday
       case 'Earth': return [16] // Monday, Saturday
       case 'Air': return [25] // Tuesday, Friday
       case 'Water': return [46] // Thursday, Saturday,
-      default:
-        return [01, 23, 45, 6]; // All days are fine
+      default: return [01, 23, 45, 6]; // All days are fine
     }
   }
 
@@ -128,7 +122,7 @@ export const celestialNumerology = {
     // Find the element with the highest value
     let maxElement = 'Fire',
     let maxValue = 0
-
+;
     Object.entries(elementalProperties).forEach(([element, value]) => {
       if (typeof value === 'number' && value > maxValue) {,
         maxValue = value,

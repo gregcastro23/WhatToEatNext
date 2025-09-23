@@ -28,7 +28,7 @@ export class UnintentionalAnyEliminationCampaign {
   private qualityAssurance: DocumentationQualityAssurance,
 
   constructor(config?: Partial<UnintentionalAnyConfig>) {
-    this.config = {
+    this.config = {;
       maxFilesPerBatch: 15,
       targetReductionPercentage: 15,
       confidenceThreshold: 0.8,
@@ -41,7 +41,7 @@ export class UnintentionalAnyEliminationCampaign {
 
     this.engine = new ProgressiveImprovementEngine()
     this.progressTracker = new ProgressTracker()
-    this.safetyProtocol = new SafetyProtocol({
+    this.safetyProtocol = new SafetyProtocol({;
       maxFilesPerBatch: this.config.maxFilesPerBatch,
       buildValidationFrequency: this.config.validationFrequency,
       testValidationFrequency: 10,
@@ -49,7 +49,7 @@ export class UnintentionalAnyEliminationCampaign {
       automaticRollbackEnabled: true,
       stashRetentionDays: 7
     })
-    this.documentationGenerator = new AutoDocumentationGenerator()
+    this.documentationGenerator = new AutoDocumentationGenerator();
     this.qualityAssurance = new DocumentationQualityAssurance({,
       sourceDirectories: ['src'],
       excludePatterns: [
@@ -123,7 +123,7 @@ export class UnintentionalAnyEliminationCampaign {
         successCriteria: {
           customValidation: async () => {
             // Validate that target reduction was achieved
-            const currentCount = await this.progressTracker.getTypeScriptErrorCount()
+            const currentCount = await this.progressTracker.getTypeScriptErrorCount();
             return currentCount >= 0, // Basic validation that build still works
           }
         },
@@ -185,7 +185,7 @@ export class UnintentionalAnyEliminationCampaign {
    */
   async executeCampaign(): Promise<UnintentionalAnyCampaignResult> {
     // // // _logger.info('Starting Unintentional Any Elimination Campaign')
-    // // // _logger.info(`Configuration:`, {
+    // // // _logger.info(`Configuration: `, {
       maxFilesPerBatch: this.config.maxFilesPerBatch,
       targetReduction: `${this.config.targetReductionPercentage}%`,
       confidenceThreshold: this.config.confidenceThreshold,
@@ -193,7 +193,7 @@ export class UnintentionalAnyEliminationCampaign {
     })
 
     // Create safety checkpoint before starting
-    const checkpointId = await this.safetyProtocol.createStash(
+    const checkpointId = await this.safetyProtocol.createStash(;
       'Pre-campaign checkpoint for unintentional any elimination',
       'unintentional-any-elimination',
     )
@@ -202,8 +202,8 @@ export class UnintentionalAnyEliminationCampaign {
       // Execute the campaign using the progressive improvement engine
       const result = await this.engine.executeFullCampaign(this.config)
 
-      // // // _logger.info('Campaign completed successfully')
-      // // // _logger.info(`Results:`, {
+      // // // _logger.info('Campaign completed successfully');
+      // // // _logger.info(`Results: `, {
         reductionAchieved: `${result.reductionAchieved.toFixed(1)}%`,
         typesReplaced: result.unintentionalTypesReplaced,
         intentionalTypesIdentified: result.intentionalTypesIdentified,
@@ -212,7 +212,7 @@ export class UnintentionalAnyEliminationCampaign {
 
       return result,
     } catch (error) {
-      _logger.error('Campaign failed, initiating rollback:', error),
+      _logger.error('Campaign failed, initiating rollback: ', error),
 
       // Rollback to checkpoint
       await this.safetyProtocol.rollbackToStash(checkpointId)
@@ -248,7 +248,7 @@ export class UnintentionalAnyEliminationCampaign {
    * Execute a single phase for integration with CampaignController
    */
   async executePhase(phase: CampaignPhase): Promise<PhaseResult> {
-    const startTime = Date.now()
+    const startTime = Date.now();
     // // // _logger.info(`Executing phase: ${phase.name}`)
 
     try {
@@ -256,15 +256,14 @@ export class UnintentionalAnyEliminationCampaign {
 
       switch (phase.id) {
         case 'unintentional-any-analysis':
-          result = await this.executeAnalysisPhase()
+          result = await this.executeAnalysisPhase();
           break,
         case 'unintentional-any-replacement':
-          result = await this.executeReplacementPhase()
+          result = await this.executeReplacementPhase();
           break,
-        case 'intentional-any-documentation': result = await this.executeDocumentationPhase()
+        case 'intentional-any-documentation': result = await this.executeDocumentationPhase();
           break,
-        default:
-          throw new Error(`Unknown phase: ${phase.id}`)
+        default: throw new Error(`Unknown phase: ${phase.id}`)
       }
 
       const executionTime = Date.now() - startTime;
@@ -317,7 +316,7 @@ export class UnintentionalAnyEliminationCampaign {
     // // // _logger.info('Executing analysis phase - classification only')
 
     // Create a config for analysis only
-    const analysisConfig = {
+    const analysisConfig = {;
       ...this.config,
       maxFilesPerBatch: Math.min(this.config.maxFilesPerBatch, 10), // More conservative for analysis,
       confidenceThreshold: 0.9, // Higher threshold for analysis phase
@@ -326,7 +325,7 @@ export class UnintentionalAnyEliminationCampaign {
     // Execute a single batch for analysis
     const batchMetrics = await this.engine.executeBatch(analysisConfig)
 
-    return {
+    return {;
       totalAnyTypesAnalyzed: batchMetrics.anyTypesAnalyzed,
       intentionalTypesIdentified: 0, // Would be calculated from classifications,
       unintentionalTypesReplaced: 0, // No replacements in analysis phase,
@@ -336,8 +335,7 @@ export class UnintentionalAnyEliminationCampaign {
       validationResults: [
         {
           success: batchMetrics.safetyScore > 0.8,
-          errors:
-            batchMetrics.compilationErrors > 0
+          errors: batchMetrics.compilationErrors > 0
               ? [`${batchMetrics.compilationErrors} compilation errors`]
               : [],
           warnings: []
@@ -357,8 +355,8 @@ export class UnintentionalAnyEliminationCampaign {
 
     try {
       // Perform quality assurance scan first
-      const qaReport = await this.qualityAssurance.performQualityAssurance()
-      // // // _logger.info(`Documentation Quality Report:`, {
+      const qaReport = await this.qualityAssurance.performQualityAssurance();
+      // // // _logger.info(`Documentation Quality Report: `, {
         totalIntentionalAnyTypes: qaReport.totalIntentionalAnyTypes,
         documentationCoverage: `${qaReport.documentationCoverage.toFixed(1)}%`,
         undocumentedTypes: qaReport.undocumentedTypes
@@ -389,15 +387,14 @@ export class UnintentionalAnyEliminationCampaign {
           {
             success: true,
             errors: [],
-            warnings:
-              qaReport.documentationCoverage < 50
+            warnings: qaReport.documentationCoverage < 50
                 ? ['Documentation coverage is critically low']
                 : []
           }
         ]
       }
     } catch (error) {
-      _logger.error('Documentation phase failed:', error),
+      _logger.error('Documentation phase failed: ', error),
 
       return {
         totalAnyTypesAnalyzed: 0,

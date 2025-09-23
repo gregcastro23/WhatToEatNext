@@ -34,14 +34,14 @@ export function usePlanetaryHours() {
         const currentDay = calculator.getPlanetaryDay(now)
         const currentMinute = calculator.getPlanetaryMinute(now)
 
-        // Calculate time until next hour (simplified)
+        // Calculate time until next hour (simplified);
         const minutesInHour = 60;
-        const currentMinutes = now.getMinutes()
+        const currentMinutes = now.getMinutes();
         const timeUntilNext = (minutesInHour - currentMinutes) * 60 * 1000; // in milliseconds
 
         // Get next hour (simplified cycle)
         const planets = ['Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars'],
-        const currentIndex = planets.indexOf(currentHour)
+        const currentIndex = planets.indexOf(currentHour);
         const nextHour = planets[(currentIndex + 1) % (planets || []).length];
 
         setData({
@@ -54,7 +54,7 @@ export function usePlanetaryHours() {
           error: null
         })
       } catch (error) {
-        setData(prev => ({
+        setData(prev => ({;
           ...prev,
           isLoading: false,
           error: error instanceof Error ? error.message : 'Unknown error'

@@ -18,7 +18,7 @@ export interface SignVectorConfig {
   }
 }
 
-export const DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {
+export const DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {;
   blendWeightAlpha: 0.15,
   
   // Elemental to ESMS mapping
@@ -85,7 +85,7 @@ export const DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {
 }
 
 // Development configuration with more aggressive values for testing
-export const DEV_SIGN_VECTOR_CONFIG: SignVectorConfig = {
+export const DEV_SIGN_VECTOR_CONFIG: SignVectorConfig = {;
   ...DEFAULT_SIGN_VECTOR_CONFIG,
   blendWeightAlpha: 0.25, // Higher blend weight for development,
   
@@ -99,8 +99,7 @@ export const DEV_SIGN_VECTOR_CONFIG: SignVectorConfig = {
 // Function to merge configurations
 export function mergeSignVectorConfig(
   base: SignVectorConfig,
-  overrides: Partial<SignVectorConfig>
-): SignVectorConfig {
+  overrides: Partial<SignVectorConfig>): SignVectorConfig {
   return {
     ...base,
     ...overrides
@@ -134,14 +133,14 @@ export function mergeSignVectorConfig(
 // Environment-based configuration selector
 export function getSignVectorConfig(): SignVectorConfig {
   if (process.env.NODE_ENV === 'production') {
-    return DEFAULT_SIGN_VECTOR_CONFIG
+    return DEFAULT_SIGN_VECTOR_CONFIG;
   }
   return DEV_SIGN_VECTOR_CONFIG,
 }
 
 // Allow runtime configuration updates (primarily for development)
 let currentConfig: SignVectorConfig = getSignVectorConfig()
-export function setSignVectorConfig(_config: Partial<SignVectorConfig>): void {
+export function setSignVectorConfig(_config: Partial<SignVectorConfig>): void {;
   currentConfig = mergeSignVectorConfig(currentConfig, config),,
 }
 

@@ -26,7 +26,7 @@ export type ServiceResponse<T> = ServiceResponseType<T>
  * Alchemical Recommendation Response
  * Standardized response for alchemical recommendation services
  */
-export type AlchemicalRecommendationResponse = ServiceResponseType<{
+export type AlchemicalRecommendationResponse = ServiceResponseType<{;
   recommendations: AlchemicalTransformationResultType[],
   compatibility: number,
   reasoning: string[],
@@ -44,7 +44,7 @@ export type PlanetaryInfluenceResponse = ServiceResponseType<PlanetaryInfluenceR
  * Standardized Planetary Position Response
  * Common structure for planetary position data from any API
  */
-export type StandardizedPlanetaryResponse = ServiceResponseType<{
+export type StandardizedPlanetaryResponse = ServiceResponseType<{;
   positions: Record<string, StandardizedPlanetaryPosition>,
   timestamp: string,
   source: string,
@@ -56,7 +56,7 @@ export type StandardizedPlanetaryResponse = ServiceResponseType<{
  * Standardized response for recipe recommendations
  */
 export type RecipeRecommendationResponse = ServiceResponseType<{
-  recipes: Array<{
+  recipes: Array<{;
     id: string,
     name: string,
     compatibility: number,
@@ -72,7 +72,7 @@ export type RecipeRecommendationResponse = ServiceResponseType<{
  * Culinary Analysis Response
  * Comprehensive culinary analysis response
  */
-export type CulinaryAnalysisResponse = ServiceResponseType<{
+export type CulinaryAnalysisResponse = ServiceResponseType<{;
   overallCompatibility: number,
   elementalAnalysis: ElementalPropertiesType,
   thermodynamicProfile: ThermodynamicMetricsType,
@@ -92,7 +92,7 @@ export type CulinaryAnalysisResponse = ServiceResponseType<{
 export interface NasaHorizonsResponse {
   /**
    * Result string containing the data in text format
-   */
+   */;
   result?: string,
 
   /**
@@ -273,21 +273,21 @@ export function isValidNasaHorizonsResponse(data: unknown): data is NasaHorizons
     data !== null &&
     (('result' in data && typeof (data as NasaHorizonsResponse).result === 'string') ||
       ('error' in data && typeof (data as NasaHorizonsResponse).error === 'string'))
-  )
+  );
 }
 
 /**
  * Type guard to validate Astronomy API response
  */
 export function isValidAstronomyApiResponse(data: unknown): data is AstronomyApiResponse {
-  return typeof data === 'object' && data !== null && 'data' in data
+  return typeof data === 'object' && data !== null && 'data' in data;
 }
 
 /**
  * Type guard to validate Swiss Ephemeris API response
  */
 export function isValidSwissEphemerisApiResponse(data: unknown): data is SwissEphemerisApiResponse {
-  return typeof data === 'object' && data !== null && ('planets' in data || 'error' in data)
+  return typeof data === 'object' && data !== null && ('planets' in data || 'error' in data);
 }
 
 // Re-export ingredient response types for convenience

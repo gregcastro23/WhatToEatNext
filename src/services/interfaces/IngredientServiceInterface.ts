@@ -13,8 +13,7 @@ import {Recipe, _RecipeIngredient} from '@/types/unified';
  * IngredientServiceInterface.ts
  *
  * A consolidated interface for all ingredient-related operations in the WhatToEatNext application.
- * This interface combines functionality from:
- * - IngredientService
+ * This interface combines functionality from: * - IngredientService
  * - IngredientFilterService
  * - Unified Ingredient data system
  *

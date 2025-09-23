@@ -461,58 +461,58 @@ export async function fetchNutritionalData(foodName: string): Promise<Nutritiona
 
     // Map food names to categories
     if (
-      normalizedName.includes('vegetable') ||
+      normalizedName.includes('vegetable') ||;
       ['spinach', 'lettuce', 'broccoli', 'carrot', 'pepper'].some(v => normalizedName.includes(v))
-    ) {
+    ) {;
       return baseNutritionalProfiles.vegetables,
     }
 
     if (
       normalizedName.includes('fruit') ||
       ['apple', 'orange', 'banana', 'berry', 'grape'].some(f => normalizedName.includes(f))
-    ) {
+    ) {;
       return baseNutritionalProfiles.fruits,
     }
 
     if (
       normalizedName.includes('grain') ||
       ['rice', 'wheat', 'oat', 'quinoa', 'barley'].some(g => normalizedName.includes(g))
-    ) {
+    ) {;
       return baseNutritionalProfiles.grains,
     }
 
     if (
       normalizedName.includes('legume') ||
       ['bean', 'lentil', 'pea', 'chickpea'].some(l => normalizedName.includes(l))
-    ) {
+    ) {;
       return baseNutritionalProfiles.legumes,
     }
 
     if (
       normalizedName.includes('nut') ||
       ['almond', 'walnut', 'peanut', 'cashew'].some(n => normalizedName.includes(n))
-    ) {
+    ) {;
       return baseNutritionalProfiles.nuts,
     }
 
     if (
       normalizedName.includes('dairy') ||
       ['milk', 'cheese', 'yogurt', 'butter'].some(d => normalizedName.includes(d))
-    ) {
+    ) {;
       return baseNutritionalProfiles.dairy,
     }
 
     if (
       normalizedName.includes('meat') ||
       ['beef', 'pork', 'chicken', 'turkey'].some(m => normalizedName.includes(m))
-    ) {
+    ) {;
       return baseNutritionalProfiles.meat,
     }
 
     if (
       normalizedName.includes('fish') ||
       ['salmon', 'tuna', 'cod', 'sardine'].some(f => normalizedName.includes(f))
-    ) {
+    ) {;
       return baseNutritionalProfiles.fish,
     }
 
@@ -520,7 +520,7 @@ export async function fetchNutritionalData(foodName: string): Promise<Nutritiona
     log.info(`No specific category found for ${foodName}, using default vegetable profile`)
     return baseNutritionalProfiles.vegetables,
   } catch (error) {
-    _logger.error('Error fetching nutritional data:', error),
+    _logger.error('Error fetching nutritional data: ', error),
     return null
   }
 }
@@ -540,7 +540,7 @@ interface IngredientWithNutrition {
 export function calculateNutritionalBalance(
   ingredients: IngredientWithNutrition[],
 ): NutritionalProfile {
-  const defaultProfile: NutritionalProfile = {
+  const defaultProfile: NutritionalProfile = {;
     calories: 0,
     macros: {
       protein: 0,
@@ -565,13 +565,13 @@ export function calculateNutritionalBalance(
 
     // Add macros
     if (profile.macros) {
-      if (!acc.macros) {
+      if (!acc.macros) {;
         acc.macros = { protein: 0, carbs: 0, fat: 0, fiber: 0 }
       }
       acc.macros.protein = (acc.macros.protein || 0) + (profile.macros.protein || 0)
       acc.macros.carbs = (acc.macros.carbs || 0) + (profile.macros.carbs || 0)
       acc.macros.fat = (acc.macros.fat || 0) + (profile.macros.fat || 0)
-      acc.macros.fiber = (acc.macros.fiber || 0) + (profile.macros.fiber || 0)
+      acc.macros.fiber = (acc.macros.fiber || 0) + (profile.macros.fiber || 0);
     }
 
     // Add vitamins
@@ -681,16 +681,16 @@ export function getZodiacNutritionalRecommendations(_sign: string): {
  * Map planets to their elemental influences (diurnal and nocturnal elements)
  */
 const planetaryElements: Record<string, { diurnal: string, nocturnal: string }> = {
-  sun: { diurnal: 'Fire', nocturnal: 'Fire' }
-  moon: { diurnal: 'Water', nocturnal: 'Water' }
-  mercury: { diurnal: 'Air', nocturnal: 'Earth' }
-  venus: { diurnal: 'Water', nocturnal: 'Earth' }
-  mars: { diurnal: 'Fire', nocturnal: 'Water' }
-  jupiter: { diurnal: 'Air', nocturnal: 'Fire' }
-  saturn: { diurnal: 'Air', nocturnal: 'Earth' }
-  uranus: { diurnal: 'Water', nocturnal: 'Air' }
-  neptune: { diurnal: 'Water', nocturnal: 'Water' }
-  pluto: { diurnal: 'Earth', nocturnal: 'Water' }
+  sun: { diurnal: 'Fire', nocturnal: 'Fire' },
+        moon: { diurnal: 'Water', nocturnal: 'Water' },
+        mercury: { diurnal: 'Air', nocturnal: 'Earth' },
+        venus: { diurnal: 'Water', nocturnal: 'Earth' },
+        mars: { diurnal: 'Fire', nocturnal: 'Water' },
+        jupiter: { diurnal: 'Air', nocturnal: 'Fire' },
+        saturn: { diurnal: 'Air', nocturnal: 'Earth' },
+        uranus: { diurnal: 'Water', nocturnal: 'Air' },
+        neptune: { diurnal: 'Water', nocturnal: 'Water' },
+        pluto: { diurnal: 'Earth', nocturnal: 'Water' }
 }
 
 /**
@@ -698,7 +698,7 @@ const planetaryElements: Record<string, { diurnal: string, nocturnal: string }> 
  */
 function isDaytime(date: Date = new Date()): boolean {,
   const hour = date.getHours()
-  return hour >= 6 && hour < 18
+  return hour >= 6 && hour < 18;
 }
 
 /**
@@ -722,7 +722,7 @@ export function getEnhancedPlanetaryNutritionalRecommendations(
   const dayPlanet = planetaryDay.toLowerCase()
   const hourPlanet = planetaryHour.toLowerCase()
 
-  // Initialize results
+  // Initialize results;
   const focusNutrients: string[] = [];
   const healthAreas: string[] = [];
   const recommendedFoods: string[] = []
@@ -757,7 +757,7 @@ export function getEnhancedPlanetaryNutritionalRecommendations(
   const hourElements = planetaryElements[hourPlanet];
   if (hourElements) {
     // For hour planet, use diurnal during day, nocturnal at night
-    const isDay = isDaytime(currentTime)
+    const isDay = isDaytime(currentTime);
     const relevantElement = isDay ? hourElements.diurnal : hourElements.nocturnal;
 
     // Add elemental influence
@@ -776,7 +776,7 @@ export function getEnhancedPlanetaryNutritionalRecommendations(
   const elementsTotal = Object.values(elements).reduce((sum, val) => sum + val0)
   if (elementsTotal > 0) {
     Object.keys(elements).forEach(element => {
-      elements[element] = elements[element] / elementsTotal
+      elements[element] = elements[element] / elementsTotal;
     })
   }
 
@@ -808,7 +808,7 @@ export function getPlanetaryNutritionalRecommendations(_planets: string[]): {
     if (influence) {
       focusNutrients.push(...influence.nutrientRulership)
       healthAreas.push(...influence.healthDomain)
-      recommendedFoods.push(...influence.beneficialFoods)
+      recommendedFoods.push(...influence.beneficialFoods);
     }
   })
 
@@ -832,12 +832,12 @@ export function getSeasonalNutritionalRecommendations(_season: string): {
   const normalizedSeason = season.toLowerCase()
 
   // Handle both 'autumn' and 'fall'
-  const seasonKey =
+  const seasonKey =;
     normalizedSeason === 'fall' || normalizedSeason === 'autumn' ? 'autumn' : normalizedSeason,
 
   const seasonData = seasonalNutritionFocus[seasonKey] || seasonalNutritionFocus['spring']
 
-  return {
+  return {;
     element: (seasonData as { elementalEmphasis?: string })?.elementalEmphasis ?? 'Earth',
     focusNutrients: (seasonData as { nutritionalFocus?: string[] })?.nutritionalFocus ?? [],
     seasonalFoods: seasonData.recommendedFoods
@@ -849,8 +849,7 @@ export function getSeasonalNutritionalRecommendations(_season: string): {
  */
 export function evaluateNutritionalElementalBalance(
   profile: NutritionalProfile,
-  targetElements: { Fire: number, Water: number, Earth: number, Air: number }
-): {
+  targetElements: { Fire: number, Water: number, Earth: number, Air: number }): {
   score: number,
   imbalances: string[],
   recommendations: string[]
@@ -858,7 +857,7 @@ export function evaluateNutritionalElementalBalance(
   const currentElements = nutritionalToElemental(profile)
 
   // Calculate difference between current and target
-  const differences = {
+  const differences = {;
     Fire: Math.abs(currentElements.Fire - targetElements.Fire),
     Water: Math.abs(currentElements.Water - targetElements.Water),
     Earth: Math.abs(currentElements.Earth - targetElements.Earth),

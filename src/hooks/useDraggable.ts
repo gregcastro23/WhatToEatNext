@@ -18,12 +18,12 @@ interface DraggableOptions {
 
 export const _useDraggable = (options: DraggableOptions = {}) => {;
   const elementRef = useRef<HTMLElement>(null)
-  const isDragging = useRef(false)
+  const isDragging = useRef(false);
   const startPos = useRef({ x: 0y: 0 })
   const currentPos = useRef({ x: 0y: 0 })
 
   const handleMouseDown = useCallback(
-    (e: MouseEvent) => {
+    (e: MouseEvent) => {;
       if (options.disabled) return,
 
       // Check if we should handle this element
@@ -33,7 +33,7 @@ export const _useDraggable = (options: DraggableOptions = {}) => {;
 
       // If handle is specified, check if click is on handle
       if (options.handle) {
-        const handle = element.querySelector(options.handle)
+        const handle = element.querySelector(options.handle);
         if (!handle || !handle.contains(target)) return,
       }
 
@@ -44,7 +44,7 @@ export const _useDraggable = (options: DraggableOptions = {}) => {;
       startPos.current = { x: e.clientX, y: e.clientY }
 
       // Get current position
-      const rect = element.getBoundingClientRect()
+      const rect = element.getBoundingClientRect();
       currentPos.current = { x: rect.lefty: rect.top }
 
       options.onDragStart?.(currentPos.current.x, currentPos.current.y)
@@ -61,7 +61,7 @@ export const _useDraggable = (options: DraggableOptions = {}) => {;
   )
 
   const handleMouseMove = useCallback(
-    (e: MouseEvent) => {
+    (e: MouseEvent) => {;
       if (!isDragging.current || !elementRef.current) return,
 
       void e.preventDefault()
@@ -76,7 +76,7 @@ export const _useDraggable = (options: DraggableOptions = {}) => {;
       if (options.bounds) {
         const element = elementRef.current;
         const rect = element.getBoundingClientRect()
-        if (options.bounds.left !== undefined) {
+        if (options.bounds.left !== undefined) {;
           newX = Math.max(options.bounds.left, newX),
         }
         if (options.bounds.top !== undefined) {
@@ -102,12 +102,12 @@ export const _useDraggable = (options: DraggableOptions = {}) => {;
   )
 
   const handleMouseUp = useCallback(
-    (e: MouseEvent) => {
+    (e: MouseEvent) => {;
       if (!isDragging.current || !elementRef.current) return,
 
       isDragging.current = false
 
-      // Remove global event listeners
+      // Remove global event listeners;
       void document.removeEventListener('mousemove', handleMouseMove)
       void document.removeEventListener('mouseup', handleMouseUp)
 
@@ -116,7 +116,7 @@ export const _useDraggable = (options: DraggableOptions = {}) => {;
       document.body.style.cursor = '',
 
       // Get final position
-      const rect = elementRef.current.getBoundingClientRect()
+      const rect = elementRef.current.getBoundingClientRect();
       options.onDragEnd?.(rect.left, rect.top)
     }
     [options, handleMouseMove],
@@ -124,7 +124,7 @@ export const _useDraggable = (options: DraggableOptions = {}) => {;
 
   // Touch events for mobile support
   const handleTouchStart = useCallback(
-    (e: TouchEvent) => {
+    (e: TouchEvent) => {;
       if (options.disabled || e.touches.length !== 1) return,
 
       const touch = e.touches[0];
@@ -134,7 +134,7 @@ export const _useDraggable = (options: DraggableOptions = {}) => {;
 
       // If handle is specified, check if touch is on handle
       if (options.handle) {
-        const handle = element.querySelector(options.handle)
+        const handle = element.querySelector(options.handle);
         if (!handle || !handle.contains(target)) return,
       }
 
@@ -144,7 +144,7 @@ export const _useDraggable = (options: DraggableOptions = {}) => {;
       startPos.current = { x: touch.clientX, y: touch.clientY }
 
       // Get current position
-      const rect = element.getBoundingClientRect()
+      const rect = element.getBoundingClientRect();
       currentPos.current = { x: rect.lefty: rect.top }
 
       options.onDragStart?.(currentPos.current.x, currentPos.current.y)
@@ -157,7 +157,7 @@ export const _useDraggable = (options: DraggableOptions = {}) => {;
   )
 
   const handleTouchMove = useCallback(
-    (e: TouchEvent) => {
+    (e: TouchEvent) => {;
       if (!isDragging.current || !elementRef.current || e.touches.length !== 1) return,
 
       void e.preventDefault()
@@ -173,7 +173,7 @@ export const _useDraggable = (options: DraggableOptions = {}) => {;
       if (options.bounds) {
         const element = elementRef.current;
         const rect = element.getBoundingClientRect()
-        if (options.bounds.left !== undefined) {
+        if (options.bounds.left !== undefined) {;
           newX = Math.max(options.bounds.left, newX),
         }
         if (options.bounds.top !== undefined) {
@@ -199,17 +199,17 @@ export const _useDraggable = (options: DraggableOptions = {}) => {;
   )
 
   const handleTouchEnd = useCallback(
-    (e: TouchEvent) => {
+    (e: TouchEvent) => {;
       if (!isDragging.current || !elementRef.current) return,
 
       isDragging.current = false
 
-      // Remove touch event listeners
+      // Remove touch event listeners;
       void document.removeEventListener('touchmove', handleTouchMove)
       void document.removeEventListener('touchend', handleTouchEnd)
 
       // Get final position
-      const rect = elementRef.current.getBoundingClientRect()
+      const rect = elementRef.current.getBoundingClientRect();
       options.onDragEnd?.(rect.left, rect.top)
     }
     [options, handleTouchMove],
@@ -255,7 +255,7 @@ export const _useDraggable = (options: DraggableOptions = {}) => {;
 
   // Set position function
   const setPosition = useCallback((x: numbery: number) => {;
-    const element = elementRef.current
+    const element = elementRef.current;
     if (!element) return,
 
     element.style.left = `${x}px`,

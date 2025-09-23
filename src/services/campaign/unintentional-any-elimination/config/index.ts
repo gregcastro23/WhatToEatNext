@@ -1,8 +1,7 @@
 /**
  * Configuration Management System for Unintentional Any Elimination
  *
- * This module provides centralized configuration management for:
- * - Classification rules and thresholds
+ * This module provides centralized configuration management for: * - Classification rules and thresholds
  * - Domain-specific configuration options
  * - Safety protocol configuration
  * - Target setting and progress tracking configuration
@@ -90,7 +89,7 @@ export interface UnintentionalAnyConfig {
  * Default configuration values
  */
 export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
-  classification: {
+  classification: {;
     intentionalThreshold: 0.8,
     unintentionalThreshold: 0.7,
     minCommentLength: 10,
@@ -170,9 +169,8 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
       classification: 'HIGH',
       replacement: 'MAXIMUM',
       documentation: 'MEDIUM',
-      batch_processing: 'MAXIMUM'
-    },
-    backupRetentionDays: 7
+      batch_processing: 'MAXIMUM' },
+        backupRetentionDays: 7
   },
   targets: {
     targetReductionPercentage: 18,
@@ -203,9 +201,9 @@ export class ConfigurationManager {
 
   constructor(configPath?: string) {
     this.configPath =
-      configPath ||
+      configPath ||;
       join(process.cwd(), '.kiro', 'campaign-configs', 'unintentional-any-elimination.json')
-    this.config = this.loadConfig()
+    this.config = this.loadConfig();
   }
 
   /**
@@ -218,9 +216,9 @@ export class ConfigurationManager {
         const loadedConfig = JSON.parse(configData)
 
         // Merge with defaults to ensure all properties exist
-        return this.mergeWithDefaults(loadedConfig)
+        return this.mergeWithDefaults(loadedConfig);
       } catch (error) {
-        _logger.warn(`Failed to load config from ${this.configPath}, using defaults:`, error)
+        _logger.warn(`Failed to load config from ${this.configPath}, using defaults: `, error)
         return DEFAULT_CONFIG,
       }
     }
@@ -252,7 +250,7 @@ export class ConfigurationManager {
         mkdirSync(configDir, { recursive: true })
       }
 
-      this.config.lastUpdated = new Date().toISOString()
+      this.config.lastUpdated = new Date().toISOString();
       writeFileSync(this.configPath, JSON.stringify(this.config, null, 2))
     } catch (error) {
       throw new Error(`Failed to save config to ${this.configPath}: ${error}`)
@@ -400,3 +398,4 @@ export const getClassificationConfig = () => configManager.getClassificationConf
 export const getDomainConfig = () => configManager.getDomainConfig()
 export const getSafetyConfig = () => configManager.getSafetyConfig()
 export const getTargetConfig = () => configManager.getTargetConfig()
+;

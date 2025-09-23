@@ -6,10 +6,9 @@ import type { ThermodynamicProperties } from '@/types/shared';
  *
  * Molecular gastronomy technique that creates edible gels using hydrocolloids
  */
-export const gelification: CookingMethodData = {
+export const gelification: CookingMethodData = {;
   name: 'gelification',
-  description:
-    'Creating edible gels using hydrocolloids like agar-agar and gellan gum to control texture and encapsulate flavors',
+  description: 'Creating edible gels using hydrocolloids like agar-agar and gellan gum to control texture and encapsulate flavors',
   elementalEffect: {
     Earth: 0.5,
     Water: 0.4,
@@ -205,8 +204,7 @@ export const gelification: CookingMethodData = {
   } as ThermodynamicProperties,
 
   // Additional metadata
-  history:
-    'Gelification has roots in traditional cuisines (aspics, jellies), but was revolutionized in the early 2000s by Ferran Adrià and Heston Blumenthal who brought scientific precision and novel hydrocolloids to fine dining, creating previously impossible textures and presentations. The technique evolved from traditional gelatin-based preparations dating back to the 18th century French haute cuisine, where aspics and chaud-froids were symbols of culinary sophistication. The crossover between food science and high gastronomy accelerated in the 1990s with the availability of industrial hydrocolloids to chefs, and by the mid-2000s, restaurants like elBulli, The Fat Duck, and Alinea were pioneering applications that transformed dining experiences, leading to the global molecular gastronomy movement.',
+  history: 'Gelification has roots in traditional cuisines (aspics, jellies), but was revolutionized in the early 2000s by Ferran Adrià and Heston Blumenthal who brought scientific precision and novel hydrocolloids to fine dining, creating previously impossible textures and presentations. The technique evolved from traditional gelatin-based preparations dating back to the 18th century French haute cuisine, where aspics and chaud-froids were symbols of culinary sophistication. The crossover between food science and high gastronomy accelerated in the 1990s with the availability of industrial hydrocolloids to chefs, and by the mid-2000s, restaurants like elBulli, The Fat Duck, and Alinea were pioneering applications that transformed dining experiences, leading to the global molecular gastronomy movement.',
 
   scientificPrinciples: [
     'Hydrocolloids form three-dimensional networks that trap water',
@@ -274,7 +272,7 @@ export const gelification: CookingMethodData = {
     'Pre-hydrate powdered hydrocolloids in cold liquids with sugar before heating to prevent clumping',
     'For perfect clarity in agar gels, filter hot solution through 100-micron mesh before setting',
     'Create broken gels by freezing, then thawing gelatin-based preparations',
-    'Use 2:1 ratio of locust bean gum to kappa carrageenan for elastic, cohesive textures',
+    'Use 2: 1 ratio of locust bean gum to kappa carrageenan for elastic, cohesive textures',
     'For layered gels, chill each layer to 50°F before adding the next layer',
     'Add 0.1% calcium lactate gluconate to enhance gellan gum setting without bitter taste',
     'Use ultrasonic homogenization to reduce hydration time by up to 60%',
@@ -295,124 +293,71 @@ export const gelification: CookingMethodData = {
 
   ingredientPreparation: {
     agar: 'Disperse powder in cold liquid, then heat to 185°F (85°C) for at least 2 minutes to fully hydrate. Gels set at 95-104°F (35-40°C) and withstand temperatures up to 175°F (80°C) before melting. For clean flavor, use at 0.2-1.0% concentration. Creates firm, brittle gels with clean release from molds. Pre-soak in cold water for 5-10 minutes for more uniform dispersion.',
-    gelatin:
-      'Bloom in cold water for 5-10 minutes before dissolving in warm liquid (104-140°F/40-60°C). Never boil. Use 0.5-2.5% for soft gels2.5-5% for firm gels. Sets at 59-77°F (15-25°C), melts near body temperature. Requires refrigeration to maintain structure. Pre-grind sheet gelatin for faster blooming.',
-    gellan_gum:
-      'Disperse in cold liquid with high shear, then heat to 194°F (90°C). Low-acyl gellan (0.1-0.5%) creates firm, brittle gels; high-acyl gellan (0.1-1.0%) creates soft, elastic gels. Requires ions (calcium, potassium, sodium) to set effectively. Sensitive to hard water use distilled water for consistent results.',
-    pectin:
-      'High-methoxyl requires 55%+ sugar and acidic pH (<3.5) to gel, low-methoxyl needs calcium ions but works with less sugar and wider pH range. Disperse in sugar before adding to liquid to prevent clumping. Pre-mix with 5 parts sugar for easier dispersion. Use at 0.15-0.7% concentration depending on type.',
-    carrageenan:
-      'Kappa creates firm, brittle gels with potassium ions, iota creates soft, elastic gels with calcium ions, lambda thickens but doesn\'t gel. Disperse in cold liquid, then heat to 160-180°F (71-82°C). Mix with sugar (5:1 ratio) before dispersion for improved hydration. Use at 0.2-1.5% concentration.',
-    methylcellulose:
-      'Unique reverse thermal gelling - remains liquid when cold, forms gel when heated (130-150°F/54-66°C). Disperse in hot water, then hydrate in cold environment. Use at 1-2% concentration. Creates gels that re-liquefy upon cooling. Can be whipped when cold to create stable foams that set when heated.',
-    fruit_purees:
-      'For clear gels, centrifuge or fine-strain purees. De-activate enzymes through brief blanching or adding ascorbic acid. Adjust brix to 20° for optimal flavor recognition. For acidic fruits, use low-methoxyl pectin or adjust pH with sodium citrate before adding gelifiers.',
-    dairy_bases:
-      'For milk-based gels, pre-treat with 0.2% sodium citrate to bind calcium and prevent interference with gelling agents. Heat treat to 165°F (74°C) to denature whey proteins for improved texture. For yogurt gels, strain to remove excess whey before incorporating gelifiers.',
-    alcohol_preparations:
-      'For wine or spirit gels, reduce alcohol content to below 20% through reduction or dilution. Increase hydrocolloid concentration to compensate for alcohol\'s effect on hydrogen bonding. Add hydrocolloid after alcohol to prevent precipitation. Use gellan gum or agar rather than gelatin for higher alcohol content applications.'
-  }
-
-  timingConsiderations: {
+    gelatin: 'Bloom in cold water for 5-10 minutes before dissolving in warm liquid (104-140°F/40-60°C). Never boil. Use 0.5-2.5% for soft gels2.5-5% for firm gels. Sets at 59-77°F (15-25°C), melts near body temperature. Requires refrigeration to maintain structure. Pre-grind sheet gelatin for faster blooming.',
+    gellan_gum: 'Disperse in cold liquid with high shear, then heat to 194°F (90°C). Low-acyl gellan (0.1-0.5%) creates firm, brittle gels; high-acyl gellan (0.1-1.0%) creates soft, elastic gels. Requires ions (calcium, potassium, sodium) to set effectively. Sensitive to hard water use distilled water for consistent results.',
+    pectin: 'High-methoxyl requires 55%+ sugar and acidic pH (<3.5) to gel, low-methoxyl needs calcium ions but works with less sugar and wider pH range. Disperse in sugar before adding to liquid to prevent clumping. Pre-mix with 5 parts sugar for easier dispersion. Use at 0.15-0.7% concentration depending on type.',
+    carrageenan: 'Kappa creates firm, brittle gels with potassium ions, iota creates soft, elastic gels with calcium ions, lambda thickens but doesn\'t gel. Disperse in cold liquid, then heat to 160-180°F (71-82°C). Mix with sugar (5: 1 ratio) before dispersion for improved hydration. Use at 0.2-1.5% concentration.',
+    methylcellulose: 'Unique reverse thermal gelling - remains liquid when cold, forms gel when heated (130-150°F/54-66°C). Disperse in hot water, then hydrate in cold environment. Use at 1-2% concentration. Creates gels that re-liquefy upon cooling. Can be whipped when cold to create stable foams that set when heated.',
+    fruit_purees: 'For clear gels, centrifuge or fine-strain purees. De-activate enzymes through brief blanching or adding ascorbic acid. Adjust brix to 20° for optimal flavor recognition. For acidic fruits, use low-methoxyl pectin or adjust pH with sodium citrate before adding gelifiers.',
+    dairy_bases: 'For milk-based gels, pre-treat with 0.2% sodium citrate to bind calcium and prevent interference with gelling agents. Heat treat to 165°F (74°C) to denature whey proteins for improved texture. For yogurt gels, strain to remove excess whey before incorporating gelifiers.',
+    alcohol_preparations: 'For wine or spirit gels, reduce alcohol content to below 20% through reduction or dilution. Increase hydrocolloid concentration to compensate for alcohol\'s effect on hydrogen bonding. Add hydrocolloid after alcohol to prevent precipitation. Use gellan gum or agar rather than gelatin for higher alcohol content applications.' },
+        timingConsiderations: {
     hydration_period:
       'Most powdered hydrocolloids require 20-30 minutes for full hydration sheet gelatin requires 5-10 minutes in cold water. Methylcellulose requires 3-4 hours for complete hydration in cold liquid. Pre-hydration impacts final texture significantly.',
-    setting_time:
-      'Agar sets rapidly (1-3 minutes), gelatin requires 30-60 minutes; gellan gum sets in 1-5 minutes depending on temperature drop rate. Setting time directly impacts internal structure - rapid setting creates more irregular networks. Slower cooling generally creates clearer gels.',
-    maturing_period:
-      'Most gels benefit from 1-24 hours of maturation for optimal texture development and flavor distribution. Agar gels stabilize within 1-2 hours, gelatin gels continue developing for 6-12 hours. For complex preparations, plan 24 hours for full texture development.',
-    service_window:
-      'Gelatin gels have limited service time at room temperature (20-30 minutes), agar and gellan gum can remain stable for hours. Consider environmental temperature when planning service. Pre-chill plates for extended presentation time of heat-sensitive gels.',
-    reheating_limitations:
-      'Thermoreversible gels (gelatin) cannot be reheated, thermoirreversible gels (agar, gellan) maintain structure when warmed but may experience syneresis. Test temperature stability for specific applications before service. For hot applications, use combinations that maintain structure at serving temperature.'
-  }
-
-  doneness_indicators: {
+    setting_time: 'Agar sets rapidly (1-3 minutes), gelatin requires 30-60 minutes; gellan gum sets in 1-5 minutes depending on temperature drop rate. Setting time directly impacts internal structure - rapid setting creates more irregular networks. Slower cooling generally creates clearer gels.',
+    maturing_period: 'Most gels benefit from 1-24 hours of maturation for optimal texture development and flavor distribution. Agar gels stabilize within 1-2 hours, gelatin gels continue developing for 6-12 hours. For complex preparations, plan 24 hours for full texture development.',
+    service_window: 'Gelatin gels have limited service time at room temperature (20-30 minutes), agar and gellan gum can remain stable for hours. Consider environmental temperature when planning service. Pre-chill plates for extended presentation time of heat-sensitive gels.',
+    reheating_limitations: 'Thermoreversible gels (gelatin) cannot be reheated, thermoirreversible gels (agar, gellan) maintain structure when warmed but may experience syneresis. Test temperature stability for specific applications before service. For hot applications, use combinations that maintain structure at serving temperature.' },
+        doneness_indicators: {
     proper_hydration:
       'Solution becomes visibly clear, viscosity increases noticeably; no visible particles remain suspended. For gelatin, complete dissolution results in transparent solution with no visible granules or sheets.',
-    setting_point:
-      'Agar and gellan begin setting at surface first, gelatin sets uniformly throughout. Surface tension changes become visible, mixture becomes increasingly viscous before gelling. Coating on back of spoon becomes tacky just before setting.',
-    gel_completion:
-      'For soft gels, slight wobble when container is tapped, for firm gelsno movement when container is inverted. Clean separation from container edges indicates complete setting. Clear gels show distinct refraction of light when fully set.',
-    texture_assessment:
-      'When sliced, surface should be smooth and hold shape without flowing. Proper gel consistency springs back partially when gently pressed. Mouthfeel transitions appropriately from solid to liquid state based on design intention.',
-    syneresis_evaluation:
-      'Minimal water release after sitting indicates proper formulation. Excessive liquid separation suggests imbalanced ingredient ratios or incomplete setting. Different hydrocolloids exhibit varying degrees of acceptable water release.'
-  }
-
-  ingredientInteractions: {
+    setting_point: 'Agar and gellan begin setting at surface first, gelatin sets uniformly throughout. Surface tension changes become visible, mixture becomes increasingly viscous before gelling. Coating on back of spoon becomes tacky just before setting.',
+    gel_completion: 'For soft gels, slight wobble when container is tapped, for firm gelsno movement when container is inverted. Clean separation from container edges indicates complete setting. Clear gels show distinct refraction of light when fully set.',
+    texture_assessment: 'When sliced, surface should be smooth and hold shape without flowing. Proper gel consistency springs back partially when gently pressed. Mouthfeel transitions appropriately from solid to liquid state based on design intention.',
+    syneresis_evaluation: 'Minimal water release after sitting indicates proper formulation. Excessive liquid separation suggests imbalanced ingredient ratios or incomplete setting. Different hydrocolloids exhibit varying degrees of acceptable water release.' },
+        ingredientInteractions: {
     acidity_effects:
       'High acidity weakens gelatin and agar structures, strengthens pectin gels. For pH below 4.0, increase gelatin concentration by 25-50%, avoid agar below pH 5.5. Gellan gum requires specific ion concentration adjustment for acidic applications. Buffer systems using sodium citrate can stabilize pH-sensitive preparations.',
-    sugar_concentration:
-      'High sugar content (>50%) strengthens pectin gels but weakens gelatin and agar structures. Sugar competes for water, requiring increased hydration time for many hydrocolloids. Partial sugar substitution with glucose syrup improves texture stability in high-sugar applications.',
-    protein_interference:
-      'Proteins in dairy and meat products can disrupt gel networks. Pre-treating with transglutaminase enzyme can improve protein-gel integration. For dairy applications, add calcium-sequestering agents to prevent interference with certain hydrocolloids.',
-    salt_effects:
-      'Salts generally strengthen carrageenan and gellan gum gels through ion-mediated cross-linking. Sodium ions specifically strengthen kappa-carrageenan, potassium ions strengthen gellan gum. Excessive salt (>2%) can inhibit proper hydration of many hydrocolloids.',
-    alcohol_impact:
-      'Ethanol weakens hydrogen bonding in most gels. Each 10% alcohol content requires approximately 20% increase in hydrocolloid concentration. For spirits gels, consider mixed systems using gellan gum with xanthan gum for improved stability.',
-    fat_incorporation:
-      'Emulsified fats can disrupt gel networks or create uneven texture. Pre-emulsification with small amounts of lecithin (0.2%) improves fat incorporation. For creamy gels, use iota-carrageenan or gelatin which accommodates fat molecules within gel structure.',
-    enzyme_activity:
-      'Proteolytic enzymes in fresh pineapple, papaya, kiwi, and figs prevent gelatin from setting. Heat these fruits to 185°F (85°C) for 5 minutes to deactivate enzymes before incorporating. Non-gelatin hydrocolloids generally resist enzymatic breakdown.',
-    mixed_hydrocolloid_synergy:
-      'Combinations often create superior textures than single hydrocolloids: locust bean gum with kappa-carrageenan produces elastic, cohesive gels, gelatin with agar creates gels with controlled melting properties. Start with 70:30 ratio when experimenting with combinations.',
-    color_compound_interactions:
-      'Anthocyanins and other color compounds may shift hue in different pH environments. Acidic conditions enhance red tones, alkaline conditions enhance blue-purple tones. Some hydrocolloids naturally add slight opacity that affects visual perception of color intensity.'
-  }
-
-  technicalNotes: {
+    sugar_concentration: 'High sugar content (>50%) strengthens pectin gels but weakens gelatin and agar structures. Sugar competes for water, requiring increased hydration time for many hydrocolloids. Partial sugar substitution with glucose syrup improves texture stability in high-sugar applications.',
+    protein_interference: 'Proteins in dairy and meat products can disrupt gel networks. Pre-treating with transglutaminase enzyme can improve protein-gel integration. For dairy applications, add calcium-sequestering agents to prevent interference with certain hydrocolloids.',
+    salt_effects: 'Salts generally strengthen carrageenan and gellan gum gels through ion-mediated cross-linking. Sodium ions specifically strengthen kappa-carrageenan, potassium ions strengthen gellan gum. Excessive salt (>2%) can inhibit proper hydration of many hydrocolloids.',
+    alcohol_impact: 'Ethanol weakens hydrogen bonding in most gels. Each 10% alcohol content requires approximately 20% increase in hydrocolloid concentration. For spirits gels, consider mixed systems using gellan gum with xanthan gum for improved stability.',
+    fat_incorporation: 'Emulsified fats can disrupt gel networks or create uneven texture. Pre-emulsification with small amounts of lecithin (0.2%) improves fat incorporation. For creamy gels, use iota-carrageenan or gelatin which accommodates fat molecules within gel structure.',
+    enzyme_activity: 'Proteolytic enzymes in fresh pineapple, papaya, kiwi, and figs prevent gelatin from setting. Heat these fruits to 185°F (85°C) for 5 minutes to deactivate enzymes before incorporating. Non-gelatin hydrocolloids generally resist enzymatic breakdown.',
+    mixed_hydrocolloid_synergy: 'Combinations often create superior textures than single hydrocolloids: locust bean gum with kappa-carrageenan produces elastic, cohesive gels, gelatin with agar creates gels with controlled melting properties. Start with 70: 30 ratio when experimenting with combinations.',
+    color_compound_interactions: 'Anthocyanins and other color compounds may shift hue in different pH environments. Acidic conditions enhance red tones, alkaline conditions enhance blue-purple tones. Some hydrocolloids naturally add slight opacity that affects visual perception of color intensity.' },
+        technicalNotes: {
     hydrocolloid_properties: {
       gelatin:
         'Protein-based, melts at body temperature, thermoreversible, requires refrigeration. Bloom strength (measured in \'Bloom\' units) indicates gel strength - professional applications typically use 180-220 Bloom gelatin.',
       agar: 'Seaweed-derived polysaccharide, sets at 95-104°F, melts at 175°F, thermoreversible but with significant hysteresis. Creates brittle, clear gels with minimal flavor impact. Resistant to enzymatic breakdown and acidic conditions above pH 5.5.',
-      gellan_gum:
-        'Bacterial fermentation product, available in high-acyl (soft, elastic) and low-acyl (firm, brittle) forms. Extremely efficient at low concentrations (0.1-0.5%). Requires specific ion concentrations for optimal setting.',
-      methyl_cellulose:
-        'Cellulose derivative that gels when heated and liquefies when cooled. Creates hot gels stable up to 210°F (100°C). Different viscosity grades available for specific applications. Requires extended cold hydration period.',
-      kappa_carrageenan:
-        'Red seaweed extract that creates firm, brittle gels with potassium ions. Exhibits syneresis (water release) over time. Forms helical structures during cooling phase. Often combined with locust bean gum for improved elasticity.',
-      iota_carrageenan:
-        'Creates soft, elastic gels with calcium ions. Minimal syneresis and excellent freeze-thaw stability. Produces translucent rather than transparent gels. Good for dairy applications due to protein compatibility.',
-      pectin:
-        'Fruit-derived, high-methoxyl requires sugar and acid, low-methoxyl requires calcium. Amidated forms offer improved stability in varying conditions. Creates gels with clean fruit flavor release and smooth texture.'
-    },
-    physical_properties: {
+      gellan_gum: 'Bacterial fermentation product, available in high-acyl (soft, elastic) and low-acyl (firm, brittle) forms. Extremely efficient at low concentrations (0.1-0.5%). Requires specific ion concentrations for optimal setting.',
+      methyl_cellulose: 'Cellulose derivative that gels when heated and liquefies when cooled. Creates hot gels stable up to 210°F (100°C). Different viscosity grades available for specific applications. Requires extended cold hydration period.',
+      kappa_carrageenan: 'Red seaweed extract that creates firm, brittle gels with potassium ions. Exhibits syneresis (water release) over time. Forms helical structures during cooling phase. Often combined with locust bean gum for improved elasticity.',
+      iota_carrageenan: 'Creates soft, elastic gels with calcium ions. Minimal syneresis and excellent freeze-thaw stability. Produces translucent rather than transparent gels. Good for dairy applications due to protein compatibility.',
+      pectin: 'Fruit-derived, high-methoxyl requires sugar and acid, low-methoxyl requires calcium. Amidated forms offer improved stability in varying conditions. Creates gels with clean fruit flavor release and smooth texture.' },
+        physical_properties: {
       gel_strength:
         'Measured in grams (bloom strength for gelatin) or compression force. Affected by concentration, temperature history, and ion availability. Can be measured precisely with texture analyzer or estimated with penetrometer.',
-      elasticity:
-        'Recovery after deformation, iota-carrageenan and high-acyl gellan produce highly elastic gels. Measured as \'strain recovery percentage\' - elastic gels recover >85% after deformation.',
-      syneresis:
-        'Water release over time, minimized by proper concentration, synergistic hydrocolloid combinations, or addition of starch/maltodextrin. More prevalent in kappa-carrageenan and agar than gelatin or pectin gels.',
-      thermal_stability:
-        'Temperature range where gel maintains structure, agar (up to 175°F), gellan (up to 230°F depending on formulation), gelatin (up to 95°F). Critical for hot applications and display under lights.',
-      clarity:
-        'Light transmission through gel, affected by hydrocolloid type, concentration, and setting conditions. Measured in percentage light transmission - higher quality gels exceed 85% clarity.',
-      mouthfeel:
-        'Sensory perception including firmness, brittleness, creaminess, and melting properties. Different hydrocolloids create distinctive release patterns during consumption.'
-    },
-    advanced_techniques: {
+      elasticity: 'Recovery after deformation, iota-carrageenan and high-acyl gellan produce highly elastic gels. Measured as \'strain recovery percentage\' - elastic gels recover >85% after deformation.',
+      syneresis: 'Water release over time, minimized by proper concentration, synergistic hydrocolloid combinations, or addition of starch/maltodextrin. More prevalent in kappa-carrageenan and agar than gelatin or pectin gels.',
+      thermal_stability: 'Temperature range where gel maintains structure, agar (up to 175°F), gellan (up to 230°F depending on formulation), gelatin (up to 95°F). Critical for hot applications and display under lights.',
+      clarity: 'Light transmission through gel, affected by hydrocolloid type, concentration, and setting conditions. Measured in percentage light transmission - higher quality gels exceed 85% clarity.',
+      mouthfeel: 'Sensory perception including firmness, brittleness, creaminess, and melting properties. Different hydrocolloids create distinctive release patterns during consumption.' },
+        advanced_techniques: {
       fluid_gels:
         'Created by shearing gel during setting phase, producing partially connected polymer network with controlled flow properties. Used for sauce-like applications with suspended particles. Typically utilize agar or gellan gum at 0.3-0.8%.',
-      sequenced_gelling:
-        'Creating time-delayed gelation through temperature cascades or pH shifts. Allows complex structures with different zones setting at different times. Often utilizes enzyme activation or calcium release systems.',
-      gradient_gels:
-        'Controlled diffusion creating directional property changes throughout gel. Achieved through ion gradients or temperature gradients during setting. Creates unique textural experiences as consumer progresses through the gel.',
-      compression_setting:
-        'Applying physical pressure during gel setting to create anisotropic structures with directional properties. Results in gels with different mechanical behavior depending on direction of force application.',
-      micro_gelification:
-        'Creating microscopic gel particles through controlled shearing or precise droplet formation. Used for \'caviar\' effects or controlled mouthfeel modification in liquid systems.'
-    },
-    equipment_specifications: {
+      sequenced_gelling: 'Creating time-delayed gelation through temperature cascades or pH shifts. Allows complex structures with different zones setting at different times. Often utilizes enzyme activation or calcium release systems.',
+      gradient_gels: 'Controlled diffusion creating directional property changes throughout gel. Achieved through ion gradients or temperature gradients during setting. Creates unique textural experiences as consumer progresses through the gel.',
+      compression_setting: 'Applying physical pressure during gel setting to create anisotropic structures with directional properties. Results in gels with different mechanical behavior depending on direction of force application.',
+      micro_gelification: 'Creating microscopic gel particles through controlled shearing or precise droplet formation. Used for \'caviar\' effects or controlled mouthfeel modification in liquid systems.' },
+        equipment_specifications: {
       temperature_control:
         'Precise control within ±1°F (0.5°C) essential for reproducible results. Water baths and precision immersion circulators preferred over direct heat application.',
-      measurement_precision:
-        'Scales accurate to 0.1g for hydrocolloids, 1g for major ingredients. Volume measurements inadequate for hydrocolloid work - weight-based formulation essential.',
-      mixing_technology:
-        'High shear mixing (>5000 RPM) prevents clumping during hydration. Overhead mixers preferred over handheld for consistent dispersion. Vacuum mixing systems eliminate air incorporation.',
-      filtration_systems:
-        'Multiple filtration stages recommended: coarse straining (1mm), fine mesh (100 micron), and optional centrifugation for complete clarity. Vacuum filtration accelerates process for viscous solutions.',
-      mold_materials:
-        'Silicone provides ideal release properties, stainless steel creates high-gloss surfaces, acetate sheets create clear edges. Mold temperature affects setting speed and surface characteristics.'
+      measurement_precision: 'Scales accurate to 0.1g for hydrocolloids, 1g for major ingredients. Volume measurements inadequate for hydrocolloid work - weight-based formulation essential.',
+      mixing_technology: 'High shear mixing (>5000 RPM) prevents clumping during hydration. Overhead mixers preferred over handheld for consistent dispersion. Vacuum mixing systems eliminate air incorporation.',
+      filtration_systems: 'Multiple filtration stages recommended: coarse straining (1mm), fine mesh (100 micron), and optional centrifugation for complete clarity. Vacuum filtration accelerates process for viscous solutions.',
+      mold_materials: 'Silicone provides ideal release properties, stainless steel creates high-gloss surfaces, acetate sheets create clear edges. Mold temperature affects setting speed and surface characteristics.'
     }
   }
 }

@@ -1,4 +1,4 @@
-const LoadingComponent = ({
+const LoadingComponent = ({;
   fullScreen,
   variant,
   text
@@ -7,9 +7,10 @@ const LoadingComponent = ({
   variant?: string
   text?: string
 }) => (
-  <div className={`flex ${fullScreen ? 'min-h-screen' : ''} items-center justify-center p-4`}>
+  <div className={`flex ${fullScreen ? 'min-h-screen' : '' },
+        items-center justify-center p-4`}>
     ,
-    <div className='text-center text-gray-600'>
+    <div className='text-center text-gray-600'>;
       ;<div className='mb-2 animate-pulse'>⏳</div><div>{text || 'Loading...'}</div>
     </div>
   </div>

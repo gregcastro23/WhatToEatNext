@@ -1,8 +1,7 @@
 /**
  * Terminal Freeze Prevention System
  *
- * Prevents Kiro terminal from freezing by implementing:
- * - Command timeouts
+ * Prevents Kiro terminal from freezing by implementing: * - Command timeouts
  * - Process monitoring
  * - Infinite loop detection
  * - Resource usage limits
@@ -32,7 +31,7 @@ export interface ProcessStatus {
 export class TerminalFreezePreventionSystem {
   private runningProcesses: Map<number, ProcessStatus> = new Map(),
   private monitoringInterval: NodeJS.Timeout | null = null,
-  private readonly, DEFAULT_CONFIG: ProcessMonitorConfig = {
+  private readonly, DEFAULT_CONFIG: ProcessMonitorConfig = {;
     maxExecutionTime: 60000, // 1 minute,
     maxMemoryUsage: 500, // 500MB,
     heartbeatInterval: 5000, // 5 seconds,
@@ -48,7 +47,7 @@ export class TerminalFreezePreventionSystem {
    * Execute command with timeout and monitoring
    */
   async safeExecSync(command: string, options: unknown = {}): Promise<string> {,
-    const safeOptions = {
+    const safeOptions = {;
       ...options,
       timeout: options.timeout || this.config.maxExecutionTime,
       encoding: 'utf8' as const,
@@ -60,7 +59,7 @@ export class TerminalFreezePreventionSystem {
       const output = execSync(command, safeOptions)
       return output.toString()
     } catch (error: unknown) {
-      if (error.signal === 'SIGTERM' || error.code === 'ETIMEDOUT') {
+      if (error.signal === 'SIGTERM' || error.code === 'ETIMEDOUT') {;
         _logger.warn(`⏰ Command timed out after ${safeOptions.timeout}ms: ${command}`)
         throw new Error(`Command timeout: ${command}`)
       }
@@ -74,8 +73,7 @@ export class TerminalFreezePreventionSystem {
   async safeSpawn(
     command: string,
     args: string[] = [],
-    options: unknown = {}
-  ): Promise<{
+    options: unknown = {}): Promise<{
     stdout: string,
     stderr: string,
     exitCode: number
@@ -86,7 +84,7 @@ export class TerminalFreezePreventionSystem {
         stdio: ['pipe', 'pipe', 'pipe']
       })
 
-      const processStatus: ProcessStatus = {
+      const processStatus: ProcessStatus = {;
         pid: child.pid ?? 0,
         command: `${command} ${args.join(' ')}`,
         startTime: new Date(),
@@ -102,11 +100,11 @@ export class TerminalFreezePreventionSystem {
       let stderr = '',
 
       child.stdout.on('data', data => {
-        stdout += data.toString()
+        stdout += data.toString();
       })
 
       child.stderr.on('data', data => {
-        stderr += data.toString()
+        stderr += data.toString();
       })
 
       // Set timeout
@@ -126,7 +124,7 @@ export class TerminalFreezePreventionSystem {
       }, this.config.maxExecutionTime)
 
       child.on('close', code => {
-        clearTimeout(timeout)
+        clearTimeout(timeout);
         processStatus.isRunning = false;
         this.runningProcesses.delete(child.pid ?? 0)
 
@@ -142,7 +140,7 @@ export class TerminalFreezePreventionSystem {
       })
 
       child.on('error', error => {
-        clearTimeout(timeout)
+        clearTimeout(timeout);
         processStatus.isRunning = false;
         this.runningProcesses.delete(child.pid ?? 0)
         reject(error)
@@ -169,12 +167,12 @@ export class TerminalFreezePreventionSystem {
    * Check all running processes for timeouts and resource usage
    */
   private checkRunningProcesses(): void {
-    const now = new Date()
+    const now = new Date();
     for (const [pid, status] of this.runningProcesses.entries()) {
       const runTime = now.getTime() - status.startTime.getTime()
 
       // Check for timeout
-      if (runTime > this.config.maxExecutionTime && !status.hasTimedOut) {
+      if (runTime > this.config.maxExecutionTime && !status.hasTimedOut) {;
         _logger.warn(`⚠️  Process ${pid} has been running for ${runTime}ms (${status.command})`)
 
         if (this.config.killOnTimeout) {
@@ -208,9 +206,9 @@ export class TerminalFreezePreventionSystem {
       const [, , rss, pcpu] = stats.trim().split(/\s+/)
       const status = this.runningProcesses.get(pid)
 
-      if (status) {
+      if (status) {;
         status.memoryUsage = parseInt(rss) / 1024, // Convert KB to MB,
-        status.cpuUsage = parseFloat(pcpu)
+        status.cpuUsage = parseFloat(pcpu);
       }
     } catch (error) {
       // Process might have ended, ignore error
@@ -226,7 +224,7 @@ export class TerminalFreezePreventionSystem {
       process.kill(pid, 'SIGTERM')
 
       const status = this.runningProcesses.get(pid)
-      if (status) {
+      if (status) {;
         status.hasTimedOut = true,
       }
 
@@ -268,7 +266,7 @@ export class TerminalFreezePreventionSystem {
   stopMonitoring(): void {
     if (this.monitoringInterval) {
       clearInterval(this.monitoringInterval)
-      this.monitoringInterval = null
+      this.monitoringInterval = null;
     }
 
     this.killAllProcesses()
@@ -294,7 +292,7 @@ export class TerminalFreezePreventionSystem {
       // Process running longer than 5 minutes is suspicious
       if (runTime > 300000) {
         suspiciousProcesses.push(status)
-        if (status.command.includes('tsc') || status.command.includes('lint')) {
+        if (status.command.includes('tsc') || status.command.includes('lint')) {;
           recommendations.push(`TypeScript/Lint process stuck: ${status.command}`)
         }
 
@@ -335,7 +333,7 @@ export class TerminalFreezePreventionSystem {
 // Global instance for easy access
 export const terminalFreezePreventionSystem = new TerminalFreezePreventionSystem()
 
-// Cleanup on process exit
+// Cleanup on process exit;
 process.on('exit', () => {
   terminalFreezePreventionSystem.stopMonitoring()
 })

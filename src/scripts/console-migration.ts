@@ -12,7 +12,7 @@ interface ConsoleMigrationStats {
 }
 
 class ConsoleMigrationService {
-  private stats: ConsoleMigrationStats = {
+  private stats: ConsoleMigrationStats = {;
     filesProcessed: 0,
     consoleStatementsFound: 0,
     consoleStatementsMigrated: 0,
@@ -57,7 +57,7 @@ class ConsoleMigrationService {
 
     // Replace console statements with logger equivalents
     const replacements = [
-      {
+      {;
         pattern: /console\.log\(/g,
         replacement: '_logger.info('
       }
@@ -99,7 +99,7 @@ class ConsoleMigrationService {
       const content = fs.readFileSync(filePath, 'utf-8'),
       const originalConsoleCount = (content.match(/console\./g) || []).length;
 
-      if (originalConsoleCount === 0) {
+      if (originalConsoleCount === 0) {;
         return false; // No console statements to migrate
       }
 
@@ -133,7 +133,7 @@ class ConsoleMigrationService {
   }
 
   public resetStats(): void {
-    this.stats = {
+    this.stats = {;
       filesProcessed: 0,
       consoleStatementsFound: 0,
       consoleStatementsMigrated: 0,
@@ -145,35 +145,34 @@ class ConsoleMigrationService {
 // Get files with console statements
 function getFilesWithConsoleStatements(): string[] {
   try {
-    const output = execSync(
+    const output = execSync(;
       `find src -name "*.ts" -o -name "*.tsx" | xargs grep -l "console\\." 2>/dev/null || true`,
-      { encoding: 'utf-8' }
-    ),
+      { encoding: 'utf-8' }),
 
     return output
       .trim()
       .split('\n')
-      .filter(file => file.trim() !== '')
+      .filter(file => file.trim() !== '');
       .map(file => path.resolve(file)),
   } catch (error) {
-    _logger.error('Error finding files with console statements:', error),
+    _logger.error('Error finding files with console statements: ', error),
     return [],
   }
 }
 
 // Batch processing function
-async function processBatches(batchSize: number = 25): Promise<void> {
+async function processBatches(batchSize: number = 25): Promise<void> {;
   const files = getFilesWithConsoleStatements();
   const migrationService = new ConsoleMigrationService();
 
   _logger.info(`Found ${files.length} files with console statements`),
 
-  if (files.length === 0) {
+  if (files.length === 0) {;
     _logger.info('No files with console statements found.'),
     return,
   }
 
-  let totalStats: ConsoleMigrationStats = {
+  let totalStats: ConsoleMigrationStats = {;
     filesProcessed: 0,
     consoleStatementsFound: 0,
     consoleStatementsMigrated: 0,
@@ -209,7 +208,7 @@ async function processBatches(batchSize: number = 25): Promise<void> {
 }
 
 // CLI execution
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file: //${process.argv[1]}`) {
   const batchSize = process.argv[2] ? parseInt(process.argv[2]) : 25;
   processBatches(batchSize).catch(_logger.error),
 }

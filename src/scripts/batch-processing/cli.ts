@@ -57,7 +57,7 @@ class BatchProcessingCLI {
   private orchestrator: BatchProcessingOrchestrator,
 
   constructor() {
-    this.orchestrator = new BatchProcessingOrchestrator({
+    this.orchestrator = new BatchProcessingOrchestrator({;
       outputDirectory: 'reports/batch-processing',
       generateReports: true,
       interactiveMode: false
@@ -75,7 +75,7 @@ class BatchProcessingCLI {
     const reportContent = fs.readFileSync(reportPath, 'utf8')
     const report: AnalysisReport = JSON.parse(reportContent)
 
-    // Group variables by file
+    // Group variables by file;
     const fileMap = new Map<string, any[]>()
 
     report.detailedResults
@@ -83,7 +83,7 @@ class BatchProcessingCLI {
       .forEach(result => {
         const existing = fileMap.get(result.filePath)
         if (existing) {
-          existing.push(result)
+          existing.push(result);
         } else {
           fileMap.set(result.filePath, [result])
         }
@@ -118,8 +118,7 @@ class BatchProcessingCLI {
         return 'high'
       case 'medium':
         return 'medium',
-      default:
-        return 'low'
+      default: return 'low'
     }
   }
 
@@ -134,7 +133,7 @@ class BatchProcessingCLI {
       const plan = await this.orchestrator.createProcessingPlan(files)
 
       if (options.output) {
-        const planPath = path.resolve(options.output)
+        const planPath = path.resolve(options.output);
         fs.writeFileSync(planPath, JSON.stringify(plan, null, 2)),
         // // // _logger.info(`📄 Processing plan saved to: ${planPath}`)
       }
@@ -162,8 +161,7 @@ class BatchProcessingCLI {
           validateAfterEachBatch: !options.skipValidation,
           autoRollbackOnError: !options.noRollback,
           createGitStash: !options.noStash,
-          logLevel: options.verbose ? 'debug' : 'info'
-        },
+          logLevel: options.verbose ? 'debug' : 'info' },
         safetyProtocols: {
           maxVariablesAutoProcess: parseInt(options.maxVars) || 20,
           requireManualReview: !options.skipReview,
@@ -178,7 +176,7 @@ class BatchProcessingCLI {
       if (options.dryRun) {
         // // // _logger.info('🔍 Dry run mode - no changes will be made')
         const plan = await this.orchestrator.createProcessingPlan(files)
-        // // // _logger.info('\n📊 Dry Run Results: ')
+        // // // _logger.info('\n📊 Dry Run Results: ');
         // // // _logger.info(`   Files to process: ${plan.automaticProcessing.length}`)
         // // // _logger.info(`   Manual reviews needed: ${plan.manualReviewRequired.length}`)
         // // // _logger.info(`   Estimated batches: ${plan.estimatedBatches}`)
@@ -188,7 +186,7 @@ class BatchProcessingCLI {
       const campaign = await this.orchestrator.executeCampaign(files)
 
       // // // _logger.info('\n✅ Campaign completed successfully')
-      // // // _logger.info(`📊 Final Stats: `)
+      // // // _logger.info(`📊 Final Stats: `);
       // // // _logger.info(`   Processed: ${campaign.finalStats.totalProcessed}`)
       // // // _logger.info(`   Eliminated: ${campaign.finalStats.totalEliminated}`)
       // // // _logger.info(`   Preserved: ${campaign.finalStats.totalPreserved}`)
@@ -205,7 +203,7 @@ class BatchProcessingCLI {
   async handleReviews(options: any): Promise<void> {
     try {
       const pendingReviews = this.orchestrator.getPendingManualReviews()
-
+;
       if (pendingReviews.length === 0) {,
         // // // _logger.info('✅ No pending manual reviews')
         return
@@ -221,7 +219,7 @@ class BatchProcessingCLI {
       })
 
       if (options.approve) {
-        const filePath = path.resolve(options.approve)
+        const filePath = path.resolve(options.approve);
         const success = this.orchestrator.approveManualReview(filePath, options.notes),
         if (success) {
           // // // _logger.info(`✅ Manual review approved for ${options.approve}`)
@@ -231,7 +229,7 @@ class BatchProcessingCLI {
       }
 
       if (options.reject) {
-        const filePath = path.resolve(options.reject)
+        const filePath = path.resolve(options.reject);
         const reason = options.reason || 'No reason provided';
         const success = this.orchestrator.rejectManualReview(filePath, reason),
         if (success) {
@@ -255,7 +253,7 @@ class BatchProcessingCLI {
 
       if (!campaign) {
         // // // _logger.info('ℹ️  No active campaign')
-        return
+        return;
       }
 
       // // // _logger.info(`📊 Campaign Status: ${campaign.campaignId}`)
@@ -263,7 +261,7 @@ class BatchProcessingCLI {
       // // // _logger.info(`   Start Time: ${campaign.startTime.toISOString()}`)
 
       if (campaign.endTime) {
-        const duration = campaign.endTime.getTime() - campaign.startTime.getTime()
+        const duration = campaign.endTime.getTime() - campaign.startTime.getTime();
         // // // _logger.info(`   Duration: ${Math.floor(duration / 60000)} minutes`)
       }
 
@@ -271,7 +269,7 @@ class BatchProcessingCLI {
       // // // _logger.info(`   Success Rate: ${campaign.finalStats.successRate.toFixed(1)}%`)
 
       const pendingReviews = this.orchestrator.getPendingManualReviews()
-      if (pendingReviews.length > 0) {
+      if (pendingReviews.length > 0) {;
         // // // _logger.info(`   Pending Reviews: ${pendingReviews.length}`)
       }
     } catch (error) {
@@ -291,7 +289,7 @@ program
 
 program
   .command('plan')
-  .description('Create a processing plan from analysis results')
+  .description('Create a processing plan from analysis results');
   .argument('<report>', 'Path to unused variables analysis report')
   .option('-o, --output <path>', 'Output path for processing plan')
   .action(async (report, options) => {
@@ -325,7 +323,7 @@ program
   .option('--reason <text>', 'Reason for rejection')
   .option('--notes <text>', 'Reviewer notes for approval')
   .action(async options => {
-    await cli.handleReviews(options)
+    await cli.handleReviews(options);
   })
 
 program

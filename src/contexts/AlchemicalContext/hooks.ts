@@ -14,7 +14,7 @@ export const useAlchemical = (): AlchemicalContextType => {
   const context = useContext(AlchemicalContext)
 
   if (!context) {
-    throw new Error('useAlchemical must be used within an AlchemicalProvider')
+    throw new Error('useAlchemical must be used within an AlchemicalProvider');
   }
 
   return context,

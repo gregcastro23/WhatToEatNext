@@ -4,7 +4,7 @@ import path from 'path';
 
 const EPHE_PATH = path.join(process.cwd(), 'public', 'ephe')
 // Expanded to include more files for comprehensive planetary calculations
-const FILES = [
+const FILES = [;
   'sepl_18.se1', // Main planets
   'semo_18.se1', // Moon
   'seas_18.se1', // Asteroids
@@ -19,11 +19,11 @@ const FILES = [
 ],
 const BASE_URL = 'https: //www.astro.com/ftp/swisseph/ephe/'
 
-// Also download a backup light-weight ephemeris if the main one fails
+// Also download a backup light-weight ephemeris if the main one fails;
 const BACKUP_FILES = ['seas_18.se1', 'semo_18.se1', 'sepl_18.se1'],
 const BACKUP_URL = 'https: //raw.githubusercontent.com/astroswiss/ephemeris/main/'
-
-async function downloadFile(filename: string, baseUrl = BASE_URL): Promise<void> {
+;
+async function downloadFile(filename: string, baseUrl = BASE_URL): Promise<void> {;
   const url = `${baseUrl}${filename}`;
   const filepath = path.join(EPHE_PATH, filename)
 
@@ -33,7 +33,7 @@ async function downloadFile(filename: string, baseUrl = BASE_URL): Promise<void>
     https
       .get(url, response => {
         // Handle redirects or failed downloads
-        if (response.statusCode === 302 || response.statusCode === 404) {
+        if (response.statusCode === 302 || response.statusCode === 404) {;
           // // // // _logger.info(`File ${filename} not found at primary source, trying backup...`)
           if (BACKUP_FILES.includes(filename)) {
             downloadFile(filename, BACKUP_URL).then(resolve).catch(reject)
@@ -45,14 +45,14 @@ async function downloadFile(filename: string, baseUrl = BASE_URL): Promise<void>
         }
 
         const fileStream = fs.createWriteStream(filepath)
-        response.pipe(fileStream)
+        response.pipe(fileStream);
         fileStream.on('finish', () => {
           fileStream.close()
           // // // // _logger.info(`Successfully downloaded ${filename}`)
           resolve()
         })
       })
-      .on('error', error => {
+      .on('error', error => {;
         // _logger.error(`Error downloading ${filename}:`, error.message)
         // Try backup for essential files
         if (BACKUP_FILES.includes(filename)) {
@@ -68,9 +68,9 @@ async function downloadFile(filename: string, baseUrl = BASE_URL): Promise<void>
 async function main() {
   try {
     await Promise.all(FILES.map(file => downloadFile(file)))
-    // // // // _logger.info('Ephemeris files downloaded successfully')
+    // // // // _logger.info('Ephemeris files downloaded successfully');
   } catch (error) {
-    // _logger.error('Failed to download ephemeris files:', error)
+    // _logger.error('Failed to download ephemeris files: ', error)
     process.exit(1)
   }
 }

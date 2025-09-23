@@ -1,7 +1,7 @@
 import { PlanetData } from './types';
 
 const venusData: PlanetData = {
-  'Dignity Effect': {
+  'Dignity Effect': {;
     libra: 1,
     taurus: 1,
     pisces: 2,
@@ -22,9 +22,8 @@ const venusData: PlanetData = {
     DistanceFromSun: '67.24 million miles (108.2 million kilometers)',
     DistanceFromEarth: {
       Minimum: '24 million miles (38 million kilometers)',
-      Maximum: '162 million miles (261 million kilometers)'
-    },
-    Diameter: '7,521 miles (12,104 kilometers)',
+      Maximum: '162 million miles (261 million kilometers)' },
+        Diameter: '7,521 miles (12,104 kilometers)',
     SurfaceTemperature: '900 degrees Fahrenheit (475 Celsius)',
     AtmosphericComposition: 'Primarily carbon dioxide with clouds of sulfuric acid',
     RotationPeriod: '243 Earth days (retrograde rotation)',
@@ -37,8 +36,7 @@ const venusData: PlanetData = {
       Surface: 'Volcanoes, mountains, pancake domes, tick domes, tesserae',
       MagneticField: 'Induced magnetic field (no internal field)',
       Composition: 'Iron core, rocky mantle, thin crust',
-      NotableFeatures:
-        'Hottest planet, retrograde rotation, brightest object in sky after Sun and Moon'
+      NotableFeatures: 'Hottest planet, retrograde rotation, brightest object in sky after Sun and Moon'
     }
   },
   AstrologicalProperties: {
@@ -46,18 +44,15 @@ const venusData: PlanetData = {
     BeneficType: 'Lesser benefic',
     DualDomicile: {
       Spring: 'Taurus (yin)',
-      Autumn: 'Libra (yang)'
-    },
-    HouseJoy: 5,
+      Autumn: 'Libra (yang)' },
+        HouseJoy: 5,
     CyclePeriod: {
       Return: 'Yearly',
-      Retrograde: '40 days every 18 months'
-    },
-    MorningEveningStar: {
+      Retrograde: '40 days every 18 months' },
+        MorningEveningStar: {
       MorningStar: 'Rising before the sun in the eastern sky',
-      EveningStar: 'Visible after sunset in the western sky (during inferior conjunction)'
-    },
-    CoRules: ['Libra I (Sept 23-Sept 30)'],
+      EveningStar: 'Visible after sunset in the western sky (during inferior conjunction)' },
+        CoRules: ['Libra I (Sept 23-Sept 30)'],
     Exaltation: 'Pisces',
     Fall: 'Virgo',
     Detriment: ['Aries', 'Scorpio'],
@@ -481,24 +476,21 @@ const venusData: PlanetData = {
         Matter: 0.6,
         Substance: 0.3
       },
-      FoodFocus:
-        'Re-evaluation of favorite foods, reemerging traditional recipes, refinement of technique',
-      HerbalShift:
-        'Greater potency in dried herbs over fresh, intensified flavors, preserved ingredients'
-    },
-    TransitDates: {
-      aries: { Start: '2024-05-23', End: '2024-06-17' }
-      taurus: { Start: '2024-06-17', End: '2024-07-11' }
-      gemini: { Start: '2024-07-11', End: '2024-08-04' }
-      cancer: { Start: '2024-08-04', End: '2024-08-28' }
-      leo: { Start: '2024-08-28', End: '2024-09-22' }
-      virgo: { Start: '2024-09-22', End: '2024-10-17' }
-      libra: { Start: '2024-10-17', End: '2024-11-11' }
-      scorpio: { Start: '2024-11-11', End: '2024-12-07' }
-      sagittarius: { Start: '2024-12-07', End: '2025-01-03' }
-      capricorn: { Start: '2025-01-03', End: '2025-01-27' }
-      aquarius: { Start: '2025-01-27', End: '2025-02-20' }
-      pisces: { Start: '2025-02-20', End: '2025-03-16' }
+      FoodFocus: 'Re-evaluation of favorite foods, reemerging traditional recipes, refinement of technique',
+      HerbalShift: 'Greater potency in dried herbs over fresh, intensified flavors, preserved ingredients' },
+        TransitDates: {
+      aries: { Start: '2024-05-23', End: '2024-06-17' },
+        taurus: { Start: '2024-06-17', End: '2024-07-11' },
+        gemini: { Start: '2024-07-11', End: '2024-08-04' },
+        cancer: { Start: '2024-08-04', End: '2024-08-28' },
+        leo: { Start: '2024-08-28', End: '2024-09-22' },
+        virgo: { Start: '2024-09-22', End: '2024-10-17' },
+        libra: { Start: '2024-10-17', End: '2024-11-11' },
+        scorpio: { Start: '2024-11-11', End: '2024-12-07' },
+        sagittarius: { Start: '2024-12-07', End: '2025-01-03' },
+        capricorn: { Start: '2025-01-03', End: '2025-01-27' },
+        aquarius: { Start: '2025-01-27', End: '2025-02-20' },
+        pisces: { Start: '2025-02-20', End: '2025-03-16' }
     },
     CulinaryTechniques: {
       'Flavor Balancing': 0.9,

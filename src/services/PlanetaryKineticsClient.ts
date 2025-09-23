@@ -2,8 +2,7 @@
  * 🌟 Planetary Kinetics API Client
  * Real-time consciousness dynamics and temporal food intelligence
  *
- * Integrates with the enhanced kinetics backend to provide:
- * - Applying/separating planetary aspects
+ * Integrates with the enhanced kinetics backend to provide: * - Applying/separating planetary aspects
  * - Power prediction and temporal awareness
  * - Group dining optimization
  * - Enhanced food recommendation timing
@@ -35,10 +34,10 @@ class PlanetaryKineticsClient {
       _logger.warn('PlanetaryKineticsClient', 'No API URL configured, using fallback mode');
     }
 
-    this.config = {
+    this.config = {;
       baseUrl: apiUrl ||,
                process.env.NEXT_PUBLIC_BACKEND_URL ||
-               'https://your-planetary-agents-backend.onrender.com',
+               'https: //your-planetary-agents-backend.onrender.com',
       cacheTTL: Number(process.env.NEXT_PUBLIC_KINETICS_CACHE_TTL) || 300000, // 5 minutes,
       timeout: 10000, // 10 seconds,
       retryAttempts: 2,
@@ -53,8 +52,7 @@ class PlanetaryKineticsClient {
    */
   async getEnhancedKinetics(
     location: KineticsLocation,
-    options: KineticsOptions = {}
-  ): Promise<KineticsResponse> {
+    options: KineticsOptions = {}): Promise<KineticsResponse> {
     // If not properly configured, return fallback immediately
     if (!this.isConfigured) {
       _logger.debug('PlanetaryKineticsClient: Using fallback due to missing configuration');
@@ -89,9 +87,8 @@ class PlanetaryKineticsClient {
   private async executeKineticsRequest(
     location: KineticsLocation,
     options: KineticsOptions,
-    cacheKey: string
-  ): Promise<KineticsResponse> {
-    const request: KineticsRequest = {
+    cacheKey: string): Promise<KineticsResponse> {
+    const request: KineticsRequest = {;
       location,
       options: {
         includeAgentOptimization: true,
@@ -116,8 +113,7 @@ class PlanetaryKineticsClient {
    */
   async getGroupDynamics(
     userIds: string[],
-    location: KineticsLocation
-  ): Promise<GroupDynamicsResponse> {
+    location: KineticsLocation): Promise<GroupDynamicsResponse> {
     const cacheKey = this.generateCacheKey('group', location, { agentIds: userIds });
 
     const cached = this.getFromCache(cacheKey);
@@ -126,7 +122,7 @@ class PlanetaryKineticsClient {
       return cached as GroupDynamicsResponse;
     }
 
-    const request: GroupDynamicsRequest = {
+    const request: GroupDynamicsRequest = {;
       agentIds: userIds,
       location
     };
@@ -146,9 +142,8 @@ class PlanetaryKineticsClient {
    */
   async getConsciousnessData(
     userId: string,
-    location: KineticsLocation
-  ): Promise<KineticsResponse> {
-    const options: KineticsOptions = {
+    location: KineticsLocation): Promise<KineticsResponse> {
+    const options: KineticsOptions = {;
       includeResonanceMap: true,
       agentIds: [userId]
     };
@@ -192,10 +187,9 @@ class PlanetaryKineticsClient {
 
   // Private Methods
 
-  private async makeRequest<T = KineticsResponse>(
+  private async makeRequest<T = KineticsResponse>(;
     endpoint: string,
-    data: KineticsRequest | GroupDynamicsRequest
-  ): Promise<T> {
+    data: KineticsRequest | GroupDynamicsRequest): Promise<T> {
     let lastError: Error;
 
     for (let attempt = 1; attempt <= this.config.retryAttempts; attempt++) {
@@ -204,16 +198,14 @@ class PlanetaryKineticsClient {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'User-Agent': 'WhatToEatNext-KineticsClient/1.0'
-          },
-          body: JSON.stringify(data),
+            'User-Agent': 'WhatToEatNext-KineticsClient/1.0' },
+        body: JSON.stringify(data),
           signal: AbortSignal.timeout(this.config.timeout)
         });
 
         if (!response.ok) {
-          const error: KineticsError = new Error(
-            `Kinetics API error: ${response.status} ${response.statusText}`
-          ) as KineticsError;
+          const error: KineticsError = new Error(;
+            `Kinetics API error: ${response.status} ${response.statusText}`) as KineticsError;
           error.statusCode = response.status;
           error.isKineticsError = true;
           throw error;
@@ -255,7 +247,7 @@ class PlanetaryKineticsClient {
   ): string {
     const locationKey = `${location.lat.toFixed(1)},${location.lon.toFixed(1)}`;
     const optionsKey = options ? JSON.stringify(options) : '';
-    return `kinetics:${type}:${locationKey}:${optionsKey}`;
+    return `kinetics: ${type}:${locationKey}:${optionsKey}`;
   }
 
   private getFromCache(key: string): KineticsResponse | GroupDynamicsResponse | null {
@@ -331,7 +323,7 @@ class PlanetaryKineticsClient {
   private createFallbackGroupResponse(userIds: string[], location: KineticsLocation): GroupDynamicsResponse {
     const individualContributions: { [key: string]: { powerContribution: number; harmonyImpact: number } } = {};
     userIds.forEach(id => {
-      individualContributions[id] = {
+      individualContributions[id] = {;
         powerContribution: 0.5,
         harmonyImpact: 0.5
       };

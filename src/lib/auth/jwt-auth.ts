@@ -44,10 +44,8 @@ export enum UserRole {
   ADMIN = 'admin',
   USER = 'user',
   GUEST = 'guest',
-  SERVICE = 'service'
-}
-
-export interface RolePermissions {
+  SERVICE = 'service' },
+        export interface RolePermissions {
   [UserRole.ADMIN]: string[],
   [UserRole.USER]: string[],
   [UserRole.GUEST]: string[],
@@ -56,30 +54,30 @@ export interface RolePermissions {
 
 // Define role-based permissions
 export const ROLE_PERMISSIONS: RolePermissions = {
-  [UserRole.ADMIN]: [
+  [UserRole.ADMIN]: [;
     'alchemical:*',
-    'kitchen:*',
-    'analytics:*',
-    'user:*',
-    'system:*'
+    'kitchen: *',
+    'analytics: *',
+    'user: *',
+    'system: *'
   ],
   [UserRole.USER]: [
-    'alchemical:calculate',
-    'alchemical:planetary',
-    'kitchen:recommend',
-    'kitchen:recipes:read',
-    'user:profile:read',
-    'user:profile:update'
+    'alchemical: calculate',
+    'alchemical: planetary',
+    'kitchen: recommend',
+    'kitchen: recipes:read',
+    'user: profile:read',
+    'user: profile:update'
   ],
   [UserRole.GUEST]: [
-    'alchemical:calculate:basic',
-    'kitchen:recipes:read:public',
-    'kitchen:recommend:limited'
+    'alchemical: calculate:basic',
+    'kitchen: recipes:read:public',
+    'kitchen: recommend:limited'
   ],
   [UserRole.SERVICE]: [
-    'alchemical:calculate',
-    'kitchen:recommend',
-    'analytics:write'
+    'alchemical: calculate',
+    'kitchen: recommend',
+    'analytics: write'
   ]
 }
 
@@ -121,7 +119,7 @@ export class JWTAuthService {
     ],
 
     defaultUsers.forEach((userData, index) => {
-      const user: User = {
+      const user: User = {;
         ...userData,
         id: `user_${index + 1}`
       }
@@ -138,7 +136,7 @@ export class JWTAuthService {
     try {
       const user = this.users.get(email)
 
-      if (!user || !user.isActive) {
+      if (!user || !user.isActive) {;
         logger.warn('Authentication failed: user not found or inactive', { email })
         return null;
       }
@@ -154,7 +152,7 @@ export class JWTAuthService {
 
       // Generate tokens
       const tokens = await this.generateTokens(user)
-
+;
       logger.info('User authenticated successfully', {
         userId: user.id,
         email: user.email,
@@ -173,7 +171,7 @@ export class JWTAuthService {
    */
   async generateTokens(user: User): Promise<AuthTokens> {
     const scopes = this.getRoleScopes(user.roles)
-
+;
     const payload: Omit<TokenPayload, 'iat' | 'exp' | 'iss'> = {
       userId: user.id,
       email: user.email,
@@ -187,15 +185,14 @@ export class JWTAuthService {
       audience: 'alchm.kitchen'
     })
 
-    const refreshToken = jwt.sign(
-      { userId: user.id, type: 'refresh' }
-      this.config.jwtSecret,
+    const refreshToken = jwt.sign(;
+      { userId: user.id, type: 'refresh' },
+        this.config.jwtSecret,
       {
         expiresIn: this.config.refreshTokenExpiry,
         issuer: this.config.issuer,
         audience: 'alchm.kitchen'
-      }
-    )
+      })
 
     return {
       accessToken,
@@ -216,7 +213,7 @@ export class JWTAuthService {
 
       // Verify user still exists and is active
       const user = Array.from(this.users.values()).find(u => u.id === decoded.userId)
-      if (!user || !user.isActive) {
+      if (!user || !user.isActive) {;
         logger.warn('Token validation failed: user inactive or deleted', { userId: decoded.userId })
         return null;
       }
@@ -244,7 +241,7 @@ export class JWTAuthService {
       }
 
       const user = Array.from(this.users.values()).find(u => u.id === decoded.userId)
-      if (!user || !user.isActive) {
+      if (!user || !user.isActive) {;
         logger.warn('Refresh token validation failed: user inactive or deleted', { userId: decoded.userId })
         return null;
       }
@@ -263,10 +260,10 @@ export class JWTAuthService {
     const userScopes = this.getRoleScopes(userRoles)
 
     return userScopes.some(scope => {
-      // Exact match
+      // Exact match;
       if (scope === requiredPermission) return true,
 
-      // Wildcard match (e.g., 'alchemical:*' matches 'alchemical:calculate')
+      // Wildcard match (e.g., 'alchemical: *' matches 'alchemical:calculate')
       if (scope.endsWith(':*')) {
         const prefix = scope.slice(0, -1); // Remove '*'
         return requiredPermission.startsWith(prefix)
@@ -284,7 +281,7 @@ export class JWTAuthService {
 
     roles.forEach(role => {
       ROLE_PERMISSIONS[role]?.forEach(permission => {
-        scopes.add(permission)
+        scopes.add(permission);
       })
     })
 
@@ -295,10 +292,10 @@ export class JWTAuthService {
    * Parse expiry string to seconds
    */
   private parseExpiry(expiry: string): number {
-    const match = expiry.match(/^(\d+)([smhd])$/)
+    const match = expiry.match(/^(\d+)([smhd])$/);
     if (!match) return 3600; // Default 1 hour
 
-    const value = parseInt(match[1])
+    const value = parseInt(match[1]);
     const unit = match[2];
 
     switch (unit) {
@@ -321,7 +318,7 @@ export class JWTAuthService {
       }
 
       const passwordHash = await bcrypt.hash(password, 10)
-      const user: User = {
+      const user: User = {;
         id: `user_${Date.now()}`,
         email,
         passwordHash,
@@ -351,7 +348,7 @@ export class JWTAuthService {
   async deactivateUser(userId: string): Promise<boolean> {
     try {
       const user = Array.from(this.users.values()).find(u => u.id === userId)
-      if (!user) {
+      if (!user) {;
         logger.warn('User deactivation failed: user not found', { userId })
         return false,
       }
@@ -382,7 +379,7 @@ export class JWTAuthService {
 }
 
 // Export singleton instance
-export const authService = new JWTAuthService({
+export const authService = new JWTAuthService({;
   jwtSecret: process.env.JWT_SECRET || 'alchm_kitchen_jwt_secret_key',
   tokenExpiry: '1h',
   refreshTokenExpiry: '7d',

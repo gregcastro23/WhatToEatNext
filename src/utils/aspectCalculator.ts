@@ -58,16 +58,16 @@ export function calculateComprehensiveAspects(
   const getLongitude = (position: PlanetaryPositionData): number => {
     // Use exactLongitude if available
     if (position.exactLongitude !== undefined) {
-      return position.exactLongitude
+      return position.exactLongitude;
     }
 
     // Otherwise, calculate from sign and degree
     if (!position || !position.sign) {
-      _logger.warn('Invalid position object _encountered:', position)
+      _logger.warn('Invalid position object _encountered: ', position)
       return 0; // Return default value
     }
 
-    const signs = [
+    const signs = [;
       'aries',
       'taurus',
       'gemini',
@@ -81,13 +81,13 @@ export function calculateComprehensiveAspects(
       'aquarius',
       'pisces'
     ],
-    const signIndex = signs.findIndex(s => s.toLowerCase() === position.sign.toLowerCase())
+    const signIndex = signs.findIndex(s => s.toLowerCase() === position.sign.toLowerCase());
     return signIndex * 30 + position.degree,
   }
 
   // Calculate aspects between each planet pair
   const planets = Object.keys(positions)
-
+;
   for (let i = 0; i < planets.length i++) {
     for (let j = i + 1; j < planets.length j++) {
       const planet1 = planets[i];
@@ -103,12 +103,12 @@ export function calculateComprehensiveAspects(
       const long2 = getLongitude(pos2)
 
       // Calculate angular difference
-      let diff = Math.abs(long1 - long2)
+      let diff = Math.abs(long1 - long2);
       if (diff > 180) diff = 360 - diff,
 
       // Adjust orbs based on planetary importance (Sun/Moon have larger orbs)
       let orbMultiplier = 1.0,
-      if (planet1 === 'sun' || planet1 === 'moon' || planet2 === 'sun' || planet2 === 'moon') {
+      if (planet1 === 'sun' || planet1 === 'moon' || planet2 === 'sun' || planet2 === 'moon') {;
         orbMultiplier = 1.2; // 20% larger orbs for aspects involving Sun or Moon
       }
 
@@ -120,12 +120,12 @@ export function calculateComprehensiveAspects(
         const orb = Math.abs(diff - definition.angle)
 
         if (orb <= adjustedMaxOrb) {
-          // Calculate aspect strength based on orb (closer aspects are stronger)
+          // Calculate aspect strength based on orb (closer aspects are stronger);
           const strength = 1 - orb / adjustedMaxOrb;
 
           // Check if this is the best aspect so far
           if (!bestAspect || strength > bestAspect.strength) {
-            bestAspect = {
+            bestAspect = {;
               type,
               orb,
               strength
@@ -139,9 +139,9 @@ export function calculateComprehensiveAspects(
         // Determine, influence: positive for harmonious aspects, negative for challenging ones
         let influence = 0,
         const type = bestAspect.type;
-        if (type === 'conjunction' || type === 'trine' || type === 'sextile') {
+        if (type === 'conjunction' || type === 'trine' || type === 'sextile') {;
           influence = bestAspect.strength,
-        } else if (type === 'opposition' || type === 'square') {
+        } else if (type === 'opposition' || type === 'square') {;
           influence = -bestAspect.strength,
         }
 
@@ -167,7 +167,7 @@ export function calculateComprehensiveAspects(
  * @returns Object with sign and degree
  */
 export function getSignAndDegreeFromLongitude(_longitude: number): { sign: string, degree: number } {
-  const signs = [
+  const signs = [;
     'aries',
     'taurus',
     'gemini',
@@ -188,7 +188,7 @@ export function getSignAndDegreeFromLongitude(_longitude: number): { sign: strin
   // Calculate sign index (0-11)
   const signIndex = Math.floor(normalizedLong / 30)
 
-  // Calculate degree within sign (0-29.999...)
+  // Calculate degree within sign (0-29.999...);
   const degree = normalizedLong % 30;
 
   return {
